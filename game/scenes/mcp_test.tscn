@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ca5q75tutxyue"]
+
+[node name="Main" type="Node2D" unique_id=1682796865]
+
+[node name="Label" type="Label" parent="." unique_id=993043423]
+text = "Eastern Stories"
