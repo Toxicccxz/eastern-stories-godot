@@ -14,6 +14,9 @@ const CharacterResourceStateType := preload(
 const CharacterRecoveryStateType := preload(
 	"res://core/characters/character_recovery_state.gd"
 )
+const CharacterConditionStateType := preload(
+	"res://core/conditions/character_condition_state.gd"
+)
 
 enum LifeThreshold {
 	ACTIVE,
@@ -30,6 +33,7 @@ var essence: CharacterResourceStateType
 var vitality: CharacterResourceStateType
 var spirit: CharacterResourceStateType
 var recovery: CharacterRecoveryStateType
+var conditions: CharacterConditionStateType
 
 
 func _init(
@@ -38,12 +42,14 @@ func _init(
 	p_vitality: CharacterResourceStateType = null,
 	p_spirit: CharacterResourceStateType = null,
 	p_recovery: CharacterRecoveryStateType = null,
+	p_conditions: CharacterConditionStateType = null,
 ) -> void:
 	attributes = p_attributes if p_attributes != null else CharacterBaseAttributesType.new()
 	essence = p_essence if p_essence != null else CharacterResourceStateType.new()
 	vitality = p_vitality if p_vitality != null else CharacterResourceStateType.new()
 	spirit = p_spirit if p_spirit != null else CharacterResourceStateType.new()
 	recovery = p_recovery if p_recovery != null else CharacterRecoveryStateType.new()
+	conditions = p_conditions if p_conditions != null else CharacterConditionStateType.new()
 
 
 ## std/char.c checks effective values first, so death takes precedence when

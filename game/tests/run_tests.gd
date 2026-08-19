@@ -24,6 +24,35 @@ const CharacterRecoveryScript := preload(
 const CharacterStateScript := preload("res://core/characters/character_state.gd")
 const CharacterStateTest := preload("res://tests/core/character_state_test.gd")
 const CharacterRecoveryTest := preload("res://tests/core/character_recovery_test.gd")
+const ConditionIdsScript := preload("res://core/conditions/condition_ids.gd")
+const ConditionUpdateFlagsScript := preload(
+	"res://core/conditions/condition_update_flags.gd"
+)
+const ConditionPayloadScript := preload("res://core/conditions/condition_payload.gd")
+const DurationConditionPayloadScript := preload(
+	"res://core/conditions/duration_condition_payload.gd"
+)
+const PoisonConditionPayloadScript := preload(
+	"res://core/conditions/poison_condition_payload.gd"
+)
+const CharacterConditionStateScript := preload(
+	"res://core/conditions/character_condition_state.gd"
+)
+const ConditionEffectScript := preload("res://core/conditions/condition_effect.gd")
+const ConditionUpdateResultScript := preload(
+	"res://core/conditions/condition_update_result.gd"
+)
+const SnakePoisonConditionEffectScript := preload(
+	"res://core/conditions/effects/snake_poison_condition_effect.gd"
+)
+const BandagedConditionEffectScript := preload(
+	"res://core/conditions/effects/bandaged_condition_effect.gd"
+)
+const ConditionSystemScript := preload("res://core/conditions/condition_system.gd")
+const NoHealConditionEffectScript := preload(
+	"res://tests/support/no_heal_condition_effect.gd"
+)
+const ConditionSystemTest := preload("res://tests/core/condition_system_test.gd")
 
 
 func _init() -> void:
@@ -38,6 +67,19 @@ func _init() -> void:
 		CharacterStateScript,
 		CharacterStateTest,
 		CharacterRecoveryTest,
+		ConditionIdsScript,
+		ConditionUpdateFlagsScript,
+		ConditionPayloadScript,
+		DurationConditionPayloadScript,
+		PoisonConditionPayloadScript,
+		CharacterConditionStateScript,
+		ConditionEffectScript,
+		ConditionUpdateResultScript,
+		SnakePoisonConditionEffectScript,
+		BandagedConditionEffectScript,
+		ConditionSystemScript,
+		NoHealConditionEffectScript,
+		ConditionSystemTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -47,11 +89,13 @@ func _init() -> void:
 
 	var phase_1_result: Dictionary[String, Variant] = CharacterStateTest.new().run_all()
 	var phase_2a_result: Dictionary[String, Variant] = CharacterRecoveryTest.new().run_all()
+	var phase_2b_result: Dictionary[String, Variant] = ConditionSystemTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
-	)
+	) + int(phase_2b_result["assertions"])
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
+	failures.append_array(phase_2b_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
