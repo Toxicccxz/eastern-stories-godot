@@ -2,8 +2,8 @@ class_name CharacterState
 extends RefCounted
 
 ## Minimal native composition for the character state shared by the original
-## CHARACTER features. This phase intentionally contains no combat, skills,
-## inventory, NPC, or world behavior.
+## CHARACTER features. It remains pure domain state and contains no training,
+## combat, inventory, NPC, or world behavior.
 
 const CharacterBaseAttributesType := preload(
 	"res://core/characters/character_base_attributes.gd"
@@ -17,6 +17,7 @@ const CharacterRecoveryStateType := preload(
 const CharacterConditionStateType := preload(
 	"res://core/conditions/character_condition_state.gd"
 )
+const CharacterSkillStateType := preload("res://core/skills/character_skill_state.gd")
 
 enum LifeThreshold {
 	ACTIVE,
@@ -34,6 +35,7 @@ var vitality: CharacterResourceStateType
 var spirit: CharacterResourceStateType
 var recovery: CharacterRecoveryStateType
 var conditions: CharacterConditionStateType
+var skills: CharacterSkillStateType
 
 
 func _init(
@@ -43,6 +45,7 @@ func _init(
 	p_spirit: CharacterResourceStateType = null,
 	p_recovery: CharacterRecoveryStateType = null,
 	p_conditions: CharacterConditionStateType = null,
+	p_skills: CharacterSkillStateType = null,
 ) -> void:
 	attributes = p_attributes if p_attributes != null else CharacterBaseAttributesType.new()
 	essence = p_essence if p_essence != null else CharacterResourceStateType.new()
@@ -50,6 +53,7 @@ func _init(
 	spirit = p_spirit if p_spirit != null else CharacterResourceStateType.new()
 	recovery = p_recovery if p_recovery != null else CharacterRecoveryStateType.new()
 	conditions = p_conditions if p_conditions != null else CharacterConditionStateType.new()
+	skills = p_skills if p_skills != null else CharacterSkillStateType.new()
 
 
 ## std/char.c checks effective values first, so death takes precedence when

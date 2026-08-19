@@ -53,6 +53,20 @@ const NoHealConditionEffectScript := preload(
 	"res://tests/support/no_heal_condition_effect.gd"
 )
 const ConditionSystemTest := preload("res://tests/core/condition_system_test.gd")
+const SkillIdsScript := preload("res://core/skills/skill_ids.gd")
+const SkillUseIdsScript := preload("res://core/skills/skill_use_ids.gd")
+const SkillDefinitionScript := preload("res://core/skills/skill_definition.gd")
+const SkillProgressStateScript := preload("res://core/skills/skill_progress_state.gd")
+const SkillLoadoutScript := preload("res://core/skills/skill_loadout.gd")
+const CharacterSkillStateScript := preload("res://core/skills/character_skill_state.gd")
+const SkillMappingChangeResultScript := preload(
+	"res://core/skills/skill_mapping_change_result.gd"
+)
+const SkillEnableTransitionScript := preload("res://core/skills/skill_enable_transition.gd")
+const RecoverySkillLevelsAdapterScript := preload(
+	"res://core/skills/recovery_skill_levels_adapter.gd"
+)
+const SkillCoreTest := preload("res://tests/core/skill_core_test.gd")
 
 
 func _init() -> void:
@@ -80,6 +94,16 @@ func _init() -> void:
 		ConditionSystemScript,
 		NoHealConditionEffectScript,
 		ConditionSystemTest,
+		SkillIdsScript,
+		SkillUseIdsScript,
+		SkillDefinitionScript,
+		SkillProgressStateScript,
+		SkillLoadoutScript,
+		CharacterSkillStateScript,
+		SkillMappingChangeResultScript,
+		SkillEnableTransitionScript,
+		RecoverySkillLevelsAdapterScript,
+		SkillCoreTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -90,12 +114,14 @@ func _init() -> void:
 	var phase_1_result: Dictionary[String, Variant] = CharacterStateTest.new().run_all()
 	var phase_2a_result: Dictionary[String, Variant] = CharacterRecoveryTest.new().run_all()
 	var phase_2b_result: Dictionary[String, Variant] = ConditionSystemTest.new().run_all()
+	var phase_3a_result: Dictionary[String, Variant] = SkillCoreTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
-	) + int(phase_2b_result["assertions"])
+	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"])
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
+	failures.append_array(phase_3a_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
