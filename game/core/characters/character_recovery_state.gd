@@ -34,11 +34,3 @@ func _init(
 	atman = p_atman if p_atman != null else CharacterInternalResourceStateType.new()
 	food = p_food
 	water = p_water
-
-
-func resources_have_valid_invariants() -> bool:
-	return (
-		inner_force.has_valid_invariants()
-		and mana.has_valid_invariants()
-		and atman.has_valid_invariants()
-	)

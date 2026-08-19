@@ -17,15 +17,17 @@ const RecoverySkillLevelsType := preload(
 )
 
 
-## Returns the legacy update_flag count. recovery_blocked represents only the
+## Returns the legacy update_flag count. no_heal_up represents only the
 ## CND_NO_HEAL_UP decision made by std/char.c; it is not a condition system.
+## Whether this calculation is invoked at all remains the caller's lifecycle
+## and scheduling decision, matching the boundary around damage.c::heal_up().
 static func apply_tick(
 	character: CharacterStateType,
 	skills: RecoverySkillLevelsType,
 	is_player_character: bool,
-	recovery_blocked: bool = false,
+	no_heal_up: bool = false,
 ) -> int:
-	if recovery_blocked or character.life_threshold() != CharacterStateType.LifeThreshold.ACTIVE:
+	if no_heal_up:
 		return 0
 
 	var update_count: int = 0

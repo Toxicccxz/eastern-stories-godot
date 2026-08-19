@@ -5,28 +5,13 @@ extends RefCounted
 ## instances for legacy force/max_force, mana/max_mana, and atman/max_atman.
 ##
 ## Unlike gin/kee/sen, these resources have no effective tier. Legacy training
-## can also put current above maximum, so current is intentionally not clamped.
+## can put current above maximum, while generic dbase writes can assign any int
+## to either field, so Phase 2A intentionally adds no range clamp.
 
 var current: int = 0
-var _maximum: int = 0
-
-var maximum: int:
-	get:
-		return _maximum
-	set(value):
-		if value < 0:
-			assert(false, "Maximum internal resource value cannot be negative.")
-			return
-		_maximum = value
+var maximum: int = 0
 
 
 func _init(p_current: int = 0, p_maximum: int = 0) -> void:
-	if p_maximum < 0:
-		assert(false, "Maximum internal resource value cannot be negative.")
-		return
 	current = p_current
-	_maximum = p_maximum
-
-
-func has_valid_invariants() -> bool:
-	return _maximum >= 0
+	maximum = p_maximum

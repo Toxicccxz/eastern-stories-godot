@@ -8,11 +8,13 @@
 
 - `reference/es2/mudlib/feature/damage.c`：容量、`heal_up()` 的全部公式和顺序。
 - `reference/es2/mudlib/feature/skill.c`、`reference/es2/mudlib/include/skill.h`：`query_skill(id, 1)` 是原始技能等级；缺失时为 `0`。
-- `reference/es2/mudlib/std/char.c`：死亡/昏迷先于恢复、busy 提前返回、condition no-heal 短路、恢复调度。
+- `reference/es2/mudlib/std/char.c`：死亡/昏迷和 busy 在调用恢复前处理、condition no-heal 短路、恢复调度。
+- `reference/es2/mudlib/feature/dbase.c`、`feature/treemap.c`：内部资源、上限和食水没有字段级数值验证或夹取。
 - `reference/es2/mudlib/include/condition.h`、`reference/es2/mudlib/feature/condition.c`：`CND_NO_HEAL_UP` 的来源。
 - `reference/es2/mudlib/adm/daemons/chard.c`、`reference/es2/mudlib/adm/daemons/race/human.c`：角色组成，以及内部资源上限对人类 `max_gin/max_kee/max_sen` 的既有影响。
 - `reference/es2/mudlib/adm/daemons/logind.c`：新玩家的 food/water 初始化为容量。
 - `reference/es2/mudlib/cmds/std/exercise.c`、`meditate.c`、`respirate.c`、`enable.c`：内部资源训练、超上限状态与技能映射关联。
+- `reference/es2/mudlib/std/force.c`：内部资源可由规则直接减去，字段本身没有零下限。
 - `reference/es2/mudlib/feature/food.c`、`feature/liquid.c`：进食/饮水的容量检查和可超容量行为。
 
 ## 字段映射
@@ -27,9 +29,9 @@
 | `query_skill("magic", 1)` | `RecoverySkillLevels.raw_magic` | 被动 atman 恢复输入 |
 | `query_skill("force", 1)` | `RecoverySkillLevels.raw_force` | 被动 force 恢复输入 |
 | `query_skill("spells", 1)` | `RecoverySkillLevels.raw_spells` | 被动 mana 恢复输入 |
-| `CND_NO_HEAL_UP` | `apply_tick(..., recovery_blocked)` | 暂时的已判定恢复阻断；不是 condition 系统 |
+| `CND_NO_HEAL_UP` | `apply_tick(..., no_heal_up)` | 暂时的已判定恢复阻断；不是 condition 系统 |
 
-内部资源的 `current` 不强制夹到 `[0, maximum]`：原版训练允许它严格超过 `maximum`，其他 LPC 调用也直接增减这些映射值。被动恢复只在 `maximum != 0 && current < maximum` 时发生；已经超上限的值不会被被动恢复拉回。
+内部资源的 `current` 不强制夹到 `[0, maximum]`：原版训练允许它严格超过 `maximum`，其他 LPC 调用也直接增减这些映射值。`maximum` 同样没有 Phase 2A 自行增加的非负约束。被动恢复只在 `maximum != 0 && current < maximum` 时发生；已经超上限的值不会被被动恢复拉回。
 
 ## 已实现公式
 
@@ -48,7 +50,7 @@
 
 ## 单次恢复 tick
 
-1. 若角色已死亡、昏迷或收到 no-heal 阻断，整个 tick 返回，食水也不消耗。
+1. 若收到 no-heal 阻断，整个计算返回，食水也不消耗。
 2. water 大于 `0` 时减 `1`，然后 food 大于 `0` 时减 `1`。
 3. 玩家扣减后的 water 小于 `1` 时立即退出；NPC 不受此门槛影响。
 4. 依次恢复 gin、kee、sen。
@@ -60,12 +62,14 @@
 ## 临时边界与延期项
 
 - `RecoverySkillLevels` 只携带三个 raw 等级快照，明确不包含 mapped skill、临时 apply 或有效技能值；完整 `SkillSystem` 延后。
-- `recovery_blocked` 只接收 condition 层已经作出的 no-heal 判断；condition 存储、持续时间和 `update_condition()` 延至 Phase 2B。
-- `std/char.c` 的 `tick = 5 + random(10)`、heartbeat 开关、busy/action 调度、NPC chat、战斗与在线状态属于未来运行时系统；本阶段只执行一次已经到期且可恢复的确定性 tick。busy 时调用方不应触发本服务。
+- `no_heal_up` 只接收 condition 层已经作出的 `CND_NO_HEAL_UP` 判断；condition 存储、持续时间和 `update_condition()` 延至 Phase 2B。
+- `std/char.c` 在调用 `heal_up()` 之前处理死亡、昏迷、busy 和随机 tick 调度。`CharacterRecovery` 不重做这些生命周期/调度判断，只计算一次明确被调用的 `heal_up()`；未来调用方负责决定是否调用。
+- `std/char.c` 的 `tick = 5 + random(10)`、heartbeat 开关、busy/action 调度、NPC chat、战斗与在线状态属于未来运行时系统，没有进入本服务。
 - `exercise`、`meditate`、`respirate` 的主动训练、70% 门槛、消耗、技能瓶颈以及 `current > maximum * 2` 时提升上限的规则均未实现。
 - `enable.c` 更换映射技能时清零对应内部资源的行为等待 SkillSystem。
 - 食物/饮料物品、饮酒 condition 和摄取动作没有迁移。
 - 人类资源上限会读取 `max_atman/max_force/max_mana` 的既有 Phase 1 公式；本阶段没有新增或重算种族派生公式。
+- LPC 没有限制负 `con`、负内部资源等异常组合；它们可能让 `heal_up()` 的 gin/kee/sen 增量为负并通过 dbase 写到 `-1` 以下。已关闭的 Phase 1 资源模型会维持其已记录的 `-1` 下限，本阶段不重新打开该基础不变量；若未来导入数据确实包含这种状态，需要单独作兼容决策。
 
 ## 已知旧实现特性
 

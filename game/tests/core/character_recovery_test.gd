@@ -26,7 +26,7 @@ var _failures: Array[String] = []
 
 func run_all() -> Dictionary[String, Variant]:
 	_test_default_recovery_state_invariants()
-	_test_internal_resource_does_not_clamp_current_to_maximum()
+	_test_internal_resource_preserves_unrestricted_legacy_values()
 	_test_capacity_formulas_preserve_integer_division()
 	_test_tick_uses_raw_constitution_and_current_internal_resources()
 	_test_player_water_gate_ordering()
@@ -35,8 +35,9 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_primary_resource_recovery_boundaries()
 	_test_internal_resource_recovery_boundaries()
 	_test_recovery_block_short_circuits_entire_tick()
-	_test_inactive_character_is_not_recovered()
+	_test_lifecycle_gating_stays_outside_recovery_calculation()
 	_test_sustenance_is_not_capacity_clamped()
+	_test_negative_sustenance_is_preserved()
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
@@ -52,7 +53,6 @@ func _test_default_recovery_state_invariants() -> void:
 	_assert_eq(state.recovery.atman.current, 0, "default atman")
 	_assert_eq(state.recovery.food, 0, "default food")
 	_assert_eq(state.recovery.water, 0, "default water")
-	_assert_true(state.recovery.resources_have_valid_invariants(), "default invariants")
 	_assert_true(state.recovery != other_state.recovery, "recovery states are not shared")
 	_assert_true(
 		state.recovery.inner_force != other_state.recovery.inner_force,
@@ -65,7 +65,7 @@ func _test_default_recovery_state_invariants() -> void:
 	_assert_eq(other_state.recovery.food, 0, "food mutation is local")
 
 
-func _test_internal_resource_does_not_clamp_current_to_maximum() -> void:
+func _test_internal_resource_preserves_unrestricted_legacy_values() -> void:
 	var resource: CharacterInternalResourceScript = CharacterInternalResourceScript.new(250, 100)
 	_assert_eq(resource.current, 250, "legacy current may start above maximum")
 	_assert_eq(resource.maximum, 100, "internal maximum is retained")
@@ -73,7 +73,8 @@ func _test_internal_resource_does_not_clamp_current_to_maximum() -> void:
 	_assert_eq(resource.current, 250, "lowering maximum does not clamp current")
 	resource.current = -7
 	_assert_eq(resource.current, -7, "internal current has no invented zero clamp")
-	_assert_true(resource.has_valid_invariants(), "only maximum has a Phase 2A invariant")
+	resource.maximum = -5
+	_assert_eq(resource.maximum, -5, "maximum has no invented non-negative constraint")
 
 
 func _test_capacity_formulas_preserve_integer_division() -> void:
@@ -83,6 +84,8 @@ func _test_capacity_formulas_preserve_integer_division() -> void:
 	_assert_eq(CharacterRecoveryScript.maximum_food_capacity(399), 1, "food truncates")
 	_assert_eq(CharacterRecoveryScript.maximum_water_capacity(400), 2, "water capacity")
 	_assert_eq(CharacterRecoveryScript.maximum_food_capacity(40_000), 200, "human weight capacity")
+	_assert_eq(CharacterRecoveryScript.maximum_food_capacity(-199), 0, "negative division truncates")
+	_assert_eq(CharacterRecoveryScript.maximum_water_capacity(-200), -1, "capacity has no zero floor")
 
 
 func _test_tick_uses_raw_constitution_and_current_internal_resources() -> void:
@@ -158,9 +161,9 @@ func _test_player_food_gate_ordering() -> void:
 	_assert_eq(updates, 5, "sustenance plus three primary resources update")
 	_assert_eq(state.recovery.water, 4, "water consumed")
 	_assert_eq(state.recovery.food, 0, "last food consumed")
-	_assert_true(state.essence.current > 10, "food gate follows gin recovery")
-	_assert_true(state.vitality.current > 10, "food gate follows kee recovery")
-	_assert_true(state.spirit.current > 10, "food gate follows sen recovery")
+	_assert_eq(state.essence.current, 21, "food gate follows exact gin recovery")
+	_assert_eq(state.vitality.current, 22, "food gate follows exact kee recovery")
+	_assert_eq(state.spirit.current, 23, "food gate follows exact sen recovery")
 	_assert_eq(state.recovery.atman.current, before_atman, "food gate blocks atman recovery")
 	_assert_eq(state.recovery.inner_force.current, 20, "food gate blocks force recovery")
 	_assert_eq(state.recovery.mana.current, 30, "food gate blocks mana recovery")
@@ -175,7 +178,9 @@ func _test_non_player_ignores_sustenance_gates() -> void:
 	)
 
 	_assert_eq(updates, 6, "non-player updates three primary and three internal tracks")
-	_assert_true(state.essence.current > 10, "non-player gin recovers without water")
+	_assert_eq(state.essence.current, 21, "non-player gin recovers exactly without water")
+	_assert_eq(state.vitality.current, 22, "non-player kee recovers exactly without water")
+	_assert_eq(state.spirit.current, 23, "non-player sen recovers exactly without water")
 	_assert_internal(state.recovery.atman, 12, 100, "non-player atman recovers without food")
 	_assert_internal(state.recovery.inner_force, 23, 100, "non-player force recovery")
 	_assert_internal(state.recovery.mana, 34, 100, "non-player mana recovery")
@@ -249,6 +254,27 @@ func _test_internal_resource_recovery_boundaries() -> void:
 	_assert_eq(updates, 0, "at-or-above maximum internal tracks do not update")
 	_assert_eq(state.recovery.inner_force.current, 120, "over-maximum force is not reduced")
 
+	var negative_maximum: CharacterStateScript = _character_state(
+		3,
+		CharacterResourceScript.new(),
+		CharacterResourceScript.new(),
+		CharacterResourceScript.new(),
+		CharacterRecoveryStateScript.new(
+			CharacterInternalResourceScript.new(-10, -5),
+			null,
+			null,
+			0,
+			0,
+		),
+	)
+	updates = CharacterRecoveryScript.apply_tick(
+		negative_maximum,
+		RecoverySkillLevelsScript.new(0, 4, 0),
+		false,
+	)
+	_assert_eq(updates, 1, "negative nonzero maximum follows LPC truth and comparison")
+	_assert_internal(negative_maximum.recovery.inner_force, -8, -5, "negative maximum recovery")
+
 
 func _test_recovery_block_short_circuits_entire_tick() -> void:
 	var state: CharacterStateScript = _recoverable_state(5, 5)
@@ -265,32 +291,18 @@ func _test_recovery_block_short_circuits_entire_tick() -> void:
 	_assert_eq(state.recovery.atman.current, 10, "no-heal block prevents internal recovery")
 
 
-func _test_inactive_character_is_not_recovered() -> void:
+func _test_lifecycle_gating_stays_outside_recovery_calculation() -> void:
 	var unconscious: CharacterStateScript = _recoverable_state(5, 5)
 	unconscious.vitality.apply_damage(101)
-	_assert_eq(
-		CharacterRecoveryScript.apply_tick(
-			unconscious,
-			RecoverySkillLevelsScript.new(20, 20, 20),
-			true,
-		),
-		0,
-		"std/char.c excludes unconscious characters before heal_up",
+	var updates: int = CharacterRecoveryScript.apply_tick(
+		unconscious,
+		RecoverySkillLevelsScript.new(),
+		true,
 	)
-	_assert_eq(unconscious.recovery.water, 5, "unconscious state consumes no water")
-
-	var dead: CharacterStateScript = _recoverable_state(5, 5)
-	dead.spirit.apply_wound(101)
-	_assert_eq(
-		CharacterRecoveryScript.apply_tick(
-			dead,
-			RecoverySkillLevelsScript.new(20, 20, 20),
-			true,
-		),
-		0,
-		"std/char.c excludes dead characters before heal_up",
-	)
-	_assert_eq(dead.recovery.food, 5, "dead state consumes no food")
+	_assert_eq(updates, 8, "direct heal_up calculation has no lifecycle gate")
+	_assert_eq(unconscious.recovery.water, 4, "calculation consumes water when invoked")
+	_assert_eq(unconscious.recovery.food, 4, "calculation consumes food when invoked")
+	_assert_resource(unconscious.vitality, 11, 100, 100, "direct calculation can heal current")
 
 
 func _test_sustenance_is_not_capacity_clamped() -> void:
@@ -301,6 +313,19 @@ func _test_sustenance_is_not_capacity_clamped() -> void:
 	CharacterRecoveryScript.apply_tick(state, RecoverySkillLevelsScript.new(), true)
 	_assert_eq(state.recovery.food, 299, "tick decrements oversupplied food by one")
 	_assert_eq(state.recovery.water, 249, "tick decrements oversupplied water by one")
+
+
+func _test_negative_sustenance_is_preserved() -> void:
+	var state: CharacterStateScript = _recoverable_state(-2, -3)
+	var updates: int = CharacterRecoveryScript.apply_tick(
+		state,
+		RecoverySkillLevelsScript.new(20, 20, 20),
+		true,
+	)
+	_assert_eq(updates, 0, "negative water reaches player water gate without mutation")
+	_assert_eq(state.recovery.water, -2, "negative water is not clamped or decremented")
+	_assert_eq(state.recovery.food, -3, "negative food is not clamped or decremented")
+	_assert_eq(state.essence.current, 10, "negative water prevents primary recovery")
 
 
 func _recoverable_state(water: int, food: int) -> CharacterStateScript:
@@ -356,7 +381,6 @@ func _assert_internal(
 ) -> void:
 	_assert_eq(resource.current, expected_current, label + " current")
 	_assert_eq(resource.maximum, expected_maximum, label + " maximum")
-	_assert_true(resource.has_valid_invariants(), label + " invariants")
 
 
 func _assert_true(condition: bool, label: String) -> void:
