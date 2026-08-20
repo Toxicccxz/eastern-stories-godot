@@ -67,6 +67,9 @@ const RecoverySkillLevelsAdapterScript := preload(
 	"res://core/skills/recovery_skill_levels_adapter.gd"
 )
 const SkillCoreTest := preload("res://tests/core/skill_core_test.gd")
+const CultivationResultScript := preload("res://core/cultivation/cultivation_result.gd")
+const CultivationServiceScript := preload("res://core/cultivation/cultivation_service.gd")
+const CultivationServiceTest := preload("res://tests/core/cultivation_service_test.gd")
 
 
 func _init() -> void:
@@ -104,6 +107,9 @@ func _init() -> void:
 		SkillEnableTransitionScript,
 		RecoverySkillLevelsAdapterScript,
 		SkillCoreTest,
+		CultivationResultScript,
+		CultivationServiceScript,
+		CultivationServiceTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -115,13 +121,17 @@ func _init() -> void:
 	var phase_2a_result: Dictionary[String, Variant] = CharacterRecoveryTest.new().run_all()
 	var phase_2b_result: Dictionary[String, Variant] = ConditionSystemTest.new().run_all()
 	var phase_3a_result: Dictionary[String, Variant] = SkillCoreTest.new().run_all()
+	var phase_3b1_result: Dictionary[String, Variant] = CultivationServiceTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
-	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"])
+	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
+		phase_3b1_result["assertions"]
+	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
 	failures.append_array(phase_3a_result["failures"])
+	failures.append_array(phase_3b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
