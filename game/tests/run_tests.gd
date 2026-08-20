@@ -70,6 +70,24 @@ const SkillCoreTest := preload("res://tests/core/skill_core_test.gd")
 const CultivationResultScript := preload("res://core/cultivation/cultivation_result.gd")
 const CultivationServiceScript := preload("res://core/cultivation/cultivation_service.gd")
 const CultivationServiceTest := preload("res://tests/core/cultivation_service_test.gd")
+const CharacterProgressionStateScript := preload(
+	"res://core/characters/character_progression_state.gd"
+)
+const PracticePolicyScript := preload("res://core/training/practice_policy.gd")
+const VitalityInnerForcePracticePolicyScript := preload(
+	"res://core/training/vitality_inner_force_practice_policy.gd"
+)
+const UnpracticeablePracticePolicyScript := preload(
+	"res://core/training/unpracticeable_practice_policy.gd"
+)
+const PracticePoliciesScript := preload("res://core/training/practice_policies.gd")
+const PracticeResultScript := preload("res://core/training/practice_result.gd")
+const PracticeServiceScript := preload("res://core/training/practice_service.gd")
+const SelfLearningResultScript := preload("res://core/training/self_learning_result.gd")
+const SelfLearningServiceScript := preload("res://core/training/self_learning_service.gd")
+const PracticeSelfLearningTest := preload(
+	"res://tests/core/practice_self_learning_test.gd"
+)
 
 
 func _init() -> void:
@@ -110,6 +128,16 @@ func _init() -> void:
 		CultivationResultScript,
 		CultivationServiceScript,
 		CultivationServiceTest,
+		CharacterProgressionStateScript,
+		PracticePolicyScript,
+		VitalityInnerForcePracticePolicyScript,
+		UnpracticeablePracticePolicyScript,
+		PracticePoliciesScript,
+		PracticeResultScript,
+		PracticeServiceScript,
+		SelfLearningResultScript,
+		SelfLearningServiceScript,
+		PracticeSelfLearningTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -122,16 +150,20 @@ func _init() -> void:
 	var phase_2b_result: Dictionary[String, Variant] = ConditionSystemTest.new().run_all()
 	var phase_3a_result: Dictionary[String, Variant] = SkillCoreTest.new().run_all()
 	var phase_3b1_result: Dictionary[String, Variant] = CultivationServiceTest.new().run_all()
+	var phase_3b2_result: Dictionary[String, Variant] = PracticeSelfLearningTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
 		phase_3b1_result["assertions"]
+	) + int(
+		phase_3b2_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
 	failures.append_array(phase_3a_result["failures"])
 	failures.append_array(phase_3b1_result["failures"])
+	failures.append_array(phase_3b2_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
