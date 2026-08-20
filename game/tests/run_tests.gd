@@ -88,6 +88,30 @@ const SelfLearningServiceScript := preload("res://core/training/self_learning_se
 const PracticeSelfLearningTest := preload(
 	"res://tests/core/practice_self_learning_test.gd"
 )
+const SkillImprovementResultScript := preload(
+	"res://core/skills/skill_improvement_result.gd"
+)
+const SkillImprovementEffectResultScript := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
+)
+const SkillImprovementEffectScript := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect.gd"
+)
+const PeriodicAttributeImprovementEffectScript := preload(
+	"res://core/skills/improvement_effects/periodic_attribute_improvement_effect.gd"
+)
+const BellicosityImprovementEffectScript := preload(
+	"res://core/skills/improvement_effects/bellicosity_improvement_effect.gd"
+)
+const NineMoonImprovementEffectScript := preload(
+	"res://core/skills/improvement_effects/nine_moon_improvement_effect.gd"
+)
+const SkillImprovementEffectRegistryScript := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_registry.gd"
+)
+const SkillImprovementEffectsTest := preload(
+	"res://tests/core/skill_improvement_effects_test.gd"
+)
 
 
 func _init() -> void:
@@ -138,6 +162,14 @@ func _init() -> void:
 		SelfLearningResultScript,
 		SelfLearningServiceScript,
 		PracticeSelfLearningTest,
+		SkillImprovementResultScript,
+		SkillImprovementEffectResultScript,
+		SkillImprovementEffectScript,
+		PeriodicAttributeImprovementEffectScript,
+		BellicosityImprovementEffectScript,
+		NineMoonImprovementEffectScript,
+		SkillImprovementEffectRegistryScript,
+		SkillImprovementEffectsTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -151,12 +183,15 @@ func _init() -> void:
 	var phase_3a_result: Dictionary[String, Variant] = SkillCoreTest.new().run_all()
 	var phase_3b1_result: Dictionary[String, Variant] = CultivationServiceTest.new().run_all()
 	var phase_3b2_result: Dictionary[String, Variant] = PracticeSelfLearningTest.new().run_all()
+	var phase_3b3_result: Dictionary[String, Variant] = SkillImprovementEffectsTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
 		phase_3b1_result["assertions"]
 	) + int(
 		phase_3b2_result["assertions"]
+	) + int(
+		phase_3b3_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -164,6 +199,7 @@ func _init() -> void:
 	failures.append_array(phase_3a_result["failures"])
 	failures.append_array(phase_3b1_result["failures"])
 	failures.append_array(phase_3b2_result["failures"])
+	failures.append_array(phase_3b3_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -1,6 +1,13 @@
 class_name SelfLearningResult
 extends RefCounted
 
+const SkillImprovementResultType := preload(
+	"res://core/skills/skill_improvement_result.gd"
+)
+const SkillImprovementEffectResultType := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
+)
+
 enum FailureReason {
 	NONE,
 	SKILL_NOT_SELF_LEARNABLE,
@@ -33,6 +40,8 @@ var learned_before: int
 var learned_after: int
 var potential_spent_before: int
 var potential_spent_after: int
+var skill_improvement: SkillImprovementResultType
+var authored_effect: SkillImprovementEffectResultType
 
 
 func _init(
@@ -50,6 +59,8 @@ func _init(
 	p_learned_after: int = 0,
 	p_potential_spent_before: int = 0,
 	p_potential_spent_after: int = 0,
+	p_skill_improvement: SkillImprovementResultType = null,
+	p_authored_effect: SkillImprovementEffectResultType = null,
 ) -> void:
 	success = p_success
 	failure_reason = p_failure_reason
@@ -65,3 +76,5 @@ func _init(
 	learned_after = p_learned_after
 	potential_spent_before = p_potential_spent_before
 	potential_spent_after = p_potential_spent_after
+	skill_improvement = p_skill_improvement
+	authored_effect = p_authored_effect

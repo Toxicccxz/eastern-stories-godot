@@ -3,6 +3,9 @@ extends RefCounted
 
 const SkillLoadoutType := preload("res://core/skills/skill_loadout.gd")
 const SkillProgressStateType := preload("res://core/skills/skill_progress_state.gd")
+const SkillImprovementResultType := preload(
+	"res://core/skills/skill_improvement_result.gd"
+)
 
 ## Specific typed equivalents of feature/skill.c's skills and learned maps.
 ## They are not exposed as a generic dbase or mutable collection.
@@ -91,14 +94,17 @@ func mapped_skill(use_id: StringName) -> StringName:
 
 ## Deterministic improve_skill() transition. The caller supplies the legacy
 ## userp() fact explicitly; no command, ability, or runtime dependency is used.
-## Returns true only when this call increases the raw level.
+## Returns a typed snapshot; authored skill_improved() effects are processed by
+## the separate SkillImprovementEffectRegistry.
 func improve_skill(
 	skill_id: StringName,
 	amount: int,
 	base_spirituality: int,
 	weak_mode: bool = false,
 	is_player_character: bool = true,
-) -> bool:
+) -> SkillImprovementResultType:
+	var previous_level: int = raw_level(skill_id)
+	var learned_before: int = learned_progress(skill_id)
 	var can_gain_raw_level: bool = not weak_mode or not is_player_character
 	if can_gain_raw_level:
 		_has_skills_mapping = true
@@ -114,13 +120,20 @@ func improve_skill(
 
 	_has_learned_mapping = true
 	_learned_progress[skill_id] = learned_progress(skill_id) + adjusted_amount
-	if not can_gain_raw_level:
-		return false
-	var next_level: int = raw_level(skill_id) + 1
-	var threshold: int = next_level * next_level
-	if learned_progress(skill_id) <= threshold:
-		return false
+	var leveled_up: bool = false
+	if can_gain_raw_level:
+		var next_level: int = raw_level(skill_id) + 1
+		var threshold: int = next_level * next_level
+		if learned_progress(skill_id) > threshold:
+			_raw_levels[skill_id] = next_level
+			_learned_progress[skill_id] = 0
+			leveled_up = true
 
-	_raw_levels[skill_id] = raw_level(skill_id) + 1
-	_learned_progress[skill_id] = 0
-	return true
+	return SkillImprovementResultType.new(
+		skill_id,
+		previous_level,
+		raw_level(skill_id),
+		leveled_up,
+		learned_before,
+		learned_progress(skill_id),
+	)

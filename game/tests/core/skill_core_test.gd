@@ -153,12 +153,12 @@ func _test_level_zero_improvement_boundary() -> void:
 	_assert_eq(skills.raw_level(SkillIdsScript.SWORD), 0, "defined level zero reads as zero")
 	_assert_eq(skills.effective_level(SkillIdsScript.SWORD), 0, "defined level zero is effective zero")
 	_assert_false(
-		skills.improve_skill(SkillIdsScript.SWORD, 1, 30),
+		skills.improve_skill(SkillIdsScript.SWORD, 1, 30).leveled_up,
 		"level-zero exact threshold one does not level",
 	)
 	_assert_eq(skills.learned_progress(SkillIdsScript.SWORD), 1, "exact level-zero threshold retained")
 	_assert_true(
-		skills.improve_skill(SkillIdsScript.SWORD, 1, 30),
+		skills.improve_skill(SkillIdsScript.SWORD, 1, 30).leveled_up,
 		"level-zero progress strictly above one levels once",
 	)
 	_assert_eq(skills.raw_level(SkillIdsScript.SWORD), 1, "level zero advances to one")
@@ -214,13 +214,19 @@ func _test_skill_removal_preserves_unrelated_loadout_entry() -> void:
 func _test_improvement_below_and_at_exact_threshold() -> void:
 	var below: CharacterSkillStateScript = CharacterSkillStateScript.new()
 	below.set_raw_level(SkillIdsScript.SWORD, 2)
-	_assert_false(below.improve_skill(SkillIdsScript.SWORD, 8, 30), "eight is below level-three threshold")
+	_assert_false(
+		below.improve_skill(SkillIdsScript.SWORD, 8, 30).leveled_up,
+		"eight is below level-three threshold",
+	)
 	_assert_eq(below.raw_level(SkillIdsScript.SWORD), 2, "below threshold raw unchanged")
 	_assert_eq(below.learned_progress(SkillIdsScript.SWORD), 8, "below threshold progress retained")
 
 	var exact: CharacterSkillStateScript = CharacterSkillStateScript.new()
 	exact.set_raw_level(SkillIdsScript.SWORD, 2)
-	_assert_false(exact.improve_skill(SkillIdsScript.SWORD, 9, 30), "exact square threshold does not level")
+	_assert_false(
+		exact.improve_skill(SkillIdsScript.SWORD, 9, 30).leveled_up,
+		"exact square threshold does not level",
+	)
 	_assert_eq(exact.raw_level(SkillIdsScript.SWORD), 2, "exact threshold raw unchanged")
 	_assert_eq(exact.learned_progress(SkillIdsScript.SWORD), 9, "exact threshold progress retained")
 
@@ -229,13 +235,19 @@ func _test_improvement_level_up_resets_without_carry() -> void:
 	var skills: CharacterSkillStateScript = CharacterSkillStateScript.new()
 	skills.set_raw_level(SkillIdsScript.SWORD, 2)
 	skills.set_learned_progress(SkillIdsScript.SWORD, 9)
-	_assert_true(skills.improve_skill(SkillIdsScript.SWORD, 1, 30), "strictly above threshold levels")
+	_assert_true(
+		skills.improve_skill(SkillIdsScript.SWORD, 1, 30).leveled_up,
+		"strictly above threshold levels",
+	)
 	_assert_eq(skills.raw_level(SkillIdsScript.SWORD), 3, "level increases by exactly one")
 	_assert_eq(skills.learned_progress(SkillIdsScript.SWORD), 0, "level-up resets learned to zero")
 
 	var oversized: CharacterSkillStateScript = CharacterSkillStateScript.new()
 	oversized.set_raw_level(SkillIdsScript.SWORD, 2)
-	_assert_true(oversized.improve_skill(SkillIdsScript.SWORD, 20, 30), "large gain levels once")
+	_assert_true(
+		oversized.improve_skill(SkillIdsScript.SWORD, 20, 30).leveled_up,
+		"large gain levels once",
+	)
 	_assert_eq(oversized.raw_level(SkillIdsScript.SWORD), 3, "large gain does not loop levels")
 	_assert_eq(oversized.learned_progress(SkillIdsScript.SWORD), 0, "large gain has no carry")
 
@@ -245,9 +257,15 @@ func _test_improvement_penalty_and_minimum_amount() -> void:
 	skills.set_raw_level(SkillIdsScript.SWORD, 5)
 	skills.set_learned_progress(SkillIdsScript.SWORD, 0)
 	skills.set_learned_progress(SkillIdsScript.LITERATE, 0)
-	_assert_false(skills.improve_skill(SkillIdsScript.SWORD, 3, 0), "penalized amount stays below threshold")
+	_assert_false(
+		skills.improve_skill(SkillIdsScript.SWORD, 3, 0).leveled_up,
+		"penalized amount stays below threshold",
+	)
 	_assert_eq(skills.learned_progress(SkillIdsScript.SWORD), 1, "three divided by two truncates to one")
-	_assert_false(skills.improve_skill(SkillIdsScript.SWORD, 1, 0), "minimum amount still below threshold")
+	_assert_false(
+		skills.improve_skill(SkillIdsScript.SWORD, 1, 0).leveled_up,
+		"minimum amount still below threshold",
+	)
 	_assert_eq(skills.learned_progress(SkillIdsScript.SWORD), 2, "zero quotient is forced to one")
 
 
@@ -256,7 +274,7 @@ func _test_weak_improvement_player_and_non_player_boundaries() -> void:
 	player.set_raw_level(SkillIdsScript.SWORD, 2)
 	player.set_learned_progress(SkillIdsScript.SWORD, 9)
 	_assert_false(
-		player.improve_skill(SkillIdsScript.SWORD, 1, 30, true, true),
+		player.improve_skill(SkillIdsScript.SWORD, 1, 30, true, true).leveled_up,
 		"weak player improvement cannot level",
 	)
 	_assert_eq(player.raw_level(SkillIdsScript.SWORD), 2, "weak player raw remains unchanged")
@@ -278,7 +296,7 @@ func _test_weak_improvement_player_and_non_player_boundaries() -> void:
 	non_player.set_raw_level(SkillIdsScript.SWORD, 2)
 	non_player.set_learned_progress(SkillIdsScript.SWORD, 9)
 	_assert_true(
-		non_player.improve_skill(SkillIdsScript.SWORD, 1, 30, true, false),
+		non_player.improve_skill(SkillIdsScript.SWORD, 1, 30, true, false).leveled_up,
 		"weak mode does not prevent non-player level-up",
 	)
 	_assert_eq(non_player.raw_level(SkillIdsScript.SWORD), 3, "non-player weak mode levels")

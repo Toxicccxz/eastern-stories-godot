@@ -4,6 +4,15 @@ extends RefCounted
 const CharacterStateType := preload("res://core/characters/character_state.gd")
 const PracticePolicyType := preload("res://core/training/practice_policy.gd")
 const PracticeResultType := preload("res://core/training/practice_result.gd")
+const SkillImprovementResultType := preload(
+	"res://core/skills/skill_improvement_result.gd"
+)
+const EffectRegistryType := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_registry.gd"
+)
+const EffectResultType := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
+)
 
 
 ## Deterministic translation of cmds/std/practice.c after text parsing.
@@ -13,6 +22,7 @@ static func practice(
 	policy: PracticePolicyType,
 	is_fighting: bool,
 	is_player_character: bool = true,
+	effect_registry: EffectRegistryType = null,
 ) -> PracticeResultType:
 	if is_fighting:
 		return _failure(PracticeResultType.FailureReason.IN_COMBAT, basic_skill_id)
@@ -74,19 +84,24 @@ static func practice(
 	@warning_ignore("integer_division")
 	var improvement_amount: int = basic_level / 5 + 1
 	var weak_mode: bool = basic_level <= special_level
-	var level_increased: bool = character.skills.improve_skill(
+	var improvement: SkillImprovementResultType = character.skills.improve_skill(
 		special_skill_id,
 		improvement_amount,
 		character.attributes.spirituality,
 		weak_mode,
 		is_player_character,
 	)
+	var registry: EffectRegistryType = effect_registry
+	if registry == null:
+		registry = EffectRegistryType.new()
+		registry.register_legacy_defaults()
+	var authored_effect: EffectResultType = registry.apply(character, improvement)
 	return PracticeResultType.new(
 		true,
 		PracticeResultType.FailureReason.NONE,
 		(
 			PracticeResultType.Completion.LEVEL_INCREASED
-			if level_increased
+			if improvement.leveled_up
 			else PracticeResultType.Completion.PROGRESSED
 		),
 		basic_skill_id,
@@ -98,6 +113,8 @@ static func practice(
 		weak_mode,
 		learned_before,
 		character.skills.learned_progress(special_skill_id),
+		improvement,
+		authored_effect,
 	)
 
 

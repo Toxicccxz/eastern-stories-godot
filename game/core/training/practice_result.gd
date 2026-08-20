@@ -1,6 +1,13 @@
 class_name PracticeResult
 extends RefCounted
 
+const SkillImprovementResultType := preload(
+	"res://core/skills/skill_improvement_result.gd"
+)
+const SkillImprovementEffectResultType := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
+)
+
 enum FailureReason {
 	NONE,
 	IN_COMBAT,
@@ -32,6 +39,8 @@ var improvement_amount: int
 var weak_mode: bool
 var learned_before: int
 var learned_after: int
+var skill_improvement: SkillImprovementResultType
+var authored_effect: SkillImprovementEffectResultType
 
 
 func _init(
@@ -47,6 +56,8 @@ func _init(
 	p_weak_mode: bool = false,
 	p_learned_before: int = 0,
 	p_learned_after: int = 0,
+	p_skill_improvement: SkillImprovementResultType = null,
+	p_authored_effect: SkillImprovementEffectResultType = null,
 ) -> void:
 	success = p_success
 	failure_reason = p_failure_reason
@@ -60,3 +71,5 @@ func _init(
 	weak_mode = p_weak_mode
 	learned_before = p_learned_before
 	learned_after = p_learned_after
+	skill_improvement = p_skill_improvement
+	authored_effect = p_authored_effect

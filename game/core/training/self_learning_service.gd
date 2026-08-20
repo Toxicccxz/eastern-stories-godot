@@ -4,6 +4,15 @@ extends RefCounted
 const CharacterStateType := preload("res://core/characters/character_state.gd")
 const SkillIdsType := preload("res://core/skills/skill_ids.gd")
 const SelfLearningResultType := preload("res://core/training/self_learning_result.gd")
+const SkillImprovementResultType := preload(
+	"res://core/skills/skill_improvement_result.gd"
+)
+const EffectRegistryType := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_registry.gd"
+)
+const EffectResultType := preload(
+	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
+)
 
 const MINIMUM_RAW_SKILL_LEVEL: int = 40
 const ESSENCE_COST_NUMERATOR: int = 300
@@ -17,6 +26,7 @@ static func self_learn(
 	skill_id: StringName,
 	is_fighting: bool,
 	improvement_roll: int,
+	effect_registry: EffectRegistryType = null,
 ) -> SelfLearningResultType:
 	if not _is_self_learnable(skill_id):
 		return _failure(SelfLearningResultType.FailureReason.SKILL_NOT_SELF_LEARNABLE, skill_id)
@@ -90,18 +100,23 @@ static func self_learn(
 		)
 
 	character.progression.potential_spent += 1
-	var level_increased: bool = character.skills.improve_skill(
+	var improvement: SkillImprovementResultType = character.skills.improve_skill(
 		skill_id,
 		improvement_roll,
 		character.attributes.spirituality,
 	)
+	var registry: EffectRegistryType = effect_registry
+	if registry == null:
+		registry = EffectRegistryType.new()
+		registry.register_legacy_defaults()
+	var authored_effect: EffectResultType = registry.apply(character, improvement)
 	character.essence.apply_damage(essence_cost)
 	return SelfLearningResultType.new(
 		true,
 		SelfLearningResultType.FailureReason.NONE,
 		(
 			SelfLearningResultType.Completion.LEVEL_INCREASED
-			if level_increased
+			if improvement.leveled_up
 			else SelfLearningResultType.Completion.PROGRESSED
 		),
 		skill_id,
@@ -115,6 +130,8 @@ static func self_learn(
 		character.skills.learned_progress(skill_id),
 		potential_spent_before,
 		character.progression.potential_spent,
+		improvement,
+		authored_effect,
 	)
 
 
