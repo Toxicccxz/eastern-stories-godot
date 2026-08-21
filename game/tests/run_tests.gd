@@ -150,6 +150,39 @@ const MinimumInnerForceSkillLearnPolicyScript := preload(
 const DependencyUnavailableSkillLearnPolicyScript := preload(
 	"res://core/learning/dependency_unavailable_skill_learn_policy.gd"
 )
+const MaximumBellicositySkillLearnPolicyScript := preload(
+	"res://core/learning/maximum_bellicosity_skill_learn_policy.gd"
+)
+const ScaledBellicositySkillLearnPolicyScript := preload(
+	"res://core/learning/scaled_bellicosity_skill_learn_policy.gd"
+)
+const StrengthForceSkillLearnPolicyScript := preload(
+	"res://core/learning/strength_force_skill_learn_policy.gd"
+)
+const ScaledMaximumManaSkillLearnPolicyScript := preload(
+	"res://core/learning/scaled_maximum_mana_skill_learn_policy.gd"
+)
+const MinimumRawSkillLearnPolicyScript := preload(
+	"res://core/learning/minimum_raw_skill_learn_policy.gd"
+)
+const MinimumEffectiveSkillLearnPolicyScript := preload(
+	"res://core/learning/minimum_effective_skill_learn_policy.gd"
+)
+const MinimumEffectiveSkillRatioLearnPolicyScript := preload(
+	"res://core/learning/minimum_effective_skill_ratio_learn_policy.gd"
+)
+const StrictlyGreaterEffectiveSkillLearnPolicyScript := preload(
+	"res://core/learning/strictly_greater_effective_skill_learn_policy.gd"
+)
+const RequiredMappedSkillLearnPolicyScript := preload(
+	"res://core/learning/required_mapped_skill_learn_policy.gd"
+)
+const OrderedSkillLearnPolicyScript := preload(
+	"res://core/learning/ordered_skill_learn_policy.gd"
+)
+const SkillLearnPolicyRegistryScript := preload(
+	"res://core/learning/skill_learn_policy_registry.gd"
+)
 const TeachingContextScript := preload("res://core/learning/teaching_context.gd")
 const LearnResultScript := preload("res://core/learning/learn_result.gd")
 const LearnServiceScript := preload("res://core/learning/learn_service.gd")
@@ -160,6 +193,7 @@ const CountingTeacherRecognitionPolicyScript := preload(
 	"res://tests/support/counting_teacher_recognition_policy.gd"
 )
 const LearnServiceTest := preload("res://tests/core/learn_service_test.gd")
+const SkillLearnPoliciesTest := preload("res://tests/core/skill_learn_policies_test.gd")
 
 
 func _init() -> void:
@@ -234,12 +268,24 @@ func _init() -> void:
 		DefaultSkillLearnPolicyScript,
 		MinimumInnerForceSkillLearnPolicyScript,
 		DependencyUnavailableSkillLearnPolicyScript,
+		MaximumBellicositySkillLearnPolicyScript,
+		ScaledBellicositySkillLearnPolicyScript,
+		StrengthForceSkillLearnPolicyScript,
+		ScaledMaximumManaSkillLearnPolicyScript,
+		MinimumRawSkillLearnPolicyScript,
+		MinimumEffectiveSkillLearnPolicyScript,
+		MinimumEffectiveSkillRatioLearnPolicyScript,
+		StrictlyGreaterEffectiveSkillLearnPolicyScript,
+		RequiredMappedSkillLearnPolicyScript,
+		OrderedSkillLearnPolicyScript,
+		SkillLearnPolicyRegistryScript,
 		TeachingContextScript,
 		LearnResultScript,
 		LearnServiceScript,
 		ObservingImprovementEffectScript,
 		CountingTeacherRecognitionPolicyScript,
 		LearnServiceTest,
+		SkillLearnPoliciesTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -255,6 +301,7 @@ func _init() -> void:
 	var phase_3b2_result: Dictionary[String, Variant] = PracticeSelfLearningTest.new().run_all()
 	var phase_3b3_result: Dictionary[String, Variant] = SkillImprovementEffectsTest.new().run_all()
 	var phase_3c1_result: Dictionary[String, Variant] = LearnServiceTest.new().run_all()
+	var phase_3c2_result: Dictionary[String, Variant] = SkillLearnPoliciesTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -265,6 +312,8 @@ func _init() -> void:
 		phase_3b3_result["assertions"]
 	) + int(
 		phase_3c1_result["assertions"]
+	) + int(
+		phase_3c2_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -274,6 +323,7 @@ func _init() -> void:
 	failures.append_array(phase_3b2_result["failures"])
 	failures.append_array(phase_3b3_result["failures"])
 	failures.append_array(phase_3c1_result["failures"])
+	failures.append_array(phase_3c2_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

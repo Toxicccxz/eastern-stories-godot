@@ -120,6 +120,7 @@ static func learn(
 	if skill_policy == null or skill_policy.skill_id != skill_id:
 		return _fail(result, LearnResultType.FailureReason.SKILL_POLICY_MISMATCH)
 	var learn_policy_result: SkillLearnPolicyResultType = skill_policy.evaluate(student)
+	result.skill_learn_policy_result = learn_policy_result
 	if learn_policy_result.status == SkillLearnPolicyResultType.Status.DEPENDENCY_UNAVAILABLE:
 		return _fail(
 			result,

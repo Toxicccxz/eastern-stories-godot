@@ -7,6 +7,9 @@ const SkillImprovementResultType := preload(
 const EffectResultType := preload(
 	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
 )
+const SkillLearnPolicyResultType := preload(
+	"res://core/learning/skill_learn_policy_result.gd"
+)
 
 enum FailureReason {
 	NONE,
@@ -84,6 +87,7 @@ var created_explicit_zero_skill_entry: bool = false
 
 var skill_improvement: SkillImprovementResultType
 var authored_effect: EffectResultType
+var skill_learn_policy_result: SkillLearnPolicyResultType
 
 
 func _init(p_skill_id: StringName = &"") -> void:

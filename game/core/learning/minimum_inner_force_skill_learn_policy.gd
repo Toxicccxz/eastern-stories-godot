@@ -11,8 +11,13 @@ func _init(p_skill_id: StringName = &"", p_minimum: int = 0) -> void:
 
 ## Representative authored valid_learn() shape from daemon/skill/chaos-steps.c.
 func evaluate(student: CharacterStateType) -> PolicyResultType:
-	return PolicyResultType.new(
-		PolicyResultType.Status.ALLOWED
-		if student.recovery.inner_force.maximum >= minimum_maximum_inner_force
-		else PolicyResultType.Status.REJECTED
-	)
+	var actual: int = student.recovery.inner_force.maximum
+	if actual < minimum_maximum_inner_force:
+		return PolicyResultType.new(
+			PolicyResultType.Status.REJECTED,
+			PolicyResultType.Reason.MAXIMUM_INNER_FORCE_TOO_LOW,
+			&"max_force",
+			actual,
+			minimum_maximum_inner_force,
+		)
+	return PolicyResultType.new(PolicyResultType.Status.ALLOWED)
