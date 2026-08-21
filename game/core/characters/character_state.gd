@@ -21,6 +21,10 @@ const CharacterSkillStateType := preload("res://core/skills/character_skill_stat
 const CharacterProgressionStateType := preload(
 	"res://core/characters/character_progression_state.gd"
 )
+const FamilyStateType := preload("res://core/relationships/family_state.gd")
+const ApprenticeshipStateType := preload(
+	"res://core/relationships/apprenticeship_state.gd"
+)
 
 enum LifeThreshold {
 	ACTIVE,
@@ -40,6 +44,8 @@ var recovery: CharacterRecoveryStateType
 var conditions: CharacterConditionStateType
 var skills: CharacterSkillStateType
 var progression: CharacterProgressionStateType
+var family: FamilyStateType
+var apprenticeship: ApprenticeshipStateType
 
 
 func _init(
@@ -51,6 +57,8 @@ func _init(
 	p_conditions: CharacterConditionStateType = null,
 	p_skills: CharacterSkillStateType = null,
 	p_progression: CharacterProgressionStateType = null,
+	p_family: FamilyStateType = null,
+	p_apprenticeship: ApprenticeshipStateType = null,
 ) -> void:
 	attributes = p_attributes if p_attributes != null else CharacterBaseAttributesType.new()
 	essence = p_essence if p_essence != null else CharacterResourceStateType.new()
@@ -63,6 +71,12 @@ func _init(
 		p_progression
 		if p_progression != null
 		else CharacterProgressionStateType.new()
+	)
+	family = p_family if p_family != null else FamilyStateType.new()
+	apprenticeship = (
+		p_apprenticeship
+		if p_apprenticeship != null
+		else ApprenticeshipStateType.new()
 	)
 
 

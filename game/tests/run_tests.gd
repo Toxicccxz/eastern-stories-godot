@@ -112,6 +112,54 @@ const SkillImprovementEffectRegistryScript := preload(
 const SkillImprovementEffectsTest := preload(
 	"res://tests/core/skill_improvement_effects_test.gd"
 )
+const FamilyStateScript := preload("res://core/relationships/family_state.gd")
+const ApprenticeshipStateScript := preload(
+	"res://core/relationships/apprenticeship_state.gd"
+)
+const TeachingOfferScript := preload("res://core/learning/teaching_offer.gd")
+const TeacherDefinitionScript := preload("res://core/learning/teacher_definition.gd")
+const TeacherPolicyResultScript := preload("res://core/learning/teacher_policy_result.gd")
+const TeacherRecognitionPolicyScript := preload(
+	"res://core/learning/teacher_recognition_policy.gd"
+)
+const ExplicitTeacherRecognitionPolicyScript := preload(
+	"res://core/learning/explicit_teacher_recognition_policy.gd"
+)
+const DependencyUnavailableTeacherRecognitionPolicyScript := preload(
+	"res://core/learning/dependency_unavailable_teacher_recognition_policy.gd"
+)
+const TeacherPreventionPolicyScript := preload(
+	"res://core/learning/teacher_prevention_policy.gd"
+)
+const DependencyUnavailableTeacherPreventionPolicyScript := preload(
+	"res://core/learning/dependency_unavailable_teacher_prevention_policy.gd"
+)
+const FMasterTeacherPreventionPolicyScript := preload(
+	"res://core/learning/f_master_teacher_prevention_policy.gd"
+)
+const SkillLearnPolicyResultScript := preload(
+	"res://core/learning/skill_learn_policy_result.gd"
+)
+const SkillLearnPolicyScript := preload("res://core/learning/skill_learn_policy.gd")
+const DefaultSkillLearnPolicyScript := preload(
+	"res://core/learning/default_skill_learn_policy.gd"
+)
+const MinimumInnerForceSkillLearnPolicyScript := preload(
+	"res://core/learning/minimum_inner_force_skill_learn_policy.gd"
+)
+const DependencyUnavailableSkillLearnPolicyScript := preload(
+	"res://core/learning/dependency_unavailable_skill_learn_policy.gd"
+)
+const TeachingContextScript := preload("res://core/learning/teaching_context.gd")
+const LearnResultScript := preload("res://core/learning/learn_result.gd")
+const LearnServiceScript := preload("res://core/learning/learn_service.gd")
+const ObservingImprovementEffectScript := preload(
+	"res://tests/support/observing_improvement_effect.gd"
+)
+const CountingTeacherRecognitionPolicyScript := preload(
+	"res://tests/support/counting_teacher_recognition_policy.gd"
+)
+const LearnServiceTest := preload("res://tests/core/learn_service_test.gd")
 
 
 func _init() -> void:
@@ -170,6 +218,28 @@ func _init() -> void:
 		NineMoonImprovementEffectScript,
 		SkillImprovementEffectRegistryScript,
 		SkillImprovementEffectsTest,
+		FamilyStateScript,
+		ApprenticeshipStateScript,
+		TeachingOfferScript,
+		TeacherDefinitionScript,
+		TeacherPolicyResultScript,
+		TeacherRecognitionPolicyScript,
+		ExplicitTeacherRecognitionPolicyScript,
+		DependencyUnavailableTeacherRecognitionPolicyScript,
+		TeacherPreventionPolicyScript,
+		DependencyUnavailableTeacherPreventionPolicyScript,
+		FMasterTeacherPreventionPolicyScript,
+		SkillLearnPolicyResultScript,
+		SkillLearnPolicyScript,
+		DefaultSkillLearnPolicyScript,
+		MinimumInnerForceSkillLearnPolicyScript,
+		DependencyUnavailableSkillLearnPolicyScript,
+		TeachingContextScript,
+		LearnResultScript,
+		LearnServiceScript,
+		ObservingImprovementEffectScript,
+		CountingTeacherRecognitionPolicyScript,
+		LearnServiceTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -184,6 +254,7 @@ func _init() -> void:
 	var phase_3b1_result: Dictionary[String, Variant] = CultivationServiceTest.new().run_all()
 	var phase_3b2_result: Dictionary[String, Variant] = PracticeSelfLearningTest.new().run_all()
 	var phase_3b3_result: Dictionary[String, Variant] = SkillImprovementEffectsTest.new().run_all()
+	var phase_3c1_result: Dictionary[String, Variant] = LearnServiceTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -192,6 +263,8 @@ func _init() -> void:
 		phase_3b2_result["assertions"]
 	) + int(
 		phase_3b3_result["assertions"]
+	) + int(
+		phase_3c1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -200,6 +273,7 @@ func _init() -> void:
 	failures.append_array(phase_3b1_result["failures"])
 	failures.append_array(phase_3b2_result["failures"])
 	failures.append_array(phase_3b3_result["failures"])
+	failures.append_array(phase_3c1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
