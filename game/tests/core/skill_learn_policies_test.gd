@@ -489,31 +489,19 @@ func _test_mapped_and_compound_policy() -> void:
 
 func _test_deferred_policy_boundaries() -> void:
 	var registry: RegistryScript = _registry()
-	var equipment_ids: Array[StringName] = [
-		SkillIdsScript.BLOODY_STRIKE,
-		SkillIdsScript.CELESTRIKE,
-		SkillIdsScript.DEISWORD,
-		SkillIdsScript.FONXAN_SWORD,
-		SkillIdsScript.LIUH_KEN,
-		SkillIdsScript.MEIHUA_SHOU,
-		SkillIdsScript.MYSTSWORD,
-		SkillIdsScript.SIX_CHAOS_SWORD,
-		SkillIdsScript.SNOWSHADE_SWORD,
-		SkillIdsScript.SNOWWHIP,
-		SkillIdsScript.SPICYCLAW,
-		SkillIdsScript.TENDERZHI,
-		SkillIdsScript.TS_FIST,
-	]
-	for skill_id: StringName in equipment_ids:
-		var result: PolicyResultScript = registry.policy_for(skill_id).evaluate(
-			CharacterStateScript.new()
-		)
-		_assert_status(result, PolicyResultScript.Status.DEPENDENCY_UNAVAILABLE, "%s deferred" % skill_id)
-		_assert_eq(
-			result.reason,
-			PolicyResultScript.Reason.EQUIPMENT_STATE_UNAVAILABLE,
-			"%s equipment reason" % skill_id,
-		)
+	var tender_result: PolicyResultScript = registry.policy_for(
+		SkillIdsScript.TENDERZHI
+	).evaluate(CharacterStateScript.new())
+	_assert_status(
+		tender_result,
+		PolicyResultScript.Status.DEPENDENCY_UNAVAILABLE,
+		"tenderzhi remains deferred at first gender check",
+	)
+	_assert_eq(
+		tender_result.reason,
+		PolicyResultScript.Reason.GENDER_STATE_UNAVAILABLE,
+		"tenderzhi reports first unavailable LPC dependency",
+	)
 	var storm_result: PolicyResultScript = registry.policy_for(SkillIdsScript.STORMDANCE).evaluate(
 		CharacterStateScript.new()
 	)
@@ -534,16 +522,16 @@ func _test_deferred_policy_boundaries() -> void:
 	)
 
 	var student: CharacterStateScript = _learn_student()
-	var context: TeachingContextScript = _learn_context(SkillIdsScript.BLOODY_STRIKE)
+	var context: TeachingContextScript = _learn_context(SkillIdsScript.TENDERZHI)
 	var learn_result: LearnResultScript = LearnServiceScript.learn(
 		student,
 		context,
 		SkillDefinitionScript.new(
-			SkillIdsScript.BLOODY_STRIKE,
+			SkillIdsScript.TENDERZHI,
 			SkillDefinitionScript.Kind.SPECIALIZED,
 			SkillDefinitionScript.Type.MARTIAL,
 		),
-		registry.policy_for(SkillIdsScript.BLOODY_STRIKE),
+		registry.policy_for(SkillIdsScript.TENDERZHI),
 	)
 	_assert_eq(
 		learn_result.failure_reason,
@@ -552,14 +540,14 @@ func _test_deferred_policy_boundaries() -> void:
 	)
 	_assert_eq(
 		learn_result.skill_learn_policy_result.reason,
-		PolicyResultScript.Reason.EQUIPMENT_STATE_UNAVAILABLE,
+		PolicyResultScript.Reason.GENDER_STATE_UNAVAILABLE,
 		"LearnResult preserves typed policy detail",
 	)
-	_assert_false(student.skills.has_raw_level(SkillIdsScript.BLOODY_STRIKE), "no raw-zero entry")
+	_assert_false(student.skills.has_raw_level(SkillIdsScript.TENDERZHI), "no raw-zero entry")
 	_assert_eq(student.progression.potential_spent, 0, "no potential mutation")
 	_assert_eq(context.current_spirit, 100, "no teacher sen payment")
 	_assert_eq(student.essence.current, 100, "no student gin damage")
-	_assert_eq(student.skills.learned_progress(SkillIdsScript.BLOODY_STRIKE), 0, "no improve_skill progress")
+	_assert_eq(student.skills.learned_progress(SkillIdsScript.TENDERZHI), 0, "no improve_skill progress")
 	_assert_eq(learn_result.skill_improvement, null, "no improve_skill result")
 
 
@@ -611,15 +599,15 @@ func _test_registry_isolation() -> void:
 		first.policy_for(SkillIdsScript.BUDDHISM) != second.policy_for(SkillIdsScript.BUDDHISM),
 		"registries do not share policy instances",
 	)
-	first.register_policy(DefaultPolicyScript.new(SkillIdsScript.BLOODY_STRIKE))
+	first.register_policy(DefaultPolicyScript.new(SkillIdsScript.CELESTRIKE))
 	_assert_status(
-		first.policy_for(SkillIdsScript.BLOODY_STRIKE).evaluate(CharacterStateScript.new()),
+		first.policy_for(SkillIdsScript.CELESTRIKE).evaluate(CharacterStateScript.new()),
 		PolicyResultScript.Status.ALLOWED,
 		"first registry can be changed independently",
 	)
 	_assert_status(
-		second.policy_for(SkillIdsScript.BLOODY_STRIKE).evaluate(CharacterStateScript.new()),
-		PolicyResultScript.Status.DEPENDENCY_UNAVAILABLE,
+		second.policy_for(SkillIdsScript.CELESTRIKE).evaluate(CharacterStateScript.new()),
+		PolicyResultScript.Status.REJECTED,
 		"second registry remains unchanged",
 	)
 

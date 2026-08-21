@@ -1,5 +1,8 @@
 # Phase 3C2：作者技能学习准入策略
 
+> 本文记录 Phase 3C2 关闭时的历史状态。装备依赖接线后的当前分类、12 个新增可执行
+> hook 与验证顺序见 `PHASE_4A2_EQUIPMENT_SKILL_LEARN_POLICIES.md`。
+
 ## 范围与结论
 
 本阶段重新扫描了 `reference/es2/mudlib/daemon/skill/*.c` 的全部 active

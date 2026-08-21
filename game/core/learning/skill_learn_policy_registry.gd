@@ -39,6 +39,12 @@ const RequiredMappedPolicyType := preload(
 	"res://core/learning/required_mapped_skill_learn_policy.gd"
 )
 const OrderedPolicyType := preload("res://core/learning/ordered_skill_learn_policy.gd")
+const BothWeaponRefsEmptyPolicyType := preload(
+	"res://core/learning/require_both_weapon_refs_empty_skill_learn_policy.gd"
+)
+const PrimaryWeaponSkillTypePolicyType := preload(
+	"res://core/learning/require_primary_weapon_skill_type_skill_learn_policy.gd"
+)
 
 var _policies: Dictionary[StringName, SkillLearnPolicyType] = {}
 
@@ -64,6 +70,7 @@ func register_active_legacy_policies() -> void:
 	_policies.clear()
 	_register_always_allowed()
 	_register_existing_state_policies()
+	_register_equipment_backed_policies()
 	_register_deferred_policies()
 
 
@@ -221,28 +228,14 @@ func _register_existing_state_policies() -> void:
 
 
 func _register_deferred_policies() -> void:
-	var equipment_skill_ids: Array[StringName] = [
-		SkillIdsType.BLOODY_STRIKE,
-		SkillIdsType.CELESTRIKE,
-		SkillIdsType.DEISWORD,
-		SkillIdsType.FONXAN_SWORD,
-		SkillIdsType.LIUH_KEN,
-		SkillIdsType.MEIHUA_SHOU,
-		SkillIdsType.MYSTSWORD,
-		SkillIdsType.SIX_CHAOS_SWORD,
-		SkillIdsType.SNOWSHADE_SWORD,
-		SkillIdsType.SNOWWHIP,
-		SkillIdsType.SPICYCLAW,
-		SkillIdsType.TENDERZHI,
-		SkillIdsType.TS_FIST,
-	]
-	for skill_id: StringName in equipment_skill_ids:
-		register_policy(
-			DependencyPolicyType.new(
-				skill_id,
-				PolicyResultType.Reason.EQUIPMENT_STATE_UNAVAILABLE,
-			)
+	## tenderzhi checks gender before equipment, so its first unavailable LPC
+	## dependency remains gender even though hand facts now exist.
+	register_policy(
+		DependencyPolicyType.new(
+			SkillIdsType.TENDERZHI,
+			PolicyResultType.Reason.GENDER_STATE_UNAVAILABLE,
 		)
+	)
 	register_policy(
 		DependencyPolicyType.new(
 			SkillIdsType.STORMDANCE,
@@ -255,3 +248,104 @@ func _register_deferred_policies() -> void:
 			PolicyResultType.Reason.LEGACY_REQUIRED_SKILL_MISSING,
 		)
 	)
+
+
+func _register_equipment_backed_policies() -> void:
+	for skill_id: StringName in [
+		SkillIdsType.BLOODY_STRIKE,
+		SkillIdsType.LIUH_KEN,
+		SkillIdsType.MEIHUA_SHOU,
+	]:
+		register_policy(BothWeaponRefsEmptyPolicyType.new(skill_id))
+
+	var celestrike_steps: Array[SkillLearnPolicyType] = [
+		BothWeaponRefsEmptyPolicyType.new(SkillIdsType.CELESTRIKE),
+		MinimumRawSkillPolicyType.new(
+			SkillIdsType.CELESTRIKE,
+			SkillIdsType.CELESTIAL,
+			20,
+		),
+		MinimumInnerForcePolicyType.new(SkillIdsType.CELESTRIKE, 100),
+	]
+	register_policy(OrderedPolicyType.new(SkillIdsType.CELESTRIKE, celestrike_steps))
+
+	_register_primary_weapon_policy(
+		SkillIdsType.DEISWORD,
+		50,
+		SkillIdsType.SWORD,
+	)
+
+	var fonxansword_steps: Array[SkillLearnPolicyType] = [
+		MinimumInnerForcePolicyType.new(SkillIdsType.FONXAN_SWORD, 50),
+		RequiredMappedPolicyType.new(
+			SkillIdsType.FONXAN_SWORD,
+			SkillIdsType.FORCE,
+			SkillIdsType.FONXAN_FORCE,
+		),
+		PrimaryWeaponSkillTypePolicyType.new(
+			SkillIdsType.FONXAN_SWORD,
+			SkillIdsType.SWORD,
+		),
+	]
+	register_policy(OrderedPolicyType.new(SkillIdsType.FONXAN_SWORD, fonxansword_steps))
+
+	var mystsword_steps: Array[SkillLearnPolicyType] = [
+		MinimumRawSkillPolicyType.new(
+			SkillIdsType.MYSTSWORD,
+			SkillIdsType.MYSTFORCE,
+			30,
+		),
+		MinimumInnerForcePolicyType.new(SkillIdsType.MYSTSWORD, 100),
+		PrimaryWeaponSkillTypePolicyType.new(
+			SkillIdsType.MYSTSWORD,
+			SkillIdsType.SWORD,
+		),
+	]
+	register_policy(OrderedPolicyType.new(SkillIdsType.MYSTSWORD, mystsword_steps))
+
+	_register_primary_weapon_policy(
+		SkillIdsType.SIX_CHAOS_SWORD,
+		100,
+		SkillIdsType.SWORD,
+	)
+
+	var snowshade_sword_steps: Array[SkillLearnPolicyType] = [
+		MinimumInnerForcePolicyType.new(SkillIdsType.SNOWSHADE_SWORD, 50),
+		RequiredMappedPolicyType.new(
+			SkillIdsType.SNOWSHADE_SWORD,
+			SkillIdsType.FORCE,
+			SkillIdsType.SNOWSHADE_FORCE,
+		),
+		PrimaryWeaponSkillTypePolicyType.new(
+			SkillIdsType.SNOWSHADE_SWORD,
+			SkillIdsType.SWORD,
+		),
+	]
+	register_policy(
+		OrderedPolicyType.new(SkillIdsType.SNOWSHADE_SWORD, snowshade_sword_steps)
+	)
+
+	_register_primary_weapon_policy(
+		SkillIdsType.SNOWWHIP,
+		150,
+		SkillIdsType.WHIP,
+	)
+
+	for skill_id: StringName in [SkillIdsType.SPICYCLAW, SkillIdsType.TS_FIST]:
+		var empty_hand_force_steps: Array[SkillLearnPolicyType] = [
+			BothWeaponRefsEmptyPolicyType.new(skill_id),
+			MinimumInnerForcePolicyType.new(skill_id, 80),
+		]
+		register_policy(OrderedPolicyType.new(skill_id, empty_hand_force_steps))
+
+
+func _register_primary_weapon_policy(
+	skill_id: StringName,
+	minimum_maximum_inner_force: int,
+	required_weapon_skill_type: StringName,
+) -> void:
+	var steps: Array[SkillLearnPolicyType] = [
+		MinimumInnerForcePolicyType.new(skill_id, minimum_maximum_inner_force),
+		PrimaryWeaponSkillTypePolicyType.new(skill_id, required_weapon_skill_type),
+	]
+	register_policy(OrderedPolicyType.new(skill_id, steps))
