@@ -25,6 +25,7 @@ const FamilyStateType := preload("res://core/relationships/family_state.gd")
 const ApprenticeshipStateType := preload(
 	"res://core/relationships/apprenticeship_state.gd"
 )
+const EquipmentStateType := preload("res://core/equipment/equipment_state.gd")
 
 enum LifeThreshold {
 	ACTIVE,
@@ -46,6 +47,7 @@ var skills: CharacterSkillStateType
 var progression: CharacterProgressionStateType
 var family: FamilyStateType
 var apprenticeship: ApprenticeshipStateType
+var equipment: EquipmentStateType
 
 
 func _init(
@@ -59,6 +61,7 @@ func _init(
 	p_progression: CharacterProgressionStateType = null,
 	p_family: FamilyStateType = null,
 	p_apprenticeship: ApprenticeshipStateType = null,
+	p_equipment: EquipmentStateType = null,
 ) -> void:
 	attributes = p_attributes if p_attributes != null else CharacterBaseAttributesType.new()
 	essence = p_essence if p_essence != null else CharacterResourceStateType.new()
@@ -78,6 +81,7 @@ func _init(
 		if p_apprenticeship != null
 		else ApprenticeshipStateType.new()
 	)
+	equipment = p_equipment if p_equipment != null else EquipmentStateType.new()
 
 
 ## std/char.c checks effective values first, so death takes precedence when
