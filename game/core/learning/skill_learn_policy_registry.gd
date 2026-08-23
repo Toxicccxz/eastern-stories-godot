@@ -45,6 +45,13 @@ const BothWeaponRefsEmptyPolicyType := preload(
 const PrimaryWeaponSkillTypePolicyType := preload(
 	"res://core/learning/require_primary_weapon_skill_type_skill_learn_policy.gd"
 )
+const RequiredGenderPolicyType := preload(
+	"res://core/learning/required_gender_skill_learn_policy.gd"
+)
+const MinimumBaseSpiritualityPolicyType := preload(
+	"res://core/learning/minimum_base_spirituality_skill_learn_policy.gd"
+)
+const CharacterStateType := preload("res://core/characters/character_state.gd")
 
 var _policies: Dictionary[StringName, SkillLearnPolicyType] = {}
 
@@ -71,6 +78,7 @@ func register_active_legacy_policies() -> void:
 	_register_always_allowed()
 	_register_existing_state_policies()
 	_register_equipment_backed_policies()
+	_register_gender_backed_policies()
 	_register_deferred_policies()
 
 
@@ -228,26 +236,34 @@ func _register_existing_state_policies() -> void:
 
 
 func _register_deferred_policies() -> void:
-	## tenderzhi checks gender before equipment, so its first unavailable LPC
-	## dependency remains gender even though hand facts now exist.
-	register_policy(
-		DependencyPolicyType.new(
-			SkillIdsType.TENDERZHI,
-			PolicyResultType.Reason.GENDER_STATE_UNAVAILABLE,
-		)
-	)
-	register_policy(
-		DependencyPolicyType.new(
-			SkillIdsType.STORMDANCE,
-			PolicyResultType.Reason.GENDER_STATE_UNAVAILABLE,
-		)
-	)
+	## All state facts are representable, but the required active skill daemon
+	## nine-moon-force.c does not exist. Do not manufacture an executable rule.
 	register_policy(
 		DependencyPolicyType.new(
 			SkillIdsType.NINE_MOON,
 			PolicyResultType.Reason.LEGACY_REQUIRED_SKILL_MISSING,
 		)
 	)
+
+
+func _register_gender_backed_policies() -> void:
+	var stormdance_steps: Array[SkillLearnPolicyType] = [
+		RequiredGenderPolicyType.new(
+			SkillIdsType.STORMDANCE,
+			CharacterStateType.GENDER_FEMALE,
+		),
+		MinimumBaseSpiritualityPolicyType.new(SkillIdsType.STORMDANCE, 20),
+	]
+	register_policy(OrderedPolicyType.new(SkillIdsType.STORMDANCE, stormdance_steps))
+
+	var tenderzhi_steps: Array[SkillLearnPolicyType] = [
+		RequiredGenderPolicyType.new(
+			SkillIdsType.TENDERZHI,
+			CharacterStateType.GENDER_FEMALE,
+		),
+		BothWeaponRefsEmptyPolicyType.new(SkillIdsType.TENDERZHI),
+	]
+	register_policy(OrderedPolicyType.new(SkillIdsType.TENDERZHI, tenderzhi_steps))
 
 
 func _register_equipment_backed_policies() -> void:

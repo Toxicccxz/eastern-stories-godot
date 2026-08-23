@@ -33,10 +33,19 @@ enum LifeThreshold {
 	DEAD,
 }
 
+## Canonical authored values of the legacy persistent "gender" field.
+## The domain remains open: absent and custom StringName values are preserved.
+const GENDER_MALE: StringName = &"男性"
+const GENDER_FEMALE: StringName = &"女性"
+const GENDER_ANIMAL_MALE: StringName = &"雄性"
+const GENDER_ANIMAL_FEMALE: StringName = &"雌性"
+
 ## Legacy resource mappings:
 ## essence  -> gin / eff_gin / max_gin
 ## vitality -> kee / eff_kee / max_kee
 ## spirit   -> sen / eff_sen / max_sen
+## gender   -> gender; empty means unresolved or absent legacy state.
+var gender: StringName = &""
 var attributes: CharacterBaseAttributesType
 var essence: CharacterResourceStateType
 var vitality: CharacterResourceStateType

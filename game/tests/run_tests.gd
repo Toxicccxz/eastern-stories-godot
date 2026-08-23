@@ -186,6 +186,12 @@ const RequireBothWeaponRefsEmptySkillLearnPolicyScript := preload(
 const RequirePrimaryWeaponSkillTypeSkillLearnPolicyScript := preload(
 	"res://core/learning/require_primary_weapon_skill_type_skill_learn_policy.gd"
 )
+const RequiredGenderSkillLearnPolicyScript := preload(
+	"res://core/learning/required_gender_skill_learn_policy.gd"
+)
+const MinimumBaseSpiritualitySkillLearnPolicyScript := preload(
+	"res://core/learning/minimum_base_spirituality_skill_learn_policy.gd"
+)
 const SkillLearnPolicyRegistryScript := preload(
 	"res://core/learning/skill_learn_policy_registry.gd"
 )
@@ -209,6 +215,9 @@ const EquipmentStateScript := preload("res://core/equipment/equipment_state.gd")
 const EquipmentStateTest := preload("res://tests/core/equipment_state_test.gd")
 const EquipmentSkillLearnPoliciesTest := preload(
 	"res://tests/core/equipment_skill_learn_policies_test.gd"
+)
+const GenderLearnPoliciesTest := preload(
+	"res://tests/core/gender_learn_policies_test.gd"
 )
 
 
@@ -296,6 +305,8 @@ func _init() -> void:
 		OrderedSkillLearnPolicyScript,
 		RequireBothWeaponRefsEmptySkillLearnPolicyScript,
 		RequirePrimaryWeaponSkillTypeSkillLearnPolicyScript,
+		RequiredGenderSkillLearnPolicyScript,
+		MinimumBaseSpiritualitySkillLearnPolicyScript,
 		SkillLearnPolicyRegistryScript,
 		TeachingContextScript,
 		LearnResultScript,
@@ -310,6 +321,7 @@ func _init() -> void:
 		EquipmentStateScript,
 		EquipmentStateTest,
 		EquipmentSkillLearnPoliciesTest,
+		GenderLearnPoliciesTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -330,6 +342,7 @@ func _init() -> void:
 	var phase_4a2_result: Dictionary[String, Variant] = (
 		EquipmentSkillLearnPoliciesTest.new().run_all()
 	)
+	var phase_4a4_result: Dictionary[String, Variant] = GenderLearnPoliciesTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -346,6 +359,8 @@ func _init() -> void:
 		phase_4a1_result["assertions"]
 	) + int(
 		phase_4a2_result["assertions"]
+	) + int(
+		phase_4a4_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -358,6 +373,7 @@ func _init() -> void:
 	failures.append_array(phase_3c2_result["failures"])
 	failures.append_array(phase_4a1_result["failures"])
 	failures.append_array(phase_4a2_result["failures"])
+	failures.append_array(phase_4a4_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -91,11 +91,7 @@ func _test_registry_inventory_and_isolation() -> void:
 			_equip_primary(student, SkillIdsScript.SWORD)
 		_assert_allowed(active_registry, skill_id, student, "%s equipment hook executable" % skill_id)
 
-	var dependency_skill_ids: Array[StringName] = [
-		SkillIdsScript.STORMDANCE,
-		SkillIdsScript.TENDERZHI,
-		SkillIdsScript.NINE_MOON,
-	]
+	var dependency_skill_ids: Array[StringName] = [SkillIdsScript.NINE_MOON]
 	for skill_id: StringName in dependency_skill_ids:
 		_assert_true(
 			active_registry.policy_for(skill_id).get_script() == DependencyPolicyScript,
@@ -616,9 +612,9 @@ func _test_remaining_dependency_boundaries() -> void:
 			registry,
 			SkillIdsScript.TENDERZHI,
 			tender,
-			PolicyResultScript.Status.DEPENDENCY_UNAVAILABLE,
-			PolicyResultScript.Reason.GENDER_STATE_UNAVAILABLE,
-			"tenderzhi gender remains first with occupied=%s" % occupied,
+			PolicyResultScript.Status.REJECTED,
+			PolicyResultScript.Reason.GENDER_MISMATCH,
+			"tenderzhi unresolved gender remains first with occupied=%s" % occupied,
 		)
 
 	var nine_moon: CharacterStateScript = CharacterStateScript.new()

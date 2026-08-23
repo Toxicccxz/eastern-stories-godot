@@ -494,22 +494,22 @@ func _test_deferred_policy_boundaries() -> void:
 	).evaluate(CharacterStateScript.new())
 	_assert_status(
 		tender_result,
-		PolicyResultScript.Status.DEPENDENCY_UNAVAILABLE,
-		"tenderzhi remains deferred at first gender check",
+		PolicyResultScript.Status.REJECTED,
+		"tenderzhi rejects unresolved gender at first check",
 	)
 	_assert_eq(
 		tender_result.reason,
-		PolicyResultScript.Reason.GENDER_STATE_UNAVAILABLE,
-		"tenderzhi reports first unavailable LPC dependency",
+		PolicyResultScript.Reason.GENDER_MISMATCH,
+		"tenderzhi reports exact gender mismatch",
 	)
 	var storm_result: PolicyResultScript = registry.policy_for(SkillIdsScript.STORMDANCE).evaluate(
 		CharacterStateScript.new()
 	)
-	_assert_status(storm_result, PolicyResultScript.Status.DEPENDENCY_UNAVAILABLE, "stormdance deferred")
+	_assert_status(storm_result, PolicyResultScript.Status.REJECTED, "stormdance unresolved gender")
 	_assert_eq(
 		storm_result.reason,
-		PolicyResultScript.Reason.GENDER_STATE_UNAVAILABLE,
-		"stormdance gender reason",
+		PolicyResultScript.Reason.GENDER_MISMATCH,
+		"stormdance exact gender reason",
 	)
 	var nine_result: PolicyResultScript = registry.policy_for(SkillIdsScript.NINE_MOON).evaluate(
 		CharacterStateScript.new()
@@ -535,12 +535,12 @@ func _test_deferred_policy_boundaries() -> void:
 	)
 	_assert_eq(
 		learn_result.failure_reason,
-		LearnResultScript.FailureReason.SKILL_LEARN_DEPENDENCY_UNAVAILABLE,
-		"dependency unavailable stops at valid_learn",
+		LearnResultScript.FailureReason.SKILL_LEARN_REJECTED,
+		"gender rejection stops at valid_learn",
 	)
 	_assert_eq(
 		learn_result.skill_learn_policy_result.reason,
-		PolicyResultScript.Reason.GENDER_STATE_UNAVAILABLE,
+		PolicyResultScript.Reason.GENDER_MISMATCH,
 		"LearnResult preserves typed policy detail",
 	)
 	_assert_false(student.skills.has_raw_level(SkillIdsScript.TENDERZHI), "no raw-zero entry")
