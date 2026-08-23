@@ -14,7 +14,6 @@ const UnpracticeablePracticePolicyType := preload(
 static func create_fall_steps() -> VitalityInnerForcePracticePolicyType:
 	return VitalityInnerForcePracticePolicyType.new(
 		SkillIdsType.FALL_STEPS,
-		50,
 		30,
 		30,
 		3,

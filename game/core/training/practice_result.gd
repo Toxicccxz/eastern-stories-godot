@@ -7,6 +7,9 @@ const SkillImprovementResultType := preload(
 const SkillImprovementEffectResultType := preload(
 	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
 )
+const SkillLearnPolicyResultType := preload(
+	"res://core/learning/skill_learn_policy_result.gd"
+)
 
 enum FailureReason {
 	NONE,
@@ -18,6 +21,9 @@ enum FailureReason {
 	POLICY_SKILL_MISMATCH,
 	VALID_LEARN_REJECTED,
 	PRACTICE_HOOK_REJECTED,
+	LEARN_POLICY_NOT_AVAILABLE,
+	LEARN_POLICY_SKILL_MISMATCH,
+	VALID_LEARN_DEPENDENCY_UNAVAILABLE,
 }
 
 enum Completion {
@@ -41,6 +47,7 @@ var learned_before: int
 var learned_after: int
 var skill_improvement: SkillImprovementResultType
 var authored_effect: SkillImprovementEffectResultType
+var skill_learn_policy_result: SkillLearnPolicyResultType
 
 
 func _init(
@@ -58,6 +65,7 @@ func _init(
 	p_learned_after: int = 0,
 	p_skill_improvement: SkillImprovementResultType = null,
 	p_authored_effect: SkillImprovementEffectResultType = null,
+	p_skill_learn_policy_result: SkillLearnPolicyResultType = null,
 ) -> void:
 	success = p_success
 	failure_reason = p_failure_reason
@@ -73,3 +81,4 @@ func _init(
 	learned_after = p_learned_after
 	skill_improvement = p_skill_improvement
 	authored_effect = p_authored_effect
+	skill_learn_policy_result = p_skill_learn_policy_result

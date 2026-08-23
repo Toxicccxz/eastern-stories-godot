@@ -88,6 +88,9 @@ const SelfLearningServiceScript := preload("res://core/training/self_learning_se
 const PracticeSelfLearningTest := preload(
 	"res://tests/core/practice_self_learning_test.gd"
 )
+const ObservingPracticePolicyScript := preload(
+	"res://tests/support/observing_practice_policy.gd"
+)
 const SkillImprovementResultScript := preload(
 	"res://core/skills/skill_improvement_result.gd"
 )
@@ -222,6 +225,22 @@ const GenderLearnPoliciesTest := preload(
 const ItemDefinitionScript := preload("res://core/items/item_definition.gd")
 const ItemInstanceScript := preload("res://core/items/item_instance.gd")
 const ItemIdentityTest := preload("res://tests/core/item_identity_test.gd")
+const ContainmentEndpointScript := preload(
+	"res://core/inventory/containment_endpoint.gd"
+)
+const InventoryTransferDestinationScript := preload(
+	"res://core/inventory/inventory_transfer_destination.gd"
+)
+const InventoryTransferResultScript := preload(
+	"res://core/inventory/inventory_transfer_result.gd"
+)
+const InventoryStateScript := preload("res://core/inventory/inventory_state.gd")
+const InventoryTransferServiceScript := preload(
+	"res://core/inventory/inventory_transfer_service.gd"
+)
+const InventoryContainmentTransferTest := preload(
+	"res://tests/core/inventory_containment_transfer_test.gd"
+)
 
 
 func _init() -> void:
@@ -272,6 +291,7 @@ func _init() -> void:
 		SelfLearningResultScript,
 		SelfLearningServiceScript,
 		PracticeSelfLearningTest,
+		ObservingPracticePolicyScript,
 		SkillImprovementResultScript,
 		SkillImprovementEffectResultScript,
 		SkillImprovementEffectScript,
@@ -328,6 +348,12 @@ func _init() -> void:
 		ItemDefinitionScript,
 		ItemInstanceScript,
 		ItemIdentityTest,
+		ContainmentEndpointScript,
+		InventoryTransferDestinationScript,
+		InventoryTransferResultScript,
+		InventoryStateScript,
+		InventoryTransferServiceScript,
+		InventoryContainmentTransferTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -350,6 +376,9 @@ func _init() -> void:
 	)
 	var phase_4a4_result: Dictionary[String, Variant] = GenderLearnPoliciesTest.new().run_all()
 	var phase_4b1_result: Dictionary[String, Variant] = ItemIdentityTest.new().run_all()
+	var phase_4b2_result: Dictionary[String, Variant] = (
+		InventoryContainmentTransferTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -370,6 +399,8 @@ func _init() -> void:
 		phase_4a4_result["assertions"]
 	) + int(
 		phase_4b1_result["assertions"]
+	) + int(
+		phase_4b2_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -384,6 +415,7 @@ func _init() -> void:
 	failures.append_array(phase_4a2_result["failures"])
 	failures.append_array(phase_4a4_result["failures"])
 	failures.append_array(phase_4b1_result["failures"])
+	failures.append_array(phase_4b2_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

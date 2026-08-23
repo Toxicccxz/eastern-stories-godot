@@ -10,11 +10,6 @@ func _init(p_skill_id: StringName = &"") -> void:
 	skill_id = p_skill_id
 
 
-## Typed replacement for the selected skill daemon's valid_learn() hook.
-func valid_learn(_character: CharacterStateType) -> bool:
-	return true
-
-
 ## Typed replacement for practice_skill(). Implementations may mutate the
 ## character before returning, matching the LPC hook contract.
 func practice(_character: CharacterStateType) -> bool:

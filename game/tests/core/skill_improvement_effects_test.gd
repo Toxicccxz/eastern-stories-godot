@@ -18,6 +18,9 @@ const EffectRegistryScript := preload(
 const PracticePoliciesScript := preload("res://core/training/practice_policies.gd")
 const PracticeResultScript := preload("res://core/training/practice_result.gd")
 const PracticeServiceScript := preload("res://core/training/practice_service.gd")
+const SkillLearnPolicyRegistryScript := preload(
+	"res://core/learning/skill_learn_policy_registry.gd"
+)
 const SelfLearningResultScript := preload("res://core/training/self_learning_result.gd")
 const SelfLearningServiceScript := preload("res://core/training/self_learning_service.gd")
 
@@ -308,10 +311,13 @@ func _test_practice_level_up_without_authored_hook() -> void:
 	character.skills.map_skill(SkillIdsScript.DODGE, SkillIdsScript.FALL_STEPS)
 	character.recovery.inner_force.current = 10
 	character.recovery.inner_force.maximum = 50
+	var learn_policies: SkillLearnPolicyRegistryScript = SkillLearnPolicyRegistryScript.new()
+	learn_policies.register_known_legacy_policies()
 	var result: PracticeResultScript = PracticeServiceScript.practice(
 		character,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		learn_policies.policy_for(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_eq(result.completion, PracticeResultScript.Completion.LEVEL_INCREASED, "practice levels")

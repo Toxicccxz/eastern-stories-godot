@@ -11,6 +11,18 @@ const VitalityInnerForcePracticePolicyScript := preload(
 const PracticePoliciesScript := preload("res://core/training/practice_policies.gd")
 const PracticeResultScript := preload("res://core/training/practice_result.gd")
 const PracticeServiceScript := preload("res://core/training/practice_service.gd")
+const SkillLearnPolicyScript := preload("res://core/learning/skill_learn_policy.gd")
+const SkillLearnPolicyRegistryScript := preload(
+	"res://core/learning/skill_learn_policy_registry.gd"
+)
+const SkillLearnPolicyResultScript := preload(
+	"res://core/learning/skill_learn_policy_result.gd"
+)
+const EquippedWeaponRefScript := preload("res://core/equipment/equipped_weapon_ref.gd")
+const WeaponDefinitionScript := preload("res://core/equipment/weapon_definition.gd")
+const ObservingPracticePolicyScript := preload(
+	"res://tests/support/observing_practice_policy.gd"
+)
 const SelfLearningResultScript := preload("res://core/training/self_learning_result.gd")
 const SelfLearningServiceScript := preload("res://core/training/self_learning_service.gd")
 
@@ -22,6 +34,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_practice_normal_attempt()
 	_test_practice_validation_order_and_missing_skills()
 	_test_practice_valid_learn_requirement()
+	_test_practice_shared_valid_learn_order()
 	_test_practice_resource_boundaries()
 	_test_practice_no_progress_policy()
 	_test_practice_improvement_integer_division_boundaries()
@@ -51,6 +64,7 @@ func _test_practice_normal_attempt() -> void:
 		character,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	## practice.c: improvement = raw dodge 50 / 5 + 1 = 11.
@@ -70,6 +84,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 		unmapped,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		true,
 	)
 	_assert_failure(fighting, PracticeResultScript.FailureReason.IN_COMBAT, "practice combat first")
@@ -78,6 +93,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 		unmapped,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(no_mapping, PracticeResultScript.FailureReason.SKILL_NOT_MAPPED, "practice mapping")
@@ -87,6 +103,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 		missing_both,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(
@@ -100,6 +117,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 		missing_basic,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(
@@ -117,6 +135,7 @@ func _test_practice_valid_learn_requirement() -> void:
 		character,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(
@@ -126,6 +145,141 @@ func _test_practice_valid_learn_requirement() -> void:
 	)
 	_assert_practice_resources(character, 100, 10, "valid_learn failure no resource mutation")
 	_assert_eq(character.skills.learned_progress(SkillIdsScript.FALL_STEPS), 0, "valid_learn no learned")
+	_assert_eq(
+		result.skill_learn_policy_result.reason,
+		SkillLearnPolicyResultScript.Reason.MAXIMUM_INNER_FORCE_TOO_LOW,
+		"practice exposes shared fall-steps valid_learn reason",
+	)
+
+
+func _test_practice_shared_valid_learn_order() -> void:
+	var gender_blocked: CharacterStateScript = _mapped_practice_character(
+		SkillIdsScript.DODGE,
+		SkillIdsScript.STORMDANCE,
+		50,
+		20,
+	)
+	gender_blocked.gender = CharacterStateScript.GENDER_MALE
+	gender_blocked.attributes.spirituality = 20
+	var gender_hook: ObservingPracticePolicyScript = ObservingPracticePolicyScript.new(
+		SkillIdsScript.STORMDANCE,
+		true,
+	)
+	var gender_result: PracticeResultScript = PracticeServiceScript.practice(
+		gender_blocked,
+		SkillIdsScript.DODGE,
+		gender_hook,
+		_learn_policy(SkillIdsScript.STORMDANCE),
+		false,
+	)
+	_assert_failure(
+		gender_result,
+		PracticeResultScript.FailureReason.VALID_LEARN_REJECTED,
+		"practice shared gender valid_learn",
+	)
+	_assert_eq(
+		gender_result.skill_learn_policy_result.reason,
+		SkillLearnPolicyResultScript.Reason.GENDER_MISMATCH,
+		"practice keeps authored gender rejection",
+	)
+	_assert_eq(gender_hook.practice_call_count, 0, "gender rejection precedes practice_skill")
+	_assert_eq(
+		gender_blocked.skills.learned_progress(SkillIdsScript.STORMDANCE),
+		0,
+		"gender rejection does not improve skill",
+	)
+
+	var equipment_blocked: CharacterStateScript = _mapped_practice_character(
+		SkillIdsScript.UNARMED,
+		SkillIdsScript.BLOODY_STRIKE,
+		50,
+		20,
+	)
+	var blocking_weapon: EquippedWeaponRefScript = EquippedWeaponRefScript.new(
+		&"weapon:practice_blocker",
+		WeaponDefinitionScript.new(
+			&"definition:practice_blocker",
+			SkillIdsScript.SWORD,
+		),
+	)
+	equipment_blocked.equipment.wield(blocking_weapon, false)
+	var equipment_hook: ObservingPracticePolicyScript = ObservingPracticePolicyScript.new(
+		SkillIdsScript.BLOODY_STRIKE,
+		true,
+	)
+	var equipment_result: PracticeResultScript = PracticeServiceScript.practice(
+		equipment_blocked,
+		SkillIdsScript.UNARMED,
+		equipment_hook,
+		_learn_policy(SkillIdsScript.BLOODY_STRIKE),
+		false,
+	)
+	_assert_failure(
+		equipment_result,
+		PracticeResultScript.FailureReason.VALID_LEARN_REJECTED,
+		"practice shared equipment valid_learn",
+	)
+	_assert_eq(
+		equipment_result.skill_learn_policy_result.reason,
+		SkillLearnPolicyResultScript.Reason.WEAPON_REFERENCES_NOT_EMPTY,
+		"practice keeps authored equipment rejection",
+	)
+	_assert_eq(equipment_hook.practice_call_count, 0, "equipment rejection precedes practice_skill")
+	_assert_eq(
+		equipment_blocked.skills.learned_progress(SkillIdsScript.BLOODY_STRIKE),
+		0,
+		"equipment rejection does not improve skill",
+	)
+
+	equipment_blocked.equipment.unwield(blocking_weapon.instance_id)
+	var allowed_result: PracticeResultScript = PracticeServiceScript.practice(
+		equipment_blocked,
+		SkillIdsScript.UNARMED,
+		equipment_hook,
+		_learn_policy(SkillIdsScript.BLOODY_STRIKE),
+		false,
+	)
+	_assert_true(allowed_result.success, "allowed shared valid_learn reaches practice_skill")
+	_assert_eq(equipment_hook.practice_call_count, 1, "allowed path invokes practice_skill once")
+	_assert_eq(
+		allowed_result.skill_learn_policy_result.status,
+		SkillLearnPolicyResultScript.Status.ALLOWED,
+		"allowed practice exposes shared valid_learn result",
+	)
+
+	var hook_rejected: CharacterStateScript = _mapped_practice_character(
+		SkillIdsScript.UNARMED,
+		SkillIdsScript.BLOODY_STRIKE,
+		50,
+		20,
+	)
+	var rejecting_hook: ObservingPracticePolicyScript = ObservingPracticePolicyScript.new(
+		SkillIdsScript.BLOODY_STRIKE,
+		false,
+	)
+	var hook_result: PracticeResultScript = PracticeServiceScript.practice(
+		hook_rejected,
+		SkillIdsScript.UNARMED,
+		rejecting_hook,
+		_learn_policy(SkillIdsScript.BLOODY_STRIKE),
+		false,
+	)
+	_assert_failure(
+		hook_result,
+		PracticeResultScript.FailureReason.PRACTICE_HOOK_REJECTED,
+		"practice_skill remains separate after allowed valid_learn",
+	)
+	_assert_eq(rejecting_hook.practice_call_count, 1, "practice_skill rejection hook invoked once")
+	_assert_eq(
+		hook_result.skill_learn_policy_result.status,
+		SkillLearnPolicyResultScript.Status.ALLOWED,
+		"practice_skill rejection follows allowed valid_learn",
+	)
+	_assert_eq(
+		hook_rejected.skills.learned_progress(SkillIdsScript.BLOODY_STRIKE),
+		0,
+		"practice_skill rejection does not improve skill",
+	)
 
 
 func _test_practice_resource_boundaries() -> void:
@@ -135,6 +289,7 @@ func _test_practice_resource_boundaries() -> void:
 		low_vitality,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(
@@ -151,6 +306,7 @@ func _test_practice_resource_boundaries() -> void:
 		low_force,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(
@@ -167,6 +323,7 @@ func _test_practice_resource_boundaries() -> void:
 		exact,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_true(exact_result.success, "fall-steps exact resources succeed")
@@ -182,6 +339,7 @@ func _test_practice_no_progress_policy() -> void:
 		character,
 		SkillIdsScript.FORCE,
 		PracticePoliciesScript.create_fonxan_force(),
+		_learn_policy(SkillIdsScript.FONXAN_FORCE),
 		false,
 	)
 	_assert_failure(
@@ -207,6 +365,7 @@ func _test_practice_improvement_integer_division_boundaries() -> void:
 			character,
 			SkillIdsScript.DODGE,
 			PracticePoliciesScript.create_fall_steps(),
+			_learn_policy(SkillIdsScript.FALL_STEPS),
 			false,
 		)
 		## practice.c: amount is raw basic / 5 + 1 with integer division.
@@ -223,6 +382,7 @@ func _test_practice_exact_level_threshold_and_level_up() -> void:
 		below,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	## amount 3 leaves learned at 3, one below (1 + 1)^2 == 4.
@@ -236,6 +396,7 @@ func _test_practice_exact_level_threshold_and_level_up() -> void:
 		exact,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	## amount 10 / 5 + 1 = 3; learned 1 + 3 == (1 + 1)^2 == 4.
@@ -250,6 +411,7 @@ func _test_practice_exact_level_threshold_and_level_up() -> void:
 		level_up,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_eq(level_result.completion, PracticeResultScript.Completion.LEVEL_INCREASED, "practice levels")
@@ -265,6 +427,7 @@ func _test_practice_weak_player_semantics() -> void:
 		character,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 		true,
 	)
@@ -285,7 +448,10 @@ func _test_practice_policy_and_state_isolation() -> void:
 	first_policy.required_vitality = 99
 	_assert_eq(second_policy.required_vitality, 30, "practice policies independent")
 	_assert_eq(first_policy.skill_id, SkillIdsScript.FALL_STEPS, "policy lookup stable ID")
-	_assert_eq(second_policy.minimum_maximum_inner_force, 50, "policy lookup stable max force")
+	_assert_false(
+		_has_property(second_policy, &"minimum_maximum_inner_force"),
+		"practice_skill policy does not duplicate valid_learn max_force",
+	)
 	_assert_eq(second_policy.vitality_cost, 30, "policy lookup stable kee cost")
 	_assert_eq(second_policy.inner_force_cost, 3, "policy lookup stable force cost")
 
@@ -295,6 +461,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 		first,
 		SkillIdsScript.DODGE,
 		second_policy,
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_practice_resources(second, 100, 10, "second practice state unchanged")
@@ -302,6 +469,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 		second,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_true(first_result != second_result, "practice results independent")
@@ -310,6 +478,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 		_practice_character(50, 20),
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fonxan_force(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_failure(
@@ -325,6 +494,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 		validation_failure,
 		SkillIdsScript.DODGE,
 		PracticePoliciesScript.create_fall_steps(),
+		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
 	_assert_eq(
@@ -683,13 +853,34 @@ func _base_character() -> CharacterStateScript:
 
 
 func _practice_character(basic_level: int, special_level: int) -> CharacterStateScript:
-	var character: CharacterStateScript = _base_character()
-	character.skills.set_raw_level(SkillIdsScript.DODGE, basic_level)
-	character.skills.set_raw_level(SkillIdsScript.FALL_STEPS, special_level)
-	character.skills.map_skill(SkillIdsScript.DODGE, SkillIdsScript.FALL_STEPS)
+	var character: CharacterStateScript = _mapped_practice_character(
+		SkillIdsScript.DODGE,
+		SkillIdsScript.FALL_STEPS,
+		basic_level,
+		special_level,
+	)
 	character.recovery.inner_force.current = 10
 	character.recovery.inner_force.maximum = 50
 	return character
+
+
+func _mapped_practice_character(
+	basic_skill_id: StringName,
+	special_skill_id: StringName,
+	basic_level: int,
+	special_level: int,
+) -> CharacterStateScript:
+	var character: CharacterStateScript = _base_character()
+	character.skills.set_raw_level(basic_skill_id, basic_level)
+	character.skills.set_raw_level(special_skill_id, special_level)
+	character.skills.map_skill(basic_skill_id, special_skill_id)
+	return character
+
+
+func _learn_policy(skill_id: StringName) -> SkillLearnPolicyScript:
+	var registry: SkillLearnPolicyRegistryScript = SkillLearnPolicyRegistryScript.new()
+	registry.register_known_legacy_policies()
+	return registry.policy_for(skill_id)
 
 
 func _self_learning_character(
@@ -815,3 +1006,10 @@ func _assert_eq(actual: Variant, expected: Variant, label: String) -> void:
 	_assertion_count += 1
 	if actual != expected:
 		_failures.append("%s: expected %s, got %s" % [label, str(expected), str(actual)])
+
+
+func _has_property(value: Object, property_name: StringName) -> bool:
+	for property: Dictionary in value.get_property_list():
+		if StringName(property["name"]) == property_name:
+			return true
+	return false
