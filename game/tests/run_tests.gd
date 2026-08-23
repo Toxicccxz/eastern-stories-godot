@@ -219,6 +219,9 @@ const EquipmentSkillLearnPoliciesTest := preload(
 const GenderLearnPoliciesTest := preload(
 	"res://tests/core/gender_learn_policies_test.gd"
 )
+const ItemDefinitionScript := preload("res://core/items/item_definition.gd")
+const ItemInstanceScript := preload("res://core/items/item_instance.gd")
+const ItemIdentityTest := preload("res://tests/core/item_identity_test.gd")
 
 
 func _init() -> void:
@@ -322,10 +325,13 @@ func _init() -> void:
 		EquipmentStateTest,
 		EquipmentSkillLearnPoliciesTest,
 		GenderLearnPoliciesTest,
+		ItemDefinitionScript,
+		ItemInstanceScript,
+		ItemIdentityTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
-			printerr("FAIL: character domain script cannot be instantiated: %s" % script.resource_path)
+			printerr("FAIL: domain script cannot be instantiated: %s" % script.resource_path)
 			quit(1)
 			return
 
@@ -343,6 +349,7 @@ func _init() -> void:
 		EquipmentSkillLearnPoliciesTest.new().run_all()
 	)
 	var phase_4a4_result: Dictionary[String, Variant] = GenderLearnPoliciesTest.new().run_all()
+	var phase_4b1_result: Dictionary[String, Variant] = ItemIdentityTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -361,6 +368,8 @@ func _init() -> void:
 		phase_4a2_result["assertions"]
 	) + int(
 		phase_4a4_result["assertions"]
+	) + int(
+		phase_4b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -374,6 +383,7 @@ func _init() -> void:
 	failures.append_array(phase_4a1_result["failures"])
 	failures.append_array(phase_4a2_result["failures"])
 	failures.append_array(phase_4a4_result["failures"])
+	failures.append_array(phase_4b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
