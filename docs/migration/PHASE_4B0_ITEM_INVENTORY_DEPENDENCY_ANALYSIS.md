@@ -684,7 +684,9 @@ environment（新clone通常是null environment）。`autoload()`本身也没有
 
 未来 native save 应保存 typed ItemInstance DTO、递归 containment graph和 equipment instance IDs；
 autoload只应作为旧存档导入/特殊持久化 policy的证据。不能继续保存可执行 LPC path + 任意
-colon string。该格式还无法稳健处理参数自身含冒号。
+colon string。`doc/efuns/sscanf` 证明 `%s:%s` 以第一个 literal colon 分开，第二个 `%s` 接收
+剩余字符串，因此参数中的后续冒号会原样保留；该格式的问题是依赖可执行 LPC path 与无类型
+parameter，而不是无法解析参数内的冒号。
 
 通用装备状态没有被序列化或恢复。money只恢复amount；bandage是唯一确认在自己的autoload中
 调用base `wear()`恢复worn状态的物品。其他weapon/armor没有generic slot reconstruction。
