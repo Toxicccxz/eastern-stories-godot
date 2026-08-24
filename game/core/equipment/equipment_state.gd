@@ -45,6 +45,31 @@ func has_weapon_instance(instance_id: StringName) -> bool:
 	)
 
 
+## Narrow trusted reconstruction seam for a fresh EquipmentState. The native
+## restorer fully validates ownership and definition projections first. This
+## preserves source-reachable shapes such as secondary-only without replaying
+## wield() eligibility or slot-order side effects.
+func _restore_weapons(
+	primary: EquippedWeaponRefType,
+	secondary: EquippedWeaponRefType,
+) -> bool:
+	if not are_both_hands_empty():
+		return false
+	if primary != null and not primary.is_valid():
+		return false
+	if secondary != null and not secondary.is_valid():
+		return false
+	if (
+		primary != null
+		and secondary != null
+		and primary.instance_id == secondary.instance_id
+	):
+		return false
+	_primary_weapon = null if primary == null else primary.duplicate_snapshot()
+	_secondary_weapon = null if secondary == null else secondary.duplicate_snapshot()
+	return true
+
+
 ## Deterministic translation of feature/equip.c::wield(). shield_equipped is a
 ## narrow attempt-time projection of owner query_temp("armor/shield"); Phase
 ## 4A1 deliberately does not create an armor collection.

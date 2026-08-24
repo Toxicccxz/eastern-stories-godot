@@ -1,0 +1,68 @@
+class_name NativeItemStateValidationResult
+extends RefCounted
+
+enum Outcome {
+	SUCCESS,
+	INVALID_SNAPSHOT,
+	INVALID_SCHEMA_VERSION,
+	INVALID_DEFINITION_PROJECTIONS,
+	MALFORMED_ITEM_RECORD,
+	DUPLICATE_ITEM_INSTANCE_ID,
+	UNKNOWN_ITEM_DEFINITION,
+	INVALID_PARENT_ENDPOINT,
+	MISSING_PARENT_ITEM,
+	CONTAINMENT_CYCLE,
+	MALFORMED_STACK_RECORD,
+	MISSING_STACK_ITEM,
+	NON_STACK_DEFINITION,
+	NEGATIVE_STACK_AMOUNT,
+	DUPLICATE_STACK_RECORD,
+	MISSING_STACK_STATE,
+	MALFORMED_EQUIPMENT_RECORD,
+	DUPLICATE_EQUIPMENT_CHARACTER,
+	MISSING_EQUIPMENT_ITEM,
+	EQUIPMENT_ITEM_NOT_DIRECT,
+	EQUIPMENT_DEFINITION_MISMATCH,
+	DUPLICATE_HAND_INSTANCE,
+	MALFORMED_ARMOR_RECORD,
+	DUPLICATE_ARMOR_CHARACTER,
+	INVALID_ARMOR_SLOT,
+	DUPLICATE_ARMOR_SLOT,
+	MISSING_ARMOR_ITEM,
+	ARMOR_ITEM_NOT_DIRECT,
+	ARMOR_DEFINITION_MISMATCH,
+	ARMOR_SLOT_MISMATCH,
+	DUPLICATE_ARMOR_INSTANCE,
+	HAND_ARMOR_INSTANCE_CONFLICT,
+	ITEM_INSTANCE_NOT_REGISTERED,
+	UNREPRESENTED_REGISTERED_ITEM,
+	ORPHAN_STACK_STATE,
+	RECONSTRUCTION_FAILED,
+}
+
+var _outcome: int
+var _subject_id: StringName
+var _related_id: StringName
+
+var outcome: int:
+	get:
+		return _outcome
+var succeeded: bool:
+	get:
+		return _outcome == Outcome.SUCCESS
+var subject_id: StringName:
+	get:
+		return _subject_id
+var related_id: StringName:
+	get:
+		return _related_id
+
+
+func _init(
+	p_outcome: int = Outcome.SUCCESS,
+	p_subject_id: StringName = &"",
+	p_related_id: StringName = &"",
+) -> void:
+	_outcome = p_outcome
+	_subject_id = p_subject_id
+	_related_id = p_related_id

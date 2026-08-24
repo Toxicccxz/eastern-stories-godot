@@ -54,6 +54,27 @@ func occupied_slots() -> Array[StringName]:
 	return result
 
 
+## Narrow trusted reconstruction seam for a fresh ArmorState. The native
+## restorer supplies fully prevalidated refs rebuilt from current immutable
+## definitions; no command eligibility or authored wear hook is replayed.
+func _restore_equipped_refs(references: Array[EquippedArmorRef]) -> bool:
+	if not _equipped_by_slot.is_empty():
+		return false
+	var restored: Dictionary[StringName, EquippedArmorRef] = {}
+	var instance_ids: Dictionary[StringName, bool] = {}
+	for reference: EquippedArmorRefType in references:
+		if reference == null or not reference.is_valid():
+			return false
+		if restored.has(reference.armor_type):
+			return false
+		if instance_ids.has(reference.item_instance_id):
+			return false
+		restored[reference.armor_type] = reference.duplicate_snapshot()
+		instance_ids[reference.item_instance_id] = true
+	_equipped_by_slot = restored
+	return true
+
+
 ## Internal transition seam used by ArmorService after direct-ownership and
 ## definition checks. The leading underscore prevents callers from treating
 ## ArmorState as an authorization boundary.

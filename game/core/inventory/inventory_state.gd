@@ -33,6 +33,13 @@ func is_registered(item_instance_id: StringName) -> bool:
 	return item_instance_id != &"" and _own_weights.has(item_instance_id)
 
 
+func registered_item_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(_own_weights.keys())
+	result.sort_custom(_string_name_less_than)
+	return result
+
+
 func update_own_weight(item_instance_id: StringName, own_weight: int) -> bool:
 	if not is_registered(item_instance_id):
 		return false
@@ -173,9 +180,10 @@ func validate_reparent(
 	return ReparentValidation.VALID
 
 
-## Internal transition seam used by InventoryTransferService. The leading
-## underscore is intentional: callers should not bypass ordered transfer. The
-## graph invariants are still revalidated here before mutation.
+## Internal transition/reconstruction seam. InventoryTransferService uses it
+## after gameplay validation; the native save restorer uses it only after full
+## snapshot prevalidation on a fresh aggregate. Core graph invariants are
+## always revalidated here before mutation.
 func _apply_reparent(
 	item_instance_id: StringName,
 	destination: ContainmentEndpointType,

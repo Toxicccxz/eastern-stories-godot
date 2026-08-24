@@ -279,6 +279,57 @@ const ArmorTransitionResultScript := preload(
 const ArmorStateScript := preload("res://core/armor/armor_state.gd")
 const ArmorServiceScript := preload("res://core/armor/armor_service.gd")
 const ArmorFoundationTest := preload("res://tests/core/armor_foundation_test.gd")
+const NativeItemRecordScript := preload(
+	"res://core/persistence/native_item_record.gd"
+)
+const NativeCombinedStackRecordScript := preload(
+	"res://core/persistence/native_combined_stack_record.gd"
+)
+const NativeCharacterEquipmentRecordScript := preload(
+	"res://core/persistence/native_character_equipment_record.gd"
+)
+const NativeArmorSlotRecordScript := preload(
+	"res://core/persistence/native_armor_slot_record.gd"
+)
+const NativeCharacterArmorRecordScript := preload(
+	"res://core/persistence/native_character_armor_record.gd"
+)
+const NativeItemStateSnapshotScript := preload(
+	"res://core/persistence/native_item_state_snapshot.gd"
+)
+const NativeItemDefinitionProjectionsScript := preload(
+	"res://core/persistence/native_item_definition_projections.gd"
+)
+const NativeCharacterEquipmentSourceScript := preload(
+	"res://core/persistence/native_character_equipment_source.gd"
+)
+const NativeCharacterArmorSourceScript := preload(
+	"res://core/persistence/native_character_armor_source.gd"
+)
+const NativeItemStateValidationResultScript := preload(
+	"res://core/persistence/native_item_state_validation_result.gd"
+)
+const NativeItemStateValidatorScript := preload(
+	"res://core/persistence/native_item_state_validator.gd"
+)
+const NativeItemSnapshotCaptureResultScript := preload(
+	"res://core/persistence/native_item_snapshot_capture_result.gd"
+)
+const NativeItemStateCaptureScript := preload(
+	"res://core/persistence/native_item_state_capture.gd"
+)
+const NativeItemDomainStateScript := preload(
+	"res://core/persistence/native_item_domain_state.gd"
+)
+const NativeItemStateRestoreResultScript := preload(
+	"res://core/persistence/native_item_state_restore_result.gd"
+)
+const NativeItemStateRestorerScript := preload(
+	"res://core/persistence/native_item_state_restorer.gd"
+)
+const NativeItemSaveRestoreTest := preload(
+	"res://tests/core/native_item_save_restore_test.gd"
+)
 
 
 func _init() -> void:
@@ -408,6 +459,23 @@ func _init() -> void:
 		ArmorStateScript,
 		ArmorServiceScript,
 		ArmorFoundationTest,
+		NativeItemRecordScript,
+		NativeCombinedStackRecordScript,
+		NativeCharacterEquipmentRecordScript,
+		NativeArmorSlotRecordScript,
+		NativeCharacterArmorRecordScript,
+		NativeItemStateSnapshotScript,
+		NativeItemDefinitionProjectionsScript,
+		NativeCharacterEquipmentSourceScript,
+		NativeCharacterArmorSourceScript,
+		NativeItemStateValidationResultScript,
+		NativeItemStateValidatorScript,
+		NativeItemSnapshotCaptureResultScript,
+		NativeItemStateCaptureScript,
+		NativeItemDomainStateScript,
+		NativeItemStateRestoreResultScript,
+		NativeItemStateRestorerScript,
+		NativeItemSaveRestoreTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -437,6 +505,9 @@ func _init() -> void:
 		CombinedStackCurrencyTest.new().run_all()
 	)
 	var phase_4b4_result: Dictionary[String, Variant] = ArmorFoundationTest.new().run_all()
+	var phase_4b5a_result: Dictionary[String, Variant] = (
+		NativeItemSaveRestoreTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -463,6 +534,8 @@ func _init() -> void:
 		phase_4b3_result["assertions"]
 	) + int(
 		phase_4b4_result["assertions"]
+	) + int(
+		phase_4b5a_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -480,6 +553,7 @@ func _init() -> void:
 	failures.append_array(phase_4b2_result["failures"])
 	failures.append_array(phase_4b3_result["failures"])
 	failures.append_array(phase_4b4_result["failures"])
+	failures.append_array(phase_4b5a_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

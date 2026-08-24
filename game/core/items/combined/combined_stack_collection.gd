@@ -52,6 +52,13 @@ func registered_count() -> int:
 	return _states.size()
 
 
+func stack_instance_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(_states.keys())
+	result.sort_custom(_string_name_less_than)
+	return result
+
+
 func _register_stack(
 	state: StackStateType,
 	definition: StackDefinitionType,
@@ -94,3 +101,7 @@ func _remove_stack(item_instance_id: StringName) -> bool:
 	_states.erase(item_instance_id)
 	_definitions.erase(item_instance_id)
 	return true
+
+
+func _string_name_less_than(left: StringName, right: StringName) -> bool:
+	return String(left) < String(right)
