@@ -186,5 +186,23 @@ func _apply_reparent(
 	return true
 
 
+## Narrow internal lifecycle seam for an already-validated leaf instance.
+## Phase 4B3 uses this only when combined.c immediately destructs an absorbed
+## sibling stack. Full item destruction and contained-child handling remain
+## outside InventoryState.
+func _remove_registered_leaf(item_instance_id: StringName) -> bool:
+	if not is_registered(item_instance_id):
+		return false
+	var item_endpoint: ContainmentEndpointType = ContainmentEndpointType.new(
+		ContainmentEndpointType.Kind.ITEM,
+		item_instance_id,
+	)
+	if not direct_children(item_endpoint).is_empty():
+		return false
+	_direct_parents.erase(item_instance_id)
+	_own_weights.erase(item_instance_id)
+	return true
+
+
 func _string_name_less_than(left: StringName, right: StringName) -> bool:
 	return String(left) < String(right)
