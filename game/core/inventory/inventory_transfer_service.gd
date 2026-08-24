@@ -1,6 +1,10 @@
 class_name InventoryTransferService
 extends RefCounted
 
+const ArmorStateType := preload("res://core/armor/armor_state.gd")
+const ArmorTransitionResultType := preload(
+	"res://core/armor/armor_transition_result.gd"
+)
 const ContainmentEndpointType := preload(
 	"res://core/inventory/containment_endpoint.gd"
 )
@@ -18,12 +22,14 @@ const TransferResultType := preload(
 
 
 ## direct_owner_equipment, when supplied, must be the EquipmentState belonging
-## to the item's current direct CHARACTER parent. Nested items never consult it.
+## to the item's current direct CHARACTER parent. direct_owner_armor follows
+## the same boundary. Nested items never consult either aggregate.
 func transfer(
 	inventory: InventoryStateType,
 	item_instance_id: StringName,
 	destination: TransferDestinationType,
 	direct_owner_equipment: EquipmentStateType = null,
+	direct_owner_armor: ArmorStateType = null,
 ) -> TransferResultType:
 	if item_instance_id == &"":
 		return _result(
@@ -44,7 +50,8 @@ func transfer(
 
 	var previous_parent: ContainmentEndpointType = inventory.direct_parent(item_instance_id)
 	var previous_root: ContainmentEndpointType = inventory.root_holder(item_instance_id)
-	var equipment_detached: bool = false
+	var weapon_detached: bool = false
+	var armor_detached: bool = false
 
 	## feature/move.c calls unequip() before resolving or validating dest.
 	if (
@@ -69,7 +76,35 @@ func transfer(
 				previous_root,
 				inventory.root_holder(item_instance_id),
 			)
-		equipment_detached = detach_result.changed
+		weapon_detached = detach_result.changed
+
+	## The same LPC equipped marker represents worn armor. Native keeps hand and
+	## armor authorities separate, so the orchestrator invokes the ArmorState
+	## transition rather than editing its slot map.
+	if (
+		direct_owner_armor != null
+		and previous_parent != null
+		and previous_parent.kind == ContainmentEndpointType.Kind.CHARACTER
+		and direct_owner_armor.is_worn(item_instance_id)
+	):
+		var armor_remove: ArmorTransitionResultType = direct_owner_armor.remove(
+			item_instance_id
+		)
+		if not armor_remove.succeeded:
+			return _snapshot_result(
+				TransferResultType.Outcome.ARMOR_DETACH_FAILED,
+				false,
+				item_instance_id,
+				previous_parent,
+				_destination_endpoint(destination),
+				inventory.direct_parent(item_instance_id),
+				weapon_detached,
+				false,
+				previous_root,
+				inventory.root_holder(item_instance_id),
+				false,
+			)
+		armor_detached = armor_remove.changed
 
 	var requested_parent: ContainmentEndpointType = _destination_endpoint(destination)
 	if destination == null or requested_parent == null or not requested_parent.is_valid():
@@ -80,7 +115,8 @@ func transfer(
 			previous_parent,
 			requested_parent,
 			previous_root,
-			equipment_detached,
+			weapon_detached,
+			armor_detached,
 		)
 	if not destination.is_available:
 		return _failed_after_detach(
@@ -90,7 +126,8 @@ func transfer(
 			previous_parent,
 			requested_parent,
 			previous_root,
-			equipment_detached,
+			weapon_detached,
+			armor_detached,
 		)
 	if not destination.is_containment_capable:
 		return _failed_after_detach(
@@ -100,7 +137,8 @@ func transfer(
 			previous_parent,
 			requested_parent,
 			previous_root,
-			equipment_detached,
+			weapon_detached,
+			armor_detached,
 		)
 
 	var validation: int = inventory.validate_reparent(item_instance_id, requested_parent)
@@ -112,7 +150,8 @@ func transfer(
 			previous_parent,
 			requested_parent,
 			previous_root,
-			equipment_detached,
+			weapon_detached,
+			armor_detached,
 		)
 	if validation != InventoryStateType.ReparentValidation.VALID:
 		return _failed_after_detach(
@@ -122,7 +161,8 @@ func transfer(
 			previous_parent,
 			requested_parent,
 			previous_root,
-			equipment_detached,
+			weapon_detached,
+			armor_detached,
 		)
 
 	## If dest is already in the moving item's ancestry, its subtree weight is
@@ -140,7 +180,8 @@ func transfer(
 				previous_parent,
 				requested_parent,
 				previous_root,
-				equipment_detached,
+				weapon_detached,
+				armor_detached,
 			)
 
 	var containment_changed: bool = (
@@ -154,7 +195,8 @@ func transfer(
 			previous_parent,
 			requested_parent,
 			previous_root,
-			equipment_detached,
+			weapon_detached,
+			armor_detached,
 		)
 
 	return _snapshot_result(
@@ -168,10 +210,11 @@ func transfer(
 		previous_parent,
 		requested_parent,
 		inventory.direct_parent(item_instance_id),
-		equipment_detached,
+		weapon_detached,
 		containment_changed,
 		previous_root,
 		inventory.root_holder(item_instance_id),
+		armor_detached,
 	)
 
 
@@ -209,7 +252,8 @@ func _failed_after_detach(
 	previous_parent: ContainmentEndpointType,
 	requested_parent: ContainmentEndpointType,
 	previous_root: ContainmentEndpointType,
-	equipment_detached: bool,
+	weapon_detached: bool,
+	armor_detached: bool,
 ) -> TransferResultType:
 	return _snapshot_result(
 		outcome,
@@ -218,10 +262,11 @@ func _failed_after_detach(
 		previous_parent,
 		requested_parent,
 		inventory.direct_parent(item_instance_id),
-		equipment_detached,
+		weapon_detached,
 		false,
 		previous_root,
 		inventory.root_holder(item_instance_id),
+		armor_detached,
 	)
 
 
@@ -232,10 +277,11 @@ func _snapshot_result(
 	previous_parent: ContainmentEndpointType,
 	requested_parent: ContainmentEndpointType,
 	resulting_parent: ContainmentEndpointType,
-	equipment_detached: bool,
+	weapon_detached: bool,
 	containment_changed: bool,
 	previous_root: ContainmentEndpointType,
 	resulting_root: ContainmentEndpointType,
+	armor_detached: bool = false,
 ) -> TransferResultType:
 	return TransferResultType.new(
 		outcome,
@@ -244,10 +290,11 @@ func _snapshot_result(
 		previous_parent,
 		requested_parent,
 		resulting_parent,
-		equipment_detached,
+		weapon_detached,
 		containment_changed,
 		previous_root,
 		resulting_root,
+		armor_detached,
 	)
 
 

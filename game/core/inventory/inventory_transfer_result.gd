@@ -16,6 +16,7 @@ enum Outcome {
 	CONTAINMENT_CYCLE,
 	CAPACITY_EXCEEDED,
 	EQUIPMENT_DETACH_FAILED,
+	ARMOR_DETACH_FAILED,
 	CONTAINMENT_MUTATION_FAILED,
 }
 
@@ -25,7 +26,8 @@ var _item_instance_id: StringName
 var _previous_parent: ContainmentEndpointType
 var _requested_parent: ContainmentEndpointType
 var _resulting_parent: ContainmentEndpointType
-var _equipment_detached: bool
+var _weapon_detached: bool
+var _armor_detached: bool
 var _containment_changed: bool
 var _previous_root_holder: ContainmentEndpointType
 var _resulting_root_holder: ContainmentEndpointType
@@ -56,7 +58,16 @@ var resulting_parent: ContainmentEndpointType:
 
 var equipment_detached: bool:
 	get:
-		return _equipment_detached
+		return _weapon_detached or _armor_detached
+
+## Backward-compatible, now explicit hand-equipment evidence.
+var weapon_detached: bool:
+	get:
+		return _weapon_detached
+
+var armor_detached: bool:
+	get:
+		return _armor_detached
 
 var containment_changed: bool:
 	get:
@@ -78,10 +89,11 @@ func _init(
 	p_previous_parent: ContainmentEndpointType = null,
 	p_requested_parent: ContainmentEndpointType = null,
 	p_resulting_parent: ContainmentEndpointType = null,
-	p_equipment_detached: bool = false,
+	p_weapon_detached: bool = false,
 	p_containment_changed: bool = false,
 	p_previous_root_holder: ContainmentEndpointType = null,
 	p_resulting_root_holder: ContainmentEndpointType = null,
+	p_armor_detached: bool = false,
 ) -> void:
 	_outcome = p_outcome
 	_succeeded = p_succeeded
@@ -89,7 +101,8 @@ func _init(
 	_previous_parent = _copy_endpoint(p_previous_parent)
 	_requested_parent = _copy_endpoint(p_requested_parent)
 	_resulting_parent = _copy_endpoint(p_resulting_parent)
-	_equipment_detached = p_equipment_detached
+	_weapon_detached = p_weapon_detached
+	_armor_detached = p_armor_detached
 	_containment_changed = p_containment_changed
 	_previous_root_holder = _copy_endpoint(p_previous_root_holder)
 	_resulting_root_holder = _copy_endpoint(p_resulting_root_holder)
