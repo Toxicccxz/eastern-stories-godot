@@ -37,6 +37,10 @@ const TransferServiceScript := preload(
 	"res://core/inventory/inventory_transfer_service.gd"
 )
 const EquipmentStateScript := preload("res://core/equipment/equipment_state.gd")
+const ArmorStateScript := preload("res://core/armor/armor_state.gd")
+const OwnerContextScript := preload(
+	"res://core/items/lifecycle/item_lifecycle_owner_context.gd"
+)
 const EquippedWeaponRefScript := preload("res://core/equipment/equipped_weapon_ref.gd")
 const WeaponDefinitionScript := preload("res://core/equipment/weapon_definition.gd")
 const SkillIdsScript := preload("res://core/skills/skill_ids.gd")
@@ -112,7 +116,8 @@ func _test_definition_state_and_initial_zero() -> void:
 		raw_move_item.item_instance_id,
 		_destination(character),
 		null,
-		EquipmentStateScript.new(),
+		null,
+		_owner_context(character.endpoint_id),
 	)
 	_assert_eq(living_move.outcome, MergeResultScript.Outcome.MOVED_NO_COMPATIBLE_STACK, "raw zero still completes living move")
 	_assert_eq(living_move.lifecycle_action, AmountResultScript.LifecycleAction.DELAYED_DESTRUCTION, "living move calls set_amount zero")
@@ -375,7 +380,8 @@ func _test_character_merge_survivor_weight_and_multiple_siblings() -> void:
 		&"stack:moved",
 		_destination(character),
 		null,
-		EquipmentStateScript.new(),
+		null,
+		_owner_context(character.endpoint_id),
 	)
 	_assert_eq(result.outcome, MergeResultScript.Outcome.MERGED, "character move merges")
 	_assert_true(result.succeeded, "merge succeeds")
@@ -453,7 +459,8 @@ func _test_merge_destination_direct_only_and_incompatible() -> void:
 		&"stack:moving",
 		_destination(character),
 		null,
-		EquipmentStateScript.new(),
+		null,
+		_owner_context(character.endpoint_id),
 	)
 	_assert_eq(direct_result.outcome, MergeResultScript.Outcome.MOVED_NO_COMPATIBLE_STACK, "nested compatible stack is ignored")
 	_assert_eq(direct_stacks.stack_state(&"stack:moving").amount, 2, "direct moved stack unchanged")
@@ -471,7 +478,8 @@ func _test_merge_destination_direct_only_and_incompatible() -> void:
 		&"stack:second_moved",
 		_destination(character),
 		null,
-		EquipmentStateScript.new(),
+		null,
+		_owner_context(character.endpoint_id),
 	)
 	_assert_eq(incompatible_result.outcome, MergeResultScript.Outcome.MERGED, "second moved merges only exact compatible direct stack")
 	_assert_true(direct_stacks.has_stack(&"stack:incompatible"), "same definition but different key not absorbed")
@@ -496,7 +504,8 @@ func _test_merge_equipment_cleanup_and_identity() -> void:
 		&"stack:moved_throw",
 		_destination(character),
 		null,
-		equipment,
+		null,
+		_owner_context(character.endpoint_id, equipment),
 	)
 	_assert_true(result.succeeded, "equipped sibling merge succeeds")
 	_assert_eq(result.surviving_instance_id, &"stack:moved_throw", "equipped sibling does not become survivor")
@@ -518,7 +527,8 @@ func _test_merge_equipment_cleanup_and_identity() -> void:
 		&"stack:moved_throw",
 		_destination(character),
 		equipment,
-		equipment,
+		ArmorStateScript.new(),
+		_owner_context(character.endpoint_id, equipment),
 	)
 	_assert_true(same_character.inventory_transfer.equipment_detached, "moved survivor detached before same-parent merge")
 	_assert_true(equipment.are_both_hands_empty(), "moved stack stays unequipped")
@@ -541,7 +551,8 @@ func _test_merge_transfer_failure_and_contained_stack_guard() -> void:
 		&"stack:moved",
 		_destination(character, 16),
 		null,
-		EquipmentStateScript.new(),
+		null,
+		_owner_context(character.endpoint_id),
 	)
 	_assert_eq(failed.outcome, MergeResultScript.Outcome.TRANSFER_FAILED, "failed move never merges")
 	_assert_eq(failed.inventory_transfer.outcome, TransferResultScript.Outcome.CAPACITY_EXCEEDED, "merge exposes transfer failure")
@@ -556,7 +567,8 @@ func _test_merge_transfer_failure_and_contained_stack_guard() -> void:
 		&"stack:moved",
 		_destination(character, LARGE_CAPACITY),
 		null,
-		EquipmentStateScript.new(),
+		null,
+		_owner_context(character.endpoint_id),
 	)
 	_assert_eq(guarded.outcome, MergeResultScript.Outcome.ABSORBED_STACK_HAS_CONTENTS, "contained absorbed stack is explicit unsupported boundary")
 	_assert_false(guarded.succeeded, "guarded merge reports incomplete operation")
@@ -690,6 +702,18 @@ func _destination(
 	maximum_contents_weight: int = LARGE_CAPACITY,
 ) -> DestinationScript:
 	return DestinationScript.new(endpoint, true, true, maximum_contents_weight)
+
+
+func _owner_context(
+	character_id: StringName,
+	equipment: EquipmentStateScript = null,
+	armor: ArmorStateScript = null,
+) -> OwnerContextScript:
+	return OwnerContextScript.new(
+		character_id,
+		EquipmentStateScript.new() if equipment == null else equipment,
+		ArmorStateScript.new() if armor == null else armor,
+	)
 
 
 func _weapon(instance_id: StringName) -> EquippedWeaponRefScript:

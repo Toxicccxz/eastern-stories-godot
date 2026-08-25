@@ -1,10 +1,8 @@
 class_name CombinedStackService
 extends RefCounted
 
+const ArmorStateType := preload("res://core/armor/armor_state.gd")
 const EquipmentStateType := preload("res://core/equipment/equipment_state.gd")
-const EquipmentTransitionResultType := preload(
-	"res://core/equipment/equipment_transition_result.gd"
-)
 const InventoryStateType := preload("res://core/inventory/inventory_state.gd")
 const TransferDestinationType := preload(
 	"res://core/inventory/inventory_transfer_destination.gd"
@@ -34,6 +32,15 @@ const SplitResultType := preload(
 )
 const MergeResultType := preload(
 	"res://core/items/combined/combined_stack_merge_result.gd"
+)
+const LifecycleOwnerContextType := preload(
+	"res://core/items/lifecycle/item_lifecycle_owner_context.gd"
+)
+const LifecycleResultType := preload(
+	"res://core/items/lifecycle/item_lifecycle_result.gd"
+)
+const LifecycleServiceType := preload(
+	"res://core/items/lifecycle/item_lifecycle_service.gd"
 )
 
 const LEGACY_DESTRUCTION_DELAY_SECONDS: int = 1
@@ -328,7 +335,8 @@ static func transfer_and_merge(
 	moved_instance_id: StringName,
 	destination: TransferDestinationType,
 	source_owner_equipment: EquipmentStateType = null,
-	destination_owner_equipment: EquipmentStateType = null,
+	source_owner_armor: ArmorStateType = null,
+	destination_owner: LifecycleOwnerContextType = null,
 ) -> MergeResultType:
 	if (
 		stacks == null
@@ -348,6 +356,7 @@ static func transfer_and_merge(
 		moved_instance_id,
 		destination,
 		source_owner_equipment,
+		source_owner_armor,
 	)
 	if not transfer.succeeded:
 		return MergeResultType.new(
@@ -415,51 +424,74 @@ static func transfer_and_merge(
 
 	var total: int = moved_before.amount
 	var total_absorbed: int = 0
+	var completed_absorbed_ids: Array[StringName] = []
 	var detached_ids: Array[StringName] = []
+	var amount_result: AmountResultType = null
 	for absorbed_id: StringName in absorbed_ids:
 		var absorbed_state: StackStateType = stacks.stack_state(absorbed_id)
-		total += absorbed_state.amount
-		total_absorbed += absorbed_state.amount
-		## destruct() calls feature/move.c::remove(), which unequips an absorbed
-		## throwing stack before the object ceases to exist.
-		if (
-			destination_owner_equipment != null
-			and destination_owner_equipment.has_weapon_instance(absorbed_id)
-		):
-			var detach_result: EquipmentTransitionResultType = (
-				destination_owner_equipment.unwield(absorbed_id)
-			)
-			if detach_result.succeeded:
-				detached_ids.append(absorbed_id)
-		if not inventory._remove_registered_leaf(absorbed_id):
+		var candidate_amount: int = absorbed_state.amount
+		var lifecycle: LifecycleResultType = LifecycleServiceType.destroy_item(
+			inventory,
+			stacks,
+			absorbed_id,
+			LifecycleResultType.ChildDisposition.REQUIRE_LEAF,
+			destination_owner,
+		)
+		if lifecycle.weapon_detached:
+			detached_ids.append(absorbed_id)
+		if not lifecycle.succeeded:
 			return _merge_lifecycle_failure(
 				moved_instance_id,
 				moved_before.amount,
+				total,
 				total_absorbed,
-				absorbed_ids,
+				completed_absorbed_ids,
 				detached_ids,
 				transfer,
 				inventory,
 			)
-		if not stacks._remove_stack(absorbed_id):
-			return _merge_lifecycle_failure(
-				moved_instance_id,
-				moved_before.amount,
-				total_absorbed,
-				absorbed_ids,
-				detached_ids,
-				transfer,
+		total += candidate_amount
+		total_absorbed += candidate_amount
+		completed_absorbed_ids.append(absorbed_id)
+		## A later sibling can fail its lifecycle transition. Commit each
+		## positive completed absorption immediately so an already-destroyed
+		## sibling's quantity cannot disappear on that failure path. A zero
+		## total is deferred to the single legacy set_amount(0) call below.
+		if total > 0:
+			amount_result = set_amount(
+				stacks,
 				inventory,
+				moved_instance_id,
+				total,
 			)
+			if not amount_result.accepted:
+				return MergeResultType.new(
+					MergeResultType.Outcome.AMOUNT_UPDATE_FAILED,
+					false,
+					true,
+					moved_instance_id,
+					moved_before.amount,
+					amount_result.amount_after,
+					total_absorbed,
+					inventory.own_weight(moved_instance_id),
+					amount_result.lifecycle_action,
+					amount_result.lifecycle_delay_seconds,
+					completed_absorbed_ids,
+					detached_ids,
+					transfer,
+				)
 
 	## combined.c invokes set_amount(total) for every living destination, even
 	## when no compatible sibling was found. This matters for raw amount zero.
-	var amount_result: AmountResultType = set_amount(
-		stacks,
-		inventory,
-		moved_instance_id,
-		total,
-	)
+	## Positive absorbed totals were already committed for failure safety; the
+	## final call remains necessary when no candidate existed or total is zero.
+	if amount_result == null:
+		amount_result = set_amount(
+			stacks,
+			inventory,
+			moved_instance_id,
+			total,
+		)
 	if not amount_result.accepted:
 		return MergeResultType.new(
 			MergeResultType.Outcome.AMOUNT_UPDATE_FAILED,
@@ -472,7 +504,7 @@ static func transfer_and_merge(
 			inventory.own_weight(moved_instance_id),
 			amount_result.lifecycle_action,
 			amount_result.lifecycle_delay_seconds,
-			absorbed_ids,
+			completed_absorbed_ids,
 			detached_ids,
 			transfer,
 		)
@@ -491,7 +523,7 @@ static func transfer_and_merge(
 		inventory.own_weight(moved_instance_id),
 		amount_result.lifecycle_action,
 		amount_result.lifecycle_delay_seconds,
-		absorbed_ids,
+		completed_absorbed_ids,
 		detached_ids,
 		transfer,
 	)
@@ -543,6 +575,7 @@ static func _split_failure(
 static func _merge_lifecycle_failure(
 	moved_instance_id: StringName,
 	amount_before: int,
+	amount_after: int,
 	total_absorbed: int,
 	absorbed_ids: Array[StringName],
 	detached_ids: Array[StringName],
@@ -552,10 +585,10 @@ static func _merge_lifecycle_failure(
 	return MergeResultType.new(
 		MergeResultType.Outcome.ABSORBED_LIFECYCLE_FAILED,
 		false,
-		true,
+		not absorbed_ids.is_empty(),
 		moved_instance_id,
 		amount_before,
-		amount_before,
+		amount_after,
 		total_absorbed,
 		inventory.own_weight(moved_instance_id),
 		AmountResultType.LifecycleAction.NONE,

@@ -330,6 +330,24 @@ const NativeItemStateRestorerScript := preload(
 const NativeItemSaveRestoreTest := preload(
 	"res://tests/core/native_item_save_restore_test.gd"
 )
+const ItemLifecycleOwnerContextScript := preload(
+	"res://core/items/lifecycle/item_lifecycle_owner_context.gd"
+)
+const ItemLifecycleResultScript := preload(
+	"res://core/items/lifecycle/item_lifecycle_result.gd"
+)
+const ItemLifecycleServiceScript := preload(
+	"res://core/items/lifecycle/item_lifecycle_service.gd"
+)
+const FailingLifecycleEquipmentStateScript := preload(
+	"res://tests/support/failing_lifecycle_equipment_state.gd"
+)
+const FailingLifecycleArmorStateScript := preload(
+	"res://tests/support/failing_lifecycle_armor_state.gd"
+)
+const ItemLifecycleDestructionTest := preload(
+	"res://tests/core/item_lifecycle_destruction_test.gd"
+)
 
 
 func _init() -> void:
@@ -476,6 +494,12 @@ func _init() -> void:
 		NativeItemStateRestoreResultScript,
 		NativeItemStateRestorerScript,
 		NativeItemSaveRestoreTest,
+		ItemLifecycleOwnerContextScript,
+		ItemLifecycleResultScript,
+		ItemLifecycleServiceScript,
+		FailingLifecycleEquipmentStateScript,
+		FailingLifecycleArmorStateScript,
+		ItemLifecycleDestructionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -508,6 +532,9 @@ func _init() -> void:
 	var phase_4b5a_result: Dictionary[String, Variant] = (
 		NativeItemSaveRestoreTest.new().run_all()
 	)
+	var phase_4b5b_result: Dictionary[String, Variant] = (
+		ItemLifecycleDestructionTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -536,6 +563,8 @@ func _init() -> void:
 		phase_4b4_result["assertions"]
 	) + int(
 		phase_4b5a_result["assertions"]
+	) + int(
+		phase_4b5b_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -554,6 +583,7 @@ func _init() -> void:
 	failures.append_array(phase_4b3_result["failures"])
 	failures.append_array(phase_4b4_result["failures"])
 	failures.append_array(phase_4b5a_result["failures"])
+	failures.append_array(phase_4b5b_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

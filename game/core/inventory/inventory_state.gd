@@ -194,10 +194,9 @@ func _apply_reparent(
 	return true
 
 
-## Narrow internal lifecycle seam for an already-validated leaf instance.
-## Phase 4B3 uses this only when combined.c immediately destructs an absorbed
-## sibling stack. Full item destruction and contained-child handling remain
-## outside InventoryState.
+## Narrow internal leaf-removal seam. ItemLifecycleService owns general
+## destruction orchestration; Phase 4B3 split also uses this only to roll back
+## a newly registered unparented leaf after stack-registration failure.
 func _remove_registered_leaf(item_instance_id: StringName) -> bool:
 	if not is_registered(item_instance_id):
 		return false
