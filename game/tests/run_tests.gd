@@ -330,6 +330,48 @@ const NativeItemStateRestorerScript := preload(
 const NativeItemSaveRestoreTest := preload(
 	"res://tests/core/native_item_save_restore_test.gd"
 )
+const LegacyAutoloadEntryScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_entry.gd"
+)
+const LegacyAutoloadParseResultScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_parse_result.gd"
+)
+const LegacyAutoloadParserScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_parser.gd"
+)
+const LegacyAutoloadBindingScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_binding.gd"
+)
+const LegacyAutoloadBindingsScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_bindings.gd"
+)
+const LegacyAutoloadImportPlanScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_import_plan.gd"
+)
+const LegacyAutoloadEntryResultScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_entry_result.gd"
+)
+const LegacyBandageStateImportScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_bandage_state_import.gd"
+)
+const LegacyMarryCardStateImportScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_marry_card_state_import.gd"
+)
+const LegacyMarryCardRuntimeIntentScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_marry_card_runtime_intent.gd"
+)
+const LegacyStackDestructionIntentScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_stack_destruction_intent.gd"
+)
+const LegacyAutoloadImportResultScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_import_result.gd"
+)
+const LegacyAutoloadImporterScript := preload(
+	"res://core/persistence/legacy_autoload/legacy_autoload_importer.gd"
+)
+const LegacyAutoloadImportTest := preload(
+	"res://tests/core/legacy_autoload_import_test.gd"
+)
 const ItemLifecycleOwnerContextScript := preload(
 	"res://core/items/lifecycle/item_lifecycle_owner_context.gd"
 )
@@ -543,6 +585,20 @@ func _init() -> void:
 		NativeItemStateRestoreResultScript,
 		NativeItemStateRestorerScript,
 		NativeItemSaveRestoreTest,
+		LegacyAutoloadEntryScript,
+		LegacyAutoloadParseResultScript,
+		LegacyAutoloadParserScript,
+		LegacyAutoloadBindingScript,
+		LegacyAutoloadBindingsScript,
+		LegacyAutoloadImportPlanScript,
+		LegacyAutoloadEntryResultScript,
+		LegacyBandageStateImportScript,
+		LegacyMarryCardStateImportScript,
+		LegacyMarryCardRuntimeIntentScript,
+		LegacyStackDestructionIntentScript,
+		LegacyAutoloadImportResultScript,
+		LegacyAutoloadImporterScript,
+		LegacyAutoloadImportTest,
 		ItemLifecycleOwnerContextScript,
 		ItemLifecycleResultScript,
 		ItemLifecycleServiceScript,
@@ -606,6 +662,9 @@ func _init() -> void:
 	var phase_4b5c_result: Dictionary[String, Variant] = (
 		DeathInventoryCorpseTest.new().run_all()
 	)
+	var phase_4b5d_result: Dictionary[String, Variant] = (
+		LegacyAutoloadImportTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -638,6 +697,8 @@ func _init() -> void:
 		phase_4b5b_result["assertions"]
 	) + int(
 		phase_4b5c_result["assertions"]
+	) + int(
+		phase_4b5d_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -658,6 +719,7 @@ func _init() -> void:
 	failures.append_array(phase_4b5a_result["failures"])
 	failures.append_array(phase_4b5b_result["failures"])
 	failures.append_array(phase_4b5c_result["failures"])
+	failures.append_array(phase_4b5d_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
