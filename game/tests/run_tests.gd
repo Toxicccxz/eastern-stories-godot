@@ -348,6 +348,55 @@ const FailingLifecycleArmorStateScript := preload(
 const ItemLifecycleDestructionTest := preload(
 	"res://tests/core/item_lifecycle_destruction_test.gd"
 )
+const DeathContextScript := preload("res://core/death/death_context.gd")
+const DeathItemFactsScript := preload("res://core/death/death_item_facts.gd")
+const DeferredNpcSpawnIntentScript := preload(
+	"res://core/death/deferred_npc_spawn_intent.gd"
+)
+const DeathItemPolicyResultScript := preload(
+	"res://core/death/death_item_policy_result.gd"
+)
+const DeathItemPolicyScript := preload("res://core/death/death_item_policy.gd")
+const DestroyDeathItemPolicyScript := preload(
+	"res://core/death/destroy_death_item_policy.gd"
+)
+const WindspringDeathItemPolicyScript := preload(
+	"res://core/death/windspring_death_item_policy.gd"
+)
+const DeathItemPolicyRegistryScript := preload(
+	"res://core/death/death_item_policy_registry.gd"
+)
+const DeathRewearPolicyRegistryScript := preload(
+	"res://core/death/death_rewear_policy_registry.gd"
+)
+const DeathRewearResultScript := preload(
+	"res://core/death/death_rewear_result.gd"
+)
+const DeathInventoryResultScript := preload(
+	"res://core/death/death_inventory_result.gd"
+)
+const DeathInventoryServiceScript := preload(
+	"res://core/death/death_inventory_service.gd"
+)
+const CorpseStateScript := preload("res://core/corpses/corpse_state.gd")
+const CorpseDecayScheduleIntentScript := preload(
+	"res://core/corpses/corpse_decay_schedule_intent.gd"
+)
+const CorpseContentTransferResultScript := preload(
+	"res://core/corpses/corpse_content_transfer_result.gd"
+)
+const CorpseContentTransferServiceScript := preload(
+	"res://core/corpses/corpse_content_transfer_service.gd"
+)
+const CorpseDecayResultScript := preload(
+	"res://core/corpses/corpse_decay_result.gd"
+)
+const CorpseDecayServiceScript := preload(
+	"res://core/corpses/corpse_decay_service.gd"
+)
+const DeathInventoryCorpseTest := preload(
+	"res://tests/core/death_inventory_corpse_test.gd"
+)
 
 
 func _init() -> void:
@@ -500,6 +549,25 @@ func _init() -> void:
 		FailingLifecycleEquipmentStateScript,
 		FailingLifecycleArmorStateScript,
 		ItemLifecycleDestructionTest,
+		DeathContextScript,
+		DeathItemFactsScript,
+		DeferredNpcSpawnIntentScript,
+		DeathItemPolicyResultScript,
+		DeathItemPolicyScript,
+		DestroyDeathItemPolicyScript,
+		WindspringDeathItemPolicyScript,
+		DeathItemPolicyRegistryScript,
+		DeathRewearPolicyRegistryScript,
+		DeathRewearResultScript,
+		DeathInventoryResultScript,
+		DeathInventoryServiceScript,
+		CorpseStateScript,
+		CorpseDecayScheduleIntentScript,
+		CorpseContentTransferResultScript,
+		CorpseContentTransferServiceScript,
+		CorpseDecayResultScript,
+		CorpseDecayServiceScript,
+		DeathInventoryCorpseTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -535,6 +603,9 @@ func _init() -> void:
 	var phase_4b5b_result: Dictionary[String, Variant] = (
 		ItemLifecycleDestructionTest.new().run_all()
 	)
+	var phase_4b5c_result: Dictionary[String, Variant] = (
+		DeathInventoryCorpseTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -565,6 +636,8 @@ func _init() -> void:
 		phase_4b5a_result["assertions"]
 	) + int(
 		phase_4b5b_result["assertions"]
+	) + int(
+		phase_4b5c_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -584,6 +657,7 @@ func _init() -> void:
 	failures.append_array(phase_4b4_result["failures"])
 	failures.append_array(phase_4b5a_result["failures"])
 	failures.append_array(phase_4b5b_result["failures"])
+	failures.append_array(phase_4b5c_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
