@@ -18,3 +18,10 @@ static func skill_power(input: CombatSkillPowerInput) -> int:
 		var scaled_level_power: int = cube_divided_by_three / input.maximum_spirit
 		return scaled_level_power * input.current_spirit + input.combat_experience
 	return cube_divided_by_three + input.combat_experience
+
+
+## Exact feature/attribute.c::query_str() scalar projection.
+static func effective_strength(input: CombatStrengthProjection) -> int:
+	if input == null:
+		return 0
+	return input.base_strength + input.force_factor + input.strength_modifier

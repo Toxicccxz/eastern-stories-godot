@@ -1,5 +1,23 @@
 # Migration Decisions
 
+## Combat invalid random bounds become ordered typed failures
+
+**Decision:** Phase 5B2A returns a typed legacy-invalid result when ordinary attack resolution reaches
+`random()` with a non-positive apply-damage, defense-factor, or wound-damage bound. The failure occurs at
+the exact source position. Mutations already completed before that position are retained; in particular,
+kee damage is not rolled back when the later wound `random(D)` bound is invalid.
+
+**Reason:** The mudlib does not prove the deployed MudOS/FluffOS behavior for `random(0)` or a negative
+bound. Clamping to one, prevalidating all later bounds, or allowing a defense loop to hang would each alter
+observable source ordering. A typed result keeps the Godot domain safe while preserving all preceding
+integer calculations, random consumption, loop iterations, and resource transitions.
+
+**Compatibility impact:** Valid positive-bound attacks are unchanged. Invalid legacy states return a
+diagnosable failure instead of a driver-specific error or hang. A wound-bound failure is explicitly a
+partial mutation, not an atomic attack rollback. Sources:
+`reference/es2/mudlib/adm/daemons/combatd.c:312-380`,
+`reference/es2/mudlib/feature/damage.c:12-68`.
+
 ## Condition update order
 
 **Decision:** A single native condition update uses a snapshot of active condition IDs sorted by stable ID string in ascending order.

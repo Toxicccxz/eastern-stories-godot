@@ -473,6 +473,39 @@ const ScriptedCombatRandomSourceScript := preload(
 const CombatStateMathActionFoundationTest := preload(
 	"res://tests/core/combat_state_math_action_foundation_test.gd"
 )
+const CombatStrengthProjectionScript := preload(
+	"res://core/combat/resolution/combat_strength_projection.gd"
+)
+const CombatHitPolicyStatusScript := preload(
+	"res://core/combat/resolution/combat_hit_policy_status.gd"
+)
+const WeaponCombatProfileScript := preload(
+	"res://core/combat/resolution/weapon_combat_profile.gd"
+)
+const CombatAttackerSnapshotScript := preload(
+	"res://core/combat/resolution/combat_attacker_snapshot.gd"
+)
+const CombatDefenderSnapshotScript := preload(
+	"res://core/combat/resolution/combat_defender_snapshot.gd"
+)
+const CombatAttackInputScript := preload(
+	"res://core/combat/resolution/combat_attack_input.gd"
+)
+const CombatAttackCalculationScript := preload(
+	"res://core/combat/resolution/combat_attack_calculation.gd"
+)
+const CombatResourceMutationResultScript := preload(
+	"res://core/combat/resolution/combat_resource_mutation_result.gd"
+)
+const CombatAttackResultScript := preload(
+	"res://core/combat/resolution/combat_attack_result.gd"
+)
+const CombatAttackResolverScript := preload(
+	"res://core/combat/resolution/combat_attack_resolver.gd"
+)
+const CombatOrdinaryAttackCoreResolutionTest := preload(
+	"res://tests/core/combat_ordinary_attack_core_resolution_test.gd"
+)
 
 
 func _init() -> void:
@@ -670,6 +703,17 @@ func _init() -> void:
 		CombatActionSelectorScript,
 		ScriptedCombatRandomSourceScript,
 		CombatStateMathActionFoundationTest,
+		CombatStrengthProjectionScript,
+		CombatHitPolicyStatusScript,
+		WeaponCombatProfileScript,
+		CombatAttackerSnapshotScript,
+		CombatDefenderSnapshotScript,
+		CombatAttackInputScript,
+		CombatAttackCalculationScript,
+		CombatResourceMutationResultScript,
+		CombatAttackResultScript,
+		CombatAttackResolverScript,
+		CombatOrdinaryAttackCoreResolutionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -714,6 +758,9 @@ func _init() -> void:
 	var phase_5b1_result: Dictionary[String, Variant] = (
 		CombatStateMathActionFoundationTest.new().run_all()
 	)
+	var phase_5b2a_result: Dictionary[String, Variant] = (
+		CombatOrdinaryAttackCoreResolutionTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -750,6 +797,8 @@ func _init() -> void:
 		phase_4b5d_result["assertions"]
 	) + int(
 		phase_5b1_result["assertions"]
+	) + int(
+		phase_5b2a_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -772,6 +821,7 @@ func _init() -> void:
 	failures.append_array(phase_4b5c_result["failures"])
 	failures.append_array(phase_4b5d_result["failures"])
 	failures.append_array(phase_5b1_result["failures"])
+	failures.append_array(phase_5b2a_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
