@@ -439,6 +439,40 @@ const CorpseDecayServiceScript := preload(
 const DeathInventoryCorpseTest := preload(
 	"res://tests/core/death_inventory_corpse_test.gd"
 )
+const CombatRelationshipStateScript := preload(
+	"res://core/combat/relationship/combat_relationship_state.gd"
+)
+const ActionBusyStateScript := preload(
+	"res://core/combat/busy/action_busy_state.gd"
+)
+const CombatSkillPowerInputScript := preload(
+	"res://core/combat/math/combat_skill_power_input.gd"
+)
+const CombatMathScript := preload("res://core/combat/math/combat_math.gd")
+const CombatRandomSourceScript := preload(
+	"res://core/combat/random/combat_random_source.gd"
+)
+const CombatActionDefinitionScript := preload(
+	"res://core/combat/action/combat_action_definition.gd"
+)
+const CombatActionSetScript := preload(
+	"res://core/combat/action/combat_action_set.gd"
+)
+const CombatActionSelectionInputScript := preload(
+	"res://core/combat/action/combat_action_selection_input.gd"
+)
+const CombatActionSelectionResultScript := preload(
+	"res://core/combat/action/combat_action_selection_result.gd"
+)
+const CombatActionSelectorScript := preload(
+	"res://core/combat/action/combat_action_selector.gd"
+)
+const ScriptedCombatRandomSourceScript := preload(
+	"res://tests/support/scripted_combat_random_source.gd"
+)
+const CombatStateMathActionFoundationTest := preload(
+	"res://tests/core/combat_state_math_action_foundation_test.gd"
+)
 
 
 func _init() -> void:
@@ -624,6 +658,18 @@ func _init() -> void:
 		CorpseDecayResultScript,
 		CorpseDecayServiceScript,
 		DeathInventoryCorpseTest,
+		CombatRelationshipStateScript,
+		ActionBusyStateScript,
+		CombatSkillPowerInputScript,
+		CombatMathScript,
+		CombatRandomSourceScript,
+		CombatActionDefinitionScript,
+		CombatActionSetScript,
+		CombatActionSelectionInputScript,
+		CombatActionSelectionResultScript,
+		CombatActionSelectorScript,
+		ScriptedCombatRandomSourceScript,
+		CombatStateMathActionFoundationTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -665,6 +711,9 @@ func _init() -> void:
 	var phase_4b5d_result: Dictionary[String, Variant] = (
 		LegacyAutoloadImportTest.new().run_all()
 	)
+	var phase_5b1_result: Dictionary[String, Variant] = (
+		CombatStateMathActionFoundationTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -699,6 +748,8 @@ func _init() -> void:
 		phase_4b5c_result["assertions"]
 	) + int(
 		phase_4b5d_result["assertions"]
+	) + int(
+		phase_5b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -720,6 +771,7 @@ func _init() -> void:
 	failures.append_array(phase_4b5b_result["failures"])
 	failures.append_array(phase_4b5c_result["failures"])
 	failures.append_array(phase_4b5d_result["failures"])
+	failures.append_array(phase_5b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
