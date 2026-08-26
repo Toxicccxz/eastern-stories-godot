@@ -506,6 +506,21 @@ const CombatAttackResolverScript := preload(
 const CombatOrdinaryAttackCoreResolutionTest := preload(
 	"res://tests/core/combat_ordinary_attack_core_resolution_test.gd"
 )
+const StandardForceHitInputScript := preload(
+	"res://core/combat/force/standard_force_hit_input.gd"
+)
+const StandardForceReflectionMutationResultScript := preload(
+	"res://core/combat/force/standard_force_reflection_mutation_result.gd"
+)
+const StandardForceHitResultScript := preload(
+	"res://core/combat/force/standard_force_hit_result.gd"
+)
+const StandardForceHitPolicyScript := preload(
+	"res://core/combat/force/standard_force_hit_policy.gd"
+)
+const StandardForceHitPolicyTest := preload(
+	"res://tests/core/standard_force_hit_policy_test.gd"
+)
 
 
 func _init() -> void:
@@ -714,6 +729,11 @@ func _init() -> void:
 		CombatAttackResultScript,
 		CombatAttackResolverScript,
 		CombatOrdinaryAttackCoreResolutionTest,
+		StandardForceHitInputScript,
+		StandardForceReflectionMutationResultScript,
+		StandardForceHitResultScript,
+		StandardForceHitPolicyScript,
+		StandardForceHitPolicyTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -761,6 +781,9 @@ func _init() -> void:
 	var phase_5b2a_result: Dictionary[String, Variant] = (
 		CombatOrdinaryAttackCoreResolutionTest.new().run_all()
 	)
+	var phase_5b2b1_result: Dictionary[String, Variant] = (
+		StandardForceHitPolicyTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -799,6 +822,8 @@ func _init() -> void:
 		phase_5b1_result["assertions"]
 	) + int(
 		phase_5b2a_result["assertions"]
+	) + int(
+		phase_5b2b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -822,6 +847,7 @@ func _init() -> void:
 	failures.append_array(phase_4b5d_result["failures"])
 	failures.append_array(phase_5b1_result["failures"])
 	failures.append_array(phase_5b2a_result["failures"])
+	failures.append_array(phase_5b2b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

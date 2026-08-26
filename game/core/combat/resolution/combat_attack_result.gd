@@ -14,6 +14,7 @@ enum FailureStage {
 	NONE,
 	INVALID_ATTACK_INPUT,
 	ATTACK_SKILL_PROJECTION_MISMATCH,
+	FORCE_SKILL_PROJECTION_MISMATCH,
 	RANDOM_SOURCE_MISSING,
 	INVALID_LIMB_SET,
 	LIMB_RANDOM_DRAW,
@@ -22,6 +23,11 @@ enum FailureStage {
 	APPLY_DAMAGE_RANDOM_BOUND,
 	APPLY_DAMAGE_RANDOM_DRAW,
 	FORCE_HIT_POLICY,
+	FORCE_POLICY_INVALID_INPUT,
+	FORCE_REFLECTION_RANDOM_BOUND,
+	FORCE_REFLECTION_RANDOM_DRAW,
+	FORCE_NORMAL_RANDOM_BOUND,
+	FORCE_NORMAL_RANDOM_DRAW,
 	MARTIAL_HIT_POLICY,
 	WEAPON_HIT_POLICY,
 	ATTACKER_HIT_POLICY,
@@ -58,6 +64,7 @@ var _action_id: StringName
 var _interrupt_requested: bool
 var _calculation: CombatAttackCalculation
 var _resource_mutation: CombatResourceMutationResult
+var _standard_force_result: StandardForceHitResult
 
 var outcome: int:
 	get:
@@ -92,6 +99,16 @@ var calculation: CombatAttackCalculation:
 var resource_mutation: CombatResourceMutationResult:
 	get:
 		return _resource_mutation.duplicate_snapshot()
+var standard_force_result: StandardForceHitResult:
+	get:
+		return (
+			_standard_force_result.duplicate_snapshot()
+			if _standard_force_result != null
+			else null
+		)
+var has_standard_force_result: bool:
+	get:
+		return _standard_force_result != null
 
 
 func _init(
@@ -106,6 +123,7 @@ func _init(
 	p_interrupt_requested: bool = false,
 	p_calculation: CombatAttackCalculation = null,
 	p_resource_mutation: CombatResourceMutationResult = null,
+	p_standard_force_result: StandardForceHitResult = null,
 ) -> void:
 	_outcome = p_outcome
 	_failure_stage = p_failure_stage
@@ -125,6 +143,11 @@ func _init(
 		p_resource_mutation.duplicate_snapshot()
 		if p_resource_mutation != null
 		else CombatResourceMutationResult.new()
+	)
+	_standard_force_result = (
+		p_standard_force_result.duplicate_snapshot()
+		if p_standard_force_result != null
+		else null
 	)
 
 

@@ -32,7 +32,7 @@ NPC runtime、全局随机数或通用 `apply` Dictionary。
 
 - `CombatAttackerSnapshot`：稳定角色 ID、living、combat experience、sen current/max、已投影的
   attack skill type + effective level 与 usage bonus、当前已聚合的 `apply/damage`、
-  `CombatStrengthProjection`、当前 force、对 defender 的 lethal intent、映射 force/martial 的稳定
+  `CombatStrengthProjection`、force effective-level 投影、对 defender 的 lethal intent、映射 force/martial 的稳定
   provider ID + typed hit-policy status、attacker hit-policy status，以及可选主武器 profile；
 - `CombatDefenderSnapshot`：稳定角色 ID、living、busy、combat experience、sen current/max、
   dodge/parry/unarmed effective levels、defense usage bonus、`apply/armor`、主武器存在事实与 limbs；
@@ -151,3 +151,13 @@ wound 后观察 gin/kee/sen，DEATH 优先于 UNCONSCIOUS。wound RNG 的 typed 
 
 本阶段不是完整 `do_attack()` parity；准确名称是“through damage/wound/threshold observation 的
 ordinary core resolution”。
+
+## Phase 5B2B1 composition note
+
+Phase 5B2B1 已在原有 force seam 接入 `std/force.c` 的 shared standard policy。攻击者当前 force 因为
+是该 policy 的可变 authority，现由 resolver 参数传入，不再作为 attacker snapshot 标量；snapshot
+只携带带有 `force` identity 的 effective skill 投影。defender snapshot 增加当前 force、force effective
+level 与独立 `armor_vs_force` 投影。`CombatHitPolicyStatus.STANDARD_FORCE` 只允许用于 force seam；
+`iceforce` 仍整体为 `AUTHORED_POLICY_UNAVAILABLE`。反震后 threshold observation 窄传攻击者
+gin/kee/sen 三个资源 authority，但只有 kee 会被标准 force policy 修改。Phase 5B2A 的其余流水线与
+已审计公式未改变。

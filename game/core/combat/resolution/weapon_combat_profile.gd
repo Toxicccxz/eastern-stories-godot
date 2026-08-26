@@ -33,7 +33,7 @@ func is_valid() -> bool:
 	return (
 		not _weapon_id.is_empty()
 		and not _skill_type.is_empty()
-		and CombatHitPolicyStatus.is_valid(_hit_policy_status)
+		and CombatHitPolicyStatus.is_non_force_valid(_hit_policy_status)
 		and _hit_policy_status != CombatHitPolicyStatus.Value.NOT_APPLICABLE
 	)
 

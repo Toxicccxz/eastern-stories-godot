@@ -11,7 +11,6 @@ var _effective_attack_skill_level: int
 var _attack_usage_bonus: int
 var _projected_apply_damage: int
 var _strength_projection: CombatStrengthProjection
-var _current_inner_force: int
 var _lethal_intent: bool
 var _mapped_force_skill_id: StringName
 var _force_hit_policy_status: int
@@ -19,6 +18,8 @@ var _mapped_attack_skill_id: StringName
 var _martial_hit_policy_status: int
 var _attacker_hit_policy_status: int
 var _weapon_profile: WeaponCombatProfile
+var _projected_force_skill_type: StringName
+var _effective_force_skill_level: int
 
 var character_id: StringName:
 	get:
@@ -50,9 +51,6 @@ var projected_apply_damage: int:
 var strength_projection: CombatStrengthProjection:
 	get:
 		return _strength_projection.duplicate_snapshot()
-var current_inner_force: int:
-	get:
-		return _current_inner_force
 var lethal_intent: bool:
 	get:
 		return _lethal_intent
@@ -77,6 +75,12 @@ var weapon_profile: WeaponCombatProfile:
 var has_weapon: bool:
 	get:
 		return _weapon_profile != null
+var projected_force_skill_type: StringName:
+	get:
+		return _projected_force_skill_type
+var effective_force_skill_level: int:
+	get:
+		return _effective_force_skill_level
 
 
 func _init(
@@ -90,7 +94,6 @@ func _init(
 	p_attack_usage_bonus: int = 0,
 	p_projected_apply_damage: int = 0,
 	p_strength_projection: CombatStrengthProjection = null,
-	p_current_inner_force: int = 0,
 	p_lethal_intent: bool = false,
 	p_mapped_force_skill_id: StringName = &"",
 	p_force_hit_policy_status: int = CombatHitPolicyStatus.Value.NOT_APPLICABLE,
@@ -98,6 +101,8 @@ func _init(
 	p_martial_hit_policy_status: int = CombatHitPolicyStatus.Value.NOT_APPLICABLE,
 	p_attacker_hit_policy_status: int = CombatHitPolicyStatus.Value.NOT_APPLICABLE,
 	p_weapon_profile: WeaponCombatProfile = null,
+	p_projected_force_skill_type: StringName = &"force",
+	p_effective_force_skill_level: int = 0,
 ) -> void:
 	_character_id = p_character_id
 	_living = p_living
@@ -113,7 +118,6 @@ func _init(
 		if p_strength_projection != null
 		else CombatStrengthProjection.new()
 	)
-	_current_inner_force = p_current_inner_force
 	_lethal_intent = p_lethal_intent
 	_mapped_force_skill_id = p_mapped_force_skill_id
 	_force_hit_policy_status = p_force_hit_policy_status
@@ -123,15 +127,18 @@ func _init(
 	_weapon_profile = (
 		p_weapon_profile.duplicate_snapshot() if p_weapon_profile != null else null
 	)
+	_projected_force_skill_type = p_projected_force_skill_type
+	_effective_force_skill_level = p_effective_force_skill_level
 
 
 func is_valid() -> bool:
 	return (
 		not _character_id.is_empty()
 		and not _projected_attack_skill_type.is_empty()
+		and not _projected_force_skill_type.is_empty()
 		and CombatHitPolicyStatus.is_valid(_force_hit_policy_status)
-		and CombatHitPolicyStatus.is_valid(_martial_hit_policy_status)
-		and CombatHitPolicyStatus.is_valid(_attacker_hit_policy_status)
+		and CombatHitPolicyStatus.is_non_force_valid(_martial_hit_policy_status)
+		and CombatHitPolicyStatus.is_non_force_valid(_attacker_hit_policy_status)
 		and (_mapped_force_skill_id.is_empty())
 		== (_force_hit_policy_status == CombatHitPolicyStatus.Value.NOT_APPLICABLE)
 		and (_mapped_attack_skill_id.is_empty())
@@ -156,7 +163,6 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 		_attack_usage_bonus,
 		_projected_apply_damage,
 		_strength_projection,
-		_current_inner_force,
 		_lethal_intent,
 		_mapped_force_skill_id,
 		_force_hit_policy_status,
@@ -164,4 +170,6 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 		_martial_hit_policy_status,
 		_attacker_hit_policy_status,
 		_weapon_profile,
+		_projected_force_skill_type,
+		_effective_force_skill_level,
 	)

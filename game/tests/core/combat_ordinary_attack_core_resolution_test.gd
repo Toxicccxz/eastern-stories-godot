@@ -3,6 +3,9 @@ extends RefCounted
 const CharacterResourceStateScript := preload(
 	"res://core/characters/character_resource_state.gd"
 )
+const CharacterInternalResourceStateScript := preload(
+	"res://core/characters/character_internal_resource_state.gd"
+)
 const CombatActionDefinitionScript := preload(
 	"res://core/combat/action/combat_action_definition.gd"
 )
@@ -361,6 +364,7 @@ func _test_authored_hook_stop_points() -> void:
 		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 10, 2, 0, 3, false, true), _defender(), _action(&"hook", 0, 50)),
 		ScriptedCombatRandomSourceScript.new(hook_rolls),
 		_resource(),
+		3,
 	)
 	_assert_policy_stop(force, CombatAttackResultScript.FailureStage.FORCE_HIT_POLICY, CombatAttackResultScript.AuthoredPolicyKind.FORCE, 12, [2, 12, 12, 10], "force hook")
 
@@ -389,12 +393,14 @@ func _test_authored_hook_stop_points() -> void:
 		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 6, 0, 0, 10, false, true), _defender(), _action()),
 		ScriptedCombatRandomSourceScript.new([0, 3, 3, 0, 0, 0]),
 		_resource(),
+		10,
 	)
 	_assert_eq(zero_factor.outcome, CombatAttackResultScript.Outcome.HIT, "force hook is not reached when force_factor is zero")
 	var equal_force: CombatAttackResultScript = _resolve(
 		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 6, 2, 0, 2, false, true), _defender(), _action()),
 		ScriptedCombatRandomSourceScript.new([0, 3, 3, 0, 0, 0]),
 		_resource(),
+		2,
 	)
 	_assert_eq(equal_force.outcome, CombatAttackResultScript.Outcome.HIT, "force hook requires current force strictly greater than factor")
 	var armed_ignores_attacker_hook: CombatAttackResultScript = _resolve(
@@ -452,11 +458,13 @@ func _test_policy_classification_and_force_predicate() -> void:
 		"current force below factor skips mapped force hook",
 		"absent mapped force skips force hook even above threshold",
 	]
+	var inactive_force_currents: Array[int] = [10, 2, 1, 3]
 	for index: int in inactive_cases.size():
 		var inactive: CombatAttackResultScript = _resolve(
 			CombatAttackInputScript.new(inactive_cases[index], _defender(), _action()),
 			ScriptedCombatRandomSourceScript.new([0, 3, 3, 0, 0, 0]),
 			_resource(),
+			inactive_force_currents[index],
 		)
 		_assert_eq(inactive.outcome, CombatAttackResultScript.Outcome.HIT, inactive_messages[index])
 
@@ -468,6 +476,7 @@ func _test_policy_classification_and_force_predicate() -> void:
 		),
 		ScriptedCombatRandomSourceScript.new([0, 3, 3, 0]),
 		_resource(),
+		3,
 	)
 	_assert_eq(active_unavailable.outcome, CombatAttackResultScript.Outcome.AUTHORED_HIT_POLICY_UNAVAILABLE, "active authored force hook remains deferred")
 	_assert_eq(active_unavailable.authored_policy_id, &"force:ice", "deferred force result identifies exact provider")
@@ -491,6 +500,7 @@ func _test_policy_classification_and_force_predicate() -> void:
 		),
 		ScriptedCombatRandomSourceScript.new([0, 3, 3, 0, 0, 0]),
 		_resource(),
+		3,
 	)
 	_assert_eq(mapped_no_effect.outcome, CombatAttackResultScript.Outcome.HIT, "mapped providers proven to lack hit_ob continue normally")
 
@@ -934,7 +944,6 @@ func _attacker(
 		attack_usage_bonus,
 		unarmed_apply_damage,
 		CombatStrengthProjectionScript.new(base_strength, force_factor, strength_modifier),
-		current_inner_force,
 		lethal_intent,
 		&"force:test" if force_hook else &"",
 		(
@@ -954,6 +963,8 @@ func _attacker(
 			else CombatHitPolicyStatusScript.Value.PROVEN_NO_AUTHORED_EFFECT
 		),
 		weapon,
+		&"force",
+		0,
 	)
 
 
@@ -983,7 +994,6 @@ func _attacker_with_policies(
 		0,
 		projected_apply_damage,
 		CombatStrengthProjectionScript.new(base_strength, force_factor, 0),
-		current_inner_force,
 		lethal_intent,
 		mapped_force_skill_id,
 		force_policy_status,
@@ -991,6 +1001,8 @@ func _attacker_with_policies(
 		martial_policy_status,
 		attacker_policy_status,
 		weapon,
+		&"force",
+		10,
 	)
 
 
@@ -1071,8 +1083,18 @@ func _resolve(
 	input: CombatAttackInput,
 	rng: ScriptedCombatRandomSource,
 	vitality: CharacterResourceState,
+	attacker_force_current: int = 0,
+	attacker_vitality: CharacterResourceState = null,
 ) -> CombatAttackResult:
-	return _resolve_with_resources(input, rng, _resource(), vitality, _resource())
+	return _resolve_with_resources(
+		input,
+		rng,
+		_resource(),
+		vitality,
+		_resource(),
+		attacker_force_current,
+		attacker_vitality,
+	)
 
 
 func _resolve_with_resources(
@@ -1081,8 +1103,20 @@ func _resolve_with_resources(
 	essence: CharacterResourceState,
 	vitality: CharacterResourceState,
 	spirit: CharacterResourceState,
+	attacker_force_current: int = 0,
+	attacker_vitality: CharacterResourceState = null,
 ) -> CombatAttackResult:
-	return CombatAttackResolverScript.resolve(input, essence, vitality, spirit, rng)
+	return CombatAttackResolverScript.resolve(
+		input,
+		essence,
+		vitality,
+		spirit,
+		rng,
+		CharacterInternalResourceStateScript.new(attacker_force_current, 0),
+		_resource(),
+		attacker_vitality if attacker_vitality != null else _resource(),
+		_resource(),
+	)
 
 
 func _assert_true(value: bool, message: String) -> void:

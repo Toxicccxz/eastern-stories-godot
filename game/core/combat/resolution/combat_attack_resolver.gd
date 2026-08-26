@@ -2,6 +2,7 @@ class_name CombatAttackResolver
 extends RefCounted
 
 const UNARMED_SKILL_ID: StringName = &"unarmed"
+const FORCE_SKILL_ID: StringName = &"force"
 
 
 ## Resolves only combatd.c::do_attack()'s hook-free ordinary core through
@@ -14,6 +15,10 @@ static func resolve(
 	defender_vitality: CharacterResourceState,
 	defender_spirit: CharacterResourceState,
 	random_source: CombatRandomSource,
+	attacker_force: CharacterInternalResourceState = null,
+	attacker_essence: CharacterResourceState = null,
+	attacker_vitality: CharacterResourceState = null,
+	attacker_spirit: CharacterResourceState = null,
 ) -> CombatAttackResult:
 	if (
 		input == null
@@ -31,6 +36,7 @@ static func resolve(
 	var defender: CombatDefenderSnapshot = input.defender
 	var action: CombatActionDefinition = input.selected_action
 	var calculation: CombatAttackCalculation = CombatAttackCalculation.new()
+	var standard_force_result: StandardForceHitResult
 	var vitality_current_before: int = defender_vitality.current
 	var vitality_effective_before: int = defender_vitality.effective
 	var mutation: CombatResourceMutationResult = _mutation_snapshot(
@@ -58,6 +64,26 @@ static func resolve(
 			action,
 			calculation,
 			mutation,
+		)
+	if (
+		attacker.force_hit_policy_status == CombatHitPolicyStatus.Value.STANDARD_FORCE
+		and (
+			attacker.projected_force_skill_type != FORCE_SKILL_ID
+			or defender.projected_force_skill_type != FORCE_SKILL_ID
+		)
+	):
+		return _finish(
+			CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
+			CombatAttackResult.FailureStage.FORCE_SKILL_PROJECTION_MISMATCH,
+			CombatAttackResult.AuthoredPolicyKind.FORCE,
+			CombatAttackResult.ThresholdCandidate.NOT_OBSERVED,
+			false,
+			attacker,
+			defender,
+			action,
+			calculation,
+			mutation,
+			attacker.mapped_force_skill_id,
 		)
 
 	var limbs: Array[StringName] = defender.limbs()
@@ -245,22 +271,77 @@ static func resolve(
 
 	if (
 		strength_projection.force_factor != 0
-		and attacker.current_inner_force > strength_projection.force_factor
 		and not attacker.mapped_force_skill_id.is_empty()
 	):
-		var force_policy_result: CombatAttackResult = _policy_gate_result(
-			attacker.force_hit_policy_status,
-			CombatAttackResult.FailureStage.FORCE_HIT_POLICY,
-			CombatAttackResult.AuthoredPolicyKind.FORCE,
-			attacker.mapped_force_skill_id,
-			attacker,
-			defender,
-			action,
-			calculation,
-			mutation,
-		)
-		if force_policy_result != null:
-			return force_policy_result
+		if attacker_force == null:
+			return _finish(
+				CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
+				CombatAttackResult.FailureStage.FORCE_POLICY_INVALID_INPUT,
+				CombatAttackResult.AuthoredPolicyKind.FORCE,
+				CombatAttackResult.ThresholdCandidate.NOT_OBSERVED,
+				false,
+				attacker,
+				defender,
+				action,
+				calculation,
+				mutation,
+				attacker.mapped_force_skill_id,
+			)
+		if attacker_force.current > strength_projection.force_factor:
+			if attacker.force_hit_policy_status == CombatHitPolicyStatus.Value.STANDARD_FORCE:
+				standard_force_result = StandardForceHitPolicy.resolve(
+					StandardForceHitInput.new(
+						attacker.mapped_force_skill_id,
+						attacker.character_id,
+						defender.character_id,
+						strength_projection.force_factor,
+						calculation._final_strength_bonus,
+						weapon != null,
+						attacker.projected_force_skill_type,
+						attacker.effective_force_skill_level,
+						defender.projected_force_skill_type,
+						defender.effective_force_skill_level,
+						defender.current_inner_force,
+						defender.armor_vs_force,
+					),
+					attacker_force,
+					attacker_essence,
+					attacker_vitality,
+					attacker_spirit,
+					random_source,
+				)
+				_append_force_rng(calculation, standard_force_result)
+				if standard_force_result.outcome == StandardForceHitResult.Outcome.INVALID_SOURCE_STATE:
+					return _finish(
+						CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
+						_force_failure_stage(standard_force_result.failure_stage),
+						CombatAttackResult.AuthoredPolicyKind.FORCE,
+						CombatAttackResult.ThresholdCandidate.NOT_OBSERVED,
+						false,
+						attacker,
+						defender,
+						action,
+						calculation,
+						mutation,
+						attacker.mapped_force_skill_id,
+						standard_force_result,
+					)
+				if standard_force_result.has_numeric_contribution():
+					calculation._final_strength_bonus += standard_force_result.numeric_contribution
+			else:
+				var force_policy_result: CombatAttackResult = _policy_gate_result(
+					attacker.force_hit_policy_status,
+					CombatAttackResult.FailureStage.FORCE_HIT_POLICY,
+					CombatAttackResult.AuthoredPolicyKind.FORCE,
+					attacker.mapped_force_skill_id,
+					attacker,
+					defender,
+					action,
+					calculation,
+					mutation,
+				)
+				if force_policy_result != null:
+					return force_policy_result
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.FORCE_HOOK_PASSED
 
 	## combatd.c applies action force after the force hook but before martial.
@@ -282,6 +363,7 @@ static func resolve(
 			action,
 			calculation,
 			mutation,
+			standard_force_result,
 		)
 		if martial_policy_result != null:
 			return martial_policy_result
@@ -299,6 +381,7 @@ static func resolve(
 			action,
 			calculation,
 			mutation,
+			standard_force_result,
 		)
 	else:
 		terminal_policy_result = _policy_gate_result(
@@ -311,6 +394,7 @@ static func resolve(
 			action,
 			calculation,
 			mutation,
+			standard_force_result,
 		)
 	if terminal_policy_result != null:
 		return terminal_policy_result
@@ -330,6 +414,7 @@ static func resolve(
 				action,
 				calculation,
 				mutation,
+				standard_force_result,
 			)
 		@warning_ignore("integer_division")
 		calculation._damage_value += (
@@ -354,6 +439,8 @@ static func resolve(
 				action,
 				calculation,
 				mutation,
+				&"",
+				standard_force_result,
 			)
 		var defense_roll: int = _draw(random_source, defense_factor, calculation)
 		if not _is_valid_draw(defense_roll, defense_factor):
@@ -364,6 +451,7 @@ static func resolve(
 				action,
 				calculation,
 				mutation,
+				standard_force_result,
 			)
 		if defense_roll <= attacker.combat_experience:
 			break
@@ -405,6 +493,8 @@ static func resolve(
 				action,
 				calculation,
 				mutation,
+				&"",
+				standard_force_result,
 			)
 		var wound_roll: int = _draw(
 			random_source,
@@ -423,6 +513,8 @@ static func resolve(
 				action,
 				calculation,
 				mutation,
+				&"",
+				standard_force_result,
 			)
 		calculation._wound_roll_performed = true
 		if wound_roll > calculation._armor:
@@ -450,6 +542,8 @@ static func resolve(
 		action,
 		calculation,
 		mutation,
+		&"",
+		standard_force_result,
 	)
 
 
@@ -534,6 +628,7 @@ static func _invalid_draw_result(
 	action: CombatActionDefinition,
 	calculation: CombatAttackCalculation,
 	mutation: CombatResourceMutationResult,
+	standard_force_result: StandardForceHitResult = null,
 ) -> CombatAttackResult:
 	return _finish(
 		CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
@@ -546,6 +641,8 @@ static func _invalid_draw_result(
 		action,
 		calculation,
 		mutation,
+		&"",
+		standard_force_result,
 	)
 
 
@@ -559,6 +656,7 @@ static func _policy_gate_result(
 	action: CombatActionDefinition,
 	calculation: CombatAttackCalculation,
 	mutation: CombatResourceMutationResult,
+	standard_force_result: StandardForceHitResult = null,
 ) -> CombatAttackResult:
 	if policy_status == CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT:
 		return null
@@ -577,6 +675,7 @@ static func _policy_gate_result(
 		calculation,
 		mutation,
 		policy_id,
+		standard_force_result,
 	)
 
 
@@ -592,6 +691,7 @@ static func _finish(
 	calculation: CombatAttackCalculation,
 	mutation: CombatResourceMutationResult,
 	policy_id: StringName = &"",
+	standard_force_result: StandardForceHitResult = null,
 ) -> CombatAttackResult:
 	return CombatAttackResult.new(
 		outcome,
@@ -605,4 +705,27 @@ static func _finish(
 		interrupt_requested,
 		calculation,
 		mutation,
+		standard_force_result,
 	)
+
+
+static func _append_force_rng(
+	calculation: CombatAttackCalculation,
+	force_result: StandardForceHitResult,
+) -> void:
+	calculation._random_upper_bounds.append_array(force_result.random_upper_bounds())
+	calculation._random_draws.append_array(force_result.random_draws())
+
+
+static func _force_failure_stage(policy_stage: int) -> int:
+	match policy_stage:
+		StandardForceHitResult.FailureStage.REFLECTION_RANDOM_BOUND:
+			return CombatAttackResult.FailureStage.FORCE_REFLECTION_RANDOM_BOUND
+		StandardForceHitResult.FailureStage.REFLECTION_RANDOM_DRAW:
+			return CombatAttackResult.FailureStage.FORCE_REFLECTION_RANDOM_DRAW
+		StandardForceHitResult.FailureStage.NORMAL_RANDOM_BOUND:
+			return CombatAttackResult.FailureStage.FORCE_NORMAL_RANDOM_BOUND
+		StandardForceHitResult.FailureStage.NORMAL_RANDOM_DRAW:
+			return CombatAttackResult.FailureStage.FORCE_NORMAL_RANDOM_DRAW
+		_:
+			return CombatAttackResult.FailureStage.FORCE_POLICY_INVALID_INPUT

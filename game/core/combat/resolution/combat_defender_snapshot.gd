@@ -14,6 +14,10 @@ var _defense_usage_bonus: int
 var _armor: int
 var _has_primary_weapon: bool
 var _limbs: Array[StringName] = []
+var _projected_force_skill_type: StringName
+var _effective_force_skill_level: int
+var _current_inner_force: int
+var _armor_vs_force: int
 
 var character_id: StringName:
 	get:
@@ -51,6 +55,18 @@ var armor: int:
 var has_primary_weapon: bool:
 	get:
 		return _has_primary_weapon
+var projected_force_skill_type: StringName:
+	get:
+		return _projected_force_skill_type
+var effective_force_skill_level: int:
+	get:
+		return _effective_force_skill_level
+var current_inner_force: int:
+	get:
+		return _current_inner_force
+var armor_vs_force: int:
+	get:
+		return _armor_vs_force
 
 
 func _init(
@@ -67,6 +83,10 @@ func _init(
 	p_armor: int = 0,
 	p_has_primary_weapon: bool = false,
 	p_limbs: Array[StringName] = [],
+	p_projected_force_skill_type: StringName = &"force",
+	p_effective_force_skill_level: int = 0,
+	p_current_inner_force: int = 0,
+	p_armor_vs_force: int = 0,
 ) -> void:
 	_character_id = p_character_id
 	_living = p_living
@@ -81,6 +101,10 @@ func _init(
 	_armor = p_armor
 	_has_primary_weapon = p_has_primary_weapon
 	_limbs = p_limbs.duplicate()
+	_projected_force_skill_type = p_projected_force_skill_type
+	_effective_force_skill_level = p_effective_force_skill_level
+	_current_inner_force = p_current_inner_force
+	_armor_vs_force = p_armor_vs_force
 
 
 func limbs() -> Array[StringName]:
@@ -88,7 +112,7 @@ func limbs() -> Array[StringName]:
 
 
 func is_valid() -> bool:
-	return not _character_id.is_empty()
+	return not _character_id.is_empty() and not _projected_force_skill_type.is_empty()
 
 
 func duplicate_snapshot() -> CombatDefenderSnapshot:
@@ -106,4 +130,8 @@ func duplicate_snapshot() -> CombatDefenderSnapshot:
 		_armor,
 		_has_primary_weapon,
 		_limbs,
+		_projected_force_skill_type,
+		_effective_force_skill_level,
+		_current_inner_force,
+		_armor_vs_force,
 	)
