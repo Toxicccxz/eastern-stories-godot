@@ -620,6 +620,30 @@ const CombatAttackChainCompletionServiceScript := preload(
 const CombatSynchronousReverseAttackExecutionTest := preload(
 	"res://tests/core/combat_synchronous_reverse_attack_execution_test.gd"
 )
+const CombatSliceLifeStatusScript := preload(
+	"res://runtime/combat_slice/combat_slice_life_status.gd"
+)
+const CombatSliceCharacterBindingScript := preload(
+	"res://runtime/combat_slice/combat_slice_character_binding.gd"
+)
+const CombatSliceContentProfileScript := preload(
+	"res://runtime/combat_slice/combat_slice_content_profile.gd"
+)
+const CombatSliceInitiationResultScript := preload(
+	"res://runtime/combat_slice/combat_slice_initiation_result.gd"
+)
+const CombatSliceProjectionBuilderScript := preload(
+	"res://runtime/combat_slice/combat_slice_projection_builder.gd"
+)
+const CombatSliceOpportunityResultScript := preload(
+	"res://runtime/combat_slice/combat_slice_opportunity_result.gd"
+)
+const CombatSliceOpportunityExecutorScript := preload(
+	"res://runtime/combat_slice/combat_slice_opportunity_executor.gd"
+)
+const CombatSliceOpportunityIntegrationTest := preload(
+	"res://tests/runtime/combat_slice_opportunity_integration_test.gd"
+)
 
 
 func _init() -> void:
@@ -866,6 +890,14 @@ func _init() -> void:
 		CombatAttackChainResultScript,
 		CombatAttackChainCompletionServiceScript,
 		CombatSynchronousReverseAttackExecutionTest,
+		CombatSliceLifeStatusScript,
+		CombatSliceCharacterBindingScript,
+		CombatSliceContentProfileScript,
+		CombatSliceInitiationResultScript,
+		CombatSliceProjectionBuilderScript,
+		CombatSliceOpportunityResultScript,
+		CombatSliceOpportunityExecutorScript,
+		CombatSliceOpportunityIntegrationTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -931,6 +963,9 @@ func _init() -> void:
 	var phase_5b3b2b_result: Dictionary[String, Variant] = (
 		CombatSynchronousReverseAttackExecutionTest.new().run_all()
 	)
+	var phase_6b1_result: Dictionary[String, Variant] = (
+		CombatSliceOpportunityIntegrationTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -981,6 +1016,8 @@ func _init() -> void:
 		phase_5b3b2a_result["assertions"]
 	) + int(
 		phase_5b3b2b_result["assertions"]
+	) + int(
+		phase_6b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1010,6 +1047,7 @@ func _init() -> void:
 	failures.append_array(phase_5b3b1_result["failures"])
 	failures.append_array(phase_5b3b2a_result["failures"])
 	failures.append_array(phase_5b3b2b_result["failures"])
+	failures.append_array(phase_6b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
