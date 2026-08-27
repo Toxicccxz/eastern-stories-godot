@@ -28,6 +28,14 @@ and not busy; QUICK never validates it. A prior perception draw remains consumed
 bound fails. Guarding is set before the fixed `random(5)` presentation draw, so an invalid guard draw
 retains that mutation. Source: `reference/es2/mudlib/adm/daemons/combatd.c::fight()`.
 
+Phase 5B3B2A extends the policy to the terminal guarding-riposte call
+`random(my["cps"])`. The exact REGULAR/negative-or-zero-damage/live-guard predicate is evaluated first;
+the victim's guarding flag is then cleared, and only then is the original attacker's current raw cps read
+as the random bound. A non-positive bound or out-of-range injected draw returns a typed failure while the
+guard clear and all earlier attack/relationship mutations remain committed. No minimum cps is introduced.
+Sources: `reference/es2/mudlib/adm/daemons/combatd.c::do_attack()`,
+`reference/es2/mudlib/feature/dbase.c::query_entire_dbase()`.
+
 **Reason:** The mudlib does not prove the deployed MudOS/FluffOS behavior for `random(0)` or a negative
 bound. Clamping to one, prevalidating all later bounds, or allowing a defense loop to hang would each alter
 observable source ordering. A typed result keeps the Godot domain safe while preserving all preceding

@@ -50,6 +50,11 @@ static func select_action(
 		return CombatActionSelectionResult.new(
 			CombatActionSelectionResult.Outcome.RANDOM_SOURCE_MISSING,
 			source_kind,
+			null,
+			-1,
+			true,
+			false,
+			action_set.size(),
 		)
 
 	var selected_index: int = random_source.next_below(action_set.size())
@@ -59,10 +64,18 @@ static func select_action(
 			source_kind,
 			null,
 			selected_index,
+			true,
+			true,
+			action_set.size(),
+			selected_index,
 		)
 	return CombatActionSelectionResult.new(
 		CombatActionSelectionResult.Outcome.SELECTED,
 		source_kind,
 		action_set.action_at(selected_index),
+		selected_index,
+		true,
+		true,
+		action_set.size(),
 		selected_index,
 	)
