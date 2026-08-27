@@ -602,6 +602,24 @@ const CombatSingleAttackExecutionServiceScript := preload(
 const CombatSingleAttackPostActionRiposteDecisionTest := preload(
 	"res://tests/core/combat_single_attack_post_action_riposte_decision_test.gd"
 )
+const CombatCharacterAuthorityScript := preload(
+	"res://core/combat/execution/combat_character_authority.gd"
+)
+const CombatReverseAttackProjectionScript := preload(
+	"res://core/combat/execution/combat_reverse_attack_projection.gd"
+)
+const CombatReverseModifierProjectionScript := preload(
+	"res://core/combat/execution/combat_reverse_modifier_projection.gd"
+)
+const CombatAttackChainResultScript := preload(
+	"res://core/combat/execution/combat_attack_chain_result.gd"
+)
+const CombatAttackChainCompletionServiceScript := preload(
+	"res://core/combat/execution/combat_attack_chain_completion_service.gd"
+)
+const CombatSynchronousReverseAttackExecutionTest := preload(
+	"res://tests/core/combat_synchronous_reverse_attack_execution_test.gd"
+)
 
 
 func _init() -> void:
@@ -842,6 +860,12 @@ func _init() -> void:
 		CombatSingleAttackExecutionResultScript,
 		CombatSingleAttackExecutionServiceScript,
 		CombatSingleAttackPostActionRiposteDecisionTest,
+		CombatCharacterAuthorityScript,
+		CombatReverseAttackProjectionScript,
+		CombatReverseModifierProjectionScript,
+		CombatAttackChainResultScript,
+		CombatAttackChainCompletionServiceScript,
+		CombatSynchronousReverseAttackExecutionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -904,6 +928,9 @@ func _init() -> void:
 	var phase_5b3b2a_result: Dictionary[String, Variant] = (
 		CombatSingleAttackPostActionRiposteDecisionTest.new().run_all()
 	)
+	var phase_5b3b2b_result: Dictionary[String, Variant] = (
+		CombatSynchronousReverseAttackExecutionTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -952,6 +979,8 @@ func _init() -> void:
 		phase_5b3b1_result["assertions"]
 	) + int(
 		phase_5b3b2a_result["assertions"]
+	) + int(
+		phase_5b3b2b_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -980,6 +1009,7 @@ func _init() -> void:
 	failures.append_array(phase_5b3a_result["failures"])
 	failures.append_array(phase_5b3b1_result["failures"])
 	failures.append_array(phase_5b3b2a_result["failures"])
+	failures.append_array(phase_5b3b2b_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
