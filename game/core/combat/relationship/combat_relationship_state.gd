@@ -80,6 +80,16 @@ func remove_opponent(character_id: StringName) -> bool:
 	return true
 
 
+## Internal seam used only by source-equivalent clean_up_enemy orchestration.
+## It bypasses remove_enemy() and therefore retains the separate killer marker.
+## Ordinary combat transitions must use remove_opponent().
+func _remove_opponent_for_cleanup(character_id: StringName) -> bool:
+	if not _opponent_ids.has(character_id):
+		return false
+	_opponent_ids.erase(character_id)
+	return true
+
+
 ## Mirrors remove_killer's local behavior. If no lethal marker exists, it
 ## still attempts ordinary opponent removal.
 func remove_lethal_relation(character_id: StringName) -> bool:
