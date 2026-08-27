@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://q0n70yorc3o7"]
+
+[ext_resource type="Script" uid="uid://bn4ywxkapa241" path="res://runtime/combat_slice/combat_vertical_slice_controller.gd" id="1_a183l"]
+[ext_resource type="Script" uid="uid://d2a2vcw5s581r" path="res://runtime/combat_slice/combat_slice_character_body.gd" id="2_22mop"]
+[ext_resource type="Script" uid="uid://ckmkn1i8h4cvv" path="res://runtime/combat_slice/combat_slice_hud.gd" id="3_cvmhx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjtlg"]
+size = Vector2(920, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wmweq"]
+size = Vector2(920, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f7xfx"]
+size = Vector2(20, 540)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxhlv"]
+size = Vector2(20, 540)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_acq4m"]
+size = Vector2(48, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nm3gd"]
+size = Vector2(48, 48)
+
+[node name="CombatVerticalSlice" type="Node2D" unique_id=945334287]
+script = ExtResource("1_a183l")
+
+[node name="Arena" type="Node2D" parent="." unique_id=81482109]
+
+[node name="Floor" type="ColorRect" parent="Arena" unique_id=673344942]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 920.0
+offset_bottom = 540.0
+mouse_filter = 2
+color = Color(0.105882354, 0.15294118, 0.20784314, 1)
+
+[node name="TopWall" type="StaticBody2D" parent="Arena" unique_id=1628269016]
+position = Vector2(480, 30)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena/TopWall" unique_id=1923903696]
+shape = SubResource("RectangleShape2D_sjtlg")
+
+[node name="BottomWall" type="StaticBody2D" parent="Arena" unique_id=1138711330]
+position = Vector2(480, 550)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena/BottomWall" unique_id=1224065034]
+shape = SubResource("RectangleShape2D_wmweq")
+
+[node name="LeftWall" type="StaticBody2D" parent="Arena" unique_id=1508937615]
+position = Vector2(30, 290)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena/LeftWall" unique_id=883772207]
+shape = SubResource("RectangleShape2D_f7xfx")
+
+[node name="RightWall" type="StaticBody2D" parent="Arena" unique_id=640305498]
+position = Vector2(930, 290)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena/RightWall" unique_id=597740940]
+shape = SubResource("RectangleShape2D_lxhlv")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=761957600]
+position = Vector2(300, 300)
+input_pickable = true
+script = ExtResource("2_22mop")
+player_controlled = true
+display_name = "Player"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1272108823]
+shape = SubResource("RectangleShape2D_acq4m")
+
+[node name="Visual" type="Polygon2D" parent="Player" unique_id=2092346302]
+color = Color(0.23921569, 0.54509807, 0.99215686, 1)
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+
+[node name="NameLabel" type="Label" parent="Player" unique_id=126033501]
+offset_left = -36.0
+offset_top = -62.0
+offset_right = -35.0
+offset_bottom = -39.0
+text = "Player"
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=838247329]
+position = Vector2(660, 300)
+input_pickable = true
+script = ExtResource("2_22mop")
+display_name = "Human Swordfighter"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=802394560]
+shape = SubResource("RectangleShape2D_nm3gd")
+
+[node name="Visual" type="Polygon2D" parent="Enemy" unique_id=1591911371]
+color = Color(0.8784314, 0.32156864, 0.32156864, 1)
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+
+[node name="NameLabel" type="Label" parent="Enemy" unique_id=1717865172]
+offset_left = -75.0
+offset_top = -62.0
+offset_right = -74.0
+offset_bottom = -39.0
+text = "Human Swordfighter"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1812567782]
+position = Vector2(480, 300)
+
+[node name="OpportunityTimer" type="Timer" parent="." unique_id=1207784981]
+
+[node name="CorpseLayer" type="Node2D" parent="." unique_id=949417360]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=2042893215]
+script = ExtResource("3_cvmhx")
+
+[node name="HudRoot" type="Control" parent="HUD" unique_id=2018040192]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerPanel" type="PanelContainer" parent="HUD/HudRoot" unique_id=1820418517]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 316.0
+offset_bottom = 116.0
+
+[node name="PlayerBox" type="VBoxContainer" parent="HUD/HudRoot/PlayerPanel" unique_id=1184876230]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PlayerTitle" type="Label" parent="HUD/HudRoot/PlayerPanel/PlayerBox" unique_id=1118910858]
+layout_mode = 2
+text = "Player Vitality"
+
+[node name="PlayerVitality" type="ProgressBar" parent="HUD/HudRoot/PlayerPanel/PlayerBox" unique_id=1695175874]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 24)
+layout_mode = 2
+show_percentage = false
+
+[node name="PlayerVitalityText" type="Label" parent="HUD/HudRoot/PlayerPanel/PlayerBox" unique_id=2085158059]
+unique_name_in_owner = true
+layout_mode = 2
+text = "220 / 220 / 220"
+
+[node name="EnemyPanel" type="PanelContainer" parent="HUD/HudRoot" unique_id=1225401725]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -316.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 136.0
+
+[node name="EnemyBox" type="VBoxContainer" parent="HUD/HudRoot/EnemyPanel" unique_id=230217388]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TargetName" type="Label" parent="HUD/HudRoot/EnemyPanel/EnemyBox" unique_id=1348287479]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Human Swordfighter"
+
+[node name="EnemyVitality" type="ProgressBar" parent="HUD/HudRoot/EnemyPanel/EnemyBox" unique_id=815871489]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 24)
+layout_mode = 2
+show_percentage = false
+
+[node name="EnemyVitalityText" type="Label" parent="HUD/HudRoot/EnemyPanel/EnemyBox" unique_id=465428491]
+unique_name_in_owner = true
+layout_mode = 2
+text = "220 / 220 / 220"
+
+[node name="BottomPanel" type="PanelContainer" parent="HUD/HudRoot" unique_id=1904864774]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -174.0
+offset_right = -16.0
+offset_bottom = -16.0
+
+[node name="BottomBox" type="VBoxContainer" parent="HUD/HudRoot/BottomPanel" unique_id=192871397]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Actions" type="HBoxContainer" parent="HUD/HudRoot/BottomPanel/BottomBox" unique_id=28240231]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SelectedTargetLabel" type="Label" parent="HUD/HudRoot/BottomPanel/BottomBox/Actions" unique_id=977403539]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Selected: none"
+
+[node name="AttackButton" type="Button" parent="HUD/HudRoot/BottomPanel/BottomBox/Actions" unique_id=1412253819]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Attack"
+
+[node name="ResetButton" type="Button" parent="HUD/HudRoot/BottomPanel/BottomBox/Actions" unique_id=1029238039]
+layout_mode = 2
+text = "Reset"
+
+[node name="CombatLog" type="RichTextLabel" parent="HUD/HudRoot/BottomPanel/BottomBox" unique_id=425232123]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 105)
+layout_mode = 2
+text = "Click the enemy, then press Attack."
+
+[connection signal="selection_requested" from="Enemy" to="." method="_on_enemy_selection_requested"]
+[connection signal="timeout" from="OpportunityTimer" to="." method="_on_opportunity_timer_timeout"]
+[connection signal="pressed" from="HUD/HudRoot/BottomPanel/BottomBox/Actions/AttackButton" to="." method="_on_attack_button_pressed"]
+[connection signal="pressed" from="HUD/HudRoot/BottomPanel/BottomBox/Actions/ResetButton" to="." method="_on_reset_button_pressed"]
