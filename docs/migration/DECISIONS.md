@@ -21,6 +21,13 @@ returns a typed failure at that position, after progression and before busy inte
 remain, while busy remains untouched. This avoids both a Godot crash and an invented divisor. Source:
 `reference/es2/mudlib/adm/daemons/combatd.c:149-160,390-432`.
 
+Phase 5B3B1 extends the same ordered policy to reached `fight()` perception and courage calls.
+`100 + effective perception <= 0` fails only when the target is invisible; visible targets never validate
+that bound. `raw cps * 3 <= 0` fails only after perception has passed and only when the victim is living
+and not busy; QUICK never validates it. A prior perception draw remains consumed when the later courage
+bound fails. Guarding is set before the fixed `random(5)` presentation draw, so an invalid guard draw
+retains that mutation. Source: `reference/es2/mudlib/adm/daemons/combatd.c::fight()`.
+
 **Reason:** The mudlib does not prove the deployed MudOS/FluffOS behavior for `random(0)` or a negative
 bound. Clamping to one, prevalidating all later bounds, or allowing a defense loop to hang would each alter
 observable source ordering. A typed result keeps the Godot domain safe while preserving all preceding

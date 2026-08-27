@@ -569,6 +569,24 @@ const FailingCombatRelationshipStateScript := preload(
 const CombatRelationshipOpponentFriendlyStopTest := preload(
 	"res://tests/core/combat_relationship_opponent_friendly_stop_test.gd"
 )
+const CombatAttackTypeScript := preload(
+	"res://core/combat/fight/combat_attack_type.gd"
+)
+const CombatPerceptionSkillProjectionScript := preload(
+	"res://core/combat/fight/combat_perception_skill_projection.gd"
+)
+const CombatFightDecisionFactsScript := preload(
+	"res://core/combat/fight/combat_fight_decision_facts.gd"
+)
+const CombatFightDecisionResultScript := preload(
+	"res://core/combat/fight/combat_fight_decision_result.gd"
+)
+const CombatFightDecisionServiceScript := preload(
+	"res://core/combat/fight/combat_fight_decision_service.gd"
+)
+const CombatFightDecisionGuardTest := preload(
+	"res://tests/core/combat_fight_decision_guard_test.gd"
+)
 
 
 func _init() -> void:
@@ -798,6 +816,12 @@ func _init() -> void:
 		CombatPostRelationshipServiceScript,
 		FailingCombatRelationshipStateScript,
 		CombatRelationshipOpponentFriendlyStopTest,
+		CombatAttackTypeScript,
+		CombatPerceptionSkillProjectionScript,
+		CombatFightDecisionFactsScript,
+		CombatFightDecisionResultScript,
+		CombatFightDecisionServiceScript,
+		CombatFightDecisionGuardTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -854,6 +878,9 @@ func _init() -> void:
 	var phase_5b3a_result: Dictionary[String, Variant] = (
 		CombatRelationshipOpponentFriendlyStopTest.new().run_all()
 	)
+	var phase_5b3b1_result: Dictionary[String, Variant] = (
+		CombatFightDecisionGuardTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -898,6 +925,8 @@ func _init() -> void:
 		phase_5b2b2_result["assertions"]
 	) + int(
 		phase_5b3a_result["assertions"]
+	) + int(
+		phase_5b3b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -924,6 +953,7 @@ func _init() -> void:
 	failures.append_array(phase_5b2b1_result["failures"])
 	failures.append_array(phase_5b2b2_result["failures"])
 	failures.append_array(phase_5b3a_result["failures"])
+	failures.append_array(phase_5b3b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
