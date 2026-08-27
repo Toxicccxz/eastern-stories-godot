@@ -142,8 +142,9 @@ wound 后观察 gin/kee/sen，DEATH 优先于 UNCONSCIOUS。wound RNG 的 typed 
 
 ## 明确延后
 
-- Phase 5B2B：dodge/parry/hit progression、potential/skills mutation、busy interrupt 的 ordered
-  composition，以及 standard force policy；
+- Phase 5B2B1：standard force policy（已关闭）；
+- Phase 5B2B2：dodge/parry/hit progression、potential/skills mutation，以及 ordered
+  busy/interrupt composition；
 - Phase 5B3：opponent selection、fight/kill relationship orchestration、friendly stop、guard/riposte、
   explicit combat step；
 - Phase 5B4+：authored martial/weapon/NPC hit policies、post_action、perform/exert/cast/conjure；

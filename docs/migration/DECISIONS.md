@@ -7,6 +7,20 @@
 the exact source position. Mutations already completed before that position are retained; in particular,
 kee damage is not rolled back when the later wound `random(D)` bound is invalid.
 
+Phase 5B2B2 extends the same decision to post-attack progression. A reached health-ratio expression
+whose `max_gin` is zero becomes a typed division failure at that exact branch; a reached non-positive
+progression `random()` bound or out-of-contract injected draw becomes a typed ordered failure. No
+maximum is invented and no prevalidation moves the failure ahead of resolver mutations. Consequently,
+late HIT failures preserve prior force, damage/wound, combat-exp, potential, and skill mutations exactly
+as far as source order had completed. Sources: `reference/es2/mudlib/adm/daemons/combatd.c`,
+`feature/skill.c`.
+
+The Phase 5B2B2 formal audit extends this to the later `report_status(victim, wounded)` expression.
+When a positive-damage HIT reaches `selected_kee * 100 / max_kee` with `max_kee == 0`, native code
+returns a typed failure at that position, after progression and before busy interruption. Earlier mutations
+remain, while busy remains untouched. This avoids both a Godot crash and an invented divisor. Source:
+`reference/es2/mudlib/adm/daemons/combatd.c:149-160,390-432`.
+
 **Reason:** The mudlib does not prove the deployed MudOS/FluffOS behavior for `random(0)` or a negative
 bound. Clamping to one, prevalidating all later bounds, or allowing a defense loop to hang would each alter
 observable source ordering. A typed result keeps the Godot domain safe while preserving all preceding

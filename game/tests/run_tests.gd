@@ -521,6 +521,33 @@ const StandardForceHitPolicyScript := preload(
 const StandardForceHitPolicyTest := preload(
 	"res://tests/core/standard_force_hit_policy_test.gd"
 )
+const CombatProgressionFactsScript := preload(
+	"res://core/combat/completion/combat_progression_facts.gd"
+)
+const CombatBusyInterruptProjectionScript := preload(
+	"res://core/combat/completion/combat_busy_interrupt_projection.gd"
+)
+const CombatStatusReportBoundaryResultScript := preload(
+	"res://core/combat/completion/combat_status_report_boundary_result.gd"
+)
+const CombatProgressionResultScript := preload(
+	"res://core/combat/completion/combat_progression_result.gd"
+)
+const CombatBusyInterruptResultScript := preload(
+	"res://core/combat/completion/combat_busy_interrupt_result.gd"
+)
+const CombatOrdinaryAttackResultScript := preload(
+	"res://core/combat/completion/combat_ordinary_attack_result.gd"
+)
+const CombatProgressionServiceScript := preload(
+	"res://core/combat/completion/combat_progression_service.gd"
+)
+const CombatAttackCompletionServiceScript := preload(
+	"res://core/combat/completion/combat_attack_completion_service.gd"
+)
+const CombatProgressionBusyCompletionTest := preload(
+	"res://tests/core/combat_progression_busy_completion_test.gd"
+)
 
 
 func _init() -> void:
@@ -734,6 +761,15 @@ func _init() -> void:
 		StandardForceHitResultScript,
 		StandardForceHitPolicyScript,
 		StandardForceHitPolicyTest,
+		CombatProgressionFactsScript,
+		CombatBusyInterruptProjectionScript,
+		CombatStatusReportBoundaryResultScript,
+		CombatProgressionResultScript,
+		CombatBusyInterruptResultScript,
+		CombatOrdinaryAttackResultScript,
+		CombatProgressionServiceScript,
+		CombatAttackCompletionServiceScript,
+		CombatProgressionBusyCompletionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -784,6 +820,9 @@ func _init() -> void:
 	var phase_5b2b1_result: Dictionary[String, Variant] = (
 		StandardForceHitPolicyTest.new().run_all()
 	)
+	var phase_5b2b2_result: Dictionary[String, Variant] = (
+		CombatProgressionBusyCompletionTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -824,6 +863,8 @@ func _init() -> void:
 		phase_5b2a_result["assertions"]
 	) + int(
 		phase_5b2b1_result["assertions"]
+	) + int(
+		phase_5b2b2_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -848,6 +889,7 @@ func _init() -> void:
 	failures.append_array(phase_5b1_result["failures"])
 	failures.append_array(phase_5b2a_result["failures"])
 	failures.append_array(phase_5b2b1_result["failures"])
+	failures.append_array(phase_5b2b2_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
