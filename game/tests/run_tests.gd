@@ -620,6 +620,9 @@ const CombatAttackChainCompletionServiceScript := preload(
 const CombatSynchronousReverseAttackExecutionTest := preload(
 	"res://tests/core/combat_synchronous_reverse_attack_execution_test.gd"
 )
+const CharacterRuntimeLifeStatusScript := preload(
+	"res://runtime/characters/character_runtime_life_status.gd"
+)
 const CombatSliceLifeStatusScript := preload(
 	"res://runtime/combat_slice/combat_slice_life_status.gd"
 )
@@ -664,6 +667,55 @@ const CombatSliceCorpseViewScript := preload(
 )
 const CombatSliceLifecycleCorpseTest := preload(
 	"res://tests/runtime/combat_slice_lifecycle_corpse_test.gd"
+)
+const RegionDefinitionScript := preload("res://core/world/region_definition.gd")
+const MapDefinitionScript := preload("res://core/world/map_definition.gd")
+const ZoneDefinitionScript := preload("res://core/world/zone_definition.gd")
+const PortalDefinitionScript := preload("res://core/world/portal_definition.gd")
+const WorldLocationStateScript := preload("res://core/world/world_location_state.gd")
+const NpcBaseAttributeOverridesScript := preload(
+	"res://core/npcs/npc_base_attribute_overrides.gd"
+)
+const NpcResourceTrackOverrideScript := preload(
+	"res://core/npcs/npc_resource_track_override.gd"
+)
+const NpcResourceOverridesScript := preload(
+	"res://core/npcs/npc_resource_overrides.gd"
+)
+const NpcSkillLevelDefinitionScript := preload(
+	"res://core/npcs/npc_skill_level_definition.gd"
+)
+const NpcLoadoutEntryScript := preload("res://core/npcs/npc_loadout_entry.gd")
+const NpcLoadoutItemDefinitionScript := preload(
+	"res://core/npcs/npc_loadout_item_definition.gd"
+)
+const NpcDefinitionScript := preload("res://core/npcs/npc_definition.gd")
+const NpcSpawnDefinitionScript := preload("res://core/npcs/npc_spawn_definition.gd")
+const NpcInitializationRandomSourceScript := preload(
+	"res://core/npcs/npc_initialization_random_source.gd"
+)
+const NpcRuntimeStateScript := preload("res://core/npcs/npc_runtime_state.gd")
+const NpcCharacterStateFactoryScript := preload(
+	"res://core/npcs/npc_character_state_factory.gd"
+)
+const MapCharacterRuntimeStateScript := preload(
+	"res://runtime/world/map_character_runtime_state.gd"
+)
+const OldPineWorldDefinitionsScript := preload(
+	"res://data/oldpine/oldpine_world_definitions.gd"
+)
+const OldPineNpcDefinitionsScript := preload(
+	"res://data/oldpine/oldpine_npc_definitions.gd"
+)
+const OldPineSpawnDefinitionsScript := preload(
+	"res://data/oldpine/oldpine_spawn_definitions.gd"
+)
+const ScriptedNpcInitializationRandomSourceScript := preload(
+	"res://tests/support/scripted_npc_initialization_random_source.gd"
+)
+const WorldDefinitionTest := preload("res://tests/core/world_definition_test.gd")
+const NpcSpawnFoundationTest := preload(
+	"res://tests/core/npc_spawn_foundation_test.gd"
 )
 
 
@@ -911,6 +963,7 @@ func _init() -> void:
 		CombatAttackChainResultScript,
 		CombatAttackChainCompletionServiceScript,
 		CombatSynchronousReverseAttackExecutionTest,
+		CharacterRuntimeLifeStatusScript,
 		CombatSliceLifeStatusScript,
 		CombatSliceCharacterBindingScript,
 		CombatSliceContentProfileScript,
@@ -926,6 +979,29 @@ func _init() -> void:
 		CombatSliceLifecycleAdapterScript,
 		CombatSliceCorpseViewScript,
 		CombatSliceLifecycleCorpseTest,
+		RegionDefinitionScript,
+		MapDefinitionScript,
+		ZoneDefinitionScript,
+		PortalDefinitionScript,
+		WorldLocationStateScript,
+		NpcBaseAttributeOverridesScript,
+		NpcResourceTrackOverrideScript,
+		NpcResourceOverridesScript,
+		NpcSkillLevelDefinitionScript,
+		NpcLoadoutEntryScript,
+		NpcLoadoutItemDefinitionScript,
+		NpcDefinitionScript,
+		NpcSpawnDefinitionScript,
+		NpcInitializationRandomSourceScript,
+		NpcRuntimeStateScript,
+		NpcCharacterStateFactoryScript,
+		MapCharacterRuntimeStateScript,
+		OldPineWorldDefinitionsScript,
+		OldPineNpcDefinitionsScript,
+		OldPineSpawnDefinitionsScript,
+		ScriptedNpcInitializationRandomSourceScript,
+		WorldDefinitionTest,
+		NpcSpawnFoundationTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1000,6 +1076,12 @@ func _init() -> void:
 	var phase_6b3_result: Dictionary[String, Variant] = (
 		await CombatSliceLifecycleCorpseTest.new().run_all(self)
 	)
+	var phase_7b1_world_result: Dictionary[String, Variant] = (
+		WorldDefinitionTest.new().run_all()
+	)
+	var phase_7b1_npc_result: Dictionary[String, Variant] = (
+		NpcSpawnFoundationTest.new().run_all()
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1056,6 +1138,10 @@ func _init() -> void:
 		phase_6b2_result["assertions"]
 	) + int(
 		phase_6b3_result["assertions"]
+	) + int(
+		phase_7b1_world_result["assertions"]
+	) + int(
+		phase_7b1_npc_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1088,6 +1174,8 @@ func _init() -> void:
 	failures.append_array(phase_6b1_result["failures"])
 	failures.append_array(phase_6b2_result["failures"])
 	failures.append_array(phase_6b3_result["failures"])
+	failures.append_array(phase_7b1_world_result["failures"])
+	failures.append_array(phase_7b1_npc_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

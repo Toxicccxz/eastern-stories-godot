@@ -1,0 +1,131 @@
+class_name OldPineNpcDefinitions
+extends RefCounted
+
+const BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.bandit"
+const SHORT_SWORD_ITEM_ID: StringName = &"es2:d/oldpine/obj/short_sword"
+const SILVER_ITEM_ID: StringName = &"es2:obj/money/silver"
+const AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = (
+	&"aggressive_on_player_presence"
+)
+
+const SHORT_SWORD_WEIGHT: int = 3_000
+const SHORT_SWORD_DAMAGE: int = 15
+const SILVER_BASE_VALUE: int = 100
+const SILVER_BASE_WEIGHT: int = 37
+
+
+static func bandit_definition() -> NpcDefinition:
+	return NpcDefinition.new(
+		BANDIT_DEFINITION_ID,
+		"d/oldpine/npc/bandit.c",
+		"土匪探哨",
+		[&"bandit"],
+		NpcCharacterStateFactory.HUMAN_RACE_ID,
+		true,
+		CharacterState.GENDER_MALE,
+		true,
+		19,
+		NpcBaseAttributeOverrides.new(),
+		NpcResourceOverrides.new(),
+		600,
+		60,
+		NpcDefinition.Attitude.AGGRESSIVE,
+		[
+			NpcSkillLevelDefinition.new(&"sword", 10),
+			NpcSkillLevelDefinition.new(&"parry", 10),
+			NpcSkillLevelDefinition.new(&"dodge", 10),
+		],
+		[
+			NpcLoadoutEntry.new(
+				SHORT_SWORD_ITEM_ID,
+				1,
+				NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY,
+				"d/oldpine/npc/obj/short_sword.c",
+			),
+			NpcLoadoutEntry.new(
+				SILVER_ITEM_ID,
+				3,
+				NpcLoadoutEntry.EquipmentIntent.NONE,
+				"obj/money/silver.c",
+			),
+		],
+		[AGGRESSIVE_ON_PLAYER_PRESENCE],
+	)
+
+
+static func short_sword_content() -> NpcLoadoutItemDefinition:
+	return NpcLoadoutItemDefinition.new(
+		ItemDefinition.new(
+			SHORT_SWORD_ITEM_ID,
+			"d/oldpine/obj/short_sword.c",
+		),
+		SHORT_SWORD_WEIGHT,
+		WeaponDefinition.new(
+			SHORT_SWORD_ITEM_ID,
+			&"sword",
+			true,
+			false,
+			"d/oldpine/obj/short_sword.c",
+		),
+		SHORT_SWORD_DAMAGE,
+		null,
+		null,
+		[
+			"d/oldpine/obj/short_sword.c",
+			"d/oldpine/npc/obj/short_sword.c",
+		],
+	)
+
+
+static func silver_content() -> NpcLoadoutItemDefinition:
+	return NpcLoadoutItemDefinition.new(
+		ItemDefinition.new(SILVER_ITEM_ID, "obj/money/silver.c"),
+		SILVER_BASE_WEIGHT,
+		null,
+		0,
+		CombinedStackDefinition.new(
+			SILVER_ITEM_ID,
+			&"/obj/money/silver",
+			SILVER_BASE_WEIGHT,
+		),
+		CurrencyDefinition.new(SILVER_ITEM_ID, SILVER_BASE_VALUE),
+		["obj/money/silver.c", "std/money.c"],
+	)
+
+
+static func loadout_item_definitions() -> Array[NpcLoadoutItemDefinition]:
+	return [short_sword_content(), silver_content()]
+
+
+static func npc_by_id(definition_id: StringName) -> NpcDefinition:
+	return bandit_definition() if definition_id == BANDIT_DEFINITION_ID else null
+
+
+static func loadout_content_by_id(
+	item_definition_id: StringName,
+) -> NpcLoadoutItemDefinition:
+	for content: NpcLoadoutItemDefinition in loadout_item_definitions():
+		if content.item_definition().item_definition_id == item_definition_id:
+			return content
+	return null
+
+
+static func validate() -> bool:
+	var bandit: NpcDefinition = bandit_definition()
+	if not bandit.is_valid():
+		return false
+	var content_ids: Dictionary[StringName, bool] = {}
+	for content: NpcLoadoutItemDefinition in loadout_item_definitions():
+		if content == null or not content.is_valid():
+			return false
+		var content_id: StringName = content.item_definition().item_definition_id
+		if content_id.is_empty() or content_ids.has(content_id):
+			return false
+		content_ids[content_id] = true
+	for entry: NpcLoadoutEntry in bandit.loadout_entries():
+		var content: NpcLoadoutItemDefinition = loadout_content_by_id(
+			entry.item_definition_id
+		)
+		if content == null or not content.is_valid():
+			return false
+	return true
