@@ -2,6 +2,10 @@ class_name OldPineNpcDefinitions
 extends RefCounted
 
 const BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.bandit"
+const TALL_BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.tall_bandit"
+const LONG_SWORD_ITEM_ID: StringName = (
+	OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID
+)
 const SHORT_SWORD_ITEM_ID: StringName = &"es2:d/oldpine/obj/short_sword"
 const SILVER_ITEM_ID: StringName = &"es2:obj/money/silver"
 const AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = (
@@ -54,6 +58,73 @@ static func bandit_definition() -> NpcDefinition:
 	)
 
 
+static func tall_bandit_definition() -> NpcDefinition:
+	return NpcDefinition.new(
+		TALL_BANDIT_DEFINITION_ID,
+		"d/oldpine/npc/tall_bandit.c",
+		"土匪",
+		[&"bandit"],
+		NpcCharacterStateFactory.HUMAN_RACE_ID,
+		true,
+		CharacterState.GENDER_MALE,
+		true,
+		27,
+		NpcBaseAttributeOverrides.new(),
+		NpcResourceOverrides.new(),
+		900,
+		100,
+		NpcDefinition.Attitude.AGGRESSIVE,
+		[
+			NpcSkillLevelDefinition.new(&"sword", 15),
+			NpcSkillLevelDefinition.new(&"parry", 15),
+			NpcSkillLevelDefinition.new(&"dodge", 10),
+		],
+		[
+			NpcLoadoutEntry.new(
+				LONG_SWORD_ITEM_ID,
+				1,
+				NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY,
+				"d/oldpine/npc/obj/long_sword.c",
+			),
+			NpcLoadoutEntry.new(
+				SILVER_ITEM_ID,
+				6,
+				NpcLoadoutEntry.EquipmentIntent.NONE,
+				"obj/money/silver.c",
+			),
+		],
+		[AGGRESSIVE_ON_PLAYER_PRESENCE],
+		"这家伙长得高高瘦瘦，脸色苍白，一付无精打采的样子。\n",
+	)
+
+
+static func long_sword_content() -> NpcLoadoutItemDefinition:
+	var authored: OldPineItemContentDefinition = (
+		OldPineItemContentDefinitions.content_by_id(LONG_SWORD_ITEM_ID)
+	)
+	if authored == null:
+		return null
+	var sources: Array[String] = authored.legacy_source_paths()
+	return NpcLoadoutItemDefinition.new(
+		ItemDefinition.new(
+			authored.item_definition_id,
+			sources[0],
+		),
+		authored.own_weight,
+		WeaponDefinition.new(
+			authored.item_definition_id,
+			authored.weapon_skill_type,
+			authored.can_wield_secondary,
+			authored.is_two_handed,
+			sources[0],
+		),
+		authored.weapon_damage,
+		null,
+		null,
+		sources,
+	)
+
+
 static func short_sword_content() -> NpcLoadoutItemDefinition:
 	return NpcLoadoutItemDefinition.new(
 		ItemDefinition.new(
@@ -95,11 +166,16 @@ static func silver_content() -> NpcLoadoutItemDefinition:
 
 
 static func loadout_item_definitions() -> Array[NpcLoadoutItemDefinition]:
-	return [short_sword_content(), silver_content()]
+	return [long_sword_content(), short_sword_content(), silver_content()]
 
 
 static func npc_by_id(definition_id: StringName) -> NpcDefinition:
-	return bandit_definition() if definition_id == BANDIT_DEFINITION_ID else null
+	match definition_id:
+		BANDIT_DEFINITION_ID:
+			return bandit_definition()
+		TALL_BANDIT_DEFINITION_ID:
+			return tall_bandit_definition()
+	return null
 
 
 static func loadout_content_by_id(
@@ -112,9 +188,13 @@ static func loadout_content_by_id(
 
 
 static func validate() -> bool:
-	var bandit: NpcDefinition = bandit_definition()
-	if not bandit.is_valid():
-		return false
+	var definitions: Array[NpcDefinition] = [
+		bandit_definition(),
+		tall_bandit_definition(),
+	]
+	for definition: NpcDefinition in definitions:
+		if not definition.is_valid():
+			return false
 	var content_ids: Dictionary[StringName, bool] = {}
 	for content: NpcLoadoutItemDefinition in loadout_item_definitions():
 		if content == null or not content.is_valid():
@@ -123,10 +203,11 @@ static func validate() -> bool:
 		if content_id.is_empty() or content_ids.has(content_id):
 			return false
 		content_ids[content_id] = true
-	for entry: NpcLoadoutEntry in bandit.loadout_entries():
-		var content: NpcLoadoutItemDefinition = loadout_content_by_id(
-			entry.item_definition_id
-		)
-		if content == null or not content.is_valid():
-			return false
+	for definition: NpcDefinition in definitions:
+		for entry: NpcLoadoutEntry in definition.loadout_entries():
+			var content: NpcLoadoutItemDefinition = loadout_content_by_id(
+				entry.item_definition_id
+			)
+			if content == null or not content.is_valid():
+				return false
 	return true

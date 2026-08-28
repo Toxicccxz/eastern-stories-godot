@@ -465,6 +465,9 @@ func _test_reset_clears_corpses_and_lifecycle_state(tree: SceneTree) -> void:
 	reset.player_binding.state.vitality.effective = -1
 	reset.process_cadence_tick()
 	_assert_true(reset.corpse_states()[0].corpse_item_instance_id != first_corpse_id, "reloaded encounter allocates a fresh corpse identity without global mutable state")
+	tree.unload_current_scene()
+	await tree.process_frame
+	await tree.physics_frame
 
 
 func _instantiate_scene(tree: SceneTree) -> CombatVerticalSliceController:

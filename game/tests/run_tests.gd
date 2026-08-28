@@ -819,6 +819,9 @@ const PlayerInventoryEquipmentTest := preload(
 const OldPineFullLootLoopTest := preload(
 	"res://tests/runtime/oldpine_full_loot_loop_test.gd"
 )
+const OldPinePineMazeTallBanditTest := preload(
+	"res://tests/runtime/oldpine_pine_maze_tall_bandit_test.gd"
+)
 
 
 func _init() -> void:
@@ -1233,6 +1236,9 @@ func _init() -> void:
 	var phase_8b2_loop_result: Dictionary[String, Variant] = (
 		await OldPineFullLootLoopTest.new().run_all(self)
 	)
+	var phase_9b1_result: Dictionary[String, Variant] = (
+		await OldPinePineMazeTallBanditTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1303,6 +1309,8 @@ func _init() -> void:
 		phase_8b2_unit_result["assertions"]
 	) + int(
 		phase_8b2_loop_result["assertions"]
+	) + int(
+		phase_9b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1342,6 +1350,7 @@ func _init() -> void:
 	failures.append_array(phase_8b1_result["failures"])
 	failures.append_array(phase_8b2_unit_result["failures"])
 	failures.append_array(phase_8b2_loop_result["failures"])
+	failures.append_array(phase_9b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

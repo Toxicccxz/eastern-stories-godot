@@ -630,7 +630,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_true(loot_panel.position.x >= 0.0 and loot_panel.position.y >= 0.0, "Loot panel begins inside the playable viewport")
 	_assert_true(loot_panel.position.x + loot_panel.size.x <= viewport_size.x, "Loot panel right edge remains inside the playable viewport")
 	_assert_true(loot_panel.position.y + loot_panel.size.y <= viewport_size.y, "Loot panel bottom edge remains inside the playable viewport")
-	_assert_eq(controller.item_instance_index().snapshot_count(), 7, "index registers player sword and all six bandit items")
+	_assert_eq(controller.item_instance_index().snapshot_count(), 9, "index registers player sword and all eight NPC items")
 	var player_primary: EquippedWeaponRef = controller.player_runtime().state.equipment.primary_weapon()
 	_assert_eq(controller.item_instance_index().resolve(player_primary.instance_id).item_definition_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, "player prototype long sword is indexed")
 	var expected_maximum: int = CharacterDerivedValues.maximum_encumbrance(controller.player_runtime().state.attributes.strength)
@@ -650,7 +650,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(view.selection_requested.get_connections().size(), 1, "completed corpse picking connects exactly once")
 	_assert_eq(view.loot_range_changed.get_connections().size(), 1, "completed corpse range connects exactly once")
 	_assert_true(controller.item_instance_index().has_snapshot(corpse.corpse_item_instance_id), "death boundary indexes generated corpse identity")
-	_assert_eq(controller.item_instance_index().snapshot_count(), 8, "corpse adds one index snapshot without replacing loot")
+	_assert_eq(controller.item_instance_index().snapshot_count(), 10, "corpse adds one index snapshot without replacing loot")
 	var click: InputEventMouseButton = InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
@@ -775,9 +775,9 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_true(fresh.selected_interaction_target() == null, "fresh scene clears ITEM target")
 	_assert_false(fresh.hud.loot_is_open(), "fresh scene closes loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
-	_assert_eq(fresh.item_instance_index().snapshot_count(), 7, "fresh scene rebuilds only initial item index")
+	_assert_eq(fresh.item_instance_index().snapshot_count(), 9, "fresh scene rebuilds only initial item index")
 	_assert_false(fresh.item_instance_index().has_snapshot(old_corpse_id), "fresh scene has no stale corpse identity")
-	_assert_eq(fresh.npc_runtimes().size(), 3, "fresh scene restores three bandits")
+	_assert_eq(fresh.npc_runtimes().size(), 4, "fresh scene restores all four bandits")
 	_assert_eq(fresh.npc_random_source().next_below(1000), npc_random_after_loot, "loot consumes zero NPC initialization RNG")
 	fresh.queue_free()
 	await tree.process_frame

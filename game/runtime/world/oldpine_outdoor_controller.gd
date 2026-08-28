@@ -42,6 +42,7 @@ const AggressionAdapterType := preload(
 	%Bandit02,
 	%Bandit03,
 ]
+@onready var tall_bandit_body: WorldCharacterBodyType = %TallBandit
 @onready var spawn_points: Node2D = %SpawnPoints
 @onready var corpse_layer: Node2D = %CorpseLayer
 @onready var opportunity_timer: Timer = %OpportunityTimer
@@ -57,6 +58,7 @@ var _npc_random: GodotNpcRandomType
 var _combat_random: CombatRandomSource
 var _effects: SkillImprovementEffectRegistry
 var _bandit_content: CombatSliceContentProfile
+var _tall_bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
@@ -122,7 +124,23 @@ func initialize_world() -> bool:
 		&"sword",
 		OldPineNpcDefinitions.SHORT_SWORD_DAMAGE,
 	)
-	if not _initialize_player() or not _initialize_bandits():
+	var tall_weapon_content: OldPineItemContentDefinition = (
+		OldPineItemContentDefinitions.content_by_id(
+			OldPineNpcDefinitions.LONG_SWORD_ITEM_ID
+		)
+	)
+	if tall_weapon_content == null:
+		return false
+	_tall_bandit_content = CombatSliceContentProfile.new(
+		tall_weapon_content.item_definition_id,
+		tall_weapon_content.weapon_skill_type,
+		tall_weapon_content.weapon_damage,
+	)
+	if (
+		not _initialize_player()
+		or not _initialize_bandits()
+		or not _initialize_tall_bandit()
+	):
 		return false
 	hud.configure(_player)
 	opportunity_timer.stop()
@@ -665,6 +683,39 @@ func _initialize_bandits() -> bool:
 	return true
 
 
+func _initialize_tall_bandit() -> bool:
+	var spawn: NpcSpawnDefinition = (
+		OldPineSpawnDefinitions.pine1_tall_bandit_spawn()
+	)
+	var definition: NpcDefinition = OldPineNpcDefinitions.tall_bandit_definition()
+	var created: Array[NpcRuntimeState] = (
+		NpcCharacterStateFactory.new().create_spawn_instances(
+			spawn,
+			definition,
+			_location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID),
+			_inventory,
+			_stacks,
+			_npc_random,
+			OldPineNpcDefinitions.loadout_item_definitions(),
+			_item_instance_scope,
+		)
+	)
+	if created.size() != 1:
+		return false
+	var npc: NpcRuntimeState = created[0]
+	for item: ItemInstance in npc.loadout_items():
+		if not _item_index.register_snapshot(item):
+			return false
+	var point_ids: Array[StringName] = spawn.spawn_point_ids()
+	var marker: WorldSpawnMarkerType = _find_spawn_marker(point_ids[0])
+	if marker == null or not _map_characters.register_npc(npc):
+		return false
+	_all_npcs.append(npc)
+	tall_bandit_body.global_position = marker.global_position
+	tall_bandit_body.player_controlled = false
+	return tall_bandit_body.bind_npc(npc)
+
+
 func _find_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
 	for child: Node in spawn_points.get_children():
 		var marker: WorldSpawnMarkerType = child as WorldSpawnMarkerType
@@ -695,8 +746,11 @@ func _build_participants() -> Array[CombatSliceCharacterBinding]:
 	for npc: NpcRuntimeState in _all_npcs:
 		if not npc.exists_in_map:
 			continue
+		var npc_content: CombatSliceContentProfile = _bandit_content
+		if npc.definition().definition_id == OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID:
+			npc_content = _tall_bandit_content
 		var binding: CombatSliceCharacterBinding = (
-			WorldCombatBindingAdapterType.from_npc(npc, _bandit_content)
+			WorldCombatBindingAdapterType.from_npc(npc, npc_content)
 		)
 		if binding != null:
 			result.append(binding)
@@ -980,6 +1034,8 @@ func _body_for(character_id: StringName) -> WorldCharacterBodyType:
 	for body: WorldCharacterBodyType in bandit_bodies:
 		if body.character_id == character_id:
 			return body
+	if tall_bandit_body.character_id == character_id:
+		return tall_bandit_body
 	return null
 
 
@@ -1176,6 +1232,18 @@ func _on_tree_canopy_body_entered(body: Node2D) -> void:
 	_update_body_zone(body, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID)
 
 
+func _on_pine_entrance_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID)
+
+
+func _on_pine_deep_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID)
+
+
+func _on_pine_cliff_edge_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID)
+
+
 func _on_bandit_01_presence_entered(body: Node2D) -> void:
 	_queue_bandit_presence(0, body)
 
@@ -1198,3 +1266,11 @@ func _on_bandit_03_presence_entered(body: Node2D) -> void:
 
 func _on_bandit_03_presence_exited(body: Node2D) -> void:
 	_leave_bandit_presence(2, body)
+
+
+func _on_tall_bandit_presence_entered(body: Node2D) -> void:
+	_queue_bandit_presence(3, body)
+
+
+func _on_tall_bandit_presence_exited(body: Node2D) -> void:
+	_leave_bandit_presence(3, body)

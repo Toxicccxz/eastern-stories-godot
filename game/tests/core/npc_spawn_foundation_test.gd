@@ -16,7 +16,9 @@ var _failures: Array[String] = []
 
 func run_all() -> Dictionary[String, Variant]:
 	_test_exact_bandit_definition()
+	_test_exact_tall_bandit_definition()
 	_test_human_rng_order_and_derived_state()
+	_test_tall_human_rng_order_and_derived_state()
 	_test_authored_attribute_skips_only_its_draw()
 	_test_authored_courage_skips_only_its_draw()
 	_test_invalid_rng_draw_rejected()
@@ -31,6 +33,51 @@ func run_all() -> Dictionary[String, Variant]:
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
 	}
+
+
+func _test_exact_tall_bandit_definition() -> void:
+	var tall: NpcDefinition = OldPineNpcs.tall_bandit_definition()
+	_assert_eq(tall.definition_id, &"oldpine.npc.tall_bandit", "tall bandit native ID")
+	_assert_eq(tall.legacy_source_path, "d/oldpine/npc/tall_bandit.c", "tall bandit source")
+	_assert_eq(tall.display_name, "土匪", "tall bandit name")
+	_assert_eq(tall.aliases(), [&"bandit"], "tall bandit alias")
+	_assert_eq(tall.race_id, &"human", "tall bandit human race")
+	_assert_eq(tall.gender, CharacterState.GENDER_MALE, "tall bandit male")
+	_assert_eq(tall.age, 27, "tall bandit age")
+	_assert_eq(tall.combat_experience, 900, "tall bandit combat exp")
+	_assert_eq(tall.score, 100, "tall bandit score")
+	_assert_eq(tall.attitude, NpcDefinition.Attitude.AGGRESSIVE, "tall bandit attitude")
+	_assert_true(tall.base_attribute_overrides().is_empty(), "tall bandit has no invented attributes")
+	_assert_true(tall.resource_overrides().is_empty(), "tall bandit has no invented resources")
+	var skills: Array[NpcSkillLevelDefinition] = tall.skill_levels()
+	_assert_eq(skills.size(), 3, "tall bandit exact skill count")
+	_assert_skill(skills[0], &"sword", 15, "tall sword")
+	_assert_skill(skills[1], &"parry", 15, "tall parry")
+	_assert_skill(skills[2], &"dodge", 10, "tall dodge")
+	var loadout: Array[NpcLoadoutEntry] = tall.loadout_entries()
+	_assert_eq(loadout.size(), 2, "tall bandit exact loadout count")
+	_assert_eq(loadout[0].item_definition_id, OldPineNpcs.LONG_SWORD_ITEM_ID, "tall long sword")
+	_assert_eq(loadout[0].quantity, 1, "tall owns one long sword")
+	_assert_eq(loadout[0].equipment_intent, NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY, "tall wields long sword")
+	_assert_eq(loadout[1].item_definition_id, OldPineNpcs.SILVER_ITEM_ID, "tall silver")
+	_assert_eq(loadout[1].quantity, 6, "tall silver amount six")
+	var sword: NpcLoadoutItemDefinition = OldPineNpcs.long_sword_content()
+	_assert_eq(sword.weapon_definition().skill_type, &"sword", "long sword skill type")
+	_assert_false(sword.weapon_definition().can_wield_as_secondary, "long sword lacks SECONDARY")
+	_assert_false(sword.weapon_definition().is_two_handed, "long sword is not authored two-handed")
+	_assert_eq(sword.weapon_damage, 25, "long sword source damage")
+	_assert_eq(sword.own_weight, 7000, "long sword source weight")
+	_assert_eq(
+		sword.legacy_source_paths(),
+		["d/oldpine/obj/long_sword.c", "d/oldpine/npc/obj/long_sword.c"],
+		"long sword traces both identical authored files",
+	)
+	var spawn: NpcSpawnDefinition = OldPineSpawns.pine1_tall_bandit_spawn()
+	_assert_eq(spawn.spawn_id, &"oldpine.outdoor.pine1.tall_bandit", "tall spawn ID")
+	_assert_eq(spawn.zone_id, OldPineWorld.PINE_ENTRANCE_ZONE_ID, "tall spawn zone")
+	_assert_eq(spawn.quantity, 1, "tall spawn quantity")
+	_assert_eq(spawn.legacy_quantity, 1, "tall legacy quantity")
+	_assert_eq(spawn.legacy_source_room_path, "d/oldpine/pine1.c", "tall spawn source")
 
 
 func _test_exact_bandit_definition() -> void:
@@ -161,6 +208,53 @@ func _test_human_rng_order_and_derived_state() -> void:
 		)
 	_assert_eq(runtime.character_state.progression.potential, 0, "no invented potential")
 	_assert_eq(runtime.character_state.progression.potential_spent, 0, "no invented spent potential")
+
+
+func _test_tall_human_rng_order_and_derived_state() -> void:
+	var random_source: ScriptedNpcInitializationRandomSource = ScriptedRandom.new(
+		[0, 20, 1, 19, 2, 18, 3, 17]
+	)
+	var inventory: InventoryState = InventoryState.new()
+	var stacks: CombinedStackCollection = CombinedStackCollection.new()
+	var runtime: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
+		OldPineNpcs.tall_bandit_definition(),
+		&"tall.rng.character",
+		OldPineSpawns.PINE1_TALL_BANDIT_SPAWN_ID,
+		&"tall.rng.point",
+		WorldLocationState.new(
+			OldPineWorld.REGION_ID,
+			OldPineWorld.OUTDOOR_MAP_ID,
+			OldPineWorld.PINE_ENTRANCE_ZONE_ID,
+			OldPineWorld.PINE_ENTRANCE_ZONE_ID,
+		),
+		inventory,
+		stacks,
+		random_source,
+		OldPineNpcs.loadout_item_definitions(),
+	)
+	_assert_true(runtime != null and runtime.is_valid(), "scripted tall bandit constructs")
+	_assert_eq(runtime.age, 27, "authored tall age preserved")
+	_assert_eq(random_source.call_count(), 8, "authored age consumes no random draw")
+	_assert_eq(random_source.requested_bounds(), [21, 21, 21, 21, 21, 21, 21, 21], "tall uses exact eight human attribute draws")
+	var attributes: CharacterBaseAttributes = runtime.character_state.attributes
+	_assert_eq(
+		[
+			attributes.strength, attributes.courage,
+			attributes.intelligence, attributes.spirituality,
+			attributes.composure, attributes.personality,
+			attributes.constitution, attributes.karma,
+		],
+		[10, 30, 11, 29, 12, 28, 13, 27],
+		"tall uses closed human attribute order",
+	)
+	_assert_resource(runtime.character_state.essence, 220, 220, 220, "age 27 gin")
+	_assert_resource(runtime.character_state.vitality, 220, 220, 220, "age 27 kee")
+	_assert_resource(runtime.character_state.spirit, 100, 100, 100, "age 27 sen")
+	_assert_eq(runtime.body_weight, 40000, "tall scripted strength 10 body weight")
+	_assert_eq(runtime.maximum_encumbrance, 50000, "tall scripted strength 10 capacity")
+	_assert_eq(runtime.character_state.skills.raw_level(&"sword"), 15, "tall runtime sword")
+	_assert_eq(runtime.character_state.skills.raw_level(&"parry"), 15, "tall runtime parry")
+	_assert_eq(runtime.character_state.skills.raw_level(&"dodge"), 10, "tall runtime dodge")
 
 
 func _test_authored_attribute_skips_only_its_draw() -> void:
@@ -526,14 +620,16 @@ func _test_oldpine_native_ids_are_unique() -> void:
 	for portal: PortalDefinition in OldPineWorld.portal_definitions():
 		_assert_register_unique(native_ids, portal.portal_id, "portal")
 	_assert_register_unique(native_ids, OldPineNpcs.bandit_definition().definition_id, "NPC")
+	_assert_register_unique(native_ids, OldPineNpcs.tall_bandit_definition().definition_id, "NPC")
 	_assert_register_unique(native_ids, OldPineSpawns.spath1_bandit_spawn().spawn_id, "spawn")
+	_assert_register_unique(native_ids, OldPineSpawns.pine1_tall_bandit_spawn().spawn_id, "spawn")
 	for content: NpcLoadoutItemDefinition in OldPineNpcs.loadout_item_definitions():
 		_assert_register_unique(
 			native_ids,
 			content.item_definition().item_definition_id,
 			"item",
 		)
-	_assert_eq(native_ids.size(), 24, "all 24 cross-category native IDs are distinct")
+	_assert_eq(native_ids.size(), 29, "all 29 cross-category native IDs are distinct")
 
 
 func _test_invalid_spawn_and_definition_shapes() -> void:

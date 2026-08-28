@@ -9,10 +9,10 @@
 [ext_resource type="Script" uid="uid://duk20722t8yhw" path="res://ui/world/player_inventory_panel.gd" id="6_dv2l0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e12ve"]
-size = Vector2(1530, 30)
+size = Vector2(3630, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6rgc"]
-size = Vector2(1530, 30)
+size = Vector2(3630, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfple"]
 size = Vector2(30, 1660)
@@ -38,6 +38,39 @@ size = Vector2(30, 630)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mgdfw"]
 size = Vector2(30, 630)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5rpdm"]
+size = Vector2(2100, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8w4h"]
+size = Vector2(2100, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4dxmd"]
+size = Vector2(30, 740)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbqnh"]
+size = Vector2(30, 740)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5nk1"]
+size = Vector2(280, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ryf8"]
+size = Vector2(220, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rrxua"]
+size = Vector2(300, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yrewu"]
+size = Vector2(40, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwde2"]
+size = Vector2(40, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06jef"]
+size = Vector2(260, 140)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cd663"]
+size = Vector2(260, 100)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jblgx"]
 size = Vector2(900, 600)
 
@@ -51,6 +84,15 @@ size = Vector2(900, 500)
 size = Vector2(600, 600)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_33p6k"]
+size = Vector2(600, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dguvr"]
+size = Vector2(600, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sgsjp"]
+size = Vector2(900, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70yi7"]
 size = Vector2(600, 600)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xp5ye"]
@@ -188,15 +230,15 @@ text = "Ancient pine — click to inspect / climb"
 [node name="WorldBounds" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=574248178]
 
 [node name="Top" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=1080462664]
-position = Vector2(750, -515)
+position = Vector2(-300, -515)
 shape = SubResource("RectangleShape2D_e12ve")
 
 [node name="Bottom" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=857833452]
-position = Vector2(750, 1115)
+position = Vector2(-300, 1115)
 shape = SubResource("RectangleShape2D_u6rgc")
 
 [node name="Left" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=1349771926]
-position = Vector2(-15, 300)
+position = Vector2(-2115, 300)
 shape = SubResource("RectangleShape2D_rfple")
 
 [node name="Right" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=80961316]
@@ -231,6 +273,54 @@ shape = SubResource("RectangleShape2D_j6bfy")
 position = Vector2(2315, 200)
 shape = SubResource("RectangleShape2D_mgdfw")
 
+[node name="PineMazeBounds" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=1299695890]
+
+[node name="Top" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeBounds" unique_id=1108730965]
+position = Vector2(-1050, -15)
+shape = SubResource("RectangleShape2D_5rpdm")
+
+[node name="Bottom" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeBounds" unique_id=1768355554]
+position = Vector2(-1050, 615)
+shape = SubResource("RectangleShape2D_b8w4h")
+
+[node name="ThresholdNorthWall" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeBounds" unique_id=447258925]
+position = Vector2(-15, -130)
+shape = SubResource("RectangleShape2D_4dxmd")
+
+[node name="ThresholdSouthWall" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeBounds" unique_id=908814822]
+position = Vector2(-15, 730)
+shape = SubResource("RectangleShape2D_pbqnh")
+
+[node name="PineMazeObstacles" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=1531626129]
+
+[node name="EntranceNorth" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=647125493]
+position = Vector2(-300, 120)
+shape = SubResource("RectangleShape2D_c5nk1")
+
+[node name="EntranceSouth" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=111088620]
+position = Vector2(-360, 510)
+shape = SubResource("RectangleShape2D_8ryf8")
+
+[node name="CentralIsland" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=1658978139]
+position = Vector2(-1050, 300)
+shape = SubResource("RectangleShape2D_rrxua")
+
+[node name="DeadEndWest" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=979119422]
+position = Vector2(-790, 130)
+shape = SubResource("RectangleShape2D_yrewu")
+
+[node name="DeadEndEast" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=2093845586]
+position = Vector2(-620, 130)
+shape = SubResource("RectangleShape2D_fwde2")
+
+[node name="CliffNorth" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=359931098]
+position = Vector2(-1700, 120)
+shape = SubResource("RectangleShape2D_06jef")
+
+[node name="CliffSouth" type="CollisionShape2D" parent="Terrain/Boundaries/PineMazeObstacles" unique_id=1582434614]
+position = Vector2(-1750, 500)
+shape = SubResource("RectangleShape2D_cd663")
+
 [node name="TreeCanopyPlatform" type="ColorRect" parent="Terrain" unique_id=192323295]
 offset_left = 1700.0
 offset_top = -100.0
@@ -254,6 +344,136 @@ offset_right = 1731.0
 offset_bottom = -47.0
 theme_override_font_sizes/font_size = 22
 text = "Tree canopy / tree1 landing"
+
+[node name="PineEntranceGround" type="ColorRect" parent="Terrain" unique_id=1800072901]
+offset_left = -600.0
+offset_bottom = 600.0
+mouse_filter = 2
+color = Color(0.12941177, 0.30980393, 0.20392157, 1)
+
+[node name="PineDeepGround" type="ColorRect" parent="Terrain" unique_id=949814424]
+offset_left = -1500.0
+offset_right = -600.0
+offset_bottom = 600.0
+mouse_filter = 2
+color = Color(0.09803922, 0.24705882, 0.16862746, 1)
+
+[node name="PineCliffEdgeGround" type="ColorRect" parent="Terrain" unique_id=843267211]
+offset_left = -2100.0
+offset_right = -1500.0
+offset_bottom = 600.0
+mouse_filter = 2
+color = Color(0.09019608, 0.21568628, 0.16078432, 1)
+
+[node name="PineEntranceLabel" type="Label" parent="Terrain" unique_id=1979846340]
+offset_left = -580.0
+offset_top = 25.0
+offset_right = 26.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 22
+text = "Pine Entrance / pine1–2"
+
+[node name="PineDeepLabel" type="Label" parent="Terrain" unique_id=1584327424]
+offset_left = -1480.0
+offset_top = 25.0
+offset_right = 26.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 22
+text = "Pine Deep / pine3–6"
+
+[node name="PineCliffEdgeLabel" type="Label" parent="Terrain" unique_id=85385173]
+offset_left = -2080.0
+offset_top = 25.0
+offset_right = 26.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 22
+text = "Pine Cliff Edge / pine7 + cliffdown"
+
+[node name="KeepBoundaryVisual" type="ColorRect" parent="Terrain" unique_id=281741632]
+offset_left = -590.0
+offset_right = -450.0
+offset_bottom = 45.0
+mouse_filter = 2
+color = Color(0.3372549, 0.23921569, 0.17254902, 1)
+
+[node name="CliffBoundaryVisual" type="ColorRect" parent="Terrain" unique_id=1295810782]
+offset_left = -2100.0
+offset_right = -2050.0
+offset_bottom = 600.0
+mouse_filter = 2
+color = Color(0.09019608, 0.23921569, 0.14509805, 1)
+
+[node name="KeepBoundaryLabel" type="Label" parent="Terrain" unique_id=2047483383]
+offset_left = -590.0
+offset_top = 50.0
+offset_right = -381.0
+offset_bottom = 81.0
+theme_override_font_sizes/font_size = 22
+text = "Keep path — closed"
+
+[node name="CliffBoundaryLabel" type="Label" parent="Terrain" unique_id=1563206488]
+offset_left = -2040.0
+offset_top = 280.0
+offset_right = -1869.0
+offset_bottom = 311.0
+theme_override_font_sizes/font_size = 22
+text = "Cliff descent — closed"
+
+[node name="ForestMassEntranceNorth" type="ColorRect" parent="Terrain" unique_id=821062985]
+offset_left = -440.0
+offset_top = 70.0
+offset_right = -160.0
+offset_bottom = 170.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
+
+[node name="ForestMassEntranceSouth" type="ColorRect" parent="Terrain" unique_id=1371983804]
+offset_left = -470.0
+offset_top = 450.0
+offset_right = -250.0
+offset_bottom = 570.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
+
+[node name="ForestMassCentralIsland" type="ColorRect" parent="Terrain" unique_id=1617221253]
+offset_left = -1200.0
+offset_top = 180.0
+offset_right = -900.0
+offset_bottom = 420.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
+
+[node name="ForestMassDeadEndWest" type="ColorRect" parent="Terrain" unique_id=2037573076]
+offset_left = -810.0
+offset_top = 20.0
+offset_right = -770.0
+offset_bottom = 240.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
+
+[node name="ForestMassDeadEndEast" type="ColorRect" parent="Terrain" unique_id=782219371]
+offset_left = -640.0
+offset_top = 20.0
+offset_right = -600.0
+offset_bottom = 240.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
+
+[node name="ForestMassCliffNorth" type="ColorRect" parent="Terrain" unique_id=1618097660]
+offset_left = -1830.0
+offset_top = 50.0
+offset_right = -1570.0
+offset_bottom = 190.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
+
+[node name="ForestMassCliffSouth" type="ColorRect" parent="Terrain" unique_id=1950431042]
+offset_left = -1880.0
+offset_top = 450.0
+offset_right = -1620.0
+offset_bottom = 550.0
+mouse_filter = 2
+color = Color(0.043137256, 0.16862746, 0.11372549, 1)
 
 [node name="Zones" type="Node2D" parent="." unique_id=1320053026]
 
@@ -291,6 +511,27 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/TreeCanopyZone" unique_id=1806999421]
 shape = SubResource("RectangleShape2D_33p6k")
+
+[node name="PineEntranceZone" type="Area2D" parent="Zones" unique_id=185982588]
+position = Vector2(-300, 300)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PineEntranceZone" unique_id=631995746]
+shape = SubResource("RectangleShape2D_dguvr")
+
+[node name="PineDeepZone" type="Area2D" parent="Zones" unique_id=1941348270]
+position = Vector2(-1050, 300)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PineDeepZone" unique_id=810578963]
+shape = SubResource("RectangleShape2D_sgsjp")
+
+[node name="PineCliffEdgeZone" type="Area2D" parent="Zones" unique_id=650817117]
+position = Vector2(-1800, 300)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PineCliffEdgeZone" unique_id=382029876]
+shape = SubResource("RectangleShape2D_70yi7")
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1257979559]
 unique_name_in_owner = true
@@ -331,6 +572,12 @@ position = Vector2(725, 410)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.central_clearing.pine_landing"
 
+[node name="Pine1TallBanditSpawn" type="Marker2D" parent="SpawnPoints" unique_id=2141432756]
+unique_name_in_owner = true
+position = Vector2(-300, 300)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"
+
 [node name="Characters" type="Node2D" parent="." unique_id=2115630038]
 
 [node name="Player" type="CharacterBody2D" parent="Characters" unique_id=1037619116]
@@ -359,7 +606,7 @@ theme_override_font_sizes/font_size = 16
 text = "Player"
 
 [node name="Camera2D" type="Camera2D" parent="Characters/Player" unique_id=1862042098]
-limit_left = 0
+limit_left = -2100
 limit_top = -500
 limit_right = 2300
 limit_bottom = 1100
@@ -458,6 +705,37 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit03/AggressionPresence" unique_id=316999734]
 shape = SubResource("CircleShape2D_4dxmd")
+
+[node name="TallBandit" type="CharacterBody2D" parent="Characters" unique_id=1574786604]
+unique_name_in_owner = true
+position = Vector2(-300, 300)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="ColorRect" parent="Characters/TallBandit" unique_id=1706469174]
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0.6901961, 0.41960785, 0.27058825, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/TallBandit" unique_id=719576928]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/TallBandit" unique_id=1771266040]
+offset_left = -58.0
+offset_top = -48.0
+offset_right = -57.0
+offset_bottom = -25.0
+theme_override_font_sizes/font_size = 16
+text = "土匪"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/TallBandit" unique_id=379486236]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/TallBandit/AggressionPresence" unique_id=2130742914]
+shape = SubResource("CircleShape2D_5rpdm")
 
 [node name="CorpseLayer" type="Node2D" parent="." unique_id=1765940814]
 unique_name_in_owner = true
@@ -723,11 +1001,34 @@ landmark_id = &"oldpine.outdoor.landmark.tree1_descent"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Tree1DescentInteraction" unique_id=1049458950]
 shape = SubResource("RectangleShape2D_1am3x")
 
+[node name="MazeEvidence" type="Node2D" parent="." unique_id=656622297]
+
+[node name="PineThresholdRoute" type="Marker2D" parent="MazeEvidence" unique_id=1726315998]
+position = Vector2(-40, 300)
+
+[node name="PineLoopNorth" type="Marker2D" parent="MazeEvidence" unique_id=168664963]
+position = Vector2(-1050, 120)
+
+[node name="PineLoopSouth" type="Marker2D" parent="MazeEvidence" unique_id=994804909]
+position = Vector2(-1050, 480)
+
+[node name="PineDeadEnd" type="Marker2D" parent="MazeEvidence" unique_id=951625266]
+position = Vector2(-705, 50)
+
+[node name="KeepFutureBoundary" type="Marker2D" parent="MazeEvidence" unique_id=121082982]
+position = Vector2(-520, 60)
+
+[node name="CliffFutureBoundary" type="Marker2D" parent="MazeEvidence" unique_id=2080534348]
+position = Vector2(-2040, 300)
+
 [connection signal="body_entered" from="Zones/CentralClearingZone" to="." method="_on_central_clearing_body_entered"]
 [connection signal="body_entered" from="Zones/SouthSlopeZone" to="." method="_on_south_slope_body_entered"]
 [connection signal="body_entered" from="Zones/NorthApproachZone" to="." method="_on_north_approach_body_entered"]
 [connection signal="body_entered" from="Zones/EastBridgeZone" to="." method="_on_east_bridge_body_entered"]
 [connection signal="body_entered" from="Zones/TreeCanopyZone" to="." method="_on_tree_canopy_body_entered"]
+[connection signal="body_entered" from="Zones/PineEntranceZone" to="." method="_on_pine_entrance_body_entered"]
+[connection signal="body_entered" from="Zones/PineDeepZone" to="." method="_on_pine_deep_body_entered"]
+[connection signal="body_entered" from="Zones/PineCliffEdgeZone" to="." method="_on_pine_cliff_edge_body_entered"]
 [connection signal="selection_requested" from="Characters/Bandit01" to="." method="_on_bandit_selection_requested"]
 [connection signal="body_entered" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_entered"]
 [connection signal="body_exited" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_exited"]
@@ -737,6 +1038,9 @@ shape = SubResource("RectangleShape2D_1am3x")
 [connection signal="selection_requested" from="Characters/Bandit03" to="." method="_on_bandit_selection_requested"]
 [connection signal="body_entered" from="Characters/Bandit03/AggressionPresence" to="." method="_on_bandit_03_presence_entered"]
 [connection signal="body_exited" from="Characters/Bandit03/AggressionPresence" to="." method="_on_bandit_03_presence_exited"]
+[connection signal="selection_requested" from="Characters/TallBandit" to="." method="_on_bandit_selection_requested"]
+[connection signal="body_entered" from="Characters/TallBandit/AggressionPresence" to="." method="_on_tall_bandit_presence_entered"]
+[connection signal="body_exited" from="Characters/TallBandit/AggressionPresence" to="." method="_on_tall_bandit_presence_exited"]
 [connection signal="timeout" from="OpportunityTimer" to="." method="_on_opportunity_timer_timeout"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/InspectButton" to="." method="_on_inspect_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/AttackButton" to="." method="_on_attack_button_pressed"]

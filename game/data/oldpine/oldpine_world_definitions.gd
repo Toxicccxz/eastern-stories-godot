@@ -11,7 +11,9 @@ const CENTRAL_CLEARING_ZONE_ID: StringName = &"oldpine.outdoor.central_clearing"
 const SOUTH_SLOPE_ZONE_ID: StringName = &"oldpine.outdoor.south_slope"
 const EAST_BRIDGE_ZONE_ID: StringName = &"oldpine.outdoor.east_bridge"
 const RIVER_GORGE_ZONE_ID: StringName = &"oldpine.outdoor.river_gorge"
-const PINE_MAZE_ZONE_ID: StringName = &"oldpine.outdoor.pine_maze"
+const PINE_ENTRANCE_ZONE_ID: StringName = &"oldpine.outdoor.pine_entrance"
+const PINE_DEEP_ZONE_ID: StringName = &"oldpine.outdoor.pine_deep"
+const PINE_CLIFF_EDGE_ZONE_ID: StringName = &"oldpine.outdoor.pine_cliff_edge"
 const CLIFF_LEDGE_ZONE_ID: StringName = &"oldpine.outdoor.cliff_ledge"
 const TREE_CANOPY_ZONE_ID: StringName = &"oldpine.outdoor.tree_canopy"
 const WATERFALL_PASSAGE_ZONE_ID: StringName = &"oldpine.cave.waterfall_passage"
@@ -30,6 +32,9 @@ const CLEARING_PINE_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.outdoor.central_clearing.pine_landing"
 )
 const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
+const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
+	&"oldpine.outdoor.pine1.tall_bandit"
+)
 
 
 static func region_definition() -> RegionDefinition:
@@ -48,12 +53,14 @@ static func map_definitions() -> Array[MapDefinition]:
 				SOUTH_SLOPE_ZONE_ID,
 				EAST_BRIDGE_ZONE_ID,
 				RIVER_GORGE_ZONE_ID,
-				PINE_MAZE_ZONE_ID,
+				PINE_ENTRANCE_ZONE_ID,
+				PINE_DEEP_ZONE_ID,
+				PINE_CLIFF_EDGE_ZONE_ID,
 				CLIFF_LEDGE_ZONE_ID,
 				TREE_CANOPY_ZONE_ID,
 			],
 			[CLIMB_PINE_PORTAL_ID, DESCEND_TREE1_PORTAL_ID],
-			[SPATH1_BANDIT_SPAWN_ID],
+			[SPATH1_BANDIT_SPAWN_ID, PINE1_TALL_BANDIT_SPAWN_ID],
 		),
 		MapDefinition.new(
 			CAVE_MAP_ID,
@@ -97,9 +104,14 @@ static func zone_definitions() -> Array[ZoneDefinition]:
 			"d/oldpine/riverbank1.c", "d/oldpine/riverbank2.c",
 			"d/oldpine/lake.c", "d/oldpine/waterfall.c",
 		]),
-		_zone(PINE_MAZE_ZONE_ID, OUTDOOR_MAP_ID, "松林迷径", [
-			"d/oldpine/pine1.c", "d/oldpine/pine2.c", "d/oldpine/pine3.c",
-			"d/oldpine/pine4.c", "d/oldpine/pine5.c", "d/oldpine/pine6.c",
+		_zone(PINE_ENTRANCE_ZONE_ID, OUTDOOR_MAP_ID, "松林入口", [
+			"d/oldpine/pine1.c", "d/oldpine/pine2.c",
+		]),
+		_zone(PINE_DEEP_ZONE_ID, OUTDOOR_MAP_ID, "松林深处", [
+			"d/oldpine/pine3.c", "d/oldpine/pine4.c",
+			"d/oldpine/pine5.c", "d/oldpine/pine6.c",
+		]),
+		_zone(PINE_CLIFF_EDGE_ZONE_ID, OUTDOOR_MAP_ID, "松林悬崖边", [
 			"d/oldpine/pine7.c", "d/oldpine/cliffdown.c",
 		]),
 		_zone(CLIFF_LEDGE_ZONE_ID, OUTDOOR_MAP_ID, "山壁落脚处", [

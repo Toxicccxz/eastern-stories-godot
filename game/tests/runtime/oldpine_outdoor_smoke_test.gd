@@ -82,13 +82,13 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		return
 	await tree.physics_frame
 	_assert_true(controller.player_runtime() != null, "world player runtime initializes")
-	_assert_eq(controller.npc_runtimes().size(), 3, "exactly three bandit runtimes initialize")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 3, "map-local collection owns three active NPCs")
+	_assert_eq(controller.npc_runtimes().size(), 4, "three scouts plus one tall bandit initialize")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 4, "map-local collection owns four active NPCs")
 	_assert_eq(controller.opportunity_timer.wait_time, 1.0, "map cadence is exactly one second")
 	_assert_false(controller.opportunity_timer.one_shot, "map cadence uses one repeating Timer")
 	_assert_false(controller.opportunity_timer.autostart, "map cadence never autostarts")
 	_assert_true(controller.opportunity_timer.is_stopped(), "passive authored bandits do not autostart cadence")
-	_assert_eq(_count_tree_nodes(controller), 123, "persisted Old Pine hierarchy includes Phase 8B2 inventory HUD nodes")
+	_assert_eq(_count_tree_nodes(controller), 173, "persisted Old Pine hierarchy includes fixed Pine Maze content")
 	_assert_true(controller.hud != null, "world HUD initializes")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/WorldBounds/Top") is CollisionShape2D, "world top collision persists")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/ForestObstacles/TreeBarrierNorthWest") is CollisionShape2D, "forest obstacle collision persists")
@@ -132,7 +132,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
-	_assert_eq(participants.size(), 4, "current projection contains player plus three live bandits")
+	_assert_eq(participants.size(), 5, "current projection contains player plus four live bandits")
 	var player_binding: CombatSliceCharacterBinding = participants[0]
 	var player: WorldPlayerRuntimeState = controller.player_runtime()
 	_assert_true(player_binding.state == player.state, "player projection aliases live CharacterState")
@@ -254,7 +254,7 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 	for _step: int in range(360):
 		controller.player_body._physics_process(1.0 / 60.0)
 	Input.action_release("move_left")
-	_assert_true(controller.player_body.position.x >= 16.9, "world boundary collision keeps player in continuous map")
+	_assert_true(controller.player_body.position.x >= -2083.1, "expanded world boundary keeps player in continuous map")
 	controller.queue_free()
 	await tree.process_frame
 
@@ -417,7 +417,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_true(controller.is_inside_tree(), "NPC death does not reload or end map")
 	_assert_true(controller.select_npc(bandits[2].character_id), "remaining bandit stays selectable")
 	_assert_true(controller.process_cadence_tick().is_empty(), "dead bandit never respawns or re-enters future cadence")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 2, "live map quantity naturally falls to two after death")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 3, "live map quantity naturally falls to three after death")
 	controller._on_south_slope_body_entered(controller.player_body)
 	controller.select_npc(bandits[0].character_id)
 	var second_initiation: CombatSliceInitiationResult = controller.attack_selected()
@@ -467,7 +467,7 @@ func _test_fresh_scene_reset_boundary(tree: SceneTree) -> void:
 				first_npc_item_ids.has(reset_item.item_instance_id),
 				"fresh scene owns fresh NPC ItemInstance IDs",
 			)
-	_assert_eq(reset.npc_runtimes().size(), 3, "fresh scene reconstructs exactly three bandits")
+	_assert_eq(reset.npc_runtimes().size(), 4, "fresh scene reconstructs all four bandits")
 	_assert_eq(reset.corpse_states().size(), 0, "fresh scene contains no stale corpse authority")
 	_assert_false(reset.player_runtime().relationship.is_fighting(), "fresh scene contains no stale player relation")
 	for npc: NpcRuntimeState in reset.npc_runtimes():

@@ -43,7 +43,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller != null, "real Old Pine scene instantiates for full loot loop")
 	if controller == null:
 		return
-	_assert_eq(_count_tree_nodes(controller), 123, "persisted scene contains Phase 8B2 inventory hierarchy")
+	_assert_eq(_count_tree_nodes(controller), 173, "persisted scene contains fixed Pine Maze hierarchy")
 	_assert_true(controller.hud.inventory_panel != null, "HUD owns one presentation-only Inventory panel")
 	_assert_false(controller.hud.inventory_is_open(), "Inventory panel starts closed")
 	_assert_false(controller.hud.loot_is_open(), "Loot panel starts closed")
@@ -423,7 +423,7 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_false(fresh.hud.inventory_is_open(), "fresh/reset boundary closes Inventory panel")
 	_assert_false(fresh.hud.loot_is_open(), "fresh/reset boundary closes Loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh/reset boundary has no corpses")
-	_assert_eq(fresh.npc_runtimes().size(), 3, "fresh/reset boundary restores three bandits")
+	_assert_eq(fresh.npc_runtimes().size(), 4, "fresh/reset boundary restores all four bandits")
 	_assert_true(fresh.open_player_inventory(), "fresh active player can open Inventory")
 	var rows: Array[PlayerInventoryRowProjection] = fresh.hud.inventory_rows()
 	_assert_eq(rows.size(), 1, "fresh/reset boundary removes acquired short and silver")

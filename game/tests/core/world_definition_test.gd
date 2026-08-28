@@ -40,19 +40,21 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 		OldPineWorld.SOUTH_SLOPE_ZONE_ID,
 		OldPineWorld.EAST_BRIDGE_ZONE_ID,
 		OldPineWorld.RIVER_GORGE_ZONE_ID,
-		OldPineWorld.PINE_MAZE_ZONE_ID,
+		OldPineWorld.PINE_ENTRANCE_ZONE_ID,
+		OldPineWorld.PINE_DEEP_ZONE_ID,
+		OldPineWorld.PINE_CLIFF_EDGE_ZONE_ID,
 		OldPineWorld.CLIFF_LEDGE_ZONE_ID,
 		OldPineWorld.TREE_CANOPY_ZONE_ID,
 	]
-	_assert_eq(maps[0].zone_ids(), expected_outdoor, "Phase 7A outdoor zone model")
-	_assert_eq(OldPineWorld.zone_definitions().size(), 14, "three-map zone count")
+	_assert_eq(maps[0].zone_ids(), expected_outdoor, "current outdoor zone model")
+	_assert_eq(OldPineWorld.zone_definitions().size(), 16, "three-map zone count")
 	var legacy_rooms: Array[String] = []
 	for zone: ZoneDefinition in OldPineWorld.zone_definitions():
 		_assert_true(zone.is_valid(), "zone is coherent")
 		_assert_true(OldPineWorld.map_by_id(zone.map_id) != null, "zone map resolves")
 		_assert_eq(zone.combat_location_id, zone.zone_id, "first slice explicit combat location")
 		legacy_rooms.append_array(zone.legacy_room_ids())
-	_assert_eq(legacy_rooms.size(), 41, "41 LPC rooms are metadata under 14 zones")
+	_assert_eq(legacy_rooms.size(), 41, "41 LPC rooms are metadata under 16 zones")
 	var unique_rooms: Dictionary[String, bool] = {}
 	for legacy_room: String in legacy_rooms:
 		unique_rooms[legacy_room] = true
@@ -64,6 +66,24 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 			"d/oldpine/spath3.c", "d/oldpine/spath4.c",
 		],
 		"south slope merges authored south path rooms",
+	)
+	_assert_eq(
+		OldPineWorld.zone_by_id(OldPineWorld.PINE_ENTRANCE_ZONE_ID).legacy_room_ids(),
+		["d/oldpine/pine1.c", "d/oldpine/pine2.c"],
+		"Pine Entrance traces pine1-pine2",
+	)
+	_assert_eq(
+		OldPineWorld.zone_by_id(OldPineWorld.PINE_DEEP_ZONE_ID).legacy_room_ids(),
+		[
+			"d/oldpine/pine3.c", "d/oldpine/pine4.c",
+			"d/oldpine/pine5.c", "d/oldpine/pine6.c",
+		],
+		"Pine Deep traces pine3-pine6",
+	)
+	_assert_eq(
+		OldPineWorld.zone_by_id(OldPineWorld.PINE_CLIFF_EDGE_ZONE_ID).legacy_room_ids(),
+		["d/oldpine/pine7.c", "d/oldpine/cliffdown.c"],
+		"Pine Cliff Edge traces pine7 and cliffdown",
 	)
 	var region_variant: Variant = region
 	var map_variant: Variant = maps[0]

@@ -307,6 +307,9 @@ func _test_reset_reloads_fresh_encounter(tree: SceneTree) -> void:
 	_assert_false(reloaded.hud.attack_is_enabled(), "Reset clears target selection")
 	_assert_eq(reloaded.enemy_body.get_signal_connection_list("selection_requested").size(), 1, "Reset does not duplicate enemy signal wiring")
 	_assert_eq(reloaded.opportunity_timer.get_signal_connection_list("timeout").size(), 1, "Reset does not duplicate Timer signal wiring")
+	tree.unload_current_scene()
+	await tree.process_frame
+	await tree.physics_frame
 
 
 func _assert_independent_bindings(controller: CombatVerticalSliceController) -> void:
