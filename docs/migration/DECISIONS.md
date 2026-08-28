@@ -174,3 +174,11 @@ partial mutation, not an atomic attack rollback. Sources:
 **Reason:** `feature/attack.c` stores live enemy objects but stores `killer` entries as public ID strings. Different live entities can share a public ID, so reproducing that mixed identity model would let one entity's lethal marker accidentally match another entity and would conflict with the stable identity already used by native relationship state.
 
 **Compatibility impact:** Simultaneous legacy entities with the same public ID no longer share or collide on a lethal marker. Cleanup, selection, friendly-stop eligibility, and all local relation mutations remain source-ordered; only the ambiguous public-ID collision is not reproduced. Sources: `reference/es2/mudlib/feature/attack.c`, `reference/es2/mudlib/adm/daemons/combatd.c`.
+
+## Corpse loot requires a near-corpse spatial range
+
+**Decision:** Phase 8B1 replaces LPC same-room corpse reachability with a map-local circular `LootInteractionRange Area2D` of radius 96 Godot pixels, centered on each runtime corpse view. Corpse selection and Inspect may occur by clicking, but Open Loot and every Take re-evaluate the player's current physical presence in that range. The range fact belongs only to the Old Pine scene/world interaction adapter; Inventory, Corpse, stack, and item Core receive no position or distance rule.
+
+**Reason:** `cmds/std/get.c` and `present(arg, environment(me))` make source reachability depend on sharing one discrete room. The native map is continuous and the current player/corpse bodies are roughly 36 pixels wide, so a 96-pixel circle permits deliberate nearby interaction without extending across the 150-pixel spacing between authored bandit spawn centers. `Area2D` supplies the physical representation and enter/exit notifications; execution also checks current corpse/player positions so a corpse created while already overlapping the player cannot miss its initial range fact.
+
+**Compatibility impact:** A player on the same continuous Godot map but farther than 96 pixels from the corpse cannot Open Loot or Take until approaching it. Once admitted, all item ownership, capacity, corpse-worn, stack merge, and fighting/busy results remain governed by the migrated source rules. Source: `reference/es2/mudlib/cmds/std/get.c`; native scene scale: `game/scenes/world/oldpine/oldpine_outdoor.tscn`.

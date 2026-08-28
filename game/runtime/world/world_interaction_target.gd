@@ -5,6 +5,7 @@ enum Kind {
 	INVALID,
 	CHARACTER,
 	LANDMARK,
+	ITEM,
 }
 
 var _kind: int
@@ -24,7 +25,10 @@ func _init(p_kind: int = Kind.INVALID, p_target_id: StringName = &"") -> void:
 
 
 func is_valid() -> bool:
-	return _kind in [Kind.CHARACTER, Kind.LANDMARK] and not _target_id.is_empty()
+	return (
+		_kind in [Kind.CHARACTER, Kind.LANDMARK, Kind.ITEM]
+		and not _target_id.is_empty()
+	)
 
 
 static func character(character_id: StringName) -> WorldInteractionTarget:
@@ -33,3 +37,7 @@ static func character(character_id: StringName) -> WorldInteractionTarget:
 
 static func landmark(landmark_id: StringName) -> WorldInteractionTarget:
 	return WorldInteractionTarget.new(Kind.LANDMARK, landmark_id)
+
+
+static func item(item_instance_id: StringName) -> WorldInteractionTarget:
+	return WorldInteractionTarget.new(Kind.ITEM, item_instance_id)

@@ -14,13 +14,18 @@ const WorldPlayerRuntimeType := preload(
 @onready var inspect_button: Button = %InspectButton
 @onready var attack_button: Button = %AttackButton
 @onready var portal_button: Button = %PortalButton
+@onready var open_loot_button: Button = %OpenLootButton
 @onready var inspection_text: RichTextLabel = %InspectionText
 @onready var combat_log: RichTextLabel = %CombatLog
+@onready var loot_panel: OldPineLootPanel = %LootPanel
 
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
 var _selected_landmark: WorldLandmarkDefinition
 var _selected_landmark_source_available: bool = false
+var _selected_corpse_name: String = ""
+var _selected_corpse_available: bool = false
+var _selected_corpse_in_range: bool = false
 var _log_lines: Array[String] = []
 
 
@@ -37,6 +42,8 @@ func set_selected_target(target: NpcRuntimeState) -> void:
 	_selected_target = target
 	_selected_landmark = null
 	_selected_landmark_source_available = false
+	_clear_selected_corpse()
+	close_loot()
 	inspection_text.text = ""
 	if target == null:
 		selected_target_label.text = "Selected: none"
@@ -52,6 +59,8 @@ func set_selected_landmark(
 	_selected_target = null
 	_selected_landmark = landmark
 	_selected_landmark_source_available = source_available
+	_clear_selected_corpse()
+	close_loot()
 	inspection_text.text = ""
 	selected_target_label.text = (
 		"Selected: none"
@@ -63,6 +72,29 @@ func set_selected_landmark(
 
 func set_selected_landmark_source_available(value: bool) -> void:
 	_selected_landmark_source_available = value
+	refresh_live_state()
+
+
+func set_selected_corpse(
+	victim_display_name: String,
+	content_count: int,
+	in_range: bool,
+	clear_inspection: bool = true,
+) -> void:
+	_selected_target = null
+	_selected_landmark = null
+	_selected_landmark_source_available = false
+	_selected_corpse_name = victim_display_name
+	_selected_corpse_available = not victim_display_name.is_empty()
+	_selected_corpse_in_range = in_range
+	if clear_inspection:
+		inspection_text.text = ""
+		close_loot()
+	selected_target_label.text = (
+		"Selected: none"
+		if not _selected_corpse_available
+		else "Selected corpse: %s (%d items)" % [victim_display_name, content_count]
+	)
 	refresh_live_state()
 
 
@@ -84,6 +116,30 @@ func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
 		definition.display_name,
 		definition.description.strip_edges(),
 	]
+
+
+func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
+	inspection_text.text = "Corpse of %s\nContents: %d" % [
+		victim_display_name,
+		content_count,
+	]
+
+
+func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
+	loot_panel.show_loot(title, rows)
+
+
+func close_loot() -> void:
+	if loot_panel != null:
+		loot_panel.close_loot()
+
+
+func loot_is_open() -> bool:
+	return loot_panel != null and loot_panel.is_open()
+
+
+func loot_rows() -> Array[WorldItemRowProjection]:
+	return [] if loot_panel == null else loot_panel.visible_rows()
 
 
 func refresh_live_state() -> void:
@@ -110,13 +166,21 @@ func refresh_live_state() -> void:
 	var landmark_available: bool = (
 		_selected_landmark != null and _selected_landmark.is_valid()
 	)
+	var corpse_available: bool = _selected_corpse_available
 	var player_available: bool = (
 		_player != null
 		and _player.exists_in_world
 		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	)
-	inspect_button.disabled = not target_available and not landmark_available
+	inspect_button.disabled = (
+		not target_available and not landmark_available and not corpse_available
+	)
 	attack_button.disabled = not target_available or not player_available
+	open_loot_button.disabled = (
+		not corpse_available
+		or not _selected_corpse_in_range
+		or not player_available
+	)
 	portal_button.disabled = (
 		not landmark_available
 		or not _selected_landmark_source_available
@@ -160,6 +224,16 @@ func portal_action_is_enabled() -> bool:
 
 func portal_action_text() -> String:
 	return portal_button.text
+
+
+func open_loot_is_enabled() -> bool:
+	return not open_loot_button.disabled
+
+
+func _clear_selected_corpse() -> void:
+	_selected_corpse_name = ""
+	_selected_corpse_available = false
+	_selected_corpse_in_range = false
 
 
 func _update_vitality(

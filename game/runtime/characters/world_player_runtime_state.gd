@@ -10,6 +10,7 @@ var _world_location: WorldLocationState
 var _life_status: int
 var _exists_in_world: bool
 var _combat_available: bool
+var _maximum_encumbrance: int
 
 var character_id: StringName:
 	get: return _character_id
@@ -27,6 +28,8 @@ var exists_in_world: bool:
 	get: return _exists_in_world
 var combat_available: bool:
 	get: return _combat_available
+var maximum_encumbrance: int:
+	get: return _maximum_encumbrance
 
 
 func _init(
@@ -39,6 +42,7 @@ func _init(
 	p_life_status: int = CharacterRuntimeLifeStatus.Value.ACTIVE,
 	p_exists_in_world: bool = true,
 	p_combat_available: bool = true,
+	p_maximum_encumbrance: int = 0,
 ) -> void:
 	_character_id = p_character_id
 	_state = p_state
@@ -51,6 +55,7 @@ func _init(
 	_life_status = p_life_status
 	_exists_in_world = p_exists_in_world
 	_combat_available = p_combat_available
+	_maximum_encumbrance = p_maximum_encumbrance
 
 
 func world_location() -> WorldLocationState:

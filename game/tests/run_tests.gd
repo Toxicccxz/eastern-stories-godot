@@ -768,6 +768,30 @@ const OldPineOutdoorSmokeTest := preload(
 const OldPinePortalAggressionTest := preload(
 	"res://tests/runtime/oldpine_portal_aggression_test.gd"
 )
+const WorldItemInstanceIndexScript := preload(
+	"res://runtime/world/world_item_instance_index.gd"
+)
+const OldPineItemContentDefinitionScript := preload(
+	"res://data/oldpine/oldpine_item_content_definition.gd"
+)
+const OldPineItemContentDefinitionsScript := preload(
+	"res://data/oldpine/oldpine_item_content_definitions.gd"
+)
+const WorldItemRowProjectionScript := preload(
+	"res://runtime/world/world_item_row_projection.gd"
+)
+const CorpseLootTransferResultScript := preload(
+	"res://runtime/world/corpse_loot_transfer_result.gd"
+)
+const OldPineCorpseLootAdapterScript := preload(
+	"res://runtime/world/oldpine_corpse_loot_adapter.gd"
+)
+const OldPineLootPanelScript := preload(
+	"res://ui/world/oldpine_loot_panel.gd"
+)
+const OldPineCorpseLootInteractionTest := preload(
+	"res://tests/runtime/oldpine_corpse_loot_interaction_test.gd"
+)
 
 
 func _init() -> void:
@@ -1070,6 +1094,14 @@ func _init() -> void:
 		WorldLandmarkArea2DScript,
 		OldPineOutdoorSmokeTest,
 		OldPinePortalAggressionTest,
+		WorldItemInstanceIndexScript,
+		OldPineItemContentDefinitionScript,
+		OldPineItemContentDefinitionsScript,
+		WorldItemRowProjectionScript,
+		CorpseLootTransferResultScript,
+		OldPineCorpseLootAdapterScript,
+		OldPineLootPanelScript,
+		OldPineCorpseLootInteractionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1156,6 +1188,9 @@ func _init() -> void:
 	var phase_7b3_result: Dictionary[String, Variant] = (
 		await OldPinePortalAggressionTest.new().run_all(self)
 	)
+	var phase_8b1_result: Dictionary[String, Variant] = (
+		await OldPineCorpseLootInteractionTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1220,6 +1255,8 @@ func _init() -> void:
 		phase_7b2_result["assertions"]
 	) + int(
 		phase_7b3_result["assertions"]
+	) + int(
+		phase_8b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1256,6 +1293,7 @@ func _init() -> void:
 	failures.append_array(phase_7b1_npc_result["failures"])
 	failures.append_array(phase_7b2_result["failures"])
 	failures.append_array(phase_7b3_result["failures"])
+	failures.append_array(phase_8b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

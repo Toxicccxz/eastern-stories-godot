@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://degspgdf2s6v7" path="res://runtime/world/world_spawn_marker_2d.gd" id="2_vreye"]
 [ext_resource type="Script" uid="uid://byabg1lrlaxrt" path="res://runtime/world/world_character_body_2d.gd" id="3_7i4ts"]
 [ext_resource type="Script" uid="uid://bguftr5owgtgn" path="res://runtime/world/oldpine_outdoor_hud.gd" id="4_dv2l0"]
+[ext_resource type="Script" uid="uid://gyvf6qijku2n" path="res://ui/world/oldpine_loot_panel.gd" id="5_7i4ts"]
 [ext_resource type="Script" uid="uid://dtaotwcg5s5p1" path="res://runtime/world/world_landmark_area_2d.gd" id="5_vreye"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e12ve"]
@@ -560,6 +561,12 @@ layout_mode = 2
 disabled = true
 text = "Traverse"
 
+[node name="OpenLootButton" type="Button" parent="HUD/Overlay/StatusPanel/Margin/VBox/Actions" unique_id=1197608521]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Open Loot"
+
 [node name="InspectionText" type="RichTextLabel" parent="HUD/Overlay/StatusPanel/Margin/VBox" unique_id=76290524]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 86)
@@ -575,6 +582,59 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 165)
 layout_mode = 2
 scroll_active = false
+
+[node name="LootPanel" type="PanelContainer" parent="HUD/Overlay" unique_id=1315970681]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(360, 240)
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -384.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 264.0
+script = ExtResource("5_7i4ts")
+
+[node name="Margin" type="MarginContainer" parent="HUD/Overlay/LootPanel" unique_id=789503504]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Overlay/LootPanel/Margin" unique_id=1071875705]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LootCorpseTitle" type="Label" parent="HUD/Overlay/LootPanel/Margin/VBox" unique_id=883068112]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Corpse Loot"
+
+[node name="Separator" type="HSeparator" parent="HUD/Overlay/LootPanel/Margin/VBox" unique_id=117817269]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="HUD/Overlay/LootPanel/Margin/VBox" unique_id=1779864235]
+custom_minimum_size = Vector2(320, 150)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="LootRows" type="VBoxContainer" parent="HUD/Overlay/LootPanel/Margin/VBox/Scroll" unique_id=1214556268]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LootEmptyLabel" type="Label" parent="HUD/Overlay/LootPanel/Margin/VBox" unique_id=780911526]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Empty"
+horizontal_alignment = 1
+
+[node name="LootCloseButton" type="Button" parent="HUD/Overlay/LootPanel/Margin/VBox" unique_id=211442670]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Close"
 
 [node name="Interactions" type="Node2D" parent="." unique_id=1619827207]
 
@@ -617,5 +677,8 @@ shape = SubResource("RectangleShape2D_1am3x")
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/AttackButton" to="." method="_on_attack_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/PortalButton" to="." method="_on_portal_button_pressed"]
+[connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/OpenLootButton" to="." method="_on_open_loot_button_pressed"]
+[connection signal="take_requested" from="HUD/Overlay/LootPanel" to="." method="_on_loot_take_requested"]
+[connection signal="pressed" from="HUD/Overlay/LootPanel/Margin/VBox/LootCloseButton" to="HUD/Overlay/LootPanel" method="_on_close_button_pressed"]
 [connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="selection_requested" from="Interactions/Tree1DescentInteraction" to="." method="_on_landmark_selection_requested"]

@@ -52,6 +52,7 @@ var _map_characters: MapCharacterRuntimeState
 var _all_npcs: Array[NpcRuntimeState] = []
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
+var _item_index: WorldItemInstanceIndex
 var _npc_random: GodotNpcRandomType
 var _combat_random: CombatRandomSource
 var _effects: SkillImprovementEffectRegistry
@@ -59,6 +60,7 @@ var _player_content: CombatSliceContentProfile
 var _bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
+var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
 var _corpse_sequence: int = 0
 var _last_tick_order: Array[StringName] = []
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
@@ -70,6 +72,8 @@ var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new
 var _aggression_adapter: AggressionAdapterType = AggressionAdapterType.new()
 var _last_aggression_decisions: Array[OldPineAggressionDecision] = []
 var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
+var _loot_adapter: OldPineCorpseLootAdapter = OldPineCorpseLootAdapter.new()
+var _last_loot_transfer_result: CorpseLootTransferResult
 
 
 func _ready() -> void:
@@ -79,6 +83,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _initialized and _aggression_adapter.pending_count() > 0:
 		process_pending_aggression()
+	if (
+		_initialized
+		and _selected_target != null
+		and _selected_target.kind == WorldInteractionTarget.Kind.ITEM
+	):
+		_refresh_selected_corpse()
 
 
 func initialize_world() -> bool:
@@ -87,6 +97,7 @@ func initialize_world() -> bool:
 	_item_instance_scope = StringName("oldpine-outdoor-%d" % get_instance_id())
 	_inventory = InventoryState.new()
 	_stacks = CombinedStackCollection.new()
+	_item_index = WorldItemInstanceIndex.new()
 	_map_characters = MapCharacterRuntimeState.new(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_npc_random = GodotNpcRandomType.new(
 		npc_seed,
@@ -132,6 +143,10 @@ func stack_collection() -> CombinedStackCollection:
 	return _stacks
 
 
+func item_instance_index() -> WorldItemInstanceIndex:
+	return _item_index
+
+
 func selected_character_id() -> StringName:
 	if (
 		_selected_target == null
@@ -163,6 +178,14 @@ func aggression_adapter() -> AggressionAdapterType:
 
 func corpse_states() -> Array[CorpseState]:
 	return _corpse_states.duplicate()
+
+
+func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
+	return _corpse_views.get(corpse_id)
+
+
+func last_loot_transfer_result() -> CorpseLootTransferResult:
+	return _last_loot_transfer_result
 
 
 func last_tick_order() -> Array[StringName]:
@@ -219,7 +242,32 @@ func select_landmark(landmark_id: StringName) -> bool:
 	return true
 
 
+func select_corpse(corpse_id: StringName) -> bool:
+	var corpse: CorpseState = _find_corpse(corpse_id)
+	if corpse == null or not _corpse_is_live_in_world(corpse):
+		return false
+	_selected_target = WorldInteractionTargetType.item(corpse_id)
+	hud.set_selected_corpse(
+		corpse.victim_display_name,
+		_corpse_content_count(corpse),
+		_player_is_in_corpse_loot_range(corpse_id),
+	)
+	return true
+
+
 func inspect_selected() -> bool:
+	if (
+		_selected_target != null
+		and _selected_target.kind == WorldInteractionTarget.Kind.ITEM
+	):
+		var corpse: CorpseState = _find_corpse(_selected_target.target_id)
+		if corpse == null or not _corpse_is_live_in_world(corpse):
+			return false
+		hud.show_corpse_inspection(
+			corpse.victim_display_name,
+			_corpse_content_count(corpse),
+		)
+		return true
 	if (
 		_selected_target != null
 		and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK
@@ -236,6 +284,58 @@ func inspect_selected() -> bool:
 		return false
 	hud.show_inspection(npc.definition())
 	return true
+
+
+func open_selected_loot() -> bool:
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null:
+		hud.close_loot()
+		return false
+	var validation: int = _loot_adapter.validate_open(
+		_player,
+		corpse,
+		_inventory,
+		_item_index,
+		_player_is_in_corpse_loot_range(corpse.corpse_item_instance_id),
+	)
+	if validation != OldPineCorpseLootAdapter.OpenValidation.READY:
+		hud.close_loot()
+		_refresh_selected_corpse()
+		return false
+	_refresh_loot_panel(corpse)
+	return true
+
+
+func take_selected_loot_item(
+	item_instance_id: StringName,
+) -> CorpseLootTransferResult:
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null:
+		_last_loot_transfer_result = CorpseLootTransferResult.new(
+			CorpseLootTransferResult.Outcome.CORPSE_NOT_AVAILABLE,
+			false,
+			_player.character_id,
+			&"",
+			item_instance_id,
+		)
+		hud.close_loot()
+		return _last_loot_transfer_result
+	_last_loot_transfer_result = _loot_adapter.take(
+		_player,
+		corpse,
+		item_instance_id,
+		_player_is_in_corpse_loot_range(corpse.corpse_item_instance_id),
+		_inventory,
+		_stacks,
+		_item_index,
+	)
+	_refresh_selected_corpse()
+	if hud.loot_is_open():
+		if _corpse_is_live_in_world(corpse):
+			_refresh_loot_panel(corpse)
+		else:
+			hud.close_loot()
+	return _last_loot_transfer_result
 
 
 func attack_selected() -> CombatSliceInitiationResult:
@@ -409,6 +509,9 @@ func _initialize_player() -> bool:
 		CharacterRuntimeLifeStatus.Value.ACTIVE,
 		true,
 		true,
+		CharacterDerivedValues.maximum_encumbrance(
+			prototype.state.attributes.strength
+		),
 	)
 	var demo_primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
 	if demo_primary == null:
@@ -434,9 +537,11 @@ func _initialize_player() -> bool:
 	)
 	if not _inventory.register_item(player_item, CombatSliceContentProfile.LONG_SWORD_WEIGHT):
 		return false
+	if not _item_index.register_snapshot(player_item):
+		return false
 	var player_destination: InventoryTransferDestination = _character_destination(
 		_player.character_id,
-		WORLD_CAPACITY,
+		_player.maximum_encumbrance,
 	)
 	if not InventoryTransferService.new().transfer(
 		_inventory,
@@ -467,6 +572,10 @@ func _initialize_bandits() -> bool:
 	)
 	if created.size() != spawn.quantity or created.size() != bandit_bodies.size():
 		return false
+	for npc: NpcRuntimeState in created:
+		for item: ItemInstance in npc.loadout_items():
+			if not _item_index.register_snapshot(item):
+				return false
 	var point_ids: Array[StringName] = spawn.spawn_point_ids()
 	for index: int in range(created.size()):
 		var npc: NpcRuntimeState = created[index]
@@ -548,6 +657,22 @@ func _execute_lifecycle(
 			if view.configure(corpse):
 				view.global_position = death_position
 				corpse_layer.add_child(view)
+				## Phase 6B3 preserves a partial corpse mutation/view even when
+				## death cannot complete. Phase 8B1 must not turn that evidence
+				## into an ordinary loot interaction.
+				if (
+					lifecycle.outcome
+					== CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE
+					and _item_index.register_snapshot(
+						ItemInstance.new(
+							corpse.corpse_item_instance_id,
+							CombatSliceDeathAdapter.CORPSE_DEFINITION_ID,
+						)
+					)
+				):
+					view.selection_requested.connect(_on_corpse_selection_requested)
+					view.loot_range_changed.connect(_on_corpse_loot_range_changed)
+					_corpse_views[corpse.corpse_item_instance_id] = view
 	return lifecycle
 
 
@@ -675,6 +800,84 @@ func _find_npc(character_id: StringName) -> NpcRuntimeState:
 	return null
 
 
+func _find_corpse(corpse_id: StringName) -> CorpseState:
+	for corpse: CorpseState in _corpse_states:
+		if corpse.corpse_item_instance_id == corpse_id:
+			return corpse
+	return null
+
+
+func _selected_corpse() -> CorpseState:
+	if (
+		_selected_target == null
+		or _selected_target.kind != WorldInteractionTarget.Kind.ITEM
+	):
+		return null
+	return _find_corpse(_selected_target.target_id)
+
+
+func _corpse_is_live_in_world(corpse: CorpseState) -> bool:
+	if (
+		corpse == null
+		or not _inventory.is_registered(corpse.corpse_item_instance_id)
+		or not _item_index.has_snapshot(corpse.corpse_item_instance_id)
+		or not _corpse_views.has(corpse.corpse_item_instance_id)
+	):
+		return false
+	var parent: ContainmentEndpoint = _inventory.direct_parent(
+		corpse.corpse_item_instance_id
+	)
+	return parent != null and parent.kind == ContainmentEndpoint.Kind.WORLD
+
+
+func _corpse_content_count(corpse: CorpseState) -> int:
+	if corpse == null:
+		return 0
+	return _inventory.direct_children(
+		ContainmentEndpoint.new(
+			ContainmentEndpoint.Kind.ITEM,
+			corpse.corpse_item_instance_id,
+		)
+	).size()
+
+
+func _player_is_in_corpse_loot_range(corpse_id: StringName) -> bool:
+	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
+	return view != null and view.is_body_in_loot_range(player_body)
+
+
+func _refresh_selected_corpse() -> void:
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null or not _corpse_is_live_in_world(corpse):
+		_clear_selected_corpse_target()
+		return
+	hud.set_selected_corpse(
+		corpse.victim_display_name,
+		_corpse_content_count(corpse),
+		_player_is_in_corpse_loot_range(corpse.corpse_item_instance_id),
+		false,
+	)
+
+
+func _clear_selected_corpse_target() -> void:
+	if (
+		_selected_target != null
+		and _selected_target.kind == WorldInteractionTarget.Kind.ITEM
+	):
+		_selected_target = null
+	hud.set_selected_corpse("", 0, false, true)
+
+
+func _refresh_loot_panel(corpse: CorpseState) -> void:
+	var rows: Array[WorldItemRowProjection] = _loot_adapter.project_rows(
+		corpse,
+		_inventory,
+		_stacks,
+		_item_index,
+	)
+	hud.show_loot("Corpse of %s" % corpse.victim_display_name, rows)
+
+
 func _body_for(character_id: StringName) -> WorldCharacterBodyType:
 	if character_id == _player.character_id:
 		return player_body
@@ -795,6 +998,24 @@ func _on_landmark_selection_requested(landmark_id: StringName) -> void:
 	select_landmark(landmark_id)
 
 
+func _on_corpse_selection_requested(corpse_id: StringName) -> void:
+	select_corpse(corpse_id)
+
+
+func _on_corpse_loot_range_changed(
+	corpse_id: StringName,
+	body: Node2D,
+	_is_inside: bool,
+) -> void:
+	if (
+		body == player_body
+		and _selected_target != null
+		and _selected_target.kind == WorldInteractionTarget.Kind.ITEM
+		and _selected_target.target_id == corpse_id
+	):
+		_refresh_selected_corpse()
+
+
 func _on_inspect_button_pressed() -> void:
 	inspect_selected()
 
@@ -805,6 +1026,14 @@ func _on_attack_button_pressed() -> void:
 
 func _on_portal_button_pressed() -> void:
 	traverse_selected_portal()
+
+
+func _on_open_loot_button_pressed() -> void:
+	open_selected_loot()
+
+
+func _on_loot_take_requested(item_instance_id: StringName) -> void:
+	take_selected_loot_item(item_instance_id)
 
 
 func _on_opportunity_timer_timeout() -> void:
