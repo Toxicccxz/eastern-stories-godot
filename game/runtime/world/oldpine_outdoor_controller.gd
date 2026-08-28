@@ -56,7 +56,6 @@ var _item_index: WorldItemInstanceIndex
 var _npc_random: GodotNpcRandomType
 var _combat_random: CombatRandomSource
 var _effects: SkillImprovementEffectRegistry
-var _player_content: CombatSliceContentProfile
 var _bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
@@ -74,6 +73,15 @@ var _last_aggression_decisions: Array[OldPineAggressionDecision] = []
 var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
 var _loot_adapter: OldPineCorpseLootAdapter = OldPineCorpseLootAdapter.new()
 var _last_loot_transfer_result: CorpseLootTransferResult
+var _inventory_projection: PlayerInventoryProjection = PlayerInventoryProjection.new()
+var _equipment_adapter: OldPineEquipmentInteractionAdapter = (
+	OldPineEquipmentInteractionAdapter.new()
+)
+var _weapon_content_resolver: OldPineWeaponContentResolver = (
+	OldPineWeaponContentResolver.new()
+)
+var _last_equipment_interaction: OldPineEquipmentInteractionResult
+var _last_player_content_resolution: OldPineWeaponContentResolution
 
 
 func _ready() -> void:
@@ -109,7 +117,6 @@ func initialize_world() -> bool:
 	)
 	_effects = SkillImprovementEffectRegistry.new()
 	_effects.register_legacy_defaults()
-	_player_content = CombatSliceContentProfile.new()
 	_bandit_content = CombatSliceContentProfile.new(
 		OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID,
 		&"sword",
@@ -186,6 +193,14 @@ func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
 
 func last_loot_transfer_result() -> CorpseLootTransferResult:
 	return _last_loot_transfer_result
+
+
+func last_equipment_interaction() -> OldPineEquipmentInteractionResult:
+	return _last_equipment_interaction
+
+
+func last_player_content_resolution() -> OldPineWeaponContentResolution:
+	return _last_player_content_resolution
 
 
 func last_tick_order() -> Array[StringName]:
@@ -287,6 +302,7 @@ func inspect_selected() -> bool:
 
 
 func open_selected_loot() -> bool:
+	hud.close_inventory()
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null:
 		hud.close_loot()
@@ -335,7 +351,65 @@ func take_selected_loot_item(
 			_refresh_loot_panel(corpse)
 		else:
 			hud.close_loot()
+	if hud.inventory_is_open():
+		_refresh_inventory_panel()
 	return _last_loot_transfer_result
+
+
+func open_player_inventory() -> bool:
+	if (
+		_player == null
+		or not _player.is_valid()
+		or not _player.exists_in_world
+		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+	):
+		hud.close_inventory()
+		return false
+	_refresh_inventory_panel()
+	return true
+
+
+func inspect_player_item(item_instance_id: StringName) -> bool:
+	var row: PlayerInventoryRowProjection = _inventory_projection.project_item(
+		_player,
+		_inventory,
+		_stacks,
+		_item_index,
+		item_instance_id,
+	)
+	if row == null:
+		if hud.inventory_is_open():
+			_refresh_inventory_panel()
+		return false
+	hud.show_inventory_inspection(row)
+	return true
+
+
+func wield_player_item(
+	item_instance_id: StringName,
+) -> OldPineEquipmentInteractionResult:
+	_last_equipment_interaction = _equipment_adapter.wield(
+		_player,
+		item_instance_id,
+		_inventory,
+		_item_index,
+	)
+	if hud.inventory_is_open():
+		_refresh_inventory_panel()
+	return _last_equipment_interaction
+
+
+func unwield_player_item(
+	item_instance_id: StringName,
+) -> OldPineEquipmentInteractionResult:
+	_last_equipment_interaction = _equipment_adapter.unwield(
+		_player,
+		item_instance_id,
+		_inventory,
+	)
+	if hud.inventory_is_open():
+		_refresh_inventory_panel()
+	return _last_equipment_interaction
 
 
 func attack_selected() -> CombatSliceInitiationResult:
@@ -601,8 +675,20 @@ func _find_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
 
 func _build_participants() -> Array[CombatSliceCharacterBinding]:
 	var result: Array[CombatSliceCharacterBinding] = []
+	_last_player_content_resolution = _weapon_content_resolver.resolve(
+		_player,
+		_inventory,
+		_item_index,
+	)
 	var player_binding: CombatSliceCharacterBinding = (
-		WorldCombatBindingAdapterType.from_player(_player, _player_content)
+		WorldCombatBindingAdapterType.from_player(
+			_player,
+			(
+				_last_player_content_resolution.content_profile
+				if _last_player_content_resolution.succeeded
+				else null
+			),
+		)
 	)
 	if player_binding != null:
 		result.append(player_binding)
@@ -878,6 +964,16 @@ func _refresh_loot_panel(corpse: CorpseState) -> void:
 	hud.show_loot("Corpse of %s" % corpse.victim_display_name, rows)
 
 
+func _refresh_inventory_panel() -> void:
+	var rows: Array[PlayerInventoryRowProjection] = _inventory_projection.project_rows(
+		_player,
+		_inventory,
+		_stacks,
+		_item_index,
+	)
+	hud.show_inventory(rows)
+
+
 func _body_for(character_id: StringName) -> WorldCharacterBodyType:
 	if character_id == _player.character_id:
 		return player_body
@@ -1032,8 +1128,24 @@ func _on_open_loot_button_pressed() -> void:
 	open_selected_loot()
 
 
+func _on_inventory_button_pressed() -> void:
+	open_player_inventory()
+
+
 func _on_loot_take_requested(item_instance_id: StringName) -> void:
 	take_selected_loot_item(item_instance_id)
+
+
+func _on_inventory_inspect_requested(item_instance_id: StringName) -> void:
+	inspect_player_item(item_instance_id)
+
+
+func _on_inventory_wield_requested(item_instance_id: StringName) -> void:
+	wield_player_item(item_instance_id)
+
+
+func _on_inventory_unwield_requested(item_instance_id: StringName) -> void:
+	unwield_player_item(item_instance_id)
 
 
 func _on_opportunity_timer_timeout() -> void:

@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bguftr5owgtgn" path="res://runtime/world/oldpine_outdoor_hud.gd" id="4_dv2l0"]
 [ext_resource type="Script" uid="uid://gyvf6qijku2n" path="res://ui/world/oldpine_loot_panel.gd" id="5_7i4ts"]
 [ext_resource type="Script" uid="uid://dtaotwcg5s5p1" path="res://runtime/world/world_landmark_area_2d.gd" id="5_vreye"]
+[ext_resource type="Script" uid="uid://duk20722t8yhw" path="res://ui/world/player_inventory_panel.gd" id="6_dv2l0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e12ve"]
 size = Vector2(1530, 30)
@@ -481,7 +482,7 @@ mouse_filter = 2
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
-offset_right = 410.0
+offset_right = 530.0
 offset_bottom = 625.0
 mouse_filter = 1
 
@@ -567,6 +568,12 @@ layout_mode = 2
 disabled = true
 text = "Open Loot"
 
+[node name="InventoryButton" type="Button" parent="HUD/Overlay/StatusPanel/Margin/VBox/Actions" unique_id=32879865]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Inventory"
+
 [node name="InspectionText" type="RichTextLabel" parent="HUD/Overlay/StatusPanel/Margin/VBox" unique_id=76290524]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 86)
@@ -636,6 +643,64 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Close"
 
+[node name="PlayerInventoryPanel" type="PanelContainer" parent="HUD/Overlay" unique_id=508721250]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(440, 520)
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -464.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 544.0
+script = ExtResource("6_dv2l0")
+
+[node name="Margin" type="MarginContainer" parent="HUD/Overlay/PlayerInventoryPanel" unique_id=1710835325]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Overlay/PlayerInventoryPanel/Margin" unique_id=829304296]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox" unique_id=817086601]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Player Inventory"
+
+[node name="Separator" type="HSeparator" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox" unique_id=1168156050]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox" unique_id=1376302530]
+custom_minimum_size = Vector2(400, 250)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="PlayerInventoryRows" type="VBoxContainer" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox/Scroll" unique_id=1906867734]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerInventoryEmptyLabel" type="Label" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox" unique_id=1618558143]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Empty"
+horizontal_alignment = 1
+
+[node name="PlayerInventoryInspectText" type="RichTextLabel" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox" unique_id=1890941013]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 140)
+layout_mode = 2
+
+[node name="PlayerInventoryCloseButton" type="Button" parent="HUD/Overlay/PlayerInventoryPanel/Margin/VBox" unique_id=677289348]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Close"
+
 [node name="Interactions" type="Node2D" parent="." unique_id=1619827207]
 
 [node name="PineInteraction" type="Area2D" parent="Interactions" unique_id=1337559683]
@@ -678,7 +743,12 @@ shape = SubResource("RectangleShape2D_1am3x")
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/PortalButton" to="." method="_on_portal_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/OpenLootButton" to="." method="_on_open_loot_button_pressed"]
+[connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/InventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="take_requested" from="HUD/Overlay/LootPanel" to="." method="_on_loot_take_requested"]
 [connection signal="pressed" from="HUD/Overlay/LootPanel/Margin/VBox/LootCloseButton" to="HUD/Overlay/LootPanel" method="_on_close_button_pressed"]
+[connection signal="inspect_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_inspect_requested"]
+[connection signal="unwield_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_unwield_requested"]
+[connection signal="wield_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_wield_requested"]
+[connection signal="pressed" from="HUD/Overlay/PlayerInventoryPanel/Margin/VBox/PlayerInventoryCloseButton" to="HUD/Overlay/PlayerInventoryPanel" method="_on_close_button_pressed"]
 [connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="selection_requested" from="Interactions/Tree1DescentInteraction" to="." method="_on_landmark_selection_requested"]

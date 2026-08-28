@@ -64,15 +64,23 @@ func _init(
 
 
 func is_valid() -> bool:
+	var has_verified_weapon: bool = (
+		not _verified_weapon_id.is_empty()
+		and not _verified_weapon_skill_id.is_empty()
+		and _verified_weapon_damage >= 0
+	)
+	var is_unarmed_only: bool = (
+		_verified_weapon_id.is_empty()
+		and _verified_weapon_skill_id.is_empty()
+		and _verified_weapon_damage == 0
+	)
 	return (
 		_limbs.size() == 16
 		and _slash_action_set.is_valid()
 		and _slash_action_set.size() == 1
 		and _unarmed_action_set.is_valid()
 		and _unarmed_action_set.size() == 1
-		and not _verified_weapon_id.is_empty()
-		and not _verified_weapon_skill_id.is_empty()
-		and _verified_weapon_damage >= 0
+		and (has_verified_weapon or is_unarmed_only)
 	)
 
 
@@ -114,4 +122,10 @@ func attack_template_for(weapon: EquippedWeaponRef) -> CombatActionDefinition:
 
 
 func has_attack_skill_definition(skill_id: StringName) -> bool:
-	return skill_id == _verified_weapon_skill_id or skill_id == &"unarmed"
+	return (
+		skill_id == &"unarmed"
+		or (
+			not _verified_weapon_skill_id.is_empty()
+			and skill_id == _verified_weapon_skill_id
+		)
+	)

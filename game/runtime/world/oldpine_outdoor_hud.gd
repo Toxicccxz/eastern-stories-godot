@@ -15,9 +15,11 @@ const WorldPlayerRuntimeType := preload(
 @onready var attack_button: Button = %AttackButton
 @onready var portal_button: Button = %PortalButton
 @onready var open_loot_button: Button = %OpenLootButton
+@onready var inventory_button: Button = %InventoryButton
 @onready var inspection_text: RichTextLabel = %InspectionText
 @onready var combat_log: RichTextLabel = %CombatLog
 @onready var loot_panel: OldPineLootPanel = %LootPanel
+@onready var inventory_panel: PlayerInventoryPanel = %PlayerInventoryPanel
 
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
@@ -126,6 +128,7 @@ func show_corpse_inspection(victim_display_name: String, content_count: int) -> 
 
 
 func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
+	close_inventory()
 	loot_panel.show_loot(title, rows)
 
 
@@ -140,6 +143,29 @@ func loot_is_open() -> bool:
 
 func loot_rows() -> Array[WorldItemRowProjection]:
 	return [] if loot_panel == null else loot_panel.visible_rows()
+
+
+func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
+	close_loot()
+	inventory_panel.show_inventory(rows)
+
+
+func close_inventory() -> void:
+	if inventory_panel != null:
+		inventory_panel.close_inventory()
+
+
+func inventory_is_open() -> bool:
+	return inventory_panel != null and inventory_panel.is_open()
+
+
+func inventory_rows() -> Array[PlayerInventoryRowProjection]:
+	return [] if inventory_panel == null else inventory_panel.visible_rows()
+
+
+func show_inventory_inspection(row: PlayerInventoryRowProjection) -> void:
+	if inventory_panel != null:
+		inventory_panel.show_inspection(row)
 
 
 func refresh_live_state() -> void:
@@ -181,6 +207,7 @@ func refresh_live_state() -> void:
 		or not _selected_corpse_in_range
 		or not player_available
 	)
+	inventory_button.disabled = not player_available
 	portal_button.disabled = (
 		not landmark_available
 		or not _selected_landmark_source_available

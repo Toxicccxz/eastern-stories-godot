@@ -792,6 +792,33 @@ const OldPineLootPanelScript := preload(
 const OldPineCorpseLootInteractionTest := preload(
 	"res://tests/runtime/oldpine_corpse_loot_interaction_test.gd"
 )
+const PlayerInventoryRowProjectionScript := preload(
+	"res://runtime/world/player_inventory_row_projection.gd"
+)
+const PlayerInventoryProjectionScript := preload(
+	"res://runtime/world/player_inventory_projection.gd"
+)
+const OldPineEquipmentInteractionResultScript := preload(
+	"res://runtime/world/oldpine_equipment_interaction_result.gd"
+)
+const OldPineEquipmentInteractionAdapterScript := preload(
+	"res://runtime/world/oldpine_equipment_interaction_adapter.gd"
+)
+const OldPineWeaponContentResolutionScript := preload(
+	"res://runtime/world/oldpine_weapon_content_resolution.gd"
+)
+const OldPineWeaponContentResolverScript := preload(
+	"res://runtime/world/oldpine_weapon_content_resolver.gd"
+)
+const PlayerInventoryPanelScript := preload(
+	"res://ui/world/player_inventory_panel.gd"
+)
+const PlayerInventoryEquipmentTest := preload(
+	"res://tests/runtime/player_inventory_equipment_test.gd"
+)
+const OldPineFullLootLoopTest := preload(
+	"res://tests/runtime/oldpine_full_loot_loop_test.gd"
+)
 
 
 func _init() -> void:
@@ -1102,6 +1129,15 @@ func _init() -> void:
 		OldPineCorpseLootAdapterScript,
 		OldPineLootPanelScript,
 		OldPineCorpseLootInteractionTest,
+		PlayerInventoryRowProjectionScript,
+		PlayerInventoryProjectionScript,
+		OldPineEquipmentInteractionResultScript,
+		OldPineEquipmentInteractionAdapterScript,
+		OldPineWeaponContentResolutionScript,
+		OldPineWeaponContentResolverScript,
+		PlayerInventoryPanelScript,
+		PlayerInventoryEquipmentTest,
+		OldPineFullLootLoopTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1191,6 +1227,12 @@ func _init() -> void:
 	var phase_8b1_result: Dictionary[String, Variant] = (
 		await OldPineCorpseLootInteractionTest.new().run_all(self)
 	)
+	var phase_8b2_unit_result: Dictionary[String, Variant] = (
+		PlayerInventoryEquipmentTest.new().run_all()
+	)
+	var phase_8b2_loop_result: Dictionary[String, Variant] = (
+		await OldPineFullLootLoopTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1257,6 +1299,10 @@ func _init() -> void:
 		phase_7b3_result["assertions"]
 	) + int(
 		phase_8b1_result["assertions"]
+	) + int(
+		phase_8b2_unit_result["assertions"]
+	) + int(
+		phase_8b2_loop_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1294,6 +1340,8 @@ func _init() -> void:
 	failures.append_array(phase_7b2_result["failures"])
 	failures.append_array(phase_7b3_result["failures"])
 	failures.append_array(phase_8b1_result["failures"])
+	failures.append_array(phase_8b2_unit_result["failures"])
+	failures.append_array(phase_8b2_loop_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

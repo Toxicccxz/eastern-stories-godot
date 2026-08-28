@@ -88,7 +88,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 	_assert_false(controller.opportunity_timer.one_shot, "map cadence uses one repeating Timer")
 	_assert_false(controller.opportunity_timer.autostart, "map cadence never autostarts")
 	_assert_true(controller.opportunity_timer.is_stopped(), "passive authored bandits do not autostart cadence")
-	_assert_eq(_count_tree_nodes(controller), 112, "persisted Old Pine hierarchy includes Phase 8B1 loot HUD nodes")
+	_assert_eq(_count_tree_nodes(controller), 123, "persisted Old Pine hierarchy includes Phase 8B2 inventory HUD nodes")
 	_assert_true(controller.hud != null, "world HUD initializes")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/WorldBounds/Top") is CollisionShape2D, "world top collision persists")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/ForestObstacles/TreeBarrierNorthWest") is CollisionShape2D, "forest obstacle collision persists")
