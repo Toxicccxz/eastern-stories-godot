@@ -672,6 +672,9 @@ const RegionDefinitionScript := preload("res://core/world/region_definition.gd")
 const MapDefinitionScript := preload("res://core/world/map_definition.gd")
 const ZoneDefinitionScript := preload("res://core/world/zone_definition.gd")
 const PortalDefinitionScript := preload("res://core/world/portal_definition.gd")
+const WorldLandmarkDefinitionScript := preload(
+	"res://core/world/world_landmark_definition.gd"
+)
 const WorldLocationStateScript := preload("res://core/world/world_location_state.gd")
 const NpcBaseAttributeOverridesScript := preload(
 	"res://core/npcs/npc_base_attribute_overrides.gd"
@@ -703,6 +706,9 @@ const MapCharacterRuntimeStateScript := preload(
 )
 const OldPineWorldDefinitionsScript := preload(
 	"res://data/oldpine/oldpine_world_definitions.gd"
+)
+const OldPineLandmarkDefinitionsScript := preload(
+	"res://data/oldpine/oldpine_landmark_definitions.gd"
 )
 const OldPineNpcDefinitionsScript := preload(
 	"res://data/oldpine/oldpine_npc_definitions.gd"
@@ -738,8 +744,29 @@ const OldPineOutdoorHudScript := preload(
 const OldPineOutdoorControllerScript := preload(
 	"res://runtime/world/oldpine_outdoor_controller.gd"
 )
+const WorldInteractionTargetScript := preload(
+	"res://runtime/world/world_interaction_target.gd"
+)
+const WorldPortalTraversalResultScript := preload(
+	"res://runtime/world/world_portal_traversal_result.gd"
+)
+const OldPinePortalTraversalAdapterScript := preload(
+	"res://runtime/world/oldpine_portal_traversal_adapter.gd"
+)
+const OldPineAggressionDecisionScript := preload(
+	"res://runtime/world/oldpine_aggression_decision.gd"
+)
+const OldPineBanditAggressionAdapterScript := preload(
+	"res://runtime/world/oldpine_bandit_aggression_adapter.gd"
+)
+const WorldLandmarkArea2DScript := preload(
+	"res://runtime/world/world_landmark_area_2d.gd"
+)
 const OldPineOutdoorSmokeTest := preload(
 	"res://tests/runtime/oldpine_outdoor_smoke_test.gd"
+)
+const OldPinePortalAggressionTest := preload(
+	"res://tests/runtime/oldpine_portal_aggression_test.gd"
 )
 
 
@@ -1007,6 +1034,7 @@ func _init() -> void:
 		MapDefinitionScript,
 		ZoneDefinitionScript,
 		PortalDefinitionScript,
+		WorldLandmarkDefinitionScript,
 		WorldLocationStateScript,
 		NpcBaseAttributeOverridesScript,
 		NpcResourceTrackOverrideScript,
@@ -1021,6 +1049,7 @@ func _init() -> void:
 		NpcCharacterStateFactoryScript,
 		MapCharacterRuntimeStateScript,
 		OldPineWorldDefinitionsScript,
+		OldPineLandmarkDefinitionsScript,
 		OldPineNpcDefinitionsScript,
 		OldPineSpawnDefinitionsScript,
 		ScriptedNpcInitializationRandomSourceScript,
@@ -1033,7 +1062,14 @@ func _init() -> void:
 		WorldCharacterBody2DScript,
 		OldPineOutdoorHudScript,
 		OldPineOutdoorControllerScript,
+		WorldInteractionTargetScript,
+		WorldPortalTraversalResultScript,
+		OldPinePortalTraversalAdapterScript,
+		OldPineAggressionDecisionScript,
+		OldPineBanditAggressionAdapterScript,
+		WorldLandmarkArea2DScript,
 		OldPineOutdoorSmokeTest,
+		OldPinePortalAggressionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1117,6 +1153,9 @@ func _init() -> void:
 	var phase_7b2_result: Dictionary[String, Variant] = (
 		await OldPineOutdoorSmokeTest.new().run_all(self)
 	)
+	var phase_7b3_result: Dictionary[String, Variant] = (
+		await OldPinePortalAggressionTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1179,6 +1218,8 @@ func _init() -> void:
 		phase_7b1_npc_result["assertions"]
 	) + int(
 		phase_7b2_result["assertions"]
+	) + int(
+		phase_7b3_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1214,6 +1255,7 @@ func _init() -> void:
 	failures.append_array(phase_7b1_world_result["failures"])
 	failures.append_array(phase_7b1_npc_result["failures"])
 	failures.append_array(phase_7b2_result["failures"])
+	failures.append_array(phase_7b3_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

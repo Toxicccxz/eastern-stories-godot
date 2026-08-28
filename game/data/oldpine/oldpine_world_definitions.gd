@@ -22,8 +22,12 @@ const KEEP_COURTYARD_ZONE_ID: StringName = &"oldpine.keep.courtyard"
 const KEEP_HALL_ZONE_ID: StringName = &"oldpine.keep.hall"
 
 const CLIMB_PINE_PORTAL_ID: StringName = &"oldpine.outdoor.climb_pine"
+const DESCEND_TREE1_PORTAL_ID: StringName = &"oldpine.outdoor.descend_tree1"
 const TREE1_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.outdoor.tree_canopy.tree1_landing"
+)
+const CLEARING_PINE_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.outdoor.central_clearing.pine_landing"
 )
 const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 
@@ -48,7 +52,7 @@ static func map_definitions() -> Array[MapDefinition]:
 				CLIFF_LEDGE_ZONE_ID,
 				TREE_CANOPY_ZONE_ID,
 			],
-			[CLIMB_PINE_PORTAL_ID],
+			[CLIMB_PINE_PORTAL_ID, DESCEND_TREE1_PORTAL_ID],
 			[SPATH1_BANDIT_SPAWN_ID],
 		),
 		MapDefinition.new(
@@ -140,6 +144,19 @@ static func portal_definitions() -> Array[PortalDefinition]:
 			"d/oldpine/clearing.c",
 			&"climb",
 			&"pine",
+		),
+		PortalDefinition.new(
+			DESCEND_TREE1_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			TREE_CANOPY_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			CENTRAL_CLEARING_ZONE_ID,
+			CLEARING_PINE_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.CLIMB,
+			&"",
+			"d/oldpine/tree1.c",
+			&"down",
+			&"",
 		),
 	]
 

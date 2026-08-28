@@ -88,7 +88,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 	_assert_false(controller.opportunity_timer.one_shot, "map cadence uses one repeating Timer")
 	_assert_false(controller.opportunity_timer.autostart, "map cadence never autostarts")
 	_assert_true(controller.opportunity_timer.is_stopped(), "passive authored bandits do not autostart cadence")
-	_assert_eq(_count_tree_nodes(controller), 78, "persisted Old Pine hierarchy contains exactly 78 nodes")
+	_assert_eq(_count_tree_nodes(controller), 102, "persisted Old Pine hierarchy contains exactly 102 nodes")
 	_assert_true(controller.hud != null, "world HUD initializes")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/WorldBounds/Top") is CollisionShape2D, "world top collision persists")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/ForestObstacles/TreeBarrierNorthWest") is CollisionShape2D, "forest obstacle collision persists")
@@ -266,10 +266,10 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	controller.configure_combat_random_source(scripted)
 	for _frame: int in range(4):
 		await tree.process_frame
-	_assert_true(controller.process_cadence_tick().is_empty(), "idle aggressive capability executes no automatic aggression")
+	_assert_true(controller.process_cadence_tick().is_empty(), "NPCs outside player presence execute no automatic aggression")
 	_assert_eq(scripted.call_count(), 0, "three idle NPCs consume zero combat RNG")
 	for npc: NpcRuntimeState in controller.npc_runtimes():
-		_assert_false(npc.relationship.is_fighting(), "passive bandit remains out of combat before explicit Attack")
+		_assert_false(npc.relationship.is_fighting(), "out-of-range bandit remains out of combat before explicit Attack")
 	var bandit2: NpcRuntimeState = controller.npc_runtimes()[1]
 	controller.player_body.global_position = Vector2(450.0, 700.0)
 	controller.bandit_bodies[0].global_position = Vector2(600.0, 700.0)

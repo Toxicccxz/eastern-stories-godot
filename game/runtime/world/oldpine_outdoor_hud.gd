@@ -13,11 +13,14 @@ const WorldPlayerRuntimeType := preload(
 @onready var target_vitality_text: Label = %TargetVitalityText
 @onready var inspect_button: Button = %InspectButton
 @onready var attack_button: Button = %AttackButton
+@onready var portal_button: Button = %PortalButton
 @onready var inspection_text: RichTextLabel = %InspectionText
 @onready var combat_log: RichTextLabel = %CombatLog
 
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
+var _selected_landmark: WorldLandmarkDefinition
+var _selected_landmark_source_available: bool = false
 var _log_lines: Array[String] = []
 
 
@@ -32,6 +35,8 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 
 func set_selected_target(target: NpcRuntimeState) -> void:
 	_selected_target = target
+	_selected_landmark = null
+	_selected_landmark_source_available = false
 	inspection_text.text = ""
 	if target == null:
 		selected_target_label.text = "Selected: none"
@@ -40,7 +45,38 @@ func set_selected_target(target: NpcRuntimeState) -> void:
 	refresh_live_state()
 
 
+func set_selected_landmark(
+	landmark: WorldLandmarkDefinition,
+	source_available: bool,
+) -> void:
+	_selected_target = null
+	_selected_landmark = landmark
+	_selected_landmark_source_available = source_available
+	inspection_text.text = ""
+	selected_target_label.text = (
+		"Selected: none"
+		if landmark == null
+		else "Selected landmark: %s" % landmark.display_name
+	)
+	refresh_live_state()
+
+
+func set_selected_landmark_source_available(value: bool) -> void:
+	_selected_landmark_source_available = value
+	refresh_live_state()
+
+
 func show_inspection(definition: NpcDefinition) -> void:
+	if definition == null:
+		inspection_text.text = ""
+		return
+	inspection_text.text = "%s\n%s" % [
+		definition.display_name,
+		definition.description.strip_edges(),
+	]
+
+
+func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
 	if definition == null:
 		inspection_text.text = ""
 		return
@@ -71,13 +107,26 @@ func refresh_live_state() -> void:
 		and _selected_target.exists_in_map
 		and _selected_target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 	)
+	var landmark_available: bool = (
+		_selected_landmark != null and _selected_landmark.is_valid()
+	)
 	var player_available: bool = (
 		_player != null
 		and _player.exists_in_world
 		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	)
-	inspect_button.disabled = not target_available
+	inspect_button.disabled = not target_available and not landmark_available
 	attack_button.disabled = not target_available or not player_available
+	portal_button.disabled = (
+		not landmark_available
+		or not _selected_landmark_source_available
+		or not player_available
+	)
+	portal_button.text = (
+		"Traverse"
+		if _selected_landmark == null
+		else _selected_landmark.action_label
+	)
 
 
 func append_log_lines(lines: Array[String]) -> void:
@@ -103,6 +152,14 @@ func inspection_display() -> String:
 
 func attack_is_enabled() -> bool:
 	return not attack_button.disabled
+
+
+func portal_action_is_enabled() -> bool:
+	return not portal_button.disabled
+
+
+func portal_action_text() -> String:
+	return portal_button.text
 
 
 func _update_vitality(

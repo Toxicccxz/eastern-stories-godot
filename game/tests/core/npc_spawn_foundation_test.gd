@@ -533,7 +533,7 @@ func _test_oldpine_native_ids_are_unique() -> void:
 			content.item_definition().item_definition_id,
 			"item",
 		)
-	_assert_eq(native_ids.size(), 23, "all 23 cross-category native IDs are distinct")
+	_assert_eq(native_ids.size(), 24, "all 24 cross-category native IDs are distinct")
 
 
 func _test_invalid_spawn_and_definition_shapes() -> void:

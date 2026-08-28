@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://degspgdf2s6v7" path="res://runtime/world/world_spawn_marker_2d.gd" id="2_vreye"]
 [ext_resource type="Script" uid="uid://byabg1lrlaxrt" path="res://runtime/world/world_character_body_2d.gd" id="3_7i4ts"]
 [ext_resource type="Script" uid="uid://bguftr5owgtgn" path="res://runtime/world/oldpine_outdoor_hud.gd" id="4_dv2l0"]
+[ext_resource type="Script" uid="uid://dtaotwcg5s5p1" path="res://runtime/world/world_landmark_area_2d.gd" id="5_vreye"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e12ve"]
 size = Vector2(1530, 30)
@@ -23,6 +24,18 @@ size = Vector2(250, 120)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jwfj5"]
 size = Vector2(160, 220)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7i4ts"]
+size = Vector2(630, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dv2l0"]
+size = Vector2(630, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6bfy"]
+size = Vector2(30, 630)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mgdfw"]
+size = Vector2(30, 630)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jblgx"]
 size = Vector2(900, 600)
 
@@ -35,17 +48,35 @@ size = Vector2(900, 500)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kbque"]
 size = Vector2(600, 600)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_33p6k"]
+size = Vector2(600, 600)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xp5ye"]
 size = Vector2(34, 34)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lul68"]
 size = Vector2(34, 34)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_5rpdm"]
+radius = 120.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jk1sc"]
 size = Vector2(34, 34)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_b8w4h"]
+radius = 120.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nkqn4"]
 size = Vector2(34, 34)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4dxmd"]
+radius = 120.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kuh3n"]
+size = Vector2(90, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1am3x"]
+size = Vector2(150, 150)
 
 [node name="OldPineOutdoor" type="Node2D" unique_id=764268747]
 script = ExtResource("1_o8mse")
@@ -148,7 +179,7 @@ offset_top = 365.0
 offset_right = 651.0
 offset_bottom = 388.0
 theme_override_font_sizes/font_size = 22
-text = "Ancient pine (portal deferred)"
+text = "Ancient pine — click to inspect / climb"
 
 [node name="Boundaries" type="Node2D" parent="Terrain" unique_id=789751031]
 
@@ -180,6 +211,48 @@ shape = SubResource("RectangleShape2D_v1t57")
 position = Vector2(800, 900)
 shape = SubResource("RectangleShape2D_jwfj5")
 
+[node name="TreeCanopyBounds" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=1367673382]
+
+[node name="Top" type="CollisionShape2D" parent="Terrain/Boundaries/TreeCanopyBounds" unique_id=1394768722]
+position = Vector2(2000, -115)
+shape = SubResource("RectangleShape2D_7i4ts")
+
+[node name="Bottom" type="CollisionShape2D" parent="Terrain/Boundaries/TreeCanopyBounds" unique_id=1104230588]
+position = Vector2(2000, 515)
+shape = SubResource("RectangleShape2D_dv2l0")
+
+[node name="Left" type="CollisionShape2D" parent="Terrain/Boundaries/TreeCanopyBounds" unique_id=637904162]
+position = Vector2(1685, 200)
+shape = SubResource("RectangleShape2D_j6bfy")
+
+[node name="Right" type="CollisionShape2D" parent="Terrain/Boundaries/TreeCanopyBounds" unique_id=1405493371]
+position = Vector2(2315, 200)
+shape = SubResource("RectangleShape2D_mgdfw")
+
+[node name="TreeCanopyPlatform" type="ColorRect" parent="Terrain" unique_id=192323295]
+offset_left = 1700.0
+offset_top = -100.0
+offset_right = 2300.0
+offset_bottom = 500.0
+mouse_filter = 2
+color = Color(0.16078432, 0.29803923, 0.21176471, 1)
+
+[node name="TreeCanopyPath" type="ColorRect" parent="Terrain" unique_id=1039766911]
+offset_left = 1970.0
+offset_top = -100.0
+offset_right = 2030.0
+offset_bottom = 500.0
+mouse_filter = 2
+color = Color(0.3764706, 0.2901961, 0.19607843, 1)
+
+[node name="TreeCanopyLabel" type="Label" parent="Terrain" unique_id=1905007254]
+offset_left = 1730.0
+offset_top = -70.0
+offset_right = 1731.0
+offset_bottom = -47.0
+theme_override_font_sizes/font_size = 22
+text = "Tree canopy / tree1 landing"
+
 [node name="Zones" type="Node2D" parent="." unique_id=1320053026]
 
 [node name="CentralClearingZone" type="Area2D" parent="Zones" unique_id=1993002777]
@@ -210,6 +283,13 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/EastBridgeZone" unique_id=1484597002]
 shape = SubResource("RectangleShape2D_kbque")
 
+[node name="TreeCanopyZone" type="Area2D" parent="Zones" unique_id=1892950517]
+position = Vector2(2000, 200)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/TreeCanopyZone" unique_id=1806999421]
+shape = SubResource("RectangleShape2D_33p6k")
+
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1257979559]
 unique_name_in_owner = true
 
@@ -236,6 +316,18 @@ unique_name_in_owner = true
 position = Vector2(600, 800)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.south_slope.spath1.bandit.3"
+
+[node name="Tree1Landing" type="Marker2D" parent="SpawnPoints" unique_id=1278853505]
+unique_name_in_owner = true
+position = Vector2(2000, 260)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.tree_canopy.tree1_landing"
+
+[node name="ClearingPineLanding" type="Marker2D" parent="SpawnPoints" unique_id=377136771]
+unique_name_in_owner = true
+position = Vector2(725, 410)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.central_clearing.pine_landing"
 
 [node name="Characters" type="Node2D" parent="." unique_id=2115630038]
 
@@ -267,7 +359,7 @@ text = "Player"
 [node name="Camera2D" type="Camera2D" parent="Characters/Player" unique_id=1862042098]
 limit_left = 0
 limit_top = -500
-limit_right = 1500
+limit_right = 2300
 limit_bottom = 1100
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
@@ -297,6 +389,12 @@ offset_bottom = -25.0
 theme_override_font_sizes/font_size = 16
 text = "土匪探哨"
 
+[node name="AggressionPresence" type="Area2D" parent="Characters/Bandit01" unique_id=459168777]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit01/AggressionPresence" unique_id=787942982]
+shape = SubResource("CircleShape2D_5rpdm")
+
 [node name="Bandit02" type="CharacterBody2D" parent="Characters" unique_id=1792563842]
 unique_name_in_owner = true
 position = Vector2(450, 880)
@@ -322,6 +420,12 @@ offset_bottom = -25.0
 theme_override_font_sizes/font_size = 16
 text = "土匪探哨"
 
+[node name="AggressionPresence" type="Area2D" parent="Characters/Bandit02" unique_id=2014410522]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit02/AggressionPresence" unique_id=2034868991]
+shape = SubResource("CircleShape2D_b8w4h")
+
 [node name="Bandit03" type="CharacterBody2D" parent="Characters" unique_id=420212268]
 unique_name_in_owner = true
 position = Vector2(600, 800)
@@ -346,6 +450,12 @@ offset_right = -57.0
 offset_bottom = -25.0
 theme_override_font_sizes/font_size = 16
 text = "土匪探哨"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/Bandit03" unique_id=1524586913]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit03/AggressionPresence" unique_id=316999734]
+shape = SubResource("CircleShape2D_4dxmd")
 
 [node name="CorpseLayer" type="Node2D" parent="." unique_id=1765940814]
 unique_name_in_owner = true
@@ -444,6 +554,12 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Reset"
 
+[node name="PortalButton" type="Button" parent="HUD/Overlay/StatusPanel/Margin/VBox/Actions" unique_id=686543072]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Traverse"
+
 [node name="InspectionText" type="RichTextLabel" parent="HUD/Overlay/StatusPanel/Margin/VBox" unique_id=76290524]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 86)
@@ -460,14 +576,46 @@ custom_minimum_size = Vector2(340, 165)
 layout_mode = 2
 scroll_active = false
 
+[node name="Interactions" type="Node2D" parent="." unique_id=1619827207]
+
+[node name="PineInteraction" type="Area2D" parent="Interactions" unique_id=1337559683]
+position = Vector2(725, 270)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_vreye")
+landmark_id = &"oldpine.outdoor.landmark.ancient_pine"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/PineInteraction" unique_id=962315301]
+shape = SubResource("RectangleShape2D_kuh3n")
+
+[node name="Tree1DescentInteraction" type="Area2D" parent="Interactions" unique_id=1103145985]
+position = Vector2(2000, 155)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_vreye")
+landmark_id = &"oldpine.outdoor.landmark.tree1_descent"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Tree1DescentInteraction" unique_id=1049458950]
+shape = SubResource("RectangleShape2D_1am3x")
+
 [connection signal="body_entered" from="Zones/CentralClearingZone" to="." method="_on_central_clearing_body_entered"]
 [connection signal="body_entered" from="Zones/SouthSlopeZone" to="." method="_on_south_slope_body_entered"]
 [connection signal="body_entered" from="Zones/NorthApproachZone" to="." method="_on_north_approach_body_entered"]
 [connection signal="body_entered" from="Zones/EastBridgeZone" to="." method="_on_east_bridge_body_entered"]
+[connection signal="body_entered" from="Zones/TreeCanopyZone" to="." method="_on_tree_canopy_body_entered"]
 [connection signal="selection_requested" from="Characters/Bandit01" to="." method="_on_bandit_selection_requested"]
+[connection signal="body_entered" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_entered"]
+[connection signal="body_exited" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_exited"]
 [connection signal="selection_requested" from="Characters/Bandit02" to="." method="_on_bandit_selection_requested"]
+[connection signal="body_entered" from="Characters/Bandit02/AggressionPresence" to="." method="_on_bandit_02_presence_entered"]
+[connection signal="body_exited" from="Characters/Bandit02/AggressionPresence" to="." method="_on_bandit_02_presence_exited"]
 [connection signal="selection_requested" from="Characters/Bandit03" to="." method="_on_bandit_selection_requested"]
+[connection signal="body_entered" from="Characters/Bandit03/AggressionPresence" to="." method="_on_bandit_03_presence_entered"]
+[connection signal="body_exited" from="Characters/Bandit03/AggressionPresence" to="." method="_on_bandit_03_presence_exited"]
 [connection signal="timeout" from="OpportunityTimer" to="." method="_on_opportunity_timer_timeout"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/InspectButton" to="." method="_on_inspect_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/AttackButton" to="." method="_on_attack_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/PortalButton" to="." method="_on_portal_button_pressed"]
+[connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]
+[connection signal="selection_requested" from="Interactions/Tree1DescentInteraction" to="." method="_on_landmark_selection_requested"]

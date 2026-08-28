@@ -21,6 +21,15 @@ const WorldSpawnMarkerType := preload(
 const OldPineHudType := preload(
 	"res://runtime/world/oldpine_outdoor_hud.gd"
 )
+const WorldInteractionTargetType := preload(
+	"res://runtime/world/world_interaction_target.gd"
+)
+const PortalTraversalAdapterType := preload(
+	"res://runtime/world/oldpine_portal_traversal_adapter.gd"
+)
+const AggressionAdapterType := preload(
+	"res://runtime/world/oldpine_bandit_aggression_adapter.gd"
+)
 
 @export var deterministic_npc_seed: bool = false
 @export var npc_seed: int = 7_021
@@ -48,7 +57,7 @@ var _combat_random: CombatRandomSource
 var _effects: SkillImprovementEffectRegistry
 var _player_content: CombatSliceContentProfile
 var _bandit_content: CombatSliceContentProfile
-var _selected_character_id: StringName = &""
+var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
 var _corpse_sequence: int = 0
 var _last_tick_order: Array[StringName] = []
@@ -57,10 +66,19 @@ var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 var _item_instance_scope: StringName = &""
 var _initialized: bool = false
+var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new()
+var _aggression_adapter: AggressionAdapterType = AggressionAdapterType.new()
+var _last_aggression_decisions: Array[OldPineAggressionDecision] = []
+var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
 
 
 func _ready() -> void:
 	initialize_world()
+
+
+func _process(_delta: float) -> void:
+	if _initialized and _aggression_adapter.pending_count() > 0:
+		process_pending_aggression()
 
 
 func initialize_world() -> bool:
@@ -115,11 +133,32 @@ func stack_collection() -> CombinedStackCollection:
 
 
 func selected_character_id() -> StringName:
-	return _selected_character_id
+	if (
+		_selected_target == null
+		or _selected_target.kind != WorldInteractionTarget.Kind.CHARACTER
+	):
+		return &""
+	return _selected_target.target_id
+
+
+func selected_interaction_target() -> WorldInteractionTargetType:
+	return _selected_target
 
 
 func selected_npc() -> NpcRuntimeState:
-	return _find_npc(_selected_character_id)
+	return _find_npc(selected_character_id())
+
+
+func last_aggression_decisions() -> Array[OldPineAggressionDecision]:
+	return _last_aggression_decisions.duplicate()
+
+
+func last_aggression_initiations() -> Array[CombatSliceInitiationResult]:
+	return _last_aggression_initiations.duplicate()
+
+
+func aggression_adapter() -> AggressionAdapterType:
+	return _aggression_adapter
 
 
 func corpse_states() -> Array[CorpseState]:
@@ -161,12 +200,37 @@ func select_npc(character_id: StringName) -> bool:
 		or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD
 	):
 		return false
-	_selected_character_id = character_id
+	_selected_target = WorldInteractionTargetType.character(character_id)
 	hud.set_selected_target(npc)
 	return true
 
 
+func select_landmark(landmark_id: StringName) -> bool:
+	var landmark: WorldLandmarkDefinition = (
+		OldPineLandmarkDefinitions.definition_by_id(landmark_id)
+	)
+	if landmark == null:
+		return false
+	_selected_target = WorldInteractionTargetType.landmark(landmark_id)
+	hud.set_selected_landmark(
+		landmark,
+		_landmark_source_is_current(landmark),
+	)
+	return true
+
+
 func inspect_selected() -> bool:
+	if (
+		_selected_target != null
+		and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK
+	):
+		var landmark: WorldLandmarkDefinition = (
+			OldPineLandmarkDefinitions.definition_by_id(_selected_target.target_id)
+		)
+		if landmark == null:
+			return false
+		hud.show_landmark_inspection(landmark)
+		return true
 	var npc: NpcRuntimeState = selected_npc()
 	if npc == null or not npc.exists_in_map:
 		return false
@@ -178,25 +242,98 @@ func attack_selected() -> CombatSliceInitiationResult:
 	var target: NpcRuntimeState = selected_npc()
 	if target == null:
 		return CombatSliceInitiationResult.new()
-	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-	var player_binding: CombatSliceCharacterBinding = _binding_for(
-		participants,
+	return _initiate_lethal_combat(
 		_player.character_id,
+		target.character_id,
+		"Attack initiated against %s" % target.definition().display_name,
+	)
+
+
+func traverse_selected_portal() -> WorldPortalTraversalResult:
+	if (
+		_selected_target == null
+		or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK
+	):
+		return WorldPortalTraversalResult.new()
+	var landmark: WorldLandmarkDefinition = (
+		OldPineLandmarkDefinitions.definition_by_id(_selected_target.target_id)
+	)
+	if landmark == null:
+		return WorldPortalTraversalResult.new()
+	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+		landmark.portal_id
+	)
+	var marker: WorldSpawnMarkerType = (
+		null
+		if portal == null
+		else _find_spawn_marker(portal.destination_spawn_point_id)
+	)
+	var destination: WorldLocationState = (
+		null
+		if portal == null
+		else _location_for_zone(portal.destination_zone_id)
+	)
+	var result: WorldPortalTraversalResult = _portal_adapter.traverse(
+		_player,
+		player_body,
+		portal,
+		marker,
+		destination,
+	)
+	if result.completed():
+		hud.append_log_lines(
+			["%s: %s" % [landmark.action_label, landmark.display_name]]
+		)
+		_refresh_selected_landmark_source()
+	return result
+
+
+func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
+	_last_aggression_decisions = _aggression_adapter.resolve_pending(
+		_all_npcs,
+		_player,
+		_current_location_allows_combat(),
+	)
+	_last_aggression_initiations.clear()
+	for decision: OldPineAggressionDecision in _last_aggression_decisions:
+		if decision.outcome != OldPineAggressionDecision.Outcome.READY:
+			continue
+		var npc: NpcRuntimeState = _find_npc(decision.npc_id)
+		if npc == null:
+			continue
+		var initiation: CombatSliceInitiationResult = _initiate_lethal_combat(
+			npc.character_id,
+			_player.character_id,
+			"%s attacks on sight" % npc.definition().display_name,
+		)
+		_last_aggression_initiations.append(initiation)
+	return _last_aggression_initiations.duplicate()
+
+
+func _initiate_lethal_combat(
+	initiator_id: StringName,
+	target_id: StringName,
+	log_line: String,
+) -> CombatSliceInitiationResult:
+	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+	var initiator_binding: CombatSliceCharacterBinding = _binding_for(
+		participants,
+		initiator_id,
 	)
 	var target_binding: CombatSliceCharacterBinding = _binding_for(
 		participants,
-		target.character_id,
+		target_id,
 	)
 	var result: CombatSliceInitiationResult = (
 		CombatSliceOpportunityExecutor.initiate_lethal_combat(
-			player_binding,
+			initiator_binding,
 			target_binding,
 		)
 	)
 	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
 		if opportunity_timer.is_stopped():
 			opportunity_timer.start()
-		hud.append_log_lines(["Attack initiated against %s" % target.definition().display_name])
+		hud.append_log_lines([log_line])
 	return result
 
 
@@ -483,7 +620,11 @@ func _sync_binding(binding: CombatSliceCharacterBinding) -> void:
 func _update_body_zone(body: Node2D, zone_id: StringName) -> void:
 	var character_body: WorldCharacterBodyType = body as WorldCharacterBodyType
 	if character_body != null:
-		character_body.set_world_location(_location_for_zone(zone_id))
+		var updated: bool = character_body.set_world_location(
+			_location_for_zone(zone_id)
+		)
+		if updated and character_body == player_body:
+			_refresh_selected_landmark_source()
 
 
 func _location_for_zone(zone_id: StringName) -> WorldLocationState:
@@ -590,8 +731,68 @@ func _has_active_relationships() -> bool:
 	return false
 
 
+func _current_location_allows_combat() -> bool:
+	# Neither clearing.c, spath1.c nor tree1.c authors a no_fight room fact.
+	var location: WorldLocationState = _player.world_location()
+	return (
+		location != null
+		and location.map_id == OldPineWorldDefinitions.OUTDOOR_MAP_ID
+	)
+
+
+func _landmark_source_is_current(landmark: WorldLandmarkDefinition) -> bool:
+	if landmark == null or _player == null:
+		return false
+	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+		landmark.portal_id
+	)
+	var location: WorldLocationState = _player.world_location()
+	return (
+		portal != null
+		and location != null
+		and location.map_id == portal.source_map_id
+		and location.zone_id == portal.source_zone_id
+	)
+
+
+func _refresh_selected_landmark_source() -> void:
+	if (
+		_selected_target == null
+		or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK
+	):
+		return
+	var landmark: WorldLandmarkDefinition = (
+		OldPineLandmarkDefinitions.definition_by_id(_selected_target.target_id)
+	)
+	hud.set_selected_landmark_source_available(
+		_landmark_source_is_current(landmark)
+	)
+
+
+func _queue_bandit_presence(
+	npc_index: int,
+	body: Node2D,
+) -> OldPineAggressionDecision:
+	if body != player_body or npc_index < 0 or npc_index >= _all_npcs.size():
+		return OldPineAggressionDecision.new()
+	return _aggression_adapter.enter_player_presence(
+		_all_npcs[npc_index],
+		_player,
+		_current_location_allows_combat(),
+	)
+
+
+func _leave_bandit_presence(npc_index: int, body: Node2D) -> void:
+	if body == player_body and npc_index >= 0 and npc_index < _all_npcs.size():
+		_aggression_adapter.leave_player_presence(_all_npcs[npc_index].character_id)
+
+
 func _on_bandit_selection_requested(character_id: StringName) -> void:
 	select_npc(character_id)
+
+
+func _on_landmark_selection_requested(landmark_id: StringName) -> void:
+	select_landmark(landmark_id)
 
 
 func _on_inspect_button_pressed() -> void:
@@ -600,6 +801,10 @@ func _on_inspect_button_pressed() -> void:
 
 func _on_attack_button_pressed() -> void:
 	attack_selected()
+
+
+func _on_portal_button_pressed() -> void:
+	traverse_selected_portal()
 
 
 func _on_opportunity_timer_timeout() -> void:
@@ -624,3 +829,31 @@ func _on_north_approach_body_entered(body: Node2D) -> void:
 
 func _on_east_bridge_body_entered(body: Node2D) -> void:
 	_update_body_zone(body, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID)
+
+
+func _on_tree_canopy_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID)
+
+
+func _on_bandit_01_presence_entered(body: Node2D) -> void:
+	_queue_bandit_presence(0, body)
+
+
+func _on_bandit_01_presence_exited(body: Node2D) -> void:
+	_leave_bandit_presence(0, body)
+
+
+func _on_bandit_02_presence_entered(body: Node2D) -> void:
+	_queue_bandit_presence(1, body)
+
+
+func _on_bandit_02_presence_exited(body: Node2D) -> void:
+	_leave_bandit_presence(1, body)
+
+
+func _on_bandit_03_presence_entered(body: Node2D) -> void:
+	_queue_bandit_presence(2, body)
+
+
+func _on_bandit_03_presence_exited(body: Node2D) -> void:
+	_leave_bandit_presence(2, body)

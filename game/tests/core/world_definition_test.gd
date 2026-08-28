@@ -75,7 +75,7 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 
 func _test_portal_definition() -> void:
 	var portals: Array[PortalDefinition] = OldPineWorld.portal_definitions()
-	_assert_eq(portals.size(), 1, "only first source-backed portal is authored")
+	_assert_eq(portals.size(), 2, "climb and source-backed tree1 return portals are authored")
 	var portal: PortalDefinition = portals[0]
 	_assert_true(portal.is_valid(), "climb portal is coherent")
 	_assert_eq(portal.portal_id, &"oldpine.outdoor.climb_pine", "portal ID")
@@ -92,6 +92,15 @@ func _test_portal_definition() -> void:
 	var portal_variant: Variant = portal
 	_assert_false(portal_variant is Node, "portal is Node-free")
 	_assert_false(portal_variant is Callable, "portal is not a callback")
+	var return_portal: PortalDefinition = OldPineWorld.portal_by_id(
+		OldPineWorld.DESCEND_TREE1_PORTAL_ID
+	)
+	_assert_true(return_portal != null and return_portal.is_valid(), "tree1 return portal is coherent")
+	_assert_eq(return_portal.source_zone_id, OldPineWorld.TREE_CANOPY_ZONE_ID, "return starts at tree1 canopy")
+	_assert_eq(return_portal.destination_zone_id, OldPineWorld.CENTRAL_CLEARING_ZONE_ID, "return reaches clearing")
+	_assert_eq(return_portal.destination_spawn_point_id, OldPineWorld.CLEARING_PINE_LANDING_SPAWN_POINT_ID, "return has exact clearing landing")
+	_assert_eq(return_portal.legacy_source_path, "d/oldpine/tree1.c", "return source trace")
+	_assert_eq(return_portal.legacy_action_verb, &"down", "return preserves down metadata")
 
 
 func _test_location_identity() -> void:
