@@ -90,6 +90,13 @@ func _remove_opponent_for_cleanup(character_id: StringName) -> bool:
 	return true
 
 
+## Narrow source-equivalent remove_all_enemy() local mutation. The caller
+## owns reciprocal requests; legacy killer intent, guarding, and last-opponent
+## facts deliberately survive this transition.
+func clear_opponents_preserving_lethal_targets() -> void:
+	_opponent_ids.clear()
+
+
 ## Mirrors remove_killer's local behavior. If no lethal marker exists, it
 ## still attempts ordinary opponent removal.
 func remove_lethal_relation(character_id: StringName) -> bool:

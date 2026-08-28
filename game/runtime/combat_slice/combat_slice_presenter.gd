@@ -56,6 +56,27 @@ func describe_opportunity(
 	return lines
 
 
+func describe_lifecycle(
+	result: CombatSliceLifecycleResult,
+	victim_name: String,
+) -> Array[String]:
+	if result == null:
+		return ["Invalid lifecycle result"]
+	match result.outcome:
+		CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE:
+			return ["%s falls unconscious" % victim_name]
+		CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+			return ["%s dies; a corpse remains" % victim_name]
+		CombatSliceLifecycleResult.Outcome.DEATH_INVENTORY_BLOCKED:
+			return ["Death inventory blocked after partial mutation (%s)" % victim_name]
+		CombatSliceLifecycleResult.Outcome.DEATH_INVENTORY_FAILED:
+			return ["Death inventory failed (%s)" % victim_name]
+		CombatSliceLifecycleResult.Outcome.RELATIONSHIP_CLEANUP_FAILED:
+			return ["Lifecycle relationship cleanup failed (%s)" % victim_name]
+		_:
+			return ["Invalid lifecycle context (%s)" % victim_name]
+
+
 func _append_base_outcome(
 	lines: Array[String],
 	ordinary: CombatOrdinaryAttackResult,

@@ -46,6 +46,14 @@ func set_combat_started(value: bool) -> void:
 	_update_attack_button()
 
 
+func set_target_terminal_status(status: int) -> void:
+	if status == CombatSliceLifeStatus.Value.DEAD:
+		selected_target_label.text = "Selected: Human Swordfighter (dead)"
+	elif status == CombatSliceLifeStatus.Value.UNCONSCIOUS:
+		selected_target_label.text = "Selected: Human Swordfighter (unconscious)"
+	_update_attack_button()
+
+
 func refresh_live_state() -> void:
 	if _player != null:
 		_update_vitality(
@@ -103,4 +111,16 @@ func _update_vitality(
 
 
 func _update_attack_button() -> void:
-	attack_button.disabled = not _target_selected or _combat_started
+	var player_active: bool = (
+		_player != null
+		and _player.exists_in_encounter
+		and _player.life_status == CombatSliceLifeStatus.Value.ACTIVE
+	)
+	var enemy_active: bool = (
+		_enemy != null
+		and _enemy.exists_in_encounter
+		and _enemy.life_status == CombatSliceLifeStatus.Value.ACTIVE
+	)
+	attack_button.disabled = (
+		not _target_selected or _combat_started or not player_active or not enemy_active
+	)

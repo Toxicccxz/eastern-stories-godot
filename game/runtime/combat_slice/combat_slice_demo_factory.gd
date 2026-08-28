@@ -51,11 +51,38 @@ static func create_inventory_for(
 	return inventory
 
 
+static func create_death_item_facts_for(
+	participant: CombatSliceCharacterBinding,
+	inventory: InventoryState,
+) -> Array[DeathItemFacts]:
+	var facts: Array[DeathItemFacts] = []
+	if participant == null or inventory == null:
+		return facts
+	var endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
+		ContainmentEndpoint.Kind.CHARACTER,
+		participant.character_id,
+	)
+	var item_instance_id: StringName = _long_sword_instance_id(
+		participant.character_id
+	)
+	if inventory.is_direct_child(item_instance_id, endpoint):
+		## The first slice recognizes exactly its one authored long-sword
+		## instance. Unknown direct items remain uncovered so the closed death
+		## service returns an honest typed incomplete result.
+		facts.append(
+			DeathItemFacts.new(
+				ItemInstance.new(item_instance_id, CombatSliceContentProfile.LONG_SWORD_ID)
+			)
+		)
+	return facts
+
+
 static func _create_binding(
 	character_id: StringName,
 	is_user: bool,
 ) -> CombatSliceCharacterBinding:
 	var state: CharacterState = CharacterState.new()
+	state.gender = CharacterState.GENDER_MALE
 	state.attributes = CharacterBaseAttributes.new(20, 20, 20, 20, 20, 20, 20, 20)
 	state.essence = CharacterResourceState.new(220, 220, 220)
 	state.vitality = CharacterResourceState.new(220, 220, 220)
