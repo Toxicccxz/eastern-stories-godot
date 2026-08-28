@@ -14,6 +14,7 @@ func execute(
 	item_facts: Array[DeathItemFacts],
 	policy_registry: DeathItemPolicyRegistry,
 	rewear_registry: DeathRewearPolicyRegistry,
+	death_context: DeathContext = null,
 ) -> CombatSliceLifecycleResult:
 	var result: CombatSliceLifecycleResult = CombatSliceLifecycleResult.new()
 	if opportunity == null or victim == null:
@@ -60,6 +61,7 @@ func execute(
 		item_facts,
 		policy_registry,
 		rewear_registry,
+		death_context,
 	)
 	result._death_inventory_result = death_execution.death_inventory_result
 	result._second_corpse_placement_result = death_execution.second_placement_result

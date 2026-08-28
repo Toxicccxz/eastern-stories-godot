@@ -70,6 +70,7 @@ func create_spawn_instances(
 	stacks: StackCollectionType,
 	random_source: RandomSourceType,
 	loadout_content: Array[NpcLoadoutItemDefinition],
+	item_instance_scope: StringName = &"",
 ) -> Array[NpcRuntimeState]:
 	var result: Array[NpcRuntimeState] = []
 	if (
@@ -103,6 +104,7 @@ func create_spawn_instances(
 			stacks,
 			random_source,
 			loadout_content,
+			item_instance_scope,
 		)
 		if runtime == null:
 			return []
@@ -120,6 +122,7 @@ func create_one(
 	stacks: StackCollectionType,
 	random_source: RandomSourceType,
 	loadout_content: Array[NpcLoadoutItemDefinition],
+	item_instance_scope: StringName = &"",
 ) -> NpcRuntimeStateType:
 	if (
 		definition == null
@@ -228,6 +231,7 @@ func create_one(
 		inventory,
 		stacks,
 		loadout_content,
+		item_instance_scope,
 	)
 	if loadout_items.size() != _expected_live_item_count(definition, loadout_content):
 		return null
@@ -281,6 +285,7 @@ func _apply_loadout(
 	inventory: InventoryStateType,
 	stacks: StackCollectionType,
 	loadout_content: Array[NpcLoadoutItemDefinition],
+	item_instance_scope: StringName,
 ) -> Array[ItemInstance]:
 	var created: Array[ItemInstance] = []
 	var entries: Array[NpcLoadoutEntry] = definition.loadout_entries()
@@ -304,8 +309,11 @@ func _apply_loadout(
 			return []
 		var unit_count: int = 1 if content.stack_definition() != null else entry.quantity
 		for unit_index: int in range(unit_count):
+			var identity_owner: String = String(character_id)
+			if not item_instance_scope.is_empty():
+				identity_owner = "%s.%s" % [String(item_instance_scope), identity_owner]
 			var instance_id: StringName = StringName(
-				"%s.loadout.%d.%d" % [String(character_id), entry_index, unit_index]
+				"%s.loadout.%d.%d" % [identity_owner, entry_index, unit_index]
 			)
 			var item_definition: ItemDefinition = content.item_definition()
 			var item: ItemInstanceType = ItemInstanceType.new(

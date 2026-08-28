@@ -717,6 +717,30 @@ const WorldDefinitionTest := preload("res://tests/core/world_definition_test.gd"
 const NpcSpawnFoundationTest := preload(
 	"res://tests/core/npc_spawn_foundation_test.gd"
 )
+const WorldPlayerRuntimeStateScript := preload(
+	"res://runtime/characters/world_player_runtime_state.gd"
+)
+const WorldCombatBindingAdapterScript := preload(
+	"res://runtime/characters/world_combat_binding_adapter.gd"
+)
+const GodotNpcInitializationRandomSourceScript := preload(
+	"res://runtime/npcs/godot_npc_initialization_random_source.gd"
+)
+const WorldSpawnMarker2DScript := preload(
+	"res://runtime/world/world_spawn_marker_2d.gd"
+)
+const WorldCharacterBody2DScript := preload(
+	"res://runtime/world/world_character_body_2d.gd"
+)
+const OldPineOutdoorHudScript := preload(
+	"res://runtime/world/oldpine_outdoor_hud.gd"
+)
+const OldPineOutdoorControllerScript := preload(
+	"res://runtime/world/oldpine_outdoor_controller.gd"
+)
+const OldPineOutdoorSmokeTest := preload(
+	"res://tests/runtime/oldpine_outdoor_smoke_test.gd"
+)
 
 
 func _init() -> void:
@@ -1002,6 +1026,14 @@ func _init() -> void:
 		ScriptedNpcInitializationRandomSourceScript,
 		WorldDefinitionTest,
 		NpcSpawnFoundationTest,
+		WorldPlayerRuntimeStateScript,
+		WorldCombatBindingAdapterScript,
+		GodotNpcInitializationRandomSourceScript,
+		WorldSpawnMarker2DScript,
+		WorldCharacterBody2DScript,
+		OldPineOutdoorHudScript,
+		OldPineOutdoorControllerScript,
+		OldPineOutdoorSmokeTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1082,6 +1114,9 @@ func _init() -> void:
 	var phase_7b1_npc_result: Dictionary[String, Variant] = (
 		NpcSpawnFoundationTest.new().run_all()
 	)
+	var phase_7b2_result: Dictionary[String, Variant] = (
+		await OldPineOutdoorSmokeTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1142,6 +1177,8 @@ func _init() -> void:
 		phase_7b1_world_result["assertions"]
 	) + int(
 		phase_7b1_npc_result["assertions"]
+	) + int(
+		phase_7b2_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1176,6 +1213,7 @@ func _init() -> void:
 	failures.append_array(phase_6b3_result["failures"])
 	failures.append_array(phase_7b1_world_result["failures"])
 	failures.append_array(phase_7b1_npc_result["failures"])
+	failures.append_array(phase_7b2_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

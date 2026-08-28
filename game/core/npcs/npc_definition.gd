@@ -16,6 +16,7 @@ enum Attitude {
 var _definition_id: StringName
 var _legacy_source_path: String
 var _display_name: String
+var _description: String
 var _aliases: Array[StringName] = []
 var _race_id: StringName
 var _has_authored_gender: bool
@@ -40,6 +41,9 @@ var legacy_source_path: String:
 var display_name: String:
 	get:
 		return _display_name
+var description: String:
+	get:
+		return _description
 var race_id: StringName:
 	get:
 		return _race_id
@@ -84,10 +88,12 @@ func _init(
 	p_skill_levels: Array[NpcSkillLevelDefinition] = [],
 	p_loadout_entries: Array[NpcLoadoutEntry] = [],
 	p_capability_ids: Array[StringName] = [],
+	p_description: String = "",
 ) -> void:
 	_definition_id = p_definition_id
 	_legacy_source_path = p_legacy_source_path
 	_display_name = p_display_name
+	_description = p_description
 	_aliases = p_aliases.duplicate()
 	_race_id = p_race_id
 	_has_authored_gender = p_has_authored_gender

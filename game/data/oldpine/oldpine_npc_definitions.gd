@@ -50,6 +50,7 @@ static func bandit_definition() -> NpcDefinition:
 			),
 		],
 		[AGGRESSIVE_ON_PLAYER_PRESENCE],
+		"这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n",
 	)
 
 

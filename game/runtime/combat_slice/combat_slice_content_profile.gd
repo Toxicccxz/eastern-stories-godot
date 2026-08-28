@@ -14,13 +14,23 @@ var _slash_action: CombatActionDefinition
 var _slash_action_set: CombatActionSet
 var _unarmed_action: CombatActionDefinition
 var _unarmed_action_set: CombatActionSet
+var _verified_weapon_id: StringName
+var _verified_weapon_skill_id: StringName
+var _verified_weapon_damage: int
 
 var target_visible: bool:
 	get:
 		return true
 
 
-func _init() -> void:
+func _init(
+	p_verified_weapon_id: StringName = LONG_SWORD_ID,
+	p_verified_weapon_skill_id: StringName = LONG_SWORD_SKILL_ID,
+	p_verified_weapon_damage: int = LONG_SWORD_DAMAGE,
+) -> void:
+	_verified_weapon_id = p_verified_weapon_id
+	_verified_weapon_skill_id = p_verified_weapon_skill_id
+	_verified_weapon_damage = p_verified_weapon_damage
 	_limbs.assign([
 		&"头部", &"颈部", &"胸口", &"後心",
 		&"左肩", &"右肩", &"左臂", &"右臂",
@@ -60,6 +70,9 @@ func is_valid() -> bool:
 		and _slash_action_set.size() == 1
 		and _unarmed_action_set.is_valid()
 		and _unarmed_action_set.size() == 1
+		and not _verified_weapon_id.is_empty()
+		and not _verified_weapon_skill_id.is_empty()
+		and _verified_weapon_damage >= 0
 	)
 
 
@@ -87,13 +100,13 @@ func is_verified_primary(weapon: EquippedWeaponRef) -> bool:
 	return (
 		weapon != null
 		and weapon.is_valid()
-		and weapon.weapon_id == LONG_SWORD_ID
-		and weapon.skill_type == LONG_SWORD_SKILL_ID
+		and weapon.weapon_id == _verified_weapon_id
+		and weapon.skill_type == _verified_weapon_skill_id
 	)
 
 
 func projected_apply_damage(weapon: EquippedWeaponRef) -> int:
-	return LONG_SWORD_DAMAGE if is_verified_primary(weapon) else 0
+	return _verified_weapon_damage if is_verified_primary(weapon) else 0
 
 
 func attack_template_for(weapon: EquippedWeaponRef) -> CombatActionDefinition:
@@ -101,4 +114,4 @@ func attack_template_for(weapon: EquippedWeaponRef) -> CombatActionDefinition:
 
 
 func has_attack_skill_definition(skill_id: StringName) -> bool:
-	return skill_id == LONG_SWORD_SKILL_ID or skill_id == &"unarmed"
+	return skill_id == _verified_weapon_skill_id or skill_id == &"unarmed"

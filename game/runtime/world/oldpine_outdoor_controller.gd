@@ -1,0 +1,626 @@
+class_name OldPineOutdoorController
+extends Node2D
+
+const PLAYER_ID: StringName = &"oldpine.player"
+const WORLD_CAPACITY: int = 1_000_000
+const WorldPlayerRuntimeType := preload(
+	"res://runtime/characters/world_player_runtime_state.gd"
+)
+const WorldCombatBindingAdapterType := preload(
+	"res://runtime/characters/world_combat_binding_adapter.gd"
+)
+const GodotNpcRandomType := preload(
+	"res://runtime/npcs/godot_npc_initialization_random_source.gd"
+)
+const WorldCharacterBodyType := preload(
+	"res://runtime/world/world_character_body_2d.gd"
+)
+const WorldSpawnMarkerType := preload(
+	"res://runtime/world/world_spawn_marker_2d.gd"
+)
+const OldPineHudType := preload(
+	"res://runtime/world/oldpine_outdoor_hud.gd"
+)
+
+@export var deterministic_npc_seed: bool = false
+@export var npc_seed: int = 7_021
+@export var deterministic_combat_seed: bool = false
+@export var combat_seed: int = 5_232
+
+@onready var player_body: WorldCharacterBodyType = %Player
+@onready var bandit_bodies: Array[WorldCharacterBodyType] = [
+	%Bandit01,
+	%Bandit02,
+	%Bandit03,
+]
+@onready var spawn_points: Node2D = %SpawnPoints
+@onready var corpse_layer: Node2D = %CorpseLayer
+@onready var opportunity_timer: Timer = %OpportunityTimer
+@onready var hud: OldPineHudType = %HUD
+
+var _player: WorldPlayerRuntimeType
+var _map_characters: MapCharacterRuntimeState
+var _all_npcs: Array[NpcRuntimeState] = []
+var _inventory: InventoryState
+var _stacks: CombinedStackCollection
+var _npc_random: GodotNpcRandomType
+var _combat_random: CombatRandomSource
+var _effects: SkillImprovementEffectRegistry
+var _player_content: CombatSliceContentProfile
+var _bandit_content: CombatSliceContentProfile
+var _selected_character_id: StringName = &""
+var _corpse_states: Array[CorpseState] = []
+var _corpse_sequence: int = 0
+var _last_tick_order: Array[StringName] = []
+var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
+var _lifecycle_failed: bool = false
+var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
+var _item_instance_scope: StringName = &""
+var _initialized: bool = false
+
+
+func _ready() -> void:
+	initialize_world()
+
+
+func initialize_world() -> bool:
+	if _initialized:
+		return true
+	_item_instance_scope = StringName("oldpine-outdoor-%d" % get_instance_id())
+	_inventory = InventoryState.new()
+	_stacks = CombinedStackCollection.new()
+	_map_characters = MapCharacterRuntimeState.new(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	_npc_random = GodotNpcRandomType.new(
+		npc_seed,
+		deterministic_npc_seed,
+	)
+	_combat_random = GodotCombatRandomSource.new(
+		combat_seed,
+		deterministic_combat_seed,
+	)
+	_effects = SkillImprovementEffectRegistry.new()
+	_effects.register_legacy_defaults()
+	_player_content = CombatSliceContentProfile.new()
+	_bandit_content = CombatSliceContentProfile.new(
+		OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID,
+		&"sword",
+		OldPineNpcDefinitions.SHORT_SWORD_DAMAGE,
+	)
+	if not _initialize_player() or not _initialize_bandits():
+		return false
+	hud.configure(_player)
+	opportunity_timer.stop()
+	_initialized = true
+	return true
+
+
+func player_runtime() -> WorldPlayerRuntimeType:
+	return _player
+
+
+func npc_runtimes() -> Array[NpcRuntimeState]:
+	return _all_npcs.duplicate()
+
+
+func map_character_state() -> MapCharacterRuntimeState:
+	return _map_characters
+
+
+func inventory_state() -> InventoryState:
+	return _inventory
+
+
+func stack_collection() -> CombinedStackCollection:
+	return _stacks
+
+
+func selected_character_id() -> StringName:
+	return _selected_character_id
+
+
+func selected_npc() -> NpcRuntimeState:
+	return _find_npc(_selected_character_id)
+
+
+func corpse_states() -> Array[CorpseState]:
+	return _corpse_states.duplicate()
+
+
+func last_tick_order() -> Array[StringName]:
+	return _last_tick_order.duplicate()
+
+
+func last_lifecycle_results() -> Array[CombatSliceLifecycleResult]:
+	return _last_lifecycle_results.duplicate()
+
+
+func lifecycle_is_pending() -> bool:
+	return _lifecycle_failed
+
+
+func npc_random_source() -> NpcInitializationRandomSource:
+	return _npc_random
+
+
+func combat_random_source() -> CombatRandomSource:
+	return _combat_random
+
+
+func configure_combat_random_source(value: CombatRandomSource) -> bool:
+	if value == null:
+		return false
+	_combat_random = value
+	return true
+
+
+func select_npc(character_id: StringName) -> bool:
+	var npc: NpcRuntimeState = _find_npc(character_id)
+	if (
+		npc == null
+		or not npc.exists_in_map
+		or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD
+	):
+		return false
+	_selected_character_id = character_id
+	hud.set_selected_target(npc)
+	return true
+
+
+func inspect_selected() -> bool:
+	var npc: NpcRuntimeState = selected_npc()
+	if npc == null or not npc.exists_in_map:
+		return false
+	hud.show_inspection(npc.definition())
+	return true
+
+
+func attack_selected() -> CombatSliceInitiationResult:
+	var target: NpcRuntimeState = selected_npc()
+	if target == null:
+		return CombatSliceInitiationResult.new()
+	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+	var player_binding: CombatSliceCharacterBinding = _binding_for(
+		participants,
+		_player.character_id,
+	)
+	var target_binding: CombatSliceCharacterBinding = _binding_for(
+		participants,
+		target.character_id,
+	)
+	var result: CombatSliceInitiationResult = (
+		CombatSliceOpportunityExecutor.initiate_lethal_combat(
+			player_binding,
+			target_binding,
+		)
+	)
+	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		if opportunity_timer.is_stopped():
+			opportunity_timer.start()
+		hud.append_log_lines(["Attack initiated against %s" % target.definition().display_name])
+	return result
+
+
+func process_cadence_tick() -> Array[CombatSliceOpportunityResult]:
+	var results: Array[CombatSliceOpportunityResult] = []
+	_last_tick_order.clear()
+	_last_lifecycle_results.clear()
+	if _lifecycle_failed:
+		return results
+	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+	for actor: CombatSliceCharacterBinding in participants:
+		if not actor.exists_in_encounter or not actor.relationship.is_fighting():
+			continue
+		_last_tick_order.append(actor.character_id)
+		var opportunity: CombatSliceOpportunityResult = (
+			CombatSliceOpportunityExecutor.execute_opportunity(
+				actor,
+				participants,
+				_combat_random,
+				_effects,
+			)
+		)
+		results.append(opportunity)
+		if opportunity.outcome in [
+			CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_UNCONSCIOUS,
+			CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH,
+		]:
+			var lifecycle: CombatSliceLifecycleResult = _execute_lifecycle(
+				actor,
+				opportunity,
+				participants,
+			)
+			_last_lifecycle_results.append(lifecycle)
+			if not lifecycle.completed():
+				_lifecycle_failed = true
+				opportunity_timer.stop()
+			hud.append_log_lines(
+				_presenter.describe_lifecycle(lifecycle, _display_name(actor.character_id))
+			)
+			if _lifecycle_failed:
+				break
+		else:
+			var victim_id: StringName = _selected_opponent_id(opportunity, actor)
+			hud.append_log_lines(
+				_presenter.describe_opportunity(
+					opportunity,
+					_display_name(actor.character_id),
+					_display_name(victim_id),
+				)
+			)
+	if not _has_active_relationships():
+		opportunity_timer.stop()
+	hud.refresh_live_state()
+	return results
+
+
+func reset_world() -> void:
+	get_tree().reload_current_scene()
+
+
+func _initialize_player() -> bool:
+	var prototype: CombatSliceCharacterBinding = CombatSliceDemoFactory.create_player()
+	var start_location: WorldLocationState = _location_for_zone(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
+	)
+	_player = WorldPlayerRuntimeType.new(
+		PLAYER_ID,
+		prototype.state,
+		CombatRelationshipState.new(PLAYER_ID),
+		ActionBusyState.new(),
+		ArmorState.new(),
+		start_location,
+		CharacterRuntimeLifeStatus.Value.ACTIVE,
+		true,
+		true,
+	)
+	var demo_primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
+	if demo_primary == null:
+		return false
+	if not _player.state.equipment.unwield(demo_primary.instance_id).succeeded:
+		return false
+	var player_weapon_definition: WeaponDefinition = WeaponDefinition.new(
+		CombatSliceContentProfile.LONG_SWORD_ID,
+		CombatSliceContentProfile.LONG_SWORD_SKILL_ID,
+		false,
+		false,
+		CombatSliceContentProfile.LONG_SWORD_SOURCE,
+	)
+	var primary: EquippedWeaponRef = EquippedWeaponRef.new(
+		StringName("%s.player-long-sword" % String(_item_instance_scope)),
+		player_weapon_definition,
+	)
+	if not _player.state.equipment.wield(primary, false).succeeded:
+		return false
+	var player_item: ItemInstance = ItemInstance.new(
+		primary.instance_id,
+		primary.weapon_id,
+	)
+	if not _inventory.register_item(player_item, CombatSliceContentProfile.LONG_SWORD_WEIGHT):
+		return false
+	var player_destination: InventoryTransferDestination = _character_destination(
+		_player.character_id,
+		WORLD_CAPACITY,
+	)
+	if not InventoryTransferService.new().transfer(
+		_inventory,
+		player_item.item_instance_id,
+		player_destination,
+	).succeeded:
+		return false
+	var marker: WorldSpawnMarkerType = %PlayerStart
+	if marker == null or not marker.is_configured():
+		return false
+	player_body.global_position = marker.global_position
+	player_body.player_controlled = true
+	return player_body.bind_player(_player)
+
+
+func _initialize_bandits() -> bool:
+	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.spath1_bandit_spawn()
+	var definition: NpcDefinition = OldPineNpcDefinitions.bandit_definition()
+	var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
+		spawn,
+		definition,
+		_location_for_zone(OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID),
+		_inventory,
+		_stacks,
+		_npc_random,
+		OldPineNpcDefinitions.loadout_item_definitions(),
+		_item_instance_scope,
+	)
+	if created.size() != spawn.quantity or created.size() != bandit_bodies.size():
+		return false
+	var point_ids: Array[StringName] = spawn.spawn_point_ids()
+	for index: int in range(created.size()):
+		var npc: NpcRuntimeState = created[index]
+		var marker: WorldSpawnMarkerType = _find_spawn_marker(point_ids[index])
+		if marker == null or not _map_characters.register_npc(npc):
+			return false
+		_all_npcs.append(npc)
+		var body: WorldCharacterBodyType = bandit_bodies[index]
+		body.global_position = marker.global_position
+		body.player_controlled = false
+		if not body.bind_npc(npc):
+			return false
+	return true
+
+
+func _find_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
+	for child: Node in spawn_points.get_children():
+		var marker: WorldSpawnMarkerType = child as WorldSpawnMarkerType
+		if marker != null and marker.spawn_point_id == spawn_point_id:
+			return marker
+	return null
+
+
+func _build_participants() -> Array[CombatSliceCharacterBinding]:
+	var result: Array[CombatSliceCharacterBinding] = []
+	var player_binding: CombatSliceCharacterBinding = (
+		WorldCombatBindingAdapterType.from_player(_player, _player_content)
+	)
+	if player_binding != null:
+		result.append(player_binding)
+	for npc: NpcRuntimeState in _all_npcs:
+		if not npc.exists_in_map:
+			continue
+		var binding: CombatSliceCharacterBinding = (
+			WorldCombatBindingAdapterType.from_npc(npc, _bandit_content)
+		)
+		if binding != null:
+			result.append(binding)
+	return result
+
+
+func _execute_lifecycle(
+	victim: CombatSliceCharacterBinding,
+	opportunity: CombatSliceOpportunityResult,
+	participants: Array[CombatSliceCharacterBinding],
+) -> CombatSliceLifecycleResult:
+	var body: WorldCharacterBodyType = _body_for(victim.character_id)
+	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
+	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants)
+	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
+	_corpse_sequence += 1
+	var corpse_id: StringName = StringName(
+		"oldpine-outdoor-corpse-%d-%d" % [get_instance_id(), _corpse_sequence]
+	)
+	var context: DeathContext = _death_context_for(victim, killer, destination)
+	var lifecycle: CombatSliceLifecycleResult = CombatSliceLifecycleAdapter.new().execute(
+		opportunity,
+		victim,
+		participants,
+		killer,
+		_inventory,
+		_stacks,
+		corpse_id,
+		destination,
+		_death_item_facts_for(victim.character_id),
+		DeathItemPolicyRegistry.new(),
+		DeathRewearPolicyRegistry.new(),
+		context,
+	)
+	if lifecycle.completed():
+		_sync_binding(victim)
+		if body != null:
+			body.refresh_runtime_state()
+	if lifecycle.death_inventory_result != null:
+		var corpse: CorpseState = lifecycle.death_inventory_result.corpse_state
+		if corpse != null:
+			_corpse_states.append(corpse)
+			var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
+			if view.configure(corpse):
+				view.global_position = death_position
+				corpse_layer.add_child(view)
+	return lifecycle
+
+
+func _death_context_for(
+	victim: CombatSliceCharacterBinding,
+	killer: CombatSliceCharacterBinding,
+	destination: InventoryTransferDestination,
+) -> DeathContext:
+	var display_name: String = "Player"
+	var age: int = 20
+	var strength: int = victim.state.attributes.strength
+	var body_weight: int = CharacterDerivedValues.human_weight(strength)
+	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)
+	var npc: NpcRuntimeState = _find_npc(victim.character_id)
+	if npc != null:
+		display_name = npc.definition().display_name
+		age = npc.age
+	var owner: ItemLifecycleOwnerContext = ItemLifecycleOwnerContext.new(
+		victim.character_id,
+		victim.state.equipment,
+		victim.armor,
+	)
+	return DeathContext.new(
+		victim.character_id,
+		false,
+		false,
+		destination,
+		owner,
+		display_name,
+		victim.state.gender,
+		age,
+		body_weight,
+		maximum_encumbrance,
+		false,
+		destination.endpoint if killer != null else null,
+		victim.state.gender,
+		killer != null,
+	)
+
+
+func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
+	var facts: Array[DeathItemFacts] = []
+	var endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
+		ContainmentEndpoint.Kind.CHARACTER,
+		character_id,
+	)
+	var npc: NpcRuntimeState = _find_npc(character_id)
+	if npc != null:
+		for item: ItemInstance in npc.loadout_items():
+			if _inventory.is_direct_child(item.item_instance_id, endpoint):
+				facts.append(DeathItemFacts.new(item))
+		return facts
+	var primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
+	if primary != null and _inventory.is_direct_child(primary.instance_id, endpoint):
+		facts.append(
+			DeathItemFacts.new(ItemInstance.new(primary.instance_id, primary.weapon_id))
+		)
+	return facts
+
+
+func _sync_binding(binding: CombatSliceCharacterBinding) -> void:
+	if binding.character_id == _player.character_id:
+		WorldCombatBindingAdapterType.sync_player(binding, _player)
+	else:
+		var npc: NpcRuntimeState = _find_npc(binding.character_id)
+		if npc != null:
+			WorldCombatBindingAdapterType.sync_npc(binding, npc)
+
+
+func _update_body_zone(body: Node2D, zone_id: StringName) -> void:
+	var character_body: WorldCharacterBodyType = body as WorldCharacterBodyType
+	if character_body != null:
+		character_body.set_world_location(_location_for_zone(zone_id))
+
+
+func _location_for_zone(zone_id: StringName) -> WorldLocationState:
+	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	if zone == null:
+		return null
+	return WorldLocationState.new(
+		OldPineWorldDefinitions.REGION_ID,
+		OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+		zone.zone_id,
+		zone.combat_location_id,
+	)
+
+
+func _world_destination_for(character_id: StringName) -> InventoryTransferDestination:
+	var location: WorldLocationState = (
+		_player.world_location()
+		if character_id == _player.character_id
+		else _find_npc(character_id).world_location()
+	)
+	return InventoryTransferDestination.new(
+		ContainmentEndpoint.new(
+			ContainmentEndpoint.Kind.WORLD,
+			location.combat_location_id,
+		),
+		true,
+		true,
+		WORLD_CAPACITY,
+	)
+
+
+func _character_destination(
+	character_id: StringName,
+	capacity: int,
+) -> InventoryTransferDestination:
+	return InventoryTransferDestination.new(
+		ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id),
+		true,
+		true,
+		capacity,
+	)
+
+
+func _find_npc(character_id: StringName) -> NpcRuntimeState:
+	for npc: NpcRuntimeState in _all_npcs:
+		if npc.character_id == character_id:
+			return npc
+	return null
+
+
+func _body_for(character_id: StringName) -> WorldCharacterBodyType:
+	if character_id == _player.character_id:
+		return player_body
+	for body: WorldCharacterBodyType in bandit_bodies:
+		if body.character_id == character_id:
+			return body
+	return null
+
+
+func _binding_for(
+	participants: Array[CombatSliceCharacterBinding],
+	character_id: StringName,
+) -> CombatSliceCharacterBinding:
+	return CombatSliceProjectionBuilder.find_binding(participants, character_id)
+
+
+func _find_killer(
+	victim: CombatSliceCharacterBinding,
+	participants: Array[CombatSliceCharacterBinding],
+) -> CombatSliceCharacterBinding:
+	for candidate: CombatSliceCharacterBinding in participants:
+		if candidate != victim and (
+			candidate.relationship.has_lethal_target(victim.character_id)
+			or victim.relationship.has_lethal_target(candidate.character_id)
+		):
+			return candidate
+	return null
+
+
+func _selected_opponent_id(
+	result: CombatSliceOpportunityResult,
+	actor: CombatSliceCharacterBinding,
+) -> StringName:
+	var selection: CombatOpponentSelectionResult = result.opponent_selection_result
+	if selection != null and selection.has_selected_opponent:
+		return selection.selected_opponent_id
+	var ids: Array[StringName] = actor.relationship.opponent_ids()
+	return &"" if ids.is_empty() else ids[0]
+
+
+func _display_name(character_id: StringName) -> String:
+	if character_id == _player.character_id:
+		return "Player"
+	var npc: NpcRuntimeState = _find_npc(character_id)
+	return "Unknown" if npc == null else npc.definition().display_name
+
+
+func _has_active_relationships() -> bool:
+	if _player.exists_in_world and _player.relationship.is_fighting():
+		return true
+	for npc: NpcRuntimeState in _all_npcs:
+		if npc.exists_in_map and npc.relationship.is_fighting():
+			return true
+	return false
+
+
+func _on_bandit_selection_requested(character_id: StringName) -> void:
+	select_npc(character_id)
+
+
+func _on_inspect_button_pressed() -> void:
+	inspect_selected()
+
+
+func _on_attack_button_pressed() -> void:
+	attack_selected()
+
+
+func _on_opportunity_timer_timeout() -> void:
+	process_cadence_tick()
+
+
+func _on_reset_button_pressed() -> void:
+	reset_world()
+
+
+func _on_central_clearing_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID)
+
+
+func _on_south_slope_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID)
+
+
+func _on_north_approach_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID)
+
+
+func _on_east_bridge_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID)

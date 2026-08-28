@@ -39,13 +39,10 @@ func _test_godot_random_adapter() -> void:
 
 
 func _test_persisted_project_configuration() -> void:
-	var configured_main: String = String(
-		ProjectSettings.get_setting("application/run/main_scene", "")
+	_assert_true(
+		ResourceLoader.exists(SCENE_PATH),
+		"closed arena remains a persisted regression fixture after main-scene advancement",
 	)
-	var resolved_main: String = configured_main
-	if configured_main.begins_with("uid://"):
-		resolved_main = ResourceUID.get_id_path(ResourceUID.text_to_id(configured_main))
-	_assert_eq(resolved_main, SCENE_PATH, "project main scene resolves to the persisted arena")
 	_assert_eq(
 		_input_action_names(),
 		["move_down", "move_left", "move_right", "move_up"],
