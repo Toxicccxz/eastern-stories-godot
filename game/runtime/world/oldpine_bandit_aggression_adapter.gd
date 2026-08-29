@@ -44,6 +44,11 @@ func clear_npc(npc_id: StringName) -> void:
 	leave_player_presence(npc_id)
 
 
+func clear_all() -> void:
+	_present_npc_ids.clear()
+	_pending_npc_ids.clear()
+
+
 func resolve_pending(
 	ordered_npcs: Array[NpcRuntimeState],
 	player: WorldPlayerRuntimeType,

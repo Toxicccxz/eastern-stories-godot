@@ -1,6 +1,6 @@
 extends RefCounted
 
-const SceneType := preload("res://scenes/world/oldpine/oldpine_outdoor.tscn")
+const SceneType := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 
 class CountingMaximumCombatRandomSource extends CombatRandomSource:
 	var calls: int = 0
@@ -424,14 +424,17 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 
 
 func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
-	var controller: OldPineOutdoorController = SceneType.instantiate() as OldPineOutdoorController
-	if controller != null:
-		controller.deterministic_npc_seed = true
-		controller.npc_seed = 9022
-		controller.deterministic_combat_seed = true
-		controller.combat_seed = 9023
-		tree.root.add_child(controller)
-	return controller
+	var session: OldPineWorldSessionController = (
+		SceneType.instantiate() as OldPineWorldSessionController
+	)
+	if session == null:
+		return null
+	session.deterministic_npc_seed = true
+	session.npc_seed = 9022
+	session.deterministic_combat_seed = true
+	session.combat_seed = 9023
+	tree.root.add_child(session)
+	return session.outdoor_map()
 
 
 func _binding_for(bindings: Array[CombatSliceCharacterBinding], character_id: StringName) -> CombatSliceCharacterBinding:

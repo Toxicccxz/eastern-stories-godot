@@ -1,5 +1,55 @@
 # Migration Decisions
 
+## Inactive resident Old Pine maps freeze outside the SceneTree
+
+**Decision:** Phase 9B3B1 retains instantiated Old Pine map Nodes for the lifetime of one
+`OldPineWorldSession`, but only the active map is attached to the SceneTree. An inactive resident map is
+detached without being freed and receives no physics, Area overlap, input, Camera, `_process()`,
+`_physics_process()`, OpportunityTimer, combat, recovery, condition, or aggression progression.
+
+**Reason:** The original MUD can continue processing objects outside the player's current room, but the
+native prototype has no proven off-screen scheduling contract. Keeping a detached map instance preserves
+NPC, corpse, loot, item, signal, and physical-view identity across a map round trip without prematurely
+building persistence or a global heartbeat simulator.
+
+**Compatibility impact:** Inactive Old Pine maps are frozen rather than globally simulated. They resume
+from their retained runtime state when reattached; no elapsed off-screen combat, recovery, condition, or
+NPC activity is synthesized. This is an in-memory session-lifetime rule, not save persistence.
+
+## Non-positive authored world random bounds become ordered typed ambiguities
+
+**Decision:** When a future authored world interaction reaches an LPC `random(bound)` call with
+`bound <= 0`, native code returns a typed legacy ambiguity/failure at that exact source position, consumes
+no RNG draw, applies no clamp, and selects no invented branch. Phase 9B3B1 records this boundary but does
+not yet implement or execute Vine randomness.
+
+**Reason:** `d/oldpine/epath2.c` calls `random(query_skill("dodge"))`, while the locally available MudOS
+documentation does not define zero or negative bounds. The existing Combat decision already uses ordered
+typed failures for the same missing driver evidence; authored world interactions require an explicit scope
+extension before the Vine path is implemented.
+
+**Compatibility impact:** Positive authored bounds will retain their exact range and source ordering.
+Non-positive states become diagnosable instead of crashing, clamping, or silently choosing waterfall or
+passage. Presentation and mutations completed before the random position remain observable. Sources:
+`reference/es2/mudlib/d/oldpine/epath2.c`, `reference/es2/mudlib/doc/efuns/random`.
+
+## Cross-map ordinary exits use location availability reconciliation
+
+**Decision:** Native cross-map ordinary exits commit the destination `WorldLocationState` and then run a
+typed combat-opponent availability reconciliation. They do not reproduce `cmds/std/go.c`'s immediate
+`remove_all_enemy()` inside portal or map-handoff code. Ordinary opponent membership can be removed as
+out-of-location while independent lethal-target markers continue to follow the closed relationship rules.
+
+**Reason:** Godot physical/world movement is not routed through the LPC directional-command runtime, and
+the existing world slice already translates separation into current-location availability facts. Keeping
+that boundary avoids hiding command-specific relationship mutation in a generic portal callback and also
+allows a busy player to be reconciled without executing an attack or decrementing busy.
+
+**Compatibility impact:** A cross-map ordinary exit such as the future Passage-to-Waterfall transition
+cleans ordinary opponents through the explicit post-commit availability opportunity rather than at the
+exact `go.c` move-return statement. Lethal intent is not erased merely by handoff. Sources:
+`reference/es2/mudlib/cmds/std/go.c`, `game/core/combat/relationship/combat_opponent_selection_service.gd`.
+
 ## Combat invalid random bounds become ordered typed failures
 
 **Decision:** Phase 5B2A returns a typed legacy-invalid result when ordinary attack resolution reaches

@@ -3,8 +3,9 @@ extends RefCounted
 
 const ItemInstanceType := preload("res://core/items/item_instance.gd")
 
-## Map-instance-local immutable identity lookup. InventoryState remains the
-## authority for liveness, parentage, and weight.
+## Runtime-owner-local immutable identity lookup. The current Old Pine runtime
+## owner is its world session, shared by resident maps. InventoryState remains
+## the authority for liveness, parentage, and weight.
 var _items: Dictionary[StringName, ItemInstanceType] = {}
 
 

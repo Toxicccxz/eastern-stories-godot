@@ -1,6 +1,6 @@
 extends RefCounted
 
-const SCENE_PATH: String = "res://scenes/world/oldpine/oldpine_outdoor.tscn"
+const SCENE_PATH: String = "res://scenes/world/oldpine/oldpine_world_session.tscn"
 const ControllerType := preload(
 	"res://runtime/world/oldpine_outdoor_controller.gd"
 )
@@ -944,13 +944,15 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	var packed: PackedScene = load(SCENE_PATH) as PackedScene
 	if packed == null:
 		return null
-	var controller: ControllerType = packed.instantiate() as ControllerType
-	controller.deterministic_npc_seed = true
-	controller.npc_seed = 77
-	controller.deterministic_combat_seed = true
-	controller.combat_seed = 88
-	tree.root.add_child(controller)
-	return controller
+	var session: OldPineWorldSessionController = (
+		packed.instantiate() as OldPineWorldSessionController
+	)
+	session.deterministic_npc_seed = true
+	session.npc_seed = 77
+	session.deterministic_combat_seed = true
+	session.combat_seed = 88
+	tree.root.add_child(session)
+	return session.outdoor_map()
 
 
 func _click_area_through_viewport(area: Area2D, tree: SceneTree) -> void:

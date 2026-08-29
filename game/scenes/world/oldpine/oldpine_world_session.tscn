@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dsi5gn2sikafk"]
+
+[ext_resource type="Script" uid="uid://dv8q1minjmylm" path="res://runtime/world/oldpine_world_session_controller.gd" id="1_session"]
+
+[node name="OldPineWorldSession" type="Node" unique_id=291591878]
+script = ExtResource("1_session")
+
+[node name="ActiveMapSlot" type="Node" parent="." unique_id=1860299874]
+unique_name_in_owner = true

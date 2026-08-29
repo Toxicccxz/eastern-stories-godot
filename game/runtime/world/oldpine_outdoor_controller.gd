@@ -1,5 +1,5 @@
 class_name OldPineOutdoorController
-extends Node2D
+extends OldPineResidentMapController
 
 const PLAYER_ID: StringName = &"oldpine.player"
 const WORLD_CAPACITY: int = 1_000_000
@@ -8,9 +8,6 @@ const WorldPlayerRuntimeType := preload(
 )
 const WorldCombatBindingAdapterType := preload(
 	"res://runtime/characters/world_combat_binding_adapter.gd"
-)
-const GodotNpcRandomType := preload(
-	"res://runtime/npcs/godot_npc_initialization_random_source.gd"
 )
 const WorldCharacterBodyType := preload(
 	"res://runtime/world/world_character_body_2d.gd"
@@ -31,10 +28,7 @@ const AggressionAdapterType := preload(
 	"res://runtime/world/oldpine_bandit_aggression_adapter.gd"
 )
 
-@export var deterministic_npc_seed: bool = false
-@export var npc_seed: int = 7_021
-@export var deterministic_combat_seed: bool = false
-@export var combat_seed: int = 5_232
+signal reset_requested
 
 @onready var player_body: WorldCharacterBodyType = %Player
 @onready var bandit_bodies: Array[WorldCharacterBodyType] = [
@@ -50,12 +44,13 @@ const AggressionAdapterType := preload(
 @onready var hud: OldPineHudType = %HUD
 
 var _player: WorldPlayerRuntimeType
+var _session_owner: OldPineWorldSessionController
 var _map_characters: MapCharacterRuntimeState
 var _all_npcs: Array[NpcRuntimeState] = []
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
 var _item_index: WorldItemInstanceIndex
-var _npc_random: GodotNpcRandomType
+var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
 var _effects: SkillImprovementEffectRegistry
 var _bandit_content: CombatSliceContentProfile
@@ -70,6 +65,8 @@ var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 var _item_instance_scope: StringName = &""
 var _initialized: bool = false
+var _configured: bool = false
+var _initialization_count: int = 0
 var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new()
 var _aggression_adapter: AggressionAdapterType = AggressionAdapterType.new()
 var _last_aggression_decisions: Array[OldPineAggressionDecision] = []
@@ -89,10 +86,12 @@ var _armor_adapter: OldPineArmorInteractionAdapter = (
 )
 var _last_armor_interaction: OldPineArmorInteractionResult
 var _last_player_content_resolution: OldPineWeaponContentResolution
+var _suspended_cadence_time_left: float = 0.0
+var _cadence_was_running: bool = false
 
 
 func _ready() -> void:
-	initialize_world()
+	initialize_map()
 
 
 func _process(_delta: float) -> void:
@@ -107,21 +106,54 @@ func _process(_delta: float) -> void:
 
 
 func initialize_world() -> bool:
+	return initialize_map()
+
+
+func map_id() -> StringName:
+	return OldPineWorldDefinitions.OUTDOOR_MAP_ID
+
+
+func configure_session_authorities(
+	p_session: OldPineWorldSessionController,
+	p_player: WorldPlayerRuntimeType,
+	p_inventory: InventoryState,
+	p_stacks: CombinedStackCollection,
+	p_item_index: WorldItemInstanceIndex,
+	p_npc_random: NpcInitializationRandomSource,
+	p_combat_random: CombatRandomSource,
+	p_item_instance_scope: StringName,
+) -> bool:
+	if (
+		_configured
+		or p_session == null
+		or p_player == null
+		or not p_player.is_valid()
+		or p_inventory == null
+		or p_stacks == null
+		or p_item_index == null
+		or p_npc_random == null
+		or p_combat_random == null
+		or p_item_instance_scope.is_empty()
+	):
+		return false
+	_session_owner = p_session
+	_player = p_player
+	_inventory = p_inventory
+	_stacks = p_stacks
+	_item_index = p_item_index
+	_npc_random = p_npc_random
+	_combat_random = p_combat_random
+	_item_instance_scope = p_item_instance_scope
+	_configured = true
+	return true
+
+
+func initialize_map() -> bool:
 	if _initialized:
 		return true
-	_item_instance_scope = StringName("oldpine-outdoor-%d" % get_instance_id())
-	_inventory = InventoryState.new()
-	_stacks = CombinedStackCollection.new()
-	_item_index = WorldItemInstanceIndex.new()
+	if not _configured:
+		return false
 	_map_characters = MapCharacterRuntimeState.new(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
-	_npc_random = GodotNpcRandomType.new(
-		npc_seed,
-		deterministic_npc_seed,
-	)
-	_combat_random = GodotCombatRandomSource.new(
-		combat_seed,
-		deterministic_combat_seed,
-	)
 	_effects = SkillImprovementEffectRegistry.new()
 	_effects.register_legacy_defaults()
 	_bandit_content = CombatSliceContentProfile.new(
@@ -151,6 +183,7 @@ func initialize_world() -> bool:
 	hud.configure(_player)
 	opportunity_timer.stop()
 	_initialized = true
+	_initialization_count += 1
 	return true
 
 
@@ -243,6 +276,127 @@ func lifecycle_is_pending() -> bool:
 	return _lifecycle_failed
 
 
+func is_map_initialized() -> bool:
+	return _initialized
+
+
+func initialization_count() -> int:
+	return _initialization_count
+
+
+func runtime_player_body() -> WorldCharacterBodyType:
+	return player_body
+
+
+func resident_npcs() -> Array[NpcRuntimeState]:
+	return _all_npcs.duplicate()
+
+
+func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
+	return _find_npc(character_id)
+
+
+func resolve_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
+	return _find_spawn_marker(spawn_point_id)
+
+
+func spawn_matches_zone(
+	spawn_point_id: StringName,
+	zone_id: StringName,
+) -> bool:
+	return (
+		(
+			spawn_point_id == &"oldpine.outdoor.central_clearing.player_start"
+			and zone_id == OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
+		)
+		or (
+			spawn_point_id == OldPineWorldDefinitions.TREE1_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID
+		)
+		or (
+			spawn_point_id
+			== OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
+		)
+	)
+
+
+func resolve_location(
+	zone_id: StringName,
+	combat_location_id: StringName,
+) -> WorldLocationState:
+	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	if (
+		zone == null
+		or zone.map_id != map_id()
+		or zone.combat_location_id != combat_location_id
+	):
+		return null
+	return _location_for_zone(zone_id)
+
+
+func prepare_for_activation(spawn_point_id: StringName) -> bool:
+	if not _initialized:
+		return false
+	var marker: WorldSpawnMarkerType = _find_spawn_marker(spawn_point_id)
+	if marker == null or not player_body.bind_player(_player):
+		return false
+	player_body.global_position = marker.global_position
+	player_body.player_controlled = false
+	return true
+
+
+func complete_activation() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = true
+	player_body.refresh_runtime_state()
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = true
+	hud.visible = true
+	hud.refresh_live_state()
+	return true
+
+
+func prepare_for_deactivation() -> void:
+	_cadence_was_running = not opportunity_timer.is_stopped()
+	_suspended_cadence_time_left = (
+		opportunity_timer.time_left if _cadence_was_running else 0.0
+	)
+	opportunity_timer.stop()
+	if player_body != null:
+		player_body.player_controlled = false
+		player_body.velocity = Vector2.ZERO
+		var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+		if camera != null:
+			camera.enabled = false
+	_selected_target = null
+	_aggression_adapter.clear_all()
+	if hud != null:
+		hud.close_loot()
+		hud.close_inventory()
+		hud.visible = false
+
+
+func resume_after_relationship_reconciliation() -> void:
+	if _has_active_relationships() and opportunity_timer.is_stopped():
+		opportunity_timer.start(
+			_suspended_cadence_time_left
+			if _cadence_was_running and _suspended_cadence_time_left > 0.0
+			else -1.0
+		)
+	_cadence_was_running = false
+	_suspended_cadence_time_left = 0.0
+
+
+func replace_combat_random_source(value: CombatRandomSource) -> bool:
+	if value == null:
+		return false
+	_combat_random = value
+	return true
+
+
 func npc_random_source() -> NpcInitializationRandomSource:
 	return _npc_random
 
@@ -251,11 +405,13 @@ func combat_random_source() -> CombatRandomSource:
 	return _combat_random
 
 
+func world_session() -> OldPineWorldSessionController:
+	return _session_owner
+
+
 func configure_combat_random_source(value: CombatRandomSource) -> bool:
-	if value == null:
-		return false
-	_combat_random = value
-	return true
+	var session: OldPineWorldSessionController = world_session()
+	return session != null and session.configure_combat_random_source(value)
 
 
 func select_npc(character_id: StringName) -> bool:
@@ -621,69 +777,15 @@ func process_cadence_tick() -> Array[CombatSliceOpportunityResult]:
 
 
 func reset_world() -> void:
-	get_tree().reload_current_scene()
+	reset_requested.emit()
 
 
 func _initialize_player() -> bool:
-	var prototype: CombatSliceCharacterBinding = CombatSliceDemoFactory.create_player()
-	var start_location: WorldLocationState = _location_for_zone(
-		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
-	)
-	_player = WorldPlayerRuntimeType.new(
-		PLAYER_ID,
-		prototype.state,
-		CombatRelationshipState.new(PLAYER_ID),
-		ActionBusyState.new(),
-		ArmorState.new(),
-		start_location,
-		CharacterRuntimeLifeStatus.Value.ACTIVE,
-		true,
-		true,
-		CharacterDerivedValues.maximum_encumbrance(
-			prototype.state.attributes.strength
-		),
-	)
-	var demo_primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
-	if demo_primary == null:
-		return false
-	if not _player.state.equipment.unwield(demo_primary.instance_id).succeeded:
-		return false
-	var player_weapon_definition: WeaponDefinition = WeaponDefinition.new(
-		CombatSliceContentProfile.LONG_SWORD_ID,
-		CombatSliceContentProfile.LONG_SWORD_SKILL_ID,
-		false,
-		false,
-		CombatSliceContentProfile.LONG_SWORD_SOURCE,
-	)
-	var primary: EquippedWeaponRef = EquippedWeaponRef.new(
-		StringName("%s.player-long-sword" % String(_item_instance_scope)),
-		player_weapon_definition,
-	)
-	if not _player.state.equipment.wield(primary, false).succeeded:
-		return false
-	var player_item: ItemInstance = ItemInstance.new(
-		primary.instance_id,
-		primary.weapon_id,
-	)
-	if not _inventory.register_item(player_item, CombatSliceContentProfile.LONG_SWORD_WEIGHT):
-		return false
-	if not _item_index.register_snapshot(player_item):
-		return false
-	var player_destination: InventoryTransferDestination = _character_destination(
-		_player.character_id,
-		_player.maximum_encumbrance,
-	)
-	if not InventoryTransferService.new().transfer(
-		_inventory,
-		player_item.item_instance_id,
-		player_destination,
-	).succeeded:
-		return false
 	var marker: WorldSpawnMarkerType = %PlayerStart
 	if marker == null or not marker.is_configured():
 		return false
 	player_body.global_position = marker.global_position
-	player_body.player_controlled = true
+	player_body.player_controlled = false
 	return player_body.bind_player(_player)
 
 

@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://dyfxqrqim33ir"]
+
+[ext_resource type="Script" uid="uid://be5dxryydxue6" path="res://runtime/world/oldpine_cave_passage_controller.gd" id="1_cave"]
+[ext_resource type="Script" uid="uid://degspgdf2s6v7" path="res://runtime/world/world_spawn_marker_2d.gd" id="2_marker"]
+[ext_resource type="Script" uid="uid://byabg1lrlaxrt" path="res://runtime/world/world_character_body_2d.gd" id="3_body"]
+
+[sub_resource type="RectangleShape2D" id="PassageShape"]
+size = Vector2(900, 520)
+
+[sub_resource type="RectangleShape2D" id="PlayerShape"]
+size = Vector2(34, 34)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2shr0"]
+size = Vector2(900, 30)
+
+[node name="OldPineCavePassage" type="Node2D" unique_id=1479692287]
+script = ExtResource("1_cave")
+
+[node name="Terrain" type="Node2D" parent="." unique_id=2093880277]
+
+[node name="PassageFloor" type="ColorRect" parent="Terrain" unique_id=377071031]
+offset_left = -450.0
+offset_top = -260.0
+offset_right = 450.0
+offset_bottom = 260.0
+mouse_filter = 2
+color = Color(0.117647, 0.133333, 0.145098, 1)
+
+[node name="PassageLabel" type="Label" parent="Terrain" unique_id=996877548]
+offset_left = -120.0
+offset_top = -220.0
+offset_right = 120.0
+offset_bottom = -190.0
+text = "Waterfall Passage"
+horizontal_alignment = 1
+
+[node name="NorthBlocked" type="Label" parent="Terrain" unique_id=809166615]
+offset_left = -100.0
+offset_top = -170.0
+offset_right = 100.0
+offset_bottom = -140.0
+text = "North passage blocked"
+horizontal_alignment = 1
+
+[node name="Zones" type="Node2D" parent="." unique_id=1415510180]
+
+[node name="PassageZone" type="Area2D" parent="Zones" unique_id=100863369]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PassageZone" unique_id=1516547939]
+shape = SubResource("PassageShape")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1867624570]
+unique_name_in_owner = true
+
+[node name="VineLanding" type="Marker2D" parent="SpawnPoints" unique_id=791403783]
+position = Vector2(0, 120)
+script = ExtResource("2_marker")
+spawn_point_id = &"oldpine.cave.waterfall_passage.vine_landing"
+
+[node name="Characters" type="Node2D" parent="." unique_id=1213298346]
+
+[node name="Player" type="CharacterBody2D" parent="Characters" unique_id=324937900]
+unique_name_in_owner = true
+script = ExtResource("3_body")
+
+[node name="Visual" type="ColorRect" parent="Characters/Player" unique_id=315441009]
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+mouse_filter = 2
+color = Color(0.831373, 0.741176, 0.380392, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Player" unique_id=838901975]
+shape = SubResource("PlayerShape")
+
+[node name="NameLabel" type="Label" parent="Characters/Player" unique_id=1357896362]
+offset_left = -34.0
+offset_top = -42.0
+offset_right = 34.0
+offset_bottom = -20.0
+text = "Player"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="Characters/Player" unique_id=1366942426]
+enabled = false
+
+[node name="Boundaries" type="Node2D" parent="." unique_id=1343016823]
+
+[node name="NorthBlockedBoundary" type="StaticBody2D" parent="Boundaries" unique_id=311645197]
+position = Vector2(0, -245)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/NorthBlockedBoundary" unique_id=523999914]
+shape = SubResource("RectangleShape2D_2shr0")
+
+[connection signal="body_entered" from="Zones/PassageZone" to="." method="_on_passage_zone_body_entered"]

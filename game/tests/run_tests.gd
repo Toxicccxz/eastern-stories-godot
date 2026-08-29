@@ -741,6 +741,18 @@ const WorldCharacterBody2DScript := preload(
 const OldPineOutdoorHudScript := preload(
 	"res://runtime/world/oldpine_outdoor_hud.gd"
 )
+const OldPineResidentMapControllerScript := preload(
+	"res://runtime/world/oldpine_resident_map_controller.gd"
+)
+const OldPineMapHandoffResultScript := preload(
+	"res://runtime/world/oldpine_map_handoff_result.gd"
+)
+const OldPineCavePassageControllerScript := preload(
+	"res://runtime/world/oldpine_cave_passage_controller.gd"
+)
+const OldPineWorldSessionControllerScript := preload(
+	"res://runtime/world/oldpine_world_session_controller.gd"
+)
 const OldPineOutdoorControllerScript := preload(
 	"res://runtime/world/oldpine_outdoor_controller.gd"
 )
@@ -834,6 +846,9 @@ const PlayerArmorInteractionTest := preload(
 )
 const OldPineFatBanditArmorLoopTest := preload(
 	"res://tests/runtime/oldpine_fat_bandit_armor_loop_test.gd"
+)
+const OldPineWorldSessionTest := preload(
+	"res://tests/runtime/oldpine_world_session_test.gd"
 )
 
 
@@ -1128,6 +1143,10 @@ func _init() -> void:
 		WorldSpawnMarker2DScript,
 		WorldCharacterBody2DScript,
 		OldPineOutdoorHudScript,
+		OldPineResidentMapControllerScript,
+		OldPineMapHandoffResultScript,
+		OldPineCavePassageControllerScript,
+		OldPineWorldSessionControllerScript,
 		OldPineOutdoorControllerScript,
 		WorldInteractionTargetScript,
 		WorldPortalTraversalResultScript,
@@ -1160,6 +1179,7 @@ func _init() -> void:
 		NpcArmorLoadoutTest,
 		PlayerArmorInteractionTest,
 		OldPineFatBanditArmorLoopTest,
+		OldPineWorldSessionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1267,6 +1287,9 @@ func _init() -> void:
 	var phase_9b2_loop_result: Dictionary[String, Variant] = (
 		await OldPineFatBanditArmorLoopTest.new().run_all(self)
 	)
+	var phase_9b3b1_result: Dictionary[String, Variant] = (
+		await OldPineWorldSessionTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1345,6 +1368,8 @@ func _init() -> void:
 		phase_9b2_player_result["assertions"]
 	) + int(
 		phase_9b2_loop_result["assertions"]
+	) + int(
+		phase_9b3b1_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1388,6 +1413,7 @@ func _init() -> void:
 	failures.append_array(phase_9b2_factory_result["failures"])
 	failures.append_array(phase_9b2_player_result["failures"])
 	failures.append_array(phase_9b2_loop_result["failures"])
+	failures.append_array(phase_9b3b1_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

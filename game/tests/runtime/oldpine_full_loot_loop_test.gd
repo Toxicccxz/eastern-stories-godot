@@ -1,7 +1,7 @@
 extends RefCounted
 
 const SceneType := preload(
-	"res://scenes/world/oldpine/oldpine_outdoor.tscn"
+	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
 
 class CountingMaximumCombatRandomSource extends CombatRandomSource:
@@ -467,16 +467,17 @@ func _kill_bandit(
 
 
 func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
-	var controller: OldPineOutdoorController = (
-		SceneType.instantiate() as OldPineOutdoorController
+	var session: OldPineWorldSessionController = (
+		SceneType.instantiate() as OldPineWorldSessionController
 	)
-	if controller != null:
-		controller.deterministic_npc_seed = true
-		controller.npc_seed = 7021
-		controller.deterministic_combat_seed = true
-		controller.combat_seed = 5232
-		tree.root.add_child(controller)
-	return controller
+	if session == null:
+		return null
+	session.deterministic_npc_seed = true
+	session.npc_seed = 7021
+	session.deterministic_combat_seed = true
+	session.combat_seed = 5232
+	tree.root.add_child(session)
+	return session.outdoor_map()
 
 
 func _player_endpoint() -> ContainmentEndpoint:

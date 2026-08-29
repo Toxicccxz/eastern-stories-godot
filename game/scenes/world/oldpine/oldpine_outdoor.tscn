@@ -590,7 +590,6 @@ spawn_point_id = &"oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"
 unique_name_in_owner = true
 position = Vector2(450, 300)
 script = ExtResource("3_7i4ts")
-player_controlled = true
 
 [node name="Visual" type="ColorRect" parent="Characters/Player" unique_id=375556258]
 offset_left = -18.0
@@ -612,6 +611,7 @@ theme_override_font_sizes/font_size = 16
 text = "Player"
 
 [node name="Camera2D" type="Camera2D" parent="Characters/Player" unique_id=1862042098]
+enabled = false
 limit_left = -2100
 limit_top = -500
 limit_right = 2300
