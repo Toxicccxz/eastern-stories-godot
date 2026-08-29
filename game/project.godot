@@ -24,6 +24,10 @@ _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor]
+
+run/main_run_args="--remote-debug tcp://127.0.0.1:6107"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
