@@ -7,10 +7,16 @@
 [sub_resource type="RectangleShape2D" id="PassageShape"]
 size = Vector2(900, 520)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrrgo"]
+size = Vector2(240, 50)
+
 [sub_resource type="RectangleShape2D" id="PlayerShape"]
 size = Vector2(34, 34)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2shr0"]
+size = Vector2(900, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ryoxn"]
 size = Vector2(900, 30)
 
 [node name="OldPineCavePassage" type="Node2D" unique_id=1479692287]
@@ -42,6 +48,22 @@ offset_bottom = -140.0
 text = "North passage blocked"
 horizontal_alignment = 1
 
+[node name="SouthCurtain" type="ColorRect" parent="Terrain" unique_id=297158529]
+offset_left = -120.0
+offset_top = 200.0
+offset_right = 120.0
+offset_bottom = 250.0
+mouse_filter = 2
+color = Color(0.29411766, 0.47843137, 0.5686275, 1)
+
+[node name="SouthExitLabel" type="Label" parent="Terrain" unique_id=1046433870]
+offset_left = -135.0
+offset_top = 170.0
+offset_right = 135.0
+offset_bottom = 195.0
+text = "South curtain → Waterfall Basin"
+horizontal_alignment = 1
+
 [node name="Zones" type="Node2D" parent="." unique_id=1415510180]
 
 [node name="PassageZone" type="Area2D" parent="Zones" unique_id=100863369]
@@ -49,6 +71,14 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PassageZone" unique_id=1516547939]
 shape = SubResource("PassageShape")
+
+[node name="SouthExit" type="Area2D" parent="Zones" unique_id=2099680664]
+unique_name_in_owner = true
+position = Vector2(0, 225)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/SouthExit" unique_id=306411893]
+shape = SubResource("RectangleShape2D_lrrgo")
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1867624570]
 unique_name_in_owner = true
@@ -94,4 +124,11 @@ position = Vector2(0, -245)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/NorthBlockedBoundary" unique_id=523999914]
 shape = SubResource("RectangleShape2D_2shr0")
 
+[node name="SouthOuterBoundary" type="StaticBody2D" parent="Boundaries" unique_id=2094707592]
+position = Vector2(0, 275)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/SouthOuterBoundary" unique_id=1242247094]
+shape = SubResource("RectangleShape2D_ryoxn")
+
 [connection signal="body_entered" from="Zones/PassageZone" to="." method="_on_passage_zone_body_entered"]
+[connection signal="body_entered" from="Zones/SouthExit" to="." method="_on_south_exit_body_entered"]

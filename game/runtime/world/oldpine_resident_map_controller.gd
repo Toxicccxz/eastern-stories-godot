@@ -17,6 +17,7 @@ func configure_session_authorities(
 	_item_index: WorldItemInstanceIndex,
 	_npc_random: NpcInitializationRandomSource,
 	_combat_random: CombatRandomSource,
+	_world_interaction_random: WorldInteractionRandomSource,
 	_item_instance_scope: StringName,
 ) -> bool:
 	return false
@@ -81,4 +82,10 @@ func resume_after_relationship_reconciliation() -> void:
 
 
 func replace_combat_random_source(_value: CombatRandomSource) -> bool:
+	return false
+
+
+func replace_world_interaction_random_source(
+	_value: WorldInteractionRandomSource,
+) -> bool:
 	return false

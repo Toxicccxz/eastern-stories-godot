@@ -81,8 +81,11 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 		[
 			OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID,
 			OldPineWorldDefinitions.DESCEND_TREE1_PORTAL_ID,
+			OldPineWorldDefinitions.VINE_WATERFALL_PORTAL_ID,
+			OldPineWorldDefinitions.VINE_PASSAGE_PORTAL_ID,
+			OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID,
 		],
-		"Phase 9B1 invents no Keep or cliff portal",
+		"Phase 9B3B2 adds only Vine and Passage portals beyond closed Pine portals",
 	)
 
 	var tall: NpcDefinition = OldPineNpcDefinitions.tall_bandit_definition()
@@ -146,7 +149,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq(initial_npcs.size(), 5, "scene ready constructs all NPCs before Area signals")
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
-	_assert_eq(_count_tree_nodes(controller), 180, "fixed Pine Maze plus Fat spawn/body hierarchy persists")
+	_assert_eq(_count_tree_nodes(controller), 193, "fixed Pine Maze plus Phase 9B3B2 hierarchy persists")
 	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeBounds/Top", Vector2(2100, 30), "maze north boundary")
 	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeBounds/Bottom", Vector2(2100, 30), "maze south boundary")
 	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeObstacles/CentralIsland", Vector2(300, 240), "central loop island")

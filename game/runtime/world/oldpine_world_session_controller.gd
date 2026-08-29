@@ -16,6 +16,8 @@ const WorldPlayerRuntimeType := preload(
 @export var npc_seed: int = 7_021
 @export var deterministic_combat_seed: bool = false
 @export var combat_seed: int = 5_232
+@export var deterministic_world_interaction_seed: bool = false
+@export var world_interaction_seed: int = 93_232
 
 @onready var active_map_slot: Node = %ActiveMapSlot
 
@@ -25,11 +27,13 @@ var _stacks: CombinedStackCollection
 var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
+var _world_interaction_random: WorldInteractionRandomSource
 var _item_instance_scope: StringName = &""
 var _resident_maps: Dictionary[StringName, OldPineResidentMapController] = {}
 var _active_map_id: StringName = &""
 var _initialized: bool = false
 var _transitioning: bool = false
+var _last_passage_exit_handoff: OldPineMapHandoffResult
 
 
 func _ready() -> void:
@@ -107,6 +111,10 @@ func combat_random_source() -> CombatRandomSource:
 	return _combat_random
 
 
+func world_interaction_random_source() -> WorldInteractionRandomSource:
+	return _world_interaction_random
+
+
 func item_instance_scope() -> StringName:
 	return _item_instance_scope
 
@@ -139,6 +147,14 @@ func active_map_child_count() -> int:
 	return 0 if active_map_slot == null else active_map_slot.get_child_count()
 
 
+func is_transitioning() -> bool:
+	return _transitioning
+
+
+func last_passage_exit_handoff_result() -> OldPineMapHandoffResult:
+	return _last_passage_exit_handoff
+
+
 func configure_combat_random_source(value: CombatRandomSource) -> bool:
 	if value == null:
 		return false
@@ -147,6 +163,59 @@ func configure_combat_random_source(value: CombatRandomSource) -> bool:
 		if not map.replace_combat_random_source(value):
 			return false
 	return true
+
+
+func configure_world_interaction_random_source(
+	value: WorldInteractionRandomSource,
+) -> bool:
+	if value == null:
+		return false
+	_world_interaction_random = value
+	for map: OldPineResidentMapController in _resident_maps.values():
+		if not map.replace_world_interaction_random_source(value):
+			return false
+	return true
+
+
+func request_passage_south_exit() -> OldPineMapHandoffResult:
+	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+		OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID
+	)
+	var result: OldPineMapHandoffResult = OldPineMapHandoffResult.new()
+	if portal == null:
+		return result
+	var source_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+		portal.source_zone_id
+	)
+	var destination_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+		portal.destination_zone_id
+	)
+	if source_zone == null or destination_zone == null:
+		return result
+	result._source_map_id = _active_map_id
+	result._destination_map_id = portal.destination_map_id
+	result._destination_zone_id = portal.destination_zone_id
+	result._destination_combat_location_id = destination_zone.combat_location_id
+	result._destination_spawn_point_id = portal.destination_spawn_point_id
+	var location: WorldLocationState = null if _player == null else _player.world_location()
+	if (
+		not _initialized
+		or _transitioning
+		or _active_map_id != portal.source_map_id
+		or location == null
+		or location.region_id != OldPineWorldDefinitions.REGION_ID
+		or location.map_id != portal.source_map_id
+		or location.zone_id != portal.source_zone_id
+		or location.combat_location_id != source_zone.combat_location_id
+	):
+		result._outcome = OldPineMapHandoffResult.Outcome.SOURCE_LOCATION_INVALID
+		return result
+	return handoff_to(
+		portal.destination_map_id,
+		portal.destination_zone_id,
+		destination_zone.combat_location_id,
+		portal.destination_spawn_point_id,
+	)
 
 
 func handoff_to(
@@ -294,6 +363,10 @@ func _initialize_authorities() -> bool:
 		combat_seed,
 		deterministic_combat_seed,
 	)
+	_world_interaction_random = GodotWorldInteractionRandomSource.new(
+		world_interaction_seed,
+		deterministic_world_interaction_seed,
+	)
 	var prototype: CombatSliceCharacterBinding = CombatSliceDemoFactory.create_player()
 	var start_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
@@ -370,6 +443,7 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		_item_index,
 		_npc_random,
 		_combat_random,
+		_world_interaction_random,
 		_item_instance_scope,
 	):
 		return false
@@ -378,7 +452,25 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 	if map is OldPineOutdoorController:
 		var outdoor: OldPineOutdoorController = map as OldPineOutdoorController
 		outdoor.reset_requested.connect(reset_session)
+	if map is OldPineCavePassageController:
+		var cave: OldPineCavePassageController = map as OldPineCavePassageController
+		cave.map_exit_requested.connect(_on_cave_map_exit_requested)
 	return true
+
+
+func _on_cave_map_exit_requested(portal_id: StringName) -> void:
+	if portal_id != OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID:
+		return
+	call_deferred("_execute_cave_map_exit_request", portal_id)
+
+
+func _execute_cave_map_exit_request(portal_id: StringName) -> void:
+	if portal_id != OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID:
+		return
+	_last_passage_exit_handoff = request_passage_south_exit()
+	var cave: OldPineCavePassageController = cave_map()
+	if cave != null:
+		cave.complete_exit_request(_last_passage_exit_handoff)
 
 
 func _on_resident_map_tree_exiting(map_id: StringName) -> void:

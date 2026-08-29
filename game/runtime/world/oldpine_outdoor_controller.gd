@@ -52,6 +52,7 @@ var _stacks: CombinedStackCollection
 var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
+var _world_interaction_random: WorldInteractionRandomSource
 var _effects: SkillImprovementEffectRegistry
 var _bandit_content: CombatSliceContentProfile
 var _tall_bandit_content: CombatSliceContentProfile
@@ -68,6 +69,8 @@ var _initialized: bool = false
 var _configured: bool = false
 var _initialization_count: int = 0
 var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new()
+var _vine_adapter: OldPineVineTraversalAdapter = OldPineVineTraversalAdapter.new()
+var _last_vine_traversal: OldPineVineTraversalResult
 var _aggression_adapter: AggressionAdapterType = AggressionAdapterType.new()
 var _last_aggression_decisions: Array[OldPineAggressionDecision] = []
 var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
@@ -121,6 +124,7 @@ func configure_session_authorities(
 	p_item_index: WorldItemInstanceIndex,
 	p_npc_random: NpcInitializationRandomSource,
 	p_combat_random: CombatRandomSource,
+	p_world_interaction_random: WorldInteractionRandomSource,
 	p_item_instance_scope: StringName,
 ) -> bool:
 	if (
@@ -133,6 +137,7 @@ func configure_session_authorities(
 		or p_item_index == null
 		or p_npc_random == null
 		or p_combat_random == null
+		or p_world_interaction_random == null
 		or p_item_instance_scope.is_empty()
 	):
 		return false
@@ -143,6 +148,7 @@ func configure_session_authorities(
 	_item_index = p_item_index
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random
+	_world_interaction_random = p_world_interaction_random
 	_item_instance_scope = p_item_instance_scope
 	_configured = true
 	return true
@@ -264,6 +270,10 @@ func last_player_content_resolution() -> OldPineWeaponContentResolution:
 	return _last_player_content_resolution
 
 
+func last_vine_traversal() -> OldPineVineTraversalResult:
+	return _last_vine_traversal
+
+
 func last_tick_order() -> Array[StringName]:
 	return _last_tick_order.duplicate()
 
@@ -317,6 +327,11 @@ func spawn_matches_zone(
 			spawn_point_id
 			== OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID
 			and zone_id == OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
+		)
+		or (
+			spawn_point_id
+			== OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID
 		)
 	)
 
@@ -397,12 +412,25 @@ func replace_combat_random_source(value: CombatRandomSource) -> bool:
 	return true
 
 
+func replace_world_interaction_random_source(
+	value: WorldInteractionRandomSource,
+) -> bool:
+	if value == null:
+		return false
+	_world_interaction_random = value
+	return true
+
+
 func npc_random_source() -> NpcInitializationRandomSource:
 	return _npc_random
 
 
 func combat_random_source() -> CombatRandomSource:
 	return _combat_random
+
+
+func world_interaction_random_source() -> WorldInteractionRandomSource:
+	return _world_interaction_random
 
 
 func world_session() -> OldPineWorldSessionController:
@@ -428,6 +456,15 @@ func select_npc(character_id: StringName) -> bool:
 
 
 func select_landmark(landmark_id: StringName) -> bool:
+	if landmark_id == OldPineLandmarkDefinitions.VINE_LANDMARK_ID:
+		var vine: OldPineVineInteractionDefinition = (
+			OldPineLandmarkDefinitions.vine_definition()
+		)
+		if vine == null or not vine.is_valid():
+			return false
+		_selected_target = WorldInteractionTargetType.landmark(landmark_id)
+		hud.set_selected_vine(vine, _vine_source_is_current(vine))
+		return true
 	var landmark: WorldLandmarkDefinition = (
 		OldPineLandmarkDefinitions.definition_by_id(landmark_id)
 	)
@@ -471,6 +508,14 @@ func inspect_selected() -> bool:
 		_selected_target != null
 		and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK
 	):
+		if _selected_target.target_id == OldPineLandmarkDefinitions.VINE_LANDMARK_ID:
+			var vine: OldPineVineInteractionDefinition = (
+				OldPineLandmarkDefinitions.vine_definition()
+			)
+			if vine == null:
+				return false
+			hud.show_vine_inspection(vine)
+			return true
 		var landmark: WorldLandmarkDefinition = (
 			OldPineLandmarkDefinitions.definition_by_id(_selected_target.target_id)
 		)
@@ -641,6 +686,9 @@ func traverse_selected_portal() -> WorldPortalTraversalResult:
 		or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK
 	):
 		return WorldPortalTraversalResult.new()
+	if _selected_target.target_id == OldPineLandmarkDefinitions.VINE_LANDMARK_ID:
+		traverse_selected_vine()
+		return WorldPortalTraversalResult.new()
 	var landmark: WorldLandmarkDefinition = (
 		OldPineLandmarkDefinitions.definition_by_id(_selected_target.target_id)
 	)
@@ -672,6 +720,30 @@ func traverse_selected_portal() -> WorldPortalTraversalResult:
 		)
 		_refresh_selected_landmark_source()
 	return result
+
+
+func traverse_selected_vine() -> OldPineVineTraversalResult:
+	var vine: OldPineVineInteractionDefinition = (
+		OldPineLandmarkDefinitions.vine_definition()
+	)
+	_last_vine_traversal = _vine_adapter.traverse(
+		_player,
+		player_body,
+		_session_owner,
+		self,
+		_selected_target,
+		vine,
+		_world_interaction_random,
+		hud,
+		_portal_adapter,
+	)
+	if (
+		_last_vine_traversal != null
+		and _last_vine_traversal.movement_location_committed
+	):
+		_selected_target = null
+		hud.set_selected_target(null)
+	return _last_vine_traversal
 
 
 func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
@@ -1295,11 +1367,32 @@ func _landmark_source_is_current(landmark: WorldLandmarkDefinition) -> bool:
 	)
 
 
+func _vine_source_is_current(
+	vine: OldPineVineInteractionDefinition,
+) -> bool:
+	if vine == null or _player == null:
+		return false
+	var location: WorldLocationState = _player.world_location()
+	return (
+		location != null
+		and location.region_id == OldPineWorldDefinitions.REGION_ID
+		and location.map_id == OldPineWorldDefinitions.OUTDOOR_MAP_ID
+		and location.zone_id == OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID
+		and location.combat_location_id
+		== OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID
+	)
+
+
 func _refresh_selected_landmark_source() -> void:
 	if (
 		_selected_target == null
 		or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK
 	):
+		return
+	if _selected_target.target_id == OldPineLandmarkDefinitions.VINE_LANDMARK_ID:
+		hud.set_selected_landmark_source_available(
+			_vine_source_is_current(OldPineLandmarkDefinitions.vine_definition())
+		)
 		return
 	var landmark: WorldLandmarkDefinition = (
 		OldPineLandmarkDefinitions.definition_by_id(_selected_target.target_id)
@@ -1419,6 +1512,10 @@ func _on_north_approach_body_entered(body: Node2D) -> void:
 
 func _on_east_bridge_body_entered(body: Node2D) -> void:
 	_update_body_zone(body, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID)
+
+
+func _on_waterfall_basin_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID)
 
 
 func _on_tree_canopy_body_entered(body: Node2D) -> void:

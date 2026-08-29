@@ -10,6 +10,9 @@ const NORTH_APPROACH_ZONE_ID: StringName = &"oldpine.outdoor.north_approach"
 const CENTRAL_CLEARING_ZONE_ID: StringName = &"oldpine.outdoor.central_clearing"
 const SOUTH_SLOPE_ZONE_ID: StringName = &"oldpine.outdoor.south_slope"
 const EAST_BRIDGE_ZONE_ID: StringName = &"oldpine.outdoor.east_bridge"
+const WATERFALL_BASIN_ZONE_ID: StringName = (
+	&"oldpine.outdoor.waterfall_basin"
+)
 const RIVER_GORGE_ZONE_ID: StringName = &"oldpine.outdoor.river_gorge"
 const PINE_ENTRANCE_ZONE_ID: StringName = &"oldpine.outdoor.pine_entrance"
 const PINE_DEEP_ZONE_ID: StringName = &"oldpine.outdoor.pine_deep"
@@ -25,11 +28,22 @@ const KEEP_HALL_ZONE_ID: StringName = &"oldpine.keep.hall"
 
 const CLIMB_PINE_PORTAL_ID: StringName = &"oldpine.outdoor.climb_pine"
 const DESCEND_TREE1_PORTAL_ID: StringName = &"oldpine.outdoor.descend_tree1"
+const VINE_WATERFALL_PORTAL_ID: StringName = (
+	&"oldpine.outdoor.vine_to_waterfall"
+)
+const VINE_PASSAGE_PORTAL_ID: StringName = &"oldpine.outdoor.vine_to_passage"
+const PASSAGE_SOUTH_PORTAL_ID: StringName = &"oldpine.cave.passage_to_waterfall"
 const TREE1_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.outdoor.tree_canopy.tree1_landing"
 )
 const CLEARING_PINE_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.outdoor.central_clearing.pine_landing"
+)
+const WATERFALL_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.outdoor.waterfall_basin.landing"
+)
+const CAVE_VINE_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.cave.waterfall_passage.vine_landing"
 )
 const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
@@ -55,6 +69,7 @@ static func map_definitions() -> Array[MapDefinition]:
 				CENTRAL_CLEARING_ZONE_ID,
 				SOUTH_SLOPE_ZONE_ID,
 				EAST_BRIDGE_ZONE_ID,
+				WATERFALL_BASIN_ZONE_ID,
 				RIVER_GORGE_ZONE_ID,
 				PINE_ENTRANCE_ZONE_ID,
 				PINE_DEEP_ZONE_ID,
@@ -62,7 +77,12 @@ static func map_definitions() -> Array[MapDefinition]:
 				CLIFF_LEDGE_ZONE_ID,
 				TREE_CANOPY_ZONE_ID,
 			],
-			[CLIMB_PINE_PORTAL_ID, DESCEND_TREE1_PORTAL_ID],
+			[
+				CLIMB_PINE_PORTAL_ID,
+				DESCEND_TREE1_PORTAL_ID,
+				VINE_WATERFALL_PORTAL_ID,
+				VINE_PASSAGE_PORTAL_ID,
+			],
 			[
 				SPATH1_BANDIT_SPAWN_ID,
 				PINE1_TALL_BANDIT_SPAWN_ID,
@@ -78,6 +98,7 @@ static func map_definitions() -> Array[MapDefinition]:
 				SECRET_PASSAGE_ZONE_ID,
 				CAVE_MAZE_ZONE_ID,
 			],
+			[PASSAGE_SOUTH_PORTAL_ID],
 		),
 		MapDefinition.new(
 			KEEP_MAP_ID,
@@ -107,9 +128,12 @@ static func zone_definitions() -> Array[ZoneDefinition]:
 		_zone(EAST_BRIDGE_ZONE_ID, OUTDOOR_MAP_ID, "东侧桥道", [
 			"d/oldpine/epath1.c", "d/oldpine/epath2.c", "d/oldpine/epath3.c",
 		]),
+		_zone(WATERFALL_BASIN_ZONE_ID, OUTDOOR_MAP_ID, "瀑布前", [
+			"d/oldpine/waterfall.c",
+		]),
 		_zone(RIVER_GORGE_ZONE_ID, OUTDOOR_MAP_ID, "河谷水域", [
 			"d/oldpine/riverbank1.c", "d/oldpine/riverbank2.c",
-			"d/oldpine/lake.c", "d/oldpine/waterfall.c",
+			"d/oldpine/lake.c",
 		]),
 		_zone(PINE_ENTRANCE_ZONE_ID, OUTDOOR_MAP_ID, "松林入口", [
 			"d/oldpine/pine1.c", "d/oldpine/pine2.c",
@@ -177,6 +201,45 @@ static func portal_definitions() -> Array[PortalDefinition]:
 			&"down",
 			&"",
 		),
+		PortalDefinition.new(
+			VINE_WATERFALL_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			EAST_BRIDGE_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			WATERFALL_BASIN_ZONE_ID,
+			WATERFALL_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.TRAVERSE,
+			&"",
+			"d/oldpine/epath2.c",
+			&"hold",
+			&"vine",
+		),
+		PortalDefinition.new(
+			VINE_PASSAGE_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			EAST_BRIDGE_ZONE_ID,
+			CAVE_MAP_ID,
+			WATERFALL_PASSAGE_ZONE_ID,
+			CAVE_VINE_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.TRAVERSE,
+			&"",
+			"d/oldpine/epath2.c",
+			&"hold",
+			&"vine",
+		),
+		PortalDefinition.new(
+			PASSAGE_SOUTH_PORTAL_ID,
+			CAVE_MAP_ID,
+			WATERFALL_PASSAGE_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			WATERFALL_BASIN_ZONE_ID,
+			WATERFALL_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.TRAVERSE,
+			&"",
+			"d/oldpine/passage.c",
+			&"south",
+			&"",
+		),
 	]
 
 
@@ -209,6 +272,7 @@ static func validate() -> bool:
 	var zones: Array[ZoneDefinition] = zone_definitions()
 	var portals: Array[PortalDefinition] = portal_definitions()
 	var native_ids: Dictionary[StringName, bool] = {}
+	var legacy_room_ids: Dictionary[String, bool] = {}
 	if not _register_unique_id(native_ids, region.region_id):
 		return false
 	for map: MapDefinition in maps:
@@ -217,6 +281,10 @@ static func validate() -> bool:
 	for zone: ZoneDefinition in zones:
 		if not _register_unique_id(native_ids, zone.zone_id):
 			return false
+		for legacy_room_id: String in zone.legacy_room_ids():
+			if legacy_room_id.is_empty() or legacy_room_ids.has(legacy_room_id):
+				return false
+			legacy_room_ids[legacy_room_id] = true
 	for portal: PortalDefinition in portals:
 		if not _register_unique_id(native_ids, portal.portal_id):
 			return false

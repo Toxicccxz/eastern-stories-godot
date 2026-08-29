@@ -1,12 +1,15 @@
 class_name OldPineCavePassageController
 extends OldPineResidentMapController
 
+signal map_exit_requested(portal_id: StringName)
+
 const VINE_LANDING_SPAWN_ID: StringName = (
-	&"oldpine.cave.waterfall_passage.vine_landing"
+	OldPineWorldDefinitions.CAVE_VINE_LANDING_SPAWN_POINT_ID
 )
 
 @onready var player_body: WorldCharacterBody2D = %Player
 @onready var spawn_points: Node2D = %SpawnPoints
+@onready var south_exit: Area2D = %SouthExit
 
 var _player: WorldPlayerRuntimeState
 var _inventory: InventoryState
@@ -14,10 +17,13 @@ var _stacks: CombinedStackCollection
 var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
+var _world_interaction_random: WorldInteractionRandomSource
 var _item_instance_scope: StringName = &""
 var _configured: bool = false
 var _initialized: bool = false
 var _initialization_count: int = 0
+var _session_owner: OldPineWorldSessionController
+var _exit_request_pending: bool = false
 
 
 func _ready() -> void:
@@ -36,6 +42,7 @@ func configure_session_authorities(
 	p_item_index: WorldItemInstanceIndex,
 	p_npc_random: NpcInitializationRandomSource,
 	p_combat_random: CombatRandomSource,
+	p_world_interaction_random: WorldInteractionRandomSource,
 	p_item_instance_scope: StringName,
 ) -> bool:
 	if (
@@ -48,15 +55,18 @@ func configure_session_authorities(
 		or p_item_index == null
 		or p_npc_random == null
 		or p_combat_random == null
+		or p_world_interaction_random == null
 		or p_item_instance_scope.is_empty()
 	):
 		return false
+	_session_owner = p_session
 	_player = p_player
 	_inventory = p_inventory
 	_stacks = p_stacks
 	_item_index = p_item_index
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random
+	_world_interaction_random = p_world_interaction_random
 	_item_instance_scope = p_item_instance_scope
 	_configured = true
 	return true
@@ -65,7 +75,12 @@ func configure_session_authorities(
 func initialize_map() -> bool:
 	if _initialized:
 		return true
-	if not _configured or player_body == null or spawn_points == null:
+	if (
+		not _configured
+		or player_body == null
+		or spawn_points == null
+		or south_exit == null
+	):
 		return false
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(VINE_LANDING_SPAWN_ID)
 	if marker == null or not player_body.bind_player(_player):
@@ -144,6 +159,7 @@ func prepare_for_activation(spawn_point_id: StringName) -> bool:
 		return false
 	player_body.global_position = marker.global_position
 	player_body.player_controlled = false
+	_exit_request_pending = false
 	return true
 
 
@@ -175,6 +191,28 @@ func replace_combat_random_source(value: CombatRandomSource) -> bool:
 	return true
 
 
+func replace_world_interaction_random_source(
+	value: WorldInteractionRandomSource,
+) -> bool:
+	if value == null:
+		return false
+	_world_interaction_random = value
+	return true
+
+
+func world_interaction_random_source() -> WorldInteractionRandomSource:
+	return _world_interaction_random
+
+
+func exit_request_pending() -> bool:
+	return _exit_request_pending
+
+
+func complete_exit_request(result: OldPineMapHandoffResult) -> void:
+	if result == null or not result.location_committed:
+		_exit_request_pending = false
+
+
 func _on_passage_zone_body_entered(body: Node2D) -> void:
 	if body != player_body:
 		return
@@ -184,3 +222,19 @@ func _on_passage_zone_body_entered(body: Node2D) -> void:
 	)
 	if location != null:
 		player_body.set_world_location(location)
+
+
+func _on_south_exit_body_entered(body: Node2D) -> void:
+	if (
+		body != player_body
+		or _exit_request_pending
+		or _session_owner == null
+		or _player == null
+		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+		or not player_body.player_controlled
+		or _session_owner.is_transitioning()
+		or _session_owner.active_map_id() != map_id()
+	):
+		return
+	_exit_request_pending = true
+	map_exit_requested.emit(OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID)

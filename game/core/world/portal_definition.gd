@@ -4,6 +4,7 @@ extends RefCounted
 enum InteractionKind {
 	INVALID,
 	CLIMB,
+	TRAVERSE,
 }
 
 var _portal_id: StringName
@@ -88,7 +89,7 @@ func is_valid() -> bool:
 		and not _destination_zone_id.is_empty()
 		and not _destination_spawn_point_id.is_empty()
 		and _interaction_kind > InteractionKind.INVALID
-		and _interaction_kind <= InteractionKind.CLIMB
+		and _interaction_kind <= InteractionKind.TRAVERSE
 		and not _legacy_source_path.is_empty()
 		and not _legacy_action_verb.is_empty()
 	)

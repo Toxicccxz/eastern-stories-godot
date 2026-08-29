@@ -39,6 +39,7 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 		OldPineWorld.CENTRAL_CLEARING_ZONE_ID,
 		OldPineWorld.SOUTH_SLOPE_ZONE_ID,
 		OldPineWorld.EAST_BRIDGE_ZONE_ID,
+		OldPineWorld.WATERFALL_BASIN_ZONE_ID,
 		OldPineWorld.RIVER_GORGE_ZONE_ID,
 		OldPineWorld.PINE_ENTRANCE_ZONE_ID,
 		OldPineWorld.PINE_DEEP_ZONE_ID,
@@ -47,14 +48,14 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 		OldPineWorld.TREE_CANOPY_ZONE_ID,
 	]
 	_assert_eq(maps[0].zone_ids(), expected_outdoor, "current outdoor zone model")
-	_assert_eq(OldPineWorld.zone_definitions().size(), 16, "three-map zone count")
+	_assert_eq(OldPineWorld.zone_definitions().size(), 17, "three-map zone count")
 	var legacy_rooms: Array[String] = []
 	for zone: ZoneDefinition in OldPineWorld.zone_definitions():
 		_assert_true(zone.is_valid(), "zone is coherent")
 		_assert_true(OldPineWorld.map_by_id(zone.map_id) != null, "zone map resolves")
 		_assert_eq(zone.combat_location_id, zone.zone_id, "first slice explicit combat location")
 		legacy_rooms.append_array(zone.legacy_room_ids())
-	_assert_eq(legacy_rooms.size(), 41, "41 LPC rooms are metadata under 16 zones")
+	_assert_eq(legacy_rooms.size(), 41, "41 LPC rooms are metadata under 17 zones")
 	var unique_rooms: Dictionary[String, bool] = {}
 	for legacy_room: String in legacy_rooms:
 		unique_rooms[legacy_room] = true
@@ -95,7 +96,7 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 
 func _test_portal_definition() -> void:
 	var portals: Array[PortalDefinition] = OldPineWorld.portal_definitions()
-	_assert_eq(portals.size(), 2, "climb and source-backed tree1 return portals are authored")
+	_assert_eq(portals.size(), 5, "two tree and three Vine/Passage portals are authored")
 	var portal: PortalDefinition = portals[0]
 	_assert_true(portal.is_valid(), "climb portal is coherent")
 	_assert_eq(portal.portal_id, &"oldpine.outdoor.climb_pine", "portal ID")
@@ -121,6 +122,22 @@ func _test_portal_definition() -> void:
 	_assert_eq(return_portal.destination_spawn_point_id, OldPineWorld.CLEARING_PINE_LANDING_SPAWN_POINT_ID, "return has exact clearing landing")
 	_assert_eq(return_portal.legacy_source_path, "d/oldpine/tree1.c", "return source trace")
 	_assert_eq(return_portal.legacy_action_verb, &"down", "return preserves down metadata")
+	var vine_waterfall: PortalDefinition = OldPineWorld.portal_by_id(
+		OldPineWorld.VINE_WATERFALL_PORTAL_ID
+	)
+	var vine_passage: PortalDefinition = OldPineWorld.portal_by_id(
+		OldPineWorld.VINE_PASSAGE_PORTAL_ID
+	)
+	var passage_south: PortalDefinition = OldPineWorld.portal_by_id(
+		OldPineWorld.PASSAGE_SOUTH_PORTAL_ID
+	)
+	_assert_eq(vine_waterfall.source_map_id, OldPineWorld.OUTDOOR_MAP_ID, "Waterfall Vine belongs to Outdoor")
+	_assert_eq(vine_waterfall.destination_zone_id, OldPineWorld.WATERFALL_BASIN_ZONE_ID, "Waterfall Vine destination exact")
+	_assert_eq(vine_passage.source_map_id, OldPineWorld.OUTDOOR_MAP_ID, "Passage Vine belongs to Outdoor")
+	_assert_eq(vine_passage.destination_map_id, OldPineWorld.CAVE_MAP_ID, "Passage Vine crosses to Cave")
+	_assert_eq(vine_passage.destination_spawn_point_id, OldPineWorld.CAVE_VINE_LANDING_SPAWN_POINT_ID, "Passage Vine landing exact")
+	_assert_eq(passage_south.source_map_id, OldPineWorld.CAVE_MAP_ID, "Passage South belongs to Cave")
+	_assert_eq(passage_south.destination_zone_id, OldPineWorld.WATERFALL_BASIN_ZONE_ID, "Passage South returns to Waterfall")
 
 
 func _test_location_identity() -> void:

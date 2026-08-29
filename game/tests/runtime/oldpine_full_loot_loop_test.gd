@@ -43,7 +43,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller != null, "real Old Pine scene instantiates for full loot loop")
 	if controller == null:
 		return
-	_assert_eq(_count_tree_nodes(controller), 180, "persisted scene adds only the Fat spawn/body hierarchy")
+	_assert_eq(_count_tree_nodes(controller), 193, "persisted scene retains Loot hierarchy plus exact Phase 9B3B2 additions")
 	_assert_true(controller.hud.inventory_panel != null, "HUD owns one presentation-only Inventory panel")
 	_assert_false(controller.hud.inventory_is_open(), "Inventory panel starts closed")
 	_assert_false(controller.hud.loot_is_open(), "Loot panel starts closed")

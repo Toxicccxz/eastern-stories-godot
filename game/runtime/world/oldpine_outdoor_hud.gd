@@ -24,6 +24,7 @@ const WorldPlayerRuntimeType := preload(
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
 var _selected_landmark: WorldLandmarkDefinition
+var _selected_vine: OldPineVineInteractionDefinition
 var _selected_landmark_source_available: bool = false
 var _selected_corpse_name: String = ""
 var _selected_corpse_available: bool = false
@@ -43,6 +44,7 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 func set_selected_target(target: NpcRuntimeState) -> void:
 	_selected_target = target
 	_selected_landmark = null
+	_selected_vine = null
 	_selected_landmark_source_available = false
 	_clear_selected_corpse()
 	close_loot()
@@ -60,6 +62,7 @@ func set_selected_landmark(
 ) -> void:
 	_selected_target = null
 	_selected_landmark = landmark
+	_selected_vine = null
 	_selected_landmark_source_available = source_available
 	_clear_selected_corpse()
 	close_loot()
@@ -68,6 +71,25 @@ func set_selected_landmark(
 		"Selected: none"
 		if landmark == null
 		else "Selected landmark: %s" % landmark.display_name
+	)
+	refresh_live_state()
+
+
+func set_selected_vine(
+	vine: OldPineVineInteractionDefinition,
+	source_available: bool,
+) -> void:
+	_selected_target = null
+	_selected_landmark = null
+	_selected_vine = vine
+	_selected_landmark_source_available = source_available
+	_clear_selected_corpse()
+	close_loot()
+	inspection_text.text = ""
+	selected_target_label.text = (
+		"Selected: none"
+		if vine == null
+		else "Selected landmark: %s" % vine.display_name
 	)
 	refresh_live_state()
 
@@ -85,6 +107,7 @@ func set_selected_corpse(
 ) -> void:
 	_selected_target = null
 	_selected_landmark = null
+	_selected_vine = null
 	_selected_landmark_source_available = false
 	_selected_corpse_name = victim_display_name
 	_selected_corpse_available = not victim_display_name.is_empty()
@@ -111,6 +134,16 @@ func show_inspection(definition: NpcDefinition) -> void:
 
 
 func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
+	if definition == null:
+		inspection_text.text = ""
+		return
+	inspection_text.text = "%s\n%s" % [
+		definition.display_name,
+		definition.description.strip_edges(),
+	]
+
+
+func show_vine_inspection(definition: OldPineVineInteractionDefinition) -> void:
 	if definition == null:
 		inspection_text.text = ""
 		return
@@ -190,7 +223,8 @@ func refresh_live_state() -> void:
 		and _selected_target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 	)
 	var landmark_available: bool = (
-		_selected_landmark != null and _selected_landmark.is_valid()
+		(_selected_landmark != null and _selected_landmark.is_valid())
+		or (_selected_vine != null and _selected_vine.is_valid())
 	)
 	var corpse_available: bool = _selected_corpse_available
 	var player_available: bool = (
@@ -215,8 +249,12 @@ func refresh_live_state() -> void:
 	)
 	portal_button.text = (
 		"Traverse"
-		if _selected_landmark == null
-		else _selected_landmark.action_label
+		if _selected_landmark == null and _selected_vine == null
+		else (
+			_selected_landmark.action_label
+			if _selected_landmark != null
+			else _selected_vine.action_label
+		)
 	)
 
 

@@ -71,6 +71,9 @@ size = Vector2(260, 140)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cd663"]
 size = Vector2(260, 100)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jt41e"]
+size = Vector2(600, 30)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jblgx"]
 size = Vector2(900, 600)
 
@@ -94,6 +97,9 @@ size = Vector2(900, 600)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70yi7"]
 size = Vector2(600, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h07hy"]
+size = Vector2(600, 500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xp5ye"]
 size = Vector2(34, 34)
@@ -121,6 +127,9 @@ size = Vector2(90, 180)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1am3x"]
 size = Vector2(150, 150)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cfny5"]
+size = Vector2(150, 180)
 
 [node name="OldPineOutdoor" type="Node2D" unique_id=764268747]
 script = ExtResource("1_o8mse")
@@ -321,6 +330,12 @@ shape = SubResource("RectangleShape2D_06jef")
 position = Vector2(-1750, 500)
 shape = SubResource("RectangleShape2D_cd663")
 
+[node name="WaterfallSouthBoundary" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=758185531]
+position = Vector2(1200, 1085)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Boundaries/WaterfallSouthBoundary" unique_id=1661501192]
+shape = SubResource("RectangleShape2D_jt41e")
+
 [node name="TreeCanopyPlatform" type="ColorRect" parent="Terrain" unique_id=192323295]
 offset_left = 1700.0
 offset_top = -100.0
@@ -475,6 +490,53 @@ offset_bottom = 550.0
 mouse_filter = 2
 color = Color(0.043137256, 0.16862746, 0.11372549, 1)
 
+[node name="WaterfallBasin" type="ColorRect" parent="Terrain" unique_id=1625979581]
+offset_left = 900.0
+offset_top = 600.0
+offset_right = 1500.0
+offset_bottom = 1100.0
+mouse_filter = 2
+color = Color(0.14509805, 0.28235295, 0.37254903, 1)
+
+[node name="WaterfallPool" type="ColorRect" parent="Terrain" unique_id=845981244]
+offset_left = 1000.0
+offset_top = 680.0
+offset_right = 1400.0
+offset_bottom = 1030.0
+mouse_filter = 2
+color = Color(0.17254902, 0.44313726, 0.5568628, 1)
+
+[node name="WaterfallBasinLabel" type="Label" parent="Terrain" unique_id=830051777]
+offset_left = 940.0
+offset_top = 630.0
+offset_right = 1250.0
+offset_bottom = 660.0
+text = "Waterfall Basin / 瀑布前"
+
+[node name="RiverFutureLabel" type="Label" parent="Terrain" unique_id=898067271]
+offset_left = 1040.0
+offset_top = 1040.0
+offset_right = 1360.0
+offset_bottom = 1070.0
+text = "South route to riverbank2 — deferred"
+horizontal_alignment = 1
+
+[node name="VineLandmark" type="ColorRect" parent="Terrain" unique_id=908152247]
+offset_left = 1315.0
+offset_top = 170.0
+offset_right = 1385.0
+offset_bottom = 310.0
+mouse_filter = 2
+color = Color(0.30980393, 0.49019608, 0.25882354, 1)
+
+[node name="VineLabel" type="Label" parent="Terrain" unique_id=1959241343]
+offset_left = 1290.0
+offset_top = 315.0
+offset_right = 1410.0
+offset_bottom = 340.0
+text = "Vine / 藤蔓"
+horizontal_alignment = 1
+
 [node name="Zones" type="Node2D" parent="." unique_id=1320053026]
 
 [node name="CentralClearingZone" type="Area2D" parent="Zones" unique_id=1993002777]
@@ -533,6 +595,13 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PineCliffEdgeZone" unique_id=382029876]
 shape = SubResource("RectangleShape2D_70yi7")
 
+[node name="WaterfallBasinZone" type="Area2D" parent="Zones" unique_id=2096271497]
+position = Vector2(1200, 850)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/WaterfallBasinZone" unique_id=909903247]
+shape = SubResource("RectangleShape2D_h07hy")
+
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1257979559]
 unique_name_in_owner = true
 
@@ -583,6 +652,11 @@ unique_name_in_owner = true
 position = Vector2(-200, 400)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"
+
+[node name="WaterfallLanding" type="Marker2D" parent="SpawnPoints" unique_id=258048371]
+position = Vector2(1200, 780)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.waterfall_basin.landing"
 
 [node name="Characters" type="Node2D" parent="." unique_id=2115630038]
 
@@ -1038,6 +1112,14 @@ landmark_id = &"oldpine.outdoor.landmark.tree1_descent"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Tree1DescentInteraction" unique_id=1049458950]
 shape = SubResource("RectangleShape2D_1am3x")
 
+[node name="VineInteraction" type="Area2D" parent="Interactions" unique_id=2026853016]
+position = Vector2(1350, 250)
+script = ExtResource("5_vreye")
+landmark_id = &"oldpine.outdoor.landmark.epath2_vine"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/VineInteraction" unique_id=571428410]
+shape = SubResource("RectangleShape2D_cfny5")
+
 [node name="MazeEvidence" type="Node2D" parent="." unique_id=656622297]
 
 [node name="PineThresholdRoute" type="Marker2D" parent="MazeEvidence" unique_id=1726315998]
@@ -1066,6 +1148,7 @@ position = Vector2(-2040, 300)
 [connection signal="body_entered" from="Zones/PineEntranceZone" to="." method="_on_pine_entrance_body_entered"]
 [connection signal="body_entered" from="Zones/PineDeepZone" to="." method="_on_pine_deep_body_entered"]
 [connection signal="body_entered" from="Zones/PineCliffEdgeZone" to="." method="_on_pine_cliff_edge_body_entered"]
+[connection signal="body_entered" from="Zones/WaterfallBasinZone" to="." method="_on_waterfall_basin_body_entered"]
 [connection signal="selection_requested" from="Characters/Bandit01" to="." method="_on_bandit_selection_requested"]
 [connection signal="body_entered" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_entered"]
 [connection signal="body_exited" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_exited"]
@@ -1098,3 +1181,4 @@ position = Vector2(-2040, 300)
 [connection signal="pressed" from="HUD/Overlay/PlayerInventoryPanel/Margin/VBox/PlayerInventoryCloseButton" to="HUD/Overlay/PlayerInventoryPanel" method="_on_close_button_pressed"]
 [connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="selection_requested" from="Interactions/Tree1DescentInteraction" to="." method="_on_landmark_selection_requested"]
+[connection signal="selection_requested" from="Interactions/VineInteraction" to="." method="_on_landmark_selection_requested"]
