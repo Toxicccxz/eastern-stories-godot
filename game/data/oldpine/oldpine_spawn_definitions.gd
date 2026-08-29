@@ -5,6 +5,9 @@ const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
 	&"oldpine.outdoor.pine1.tall_bandit"
 )
+const PINE1_FAT_BANDIT_SPAWN_ID: StringName = (
+	&"oldpine.outdoor.pine1.fat_bandit"
+)
 
 
 static func spath1_bandit_spawn() -> NpcSpawnDefinition:
@@ -39,12 +42,28 @@ static func pine1_tall_bandit_spawn() -> NpcSpawnDefinition:
 	)
 
 
+static func pine1_fat_bandit_spawn() -> NpcSpawnDefinition:
+	return NpcSpawnDefinition.new(
+		PINE1_FAT_BANDIT_SPAWN_ID,
+		OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID,
+		OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
+		[&"oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"],
+		1,
+		"d/oldpine/pine1.c",
+		1,
+		NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY,
+	)
+
+
 static func spawn_by_id(spawn_id: StringName) -> NpcSpawnDefinition:
 	match spawn_id:
 		SPATH1_BANDIT_SPAWN_ID:
 			return spath1_bandit_spawn()
 		PINE1_TALL_BANDIT_SPAWN_ID:
 			return pine1_tall_bandit_spawn()
+		PINE1_FAT_BANDIT_SPAWN_ID:
+			return pine1_fat_bandit_spawn()
 	return null
 
 
@@ -54,6 +73,7 @@ static func validate() -> bool:
 	var spawns: Array[NpcSpawnDefinition] = [
 		spath1_bandit_spawn(),
 		pine1_tall_bandit_spawn(),
+		pine1_fat_bandit_spawn(),
 	]
 	for spawn: NpcSpawnDefinition in spawns:
 		var map: MapDefinition = OldPineWorldDefinitions.map_by_id(spawn.map_id)
@@ -100,6 +120,7 @@ static func validate() -> bool:
 	for definition_id: StringName in [
 		OldPineNpcDefinitions.BANDIT_DEFINITION_ID,
 		OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID,
+		OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID,
 	]:
 		if not _register_unique_id(native_ids, definition_id):
 			return false

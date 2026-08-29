@@ -13,6 +13,7 @@ var _is_two_handed: bool
 var _is_stack: bool
 var _stack_base_weight: int
 var _currency_base_value: int
+var _armor_definition: ArmorDefinition
 var _legacy_source_paths: Array[String] = []
 
 var item_definition_id: StringName:
@@ -55,6 +56,7 @@ func _init(
 	p_stack_base_weight: int = 0,
 	p_currency_base_value: int = 0,
 	p_legacy_source_paths: Array[String] = [],
+	p_armor_definition: ArmorDefinition = null,
 ) -> void:
 	_item_definition_id = p_item_definition_id
 	_display_name = p_display_name
@@ -69,17 +71,41 @@ func _init(
 	_stack_base_weight = p_stack_base_weight
 	_currency_base_value = p_currency_base_value
 	_legacy_source_paths = p_legacy_source_paths.duplicate()
+	_armor_definition = _copy_armor_definition(p_armor_definition)
 
 
 func legacy_source_paths() -> Array[String]:
 	return _legacy_source_paths.duplicate()
 
 
+func armor_definition() -> ArmorDefinition:
+	return _copy_armor_definition(_armor_definition)
+
+
 func is_valid() -> bool:
-	return (
+	if not (
 		not _item_definition_id.is_empty()
 		and not _display_name.is_empty()
 		and not _description.is_empty()
 		and not _category.is_empty()
 		and not _legacy_source_paths.is_empty()
+	):
+		return false
+	return (
+		_armor_definition == null
+		or (
+			_armor_definition.has_valid_identity()
+			and _armor_definition.item_definition_id == _item_definition_id
+			and not _armor_definition.armor_type.is_empty()
+		)
+	)
+
+
+static func _copy_armor_definition(value: ArmorDefinition) -> ArmorDefinition:
+	if value == null:
+		return null
+	return ArmorDefinition.new(
+		value.item_definition_id,
+		value.armor_type,
+		value.numeric_modifiers,
 	)

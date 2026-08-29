@@ -39,6 +39,7 @@ const RelationshipStateType := preload(
 )
 const BusyStateType := preload("res://core/combat/busy/action_busy_state.gd")
 const ArmorStateType := preload("res://core/armor/armor_state.gd")
+const ArmorServiceType := preload("res://core/armor/armor_service.gd")
 const WorldLocationStateType := preload("res://core/world/world_location_state.gd")
 const InventoryStateType := preload("res://core/inventory/inventory_state.gd")
 const ContainmentEndpointType := preload(
@@ -223,10 +224,12 @@ func create_one(
 	var maximum_encumbrance: int = (
 		CharacterDerivedValuesType.maximum_encumbrance(attributes.strength)
 	)
+	var armor_state: ArmorStateType = ArmorStateType.new()
 	var loadout_items: Array[ItemInstance] = _apply_loadout(
 		definition,
 		character_id,
 		state,
+		armor_state,
 		maximum_encumbrance,
 		inventory,
 		stacks,
@@ -244,7 +247,7 @@ func create_one(
 		state,
 		RelationshipStateType.new(character_id),
 		BusyStateType.new(),
-		ArmorStateType.new(),
+		armor_state,
 		location,
 		RuntimeLifeStatusType.Value.ACTIVE,
 		true,
@@ -281,6 +284,7 @@ func _apply_loadout(
 	definition: NpcDefinitionType,
 	character_id: StringName,
 	state: CharacterStateType,
+	armor_state: ArmorStateType,
 	maximum_encumbrance: int,
 	inventory: InventoryStateType,
 	stacks: StackCollectionType,
@@ -305,7 +309,7 @@ func _apply_loadout(
 			entry.item_definition_id,
 			loadout_content,
 		)
-		if content == null or entry.equipment_intent == LoadoutEntryType.EquipmentIntent.WEAR:
+		if content == null:
 			return []
 		var unit_count: int = 1 if content.stack_definition() != null else entry.quantity
 		for unit_index: int in range(unit_count):
@@ -354,6 +358,25 @@ func _apply_loadout(
 					not wield_result.succeeded
 					or state.equipment.primary_weapon() == null
 					or state.equipment.primary_weapon().instance_id != item.item_instance_id
+				):
+					return []
+			elif entry.equipment_intent == LoadoutEntryType.EquipmentIntent.WEAR:
+				var armor_definition: ArmorDefinition = content.armor_definition()
+				if (
+					armor_definition == null
+					or armor_definition.item_definition_id != item.item_definition_id
+				):
+					return []
+				var wear_result: ArmorTransitionResult = ArmorServiceType.wear(
+					armor_state,
+					inventory,
+					owner_endpoint,
+					item,
+					armor_definition,
+				)
+				if (
+					not wear_result.succeeded
+					or not armor_state.is_worn(item.item_instance_id)
 				):
 					return []
 			created.append(item)

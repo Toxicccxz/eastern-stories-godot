@@ -43,6 +43,7 @@ const AggressionAdapterType := preload(
 	%Bandit03,
 ]
 @onready var tall_bandit_body: WorldCharacterBodyType = %TallBandit
+@onready var fat_bandit_body: WorldCharacterBodyType = %FatBandit
 @onready var spawn_points: Node2D = %SpawnPoints
 @onready var corpse_layer: Node2D = %CorpseLayer
 @onready var opportunity_timer: Timer = %OpportunityTimer
@@ -83,6 +84,10 @@ var _weapon_content_resolver: OldPineWeaponContentResolver = (
 	OldPineWeaponContentResolver.new()
 )
 var _last_equipment_interaction: OldPineEquipmentInteractionResult
+var _armor_adapter: OldPineArmorInteractionAdapter = (
+	OldPineArmorInteractionAdapter.new()
+)
+var _last_armor_interaction: OldPineArmorInteractionResult
 var _last_player_content_resolution: OldPineWeaponContentResolution
 
 
@@ -140,6 +145,7 @@ func initialize_world() -> bool:
 		not _initialize_player()
 		or not _initialize_bandits()
 		or not _initialize_tall_bandit()
+		or not _initialize_fat_bandit()
 	):
 		return false
 	hud.configure(_player)
@@ -215,6 +221,10 @@ func last_loot_transfer_result() -> CorpseLootTransferResult:
 
 func last_equipment_interaction() -> OldPineEquipmentInteractionResult:
 	return _last_equipment_interaction
+
+
+func last_armor_interaction() -> OldPineArmorInteractionResult:
+	return _last_armor_interaction
 
 
 func last_player_content_resolution() -> OldPineWeaponContentResolution:
@@ -428,6 +438,34 @@ func unwield_player_item(
 	if hud.inventory_is_open():
 		_refresh_inventory_panel()
 	return _last_equipment_interaction
+
+
+func wear_player_item(
+	item_instance_id: StringName,
+) -> OldPineArmorInteractionResult:
+	_last_armor_interaction = _armor_adapter.wear(
+		_player,
+		item_instance_id,
+		_inventory,
+		_item_index,
+	)
+	if hud.inventory_is_open():
+		_refresh_inventory_panel()
+	return _last_armor_interaction
+
+
+func remove_player_item(
+	item_instance_id: StringName,
+) -> OldPineArmorInteractionResult:
+	_last_armor_interaction = _armor_adapter.remove(
+		_player,
+		item_instance_id,
+		_inventory,
+		_item_index,
+	)
+	if hud.inventory_is_open():
+		_refresh_inventory_panel()
+	return _last_armor_interaction
 
 
 func attack_selected() -> CombatSliceInitiationResult:
@@ -716,6 +754,39 @@ func _initialize_tall_bandit() -> bool:
 	return tall_bandit_body.bind_npc(npc)
 
 
+func _initialize_fat_bandit() -> bool:
+	var spawn: NpcSpawnDefinition = (
+		OldPineSpawnDefinitions.pine1_fat_bandit_spawn()
+	)
+	var definition: NpcDefinition = OldPineNpcDefinitions.fat_bandit_definition()
+	var created: Array[NpcRuntimeState] = (
+		NpcCharacterStateFactory.new().create_spawn_instances(
+			spawn,
+			definition,
+			_location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID),
+			_inventory,
+			_stacks,
+			_npc_random,
+			OldPineNpcDefinitions.loadout_item_definitions(),
+			_item_instance_scope,
+		)
+	)
+	if created.size() != 1:
+		return false
+	var npc: NpcRuntimeState = created[0]
+	for item: ItemInstance in npc.loadout_items():
+		if not _item_index.register_snapshot(item):
+			return false
+	var point_ids: Array[StringName] = spawn.spawn_point_ids()
+	var marker: WorldSpawnMarkerType = _find_spawn_marker(point_ids[0])
+	if marker == null or not _map_characters.register_npc(npc):
+		return false
+	_all_npcs.append(npc)
+	fat_bandit_body.global_position = marker.global_position
+	fat_bandit_body.player_controlled = false
+	return fat_bandit_body.bind_npc(npc)
+
+
 func _find_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
 	for child: Node in spawn_points.get_children():
 		var marker: WorldSpawnMarkerType = child as WorldSpawnMarkerType
@@ -863,7 +934,17 @@ func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
 	if npc != null:
 		for item: ItemInstance in npc.loadout_items():
 			if _inventory.is_direct_child(item.item_instance_id, endpoint):
-				facts.append(DeathItemFacts.new(item))
+				var content: OldPineItemContentDefinition = (
+					OldPineItemContentDefinitions.content_by_id(
+						item.item_definition_id
+					)
+				)
+				facts.append(
+					DeathItemFacts.new(
+						item,
+						null if content == null else content.armor_definition(),
+					)
+				)
 		return facts
 	var primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
 	if primary != null and _inventory.is_direct_child(primary.instance_id, endpoint):
@@ -1036,6 +1117,8 @@ func _body_for(character_id: StringName) -> WorldCharacterBodyType:
 			return body
 	if tall_bandit_body.character_id == character_id:
 		return tall_bandit_body
+	if fat_bandit_body.character_id == character_id:
+		return fat_bandit_body
 	return null
 
 
@@ -1204,6 +1287,14 @@ func _on_inventory_unwield_requested(item_instance_id: StringName) -> void:
 	unwield_player_item(item_instance_id)
 
 
+func _on_inventory_wear_requested(item_instance_id: StringName) -> void:
+	wear_player_item(item_instance_id)
+
+
+func _on_inventory_remove_requested(item_instance_id: StringName) -> void:
+	remove_player_item(item_instance_id)
+
+
 func _on_opportunity_timer_timeout() -> void:
 	process_cadence_tick()
 
@@ -1274,3 +1365,11 @@ func _on_tall_bandit_presence_entered(body: Node2D) -> void:
 
 func _on_tall_bandit_presence_exited(body: Node2D) -> void:
 	_leave_bandit_presence(3, body)
+
+
+func _on_fat_bandit_presence_entered(body: Node2D) -> void:
+	_queue_bandit_presence(4, body)
+
+
+func _on_fat_bandit_presence_exited(body: Node2D) -> void:
+	_leave_bandit_presence(4, body)

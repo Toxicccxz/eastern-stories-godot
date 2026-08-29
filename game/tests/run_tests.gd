@@ -804,6 +804,12 @@ const OldPineEquipmentInteractionResultScript := preload(
 const OldPineEquipmentInteractionAdapterScript := preload(
 	"res://runtime/world/oldpine_equipment_interaction_adapter.gd"
 )
+const OldPineArmorInteractionResultScript := preload(
+	"res://runtime/world/oldpine_armor_interaction_result.gd"
+)
+const OldPineArmorInteractionAdapterScript := preload(
+	"res://runtime/world/oldpine_armor_interaction_adapter.gd"
+)
 const OldPineWeaponContentResolutionScript := preload(
 	"res://runtime/world/oldpine_weapon_content_resolution.gd"
 )
@@ -821,6 +827,13 @@ const OldPineFullLootLoopTest := preload(
 )
 const OldPinePineMazeTallBanditTest := preload(
 	"res://tests/runtime/oldpine_pine_maze_tall_bandit_test.gd"
+)
+const NpcArmorLoadoutTest := preload("res://tests/core/npc_armor_loadout_test.gd")
+const PlayerArmorInteractionTest := preload(
+	"res://tests/runtime/player_armor_interaction_test.gd"
+)
+const OldPineFatBanditArmorLoopTest := preload(
+	"res://tests/runtime/oldpine_fat_bandit_armor_loop_test.gd"
 )
 
 
@@ -1136,11 +1149,17 @@ func _init() -> void:
 		PlayerInventoryProjectionScript,
 		OldPineEquipmentInteractionResultScript,
 		OldPineEquipmentInteractionAdapterScript,
+		OldPineArmorInteractionResultScript,
+		OldPineArmorInteractionAdapterScript,
 		OldPineWeaponContentResolutionScript,
 		OldPineWeaponContentResolverScript,
 		PlayerInventoryPanelScript,
 		PlayerInventoryEquipmentTest,
 		OldPineFullLootLoopTest,
+		OldPinePineMazeTallBanditTest,
+		NpcArmorLoadoutTest,
+		PlayerArmorInteractionTest,
+		OldPineFatBanditArmorLoopTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1239,6 +1258,15 @@ func _init() -> void:
 	var phase_9b1_result: Dictionary[String, Variant] = (
 		await OldPinePineMazeTallBanditTest.new().run_all(self)
 	)
+	var phase_9b2_factory_result: Dictionary[String, Variant] = (
+		NpcArmorLoadoutTest.new().run_all()
+	)
+	var phase_9b2_player_result: Dictionary[String, Variant] = (
+		PlayerArmorInteractionTest.new().run_all()
+	)
+	var phase_9b2_loop_result: Dictionary[String, Variant] = (
+		await OldPineFatBanditArmorLoopTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1311,6 +1339,12 @@ func _init() -> void:
 		phase_8b2_loop_result["assertions"]
 	) + int(
 		phase_9b1_result["assertions"]
+	) + int(
+		phase_9b2_factory_result["assertions"]
+	) + int(
+		phase_9b2_player_result["assertions"]
+	) + int(
+		phase_9b2_loop_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1351,6 +1385,9 @@ func _init() -> void:
 	failures.append_array(phase_8b2_unit_result["failures"])
 	failures.append_array(phase_8b2_loop_result["failures"])
 	failures.append_array(phase_9b1_result["failures"])
+	failures.append_array(phase_9b2_factory_result["failures"])
+	failures.append_array(phase_9b2_player_result["failures"])
+	failures.append_array(phase_9b2_loop_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

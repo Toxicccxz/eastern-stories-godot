@@ -5,6 +5,7 @@ enum EquipmentSlot {
 	NONE,
 	PRIMARY,
 	SECONDARY,
+	WORN,
 }
 
 var _item_instance_id: StringName
@@ -19,6 +20,10 @@ var _weapon_damage: int
 var _total_value: int
 var _can_wield: bool
 var _can_unwield: bool
+var _armor_type: StringName
+var _armor_modifiers: ArmorNumericModifiers
+var _can_wear: bool
+var _can_remove: bool
 
 var item_instance_id: StringName:
 	get: return _item_instance_id
@@ -44,6 +49,14 @@ var can_wield: bool:
 	get: return _can_wield
 var can_unwield: bool:
 	get: return _can_unwield
+var armor_type: StringName:
+	get: return _armor_type
+var armor_modifiers: ArmorNumericModifiers:
+	get: return _armor_modifiers.duplicate_snapshot()
+var can_wear: bool:
+	get: return _can_wear
+var can_remove: bool:
+	get: return _can_remove
 
 
 func _init(
@@ -59,6 +72,10 @@ func _init(
 	p_total_value: int = 0,
 	p_can_wield: bool = false,
 	p_can_unwield: bool = false,
+	p_armor_type: StringName = &"",
+	p_armor_modifiers: ArmorNumericModifiers = null,
+	p_can_wear: bool = false,
+	p_can_remove: bool = false,
 ) -> void:
 	_item_instance_id = p_item_instance_id
 	_item_definition_id = p_item_definition_id
@@ -72,6 +89,14 @@ func _init(
 	_total_value = p_total_value
 	_can_wield = p_can_wield
 	_can_unwield = p_can_unwield
+	_armor_type = p_armor_type
+	_armor_modifiers = (
+		ArmorNumericModifiers.new()
+		if p_armor_modifiers == null
+		else p_armor_modifiers.duplicate_snapshot()
+	)
+	_can_wear = p_can_wear
+	_can_remove = p_can_remove
 
 
 func duplicate_snapshot() -> PlayerInventoryRowProjection:
@@ -88,6 +113,10 @@ func duplicate_snapshot() -> PlayerInventoryRowProjection:
 		_total_value,
 		_can_wield,
 		_can_unwield,
+		_armor_type,
+		_armor_modifiers,
+		_can_wear,
+		_can_remove,
 	)
 
 
@@ -97,4 +126,6 @@ func equipment_label() -> String:
 			return "PRIMARY"
 		EquipmentSlot.SECONDARY:
 			return "SECONDARY"
+		EquipmentSlot.WORN:
+			return "WORN"
 	return "NONE"

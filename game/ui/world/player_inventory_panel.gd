@@ -4,6 +4,8 @@ extends PanelContainer
 signal inspect_requested(item_instance_id: StringName)
 signal wield_requested(item_instance_id: StringName)
 signal unwield_requested(item_instance_id: StringName)
+signal wear_requested(item_instance_id: StringName)
+signal remove_requested(item_instance_id: StringName)
 
 @onready var row_container: VBoxContainer = %PlayerInventoryRows
 @onready var empty_label: Label = %PlayerInventoryEmptyLabel
@@ -51,6 +53,10 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 	elif row.category == OldPineItemContentDefinitions.CATEGORY_CURRENCY:
 		lines.append("Amount: %d" % row.amount)
 		lines.append("Value: %d" % row.total_value)
+	elif row.category == OldPineItemContentDefinitions.CATEGORY_ARMOR:
+		lines.append("Armor slot: %s" % String(row.armor_type))
+		lines.append("Armor: %+d" % row.armor_modifiers.armor)
+		lines.append("Dodge: %+d" % row.armor_modifiers.dodge)
 	inspect_text.text = "\n".join(lines)
 
 
@@ -94,6 +100,16 @@ func _build_row(row: PlayerInventoryRowProjection) -> HBoxContainer:
 		unwield_button.text = "Unwield"
 		unwield_button.pressed.connect(_on_unwield_pressed.bind(row.item_instance_id))
 		container.add_child(unwield_button)
+	elif row.can_wear:
+		var wear_button: Button = Button.new()
+		wear_button.text = "Wear"
+		wear_button.pressed.connect(_on_wear_pressed.bind(row.item_instance_id))
+		container.add_child(wear_button)
+	elif row.can_remove:
+		var remove_button: Button = Button.new()
+		remove_button.text = "Remove"
+		remove_button.pressed.connect(_on_remove_pressed.bind(row.item_instance_id))
+		container.add_child(remove_button)
 	return container
 
 
@@ -117,6 +133,14 @@ func _on_wield_pressed(item_instance_id: StringName) -> void:
 
 func _on_unwield_pressed(item_instance_id: StringName) -> void:
 	unwield_requested.emit(item_instance_id)
+
+
+func _on_wear_pressed(item_instance_id: StringName) -> void:
+	wear_requested.emit(item_instance_id)
+
+
+func _on_remove_pressed(item_instance_id: StringName) -> void:
+	remove_requested.emit(item_instance_id)
 
 
 func _on_close_button_pressed() -> void:

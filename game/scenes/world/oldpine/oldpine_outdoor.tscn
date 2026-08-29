@@ -578,6 +578,12 @@ position = Vector2(-300, 300)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"
 
+[node name="Pine1FatBanditSpawn" type="Marker2D" parent="SpawnPoints" unique_id=1372483002]
+unique_name_in_owner = true
+position = Vector2(-200, 400)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"
+
 [node name="Characters" type="Node2D" parent="." unique_id=2115630038]
 
 [node name="Player" type="CharacterBody2D" parent="Characters" unique_id=1037619116]
@@ -735,6 +741,37 @@ text = "土匪"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/TallBandit/AggressionPresence" unique_id=2130742914]
+shape = SubResource("CircleShape2D_5rpdm")
+
+[node name="FatBandit" type="CharacterBody2D" parent="Characters" unique_id=709402389]
+unique_name_in_owner = true
+position = Vector2(-200, 400)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="ColorRect" parent="Characters/FatBandit" unique_id=887179950]
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0.55, 0.29, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/FatBandit" unique_id=1134488877]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/FatBandit" unique_id=1253376319]
+offset_left = -58.0
+offset_top = -48.0
+offset_right = -57.0
+offset_bottom = -25.0
+theme_override_font_sizes/font_size = 16
+text = "土匪"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/FatBandit" unique_id=1548277643]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/FatBandit/AggressionPresence" unique_id=343192469]
 shape = SubResource("CircleShape2D_5rpdm")
 
 [node name="CorpseLayer" type="Node2D" parent="." unique_id=1765940814]
@@ -1041,6 +1078,9 @@ position = Vector2(-2040, 300)
 [connection signal="selection_requested" from="Characters/TallBandit" to="." method="_on_bandit_selection_requested"]
 [connection signal="body_entered" from="Characters/TallBandit/AggressionPresence" to="." method="_on_tall_bandit_presence_entered"]
 [connection signal="body_exited" from="Characters/TallBandit/AggressionPresence" to="." method="_on_tall_bandit_presence_exited"]
+[connection signal="selection_requested" from="Characters/FatBandit" to="." method="_on_bandit_selection_requested"]
+[connection signal="body_entered" from="Characters/FatBandit/AggressionPresence" to="." method="_on_fat_bandit_presence_entered"]
+[connection signal="body_exited" from="Characters/FatBandit/AggressionPresence" to="." method="_on_fat_bandit_presence_exited"]
 [connection signal="timeout" from="OpportunityTimer" to="." method="_on_opportunity_timer_timeout"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/InspectButton" to="." method="_on_inspect_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/AttackButton" to="." method="_on_attack_button_pressed"]
@@ -1051,7 +1091,9 @@ position = Vector2(-2040, 300)
 [connection signal="take_requested" from="HUD/Overlay/LootPanel" to="." method="_on_loot_take_requested"]
 [connection signal="pressed" from="HUD/Overlay/LootPanel/Margin/VBox/LootCloseButton" to="HUD/Overlay/LootPanel" method="_on_close_button_pressed"]
 [connection signal="inspect_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_inspect_requested"]
+[connection signal="remove_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_remove_requested"]
 [connection signal="unwield_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_unwield_requested"]
+[connection signal="wear_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_wear_requested"]
 [connection signal="wield_requested" from="HUD/Overlay/PlayerInventoryPanel" to="." method="_on_inventory_wield_requested"]
 [connection signal="pressed" from="HUD/Overlay/PlayerInventoryPanel/Margin/VBox/PlayerInventoryCloseButton" to="HUD/Overlay/PlayerInventoryPanel" method="_on_close_button_pressed"]
 [connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]

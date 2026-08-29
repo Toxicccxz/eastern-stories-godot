@@ -20,6 +20,10 @@ func project_rows(
 	var endpoint: ContainmentEndpoint = _player_endpoint(player.character_id)
 	var primary: EquippedWeaponRef = player.state.equipment.primary_weapon()
 	var secondary: EquippedWeaponRef = player.state.equipment.secondary_weapon()
+	var player_active: bool = (
+		player.exists_in_world
+		and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	)
 	for item_id: StringName in inventory.direct_children(endpoint):
 		if not inventory.is_registered(item_id):
 			continue
@@ -39,8 +43,15 @@ func project_rows(
 			slot = PlayerInventoryRowProjection.EquipmentSlot.PRIMARY
 		elif secondary != null and secondary.instance_id == item_id:
 			slot = PlayerInventoryRowProjection.EquipmentSlot.SECONDARY
+		elif player.armor.is_worn(item_id):
+			slot = PlayerInventoryRowProjection.EquipmentSlot.WORN
 		var is_weapon: bool = (
 			content.category == OldPineItemContentDefinitions.CATEGORY_WEAPON
+		)
+		var armor_definition: ArmorDefinition = content.armor_definition()
+		var is_armor: bool = (
+			content.category == OldPineItemContentDefinitions.CATEGORY_ARMOR
+			and armor_definition != null
 		)
 		rows.append(
 			PlayerInventoryRowProjection.new(
@@ -54,8 +65,20 @@ func project_rows(
 				content.weapon_skill_type,
 				content.weapon_damage,
 				content.currency_base_value * amount,
-				is_weapon and slot == PlayerInventoryRowProjection.EquipmentSlot.NONE,
-				slot != PlayerInventoryRowProjection.EquipmentSlot.NONE,
+				player_active
+				and is_weapon
+				and slot == PlayerInventoryRowProjection.EquipmentSlot.NONE,
+				player_active
+				and is_weapon
+				and slot != PlayerInventoryRowProjection.EquipmentSlot.NONE,
+				&"" if armor_definition == null else armor_definition.armor_type,
+				null if armor_definition == null else armor_definition.numeric_modifiers,
+				player_active
+				and is_armor
+				and slot == PlayerInventoryRowProjection.EquipmentSlot.NONE,
+				player_active
+				and is_armor
+				and slot == PlayerInventoryRowProjection.EquipmentSlot.WORN,
 			)
 		)
 	return rows

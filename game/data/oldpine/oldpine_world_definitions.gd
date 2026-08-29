@@ -35,6 +35,9 @@ const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
 	&"oldpine.outdoor.pine1.tall_bandit"
 )
+const PINE1_FAT_BANDIT_SPAWN_ID: StringName = (
+	&"oldpine.outdoor.pine1.fat_bandit"
+)
 
 
 static func region_definition() -> RegionDefinition:
@@ -60,7 +63,11 @@ static func map_definitions() -> Array[MapDefinition]:
 				TREE_CANOPY_ZONE_ID,
 			],
 			[CLIMB_PINE_PORTAL_ID, DESCEND_TREE1_PORTAL_ID],
-			[SPATH1_BANDIT_SPAWN_ID, PINE1_TALL_BANDIT_SPAWN_ID],
+			[
+				SPATH1_BANDIT_SPAWN_ID,
+				PINE1_TALL_BANDIT_SPAWN_ID,
+				PINE1_FAT_BANDIT_SPAWN_ID,
+			],
 		),
 		MapDefinition.new(
 			CAVE_MAP_ID,

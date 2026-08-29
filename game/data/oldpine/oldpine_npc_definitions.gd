@@ -3,11 +3,13 @@ extends RefCounted
 
 const BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.bandit"
 const TALL_BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.tall_bandit"
+const FAT_BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.fat_bandit"
 const LONG_SWORD_ITEM_ID: StringName = (
 	OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID
 )
 const SHORT_SWORD_ITEM_ID: StringName = &"es2:d/oldpine/obj/short_sword"
 const SILVER_ITEM_ID: StringName = &"es2:obj/money/silver"
+const LEATHER_ITEM_ID: StringName = OldPineItemContentDefinitions.LEATHER_ITEM_ID
 const AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = (
 	&"aggressive_on_player_presence"
 )
@@ -98,6 +100,52 @@ static func tall_bandit_definition() -> NpcDefinition:
 	)
 
 
+static func fat_bandit_definition() -> NpcDefinition:
+	return NpcDefinition.new(
+		FAT_BANDIT_DEFINITION_ID,
+		"d/oldpine/npc/fat_bandit.c",
+		"土匪",
+		[&"bandit"],
+		NpcCharacterStateFactory.HUMAN_RACE_ID,
+		true,
+		CharacterState.GENDER_MALE,
+		true,
+		36,
+		NpcBaseAttributeOverrides.new(),
+		NpcResourceOverrides.new(),
+		500,
+		80,
+		NpcDefinition.Attitude.AGGRESSIVE,
+		[
+			NpcSkillLevelDefinition.new(&"sword", 20),
+			NpcSkillLevelDefinition.new(&"parry", 10),
+			NpcSkillLevelDefinition.new(&"dodge", 10),
+		],
+		[
+			NpcLoadoutEntry.new(
+				SHORT_SWORD_ITEM_ID,
+				1,
+				NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY,
+				"d/oldpine/npc/obj/short_sword.c",
+			),
+			NpcLoadoutEntry.new(
+				LEATHER_ITEM_ID,
+				1,
+				NpcLoadoutEntry.EquipmentIntent.WEAR,
+				"d/oldpine/npc/obj/leather.c",
+			),
+			NpcLoadoutEntry.new(
+				SILVER_ITEM_ID,
+				5,
+				NpcLoadoutEntry.EquipmentIntent.NONE,
+				"obj/money/silver.c",
+			),
+		],
+		[AGGRESSIVE_ON_PLAYER_PRESENCE],
+		"这家伙又矮又胖，圆滚滚的眼珠子在满脸肥肉中骨碌碌地转来转去。\n",
+	)
+
+
 static func long_sword_content() -> NpcLoadoutItemDefinition:
 	var authored: OldPineItemContentDefinition = (
 		OldPineItemContentDefinitions.content_by_id(LONG_SWORD_ITEM_ID)
@@ -165,8 +213,32 @@ static func silver_content() -> NpcLoadoutItemDefinition:
 	)
 
 
+static func leather_content() -> NpcLoadoutItemDefinition:
+	var authored: OldPineItemContentDefinition = (
+		OldPineItemContentDefinitions.content_by_id(LEATHER_ITEM_ID)
+	)
+	if authored == null:
+		return null
+	var sources: Array[String] = authored.legacy_source_paths()
+	return NpcLoadoutItemDefinition.new(
+		ItemDefinition.new(authored.item_definition_id, sources[0]),
+		authored.own_weight,
+		null,
+		0,
+		null,
+		null,
+		sources,
+		authored.armor_definition(),
+	)
+
+
 static func loadout_item_definitions() -> Array[NpcLoadoutItemDefinition]:
-	return [long_sword_content(), short_sword_content(), silver_content()]
+	return [
+		long_sword_content(),
+		short_sword_content(),
+		silver_content(),
+		leather_content(),
+	]
 
 
 static func npc_by_id(definition_id: StringName) -> NpcDefinition:
@@ -175,6 +247,8 @@ static func npc_by_id(definition_id: StringName) -> NpcDefinition:
 			return bandit_definition()
 		TALL_BANDIT_DEFINITION_ID:
 			return tall_bandit_definition()
+		FAT_BANDIT_DEFINITION_ID:
+			return fat_bandit_definition()
 	return null
 
 
@@ -191,6 +265,7 @@ static func validate() -> bool:
 	var definitions: Array[NpcDefinition] = [
 		bandit_definition(),
 		tall_bandit_definition(),
+		fat_bandit_definition(),
 	]
 	for definition: NpcDefinition in definitions:
 		if not definition.is_valid():

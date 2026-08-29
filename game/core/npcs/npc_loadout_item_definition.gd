@@ -9,6 +9,7 @@ const StackDefinitionType := preload(
 const CurrencyDefinitionType := preload(
 	"res://core/items/combined/currency_definition.gd"
 )
+const ArmorDefinitionType := preload("res://core/armor/armor_definition.gd")
 
 var _item_definition: ItemDefinitionType
 var _own_weight: int
@@ -16,6 +17,7 @@ var _weapon_definition: WeaponDefinitionType
 var _weapon_damage: int
 var _stack_definition: StackDefinitionType
 var _currency_definition: CurrencyDefinitionType
+var _armor_definition: ArmorDefinitionType
 var _legacy_source_paths: Array[String] = []
 
 var own_weight: int:
@@ -34,6 +36,7 @@ func _init(
 	p_stack_definition: StackDefinitionType = null,
 	p_currency_definition: CurrencyDefinitionType = null,
 	p_legacy_source_paths: Array[String] = [],
+	p_armor_definition: ArmorDefinitionType = null,
 ) -> void:
 	_item_definition = _copy_item_definition(p_item_definition)
 	_own_weight = p_own_weight
@@ -41,6 +44,7 @@ func _init(
 	_weapon_damage = p_weapon_damage
 	_stack_definition = _copy_stack_definition(p_stack_definition)
 	_currency_definition = _copy_currency_definition(p_currency_definition)
+	_armor_definition = _copy_armor_definition(p_armor_definition)
 	_legacy_source_paths = p_legacy_source_paths.duplicate()
 
 
@@ -60,6 +64,10 @@ func currency_definition() -> CurrencyDefinitionType:
 	return _copy_currency_definition(_currency_definition)
 
 
+func armor_definition() -> ArmorDefinitionType:
+	return _copy_armor_definition(_armor_definition)
+
+
 func legacy_source_paths() -> Array[String]:
 	return _legacy_source_paths.duplicate()
 
@@ -76,6 +84,8 @@ func is_valid() -> bool:
 		return false
 	if _currency_definition != null and _currency_definition.item_definition_id != definition_id:
 		return false
+	if _armor_definition != null and not _armor_definition.has_valid_identity():
+		return false
 	return true
 
 
@@ -88,6 +98,7 @@ func duplicate_snapshot() -> NpcLoadoutItemDefinition:
 		_stack_definition,
 		_currency_definition,
 		_legacy_source_paths,
+		_armor_definition,
 	)
 
 
@@ -130,4 +141,16 @@ static func _copy_currency_definition(value: CurrencyDefinitionType) -> Currency
 		null
 		if value == null
 		else CurrencyDefinitionType.new(value.item_definition_id, value.base_value)
+	)
+
+
+static func _copy_armor_definition(value: ArmorDefinitionType) -> ArmorDefinitionType:
+	return (
+		null
+		if value == null
+		else ArmorDefinitionType.new(
+			value.item_definition_id,
+			value.armor_type,
+			value.numeric_modifiers,
+		)
 	)
