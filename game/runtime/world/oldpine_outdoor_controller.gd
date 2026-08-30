@@ -42,6 +42,12 @@ signal reset_requested
 @onready var corpse_layer: Node2D = %CorpseLayer
 @onready var opportunity_timer: Timer = %OpportunityTimer
 @onready var hud: OldPineHudType = %HUD
+@onready var riverbank_cliff_interaction: Area2D = (
+	$Interactions/RiverbankCliffInteraction
+)
+@onready var cliff1_down_interaction: Area2D = $Interactions/Cliff1DownInteraction
+@onready var cliff1_up_interaction: Area2D = $Interactions/Cliff1UpInteraction
+@onready var cliffside_pine_exit: Area2D = $Interactions/CliffsidePineExit
 
 var _player: WorldPlayerRuntimeType
 var _session_owner: OldPineWorldSessionController
@@ -71,6 +77,7 @@ var _initialization_count: int = 0
 var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new()
 var _vine_adapter: OldPineVineTraversalAdapter = OldPineVineTraversalAdapter.new()
 var _last_vine_traversal: OldPineVineTraversalResult
+var _last_cliffside_pine_traversal: WorldPortalTraversalResult
 var _aggression_adapter: AggressionAdapterType = AggressionAdapterType.new()
 var _last_aggression_decisions: Array[OldPineAggressionDecision] = []
 var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
@@ -274,6 +281,10 @@ func last_vine_traversal() -> OldPineVineTraversalResult:
 	return _last_vine_traversal
 
 
+func last_cliffside_pine_traversal() -> WorldPortalTraversalResult:
+	return _last_cliffside_pine_traversal
+
+
 func last_tick_order() -> Array[StringName]:
 	return _last_tick_order.duplicate()
 
@@ -332,6 +343,26 @@ func spawn_matches_zone(
 			spawn_point_id
 			== OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
 			and zone_id == OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID
+		)
+		or (
+			spawn_point_id
+			== OldPineWorldDefinitions.RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID
+		)
+		or (
+			spawn_point_id
+			== OldPineWorldDefinitions.CLIFF1_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID
+		)
+		or (
+			spawn_point_id
+			== OldPineWorldDefinitions.CLIFFSIDE_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID
+		)
+		or (
+			spawn_point_id
+			== OldPineWorldDefinitions.PINE1_CLIFFSIDE_LANDING_SPAWN_POINT_ID
+			and zone_id == OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID
 		)
 	)
 
@@ -697,6 +728,12 @@ func traverse_selected_portal() -> WorldPortalTraversalResult:
 	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
 		landmark.portal_id
 	)
+	if (
+		_route_landmark_requires_physical_source(landmark.landmark_id)
+		and not _landmark_physical_source_is_current(landmark.landmark_id)
+	):
+		_refresh_selected_landmark_source()
+		return WorldPortalTraversalResult.new()
 	var marker: WorldSpawnMarkerType = (
 		null
 		if portal == null
@@ -1364,7 +1401,46 @@ func _landmark_source_is_current(landmark: WorldLandmarkDefinition) -> bool:
 		and location != null
 		and location.map_id == portal.source_map_id
 		and location.zone_id == portal.source_zone_id
+		and _landmark_physical_source_is_current(landmark.landmark_id)
 	)
+
+
+func _landmark_physical_source_is_current(landmark_id: StringName) -> bool:
+	var interaction: Area2D
+	match landmark_id:
+		OldPineLandmarkDefinitions.RIVERBANK_CLIFF_LANDMARK_ID:
+			interaction = riverbank_cliff_interaction
+		OldPineLandmarkDefinitions.CLIFF1_DOWN_LANDMARK_ID:
+			interaction = cliff1_down_interaction
+		OldPineLandmarkDefinitions.CLIFF1_UP_LANDMARK_ID:
+			interaction = cliff1_up_interaction
+		_:
+			return true
+	if interaction == null:
+		return false
+	var collision: CollisionShape2D = interaction.get_node_or_null(
+		"CollisionShape2D"
+	) as CollisionShape2D
+	if collision == null or collision.disabled:
+		return false
+	var shape: RectangleShape2D = collision.shape as RectangleShape2D
+	if shape == null:
+		return false
+	var local_player_position: Vector2 = collision.to_local(
+		player_body.global_position
+	)
+	return (
+		absf(local_player_position.x) <= shape.size.x / 2.0
+		and absf(local_player_position.y) <= shape.size.y / 2.0
+	)
+
+
+func _route_landmark_requires_physical_source(landmark_id: StringName) -> bool:
+	return landmark_id in [
+		OldPineLandmarkDefinitions.RIVERBANK_CLIFF_LANDMARK_ID,
+		OldPineLandmarkDefinitions.CLIFF1_DOWN_LANDMARK_ID,
+		OldPineLandmarkDefinitions.CLIFF1_UP_LANDMARK_ID,
+	]
 
 
 func _vine_source_is_current(
@@ -1516,6 +1592,39 @@ func _on_east_bridge_body_entered(body: Node2D) -> void:
 
 func _on_waterfall_basin_body_entered(body: Node2D) -> void:
 	_update_body_zone(body, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID)
+
+
+func _on_river_gorge_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID)
+
+
+func _on_cliff_ledge_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID)
+
+
+func _on_cliffside_pine_exit_body_entered(body: Node2D) -> void:
+	if body != player_body:
+		return
+	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+		OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID
+	)
+	var marker: WorldSpawnMarkerType = (
+		null if portal == null else _find_spawn_marker(portal.destination_spawn_point_id)
+	)
+	var destination: WorldLocationState = (
+		null if portal == null else _location_for_zone(portal.destination_zone_id)
+	)
+	_last_cliffside_pine_traversal = _portal_adapter.traverse(
+		_player,
+		player_body,
+		portal,
+		marker,
+		destination,
+	)
+	if _last_cliffside_pine_traversal.completed():
+		_selected_target = null
+		hud.set_selected_target(null)
+		hud.append_log_lines(["North: 松树林"])
 
 
 func _on_tree_canopy_body_entered(body: Node2D) -> void:

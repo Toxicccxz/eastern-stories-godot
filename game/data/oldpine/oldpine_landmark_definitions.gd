@@ -6,6 +6,13 @@ const TREE1_DESCENT_LANDMARK_ID: StringName = (
 	&"oldpine.outdoor.landmark.tree1_descent"
 )
 const VINE_LANDMARK_ID: StringName = &"oldpine.outdoor.landmark.epath2_vine"
+const RIVERBANK_CLIFF_LANDMARK_ID: StringName = (
+	&"oldpine.outdoor.landmark.riverbank1_cliff"
+)
+const CLIFF1_DOWN_LANDMARK_ID: StringName = (
+	&"oldpine.outdoor.landmark.cliff1_down"
+)
+const CLIFF1_UP_LANDMARK_ID: StringName = &"oldpine.outdoor.landmark.cliff1_up"
 
 
 static func definitions() -> Array[WorldLandmarkDefinition]:
@@ -27,6 +34,30 @@ static func definitions() -> Array[WorldLandmarkDefinition]:
 			OldPineWorldDefinitions.DESCEND_TREE1_PORTAL_ID,
 			"Descend",
 			"d/oldpine/tree1.c",
+		),
+		WorldLandmarkDefinition.new(
+			RIVERBANK_CLIFF_LANDMARK_ID,
+			"山涧石壁",
+			"两边的山壁看起来又高又陡，看来要爬上岸边实在很不容易。\n",
+			OldPineWorldDefinitions.RIVERBANK1_CLIFF_PORTAL_ID,
+			"Climb cliff",
+			"d/oldpine/riverbank1.c",
+		),
+		WorldLandmarkDefinition.new(
+			CLIFF1_DOWN_LANDMARK_ID,
+			"向下的山壁",
+			"从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n",
+			OldPineWorldDefinitions.CLIFF1_DOWN_PORTAL_ID,
+			"Climb down",
+			"d/oldpine/cliff1.c",
+		),
+		WorldLandmarkDefinition.new(
+			CLIFF1_UP_LANDMARK_ID,
+			"向上的山壁",
+			"从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n",
+			OldPineWorldDefinitions.CLIFF1_UP_PORTAL_ID,
+			"Climb up",
+			"d/oldpine/cliff1.c",
 		),
 	]
 

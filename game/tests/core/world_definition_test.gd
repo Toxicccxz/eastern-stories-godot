@@ -55,11 +55,11 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 		_assert_true(OldPineWorld.map_by_id(zone.map_id) != null, "zone map resolves")
 		_assert_eq(zone.combat_location_id, zone.zone_id, "first slice explicit combat location")
 		legacy_rooms.append_array(zone.legacy_room_ids())
-	_assert_eq(legacy_rooms.size(), 41, "41 LPC rooms are metadata under 17 zones")
+	_assert_eq(legacy_rooms.size(), 39, "39 implemented LPC rooms are metadata under 17 zones")
 	var unique_rooms: Dictionary[String, bool] = {}
 	for legacy_room: String in legacy_rooms:
 		unique_rooms[legacy_room] = true
-	_assert_eq(unique_rooms.size(), 41, "legacy room metadata has no overlap")
+	_assert_eq(unique_rooms.size(), 39, "legacy room metadata has no overlap")
 	_assert_eq(
 		OldPineWorld.zone_by_id(OldPineWorld.SOUTH_SLOPE_ZONE_ID).legacy_room_ids(),
 		[
@@ -96,7 +96,7 @@ func _test_region_maps_zones_and_legacy_partition() -> void:
 
 func _test_portal_definition() -> void:
 	var portals: Array[PortalDefinition] = OldPineWorld.portal_definitions()
-	_assert_eq(portals.size(), 5, "two tree and three Vine/Passage portals are authored")
+	_assert_eq(portals.size(), 9, "tree, Vine/Passage, and River/Cliff portals are authored")
 	var portal: PortalDefinition = portals[0]
 	_assert_true(portal.is_valid(), "climb portal is coherent")
 	_assert_eq(portal.portal_id, &"oldpine.outdoor.climb_pine", "portal ID")

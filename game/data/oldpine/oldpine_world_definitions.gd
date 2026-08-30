@@ -33,6 +33,14 @@ const VINE_WATERFALL_PORTAL_ID: StringName = (
 )
 const VINE_PASSAGE_PORTAL_ID: StringName = &"oldpine.outdoor.vine_to_passage"
 const PASSAGE_SOUTH_PORTAL_ID: StringName = &"oldpine.cave.passage_to_waterfall"
+const RIVERBANK1_CLIFF_PORTAL_ID: StringName = (
+	&"oldpine.outdoor.riverbank1_climb_cliff"
+)
+const CLIFF1_DOWN_PORTAL_ID: StringName = &"oldpine.outdoor.cliff1_climb_down"
+const CLIFF1_UP_PORTAL_ID: StringName = &"oldpine.outdoor.cliff1_climb_up"
+const CLIFFSIDE_PINE1_PORTAL_ID: StringName = (
+	&"oldpine.outdoor.cliffside_north_pine1"
+)
 const TREE1_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.outdoor.tree_canopy.tree1_landing"
 )
@@ -44,6 +52,18 @@ const WATERFALL_LANDING_SPAWN_POINT_ID: StringName = (
 )
 const CAVE_VINE_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.cave.waterfall_passage.vine_landing"
+)
+const RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.outdoor.river_gorge.riverbank1_cliff_landing"
+)
+const CLIFF1_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.outdoor.cliff_ledge.cliff1_landing"
+)
+const CLIFFSIDE_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.outdoor.cliff_ledge.cliffside_landing"
+)
+const PINE1_CLIFFSIDE_LANDING_SPAWN_POINT_ID: StringName = (
+	&"oldpine.outdoor.pine_entrance.cliffside_landing"
 )
 const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
@@ -82,6 +102,10 @@ static func map_definitions() -> Array[MapDefinition]:
 				DESCEND_TREE1_PORTAL_ID,
 				VINE_WATERFALL_PORTAL_ID,
 				VINE_PASSAGE_PORTAL_ID,
+				RIVERBANK1_CLIFF_PORTAL_ID,
+				CLIFF1_DOWN_PORTAL_ID,
+				CLIFF1_UP_PORTAL_ID,
+				CLIFFSIDE_PINE1_PORTAL_ID,
 			],
 			[
 				SPATH1_BANDIT_SPAWN_ID,
@@ -133,7 +157,6 @@ static func zone_definitions() -> Array[ZoneDefinition]:
 		]),
 		_zone(RIVER_GORGE_ZONE_ID, OUTDOOR_MAP_ID, "河谷水域", [
 			"d/oldpine/riverbank1.c", "d/oldpine/riverbank2.c",
-			"d/oldpine/lake.c",
 		]),
 		_zone(PINE_ENTRANCE_ZONE_ID, OUTDOOR_MAP_ID, "松林入口", [
 			"d/oldpine/pine1.c", "d/oldpine/pine2.c",
@@ -146,7 +169,7 @@ static func zone_definitions() -> Array[ZoneDefinition]:
 			"d/oldpine/pine7.c", "d/oldpine/cliffdown.c",
 		]),
 		_zone(CLIFF_LEDGE_ZONE_ID, OUTDOOR_MAP_ID, "山壁落脚处", [
-			"d/oldpine/cliffside.c", "d/oldpine/cliff1.c", "d/oldpine/cliff2.c",
+			"d/oldpine/cliffside.c", "d/oldpine/cliff1.c",
 		]),
 		_zone(TREE_CANOPY_ZONE_ID, OUTDOOR_MAP_ID, "大松树冠", [
 			"d/oldpine/tree1.c", "d/oldpine/tree2.c", "d/oldpine/tree3.c",
@@ -238,6 +261,58 @@ static func portal_definitions() -> Array[PortalDefinition]:
 			&"",
 			"d/oldpine/passage.c",
 			&"south",
+			&"",
+		),
+		PortalDefinition.new(
+			RIVERBANK1_CLIFF_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			RIVER_GORGE_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			CLIFF_LEDGE_ZONE_ID,
+			CLIFF1_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.CLIMB,
+			&"",
+			"d/oldpine/riverbank1.c",
+			&"climb",
+			&"cliff",
+		),
+		PortalDefinition.new(
+			CLIFF1_DOWN_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			CLIFF_LEDGE_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			RIVER_GORGE_ZONE_ID,
+			RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.CLIMB,
+			&"",
+			"d/oldpine/cliff1.c",
+			&"climb",
+			&"down",
+		),
+		PortalDefinition.new(
+			CLIFF1_UP_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			CLIFF_LEDGE_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			CLIFF_LEDGE_ZONE_ID,
+			CLIFFSIDE_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.CLIMB,
+			&"",
+			"d/oldpine/cliff1.c",
+			&"climb",
+			&"up",
+		),
+		PortalDefinition.new(
+			CLIFFSIDE_PINE1_PORTAL_ID,
+			OUTDOOR_MAP_ID,
+			CLIFF_LEDGE_ZONE_ID,
+			OUTDOOR_MAP_ID,
+			PINE_ENTRANCE_ZONE_ID,
+			PINE1_CLIFFSIDE_LANDING_SPAWN_POINT_ID,
+			PortalDefinition.InteractionKind.TRAVERSE,
+			&"",
+			"d/oldpine/cliffside.c",
+			&"north",
 			&"",
 		),
 	]

@@ -143,7 +143,9 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 	var zone_shape: RectangleShape2D = (zone_area.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
 	_assert_true(absf(marker.global_position.x - zone_area.global_position.x) < zone_shape.size.x / 2.0, "Waterfall landing lies inside zone horizontally")
 	_assert_true(absf(marker.global_position.y - zone_area.global_position.y) < zone_shape.size.y / 2.0, "Waterfall landing lies inside zone vertically")
-	_assert_true(outdoor.player_body.test_move(outdoor.player_body.global_transform, Vector2(0, 400)), "actual physics blocks unfinished south River boundary")
+	_assert_false(outdoor.player_body.test_move(Transform2D(0.0, Vector2(1420, 1080)), Vector2(0, 60)), "Phase 9B3B3 keeps the intentional east-bank River route physically open")
+	_assert_true(outdoor.player_body.test_move(Transform2D(0.0, Vector2(1420, 1350)), Vector2(-400, 0)), "Phase 9B3B3 water prevents a River shortcut")
+	_assert_true(outdoor.get_node_or_null("Terrain/Boundaries/WaterfallSouthBoundary") == null, "obsolete Waterfall south staging block is absent")
 	for index: int in range(8):
 		player.busy.advance()
 	outdoor.process_cadence_tick()

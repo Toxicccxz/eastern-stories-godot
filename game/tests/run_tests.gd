@@ -856,6 +856,9 @@ const VineTraversalPolicyTest := preload(
 const OldPineVineCrossMapTraversalTest := preload(
 	"res://tests/runtime/oldpine_vine_cross_map_traversal_test.gd"
 )
+const OldPineRiverCliffRouteTest := preload(
+	"res://tests/runtime/oldpine_river_cliff_route_test.gd"
+)
 
 
 func _init() -> void:
@@ -1188,6 +1191,7 @@ func _init() -> void:
 		OldPineWorldSessionTest,
 		VineTraversalPolicyTest,
 		OldPineVineCrossMapTraversalTest,
+		OldPineRiverCliffRouteTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1304,6 +1308,9 @@ func _init() -> void:
 	var phase_9b3b2_runtime_result: Dictionary[String, Variant] = (
 		await OldPineVineCrossMapTraversalTest.new().run_all(self)
 	)
+	var phase_9b3b3_result: Dictionary[String, Variant] = (
+		await OldPineRiverCliffRouteTest.new().run_all(self)
+	)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1388,6 +1395,8 @@ func _init() -> void:
 		phase_9b3b2_policy_result["assertions"]
 	) + int(
 		phase_9b3b2_runtime_result["assertions"]
+	) + int(
+		phase_9b3b3_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1434,6 +1443,7 @@ func _init() -> void:
 	failures.append_array(phase_9b3b1_result["failures"])
 	failures.append_array(phase_9b3b2_policy_result["failures"])
 	failures.append_array(phase_9b3b2_runtime_result["failures"])
+	failures.append_array(phase_9b3b3_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

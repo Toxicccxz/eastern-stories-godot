@@ -15,10 +15,10 @@ size = Vector2(3630, 30)
 size = Vector2(3630, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfple"]
-size = Vector2(30, 1660)
+size = Vector2(30, 2760)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvpdx"]
-size = Vector2(30, 1660)
+size = Vector2(30, 2760)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1t57"]
 size = Vector2(250, 120)
@@ -72,7 +72,19 @@ size = Vector2(260, 140)
 size = Vector2(260, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jt41e"]
-size = Vector2(600, 30)
+size = Vector2(30, 1100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qpaqu"]
+size = Vector2(30, 1100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nanom"]
+size = Vector2(870, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w00ii"]
+size = Vector2(1500, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f12dm"]
+size = Vector2(340, 1100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jblgx"]
 size = Vector2(900, 600)
@@ -100,6 +112,12 @@ size = Vector2(600, 600)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h07hy"]
 size = Vector2(600, 500)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0iih"]
+size = Vector2(600, 1100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_soewp"]
+size = Vector2(870, 1100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xp5ye"]
 size = Vector2(34, 34)
@@ -130,6 +148,18 @@ size = Vector2(150, 150)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cfny5"]
 size = Vector2(150, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2x26"]
+size = Vector2(220, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njjj8"]
+size = Vector2(240, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_17cfp"]
+size = Vector2(240, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oym0o"]
+size = Vector2(400, 100)
 
 [node name="OldPineOutdoor" type="Node2D" unique_id=764268747]
 script = ExtResource("1_o8mse")
@@ -243,15 +273,15 @@ position = Vector2(-300, -515)
 shape = SubResource("RectangleShape2D_e12ve")
 
 [node name="Bottom" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=857833452]
-position = Vector2(-300, 1115)
+position = Vector2(-300, 2230)
 shape = SubResource("RectangleShape2D_u6rgc")
 
 [node name="Left" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=1349771926]
-position = Vector2(-2115, 300)
+position = Vector2(-2115, 850)
 shape = SubResource("RectangleShape2D_rfple")
 
 [node name="Right" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=80961316]
-position = Vector2(1515, 300)
+position = Vector2(1515, 850)
 shape = SubResource("RectangleShape2D_cvpdx")
 
 [node name="ForestObstacles" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=989575123]
@@ -330,11 +360,29 @@ shape = SubResource("RectangleShape2D_06jef")
 position = Vector2(-1750, 500)
 shape = SubResource("RectangleShape2D_cd663")
 
-[node name="WaterfallSouthBoundary" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=758185531]
-position = Vector2(1200, 1085)
+[node name="RiverCliffRouteBounds" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=1508965728]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Boundaries/WaterfallSouthBoundary" unique_id=1661501192]
+[node name="RiverCliffDivider" type="CollisionShape2D" parent="Terrain/Boundaries/RiverCliffRouteBounds" unique_id=1808226533]
+position = Vector2(870, 1650)
 shape = SubResource("RectangleShape2D_jt41e")
+
+[node name="CliffWestWall" type="CollisionShape2D" parent="Terrain/Boundaries/RiverCliffRouteBounds" unique_id=1830745342]
+position = Vector2(-15, 1650)
+shape = SubResource("RectangleShape2D_qpaqu")
+
+[node name="CliffNorthWall" type="CollisionShape2D" parent="Terrain/Boundaries/RiverCliffRouteBounds" unique_id=877147929]
+position = Vector2(435, 1115)
+shape = SubResource("RectangleShape2D_nanom")
+
+[node name="LakeBoundary" type="CollisionShape2D" parent="Terrain/Boundaries/RiverCliffRouteBounds" unique_id=1770486509]
+position = Vector2(750, 2215)
+shape = SubResource("RectangleShape2D_w00ii")
+
+[node name="RiverWaterBoundary" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=1874055954]
+position = Vector2(1200, 1650)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Boundaries/RiverWaterBoundary" unique_id=314727440]
+shape = SubResource("RectangleShape2D_f12dm")
 
 [node name="TreeCanopyPlatform" type="ColorRect" parent="Terrain" unique_id=192323295]
 offset_left = 1700.0
@@ -518,7 +566,7 @@ offset_left = 1040.0
 offset_top = 1040.0
 offset_right = 1360.0
 offset_bottom = 1070.0
-text = "South route to riverbank2 — deferred"
+text = "South to Riverbank 2"
 horizontal_alignment = 1
 
 [node name="VineLandmark" type="ColorRect" parent="Terrain" unique_id=908152247]
@@ -536,6 +584,97 @@ offset_right = 1410.0
 offset_bottom = 340.0
 text = "Vine / 藤蔓"
 horizontal_alignment = 1
+
+[node name="RiverGorgeGround" type="ColorRect" parent="Terrain" unique_id=1365033201]
+offset_left = 900.0
+offset_top = 1100.0
+offset_right = 1500.0
+offset_bottom = 2200.0
+mouse_filter = 2
+color = Color(0.15686275, 0.3019608, 0.36078432, 1)
+
+[node name="RiverStream" type="ColorRect" parent="Terrain" unique_id=301339798]
+offset_left = 1030.0
+offset_top = 1100.0
+offset_right = 1370.0
+offset_bottom = 2200.0
+mouse_filter = 2
+color = Color(0.17254902, 0.44313726, 0.5568628, 1)
+
+[node name="Riverbank2Label" type="Label" parent="Terrain" unique_id=503722722]
+offset_left = 920.0
+offset_top = 1160.0
+offset_right = 1280.0
+offset_bottom = 1190.0
+text = "Riverbank 2 / 山涧北段"
+
+[node name="Riverbank1Label" type="Label" parent="Terrain" unique_id=1206768272]
+offset_left = 920.0
+offset_top = 1720.0
+offset_right = 1280.0
+offset_bottom = 1750.0
+text = "Riverbank 1 / 山涧南段"
+
+[node name="LakeBoundaryLabel" type="Label" parent="Terrain" unique_id=163490626]
+offset_left = 1010.0
+offset_top = 2140.0
+offset_right = 1390.0
+offset_bottom = 2170.0
+text = "Lake route — closed"
+horizontal_alignment = 1
+
+[node name="CliffLedgeGround" type="ColorRect" parent="Terrain" unique_id=1476729103]
+offset_top = 1100.0
+offset_right = 870.0
+offset_bottom = 2200.0
+mouse_filter = 2
+color = Color(0.34509805, 0.3019608, 0.24705882, 1)
+
+[node name="CliffPath" type="ColorRect" parent="Terrain" unique_id=1378121781]
+offset_left = 340.0
+offset_top = 1140.0
+offset_right = 530.0
+offset_bottom = 2150.0
+mouse_filter = 2
+color = Color(0.45882353, 0.38431373, 0.29803923, 1)
+
+[node name="CliffsideLabel" type="Label" parent="Terrain" unique_id=2063503639]
+offset_left = 120.0
+offset_top = 1190.0
+offset_right = 500.0
+offset_bottom = 1220.0
+text = "Cliffside / 悬崖边"
+
+[node name="Cliff1Label" type="Label" parent="Terrain" unique_id=742945290]
+offset_left = 500.0
+offset_top = 1780.0
+offset_right = 840.0
+offset_bottom = 1810.0
+text = "Cliff 1 / 山壁窄穴"
+
+[node name="RiverbankCliffLandmark" type="ColorRect" parent="Terrain" unique_id=143346277]
+offset_left = 1300.0
+offset_top = 1840.0
+offset_right = 1480.0
+offset_bottom = 2040.0
+mouse_filter = 2
+color = Color(0.41568628, 0.3882353, 0.34509805, 1)
+
+[node name="Cliff1DownLandmark" type="ColorRect" parent="Terrain" unique_id=1441436151]
+offset_left = 100.0
+offset_top = 1840.0
+offset_right = 300.0
+offset_bottom = 2040.0
+mouse_filter = 2
+color = Color(0.28627452, 0.24705882, 0.20784314, 1)
+
+[node name="Cliff1UpLandmark" type="ColorRect" parent="Terrain" unique_id=305816051]
+offset_left = 580.0
+offset_top = 1550.0
+offset_right = 780.0
+offset_bottom = 1750.0
+mouse_filter = 2
+color = Color(0.50980395, 0.4392157, 0.35686275, 1)
 
 [node name="Zones" type="Node2D" parent="." unique_id=1320053026]
 
@@ -602,6 +741,20 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/WaterfallBasinZone" unique_id=909903247]
 shape = SubResource("RectangleShape2D_h07hy")
 
+[node name="RiverGorgeZone" type="Area2D" parent="Zones" unique_id=96170484]
+position = Vector2(1200, 1650)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/RiverGorgeZone" unique_id=786693197]
+shape = SubResource("RectangleShape2D_r0iih")
+
+[node name="CliffLedgeZone" type="Area2D" parent="Zones" unique_id=350301969]
+position = Vector2(435, 1650)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/CliffLedgeZone" unique_id=2070403248]
+shape = SubResource("RectangleShape2D_soewp")
+
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1257979559]
 unique_name_in_owner = true
 
@@ -658,6 +811,26 @@ position = Vector2(1200, 780)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.waterfall_basin.landing"
 
+[node name="Riverbank1CliffLanding" type="Marker2D" parent="SpawnPoints" unique_id=444810999]
+position = Vector2(1420, 1940)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.river_gorge.riverbank1_cliff_landing"
+
+[node name="Cliff1Landing" type="Marker2D" parent="SpawnPoints" unique_id=1630842997]
+position = Vector2(435, 1900)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.cliff_ledge.cliff1_landing"
+
+[node name="CliffsideLanding" type="Marker2D" parent="SpawnPoints" unique_id=31066004]
+position = Vector2(435, 1300)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.cliff_ledge.cliffside_landing"
+
+[node name="Pine1CliffsideLanding" type="Marker2D" parent="SpawnPoints" unique_id=1773152620]
+position = Vector2(-80, 550)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.pine_entrance.cliffside_landing"
+
 [node name="Characters" type="Node2D" parent="." unique_id=2115630038]
 
 [node name="Player" type="CharacterBody2D" parent="Characters" unique_id=1037619116]
@@ -689,7 +862,7 @@ enabled = false
 limit_left = -2100
 limit_top = -500
 limit_right = 2300
-limit_bottom = 1100
+limit_bottom = 2230
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
@@ -1120,6 +1293,40 @@ landmark_id = &"oldpine.outdoor.landmark.epath2_vine"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/VineInteraction" unique_id=571428410]
 shape = SubResource("RectangleShape2D_cfny5")
 
+[node name="RiverbankCliffInteraction" type="Area2D" parent="Interactions" unique_id=63822594]
+position = Vector2(1390, 1940)
+collision_layer = 2
+script = ExtResource("5_vreye")
+landmark_id = &"oldpine.outdoor.landmark.riverbank1_cliff"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/RiverbankCliffInteraction" unique_id=359790412]
+shape = SubResource("RectangleShape2D_p2x26")
+
+[node name="Cliff1DownInteraction" type="Area2D" parent="Interactions" unique_id=395363351]
+position = Vector2(200, 1940)
+collision_layer = 2
+script = ExtResource("5_vreye")
+landmark_id = &"oldpine.outdoor.landmark.cliff1_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Cliff1DownInteraction" unique_id=622577911]
+shape = SubResource("RectangleShape2D_njjj8")
+
+[node name="Cliff1UpInteraction" type="Area2D" parent="Interactions" unique_id=2031030347]
+position = Vector2(680, 1650)
+collision_layer = 2
+script = ExtResource("5_vreye")
+landmark_id = &"oldpine.outdoor.landmark.cliff1_up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Cliff1UpInteraction" unique_id=528712503]
+shape = SubResource("RectangleShape2D_17cfp")
+
+[node name="CliffsidePineExit" type="Area2D" parent="Interactions" unique_id=898328891]
+position = Vector2(435, 1170)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/CliffsidePineExit" unique_id=1071811235]
+shape = SubResource("RectangleShape2D_oym0o")
+
 [node name="MazeEvidence" type="Node2D" parent="." unique_id=656622297]
 
 [node name="PineThresholdRoute" type="Marker2D" parent="MazeEvidence" unique_id=1726315998]
@@ -1149,6 +1356,8 @@ position = Vector2(-2040, 300)
 [connection signal="body_entered" from="Zones/PineDeepZone" to="." method="_on_pine_deep_body_entered"]
 [connection signal="body_entered" from="Zones/PineCliffEdgeZone" to="." method="_on_pine_cliff_edge_body_entered"]
 [connection signal="body_entered" from="Zones/WaterfallBasinZone" to="." method="_on_waterfall_basin_body_entered"]
+[connection signal="body_entered" from="Zones/RiverGorgeZone" to="." method="_on_river_gorge_body_entered"]
+[connection signal="body_entered" from="Zones/CliffLedgeZone" to="." method="_on_cliff_ledge_body_entered"]
 [connection signal="selection_requested" from="Characters/Bandit01" to="." method="_on_bandit_selection_requested"]
 [connection signal="body_entered" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_entered"]
 [connection signal="body_exited" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_exited"]
@@ -1182,3 +1391,7 @@ position = Vector2(-2040, 300)
 [connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="selection_requested" from="Interactions/Tree1DescentInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="selection_requested" from="Interactions/VineInteraction" to="." method="_on_landmark_selection_requested"]
+[connection signal="selection_requested" from="Interactions/RiverbankCliffInteraction" to="." method="_on_landmark_selection_requested"]
+[connection signal="selection_requested" from="Interactions/Cliff1DownInteraction" to="." method="_on_landmark_selection_requested"]
+[connection signal="selection_requested" from="Interactions/Cliff1UpInteraction" to="." method="_on_landmark_selection_requested"]
+[connection signal="body_entered" from="Interactions/CliffsidePineExit" to="." method="_on_cliffside_pine_exit_body_entered"]
