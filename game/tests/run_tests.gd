@@ -874,6 +874,13 @@ const GameSaveRepositoryScript := preload("res://runtime/persistence/game_save_r
 const GameSaveJsonCodecTest := preload("res://tests/core/game_save_json_codec_test.gd")
 const RandomStreamPersistenceTest := preload("res://tests/runtime/random_stream_persistence_test.gd")
 const GameSaveRepositoryTest := preload("res://tests/runtime/game_save_repository_test.gd")
+const SessionItemIdAllocationResultScript := preload("res://core/persistence/session_item_id_allocation_result.gd")
+const SessionItemIdAllocatorRestoreResultScript := preload("res://core/persistence/session_item_id_allocator_restore_result.gd")
+const SessionItemIdAllocatorScript := preload("res://core/persistence/session_item_id_allocator.gd")
+const NativeItemRestoreCompositionResultScript := preload("res://core/persistence/native_item_restore_composition_result.gd")
+const NativeItemPersistenceCompositionScript := preload("res://core/persistence/native_item_persistence_composition.gd")
+const OldPineNativeItemDefinitionProjectionsScript := preload("res://data/oldpine/oldpine_native_item_definition_projections.gd")
+const NativeItemPersistenceCompositionTest := preload("res://tests/core/native_item_persistence_composition_test.gd")
 
 
 func _init() -> void:
@@ -1222,6 +1229,13 @@ func _init() -> void:
 		GameSaveJsonCodecTest,
 		RandomStreamPersistenceTest,
 		GameSaveRepositoryTest,
+		SessionItemIdAllocationResultScript,
+		SessionItemIdAllocatorRestoreResultScript,
+		SessionItemIdAllocatorScript,
+		NativeItemRestoreCompositionResultScript,
+		NativeItemPersistenceCompositionScript,
+		OldPineNativeItemDefinitionProjectionsScript,
+		NativeItemPersistenceCompositionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1344,6 +1358,7 @@ func _init() -> void:
 	var phase_10b1_codec_result: Dictionary[String, Variant] = GameSaveJsonCodecTest.new().run_all()
 	var phase_10b1_random_result: Dictionary[String, Variant] = RandomStreamPersistenceTest.new().run_all()
 	var phase_10b1_repository_result: Dictionary[String, Variant] = GameSaveRepositoryTest.new().run_all()
+	var phase_10b2_result: Dictionary[String, Variant] = NativeItemPersistenceCompositionTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1436,6 +1451,8 @@ func _init() -> void:
 		phase_10b1_random_result["assertions"]
 	) + int(
 		phase_10b1_repository_result["assertions"]
+	) + int(
+		phase_10b2_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1486,6 +1503,7 @@ func _init() -> void:
 	failures.append_array(phase_10b1_codec_result["failures"])
 	failures.append_array(phase_10b1_random_result["failures"])
 	failures.append_array(phase_10b1_repository_result["failures"])
+	failures.append_array(phase_10b2_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

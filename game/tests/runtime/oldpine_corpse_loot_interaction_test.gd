@@ -594,9 +594,9 @@ func _test_item_index_collision_preserves_completed_lifecycle(
 		return
 	var corpse_id: StringName = StringName(
 		## The deterministic helper first crosses the unconscious boundary;
-		## Old Pine's closed lifecycle wrapper increments its sequence for that
-		## opportunity before the later death opportunity.
-		"oldpine-outdoor-corpse-%d-2" % controller.get_instance_id()
+		## the session allocator consumes dynamic sequence zero for that
+		## opportunity before the later death opportunity uses sequence one.
+		"%s.dynamic.1" % String(controller._item_id_allocator.scope)
 	)
 	_assert_true(
 		controller.item_instance_index().register_snapshot(

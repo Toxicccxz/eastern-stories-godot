@@ -18,6 +18,7 @@ var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
 var _world_interaction_random: WorldInteractionRandomSource
+var _item_id_allocator: SessionItemIdAllocator
 var _item_instance_scope: StringName = &""
 var _configured: bool = false
 var _initialized: bool = false
@@ -43,7 +44,7 @@ func configure_session_authorities(
 	p_npc_random: NpcInitializationRandomSource,
 	p_combat_random: CombatRandomSource,
 	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_instance_scope: StringName,
+	p_item_id_allocator: SessionItemIdAllocator,
 ) -> bool:
 	if (
 		_configured
@@ -56,7 +57,8 @@ func configure_session_authorities(
 		or p_npc_random == null
 		or p_combat_random == null
 		or p_world_interaction_random == null
-		or p_item_instance_scope.is_empty()
+		or p_item_id_allocator == null
+		or not p_item_id_allocator.is_valid()
 	):
 		return false
 	_session_owner = p_session
@@ -67,7 +69,8 @@ func configure_session_authorities(
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random
 	_world_interaction_random = p_world_interaction_random
-	_item_instance_scope = p_item_instance_scope
+	_item_id_allocator = p_item_id_allocator
+	_item_instance_scope = p_item_id_allocator.scope
 	_configured = true
 	return true
 

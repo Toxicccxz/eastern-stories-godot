@@ -65,12 +65,12 @@ var _tall_bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
-var _corpse_sequence: int = 0
 var _last_tick_order: Array[StringName] = []
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 var _item_instance_scope: StringName = &""
+var _item_id_allocator: SessionItemIdAllocator
 var _initialized: bool = false
 var _configured: bool = false
 var _initialization_count: int = 0
@@ -132,7 +132,7 @@ func configure_session_authorities(
 	p_npc_random: NpcInitializationRandomSource,
 	p_combat_random: CombatRandomSource,
 	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_instance_scope: StringName,
+	p_item_id_allocator: SessionItemIdAllocator,
 ) -> bool:
 	if (
 		_configured
@@ -145,7 +145,8 @@ func configure_session_authorities(
 		or p_npc_random == null
 		or p_combat_random == null
 		or p_world_interaction_random == null
-		or p_item_instance_scope.is_empty()
+		or p_item_id_allocator == null
+		or not p_item_id_allocator.is_valid()
 	):
 		return false
 	_session_owner = p_session
@@ -156,7 +157,8 @@ func configure_session_authorities(
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random
 	_world_interaction_random = p_world_interaction_random
-	_item_instance_scope = p_item_instance_scope
+	_item_id_allocator = p_item_id_allocator
+	_item_instance_scope = p_item_id_allocator.scope
 	_configured = true
 	return true
 
@@ -1048,10 +1050,12 @@ func _execute_lifecycle(
 	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
 	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants)
 	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
-	_corpse_sequence += 1
-	var corpse_id: StringName = StringName(
-		"oldpine-outdoor-corpse-%d-%d" % [get_instance_id(), _corpse_sequence]
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(
+		_inventory
 	)
+	if not allocation.succeeded:
+		return CombatSliceLifecycleResult.new()
+	var corpse_id: StringName = allocation.item_instance_id
 	var context: DeathContext = _death_context_for(victim, killer, destination)
 	var lifecycle: CombatSliceLifecycleResult = CombatSliceLifecycleAdapter.new().execute(
 		opportunity,

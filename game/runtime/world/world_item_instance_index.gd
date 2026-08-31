@@ -39,3 +39,13 @@ func resolve(item_instance_id: StringName) -> ItemInstanceType:
 
 func snapshot_count() -> int:
 	return _items.size()
+
+
+func snapshot_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(_items.keys())
+	result.sort_custom(
+		func(left: StringName, right: StringName) -> bool:
+			return String(left) < String(right)
+	)
+	return result

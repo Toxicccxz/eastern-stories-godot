@@ -29,6 +29,7 @@ var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
 var _world_interaction_random: WorldInteractionRandomSource
 var _item_instance_scope: StringName = &""
+var _item_id_allocator: SessionItemIdAllocator
 var _resident_maps: Dictionary[StringName, OldPineResidentMapController] = {}
 var _active_map_id: StringName = &""
 var _initialized: bool = false
@@ -117,6 +118,10 @@ func world_interaction_random_source() -> WorldInteractionRandomSource:
 
 func item_instance_scope() -> StringName:
 	return _item_instance_scope
+
+
+func item_id_allocator() -> SessionItemIdAllocator:
+	return _item_id_allocator
 
 
 func active_map_id() -> StringName:
@@ -351,7 +356,10 @@ func reset_session() -> void:
 
 
 func _initialize_authorities() -> bool:
-	_item_instance_scope = StringName("oldpine-session-%d" % get_instance_id())
+	_item_instance_scope = _new_item_instance_scope()
+	_item_id_allocator = SessionItemIdAllocator.new(_item_instance_scope)
+	if not _item_id_allocator.is_valid():
+		return false
 	_inventory = InventoryState.new()
 	_stacks = CombinedStackCollection.new()
 	_item_index = WorldItemInstanceIndex.new()
@@ -444,7 +452,7 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		_npc_random,
 		_combat_random,
 		_world_interaction_random,
-		_item_instance_scope,
+		_item_id_allocator,
 	):
 		return false
 	_resident_maps[map.map_id()] = map
@@ -456,6 +464,16 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		var cave: OldPineCavePassageController = map as OldPineCavePassageController
 		cave.map_exit_requested.connect(_on_cave_map_exit_requested)
 	return true
+
+
+func _new_item_instance_scope() -> StringName:
+	## The scope is durable data, not a Node ObjectID or a gameplay-RNG draw.
+	## Wall-clock and monotonic microseconds make each New Game scope opaque and
+	## process-independent; save/load preserves this exact value thereafter.
+	return StringName(
+		"oldpine-session-%d-%d"
+		% [int(Time.get_unix_time_from_system() * 1_000_000.0), Time.get_ticks_usec()]
+	)
 
 
 func _on_cave_map_exit_requested(portal_id: StringName) -> void:

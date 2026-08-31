@@ -18,7 +18,7 @@ func configure_session_authorities(
 	_npc_random: NpcInitializationRandomSource,
 	_combat_random: CombatRandomSource,
 	_world_interaction_random: WorldInteractionRandomSource,
-	_item_instance_scope: StringName,
+	_item_id_allocator: SessionItemIdAllocator,
 ) -> bool:
 	return false
 
