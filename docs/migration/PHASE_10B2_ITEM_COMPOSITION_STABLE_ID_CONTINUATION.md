@@ -22,9 +22,11 @@ namespace is reserved: malformed same-scope values reject instead of being mista
 IDs. Bootstrap Player/NPC item IDs remain deterministic authored IDs beneath the same scope and do
 not consume the dynamic sequence.
 
-New Game creates an opaque scope from wall-clock plus monotonic microseconds. This is neither a
-Godot `ObjectID` nor a draw from Combat, NPC-initialization, or WorldInteraction RNG. Save/load keeps
-the exact scope; no new scope is generated during allocator restore.
+New Game creates an opaque scope from 128 bits supplied by Godot's platform cryptographic source.
+The stable textual shape is `oldpine-session-` plus 32 lowercase hexadecimal digits. This source is
+neither a Godot `ObjectID` nor a draw from Combat, NPC-initialization, or WorldInteraction RNG, and
+does not restart from a process-local monotonic counter. Save/load keeps the exact scope; no new
+scope is generated during allocator restore.
 
 Restore rejects an empty/negative allocator snapshot, duplicate represented IDs, malformed
 same-scope dynamic IDs, and a represented `INT64_MAX` sequence. Its continuation is the greater of
@@ -101,7 +103,8 @@ Deterministic tests cover:
 - exact derived index/Inventory membership;
 - exact injectable Equipment/Armor object identity;
 - restored multi-allocation continuation without collision;
-- stale/future continuation, duplicate IDs, reserved-prefix malformed IDs, and int64 overflow;
+- stale/future continuation, duplicate IDs, exact dynamic-namespace malformed IDs, similarly named
+  authored IDs, and int64 overflow;
 - collision without sequence consumption;
 - zero change to all three gameplay RNG streams;
 - complete playable production projections;
@@ -111,10 +114,13 @@ Deterministic tests cover:
 
 Godot 4.7.2 live validation launched the real main Session with a live game helper. Runtime
 inspection confirmed `OldPineWorldSession -> ActiveMapSlot -> OldPineOutdoor`, five NPCs, exactly
-twelve Inventory/index item identities, the equipped starting long sword, a shared Session/Outdoor
-allocator, sequence zero before dynamic use, and a generated `<scope>.dynamic.0` ID without changing
-Inventory membership. The player Inventory UI showed the equipped long sword. Current-run game logs
-contained no project error.
+twelve Inventory/index item identities, the equipped starting long sword, and one exact allocator
+object shared by Session, Outdoor, and Cave. A real player-input path selected and attacked a
+QA-weakened bandit, let the normal cadence resolve unconscious and death, selected the resulting
+corpse, moved into range, opened Loot, and took the short sword. The unconscious opportunity left
+the intentional sequence-zero gap; the corpse used `<scope>.dynamic.1`; continuation became two;
+the remaining silver stayed in the corpse and the short sword became direct Player inventory.
+Current-run game logs contained no project error.
 
 ## Deferred work
 

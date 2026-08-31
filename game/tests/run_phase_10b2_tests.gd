@@ -40,6 +40,7 @@ func _run_tests() -> void:
 		preload("res://core/persistence/session_item_id_allocation_result.gd"),
 		preload("res://core/persistence/session_item_id_allocator_restore_result.gd"),
 		preload("res://core/persistence/session_item_id_allocator.gd"),
+		preload("res://core/persistence/session_item_id_scope_factory.gd"),
 		preload("res://core/persistence/native_item_restore_composition_result.gd"),
 		preload("res://core/persistence/native_item_persistence_composition.gd"),
 		preload("res://data/oldpine/oldpine_native_item_definition_projections.gd"),

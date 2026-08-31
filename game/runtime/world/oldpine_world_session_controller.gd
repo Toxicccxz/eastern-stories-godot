@@ -11,6 +11,9 @@ const CAVE_SCENE: PackedScene = preload(
 const WorldPlayerRuntimeType := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
+const SessionItemIdScopeFactoryType := preload(
+	"res://core/persistence/session_item_id_scope_factory.gd"
+)
 
 @export var deterministic_npc_seed: bool = false
 @export var npc_seed: int = 7_021
@@ -468,12 +471,9 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 
 func _new_item_instance_scope() -> StringName:
 	## The scope is durable data, not a Node ObjectID or a gameplay-RNG draw.
-	## Wall-clock and monotonic microseconds make each New Game scope opaque and
-	## process-independent; save/load preserves this exact value thereafter.
-	return StringName(
-		"oldpine-session-%d-%d"
-		% [int(Time.get_unix_time_from_system() * 1_000_000.0), Time.get_ticks_usec()]
-	)
+	## Platform cryptographic entropy remains independent across fresh processes;
+	## save/load preserves this exact value thereafter.
+	return SessionItemIdScopeFactoryType.create_old_pine_scope()
 
 
 func _on_cave_map_exit_requested(portal_id: StringName) -> void:

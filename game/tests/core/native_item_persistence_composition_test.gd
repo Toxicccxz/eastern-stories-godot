@@ -1,5 +1,9 @@
 extends RefCounted
 
+const SessionItemIdScopeFactoryType := preload(
+	"res://core/persistence/session_item_id_scope_factory.gd"
+)
+
 const CHARACTER_ID: StringName = &"oldpine.player"
 const SCOPE: StringName = &"test-session"
 
@@ -12,6 +16,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_graph_capture_restore_and_continuation()
 	_test_allocator_restore_boundaries()
 	_test_allocator_allocation_boundaries()
+	_test_scope_generation()
+	_test_duplicate_registration_does_not_overwrite()
 	_test_allocator_consumes_zero_gameplay_rng()
 	return {
 		"assertions": _assertion_count,
@@ -70,12 +76,16 @@ func _test_graph_capture_restore_and_continuation() -> void:
 		&"test-session.player-leather",
 		OldPineItemContentDefinitions.LEATHER_ITEM_ID,
 	)
-	var silver_a: ItemInstance = ItemInstance.new(
+	var corpse_a: ItemInstance = ItemInstance.new(
 		&"test-session.dynamic.2",
+		OldPineNativeItemDefinitionProjections.CORPSE_DEFINITION_ID,
+	)
+	var silver_a: ItemInstance = ItemInstance.new(
+		&"test-session.authored-silver",
 		OldPineItemContentDefinitions.SILVER_ITEM_ID,
 	)
-	var items_a: Array[ItemInstance] = [sword_a, leather_a, silver_a]
-	var weights: Array[int] = [7_000, 6_000, 111]
+	var items_a: Array[ItemInstance] = [sword_a, leather_a, corpse_a, silver_a]
+	var weights: Array[int] = [7_000, 6_000, 456, 111]
 	for index: int in range(items_a.size()):
 		var item: ItemInstance = items_a[index]
 		_assert_true(
@@ -83,7 +93,24 @@ func _test_graph_capture_restore_and_continuation() -> void:
 			"graph A item registers",
 		)
 		_assert_true(index_a.register_snapshot(item), "graph A item index registers")
-		_assert_true(_place_on_character(inventory_a, item.item_instance_id), "graph A item is direct inventory")
+	_assert_true(_place_on_character(inventory_a, sword_a.item_instance_id), "graph A sword is direct inventory")
+	_assert_true(_place_on_character(inventory_a, leather_a.item_instance_id), "graph A leather is direct inventory")
+	_assert_true(
+		_place_at(
+			inventory_a,
+			corpse_a.item_instance_id,
+			ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"oldpine.outdoor"),
+		),
+		"graph A corpse is placed in the world",
+	)
+	_assert_true(
+		_place_at(
+			inventory_a,
+			silver_a.item_instance_id,
+			ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_a.item_instance_id),
+		),
+		"graph A silver is nested in the corpse",
+	)
 	_assert_true(
 		stacks_a._register_stack(
 			CombinedStackState.new(silver_a.item_instance_id, 3),
@@ -118,6 +145,7 @@ func _test_graph_capture_restore_and_continuation() -> void:
 	var armor_sources: Array[NativeCharacterArmorSource] = [
 		NativeCharacterArmorSource.new(CHARACTER_ID, armor_a),
 	]
+	var graph_a_ids_before: Array[StringName] = inventory_a.registered_item_ids()
 	var capture: NativeItemSnapshotCaptureResult = NativeItemPersistenceComposition.capture(
 		inventory_a,
 		stacks_a,
@@ -146,6 +174,27 @@ func _test_graph_capture_restore_and_continuation() -> void:
 	_assert_eq(restored.item_index.snapshot_ids(), domain_b.inventory.registered_item_ids(), "fresh item index exactly matches restored Inventory")
 	_assert_true(domain_b.item_instance(sword_a.item_instance_id) != sword_a, "same semantic sword has new runtime identity")
 	_assert_true(restored.item_index.resolve(silver_a.item_instance_id) != silver_a, "derived index owns fresh runtime snapshots")
+	for index: int in range(items_a.size()):
+		var item: ItemInstance = items_a[index]
+		_assert_eq(
+			domain_b.inventory.own_weight(item.item_instance_id),
+			weights[index],
+			"own weight survives exactly: %s" % String(item.item_instance_id),
+		)
+	_assert_true(
+		domain_b.inventory.is_direct_child(
+			corpse_a.item_instance_id,
+			ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"oldpine.outdoor"),
+		),
+		"world containment survives exactly",
+	)
+	_assert_true(
+		domain_b.inventory.is_direct_child(
+			silver_a.item_instance_id,
+			ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_a.item_instance_id),
+		),
+		"nested containment survives exactly",
+	)
 	var equipment_b: EquipmentState = domain_b.equipment_state(CHARACTER_ID)
 	var armor_b: ArmorState = domain_b.armor_state(CHARACTER_ID)
 	_assert_true(equipment_b != equipment_a, "restored EquipmentState is fresh")
@@ -193,9 +242,51 @@ func _test_graph_capture_restore_and_continuation() -> void:
 		NativeItemStateValidationResult.Outcome.UNREPRESENTED_REGISTERED_ITEM,
 		"missing indexed item uses existing Phase4 validation taxonomy",
 	)
+	_assert_eq(inventory_a.registered_item_ids(), graph_a_ids_before, "failed capture does not mutate graph A registration")
+	_assert_true(inventory_a.is_direct_child(silver_a.item_instance_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_a.item_instance_id)), "failed capture does not mutate graph A containment")
+
+	var unknown_snapshot: NativeItemStateSnapshot = NativeItemStateSnapshot.new(
+		NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION,
+		[
+			NativeItemRecord.new(
+				&"unknown-instance",
+				&"unknown-definition",
+				1,
+				ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"oldpine.outdoor"),
+			),
+		],
+	)
+	var unknown_restore: NativeItemRestoreCompositionResult = NativeItemPersistenceComposition.restore(
+		unknown_snapshot,
+		definitions,
+		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 0),
+	)
+	_assert_false(unknown_restore.succeeded, "unknown definitions fail strict production restore")
+	_assert_eq(unknown_restore.item_validation.outcome, NativeItemStateValidationResult.Outcome.UNKNOWN_ITEM_DEFINITION, "unknown definition uses strict Phase4 failure")
+	_assert_eq(inventory_a.registered_item_ids().size(), 4, "failed restore cannot mutate existing graph A")
 
 
 func _test_allocator_restore_boundaries() -> void:
+	var exact_stale: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
+		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 5),
+		[&"test-session.dynamic.12"],
+	)
+	_assert_eq(exact_stale.allocator.next_dynamic_sequence, 13, "saved 5 with represented 12 restores to 13")
+	var exact_future: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
+		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 20),
+		[&"test-session.dynamic.12"],
+	)
+	_assert_eq(exact_future.allocator.next_dynamic_sequence, 20, "saved 20 with represented 12 remains 20")
+	var zero: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
+		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 0),
+		[&"test-session.dynamic.0"],
+	)
+	_assert_eq(zero.allocator.next_dynamic_sequence, 1, "represented zero advances to one")
+	var large: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
+		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 0),
+		[&"test-session.dynamic.9223372036854775806"],
+	)
+	_assert_eq(large.allocator.next_dynamic_sequence, SessionItemIdAllocator.MAX_SEQUENCE, "largest continuable represented sequence reaches exact max")
 	var stale: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
 		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 2),
 		[&"test-session.dynamic.7", &"test-session.authored"],
@@ -215,11 +306,11 @@ func _test_allocator_restore_boundaries() -> void:
 	_assert_eq(other_scope.allocator.next_dynamic_sequence, 4, "other-scope dynamic IDs do not affect continuation")
 	for malformed_id: StringName in [
 		&"test-session.dynamic",
-		&"test-session.dynamicx",
 		&"test-session.dynamic.",
 		&"test-session.dynamic.nope",
 		&"test-session.dynamic.01",
 		&"test-session.dynamic.-1",
+		&"test-session.dynamic.1.extra",
 	]:
 		var malformed: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
 			GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 0),
@@ -230,6 +321,17 @@ func _test_allocator_restore_boundaries() -> void:
 			SessionItemIdAllocatorRestoreResult.Outcome.MALFORMED_SAME_SCOPE_ID,
 			"malformed same-scope dynamic ID fails: %s" % String(malformed_id),
 		)
+	for authored_id: StringName in [
+		&"test-session.dynamic-sword",
+		&"test-session.dynamically-authored",
+		&"test-session.authored.dynamic.9",
+	]:
+		var authored: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
+			GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 4),
+			[authored_id],
+		)
+		_assert_true(authored.succeeded, "similarly named authored ID is not claimed by dynamic namespace")
+		_assert_eq(authored.allocator.next_dynamic_sequence, 4, "authored ID does not change continuation")
 	var duplicate: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
 		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, 0),
 		[&"same-id", &"same-id"],
@@ -265,6 +367,44 @@ func _test_allocator_allocation_boundaries() -> void:
 	var overflow: SessionItemIdAllocationResult = maximum.allocate(InventoryState.new())
 	_assert_eq(overflow.outcome, SessionItemIdAllocationResult.Outcome.SEQUENCE_OVERFLOW, "INT64_MAX allocation fails")
 	_assert_eq(maximum.next_dynamic_sequence, 9223372036854775807, "overflow does not wrap or mutate continuation")
+	var restored_large: SessionItemIdAllocatorRestoreResult = SessionItemIdAllocator.restore(
+		GameSaveValueTypes.ItemIdAllocatorSnapshot.new(SCOPE, SessionItemIdAllocator.MAX_SEQUENCE),
+		[],
+	)
+	var restored_overflow: SessionItemIdAllocationResult = restored_large.allocator.allocate(InventoryState.new())
+	_assert_eq(restored_overflow.outcome, SessionItemIdAllocationResult.Outcome.SEQUENCE_OVERFLOW, "restored max continuation fails allocation")
+
+
+func _test_scope_generation() -> void:
+	var deterministic_entropy: PackedByteArray = PackedByteArray()
+	for value: int in range(SessionItemIdScopeFactoryType.ENTROPY_BYTE_COUNT):
+		deterministic_entropy.append(value)
+	_assert_eq(
+		SessionItemIdScopeFactoryType.old_pine_scope_from_entropy(deterministic_entropy),
+		&"oldpine-session-000102030405060708090a0b0c0d0e0f",
+		"scope uses stable prefix plus the complete 128-bit entropy",
+	)
+	_assert_eq(SessionItemIdScopeFactoryType.old_pine_scope_from_entropy(PackedByteArray([1])), &"", "wrong entropy length fails closed")
+	var generated: Dictionary[StringName, bool] = {}
+	for ignored: int in range(64):
+		var scope: StringName = SessionItemIdScopeFactoryType.create_old_pine_scope()
+		_assert_true(String(scope).begins_with(SessionItemIdScopeFactoryType.OLD_PINE_PREFIX), "generated scope has stable prefix")
+		_assert_eq(String(scope).length(), SessionItemIdScopeFactoryType.OLD_PINE_PREFIX.length() + SessionItemIdScopeFactoryType.ENTROPY_BYTE_COUNT * 2, "generated scope has complete entropy")
+		_assert_false(generated.has(scope), "rapid session scopes do not repeat")
+		generated[scope] = true
+
+
+func _test_duplicate_registration_does_not_overwrite() -> void:
+	var inventory: InventoryState = InventoryState.new()
+	var original: ItemInstance = ItemInstance.new(&"duplicate-id", OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID)
+	var replacement: ItemInstance = ItemInstance.new(&"duplicate-id", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)
+	_assert_true(inventory.register_item(original, 7_000), "Inventory accepts first semantic ID")
+	_assert_false(inventory.register_item(replacement, 1), "Inventory rejects duplicate semantic ID")
+	_assert_eq(inventory.own_weight(original.item_instance_id), 7_000, "Inventory duplicate cannot overwrite existing facts")
+	var index: WorldItemInstanceIndex = WorldItemInstanceIndex.new()
+	_assert_true(index.register_snapshot(original), "index accepts first semantic ID")
+	_assert_false(index.register_snapshot(replacement), "index rejects duplicate semantic ID")
+	_assert_eq(index.resolve(original.item_instance_id).item_definition_id, original.item_definition_id, "index duplicate cannot overwrite existing projection")
 
 
 func _test_allocator_consumes_zero_gameplay_rng() -> void:
@@ -274,6 +414,8 @@ func _test_allocator_consumes_zero_gameplay_rng() -> void:
 	var combat_before: RandomStreamSnapshot = combat.capture_random_state()
 	var npc_before: RandomStreamSnapshot = npc.capture_random_state()
 	var world_before: RandomStreamSnapshot = world.capture_random_state()
+	var generated_scope: StringName = SessionItemIdScopeFactoryType.create_old_pine_scope()
+	_assert_false(generated_scope.is_empty(), "scope generation succeeds independently of gameplay RNG")
 	var allocator: SessionItemIdAllocator = SessionItemIdAllocator.new(SCOPE)
 	for ignored: int in range(4):
 		_assert_true(allocator.allocate(InventoryState.new()).succeeded, "allocator produces ID without an RNG dependency")
@@ -286,11 +428,23 @@ func _test_allocator_consumes_zero_gameplay_rng() -> void:
 
 
 func _place_on_character(inventory: InventoryState, item_id: StringName) -> bool:
+	return _place_at(
+		inventory,
+		item_id,
+		ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, CHARACTER_ID),
+	)
+
+
+func _place_at(
+	inventory: InventoryState,
+	item_id: StringName,
+	endpoint: ContainmentEndpoint,
+) -> bool:
 	return InventoryTransferService.new().transfer(
 		inventory,
 		item_id,
 		InventoryTransferDestination.new(
-			ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, CHARACTER_ID),
+			endpoint,
 			true,
 			true,
 			1_000_000,

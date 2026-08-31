@@ -83,9 +83,7 @@ static func restore(
 			)
 		seen[item_instance_id] = true
 		var text_id: String = String(item_instance_id)
-		if text_id.begins_with(dynamic_namespace) and not text_id.begins_with(
-			dynamic_prefix
-		):
+		if text_id == dynamic_namespace:
 			return SessionItemIdAllocatorRestoreResult.new(
 				SessionItemIdAllocatorRestoreResult.Outcome.MALFORMED_SAME_SCOPE_ID,
 				null,
