@@ -108,6 +108,27 @@ and do not weaken the gate. Stabilize current `main` through a narrow `hotfix/<i
 branch, then follow branch -> PR -> CI -> merge -> main CI. A real hotfix is the naming exception to
 the major-phase branch rule; routine direct main commits are not.
 
+## Standing authorization for CI stabilization
+
+The repository owner has granted Codex standing authorization for the minimum external-write workflow
+needed to restore this repository's existing required CI gates when the latest `main` post-merge CI
+is not fully green. This avoids stopping solely to ask for routine stabilization permission.
+
+Within `Toxicccxz/eastern-stories-godot`, Codex may inspect Actions logs, rerun failed jobs/runs,
+create one narrow `hotfix/...` or `stabilization/...` branch from current `main`, make the smallest
+necessary CI/build/test fix, commit and push that branch, create/update a PR to `main`, and continue
+narrow fixes on the same branch until the required checks are green.
+
+This standing authorization does **not** permit Codex to merge into `main`, force-push, rewrite
+published history, delete remote branches/tags, change repository settings/rulesets/branch
+protection/secrets/permissions/Actions credentials, publish releases, deploy to stores/services,
+modify unrelated repositories, or expand a CI hotfix into unrelated gameplay/content/refactor work.
+Those actions still require separate explicit authorization where applicable.
+
+Once the stabilization PR is green, Codex stops before merge and reports the result. A single green
+retry after a nondeterministic failure demonstrates that the commit can pass, but repeated flakes
+should be investigated rather than hidden by endless reruns.
+
 ## Repository content boundaries
 
 Generated binaries, export templates, temporary production projects, Xcode output, manifests, and
