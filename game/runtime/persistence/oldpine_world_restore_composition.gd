@@ -338,7 +338,10 @@ static func _restore_corpses(
 		var victim_life: StringName = victim.life_status
 		var victim_exists: bool = victim.exists_in_world
 		var expected_name: String = "Player"
-		var expected_age: int = saved.victim_age
+		# The current Player runtime has no durable age field. Its death context
+		# uses the authored Phase 6B3 constant 20, so a Player corpse must prove
+		# that same fact instead of accepting its own saved value tautologically.
+		var expected_age: int = 20
 		var expected_weight: int = CharacterDerivedValues.human_weight(
 			victim_character.attributes.strength
 		)
@@ -433,7 +436,7 @@ static func _loadout_matches(
 	item_index: WorldItemInstanceIndex,
 	global_ids: Dictionary[StringName, bool],
 ) -> bool:
-	var expected_definitions: Array[StringName] = []
+	var expected_counts: Dictionary[StringName, int] = {}
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
 		var content: NpcLoadoutItemDefinition = (
 			OldPineNpcDefinitions.loadout_content_by_id(entry.item_definition_id)
@@ -441,20 +444,31 @@ static func _loadout_matches(
 		if content == null:
 			return false
 		var instance_count: int = 1 if content.stack_definition() != null else entry.quantity
-		for _index: int in range(instance_count):
-			expected_definitions.append(entry.item_definition_id)
-	var actual_definitions: Array[StringName] = []
+		expected_counts[entry.item_definition_id] = (
+			expected_counts.get(entry.item_definition_id, 0) + instance_count
+		)
+	var resolved_ids: Array[StringName] = []
 	for item_id: StringName in saved.live_loadout_item_ids:
 		if global_ids.has(item_id):
 			return false
 		var item: ItemInstance = item_index.resolve(item_id)
 		if item == null:
 			return false
+		var remaining: int = expected_counts.get(item.item_definition_id, 0)
+		if remaining <= 0:
+			return false
+		expected_counts[item.item_definition_id] = remaining - 1
+		resolved_ids.append(item_id)
+	# A living authored NPC still needs its complete loadout. A dead spawn is a
+	# durable tombstone whose former items may already have been looted or
+	# destroyed, so only the represented surviving subset is required.
+	if saved.life_status != &"dead":
+		for remaining: int in expected_counts.values():
+			if remaining != 0:
+				return false
+	for item_id: StringName in resolved_ids:
 		global_ids[item_id] = true
-		actual_definitions.append(item.item_definition_id)
-	expected_definitions.sort_custom(_string_name_less_than)
-	actual_definitions.sort_custom(_string_name_less_than)
-	return expected_definitions == actual_definitions
+	return true
 
 
 static func _character_aggregate_ids_match(

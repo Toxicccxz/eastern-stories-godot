@@ -207,6 +207,93 @@ static func with_fat_bandit_corpse(
 	)
 
 
+static func with_player_corpse(base: GameSaveSnapshot) -> GameSaveSnapshot:
+	var player_weapon_id: StringName = &""
+	for record: NativeCharacterEquipmentRecord in base.items.character_equipment_records:
+		if record.character_id == base.player.character_id:
+			player_weapon_id = record.primary_item_instance_id
+			break
+	if player_weapon_id.is_empty():
+		return null
+	var corpse_id: StringName = StringName(
+		"%s.dynamic.0" % String(base.item_id_allocator.scope)
+	)
+	var records: Array[NativeItemRecord] = []
+	for record: NativeItemRecord in base.items.item_records:
+		var parent: ContainmentEndpoint = record.direct_parent
+		if record.item_instance_id == player_weapon_id:
+			parent = ContainmentEndpoint.new(
+				ContainmentEndpoint.Kind.ITEM,
+				corpse_id,
+			)
+		records.append(NativeItemRecord.new(
+			record.item_instance_id,
+			record.item_definition_id,
+			record.own_weight,
+			parent,
+		))
+	var body_weight: int = CharacterDerivedValues.human_weight(
+		base.player.character.attributes.strength
+	)
+	records.append(NativeItemRecord.new(
+		corpse_id,
+		&"es2:obj/corpse",
+		body_weight,
+		ContainmentEndpoint.new(
+			ContainmentEndpoint.Kind.WORLD,
+			base.player.world_location.combat_location_id,
+		),
+	))
+	var equipment: Array[NativeCharacterEquipmentRecord] = []
+	for record: NativeCharacterEquipmentRecord in base.items.character_equipment_records:
+		equipment.append(
+			NativeCharacterEquipmentRecord.new(record.character_id)
+			if record.character_id == base.player.character_id
+			else record
+		)
+	var item_snapshot: NativeItemStateSnapshot = NativeItemStateSnapshot.new(
+		base.items.schema_version,
+		records,
+		base.items.combined_stack_records,
+		equipment,
+		base.items.character_armor_records,
+	)
+	var player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
+		base.player.character_id,
+		base.player.character,
+		&"dead",
+		false,
+		false,
+		base.player.maximum_encumbrance,
+		base.player.world_location,
+		base.player.map_position,
+	)
+	var corpse: Values.CorpseSnapshot = Values.CorpseSnapshot.new(
+		corpse_id,
+		base.player.character_id,
+		"Player",
+		base.player.character.gender,
+		20,
+		CorpseState.Stage.FRESH,
+		base.player.maximum_encumbrance,
+		[],
+		base.player.world_location,
+		base.player.map_position,
+	)
+	return GameSaveSnapshot.new(
+		base.metadata,
+		base.session_kind,
+		Values.ItemIdAllocatorSnapshot.new(base.item_id_allocator.scope, 1),
+		player,
+		base.npc_spawn_states,
+		[corpse],
+		item_snapshot,
+		base.combat_rng,
+		base.npc_initialization_rng,
+		base.world_interaction_rng,
+	)
+
+
 static func _character_snapshot(state: CharacterState) -> Values.CharacterStateSnapshot:
 	var raw: Array[Values.SkillValueSnapshot] = [
 		Values.SkillValueSnapshot.new(&"force", state.skills.raw_level(&"force")),

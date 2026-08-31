@@ -26,7 +26,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("item_id_allocator.scope", "empty allocator scope")
 	if snapshot.player == null or snapshot.player.character_id.is_empty():
 		return _invalid("player.character_id", "empty character ID")
-	var player_result: GameSaveResult = _validate_runtime_character(snapshot.player.character, snapshot.player.life_status, snapshot.player.world_location, snapshot.player.map_position, "player")
+	var player_result: GameSaveResult = _validate_runtime_character(snapshot.player.character, snapshot.player.life_status, snapshot.player.exists_in_world, snapshot.player.world_location, snapshot.player.map_position, "player")
 	if not player_result.succeeded(): return player_result
 	if snapshot.items == null:
 		return _invalid("items", "item snapshot is null")
@@ -83,7 +83,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			if loadout_id.is_empty(): return _invalid("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index], "empty item ID")
 			if loadout_ids.has(loadout_id): return _duplicate("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index])
 			loadout_ids[loadout_id] = true
-		var npc_result: GameSaveResult = _validate_runtime_character(npc.character, npc.life_status, npc.world_location, npc.map_position, "npc_spawn_states[%d]" % index)
+		var npc_result: GameSaveResult = _validate_runtime_character(npc.character, npc.life_status, npc.exists_in_world, npc.world_location, npc.map_position, "npc_spawn_states[%d]" % index)
 		if not npc_result.succeeded(): return npc_result
 	var corpse_ids: Dictionary[StringName, bool] = {}
 	for index: int in range(snapshot.corpses.size()):
@@ -108,7 +108,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	return GameSaveResult.success(snapshot)
 
 
-static func _validate_runtime_character(character: Values.CharacterStateSnapshot, life_status: StringName, location: Values.WorldLocationSnapshot, position: Values.MapPositionSnapshot, path: String) -> GameSaveResult:
+static func _validate_runtime_character(character: Values.CharacterStateSnapshot, life_status: StringName, exists_in_world: bool, location: Values.WorldLocationSnapshot, position: Values.MapPositionSnapshot, path: String) -> GameSaveResult:
 	if character == null:
 		return _invalid(path + ".character", "character snapshot is null")
 	for pair: Array in [[character.gin, "gin"], [character.kee, "kee"], [character.sen, "sen"]]:
@@ -117,6 +117,11 @@ static func _validate_runtime_character(character: Values.CharacterStateSnapshot
 			return _invalid(path + ".character.resources." + pair[1], "invalid current/effective/maximum invariant")
 	if life_status not in [&"active", &"unconscious", &"dead"]:
 		return _invalid(path + ".life_status", "invalid life status")
+	if (life_status == &"dead") == exists_in_world:
+		return _invalid(
+			path + ".exists_in_world",
+			"committed life status contradicts world existence",
+		)
 	var skill_ids: Dictionary[StringName, bool] = {}
 	for index: int in range(character.skills.raw_levels.size()):
 		var raw: Values.SkillValueSnapshot = character.skills.raw_levels[index]

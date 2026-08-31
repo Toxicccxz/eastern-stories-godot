@@ -48,11 +48,14 @@ group and may therefore repeat; `spawn_point_id` and `CharacterId` are the
 stable per-slot identities. Root validation was corrected accordingly.
 
 Each entry strictly resolves spawn, point, NPC definition, derived body facts,
-world location, position, and live loadout ItemInstanceIds. Alive,
-unconscious, and dead lifecycle states are restored as committed facts rather
-than re-derived from resources. A dead NPC remains one of the five ledger
-entries with `exists_in_map == false`, so absence cannot be misread as a fresh
-spawn request.
+world location, position, and represented live-loadout ItemInstanceIds. A
+living NPC must retain the complete authored loadout. A dead tombstone may
+retain any valid authored subset because former items can already have been
+looted or destroyed. Alive, unconscious, and dead lifecycle states are
+restored as committed facts rather than re-derived from resources, and root
+validation rejects both dead/present and non-dead/absent contradictions. A
+dead NPC remains one of the five ledger entries with `exists_in_map == false`,
+so absence cannot be misread as a fresh spawn request.
 
 `CharacterStateSnapshotRestorer` creates fresh typed attributes, primary and
 internal resources, recovery, progression, conditions, skills, family, and
@@ -80,7 +83,8 @@ Every saved corpse is validated against:
 - the expected corpse ItemDefinitionId;
 - world containment in the saved combat location;
 - a saved dead/non-existent Player or NPC victim;
-- exact victim identity, display, gender, age, body weight, and capacity facts;
+- exact victim identity, display, gender, age, body weight, and capacity facts
+  (the current Player death context authors age `20`);
 - typed worn projections whose armor definitions and item containment agree;
 - a represented decay stage and finite valid map position.
 
@@ -176,11 +180,9 @@ It proves, among other boundaries:
 - Cave-active restore with a detached/frozen Outdoor retaining all five NPCs;
 - unchanged NEW_GAME counts and dynamic allocator sequence.
 
-The final focused execution evaluated 4,077 assertions. The only eight failures
-were the already-known sandbox denial of Phase 10B1's actual `user://` rename
-and file-write contract. Those 101 repository assertions were formally closed
-in Phase 10B1 and are unrelated to the modified production paths. Excluding
-that environment-blocked suite, all 3,976 relevant assertions passed.
+The implementation-pass focused execution evaluated 4,077 assertions. The
+formal audit supersedes that historical count; see
+`PHASE_10B3_FORMAL_AUDIT.md` for the final focused and complete-suite evidence.
 
 Godot 4.7.2 live validation used the real project and game helper. NEW_GAME
 showed one attached Outdoor resident and accepted real movement input. RESTORE
@@ -202,5 +204,5 @@ usable. This is runtime candidate proof only, not process-A/process-B proof.
 No `DECISIONS.md` entry is required: this phase makes no new LPC gameplay
 substitution or compatibility choice.
 
-Status: **READY FOR FORMAL AUDIT**. This implementation pass does not formally
-close Phase 10B3.
+The implementation pass ended **READY FOR FORMAL AUDIT**. Formal closure is
+recorded separately in `PHASE_10B3_FORMAL_AUDIT.md`.
