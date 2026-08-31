@@ -9,8 +9,11 @@ var _failures: Array[String] = []
 func run_all() -> Dictionary[String, Variant]:
 	_test_decimal_int64_contract()
 	_test_substantial_round_trip_and_determinism()
+	_test_equivalent_input_order_is_canonical()
 	_test_strict_shape_and_security_failures()
 	_test_finite_position_and_duplicate_failures()
+	_test_known_condition_payload_compatibility()
+	_test_input_arrays_are_defensive()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 
@@ -21,7 +24,7 @@ func _test_decimal_int64_contract() -> void:
 		var decoded: GameSaveResult = DecimalInt64Codec.decode(encoded, "integer")
 		_assert_true(decoded.succeeded(), "canonical int64 decodes: %s" % encoded)
 		_assert_eq(DecimalInt64Codec.integer_value(decoded), value, "canonical int64 round-trips: %s" % encoded)
-	var invalid: Array[Variant] = ["", " ", "+1", "01", "-0", "-01", "1.0", "1e3", "0x10", "9223372036854775808", "-9223372036854775809", 1]
+	var invalid: Array[Variant] = ["", " ", "\t1", "+1", "01", "-0", "-01", "1.0", "1e3", "0x10", "１２", "١", "9223372036854775808", "-9223372036854775809", 1]
 	for value: Variant in invalid:
 		var result: GameSaveResult = DecimalInt64Codec.decode(value, "integer")
 		_assert_false(result.succeeded(), "invalid decimal rejects: %s" % str(value))
@@ -57,6 +60,43 @@ func _test_substantial_round_trip_and_determinism() -> void:
 	_assert_eq(decoded.snapshot.items.schema_version, 1, "embedded item snapshot getter is defensive")
 
 
+func _test_equivalent_input_order_is_canonical() -> void:
+	var root: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["skills"]["mappings"].append({"use_id": "unarmed", "skill_id": "unarmed"})
+	var second_npc: Dictionary = root["npc_spawn_states"][0].duplicate(true)
+	second_npc["spawn_id"] = "spawn:fat"
+	second_npc["character_id"] = "character:fat"
+	root["npc_spawn_states"].append(second_npc)
+	var second_corpse: Dictionary = root["corpses"][0].duplicate(true)
+	second_corpse["corpse_item_instance_id"] = "corpse:fat"
+	second_corpse["victim_character_id"] = "character:fat"
+	root["corpses"].append(second_corpse)
+	var second_equipment: Dictionary = root["items"]["equipment"][0].duplicate(true)
+	second_equipment["character_id"] = "character:tall"
+	root["items"]["equipment"].append(second_equipment)
+	var second_armor: Dictionary = root["items"]["armor"][0].duplicate(true)
+	second_armor["character_id"] = "character:tall"
+	root["items"]["armor"].append(second_armor)
+	var canonical: GameSaveResult = _decode_root(root)
+	_assert_true(canonical.succeeded(), "multi-record ordering fixture is structurally valid")
+	var canonical_text: String = GameSaveJsonCodec.encode(canonical.snapshot).text
+	for values: Array in [
+		root["player"]["character"]["skills"]["raw_levels"],
+		root["player"]["character"]["skills"]["learned_progress"],
+		root["player"]["character"]["skills"]["mappings"],
+		root["player"]["character"]["conditions"],
+		root["npc_spawn_states"],
+		root["corpses"],
+		root["items"]["records"],
+		root["items"]["equipment"],
+		root["items"]["armor"],
+	]:
+		values.reverse()
+	var reordered: GameSaveResult = _decode_root(root)
+	_assert_true(reordered.succeeded(), "equivalent reversed collections decode")
+	_assert_eq(GameSaveJsonCodec.encode(reordered.snapshot).text, canonical_text, "ID-addressed collection ordering is canonical")
+
+
 func _test_strict_shape_and_security_failures() -> void:
 	_assert_eq(GameSaveJsonCodec.decode("").outcome, GameSaveResult.Outcome.MALFORMED_JSON, "empty JSON is malformed")
 	_assert_eq(GameSaveJsonCodec.decode("{\"metadata\":").outcome, GameSaveResult.Outcome.MALFORMED_JSON, "truncated JSON is malformed")
@@ -88,6 +128,15 @@ func _test_strict_shape_and_security_failures() -> void:
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["player"]["character"]["conditions"][0]["damage"] = "1"
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.INVALID_ROOT, "known duration payload rejects poison field")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["resources"]["kee"]["typo"] = "1"
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.INVALID_ROOT, "nested unknown field rejects")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["resources"]["kee"].erase("effective")
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.MISSING_FIELD, "nested missing field rejects")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["family"]["family_id"] = "res://evil.gd"
+	_assert_true(_decode_root(root).succeeded(), "path-like gameplay text remains inert data")
 
 
 func _test_finite_position_and_duplicate_failures() -> void:
@@ -114,11 +163,62 @@ func _test_finite_position_and_duplicate_failures() -> void:
 	root["npc_spawn_states"].append(root["npc_spawn_states"][0].duplicate(true))
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "duplicate NPC spawn ID rejects")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["npc_spawn_states"][0]["character_id"] = root["player"]["character_id"]
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "player and NPC character IDs must be unique")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	var another_npc: Dictionary = root["npc_spawn_states"][0].duplicate(true)
+	another_npc["spawn_id"] = "spawn:second"
+	root["npc_spawn_states"].append(another_npc)
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "NPC character IDs must be unique across spawn records")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["player"]["character"]["conditions"].append(root["player"]["character"]["conditions"][0].duplicate(true))
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "duplicate condition ID rejects")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["items"]["equipment"].append(root["items"]["equipment"][0].duplicate(true))
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "duplicate equipment authority rejects")
+
+
+func _test_known_condition_payload_compatibility() -> void:
+	var root: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["conditions"][0] = {
+		"condition_id": "bandaged",
+		"payload_kind": "poison",
+		"damage": "1",
+		"remaining": "2",
+		"legacy_message": "",
+	}
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.INVALID_SNAPSHOT, "known duration condition rejects poison payload")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["conditions"][0] = {
+		"condition_id": "poison",
+		"payload_kind": "duration",
+		"remaining": "2",
+	}
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.INVALID_SNAPSHOT, "known poison condition rejects duration payload")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	root["player"]["character"]["conditions"][0]["condition_id"] = "open-duration"
+	_assert_true(_decode_root(root).succeeded(), "open condition ID accepts represented typed duration payload")
+
+
+func _test_input_arrays_are_defensive() -> void:
+	var raw: Array[GameSaveValueTypes.SkillValueSnapshot] = [
+		GameSaveValueTypes.SkillValueSnapshot.new(&"force", 9),
+	]
+	var skills := GameSaveValueTypes.SkillStateSnapshot.new(true, false, raw)
+	raw[0].value = 99
+	raw.append(GameSaveValueTypes.SkillValueSnapshot.new(&"unarmed", 8))
+	_assert_eq(skills.raw_levels.size(), 1, "skill snapshot copies caller array")
+	_assert_eq(skills.raw_levels[0].value, 9, "skill snapshot copies caller record")
+	var conditions: Array[GameSaveValueTypes.ConditionSnapshot] = [
+		GameSaveValueTypes.ConditionSnapshot.duration(&"bandaged", 3),
+	]
+	var character := GameSaveValueTypes.CharacterStateSnapshot.new(
+		&"女性", null, null, null, null, null, null, null, conditions,
+	)
+	conditions[0].remaining = 99
+	conditions.clear()
+	_assert_eq(character.conditions.size(), 1, "character snapshot copies caller condition array")
+	_assert_eq(character.conditions[0].remaining, 3, "character snapshot copies caller condition payload")
 
 
 func _decode_root(root: Dictionary) -> GameSaveResult:

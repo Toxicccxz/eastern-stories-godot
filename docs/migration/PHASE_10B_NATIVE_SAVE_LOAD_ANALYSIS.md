@@ -19,9 +19,9 @@ process B -> fresh executable start -> load -> equivalent authoritative gameplay
 ```
 
 Scene reload, resident-map detach/reattach, an Autoload retaining object references, and in-memory
-snapshot duplication do not satisfy that boundary. This product/runtime analysis belongs under
-`docs/production/`, rather than `docs/migration/`, because it composes already migrated native
-authorities and platform storage instead of migrating another LPC mechanic.
+snapshot duplication do not satisfy that boundary. This phase record lives under `docs/migration/`
+in accordance with the repository-wide documentation placement policy. It composes already migrated
+native authorities and platform storage instead of migrating another LPC mechanic.
 
 ## 2. Existing Phase 4 native persistence foundation
 

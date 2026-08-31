@@ -16,26 +16,30 @@ func run_all() -> Dictionary[String, Variant]:
 
 
 func _test_adapter(adapter_script: Script, label: String) -> void:
-	var source: RefCounted = adapter_script.new(94721, true)
-	var twin: RefCounted = adapter_script.new(94721, true)
-	for ignored: int in range(7):
-		_assert_eq(source.next_below(100000), twin.next_below(100000), label + " setup sequence matches")
-	var captured: RandomStreamSnapshot = source.capture_random_state()
-	var twin_capture: RandomStreamSnapshot = twin.capture_random_state()
-	_assert_eq(captured.seed, twin_capture.seed, label + " capture preserves seed without draw")
-	_assert_eq(captured.state, twin_capture.state, label + " capture preserves state without draw")
-	var expected: Array[int] = []
-	for ignored: int in range(8): expected.append(source.next_below(100000))
-	var restored: RefCounted = adapter_script.new(-99, true)
-	_assert_true(restored.restore_random_state(captured), label + " accepts current adapter snapshot")
-	for index: int in range(expected.size()):
-		_assert_eq(restored.next_below(100000), expected[index], label + " exact continuation draw %d" % index)
-	_assert_false(restored.restore_random_state(RandomStreamSnapshot.new(&"wrong-adapter", 1, 2)), label + " rejects incompatible adapter")
-	var after_failed_restore: int = restored.next_below(100000)
-	var control: RefCounted = adapter_script.new(0, true)
-	_assert_true(control.restore_random_state(restored.capture_random_state()), label + " capture remains usable")
-	_assert_eq(control.next_below(100000), restored.next_below(100000), label + " capture/restore consumes zero extra draws")
-	_assert_true(after_failed_restore >= 0, label + " failed restore did not invalidate source")
+	for prefix_length: int in [0, 1, 2, 7, 31]:
+		var source: RefCounted = adapter_script.new(94721, true)
+		var twin: RefCounted = adapter_script.new(94721, true)
+		for ignored: int in range(prefix_length):
+			_assert_eq(source.next_below(100000), twin.next_below(100000), "%s prefix %d setup sequence matches" % [label, prefix_length])
+		var captured: RandomStreamSnapshot = source.capture_random_state()
+		var twin_capture: RandomStreamSnapshot = twin.capture_random_state()
+		_assert_eq(captured.adapter_id, RandomStreamSnapshot.GODOT_PCG32_ADAPTER_ID, "%s prefix %d uses stable adapter ID" % [label, prefix_length])
+		_assert_eq(captured.seed, twin_capture.seed, "%s prefix %d capture preserves seed without draw" % [label, prefix_length])
+		_assert_eq(captured.state, twin_capture.state, "%s prefix %d capture preserves state without draw" % [label, prefix_length])
+		var expected: Array[int] = []
+		for ignored: int in range(8): expected.append(source.next_below(100000))
+		var restored: RefCounted = adapter_script.new(-99, true)
+		_assert_true(restored.restore_random_state(captured), "%s prefix %d accepts current adapter snapshot" % [label, prefix_length])
+		for index: int in range(expected.size()):
+			_assert_eq(restored.next_below(100000), expected[index], "%s prefix %d exact continuation draw %d" % [label, prefix_length, index])
+		var before_mismatch: RandomStreamSnapshot = restored.capture_random_state()
+		_assert_false(restored.restore_random_state(RandomStreamSnapshot.new(&"wrong-adapter", 1, 2)), "%s prefix %d rejects incompatible adapter" % [label, prefix_length])
+		var after_mismatch: RandomStreamSnapshot = restored.capture_random_state()
+		_assert_eq(after_mismatch.seed, before_mismatch.seed, "%s prefix %d mismatch preserves seed" % [label, prefix_length])
+		_assert_eq(after_mismatch.state, before_mismatch.state, "%s prefix %d mismatch preserves state" % [label, prefix_length])
+		var control: RefCounted = adapter_script.new(0, true)
+		_assert_true(control.restore_random_state(after_mismatch), "%s prefix %d capture remains usable" % [label, prefix_length])
+		_assert_eq(control.next_below(100000), restored.next_below(100000), "%s prefix %d capture/restore consumes zero extra draws" % [label, prefix_length])
 
 
 func _assert_true(value: bool, message: String) -> void:

@@ -33,7 +33,9 @@ Skills use sorted typed `(skill_id, value)` records for raw and learned mappings
 `(use_id, skill_id)` enabled mappings, and both lazy mapping-presence booleans. Nonempty open skill
 IDs remain structurally valid; mapped targets require a raw record. Conditions use only tagged
 `duration` and `poison` records. Their exact fields are strict, and open nonempty condition IDs are
-preserved without claiming an effect implementation. There is no generic payload Dictionary.
+preserved without claiming an effect implementation. Known IDs must use their matching represented
+payload kind. There is no generic payload Dictionary. Player and NPC Character IDs are unique across
+the runtime records in one root snapshot.
 
 `WorldLocation` stores region, map, zone, and combat-location IDs independently. `MapPosition`
 stores finite numeric `x`/`y`; it never serializes a `Vector2`, Transform, or NodePath. NPC and corpse

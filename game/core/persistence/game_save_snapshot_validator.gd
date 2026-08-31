@@ -2,6 +2,7 @@ class_name GameSaveSnapshotValidator
 extends RefCounted
 
 const Values := preload("res://core/persistence/game_save_value_types.gd")
+const ConditionIdsType := preload("res://core/conditions/condition_ids.gd")
 
 
 static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
@@ -66,6 +67,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			if slots.has(slot.armor_type): return _duplicate("items.armor[%d].slots[%d].armor_type" % [index, slot_index])
 			slots[slot.armor_type] = true
 	var spawn_ids: Dictionary[StringName, bool] = {}
+	var character_ids: Dictionary[StringName, bool] = {snapshot.player.character_id: true}
 	for index: int in range(snapshot.npc_spawn_states.size()):
 		var npc: Values.NpcSpawnStateSnapshot = snapshot.npc_spawn_states[index]
 		if npc == null or npc.spawn_id.is_empty():
@@ -73,6 +75,8 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		if spawn_ids.has(npc.spawn_id): return _duplicate("npc_spawn_states[%d].spawn_id" % index)
 		spawn_ids[npc.spawn_id] = true
 		if npc.spawn_point_id.is_empty() or npc.npc_definition_id.is_empty() or npc.character_id.is_empty(): return _invalid("npc_spawn_states[%d]" % index, "empty NPC stable identity")
+		if character_ids.has(npc.character_id): return _duplicate("npc_spawn_states[%d].character_id" % index)
+		character_ids[npc.character_id] = true
 		var loadout_ids: Dictionary[StringName, bool] = {}
 		for loadout_index: int in range(npc.live_loadout_item_ids.size()):
 			var loadout_id: StringName = npc.live_loadout_item_ids[loadout_index]
@@ -142,8 +146,25 @@ static func _validate_runtime_character(character: Values.CharacterStateSnapshot
 		if condition == null or condition.condition_id.is_empty(): return _invalid(path + ".character.conditions[%d].condition_id" % index, "empty condition ID")
 		if condition_ids.has(condition.condition_id): return _duplicate(path + ".character.conditions[%d].condition_id" % index)
 		if condition.payload_kind not in [Values.ConditionSnapshot.KIND_DURATION, Values.ConditionSnapshot.KIND_POISON]: return _invalid(path + ".character.conditions[%d].payload_kind" % index, "unsupported payload kind")
+		if not _known_condition_payload_is_compatible(condition):
+			return _invalid(path + ".character.conditions[%d].payload_kind" % index, "known condition has incompatible payload kind")
 		condition_ids[condition.condition_id] = true
 	return _validate_location(location, position, path)
+
+
+static func _known_condition_payload_is_compatible(condition: Values.ConditionSnapshot) -> bool:
+	if condition.condition_id == ConditionIdsType.POISON:
+		return condition.payload_kind == Values.ConditionSnapshot.KIND_POISON
+	if condition.condition_id in [
+		ConditionIdsType.BANDAGED,
+		ConditionIdsType.DRUNK,
+		ConditionIdsType.ICE_SHOCK,
+		ConditionIdsType.ROSE_POISON,
+		ConditionIdsType.SLUMBER_DRUG,
+		ConditionIdsType.SNAKE_POISON,
+	]:
+		return condition.payload_kind == Values.ConditionSnapshot.KIND_DURATION
+	return true
 
 
 static func _validate_location(location: Values.WorldLocationSnapshot, position: Values.MapPositionSnapshot, path: String) -> GameSaveResult:

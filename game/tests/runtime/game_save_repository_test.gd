@@ -74,7 +74,11 @@ func _test_profiles_and_fixed_paths() -> void:
 	_assert_ne(development.canonical_path(), release.canonical_path(), "development and release paths differ")
 	_assert_true(test.canonical_path().begins_with("user://save-data/tests/"), "test path stays beneath test root")
 	_assert_true(test.canonical_path().ends_with("/default-v1.json"), "slot filename is fixed")
-	for unsafe: String in ["../release", "a/b", "C:\\save", "", ".", "two words"]:
+	for unsafe: String in [
+		"..", "../", "..\\", "../release", "a/b", "a\\b", "/", "\\", ":",
+		"C:", "C:\\save", "\\\\server\\share", "a∕b", "a⁄b", "", ".",
+		" two", "two ", "two words",
+	]:
 		_assert_false(GameSaveStorageProfile.isolated_test(unsafe).is_valid(), "unsafe test child rejects: %s" % unsafe)
 
 
@@ -103,22 +107,37 @@ func _test_temp_write_and_rotation_failures() -> void:
 	var profile := GameSaveStorageProfile.isolated_test("phase10b1-memory-temp")
 	var directory_files := MemoryFiles.new()
 	directory_files.directory_error = ERR_CANT_CREATE
-	_assert_eq(GameSaveRepository.new(profile, directory_files).save(Fixture.substantial()).outcome, GameSaveResult.Outcome.WRITE_FAILED, "directory creation failure is typed")
+	var directory_repository := GameSaveRepository.new(profile, directory_files)
+	_assert_eq(directory_repository.save(Fixture.substantial()).outcome, GameSaveResult.Outcome.WRITE_FAILED, "directory creation failure is typed")
+	_assert_gate_released(directory_repository, "directory failure releases operation gate")
 	var files := MemoryFiles.new()
 	var repository := GameSaveRepository.new(profile, files)
 	_assert_true(repository.save(Fixture.substantial(&"test", 1)).succeeded(), "failure fixture canonical exists")
+	_assert_true(repository.save(Fixture.substantial(&"test", 2)).succeeded(), "failure fixture stale backup exists")
 	var canonical_before: PackedByteArray = files.files[profile.canonical_path()].duplicate()
+	var backup_before: PackedByteArray = files.files[profile.backup_path()].duplicate()
 	files.corrupt_after_write = true
-	_assert_eq(repository.save(Fixture.substantial(&"test", 2)).outcome, GameSaveResult.Outcome.TEMP_VERIFY_FAILED, "corrupt temp fails verification")
+	_assert_eq(repository.save(Fixture.substantial(&"test", 3)).outcome, GameSaveResult.Outcome.TEMP_VERIFY_FAILED, "corrupt temp fails verification")
 	_assert_eq(files.files[profile.canonical_path()], canonical_before, "corrupt temp leaves canonical exact")
+	_assert_eq(files.files[profile.backup_path()], backup_before, "corrupt temp leaves stale backup exact")
+	_assert_gate_released(repository, "temp verification failure releases operation gate")
 	files.corrupt_after_write = false
 	files.write_error = ERR_CANT_CREATE
-	_assert_eq(repository.save(Fixture.substantial(&"test", 2)).outcome, GameSaveResult.Outcome.WRITE_FAILED, "temp write failure is typed")
+	_assert_eq(repository.save(Fixture.substantial(&"test", 3)).outcome, GameSaveResult.Outcome.WRITE_FAILED, "temp write failure is typed")
 	_assert_eq(files.files[profile.canonical_path()], canonical_before, "write failure leaves canonical exact")
+	_assert_gate_released(repository, "write failure releases operation gate")
 	files.write_error = OK
+	files.fail_remove_suffix = ".bak"
+	_assert_eq(repository.save(Fixture.substantial(&"test", 3)).outcome, GameSaveResult.Outcome.REPLACE_FAILED, "stale backup removal failure is typed")
+	_assert_eq(files.files[profile.canonical_path()], canonical_before, "stale backup removal failure preserves canonical")
+	_assert_eq(files.files[profile.backup_path()], backup_before, "stale backup removal failure preserves backup")
+	_assert_true(files.file_exists(profile.temp_path()), "stale backup removal failure preserves verified temp")
+	_assert_gate_released(repository, "stale backup removal failure releases operation gate")
+	files.fail_remove_suffix = ""
 	files.fail_rename_from_suffix = "default-v1.json"
-	_assert_eq(repository.save(Fixture.substantial(&"test", 2)).outcome, GameSaveResult.Outcome.REPLACE_FAILED, "canonical-to-backup failure is typed")
+	_assert_eq(repository.save(Fixture.substantial(&"test", 3)).outcome, GameSaveResult.Outcome.REPLACE_FAILED, "canonical-to-backup failure is typed")
 	_assert_eq(files.files[profile.canonical_path()], canonical_before, "rotation failure leaves canonical exact")
+	_assert_gate_released(repository, "rotation failure releases operation gate")
 
 
 func _test_replace_and_rollback_failures() -> void:
@@ -132,12 +151,14 @@ func _test_replace_and_rollback_failures() -> void:
 	_assert_false(result.rollback_failed, "successful backup rollback is reported")
 	_assert_true(files.file_exists(profile.canonical_path()), "rollback restores canonical")
 	_assert_eq(GameSaveJsonCodec.decode(files.files[profile.canonical_path()].get_string_from_utf8()).snapshot.player.character.kee.current, 82, "rollback restores old bytes")
+	_assert_gate_released(repository, "final replacement failure releases operation gate")
 	files.fail_rename_to_suffix = "default-v1.json"
 	result = repository.save(Fixture.substantial(&"test", 3))
 	_assert_eq(result.outcome, GameSaveResult.Outcome.REPLACE_FAILED, "second final rename failure remains typed")
 	_assert_true(result.rollback_failed, "rollback failure is precise evidence")
 	_assert_true(files.file_exists(profile.backup_path()), "failed rollback preserves backup recovery file")
 	_assert_true(files.file_exists(profile.temp_path()), "failed rollback preserves temp recovery file")
+	_assert_gate_released(repository, "rollback failure releases operation gate")
 
 
 func _test_bounded_utf8_and_recovery_results() -> void:
@@ -145,19 +166,51 @@ func _test_bounded_utf8_and_recovery_results() -> void:
 	var files := MemoryFiles.new()
 	var repository := GameSaveRepository.new(profile, files)
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.NO_SAVE, "missing canonical and recovery returns NO_SAVE")
+	_assert_gate_released(repository, "NO_SAVE releases operation gate")
+	var valid_utf8: Array[PackedByteArray] = [
+		PackedByteArray([0x24]),
+		PackedByteArray([0xC2, 0xA2]),
+		PackedByteArray([0xE2, 0x82, 0xAC]),
+		PackedByteArray([0xF0, 0x90, 0x8D, 0x88]),
+		PackedByteArray([0x00]),
+	]
+	for bytes: PackedByteArray in valid_utf8:
+		_assert_true(GameSaveRepository._is_valid_utf8(bytes), "valid UTF-8 byte sequence accepts: %s" % str(bytes))
+	var invalid_utf8: Array[PackedByteArray] = [
+		PackedByteArray([0xC2]),
+		PackedByteArray([0xC2, 0x20]),
+		PackedByteArray([0xC0, 0xAF]),
+		PackedByteArray([0xE0, 0x80, 0xAF]),
+		PackedByteArray([0xED, 0xA0, 0x80]),
+		PackedByteArray([0xF4, 0x90, 0x80, 0x80]),
+		PackedByteArray([0x80]),
+	]
+	for bytes: PackedByteArray in invalid_utf8:
+		_assert_false(GameSaveRepository._is_valid_utf8(bytes), "invalid UTF-8 byte sequence rejects: %s" % str(bytes))
 	files.files[profile.canonical_path()] = PackedByteArray([0xC3, 0x28])
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.INVALID_UTF8, "invalid UTF-8 rejects distinctly")
+	_assert_gate_released(repository, "invalid UTF-8 releases operation gate")
+	files.files[profile.canonical_path()] = PackedByteArray([0x00])
+	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.MALFORMED_JSON, "valid embedded NUL is malformed JSON, not invalid UTF-8")
 	files.files[profile.canonical_path()] = PackedByteArray()
 	files.files[profile.canonical_path()].resize(GameSaveRepository.MAXIMUM_FILE_BYTES + 1)
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.FILE_TOO_LARGE, "oversized canonical rejects before JSON")
+	_assert_gate_released(repository, "oversized read releases operation gate")
 	files.files.erase(profile.canonical_path())
+	files.files[profile.backup_path()] = "{".to_utf8_buffer()
+	files.files[profile.temp_path()] = PackedByteArray([0x80])
+	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.NO_SAVE, "invalid recovery files do not report BACKUP_AVAILABLE")
 	files.files[profile.backup_path()] = GameSaveJsonCodec.encode(Fixture.substantial()).text.to_utf8_buffer()
+	files.files.erase(profile.temp_path())
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.BACKUP_AVAILABLE, "valid backup is recovery evidence, not auto-load")
 	files.files.erase(profile.backup_path())
 	files.files[profile.temp_path()] = GameSaveJsonCodec.encode(Fixture.substantial()).text.to_utf8_buffer()
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.BACKUP_AVAILABLE, "valid temp is recovery evidence, not auto-load")
 	files.files[profile.canonical_path()] = "{".to_utf8_buffer()
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.BACKUP_AVAILABLE, "invalid canonical plus valid temp reports recovery")
+	files.files[profile.temp_path()] = "{".to_utf8_buffer()
+	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.MALFORMED_JSON, "invalid canonical plus invalid recovery reports canonical failure")
+	_assert_gate_released(repository, "invalid canonical and recovery release operation gate")
 
 
 func _test_actual_godot_rename_contract() -> void:
@@ -207,3 +260,7 @@ func _assert_eq(actual: Variant, expected: Variant, message: String) -> void:
 func _assert_ne(actual: Variant, unexpected: Variant, message: String) -> void:
 	_assertion_count += 1
 	if actual == unexpected: _failures.append("%s (unexpected %s)" % [message, str(unexpected)])
+
+
+func _assert_gate_released(repository: GameSaveRepository, message: String) -> void:
+	_assert_false(repository.operation_in_progress(), message)
