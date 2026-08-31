@@ -520,6 +520,35 @@ def _xcode_scheme(metadata: dict[str, object]) -> str:
     raise BuildError(f"generated Xcode project has ambiguous schemes: {schemes!r}")
 
 
+def _compile_ios_sdl_compat_shim(xcrun: str, export_dir: Path, env: dict[str, str]) -> Path:
+    source = Path(__file__).with_name("ios_sdl_compat_shim.m")
+    if not source.is_file():
+        raise BuildError(f"Godot 4.7 iOS SDL compatibility shim is missing: {source}")
+    shim_dir = export_dir / "Phase10ACompat"
+    shim_dir.mkdir(parents=True, exist_ok=True)
+    output = shim_dir / "ios_sdl_compat_shim.o"
+    _run(
+        [
+            xcrun,
+            "--sdk",
+            "iphoneos",
+            "clang",
+            "-arch",
+            "arm64",
+            "-mios-version-min=16.0",
+            "-fobjc-arc",
+            "-c",
+            str(source),
+            "-o",
+            str(output),
+        ],
+        env=env,
+    )
+    if not output.is_file():
+        raise BuildError("iOS SDL compatibility shim compiler produced no object file")
+    return output
+
+
 def _build_ios(
     godot: Path,
     stage: Path,
@@ -532,6 +561,9 @@ def _build_ios(
     xcodebuild = shutil.which("xcodebuild")
     if not xcodebuild:
         raise BuildError("xcodebuild is unavailable; install/select Xcode before iOS validation")
+    xcrun = shutil.which("xcrun")
+    if not xcrun:
+        raise BuildError("xcrun is unavailable; install/select Xcode before iOS validation")
     target_dir = dist / "ios"
     _clean_directory(target_dir)
     export_dir = target_dir / "xcode"
@@ -547,6 +579,7 @@ def _build_ios(
     metadata = _json_from_output(metadata_result.stdout or "")
     scheme = _xcode_scheme(metadata)
     xcode_version = _run([xcodebuild, "-version"], capture=True).stdout or ""
+    sdl_compat_shim = _compile_ios_sdl_compat_shim(xcrun, export_dir, env)
     log_path = target_dir / "xcodebuild.log"
     command = [
         xcodebuild,
@@ -564,6 +597,7 @@ def _build_ios(
         "CODE_SIGNING_ALLOWED=NO",
         "CODE_SIGNING_REQUIRED=NO",
         "CODE_SIGN_IDENTITY=",
+        f"OTHER_LDFLAGS=$(inherited) {sdl_compat_shim}",
         "build",
     ]
     print(f"+ {' '.join(command)}")

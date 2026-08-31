@@ -8,8 +8,8 @@
 - Android target: Temurin JDK 17.0.18+8; Android SDK Platform-Tools 35.0.0 or newer,
   Build-Tools 35.0.1, Platform 35, Command-line Tools 20.0, CMake 3.10.2.4988404, and NDK r28b
   (28.1.13356709). These are the Godot 4.7 requirements pinned by Phase 10A.
-- iOS target: macOS with Xcode. CI uses `macos-15` and explicitly selects Xcode 16.4
-  (iOS 18.5 SDK). Remote CI must prove the final unsigned compile.
+- iOS target: macOS with Xcode. CI uses `macos-15` and explicitly selects Xcode 26.3
+  (iOS 26.2 SDK). Remote CI must prove the final unsigned compile.
 
 The project renderer, feature version, Jolt configuration, scenes, and gameplay settings do not
 diverge per platform. Phase 10A enabled the shared ETC2/ASTC texture import required by the Android
@@ -126,6 +126,13 @@ Release target for generic iOS with signing disabled. It packages the Xcode proj
 compile log. This path remains **REMOTE MACOS CI PENDING** until the first green workflow run proves
 the exact generated project and command.
 
+Godot 4.7.2's official iOS template was built against the Xcode 26 SDK surface and does not link
+against Xcode 16.4/iOS 18.5 (`CADynamicRange*` and `MTLTensorDomain` remain unresolved). The same
+template also references `SDL_IsIPad` and `SDL_IsAppleTV` without defining them, matching upstream
+[Godot issue #122549](https://github.com/godotengine/godot/issues/122549). Phase 10A therefore pins
+Xcode 26.3 and compiles the narrow `tools/build/ios_sdl_compat_shim.m` object into the unsigned
+validation build. Remove this compatibility shim when a pinned Godot release provides the symbols.
+
 No certificate, Provisioning Profile, Apple secret, IPA, App Store, or TestFlight claim is involved.
 
 ## Identity and technical versions
@@ -162,7 +169,7 @@ Each target rebuild removes only its controlled staging/output directory. The to
 - `Windows Release Build` on `windows-2025`;
 - `Android Release Build` on `ubuntu-24.04` with Temurin JDK 17.0.18+8 and pinned SDK packages;
 - `iOS Build Validation` on `macos-15`; the job enumerates installed Xcode applications, requires
-  `/Applications/Xcode_16.4.app`, selects it explicitly, and prints the Xcode/iPhoneOS SDK versions.
+  `/Applications/Xcode_26.3.app`, selects it explicitly, and prints the Xcode/iPhoneOS SDK versions.
 
 Build jobs depend on `Godot Verify`; the complete gameplay suite runs only in that job. All jobs use
 Godot 4.7.2 and repository scripts. No project secret is required.

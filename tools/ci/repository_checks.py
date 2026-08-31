@@ -21,6 +21,7 @@ REQUIRED_FILES = (
     "docs/production/REPOSITORY_POLICY.md",
     "tools/build/prepare_release_project.py",
     "tools/build/build.py",
+    "tools/build/ios_sdl_compat_shim.m",
     "tools/ci/bootstrap_godot.py",
     "tools/ci/verify.py",
     "game/export_presets.cfg",
@@ -91,6 +92,10 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
             errors.append("provisional mobile package identifier is missing")
         if "application/export_project_only=true" not in text:
             errors.append("iOS preset must export the Xcode project without invoking a signed archive")
+
+    workflow = repository / ".github/workflows/ci.yml"
+    if workflow.is_file() and "/Applications/Xcode_26.3.app" not in workflow.read_text(encoding="utf-8"):
+        errors.append("iOS CI must select the Godot 4.7.2-compatible pinned Xcode 26.3 toolchain")
 
     for path in _candidate_text_files(repository):
         if path == repository / "tools/ci/repository_checks.py":

@@ -136,14 +136,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Select Xcode 16.4
+      - name: Select Xcode 26.3
         shell: bash
         run: |
           echo "Installed Xcode applications:"
           find /Applications -maxdepth 1 -type d -name 'Xcode*.app' -print | sort
-          XCODE_APP="/Applications/Xcode_16.4.app"
+          XCODE_APP="/Applications/Xcode_26.3.app"
           if [[ ! -d "$XCODE_APP" ]]; then
-            echo "::error::Required Xcode 16.4 is unavailable at $XCODE_APP"
+            echo "::error::Required Xcode 26.3 is unavailable at $XCODE_APP"
             exit 1
           fi
           sudo xcode-select --switch "$XCODE_APP/Contents/Developer"

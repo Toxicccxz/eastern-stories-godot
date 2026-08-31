@@ -154,6 +154,25 @@ class BuildToolTest(unittest.TestCase):
         with self.assertRaises(build.BuildError):
             build._xcode_scheme({"project": {"schemes": ["One", "Two"]}})
 
+    def test_ios_sdl_compat_shim_is_compiled_for_device_arm64(self) -> None:
+        export = self.root / "ios"
+        seen_commands: list[list[str]] = []
+
+        def fake_run(command: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+            seen_commands.append(command)
+            Path(command[-1]).write_bytes(b"object")
+            return subprocess.CompletedProcess(command, 0, stdout="")
+
+        with mock.patch.object(build, "_run", side_effect=fake_run):
+            output = build._compile_ios_sdl_compat_shim("xcrun", export, {})
+
+        self.assertTrue(output.is_file())
+        self.assertEqual("xcrun", seen_commands[0][0])
+        self.assertIn("iphoneos", seen_commands[0])
+        self.assertIn("arm64", seen_commands[0])
+        self.assertIn("-mios-version-min=16.0", seen_commands[0])
+        self.assertEqual(str(output), seen_commands[0][-1])
+
     def test_android_signing_secret_is_not_logged_and_generated_keys_are_removed(self) -> None:
         godot = self._file("godot")
         stage = self.root / "stage"
