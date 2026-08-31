@@ -11,3 +11,20 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Phase 10A generated build/toolchain output
+/build/
+/dist/
+*.apk
+*.exe
+*.ipa
+*.keystore
+*.pck
+*.tpz
+*.zip
+*.xcodeproj/
+*.xcworkspace/
+
+# Python tooling caches
+__pycache__/
+*.py[cod]
