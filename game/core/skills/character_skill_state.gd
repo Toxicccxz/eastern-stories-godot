@@ -92,6 +92,24 @@ func mapped_skill(use_id: StringName) -> StringName:
 	return _loadout.enabled_skill(use_id)
 
 
+## Trusted persistence seam used only after the typed save snapshot has been
+## validated. It preserves the legacy distinction between an absent mapping
+## and an existing-but-empty mapping without exposing either Dictionary.
+func _restore_mapping_presence(
+	has_skills_mapping: bool,
+	has_learned_mapping: bool,
+) -> bool:
+	if not has_skills_mapping and (
+		not _raw_levels.is_empty() or _loadout.size() != 0
+	):
+		return false
+	if not has_learned_mapping and not _learned_progress.is_empty():
+		return false
+	_has_skills_mapping = has_skills_mapping
+	_has_learned_mapping = has_learned_mapping
+	return true
+
+
 ## Deterministic improve_skill() transition. The caller supplies the legacy
 ## userp() fact explicitly; no command, ability, or runtime dependency is used.
 ## Returns a typed snapshot; authored skill_improved() effects are processed by

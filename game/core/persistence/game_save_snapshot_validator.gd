@@ -66,15 +66,15 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			if slot == null or slot.armor_type.is_empty() or slot.item_instance_id.is_empty(): return _invalid("items.armor[%d].slots[%d]" % [index, slot_index], "empty armor identity")
 			if slots.has(slot.armor_type): return _duplicate("items.armor[%d].slots[%d].armor_type" % [index, slot_index])
 			slots[slot.armor_type] = true
-	var spawn_ids: Dictionary[StringName, bool] = {}
+	var spawn_point_ids: Dictionary[StringName, bool] = {}
 	var character_ids: Dictionary[StringName, bool] = {snapshot.player.character_id: true}
 	for index: int in range(snapshot.npc_spawn_states.size()):
 		var npc: Values.NpcSpawnStateSnapshot = snapshot.npc_spawn_states[index]
 		if npc == null or npc.spawn_id.is_empty():
 			return _invalid("npc_spawn_states[%d].spawn_id" % index, "empty spawn ID")
-		if spawn_ids.has(npc.spawn_id): return _duplicate("npc_spawn_states[%d].spawn_id" % index)
-		spawn_ids[npc.spawn_id] = true
 		if npc.spawn_point_id.is_empty() or npc.npc_definition_id.is_empty() or npc.character_id.is_empty(): return _invalid("npc_spawn_states[%d]" % index, "empty NPC stable identity")
+		if spawn_point_ids.has(npc.spawn_point_id): return _duplicate("npc_spawn_states[%d].spawn_point_id" % index)
+		spawn_point_ids[npc.spawn_point_id] = true
 		if character_ids.has(npc.character_id): return _duplicate("npc_spawn_states[%d].character_id" % index)
 		character_ids[npc.character_id] = true
 		var loadout_ids: Dictionary[StringName, bool] = {}

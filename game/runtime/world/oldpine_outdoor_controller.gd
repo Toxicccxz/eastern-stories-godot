@@ -189,10 +189,21 @@ func initialize_map() -> bool:
 		tall_weapon_content.weapon_damage,
 	)
 	if (
-		not _initialize_player()
-		or not _initialize_bandits()
-		or not _initialize_tall_bandit()
-		or not _initialize_fat_bandit()
+		(
+			_session_owner.bootstrap_mode()
+			== OldPineWorldSessionController.BootstrapMode.RESTORE
+			and not _initialize_restored_world()
+		)
+		or (
+			_session_owner.bootstrap_mode()
+			== OldPineWorldSessionController.BootstrapMode.NEW_GAME
+			and (
+				not _initialize_player()
+				or not _initialize_bandits()
+				or not _initialize_tall_bandit()
+				or not _initialize_fat_bandit()
+			)
+		)
 	):
 		return false
 	hud.configure(_player)
@@ -898,6 +909,76 @@ func _initialize_player() -> bool:
 	player_body.global_position = marker.global_position
 	player_body.player_controlled = false
 	return player_body.bind_player(_player)
+
+
+func _initialize_restored_world() -> bool:
+	if not _initialize_restored_player():
+		return false
+	for entry: OldPineRestoredNpcEntry in _session_owner.restored_npc_entries():
+		var npc: NpcRuntimeState = entry.runtime
+		if npc.world_location().map_id != map_id():
+			continue
+		var body: WorldCharacterBodyType = _body_for_spawn_point(npc.spawn_point_id)
+		var saved_exists: bool = npc.exists_in_map
+		if body == null or not _map_characters.register_npc(npc):
+			return false
+		# register_npc() is a live-spawn API and marks existence true. Restore
+		# immediately reapplies the persisted tombstone fact before any frame.
+		npc.set_exists_in_map(saved_exists)
+		_all_npcs.append(npc)
+		body.global_position = entry.map_position
+		body.player_controlled = false
+		if not body.bind_npc(npc):
+			return false
+	for entry: OldPineRestoredCorpseEntry in _session_owner.restored_corpse_entries():
+		if entry.world_location.map_id != map_id():
+			continue
+		var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
+		if not view.configure(entry.state):
+			return false
+		view.global_position = entry.map_position
+		_corpse_states.append(entry.state)
+		_corpse_views[entry.state.corpse_item_instance_id] = view
+		view.selection_requested.connect(_on_corpse_selection_requested)
+		view.loot_range_changed.connect(_on_corpse_loot_range_changed)
+		corpse_layer.add_child(view)
+	return _all_npcs.size() == 5
+
+
+func _initialize_restored_player() -> bool:
+	if not player_body.bind_player(_player):
+		return false
+	var location: WorldLocationState = _player.world_location()
+	if location.map_id == map_id():
+		player_body.global_position = _session_owner.restored_player_position()
+	else:
+		var marker: WorldSpawnMarkerType = %PlayerStart
+		if marker == null:
+			return false
+		player_body.global_position = marker.global_position
+	player_body.player_controlled = false
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = false
+	return true
+
+
+func _body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBodyType:
+	var bandit_points: Array[StringName] = (
+		OldPineSpawnDefinitions.spath1_bandit_spawn().spawn_point_ids()
+	)
+	var bandit_index: int = bandit_points.find(spawn_point_id)
+	if bandit_index >= 0 and bandit_index < bandit_bodies.size():
+		return bandit_bodies[bandit_index]
+	if spawn_point_id == (
+		OldPineSpawnDefinitions.pine1_tall_bandit_spawn().spawn_point_ids()[0]
+	):
+		return tall_bandit_body
+	if spawn_point_id == (
+		OldPineSpawnDefinitions.pine1_fat_bandit_spawn().spawn_point_ids()[0]
+	):
+		return fat_bandit_body
+	return null
 
 
 func _initialize_bandits() -> bool:

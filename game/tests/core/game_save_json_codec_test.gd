@@ -65,6 +65,7 @@ func _test_equivalent_input_order_is_canonical() -> void:
 	root["player"]["character"]["skills"]["mappings"].append({"use_id": "unarmed", "skill_id": "unarmed"})
 	var second_npc: Dictionary = root["npc_spawn_states"][0].duplicate(true)
 	second_npc["spawn_id"] = "spawn:fat"
+	second_npc["spawn_point_id"] = "spawn-point:fat"
 	second_npc["character_id"] = "character:fat"
 	root["npc_spawn_states"].append(second_npc)
 	var second_corpse: Dictionary = root["corpses"][0].duplicate(true)
@@ -161,7 +162,13 @@ func _test_finite_position_and_duplicate_failures() -> void:
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "duplicate item ID rejects")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["npc_spawn_states"].append(root["npc_spawn_states"][0].duplicate(true))
-	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "duplicate NPC spawn ID rejects")
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "duplicate NPC spawn-point ID rejects")
+	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
+	var same_spawn_slot: Dictionary = root["npc_spawn_states"][0].duplicate(true)
+	same_spawn_slot["spawn_point_id"] = "spawn-point:second"
+	same_spawn_slot["character_id"] = "character:second"
+	root["npc_spawn_states"].append(same_spawn_slot)
+	_assert_true(_decode_root(root).succeeded(), "one authored spawn may own multiple stable spawn-point slots")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["npc_spawn_states"][0]["character_id"] = root["player"]["character_id"]
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.DUPLICATE_ID, "player and NPC character IDs must be unique")

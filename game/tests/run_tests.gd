@@ -882,6 +882,15 @@ const NativeItemRestoreCompositionResultScript := preload("res://core/persistenc
 const NativeItemPersistenceCompositionScript := preload("res://core/persistence/native_item_persistence_composition.gd")
 const OldPineNativeItemDefinitionProjectionsScript := preload("res://data/oldpine/oldpine_native_item_definition_projections.gd")
 const NativeItemPersistenceCompositionTest := preload("res://tests/core/native_item_persistence_composition_test.gd")
+const CharacterStateSnapshotRestorerScript := preload("res://core/persistence/character_state_snapshot_restorer.gd")
+const OldPineRestoredNpcEntryScript := preload("res://runtime/persistence/oldpine_restored_npc_entry.gd")
+const OldPineRestoredCorpseEntryScript := preload("res://runtime/persistence/oldpine_restored_corpse_entry.gd")
+const OldPineWorldRestorePreparationScript := preload("res://runtime/persistence/oldpine_world_restore_preparation.gd")
+const OldPineWorldRestoreResultScript := preload("res://runtime/persistence/oldpine_world_restore_result.gd")
+const OldPineWorldRestoreCompositionScript := preload("res://runtime/persistence/oldpine_world_restore_composition.gd")
+const OldPineMapPlacementValidatorScript := preload("res://runtime/persistence/oldpine_map_placement_validator.gd")
+const OldPineWorldRestoreServiceScript := preload("res://runtime/persistence/oldpine_world_restore_service.gd")
+const OldPineWorldRestoreTest := preload("res://tests/runtime/oldpine_world_restore_test.gd")
 
 
 func _init() -> void:
@@ -1238,6 +1247,15 @@ func _init() -> void:
 		NativeItemPersistenceCompositionScript,
 		OldPineNativeItemDefinitionProjectionsScript,
 		NativeItemPersistenceCompositionTest,
+		CharacterStateSnapshotRestorerScript,
+		OldPineRestoredNpcEntryScript,
+		OldPineRestoredCorpseEntryScript,
+		OldPineWorldRestorePreparationScript,
+		OldPineWorldRestoreResultScript,
+		OldPineWorldRestoreCompositionScript,
+		OldPineMapPlacementValidatorScript,
+		OldPineWorldRestoreServiceScript,
+		OldPineWorldRestoreTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1361,6 +1379,7 @@ func _init() -> void:
 	var phase_10b1_random_result: Dictionary[String, Variant] = RandomStreamPersistenceTest.new().run_all()
 	var phase_10b1_repository_result: Dictionary[String, Variant] = GameSaveRepositoryTest.new().run_all()
 	var phase_10b2_result: Dictionary[String, Variant] = NativeItemPersistenceCompositionTest.new().run_all()
+	var phase_10b3_result: Dictionary[String, Variant] = await OldPineWorldRestoreTest.new().run_all(self)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1455,6 +1474,8 @@ func _init() -> void:
 		phase_10b1_repository_result["assertions"]
 	) + int(
 		phase_10b2_result["assertions"]
+	) + int(
+		phase_10b3_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1506,6 +1527,7 @@ func _init() -> void:
 	failures.append_array(phase_10b1_random_result["failures"])
 	failures.append_array(phase_10b1_repository_result["failures"])
 	failures.append_array(phase_10b2_result["failures"])
+	failures.append_array(phase_10b3_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

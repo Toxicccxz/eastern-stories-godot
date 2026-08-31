@@ -15,6 +15,11 @@ const SessionItemIdScopeFactoryType := preload(
 	"res://core/persistence/session_item_id_scope_factory.gd"
 )
 
+enum BootstrapMode {
+	NEW_GAME,
+	RESTORE,
+}
+
 @export var deterministic_npc_seed: bool = false
 @export var npc_seed: int = 7_021
 @export var deterministic_combat_seed: bool = false
@@ -38,6 +43,10 @@ var _active_map_id: StringName = &""
 var _initialized: bool = false
 var _transitioning: bool = false
 var _last_passage_exit_handoff: OldPineMapHandoffResult
+var _bootstrap_mode: int = BootstrapMode.NEW_GAME
+var _restore_preparation: OldPineWorldRestorePreparation
+var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
+var _restore_candidate_staged: bool = false
 
 
 func _ready() -> void:
@@ -60,7 +69,13 @@ func _exit_tree() -> void:
 func initialize_session() -> bool:
 	if _initialized:
 		return true
-	if active_map_slot == null or not _initialize_authorities():
+	if active_map_slot == null:
+		return false
+	if _bootstrap_mode == BootstrapMode.RESTORE:
+		if not _initialize_restore_authorities():
+			_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.RECONSTRUCTION_FAILED
+			return false
+	elif not _initialize_authorities():
 		return false
 	var cave: OldPineResidentMapController = (
 		CAVE_SCENE.instantiate() as OldPineResidentMapController
@@ -72,6 +87,9 @@ func initialize_session() -> bool:
 		return false
 	if not _register_and_configure_map(cave) or not _register_and_configure_map(outdoor):
 		return false
+
+	if _bootstrap_mode == BootstrapMode.RESTORE:
+		return _initialize_restore_residents(cave, outdoor)
 
 	# Ready-time binding is performed once for both resident maps. The inactive
 	# cave is then detached without being freed or simulated.
@@ -89,6 +107,68 @@ func initialize_session() -> bool:
 	_active_map_id = outdoor.map_id()
 	_initialized = true
 	return _reconcile_active_residents()
+
+
+func configure_restore(preparation: OldPineWorldRestorePreparation) -> bool:
+	if (
+		is_inside_tree()
+		or _initialized
+		or _bootstrap_mode != BootstrapMode.NEW_GAME
+		or preparation == null
+		or not preparation.is_valid()
+	):
+		return false
+	_bootstrap_mode = BootstrapMode.RESTORE
+	_restore_preparation = preparation
+	process_mode = Node.PROCESS_MODE_DISABLED
+	return true
+
+
+func bootstrap_mode() -> int:
+	return _bootstrap_mode
+
+
+func is_restore_candidate_staged() -> bool:
+	return _restore_candidate_staged
+
+
+func restore_failure_outcome() -> int:
+	return _restore_failure_outcome
+
+
+func restored_player_position() -> Vector2:
+	return Vector2.ZERO if _restore_preparation == null else _restore_preparation.player_position
+
+
+func restored_npc_entries() -> Array[OldPineRestoredNpcEntry]:
+	return [] if _restore_preparation == null else _restore_preparation.npc_entries()
+
+
+func restored_corpse_entries() -> Array[OldPineRestoredCorpseEntry]:
+	return [] if _restore_preparation == null else _restore_preparation.corpse_entries()
+
+
+func activate_restore_candidate() -> bool:
+	if (
+		_bootstrap_mode != BootstrapMode.RESTORE
+		or not _initialized
+		or not _restore_candidate_staged
+	):
+		return false
+	var map: OldPineResidentMapController = active_map()
+	if map == null:
+		return false
+	process_mode = Node.PROCESS_MODE_INHERIT
+	map.set_restore_staging(false)
+	if not map.complete_activation() or not _reconcile_active_residents():
+		map.prepare_for_deactivation()
+		map.set_restore_staging(true)
+		process_mode = Node.PROCESS_MODE_DISABLED
+		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.ACTIVATION_FAILED
+		return false
+	map.resume_after_relationship_reconciliation()
+	_restore_candidate_staged = false
+	return true
 
 
 func player_runtime() -> WorldPlayerRuntimeType:
@@ -441,6 +521,79 @@ func _initialize_authorities() -> bool:
 		player_item.item_instance_id,
 		destination,
 	).succeeded
+
+
+func _initialize_restore_authorities() -> bool:
+	if _restore_preparation == null or not _restore_preparation.is_valid():
+		return false
+	_player = _restore_preparation.player
+	_inventory = _restore_preparation.item_domain.inventory
+	_stacks = _restore_preparation.item_domain.combined_stacks
+	_item_index = _restore_preparation.item_index
+	_item_id_allocator = _restore_preparation.item_allocator
+	_item_instance_scope = _item_id_allocator.scope
+	_npc_random = _restore_preparation.npc_random
+	_combat_random = _restore_preparation.combat_random
+	_world_interaction_random = _restore_preparation.world_interaction_random
+	return true
+
+
+func _initialize_restore_residents(
+	cave: OldPineResidentMapController,
+	outdoor: OldPineResidentMapController,
+) -> bool:
+	for resident: OldPineResidentMapController in [cave, outdoor]:
+		resident.set_restore_staging(true)
+		active_map_slot.add_child(resident)
+		if not resident.initialize_map():
+			_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.BODY_BINDING_FAILED
+			return false
+		# Runtime binding may create fresh interaction Areas (for example CorpseView).
+		# Re-apply staging after initialization so the candidate remains fully inert.
+		resident.set_restore_staging(true)
+		active_map_slot.remove_child(resident)
+	var player_location: WorldLocationState = _player.world_location()
+	if player_location == null or player_location.map_id not in _resident_maps:
+		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_WORLD_LOCATION
+		return false
+	_active_map_id = player_location.map_id
+	var active: OldPineResidentMapController = _resident_maps[_active_map_id]
+	active_map_slot.add_child(active)
+	if not _validate_restore_positions():
+		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION
+		return false
+	_initialized = true
+	_restore_candidate_staged = true
+	return active_map_slot.get_child_count() == 1
+
+
+func _validate_restore_positions() -> bool:
+	var player_location: WorldLocationState = _player.world_location()
+	var player_map: OldPineResidentMapController = _resident_maps.get(
+		player_location.map_id
+	)
+	if not OldPineMapPlacementValidator.is_valid_character_position(
+		player_map,
+		player_location.zone_id,
+		_restore_preparation.player_position,
+	):
+		return false
+	for entry: OldPineRestoredNpcEntry in _restore_preparation.npc_entries():
+		var location: WorldLocationState = entry.runtime.world_location()
+		if not OldPineMapPlacementValidator.is_valid_character_position(
+			_resident_maps.get(location.map_id),
+			location.zone_id,
+			entry.map_position,
+		):
+			return false
+	for entry: OldPineRestoredCorpseEntry in _restore_preparation.corpse_entries():
+		if not OldPineMapPlacementValidator.is_valid_corpse_position(
+			_resident_maps.get(entry.world_location.map_id),
+			entry.world_location.zone_id,
+			entry.map_position,
+		):
+			return false
+	return true
 
 
 func _register_and_configure_map(map: OldPineResidentMapController) -> bool:

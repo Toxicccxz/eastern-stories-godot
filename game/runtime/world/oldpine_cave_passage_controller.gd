@@ -88,7 +88,16 @@ func initialize_map() -> bool:
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(VINE_LANDING_SPAWN_ID)
 	if marker == null or not player_body.bind_player(_player):
 		return false
-	player_body.global_position = marker.global_position
+	var player_location: WorldLocationState = _player.world_location()
+	player_body.global_position = (
+		_session_owner.restored_player_position()
+		if (
+			_session_owner.bootstrap_mode()
+			== OldPineWorldSessionController.BootstrapMode.RESTORE
+			and player_location.map_id == map_id()
+		)
+		else marker.global_position
+	)
 	player_body.player_controlled = false
 	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
 	if camera != null:

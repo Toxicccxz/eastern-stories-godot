@@ -67,14 +67,18 @@ static func spawn_by_id(spawn_id: StringName) -> NpcSpawnDefinition:
 	return null
 
 
-static func validate() -> bool:
-	if not OldPineWorldDefinitions.validate() or not OldPineNpcDefinitions.validate():
-		return false
-	var spawns: Array[NpcSpawnDefinition] = [
+static func all_spawns() -> Array[NpcSpawnDefinition]:
+	return [
 		spath1_bandit_spawn(),
 		pine1_tall_bandit_spawn(),
 		pine1_fat_bandit_spawn(),
 	]
+
+
+static func validate() -> bool:
+	if not OldPineWorldDefinitions.validate() or not OldPineNpcDefinitions.validate():
+		return false
+	var spawns: Array[NpcSpawnDefinition] = all_spawns()
 	for spawn: NpcSpawnDefinition in spawns:
 		var map: MapDefinition = OldPineWorldDefinitions.map_by_id(spawn.map_id)
 		var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(spawn.zone_id)
