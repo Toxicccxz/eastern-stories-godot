@@ -65,6 +65,7 @@ var _tall_bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
+var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
 var _last_tick_order: Array[StringName] = []
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
@@ -274,6 +275,26 @@ func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
 	return _corpse_views.get(corpse_id)
 
 
+func corpse_world_location(corpse_id: StringName) -> WorldLocationState:
+	var location: WorldLocationState = _corpse_locations.get(corpse_id)
+	return null if location == null else location.duplicate_snapshot()
+
+
+func runtime_body_for_character(character_id: StringName) -> WorldCharacterBodyType:
+	return _body_for(character_id)
+
+
+func _location_for_character(character_id: StringName) -> WorldLocationState:
+	if _player != null and character_id == _player.character_id:
+		return _player.world_location()
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	return null if npc == null else npc.world_location()
+
+
+func cadence_is_running() -> bool:
+	return opportunity_timer != null and not opportunity_timer.is_stopped()
+
+
 func last_loot_transfer_result() -> CorpseLootTransferResult:
 	return _last_loot_transfer_result
 
@@ -447,6 +468,32 @@ func resume_after_relationship_reconciliation() -> void:
 		)
 	_cadence_was_running = false
 	_suspended_cadence_time_left = 0.0
+
+
+func suspend_for_session_swap() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	opportunity_timer.stop()
+	player_body.player_controlled = false
+	player_body.velocity = Vector2.ZERO
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = false
+	return true
+
+
+func resume_after_session_swap_rollback() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = true
+	player_body.refresh_runtime_state()
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = true
+	if hud != null:
+		hud.visible = true
+		hud.refresh_live_state()
+	return true
 
 
 func replace_combat_random_source(value: CombatRandomSource) -> bool:
@@ -939,6 +986,9 @@ func _initialize_restored_world() -> bool:
 		view.global_position = entry.map_position
 		_corpse_states.append(entry.state)
 		_corpse_views[entry.state.corpse_item_instance_id] = view
+		_corpse_locations[entry.state.corpse_item_instance_id] = (
+			entry.world_location.duplicate_snapshot()
+		)
 		view.selection_requested.connect(_on_corpse_selection_requested)
 		view.loot_range_changed.connect(_on_corpse_loot_range_changed)
 		corpse_layer.add_child(view)
@@ -1129,6 +1179,7 @@ func _execute_lifecycle(
 ) -> CombatSliceLifecycleResult:
 	var body: WorldCharacterBodyType = _body_for(victim.character_id)
 	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
+	var death_location: WorldLocationState = _location_for_character(victim.character_id)
 	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants)
 	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
 	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(
@@ -1160,6 +1211,10 @@ func _execute_lifecycle(
 		var corpse: CorpseState = lifecycle.death_inventory_result.corpse_state
 		if corpse != null:
 			_corpse_states.append(corpse)
+			if death_location != null:
+				_corpse_locations[corpse.corpse_item_instance_id] = (
+					death_location.duplicate_snapshot()
+				)
 			var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
 			if view.configure(corpse):
 				view.global_position = death_position

@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 
-EXPECTED_MAIN_SCENE = "res://scenes/world/oldpine/oldpine_world_session.tscn"
+EXPECTED_MAIN_SCENE = "res://scenes/runtime/oldpine_game_runtime_host.tscn"
 REQUIRED_PATHS = (
     "project.godot",
     "export_presets.cfg",
@@ -18,6 +18,7 @@ REQUIRED_PATHS = (
     "data",
     "runtime",
     "scenes",
+    "scenes/runtime/oldpine_game_runtime_host.tscn",
     "scenes/world/oldpine/oldpine_world_session.tscn",
 )
 FORBIDDEN_PATHS = (
@@ -122,7 +123,10 @@ def sanitize_project_config(text: str) -> str:
             kept = [
                 line
                 for line in kept
-                if "_mcp_game_helper" not in line and "addons/godot_ai" not in line
+                if "_mcp_game_helper" not in line
+                and "addons/godot_ai" not in line
+                and "_phase10b4_qa_bridge" not in line
+                and "res://tests/" not in line
             ]
         elif section == "editor_plugins":
             kept = [line for line in kept if "addons/godot_ai" not in line]

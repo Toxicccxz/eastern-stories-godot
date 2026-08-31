@@ -1,5 +1,24 @@
 # Migration Decisions
 
+## Native saves require a restart-stable gameplay boundary
+
+**Decision:** A native Save is accepted only when every represented character and Old Pine runtime
+authority is restart-stable. Ordinary opponents, lethal intent, busy/interrupt state, guarding, pending
+aggression, active or committed-partial handoff, pending Cave exit, incomplete death lifecycle, active
+combat cadence, and unrepresented temporary attribute modifiers block capture. Stable ACTIVE,
+fully committed UNCONSCIOUS, and coherent completed DEAD states remain eligible; non-authoritative UI
+state and the schema-v1 combined-stack delayed-destruction omission do not block Save.
+
+**Reason:** These facts either describe an ordered transition that cannot be resumed by the closed save
+schema or depend on runtime opportunities intentionally rebuilt fresh after Load. Persisting them merely
+to allow Save would turn transient scheduling into durable gameplay state. Capturing after the current
+event/frame preserves synchronous mutation ordering without adding a heartbeat or transaction runtime.
+
+**Compatibility impact:** Native Save may reject states in which the LPC runtime could serialize user
+fields. It never clears combat/busy state to make a save possible. Once eligible, the complete represented
+world is captured all-or-nothing through the native repository; Load reconstructs fresh transient combat,
+Area, UI, and cadence state. This is a native process-restart safety policy, not an LPC quit emulation.
+
 ## Inactive resident Old Pine maps freeze outside the SceneTree
 
 **Decision:** Phase 9B3B1 retains instantiated Old Pine map Nodes for the lifetime of one

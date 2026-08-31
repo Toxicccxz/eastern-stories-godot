@@ -43,10 +43,13 @@ var _active_map_id: StringName = &""
 var _initialized: bool = false
 var _transitioning: bool = false
 var _last_passage_exit_handoff: OldPineMapHandoffResult
+var _last_map_handoff: OldPineMapHandoffResult
 var _bootstrap_mode: int = BootstrapMode.NEW_GAME
 var _restore_preparation: OldPineWorldRestorePreparation
 var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
 var _restore_candidate_staged: bool = false
+var _session_swap_suspended: bool = false
+var _session_swap_reparenting: bool = false
 
 
 func _ready() -> void:
@@ -54,6 +57,8 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
+	if _session_swap_reparenting:
+		return
 	for map_id: StringName in _resident_maps.keys():
 		var value: Variant = _resident_maps.get(map_id)
 		if not is_instance_valid(value):
@@ -126,6 +131,10 @@ func configure_restore(preparation: OldPineWorldRestorePreparation) -> bool:
 
 func bootstrap_mode() -> int:
 	return _bootstrap_mode
+
+
+func is_initialized() -> bool:
+	return _initialized
 
 
 func is_restore_candidate_staged() -> bool:
@@ -239,8 +248,16 @@ func is_transitioning() -> bool:
 	return _transitioning
 
 
+func is_session_swap_suspended() -> bool:
+	return _session_swap_suspended
+
+
 func last_passage_exit_handoff_result() -> OldPineMapHandoffResult:
 	return _last_passage_exit_handoff
+
+
+func last_map_handoff_result() -> OldPineMapHandoffResult:
+	return _last_map_handoff
 
 
 func configure_combat_random_source(value: CombatRandomSource) -> bool:
@@ -307,6 +324,21 @@ func request_passage_south_exit() -> OldPineMapHandoffResult:
 
 
 func handoff_to(
+	destination_map_id: StringName,
+	destination_zone_id: StringName,
+	destination_combat_location_id: StringName,
+	destination_spawn_point_id: StringName,
+) -> OldPineMapHandoffResult:
+	_last_map_handoff = _handoff_to_impl(
+		destination_map_id,
+		destination_zone_id,
+		destination_combat_location_id,
+		destination_spawn_point_id,
+	)
+	return _last_map_handoff
+
+
+func _handoff_to_impl(
 	destination_map_id: StringName,
 	destination_zone_id: StringName,
 	destination_combat_location_id: StringName,
@@ -415,6 +447,55 @@ func handoff_to(
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.NONE
 	_transitioning = false
 	return result
+
+
+func suspend_for_session_swap() -> bool:
+	if (
+		not _initialized
+		or _transitioning
+		or _session_swap_suspended
+		or active_map_slot == null
+		or active_map_slot.get_child_count() != 1
+	):
+		return false
+	var map: OldPineResidentMapController = active_map()
+	if map == null or not map.suspend_for_session_swap():
+		return false
+	map.set_restore_staging(true)
+	process_mode = Node.PROCESS_MODE_DISABLED
+	_session_swap_suspended = true
+	return true
+
+
+func resume_after_failed_session_swap() -> bool:
+	if not _session_swap_suspended:
+		return false
+	var map: OldPineResidentMapController = active_map()
+	if map == null:
+		return false
+	process_mode = Node.PROCESS_MODE_INHERIT
+	map.set_restore_staging(false)
+	if not map.resume_after_session_swap_rollback():
+		map.set_restore_staging(true)
+		process_mode = Node.PROCESS_MODE_DISABLED
+		return false
+	_session_swap_suspended = false
+	return true
+
+
+func begin_session_swap_reparent() -> bool:
+	if (
+		_bootstrap_mode != BootstrapMode.RESTORE
+		or not _initialized
+		or _session_swap_reparenting
+	):
+		return false
+	_session_swap_reparenting = true
+	return true
+
+
+func complete_session_swap_reparent() -> void:
+	_session_swap_reparenting = false
 
 
 func _restore_source_after_failed_commit(
@@ -648,6 +729,7 @@ func _on_resident_map_tree_exiting(map_id: StringName) -> void:
 	if (
 		_initialized
 		and not _transitioning
+		and not _session_swap_reparenting
 		and map_id == _active_map_id
 		and not is_queued_for_deletion()
 	):

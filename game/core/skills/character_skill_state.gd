@@ -56,6 +56,28 @@ func learned_progress(skill_id: StringName) -> int:
 	return _learned_progress.get(skill_id, 0)
 
 
+func has_skills_mapping() -> bool:
+	return _has_skills_mapping
+
+
+func has_learned_mapping() -> bool:
+	return _has_learned_mapping
+
+
+## Typed, read-only persistence projections. These expose no mutable
+## Dictionary and preserve the lazy-map presence facts separately.
+func raw_skill_ids() -> Array[StringName]:
+	return _sorted_ids(_raw_levels)
+
+
+func learned_skill_ids() -> Array[StringName]:
+	return _sorted_ids(_learned_progress)
+
+
+func enabled_use_ids() -> Array[StringName]:
+	return _loadout.enabled_use_ids()
+
+
 func progress_state(skill_id: StringName) -> SkillProgressStateType:
 	return SkillProgressStateType.new(
 		_raw_levels.has(skill_id),
@@ -155,3 +177,13 @@ func improve_skill(
 		learned_before,
 		learned_progress(skill_id),
 	)
+
+
+static func _sorted_ids(source: Dictionary[StringName, int]) -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(source.keys())
+	result.sort_custom(
+		func(left: StringName, right: StringName) -> bool:
+			return String(left) < String(right)
+	)
+	return result

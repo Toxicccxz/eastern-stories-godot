@@ -196,6 +196,28 @@ func prepare_for_deactivation() -> void:
 		camera.enabled = false
 
 
+func suspend_for_session_swap() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = false
+	player_body.velocity = Vector2.ZERO
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = false
+	return true
+
+
+func resume_after_session_swap_rollback() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = true
+	player_body.refresh_runtime_state()
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = true
+	return true
+
+
 func replace_combat_random_source(value: CombatRandomSource) -> bool:
 	if value == null:
 		return false

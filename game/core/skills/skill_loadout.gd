@@ -31,3 +31,15 @@ func clear() -> void:
 func size() -> int:
 	return _enabled_skills.size()
 
+
+## Read-only persistence projection. Callers receive stable IDs rather than
+## the mutable mapping itself.
+func enabled_use_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(_enabled_skills.keys())
+	result.sort_custom(_string_name_less_than)
+	return result
+
+
+static func _string_name_less_than(left: StringName, right: StringName) -> bool:
+	return String(left) < String(right)

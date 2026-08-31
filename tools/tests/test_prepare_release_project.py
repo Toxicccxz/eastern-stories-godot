@@ -31,6 +31,7 @@ run/main_scene="{EXPECTED_MAIN_SCENE}"
 [autoload]
 
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+_phase10b4_qa_bridge="*res://tests/runtime/phase10b4_qa_bridge.gd"
 
 [editor]
 
@@ -57,6 +58,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
             "data",
             "runtime",
             "scenes/world/oldpine",
+            "scenes/runtime",
             "tests",
             "addons/godot_ai/runtime",
             ".godot",
@@ -68,6 +70,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.source / "data/content.gd").write_text("class_name Content\n", encoding="utf-8")
         (self.source / "runtime/runtime.gd").write_text("class_name Runtime\n", encoding="utf-8")
         (self.source / "scenes/world/oldpine/oldpine_world_session.tscn").write_text("[gd_scene]\n", encoding="utf-8")
+        (self.source / "scenes/runtime/oldpine_game_runtime_host.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/mcp_test.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "tests/run_tests.gd").write_text("extends SceneTree\n", encoding="utf-8")
         (self.source / "addons/godot_ai/runtime/game_helper.gd").write_text("extends Node\n", encoding="utf-8")
@@ -81,6 +84,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         sanitized = sanitize_project_config(PROJECT_TEXT)
         self.assertNotIn("_mcp_game_helper", sanitized)
         self.assertNotIn("addons/godot_ai", sanitized)
+        self.assertNotIn("_phase10b4_qa_bridge", sanitized)
         self.assertNotIn("--remote-debug", sanitized)
         self.assertNotIn("6107", sanitized)
         self.assertIn('[rendering]', sanitized)
@@ -93,6 +97,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertTrue((self.output / "data/content.gd").is_file())
         self.assertTrue((self.output / "runtime/runtime.gd").is_file())
         self.assertTrue((self.output / "scenes/world/oldpine/oldpine_world_session.tscn").is_file())
+        self.assertTrue((self.output / "scenes/runtime/oldpine_game_runtime_host.tscn").is_file())
         self.assertEqual([], validate_release_project(self.output))
 
     def test_prepare_removes_godot_ai_helper_plugin_and_addon(self) -> None:

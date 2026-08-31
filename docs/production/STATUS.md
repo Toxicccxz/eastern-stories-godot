@@ -21,13 +21,13 @@ Formally closed gameplay foundations include:
   one-way Pine route.
 
 The current canonical main scene is
-`res://scenes/world/oldpine/oldpine_world_session.tscn`.
+`res://scenes/runtime/oldpine_game_runtime_host.tscn`; it owns the replaceable Old Pine Session.
 
 ## Incomplete work
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- application-level native Save/Load integration;
+- player-facing Save/Load UI and startup menu policy;
 - main menu, Continue, pause/settings, and cross-platform game shell;
 - virtual/touch controls, responsive mobile HUD, safe areas/notches, Android Back behavior,
   orientation and mobile lifecycle policy;

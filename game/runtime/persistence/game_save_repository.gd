@@ -33,6 +33,10 @@ func operation_in_progress() -> bool:
 	return _operation_in_progress
 
 
+func storage_profile_id() -> StringName:
+	return &"" if _profile == null else _profile.profile_id
+
+
 func _begin_operation() -> bool:
 	if _operation_in_progress or _profile == null or not _profile.is_valid() or _files == null:
 		return false

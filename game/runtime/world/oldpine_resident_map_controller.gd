@@ -85,6 +85,14 @@ func resume_after_relationship_reconciliation() -> void:
 	pass
 
 
+func suspend_for_session_swap() -> bool:
+	return false
+
+
+func resume_after_session_swap_rollback() -> bool:
+	return false
+
+
 func replace_combat_random_source(_value: CombatRandomSource) -> bool:
 	return false
 
