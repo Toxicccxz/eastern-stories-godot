@@ -411,6 +411,10 @@ func _handoff_to_impl(
 		_transitioning = false
 		return result
 	result._destination_prepared = true
+	# A resident map that was inactive when a RESTORE candidate activated is
+	# still staged and process-disabled. It becomes live only when this handoff
+	# selects it as the destination; unstaging here also restores its Areas.
+	destination.set_restore_staging(false)
 	source.prepare_for_deactivation()
 	active_map_slot.remove_child(source)
 	result._source_detached = true

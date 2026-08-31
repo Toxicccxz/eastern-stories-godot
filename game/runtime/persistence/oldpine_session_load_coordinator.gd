@@ -94,9 +94,13 @@ func _load_replacing_impl(
 		if current != null and not current.resume_after_failed_session_swap():
 			return Result.failure(Result.Outcome.ROLLBACK_FAILED)
 		return Result.failure(Result.Outcome.ACTIVATION_FAILED)
-	candidate.reparent(session_slot)
+	var reparented: bool = _reparent_candidate(candidate, session_slot)
 	candidate.complete_session_swap_reparent()
-	if candidate.get_parent() != session_slot or candidate.active_map_child_count() != 1:
+	if (
+		not reparented
+		or candidate.get_parent() != session_slot
+		or candidate.active_map_child_count() != 1
+	):
 		_discard_candidate(candidate)
 		if current != null and not current.resume_after_failed_session_swap():
 			return Result.failure(Result.Outcome.ROLLBACK_FAILED)
@@ -111,6 +115,16 @@ func _load_replacing_impl(
 
 func _activate_candidate(candidate: OldPineWorldSessionController) -> bool:
 	return candidate != null and candidate.activate_restore_candidate()
+
+
+func _reparent_candidate(
+	candidate: OldPineWorldSessionController,
+	session_slot: Node,
+) -> bool:
+	if candidate == null or session_slot == null or candidate.get_parent() == null:
+		return false
+	candidate.reparent(session_slot)
+	return candidate.get_parent() == session_slot
 
 
 static func _candidate_transients_are_fresh(session: OldPineWorldSessionController) -> bool:

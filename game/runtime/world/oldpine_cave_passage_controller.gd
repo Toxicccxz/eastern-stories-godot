@@ -242,9 +242,11 @@ func exit_request_pending() -> bool:
 	return _exit_request_pending
 
 
-func complete_exit_request(result: OldPineMapHandoffResult) -> void:
-	if result == null or not result.location_committed:
-		_exit_request_pending = false
+func complete_exit_request(_result: OldPineMapHandoffResult) -> void:
+	# The duplicate-request gate describes only the deferred request that has
+	# now completed. A committed or committed-partial handoff has its own typed
+	# result and must not leave this transient flag stuck on the detached Cave.
+	_exit_request_pending = false
 
 
 func _on_passage_zone_body_entered(body: Node2D) -> void:

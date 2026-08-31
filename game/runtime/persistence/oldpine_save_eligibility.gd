@@ -13,7 +13,9 @@ static func inspect(
 		session == null
 		or not session.is_inside_tree()
 		or not session.is_initialized()
+		or session.process_mode == Node.PROCESS_MODE_DISABLED
 		or session.active_map() == null
+		or session.active_map().process_mode == Node.PROCESS_MODE_DISABLED
 		or session.active_map_child_count() != 1
 	):
 		return Result.block(Result.Outcome.SESSION_NOT_READY)
@@ -38,6 +40,13 @@ static func inspect(
 		return Result.block(Result.Outcome.PENDING_AGGRESSION)
 	if outdoor.cadence_is_running():
 		return Result.block(Result.Outcome.COMBAT_CADENCE_ACTIVE)
+	for corpse: CorpseState in outdoor.corpse_states():
+		if corpse.decay_stage == CorpseState.Stage.FINAL:
+			return Result.block(
+				Result.Outcome.INCOMPLETE_LIFECYCLE,
+				corpse.corpse_item_instance_id,
+				"live corpse has reached FINAL without completed destruction",
+			)
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var player_result: OldPineSaveEligibilityResult = _inspect_character(

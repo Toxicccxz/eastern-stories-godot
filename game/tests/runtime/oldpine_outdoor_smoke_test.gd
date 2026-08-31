@@ -1,6 +1,9 @@
 extends RefCounted
 
 const SCENE_PATH: String = "res://scenes/world/oldpine/oldpine_world_session.tscn"
+const MAIN_SCENE_PATH: String = (
+	"res://scenes/runtime/oldpine_game_runtime_host.tscn"
+)
 const ScriptedRandomScript := preload(
 	"res://tests/support/scripted_combat_random_source.gd"
 )
@@ -72,7 +75,11 @@ func _test_main_scene_configuration() -> void:
 	)
 	if configured.begins_with("uid://"):
 		configured = ResourceUID.get_id_path(ResourceUID.text_to_id(configured))
-	_assert_eq(configured, SCENE_PATH, "Old Pine is the persisted development main scene")
+	_assert_eq(
+		configured,
+		MAIN_SCENE_PATH,
+		"Old Pine runtime Host is the persisted development main scene",
+	)
 
 
 func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:

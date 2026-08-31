@@ -468,6 +468,7 @@ func _test_south_exit_failure_recovery(tree: SceneTree) -> void:
 	await _physically_enter_south_exit(cave, tree)
 	_assert_true(session.last_passage_exit_handoff_result().succeeded(), "recovered physical SouthExit can retry and reach Outdoor")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "recovered SouthExit lands in Outdoor")
+	_assert_false(cave.exit_request_pending(), "successful SouthExit clears its completed request gate")
 	_assert_eq(random.call_count(), 1, "successful SouthExit still consumes zero World RNG")
 	_assert_true(_attempt_from_east(outdoor).succeeded(), "same resident Cave supports later Vine reactivation")
 	_assert_false(cave.exit_request_pending(), "Cave reactivation starts with a clear SouthExit gate")
@@ -502,6 +503,7 @@ func _test_physical_interaction_and_exit_deduplication(tree: SceneTree) -> void:
 	_assert_true(first_result != null and first_result.succeeded(), "one Cave south trigger performs one handoff")
 	_assert_true(session.last_passage_exit_handoff_result() == first_result, "repeated trigger after detach queues no duplicate handoff")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "deduplicated exit lands Outdoor")
+	_assert_false(cave.exit_request_pending(), "processed SouthExit no longer reports a pending transition")
 	_assert_true(cave.has_node("Boundaries/NorthBlockedBoundary"), "Cave north secret passage remains physically blocked")
 	await _free_session(session, tree)
 

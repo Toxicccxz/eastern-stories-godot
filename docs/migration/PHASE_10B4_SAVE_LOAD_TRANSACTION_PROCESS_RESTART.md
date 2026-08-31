@@ -72,31 +72,35 @@ the production Host and coordinator remain in the sanitized project.
 The focused Phase 10B4 runner covers eligibility boundaries, blocked-save non-mutation, complete live
 capture, repository roundtrip, fresh semantic reconstruction, transactional replacement, failed-load
 preservation, RNG non-consumption, and the relevant 10B1/10B2/10B3, Session, and lifecycle regressions.
-The final focused implementation run passed 1014 assertions before final static/release validation.
+The formal-audit focused run passed 1091 assertions after adding final-attachment failure, malformed and
+semantically invalid save, rollback-cadence, FINAL-corpse, restored-inactive-map, and SouthExit regressions.
 
 Godot AI 3.2.4 and Godot 4.7.2 then proved two real process pairs with
 `helper_live=true`, `session_active=true`, fresh captures (`stale_frame=false`), and advancing frames.
 
-- Outdoor A used real movement from `(450,300)` to `(450,168)`, saved to the development canonical
-  file, and terminated completely. Outdoor B started with explicit QA startup-load before any New Game,
-  restored the same position, 12 IDs, allocator scope and three exact RNG states, but fresh Session,
-  Player, and Character ObjectIDs. Real down movement then reached approximately `(450,256)`.
-- Cave A used real right movement, mouse landmark selection, and the real Hold Vine button. Because the
-  current bootstrap dodge is 5 and therefore cannot select the strict `draw >= 5` Passage branch, QA
-  setup raised raw dodge to 100 before the real traversal; the traversal itself used the production world
-  RNG and reached Cave `(0,120)`. A saved and terminated. Cave B restored Cave active with Outdoor
-  detached/frozen, five retained NPC ledger entries, exact IDs and all three RNG states, and fresh runtime
-  ObjectIDs. Real down movement crossed SouthExit and exposed the same Outdoor authority at Waterfall
-  `(1200,780)`.
+- Outdoor A used real movement/combat and loot UI after the disclosed pre-route setup of Player courage
+  `1000`, raw dodge `1000`, and Fat Bandit effective vitality `-1`. It killed that authored NPC, created a
+  dead ledger tombstone and corpse, moved leather to Player, left sword and silver in the corpse, moved to
+  `(-232.993209838867,435.666290283203)`, saved, and terminated. Fresh Outdoor B restored the exact 13 item
+  IDs, corpse, partial-loot ownership, equipment, allocator, five NPC records, position, and three RNG
+  continuations with fresh runtime identities. Real UI input then took silver without duplication.
+- Cave A used real right movement, mouse landmark selection, and Hold Vine after a disclosed raw-dodge
+  `1000` pre-route setup. It reached Cave `(0,120)`, saved, and terminated. Cave B restored Cave active with
+  Outdoor detached/frozen, exact retained authority, IDs, and RNG continuation. Real SouthExit returned to
+  the same Outdoor authority. Formal audit corrected the restored inactive Outdoor's process mode and the
+  completed Cave request gate; the returned map is now playable and immediately save-eligible.
 - A live busy-state probe returned typed `SAVE_BLOCKED/BUSY`, retained busy=2, and left allocator and
   Combat RNG unchanged. After ordinary busy advancement, a live stable Save and same-process
   transactional Load returned success, restored the pre-mutation position, created a fresh Session, and
   left exactly one Session child and no staged candidate.
 
-The process scenarios intentionally had no corpse: authored-NPC death, partial loot, and armor continuity
-remain exhaustively covered by the closed 10B3 graph tests and the focused restore regressions rather than
-being fabricated through QA mutation. No in-memory snapshot or `reload_current_scene()` counted as
+The detailed semantic/runtime IDs, corpse contents, positions, and exact RNG state/next-value evidence are
+recorded in `PHASE_10B4_FORMAL_AUDIT.md`. No in-memory snapshot or `reload_current_scene()` counted as
 process-restart proof.
+
+Final formal-close validation passed the canonical complete suite with 9951 assertions, Python tooling
+with 40 tests, repository/static checks, Godot 4.7.2 development headless loading, a fresh sanitizer and
+validate-only pass, sanitized editor/main-scene smoke, `git diff --check`, and trailing-whitespace checks.
 
 ## Deferred to Phase 10C/10D
 

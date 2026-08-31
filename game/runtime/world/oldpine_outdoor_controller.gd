@@ -473,6 +473,10 @@ func resume_after_relationship_reconciliation() -> void:
 func suspend_for_session_swap() -> bool:
 	if not _initialized or player_body == null:
 		return false
+	_cadence_was_running = not opportunity_timer.is_stopped()
+	_suspended_cadence_time_left = (
+		opportunity_timer.time_left if _cadence_was_running else 0.0
+	)
 	opportunity_timer.stop()
 	player_body.player_controlled = false
 	player_body.velocity = Vector2.ZERO
@@ -493,6 +497,14 @@ func resume_after_session_swap_rollback() -> bool:
 	if hud != null:
 		hud.visible = true
 		hud.refresh_live_state()
+	if _cadence_was_running and _has_active_relationships():
+		opportunity_timer.start(
+			_suspended_cadence_time_left
+			if _suspended_cadence_time_left > 0.0
+			else -1.0
+		)
+	_cadence_was_running = false
+	_suspended_cadence_time_left = 0.0
 	return true
 
 
