@@ -3,17 +3,20 @@
 Recommended flow:
 
 ```text
-main -> feature/phase branch -> focused implementation/tests -> formal audit -> complete suite -> PR -> CI -> merge
+main -> feature/phase branch -> focused implementation/tests -> formal audit -> complete suite -> PR -> merge -> CI
 ```
 
 Recommended `main` branch protection:
 
 - require a pull request;
-- require `Godot Verify`;
-- require `Windows Release Build`;
-- require `Android Release Build`;
-- require `iOS Build Validation`;
-- prevent merge while a required check is failing.
+- do not configure the post-merge `Godot Verify`, `Windows Release Build`, `Android Release Build`,
+  or `iOS Build Validation` jobs as required pre-merge checks;
+- treat a failed post-merge workflow as a broken `main` that should be diagnosed and repaired
+  promptly.
+
+The cross-platform workflow runs automatically only when a pull request is actually merged into
+`main`; branch pushes, direct pushes to `main`, and updates to open pull requests do not run it.
+Manual dispatch remains available when an explicit pre-merge or diagnostic run is needed.
 
 For a solo repository, no arbitrary reviewer count is recommended. Phase 10A documents this policy
 but does not modify remote GitHub settings.

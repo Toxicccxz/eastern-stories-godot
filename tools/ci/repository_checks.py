@@ -94,8 +94,16 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
             errors.append("iOS preset must export the Xcode project without invoking a signed archive")
 
     workflow = repository / ".github/workflows/ci.yml"
-    if workflow.is_file() and "/Applications/Xcode_26.3.app" not in workflow.read_text(encoding="utf-8"):
-        errors.append("iOS CI must select the Godot 4.7.2-compatible pinned Xcode 26.3 toolchain")
+    if workflow.is_file():
+        workflow_text = workflow.read_text(encoding="utf-8")
+        if "/Applications/Xcode_26.3.app" not in workflow_text:
+            errors.append("iOS CI must select the Godot 4.7.2-compatible pinned Xcode 26.3 toolchain")
+        if re.search(r"(?m)^  push:\s*$", workflow_text):
+            errors.append("CI must not run automatically on branch pushes")
+        if "      - closed" not in workflow_text:
+            errors.append("CI pull_request trigger must be limited to the closed event")
+        if "github.event.pull_request.merged == true" not in workflow_text:
+            errors.append("CI must skip closed pull requests that were not merged")
 
     for path in _candidate_text_files(repository):
         if path == repository / "tools/ci/repository_checks.py":

@@ -163,7 +163,13 @@ Each target rebuild removes only its controlled staging/output directory. The to
 
 ## GitHub Actions
 
-`.github/workflows/ci.yml` runs on pull requests, pushes to `main`, and manual dispatch:
+`.github/workflows/ci.yml` runs automatically only after a pull request is merged into `main`.
+Pushing a feature branch, updating an open pull request, or directly pushing `main` does not start
+this workflow. GitHub also emits `pull_request: closed` for unmerged pull requests, so the first job
+has an explicit `pull_request.merged == true` guard; dependent build jobs remain skipped when that
+guard is false. Manual dispatch remains available for an intentional ad hoc verification run.
+
+The workflow contains:
 
 - `Godot Verify` on `ubuntu-24.04`;
 - `Windows Release Build` on `windows-2025`;

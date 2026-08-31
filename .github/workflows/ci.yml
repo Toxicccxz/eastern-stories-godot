@@ -2,9 +2,10 @@ name: Cross-Platform Build and Verify
 
 on:
   pull_request:
-  push:
     branches:
       - main
+    types:
+      - closed
   workflow_dispatch:
 
 permissions:
@@ -13,6 +14,9 @@ permissions:
 jobs:
   godot-verify:
     name: Godot Verify
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.merged == true
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
