@@ -223,6 +223,18 @@ The presentation layer decides how it looks.**
 * Do not duplicate an existing system before understanding it.
 * When an RPG interaction requires redesign, preserve the original gameplay intent and make the architectural change explicit.
 
+## Documentation Placement
+
+Documentation placement is a repository-wide decision and MUST be known before choosing a destination path.
+
+* Every phase-scoped document whose filename begins with `PHASE_` MUST live under `docs/migration/`, regardless of whether the phase concerns gameplay migration, persistence, runtime architecture, productionization, build tooling, CI, or release engineering.
+* `docs/production/` is reserved for long-lived current operational documentation such as `STATUS.md`, `ROADMAP.md`, `BUILD.md`, `REPOSITORY_POLICY.md`, `GODOT_AI_DEVELOPMENT.md`, and other durable project policies/how-to documents.
+* Do NOT place `PHASE_*.md` under `docs/production/` merely because the owning major phase is part of Productionization or Stabilization.
+* If a phase creates a lasting project policy, keep the phase-specific analysis/audit/history under `docs/migration/` and update the corresponding long-lived operational document under `docs/production/` separately.
+* Do not interrupt an actively running implementation slice solely to move a misplaced document. Correct a misplaced document in the current active major phase at the next safe phase boundary and before the final integration PR.
+* Historical closed-phase documents are not bulk-moved unless the user explicitly requests it.
+* `docs/AGENTS.md` contains the detailed documentation-subtree rules and applies in addition to this repository-wide placement rule.
+
 ## Major Phase Branch / PR / CI Workflow
 
 A **major development phase** is the highest planned implementation milestone intended to culminate
