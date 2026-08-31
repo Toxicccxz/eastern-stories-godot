@@ -1,27 +1,116 @@
 # Repository Policy
 
-Recommended flow:
+`main` is the stable integration line and represents the latest integrated major phase. Normal
+development does not happen directly on `main`.
+
+## One major phase, one branch, one final PR
+
+A major development phase is the highest planned implementation milestone intended to culminate in
+one integration PR. The project plan, not numbering syntax alone, defines this boundary:
 
 ```text
-main -> feature/phase branch -> focused implementation/tests -> formal audit -> complete suite -> PR -> merge -> CI
+one planned integration milestone = one phase branch = one final PR
 ```
 
-Recommended `main` branch protection:
+Start a new major phase from the latest `main` whose post-merge CI is green:
 
-- require a pull request;
-- do not configure the post-merge `Godot Verify`, `Windows Release Build`, `Android Release Build`,
-  or `iOS Build Validation` jobs as required pre-merge checks;
-- treat a failed post-merge workflow as a broken `main` that should be diagnosed and repaired
-  promptly.
+```text
+git switch main
+git pull --ff-only
+git switch -c phase/<phase>-<slug>
+```
 
-The cross-platform workflow runs automatically only when a pull request is actually merged into
-`main`; branch pushes, direct pushes to `main`, and updates to open pull requests do not run it.
-Manual dispatch remains available when an explicit pre-merge or diagnostic run is needed.
+Use the repository/tool-required branch prefix when applicable. For example, Phase 10B may use
+`phase/10b-native-save-load` or `codex/phase-10b-native-save-load`. That one branch may contain 10B
+analysis, 10B1, 10B2, 10B3, focused implementation commits, and formal-audit corrections. It does
+not imply that every phase has exactly three slices. Sub-slices receive separate branches/PRs only
+when the plan explicitly promotes them to independent major integration milestones.
 
-For a solo repository, no arbitrary reviewer count is recommended. Phase 10A documents this policy
-but does not modify remote GitHub settings.
+Do not start a phase from an unfinished previous phase. Do not use `main` as a scratch branch.
+Pushing the phase branch for backup, collaboration, or continuation is allowed and does not run the
+full cross-platform CI before a PR exists.
+
+## Integration lifecycle
+
+```text
+green main
+  -> create one major-phase branch
+  -> keep every subordinate slice and audit fix on that branch
+  -> run focused tests throughout
+  -> complete the major phase's local formal audit and required local validation
+  -> create one final ready-for-review PR to main
+  -> run all four PR CI jobs
+  -> fix failures on the same branch and synchronize the PR until green
+  -> merge only after all four jobs pass for the same final PR commit
+  -> run all four jobs again on the resulting main push
+  -> declare the phase fully integrated only after main CI is green
+  -> delete the phase branch when no longer needed
+  -> start the next major phase
+```
+
+Do not open the integration PR at the beginning of routine development. A draft PR is exceptional
+and should be explicitly requested for collaboration/review; expensive jobs remain skipped until it
+is ready for review. Development commits do not need to be squashed into one commit.
+
+A major phase may progress through `IMPLEMENTATION COMPLETE`, `LOCAL FORMAL AUDIT PASSED`, `PR CI
+PASSED`, and `MERGED TO MAIN`. For future phases, formal project integration closure additionally
+requires green post-merge main CI. Historical migration records are not rewritten to use this newer
+terminology.
+
+Keep the phase branch until merge and post-merge CI are both complete. Codex may prepare and verify a
+merge but does not perform it without explicit user authorization.
+
+## CI event and cost contract
+
+The four stable jobs are:
+
+- `Godot Verify`;
+- `Windows Release Build`;
+- `Android Release Build`;
+- `iOS Build Validation`.
+
+Expected events:
+
+| Event | Full CI |
+| --- | --- |
+| Local commit | No |
+| Push ordinary phase branch without a PR | No |
+| Open/reopen a ready PR targeting `main` | Yes |
+| Push another commit to that open PR (`synchronize`) | Yes |
+| Mark a draft PR ready for review | Yes |
+| Update a draft PR while it remains draft | Skipped |
+| Close a PR without merging | No main-push run |
+| Merge the PR into `main` | Yes, again on `push: main` |
+| Manual `workflow_dispatch` | Yes |
+
+This model exists because the complete matrix uses Linux, Windows, Android, and macOS resources.
+Focused/local validation supports ongoing development; expensive remote CI validates the final
+integration candidate before merge and the integrated `main` result afterward. Workflow event
+presence is not itself proof of success: reports must cite actual job results.
+
+## Main protection and failures
+
+Recommended GitHub branch protection/ruleset for `main`:
+
+- require a pull request before merging;
+- block normal direct pushes;
+- require all four stable PR checks for the same final commit;
+- permit only intentional administrative/emergency override if the repository owner wants one.
+
+**RECOMMENDED / NOT YET ENFORCED REMOTELY:** this repository documents the desired settings but this
+policy update does not modify remote GitHub configuration. The `push: main` workflow intentionally
+runs after every main push; it does not inspect commit messages to guess whether a push was a merge.
+PR-only integration must be enforced by the remote ruleset.
+
+If PR CI fails, do not merge. Fix the problem on the same phase branch and let PR synchronization
+rerun CI. If green PR CI is followed by failed post-merge main CI, do not start the next major phase
+and do not weaken the gate. Stabilize current `main` through a narrow `hotfix/<issue>` (or equivalent)
+branch, then follow branch -> PR -> CI -> merge -> main CI. A real hotfix is the naming exception to
+the major-phase branch rule; routine direct main commits are not.
+
+## Repository content boundaries
 
 Generated binaries, export templates, temporary production projects, Xcode output, manifests, and
-ephemeral signing keys must remain untracked. Gameplay migration PRs should keep
-`reference/es2/` read-only, cite authoritative source paths, and update
-`docs/migration/DECISIONS.md` only for real compatibility substitutions.
+ephemeral signing keys remain untracked. Gameplay migration work keeps `reference/es2/` read-only,
+cites authoritative LPC paths, and updates `docs/migration/DECISIONS.md` only for real gameplay
+compatibility substitutions.

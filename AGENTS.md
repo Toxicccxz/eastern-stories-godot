@@ -223,6 +223,112 @@ The presentation layer decides how it looks.**
 * Do not duplicate an existing system before understanding it.
 * When an RPG interaction requires redesign, preserve the original gameplay intent and make the architectural change explicit.
 
+## Major Phase Branch / PR / CI Workflow
+
+A **major development phase** is the highest planned implementation milestone intended to culminate
+in one integration pull request. Numbering alone does not define that boundary: explicitly separate
+planned integration milestones may use separate branches, while analysis slices, implementation
+slices, subphases, formal audits, and audit corrections inside one milestone MUST remain together.
+
+The mandatory relationship is:
+
+`one planned integration milestone = one phase branch = one final PR`
+
+* Normal development MUST NOT happen directly on `main`; `main` is the latest stable integrated
+  major phase and MUST NOT be used as a scratch branch.
+* A new major phase MUST start from the latest `main` whose post-merge CI is green. A typical start is
+  `git switch main`, `git pull --ff-only`, then `git switch -c phase/<phase>-<slug>` (or the
+  repository/tool-required equivalent, such as `codex/phase-10b-native-save-load`).
+* A new phase branch MUST NOT be based on an unfinished previous phase.
+* All subordinate work MUST stay on that branch. For example, Phase 10B analysis, 10B1, 10B2,
+  10B3, and formal-audit fixes belong on the same Phase 10B branch. Subphases MUST NOT receive
+  separate branches or PRs unless the project plan explicitly promotes them to independent major
+  milestones. Multiple focused commits on the phase branch are expected; squashing is not required.
+* Pushing a phase branch before a PR exists is allowed for backup, collaboration, and continuation,
+  and MUST NOT trigger the expensive cross-platform workflow.
+* The final integration PR SHOULD be opened only after implementation, focused validation, formal
+  local audit, and required complete local validation are ready. Draft PRs are exceptional and MUST
+  be explicitly requested; full CI is skipped while a PR remains draft.
+* A ready PR targeting `main` MUST run the four stable jobs `Godot Verify`, `Windows Release Build`,
+  `Android Release Build`, and `iOS Build Validation`. Opening, reopening, synchronizing, or marking
+  that PR ready for review reruns the integration workflow as applicable.
+* All four PR jobs MUST be green for the same final PR commit before merge. A failure MUST be fixed
+  on the same major-phase branch and pushed so the PR `synchronize` event reruns CI. The gate MUST
+  NOT be weakened or skipped.
+* Codex MUST NOT merge automatically unless the user explicitly authorizes that external action.
+* Merging to `main` MUST trigger the complete four-job workflow again. The next major phase MUST NOT
+  start until this post-merge run is known and green.
+* Future major-phase integration closure means: local/formal audit passed, PR CI passed, merged to
+  `main`, and post-merge main CI passed. Earlier historical uses of “formally closed” remain factual
+  and MUST NOT be rewritten.
+* The phase branch MUST be retained until the PR is merged and post-merge main CI is green; it may be
+  deleted afterward.
+* If PR CI was green but post-merge main CI fails, treat `main` as requiring immediate stabilization.
+  Do not start the next phase. Prefer a narrow `hotfix/<issue>` (or tool-required equivalent) from
+  current `main`, then follow branch → PR → CI → merge → post-merge CI without rewriting history.
+* Branch protection/rulesets SHOULD require PR-only integration into `main`, block normal direct
+  pushes, and require the four stable PR checks. Workflow code MUST NOT guess merge intent from
+  commit messages. Administrative/emergency overrides, if any, are a remote repository policy.
+* A phase-specific prompt that casually asks for a new branch for a subphase does not override this
+  policy. An explicit user instruction to change the milestone/branch boundary does.
+* Formal-audit corrections MUST remain on the current major-phase branch until the final PR is
+  green; do not create one audit branch per subphase.
+
+When relevant, completion reports MUST state the current major phase branch, PR existence and CI
+status, merge status, post-merge main CI status, and whether the phase is implementation-complete or
+fully integrated on `main`. Never claim remote CI without actual evidence.
+
+## Real Runtime Validation
+
+When an acceptance criterion concerns actual runtime behavior, player-visible interaction,
+SceneTree lifecycle, real input, physics/collision/Area2D, CharacterBody movement, Camera, Timer,
+signals, map traversal, combat cadence, runtime UI, or packaged-game startup, validation MUST run
+the actual Godot game when the environment supports it. Headless/domain tests remain required where
+appropriate, but they are not a substitute for live evidence.
+
+* Launch the canonical project/main scene unless the criterion specifically requires another
+  production scene. For the current Old Pine milestone this normally means `OldPineWorldSession`,
+  not a fake unit-test scene.
+* Before accepting helper-based evidence, verify where supported that `helper_live = true`,
+  `session_active = true`, and `game_capture_ready = true`, and inspect runtime errors. Expected
+  evidence is `current_run_errors = []`, with any known QA-only debugger mistake explained.
+* Screenshot/framebuffer proof MUST have `stale_frame = false`; when liveness matters, frame numbers
+  MUST advance across observations. A frozen frame is not live proof.
+* Player-visible acceptance paths MUST use real game input: keyboard/input actions, framebuffer
+  mouse clicks, real HUD buttons, CharacterBody movement, and actual Area/collision entry as
+  applicable.
+* Direct controller traversal calls, button callbacks, body-entered handlers, combat/portal methods,
+  manual signal emission, or direct position/location assignment MUST NOT substitute for end-to-end
+  player proof. Typed boundary calls remain valid in unit/integration tests whose subject is that
+  boundary.
+* QA setup before the claimed route may adjust existing typed state or inject a deterministic test
+  source when necessary. It MUST be reported, MUST NOT change production formulas, and MUST NOT call
+  the desired branch directly. Once the acceptance path begins, proceed through normal gameplay.
+* Physics/scene changes require physical runtime proof; UI changes require using the real UI; runtime
+  combat changes require real selection/input and cadence; map/handoff changes require before/after
+  runtime-tree, active-map, player, camera, location, and state-identity evidence as applicable.
+* A claim about an exported/packaged build starting or working MUST validate that packaged artifact
+  where the environment permits; running the editor project is not equivalent.
+* Pure documentation, repository policy, CI YAML, build tooling, Node-free domain formulas, and pure
+  serializer/parser changes do not require live gameplay unless their acceptance criteria explicitly
+  include runtime integration.
+* Godot AI helper connectivity is expected for live-validation tasks. Do not assume it is unavailable
+  without checking the running game and development environment. On Windows, inspect excluded TCP
+  port ranges; this repository's validated workstation uses remote-debug port 6107 because 6007 was
+  reserved. The port is machine-specific.
+* If required live validation cannot connect, first diagnose launch state, helper/service health,
+  port exclusion, development configuration, and runtime errors. If it remains blocked, report the
+  criterion as BLOCKED/PENDING; MUST NOT silently downgrade it to headless-only or claim PASS.
+* Helper connectivity is development tooling. MUST NOT change gameplay, domain, or world semantics
+  merely to make MCP connect, and MUST NOT record machine-specific tooling choices as ES migration
+  decisions.
+* A prompt that calls a player-visible or physical path “verified” using only controller calls does
+  not override this rule. Only an explicit user change to the acceptance criterion does.
+
+When live validation is relevant, completion reports MUST say whether it actually ran and include
+helper health, real-input evidence, and any environmental blocker. Never claim live proof without
+the corresponding evidence.
+
 ## Testing and Verification
 
 Rule-heavy code should be testable without loading full visual maps whenever practical.

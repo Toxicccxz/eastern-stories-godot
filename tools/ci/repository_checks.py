@@ -48,6 +48,18 @@ PHASE10_TEXT_ROOTS = (
     ".github",
     "game/export_presets.cfg",
 )
+STABLE_CI_JOB_NAMES = (
+    "Godot Verify",
+    "Windows Release Build",
+    "Android Release Build",
+    "iOS Build Validation",
+)
+PR_INTEGRATION_EVENTS = (
+    "opened",
+    "reopened",
+    "synchronize",
+    "ready_for_review",
+)
 
 
 def _git_lines(repository: Path, *arguments: str) -> list[str]:
@@ -75,6 +87,57 @@ def _candidate_text_files(repository: Path) -> list[Path]:
     return sorted(set(files), key=lambda item: item.as_posix())
 
 
+def _workflow_trigger_block(workflow_text: str, event: str) -> list[str]:
+    lines = workflow_text.replace("\r\n", "\n").splitlines()
+    marker = f"  {event}:"
+    try:
+        start = lines.index(marker)
+    except ValueError:
+        return []
+    block = [marker]
+    for line in lines[start + 1 :]:
+        indentation = len(line) - len(line.lstrip(" "))
+        if line and indentation <= 2:
+            break
+        block.append(line)
+    while block and not block[-1]:
+        block.pop()
+    return block
+
+
+def ci_trigger_policy_errors(workflow_text: str) -> list[str]:
+    """Validate the narrow major-phase integration event contract without a YAML dependency."""
+    errors: list[str] = []
+    normalized = workflow_text.replace("\r\n", "\n")
+
+    expected_pull_request = [
+        "  pull_request:",
+        "    branches:",
+        "      - main",
+        "    types:",
+        *(f"      - {event}" for event in PR_INTEGRATION_EVENTS),
+    ]
+    pull_request_block = _workflow_trigger_block(normalized, "pull_request")
+    if pull_request_block != expected_pull_request:
+        errors.append(
+            "CI pull_request trigger must target only main and use opened, reopened, "
+            "synchronize, and ready_for_review"
+        )
+
+    expected_push = ["  push:", "    branches:", "      - main"]
+    if _workflow_trigger_block(normalized, "push") != expected_push:
+        errors.append("CI push trigger must target only main for post-merge validation")
+    if "  workflow_dispatch:\n" not in normalized:
+        errors.append("CI must retain manual workflow_dispatch")
+    if "github.event.pull_request.draft == false" not in normalized:
+        errors.append("CI must skip expensive jobs while a pull request remains draft")
+
+    for job_name in STABLE_CI_JOB_NAMES:
+        if f"    name: {job_name}\n" not in normalized:
+            errors.append(f"CI stable job name is missing: {job_name}")
+    return errors
+
+
 def check_repository(repository: Path, *, require_git: bool = True) -> list[str]:
     repository = repository.resolve()
     errors: list[str] = []
@@ -98,12 +161,7 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
         workflow_text = workflow.read_text(encoding="utf-8")
         if "/Applications/Xcode_26.3.app" not in workflow_text:
             errors.append("iOS CI must select the Godot 4.7.2-compatible pinned Xcode 26.3 toolchain")
-        if re.search(r"(?m)^  push:\s*$", workflow_text):
-            errors.append("CI must not run automatically on branch pushes")
-        if "      - closed" not in workflow_text:
-            errors.append("CI pull_request trigger must be limited to the closed event")
-        if "github.event.pull_request.merged == true" not in workflow_text:
-            errors.append("CI must skip closed pull requests that were not merged")
+        errors.extend(ci_trigger_policy_errors(workflow_text))
 
     for path in _candidate_text_files(repository):
         if path == repository / "tools/ci/repository_checks.py":

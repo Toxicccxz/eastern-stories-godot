@@ -163,11 +163,17 @@ Each target rebuild removes only its controlled staging/output directory. The to
 
 ## GitHub Actions
 
-`.github/workflows/ci.yml` runs automatically only after a pull request is merged into `main`.
-Pushing a feature branch, updating an open pull request, or directly pushing `main` does not start
-this workflow. GitHub also emits `pull_request: closed` for unmerged pull requests, so the first job
-has an explicit `pull_request.merged == true` guard; dependent build jobs remain skipped when that
-guard is false. Manual dispatch remains available for an intentional ad hoc verification run.
+`.github/workflows/ci.yml` implements two integration gates. A ready pull request targeting `main`
+runs on open, reopen, synchronization, and transition from draft to ready; merging then runs the
+same workflow again through `push: main`. Ordinary pushes to a phase branch before a PR exists do
+not trigger it. Draft pull requests may exist for explicitly requested collaboration, but the
+expensive jobs are skipped while the PR remains draft. Manual dispatch remains available for an
+intentional diagnostic run.
+
+The repository's recommended remote ruleset requires PR-only integration into `main` and all four
+stable PR checks. The workflow does not infer merges from commit messages. See
+`docs/production/REPOSITORY_POLICY.md` for the complete branch lifecycle, CI event matrix, failure
+handling, and the distinction between implementation completion and full integration closure.
 
 The workflow contains:
 

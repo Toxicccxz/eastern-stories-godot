@@ -1,12 +1,15 @@
 ## Scope
 
-- What changed, and which phase owns it?
+- Major phase:
+- Phase branch:
+- What changed within this integration milestone?
 
 ## Verification
 
-- [ ] Focused tests pass where applicable.
-- [ ] Canonical verification passes when required.
+- [ ] Local formal audit is complete.
+- [ ] Focused tests and the required complete local suite pass.
 - [ ] Godot headless validation passes.
+- [ ] Required live runtime validation used the actual game/input path, or was not applicable.
 - [ ] `reference/es2` is unchanged.
-- [ ] Any gameplay compatibility decision is recorded in `DECISIONS.md`.
-- [ ] Scene/runtime changes include appropriate live evidence.
+- [ ] `DECISIONS.md` was updated only if a real gameplay compatibility decision required it.
+- [ ] This final PR commit is ready for all four cross-platform CI gates.

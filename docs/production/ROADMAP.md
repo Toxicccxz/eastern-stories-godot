@@ -1,5 +1,9 @@
 # Productionization Roadmap
 
+Each numbered item below is currently planned as an independent major integration milestone: one
+major-phase branch and one final PR, unless a later explicit planning decision changes that boundary.
+Internal analysis, implementation slices, and audit fixes remain on that milestone's branch.
+
 1. **Phase 10A — Cross-Platform Repository / Build / CI Foundation**
 
    Pin Godot 4.7.2, verify the repository, sanitize one production project, and prove Windows,

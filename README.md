@@ -39,6 +39,8 @@ iOS export and compilation require macOS and Xcode. See
 - [Current status](docs/production/STATUS.md)
 - [Roadmap](docs/production/ROADMAP.md)
 - [Build and CI](docs/production/BUILD.md)
+- [Major-phase branch, PR, and integration policy](docs/production/REPOSITORY_POLICY.md)
+- [Godot AI development and live-runtime evidence](docs/production/GODOT_AI_DEVELOPMENT.md)
 - [License and provenance evidence](docs/production/LICENSE_PROVENANCE.md)
 
 The repository currently has no root project license. ES2 attribution/license evidence contains an
