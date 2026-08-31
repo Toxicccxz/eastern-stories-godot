@@ -859,6 +859,21 @@ const OldPineVineCrossMapTraversalTest := preload(
 const OldPineRiverCliffRouteTest := preload(
 	"res://tests/runtime/oldpine_river_cliff_route_test.gd"
 )
+const GameSaveValueTypesScript := preload("res://core/persistence/game_save_value_types.gd")
+const RandomStreamSnapshotScript := preload("res://core/persistence/random_stream_snapshot.gd")
+const GameSaveSnapshotScript := preload("res://core/persistence/game_save_snapshot.gd")
+const GameSaveResultScript := preload("res://core/persistence/game_save_result.gd")
+const DecimalInt64CodecScript := preload("res://core/persistence/decimal_int64_codec.gd")
+const GameSaveSnapshotValidatorScript := preload("res://core/persistence/game_save_snapshot_validator.gd")
+const GameSaveJsonCodecScript := preload("res://core/persistence/game_save_json_codec.gd")
+const SaveFileReadResultScript := preload("res://runtime/persistence/save_file_read_result.gd")
+const SaveFileOperationsScript := preload("res://runtime/persistence/save_file_operations.gd")
+const GodotSaveFileOperationsScript := preload("res://runtime/persistence/godot_save_file_operations.gd")
+const GameSaveStorageProfileScript := preload("res://runtime/persistence/game_save_storage_profile.gd")
+const GameSaveRepositoryScript := preload("res://runtime/persistence/game_save_repository.gd")
+const GameSaveJsonCodecTest := preload("res://tests/core/game_save_json_codec_test.gd")
+const RandomStreamPersistenceTest := preload("res://tests/runtime/random_stream_persistence_test.gd")
+const GameSaveRepositoryTest := preload("res://tests/runtime/game_save_repository_test.gd")
 
 
 func _init() -> void:
@@ -1192,6 +1207,21 @@ func _init() -> void:
 		VineTraversalPolicyTest,
 		OldPineVineCrossMapTraversalTest,
 		OldPineRiverCliffRouteTest,
+		GameSaveValueTypesScript,
+		RandomStreamSnapshotScript,
+		GameSaveSnapshotScript,
+		GameSaveResultScript,
+		DecimalInt64CodecScript,
+		GameSaveSnapshotValidatorScript,
+		GameSaveJsonCodecScript,
+		SaveFileReadResultScript,
+		SaveFileOperationsScript,
+		GodotSaveFileOperationsScript,
+		GameSaveStorageProfileScript,
+		GameSaveRepositoryScript,
+		GameSaveJsonCodecTest,
+		RandomStreamPersistenceTest,
+		GameSaveRepositoryTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1311,6 +1341,9 @@ func _init() -> void:
 	var phase_9b3b3_result: Dictionary[String, Variant] = (
 		await OldPineRiverCliffRouteTest.new().run_all(self)
 	)
+	var phase_10b1_codec_result: Dictionary[String, Variant] = GameSaveJsonCodecTest.new().run_all()
+	var phase_10b1_random_result: Dictionary[String, Variant] = RandomStreamPersistenceTest.new().run_all()
+	var phase_10b1_repository_result: Dictionary[String, Variant] = GameSaveRepositoryTest.new().run_all()
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1397,6 +1430,12 @@ func _init() -> void:
 		phase_9b3b2_runtime_result["assertions"]
 	) + int(
 		phase_9b3b3_result["assertions"]
+	) + int(
+		phase_10b1_codec_result["assertions"]
+	) + int(
+		phase_10b1_random_result["assertions"]
+	) + int(
+		phase_10b1_repository_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1444,6 +1483,9 @@ func _init() -> void:
 	failures.append_array(phase_9b3b2_policy_result["failures"])
 	failures.append_array(phase_9b3b2_runtime_result["failures"])
 	failures.append_array(phase_9b3b3_result["failures"])
+	failures.append_array(phase_10b1_codec_result["failures"])
+	failures.append_array(phase_10b1_random_result["failures"])
+	failures.append_array(phase_10b1_repository_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
