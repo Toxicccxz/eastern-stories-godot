@@ -89,6 +89,8 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
                 errors.append(f"export preset is missing: {name}")
         if "com.example.easternstoriesgodot" not in text:
             errors.append("provisional mobile package identifier is missing")
+        if "application/export_project_only=true" not in text:
+            errors.append("iOS preset must export the Xcode project without invoking a signed archive")
 
     for path in _candidate_text_files(repository):
         if path == repository / "tools/ci/repository_checks.py":
