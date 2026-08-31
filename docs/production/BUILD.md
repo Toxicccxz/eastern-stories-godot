@@ -9,7 +9,7 @@
   Build-Tools 35.0.1, Platform 35, Command-line Tools 20.0, CMake 3.10.2.4988404, and NDK r28b
   (28.1.13356709). These are the Godot 4.7 requirements pinned by Phase 10A.
 - iOS target: macOS with Xcode. CI uses `macos-15` and explicitly selects Xcode 26.3
-  (iOS 26.2 SDK). Remote CI must prove the final unsigned compile.
+  (iOS 26.2 SDK). The recorded remote proof is listed under GitHub Actions below.
 
 The project renderer, feature version, Jolt configuration, scenes, and gameplay settings do not
 diverge per platform. Phase 10A enabled the shared ETC2/ASTC texture import required by the Android
@@ -123,8 +123,8 @@ python tools/build/build.py --target ios --godot <path-to-godot-4.7.2> --templat
 The command fails clearly on non-macOS hosts. On macOS it exports the generated Xcode project,
 discovers the actual project/workspace and scheme through `xcodebuild -list -json`, then compiles the
 Release target for generic iOS with signing disabled. It packages the Xcode project, manifest, and
-compile log. This path remains **REMOTE MACOS CI PENDING** until the first green workflow run proves
-the exact generated project and command.
+compile log. GitHub Actions workflow run `33350605585` proved the exact generated project and
+command on commit `557a678c991d1509ed2d10b1c6053493ae5b74a4`.
 
 Godot 4.7.2's official iOS template was built against the Xcode 26 SDK surface and does not link
 against Xcode 16.4/iOS 18.5 (`CADynamicRange*` and `MTLTensorDomain` remain unresolved). The same
@@ -180,8 +180,10 @@ Artifact names:
 - `eastern-stories-godot-android-arm64`;
 - `eastern-stories-godot-ios-build-validation`.
 
-Workflow presence is not evidence that GitHub Actions passed. Until all four jobs run green, Phase
-10A status remains **READY FOR FORMAL AUDIT — REMOTE CI PENDING**.
+Workflow presence alone is not evidence that GitHub Actions passed. Workflow run `33350605585` on
+commit `557a678c991d1509ed2d10b1c6053493ae5b74a4` completed successfully with all four required jobs
+green: `Godot Verify`, `Windows Release Build`, `Android Release Build`, and
+`iOS Build Validation`. All three platform artifact uploads also succeeded.
 
 ## Local proof recorded for Phase 10A
 
@@ -202,7 +204,8 @@ The workstation also contained newer SDK packages, so the Godot exporter selecte
 tool availability rather than claiming that every extra package on a developer machine is absent.
 
 iOS cannot be compiled on this Windows host. Its Godot export plus unsigned Xcode Release compile
-remains a real `macos-15`/Xcode 16.4 GitHub Actions proof item, not a local PASS claim.
+was proven remotely on `macos-15`/Xcode 26.3 in workflow run `33350605585`; it is not claimed as a
+local PASS.
 
 ## Clean rebuild and diagnostics
 

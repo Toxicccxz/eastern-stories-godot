@@ -36,9 +36,10 @@ The current canonical main scene is
   TestFlight upload, and final release gates.
 
 The Phase 10A pipeline sends the same sanitized game project to Windows, Android, and iOS targets.
-Windows and Android Release exports are locally proven; the iOS Godot export plus unsigned Xcode
-compile remains pending its real macOS CI run. None of this means the current desktop-oriented
-gameplay UX is comfortable or complete on phones/tablets.
+Windows and Android Release exports are locally proven. GitHub Actions workflow run `33350605585`
+also proved `Godot Verify`, Windows Release, Android Release, and the unsigned iOS Xcode compile on
+the same commit, with all three platform artifact uploads succeeding. None of this means the current
+desktop-oriented gameplay UX is comfortable or complete on phones/tablets.
 
 ## Release and licensing boundary
 
