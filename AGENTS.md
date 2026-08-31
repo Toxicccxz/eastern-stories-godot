@@ -278,6 +278,45 @@ When relevant, completion reports MUST state the current major phase branch, PR 
 status, merge status, post-merge main CI status, and whether the phase is implementation-complete or
 fully integrated on `main`. Never claim remote CI without actual evidence.
 
+## Standing Authorization for CI Stabilization
+
+The repository owner has granted standing authorization for the minimum work needed to restore this
+repository's existing required CI gates when the latest `main` post-merge CI is not fully green.
+Codex MUST use this narrow authorization instead of stopping solely to request permission for routine
+CI-stabilization writes.
+
+Within `Toxicccxz/eastern-stories-godot`, Codex MAY without an additional authorization round:
+
+* inspect GitHub Actions runs, jobs, steps, and failure logs;
+* rerun a failed workflow job/run when a retry is useful for distinguishing an environmental flake
+  from a deterministic defect;
+* create one narrow `hotfix/...` or `stabilization/...` branch from the current `main`;
+* diagnose the failing CI/build/test behavior and make the smallest necessary repository fix;
+* run focused/local validation appropriate to the defect;
+* commit the narrow fix to that stabilization branch;
+* push/update that branch to this repository;
+* create or update a PR targeting `main`;
+* observe the PR CI and continue narrow stabilization fixes on the same branch until the required
+  checks are green.
+
+This authorization is repository-specific and CI-stabilization-specific. It does NOT authorize Codex
+to:
+
+* merge a PR into `main` without separate explicit user authorization;
+* force-push or rewrite published history;
+* delete remote branches or tags;
+* modify GitHub repository settings, rulesets, branch protection, secrets, permissions, or Actions
+  credentials;
+* publish GitHub releases or deploy to Steam, Google Play, App Store, TestFlight, or other external
+  services;
+* modify unrelated repositories;
+* broaden a CI hotfix into unrelated gameplay/content/refactor work merely to make a gate green.
+
+When a stabilization PR is green, Codex MUST stop before merge and report the result. If the failure
+is nondeterministic, a green retry is evidence that the current commit can pass but does not by itself
+authorize masking a recurring flake; repeated occurrences should be investigated and stabilized
+narrowly.
+
 ## Real Runtime Validation
 
 When an acceptance criterion concerns actual runtime behavior, player-visible interaction,
