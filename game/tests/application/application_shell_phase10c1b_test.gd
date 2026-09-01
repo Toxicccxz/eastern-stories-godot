@@ -96,6 +96,31 @@ func _test_typed_state_and_save_mapping() -> void:
 
 	var categories: Array[Array] = [
 		[
+			OldPineSaveEligibilityResult.Outcome.SESSION_NOT_READY,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY,
+			&"save.blocked.runtime_not_ready",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.RESTORE_STAGED,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY,
+			&"save.blocked.runtime_not_ready",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.SESSION_SWAP_ACTIVE,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY,
+			&"save.blocked.runtime_not_ready",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_PARTIAL,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_WORLD_TRANSITION,
+			&"save.blocked.world_transition",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.CAVE_EXIT_PENDING,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_WORLD_TRANSITION,
+			&"save.blocked.world_transition",
+		],
+		[
 			OldPineSaveEligibilityResult.Outcome.OPPONENT_RELATIONSHIP,
 			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
 			&"save.blocked.combat_or_action",
@@ -111,14 +136,44 @@ func _test_typed_state_and_save_mapping() -> void:
 			&"save.blocked.lifecycle",
 		],
 		[
+			OldPineSaveEligibilityResult.Outcome.LIFE_EXISTENCE_CONTRADICTION,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_LIFECYCLE,
+			&"save.blocked.lifecycle",
+		],
+		[
 			OldPineSaveEligibilityResult.Outcome.UNREPRESENTED_ATTRIBUTE_MODIFIER,
 			ApplicationOperationResult.Outcome.SAVE_BLOCKED_TEMPORARY_EFFECT,
 			&"save.blocked.temporary_effect",
 		],
 		[
-			OldPineSaveEligibilityResult.Outcome.SESSION_NOT_READY,
-			ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY,
-			&"save.blocked.runtime_not_ready",
+			OldPineSaveEligibilityResult.Outcome.PENDING_AGGRESSION,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
+			&"save.blocked.combat_or_action",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.COMBAT_CADENCE_ACTIVE,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
+			&"save.blocked.combat_or_action",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.LETHAL_MARKER,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
+			&"save.blocked.combat_or_action",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.BUSY,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
+			&"save.blocked.combat_or_action",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.INTERRUPT_THRESHOLD,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
+			&"save.blocked.combat_or_action",
+		],
+		[
+			OldPineSaveEligibilityResult.Outcome.GUARDING,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
+			&"save.blocked.combat_or_action",
 		],
 	]
 	for entry: Array in categories:
@@ -157,6 +212,23 @@ func _test_recovery_repository_contract(tree: SceneTree) -> void:
 		[GameSaveRecoverySource.Value.BACKUP, GameSaveRecoverySource.Value.TEMP],
 		"both fixed candidates preserve deterministic source order",
 	)
+	var exposed_sources: Array[int] = both.recovery_sources()
+	exposed_sources.clear()
+	_assert_eq(
+		both.recovery_sources(),
+		[GameSaveRecoverySource.Value.BACKUP, GameSaveRecoverySource.Value.TEMP],
+		"repository inspection returns a defensive recovery-source array",
+	)
+	var product_inspection: ApplicationSlotInspection = (
+		ApplicationProductResultMapper.inspect_slot(both)
+	)
+	var product_sources: Array[int] = product_inspection.recovery_sources()
+	product_sources.clear()
+	_assert_eq(
+		product_inspection.recovery_sources(),
+		[GameSaveRecoverySource.Value.BACKUP, GameSaveRecoverySource.Value.TEMP],
+		"application inspection returns a defensive recovery-source array",
+	)
 	var before: Dictionary[String, PackedByteArray] = files.files.duplicate(true)
 	var selected: GameSaveResult = repository.load_recovery(GameSaveRecoverySource.Value.TEMP)
 	_assert_true(selected.succeeded(), "selected temp candidate re-reads successfully")
@@ -165,6 +237,36 @@ func _test_recovery_repository_contract(tree: SceneTree) -> void:
 	_assert_false(
 		repository.load_recovery(GameSaveRecoverySource.Value.TEMP).succeeded(),
 		"selected candidate is validated again after inspection",
+	)
+	files.files[profile.canonical_path()] = bytes.duplicate()
+	files.files[profile.temp_path()] = bytes.duplicate()
+	var canonical_with_recovery: GameSaveSlotInspectionResult = repository.inspect_slot()
+	_assert_eq(
+		canonical_with_recovery.canonical_outcome,
+		GameSaveResult.Outcome.SUCCESS,
+		"valid canonical remains the default when recovery files also exist",
+	)
+	var canonical_product: ApplicationSlotInspection = (
+		ApplicationProductResultMapper.inspect_slot(canonical_with_recovery)
+	)
+	_assert_true(canonical_product.continue_available(), "valid canonical enables Continue")
+	_assert_false(
+		canonical_product.recovery_available(),
+		"valid canonical does not expose an advisory recovery choice in the application",
+	)
+	files.files.erase(profile.canonical_path())
+	files.files[profile.backup_path()] = "{".to_utf8_buffer()
+	files.files[profile.temp_path()] = PackedByteArray([0x80])
+	var invalid_candidates: GameSaveSlotInspectionResult = repository.inspect_slot()
+	_assert_eq(
+		invalid_candidates.canonical_outcome,
+		GameSaveResult.Outcome.NO_SAVE,
+		"corrupt fixed candidates do not become recovery availability",
+	)
+	_assert_eq(
+		invalid_candidates.recovery_sources(),
+		[],
+		"corrupt fixed candidates expose no source identity",
 	)
 
 
@@ -183,6 +285,35 @@ func _test_pause_freeze_and_stable_save(tree: SceneTree) -> void:
 	var npc_rng: int = session.npc_random_source().capture_random_state().state
 	var world_rng: int = session.world_interaction_random_source().capture_random_state().state
 	var allocator_sequence: int = session.item_id_allocator().next_dynamic_sequence
+	var inventory_ids: Array[StringName] = session.inventory_state().registered_item_ids()
+	var player_velocity: Vector2 = player_body.velocity
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var life_status: int = player.life_status
+	var exists_in_world: bool = player.exists_in_world
+	var opponent_ids: Array[StringName] = player.relationship.opponent_ids()
+	var lethal_target_ids: Array[StringName] = player.relationship.lethal_target_ids()
+	var guarding: bool = player.relationship.guarding
+	var primary_weapon: EquippedWeaponRef = player.state.equipment.primary_weapon()
+	var secondary_weapon: EquippedWeaponRef = player.state.equipment.secondary_weapon()
+	var primary_weapon_id: StringName = (
+		&"" if primary_weapon == null else primary_weapon.instance_id
+	)
+	var secondary_weapon_id: StringName = (
+		&"" if secondary_weapon == null else secondary_weapon.instance_id
+	)
+	var armor_slots: Array[StringName] = player.armor.occupied_slots()
+	var armor_items: Dictionary[StringName, StringName] = {}
+	for armor_slot: StringName in armor_slots:
+		armor_items[armor_slot] = player.armor.item_instance_id_in_slot(armor_slot)
+	var npc_positions: Dictionary[StringName, Vector2] = {}
+	var npc_velocities: Dictionary[StringName, Vector2] = {}
+	for npc: NpcRuntimeState in session.outdoor_map().npc_runtimes():
+		var npc_body: WorldCharacterBody2D = (
+			session.outdoor_map().runtime_body_for_character(npc.character_id)
+		)
+		if npc_body != null:
+			npc_positions[npc.character_id] = npc_body.global_position
+			npc_velocities[npc.character_id] = npc_body.velocity
 	_assert_true(shell.request_pause(), "PLAYING admits application Pause")
 	_assert_true(tree.paused, "application Pause sets SceneTree.paused")
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PAUSED, "typed state enters PAUSED")
@@ -195,7 +326,40 @@ func _test_pause_freeze_and_stable_save(tree: SceneTree) -> void:
 	_assert_eq(session.npc_random_source().capture_random_state().state, npc_rng, "NPC RNG remains frozen")
 	_assert_eq(session.world_interaction_random_source().capture_random_state().state, world_rng, "world RNG remains frozen")
 	_assert_eq(session.item_id_allocator().next_dynamic_sequence, allocator_sequence, "allocator remains frozen")
+	_assert_eq(player_body.velocity, player_velocity, "Player velocity remains frozen")
+	_assert_eq(session.inventory_state().registered_item_ids(), inventory_ids, "Inventory identity remains frozen")
+	_assert_eq(player.life_status, life_status, "Player lifecycle remains frozen")
+	_assert_eq(player.exists_in_world, exists_in_world, "Player existence remains frozen")
+	_assert_eq(player.relationship.opponent_ids(), opponent_ids, "opponent relationships remain frozen")
+	_assert_eq(player.relationship.lethal_target_ids(), lethal_target_ids, "lethal relationships remain frozen")
+	_assert_eq(player.relationship.guarding, guarding, "guarding state remains frozen")
+	var paused_primary: EquippedWeaponRef = player.state.equipment.primary_weapon()
+	var paused_secondary: EquippedWeaponRef = player.state.equipment.secondary_weapon()
+	_assert_eq(
+		&"" if paused_primary == null else paused_primary.instance_id,
+		primary_weapon_id,
+		"primary equipment remains frozen",
+	)
+	_assert_eq(
+		&"" if paused_secondary == null else paused_secondary.instance_id,
+		secondary_weapon_id,
+		"secondary equipment remains frozen",
+	)
+	_assert_eq(player.armor.occupied_slots(), armor_slots, "armor slots remain frozen")
+	for armor_slot: StringName in armor_slots:
+		_assert_eq(
+			player.armor.item_instance_id_in_slot(armor_slot),
+			armor_items[armor_slot],
+			"armor item identity remains frozen",
+		)
+	for character_id: StringName in npc_positions:
+		var paused_npc_body: WorldCharacterBody2D = (
+			session.outdoor_map().runtime_body_for_character(character_id)
+		)
+		_assert_eq(paused_npc_body.global_position, npc_positions[character_id], "NPC position remains frozen")
+		_assert_eq(paused_npc_body.velocity, npc_velocities[character_id], "NPC velocity remains frozen")
 	_assert_true(shell.request_save_from_pause(), "Host accepts deferred Save while tree is paused")
+	_assert_false(shell.request_save_from_pause(), "repeated Save intent is rejected while Save is pending")
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.SAVING, "Save enters typed SAVING state")
 	await _wait_frames(tree, 3)
 	_assert_true(tree.paused, "Save completion does not resume gameplay")
@@ -250,9 +414,11 @@ func _test_return_menu_continue_roundtrip(tree: SceneTree) -> void:
 	shell.dismiss_current_result()
 	var original_session_id: int = shell.runtime_host().current_session().get_instance_id()
 	_assert_true(shell.request_return_to_main_menu(), "Return always opens confirmation")
+	_assert_false(shell.request_return_to_main_menu(), "repeated Return intent is rejected by modal state")
 	_assert_eq(shell.last_result().message_key(), &"return.confirm", "Return uses unconditional loss warning")
 	_assert_true(tree.paused, "confirmation keeps gameplay paused")
 	_assert_true(shell.confirm_current_result(), "confirmed Return requests Host teardown")
+	_assert_false(shell.confirm_current_result(), "repeated confirmation cannot queue a second teardown")
 	_assert_true(tree.paused, "Session teardown starts while still paused")
 	await _wait_frames(tree, 4)
 	_assert_false(tree.paused, "tree unpauses only after teardown")
