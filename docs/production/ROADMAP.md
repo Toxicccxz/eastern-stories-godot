@@ -4,16 +4,16 @@ Each numbered item below is currently planned as an independent major integratio
 major-phase branch and one final PR, unless a later explicit planning decision changes that boundary.
 Internal analysis, implementation slices, and audit fixes remain on that milestone's branch.
 
-1. **Phase 10A — Cross-Platform Repository / Build / CI Foundation**
+1. **Phase 10A — Cross-Platform Repository / Build / CI Foundation — Complete**
 
    Pin Godot 4.7.2, verify the repository, sanitize one production project, and prove Windows,
    Android, and unsigned iOS build pipelines through CI artifacts.
 
-2. **Phase 10B — Native Save / Load Integration**
+2. **Phase 10B — Native Save / Load Integration — Complete**
 
    Connect the existing typed persistence foundations to the playable application/session.
 
-3. **Phase 10C1 — Cross-Platform Game Shell**
+3. **Phase 10C1 — Cross-Platform Game Shell — Next; not started**
 
    Add the application-level menu, Continue, pause, and settings flow without platform gameplay
    forks.

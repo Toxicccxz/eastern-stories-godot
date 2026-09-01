@@ -61,7 +61,7 @@ development game/
 The staging directory is deleted and recreated. The sanitizer removes the Godot AI addon, helper
 autoload, editor plugin activation, early `mcp_test.tscn` smoke scene, remote-debug/6107 argument,
 `.godot` cache, and `game/tests/`.
-It verifies the canonical Old Pine Session main scene and required production directories, scans for
+It verifies the canonical Old Pine Runtime Host main scene and required production directories, scans for
 forbidden references, and checks that the source tree digest is unchanged. No repository-level
 `reference/es2`, migration docs, CI scripts, or build tools are copied.
 
@@ -74,6 +74,15 @@ python tools/build/prepare_release_project.py --output build/release-project --v
 
 Never run a production export directly from the development `game/` checkout. The build entrypoint
 injects absolute custom-template paths only into the temporary staging preset.
+
+## Runtime save storage
+
+The production Runtime Host uses one fixed release slot at
+`user://save-data/release/default-v1.json`. Development and isolated test profiles use separate child
+directories. A Save verifies a temporary file before replacement and retains the prior canonical file as
+`.bak`; Load reports a valid recovery candidate but does not automatically select it. Player-facing
+Save/Continue and recovery-choice policy remain Phase 10C1 work. See
+`docs/production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md` for the stable runtime contract.
 
 ## Unified builds
 
