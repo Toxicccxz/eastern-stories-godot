@@ -8,9 +8,10 @@ const SESSION_SCENE: PackedScene = preload(
 signal save_completed(result: OldPineRuntimeSaveLoadResult)
 signal load_completed(result: OldPineRuntimeSaveLoadResult)
 signal startup_completed(result: OldPineRuntimeSaveLoadResult)
-signal slot_inspection_completed(result: GameSaveResult)
+signal slot_inspection_completed(result: GameSaveSlotInspectionResult)
 signal new_game_completed(result: OldPineRuntimeSaveLoadResult)
 signal continue_completed(result: OldPineRuntimeSaveLoadResult)
+signal recovery_completed(result: OldPineRuntimeSaveLoadResult)
 signal end_session_completed(result: OldPineRuntimeSaveLoadResult)
 
 enum StartupMode {
@@ -159,8 +160,19 @@ func request_continue() -> bool:
 	return true
 
 
+func request_recovery(source: int) -> bool:
+	if (
+		not GameSaveRecoverySource.is_valid(source)
+		or not _empty_session_invariant_holds()
+		or not _begin_request()
+	):
+		return false
+	call_deferred("_execute_recovery", source)
+	return true
+
+
 func request_end_session() -> bool:
-	if not _begin_request():
+	if _current_session == null or not _begin_request():
 		return false
 	call_deferred("_execute_end_session")
 	return true
@@ -181,7 +193,7 @@ func request_load() -> bool:
 
 
 func _execute_slot_inspection() -> void:
-	var result: GameSaveResult = _coordinator.inspect_slot()
+	var result: GameSaveSlotInspectionResult = _coordinator.inspect_slot()
 	_request_pending = false
 	slot_inspection_completed.emit(result)
 
@@ -205,15 +217,35 @@ func _execute_continue() -> void:
 	continue_completed.emit(_last_load)
 
 
+func _execute_recovery(source: int) -> void:
+	_last_load = _coordinator.load_recovery_replacing(
+		source,
+		null,
+		session_slot,
+		staging_slot,
+	)
+	if _last_load.succeeded():
+		_current_session = _last_load.session
+		if not session_invariant_holds():
+			_discard_current_session()
+			_last_load = OldPineRuntimeSaveLoadResult.failure(
+				OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
+			)
+	_request_pending = false
+	recovery_completed.emit(_last_load)
+
+
 func _execute_end_session() -> void:
-	_discard_current_session()
-	_last_end_session = (
-		OldPineRuntimeSaveLoadResult.success(null)
-		if session_invariant_holds()
-		else OldPineRuntimeSaveLoadResult.failure(
+	var session: OldPineWorldSessionController = _current_session
+	if session == null or not session_invariant_holds():
+		_last_end_session = OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 		)
-	)
+	else:
+		session_slot.remove_child(session)
+		_current_session = null
+		session.queue_free()
+		_last_end_session = OldPineRuntimeSaveLoadResult.success(null)
 	_request_pending = false
 	end_session_completed.emit(_last_end_session)
 

@@ -29,6 +29,42 @@ func load() -> GameSaveResult:
 	return result
 
 
+func inspect_slot() -> GameSaveSlotInspectionResult:
+	if not _begin_operation():
+		return GameSaveSlotInspectionResult.new(
+			GameSaveResult.Outcome.OPERATION_IN_PROGRESS,
+		)
+	var sources: Array[int] = _valid_recovery_sources()
+	var result: GameSaveResult = _load_impl(sources)
+	_operation_in_progress = false
+	return GameSaveSlotInspectionResult.new(result.outcome, sources)
+
+
+func load_recovery(source: int) -> GameSaveResult:
+	if not GameSaveRecoverySource.is_valid(source):
+		return GameSaveResult.failure(
+			GameSaveResult.Outcome.INVALID_FIELD_TYPE,
+			"recovery_source",
+		)
+	if not _begin_operation():
+		return GameSaveResult.failure(
+			GameSaveResult.Outcome.OPERATION_IN_PROGRESS,
+			"repository",
+		)
+	var path: String = (
+		_profile.backup_path()
+		if source == GameSaveRecoverySource.Value.BACKUP
+		else _profile.temp_path()
+	)
+	var result: GameSaveResult = (
+		_read_snapshot(path)
+		if _files.file_exists(path)
+		else GameSaveResult.failure(GameSaveResult.Outcome.NO_SAVE, path)
+	)
+	_operation_in_progress = false
+	return result
+
+
 func operation_in_progress() -> bool:
 	return _operation_in_progress
 
@@ -81,23 +117,37 @@ func _save_impl(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	return GameSaveResult.success(snapshot)
 
 
-func _load_impl() -> GameSaveResult:
+func _load_impl(valid_recovery_sources: Array[int] = []) -> GameSaveResult:
 	if not _files.file_exists(_profile.canonical_path()):
-		if _has_valid_recovery_candidate():
+		if _has_valid_recovery_candidate(valid_recovery_sources):
 			return GameSaveResult.failure(GameSaveResult.Outcome.BACKUP_AVAILABLE, _profile.canonical_path(), "validated recovery file exists")
 		return GameSaveResult.failure(GameSaveResult.Outcome.NO_SAVE, _profile.canonical_path())
 	var canonical: GameSaveResult = _read_snapshot(_profile.canonical_path())
 	if canonical.succeeded(): return canonical
-	if _has_valid_recovery_candidate():
+	if _has_valid_recovery_candidate(valid_recovery_sources):
 		return GameSaveResult.failure(GameSaveResult.Outcome.BACKUP_AVAILABLE, _profile.canonical_path(), "canonical invalid; validated recovery file exists")
 	return canonical
 
 
-func _has_valid_recovery_candidate() -> bool:
-	for path: String in [_profile.backup_path(), _profile.temp_path()]:
+func _has_valid_recovery_candidate(valid_recovery_sources: Array[int]) -> bool:
+	return (
+		not valid_recovery_sources.is_empty()
+		or not _valid_recovery_sources().is_empty()
+	)
+
+
+func _valid_recovery_sources() -> Array[int]:
+	var sources: Array[int] = []
+	var candidates: Array[Array] = [
+		[GameSaveRecoverySource.Value.BACKUP, _profile.backup_path()],
+		[GameSaveRecoverySource.Value.TEMP, _profile.temp_path()],
+	]
+	for candidate: Array in candidates:
+		var source: int = int(candidate[0])
+		var path: String = String(candidate[1])
 		if _files.file_exists(path) and _read_snapshot(path).succeeded():
-			return true
-	return false
+			sources.append(source)
+	return sources
 
 
 func _read_snapshot(path: String) -> GameSaveResult:

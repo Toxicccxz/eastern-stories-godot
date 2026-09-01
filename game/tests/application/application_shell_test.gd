@@ -10,6 +10,9 @@ const SESSION_SCENE: PackedScene = preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
 const SaveFixture := preload("res://tests/support/oldpine_world_save_fixture.gd")
+const Phase10C1BTest := preload(
+	"res://tests/application/application_shell_phase10c1b_test.gd"
+)
 
 class MemoryFiles extends SaveFileOperations:
 	var files: Dictionary[String, PackedByteArray] = {}
@@ -84,6 +87,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_canonical_continue_rereads_and_never_falls_back(tree)
 	await _test_valid_continue_and_confirmation(tree)
 	await _test_reset_path_absent(tree)
+	var phase_10c1b: Dictionary[String, Variant] = await Phase10C1BTest.new().run_all(tree)
+	_assertions += int(phase_10c1b["assertions"])
+	_failures.append_array(phase_10c1b["failures"])
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
@@ -119,20 +125,24 @@ func _test_state_and_product_mapping() -> void:
 			if int(entry[0]) == GameSaveResult.Outcome.SUCCESS
 			else GameSaveResult.failure(int(entry[0]), "hidden-path")
 		)
-		var inspection: ApplicationSlotInspection = (
-			ApplicationProductResultMapper.inspect_slot(repository_result)
+		var inspection: ApplicationSlotInspection = ApplicationProductResultMapper.inspect_slot(
+			GameSaveSlotInspectionResult.new(repository_result.outcome)
 		)
 		_assert_eq(inspection.availability(), int(entry[1]), "repository outcome maps to typed availability")
 		_assert_eq(inspection.continue_available(), bool(entry[2]), "availability maps Continue permission")
 	_assert_false(
 		ApplicationProductResultMapper.inspect_slot(
-			GameSaveResult.failure(GameSaveResult.Outcome.NO_SAVE, "hidden")
+			GameSaveSlotInspectionResult.new(
+				GameSaveResult.Outcome.NO_SAVE
+			)
 		).has_save_material(),
 		"NO_SAVE is the only proven empty slot",
 	)
 	_assert_true(
 		ApplicationProductResultMapper.inspect_slot(
-			GameSaveResult.failure(GameSaveResult.Outcome.READ_FAILED, "hidden")
+			GameSaveSlotInspectionResult.new(
+				GameSaveResult.Outcome.READ_FAILED
+			)
 		).has_save_material(),
 		"storage failure conservatively requires New Game confirmation",
 	)
@@ -163,9 +173,9 @@ func _test_state_and_product_mapping() -> void:
 	repository_expectations[GameSaveResult.Outcome.OPERATION_IN_PROGRESS] = ApplicationSlotInspection.Availability.STORAGE_FAILURE
 	for outcome: int in repository_expectations:
 		var mapped: ApplicationSlotInspection = ApplicationProductResultMapper.inspect_slot(
-			GameSaveResult.success()
-			if outcome == GameSaveResult.Outcome.SUCCESS
-			else GameSaveResult.failure(outcome, "misleading/success/path", "continue.restore_failure")
+			GameSaveSlotInspectionResult.new(
+				outcome
+			)
 		)
 		_assert_eq(
 			mapped.availability(),

@@ -36,7 +36,7 @@ func _on_shell_host_ready(value: OldPineGameRuntimeHost) -> void:
 
 
 func _on_shell_state_changed(state: ApplicationShellState) -> void:
-	print("PHASE10C1A_QA shell_mode=%d operation=%d evidence=%s" % [
+	print("PHASE10C1B_QA shell_mode=%d operation=%d evidence=%s" % [
 		state.mode(), state.operation(), evidence(),
 	])
 
@@ -94,12 +94,22 @@ func evidence() -> Dictionary[String, Variant]:
 	if session == null:
 		return {
 			"shell_mode": -1 if current_shell == null else current_shell.shell_state().mode(),
+			"tree_paused": get_tree().paused,
 			"host_profile": &"" if current_host == null else current_host.storage_profile_id(),
 			"session_count": 0 if current_host == null else current_host.session_slot.get_child_count(),
 			"staging_count": 0 if current_host == null else current_host.staging_slot.get_child_count(),
+			"recovery_sources": [] if current_shell == null or current_shell.slot_inspection() == null else current_shell.slot_inspection().recovery_sources(),
 		}
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var npc_positions: Dictionary[StringName, Vector2] = {}
+	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+		var body: WorldCharacterBody2D = outdoor.runtime_body_for_character(npc.character_id)
+		if body != null:
+			npc_positions[npc.character_id] = body.global_position
 	return {
+		"shell_mode": -1 if current_shell == null else current_shell.shell_state().mode(),
+		"tree_paused": get_tree().paused,
 		"session_object_id": session.get_instance_id(),
 		"player_object_id": player.get_instance_id(),
 		"character_object_id": player.state.get_instance_id(),
@@ -109,6 +119,15 @@ func evidence() -> Dictionary[String, Variant]:
 		"item_scope": session.item_instance_scope(),
 		"item_count": session.inventory_state().registered_item_ids().size(),
 		"corpse_count": session.outdoor_map().corpse_states().size(),
+		"opponent_ids": player.relationship.opponent_ids(),
+		"lethal_target_ids": player.relationship.lethal_target_ids(),
+		"guarding": player.relationship.guarding,
+		"busy": player.busy.busy_value,
+		"interrupt_threshold": player.busy.interrupt_threshold,
+		"cadence_running": outdoor.cadence_is_running(),
+		"aggression_pending": outdoor.aggression_adapter().pending_count(),
+		"npc_positions": npc_positions,
+		"allocator_sequence": session.item_id_allocator().next_dynamic_sequence,
 		"combat_rng": session.combat_random_source().capture_random_state().state,
 		"npc_rng": session.npc_random_source().capture_random_state().state,
 		"world_rng": session.world_interaction_random_source().capture_random_state().state,

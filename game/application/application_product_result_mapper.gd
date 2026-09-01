@@ -2,10 +2,24 @@ class_name ApplicationProductResultMapper
 extends RefCounted
 
 
-static func inspect_slot(result: GameSaveResult) -> ApplicationSlotInspection:
+static func inspect_slot(result: GameSaveSlotInspectionResult) -> ApplicationSlotInspection:
 	if result == null:
 		return ApplicationSlotInspection.new()
-	match result.outcome:
+	return _inspect_repository_outcome(result.canonical_outcome, result.recovery_sources())
+
+
+static func _inspect_repository_result(
+	result: GameSaveResult,
+	recovery_sources: Array[int] = [],
+) -> ApplicationSlotInspection:
+	return _inspect_repository_outcome(result.outcome, recovery_sources)
+
+
+static func _inspect_repository_outcome(
+	outcome: int,
+	recovery_sources: Array[int] = [],
+) -> ApplicationSlotInspection:
+	match outcome:
 		GameSaveResult.Outcome.SUCCESS:
 			return ApplicationSlotInspection.new(
 				ApplicationSlotInspection.Availability.CONTINUE_AVAILABLE,
@@ -20,6 +34,7 @@ static func inspect_slot(result: GameSaveResult) -> ApplicationSlotInspection:
 			return ApplicationSlotInspection.new(
 				ApplicationSlotInspection.Availability.RECOVERY_REQUIRED,
 				&"save.recovery_required",
+				recovery_sources,
 			)
 		GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA:
 			return ApplicationSlotInspection.new(
@@ -51,7 +66,9 @@ static func runtime_result(
 		return ApplicationOperationResult.new(
 			operation,
 			ApplicationOperationResult.Outcome.SUCCESS,
-			&"operation.success",
+			&"save.success"
+			if operation == ApplicationOperationResult.Operation.SAVE
+			else &"operation.success",
 		)
 	if result.outcome == OldPineRuntimeSaveLoadResult.Outcome.REQUEST_REJECTED:
 		return ApplicationOperationResult.new(
@@ -65,8 +82,31 @@ static func runtime_result(
 			ApplicationOperationResult.Outcome.RESTORE_FAILURE,
 			&"continue.restore_failure",
 		)
+	if result.outcome == OldPineRuntimeSaveLoadResult.Outcome.SAVE_BLOCKED:
+		return _save_blocked(operation, result.eligibility)
+	if result.outcome == OldPineRuntimeSaveLoadResult.Outcome.CAPTURE_FAILED:
+		return ApplicationOperationResult.new(
+			operation,
+			ApplicationOperationResult.Outcome.SAVE_CAPTURE_FAILURE,
+			&"save.capture_failure",
+		)
 	if result.outcome == OldPineRuntimeSaveLoadResult.Outcome.REPOSITORY_FAILED:
+		if operation == ApplicationOperationResult.Operation.SAVE:
+			return ApplicationOperationResult.new(
+				operation,
+				ApplicationOperationResult.Outcome.SAVE_WRITE_FAILURE,
+				&"save.write_failure",
+			)
 		return _repository_failure(operation, result.repository)
+	if (
+		operation == ApplicationOperationResult.Operation.SAVE
+		and result.outcome == OldPineRuntimeSaveLoadResult.Outcome.NO_CURRENT_SESSION
+	):
+		return ApplicationOperationResult.new(
+			operation,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY,
+			&"save.blocked.runtime_not_ready",
+		)
 	return ApplicationOperationResult.new(
 		operation,
 		ApplicationOperationResult.Outcome.SESSION_FAILURE,
@@ -78,7 +118,7 @@ static func _repository_failure(
 	operation: int,
 	result: GameSaveResult,
 ) -> ApplicationOperationResult:
-	var inspection: ApplicationSlotInspection = inspect_slot(result)
+	var inspection: ApplicationSlotInspection = _inspect_repository_result(result)
 	var outcome: int = ApplicationOperationResult.Outcome.INVALID_SAVE
 	match inspection.availability():
 		ApplicationSlotInspection.Availability.NO_SAVE:
@@ -90,3 +130,40 @@ static func _repository_failure(
 		ApplicationSlotInspection.Availability.STORAGE_FAILURE:
 			outcome = ApplicationOperationResult.Outcome.STORAGE_FAILURE
 	return ApplicationOperationResult.new(operation, outcome, inspection.message_key())
+
+
+static func _save_blocked(
+	operation: int,
+	eligibility: OldPineSaveEligibilityResult,
+) -> ApplicationOperationResult:
+	if eligibility == null:
+		return ApplicationOperationResult.new(
+			operation,
+			ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY,
+			&"save.blocked.runtime_not_ready",
+		)
+	var outcome: int = ApplicationOperationResult.Outcome.SAVE_BLOCKED_RUNTIME_NOT_READY
+	var message_key: StringName = &"save.blocked.runtime_not_ready"
+	match eligibility.outcome:
+		OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_ACTIVE, \
+		OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_PARTIAL, \
+		OldPineSaveEligibilityResult.Outcome.CAVE_EXIT_PENDING:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_WORLD_TRANSITION
+			message_key = &"save.blocked.world_transition"
+		OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, \
+		OldPineSaveEligibilityResult.Outcome.LIFE_EXISTENCE_CONTRADICTION:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_LIFECYCLE
+			message_key = &"save.blocked.lifecycle"
+		OldPineSaveEligibilityResult.Outcome.UNREPRESENTED_ATTRIBUTE_MODIFIER:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_TEMPORARY_EFFECT
+			message_key = &"save.blocked.temporary_effect"
+		OldPineSaveEligibilityResult.Outcome.PENDING_AGGRESSION, \
+		OldPineSaveEligibilityResult.Outcome.COMBAT_CADENCE_ACTIVE, \
+		OldPineSaveEligibilityResult.Outcome.OPPONENT_RELATIONSHIP, \
+		OldPineSaveEligibilityResult.Outcome.LETHAL_MARKER, \
+		OldPineSaveEligibilityResult.Outcome.BUSY, \
+		OldPineSaveEligibilityResult.Outcome.INTERRUPT_THRESHOLD, \
+		OldPineSaveEligibilityResult.Outcome.GUARDING:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
+			message_key = &"save.blocked.combat_or_action"
+	return ApplicationOperationResult.new(operation, outcome, message_key)

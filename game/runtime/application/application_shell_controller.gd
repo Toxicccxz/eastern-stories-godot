@@ -14,6 +14,16 @@ signal state_changed(state: ApplicationShellState)
 @onready var status_label: Label = %StatusLabel
 @onready var new_game_button: Button = %NewGameButton
 @onready var continue_button: Button = %ContinueButton
+@onready var recovery_button: Button = %RecoveryButton
+@onready var pause_panel: Control = %PausePanel
+@onready var resume_button: Button = %ResumeButton
+@onready var save_button: Button = %SaveButton
+@onready var return_button: Button = %ReturnButton
+@onready var recovery_panel: Control = %RecoveryPanel
+@onready var backup_recovery_button: Button = %BackupRecoveryButton
+@onready var temp_recovery_button: Button = %TempRecoveryButton
+@onready var recovery_new_game_button: Button = %RecoveryNewGameButton
+@onready var recovery_cancel_button: Button = %RecoveryCancelButton
 @onready var busy_overlay: Control = %BusyOverlay
 @onready var busy_label: Label = %BusyLabel
 @onready var result_overlay: Control = %ResultOverlay
@@ -30,7 +40,6 @@ var _host: OldPineGameRuntimeHost
 var _state: ApplicationShellState = ApplicationShellState.new()
 var _slot_inspection: ApplicationSlotInspection
 var _last_result: ApplicationOperationResult
-var _confirmation_pending: bool = false
 
 
 func configure_before_start(
@@ -55,10 +64,39 @@ func _ready() -> void:
 	_host = HOST_SCENE.instantiate() as OldPineGameRuntimeHost
 	_connect_host(_host)
 	if not _host.configure_manual_before_start(_profile, _files, _coordinator):
-		_show_request_failure(ApplicationOperationResult.Operation.INSPECT_SLOT)
+		_show_request_failure(
+			ApplicationOperationResult.Operation.INSPECT_SLOT,
+			ApplicationShellState.ResultOrigin.MAIN_MENU,
+		)
 		return
 	runtime_host_slot.add_child(_host)
 	host_ready.emit(_host)
+
+
+func _exit_tree() -> void:
+	var tree: SceneTree = get_tree()
+	if tree != null and tree.paused:
+		tree.paused = false
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	var pause_pressed: bool = event.is_action_pressed("pause_game")
+	var cancel_pressed: bool = event.is_action_pressed("ui_cancel")
+	if not pause_pressed and not cancel_pressed:
+		return
+	var handled: bool = false
+	match _state.mode():
+		ApplicationShellState.Mode.PLAYING:
+			if pause_pressed:
+				handled = request_pause()
+		ApplicationShellState.Mode.PAUSED:
+			handled = request_resume()
+		ApplicationShellState.Mode.RESULT:
+			handled = dismiss_current_result()
+		ApplicationShellState.Mode.RECOVERY_CHOICE:
+			handled = cancel_recovery_choice()
+	if handled:
+		get_viewport().set_input_as_handled()
 
 
 func runtime_host() -> OldPineGameRuntimeHost:
@@ -89,6 +127,14 @@ func menu_visible() -> bool:
 	return main_menu_panel != null and main_menu_panel.visible
 
 
+func pause_visible() -> bool:
+	return pause_panel != null and pause_panel.visible
+
+
+func recovery_visible() -> bool:
+	return recovery_panel != null and recovery_panel.visible
+
+
 func busy_visible() -> bool:
 	return busy_overlay != null and busy_overlay.visible
 
@@ -101,6 +147,10 @@ func continue_enabled() -> bool:
 	return continue_button != null and not continue_button.disabled
 
 
+func recovery_enabled() -> bool:
+	return recovery_button != null and not recovery_button.disabled
+
+
 func status_text() -> String:
 	return "" if status_label == null else status_label.text
 
@@ -109,14 +159,7 @@ func request_new_game_from_menu() -> bool:
 	if _state.mode() != ApplicationShellState.Mode.MAIN_MENU:
 		return false
 	if _slot_inspection != null and _slot_inspection.has_save_material():
-		_confirmation_pending = true
-		_last_result = ApplicationOperationResult.new(
-			ApplicationOperationResult.Operation.NEW_GAME,
-			ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED,
-			&"new_game.confirm",
-		)
-		_set_state(ApplicationShellState.result())
-		return true
+		return _show_new_game_confirmation()
 	return _start_new_game()
 
 
@@ -127,41 +170,170 @@ func request_continue_from_menu() -> bool:
 		or not _slot_inspection.continue_available()
 	):
 		return false
-	_confirmation_pending = false
+	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.CONTINUE))
 	if _host != null and _host.request_continue():
 		return true
-	_show_request_failure(ApplicationOperationResult.Operation.CONTINUE)
+	_show_request_failure(
+		ApplicationOperationResult.Operation.CONTINUE,
+		ApplicationShellState.ResultOrigin.MAIN_MENU,
+	)
 	return false
 
 
-func confirm_current_result() -> bool:
-	if _state.mode() != ApplicationShellState.Mode.RESULT or not _confirmation_pending:
+func request_recovery_choice_from_menu() -> bool:
+	if (
+		_state.mode() != ApplicationShellState.Mode.MAIN_MENU
+		or _slot_inspection == null
+		or not _slot_inspection.recovery_available()
+	):
 		return false
-	_confirmation_pending = false
-	return _start_new_game()
+	_set_state(ApplicationShellState.recovery_choice())
+	return true
+
+
+func cancel_recovery_choice() -> bool:
+	if _state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE:
+		return false
+	_set_state(ApplicationShellState.main_menu())
+	return true
+
+
+func request_recovery_source(source: int) -> bool:
+	if (
+		_state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE
+		or _slot_inspection == null
+		or not _slot_inspection.has_recovery_source(source)
+	):
+		return false
+	_last_result = null
+	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.RECOVER))
+	if _host != null and _host.request_recovery(source):
+		return true
+	_show_request_failure(
+		ApplicationOperationResult.Operation.RECOVER,
+		ApplicationShellState.ResultOrigin.MAIN_MENU,
+	)
+	return false
+
+
+func request_pause() -> bool:
+	if (
+		_state.mode() != ApplicationShellState.Mode.PLAYING
+		or _host == null
+		or _host.request_pending()
+		or _host.current_session() == null
+		or not _host.session_invariant_holds()
+	):
+		return false
+	get_tree().paused = true
+	_set_state(ApplicationShellState.paused())
+	return true
+
+
+func request_resume() -> bool:
+	if (
+		_state.mode() != ApplicationShellState.Mode.PAUSED
+		or _host == null
+		or _host.request_pending()
+		or _host.current_session() == null
+		or not _host.session_invariant_holds()
+	):
+		return false
+	_set_state(ApplicationShellState.playing())
+	get_tree().paused = false
+	return true
+
+
+func request_save_from_pause() -> bool:
+	if (
+		_state.mode() != ApplicationShellState.Mode.PAUSED
+		or not get_tree().paused
+		or _host == null
+	):
+		return false
+	_last_result = null
+	_set_state(ApplicationShellState.saving())
+	if _host.request_save():
+		return true
+	_show_request_failure(
+		ApplicationOperationResult.Operation.SAVE,
+		ApplicationShellState.ResultOrigin.PAUSED,
+	)
+	return false
+
+
+func request_return_to_main_menu() -> bool:
+	if _state.mode() != ApplicationShellState.Mode.PAUSED:
+		return false
+	_last_result = ApplicationOperationResult.new(
+		ApplicationOperationResult.Operation.END_SESSION,
+		ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED,
+		&"return.confirm",
+	)
+	_set_state(ApplicationShellState.result(ApplicationShellState.ResultOrigin.PAUSED))
+	return true
+
+
+func confirm_current_result() -> bool:
+	if (
+		_state.mode() != ApplicationShellState.Mode.RESULT
+		or _last_result == null
+		or _last_result.outcome() != ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED
+	):
+		return false
+	match _last_result.operation():
+		ApplicationOperationResult.Operation.NEW_GAME:
+			return _start_new_game()
+		ApplicationOperationResult.Operation.END_SESSION:
+			return _start_end_session()
+	return false
 
 
 func dismiss_current_result() -> bool:
 	if _state.mode() != ApplicationShellState.Mode.RESULT:
 		return false
-	_confirmation_pending = false
+	var origin: int = _state.result_origin()
 	_last_result = null
+	if origin == ApplicationShellState.ResultOrigin.PAUSED:
+		_set_state(ApplicationShellState.paused())
+		return true
 	_set_state(ApplicationShellState.main_menu())
 	return true
 
 
-func request_end_session() -> bool:
-	if _state.mode() != ApplicationShellState.Mode.PLAYING or _host == null:
-		return false
-	return _host.request_end_session()
+func _show_new_game_confirmation() -> bool:
+	_last_result = ApplicationOperationResult.new(
+		ApplicationOperationResult.Operation.NEW_GAME,
+		ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED,
+		&"new_game.confirm",
+	)
+	_set_state(ApplicationShellState.result(ApplicationShellState.ResultOrigin.MAIN_MENU))
+	return true
 
 
 func _start_new_game() -> bool:
+	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.NEW_GAME))
 	if _host != null and _host.request_new_game():
 		return true
-	_show_request_failure(ApplicationOperationResult.Operation.NEW_GAME)
+	_show_request_failure(
+		ApplicationOperationResult.Operation.NEW_GAME,
+		ApplicationShellState.ResultOrigin.MAIN_MENU,
+	)
+	return false
+
+
+func _start_end_session() -> bool:
+	if not get_tree().paused or _host == null:
+		return false
+	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.END_SESSION))
+	if _host.request_end_session():
+		return true
+	_show_request_failure(
+		ApplicationOperationResult.Operation.END_SESSION,
+		ApplicationShellState.ResultOrigin.PAUSED,
+	)
 	return false
 
 
@@ -170,6 +342,8 @@ func _connect_host(host: OldPineGameRuntimeHost) -> void:
 	host.slot_inspection_completed.connect(_on_slot_inspection_completed)
 	host.new_game_completed.connect(_on_new_game_completed)
 	host.continue_completed.connect(_on_continue_completed)
+	host.recovery_completed.connect(_on_recovery_completed)
+	host.save_completed.connect(_on_save_completed)
 	host.end_session_completed.connect(_on_end_session_completed)
 
 
@@ -178,16 +352,23 @@ func _on_host_startup_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 		_show_runtime_result(
 			ApplicationOperationResult.Operation.INSPECT_SLOT,
 			result,
+			ApplicationShellState.ResultOrigin.MAIN_MENU,
 		)
 		return
 	if not _host.session_invariant_holds():
-		_show_session_invariant_failure(ApplicationOperationResult.Operation.INSPECT_SLOT)
+		_show_session_invariant_failure(
+			ApplicationOperationResult.Operation.INSPECT_SLOT,
+			ApplicationShellState.ResultOrigin.MAIN_MENU,
+		)
 		return
 	if not _host.request_slot_inspection():
-		_show_request_failure(ApplicationOperationResult.Operation.INSPECT_SLOT)
+		_show_request_failure(
+			ApplicationOperationResult.Operation.INSPECT_SLOT,
+			ApplicationShellState.ResultOrigin.MAIN_MENU,
+		)
 
 
-func _on_slot_inspection_completed(result: GameSaveResult) -> void:
+func _on_slot_inspection_completed(result: GameSaveSlotInspectionResult) -> void:
 	_slot_inspection = ApplicationProductResultMapper.inspect_slot(result)
 	_last_result = null
 	_set_state(ApplicationShellState.main_menu())
@@ -195,7 +376,10 @@ func _on_slot_inspection_completed(result: GameSaveResult) -> void:
 
 func _on_new_game_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 	if result.succeeded() and not _host.session_invariant_holds():
-		_show_session_invariant_failure(ApplicationOperationResult.Operation.NEW_GAME)
+		_show_session_invariant_failure(
+			ApplicationOperationResult.Operation.NEW_GAME,
+			ApplicationShellState.ResultOrigin.MAIN_MENU,
+		)
 		return
 	if result.succeeded():
 		_last_result = ApplicationProductResultMapper.runtime_result(
@@ -204,65 +388,110 @@ func _on_new_game_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 		)
 		_set_state(ApplicationShellState.playing())
 		return
-	_show_runtime_result(ApplicationOperationResult.Operation.NEW_GAME, result)
+	_show_runtime_result(
+		ApplicationOperationResult.Operation.NEW_GAME,
+		result,
+		ApplicationShellState.ResultOrigin.MAIN_MENU,
+	)
 
 
 func _on_continue_completed(result: OldPineRuntimeSaveLoadResult) -> void:
+	_handle_load_completion(ApplicationOperationResult.Operation.CONTINUE, result)
+
+
+func _on_recovery_completed(result: OldPineRuntimeSaveLoadResult) -> void:
+	_handle_load_completion(ApplicationOperationResult.Operation.RECOVER, result)
+
+
+func _handle_load_completion(
+	operation: int,
+	result: OldPineRuntimeSaveLoadResult,
+) -> void:
 	if result.succeeded() and not _host.session_invariant_holds():
-		_show_session_invariant_failure(ApplicationOperationResult.Operation.CONTINUE)
+		_show_session_invariant_failure(
+			operation,
+			ApplicationShellState.ResultOrigin.MAIN_MENU,
+		)
 		return
 	if result.succeeded():
-		_last_result = ApplicationProductResultMapper.runtime_result(
-			ApplicationOperationResult.Operation.CONTINUE,
-			result,
-		)
+		_last_result = ApplicationProductResultMapper.runtime_result(operation, result)
 		_set_state(ApplicationShellState.playing())
 		return
-	_show_runtime_result(ApplicationOperationResult.Operation.CONTINUE, result)
+	_show_runtime_result(
+		operation,
+		result,
+		ApplicationShellState.ResultOrigin.MAIN_MENU,
+	)
+
+
+func _on_save_completed(result: OldPineRuntimeSaveLoadResult) -> void:
+	_show_runtime_result(
+		ApplicationOperationResult.Operation.SAVE,
+		result,
+		ApplicationShellState.ResultOrigin.PAUSED,
+	)
 
 
 func _on_end_session_completed(result: OldPineRuntimeSaveLoadResult) -> void:
-	if result.succeeded() and not _host.session_invariant_holds():
-		_show_session_invariant_failure(ApplicationOperationResult.Operation.END_SESSION)
-		return
-	_last_result = ApplicationProductResultMapper.runtime_result(
-		ApplicationOperationResult.Operation.END_SESSION,
-		result,
-	)
-	if result.succeeded():
+	if result.succeeded() and _host_is_exactly_empty():
+		get_tree().paused = false
 		_slot_inspection = null
+		_last_result = null
 		_set_state(ApplicationShellState.boot_inspecting())
 		if not _host.request_slot_inspection():
-			_show_request_failure(ApplicationOperationResult.Operation.INSPECT_SLOT)
+			_show_request_failure(
+				ApplicationOperationResult.Operation.INSPECT_SLOT,
+				ApplicationShellState.ResultOrigin.MAIN_MENU,
+			)
 		return
-	_set_state(ApplicationShellState.result())
+	var origin: int = (
+		ApplicationShellState.ResultOrigin.PAUSED
+		if (
+			_host.current_session() != null
+			and _host.current_session().get_parent() == _host.session_slot
+		)
+		else ApplicationShellState.ResultOrigin.MAIN_MENU
+	)
+	if origin == ApplicationShellState.ResultOrigin.MAIN_MENU:
+		get_tree().paused = false
+	_show_runtime_result(ApplicationOperationResult.Operation.END_SESSION, result, origin)
 
 
 func _show_runtime_result(
 	operation: int,
 	result: OldPineRuntimeSaveLoadResult,
+	origin: int,
 ) -> void:
 	_last_result = ApplicationProductResultMapper.runtime_result(operation, result)
-	_confirmation_pending = false
-	_set_state(ApplicationShellState.result())
+	_set_state(ApplicationShellState.result(origin))
 
 
-func _show_request_failure(operation: int) -> void:
+func _show_request_failure(operation: int, origin: int) -> void:
 	_last_result = ApplicationOperationResult.new(
 		operation,
 		ApplicationOperationResult.Outcome.REQUEST_BUSY,
 		&"operation.busy",
 	)
-	_confirmation_pending = false
-	_set_state(ApplicationShellState.result())
+	_set_state(ApplicationShellState.result(origin))
 
 
-func _show_session_invariant_failure(operation: int) -> void:
+func _show_session_invariant_failure(operation: int, origin: int) -> void:
 	_show_runtime_result(
 		operation,
 		OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 		),
+		origin,
+	)
+
+
+func _host_is_exactly_empty() -> bool:
+	return (
+		_host != null
+		and _host.current_session() == null
+		and _host.session_slot.get_child_count() == 0
+		and _host.staging_slot.get_child_count() == 0
+		and _host.session_invariant_holds()
 	)
 
 
@@ -279,11 +508,14 @@ func _set_state(next: ApplicationShellState) -> bool:
 func _render_state() -> void:
 	var mode: int = _state.mode()
 	shell_canvas.visible = mode != ApplicationShellState.Mode.PLAYING
-	main_menu_panel.visible = mode != ApplicationShellState.Mode.PLAYING
-	busy_overlay.visible = (
-		mode == ApplicationShellState.Mode.BOOT
-		or mode == ApplicationShellState.Mode.STARTING_SESSION
-	)
+	main_menu_panel.visible = mode == ApplicationShellState.Mode.MAIN_MENU
+	pause_panel.visible = mode == ApplicationShellState.Mode.PAUSED
+	recovery_panel.visible = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
+	busy_overlay.visible = mode in [
+		ApplicationShellState.Mode.BOOT,
+		ApplicationShellState.Mode.STARTING_SESSION,
+		ApplicationShellState.Mode.SAVING,
+	]
 	result_overlay.visible = mode == ApplicationShellState.Mode.RESULT
 	var menu_interactive: bool = mode == ApplicationShellState.Mode.MAIN_MENU
 	new_game_button.disabled = not menu_interactive
@@ -292,24 +524,65 @@ func _render_state() -> void:
 		or _slot_inspection == null
 		or not _slot_inspection.continue_available()
 	)
+	recovery_button.disabled = (
+		not menu_interactive
+		or _slot_inspection == null
+		or not _slot_inspection.recovery_available()
+	)
 	status_label.text = (
 		"Checking saved journey..."
 		if _slot_inspection == null
 		else ApplicationMessageCatalog.text_for(_slot_inspection.message_key())
 	)
-	busy_label.text = (
-		"Checking saved journey..."
-		if mode == ApplicationShellState.Mode.BOOT
-		else "Starting journey..."
+	backup_recovery_button.visible = (
+		_slot_inspection != null
+		and _slot_inspection.has_recovery_source(GameSaveRecoverySource.Value.BACKUP)
 	)
+	temp_recovery_button.visible = (
+		_slot_inspection != null
+		and _slot_inspection.has_recovery_source(GameSaveRecoverySource.Value.TEMP)
+	)
+	busy_label.text = _busy_text()
 	if result_overlay.visible:
-		result_label.text = ApplicationMessageCatalog.text_for(_last_result.message_key())
-		confirm_button.visible = _confirmation_pending
-		cancel_button.visible = _confirmation_pending
-		acknowledge_button.visible = not _confirmation_pending
-		call_deferred("_focus_result_button")
+		_render_result()
+	elif mode == ApplicationShellState.Mode.RECOVERY_CHOICE:
+		call_deferred("_focus_recovery_button")
+	elif mode == ApplicationShellState.Mode.PAUSED:
+		call_deferred("_focus_pause_button")
 	elif menu_interactive:
 		call_deferred("_focus_first_menu_button")
+
+
+func _busy_text() -> String:
+	if _state.mode() == ApplicationShellState.Mode.BOOT:
+		return "Checking saved journey..."
+	if _state.mode() == ApplicationShellState.Mode.SAVING:
+		return "Saving journey..."
+	if _state.operation() == ApplicationShellState.Operation.END_SESSION:
+		return "Returning to Main Menu..."
+	if _state.operation() == ApplicationShellState.Operation.RECOVER:
+		return "Recovering journey..."
+	return "Starting journey..."
+
+
+func _render_result() -> void:
+	result_label.text = (
+		ApplicationMessageCatalog.text_for(_last_result.message_key())
+		if _last_result != null
+		else ApplicationMessageCatalog.text_for(&"operation.session_failure")
+	)
+	var confirmation: bool = (
+		_last_result != null
+		and _last_result.outcome() == ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED
+	)
+	confirm_button.visible = confirmation
+	cancel_button.visible = confirmation
+	acknowledge_button.visible = not confirmation
+	if confirmation and _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
+		confirm_button.text = "Return to Main Menu"
+	else:
+		confirm_button.text = "Start New Game"
+	call_deferred("_focus_result_button")
 
 
 func _focus_first_menu_button() -> void:
@@ -317,10 +590,26 @@ func _focus_first_menu_button() -> void:
 		new_game_button.grab_focus()
 
 
+func _focus_pause_button() -> void:
+	if _state.mode() == ApplicationShellState.Mode.PAUSED:
+		resume_button.grab_focus()
+
+
+func _focus_recovery_button() -> void:
+	if _state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE:
+		return
+	if backup_recovery_button.visible:
+		backup_recovery_button.grab_focus()
+	elif temp_recovery_button.visible:
+		temp_recovery_button.grab_focus()
+	else:
+		recovery_new_game_button.grab_focus()
+
+
 func _focus_result_button() -> void:
 	if _state.mode() != ApplicationShellState.Mode.RESULT:
 		return
-	if _confirmation_pending:
+	if confirm_button.visible:
 		confirm_button.grab_focus()
 	else:
 		acknowledge_button.grab_focus()
@@ -332,6 +621,39 @@ func _on_new_game_button_pressed() -> void:
 
 func _on_continue_button_pressed() -> void:
 	request_continue_from_menu()
+
+
+func _on_recovery_button_pressed() -> void:
+	request_recovery_choice_from_menu()
+
+
+func _on_resume_button_pressed() -> void:
+	request_resume()
+
+
+func _on_save_button_pressed() -> void:
+	request_save_from_pause()
+
+
+func _on_return_button_pressed() -> void:
+	request_return_to_main_menu()
+
+
+func _on_backup_recovery_button_pressed() -> void:
+	request_recovery_source(GameSaveRecoverySource.Value.BACKUP)
+
+
+func _on_temp_recovery_button_pressed() -> void:
+	request_recovery_source(GameSaveRecoverySource.Value.TEMP)
+
+
+func _on_recovery_new_game_button_pressed() -> void:
+	if _state.mode() == ApplicationShellState.Mode.RECOVERY_CHOICE:
+		_show_new_game_confirmation()
+
+
+func _on_recovery_cancel_button_pressed() -> void:
+	cancel_recovery_choice()
 
 
 func _on_confirm_button_pressed() -> void:
