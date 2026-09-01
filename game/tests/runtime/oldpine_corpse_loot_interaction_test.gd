@@ -37,6 +37,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_multiple_corpse_contents_are_independent()
 	await _test_corpse_view_identity_and_multiple_views(tree)
 	await _test_partial_death_does_not_activate_loot(tree)
+	await _test_unconscious_consumes_gap_without_item(tree)
 	await _test_item_index_collision_preserves_completed_lifecycle(tree)
 	await _test_oldpine_scene_loot_loop(tree)
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
@@ -584,6 +585,37 @@ func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
+func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
+	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	await tree.physics_frame
+	_assert_true(controller != null, "unconscious allocation fixture instantiates Old Pine")
+	if controller == null:
+		return
+	var inventory_ids_before: Array[StringName] = (
+		controller.inventory_state().registered_item_ids()
+	)
+	var index_ids_before: Array[StringName] = (
+		controller.item_instance_index().snapshot_ids()
+	)
+	_assert_eq(controller._item_id_allocator.next_dynamic_sequence, 0, "fresh session allocator starts at zero")
+	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
+	controller._on_south_slope_body_entered(controller.player_body)
+	_assert_true(controller.select_npc(victim.character_id), "unconscious fixture selects a bandit")
+	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "unconscious fixture starts combat through normal boundary")
+	controller.opportunity_timer.stop()
+	controller.player_runtime().busy.start_busy(1)
+	victim.character_state.attributes.strength = 30
+	victim.character_state.vitality.current = -1
+	controller.process_cadence_tick()
+	_assert_eq(victim.life_status, CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "first threshold opportunity resolves unconscious rather than death")
+	_assert_eq(controller._item_id_allocator.next_dynamic_sequence, 1, "unconscious opportunity intentionally consumes one sequence gap")
+	_assert_eq(controller.inventory_state().registered_item_ids(), inventory_ids_before, "unconscious creates no Inventory item")
+	_assert_eq(controller.item_instance_index().snapshot_ids(), index_ids_before, "unconscious creates no item-index projection")
+	_assert_true(controller.corpse_states().is_empty(), "unconscious creates no corpse state")
+	controller.queue_free()
+	await tree.process_frame
+
+
 func _test_item_index_collision_preserves_completed_lifecycle(
 	tree: SceneTree,
 ) -> void:
@@ -594,9 +626,9 @@ func _test_item_index_collision_preserves_completed_lifecycle(
 		return
 	var corpse_id: StringName = StringName(
 		## The deterministic helper first crosses the unconscious boundary;
-		## Old Pine's closed lifecycle wrapper increments its sequence for that
-		## opportunity before the later death opportunity.
-		"oldpine-outdoor-corpse-%d-2" % controller.get_instance_id()
+		## the session allocator consumes dynamic sequence zero for that
+		## opportunity before the later death opportunity uses sequence one.
+		"%s.dynamic.1" % String(controller._item_id_allocator.scope)
 	)
 	_assert_true(
 		controller.item_instance_index().register_snapshot(

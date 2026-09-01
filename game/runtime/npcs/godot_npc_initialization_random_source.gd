@@ -15,6 +15,22 @@ func configure_seed(value: int) -> void:
 	_generator.seed = value
 
 
+func capture_random_state() -> RandomStreamSnapshot:
+	return RandomStreamSnapshot.new(
+		RandomStreamSnapshot.GODOT_PCG32_ADAPTER_ID,
+		_generator.seed,
+		_generator.state,
+	)
+
+
+func restore_random_state(snapshot: RandomStreamSnapshot) -> bool:
+	if snapshot == null or not snapshot.is_supported():
+		return false
+	_generator.seed = snapshot.seed
+	_generator.state = snapshot.state
+	return true
+
+
 func next_below(exclusive_upper_bound: int) -> int:
 	if exclusive_upper_bound <= 0:
 		return -1

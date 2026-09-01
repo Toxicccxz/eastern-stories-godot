@@ -181,6 +181,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 		return
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	var cave: OldPineCavePassageController = session.cave_map()
+	var session_allocator: SessionItemIdAllocator = session.item_id_allocator()
 	_assert_true(outdoor != null and cave != null, "session retains both typed resident maps")
 	_assert_eq(session.resident_map_count(), 2, "session has exactly two resident maps")
 	_assert_eq(session.active_map_child_count(), 1, "exactly one resident map is tree-active")
@@ -196,6 +197,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(outdoor.inventory_state() == session.inventory_state(), "Outdoor shares session inventory authority")
 	_assert_true(outdoor.stack_collection() == session.stack_collection(), "Outdoor shares session stack authority")
 	_assert_true(outdoor.item_instance_index() == session.item_instance_index(), "Outdoor shares session item index")
+	_assert_true(outdoor._item_id_allocator == session_allocator, "Outdoor receives the exact session item-ID allocator object")
 	_assert_true(outdoor.npc_random_source() == session.npc_random_source(), "Outdoor shares session NPC RNG")
 	_assert_true(outdoor.combat_random_source() == session.combat_random_source(), "Outdoor shares session combat RNG")
 	_assert_true(cave._inventory == session.inventory_state(), "Cave receives the same session InventoryState")
@@ -204,6 +206,9 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(cave._npc_random == session.npc_random_source(), "Cave receives the same session NPC RNG without consuming it")
 	_assert_true(cave._combat_random == session.combat_random_source(), "Cave receives the same session Combat RNG")
 	_assert_eq(cave._item_instance_scope, session.item_instance_scope(), "Cave receives the same session item-ID scope")
+	_assert_true(cave._item_id_allocator == session_allocator, "Cave receives the exact session item-ID allocator object")
+	_assert_eq(session_allocator.next_dynamic_sequence, 0, "twelve authored bootstrap items consume no dynamic sequence")
+	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "New Game still creates exactly twelve bootstrap items")
 	_assert_true(outdoor.player_body.player_controlled, "only active Outdoor player body is controllable")
 	_assert_false(cave.player_body.player_controlled, "detached Cave player body is not controllable")
 	_assert_true(
@@ -440,6 +445,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(cave.initialization_count(), 1, "Cave is not reinitialized after detach")
 	_assert_eq(outdoor.corpse_layer.get_instance_id(), corpse_layer_id, "Outdoor corpse layer identity survives round trip")
 	_assert_true(outdoor.corpse_states()[0] == corpse, "same CorpseState survives round trip")
+	_assert_true(session.item_id_allocator() == session_allocator, "map round trip preserves the exact allocator authority")
 	_assert_eq(outdoor.corpse_view_for(corpse_id).get_instance_id(), corpse_view_id, "same corpse view Node survives round trip")
 	_assert_eq(corpse_view.get_signal_connection_list("selection_requested").size(), corpse_selection_connections, "corpse picking signal is not duplicated on reactivation")
 	_assert_eq(corpse_view.get_signal_connection_list("loot_range_changed").size(), corpse_range_connections, "corpse range signal is not duplicated on reactivation")

@@ -859,6 +859,46 @@ const OldPineVineCrossMapTraversalTest := preload(
 const OldPineRiverCliffRouteTest := preload(
 	"res://tests/runtime/oldpine_river_cliff_route_test.gd"
 )
+const GameSaveValueTypesScript := preload("res://core/persistence/game_save_value_types.gd")
+const RandomStreamSnapshotScript := preload("res://core/persistence/random_stream_snapshot.gd")
+const GameSaveSnapshotScript := preload("res://core/persistence/game_save_snapshot.gd")
+const GameSaveResultScript := preload("res://core/persistence/game_save_result.gd")
+const DecimalInt64CodecScript := preload("res://core/persistence/decimal_int64_codec.gd")
+const GameSaveSnapshotValidatorScript := preload("res://core/persistence/game_save_snapshot_validator.gd")
+const GameSaveJsonCodecScript := preload("res://core/persistence/game_save_json_codec.gd")
+const SaveFileReadResultScript := preload("res://runtime/persistence/save_file_read_result.gd")
+const SaveFileOperationsScript := preload("res://runtime/persistence/save_file_operations.gd")
+const GodotSaveFileOperationsScript := preload("res://runtime/persistence/godot_save_file_operations.gd")
+const GameSaveStorageProfileScript := preload("res://runtime/persistence/game_save_storage_profile.gd")
+const GameSaveRepositoryScript := preload("res://runtime/persistence/game_save_repository.gd")
+const GameSaveJsonCodecTest := preload("res://tests/core/game_save_json_codec_test.gd")
+const RandomStreamPersistenceTest := preload("res://tests/runtime/random_stream_persistence_test.gd")
+const GameSaveRepositoryTest := preload("res://tests/runtime/game_save_repository_test.gd")
+const SessionItemIdAllocationResultScript := preload("res://core/persistence/session_item_id_allocation_result.gd")
+const SessionItemIdAllocatorRestoreResultScript := preload("res://core/persistence/session_item_id_allocator_restore_result.gd")
+const SessionItemIdAllocatorScript := preload("res://core/persistence/session_item_id_allocator.gd")
+const SessionItemIdScopeFactoryScript := preload("res://core/persistence/session_item_id_scope_factory.gd")
+const NativeItemRestoreCompositionResultScript := preload("res://core/persistence/native_item_restore_composition_result.gd")
+const NativeItemPersistenceCompositionScript := preload("res://core/persistence/native_item_persistence_composition.gd")
+const OldPineNativeItemDefinitionProjectionsScript := preload("res://data/oldpine/oldpine_native_item_definition_projections.gd")
+const NativeItemPersistenceCompositionTest := preload("res://tests/core/native_item_persistence_composition_test.gd")
+const CharacterStateSnapshotRestorerScript := preload("res://core/persistence/character_state_snapshot_restorer.gd")
+const OldPineRestoredNpcEntryScript := preload("res://runtime/persistence/oldpine_restored_npc_entry.gd")
+const OldPineRestoredCorpseEntryScript := preload("res://runtime/persistence/oldpine_restored_corpse_entry.gd")
+const OldPineWorldRestorePreparationScript := preload("res://runtime/persistence/oldpine_world_restore_preparation.gd")
+const OldPineWorldRestoreResultScript := preload("res://runtime/persistence/oldpine_world_restore_result.gd")
+const OldPineWorldRestoreCompositionScript := preload("res://runtime/persistence/oldpine_world_restore_composition.gd")
+const OldPineMapPlacementValidatorScript := preload("res://runtime/persistence/oldpine_map_placement_validator.gd")
+const OldPineWorldRestoreServiceScript := preload("res://runtime/persistence/oldpine_world_restore_service.gd")
+const OldPineWorldRestoreTest := preload("res://tests/runtime/oldpine_world_restore_test.gd")
+const OldPineSaveEligibilityResultScript := preload("res://runtime/persistence/oldpine_save_eligibility_result.gd")
+const OldPineSaveEligibilityScript := preload("res://runtime/persistence/oldpine_save_eligibility.gd")
+const OldPineWorldCaptureResultScript := preload("res://runtime/persistence/oldpine_world_capture_result.gd")
+const OldPineWorldSaveCaptureScript := preload("res://runtime/persistence/oldpine_world_save_capture.gd")
+const OldPineRuntimeSaveLoadResultScript := preload("res://runtime/persistence/oldpine_runtime_save_load_result.gd")
+const OldPineSessionLoadCoordinatorScript := preload("res://runtime/persistence/oldpine_session_load_coordinator.gd")
+const OldPineGameRuntimeHostScript := preload("res://runtime/persistence/oldpine_game_runtime_host.gd")
+const OldPineSaveLoadTransactionTest := preload("res://tests/runtime/oldpine_save_load_transaction_test.gd")
 
 
 func _init() -> void:
@@ -1192,6 +1232,46 @@ func _init() -> void:
 		VineTraversalPolicyTest,
 		OldPineVineCrossMapTraversalTest,
 		OldPineRiverCliffRouteTest,
+		GameSaveValueTypesScript,
+		RandomStreamSnapshotScript,
+		GameSaveSnapshotScript,
+		GameSaveResultScript,
+		DecimalInt64CodecScript,
+		GameSaveSnapshotValidatorScript,
+		GameSaveJsonCodecScript,
+		SaveFileReadResultScript,
+		SaveFileOperationsScript,
+		GodotSaveFileOperationsScript,
+		GameSaveStorageProfileScript,
+		GameSaveRepositoryScript,
+		GameSaveJsonCodecTest,
+		RandomStreamPersistenceTest,
+		GameSaveRepositoryTest,
+		SessionItemIdAllocationResultScript,
+		SessionItemIdAllocatorRestoreResultScript,
+		SessionItemIdAllocatorScript,
+		SessionItemIdScopeFactoryScript,
+		NativeItemRestoreCompositionResultScript,
+		NativeItemPersistenceCompositionScript,
+		OldPineNativeItemDefinitionProjectionsScript,
+		NativeItemPersistenceCompositionTest,
+		CharacterStateSnapshotRestorerScript,
+		OldPineRestoredNpcEntryScript,
+		OldPineRestoredCorpseEntryScript,
+		OldPineWorldRestorePreparationScript,
+		OldPineWorldRestoreResultScript,
+		OldPineWorldRestoreCompositionScript,
+		OldPineMapPlacementValidatorScript,
+		OldPineWorldRestoreServiceScript,
+		OldPineWorldRestoreTest,
+		OldPineSaveEligibilityResultScript,
+		OldPineSaveEligibilityScript,
+		OldPineWorldCaptureResultScript,
+		OldPineWorldSaveCaptureScript,
+		OldPineRuntimeSaveLoadResultScript,
+		OldPineSessionLoadCoordinatorScript,
+		OldPineGameRuntimeHostScript,
+		OldPineSaveLoadTransactionTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1311,6 +1391,12 @@ func _init() -> void:
 	var phase_9b3b3_result: Dictionary[String, Variant] = (
 		await OldPineRiverCliffRouteTest.new().run_all(self)
 	)
+	var phase_10b1_codec_result: Dictionary[String, Variant] = GameSaveJsonCodecTest.new().run_all()
+	var phase_10b1_random_result: Dictionary[String, Variant] = RandomStreamPersistenceTest.new().run_all()
+	var phase_10b1_repository_result: Dictionary[String, Variant] = GameSaveRepositoryTest.new().run_all()
+	var phase_10b2_result: Dictionary[String, Variant] = NativeItemPersistenceCompositionTest.new().run_all()
+	var phase_10b3_result: Dictionary[String, Variant] = await OldPineWorldRestoreTest.new().run_all(self)
+	var phase_10b4_result: Dictionary[String, Variant] = await OldPineSaveLoadTransactionTest.new().run_all(self)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1397,6 +1483,18 @@ func _init() -> void:
 		phase_9b3b2_runtime_result["assertions"]
 	) + int(
 		phase_9b3b3_result["assertions"]
+	) + int(
+		phase_10b1_codec_result["assertions"]
+	) + int(
+		phase_10b1_random_result["assertions"]
+	) + int(
+		phase_10b1_repository_result["assertions"]
+	) + int(
+		phase_10b2_result["assertions"]
+	) + int(
+		phase_10b3_result["assertions"]
+	) + int(
+		phase_10b4_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1444,6 +1542,12 @@ func _init() -> void:
 	failures.append_array(phase_9b3b2_policy_result["failures"])
 	failures.append_array(phase_9b3b2_runtime_result["failures"])
 	failures.append_array(phase_9b3b3_result["failures"])
+	failures.append_array(phase_10b1_codec_result["failures"])
+	failures.append_array(phase_10b1_random_result["failures"])
+	failures.append_array(phase_10b1_repository_result["failures"])
+	failures.append_array(phase_10b2_result["failures"])
+	failures.append_array(phase_10b3_result["failures"])
+	failures.append_array(phase_10b4_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -2,9 +2,9 @@
 
 ## Current milestone
 
-Phase 10A establishes a cross-platform repository/build/CI foundation around the closed Old Pine
-playable milestone. It does not declare the game complete, store-ready, production-ready, or fully
-migrated.
+Phase 10B completes the native Save/Load foundation for the closed Old Pine playable milestone on top of
+Phase 10A's cross-platform repository/build/CI foundation. It does not declare the game complete,
+store-ready, production-ready, or fully migrated. Phase 10C has not started.
 
 Formally closed gameplay foundations include:
 
@@ -18,16 +18,19 @@ Formally closed gameplay foundations include:
 - NPC/world/spawn typed foundations and authored Old Pine bandits/loadouts;
 - one resident Old Pine Session with Outdoor/Cave map lifetime;
 - Vine traversal, Passage Cave/SouthExit roundtrip, Waterfall, River, Cliff, and source-faithful
-  one-way Pine route.
+  one-way Pine route;
+- typed native Save snapshots/JSON/repository, exact item and RNG continuation, fresh world/NPC/corpse
+  reconstruction, restart-stable Save eligibility, transactional Session replacement, and fresh-process
+  Outdoor/Cave restore proof.
 
 The current canonical main scene is
-`res://scenes/world/oldpine/oldpine_world_session.tscn`.
+`res://scenes/runtime/oldpine_game_runtime_host.tscn`; it owns the replaceable Old Pine Session.
 
 ## Incomplete work
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- application-level native Save/Load integration;
+- player-facing Save/Load UI and startup menu policy;
 - main menu, Continue, pause/settings, and cross-platform game shell;
 - virtual/touch controls, responsive mobile HUD, safe areas/notches, Android Back behavior,
   orientation and mobile lifecycle policy;

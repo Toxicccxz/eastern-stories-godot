@@ -65,12 +65,13 @@ var _tall_bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
-var _corpse_sequence: int = 0
+var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
 var _last_tick_order: Array[StringName] = []
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 var _item_instance_scope: StringName = &""
+var _item_id_allocator: SessionItemIdAllocator
 var _initialized: bool = false
 var _configured: bool = false
 var _initialization_count: int = 0
@@ -132,7 +133,7 @@ func configure_session_authorities(
 	p_npc_random: NpcInitializationRandomSource,
 	p_combat_random: CombatRandomSource,
 	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_instance_scope: StringName,
+	p_item_id_allocator: SessionItemIdAllocator,
 ) -> bool:
 	if (
 		_configured
@@ -145,7 +146,8 @@ func configure_session_authorities(
 		or p_npc_random == null
 		or p_combat_random == null
 		or p_world_interaction_random == null
-		or p_item_instance_scope.is_empty()
+		or p_item_id_allocator == null
+		or not p_item_id_allocator.is_valid()
 	):
 		return false
 	_session_owner = p_session
@@ -156,7 +158,8 @@ func configure_session_authorities(
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random
 	_world_interaction_random = p_world_interaction_random
-	_item_instance_scope = p_item_instance_scope
+	_item_id_allocator = p_item_id_allocator
+	_item_instance_scope = p_item_id_allocator.scope
 	_configured = true
 	return true
 
@@ -187,10 +190,21 @@ func initialize_map() -> bool:
 		tall_weapon_content.weapon_damage,
 	)
 	if (
-		not _initialize_player()
-		or not _initialize_bandits()
-		or not _initialize_tall_bandit()
-		or not _initialize_fat_bandit()
+		(
+			_session_owner.bootstrap_mode()
+			== OldPineWorldSessionController.BootstrapMode.RESTORE
+			and not _initialize_restored_world()
+		)
+		or (
+			_session_owner.bootstrap_mode()
+			== OldPineWorldSessionController.BootstrapMode.NEW_GAME
+			and (
+				not _initialize_player()
+				or not _initialize_bandits()
+				or not _initialize_tall_bandit()
+				or not _initialize_fat_bandit()
+			)
+		)
 	):
 		return false
 	hud.configure(_player)
@@ -259,6 +273,26 @@ func corpse_states() -> Array[CorpseState]:
 
 func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
 	return _corpse_views.get(corpse_id)
+
+
+func corpse_world_location(corpse_id: StringName) -> WorldLocationState:
+	var location: WorldLocationState = _corpse_locations.get(corpse_id)
+	return null if location == null else location.duplicate_snapshot()
+
+
+func runtime_body_for_character(character_id: StringName) -> WorldCharacterBodyType:
+	return _body_for(character_id)
+
+
+func _location_for_character(character_id: StringName) -> WorldLocationState:
+	if _player != null and character_id == _player.character_id:
+		return _player.world_location()
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	return null if npc == null else npc.world_location()
+
+
+func cadence_is_running() -> bool:
+	return opportunity_timer != null and not opportunity_timer.is_stopped()
 
 
 func last_loot_transfer_result() -> CorpseLootTransferResult:
@@ -434,6 +468,44 @@ func resume_after_relationship_reconciliation() -> void:
 		)
 	_cadence_was_running = false
 	_suspended_cadence_time_left = 0.0
+
+
+func suspend_for_session_swap() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	_cadence_was_running = not opportunity_timer.is_stopped()
+	_suspended_cadence_time_left = (
+		opportunity_timer.time_left if _cadence_was_running else 0.0
+	)
+	opportunity_timer.stop()
+	player_body.player_controlled = false
+	player_body.velocity = Vector2.ZERO
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = false
+	return true
+
+
+func resume_after_session_swap_rollback() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = true
+	player_body.refresh_runtime_state()
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = true
+	if hud != null:
+		hud.visible = true
+		hud.refresh_live_state()
+	if _cadence_was_running and _has_active_relationships():
+		opportunity_timer.start(
+			_suspended_cadence_time_left
+			if _suspended_cadence_time_left > 0.0
+			else -1.0
+		)
+	_cadence_was_running = false
+	_suspended_cadence_time_left = 0.0
+	return true
 
 
 func replace_combat_random_source(value: CombatRandomSource) -> bool:
@@ -898,6 +970,79 @@ func _initialize_player() -> bool:
 	return player_body.bind_player(_player)
 
 
+func _initialize_restored_world() -> bool:
+	if not _initialize_restored_player():
+		return false
+	for entry: OldPineRestoredNpcEntry in _session_owner.restored_npc_entries():
+		var npc: NpcRuntimeState = entry.runtime
+		if npc.world_location().map_id != map_id():
+			continue
+		var body: WorldCharacterBodyType = _body_for_spawn_point(npc.spawn_point_id)
+		var saved_exists: bool = npc.exists_in_map
+		if body == null or not _map_characters.register_npc(npc):
+			return false
+		# register_npc() is a live-spawn API and marks existence true. Restore
+		# immediately reapplies the persisted tombstone fact before any frame.
+		npc.set_exists_in_map(saved_exists)
+		_all_npcs.append(npc)
+		body.global_position = entry.map_position
+		body.player_controlled = false
+		if not body.bind_npc(npc):
+			return false
+	for entry: OldPineRestoredCorpseEntry in _session_owner.restored_corpse_entries():
+		if entry.world_location.map_id != map_id():
+			continue
+		var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
+		if not view.configure(entry.state):
+			return false
+		view.global_position = entry.map_position
+		_corpse_states.append(entry.state)
+		_corpse_views[entry.state.corpse_item_instance_id] = view
+		_corpse_locations[entry.state.corpse_item_instance_id] = (
+			entry.world_location.duplicate_snapshot()
+		)
+		view.selection_requested.connect(_on_corpse_selection_requested)
+		view.loot_range_changed.connect(_on_corpse_loot_range_changed)
+		corpse_layer.add_child(view)
+	return _all_npcs.size() == 5
+
+
+func _initialize_restored_player() -> bool:
+	if not player_body.bind_player(_player):
+		return false
+	var location: WorldLocationState = _player.world_location()
+	if location.map_id == map_id():
+		player_body.global_position = _session_owner.restored_player_position()
+	else:
+		var marker: WorldSpawnMarkerType = %PlayerStart
+		if marker == null:
+			return false
+		player_body.global_position = marker.global_position
+	player_body.player_controlled = false
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = false
+	return true
+
+
+func _body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBodyType:
+	var bandit_points: Array[StringName] = (
+		OldPineSpawnDefinitions.spath1_bandit_spawn().spawn_point_ids()
+	)
+	var bandit_index: int = bandit_points.find(spawn_point_id)
+	if bandit_index >= 0 and bandit_index < bandit_bodies.size():
+		return bandit_bodies[bandit_index]
+	if spawn_point_id == (
+		OldPineSpawnDefinitions.pine1_tall_bandit_spawn().spawn_point_ids()[0]
+	):
+		return tall_bandit_body
+	if spawn_point_id == (
+		OldPineSpawnDefinitions.pine1_fat_bandit_spawn().spawn_point_ids()[0]
+	):
+		return fat_bandit_body
+	return null
+
+
 func _initialize_bandits() -> bool:
 	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.spath1_bandit_spawn()
 	var definition: NpcDefinition = OldPineNpcDefinitions.bandit_definition()
@@ -1046,12 +1191,15 @@ func _execute_lifecycle(
 ) -> CombatSliceLifecycleResult:
 	var body: WorldCharacterBodyType = _body_for(victim.character_id)
 	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
+	var death_location: WorldLocationState = _location_for_character(victim.character_id)
 	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants)
 	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
-	_corpse_sequence += 1
-	var corpse_id: StringName = StringName(
-		"oldpine-outdoor-corpse-%d-%d" % [get_instance_id(), _corpse_sequence]
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(
+		_inventory
 	)
+	if not allocation.succeeded:
+		return CombatSliceLifecycleResult.new()
+	var corpse_id: StringName = allocation.item_instance_id
 	var context: DeathContext = _death_context_for(victim, killer, destination)
 	var lifecycle: CombatSliceLifecycleResult = CombatSliceLifecycleAdapter.new().execute(
 		opportunity,
@@ -1075,6 +1223,10 @@ func _execute_lifecycle(
 		var corpse: CorpseState = lifecycle.death_inventory_result.corpse_state
 		if corpse != null:
 			_corpse_states.append(corpse)
+			if death_location != null:
+				_corpse_locations[corpse.corpse_item_instance_id] = (
+					death_location.duplicate_snapshot()
+				)
 			var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
 			if view.configure(corpse):
 				view.global_position = death_position

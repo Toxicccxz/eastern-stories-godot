@@ -11,6 +11,14 @@ const CAVE_SCENE: PackedScene = preload(
 const WorldPlayerRuntimeType := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
+const SessionItemIdScopeFactoryType := preload(
+	"res://core/persistence/session_item_id_scope_factory.gd"
+)
+
+enum BootstrapMode {
+	NEW_GAME,
+	RESTORE,
+}
 
 @export var deterministic_npc_seed: bool = false
 @export var npc_seed: int = 7_021
@@ -29,11 +37,19 @@ var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
 var _world_interaction_random: WorldInteractionRandomSource
 var _item_instance_scope: StringName = &""
+var _item_id_allocator: SessionItemIdAllocator
 var _resident_maps: Dictionary[StringName, OldPineResidentMapController] = {}
 var _active_map_id: StringName = &""
 var _initialized: bool = false
 var _transitioning: bool = false
 var _last_passage_exit_handoff: OldPineMapHandoffResult
+var _last_map_handoff: OldPineMapHandoffResult
+var _bootstrap_mode: int = BootstrapMode.NEW_GAME
+var _restore_preparation: OldPineWorldRestorePreparation
+var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
+var _restore_candidate_staged: bool = false
+var _session_swap_suspended: bool = false
+var _session_swap_reparenting: bool = false
 
 
 func _ready() -> void:
@@ -41,6 +57,8 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
+	if _session_swap_reparenting:
+		return
 	for map_id: StringName in _resident_maps.keys():
 		var value: Variant = _resident_maps.get(map_id)
 		if not is_instance_valid(value):
@@ -56,7 +74,13 @@ func _exit_tree() -> void:
 func initialize_session() -> bool:
 	if _initialized:
 		return true
-	if active_map_slot == null or not _initialize_authorities():
+	if active_map_slot == null:
+		return false
+	if _bootstrap_mode == BootstrapMode.RESTORE:
+		if not _initialize_restore_authorities():
+			_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.RECONSTRUCTION_FAILED
+			return false
+	elif not _initialize_authorities():
 		return false
 	var cave: OldPineResidentMapController = (
 		CAVE_SCENE.instantiate() as OldPineResidentMapController
@@ -68,6 +92,9 @@ func initialize_session() -> bool:
 		return false
 	if not _register_and_configure_map(cave) or not _register_and_configure_map(outdoor):
 		return false
+
+	if _bootstrap_mode == BootstrapMode.RESTORE:
+		return _initialize_restore_residents(cave, outdoor)
 
 	# Ready-time binding is performed once for both resident maps. The inactive
 	# cave is then detached without being freed or simulated.
@@ -85,6 +112,72 @@ func initialize_session() -> bool:
 	_active_map_id = outdoor.map_id()
 	_initialized = true
 	return _reconcile_active_residents()
+
+
+func configure_restore(preparation: OldPineWorldRestorePreparation) -> bool:
+	if (
+		is_inside_tree()
+		or _initialized
+		or _bootstrap_mode != BootstrapMode.NEW_GAME
+		or preparation == null
+		or not preparation.is_valid()
+	):
+		return false
+	_bootstrap_mode = BootstrapMode.RESTORE
+	_restore_preparation = preparation
+	process_mode = Node.PROCESS_MODE_DISABLED
+	return true
+
+
+func bootstrap_mode() -> int:
+	return _bootstrap_mode
+
+
+func is_initialized() -> bool:
+	return _initialized
+
+
+func is_restore_candidate_staged() -> bool:
+	return _restore_candidate_staged
+
+
+func restore_failure_outcome() -> int:
+	return _restore_failure_outcome
+
+
+func restored_player_position() -> Vector2:
+	return Vector2.ZERO if _restore_preparation == null else _restore_preparation.player_position
+
+
+func restored_npc_entries() -> Array[OldPineRestoredNpcEntry]:
+	return [] if _restore_preparation == null else _restore_preparation.npc_entries()
+
+
+func restored_corpse_entries() -> Array[OldPineRestoredCorpseEntry]:
+	return [] if _restore_preparation == null else _restore_preparation.corpse_entries()
+
+
+func activate_restore_candidate() -> bool:
+	if (
+		_bootstrap_mode != BootstrapMode.RESTORE
+		or not _initialized
+		or not _restore_candidate_staged
+	):
+		return false
+	var map: OldPineResidentMapController = active_map()
+	if map == null:
+		return false
+	process_mode = Node.PROCESS_MODE_INHERIT
+	map.set_restore_staging(false)
+	if not map.complete_activation() or not _reconcile_active_residents():
+		map.prepare_for_deactivation()
+		map.set_restore_staging(true)
+		process_mode = Node.PROCESS_MODE_DISABLED
+		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.ACTIVATION_FAILED
+		return false
+	map.resume_after_relationship_reconciliation()
+	_restore_candidate_staged = false
+	return true
 
 
 func player_runtime() -> WorldPlayerRuntimeType:
@@ -119,6 +212,10 @@ func item_instance_scope() -> StringName:
 	return _item_instance_scope
 
 
+func item_id_allocator() -> SessionItemIdAllocator:
+	return _item_id_allocator
+
+
 func active_map_id() -> StringName:
 	return _active_map_id
 
@@ -151,8 +248,16 @@ func is_transitioning() -> bool:
 	return _transitioning
 
 
+func is_session_swap_suspended() -> bool:
+	return _session_swap_suspended
+
+
 func last_passage_exit_handoff_result() -> OldPineMapHandoffResult:
 	return _last_passage_exit_handoff
+
+
+func last_map_handoff_result() -> OldPineMapHandoffResult:
+	return _last_map_handoff
 
 
 func configure_combat_random_source(value: CombatRandomSource) -> bool:
@@ -219,6 +324,21 @@ func request_passage_south_exit() -> OldPineMapHandoffResult:
 
 
 func handoff_to(
+	destination_map_id: StringName,
+	destination_zone_id: StringName,
+	destination_combat_location_id: StringName,
+	destination_spawn_point_id: StringName,
+) -> OldPineMapHandoffResult:
+	_last_map_handoff = _handoff_to_impl(
+		destination_map_id,
+		destination_zone_id,
+		destination_combat_location_id,
+		destination_spawn_point_id,
+	)
+	return _last_map_handoff
+
+
+func _handoff_to_impl(
 	destination_map_id: StringName,
 	destination_zone_id: StringName,
 	destination_combat_location_id: StringName,
@@ -291,6 +411,10 @@ func handoff_to(
 		_transitioning = false
 		return result
 	result._destination_prepared = true
+	# A resident map that was inactive when a RESTORE candidate activated is
+	# still staged and process-disabled. It becomes live only when this handoff
+	# selects it as the destination; unstaging here also restores its Areas.
+	destination.set_restore_staging(false)
 	source.prepare_for_deactivation()
 	active_map_slot.remove_child(source)
 	result._source_detached = true
@@ -329,6 +453,55 @@ func handoff_to(
 	return result
 
 
+func suspend_for_session_swap() -> bool:
+	if (
+		not _initialized
+		or _transitioning
+		or _session_swap_suspended
+		or active_map_slot == null
+		or active_map_slot.get_child_count() != 1
+	):
+		return false
+	var map: OldPineResidentMapController = active_map()
+	if map == null or not map.suspend_for_session_swap():
+		return false
+	map.set_restore_staging(true)
+	process_mode = Node.PROCESS_MODE_DISABLED
+	_session_swap_suspended = true
+	return true
+
+
+func resume_after_failed_session_swap() -> bool:
+	if not _session_swap_suspended:
+		return false
+	var map: OldPineResidentMapController = active_map()
+	if map == null:
+		return false
+	process_mode = Node.PROCESS_MODE_INHERIT
+	map.set_restore_staging(false)
+	if not map.resume_after_session_swap_rollback():
+		map.set_restore_staging(true)
+		process_mode = Node.PROCESS_MODE_DISABLED
+		return false
+	_session_swap_suspended = false
+	return true
+
+
+func begin_session_swap_reparent() -> bool:
+	if (
+		_bootstrap_mode != BootstrapMode.RESTORE
+		or not _initialized
+		or _session_swap_reparenting
+	):
+		return false
+	_session_swap_reparenting = true
+	return true
+
+
+func complete_session_swap_reparent() -> void:
+	_session_swap_reparenting = false
+
+
 func _restore_source_after_failed_commit(
 	source: OldPineResidentMapController,
 ) -> bool:
@@ -351,7 +524,10 @@ func reset_session() -> void:
 
 
 func _initialize_authorities() -> bool:
-	_item_instance_scope = StringName("oldpine-session-%d" % get_instance_id())
+	_item_instance_scope = _new_item_instance_scope()
+	_item_id_allocator = SessionItemIdAllocator.new(_item_instance_scope)
+	if not _item_id_allocator.is_valid():
+		return false
 	_inventory = InventoryState.new()
 	_stacks = CombinedStackCollection.new()
 	_item_index = WorldItemInstanceIndex.new()
@@ -432,6 +608,79 @@ func _initialize_authorities() -> bool:
 	).succeeded
 
 
+func _initialize_restore_authorities() -> bool:
+	if _restore_preparation == null or not _restore_preparation.is_valid():
+		return false
+	_player = _restore_preparation.player
+	_inventory = _restore_preparation.item_domain.inventory
+	_stacks = _restore_preparation.item_domain.combined_stacks
+	_item_index = _restore_preparation.item_index
+	_item_id_allocator = _restore_preparation.item_allocator
+	_item_instance_scope = _item_id_allocator.scope
+	_npc_random = _restore_preparation.npc_random
+	_combat_random = _restore_preparation.combat_random
+	_world_interaction_random = _restore_preparation.world_interaction_random
+	return true
+
+
+func _initialize_restore_residents(
+	cave: OldPineResidentMapController,
+	outdoor: OldPineResidentMapController,
+) -> bool:
+	for resident: OldPineResidentMapController in [cave, outdoor]:
+		resident.set_restore_staging(true)
+		active_map_slot.add_child(resident)
+		if not resident.initialize_map():
+			_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.BODY_BINDING_FAILED
+			return false
+		# Runtime binding may create fresh interaction Areas (for example CorpseView).
+		# Re-apply staging after initialization so the candidate remains fully inert.
+		resident.set_restore_staging(true)
+		active_map_slot.remove_child(resident)
+	var player_location: WorldLocationState = _player.world_location()
+	if player_location == null or player_location.map_id not in _resident_maps:
+		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_WORLD_LOCATION
+		return false
+	_active_map_id = player_location.map_id
+	var active: OldPineResidentMapController = _resident_maps[_active_map_id]
+	active_map_slot.add_child(active)
+	if not _validate_restore_positions():
+		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION
+		return false
+	_initialized = true
+	_restore_candidate_staged = true
+	return active_map_slot.get_child_count() == 1
+
+
+func _validate_restore_positions() -> bool:
+	var player_location: WorldLocationState = _player.world_location()
+	var player_map: OldPineResidentMapController = _resident_maps.get(
+		player_location.map_id
+	)
+	if not OldPineMapPlacementValidator.is_valid_character_position(
+		player_map,
+		player_location.zone_id,
+		_restore_preparation.player_position,
+	):
+		return false
+	for entry: OldPineRestoredNpcEntry in _restore_preparation.npc_entries():
+		var location: WorldLocationState = entry.runtime.world_location()
+		if not OldPineMapPlacementValidator.is_valid_character_position(
+			_resident_maps.get(location.map_id),
+			location.zone_id,
+			entry.map_position,
+		):
+			return false
+	for entry: OldPineRestoredCorpseEntry in _restore_preparation.corpse_entries():
+		if not OldPineMapPlacementValidator.is_valid_corpse_position(
+			_resident_maps.get(entry.world_location.map_id),
+			entry.world_location.zone_id,
+			entry.map_position,
+		):
+			return false
+	return true
+
+
 func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 	if map == null or map.map_id().is_empty() or _resident_maps.has(map.map_id()):
 		return false
@@ -444,7 +693,7 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		_npc_random,
 		_combat_random,
 		_world_interaction_random,
-		_item_instance_scope,
+		_item_id_allocator,
 	):
 		return false
 	_resident_maps[map.map_id()] = map
@@ -456,6 +705,13 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		var cave: OldPineCavePassageController = map as OldPineCavePassageController
 		cave.map_exit_requested.connect(_on_cave_map_exit_requested)
 	return true
+
+
+func _new_item_instance_scope() -> StringName:
+	## The scope is durable data, not a Node ObjectID or a gameplay-RNG draw.
+	## Platform cryptographic entropy remains independent across fresh processes;
+	## save/load preserves this exact value thereafter.
+	return SessionItemIdScopeFactoryType.create_old_pine_scope()
 
 
 func _on_cave_map_exit_requested(portal_id: StringName) -> void:
@@ -477,6 +733,7 @@ func _on_resident_map_tree_exiting(map_id: StringName) -> void:
 	if (
 		_initialized
 		and not _transitioning
+		and not _session_swap_reparenting
 		and map_id == _active_map_id
 		and not is_queued_for_deletion()
 	):

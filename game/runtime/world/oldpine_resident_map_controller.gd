@@ -2,7 +2,11 @@ class_name OldPineResidentMapController
 extends Node2D
 
 ## Narrow contract shared only by the resident maps in the Old Pine playable
-## session. It deliberately does not model portals, persistence, or scheduling.
+## session.
+
+var _staged_area_monitoring: Dictionary[int, bool] = {}
+var _staged_area_monitorable: Dictionary[int, bool] = {}
+var _staged_area_input: Dictionary[int, bool] = {}
 
 
 func map_id() -> StringName:
@@ -18,7 +22,7 @@ func configure_session_authorities(
 	_npc_random: NpcInitializationRandomSource,
 	_combat_random: CombatRandomSource,
 	_world_interaction_random: WorldInteractionRandomSource,
-	_item_instance_scope: StringName,
+	_item_id_allocator: SessionItemIdAllocator,
 ) -> bool:
 	return false
 
@@ -81,6 +85,14 @@ func resume_after_relationship_reconciliation() -> void:
 	pass
 
 
+func suspend_for_session_swap() -> bool:
+	return false
+
+
+func resume_after_session_swap_rollback() -> bool:
+	return false
+
+
 func replace_combat_random_source(_value: CombatRandomSource) -> bool:
 	return false
 
@@ -89,3 +101,30 @@ func replace_world_interaction_random_source(
 	_value: WorldInteractionRandomSource,
 ) -> bool:
 	return false
+
+
+## RESTORE candidates use the real authored scenes while keeping every Area,
+## input surface, and process callback inert until the candidate is activated.
+func set_restore_staging(staged: bool) -> void:
+	process_mode = Node.PROCESS_MODE_DISABLED if staged else Node.PROCESS_MODE_INHERIT
+	for node: Node in find_children("*", "Area2D", true, false):
+		var area: Area2D = node as Area2D
+		if area == null:
+			continue
+		var key: int = area.get_instance_id()
+		if staged:
+			if not _staged_area_monitoring.has(key):
+				_staged_area_monitoring[key] = area.monitoring
+				_staged_area_monitorable[key] = area.monitorable
+				_staged_area_input[key] = area.input_pickable
+			area.monitoring = false
+			area.monitorable = false
+			area.input_pickable = false
+		elif _staged_area_monitoring.has(key):
+			area.monitoring = _staged_area_monitoring[key]
+			area.monitorable = _staged_area_monitorable[key]
+			area.input_pickable = _staged_area_input[key]
+	if not staged:
+		_staged_area_monitoring.clear()
+		_staged_area_monitorable.clear()
+		_staged_area_input.clear()

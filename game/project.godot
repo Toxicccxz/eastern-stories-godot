@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Eastern-Stories-Godot"
-run/main_scene="res://scenes/world/oldpine/oldpine_world_session.tscn"
+run/main_scene="res://scenes/runtime/oldpine_game_runtime_host.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+_phase10b4_qa_bridge="*res://tests/runtime/phase10b4_qa_bridge.gd"
 
 [display]
 

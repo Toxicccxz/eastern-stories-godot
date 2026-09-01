@@ -18,6 +18,7 @@ var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
 var _world_interaction_random: WorldInteractionRandomSource
+var _item_id_allocator: SessionItemIdAllocator
 var _item_instance_scope: StringName = &""
 var _configured: bool = false
 var _initialized: bool = false
@@ -43,7 +44,7 @@ func configure_session_authorities(
 	p_npc_random: NpcInitializationRandomSource,
 	p_combat_random: CombatRandomSource,
 	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_instance_scope: StringName,
+	p_item_id_allocator: SessionItemIdAllocator,
 ) -> bool:
 	if (
 		_configured
@@ -56,7 +57,8 @@ func configure_session_authorities(
 		or p_npc_random == null
 		or p_combat_random == null
 		or p_world_interaction_random == null
-		or p_item_instance_scope.is_empty()
+		or p_item_id_allocator == null
+		or not p_item_id_allocator.is_valid()
 	):
 		return false
 	_session_owner = p_session
@@ -67,7 +69,8 @@ func configure_session_authorities(
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random
 	_world_interaction_random = p_world_interaction_random
-	_item_instance_scope = p_item_instance_scope
+	_item_id_allocator = p_item_id_allocator
+	_item_instance_scope = p_item_id_allocator.scope
 	_configured = true
 	return true
 
@@ -85,7 +88,16 @@ func initialize_map() -> bool:
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(VINE_LANDING_SPAWN_ID)
 	if marker == null or not player_body.bind_player(_player):
 		return false
-	player_body.global_position = marker.global_position
+	var player_location: WorldLocationState = _player.world_location()
+	player_body.global_position = (
+		_session_owner.restored_player_position()
+		if (
+			_session_owner.bootstrap_mode()
+			== OldPineWorldSessionController.BootstrapMode.RESTORE
+			and player_location.map_id == map_id()
+		)
+		else marker.global_position
+	)
 	player_body.player_controlled = false
 	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
 	if camera != null:
@@ -184,6 +196,28 @@ func prepare_for_deactivation() -> void:
 		camera.enabled = false
 
 
+func suspend_for_session_swap() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = false
+	player_body.velocity = Vector2.ZERO
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = false
+	return true
+
+
+func resume_after_session_swap_rollback() -> bool:
+	if not _initialized or player_body == null:
+		return false
+	player_body.player_controlled = true
+	player_body.refresh_runtime_state()
+	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.enabled = true
+	return true
+
+
 func replace_combat_random_source(value: CombatRandomSource) -> bool:
 	if value == null:
 		return false
@@ -208,9 +242,11 @@ func exit_request_pending() -> bool:
 	return _exit_request_pending
 
 
-func complete_exit_request(result: OldPineMapHandoffResult) -> void:
-	if result == null or not result.location_committed:
-		_exit_request_pending = false
+func complete_exit_request(_result: OldPineMapHandoffResult) -> void:
+	# The duplicate-request gate describes only the deferred request that has
+	# now completed. A committed or committed-partial handoff has its own typed
+	# result and must not leave this transient flag stuck on the detached Cave.
+	_exit_request_pending = false
 
 
 func _on_passage_zone_body_entered(body: Node2D) -> void:

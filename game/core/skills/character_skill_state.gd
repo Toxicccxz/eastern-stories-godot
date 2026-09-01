@@ -56,6 +56,28 @@ func learned_progress(skill_id: StringName) -> int:
 	return _learned_progress.get(skill_id, 0)
 
 
+func has_skills_mapping() -> bool:
+	return _has_skills_mapping
+
+
+func has_learned_mapping() -> bool:
+	return _has_learned_mapping
+
+
+## Typed, read-only persistence projections. These expose no mutable
+## Dictionary and preserve the lazy-map presence facts separately.
+func raw_skill_ids() -> Array[StringName]:
+	return _sorted_ids(_raw_levels)
+
+
+func learned_skill_ids() -> Array[StringName]:
+	return _sorted_ids(_learned_progress)
+
+
+func enabled_use_ids() -> Array[StringName]:
+	return _loadout.enabled_use_ids()
+
+
 func progress_state(skill_id: StringName) -> SkillProgressStateType:
 	return SkillProgressStateType.new(
 		_raw_levels.has(skill_id),
@@ -90,6 +112,24 @@ func unmap_skill(use_id: StringName) -> bool:
 
 func mapped_skill(use_id: StringName) -> StringName:
 	return _loadout.enabled_skill(use_id)
+
+
+## Trusted persistence seam used only after the typed save snapshot has been
+## validated. It preserves the legacy distinction between an absent mapping
+## and an existing-but-empty mapping without exposing either Dictionary.
+func _restore_mapping_presence(
+	has_skills_mapping: bool,
+	has_learned_mapping: bool,
+) -> bool:
+	if not has_skills_mapping and (
+		not _raw_levels.is_empty() or _loadout.size() != 0
+	):
+		return false
+	if not has_learned_mapping and not _learned_progress.is_empty():
+		return false
+	_has_skills_mapping = has_skills_mapping
+	_has_learned_mapping = has_learned_mapping
+	return true
 
 
 ## Deterministic improve_skill() transition. The caller supplies the legacy
@@ -137,3 +177,13 @@ func improve_skill(
 		learned_before,
 		learned_progress(skill_id),
 	)
+
+
+static func _sorted_ids(source: Dictionary[StringName, int]) -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(source.keys())
+	result.sort_custom(
+		func(left: StringName, right: StringName) -> bool:
+			return String(left) < String(right)
+	)
+	return result
