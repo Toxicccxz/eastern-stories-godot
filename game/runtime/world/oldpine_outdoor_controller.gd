@@ -28,8 +28,6 @@ const AggressionAdapterType := preload(
 	"res://runtime/world/oldpine_bandit_aggression_adapter.gd"
 )
 
-signal reset_requested
-
 @onready var player_body: WorldCharacterBodyType = %Player
 @onready var bandit_bodies: Array[WorldCharacterBodyType] = [
 	%Bandit01,
@@ -957,10 +955,6 @@ func process_cadence_tick() -> Array[CombatSliceOpportunityResult]:
 	return results
 
 
-func reset_world() -> void:
-	reset_requested.emit()
-
-
 func _initialize_player() -> bool:
 	var marker: WorldSpawnMarkerType = %PlayerStart
 	if marker == null or not marker.is_configured():
@@ -1720,10 +1714,6 @@ func _on_inventory_remove_requested(item_instance_id: StringName) -> void:
 
 func _on_opportunity_timer_timeout() -> void:
 	process_cadence_tick()
-
-
-func _on_reset_button_pressed() -> void:
-	reset_world()
 
 
 func _on_central_clearing_body_entered(body: Node2D) -> void:

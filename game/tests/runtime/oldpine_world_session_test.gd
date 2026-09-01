@@ -474,7 +474,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(session.inventory_state().is_direct_child(leather.item_instance_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)), "worn leather remains direct player inventory")
 	_assert_true(outdoor.player_body.player_controlled, "returned Outdoor body regains control")
 	_assert_false(cave.player_body.player_controlled, "detached Cave body loses control")
-	_assert_eq(outdoor.get_signal_connection_list("reset_requested").size(), 1, "Outdoor Reset has exactly one whole-session request connection")
+	_assert_false(outdoor.has_signal("reset_requested"), "obsolete Outdoor Reset signal is absent")
 	var cave_second_activation: OldPineMapHandoffResult = session.handoff_to(
 		OldPineWorldDefinitions.CAVE_MAP_ID,
 		OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID,
@@ -492,7 +492,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	)
 	_assert_true(second_return.succeeded(), "second Cave roundtrip returns through same residents")
 	_assert_eq(outdoor.initialization_count(), 1, "repeated roundtrip still does not reinitialize Outdoor")
-	_assert_eq(outdoor.get_signal_connection_list("reset_requested").size(), 1, "repeated roundtrip does not duplicate Reset signal")
+	_assert_false(outdoor.has_signal("reset_requested"), "repeated roundtrip retains no Reset seam")
 	_assert_eq(corpse_view.get_signal_connection_list("selection_requested").size(), corpse_selection_connections, "repeated roundtrip still has one corpse picking connection")
 	_assert_eq(corpse_view.get_signal_connection_list("loot_range_changed").size(), corpse_range_connections, "repeated roundtrip still has one corpse range connection")
 	var already_active: OldPineMapHandoffResult = session.handoff_to(

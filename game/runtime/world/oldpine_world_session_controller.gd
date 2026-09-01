@@ -519,10 +519,6 @@ func _restore_source_after_failed_commit(
 	return true
 
 
-func reset_session() -> void:
-	get_tree().reload_current_scene()
-
-
 func _initialize_authorities() -> bool:
 	_item_instance_scope = _new_item_instance_scope()
 	_item_id_allocator = SessionItemIdAllocator.new(_item_instance_scope)
@@ -698,9 +694,6 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		return false
 	_resident_maps[map.map_id()] = map
 	map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
-	if map is OldPineOutdoorController:
-		var outdoor: OldPineOutdoorController = map as OldPineOutdoorController
-		outdoor.reset_requested.connect(reset_session)
 	if map is OldPineCavePassageController:
 		var cave: OldPineCavePassageController = map as OldPineCavePassageController
 		cave.map_exit_requested.connect(_on_cave_map_exit_requested)

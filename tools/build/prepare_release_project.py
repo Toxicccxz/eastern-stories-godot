@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 
-EXPECTED_MAIN_SCENE = "res://scenes/runtime/oldpine_game_runtime_host.tscn"
+EXPECTED_MAIN_SCENE = "res://scenes/application/application_shell.tscn"
 REQUIRED_PATHS = (
     "project.godot",
     "export_presets.cfg",
@@ -18,6 +18,7 @@ REQUIRED_PATHS = (
     "data",
     "runtime",
     "scenes",
+    "scenes/application/application_shell.tscn",
     "scenes/runtime/oldpine_game_runtime_host.tscn",
     "scenes/world/oldpine/oldpine_world_session.tscn",
 )

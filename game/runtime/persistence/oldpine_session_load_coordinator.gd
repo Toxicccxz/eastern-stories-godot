@@ -15,6 +15,17 @@ func operation_in_progress() -> bool:
 	return _operation_in_progress
 
 
+func inspect_slot() -> GameSaveResult:
+	if not _begin_operation():
+		return GameSaveResult.failure(
+			GameSaveResult.Outcome.OPERATION_IN_PROGRESS,
+			"repository",
+		)
+	var result: GameSaveResult = _repository.load()
+	_operation_in_progress = false
+	return result
+
+
 func save_current(session: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if not _begin_operation():
 		return Result.failure(Result.Outcome.REQUEST_REJECTED)

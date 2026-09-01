@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Eastern-Stories-Godot"
-run/main_scene="res://scenes/runtime/oldpine_game_runtime_host.tscn"
+run/main_scene="res://scenes/application/application_shell.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 

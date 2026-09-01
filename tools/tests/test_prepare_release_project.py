@@ -57,6 +57,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
             "core",
             "data",
             "runtime",
+            "scenes/application",
             "scenes/world/oldpine",
             "scenes/runtime",
             "tests",
@@ -69,6 +70,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.source / "core/domain.gd").write_text("class_name Domain\n", encoding="utf-8")
         (self.source / "data/content.gd").write_text("class_name Content\n", encoding="utf-8")
         (self.source / "runtime/runtime.gd").write_text("class_name Runtime\n", encoding="utf-8")
+        (self.source / "scenes/application/application_shell.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/world/oldpine/oldpine_world_session.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/runtime/oldpine_game_runtime_host.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/mcp_test.tscn").write_text("[gd_scene]\n", encoding="utf-8")
@@ -96,6 +98,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertTrue((self.output / "core/domain.gd").is_file())
         self.assertTrue((self.output / "data/content.gd").is_file())
         self.assertTrue((self.output / "runtime/runtime.gd").is_file())
+        self.assertTrue((self.output / "scenes/application/application_shell.tscn").is_file())
         self.assertTrue((self.output / "scenes/world/oldpine/oldpine_world_session.tscn").is_file())
         self.assertTrue((self.output / "scenes/runtime/oldpine_game_runtime_host.tscn").is_file())
         self.assertEqual([], validate_release_project(self.output))
