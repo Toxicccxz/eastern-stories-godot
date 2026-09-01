@@ -55,6 +55,20 @@ class FailingNewGameHost extends OldPineGameRuntimeHost:
 		return null
 
 
+class PartiallyFailingNewGameHost extends OldPineGameRuntimeHost:
+	var created_session_ref: WeakRef
+	var created_session_once: bool = false
+
+	func _instantiate_new_game_session() -> OldPineWorldSessionController:
+		var session: OldPineWorldSessionController = (
+			SESSION_SCENE.instantiate() as OldPineWorldSessionController
+		)
+		created_session_once = true
+		created_session_ref = weakref(session)
+		session.get_node("ActiveMapSlot").add_child(Node.new())
+		return session
+
+
 var _assertions: int = 0
 var _failures: Array[String] = []
 
@@ -62,8 +76,11 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_state_and_product_mapping()
 	await _test_manual_host_lifecycle_and_serialization(tree)
+	await _test_manual_host_rejects_nonempty_startup(tree)
 	await _test_failed_new_game_leaves_empty_host(tree)
+	await _test_partial_new_game_failure_is_freed(tree)
 	await _test_shell_new_game_and_profile_ownership(tree)
+	await _test_confirmed_new_game_preserves_storage(tree)
 	await _test_canonical_continue_rereads_and_never_falls_back(tree)
 	await _test_valid_continue_and_confirmation(tree)
 	await _test_reset_path_absent(tree)
@@ -134,6 +151,65 @@ func _test_state_and_product_mapping() -> void:
 		_has_snapshot_property(ApplicationSlotInspection.new()),
 		"slot metadata has no GameSaveSnapshot property",
 	)
+	var repository_expectations: Dictionary[int, int] = {}
+	for outcome: int in range(GameSaveResult.Outcome.size()):
+		repository_expectations[outcome] = ApplicationSlotInspection.Availability.SAVE_UNUSABLE
+	repository_expectations[GameSaveResult.Outcome.SUCCESS] = ApplicationSlotInspection.Availability.CONTINUE_AVAILABLE
+	repository_expectations[GameSaveResult.Outcome.NO_SAVE] = ApplicationSlotInspection.Availability.NO_SAVE
+	repository_expectations[GameSaveResult.Outcome.BACKUP_AVAILABLE] = ApplicationSlotInspection.Availability.RECOVERY_REQUIRED
+	repository_expectations[GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA] = ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE
+	repository_expectations[GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA] = ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE
+	repository_expectations[GameSaveResult.Outcome.READ_FAILED] = ApplicationSlotInspection.Availability.STORAGE_FAILURE
+	repository_expectations[GameSaveResult.Outcome.OPERATION_IN_PROGRESS] = ApplicationSlotInspection.Availability.STORAGE_FAILURE
+	for outcome: int in repository_expectations:
+		var mapped: ApplicationSlotInspection = ApplicationProductResultMapper.inspect_slot(
+			GameSaveResult.success()
+			if outcome == GameSaveResult.Outcome.SUCCESS
+			else GameSaveResult.failure(outcome, "misleading/success/path", "continue.restore_failure")
+		)
+		_assert_eq(
+			mapped.availability(),
+			repository_expectations[outcome],
+			"every repository outcome maps independently of diagnostic strings",
+		)
+		_assert_eq(
+			mapped.has_save_material(),
+			outcome != GameSaveResult.Outcome.NO_SAVE,
+			"only an explicit NO_SAVE result permits unconfirmed New Game",
+		)
+	var busy_result: ApplicationOperationResult = ApplicationProductResultMapper.runtime_result(
+		ApplicationOperationResult.Operation.CONTINUE,
+		OldPineRuntimeSaveLoadResult.failure(
+			OldPineRuntimeSaveLoadResult.Outcome.REQUEST_REJECTED
+		),
+	)
+	_assert_eq(
+		busy_result.outcome(),
+		ApplicationOperationResult.Outcome.REQUEST_BUSY,
+		"runtime request rejection maps to product busy",
+	)
+	var restore_failure: ApplicationOperationResult = ApplicationProductResultMapper.runtime_result(
+		ApplicationOperationResult.Operation.CONTINUE,
+		OldPineRuntimeSaveLoadResult.failure(
+			OldPineRuntimeSaveLoadResult.Outcome.RESTORE_FAILED
+		),
+	)
+	_assert_eq(
+		restore_failure.outcome(),
+		ApplicationOperationResult.Outcome.RESTORE_FAILURE,
+		"runtime restore failure maps distinctly",
+	)
+	var invariant_failure: ApplicationOperationResult = ApplicationProductResultMapper.runtime_result(
+		ApplicationOperationResult.Operation.NEW_GAME,
+		OldPineRuntimeSaveLoadResult.failure(
+			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
+		),
+	)
+	_assert_eq(
+		invariant_failure.outcome(),
+		ApplicationOperationResult.Outcome.SESSION_FAILURE,
+		"Session invariant failure maps to a stable product failure",
+	)
 
 
 func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
@@ -150,24 +226,65 @@ func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
 	_assert_true(host.session_invariant_holds(), "empty Host satisfies zero/one invariant")
 	_assert_true(host.request_slot_inspection(), "slot inspection request queues")
 	_assert_false(host.request_new_game(), "concurrent New Game request rejects")
+	_assert_false(host.request_continue(), "concurrent Continue request rejects")
+	_assert_false(host.request_save(), "concurrent Save request rejects")
+	_assert_false(host.request_load(), "concurrent Load request rejects")
+	_assert_false(host.request_end_session(), "concurrent end-Session request rejects")
 	_assert_true(host.request_pending(), "rejected concurrent request does not clear active request gate")
 	await tree.process_frame
 	_assert_false(host.request_pending(), "inspection completion releases request gate")
+	_assert_true(host.request_save(), "empty-Host Save request queues")
+	await tree.process_frame
+	_assert_false(host.request_pending(), "empty-Host Save failure releases request gate")
+	_assert_true(host.request_continue(), "empty-Host Continue request queues")
+	await tree.process_frame
+	_assert_false(host.request_pending(), "failed Continue releases request gate")
+	_assert_true(host.session_invariant_holds(), "failed Continue preserves empty Host")
 	_assert_true(host.request_new_game(), "explicit New Game request queues")
 	await tree.process_frame
+	_assert_false(host.request_pending(), "New Game completion releases request gate")
 	var session: OldPineWorldSessionController = host.current_session()
 	_assert_true(session != null and session.is_initialized(), "New Game commits initialized Session")
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "New Game retains twelve bootstrap items")
 	_assert_true(host.session_invariant_holds(), "New Game satisfies committed invariant")
 	_assert_eq(host.staging_slot.get_child_count(), 0, "New Game leaks no staging candidate")
 	_assert_false(host.request_new_game(), "in-game New Game replacement rejects")
+	_assert_false(host.request_continue(), "in-game Continue replacement rejects")
 	_assert_true(host.request_end_session(), "end-Session request queues")
 	await tree.process_frame
+	_assert_false(host.request_pending(), "end-Session completion releases request gate")
 	_assert_true(host.current_session() == null, "end Session clears Host authority")
 	_assert_true(host.session_invariant_holds(), "end Session restores empty invariant")
 	_assert_true(host.request_new_game(), "Host supports a later explicit New Game")
 	await tree.process_frame
 	_assert_true(host.session_invariant_holds(), "repeated lifecycle still owns exactly one Session")
+	_free_node(host)
+	await tree.process_frame
+
+
+func _test_manual_host_rejects_nonempty_startup(tree: SceneTree) -> void:
+	var host: OldPineGameRuntimeHost = HOST_SCENE.instantiate()
+	var orphan := Node.new()
+	host.get_node("SessionSlot").add_child(orphan)
+	var startup_results: Array[OldPineRuntimeSaveLoadResult] = []
+	host.startup_completed.connect(
+		func(result: OldPineRuntimeSaveLoadResult) -> void: startup_results.append(result)
+	)
+	_assert_true(
+		host.configure_manual_before_start(
+			GameSaveStorageProfile.isolated_test("phase10c1a-nonempty-manual"),
+			MemoryFiles.new(),
+		),
+		"nonempty manual fixture configures before entering the tree",
+	)
+	tree.root.add_child(host)
+	_assert_eq(startup_results.size(), 1, "manual startup emits exactly one result")
+	_assert_eq(
+		startup_results[0].outcome,
+		OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED,
+		"manual startup never reports success for a nonempty Host",
+	)
+	_assert_false(host.request_new_game(), "nonempty Host cannot accept New Game")
 	_free_node(host)
 	await tree.process_frame
 
@@ -205,6 +322,40 @@ func _test_failed_new_game_leaves_empty_host(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
+func _test_partial_new_game_failure_is_freed(tree: SceneTree) -> void:
+	var host := PartiallyFailingNewGameHost.new()
+	var session_slot := Node.new()
+	session_slot.name = "SessionSlot"
+	session_slot.process_mode = Node.PROCESS_MODE_PAUSABLE
+	host.add_child(session_slot)
+	var staging_slot := Node.new()
+	staging_slot.name = "StagingSlot"
+	staging_slot.process_mode = Node.PROCESS_MODE_PAUSABLE
+	host.add_child(staging_slot)
+	_assert_true(
+		host.configure_manual_before_start(
+			GameSaveStorageProfile.isolated_test("phase10c1a-partial-new"),
+			MemoryFiles.new(),
+		),
+		"partial-failure Host configures manually",
+	)
+	tree.root.add_child(host)
+	_assert_true(host.request_new_game(), "partial New Game request queues")
+	await tree.process_frame
+	_assert_true(host.created_session_once, "partial failure creates a Session graph")
+	_assert_true(host.current_session() == null, "partial failure never publishes Session authority")
+	_assert_eq(host.session_slot.get_child_count(), 0, "partial failure detaches committed graph")
+	_assert_eq(host.staging_slot.get_child_count(), 0, "partial failure leaves staging empty")
+	_assert_true(host.session_invariant_holds(), "partial failure restores exact empty invariant")
+	await tree.process_frame
+	_assert_true(
+		host.created_session_ref.get_ref() == null,
+		"detached partial Session is eventually freed",
+	)
+	_free_node(host)
+	await tree.process_frame
+
+
 func _test_shell_new_game_and_profile_ownership(tree: SceneTree) -> void:
 	var files := MemoryFiles.new()
 	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
@@ -216,6 +367,12 @@ func _test_shell_new_game_and_profile_ownership(tree: SceneTree) -> void:
 	await _wait_frames(tree, 2)
 	_assert_eq(shell.storage_profile_id(), GameSaveStorageProfile.DEVELOPMENT, "Shell owns development profile selection")
 	_assert_eq(shell.runtime_host().storage_profile_id(), GameSaveStorageProfile.DEVELOPMENT, "Shell forwards same profile exactly once")
+	_assert_eq(shell.runtime_host_slot.get_child_count(), 1, "Shell owns exactly one persistent Host child")
+	_assert_true(shell.runtime_host_slot.get_child(0) == shell.runtime_host(), "Host child is the Shell's sole Host reference")
+	_assert_false(
+		shell.configure_before_start(GameSaveStorageProfile.release(), files),
+		"ready Shell cannot be reconfigured from development to release",
+	)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.MAIN_MENU, "cold boot reaches Main Menu")
 	_assert_true(shell.menu_visible(), "cold Main Menu is visible")
 	_assert_false(shell.busy_visible(), "inspection busy overlay clears")
@@ -233,6 +390,26 @@ func _test_shell_new_game_and_profile_ownership(tree: SceneTree) -> void:
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "New Game enters PLAYING")
 	_assert_true(shell.runtime_host().session_invariant_holds(), "Shell New Game owns exactly one Session")
 	_assert_eq(files.files.size(), 0, "starting New Game performs zero save filesystem mutation")
+	_free_node(shell)
+	await tree.process_frame
+
+
+func _test_confirmed_new_game_preserves_storage(tree: SceneTree) -> void:
+	var profile := GameSaveStorageProfile.isolated_test("phase10c1a-confirm-storage")
+	var files := MemoryFiles.new()
+	await _write_valid_save(tree, profile, files)
+	files.files[profile.backup_path()] = "preserved backup bytes".to_utf8_buffer()
+	files.files[profile.temp_path()] = "preserved temp bytes".to_utf8_buffer()
+	var before: Dictionary[String, PackedByteArray] = files.files.duplicate(true)
+	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
+	_assert_true(shell.configure_before_start(profile, files), "confirmation storage Shell configures")
+	tree.root.add_child(shell)
+	await _wait_frames(tree, 2)
+	_assert_true(shell.request_new_game_from_menu(), "save material requires New Game confirmation")
+	_assert_true(shell.confirm_current_result(), "confirmed New Game queues")
+	await _wait_frames(tree, 2)
+	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "confirmed New Game succeeds")
+	_assert_eq(files.files, before, "confirmed New Game mutates no canonical, backup, or temp bytes")
 	_free_node(shell)
 	await tree.process_frame
 

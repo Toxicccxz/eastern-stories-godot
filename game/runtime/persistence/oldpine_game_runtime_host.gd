@@ -69,7 +69,14 @@ func _ready() -> void:
 			GameSaveRepository.new(_profile, _files)
 		)
 	if _startup_mode == StartupMode.MANUAL:
-		startup_completed.emit(OldPineRuntimeSaveLoadResult.success(null))
+		var manual_result: OldPineRuntimeSaveLoadResult = (
+			OldPineRuntimeSaveLoadResult.success(null)
+			if session_invariant_holds()
+			else OldPineRuntimeSaveLoadResult.failure(
+				OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
+			)
+		)
+		startup_completed.emit(manual_result)
 		return
 	if _startup_mode == StartupMode.LOAD:
 		_last_load = _coordinator.load_replacing(
@@ -132,21 +139,21 @@ func session_invariant_holds() -> bool:
 
 
 func request_slot_inspection() -> bool:
-	if _current_session != null or not _begin_request():
+	if not _empty_session_invariant_holds() or not _begin_request():
 		return false
 	call_deferred("_execute_slot_inspection")
 	return true
 
 
 func request_new_game() -> bool:
-	if _current_session != null or not _begin_request():
+	if not _empty_session_invariant_holds() or not _begin_request():
 		return false
 	call_deferred("_execute_new_game")
 	return true
 
 
 func request_continue() -> bool:
-	if _current_session != null or not _begin_request():
+	if not _empty_session_invariant_holds() or not _begin_request():
 		return false
 	call_deferred("_execute_continue")
 	return true
@@ -280,3 +287,7 @@ func _begin_request() -> bool:
 		return false
 	_request_pending = true
 	return true
+
+
+func _empty_session_invariant_holds() -> bool:
+	return _current_session == null and session_invariant_holds()

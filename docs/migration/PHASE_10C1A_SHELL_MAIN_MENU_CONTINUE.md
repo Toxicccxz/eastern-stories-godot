@@ -121,6 +121,7 @@ proved the canonical ApplicationShell main path and empty-host boot independentl
 ## Explicit deferrals
 
 Phase 10C1B retains Pause/Resume, Save UI, recovery candidate selection, and Return-to-Main-Menu UI.
-Phase 10C1C retains Settings, controller/focus hardening, Android Back, touch/safe-area work, and final
-cross-platform shell integration. In-game Load, multiple slots, autosave, dirty tracking, mobile
-lifecycle, cloud/platform saves, and Phase 10C2 remain out of scope.
+Phase 10C1C retains Settings, focus/input hardening, sanitizer/release integration, and final shell
+validation. Android Back, touch controls, safe-area/notch behavior, orientation, and mobile lifecycle
+remain Phase 10C2 work. In-game Load, multiple slots, autosave, dirty tracking, cloud/platform saves,
+and all later-phase behavior remain out of scope.

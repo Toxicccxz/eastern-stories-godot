@@ -333,7 +333,7 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = await _session(tree, 93_333)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
-	_assert_eq(_count_tree_nodes(outdoor), 226, "audited Phase 9B3B3 Outdoor hierarchy persists exactly")
+	_assert_eq(_count_tree_nodes(outdoor), 225, "audited Outdoor hierarchy persists after Phase 10C1A Reset removal")
 	_assert_true(outdoor.get_node_or_null("Terrain/Boundaries/WaterfallSouthBoundary") == null, "only Waterfall south staging block is removed")
 	var river_water: CollisionShape2D = outdoor.get_node_or_null("Terrain/Boundaries/RiverWaterBoundary/CollisionShape2D") as CollisionShape2D
 	_assert_true(river_water != null and river_water.shape is RectangleShape2D, "visible RiverStream owns an actual physics boundary")

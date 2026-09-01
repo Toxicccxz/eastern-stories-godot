@@ -174,11 +174,14 @@ func _connect_host(host: OldPineGameRuntimeHost) -> void:
 
 
 func _on_host_startup_completed(result: OldPineRuntimeSaveLoadResult) -> void:
-	if not result.succeeded() or not _host.session_invariant_holds():
+	if not result.succeeded():
 		_show_runtime_result(
 			ApplicationOperationResult.Operation.INSPECT_SLOT,
 			result,
 		)
+		return
+	if not _host.session_invariant_holds():
+		_show_session_invariant_failure(ApplicationOperationResult.Operation.INSPECT_SLOT)
 		return
 	if not _host.request_slot_inspection():
 		_show_request_failure(ApplicationOperationResult.Operation.INSPECT_SLOT)
@@ -191,7 +194,10 @@ func _on_slot_inspection_completed(result: GameSaveResult) -> void:
 
 
 func _on_new_game_completed(result: OldPineRuntimeSaveLoadResult) -> void:
-	if result.succeeded() and _host.session_invariant_holds():
+	if result.succeeded() and not _host.session_invariant_holds():
+		_show_session_invariant_failure(ApplicationOperationResult.Operation.NEW_GAME)
+		return
+	if result.succeeded():
 		_last_result = ApplicationProductResultMapper.runtime_result(
 			ApplicationOperationResult.Operation.NEW_GAME,
 			result,
@@ -202,7 +208,10 @@ func _on_new_game_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 
 
 func _on_continue_completed(result: OldPineRuntimeSaveLoadResult) -> void:
-	if result.succeeded() and _host.session_invariant_holds():
+	if result.succeeded() and not _host.session_invariant_holds():
+		_show_session_invariant_failure(ApplicationOperationResult.Operation.CONTINUE)
+		return
+	if result.succeeded():
 		_last_result = ApplicationProductResultMapper.runtime_result(
 			ApplicationOperationResult.Operation.CONTINUE,
 			result,
@@ -213,11 +222,14 @@ func _on_continue_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 
 
 func _on_end_session_completed(result: OldPineRuntimeSaveLoadResult) -> void:
+	if result.succeeded() and not _host.session_invariant_holds():
+		_show_session_invariant_failure(ApplicationOperationResult.Operation.END_SESSION)
+		return
 	_last_result = ApplicationProductResultMapper.runtime_result(
 		ApplicationOperationResult.Operation.END_SESSION,
 		result,
 	)
-	if result.succeeded() and _host.session_invariant_holds():
+	if result.succeeded():
 		_slot_inspection = null
 		_set_state(ApplicationShellState.boot_inspecting())
 		if not _host.request_slot_inspection():
@@ -243,6 +255,15 @@ func _show_request_failure(operation: int) -> void:
 	)
 	_confirmation_pending = false
 	_set_state(ApplicationShellState.result())
+
+
+func _show_session_invariant_failure(operation: int) -> void:
+	_show_runtime_result(
+		operation,
+		OldPineRuntimeSaveLoadResult.failure(
+			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
+		),
+	)
 
 
 func _set_state(next: ApplicationShellState) -> bool:
