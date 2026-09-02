@@ -53,6 +53,7 @@ var _host: OldPineGameRuntimeHost
 var _state: ApplicationShellState = ApplicationShellState.new()
 var _slot_inspection: ApplicationSlotInspection
 var _last_result: ApplicationOperationResult
+var _transition_held_actions: Array[StringName] = []
 
 
 func configure_before_start(
@@ -102,6 +103,31 @@ func _exit_tree() -> void:
 		tree.paused = false
 
 
+func _input(event: InputEvent) -> void:
+	# action_release clears polling, but an OS keyboard echo can set it again.
+	# Quarantine only actions held across a transition until release/fresh press;
+	# ordinary held gameplay movement and normal menu navigation stay untouched.
+	var suppressed_repeat: bool = false
+	for action: StringName in _transition_held_actions.duplicate():
+		if not event.is_action(action):
+			continue
+		if event.is_echo():
+			Input.action_release(action)
+			suppressed_repeat = true
+		else:
+			_transition_held_actions.erase(action)
+	if suppressed_repeat:
+		get_viewport().set_input_as_handled()
+		return
+	if _state.mode() in [
+		ApplicationShellState.Mode.BOOT,
+		ApplicationShellState.Mode.STARTING_SESSION,
+		ApplicationShellState.Mode.SAVING,
+	]:
+		_release_transition_actions()
+		get_viewport().set_input_as_handled()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	var pause_pressed: bool = event.is_action_pressed("pause_game")
 	var cancel_pressed: bool = event.is_action_pressed("ui_cancel")
@@ -125,7 +151,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			if cancel_pressed:
 				handled = cancel_recovery_choice()
 	if handled:
-		_release_transition_actions()
 		get_viewport().set_input_as_handled()
 
 
@@ -352,7 +377,6 @@ func request_pause() -> bool:
 		return false
 	get_tree().paused = true
 	_set_state(ApplicationShellState.paused())
-	_release_transition_actions()
 	return true
 
 
@@ -367,7 +391,6 @@ func request_resume() -> bool:
 		return false
 	_set_state(ApplicationShellState.playing())
 	get_tree().paused = false
-	_release_transition_actions()
 	return true
 
 
@@ -624,6 +647,9 @@ func _host_is_exactly_empty() -> bool:
 func _set_state(next: ApplicationShellState) -> bool:
 	if next == null or not next.is_valid():
 		return false
+	# Host completions and mouse/keyboard intents share the same boundary. Clear
+	# polling state before exposing the next surface or a newly playable Session.
+	_release_transition_actions()
 	_state = next
 	if is_node_ready():
 		_render_state()
@@ -838,6 +864,8 @@ func _release_transition_actions() -> void:
 		&"ui_cancel",
 		&"pause_game",
 	]:
+		if Input.is_action_pressed(action) and not _transition_held_actions.has(action):
+			_transition_held_actions.append(action)
 		Input.action_release(action)
 
 

@@ -32,6 +32,17 @@ class MemoryFiles extends SaveFileOperations:
 		files[path] = bytes.duplicate()
 		return OK
 
+	func rename_file(from_path: String, to_path: String) -> int:
+		if not files.has(from_path):
+			return ERR_FILE_NOT_FOUND
+		files[to_path] = files[from_path]
+		files.erase(from_path)
+		return OK
+
+	func remove_file(path: String) -> int:
+		files.erase(path)
+		return OK
+
 
 class FakeWindowCapability extends ApplicationWindowModeCapability:
 	var editable: bool = true
@@ -68,6 +79,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_unsupported_capability_ui(tree)
 	await _test_settings_and_game_save_separation(tree)
 	await _test_valid_save_independence_and_ui_failure(tree)
+	await _test_transition_input_and_save_isolation(tree)
+	await _test_native_held_key_repeat(tree)
+	_test_portable_bindings()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
@@ -254,6 +268,15 @@ func _test_paused_settings_freeze_and_cancel(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	var player: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var before: Vector2 = player.position
+	var captured: String = GameSaveJsonCodec.encode(OldPineWorldSaveCapture.new().capture(
+		session, &"test", "2026-09-02T00:00:00Z"
+	).snapshot).text
+	var timer := Timer.new()
+	session.add_child(timer)
+	timer.start(10.0)
+	var paused_time: float = timer.time_left
+	var allocator: SessionItemIdAllocator = session.item_id_allocator()
+	var eligibility: int = OldPineSaveEligibility.inspect(session).outcome
 	_assert_true(shell.request_settings_from_pause(), "Pause opens Settings")
 	await _wait_frames(tree, 4)
 	_assert_true(tree.paused, "paused-origin Settings keeps SceneTree paused")
@@ -268,6 +291,15 @@ func _test_paused_settings_freeze_and_cancel(tree: SceneTree) -> void:
 	_assert_true(tree.paused, "Apply does not resume gameplay")
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PAUSED, "Apply returns to PAUSED")
 	_assert_true(shell.runtime_host().current_session() == session, "Settings preserves exact Session")
+	await _wait_frames(tree, 4)
+	_assert_eq(GameSaveJsonCodec.encode(OldPineWorldSaveCapture.new().capture(
+		session, &"test", "2026-09-02T00:00:00Z"
+	).snapshot).text, captured, "paused Settings preserves complete character/NPC/item/world/three-RNG snapshot")
+	_assert_true(session.item_id_allocator() == allocator, "Settings preserves exact allocator authority")
+	_assert_eq(timer.time_left, paused_time, "Settings Apply/Cancel never advances gameplay Timer")
+	_assert_eq(OldPineSaveEligibility.inspect(session).outcome, eligibility, "Settings never changes SaveEligibility")
+	_assert_false(session.outdoor_map().lifecycle_is_pending(), "Settings creates no pending lifecycle")
+	_assert_false(session.outdoor_map().cadence_is_running(), "Settings creates no combat cadence")
 	_assert_true(shell.request_resume(), "Resume still works after Settings")
 	_assert_false(tree.paused, "Resume unpauses tree")
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "Resume returns to PLAYING")
@@ -313,6 +345,11 @@ func _test_input_focus_cancel_and_bleed(tree: SceneTree) -> void:
 	_send_action(&"ui_accept")
 	await tree.process_frame
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.SETTINGS, "ui_accept activates only focused Settings")
+	await tree.process_frame
+	for _index: int in range(3):
+		_send_action(&"ui_focus_next")
+		await tree.process_frame
+		_assert_true(shell.settings_panel.is_ancestor_of(tree.root.gui_get_focus_owner()), "Settings tab cycle stays inside modal")
 	_assert_true(shell.runtime_host().current_session() == null, "Settings activation creates no hidden Session")
 	_send_action(&"ui_cancel")
 	await _wait_frames(tree, 2)
@@ -488,6 +525,163 @@ func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
 	_assert_true(shell.settings_status_label.text.contains("could not be applied"), "runtime failure has distinct product message")
 	_free_node(shell)
 	await tree.process_frame
+
+
+func _test_transition_input_and_save_isolation(tree: SceneTree) -> void:
+	var profile := GameSaveStorageProfile.isolated_test("phase10c1c-audit")
+	var files := MemoryFiles.new()
+	var settings_files := MemoryFiles.new()
+	var settings_bytes: PackedByteArray = _config_bytes(1, "windowed")
+	settings_files.files[ApplicationSettingsRepository.SETTINGS_PATH] = settings_bytes
+	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
+	shell.configure_before_start(profile, files, null, settings_files, FakeWindowCapability.new())
+	tree.root.add_child(shell)
+	await _wait_frames(tree, 3)
+	_hold_transition_actions()
+	shell.request_new_game_from_menu()
+	# Input can also arrive while deferred Host construction is pending.
+	_hold_transition_actions()
+	await _wait_frames(tree, 4)
+	_assert_transition_actions_released("MAIN_MENU -> PLAYING")
+	_assert_eq(shell.runtime_host().session_slot.get_child_count(), 1, "held accept creates only one Session")
+	shell.request_pause()
+	shell.request_settings_from_pause()
+	_hold_transition_actions()
+	shell.apply_settings()
+	_assert_transition_actions_released("SETTINGS -> PAUSED")
+	_assert_true(tree.paused, "Apply remains paused despite held cancel/pause")
+	shell.request_return_to_main_menu()
+	_hold_transition_actions()
+	shell.dismiss_current_result()
+	_assert_transition_actions_released("RESULT -> PAUSED")
+	_assert_true(tree.paused, "Result dismissal never resumes in the same transition")
+	_hold_transition_actions()
+	shell.request_resume()
+	_assert_transition_actions_released("PAUSED -> PLAYING")
+	shell.request_pause()
+	var settings_before_save: PackedByteArray = settings_files.files[ApplicationSettingsRepository.SETTINGS_PATH].duplicate()
+	_assert_true(shell.request_save_from_pause(), "game Save queues with independent settings repository")
+	# Synchronous Viewport injection reaches BUSY before deferred Save completion.
+	for action: StringName in [&"ui_accept", &"ui_cancel", &"pause_game", &"move_right"]:
+		var event := InputEventAction.new()
+		event.action = action
+		event.pressed = true
+		tree.root.push_input(event)
+		_assert_true(tree.root.is_input_handled(), "BUSY consumes conflicting semantic input")
+		_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.SAVING, "BUSY has no second transition")
+	await _wait_frames(tree, 4)
+	_assert_eq(shell.last_result().outcome(), ApplicationOperationResult.Outcome.SUCCESS, "actual game Save succeeds")
+	_assert_eq(settings_files.files[ApplicationSettingsRepository.SETTINGS_PATH], settings_before_save, "game Save preserves settings bytes exactly")
+	_assert_eq(settings_files.files.size(), 1, "game Save creates no settings-side gameplay files")
+	shell.dismiss_current_result()
+	shell.request_return_to_main_menu()
+	shell.confirm_current_result()
+	await _wait_frames(tree, 4)
+	files.files[profile.backup_path()] = files.files[profile.canonical_path()].duplicate()
+	files.files[profile.canonical_path()] = "{".to_utf8_buffer()
+	_free_node(shell)
+	await tree.process_frame
+	shell = SHELL_SCENE.instantiate()
+	shell.configure_before_start(profile, files, null, settings_files, FakeWindowCapability.new())
+	tree.root.add_child(shell)
+	await _wait_frames(tree, 3)
+	_assert_true(shell.request_recovery_choice_from_menu(), "explicit recovery fixture opens")
+	await tree.process_frame
+	_assert_true(tree.root.gui_get_focus_owner() == shell.backup_recovery_button, "Recovery focuses available backup")
+	_assert_eq(shell.temp_recovery_button.focus_mode, Control.FOCUS_NONE, "unavailable recovery cannot retain focus")
+	_hold_transition_actions()
+	shell.request_recovery_source(GameSaveRecoverySource.Value.BACKUP)
+	_hold_transition_actions()
+	await _wait_frames(tree, 5)
+	_assert_transition_actions_released("RECOVERY -> PLAYING")
+	_assert_eq(shell.runtime_host().session_slot.get_child_count(), 1, "recovery has exactly one Session")
+	_assert_eq(shell.runtime_host().staging_slot.get_child_count(), 0, "recovery leaves staging empty")
+	_assert_eq(files.files[profile.canonical_path()], "{".to_utf8_buffer(), "recovery never promotes backup")
+	for action: StringName in _transition_actions():
+		Input.action_release(action)
+	_free_node(shell)
+	await tree.process_frame
+
+
+func _test_native_held_key_repeat(tree: SceneTree) -> void:
+	var shell: ApplicationShellController = SHELL_SCENE.instantiate()
+	shell.configure_before_start(
+		GameSaveStorageProfile.isolated_test("phase10c1c-repeat"),
+		MemoryFiles.new(), null, MemoryFiles.new(), FakeWindowCapability.new()
+	)
+	tree.root.add_child(shell)
+	await _wait_frames(tree, 3)
+	_send_key(KEY_D, true)
+	await tree.process_frame
+	_send_action(&"ui_accept")
+	await _wait_frames(tree, 4)
+	var player: WorldCharacterBody2D = shell.runtime_host().current_session().active_map().runtime_player_body()
+	var before: Vector2 = player.position
+	_send_key(KEY_D, true, true)
+	await _wait_frames(tree, 4)
+	_assert_false(Input.is_action_pressed(&"move_right"), "OS key repeat cannot reactivate menu-held movement after New Game")
+	_assert_eq(player.position, before, "repeat after transition leaves actual body stationary")
+	_send_key(KEY_D, false)
+	await tree.process_frame
+	_send_key(KEY_D, true)
+	await tree.process_frame
+	_assert_true(Input.is_action_pressed(&"move_right"), "fresh movement press remains usable")
+	_send_key(KEY_D, true, true)
+	await tree.process_frame
+	_assert_true(Input.is_action_pressed(&"move_right"), "ordinary gameplay held movement is not suppressed")
+	_send_key(KEY_D, false)
+	shell.request_pause()
+	shell.request_return_to_main_menu()
+	await tree.process_frame
+	_send_key(KEY_ESCAPE, true)
+	await _wait_frames(tree, 2)
+	_send_key(KEY_ESCAPE, true, true)
+	await _wait_frames(tree, 2)
+	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PAUSED, "held modal cancel never becomes a second Resume")
+	_send_key(KEY_ESCAPE, false)
+	await tree.process_frame
+	_free_node(shell)
+	await tree.process_frame
+
+
+func _send_key(key: Key, pressed: bool, echo: bool = false) -> void:
+	var event := InputEventKey.new()
+	event.keycode = key
+	event.pressed = pressed
+	event.echo = echo
+	Input.parse_input_event(event)
+
+
+func _transition_actions() -> Array[StringName]:
+	return [&"move_left", &"move_right", &"move_up", &"move_down", &"ui_accept", &"ui_cancel", &"pause_game"]
+
+
+func _hold_transition_actions() -> void:
+	for action: StringName in _transition_actions():
+		Input.action_press(action)
+
+
+func _assert_transition_actions_released(label: String) -> void:
+	for action: StringName in _transition_actions():
+		_assert_false(Input.is_action_pressed(action), "%s releases %s" % [label, action])
+
+
+func _test_portable_bindings() -> void:
+	var config := ConfigFile.new()
+	_assert_eq(config.load("res://project.godot"), OK, "committed portable input config parses")
+	for action: String in config.get_section_keys("input"):
+		var binding: Dictionary = config.get_value("input", action)
+		for event: InputEvent in binding["events"]:
+			var default_device: int = InputEventKey.new().device if event is InputEventKey else -1
+			_assert_true(event.device in [-1, default_device], "input uses default/all devices, never a workstation ID")
+	_assert_false(FileAccess.get_file_as_string("res://project.godot").contains('"device":16'), "portable source never serializes local keyboard device 16")
+	for action: StringName in [&"ui_up", &"ui_down", &"ui_left", &"ui_right"]:
+		var has_dpad: bool = false
+		var has_stick: bool = false
+		for event: InputEvent in InputMap.action_get_events(action):
+			has_dpad = has_dpad or event is InputEventJoypadButton
+			has_stick = has_stick or event is InputEventJoypadMotion
+		_assert_true(has_dpad and has_stick, "native directional focus retains D-pad and stick")
 
 
 func _config_bytes(version: int, mode: String) -> PackedByteArray:

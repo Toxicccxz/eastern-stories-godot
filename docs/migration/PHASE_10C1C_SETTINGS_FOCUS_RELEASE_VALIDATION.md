@@ -1,9 +1,12 @@
 # Phase 10C1C — Settings, Focus, and Release Validation
 
-Status: **READY FOR FORMAL AUDIT** on `phase/10c1-cross-platform-game-shell`.
+Status: **FORMALLY CLOSED** after the [formal audit](PHASE_10C1C_FORMAL_AUDIT.md),
+on `phase/10c1-cross-platform-game-shell`.
 
-Phase 10C1C completes the implementation gate for the shared desktop application shell. It does not
-formally close Phase 10C1C or Phase 10C1; that remains the next audit.
+The record below preserves implementation-gate evidence. The subsequent formal audit corrected
+transition input clearing, keyboard-repeat bleed, busy-input consumption, and explicit portable
+keyboard device bindings. Its final focused suite passed 1,267 assertions; the complete historical
+suite passed 10,541 assertions in one run. Phase 10C1 still requires its final major-phase audit.
 
 ## Shutdown recovery
 
