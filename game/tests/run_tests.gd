@@ -910,6 +910,7 @@ const ApplicationShellPhase10C1CTest := preload("res://tests/application/applica
 const MobilePresentationTest := preload("res://tests/presentation/mobile_presentation_test.gd")
 const MobilePresentationAuditTest := preload("res://tests/presentation/mobile_presentation_audit_test.gd")
 const MobileTouchTest := preload("res://tests/application/mobile_touch_test.gd")
+const MobileTouchAuditTest := preload("res://tests/application/mobile_touch_audit_test.gd")
 
 
 func _init() -> void:
@@ -1420,6 +1421,7 @@ func _init() -> void:
 	var phase_10c2a_result: Dictionary[String, Variant] = await MobilePresentationTest.new().run_all(self)
 	var phase_10c2a_audit_result: Dictionary[String, Variant] = await MobilePresentationAuditTest.new().run_all(self)
 	var phase_10c2b_result: Dictionary[String, Variant] = await MobileTouchTest.new().run_all(self)
+	var phase_10c2b_audit_result: Dictionary[String, Variant] = await MobileTouchAuditTest.new().run_all(self)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1519,7 +1521,7 @@ func _init() -> void:
 	) + int(
 		phase_10b4_result["assertions"]
 	) + int(
-		phase_10c1a_result["assertions"] + phase_10c1c_result["assertions"] + phase_10c2a_result["assertions"] + phase_10c2a_audit_result["assertions"] + phase_10c2b_result["assertions"]
+		phase_10c1a_result["assertions"] + phase_10c1c_result["assertions"] + phase_10c2a_result["assertions"] + phase_10c2a_audit_result["assertions"] + phase_10c2b_result["assertions"] + phase_10c2b_audit_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1578,6 +1580,7 @@ func _init() -> void:
 	failures.append_array(phase_10c2a_result["failures"])
 	failures.append_array(phase_10c2a_audit_result["failures"])
 	failures.append_array(phase_10c2b_result["failures"])
+	failures.append_array(phase_10c2b_audit_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

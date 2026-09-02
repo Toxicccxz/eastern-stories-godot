@@ -10,10 +10,12 @@ var _shell: ApplicationShellController
 var _presenter: SafeAreaPresenter
 var _metrics: SafeAreaMetrics
 var _active: bool = false
+var _attached: bool = false
 var _previous_emulation: bool = false
 var _direction: Vector2i = Vector2i.ZERO
 var _pointer_position: Vector2 = Vector2.ZERO
 var _pointer_pressed: bool = false
+var _world_pointer_pending: bool = false
 var _routing: bool = false
 var _filters: Dictionary[Control, int] = {}
 var _blocker_id: int = 0
@@ -21,19 +23,33 @@ var _pad: GridContainer
 var _pause: Button
 
 
+func _enter_tree() -> void:
+	if is_instance_valid(_pad):
+		_attach_runtime.call_deferred()
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_build_controls()
+	_attach_runtime()
+
+
+func _attach_runtime() -> void:
+	if not is_inside_tree() or _attached:
+		return
+	_attached = true
 	_shell = get_parent().get_parent() as ApplicationShellController
 	_shell.input_context_changing.connect(cancel_contacts)
 	_shell.state_changed.connect(_state_changed)
 	(_shell.get_node("%WindowModeOption") as OptionButton).get_popup().window_input.connect(_popup_input)
 	_presenter = SafeAreaPresenter.find_or_create(self)
 	_presenter.metrics_changed.connect(_metrics_changed)
-	_build_controls()
 	get_tree().node_added.connect(_node_added)
 	get_tree().node_removed.connect(_node_removed)
+	for node: Node in _shell.find_children("*", "Control", true, false):
+		_node_added(node)
 	_metrics_changed(_presenter.current_metrics())
 	set_capability(_capability)
 
@@ -42,17 +58,28 @@ func _exit_tree() -> void:
 	cancel_contacts()
 	if _active:
 		Input.set_emulate_mouse_from_touch(_previous_emulation)
+	_active = false
+	if _attached and is_instance_valid(_shell):
+		_shell.input_context_changing.disconnect(cancel_contacts)
+		_shell.state_changed.disconnect(_state_changed)
+		_shell.window_mode_option.get_popup().window_input.disconnect(_popup_input)
+		for node: Node in _shell.find_children("*", "Control", true, false):
+			_node_removed(node)
 	if is_instance_valid(_presenter) and _presenter.metrics_changed.is_connected(_metrics_changed):
 		_presenter.metrics_changed.disconnect(_metrics_changed)
-	get_tree().node_added.disconnect(_node_added)
-	get_tree().node_removed.disconnect(_node_removed)
+	if _attached:
+		get_tree().node_added.disconnect(_node_added)
+		get_tree().node_removed.disconnect(_node_removed)
+	_attached = false
+	_presenter = null
+	_shell = null
 
 
 func set_capability(capability: MobileTouchCapability) -> void:
 	if capability == null:
 		return
 	_capability = capability
-	if not is_node_ready():
+	if not is_node_ready() or not _attached:
 		return
 	var enabled: bool = capability.enabled()
 	if enabled != _active:
@@ -159,9 +186,13 @@ func _sync_presentation() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if not _active and event is InputEventScreenTouch and not event.pressed:
+		_captures.release(event.index) # Observe lift while disabled, without consuming it.
 	if not _active or _routing:
 		return
-	if event is InputEventMouseButton and event.device != SOURCE_DEVICE and event.pressed:
+	# Own pointer events are synchronous and guarded by _routing, not by a guessed
+	# hardware device-number range. A real mouse may use any numeric device label.
+	if event is InputEventMouseButton and event.pressed:
 		_cancel_pointer()
 		_captures.quarantine_pointer()
 		return
@@ -200,6 +231,11 @@ func _touch(event: InputEventScreenTouch) -> void:
 		elif owner == TouchCaptureState.Owner.POINTER:
 			_pointer_position = event.position
 			_mouse_motion(event.position, Vector2.ZERO)
+			# World consumers select on mouse-down. Keep that press cancellable until
+			# a completed touch; deliver the eventual click through ordinary picking.
+			_world_pointer_pending = get_viewport().gui_get_hovered_control() == null
+			if _world_pointer_pending:
+				return
 			_prepare_scroll_route(event.position)
 			_pointer_pressed = true
 			_mouse_button(event.position, true)
@@ -211,6 +247,14 @@ func _touch(event: InputEventScreenTouch) -> void:
 			if event.canceled:
 				_cancel_pointer()
 			else:
+				if _world_pointer_pending:
+					_world_pointer_pending = false
+					_mouse_motion(event.position, Vector2.ZERO)
+					# A world-origin contact cannot become a GUI click on release.
+					if get_viewport().gui_get_hovered_control() != null:
+						return
+					_pointer_pressed = true
+					_mouse_button(event.position, true)
 				_pointer_pressed = false
 				_mouse_button(event.position, false)
 				_restore_filters()
@@ -269,6 +313,7 @@ func cancel_contacts() -> void:
 
 
 func _cancel_pointer() -> void:
+	_world_pointer_pending = false
 	if _pointer_pressed and is_inside_tree():
 		_pointer_pressed = false
 		# Move outside before release: cancel must never be a click, including buttons

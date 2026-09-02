@@ -1,6 +1,9 @@
 # Phase 10C2B — Touch Input + Android Back
 
 Status: implementation evidence for **READY FOR FORMAL AUDIT**, not formal closure.
+Subsequent audit corrections/closure are recorded in
+[PHASE_10C2B_FORMAL_AUDIT.md](PHASE_10C2B_FORMAL_AUDIT.md); the original implementation counts
+and runtime evidence below remain historical.
 Branch: `phase/10c2-mobile-input-layout-lifecycle`; baseline: Phase10C2A
 `968abbea4edda5ab2a7856e8afee98ebe0c0a1f6`. No PR, integration, or 10C2C work.
 
@@ -43,6 +46,8 @@ resumes. Extra contacts remain ignored until actual release. Cancellation quaran
 indices rather than promoting them; a fresh press after release may reuse an index.
 
 The adapter saves/disables automatic touch-to-mouse emulation once and restores it on teardown.
+Audit correction: reentry now reattaches subscriptions and reacquires emulation independently of
+one-time `_ready()` control construction; rapid repeated reentries are idempotent.
 Pointer motion/buttons use the normal root `Viewport.push_input(event, true)` path, local
 coordinates, button masks, and paired release. Raw touch is consumed, not delivered a second time
 to Controls. This is an implementation refinement of the Analysis's native-GUI intent: inspected
@@ -56,6 +61,10 @@ Cancellation moves the pointer outside before sending a cancelled release becaus
 mouse handling does not itself make the cancelled flag sufficient to suppress every click. A
 fresh physical mouse press first cancels/quarantines only the synthetic pointer; pad movement
 remains independent. Mouse-to-touch emulation events are not accepted as fresh mobile contacts.
+Audit correction: world Areas act on mouse-down, so a world-origin touch delays that press until
+uncancelled lift and then delivers the ordinary Viewport click. Cancelled world gestures therefore
+never select first; GUI down/drag/up remains unchanged. Physical mouse takeover uses the synchronous
+reentrancy guard, not an assumption that hardware cannot share numeric source label 10202.
 
 The shared 64x64 Pause button emits paired `pause_game` action events, not a Shell callback.
 Inventory/Loot and compact Details expose narrow presentation blockers/dismiss signals. They
