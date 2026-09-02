@@ -9,6 +9,11 @@ var _foreground: bool = true
 var _focused: bool = true
 var _presentation_ready: bool = true
 var _resume_gate: ResumeGate = ResumeGate.NORMAL
+var _presentation_revision: int = 0
+
+
+func presentation_revision() -> int:
+	return _presentation_revision
 
 
 func interaction_allowed() -> bool:
@@ -46,12 +51,13 @@ func receive(event: Event) -> Change:
 	if was_active == now_active:
 		return Change.NONE
 	_presentation_ready = false
+	_presentation_revision += 1
 	return Change.REACTIVATING if now_active else Change.INTERACTION_LOST
 
 
-func finish_reactivation() -> bool:
+func finish_reactivation(revision: int) -> bool:
 	# Measurement and deferred layout must settle before another contact is accepted.
-	if not _foreground or not _focused or _presentation_ready:
+	if revision != _presentation_revision or not _foreground or not _focused or _presentation_ready:
 		return false
 	_presentation_ready = true
 	return true

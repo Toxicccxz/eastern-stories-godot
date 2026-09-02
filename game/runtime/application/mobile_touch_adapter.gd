@@ -193,6 +193,8 @@ func _input(event: InputEvent) -> void:
 	if not _active or _routing:
 		return
 	if not _shell.interaction_allowed():
+		if not (event is InputEventScreenTouch or event is InputEventScreenDrag):
+			return # Shell must still clear/quarantine hardware action-cache entries.
 		# Observe inactive contacts only to quarantine them; no pointer or action output.
 		if event is InputEventScreenTouch:
 			if event.pressed:

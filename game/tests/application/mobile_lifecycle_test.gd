@@ -66,8 +66,8 @@ func _test_model() -> void:
 			_check(model.receive(gain[0]) == A.Change.NONE and not model.interaction_allowed(), "one positive fact insufficient")
 			_check(model.receive(gain[1]) == A.Change.REACTIVATING and not model.interaction_allowed(), "both facts wait for presentation")
 			_check(model.receive(gain[1]) == A.Change.NONE, "duplicate gain idempotent")
-			_check(model.finish_reactivation() and model.interaction_allowed(), "layout completion opens interaction")
-			_check(not model.finish_reactivation(), "duplicate layout finish no activation")
+			_check(model.finish_reactivation(model.presentation_revision()) and model.interaction_allowed(), "layout completion opens interaction")
+			_check(not model.finish_reactivation(model.presentation_revision()), "duplicate layout finish no activation")
 			_check(model.resume_gate() == A.ResumeGate.EXPLICIT_AFTER_LIFECYCLE, "foreground never clears resume gate")
 			model.clear_resume_gate()
 			_check(model.resume_gate() == A.ResumeGate.NORMAL, "explicit clear")
@@ -156,7 +156,7 @@ func _test_pending_start(tree: SceneTree, operation: String, foreground_first: b
 	if foreground_first:
 		_gain(shell, true)
 		# Deterministic coordination boundary: finish layout before queued Host execution.
-		shell._finish_mobile_reactivation()
+		shell._finish_mobile_reactivation(shell.activity().presentation_revision())
 		_check(shell.interaction_allowed() and tree.paused and shell.runtime_host().request_pending(), "foreground precedes actual completion, gate keeps tree paused")
 	await _settle(tree, 8)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
@@ -184,7 +184,7 @@ func _test_pending_end(tree: SceneTree, foreground_first: bool) -> void:
 	_loss(shell)
 	if foreground_first:
 		_gain(shell)
-		shell._finish_mobile_reactivation()
+		shell._finish_mobile_reactivation(shell.activity().presentation_revision())
 	await _settle(tree)
 	_check(shell.runtime_host().current_session() == null and shell.runtime_host().session_invariant_holds(), "End removes exact graph once")
 	_check(shell.activity().resume_gate() == A.ResumeGate.NORMAL, "empty completion has no meaningless gate")
@@ -217,7 +217,7 @@ func _test_pending_save(tree: SceneTree, foreground_first: bool, outcome: String
 	_check(shell.busy_visible() and _coordinator.saves == saves, "no optimistic Save success")
 	if foreground_first:
 		_gain(shell)
-		shell._finish_mobile_reactivation()
+		shell._finish_mobile_reactivation(shell.activity().presentation_revision())
 	await _settle(tree)
 	_check(_coordinator.saves == saves + 1, "exactly one explicit Save, zero lifecycle retry")
 	_check(shell.result_visible() and tree.paused and shell.runtime_host().current_session() == session, "honest paused Save Result same Session")

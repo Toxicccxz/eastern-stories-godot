@@ -912,6 +912,7 @@ const MobilePresentationAuditTest := preload("res://tests/presentation/mobile_pr
 const MobileTouchTest := preload("res://tests/application/mobile_touch_test.gd")
 const MobileTouchAuditTest := preload("res://tests/application/mobile_touch_audit_test.gd")
 const MobileLifecycleTest := preload("res://tests/application/mobile_lifecycle_test.gd")
+const MobileLifecycleAuditTest := preload("res://tests/application/mobile_lifecycle_audit_test.gd")
 
 
 func _init() -> void:
@@ -1424,6 +1425,9 @@ func _init() -> void:
 	var phase_10c2b_result: Dictionary[String, Variant] = await MobileTouchTest.new().run_all(self)
 	var phase_10c2b_audit_result: Dictionary[String, Variant] = await MobileTouchAuditTest.new().run_all(self)
 	var phase_10c2c_result: Dictionary[String, Variant] = await MobileLifecycleTest.new().run_all(self)
+	var lifecycle_audit_result: Dictionary[String, Variant] = await MobileLifecycleAuditTest.new().run_all(self)
+	phase_10c2c_result["assertions"] += lifecycle_audit_result["assertions"]
+	phase_10c2c_result["failures"].append_array(lifecycle_audit_result["failures"])
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(

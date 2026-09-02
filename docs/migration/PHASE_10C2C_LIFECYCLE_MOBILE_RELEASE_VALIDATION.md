@@ -1,6 +1,16 @@
 # Phase 10C2C — Mobile Lifecycle + Resume Gate + Mobile Release Validation
 
 Implementation evidence, 2026-09-02. **READY FOR FORMAL AUDIT**, not formally closed.
+
+Historical implementation record below. The subsequent
+[Phase10C2C Formal Audit](PHASE_10C2C_FORMAL_AUDIT.md) closes this slice with four concrete
+corrections: revision-bound presentation completion, synchronous focus before publishing
+interaction, safe presenter detach/reentry, and inactive hardware action-cache clearing.
+Audit validation is **527** C assertions / **12,012** focused invocation assertions,
+**14,886** historical assertions on one complete attempt, Python **46**, sanitized smoke
+**19**, plus independently rebuilt/installed Android and native desktop rechecks. These
+supersede the gate status, not the historical implementation counts/artifact below.
+
 Branch: `phase/10c2-mobile-input-layout-lifecycle`.
 Parent: closed 10C2B `b622d7833917b6ac08a54d0f57ee1856fcb1742c`;
 integrated main baseline: `3a1f993a4258ed246ce820c7a4dc8d2563994aaf`.

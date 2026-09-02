@@ -81,25 +81,41 @@ func _on_mobile_activity_event(event: ApplicationActivity.Event) -> void:
 			_activity.require_explicit_resume()
 		get_tree().paused = true # Not the guarded user Pause request; Host stays ALWAYS.
 		if is_node_ready():
-			(get_node("SafeAreaPresentation") as SafeAreaPresenter).set_observation_enabled(false)
+			var presenter: SafeAreaPresenter = get_node_or_null("SafeAreaPresentation")
+			if presenter != null:
+				presenter.set_observation_enabled(false)
 			if _state.mode() == ApplicationShellState.Mode.PLAYING:
 				_set_state(ApplicationShellState.paused())
 			else:
 				_render_state() # Keep modal origin/draft/result unchanged.
 		interaction_changed.emit()
 	else:
-		if is_node_ready():
-			(get_node("SafeAreaPresentation") as SafeAreaPresenter).set_observation_enabled(true)
-		_finish_mobile_reactivation.call_deferred()
+		_refresh_mobile_presentation(_activity.presentation_revision())
 
 
-func _finish_mobile_reactivation() -> void:
-	if not is_inside_tree() or not _activity.finish_reactivation():
+func _presentation_entered(node: Node) -> void:
+	if node is SafeAreaPresenter and node.name == &"SafeAreaPresentation" and not interaction_allowed():
+		_refresh_mobile_presentation.call_deferred(_activity.presentation_revision())
+
+
+func _refresh_mobile_presentation(revision: int) -> void:
+	if not is_node_ready() or revision != _activity.presentation_revision() or not _activity.foreground() or not _activity.focused():
+		return
+	var presenter: SafeAreaPresenter = get_node_or_null("SafeAreaPresentation")
+	if presenter == null or not presenter.is_inside_tree():
+		return # Keep the gate closed; child reentry retries measurement, not OS polling.
+	presenter.set_observation_enabled(true)
+	_finish_mobile_reactivation.call_deferred(revision)
+
+
+func _finish_mobile_reactivation(revision: int) -> void:
+	var presenter: SafeAreaPresenter = get_node_or_null("SafeAreaPresentation")
+	if not is_inside_tree() or presenter == null or not presenter.is_inside_tree() or not _activity.finish_reactivation(revision):
 		return
 	input_context_changing.emit()
 	_release_transition_actions()
 	_sync_application_pause()
-	_render_state()
+	_render_state(false)
 	interaction_changed.emit()
 
 
@@ -144,6 +160,7 @@ func configure_before_start(
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	child_entered_tree.connect(_presentation_entered)
 	if not _configured:
 		_configured = true
 	if _window_capability == null:
@@ -817,7 +834,7 @@ func _set_state(next: ApplicationShellState) -> bool:
 	return true
 
 
-func _render_state() -> void:
+func _render_state(defer_focus: bool = true) -> void:
 	var mode: int = _state.mode()
 	lifecycle_info.visible = _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
 	_release_shell_focus()
@@ -877,19 +894,24 @@ func _render_state() -> void:
 	busy_label.text = _busy_text()
 	if result_overlay.visible:
 		_render_result()
-	elif mode == ApplicationShellState.Mode.SETTINGS:
-		call_deferred("_focus_settings_control")
-	elif mode == ApplicationShellState.Mode.RECOVERY_CHOICE:
-		call_deferred("_focus_recovery_button")
-	elif mode == ApplicationShellState.Mode.PAUSED:
-		call_deferred("_focus_pause_button")
-	elif menu_interactive:
-		call_deferred("_focus_first_menu_button")
 	_configure_active_focus_cycle(mode)
 	if not interaction_allowed():
 		for control: Control in _all_shell_focus_controls():
 			(control as BaseButton).disabled = true
 		_release_shell_focus()
+	elif defer_focus:
+		_focus_current_surface.call_deferred()
+	else:
+		_focus_current_surface()
+
+
+func _focus_current_surface() -> void:
+	match _state.mode():
+		ApplicationShellState.Mode.RESULT: _focus_result_button()
+		ApplicationShellState.Mode.SETTINGS: _focus_settings_control()
+		ApplicationShellState.Mode.RECOVERY_CHOICE: _focus_recovery_button()
+		ApplicationShellState.Mode.PAUSED: _focus_pause_button()
+		ApplicationShellState.Mode.MAIN_MENU: _focus_first_menu_button()
 
 
 func _busy_text() -> String:
@@ -924,7 +946,6 @@ func _render_result() -> void:
 		confirm_button.text = "Return to Main Menu"
 	else:
 		confirm_button.text = "Start New Game"
-	call_deferred("_focus_result_button")
 
 
 func _configure_window_mode_options() -> void:
