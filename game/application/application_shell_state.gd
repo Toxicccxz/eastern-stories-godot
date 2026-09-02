@@ -8,6 +8,7 @@ enum Mode {
 	PLAYING,
 	PAUSED,
 	SAVING,
+	SETTINGS,
 	RECOVERY_CHOICE,
 	RESULT,
 }
@@ -28,19 +29,28 @@ enum ResultOrigin {
 	PAUSED,
 }
 
+enum SettingsOrigin {
+	NONE,
+	MAIN_MENU,
+	PAUSED,
+}
+
 var _mode: int
 var _operation: int
 var _result_origin: int
+var _settings_origin: int
 
 
 func _init(
 	p_mode: int = Mode.BOOT,
 	p_operation: int = Operation.NONE,
 	p_result_origin: int = ResultOrigin.NONE,
+	p_settings_origin: int = SettingsOrigin.NONE,
 ) -> void:
 	_mode = p_mode
 	_operation = p_operation
 	_result_origin = p_result_origin
+	_settings_origin = p_settings_origin
 
 
 func mode() -> int:
@@ -55,6 +65,10 @@ func result_origin() -> int:
 	return _result_origin
 
 
+func settings_origin() -> int:
+	return _settings_origin
+
+
 func is_valid() -> bool:
 	if _mode < Mode.BOOT or _mode > Mode.RESULT:
 		return false
@@ -62,26 +76,45 @@ func is_valid() -> bool:
 		return false
 	if _result_origin < ResultOrigin.NONE or _result_origin > ResultOrigin.PAUSED:
 		return false
+	if _settings_origin < SettingsOrigin.NONE or _settings_origin > SettingsOrigin.PAUSED:
+		return false
 	match _mode:
 		Mode.BOOT:
 			return (
 				(_operation == Operation.NONE or _operation == Operation.INSPECT_SLOT)
 				and _result_origin == ResultOrigin.NONE
+				and _settings_origin == SettingsOrigin.NONE
 			)
 		Mode.STARTING_SESSION:
 			return (
 				_operation in [Operation.NEW_GAME, Operation.CONTINUE, Operation.RECOVER, Operation.END_SESSION]
 				and _result_origin == ResultOrigin.NONE
+				and _settings_origin == SettingsOrigin.NONE
 			)
 		Mode.SAVING:
-			return _operation == Operation.SAVE and _result_origin == ResultOrigin.NONE
+			return (
+				_operation == Operation.SAVE
+				and _result_origin == ResultOrigin.NONE
+				and _settings_origin == SettingsOrigin.NONE
+			)
+		Mode.SETTINGS:
+			return (
+				_operation == Operation.NONE
+				and _result_origin == ResultOrigin.NONE
+				and _settings_origin in [SettingsOrigin.MAIN_MENU, SettingsOrigin.PAUSED]
+			)
 		Mode.RESULT:
 			return (
 				_operation == Operation.NONE
 				and _result_origin in [ResultOrigin.MAIN_MENU, ResultOrigin.PAUSED]
+				and _settings_origin == SettingsOrigin.NONE
 			)
 		Mode.MAIN_MENU, Mode.PLAYING, Mode.PAUSED, Mode.RECOVERY_CHOICE:
-			return _operation == Operation.NONE and _result_origin == ResultOrigin.NONE
+			return (
+				_operation == Operation.NONE
+				and _result_origin == ResultOrigin.NONE
+				and _settings_origin == SettingsOrigin.NONE
+			)
 	return false
 
 
@@ -107,6 +140,10 @@ static func paused() -> ApplicationShellState:
 
 static func saving() -> ApplicationShellState:
 	return ApplicationShellState.new(Mode.SAVING, Operation.SAVE)
+
+
+static func settings(origin: int) -> ApplicationShellState:
+	return ApplicationShellState.new(Mode.SETTINGS, Operation.NONE, ResultOrigin.NONE, origin)
 
 
 static func recovery_choice() -> ApplicationShellState:

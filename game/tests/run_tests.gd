@@ -906,6 +906,7 @@ const ApplicationProductResultMapperScript := preload("res://application/applica
 const ApplicationMessageCatalogScript := preload("res://application/application_message_catalog.gd")
 const ApplicationShellControllerScript := preload("res://runtime/application/application_shell_controller.gd")
 const ApplicationShellTest := preload("res://tests/application/application_shell_test.gd")
+const ApplicationShellPhase10C1CTest := preload("res://tests/application/application_shell_phase10c1c_test.gd")
 
 
 func _init() -> void:
@@ -1412,6 +1413,7 @@ func _init() -> void:
 	var phase_10b3_result: Dictionary[String, Variant] = await OldPineWorldRestoreTest.new().run_all(self)
 	var phase_10b4_result: Dictionary[String, Variant] = await OldPineSaveLoadTransactionTest.new().run_all(self)
 	var phase_10c1a_result: Dictionary[String, Variant] = await ApplicationShellTest.new().run_all(self)
+	var phase_10c1c_result: Dictionary[String, Variant] = await ApplicationShellPhase10C1CTest.new().run_all(self)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1511,7 +1513,7 @@ func _init() -> void:
 	) + int(
 		phase_10b4_result["assertions"]
 	) + int(
-		phase_10c1a_result["assertions"]
+		phase_10c1a_result["assertions"] + phase_10c1c_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1566,6 +1568,7 @@ func _init() -> void:
 	failures.append_array(phase_10b3_result["failures"])
 	failures.append_array(phase_10b4_result["failures"])
 	failures.append_array(phase_10c1a_result["failures"])
+	failures.append_array(phase_10c1c_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

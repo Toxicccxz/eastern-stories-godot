@@ -57,6 +57,8 @@ class PrepareReleaseProjectTest(unittest.TestCase):
             "core",
             "data",
             "runtime",
+            "application/settings",
+            "runtime/application",
             "scenes/application",
             "scenes/world/oldpine",
             "scenes/runtime",
@@ -70,6 +72,18 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.source / "core/domain.gd").write_text("class_name Domain\n", encoding="utf-8")
         (self.source / "data/content.gd").write_text("class_name Content\n", encoding="utf-8")
         (self.source / "runtime/runtime.gd").write_text("class_name Runtime\n", encoding="utf-8")
+        (self.source / "application/settings/application_settings_snapshot.gd").write_text(
+            "class_name ApplicationSettingsSnapshot\n", encoding="utf-8"
+        )
+        (self.source / "application/settings/application_settings_repository.gd").write_text(
+            "class_name ApplicationSettingsRepository\n", encoding="utf-8"
+        )
+        (self.source / "application/settings/application_settings_service.gd").write_text(
+            "class_name ApplicationSettingsService\n", encoding="utf-8"
+        )
+        (self.source / "runtime/application/godot_window_mode_capability.gd").write_text(
+            "class_name GodotWindowModeCapability\n", encoding="utf-8"
+        )
         (self.source / "scenes/application/application_shell.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/world/oldpine/oldpine_world_session.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/runtime/oldpine_game_runtime_host.tscn").write_text("[gd_scene]\n", encoding="utf-8")
@@ -98,6 +112,12 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertTrue((self.output / "core/domain.gd").is_file())
         self.assertTrue((self.output / "data/content.gd").is_file())
         self.assertTrue((self.output / "runtime/runtime.gd").is_file())
+        self.assertTrue(
+            (self.output / "application/settings/application_settings_repository.gd").is_file()
+        )
+        self.assertTrue(
+            (self.output / "runtime/application/godot_window_mode_capability.gd").is_file()
+        )
         self.assertTrue((self.output / "scenes/application/application_shell.tscn").is_file())
         self.assertTrue((self.output / "scenes/world/oldpine/oldpine_world_session.tscn").is_file())
         self.assertTrue((self.output / "scenes/runtime/oldpine_game_runtime_host.tscn").is_file())
@@ -124,6 +144,23 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertEqual(before, source_tree_digest(self.source))
         self.assertTrue((self.source / "addons/godot_ai/runtime/game_helper.gd").is_file())
         self.assertTrue((self.source / "tests/run_tests.gd").is_file())
+
+    def test_removes_qa_startup_and_rejects_local_paths(self) -> None:
+        config = self.source / "project.godot"
+        config.write_text(
+            config.read_text(encoding="utf-8") + "\n[phase10b4]\nqa_startup_load=true\n",
+            encoding="utf-8",
+        )
+        prepare_release_project(self.source, self.output)
+        self.assertNotIn("qa_startup_load", (self.output / "project.godot").read_text(encoding="utf-8"))
+        cache = self.output / ".godot/editor"
+        cache.mkdir(parents=True)
+        (cache / "project_metadata.cfg").write_text(
+            '[editor_metadata]\nexecutable_path="Z:/tools/godot.exe"\n', encoding="utf-8"
+        )
+        self.assertEqual([], validate_release_project(self.output))
+        (self.output / "runtime/bad.gd").write_text('const PATH = "Z:/machine/only"\n', encoding="utf-8")
+        self.assertTrue(any("local absolute path" in error for error in validate_release_project(self.output)))
 
     def test_second_run_discards_stale_output(self) -> None:
         prepare_release_project(self.source, self.output)

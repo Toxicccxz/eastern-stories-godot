@@ -15,10 +15,18 @@ signal state_changed(state: ApplicationShellState)
 @onready var new_game_button: Button = %NewGameButton
 @onready var continue_button: Button = %ContinueButton
 @onready var recovery_button: Button = %RecoveryButton
+@onready var menu_settings_button: Button = %MenuSettingsButton
 @onready var pause_panel: Control = %PausePanel
 @onready var resume_button: Button = %ResumeButton
 @onready var save_button: Button = %SaveButton
+@onready var pause_settings_button: Button = %PauseSettingsButton
 @onready var return_button: Button = %ReturnButton
+@onready var settings_panel: Control = %SettingsPanel
+@onready var window_mode_row: Control = %WindowModeRow
+@onready var window_mode_option: OptionButton = %WindowModeOption
+@onready var settings_status_label: Label = %SettingsStatusLabel
+@onready var settings_apply_button: Button = %SettingsApplyButton
+@onready var settings_cancel_button: Button = %SettingsCancelButton
 @onready var recovery_panel: Control = %RecoveryPanel
 @onready var backup_recovery_button: Button = %BackupRecoveryButton
 @onready var temp_recovery_button: Button = %TempRecoveryButton
@@ -35,6 +43,11 @@ signal state_changed(state: ApplicationShellState)
 var _profile: GameSaveStorageProfile = GameSaveStorageProfile.release()
 var _files: SaveFileOperations
 var _coordinator: OldPineSessionLoadCoordinator
+var _settings_files: SaveFileOperations
+var _window_capability: ApplicationWindowModeCapability
+var _settings_repository: ApplicationSettingsRepository
+var _settings_service: ApplicationSettingsService
+var _settings_bootstrap_result: ApplicationSettingsServiceResult
 var _configured: bool = false
 var _host: OldPineGameRuntimeHost
 var _state: ApplicationShellState = ApplicationShellState.new()
@@ -46,12 +59,16 @@ func configure_before_start(
 	profile: GameSaveStorageProfile,
 	files: SaveFileOperations = null,
 	coordinator: OldPineSessionLoadCoordinator = null,
+	settings_files: SaveFileOperations = null,
+	window_capability: ApplicationWindowModeCapability = null,
 ) -> bool:
 	if _configured or is_node_ready() or profile == null or not profile.is_valid():
 		return false
 	_profile = profile
 	_files = files
 	_coordinator = coordinator
+	_settings_files = settings_files
+	_window_capability = window_capability
 	_configured = true
 	return true
 
@@ -60,6 +77,12 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if not _configured:
 		_configured = true
+	if _window_capability == null:
+		_window_capability = GodotWindowModeCapability.new()
+	_settings_repository = ApplicationSettingsRepository.new(_settings_files)
+	_settings_service = ApplicationSettingsService.new(_settings_repository, _window_capability)
+	_settings_bootstrap_result = _settings_service.load_and_apply()
+	_configure_window_mode_options()
 	_set_state(ApplicationShellState.boot_inspecting())
 	_host = HOST_SCENE.instantiate() as OldPineGameRuntimeHost
 	_connect_host(_host)
@@ -90,12 +113,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			if pause_pressed:
 				handled = request_pause()
 		ApplicationShellState.Mode.PAUSED:
-			handled = request_resume()
+			if pause_pressed or cancel_pressed:
+				handled = request_resume()
 		ApplicationShellState.Mode.RESULT:
-			handled = dismiss_current_result()
+			if cancel_pressed:
+				handled = dismiss_current_result()
+		ApplicationShellState.Mode.SETTINGS:
+			if cancel_pressed:
+				handled = cancel_settings()
 		ApplicationShellState.Mode.RECOVERY_CHOICE:
-			handled = cancel_recovery_choice()
+			if cancel_pressed:
+				handled = cancel_recovery_choice()
 	if handled:
+		_release_transition_actions()
 		get_viewport().set_input_as_handled()
 
 
@@ -155,6 +185,30 @@ func status_text() -> String:
 	return "" if status_label == null else status_label.text
 
 
+func settings_visible() -> bool:
+	return settings_panel != null and settings_panel.visible
+
+
+func settings_editable() -> bool:
+	return _settings_service != null and _settings_service.can_edit_window_mode()
+
+
+func committed_window_mode() -> int:
+	return (
+		_settings_service.committed_snapshot().window_mode()
+		if _settings_service != null
+		else ApplicationWindowMode.Value.WINDOWED
+	)
+
+
+func settings_storage_path() -> String:
+	return ApplicationSettingsRepository.SETTINGS_PATH
+
+
+func settings_bootstrap_result() -> ApplicationSettingsServiceResult:
+	return _settings_bootstrap_result
+
+
 func request_new_game_from_menu() -> bool:
 	if _state.mode() != ApplicationShellState.Mode.MAIN_MENU:
 		return false
@@ -199,6 +253,76 @@ func cancel_recovery_choice() -> bool:
 	return true
 
 
+func request_settings_from_main_menu() -> bool:
+	if _state.mode() != ApplicationShellState.Mode.MAIN_MENU:
+		return false
+	return _open_settings(ApplicationShellState.SettingsOrigin.MAIN_MENU)
+
+
+func request_settings_from_pause() -> bool:
+	if _state.mode() != ApplicationShellState.Mode.PAUSED or not get_tree().paused:
+		return false
+	return _open_settings(ApplicationShellState.SettingsOrigin.PAUSED)
+
+
+func cancel_settings() -> bool:
+	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
+		return false
+	var origin: int = _state.settings_origin()
+	settings_status_label.text = ""
+	return _return_from_settings(origin)
+
+
+func apply_settings() -> bool:
+	if _state.mode() != ApplicationShellState.Mode.SETTINGS or _settings_service == null:
+		return false
+	if not _settings_service.can_edit_window_mode():
+		settings_status_label.text = "Window mode is managed by this platform."
+		return false
+	var selected_mode: int = window_mode_option.get_selected_id()
+	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist(selected_mode)
+	match result.outcome():
+		ApplicationSettingsServiceResult.Outcome.SUCCESS:
+			settings_status_label.text = ""
+			return _return_from_settings(_state.settings_origin())
+		ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = (
+				"Window mode was applied for this run, but the setting could not be saved."
+			)
+			return false
+		ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE:
+			settings_status_label.text = "Window mode could not be applied."
+			_select_committed_window_mode()
+			return false
+		_:
+			settings_status_label.text = "Window mode is managed by this platform."
+			return false
+
+
+func _open_settings(origin: int) -> bool:
+	if (
+		origin not in [
+			ApplicationShellState.SettingsOrigin.MAIN_MENU,
+			ApplicationShellState.SettingsOrigin.PAUSED,
+		]
+		or (origin == ApplicationShellState.SettingsOrigin.PAUSED and not get_tree().paused)
+	):
+		return false
+	settings_status_label.text = ""
+	_select_committed_window_mode()
+	return _set_state(ApplicationShellState.settings(origin))
+
+
+func _return_from_settings(origin: int) -> bool:
+	if origin == ApplicationShellState.SettingsOrigin.PAUSED:
+		if not get_tree().paused:
+			return false
+		return _set_state(ApplicationShellState.paused())
+	if origin == ApplicationShellState.SettingsOrigin.MAIN_MENU:
+		return _set_state(ApplicationShellState.main_menu())
+	return false
+
+
 func request_recovery_source(source: int) -> bool:
 	if (
 		_state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE
@@ -228,6 +352,7 @@ func request_pause() -> bool:
 		return false
 	get_tree().paused = true
 	_set_state(ApplicationShellState.paused())
+	_release_transition_actions()
 	return true
 
 
@@ -242,6 +367,7 @@ func request_resume() -> bool:
 		return false
 	_set_state(ApplicationShellState.playing())
 	get_tree().paused = false
+	_release_transition_actions()
 	return true
 
 
@@ -507,9 +633,11 @@ func _set_state(next: ApplicationShellState) -> bool:
 
 func _render_state() -> void:
 	var mode: int = _state.mode()
+	_release_shell_focus()
 	shell_canvas.visible = mode != ApplicationShellState.Mode.PLAYING
 	main_menu_panel.visible = mode == ApplicationShellState.Mode.MAIN_MENU
 	pause_panel.visible = mode == ApplicationShellState.Mode.PAUSED
+	settings_panel.visible = mode == ApplicationShellState.Mode.SETTINGS
 	recovery_panel.visible = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
 	busy_overlay.visible = mode in [
 		ApplicationShellState.Mode.BOOT,
@@ -519,6 +647,7 @@ func _render_state() -> void:
 	result_overlay.visible = mode == ApplicationShellState.Mode.RESULT
 	var menu_interactive: bool = mode == ApplicationShellState.Mode.MAIN_MENU
 	new_game_button.disabled = not menu_interactive
+	menu_settings_button.disabled = not menu_interactive
 	continue_button.disabled = (
 		not menu_interactive
 		or _slot_inspection == null
@@ -529,6 +658,22 @@ func _render_state() -> void:
 		or _slot_inspection == null
 		or not _slot_inspection.recovery_available()
 	)
+	var pause_interactive: bool = mode == ApplicationShellState.Mode.PAUSED
+	resume_button.disabled = not pause_interactive
+	save_button.disabled = not pause_interactive
+	pause_settings_button.disabled = not pause_interactive
+	return_button.disabled = not pause_interactive
+	var recovery_interactive: bool = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
+	backup_recovery_button.disabled = not recovery_interactive
+	temp_recovery_button.disabled = not recovery_interactive
+	recovery_new_game_button.disabled = not recovery_interactive
+	recovery_cancel_button.disabled = not recovery_interactive
+	var settings_interactive: bool = mode == ApplicationShellState.Mode.SETTINGS
+	window_mode_row.visible = _settings_service != null and _settings_service.can_edit_window_mode()
+	window_mode_option.disabled = not settings_interactive or not window_mode_row.visible
+	settings_apply_button.visible = window_mode_row.visible
+	settings_apply_button.disabled = not settings_interactive
+	settings_cancel_button.disabled = not settings_interactive
 	status_label.text = (
 		"Checking saved journey..."
 		if _slot_inspection == null
@@ -545,12 +690,15 @@ func _render_state() -> void:
 	busy_label.text = _busy_text()
 	if result_overlay.visible:
 		_render_result()
+	elif mode == ApplicationShellState.Mode.SETTINGS:
+		call_deferred("_focus_settings_control")
 	elif mode == ApplicationShellState.Mode.RECOVERY_CHOICE:
 		call_deferred("_focus_recovery_button")
 	elif mode == ApplicationShellState.Mode.PAUSED:
 		call_deferred("_focus_pause_button")
 	elif menu_interactive:
 		call_deferred("_focus_first_menu_button")
+	_configure_active_focus_cycle(mode)
 
 
 func _busy_text() -> String:
@@ -578,6 +726,9 @@ func _render_result() -> void:
 	confirm_button.visible = confirmation
 	cancel_button.visible = confirmation
 	acknowledge_button.visible = not confirmation
+	confirm_button.disabled = not confirmation
+	cancel_button.disabled = not confirmation
+	acknowledge_button.disabled = confirmation
 	if confirmation and _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
 		confirm_button.text = "Return to Main Menu"
 	else:
@@ -585,9 +736,123 @@ func _render_result() -> void:
 	call_deferred("_focus_result_button")
 
 
+func _configure_window_mode_options() -> void:
+	window_mode_option.clear()
+	window_mode_option.add_item("Windowed", ApplicationWindowMode.Value.WINDOWED)
+	window_mode_option.add_item("Fullscreen", ApplicationWindowMode.Value.FULLSCREEN)
+	_select_committed_window_mode()
+
+
+func _select_committed_window_mode() -> void:
+	if window_mode_option == null or _settings_service == null:
+		return
+	var index: int = window_mode_option.get_item_index(
+		_settings_service.committed_snapshot().window_mode()
+	)
+	if index >= 0:
+		window_mode_option.select(index)
+
+
+func _all_shell_focus_controls() -> Array[Control]:
+	return [
+		new_game_button,
+		continue_button,
+		recovery_button,
+		menu_settings_button,
+		resume_button,
+		save_button,
+		pause_settings_button,
+		return_button,
+		window_mode_option,
+		settings_apply_button,
+		settings_cancel_button,
+		backup_recovery_button,
+		temp_recovery_button,
+		recovery_new_game_button,
+		recovery_cancel_button,
+		confirm_button,
+		cancel_button,
+		acknowledge_button,
+	]
+
+
+func _release_shell_focus() -> void:
+	var focus_owner: Control = get_viewport().gui_get_focus_owner()
+	if focus_owner != null and shell_canvas.is_ancestor_of(focus_owner):
+		focus_owner.release_focus()
+	for control: Control in _all_shell_focus_controls():
+		control.focus_mode = Control.FOCUS_NONE
+
+
+func _configure_active_focus_cycle(mode: int) -> void:
+	var controls: Array[Control] = []
+	match mode:
+		ApplicationShellState.Mode.MAIN_MENU:
+			controls = [new_game_button]
+			if not continue_button.disabled:
+				controls.append(continue_button)
+			if not recovery_button.disabled:
+				controls.append(recovery_button)
+			controls.append(menu_settings_button)
+		ApplicationShellState.Mode.PAUSED:
+			controls = [resume_button, save_button, pause_settings_button, return_button]
+		ApplicationShellState.Mode.SETTINGS:
+			if window_mode_row.visible:
+				controls = [window_mode_option, settings_apply_button, settings_cancel_button]
+			else:
+				controls = [settings_cancel_button]
+		ApplicationShellState.Mode.RECOVERY_CHOICE:
+			if backup_recovery_button.visible:
+				controls.append(backup_recovery_button)
+			if temp_recovery_button.visible:
+				controls.append(temp_recovery_button)
+			controls.append(recovery_new_game_button)
+			controls.append(recovery_cancel_button)
+		ApplicationShellState.Mode.RESULT:
+			if confirm_button.visible:
+				controls = [confirm_button, cancel_button]
+			else:
+				controls = [acknowledge_button]
+	if controls.is_empty():
+		return
+	for index: int in range(controls.size()):
+		var control: Control = controls[index]
+		var previous: Control = controls[(index - 1 + controls.size()) % controls.size()]
+		var next: Control = controls[(index + 1) % controls.size()]
+		control.focus_mode = Control.FOCUS_ALL
+		control.focus_neighbor_top = control.get_path_to(previous)
+		control.focus_neighbor_left = control.get_path_to(previous)
+		control.focus_neighbor_bottom = control.get_path_to(next)
+		control.focus_neighbor_right = control.get_path_to(next)
+		control.focus_previous = control.get_path_to(previous)
+		control.focus_next = control.get_path_to(next)
+
+
+func _release_transition_actions() -> void:
+	for action: StringName in [
+		&"move_left",
+		&"move_right",
+		&"move_up",
+		&"move_down",
+		&"ui_accept",
+		&"ui_cancel",
+		&"pause_game",
+	]:
+		Input.action_release(action)
+
+
 func _focus_first_menu_button() -> void:
 	if _state.mode() == ApplicationShellState.Mode.MAIN_MENU and not new_game_button.disabled:
 		new_game_button.grab_focus()
+
+
+func _focus_settings_control() -> void:
+	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
+		return
+	if window_mode_row.visible and not window_mode_option.disabled:
+		window_mode_option.grab_focus()
+	else:
+		settings_cancel_button.grab_focus()
 
 
 func _focus_pause_button() -> void:
@@ -627,6 +892,10 @@ func _on_recovery_button_pressed() -> void:
 	request_recovery_choice_from_menu()
 
 
+func _on_menu_settings_button_pressed() -> void:
+	request_settings_from_main_menu()
+
+
 func _on_resume_button_pressed() -> void:
 	request_resume()
 
@@ -635,8 +904,20 @@ func _on_save_button_pressed() -> void:
 	request_save_from_pause()
 
 
+func _on_pause_settings_button_pressed() -> void:
+	request_settings_from_pause()
+
+
 func _on_return_button_pressed() -> void:
 	request_return_to_main_menu()
+
+
+func _on_settings_apply_button_pressed() -> void:
+	apply_settings()
+
+
+func _on_settings_cancel_button_pressed() -> void:
+	cancel_settings()
 
 
 func _on_backup_recovery_button_pressed() -> void:
