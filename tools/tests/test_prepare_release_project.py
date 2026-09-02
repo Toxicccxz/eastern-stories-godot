@@ -161,6 +161,25 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.output / "runtime/application/mobile_touch_adapter.gd").unlink()
         self.assertTrue(any("mobile_touch_adapter.gd" in error for error in validate_release_project(self.output)))
 
+    def test_lifecycle_is_required_but_fakes_are_stripped(self) -> None:
+        fake = self.source / "tests/application/mobile_lifecycle_test.gd"
+        fake.parent.mkdir(parents=True, exist_ok=True)
+        fake.write_text("extends RefCounted\n", encoding="utf-8")
+        prepare_release_project(self.source, self.output)
+        self.assertFalse((self.output / "tests").exists())
+        for relative in (
+            "application/lifecycle/application_activity.gd",
+            "application/lifecycle/mobile_lifecycle_capability.gd",
+            "runtime/application/mobile_lifecycle_adapter.gd",
+        ):
+            path = self.output / relative
+            self.assertTrue(path.is_file())
+            content = path.read_bytes()
+            path.unlink()
+            self.assertTrue(any(relative in error for error in validate_release_project(self.output)))
+            path.write_bytes(content)
+        self.assertEqual([], validate_release_project(self.output))
+
     def test_prepare_removes_godot_ai_helper_plugin_and_addon(self) -> None:
         prepare_release_project(self.source, self.output)
         self.assertFalse((self.output / "addons/godot_ai").exists())

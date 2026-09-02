@@ -8,6 +8,7 @@ const HOST_SCENE: PackedScene = preload(
 signal host_ready(host: OldPineGameRuntimeHost)
 signal state_changed(state: ApplicationShellState)
 signal input_context_changing
+signal interaction_changed
 
 @onready var runtime_host_slot: Node = %RuntimeHostSlot
 @onready var shell_canvas: CanvasLayer = %ShellCanvas
@@ -18,6 +19,7 @@ signal input_context_changing
 @onready var recovery_button: Button = %RecoveryButton
 @onready var menu_settings_button: Button = %MenuSettingsButton
 @onready var pause_panel: Control = %PausePanel
+@onready var lifecycle_info: Label = %LifecycleInfo
 @onready var resume_button: Button = %ResumeButton
 @onready var save_button: Button = %SaveButton
 @onready var pause_settings_button: Button = %PauseSettingsButton
@@ -57,6 +59,69 @@ var _last_result: ApplicationOperationResult
 var _transition_held_actions: Array[StringName] = []
 var _exit_capability: ApplicationExitCapability = ApplicationExitCapability.new()
 var _quit_requested: bool = false
+var _activity: ApplicationActivity = ApplicationActivity.new()
+
+
+func activity() -> ApplicationActivity:
+	return _activity
+
+
+func interaction_allowed() -> bool:
+	return _activity.interaction_allowed()
+
+
+func _on_mobile_activity_event(event: ApplicationActivity.Event) -> void:
+	var change: ApplicationActivity.Change = _activity.receive(event)
+	if change == ApplicationActivity.Change.NONE:
+		return
+	input_context_changing.emit() # PAD/POINTER cancellation precedes global action release.
+	_release_transition_actions()
+	if change == ApplicationActivity.Change.INTERACTION_LOST:
+		if _state.mode() == ApplicationShellState.Mode.PLAYING or _starting_session_operation():
+			_activity.require_explicit_resume()
+		get_tree().paused = true # Not the guarded user Pause request; Host stays ALWAYS.
+		if is_node_ready():
+			(get_node("SafeAreaPresentation") as SafeAreaPresenter).set_observation_enabled(false)
+			if _state.mode() == ApplicationShellState.Mode.PLAYING:
+				_set_state(ApplicationShellState.paused())
+			else:
+				_render_state() # Keep modal origin/draft/result unchanged.
+		interaction_changed.emit()
+	else:
+		if is_node_ready():
+			(get_node("SafeAreaPresentation") as SafeAreaPresenter).set_observation_enabled(true)
+		_finish_mobile_reactivation.call_deferred()
+
+
+func _finish_mobile_reactivation() -> void:
+	if not is_inside_tree() or not _activity.finish_reactivation():
+		return
+	input_context_changing.emit()
+	_release_transition_actions()
+	_sync_application_pause()
+	_render_state()
+	interaction_changed.emit()
+
+
+func _starting_session_operation() -> bool:
+	return _state.operation() in [ApplicationShellState.Operation.NEW_GAME, ApplicationShellState.Operation.CONTINUE, ApplicationShellState.Operation.RECOVER]
+
+
+func _sync_application_pause() -> void:
+	if not is_inside_tree():
+		return
+	if _host_is_exactly_empty() and not _starting_session_operation():
+		_activity.clear_resume_gate()
+	var pause_context: bool = _state.mode() in [ApplicationShellState.Mode.PAUSED, ApplicationShellState.Mode.SAVING] or _state.settings_origin() == ApplicationShellState.SettingsOrigin.PAUSED or _state.result_origin() == ApplicationShellState.ResultOrigin.PAUSED or _state.operation() == ApplicationShellState.Operation.END_SESSION
+	get_tree().paused = not interaction_allowed() or pause_context or _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
+
+
+func _present_committed_session() -> void:
+	if not interaction_allowed() or _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE:
+		_activity.require_explicit_resume()
+		_set_state(ApplicationShellState.paused())
+	else:
+		_set_state(ApplicationShellState.playing())
 
 
 func configure_before_start(
@@ -108,6 +173,10 @@ func _exit_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if not interaction_allowed():
+		_release_transition_actions()
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action(&"system_back"):
 		get_viewport().set_input_as_handled()
 		if event.is_action_pressed(&"system_back") and not event.is_echo():
@@ -138,6 +207,9 @@ func _input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not interaction_allowed():
+		get_viewport().set_input_as_handled()
+		return
 	var pause_pressed: bool = event.is_action_pressed("pause_game")
 	var cancel_pressed: bool = event.is_action_pressed("ui_cancel")
 	if not pause_pressed and not cancel_pressed:
@@ -173,6 +245,10 @@ func set_exit_capability(capability: ApplicationExitCapability) -> void:
 
 
 func _popup_system_input(event: InputEvent) -> void:
+	if not interaction_allowed():
+		_release_transition_actions()
+		window_mode_option.get_popup().set_input_as_handled()
+		return
 	# A native/embedded Popup is its own Viewport and receives focused input before
 	# the root. Keep the same Shell policy rather than inventing a popup-state flag.
 	if event.is_action(&"system_back"):
@@ -182,6 +258,8 @@ func _popup_system_input(event: InputEvent) -> void:
 
 
 func _handle_system_back() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
@@ -286,6 +364,8 @@ func settings_bootstrap_result() -> ApplicationSettingsServiceResult:
 
 
 func request_new_game_from_menu() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.MAIN_MENU:
 		return false
 	if _slot_inspection != null and _slot_inspection.has_save_material():
@@ -294,6 +374,8 @@ func request_new_game_from_menu() -> bool:
 
 
 func request_continue_from_menu() -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.MAIN_MENU
 		or _slot_inspection == null
@@ -312,6 +394,8 @@ func request_continue_from_menu() -> bool:
 
 
 func request_recovery_choice_from_menu() -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.MAIN_MENU
 		or _slot_inspection == null
@@ -323,6 +407,8 @@ func request_recovery_choice_from_menu() -> bool:
 
 
 func cancel_recovery_choice() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE:
 		return false
 	_set_state(ApplicationShellState.main_menu())
@@ -330,18 +416,24 @@ func cancel_recovery_choice() -> bool:
 
 
 func request_settings_from_main_menu() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.MAIN_MENU:
 		return false
 	return _open_settings(ApplicationShellState.SettingsOrigin.MAIN_MENU)
 
 
 func request_settings_from_pause() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.PAUSED or not get_tree().paused:
 		return false
 	return _open_settings(ApplicationShellState.SettingsOrigin.PAUSED)
 
 
 func cancel_settings() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
 		return false
 	var origin: int = _state.settings_origin()
@@ -350,6 +442,8 @@ func cancel_settings() -> bool:
 
 
 func apply_settings() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS or _settings_service == null:
 		return false
 	if not _settings_service.can_edit_window_mode():
@@ -400,6 +494,8 @@ func _return_from_settings(origin: int) -> bool:
 
 
 func request_recovery_source(source: int) -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE
 		or _slot_inspection == null
@@ -418,6 +514,8 @@ func request_recovery_source(source: int) -> bool:
 
 
 func request_pause() -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.PLAYING
 		or _host == null
@@ -432,6 +530,8 @@ func request_pause() -> bool:
 
 
 func request_resume() -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.PAUSED
 		or _host == null
@@ -440,12 +540,15 @@ func request_resume() -> bool:
 		or not _host.session_invariant_holds()
 	):
 		return false
+	_activity.clear_resume_gate()
 	_set_state(ApplicationShellState.playing())
 	get_tree().paused = false
 	return true
 
 
 func request_save_from_pause() -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.PAUSED
 		or not get_tree().paused
@@ -464,6 +567,8 @@ func request_save_from_pause() -> bool:
 
 
 func request_return_to_main_menu() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.PAUSED:
 		return false
 	_last_result = ApplicationOperationResult.new(
@@ -476,6 +581,8 @@ func request_return_to_main_menu() -> bool:
 
 
 func confirm_current_result() -> bool:
+	if not interaction_allowed():
+		return false
 	if (
 		_state.mode() != ApplicationShellState.Mode.RESULT
 		or _last_result == null
@@ -491,6 +598,8 @@ func confirm_current_result() -> bool:
 
 
 func dismiss_current_result() -> bool:
+	if not interaction_allowed():
+		return false
 	if _state.mode() != ApplicationShellState.Mode.RESULT:
 		return false
 	var origin: int = _state.result_origin()
@@ -586,7 +695,7 @@ func _on_new_game_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 			ApplicationOperationResult.Operation.NEW_GAME,
 			result,
 		)
-		_set_state(ApplicationShellState.playing())
+		_present_committed_session()
 		return
 	_show_runtime_result(
 		ApplicationOperationResult.Operation.NEW_GAME,
@@ -615,7 +724,7 @@ func _handle_load_completion(
 		return
 	if result.succeeded():
 		_last_result = ApplicationProductResultMapper.runtime_result(operation, result)
-		_set_state(ApplicationShellState.playing())
+		_present_committed_session()
 		return
 	_show_runtime_result(
 		operation,
@@ -634,7 +743,7 @@ func _on_save_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 
 func _on_end_session_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 	if result.succeeded() and _host_is_exactly_empty():
-		get_tree().paused = false
+		_activity.clear_resume_gate()
 		_slot_inspection = null
 		_last_result = null
 		_set_state(ApplicationShellState.boot_inspecting())
@@ -652,8 +761,6 @@ func _on_end_session_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 		)
 		else ApplicationShellState.ResultOrigin.MAIN_MENU
 	)
-	if origin == ApplicationShellState.ResultOrigin.MAIN_MENU:
-		get_tree().paused = false
 	_show_runtime_result(ApplicationOperationResult.Operation.END_SESSION, result, origin)
 
 
@@ -703,6 +810,7 @@ func _set_state(next: ApplicationShellState) -> bool:
 	input_context_changing.emit()
 	_release_transition_actions()
 	_state = next
+	_sync_application_pause()
 	if is_node_ready():
 		_render_state()
 	state_changed.emit(_state)
@@ -711,6 +819,7 @@ func _set_state(next: ApplicationShellState) -> bool:
 
 func _render_state() -> void:
 	var mode: int = _state.mode()
+	lifecycle_info.visible = _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
 	_release_shell_focus()
 	shell_canvas.visible = mode != ApplicationShellState.Mode.PLAYING
 	main_menu_panel.visible = mode == ApplicationShellState.Mode.MAIN_MENU
@@ -777,6 +886,10 @@ func _render_state() -> void:
 	elif menu_interactive:
 		call_deferred("_focus_first_menu_button")
 	_configure_active_focus_cycle(mode)
+	if not interaction_allowed():
+		for control: Control in _all_shell_focus_controls():
+			(control as BaseButton).disabled = true
+		_release_shell_focus()
 
 
 func _busy_text() -> String:
@@ -915,6 +1028,7 @@ func _release_transition_actions() -> void:
 		&"ui_accept",
 		&"ui_cancel",
 		&"pause_game",
+		&"system_back",
 	]:
 		if Input.is_action_pressed(action) and not _transition_held_actions.has(action):
 			_transition_held_actions.append(action)
@@ -922,11 +1036,15 @@ func _release_transition_actions() -> void:
 
 
 func _focus_first_menu_button() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() == ApplicationShellState.Mode.MAIN_MENU and not new_game_button.disabled:
 		new_game_button.grab_focus()
 
 
 func _focus_settings_control() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
 		return
 	if window_mode_row.visible and not window_mode_option.disabled:
@@ -936,11 +1054,15 @@ func _focus_settings_control() -> void:
 
 
 func _focus_pause_button() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() == ApplicationShellState.Mode.PAUSED:
 		resume_button.grab_focus()
 
 
 func _focus_recovery_button() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() != ApplicationShellState.Mode.RECOVERY_CHOICE:
 		return
 	if backup_recovery_button.visible:
@@ -952,6 +1074,8 @@ func _focus_recovery_button() -> void:
 
 
 func _focus_result_button() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() != ApplicationShellState.Mode.RESULT:
 		return
 	if confirm_button.visible:
@@ -1009,6 +1133,8 @@ func _on_temp_recovery_button_pressed() -> void:
 
 
 func _on_recovery_new_game_button_pressed() -> void:
+	if not interaction_allowed():
+		return
 	if _state.mode() == ApplicationShellState.Mode.RECOVERY_CHOICE:
 		_show_new_game_confirmation()
 

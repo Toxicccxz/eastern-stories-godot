@@ -6,6 +6,7 @@ signal metrics_changed(metrics: SafeAreaMetrics)
 var _capability: SafeAreaCapability = GodotSafeAreaCapability.new()
 var _metrics: SafeAreaMetrics
 var _elapsed: float = 0.0
+var _observation_enabled: bool = true
 
 
 func _enter_tree() -> void:
@@ -40,8 +41,16 @@ func current_metrics() -> SafeAreaMetrics:
 	return _metrics
 
 
+func set_observation_enabled(enabled: bool) -> void:
+	_observation_enabled = enabled
+	_elapsed = 0.0
+	set_process(enabled)
+	if enabled:
+		refresh()
+
+
 func refresh() -> void:
-	if not is_inside_tree():
+	if not is_inside_tree() or not _observation_enabled:
 		return
 	var next: SafeAreaMetrics = _capability.measure(get_viewport())
 	if next == null:

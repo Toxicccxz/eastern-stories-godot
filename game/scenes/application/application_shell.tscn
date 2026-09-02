@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
 [ext_resource type="Script" path="res://presentation/layout/safe_area_presenter.gd" id="2_safe"]
 [ext_resource type="Script" path="res://presentation/layout/application_shell_layout.gd" id="3_layout"]
 [ext_resource type="Script" path="res://runtime/application/mobile_touch_adapter.gd" id="4_touch"]
 [ext_resource type="Script" path="res://runtime/application/android_back_adapter.gd" id="5_back"]
+[ext_resource type="Script" path="res://runtime/application/mobile_lifecycle_adapter.gd" id="6_lifecycle"]
 
 [node name="ApplicationShell" type="Node"]
 process_mode = 3
@@ -21,6 +22,9 @@ unique_name_in_owner = true
 
 [node name="AndroidBack" type="Node" parent="."]
 script = ExtResource("5_back")
+
+[node name="MobileLifecycle" type="Node" parent="."]
+script = ExtResource("6_lifecycle")
 
 [node name="TouchCanvas" type="CanvasLayer" parent="."]
 layer = 90
@@ -165,6 +169,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Paused"
 horizontal_alignment = 1
+
+[node name="LifecycleInfo" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Paused while the app was away. Save manually before leaving to keep recent progress."
+autowrap_mode = 2
 
 [node name="ResumeButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -433,6 +444,7 @@ layout_mode = 2
 text = "OK"
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/RecoveryButton" to="." method="_on_recovery_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/MenuSettingsButton" to="." method="_on_menu_settings_button_pressed"]

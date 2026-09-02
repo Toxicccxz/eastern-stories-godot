@@ -43,6 +43,7 @@ func _attach_runtime() -> void:
 	_shell = get_parent().get_parent() as ApplicationShellController
 	_shell.input_context_changing.connect(cancel_contacts)
 	_shell.state_changed.connect(_state_changed)
+	_shell.interaction_changed.connect(_sync_presentation)
 	(_shell.get_node("%WindowModeOption") as OptionButton).get_popup().window_input.connect(_popup_input)
 	_presenter = SafeAreaPresenter.find_or_create(self)
 	_presenter.metrics_changed.connect(_metrics_changed)
@@ -62,6 +63,7 @@ func _exit_tree() -> void:
 	if _attached and is_instance_valid(_shell):
 		_shell.input_context_changing.disconnect(cancel_contacts)
 		_shell.state_changed.disconnect(_state_changed)
+		_shell.interaction_changed.disconnect(_sync_presentation)
 		_shell.window_mode_option.get_popup().window_input.disconnect(_popup_input)
 		for node: Node in _shell.find_children("*", "Control", true, false):
 			_node_removed(node)
@@ -180,7 +182,7 @@ func _sync_presentation() -> void:
 	if id != _blocker_id:
 		cancel_contacts()
 		_blocker_id = id
-	var playing: bool = _active and _shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING
+	var playing: bool = _active and _shell.interaction_allowed() and _shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING
 	_pause.visible = playing
 	_pad.visible = playing and blocker == null and pad_rect().size == Vector2(192, 192)
 
@@ -189,6 +191,15 @@ func _input(event: InputEvent) -> void:
 	if not _active and event is InputEventScreenTouch and not event.pressed:
 		_captures.release(event.index) # Observe lift while disabled, without consuming it.
 	if not _active or _routing:
+		return
+	if not _shell.interaction_allowed():
+		# Observe inactive contacts only to quarantine them; no pointer or action output.
+		if event is InputEventScreenTouch:
+			if event.pressed:
+				_captures.press(event.index, false, false, false)
+			else:
+				_captures.release(event.index)
+		get_viewport().set_input_as_handled()
 		return
 	# Own pointer events are synchronous and guarded by _routing, not by a guessed
 	# hardware device-number range. A real mouse may use any numeric device label.
