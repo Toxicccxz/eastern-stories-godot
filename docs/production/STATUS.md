@@ -2,11 +2,13 @@
 
 ## Current milestone
 
-Phase 10C1's shared application shell is implementation-complete and locally audited on
-`phase/10c1-cross-platform-game-shell`, ready for its final PR. It builds on the integrated Phase 10B
-native Save/Load foundation and Phase 10A repository/build/CI foundation. Phase 10C1 is **not yet
-integrated into main**: final PR, four green PR jobs, authorized merge, and green post-merge main CI
-are still required. Phase 10C2 has not started. This is not game completion or store readiness.
+Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at
+`3a1f993a4258ed246ce820c7a4dc8d2563994aaf` (PR #5), with all four post-merge jobs green in
+[workflow 33643056093, attempt 2](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33643056093).
+It builds on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
+Phase 10C2 is in analysis/design on `phase/10c2-mobile-input-layout-lifecycle`;
+[analysis is complete and 10C2A is ready to begin](../migration/PHASE_10C2_MOBILE_INPUT_LAYOUT_LIFECYCLE_ANALYSIS.md),
+but no mobile implementation exists yet. This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
 explicit backup/temp recovery, confirmed Return to Menu, and independent Settings with desktop
@@ -40,7 +42,6 @@ owns zero or one replaceable Old Pine Session. Cold start shows Menu, not hidden
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- Phase 10C1 final PR/CI/merge/post-merge integration;
 - virtual/touch controls, responsive mobile HUD, safe areas/notches, Android Back behavior,
   orientation and mobile lifecycle policy;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
