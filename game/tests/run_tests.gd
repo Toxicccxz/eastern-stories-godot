@@ -899,6 +899,14 @@ const OldPineRuntimeSaveLoadResultScript := preload("res://runtime/persistence/o
 const OldPineSessionLoadCoordinatorScript := preload("res://runtime/persistence/oldpine_session_load_coordinator.gd")
 const OldPineGameRuntimeHostScript := preload("res://runtime/persistence/oldpine_game_runtime_host.gd")
 const OldPineSaveLoadTransactionTest := preload("res://tests/runtime/oldpine_save_load_transaction_test.gd")
+const ApplicationShellStateScript := preload("res://application/application_shell_state.gd")
+const ApplicationSlotInspectionScript := preload("res://application/application_slot_inspection.gd")
+const ApplicationOperationResultScript := preload("res://application/application_operation_result.gd")
+const ApplicationProductResultMapperScript := preload("res://application/application_product_result_mapper.gd")
+const ApplicationMessageCatalogScript := preload("res://application/application_message_catalog.gd")
+const ApplicationShellControllerScript := preload("res://runtime/application/application_shell_controller.gd")
+const ApplicationShellTest := preload("res://tests/application/application_shell_test.gd")
+const ApplicationShellPhase10C1CTest := preload("res://tests/application/application_shell_phase10c1c_test.gd")
 
 
 func _init() -> void:
@@ -1272,6 +1280,13 @@ func _init() -> void:
 		OldPineSessionLoadCoordinatorScript,
 		OldPineGameRuntimeHostScript,
 		OldPineSaveLoadTransactionTest,
+		ApplicationShellStateScript,
+		ApplicationSlotInspectionScript,
+		ApplicationOperationResultScript,
+		ApplicationProductResultMapperScript,
+		ApplicationMessageCatalogScript,
+		ApplicationShellControllerScript,
+		ApplicationShellTest,
 	]
 	for script: Script in phase_scripts:
 		if not script.can_instantiate():
@@ -1397,6 +1412,8 @@ func _init() -> void:
 	var phase_10b2_result: Dictionary[String, Variant] = NativeItemPersistenceCompositionTest.new().run_all()
 	var phase_10b3_result: Dictionary[String, Variant] = await OldPineWorldRestoreTest.new().run_all(self)
 	var phase_10b4_result: Dictionary[String, Variant] = await OldPineSaveLoadTransactionTest.new().run_all(self)
+	var phase_10c1a_result: Dictionary[String, Variant] = await ApplicationShellTest.new().run_all(self)
+	var phase_10c1c_result: Dictionary[String, Variant] = await ApplicationShellPhase10C1CTest.new().run_all(self)
 	var assertion_count: int = int(phase_1_result["assertions"]) + int(
 		phase_2a_result["assertions"]
 	) + int(phase_2b_result["assertions"]) + int(phase_3a_result["assertions"]) + int(
@@ -1495,6 +1512,8 @@ func _init() -> void:
 		phase_10b3_result["assertions"]
 	) + int(
 		phase_10b4_result["assertions"]
+	) + int(
+		phase_10c1a_result["assertions"] + phase_10c1c_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
 	failures.append_array(phase_2a_result["failures"])
@@ -1548,6 +1567,8 @@ func _init() -> void:
 	failures.append_array(phase_10b2_result["failures"])
 	failures.append_array(phase_10b3_result["failures"])
 	failures.append_array(phase_10b4_result["failures"])
+	failures.append_array(phase_10c1a_result["failures"])
+	failures.append_array(phase_10c1c_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -101,6 +101,9 @@ func _test_happy_path_second_save_and_reentry() -> void:
 	var backup: GameSaveResult = GameSaveJsonCodec.decode(files.files[profile.backup_path()].get_string_from_utf8())
 	_assert_true(backup.succeeded(), "backup remains a valid previous save")
 	_assert_eq(backup.snapshot.player.character.kee.current, 82, "backup contains first snapshot")
+	# The reentry fixture owns the repository only during this test. Break its
+	# deliberate repository -> files -> repository cycle before releasing it.
+	files.repository_to_reenter = null
 
 
 func _test_temp_write_and_rotation_failures() -> void:

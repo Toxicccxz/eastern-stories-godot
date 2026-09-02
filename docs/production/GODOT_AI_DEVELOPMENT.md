@@ -50,3 +50,14 @@ validated workaround on one workstation, not a portable project requirement. If 
 evidence remains unavailable, report it as blocked or pending rather than converting a headless
 result into a live PASS. Do not change gameplay or domain semantics to accommodate development
 tooling.
+
+## Known editor-only shutdown warning
+
+Godot AI 3.2.4 can retain a `server_version_check.gd` / `server_lifecycle.gd` mutual reference on
+interactive editor exit. The isolated diagnosis identified five ObjectDB instances and two resources,
+not Shell/Settings/Host/Session objects. See the
+[formal audit diagnosis](../migration/PHASE_10C1C_FORMAL_AUDIT.md#editor-only-lifetime-warning-explained-not-hidden).
+
+The vendor plugin is unchanged. Sanitized builds exclude it, and the independently validated
+no-plugin game and automated runs did not show this warning. This is not permission to ignore other
+leaks: inspect resource names and reproduce any new warning before classifying it as tooling-only.

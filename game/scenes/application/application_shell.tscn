@@ -1,0 +1,427 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
+
+[node name="ApplicationShell" type="Node"]
+process_mode = 3
+script = ExtResource("1_shell")
+
+[node name="RuntimeHostSlot" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="ShellCanvas" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 100
+
+[node name="MainMenuPanel" type="Control" parent="ShellCanvas"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Background" type="ColorRect" parent="ShellCanvas/MainMenuPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.035, 0.055, 0.075, 1)
+
+[node name="Center" type="CenterContainer" parent="ShellCanvas/MainMenuPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ShellCanvas/MainMenuPanel/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 36
+
+[node name="VBox" type="VBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Eastern Stories"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Old Pine"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+text = "Checking saved journey..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="NewGameButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "New Game"
+
+[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+disabled = true
+text = "Continue"
+
+[node name="RecoveryButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+disabled = true
+text = "Recovery"
+
+[node name="MenuSettingsButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Settings"
+
+[node name="PausePanel" type="ColorRect" parent="ShellCanvas"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.02, 0.03, 0.82)
+
+[node name="Center" type="CenterContainer" parent="ShellCanvas/PausePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ShellCanvas/PausePanel/Center"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="ShellCanvas/PausePanel/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="ShellCanvas/PausePanel/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Resume"
+
+[node name="SaveButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Save"
+
+[node name="PauseSettingsButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Settings"
+
+[node name="ReturnButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Return to Main Menu"
+
+[node name="SettingsPanel" type="ColorRect" parent="ShellCanvas"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.02, 0.03, 0.94)
+
+[node name="Center" type="CenterContainer" parent="ShellCanvas/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ShellCanvas/SettingsPanel/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="ShellCanvas/SettingsPanel/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="WindowModeRow" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Window Mode"
+vertical_alignment = 1
+
+[node name="WindowModeOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+
+[node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="SettingsApplyButton" type="Button" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+text = "Apply"
+
+[node name="SettingsCancelButton" type="Button" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+text = "Cancel"
+
+[node name="RecoveryPanel" type="ColorRect" parent="ShellCanvas"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.02, 0.03, 0.94)
+
+[node name="Center" type="CenterContainer" parent="ShellCanvas/RecoveryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ShellCanvas/RecoveryPanel/Center"]
+custom_minimum_size = Vector2(580, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="ShellCanvas/RecoveryPanel/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Recover Journey"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Choose a validated recovery candidate. Nothing is selected automatically."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BackupRecoveryButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Previous completed save"
+
+[node name="TempRecoveryButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Interrupted save candidate"
+
+[node name="RecoveryNewGameButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Start New Game"
+
+[node name="RecoveryCancelButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "Cancel"
+
+[node name="BusyOverlay" type="ColorRect" parent="ShellCanvas"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.02, 0.03, 0.88)
+
+[node name="BusyCenter" type="CenterContainer" parent="ShellCanvas/BusyOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BusyLabel" type="Label" parent="ShellCanvas/BusyOverlay/BusyCenter"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Checking saved journey..."
+
+[node name="ResultOverlay" type="ColorRect" parent="ShellCanvas"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.02, 0.03, 0.88)
+
+[node name="ResultCenter" type="CenterContainer" parent="ShellCanvas/ResultOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ShellCanvas/ResultOverlay/ResultCenter"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="ResultLabel" type="Label" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="ConfirmButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start New Game"
+
+[node name="CancelButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cancel"
+
+[node name="AcknowledgeButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "OK"
+
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/RecoveryButton" to="." method="_on_recovery_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/MenuSettingsButton" to="." method="_on_menu_settings_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/PauseSettingsButton" to="." method="_on_pause_settings_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions/SettingsApplyButton" to="." method="_on_settings_apply_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions/SettingsCancelButton" to="." method="_on_settings_cancel_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/BackupRecoveryButton" to="." method="_on_backup_recovery_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/TempRecoveryButton" to="." method="_on_temp_recovery_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/RecoveryNewGameButton" to="." method="_on_recovery_new_game_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/RecoveryCancelButton" to="." method="_on_recovery_cancel_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions/ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions/AcknowledgeButton" to="." method="_on_acknowledge_button_pressed"]

@@ -1113,11 +1113,6 @@ layout_mode = 2
 disabled = true
 text = "Attack"
 
-[node name="ResetButton" type="Button" parent="HUD/Overlay/StatusPanel/Margin/VBox/Actions" unique_id=1817436039]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Reset"
-
 [node name="PortalButton" type="Button" parent="HUD/Overlay/StatusPanel/Margin/VBox/Actions" unique_id=686543072]
 unique_name_in_owner = true
 layout_mode = 2
@@ -1376,7 +1371,6 @@ position = Vector2(-2040, 300)
 [connection signal="timeout" from="OpportunityTimer" to="." method="_on_opportunity_timer_timeout"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/InspectButton" to="." method="_on_inspect_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/AttackButton" to="." method="_on_attack_button_pressed"]
-[connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/PortalButton" to="." method="_on_portal_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/OpenLootButton" to="." method="_on_open_loot_button_pressed"]
 [connection signal="pressed" from="HUD/Overlay/StatusPanel/Margin/VBox/Actions/InventoryButton" to="." method="_on_inventory_button_pressed"]

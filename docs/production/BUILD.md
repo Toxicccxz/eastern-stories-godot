@@ -60,9 +60,12 @@ development game/
 
 The staging directory is deleted and recreated. The sanitizer removes the Godot AI addon, helper
 autoload, editor plugin activation, early `mcp_test.tscn` smoke scene, remote-debug/6107 argument,
-`.godot` cache, and `game/tests/`.
-It verifies the canonical Old Pine Runtime Host main scene and required production directories, scans for
-forbidden references, and checks that the source tree digest is unchanged. No repository-level
+`.godot` cache, `game/tests/`, and QA bridge/startup configuration. Test fixtures and fake capabilities
+must not be production dependencies. It retains the canonical
+`res://scenes/application/application_shell.tscn`, production Shell/settings/capability code, persistent
+Runtime Host, and native Save/Continue/recovery runtime. It verifies required production paths, scans
+for forbidden references and local absolute paths in shipped source, and checks that the source tree
+digest is unchanged. No repository-level
 `reference/es2`, migration docs, CI scripts, or build tools are copied.
 
 To inspect the sanitizer alone:
@@ -80,9 +83,20 @@ injects absolute custom-template paths only into the temporary staging preset.
 The production Runtime Host uses one fixed release slot at
 `user://save-data/release/default-v1.json`. Development and isolated test profiles use separate child
 directories. A Save verifies a temporary file before replacement and retains the prior canonical file as
-`.bak`; Load reports a valid recovery candidate but does not automatically select it. Player-facing
-Save/Continue and recovery-choice policy remain Phase 10C1 work. See
-`docs/production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md` for the stable runtime contract.
+`.bak`; Load reports a valid recovery candidate but does not automatically select it. The canonical
+ApplicationShell starts at Main Menu with no Session. Continue re-reads the canonical slot; Save is
+an explicit Pause-menu action. Recovery requires the player to select BACKUP or TEMP and does not
+promote files. See the [native Save/Load contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md) and
+[Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md).
+
+## Application settings storage
+
+Typed application settings use `user://settings/application-v1.cfg`, independently of gameplay saves,
+profiles, schema, and recovery. Settings load before Menu and are available from Menu and Pause.
+Windowed/Fullscreen is editable only through the native desktop capability; embedded, headless, and
+platform-managed windows show no editable mode control. Unusable settings do not block Continue;
+failed preference persistence is reported separately from gameplay Save. No mobile lifecycle or
+autosave policy is implied by this shared shell.
 
 ## Unified builds
 

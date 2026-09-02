@@ -13,15 +13,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
 
    Connect the existing typed persistence foundations to the playable application/session.
 
-3. **Phase 10C1 — Cross-Platform Game Shell — Next; not started**
+3. **Phase 10C1 — Cross-Platform Game Shell — Implementation/Formal Audit Complete; pending integration**
 
-   Add the application-level menu, Continue, pause, and settings flow without platform gameplay
-   forks.
+   Shared application menu, New Game/Continue, Pause/Save, explicit recovery, Return to Menu, settings,
+   and focus/input boundaries are locally complete. Final PR, four green PR checks, authorized merge,
+   and green post-merge main CI remain required; this is not yet main integration.
 
-4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation**
+4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Not started**
 
-   Make Android/iOS comfortable to play through touch controls, responsive/safe-area-aware UI, and
-   explicit mobile lifecycle behavior.
+   Next only after Phase 10C1 integration and green post-merge main CI. Make Android/iOS comfortable
+   to play through touch controls, responsive/safe-area-aware UI, and explicit mobile lifecycle behavior.
 
 5. **Phase 10D — Technical Demo Release Gate**
 

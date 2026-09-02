@@ -5,19 +5,25 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import shutil
 import sys
 from pathlib import Path
 
 
-EXPECTED_MAIN_SCENE = "res://scenes/runtime/oldpine_game_runtime_host.tscn"
+EXPECTED_MAIN_SCENE = "res://scenes/application/application_shell.tscn"
 REQUIRED_PATHS = (
     "project.godot",
     "export_presets.cfg",
     "core",
     "data",
     "runtime",
+    "application/settings/application_settings_snapshot.gd",
+    "application/settings/application_settings_repository.gd",
+    "application/settings/application_settings_service.gd",
+    "runtime/application/godot_window_mode_capability.gd",
     "scenes",
+    "scenes/application/application_shell.tscn",
     "scenes/runtime/oldpine_game_runtime_host.tscn",
     "scenes/world/oldpine/oldpine_world_session.tscn",
 )
@@ -33,7 +39,11 @@ FORBIDDEN_TEXT = (
     "--remote-debug",
     "127.0.0.1:6107",
     "res://tests/",
+    "_phase10b4_qa_bridge",
+    "qa_startup_load",
+    "--phase10b4-startup-load",
 )
+LOCAL_ABSOLUTE_PATH = re.compile(r"(?:(?<![A-Za-z0-9_])[A-Za-z]:/(?!/)|/(?:Users|home)/)")
 TEXT_SUFFIXES = {
     ".cfg",
     ".gd",
@@ -119,6 +129,8 @@ def sanitize_project_config(text: str) -> str:
             continue
 
         kept = list(lines)
+        if section == "phase10b4":
+            kept = [line for line in kept if not line.strip().startswith("qa_startup_load=")]
         if section == "autoload":
             kept = [
                 line
@@ -190,6 +202,11 @@ def validate_release_project(project: Path) -> list[str]:
         except UnicodeDecodeError:
             continue
         normalized_text = text.replace("\\", "/")
+        # Editor validation itself records the machine's executable path in
+        # .godot/editor/project_metadata.cfg. Cache is not shipped source and is
+        # removed at preparation; retain all existing forbidden-reference checks.
+        if path.relative_to(project).parts[0] != ".godot" and LOCAL_ABSOLUTE_PATH.search(normalized_text):
+            errors.append(f"local absolute path in {path.relative_to(project).as_posix()}")
         for token in FORBIDDEN_TEXT:
             if token in normalized_text:
                 errors.append(

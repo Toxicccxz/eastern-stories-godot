@@ -15,6 +15,16 @@ func operation_in_progress() -> bool:
 	return _operation_in_progress
 
 
+func inspect_slot() -> GameSaveSlotInspectionResult:
+	if not _begin_operation():
+		return GameSaveSlotInspectionResult.new(
+			GameSaveResult.Outcome.OPERATION_IN_PROGRESS,
+		)
+	var result: GameSaveSlotInspectionResult = _repository.inspect_slot()
+	_operation_in_progress = false
+	return result
+
+
 func save_current(session: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if not _begin_operation():
 		return Result.failure(Result.Outcome.REQUEST_REJECTED)
@@ -58,14 +68,42 @@ func load_replacing(
 	return result
 
 
+func load_recovery_replacing(
+	source: int,
+	current: OldPineWorldSessionController,
+	session_slot: Node,
+	staging_slot: Node,
+) -> OldPineRuntimeSaveLoadResult:
+	if not GameSaveRecoverySource.is_valid(source) or not _begin_operation():
+		return Result.failure(Result.Outcome.REQUEST_REJECTED)
+	var loaded: GameSaveResult = _repository.load_recovery(source)
+	var result := _restore_loaded(
+		loaded,
+		current,
+		session_slot,
+		staging_slot,
+	)
+	_operation_in_progress = false
+	return result
+
+
 func _load_replacing_impl(
+	current: OldPineWorldSessionController,
+	session_slot: Node,
+	staging_slot: Node,
+) -> OldPineRuntimeSaveLoadResult:
+	var loaded: GameSaveResult = _repository.load()
+	return _restore_loaded(loaded, current, session_slot, staging_slot)
+
+
+func _restore_loaded(
+	loaded: GameSaveResult,
 	current: OldPineWorldSessionController,
 	session_slot: Node,
 	staging_slot: Node,
 ) -> OldPineRuntimeSaveLoadResult:
 	if session_slot == null or staging_slot == null:
 		return Result.failure(Result.Outcome.NO_CURRENT_SESSION)
-	var loaded: GameSaveResult = _repository.load()
 	if not loaded.succeeded():
 		var repository_failure := Result.failure(Result.Outcome.REPOSITORY_FAILED)
 		repository_failure.repository = loaded
