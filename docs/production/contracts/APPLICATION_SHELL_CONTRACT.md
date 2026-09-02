@@ -17,6 +17,10 @@ replaceable Session. Shell UI and settings survive Session replacement and menu 
 ApplicationShellState validates mode/operation/origin combinations. SettingsOrigin and ResultOrigin
 are closed MAIN_MENU/PAUSED choices, absent outside their corresponding mode.
 
+The mode invariants below describe foreground-ready operation. Mobile inactivity may also
+temporarily pause an empty-Host tree and gate interrupted Session commits; that extension is
+defined by the [Mobile Application contract](MOBILE_APPLICATION_CONTRACT.md).
+
 | Mode | Consumer invariant |
 |---|---|
 | BOOT / MAIN_MENU | No committed Session; tree unpaused; inspection is metadata only. |
@@ -87,7 +91,8 @@ Sanitized builds retain this canonical Shell, settings, capability adapter, Host
 runtime. They remove tests/fakes, QA bridges/fixtures/startup flags, Godot AI, remote-debug arguments,
 and developer-local paths. Development debugging remains separate from shipping configuration.
 
-Future mobile adapters must feed semantic intents/capabilities without replacing Shell or Host
-authority. Android Back, touch controls, safe areas, orientation, mobile lifecycle/autosave, physical
-device qualification, and store packaging/signing remain separate work. In-game Load, multiple slots,
-dirty tracking, cloud saves, localization, remapping, and audio/quality settings are not provided.
+Mobile presentation, touch, Android Back and lifecycle extensions are defined by the
+[Mobile Application contract](MOBILE_APPLICATION_CONTRACT.md); they feed semantic intents/capabilities
+without replacing Shell or Host authority. Autosave, physical-device qualification and store
+packaging/signing are not implied. In-game Load, multiple slots, dirty tracking, cloud saves,
+localization, remapping, and audio/quality settings are not provided.

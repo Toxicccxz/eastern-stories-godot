@@ -19,17 +19,21 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    and focus/input boundaries are fully integrated at `3a1f993a4258ed246ce820c7a4dc8d2563994aaf`
    through PR #5, with all four post-merge main CI jobs green.
 
-4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Analysis complete; implementation not started**
+4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Implementation/Formal Audit Complete; pending integration**
 
-   Analysis is based on green integrated Phase 10C1. Planned slices are 10C2A responsive presentation/
-   safe area/orientation, 10C2B touch/Android Back, and 10C2C lifecycle/mobile release validation,
-   all on `phase/10c2-mobile-input-layout-lifecycle`. See the
-   [analysis and acceptance plan](../migration/PHASE_10C2_MOBILE_INPUT_LAYOUT_LIFECYCLE_ANALYSIS.md).
+   Shared responsive/safe-area presentation and sensor landscape, touch pad/Android Back,
+   lifecycle freeze/explicit Resume and manual-save-only durability have passed A/B/C and
+   the [final major-phase audit](../migration/PHASE_10C2_FINAL_AUDIT.md), on
+   `phase/10c2-mobile-input-layout-lifecycle`. The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
+   records consumer boundaries and hardware gaps. Final PR/CI/authorized merge/post-merge CI
+   remain required before calling the major phase fully integrated.
 
-5. **Phase 10D — Technical Demo Release Gate**
+5. **Phase 10D — Technical Demo Release Gate — NOT STARTED**
 
-   Establish final technical gates, permanent identity/signing policy, and release-oriented
-   packaging/store preparation.
+   Begin only after Phase 10C2 fully integrates. Establish final technical gates, physical
+   Android multitouch/ARM64/production Vulkan and iPhone/iPad runtime qualification, permanent
+   identity/signing policy, and release-oriented packaging/store preparation. Emulator proof
+   is not hardware or store certification.
 
 After Phase 10D, perform a new planning review before resuming large-scale authored content. This
 roadmap intentionally avoids speculative phase expansion.

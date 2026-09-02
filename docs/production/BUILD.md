@@ -63,7 +63,10 @@ autoload, editor plugin activation, early `mcp_test.tscn` smoke scene, remote-de
 `.godot` cache, `game/tests/`, and QA bridge/startup configuration. Test fixtures and fake capabilities
 must not be production dependencies. It retains the canonical
 `res://scenes/application/application_shell.tscn`, production Shell/settings/capability code, persistent
-Runtime Host, and native Save/Continue/recovery runtime. It verifies required production paths, scans
+Runtime Host, and native Save/Continue/recovery runtime. It also retains responsive presentation,
+SafeArea, touch capture/adapter, Android Back/exit, typed lifecycle/activity and explicit Resume-gate
+logic, mobile logical-size overrides and sensor-landscape configuration. All mobile test fakes and
+lifecycle observers remain excluded. It verifies required production paths, scans
 for forbidden references and local absolute paths in shipped source, and checks that the source tree
 digest is unchanged. No repository-level
 `reference/es2`, migration docs, CI scripts, or build tools are copied.
@@ -89,14 +92,20 @@ an explicit Pause-menu action. Recovery requires the player to select BACKUP or 
 promote files. See the [native Save/Load contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md) and
 [Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md).
 
+Mobile background/focus loss causes **zero new Save requests**. An already-requested manual Save
+may finish through the normal transaction; lifecycle does not cancel, duplicate or retry it. Same-
+process return preserves memory; cold Continue restores the last completed manual Save. There is no
+lifecycle/termination autosave or promised background-time reservation. See the
+[Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md).
+
 ## Application settings storage
 
 Typed application settings use `user://settings/application-v1.cfg`, independently of gameplay saves,
 profiles, schema, and recovery. Settings load before Menu and are available from Menu and Pause.
 Windowed/Fullscreen is editable only through the native desktop capability; embedded, headless, and
 platform-managed windows show no editable mode control. Unusable settings do not block Continue;
-failed preference persistence is reported separately from gameplay Save. No mobile lifecycle or
-autosave policy is implied by this shared shell.
+failed preference persistence is reported separately from gameplay Save. Mobile adds no new
+preference or autosave setting; its lifecycle policy is defined by the separate mobile contract.
 
 ## Unified builds
 
@@ -136,6 +145,19 @@ dist/android/build-manifest.json
 
 This is a **TECHNICAL / QA BUILD**, not a Play Store release. A later build signed with another
 ephemeral key may require uninstall/reinstall. No permanent Play signing credential exists here.
+Preserve existing app data and obtain approval before uninstalling a test package to resolve a
+signature mismatch.
+
+For an x86_64 Android emulator, explicitly append `--android-technical-abi x86_64` to the Android
+command above. The option is Android-only and changes only the disposable staging preset. Output is
+`dist/android-technical-x86_64/Eastern-Stories-Godot-android-technical-x86_64.apk` with a manifest
+marking the technical ABI. Without that option, normal Android remains ARM64; CI uses the normal
+command. The ABI option does not change renderer, signing policy or package identity.
+
+A separately disclosed emulator renderer override such as `gl_compatibility`, isolated package ID
+or test observer belongs only to disposable technical staging, never the shared production project
+or normal CI. Validate a pristine sanitized stage before such instrumentation and do not describe
+the instrumented artifact as a pristine release or ARM64/Vulkan hardware qualification.
 
 iOS (macOS only):
 
@@ -261,7 +283,13 @@ workspace.
 
 ## Mobile product boundary
 
-Successful Android/iOS builds do not provide virtual controls, mobile-responsive HUD, safe-area or
-notch handling, Android Back behavior, orientation redesign, or mobile lifecycle gameplay policy.
-Those are Phase 10C2 work. Permanent signing and store-oriented release infrastructure belong to
-Phase 10D or a dedicated release/signing phase.
+The shared mobile layer now provides responsive Shell/HUD/item panels, SafeArea, a fixed digital
+pad, Android Back and lifecycle freeze/explicit Resume, with manual saves only. It keeps desktop
+1152x648, mobile logical 960x540, canvas_items/expand and both sensor-landscape directions. See the
+[Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md) for supported boundaries.
+
+Installed x86_64 Android emulator evidence does not qualify physical Android multitouch, ARM64,
+production Vulkan or general device compatibility. The shared iOS source/export path does not
+qualify iPhone/iPad simulator/device runtime; unsigned iOS Xcode compilation remains required in
+integration CI. Permanent identity/signing, hardware qualification and store-oriented release gates
+belong to Phase 10D or an explicitly planned later release phase, not a successful build alone.
