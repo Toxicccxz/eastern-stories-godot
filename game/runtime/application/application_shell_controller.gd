@@ -7,6 +7,7 @@ const HOST_SCENE: PackedScene = preload(
 
 signal host_ready(host: OldPineGameRuntimeHost)
 signal state_changed(state: ApplicationShellState)
+signal input_context_changing
 
 @onready var runtime_host_slot: Node = %RuntimeHostSlot
 @onready var shell_canvas: CanvasLayer = %ShellCanvas
@@ -54,6 +55,8 @@ var _state: ApplicationShellState = ApplicationShellState.new()
 var _slot_inspection: ApplicationSlotInspection
 var _last_result: ApplicationOperationResult
 var _transition_held_actions: Array[StringName] = []
+var _exit_capability: ApplicationExitCapability = ApplicationExitCapability.new()
+var _quit_requested: bool = false
 
 
 func configure_before_start(
@@ -84,6 +87,7 @@ func _ready() -> void:
 	_settings_service = ApplicationSettingsService.new(_settings_repository, _window_capability)
 	_settings_bootstrap_result = _settings_service.load_and_apply()
 	_configure_window_mode_options()
+	window_mode_option.get_popup().window_input.connect(_popup_system_input)
 	_set_state(ApplicationShellState.boot_inspecting())
 	_host = HOST_SCENE.instantiate() as OldPineGameRuntimeHost
 	_connect_host(_host)
@@ -104,6 +108,11 @@ func _exit_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action(&"system_back"):
+		get_viewport().set_input_as_handled()
+		if event.is_action_pressed(&"system_back") and not event.is_echo():
+			_handle_system_back()
+		return
 	# action_release clears polling, but an OS keyboard echo can set it again.
 	# Quarantine only actions held across a transition until release/fresh press;
 	# ordinary held gameplay movement and normal menu navigation stay untouched.
@@ -156,6 +165,48 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func runtime_host() -> OldPineGameRuntimeHost:
 	return _host
+
+
+func set_exit_capability(capability: ApplicationExitCapability) -> void:
+	if capability != null:
+		_exit_capability = capability
+
+
+func _popup_system_input(event: InputEvent) -> void:
+	# A native/embedded Popup is its own Viewport and receives focused input before
+	# the root. Keep the same Shell policy rather than inventing a popup-state flag.
+	if event.is_action(&"system_back"):
+		window_mode_option.get_popup().set_input_as_handled()
+		if event.is_action_pressed(&"system_back"):
+			_handle_system_back()
+
+
+func _handle_system_back() -> void:
+	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
+		return
+	input_context_changing.emit()
+	if window_mode_option.get_popup().visible:
+		window_mode_option.get_popup().hide()
+		return
+	match _state.mode():
+		ApplicationShellState.Mode.RESULT:
+			dismiss_current_result()
+		ApplicationShellState.Mode.SETTINGS:
+			cancel_settings()
+		ApplicationShellState.Mode.RECOVERY_CHOICE:
+			cancel_recovery_choice()
+		ApplicationShellState.Mode.PAUSED:
+			request_resume()
+		ApplicationShellState.Mode.PLAYING:
+			var panel: ResponsivePanelLayout = ResponsivePanelLayout.top_interaction_panel(get_tree())
+			if panel != null:
+				panel.dismiss_requested.emit()
+			else:
+				request_pause()
+		ApplicationShellState.Mode.MAIN_MENU:
+			if _host_is_exactly_empty() and not _quit_requested:
+				_quit_requested = true
+				_exit_capability.request_quit(get_tree())
 
 
 func shell_state() -> ApplicationShellState:
@@ -649,6 +700,7 @@ func _set_state(next: ApplicationShellState) -> bool:
 		return false
 	# Host completions and mouse/keyboard intents share the same boundary. Clear
 	# polling state before exposing the next surface or a newly playable Session.
+	input_context_changing.emit()
 	_release_transition_actions()
 	_state = next
 	if is_node_ready():

@@ -66,6 +66,11 @@ func _ready() -> void:
 	_details = _wrap(detail_panel)
 	_inventory = _wrap(_overlay.get_node("PlayerInventoryPanel") as PanelContainer)
 	_loot = _wrap(_overlay.get_node("LootPanel") as PanelContainer)
+	_inventory.blocks_touch_gameplay = true
+	_loot.blocks_touch_gameplay = true
+	_inventory.dismiss_requested.connect((_inventory.panel as PlayerInventoryPanel).close_inventory)
+	_loot.dismiss_requested.connect((_loot.panel as OldPineLootPanel).close_loot)
+	_details.dismiss_requested.connect(_toggle_details)
 	# List/details are bounded by the outer scroll too, including below-qualified sizes.
 	for panel: ResponsivePanelLayout in [_inventory, _loot]:
 		var nested: ScrollContainer = panel.content.get_node("VBox/Scroll") as ScrollContainer
@@ -118,6 +123,7 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics == null:
 		return
 	_compact = metrics.is_compact()
+	_details.blocks_touch_gameplay = _compact
 	var area: Rect2 = metrics.content_rect()
 	_grid.columns = 2 if _compact else 5
 	_detail_button.visible = _compact
@@ -142,14 +148,22 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	else:
 		var action_height: float = 88.0 if metrics.touch_sized() else 56.0
 		_actions.apply(metrics, Rect2(Vector2(area.position.x, below), Vector2(column_width, action_height)))
-		_details.apply(metrics, Rect2(Vector2(area.position.x, below + action_height + 8.0), Vector2(column_width, maxf(1.0, area.end.y - below - action_height - 8.0))))
+		var pad_reservation: float = 200.0 if metrics.touch_sized() else 0.0
+		_details.apply(metrics, Rect2(Vector2(area.position.x, below + action_height + 8.0), Vector2(column_width, maxf(1.0, area.end.y - below - action_height - 8.0 - pad_reservation))))
+	# Item panels must never cover the shared top-right touch Pause. Keep normal
+	# desktop geometry; small/mobile surfaces retain native bounded scrolling.
+	var item_area: Rect2 = area
+	if metrics.touch_sized():
+		var reservation: float = minf(72.0, maxf(0.0, area.size.y - 1.0))
+		item_area.position.y += reservation
+		item_area.size.y -= reservation
 	for layout: ResponsivePanelLayout in [_inventory, _loot]:
 		if _compact:
-			layout.apply(metrics, area, true, minf(640.0, area.size.x))
+			layout.apply(metrics, item_area, true, minf(640.0, item_area.size.x))
 		else:
 			var width: float = 440.0 if layout == _inventory else 360.0
-			var height: float = minf(area.size.y, 520.0 if layout == _inventory else 300.0)
-			layout.apply(metrics, Rect2(Vector2(area.end.x - width, area.position.y), Vector2(width, height)))
+			var height: float = minf(item_area.size.y, 520.0 if layout == _inventory else 300.0)
+			layout.apply(metrics, Rect2(Vector2(item_area.end.x - width, item_area.position.y), Vector2(width, height)))
 	_inventory.restyle_dynamic_content()
 	_loot.restyle_dynamic_content()
 

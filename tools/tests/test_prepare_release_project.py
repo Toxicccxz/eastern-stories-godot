@@ -94,7 +94,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.source / "godot-ai-LICENSE.txt").write_text("development license\n", encoding="utf-8")
         (self.source / ".godot/generated.txt").write_text("generated\n", encoding="utf-8")
         for relative in REQUIRED_PATHS:
-            if "/layout/" in relative or relative.endswith("godot_safe_area_capability.gd"):
+            if relative.endswith(".gd") and not (self.source / relative).exists():
                 path = self.source / relative
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text("extends RefCounted\n", encoding="utf-8")
@@ -140,6 +140,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
             'window/stretch/mode="canvas_items"',
             'window/stretch/aspect="expand"',
             "window/handheld/orientation=4",
+            "config/quit_on_go_back=false",
         ):
             self.assertIn(entry, sanitized)
         fake = self.source / "tests/presentation/fake_safe_area_capability.gd"
@@ -151,6 +152,14 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertFalse((self.output / "tests/presentation").exists())
         (self.output / "presentation/layout/safe_area_metrics.gd").unlink()
         self.assertTrue(any("safe_area_metrics.gd" in error for error in validate_release_project(self.output)))
+
+    def test_touch_back_required_paths_are_production_only(self) -> None:
+        prepare_release_project(self.source, self.output)
+        for name in ("mobile_touch_adapter", "android_back_adapter", "application_exit_capability"):
+            path = self.output / f"runtime/application/{name}.gd"
+            self.assertTrue(path.is_file())
+        (self.output / "runtime/application/mobile_touch_adapter.gd").unlink()
+        self.assertTrue(any("mobile_touch_adapter.gd" in error for error in validate_release_project(self.output)))
 
     def test_prepare_removes_godot_ai_helper_plugin_and_addon(self) -> None:
         prepare_release_project(self.source, self.output)

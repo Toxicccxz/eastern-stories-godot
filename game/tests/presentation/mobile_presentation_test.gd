@@ -55,7 +55,7 @@ func _test_metrics() -> void:
 	_check(ProjectSettings.get_setting("display/window/stretch/mode") == "canvas_items", "canvas_items preserved")
 	_check(ProjectSettings.get_setting("display/window/stretch/aspect") == "expand", "expand preserved")
 	_check(ProjectSettings.get_setting("display/window/handheld/orientation") == 4, "sensor landscape, both landscape directions")
-	_check(not InputMap.has_action(&"system_back"), "no premature Back input action")
+	_check(InputMap.has_action(&"system_back") and InputMap.action_get_events(&"system_back").is_empty(), "Phase10C2B Back is semantic only, never a duplicate key alias")
 	var wide_mobile: SafeAreaMetrics = SafeAreaMetrics.normalize(Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Transform2D.IDENTITY, true)
 	_check(wide_mobile.touch_sized() and not wide_mobile.is_compact(), "mobile target size and compact breakpoint are separate facts")
 

@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
 [ext_resource type="Script" path="res://presentation/layout/safe_area_presenter.gd" id="2_safe"]
 [ext_resource type="Script" path="res://presentation/layout/application_shell_layout.gd" id="3_layout"]
+[ext_resource type="Script" path="res://runtime/application/mobile_touch_adapter.gd" id="4_touch"]
+[ext_resource type="Script" path="res://runtime/application/android_back_adapter.gd" id="5_back"]
 
 [node name="ApplicationShell" type="Node"]
 process_mode = 3
@@ -16,6 +18,20 @@ script = ExtResource("3_layout")
 
 [node name="RuntimeHostSlot" type="Node" parent="."]
 unique_name_in_owner = true
+
+[node name="AndroidBack" type="Node" parent="."]
+script = ExtResource("5_back")
+
+[node name="TouchCanvas" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="TouchInput" type="Control" parent="TouchCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("4_touch")
 
 [node name="ShellCanvas" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

@@ -162,7 +162,7 @@ def _gd_string(value: str) -> str:
     return '"' + value.replace("\\", "/").replace('"', '\\"') + '"'
 
 
-def set_preset_option(config_path: Path, preset_name: str, key: str, value: str) -> None:
+def set_preset_option(config_path: Path, preset_name: str, key: str, value: str | bool) -> None:
     lines = config_path.read_text(encoding="utf-8").splitlines()
     preset_number: str | None = None
     section: str | None = None
@@ -188,10 +188,11 @@ def set_preset_option(config_path: Path, preset_name: str, key: str, value: str)
         if start is not None and index > start and stripped.startswith("[") and stripped.endswith("]"):
             end = index
             break
+    rendered = ("true" if value else "false") if isinstance(value, bool) else _gd_string(value)
     if start is None:
-        lines.extend(("", f"[{option_section}]", f"{key}={_gd_string(value)}"))
+        lines.extend(("", f"[{option_section}]", f"{key}={rendered}"))
     else:
-        replacement = f"{key}={_gd_string(value)}"
+        replacement = f"{key}={rendered}"
         for index in range(start + 1, end):
             if lines[index].strip().startswith(f"{key}="):
                 lines[index] = replacement
@@ -199,6 +200,16 @@ def set_preset_option(config_path: Path, preset_name: str, key: str, value: str)
         else:
             lines.insert(end, replacement)
     config_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8", newline="\n")
+
+
+def configure_technical_android_abi(stage: Path, abi: str | None) -> None:
+    """Override only the disposable shared stage; normal release remains ARM64."""
+    if abi is None:
+        return
+    if abi != "x86_64":
+        raise BuildError("only x86_64 Android technical validation is supported")
+    for architecture in ("armeabi-v7a", "arm64-v8a", "x86", "x86_64"):
+        set_preset_option(stage / "export_presets.cfg", "Android", f"architectures/{architecture}", architecture == abi)
 
 
 def _git_metadata(repository: Path) -> tuple[str, bool]:
@@ -418,8 +429,9 @@ def _build_android(
     manifest: dict[str, object],
     java_sdk: Path,
     android_sdk: Path,
+    technical_abi: str | None = None,
 ) -> None:
-    target_dir = dist / "android"
+    target_dir = dist / ("android" if technical_abi is None else f"android-technical-{technical_abi}")
     _clean_directory(target_dir)
     _write_android_editor_settings(env, java_sdk, android_sdk)
     keytool = java_sdk / "bin" / ("keytool.exe" if platform.system() == "Windows" else "keytool")
@@ -430,7 +442,8 @@ def _build_android(
     keystore = keystore_dir / "phase10a-qa.keystore"
     password = secrets.token_hex(16)
     alias = "phase10aqa"
-    apk = target_dir / f"{PROJECT_NAME}-android-arm64.apk"
+    suffix = "android-arm64" if technical_abi is None else f"android-technical-{technical_abi}"
+    apk = target_dir / f"{PROJECT_NAME}-{suffix}.apk"
     try:
         _run(
             [
@@ -630,6 +643,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--dist", type=Path, default=Path("dist"))
     parser.add_argument("--android-sdk", type=Path)
     parser.add_argument("--java-sdk", type=Path)
+    parser.add_argument("--android-technical-abi", choices=("x86_64",), help="Disposable emulator-only ABI override; leaves normal ARM64 source/CI unchanged")
     parser.add_argument("--require-clean", action="store_true")
     return parser
 
@@ -642,6 +656,8 @@ def main(argv: list[str] | None = None) -> int:
     dist = args.dist.resolve()
     work_root = staging.parent
     try:
+        if args.android_technical_abi is not None and args.target != "android":
+            raise BuildError("--android-technical-abi requires --target android")
         if args.target == "ios" and platform.system() != "Darwin":
             raise BuildError("iOS validation requires macOS with Xcode; run the iOS Build Validation CI job")
         if args.require_clean:
@@ -667,6 +683,9 @@ def main(argv: list[str] | None = None) -> int:
         android_sdk: Path | None = None
         java_sdk: Path | None = None
         if args.target == "android":
+            configure_technical_android_abi(staging, args.android_technical_abi)
+            if args.android_technical_abi is not None:
+                toolchain["technical_validation_abi"] = args.android_technical_abi
             android_sdk_value = args.android_sdk or (Path(os.environ["ANDROID_SDK_ROOT"]) if os.environ.get("ANDROID_SDK_ROOT") else None) or (Path(os.environ["ANDROID_HOME"]) if os.environ.get("ANDROID_HOME") else None)
             java_sdk_value = args.java_sdk or (Path(os.environ["JAVA_HOME"]) if os.environ.get("JAVA_HOME") else None)
             if android_sdk_value is None or java_sdk_value is None:
@@ -686,7 +705,7 @@ def main(argv: list[str] | None = None) -> int:
             if android_sdk is None or java_sdk is None:
                 raise BuildError("internal Android toolchain validation error")
             manifest = _manifest(args.target, godot_version, repository, signing_mode, toolchain)
-            _build_android(godot, staging, dist, work_root, env, manifest, java_sdk, android_sdk)
+            _build_android(godot, staging, dist, work_root, env, manifest, java_sdk, android_sdk, args.android_technical_abi)
         else:
             toolchain["host"] = platform.platform()
             manifest = _manifest(args.target, godot_version, repository, signing_mode, toolchain)

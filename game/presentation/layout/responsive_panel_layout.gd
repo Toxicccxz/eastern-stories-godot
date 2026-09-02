@@ -1,6 +1,19 @@
 class_name ResponsivePanelLayout
 extends Node
 
+signal dismiss_requested
+
+var blocks_touch_gameplay: bool = false
+
+
+static func top_interaction_panel(tree: SceneTree) -> ResponsivePanelLayout:
+	var result: ResponsivePanelLayout
+	for node: Node in tree.get_nodes_in_group(&"touch_interaction_panels"):
+		var layout: ResponsivePanelLayout = node as ResponsivePanelLayout
+		if layout != null and layout.blocks_touch_gameplay and is_instance_valid(layout.panel) and layout.panel.is_visible_in_tree():
+			result = layout
+	return result
+
 var panel: PanelContainer
 var scroll: ScrollContainer
 var content: Control
@@ -14,6 +27,7 @@ var _font_sizes: Dictionary[Control, int] = {}
 
 
 func initialize(target: PanelContainer) -> void:
+	add_to_group(&"touch_interaction_panels")
 	panel = target
 	panel.custom_minimum_size = Vector2.ZERO
 	content = panel.get_child(0) as Control
