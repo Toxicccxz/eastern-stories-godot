@@ -12,9 +12,11 @@ var _mobile: bool
 
 
 func _init(viewport: Rect2, safe: Rect2, fallback: bool = false, mobile: bool = false) -> void:
-	_viewport = viewport
-	_safe = safe
-	_fallback = fallback
+	_viewport = viewport if _valid_rect(viewport) else Rect2(0, 0, 1, 1)
+	_safe = safe.intersection(_viewport) if _valid_rect(safe) else Rect2()
+	_fallback = fallback or _viewport != viewport or not _valid_rect(_safe)
+	if not _valid_rect(_safe):
+		_safe = _viewport
 	_mobile = mobile
 
 
@@ -29,24 +31,33 @@ static func normalize(
 	if not _valid_rect(viewport):
 		viewport = Rect2(0, 0, 1, 1)
 		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+	var determinant: float = logical_to_screen.determinant()
 	if (
 		not _valid_rect(physical_content)
 		or not _valid_rect(physical_safe)
 		or not logical_to_screen.is_finite()
-		or absf(logical_to_screen.determinant()) < 0.000001
+		or not is_finite(determinant)
+		or determinant == 0.0
 	):
 		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
 	var intersection: Rect2 = physical_content.intersection(physical_safe)
 	if not _valid_rect(intersection):
 		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
-	var safe: Rect2 = (logical_to_screen.affine_inverse() * intersection).intersection(viewport)
+	var inverse: Transform2D = logical_to_screen.affine_inverse()
+	if not inverse.is_finite():
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+	var transformed: Rect2 = inverse * intersection
+	if not _valid_rect(transformed):
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+	var safe: Rect2 = transformed.intersection(viewport)
 	if not _valid_rect(safe):
 		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
 	return SafeAreaMetrics.new(viewport, safe, false, mobile)
 
 
 static func _valid_rect(rect: Rect2) -> bool:
-	return rect.position.is_finite() and rect.size.is_finite() and rect.size.x > 0.0 and rect.size.y > 0.0
+	# Finite components alone do not imply a finite/representable endpoint in real_t.
+	return rect.position.is_finite() and rect.size.is_finite() and rect.end.is_finite() and rect.size.x > 0.0 and rect.size.y > 0.0 and rect.end.x > rect.position.x and rect.end.y > rect.position.y
 
 
 func viewport_rect() -> Rect2:

@@ -8,10 +8,15 @@ var _metrics: SafeAreaMetrics
 var _elapsed: float = 0.0
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_elapsed = 0.0
 	get_viewport().size_changed.connect(refresh)
 	refresh()
+
+
+func _exit_tree() -> void:
+	get_viewport().size_changed.disconnect(refresh)
 
 
 func _process(delta: float) -> void:
@@ -36,6 +41,8 @@ func current_metrics() -> SafeAreaMetrics:
 
 
 func refresh() -> void:
+	if not is_inside_tree():
+		return
 	var next: SafeAreaMetrics = _capability.measure(get_viewport())
 	if next == null:
 		next = SafeAreaCapability.new().measure(get_viewport())

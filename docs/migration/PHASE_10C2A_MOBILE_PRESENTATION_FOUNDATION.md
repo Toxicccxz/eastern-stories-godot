@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-Implementation ready for formal audit; not formally closed or integrated. Work remains on
+Formally closed by the [10C2A audit](PHASE_10C2A_FORMAL_AUDIT.md); not integrated. Work remains on
 `phase/10c2-mobile-input-layout-lifecycle`, after analysis commit `5508e59` and integrated main
 `3a1f993`. No PR, merge, CI-policy change, or 10C2B implementation is part of this slice.
 
@@ -92,6 +92,13 @@ pause combat or change processing/SaveEligibility. Touch ownership/leak preventi
 
 ## Verification
 
+The figures below record the original implementation gate. The subsequent formal audit added
+988 regression assertions and four presentation-only corrections (defensive metrics, preserving
+authored owner/unique-name scope, dynamic-row cache cleanup, and clean presenter/HUD detach).
+Final focused totals are 3597 +1260 +1267 =6124; the complete historical suite passed once with
+14138 assertions. Python42, sanitized smoke12 and actual sanitized Windows UI also passed.
+See the audit for the final ledger, pinned engine semantics and independently repeated live proof.
+
 Focused commands use Godot 4.7.2 and isolated test user data:
 
 | Validation | Result |
@@ -115,7 +122,10 @@ Existing dynamic-row tests now accept BoxContainer rather than assuming HBoxCont
 old total-node-count assertions (`225`) now directly assert absence of the obsolete ResetButton;
 layout wrappers legitimately change node counts. Their gameplay assertions are unchanged. The
 new test is registered in the canonical runner **without running the complete historical suite**;
-that gate remains for Formal Audit. No Vine-region flake assertion was weakened.
+that gate was subsequently completed in Formal Audit. No Vine-region flake assertion was weakened.
+Audit clarification: the historical totals were broad graph guards, not solely Reset tests.
+The audit adds semantic action/owner/handler/consumer and repeated-reflow node/scroll invariants
+instead of restoring a fixed total which would reject legitimate presentation wrappers.
 
 `prepare_release_project.py` explicitly requires all seven production safe-area/layout scripts.
 The narrow sanitizer test checks their retention, fake/test removal, and preservation of mobile

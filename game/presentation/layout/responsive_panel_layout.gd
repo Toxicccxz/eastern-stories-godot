@@ -22,10 +22,10 @@ func initialize(target: PanelContainer) -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true
 	panel.add_child(scroll)
-	content.reparent(scroll, false)
+	reparent_content(content, scroll)
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.minimum_size_changed.connect(queue_layout)
-	panel.visibility_changed.connect(queue_layout)
+	panel.visibility_changed.connect(restyle_dynamic_content)
 	_prepare_controls(content)
 
 
@@ -88,8 +88,9 @@ func queue_layout() -> void:
 
 func _layout() -> void:
 	_queued = false
-	if not is_instance_valid(panel) or _available.size.x <= 0.0 or _available.size.y <= 0.0:
+	if not is_inside_tree() or not is_instance_valid(panel) or _available.size.x <= 0.0 or _available.size.y <= 0.0:
 		return
+	_forget_removed_controls()
 	var width: float = minf(_preferred_width, _available.size.x) if _centered else _available.size.x
 	var height: float = _available.size.y
 	if _centered:
@@ -111,15 +112,33 @@ func _reveal_focused() -> void:
 
 
 func restyle_dynamic_content() -> void:
+	_forget_removed_controls()
+	_prepare_controls(content)
+	queue_layout()
+
+
+func _forget_removed_controls() -> void:
 	# Forget freed row controls without retaining a mutable item or projection model.
 	# A typed Dictionary cannot erase a freed Object key: copy only live keys instead.
 	var live_minimums: Dictionary[Control, Vector2] = {}
 	var live_fonts: Dictionary[Control, int] = {}
 	for control: Variant in _minimums.keys():
-		if is_instance_valid(control):
+		if is_instance_valid(control) and (control == content or content.is_ancestor_of(control)):
 			live_minimums[control] = _minimums[control]
 			live_fonts[control] = _font_sizes[control]
 	_minimums = live_minimums
 	_font_sizes = live_fonts
-	_prepare_controls(content)
-	queue_layout()
+
+
+static func reparent_content(node: Control, parent: Node) -> void:
+	# Engine reparenting through unowned runtime wrappers can clear authored ownership.
+	# Preserve the original unique-name scope; wrappers themselves are not authored state.
+	var owners: Dictionary[Node, Node] = {}
+	var descendants: Array[Node] = node.find_children("*", "", true, false)
+	descendants.append(node)
+	for child: Node in descendants:
+		if child.owner != null:
+			owners[child] = child.owner
+	node.reparent(parent, false)
+	for child: Node in owners:
+		child.owner = owners[child]

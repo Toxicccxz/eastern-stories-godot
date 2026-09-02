@@ -18,7 +18,9 @@ func _run() -> void:
 		results.append(await preload("res://tests/runtime/oldpine_pine_maze_tall_bandit_test.gd").new().run_all(self))
 		results.append(await preload("res://tests/runtime/oldpine_river_cliff_route_test.gd").new().run_all(self))
 	else:
-		results.append(await PresentationTest.new().run_all(self))
+		if not "--audit-only" in OS.get_cmdline_user_args():
+			results.append(await PresentationTest.new().run_all(self))
+		results.append(await preload("res://tests/presentation/mobile_presentation_audit_test.gd").new().run_all(self))
 	var assertions: int = 0
 	var failures: Array[String] = []
 	for result: Dictionary in results:

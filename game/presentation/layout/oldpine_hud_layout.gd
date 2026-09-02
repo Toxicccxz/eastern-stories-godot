@@ -29,7 +29,7 @@ func _ready() -> void:
 	_grid.add_theme_constant_override("v_separation", 8)
 	action_panel.get_node("Margin").add_child(_grid)
 	for button: Node in old_actions.get_children():
-		button.reparent(_grid, false)
+		ResponsivePanelLayout.reparent_content(button as Control, _grid)
 		(button as Control).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	old_actions.queue_free()
 	_detail_button = Button.new()
@@ -43,7 +43,7 @@ func _ready() -> void:
 	detail_box.add_theme_constant_override("separation", 8)
 	detail_panel.get_node("Margin").add_child(detail_box)
 	for child_name: String in ["InspectionText", "CombatLogTitle", "CombatLog"]:
-		box.get_node(child_name).reparent(detail_box, false)
+		ResponsivePanelLayout.reparent_content(box.get_node(child_name) as Control, detail_box)
 	_detail_close = Button.new()
 	_detail_close.text = "Close details"
 	_detail_close.pressed.connect(_toggle_details)
@@ -59,7 +59,7 @@ func _ready() -> void:
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_columns.add_child(column)
 		for child_name: String in names:
-			box.get_node(child_name).reparent(column, false)
+			ResponsivePanelLayout.reparent_content(box.get_node(child_name) as Control, column)
 	box.get_node("TargetSeparator").queue_free()
 	_info = _wrap(status)
 	_actions = _wrap(action_panel)
@@ -71,9 +71,22 @@ func _ready() -> void:
 		var nested: ScrollContainer = panel.content.get_node("VBox/Scroll") as ScrollContainer
 		nested.follow_focus = true
 		nested.custom_minimum_size = Vector2(0, 120)
+	tree_entered.connect(_attach_presenter)
+	tree_exiting.connect(_detach_presenter)
+	_attach_presenter()
+
+
+func _attach_presenter() -> void:
 	_presenter = SafeAreaPresenter.find_or_create(self)
-	_presenter.metrics_changed.connect(_reflow)
+	if not _presenter.metrics_changed.is_connected(_reflow):
+		_presenter.metrics_changed.connect(_reflow)
 	_reflow(_presenter.current_metrics())
+
+
+func _detach_presenter() -> void:
+	if is_instance_valid(_presenter) and _presenter.metrics_changed.is_connected(_reflow):
+		_presenter.metrics_changed.disconnect(_reflow)
+	_presenter = null
 
 
 func _new_panel(panel_name: String) -> PanelContainer:
