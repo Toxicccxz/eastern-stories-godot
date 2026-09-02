@@ -78,9 +78,10 @@ func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
 	empty_label.visible = _rows.is_empty()
 
 
-func _build_row(row: PlayerInventoryRowProjection) -> HBoxContainer:
-	var container: HBoxContainer = HBoxContainer.new()
+func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
+	var container: BoxContainer = BoxContainer.new()
 	container.name = "InventoryRow"
+	container.add_theme_constant_override("separation", 8)
 	var label: Label = Label.new()
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text = _row_label(row)

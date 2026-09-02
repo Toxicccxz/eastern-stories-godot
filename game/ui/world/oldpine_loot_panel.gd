@@ -46,9 +46,10 @@ func _replace_rows(rows: Array[WorldItemRowProjection]) -> void:
 	empty_label.visible = _rows.is_empty()
 
 
-func _build_row(row: WorldItemRowProjection) -> HBoxContainer:
-	var container: HBoxContainer = HBoxContainer.new()
+func _build_row(row: WorldItemRowProjection) -> BoxContainer:
+	var container: BoxContainer = BoxContainer.new()
 	container.name = "LootRow"
+	container.add_theme_constant_override("separation", 8)
 	var label: Label = Label.new()
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text = (
@@ -63,6 +64,12 @@ func _build_row(row: WorldItemRowProjection) -> HBoxContainer:
 	take_button.disabled = not row.can_take
 	take_button.pressed.connect(_on_take_pressed.bind(row.item_instance_id))
 	container.add_child(take_button)
+	var description: Label = Label.new()
+	description.name = "Description"
+	description.text = row.description.strip_edges()
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	container.add_child(description)
 	return container
 
 

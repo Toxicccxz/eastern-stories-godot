@@ -22,6 +22,11 @@ _phase10b4_qa_bridge="*res://tests/runtime/phase10b4_qa_bridge.gd"
 
 [display]
 
+window/size/viewport_width=1152
+window/size/viewport_height=648
+window/size/viewport_width.mobile=960
+window/size/viewport_height.mobile=540
+window/handheld/orientation=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

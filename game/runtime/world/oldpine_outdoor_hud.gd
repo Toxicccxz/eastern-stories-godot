@@ -30,6 +30,13 @@ var _selected_corpse_name: String = ""
 var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
 var _log_lines: Array[String] = []
+var _presentation_layout: OldPineHudLayout
+
+
+func _ready() -> void:
+	_presentation_layout = OldPineHudLayout.new()
+	_presentation_layout.name = "PresentationLayout"
+	add_child(_presentation_layout)
 
 
 func configure(player: WorldPlayerRuntimeType) -> bool:
@@ -124,6 +131,7 @@ func set_selected_corpse(
 
 
 func show_inspection(definition: NpcDefinition) -> void:
+	_presentation_layout.reveal_details()
 	if definition == null:
 		inspection_text.text = ""
 		return
@@ -134,6 +142,7 @@ func show_inspection(definition: NpcDefinition) -> void:
 
 
 func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
+	_presentation_layout.reveal_details()
 	if definition == null:
 		inspection_text.text = ""
 		return
@@ -144,6 +153,7 @@ func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
 
 
 func show_vine_inspection(definition: OldPineVineInteractionDefinition) -> void:
+	_presentation_layout.reveal_details()
 	if definition == null:
 		inspection_text.text = ""
 		return
@@ -154,6 +164,7 @@ func show_vine_inspection(definition: OldPineVineInteractionDefinition) -> void:
 
 
 func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
+	_presentation_layout.reveal_details()
 	inspection_text.text = "Corpse of %s\nContents: %d" % [
 		victim_display_name,
 		content_count,
@@ -163,6 +174,7 @@ func show_corpse_inspection(victim_display_name: String, content_count: int) -> 
 func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
 	close_inventory()
 	loot_panel.show_loot(title, rows)
+	_presentation_layout.refresh_rows()
 
 
 func close_loot() -> void:
@@ -181,6 +193,7 @@ func loot_rows() -> Array[WorldItemRowProjection]:
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	close_loot()
 	inventory_panel.show_inventory(rows)
+	_presentation_layout.refresh_rows()
 
 
 func close_inventory() -> void:

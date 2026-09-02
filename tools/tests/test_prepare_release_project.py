@@ -13,6 +13,7 @@ sys.path.insert(0, str(REPOSITORY / "tools/build"))
 
 from prepare_release_project import (  # noqa: E402
     EXPECTED_MAIN_SCENE,
+    REQUIRED_PATHS,
     ReleaseProjectError,
     prepare_release_project,
     sanitize_project_config,
@@ -92,6 +93,11 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.source / "addons/godot_ai/runtime/game_helper.gd").write_text("extends Node\n", encoding="utf-8")
         (self.source / "godot-ai-LICENSE.txt").write_text("development license\n", encoding="utf-8")
         (self.source / ".godot/generated.txt").write_text("generated\n", encoding="utf-8")
+        for relative in REQUIRED_PATHS:
+            if "/layout/" in relative or relative.endswith("godot_safe_area_capability.gd"):
+                path = self.source / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("extends RefCounted\n", encoding="utf-8")
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
@@ -122,6 +128,29 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertTrue((self.output / "scenes/world/oldpine/oldpine_world_session.tscn").is_file())
         self.assertTrue((self.output / "scenes/runtime/oldpine_game_runtime_host.tscn").is_file())
         self.assertEqual([], validate_release_project(self.output))
+
+    def test_mobile_presentation_survives_sanitizing_without_fakes(self) -> None:
+        source_config = (REPOSITORY / "game/project.godot").read_text(encoding="utf-8")
+        sanitized = sanitize_project_config(source_config)
+        for entry in (
+            "window/size/viewport_width=1152",
+            "window/size/viewport_height=648",
+            "window/size/viewport_width.mobile=960",
+            "window/size/viewport_height.mobile=540",
+            'window/stretch/mode="canvas_items"',
+            'window/stretch/aspect="expand"',
+            "window/handheld/orientation=4",
+        ):
+            self.assertIn(entry, sanitized)
+        fake = self.source / "tests/presentation/fake_safe_area_capability.gd"
+        fake.parent.mkdir(parents=True)
+        fake.write_text("extends RefCounted\n", encoding="utf-8")
+        prepare_release_project(self.source, self.output)
+        for relative in REQUIRED_PATHS:
+            self.assertTrue((self.output / relative).exists(), relative)
+        self.assertFalse((self.output / "tests/presentation").exists())
+        (self.output / "presentation/layout/safe_area_metrics.gd").unlink()
+        self.assertTrue(any("safe_area_metrics.gd" in error for error in validate_release_project(self.output)))
 
     def test_prepare_removes_godot_ai_helper_plugin_and_addon(self) -> None:
         prepare_release_project(self.source, self.output)
