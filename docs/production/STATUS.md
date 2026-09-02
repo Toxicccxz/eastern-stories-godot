@@ -2,9 +2,18 @@
 
 ## Current milestone
 
-Phase 10B completes the native Save/Load foundation for the closed Old Pine playable milestone on top of
-Phase 10A's cross-platform repository/build/CI foundation. It does not declare the game complete,
-store-ready, production-ready, or fully migrated. Phase 10C has not started.
+Phase 10C1's shared application shell is implementation-complete and locally audited on
+`phase/10c1-cross-platform-game-shell`, ready for its final PR. It builds on the integrated Phase 10B
+native Save/Load foundation and Phase 10A repository/build/CI foundation. Phase 10C1 is **not yet
+integrated into main**: final PR, four green PR jobs, authorized merge, and green post-merge main CI
+are still required. Phase 10C2 has not started. This is not game completion or store readiness.
+
+Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
+explicit backup/temp recovery, confirmed Return to Menu, and independent Settings with desktop
+Windowed/Fullscreen. Shared keyboard/mouse/controller semantic navigation has desktop runtime proof;
+this does not claim physical controller or mobile-device qualification. See the
+[Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md) and
+[final integration audit](../migration/PHASE_10C1_FINAL_AUDIT.md).
 
 Formally closed gameplay foundations include:
 
@@ -24,14 +33,14 @@ Formally closed gameplay foundations include:
   Outdoor/Cave restore proof.
 
 The current canonical main scene is
-`res://scenes/runtime/oldpine_game_runtime_host.tscn`; it owns the replaceable Old Pine Session.
+`res://scenes/application/application_shell.tscn`. It owns one persistent Runtime Host, which alone
+owns zero or one replaceable Old Pine Session. Cold start shows Menu, not hidden gameplay.
 
 ## Incomplete work
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- player-facing Save/Load UI and startup menu policy;
-- main menu, Continue, pause/settings, and cross-platform game shell;
+- Phase 10C1 final PR/CI/merge/post-merge integration;
 - virtual/touch controls, responsive mobile HUD, safe areas/notches, Android Back behavior,
   orientation and mobile lifecycle policy;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
