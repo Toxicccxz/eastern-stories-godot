@@ -19,11 +19,16 @@ on that exact main commit.
 **PHASE 10C2 — FULLY INTEGRATED. PHASE 10D — SAFE TO BEGIN.**
 Phase 10D's [Technical Demo analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md)
 is complete. [10D1 physical qualification](../migration/PHASE_10D1_PHYSICAL_DEVICE_QUALIFICATION.md)
-is in progress: a frozen pristine ARM64 APK has installed and actually run Mobile/Vulkan on
-a Xiaomi 13 Pro and a OnePlus 8T. All directions were responsive in the owner's physical
-OnePlus test; the Xiaomi-only W/SW sluggishness is not reproduced as a general application
-defect. Required journey, lifecycle and soak gates are not yet complete; this is not completed
-hardware qualification. 10D2 has not started.
+has **PASSED its owner-revised, bounded private/internal Technical Demo gate**. The frozen
+pristine ARM64 APK installed and ran the production Mobile/Vulkan path on a Xiaomi 13 Pro
+and the primary OnePlus 8T. OnePlus real-human evidence covers all eight directions,
+physical multitouch, both supported landscape/SafeArea layouts, Android Back and basic
+Home/foreground lifecycle. The Xiaomi-only W/SW sluggishness did not reproduce with the
+same APK on OnePlus and is not classified as a generalized application-input defect.
+This is not general Android/tablet/store or long-duration certification.
+
+**PHASE 10D1 — PHYSICAL ANDROID QUALIFICATION PASSED. PHASE 10D2 — READY TO BEGIN.
+PHASE 10D3 — NOT STARTED.**
 This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
@@ -38,10 +43,12 @@ eight-direction touch pad, Android Back, lifecycle freeze and explicit Resume. S
 manual-only: background triggers no Save. The [Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
 defines these extensions without replacing Shell/Host or native persistence authority.
 Installed Android emulator evidence covers touch/Back, lifecycle, restart durability, Cave
-roundtrip, simultaneous contacts and reverse landscape. Phase10D1 now has actual ARM64 /
-Mobile-Vulkan startup evidence for two named physical devices and the same frozen APK; full
-physical touch/device qualification remains incomplete. iPhone/iPad simulator/device runtime remains
-unqualified.
+roundtrip, simultaneous contacts and reverse landscape. Phase10D1 separately qualifies the
+bounded physical Android interaction path on the named OnePlus ARM64 configuration, with Xiaomi
+as comparative evidence. Full normal-player journey, process-death Save/Continue, representative
+Save blocking and final candidate runtime/log acceptance belong to 10D3. Extended soak and detailed
+performance/memory/thermal profiling are risk-triggered rather than claimed complete. iPhone/iPad
+simulator/device runtime remains unqualified.
 
 Formally closed gameplay foundations include:
 
@@ -81,8 +88,10 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- physical Android/ARM64/Vulkan/multitouch and iOS
-  simulator/device qualification; portrait/split-screen gameplay is not qualified;
+- iOS simulator/device qualification; broad Android/tablet/store certification and
+  portrait/split-screen gameplay are not qualified;
+- Phase 10D3 normal-player critical journey, Save/process-death/Continue, representative
+  Save blocker and final Technical Demo candidate runtime/log acceptance;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
 - permanent Android/iOS signing, store metadata, installer/package policy, Steam/Play/App Store/
   TestFlight upload, and final release gates.

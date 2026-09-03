@@ -1,7 +1,41 @@
 # Phase 10D1 — Physical Device Qualification
 
-Status: **IN PROGRESS / QUALIFICATION INCOMPLETE**. This is private/internal evidence,
-not general Android support, public-release clearance, or authorization to start 10D2.
+Status: **PHYSICAL ANDROID QUALIFICATION PASSED** for the revised, bounded private/internal
+Technical Demo gate described below. This is not general Android support, tablet/store
+certification, long-duration certification, public-release clearance, or Phase 10D completion.
+
+## Owner-approved scope revision
+
+The original Phase 10D1 proposal deliberately combined physical Android interaction proof
+with a full normal-player journey, Save durability/process-death checks, an unsafe-Save
+case, a representative 30-minute soak, detailed performance/memory/thermal profiling and
+final candidate log acceptance. On 2026-09-03 the owner explicitly narrowed Phase 10D1 to
+answer one question:
+
+> Can the existing Android Technical Demo build run correctly on real ARM64 Android
+> hardware using the production rendering, input and application path?
+
+Under that approved boundary, Phase 10D1 requires successful installed launch on named
+real ARM64 hardware, the production Android renderer/backend, physical directional touch
+and multitouch, usable SafeArea/layout in both supported landscape orientations, real
+Android Back, basic Home/foreground lifecycle behavior, and no generalized production
+defect found during those tests.
+
+The following were **not executed as completed 10D1 gates and are not represented as
+executed**:
+
+- the full unassisted normal-player critical journey, including combat, loot, Inventory,
+  equipment and the Vine's natural authored branch;
+- manual Save A, an unsaved change B, app-process termination and explicit Continue;
+- a representative real unsafe-Save blocker;
+- final full-candidate runtime/log acceptance.
+
+Those application/demo acceptance concerns now belong to **Phase 10D3 — Technical Demo
+Acceptance**. A long soak and comprehensive frame-time, memory and thermal profiling are
+risk-triggered or final-audit work rather than mandatory for the current private/internal
+demo. They become required if normal use shows sustained poor performance, throttling,
+runaway memory, repeated crash, cumulative degradation, lifecycle leak or Session/map leak.
+No numerical performance threshold is invented here.
 
 ## Frozen candidate and scope
 
@@ -40,10 +74,10 @@ Retained local evidence lives under ignored `build/phase10d1/evidence/`; APKs,
 recordings, logs and public-certificate inspection are not shipped or published. After
 the second-device comparison, redundant Xiaomi W/SW diagnostic bundles and their
 disposable analysis scripts were removed; the frozen candidate and evidence supporting
-the remaining qualification gates were preserved. Do not overwrite/rebuild this
+the completed bounded qualification were preserved. Do not overwrite/rebuild this
 candidate casually during qualification.
 
-## Physical device and installation
+## Secondary device — Xiaomi 13 Pro
 
 | Fact | Observed value |
 | --- | --- |
@@ -65,7 +99,7 @@ Target package was absent at discovery **and immediately before installation**.
 Fresh installation succeeded without uninstall, replacement, data clear or save deletion.
 Every ADB operation explicitly selected the physical serial, never the attached AVD.
 
-## Actual renderer proof
+### Xiaomi renderer proof
 
 Cold `am start -W` at device log time `09-03 10:26:24` reports `LaunchState: COLD`,
 `Status: ok`, initial PID **883**, TotalTime 508 ms / WaitTime 512 ms. These Android
@@ -85,7 +119,7 @@ This proves this APK actually selected Mobile/Vulkan on this phone. Android's ou
 Skia/GLES window diagnostics do not contradict the Godot Vulkan rendering line.
 There is no release Godot AI/MCP helper, so helper health is not a release criterion.
 
-## Second-device directional-input comparison
+## Primary qualification device — OnePlus 8T
 
 The same frozen APK was freshly installed on a second physical device without replacing
 an existing package or save:
@@ -98,6 +132,9 @@ an existing package or save:
 | Build | `OnePlus/OnePlus8T/OnePlus8T:14/UKQ1.230924.001/R.171e77d-c19c-4fe22:user/release-keys` |
 | CPU / ABI | `arm64-v8a,armeabi-v7a,armeabi` |
 | Screen / touch | 1080x2400 / 480 dpi; direct `touchpanel` device `/dev/input/event1` |
+| Refresh | Physical modes include 60 and 120 Hz |
+| Navigation | Initially `navigation_mode=2` (gesture); final lifecycle repeat used fixed `navigation_mode=0` (three-button) |
+| Cutout | Portrait top inset 103 px; both supported landscape orientations tested |
 | Renderer | Godot 4.7.2, Vulkan 1.1.128, Forward Mobile, Qualcomm Adreno 650 |
 
 Cold activity launch succeeded (`LaunchState: COLD`, TotalTime 415 ms / WaitTime
@@ -106,14 +143,39 @@ the process-scoped log contains no Godot script/fatal/resource-load error. Vendo
 permission and unsupported 4x4 buffer-format messages were observed but did not prevent
 startup.
 
-The owner then tested the game with physical finger input and reported that **all
-directions were responsive**, including W and SW; the sluggish W/SW rapid-tap behavior
-reported on the Xiaomi 13 Pro did not reproduce. The owner stopped the planned diagnostic
-capture after reaching this conclusion, so this comparison is owner-observed physical
-input plus startup/menu evidence, not a synchronized kernel-event/video timing trace.
-It is evidence against a general APK/input-policy defect and supports a Xiaomi-specific
-touch-stack or hardware interaction. It does not qualify every remaining 10D1 journey,
-lifecycle, multitouch or soak gate on the OnePlus device.
+The installed `base.apk` was pulled from the device and its SHA-256 matched the frozen
+candidate exactly. The production startup log identifies Godot 4.7.2, Vulkan 1.1.128,
+Forward Mobile, Qualcomm Adreno 650, driver path `/vendor/lib64/hw/vulkan.adreno.so`,
+driver build `b213cd5627, I42f35bf1e0` dated 2023-06-11.
+
+The owner tested all eight pad directions with real finger input and reported every
+direction responsive, including W and SW. The owner then completed the physical
+multitouch acquisition/release sequence: PAD-first and pointer-first both worked, a third
+contact did not steal direction ownership, release did not promote an ignored contact,
+all contacts could be released, and fresh touch worked. The bounded kernel repeat records
+21 contact starts, 21 releases, a maximum of three simultaneous contacts and zero active
+contacts at completion.
+
+Real rotation covered both `ROTATION_90` and `ROTATION_270` while a Session remained
+active. Playing/HUD/touch pad, Inventory, Settings and confirmation presentation remained
+reachable and readable; Inventory scrolling and equipment actions were usable. Real
+Android Back covered the current top presentation, bare Playing, bare Pause, Settings,
+confirmation and idle Main Menu behavior without double action, accidental confirmation,
+input leakage or unexpected exit.
+
+Home/Recents was physically exercised for normal Playing, held movement/multiple contacts,
+already-Paused and Inventory-open states. An owner-initiated Android navigation-mode change
+caused the expected Activity/process recreation, so that confounded segment was not used as
+ordinary lifecycle proof. With navigation then fixed at three-button mode, the minimal
+four-path repeat kept task `#150` and PID `21945`, required explicit Resume for interrupted
+Playing, cleared held input, preserved paused/Inventory semantics and accepted fresh input.
+No lifecycle-generated Save, duplicate Session, map loss, camera/body loss or visible
+runtime failure was observed.
+
+The directional sluggishness observed on the tested Xiaomi 13 Pro configuration did not
+reproduce with the same frozen APK on OnePlus 8T. Current evidence is insufficient to
+classify it as a generalized game-input defect. Xiaomi is not marked unsupported, and the
+evidence does not establish a Xiaomi hardware fault. No production input code changed.
 
 Local cleanup removed 161 redundant diagnostic files (81,583,868 bytes): repeated
 `sw-delay`, `sw-timestamp`, `authorized-shortpress`, `edge-only-shortpress` and
@@ -136,33 +198,32 @@ proof of cold Menu, a completed journey, or a controlled Menu performance worklo
 
 | Required gate | Current evidence / status |
 | --- | --- |
-| ARM64 install and actual Mobile/Vulkan | PASS for frozen APK / named hardware only |
-| Basic physical pad, release/neutral/fresh input, world/UI | Owner confirms held finger dragged to center/outside stops movement. Checkpoint 1 recorded 39 hardware contacts / 39 releases, no remaining contact; maximum simultaneous 1. Other subcriteria require paired observation/confirmation. |
-| West / southwest rapid-tap responsiveness | DEVICE-SPECIFIC OPEN on the primary Xiaomi: owner refined that report to W and SW (SW worse), while the same frozen APK was physically responsive in every direction on a OnePlus 8T. The cross-device result argues against a general input-policy defect; synchronized physical rapid-tap timing on the Xiaomi remains absent. |
-| Populated Inventory scroll / row selection | PENDING; one starting item cannot prove populated-list scrolling |
-| Starting sword action reachability | Owner physically confirms `Unwield -> Wield` and `Wield -> Unwield` work, with no accidental activation while scrolling; not a substitute for the populated-list gate |
-| Dual physical contacts, both acquisition orders, third contact, independent release | Owner confirms movement in both acquisition orders, third direction does not steal capture, and releasing original PAD stops without promoting a still-held later contact. Kernel capture confirms three simultaneous hardware contacts; final lift/fresh-acquisition visual coverage still to complete. |
-| Both landscapes: Menu, live Session, after touch; safe-area/dialog reachability | Owner reports the requested rotation/layout steps worked, but paired reverse-direction capture remains PENDING: checkpoint 4 ended before recorded touch activity, and the later observed orientation is again ROTATION_90. |
-| Real Android Back: overlay, Playing, Pause, Settings, modal, empty Menu | PENDING |
-| Real Home/Recents: Playing, held pad, two contacts, paused, overlay | PENDING |
-| Natural J0 combat/death/loot/equipment/Vine/safe Save | PENDING |
-| Save A -> unsaved B -> lifecycle -> process kill -> cold Menu/Continue A | PENDING; no process-death operation performed yet |
-| Actual unsafe Save blocker and prior canonical preservation | PENDING |
-| Representative >=30-minute soak / repeated lifetime cycles | Collection started; elapsed idle capture alone cannot satisfy this gate |
-| Error-free complete qualification | PENDING; captured initial logs show no Godot script/fatal/resource-load error |
+| ARM64 install and actual production Mobile/Vulkan | **PASS** for the frozen APK on the named OnePlus 8T and Xiaomi 13 Pro configurations |
+| Real physical directional touch | **PASS** on the primary OnePlus 8T: all eight directions responsive; neutral/outside release stops movement and fresh touch works |
+| West/southwest comparative observation | **BOUNDED DEVICE-SPECIFIC OBSERVATION**: sluggishness reported on Xiaomi did not reproduce with the same APK on OnePlus; insufficient evidence for a generalized production defect |
+| Real physical multitouch | **PASS** on OnePlus: both acquisition orders, third-contact non-steal, independent release semantics, full release and fresh acquisition; repeat capture 21 starts/21 releases/max 3/final 0 |
+| Both supported landscapes and SafeArea/layout | **PASS** on OnePlus for Playing/HUD/pad, Inventory, Settings and confirmation; real `ROTATION_90`/`ROTATION_270` reflow retained the live Session |
+| Real Android Back | **PASS** for current top presentation, Playing, Pause, Settings, confirmation and idle Main Menu behavior |
+| Basic Home/foreground lifecycle | **PASS** after an uncontaminated fixed-navigation repeat: explicit Resume, held-input clearing, paused/Inventory coherence, same task/process and fresh input |
+| Generalized production defect in tested boundary | **NOT FOUND**; no production correction or candidate rebuild justified |
 
-J0 is required and unassisted. Default effective dodge 5 naturally yielding Waterfall
-is valid; do not reroll for Cave. J1 Cave/SouthExit is supplemental, not required for
-this primary device claim; its packaged treatment remains a 10D3 owner decision.
+The first Xiaomi multitouch checkpoint (`checkpoint3-multitouch.txt` /
+`checkpoint3.mp4`) ended before every represented slot was released and remains only
+historical partial evidence. It is not used to manufacture a complete release claim.
+The later OnePlus repeat (`oneplus-multitouch-repeat-20260903-141832.txt`) is the bounded
+full-release evidence used above.
 
-Checkpoint 3 (`checkpoint3-multitouch.txt` / `checkpoint3.mp4`) contains 20 tracking-ID
-starts, 18 releases and up to three concurrent slots; the first three-contact observation
-is kernel time `35537.742786`. The bounded capture ends with two slots still represented:
-this is incomplete end-of-gesture coverage, not proof of stuck input or proof of full
-release. Owner feedback about no promotion matches the current Mobile contract; the
-ignored contact must be lifted and freshly pressed to acquire PAD. Post-checkpoint
-screenshot shows Outdoor/Vine selected and PID remains 883; no hidden Session identity
-or complete J0 claim is inferred from that screenshot.
+### Explicitly deferred from Phase 10D1
+
+| Concern | Revised ownership |
+| --- | --- |
+| Full unassisted normal-player journey: combat, death/loot, Inventory/equipment and Vine natural branch | Phase 10D3 — Technical Demo Acceptance |
+| Save A -> unsaved B -> process termination -> explicit Continue A | Phase 10D3 — Technical Demo Acceptance |
+| Representative unsafe-Save blocker and preservation of the last completed Save | Phase 10D3 — Technical Demo Acceptance |
+| Final full-candidate runtime/log acceptance | Phase 10D3 — Technical Demo Acceptance |
+| Representative >=30-minute active soak and comprehensive frame/memory/thermal profiling | Risk-triggered/final audit; not mandatory absent observed degradation, leak, throttling or repeated failure |
+
+No row in this deferred table is claimed as executed or passed by Phase 10D1.
 
 ## Initial performance observations — not acceptance thresholds
 
@@ -180,22 +241,22 @@ or complete J0 claim is inferred from that screenshot.
   ring-buffer samples must remain explicit; recording overhead and USB charging apply.
 - The bounded collector completed at `2026-09-03T15:00:33.5128698Z` with 113 memory
   samples. That elapsed 30-minute window includes waiting/unscripted activity and is not
-  yet the required representative movement/combat/loot/Save/Continue/lifecycle soak.
+  represented as a completed active soak.
   Android `dumpsys cpuinfo` reports a historical averaging window, not instantaneous
   background CPU. Per-process `/proc/883/stat` is readable for later timed comparisons.
-- Controlled Menu/movement/combat/loot/handoff/Save/Continue, background CPU and warmed
-  teardown comparisons, full soak and device-specific proposed 10D3 thresholds are pending.
-  No numerical acceptance budget is invented or retroactively declared PASS.
+- Controlled journey/Save/Continue and final candidate runtime acceptance remain Phase 10D3
+  work. Extended soak/profiling is risk-triggered. No numerical acceptance budget is
+  invented or retroactively declared PASS.
 
 ## Diagnostics requiring honest classification
 
-- **Open input-latency observation:** after checkpoint 4 the owner reported the southwest
+- **Historical Xiaomi input-latency observation:** after checkpoint 4 the owner reported the southwest
   cell seems to take roughly half a second before movement. Follow-up explicitly confirms
   this is **only southwest, every fresh press, including after reopening the game**, not
   the entire pad or just the first press following a presentation transition. A later
   read observes PID 25411 instead of 883; this is not the planned Save A/B restart proof.
-  Treat the latency sub-gate as pending investigation,
-  not PASS and not a measured 500 ms delay. The inspected production path claims PAD and
+  At that point the report required investigation and was neither a PASS nor a measured
+  500 ms delay. The inspected production path claims PAD and
   emits direction actions in `MobileTouchAdapter._touch()` immediately; the player polls
   those actions each physics tick in `WorldCharacterBody2D._physics_process()` with no
   hold timer. All nine cells share the arithmetic direction mapping; southwest has no
@@ -206,7 +267,9 @@ or complete J0 claim is inferred from that screenshot.
   The retained checkpoint, display/input dumps and scoped log preserve the useful part
   of this observation. The previous
   three-minute event window is empty and cannot measure the reported delay; coordinate
-  readiness before the next bounded capture rather than claiming it covered later actions.
+  readiness before another bounded capture rather than claiming it covered later actions.
+  The later OnePlus physical comparison bounds this as a Xiaomi-configuration observation,
+  not a generalized 10D1 production-input blocker.
 - **Follow-up physical comparison:** owner confirmed readiness, then completion of the
   bounded capture `sw-delay-20260903-115311` (host start
   `2026-09-03T15:53:11.4274194Z`, physical serial `48ffa836`, PID 25411). Its raw
@@ -234,10 +297,10 @@ or complete J0 claim is inferred from that screenshot.
   finger first touching glass. Relative event spacing is usable, but absolute input
   latency and any delay before the first kernel contact are not established. The result
   narrows the investigation; it does not invalidate the owner's earlier repeated report,
-  prove a fix, establish the requested drag path merely from completion, or close the
-  input gate. Await owner feedback on this specific comparison before another checkpoint.
-  No production change, OS touch setting change, synthetic input or candidate rebuild.
-- **Timestamp-overlay repeat, still unresolved:** the owner explicitly reiterated that
+  prove a fix or establish the requested drag path merely from completion. The subsequent
+  owner/device comparison supplied the qualification decision. No production change, OS
+  touch setting change, synthetic input or candidate rebuild.
+- **Timestamp-overlay repeat on Xiaomi:** the owner explicitly reiterated that
   the delay is obvious and requested another trial. Capture `sw-timestamp-20260903-122922`
   started `2026-09-03T16:29:22.4474149Z` on the same APK/PID/device. Android's documented
   `screenrecord --bugreport` adds a capture-only wall-clock/frame overlay; `show_touches`
@@ -259,14 +322,15 @@ or complete J0 claim is inferred from that screenshot.
   `sw-obstacle-current.png` shows Paused, nearby bandits and vitality 189/189/220,
   versus 220/220/220 at the sampled directional starts. Do not claim a completed,
   isolated obstacle-free sequence or infer the exact collision from this screenshot.
-  Clarification is pending whether "obstacle in the middle" refers to the map or
-  the pad's neutral center. The later purported slide step records simultaneous
+  At that checkpoint it was unclear whether "obstacle in the middle" referred to the map
+  or the pad's neutral center. The later purported slide step records simultaneous
   contacts `78f`/`790`, then `793`/`794`, so it is not yet evidence for a single-contact
   left-to-SW drag. Current `TouchCaptureState.press()` deliberately does not let a
   second PAD contact steal ownership; do not misclassify this expected rule as latency
   or assume how many physical fingers were used from the instruction alone.
-  The owner's input-latency report remains OPEN. No production correction is justified
-  by the available evidence yet; do not repeat an identical confounded route or mark PASS.
+  This capture did not resolve the Xiaomi-specific subjective report. The later OnePlus
+  physical result did not reproduce it and established the bounded cross-device conclusion;
+  no production correction is justified and Xiaomi is not marked unsupported.
 - **Rapid-tap refinement / authorized synthetic diagnosis:** owner started another New
   Game, moved to an open area and identified brief taps as the revealing case: **W and
   SW feel sluggish, SW more strongly**, whereas other cells produce short bursts. This
@@ -321,7 +385,7 @@ or complete J0 claim is inferred from that screenshot.
   restart, gameplay edit, physics/touch setting change, or binary rebuild was performed
   by the diagnostic. ADB did not reproduce the owner's W/SW-specific sluggish response,
   and the later physical OnePlus comparison also did not reproduce it. Treat it as an
-  unresolved Xiaomi-specific observation, not a demonstrated general application defect.
+  bounded Xiaomi-specific observation, not a demonstrated general application defect.
 - The owner reported awkward Inventory scrolling. The physical screenshot confirms a
   short list with the sword's `Inspect` visible and `Unwield` below its viewport, while
   the empty detail area takes substantial space. Current `player_inventory_panel.gd`
@@ -332,6 +396,13 @@ or complete J0 claim is inferred from that screenshot.
   and `Wield -> Unwield` work without accidental activation. Retain this as an ergonomic
   issue, not a demonstrated unreachable-action blocker; no production change. The bounded
   checkpoint-2 recording must not be assumed to cover actions performed after its expiry.
+- On OnePlus, transitioning from the landscape game Surface to portrait Home logged
+  `Couldn't present to Vulkan queue (VkResult error -1000000000)` during Surface teardown.
+  It reproduced on an ordinary Home transition, while the same PID/task recovered through
+  the explicit Resume gate with no crash, black screen, state loss or visible malfunction.
+  Record this exact Adreno/Godot teardown warning; do not call it error-free and do not
+  treat it as a demonstrated production failure. A final full-candidate log decision is
+  deferred to 10D3.
 - `aapt2` warns that the APK resource table retains `mipmap/themed_icon` referring to
   absent `res/mipmap-anydpi-v26/themed_icon.xml`. The actual application manifest uses
   `mipmap/icon` (`0x7f0a0000`), whose adaptive XML and foreground/background are present;
@@ -341,8 +412,8 @@ or complete J0 claim is inferred from that screenshot.
   silently claimed qualified. No exporter/renderer change made to suppress it.
 - Initial process log includes Xiaomi `FileUtils` permission errors for
   `/dev/mi_exception_log`, vendor-property SELinux denials and informational Adreno
-  unsupported-feature-structure messages. Record exact logs; these are not GDScript
-  exceptions, but startup success alone does not qualify the remaining lifecycle gates.
+  unsupported-feature-structure messages. These are not GDScript exceptions and did not
+  prevent the tested production launch/interaction path.
 
 ## Change, validation and release boundary
 
@@ -352,7 +423,12 @@ Sanitized pre-export validation, sanitized Godot headless editor check, normal A
 export, independent APK verification and lightweight repository/static checks passed.
 The full historical suite is deliberately not rerun for this validation-only slice.
 
-**Current statement: PHASE 10D1 — QUALIFICATION INCOMPLETE.**
-Hardware/renderer proof is achieved, but required human-operated primary gates remain.
-10D2 and 10D3 are not started. Windows pristine-ZIP acceptance remains 10D3; iOS remains
-integrated/unsigned-build-validated but iPhone/iPad runtime hardware-gated, not qualified.
+**PHASE 10D1 — PHYSICAL ANDROID QUALIFICATION PASSED.**
+
+This pass is bounded to the tested private/internal Technical Demo interaction layer on
+the named ARM64 configurations. Evidence covers production renderer startup, real
+touch/multitouch, supported landscape/SafeArea, Android Back and basic lifecycle behavior.
+It is not general Android, tablet, store, final gameplay/durability or long-duration
+certification. **PHASE 10D2 — READY TO BEGIN. PHASE 10D3 — NOT STARTED.** Windows
+pristine-ZIP and the deferred Technical Demo acceptance journey remain 10D3 work; iOS
+remains integrated/unsigned-build-validated but iPhone/iPad runtime hardware-gated.

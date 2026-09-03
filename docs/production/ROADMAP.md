@@ -30,7 +30,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries
    and the still-open hardware qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — IN PROGRESS / PHYSICAL QUALIFICATION**
+5. **Phase 10D — Technical Demo Release Gate — IN PROGRESS / 10D1 PASSED**
 
    Analyze the current Old Pine slice's installable Technical Demo boundary: real hardware,
    production renderer, critical-journey durability, packaging and release-process gates.
@@ -38,12 +38,19 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    store configuration is required. No implementation or publication is authorized by this
    planning step. Emulator proof is not hardware or store certification.
    The [analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md) is complete.
-   The owner-authorized [10D1 physical qualification](../migration/PHASE_10D1_PHYSICAL_DEVICE_QUALIFICATION.md)
-   has verified pristine ARM64/Mobile-Vulkan startup on Xiaomi 13 Pro and OnePlus 8T. The
-   owner's physical OnePlus test found every direction responsive, so the Xiaomi-only W/SW
-   issue is not reproduced as a general application defect. Remaining human-operated
-   acceptance and representative soak are incomplete. Private/internal only; 10D2 and
-   10D3 have not started. No public distribution or permanent signing is authorized.
+   The owner-revised [10D1 physical qualification](../migration/PHASE_10D1_PHYSICAL_DEVICE_QUALIFICATION.md)
+   has **PASSED** its bounded private/internal Technical Demo gate: the frozen ARM64 APK ran
+   the production Mobile/Vulkan path on Xiaomi 13 Pro and primary OnePlus 8T hardware, with
+   OnePlus real touch/multitouch, both supported landscapes/SafeArea, Android Back and basic
+   lifecycle evidence. The Xiaomi-only W/SW observation did not reproduce with the same APK
+   on OnePlus and is not a generalized production defect. This is not broad Android/tablet,
+   store or long-duration certification.
+
+   **PHASE 10D2 — READY TO BEGIN. PHASE 10D3 — NOT STARTED.** Full normal-player critical
+   journey, Save/unsaved-process-death/Continue, a representative Save blocker and final
+   candidate runtime/log acceptance belong to 10D3. Long soak and detailed performance,
+   memory and thermal profiling are risk-triggered unless normal use exposes degradation.
+   No public distribution or permanent signing is authorized.
 
 After Phase 10D, perform a new planning review before resuming large-scale authored content. This
 roadmap intentionally avoids speculative phase expansion.
