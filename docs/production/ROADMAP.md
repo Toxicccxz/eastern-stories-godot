@@ -30,15 +30,20 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries
    and the still-open hardware qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — SAFE TO BEGIN / ANALYSIS STARTED**
+5. **Phase 10D — Technical Demo Release Gate — IN PROGRESS / PHYSICAL QUALIFICATION**
 
    Analyze the current Old Pine slice's installable Technical Demo boundary: real hardware,
    production renderer, critical-journey durability, packaging and release-process gates.
    Assess identity/signing owner decisions and the iOS runtime gap without presuming permanent
    store configuration is required. No implementation or publication is authorized by this
    planning step. Emulator proof is not hardware or store certification.
-   The [analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md) is complete
-   for owner review; 10D1 physical qualification has not started.
+   The [analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md) is complete.
+   The owner-authorized [10D1 physical qualification](../migration/PHASE_10D1_PHYSICAL_DEVICE_QUALIFICATION.md)
+   has verified pristine ARM64/Mobile-Vulkan startup on Xiaomi 13 Pro and OnePlus 8T. The
+   owner's physical OnePlus test found every direction responsive, so the Xiaomi-only W/SW
+   issue is not reproduced as a general application defect. Remaining human-operated
+   acceptance and representative soak are incomplete. Private/internal only; 10D2 and
+   10D3 have not started. No public distribution or permanent signing is authorized.
 
 After Phase 10D, perform a new planning review before resuming large-scale authored content. This
 roadmap intentionally avoids speculative phase expansion.

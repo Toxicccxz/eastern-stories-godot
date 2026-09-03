@@ -18,8 +18,12 @@ on that exact main commit.
 
 **PHASE 10C2 — FULLY INTEGRATED. PHASE 10D — SAFE TO BEGIN.**
 Phase 10D's [Technical Demo analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md)
-is complete for owner review; 10D1 has not started. No release-gate implementation or hardware
-qualification is implied by integration.
+is complete. [10D1 physical qualification](../migration/PHASE_10D1_PHYSICAL_DEVICE_QUALIFICATION.md)
+is in progress: a frozen pristine ARM64 APK has installed and actually run Mobile/Vulkan on
+a Xiaomi 13 Pro and a OnePlus 8T. All directions were responsive in the owner's physical
+OnePlus test; the Xiaomi-only W/SW sluggishness is not reproduced as a general application
+defect. Required journey, lifecycle and soak gates are not yet complete; this is not completed
+hardware qualification. 10D2 has not started.
 This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
@@ -34,8 +38,10 @@ eight-direction touch pad, Android Back, lifecycle freeze and explicit Resume. S
 manual-only: background triggers no Save. The [Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
 defines these extensions without replacing Shell/Host or native persistence authority.
 Installed Android emulator evidence covers touch/Back, lifecycle, restart durability, Cave
-roundtrip, simultaneous contacts and reverse landscape. Physical Android multitouch, ARM64
-device runtime, production Vulkan and iPhone/iPad simulator/device runtime remain unqualified.
+roundtrip, simultaneous contacts and reverse landscape. Phase10D1 now has actual ARM64 /
+Mobile-Vulkan startup evidence for two named physical devices and the same frozen APK; full
+physical touch/device qualification remains incomplete. iPhone/iPad simulator/device runtime remains
+unqualified.
 
 Formally closed gameplay foundations include:
 
