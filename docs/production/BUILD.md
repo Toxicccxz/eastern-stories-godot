@@ -206,6 +206,36 @@ used in CI.
 Each target rebuild removes only its controlled staging/output directory. The tooling never runs
 `git clean` and never mutates `game/`. Generated output lives under ignored `build/` and `dist/`.
 
+## Private Technical Demo candidate evidence
+
+For a private/internal Technical Demo handoff, keep each target's existing
+`build-manifest.json` and create one external candidate evidence record after export. The record
+binds the clean source commit and Godot version to the sanitized-project digest, target/release
+identity, final artifact filename/size/SHA-256 and target-specific identity. For Android it also
+records package/version/ABI, ephemeral signing mode, public certificate SHA-256 and certificate
+validity. Keeping this record outside the artifact avoids a circular artifact self-hash.
+
+Phase 10D2's concrete record is `build/phase10d2/candidate/technical-demo-candidate.json`;
+generated `build/` output remains ignored and is not a new repository service or automatic
+`build.py` output. Its [phase record](../migration/PHASE_10D2_TECHNICAL_DEMO_PACKAGING.md) retains
+the exact values. Candidate artifacts are traceable to documented source/toolchain/build inputs and
+individually identified by SHA-256; byte-for-byte reproducibility is not claimed because timestamps
+and ephemeral Android certificates may change repeated-build bytes.
+
+Private handoff must accompany the selected artifact and evidence record with the repository's
+`THIRD_PARTY_NOTICES.md` and `docs/production/LICENSE_PROVENANCE.md`. This represents the shipped
+Godot notice, confirms Godot AI is excluded from sanitized runtime output and preserves the
+unresolved ES2/native-project public-release boundary. It does not create a project license.
+
+The current signing levels are deliberately separate:
+
+1. private Technical Demo: unsigned Windows, ephemeral-QA Android, unsigned iOS validation;
+2. retained internal upgrades: future reusable technical-signing decision;
+3. public/store distribution: future permanent platform/store signing.
+
+Only level 1 exists. Do not infer an upgrade promise, final package/publisher identity or store
+readiness from a successful technical build.
+
 ## GitHub Actions
 
 `.github/workflows/ci.yml` implements two integration gates. A ready pull request targeting `main`

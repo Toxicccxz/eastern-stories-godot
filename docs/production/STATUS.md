@@ -27,8 +27,15 @@ Home/foreground lifecycle. The Xiaomi-only W/SW sluggishness did not reproduce w
 same APK on OnePlus and is not classified as a generalized application-input defect.
 This is not general Android/tablet/store or long-duration certification.
 
-**PHASE 10D1 — PHYSICAL ANDROID QUALIFICATION PASSED. PHASE 10D2 — READY TO BEGIN.
-PHASE 10D3 — NOT STARTED.**
+Phase 10D2 [Technical Demo packaging](../migration/PHASE_10D2_TECHNICAL_DEMO_PACKAGING.md)
+has also **PASSED**. Clean source `995736bf37d2917e8c6f9e53a86ab83ecff3b734`
+produced an unsigned portable Windows x86_64 ZIP and ephemeral-QA-signed Android ARM64
+APK. External candidate evidence binds the build manifests, sanitized project digest,
+artifact SHA-256 values, Android package/version/ABI/certificate and accompanying notices.
+The provisional identity and private/internal distribution boundary remain unchanged.
+
+**PHASE 10D1 — PHYSICAL ANDROID QUALIFICATION PASSED. PHASE 10D2 — TECHNICAL DEMO
+PACKAGING PASSED. PHASE 10D3 — READY TO BEGIN.**
 This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
@@ -109,6 +116,11 @@ Phase 10A Windows output is unsigned. Android uses a per-build ephemeral QA key 
 Store release. iOS is an unsigned Xcode compile validation and is not an IPA, App Store, or TestFlight
 build. The provisional mobile identifier is `com.example.easternstoriesgodot`; it is not a domain-
 ownership claim and must be replaced before store signing.
+
+The current Phase 10D2 candidate is traceable by external SHA-256 evidence, not claimed
+byte-reproducible. Private handoff must accompany an artifact with `THIRD_PARTY_NOTICES.md`,
+`LICENSE_PROVENANCE.md` and its candidate evidence record. There is no installer, reusable Android
+signing key, cross-build upgrade promise, store identity or public distribution authorization.
 
 The repository has no root project license. See `LICENSE_PROVENANCE.md` for the unresolved ES2
 evidence and verified third-party records.
