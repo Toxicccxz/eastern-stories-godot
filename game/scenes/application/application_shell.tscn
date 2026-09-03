@@ -1,13 +1,41 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
+[ext_resource type="Script" path="res://presentation/layout/safe_area_presenter.gd" id="2_safe"]
+[ext_resource type="Script" path="res://presentation/layout/application_shell_layout.gd" id="3_layout"]
+[ext_resource type="Script" path="res://runtime/application/mobile_touch_adapter.gd" id="4_touch"]
+[ext_resource type="Script" path="res://runtime/application/android_back_adapter.gd" id="5_back"]
+[ext_resource type="Script" path="res://runtime/application/mobile_lifecycle_adapter.gd" id="6_lifecycle"]
 
 [node name="ApplicationShell" type="Node"]
 process_mode = 3
 script = ExtResource("1_shell")
 
+[node name="SafeAreaPresentation" type="Node" parent="."]
+script = ExtResource("2_safe")
+
+[node name="PresentationLayout" type="Node" parent="."]
+script = ExtResource("3_layout")
+
 [node name="RuntimeHostSlot" type="Node" parent="."]
 unique_name_in_owner = true
+
+[node name="AndroidBack" type="Node" parent="."]
+script = ExtResource("5_back")
+
+[node name="MobileLifecycle" type="Node" parent="."]
+script = ExtResource("6_lifecycle")
+
+[node name="TouchCanvas" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="TouchInput" type="Control" parent="TouchCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("4_touch")
 
 [node name="ShellCanvas" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -32,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.035, 0.055, 0.075, 1)
 
-[node name="Center" type="CenterContainer" parent="ShellCanvas/MainMenuPanel"]
+[node name="Center" type="Control" parent="ShellCanvas/MainMenuPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -113,7 +141,7 @@ grow_vertical = 2
 mouse_filter = 0
 color = Color(0.015, 0.02, 0.03, 0.82)
 
-[node name="Center" type="CenterContainer" parent="ShellCanvas/PausePanel"]
+[node name="Center" type="Control" parent="ShellCanvas/PausePanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -141,6 +169,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Paused"
 horizontal_alignment = 1
+
+[node name="LifecycleInfo" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Paused while the app was away. Save manually before leaving to keep recent progress."
+autowrap_mode = 2
 
 [node name="ResumeButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -178,7 +213,7 @@ grow_vertical = 2
 mouse_filter = 0
 color = Color(0.015, 0.02, 0.03, 0.94)
 
-[node name="Center" type="CenterContainer" parent="ShellCanvas/SettingsPanel"]
+[node name="Center" type="Control" parent="ShellCanvas/SettingsPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -207,7 +242,7 @@ theme_override_font_sizes/font_size = 30
 text = "Settings"
 horizontal_alignment = 1
 
-[node name="WindowModeRow" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+[node name="WindowModeRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
@@ -231,7 +266,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Actions" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+[node name="Actions" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 12
@@ -260,7 +295,7 @@ grow_vertical = 2
 mouse_filter = 0
 color = Color(0.015, 0.02, 0.03, 0.94)
 
-[node name="Center" type="CenterContainer" parent="ShellCanvas/RecoveryPanel"]
+[node name="Center" type="Control" parent="ShellCanvas/RecoveryPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -330,7 +365,7 @@ grow_vertical = 2
 mouse_filter = 0
 color = Color(0.015, 0.02, 0.03, 0.88)
 
-[node name="BusyCenter" type="CenterContainer" parent="ShellCanvas/BusyOverlay"]
+[node name="BusyCenter" type="Control" parent="ShellCanvas/BusyOverlay"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -356,7 +391,7 @@ grow_vertical = 2
 mouse_filter = 0
 color = Color(0.015, 0.02, 0.03, 0.88)
 
-[node name="ResultCenter" type="CenterContainer" parent="ShellCanvas/ResultOverlay"]
+[node name="ResultCenter" type="Control" parent="ShellCanvas/ResultOverlay"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -387,7 +422,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Actions" type="HBoxContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
+[node name="Actions" type="HFlowContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
 layout_mode = 2
 alignment = 1
 theme_override_constants/separation = 12
@@ -409,6 +444,7 @@ layout_mode = 2
 text = "OK"
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/RecoveryButton" to="." method="_on_recovery_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/MenuSettingsButton" to="." method="_on_menu_settings_button_pressed"]

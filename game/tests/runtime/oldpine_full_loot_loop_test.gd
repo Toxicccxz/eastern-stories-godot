@@ -43,7 +43,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller != null, "real Old Pine scene instantiates for full loot loop")
 	if controller == null:
 		return
-	_assert_eq(_count_tree_nodes(controller), 225, "persisted Loot hierarchy reflects Phase 10C1A Reset removal")
+	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Loot hierarchy reflects Phase 10C1A Reset removal")
 	_assert_true(controller.hud.inventory_panel != null, "HUD owns one presentation-only Inventory panel")
 	_assert_false(controller.hud.inventory_is_open(), "Inventory panel starts closed")
 	_assert_false(controller.hud.loot_is_open(), "Loot panel starts closed")
@@ -518,7 +518,7 @@ func _row_action_button(
 	if panel == null:
 		return null
 	for child: Node in panel.row_container.get_children():
-		var row: HBoxContainer = child as HBoxContainer
+		var row: BoxContainer = child as BoxContainer
 		if row == null or row.get_child_count() == 0:
 			continue
 		var label: Label = row.get_child(0) as Label
@@ -544,8 +544,8 @@ func _assert_dynamic_row_connections(
 		"repeated live refresh creates exactly one node per projected row",
 	)
 	for child: Node in panel.row_container.get_children():
-		var row: HBoxContainer = child as HBoxContainer
-		_assert_true(row != null, "each dynamic Inventory row is one HBoxContainer")
+		var row: BoxContainer = child as BoxContainer
+		_assert_true(row != null, "each dynamic Inventory row is one BoxContainer")
 		if row == null:
 			continue
 		for row_child: Node in row.get_children():

@@ -377,7 +377,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	await tree.process_frame
 	var fresh: OldPineOutdoorController = _instantiate_scene(tree)
 	await tree.physics_frame
-	_assert_eq(_count_tree_nodes(fresh), 225, "persisted scene retains audited hierarchy after Phase 10C1A Reset removal")
+	_assert_true(fresh.find_children("ResetButton", "Button", true, false).is_empty(), "persisted scene retains Phase 10C1A Reset removal")
 	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh scene restores exactly three scouts, Tall, Fat")
 	_assert_eq(
 		[

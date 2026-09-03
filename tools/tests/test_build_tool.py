@@ -18,6 +18,29 @@ import build  # noqa: E402
 
 
 class BuildToolTest(unittest.TestCase):
+    def test_technical_android_abi_changes_only_disposable_preset(self) -> None:
+        source = REPOSITORY / "game/export_presets.cfg"
+        original = source.read_bytes()
+        stage = self.root / "stage"
+        stage.mkdir()
+        preset = stage / "export_presets.cfg"
+        preset.write_bytes(original)
+        build.configure_technical_android_abi(stage, None)
+        self.assertEqual(preset.read_bytes(), original)
+        build.configure_technical_android_abi(stage, "x86_64")
+        text = preset.read_text(encoding="utf-8")
+        self.assertIn("architectures/x86_64=true", text)
+        for abi in ("armeabi-v7a", "arm64-v8a", "x86"):
+            self.assertIn(f"architectures/{abi}=false", text)
+        self.assertNotIn('architectures/x86_64="true"', text)
+        self.assertEqual(source.read_bytes(), original)
+
+    def test_technical_abi_rejects_other_values_or_targets(self) -> None:
+        with self.assertRaises(build.BuildError):
+            build.configure_technical_android_abi(self.root, "arm64-v8a")
+        with redirect_stderr(io.StringIO()):
+            self.assertEqual(build.main(["--target", "windows", "--android-technical-abi", "x86_64"]), 1)
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary.name)

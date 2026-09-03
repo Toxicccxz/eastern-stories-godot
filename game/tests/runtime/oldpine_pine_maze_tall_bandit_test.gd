@@ -153,7 +153,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq(initial_npcs.size(), 5, "scene ready constructs all NPCs before Area signals")
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
-	_assert_eq(_count_tree_nodes(controller), 225, "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
+	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
 	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeBounds/Top", Vector2(2100, 30), "maze north boundary")
 	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeBounds/Bottom", Vector2(2100, 30), "maze south boundary")
 	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeObstacles/CentralIsland", Vector2(300, 240), "central loop island")

@@ -963,8 +963,8 @@ func _take_button_for_row_id(
 	for index: int in range(rows.size()):
 		if rows[index].item_instance_id != item_id:
 			continue
-		var row_node: HBoxContainer = (
-			panel.row_container.get_child(index) as HBoxContainer
+		var row_node: BoxContainer = (
+			panel.row_container.get_child(index) as BoxContainer
 		)
 		if row_node == null or row_node.get_child_count() < 2:
 			return null
