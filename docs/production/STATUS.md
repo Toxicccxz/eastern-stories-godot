@@ -7,12 +7,18 @@ Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at
 [workflow 33643056093, attempt 2](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33643056093).
 It builds on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
 Phase 10C2's [final major-phase audit passed](../migration/PHASE_10C2_FINAL_AUDIT.md),
-and PR #6 merged at `05f3f28c17c27d8fda9f56e726ddf6e5d09d3bed`. The first post-merge
-[workflow 33700462934](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33700462934)
-failed a Vine roundtrip assertion; attempt 2 passed. A passing retry does not close the
-nondeterministic defect. **Integration requires stabilization** on
-`hotfix/10c2-mobile-lifecycle-flake`, followed by PR review, authorized merge and green
-post-merge main CI. Phase 10D has not started and must wait for that gate.
+and [PR #6](https://github.com/Toxicccxz/eastern-stories-godot/pull/6) merged at
+`05f3f28c17c27d8fda9f56e726ddf6e5d09d3bed`. Its first post-merge workflow exposed stale
+PhysicsServer Area contact after resident-map reattachment, not mobile lifecycle/input leakage.
+[Stabilization PR #7](https://github.com/Toxicccxz/eastern-stories-godot/pull/7) fixed that
+production world-runtime defect and merged at `ae381bf3f3e5f4a28a417295eea680d023cc428c`.
+[Post-merge workflow 33714114002](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33714114002)
+passed Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation
+on that exact main commit.
+
+**PHASE 10C2 — FULLY INTEGRATED. PHASE 10D — SAFE TO BEGIN.**
+Phase 10D starts with analysis only; no release-gate implementation or hardware qualification
+is implied by integration.
 This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
@@ -68,7 +74,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- final integration of Phase 10C2, then physical Android/ARM64/Vulkan/multitouch and iOS
+- physical Android/ARM64/Vulkan/multitouch and iOS
   simulator/device qualification; portrait/split-screen gameplay is not qualified;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
 - permanent Android/iOS signing, store metadata, installer/package policy, Steam/Play/App Store/

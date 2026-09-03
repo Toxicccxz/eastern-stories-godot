@@ -8,9 +8,11 @@ compatibility layer, or a graphical MUD client.
 The supported Phase 10A engine is exactly **Godot 4.7.2**. Open
 `game/project.godot`; the current playable milestone is the Old Pine session with combat, loot,
 inventory/equipment, the Vine and Cave Passage roundtrip, Waterfall, River, Cliff, and Pine route.
-The game is incomplete and is not store-ready or production-ready. Android and iOS builds prove
-technical portability only; phone input, responsive layout, safe areas, and mobile lifecycle work
-remain deferred.
+Phase 10C2 is fully integrated: the shared mobile layer implements responsive layout, SafeArea,
+sensor landscape, a fixed touch movement pad, Android Back, lifecycle freeze, explicit Resume,
+and manual-save-only durability. Android emulator evidence is not qualification of physical
+Android devices, ARM64 hardware, production Vulkan or physical multitouch. iPhone/iPad runtime
+remains unqualified. The game is incomplete and is not store-ready or production-ready.
 
 ## Repository layout
 
