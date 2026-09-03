@@ -17,8 +17,9 @@ passed Godot Verify, Windows Release Build, Android Release Build and iOS Build 
 on that exact main commit.
 
 **PHASE 10C2 — FULLY INTEGRATED. PHASE 10D — SAFE TO BEGIN.**
-Phase 10D starts with analysis only; no release-gate implementation or hardware qualification
-is implied by integration.
+Phase 10D's [Technical Demo analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md)
+is complete for owner review; 10D1 has not started. No release-gate implementation or hardware
+qualification is implied by integration.
 This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,

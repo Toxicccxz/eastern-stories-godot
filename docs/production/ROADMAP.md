@@ -37,6 +37,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Assess identity/signing owner decisions and the iOS runtime gap without presuming permanent
    store configuration is required. No implementation or publication is authorized by this
    planning step. Emulator proof is not hardware or store certification.
+   The [analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md) is complete
+   for owner review; 10D1 physical qualification has not started.
 
 After Phase 10D, perform a new planning review before resuming large-scale authored content. This
 roadmap intentionally avoids speculative phase expansion.
