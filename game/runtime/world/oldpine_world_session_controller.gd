@@ -2,6 +2,10 @@ class_name OldPineWorldSessionController
 extends Node
 
 const PLAYER_ID: StringName = &"oldpine.player"
+## Product bootstrap for the bounded Old Pine Technical Demo. The reusable
+## Phase 6 combat prototype remains symmetric at combat experience 10; Old
+## Pine's weakest authored opponent starts at 600.
+const NEW_GAME_PLAYER_COMBAT_EXPERIENCE: int = 600
 const OUTDOOR_SCENE: PackedScene = preload(
 	"res://scenes/world/oldpine/oldpine_outdoor.tscn"
 )
@@ -545,6 +549,7 @@ func _initialize_authorities() -> bool:
 	)
 	if prototype == null or start_zone == null:
 		return false
+	prototype.state.progression.combat_experience = NEW_GAME_PLAYER_COMBAT_EXPERIENCE
 	_player = WorldPlayerRuntimeType.new(
 		PLAYER_ID,
 		prototype.state,

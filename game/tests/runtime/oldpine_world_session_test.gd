@@ -209,6 +209,39 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(cave._item_id_allocator == session_allocator, "Cave receives the exact session item-ID allocator object")
 	_assert_eq(session_allocator.next_dynamic_sequence, 0, "twelve authored bootstrap items consume no dynamic sequence")
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "New Game still creates exactly twelve bootstrap items")
+	_assert_eq(
+		session.player_runtime().state.progression.combat_experience,
+		OldPineWorldSessionController.NEW_GAME_PLAYER_COMBAT_EXPERIENCE,
+		"Old Pine New Game uses the approved combat experience 600 bootstrap",
+	)
+	_assert_eq(
+		CombatSliceDemoFactory.create_player().state.progression.combat_experience,
+		10,
+		"Old Pine bootstrap does not alter the reusable symmetric combat prototype",
+	)
+	var player_skill_power: int = CombatMath.skill_power(
+		CombatSkillPowerInput.new(
+			true,
+			session.player_runtime().state.skills.effective_level(&"sword"),
+			0,
+			session.player_runtime().state.progression.combat_experience,
+			session.player_runtime().state.spirit.maximum,
+			session.player_runtime().state.spirit.current,
+		)
+	)
+	var ordinary_bandit: NpcRuntimeState = outdoor.npc_runtimes()[0]
+	var bandit_skill_power: int = CombatMath.skill_power(
+		CombatSkillPowerInput.new(
+			true,
+			ordinary_bandit.character_state.skills.effective_level(&"sword"),
+			0,
+			ordinary_bandit.character_state.progression.combat_experience,
+			ordinary_bandit.character_state.spirit.maximum,
+			ordinary_bandit.character_state.spirit.current,
+		)
+	)
+	_assert_eq(player_skill_power, 600, "approved New Game sword power is LPC-derived 600")
+	_assert_eq(bandit_skill_power, 600, "ordinary authored bandit sword power remains 600")
 	_assert_true(outdoor.player_body.player_controlled, "only active Outdoor player body is controllable")
 	_assert_false(cave.player_body.player_controlled, "detached Cave player body is not controllable")
 	_assert_true(
