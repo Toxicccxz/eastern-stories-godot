@@ -21,6 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_default_waterfall_branch(tree)
 	await _test_live_dodge_and_armor(tree)
 	await _test_passage_roundtrip(tree)
+	await _test_reactivated_zone_contacts(tree)
 	await _test_invalid_and_partial_boundaries(tree)
 	await _test_committed_partial_after_vine_draw(tree)
 	await _test_south_exit_failure_recovery(tree)
@@ -341,6 +342,75 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	await _free_session(fresh, tree)
 
 
+func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
+	# Warm actual PhysicsServer contacts before detaching the resident map. Both
+	# the old corpse-fixture position and the real Vine source must be harmless
+	# after return; Input is released and no lifecycle/Shell fixture is involved.
+	for from_slope: bool in [true, false]:
+		var session: OldPineWorldSessionController = await _session(tree, 10_251)
+		var outdoor: OldPineOutdoorController = session.outdoor_map()
+		var source_zone: StringName = (
+			OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID if from_slope
+			else OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID
+		)
+		var source_area: Area2D = outdoor.get_node(
+			"Zones/SouthSlopeZone" if from_slope else "Zones/EastBridgeZone"
+		)
+		_move_player(outdoor, source_zone, Vector2(450, 880) if from_slope else Vector2(1200, 300))
+		for frame: int in 8:
+			await tree.physics_frame
+			await tree.process_frame
+			if source_area.overlaps_body(outdoor.player_body):
+				break
+		_assert_true(source_area.overlaps_body(outdoor.player_body), "fixture warms real source Area contact")
+		_assert_eq(Input.get_vector("move_left", "move_right", "move_up", "move_down"), Vector2.ZERO, "contact regression starts without stale global movement")
+		var landing: Vector2 = outdoor.resolve_spawn_marker(
+			OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
+		).global_position
+		var stale_locations: Array[StringName] = []
+		source_area.body_entered.connect(func(body: Node2D) -> void:
+			if body == outdoor.player_body and body.global_position == landing:
+				if session.player_runtime().world_location().zone_id != OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID:
+					stale_locations.append(session.player_runtime().world_location().zone_id)
+		)
+		session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+		session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([5]))
+		_assert_true(_attempt_from_east(outdoor).succeeded(), "contact fixture uses normal Vine handoff")
+		await _physically_enter_south_exit(session.cave_map(), tree)
+		_assert_eq(outdoor.player_body.global_position, landing, "no movement/teleport correction after SouthExit")
+		# Observe actual subsequent physics, not just a fast idle frame before the
+		# delayed contact callback. Preserve every transient violation above too.
+		for frame: int in 4:
+			await tree.physics_frame
+			await tree.process_frame
+			_assert_eq(session.player_runtime().world_location().zone_id,
+				OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID,
+				"settled return remains Waterfall Basin")
+		_assert_eq(outdoor.player_body.global_position, landing, "settling with zero input cannot move the body")
+		_assert_true(stale_locations.is_empty(), "no stale notification transiently overwrites committed landing")
+		var event: InputEventKey = InputEventKey.new()
+		event.keycode = KEY_D
+		event.pressed = true
+		Input.parse_input_event(event)
+		Input.flush_buffered_events()
+		await tree.physics_frame
+		await tree.physics_frame
+		event = event.duplicate() as InputEventKey
+		event.pressed = false
+		Input.parse_input_event(event)
+		Input.flush_buffered_events()
+		_assert_true(outdoor.player_body.global_position.x > landing.x, "fresh hardware input still moves returned player")
+		_assert_false(Input.is_action_pressed(&"move_right"), "test releases injected hardware action")
+		# Boundary-only checks keep the engine's body footprint semantics, not a
+		# center-point-only zone test. This is setup, not player-route evidence.
+		outdoor._on_south_slope_body_entered(outdoor.player_body)
+		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "disjoint stale SouthSlope callback is rejected")
+		outdoor.player_body.global_position = Vector2(908, 850)
+		outdoor._on_south_slope_body_entered(outdoor.player_body)
+		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "real body-edge contact still accepts SouthSlope")
+		await _free_session(session, tree)
+
+
 func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = await _session(tree, 10_301)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
@@ -614,7 +684,9 @@ func _kill_bandit(
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> CorpseState:
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	if not controller.select_npc(victim.character_id):
 		return null
 	if controller.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED:

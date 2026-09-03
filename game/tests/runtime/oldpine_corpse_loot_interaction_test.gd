@@ -554,7 +554,9 @@ func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
 		).succeeded,
 		"partial-death fixture makes unknown item direct player inventory",
 	)
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	_assert_true(controller.select_npc(victim.character_id), "partial-death fixture selects a bandit")
 	_assert_eq(
@@ -599,7 +601,9 @@ func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
 	)
 	_assert_eq(controller._item_id_allocator.next_dynamic_sequence, 0, "fresh session allocator starts at zero")
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	_assert_true(controller.select_npc(victim.character_id), "unconscious fixture selects a bandit")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "unconscious fixture starts combat through normal boundary")
 	controller.opportunity_timer.stop()
@@ -695,7 +699,9 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_false(controller.hud.open_loot_is_enabled(), "Open Loot is disabled outside physical range")
 	_assert_true(controller.inspect_selected(), "corpse Inspect remains available outside loot range")
 	_assert_true(controller.hud.inspection_display().contains("Contents: 2"), "corpse Inspect reads live content count")
-	controller._on_central_clearing_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
 	_assert_true(controller.select_landmark(OldPineLandmarkDefinitions.PINE_LANDMARK_ID), "Corpse to Pine target switch succeeds")
 	_assert_eq(controller.selected_interaction_target().kind, WorldInteractionTarget.Kind.LANDMARK, "Pine uses LANDMARK target")
 	_assert_true(controller.hud.portal_action_is_enabled(), "Pine exposes Traverse without stale corpse action")
@@ -977,7 +983,9 @@ func _kill_bandit(
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> void:
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
 	controller.opportunity_timer.stop()

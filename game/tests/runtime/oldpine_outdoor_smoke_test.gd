@@ -165,7 +165,9 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	_assert_false(unequipped_binding.content.is_verified_primary(unequipped_npc.character_state.equipment.primary_weapon()), "authored definition cannot override missing live primary equipment")
 	_assert_eq(unequipped_binding.content.projected_apply_damage(unequipped_npc.character_state.equipment.primary_weapon()), 0, "unwielded bandit injects no short-sword apply damage")
 	var original_player_location: StringName = player_binding.location_id
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var refreshed: Array[CombatSliceCharacterBinding] = controller._build_participants()
 	_assert_eq(player_binding.location_id, original_player_location, "old projection is an ephemeral snapshot")
 	_assert_eq(refreshed[0].location_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "fresh projection reads current world location")
@@ -185,7 +187,9 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	_assert_eq(controller.player_body.position, move_start, "committed non-ACTIVE status blocks movement")
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	victim.character_state.attributes.strength = 30
-	controller._on_north_approach_body_entered(controller.bandit_bodies[0])
+	controller.bandit_bodies[0].set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID,
+	))
 	participants = controller._build_participants()
 	var victim_binding: CombatSliceCharacterBinding = participants[1]
 	var destination: InventoryTransferDestination = controller._world_destination_for(victim.character_id)
@@ -248,12 +252,18 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 	_assert_eq([state.vitality.current, state.vitality.effective, state.vitality.maximum], vitality_before, "zone transition does not mutate CharacterState resources")
 	var target: NpcRuntimeState = controller.npc_runtimes()[1]
 	_assert_true(controller.player_runtime().world_location().shares_combat_location(target.world_location()), "player and bandit share combat location in south slope")
-	controller._on_central_clearing_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
 	_assert_false(controller.player_runtime().world_location().shares_combat_location(target.world_location()), "logical zone change makes same-location false without distance comparison")
-	controller._on_south_slope_body_entered(controller.player_body)
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "touch-only zone transition works central to south")
-	controller._on_central_clearing_body_entered(controller.player_body)
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "touch-only zone transition works south to central")
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "typed logical location changes central to south")
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "typed logical location changes south to central")
 	var before_bounds: Vector2 = Vector2(100.0, 300.0)
 	controller.player_body.position = before_bounds
 	await tree.physics_frame
@@ -301,7 +311,9 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	_assert_eq(scripted.call_count(), 0, "Inspect consumes no combat RNG")
 	for npc: NpcRuntimeState in controller.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "Inspect mutates no combat relationship")
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "explicit Attack delegates to closed lethal initiation")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(bandit2.character_id), "player lethal relation targets selected bandit only")
@@ -316,7 +328,9 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	_assert_true(controller.opportunity_timer.time_left > 8.0, "repeated Attack does not restart cadence timing")
 	_assert_eq(controller.player_runtime().relationship.opponent_ids().size(), 1, "repeated Attack does not duplicate player opponent")
 	_assert_eq(bandit2.relationship.opponent_ids().size(), 1, "repeated Attack does not duplicate NPC opponent")
-	controller._on_central_clearing_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
 	var cleanup_results: Array[CombatSliceOpportunityResult] = controller.process_cadence_tick()
 	_assert_eq(cleanup_results.size(), 2, "both fighting sides receive one cleanup opportunity after zone exit")
 	_assert_false(controller.player_runtime().relationship.has_opponent(bandit2.character_id), "closed availability removes player opponent after zone exit")
@@ -324,7 +338,9 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(bandit2.character_id), "zone cleanup preserves player lethal marker")
 	_assert_true(bandit2.relationship.has_lethal_target(controller.player_runtime().character_id), "zone cleanup preserves reciprocal lethal marker")
 	_assert_eq(scripted.call_count(), 0, "different-location cleanup consumes zero combat RNG")
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	_assert_false(controller.player_runtime().relationship.is_fighting(), "returning to same zone does not invent combat restart")
 	controller.opportunity_timer.stop()
 	controller.queue_free()
@@ -335,7 +351,9 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	var victim: NpcRuntimeState = controller.npc_runtimes()[1]
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
 	controller.opportunity_timer.stop()
@@ -378,7 +396,9 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var death_position: Vector2 = victim_body.global_position
 	var sword: ItemInstance = _item_with_definition(victim.loadout_items(), OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID)
 	var silver: ItemInstance = _item_with_definition(victim.loadout_items(), OldPineNpcDefinitions.SILVER_ITEM_ID)
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
 	controller.opportunity_timer.stop()
@@ -425,7 +445,9 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_true(controller.select_npc(bandits[2].character_id), "remaining bandit stays selectable")
 	_assert_true(controller.process_cadence_tick().is_empty(), "dead bandit never respawns or re-enters future cadence")
 	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 4, "live map quantity naturally falls to four after death")
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	controller.select_npc(bandits[0].character_id)
 	var second_initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(second_initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "surviving second bandit can begin a new combat")

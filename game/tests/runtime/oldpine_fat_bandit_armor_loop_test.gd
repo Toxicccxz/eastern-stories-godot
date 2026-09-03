@@ -118,7 +118,9 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	_assert_eq(next_without_armor.defender.effective_dodge_skill_level, 5, "next Combat input returns to effective raw-half dodge 5")
 	_assert_true(ArmorService.wear(fat.armor, controller.inventory_state(), fat_owner, leather, OldPineItemContentDefinitions.content_by_id(leather.item_definition_id).armor_definition()).succeeded, "test restores Fat leather through ArmorService")
 
-	controller._on_pine_entrance_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
+	))
 	tall_presence.body_entered.emit(controller.player_body)
 	fat_presence.body_entered.emit(controller.player_body)
 	_assert_eq(controller.aggression_adapter().pending_count(), 2, "actual overlapping Presence Areas queue Tall and Fat once each")

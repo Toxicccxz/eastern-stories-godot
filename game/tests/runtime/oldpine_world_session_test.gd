@@ -571,7 +571,9 @@ func _kill_bandit(
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> CorpseState:
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	if not controller.select_npc(victim.character_id):
 		return null
 	if controller.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
