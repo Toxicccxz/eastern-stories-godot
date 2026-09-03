@@ -258,11 +258,17 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 480)), "alternate branch returns east of island")
 	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 300)), "physical route closes the loop at its original junction without teleport")
 
-	controller._on_pine_entrance_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
+	))
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Pine Entrance has stable combat location")
-	controller._on_pine_deep_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID,
+	))
 	_assert_eq(controller.player_runtime().world_location().combat_location_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Pine Deep has stable combat location")
-	controller._on_pine_cliff_edge_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID,
+	))
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "Pine Cliff Edge has stable zone identity")
 	controller.queue_free()
 	await tree.process_frame
@@ -331,10 +337,14 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	await tree.physics_frame
 	_assert_true(controller.aggression_adapter().has_pending(tall.character_id), "physical tall-bandit presence queues aggression")
 	_assert_eq(random.calls, 0, "presence and aggression decision consume no Combat RNG")
-	controller._on_pine_deep_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID,
+	))
 	_assert_true(controller.process_pending_aggression().is_empty(), "escape before deferred recheck starts no combat")
 	_assert_false(tall.relationship.is_fighting(), "escaped tall presence creates no relationship")
-	controller._on_pine_entrance_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
+	))
 	controller._on_tall_bandit_presence_exited(controller.player_body)
 	controller._on_tall_bandit_presence_entered(controller.player_body)
 	var starts: Array[CombatSliceInitiationResult] = controller.process_pending_aggression()
@@ -342,13 +352,17 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(starts[0].initiator_id, tall.character_id, "aggression initiator is exact tall bandit")
 	_assert_true(tall.relationship.has_lethal_target(controller.player_runtime().character_id), "tall bandit gains reciprocal lethal relation")
 	_assert_eq(random.calls, 0, "relationship initiation remains RNG-free")
-	controller._on_pine_deep_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID,
+	))
 	controller.process_cadence_tick()
 	_assert_false(controller.player_runtime().relationship.has_opponent(tall.character_id), "Pine zone change uses closed opponent cleanup")
 	_assert_false(tall.relationship.has_opponent(controller.player_runtime().character_id), "Pine zone cleanup is reciprocal")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(tall.character_id), "Pine zone cleanup preserves lethal marker")
 	_assert_eq(random.calls, 0, "different-location cleanup consumes no Combat RNG")
-	controller._on_pine_entrance_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
+	))
 	controller._on_tall_bandit_presence_exited(controller.player_body)
 	controller._on_tall_bandit_presence_entered(controller.player_body)
 	_assert_eq(controller.process_pending_aggression().size(), 1, "returning to Pine Entrance permits authored aggression again")
@@ -492,7 +506,9 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 	var controller: OldPineOutdoorController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var tall: NpcRuntimeState = controller.npc_runtimes()[3]
-	controller._on_pine_entrance_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
+	))
 	_assert_true(controller.select_npc(tall.character_id), "partial Tall fixture selects exact Tall")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "partial Tall fixture starts lethal combat")
 	controller.opportunity_timer.stop()

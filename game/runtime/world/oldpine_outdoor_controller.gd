@@ -1320,14 +1320,30 @@ func _sync_binding(binding: CombatSliceCharacterBinding) -> void:
 			WorldCombatBindingAdapterType.sync_npc(binding, npc)
 
 
-func _update_body_zone(body: Node2D, zone_id: StringName) -> void:
+func _update_body_zone(body: Node2D, zone_id: StringName, area: Area2D) -> void:
 	var character_body: WorldCharacterBodyType = body as WorldCharacterBodyType
-	if character_body != null:
+	if character_body != null and _has_current_zone_contact(character_body, area):
 		var updated: bool = character_body.set_world_location(
 			_location_for_zone(zone_id)
 		)
 		if updated and character_body == player_body:
 			_refresh_selected_landmark_source()
+
+
+func _has_current_zone_contact(body: WorldCharacterBodyType, area: Area2D) -> bool:
+	# A reattached resident body's first physics query can still describe its old
+	# transform. Area.overlaps_body() shares that cache; neither may overwrite the
+	# handoff's committed location without contact at the current transforms.
+	if not is_inside_tree() or not body.is_inside_tree() or not area.is_inside_tree():
+		return false
+	var zone_shape: CollisionShape2D = area.get_node("CollisionShape2D")
+	var body_shape: CollisionShape2D = body.get_node("CollisionShape2D")
+	return (
+		not zone_shape.disabled and not body_shape.disabled
+		and zone_shape.shape.collide(
+			zone_shape.global_transform, body_shape.shape, body_shape.global_transform,
+		)
+	)
 
 
 func _location_for_zone(zone_id: StringName) -> WorldLocationState:
@@ -1717,31 +1733,31 @@ func _on_opportunity_timer_timeout() -> void:
 
 
 func _on_central_clearing_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, $Zones/CentralClearingZone)
 
 
 func _on_south_slope_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, $Zones/SouthSlopeZone)
 
 
 func _on_north_approach_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, $Zones/NorthApproachZone)
 
 
 func _on_east_bridge_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, $Zones/EastBridgeZone)
 
 
 func _on_waterfall_basin_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, $Zones/WaterfallBasinZone)
 
 
 func _on_river_gorge_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, $Zones/RiverGorgeZone)
 
 
 func _on_cliff_ledge_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID, $Zones/CliffLedgeZone)
 
 
 func _on_cliffside_pine_exit_body_entered(body: Node2D) -> void:
@@ -1770,19 +1786,19 @@ func _on_cliffside_pine_exit_body_entered(body: Node2D) -> void:
 
 
 func _on_tree_canopy_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, $Zones/TreeCanopyZone)
 
 
 func _on_pine_entrance_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, $Zones/PineEntranceZone)
 
 
 func _on_pine_deep_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, $Zones/PineDeepZone)
 
 
 func _on_pine_cliff_edge_body_entered(body: Node2D) -> void:
-	_update_body_zone(body, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID)
+	_update_body_zone(body, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, $Zones/PineCliffEdgeZone)
 
 
 func _on_bandit_01_presence_entered(body: Node2D) -> void:

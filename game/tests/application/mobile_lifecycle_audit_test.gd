@@ -56,16 +56,51 @@ func _test_inactive_hardware_actions(tree: SceneTree) -> void:
 	touch.set_capability(EnabledTouch.new())
 	shell.request_new_game_from_menu()
 	await _settle(tree)
+	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var body: WorldCharacterBody2D = session.outdoor_map().player_body
+	await tree.physics_frame
+	await tree.physics_frame
+	await tree.process_frame
+	await _key(tree, KEY_RIGHT, true)
 	_loss(shell)
+	var frozen_position: Vector2 = body.global_position
+	var frozen_location: StringName = session.player_runtime().world_location().zone_id
 	for key: Key in [KEY_RIGHT, KEY_ENTER, KEY_ESCAPE]:
 		await _key(tree, key, true)
 		_check(not Input.is_action_pressed(&"move_right") and not Input.is_action_pressed(&"ui_accept") and not Input.is_action_pressed(&"pause_game") and not Input.is_action_pressed(&"ui_cancel"), "inactive hardware action cache is cleared")
 		await _key(tree, key, false)
+	# Keep another actual hardware press held over reactivation and replay an
+	# OS echo. No synthetic Input action may leak into a later physics frame.
+	await _key(tree, KEY_RIGHT, true)
+	for frame: int in 4:
+		await tree.physics_frame
+		await tree.process_frame
+	_check(body.global_position == frozen_position, "inactive physics frames cannot move player")
 	await _back(tree)
 	_gain(shell)
 	await _settle(tree)
 	_check(shell.pause_visible() and tree.paused and not shell.result_visible(), "inactive keyboard/Back neither resumes nor confirms")
+	var echo: InputEventKey = InputEventKey.new()
+	echo.keycode = KEY_RIGHT
+	echo.pressed = true
+	echo.echo = true
+	Input.parse_input_event(echo)
+	await _settle(tree)
+	_check(not Input.is_action_pressed(&"move_right"), "reactivation does not resurrect held-key echo")
 	_check(shell.request_resume(), "fresh explicit Resume still works")
+	Input.parse_input_event(echo)
+	for frame: int in 4:
+		await tree.physics_frame
+		await tree.process_frame
+	_check(body.global_position == frozen_position, "Resume plus stale echo cannot move player")
+	_check(session.player_runtime().world_location().zone_id == frozen_location, "inactive input and Resume retain map zone")
+	await _key(tree, KEY_RIGHT, false)
+	await _key(tree, KEY_RIGHT, true)
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(body.global_position.x > frozen_position.x, "fresh hardware press after Resume works")
+	await _key(tree, KEY_RIGHT, false)
+	_check(not Input.is_action_pressed(&"move_right"), "audit fixture releases hardware state before teardown")
 	shell.free()
 	await _settle(tree, 2)
 

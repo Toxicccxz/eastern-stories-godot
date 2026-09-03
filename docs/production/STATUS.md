@@ -6,12 +6,14 @@ Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at
 `3a1f993a4258ed246ce820c7a4dc8d2563994aaf` (PR #5), with all four post-merge jobs green in
 [workflow 33643056093, attempt 2](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33643056093).
 It builds on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
-Phase 10C2 implementation and A/B/C formal audits are locally complete on
-`phase/10c2-mobile-input-layout-lifecycle`; the
-[final major-phase audit passed](../migration/PHASE_10C2_FINAL_AUDIT.md).
-It is **READY FOR FINAL PR, pending integration**, not integrated into `main` until the final
-PR, four green same-HEAD CI jobs, authorized merge and green post-merge main CI. Phase 10D
-has not started. This is not game completion or store readiness.
+Phase 10C2's [final major-phase audit passed](../migration/PHASE_10C2_FINAL_AUDIT.md),
+and PR #6 merged at `05f3f28c17c27d8fda9f56e726ddf6e5d09d3bed`. The first post-merge
+[workflow 33700462934](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33700462934)
+failed a Vine roundtrip assertion; attempt 2 passed. A passing retry does not close the
+nondeterministic defect. **Integration requires stabilization** on
+`hotfix/10c2-mobile-lifecycle-flake`, followed by PR review, authorized merge and green
+post-merge main CI. Phase 10D has not started and must wait for that gate.
+This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
 explicit backup/temp recovery, confirmed Return to Menu, and independent Settings with desktop
@@ -20,7 +22,7 @@ this does not claim physical controller or mobile-device qualification. See the
 [Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md) and
 [final integration audit](../migration/PHASE_10C1_FINAL_AUDIT.md).
 
-The phase branch adds shared responsive Shell/HUD/Inventory/Loot, SafeArea, sensor landscape,
+The mobile shell provides shared responsive Shell/HUD/Inventory/Loot, SafeArea, sensor landscape,
 eight-direction touch pad, Android Back, lifecycle freeze and explicit Resume. Save remains
 manual-only: background triggers no Save. The [Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
 defines these extensions without replacing Shell/Host or native persistence authority.
@@ -48,6 +50,19 @@ Formally closed gameplay foundations include:
 The current canonical main scene is
 `res://scenes/application/application_shell.tscn`. It owns one persistent Runtime Host, which alone
 owns zero or one replaceable Old Pine Session. Cold start shows Menu, not hidden gameplay.
+
+## Runtime contact invariant
+
+Outdoor zone notifications must match the current character/zone collision shapes before
+changing typed location. A reattached resident body can briefly have a previous transform
+in PhysicsServer; its resulting Area notification and `overlaps_body()` cache are not
+current-position authority. Revalidate actual shape contact, including body-edge overlap,
+without delaying traversal, moving the player again, or changing Shell/Host ownership.
+
+The reported mobile lifecycle stack was the full runner's final error aggregation, not
+the assertion site: the earlier Vine test failed even with zero input and no Shell.
+Logical-only test fixtures use existing typed location setters, not fabricated Area entry.
+Mobile held-action clearing, echo quarantine, pause and manual-save behavior are unchanged.
 
 ## Incomplete work
 

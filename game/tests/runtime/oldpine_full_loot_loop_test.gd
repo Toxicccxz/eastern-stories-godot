@@ -167,10 +167,12 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	var second: NpcRuntimeState = controller.npc_runtimes()[1]
 	_assert_true(second.exists_in_map, "second authored bandit survives first loot loop")
 	## Full-suite scene ordering can deliver a later overlapping zone callback
-	## after the corpse physics frames. Re-enter through the production zone
-	## adapter immediately before initiation so the test proves combat content,
+	## after the corpse physics frames. Set the fixture's typed logical location
+	## immediately before initiation so the test proves combat content,
 	## not an incidental Area2D notification order.
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	_assert_true(controller.select_npc(second.character_id), "second bandit becomes current world target")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "second fight starts through world combat initiation")
 	controller.opportunity_timer.stop()
@@ -314,7 +316,9 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 		"live-combat fixture registers short sword",
 	)
 	var opponent: NpcRuntimeState = controller.npc_runtimes()[0]
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	_assert_true(controller.select_npc(opponent.character_id), "live-combat fixture selects first bandit")
 	_assert_eq(
 		controller.attack_selected().outcome,
@@ -450,7 +454,9 @@ func _kill_bandit(
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> void:
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
 	controller.opportunity_timer.stop()

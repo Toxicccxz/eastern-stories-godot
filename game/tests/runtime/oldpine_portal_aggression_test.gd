@@ -177,7 +177,9 @@ func _test_target_kind_and_inspect_safety(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var random: ScriptedCombatRandomSource = ScriptedRandomType.new([0, 0])
 	controller.configure_combat_random_source(random)
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
 	var npc_opponents: Array[StringName] = npc.relationship.opponent_ids()
 	var player_opponents: Array[StringName] = (
@@ -199,12 +201,17 @@ func _test_target_kind_and_inspect_safety(tree: SceneTree) -> void:
 		"Pine selected from South Slope does not expose stale Climb",
 	)
 	_assert_true(controller.inspect_selected(), "Pine Inspect remains available off-source")
-	controller._on_central_clearing_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
+	controller._refresh_selected_landmark_source()
 	_assert_true(
 		controller.hud.portal_action_is_enabled(),
 		"selected Pine enables Climb only after current source becomes valid",
 	)
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	_assert_true(controller.select_npc(npc.character_id), "Pine to Bandit restores character target")
 	_assert_true(controller.hud.attack_is_enabled(), "Bandit restores Attack availability")
 	_assert_false(controller.hud.portal_action_is_enabled(), "Bandit clears stale Climb availability")
@@ -318,15 +325,20 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	controller.select_landmark(OldPineLandmarkDefinitions.PINE_LANDMARK_ID)
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var before_position: Vector2 = controller.player_body.global_position
 	var before_location: WorldLocationState = controller.player_runtime().world_location()
+	controller._refresh_selected_landmark_source()
 	_assert_false(controller.hud.portal_action_is_enabled(), "wrong source disables stale Traverse action")
 	var wrong_source: WorldPortalTraversalResult = controller.traverse_selected_portal()
 	_assert_eq(wrong_source.outcome, WorldPortalTraversalResult.Outcome.SOURCE_LOCATION_MISMATCH, "portal rejects wrong source zone")
 	_assert_eq(controller.player_body.global_position, before_position, "wrong source has no physical mutation")
 	_assert_true(controller.player_runtime().world_location().same_location(before_location), "wrong source has no logical mutation")
-	controller._on_central_clearing_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
 	var central_location: WorldLocationState = controller.player_runtime().world_location()
 	var direct_adapter: OldPinePortalTraversalAdapter = OldPinePortalTraversalAdapter.new()
 	var wrong_map_source: WorldLocationState = WorldLocationState.new(
@@ -452,7 +464,9 @@ func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var random: ScriptedCombatRandomSource = ScriptedRandomType.new([0])
 	controller.configure_combat_random_source(random)
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
 	controller._on_bandit_01_presence_entered(controller.player_body)
 	_assert_true(controller.aggression_adapter().has_pending(npc.character_id), "presence queues one zero-delay opportunity")
@@ -486,18 +500,24 @@ func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
 func _test_aggression_cancellation_and_gates(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
 	controller._on_bandit_01_presence_entered(controller.player_body)
 	controller._on_bandit_01_presence_exited(controller.player_body)
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "leaving presence cancels pending opportunity")
 	_assert_true(controller.process_pending_aggression().is_empty(), "cancelled opportunity cannot initiate")
 	controller._on_bandit_01_presence_entered(controller.player_body)
-	controller._on_central_clearing_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+	))
 	_assert_true(controller.process_pending_aggression().is_empty(), "deferred recheck cancels different combat location")
 	_assert_eq(controller.last_aggression_decisions()[0].outcome, OldPineAggressionDecision.Outcome.DIFFERENT_COMBAT_LOCATION, "cancellation reason is typed")
 	_assert_false(npc.relationship.is_fighting(), "co-location cancellation mutates no relation")
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	var inactive_npc: OldPineAggressionDecision = controller._queue_bandit_presence(0, controller.player_body)
 	_assert_eq(inactive_npc.outcome, OldPineAggressionDecision.Outcome.NPC_NOT_ACTIVE, "unconscious NPC never queues")
@@ -545,7 +565,9 @@ func _test_aggression_cancellation_and_gates(tree: SceneTree) -> void:
 func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	var escape: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	escape._on_south_slope_body_entered(escape.player_body)
+	escape.player_body.set_world_location(escape.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var escape_random: ScriptedCombatRandomSource = ScriptedRandomType.new([0])
 	escape.configure_combat_random_source(escape_random)
 	var escape_npc: NpcRuntimeState = escape.npc_runtimes()[0]
@@ -573,7 +595,9 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 
 	var removed: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	removed._on_south_slope_body_entered(removed.player_body)
+	removed.player_body.set_world_location(removed.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var removed_npc: NpcRuntimeState = removed.npc_runtimes()[0]
 	removed._on_bandit_01_presence_entered(removed.player_body)
 	_assert_true(
@@ -592,7 +616,9 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 
 	var changed: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	changed._on_south_slope_body_entered(changed.player_body)
+	changed.player_body.set_world_location(changed.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var changed_npc: NpcRuntimeState = changed.npc_runtimes()[0]
 	changed._on_bandit_01_presence_entered(changed.player_body)
 	changed.select_npc(changed_npc.character_id)
@@ -621,7 +647,9 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 
 	var live_recheck: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	live_recheck._on_south_slope_body_entered(live_recheck.player_body)
+	live_recheck.player_body.set_world_location(live_recheck.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var live_npc: NpcRuntimeState = live_recheck.npc_runtimes()[0]
 	live_recheck._on_bandit_01_presence_entered(live_recheck.player_body)
 	live_recheck.player_runtime().set_combat_available(false)
@@ -663,7 +691,9 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 func _test_player_already_fighting_and_timer_semantics(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	controller.select_npc(npcs[0].character_id)
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "first manual opponent establishes player combat")
@@ -691,7 +721,9 @@ func _test_multiple_bandits_are_stable_and_rng_free(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	var rng_control: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var random: ScriptedCombatRandomSource = ScriptedRandomType.new([0, 0, 0])
 	controller.configure_combat_random_source(random)
 	controller._on_bandit_03_presence_entered(controller.player_body)
@@ -721,7 +753,9 @@ func _test_multiple_bandits_are_stable_and_rng_free(tree: SceneTree) -> void:
 func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	controller._on_south_slope_body_entered(controller.player_body)
+	controller.player_body.set_world_location(controller.resolve_location(
+		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+	))
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	var victim_body: WorldCharacterBody2D = controller.bandit_bodies[0]
 	var presence: Area2D = controller.get_node(
