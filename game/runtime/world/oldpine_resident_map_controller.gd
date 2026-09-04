@@ -23,6 +23,7 @@ func configure_session_authorities(
 	_combat_random: CombatRandomSource,
 	_world_interaction_random: WorldInteractionRandomSource,
 	_item_id_allocator: SessionItemIdAllocator,
+	_world_simulation_gate: WorldSimulationGate,
 ) -> bool:
 	return false
 
@@ -83,6 +84,14 @@ func prepare_for_deactivation() -> void:
 
 func resume_after_relationship_reconciliation() -> void:
 	pass
+
+
+func freeze_world_gameplay(_encounter_id: StringName) -> bool:
+	return false
+
+
+func thaw_world_gameplay(_encounter_id: StringName) -> bool:
+	return false
 
 
 func suspend_for_session_swap() -> bool:

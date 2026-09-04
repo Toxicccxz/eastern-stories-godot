@@ -70,6 +70,10 @@ var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 var _item_instance_scope: StringName = &""
 var _item_id_allocator: SessionItemIdAllocator
+var _world_simulation_gate: WorldSimulationGate
+var _encounter_freeze_owner_id: StringName = &""
+var _encounter_cadence_was_running: bool = false
+var _encounter_cadence_time_left: float = 0.0
 var _initialized: bool = false
 var _configured: bool = false
 var _initialization_count: int = 0
@@ -104,6 +108,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if not _world_gameplay_is_open():
+		return
 	if _initialized and _aggression_adapter.pending_count() > 0:
 		process_pending_aggression()
 	if (
@@ -132,6 +138,7 @@ func configure_session_authorities(
 	p_combat_random: CombatRandomSource,
 	p_world_interaction_random: WorldInteractionRandomSource,
 	p_item_id_allocator: SessionItemIdAllocator,
+	p_world_simulation_gate: WorldSimulationGate,
 ) -> bool:
 	if (
 		_configured
@@ -146,6 +153,7 @@ func configure_session_authorities(
 		or p_world_interaction_random == null
 		or p_item_id_allocator == null
 		or not p_item_id_allocator.is_valid()
+		or p_world_simulation_gate == null
 	):
 		return false
 	_session_owner = p_session
@@ -158,6 +166,7 @@ func configure_session_authorities(
 	_world_interaction_random = p_world_interaction_random
 	_item_id_allocator = p_item_id_allocator
 	_item_instance_scope = p_item_id_allocator.scope
+	_world_simulation_gate = p_world_simulation_gate
 	_configured = true
 	return true
 
@@ -166,6 +175,8 @@ func initialize_map() -> bool:
 	if _initialized:
 		return true
 	if not _configured:
+		return false
+	if not _bind_world_simulation_gate_to_bodies():
 		return false
 	_map_characters = MapCharacterRuntimeState.new(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_effects = SkillImprovementEffectRegistry.new()
@@ -457,8 +468,59 @@ func prepare_for_deactivation() -> void:
 		hud.visible = false
 
 
+func freeze_world_gameplay(encounter_id: StringName) -> bool:
+	if (
+		not _initialized
+		or encounter_id.is_empty()
+		or not _encounter_freeze_owner_id.is_empty()
+		or _world_simulation_gate == null
+		or _world_simulation_gate.freeze_owner_id() != encounter_id
+	):
+		return false
+	_encounter_freeze_owner_id = encounter_id
+	_encounter_cadence_was_running = not opportunity_timer.is_stopped()
+	_encounter_cadence_time_left = (
+		opportunity_timer.time_left if _encounter_cadence_was_running else 0.0
+	)
+	opportunity_timer.stop()
+	_aggression_adapter.clear_all()
+	_selected_target = null
+	hud.set_selected_target(null)
+	hud.close_loot()
+	hud.close_inventory()
+	for body: WorldCharacterBodyType in _world_character_bodies():
+		body.quarantine_current_movement_input()
+	return true
+
+
+func thaw_world_gameplay(encounter_id: StringName) -> bool:
+	if (
+		encounter_id.is_empty()
+		or _encounter_freeze_owner_id != encounter_id
+		or _world_simulation_gate == null
+		or _world_simulation_gate.freeze_owner_id() != encounter_id
+	):
+		return false
+	_encounter_freeze_owner_id = &""
+	for body: WorldCharacterBodyType in _world_character_bodies():
+		body.quarantine_current_movement_input()
+	if _encounter_cadence_was_running and _has_active_relationships():
+		opportunity_timer.start(
+			_encounter_cadence_time_left
+			if _encounter_cadence_time_left > 0.0
+			else -1.0
+		)
+	_encounter_cadence_was_running = false
+	_encounter_cadence_time_left = 0.0
+	return true
+
+
 func resume_after_relationship_reconciliation() -> void:
-	if _has_active_relationships() and opportunity_timer.is_stopped():
+	if (
+		_world_gameplay_is_open()
+		and _has_active_relationships()
+		and opportunity_timer.is_stopped()
+	):
 		opportunity_timer.start(
 			_suspended_cadence_time_left
 			if _cadence_was_running and _suspended_cadence_time_left > 0.0
@@ -544,6 +606,8 @@ func configure_combat_random_source(value: CombatRandomSource) -> bool:
 
 
 func select_npc(character_id: StringName) -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	var npc: NpcRuntimeState = _find_npc(character_id)
 	if (
 		npc == null
@@ -557,6 +621,8 @@ func select_npc(character_id: StringName) -> bool:
 
 
 func select_landmark(landmark_id: StringName) -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	if landmark_id == OldPineLandmarkDefinitions.VINE_LANDMARK_ID:
 		var vine: OldPineVineInteractionDefinition = (
 			OldPineLandmarkDefinitions.vine_definition()
@@ -580,6 +646,8 @@ func select_landmark(landmark_id: StringName) -> bool:
 
 
 func select_corpse(corpse_id: StringName) -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	var corpse: CorpseState = _find_corpse(corpse_id)
 	if corpse == null or not _corpse_is_live_in_world(corpse):
 		return false
@@ -593,6 +661,8 @@ func select_corpse(corpse_id: StringName) -> bool:
 
 
 func inspect_selected() -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	if (
 		_selected_target != null
 		and _selected_target.kind == WorldInteractionTarget.Kind.ITEM
@@ -632,6 +702,8 @@ func inspect_selected() -> bool:
 
 
 func open_selected_loot() -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	hud.close_inventory()
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null:
@@ -655,6 +727,14 @@ func open_selected_loot() -> bool:
 func take_selected_loot_item(
 	item_instance_id: StringName,
 ) -> CorpseLootTransferResult:
+	if not _world_gameplay_is_open():
+		return CorpseLootTransferResult.new(
+			CorpseLootTransferResult.Outcome.INVALID_REQUEST,
+			false,
+			&"" if _player == null else _player.character_id,
+			&"",
+			item_instance_id,
+		)
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null:
 		_last_loot_transfer_result = CorpseLootTransferResult.new(
@@ -687,6 +767,8 @@ func take_selected_loot_item(
 
 
 func open_player_inventory() -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	if (
 		_player == null
 		or not _player.is_valid()
@@ -700,6 +782,8 @@ func open_player_inventory() -> bool:
 
 
 func inspect_player_item(item_instance_id: StringName) -> bool:
+	if not _world_gameplay_is_open():
+		return false
 	var row: PlayerInventoryRowProjection = _inventory_projection.project_item(
 		_player,
 		_inventory,
@@ -718,6 +802,8 @@ func inspect_player_item(item_instance_id: StringName) -> bool:
 func wield_player_item(
 	item_instance_id: StringName,
 ) -> OldPineEquipmentInteractionResult:
+	if not _world_gameplay_is_open():
+		return OldPineEquipmentInteractionResult.new()
 	_last_equipment_interaction = _equipment_adapter.wield(
 		_player,
 		item_instance_id,
@@ -732,6 +818,8 @@ func wield_player_item(
 func unwield_player_item(
 	item_instance_id: StringName,
 ) -> OldPineEquipmentInteractionResult:
+	if not _world_gameplay_is_open():
+		return OldPineEquipmentInteractionResult.new()
 	_last_equipment_interaction = _equipment_adapter.unwield(
 		_player,
 		item_instance_id,
@@ -745,6 +833,8 @@ func unwield_player_item(
 func wear_player_item(
 	item_instance_id: StringName,
 ) -> OldPineArmorInteractionResult:
+	if not _world_gameplay_is_open():
+		return OldPineArmorInteractionResult.new()
 	_last_armor_interaction = _armor_adapter.wear(
 		_player,
 		item_instance_id,
@@ -759,6 +849,8 @@ func wear_player_item(
 func remove_player_item(
 	item_instance_id: StringName,
 ) -> OldPineArmorInteractionResult:
+	if not _world_gameplay_is_open():
+		return OldPineArmorInteractionResult.new()
 	_last_armor_interaction = _armor_adapter.remove(
 		_player,
 		item_instance_id,
@@ -771,6 +863,8 @@ func remove_player_item(
 
 
 func attack_selected() -> CombatSliceInitiationResult:
+	if not _world_gameplay_is_open():
+		return CombatSliceInitiationResult.new()
 	var target: NpcRuntimeState = selected_npc()
 	if target == null:
 		return CombatSliceInitiationResult.new()
@@ -782,6 +876,8 @@ func attack_selected() -> CombatSliceInitiationResult:
 
 
 func traverse_selected_portal() -> WorldPortalTraversalResult:
+	if not _world_gameplay_is_open():
+		return WorldPortalTraversalResult.new()
 	if (
 		_selected_target == null
 		or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK
@@ -830,6 +926,8 @@ func traverse_selected_portal() -> WorldPortalTraversalResult:
 
 
 func traverse_selected_vine() -> OldPineVineTraversalResult:
+	if not _world_gameplay_is_open():
+		return OldPineVineTraversalResult.new()
 	var vine: OldPineVineInteractionDefinition = (
 		OldPineLandmarkDefinitions.vine_definition()
 	)
@@ -854,6 +952,8 @@ func traverse_selected_vine() -> OldPineVineTraversalResult:
 
 
 func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
+	if not _world_gameplay_is_open():
+		return []
 	_last_aggression_decisions = _aggression_adapter.resolve_pending(
 		_all_npcs,
 		_player,
@@ -880,6 +980,8 @@ func _initiate_lethal_combat(
 	target_id: StringName,
 	log_line: String,
 ) -> CombatSliceInitiationResult:
+	if not _world_gameplay_is_open():
+		return CombatSliceInitiationResult.new()
 	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
 	var initiator_binding: CombatSliceCharacterBinding = _binding_for(
 		participants,
@@ -904,6 +1006,8 @@ func _initiate_lethal_combat(
 
 func process_cadence_tick() -> Array[CombatSliceOpportunityResult]:
 	var results: Array[CombatSliceOpportunityResult] = []
+	if not _world_gameplay_is_open():
+		return results
 	_last_tick_order.clear()
 	_last_lifecycle_results.clear()
 	if _lifecycle_failed:
@@ -1321,6 +1425,8 @@ func _sync_binding(binding: CombatSliceCharacterBinding) -> void:
 
 
 func _update_body_zone(body: Node2D, zone_id: StringName, area: Area2D) -> void:
+	if not _world_gameplay_is_open():
+		return
 	var character_body: WorldCharacterBodyType = body as WorldCharacterBodyType
 	if character_body != null and _has_current_zone_contact(character_body, area):
 		var updated: bool = character_body.set_world_location(
@@ -1542,6 +1648,27 @@ func _has_active_relationships() -> bool:
 	return false
 
 
+func _world_gameplay_is_open() -> bool:
+	return _world_simulation_gate == null or _world_simulation_gate.is_open()
+
+
+func _world_character_bodies() -> Array[WorldCharacterBodyType]:
+	var result: Array[WorldCharacterBodyType] = [player_body]
+	result.append_array(bandit_bodies)
+	result.append(tall_bandit_body)
+	result.append(fat_bandit_body)
+	return result
+
+
+func _bind_world_simulation_gate_to_bodies() -> bool:
+	if _world_simulation_gate == null:
+		return false
+	for body: WorldCharacterBodyType in _world_character_bodies():
+		if body == null or not body.bind_world_simulation_gate(_world_simulation_gate):
+			return false
+	return true
+
+
 func _current_location_allows_combat() -> bool:
 	# Neither clearing.c, spath1.c nor tree1.c authors a no_fight room fact.
 	var location: WorldLocationState = _player.world_location()
@@ -1644,7 +1771,12 @@ func _queue_bandit_presence(
 	npc_index: int,
 	body: Node2D,
 ) -> OldPineAggressionDecision:
-	if body != player_body or npc_index < 0 or npc_index >= _all_npcs.size():
+	if (
+		not _world_gameplay_is_open()
+		or body != player_body
+		or npc_index < 0
+		or npc_index >= _all_npcs.size()
+	):
 		return OldPineAggressionDecision.new()
 	return _aggression_adapter.enter_player_presence(
 		_all_npcs[npc_index],
@@ -1654,7 +1786,12 @@ func _queue_bandit_presence(
 
 
 func _leave_bandit_presence(npc_index: int, body: Node2D) -> void:
-	if body == player_body and npc_index >= 0 and npc_index < _all_npcs.size():
+	if (
+		_world_gameplay_is_open()
+		and body == player_body
+		and npc_index >= 0
+		and npc_index < _all_npcs.size()
+	):
 		_aggression_adapter.leave_player_presence(_all_npcs[npc_index].character_id)
 
 
@@ -1676,7 +1813,8 @@ func _on_corpse_loot_range_changed(
 	_is_inside: bool,
 ) -> void:
 	if (
-		body == player_body
+		_world_gameplay_is_open()
+		and body == player_body
 		and _selected_target != null
 		and _selected_target.kind == WorldInteractionTarget.Kind.ITEM
 		and _selected_target.target_id == corpse_id
@@ -1761,7 +1899,7 @@ func _on_cliff_ledge_body_entered(body: Node2D) -> void:
 
 
 func _on_cliffside_pine_exit_body_entered(body: Node2D) -> void:
-	if body != player_body:
+	if body != player_body or not _world_gameplay_is_open():
 		return
 	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
 		OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID

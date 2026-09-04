@@ -19,6 +19,8 @@ var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
 var _world_interaction_random: WorldInteractionRandomSource
 var _item_id_allocator: SessionItemIdAllocator
+var _world_simulation_gate: WorldSimulationGate
+var _encounter_freeze_owner_id: StringName = &""
 var _item_instance_scope: StringName = &""
 var _configured: bool = false
 var _initialized: bool = false
@@ -45,6 +47,7 @@ func configure_session_authorities(
 	p_combat_random: CombatRandomSource,
 	p_world_interaction_random: WorldInteractionRandomSource,
 	p_item_id_allocator: SessionItemIdAllocator,
+	p_world_simulation_gate: WorldSimulationGate,
 ) -> bool:
 	if (
 		_configured
@@ -59,6 +62,7 @@ func configure_session_authorities(
 		or p_world_interaction_random == null
 		or p_item_id_allocator == null
 		or not p_item_id_allocator.is_valid()
+		or p_world_simulation_gate == null
 	):
 		return false
 	_session_owner = p_session
@@ -71,6 +75,7 @@ func configure_session_authorities(
 	_world_interaction_random = p_world_interaction_random
 	_item_id_allocator = p_item_id_allocator
 	_item_instance_scope = p_item_id_allocator.scope
+	_world_simulation_gate = p_world_simulation_gate
 	_configured = true
 	return true
 
@@ -86,7 +91,11 @@ func initialize_map() -> bool:
 	):
 		return false
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(VINE_LANDING_SPAWN_ID)
-	if marker == null or not player_body.bind_player(_player):
+	if (
+		marker == null
+		or not player_body.bind_player(_player)
+		or not player_body.bind_world_simulation_gate(_world_simulation_gate)
+	):
 		return false
 	var player_location: WorldLocationState = _player.world_location()
 	player_body.global_position = (
@@ -167,7 +176,11 @@ func prepare_for_activation(spawn_point_id: StringName) -> bool:
 	if not _initialized:
 		return false
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
-	if marker == null or not player_body.bind_player(_player):
+	if (
+		marker == null
+		or not player_body.bind_player(_player)
+		or not player_body.bind_world_simulation_gate(_world_simulation_gate)
+	):
 		return false
 	player_body.global_position = marker.global_position
 	player_body.player_controlled = false
@@ -194,6 +207,33 @@ func prepare_for_deactivation() -> void:
 	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
 	if camera != null:
 		camera.enabled = false
+
+
+func freeze_world_gameplay(encounter_id: StringName) -> bool:
+	if (
+		not _initialized
+		or encounter_id.is_empty()
+		or not _encounter_freeze_owner_id.is_empty()
+		or _world_simulation_gate == null
+		or _world_simulation_gate.freeze_owner_id() != encounter_id
+	):
+		return false
+	_encounter_freeze_owner_id = encounter_id
+	player_body.quarantine_current_movement_input()
+	return true
+
+
+func thaw_world_gameplay(encounter_id: StringName) -> bool:
+	if (
+		encounter_id.is_empty()
+		or _encounter_freeze_owner_id != encounter_id
+		or _world_simulation_gate == null
+		or _world_simulation_gate.freeze_owner_id() != encounter_id
+	):
+		return false
+	_encounter_freeze_owner_id = &""
+	player_body.quarantine_current_movement_input()
+	return true
 
 
 func suspend_for_session_swap() -> bool:
@@ -250,7 +290,7 @@ func complete_exit_request(_result: OldPineMapHandoffResult) -> void:
 
 
 func _on_passage_zone_body_entered(body: Node2D) -> void:
-	if body != player_body:
+	if body != player_body or not _world_gameplay_is_open():
 		return
 	var location: WorldLocationState = resolve_location(
 		OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID,
@@ -270,7 +310,12 @@ func _on_south_exit_body_entered(body: Node2D) -> void:
 		or not player_body.player_controlled
 		or _session_owner.is_transitioning()
 		or _session_owner.active_map_id() != map_id()
+		or not _world_gameplay_is_open()
 	):
 		return
 	_exit_request_pending = true
 	map_exit_requested.emit(OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID)
+
+
+func _world_gameplay_is_open() -> bool:
+	return _world_simulation_gate == null or _world_simulation_gate.is_open()

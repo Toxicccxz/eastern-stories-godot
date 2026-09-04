@@ -38,6 +38,8 @@ var _combat_random: CombatRandomSource
 var _world_interaction_random: WorldInteractionRandomSource
 var _item_instance_scope: StringName = &""
 var _item_id_allocator: SessionItemIdAllocator
+var _world_simulation_gate: WorldSimulationGate
+var _combat_encounter_coordinator: CombatEncounterCoordinator
 var _resident_maps: Dictionary[StringName, OldPineResidentMapController] = {}
 var _active_map_id: StringName = &""
 var _initialized: bool = false
@@ -82,6 +84,11 @@ func initialize_session() -> bool:
 			return false
 	elif not _initialize_authorities():
 		return false
+	_world_simulation_gate = WorldSimulationGate.new()
+	_combat_encounter_coordinator = CombatEncounterCoordinator.new(
+		self,
+		_world_simulation_gate,
+	)
 	var cave: OldPineResidentMapController = (
 		CAVE_SCENE.instantiate() as OldPineResidentMapController
 	)
@@ -216,6 +223,82 @@ func item_id_allocator() -> SessionItemIdAllocator:
 	return _item_id_allocator
 
 
+func world_simulation_gate() -> WorldSimulationGate:
+	return _world_simulation_gate
+
+
+func combat_encounter_coordinator() -> CombatEncounterCoordinator:
+	return _combat_encounter_coordinator
+
+
+func resolve_encounter_binding(
+	character_id: StringName,
+) -> CombatEncounterAuthorityBinding:
+	if not _initialized or character_id.is_empty():
+		return null
+	if _player != null and character_id == _player.character_id:
+		return CombatEncounterAuthorityBinding.new(
+			character_id,
+			_player.state,
+			_player.relationship,
+			_player.busy,
+			_player.armor,
+		)
+	var npc: NpcRuntimeState = _find_resident_npc(character_id)
+	if npc == null:
+		return null
+	return CombatEncounterAuthorityBinding.new(
+		character_id,
+		npc.character_state,
+		npc.relationship,
+		npc.busy,
+		npc.armor,
+	)
+
+
+func resolve_encounter_location(character_id: StringName) -> WorldLocationState:
+	return _location_for_character(character_id)
+
+
+func encounter_participant_is_available(character_id: StringName) -> bool:
+	if _player != null and character_id == _player.character_id:
+		return (
+			_player.exists_in_world
+			and _player.combat_available
+			and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		)
+	var npc: NpcRuntimeState = _find_resident_npc(character_id)
+	return (
+		npc != null
+		and npc.exists_in_map
+		and npc.combat_available
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	)
+
+
+func freeze_world_for_encounter(encounter_id: StringName) -> bool:
+	var map: OldPineResidentMapController = active_map()
+	return (
+		_initialized
+		and not _transitioning
+		and _world_simulation_gate != null
+		and _world_simulation_gate.freeze_owner_id() == encounter_id
+		and map != null
+		and map.freeze_world_gameplay(encounter_id)
+	)
+
+
+func thaw_world_after_encounter(encounter_id: StringName) -> bool:
+	var map: OldPineResidentMapController = active_map()
+	return (
+		_initialized
+		and _world_simulation_gate != null
+		and _world_simulation_gate.freeze_owner_id() == encounter_id
+		and map != null
+		and map.thaw_world_gameplay(encounter_id)
+	)
+
+
 func active_map_id() -> StringName:
 	return _active_map_id
 
@@ -287,6 +370,9 @@ func request_passage_south_exit() -> OldPineMapHandoffResult:
 		OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID
 	)
 	var result: OldPineMapHandoffResult = OldPineMapHandoffResult.new()
+	if _world_simulation_gate != null and _world_simulation_gate.is_frozen():
+		result._outcome = OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN
+		return result
 	if portal == null:
 		return result
 	var source_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
@@ -353,10 +439,15 @@ func _handoff_to_impl(
 	if (
 		not _initialized
 		or _transitioning
+		or (_world_simulation_gate != null and _world_simulation_gate.is_frozen())
 		or _player == null
 		or active_map_slot == null
 	):
-		result._outcome = OldPineMapHandoffResult.Outcome.SESSION_NOT_READY
+		result._outcome = (
+			OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN
+			if _world_simulation_gate != null and _world_simulation_gate.is_frozen()
+			else OldPineMapHandoffResult.Outcome.SESSION_NOT_READY
+		)
 		return result
 	if (
 		destination_map_id.is_empty()
@@ -690,6 +781,7 @@ func _register_and_configure_map(map: OldPineResidentMapController) -> bool:
 		_combat_random,
 		_world_interaction_random,
 		_item_id_allocator,
+		_world_simulation_gate,
 	):
 		return false
 	_resident_maps[map.map_id()] = map
