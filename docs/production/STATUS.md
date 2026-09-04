@@ -21,7 +21,11 @@ established the source/current-system evidence. The
 [CXR1 Active Semi-Auto V1 design](../migration/PHASE_COMBAT_ACTIVE_SEMI_AUTO_V1_DESIGN.md)
 is now complete and locks automatic ordinary combat plus player-triggered tactical intervention,
 with a dedicated encounter, frozen world, one-slot action queue, typed events, and replaceable
-battle presentation. **CXR2 — CombatEncounter Core is ready to begin, but has not started.**
+battle presentation. The typed, Node-free
+[CXR2 CombatEncounter Core](../migration/PHASE_COMBAT_CXR2_ENCOUNTER_CORE.md) is complete: it adds
+semantic triggers, exact authority bindings, open participant sides, directed hostility, explicit
+targets, monotonic lifecycle/results, and typed structural events without integrating runtime
+combat. **CXR3 — World/Encounter lifecycle integration is ready to begin.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -83,7 +87,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR2-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
+- CXR3-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;

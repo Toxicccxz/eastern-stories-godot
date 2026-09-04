@@ -43,14 +43,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md) is complete.
    The [CXR1 Active Semi-Auto V1 design](../migration/PHASE_COMBAT_ACTIVE_SEMI_AUTO_V1_DESIGN.md)
    is complete and selects ES2 Active Semi-Auto: ordinary combat/defense are automatic, while the
-   player triggers tactical actions, target changes, and flee. CXR2 is ready to begin.
+   player triggers tactical actions, target changes, and flee. The typed, Node-free
+   [CXR2 CombatEncounter Core](../migration/PHASE_COMBAT_CXR2_ENCOUNTER_CORE.md) is complete, and CXR3
+   is ready to begin.
 
    | Slice | Status | Goal |
    |---|---|---|
    | CXR0 | Complete | Combat redesign analysis. |
    | CXR1 | Active Semi-Auto V1 Design Complete | Locked encounter, scheduling, queue, event, presentation, Save and lifecycle contracts. |
-   | CXR2 | Ready to begin | Typed CombatEncounter core without BattleScene ownership. |
-   | CXR3 | Planned | World/battle encounter lifecycle and frozen-world transition. |
+   | CXR2 | Complete | Typed CombatEncounter core without BattleScene ownership. |
+   | CXR3 | Ready to begin | World/battle encounter lifecycle and frozen-world transition. |
    | CXR4 | Planned | Encounter-local active semi-auto scheduler without ATB. |
    | CXR5 | Planned | Tactical actions and one-slot queue. |
    | CXR6 | Planned | Battle presentation, telegraphs, feedback and combat log. |
