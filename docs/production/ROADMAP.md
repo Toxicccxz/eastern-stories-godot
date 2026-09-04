@@ -19,21 +19,51 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    and focus/input boundaries are fully integrated at `3a1f993a4258ed246ce820c7a4dc8d2563994aaf`
    through PR #5, with all four post-merge main CI jobs green.
 
-4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Implementation/Formal Audit Complete; pending integration**
+4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Complete / Fully Integrated**
 
    Shared responsive/safe-area presentation and sensor landscape, touch pad/Android Back,
    lifecycle freeze/explicit Resume and manual-save-only durability have passed A/B/C and
-   the [final major-phase audit](../migration/PHASE_10C2_FINAL_AUDIT.md), on
-   `phase/10c2-mobile-input-layout-lifecycle`. The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
-   records consumer boundaries and hardware gaps. Final PR/CI/authorized merge/post-merge CI
-   remain required before calling the major phase fully integrated.
+   the [final major-phase audit](../migration/PHASE_10C2_FINAL_AUDIT.md). PR #6 and resident-map
+   contact stabilization PR #7 are integrated at
+   `ae381bf3f3e5f4a28a417295eea680d023cc428c`, with all four post-merge jobs green in
+   [workflow 33714114002](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33714114002).
+   The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries and
+   remaining qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — NOT STARTED**
+5. **Phase 10D — Technical Demo Release Gate — PARKED / FROZEN**
 
-   Begin only after Phase 10C2 fully integrates. Establish final technical gates, physical
-   Android multitouch/ARM64/production Vulkan and iPhone/iPad runtime qualification, permanent
-   identity/signing policy, and release-oriented packaging/store preparation. Emulator proof
-   is not hardware or store certification.
+   Phase 10D1 bounded physical Android qualification and Phase 10D2 packaging passed. Phase 10D3
+   is **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
+   unsuitable combat experience. Phase 10D Final Audit was not started. Existing physical evidence
+   is conditionally reusable only for unchanged platform interaction paths; existing artifacts and
+   hashes remain exact-source historical evidence, not post-redesign release candidates.
 
-After Phase 10D, perform a new planning review before resuming large-scale authored content. This
-roadmap intentionally avoids speculative phase expansion.
+6. **Combat Experience Redesign — Active major milestone**
+
+   The [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md) is complete.
+   The [CXR1 Active Semi-Auto V1 design](../migration/PHASE_COMBAT_ACTIVE_SEMI_AUTO_V1_DESIGN.md)
+   is complete and selects ES2 Active Semi-Auto: ordinary combat/defense are automatic, while the
+   player triggers tactical actions, target changes, and flee. CXR2 is ready to begin.
+
+   | Slice | Status | Goal |
+   |---|---|---|
+   | CXR0 | Complete | Combat redesign analysis. |
+   | CXR1 | Active Semi-Auto V1 Design Complete | Locked encounter, scheduling, queue, event, presentation, Save and lifecycle contracts. |
+   | CXR2 | Ready to begin | Typed CombatEncounter core without BattleScene ownership. |
+   | CXR3 | Planned | World/battle encounter lifecycle and frozen-world transition. |
+   | CXR4 | Planned | Encounter-local active semi-auto scheduler without ATB. |
+   | CXR5 | Planned | Tactical actions and one-slot queue. |
+   | CXR6 | Planned | Battle presentation, telegraphs, feedback and combat log. |
+   | CXR7 | Planned | Multi-opponent targeting and encounter-mode completeness. |
+   | CXR8 | Planned | Resolution/death/corpse/loot/Save/lifecycle integration. |
+   | CXR9 | Planned | Old Pine playability and narrow proven balance stabilization. |
+   | CXR10 | Planned | Final audit, PR, CI, merge and post-main verification. |
+
+   After CXR10 reaches green `main`, create a new Technical Demo release-validation branch and
+   candidate, refresh packaging evidence, then resume or recreate Phase 10D3 before the Phase 10D
+   Final Audit. Whether to reuse the historical 10D branch remains deliberately undecided; retaining
+   it as archived evidence and creating a fresh branch from latest green `main` is preferred.
+
+After the parked release gate is eventually completed, perform a new planning review before
+resuming large-scale authored content. This roadmap intentionally avoids speculative phase
+expansion.
