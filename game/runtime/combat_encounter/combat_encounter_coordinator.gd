@@ -6,6 +6,7 @@ const ENCOUNTER_ID_PREFIX: String = "encounter:"
 var _session: OldPineWorldSessionController
 var _world_gate: WorldSimulationGate
 var _active_encounter: CombatEncounter
+var _active_scheduler: CombatEncounterScheduler
 
 
 func _init(
@@ -26,6 +27,23 @@ func has_active_encounter() -> bool:
 
 func active_encounter() -> CombatEncounter:
 	return _active_encounter
+
+
+func active_scheduler() -> CombatEncounterScheduler:
+	return _active_scheduler
+
+
+func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
+	if _active_encounter == null or _active_scheduler == null or not is_valid():
+		return CombatSchedulerAdvanceResult.new()
+	return _active_scheduler.advance(
+		delta_seconds,
+		_session.application_gameplay_allows_encounter_advance(),
+		_world_gate.freeze_owner_id(),
+		_session.encounter_combat_bindings(_active_encounter),
+		_session.combat_random_source(),
+		_session.encounter_skill_effect_registry(),
+	)
 
 
 func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
@@ -87,6 +105,17 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			CombatEncounterStartResult.Outcome.ENCOUNTER_INVALID,
 			trigger,
 		)
+	var scheduler := CombatEncounterScheduler.new(
+		encounter,
+		CombatSchedulerConfig.new(
+			_session.encounter_opportunity_interval_seconds()
+		),
+	)
+	if not scheduler.is_valid():
+		return _start_failure(
+			CombatEncounterStartResult.Outcome.SCHEDULER_PREPARATION_FAILED,
+			trigger,
+		)
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -99,6 +128,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			trigger,
 		)
 	_active_encounter = encounter
+	_active_scheduler = scheduler
 	return CombatEncounterStartResult.new(
 		CombatEncounterStartResult.Outcome.STARTED,
 		trigger.trigger_id,
@@ -141,6 +171,7 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 			encounter_id,
 			result,
 		)
+	_active_scheduler = null
 	_active_encounter = null
 	if not _world_gate.release(encounter_id):
 		return CombatEncounterCompletionResult.new(

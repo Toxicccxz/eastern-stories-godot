@@ -68,6 +68,7 @@ static func execute_opportunity(
 	participants: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	required_target_id: StringName = &"",
 ) -> CombatSliceOpportunityResult:
 	var result: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
 	if actor != null:
@@ -108,10 +109,18 @@ static func execute_opportunity(
 	var availability: Array[CombatOpponentAvailabilityFacts] = (
 		CombatSliceProjectionBuilder.build_opponent_availability(actor, participants)
 	)
-	var selection: CombatOpponentSelectionResult = CombatOpponentSelectionService.prepare(
-		actor.relationship,
-		availability,
-		random_source,
+	var selection: CombatOpponentSelectionResult = (
+		CombatOpponentSelectionService.prepare(
+			actor.relationship,
+			availability,
+			random_source,
+		)
+		if required_target_id.is_empty()
+		else CombatOpponentSelectionService.prepare_specific(
+			actor.relationship,
+			availability,
+			required_target_id,
+		)
 	)
 	result._opponent_selection_result = selection.duplicate_snapshot()
 	if selection.outcome == CombatOpponentSelectionResult.Outcome.NO_OPPONENT:

@@ -592,6 +592,38 @@ func combat_random_source() -> CombatRandomSource:
 	return _combat_random
 
 
+func encounter_combat_bindings(
+	encounter: CombatEncounter,
+) -> Array[CombatSliceCharacterBinding]:
+	var result: Array[CombatSliceCharacterBinding] = []
+	if not _initialized or encounter == null or not encounter.is_valid():
+		return result
+	var current: Array[CombatSliceCharacterBinding] = _build_participants()
+	for participant: CombatParticipant in encounter.participants():
+		var binding: CombatSliceCharacterBinding = _binding_for(
+			current,
+			participant.participant_id,
+		)
+		if (
+			binding == null
+			or binding.state != participant.binding.state
+			or binding.relationship != participant.binding.relationship
+			or binding.busy != participant.binding.busy
+			or binding.armor != participant.binding.armor
+		):
+			return []
+		result.append(binding)
+	return result
+
+
+func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
+	return _effects
+
+
+func encounter_opportunity_interval_seconds() -> float:
+	return 0.0 if opportunity_timer == null else opportunity_timer.wait_time
+
+
 func world_interaction_random_source() -> WorldInteractionRandomSource:
 	return _world_interaction_random
 

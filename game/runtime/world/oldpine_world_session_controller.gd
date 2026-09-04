@@ -58,6 +58,11 @@ func _ready() -> void:
 	initialize_session()
 
 
+func _process(delta: float) -> void:
+	if _initialized and _combat_encounter_coordinator != null:
+		_combat_encounter_coordinator.advance_scheduler(delta)
+
+
 func _exit_tree() -> void:
 	if _session_swap_reparenting:
 		return
@@ -229,6 +234,34 @@ func world_simulation_gate() -> WorldSimulationGate:
 
 func combat_encounter_coordinator() -> CombatEncounterCoordinator:
 	return _combat_encounter_coordinator
+
+
+func encounter_combat_bindings(
+	encounter: CombatEncounter,
+) -> Array[CombatSliceCharacterBinding]:
+	var map: OldPineResidentMapController = active_map()
+	return [] if map == null else map.encounter_combat_bindings(encounter)
+
+
+func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
+	var map: OldPineResidentMapController = active_map()
+	return null if map == null else map.encounter_skill_effect_registry()
+
+
+func encounter_opportunity_interval_seconds() -> float:
+	var map: OldPineResidentMapController = active_map()
+	return 0.0 if map == null else map.encounter_opportunity_interval_seconds()
+
+
+func application_gameplay_allows_encounter_advance() -> bool:
+	var tree: SceneTree = get_tree() if is_inside_tree() else null
+	return (
+		_initialized
+		and not _session_swap_suspended
+		and process_mode != Node.PROCESS_MODE_DISABLED
+		and tree != null
+		and not tree.paused
+	)
 
 
 func resolve_encounter_binding(

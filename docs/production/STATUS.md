@@ -28,8 +28,10 @@ targets, monotonic lifecycle/results, and typed structural events without integr
 combat. The [CXR3 World/Encounter Lifecycle Foundation](../migration/PHASE_COMBAT_CXR3_WORLD_ENCOUNTER_LIFECYCLE.md)
 is complete: the current Session owns one encounter coordinator and encounter-ID-owned world gate,
 with exact live authority binding, transactional start/end, world/cadence/transition gating, and
-fresh-input quarantine. Normal player combat has not been cut over. **CXR4 — Scheduler is ready to
-begin.**
+fresh-input quarantine. The [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
+is complete: the Session-owned encounter now advances deterministic ordinary opportunities through
+the existing combat core while its resident world and legacy cadence remain frozen. Normal player
+combat has not been cut over. **CXR5 — Tactical Actions is ready to begin.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -91,7 +93,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR4-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
+- CXR5-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;

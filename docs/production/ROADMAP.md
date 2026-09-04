@@ -47,8 +47,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    [CXR2 CombatEncounter Core](../migration/PHASE_COMBAT_CXR2_ENCOUNTER_CORE.md) is complete. The
    [CXR3 World/Encounter Lifecycle Foundation](../migration/PHASE_COMBAT_CXR3_WORLD_ENCOUNTER_LIFECYCLE.md)
    is complete with one Session-owned coordinator, exact live authority binding, and an explicit
-   encounter-owned frozen-world gate. Normal production combat remains on the playable legacy slice;
-   CXR4 is ready to begin.
+   encounter-owned frozen-world gate. The
+   [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
+   is complete with deterministic logical time, stable participant opportunities, exact-authority
+   ordinary combat, typed events, and world-frozen/application-pause separation. Normal production
+   combat remains on the playable legacy slice; CXR5 is ready to begin.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -56,8 +59,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR1 | Active Semi-Auto V1 Design Complete | Locked encounter, scheduling, queue, event, presentation, Save and lifecycle contracts. |
    | CXR2 | Complete | Typed CombatEncounter core without BattleScene ownership. |
    | CXR3 | Complete | Session-owned encounter lifecycle and frozen-world transition foundation. |
-   | CXR4 | Ready to begin | Encounter-local active semi-auto scheduler without ATB. |
-   | CXR5 | Planned | Tactical actions and one-slot queue. |
+   | CXR4 | Active Semi-Auto Scheduler Complete | Encounter-local deterministic ordinary combat without ATB. |
+   | CXR5 | Ready to begin | Tactical actions and one-slot queue. |
    | CXR6 | Planned | Battle presentation, telegraphs, feedback and combat log. |
    | CXR7 | Planned | Multi-opponent targeting and encounter-mode completeness. |
    | CXR8 | Planned | Resolution/death/corpse/loot/Save/lifecycle integration. |
