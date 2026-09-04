@@ -16,7 +16,8 @@ production world-runtime defect and merged at `ae381bf3f3e5f4a28a417295eea680d02
 passed Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation
 on that exact main commit.
 
-**PHASE 10C2 — FULLY INTEGRATED. PHASE 10D — SAFE TO BEGIN.**
+**PHASE 10C2 — FULLY INTEGRATED. PHASE 10D — PARKED / FROZEN PENDING COMBAT
+EXPERIENCE REDESIGN.**
 Phase 10D's [Technical Demo analysis](../migration/PHASE_10D_TECHNICAL_DEMO_RELEASE_GATE_ANALYSIS.md)
 is complete. [10D1 physical qualification](../migration/PHASE_10D1_PHYSICAL_DEVICE_QUALIFICATION.md)
 has **PASSED its owner-revised, bounded private/internal Technical Demo gate**. The frozen
@@ -35,7 +36,20 @@ artifact SHA-256 values, Android package/version/ABI/certificate and accompanyin
 The provisional identity and private/internal distribution boundary remain unchanged.
 
 **PHASE 10D1 — PHYSICAL ANDROID QUALIFICATION PASSED. PHASE 10D2 — TECHNICAL DEMO
-PACKAGING PASSED. PHASE 10D3 — READY TO BEGIN.**
+PACKAGING PASSED. PHASE 10D3 — BLOCKED / SUSPENDED. PHASE 10D FINAL AUDIT — NOT
+STARTED.**
+
+A normal-player 10D3 acceptance attempt established that the existing combat experience is not
+suitable enough to continue Technical Demo acceptance. Phase 10D3 never passed, and the old
+candidate must not be represented as an accepted Technical Demo. The owner approved a Combat
+Experience Redesign before release-gate work resumes.
+
+The 10D1 physical Android record remains usable historical evidence for the platform interaction
+layer; it does not qualify a future battle presentation. Requalify only affected physical paths if
+the redesign materially changes mobile battle input, lifecycle behavior, renderer, or
+SafeArea/layout. The 10D2 artifacts and hashes remain valid evidence for their exact source commit,
+but become historical-only after production combat changes and must not be reused as redesigned-game
+release candidates.
 This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
@@ -97,8 +111,11 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
 - iOS simulator/device qualification; broad Android/tablet/store certification and
   portrait/split-screen gameplay are not qualified;
+- Combat Experience Redesign analysis, implementation, combat validation and integration before
+  Technical Demo release-gate work resumes;
 - Phase 10D3 normal-player critical journey, Save/process-death/Continue, representative
-  Save blocker and final Technical Demo candidate runtime/log acceptance;
+  Save blocker and final Technical Demo candidate runtime/log acceptance against a newly built
+  post-redesign candidate; Phase 10D3 remains blocked/suspended and never passed;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
 - permanent Android/iOS signing, store metadata, installer/package policy, Steam/Play/App Store/
   TestFlight upload, and final release gates.

@@ -1,7 +1,13 @@
 # Phase 10D2 — Technical Demo Packaging / Identity Boundary
 
-Status: **TECHNICAL DEMO PACKAGING PASSED**. Phase 10D3 is ready to begin but has
-not started.
+Status: **TECHNICAL DEMO PACKAGING PASSED** for the exact source commit and artifacts recorded
+below. Phase 10D3 is now **BLOCKED / SUSPENDED** pending Combat Experience Redesign and never
+passed.
+
+Parking note: the existing artifacts and hashes remain valid historical evidence for their exact
+source commit. Once production combat code changes, they are no longer current release candidates
+and must not be reused for the redesigned game. A future acceptance cycle requires a newly built
+candidate and refreshed packaging evidence.
 
 ## Scope
 
@@ -130,7 +136,7 @@ in-game legal screen or content embedded into the APK.
 - licensing/provenance resolution;
 - broad device/store certification and byte-reproducible build claims.
 
-## 10D3 handoff
+## Historical 10D3 handoff
 
 Phase 10D3 owns the full normal-player critical journey, combat/loot/equipment/Vine
 coverage, manual Save and unsaved-process-death-Continue behavior, a representative Save
@@ -138,6 +144,5 @@ blocker, final candidate runtime/log acceptance and the Windows pristine-ZIP acc
 defined by the Technical Demo gate. Extended soak/profiling remains risk-triggered under
 the owner-approved 10D1 boundary.
 
-**PHASE 10D2 — TECHNICAL DEMO PACKAGING PASSED.**
-
-**PHASE 10D3 — READY TO BEGIN.**
+**PHASE 10D2 — TECHNICAL DEMO PACKAGING PASSED. PHASE 10D3 — BLOCKED / SUSPENDED;
+ACCEPTANCE NEVER PASSED.**

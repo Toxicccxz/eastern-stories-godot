@@ -4,6 +4,12 @@ Status: **PHYSICAL ANDROID QUALIFICATION PASSED** for the revised, bounded priva
 Technical Demo gate described below. This is not general Android support, tablet/store
 certification, long-duration certification, public-release clearance, or Phase 10D completion.
 
+Parking note: Phase 10D is now frozen pending Combat Experience Redesign. This qualification
+remains historical/conditionally reusable evidence for the tested platform interaction layer, but
+does not qualify a future redesigned battle presentation. If that redesign materially changes
+mobile battle input, lifecycle behavior, renderer, or SafeArea/layout, repeat only the affected
+physical qualification rather than automatically invalidating all 10D1 evidence.
+
 ## Owner-approved scope revision
 
 The original Phase 10D1 proposal deliberately combined physical Android interaction proof
@@ -429,6 +435,7 @@ This pass is bounded to the tested private/internal Technical Demo interaction l
 the named ARM64 configurations. Evidence covers production renderer startup, real
 touch/multitouch, supported landscape/SafeArea, Android Back and basic lifecycle behavior.
 It is not general Android, tablet, store, final gameplay/durability or long-duration
-certification. **PHASE 10D2 — READY TO BEGIN. PHASE 10D3 — NOT STARTED.** Windows
-pristine-ZIP and the deferred Technical Demo acceptance journey remain 10D3 work; iOS
-remains integrated/unsigned-build-validated but iPhone/iPad runtime hardware-gated.
+certification. **PHASE 10D2 — TECHNICAL DEMO PACKAGING PASSED. PHASE 10D3 — BLOCKED /
+SUSPENDED; ACCEPTANCE NEVER PASSED.** Windows pristine-ZIP and the deferred Technical
+Demo acceptance journey require a new post-redesign candidate; iOS remains
+integrated/unsigned-build-validated but iPhone/iPad runtime hardware-gated.

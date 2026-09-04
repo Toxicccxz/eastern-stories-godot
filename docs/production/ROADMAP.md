@@ -30,7 +30,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries
    and the still-open hardware qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — IN PROGRESS / 10D1 + 10D2 PASSED**
+5. **Phase 10D — Technical Demo Release Gate — PARKED / FROZEN**
 
    Analyze the current Old Pine slice's installable Technical Demo boundary: real hardware,
    production renderer, critical-journey durability, packaging and release-process gates.
@@ -52,11 +52,29 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Android technical identity and ephemeral certificate, plus accompanying notice/provenance
    files. No build-tool, package-ID, version, permanent-signing or store decision changed.
 
-   **PHASE 10D3 — READY TO BEGIN.** Full normal-player critical journey,
-   Save/unsaved-process-death/Continue, a representative Save blocker, Windows pristine-ZIP
-   acceptance and final candidate runtime/log acceptance belong to 10D3. Long soak and
-   detailed performance, memory and thermal profiling are risk-triggered unless normal use
-   exposes degradation. No public distribution or permanent signing is authorized.
+   **PHASE 10D1 — PHYSICAL ANDROID QUALIFICATION PASSED. PHASE 10D2 — TECHNICAL DEMO
+   PACKAGING PASSED. PHASE 10D3 — BLOCKED / SUSPENDED. PHASE 10D FINAL AUDIT — NOT
+   STARTED.** A normal-player acceptance attempt exposed that the existing combat experience is
+   not suitable enough to continue release acceptance. Phase 10D3 never passed. The owner approved
+   a Combat Experience Redesign before 10D3 resumes.
 
-After Phase 10D, perform a new planning review before resuming large-scale authored content. This
-roadmap intentionally avoids speculative phase expansion.
+   The 10D1 physical evidence remains conditionally reusable for the platform interaction layer,
+   but does not qualify a redesigned battle presentation. Repeat only affected device evidence if
+   mobile battle input, lifecycle behavior, renderer, or SafeArea/layout materially changes. The
+   10D2 artifacts and hashes remain valid historical evidence for their exact source commit; after
+   production combat changes they are not current release candidates and must not be reused.
+
+   Intended future flow:
+
+   `Combat redesign -> implementation -> combat validation -> merge to main -> new Technical Demo
+   candidate -> refreshed packaging evidence -> resumed/recreated 10D3 acceptance -> Phase 10D
+   Final Audit -> final PR/CI/merge`.
+
+   Whether to reuse the old 10D branch is deliberately undecided. The preferred approach is to
+   retain it as archived evidence and create a fresh release-validation branch from latest green
+   `main` after combat redesign integration. Long soak and detailed performance, memory and thermal
+   profiling remain risk-triggered. No public distribution or permanent signing is authorized.
+
+After the parked release gate is eventually completed, perform a new planning review before
+resuming large-scale authored content. This roadmap intentionally avoids speculative phase
+expansion.

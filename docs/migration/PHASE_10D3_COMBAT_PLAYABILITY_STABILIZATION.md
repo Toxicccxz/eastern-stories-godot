@@ -1,8 +1,21 @@
 # Phase 10D3 — Fresh New Game Combat Playability Stabilization
 
-Status: **IMPLEMENTATION AND AUTOMATED VALIDATION COMPLETE; REBUILT WINDOWS
-CANDIDATE AND NORMAL-PLAYER COMBAT/LOOT REVALIDATION PENDING.** Phase 10D3
-acceptance remains blocked until that player-visible path passes.
+Status: **PARKED / FROZEN. PHASE 10D3 BLOCKED / SUSPENDED; ACCEPTANCE NEVER PASSED.**
+The implementation and automated validation recorded below remain preserved on the historical
+Phase 10D branch, but release acceptance will not continue against this combat presentation.
+
+## Parking decision
+
+A normal-player Technical Demo acceptance attempt exposed that the existing combat experience is
+not suitable enough to continue release acceptance. The owner approved a Combat Experience
+Redesign before 10D3 resumes. This document records completed historical diagnosis and branch-local
+stabilization; it is not evidence that the old candidate or Phase 10D3 was accepted.
+
+After the redesign is implemented, validated and integrated into `main`, build a new Technical Demo
+candidate, refresh packaging evidence, and resume or recreate 10D3 acceptance before the Phase 10D
+Final Audit. Prefer a fresh release-validation branch from the then-current green `main`; whether to
+reuse the old 10D branch remains deliberately undecided. The old branch stays preserved as archived
+evidence.
 
 ## Blocker and diagnosis
 
@@ -110,4 +123,3 @@ equipment binding, cadence, death/corpse and loot paths.
 - a difficulty system, tutorial, new starter enemy or new training/progression UX;
 - changes to authored NPCs, aggression or encounter composition;
 - Phase 10D3 final acceptance and Final Audit.
-
