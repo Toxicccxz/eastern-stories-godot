@@ -21,6 +21,10 @@ var _skip_reason: int
 var _actor_id: StringName
 var _target_id: StringName
 var _resolution: CombatSliceOpportunityResult
+var _progression_order: int
+
+var progression_order: int:
+	get: return _progression_order
 
 var sequence: int:
 	get: return _sequence
@@ -50,7 +54,9 @@ func _init(
 	p_actor_id: StringName = &"",
 	p_target_id: StringName = &"",
 	p_resolution: CombatSliceOpportunityResult = null,
+	p_progression_order: int = 0,
 ) -> void:
+	_progression_order = p_progression_order
 	_sequence = p_sequence
 	_logical_cycle = p_logical_cycle
 	_logical_time_seconds = p_logical_time_seconds
@@ -95,4 +101,5 @@ func duplicate_snapshot() -> CombatSchedulerEvent:
 		_actor_id,
 		_target_id,
 		_resolution,
+		_progression_order,
 	)

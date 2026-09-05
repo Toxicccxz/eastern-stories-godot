@@ -31,7 +31,11 @@ with exact live authority binding, transactional start/end, world/cadence/transi
 fresh-input quarantine. The [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
 is complete: the Session-owned encounter now advances deterministic ordinary opportunities through
 the existing combat core while its resident world and legacy cadence remain frozen. Normal player
-combat has not been cut over. **CXR5 — Tactical Actions is ready to begin.**
+combat has not been cut over. The
+[CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
+is complete: typed player requests, split validation, exact-authority execution at a deterministic
+command boundary, busy-aware replacement/cancellation, and ordered events. Production action
+registration remains empty pending authored technique migration. **CXR6 is ready to begin.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -93,7 +97,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR5-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
+- CXR6-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;

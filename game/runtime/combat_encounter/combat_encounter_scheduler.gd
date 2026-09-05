@@ -9,6 +9,8 @@ var _accumulated_input_seconds: float = 0.0
 var _logical_cycle: int = 0
 var _next_event_sequence: int = 1
 var _events: Array[CombatSchedulerEvent] = []
+var _progression_order := CombatProgressionOrder.new()
+var _tactical: CombatTacticalRuntime
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -35,6 +37,20 @@ func _init(
 ) -> void:
 	_encounter = p_encounter
 	_config = p_config
+
+
+## Configured once before the first advance. Default registry is deliberately empty.
+func configure_player_tactics(player_id: StringName, registry: CombatTacticalActionRegistry) -> bool:
+	if _tactical != null or _accumulated_input_seconds != 0.0 or registry == null:
+		return false
+	if _encounter == null or _encounter.participant_for(player_id) == null:
+		return false
+	_tactical = CombatTacticalRuntime.new(_encounter, player_id, registry, _progression_order)
+	return true
+
+
+func player_tactics() -> CombatTacticalRuntime:
+	return _tactical
 
 
 func is_valid() -> bool:
@@ -83,6 +99,8 @@ func advance(
 		return CombatSchedulerAdvanceResult.new(
 			CombatSchedulerAdvanceResult.Outcome.AUTHORITY_INVALID
 		)
+	if _tactical != null:
+		_tactical.process_command_boundary(bindings, random_source)
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(
 		(
@@ -262,6 +280,8 @@ func _skipped_event(
 		reason,
 		actor_id,
 		target_id,
+		null,
+		_progression_order.take(),
 	)
 
 
@@ -279,4 +299,5 @@ func _resolved_event(
 		actor_id,
 		target_id,
 		resolution,
+		_progression_order.take(),
 	)

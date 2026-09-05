@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://tests/runtime/cxr5_runtime_harness.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/world/oldpine/oldpine_world_session.tscn" id="2"]
+
+[node name="Cxr5RuntimeHarness" type="Node"]
+script = ExtResource("1")
+
+[node name="OldPineWorldSession" parent="." instance=ExtResource("2")]
+
+[node name="ProofOverlay" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="Panel" type="PanelContainer" parent="ProofOverlay"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1100.0
+offset_bottom = 180.0
+
+[node name="Margin" type="MarginContainer" parent="ProofOverlay/Panel"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Status" type="Label" parent="ProofOverlay/Panel/Margin"]
+text = "CXR5 QA"

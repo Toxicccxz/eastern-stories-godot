@@ -51,7 +51,10 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
    is complete with deterministic logical time, stable participant opportunities, exact-authority
    ordinary combat, typed events, and world-frozen/application-pause separation. Normal production
-   combat remains on the playable legacy slice; CXR5 is ready to begin.
+   combat remains on the playable legacy slice. The
+   [CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
+   is complete with typed requests, one busy-aware slot, split validation, exact-authority policies,
+   and deterministic tactical/ordinary ordering. No production technique was invented; CXR6 is ready.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -60,8 +63,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR2 | Complete | Typed CombatEncounter core without BattleScene ownership. |
    | CXR3 | Complete | Session-owned encounter lifecycle and frozen-world transition foundation. |
    | CXR4 | Active Semi-Auto Scheduler Complete | Encounter-local deterministic ordinary combat without ATB. |
-   | CXR5 | Ready to begin | Tactical actions and one-slot queue. |
-   | CXR6 | Planned | Battle presentation, telegraphs, feedback and combat log. |
+   | CXR5 | Complete | Tactical requests, split validation, one-slot queue and ordered execution. |
+   | CXR6 | Ready to begin | Battle presentation, telegraphs, feedback and combat log. |
    | CXR7 | Planned | Multi-opponent targeting and encounter-mode completeness. |
    | CXR8 | Planned | Resolution/death/corpse/loot/Save/lifecycle integration. |
    | CXR9 | Planned | Old Pine playability and narrow proven balance stabilization. |

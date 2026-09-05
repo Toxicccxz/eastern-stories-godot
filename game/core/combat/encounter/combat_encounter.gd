@@ -10,6 +10,7 @@ var _targets: Array[CombatTargetAssignment] = []
 var _events: Array[CombatEncounterEvent] = []
 var _terminal_result: CombatEncounterResult
 var _next_event_sequence: int = 1
+var _queued_player_action: CombatQueuedAction
 
 var encounter_id: StringName:
 	get:
@@ -54,6 +55,47 @@ func is_valid() -> bool:
 		and _targets_are_valid()
 		and _result_matches_phase()
 		and _events_are_valid()
+		and _queue_is_valid()
+	)
+
+
+func queued_player_action() -> CombatQueuedAction:
+	return (
+		null if _queued_player_action == null
+		else _queued_player_action.duplicate_snapshot()
+	)
+
+
+func replace_queued_player_action(action: CombatQueuedAction) -> bool:
+	if (
+		_phase != CombatEncounterLifecycle.Value.ACTIVE
+		or action == null or not action.is_valid()
+		or action.request.encounter_id != _encounter_id
+		or _participant_internal(action.request.actor_id) == null
+		or (not action.resolved_target_id.is_empty()
+			and _participant_internal(action.resolved_target_id) == null)
+	):
+		return false
+	_queued_player_action = action.duplicate_snapshot()
+	return true
+
+
+func clear_queued_player_action(expected_request_id: StringName) -> bool:
+	if (
+		_queued_player_action == null
+		or _queued_player_action.request.request_id != expected_request_id
+	):
+		return false
+	_queued_player_action = null
+	return true
+
+
+func _queue_is_valid() -> bool:
+	return _queued_player_action == null or (
+		_phase == CombatEncounterLifecycle.Value.ACTIVE
+		and _queued_player_action.is_valid()
+		and _queued_player_action.request.encounter_id == _encounter_id
+		and _participant_internal(_queued_player_action.request.actor_id) != null
 	)
 
 
@@ -207,6 +249,7 @@ func begin_resolving() -> bool:
 	if not event.is_valid():
 		return false
 	_phase = CombatEncounterLifecycle.Value.RESOLVING
+	_queued_player_action = null
 	_append_event(event)
 	return true
 

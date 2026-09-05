@@ -7,6 +7,30 @@ var _session: OldPineWorldSessionController
 var _world_gate: WorldSimulationGate
 var _active_encounter: CombatEncounter
 var _active_scheduler: CombatEncounterScheduler
+var _tactical_registry := CombatTacticalActionRegistry.new()
+
+
+## Content/test composition before encounter start; no production policies yet.
+func register_tactical_policy(policy: CombatTacticalActionPolicy) -> bool:
+	return not has_active_encounter() and _tactical_registry.register_policy(policy)
+
+
+func submit_player_action(request: CombatTacticalRequest) -> CombatTacticalResult:
+	if _active_scheduler == null or _active_scheduler.player_tactics() == null:
+		return CombatTacticalResult.new()
+	return _active_scheduler.player_tactics().submit(
+		request, _session.application_gameplay_allows_encounter_advance(),
+		_world_gate.freeze_owner_id(), _session.encounter_combat_bindings(_active_encounter),
+	)
+
+
+func cancel_player_action(expected_request_id: StringName) -> CombatTacticalResult:
+	if _active_scheduler == null or _active_scheduler.player_tactics() == null:
+		return CombatTacticalResult.new()
+	return _active_scheduler.player_tactics().cancel(
+		expected_request_id, _session.application_gameplay_allows_encounter_advance(),
+		_world_gate.freeze_owner_id(),
+	)
 
 
 func _init(
@@ -116,6 +140,9 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			CombatEncounterStartResult.Outcome.SCHEDULER_PREPARATION_FAILED,
 			trigger,
 		)
+	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
+	if encounter.participant_for(_session.player_runtime().character_id) != null:
+		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -155,11 +182,14 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 			CombatEncounterCompletionResult.Outcome.RESULT_NOT_ALLOWED_FOR_MODE,
 			encounter_id,
 		)
+	var queued: CombatQueuedAction = _active_encounter.queued_player_action()
 	if not _active_encounter.begin_resolving():
 		return CombatEncounterCompletionResult.new(
 			CombatEncounterCompletionResult.Outcome.RESOLVING_TRANSITION_FAILED,
 			encounter_id,
 		)
+	if _active_scheduler != null and _active_scheduler.player_tactics() != null:
+		_active_scheduler.player_tactics().report_completion_cancellation(queued)
 	if not _active_encounter.complete(result):
 		return CombatEncounterCompletionResult.new(
 			CombatEncounterCompletionResult.Outcome.COMPLETION_TRANSITION_FAILED,
