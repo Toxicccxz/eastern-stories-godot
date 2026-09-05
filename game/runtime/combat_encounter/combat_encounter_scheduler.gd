@@ -69,6 +69,18 @@ func events() -> Array[CombatSchedulerEvent]:
 	return result
 
 
+## Incremental defensive read: walks only the new suffix, never clones old history.
+func events_after(progression_order: int) -> Array[CombatSchedulerEvent]:
+	var result: Array[CombatSchedulerEvent] = []
+	for index: int in range(_events.size() - 1, -1, -1):
+		var event: CombatSchedulerEvent = _events[index]
+		if event.progression_order <= progression_order:
+			break
+		result.append(event.duplicate_snapshot())
+	result.reverse()
+	return result
+
+
 func advance(
 	delta_seconds: float,
 	application_gameplay_active: bool,

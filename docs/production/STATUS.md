@@ -35,7 +35,14 @@ combat has not been cut over. The
 [CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
 is complete: typed player requests, split validation, exact-authority execution at a deterministic
 command boundary, busy-aware replacement/cancellation, and ordered events. Production action
-registration remains empty pending authored technique migration. **CXR6 is ready to begin.**
+registration remains empty pending authored technique migration. The
+[CXR6 Battle Presentation](../migration/PHASE_COMBAT_CXR6_BATTLE_PRESENTATION.md)
+is implementation/desktop-runtime complete: Session-owned frozen-world overlay,
+typed read projections and request/cancel adapter, honest empty Quick Actions,
+ordered feedback/log, shared SafeArea/input/Pause, and restore-reparent support.
+Affected physical mobile requalification remains **PENDING**. No telegraph producer,
+Quick Slots, production tactical actions, target switching, or normal-combat cutover
+was added. **CXR7 has not started; the major milestone is not integrated.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign

@@ -12,6 +12,16 @@ func register_policy(policy: CombatTacticalActionPolicy) -> bool:
 	return true
 
 
+func action_infos() -> Array[CombatTacticalActionInfo]:
+	var result: Array[CombatTacticalActionInfo] = []
+	for policy: CombatTacticalActionPolicy in _policies:
+		if policy.is_valid():
+			result.append(CombatTacticalActionInfo.new(
+				policy.action_id, policy.category, policy.target_rule, policy.blocks_when_busy,
+			))
+	return result
+
+
 func find(action_id: StringName) -> CombatTacticalActionPolicy:
 	for policy: CombatTacticalActionPolicy in _policies:
 		if policy.action_id == action_id:

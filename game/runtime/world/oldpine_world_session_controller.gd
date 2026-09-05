@@ -243,6 +243,14 @@ func encounter_combat_bindings(
 	return [] if map == null else map.encounter_combat_bindings(encounter)
 
 
+## Content presentation lookup; semantic IDs remain independent of scene names.
+func encounter_display_name(character_id: StringName) -> String:
+	if _player != null and character_id == _player.character_id:
+		return "Player"
+	var npc: NpcRuntimeState = _find_resident_npc(character_id)
+	return String(character_id) if npc == null else npc.definition().display_name
+
+
 func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
 	var map: OldPineResidentMapController = active_map()
 	return null if map == null else map.encounter_skill_effect_registry()

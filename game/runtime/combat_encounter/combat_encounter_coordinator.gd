@@ -15,6 +15,10 @@ func register_tactical_policy(policy: CombatTacticalActionPolicy) -> bool:
 	return not has_active_encounter() and _tactical_registry.register_policy(policy)
 
 
+func action_infos() -> Array[CombatTacticalActionInfo]:
+	return _tactical_registry.action_infos()
+
+
 func submit_player_action(request: CombatTacticalRequest) -> CombatTacticalResult:
 	if _active_scheduler == null or _active_scheduler.player_tactics() == null:
 		return CombatTacticalResult.new()

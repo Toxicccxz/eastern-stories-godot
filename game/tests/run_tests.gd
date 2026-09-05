@@ -1,6 +1,7 @@
 extends SceneTree
 
 const CombatTacticalQueueTest := preload("res://tests/runtime/combat_tactical_queue_test.gd")
+const BattlePresentationTest := preload("res://tests/runtime/battle_presentation_test.gd")
 
 const CharacterAttributesScript := preload(
 	"res://core/characters/character_base_attributes.gd"
@@ -1420,6 +1421,7 @@ func _init() -> void:
 	)
 	var cxr2_result: Dictionary[String, Variant] = CombatEncounterCoreTest.new().run_all()
 	var cxr5_result: Dictionary[String, Variant] = await CombatTacticalQueueTest.new().run_all(self)
+	var cxr6_result: Dictionary[String, Variant] = await BattlePresentationTest.new().run_all(self)
 	var phase_6b1_result: Dictionary[String, Variant] = (
 		CombatSliceOpportunityIntegrationTest.new().run_all()
 	)
@@ -1596,6 +1598,8 @@ func _init() -> void:
 	var failures: Array[String] = phase_1_result["failures"]
 	assertion_count += int(cxr5_result["assertions"])
 	failures.append_array(cxr5_result["failures"])
+	assertion_count += int(cxr6_result["assertions"])
+	failures.append_array(cxr6_result["failures"])
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
 	failures.append_array(phase_3a_result["failures"])

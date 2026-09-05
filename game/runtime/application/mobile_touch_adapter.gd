@@ -19,6 +19,7 @@ var _world_pointer_pending: bool = false
 var _routing: bool = false
 var _filters: Dictionary[Control, int] = {}
 var _blocker_id: int = 0
+var _exploration_blocked: bool = false
 var _pad: GridContainer
 var _pause: Button
 
@@ -49,7 +50,7 @@ func _attach_runtime() -> void:
 	_presenter.metrics_changed.connect(_metrics_changed)
 	get_tree().node_added.connect(_node_added)
 	get_tree().node_removed.connect(_node_removed)
-	for node: Node in _shell.find_children("*", "Control", true, false):
+	for node: Node in _shell.find_children("*", "", true, false):
 		_node_added(node)
 	_metrics_changed(_presenter.current_metrics())
 	set_capability(_capability)
@@ -65,7 +66,7 @@ func _exit_tree() -> void:
 		_shell.state_changed.disconnect(_state_changed)
 		_shell.interaction_changed.disconnect(_sync_presentation)
 		_shell.window_mode_option.get_popup().window_input.disconnect(_popup_input)
-		for node: Node in _shell.find_children("*", "Control", true, false):
+		for node: Node in _shell.find_children("*", "", true, false):
 			_node_removed(node)
 	if is_instance_valid(_presenter) and _presenter.metrics_changed.is_connected(_metrics_changed):
 		_presenter.metrics_changed.disconnect(_metrics_changed)
@@ -159,6 +160,8 @@ func _metrics_changed(metrics: SafeAreaMetrics) -> void:
 
 
 func _node_added(node: Node) -> void:
+	if node is ExplorationPresentationBlocker and not (node as ExplorationPresentationBlocker).context_changed.is_connected(_presentation_context_changed):
+		(node as ExplorationPresentationBlocker).context_changed.connect(_presentation_context_changed)
 	if node is Control and node.name in [&"PlayerInventoryPanel", &"LootPanel", &"DetailPanel"]:
 		if not (node as Control).visibility_changed.is_connected(_sync_presentation):
 			(node as Control).visibility_changed.connect(_sync_presentation)
@@ -167,6 +170,8 @@ func _node_added(node: Node) -> void:
 
 
 func _node_removed(node: Node) -> void:
+	if node is ExplorationPresentationBlocker and (node as ExplorationPresentationBlocker).context_changed.is_connected(_presentation_context_changed):
+		(node as ExplorationPresentationBlocker).context_changed.disconnect(_presentation_context_changed)
 	if node is Control and (node as Control).visibility_changed.is_connected(_sync_presentation):
 		(node as Control).visibility_changed.disconnect(_sync_presentation)
 	if node is OldPineResidentMapController:
@@ -174,17 +179,24 @@ func _node_removed(node: Node) -> void:
 		_blocker_id = 0
 
 
+func _presentation_context_changed() -> void:
+	cancel_contacts()
+	_sync_presentation()
+
+
 func _sync_presentation() -> void:
 	if not is_instance_valid(_pad) or not is_instance_valid(_shell):
 		return
 	var blocker: ResponsivePanelLayout = ResponsivePanelLayout.top_interaction_panel(get_tree())
 	var id: int = blocker.get_instance_id() if blocker != null else 0
-	if id != _blocker_id:
+	var exploration_blocked: bool = ExplorationPresentationBlocker.is_blocked(get_tree())
+	if id != _blocker_id or exploration_blocked != _exploration_blocked:
 		cancel_contacts()
 		_blocker_id = id
+		_exploration_blocked = exploration_blocked
 	var playing: bool = _active and _shell.interaction_allowed() and _shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING
 	_pause.visible = playing
-	_pad.visible = playing and blocker == null and pad_rect().size == Vector2(192, 192)
+	_pad.visible = playing and blocker == null and not exploration_blocked and pad_rect().size == Vector2(192, 192)
 
 
 func _input(event: InputEvent) -> void:

@@ -34,6 +34,18 @@ func events() -> Array[CombatTacticalEvent]:
 	return result
 
 
+## Incremental defensive read: walks only the new suffix, never clones old history.
+func events_after(progression_order: int) -> Array[CombatTacticalEvent]:
+	var result: Array[CombatTacticalEvent] = []
+	for index: int in range(_events.size() - 1, -1, -1):
+		var event: CombatTacticalEvent = _events[index]
+		if event.progression_order <= progression_order:
+			break
+		result.append(event.duplicate_snapshot())
+	result.reverse()
+	return result
+
+
 func queue_status() -> int:
 	var action: CombatQueuedAction = _encounter.queued_player_action()
 	if action == null:
