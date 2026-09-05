@@ -11,7 +11,9 @@ integration. CXR7 has not started. Phase 10D remains PARKED / FROZEN.
 - Prior gameplay HEAD: `0e5d052f8e500341bf189e9f0da0e4d7a33b822d` (CXR5).
 - Integrated main baseline: `ae381bf3f3e5f4a28a417295eea680d023cc428c`.
 - Upstream: `origin/phase/combat-experience-redesign`; initial tree clean.
-- Ending implementation commit: recorded in the documentation finalization below.
+- Ending implementation commit: `70d778bac7041b9a4a429246e2155ae55fbe2ea5`.
+  This documentation-only finalization is a separate successor; the final pushed
+  HEAD is reported in the delivery message. No implementation changes follow that SHA.
 - No new branch, PR, merge, force push, release, or Phase 10D work.
 
 Authority is the owner-resolved CXR6 instruction and the
