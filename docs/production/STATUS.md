@@ -56,7 +56,18 @@ explicit blocker, not silently clamped. Production tactics remain empty. Post-re
 hardening preserves visible RESOLVING ownership on thaw/gate-release failure, without retrying
 lifecycle or allowing FLED bypass. Latest full canonical validation: 15,760 assertions PASS;
 desktop actual Attack -> natural Victory -> movement smoke PASS. Broader earlier multi-target/queued-action physical combinations remain
-unqualified by this bounded pass. **CXR9 has not started; the major milestone is not integrated.**
+unqualified by this bounded pass. The major milestone is not integrated.
+
+[CXR9 Old Pine Playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md)
+is **BLOCKED / PARTIAL; CXR10 readiness BLOCKED**. Unmodified Fresh New Game
+reproduced the starter experience mismatch. Narrow Old Pine-only New Game 10 ->
+600 entry state and read-only successful-result HUD feedback are implemented;
+normal desktop Attack/aggression, natural victory/defeat, corpse Take and safe Save
+passed with no QA stat/position/RNG setup. CXR9 234 and full canonical 15,994
+assertions PASS. Real production tactics, flee destination/pursuit, telegraph
+producer and armed-SPAR policy remain V1 blockers; changed Android paths PENDING
+(no online device). Owner-dirty project config causes one extra Python assertion
+failure (45/46); clean tracked config + CXR9 overlay passes 46/46, owner work intact.
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -118,7 +129,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR9-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
+- CXR9 remaining V1 blockers/device evidence, then CXR10 audit/integration, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;

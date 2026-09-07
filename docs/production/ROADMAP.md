@@ -67,7 +67,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    is implementation/runtime complete: normal combat uses the new scheduler and existing lifecycle,
    corpse/loot and native Save authority. Bounded physical Android entry/Back/lifecycle checks pass;
    this does not qualify every earlier queued/multi-target device combination. Armed-friendly mortal
-   SPAR is explicitly blocked pending a compatibility decision. CXR9 is NOT STARTED.
+   SPAR is explicitly blocked pending a compatibility decision.
+   [CXR9 playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md) is
+   BLOCKED / PARTIAL: narrow New Game experience and read-only result feedback
+   validated (234 focused / 15,994 canonical assertions), but real tactics, flee,
+   telegraph, armed-SPAR decisions and affected Android evidence remain outstanding.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -80,8 +84,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR6 | Implementation/desktop runtime complete; physical mobile requalification pending | Session-owned Battle presentation, empty production actions, feedback/log and typed input. No telegraph without a semantic producer. |
    | CXR7 | Implementation/desktop runtime complete; physical mobile pending | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
    | CXR8 | Implementation/runtime complete; bounded Android PASS | Production cutover, per-opportunity lifecycle barrier, death/corpse/loot/Save integration; explicit armed-SPAR blocker. |
-   | CXR9 | NOT STARTED; await owner authorization | Old Pine playability and narrow proven balance stabilization. |
-   | CXR10 | Planned | Final audit, PR, CI, merge and post-main verification. |
+   | CXR9 | BLOCKED / PARTIAL | Proven starter mismatch/result feedback fixed; V1 agency/escape/telegraph/SPAR blockers and Android requalification remain. |
+   | CXR10 | NOT STARTED; readiness BLOCKED | Final audit, PR, CI, merge and post-main verification only after V1 implementation blockers are resolved. |
 
    After CXR10 reaches green `main`, create a new Technical Demo release-validation branch and
    candidate, refresh packaging evidence, then resume or recreate Phase 10D3 before the Phase 10D

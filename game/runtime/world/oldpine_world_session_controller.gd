@@ -2,6 +2,10 @@ class_name OldPineWorldSessionController
 extends Node
 
 const PLAYER_ID: StringName = &"oldpine.player"
+## Old Pine-only entry state, not an LPC formula or a change to the Phase 6
+## symmetric fixture. CXR9 revalidates the previously approved Phase 10D3
+## bootstrap against normal New Game; RESTORE never enters this initializer.
+const NEW_GAME_COMBAT_EXPERIENCE: int = 600
 const OUTDOOR_SCENE: PackedScene = preload(
 	"res://scenes/world/oldpine/oldpine_outdoor.tscn"
 )
@@ -677,6 +681,7 @@ func _initialize_authorities() -> bool:
 	)
 	if prototype == null or start_zone == null:
 		return false
+	prototype.state.progression.combat_experience = NEW_GAME_COMBAT_EXPERIENCE
 	_player = WorldPlayerRuntimeType.new(
 		PLAYER_ID,
 		prototype.state,

@@ -12,6 +12,22 @@ func recent() -> Array[BattleFeedbackProjection]:
 	return _recent.duplicate()
 
 
+## Only successful authoritative completion may become a world result message.
+## No rewards, lifecycle, thaw, or completion decision belongs to this projection.
+static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int) -> String:
+	if receipt == null or not receipt.succeeded() or receipt.terminal_result == null:
+		return ""
+	match receipt.terminal_result.kind:
+		CombatEncounterResultKind.Value.VICTORY:
+			return "Victory — combat ended. Select a fallen opponent's corpse to inspect or loot it."
+		CombatEncounterResultKind.Value.DEFEAT:
+			var condition: String = "dead" if player_life == CharacterRuntimeLifeStatus.Value.DEAD else "unconscious"
+			return "Defeat — you are %s. Pause remains available; Return to Main Menu to start again." % condition
+		CombatEncounterResultKind.Value.SPAR_CONCLUDED:
+			return "Spar concluded — friendly combat has ended."
+	return "Encounter ended — %s." % String(CombatEncounterResultKind.Value.keys()[receipt.terminal_result.kind]).capitalize()
+
+
 func read_new(
 	coordinator: CombatEncounterCoordinator, projection: BattlePresentationProjection,
 ) -> Array[BattleFeedbackProjection]:

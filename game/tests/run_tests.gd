@@ -4,6 +4,7 @@ const CombatTacticalQueueTest := preload("res://tests/runtime/combat_tactical_qu
 const BattlePresentationTest := preload("res://tests/runtime/battle_presentation_test.gd")
 const CombatMultiTargetTest := preload("res://tests/runtime/combat_multi_target_test.gd")
 const CombatResolutionCutoverTest := preload("res://tests/runtime/combat_resolution_cutover_test.gd")
+const OldPinePlayabilityTest := preload("res://tests/runtime/oldpine_playability_test.gd")
 
 const CharacterAttributesScript := preload(
 	"res://core/characters/character_base_attributes.gd"
@@ -1426,6 +1427,7 @@ func _init() -> void:
 	var cxr6_result: Dictionary[String, Variant] = await BattlePresentationTest.new().run_all(self)
 	var cxr7_result: Dictionary[String, Variant] = await CombatMultiTargetTest.new().run_all(self)
 	var cxr8_result: Dictionary[String, Variant] = await CombatResolutionCutoverTest.new().run_all(self)
+	var cxr9_result: Dictionary[String, Variant] = await OldPinePlayabilityTest.new().run_all(self)
 	var phase_6b1_result: Dictionary[String, Variant] = (
 		CombatSliceOpportunityIntegrationTest.new().run_all()
 	)
@@ -1608,6 +1610,8 @@ func _init() -> void:
 	failures.append_array(cxr7_result["failures"])
 	assertion_count += int(cxr8_result["assertions"])
 	failures.append_array(cxr8_result["failures"])
+	assertion_count += int(cxr9_result["assertions"])
+	failures.append_array(cxr9_result["failures"])
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
 	failures.append_array(phase_3a_result["failures"])

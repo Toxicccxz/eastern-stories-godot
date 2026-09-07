@@ -14,6 +14,7 @@ var _intent: BattleIntentAdapter
 var _reader := BattleFeedbackReader.new()
 var _projection := BattlePresentationProjection.new()
 var _displayed_id: StringName = &""
+var _reported_completion_id: StringName = &""
 var _safe: SafeAreaPresenter
 var _content: VBoxContainer
 var _participants: HBoxContainer
@@ -78,6 +79,7 @@ func feedback_reader() -> BattleFeedbackReader:
 
 
 func refresh_projection() -> void:
+	_present_completed_result()
 	_projection = BattleProjectionBuilder.build(_session)
 	var changed: bool = _displayed_id != _projection.encounter_id
 	if changed:
@@ -118,6 +120,23 @@ func refresh_projection() -> void:
 		var focused: Control = get_viewport().gui_get_focus_owner()
 		if focused == null or not focused.is_visible_in_tree():
 			_focus_battle()
+
+
+func _present_completed_result() -> void:
+	if _session == null or not _session.is_initialized():
+		return
+	var receipt: CombatEncounterCompletionResult = _session.combat_encounter_coordinator().last_completion()
+	if receipt == null or receipt.encounter_id == _reported_completion_id:
+		return
+	var text: String = BattleFeedbackReader.completion_text(receipt, _session.player_runtime().life_status)
+	if text.is_empty():
+		return
+	var hud: OldPineOutdoorHud = _session.active_map().get_node_or_null("HUD") as OldPineOutdoorHud
+	if hud == null:
+		return
+
+	_reported_completion_id = receipt.encounter_id
+	hud.show_combat_result(text)
 
 
 func _build() -> void:
