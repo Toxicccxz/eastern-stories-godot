@@ -3,6 +3,7 @@ extends SceneTree
 const CombatTacticalQueueTest := preload("res://tests/runtime/combat_tactical_queue_test.gd")
 const BattlePresentationTest := preload("res://tests/runtime/battle_presentation_test.gd")
 const CombatMultiTargetTest := preload("res://tests/runtime/combat_multi_target_test.gd")
+const CombatResolutionCutoverTest := preload("res://tests/runtime/combat_resolution_cutover_test.gd")
 
 const CharacterAttributesScript := preload(
 	"res://core/characters/character_base_attributes.gd"
@@ -1424,6 +1425,7 @@ func _init() -> void:
 	var cxr5_result: Dictionary[String, Variant] = await CombatTacticalQueueTest.new().run_all(self)
 	var cxr6_result: Dictionary[String, Variant] = await BattlePresentationTest.new().run_all(self)
 	var cxr7_result: Dictionary[String, Variant] = await CombatMultiTargetTest.new().run_all(self)
+	var cxr8_result: Dictionary[String, Variant] = await CombatResolutionCutoverTest.new().run_all(self)
 	var phase_6b1_result: Dictionary[String, Variant] = (
 		CombatSliceOpportunityIntegrationTest.new().run_all()
 	)
@@ -1604,6 +1606,8 @@ func _init() -> void:
 	failures.append_array(cxr6_result["failures"])
 	assertion_count += int(cxr7_result["assertions"])
 	failures.append_array(cxr7_result["failures"])
+	assertion_count += int(cxr8_result["assertions"])
+	failures.append_array(cxr8_result["failures"])
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
 	failures.append_array(phase_3a_result["failures"])

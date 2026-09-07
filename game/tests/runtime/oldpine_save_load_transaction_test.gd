@@ -220,7 +220,7 @@ func _test_live_capture_and_transactional_replace(tree: SceneTree) -> void:
 	_assert_eq(reparent_failed.outcome, OldPineRuntimeSaveLoadResult.Outcome.ACTIVATION_FAILED, "final host reparent failure is typed")
 	_assert_eq(restored.get_instance_id(), current_id, "reparent failure retains exact Session A")
 	_assert_true(restored.player_runtime().relationship.has_opponent(opponent.character_id), "reparent rollback retains A relationships")
-	_assert_true(not restored.outdoor_map().opportunity_timer.is_stopped(), "reparent rollback restores running A cadence")
+	_assert_true(restored.outdoor_map().opportunity_timer.is_stopped(), "CXR8 rollback cannot reintroduce legacy runtime cadence")
 	_assert_eq(restored.combat_random_source().capture_random_state().state, rollback_rng, "reparent rollback consumes zero Combat RNG")
 	_assert_eq(restored.item_id_allocator().next_dynamic_sequence, rollback_allocator, "reparent rollback consumes no item ID")
 	_assert_true(restored.active_map().runtime_player_body().player_controlled, "reparent rollback restores real input")

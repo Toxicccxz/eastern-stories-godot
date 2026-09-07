@@ -716,6 +716,7 @@ func _session(tree: SceneTree, seed: int) -> OldPineWorldSessionController:
 	session.deterministic_world_interaction_seed = true
 	session.world_interaction_seed = seed + 2
 	tree.root.add_child(session)
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
 	await tree.process_frame
 	_assert_true(session.player_runtime() != null, "session initializes persistent player")
 	return session

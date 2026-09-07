@@ -563,6 +563,7 @@ func _instantiate_session(
 	session.deterministic_combat_seed = true
 	session.combat_seed = combat_seed
 	tree.root.add_child(session)
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
 	return session
 
 

@@ -51,7 +51,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
    is complete with deterministic logical time, stable participant opportunities, exact-authority
    ordinary combat, typed events, and world-frozen/application-pause separation. Normal production
-   combat remains on the playable legacy slice. The
+   combat was not cut over by CXR4 itself. The
    [CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
    is complete with typed requests, one busy-aware slot, split validation, exact-authority policies,
    and deterministic tactical/ordinary ordering. The
@@ -62,8 +62,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Quick Slots or target switching was introduced in CXR6. The
    [CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
    is implementation/desktop-runtime complete, preserving queued targets and supporting controlled
-   SPAR/LETHAL/SCRIPTED establishment. Physical mobile requalification remains pending; production
-   combat cutover and final resolution remain CXR8, which has not started.
+   SPAR/LETHAL/SCRIPTED establishment. The
+   [CXR8 Production Cutover / Resolution](../migration/PHASE_COMBAT_CXR8_RESOLUTION_CUTOVER.md)
+   is implementation/runtime complete: normal combat uses the new scheduler and existing lifecycle,
+   corpse/loot and native Save authority. Bounded physical Android entry/Back/lifecycle checks pass;
+   this does not qualify every earlier queued/multi-target device combination. Armed-friendly mortal
+   SPAR is explicitly blocked pending a compatibility decision. CXR9 is NOT STARTED.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -75,8 +79,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR5 | Complete | Tactical requests, split validation, one-slot queue and ordered execution. |
    | CXR6 | Implementation/desktop runtime complete; physical mobile requalification pending | Session-owned Battle presentation, empty production actions, feedback/log and typed input. No telegraph without a semantic producer. |
    | CXR7 | Implementation/desktop runtime complete; physical mobile pending | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
-   | CXR8 | Planned | Resolution/death/corpse/loot/Save/lifecycle integration. |
-   | CXR9 | Planned | Old Pine playability and narrow proven balance stabilization. |
+   | CXR8 | Implementation/runtime complete; bounded Android PASS | Production cutover, per-opportunity lifecycle barrier, death/corpse/loot/Save integration; explicit armed-SPAR blocker. |
+   | CXR9 | NOT STARTED; await owner authorization | Old Pine playability and narrow proven balance stabilization. |
    | CXR10 | Planned | Final audit, PR, CI, merge and post-main verification. |
 
    After CXR10 reaches green `main`, create a new Technical Demo release-validation branch and

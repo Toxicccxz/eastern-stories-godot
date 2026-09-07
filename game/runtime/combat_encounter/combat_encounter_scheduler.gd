@@ -119,6 +119,7 @@ func advance(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	boundary: CombatOpportunityBoundary = null,
 ) -> CombatSchedulerAdvanceResult:
 	if not is_valid() or _encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
 		return CombatSchedulerAdvanceResult.new()
@@ -142,8 +143,12 @@ func advance(
 		return CombatSchedulerAdvanceResult.new(
 			CombatSchedulerAdvanceResult.Outcome.AUTHORITY_INVALID
 		)
+	if boundary != null and not boundary.inspect(bindings):
+		return CombatSchedulerAdvanceResult.new()
 	if _tactical != null:
 		_tactical.process_command_boundary(bindings, random_source)
+	if boundary != null and not boundary.inspect(bindings):
+		return CombatSchedulerAdvanceResult.new()
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(
 		(
@@ -156,8 +161,10 @@ func advance(
 			CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY
 		)
 	var emitted: Array[CombatSchedulerEvent] = []
+	var processed_cycles: int = 0
 	for _cycle_index: int in range(due_cycles):
 		_logical_cycle += 1
+		processed_cycles += 1
 		for participant: CombatParticipant in _encounter.participants():
 			var event: CombatSchedulerEvent = _process_participant(
 				participant,
@@ -169,6 +176,10 @@ func advance(
 				_events.append(event)
 				emitted.append(event)
 				_next_event_sequence += 1
+			if boundary != null and not boundary.inspect(bindings, event):
+				return CombatSchedulerAdvanceResult.new(
+					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
+				)
 	return CombatSchedulerAdvanceResult.new(
 		CombatSchedulerAdvanceResult.Outcome.ADVANCED,
 		due_cycles,
@@ -266,7 +277,11 @@ func _target_is_currently_eligible(
 		target != null
 		and target.exists_in_encounter
 		and target.combat_available
-		and target.life_status == CombatSliceLifeStatus.Value.ACTIVE
+		and (target.life_status == CombatSliceLifeStatus.Value.ACTIVE or (
+			_encounter.mode == CombatEncounterMode.Value.LETHAL
+			and target.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS
+			and actor.relationship.has_lethal_target(target_id)
+		))
 		and target.location_id == actor.location_id
 		and _encounter.is_hostile(actor.character_id, target_id)
 		and actor.relationship.has_opponent(target_id)

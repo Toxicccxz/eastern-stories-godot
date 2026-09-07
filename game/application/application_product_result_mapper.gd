@@ -159,6 +159,7 @@ static func _save_blocked(
 			message_key = &"save.blocked.temporary_effect"
 		OldPineSaveEligibilityResult.Outcome.PENDING_AGGRESSION, \
 		OldPineSaveEligibilityResult.Outcome.COMBAT_CADENCE_ACTIVE, \
+		OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, \
 		OldPineSaveEligibilityResult.Outcome.OPPONENT_RELATIONSHIP, \
 		OldPineSaveEligibilityResult.Outcome.LETHAL_MARKER, \
 		OldPineSaveEligibilityResult.Outcome.BUSY, \

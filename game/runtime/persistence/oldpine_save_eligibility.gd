@@ -21,6 +21,8 @@ static func inspect(
 		return Result.block(Result.Outcome.SESSION_NOT_READY)
 	if session.is_restore_candidate_staged():
 		return Result.block(Result.Outcome.RESTORE_STAGED)
+	if session.combat_encounter_coordinator().has_active_encounter() or not session.world_simulation_gate().is_open():
+		return Result.block(Result.Outcome.ACTIVE_COMBAT_ENCOUNTER)
 	if session.is_session_swap_suspended():
 		return Result.block(Result.Outcome.SESSION_SWAP_ACTIVE)
 	if session.is_transitioning():

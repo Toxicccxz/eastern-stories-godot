@@ -454,6 +454,9 @@ func _kill_bandit(
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> void:
+	# This helper prepares historical corpse fixtures for later input tests.
+	# It is not CXR8 production combat acceptance evidence.
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(controller.world_session())
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
 	))
@@ -483,6 +486,7 @@ func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
 	session.deterministic_combat_seed = true
 	session.combat_seed = 5232
 	tree.root.add_child(session)
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
 	return session.outdoor_map()
 
 

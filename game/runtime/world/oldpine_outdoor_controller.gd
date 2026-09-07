@@ -504,28 +504,17 @@ func thaw_world_gameplay(encounter_id: StringName) -> bool:
 	_encounter_freeze_owner_id = &""
 	for body: WorldCharacterBodyType in _world_character_bodies():
 		body.quarantine_current_movement_input()
-	if _encounter_cadence_was_running and _has_active_relationships():
-		opportunity_timer.start(
-			_encounter_cadence_time_left
-			if _encounter_cadence_time_left > 0.0
-			else -1.0
-		)
+	## Normal production progression belongs only to the Session encounter.
+	opportunity_timer.stop()
+	## Old cadence used to refresh this projection; the new completion must too.
+	hud.refresh_live_state()
 	_encounter_cadence_was_running = false
 	_encounter_cadence_time_left = 0.0
 	return true
 
 
 func resume_after_relationship_reconciliation() -> void:
-	if (
-		_world_gameplay_is_open()
-		and _has_active_relationships()
-		and opportunity_timer.is_stopped()
-	):
-		opportunity_timer.start(
-			_suspended_cadence_time_left
-			if _cadence_was_running and _suspended_cadence_time_left > 0.0
-			else -1.0
-		)
+	opportunity_timer.stop()
 	_cadence_was_running = false
 	_suspended_cadence_time_left = 0.0
 
@@ -557,12 +546,7 @@ func resume_after_session_swap_rollback() -> bool:
 	if hud != null:
 		hud.visible = true
 		hud.refresh_live_state()
-	if _cadence_was_running and _has_active_relationships():
-		opportunity_timer.start(
-			_suspended_cadence_time_left
-			if _suspended_cadence_time_left > 0.0
-			else -1.0
-		)
+	opportunity_timer.stop()
 	_cadence_was_running = false
 	_suspended_cadence_time_left = 0.0
 	return true
@@ -598,7 +582,7 @@ func encounter_combat_bindings(
 	var result: Array[CombatSliceCharacterBinding] = []
 	if not _initialized or encounter == null or not encounter.is_valid():
 		return result
-	var current: Array[CombatSliceCharacterBinding] = _build_participants()
+	var current: Array[CombatSliceCharacterBinding] = _build_participants(true)
 	for participant: CombatParticipant in encounter.participants():
 		var binding: CombatSliceCharacterBinding = _binding_for(
 			current,
@@ -1024,14 +1008,13 @@ func _initiate_lethal_combat(
 		target_id,
 	)
 	var result: CombatSliceInitiationResult = (
-		CombatSliceOpportunityExecutor.initiate_lethal_combat(
+		_session_owner.combat_encounter_coordinator().start_production(
 			initiator_binding,
 			target_binding,
+			CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if initiator_id == _player.character_id else CombatTriggerCause.Value.NPC_AGGRESSION,
 		)
 	)
 	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		if opportunity_timer.is_stopped():
-			opportunity_timer.start()
 		hud.append_log_lines([log_line])
 	return result
 
@@ -1281,7 +1264,7 @@ func _find_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
 	return null
 
 
-func _build_participants() -> Array[CombatSliceCharacterBinding]:
+func _build_participants(include_absent: bool = false) -> Array[CombatSliceCharacterBinding]:
 	var result: Array[CombatSliceCharacterBinding] = []
 	_last_player_content_resolution = _weapon_content_resolver.resolve(
 		_player,
@@ -1301,7 +1284,7 @@ func _build_participants() -> Array[CombatSliceCharacterBinding]:
 	if player_binding != null:
 		result.append(player_binding)
 	for npc: NpcRuntimeState in _all_npcs:
-		if not npc.exists_in_map:
+		if not include_absent and not npc.exists_in_map:
 			continue
 		var npc_content: CombatSliceContentProfile = _bandit_content
 		if npc.definition().definition_id == OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID:
@@ -1312,6 +1295,18 @@ func _build_participants() -> Array[CombatSliceCharacterBinding]:
 		if binding != null:
 			result.append(binding)
 	return result
+
+
+## Map-owned physical publication; rules remain in the existing lifecycle/death
+## services. Encounter calls this only at its synchronous outer boundary.
+func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
+	if _lifecycle_failed:
+		return CombatSliceLifecycleResult.new()
+	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants)
+	_last_lifecycle_results.append(receipt)
+	if not receipt.completed():
+		_lifecycle_failed = true
+	return receipt
 
 
 func _execute_lifecycle(
@@ -1364,19 +1359,21 @@ func _execute_lifecycle(
 				## Phase 6B3 preserves a partial corpse mutation/view even when
 				## death cannot complete. Phase 8B1 must not turn that evidence
 				## into an ordinary loot interaction.
-				if (
-					lifecycle.outcome
-					== CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE
-					and _item_index.register_snapshot(
+				if lifecycle.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+					if not _item_index.register_snapshot(
 						ItemInstance.new(
 							corpse.corpse_item_instance_id,
 							CombatSliceDeathAdapter.CORPSE_DEFINITION_ID,
 						)
-					)
-				):
+					):
+						lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
+						return lifecycle
 					view.selection_requested.connect(_on_corpse_selection_requested)
 					view.loot_range_changed.connect(_on_corpse_loot_range_changed)
 					_corpse_views[corpse.corpse_item_instance_id] = view
+			else:
+				view.free()
+				lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
 	return lifecycle
 
 
@@ -1423,27 +1420,13 @@ func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
 		ContainmentEndpoint.Kind.CHARACTER,
 		character_id,
 	)
-	var npc: NpcRuntimeState = _find_npc(character_id)
-	if npc != null:
-		for item: ItemInstance in npc.loadout_items():
-			if _inventory.is_direct_child(item.item_instance_id, endpoint):
-				var content: OldPineItemContentDefinition = (
-					OldPineItemContentDefinitions.content_by_id(
-						item.item_definition_id
-					)
-				)
-				facts.append(
-					DeathItemFacts.new(
-						item,
-						null if content == null else content.armor_definition(),
-					)
-				)
-		return facts
-	var primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
-	if primary != null and _inventory.is_direct_child(primary.instance_id, endpoint):
-		facts.append(
-			DeathItemFacts.new(ItemInstance.new(primary.instance_id, primary.weapon_id))
-		)
+	## Current direct inventory, not the original bootstrap loadout or only sword.
+	for item_id: StringName in _inventory.direct_children(endpoint):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		if item == null:
+			continue # Existing death validator fails closed on incomplete facts.
+		var content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+		facts.append(DeathItemFacts.new(item, null if content == null else content.armor_definition()))
 	return facts
 
 
@@ -1899,7 +1882,9 @@ func _on_inventory_remove_requested(item_instance_id: StringName) -> void:
 
 
 func _on_opportunity_timer_timeout() -> void:
-	process_cadence_tick()
+	## Retained timer/explicit process_cadence_tick seam for historical regressions,
+	## never a second automatic production engine.
+	opportunity_timer.stop()
 
 
 func _on_central_clearing_body_entered(body: Node2D) -> void:

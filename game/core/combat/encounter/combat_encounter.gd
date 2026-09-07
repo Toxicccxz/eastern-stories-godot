@@ -258,6 +258,11 @@ func begin_resolving() -> bool:
 	return true
 
 
+## Read-only preflight before orchestration cancels a queue or enters RESOLVING.
+func accepts_completion_result(result: CombatEncounterResult) -> bool:
+	return _result_is_acceptable(result) and result.kind != CombatEncounterResultKind.Value.FAILED_TO_ESTABLISH
+
+
 func complete(result: CombatEncounterResult) -> bool:
 	if (
 		not is_valid()

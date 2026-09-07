@@ -31,7 +31,7 @@ with exact live authority binding, transactional start/end, world/cadence/transi
 fresh-input quarantine. The [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
 is complete: the Session-owned encounter now advances deterministic ordinary opportunities through
 the existing combat core while its resident world and legacy cadence remain frozen. Normal player
-combat has not been cut over. The
+combat was not cut over by CXR4 itself. The
 [CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
 is complete: typed player requests, split validation, exact-authority execution at a deterministic
 command boundary, busy-aware replacement/cancellation, and ordered events. Production action
@@ -46,9 +46,15 @@ was added in CXR6. The
 [CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
 is implementation/desktop-runtime complete: typed player target changes, stable invalid-target
 fallback, separate accepted queue targets, collection-based controls and source-backed SPAR/LETHAL
-establishment alongside SCRIPTED. Production tactics remain empty, normal Attack/aggression remains
-uncut, and affected physical mobile qualification is pending. **CXR8 has not started; the major
-milestone is not integrated.**
+establishment alongside SCRIPTED. CXR7 itself did not cut over normal Attack/aggression.
+The [CXR8 Production Cutover / Resolution](../migration/PHASE_COMBAT_CXR8_RESOLUTION_CUTOVER.md)
+is implementation/runtime complete with bounded physical Android evidence: normal Attack/aggression
+now enter one Session-owned Encounter/Scheduler, complete opportunities feed existing lifecycle and
+death/corpse authority, ordinary Loot and post-combat Save/Continue work, and the old canonical Timer
+does not resume. Partial failure holds the frozen encounter; armed-friendly mortal SPAR remains an
+explicit blocker, not silently clamped. Production tactics remain empty. Final canonical validation:
+15,673 assertions PASS. Broader earlier multi-target/queued-action physical combinations remain
+unqualified by this bounded pass. **CXR9 has not started; the major milestone is not integrated.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -110,7 +116,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR6-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
+- CXR8-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;

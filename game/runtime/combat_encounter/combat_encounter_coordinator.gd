@@ -8,6 +8,66 @@ var _world_gate: WorldSimulationGate
 var _active_encounter: CombatEncounter
 var _active_scheduler: CombatEncounterScheduler
 var _tactical_registry := CombatTacticalActionRegistry.new()
+var _resolution: CombatEncounterResolution
+var _last_completion: CombatEncounterCompletionResult
+var _entry_sequence: int = 0
+
+func resolution() -> CombatEncounterResolution:
+	return _resolution
+
+func last_completion() -> CombatEncounterCompletionResult:
+	return _last_completion
+
+## One synchronous production-entry transaction. Reuses the audited playable
+## relationship establishment; rollback restores order and preexisting facts.
+func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int) -> CombatSliceInitiationResult:
+	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open():
+		return CombatSliceInitiationResult.new()
+	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id):
+		return CombatSliceInitiationResult.new()
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION] or _entry_sequence == 9223372036854775807:
+		return CombatSliceInitiationResult.new()
+	for binding: CombatSliceCharacterBinding in [initiator, target]:
+		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
+		if current == null or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor:
+			return CombatSliceInitiationResult.new()
+		# This bounded production entry composes a pair, never discards an existing
+		# third-party fight. Broader established topologies use typed start().
+		for opponent_id: StringName in binding.relationship.opponent_ids():
+			if opponent_id not in [initiator.character_id, target.character_id]:
+				return CombatSliceInitiationResult.new()
+	var first_opponents: Array[StringName] = initiator.relationship.opponent_ids()
+	var first_lethal: Array[StringName] = initiator.relationship.lethal_target_ids()
+	var second_opponents: Array[StringName] = target.relationship.opponent_ids()
+	var second_lethal: Array[StringName] = target.relationship.lethal_target_ids()
+	var receipt: CombatSliceInitiationResult = CombatSliceOpportunityExecutor.initiate_lethal_combat(initiator, target)
+	if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		_entry_sequence += 1
+		var candidates: Array[CombatTriggerCandidate] = [
+			CombatTriggerCandidate.new(initiator.character_id, &"initiator"),
+			CombatTriggerCandidate.new(target.character_id, &"target"),
+		]
+		var trigger := CombatTrigger.new(StringName("production:%d" % _entry_sequence), cause,
+			CombatEncounterMode.Value.LETHAL, initiator.character_id, candidates,
+			_session.resolve_encounter_location(initiator.character_id))
+		var started: CombatEncounterStartResult = start(trigger)
+		if started.succeeded():
+			return receipt
+		## No completed initiation is reported when the new engine could not start.
+		receipt._outcome = CombatSliceInitiationResult.Outcome.ENCOUNTER_START_FAILED
+	_restore_entry_relationship(initiator.relationship, first_opponents, first_lethal)
+	_restore_entry_relationship(target.relationship, second_opponents, second_lethal)
+	return receipt
+
+func _restore_entry_relationship(state: CombatRelationshipState, opponents: Array[StringName], lethal: Array[StringName]) -> void:
+	for target_id: StringName in state.lethal_target_ids():
+		state.remove_lethal_relation(target_id)
+	state.clear_opponents_preserving_lethal_targets()
+	for target_id: StringName in lethal:
+		state.mark_lethal_target(target_id)
+	state.clear_opponents_preserving_lethal_targets()
+	for target_id: StringName in opponents:
+		state.add_opponent(target_id)
 
 
 ## Content/test composition before encounter start; no production policies yet.
@@ -108,14 +168,33 @@ func active_scheduler() -> CombatEncounterScheduler:
 func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 	if _active_encounter == null or _active_scheduler == null or not is_valid():
 		return CombatSchedulerAdvanceResult.new()
-	return _active_scheduler.advance(
+	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
+		return CombatSchedulerAdvanceResult.new()
+	var advanced: CombatSchedulerAdvanceResult = _active_scheduler.advance(
 		delta_seconds,
 		_session.application_gameplay_allows_encounter_advance(),
 		_world_gate.freeze_owner_id(),
 		_session.encounter_combat_bindings(_active_encounter),
 		_session.combat_random_source(),
 		_session.encounter_skill_effect_registry(),
+		_resolution,
 	)
+	if _resolution != null:
+		if _resolution.failure != CombatEncounterResolution.Failure.NONE:
+			_hold_failed_resolution()
+		elif _resolution.result != null:
+			_resolution.reconcile_relationships()
+			_last_completion = complete(_resolution.result)
+			if not _last_completion.succeeded():
+				_resolution.fail(CombatEncounterResolution.Failure.WORLD_COMPLETION_FAILED)
+	return advanced
+
+func _hold_failed_resolution() -> void:
+	if _active_encounter.phase == CombatEncounterLifecycle.Value.ACTIVE:
+		var queued: CombatQueuedAction = _active_encounter.queued_player_action()
+		_active_encounter.begin_resolving()
+		if _active_scheduler.player_tactics() != null:
+			_active_scheduler.player_tactics().report_completion_cancellation(queued)
 
 
 func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
@@ -206,6 +285,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		)
 	_active_encounter = encounter
 	_active_scheduler = scheduler
+	_resolution = null if encounter.mode == CombatEncounterMode.Value.SCRIPTED else CombatEncounterResolution.new(_session, encounter)
 	return CombatEncounterStartResult.new(
 		CombatEncounterStartResult.Outcome.STARTED,
 		trigger.trigger_id,
@@ -216,6 +296,10 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 	if _active_encounter == null:
 		return CombatEncounterCompletionResult.new()
+	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
+		return CombatEncounterCompletionResult.new()
+	if _resolution != null and result != null and result.kind != CombatEncounterResultKind.Value.FLED and _resolution.result == null:
+		return CombatEncounterCompletionResult.new(CombatEncounterCompletionResult.Outcome.INVALID_RESULT)
 	var encounter_id: StringName = _active_encounter.encounter_id
 	if (
 		result == null
@@ -232,6 +316,8 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 			CombatEncounterCompletionResult.Outcome.RESULT_NOT_ALLOWED_FOR_MODE,
 			encounter_id,
 		)
+	if not _active_encounter.accepts_completion_result(result):
+		return CombatEncounterCompletionResult.new(CombatEncounterCompletionResult.Outcome.INVALID_RESULT, encounter_id)
 	var queued: CombatQueuedAction = _active_encounter.queued_player_action()
 	if not _active_encounter.begin_resolving():
 		return CombatEncounterCompletionResult.new(

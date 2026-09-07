@@ -204,7 +204,7 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 	_assert_eq(outdoor.player_body.global_position, physical_position_before, "encounter does not teleport physical body")
 	_assert_eq(player.relationship.opponent_ids(), player_opponents_before, "encounter topology does not mutate player relationship facts")
 	_assert_eq(npc.relationship.opponent_ids(), npc_opponents_before, "encounter topology does not invent NPC relationship facts")
-	_assert_false(outdoor.opportunity_timer.is_stopped(), "previously running cadence is restored after thaw")
+	_assert_true(outdoor.opportunity_timer.is_stopped(), "CXR8 thaw never reactivates historical cadence")
 	_assert_true(outdoor.select_npc(npc.character_id), "normal interaction path reopens after completion")
 	session.queue_free()
 	await tree.process_frame
