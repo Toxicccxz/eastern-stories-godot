@@ -333,7 +333,7 @@ func _test_base_action_and_strength_damage() -> void:
 	var base_random: CombatAttackResultScript = _hit_with_action_and_strength(0, 0, 0, 0, [0, 3, 3, 9, 0])
 	_assert_eq(base_random.calculation.damage_value, 9, "base damage is (10 + random(10)) / 2")
 
-	for invalid_apply: int in [0, -5]:
+	for invalid_apply: int in [-5]:
 		var vitality: CharacterResourceStateScript = _resource()
 		var invalid: CombatAttackResultScript = _resolve(
 			CombatAttackInputScript.new(_attacker(0, 3, 0, invalid_apply, 0), _defender(), _action()),
@@ -343,6 +343,22 @@ func _test_base_action_and_strength_damage() -> void:
 		_assert_eq(invalid.failure_stage, CombatAttackResultScript.FailureStage.APPLY_DAMAGE_RANDOM_BOUND, "nonpositive apply/damage stops at random bound")
 		_assert_eq(invalid.calculation.random_upper_bounds(), [2, 12, 12], "invalid apply/damage consumes no damage roll")
 		_assert_eq(vitality.current, 100, "invalid apply/damage performs no mutation")
+
+	var zero_vitality: CharacterResourceStateScript = _resource()
+	var zero_rng := ScriptedCombatRandomSourceScript.new([0, 3, 3, 5, 0])
+	var zero_base: CombatAttackResultScript = _resolve(
+		CombatAttackInputScript.new(_attacker(0, 3, 0, 0, 6), _defender(), _action()), zero_rng, zero_vitality,
+	)
+	_assert_eq(zero_base.outcome, CombatAttackResultScript.Outcome.HIT, "authorized unarmed zero base continues to strength")
+	_assert_eq(zero_base.calculation.base_apply_damage, 0, "no invented unarmed damage floor")
+	_assert_eq(zero_base.calculation.requested_damage, 5, "zero base + (6+5)/2 is exactly five")
+	_assert_eq(zero_rng.requested_bounds(), [2, 12, 12, 6, 1], "no zero-base RNG draw; original strength/defense order")
+	_assert_eq(zero_vitality.current, 95, "strength damage applies through existing resource authority")
+	var armed_zero: CombatAttackResultScript = _resolve(
+		CombatAttackInputScript.new(_attacker(0, 3, 0, 0, 6, 0, 0, 0, false, false, false, false, _weapon()), _defender(), _action()),
+		ScriptedCombatRandomSourceScript.new([0, 3, 3]), _resource(),
+	)
+	_assert_eq(armed_zero.failure_stage, CombatAttackResultScript.FailureStage.APPLY_DAMAGE_RANDOM_BOUND, "armed zero retains closed failure rule")
 
 	var strength: CombatAttackResultScript = _resolve(
 		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 10, 3, -2, 3), _defender(), _action(&"force-action", 0, 50)),

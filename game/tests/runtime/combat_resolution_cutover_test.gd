@@ -213,7 +213,7 @@ func _entry(tree: SceneTree) -> void:
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.LETHAL, "LETHAL encounter")
 	_check(encounter.accepted_trigger().cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, "player cause")
-	_check(encounter.participants().size() == 2 and coordinator.action_infos().is_empty(), "no proximity sweep / honest empty tactics")
+	_check(encounter.participants().size() == 2 and coordinator.action_infos().size() == 1 and coordinator.action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID, "no proximity sweep / production Flee only")
 	_check(not map.cadence_is_running() and not session.world_simulation_gate().is_open(), "one cadence / frozen world")
 	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, "explicit active Save block")
 	player.relationship.clear_opponents_preserving_lethal_targets()
@@ -353,6 +353,8 @@ func _spar(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+	Multi._unarm(player.state.equipment)
+	Multi._unarm(npc.character_state.equipment)
 	npc.set_world_location(player.world_location())
 	player.relationship.add_opponent(npc.character_id)
 	npc.relationship.add_opponent(player.character_id)
@@ -363,12 +365,21 @@ func _spar(tree: SceneTree) -> void:
 	var candidates: Array[CombatTriggerCandidate] = [CombatTriggerCandidate.new(player.character_id, &"a"), CombatTriggerCandidate.new(npc.character_id, &"b")]
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start(CombatTrigger.new(&"spar", CombatTriggerCause.Value.PLAYER_SPAR, CombatEncounterMode.Value.SPAR, player.character_id, candidates, player.world_location())).succeeded(), "source-backed SPAR")
+	var spar_position: Transform2D = session.outdoor_map().player_body.global_transform
 	var random := MaximumRandom.new()
 	session.configure_combat_random_source(random)
 	coordinator.advance_scheduler(100)
 	_check(not coordinator.has_active_encounter(), "friendly positive hit ends SPAR without threshold invention")
 	_check(npc.character_state.vitality.current > 0 and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and session.outdoor_map().corpse_states().is_empty(), "SPAR ends conscious with no corpse")
-	_check(coordinator.last_completion().succeeded(), "SPAR completion receipt")
+	_check(coordinator.last_completion() != null and coordinator.last_completion().succeeded(), "SPAR completion receipt")
+	_check(coordinator.last_completion() != null and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.SPAR_CONCLUDED and session.outdoor_map().player_body.global_transform == spar_position, "ordinary unarmed SPAR concludes at the unchanged world transform")
+	if coordinator.has_active_encounter():
+		print("SPAR diagnostic: resolution failure=", coordinator.resolution().failure)
+		for event: CombatSchedulerEvent in coordinator.active_scheduler().events():
+			if event.resolution != null and event.resolution.forward_result != null:
+				var ordinary: CombatOrdinaryAttackResult = event.resolution.forward_result.ordinary_attack_result
+				if ordinary != null and ordinary.has_base_result:
+					print("SPAR diagnostic: base outcome=", ordinary.base_result.outcome, " failure stage=", ordinary.base_result.failure_stage)
 	session.free()
 	await _settle(tree, 2)
 

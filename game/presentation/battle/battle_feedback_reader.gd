@@ -25,6 +25,8 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 			return "Defeat — you are %s. Pause remains available; Return to Main Menu to start again." % condition
 		CombatEncounterResultKind.Value.SPAR_CONCLUDED:
 			return "Spar concluded — friendly combat has ended."
+		CombatEncounterResultKind.Value.FLED:
+			return "Escaped — combat ended. Move away to disengage from danger."
 	return "Encounter ended — %s." % String(CombatEncounterResultKind.Value.keys()[receipt.terminal_result.kind]).capitalize()
 
 

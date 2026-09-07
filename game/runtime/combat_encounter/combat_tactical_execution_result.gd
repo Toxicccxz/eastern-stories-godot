@@ -1,7 +1,8 @@
 class_name CombatTacticalExecutionResult
 extends RefCounted
 
-enum Outcome { UNSUPPORTED, APPLIED, FAILED }
+## DISENGAGED is a semantic terminal intent; only encounter resolution may apply it.
+enum Outcome { UNSUPPORTED, APPLIED, FAILED, DISENGAGED }
 
 var _outcome: int
 var _effect_id: StringName

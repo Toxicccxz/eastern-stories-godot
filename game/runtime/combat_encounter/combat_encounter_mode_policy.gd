@@ -48,3 +48,13 @@ static func relationships_match(trigger: CombatTrigger, participants: Array[Comb
 					continue
 				initiator_fact = true
 	return initiator_fact
+
+## V1 compatibility boundary: armed friendly hits can cause mortal wounds in
+## combatd.c. Reject before establishment; never auto-unwield or clamp damage.
+static func equipment_supported(trigger: CombatTrigger, participants: Array[CombatParticipant]) -> bool:
+	if trigger.requested_mode != CombatEncounterMode.Value.SPAR:
+		return true
+	for participant: CombatParticipant in participants:
+		if not participant.binding.state.equipment.is_primary_hand_empty():
+			return false
+	return true

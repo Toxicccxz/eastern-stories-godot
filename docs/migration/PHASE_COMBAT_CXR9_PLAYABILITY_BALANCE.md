@@ -1,9 +1,12 @@
 # CXR9 — Old Pine Playability + Narrow Balance Stabilization
 
-Status: **BLOCKED / PARTIAL; CXR10 READINESS = BLOCKED.** Narrow stabilization
-implemented and validated on 2026-09-07. Required V1 agency/escape/telegraph and
-armed-SPAR decisions remain unresolved. The baseline/matrix below were recorded
-before production changes. This is a distinct slice self-audit, not CXR10.
+Status: **CXR9 implementation COMPLETE; CXR10 READINESS = READY / NOT STARTED.**
+V1 Closure Continuation below supersedes the historical Part 1 blockers with the
+owner-approved Flee/unarmed-SPAR/zero-base decisions and final 2026-09-07 evidence.
+Physical Android affected-path gate remains PENDING for CXR10 final audit/merge;
+this is not cross-platform qualification or integration on main. The original
+baseline/matrix and interrupted checkpoint remain historical evidence. This is a
+distinct slice self-audit, not CXR10.
 
 ## Scope / starting source
 
@@ -325,7 +328,7 @@ Exact LPC paths inspected for the decisions (under `reference/es2/mudlib/`):
 `d/oldpine/npc/fat_bandit.c`, `d/oldpine/pine1.c` (valid_leave).
 No imported active skill or new legacy formula. Legacy oddities are not corrected.
 
-## Remaining blockers / CXR10 entry criteria
+## Part 1 historical blockers / CXR10 entry criteria
 
 **CXR9 BLOCKED / PARTIAL; CXR10_READINESS = BLOCKED.** Narrow bootstrap/result
 fixes are implementation-tested, not complete Active Semi-Auto V1. Need owner
@@ -340,3 +343,287 @@ and Phase10D resumption remain deferred. Same major branch only; no PR/merge or
 CI/release flow started. Owner's 120 original dirty paths rehashed unchanged;
 `reference/es2` and `DECISIONS.md` have zero modifications. Delivery commit is
 recorded in git/final report, without embedding a self-referential SHA here.
+
+# V1 Closure Continuation
+
+## Owner decisions and current implementation checkpoint
+
+The owner authorized continuation on the same branch from Part 1
+`f22fc7fb9dfcb00a75917112f16ba0e840875e35`, without CXR10, PR, merge or Phase10D
+work. Preflight fetch confirms upstream 0/0. All 120 owner-dirty plugin/project
+paths were enumerated with SHA256/deletion states; none is part of these edits.
+
+The following supersede the unresolved decisions in the historical Part 1 text:
+
+- Current tactical floor is target selection plus real production Flee through
+  the existing queue. No starter martial/force/spell/item content is required.
+- Legal Flee executes deterministically at the command boundary, blocked by busy
+  at execution but not request time. No cost, gameplay RNG, exit lottery or teleport.
+- Return in place through the same Session; reconcile included opponent/lethal
+  relations without persistent pursuit/vendetta in V1. No reward/heal/corpse.
+- Aggression must require physical leave/reenter, never a timer immunity window.
+- Telegraph is conditionally satisfied/dormant: current ordinary-sword content
+  has no qualifying producer. Empty technique categories are extension seams.
+- Supported SPAR must reject any primary weapon before establishment; keep mortal
+  wound fail-closed as defense-in-depth, with no clamp/revive/automatic unwield.
+- Unavailable physical Android may remain an explicit CXR10 final-audit/merge
+  gate, not an implementation-completion blocker; no device PASS is inferred.
+
+Partial working-tree implementation registers `combat.flee`, SELF/FLEE metadata,
+mode validation (LETHAL/SPAR only), catalog label, typed DISENGAGED execution
+outcome, synchronous command-result return to resolution, immediate ordinary-batch
+stop, FLED subject/player result without winner/loser, existing relationship/thaw
+composition, and successful Escaped feedback. Direct completion without a derived
+non-scripted result is rejected. These are not yet complete acceptance claims.
+SPAR establishment now returns `SPAR_WEAPON_NOT_ALLOWED` before world freeze.
+
+## Interrupted checkpoint — unarmed zero apply-damage (subsequently resolved)
+
+The approved unarmed-only decision exposed a separate, previously masked conflict:
+
+1. `CombatSliceContentProfile.projected_apply_damage(null)` returns **0**.
+2. LPC `adm/daemons/combatd.c::do_attack` unconditionally computes
+   `(damage + random(damage)) / 2` before the separate strength bonus.
+3. `adm/daemons/race/human.c` default unarmed action and `chard.c::setup_char`
+   provide no positive `apply/damage` floor. Neither authorizes gifting damage.
+4. The already-closed `CombatAttackResolver` rejects `damage <= 0` at
+   `APPLY_DAMAGE_RANDOM_BOUND`, per the existing DECISIONS entry for non-positive
+   random bounds. The local MudOS `doc/efuns/random` specifies only `[0,n-1]`;
+   it does not prove the historical driver's zero-bound behavior.
+5. The CXR8 normal-SPAR fixture previously wielded swords. With both participants
+   explicitly unwielded before establishment, its first reached hit produces
+   `INVALID_SOURCE_STATE / APPLY_DAMAGE_RANDOM_BOUND`, then encounter resolution
+   `INCOMPLETE_ATTACK_CHAIN`, not `SPAR_CONCLUDED`.
+
+Reproduction: pinned Godot 4.7.2, `run_cxr8_tests.gd`:
+**158 assertions, 2 failures** (normal friendly conclusion and completion receipt).
+All other assertions pass, including the retained mortal-wound defense and the
+updated controlled cleanup through production queued Flee. Diagnostic log:
+`build/cxr9-closure-cxr8.log` (local ignored artifact). The test guards the absent
+receipt instead of throwing a secondary Nil-method error; it still fails honestly.
+
+This is not a request to reconsider owner decisions A–H. Completing normal unarmed
+SPAR requires a new narrow zero-base-damage compatibility choice outside those
+decisions and conflicting with a locked Combat Core invariant. No Core formula,
+RNG adapter, positive minimum, HP clamp, fake damage fixture or test weakening has
+been applied. Work pauses for that choice. Remaining focused/full validation,
+new closure coverage, real Fresh New Game Flee/Area rearm/input/Save proof,
+physical Android check, final architecture audit, commit and push are unfinished.
+No COMPLETE/READY claim is made and CXR10 has not started.
+
+## Authorized zero-base resolution
+
+The owner subsequently answered **授权** to the specifically proposed exception:
+empty-primary-hand base damage exactly zero contributes a zero base random term,
+without a draw, then runs all remaining original calculations. Armed zero and
+negative damage still reject; there is no positive floor or general RNG change.
+This is recorded separately in DECISIONS, not asserted as known MudOS behavior.
+The previous 158/2 CXR8 result is historical reproduction, not the final result.
+
+## Flee architecture and queue/busy behavior
+
+Production registers exactly `combat.flee` in each coordinator's existing typed
+registry. `CombatFleeTacticalPolicy` supplies FLEE/SELF/busy metadata, read-only
+request/execution validation, and only a `DISENGAGED` execution result. It receives
+no Session, world, movement or completion authority. `supports_mode` exposes the
+action only in LETHAL/SPAR; SCRIPTED remains controlled and rejects this request.
+The presentation catalog supplies only the label; its entries cannot enable actions.
+
+The existing path is:
+
+`Battle input -> CombatTacticalRequest -> existing one slot -> command boundary
+-> DISENGAGED -> CombatEncounterResolution.FLED -> existing coordinator completion`.
+
+Validation checks current encounter/player, exact Character/Relationship/Busy/Armor
+authorities, life/availability, gate, category and SELF identity. Binding wrappers
+are copied, so comparing wrapper object identity would be incorrect; their actual
+authorities must match. Queue consumption precedes execution. Replace/cancel and
+duplicate-request rules remain unchanged. Busy 2 -> 1 -> 0 consumes the original
+ordinary busy opportunities; the **next command boundary** executes Flee, not the
+middle of the busy-decrement opportunity. Pause/background retain the exact request;
+foreground still requires explicit Resume and does not accumulate catch-up time.
+
+After DISENGAGED the scheduler returns before adding delta, any ordinary opportunity,
+RNG, damage or progression. The resolution supplies FLED with no winner/loser and
+the player as subject. Direct caller-injected FLED without a derived result is
+rejected. No second queue/scheduler or effect-ID-based command dispatch was added.
+
+## Relationship/world return and aggression re-arm
+
+Existing resolution reconciliation visits **every included pair**, removes both
+opponent/lethal relations, and clears guarding only if no fight remains. Busy,
+resources, progression and unrelated authorities are untouched. Save still asks
+`OldPineSaveEligibility`; FLED is not a Save exception. A fixture with remaining
+NPC busy correctly remains ineligible, while a safe fixture and actual player Save
+succeed. Thaw/gate-release failures retain the prior one-way RESOLVING receipt:
+no retry, false Escaped message, new encounter, or cadence restart.
+
+The frozen player's exact transform is retained, not reapplied/teleported. After
+completion the same Session/body resumes and the old OpportunityTimer stays stopped.
+No corpse, loot, reward, heal or resurrection is produced. Multi-opponent coverage
+uses player+A+B and verifies all pairs, not just the current target.
+
+Physical validation proved the existing aggression presence-clear behavior sufficient:
+120 physics frames at the same overlap do not retrigger; actual exit and reentry
+create the next encounter. **No new aggression latch, timer immunity or world code**
+was needed. Persistent pursuit/vendetta fidelity remains explicitly outside V1.
+
+## SPAR compatibility and telegraph closure
+
+SPAR checks every resolved participant's authoritative primary-hand absence before
+relationship validation/freeze; each armed participant yields
+`SPAR_WEAPON_NOT_ALLOWED` without auto-unwield. Tests explicitly prepare empty hands,
+then run the real ordinary unarmed resolver to positive friendly damage,
+relationship removal, `SPAR_CONCLUDED`, no corpse and unchanged physical transform.
+The old controlled fixture's large skill/experience/health values are test setup,
+not production/New Game grants. The existing `SPAR_MORTAL_WOUND` test remains.
+
+Telegraph is **CONDITIONALLY SATISFIED / DORMANT**. Current authored scouts/Tall/Fat
+use ordinary sword behavior, not enemy tactical specials or committed heavy casts.
+There is no TELEGRAPH_STARTED producer/event emission, UI or countdown. The 18-seed
+ordinary-battle regression now explicitly checks that no tactical events are
+manufactured. No fake enum/producer/skill was introduced to populate an empty UI.
+
+## Fresh New Game live evidence
+
+Canonical ApplicationShell; production experience 600, HP 220, normal equipment,
+skills and random source. **NO QA STATS, NO QA TELEPORT, NO GUARANTEED RNG**.
+No direct start/execute/complete calls. Native mouse/keyboard/action input performs
+the routes; observation-only retained references/transform metadata do not mutate
+game authority. Live input timing and exact busy/RNG ordering are separate evidence.
+
+| Route | Observed result |
+| --- | --- |
+| A: Menu -> New Game -> walk -> click scout -> Attack -> Flee | PLAYER_LETHAL_ATTACK; FLED, unchanged transform/HP220, zero ordinary events in the observed encounter, Battle hidden, gate open, no corpse. |
+| A: walk away -> Pause -> Save | Same Session `321149471371`; real Save success `Your journey was saved.` using normal eligibility. Non-stale frames 5510 and 9777. |
+| B: fresh New Game -> walk south into Area -> mouse Flee | Natural NPC_AGGRESSION, no direct trigger. First run retained HP176/events62 across escape and 120 stationary physics frames. |
+| B clean repeat after observer error | Fresh Session `319807293950`, HP220/exp600 at spawn450,300. Encounter1 at450,751.000732; mouse Flee retains HP197/events8/exact transform across 120 physics frames. |
+| B: walk away -> physically reenter -> Enter | Walk to450,619 with no encounter/pending aggression, return into Area creates encounter2/NPC_AGGRESSION; default focused Flee accepted by actual Enter, FLED at same450,751.000732. |
+
+Clean final run `r28367103-8`: helper_live/session_active/game_capture_ready true,
+launch current_run_errors=[], no game errors; live frames **7229 -> 9124**, both
+stale_frame=false. Screenshot shows two natural aggression/Escaped log pairs and
+the restored world. Game stopped normally after evidence collection.
+
+An earlier stale editor class cache caused a boot parse failure; stop/scan/relaunch
+resolved it without code changes. Later a QA observer mistakenly read
+`CharacterState.resources` instead of `vitality`, causing a debugger break; this was
+not a gameplay failure. That route was rerun cleanly as above. Neither error is
+silently counted as a clean run. Immediate native input dispatch is asynchronous;
+the exact queued-before-execute assertion is proven in the controlled input tests,
+not inferred from a race-prone live read in the same input call.
+
+Busy timing is deterministic automated evidence (not claimed as naturally captured
+busy input). Real mouse and keyboard Flee succeed. Controller A and Viewport touch,
+64px minimum targets, no world click-through, Log Back before root Pause, and
+Home/foreground explicit Resume are covered in the real Shell test fixture.
+
+## Android status
+
+Latest `adb devices -l` returns no online device (earlier only an offline emulator).
+No final APK/physical touch PASS is claimed. `ANDROID_EMULATOR = PENDING`;
+`ANDROID_AFFECTED_PATH_GATE = PENDING`. Under the explicit owner boundary this does
+not block CXR9 implementation completion, but stays a **CXR10 final-audit/merge
+gate** requiring affected-path physical evidence or an explicit owner waiver.
+
+## Distinct architecture self-audit
+
+After tests, independently reread the complete production diff and the existing
+validation/completion/reconciliation bodies. PASS: the typed execution result,
+not an effect ID, controls the command stop; only resolution/coordinator owns FLED
+and thaw. The original lifecycle barrier runs before tactics and after ordinary
+opportunities. Failed return stays fail-closed and success text requires a completed
+receipt. No UI/policy completion, world mutation, RNG/cost/chance, second queue or
+target authority, Timer grace, generic callback, starter force/mapping grant,
+SPAR clamp/revival, active-Encounter serialization, or legacy cadence resurrection.
+No CXR10 or Phase10D implementation. Per-instance catalogs/registries and stateless
+Flee policies introduce no shared mutable gameplay state.
+
+One mode-matrix fixture now uses one busy opportunity for each participant, avoiding
+a random normal-SPAR conclusion inside an establishment-only assertion. This does
+not change production timing or the separate real unarmed-SPAR conclusion test.
+Earlier CXR7/CXR8 cleanup fixtures use the production queued Flee boundary rather
+than injecting an artificial FLED result. Dedicated closure tests remain under the
+existing CXR9 runner and canonical runner, not a new slice.
+
+Additional LPC files read in this continuation, under `reference/es2/mudlib/`:
+`cmds/std/go.c`, `cmds/std/fight.c`, `cmds/std/kill.c`, `cmds/std/perform.c`,
+`cmds/std/exert.c`, `feature/attack.c`, `std/char.c`, `adm/daemons/combatd.c`,
+`adm/daemons/chard.c`, `adm/daemons/race/human.c`, `d/force/recover.c`,
+`doc/efuns/random`; targeted attribute/skill dependency searches established no
+authored positive unarmed apply-damage floor. The Part 1 source list remains above.
+
+## Final tests and verification
+
+Pinned `4.7.2.stable.official.ed1daf0bf`; each listed runner exited 0 with no
+GDScript errors. Counts overlap; do not add focused totals to the canonical count.
+
+| Runner | Assertions | Failures |
+| --- | ---: | ---: |
+| run_cxr9_tests.gd | 368 | 0 |
+| run_cxr8_tests.gd | 159 | 0 |
+| run_cxr7_tests.gd | 149 | 0 |
+| run_cxr6_tests.gd | 148 | 0 |
+| run_cxr5_tests.gd | 240 | 0 |
+| run_cxr4_tests.gd | 791 | 0 |
+| run_cxr3_tests.gd (includes resident world/portal/aggression) | 719 | 0 |
+| run_cxr2_tests.gd | 736 | 0 |
+| run_phase_5b2a_tests.gd (zero-base compatibility) | 664 | 0 |
+| run_phase_10b4_tests.gd (Save/restore/corpse/Session) | 1,091 | 0 |
+| run_phase_10c2a_tests.gd | 3,597 | 0 |
+| run_phase_10c2b_tests.gd | 221 | 0 |
+| run_phase_10c2c_tests.gd | 533 | 0 |
+| **run_tests.gd, complete canonical including relationships/Shell** | **16,132** | **0** |
+
+Final logs: ignored `build/cxr9-closure-final-run_tests.log`,
+`cxr9-closure-final-run_cxr9_tests.log`, `cxr9-closure-final-run_cxr8_tests.log`;
+other focused logs share `cxr9-closure-` prefix. The earlier full 16,105 pass was
+followed by final 16,132 after adding explicit negative-feedback/telegraph/transform
+coverage; it was not a retry to conceal a failure.
+
+- Headless editor PASS. Initial sandbox user-directory/certificate/ADB access
+  failures were rechecked in the normal workstation context, without config changes.
+- `tools/ci/repository_checks.py`: PASS.
+- **OWNER WORKTREE CHECK:** Python 45/46, exactly the existing missing desktop
+  viewport-width field in owner `project.godot`; not called PASS or silently fixed.
+- **TRACKED CLEAN OVERLAY CHECK:** Python 46/46 using `git archive HEAD` plus only
+  CXR9 changed/new files under ignored `build/cxr9-closure-clean-overlay`. Original
+  tracked project/plugin settings are retained there; owner worktree is untouched.
+- `git diff --check`: PASS; full changed CXR9-file trailing-whitespace scan: 0.
+- `reference/es2` modifications: 0. Original owner dirty paths: 120, SHA256/deletion
+  states unchanged. No owner project/plugin file staged. DECISIONS edits are only
+  the explicitly authorized SPAR/Flee/zero-base compatibility choices.
+
+## Final V1 closure matrix
+
+| Capability | CXR9 closure |
+| --- | --- |
+| Ordinary auto combat / automatic defense | PASS; existing core and cadence retained |
+| Target selection / multi-opponent model | PASS; exact current/queued distinction |
+| One-slot queue / real production agency | PASS; target selection plus Flee |
+| Martial/Internal/Spell/Item actions | Extension seams; no authored starter content |
+| Flee | PASS; deterministic, busy-blocked, RNG/cost-free |
+| Enemy telegraph | CONDITIONALLY SATISFIED / DORMANT; no qualifying producer |
+| SPAR | PASS; unarmed-only with explicit zero-base exception |
+| LETHAL / SCRIPTED | PASS; SCRIPTED does not gain Flee implicitly |
+| Battle feedback/log / result feedback | PASS; Escaped only after successful completion |
+| World return / aggression re-arm | PASS; same position, physical exit/reentry |
+| Corpse/loot | PASS regression; Flee creates neither |
+| Save/lifecycle | PASS; original eligibility and explicit Resume |
+| Physical Android changed path | PENDING CXR10 final-audit/merge gate |
+
+## Delivery boundary and deferrals
+
+CXR9 implementation COMPLETE; CXR10 readiness READY. Part 1 SHA:
+`f22fc7fb9dfcb00a75917112f16ba0e840875e35`. Closure implementation/final SHA is
+reported with the git delivery to avoid a self-referential commit hash here.
+Same `phase/combat-experience-redesign` only; no PR, merge, new CI qualification,
+CXR10 execution or Phase10D resumption. This is implementation completion, not
+fully integrated main. Owner files remain intentionally dirty after the commit.
+
+The next CXR10 instruction may authorize **final audit / validation / PR / CI /
+merge**, not additional gameplay implementation; readiness alone does not start it.
+Authored techniques/internal/spell/item content, advanced enemies/real telegraphs,
+pursuit/vendetta fidelity, armed/practice-weapon SPAR, final art/VFX/audio, broad
+balance, accessibility/localization, and the physical Android gate remain deferred.
+Phase10D remains PARKED / FROZEN. Stop and await owner review.

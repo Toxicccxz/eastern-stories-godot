@@ -35,7 +35,7 @@ combat was not cut over by CXR4 itself. The
 [CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
 is complete: typed player requests, split validation, exact-authority execution at a deterministic
 command boundary, busy-aware replacement/cancellation, and ordered events. Production action
-registration remains empty pending authored technique migration. The
+registration was empty at CXR5; CXR9 adds the approved production Flee. The
 [CXR6 Battle Presentation](../migration/PHASE_COMBAT_CXR6_BATTLE_PRESENTATION.md)
 is implementation/desktop-runtime complete: Session-owned frozen-world overlay,
 typed read projections and request/cancel adapter, honest empty Quick Actions,
@@ -59,15 +59,19 @@ desktop actual Attack -> natural Victory -> movement smoke PASS. Broader earlier
 unqualified by this bounded pass. The major milestone is not integrated.
 
 [CXR9 Old Pine Playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md)
-is **BLOCKED / PARTIAL; CXR10 readiness BLOCKED**. Unmodified Fresh New Game
-reproduced the starter experience mismatch. Narrow Old Pine-only New Game 10 ->
-600 entry state and read-only successful-result HUD feedback are implemented;
-normal desktop Attack/aggression, natural victory/defeat, corpse Take and safe Save
-passed with no QA stat/position/RNG setup. CXR9 234 and full canonical 15,994
-assertions PASS. Real production tactics, flee destination/pursuit, telegraph
-producer and armed-SPAR policy remain V1 blockers; changed Android paths PENDING
-(no online device). Owner-dirty project config causes one extra Python assertion
-failure (45/46); clean tracked config + CXR9 overlay passes 46/46, owner work intact.
+is **implementation COMPLETE; CXR10 readiness READY / NOT STARTED**. Old Pine-only
+New Game experience 600 and read-only result feedback remain. Production Flee uses
+the existing busy-aware one-slot queue, typed command result and same-position
+world return with included relationship cleanup, no RNG/cost/reward/teleport.
+Real fresh Attack/aggression -> Flee -> movement/Save and physical Area exit/reentry
+passed without QA stats/position/RNG. SPAR is explicitly unarmed-only, with the
+owner-authorized zero-base unarmed random-term exception; mortal-state defense stays.
+Telegraph is dormant/conditionally satisfied with no current producer, not fake content.
+Final CXR9 368 and full canonical 16,132 assertions PASS; Godot 4.7.2 editor and
+repository checks PASS. Owner config Python remains 45/46; tracked clean overlay 46/46,
+all 120 original owner dirty files preserved. Physical Android changed-path evidence
+is **PENDING as a CXR10 final-audit/merge gate** (no online device). No PR/merge or
+CXR10 execution; the major redesign remains unintegrated on main.
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -129,7 +133,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR9 remaining V1 blockers/device evidence, then CXR10 audit/integration, and a new
+- CXR10 final audit/integration with affected physical Android gate, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;

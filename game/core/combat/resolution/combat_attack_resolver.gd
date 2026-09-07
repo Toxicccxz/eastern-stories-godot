@@ -231,7 +231,7 @@ static func resolve(
 	calculation._base_apply_damage = attacker.projected_apply_damage
 	calculation._damage_value = calculation._base_apply_damage
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.APPLY_DAMAGE_PROJECTED
-	if calculation._damage_value <= 0:
+	if calculation._damage_value < 0 or (calculation._damage_value == 0 and attacker.has_weapon):
 		return _finish(
 			CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
 			CombatAttackResult.FailureStage.APPLY_DAMAGE_RANDOM_BOUND,
@@ -244,8 +244,12 @@ static func resolve(
 			calculation,
 			mutation,
 		)
-	var damage_roll: int = _draw(random_source, calculation._damage_value, calculation)
-	if not _is_valid_draw(damage_roll, calculation._damage_value):
+	# CXR9 explicit compatibility choice: unarmed zero base contributes zero,
+	# without random(0). Strength and every later source-ordered stage still run.
+	var damage_roll: int = 0
+	if calculation._damage_value > 0:
+		damage_roll = _draw(random_source, calculation._damage_value, calculation)
+	if calculation._damage_value > 0 and not _is_valid_draw(damage_roll, calculation._damage_value):
 		return _invalid_draw_result(
 			CombatAttackResult.FailureStage.APPLY_DAMAGE_RANDOM_DRAW,
 			attacker,

@@ -3,7 +3,7 @@ extends RefCounted
 
 ## Trusted typed policies must be stateless. Both validations are read-only and
 ## RNG-free. Only execute may mutate the supplied exact authorities/use RNG.
-## Production registry is empty until authored active techniques are migrated.
+## Production Flee is explicit; authored technique categories remain extension seams.
 var _action_id: StringName
 var _category: int
 var _target_rule: int
@@ -42,6 +42,9 @@ func is_valid() -> bool:
 
 func validate_request(_context: CombatTacticalContext) -> int:
 	return CombatTacticalResult.Code.POLICY_UNSUPPORTED
+
+func supports_mode(_mode: int) -> bool:
+	return true
 
 
 func validate_execution(_context: CombatTacticalContext) -> int:

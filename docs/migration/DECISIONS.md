@@ -1,5 +1,66 @@
 # Migration Decisions
 
+## Active Semi-Auto V1 SPAR establishment is unarmed-only
+
+**Decision:** CXR9 owner authorization restricts SPAR establishment to participants
+without a wielded primary weapon. A weapon yields typed `SPAR_WEAPON_NOT_ALLOWED`
+before Encounter activation/freezing. No automatic unwield, damage suppression,
+HP clamp, revive, lethal conversion or corpse is introduced. Existing
+`SPAR_MORTAL_WOUND` remains defense-in-depth for invalid/future states.
+
+**Reason:** `cmds/std/fight.c` establishes reciprocal friendly intent, but
+`adm/daemons/combatd.c::do_attack` allows wounds when either lethal intent OR a
+weapon is present, before positive friendly damage removes the relationships.
+`std/char.c` treats negative effective resources as mortal. That conflicts with
+the native non-corpse SPAR contract.
+
+**Compatibility impact:** Legacy armed friendly fights are deliberately unsupported
+in V1; future armed/practice-weapon spar needs a separate policy. The newly exposed
+unarmed zero-base-damage conflict is resolved by the separate owner authorization
+below, not by inventing a positive damage floor.
+
+## Unarmed zero base damage contributes zero without a random draw
+
+**Decision:** Following the reproduced CXR9 unarmed-SPAR blocker, the owner
+explicitly authorized only this exception: when the attacker has no primary
+weapon and projected base damage equals zero, its base random term is zero and
+consumes no RNG. Continue the unchanged source-ordered action/strength/armor
+calculation. Negative base damage and armed zero base damage still fail at
+`APPLY_DAMAGE_RANDOM_BOUND`; all other non-positive random-bound rules remain.
+
+**Reason:** `adm/daemons/combatd.c::do_attack` calculates
+`(damage + random(damage)) / 2` before adding strength. Human unarmed action and
+`chard.c::setup_char` do not establish a positive base damage; the native empty-hand
+projection is zero. Local `doc/efuns/random` does not establish historical driver
+semantics for zero. Rejecting that ordinary unarmed path prevented the approved
+unarmed-only SPAR from concluding.
+
+**Compatibility impact:** This is an explicit narrow substitution, not a claim
+that the old driver consumed no RNG for `random(0)`. It supersedes the earlier
+non-positive-bound decision only at this empty-primary-hand base-damage stage.
+It applies equally to unarmed LETHAL and SPAR; it does not grant damage, suppress
+wounds, alter skills, clamp HP, or generally redefine the random adapter.
+Sources: `reference/es2/mudlib/adm/daemons/combatd.c`, `adm/daemons/chard.c`,
+`adm/daemons/race/human.c`, `doc/efuns/random`.
+
+## Active Semi-Auto V1 Flee is same-position disengagement
+
+**Decision:** The owner authorizes queued, busy-blocked Flee for LETHAL/SPAR,
+deterministically successful when execution validation passes. It consumes no
+resource or RNG and returns control at the unchanged physical position. Included
+opponent and lethal relations are reconciled; V1 retains no cross-Encounter
+pursuit/vendetta. No teleport, reward, healing, corpse or timed immunity is added.
+
+**Reason:** `cmds/std/go.c::do_flee` randomizes a room exit, not a general escape
+success roll. Continuous native world has no equivalent in-Encounter exit list.
+Source `feature/attack.c::remove_all_enemy` leaves killer markers, but persistent
+pursuit and killer Save serialization are not represented by this V1 boundary.
+
+**Compatibility impact:** This explicitly differs from legacy killer preservation
+and room-exit movement; it does not change ordinary portal/handoff policy. Physical
+leave/reenter controls subsequent aggression. Implementation and acceptance
+progress are recorded in CXR9; this approved decision is not a validation PASS.
+
 ## Native saves require a restart-stable gameplay boundary
 
 **Decision:** A native Save is accepted only when every represented character and Old Pine runtime

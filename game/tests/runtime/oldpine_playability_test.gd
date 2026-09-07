@@ -12,6 +12,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		for npc_index: int in [0, 3, 4]:
 			for experience: int in [10, 600]:
 				await _authored_encounter(tree, seed_value, npc_index, experience)
+	var closure: Dictionary[String, Variant] = await preload("res://tests/runtime/combat_flee_test.gd").new().run_all(tree)
+	_assertions += closure["assertions"]
+	_failures.append_array(closure["failures"])
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _session(tree: SceneTree, seed_value: int) -> OldPineWorldSessionController:
@@ -44,7 +47,7 @@ func _authored_and_restore(tree: SceneTree) -> void:
 	_check(p.recovery.inner_force.current == 0 and p.recovery.mana.current == 0 and p.recovery.atman.current == 0, "no internal-resource buff")
 	_check(p.equipment.primary_weapon().weapon_id == CombatSliceContentProfile.LONG_SWORD_ID, "unchanged starting sword")
 	_check(s.inventory_state().registered_item_ids().size() == 12, "unchanged twelve bootstrap items")
-	_check(s.combat_encounter_coordinator().action_infos().is_empty(), "honest empty production actions, not tactical PASS")
+	_check(s.combat_encounter_coordinator().action_infos().size() == 1 and s.combat_encounter_coordinator().action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID, "one real production Flee, no invented starter technique")
 	_check(s.encounter_opportunity_interval_seconds() == 1.0, "unchanged one-second opportunity configuration")
 	_check(s.outdoor_map().opportunity_timer.is_stopped(), "old cadence Timer remains non-production")
 	var exp_values: Array[int] = [600, 600, 600, 900, 500]
@@ -75,6 +78,10 @@ func _feedback_failures() -> void:
 		var receipt := CombatEncounterCompletionResult.new(outcome, &"test", terminal)
 		_check(BattleFeedbackReader.completion_text(receipt, CharacterRuntimeLifeStatus.Value.ACTIVE).is_empty() == (outcome != CombatEncounterCompletionResult.Outcome.COMPLETED), "never advertise victory before successful world return")
 	_check(BattleFeedbackReader.completion_text(null, 0).is_empty(), "no receipt no result")
+	var fled := CombatEncounterResult.new(&"flee", CombatEncounterMode.Value.LETHAL, CombatEncounterResultKind.Value.FLED)
+	for outcome: int in CombatEncounterCompletionResult.Outcome.values():
+		var receipt := CombatEncounterCompletionResult.new(outcome, &"flee", fled)
+		_check(BattleFeedbackReader.completion_text(receipt, CharacterRuntimeLifeStatus.Value.ACTIVE).begins_with("Escaped") == (outcome == CombatEncounterCompletionResult.Outcome.COMPLETED), "FLED never advertises escape on failed world return")
 	var spar := CombatEncounterCompletionResult.new(CombatEncounterCompletionResult.Outcome.COMPLETED, &"spar", CombatEncounterResult.new(&"spar", CombatEncounterMode.Value.SPAR, CombatEncounterResultKind.Value.SPAR_CONCLUDED))
 	_check(BattleFeedbackReader.completion_text(spar, 0).begins_with("Spar concluded"), "SPAR text never implies kill/loot")
 
@@ -103,6 +110,7 @@ func _authored_encounter(tree: SceneTree, seed_value: int, npc_index: int, exper
 	_check(not c.has_active_encounter(), "representative battle terminates without stuck resolution")
 	_check(c.last_completion() != null and c.last_completion().succeeded(), "successful authoritative world return")
 	_check(s.world_simulation_gate().is_open(), "same world thawed")
+	_check(scheduler.player_tactics().events().is_empty(), "authored ordinary sword battle produces no special/telegraph tactical events")
 	var hp_before: int = p.state.vitality.current
 	var exp_before: int = p.state.progression.combat_experience
 	var rng_before: RandomStreamSnapshot = s.combat_random_source().capture_random_state()

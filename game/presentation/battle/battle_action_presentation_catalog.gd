@@ -2,8 +2,8 @@ class_name BattleActionPresentationCatalog
 extends Resource
 
 ## Labels are presentation only. Metadata never registers or enables an action.
-@export var action_ids: Array[StringName] = []
-@export var labels: Array[String] = []
+@export var action_ids: Array[StringName] = [CombatFleeTacticalPolicy.ACTION_ID]
+@export var labels: Array[String] = ["Flee / Disengage"]
 
 
 func label_for(action_id: StringName) -> String:

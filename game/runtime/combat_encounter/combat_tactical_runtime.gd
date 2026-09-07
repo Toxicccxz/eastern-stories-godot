@@ -136,14 +136,14 @@ func cancel(
 func process_command_boundary(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
-) -> void:
+) -> CombatTacticalExecutionResult:
 	var action: CombatQueuedAction = _encounter.queued_player_action()
 	if action == null:
-		return
+		return null
 	var code: int = _base_validation(action, true, _encounter.encounter_id, bindings)
 	var policy: CombatTacticalActionPolicy = _registry.find(action.request.action_id)
 	if code == Code.ACCEPTED and policy.blocks_when_busy and _context(action).actor.busy.is_busy():
-		return
+		return null
 	if code == Code.ACCEPTED:
 		code = _target_validation(action, policy, bindings)
 	if code == Code.ACCEPTED:
@@ -152,15 +152,16 @@ func process_command_boundary(
 		_encounter.clear_queued_player_action(action.request.request_id)
 		_emit(Kind.EXECUTION_REJECTED, action, code)
 		_emit(Kind.CANCELLED, action, code)
-		return
+		return null
 	## Consume BEFORE execution: a failed attempt has no implicit retry/rollback.
 	if not _encounter.clear_queued_player_action(action.request.request_id):
-		return
+		return null
 	_emit(Kind.EXECUTION_STARTED, action)
 	var result: CombatTacticalExecutionResult = policy.execute(_context(action), random_source)
 	if result == null:
 		result = CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED)
 	_emit(Kind.RESOLVED, action, Code.ACCEPTED, result)
+	return result
 
 
 ## Coordinator invokes only after its valid resolving transition cleared the slot.
@@ -244,6 +245,7 @@ func _context(action: CombatQueuedAction) -> CombatTacticalContext:
 	return CombatTacticalContext.new(
 		_encounter.participant_for(action.request.actor_id).binding,
 		null if target == null else target.binding,
+		_encounter.mode,
 	)
 
 

@@ -146,7 +146,13 @@ func advance(
 	if boundary != null and not boundary.inspect(bindings):
 		return CombatSchedulerAdvanceResult.new()
 	if _tactical != null:
-		_tactical.process_command_boundary(bindings, random_source)
+		var tactical_result: CombatTacticalExecutionResult = _tactical.process_command_boundary(bindings, random_source)
+		if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.DISENGAGED:
+			if boundary != null:
+				boundary.accept_tactical(tactical_result)
+			# Never accumulate delta or execute an ordinary opportunity after escape,
+			# even if a standalone scheduler has no completion adapter installed.
+			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
 	if boundary != null and not boundary.inspect(bindings):
 		return CombatSchedulerAdvanceResult.new()
 	_accumulated_input_seconds += delta_seconds

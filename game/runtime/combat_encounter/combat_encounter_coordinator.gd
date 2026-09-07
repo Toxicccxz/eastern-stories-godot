@@ -70,13 +70,17 @@ func _restore_entry_relationship(state: CombatRelationshipState, opponents: Arra
 		state.add_opponent(target_id)
 
 
-## Content/test composition before encounter start; no production policies yet.
+## Content/test composition before encounter start; production Flee is registered below.
 func register_tactical_policy(policy: CombatTacticalActionPolicy) -> bool:
 	return not has_active_encounter() and _tactical_registry.register_policy(policy)
 
 
 func action_infos() -> Array[CombatTacticalActionInfo]:
-	return _tactical_registry.action_infos()
+	var infos: Array[CombatTacticalActionInfo] = []
+	for info: CombatTacticalActionInfo in _tactical_registry.action_infos():
+		if _active_encounter == null or _tactical_registry.find(info.action_id).supports_mode(_active_encounter.mode):
+			infos.append(info)
+	return infos
 
 
 func change_player_target(request: CombatTargetRequest) -> CombatTargetResult:
@@ -147,6 +151,7 @@ func _init(
 ) -> void:
 	_session = p_session
 	_world_gate = p_world_gate
+	_tactical_registry.register_policy(CombatFleeTacticalPolicy.new())
 
 
 func is_valid() -> bool:
@@ -242,6 +247,8 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		participants.append(
 			CombatParticipant.new(candidate.participant_id, candidate.side_id, binding)
 		)
+	if not CombatEncounterModePolicy.equipment_supported(trigger, participants):
+		return _start_failure(CombatEncounterStartResult.Outcome.SPAR_WEAPON_NOT_ALLOWED, trigger)
 	if not CombatEncounterModePolicy.relationships_match(trigger, participants, _session.player_runtime().character_id):
 		return _start_failure(CombatEncounterStartResult.Outcome.MODE_RELATIONSHIP_MISMATCH, trigger)
 
@@ -305,7 +312,7 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 		return _last_completion
 	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
 		return CombatEncounterCompletionResult.new()
-	if _resolution != null and result != null and result.kind != CombatEncounterResultKind.Value.FLED and _resolution.result == null:
+	if _resolution != null and (_resolution.result == null or result == null or result.kind != _resolution.result.kind):
 		return CombatEncounterCompletionResult.new(CombatEncounterCompletionResult.Outcome.INVALID_RESULT)
 	var encounter_id: StringName = _active_encounter.encounter_id
 	if (

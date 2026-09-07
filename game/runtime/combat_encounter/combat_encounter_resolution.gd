@@ -25,6 +25,16 @@ func fail(value: Failure) -> void:
 	if _failure == Failure.NONE:
 		_failure = value
 
+func accept_tactical(value: CombatTacticalExecutionResult) -> void:
+	if _failure != Failure.NONE or _result != null or _encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
+		return
+	if value == null or value.outcome != CombatTacticalExecutionResult.Outcome.DISENGAGED:
+		return
+	if _encounter.mode not in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
+		return
+	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
+		CombatEncounterResultKind.Value.FLED, [], [], [_session.player_runtime().character_id])
+
 func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null) -> bool:
 	if _failure != Failure.NONE or _result != null:
 		return false

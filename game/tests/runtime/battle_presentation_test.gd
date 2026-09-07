@@ -24,7 +24,7 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	session.configure_combat_random_source(random)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(not BattleProjectionBuilder.build(session).active, "inactive projection")
-	_check(coordinator.action_infos().is_empty(), "production registry empty")
+	_check(coordinator.action_infos().size() == 1 and coordinator.action_infos()[0].category == CombatTacticalRequest.Category.FLEE, "production Flee registered, unsupported in SCRIPTED fixture")
 	_check(Setup.start(session, &"cxr6.empty").succeeded(), "production-empty controlled encounter")
 	var empty: BattlePresentationProjection = BattleProjectionBuilder.build(session)
 	_check(empty.active and empty.actions().is_empty(), "active production has zero actions")
