@@ -4,6 +4,12 @@ Implementation and desktop runtime validation complete, 2026-09-07.
 Branch: `phase/combat-experience-redesign`; starting HEAD:
 `935da01329f3e8dcebda98abe87947491476ce9a`. This is a slice, not major-phase integration.
 No PR, merge, CXR8, or Phase 10D continuation. Physical mobile requalification remains pending.
+Implementation commit: `7a248b676c825efa2914f7d1e4bfcc2b232a0787` (34 files, including UID metadata).
+
+Changed groups: existing Encounter latest-event read; coordinator/scheduler/start result and four
+new typed target/mode/event classes; six existing Battle presentation scripts; new CXR7 runner,
+test and QA fixture/harness; canonical runner; CXR3/4 and mobile-layout expectation corrections;
+this phase record and STATUS/ROADMAP. Exact file inventory: `git show --stat 7a248b6`.
 
 ## Discovery and plan
 
