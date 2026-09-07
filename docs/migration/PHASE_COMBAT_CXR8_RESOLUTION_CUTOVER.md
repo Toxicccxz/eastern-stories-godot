@@ -255,7 +255,9 @@ there is no new integration-CI or post-merge-main claim. The same branch is push
 
 2026-09-07 audit starting at `dff7b7625f545d6e84ee19dd14912ec4041e322f` (origin 0/0).
 Original implementation remains `9e00c37f0e1f4621cc86296ad87a9dd7bd8a0268`.
-Audit-fix implementation SHA is recorded in the following delivery-finalization commit.
+Audit-fix implementation / audited code SHA: `d7099d48b5a32775956fb6a5843e5e03293ed534`.
+The following delivery-finalization commit only records this SHA; no production/test change follows
+the 15,760-assertion full run, independent source audit or real success smoke above.
 
 **Finding:** the previous `complete()` committed COMPLETED before Session thaw. A thaw failure
 therefore hid Battle's ACTIVE/RESOLVING-only projection; a gate release failure was worse because
