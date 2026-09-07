@@ -168,6 +168,10 @@ func active_scheduler() -> CombatEncounterScheduler:
 func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 	if _active_encounter == null or _active_scheduler == null or not is_valid():
 		return CombatSchedulerAdvanceResult.new()
+	# RESOLVING is a one-way barrier, including a failed world-return attempt.
+	# Do not re-enter lifecycle reconciliation or completion on later frames.
+	if _active_encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
+		return CombatSchedulerAdvanceResult.new()
 	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
 		return CombatSchedulerAdvanceResult.new()
 	var advanced: CombatSchedulerAdvanceResult = _active_scheduler.advance(
@@ -184,9 +188,7 @@ func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 			_hold_failed_resolution()
 		elif _resolution.result != null:
 			_resolution.reconcile_relationships()
-			_last_completion = complete(_resolution.result)
-			if not _last_completion.succeeded():
-				_resolution.fail(CombatEncounterResolution.Failure.WORLD_COMPLETION_FAILED)
+			complete(_resolution.result)
 	return advanced
 
 func _hold_failed_resolution() -> void:
@@ -285,6 +287,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		)
 	_active_encounter = encounter
 	_active_scheduler = scheduler
+	_last_completion = null
 	_resolution = null if encounter.mode == CombatEncounterMode.Value.SCRIPTED else CombatEncounterResolution.new(_session, encounter)
 	return CombatEncounterStartResult.new(
 		CombatEncounterStartResult.Outcome.STARTED,
@@ -296,6 +299,10 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 	if _active_encounter == null:
 		return CombatEncounterCompletionResult.new()
+	# The first attempted world return owns its receipt. Even FLED cannot retry
+	# a failed return or replace the already derived gameplay result.
+	if _last_completion != null:
+		return _last_completion
 	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
 		return CombatEncounterCompletionResult.new()
 	if _resolution != null and result != null and result.kind != CombatEncounterResultKind.Value.FLED and _resolution.result == null:
@@ -326,31 +333,37 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 		)
 	if _active_scheduler != null and _active_scheduler.player_tactics() != null:
 		_active_scheduler.player_tactics().report_completion_cancellation(queued)
-	if not _active_encounter.complete(result):
-		return CombatEncounterCompletionResult.new(
-			CombatEncounterCompletionResult.Outcome.COMPLETION_TRANSITION_FAILED,
-			encounter_id,
-		)
+	# No await or deferred work: the Core stays RESOLVING throughout world return.
+	# Local thaw only prepares the map; the same global gate still blocks gameplay.
 	if not _session.thaw_world_after_encounter(encounter_id):
-		return CombatEncounterCompletionResult.new(
+		_last_completion = CombatEncounterCompletionResult.new(
 			CombatEncounterCompletionResult.Outcome.WORLD_THAW_FAILED,
 			encounter_id,
 			result,
 		)
-	_active_scheduler = null
-	_active_encounter = null
+		return _last_completion
 	if not _world_gate.release(encounter_id):
-		return CombatEncounterCompletionResult.new(
-			CombatEncounterCompletionResult.Outcome.WORLD_THAW_FAILED,
+		_last_completion = CombatEncounterCompletionResult.new(
+			CombatEncounterCompletionResult.Outcome.WORLD_GATE_RELEASE_FAILED,
 			encounter_id,
 			result,
 		)
-	var completed_result := CombatEncounterCompletionResult.new(
+		return _last_completion
+	# Prevalidated result, unchanged Core, synchronous non-reentrant gate release.
+	# Commit terminal state only after both world-return operations succeeded.
+	if not _active_encounter.complete(result):
+		_last_completion = CombatEncounterCompletionResult.new(
+			CombatEncounterCompletionResult.Outcome.COMPLETION_TRANSITION_FAILED, encounter_id, result,
+		)
+		return _last_completion
+	_last_completion = CombatEncounterCompletionResult.new(
 		CombatEncounterCompletionResult.Outcome.COMPLETED,
 		encounter_id,
 		result,
 	)
-	return completed_result
+	_active_scheduler = null
+	_active_encounter = null
+	return _last_completion
 
 
 func _location_matches_trigger(

@@ -37,6 +37,7 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 		participants, [] if tactical == null else coordinator.action_infos(),
 		encounter.queued_player_action(),
 		CombatQueuedAction.Status.EMPTY if tactical == null else tactical.queue_status(),
+		-1 if coordinator.last_completion() == null else coordinator.last_completion().outcome,
 	)
 
 

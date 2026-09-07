@@ -9,6 +9,9 @@ var _participants: Array[BattleParticipantProjection]
 var _actions: Array[CombatTacticalActionInfo]
 var _queued: CombatQueuedAction
 var _queue_status: int
+var _completion_outcome: int
+var completion_outcome: int:
+	get: return _completion_outcome
 var encounter_id: StringName:
 	get: return _encounter_id
 var active: bool:
@@ -30,6 +33,7 @@ func _init(
 	p_actions: Array[CombatTacticalActionInfo] = [],
 	p_queued: CombatQueuedAction = null,
 	p_queue_status: int = CombatQueuedAction.Status.EMPTY,
+	p_completion_outcome: int = -1,
 ) -> void:
 	_encounter_id = p_encounter_id
 	_mode = p_mode
@@ -39,6 +43,7 @@ func _init(
 	_actions = p_actions.duplicate()
 	_queued = null if p_queued == null else p_queued.duplicate_snapshot()
 	_queue_status = p_queue_status
+	_completion_outcome = p_completion_outcome
 
 
 func participants() -> Array[BattleParticipantProjection]:

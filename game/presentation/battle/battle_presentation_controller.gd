@@ -97,6 +97,8 @@ func refresh_projection() -> void:
 	if not _projection.active:
 		return
 	_title.text = "ENCOUNTER · %s · %s\nCurrent Target: %s" % [CombatEncounterMode.Value.keys()[_projection.mode], _receipt.text, _projection.display_name(_projection.current_target_id)]
+	if _projection.completion_outcome >= 0:
+		_title.text = "ENCOUNTER · World return blocked\n%s — no automatic retry" % CombatEncounterCompletionResult.Outcome.keys()[_projection.completion_outcome]
 	_title.tooltip_text = _title.text
 	_present_participants()
 	action_panel.present(_projection)

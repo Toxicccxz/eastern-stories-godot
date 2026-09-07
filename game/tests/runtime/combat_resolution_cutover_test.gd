@@ -8,6 +8,25 @@ class MaximumRandom extends CombatRandomSource:
 		calls += 1
 		return bound - 1 if bound > 0 else -1
 
+## Test-only failures at the existing typed world-return boundaries. No runtime
+## fault flags, replacement gate owner, or fake terminal result in production.
+class CompletionSession extends OldPineWorldSessionController:
+	var reject_thaw: bool = false
+	var thaw_calls: int = 0
+	var resolving_at_thaw: bool = false
+	func thaw_world_after_encounter(id: StringName) -> bool:
+		thaw_calls += 1
+		var encounter: CombatEncounter = combat_encounter_coordinator().active_encounter()
+		resolving_at_thaw = encounter.phase == CombatEncounterLifecycle.Value.RESOLVING and encounter.terminal_result == null
+		return false if reject_thaw else super.thaw_world_after_encounter(id)
+
+class CompletionGate extends WorldSimulationGate:
+	var reject_release: bool = false
+	var release_calls: int = 0
+	func release(id: StringName) -> bool:
+		release_calls += 1
+		return false if reject_release else super.release(id)
+
 class ReverseBoundary extends CombatOpportunityBoundary:
 	var observed: CombatSchedulerEvent
 	var required: CombatSliceOpportunityResult
@@ -26,7 +45,107 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _player_terminal(tree)
 	_reverse_chain_boundary()
 	await _spar_mortal_failure(tree)
+	await _completion_return(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
+
+func _completion_return(tree: SceneTree) -> void:
+	# Same actual LETHAL ordinary-attack -> death/corpse -> completion route for
+	# thaw failure, release failure and success. Only failure boundaries differ.
+	for fault: int in 3:
+		var session: OldPineWorldSessionController = SessionScene.instantiate()
+		session.set_script(CompletionSession)
+		tree.root.add_child(session)
+		session.set_process(false)
+		var map: OldPineOutdoorController = session.outdoor_map()
+		map.set_process(false)
+		var gate: WorldSimulationGate = session.world_simulation_gate()
+		# Change implementation before acquiring; preserve the EXACT bound object.
+		gate.set_script(CompletionGate)
+		(session as CompletionSession).reject_thaw = fault == 0
+		(gate as CompletionGate).reject_release = fault == 1
+		Multi.register_probes(session)
+		var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+		var player: WorldPlayerRuntimeState = session.player_runtime()
+		var npc: NpcRuntimeState = map.npc_runtimes()[0]
+		npc.set_world_location(player.world_location())
+		map.bandit_bodies[0].global_position = map.player_body.global_position
+		player.state.attributes.courage = 100000
+		player.state.skills.set_raw_level(&"sword", 1000)
+		player.state.progression.combat_experience = 1000000
+		player.state.vitality = CharacterResourceState.new(100000, 100000, 100000)
+		npc.character_state.vitality = CharacterResourceState.new(1, 1, 220)
+		var random := MaximumRandom.new()
+		session.configure_combat_random_source(random)
+		map.select_npc(npc.character_id)
+		_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "return fixture actual production LETHAL entry")
+		var encounter: CombatEncounter = coordinator.active_encounter()
+		var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
+		var tactics: CombatTacticalRuntime = scheduler.player_tactics()
+		var request := CombatTacticalRequest.new(&"pending-return", encounter.encounter_id, player.character_id, &"qa.probe", CombatTacticalRequest.Category.MARTIAL_SPECIAL, npc.character_id)
+		player.busy.start_busy(1) # Queue waits; next ordinary cycle may kill, no tactical retry.
+		_check(coordinator.submit_player_action(request).accepted(), "pending completion queue accepted")
+		var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
+		ui.refresh_projection()
+		_check(ui.visible, "Battle visible before completion")
+		var advanced: CombatSchedulerAdvanceResult = coordinator.advance_scheduler(1000)
+		_check(not advanced.events().is_empty() and random.calls > 0, "real ordinary chain consumes RNG before terminal")
+		_check(npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.corpse_states().size() == 1, "real lifecycle and corpse committed exactly once")
+		_check(coordinator.resolution().result != null and coordinator.resolution().result.kind == CombatEncounterResultKind.Value.VICTORY, "authoritative valid terminal result derived")
+		_check(coordinator.resolution().failure == CombatEncounterResolution.Failure.NONE, "world-return failure is not a second lifecycle failure")
+		_check((session as CompletionSession).resolving_at_thaw, "terminal not published before thaw")
+		_check((session as CompletionSession).thaw_calls == 1 and (gate as CompletionGate).release_calls == (0 if fault == 0 else 1), "exact ordered thaw/release attempts")
+		var receipt: CombatEncounterCompletionResult = coordinator.last_completion()
+		var expected: int = [CombatEncounterCompletionResult.Outcome.WORLD_THAW_FAILED, CombatEncounterCompletionResult.Outcome.WORLD_GATE_RELEASE_FAILED, CombatEncounterCompletionResult.Outcome.COMPLETED][fault]
+		_check(receipt != null and receipt.outcome == expected, "distinct typed world-return result")
+		_check(encounter.queued_player_action() == null and tactics.events()[-1].kind == CombatTacticalEvent.Kind.CANCELLED, "completion cancels queue once without executing it")
+		_check(tactics.events().size() == 4, "requested + accepted + queued + one cancellation only")
+		var corpse: CorpseState = map.corpse_states()[0]
+		var sword: StringName = npc.loadout_items()[0].item_instance_id
+		var parent: ContainmentEndpoint = session.inventory_state().direct_parent(sword)
+		_check(parent.same_identity(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)), "exact item transferred into actual corpse before return")
+		var calls: int = random.calls
+		var events: int = scheduler.events().size()
+		var core_events: int = encounter.events().size()
+		var lifecycle_count: int = coordinator.resolution().lifecycles().size()
+		var vitality: int = player.state.vitality.current
+		var force: int = player.state.recovery.inner_force.current
+		var experience: int = player.state.progression.combat_experience
+		ui.refresh_projection()
+		if fault < 2:
+			_check(encounter.phase == CombatEncounterLifecycle.Value.RESOLVING and encounter.terminal_result == null, "failed return remains resolving, never false completed")
+			_check(coordinator.active_encounter() == encounter and coordinator.active_scheduler() == scheduler, "failed return retains exact orchestration authorities")
+			_check(session.world_simulation_gate() == gate and gate.freeze_owner_id() == encounter.encounter_id, "same authoritative gate retains encounter owner")
+			_check(map._encounter_freeze_owner_id == (encounter.encounter_id if fault == 0 else &""), "release failure after local thaw still held by global gate")
+			_check(ui.visible and ui.current_projection().completion_outcome == expected and ui._title.text.contains("World return blocked"), "visible read-only failure surface")
+			_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, "failed return Save blocked by retained encounter")
+			_check(session.request_passage_south_exit().outcome == OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN, "failed return traversal blocked")
+			_check(not coordinator.start(encounter.accepted_trigger()).succeeded(), "no new encounter over failed return")
+			_check(not coordinator.submit_player_action(request).accepted() and not coordinator.player_can_target(npc.character_id), "no tactical or target input after failure")
+			_check(not Multi.finish(session) and coordinator.complete(coordinator.resolution().result) == receipt, "FLED and repeated completion cannot bypass or retry failure")
+		else:
+			_check(encounter.phase == CombatEncounterLifecycle.Value.COMPLETED and encounter.terminal_result.kind == CombatEncounterResultKind.Value.VICTORY, "success commits authoritative Victory")
+			_check(coordinator.active_encounter() == null and coordinator.active_scheduler() == null and gate.is_open(), "success clears owners only after release")
+			_check(not ui.visible and not ui.current_projection().active, "success closes Battle")
+			_check(OldPineSaveEligibility.inspect(session).allowed(), "success restores ordinary Save eligibility")
+		for index: int in 3:
+			coordinator.advance_scheduler(1000)
+			scheduler.advance(1000, true, encounter.encounter_id, session.encounter_combat_bindings(encounter), random, session.encounter_skill_effect_registry(), coordinator.resolution())
+		_check(random.calls == calls and scheduler.events().size() == events, "repeated frames/direct retained scheduler consume no RNG or combat")
+		_check(encounter.events().size() == core_events and tactics.events().size() == 4, "no repeat transition/cancellation")
+		_check(coordinator.resolution().lifecycles().size() == lifecycle_count and map.corpse_states().size() == 1 and map.corpse_states()[0] == corpse, "no lifecycle retry or duplicated corpse")
+		_check(session.inventory_state().direct_parent(sword).same_identity(parent), "no inventory retry")
+		_check(player.state.vitality.current == vitality and player.state.recovery.inner_force.current == force and player.state.progression.combat_experience == experience, "no post-completion resource/progression mutation")
+		_check((session as CompletionSession).thaw_calls == 1 and (gate as CompletionGate).release_calls == (0 if fault == 0 else 1), "no automatic world-return retry")
+		_check(not map.cadence_is_running(), "legacy Timer never restarts")
+		# Actual physics processing and input, separate from the typed boundary assertions.
+		await _settle(tree, 2)
+		var position_before: Vector2 = map.player_body.global_position
+		Input.action_press("move_left")
+		await _settle(tree, 5)
+		Input.action_release("move_left")
+		_check(map.player_body.global_position == position_before if fault < 2 else map.player_body.global_position != position_before, "movement frozen on failure / restored on success")
+		session.free()
+		await _settle(tree, 2)
 
 func _reverse_chain_boundary() -> void:
 	var fixture: RefCounted = preload("res://tests/runtime/combat_slice_opportunity_integration_test.gd").new()

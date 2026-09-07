@@ -79,8 +79,9 @@ or partial failure stops the current batch before another actor/cycle/RNG draw.
 
 `CombatEncounter.accepts_completion_result()` exposes its existing read-only result membership
 validation so a foreign result cannot first enter RESOLVING and erase the queue. On valid completion,
-the existing queue authority cancels once, the typed result becomes terminal, the same world thaws,
-and the coordinator releases active encounter/scheduler references. Failure holds RESOLVING, clears
+the existing queue authority cancels once, the same world prepares thaw and releases its gate,
+then the typed result becomes terminal and the coordinator releases active encounter/scheduler
+references (post-review ordering below). Failure holds RESOLVING, clears
 the queue once, never retries partially mutated lifecycle, and cannot be bypassed by external FLED.
 
 Completion reconciles only the included encounter relationships and guarding; it does not clear
@@ -242,10 +243,109 @@ Slots, victory animation, result-screen polish, multi-enemy balance or full cont
 CXR9 playability/narrow balance and CXR10 final audit/integration await separate owner authorization.
 Phase10D artifacts and acceptance remain frozen historical evidence.
 
-## Delivery record
+## Original delivery record (before post-review hardening)
 
 Implementation: `9e00c37f0e1f4621cc86296ad87a9dd7bd8a0268` (38 files).
 This delivery-record update is documentation-only; its commit is the final delivery HEAD reported
 to the owner. No production change follows the final 15,673-assertion run or Android artifact.
 Only the original 13 owner plugin/project files remain dirty. No PR or merge was created by CXR8;
 there is no new integration-CI or post-merge-main claim. The same branch is pushed for continuation.
+
+### Post-review completion failure hardening
+
+2026-09-07 audit starting at `dff7b7625f545d6e84ee19dd14912ec4041e322f` (origin 0/0).
+Original implementation remains `9e00c37f0e1f4621cc86296ad87a9dd7bd8a0268`.
+Audit-fix implementation SHA is recorded in the following delivery-finalization commit.
+
+**Finding:** the previous `complete()` committed COMPLETED before Session thaw. A thaw failure
+therefore hid Battle's ACTIVE/RESOLVING-only projection; a gate release failure was worse because
+the coordinator had already cleared both active references. A frozen gate alone is not a healthy
+completion failure boundary, even when Save is blocked.
+
+**Chosen Option A:** prevalidate result/membership/mode -> ACTIVE to RESOLVING and cancel the queue
+once -> Session/local map thaw preparation -> same world gate release -> Core terminal commit ->
+clear encounter/scheduler references. This is synchronous, with no await, deferred continuation or
+runtime retry. Local map thaw quarantines input, stops the legacy Timer and refreshes the HUD; it
+does not open the global gate. The Core remains RESOLVING, so both coordinator and retained scheduler
+reject advancement before reading the lifecycle boundary or consuming RNG. Gate release itself is
+a synchronous owner check/field clear, with no signals/callbacks. Between release and terminal commit
+there is no executable scheduler frame; the unchanged, prevalidated Core owns the terminal event.
+This is ordered orchestration, not rollback of the already committed death/inventory transition.
+
+**Failure authority:** reuse `CombatEncounterCompletionResult` / coordinator `last_completion()`;
+`WORLD_THAW_FAILED` and appended `WORLD_GATE_RELEASE_FAILED` distinguish the failed step. The first
+attempt's receipt is retained, including a defensive snapshot of the proposed authoritative result.
+It is not a second committed terminal result: Core terminal_result stays null. Do not additionally
+set `CombatEncounterResolution.failure` for a world-return failure (its older enum member is retained
+but no longer produced). Actual lifecycle failures keep their existing separate resolution behavior.
+Only a successful new start resets the last receipt; retained active ownership prevents a new start
+over a failed completion. Repeated complete/FLED returns failure without retrying thaw/release.
+
+- Thaw failure: same encounter/scheduler/gate and owner retained, map remains locally frozen.
+- Release failure: local map has prepared thaw, but the same global gate remains frozen with the
+  encounter owner. Body movement, map interaction/traversal and Save stay blocked. Neither active
+  reference is discarded. No second gate or artificial re-freeze/rollback is introduced.
+- Both: Core stays RESOLVING; Battle remains visible and receives only a read-only completion outcome
+  for the explicit `World return blocked` / `no automatic retry` header. UI owns no completion,
+  thaw, release or recovery command. Completed death/corpse/inventory is never replayed. Safe failure
+  recovery is not defined here; no retry button, resurrection or Session reset is invented.
+
+**Deterministic injected proof:** test-only Session and gate subclasses override the existing typed
+boundaries, preserving the very same gate object already bound into the map/bodies. Each of thaw
+failure, release failure and success begins with real production LETHAL entry and a positive-HP NPC;
+ordinary combat produces death/corpse and a valid Victory. A busy-blocked synthetic queue survives
+until completion and has exactly REQUESTED, ACCEPTED, QUEUED, CANCELLED once. The tests assert retained
+identity, typed outcome, UI visibility, Save/traversal/new-start gates, physics movement, exact corpse
+item parent, no later resources/progression/RNG/lifecycle/corpse mutation, no repeated cancellation,
+and no FLED escape. Success commits monotonically, clears references, hides Battle and permits Save
+and physical movement. Fault paths are deterministic injected test evidence, not natural device failures.
+
+| Validation after correction | Assertions | Failures |
+|---|---:|---:|
+| `run_cxr8_tests.gd` | 158 | 0 |
+| `run_cxr7_tests.gd` | 149 | 0 |
+| `run_cxr6_tests.gd` | 148 | 0 |
+| `run_cxr5_tests.gd` | 240 | 0 |
+| `run_cxr4_tests.gd` | 791 | 0 |
+| `run_cxr3_tests.gd` | 719 | 0 |
+| `run_phase_10b4_tests.gd` | 1,091 | 0 |
+| `run_phase_10c2c_tests.gd` | 533 | 0 |
+| **Full canonical `run_tests.gd`: RUN once** | **15,760** | **0** |
+
+Focused runners overlap and are not added together. CXR3/4 include Session/resident/gate regressions;
+10B4 and the new failure tests cover Save eligibility. The first new-test run failed six expectations
+because the test omitted the existing REQUESTED event from its expected count; correcting that
+expectation to four events required no production change. The subsequent focused and full runs passed.
+Godot `4.7.2.stable.steam.ed1daf0bf` version/editor headless PASS; repository/static Python checks PASS;
+`git diff --check` PASS. Local logs: `build/cxr8-audit-*.log` (not shipped).
+
+**Actual success runtime:** canonical ApplicationShell main, run `r2046064-1`, real New Game and
+confirmation, framebuffer NPC selection and Attack. Declared pre-route QA: scout moved near the
+player, aggression Area disabled for manual entry, production PCG seed88, strong player stats,
+positive NPC current/effective1 and busy20 on both actors. No direct attack/death/complete callback.
+The production scheduler showed ACTIVE/cycle13 with frozen world, then naturally produced Victory,
+one corpse, no active encounter/scheduler, hidden Battle, open world and Save outcome0. Session
+`320209947263` and Character `-9223371714681894357` stayed identical. Real 25-frame move_right input
+moved `(450,300)` to `(523.3333,300)`, then velocity returned to zero. Old Timer stayed stopped.
+Non-stale frames 15,353 (selected NPC), 17,307 (Battle), 22,332 (returned world/movement); helper_live,
+session_active, game_capture_ready all true. Launch current_run_errors=[]; current game log had no
+errors, full editor error read had zero errors and 40 existing warning rows (integer division,
+shadowing/unused signal), not a warning-free claim. A later redundant project_run health call was
+rejected as EDITOR_PLAYING by the updated plugin; it did not restart or alter the successful run.
+Game stopped normally afterward. No Save button was used; the owner's existing save was not replaced.
+No new Android/device evidence is claimed for this desktop audit.
+
+**Distinct post-test source audit:** coordinator completion and phase barrier, Core lifecycle/event
+validation, resolution/reconciliation, scheduler/tactical boundaries, Session/map/gate ownership,
+WorldCharacterBody2D gate, Save eligibility, Battle projection/controller and the full diff were
+reviewed separately after tests. No Battle authority/retry, duplicate failure/result authority,
+second gate/scheduler, Timer retry, forced resource cleanup, corpse rollback, Save recovery or active
+encounter serialization was added. Normal success still has one completion path. No Core formula,
+balance, production tactical catalog, CXR9 or Phase10D implementation changed. No LPC mechanics were
+re-ported; the source references above remain the original implementation's evidence.
+
+Owner preflight now contains **120** plugin/project paths (including new/deleted plugin files), not
+the original 13-path inventory. All 120 hashes/deletion states were preserved and excluded from this
+audit's commits. `reference/es2` and `DECISIONS.md` remain unchanged. Same major-phase branch, no PR
+or merge, no new remote CI claim. CXR6/7 device gaps, armed-SPAR blocker, real tactical actions and
+flee/telegraph remain deferred. CXR9 NOT STARTED; CXR10 pending; Phase10D frozen.

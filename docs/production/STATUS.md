@@ -52,8 +52,10 @@ is implementation/runtime complete with bounded physical Android evidence: norma
 now enter one Session-owned Encounter/Scheduler, complete opportunities feed existing lifecycle and
 death/corpse authority, ordinary Loot and post-combat Save/Continue work, and the old canonical Timer
 does not resume. Partial failure holds the frozen encounter; armed-friendly mortal SPAR remains an
-explicit blocker, not silently clamped. Production tactics remain empty. Final canonical validation:
-15,673 assertions PASS. Broader earlier multi-target/queued-action physical combinations remain
+explicit blocker, not silently clamped. Production tactics remain empty. Post-review completion
+hardening preserves visible RESOLVING ownership on thaw/gate-release failure, without retrying
+lifecycle or allowing FLED bypass. Latest full canonical validation: 15,760 assertions PASS;
+desktop actual Attack -> natural Victory -> movement smoke PASS. Broader earlier multi-target/queued-action physical combinations remain
 unqualified by this bounded pass. **CXR9 has not started; the major milestone is not integrated.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
@@ -116,7 +118,7 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR8-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
+- CXR9-CXR10 Combat Experience Redesign implementation, validation, audit, integration, and a new
   post-redesign Technical Demo candidate before Phase 10D3 may resume;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;
