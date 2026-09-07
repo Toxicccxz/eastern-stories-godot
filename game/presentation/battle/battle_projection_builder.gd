@@ -27,6 +27,7 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 				_internal(state.recovery.inner_force), _internal(state.recovery.mana),
 				_internal(state.recovery.atman), binding.busy.busy_value, binding.life_status,
 				state.life_threshold(), binding.exists_in_encounter and binding.combat_available,
+				coordinator.player_can_target(binding.character_id),
 			))
 			break
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()

@@ -42,7 +42,13 @@ typed read projections and request/cancel adapter, honest empty Quick Actions,
 ordered feedback/log, shared SafeArea/input/Pause, and restore-reparent support.
 Affected physical mobile requalification remains **PENDING**. No telegraph producer,
 Quick Slots, production tactical actions, target switching, or normal-combat cutover
-was added. **CXR7 has not started; the major milestone is not integrated.**
+was added in CXR6. The
+[CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
+is implementation/desktop-runtime complete: typed player target changes, stable invalid-target
+fallback, separate accepted queue targets, collection-based controls and source-backed SPAR/LETHAL
+establishment alongside SCRIPTED. Production tactics remain empty, normal Attack/aggression remains
+uncut, and affected physical mobile qualification is pending. **CXR8 has not started; the major
+milestone is not integrated.**
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign

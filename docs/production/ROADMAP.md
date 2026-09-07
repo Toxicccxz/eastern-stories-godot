@@ -59,7 +59,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    is implementation/desktop-runtime complete with typed projections/intents, honest empty
    production Quick Actions, ordered feedback/log and shared input/layout/lifecycle boundaries.
    Affected physical mobile requalification is pending. No production technique, fake telegraph,
-   Quick Slots or target switching was introduced; CXR7 has not started.
+   Quick Slots or target switching was introduced in CXR6. The
+   [CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
+   is implementation/desktop-runtime complete, preserving queued targets and supporting controlled
+   SPAR/LETHAL/SCRIPTED establishment. Physical mobile requalification remains pending; production
+   combat cutover and final resolution remain CXR8, which has not started.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -70,7 +74,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR4 | Active Semi-Auto Scheduler Complete | Encounter-local deterministic ordinary combat without ATB. |
    | CXR5 | Complete | Tactical requests, split validation, one-slot queue and ordered execution. |
    | CXR6 | Implementation/desktop runtime complete; physical mobile requalification pending | Session-owned Battle presentation, empty production actions, feedback/log and typed input. No telegraph without a semantic producer. |
-   | CXR7 | Planned | Multi-opponent targeting and encounter-mode completeness. |
+   | CXR7 | Implementation/desktop runtime complete; physical mobile pending | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
    | CXR8 | Planned | Resolution/death/corpse/loot/Save/lifecycle integration. |
    | CXR9 | Planned | Old Pine playability and narrow proven balance stabilization. |
    | CXR10 | Planned | Final audit, PR, CI, merge and post-main verification. |

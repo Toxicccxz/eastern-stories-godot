@@ -299,7 +299,7 @@ func _test_stale_target_and_invalid_authority_fail_closed() -> void:
 		stale.effects,
 	)
 	_assert_eq(stale_result.events()[0].skip_reason, CombatSchedulerEvent.SkipReason.TARGET_UNAVAILABLE, "stale current target fails closed")
-	_assert_eq(stale.encounter.current_target_for(ACTOR_ID), TARGET_ID, "stale target is not silently replaced")
+	_assert_eq(stale.encounter.current_target_for(ACTOR_ID), &"", "CXR7 clears unavailable target when no deterministic fallback exists")
 	_assert_eq(stale.random.call_count(), 0, "stale target consumes no RNG")
 
 	var invalid: SchedulerFixture = _fixture()

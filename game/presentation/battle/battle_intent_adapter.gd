@@ -37,3 +37,7 @@ func submit(action_id: StringName, declared_target: StringName = &"") -> CombatT
 
 func cancel(expected_request_id: StringName) -> CombatTacticalResult:
 	return _coordinator.cancel_player_action(expected_request_id)
+
+
+func change_target(displayed_encounter_id: StringName, target_id: StringName) -> CombatTargetResult:
+	return _coordinator.change_player_target(CombatTargetRequest.new(displayed_encounter_id, _player_id, target_id))

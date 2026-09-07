@@ -133,7 +133,8 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	var hud: OldPineOutdoorHud = session.outdoor_map().hud
 	var live_connections: int = presenter.metrics_changed.get_connections().size()
-	_check(live_connections == menu_connections + 1, "one and only one current HUD consumer added")
+	var battle: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
+	_check(live_connections == menu_connections + 2 and presenter.metrics_changed.is_connected(battle._apply_metrics), "one current HUD plus one CXR6 Session-owned Battle consumer added")
 	var actions: Array[Button] = [hud.inspect_button, hud.attack_button, hud.portal_button, hud.open_loot_button, hud.inventory_button]
 	var signal_counts: Array[int] = []
 	for action: Button in actions:
@@ -169,7 +170,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		var to_cave: OldPineMapHandoffResult = session.handoff_to(OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, &"oldpine.cave.waterfall_passage.vine_landing")
 		_check(to_cave.succeeded(), "typed handoff fixture enters Cave")
 		await _settle(tree)
-		_check(presenter.metrics_changed.get_connections().size() == menu_connections, "detached resident Outdoor is not a live layout subscriber")
+		_check(presenter.metrics_changed.get_connections().size() == menu_connections + 1 and presenter.metrics_changed.is_connected(battle._apply_metrics), "detached Outdoor unsubscribes; Session Battle remains subscribed")
 		_check(session.cave_map().find_children("HUD", "CanvasLayer", true, false).is_empty(), "Cave has no invented Outdoor HUD")
 		capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(48, 0, 800, 480))
 		presenter.refresh()
@@ -186,7 +187,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	shell.request_return_to_main_menu()
 	shell.confirm_current_result()
 	await _settle(tree)
-	_check(presenter.metrics_changed.get_connections().size() == menu_connections, "Session teardown removes its only HUD subscription")
+	_check(presenter.metrics_changed.get_connections().size() == menu_connections, "Session teardown removes HUD and Battle subscriptions")
 	_check(shell.runtime_host().current_session() == null, "Return to Menu leaves no hidden Session")
 	presenter.refresh()
 	shell.free()

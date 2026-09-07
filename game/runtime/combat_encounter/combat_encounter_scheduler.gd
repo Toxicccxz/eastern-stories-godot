@@ -11,6 +11,7 @@ var _next_event_sequence: int = 1
 var _events: Array[CombatSchedulerEvent] = []
 var _progression_order := CombatProgressionOrder.new()
 var _tactical: CombatTacticalRuntime
+var _target_events: Array[CombatOrderedTargetEvent] = []
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -51,6 +52,36 @@ func configure_player_tactics(player_id: StringName, registry: CombatTacticalAct
 
 func player_tactics() -> CombatTacticalRuntime:
 	return _tactical
+
+
+func target_events_after(order: int) -> Array[CombatOrderedTargetEvent]:
+	var result: Array[CombatOrderedTargetEvent] = []
+	for index: int in range(_target_events.size() - 1, -1, -1):
+		var value: CombatOrderedTargetEvent = _target_events[index]
+		if value.progression_order <= order:
+			break
+		result.append(value) # Read-only wrapper, defensive Core event getter.
+	result.reverse()
+	return result
+
+
+## Called only after a successful Core target transition. Does not advance time.
+func record_target_change() -> void:
+	var value: CombatEncounterEvent = _encounter.latest_event()
+	if value == null or value.kind != CombatEncounterEventKind.Value.TARGET_CHANGED:
+		return
+	if not _target_events.is_empty() and _target_events.back().event.sequence >= value.sequence:
+		return
+	_target_events.append(CombatOrderedTargetEvent.new(value, _progression_order.take()))
+
+
+func can_target(actor_id: StringName, target_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
+	var actor: CombatSliceCharacterBinding = _find_binding(bindings, actor_id)
+	return (
+		actor != null and actor.exists_in_encounter and actor.combat_available
+		and actor.life_status == CombatSliceLifeStatus.Value.ACTIVE
+		and _target_is_currently_eligible(actor, target_id, bindings)
+	)
 
 
 func is_valid() -> bool:
@@ -106,7 +137,7 @@ func advance(
 	if (
 		random_source == null
 		or effect_registry == null
-		or not _bindings_match_encounter(bindings)
+		or not bindings_match_encounter(bindings)
 	):
 		return CombatSchedulerAdvanceResult.new(
 			CombatSchedulerAdvanceResult.Outcome.AUTHORITY_INVALID
@@ -186,23 +217,18 @@ func _process_participant(
 				target_id,
 			),
 		)
-	if target_id.is_empty():
+	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
 		target_id = _first_initial_target(actor, bindings)
-		if target_id.is_empty() or not _encounter.set_current_target(
-			actor.character_id,
-			target_id,
-		):
+		if target_id.is_empty():
+			if _encounter.clear_current_target(actor.character_id):
+				record_target_change()
 			return _skipped_event(
 				actor.character_id,
 				target_id,
 				CombatSchedulerEvent.SkipReason.TARGET_UNAVAILABLE,
 			)
-	elif not _target_is_currently_eligible(actor, target_id, bindings):
-		return _skipped_event(
-			actor.character_id,
-			target_id,
-			CombatSchedulerEvent.SkipReason.TARGET_UNAVAILABLE,
-		)
+		if _encounter.set_current_target(actor.character_id, target_id):
+			record_target_change()
 	return _resolved_event(
 		actor.character_id,
 		target_id,
@@ -247,7 +273,7 @@ func _target_is_currently_eligible(
 	)
 
 
-func _bindings_match_encounter(
+func bindings_match_encounter(
 	bindings: Array[CombatSliceCharacterBinding],
 ) -> bool:
 	var participants: Array[CombatParticipant] = _encounter.participants()

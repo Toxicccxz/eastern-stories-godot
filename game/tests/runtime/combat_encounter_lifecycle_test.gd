@@ -69,7 +69,7 @@ func _test_rejected_establishment_is_transactional(tree: SceneTree) -> void:
 	var unsupported: CombatEncounterStartResult = coordinator.start(
 		_trigger(session, npc, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK)
 	)
-	_assert_eq(unsupported.outcome, CombatEncounterStartResult.Outcome.UNSUPPORTED_CAUSE, "production lethal trigger is explicitly deferred")
+	_assert_eq(unsupported.outcome, CombatEncounterStartResult.Outcome.UNSUPPORTED_MODE, "lethal cause cannot request SCRIPTED mode")
 	_assert_false(coordinator.has_active_encounter(), "unsupported trigger publishes no encounter")
 	_assert_true(gate.is_open(), "unsupported trigger leaves world open")
 

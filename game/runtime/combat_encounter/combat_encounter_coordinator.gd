@@ -19,6 +19,50 @@ func action_infos() -> Array[CombatTacticalActionInfo]:
 	return _tactical_registry.action_infos()
 
 
+func change_player_target(request: CombatTargetRequest) -> CombatTargetResult:
+	if _active_encounter == null or _active_scheduler == null or not is_valid():
+		return CombatTargetResult.new()
+	if request == null:
+		return CombatTargetResult.new(CombatTargetResult.Code.INVALID_REQUEST)
+	if request.encounter_id != _active_encounter.encounter_id:
+		return CombatTargetResult.new(CombatTargetResult.Code.STALE_ENCOUNTER)
+	if not _target_input_allowed():
+		return CombatTargetResult.new(CombatTargetResult.Code.APPLICATION_BLOCKED)
+	if _world_gate.freeze_owner_id() != _active_encounter.encounter_id:
+		return CombatTargetResult.new(CombatTargetResult.Code.WORLD_GATE_MISMATCH)
+	if request.actor_id != _session.player_runtime().character_id or _active_encounter.participant_for(request.actor_id) == null:
+		return CombatTargetResult.new(CombatTargetResult.Code.INVALID_ACTOR)
+	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
+	if not _active_scheduler.bindings_match_encounter(bindings):
+		return CombatTargetResult.new(CombatTargetResult.Code.BINDING_MISMATCH)
+	if not _active_scheduler.can_target(request.actor_id, request.target_id, bindings):
+		return CombatTargetResult.new(CombatTargetResult.Code.TARGET_UNAVAILABLE)
+	if _active_encounter.current_target_for(request.actor_id) == request.target_id:
+		return CombatTargetResult.new(CombatTargetResult.Code.UNCHANGED)
+	if not _active_encounter.set_current_target(request.actor_id, request.target_id):
+		return CombatTargetResult.new(CombatTargetResult.Code.TARGET_UNAVAILABLE)
+	_active_scheduler.record_target_change()
+	return CombatTargetResult.new(CombatTargetResult.Code.CHANGED)
+
+
+## Advisory projection only. Receipt always revalidates exact current bindings.
+func player_can_target(target_id: StringName) -> bool:
+	if not _target_input_allowed() or _world_gate.freeze_owner_id() != _active_encounter.encounter_id:
+		return false
+	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
+	return _active_scheduler.bindings_match_encounter(bindings) and _active_scheduler.can_target(
+		_session.player_runtime().character_id, target_id, bindings,
+	)
+
+
+func _target_input_allowed() -> bool:
+	return (
+		is_valid() and _active_encounter != null and _active_scheduler != null
+		and _active_encounter.phase == CombatEncounterLifecycle.Value.ACTIVE
+		and _session.application_gameplay_allows_encounter_advance()
+	)
+
+
 func submit_player_action(request: CombatTacticalRequest) -> CombatTacticalResult:
 	if _active_scheduler == null or _active_scheduler.player_tactics() == null:
 		return CombatTacticalResult.new()
@@ -77,9 +121,9 @@ func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	if trigger == null or not trigger.is_valid():
 		return CombatEncounterStartResult.new()
-	if trigger.cause != CombatTriggerCause.Value.SCRIPTED:
+	if trigger.cause == CombatTriggerCause.Value.QUEST:
 		return _start_failure(CombatEncounterStartResult.Outcome.UNSUPPORTED_CAUSE, trigger)
-	if trigger.requested_mode != CombatEncounterMode.Value.SCRIPTED:
+	if not CombatEncounterModePolicy.supports(trigger):
 		return _start_failure(CombatEncounterStartResult.Outcome.UNSUPPORTED_MODE, trigger)
 	if not is_valid() or not _session.is_initialized():
 		return _start_failure(CombatEncounterStartResult.Outcome.SESSION_NOT_READY, trigger)
@@ -117,6 +161,8 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		participants.append(
 			CombatParticipant.new(candidate.participant_id, candidate.side_id, binding)
 		)
+	if not CombatEncounterModePolicy.relationships_match(trigger, participants, _session.player_runtime().character_id):
+		return _start_failure(CombatEncounterStartResult.Outcome.MODE_RELATIONSHIP_MISMATCH, trigger)
 
 	var hostilities: Array[CombatDirectedHostility] = _derive_hostilities(
 		participants

@@ -45,6 +45,9 @@ var _threshold: int
 var threshold: int:
 	get: return _threshold
 var _available: bool
+var _targetable: bool
+var targetable: bool:
+	get: return _targetable
 var available: bool:
 	get: return _available
 
@@ -65,6 +68,7 @@ func _init(
 	p_life_status: int = 0,
 	p_threshold: int = 0,
 	p_available: bool = false,
+	p_targetable: bool = false,
 ) -> void:
 	_participant_id = p_participant_id
 	_display_name = p_display_name
@@ -81,3 +85,4 @@ func _init(
 	_life_status = p_life_status
 	_threshold = p_threshold
 	_available = p_available
+	_targetable = p_targetable

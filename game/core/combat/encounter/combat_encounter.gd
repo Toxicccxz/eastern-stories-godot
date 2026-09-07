@@ -166,6 +166,10 @@ func target_assignments() -> Array[CombatTargetAssignment]:
 	return result
 
 
+func latest_event() -> CombatEncounterEvent:
+	return null if _events.is_empty() else _events.back().duplicate_snapshot()
+
+
 func events() -> Array[CombatEncounterEvent]:
 	var result: Array[CombatEncounterEvent] = []
 	for event: CombatEncounterEvent in _events:

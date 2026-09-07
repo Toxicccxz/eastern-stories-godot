@@ -25,6 +25,12 @@ func read_new(
 	if scheduler == null:
 		return []
 	var next: Array[BattleFeedbackProjection] = []
+	for ordered: CombatOrderedTargetEvent in scheduler.target_events_after(_last_order):
+		var event: CombatEncounterEvent = ordered.event
+		next.append(BattleFeedbackProjection.new(ordered.progression_order, "%s · Target: %s → %s" % [
+			projection.display_name(event.actor_id), projection.display_name(event.previous_target_id),
+			projection.display_name(event.current_target_id),
+		]))
 	for event: CombatSchedulerEvent in scheduler.events_after(_last_order):
 		next.append(BattleFeedbackProjection.new(event.progression_order, _ordinary(event, projection)))
 	var tactical: CombatTacticalRuntime = scheduler.player_tactics()

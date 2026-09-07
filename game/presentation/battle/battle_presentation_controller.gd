@@ -4,6 +4,8 @@ extends Control
 ## Session-owned projection/intent adapter. Never executes or advances combat.
 signal intent_submitting
 signal intent_received(result: CombatTacticalResult)
+signal target_submitting
+signal target_received(result: CombatTargetResult)
 
 @export var action_catalog: BattleActionPresentationCatalog
 @export var visual_theme: Theme
@@ -149,6 +151,7 @@ func _build() -> void:
 	participant_scroll.name = "ParticipantScroll"
 	participant_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	participant_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	participant_scroll.follow_focus = true
 	participant_scroll.custom_minimum_size.y = 144
 	participant_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_content.add_child(participant_scroll)
@@ -218,10 +221,21 @@ func _present_participants() -> void:
 			var card := BattleParticipantCard.new()
 			card.name = "Participant%d" % _cards.size()
 			card.custom_minimum_size.x = 300
+			card.target_requested.connect(_change_target)
 			_participants.add_child(card)
 			_cards.append(card)
 	for index: int in values.size():
-		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id)
+		var queued: CombatQueuedAction = _projection.queued_action()
+		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id)
+
+
+func _change_target(id: StringName) -> void:
+	if _intent == null:
+		return
+	target_submitting.emit()
+	var result: CombatTargetResult = _intent.change_target(_projection.encounter_id, id)
+	_receipt.text = "Target: " + String(CombatTargetResult.Code.keys()[result.code]).capitalize()
+	target_received.emit(result)
 
 
 func _submit_action(id: StringName) -> void:
