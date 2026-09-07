@@ -8,7 +8,7 @@ CXR9 has NOT STARTED; Phase10D remains parked/frozen.
 
 - Branch: `phase/combat-experience-redesign`.
 - Starting HEAD/upstream: `98e8bef3992c8083098d174c3850afef4781e440`, initially 0/0 after fetch.
-- Implementation SHA: recorded in the delivery section after the implementation commit.
+- Implementation SHA: `9e00c37f0e1f4621cc86296ad87a9dd7bd8a0268`.
 - No new branch, PR, merge, CI claim, balance change, or real tactical action catalog.
 - Owner's 12 Godot AI plugin edits and `game/project.godot` were preserved byte-for-byte
   against the preflight SHA256 inventory; excluded from CXR8 commits.
@@ -244,5 +244,8 @@ Phase10D artifacts and acceptance remain frozen historical evidence.
 
 ## Delivery record
 
-Implementation commit and final documentation commit are recorded here after local verification;
-no PR or merge is part of this slice.
+Implementation: `9e00c37f0e1f4621cc86296ad87a9dd7bd8a0268` (38 files).
+This delivery-record update is documentation-only; its commit is the final delivery HEAD reported
+to the owner. No production change follows the final 15,673-assertion run or Android artifact.
+Only the original 13 owner plugin/project files remain dirty. No PR or merge was created by CXR8;
+there is no new integration-CI or post-merge-main claim. The same branch is pushed for continuation.
