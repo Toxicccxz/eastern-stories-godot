@@ -30,7 +30,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries and
    remaining qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — FINAL AUDIT READY / NOT STARTED**
+5. **Phase 10D — Technical Demo Release Gate — FINAL LOCAL AUDIT PASS / INTEGRATION PR READY**
 
    Phase 10D1 bounded physical Android qualification and Phase 10D2 packaging passed. Phase 10D3
    historically was **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
@@ -46,8 +46,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    `000d7b383f1d508aab56e9dcd90273d4a9dd5b85`. Post-redesign candidate refresh is satisfied
    on this branch; no separate 10D2 repeat is required. Windows critical journey and Android
    physical representative world traversal suffice; Cave/SouthExit remains conditional/not
-   advertised for this fresh-player demo. Final Audit is READY / NOT STARTED; no PR, merge,
-   publication, store readiness or new content work is authorized by this closeout.
+   advertised for this fresh-player demo. The [Final Audit](../migration/PHASE_10D_FINAL_AUDIT.md)
+   passed: 16,152 canonical assertions, Python 46, static/headless/sanitizer checks; candidate
+   drift and production/test/build/CI deltas zero. Candidate remains frozen/accepted.
+   **NOT YET FULLY INTEGRATED**: final PR/CI pending at commit time, results reported externally;
+   merge still requires separate authorization and green post-merge CI. No publication, store
+   readiness or new content work is implied.
 
 6. **Combat Experience Redesign — FULLY INTEGRATED ON MAIN**
 
