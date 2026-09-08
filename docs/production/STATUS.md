@@ -10,23 +10,35 @@ post-merge jobs passed in
 [workflow 33714114002](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33714114002).
 These build on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
 
-Phase 10D is **POST-REDESIGN VALIDATION ACTIVE** on
+Phase 10D is **FINAL AUDIT READY / NOT STARTED** on
 `phase/10d-post-redesign-release-validation`, starting from green main
 `0a5f0b49b6797c2a1280ef4198c2060b3cc61e34`. The old
 `phase/10d-technical-demo-release-gate` remains frozen historical evidence, not the new candidate.
 Its bounded Phase 10D1
 physical Android qualification and Phase 10D2 Technical Demo packaging passed, but Phase 10D3
 normal-player acceptance exposed that the current combat experience was not suitable enough to
-continue release acceptance. Phase 10D3 never passed; Phase 10D Final Audit was not started. The
-owner approved the redesign, now integrated, before this fresh candidate/acceptance cycle.
+continue release acceptance. That historical Phase 10D3 attempt never passed and remains frozen.
+The owner approved the redesign, now integrated, before the fresh candidate/acceptance cycle.
+
+Current Phase10D3: **POST-REDESIGN NORMAL-PLAYER ACCEPTANCE PASS**, as recorded in the
+[acceptance closeout](../migration/PHASE_10D3_POST_REDESIGN_TECHNICAL_DEMO_ACCEPTANCE.md).
+Immutable candidate source is `000d7b383f1d508aab56e9dcd90273d4a9dd5b85`.
+Windows packaged critical journey and Android physical representative world traversal passed,
+including natural Victory/loot and Save A -> unsaved B -> process death -> cold Continue A.
+Post-redesign candidate refresh evidence is satisfied on this branch: clean Windows/Android
+artifacts, hashes, manifests, sanitizer, signing facts and notices. Historical Phase10D2 remains
+historical PASS. Cave/SouthExit is conditional/not advertised in the current fresh-player demo,
+not an acceptance blocker. No repeated owner operation or rebuild was required for closeout.
+No production gameplay changes were made; local owner project/plugin edits are excluded.
 
 Combat Experience Redesign is **FULLY INTEGRATED ON MAIN** through PR #8, merge
 `7372d9d2ca3d796236ad64c2c6ad817a2508cb91`; all four post-merge jobs passed in
 [workflow 34186684857](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34186684857).
 Independent tooling PR #9 subsequently integrated Godot AI 4.0.1 at `0a5f0b4`, with all four
 jobs passing in [workflow 34187852614](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34187852614).
-It does not change the gameplay milestone. Phase10D3 acceptance and Phase10D Final Audit
-have not passed in this new cycle; no release/store readiness is claimed.
+It does not change the gameplay milestone. Phase10D3 acceptance has passed in the new cycle;
+Phase10D Final Audit is ready but NOT STARTED. No Phase10D PR/merge or release/store readiness
+is claimed by this closeout.
 
 The completed [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md)
 established the source/current-system evidence. The
@@ -161,8 +173,8 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- current Phase10D3 exact-source post-redesign Technical Demo candidate and normal-player
-  acceptance; Phase10D Final Audit remains not started;
+- Phase10D Final Audit (READY / NOT STARTED), followed by separately authorized integration;
+  current Phase10D3 post-redesign candidate refresh and normal-player acceptance are complete;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;

@@ -30,7 +30,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries and
    remaining qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — POST-REDESIGN VALIDATION ACTIVE**
+5. **Phase 10D — Technical Demo Release Gate — FINAL AUDIT READY / NOT STARTED**
 
    Phase 10D1 bounded physical Android qualification and Phase 10D2 packaging passed. Phase 10D3
    historically was **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
@@ -40,8 +40,14 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
 
    Fresh acceptance now uses `phase/10d-post-redesign-release-validation` from green main
    `0a5f0b49b6797c2a1280ef4198c2060b3cc61e34`. The historical Phase10D branch stays frozen;
-   no old artifact becomes a post-redesign candidate. New Phase10D3 PASS is still pending;
-   Final Audit is NOT STARTED and no PR/public release is authorized by this validation slice.
+   no old artifact becomes a post-redesign candidate. Current
+   [Phase10D3 acceptance](../migration/PHASE_10D3_POST_REDESIGN_TECHNICAL_DEMO_ACCEPTANCE.md)
+   is **POST-REDESIGN NORMAL-PLAYER ACCEPTANCE PASS** for immutable source
+   `000d7b383f1d508aab56e9dcd90273d4a9dd5b85`. Post-redesign candidate refresh is satisfied
+   on this branch; no separate 10D2 repeat is required. Windows critical journey and Android
+   physical representative world traversal suffice; Cave/SouthExit remains conditional/not
+   advertised for this fresh-player demo. Final Audit is READY / NOT STARTED; no PR, merge,
+   publication, store readiness or new content work is authorized by this closeout.
 
 6. **Combat Experience Redesign — FULLY INTEGRATED ON MAIN**
 

@@ -2,7 +2,10 @@
 
 ## 1. Scope
 
-Release-candidate acceptance, 2026-09-08. **IN PROGRESS; not acceptance PASS or Final Audit.**
+Release-candidate acceptance, 2026-09-08.
+**PASS — POST-REDESIGN TECHNICAL DEMO CRITICAL JOURNEY ACCEPTED.**
+Evidence-review closeout under the owner's explicit scope decisions; not Phase10D Final Audit,
+whole-project completion, public release, or store qualification.
 No gameplay, balance, UI, world, progression, RNG or save implementation changes are authorized
 by this record. Evidence below is from the immutable release artifacts, not an editor/QA scene.
 Screenshots, logs, builds and disposable profiles remain ignored under `build/phase10d3-post/`.
@@ -165,11 +168,23 @@ Normal Climb cliff -> Cliff1, physical approach -> Climb up -> Cliffside, physic
 entry -> Pine -> natural stronger NPC encounter (`android-cliff1.png`, `android-cliffside.png`,
 `android-pine-entry.png`). No manually fired Area signal or location assignment.
 
-Passage Cave/SouthExit remain **unproven**, not silently substituted by Waterfall/Cliff proof.
+Additional Windows evidence was collected before the owner ended repeated traversal:
+real Vine selection/Inspect/Hold -> Waterfall, owner walking along the east river bank ->
+mountain-wall selection -> actual Climb cliff -> **Cliff 1**, vitality still 127/127/220.
+Screens: `windows-vine-inspect-p49204.png`, `windows-vine-waterfall-p49204.png`,
+`windows-mountain-wall-p49204.png`, `windows-cliff1-p49204.png`. The game was paused there.
+No later Windows Climb Up/Pine completion is claimed or required merely for platform symmetry.
+
+Passage Cave/SouthExit: **CONDITIONAL CAPABILITY — NOT PART OF CURRENT FRESH NEW GAME
+TECHNICAL DEMO CRITICAL JOURNEY**. Not a blocker and not a fresh-player packaged Cave PASS.
 Read-only source confirmation: `game/core/world/vine_traversal_policy.gd` draws below effective
 dodge, Waterfall for draw < 5. CXR9's default raw dodge 10 gives effective 5; a Cave route needs
-natural progression beyond that boundary. No guaranteed RNG/prepared-save workaround is allowed
-by this acceptance request. Windows representative traversal remains pending as well.
+natural progression beyond that boundary. There is no established short, reliable normal-player
+prerequisite path in this demo. The owner explicitly excludes it from the advertised route.
+Implementation and existing automated/historical conditional evidence remain valid within their
+original setup limits; future progression/content may expose it naturally. No starting-stat change,
+guaranteed RNG, reroll-until-Cave or prepared-save workaround was used. Android's representative
+world traversal and Windows' completed critical journey suffice under the closeout decision.
 
 ## 13. Fresh-process evidence
 
@@ -199,8 +214,10 @@ This is process-death evidence, not a device power-loss/disk-durability claim.
 
 Android process-filtered Godot/AndroidRuntime log at PID13744 showed official engine/renderer
 startup, no emitted error/crash in that inspected interval. A later PID16777 log query returned
-no retained messages (`android-process3-runtime.log`); do not interpret an empty log ring as
+no retained messages (recorded at the checkpoint as `android-process3-runtime.log`); do not interpret an empty log ring as
 proof that every historical frame was error-free. The observed journeys did not crash.
+At closeout that standalone Android log file is not present locally; the previously committed
+process-filtered observation is retained as the evidence record, not claimed re-read from disk.
 Windows PID56620's flushed log on normal exit contained official engine startup and
 **D3D12 12_0 / Forward Mobile / NVIDIA GeForce RTX 4070 SUPER**, no emitted error. Current-process
 log can be buffered/empty; that alone does not prove every path error-free. Completed Windows
@@ -247,11 +264,12 @@ Native root license and ES2 attribution remain unresolved; private handoff requi
 
 ## 17. User-experience blockers
 
-No confirmed new gameplay blocker in the paths completed so far. Remaining Windows traversal
-evidence is outstanding, separately from product correctness. Conditional
-Cave/SouthExit qualification is unresolved under the no-cheat ordinary-player restriction.
-If a genuine journey-blocking defect is demonstrated, stop and record
-`PHASE10D3_GAMEPLAY_BLOCKER`; do not fix gameplay on this branch.
+**NONE observed in the accepted critical journeys.** Neither completing the Android route again
+on Windows nor exposing conditional Cave/SouthExit to a default player is a required gate under
+the owner's closeout decision. No artifact identity mismatch, broken startup/movement/Flee,
+combat softlock, inaccessible corpse/loot, failed Save/Continue, saved-data corruption or
+release-blocking crash was found in the reviewed evidence. This is a bounded observation,
+not proof of all possible frames, warnings, opponents or device combinations.
 
 ## 18. Deferred non-blockers
 
@@ -261,12 +279,108 @@ deferred. Do not repeat all historical device tests or redesign inventory presen
 
 ## 19. Acceptance result
 
-**IN PROGRESS — cannot claim PHASE10D3 PASS.** This is a resumable evidence checkpoint, not a
-final acceptance decision. Remaining: Windows representative traversal,
-required conditional traversal decision/evidence,
-final runtime/log checks. Preserve the candidate, screenshots and test profile for
-continuation rather than rebuilding or restarting the successful Android journey.
+**PASS — POST-REDESIGN TECHNICAL DEMO CRITICAL JOURNEY ACCEPTED.**
+The 2026-09-08 owner-approved closeout resolves the earlier checkpoint's pending scope questions;
+it does not rewrite the old pre-redesign failure or invent unexecuted tests. Windows/Android
+matrices below are an evidence review, not a new playthrough. Preserve the frozen artifacts.
 
 ## 20. Phase10D Final Audit readiness
 
-**NOT READY / NOT STARTED.** No final PR, merge, public release or next content phase.
+**READY / NOT STARTED.** No final PR, merge, public release or next content phase.
+
+## Acceptance closeout decision
+
+- No additional owner manual interaction required; no game launch, replay, rebuild or full-suite
+  rerun in this closeout. Existing observations in sections 8–14 support the accepted journey.
+- Windows critical journey is sufficient: fresh play, natural combat/Flee/re-entry/Victory,
+  corpse range, loot, Save/Menu/cold Continue and post-restore process-death recovery.
+- Android physical OnePlus 8T / Android 14 / Vulkan / Forward Mobile / Adreno 650 evidence
+  supplies representative world traversal and stronger natural combat. Its OS-injected inputs
+  are not relabeled as new human multitouch qualification; historical bounded 10D1 remains separate.
+- Cave/SouthExit is conditional/not advertised, not a blocker. No fresh-player Cave PASS claimed.
+- Immutable source remains `000d7b383f1d508aab56e9dcd90273d4a9dd5b85`. Read-only closeout hashes
+  match every Windows ZIP/EXE/PCK and Android APK value in sections 6–7. Both manifests still
+  identify that clean source. All 53 screenshot filenames referenced by the prior checkpoint
+  remain present; the four additional Windows route captures above are retained locally too.
+- No production code changed during acceptance. Committed branch changes after the candidate
+  are documentation/notices only; no candidate production/test/build source delta requires rerun.
+  The owner-local Godot AI 4.0.2 upgrade (`plugin.cfg`, `utils/update_manager.gd`) and original
+  `project.godot` are separately dirty, preserved and excluded from the candidate and this commit.
+  This PASS neither qualifies that local plugin upgrade nor calls the entire working tree clean.
+- Existing flushed Windows log was re-read: engine/renderer startup, no emitted production error.
+  Android interval evidence is retained as described in section 14. No observed release-blocking
+  defect/crash/softlock; exhaustive historical zero-warning proof is not required.
+- **POST_REDESIGN_CANDIDATE_REFRESH = SATISFIED** by sections 5–7 and 15–16: clean-source builds,
+  identity, manifests, sanitizer, inventory, signing facts and notices/provenance companions.
+  Historical Phase10D2 remains historical PASS; no additional 10D2 slice or rebuild is needed.
+- The external `technical-demo-candidate.json` was created at the earlier in-progress checkpoint;
+  its scope text records that time, not a new source identity or today's closeout verdict.
+  This committed document is the acceptance-status authority. Its artifact facts remain unchanged.
+- The notice's 3.2.4 -> 4.0.1 heading correction matches integrated PR #9/candidate source.
+  Local uncommitted 4.0.2 does not relabel candidate provenance. Root license/ES2 attribution remain
+  unresolved publication boundaries, not a clearance claim or private engineering blocker.
+- Closeout-only checks: `git diff --check` PASS; three edited documents have zero trailing-
+  whitespace findings; all 57 referenced screenshots exist; both notice companion hashes match
+  the candidate record; isolated candidate clone remains clean at the exact source above.
+  Committed branch delta against main contains no game/test/build/CI changes; `reference/es2`
+  and `DECISIONS.md` changes remain zero. The prior canonical 16,152 / Python 46 PASS is retained,
+  not counted as a new run. Only this record, STATUS and ROADMAP are changed by closeout.
+
+## Windows critical-journey review matrix
+
+| Capability | Conclusion | Existing evidence |
+| --- | --- | --- |
+| Cold packaged startup | PASS | ZIP-extracted PID56620; cold PID21700/49204, sections 6/13 |
+| Main Menu | PASS | No-save and saved/cold Menu observations, sections 8/11 |
+| Fresh New Game | PASS | Fresh world observed; concurrent-input attribution limit retained, section 8 |
+| Real physical movement | PASS | Owner walking into/out of aggression and to corpse, sections 9/10 |
+| Natural Battle | PASS | `windows-battle-paused.png` |
+| Save blocked during Battle | PASS | `windows-unsafe-save.png` |
+| Real Flee | PASS | `windows-flee.png`, queued/started/resolved feedback |
+| Return to same world | PASS | Flee returns to world; real walk away/re-entry, section 9 |
+| Leave/re-enter aggression | PASS | `windows-reentered-paused.png` |
+| Natural Victory | PASS | `windows-victory.png`, player 127/127/220 |
+| Corpse range requirement | PASS | Disabled out of range; enabled after physical approach |
+| Open Loot | PASS | `windows-loot.png` |
+| Take short sword | PASS | Real Take, then one remaining item, section 10 |
+| Take silver | PASS | Silver x3 taken, `windows-loot-empty.png` |
+| Inventory retained | PASS | `windows-restored-inventory-p21700.png` |
+| Save | PASS | `windows-saved-a.png` |
+| Return Menu | PASS | `windows-saved-menu.png` |
+| Cold Continue | PASS | `windows-restored-a-p21700.png` |
+| No Battle transient after restore | PASS | No Battle/selection/log transient, section 11 |
+| Settings fullscreen persistence | PASS | Fullscreen apply then fresh-process fullscreen, section 8 |
+| Post-restore movement | PASS | Distinct unsaved B, `windows-unsaved-b-p21700.png` |
+| Unsaved movement not persisted | PASS | `windows-restored-a-after-kill-p49204.png` |
+| Forced process death recovery | PASS | PID21700 absent -> PID49204; unchanged Save A hash, section 13 |
+| Runtime crash/softlock | NONE OBSERVED | Completed journeys and flushed log, section 14 |
+
+## Android physical-journey review matrix
+
+| Capability | Conclusion | Existing evidence |
+| --- | --- | --- |
+| Cold install/start | PASS | Approved physical APK install/cold Menu, sections 7/8 |
+| Fresh New Game | PASS | `android-world-ready.png`, 220/220/220 |
+| Physical touch movement | PASS | OS-injected touch on the named physical phone, sections 7–9 |
+| Natural aggression | PASS | `android-battle.png` |
+| Flee | PASS | `android-flee.png` |
+| Real movement away | PASS | `android-away.png` |
+| Re-entry | PASS | Re-entered encounter, `android-pause.png` |
+| Back/Pause | PASS | Real Android Back, section 9 |
+| Save blocked in combat | PASS | `android-save-blocked.png` |
+| Home/background freeze | PASS | Unchanged observed combat values, `android-resume-gate.png` |
+| Explicit Resume | PASS | Resume gate followed by natural combat continuation |
+| Natural Victory | PASS | `android-result.png`, player 200/200/220 |
+| Corpse | PASS | `android-corpse-near.png`, `android-corpse-selected.png` |
+| Loot | PASS | Short sword/silver Take -> `android-loot-empty.png` |
+| Inventory | PASS | Real open/scroll, `android-inventory-scroll.png` |
+| Save/Menu | PASS | `android-saved.png`, `android-saved-menu.png` |
+| Cold process Continue | PASS | COLD PID13744, `android-restored-world.png` |
+| Unsaved movement discarded after process death | PASS | B -> COLD PID16777 -> A, section 13 |
+| Vine | PASS | `android-vine-inspect.png`, actual Hold |
+| Waterfall | PASS | `android-vine-waterfall.png` |
+| River | PASS | Water collision/east-bank walking, `android-river-east.png` |
+| Cliff | PASS | `android-cliff1.png`, `android-cliffside.png` |
+| Pine | PASS | Physical north exit, `android-pine-entry.png` |
+| Stronger natural combat | PASS | `android-strong-result.png`, Victory at 89/89/220 |
+| Runtime crash | NONE OBSERVED | Completed physical journeys/process-filtered observation, section 14 |
