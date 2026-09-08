@@ -30,15 +30,36 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries and
    remaining qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — PARKED / FROZEN**
+5. **Phase 10D — Technical Demo Release Gate — FINAL LOCAL AUDIT PASS / INTEGRATION PR READY**
 
    Phase 10D1 bounded physical Android qualification and Phase 10D2 packaging passed. Phase 10D3
-   is **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
+   historically was **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
    unsuitable combat experience. Phase 10D Final Audit was not started. Existing physical evidence
    is conditionally reusable only for unchanged platform interaction paths; existing artifacts and
    hashes remain exact-source historical evidence, not post-redesign release candidates.
 
-6. **Combat Experience Redesign — Active major milestone**
+   Fresh acceptance now uses `phase/10d-post-redesign-release-validation` from green main
+   `0a5f0b49b6797c2a1280ef4198c2060b3cc61e34`. The historical Phase10D branch stays frozen;
+   no old artifact becomes a post-redesign candidate. Current
+   [Phase10D3 acceptance](../migration/PHASE_10D3_POST_REDESIGN_TECHNICAL_DEMO_ACCEPTANCE.md)
+   is **POST-REDESIGN NORMAL-PLAYER ACCEPTANCE PASS** for immutable source
+   `000d7b383f1d508aab56e9dcd90273d4a9dd5b85`. Post-redesign candidate refresh is satisfied
+   on this branch; no separate 10D2 repeat is required. Windows critical journey and Android
+   physical representative world traversal suffice; Cave/SouthExit remains conditional/not
+   advertised for this fresh-player demo. The [Final Audit](../migration/PHASE_10D_FINAL_AUDIT.md)
+   passed: 16,152 canonical assertions, Python 46, static/headless/sanitizer checks; candidate
+   drift and production/test/build/CI deltas zero. Candidate remains frozen/accepted.
+   **NOT YET FULLY INTEGRATED**: final PR/CI pending at commit time, results reported externally;
+   merge still requires separate authorization and green post-merge CI. No publication, store
+   readiness or new content work is implied.
+
+6. **Combat Experience Redesign — FULLY INTEGRATED ON MAIN**
+
+   PR #8 merged at `7372d9d2ca3d796236ad64c2c6ad817a2508cb91`, with all four post-merge jobs
+   PASS in [workflow 34186684857](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34186684857).
+   Independent tooling PR #9 then updated Godot AI 4.0.1 at `0a5f0b4`; its four-job main
+   [workflow 34187852614](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34187852614)
+   passed without changing the gameplay milestone.
 
    The [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md) is complete.
    The [CXR1 Active Semi-Auto V1 design](../migration/PHASE_COMBAT_ACTIVE_SEMI_AUTO_V1_DESIGN.md)
@@ -75,12 +96,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    unarmed-only SPAR with an explicit zero-base compatibility choice. Telegraph is
    dormant (no qualifying producer). Final 368 focused / 16,132 canonical assertions
    PASS. The subsequent [CXR10 final audit](../migration/PHASE_COMBAT_CXR10_FINAL_AUDIT.md)
-   is **FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR**: 16,132 canonical
+   is **COMPLETE; MILESTONE FULLY INTEGRATED**: its initial 16,132 canonical
    assertions and 20 focused runners pass, fresh desktop paths pass, and the exact
    gameplay APK passes bounded OnePlus 8T / Android 14 touch/Flee/Back/Home/Resume/
    landscape/natural Victory/loot qualification. This does not qualify broader
-   mobile combinations or iOS. No gameplay changed during the audit. Final PR CI
-   and explicit merge authorization are still separate gates; not fully integrated.
+   mobile combinations or iOS. Subsequent PR review fixes for disconnected encounter topology
+   and final-hit feedback passed 16,152 canonical assertions and desktop/Android revalidation.
+   Final PR CI, explicitly authorized merge and post-merge main CI all passed.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -94,12 +116,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR7 | Complete; ordinary target touch qualified by CXR10, broader physical multi-opponent combinations deferred | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
    | CXR8 | Implementation/runtime complete; bounded Android PASS | Production cutover, per-opportunity lifecycle barrier, death/corpse/loot/Save integration; explicit armed-SPAR blocker. |
    | CXR9 | Implementation COMPLETE | Starter/result stabilization; real Flee/queue/world/Save; unarmed SPAR; dormant telegraph. Physical changed paths qualified by CXR10. |
-   | CXR10 | FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR | Local/full/desktop/physical Android gates PASS; final PR CI, separately authorized merge and post-main CI remain. No gameplay implementation. |
+   | CXR10 | COMPLETE / FULLY INTEGRATED | Local/full/desktop/physical Android gates, PR review corrections, PR CI, authorized merge and post-main CI PASS. |
 
-   After CXR10 reaches green `main`, create a new Technical Demo release-validation branch and
-   candidate, refresh packaging evidence, then resume or recreate Phase 10D3 before the Phase 10D
-   Final Audit. Whether to reuse the historical 10D branch remains deliberately undecided; retaining
-   it as archived evidence and creating a fresh branch from latest green `main` is preferred.
+   CXR10 has reached green `main`. The owner authorized a fresh Technical Demo release-validation
+   branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
+   as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
 After the parked release gate is eventually completed, perform a new planning review before
 resuming large-scale authored content. This roadmap intentionally avoids speculative phase

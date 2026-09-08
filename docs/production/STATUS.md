@@ -10,11 +10,39 @@ post-merge jobs passed in
 [workflow 33714114002](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33714114002).
 These build on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
 
-Phase 10D is **PARKED / FROZEN pending Combat Experience Redesign**. Its bounded Phase 10D1
+Phase 10D is **FINAL LOCAL AUDIT PASS — FINAL INTEGRATION PR READY** on
+`phase/10d-post-redesign-release-validation`, starting from green main
+`0a5f0b49b6797c2a1280ef4198c2060b3cc61e34`. The old
+`phase/10d-technical-demo-release-gate` remains frozen historical evidence, not the new candidate.
+Its bounded Phase 10D1
 physical Android qualification and Phase 10D2 Technical Demo packaging passed, but Phase 10D3
 normal-player acceptance exposed that the current combat experience was not suitable enough to
-continue release acceptance. Phase 10D3 never passed; Phase 10D Final Audit was not started. The
-owner approved the redesign before any new Technical Demo candidate or resumed acceptance.
+continue release acceptance. That historical Phase 10D3 attempt never passed and remains frozen.
+The owner approved the redesign, now integrated, before the fresh candidate/acceptance cycle.
+
+Current Phase10D3: **POST-REDESIGN NORMAL-PLAYER ACCEPTANCE PASS**, as recorded in the
+[acceptance closeout](../migration/PHASE_10D3_POST_REDESIGN_TECHNICAL_DEMO_ACCEPTANCE.md).
+Immutable candidate source is `000d7b383f1d508aab56e9dcd90273d4a9dd5b85`.
+Windows packaged critical journey and Android physical representative world traversal passed,
+including natural Victory/loot and Save A -> unsaved B -> process death -> cold Continue A.
+Post-redesign candidate refresh evidence is satisfied on this branch: clean Windows/Android
+artifacts, hashes, manifests, sanitizer, signing facts and notices. Historical Phase10D2 remains
+historical PASS. Cave/SouthExit is conditional/not advertised in the current fresh-player demo,
+not an acceptance blocker. No repeated owner operation or rebuild was required for closeout.
+No production gameplay changes were made; local owner project/plugin edits are excluded.
+
+Combat Experience Redesign is **FULLY INTEGRATED ON MAIN** through PR #8, merge
+`7372d9d2ca3d796236ad64c2c6ad817a2508cb91`; all four post-merge jobs passed in
+[workflow 34186684857](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34186684857).
+Independent tooling PR #9 subsequently integrated Godot AI 4.0.1 at `0a5f0b4`, with all four
+jobs passing in [workflow 34187852614](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34187852614).
+It does not change the gameplay milestone. Phase10D3 acceptance has passed in the new cycle;
+The [Phase10D Final Audit](../migration/PHASE_10D_FINAL_AUDIT.md) passed on tracked source:
+16,152 gameplay assertions, Python 46, repository/static, development/sanitized headless and
+sanitizer validation. Candidate is frozen/accepted; production/test/build/CI delta is zero.
+Phase10D is **NOT YET FULLY INTEGRATED**. Final PR/CI are pending at this commit, with their
+results recorded externally afterward. Merge requires separate owner authorization; no
+post-merge main CI or public/store readiness is claimed.
 
 The completed [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md)
 established the source/current-system evidence. The
@@ -57,7 +85,7 @@ explicit blocker, not silently clamped. Production tactics remain empty. Post-re
 hardening preserves visible RESOLVING ownership on thaw/gate-release failure, without retrying
 lifecycle or allowing FLED bypass. Latest full canonical validation: 15,760 assertions PASS;
 desktop actual Attack -> natural Victory -> movement smoke PASS. Broader earlier multi-target/queued-action physical combinations remain
-unqualified by this bounded pass. The major milestone is not integrated.
+unqualified by this bounded pass. These are historical CXR8 limits; integration is recorded above.
 
 [CXR9 Old Pine Playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md)
 is **implementation COMPLETE**. Old Pine-only
@@ -74,7 +102,7 @@ all 120 original owner dirty files preserved. These were CXR9's results; its pen
 Android gate was subsequently exercised by CXR10 below.
 
 [CXR10 final audit](../migration/PHASE_COMBAT_CXR10_FINAL_AUDIT.md) is
-**FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR**. The whole milestone
+**COMPLETE; MILESTONE FULLY INTEGRATED ON MAIN**. The whole milestone
 and authority boundaries were reviewed; 20 focused runners passed 22,285 overlapping
 assertions and the complete canonical suite passed 16,132, with 0 failures. Fresh
 desktop New Game/aggression/Flee/rearm, natural Victory/loot and Save/Menu/Continue
@@ -84,9 +112,10 @@ Victory/loot paths using native Vulkan/Forward Mobile. Broader multi-finger,
 multi-opponent device combinations, tablets and iOS remain unqualified. Python is
 46/46 on exact tracked source, 45/46 on the preserved owner configuration. Windows/
 Android local builds, sanitizer and static checks passed. CXR10 changes only audit/
-status documentation; no gameplay fix was required. Final PR/four-job CI evidence
-is reported separately after creation. **NOT MERGED / not fully integrated**;
-Phase10D remains frozen and no release/store readiness is claimed.
+status documentation at the initial audit checkpoint. Subsequent PR review corrected disconnected
+encounter topology and final-hit feedback; corrected canonical validation passed **16,152**
+assertions, with desktop/Android terminal-feedback revalidation. PR #8 and post-merge four-job
+CI then passed as recorded above. The historical audit evidence is not a new packaged-demo PASS.
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
@@ -148,8 +177,9 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- CXR10 final audit/integration with affected physical Android gate, and a new
-  post-redesign Technical Demo candidate before Phase 10D3 may resume;
+- Phase10D final PR/four-job CI, separately authorized merge and post-merge main CI;
+  Final Local Audit PASS / integration PR ready, not yet fully integrated;
+  current Phase10D3 post-redesign candidate refresh and normal-player acceptance are complete;
 - broader physical Android/tablet qualification and iOS simulator/device qualification;
   portrait/split-screen gameplay is not qualified;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
