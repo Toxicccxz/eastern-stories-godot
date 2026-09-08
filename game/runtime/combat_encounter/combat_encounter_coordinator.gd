@@ -10,6 +10,7 @@ var _active_scheduler: CombatEncounterScheduler
 var _tactical_registry := CombatTacticalActionRegistry.new()
 var _resolution: CombatEncounterResolution
 var _last_completion: CombatEncounterCompletionResult
+var _completed_feedback: CombatCompletedFeedback
 var _entry_sequence: int = 0
 
 func resolution() -> CombatEncounterResolution:
@@ -17,6 +18,9 @@ func resolution() -> CombatEncounterResolution:
 
 func last_completion() -> CombatEncounterCompletionResult:
 	return _last_completion
+
+func completed_feedback() -> CombatCompletedFeedback:
+	return _completed_feedback
 
 ## One synchronous production-entry transaction. Reuses the audited playable
 ## relationship establishment; rollback restores order and preexisting facts.
@@ -260,6 +264,8 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			CombatEncounterStartResult.Outcome.RELATIONSHIP_TOPOLOGY_MISSING,
 			trigger,
 		)
+	if trigger.cause != CombatTriggerCause.Value.SCRIPTED and not _connected_to_initiator(trigger.initiator_id, participants):
+		return _start_failure(CombatEncounterStartResult.Outcome.RELATIONSHIP_TOPOLOGY_MISSING, trigger)
 	var encounter_id := StringName(ENCOUNTER_ID_PREFIX + String(trigger.trigger_id))
 	var encounter := CombatEncounter.new(encounter_id, trigger, participants, hostilities)
 	if not encounter.is_valid() or not encounter.activate():
@@ -295,6 +301,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	_active_encounter = encounter
 	_active_scheduler = scheduler
 	_last_completion = null
+	_completed_feedback = null
 	_resolution = null if encounter.mode == CombatEncounterMode.Value.SCRIPTED else CombatEncounterResolution.new(_session, encounter)
 	return CombatEncounterStartResult.new(
 		CombatEncounterStartResult.Outcome.STARTED,
@@ -368,6 +375,7 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 		encounter_id,
 		result,
 	)
+	_completed_feedback = CombatCompletedFeedback.new(encounter_id, _active_scheduler)
 	_active_scheduler = null
 	_active_encounter = null
 	return _last_completion
@@ -387,6 +395,23 @@ func _location_matches_trigger(
 		and location.shares_combat_location(source)
 	)
 
+
+## Side hostility is not proof that each individual participates. Follow actual
+## directed opponent edges in either direction; do not invent reciprocal fights.
+func _connected_to_initiator(id: StringName, participants: Array[CombatParticipant]) -> bool:
+	var reached: Array[StringName] = [id]
+	var cursor: int = 0
+	while cursor < reached.size():
+		for actor: CombatParticipant in participants:
+			if actor.participant_id != reached[cursor]:
+				continue
+			for target: CombatParticipant in participants:
+				if target.participant_id in reached or actor.side_id == target.side_id:
+					continue
+				if actor.binding.relationship.has_opponent(target.participant_id) or target.binding.relationship.has_opponent(actor.participant_id):
+					reached.append(target.participant_id)
+		cursor += 1
+	return reached.size() == participants.size()
 
 func _derive_hostilities(
 	participants: Array[CombatParticipant],

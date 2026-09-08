@@ -8,7 +8,40 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _targets(tree)
 	await _modes(tree)
 	await _target_ui(tree)
+	await _disconnected_candidates(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
+
+func _disconnected_candidates(tree: SceneTree) -> void:
+	for mode: int in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
+		var session: OldPineWorldSessionController = SessionScene.instantiate()
+		tree.root.add_child(session)
+		session.set_process(false)
+		var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+		var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if mode == CombatEncounterMode.Value.LETHAL else CombatTriggerCause.Value.PLAYER_SPAR
+		var prepared: CombatTrigger = Multi.trigger(session, mode, cause)
+		var player: WorldPlayerRuntimeState = session.player_runtime()
+		var a: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+		var b: NpcRuntimeState = session.outdoor_map().npc_runtimes()[1]
+		if mode == CombatEncounterMode.Value.LETHAL:
+			player.relationship.mark_lethal_target(a.character_id)
+		player.relationship.remove_opponent(b.character_id)
+		b.relationship.remove_opponent(player.character_id)
+		var candidates: Array[CombatTriggerCandidate] = [CombatTriggerCandidate.new(player.character_id, &"player"), CombatTriggerCandidate.new(a.character_id, &"enemy"), CombatTriggerCandidate.new(b.character_id, &"enemy")]
+		var trigger := CombatTrigger.new(&"disconnected", cause, mode, player.character_id, candidates, prepared.source_location)
+		var random := Setup.CountingRandom.new()
+		session.configure_combat_random_source(random)
+		_check(coordinator.start(trigger).outcome == CombatEncounterStartResult.Outcome.RELATIONSHIP_TOPOLOGY_MISSING, "isolated same-side candidate rejected before activation")
+		_check(not coordinator.has_active_encounter() and coordinator.active_scheduler() == null and session.world_simulation_gate().is_open(), "rejection leaves no frozen authority")
+		_check(random.calls == 0 and not b.relationship.is_fighting() and player.relationship.has_opponent(a.character_id), "topology validation no RNG or invented relationship")
+		# Directed incoming edge is sufficient; validation must not require or add
+		# reciprocal lethal relationships. SPAR requires reciprocal ordinary edges.
+		b.relationship.add_opponent(player.character_id)
+		if mode == CombatEncounterMode.Value.SPAR:
+			player.relationship.add_opponent(b.character_id)
+		_check(coordinator.start(trigger).succeeded(), "connected three-participant topology accepted")
+		_check(random.calls == 0 and (mode != CombatEncounterMode.Value.LETHAL or not player.relationship.has_opponent(b.character_id)), "acceptance preserves directed relationship semantics")
+		session.free()
+		await _settle(tree, 2)
 
 
 func _targets(tree: SceneTree) -> void:

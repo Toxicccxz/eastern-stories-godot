@@ -130,7 +130,8 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	_check(Setup.complete(session), "typed completion fixture")
 	ui.refresh_projection()
 	_check(not ui.visible and session.outdoor_map().hud.visible, "completion restores HUD")
-	_check(reader.read_new(coordinator, BattleProjectionBuilder.build(session)).is_empty() and reader.last_consumed_order == 0, "inactive resets presentation cursor")
+	var completed_order: int = reader.last_consumed_order
+	_check(reader.read_new(coordinator, BattleProjectionBuilder.build(session)).is_empty() and reader.last_consumed_order == completed_order, "inactive retains completed cursor; next encounter resets it")
 	_check(intent.submit(&"qa.probe").code == Code.INACTIVE, "post-completion adapter inert")
 	session.free()
 	await _settle(tree, 2)

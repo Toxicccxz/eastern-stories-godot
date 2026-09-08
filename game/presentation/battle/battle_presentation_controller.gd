@@ -85,9 +85,9 @@ func refresh_projection() -> void:
 	if changed:
 		_displayed_id = _projection.encounter_id
 		log_panel.close_log()
-		log_panel.clear_entries()
 		_receipt.text = ""
 		if _projection.active:
+			log_panel.clear_entries()
 			if _intent == null:
 				_intent = BattleIntentAdapter.new(_session.combat_encounter_coordinator(), _projection.player_id)
 			_yield_world_hud()
@@ -136,6 +136,18 @@ func _present_completed_result() -> void:
 		return
 
 	_reported_completion_id = receipt.encounter_id
+	# Parent Session finishes before this child processes. Drain the final suffix
+	# using the last display names before replacing the now-inactive projection.
+	var feedback_projection: BattlePresentationProjection = _projection
+	if feedback_projection.encounter_id != receipt.encounter_id:
+		# A large first frame can finish before the first UI refresh. Stable IDs
+		# remain a truthful fallback when no prior display-name projection exists.
+		feedback_projection = BattlePresentationProjection.new(receipt.encounter_id)
+		log_panel.clear_entries()
+	var entries: Array[BattleFeedbackProjection] = _reader.read_new(_session.combat_encounter_coordinator(), feedback_projection)
+	log_panel.append_entries(entries)
+	for entry: BattleFeedbackProjection in _reader.recent():
+		text += "\n" + entry.text
 	hud.show_combat_result(text)
 
 

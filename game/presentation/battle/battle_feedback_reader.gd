@@ -33,28 +33,35 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 func read_new(
 	coordinator: CombatEncounterCoordinator, projection: BattlePresentationProjection,
 ) -> Array[BattleFeedbackProjection]:
+	if not projection.active:
+		return [] # Keep the completed history until a new encounter replaces it.
 	if projection.encounter_id != _encounter_id:
 		_encounter_id = projection.encounter_id
 		_last_order = 0
 		_recent.clear()
-	if not projection.active:
-		return []
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	if scheduler == null:
+		var completed: CombatCompletedFeedback = coordinator.completed_feedback()
+		if completed == null or completed.encounter_id != projection.encounter_id:
+			return []
+		return _read_events(completed.targets_after(_last_order), completed.ordinary_after(_last_order), completed.tactical_after(_last_order), projection)
+	if coordinator.active_encounter().encounter_id != projection.encounter_id:
 		return []
+	var tactical: CombatTacticalRuntime = scheduler.player_tactics()
+	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), [] if tactical == null else tactical.events_after(_last_order), projection)
+
+func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[CombatSchedulerEvent], tactics: Array[CombatTacticalEvent], projection: BattlePresentationProjection) -> Array[BattleFeedbackProjection]:
 	var next: Array[BattleFeedbackProjection] = []
-	for ordered: CombatOrderedTargetEvent in scheduler.target_events_after(_last_order):
+	for ordered: CombatOrderedTargetEvent in targets:
 		var event: CombatEncounterEvent = ordered.event
 		next.append(BattleFeedbackProjection.new(ordered.progression_order, "%s · Target: %s → %s" % [
 			projection.display_name(event.actor_id), projection.display_name(event.previous_target_id),
 			projection.display_name(event.current_target_id),
 		]))
-	for event: CombatSchedulerEvent in scheduler.events_after(_last_order):
+	for event: CombatSchedulerEvent in ordinary:
 		next.append(BattleFeedbackProjection.new(event.progression_order, _ordinary(event, projection)))
-	var tactical: CombatTacticalRuntime = scheduler.player_tactics()
-	if tactical != null:
-		for event: CombatTacticalEvent in tactical.events_after(_last_order):
-			next.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))
+	for event: CombatTacticalEvent in tactics:
+		next.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))
 	next.sort_custom(_earlier)
 	for entry: BattleFeedbackProjection in next:
 		_last_order = entry.progression_order
