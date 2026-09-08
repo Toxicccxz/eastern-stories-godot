@@ -1,8 +1,20 @@
 # Godot AI Development Boundary
 
-Godot AI 3.2.4 is vendored under `game/addons/godot_ai/` for editor/MCP and live runtime inspection.
+Godot AI 4.0.1 is vendored under `game/addons/godot_ai/` for editor/MCP and live runtime inspection.
 The development project enables its editor plugin and `_mcp_game_helper` autoload. Phase 10A does
 not remove or weaken that development workflow.
+
+## Vendor provenance
+
+The addon is the unmodified upstream [v4.0.1 release](https://github.com/hi-godot/godot-ai/releases/tag/v4.0.1),
+source commit `9b1f13aded0437da4974a2ccf11a9b94f0c15b29`. All 283 local files match the
+SHA-256 entries in the official `godot-ai-v4-plugin.manifest.json`: no missing, differing, or extra
+files. This is an HTTPS release-manifest comparison, not an independent signature verification.
+The release's `godot-ai-v4-plugin.zip` SHA-256 is
+`3de4e9844ec2511a5646347e10d280b4a6fcf94a05881bd0912cb58968873ec0`.
+The addon requires Godot 4.7+, compatible with the project's pinned 4.7.2 editor.
+It is maintained independently of gameplay changes; local project/window configuration is not part
+of the vendor update. Production sanitization remains mandatory.
 
 On this Windows workstation, TCP 5940–6039 was reserved and blocked the former Godot remote-debug
 port 6007. Port 6107 was validated locally and is currently tracked in `game/project.godot` through:
@@ -51,13 +63,14 @@ evidence remains unavailable, report it as blocked or pending rather than conver
 result into a live PASS. Do not change gameplay or domain semantics to accommodate development
 tooling.
 
-## Known editor-only shutdown warning
+## Historical editor-only shutdown warning
 
-Godot AI 3.2.4 can retain a `server_version_check.gd` / `server_lifecycle.gd` mutual reference on
+Godot AI 3.2.4 was observed retaining a `server_version_check.gd` / `server_lifecycle.gd` mutual reference on
 interactive editor exit. The isolated diagnosis identified five ObjectDB instances and two resources,
 not Shell/Settings/Host/Session objects. See the
 [formal audit diagnosis](../migration/PHASE_10C1C_FORMAL_AUDIT.md#editor-only-lifetime-warning-explained-not-hidden).
 
-The vendor plugin is unchanged. Sanitized builds exclude it, and the independently validated
+The vendor plugin was not patched for that diagnosis. This historical finding is not a claim about
+whether upstream 4.0.1 fixes that warning. Sanitized builds exclude the addon, and the independently validated
 no-plugin game and automated runs did not show this warning. This is not permission to ignore other
 leaks: inspect resource names and reproduce any new warning before classifying it as tooling-only.

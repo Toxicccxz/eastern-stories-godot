@@ -22,7 +22,10 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 - Vendored locations: `game/addons/godot_ai/` and duplicate repository evidence at
   `game/godot-ai-LICENSE.txt`.
 - Both local license texts are MIT License, “Copyright (c) 2025 Godot AI contributors.”
-- `game/addons/godot_ai/plugin.cfg` identifies addon version 3.2.4.
+- `game/addons/godot_ai/plugin.cfg` identifies addon version 4.0.1, from the unmodified
+  [upstream release](https://github.com/hi-godot/godot-ai/releases/tag/v4.0.1), source commit
+  `9b1f13aded0437da4974a2ccf11a9b94f0c15b29`. All 283 files match the official release manifest's
+  SHA-256 inventory; see [vendor provenance](GODOT_AI_DEVELOPMENT.md#vendor-provenance).
 - It is retained in the development repository but removed from the sanitized production project and
   is not shipped in Phase 10A runtime artifacts.
 
