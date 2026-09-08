@@ -149,8 +149,9 @@ confirmed absent before launching the same EXE using the same isolated profile. 
 cold fullscreen Main Menu -> actual Continue -> same corpse-relative position and vitality
 127/127/220, no Battle/selection/log transient (`windows-restored-a-p21700.png`). Actual Inventory
 shows the same short sword, silver x3 and primary long sword (`windows-restored-inventory-p21700.png`).
-No prepared/edited save or game/controller call was used. Post-restore movement/unsaved-B check
-was requested separately and is not claimed yet.
+No prepared/edited save or game/controller call was used. The owner subsequently walked north
+to an independently observed, clearly different position B without saving; see process-death
+evidence below. Thus post-restore physical movement is also demonstrated.
 
 ## 12. World traversal
 
@@ -181,8 +182,18 @@ Thus unsaved B did not replace A. Neither process restart cleared package data.
 Windows PID **56620**: fresh New Game -> owner walking -> Flee -> owner walk away/re-entry ->
 natural Victory -> owner corpse approach -> real UI loot/Save A/Menu -> normal process exit.
 Old PID absent -> cold process **21700** (2026-09-08 08:44:15 workstation local time) -> Main Menu
--> Continue -> A, inventory and fullscreen settings preserved. Unsaved-B/process-death remains
-pending; this successful normal-exit check is not relabeled as forced-process-death evidence.
+-> Continue -> A, inventory and fullscreen settings preserved.
+
+Windows forced-process-death check: after the owner's unsaved northward walk,
+`windows-unsaved-b-p21700.png` shows a different ancient-pine-relative position, not the saved
+corpse position. The capture showed world rather than Pause, so an explicit real Escape input
+established Pause before termination; the owner's reported paused state is not substituted for
+the observation. The exact executable path of PID21700 was checked, then that process alone was
+force-terminated and confirmed absent. Cold PID **49204** (08:57:01 workstation local time) ->
+Main Menu -> real Continue restores the original corpse-relative A and vitality 127/127/220
+(`windows-restored-a-after-kill-p49204.png`), not B. Save SHA-256 before/after termination remains
+`330B8DBBED384C8CD79F0A611832E29350381D76FF58164C34873F739AD58310`.
+This is process-death evidence, not a device power-loss/disk-durability claim.
 
 ## 14. Runtime errors
 
@@ -236,8 +247,8 @@ Native root license and ES2 attribution remain unresolved; private handoff requi
 
 ## 17. User-experience blockers
 
-No confirmed new gameplay blocker in the paths completed so far. Remaining Windows movement,
-unsaved-process-death and traversal evidence is outstanding, separately from product correctness. Conditional
+No confirmed new gameplay blocker in the paths completed so far. Remaining Windows traversal
+evidence is outstanding, separately from product correctness. Conditional
 Cave/SouthExit qualification is unresolved under the no-cheat ordinary-player restriction.
 If a genuine journey-blocking defect is demonstrated, stop and record
 `PHASE10D3_GAMEPLAY_BLOCKER`; do not fix gameplay on this branch.
@@ -251,7 +262,7 @@ deferred. Do not repeat all historical device tests or redesign inventory presen
 ## 19. Acceptance result
 
 **IN PROGRESS — cannot claim PHASE10D3 PASS.** This is a resumable evidence checkpoint, not a
-final acceptance decision. Remaining: Windows post-restore movement, unsaved-B/process-death and traversal,
+final acceptance decision. Remaining: Windows representative traversal,
 required conditional traversal decision/evidence,
 final runtime/log checks. Preserve the candidate, screenshots and test profile for
 continuation rather than rebuilding or restarting the successful Android journey.
