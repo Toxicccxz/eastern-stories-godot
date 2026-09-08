@@ -519,6 +519,7 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	session.deterministic_combat_seed = true
 	session.combat_seed = 88
 	tree.root.add_child(session)
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
 	return session.outdoor_map()
 
 

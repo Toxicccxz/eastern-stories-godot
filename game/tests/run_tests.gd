@@ -1,5 +1,11 @@
 extends SceneTree
 
+const CombatTacticalQueueTest := preload("res://tests/runtime/combat_tactical_queue_test.gd")
+const BattlePresentationTest := preload("res://tests/runtime/battle_presentation_test.gd")
+const CombatMultiTargetTest := preload("res://tests/runtime/combat_multi_target_test.gd")
+const CombatResolutionCutoverTest := preload("res://tests/runtime/combat_resolution_cutover_test.gd")
+const OldPinePlayabilityTest := preload("res://tests/runtime/oldpine_playability_test.gd")
+
 const CharacterAttributesScript := preload(
 	"res://core/characters/character_base_attributes.gd"
 )
@@ -568,6 +574,49 @@ const FailingCombatRelationshipStateScript := preload(
 )
 const CombatRelationshipOpponentFriendlyStopTest := preload(
 	"res://tests/core/combat_relationship_opponent_friendly_stop_test.gd"
+)
+const CombatTriggerCauseScript := preload(
+	"res://core/combat/encounter/combat_trigger_cause.gd"
+)
+const CombatEncounterModeScript := preload(
+	"res://core/combat/encounter/combat_encounter_mode.gd"
+)
+const CombatEncounterLifecycleScript := preload(
+	"res://core/combat/encounter/combat_encounter_lifecycle.gd"
+)
+const CombatEncounterResultKindScript := preload(
+	"res://core/combat/encounter/combat_encounter_result_kind.gd"
+)
+const CombatEncounterEventKindScript := preload(
+	"res://core/combat/encounter/combat_encounter_event_kind.gd"
+)
+const CombatTriggerCandidateScript := preload(
+	"res://core/combat/encounter/combat_trigger_candidate.gd"
+)
+const CombatTriggerScript := preload("res://core/combat/encounter/combat_trigger.gd")
+const CombatEncounterAuthorityBindingScript := preload(
+	"res://core/combat/encounter/combat_encounter_authority_binding.gd"
+)
+const CombatParticipantScript := preload(
+	"res://core/combat/encounter/combat_participant.gd"
+)
+const CombatDirectedHostilityScript := preload(
+	"res://core/combat/encounter/combat_directed_hostility.gd"
+)
+const CombatTargetAssignmentScript := preload(
+	"res://core/combat/encounter/combat_target_assignment.gd"
+)
+const CombatEncounterResultScript := preload(
+	"res://core/combat/encounter/combat_encounter_result.gd"
+)
+const CombatEncounterEventScript := preload(
+	"res://core/combat/encounter/combat_encounter_event.gd"
+)
+const CombatEncounterScript := preload(
+	"res://core/combat/encounter/combat_encounter.gd"
+)
+const CombatEncounterCoreTest := preload(
+	"res://tests/core/combat_encounter_core_test.gd"
 )
 const CombatAttackTypeScript := preload(
 	"res://core/combat/fight/combat_attack_type.gd"
@@ -1142,6 +1191,21 @@ func _init() -> void:
 		CombatPostRelationshipServiceScript,
 		FailingCombatRelationshipStateScript,
 		CombatRelationshipOpponentFriendlyStopTest,
+		CombatTriggerCauseScript,
+		CombatEncounterModeScript,
+		CombatEncounterLifecycleScript,
+		CombatEncounterResultKindScript,
+		CombatEncounterEventKindScript,
+		CombatTriggerCandidateScript,
+		CombatTriggerScript,
+		CombatEncounterAuthorityBindingScript,
+		CombatParticipantScript,
+		CombatDirectedHostilityScript,
+		CombatTargetAssignmentScript,
+		CombatEncounterResultScript,
+		CombatEncounterEventScript,
+		CombatEncounterScript,
+		CombatEncounterCoreTest,
 		CombatAttackTypeScript,
 		CombatPerceptionSkillProjectionScript,
 		CombatFightDecisionFactsScript,
@@ -1358,6 +1422,12 @@ func _init() -> void:
 	var phase_5b3b2b_result: Dictionary[String, Variant] = (
 		CombatSynchronousReverseAttackExecutionTest.new().run_all()
 	)
+	var cxr2_result: Dictionary[String, Variant] = CombatEncounterCoreTest.new().run_all()
+	var cxr5_result: Dictionary[String, Variant] = await CombatTacticalQueueTest.new().run_all(self)
+	var cxr6_result: Dictionary[String, Variant] = await BattlePresentationTest.new().run_all(self)
+	var cxr7_result: Dictionary[String, Variant] = await CombatMultiTargetTest.new().run_all(self)
+	var cxr8_result: Dictionary[String, Variant] = await CombatResolutionCutoverTest.new().run_all(self)
+	var cxr9_result: Dictionary[String, Variant] = await OldPinePlayabilityTest.new().run_all(self)
 	var phase_6b1_result: Dictionary[String, Variant] = (
 		CombatSliceOpportunityIntegrationTest.new().run_all()
 	)
@@ -1479,6 +1549,8 @@ func _init() -> void:
 	) + int(
 		phase_5b3b2b_result["assertions"]
 	) + int(
+		cxr2_result["assertions"]
+	) + int(
 		phase_6b1_result["assertions"]
 	) + int(
 		phase_6b2_result["assertions"]
@@ -1530,6 +1602,16 @@ func _init() -> void:
 		phase_10c1a_result["assertions"] + phase_10c1c_result["assertions"] + phase_10c2a_result["assertions"] + phase_10c2a_audit_result["assertions"] + phase_10c2b_result["assertions"] + phase_10c2b_audit_result["assertions"] + phase_10c2c_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
+	assertion_count += int(cxr5_result["assertions"])
+	failures.append_array(cxr5_result["failures"])
+	assertion_count += int(cxr6_result["assertions"])
+	failures.append_array(cxr6_result["failures"])
+	assertion_count += int(cxr7_result["assertions"])
+	failures.append_array(cxr7_result["failures"])
+	assertion_count += int(cxr8_result["assertions"])
+	failures.append_array(cxr8_result["failures"])
+	assertion_count += int(cxr9_result["assertions"])
+	failures.append_array(cxr9_result["failures"])
 	failures.append_array(phase_2a_result["failures"])
 	failures.append_array(phase_2b_result["failures"])
 	failures.append_array(phase_3a_result["failures"])
@@ -1557,6 +1639,7 @@ func _init() -> void:
 	failures.append_array(phase_5b3b1_result["failures"])
 	failures.append_array(phase_5b3b2a_result["failures"])
 	failures.append_array(phase_5b3b2b_result["failures"])
+	failures.append_array(cxr2_result["failures"])
 	failures.append_array(phase_6b1_result["failures"])
 	failures.append_array(phase_6b2_result["failures"])
 	failures.append_array(phase_6b3_result["failures"])

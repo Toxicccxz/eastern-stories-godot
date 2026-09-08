@@ -7,6 +7,7 @@ const WorldPlayerRuntimeType := preload(
 )
 
 @onready var player_vitality: ProgressBar = %PlayerVitality
+@onready var world_title: Label = $Overlay/StatusPanel/Margin/VBox/Title
 @onready var player_vitality_text: Label = %PlayerVitalityText
 @onready var selected_target_label: Label = %SelectedTargetLabel
 @onready var target_vitality: ProgressBar = %TargetVitality
@@ -269,6 +270,13 @@ func refresh_live_state() -> void:
 			else _selected_vine.action_label
 		)
 	)
+
+
+func show_combat_result(text: String) -> void:
+	append_log_lines([text])
+	# Existing always-visible heading, not a modal input blocker on compact HUDs.
+	world_title.text = "%s — see Details" % text.get_slice(" — ", 0)
+	world_title.tooltip_text = text
 
 
 func append_log_lines(lines: Array[String]) -> void:

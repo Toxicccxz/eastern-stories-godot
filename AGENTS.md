@@ -223,6 +223,19 @@ The presentation layer decides how it looks.**
 * Do not duplicate an existing system before understanding it.
 * When an RPG interaction requires redesign, preserve the original gameplay intent and make the architectural change explicit.
 
+## One Slice at a Time
+
+For each substantial implementation slice, follow:
+
+`discover/source check -> analysis/plan -> implement -> focused tests -> distinct verification/self-audit -> real runtime validation when applicable -> document results -> report to owner`
+
+* Compilation or focused tests alone do not complete a slice. Separately review its architectural
+  boundaries and acceptance evidence, following the Real Runtime Validation rules below.
+* Report remaining blockers honestly before moving on. Do not silently chain the next slice;
+  a readiness statement is not authorization to implement it. Await the owner's next-slice instruction.
+* These checkpoints do not create separate branches or PRs. All slices and their audit corrections
+  remain on the owning major-phase branch under the existing integration workflow.
+
 ## Documentation Placement
 
 Documentation placement is a repository-wide decision and MUST be known before choosing a destination path.

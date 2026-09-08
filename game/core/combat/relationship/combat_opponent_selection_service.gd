@@ -93,6 +93,85 @@ static func prepare(
 	return result
 
 
+## Encounter scheduling already owns a semantic current target. This path
+## preserves the existing cleanup and last-opponent mutations while selecting
+## that exact target without consuming the random opponent-selection draw.
+static func prepare_specific(
+	relationship: CombatRelationshipState,
+	availability_facts: Array[CombatOpponentAvailabilityFacts],
+	requested_opponent_id: StringName,
+) -> CombatOpponentSelectionResult:
+	var result: CombatOpponentSelectionResult = CombatOpponentSelectionResult.new()
+	if (
+		relationship == null
+		or not relationship.is_valid()
+		or requested_opponent_id.is_empty()
+	):
+		return result
+	result._owner_character_id = relationship.owner_character_id
+	result._original_opponent_ids = relationship.opponent_ids()
+	result._last_opponent_before = relationship.last_opponent_id
+	result._last_opponent_after = relationship.last_opponent_id
+	if not _facts_match_snapshot(result._original_opponent_ids, availability_facts):
+		result._outcome = (
+			CombatOpponentSelectionResult.Outcome.INVALID_AVAILABILITY_PROJECTION
+		)
+		result._failure_stage = (
+			CombatOpponentSelectionResult.FailureStage.AVAILABILITY_PROJECTION
+		)
+		result._resulting_opponent_ids = relationship.opponent_ids()
+		return result
+
+	for opponent_id: StringName in result._original_opponent_ids:
+		var facts: CombatOpponentAvailabilityFacts = _find_facts(
+			availability_facts,
+			opponent_id,
+		)
+		var remove: bool = (
+			not facts.exists
+			or not facts.same_location
+			or (
+				not facts.living
+				and not relationship.has_lethal_target(opponent_id)
+			)
+		)
+		if remove:
+			if not relationship._remove_opponent_for_cleanup(opponent_id):
+				result._outcome = (
+					CombatOpponentSelectionResult.Outcome.CLEANUP_INVARIANT_FAILURE
+				)
+				result._failure_stage = CombatOpponentSelectionResult.FailureStage.CLEANUP
+				_finish_snapshot(result, relationship)
+				return result
+			result._removed_opponent_ids.append(opponent_id)
+		else:
+			result._retained_opponent_ids.append(opponent_id)
+
+	result._cleanup_completed = true
+	result._resulting_opponent_ids = relationship.opponent_ids()
+	result._selected_index = result._resulting_opponent_ids.find(
+		requested_opponent_id
+	)
+	if result._selected_index < 0:
+		result._outcome = (
+			CombatOpponentSelectionResult.Outcome.REQUESTED_OPPONENT_UNAVAILABLE
+		)
+		result._failure_stage = CombatOpponentSelectionResult.FailureStage.NONE
+		return result
+	result._selected_opponent_id = requested_opponent_id
+	if not relationship.set_last_opponent(requested_opponent_id):
+		result._outcome = (
+			CombatOpponentSelectionResult.Outcome.LAST_OPPONENT_INVARIANT_FAILURE
+		)
+		result._failure_stage = CombatOpponentSelectionResult.FailureStage.LAST_OPPONENT
+		result._last_opponent_after = relationship.last_opponent_id
+		return result
+	result._last_opponent_after = relationship.last_opponent_id
+	result._outcome = CombatOpponentSelectionResult.Outcome.SELECTED
+	result._failure_stage = CombatOpponentSelectionResult.FailureStage.NONE
+	return result
+
+
 static func _facts_match_snapshot(
 	opponent_ids: Array[StringName],
 	facts: Array[CombatOpponentAvailabilityFacts],

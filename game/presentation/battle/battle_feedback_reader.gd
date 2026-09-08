@@ -1,0 +1,120 @@
+class_name BattleFeedbackReader
+extends RefCounted
+
+var _encounter_id: StringName = &""
+var _last_order: int = 0
+var _recent: Array[BattleFeedbackProjection] = []
+var last_consumed_order: int:
+	get: return _last_order
+
+
+func recent() -> Array[BattleFeedbackProjection]:
+	return _recent.duplicate()
+
+
+## Only successful authoritative completion may become a world result message.
+## No rewards, lifecycle, thaw, or completion decision belongs to this projection.
+static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int) -> String:
+	if receipt == null or not receipt.succeeded() or receipt.terminal_result == null:
+		return ""
+	match receipt.terminal_result.kind:
+		CombatEncounterResultKind.Value.VICTORY:
+			return "Victory — combat ended. Select a fallen opponent's corpse to inspect or loot it."
+		CombatEncounterResultKind.Value.DEFEAT:
+			var condition: String = "dead" if player_life == CharacterRuntimeLifeStatus.Value.DEAD else "unconscious"
+			return "Defeat — you are %s. Pause remains available; Return to Main Menu to start again." % condition
+		CombatEncounterResultKind.Value.SPAR_CONCLUDED:
+			return "Spar concluded — friendly combat has ended."
+		CombatEncounterResultKind.Value.FLED:
+			return "Escaped — combat ended. Move away to disengage from danger."
+	return "Encounter ended — %s." % String(CombatEncounterResultKind.Value.keys()[receipt.terminal_result.kind]).capitalize()
+
+
+func read_new(
+	coordinator: CombatEncounterCoordinator, projection: BattlePresentationProjection,
+) -> Array[BattleFeedbackProjection]:
+	if not projection.active:
+		return [] # Keep the completed history until a new encounter replaces it.
+	if projection.encounter_id != _encounter_id:
+		_encounter_id = projection.encounter_id
+		_last_order = 0
+		_recent.clear()
+	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
+	if scheduler == null:
+		var completed: CombatCompletedFeedback = coordinator.completed_feedback()
+		if completed == null or completed.encounter_id != projection.encounter_id:
+			return []
+		return _read_events(completed.targets_after(_last_order), completed.ordinary_after(_last_order), completed.tactical_after(_last_order), projection)
+	if coordinator.active_encounter().encounter_id != projection.encounter_id:
+		return []
+	var tactical: CombatTacticalRuntime = scheduler.player_tactics()
+	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), [] if tactical == null else tactical.events_after(_last_order), projection)
+
+func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[CombatSchedulerEvent], tactics: Array[CombatTacticalEvent], projection: BattlePresentationProjection) -> Array[BattleFeedbackProjection]:
+	var next: Array[BattleFeedbackProjection] = []
+	for ordered: CombatOrderedTargetEvent in targets:
+		var event: CombatEncounterEvent = ordered.event
+		next.append(BattleFeedbackProjection.new(ordered.progression_order, "%s · Target: %s → %s" % [
+			projection.display_name(event.actor_id), projection.display_name(event.previous_target_id),
+			projection.display_name(event.current_target_id),
+		]))
+	for event: CombatSchedulerEvent in ordinary:
+		next.append(BattleFeedbackProjection.new(event.progression_order, _ordinary(event, projection)))
+	for event: CombatTacticalEvent in tactics:
+		next.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))
+	next.sort_custom(_earlier)
+	for entry: BattleFeedbackProjection in next:
+		_last_order = entry.progression_order
+		_recent.append(entry)
+		if _recent.size() > 3:
+			_recent.pop_front()
+	return next
+
+
+static func _earlier(a: BattleFeedbackProjection, b: BattleFeedbackProjection) -> bool:
+	return a.progression_order < b.progression_order
+
+
+static func reason(code: int) -> String:
+	if code not in CombatTacticalResult.Code.values():
+		return "Unknown result"
+	return String(CombatTacticalResult.Code.keys()[code]).capitalize()
+
+
+static func _tactical(event: CombatTacticalEvent, projection: BattlePresentationProjection) -> String:
+	var action: CombatQueuedAction = event.action
+	var detail: String = reason(event.reason)
+	if event.execution != null:
+		detail = String(CombatTacticalExecutionResult.Outcome.keys()[event.execution.outcome]).capitalize()
+	if event.kind == CombatTacticalEvent.Kind.REPLACED:
+		detail = "replaced by %s" % event.replacement_request_id
+	return "%s · %s · %s: %s" % [
+		projection.display_name(action.request.actor_id), action.request.action_id,
+		String(CombatTacticalEvent.Kind.keys()[event.kind]).capitalize(), detail,
+	]
+
+
+static func _ordinary(event: CombatSchedulerEvent, projection: BattlePresentationProjection) -> String:
+	var actor: String = projection.display_name(event.actor_id)
+	var target: String = projection.display_name(event.target_id)
+	if event.kind == CombatSchedulerEvent.Kind.PARTICIPANT_SKIPPED:
+		return "%s · %s" % [actor, String(CombatSchedulerEvent.SkipReason.keys()[event.skip_reason]).capitalize()]
+	var result: CombatSliceOpportunityResult = event.resolution
+	var text: String = "%s · %s" % [actor, String(CombatSliceOpportunityResult.Outcome.keys()[result.outcome]).capitalize()]
+	if result.forward_result != null:
+		text += _attack(result.forward_result.ordinary_attack_result, actor, target)
+	if result.chain_result != null and result.chain_result.reverse_execution_reached:
+		text += " · Riposte" + _attack(result.chain_result.reverse_ordinary_result, target, actor)
+	return text
+
+
+static func _attack(result: CombatOrdinaryAttackResult, actor: String, target: String) -> String:
+	if result == null or not result.has_base_result:
+		return ""
+	var base: CombatAttackResult = result.base_result
+	match base.outcome:
+		CombatAttackResult.Outcome.DODGE: return " · %s dodges %s" % [target, actor]
+		CombatAttackResult.Outcome.PARRY: return " · %s parries %s" % [target, actor]
+		CombatAttackResult.Outcome.HIT:
+			return " · %s hits %s (%d damage)" % [actor, target, base.resource_mutation.requested_damage]
+	return ""

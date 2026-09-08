@@ -13,6 +13,8 @@ signal selection_requested(character_id: StringName)
 var _player: WorldPlayerRuntimeType
 var _npc: NpcRuntimeState
 var _character_id: StringName = &""
+var _world_simulation_gate: WorldSimulationGate
+var _movement_input_quarantined: bool = false
 
 var character_id: StringName:
 	get: return _character_id
@@ -38,6 +40,22 @@ func bind_npc(value: NpcRuntimeState) -> bool:
 	_update_label(value.definition().display_name)
 	refresh_runtime_state()
 	return true
+
+
+func bind_world_simulation_gate(value: WorldSimulationGate) -> bool:
+	if value == null:
+		return false
+	_world_simulation_gate = value
+	return true
+
+
+func quarantine_current_movement_input() -> void:
+	_movement_input_quarantined = true
+	velocity = Vector2.ZERO
+
+
+func movement_input_quarantined() -> bool:
+	return _movement_input_quarantined
 
 
 func set_world_location(value: WorldLocationState) -> bool:
@@ -68,8 +86,16 @@ func _physics_process(_delta: float) -> void:
 		not player_controlled
 		or not _exists()
 		or _life_status() != CharacterRuntimeLifeStatus.Value.ACTIVE
+		or (_world_simulation_gate != null and _world_simulation_gate.is_frozen())
 	):
+		if _world_simulation_gate != null and _world_simulation_gate.is_frozen():
+			_movement_input_quarantined = true
 		velocity = Vector2.ZERO
+		return
+	if _movement_input_quarantined:
+		velocity = Vector2.ZERO
+		if not _movement_input_is_pressed():
+			_movement_input_quarantined = false
 		return
 	var direction: Vector2 = Input.get_vector(
 		"move_left",
@@ -92,10 +118,20 @@ func _input_event(
 		and mouse_event.pressed
 		and mouse_event.button_index == MOUSE_BUTTON_LEFT
 		and not player_controlled
+		and (_world_simulation_gate == null or _world_simulation_gate.is_open())
 		and _exists()
 		and _life_status() != CharacterRuntimeLifeStatus.Value.DEAD
 	):
 		selection_requested.emit(_character_id)
+
+
+func _movement_input_is_pressed() -> bool:
+	return (
+		Input.is_action_pressed("move_left")
+		or Input.is_action_pressed("move_right")
+		or Input.is_action_pressed("move_up")
+		or Input.is_action_pressed("move_down")
+	)
 
 
 func _exists() -> bool:

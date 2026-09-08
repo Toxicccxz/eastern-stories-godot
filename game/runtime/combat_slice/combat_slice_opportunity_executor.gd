@@ -68,6 +68,7 @@ static func execute_opportunity(
 	participants: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	required_target_id: StringName = &"",
 ) -> CombatSliceOpportunityResult:
 	var result: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
 	if actor != null:
@@ -108,10 +109,18 @@ static func execute_opportunity(
 	var availability: Array[CombatOpponentAvailabilityFacts] = (
 		CombatSliceProjectionBuilder.build_opponent_availability(actor, participants)
 	)
-	var selection: CombatOpponentSelectionResult = CombatOpponentSelectionService.prepare(
-		actor.relationship,
-		availability,
-		random_source,
+	var selection: CombatOpponentSelectionResult = (
+		CombatOpponentSelectionService.prepare(
+			actor.relationship,
+			availability,
+			random_source,
+		)
+		if required_target_id.is_empty()
+		else CombatOpponentSelectionService.prepare_specific(
+			actor.relationship,
+			availability,
+			required_target_id,
+		)
 	)
 	result._opponent_selection_result = selection.duplicate_snapshot()
 	if selection.outcome == CombatOpponentSelectionResult.Outcome.NO_OPPONENT:
@@ -209,6 +218,21 @@ static func execute_opportunity(
 	]:
 		return _finish(result, CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_COMPLETE)
 	return _finish(result, CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_INCOMPLETE)
+
+
+## Read-only reuse of the audited lifecycle gate. Does not execute an attack.
+static func inspect_lifecycle(actor: CombatSliceCharacterBinding) -> CombatSliceOpportunityResult:
+	if actor == null or not actor.is_valid():
+		return null
+	var outcome: int = _required_lifecycle_outcome(actor)
+	if outcome == -1:
+		return null
+	var result := CombatSliceOpportunityResult.new()
+	result._actor_id = actor.character_id
+	result._life_status_observed = actor.life_status
+	result._life_threshold_observed = actor.state.life_threshold()
+	result._reached_stage = CombatSliceOpportunityResult.ReachedStage.LIFECYCLE_GATE
+	return _finish(result, outcome)
 
 
 static func _required_lifecycle_outcome(

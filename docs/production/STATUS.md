@@ -3,17 +3,96 @@
 ## Current milestone
 
 Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at
-`3a1f993a4258ed246ce820c7a4dc8d2563994aaf` (PR #5), with all four post-merge jobs green in
-[workflow 33643056093, attempt 2](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33643056093).
-It builds on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
-Phase 10C2's [final major-phase audit passed](../migration/PHASE_10C2_FINAL_AUDIT.md),
-and PR #6 merged at `05f3f28c17c27d8fda9f56e726ddf6e5d09d3bed`. The first post-merge
-[workflow 33700462934](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33700462934)
-failed a Vine roundtrip assertion; attempt 2 passed. A passing retry does not close the
-nondeterministic defect. **Integration requires stabilization** on
-`hotfix/10c2-mobile-lifecycle-flake`, followed by PR review, authorized merge and green
-post-merge main CI. Phase 10D has not started and must wait for that gate.
-This is not game completion or store readiness.
+`3a1f993a4258ed246ce820c7a4dc8d2563994aaf` (PR #5). Phase 10C2 and its resident-map
+contact stabilization are also fully integrated at
+`ae381bf3f3e5f4a28a417295eea680d023cc428c` through PR #6 and PR #7; all four
+post-merge jobs passed in
+[workflow 33714114002](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33714114002).
+These build on the integrated Phase 10B native Save/Load and Phase 10A build/CI foundations.
+
+Phase 10D is **PARKED / FROZEN pending Combat Experience Redesign**. Its bounded Phase 10D1
+physical Android qualification and Phase 10D2 Technical Demo packaging passed, but Phase 10D3
+normal-player acceptance exposed that the current combat experience was not suitable enough to
+continue release acceptance. Phase 10D3 never passed; Phase 10D Final Audit was not started. The
+owner approved the redesign before any new Technical Demo candidate or resumed acceptance.
+
+The completed [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md)
+established the source/current-system evidence. The
+[CXR1 Active Semi-Auto V1 design](../migration/PHASE_COMBAT_ACTIVE_SEMI_AUTO_V1_DESIGN.md)
+is now complete and locks automatic ordinary combat plus player-triggered tactical intervention,
+with a dedicated encounter, frozen world, one-slot action queue, typed events, and replaceable
+battle presentation. The typed, Node-free
+[CXR2 CombatEncounter Core](../migration/PHASE_COMBAT_CXR2_ENCOUNTER_CORE.md) is complete: it adds
+semantic triggers, exact authority bindings, open participant sides, directed hostility, explicit
+targets, monotonic lifecycle/results, and typed structural events without integrating runtime
+combat. The [CXR3 World/Encounter Lifecycle Foundation](../migration/PHASE_COMBAT_CXR3_WORLD_ENCOUNTER_LIFECYCLE.md)
+is complete: the current Session owns one encounter coordinator and encounter-ID-owned world gate,
+with exact live authority binding, transactional start/end, world/cadence/transition gating, and
+fresh-input quarantine. The [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
+is complete: the Session-owned encounter now advances deterministic ordinary opportunities through
+the existing combat core while its resident world and legacy cadence remain frozen. Normal player
+combat was not cut over by CXR4 itself. The
+[CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
+is complete: typed player requests, split validation, exact-authority execution at a deterministic
+command boundary, busy-aware replacement/cancellation, and ordered events. Production action
+registration was empty at CXR5; CXR9 adds the approved production Flee. The
+[CXR6 Battle Presentation](../migration/PHASE_COMBAT_CXR6_BATTLE_PRESENTATION.md)
+is implementation/desktop-runtime complete: Session-owned frozen-world overlay,
+typed read projections and request/cancel adapter, honest empty Quick Actions,
+ordered feedback/log, shared SafeArea/input/Pause, and restore-reparent support.
+Affected physical mobile requalification was pending at CXR6; CXR10's bounded
+physical result is recorded below. No telegraph producer,
+Quick Slots, production tactical actions, target switching, or normal-combat cutover
+was added in CXR6. The
+[CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
+is implementation/desktop-runtime complete: typed player target changes, stable invalid-target
+fallback, separate accepted queue targets, collection-based controls and source-backed SPAR/LETHAL
+establishment alongside SCRIPTED. CXR7 itself did not cut over normal Attack/aggression.
+The [CXR8 Production Cutover / Resolution](../migration/PHASE_COMBAT_CXR8_RESOLUTION_CUTOVER.md)
+is implementation/runtime complete with bounded physical Android evidence: normal Attack/aggression
+now enter one Session-owned Encounter/Scheduler, complete opportunities feed existing lifecycle and
+death/corpse authority, ordinary Loot and post-combat Save/Continue work, and the old canonical Timer
+does not resume. Partial failure holds the frozen encounter; armed-friendly mortal SPAR remains an
+explicit blocker, not silently clamped. Production tactics remain empty. Post-review completion
+hardening preserves visible RESOLVING ownership on thaw/gate-release failure, without retrying
+lifecycle or allowing FLED bypass. Latest full canonical validation: 15,760 assertions PASS;
+desktop actual Attack -> natural Victory -> movement smoke PASS. Broader earlier multi-target/queued-action physical combinations remain
+unqualified by this bounded pass. The major milestone is not integrated.
+
+[CXR9 Old Pine Playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md)
+is **implementation COMPLETE**. Old Pine-only
+New Game experience 600 and read-only result feedback remain. Production Flee uses
+the existing busy-aware one-slot queue, typed command result and same-position
+world return with included relationship cleanup, no RNG/cost/reward/teleport.
+Real fresh Attack/aggression -> Flee -> movement/Save and physical Area exit/reentry
+passed without QA stats/position/RNG. SPAR is explicitly unarmed-only, with the
+owner-authorized zero-base unarmed random-term exception; mortal-state defense stays.
+Telegraph is dormant/conditionally satisfied with no current producer, not fake content.
+Final CXR9 368 and full canonical 16,132 assertions PASS; Godot 4.7.2 editor and
+repository checks PASS. Owner config Python remains 45/46; tracked clean overlay 46/46,
+all 120 original owner dirty files preserved. These were CXR9's results; its pending
+Android gate was subsequently exercised by CXR10 below.
+
+[CXR10 final audit](../migration/PHASE_COMBAT_CXR10_FINAL_AUDIT.md) is
+**FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR**. The whole milestone
+and authority boundaries were reviewed; 20 focused runners passed 22,285 overlapping
+assertions and the complete canonical suite passed 16,132, with 0 failures. Fresh
+desktop New Game/aggression/Flee/rearm, natural Victory/loot and Save/Menu/Continue
+passed. The exact `cc42b89` Android APK passed bounded physical OnePlus 8T / Android 14
+touch entry/target/Flee, Back/log/Pause, Home/explicit Resume, landscape and natural
+Victory/loot paths using native Vulkan/Forward Mobile. Broader multi-finger,
+multi-opponent device combinations, tablets and iOS remain unqualified. Python is
+46/46 on exact tracked source, 45/46 on the preserved owner configuration. Windows/
+Android local builds, sanitizer and static checks passed. CXR10 changes only audit/
+status documentation; no gameplay fix was required. Final PR/four-job CI evidence
+is reported separately after creation. **NOT MERGED / not fully integrated**;
+Phase10D remains frozen and no release/store readiness is claimed.
+
+Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
+qualify the future battle presentation. Repeat only affected device evidence if the redesign
+materially changes mobile battle input, lifecycle, renderer, or SafeArea/layout. Phase 10D2
+artifacts and hashes remain evidence for their exact source commit, not release candidates after
+combat changes. This is not game completion or store readiness.
 
 Completed local shell capabilities are Main Menu, explicit New Game/Continue, Pause/Resume and Save,
 explicit backup/temp recovery, confirmed Return to Menu, and independent Settings with desktop
@@ -27,8 +106,9 @@ eight-direction touch pad, Android Back, lifecycle freeze and explicit Resume. S
 manual-only: background triggers no Save. The [Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
 defines these extensions without replacing Shell/Host or native persistence authority.
 Installed Android emulator evidence covers touch/Back, lifecycle, restart durability, Cave
-roundtrip, simultaneous contacts and reverse landscape. Physical Android multitouch, ARM64
-device runtime, production Vulkan and iPhone/iPad simulator/device runtime remain unqualified.
+roundtrip, simultaneous contacts and reverse landscape. Phase 10D1 separately provides bounded
+physical ARM64/Vulkan/touch/multitouch evidence on the named Android devices; it is not broad
+Android/tablet/store certification. iPhone/iPad simulator/device runtime remains unqualified.
 
 Formally closed gameplay foundations include:
 
@@ -68,8 +148,10 @@ Mobile held-action clearing, echo quarantine, pause and manual-save behavior are
 
 - Combat Phase 5B4 and later full combat parity;
 - Cave expansion, Keep, Lake/serpent, and the remaining ES2 world/content;
-- final integration of Phase 10C2, then physical Android/ARM64/Vulkan/multitouch and iOS
-  simulator/device qualification; portrait/split-screen gameplay is not qualified;
+- CXR10 final audit/integration with affected physical Android gate, and a new
+  post-redesign Technical Demo candidate before Phase 10D3 may resume;
+- broader physical Android/tablet qualification and iOS simulator/device qualification;
+  portrait/split-screen gameplay is not qualified;
 - final UI, art, animation, VFX, audio, balance, accessibility, and localization;
 - permanent Android/iOS signing, store metadata, installer/package policy, Steam/Play/App Store/
   TestFlight upload, and final release gates.

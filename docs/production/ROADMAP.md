@@ -19,21 +19,88 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    and focus/input boundaries are fully integrated at `3a1f993a4258ed246ce820c7a4dc8d2563994aaf`
    through PR #5, with all four post-merge main CI jobs green.
 
-4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Implementation/Formal Audit Complete; pending integration**
+4. **Phase 10C2 — Mobile Input / Layout / Lifecycle Adaptation — Complete / Fully Integrated**
 
    Shared responsive/safe-area presentation and sensor landscape, touch pad/Android Back,
    lifecycle freeze/explicit Resume and manual-save-only durability have passed A/B/C and
-   the [final major-phase audit](../migration/PHASE_10C2_FINAL_AUDIT.md), on
-   `phase/10c2-mobile-input-layout-lifecycle`. The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md)
-   records consumer boundaries and hardware gaps. Final PR/CI/authorized merge/post-merge CI
-   remain required before calling the major phase fully integrated.
+   the [final major-phase audit](../migration/PHASE_10C2_FINAL_AUDIT.md). PR #6 and resident-map
+   contact stabilization PR #7 are integrated at
+   `ae381bf3f3e5f4a28a417295eea680d023cc428c`, with all four post-merge jobs green in
+   [workflow 33714114002](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/33714114002).
+   The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries and
+   remaining qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — NOT STARTED**
+5. **Phase 10D — Technical Demo Release Gate — PARKED / FROZEN**
 
-   Begin only after Phase 10C2 fully integrates. Establish final technical gates, physical
-   Android multitouch/ARM64/production Vulkan and iPhone/iPad runtime qualification, permanent
-   identity/signing policy, and release-oriented packaging/store preparation. Emulator proof
-   is not hardware or store certification.
+   Phase 10D1 bounded physical Android qualification and Phase 10D2 packaging passed. Phase 10D3
+   is **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
+   unsuitable combat experience. Phase 10D Final Audit was not started. Existing physical evidence
+   is conditionally reusable only for unchanged platform interaction paths; existing artifacts and
+   hashes remain exact-source historical evidence, not post-redesign release candidates.
 
-After Phase 10D, perform a new planning review before resuming large-scale authored content. This
-roadmap intentionally avoids speculative phase expansion.
+6. **Combat Experience Redesign — Active major milestone**
+
+   The [CXR0 analysis](../migration/PHASE_COMBAT_EXPERIENCE_REDESIGN_ANALYSIS.md) is complete.
+   The [CXR1 Active Semi-Auto V1 design](../migration/PHASE_COMBAT_ACTIVE_SEMI_AUTO_V1_DESIGN.md)
+   is complete and selects ES2 Active Semi-Auto: ordinary combat/defense are automatic, while the
+   player triggers tactical actions, target changes, and flee. The typed, Node-free
+   [CXR2 CombatEncounter Core](../migration/PHASE_COMBAT_CXR2_ENCOUNTER_CORE.md) is complete. The
+   [CXR3 World/Encounter Lifecycle Foundation](../migration/PHASE_COMBAT_CXR3_WORLD_ENCOUNTER_LIFECYCLE.md)
+   is complete with one Session-owned coordinator, exact live authority binding, and an explicit
+   encounter-owned frozen-world gate. The
+   [CXR4 Active Semi-Auto Scheduler](../migration/PHASE_COMBAT_CXR4_ACTIVE_SEMI_AUTO_SCHEDULER.md)
+   is complete with deterministic logical time, stable participant opportunities, exact-authority
+   ordinary combat, typed events, and world-frozen/application-pause separation. Normal production
+   combat was not cut over by CXR4 itself. The
+   [CXR5 Tactical Actions + One-Slot Queue](../migration/PHASE_COMBAT_CXR5_PLAYER_TACTICAL_ACTIONS_QUEUE.md)
+   is complete with typed requests, one busy-aware slot, split validation, exact-authority policies,
+   and deterministic tactical/ordinary ordering. The
+   [CXR6 Battle Presentation](../migration/PHASE_COMBAT_CXR6_BATTLE_PRESENTATION.md)
+   is implementation/desktop-runtime complete with typed projections/intents, honest empty
+   production Quick Actions, ordered feedback/log and shared input/layout/lifecycle boundaries.
+   Affected physical mobile requalification was pending at that slice; see CXR10's
+   bounded qualification below. No production technique, fake telegraph,
+   Quick Slots or target switching was introduced in CXR6. The
+   [CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
+   is implementation/desktop-runtime complete, preserving queued targets and supporting controlled
+   SPAR/LETHAL/SCRIPTED establishment. The
+   [CXR8 Production Cutover / Resolution](../migration/PHASE_COMBAT_CXR8_RESOLUTION_CUTOVER.md)
+   is implementation/runtime complete: normal combat uses the new scheduler and existing lifecycle,
+   corpse/loot and native Save authority. Bounded physical Android entry/Back/lifecycle checks pass;
+   this does not qualify every earlier queued/multi-target device combination. Armed-friendly mortal
+   SPAR is explicitly blocked pending a compatibility decision.
+   [CXR9 playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md) is
+   implementation COMPLETE: source-backed New Game experience 600/result feedback,
+   real queued Flee with same-position return, physical aggression re-arm, and
+   unarmed-only SPAR with an explicit zero-base compatibility choice. Telegraph is
+   dormant (no qualifying producer). Final 368 focused / 16,132 canonical assertions
+   PASS. The subsequent [CXR10 final audit](../migration/PHASE_COMBAT_CXR10_FINAL_AUDIT.md)
+   is **FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR**: 16,132 canonical
+   assertions and 20 focused runners pass, fresh desktop paths pass, and the exact
+   gameplay APK passes bounded OnePlus 8T / Android 14 touch/Flee/Back/Home/Resume/
+   landscape/natural Victory/loot qualification. This does not qualify broader
+   mobile combinations or iOS. No gameplay changed during the audit. Final PR CI
+   and explicit merge authorization are still separate gates; not fully integrated.
+
+   | Slice | Status | Goal |
+   |---|---|---|
+   | CXR0 | Complete | Combat redesign analysis. |
+   | CXR1 | Active Semi-Auto V1 Design Complete | Locked encounter, scheduling, queue, event, presentation, Save and lifecycle contracts. |
+   | CXR2 | Complete | Typed CombatEncounter core without BattleScene ownership. |
+   | CXR3 | Complete | Session-owned encounter lifecycle and frozen-world transition foundation. |
+   | CXR4 | Active Semi-Auto Scheduler Complete | Encounter-local deterministic ordinary combat without ATB. |
+   | CXR5 | Complete | Tactical requests, split validation, one-slot queue and ordered execution. |
+   | CXR6 | Complete; bounded physical paths qualified by CXR10 | Session-owned Battle presentation, empty production actions at CXR6, feedback/log and typed input. No telegraph without a semantic producer. |
+   | CXR7 | Complete; ordinary target touch qualified by CXR10, broader physical multi-opponent combinations deferred | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
+   | CXR8 | Implementation/runtime complete; bounded Android PASS | Production cutover, per-opportunity lifecycle barrier, death/corpse/loot/Save integration; explicit armed-SPAR blocker. |
+   | CXR9 | Implementation COMPLETE | Starter/result stabilization; real Flee/queue/world/Save; unarmed SPAR; dormant telegraph. Physical changed paths qualified by CXR10. |
+   | CXR10 | FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR | Local/full/desktop/physical Android gates PASS; final PR CI, separately authorized merge and post-main CI remain. No gameplay implementation. |
+
+   After CXR10 reaches green `main`, create a new Technical Demo release-validation branch and
+   candidate, refresh packaging evidence, then resume or recreate Phase 10D3 before the Phase 10D
+   Final Audit. Whether to reuse the historical 10D branch remains deliberately undecided; retaining
+   it as archived evidence and creating a fresh branch from latest green `main` is preferred.
+
+After the parked release gate is eventually completed, perform a new planning review before
+resuming large-scale authored content. This roadmap intentionally avoids speculative phase
+expansion.

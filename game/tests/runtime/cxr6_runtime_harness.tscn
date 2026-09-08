@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/runtime/cxr6_runtime_harness.gd" id="1"]
+
+[node name="Cxr6RuntimeHarness" type="Node"]
+script = ExtResource("1")

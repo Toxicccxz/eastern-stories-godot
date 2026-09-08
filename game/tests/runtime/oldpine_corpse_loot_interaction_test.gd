@@ -643,8 +643,8 @@ func _test_item_index_collision_preserves_completed_lifecycle(
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	await _kill_bandit(controller, victim, tree)
 	var lifecycle: CombatSliceLifecycleResult = controller.last_lifecycle_results()[0]
-	_assert_eq(lifecycle.outcome, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE, "post-death metadata collision does not rewrite completed lifecycle evidence")
-	_assert_true(lifecycle.completed(), "completed lifecycle remains completed after interaction-index failure")
+	_assert_eq(lifecycle.outcome, CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED, "CXR8 retains death mutation but reports failed world publication")
+	_assert_false(lifecycle.completed(), "CXR8 metadata collision cannot count as full runtime completion")
 	_assert_eq(lifecycle.corpse_item_instance_id, corpse_id, "completed lifecycle retains the exact generated corpse ID")
 	_assert_true(controller.inventory_state().is_registered(corpse_id), "completed corpse remains live Inventory authority")
 	_assert_eq(controller.corpse_states().size(), 1, "completed corpse authority remains retained")
@@ -1012,6 +1012,7 @@ func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
 	session.deterministic_combat_seed = true
 	session.combat_seed = 5232
 	tree.root.add_child(session)
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
 	return session.outdoor_map()
 
 

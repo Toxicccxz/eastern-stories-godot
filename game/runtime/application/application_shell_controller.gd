@@ -234,7 +234,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	var handled: bool = false
 	match _state.mode():
 		ApplicationShellState.Mode.PLAYING:
-			if pause_pressed:
+			if cancel_pressed and ExplorationPresentationBlocker.is_blocked(get_tree()):
+				var panel: ResponsivePanelLayout = ResponsivePanelLayout.top_interaction_panel(get_tree())
+				if panel != null:
+					panel.dismiss_requested.emit()
+					handled = true
+				else:
+					handled = request_pause()
+			elif pause_pressed:
 				handled = request_pause()
 		ApplicationShellState.Mode.PAUSED:
 			if pause_pressed or cancel_pressed:
