@@ -1,5 +1,64 @@
 # CXR10 — Combat Experience Redesign Final Audit
 
+## Post-PR review correction — 2026-09-08
+
+The initial local audit below is historical evidence for `cc42b89` / `b17ce37`,
+not a claim that later review found no defects. PR #8's subsequent automated
+review identified two valid P2 findings. The owner explicitly authorized their
+repair on the same branch, revalidation, and merge after green PR CI.
+
+Implementation commit: `6dacddf2248ef50bca7937a0d0c22a05bcdfe9d5`.
+
+- Establishment now rejects non-scripted candidates disconnected from the
+  initiator's actual opponent graph before acquiring the world gate. Side-level
+  hostility alone previously admitted an isolated member who could prevent
+  natural completion. Directed incoming edges remain valid; no reciprocal fight
+  or lethal facts are synthesized. SCRIPTED's explicit topology is unchanged.
+- Successful completion snapshots only typed ordinary/target/tactical event
+  values into `CombatCompletedFeedback` before releasing scheduler references.
+  It retains no executable scheduler, character bindings, RNG, or Save state;
+  the next successful start replaces it. Failed completion still retains its
+  original fail-closed authority and has no successful feedback archive.
+- The presentation reader drains the unread final suffix once. The full Battle
+  log remains until next encounter; the final three lines also reach the existing
+  world result Details. A completion before the first UI projection uses stable
+  IDs as truthful display fallback. No result, damage, RNG, lifecycle, world thaw,
+  queue execution or Save eligibility formula/order was changed.
+
+Validation of these corrections:
+
+- Focused CXR6 / CXR7 / CXR8 / CXR9: **148 / 159 / 169 / 368 assertions PASS**.
+- Canonical: **16,152 assertions PASS, exit 0**. The first run caught the old
+  test expectation that inactive presentation must erase its cursor; that
+  assertion was updated to preserve completed feedback. The final run above
+  includes defensive copies, repeat reads, first-UI-frame completion, independent
+  Sessions, directed relationships, and rejection before freezing.
+- Official Godot 4.7.2 isolated headless editor: exit 0, no errors. Initial
+  sandbox-only editor attempts had environment/certificate/write failures;
+  they are not counted as passing validation. No project configuration was changed.
+- Desktop real New Game confirmation -> 165-frame downward input -> natural
+  Battle -> Victory: final reverse hit **40 damage**, event order **43**, appears
+  in world Details and retained full log. Active scheduler is null, one corpse,
+  player remains `(450, 751.0007)`. Helper health all true; run `r44239980-12`,
+  non-stale frames 922 / 5887 / 7728; seven current-run log records, no errors.
+  No QA gameplay state or RNG injection; only read-only post-route inspection.
+- Physical OnePlus 8T KB2005 / Android 14: owner separately authorized uninstall
+  of only `com.example.easternstoriesgodot` and test-save clearing. New APK built
+  from a tracked archive of the exact implementation commit above: **27,930,518
+  bytes**, SHA256 `7A7D5CD9049A4ACBB72BD8B7722F27BC83715DC14F39278BAC814BD27A4ED482`.
+  Outer manifest dirty=true reflects preserved owner files, not archive inputs.
+  Official 4.7.2, Vulkan 1.1.128 / Forward Mobile / Adreno 650, no fallback.
+  OS touch New Game -> hold down 2.8 seconds -> natural aggression -> natural
+  Defeat -> tap/scroll Details visibly shows the final reverse hit **36 damage**.
+  Correct dead HUD `-1/-1/220` and player corpse; PID 4419; no Godot/fatal error
+  observed. This is an affected-path follow-up, not a repeat/all-device claim.
+- Logs/screenshots remain ignored under `build/cxr-review-*`; no artifacts,
+  owner plugin/configuration, legacy source, or DECISIONS changes are in this fix.
+
+The earlier READY_TO_MERGE report was withdrawn when the new findings arrived.
+The corrected PR requires four green jobs on its new final HEAD; remote CI and
+authorized merge results are reported externally after this documentation commit.
+
 Local audit completed: 2026-09-07 (workstation local date; some build timestamps are
 2026-09-08 UTC). **FINAL_LOCAL_AUDIT=PASS; ANDROID_AFFECTED_PATH_GATE=PASS.**
 Ready for the final integration PR, not merged or fully integrated.
