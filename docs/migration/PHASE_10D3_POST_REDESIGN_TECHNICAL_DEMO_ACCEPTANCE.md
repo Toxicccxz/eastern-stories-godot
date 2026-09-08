@@ -108,7 +108,12 @@ Android evidence, all normal production rules:
   stat/equipment adjustment, action injection or balance edit preceded this result. The world
   was paused afterward (`android-strong-victory-paused.png`); that later victory is not Save A.
 
-Windows battle/flee/victory still require the packaged-player route; Android does not substitute.
+Windows continuation: owner physically walked south and paused the natural scout encounter.
+`windows-battle-paused.png`: player 200/200/220, scout 200/200/200, current target shown;
+the visible log includes the scout's dodge/riposte for 20 damage. Actual Save was rejected
+(`windows-unsafe-save.png`). Resume -> real Flee button returned to the world with `Escaped`
+and the queued/started/resolved-disengaged feedback (`windows-flee.png`), player 200/200/220.
+The owner was asked to walk away and re-enter; Windows victory/loot remain pending.
 
 ## 10. Corpse / Loot
 
@@ -179,10 +184,29 @@ and sanitized headless project validation **PASS**. Windows and Android build co
 `--require-clean` both exit **0**; logs `windows-build.log` and `android-build.log`.
 Clean source remained clean; outer owner `project.godot` hash is unchanged. `git diff --check`
 passes; `reference/es2` and `DECISIONS.md` change counts **0**. Production code changes **0**.
-Final companion notice/manifest completeness and artifact exclusion inventory still to be
-recorded. Root `THIRD_PARTY_NOTICES.md` retains an old Godot AI 3.2.4 heading although current
-provenance correctly says 4.0.1; addon is excluded from both artifacts. Do not silently treat
-the stale heading as current vendor version or claim public licensing clearance.
+Independent `apksigner` verification: one RSA-2048 signer, v2/v3 PASS; certificate SHA-256
+`a7b09570126fc8ca8e6a2381877bf394db8d18c8cee1c779aa6f4877ecce0c4e`.
+`aapt2`: only arm64-v8a, technical version 0.0.0-dev/code 1, minimum/target SDK 24/36.
+It warns about an absent themed-icon resource; the application uses the existing icon.xml
+and the exact APK installed/launched successfully. No new icon scope or public signing claim.
+
+ZIP inventory is exactly EXE/PCK/manifest. APK paths contain no tests/QA/Godot AI/reference,
+export presets, settings save or keystore; Windows PCK raw path-marker scan finds none of
+Godot AI/reference/export presets/C:/Projects/C:/Users. This scan is not an exhaustive binary
+security audit. Both artifact digests remain unchanged.
+
+Revalidating post-export work directories reports absolute template paths in export_presets.cfg.
+Source `tools/build/build.py` confirms sanitizer validation precedes intentional injection of
+the local official template path; that configuration is not shipped. The unmodified sanitizer
+evidence directory `source/build/verify-release-project` independently passes `--validate-only`,
+digest `78f1365b409f2dca7c0f129bdd808a31e11a3dd80f199c6a7879568ac939e342` (existing digest helper,
+excluding generated .godot only). No source or candidate repair was needed.
+
+External companions now exist beside the artifacts: THIRD_PARTY_NOTICES.md,
+LICENSE_PROVENANCE.md and technical-demo-candidate.json binding all sizes/digests/signing facts.
+The stale root notice heading was corrected from Godot AI 3.2.4 to the verified 4.0.1. This
+documentation-only correction does not change candidate bytes or claim public licensing clearance.
+Native root license and ES2 attribution remain unresolved; private handoff requires the companions.
 
 ## 17. User-experience blockers
 
@@ -203,7 +227,7 @@ deferred. Do not repeat all historical device tests or redesign inventory presen
 **IN PROGRESS — cannot claim PHASE10D3 PASS.** This is a resumable evidence checkpoint, not a
 final acceptance decision. Remaining: Windows full packaged ordinary journey and restart,
 required conditional traversal decision/evidence,
-final package/notice/log checks. Preserve the candidate, screenshots and test profile for
+final runtime/log checks. Preserve the candidate, screenshots and test profile for
 continuation rather than rebuilding or restarting the successful Android journey.
 
 ## 20. Phase10D Final Audit readiness

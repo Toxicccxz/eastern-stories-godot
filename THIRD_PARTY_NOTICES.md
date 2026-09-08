@@ -2,7 +2,7 @@
 
 This repository currently contains or builds with the following verified third-party material.
 
-## Godot AI 3.2.4
+## Godot AI 4.0.1
 
 Development-only addon under `game/addons/godot_ai/`.
 
