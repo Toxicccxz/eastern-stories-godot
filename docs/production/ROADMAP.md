@@ -58,7 +58,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    [CXR6 Battle Presentation](../migration/PHASE_COMBAT_CXR6_BATTLE_PRESENTATION.md)
    is implementation/desktop-runtime complete with typed projections/intents, honest empty
    production Quick Actions, ordered feedback/log and shared input/layout/lifecycle boundaries.
-   Affected physical mobile requalification is pending. No production technique, fake telegraph,
+   Affected physical mobile requalification was pending at that slice; see CXR10's
+   bounded qualification below. No production technique, fake telegraph,
    Quick Slots or target switching was introduced in CXR6. The
    [CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
    is implementation/desktop-runtime complete, preserving queued targets and supporting controlled
@@ -73,8 +74,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    real queued Flee with same-position return, physical aggression re-arm, and
    unarmed-only SPAR with an explicit zero-base compatibility choice. Telegraph is
    dormant (no qualifying producer). Final 368 focused / 16,132 canonical assertions
-   PASS. Affected physical Android evidence remains a CXR10 final-audit/merge gate;
-   CXR10 readiness READY does not start that audit or authorize further gameplay.
+   PASS. The subsequent [CXR10 final audit](../migration/PHASE_COMBAT_CXR10_FINAL_AUDIT.md)
+   is **FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR**: 16,132 canonical
+   assertions and 20 focused runners pass, fresh desktop paths pass, and the exact
+   gameplay APK passes bounded OnePlus 8T / Android 14 touch/Flee/Back/Home/Resume/
+   landscape/natural Victory/loot qualification. This does not qualify broader
+   mobile combinations or iOS. No gameplay changed during the audit. Final PR CI
+   and explicit merge authorization are still separate gates; not fully integrated.
 
    | Slice | Status | Goal |
    |---|---|---|
@@ -84,11 +90,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    | CXR3 | Complete | Session-owned encounter lifecycle and frozen-world transition foundation. |
    | CXR4 | Active Semi-Auto Scheduler Complete | Encounter-local deterministic ordinary combat without ATB. |
    | CXR5 | Complete | Tactical requests, split validation, one-slot queue and ordered execution. |
-   | CXR6 | Implementation/desktop runtime complete; physical mobile requalification pending | Session-owned Battle presentation, empty production actions, feedback/log and typed input. No telegraph without a semantic producer. |
-   | CXR7 | Implementation/desktop runtime complete; physical mobile pending | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
+   | CXR6 | Complete; bounded physical paths qualified by CXR10 | Session-owned Battle presentation, empty production actions at CXR6, feedback/log and typed input. No telegraph without a semantic producer. |
+   | CXR7 | Complete; ordinary target touch qualified by CXR10, broader physical multi-opponent combinations deferred | Typed multi-opponent targeting, stable fallback, accepted queue snapshots, source-backed encounter modes. |
    | CXR8 | Implementation/runtime complete; bounded Android PASS | Production cutover, per-opportunity lifecycle barrier, death/corpse/loot/Save integration; explicit armed-SPAR blocker. |
-   | CXR9 | Implementation COMPLETE | Starter/result stabilization; real Flee/queue/world/Save; unarmed SPAR; dormant telegraph. Physical Android final gate pending. |
-   | CXR10 | NOT STARTED; readiness READY | Final audit/validation, physical Android affected-path gate, PR, CI, authorized merge and post-main verification; no new gameplay implementation. |
+   | CXR9 | Implementation COMPLETE | Starter/result stabilization; real Flee/queue/world/Save; unarmed SPAR; dormant telegraph. Physical changed paths qualified by CXR10. |
+   | CXR10 | FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR | Local/full/desktop/physical Android gates PASS; final PR CI, separately authorized merge and post-main CI remain. No gameplay implementation. |
 
    After CXR10 reaches green `main`, create a new Technical Demo release-validation branch and
    candidate, refresh packaging evidence, then resume or recreate Phase 10D3 before the Phase 10D

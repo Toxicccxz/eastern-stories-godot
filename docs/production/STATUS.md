@@ -40,7 +40,8 @@ registration was empty at CXR5; CXR9 adds the approved production Flee. The
 is implementation/desktop-runtime complete: Session-owned frozen-world overlay,
 typed read projections and request/cancel adapter, honest empty Quick Actions,
 ordered feedback/log, shared SafeArea/input/Pause, and restore-reparent support.
-Affected physical mobile requalification remains **PENDING**. No telegraph producer,
+Affected physical mobile requalification was pending at CXR6; CXR10's bounded
+physical result is recorded below. No telegraph producer,
 Quick Slots, production tactical actions, target switching, or normal-combat cutover
 was added in CXR6. The
 [CXR7 Multi-Opponent Targeting + Modes](../migration/PHASE_COMBAT_CXR7_MULTI_OPPONENT_MODES.md)
@@ -59,7 +60,7 @@ desktop actual Attack -> natural Victory -> movement smoke PASS. Broader earlier
 unqualified by this bounded pass. The major milestone is not integrated.
 
 [CXR9 Old Pine Playability](../migration/PHASE_COMBAT_CXR9_PLAYABILITY_BALANCE.md)
-is **implementation COMPLETE; CXR10 readiness READY / NOT STARTED**. Old Pine-only
+is **implementation COMPLETE**. Old Pine-only
 New Game experience 600 and read-only result feedback remain. Production Flee uses
 the existing busy-aware one-slot queue, typed command result and same-position
 world return with included relationship cleanup, no RNG/cost/reward/teleport.
@@ -69,9 +70,23 @@ owner-authorized zero-base unarmed random-term exception; mortal-state defense s
 Telegraph is dormant/conditionally satisfied with no current producer, not fake content.
 Final CXR9 368 and full canonical 16,132 assertions PASS; Godot 4.7.2 editor and
 repository checks PASS. Owner config Python remains 45/46; tracked clean overlay 46/46,
-all 120 original owner dirty files preserved. Physical Android changed-path evidence
-is **PENDING as a CXR10 final-audit/merge gate** (no online device). No PR/merge or
-CXR10 execution; the major redesign remains unintegrated on main.
+all 120 original owner dirty files preserved. These were CXR9's results; its pending
+Android gate was subsequently exercised by CXR10 below.
+
+[CXR10 final audit](../migration/PHASE_COMBAT_CXR10_FINAL_AUDIT.md) is
+**FINAL LOCAL AUDIT COMPLETE; READY FOR FINAL INTEGRATION PR**. The whole milestone
+and authority boundaries were reviewed; 20 focused runners passed 22,285 overlapping
+assertions and the complete canonical suite passed 16,132, with 0 failures. Fresh
+desktop New Game/aggression/Flee/rearm, natural Victory/loot and Save/Menu/Continue
+passed. The exact `cc42b89` Android APK passed bounded physical OnePlus 8T / Android 14
+touch entry/target/Flee, Back/log/Pause, Home/explicit Resume, landscape and natural
+Victory/loot paths using native Vulkan/Forward Mobile. Broader multi-finger,
+multi-opponent device combinations, tablets and iOS remain unqualified. Python is
+46/46 on exact tracked source, 45/46 on the preserved owner configuration. Windows/
+Android local builds, sanitizer and static checks passed. CXR10 changes only audit/
+status documentation; no gameplay fix was required. Final PR/four-job CI evidence
+is reported separately after creation. **NOT MERGED / not fully integrated**;
+Phase10D remains frozen and no release/store readiness is claimed.
 
 Phase 10D1 remains conditional historical evidence for platform interaction only; it does not
 qualify the future battle presentation. Repeat only affected device evidence if the redesign
