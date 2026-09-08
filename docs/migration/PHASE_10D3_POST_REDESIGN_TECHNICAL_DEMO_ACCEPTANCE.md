@@ -79,13 +79,15 @@ Android: `android-menu.png` proves cold Main Menu/no save; `android-world-ready.
 Old Pine, vitality 220/220/220. Actual direction-pad movement reaches scout aggression.
 Windows: actual packaged Main Menu/no save and fresh world were observed through Computer Use.
 The New Game click reported concurrent user input; the following world observation is valid,
-but that click's exclusive causal attribution is not claimed. Windows full walking/combat route
-remains pending: current Computer Use API supports instantaneous key chords, not sustained key
-holds. Owner assistance was requested; a missing long-held input is not a gameplay defect.
+but that click's exclusive causal attribution is not claimed. Windows walking uses owner
+assistance because the current Computer Use API supports instantaneous key chords, not sustained
+key holds. Subsequent actual combat, loot and cold Continue evidence is recorded below; a missing
+tool-generated long-held input is not a gameplay defect.
 Windows Escape/Pause -> Settings -> Fullscreen -> Apply was subsequently exercised using real
 keyboard/mouse input. `windows-fullscreen-paused.png` shows the actual fullscreen packaged
 window; isolated `settings/application-v1.cfg` contains `window_mode="fullscreen"`.
-Fresh-process Settings persistence has not yet been claimed.
+Cold process 21700 subsequently reopened fullscreen without applying Settings again; independent
+application Settings persistence is now demonstrated together with the saved configuration.
 
 ## 9. Combat / Flee / Victory
 
@@ -113,7 +115,11 @@ Windows continuation: owner physically walked south and paused the natural scout
 the visible log includes the scout's dodge/riposte for 20 damage. Actual Save was rejected
 (`windows-unsafe-save.png`). Resume -> real Flee button returned to the world with `Escaped`
 and the queued/started/resolved-disengaged feedback (`windows-flee.png`), player 200/200/220.
-The owner was asked to walk away and re-enter; Windows victory/loot remain pending.
+The owner confirmed walking away and returning. `windows-reentered-paused.png` independently
+shows the re-entered paused encounter (player 178/178/220, scout 171/171/200). Resume allowed
+automatic combat to reach natural **Victory**, player **127/127/220** (`windows-victory.png`).
+Real mouse selection identified the corpse with **2 items**. Open Loot was disabled at the
+initial distance; the owner physically approached and it became enabled, without bypassing range.
 
 ## 10. Corpse / Loot
 
@@ -125,13 +131,26 @@ scrolled; `android-inventory-scroll.png` shows silver x3 in player inventory.
 Individual row scrolling/partial text clipping exists, but Take and Inventory remained usable;
 not elevated to a gameplay blocker merely for presentation polish.
 
+Windows: owner approach -> `windows-corpse-near.png`, Open Loot now enabled. Real Open Loot/Take
+buttons transfer the short sword, then silver x3 (`windows-loot.png`, `windows-loot-empty.png`).
+`windows-inventory-loot.png` simultaneously shows short sword, silver x3 and the existing primary
+long sword. Actual Inspect opens the short sword's description/category/equipped/skill details.
+No equipment was changed to manufacture the victory or loot evidence.
+
 ## 11. Save / Menu / Continue
 
 Android: `android-safe-pause.png` -> actual Save -> `android-saved.png` (`Your journey was saved.`)
 -> Return confirmation -> `android-saved-menu.png`. After real process death/cold launch,
 `android-restored-world.png`: same corpse-relative position, vitality 200/200/220, no Battle
 transient/selection. `android-restored-silver.png`: silver x3 retained. Normal movement works.
-Windows full save journey pending; no Android claim is presented as Windows proof.
+Windows: safe Pause -> Save displays `Your journey was saved.` (`windows-saved-a.png`) ->
+confirmed Return to Main Menu (`windows-saved-menu.png`) -> normal Alt+F4 exit. Old PID56620 was
+confirmed absent before launching the same EXE using the same isolated profile. New PID21700:
+cold fullscreen Main Menu -> actual Continue -> same corpse-relative position and vitality
+127/127/220, no Battle/selection/log transient (`windows-restored-a-p21700.png`). Actual Inventory
+shows the same short sword, silver x3 and primary long sword (`windows-restored-inventory-p21700.png`).
+No prepared/edited save or game/controller call was used. Post-restore movement/unsaved-B check
+was requested separately and is not claimed yet.
 
 ## 12. World traversal
 
@@ -159,7 +178,11 @@ Force-stop verified no remaining package PID; launcher reports **COLD**, new PID
 unsaved position B (`android-unsaved-b.png`); no Save. Force-stop -> COLD PID **16777** -> Continue
 restores A again (`android-restored-a.png`, same corpse-relative position and 200/200/220).
 Thus unsaved B did not replace A. Neither process restart cleared package data.
-Windows process-2 Continue remains pending.
+Windows PID **56620**: fresh New Game -> owner walking -> Flee -> owner walk away/re-entry ->
+natural Victory -> owner corpse approach -> real UI loot/Save A/Menu -> normal process exit.
+Old PID absent -> cold process **21700** (2026-09-08 08:44:15 workstation local time) -> Main Menu
+-> Continue -> A, inventory and fullscreen settings preserved. Unsaved-B/process-death remains
+pending; this successful normal-exit check is not relabeled as forced-process-death evidence.
 
 ## 14. Runtime errors
 
@@ -167,7 +190,10 @@ Android process-filtered Godot/AndroidRuntime log at PID13744 showed official en
 startup, no emitted error/crash in that inspected interval. A later PID16777 log query returned
 no retained messages (`android-process3-runtime.log`); do not interpret an empty log ring as
 proof that every historical frame was error-free. The observed journeys did not crash.
-Windows packaged Godot log was empty; that alone does not prove every path error-free.
+Windows PID56620's flushed log on normal exit contained official engine startup and
+**D3D12 12_0 / Forward Mobile / NVIDIA GeForce RTX 4070 SUPER**, no emitted error. Current-process
+log can be buffered/empty; that alone does not prove every path error-free. Completed Windows
+combat/loot/Save/Menu/cold Continue observations did not crash or show a gameplay softlock.
 No game helper was expected in these sanitized release artifacts. Godot AI/helper health claims
 from editor development are not used as packaged-game acceptance evidence.
 
@@ -210,8 +236,8 @@ Native root license and ES2 attribution remain unresolved; private handoff requi
 
 ## 17. User-experience blockers
 
-No confirmed new gameplay blocker in the paths completed so far. Required Windows sustained
-input/journey evidence remains outstanding, separately from product correctness. Conditional
+No confirmed new gameplay blocker in the paths completed so far. Remaining Windows movement,
+unsaved-process-death and traversal evidence is outstanding, separately from product correctness. Conditional
 Cave/SouthExit qualification is unresolved under the no-cheat ordinary-player restriction.
 If a genuine journey-blocking defect is demonstrated, stop and record
 `PHASE10D3_GAMEPLAY_BLOCKER`; do not fix gameplay on this branch.
@@ -225,7 +251,7 @@ deferred. Do not repeat all historical device tests or redesign inventory presen
 ## 19. Acceptance result
 
 **IN PROGRESS — cannot claim PHASE10D3 PASS.** This is a resumable evidence checkpoint, not a
-final acceptance decision. Remaining: Windows full packaged ordinary journey and restart,
+final acceptance decision. Remaining: Windows post-restore movement, unsaved-B/process-death and traversal,
 required conditional traversal decision/evidence,
 final runtime/log checks. Preserve the candidate, screenshots and test profile for
 continuation rather than rebuilding or restarting the successful Android journey.
