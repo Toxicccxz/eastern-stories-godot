@@ -30,15 +30,17 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    The [mobile contract](contracts/MOBILE_APPLICATION_CONTRACT.md) records consumer boundaries and
    remaining qualification gaps.
 
-5. **Phase 10D — Technical Demo Release Gate — FINAL LOCAL AUDIT PASS / INTEGRATION PR READY**
+5. **Phase 10D — Technical Demo Release Gate — COMPLETE / FULLY INTEGRATED**
 
-   Phase 10D1 bounded physical Android qualification and Phase 10D2 packaging passed. Phase 10D3
+   Phase10D1 retains bounded historical physical Android PASS; Phase10D2 retains historical
+   exact-artifact packaging PASS. Old pre-redesign Phase10D3
    historically was **BLOCKED / SUSPENDED** and never passed because normal-player acceptance exposed an
-   unsuitable combat experience. Phase 10D Final Audit was not started. Existing physical evidence
+   unsuitable combat experience. Phase10D Final Audit had not started at that historical checkpoint.
+   Existing physical evidence
    is conditionally reusable only for unchanged platform interaction paths; existing artifacts and
    hashes remain exact-source historical evidence, not post-redesign release candidates.
 
-   Fresh acceptance now uses `phase/10d-post-redesign-release-validation` from green main
+   Fresh acceptance used `phase/10d-post-redesign-release-validation` from green main
    `0a5f0b49b6797c2a1280ef4198c2060b3cc61e34`. The historical Phase10D branch stays frozen;
    no old artifact becomes a post-redesign candidate. Current
    [Phase10D3 acceptance](../migration/PHASE_10D3_POST_REDESIGN_TECHNICAL_DEMO_ACCEPTANCE.md)
@@ -49,9 +51,17 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    advertised for this fresh-player demo. The [Final Audit](../migration/PHASE_10D_FINAL_AUDIT.md)
    passed: 16,152 canonical assertions, Python 46, static/headless/sanitizer checks; candidate
    drift and production/test/build/CI deltas zero. Candidate remains frozen/accepted.
-   **NOT YET FULLY INTEGRATED**: final PR/CI pending at commit time, results reported externally;
-   merge still requires separate authorization and green post-merge CI. No publication, store
-   readiness or new content work is implied.
+   [PR #10](https://github.com/Toxicccxz/eastern-stories-godot/pull/10) merged at
+   `abad71a4630c11c889cc3d0132095af95163aaa1` after four green PR jobs on
+   `6817832f161edbe1005b2ce99819962ce61f0124` in
+   [workflow 34278725150](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34278725150).
+   Post-merge main [workflow 34280203676](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34280203676)
+   also completed successfully on the merge commit: Godot Verify, Windows Release Build,
+   Android Release Build and iOS Build Validation all PASS. Integrated main and immutable
+   accepted candidate source are distinct identities; the merge is not a newly tested candidate.
+   Historical audit checkpoint wording is intentionally unchanged. This completes only the
+   private/internal Technical Demo engineering gate, not public/store/legal clearance, permanent
+   signing, iOS-device or broad Android certification, or the finished game.
 
 6. **Combat Experience Redesign — FULLY INTEGRATED ON MAIN**
 
@@ -122,6 +132,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
    as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
-After the parked release gate is eventually completed, perform a new planning review before
-resuming large-scale authored content. This roadmap intentionally avoids speculative phase
-expansion.
+With Phase10D fully integrated, the next step is a **planning review / player-feedback checkpoint**,
+not automatic large-scale content migration or an invented Phase11. Existing Old Pine polish,
+additional authored ES2 content, and combat/content expansion are possible directions; this
+documentation maintenance chooses none and starts no new phase.
