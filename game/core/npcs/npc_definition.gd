@@ -7,6 +7,7 @@ const AttributeOverridesType := preload(
 const ResourceOverridesType := preload("res://core/npcs/npc_resource_overrides.gd")
 const SkillLevelType := preload("res://core/npcs/npc_skill_level_definition.gd")
 const LoadoutEntryType := preload("res://core/npcs/npc_loadout_entry.gd")
+const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_facts.gd")
 
 enum Attitude {
 	PEACEFUL,
@@ -31,6 +32,7 @@ var _attitude: int
 var _skill_levels: Array[NpcSkillLevelDefinition] = []
 var _loadout_entries: Array[NpcLoadoutEntry] = []
 var _capability_ids: Array[StringName] = []
+var _authored_combat_facts: AuthoredCombatFactsType
 
 var definition_id: StringName:
 	get:
@@ -89,6 +91,7 @@ func _init(
 	p_loadout_entries: Array[NpcLoadoutEntry] = [],
 	p_capability_ids: Array[StringName] = [],
 	p_description: String = "",
+	p_authored_combat_facts: AuthoredCombatFactsType = null,
 ) -> void:
 	_definition_id = p_definition_id
 	_legacy_source_path = p_legacy_source_path
@@ -118,6 +121,17 @@ func _init(
 	_score = p_score
 	_attitude = p_attitude
 	_capability_ids = p_capability_ids.duplicate()
+	_authored_combat_facts = (
+		null if p_authored_combat_facts == null
+		else p_authored_combat_facts.duplicate_snapshot()
+	)
+
+
+func authored_combat_facts() -> AuthoredCombatFactsType:
+	return (
+		null if _authored_combat_facts == null
+		else _authored_combat_facts.duplicate_snapshot()
+	)
 
 
 func aliases() -> Array[StringName]:

@@ -392,6 +392,9 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	controller.opportunity_timer.stop()
 	controller.configure_combat_random_source(CountingMaximumCombatRandomSource.new())
 	controller.player_runtime().busy.start_busy(1)
+	# BF3: source death copies stored body facts even after raw strength changes.
+	var expected_body_weight: int = tall.body_weight
+	var expected_capacity: int = tall.maximum_encumbrance
 	tall.character_state.attributes.strength = 30
 	controller.player_body.global_position = Vector2(-1300, 300)
 	controller.tall_bandit_body.global_position = Vector2(-1300, 300)
@@ -407,8 +410,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(death_context.victim_display_name, "土匪", "Tall death context uses authored display name")
 	_assert_eq(death_context.victim_gender, CharacterState.GENDER_MALE, "Tall death context uses current gender")
 	_assert_eq(death_context.victim_age, 27, "Tall death context uses authored age")
-	_assert_eq(death_context.victim_body_own_weight, CharacterDerivedValues.human_weight(30), "Tall death context derives current body weight")
-	_assert_eq(death_context.victim_maximum_encumbrance, CharacterDerivedValues.maximum_encumbrance(30), "Tall death context derives current encumbrance")
+	_assert_eq(death_context.victim_body_own_weight, expected_body_weight, "Tall death context copies established NPC body weight")
+	_assert_eq(death_context.victim_maximum_encumbrance, expected_capacity, "Tall death context copies established NPC capacity")
 	_assert_true(death_context.victim_owner.equipment_state == tall.character_state.equipment, "Tall death context uses current EquipmentState")
 	_assert_true(death_context.victim_owner.armor_state == tall.armor, "Tall death context uses current ArmorState")
 	_assert_eq(death_context.victim_environment.endpoint.kind, ContainmentEndpoint.Kind.WORLD, "Tall death destination is a WORLD endpoint")

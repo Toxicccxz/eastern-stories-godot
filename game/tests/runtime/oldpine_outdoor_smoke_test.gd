@@ -186,6 +186,10 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	Input.action_release("move_right")
 	_assert_eq(controller.player_body.position, move_start, "committed non-ACTIVE status blocks movement")
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
+	# BF3: chard.c copies stored query_weight/query_max_encumbrance. A raw
+	# strength edit alone does not mutate feature/move.c's stored body fields.
+	var expected_body_weight: int = victim.body_weight
+	var expected_capacity: int = victim.maximum_encumbrance
 	victim.character_state.attributes.strength = 30
 	controller.bandit_bodies[0].set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID,
@@ -197,8 +201,8 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	_assert_eq(context.victim_display_name, "土匪探哨", "death context uses authored bandit display name")
 	_assert_eq(context.victim_gender, CharacterState.GENDER_MALE, "death context uses current gender")
 	_assert_eq(context.victim_age, 19, "death context uses authored age")
-	_assert_eq(context.victim_body_own_weight, CharacterDerivedValues.human_weight(30), "death context derives current body weight")
-	_assert_eq(context.victim_maximum_encumbrance, CharacterDerivedValues.maximum_encumbrance(30), "death context derives current encumbrance")
+	_assert_eq(context.victim_body_own_weight, expected_body_weight, "death context copies established NPC body weight")
+	_assert_eq(context.victim_maximum_encumbrance, expected_capacity, "death context copies established NPC capacity")
 	_assert_true(context.victim_owner.equipment_state == victim.character_state.equipment, "death context aliases current EquipmentState")
 	_assert_true(context.victim_owner.armor_state == victim.armor, "death context aliases current ArmorState")
 	_assert_eq(context.victim_environment.endpoint.endpoint_id, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, "death context reads current logical world destination")
@@ -391,6 +395,8 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var bandits: Array[NpcRuntimeState] = controller.npc_runtimes()
 	var victim: NpcRuntimeState = bandits[1]
+	var expected_body_weight: int = victim.body_weight
+	var expected_capacity: int = victim.maximum_encumbrance
 	var victim_body: CharacterBodyType = controller.bandit_bodies[1]
 	victim_body.global_position += Vector2(24.0, -18.0)
 	var death_position: Vector2 = victim_body.global_position
@@ -433,8 +439,8 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var corpse: CorpseState = controller.corpse_states()[0]
 	var view: CombatSliceCorpseView = controller.corpse_layer.get_child(0) as CombatSliceCorpseView
 	_assert_eq(view.global_position, death_position, "corpse view uses captured physical death Vector2")
-	_assert_eq(corpse.maximum_contents_encumbrance, CharacterDerivedValues.maximum_encumbrance(30), "successful corpse uses death-time current encumbrance")
-	_assert_eq(controller.inventory_state().own_weight(corpse.corpse_item_instance_id), CharacterDerivedValues.human_weight(30), "successful corpse uses death-time current body weight")
+	_assert_eq(corpse.maximum_contents_encumbrance, expected_capacity, "successful corpse copies established NPC capacity")
+	_assert_eq(controller.inventory_state().own_weight(corpse.corpse_item_instance_id), expected_body_weight, "successful corpse copies established NPC body weight")
 	var corpse_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
 	_assert_true(controller.inventory_state().is_direct_child(sword.item_instance_id, corpse_endpoint), "short sword transfers into corpse authority")
 	_assert_true(controller.inventory_state().is_direct_child(silver.item_instance_id, corpse_endpoint), "silver transfers into corpse authority")

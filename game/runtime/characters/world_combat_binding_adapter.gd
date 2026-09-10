@@ -33,13 +33,16 @@ static func from_npc(
 ) -> CombatSliceCharacterBinding:
 	if npc == null or not npc.is_valid() or content == null or not content.is_valid():
 		return null
+	var npc_content: CombatSliceContentProfile = content.for_npc_definition(npc.definition())
+	if not npc_content.is_valid():
+		return null
 	return CombatSliceCharacterBinding.new(
 		npc.character_id,
 		npc.character_state,
 		npc.relationship,
 		npc.busy,
 		npc.armor,
-		content,
+		npc_content,
 		npc.world_location().combat_location_id,
 		npc.exists_in_map,
 		npc.life_status,

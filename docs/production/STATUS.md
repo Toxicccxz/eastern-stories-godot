@@ -2,6 +2,21 @@
 
 ## Current milestone
 
+**Source-valid Beast Foundation + First Serpent Runtime Integration** is the active owner-authorized
+milestone on `phase/beast-foundation-serpent-runtime`, based on green main `5cf3f4e`.
+[BF1–BF4 source contract and evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
+BF1–BF4 are owner-approved at `0ecf7f5`. [BF5 final audit](../migration/PHASE_BEAST_FOUNDATION_SERPENT_FINAL_AUDIT.md)
+PASS: **implementation + formal local audit complete**, with no BF5 production/test corrections.
+Complete canonical: **16,895 assertions**, zero failures; Python46; repository/static, development
+and sanitized headless/startup PASS. Independent BF1/BF2/BF3/BF4:958/201/162/101 PASS.
+Accepted source-fresh Run A (natural Player defeat) and deterministic QA-wounded Run B (real serpent
+death/corpse/empty-loot/fresh movement) are reused because executable source is unchanged.
+Run B is NOT natural-victory or balance acceptance. QA is excluded from production/sanitized output.
+BF3 remains persistence composition capability, not normal-player serpent Save/Continue.
+Normal bootstrap remains five human NPCs/twelve items; no production serpent or Lake.
+Final PR/CI follow this local checkpoint; **NOT fully integrated** until same-HEAD PR CI is green,
+owner-authorized merge occurs and post-merge main CI is green. Merge is not authorized here.
+
 Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at
 `3a1f993a4258ed246ce820c7a4dc8d2563994aaf` (PR #5). Phase 10C2 and its resident-map
 contact stabilization are also fully integrated at

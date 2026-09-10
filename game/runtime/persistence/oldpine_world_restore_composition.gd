@@ -211,15 +211,12 @@ static func _restore_npc_ledger(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,
 					path + ".age",
 				)
-			var expected_weight: int = CharacterDerivedValues.human_weight(
-				saved.character.attributes.strength
-			)
-			var expected_capacity: int = CharacterDerivedValues.maximum_encumbrance(
-				saved.character.attributes.strength
+			var expected_body: NpcBodyFacts = NpcBodyFacts.derive(
+				definition, saved.character.attributes.strength,
 			)
 			if (
-				saved.body_weight != expected_weight
-				or saved.maximum_encumbrance != expected_capacity
+				expected_body == null
+				or not expected_body.matches_saved(saved.body_weight, saved.maximum_encumbrance)
 			):
 				return Result.failure(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,

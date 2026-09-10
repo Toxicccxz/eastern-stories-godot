@@ -90,7 +90,12 @@ static func build_attack_input(
 	defender: CombatSliceCharacterBinding,
 	selected_action: CombatActionDefinition,
 ) -> CombatAttackInput:
-	if attacker == null or defender == null or selected_action == null:
+	if (
+		attacker == null or defender == null or selected_action == null
+		or not attacker.is_valid() or not defender.is_valid()
+		or attacker.content.action_readiness(attacker.state.equipment.primary_weapon(), selected_action)
+		!= CombatSliceContentProfile.Readiness.READY
+	):
 		return null
 	var attacker_armor: ArmorNumericModifiers = (
 		attacker.armor.aggregate_numeric_modifiers()
@@ -132,7 +137,7 @@ static func build_attack_input(
 			attack_skill_id,
 			attack_skill_modifier,
 		),
-		attacker_armor.attack,
+		attacker_armor.attack + attacker.content.intrinsic_attack,
 		attacker.content.projected_apply_damage(primary),
 		CombatStrengthProjection.new(
 			attacker.state.attributes.strength,
@@ -168,11 +173,13 @@ static func build_attack_input(
 		defender.state.progression.combat_experience,
 		defender.state.spirit.current,
 		defender.state.spirit.maximum,
-		defender.state.skills.effective_level(DODGE_SKILL_ID, defender_armor.dodge),
+		defender.state.skills.effective_level(
+			DODGE_SKILL_ID, defender_armor.dodge + defender.content.intrinsic_dodge,
+		),
 		defender.state.skills.effective_level(PARRY_SKILL_ID),
 		defender.state.skills.effective_level(UNARMED_SKILL_ID, defender_armor.unarmed),
 		defender_armor.defense,
-		defender_armor.armor,
+		defender_armor.armor + defender.content.intrinsic_armor,
 		not defender.state.equipment.is_primary_hand_empty(),
 		defender.content.limbs(),
 		FORCE_SKILL_ID,
@@ -225,6 +232,8 @@ static func build_reverse_projection(
 	if (
 		attacker == null
 		or defender == null
+		or not attacker.is_valid()
+		or not defender.is_valid()
 		or request == null
 		or request.attacker_id != attacker.character_id
 		or request.victim_id != defender.character_id
@@ -246,14 +255,14 @@ static func build_reverse_projection(
 			defender.character_id,
 			attacker_armor.unarmed if primary == null else 0,
 			0,
-			defender_armor.dodge,
+			defender_armor.dodge + defender.content.intrinsic_dodge,
 			0,
 			defender_armor.unarmed,
 			0,
-			attacker_armor.attack,
+			attacker_armor.attack + attacker.content.intrinsic_attack,
 			defender_armor.defense,
 			attacker.content.projected_apply_damage(primary),
-			defender_armor.armor,
+			defender_armor.armor + defender.content.intrinsic_armor,
 			defender_armor.armor_vs_force,
 		)
 	)

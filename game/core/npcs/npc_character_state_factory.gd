@@ -2,6 +2,11 @@ class_name NpcCharacterStateFactory
 extends RefCounted
 
 const HUMAN_RACE_ID: StringName = &"human"
+const BEAST_RACE_ID: StringName = &"beast"
+const BEAST_DEFAULT_GENDER: StringName = &"雄性"
+# beast.c: str, cor, int, spi, cps, per, con, kar. Zero means no draw:
+# spi explicitly defaults to zero; missing kar reads as zero without a human default.
+const BEAST_ATTRIBUTE_DRAW_BOUNDS: Array[int] = [41, 21, 11, 0, 11, 31, 41, 0]
 const INVALID_RANDOM_DRAW: int = -2_147_483_648
 
 const NpcDefinitionType := preload("res://core/npcs/npc_definition.gd")
@@ -128,7 +133,7 @@ func create_one(
 	if (
 		definition == null
 		or not definition.is_valid()
-		or definition.race_id != HUMAN_RACE_ID
+		or definition.race_id not in [HUMAN_RACE_ID, BEAST_RACE_ID]
 		or character_id.is_empty()
 		or spawn_id.is_empty()
 		or spawn_point_id.is_empty()
@@ -141,9 +146,11 @@ func create_one(
 	):
 		return null
 
+	# Fresh creation only. No scheduler tick draw and no restore initialization.
+	var is_beast: bool = definition.race_id == BEAST_RACE_ID
 	var age: int = definition.age
 	if not definition.has_authored_age:
-		age = _draw_with_offset(random_source, 30, 15)
+		age = _draw_with_offset(random_source, 40 if is_beast else 30, 5 if is_beast else 15)
 		if age == INVALID_RANDOM_DRAW:
 			return null
 
@@ -173,7 +180,11 @@ func create_one(
 		if authored_presence[index]:
 			resolved_values.append(authored_values[index])
 			continue
-		var default_value: int = _draw_with_offset(random_source, 21, 10)
+		var bound: int = BEAST_ATTRIBUTE_DRAW_BOUNDS[index] if is_beast else 21
+		if bound == 0:
+			resolved_values.append(0)
+			continue
+		var default_value: int = _draw_with_offset(random_source, bound, 5 if is_beast else 10)
 		if default_value == INVALID_RANDOM_DRAW:
 			return null
 		resolved_values.append(default_value)
@@ -192,38 +203,47 @@ func create_one(
 	state.gender = (
 		definition.gender
 		if definition.has_authored_gender
-		else CharacterStateType.GENDER_MALE
+		else (BEAST_DEFAULT_GENDER if is_beast else CharacterStateType.GENDER_MALE)
 	)
 	var resource_overrides: ResourceOverridesType = definition.resource_overrides()
 	state.essence = _create_resource_track(
 		resource_overrides.essence(),
-		CharacterDerivedValuesType.human_maximum_essence(
+		CharacterDerivedValuesType.beast_maximum_essence(age) if is_beast
+		else CharacterDerivedValuesType.human_maximum_essence(
 			age,
 			state.recovery.atman.maximum,
 		),
+		is_beast,
 	)
 	state.vitality = _create_resource_track(
 		resource_overrides.vitality(),
-		CharacterDerivedValuesType.human_maximum_vitality(
+		CharacterDerivedValuesType.beast_maximum_vitality(age) if is_beast
+		else CharacterDerivedValuesType.human_maximum_vitality(
 			age,
 			state.recovery.inner_force.maximum,
 		),
+		is_beast,
 	)
 	state.spirit = _create_resource_track(
 		resource_overrides.spirit(),
-		CharacterDerivedValuesType.human_maximum_spirit(
+		CharacterDerivedValuesType.beast_maximum_spirit(age) if is_beast
+		else CharacterDerivedValuesType.human_maximum_spirit(
 			age,
 			state.recovery.mana.maximum,
 		),
+		is_beast,
 	)
+	if state.essence == null or state.vitality == null or state.spirit == null:
+		return null
 	state.progression.combat_experience = definition.combat_experience
 	for skill: NpcSkillLevelDefinition in definition.skill_levels():
 		state.skills.set_raw_level(skill.skill_id, skill.raw_level)
 
-	var body_weight: int = CharacterDerivedValuesType.human_weight(attributes.strength)
-	var maximum_encumbrance: int = (
-		CharacterDerivedValuesType.maximum_encumbrance(attributes.strength)
-	)
+	var body: NpcBodyFacts = NpcBodyFacts.derive(definition, attributes.strength)
+	if body == null:
+		return null
+	var body_weight: int = body.body_weight
+	var maximum_encumbrance: int = body.maximum_encumbrance
 	var armor_state: ArmorStateType = ArmorStateType.new()
 	var loadout_items: Array[ItemInstance] = _apply_loadout(
 		definition,
@@ -262,10 +282,22 @@ func create_one(
 static func _create_resource_track(
 	override: ResourceTrackOverrideType,
 	derived_maximum: int,
+	require_exact: bool = false,
 ) -> CharacterResourceStateType:
 	var maximum: int = override.maximum() if override.has_maximum() else derived_maximum
 	var effective: int = override.effective() if override.has_effective() else maximum
 	var current: int = override.current() if override.has_current() else maximum
+	# chard.c does not normalize authored anomalies. Do not silently feed an
+	# unrepresentable Beast track through CharacterResourceState's clamps.
+	# The closed human path is unchanged; wolf-style compatibility is deferred.
+	if require_exact and (
+		maximum < 0
+		or effective < CharacterResourceStateType.INCAPACITATED_FLOOR
+		or current < CharacterResourceStateType.INCAPACITATED_FLOOR
+		or current > effective
+		or effective > maximum
+	):
+		return null
 	return CharacterResourceStateType.new(current, effective, maximum)
 
 

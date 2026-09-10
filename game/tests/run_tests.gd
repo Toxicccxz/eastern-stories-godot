@@ -772,6 +772,16 @@ const WorldDefinitionTest := preload("res://tests/core/world_definition_test.gd"
 const NpcSpawnFoundationTest := preload(
 	"res://tests/core/npc_spawn_foundation_test.gd"
 )
+const BeastDerivedValuesTest := preload("res://tests/core/beast_derived_values_test.gd")
+const BeastInitializationTest := preload("res://tests/core/beast_initialization_test.gd")
+const SerpentDefinitionTest := preload("res://tests/core/serpent_definition_test.gd")
+const BeastCombatProfileTest := preload("res://tests/core/beast_combat_profile_test.gd")
+const BeastCombatExecutionTest := preload("res://tests/core/beast_combat_execution_test.gd")
+const BeastCombatProjectionTest := preload("res://tests/core/beast_combat_projection_test.gd")
+const BeastPersistenceBodyTest := preload("res://tests/core/beast_persistence_body_test.gd")
+const BeastDeathBodyTest := preload("res://tests/runtime/beast_death_body_test.gd")
+const BeastHumanSaveRegressionTest := preload("res://tests/runtime/beast_human_save_regression_test.gd")
+const BeastRuntimeIntegrationTest := preload("res://tests/runtime/beast_runtime_integration_test.gd")
 const WorldPlayerRuntimeStateScript := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
@@ -1602,6 +1612,21 @@ func _init() -> void:
 		phase_10c1a_result["assertions"] + phase_10c1c_result["assertions"] + phase_10c2a_result["assertions"] + phase_10c2a_audit_result["assertions"] + phase_10c2b_result["assertions"] + phase_10c2b_audit_result["assertions"] + phase_10c2c_result["assertions"]
 	)
 	var failures: Array[String] = phase_1_result["failures"]
+	for bf1_suite: Script in [BeastDerivedValuesTest, BeastInitializationTest, SerpentDefinitionTest]:
+		var bf1_result: Dictionary[String, Variant] = bf1_suite.new().run_all()
+		assertion_count += int(bf1_result["assertions"])
+		failures.append_array(bf1_result["failures"])
+	for bf2_suite: Script in [BeastCombatProfileTest, BeastCombatExecutionTest, BeastCombatProjectionTest]:
+		var bf2_result: Dictionary[String, Variant] = bf2_suite.new().run_all()
+		assertion_count += int(bf2_result["assertions"])
+		failures.append_array(bf2_result["failures"])
+	var bf3_results: Array[Dictionary] = [BeastPersistenceBodyTest.new().run_all(), BeastDeathBodyTest.new().run_all(), await BeastHumanSaveRegressionTest.new().run_all(self)]
+	for bf3_result: Dictionary in bf3_results:
+		assertion_count += int(bf3_result["assertions"])
+		failures.append_array(bf3_result["failures"])
+	var bf4_result: Dictionary[String, Variant] = await BeastRuntimeIntegrationTest.new().run_all(self)
+	assertion_count += int(bf4_result["assertions"])
+	failures.append_array(bf4_result["failures"])
 	assertion_count += int(cxr5_result["assertions"])
 	failures.append_array(cxr5_result["failures"])
 	assertion_count += int(cxr6_result["assertions"])

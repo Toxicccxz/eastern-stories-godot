@@ -4,6 +4,7 @@ extends RefCounted
 const BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.bandit"
 const TALL_BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.tall_bandit"
 const FAT_BANDIT_DEFINITION_ID: StringName = &"oldpine.npc.fat_bandit"
+const SERPENT_DEFINITION_ID: StringName = &"oldpine.npc.serpent"
 const LONG_SWORD_ITEM_ID: StringName = (
 	OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID
 )
@@ -146,6 +147,32 @@ static func fat_bandit_definition() -> NpcDefinition:
 	)
 
 
+## Authored content only: NOT registered in the production spawn ledger.
+## d/oldpine/npc/serpent.c -> std/char.c -> chard.c -> race/beast.c.
+static func serpent_definition() -> NpcDefinition:
+	return NpcDefinition.new(
+		SERPENT_DEFINITION_ID,
+		"d/oldpine/npc/serpent.c",
+		"黑冠巨蟒",
+		[&"serpent"],
+		NpcCharacterStateFactory.BEAST_RACE_ID,
+		false, &"",
+		true, 400,
+		NpcBaseAttributeOverrides.new(
+			true, 40, true, 70, true, 10, true, 20,
+		),
+		NpcResourceOverrides.new(
+			NpcResourceTrackOverride.new(false, 0, false, 0, true, 900),
+			NpcResourceTrackOverride.new(false, 0, false, 0, true, 1800),
+			NpcResourceTrackOverride.new(false, 0, false, 0, true, 500),
+		),
+		250_000, 1000, NpcDefinition.Attitude.AGGRESSIVE,
+		[], [], [AGGRESSIVE_ON_PLAYER_PRESENCE],
+		"一只乌黑油亮的巨蟒，头上生著一个大肉瘤。\n",
+		NpcAuthoredCombatFacts.new(["头部", "躯干", "尾巴"], [&"bite"], 60, 20, 90, 80),
+	)
+
+
 static func long_sword_content() -> NpcLoadoutItemDefinition:
 	var authored: OldPineItemContentDefinition = (
 		OldPineItemContentDefinitions.content_by_id(LONG_SWORD_ITEM_ID)
@@ -249,6 +276,8 @@ static func npc_by_id(definition_id: StringName) -> NpcDefinition:
 			return tall_bandit_definition()
 		FAT_BANDIT_DEFINITION_ID:
 			return fat_bandit_definition()
+		SERPENT_DEFINITION_ID:
+			return serpent_definition()
 	return null
 
 
@@ -266,6 +295,7 @@ static func validate() -> bool:
 		bandit_definition(),
 		tall_bandit_definition(),
 		fat_bandit_definition(),
+		serpent_definition(),
 	]
 	for definition: NpcDefinition in definitions:
 		if not definition.is_valid():
