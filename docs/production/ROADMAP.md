@@ -153,16 +153,23 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.
    No large-scale creature framework, Phase5B4/poison, or additional beast content is authorized.
 
-8. **Start-of-Game Source Rebaseline — ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+8. **Start-of-Game Source Rebaseline — COMPLETE / FULLY INTEGRATED ON MAIN**
 
-   [S0](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) source analysis/self-review is PASS,
-   awaiting owner review on `phase/start-of-game-source-rebaseline`; no PR and no implementation authorization.
-   Actual base is green main `208597ea0cbb564cb3822f4003f76bafc8bafa4a`, after the separately authorized
-   viewport stabilization [PR #13](https://github.com/Toxicccxz/eastern-stories-godot/pull/13) and four green
-   main jobs in [workflow 34525138568](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34525138568).
-   Source ES2 begins at Snow's inn: age14, eight attributes30, effective combat_exp0, cloth and no weapon.
-   S0 recommends considering a bounded **Source-valid New Game Entry Slice** before more Old Pine expansion,
-   not automatically a complete Snow Town implementation. Food initialization order, age/gift, first supplies,
-   teaching/runtime integration and existing-save compatibility require an explicit scope decision.
-   Preserve the current Old Pine demo baseline until authorized; no Snow scene, Shop/Training/Dialogue/Quest,
-   Lake/five-serpent content, or Phase5B4 work is started by this analysis.
+   [S0](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) passed owner review and integrated through
+   [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14) at
+   `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+   Post-main [workflow 34531552148](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34531552148)
+   passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
+   effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
+
+9. **Source-valid New Game Entry — NGE0 COMPATIBILITY ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+
+   One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
+   [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) is analysis-complete,
+   awaiting owner review. Recommendations: gift B / food-water B / old-save A; no DECISIONS update.
+   NGE1 NOT READY until the compatibility choices and bounded acceptance receive owner approval.
+   Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
+   square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
+   real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
+   deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
+   acceptance. Keep current New Game untouched; no PR/merge or automatic NGE1 implementation.

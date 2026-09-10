@@ -2,12 +2,23 @@
 
 ## Current milestone
 
-**Start-of-Game Source Rebaseline — ANALYSIS IN PROGRESS / NOT IMPLEMENTED** is the current
-owner-authorized analysis milestone on `phase/start-of-game-source-rebaseline`, based on green main
-`208597ea0cbb564cb3822f4003f76bafc8bafa4a`. [S0 source rebaseline](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md)
-is analysis/self-review PASS, awaiting owner review; Snow implementation is NOT authorized.
-Source fresh entry is Snow's inn, not Old Pine. Current New Game/exp600/starting sword and all
-production behavior remain unchanged. No S0 PR or merge; do not automatically begin the proposed entry slice.
+**Source-valid New Game Entry — NGE0 COMPATIBILITY ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
+`d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+[NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
+is analysis-complete and awaiting owner review: recommend gift B (no delayed reroll), food/water B
+(initialize after body setup), and legacy-native-save A (preserve actual saved state). These are
+recommendations, not approved DECISIONS. NGE1 is NOT READY pending owner choices. No PR or merge for
+this new milestone; current Old Pine New Game/exp600/starting sword and all production code remain unchanged.
+Do not start Snow/New Game cutover, shops/training, Lake, or Phase5B4.
+
+**Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
+[PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at
+`d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+Post-merge [workflow 34531552148](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34531552148)
+passed Godot Verify, Windows Release Build, Android Release Build, and iOS Build Validation on that commit.
+[S0 source rebaseline](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) establishes Snow's inn
+as the source fresh entry; its historical pre-review checkpoint remains unchanged. S0 was docs-only.
 
 **Source-valid Beast Foundation + First Serpent Runtime Integration — COMPLETE / FULLY INTEGRATED ON MAIN**
 through [PR #12](https://github.com/Toxicccxz/eastern-stories-godot/pull/12).
