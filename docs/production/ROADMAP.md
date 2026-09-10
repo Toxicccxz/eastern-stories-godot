@@ -132,18 +132,20 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
    as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
-7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF4 PASS / owner review pending**
+7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF5 formal local audit PASS**
 
    Following the post-Phase10D planning checkpoint, the owner authorized this bounded source-semantic
    milestone on `phase/beast-foundation-serpent-runtime` from green main `5cf3f4e`.
    [Locked contract and BF1–BF4 evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
-   BF1–BF3 are owner-approved. BF4 source-fresh live aggression/Encounter/bite -> Player defeat
-   is retained. Owner-authorized QA player modifier/experience + fixed RNG Run B now proves real
-   serpent death/corpse/empty-loot/control return, without changing production or claiming balance.
-   BF4 passes101 assertions; existing focused regressions pass9881 assertions, including overlap.
-   Canonical registration is present but the full historical suite has not been run;
-   BF5/formal audit remains NOT STARTED. No schema or production spawn changes.
+   BF1–BF4 are owner-approved at `0ecf7f5`. [BF5 final audit](../migration/PHASE_BEAST_FOUNDATION_SERPENT_FINAL_AUDIT.md)
+   is PASS: **implementation + formal local audit complete**. No BF5 production/test correction.
+   Complete canonical16,895 assertions, Python46, repository/static, development/sanitized headless
+   and sanitized startup PASS; independent BF1/BF2/BF3/BF4:958/201/162/101 PASS.
+   Accepted source-fresh Run A and deterministic QA-wounded Run B are retained without rerunning
+   unchanged production. They prove source-derived defeat and controlled death/corpse/loot/control
+   return respectively, not balance or natural-victory acceptance. No schema or production spawn changes.
    Lowest-boundary serpent persistence capability is not normal-player serpent Save/Continue.
-   These slices share one branch and eventual final PR; no PR/merge yet.
+   These slices share one branch and one final PR. **NOT fully integrated** until final same-HEAD
+   PR CI passes, owner authorizes merge and post-merge main CI passes. Stop before merge.
    Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.
    No large-scale creature framework, Phase5B4/poison, or additional beast content is authorized.
