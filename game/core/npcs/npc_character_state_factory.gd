@@ -239,13 +239,11 @@ func create_one(
 	for skill: NpcSkillLevelDefinition in definition.skill_levels():
 		state.skills.set_raw_level(skill.skill_id, skill.raw_level)
 
-	var body_weight: int = (
-		CharacterDerivedValuesType.beast_weight(attributes.strength) if is_beast
-		else CharacterDerivedValuesType.human_weight(attributes.strength)
-	)
-	var maximum_encumbrance: int = (
-		CharacterDerivedValuesType.maximum_encumbrance(attributes.strength)
-	)
+	var body: NpcBodyFacts = NpcBodyFacts.derive(definition, attributes.strength)
+	if body == null:
+		return null
+	var body_weight: int = body.body_weight
+	var maximum_encumbrance: int = body.maximum_encumbrance
 	var armor_state: ArmorStateType = ArmorStateType.new()
 	var loadout_items: Array[ItemInstance] = _apply_loadout(
 		definition,

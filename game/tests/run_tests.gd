@@ -778,6 +778,9 @@ const SerpentDefinitionTest := preload("res://tests/core/serpent_definition_test
 const BeastCombatProfileTest := preload("res://tests/core/beast_combat_profile_test.gd")
 const BeastCombatExecutionTest := preload("res://tests/core/beast_combat_execution_test.gd")
 const BeastCombatProjectionTest := preload("res://tests/core/beast_combat_projection_test.gd")
+const BeastPersistenceBodyTest := preload("res://tests/core/beast_persistence_body_test.gd")
+const BeastDeathBodyTest := preload("res://tests/runtime/beast_death_body_test.gd")
+const BeastHumanSaveRegressionTest := preload("res://tests/runtime/beast_human_save_regression_test.gd")
 const WorldPlayerRuntimeStateScript := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
@@ -1616,6 +1619,10 @@ func _init() -> void:
 		var bf2_result: Dictionary[String, Variant] = bf2_suite.new().run_all()
 		assertion_count += int(bf2_result["assertions"])
 		failures.append_array(bf2_result["failures"])
+	var bf3_results: Array[Dictionary] = [BeastPersistenceBodyTest.new().run_all(), BeastDeathBodyTest.new().run_all(), await BeastHumanSaveRegressionTest.new().run_all(self)]
+	for bf3_result: Dictionary in bf3_results:
+		assertion_count += int(bf3_result["assertions"])
+		failures.append_array(bf3_result["failures"])
 	assertion_count += int(cxr5_result["assertions"])
 	failures.append_array(cxr5_result["failures"])
 	assertion_count += int(cxr6_result["assertions"])

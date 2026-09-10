@@ -1391,6 +1391,9 @@ func _death_context_for(
 	if npc != null:
 		display_name = npc.definition().display_name
 		age = npc.age
+		# chard.c copies query_weight/query_max_encumbrance, not a fresh race setup.
+		body_weight = npc.body_weight
+		maximum_encumbrance = npc.maximum_encumbrance
 	var owner: ItemLifecycleOwnerContext = ItemLifecycleOwnerContext.new(
 		victim.character_id,
 		victim.state.equipment,

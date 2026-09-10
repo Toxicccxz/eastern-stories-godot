@@ -8,8 +8,10 @@ Base: `5cf3f4efb80816cb40389d093b7187e4cabdff5b`; branch:
 [34302052253](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34302052253)
 completed successfully. BF1 was owner-approved at `a6ebe800943a5300cdfa192dc8bd19b45d111a0d`.
 BF2 — Beast Combat Facts + Bidirectional Combat Projection: **implementation and distinct self-audit
-PASS** (201 new focused assertions); see the BF2 evidence below. This is not major-phase closure.
-No PR or merge; BF3/BF4/BF5 have not started.
+PASS** (201 new focused assertions), owner-approved at `06c0c10bcd35697b333d4e6c219c9a5c37bf3062`.
+BF3 — Race-aware Persistence + Death Body Facts: **implementation and distinct self-audit PASS**
+(162 new focused assertions), pending owner review. This is not major-phase closure.
+No PR or merge; BF4/BF5 have not started.
 
 This document consolidates the owner-accepted Source-valid Beast / Serpent dependency analysis
 and Post-Phase10D migration coverage review from the task conversation, with the owner's explicit
@@ -21,8 +23,8 @@ This is source-semantic migration plus necessary native composition, not a new c
 | Slice | Boundary / acceptance | Status |
 |---|---|---|
 | BF1 | Exact formulas, fresh defaults/RNG, typed authored facts, serpent definition | PASS; owner-approved |
-| BF2 | Bidirectional live Combat projection, limbs/bite/intrinsic modifiers, riposte | PASS; stop for owner review |
-| BF3 | Race-aware restore/body validation and death facts at the lowest real composition boundary | Not started |
+| BF2 | Bidirectional live Combat projection, limbs/bite/intrinsic modifiers, riposte | PASS; owner-approved |
+| BF3 | Race-aware restore/body validation and death facts at the lowest real composition boundary | PASS; stop for owner review |
 | BF4 | QA-only single-serpent integration using production authorities and real player input | Not started |
 | BF5 | Separately authorized formal audit and eventual final integration gate | Not started |
 
@@ -385,6 +387,149 @@ skills, generic apply Dictionary, dispatch VM, gameplay RNG source or Node/timin
 No real serpent gameplay proof is claimed: BF2's approved gate is Node-free controlled execution;
 BF4 still owns the separately authorized live runtime gate.
 
-**BF2 PASS — STOP FOR OWNER REVIEW. BF3 READY FOR AUTHORIZATION, NOT STARTED.**
+Historical BF2 stop: **BF2 PASS; BF3 was ready for authorization, not started at that checkpoint.**
 Wolf/butterfly/venomsnake, multiple/weighted Beast verbs, unknown-provider compatibility, Phase5B4,
 source-generic fallback/preauthored actions and other Beast hooks remain deferred. No PR or merge.
+
+## BF3 implementation — race-aware persistence and death body facts
+
+Starting HEAD: `06c0c10bcd35697b333d4e6c219c9a5c37bf3062`, same isolated worktree and
+`phase/beast-foundation-serpent-runtime` branch. BF1/BF2 are owner-approved. BF3 does not reopen
+Combat or claim normal-player serpent Save/Continue. **Serpent persistence composition capability
+verified** is the precise completed boundary; a production serpent slot still does not exist.
+
+### Rechecked source and body policy
+
+Rechecked below `reference/es2/mudlib/`: `adm/daemons/chard.c`, `adm/daemons/race/human.c`,
+`adm/daemons/race/beast.c`, `d/oldpine/npc/serpent.c`, `obj/corpse.c`, `feature/damage.c`,
+`feature/move.c`, `include/race.h`, and `include/race/beast.h`.
+
+- Human setup uses `40000 + (str - 10) * 2000`; Beast setup uses
+  `2000 + (str - 10) * 2000`. `chard.c` gives **both** races capacity `str * 5000`.
+- Source setup supplies missing initial resources/body values. It is not a Load algorithm.
+- `make_corpse()` copies the victim's stored `query_weight()` and `query_max_encumbrance()`,
+  name, gender and age. `feature/move.c` stores body weight separately from contents encumbrance;
+  changing raw strength alone does not assign either stored body field.
+- `feature/damage.c`'s actual death lifecycle clears conditions and commits destruction/ghost
+  behavior outside this slice. `CorpseState`/Death core already accept non-human metadata.
+  No Beast-specific corpse/loot/decay algorithm is needed.
+
+`game/core/npcs/npc_body_facts.gd` is the only new production class. `NpcBodyFacts.derive()` takes
+a valid immutable NPC definition and raw strength, delegates to the already-closed derived formulas,
+and returns only expected body weight/capacity. Null/invalid definitions and unsupported races fail
+closed. It owns no anatomy, combat modifiers, resource maxima, RNG, presentation or save state.
+`matches_saved()` compares both body scalars exactly. No clamping or formula duplication is added.
+
+The existing fresh NPC factory now uses this same narrow seam for its two body outputs; attribute,
+age, resource initialization and draw ordering are unchanged. This is not a new species registry.
+For serpent str40, the result remains **62000 / 200000**, age400 and gender雄性.
+
+### Production restore and Save capture
+
+`OldPineWorldRestoreComposition._restore_npc_ledger()` replaces its unconditional human-weight
+calculation with `NpcBodyFacts.derive(definition, saved strength)` and exact saved-body comparison.
+Definition/spawn identity, authored age, location, item/loadout validation and the existing error path
+`.derived_character_facts` remain in place. Unknown races do not fall back to human.
+
+The rest of reconstruction is unchanged: existing `CharacterStateSnapshotRestorer` rebuilds saved
+mutable state, with the exact Equipment returned by Phase4 item restore and the exact restored Armor
+passed into `NpcRuntimeState`. No fresh NPC factory call, Beast defaults, maxima recomputation or
+RNG draws occur on this restore path. The NPC definition is resolved from the existing catalog.
+
+Actual `OldPineWorldSaveCapture.capture()` calls this same `prepare()` validation after capture, so
+normal human Save receives the correction automatically; no second Save-side race switch is added.
+The existing corpse restorer already takes NPC body weight from the validated saved NPC record;
+its remaining human calculation applies to Player, and capacity is race-neutral. It needs no change.
+
+### Lowest-boundary capability proof and limits
+
+`tests/support/beast_persistence_fixture.gd` is **test-only composition** of the real production
+Character capture method, `NpcSpawnStateSnapshot`, `GameSaveSnapshot` v1, JSON codec/validator,
+Phase4 native item capture/restore, the production body validation helper, Character restorer,
+`NpcRuntimeState` constructor and RNG state adapter. It intentionally does not call full production
+Session restoration for a serpent. No new production restoration API, fake world slot, or QA scene
+was introduced merely to make that test possible.
+
+Proof covers living, unconscious and dead/not-existing records, fresh graph B object identities,
+exact semantic IDs, age/gender, cps/per/con plus other initialized attributes, all resource tracks,
+combat experience250007, raw unarmed1/learned3, typed duration/poison condition payloads, existence,
+location and position. Death-status DTO tests prove representation, not execution of `die()`;
+preserved condition payloads there are not a claim that the death lifecycle retains conditions.
+
+Serpent's authored maxima900/1800/500 remain saved maxima, not age400 default formulas. After damage
+and wound, living kee restores as1677/1783/1800; gin888/900/900 and sen479/500/500 also restore exactly.
+No serialized race/name/limbs/verbs/intrinsic dictionary or combat profile is introduced. Definition
+lookup reobtains limbs `[头部, 躯干, 尾巴]`, bite and intrinsic60/20/90/80.
+
+The empty real item snapshot reconstructs fresh Inventory/Combined/index and exact injectable
+Equipment/Armor authorities with **zero item records**. There is no second Inventory save model.
+RNG proof uses the real PCG32 adapter with a test-only counting subclass: fresh A consumes3
+cps/per/con draws; restore consumes0 and preserves exact saved seed/state; a subsequent legitimate
+fresh NPC factory call consumes3 draws and matches the uninterrupted original stream.
+
+A separate normal production Session capture/prepare test preserves all5 human NPCs and12 bootstrap
+items, rejects wrong weight/capacity for every human slot at the original failure path, and still
+rejects an added unapproved serpent slot. Existing tests separately cover human Equipment/Armor,
+item identities, location, tombstones, corpse graph and RNG continuation. No schema version change,
+old-save upgrade, missing-slot insertion or Lake five-serpent policy is attempted.
+
+### Death adapter and regression correction
+
+`OldPineOutdoorController._death_context_for()` now uses `npc.body_weight` and
+`npc.maximum_encumbrance` for NPC victims; it keeps the existing Player path unchanged.
+Death does not run the initialization/validation formula again. This deliberately preserves already
+established runtime body values even if raw strength has subsequently changed. The existing restore
+consistency policy still compares saved body values to saved strength; no general dynamic body-update
+system or new policy for such divergence is introduced here.
+
+The actual detached controller adapter is tested after a lowest-boundary restore into graph B.
+Its DeathContext preserves 黑冠巨蟒/雄性/400/62000/200000 and exact Equipment/Armor references.
+Unchanged `DeathInventoryService` produces one fresh corpse, own weight62000, capacity200000,
+no worn items and no loot. No silver, skin, fang, medicine, quest item or NPC effect is synthesized.
+Changing strength to99 after initialization does not silently rewrite stored body facts at death.
+Player str20 still produces Player/男性/age20/60000/100000 through the unchanged Player adapter.
+
+The Phase8 regression initially exposed four old assertions that expected a raw strength edit to30
+to force NPC death-time body recalculation; independent review found two matching Tall assertions.
+Those six expectations in `oldpine_outdoor_smoke_test.gd` and
+`oldpine_pine_maze_tall_bandit_test.gd` now assert source copying of pre-edit stored body facts.
+The strength edits and lifecycle/loot tests remain, not removed or weakened into no-op tests.
+This is the **explicit BF3 owner-requested correction**, not a new compatibility substitution.
+Historical Phase7B2 wording about death-time strength recalculation describes the old implementation
+and is superseded by this BF3 evidence; historical phase documents and DECISIONS are not rewritten.
+
+### BF3 validation and distinct self-audit
+
+Godot `4.7.2.stable.official.ed1daf0bf`; commands use
+`godot --headless --path game --script res://tests/<runner>.gd`:
+
+| Runner | Assertions | Result |
+|---|---:|---|
+| `run_bf3_tests` (body/persistence110 + death17 + human Save35) | 162 | PASS |
+| `run_bf2_tests` | 201 | PASS |
+| `run_bf1_tests` | 958 | PASS |
+| `run_phase_10b3_tests` (includes Phase4 item/death, Phase6 lifecycle, Phase7/9 NPC) | 4230 | PASS |
+| `run_phase_10b4_tests` (normal capture/transaction + restore) | 1091 | PASS |
+| `run_phase_8b1_tests` (corpse/loot and related lifecycle/NPC) | 2218 | PASS |
+| `run_phase_9b1_tests` (Tall integration and related regressions) | 4184 | PASS |
+| **Executed assertions, including overlap between regression runners** | **13044** | **PASS** |
+
+Headless editor import and canonical runner `--check-only` PASS. New suites are registered in the
+canonical runner; the full historical suite was **not executed**. Repository/static checks,
+`git diff --check` and changed/new-file trailing whitespace checks PASS.
+
+Distinct self-audit reviewed production diffs, source stored-vs-derived body semantics, Save's shared
+validation, corpse restore's already-validated NPC weight, factory draw order, identity injection,
+no-reroll paths and protected scope. It added restored-graph death, production extra-slot rejection
+and explicit mutable-authority isolation checks. One initial test used wrong owner-property names;
+only that test was corrected, and the stalled headless test process was stopped. Final validation
+logs have no script errors or remaining failures. No remaining BF3 blocker was found.
+
+Combat/bite/projection/scheduler unchanged; Lake, production spawn ledger, save schema/codec,
+Character restorer, Death core/Corpse core, Phase5B4, `reference/es2` and DECISIONS unchanged.
+Owner main-worktree project/plugin edits remain untouched. BF3 has no live gameplay acceptance
+requirement: detached-adapter and headless Session regression evidence is not real-player or live
+serpent runtime evidence. BF4 remains the separately authorized integration gate.
+
+**BF3 PASS — PENDING OWNER REVIEW. BF4 READY FOR AUTHORIZATION, NOT STARTED.**
+No PR, merge, production serpent, normal-player serpent Save/Continue claim or milestone closure.

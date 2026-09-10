@@ -132,16 +132,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
    as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
-7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF1/BF2 complete; milestone in progress**
+7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF3 complete; milestone in progress**
 
    Following the post-Phase10D planning checkpoint, the owner authorized this bounded source-semantic
    milestone on `phase/beast-foundation-serpent-runtime` from green main `5cf3f4e`.
-   [Locked contract and BF1/BF2 evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
-   BF1 formulas/defaults/initialization are owner-approved. BF2 bidirectional current-state projection,
-   bite/action RNG, intrinsic modifiers and ordinary riposte pass 201 new assertions and self-audit;
-   4,414 assertions passed across focused/regression runs (including overlap).
-   Stop for owner review before BF3 race-aware persistence/death, BF4 controlled QA runtime
-   integration, or BF5 formal audit. No live serpent placement is claimed by BF2.
+   [Locked contract and BF1/BF2/BF3 evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
+   BF1/BF2 are owner-approved. BF3 race-aware body validation, no-reroll persistence composition and
+   runtime-fact death adapter pass 162 new assertions and distinct self-audit; 13,044 assertions
+   passed across focused/regression runs (including overlap). No schema or Combat changes.
+   Stop for owner review before BF4 controlled QA runtime integration or BF5 formal audit.
+   Lowest-boundary serpent persistence capability is not normal-player serpent Save/Continue.
    These slices share one branch and eventual final PR; no PR/merge yet.
    Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.
    No large-scale creature framework, Phase5B4/poison, or additional beast content is authorized.
