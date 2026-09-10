@@ -132,7 +132,14 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
    as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
-With Phase10D fully integrated, the next step is a **planning review / player-feedback checkpoint**,
-not automatic large-scale content migration or an invented Phase11. Existing Old Pine polish,
-additional authored ES2 content, and combat/content expansion are possible directions; this
-documentation maintenance chooses none and starts no new phase.
+7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF1 complete; milestone in progress**
+
+   Following the post-Phase10D planning checkpoint, the owner authorized this bounded source-semantic
+   milestone on `phase/beast-foundation-serpent-runtime` from green main `5cf3f4e`.
+   [Locked contract and BF1 evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
+   Beast formulas/defaults, exact NPC RNG order and typed serpent definition pass 958 focused assertions
+   and slice self-audit. Stop for owner review before BF2 live Combat projection, BF3 race-aware
+   persistence/death, BF4 controlled QA runtime integration, or BF5 formal audit.
+   These slices share one branch and eventual final PR; no PR/merge yet.
+   Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.
+   No large-scale creature framework, Phase5B4/poison, or additional beast content is authorized.

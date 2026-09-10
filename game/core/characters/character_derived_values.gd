@@ -6,6 +6,7 @@ extends RefCounted
 
 const HUMAN_BASE_WEIGHT: int = 40_000
 const MONSTER_BASE_WEIGHT: int = 10_000
+const BEAST_BASE_WEIGHT: int = 2_000
 const WEIGHT_PER_STRENGTH_POINT: int = 2_000
 const ENCUMBRANCE_PER_STRENGTH_POINT: int = 5_000
 
@@ -79,6 +80,37 @@ static func monster_maximum_spirit(age: int) -> int:
 	if age <= 30:
 		return 50
 	return 50 + (age - 30) * 10
+
+
+## reference/es2/mudlib/adm/daemons/race/beast.c: setup_beast()
+## Only used for missing authored maxima; no age floor or internal-power bonus.
+static func beast_maximum_essence(age: int) -> int:
+	if age <= 3:
+		return 50
+	if age <= 10:
+		return 50 + (age - 3) * 20
+	if age <= 30:
+		return 190 + (age - 10) * 5
+	return 290 + (age - 30)
+
+
+static func beast_maximum_vitality(age: int) -> int:
+	if age <= 5:
+		return 50
+	if age <= 20:
+		return 50 + (age - 5) * 25
+	return 425 + (age - 20) * 5
+
+
+static func beast_maximum_spirit(age: int) -> int:
+	if age <= 20:
+		return 50
+	return 50 + (age - 20) * 10
+
+
+## beast.c + include/race/beast.h: negative weights are not clamped by LPC.
+static func beast_weight(base_strength: int) -> int:
+	return BEAST_BASE_WEIGHT + (base_strength - 10) * WEIGHT_PER_STRENGTH_POINT
 
 
 ## race/human.c and race/monster.c use the same strength slope with different
