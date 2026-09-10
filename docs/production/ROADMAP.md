@@ -132,7 +132,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
    as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
-7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF5 formal local audit PASS**
+7. **Source-valid Beast Foundation + First Serpent Runtime Integration — COMPLETE / FULLY INTEGRATED ON MAIN**
 
    Following the post-Phase10D planning checkpoint, the owner authorized this bounded source-semantic
    milestone on `phase/beast-foundation-serpent-runtime` from green main `5cf3f4e`.
@@ -145,7 +145,24 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    unchanged production. They prove source-derived defeat and controlled death/corpse/loot/control
    return respectively, not balance or natural-victory acceptance. No schema or production spawn changes.
    Lowest-boundary serpent persistence capability is not normal-player serpent Save/Continue.
-   These slices share one branch and one final PR. **NOT fully integrated** until final same-HEAD
-   PR CI passes, owner authorizes merge and post-merge main CI passes. Stop before merge.
+   [PR #12](https://github.com/Toxicccxz/eastern-stories-godot/pull/12) final PR HEAD
+   `0ab0d68c44ba9844d477eed4c1ed0670707bf9a9` merged at
+   `a7f0f6fa695a53335878570b80df354a97a48233`; post-merge
+   [workflow 34515556524](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34515556524)
+   passed all four required jobs. Historical BF5 pre-PR evidence remains unchanged.
    Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.
    No large-scale creature framework, Phase5B4/poison, or additional beast content is authorized.
+
+8. **Start-of-Game Source Rebaseline — ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+
+   [S0](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) source analysis/self-review is PASS,
+   awaiting owner review on `phase/start-of-game-source-rebaseline`; no PR and no implementation authorization.
+   Actual base is green main `208597ea0cbb564cb3822f4003f76bafc8bafa4a`, after the separately authorized
+   viewport stabilization [PR #13](https://github.com/Toxicccxz/eastern-stories-godot/pull/13) and four green
+   main jobs in [workflow 34525138568](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34525138568).
+   Source ES2 begins at Snow's inn: age14, eight attributes30, effective combat_exp0, cloth and no weapon.
+   S0 recommends considering a bounded **Source-valid New Game Entry Slice** before more Old Pine expansion,
+   not automatically a complete Snow Town implementation. Food initialization order, age/gift, first supplies,
+   teaching/runtime integration and existing-save compatibility require an explicit scope decision.
+   Preserve the current Old Pine demo baseline until authorized; no Snow scene, Shop/Training/Dialogue/Quest,
+   Lake/five-serpent content, or Phase5B4 work is started by this analysis.

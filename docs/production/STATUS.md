@@ -2,8 +2,20 @@
 
 ## Current milestone
 
-**Source-valid Beast Foundation + First Serpent Runtime Integration** is the active owner-authorized
-milestone on `phase/beast-foundation-serpent-runtime`, based on green main `5cf3f4e`.
+**Start-of-Game Source Rebaseline — ANALYSIS IN PROGRESS / NOT IMPLEMENTED** is the current
+owner-authorized analysis milestone on `phase/start-of-game-source-rebaseline`, based on green main
+`208597ea0cbb564cb3822f4003f76bafc8bafa4a`. [S0 source rebaseline](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md)
+is analysis/self-review PASS, awaiting owner review; Snow implementation is NOT authorized.
+Source fresh entry is Snow's inn, not Old Pine. Current New Game/exp600/starting sword and all
+production behavior remain unchanged. No S0 PR or merge; do not automatically begin the proposed entry slice.
+
+**Source-valid Beast Foundation + First Serpent Runtime Integration — COMPLETE / FULLY INTEGRATED ON MAIN**
+through [PR #12](https://github.com/Toxicccxz/eastern-stories-godot/pull/12).
+Final PR HEAD: `0ab0d68c44ba9844d477eed4c1ed0670707bf9a9`;
+merge commit: `a7f0f6fa695a53335878570b80df354a97a48233`.
+Post-merge [workflow 34515556524](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34515556524)
+passed all four required jobs on that merge commit. Its branch was
+`phase/beast-foundation-serpent-runtime`, based on green main `5cf3f4e`.
 [BF1–BF4 source contract and evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
 BF1–BF4 are owner-approved at `0ecf7f5`. [BF5 final audit](../migration/PHASE_BEAST_FOUNDATION_SERPENT_FINAL_AUDIT.md)
 PASS: **implementation + formal local audit complete**, with no BF5 production/test corrections.
@@ -14,8 +26,11 @@ death/corpse/empty-loot/fresh movement) are reused because executable source is 
 Run B is NOT natural-victory or balance acceptance. QA is excluded from production/sanitized output.
 BF3 remains persistence composition capability, not normal-player serpent Save/Continue.
 Normal bootstrap remains five human NPCs/twelve items; no production serpent or Lake.
-Final PR/CI follow this local checkpoint; **NOT fully integrated** until same-HEAD PR CI is green,
-owner-authorized merge occurs and post-merge main CI is green. Merge is not authorized here.
+Historical BF5 pre-PR checkpoint wording remains unchanged; integration is now complete as recorded above.
+Subsequent Godot AI 4.0.4 main update and viewport CI stabilization are separate tooling changes:
+[PR #13](https://github.com/Toxicccxz/eastern-stories-godot/pull/13) merged at `208597e`, with all four main
+jobs PASS in [workflow 34525138568](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34525138568).
+This resolved S0's CI blocker without changing its docs-only scope or reverting the plugin update.
 
 Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at
 `3a1f993a4258ed246ce820c7a4dc8d2563994aaf` (PR #5). Phase 10C2 and its resident-map
