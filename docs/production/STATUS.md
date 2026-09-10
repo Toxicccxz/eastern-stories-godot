@@ -4,9 +4,11 @@
 
 **Source-valid Beast Foundation + First Serpent Runtime Integration** is the active owner-authorized
 milestone on `phase/beast-foundation-serpent-runtime`, based on green main `5cf3f4e`.
-[BF1 source contract and typed initialization](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md)
-is implementation/self-audit PASS (958 focused assertions). Serpent is definition-only: no production
-spawn or Combat/restore/death integration. BF2 awaits owner authorization; Lake is outside this
+[BF1/BF2 source contract and evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
+BF1 is owner-approved; BF2 bidirectional ordinary Combat projection is implementation/self-audit PASS
+(201 new assertions; 4,414 executed across focused/regression runners, including overlap).
+Serpent has source-backed bite/limbs/intrinsic modifiers for forward, defender and live reverse inputs;
+no production spawn or restore/death integration. BF3 awaits owner authorization; Lake is outside this
 milestone. No PR, merge or new branch CI claim; this milestone is not yet integrated on main.
 
 Phase 10C1's shared application shell is **FULLY INTEGRATED** on `main` at

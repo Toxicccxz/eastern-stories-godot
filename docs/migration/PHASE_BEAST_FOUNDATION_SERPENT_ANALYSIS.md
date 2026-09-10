@@ -6,7 +6,10 @@ BF1 — Source Contract + Typed Beast Initialization: **implementation and focus
 Base: `5cf3f4efb80816cb40389d093b7187e4cabdff5b`; branch:
 `phase/beast-foundation-serpent-runtime`. Base main push workflow
 [34302052253](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34302052253)
-completed successfully. This is not major-phase closure. No PR or merge; BF2 has not started.
+completed successfully. BF1 was owner-approved at `a6ebe800943a5300cdfa192dc8bd19b45d111a0d`.
+BF2 — Beast Combat Facts + Bidirectional Combat Projection: **implementation and distinct self-audit
+PASS** (201 new focused assertions); see the BF2 evidence below. This is not major-phase closure.
+No PR or merge; BF3/BF4/BF5 have not started.
 
 This document consolidates the owner-accepted Source-valid Beast / Serpent dependency analysis
 and Post-Phase10D migration coverage review from the task conversation, with the owner's explicit
@@ -17,8 +20,8 @@ This is source-semantic migration plus necessary native composition, not a new c
 
 | Slice | Boundary / acceptance | Status |
 |---|---|---|
-| BF1 | Exact formulas, fresh defaults/RNG, typed authored facts, serpent definition | PASS; stop for owner review |
-| BF2 | Bidirectional live Combat projection, limbs/bite/intrinsic modifiers, riposte | Not started |
+| BF1 | Exact formulas, fresh defaults/RNG, typed authored facts, serpent definition | PASS; owner-approved |
+| BF2 | Bidirectional live Combat projection, limbs/bite/intrinsic modifiers, riposte | PASS; stop for owner review |
 | BF3 | Race-aware restore/body validation and death facts at the lowest real composition boundary | Not started |
 | BF4 | QA-only single-serpent integration using production authorities and real player input | Not started |
 | BF5 | Separately authorized formal audit and eventual final integration gate | Not started |
@@ -251,4 +254,137 @@ Live gameplay validation is not applicable to this Node-free initialization/data
 serpent encounter, save or death proof is claimed. BF4 owns that later integration gate.
 Owner main-worktree project/plugin edits remain outside this isolated worktree and are excluded.
 
-BF1 stops here. **BF2 READY FOR OWNER AUTHORIZATION; NOT STARTED.**
+Historical BF1 stop: BF2 was ready for owner authorization, not yet started at that checkpoint.
+
+## BF2 implementation — combat facts and bidirectional projection
+
+Starting HEAD: `a6ebe800943a5300cdfa192dc8bd19b45d111a0d`, same isolated phase worktree/branch.
+No changes to the owner's main-worktree project/plugin edits. No rebalance or new compatibility
+decision. This slice supplies inputs to the existing ordinary pipeline; it does not implement a
+second Beast combat algorithm or an encounter/runtime placement.
+
+### Source recheck and native mapping
+
+Exact BF2 rechecked files, all below `reference/es2/mudlib/`:
+
+- `adm/daemons/race/beast.c`, `d/oldpine/npc/serpent.c`: ordered anatomy/verbs, bite action,
+  intrinsic attack60/damage20/armor90/dodge80 and authored character facts.
+- `feature/attack.c`, `feature/skill.c`: mapped martial → primary weapon → default action precedence;
+  effective skill = raw/2 + mapped raw + skill modifier; existing NPC progression thresholds.
+- `feature/equip.c`, `feature/attribute.c`: additive equipment deltas and effective strength inputs.
+- `adm/daemons/combatd.c`, `adm/daemons/weapond.c`: skill power, action/limb RNG order,
+  dodge/parry/damage/wound, progression and guard/reverse sequencing; existing weapon action data.
+- `feature/action.c`: positive damage requests interruption, but integer busy clears only when
+  `busy < interrupt`; being hit alone does not guarantee clearing busy.
+- `adm/daemons/race/human.c`, `std/weapon/sword.c`, `d/oldpine/obj/short_sword.c`,
+  `d/oldpine/obj/long_sword.c`, `d/oldpine/obj/leather.c`, `std/armor/cloth.c`: human/weapon regressions,
+  leather armor5 and inherited dodge `-6000 / 3000 = -2`.
+
+| Legacy fact | Native consumer / composition |
+|---|---|
+| `limbs` | NPC-derived `CombatSliceContentProfile.limbs()` → defender snapshot; exactly 头部, 躯干, 尾巴 |
+| `verbs = ({"bite"})` | `BeastCombatActionDefinitions.bite()` → existing one-entry `CombatActionSet` |
+| `apply/attack = 60` | Attacker **usage bonus** = intrinsic60 + current Armor attack; not raw unarmed |
+| `apply/damage = 20` | Projected apply damage = intrinsic20 + verified current weapon damage; separate from action percentage |
+| `apply/armor = 90` | Defender armor = intrinsic90 + current Armor armor; wound gate only |
+| `apply/dodge = 80` | Current effective dodge queried with intrinsic80 + current Armor dodge |
+| Mutable skills/resources | Read from exact live CharacterState for each forward/reverse projection; no startup cache |
+
+Production edits are limited to new typed bite data, `CombatSliceContentProfile`,
+`CombatSliceProjectionBuilder`, and `WorldCombatBindingAdapter.from_npc()`.
+The NPC adapter derives race/anatomy/intrinsics from the NPC definition instead of inheriting the
+caller's human/bandit prototype facts; only the caller's already-verified weapon configuration is
+retained. It preserves exact Character/Equipment/Armor/relationship/busy authority identities.
+Forward snapshots and reverse modifier projections use the same additive contributions.
+Existing CXR participant identity checks and scheduler still pass the same authorities into
+`CombatSliceOpportunityExecutor`; no Encounter, target, queue, Flee or world-freeze changes.
+
+### Narrow readiness boundary
+
+`CombatSliceContentProfile.Readiness` explicitly distinguishes unsupported race, missing facts,
+empty/invalid limbs, empty verbs, unsupported verbs/distributions, inconsistent action data, and
+invalid weapon configuration. Generic `NpcDefinition.is_valid()` is unchanged: a valid initialized
+noncombat NPC can be rejected by this combat consumer. The existing adapter retains its null-failure
+contract; callers needing the reason can inspect the definition-derived profile's typed readiness.
+Projection rejects an unready participant or mismatched Beast action facts before core execution.
+No missing Beast anatomy/action is replaced with human limbs, punch, or default sword slash.
+
+The current supported default distribution is exactly `[bite]`. Unknown/claw/hoof/poke and duplicate
+or multiple verbs are explicitly not ready, not successful no-ops. Only bite is migrated; claw's
+missing source damage is not filled in. Mapped actions or unverified primary weapons retain the
+existing explicit unavailable-provider result, without falling back to bite. A real verified sword
+does use the existing weapon provider ahead of bite, as `reset_action()` requires.
+
+### Execution and independently derived expectations
+
+Bite is ordinary action data: text `$N扑上来张嘴往$n的$l狠狠地一咬`, damage percentage20,
+damage type 咬伤, zero force contribution, no special hook. No raw skill or tactical `combat.bite`
+registration is created. `CombatActionSelector` remains unchanged and consumes `next_below(1)`
+even with one action. This draw precedes the target limb draw in forward and reverse bodies.
+
+Tests use a real BF1-created serpent with cps/per/con rolls `[0,0,0]`, plus a **test-only** controlled
+human opponent. There is no production player buff, new authored armor, spawn or QA scene.
+Literal source-derived checkpoints include:
+
+- Full-spirit AP322000 and DP420500 through the existing math/resolver, with integer truncation
+  after each division. Raw unarmed/dodge/parry initially remain absent.
+- On bite hit with damage and strength rolls0: `(20+0)/2 = 10`, bite adds2, strength adds20 →
+  current damage32. This proves intrinsic20 and action20% are distinct and each used once.
+- Player test attack damage100 against armor90: current kee loses100 for wound rolls90 and91;
+  effective kee loses0 at exact90 and10 at91. No flat subtraction of90 from current damage.
+- Empty-hand parry uses **unarmed** skill power, not raw parry; source ordinary rules still allow
+  serpent to parry. Armed/unarmed and busy handling remain in the existing resolver.
+- NPC misses can level unarmed to2; next effective unarmed1 raises AP to325500 without caching.
+  Successful dodge/parry progression updates live raw skills; intrinsic dodge stays separate.
+- Forward dodge progression changes serpent experience to250001 and raw dodge to2; guarding
+  reverse sees new experience, calculates AP322001, selects bite with a fresh random1 and resolves
+  both dodge and hit branches. Both QUICK and RIPOSTE guard-roll branches are covered.
+- Real wear/remove of leather produces armor95/dodge78 then restores armor90/dodge80. A typed
+  test-only modifier fixture checks nonzero Armor attack/unarmed contributions through the actual
+  wear service. Real long-sword wield/unwield composes damage45→20 and slash→bite. Both forward and
+  reverse templates/modifier projections are checked; projection never writes raw skills.
+
+Example complete forward hit RNG bounds (specific target, so no random opponent discovery):
+`[60, 1, 16, 322500, 322500, 20, 40, 1000, 32, 1968]`.
+Example live reverse-hit chain:
+`[15, 1, 3, 1253500, 110, 20, 1, 16, 572001, 1155001, 20, 40, 500000, 32, 1968]`.
+Tests compare every bound and relevant draw, not only final resources. Existing CXR9 unarmed
+zero-apply `random(0)` substitution remains unchanged; no new RNG substitution is introduced.
+
+### BF2 verification and distinct self-audit
+
+Godot `4.7.2.stable.official.ed1daf0bf`; each command is
+`godot --headless --path game --script res://tests/<runner>.gd`:
+
+| Runner | Assertions | Result |
+|---|---:|---|
+| `run_bf2_tests` (profile58 + execution104 + projection39) | 201 | PASS |
+| `run_bf1_tests` (includes Phase7/9 NPC + Armor loadout and Character regression) | 958 | PASS |
+| `run_phase_5b2a_tests` | 664 | PASS |
+| `run_phase_5b2b1_tests` | 912 | PASS |
+| `run_phase_5b3b2b_tests` | 888 | PASS |
+| `run_cxr4_tests` (scheduler, lifecycle, ordinary opportunity, resident Session) | 791 | PASS |
+| **Executed assertions, including overlap between regression runners** | **4,414** | **PASS** |
+
+Godot headless editor import and canonical runner `--check-only` PASS, no script errors.
+New suites are registered in the canonical runner, but the complete historical suite was **not run**.
+Repository/static checks, `git diff --check`, changed/new-file trailing whitespace checks PASS.
+
+The distinct post-implementation review rechecked the production diff, both projection directions,
+source action/skill/equipment ordering, CXR authority construction, malformed-data failures and
+copy boundaries. It added actual NPC parry progression and initialized-but-unready NPC rejection
+coverage. During test construction, incorrect test API calls and a runner name collision were fixed;
+busy and reverse-parry expectations were corrected directly from `feature/action.c` and `combatd.c`
+(not by changing production formulas to match tests). Final logs have no script errors or failures.
+No remaining BF2 correctness blocker was found; this is not the later BF5 formal audit.
+
+All Combat Core formulas/algorithms, tactical registry, Encounter/scheduler, production spawn ledger,
+maps/Lake, restore/schema/death/corpse, `reference/es2` and `DECISIONS.md` remain unchanged in BF2.
+Human 16 limbs/punch and long25/short15/leather5/dodge−2 remain unchanged. No fake equipment or raw
+skills, generic apply Dictionary, dispatch VM, gameplay RNG source or Node/timing dependency added.
+No real serpent gameplay proof is claimed: BF2's approved gate is Node-free controlled execution;
+BF4 still owns the separately authorized live runtime gate.
+
+**BF2 PASS — STOP FOR OWNER REVIEW. BF3 READY FOR AUTHORIZATION, NOT STARTED.**
+Wolf/butterfly/venomsnake, multiple/weighted Beast verbs, unknown-provider compatibility, Phase5B4,
+source-generic fallback/preauthored actions and other Beast hooks remain deferred. No PR or merge.

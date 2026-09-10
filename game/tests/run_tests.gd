@@ -775,6 +775,9 @@ const NpcSpawnFoundationTest := preload(
 const BeastDerivedValuesTest := preload("res://tests/core/beast_derived_values_test.gd")
 const BeastInitializationTest := preload("res://tests/core/beast_initialization_test.gd")
 const SerpentDefinitionTest := preload("res://tests/core/serpent_definition_test.gd")
+const BeastCombatProfileTest := preload("res://tests/core/beast_combat_profile_test.gd")
+const BeastCombatExecutionTest := preload("res://tests/core/beast_combat_execution_test.gd")
+const BeastCombatProjectionTest := preload("res://tests/core/beast_combat_projection_test.gd")
 const WorldPlayerRuntimeStateScript := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
@@ -1609,6 +1612,10 @@ func _init() -> void:
 		var bf1_result: Dictionary[String, Variant] = bf1_suite.new().run_all()
 		assertion_count += int(bf1_result["assertions"])
 		failures.append_array(bf1_result["failures"])
+	for bf2_suite: Script in [BeastCombatProfileTest, BeastCombatExecutionTest, BeastCombatProjectionTest]:
+		var bf2_result: Dictionary[String, Variant] = bf2_suite.new().run_all()
+		assertion_count += int(bf2_result["assertions"])
+		failures.append_array(bf2_result["failures"])
 	assertion_count += int(cxr5_result["assertions"])
 	failures.append_array(cxr5_result["failures"])
 	assertion_count += int(cxr6_result["assertions"])
