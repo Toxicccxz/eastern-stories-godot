@@ -781,6 +781,7 @@ const BeastCombatProjectionTest := preload("res://tests/core/beast_combat_projec
 const BeastPersistenceBodyTest := preload("res://tests/core/beast_persistence_body_test.gd")
 const BeastDeathBodyTest := preload("res://tests/runtime/beast_death_body_test.gd")
 const BeastHumanSaveRegressionTest := preload("res://tests/runtime/beast_human_save_regression_test.gd")
+const BeastRuntimeIntegrationTest := preload("res://tests/runtime/beast_runtime_integration_test.gd")
 const WorldPlayerRuntimeStateScript := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
@@ -1623,6 +1624,9 @@ func _init() -> void:
 	for bf3_result: Dictionary in bf3_results:
 		assertion_count += int(bf3_result["assertions"])
 		failures.append_array(bf3_result["failures"])
+	var bf4_result: Dictionary[String, Variant] = await BeastRuntimeIntegrationTest.new().run_all(self)
+	assertion_count += int(bf4_result["assertions"])
+	failures.append_array(bf4_result["failures"])
 	assertion_count += int(cxr5_result["assertions"])
 	failures.append_array(cxr5_result["failures"])
 	assertion_count += int(cxr6_result["assertions"])

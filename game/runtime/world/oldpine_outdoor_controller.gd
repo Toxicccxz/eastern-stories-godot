@@ -51,6 +51,9 @@ var _player: WorldPlayerRuntimeType
 var _session_owner: OldPineWorldSessionController
 var _map_characters: MapCharacterRuntimeState
 var _all_npcs: Array[NpcRuntimeState] = []
+var _registered_npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
+var _registered_npc_presence: Dictionary[StringName, Area2D] = {}
+var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
 var _item_index: WorldItemInstanceIndex
@@ -229,6 +232,79 @@ func player_runtime() -> WorldPlayerRuntimeType:
 
 func npc_runtimes() -> Array[NpcRuntimeState]:
 	return _all_npcs.duplicate()
+
+
+## Binds an already-created NPC to a map-owned physical body. This does not
+## author a spawn, initialize a character, or establish combat relationships.
+func register_npc_body(
+	npc: NpcRuntimeState,
+	body: WorldCharacterBody2D,
+	presence: Area2D,
+	content: CombatSliceContentProfile,
+) -> bool:
+	if (
+		not _initialized or not _world_gameplay_is_open()
+		or npc == null or not npc.is_valid() or not npc.exists_in_map
+		or npc.character_id == _player.character_id or _find_npc(npc.character_id) != null
+		or not is_instance_valid(body) or not is_ancestor_of(body)
+		or not body.character_id.is_empty() or body.player_controlled
+		or not body.get_node_or_null("CollisionShape2D") is CollisionShape2D
+		or not is_instance_valid(presence) or not body.is_ancestor_of(presence)
+		or npc.world_location().map_id != map_id()
+		or _map_characters.has_character(npc.character_id)
+		or WorldCombatBindingAdapterType.from_npc(npc, content) == null
+	):
+		return false
+	if not _map_characters.register_npc(npc):
+		return false
+	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
+		_map_characters.remove_character(npc.character_id)
+		return false
+	_registered_npc_bodies[npc.character_id] = body
+	_registered_npc_presence[npc.character_id] = presence
+	_registered_npc_content[npc.character_id] = content
+	_all_npcs.append(npc)
+	body.selection_requested.connect(_on_bandit_selection_requested)
+	presence.body_entered.connect(_on_registered_presence_entered.bind(npc.character_id))
+	presence.body_exited.connect(_on_registered_presence_exited.bind(npc.character_id))
+	return true
+
+
+## Caller owns physical-node removal. Never detach a live Encounter participant.
+func unregister_npc_body(character_id: StringName) -> bool:
+	if not _world_gameplay_is_open() or not _registered_npc_bodies.has(character_id):
+		return false
+	var npc: NpcRuntimeState = _find_npc(character_id)
+	if npc == null or npc.relationship.is_fighting():
+		return false
+	var body: WorldCharacterBody2D = _registered_npc_bodies[character_id]
+	if is_instance_valid(body):
+		body.selection_requested.disconnect(_on_bandit_selection_requested)
+	var area: Area2D = _registered_npc_presence[character_id]
+	if is_instance_valid(area):
+		area.body_entered.disconnect(_on_registered_presence_entered.bind(character_id))
+		area.body_exited.disconnect(_on_registered_presence_exited.bind(character_id))
+	_registered_npc_bodies.erase(character_id)
+	_registered_npc_presence.erase(character_id)
+	_registered_npc_content.erase(character_id)
+	_all_npcs.erase(npc)
+	_map_characters.remove_character(character_id)
+	_aggression_adapter.clear_npc(character_id)
+	if selected_character_id() == character_id:
+		_selected_target = null
+	return true
+
+
+func _on_registered_presence_entered(body: Node2D, character_id: StringName) -> void:
+	if _world_gameplay_is_open() and body == player_body:
+		_aggression_adapter.enter_player_presence(
+			_find_npc(character_id), _player, _current_location_allows_combat(),
+		)
+
+
+func _on_registered_presence_exited(body: Node2D, character_id: StringName) -> void:
+	if _world_gameplay_is_open() and body == player_body:
+		_aggression_adapter.leave_player_presence(character_id)
 
 
 func map_character_state() -> MapCharacterRuntimeState:
@@ -1289,6 +1365,8 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 		var npc_content: CombatSliceContentProfile = _bandit_content
 		if npc.definition().definition_id == OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID:
 			npc_content = _tall_bandit_content
+		if _registered_npc_content.has(npc.character_id):
+			npc_content = _registered_npc_content[npc.character_id]
 		var binding: CombatSliceCharacterBinding = (
 			WorldCombatBindingAdapterType.from_npc(npc, npc_content)
 		)
@@ -1609,6 +1687,8 @@ func _refresh_inventory_panel() -> void:
 func _body_for(character_id: StringName) -> WorldCharacterBodyType:
 	if character_id == _player.character_id:
 		return player_body
+	if _registered_npc_bodies.has(character_id):
+		return _registered_npc_bodies[character_id]
 	for body: WorldCharacterBodyType in bandit_bodies:
 		if body.character_id == character_id:
 			return body
@@ -1675,6 +1755,7 @@ func _world_character_bodies() -> Array[WorldCharacterBodyType]:
 	result.append_array(bandit_bodies)
 	result.append(tall_bandit_body)
 	result.append(fat_bandit_body)
+	result.append_array(_registered_npc_bodies.values())
 	return result
 
 

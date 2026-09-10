@@ -132,15 +132,17 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    branch/candidate and recreated Phase10D3 before the Phase10D Final Audit. Retain the old branch
    as historical evidence. Acceptance does not authorize new gameplay or the Final Audit itself.
 
-7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF3 complete; milestone in progress**
+7. **Source-valid Beast Foundation + First Serpent Runtime Integration — BF4 PASS / owner review pending**
 
    Following the post-Phase10D planning checkpoint, the owner authorized this bounded source-semantic
    milestone on `phase/beast-foundation-serpent-runtime` from green main `5cf3f4e`.
-   [Locked contract and BF1/BF2/BF3 evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
-   BF1/BF2 are owner-approved. BF3 race-aware body validation, no-reroll persistence composition and
-   runtime-fact death adapter pass 162 new assertions and distinct self-audit; 13,044 assertions
-   passed across focused/regression runs (including overlap). No schema or Combat changes.
-   Stop for owner review before BF4 controlled QA runtime integration or BF5 formal audit.
+   [Locked contract and BF1–BF4 evidence](../migration/PHASE_BEAST_FOUNDATION_SERPENT_ANALYSIS.md):
+   BF1–BF3 are owner-approved. BF4 source-fresh live aggression/Encounter/bite -> Player defeat
+   is retained. Owner-authorized QA player modifier/experience + fixed RNG Run B now proves real
+   serpent death/corpse/empty-loot/control return, without changing production or claiming balance.
+   BF4 passes101 assertions; existing focused regressions pass9881 assertions, including overlap.
+   Canonical registration is present but the full historical suite has not been run;
+   BF5/formal audit remains NOT STARTED. No schema or production spawn changes.
    Lowest-boundary serpent persistence capability is not normal-player serpent Save/Continue.
    These slices share one branch and eventual final PR; no PR/merge yet.
    Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.

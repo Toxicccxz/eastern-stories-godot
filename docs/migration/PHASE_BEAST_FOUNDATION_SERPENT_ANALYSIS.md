@@ -10,8 +10,10 @@ completed successfully. BF1 was owner-approved at `a6ebe800943a5300cdfa192dc8bd1
 BF2 — Beast Combat Facts + Bidirectional Combat Projection: **implementation and distinct self-audit
 PASS** (201 new focused assertions), owner-approved at `06c0c10bcd35697b333d4e6c219c9a5c37bf3062`.
 BF3 — Race-aware Persistence + Death Body Facts: **implementation and distinct self-audit PASS**
-(162 new focused assertions), pending owner review. This is not major-phase closure.
-No PR or merge; BF4/BF5 have not started.
+(162 new focused assertions), owner-approved at `472b1d368ab09dcf36a49d95abca1aaa85643691`.
+BF4 is **implementation / distinct self-audit PASS — PENDING OWNER REVIEW**.
+Run A remains accepted; expanded owner-authorized deterministic QA Run B passes the death/world gate.
+No PR or merge; BF5 has not started. This is not major-phase closure.
 
 This document consolidates the owner-accepted Source-valid Beast / Serpent dependency analysis
 and Post-Phase10D migration coverage review from the task conversation, with the owner's explicit
@@ -24,8 +26,8 @@ This is source-semantic migration plus necessary native composition, not a new c
 |---|---|---|
 | BF1 | Exact formulas, fresh defaults/RNG, typed authored facts, serpent definition | PASS; owner-approved |
 | BF2 | Bidirectional live Combat projection, limbs/bite/intrinsic modifiers, riposte | PASS; owner-approved |
-| BF3 | Race-aware restore/body validation and death facts at the lowest real composition boundary | PASS; stop for owner review |
-| BF4 | QA-only single-serpent integration using production authorities and real player input | Not started |
+| BF3 | Race-aware restore/body validation and death facts at the lowest real composition boundary | PASS; owner-approved |
+| BF4 | QA-only single-serpent integration using production authorities and real player input | PASS; retained Run A + deterministic QA Run B; owner review pending |
 | BF5 | Separately authorized formal audit and eventual final integration gate | Not started |
 
 All slices stay on this major branch. Readiness is not authorization to continue.
@@ -533,3 +535,217 @@ serpent runtime evidence. BF4 remains the separately authorized integration gate
 
 **BF3 PASS — PENDING OWNER REVIEW. BF4 READY FOR AUTHORIZATION, NOT STARTED.**
 No PR, merge, production serpent, normal-player serpent Save/Continue claim or milestone closure.
+
+## BF4 controlled runtime integration — PASS / owner review pending
+
+Starting HEAD: `472b1d368ab09dcf36a49d95abca1aaa85643691`; same isolated worktree/branch.
+Continued the preserved uncommitted BF4 work, without restarting Run A or discarding valid work.
+The earlier blocker and failed Run B are retained below as history, followed by the authorized
+resolution and final evidence. This is not formal audit, milestone integration or BF5 authorization.
+
+### Runtime seam and QA isolation
+
+The only production edit is in `OldPineOutdoorController`: a narrow registration/removal seam for
+an already-created NPC, its map-owned `WorldCharacterBody2D`, presence Area and content profile.
+It reuses existing map membership, physical lookup, selection, aggression, binding and world-gate
+consumers. It neither creates a spawn nor initializes a character nor establishes a relationship.
+Duplicates, player bodies, missing standard collision nodes, wrong-map/invalid inputs and removal
+while the world is frozen or the NPC is fighting are rejected. Presence signals are disconnected on
+removal. The existing five authored bodies retain their current initialization and signal wiring.
+
+`tests/runtime/bf4_serpent_publication.gd` is explicit QA-only precondition/observation code. It
+loads no substitute game scene. After canonical ApplicationShell -> real New Game, it calls the
+real `NpcCharacterStateFactory` with the Session's Inventory/Combined/NPC RNG and the real serpent
+definition. It publishes one simple rectangle/label at `(700,300)` in the existing clearing.
+This is **not authored geography** and does not alter the production spawn ledger. It retains a
+reference to the actual scheduler for read-only event inspection, not a second combat loop.
+Removal/republication is covered in automated tests. Session teardown removes the whole QA setup.
+
+No production path references the harness. The existing sanitizer excludes `tests/`. QA logs state
+that this Session must not be saved; capture is tested to reject the unapproved extra spawn rather
+than persist it. No Save eligibility/repository/schema change or persistent QA content is introduced.
+
+### Actual desktop evidence — Run A
+
+Used the canonical main scene of an ignored validation copy with identical gameplay sources.
+The branch's Godot AI4.0.1 cannot share the owner's running4.0.2 server. For development tooling only,
+the copy uses the owner's existing4.0.2 addon; neither tracked addon nor owner files were modified.
+Game user storage is isolated through APPDATA; LOCALAPPDATA remains normal so the editor can
+authenticate to the already-running service. Copy-only debug port6117 avoids the owner's6107.
+Connected editor: `bf4-live-project@bf9b90bc197cac5e`, Godot4.7.2 official, run `r84926-1`.
+
+Startup returned `helper_live=true`, `session_active=true`, `current_run_errors=[]`; editor state
+confirmed `game_capture_ready=true`. Main Menu framebuffer frame638 was non-stale. A real click on
+New Game entered the canonical Host/Session. No player position or combat state was assigned.
+
+QA publication preserved source-fresh age400, weight62000, capacity200000, kee1800/1800/1800,
+experience250000, three limbs, bite and intrinsic60/20/90/80. Frame4038 showed the physical placeholder.
+Real `move_right` press/release over54 frames moved Player from `(450,300)` to approximately
+`(607.667,300)` and entered the actual presence Area. Existing aggression resolved READY (12),
+then the real CXR Encounter pair was `[qa.bf4.serpent, oldpine.player]`.
+
+Frame4772 showed active LETHAL Battle, the correct Chinese serpent identity and damaged Player.
+The actual scheduler recorded **five** serpent `es2:adm/daemons/race/beast/bite` forward actions,
+each with selection RNG bounds `[1]`; intervening Player actions were the existing sword slash.
+Real Session `GodotCombatRandomSource` was not replaced or seeded by QA. Source-fresh serpent stayed
+at full vitality; Player naturally died. Final result DEFEAT(1), Player DEAD(2), one Player corpse,
+active Encounter false, active scheduler null, Battle hidden, world gate open and old cadence false.
+Frame8311 showed the actual Defeat/world state. These frames all had `stale_frame=false` and advanced.
+This proves runtime correctness, **not difficulty/balance acceptance**.
+
+### Run B — original wounded-only attempt (historical failure)
+
+Returned through actual Escape / Return to Main Menu / confirmation / New Game input. In a fresh
+Session the only serpent state override was vitality **1/1/1800** before approach. Attributes,
+experience, race/body/anatomy/intrinsics and RNG behavior were untouched. The same real54-frame
+movement triggered aggression/Encounter. Player again died; the serpent stayed1/1/1800. Frame24557
+was non-stale, showing defeat. This is **not** serpent death/corpse proof or natural balance evidence.
+
+Further source-based diagnosis shows retries cannot satisfy the requested ordinary death gate with
+this fresh Player and only current/effective serpent vitality changes:
+
+- Existing Player has strength20, long-sword apply damage25, no force factor/hit augmentation;
+  the ordinary slash has no action damage percentage.
+- `combatd.c` damage maximum is `(25+24)/2 + (20+19)/2 = 24+19 = 43` with integer division.
+  Its combat-experience defense loop can only reduce this value.
+- A wound requires `random(damage) > armor`; serpent armor90 remains source-locked. A roll at most42
+  cannot exceed90. Lowering current/effective kee to1 or0 does not change this wound gate.
+- Damage may lower current kee and cause unconsciousness, but cannot lower effective kee below0.
+  Existing lethal Encounter resolution does not silently convert unconsciousness into death.
+
+Rechecked `d/oldpine/npc/serpent.c`, `adm/daemons/race/beast.c`, `include/race/beast.h`,
+`std/char/npc.c`, `feature/attack.c::init`, `adm/daemons/combatd.c::auto_fight/start_aggressive`
+and damage/wound arithmetic, plus `feature/damage.c`; native factory/projection/resolver/lifecycle
+paths agree. This is an **acceptance-precondition limitation, not evidence of a BF2 formula bug**.
+At that checkpoint no Combat fix, player buff, serpent armor nerf, forced RNG or direct death call
+was made. Owner subsequently authorized the expanded QA-only precondition below; DECISIONS remains
+unchanged because this does not substitute a production gameplay rule.
+
+### Initial blocked validation (historical, superseded below)
+
+BF4 initial focused run: **82 assertions, 81 passing, 1 failing** — the explicitly required wounded
+serpent death expectation. It is retained, not relabeled as success. Earlier QA mistakes (unnamed
+collision shape, wrong authority property) were corrected; final focused log contains no script
+errors. Both cases now have a completion guard so an aborted test cannot silently print PASS.
+At that checkpoint the unfinished suite was not yet added to the complete canonical runner.
+
+Existing regressions all PASS: BF1 958; BF2 201; BF3 162; CXR8 169; CXR9 368; Phase7B3 2299;
+Phase9B3B3 2467; Phase8B1 2218; Phase10C1B 1039. Total **9881 executed assertions**, including overlap.
+Headless editor import and repository/static checks PASS. Full historical canonical suite not run.
+Sanitizer preparation PASS; its output has no `tests/` directory. `git diff --check` and
+changed/new-file trailing whitespace checks PASS. The first worktree editor normalized project
+settings; those task-generated changes were explicitly reverted, not mixed into the BF4 diff.
+
+After the completed live paths, a QA-only reflective inspection expression failed to compile and
+the helper stopped advancing. That attempted inspection is excluded from evidence; the game was
+stopped. It did not occur on the recorded successful Run A path. No stale framebuffer was accepted.
+At that checkpoint registration cleanup hardening had only headless evidence; the resumed live copy
+included that exact current production file and passed below.
+
+Self-audit found no serpent-ID gameplay exception, second scheduler, fake authority, production spawn,
+Lake, schema, balance, artwork or Phase5B4 changes. Owner main-worktree edits and source remain
+untouched. At that checkpoint serpent corpse/Open Loot/control return remained pending; those gates
+are satisfied only by the separate authorized live Run B below, not by Run A or BF3.
+
+### Blocker resolution — DETERMINISTIC QA-WOUNDED LIFECYCLE PROOF
+
+Owner explicitly permits two extra Run B preconditions, only under `res://tests/`:
+
+| Player fact | Before | After |
+|---|---:|---:|
+| Base strength | 20 | 20 |
+| Force factor | 0 | 0 |
+| strength_modifier | 0 | 180 |
+| CombatMath effective strength | 20 | 200 |
+| combat_experience | 600 | 250000 |
+| Existing long-sword projected apply damage | 25 | 25 |
+
+The QA helper computes modifier as `200 - base_strength - force_factor` and verifies through the
+existing CombatMath projection. No Player production creation, equipment, skill or resource change.
+Serpent only has current/effective vitality1/1 with maximum1800; definition/race/age/attributes,
+gin/sen/maxima, combat experience250000, anatomy/bite, intrinsics60/20/90/80, weight62000 and capacity
+200000 remain source-defined. The QA state must never be saved.
+
+`WoundedProofRandom extends CombatRandomSource` is configured through the existing Session seam
+before input. Its immutable ordinal script was fixed BEFORE executing combat, not selected after
+failure. `MAX` denotes `bound-1`: `[0,0,0,0,0,0,0,0,MAX,MAX,0,0,0,91,0,MAX]`.
+Unexpected exhaustion/invalid bounds fail closed, and setup cannot reset an already configured script.
+It supplies legal numbers, not results, and preserves every actual production RNG call.
+
+| Ordinals | Production stage | Draw policy |
+|---|---|---|
+| 1–5 | Serpent courage, bite selection, Player limb, dodge, defender progression | 0 each |
+| 6–8 | Player courage, slash selection, serpent limb | 0 each |
+| 9–10 | Dodge and parry checks | MAX each |
+| 11–13 | Weapon damage, strength, defense loop | 0 each |
+| 14 | Wound | 91 |
+| 15–16 | Attacker and defender hit progression | 0, MAX |
+
+Actual live bounds: `[60,1,16,572000,120,42,1,3,670500,250001,25,200,250000,112,120,1799]`.
+Actual draws: `[0,0,0,0,0,0,0,0,670499,250000,0,0,0,91,0,1798]`.
+The seeded headless factory produces courage bound30 at ordinal6 instead of live42 (source-random
+serpent composure); the same predeclared zero remains legal. NPC/world RNG were not replaced.
+
+**NO RETRY / NO SEED FISHING:** the first complete authorized deterministic combat execution passed;
+the same script was used for focused regressions and exactly one authorized live Run B. An earlier
+headless setup attempt used the wrong Player authority property (`character_state` instead of `state`)
+and stopped before any scripted draw; only that QA API typo was fixed, not the sequence or production.
+The previous wounded-only attempt predates this authorization and remains failed historical evidence.
+
+### Resumed live Run B — exact lethal and world evidence
+
+Compatible ignored copy, same tooling isolation as Run A. Current production registration cleanup
+was synchronized before launch. Editor `bf4-live-project@3fc313a554da3ce0`, run `r22431-1`.
+Canonical ApplicationShell, real New Game click `(576,300)`. Health: helper_live/session_active/
+game_capture_ready true; current_run_errors empty. Final game log has no errors, full40 editor rows
+contain existing warnings only (no errors). Non-stale frame1050 shows Main Menu.
+
+After the explicit preconditions, real move_right press/release over54 frames moved Player from
+`(450,300)` to `(611.3337,300)`, physically triggering presence/aggression/Encounter. No teleport,
+combat-start, direct wound/death/lifecycle/loot callback was used. The retained actual Scheduler
+contains serpent ordinary bite (selection bound1), legitimately dodged, then Player ordinary slash:
+
+- action `es2:adm/daemons/weapond/slash`; unchanged weapon `es2:d/oldpine/obj/long_sword`;
+- apply damage25, actual effective strength200;
+- requested damage `(25+0)/2 + (200+0)/2 = 112`; defense loop exits normally;
+- armor90, wound bound112 / draw91, `91 > 90`, wound `112-90=22`;
+- effective vitality `1-22` saturates to **-1** by existing resource semantics;
+- resolver threshold DEATH(3), actual lifecycle requested DEATH(2), DEATH_COMPLETE(3),
+  partial stage COMPLETE(5), DeathInventory SUCCESS(0), real CorpseState/world publication.
+
+The existing lifecycle builds DeathContext from the same NPC authority, invokes DeathInventoryService
+and publishes the returned corpse; the observed receipt carries corpse ID
+`oldpine-session-61d3d1b3e449d8be33f75cda9fbe7d38.dynamic.0`. No alternative Death chain exists in QA.
+Observed corpse: 黑冠巨蟒 / 雄性 / age400 / own weight62000 / contents capacity200000 / zero children.
+No silver/fang/skin/medicine/quest item was invented. Serpent is DEAD and exists_in_map=false.
+
+Non-stale frame7408 shows world Victory, Player220/220/220, corpse, and real log of the bite dodge
+and112-damage slash. Pointer click on corpse `(665,324)`, then actual Open Loot `(373,180)` displays
+**Corpse of 黑冠巨蟒 / Empty**, frame12646. Actual Close `(956,276)`, then fresh20-frame move_down
+changes position to `(611.3337,358.6665)`. Frame17533 shows moved Player/camera and retained corpse.
+All frames advance with stale_frame=false. Battle closed, active Encounter false, scheduler null,
+world gate open, old cadence false, Player ACTIVE: this proves live control return, not Player death.
+Validation game/editor gracefully stopped after evidence; owner's editor/session left untouched.
+
+**BALANCE CLAIM: NONE.** This is neither natural victory, source-fresh Player capability nor normal
+New Game difficulty evidence. Run A alone retains the natural source-fresh combat evidence.
+
+### Final focused verification / distinct self-audit
+
+BF4 **101 assertions PASS**, including the original retained death expectation, exact fixed draws,
+lethal112/22/-1 facts, corpse identity/body/empty contents, same authorities, registration/removal,
+world/Encounter gates, five-human/twelve-item bootstrap and extra QA-slot Save rejection.
+Re-ran all nine earlier regressions: BF1 958; BF2 201; BF3 162; CXR8 169; CXR9 368; Phase7B3 2299;
+Phase9B3B3 2467; Phase8B1 2218; Phase10C1B 1039 — **9881 PASS**, including overlap.
+Total focused executions **9982 assertions PASS**. Canonical runner now includes BF4; only its parse
+check is run, not the complete historical suite. Godot4.7.2 headless editor validation PASS.
+
+Distinct self-audit rechecked source-locked facts, typed-state identities, body registration cleanup,
+source-ordered fixed RNG and exact lethal threshold, real lifecycle receipt, player-input evidence,
+no fake authority/scheduler/results, and production-vs-QA separation. No additional production change
+was needed to resolve Run B. Existing authoritative factory/combat/lifecycle/corpse/loot is reused.
+Repository checks, sanitizer, whitespace/diff checks PASS; sanitized output excludes QA/tests.
+`reference/es2`, DECISIONS, Core, authored data/scenes, production RNG/formulas/defaults, Save schema,
+tracked plugin/project settings unchanged. Parent-worktree user edits preserved.
+
+**BF4 PASS — PENDING OWNER REVIEW. STOP.** No BF5, formal audit, full canonical, PR or merge.
