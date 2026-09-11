@@ -54,10 +54,10 @@ func _test_inactive_hardware_actions(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
 	var touch: MobileTouchAdapter = shell.get_node("TouchCanvas/TouchInput")
 	touch.set_capability(EnabledTouch.new())
-	shell.request_new_game_from_menu()
+	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
-	var body: WorldCharacterBody2D = session.outdoor_map().player_body
+	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	await tree.physics_frame
 	await tree.physics_frame
 	await tree.process_frame

@@ -16,7 +16,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.world_interaction_seed = 2033
 	tree.root.add_child(session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(player.facts.is_legacy_technical(), "current New Game retains technical identity")
+	_check(player.facts.is_legacy_technical(), "explicit internal fixture retains technical identity")
 	_check(player.state.progression.combat_experience == 600, "technical experience stays 600")
 	_check(player.state.equipment.primary_weapon_skill_type() == &"sword", "technical starter sword remains")
 	_check(player.state.equipment.primary_weapon().weapon_id == CombatSliceContentProfile.LONG_SWORD_ID, "exact old long-sword definition")
@@ -28,8 +28,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(player.state.spirit.current == 100 and player.state.spirit.effective == 100 and player.state.spirit.maximum == 100, "technical sen unchanged")
 	for skill: StringName in [&"sword", &"dodge", &"parry", &"unarmed"]:
 		_check(player.state.skills.raw_level(skill) == 10, "technical skill unchanged")
-	_check(player.state.recovery.food == 0 and player.state.recovery.water == 0, "technical New Game not refilled")
-	_check(session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID, "Old Pine start unchanged")
+	_check(player.state.recovery.food == 0 and player.state.recovery.water == 0, "technical fixture not refilled")
+	_check(session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID, "internal technical Old Pine start unchanged")
 	_check(session.inventory_state().registered_item_ids().size() == 12, "12 original bootstrap items; no source cloth")
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"fixture"),

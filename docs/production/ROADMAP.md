@@ -162,7 +162,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
    effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
 
-9. **Source-valid New Game Entry — NGE5A1 PASS / AWAIT OWNER REVIEW**
+9. **Source-valid New Game Entry — NGE5B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
    One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
    [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
@@ -191,10 +191,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    migration tests while retaining schema2 source continuation and temporary technical-v2 saves.
    Old-save A is SUPERSEDED in DECISIONS; no automatic file deletion or migration is introduced.
    NGE5A1 focused326 / canonical17,747 assertions, Godot4.7.2 headless editor and real source
-   Save -> fresh-process Application Continue smoke PASS. Await owner review.
-   NGE5B public New Game cutover remains separately authorized and not started.
+   Save -> fresh-process Application Continue smoke PASS. NGE5A1 is owner-approved.
+   [NGE5B public cutover](../migration/PHASE_NEW_GAME_ENTRY_PUBLIC_CUTOVER.md) implements explicit
+   name/gender setup, direct source Snow Inn birth and public SOURCE_ENTRY/schema2 continuation.
+   Technical graphs remain internal fixtures only. Focused1636 / expanded UI6027 PASS; real desktop
+   public birth/Save/cold Continue/Old Pine reachability PASS. Complete canonical18,192 PASS,
+   zero failures/exit0; Android packaged startup/input/validation/Back/Cancel smoke PASS.
+   Full Chinese mobile IME/birth and iOS device qualification are not claimed. Await owner review;
+   NGE6 has not started.
    Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
    square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
    real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
    deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
-   acceptance. Keep current New Game untouched; no PR/merge or automatic NGE5 implementation.
+   acceptance. No PR/merge or automatic next-slice implementation; await owner review after NGE5B.

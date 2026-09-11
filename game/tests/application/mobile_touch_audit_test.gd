@@ -50,7 +50,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var menu_clicks: Array[int] = [0]
 	shell.new_game_button.pressed.connect(func() -> void: menu_clicks[0] += 1)
 	await _tap(tree, shell.new_game_button)
-	_check(menu_clicks[0] == 1, "New Game one raw touch pair activates button once")
+	_check(menu_clicks[0] == 1 and shell.new_game_setup_panel.visible, "New Game raw touch opens setup once")
+	TechnicalShellFixture.start(shell)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	if session != null:
 		await _edges(tree, touch, ledger)
@@ -357,6 +358,7 @@ func _repeat_sessions(tree: SceneTree, shell: ApplicationShellController, touch:
 			_check(shell.menu_visible() and shell.runtime_host().current_session() == null, "Back New Game replacement never starts Session")
 			await _tap(tree, shell.new_game_button)
 			await _tap(tree, shell.confirm_button)
+			TechnicalShellFixture.start(shell)
 		session = shell.runtime_host().current_session()
 		_check(session != null and touch.get_instance_id() == touch_id and shell.get_node("TouchCanvas").get_child_count() == 1, "Continue/New Game has exactly one persistent adapter")
 		ledger.edges.clear()

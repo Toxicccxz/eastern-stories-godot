@@ -417,8 +417,8 @@ func _test_return_menu_continue_roundtrip(tree: SceneTree) -> void:
 	_assert_false(shell.request_return_to_main_menu(), "repeated Return intent is rejected by modal state")
 	_assert_eq(shell.last_result().message_key(), &"return.confirm", "Return uses unconditional loss warning")
 	_assert_true(tree.paused, "confirmation keeps gameplay paused")
-	_assert_true(shell.confirm_current_result(), "confirmed Return requests Host teardown")
-	_assert_false(shell.confirm_current_result(), "repeated confirmation cannot queue a second teardown")
+	_assert_true(PublicNewGameTestFixture.confirm(shell), "confirmed Return requests Host teardown")
+	_assert_false(PublicNewGameTestFixture.confirm(shell), "repeated confirmation cannot queue a second teardown")
 	_assert_true(tree.paused, "Session teardown starts while still paused")
 	await _wait_frames(tree, 4)
 	_assert_false(tree.paused, "tree unpauses only after teardown")
@@ -445,7 +445,7 @@ func _test_failed_end_request_preserves_paused_session(tree: SceneTree) -> void:
 	var orphan := Node.new()
 	host.staging_slot.add_child(orphan)
 	_assert_true(shell.request_return_to_main_menu(), "Return confirmation opens despite later invariant failure")
-	_assert_true(shell.confirm_current_result(), "Host accepts typed end request for invariant validation")
+	_assert_true(PublicNewGameTestFixture.confirm(shell), "Host accepts typed end request for invariant validation")
 	await _wait_frames(tree, 2)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.RESULT, "failed end request remains Result")
 	_assert_eq(shell.shell_state().result_origin(), ApplicationShellState.ResultOrigin.PAUSED, "failed end request retains paused origin")
@@ -520,7 +520,7 @@ func _playing_shell(
 	files: MemoryFiles,
 ) -> ApplicationShellController:
 	var shell: ApplicationShellController = await _menu_shell(tree, profile, files)
-	_assert_true(shell.request_new_game_from_menu(), "test Shell accepts New Game")
+	_assert_true(PublicNewGameTestFixture.request(shell), "test Shell accepts New Game")
 	await _wait_frames(tree, 3)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "test Shell reaches PLAYING")
 	return shell

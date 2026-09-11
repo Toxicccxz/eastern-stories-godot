@@ -1,5 +1,18 @@
 # Migration Decisions
 
+### Native Character Entry
+
+**Decision (owner-authorized NGE5B):** Native single-player New Game collects only display name
+and an explicit legacy male/female gender selection. MUD account ID/password/email and account
+security are not migrated. Name preserves the source meaning of 1–6 Chinese/Han characters,
+counted as Unicode code points rather than old-encoding bytes. Invalid input is rejected without
+renaming or trimming. Internal stable CharacterId and save keys remain separate from display name.
+
+**Source / impact:** `reference/es2/mudlib/adm/daemons/logind.c::check_legal_name` (called by `get_name`) expresses 1–6 Chinese
+characters through 2–12 bytes. The native validator uses Unicode Han membership and does not
+recreate multiplayer account or banned-name infrastructure. Birth stats, explicit-save policy and
+existing gender-dependent rules are unchanged; no other character creation choices are added.
+
 ## Pre-Cutover Development Save Compatibility
 
 **Decision (owner-approved NGE5A1):** Development saves produced before the NGE5B public source

@@ -130,6 +130,9 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	await _cycle_surface(tree, shell, shell.result_overlay, capability, presenter)
 	shell.confirm_current_result()
 	await _settle(tree)
+	await _cycle_surface(tree, shell, shell.new_game_setup_panel, capability, presenter)
+	TechnicalShellFixture.start(shell) # Existing Old Pine HUD/cave geometry subject.
+	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	var hud: OldPineOutdoorHud = session.outdoor_map().hud
 	var live_connections: int = presenter.metrics_changed.get_connections().size()
@@ -220,7 +223,7 @@ func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface:
 		_check(shell.shell_state() == state and shell.runtime_host().current_session() == session, "reflow preserves typed state/origin and Session")
 		_check(tree.root.gui_get_focus_owner() == focus, "reflow never chooses a different focus owner")
 		_check(shell.find_children("*", "ScrollContainer", true, false).size() == scroll_count, "resize does not accumulate scroll wrappers")
-		_check(shell.find_children("*", "", true, false).size() == node_count, "resize does not duplicate presentation nodes")
+		_check(shell.find_children("*", "", true, false).size() == node_count, "resize does not duplicate presentation nodes: %s before%d after%d" % [surface.name, node_count, shell.find_children("*", "", true, false).size()])
 		for panel: Node in surface.find_children("*", "PanelContainer", true, false):
 			if (panel as Control).is_visible_in_tree():
 				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel remains safe-bounded")

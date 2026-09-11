@@ -3,7 +3,7 @@ extends Node
 
 var _presenter: SafeAreaPresenter
 var _dialogs: Array[ResponsivePanelLayout] = []
-var _widths: Array[float] = [520.0, 460.0, 520.0, 580.0, 560.0]
+var _widths: Array[float] = [520.0, 460.0, 520.0, 580.0, 560.0, 520.0]
 var _busy: Label
 var _window_row: Control
 var _platform_hint: Label
@@ -25,6 +25,7 @@ func _ready() -> void:
 		"ShellCanvas/MainMenuPanel/Center/Panel", "ShellCanvas/PausePanel/Center/Panel",
 		"ShellCanvas/SettingsPanel/Center/Panel", "ShellCanvas/RecoveryPanel/Center/Panel",
 		"ShellCanvas/ResultOverlay/ResultCenter/Panel",
+		"ShellCanvas/NewGameSetupPanel/Center/Panel",
 	]:
 		var layout: ResponsivePanelLayout = ResponsivePanelLayout.new()
 		add_child(layout)

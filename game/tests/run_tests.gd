@@ -1710,6 +1710,9 @@ func _init() -> void:
 	var nge5a_result: Dictionary = await nge5a_test.run_all(self)
 	assertion_count += int(nge5a_result["assertions"])
 	failures.append_array(nge5a_result["failures"])
+	var nge5b_result: Dictionary = await load("res://tests/application/public_source_new_game_test.gd").new().run_all(self)
+	assertion_count += int(nge5b_result["assertions"])
+	failures.append_array(nge5b_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -122,7 +122,7 @@ func _test_desktop_and_lifetime(tree: SceneTree) -> void:
 		shell.add_child(adapter)
 		adapter.notification(Node.NOTIFICATION_APPLICATION_PAUSED)
 		_check(_notifications == before + 1, "reentry delivers once")
-		_check(tree.paused and not shell.request_new_game_from_menu(), "empty inactive Menu blocks New")
+		_check(tree.paused and not PublicNewGameTestFixture.request(shell), "empty inactive Menu blocks New")
 		adapter.notification(Node.NOTIFICATION_APPLICATION_RESUMED)
 		await _settle(tree, 2)
 		_check(shell.menu_visible() and not tree.paused and shell.runtime_host().current_session() == null, "foreground empty menu contract")
@@ -145,7 +145,7 @@ func _test_pending_start(tree: SceneTree, operation: String, foreground_first: b
 	)
 	var accepted: bool
 	match operation:
-		"new": accepted = shell.request_new_game_from_menu()
+		"new": accepted = PublicNewGameTestFixture.request(shell)
 		"continue": accepted = shell.request_continue_from_menu()
 		_:
 			shell.request_recovery_choice_from_menu()
@@ -176,11 +176,11 @@ func _test_pending_start(tree: SceneTree, operation: String, foreground_first: b
 
 func _test_pending_end(tree: SceneTree, foreground_first: bool) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
-	shell.request_new_game_from_menu()
+	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
 	shell.request_pause()
 	shell.request_return_to_main_menu()
-	_check(shell.confirm_current_result(), "real End queued")
+	_check(PublicNewGameTestFixture.confirm(shell), "real End queued")
 	_loss(shell)
 	if foreground_first:
 		_gain(shell)
@@ -199,7 +199,7 @@ func _test_pending_end(tree: SceneTree, foreground_first: bool) -> void:
 
 func _test_pending_save(tree: SceneTree, foreground_first: bool, outcome: String) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
-	shell.request_new_game_from_menu()
+	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	shell.request_pause()
@@ -259,7 +259,7 @@ func _test_modals(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
 	for playing: bool in [false, true]:
 		if playing:
-			shell.request_new_game_from_menu()
+			PublicNewGameTestFixture.request(shell)
 			await _settle(tree)
 			shell.request_pause()
 		if playing: shell.request_settings_from_pause()
@@ -279,7 +279,7 @@ func _test_modals(tree: SceneTree) -> void:
 		var result: ApplicationOperationResult = shell.last_result()
 		state = shell.shell_state()
 		_loss(shell)
-		_check(not shell.confirm_current_result() and not shell.dismiss_current_result(), "inactive confirmation cannot act")
+		_check(not PublicNewGameTestFixture.confirm(shell) and not shell.dismiss_current_result(), "inactive confirmation cannot act")
 		_gain(shell)
 		await _settle(tree)
 		_check(shell.shell_state() == state and shell.last_result() == result, "same confirmation/origin on foreground")
@@ -309,7 +309,7 @@ func _test_recovery_choice(tree: SceneTree, bytes: PackedByteArray) -> void:
 
 func _test_failed_new_and_pending_guard(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
-	shell.request_new_game_from_menu()
+	PublicNewGameTestFixture.request(shell)
 	var orphan: Node = Node.new()
 	shell.runtime_host().staging_slot.add_child(orphan)
 	_loss(shell)
@@ -319,7 +319,7 @@ func _test_failed_new_and_pending_guard(tree: SceneTree) -> void:
 	_gain(shell)
 	await _settle(tree)
 	shell.dismiss_current_result()
-	shell.request_new_game_from_menu()
+	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	_check(shell.runtime_host().request_save() and not shell.request_pause(), "normal user Pause still rejects pending Host")
@@ -352,12 +352,14 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 	var old_scale: Vector2i = tree.root.content_scale_size
 	tree.root.content_scale_size = Vector2i.ZERO
 	tree.root.size = Vector2i(960, 540)
-	var shell: ApplicationShellController = await _shell(tree)
+	# Armed/cadence freeze subject is an explicit technical save fixture, not public birth.
+	var shell: ApplicationShellController = await _shell(tree, await Previous.new()._valid_save_bytes(tree))
+	var files_before: Dictionary = _files.files.duplicate(true)
 	var adapter: MobileTouchAdapter = shell.get_node("TouchCanvas/TouchInput")
 	adapter.set_capability(EnabledTouch.new())
 	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation")
 	var emulation_before: bool = Input.is_emulating_mouse_from_touch()
-	shell.request_new_game_from_menu()
+	shell.request_continue_from_menu()
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	var timer: Timer = Timer.new()
@@ -389,7 +391,7 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 		_check(shell.pause_visible() and tree.paused and shell.runtime_host().current_session() == session, "repeated return never resumes")
 		_check(presenter.is_processing() and Input.is_emulating_mouse_from_touch() == emulation_before, "foreground restarts same presenter without emulation drift")
 		_loss(shell, cycle % 2 == 1)
-	_check(_coordinator.saves == 0 and _files.files.is_empty(), "unsafe state background zero preflight/capture/writes")
+	_check(_coordinator.saves == 0 and _files.files == files_before, "unsafe state background zero preflight/capture/writes")
 	_gain(shell)
 	await _settle(tree)
 	await _drag(tree, 71, right)
@@ -412,7 +414,7 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 
 func _test_cave(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
-	shell.request_new_game_from_menu()
+	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	# Boundary-only test. Real Android route is separate and must use physical entry.

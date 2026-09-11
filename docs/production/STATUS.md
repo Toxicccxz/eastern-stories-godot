@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE5A1 PASS / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE5B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
@@ -30,13 +30,20 @@ NGE5A0/NGE5A are approved. [Versioned continuation and NGE5A1 cleanup](../migrat
 retain exact schema2 identity/body/world persistence and source four-map Save/Continue. Following
 the new owner decision, old-save A is SUPERSEDED: root schema1 reading/writing, migration and
 missing-field interpretation are removed. Schema2 SOURCE_ENTRY_V1 is the forward baseline;
-LEGACY_OLDPINE_V1 only supports the current pre-cutover technical New Game test profile.
+LEGACY_OLDPINE_V1 only supports internal pre-cutover technical regression fixtures.
 NGE5A1 focused326 / complete canonical17,747 assertions, Godot4.7.2 headless editor and real
-source Save -> fresh-process Application Continue smoke PASS. Await owner review.
-Current Old Pine New Game/exp600/starting sword remain unchanged. NGE5B public New Game cutover
-and further Snow population are not started.
+source Save -> fresh-process Application Continue smoke PASS. NGE5A1 is owner-approved.
+[NGE5B public cutover](../migration/PHASE_NEW_GAME_ENTRY_PUBLIC_CUTOVER.md) now routes the canonical
+menu through minimal Chinese name + explicit gender setup to Snow Inn, using NGE1 source birth
+and SOURCE_ENTRY/schema2 continuation. Public technical Old Pine/exp600/sword birth is retired;
+explicit internal fixtures retain their historical coverage. Focused1636 / expanded UI6027 PASS;
+real desktop New Game -> Square -> Save -> cold Continue -> Old Pine North Approach PASS.
+Complete canonical18,192 PASS, zero failures/exit0; development/sanitized headless checks PASS.
+Android packaged startup/keyboard/input/validation/Back/Cancel smoke PASS on OnePlus8T.
+Chinese Android IME composition/full birth and iOS device qualification are not claimed.
+NGE5B is implementation complete, not yet owner-reviewed or major-phase integrated.
 No PR or merge exists for this milestone; no new remote CI/integration claim.
-Do not start further Snow content/New Game cutover, shops/training, Lake, or Phase5B4.
+Do not start NGE6, further Snow content, shops/training, Lake, or Phase5B4 without owner review.
 
 **Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
 [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at

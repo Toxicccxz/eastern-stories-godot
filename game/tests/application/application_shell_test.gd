@@ -235,7 +235,7 @@ func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
 	_assert_eq(host.staging_slot.get_child_count(), 0, "manual Host has no staging child")
 	_assert_true(host.session_invariant_holds(), "empty Host satisfies zero/one invariant")
 	_assert_true(host.request_slot_inspection(), "slot inspection request queues")
-	_assert_false(host.request_new_game(), "concurrent New Game request rejects")
+	_assert_false(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "concurrent New Game request rejects")
 	_assert_false(host.request_continue(), "concurrent Continue request rejects")
 	_assert_false(host.request_save(), "concurrent Save request rejects")
 	_assert_false(host.request_load(), "concurrent Load request rejects")
@@ -250,7 +250,7 @@ func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
 	await tree.process_frame
 	_assert_false(host.request_pending(), "failed Continue releases request gate")
 	_assert_true(host.session_invariant_holds(), "failed Continue preserves empty Host")
-	_assert_true(host.request_new_game(), "explicit New Game request queues")
+	_assert_true(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "explicit New Game request queues")
 	await tree.process_frame
 	_assert_false(host.request_pending(), "New Game completion releases request gate")
 	var session: OldPineWorldSessionController = host.current_session()
@@ -258,14 +258,14 @@ func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "New Game retains twelve bootstrap items")
 	_assert_true(host.session_invariant_holds(), "New Game satisfies committed invariant")
 	_assert_eq(host.staging_slot.get_child_count(), 0, "New Game leaks no staging candidate")
-	_assert_false(host.request_new_game(), "in-game New Game replacement rejects")
+	_assert_false(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "in-game New Game replacement rejects")
 	_assert_false(host.request_continue(), "in-game Continue replacement rejects")
 	_assert_true(host.request_end_session(), "end-Session request queues")
 	await tree.process_frame
 	_assert_false(host.request_pending(), "end-Session completion releases request gate")
 	_assert_true(host.current_session() == null, "end Session clears Host authority")
 	_assert_true(host.session_invariant_holds(), "end Session restores empty invariant")
-	_assert_true(host.request_new_game(), "Host supports a later explicit New Game")
+	_assert_true(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "Host supports a later explicit New Game")
 	await tree.process_frame
 	_assert_true(host.session_invariant_holds(), "repeated lifecycle still owns exactly one Session")
 	_free_node(host)
@@ -294,7 +294,7 @@ func _test_manual_host_rejects_nonempty_startup(tree: SceneTree) -> void:
 		OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED,
 		"manual startup never reports success for a nonempty Host",
 	)
-	_assert_false(host.request_new_game(), "nonempty Host cannot accept New Game")
+	_assert_false(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "nonempty Host cannot accept New Game")
 	_free_node(host)
 	await tree.process_frame
 
@@ -317,7 +317,7 @@ func _test_failed_new_game_leaves_empty_host(tree: SceneTree) -> void:
 		"failing Host configures manually",
 	)
 	tree.root.add_child(host)
-	_assert_true(host.request_new_game(), "failing New Game request queues")
+	_assert_true(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "failing New Game request queues")
 	await tree.process_frame
 	_assert_eq(
 		host.last_new_game_result().outcome,
@@ -350,7 +350,7 @@ func _test_partial_new_game_failure_is_freed(tree: SceneTree) -> void:
 		"partial-failure Host configures manually",
 	)
 	tree.root.add_child(host)
-	_assert_true(host.request_new_game(), "partial New Game request queues")
+	_assert_true(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "partial New Game request queues")
 	await tree.process_frame
 	_assert_true(host.created_session_once, "partial failure creates a Session graph")
 	_assert_true(host.current_session() == null, "partial failure never publishes Session authority")
@@ -393,7 +393,7 @@ func _test_shell_new_game_and_profile_ownership(tree: SceneTree) -> void:
 		shell.get_viewport().gui_get_focus_owner() == shell.new_game_button,
 		"first enabled New Game button receives deterministic focus",
 	)
-	_assert_true(shell.request_new_game_from_menu(), "Main Menu accepts New Game")
+	_assert_true(PublicNewGameTestFixture.request(shell), "Main Menu accepts New Game")
 	_assert_true(shell.busy_visible(), "starting overlay blocks Main Menu")
 	_assert_true(shell.new_game_button.disabled and shell.continue_button.disabled, "busy state disables underlying actions")
 	await _wait_frames(tree, 2)
@@ -415,8 +415,8 @@ func _test_confirmed_new_game_preserves_storage(tree: SceneTree) -> void:
 	_assert_true(shell.configure_before_start(profile, files), "confirmation storage Shell configures")
 	tree.root.add_child(shell)
 	await _wait_frames(tree, 2)
-	_assert_true(shell.request_new_game_from_menu(), "save material requires New Game confirmation")
-	_assert_true(shell.confirm_current_result(), "confirmed New Game queues")
+	_assert_true(PublicNewGameTestFixture.request(shell), "save material requires New Game confirmation")
+	_assert_true(PublicNewGameTestFixture.confirm(shell), "confirmed New Game queues")
 	await _wait_frames(tree, 2)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "confirmed New Game succeeds")
 	_assert_eq(files.files, before, "confirmed New Game mutates no canonical, backup, or temp bytes")
@@ -457,7 +457,7 @@ func _test_valid_continue_and_confirmation(tree: SceneTree) -> void:
 	_assert_true(shell.configure_before_start(profile, files), "Continue Shell configures")
 	tree.root.add_child(shell)
 	await _wait_frames(tree, 2)
-	_assert_true(shell.request_new_game_from_menu(), "New Game with save opens confirmation")
+	_assert_true(PublicNewGameTestFixture.request(shell), "New Game with save opens confirmation")
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.RESULT, "confirmation uses typed RESULT state")
 	_assert_eq(shell.last_result().outcome(), ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED, "confirmation outcome is typed")
 	_assert_true(shell.confirm_button.visible and shell.cancel_button.visible, "confirmation actions are visible")

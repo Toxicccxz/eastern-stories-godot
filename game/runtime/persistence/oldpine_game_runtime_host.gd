@@ -1,6 +1,8 @@
 class_name OldPineGameRuntimeHost
 extends Node
 
+const NamePolicy = preload("res://application/new_game/new_player_name_policy.gd")
+
 const SESSION_SCENE: PackedScene = preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
@@ -89,7 +91,8 @@ func _ready() -> void:
 			_current_session = _last_load.session
 		startup_completed.emit(_last_load)
 		return
-	var result: OldPineRuntimeSaveLoadResult = _create_new_game()
+	# Explicit auto-start fixture mode. Public Shell always configures MANUAL.
+	var result: OldPineRuntimeSaveLoadResult = _attach_new_game_session(_instantiate_new_game_session())
 	startup_completed.emit(result)
 
 
@@ -146,10 +149,12 @@ func request_slot_inspection() -> bool:
 	return true
 
 
-func request_new_game() -> bool:
+func request_new_game(display_name: String, gender: StringName) -> bool:
+	if not NamePolicy.is_valid(display_name) or gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
+		return false
 	if not _empty_session_invariant_holds() or not _begin_request():
 		return false
-	call_deferred("_execute_new_game")
+	call_deferred("_execute_new_game", display_name, gender)
 	return true
 
 
@@ -198,8 +203,8 @@ func _execute_slot_inspection() -> void:
 	slot_inspection_completed.emit(result)
 
 
-func _execute_new_game() -> void:
-	_last_new_game = _create_new_game()
+func _execute_new_game(display_name: String, gender: StringName) -> void:
+	_last_new_game = _create_new_game(display_name, gender)
 	_request_pending = false
 	new_game_completed.emit(_last_new_game)
 
@@ -268,12 +273,22 @@ func _execute_load() -> void:
 	load_completed.emit(_last_load)
 
 
-func _create_new_game() -> OldPineRuntimeSaveLoadResult:
+func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntimeSaveLoadResult:
+	var session: OldPineWorldSessionController = _instantiate_new_game_session()
+	if session == null:
+		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
+	if not session.configure_source_entry(display_name, gender):
+		_discard_session(session)
+		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
+	return _attach_new_game_session(session)
+
+
+func _attach_new_game_session(session: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if _current_session != null or session_slot.get_child_count() != 0 or staging_slot.get_child_count() != 0:
+		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 		)
-	var session: OldPineWorldSessionController = _instantiate_new_game_session()
 	if session == null:
 		return OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED
