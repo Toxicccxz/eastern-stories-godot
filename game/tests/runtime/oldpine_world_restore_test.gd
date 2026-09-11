@@ -600,8 +600,9 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 
 	var contradictory_player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
 		base.player.character_id, base.player.character, &"dead", true,
-		base.player.combat_available, base.player.maximum_encumbrance,
+		base.player.combat_available,
 		base.player.world_location, base.player.map_position,
+		base.player.identity, base.player.body_facts,
 	)
 	var root_failure: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(
 		_copy_snapshot(base, contradictory_player), tree.root,
@@ -631,8 +632,9 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 	var independent_capacity_player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
 		base.player.character_id, base.player.character, base.player.life_status,
 		base.player.exists_in_world, base.player.combat_available,
-		base.player.maximum_encumbrance + 1, base.player.world_location,
+		base.player.world_location,
 		base.player.map_position,
+		base.player.identity, Values.PlayerBodySnapshot.new(base.player.body_facts.body_weight, base.player.body_facts.maximum_encumbrance + 1),
 	)
 	var independent_capacity: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
@@ -640,7 +642,7 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 		)
 	)
 	_assert_eq(independent_capacity.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "saved Player capacity need not equal current strength formula")
-	_assert_true(independent_capacity.candidate != null and independent_capacity.candidate.player_runtime().maximum_encumbrance == base.player.maximum_encumbrance + 1, "saved capacity preserved exactly")
+	_assert_true(independent_capacity.candidate != null and independent_capacity.candidate.player_runtime().maximum_encumbrance == base.player.body_facts.maximum_encumbrance + 1, "saved capacity preserved exactly")
 	_free_node(independent_capacity.candidate)
 
 	var missing_npcs: Array[Values.NpcSpawnStateSnapshot] = base.npc_spawn_states
@@ -792,8 +794,8 @@ func _player_with_location(
 ) -> Values.PlayerRuntimeSnapshot:
 	return Values.PlayerRuntimeSnapshot.new(
 		base.character_id, base.character, base.life_status,
-		base.exists_in_world, base.combat_available, base.maximum_encumbrance,
-		location, position,
+		base.exists_in_world, base.combat_available,
+		location, position, base.identity, base.body_facts,
 	)
 
 

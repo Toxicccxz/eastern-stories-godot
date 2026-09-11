@@ -1,5 +1,74 @@
 # NGE5A — Versioned Source Save / Cold Continue
 
+## Current policy — NGE5A1: Drop Pre-Cutover Save Compatibility
+
+Owner-approved follow-up starts at `9a050822314d05f21b14302d8bb1b828860e0f93` on the same
+`phase/source-valid-new-game-entry` branch. Old-save A is **SUPERSEDED**, not erased from history.
+See [Pre-Cutover Development Save Compatibility](DECISIONS.md#pre-cutover-development-save-compatibility).
+The historical NGE5A sections below describe what was implemented and verified at that commit;
+their schema1 compatibility statements are no longer the final branch contract.
+
+### Removed because legacy-only
+
+- Schema1 decoder/writer branches and supported-version constant; only schema2 is accepted.
+- V1 representability checks and explicit v1 fixture writer (`versioned_save_fixture.gd` + UID).
+- `PlayerBodyFacts.from_legacy_v1` and DTO current-strength missing-weight derivation.
+- DTO default Player/20 identity reconstruction, old scalar capacity constructor argument and
+  compatibility accessor. Player identity/body are explicit snapshots; missing objects stay null
+  and validation rejects them rather than inventing facts.
+- Successful v1 decode/Continue, v1 missing identity/body and divergent-capacity migration tests.
+  A small unsupported-header test replaces that compatibility burden; unsupported-load rollback
+  coverage verifies the current Session and input file remain intact.
+
+### Retained because forward runtime
+
+Strict schema2, typed revisions, exact identity/body/cloth/item persistence, four source residents,
+all five Old Pine NPC states/tombstones, off-map corpses, RNG and allocator continuation remain.
+PlayerBodyFacts remains independent of ordinary strength growth; death/carry read stored facts.
+The real unarmed129 strength32/body80000/capacity150000 roundtrip regression is retained.
+NativeItemStateSnapshot's independent internal schema1 is unrelated to game-root schema1 and
+is unchanged, as are legacy LPC item import semantics and combat/skill definitions.
+
+`LEGACY_OLDPINE_V1` temporarily describes the current technical New Game profile: explicit
+schema2 identity Player/20, exp600, long sword, two residents. It is not a legacy reader. No
+long-term promise is made; removal after NGE5B may be appropriate. `SOURCE_ENTRY_V1` is the forward
+baseline. No public New Game cutover, Host/repository rewrite, new slots, migration UI, automatic
+file deletion or owner-save cleanup is performed. Existing overwrite confirmation and explicit
+Save can replace an unsupported development file using the unchanged transaction rules.
+
+### NGE5A1 verification
+
+Focused codec/source/technical/body regressions: 326 assertions, zero failures, exit0.
+Complete canonical `run_tests.gd`: 17,747 assertions PASS, exit0. Godot4.7.2 headless editor
+validation PASS. No complete-suite retry or stabilization fix was needed.
+Historical NGE5A assertion counts below remain historical and are not rewritten as current counts.
+
+Real desktop smoke reused the unchanged isolated `nge5a-live-source` QA profile, not owner saves.
+QA setup supplied source female Player `续雪`, age14, food123/water234 and deterministic RNG.
+Real move-right input moved her inside the Inn to `(73.3333358764648, 0)`; a real QA Save button
+click used the production coordinator/repository. The game process stopped; a fresh
+`nge5a_cold_continue.tscn` process used the real ApplicationShell Continue button.
+The restored Session had four residents, five NPCs, twelve items and worn cloth; identity,
+body80000/capacity150000, food/water and position matched the saved state. Player runtime object
+identity changed. Allocator scope `oldpine-session-383fe4181fcc9f6e8fcfb20ef06489ab` and next1
+were exact, as were RNG states (combat `-7542915721565470398`, NPC `-1136062569884875933`,
+world interaction `-6705295025768092158`). Read-only probes inspected results; they did not
+invoke Save/Continue or relocate the Player. This was the required forward-path smoke, not a
+repeat of the historical complete route or a claim of technical-profile live coverage.
+
+Godot AI reported helper_live/session_active/game_capture_ready=true, no current-run errors;
+post-Continue captures were non-stale with frames14312 ->15349. Both test processes stopped
+normally. `git diff --check` and changed-file trailing-whitespace checks PASS. Source ES2,
+build/CI/export, project.godot and owner-local Godot AI files are unchanged.
+
+Distinct self-audit confirmed root-v1 branches/helpers/fixture writer are gone, while the
+independent item schema and exact-body authority remain. No Host/repository flow was rewritten.
+NGE5A1 implementation/verification PASS; await owner review. No PR/merge or NGE5B work.
+
+## Historical NGE5A implementation and evidence
+
+Everything below records the approved NGE5A implementation before the NGE5A1 owner decision.
+
 ## RESULT
 
 Implemented on `phase/source-valid-new-game-entry` from owner-approved

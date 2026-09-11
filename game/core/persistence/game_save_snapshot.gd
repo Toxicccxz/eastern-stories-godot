@@ -3,7 +3,6 @@ extends RefCounted
 
 const ValueTypes := preload("res://core/persistence/game_save_value_types.gd")
 
-const LEGACY_SCHEMA_VERSION: int = 1
 const CURRENT_SCHEMA_VERSION: int = 2
 const FORMAT_ID: String = "eastern-stories-native-save"
 const SESSION_KIND_OLDPINE: StringName = &"oldpine"

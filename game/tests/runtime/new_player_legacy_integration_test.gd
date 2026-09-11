@@ -44,48 +44,16 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-10T12:00:00Z")
 	_check(capture.succeeded(), "production capture succeeds: " + capture.path + capture.detail)
 	if capture.succeeded():
-		var encoded: GameSaveResult = GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(capture.snapshot))
-		_check(encoded.succeeded(), "v1 encoding succeeds")
-		var root: Dictionary = JSON.parse_string(encoded.text)
-		var saved_player: Dictionary = root["player"]
-		var saved_character: Dictionary = saved_player["character"]
-		_check(int(root["metadata"]["schema_version"]) == 1, "no schema2")
-		for missing: String in ["age", "display_name", "title", "race_id"]:
-			_check(not saved_player.has(missing) and not saved_character.has(missing), "v1 does not serialize " + missing)
-		# Deliberately not exp600; also test BOTH wielded and unwielded save graphs.
-		for wielded: bool in [true, false]:
-			player.state.progression.combat_experience = 731 if wielded else 0
-			player.state.recovery.food = -7
-			player.state.recovery.water = 923
-			player.state.attributes.strength = 27
-			# Explicit historical v1 fixture setup, not an ordinary strength update.
-			player._body_facts = PlayerBodyFacts.from_legacy_v1(27, 135000)
-			player.state.vitality.maximum = 357
-			if not wielded:
-				player.state.equipment.unwield(player.state.equipment.primary_weapon().instance_id)
-			var saved: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2001-01-01T00:00:00Z")
-			_check(saved.succeeded(), "arbitrary old save captures: " + saved.path + saved.detail)
-			if not saved.succeeded():
-				continue
-			var roundtrip: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(saved.snapshot)).text)
-			_check(roundtrip.succeeded(), "arbitrary old save JSON roundtrip")
-			var restored: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(roundtrip.snapshot)
-			_check(restored.outcome == OldPineWorldRestoreResult.Outcome.SUCCESS, "old save prepares: " + restored.path + restored.detail)
-			if restored.preparation == null:
-				continue
-			var old: WorldPlayerRuntimeState = restored.preparation.player
-			_check(old.facts.display_name == "Player" and old.facts.age == 20 and old.facts.title.is_empty(), "schema1 implies legacy identity, not exp/sword/date heuristics")
-			_check(old.state.progression.combat_experience == player.state.progression.combat_experience, "saved experience exact")
-			_check(old.state.recovery.food == -7 and old.state.recovery.water == 923, "restore does not fill or clamp food/water")
-			_check(old.state.attributes.strength == 27 and old.state.vitality.maximum == 357, "metadata does not rerun body/resource derivation")
-			_check(old.state.equipment.are_both_hands_empty() == not wielded, "equipment preserved exactly")
-			_check(old.armor.occupied_slots().is_empty(), "restore never grants cloth")
-			_check(restored.preparation.item_index.snapshot_count() == 12, "same inventory count")
-			_check(restored.preparation.item_allocator.next_dynamic_sequence == saved.snapshot.item_id_allocator.next_dynamic_sequence, "allocator not advanced by restore")
-			_check(restored.preparation.item_allocator.scope == saved.snapshot.item_id_allocator.scope, "allocator scope preserved")
-			for id: StringName in session.inventory_state().registered_item_ids():
-				_check(restored.preparation.item_index.resolve(id) != null, "semantic item ID retained: " + String(id))
-			_check(old.state != player.state and old.state.equipment != player.state.equipment, "fresh restore authorities")
+		var encoded: GameSaveResult = GameSaveJsonCodec.encode(capture.snapshot)
+		var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+		_check(decoded.succeeded() and decoded.snapshot.metadata.schema_version == 2, "technical schema2 roundtrip")
+		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
+		_check(restored.succeeded(), "technical current save cold candidate")
+		if restored.succeeded():
+			var cold: WorldPlayerRuntimeState = restored.candidate.player_runtime()
+			_check(cold.facts.is_legacy_technical() and cold.state.progression.combat_experience == 600, "explicit technical identity and exp retained")
+			_check(restored.candidate.resident_map_count() == 2 and cold.state.equipment.primary_weapon_skill_type() == &"sword", "technical two maps and sword retained")
+			restored.candidate.free()
 	# QA-only identity injection must not silently change the legacy world profile.
 	player._facts = PlayerIdentityFacts.new("初雪", "普通百姓", 14)
 	var source_context: DeathContext = session.outdoor_map()._death_context_for(binding, null, destination)

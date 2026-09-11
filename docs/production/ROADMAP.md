@@ -162,7 +162,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
    effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
 
-9. **Source-valid New Game Entry — NGE5A IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+9. **Source-valid New Game Entry — NGE5A1 PASS / AWAIT OWNER REVIEW**
 
    One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
    [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
@@ -187,7 +187,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    [NGE5A versioned continuation](../migration/PHASE_NEW_GAME_ENTRY_VERSIONED_SAVE_CONTINUE.md) implements
    strict v1/v2, explicit two/four-map revision and exact source identity/body/item continuation.
    Focused399 / canonical17,820 assertions, real Snow/Old Pine Save and cold Continue PASS.
-   Await owner review; NGE5B public New Game cutover remains separately authorized and not started.
+   NGE5A is approved. Owner-authorized NGE5A1 removes pre-cutover schema1 compatibility and its
+   migration tests while retaining schema2 source continuation and temporary technical-v2 saves.
+   Old-save A is SUPERSEDED in DECISIONS; no automatic file deletion or migration is introduced.
+   NGE5A1 focused326 / canonical17,747 assertions, Godot4.7.2 headless editor and real source
+   Save -> fresh-process Application Continue smoke PASS. Await owner review.
+   NGE5B public New Game cutover remains separately authorized and not started.
    Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
    square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
    real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not

@@ -330,8 +330,8 @@ static func _restore_corpses(
 		var expected_name: String = snapshot.player.identity.display_name
 		var expected_age: int = snapshot.player.identity.age
 		var expected_weight: int = snapshot.player.body_facts.body_weight
-		# Player capacity is an existing v1 saved fact, not current str * 5000.
-		var expected_capacity: int = snapshot.player.maximum_encumbrance
+		# Player capacity is a stored body fact, not current str * 5000.
+		var expected_capacity: int = snapshot.player.body_facts.maximum_encumbrance
 		if victim is Values.NpcSpawnStateSnapshot:
 			var victim_npc: Values.NpcSpawnStateSnapshot = victim
 			var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(

@@ -1,5 +1,23 @@
 # Migration Decisions
 
+## Pre-Cutover Development Save Compatibility
+
+**Decision (owner-approved NGE5A1):** Development saves produced before the NGE5B public source
+New Game cutover carry no compatibility promise. The project has not publicly released and has
+no real-player save compatibility obligation. Schema1 is unsupported: no reader, migration,
+upgrade, missing-field interpretation or guaranteed restoration is retained.
+
+Current schema2 + `LEGACY_OLDPINE_V1` remains only as the pre-cutover technical New Game test
+profile; it is not a historical-save compatibility contract and has no long-term stability
+promise. It may be removed at NGE5B unless the owner establishes a new reason to retain it.
+Schema2 + `SOURCE_ENTRY_V1` is the forward save baseline.
+
+Unsupported files are rejected, not automatically deleted, rewritten or archived. Existing
+New Game confirmation, explicit Save, primary/tmp/bak transactions, recovery and Session rollback
+remain. No second slot or migration UI. NGE5A0 independent body authority and exact schema2
+continuation are unchanged. This supersedes old-save A and only the v1 interpretation portion of
+the body decision below; it does not authorize NGE5B or public New Game cutover.
+
 ## Player Body Facts and Native Continue
 
 **Decision (owner-approved NGE5A0):** Player own body weight and maximum encumbrance are independent
@@ -11,7 +29,7 @@ existing source formulas once. NPC body authority is not merged with Player auth
 exactly. Native Save/Continue does not emulate LPC full-login body reconstruction. Only a future
 explicit source-backed body rebuild/transformation event may re-derive established facts.
 
-**Legacy v1 interpretation:** Existing saved maximum_encumbrance is authoritative even when it differs
+**Legacy v1 interpretation — SUPERSEDED by NGE5A1 (historical record):** Existing saved maximum_encumbrance is authoritative even when it differs
 from current strength*5000. v1 has no Player body_weight: derive that missing field once from saved
 current strength, then retain it as runtime authority. Until schema2 exists, v1 capture fails closed
 if runtime body weight differs from human_weight(current strength); it cannot silently lose that fact.
@@ -52,6 +70,9 @@ Continue, Restore, map transition, respawn/revive, load-failure recovery, return
 opening menus and general recovery MUST NOT invoke this birth refill. No recovery formula changes.
 
 ## Legacy Native Save Preservation
+
+**Status: SUPERSEDED by Pre-Cutover Development Save Compatibility (NGE5A1).** The following
+records the previously approved old-save A decision, not the current branch policy.
 
 **Decision (NGE1 owner-approved A):** Legal native saves created before Snow cutover remain
 Legacy Native Technical-Demo Saves and restore their actual stored values. New Game revisions do

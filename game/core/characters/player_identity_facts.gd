@@ -30,7 +30,7 @@ func is_valid() -> bool:
 
 
 static func legacy_technical() -> PlayerIdentityFacts:
-	# v1 lacks these fields. Interpret v1 itself, never exp/items/timestamps.
+	# Current pre-cutover technical New Game identity, not a save fallback.
 	return PlayerIdentityFacts.new("Player", "", 20)
 
 

@@ -2,12 +2,12 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE5A IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE5A1 PASS / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
-is owner-approved for gift B (no delayed reroll), food/water B (fresh post-body fill), and
-legacy-native-save A (preserve actual saved state), now recorded in DECISIONS.
+is owner-approved for gift B (no delayed reroll) and food/water B (fresh post-body fill).
+Its historical legacy-native-save A is now SUPERSEDED by NGE5A1, as recorded in DECISIONS.
 [NGE1 foundation](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) adds typed Player facts,
 deterministic source birth and actual cloth composition, with legacy identity/death/save boundaries.
 NGE1 is owner-approved. [NGE2 physical Inn](../migration/PHASE_NEW_GAME_ENTRY_SNOW_INN.md) adds the
@@ -23,15 +23,18 @@ Source-entry has4 residents; default technical New Game remains2. Canonical17,50
 real Inn -> Clearing -> Inn route PASS, including NPC/Player/RNG continuity. NGE4 is owner-approved.
 NGE5A pre-audit identified strength growth versus established body facts and correctly stopped.
 [NGE5A0 body authority](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_BODY_FACTS.md) implements the owner-approved
-single Player body authority, stored-fact death/carry, legacy v1 saved-capacity interpretation and
-lossy-v1-capture guard. Future schema2 exact body continuation is recorded in DECISIONS.
+single Player body authority and stored-fact death/carry. Its historical v1 interpretation/guard
+are removed by NGE5A1; independent body authority and schema2 exact continuation remain.
 Focused260 / complete canonical17,553 assertions, headless editor and real desktop binding smoke PASS.
-NGE5A0 is owner-approved. [NGE5A versioned continuation](../migration/PHASE_NEW_GAME_ENTRY_VERSIONED_SAVE_CONTINUE.md)
-adds strict v1/v2 codec, explicit world revision, exact identity/body persistence and four-map source
-restore. Focused399 / canonical17,820 assertions and real desktop Save -> process stop -> normal
-Continue PASS in Snow and Old Pine. Legacy v1 remains two-map and upgrades format only on explicit
-Save. Current Old Pine New Game/exp600/starting sword remain unchanged. NGE5B public New Game cutover
-and further Snow population are not started; await owner review/instruction.
+NGE5A0/NGE5A are approved. [Versioned continuation and NGE5A1 cleanup](../migration/PHASE_NEW_GAME_ENTRY_VERSIONED_SAVE_CONTINUE.md)
+retain exact schema2 identity/body/world persistence and source four-map Save/Continue. Following
+the new owner decision, old-save A is SUPERSEDED: root schema1 reading/writing, migration and
+missing-field interpretation are removed. Schema2 SOURCE_ENTRY_V1 is the forward baseline;
+LEGACY_OLDPINE_V1 only supports the current pre-cutover technical New Game test profile.
+NGE5A1 focused326 / complete canonical17,747 assertions, Godot4.7.2 headless editor and real
+source Save -> fresh-process Application Continue smoke PASS. Await owner review.
+Current Old Pine New Game/exp600/starting sword remain unchanged. NGE5B public New Game cutover
+and further Snow population are not started.
 No PR or merge exists for this milestone; no new remote CI/integration claim.
 Do not start further Snow content/New Game cutover, shops/training, Lake, or Phase5B4.
 

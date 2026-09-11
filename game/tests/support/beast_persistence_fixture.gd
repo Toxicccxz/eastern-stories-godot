@@ -53,10 +53,11 @@ func capture() -> GameSaveSnapshot:
 	# Root DTO requires a Player record; this is a schema fixture, not a Session.
 	var player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
 		&"test.player", Values.CharacterStateSnapshot.new(), &"active", true, true,
-		0, location, Values.MapPositionSnapshot.new(),
+		location, Values.MapPositionSnapshot.new(),
+		Values.PlayerIdentitySnapshot.new("Player", "", 20, &"human"), Values.PlayerBodySnapshot.new(60000, 0),
 	)
 	return GameSaveSnapshot.new(
-		Values.GameSaveMetadata.new(GameSaveSnapshot.FORMAT_ID, 1, "2026-09-10T12:00:00Z", Values.OptionalText.none(), &"test", GameSaveSnapshot.FIXED_SLOT_ID),
+		Values.GameSaveMetadata.new(GameSaveSnapshot.FORMAT_ID, GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "2026-09-10T12:00:00Z", Values.OptionalText.none(), &"test", GameSaveSnapshot.FIXED_SLOT_ID),
 		GameSaveSnapshot.SESSION_KIND_OLDPINE, Values.ItemIdAllocatorSnapshot.new(&"test.bf3", 0),
 		player, [saved], [], item_result.snapshot,
 		GodotCombatRandomSource.new(123, true).capture_random_state(), npc_random.capture_random_state(),

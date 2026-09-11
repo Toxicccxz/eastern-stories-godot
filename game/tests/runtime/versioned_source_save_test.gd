@@ -32,10 +32,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	_check(encoded.succeeded(), "v2 encode")
 	var raw: Dictionary = JSON.parse_string(encoded.text)
+	# Unsupported old header only; no historical writer or migration fixture.
+	var unsupported: Dictionary = raw.duplicate(true)
+	unsupported.metadata.schema_version = 1
+	_check(GameSaveJsonCodec.decode(JSON.stringify(unsupported)).outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "schema1 rejects cleanly")
+	unsupported.metadata.schema_version = 3
+	_check(GameSaveJsonCodec.decode(JSON.stringify(unsupported)).outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "unknown schema rejects cleanly")
 	_check(raw.player.has("identity") and raw.player.has("body_facts") and not raw.player.has("maximum_encumbrance"), "v2 strict shape and single capacity")
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(decoded.succeeded(), "v2 decode")
-	_check(not GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(snapshot)).succeeded(), "no lossy source-to-v1 encoding")
 	for key: String in ["world_content_revision", "identity", "body_facts"]:
 		var invalid: Dictionary = raw.duplicate(true)
 		if key == "world_content_revision": invalid.erase(key)
@@ -144,6 +149,14 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	var failed: OldPineRuntimeSaveLoadResult = coordinator.load_replacing(current, host.session_slot, host.staging_slot)
 	_check(not failed.succeeded() and host.current_session() == current and is_instance_valid(current), "unknown revision leaves current Session alive")
 	files.write_bytes(profile.canonical_path(), primary)
+	var old_header: Dictionary = JSON.parse_string(primary.get_string_from_utf8())
+	old_header.metadata.schema_version = 1
+	var old_bytes: PackedByteArray = JSON.stringify(old_header).to_utf8_buffer()
+	files.write_bytes(profile.canonical_path(), old_bytes)
+	failed = coordinator.load_replacing(current, host.session_slot, host.staging_slot)
+	_check(not failed.succeeded() and failed.repository.outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA and host.current_session() == current, "unsupported schema keeps current Session safe")
+	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == old_bytes, "unsupported file is not deleted or rewritten")
+	files.write_bytes(profile.canonical_path(), primary)
 	_check(repository.save(snapshot).succeeded(), "establish valid primary/backup")
 	var backup: PackedByteArray = files.read_bytes(profile.backup_path(), 16777216).bytes
 	var invalid_player: V.PlayerRuntimeSnapshot = snapshot.player
@@ -160,8 +173,8 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	host.free()
 	var technical: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	tree.root.add_child(technical)
-	var legacy: GameSaveSnapshot = VersionedSaveFixture.as_v1(OldPineWorldSaveCapture.new().capture(technical, &"test", "2000-01-01T00:00:00Z").snapshot)
-	_check(repository.save(legacy).succeeded(), "explicit real v1 file")
+	var legacy: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(technical, &"test", "2026-09-11T00:00:00Z").snapshot
+	_check(repository.save(legacy).succeeded(), "current technical v2 file")
 	primary = files.read_bytes(profile.canonical_path(), 16777216).bytes
 	technical.free()
 	var legacy_host: OldPineGameRuntimeHost = (load("res://scenes/runtime/oldpine_game_runtime_host.tscn") as PackedScene).instantiate()
@@ -169,12 +182,12 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	tree.root.add_child(legacy_host)
 	legacy_host.request_continue()
 	await tree.process_frame
-	_check(legacy_host.last_load_result().succeeded(), "normal Host Continue v1")
-	_check(legacy_host.current_session().resident_map_count() == 2 and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "v1 never gains Snow")
-	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "legacy Continue does not rewrite v1 bytes")
+	_check(legacy_host.last_load_result().succeeded(), "normal Host Continue current technical v2")
+	_check(legacy_host.current_session().resident_map_count() == 2 and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "technical profile has no Snow")
+	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "technical Continue does not rewrite bytes")
 	legacy_host.request_save()
 	await tree.process_frame
-	_check(legacy_host.last_save_result().succeeded() and repository.load().snapshot.metadata.schema_version == 2 and repository.load().snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1, "explicit legacy resave upgrades format only")
+	_check(legacy_host.last_save_result().succeeded() and repository.load().snapshot.metadata.schema_version == 2 and repository.load().snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1, "technical resave remains schema2 technical profile")
 	legacy_host.free()
 	await tree.process_frame
 

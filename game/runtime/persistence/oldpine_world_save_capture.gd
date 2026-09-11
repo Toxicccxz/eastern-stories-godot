@@ -104,7 +104,6 @@ func capture(
 			_life_text(player.life_status),
 			player.exists_in_world,
 			player.combat_available,
-			player.maximum_encumbrance,
 			_location_snapshot(player.world_location()),
 			_position_snapshot(player_body.global_position),
 			Values.PlayerIdentitySnapshot.new(player.facts.display_name, player.facts.title, player.facts.age, player.facts.race_id),
