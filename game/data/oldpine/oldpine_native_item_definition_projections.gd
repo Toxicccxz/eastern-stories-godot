@@ -5,7 +5,7 @@ const CORPSE_DEFINITION_ID: StringName = &"es2:obj/corpse"
 const CORPSE_LEGACY_SOURCE: String = "obj/corpse.c"
 
 
-static func create() -> NativeItemDefinitionProjections:
+static func create(revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1) -> NativeItemDefinitionProjections:
 	var items: Array[ItemDefinition] = []
 	var weapons: Array[WeaponDefinition] = []
 	var armor: Array[ArmorDefinition] = []
@@ -25,4 +25,7 @@ static func create() -> NativeItemDefinitionProjections:
 		if stack_definition != null:
 			stacks.append(stack_definition)
 	items.append(ItemDefinition.new(CORPSE_DEFINITION_ID, CORPSE_LEGACY_SOURCE))
+	if revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+		items.append(SourcePlayerCloth.item_definition())
+		armor.append(SourcePlayerCloth.armor_definition())
 	return NativeItemDefinitionProjections.new(items, weapons, armor, stacks)

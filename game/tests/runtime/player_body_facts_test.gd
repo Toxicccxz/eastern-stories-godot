@@ -91,9 +91,10 @@ func _test_v1(tree: SceneTree) -> void:
 		session.free()
 		return
 	# Historical file fixture: neither new birth nor a runtime body mutation.
-	var base: GameSaveSnapshot = capture.snapshot
+	var base: GameSaveSnapshot = VersionedSaveFixture.as_v1(capture.snapshot)
 	var saved_player: Values.PlayerRuntimeSnapshot = base.player
 	saved_player.character.attributes.strength = 32
+	saved_player.body_facts.body_weight = 84000
 	saved_player.maximum_encumbrance = 150000
 	saved_player.character.internal_resources.food = 123
 	saved_player.character.internal_resources.water = 234
@@ -122,7 +123,7 @@ func _test_v1(tree: SceneTree) -> void:
 		_grow(restored, 138)
 		_check(restored.state.attributes.strength == 34 and restored.body_facts == body and body.body_weight == 84000 and body.maximum_encumbrance == 150000, "post-restore growth does not derive again")
 		var reject: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(candidate, &"test", "2026-09-11T00:00:00Z")
-		_check(reject.outcome == OldPineWorldCaptureResult.Outcome.UNREPRESENTED_CHARACTER_STATE and reject.path == "player.body_facts.body_weight", "divergent body refuses lossy v1 capture")
+		_check(reject.succeeded() and not GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(reject.snapshot)).succeeded(), "v2 preserves divergent body while explicit lossy v1 encoding fails")
 		candidate.free()
 	# Player corpse validation must use saved capacity too (NPC policy unchanged).
 	var corpse_saved: GameSaveSnapshot = Fixture.with_player_corpse(saved)
@@ -136,7 +137,7 @@ func _test_v1(tree: SceneTree) -> void:
 	_grow(player, 88)
 	_check(player.state.attributes.strength == 22 and player.body_facts.body_weight == 60000 and player.maximum_encumbrance == 100000, "technical ordinary growth preserves initial body")
 	var technical_reject: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-11T00:00:00Z")
-	_check(technical_reject.outcome == OldPineWorldCaptureResult.Outcome.UNREPRESENTED_CHARACTER_STATE, "technical v1 cannot silently lose independent weight")
+	_check(technical_reject.succeeded() and not GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(technical_reject.snapshot)).succeeded(), "technical v2 saves independent weight; explicit v1 refuses loss")
 	session.free()
 	await tree.process_frame
 

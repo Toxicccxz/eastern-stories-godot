@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE5A0 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE5A IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
@@ -26,9 +26,12 @@ NGE5A pre-audit identified strength growth versus established body facts and cor
 single Player body authority, stored-fact death/carry, legacy v1 saved-capacity interpretation and
 lossy-v1-capture guard. Future schema2 exact body continuation is recorded in DECISIONS.
 Focused260 / complete canonical17,553 assertions, headless editor and real desktop binding smoke PASS.
-Current Old Pine New Game/exp600/starting sword remain unchanged. Source Save/Continue is still
-fail-closed; Snow population remains deferred. Complete NGE5A (versioned Source Save/Continue) and
-NGE5B (public New Game cutover) remain separate next slices requiring owner instruction.
+NGE5A0 is owner-approved. [NGE5A versioned continuation](../migration/PHASE_NEW_GAME_ENTRY_VERSIONED_SAVE_CONTINUE.md)
+adds strict v1/v2 codec, explicit world revision, exact identity/body persistence and four-map source
+restore. Focused399 / canonical17,820 assertions and real desktop Save -> process stop -> normal
+Continue PASS in Snow and Old Pine. Legacy v1 remains two-map and upgrades format only on explicit
+Save. Current Old Pine New Game/exp600/starting sword remain unchanged. NGE5B public New Game cutover
+and further Snow population are not started; await owner review/instruction.
 No PR or merge exists for this milestone; no new remote CI/integration claim.
 Do not start further Snow content/New Game cutover, shops/training, Lake, or Phase5B4.
 

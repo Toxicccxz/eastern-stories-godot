@@ -12,7 +12,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("metadata", "metadata is null")
 	if snapshot.metadata.format_id != GameSaveSnapshot.FORMAT_ID:
 		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_FORMAT_ID, "metadata.format_id")
-	if snapshot.metadata.schema_version != GameSaveSnapshot.CURRENT_SCHEMA_VERSION:
+	if snapshot.metadata.schema_version not in [GameSaveSnapshot.LEGACY_SCHEMA_VERSION, GameSaveSnapshot.CURRENT_SCHEMA_VERSION]:
 		return GameSaveResult.failure(GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "metadata.schema_version")
 	if snapshot.metadata.saved_at_utc.is_empty():
 		return _invalid("metadata.saved_at_utc", "timestamp is required metadata")
@@ -26,6 +26,19 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("item_id_allocator.scope", "empty allocator scope")
 	if snapshot.player == null or snapshot.player.character_id.is_empty():
 		return _invalid("player.character_id", "empty character ID")
+	if not WorldContentRevision.is_supported(snapshot.world_content_revision):
+		return _invalid("world_content_revision", "unsupported world contract")
+	if snapshot.metadata.schema_version == GameSaveSnapshot.LEGACY_SCHEMA_VERSION and snapshot.world_content_revision != WorldContentRevision.Value.LEGACY_OLDPINE_V1:
+		return _invalid("world_content_revision", "v1 cannot represent source world")
+	var identity: Values.PlayerIdentitySnapshot = snapshot.player.identity
+	if identity == null or identity.display_name.strip_edges().is_empty() or identity.age < 0 or identity.race_id != &"human":
+		return _invalid("player.identity", "invalid supported Player identity")
+	if snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1 and not identity.is_legacy_technical():
+		return _invalid("player.identity", "identity incompatible with legacy world contract")
+	if snapshot.player.body_facts == null:
+		return _invalid("player.body_facts", "missing independent body facts")
+	if snapshot.metadata.schema_version == GameSaveSnapshot.LEGACY_SCHEMA_VERSION and snapshot.player.body_facts.body_weight != CharacterDerivedValues.human_weight(snapshot.player.character.attributes.strength):
+		return _invalid("player.body_facts", "v1 would discard independent weight")
 	var player_result: GameSaveResult = _validate_runtime_character(snapshot.player.character, snapshot.player.life_status, snapshot.player.exists_in_world, snapshot.player.world_location, snapshot.player.map_position, "player")
 	if not player_result.succeeded(): return player_result
 	if snapshot.items == null:

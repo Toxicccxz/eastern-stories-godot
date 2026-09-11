@@ -106,10 +106,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(legacy.state.progression.combat_experience == 600 and legacy.facts.age == 20 and legacy.state.equipment.primary_weapon_skill_type() == &"sword", "technical New Game unchanged")
 	_check(old.outdoor_map()._inventory == old.cave_map()._inventory and old.outdoor_map()._player == old.cave_map()._player, "Old Pine shares authority storage")
 	_check(OldPineWorldSaveCapture.new().capture(old, &"development", "2026-09-11T00:00:00Z").succeeded(), "technical v1 capture succeeds")
-	# QA-only injection into the existing capture boundary; no Snow save adapter.
+	# QA-only Player injection cannot upgrade an existing legacy world profile.
 	old._player = player
 	var blocked: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(old, &"development", "2026-09-11T00:00:00Z")
-	_check(blocked.outcome == OldPineWorldCaptureResult.Outcome.UNREPRESENTED_CHARACTER_STATE and blocked.path == "player.facts", "actual source Snow Player fails closed in v1")
+	_check(not blocked.succeeded(), "source Player injection into legacy Session fails closed")
 	old._player = legacy
 	old.free()
 	entry.free()

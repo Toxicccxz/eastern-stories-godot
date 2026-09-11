@@ -21,7 +21,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			Result.Outcome.UNKNOWN_CONTENT_ID,
 			"player.character_id",
 		)
-	if not _location_is_current(snapshot.player.world_location):
+	if not _player_location_is_current(snapshot.player.world_location, snapshot.world_content_revision):
 		return Result.failure(
 			Result.Outcome.INVALID_WORLD_LOCATION,
 			"player.world_location",
@@ -30,7 +30,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	var item_restore: NativeItemRestoreCompositionResult = (
 		NativeItemPersistenceComposition.restore(
 			snapshot.items,
-			OldPineNativeItemDefinitionProjections.create(),
+			OldPineNativeItemDefinitionProjections.create(snapshot.world_content_revision),
 			snapshot.item_id_allocator,
 		)
 	)
@@ -81,8 +81,8 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		player_life,
 		snapshot.player.exists_in_world,
 		snapshot.player.combat_available,
-		PlayerBodyFacts.from_legacy_v1(player_state.attributes.strength, snapshot.player.maximum_encumbrance),
-		PlayerIdentityFacts.legacy_technical(),
+		PlayerBodyFacts.new(snapshot.player.body_facts.body_weight, snapshot.player.body_facts.maximum_encumbrance),
+		PlayerIdentityFacts.new(snapshot.player.identity.display_name, snapshot.player.identity.title, snapshot.player.identity.age),
 	)
 	if not player.is_valid():
 		return Result.failure(
@@ -137,6 +137,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			world_random,
 			npc_entries,
 			corpse_entries,
+			snapshot.world_content_revision,
 		)
 	)
 	if not preparation.is_valid():
@@ -326,15 +327,9 @@ static func _restore_corpses(
 		var victim_character: Values.CharacterStateSnapshot = victim.character
 		var victim_life: StringName = victim.life_status
 		var victim_exists: bool = victim.exists_in_world
-		var legacy_player_facts: PlayerIdentityFacts = PlayerIdentityFacts.legacy_technical()
-		var expected_name: String = legacy_player_facts.display_name
-		# v1 has no durable Player identity fields. Its technical legacy profile
-		# supplies age 20; verify that independently rather than trusting the
-		# corpse's own saved value. Source identity needs a future schema.
-		var expected_age: int = legacy_player_facts.age
-		var expected_weight: int = CharacterDerivedValues.human_weight(
-			victim_character.attributes.strength
-		)
+		var expected_name: String = snapshot.player.identity.display_name
+		var expected_age: int = snapshot.player.identity.age
+		var expected_weight: int = snapshot.player.body_facts.body_weight
 		# Player capacity is an existing v1 saved fact, not current str * 5000.
 		var expected_capacity: int = snapshot.player.maximum_encumbrance
 		if victim is Values.NpcSpawnStateSnapshot:
@@ -472,6 +467,15 @@ static func _character_aggregate_ids_match(
 		domain.equipment_character_ids() == expected
 		and domain.armor_character_ids() == expected
 	)
+
+
+static func _player_location_is_current(value: Values.WorldLocationSnapshot, revision: WorldContentRevision.Value) -> bool:
+	if _location_is_current(value):
+		return true
+	if revision != WorldContentRevision.Value.SOURCE_ENTRY_V1 or value == null or value.region_id != SnowWorldDefinitions.REGION_ID:
+		return false
+	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(value.zone_id)
+	return zone != null and zone.map_id == value.map_id and zone.combat_location_id == value.combat_location_id
 
 
 static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:

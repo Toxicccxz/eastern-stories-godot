@@ -44,7 +44,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-10T12:00:00Z")
 	_check(capture.succeeded(), "production capture succeeds: " + capture.path + capture.detail)
 	if capture.succeeded():
-		var encoded: GameSaveResult = GameSaveJsonCodec.encode(capture.snapshot)
+		var encoded: GameSaveResult = GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(capture.snapshot))
 		_check(encoded.succeeded(), "v1 encoding succeeds")
 		var root: Dictionary = JSON.parse_string(encoded.text)
 		var saved_player: Dictionary = root["player"]
@@ -67,7 +67,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			_check(saved.succeeded(), "arbitrary old save captures: " + saved.path + saved.detail)
 			if not saved.succeeded():
 				continue
-			var roundtrip: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(saved.snapshot).text)
+			var roundtrip: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(saved.snapshot)).text)
 			_check(roundtrip.succeeded(), "arbitrary old save JSON roundtrip")
 			var restored: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(roundtrip.snapshot)
 			_check(restored.outcome == OldPineWorldRestoreResult.Outcome.SUCCESS, "old save prepares: " + restored.path + restored.detail)
@@ -86,12 +86,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			for id: StringName in session.inventory_state().registered_item_ids():
 				_check(restored.preparation.item_index.resolve(id) != null, "semantic item ID retained: " + String(id))
 			_check(old.state != player.state and old.state.equipment != player.state.equipment, "fresh restore authorities")
-	# QA-only injection of facts: prove v1 refuses silent metadata loss. No new schema.
+	# QA-only identity injection must not silently change the legacy world profile.
 	player._facts = PlayerIdentityFacts.new("初雪", "普通百姓", 14)
 	var source_context: DeathContext = session.outdoor_map()._death_context_for(binding, null, destination)
 	_check(source_context.victim_age == 14 and source_context.victim_display_name == "初雪", "same outdoor production delegation reads source facts")
 	var blocked: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-10T12:00:00Z")
-	_check(blocked.outcome == OldPineWorldCaptureResult.Outcome.UNREPRESENTED_CHARACTER_STATE and blocked.path == "player.facts", "v1 fails closed for source identity")
+	_check(blocked.outcome == OldPineWorldCaptureResult.Outcome.INVALID_CAPTURED_SNAPSHOT and blocked.path == "player.identity", "legacy profile fails closed for source identity")
 	player._facts = PlayerIdentityFacts.legacy_technical()
 	session.free()
 	await tree.process_frame

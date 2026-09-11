@@ -44,6 +44,7 @@ var _item_id_allocator: SessionItemIdAllocator
 var _combat_encounter_coordinator: CombatEncounterCoordinator
 var _last_passage_exit_handoff: OldPineMapHandoffResult
 var _bootstrap_mode: int = BootstrapMode.NEW_GAME
+var _world_content_revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 var _restore_preparation: OldPineWorldRestorePreparation
 var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
 var _restore_candidate_staged: bool = false
@@ -136,6 +137,7 @@ func configure_source_entry(display_name: String, gender: StringName) -> bool:
 	_source_name = display_name
 	_source_gender = gender
 	_bootstrap_mode = BootstrapMode.SOURCE_ENTRY
+	_world_content_revision = WorldContentRevision.Value.SOURCE_ENTRY_V1
 	return true
 
 
@@ -150,8 +152,13 @@ func configure_restore(preparation: OldPineWorldRestorePreparation) -> bool:
 		return false
 	_bootstrap_mode = BootstrapMode.RESTORE
 	_restore_preparation = preparation
+	_world_content_revision = preparation.world_content_revision
 	process_mode = Node.PROCESS_MODE_DISABLED
 	return true
+
+
+func world_content_revision() -> WorldContentRevision.Value:
+	return _world_content_revision
 
 
 func bootstrap_mode() -> int:
@@ -605,17 +612,11 @@ func _initialize_restore_authorities() -> bool:
 func _initialize_source_residents(
 	cave: OldPineResidentMapController, outdoor: OldPineResidentMapController,
 ) -> bool:
-	var inn: SnowInnController = (load(SnowWorldDefinitions.INN_SCENE) as PackedScene).instantiate() as SnowInnController
-	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
-	for map: WorldResidentMapController in [inn, snow]:
-		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
-			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate) or not register_resident_map(map):
-			return false
-		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
-	if not snow.configure_passage(SnowOldPineConnectionDefinitions.to_oldpine()) or not outdoor.configure_passage(SnowOldPineConnectionDefinitions.to_snow()):
+	if not _register_source_maps(outdoor):
 		return false
-	# Cave stays resident because existing outdoor vine traversal uses it. No new
-	# cave content or bootstrap. All four maps bind the single source authority graph.
+	var inn: WorldResidentMapController = _resident_maps[SnowWorldDefinitions.INN_MAP_ID]
+	var snow: WorldResidentMapController = _resident_maps[SnowWorldDefinitions.OUTDOOR_MAP_ID]
+	# Four maps bind the same authority graph. Fresh source entry alone starts in Inn.
 	for map: WorldResidentMapController in [cave, outdoor, snow, inn]:
 		map.set_restore_staging(true)
 		active_map_slot.add_child(map)
@@ -633,11 +634,30 @@ func _initialize_source_residents(
 	return _reconcile_active_residents()
 
 
+func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
+	var inn: SnowInnController = (load(SnowWorldDefinitions.INN_SCENE) as PackedScene).instantiate() as SnowInnController
+	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
+	for map: WorldResidentMapController in [inn, snow]:
+		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
+			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate) or not register_resident_map(map):
+			return false
+		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
+	if not snow.configure_passage(SnowOldPineConnectionDefinitions.to_oldpine()) or not outdoor.configure_passage(SnowOldPineConnectionDefinitions.to_snow()):
+		return false
+	return true
+
+
 func _initialize_restore_residents(
 	cave: OldPineResidentMapController,
 	outdoor: OldPineResidentMapController,
 ) -> bool:
-	for resident: OldPineResidentMapController in [cave, outdoor]:
+	var residents: Array[WorldResidentMapController] = [cave, outdoor]
+	if _world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+		if not _register_source_maps(outdoor):
+			return false
+		residents.append(_resident_maps[SnowWorldDefinitions.INN_MAP_ID])
+		residents.append(_resident_maps[SnowWorldDefinitions.OUTDOOR_MAP_ID])
+	for resident: WorldResidentMapController in residents:
 		resident.set_restore_staging(true)
 		active_map_slot.add_child(resident)
 		if not resident.initialize_map():
@@ -652,8 +672,10 @@ func _initialize_restore_residents(
 		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_WORLD_LOCATION
 		return false
 	_active_map_id = player_location.map_id
-	var active: OldPineResidentMapController = _resident_maps[_active_map_id]
+	var active: WorldResidentMapController = _resident_maps[_active_map_id]
 	active_map_slot.add_child(active)
+	# Restore is exact placement, never a spawn lookup or an initial Inn activation.
+	active.runtime_player_body().global_position = _restore_preparation.player_position
 	if not _validate_restore_positions():
 		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION
 		return false
@@ -664,7 +686,7 @@ func _initialize_restore_residents(
 
 func _validate_restore_positions() -> bool:
 	var player_location: WorldLocationState = _player.world_location()
-	var player_map: OldPineResidentMapController = _resident_maps.get(
+	var player_map: WorldResidentMapController = _resident_maps.get(
 		player_location.map_id
 	)
 	if not OldPineMapPlacementValidator.is_valid_character_position(

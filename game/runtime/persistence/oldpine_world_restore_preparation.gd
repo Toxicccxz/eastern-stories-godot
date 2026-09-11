@@ -2,6 +2,7 @@ class_name OldPineWorldRestorePreparation
 extends RefCounted
 
 var player: WorldPlayerRuntimeState
+var world_content_revision: WorldContentRevision.Value
 var player_position: Vector2
 var item_domain: NativeItemDomainState
 var item_index: WorldItemInstanceIndex
@@ -24,8 +25,10 @@ func _init(
 	p_world_interaction_random: WorldInteractionRandomSource = null,
 	p_npc_entries: Array[OldPineRestoredNpcEntry] = [],
 	p_corpse_entries: Array[OldPineRestoredCorpseEntry] = [],
+	p_world_content_revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1,
 ) -> void:
 	player = p_player
+	world_content_revision = p_world_content_revision
 	player_position = p_player_position
 	item_domain = p_item_domain
 	item_index = p_item_index
@@ -48,6 +51,7 @@ func corpse_entries() -> Array[OldPineRestoredCorpseEntry]:
 func is_valid() -> bool:
 	if (
 		player == null
+		or not WorldContentRevision.is_supported(world_content_revision)
 		or not player.is_valid()
 		or not player_position.is_finite()
 		or item_domain == null

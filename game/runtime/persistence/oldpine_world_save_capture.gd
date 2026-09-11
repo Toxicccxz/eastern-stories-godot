@@ -31,17 +31,10 @@ func capture(
 		return Result.failure(Result.Outcome.INVALID_SESSION, "session")
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	# v1 has no identity fields. Never silently discard source/new Player facts.
-	# This is a guard, not a schema upgrade or a birth-policy invocation.
-	if not player.facts.is_legacy_technical():
+	if player.body_facts == null:
 		return Result.failure(
 			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
-			"player.facts", "Player identity requires a future save schema",
-		)
-	if player.body_facts == null or player.body_facts.body_weight != CharacterDerivedValues.human_weight(player.state.attributes.strength):
-		return Result.failure(
-			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
-			"player.body_facts.body_weight", "v1 cannot represent independent Player body weight",
+			"player.body_facts", "missing body authority",
 		)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	var player_character: Values.CharacterStateSnapshot = _character_snapshot(
@@ -77,7 +70,7 @@ func capture(
 			session.item_instance_index(),
 			equipment_sources,
 			armor_sources,
-			OldPineNativeItemDefinitionProjections.create(),
+			OldPineNativeItemDefinitionProjections.create(session.world_content_revision()),
 		)
 	)
 	if not item_capture.succeeded:
@@ -102,6 +95,8 @@ func capture(
 			Result.Outcome.BODY_BINDING_MISSING,
 			"player.map_position",
 		)
+	if not OldPineMapPlacementValidator.is_valid_character_position(session.active_map(), player.world_location().zone_id, player_body.global_position):
+		return Result.failure(Result.Outcome.INVALID_CAPTURED_SNAPSHOT, "player.map_position", "position outside saved zone or inside obstacle")
 	var player_snapshot: Values.PlayerRuntimeSnapshot = (
 		Values.PlayerRuntimeSnapshot.new(
 			player.character_id,
@@ -112,6 +107,8 @@ func capture(
 			player.maximum_encumbrance,
 			_location_snapshot(player.world_location()),
 			_position_snapshot(player_body.global_position),
+			Values.PlayerIdentitySnapshot.new(player.facts.display_name, player.facts.title, player.facts.age, player.facts.race_id),
+			Values.PlayerBodySnapshot.new(player.body_facts.body_weight, player.maximum_encumbrance),
 		)
 	)
 
@@ -208,6 +205,7 @@ func capture(
 		session.combat_random_source().capture_random_state(),
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
+		session.world_content_revision(),
 	)
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():

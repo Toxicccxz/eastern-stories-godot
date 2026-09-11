@@ -43,7 +43,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(snow._passages.size() == 2 and session.outdoor_map()._passages.size() == 1, "two independently typed Snow passages")
 	_check(not snow.is_passage_current(south), "inactive/remote passage rejected")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-11T00:00:00Z")
-	_check(capture.outcome == OldPineWorldCaptureResult.Outcome.UNREPRESENTED_CHARACTER_STATE and capture.path == "player.facts", "real source Session v1 fails closed")
+	_check(capture.succeeded() and not GameSaveJsonCodec.encode(VersionedSaveFixture.as_v1(capture.snapshot)).succeeded(), "source Session saves v2; explicit v1 remains fail-closed")
 	# Explicit boundary tests, separate from fresh physical acceptance below.
 	var source: WorldLocationState = player.world_location()
 	var invalids: Array[OldPineMapHandoffResult] = [
