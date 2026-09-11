@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE1 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE2 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
@@ -10,9 +10,13 @@ is owner-approved for gift B (no delayed reroll), food/water B (fresh post-body 
 legacy-native-save A (preserve actual saved state), now recorded in DECISIONS.
 [NGE1 foundation](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) adds typed Player facts,
 deterministic source birth and actual cloth composition, with legacy identity/death/save boundaries.
-Current Old Pine New Game/exp600/starting sword remain unchanged. NGE2 requires owner instruction.
+NGE1 is owner-approved. [NGE2 physical Inn](../migration/PHASE_NEW_GAME_ENTRY_SNOW_INN.md) adds the
+neutral resident-map seam and QA-only source Player entry; 6,328 focused assertions and real desktop
+Inn movement/collision plus canonical New Game regression PASS. Repository-content sanitizer PASS;
+direct worktree sanitizer remains affected by ignored owner-local Godot AI update backups (untouched).
+Current Old Pine New Game/exp600/starting sword remain unchanged. NGE3 requires owner instruction.
 No PR or merge exists for this milestone; no new remote CI/integration claim.
-Do not start Snow/New Game cutover, shops/training, Lake, or Phase5B4.
+Do not start further Snow content/New Game cutover, shops/training, Lake, or Phase5B4.
 
 **Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
 [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at

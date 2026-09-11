@@ -47,19 +47,11 @@ const AggressionAdapterType := preload(
 @onready var cliff1_up_interaction: Area2D = $Interactions/Cliff1UpInteraction
 @onready var cliffside_pine_exit: Area2D = $Interactions/CliffsidePineExit
 
-var _player: WorldPlayerRuntimeType
-var _session_owner: OldPineWorldSessionController
 var _map_characters: MapCharacterRuntimeState
 var _all_npcs: Array[NpcRuntimeState] = []
 var _registered_npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
 var _registered_npc_presence: Dictionary[StringName, Area2D] = {}
 var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
-var _inventory: InventoryState
-var _stacks: CombinedStackCollection
-var _item_index: WorldItemInstanceIndex
-var _npc_random: NpcInitializationRandomSource
-var _combat_random: CombatRandomSource
-var _world_interaction_random: WorldInteractionRandomSource
 var _effects: SkillImprovementEffectRegistry
 var _bandit_content: CombatSliceContentProfile
 var _tall_bandit_content: CombatSliceContentProfile
@@ -71,14 +63,10 @@ var _last_tick_order: Array[StringName] = []
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
-var _item_instance_scope: StringName = &""
-var _item_id_allocator: SessionItemIdAllocator
-var _world_simulation_gate: WorldSimulationGate
 var _encounter_freeze_owner_id: StringName = &""
 var _encounter_cadence_was_running: bool = false
 var _encounter_cadence_time_left: float = 0.0
 var _initialized: bool = false
-var _configured: bool = false
 var _initialization_count: int = 0
 var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new()
 var _vine_adapter: OldPineVineTraversalAdapter = OldPineVineTraversalAdapter.new()
@@ -131,53 +119,10 @@ func map_id() -> StringName:
 	return OldPineWorldDefinitions.OUTDOOR_MAP_ID
 
 
-func configure_session_authorities(
-	p_session: OldPineWorldSessionController,
-	p_player: WorldPlayerRuntimeType,
-	p_inventory: InventoryState,
-	p_stacks: CombinedStackCollection,
-	p_item_index: WorldItemInstanceIndex,
-	p_npc_random: NpcInitializationRandomSource,
-	p_combat_random: CombatRandomSource,
-	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_id_allocator: SessionItemIdAllocator,
-	p_world_simulation_gate: WorldSimulationGate,
-) -> bool:
-	if (
-		_configured
-		or p_session == null
-		or p_player == null
-		or not p_player.is_valid()
-		or p_inventory == null
-		or p_stacks == null
-		or p_item_index == null
-		or p_npc_random == null
-		or p_combat_random == null
-		or p_world_interaction_random == null
-		or p_item_id_allocator == null
-		or not p_item_id_allocator.is_valid()
-		or p_world_simulation_gate == null
-	):
-		return false
-	_session_owner = p_session
-	_player = p_player
-	_inventory = p_inventory
-	_stacks = p_stacks
-	_item_index = p_item_index
-	_npc_random = p_npc_random
-	_combat_random = p_combat_random
-	_world_interaction_random = p_world_interaction_random
-	_item_id_allocator = p_item_id_allocator
-	_item_instance_scope = p_item_id_allocator.scope
-	_world_simulation_gate = p_world_simulation_gate
-	_configured = true
-	return true
-
-
 func initialize_map() -> bool:
 	if _initialized:
 		return true
-	if not _configured:
+	if not _configured or _session_owner == null:
 		return false
 	if not _bind_world_simulation_gate_to_bodies():
 		return false
