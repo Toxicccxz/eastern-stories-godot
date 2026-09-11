@@ -627,19 +627,21 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 	_assert_eq(item_failure.outcome, OldPineWorldRestoreResult.Outcome.ITEM_RESTORE_FAILED, "item reconstruction failure is typed")
 	_assert_true(item_failure.candidate == null, "item failure exposes no candidate")
 
-	var wrong_capacity_player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
+	# NGE5A0: an independent saved Player capacity is valid, not corrupted.
+	var independent_capacity_player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
 		base.player.character_id, base.player.character, base.player.life_status,
 		base.player.exists_in_world, base.player.combat_available,
 		base.player.maximum_encumbrance + 1, base.player.world_location,
 		base.player.map_position,
 	)
-	var character_failure: OldPineWorldRestoreResult = (
+	var independent_capacity: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_copy_snapshot(base, wrong_capacity_player), tree.root,
+			_copy_snapshot(base, independent_capacity_player), tree.root,
 		)
 	)
-	_assert_eq(character_failure.outcome, OldPineWorldRestoreResult.Outcome.CHARACTER_RESTORE_FAILED, "Character derived-fact failure is typed")
-	_assert_true(character_failure.candidate == null, "Character failure exposes no candidate")
+	_assert_eq(independent_capacity.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "saved Player capacity need not equal current strength formula")
+	_assert_true(independent_capacity.candidate != null and independent_capacity.candidate.player_runtime().maximum_encumbrance == base.player.maximum_encumbrance + 1, "saved capacity preserved exactly")
+	_free_node(independent_capacity.candidate)
 
 	var missing_npcs: Array[Values.NpcSpawnStateSnapshot] = base.npc_spawn_states
 	missing_npcs.remove_at(0)

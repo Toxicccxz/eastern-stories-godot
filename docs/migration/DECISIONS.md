@@ -1,5 +1,32 @@
 # Migration Decisions
 
+## Player Body Facts and Native Continue
+
+**Decision (owner-approved NGE5A0):** Player own body weight and maximum encumbrance are independent
+typed runtime facts. Ordinary strength growth, including registered unarmed improvement, does not
+refresh either value. Carry and death use those stored facts. Fresh Human initialization reuses the
+existing source formulas once. NPC body authority is not merged with Player authority.
+
+**Native continuation:** Future schema2 explicitly saves both facts and cold Continue restores them
+exactly. Native Save/Continue does not emulate LPC full-login body reconstruction. Only a future
+explicit source-backed body rebuild/transformation event may re-derive established facts.
+
+**Legacy v1 interpretation:** Existing saved maximum_encumbrance is authoritative even when it differs
+from current strength*5000. v1 has no Player body_weight: derive that missing field once from saved
+current strength, then retain it as runtime authority. Until schema2 exists, v1 capture fails closed
+if runtime body weight differs from human_weight(current strength); it cannot silently lose that fact.
+
+**Reason / compatibility impact:** In the same LPC body, unarmed's str+=2 does not invoke setup;
+Human weight and chard capacity initialize only when zero, and corpse copies existing facts.
+On a full new-body login, static move fields begin at zero and setup may derive them again from
+saved strength. Native exact continuation deliberately does not reproduce that login-induced change.
+This is a native save-continuation compatibility substitution plus a v1 missing-field interpretation,
+not a new growth formula or a legacy world/profile upgrade.
+
+Sources: `reference/es2/mudlib/daemon/skill/unarmed.c`, `feature/skill.c`, `feature/dbase.c`,
+`feature/move.c`, `adm/daemons/race/human.c`, `adm/daemons/chard.c`, `adm/daemons/logind.c`,
+`obj/user.c`, `std/char.c`, `feature/save.c`.
+
 ## New Player Delayed Gift Randomization
 
 **Decision (NGE1 owner-approved B):** Fresh native Human Player starts at age14 with all eight

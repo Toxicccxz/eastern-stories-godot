@@ -11,9 +11,11 @@ static func create(
 		return null
 	if birth.facts == null or not birth.facts.is_valid() or location == null or not location.is_valid():
 		return null
+	if birth.body_facts == null:
+		return null
 	return WorldPlayerRuntimeState.new(
 		character_id, birth.state, CombatRelationshipState.new(character_id),
 		ActionBusyState.new(), birth.armor, location,
 		CharacterRuntimeLifeStatus.Value.ACTIVE, true, true,
-		birth.maximum_encumbrance, birth.facts,
+		birth.body_facts, birth.facts,
 	)

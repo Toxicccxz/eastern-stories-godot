@@ -122,12 +122,13 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _identities(session: OldPineWorldSessionController) -> Array[Object]:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	return [player, player.state, player.state.equipment, player.armor, player.facts, session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.npc_random_source(), session.combat_random_source(), session.world_interaction_random_source(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
+	return [player, player.state, player.state.equipment, player.armor, player.facts, player.body_facts, session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.npc_random_source(), session.combat_random_source(), session.world_interaction_random_source(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
 
 
 func _continuity(session: OldPineWorldSessionController, identities: Array[Object], cloth: StringName) -> void:
-	_check(_identities(session) == identities, "all fourteen Session authority identities unchanged")
+	_check(_identities(session) == identities, "all fifteen Session authority identities including Player body unchanged")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	_check(player.body_facts.body_weight == 80000 and player.body_facts.maximum_encumbrance == 150000, "same established body across Inn/Snow/Old Pine/return handoffs")
 	_check(player.facts.age == 14 and player.state.attributes.strength == 30 and player.state.progression.combat_experience == 0 and player.state.recovery.food == 400 and player.state.recovery.water == 400, "source age/attributes/exp/food/water preserved")
 	var owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)
 	_check(session.inventory_state().direct_children(owner) == [cloth] and player.state.equipment.primary_weapon() == null and player.armor.occupied_slots().size() == 1 and player.armor.is_worn(cloth), "one same worn cloth/empty hands/no starter sword")

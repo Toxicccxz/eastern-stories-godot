@@ -1,6 +1,7 @@
 extends SceneTree
 
 const NewPlayerInitializationTest := preload("res://tests/core/new_player_initialization_test.gd")
+const PlayerBodyFactsTest := preload("res://tests/runtime/player_body_facts_test.gd")
 const NewPlayerLegacyTest := preload("res://tests/runtime/new_player_legacy_integration_test.gd")
 const SnowInnFoundationTest := preload("res://tests/runtime/snow_inn_foundation_test.gd")
 const SnowOutdoorRouteTest := preload("res://tests/runtime/snow_outdoor_route_test.gd")
@@ -1702,7 +1703,7 @@ func _init() -> void:
 	failures.append_array(phase_10c2b_result["failures"])
 	failures.append_array(phase_10c2b_audit_result["failures"])
 	failures.append_array(phase_10c2c_result["failures"])
-	for nge1_result: Dictionary in [NewPlayerInitializationTest.new().run_all(), await NewPlayerLegacyTest.new().run_all(self), await SnowInnFoundationTest.new().run_all(self), await SnowOutdoorRouteTest.new().run_all(self), await SnowOldPineConnectionTest.new().run_all(self)]:
+	for nge1_result: Dictionary in [NewPlayerInitializationTest.new().run_all(), await PlayerBodyFactsTest.new().run_all(self), await NewPlayerLegacyTest.new().run_all(self), await SnowInnFoundationTest.new().run_all(self), await SnowOutdoorRouteTest.new().run_all(self), await SnowOldPineConnectionTest.new().run_all(self)]:
 		assertion_count += int(nge1_result["assertions"])
 		failures.append_array(nge1_result["failures"])
 	if failures.is_empty():

@@ -543,7 +543,7 @@ func _initialize_authorities() -> bool:
 		CharacterRuntimeLifeStatus.Value.ACTIVE,
 		true,
 		true,
-		CharacterDerivedValues.maximum_encumbrance(
+		PlayerBodyFacts.fresh_human(
 			prototype.state.attributes.strength
 		),
 	)

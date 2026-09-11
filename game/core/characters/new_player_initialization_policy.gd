@@ -19,11 +19,10 @@ static func create(selected_gender: StringName, display_name: String) -> NewPlay
 	state.spirit = _full_resource(CharacterDerivedValues.human_maximum_spirit(facts.age))
 	# Owner-approved correction: establish body BEFORE querying capacities.
 	# LPC actually queried at weight=0. Only fresh birth gets full food/water.
-	var body_weight: int = CharacterDerivedValues.human_weight(state.attributes.strength)
-	var capacity: int = CharacterDerivedValues.maximum_encumbrance(state.attributes.strength)
-	state.recovery.food = CharacterRecovery.maximum_food_capacity(body_weight)
-	state.recovery.water = CharacterRecovery.maximum_water_capacity(body_weight)
-	return NewPlayerInitialization.new(state, facts, body_weight, capacity)
+	var body: PlayerBodyFacts = PlayerBodyFacts.fresh_human(state.attributes.strength)
+	state.recovery.food = CharacterRecovery.maximum_food_capacity(body.body_weight)
+	state.recovery.water = CharacterRecovery.maximum_water_capacity(body.body_weight)
+	return NewPlayerInitialization.new(state, facts, body)
 
 
 static func _full_resource(maximum: int) -> CharacterResourceState:

@@ -65,7 +65,7 @@ func _test_profile(gender: StringName) -> void:
 	var player: WorldPlayerRuntimeState = WorldPlayerRuntimeState.new(
 		&"player", state, CombatRelationshipState.new(&"player"), ActionBusyState.new(),
 		fresh.armor, null, CharacterRuntimeLifeStatus.Value.ACTIVE, true, true,
-		fresh.maximum_encumbrance, fresh.facts,
+		fresh.body_facts, fresh.facts,
 	)
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"fixture"),

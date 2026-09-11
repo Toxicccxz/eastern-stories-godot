@@ -58,7 +58,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			player.state.recovery.food = -7
 			player.state.recovery.water = 923
 			player.state.attributes.strength = 27
-			player._maximum_encumbrance = 135000
+			# Explicit historical v1 fixture setup, not an ordinary strength update.
+			player._body_facts = PlayerBodyFacts.from_legacy_v1(27, 135000)
 			player.state.vitality.maximum = 357
 			if not wielded:
 				player.state.equipment.unwield(player.state.equipment.primary_weapon().instance_id)

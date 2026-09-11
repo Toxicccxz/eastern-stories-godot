@@ -107,7 +107,7 @@ func _test_handoff_failure_boundaries(tree: SceneTree) -> void:
 		original_player.life_status,
 		original_player.exists_in_world,
 		original_player.combat_available,
-		original_player.maximum_encumbrance,
+		original_player.body_facts,
 	)
 	session._player = rejecting_player
 	var commit_failure: OldPineMapHandoffResult = session.handoff_to(

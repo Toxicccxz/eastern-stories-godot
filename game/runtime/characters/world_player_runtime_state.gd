@@ -10,7 +10,7 @@ var _world_location: WorldLocationState
 var _life_status: int
 var _exists_in_world: bool
 var _combat_available: bool
-var _maximum_encumbrance: int
+var _body_facts: PlayerBodyFacts
 var _facts: PlayerIdentityFacts
 
 var facts: PlayerIdentityFacts:
@@ -33,7 +33,9 @@ var exists_in_world: bool:
 var combat_available: bool:
 	get: return _combat_available
 var maximum_encumbrance: int:
-	get: return _maximum_encumbrance
+	get: return _body_facts.maximum_encumbrance
+var body_facts: PlayerBodyFacts:
+	get: return _body_facts
 
 
 func _init(
@@ -46,7 +48,7 @@ func _init(
 	p_life_status: int = CharacterRuntimeLifeStatus.Value.ACTIVE,
 	p_exists_in_world: bool = true,
 	p_combat_available: bool = true,
-	p_maximum_encumbrance: int = 0,
+	p_body_facts: PlayerBodyFacts = null,
 	p_facts: PlayerIdentityFacts = null,
 ) -> void:
 	_character_id = p_character_id
@@ -60,7 +62,7 @@ func _init(
 	_life_status = p_life_status
 	_exists_in_world = p_exists_in_world
 	_combat_available = p_combat_available
-	_maximum_encumbrance = p_maximum_encumbrance
+	_body_facts = p_body_facts
 	_facts = PlayerIdentityFacts.legacy_technical() if p_facts == null else p_facts
 
 
@@ -70,8 +72,8 @@ func death_context(destination: InventoryTransferDestination, has_killer: bool) 
 		_character_id, false, false, destination,
 		ItemLifecycleOwnerContext.new(_character_id, _state.equipment, _armor),
 		_facts.display_name, _state.gender, _facts.age,
-		CharacterDerivedValues.human_weight(_state.attributes.strength),
-		CharacterDerivedValues.maximum_encumbrance(_state.attributes.strength),
+		_body_facts.body_weight,
+		_body_facts.maximum_encumbrance,
 		false, destination.endpoint if has_killer else null, _state.gender, has_killer,
 	)
 
@@ -111,6 +113,7 @@ func is_valid() -> bool:
 		and _relationship.owner_character_id == _character_id
 		and _busy != null
 		and _armor != null
+		and _body_facts != null
 		and _facts != null and _facts.is_valid()
 		and _world_location != null
 		and _world_location.is_valid()

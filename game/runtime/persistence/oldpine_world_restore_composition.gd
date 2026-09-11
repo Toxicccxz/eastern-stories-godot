@@ -65,15 +65,6 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			Result.Outcome.CHARACTER_RESTORE_FAILED,
 			"player.character",
 		)
-	if snapshot.player.maximum_encumbrance != (
-		CharacterDerivedValues.maximum_encumbrance(
-			player_state.attributes.strength
-		)
-	):
-		return Result.failure(
-			Result.Outcome.CHARACTER_RESTORE_FAILED,
-			"player.maximum_encumbrance",
-		)
 	var player_life: int = _life_status(snapshot.player.life_status)
 	if player_life < 0:
 		return Result.failure(
@@ -90,7 +81,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		player_life,
 		snapshot.player.exists_in_world,
 		snapshot.player.combat_available,
-		snapshot.player.maximum_encumbrance,
+		PlayerBodyFacts.from_legacy_v1(player_state.attributes.strength, snapshot.player.maximum_encumbrance),
 		PlayerIdentityFacts.legacy_technical(),
 	)
 	if not player.is_valid():
@@ -344,6 +335,8 @@ static func _restore_corpses(
 		var expected_weight: int = CharacterDerivedValues.human_weight(
 			victim_character.attributes.strength
 		)
+		# Player capacity is an existing v1 saved fact, not current str * 5000.
+		var expected_capacity: int = snapshot.player.maximum_encumbrance
 		if victim is Values.NpcSpawnStateSnapshot:
 			var victim_npc: Values.NpcSpawnStateSnapshot = victim
 			var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(
@@ -354,16 +347,15 @@ static func _restore_corpses(
 			expected_name = definition.display_name
 			expected_age = victim_npc.age
 			expected_weight = victim_npc.body_weight
+			# Preserve the existing NPC validation policy (not a Player body change).
+			expected_capacity = CharacterDerivedValues.maximum_encumbrance(victim_character.attributes.strength)
 		if (
 			victim_life != &"dead"
 			or victim_exists
 			or saved.victim_display_name != expected_name
 			or saved.victim_gender != victim_character.gender
 			or saved.victim_age != expected_age
-			or saved.maximum_contents_encumbrance
-			!= CharacterDerivedValues.maximum_encumbrance(
-				victim_character.attributes.strength
-			)
+			or saved.maximum_contents_encumbrance != expected_capacity
 			or record.own_weight != expected_weight
 		):
 			return Result.failure(

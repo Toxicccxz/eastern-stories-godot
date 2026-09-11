@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE4 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE5A0 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
@@ -20,9 +20,15 @@ adds one continuous Square/south/east corridor and shared Inn/Square handoff. Co
 preserved. NGE3 is owner-approved. [NGE4 unified source-entry connection](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OLDPINE_CONNECTION.md)
 connects eroad3 to the existing Old Pine North Approach using one production Session.
 Source-entry has4 residents; default technical New Game remains2. Canonical17,500 assertions and
-real Inn -> Clearing -> Inn route PASS, including NPC/Player/RNG continuity.
+real Inn -> Clearing -> Inn route PASS, including NPC/Player/RNG continuity. NGE4 is owner-approved.
+NGE5A pre-audit identified strength growth versus established body facts and correctly stopped.
+[NGE5A0 body authority](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_BODY_FACTS.md) implements the owner-approved
+single Player body authority, stored-fact death/carry, legacy v1 saved-capacity interpretation and
+lossy-v1-capture guard. Future schema2 exact body continuation is recorded in DECISIONS.
+Focused260 / complete canonical17,553 assertions, headless editor and real desktop binding smoke PASS.
 Current Old Pine New Game/exp600/starting sword remain unchanged. Source Save/Continue is still
-fail-closed; Snow population remains deferred. NGE5 requires owner instruction.
+fail-closed; Snow population remains deferred. Complete NGE5A (versioned Source Save/Continue) and
+NGE5B (public New Game cutover) remain separate next slices requiring owner instruction.
 No PR or merge exists for this milestone; no new remote CI/integration claim.
 Do not start further Snow content/New Game cutover, shops/training, Lake, or Phase5B4.
 

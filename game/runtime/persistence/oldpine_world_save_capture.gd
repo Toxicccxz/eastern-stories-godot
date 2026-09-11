@@ -38,6 +38,11 @@ func capture(
 			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
 			"player.facts", "Player identity requires a future save schema",
 		)
+	if player.body_facts == null or player.body_facts.body_weight != CharacterDerivedValues.human_weight(player.state.attributes.strength):
+		return Result.failure(
+			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
+			"player.body_facts.body_weight", "v1 cannot represent independent Player body weight",
+		)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	var player_character: Values.CharacterStateSnapshot = _character_snapshot(
 		player.state,
