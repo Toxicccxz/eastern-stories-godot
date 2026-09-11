@@ -162,9 +162,15 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
    effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
 
-9. **Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
+9. **Source-valid New Game Entry — COMPLETE / FULLY INTEGRATED ON MAIN**
 
-   One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
+   [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final HEAD
+   `56ae4ba9bf20b2d7d81b7b9fb5ea5854b23662e2`, merged at
+   `047f29083e881156abbdad6ed480bffc1350dfa8`. Post-main
+   [workflow 34631309438](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34631309438)
+   passed all four required jobs on that merge commit. Branch `phase/source-valid-new-game-entry`
+   and its worktree are retained. Below are historical slice checkpoints; later NGE slices supersede
+   earlier technical-entry and compatibility wording.
    [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
    gift B / food-water B / old-save A, recorded in DECISIONS.
    [NGE1 initialization](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) implements the
@@ -200,10 +206,21 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Full Chinese mobile IME/birth and iOS device qualification are not claimed. NGE5B is OWNER APPROVED.
    [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md) corrects public technical-save
    reachability and exact Snow street-join restoration; focused/runtime/sanitizer evidence passes.
-   Final committed-HEAD canonical and the unique final PR's four same-HEAD jobs gate integration.
-   This is not fully integrated on main; merge still requires explicit owner authorization.
-   Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
-   square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
-   real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
-   deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
-   acceptance. One final PR is authorized after local gates; no merge or next-slice implementation.
+   The unique final PR and post-main four-job gates completed successfully as linked above.
+   Public New Game now begins in Snow Inn with source birth and exact schema2 continuation.
+   This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
+   keep their original pre-PR checkpoints; they are not new implementation authorization.
+
+10. **Snow Town Core Hub Restoration — S1 ANALYSIS COMPLETE / AWAIT OWNER REVIEW**
+
+    New major-phase branch `phase/snow-town-core-hub`, based on exact green main
+    `047f29083e881156abbdad6ed480bffc1350dfa8`. Only
+    [S1 source rebaseline / dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md)
+    is authorized and complete. It covers the entire Snow source population/topology/item set,
+    actual fresh-player paths, commerce/recovery/teaching dependencies and save-content risks.
+    No implementation has started. Proposed order is work income/minimal access, currency
+    exchange/payment, Inn supplies, world-active recovery, school/weapon access, narrow teaching,
+    then bounded smith/medicine support. These are review proposals, not approved slices or a
+    mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains
+    and source-save cutoff require explicit decisions before affected implementation.
+    No final PR, merge, Lake, full population or Phase5B4 is authorized by this analysis.

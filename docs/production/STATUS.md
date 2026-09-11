@@ -2,9 +2,23 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
-is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
-`d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+**Snow Town Core Hub Restoration — S1 SOURCE REBASELINE / DEPENDENCY ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
+is the current analysis-only milestone on `phase/snow-town-core-hub`, based on exact green main
+`047f29083e881156abbdad6ed480bffc1350dfa8`.
+[S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
+38 Snow rooms, 26 local NPC definitions and both object directories, traces fresh-player income,
+supply, weapon and teaching paths, and distinguishes executable rules from incomplete/account-only
+content. Implementation has NOT STARTED. Proposed S2 work-income scope and all later slices require
+owner review; no new NPC, room, commerce, training, save revision, PR or merge is authorized by S1.
+
+**Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
+[PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD
+`56ae4ba9bf20b2d7d81b7b9fb5ea5854b23662e2`, merged at
+`047f29083e881156abbdad6ed480bffc1350dfa8`.
+Post-main [workflow 34631309438](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34631309438)
+passed Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation on that
+merge commit. The following slice checkpoints remain historical evidence, not the current public
+entry or save policy where later NGE slices superseded them.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
 is owner-approved for gift B (no delayed reroll) and food/water B (fresh post-body fill).
 Its historical legacy-native-save A is now SUPERSEDED by NGE5A1, as recorded in DECISIONS.
@@ -44,10 +58,10 @@ Chinese Android IME composition/full birth and iOS device qualification are not 
 NGE5B is OWNER APPROVED. [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md)
 corrects public Continue/Recovery accepting technical profiles and exact Snow street-boundary
 restore rejection. Focused1658 / UI6027 / route128 / persistence332 PASS; real public birth,
-forward/reverse route and fresh-process continuation PASS. Final committed-HEAD canonical and
-four same-HEAD PR jobs are mandatory before merge authorization; see the final PR/owner report
-for their actual results. Not merged or fully integrated on main. No new Snow content, shops,
-training, Lake or Phase5B4 is authorized.
+forward/reverse route and fresh-process continuation PASS. The final integration gates completed
+with four successful same-HEAD PR jobs and four post-main jobs linked above. Historical NGE6
+pre-PR checkpoint wording remains unchanged. NGE did not implement full Snow services/population;
+the new S1 is analysis only. Lake and Phase5B4 remain outside authorization.
 
 **Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
 [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at
