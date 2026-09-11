@@ -2,8 +2,11 @@
 
 ## EXECUTIVE RESULT
 
-**NGE0 分析完成 / AWAIT OWNER REVIEW；New Game implementation NOT AUTHORIZED。**
-本文是待批准的兼容合同，不是已经生效的玩法决策。所有 recommendation 均未写入 DECISIONS。
+**NGE0 OWNER APPROVED；NGE1 foundation 已获授权；当前 New Game cutover 仍未授权。**
+NGE1 owner 指令正式批准 gift B / food-water B / old-save A，已记录于
+[DECISIONS](DECISIONS.md)。其余技术建议不是自动实施授权；下文 NGE0 source coverage 与
+docs-only validation 保留为该分析提交的历史证据。NGE1 实现/验证见
+[Player initialization](PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md)。
 
 - Major branch：`phase/source-valid-new-game-entry`，从绿色 main
   `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab` 开始。
@@ -90,7 +93,7 @@ static weight/max_encumb 不随F_SAVE持久化，下次新body setup会用保存
 | B 固定初始30、不移植gift延迟随机 | fresh忠实，后续行为显式替代 | 无隐藏洗点；数值透明 | 创建不消耗gift RNG，Continue不重复初始化；只保存当前属性 | 最低；仍需年龄事实统一及其持久化 |
 | C New Game一次随机10..30 | 不忠实fresh30；只有旧注释/帮助支持意图解释 | 创建时即可知道差异，不会后期突然变化 | typed创建输入+独立可重放随机源；结果保存；不能偷用combat/NPC/world流 | 中：新UI/seed/失败重试约束；不必要的随机化扩张 |
 
-**推荐B**，等待owner批准。这不是把所有属性永久锁30：已迁移技能升级/其他合法成长仍可修改属性，
+**B — OWNER APPROVED（NGE1）**。这不是把所有属性永久锁30：已迁移技能升级/其他合法成长仍可修改属性，
 只是不用gift_tag再次覆盖。年龄14为出生事实；本NGE不新增在线计龄/15岁自动成长系统，
 必须明示该时间系统延期，不能暗示“照旧长到15岁但忘记实现callback”。若owner选A/C，须先重估切片。
 
@@ -161,7 +164,7 @@ water1→0同样阻止恢复；water2、food0、con30、无内部资源时，损
 | B setup后按容量初始化400/400 | 显式兼容修正；符合max_capacity写法的可能意图 | 允许未来有限次数正常恢复，不是永久免食水或免费回血 | 调用既有容量公式，创建一次；Continue绝不补满；不需vendor/经济 |
 | C 0/0 + 即时source补给loop | 保留初态和实际食饮 | 有真正后续补给，但红酒/零钱bug不能隐藏 | 工作/工资stack、兑换、vendor/payment、食饮实例状态/保存、UI、醉酒集成；远超入口 |
 
-**推荐B**，只在新角色body facts确定后初始化一次。不是修改heal_up或导入旧档补给。
+**B — OWNER APPROVED（NGE1）**，只在新角色body facts确定后初始化一次。不是修改heal_up或导入旧档补给。
 如果owner坚持A，可接受“无战斗胜利/无持续生存承诺的入口切片”；
 若选C，应明确扩展预算或独立Snow Supply milestone，不借NGE偷带完整经济。
 选择B也仍把可持续补给/成长留到后续，400/400不是early-game完成证明。
@@ -219,7 +222,7 @@ human_weight(str)；restorer对Player corpse也验证这组常量。这不是Pla
 
 | 方案 | 用户状态/风险 | 结论 |
 | --- | --- | --- |
-| A Preserve old saves exactly | Continue仍恢复原位置、属性/成长、装备、NPC死活、corpse、RNG；New Game才采用Snow | **推荐**；新增字段缺省只能解释旧事实，不重算或发赠品 |
+| A Preserve old saves exactly | Continue仍恢复原位置、属性/成长、装备、NPC死活、corpse、RNG；未来切换后只有New Game采用Snow | **OWNER APPROVED（NGE1）**；新增字段缺省只能解释旧事实，不重算或发赠品 |
 | B migrate into Snow | 改坐标/region即改变保存状态；填Snow NPC可能重抽随机/复活tombstone；删长剑/经验损害既得状态 | 无强理由，不推荐；不是简单schema migration |
 | C reset incompatible | 丢失档、物品/进度和实际用户投入；可省工程但成本不应由玩家默认承担 | 不推荐；只有owner明确牺牲兼容才可考虑 |
 
@@ -337,7 +340,7 @@ New Game切换到Snow前，NGE2–5必须同时成立，否则技术baseline保�
 
 | 依赖 | 最小处理 / 延后边界 |
 | --- | --- |
-| 三owner政策 | gift / food-water / old-save尚待批准；未批准NGE1 NOT READY |
+| 三owner政策 | gift B / food-water B / old-save A：OWNER APPROVED；仅NGE1 foundation已授权 |
 | Player metadata与持久化 | birth age/title/identity的一份事实；旧Player age20尸体语义必须保留，不能编造历史mud_age |
 | cloth Item/Armor/content | 复用现有实例/穿戴/存档；补定义及玩家可见投影，不做泛型item payload |
 | Session/map membership | region-aware地图组合、实际collision/portal验收；不替换Core权威 |
@@ -347,20 +350,23 @@ New Game切换到Snow前，NGE2–5必须同时成立，否则技术baseline保�
 | Training/economy | 全部延期；已有Skill Core不等于教学/商店/打工runtime已迁 |
 | 年龄/自动恢复 | 当前无Player年龄时钟或runtime heal_up接线；另行定义暂停、离线及计时契约，不以MUD heartbeat实现 |
 
-## OUT OF SCOPE
+## NGE0 HISTORICAL OUT OF SCOPE
 
 本次不改New Game、scene、source、save schema、tests、DECISIONS、build/CI/export。
 不实现Snow/Inn/Square/NPC/Shop/Training/Lake/Phase5B4；不跑完整gameplay suite或真人重复测试。
 不实现account/password/email、通用创角引擎、migration framework、race registry、LPC property VM。
 不创建PR、不合并，不调整敌人/死亡规则，不要求完整38房/26NPC、银行账户、当铺、书院、外部区域。
 
-## OWNER DECISIONS REQUIRED
+## OWNER DECISIONS — APPROVED FOR NGE1
 
-1. **gift：批准B还是选择A/C？** B只取消延迟随机化，后续合法属性成长不受限；年龄时钟延期明示。
-2. **food/water：批准B的400/400创建修正，还是A的严格0/0或C的额外补给预算？**
-3. **old saves：批准A精确保留，不强制送Snow、重设经验、没收物品或重生NPC？**
+1. **gift B — OWNER APPROVED**：不创建gift_tag、pending allocation、gift RNG或age15 callback。
+   将来实现aging也不得自动恢复覆盖，需重新source analysis + owner decision；其他正常属性成长不受限。
+2. **food/water B — OWNER APPROVED**：body确定后fresh birth一次400/400；LPC执行结果仍为0/0。
+   Continue/Restore/换图/复活/失败恢复/回菜单绝不补满。
+3. **old-save A — OWNER APPROVED**：精确保留，不送Snow、不重设经验、不改物品/NPC/corpse/RNG/allocator。
+   v1自身解释为legacy technical profile，禁止按经验、长剑、timestamp猜测。
 
-同时请确认最小milestone是入口/走路/Save/到Old Pine，而非完整生存成长体验；
+后续milestone验收范围仍需相应切片授权，不将上述三选择扩大为完整生存成长体验；
 名字可先Player+gender选择，Inn几何与未迁人口边界在后续地图切片冻结。
 世界revision及schema2只是为批准政策服务的窄技术建议；没有授权时不实现。
 
@@ -369,7 +375,7 @@ New Game切换到Snow前，NGE2–5必须同时成立，否则技术baseline保�
 **B / B / A。** 保留source fresh年龄14/30属性/资源100/潜能99/经验0/布衣空手；
 明确取消延迟gift覆盖，并仅在新建身体后给当前容量食水。保留所有合法native旧档的实际状态。
 这个组合最小化隐藏惩罚、随机流及经济范围扩张，同时明确承认两项兼容替代。
-owner批准前不写入DECISIONS，不以“建议”替代授权。
+以上三项已获批准并写入DECISIONS；其余建议仍不替代授权。
 
 ## SOURCE COVERAGE / DISTINCT SELF-REVIEW
 
@@ -400,7 +406,7 @@ owner批准前不写入DECISIONS，不以“建议”替代授权。
 原生角色数据/内容限定；新局/Continue；schema/content revision；proposal/owner decision；
 静态路径/真实玩家验证。未把已有技术基线当bug。
 
-## VALIDATION
+## NGE0 HISTORICAL VALIDATION
 
 Docs-only gate：只允许本文、STATUS、ROADMAP；检查相对base全部路径与未跟踪文件，
 production/tests/reference/DECISIONS/build/CI/export delta必须为0；执行repository/static、
@@ -412,6 +418,6 @@ DECISIONS/build/CI/export delta全部为0。Python使用已有解释器，未新
 
 ## NGE1 READY / NOT READY
 
-**NOT READY — AWAIT OWNER REVIEW / THREE COMPATIBILITY DECISIONS。**
-NGE0分析已完成；整个milestone仍为COMPATIBILITY ANALYSIS / NOT IMPLEMENTED。
-本分支提交/推送后HARD STOP，无PR、无merge，不自动进入NGE1。
+**NGE1 AUTHORIZED — 三项兼容选择已批准。**
+NGE1执行记录以独立初始化文档为准；不代表整个milestone集成完成。
+NGE1完成后仍HARD STOP等待owner review，不自动进入NGE2，不创建PR或merge。

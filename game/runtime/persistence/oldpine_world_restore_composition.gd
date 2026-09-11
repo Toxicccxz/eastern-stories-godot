@@ -91,6 +91,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		snapshot.player.exists_in_world,
 		snapshot.player.combat_available,
 		snapshot.player.maximum_encumbrance,
+		PlayerIdentityFacts.legacy_technical(),
 	)
 	if not player.is_valid():
 		return Result.failure(
@@ -334,11 +335,12 @@ static func _restore_corpses(
 		var victim_character: Values.CharacterStateSnapshot = victim.character
 		var victim_life: StringName = victim.life_status
 		var victim_exists: bool = victim.exists_in_world
-		var expected_name: String = "Player"
-		# The current Player runtime has no durable age field. Its death context
-		# uses the authored Phase 6B3 constant 20, so a Player corpse must prove
-		# that same fact instead of accepting its own saved value tautologically.
-		var expected_age: int = 20
+		var legacy_player_facts: PlayerIdentityFacts = PlayerIdentityFacts.legacy_technical()
+		var expected_name: String = legacy_player_facts.display_name
+		# v1 has no durable Player identity fields. Its technical legacy profile
+		# supplies age 20; verify that independently rather than trusting the
+		# corpse's own saved value. Source identity needs a future schema.
+		var expected_age: int = legacy_player_facts.age
 		var expected_weight: int = CharacterDerivedValues.human_weight(
 			victim_character.attributes.strength
 		)

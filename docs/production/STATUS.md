@@ -2,14 +2,16 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE0 COMPATIBILITY ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+**Source-valid New Game Entry — NGE1 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
-is analysis-complete and awaiting owner review: recommend gift B (no delayed reroll), food/water B
-(initialize after body setup), and legacy-native-save A (preserve actual saved state). These are
-recommendations, not approved DECISIONS. NGE1 is NOT READY pending owner choices. No PR or merge for
-this new milestone; current Old Pine New Game/exp600/starting sword and all production code remain unchanged.
+is owner-approved for gift B (no delayed reroll), food/water B (fresh post-body fill), and
+legacy-native-save A (preserve actual saved state), now recorded in DECISIONS.
+[NGE1 foundation](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) adds typed Player facts,
+deterministic source birth and actual cloth composition, with legacy identity/death/save boundaries.
+Current Old Pine New Game/exp600/starting sword remain unchanged. NGE2 requires owner instruction.
+No PR or merge exists for this milestone; no new remote CI/integration claim.
 Do not start Snow/New Game cutover, shops/training, Lake, or Phase5B4.
 
 **Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through

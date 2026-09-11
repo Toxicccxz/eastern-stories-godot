@@ -162,14 +162,15 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
    effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
 
-9. **Source-valid New Game Entry — NGE0 COMPATIBILITY ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+9. **Source-valid New Game Entry — NGE1 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
    One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
-   [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) is analysis-complete,
-   awaiting owner review. Recommendations: gift B / food-water B / old-save A; no DECISIONS update.
-   NGE1 NOT READY until the compatibility choices and bounded acceptance receive owner approval.
+   [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
+   gift B / food-water B / old-save A, recorded in DECISIONS.
+   [NGE1 initialization](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) implements the
+   typed birth/cloth foundation and legacy fixtures without changing current New Game or schema1.
    Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
    square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
    real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
    deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
-   acceptance. Keep current New Game untouched; no PR/merge or automatic NGE1 implementation.
+   acceptance. Keep current New Game untouched; no PR/merge or automatic NGE2 implementation.

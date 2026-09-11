@@ -31,6 +31,13 @@ func capture(
 		return Result.failure(Result.Outcome.INVALID_SESSION, "session")
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	# v1 has no identity fields. Never silently discard source/new Player facts.
+	# This is a guard, not a schema upgrade or a birth-policy invocation.
+	if not player.facts.is_legacy_technical():
+		return Result.failure(
+			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
+			"player.facts", "Player identity requires a future save schema",
+		)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	var player_character: Values.CharacterStateSnapshot = _character_snapshot(
 		player.state,

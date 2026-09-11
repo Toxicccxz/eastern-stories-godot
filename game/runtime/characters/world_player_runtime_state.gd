@@ -11,6 +11,10 @@ var _life_status: int
 var _exists_in_world: bool
 var _combat_available: bool
 var _maximum_encumbrance: int
+var _facts: PlayerIdentityFacts
+
+var facts: PlayerIdentityFacts:
+	get: return _facts
 
 var character_id: StringName:
 	get: return _character_id
@@ -43,6 +47,7 @@ func _init(
 	p_exists_in_world: bool = true,
 	p_combat_available: bool = true,
 	p_maximum_encumbrance: int = 0,
+	p_facts: PlayerIdentityFacts = null,
 ) -> void:
 	_character_id = p_character_id
 	_state = p_state
@@ -56,6 +61,19 @@ func _init(
 	_exists_in_world = p_exists_in_world
 	_combat_available = p_combat_available
 	_maximum_encumbrance = p_maximum_encumbrance
+	_facts = PlayerIdentityFacts.legacy_technical() if p_facts == null else p_facts
+
+
+## The production Player death projection; source fixtures use this same path.
+func death_context(destination: InventoryTransferDestination, has_killer: bool) -> DeathContext:
+	return DeathContext.new(
+		_character_id, false, false, destination,
+		ItemLifecycleOwnerContext.new(_character_id, _state.equipment, _armor),
+		_facts.display_name, _state.gender, _facts.age,
+		CharacterDerivedValues.human_weight(_state.attributes.strength),
+		CharacterDerivedValues.maximum_encumbrance(_state.attributes.strength),
+		false, destination.endpoint if has_killer else null, _state.gender, has_killer,
+	)
 
 
 func world_location() -> WorldLocationState:
@@ -93,6 +111,7 @@ func is_valid() -> bool:
 		and _relationship.owner_character_id == _character_id
 		and _busy != null
 		and _armor != null
+		and _facts != null and _facts.is_valid()
 		and _world_location != null
 		and _world_location.is_valid()
 		and CharacterRuntimeLifeStatus.is_valid(_life_status)

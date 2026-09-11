@@ -1460,8 +1460,11 @@ func _death_context_for(
 	killer: CombatSliceCharacterBinding,
 	destination: InventoryTransferDestination,
 ) -> DeathContext:
-	var display_name: String = "Player"
-	var age: int = 20
+	if _player != null and victim.character_id == _player.character_id:
+		return _player.death_context(destination, killer != null)
+	var fallback: PlayerIdentityFacts = PlayerIdentityFacts.legacy_technical()
+	var display_name: String = fallback.display_name
+	var age: int = fallback.age
 	var strength: int = victim.state.attributes.strength
 	var body_weight: int = CharacterDerivedValues.human_weight(strength)
 	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)

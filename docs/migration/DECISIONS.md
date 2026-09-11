@@ -1,5 +1,42 @@
 # Migration Decisions
 
+## New Player Delayed Gift Randomization
+
+**Decision (NGE1 owner-approved B):** Fresh native Human Player starts at age14 with all eight
+base attributes30. Do not implement `gift_tag`, a pending gift allocation, a gift RNG stream, or
+the delayed age15 login overwrite. This is a **compatibility substitution**, not a claim of exact
+legacy execution. Other authorized gameplay attribute progression remains allowed.
+
+**Legacy:** `adm/daemons/logind.c::init_new_player` sets attributes30 and gift_tag; the later full
+`enter_world` with age>=15 overwrites them with `10 + random(21)`. `obj/user.c::update_age`
+establishes age14 initially. Future native age/mud_age progression MUST NOT automatically reintroduce
+this overwrite; a fresh source analysis and owner decision are required first.
+
+## Fresh Food / Water Initialization
+
+**Decision (NGE1 owner-approved B):** Only fresh NEW_GAME birth establishes the body, derives food
+and water capacity, then initializes them once to capacity: at weight80000, **400/400**.
+This is a **legacy initialization-order compatibility correction**.
+
+**Legacy execution:** `adm/daemons/logind.c` queries capacities before body setup;
+`feature/move.c` initially has weight0 and `feature/damage.c` divides weight by200, producing
+**0/0**, not400/400. `adm/daemons/race/human.c` later establishes body weight.
+Continue, Restore, map transition, respawn/revive, load-failure recovery, returning from Old Pine,
+opening menus and general recovery MUST NOT invoke this birth refill. No recovery formula changes.
+
+## Legacy Native Save Preservation
+
+**Decision (NGE1 owner-approved A):** Legal native saves created before Snow cutover remain
+Legacy Native Technical-Demo Saves and restore their actual stored values. New Game revisions do
+not rewrite existing saves. This is a **save compatibility policy**.
+
+Do not relocate the player to Snow, reset attributes/experience, remove the starter weapon, grant
+cloth, replenish food/water, rerun birth, revive NPCs/rebuild tombstones, alter corpses, redraw RNG,
+or change allocator continuation. Existing native schema1 itself identifies the technical profile;
+never infer it from experience, inventory or timestamps. Its absent Player metadata is interpreted
+as the existing Player/age20 facts without recalculating saved gameplay values. This approves no
+schema2, world revision implementation, Snow geometry, shops or training work.
+
 ## Active Semi-Auto V1 SPAR establishment is unarmed-only
 
 **Decision:** CXR9 owner authorization restricts SPAR establishment to participants
