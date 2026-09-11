@@ -1,6 +1,8 @@
 class_name WorldResidentMapController
 extends Node2D
 
+signal passage_requested(portal: PortalDefinition)
+
 ## Shared physical-map contract. Authorities are injected references, never born here.
 ## No Session implementation, service locator or copied gameplay state.
 
@@ -103,6 +105,14 @@ func resolve_location(
 	_combat_location_id: StringName,
 ) -> WorldLocationState:
 	return null
+
+
+func location_for_zone(_zone_id: StringName) -> WorldLocationState:
+	return null
+
+
+func is_passage_current(_portal: PortalDefinition) -> bool:
+	return false
 
 
 func prepare_for_activation(_spawn_point_id: StringName) -> bool:

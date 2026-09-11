@@ -66,7 +66,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 1, "no silent dummy NPC bodies")
 	_check(SnowWorldDefinitions.LEGACY_TRAVELLER_COUNT == 2 and SnowWorldDefinitions.LEGACY_WAITER_COUNT == 1, "deferred source population still documented")
 	_check(SnowWorldDefinitions.LEGACY_VALID_STARTROOM and SnowWorldDefinitions.LEGACY_NORTHWEST_DOOR_CLOSED, "source startroom and closed door facts")
-	_check(SnowWorldDefinitions.inn_map().portal_ids().is_empty(), "authored exits are not executable")
+	_check(SnowWorldDefinitions.inn_map().portal_ids() == [SnowWorldDefinitions.INN_EXIT_PORTAL_ID], "NGE3 enables only the authored east exit; up/NW deferred")
 	_check(SnowWorldDefinitions.LEGACY_EAST_EXIT == "/d/snow/square" and SnowWorldDefinitions.LEGACY_UP_EXIT == "/d/snow/inn_2f" and SnowWorldDefinitions.LEGACY_NORTHWEST_EXIT == "/d/wiz/entrance", "exact source exits")
 	_check(SnowWorldDefinitions.main_floor().is_valid() and SnowWorldDefinitions.inn_map().is_valid(), "typed definitions valid")
 	_check((body.get_node("Camera2D") as Camera2D).enabled and body.player_controlled, "camera/input activated")
