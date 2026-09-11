@@ -2,14 +2,20 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S1 SOURCE REBASELINE / DEPENDENCY ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
-is the current analysis-only milestone on `phase/snow-town-core-hub`, based on exact green main
+**Snow Town Core Hub Restoration — S2 IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
 38 Snow rooms, 26 local NPC definitions and both object directories, traces fresh-player income,
 supply, weapon and teaching paths, and distinguishes executable rules from incomplete/account-only
-content. Implementation has NOT STARTED. Proposed S2 work-income scope and all later slices require
-owner review; no new NPC, room, commerce, training, save revision, PR or merge is authorized by S1.
+content. S1 is owner-approved/closed. [S2 work income](../migration/PHASE_SNOW_TOWN_CORE_HUB_WORK_INCOME.md)
+adds physical Square → mstreet1 → mstreet2 → Workplace access, source-ordered resource costs and
+real silver stack composition, with owner-approved immediate lifecycle cleanup of capacity-rejected
+rewards. Focused122 / complete canonical18438 / Python46 PASS; real desktop Work/Pause Save/cold
+Continue/return route PASS. Schema2/SOURCE_ENTRY_V1 and public birth are unchanged; exact main-save
+compatibility PASS. Repository-content sanitizer/headless PASS; direct-worktree sanitizer still
+rejects ignored owner-local Godot AI update backups, preserved unchanged. S3, NPCs, commerce,
+training, PR and merge are not started or authorized by this checkpoint.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

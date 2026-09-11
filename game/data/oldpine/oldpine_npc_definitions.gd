@@ -9,7 +9,7 @@ const LONG_SWORD_ITEM_ID: StringName = (
 	OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID
 )
 const SHORT_SWORD_ITEM_ID: StringName = &"es2:d/oldpine/obj/short_sword"
-const SILVER_ITEM_ID: StringName = &"es2:obj/money/silver"
+const SILVER_ITEM_ID: StringName = SourceSilver.DEFINITION_ID
 const LEATHER_ITEM_ID: StringName = OldPineItemContentDefinitions.LEATHER_ITEM_ID
 const AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = (
 	&"aggressive_on_player_presence"
@@ -17,8 +17,8 @@ const AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = (
 
 const SHORT_SWORD_WEIGHT: int = 3_000
 const SHORT_SWORD_DAMAGE: int = 15
-const SILVER_BASE_VALUE: int = 100
-const SILVER_BASE_WEIGHT: int = 37
+const SILVER_BASE_VALUE: int = SourceSilver.BASE_VALUE
+const SILVER_BASE_WEIGHT: int = SourceSilver.BASE_WEIGHT
 
 
 static func bandit_definition() -> NpcDefinition:
@@ -226,16 +226,12 @@ static func short_sword_content() -> NpcLoadoutItemDefinition:
 
 static func silver_content() -> NpcLoadoutItemDefinition:
 	return NpcLoadoutItemDefinition.new(
-		ItemDefinition.new(SILVER_ITEM_ID, "obj/money/silver.c"),
+		SourceSilver.item_definition(),
 		SILVER_BASE_WEIGHT,
 		null,
 		0,
-		CombinedStackDefinition.new(
-			SILVER_ITEM_ID,
-			&"/obj/money/silver",
-			SILVER_BASE_WEIGHT,
-		),
-		CurrencyDefinition.new(SILVER_ITEM_ID, SILVER_BASE_VALUE),
+		SourceSilver.stack_definition(),
+		SourceSilver.currency_definition(),
 		["obj/money/silver.c", "std/money.c"],
 	)
 

@@ -1706,6 +1706,9 @@ func _init() -> void:
 	for nge1_result: Dictionary in [NewPlayerInitializationTest.new().run_all(), await PlayerBodyFactsTest.new().run_all(self), await NewPlayerLegacyTest.new().run_all(self), await SnowInnFoundationTest.new().run_all(self), await SnowOutdoorRouteTest.new().run_all(self), await SnowOldPineConnectionTest.new().run_all(self)]:
 		assertion_count += int(nge1_result["assertions"])
 		failures.append_array(nge1_result["failures"])
+	var snow_work_result: Dictionary = await load("res://tests/runtime/snow_work_income_test.gd").new().run_all(self)
+	assertion_count += int(snow_work_result["assertions"])
+	failures.append_array(snow_work_result["failures"])
 	var nge5a_test: RefCounted = load("res://tests/runtime/versioned_source_save_test.gd").new()
 	var nge5a_result: Dictionary = await nge5a_test.run_all(self)
 	assertion_count += int(nge5a_result["assertions"])

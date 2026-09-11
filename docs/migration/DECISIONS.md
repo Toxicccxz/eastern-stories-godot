@@ -1,5 +1,22 @@
 # Migration Decisions
 
+## Snow Workplace undeliverable reward cleanup (S2 only)
+
+**Decision (owner-approved):** When the source work reward is created but cannot be moved to
+Player because of capacity, Native preserves the already-applied sen30 then gin30 costs and
+consumed SessionItemIdAllocator sequence, then immediately destroys the undelivered reward
+through the existing ItemLifecycle authority. Its derived index snapshot is removed only after
+authoritative destruction. Native does not refund the work cost, drop the reward, persist the
+orphan or introduce a cleanup timer.
+
+**Compatibility impact:** `d/snow/workplace.c` ignores `silver->move(me)` failure; source leaves
+a transient ownerless object for later MudOS/driver cleanup (`feature/move.c`, `feature/clean_up.c`).
+Immediate deterministic cleanup replaces only that infrastructure lifetime, not eligibility,
+resource order, reward amount, inventory outcome or allocator consumption. Exact cleanup-timing
+parity is not claimed. Cleanup failure is an authority error with no alternate destruction or
+persistent-orphan fallback. This decision applies only to the audited Snow Workplace path; it is
+not a general policy for future failed transfers.
+
 ### Native Character Entry
 
 **Decision (owner-authorized NGE5B):** Native single-player New Game collects only display name

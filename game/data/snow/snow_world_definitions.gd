@@ -14,6 +14,12 @@ const SQUARE_ENTRY_SPAWN_ID: StringName = &"snow.square.inn_entry"
 const INN_EXIT_PORTAL_ID: StringName = &"snow.inn.east"
 const INN_RETURN_PORTAL_ID: StringName = &"snow.square.west"
 const ROUTE_ZONE_IDS: Array[StringName] = [&"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3"]
+const MSTREET1_ZONE_ID: StringName = &"snow.mstreet1"
+const MSTREET2_ZONE_ID: StringName = &"snow.mstreet2"
+const WORKPLACE_ZONE_ID: StringName = &"snow.workplace"
+const WORKPLACE_TARGET_ID: StringName = &"snow.workplace.work"
+const LEGACY_MSTREET2_DRUNK_COUNT: int = 1
+const LEGACY_MSTREET2_SCAVENGER_COUNT: int = 1
 const LEGACY_SQUARE_TRAV_BLADE_COUNT: int = 3
 const LEGACY_EROAD2_DOG_COUNT: int = 2
 const INN_SCENE: String = "res://scenes/world/snow/snow_inn.tscn"
@@ -42,7 +48,9 @@ static func birth_location() -> WorldLocationState:
 
 
 static func outdoor_map() -> MapDefinition:
-	return MapDefinition.new(OUTDOOR_MAP_ID, REGION_ID, OUTDOOR_SCENE, ROUTE_ZONE_IDS, [INN_RETURN_PORTAL_ID], [SQUARE_ENTRY_SPAWN_ID])
+	var ids: Array[StringName] = ROUTE_ZONE_IDS.duplicate()
+	ids.append_array([MSTREET1_ZONE_ID, MSTREET2_ZONE_ID, WORKPLACE_ZONE_ID])
+	return MapDefinition.new(OUTDOOR_MAP_ID, REGION_ID, OUTDOOR_SCENE, ids, [INN_RETURN_PORTAL_ID], [SQUARE_ENTRY_SPAWN_ID])
 
 
 static func route_zones() -> Array[ZoneDefinition]:
@@ -52,6 +60,9 @@ static func route_zones() -> Array[ZoneDefinition]:
 		ZoneDefinition.new(&"snow.eroad1", OUTDOOR_MAP_ID, &"snow.eroad1", "黄土小径", ["/d/snow/eroad1"]),
 		ZoneDefinition.new(&"snow.eroad2", OUTDOOR_MAP_ID, &"snow.eroad2", "黄土小径", ["/d/snow/eroad2"]),
 		ZoneDefinition.new(&"snow.eroad3", OUTDOOR_MAP_ID, &"snow.eroad3", "山路", ["/d/snow/eroad3"]),
+		ZoneDefinition.new(MSTREET1_ZONE_ID, OUTDOOR_MAP_ID, MSTREET1_ZONE_ID, "雪亭镇街道", ["/d/snow/mstreet1"]),
+		ZoneDefinition.new(MSTREET2_ZONE_ID, OUTDOOR_MAP_ID, MSTREET2_ZONE_ID, "雪亭镇大街", ["/d/snow/mstreet2"]),
+		ZoneDefinition.new(WORKPLACE_ZONE_ID, OUTDOOR_MAP_ID, WORKPLACE_ZONE_ID, "谷物加工厂", ["/d/snow/workplace"]),
 	]
 
 
@@ -65,6 +76,12 @@ static func zone_by_id(id: StringName) -> ZoneDefinition:
 
 
 static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
+	if (from_id == &"snow.square" and to_id == MSTREET1_ZONE_ID) or (to_id == &"snow.square" and from_id == MSTREET1_ZONE_ID):
+		return true
+	if (from_id == MSTREET1_ZONE_ID and to_id == MSTREET2_ZONE_ID) or (to_id == MSTREET1_ZONE_ID and from_id == MSTREET2_ZONE_ID):
+		return true
+	if (from_id == MSTREET2_ZONE_ID and to_id == WORKPLACE_ZONE_ID) or (to_id == MSTREET2_ZONE_ID and from_id == WORKPLACE_ZONE_ID):
+		return true
 	var from_index: int = ROUTE_ZONE_IDS.find(from_id)
 	var to_index: int = ROUTE_ZONE_IDS.find(to_id)
 	return from_index >= 0 and to_index >= 0 and absi(from_index - to_index) == 1
@@ -73,6 +90,11 @@ static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
 ## Traceability only: these entries do not create native portals or destinations.
 static func authored_outdoor_exits() -> Dictionary[String, String]:
 	return {
+		"mstreet1:south": "/d/snow/square", "mstreet1:north": "/d/snow/mstreet2",
+		"mstreet1:east": "/d/snow/school1", "mstreet1:west": "/d/snow/bank",
+		"mstreet2:south": "/d/snow/mstreet1", "mstreet2:north": "/d/snow/mstreet3",
+		"mstreet2:east": "/d/snow/workplace", "mstreet2:west": "/d/snow/smithy",
+		"workplace:west": "/d/snow/mstreet2",
 		"square:north": "/d/snow/mstreet1", "square:west": "/d/snow/inn",
 		"square:south": "/d/snow/sroad1", "square:east": "/d/snow/temple",
 		"sroad1:north": "/d/snow/square", "sroad1:east": "/d/snow/eroad1",
