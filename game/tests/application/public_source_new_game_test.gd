@@ -17,6 +17,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _journey(tree, CharacterState.GENDER_MALE, "雪")
 	await _journey(tree, CharacterState.GENDER_FEMALE, "一二三四五六")
 	await _confirmation(tree)
+	await _technical_profile_rejected(tree)
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -114,6 +115,36 @@ func _confirmation(tree: SceneTree) -> void:
 	_check(shell.cancel_new_game_setup() and files.files == before, "recovery setup Cancel preserves files")
 	shell.free()
 	await _frames(tree)
+
+
+func _technical_profile_rejected(tree: SceneTree) -> void:
+	var technical: OldPineWorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	tree.root.add_child(technical)
+	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(technical, &"test", "2026-09-11T00:00:00Z").snapshot
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
+	_check(encoded.succeeded(), "technical codec remains an explicit internal fixture")
+	technical.free()
+	await _frames(tree)
+	for suffix: String in ["", ".bak", ".tmp"]:
+		var files := MemoryFiles.new()
+		var profile := GameSaveStorageProfile.isolated_test("nge6-reject-technical")
+		files.files[profile.canonical_path() + suffix] = encoded.text.to_utf8_buffer()
+		var before: Dictionary = files.files.duplicate(true)
+		var shell: ApplicationShellController = SHELL.instantiate()
+		shell.configure_before_start(profile, files, null, MemoryFiles.new())
+		tree.root.add_child(shell)
+		await _frames(tree)
+		_check(not shell.continue_enabled() and not shell.recovery_enabled(), "technical file never advertised as public Continue/Recovery: " + suffix)
+		var host: OldPineGameRuntimeHost = shell.runtime_host()
+		# Exercise the request even though the UI correctly disables it.
+		var requested: bool = host.request_continue() if suffix.is_empty() else host.request_recovery(GameSaveRecoverySource.Value.BACKUP if suffix == ".bak" else GameSaveRecoverySource.Value.TEMP)
+		_check(requested, "public Host re-reads selected file: " + suffix)
+		await _frames(tree)
+		_check(not host.last_load_result().succeeded() and host.current_session() == null and host.session_invariant_holds(), "technical file cannot create a public Session: " + suffix)
+		_check(files.files == before, "unsupported technical file remains byte-exact: " + suffix)
+		_check(not SourceEntrySaveRepository.new(profile, files).save(snapshot).succeeded() and files.files == before, "public repository rejects technical Save before any write")
+		shell.free()
+		await _frames(tree)
 
 
 func _frames(tree: SceneTree) -> void:

@@ -101,6 +101,21 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		for id: StringName in candidate.inventory_state().registered_item_ids():
 			_check(candidate.item_instance_index().resolve(id) != source.item_instance_index().resolve(id), "same item ID, fresh object")
 		candidate.free()
+	# Runtime Snow zones own their lower edge (half-open Rect2), including exact
+	# street joins. Continue must accept the same physical position/zone pair.
+	var boundary_ids: Array[StringName] = [&"snow.sroad1", &"snow.eroad2", &"snow.eroad3"]
+	var boundary_points: Array[Vector2] = [Vector2(0, 250), Vector2(500, 550), Vector2(900, 550)]
+	for index: int in range(boundary_ids.size()):
+		var id: StringName = boundary_ids[index]
+		var point: Vector2 = boundary_points[index]
+		var owns_center: bool = false
+		for area: Node in snow.get_node("Zones").get_children():
+			if area is WorldPhysicalZoneArea2D and area.zone_id == id:
+				owns_center = area.contains_center(point)
+		_check(owns_center, "runtime Snow zone owns exact join: " + String(id))
+		var joined: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(_placed(snapshot, V.WorldLocationSnapshot.new(&"snow", &"snow.outdoor", id, id), point), tree.root)
+		_check(joined.succeeded() and joined.candidate.active_map().runtime_player_body().global_position == point, "Continue preserves exact runtime street join: " + String(id))
+		if joined.candidate != null: joined.candidate.free()
 	for position: Vector2 in [Vector2(INF, 0), Vector2(999999, 0)]:
 		var bad: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(_placed(snapshot, locations[0], position), tree.root)
 		_check(not bad.succeeded(), "invalid position rejects")
@@ -178,11 +193,12 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	primary = files.read_bytes(profile.canonical_path(), 16777216).bytes
 	technical.free()
 	var legacy_host: OldPineGameRuntimeHost = (load("res://scenes/runtime/oldpine_game_runtime_host.tscn") as PackedScene).instantiate()
-	legacy_host.configure_manual_before_start(profile, files)
+	# Explicit internal fixture coordinator; the public manual Host rejects this profile.
+	legacy_host.configure_manual_before_start(profile, files, OldPineSessionLoadCoordinator.new(repository))
 	tree.root.add_child(legacy_host)
 	legacy_host.request_continue()
 	await tree.process_frame
-	_check(legacy_host.last_load_result().succeeded(), "normal Host Continue current technical v2")
+	_check(legacy_host.last_load_result().succeeded(), "explicit internal fixture Continue current technical v2")
 	_check(legacy_host.current_session().resident_map_count() == 2 and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "technical profile has no Snow")
 	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "technical Continue does not rewrite bytes")
 	legacy_host.request_save()

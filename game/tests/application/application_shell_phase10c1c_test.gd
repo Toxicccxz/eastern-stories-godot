@@ -478,8 +478,9 @@ func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
 	var source: OldPineWorldSessionController = preload(
 		"res://scenes/world/oldpine/oldpine_world_session.tscn"
 	).instantiate()
+	source.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE)
 	tree.root.add_child(source)
-	var snapshot: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
+	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(source, &"test", "2026-09-11T00:00:00Z").snapshot
 	var bytes: PackedByteArray = GameSaveJsonCodec.encode(snapshot).text.to_utf8_buffer()
 	_free_node(source)
 	await tree.process_frame

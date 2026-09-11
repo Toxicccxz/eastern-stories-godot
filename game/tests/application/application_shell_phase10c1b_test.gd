@@ -545,12 +545,14 @@ func _valid_save_bytes(tree: SceneTree) -> PackedByteArray:
 
 func _valid_save_bytes_at(tree: SceneTree, position: Vector2) -> PackedByteArray:
 	var source: OldPineWorldSessionController = SESSION_SCENE.instantiate()
+	source.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE)
 	tree.root.add_child(source)
-	var snapshot: GameSaveSnapshot = SaveFixture.from_new_game(
-		source,
-		null,
-		GameSaveValueTypes.MapPositionSnapshot.new(position.x, position.y),
-	)
+	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(source, &"test", "2026-09-11T00:00:00Z").snapshot
+	# Public recovery fixture: source Player saved later in the Old Pine clearing.
+	var player: GameSaveValueTypes.PlayerRuntimeSnapshot = snapshot.player
+	player.world_location = GameSaveValueTypes.WorldLocationSnapshot.new(&"oldpine", &"oldpine.outdoor", &"oldpine.outdoor.central_clearing", &"oldpine.outdoor.central_clearing")
+	player.map_position = GameSaveValueTypes.MapPositionSnapshot.new(position.x, position.y)
+	snapshot = GameSaveSnapshot.new(snapshot.metadata, snapshot.session_kind, snapshot.item_id_allocator, player, snapshot.npc_spawn_states, snapshot.corpses, snapshot.items, snapshot.combat_rng, snapshot.npc_initialization_rng, snapshot.world_interaction_rng, snapshot.world_content_revision)
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	_assert_true(encoded.succeeded(), "recovery fixture encodes valid native Save")
 	_free_node(source)

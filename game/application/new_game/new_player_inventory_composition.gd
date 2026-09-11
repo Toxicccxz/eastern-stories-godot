@@ -1,8 +1,8 @@
 class_name NewPlayerInventoryComposition
 extends RefCounted
 
-## One-shot fresh-player composition for a future NEW_GAME Session.
-## Not connected to the current technical New Game or any restore path.
+## One-shot fresh-player composition for the public SOURCE_ENTRY Session.
+## Not used by the internal technical fixture or any restore path.
 var _player: NewPlayerInitialization
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection

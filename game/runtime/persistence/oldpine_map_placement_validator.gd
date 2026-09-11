@@ -43,7 +43,12 @@ static func _is_valid_position(
 		var collision: CollisionShape2D = map.get_node_or_null(
 			zone_paths[candidate_id]
 		) as CollisionShape2D
-		if collision != null and _point_inside(collision, position):
+		var contains_point: bool = collision != null and _point_inside(collision, position)
+		if map is SnowResidentMapController and collision != null:
+			# Match runtime half-open center ownership at exact street joins.
+			var zone: WorldPhysicalZoneArea2D = collision.get_parent() as WorldPhysicalZoneArea2D
+			contains_point = zone != null and zone.contains_center(position)
+		if contains_point:
 			containing_zones.append(candidate_id)
 	if containing_zones.size() != 1 or containing_zones[0] != zone_id:
 		return false

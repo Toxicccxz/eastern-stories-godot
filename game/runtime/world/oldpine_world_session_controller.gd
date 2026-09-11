@@ -2,9 +2,8 @@ class_name OldPineWorldSessionController
 extends WorldResidentMapCoordinator
 
 const PLAYER_ID: StringName = &"oldpine.player"
-## Old Pine-only entry state, not an LPC formula or a change to the Phase 6
-## symmetric fixture. CXR9 revalidates the previously approved Phase 10D3
-## bootstrap against normal New Game; RESTORE never enters this initializer.
+## Retained internal Old Pine/CXR regression bootstrap, not public New Game
+## or an LPC formula. SOURCE_ENTRY and RESTORE never enter this initializer.
 const NEW_GAME_COMBAT_EXPERIENCE: int = 600
 const OUTDOOR_SCENE: PackedScene = preload(
 	"res://scenes/world/oldpine/oldpine_outdoor.tscn"
@@ -128,7 +127,7 @@ func initialize_session() -> bool:
 	return _reconcile_active_residents()
 
 
-## Pre-tree profile only. ApplicationShell continues to use default NEW_GAME.
+## Public ApplicationShell/Host selects SOURCE_ENTRY before tree attachment.
 func configure_source_entry(display_name: String, gender: StringName) -> bool:
 	if is_inside_tree() or _initialized or _bootstrap_mode != BootstrapMode.NEW_GAME:
 		return false

@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE5B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
@@ -41,9 +41,13 @@ real desktop New Game -> Square -> Save -> cold Continue -> Old Pine North Appro
 Complete canonical18,192 PASS, zero failures/exit0; development/sanitized headless checks PASS.
 Android packaged startup/keyboard/input/validation/Back/Cancel smoke PASS on OnePlus8T.
 Chinese Android IME composition/full birth and iOS device qualification are not claimed.
-NGE5B is implementation complete, not yet owner-reviewed or major-phase integrated.
-No PR or merge exists for this milestone; no new remote CI/integration claim.
-Do not start NGE6, further Snow content, shops/training, Lake, or Phase5B4 without owner review.
+NGE5B is OWNER APPROVED. [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md)
+corrects public Continue/Recovery accepting technical profiles and exact Snow street-boundary
+restore rejection. Focused1658 / UI6027 / route128 / persistence332 PASS; real public birth,
+forward/reverse route and fresh-process continuation PASS. Final committed-HEAD canonical and
+four same-HEAD PR jobs are mandatory before merge authorization; see the final PR/owner report
+for their actual results. Not merged or fully integrated on main. No new Snow content, shops,
+training, Lake or Phase5B4 is authorized.
 
 **Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
 [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at

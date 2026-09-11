@@ -162,7 +162,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
    effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
 
-9. **Source-valid New Game Entry — NGE5B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+9. **Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
 
    One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
    [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
@@ -197,10 +197,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Technical graphs remain internal fixtures only. Focused1636 / expanded UI6027 PASS; real desktop
    public birth/Save/cold Continue/Old Pine reachability PASS. Complete canonical18,192 PASS,
    zero failures/exit0; Android packaged startup/input/validation/Back/Cancel smoke PASS.
-   Full Chinese mobile IME/birth and iOS device qualification are not claimed. Await owner review;
-   NGE6 has not started.
+   Full Chinese mobile IME/birth and iOS device qualification are not claimed. NGE5B is OWNER APPROVED.
+   [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md) corrects public technical-save
+   reachability and exact Snow street-join restoration; focused/runtime/sanitizer evidence passes.
+   Final committed-HEAD canonical and the unique final PR's four same-HEAD jobs gate integration.
+   This is not fully integrated on main; merge still requires explicit owner authorization.
    Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
    square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
    real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
    deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
-   acceptance. No PR/merge or automatic next-slice implementation; await owner review after NGE5B.
+   acceptance. One final PR is authorized after local gates; no merge or next-slice implementation.

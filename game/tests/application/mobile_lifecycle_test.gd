@@ -353,7 +353,14 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 	tree.root.content_scale_size = Vector2i.ZERO
 	tree.root.size = Vector2i(960, 540)
 	# Armed/cadence freeze subject is an explicit technical save fixture, not public birth.
-	var shell: ApplicationShellController = await _shell(tree, await Previous.new()._valid_save_bytes(tree))
+	# This regression deliberately freezes armed Old Pine combat state, not public birth.
+	var technical: OldPineWorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	tree.root.add_child(technical)
+	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(technical, &"test", "2026-09-11T00:00:00Z").snapshot
+	var bytes: PackedByteArray = GameSaveJsonCodec.encode(snapshot).text.to_utf8_buffer()
+	technical.free()
+	await _settle(tree)
+	var shell: ApplicationShellController = await _shell(tree, bytes)
 	var files_before: Dictionary = _files.files.duplicate(true)
 	var adapter: MobileTouchAdapter = shell.get_node("TouchCanvas/TouchInput")
 	adapter.set_capability(EnabledTouch.new())

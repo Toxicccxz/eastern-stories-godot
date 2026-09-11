@@ -69,7 +69,9 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if _coordinator == null:
 		_coordinator = OldPineSessionLoadCoordinator.new(
-			GameSaveRepository.new(_profile, _files)
+			SourceEntrySaveRepository.new(_profile, _files)
+			if _startup_mode == StartupMode.MANUAL
+			else GameSaveRepository.new(_profile, _files)
 		)
 	if _startup_mode == StartupMode.MANUAL:
 		var manual_result: OldPineRuntimeSaveLoadResult = (

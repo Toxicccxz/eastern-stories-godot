@@ -30,7 +30,7 @@ func is_valid() -> bool:
 
 
 static func legacy_technical() -> PlayerIdentityFacts:
-	# Current pre-cutover technical New Game identity, not a save fallback.
+	# Internal technical regression identity, never a public New Game/save fallback.
 	return PlayerIdentityFacts.new("Player", "", 20)
 
 

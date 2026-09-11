@@ -491,8 +491,9 @@ func _write_valid_save(
 	files: MemoryFiles,
 ) -> void:
 	var source: OldPineWorldSessionController = SESSION_SCENE.instantiate()
+	source.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE)
 	tree.root.add_child(source)
-	var snapshot: GameSaveSnapshot = SaveFixture.from_new_game(source)
+	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(source, &"test", "2026-09-11T00:00:00Z").snapshot
 	_assert_true(snapshot != null, "valid save fixture captures New Game")
 	_assert_true(GameSaveRepository.new(profile, files).save(snapshot).succeeded(), "valid canonical fixture saves through repository")
 	_free_node(source)
