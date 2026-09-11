@@ -10,5 +10,5 @@ func default_spawn_id() -> StringName:
 	return SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID
 
 
-func exit_portal_id() -> StringName:
-	return SnowWorldDefinitions.INN_RETURN_PORTAL_ID
+func local_passages() -> Array[PortalDefinition]:
+	return [SnowWorldDefinitions.portal_by_id(SnowWorldDefinitions.INN_RETURN_PORTAL_ID)]

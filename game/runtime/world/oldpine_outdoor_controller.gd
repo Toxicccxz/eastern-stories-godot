@@ -154,7 +154,7 @@ func initialize_map() -> bool:
 		)
 		or (
 			_session_owner.bootstrap_mode()
-			== OldPineWorldSessionController.BootstrapMode.NEW_GAME
+			!= OldPineWorldSessionController.BootstrapMode.RESTORE
 			and (
 				not _initialize_player()
 				or not _initialize_bandits()
@@ -165,6 +165,8 @@ func initialize_map() -> bool:
 	):
 		return false
 	hud.configure(_player)
+	if not initialize_passages():
+		return false
 	opportunity_timer.stop()
 	_initialized = true
 	_initialization_count += 1
@@ -389,6 +391,11 @@ func spawn_matches_zone(
 	spawn_point_id: StringName,
 	zone_id: StringName,
 ) -> bool:
+	if spawn_point_id == SnowOldPineConnectionDefinitions.NORTH_ENTRY_SPAWN_ID:
+		var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
+		var shape: CollisionShape2D = $Zones/NorthApproachZone/CollisionShape2D
+		var rectangle: RectangleShape2D = shape.shape as RectangleShape2D
+		return zone_id == OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID and marker != null and rectangle != null and Rect2(-rectangle.size / 2.0, rectangle.size).has_point(shape.to_local(marker.global_position))
 	return (
 		(
 			spawn_point_id == &"oldpine.outdoor.central_clearing.player_start"
@@ -445,6 +452,11 @@ func resolve_location(
 	return _location_for_zone(zone_id)
 
 
+func location_for_zone(zone_id: StringName) -> WorldLocationState:
+	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	return null if zone == null else resolve_location(zone_id, zone.combat_location_id)
+
+
 func prepare_for_activation(spawn_point_id: StringName) -> bool:
 	if not _initialized:
 		return false
@@ -470,6 +482,7 @@ func complete_activation() -> bool:
 
 
 func prepare_for_deactivation() -> void:
+	clear_passage_contacts()
 	_cadence_was_running = not opportunity_timer.is_stopped()
 	_suspended_cadence_time_left = (
 		opportunity_timer.time_left if _cadence_was_running else 0.0
@@ -1680,7 +1693,7 @@ func _selected_opponent_id(
 
 func _display_name(character_id: StringName) -> String:
 	if character_id == _player.character_id:
-		return "Player"
+		return _player.facts.display_name
 	var npc: NpcRuntimeState = _find_npc(character_id)
 	return "Unknown" if npc == null else npc.definition().display_name
 

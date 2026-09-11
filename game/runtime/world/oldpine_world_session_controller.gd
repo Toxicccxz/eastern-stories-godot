@@ -22,6 +22,7 @@ const SessionItemIdScopeFactoryType := preload(
 enum BootstrapMode {
 	NEW_GAME,
 	RESTORE,
+	SOURCE_ENTRY,
 }
 
 @export var deterministic_npc_seed: bool = false
@@ -48,6 +49,8 @@ var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
 var _restore_candidate_staged: bool = false
 var _session_swap_suspended: bool = false
 var _session_swap_reparenting: bool = false
+var _source_name: String = ""
+var _source_gender: StringName = &""
 
 
 func _ready() -> void:
@@ -66,8 +69,8 @@ func _exit_tree() -> void:
 		var value: Variant = _resident_maps.get(map_id)
 		if not is_instance_valid(value):
 			continue
-		var resident: OldPineResidentMapController = (
-			value as OldPineResidentMapController
+		var resident: WorldResidentMapController = (
+			value as WorldResidentMapController
 		)
 		if resident != null and resident.get_parent() == null:
 			resident.free()
@@ -103,6 +106,8 @@ func initialize_session() -> bool:
 
 	if _bootstrap_mode == BootstrapMode.RESTORE:
 		return _initialize_restore_residents(cave, outdoor)
+	if _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
+		return _initialize_source_residents(cave, outdoor)
 
 	# Ready-time binding is performed once for both resident maps. The inactive
 	# cave is then detached without being freed or simulated.
@@ -120,6 +125,18 @@ func initialize_session() -> bool:
 	_active_map_id = outdoor.map_id()
 	_initialized = true
 	return _reconcile_active_residents()
+
+
+## Pre-tree profile only. ApplicationShell continues to use default NEW_GAME.
+func configure_source_entry(display_name: String, gender: StringName) -> bool:
+	if is_inside_tree() or _initialized or _bootstrap_mode != BootstrapMode.NEW_GAME:
+		return false
+	if display_name.strip_edges().is_empty() or gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
+		return false
+	_source_name = display_name
+	_source_gender = gender
+	_bootstrap_mode = BootstrapMode.SOURCE_ENTRY
+	return true
 
 
 func configure_restore(preparation: OldPineWorldRestorePreparation) -> bool:
@@ -172,7 +189,7 @@ func activate_restore_candidate() -> bool:
 		or not _restore_candidate_staged
 	):
 		return false
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	if map == null:
 		return false
 	process_mode = Node.PROCESS_MODE_INHERIT
@@ -235,25 +252,25 @@ func combat_encounter_coordinator() -> CombatEncounterCoordinator:
 func encounter_combat_bindings(
 	encounter: CombatEncounter,
 ) -> Array[CombatSliceCharacterBinding]:
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	return [] if map == null else map.encounter_combat_bindings(encounter)
 
 
 ## Content presentation lookup; semantic IDs remain independent of scene names.
 func encounter_display_name(character_id: StringName) -> String:
 	if _player != null and character_id == _player.character_id:
-		return "Player"
+		return _player.facts.display_name
 	var npc: NpcRuntimeState = _find_resident_npc(character_id)
 	return String(character_id) if npc == null else npc.definition().display_name
 
 
 func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	return null if map == null else map.encounter_skill_effect_registry()
 
 
 func encounter_opportunity_interval_seconds() -> float:
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	return 0.0 if map == null else map.encounter_opportunity_interval_seconds()
 
 
@@ -314,7 +331,7 @@ func encounter_participant_is_available(character_id: StringName) -> bool:
 
 
 func freeze_world_for_encounter(encounter_id: StringName) -> bool:
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	return (
 		_initialized
 		and not _transitioning
@@ -326,7 +343,7 @@ func freeze_world_for_encounter(encounter_id: StringName) -> bool:
 
 
 func thaw_world_after_encounter(encounter_id: StringName) -> bool:
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	return (
 		_initialized
 		and _world_simulation_gate != null
@@ -336,7 +353,7 @@ func thaw_world_after_encounter(encounter_id: StringName) -> bool:
 	)
 
 
-func active_map() -> OldPineResidentMapController:
+func active_map() -> WorldResidentMapController:
 	return _resident_maps.get(_active_map_id)
 
 
@@ -348,7 +365,7 @@ func cave_map() -> OldPineCavePassageController:
 	return _resident_maps.get(OldPineWorldDefinitions.CAVE_MAP_ID)
 
 
-func resident_map(map_id: StringName) -> OldPineResidentMapController:
+func resident_map(map_id: StringName) -> WorldResidentMapController:
 	return _resident_maps.get(map_id)
 
 
@@ -364,7 +381,7 @@ func configure_combat_random_source(value: CombatRandomSource) -> bool:
 	if value == null:
 		return false
 	_combat_random = value
-	for map: OldPineResidentMapController in _resident_maps.values():
+	for map: WorldResidentMapController in _resident_maps.values():
 		if not map.replace_combat_random_source(value):
 			return false
 	return true
@@ -376,7 +393,7 @@ func configure_world_interaction_random_source(
 	if value == null:
 		return false
 	_world_interaction_random = value
-	for map: OldPineResidentMapController in _resident_maps.values():
+	for map: WorldResidentMapController in _resident_maps.values():
 		if not map.replace_world_interaction_random_source(value):
 			return false
 	return true
@@ -435,7 +452,7 @@ func suspend_for_session_swap() -> bool:
 		or active_map_slot.get_child_count() != 1
 	):
 		return false
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	if map == null or not map.suspend_for_session_swap():
 		return false
 	map.set_restore_staging(true)
@@ -447,7 +464,7 @@ func suspend_for_session_swap() -> bool:
 func resume_after_failed_session_swap() -> bool:
 	if not _session_swap_suspended:
 		return false
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	if map == null:
 		return false
 	process_mode = Node.PROCESS_MODE_INHERIT
@@ -480,9 +497,6 @@ func _initialize_authorities() -> bool:
 	_item_id_allocator = SessionItemIdAllocator.new(_item_instance_scope)
 	if not _item_id_allocator.is_valid():
 		return false
-	_inventory = InventoryState.new()
-	_stacks = CombinedStackCollection.new()
-	_item_index = WorldItemInstanceIndex.new()
 	_npc_random = GodotNpcInitializationRandomSource.new(
 		npc_seed,
 		deterministic_npc_seed,
@@ -495,6 +509,18 @@ func _initialize_authorities() -> bool:
 		world_interaction_seed,
 		deterministic_world_interaction_seed,
 	)
+	if _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
+		var birth: NewPlayerInventoryComposition = NewPlayerInventoryComposition.new()
+		if not birth.initialize(PLAYER_ID, _source_gender, _source_name, _item_id_allocator):
+			return false
+		_inventory = birth.inventory
+		_stacks = birth.stacks
+		_item_index = birth.item_index
+		_player = NewPlayerRuntimeComposition.create(PLAYER_ID, birth.player, SnowWorldDefinitions.birth_location())
+		return _player != null
+	_inventory = InventoryState.new()
+	_stacks = CombinedStackCollection.new()
+	_item_index = WorldItemInstanceIndex.new()
 	var prototype: CombatSliceCharacterBinding = CombatSliceDemoFactory.create_player()
 	var start_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
@@ -574,6 +600,37 @@ func _initialize_restore_authorities() -> bool:
 	_combat_random = _restore_preparation.combat_random
 	_world_interaction_random = _restore_preparation.world_interaction_random
 	return true
+
+
+func _initialize_source_residents(
+	cave: OldPineResidentMapController, outdoor: OldPineResidentMapController,
+) -> bool:
+	var inn: SnowInnController = (load(SnowWorldDefinitions.INN_SCENE) as PackedScene).instantiate() as SnowInnController
+	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
+	for map: WorldResidentMapController in [inn, snow]:
+		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
+			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate) or not register_resident_map(map):
+			return false
+		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
+	if not snow.configure_passage(SnowOldPineConnectionDefinitions.to_oldpine()) or not outdoor.configure_passage(SnowOldPineConnectionDefinitions.to_snow()):
+		return false
+	# Cave stays resident because existing outdoor vine traversal uses it. No new
+	# cave content or bootstrap. All four maps bind the single source authority graph.
+	for map: WorldResidentMapController in [cave, outdoor, snow, inn]:
+		map.set_restore_staging(true)
+		active_map_slot.add_child(map)
+		if not map.initialize_map():
+			return false
+		map.prepare_for_deactivation()
+		map.set_restore_staging(true)
+		active_map_slot.remove_child(map)
+	_active_map_id = inn.map_id()
+	inn.set_restore_staging(false)
+	active_map_slot.add_child(inn)
+	if not inn.complete_activation():
+		return false
+	_initialized = true
+	return _reconcile_active_residents()
 
 
 func _initialize_restore_residents(
@@ -695,7 +752,7 @@ func _on_resident_map_tree_exiting(map_id: StringName) -> void:
 func _reconcile_active_residents() -> bool:
 	if not _reconcile_relationship(_player.relationship):
 		return false
-	var map: OldPineResidentMapController = active_map()
+	var map: WorldResidentMapController = active_map()
 	if map == null:
 		return false
 	for npc: NpcRuntimeState in map.resident_npcs():
@@ -760,7 +817,7 @@ func _location_for_character(character_id: StringName) -> WorldLocationState:
 
 
 func _find_resident_npc(character_id: StringName) -> NpcRuntimeState:
-	for map: OldPineResidentMapController in _resident_maps.values():
+	for map: WorldResidentMapController in _resident_maps.values():
 		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
 		if npc != null:
 			return npc

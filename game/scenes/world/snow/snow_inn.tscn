@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://runtime/world/snow_inn_controller.gd" id="1"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="3"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="4"]
+[ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="5"]
 
 [sub_resource type="RectangleShape2D" id="FloorShape"]
 size = Vector2(960, 600)
@@ -87,6 +88,8 @@ polygon = PackedVector2Array(480, 70, 512, 70, 512, 300, 480, 300)
 color = Color(0.12, 0.10, 0.08, 1)
 
 [node name="Passage" type="Area2D" parent="."]
+script = ExtResource("5")
+portal_id = &"snow.inn.east"
 position = Vector2(465, 0)
 collision_layer = 0
 input_pickable = false

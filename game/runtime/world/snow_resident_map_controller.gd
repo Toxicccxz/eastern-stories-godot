@@ -10,8 +10,6 @@ var _freeze_owner: StringName = &""
 var _zones: Array[WorldPhysicalZoneArea2D] = []
 var _present_zones: Array[WorldPhysicalZoneArea2D] = []
 var _zone_check_pending: bool = false
-var _passage_pending: bool = false
-var _passage_contact: bool = false
 
 
 func _ready() -> void:
@@ -22,8 +20,8 @@ func default_spawn_id() -> StringName:
 	return &""
 
 
-func exit_portal_id() -> StringName:
-	return &""
+func local_passages() -> Array[PortalDefinition]:
+	return []
 
 
 func initialize_map() -> bool:
@@ -48,8 +46,11 @@ func initialize_map() -> bool:
 	if not player_body.bind_player(_player) or not player_body.bind_world_simulation_gate(_world_simulation_gate):
 		return false
 	player_body.global_position = birth_marker.global_position
-	($Passage as Area2D).body_entered.connect(_passage_entered)
-	($Passage as Area2D).body_exited.connect(_passage_exited)
+	for portal: PortalDefinition in local_passages():
+		if not configure_passage(portal):
+			return false
+	if not initialize_passages():
+		return false
 	prepare_for_deactivation()
 	_initialized = true
 	_initialization_count += 1
@@ -119,7 +120,7 @@ func complete_activation() -> bool:
 	player_body.player_controlled = true
 	player_body.refresh_runtime_state()
 	(player_body.get_node("Camera2D") as Camera2D).enabled = true
-	_passage_pending = false
+	clear_passage_contacts()
 	return true
 
 
@@ -131,7 +132,7 @@ func prepare_for_deactivation() -> void:
 	(player_body.get_node("Camera2D") as Camera2D).enabled = false
 	_present_zones.clear()
 	_zone_check_pending = false
-	_passage_contact = false
+	clear_passage_contacts()
 
 
 func _zone_entered(body: Node2D, zone: WorldPhysicalZoneArea2D) -> void:
@@ -149,11 +150,6 @@ func _zone_exited(body: Node2D, zone: WorldPhysicalZoneArea2D) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if _passage_contact and not _passage_pending:
-		var portal: PortalDefinition = SnowWorldDefinitions.portal_by_id(exit_portal_id())
-		if is_passage_current(portal):
-			_passage_pending = true
-			passage_requested.emit(portal)
 	if not _zone_check_pending or not player_body.player_controlled or _world_simulation_gate.is_frozen():
 		return
 	# Only re-evaluate Areas reported by physics, while straddling their boundary.
@@ -176,28 +172,6 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 	if not SnowWorldDefinitions.route_neighbours(current.zone_id, zone.zone_id):
 		return false
 	return _player.set_world_location(location_for_zone(zone.zone_id))
-
-
-func _passage_entered(body: Node2D) -> void:
-	if body == player_body:
-		_passage_contact = true
-
-
-func is_passage_current(portal: PortalDefinition) -> bool:
-	if not _initialized or not is_inside_tree() or not player_body.player_controlled or _world_simulation_gate.is_frozen() or portal == null or portal.portal_id != exit_portal_id():
-		return false
-	var location: WorldLocationState = _player.world_location()
-	if location.map_id != map_id() or location.zone_id != portal.source_zone_id:
-		return false
-	var collision: CollisionShape2D = $Passage/CollisionShape2D
-	var shape: RectangleShape2D = collision.shape as RectangleShape2D
-	return shape != null and Rect2(-shape.size / 2.0, shape.size).has_point(collision.to_local(player_body.global_position))
-
-
-func _passage_exited(body: Node2D) -> void:
-	if body == player_body:
-		_passage_pending = false
-		_passage_contact = false
 
 
 func freeze_world_gameplay(id: StringName) -> bool:

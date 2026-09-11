@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Source-valid New Game Entry — NGE3 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+**Source-valid New Game Entry — NGE4 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
 `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
 [NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
@@ -17,8 +17,12 @@ direct worktree sanitizer remains affected by ignored owner-local Godot AI updat
 NGE2 is owner-approved. [NGE3 outdoor route](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OUTDOOR_ROUTE.md)
 adds one continuous Square/south/east corridor and shared Inn/Square handoff. Complete canonical
 17,377 assertions and real desktop birth -> eroad3 -> Inn round trip PASS; identities and resources
-preserved. NPC population and eroad3/Old Pine connection remain deferred.
-Current Old Pine New Game/exp600/starting sword remain unchanged. NGE4 requires owner instruction.
+preserved. NGE3 is owner-approved. [NGE4 unified source-entry connection](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OLDPINE_CONNECTION.md)
+connects eroad3 to the existing Old Pine North Approach using one production Session.
+Source-entry has4 residents; default technical New Game remains2. Canonical17,500 assertions and
+real Inn -> Clearing -> Inn route PASS, including NPC/Player/RNG continuity.
+Current Old Pine New Game/exp600/starting sword remain unchanged. Source Save/Continue is still
+fail-closed; Snow population remains deferred. NGE5 requires owner instruction.
 No PR or merge exists for this milestone; no new remote CI/integration claim.
 Do not start further Snow content/New Game cutover, shops/training, Lake, or Phase5B4.
 

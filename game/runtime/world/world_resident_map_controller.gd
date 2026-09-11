@@ -16,6 +16,8 @@ var _world_interaction_random: WorldInteractionRandomSource
 var _item_id_allocator: SessionItemIdAllocator
 var _world_simulation_gate: WorldSimulationGate
 var _configured: bool = false
+var _passage_definitions: Array[PortalDefinition] = []
+var _passages: Array[WorldPassageArea2D] = []
 
 var _staged_area_monitoring: Dictionary[int, bool] = {}
 var _staged_area_monitorable: Dictionary[int, bool] = {}
@@ -111,7 +113,38 @@ func location_for_zone(_zone_id: StringName) -> WorldLocationState:
 	return null
 
 
-func is_passage_current(_portal: PortalDefinition) -> bool:
+func configure_passage(portal: PortalDefinition) -> bool:
+	if is_map_initialized() or portal == null or not portal.is_valid() or portal.source_map_id != map_id():
+		return false
+	for existing: PortalDefinition in _passage_definitions:
+		if existing.portal_id == portal.portal_id:
+			return false
+	_passage_definitions.append(portal)
+	return true
+
+
+func initialize_passages() -> bool:
+	for node: Node in find_children("*", "Area2D", true, false):
+		var passage: WorldPassageArea2D = node as WorldPassageArea2D
+		if passage == null:
+			continue
+		for portal: PortalDefinition in _passage_definitions:
+			if portal.portal_id == passage.portal_id:
+				if location_for_zone(portal.source_zone_id) == null or not passage.configure(portal, self):
+					return false
+				_passages.append(passage)
+	return _passages.size() == _passage_definitions.size()
+
+
+func clear_passage_contacts() -> void:
+	for passage: WorldPassageArea2D in _passages:
+		passage.clear_contact()
+
+
+func is_passage_current(portal: PortalDefinition) -> bool:
+	for passage: WorldPassageArea2D in _passages:
+		if passage.is_current(portal):
+			return true
 	return false
 
 
