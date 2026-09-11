@@ -57,9 +57,10 @@ static func from_new_game(
 		_life_text(player.life_status),
 		player.exists_in_world,
 		player.combat_available,
-		player.maximum_encumbrance,
 		player_location,
 		player_position,
+		Values.PlayerIdentitySnapshot.new(player.facts.display_name, player.facts.title, player.facts.age, player.facts.race_id),
+		Values.PlayerBodySnapshot.new(player.body_facts.body_weight, player.maximum_encumbrance),
 	)
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
@@ -121,7 +122,7 @@ static func with_fat_bandit_corpse(
 		else:
 			npcs.append(npc)
 	var corpse_id: StringName = StringName(
-		"%s.dynamic.0" % String(base.item_id_allocator.scope)
+		"%s.dynamic.%d" % [String(base.item_id_allocator.scope), base.item_id_allocator.next_dynamic_sequence]
 	)
 	var fat_short_sword: StringName
 	var fat_leather: StringName
@@ -196,7 +197,7 @@ static func with_fat_bandit_corpse(
 	return GameSaveSnapshot.new(
 		base.metadata,
 		base.session_kind,
-		Values.ItemIdAllocatorSnapshot.new(base.item_id_allocator.scope, 1),
+		Values.ItemIdAllocatorSnapshot.new(base.item_id_allocator.scope, base.item_id_allocator.next_dynamic_sequence + 1),
 		base.player,
 		npcs,
 		[corpse],
@@ -204,6 +205,7 @@ static func with_fat_bandit_corpse(
 		base.combat_rng,
 		base.npc_initialization_rng,
 		base.world_interaction_rng,
+		base.world_content_revision,
 	)
 
 
@@ -264,9 +266,10 @@ static func with_player_corpse(base: GameSaveSnapshot) -> GameSaveSnapshot:
 		&"dead",
 		false,
 		false,
-		base.player.maximum_encumbrance,
 		base.player.world_location,
 		base.player.map_position,
+		base.player.identity,
+		base.player.body_facts,
 	)
 	var corpse: Values.CorpseSnapshot = Values.CorpseSnapshot.new(
 		corpse_id,
@@ -275,7 +278,7 @@ static func with_player_corpse(base: GameSaveSnapshot) -> GameSaveSnapshot:
 		base.player.character.gender,
 		20,
 		CorpseState.Stage.FRESH,
-		base.player.maximum_encumbrance,
+		base.player.body_facts.maximum_encumbrance,
 		[],
 		base.player.world_location,
 		base.player.map_position,
@@ -291,6 +294,7 @@ static func with_player_corpse(base: GameSaveSnapshot) -> GameSaveSnapshot:
 		base.combat_rng,
 		base.npc_initialization_rng,
 		base.world_interaction_rng,
+		base.world_content_revision,
 	)
 
 

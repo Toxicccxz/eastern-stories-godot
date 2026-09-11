@@ -2,12 +2,60 @@
 
 ## Current milestone
 
-**Start-of-Game Source Rebaseline — ANALYSIS IN PROGRESS / NOT IMPLEMENTED** is the current
-owner-authorized analysis milestone on `phase/start-of-game-source-rebaseline`, based on green main
-`208597ea0cbb564cb3822f4003f76bafc8bafa4a`. [S0 source rebaseline](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md)
-is analysis/self-review PASS, awaiting owner review; Snow implementation is NOT authorized.
-Source fresh entry is Snow's inn, not Old Pine. Current New Game/exp600/starting sword and all
-production behavior remain unchanged. No S0 PR or merge; do not automatically begin the proposed entry slice.
+**Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
+is the current owner-authorized milestone on `phase/source-valid-new-game-entry`, based on green main
+`d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+[NGE0 compatibility contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md)
+is owner-approved for gift B (no delayed reroll) and food/water B (fresh post-body fill).
+Its historical legacy-native-save A is now SUPERSEDED by NGE5A1, as recorded in DECISIONS.
+[NGE1 foundation](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) adds typed Player facts,
+deterministic source birth and actual cloth composition, with legacy identity/death/save boundaries.
+NGE1 is owner-approved. [NGE2 physical Inn](../migration/PHASE_NEW_GAME_ENTRY_SNOW_INN.md) adds the
+neutral resident-map seam and QA-only source Player entry; 6,328 focused assertions and real desktop
+Inn movement/collision plus canonical New Game regression PASS. Repository-content sanitizer PASS;
+direct worktree sanitizer remains affected by ignored owner-local Godot AI update backups (untouched).
+NGE2 is owner-approved. [NGE3 outdoor route](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OUTDOOR_ROUTE.md)
+adds one continuous Square/south/east corridor and shared Inn/Square handoff. Complete canonical
+17,377 assertions and real desktop birth -> eroad3 -> Inn round trip PASS; identities and resources
+preserved. NGE3 is owner-approved. [NGE4 unified source-entry connection](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OLDPINE_CONNECTION.md)
+connects eroad3 to the existing Old Pine North Approach using one production Session.
+Source-entry has4 residents; default technical New Game remains2. Canonical17,500 assertions and
+real Inn -> Clearing -> Inn route PASS, including NPC/Player/RNG continuity. NGE4 is owner-approved.
+NGE5A pre-audit identified strength growth versus established body facts and correctly stopped.
+[NGE5A0 body authority](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_BODY_FACTS.md) implements the owner-approved
+single Player body authority and stored-fact death/carry. Its historical v1 interpretation/guard
+are removed by NGE5A1; independent body authority and schema2 exact continuation remain.
+Focused260 / complete canonical17,553 assertions, headless editor and real desktop binding smoke PASS.
+NGE5A0/NGE5A are approved. [Versioned continuation and NGE5A1 cleanup](../migration/PHASE_NEW_GAME_ENTRY_VERSIONED_SAVE_CONTINUE.md)
+retain exact schema2 identity/body/world persistence and source four-map Save/Continue. Following
+the new owner decision, old-save A is SUPERSEDED: root schema1 reading/writing, migration and
+missing-field interpretation are removed. Schema2 SOURCE_ENTRY_V1 is the forward baseline;
+LEGACY_OLDPINE_V1 only supports internal pre-cutover technical regression fixtures.
+NGE5A1 focused326 / complete canonical17,747 assertions, Godot4.7.2 headless editor and real
+source Save -> fresh-process Application Continue smoke PASS. NGE5A1 is owner-approved.
+[NGE5B public cutover](../migration/PHASE_NEW_GAME_ENTRY_PUBLIC_CUTOVER.md) now routes the canonical
+menu through minimal Chinese name + explicit gender setup to Snow Inn, using NGE1 source birth
+and SOURCE_ENTRY/schema2 continuation. Public technical Old Pine/exp600/sword birth is retired;
+explicit internal fixtures retain their historical coverage. Focused1636 / expanded UI6027 PASS;
+real desktop New Game -> Square -> Save -> cold Continue -> Old Pine North Approach PASS.
+Complete canonical18,192 PASS, zero failures/exit0; development/sanitized headless checks PASS.
+Android packaged startup/keyboard/input/validation/Back/Cancel smoke PASS on OnePlus8T.
+Chinese Android IME composition/full birth and iOS device qualification are not claimed.
+NGE5B is OWNER APPROVED. [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md)
+corrects public Continue/Recovery accepting technical profiles and exact Snow street-boundary
+restore rejection. Focused1658 / UI6027 / route128 / persistence332 PASS; real public birth,
+forward/reverse route and fresh-process continuation PASS. Final committed-HEAD canonical and
+four same-HEAD PR jobs are mandatory before merge authorization; see the final PR/owner report
+for their actual results. Not merged or fully integrated on main. No new Snow content, shops,
+training, Lake or Phase5B4 is authorized.
+
+**Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
+[PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at
+`d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+Post-merge [workflow 34531552148](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34531552148)
+passed Godot Verify, Windows Release Build, Android Release Build, and iOS Build Validation on that commit.
+[S0 source rebaseline](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) establishes Snow's inn
+as the source fresh entry; its historical pre-review checkpoint remains unchanged. S0 was docs-only.
 
 **Source-valid Beast Foundation + First Serpent Runtime Integration — COMPLETE / FULLY INTEGRATED ON MAIN**
 through [PR #12](https://github.com/Toxicccxz/eastern-stories-godot/pull/12).

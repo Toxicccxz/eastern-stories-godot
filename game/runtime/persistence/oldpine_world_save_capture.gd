@@ -31,6 +31,11 @@ func capture(
 		return Result.failure(Result.Outcome.INVALID_SESSION, "session")
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	if player.body_facts == null:
+		return Result.failure(
+			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
+			"player.body_facts", "missing body authority",
+		)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	var player_character: Values.CharacterStateSnapshot = _character_snapshot(
 		player.state,
@@ -65,7 +70,7 @@ func capture(
 			session.item_instance_index(),
 			equipment_sources,
 			armor_sources,
-			OldPineNativeItemDefinitionProjections.create(),
+			OldPineNativeItemDefinitionProjections.create(session.world_content_revision()),
 		)
 	)
 	if not item_capture.succeeded:
@@ -90,6 +95,8 @@ func capture(
 			Result.Outcome.BODY_BINDING_MISSING,
 			"player.map_position",
 		)
+	if not OldPineMapPlacementValidator.is_valid_character_position(session.active_map(), player.world_location().zone_id, player_body.global_position):
+		return Result.failure(Result.Outcome.INVALID_CAPTURED_SNAPSHOT, "player.map_position", "position outside saved zone or inside obstacle")
 	var player_snapshot: Values.PlayerRuntimeSnapshot = (
 		Values.PlayerRuntimeSnapshot.new(
 			player.character_id,
@@ -97,9 +104,10 @@ func capture(
 			_life_text(player.life_status),
 			player.exists_in_world,
 			player.combat_available,
-			player.maximum_encumbrance,
 			_location_snapshot(player.world_location()),
 			_position_snapshot(player_body.global_position),
+			Values.PlayerIdentitySnapshot.new(player.facts.display_name, player.facts.title, player.facts.age, player.facts.race_id),
+			Values.PlayerBodySnapshot.new(player.body_facts.body_weight, player.maximum_encumbrance),
 		)
 	)
 
@@ -196,6 +204,7 @@ func capture(
 		session.combat_random_source().capture_random_state(),
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
+		session.world_content_revision(),
 	)
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():

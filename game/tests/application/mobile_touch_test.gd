@@ -208,6 +208,8 @@ func _test_viewport(tree: SceneTree) -> void:
 	await _back(tree)
 	_check(shell.menu_visible(), "Back Settings main preserves typed origin")
 	await _tap(tree, shell.new_game_button)
+	_check(shell.new_game_setup_panel.visible, "public tap opens setup; remaining subject uses technical fixture")
+	TechnicalShellFixture.start(shell)
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "touch New Game normal viewport path")
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	if session == null:

@@ -153,16 +153,57 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Lake, five production serpent spawns, multi-serpent policy and old-save spawn upgrades are excluded.
    No large-scale creature framework, Phase5B4/poison, or additional beast content is authorized.
 
-8. **Start-of-Game Source Rebaseline — ANALYSIS IN PROGRESS / NOT IMPLEMENTED**
+8. **Start-of-Game Source Rebaseline — COMPLETE / FULLY INTEGRATED ON MAIN**
 
-   [S0](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) source analysis/self-review is PASS,
-   awaiting owner review on `phase/start-of-game-source-rebaseline`; no PR and no implementation authorization.
-   Actual base is green main `208597ea0cbb564cb3822f4003f76bafc8bafa4a`, after the separately authorized
-   viewport stabilization [PR #13](https://github.com/Toxicccxz/eastern-stories-godot/pull/13) and four green
-   main jobs in [workflow 34525138568](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34525138568).
-   Source ES2 begins at Snow's inn: age14, eight attributes30, effective combat_exp0, cloth and no weapon.
-   S0 recommends considering a bounded **Source-valid New Game Entry Slice** before more Old Pine expansion,
-   not automatically a complete Snow Town implementation. Food initialization order, age/gift, first supplies,
-   teaching/runtime integration and existing-save compatibility require an explicit scope decision.
-   Preserve the current Old Pine demo baseline until authorized; no Snow scene, Shop/Training/Dialogue/Quest,
-   Lake/five-serpent content, or Phase5B4 work is started by this analysis.
+   [S0](../migration/PHASE_START_OF_GAME_SOURCE_REBASELINE.md) passed owner review and integrated through
+   [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14) at
+   `d9b9a7cde6553623cf06b76ff828fa4f8a13c0ab`.
+   Post-main [workflow 34531552148](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34531552148)
+   passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
+   effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
+
+9. **Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
+
+   One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
+   [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
+   gift B / food-water B / old-save A, recorded in DECISIONS.
+   [NGE1 initialization](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) implements the
+   typed birth/cloth foundation and legacy fixtures without changing current New Game or schema1.
+   NGE1 is owner-approved. [NGE2 Inn foundation](../migration/PHASE_NEW_GAME_ENTRY_SNOW_INN.md)
+   supplies the neutral resident-map seam, same-authority source Player binding and physical Inn;
+   focused regressions and desktop keyboard/collision proof pass. Population/services and remaining
+   non-route exits remain deferred; canonical New Game is still Old Pine.
+   NGE2 is owner-approved. [NGE3 corridor/handoff](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OUTDOOR_ROUTE.md)
+   adds one continuous five-zone outdoor route and shared Inn/Square residency/physical handoff.
+   Canonical17,377 and real desktop round trip PASS. NGE3 is owner-approved.
+   [NGE4 connection](../migration/PHASE_NEW_GAME_ENTRY_SNOW_OLDPINE_CONNECTION.md) reuses North Approach,
+   with one source-capable production Session and real cross-region round trip; canonical17,500 PASS.
+   Source-entry has4 resident maps; technical New Game retains2 and its closed north boundary.
+   NGE4 is owner-approved. NGE5A pre-audit stopped on the existing strength/body persistence gap.
+   [NGE5A0 body facts](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_BODY_FACTS.md) establishes one Player body
+   authority, source-correct live-body/death semantics, v1 missing-weight/saved-capacity interpretation,
+   and fail-closed lossy v1 capture. Owner-approved exact native body continuation is in DECISIONS.
+   Focused260 / canonical17,553 assertions and real desktop binding smoke PASS; NGE5A0 owner-approved.
+   [NGE5A versioned continuation](../migration/PHASE_NEW_GAME_ENTRY_VERSIONED_SAVE_CONTINUE.md) implements
+   strict v1/v2, explicit two/four-map revision and exact source identity/body/item continuation.
+   Focused399 / canonical17,820 assertions, real Snow/Old Pine Save and cold Continue PASS.
+   NGE5A is approved. Owner-authorized NGE5A1 removes pre-cutover schema1 compatibility and its
+   migration tests while retaining schema2 source continuation and temporary technical-v2 saves.
+   Old-save A is SUPERSEDED in DECISIONS; no automatic file deletion or migration is introduced.
+   NGE5A1 focused326 / canonical17,747 assertions, Godot4.7.2 headless editor and real source
+   Save -> fresh-process Application Continue smoke PASS. NGE5A1 is owner-approved.
+   [NGE5B public cutover](../migration/PHASE_NEW_GAME_ENTRY_PUBLIC_CUTOVER.md) implements explicit
+   name/gender setup, direct source Snow Inn birth and public SOURCE_ENTRY/schema2 continuation.
+   Technical graphs remain internal fixtures only. Focused1636 / expanded UI6027 PASS; real desktop
+   public birth/Save/cold Continue/Old Pine reachability PASS. Complete canonical18,192 PASS,
+   zero failures/exit0; Android packaged startup/input/validation/Back/Cancel smoke PASS.
+   Full Chinese mobile IME/birth and iOS device qualification are not claimed. NGE5B is OWNER APPROVED.
+   [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md) corrects public technical-save
+   reachability and exact Snow street-join restoration; focused/runtime/sanitizer evidence passes.
+   Final committed-HEAD canonical and the unique final PR's four same-HEAD jobs gate integration.
+   This is not fully integrated on main; merge still requires explicit owner authorization.
+   Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
+   square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
+   real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
+   deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
+   acceptance. One final PR is authorized after local gates; no merge or next-slice implementation.

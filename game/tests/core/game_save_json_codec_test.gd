@@ -112,7 +112,7 @@ func _test_strict_shape_and_security_failures() -> void:
 	root["metadata"]["format_id"] = "another-format"
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.INVALID_FORMAT_ID, "wrong format ID rejects distinctly")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
-	root["metadata"]["schema_version"] = 2
+	root["metadata"]["schema_version"] = 3
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "unsupported game schema rejects distinctly")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["items"]["schema_version"] = 2

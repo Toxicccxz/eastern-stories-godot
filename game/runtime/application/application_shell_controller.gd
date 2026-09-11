@@ -1,6 +1,8 @@
 class_name ApplicationShellController
 extends Node
 
+const NamePolicy = preload("res://application/new_game/new_player_name_policy.gd")
+
 const HOST_SCENE: PackedScene = preload(
 	"res://scenes/runtime/oldpine_game_runtime_host.tscn"
 )
@@ -15,6 +17,13 @@ signal interaction_changed
 @onready var main_menu_panel: Control = %MainMenuPanel
 @onready var status_label: Label = %StatusLabel
 @onready var new_game_button: Button = %NewGameButton
+@onready var new_game_setup_panel: Control = %NewGameSetupPanel
+@onready var player_name_edit: LineEdit = %PlayerNameEdit
+@onready var male_button: Button = %MaleButton
+@onready var female_button: Button = %FemaleButton
+@onready var journey_start_button: Button = %JourneyStartButton
+@onready var setup_cancel_button: Button = %SetupCancelButton
+@onready var setup_message: Label = %SetupMessage
 @onready var continue_button: Button = %ContinueButton
 @onready var recovery_button: Button = %RecoveryButton
 @onready var menu_settings_button: Button = %MenuSettingsButton
@@ -59,6 +68,7 @@ var _last_result: ApplicationOperationResult
 var _transition_held_actions: Array[StringName] = []
 var _exit_capability: ApplicationExitCapability = ApplicationExitCapability.new()
 var _quit_requested: bool = false
+var _draft_gender: StringName = &""
 var _activity: ApplicationActivity = ApplicationActivity.new()
 
 
@@ -160,6 +170,11 @@ func configure_before_start(
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	male_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_MALE))
+	female_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_FEMALE))
+	journey_start_button.pressed.connect(submit_new_game_setup)
+	setup_cancel_button.pressed.connect(cancel_new_game_setup)
+	player_name_edit.text_submitted.connect(func(_text: String) -> void: submit_new_game_setup())
 	child_entered_tree.connect(_presentation_entered)
 	if not _configured:
 		_configured = true
@@ -214,6 +229,11 @@ func _input(event: InputEvent) -> void:
 	if suppressed_repeat:
 		get_viewport().set_input_as_handled()
 		return
+	# LineEdit may consume Escape before unhandled input; Shell owns setup Back.
+	if _state.mode() == ApplicationShellState.Mode.NEW_GAME_SETUP and event.is_action_pressed(&"ui_cancel") and not event.is_echo():
+		cancel_new_game_setup()
+		get_viewport().set_input_as_handled()
+		return
 	if _state.mode() in [
 		ApplicationShellState.Mode.BOOT,
 		ApplicationShellState.Mode.STARTING_SESSION,
@@ -255,6 +275,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		ApplicationShellState.Mode.RECOVERY_CHOICE:
 			if cancel_pressed:
 				handled = cancel_recovery_choice()
+		ApplicationShellState.Mode.NEW_GAME_SETUP:
+			if cancel_pressed:
+				handled = cancel_new_game_setup()
 	if handled:
 		get_viewport().set_input_as_handled()
 
@@ -297,6 +320,8 @@ func _handle_system_back() -> void:
 			cancel_settings()
 		ApplicationShellState.Mode.RECOVERY_CHOICE:
 			cancel_recovery_choice()
+		ApplicationShellState.Mode.NEW_GAME_SETUP:
+			cancel_new_game_setup()
 		ApplicationShellState.Mode.PAUSED:
 			request_resume()
 		ApplicationShellState.Mode.PLAYING:
@@ -394,7 +419,7 @@ func request_new_game_from_menu() -> bool:
 		return false
 	if _slot_inspection != null and _slot_inspection.has_save_material():
 		return _show_new_game_confirmation()
-	return _start_new_game()
+	return _open_new_game_setup()
 
 
 func request_continue_from_menu() -> bool:
@@ -615,7 +640,7 @@ func confirm_current_result() -> bool:
 		return false
 	match _last_result.operation():
 		ApplicationOperationResult.Operation.NEW_GAME:
-			return _start_new_game()
+			return _open_new_game_setup()
 		ApplicationOperationResult.Operation.END_SESSION:
 			return _start_end_session()
 	return false
@@ -645,10 +670,49 @@ func _show_new_game_confirmation() -> bool:
 	return true
 
 
-func _start_new_game() -> bool:
+func _open_new_game_setup() -> bool:
+	player_name_edit.text = ""
+	_draft_gender = &""
+	male_button.set_pressed_no_signal(false)
+	female_button.set_pressed_no_signal(false)
+	setup_message.text = "请输入1–6个中文字符，并选择性别。"
+	_last_result = null
+	_set_state(ApplicationShellState.new_game_setup())
+	return true
+
+
+func cancel_new_game_setup() -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
+		return false
+	DisplayServer.virtual_keyboard_hide()
+	_set_state(ApplicationShellState.main_menu())
+	return true
+
+
+func select_new_game_gender(gender: StringName) -> void:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
+		return
+	if gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
+		return
+	_draft_gender = gender
+	male_button.set_pressed_no_signal(gender == CharacterState.GENDER_MALE)
+	female_button.set_pressed_no_signal(gender == CharacterState.GENDER_FEMALE)
+
+
+func submit_new_game_setup() -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
+		return false
+	if not NamePolicy.is_valid(player_name_edit.text):
+		setup_message.text = "姓名须为1–6个中文字符，不含空白或其它字符。"
+		return false
+	if _draft_gender == &"":
+		setup_message.text = "请选择性别。"
+		return false
+	var display_name: String = player_name_edit.text
+	DisplayServer.virtual_keyboard_hide()
 	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.NEW_GAME))
-	if _host != null and _host.request_new_game():
+	if _host != null and _host.request_new_game(display_name, _draft_gender):
 		return true
 	_show_request_failure(
 		ApplicationOperationResult.Operation.NEW_GAME,
@@ -850,6 +914,11 @@ func _render_state(defer_focus: bool = true) -> void:
 	pause_panel.visible = mode == ApplicationShellState.Mode.PAUSED
 	settings_panel.visible = mode == ApplicationShellState.Mode.SETTINGS
 	recovery_panel.visible = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
+	new_game_setup_panel.visible = mode == ApplicationShellState.Mode.NEW_GAME_SETUP
+	var setup_interactive: bool = mode == ApplicationShellState.Mode.NEW_GAME_SETUP and interaction_allowed()
+	player_name_edit.editable = setup_interactive
+	for button: Button in [male_button, female_button, journey_start_button, setup_cancel_button]:
+		button.disabled = not setup_interactive
 	busy_overlay.visible = mode in [
 		ApplicationShellState.Mode.BOOT,
 		ApplicationShellState.Mode.STARTING_SESSION,
@@ -904,7 +973,8 @@ func _render_state(defer_focus: bool = true) -> void:
 	_configure_active_focus_cycle(mode)
 	if not interaction_allowed():
 		for control: Control in _all_shell_focus_controls():
-			(control as BaseButton).disabled = true
+			if control is BaseButton:
+				(control as BaseButton).disabled = true
 		_release_shell_focus()
 	elif defer_focus:
 		_focus_current_surface.call_deferred()
@@ -914,6 +984,7 @@ func _render_state(defer_focus: bool = true) -> void:
 
 func _focus_current_surface() -> void:
 	match _state.mode():
+		ApplicationShellState.Mode.NEW_GAME_SETUP: player_name_edit.grab_focus()
 		ApplicationShellState.Mode.RESULT: _focus_result_button()
 		ApplicationShellState.Mode.SETTINGS: _focus_settings_control()
 		ApplicationShellState.Mode.RECOVERY_CHOICE: _focus_recovery_button()
@@ -974,6 +1045,7 @@ func _select_committed_window_mode() -> void:
 
 func _all_shell_focus_controls() -> Array[Control]:
 	return [
+		player_name_edit, male_button, female_button, journey_start_button, setup_cancel_button,
 		new_game_button,
 		continue_button,
 		recovery_button,
@@ -1006,6 +1078,8 @@ func _release_shell_focus() -> void:
 func _configure_active_focus_cycle(mode: int) -> void:
 	var controls: Array[Control] = []
 	match mode:
+		ApplicationShellState.Mode.NEW_GAME_SETUP:
+			controls = [player_name_edit, male_button, female_button, journey_start_button, setup_cancel_button]
 		ApplicationShellState.Mode.MAIN_MENU:
 			controls = [new_game_button]
 			if not continue_button.disabled:

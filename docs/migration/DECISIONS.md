@@ -1,5 +1,103 @@
 # Migration Decisions
 
+### Native Character Entry
+
+**Decision (owner-authorized NGE5B):** Native single-player New Game collects only display name
+and an explicit legacy male/female gender selection. MUD account ID/password/email and account
+security are not migrated. Name preserves the source meaning of 1–6 Chinese/Han characters,
+counted as Unicode code points rather than old-encoding bytes. Invalid input is rejected without
+renaming or trimming. Internal stable CharacterId and save keys remain separate from display name.
+
+**Source / impact:** `reference/es2/mudlib/adm/daemons/logind.c::check_legal_name` (called by `get_name`) expresses 1–6 Chinese
+characters through 2–12 bytes. The native validator uses Unicode Han membership and does not
+recreate multiplayer account or banned-name infrastructure. Birth stats, explicit-save policy and
+existing gender-dependent rules are unchanged; no other character creation choices are added.
+
+## Pre-Cutover Development Save Compatibility
+
+**Decision (owner-approved NGE5A1):** Development saves produced before the NGE5B public source
+New Game cutover carry no compatibility promise. The project has not publicly released and has
+no real-player save compatibility obligation. Schema1 is unsupported: no reader, migration,
+upgrade, missing-field interpretation or guaranteed restoration is retained.
+
+Current schema2 + `LEGACY_OLDPINE_V1` remains only as the pre-cutover technical New Game test
+profile; it is not a historical-save compatibility contract and has no long-term stability
+promise. It may be removed at NGE5B unless the owner establishes a new reason to retain it.
+Schema2 + `SOURCE_ENTRY_V1` is the forward save baseline.
+
+Unsupported files are rejected, not automatically deleted, rewritten or archived. Existing
+New Game confirmation, explicit Save, primary/tmp/bak transactions, recovery and Session rollback
+remain. No second slot or migration UI. NGE5A0 independent body authority and exact schema2
+continuation are unchanged. This supersedes old-save A and only the v1 interpretation portion of
+the body decision below; it does not authorize NGE5B or public New Game cutover.
+
+## Player Body Facts and Native Continue
+
+**Decision (owner-approved NGE5A0):** Player own body weight and maximum encumbrance are independent
+typed runtime facts. Ordinary strength growth, including registered unarmed improvement, does not
+refresh either value. Carry and death use those stored facts. Fresh Human initialization reuses the
+existing source formulas once. NPC body authority is not merged with Player authority.
+
+**Native continuation:** Future schema2 explicitly saves both facts and cold Continue restores them
+exactly. Native Save/Continue does not emulate LPC full-login body reconstruction. Only a future
+explicit source-backed body rebuild/transformation event may re-derive established facts.
+
+**Legacy v1 interpretation — SUPERSEDED by NGE5A1 (historical record):** Existing saved maximum_encumbrance is authoritative even when it differs
+from current strength*5000. v1 has no Player body_weight: derive that missing field once from saved
+current strength, then retain it as runtime authority. Until schema2 exists, v1 capture fails closed
+if runtime body weight differs from human_weight(current strength); it cannot silently lose that fact.
+
+**Reason / compatibility impact:** In the same LPC body, unarmed's str+=2 does not invoke setup;
+Human weight and chard capacity initialize only when zero, and corpse copies existing facts.
+On a full new-body login, static move fields begin at zero and setup may derive them again from
+saved strength. Native exact continuation deliberately does not reproduce that login-induced change.
+This is a native save-continuation compatibility substitution plus a v1 missing-field interpretation,
+not a new growth formula or a legacy world/profile upgrade.
+
+Sources: `reference/es2/mudlib/daemon/skill/unarmed.c`, `feature/skill.c`, `feature/dbase.c`,
+`feature/move.c`, `adm/daemons/race/human.c`, `adm/daemons/chard.c`, `adm/daemons/logind.c`,
+`obj/user.c`, `std/char.c`, `feature/save.c`.
+
+## New Player Delayed Gift Randomization
+
+**Decision (NGE1 owner-approved B):** Fresh native Human Player starts at age14 with all eight
+base attributes30. Do not implement `gift_tag`, a pending gift allocation, a gift RNG stream, or
+the delayed age15 login overwrite. This is a **compatibility substitution**, not a claim of exact
+legacy execution. Other authorized gameplay attribute progression remains allowed.
+
+**Legacy:** `adm/daemons/logind.c::init_new_player` sets attributes30 and gift_tag; the later full
+`enter_world` with age>=15 overwrites them with `10 + random(21)`. `obj/user.c::update_age`
+establishes age14 initially. Future native age/mud_age progression MUST NOT automatically reintroduce
+this overwrite; a fresh source analysis and owner decision are required first.
+
+## Fresh Food / Water Initialization
+
+**Decision (NGE1 owner-approved B):** Only fresh NEW_GAME birth establishes the body, derives food
+and water capacity, then initializes them once to capacity: at weight80000, **400/400**.
+This is a **legacy initialization-order compatibility correction**.
+
+**Legacy execution:** `adm/daemons/logind.c` queries capacities before body setup;
+`feature/move.c` initially has weight0 and `feature/damage.c` divides weight by200, producing
+**0/0**, not400/400. `adm/daemons/race/human.c` later establishes body weight.
+Continue, Restore, map transition, respawn/revive, load-failure recovery, returning from Old Pine,
+opening menus and general recovery MUST NOT invoke this birth refill. No recovery formula changes.
+
+## Legacy Native Save Preservation
+
+**Status: SUPERSEDED by Pre-Cutover Development Save Compatibility (NGE5A1).** The following
+records the previously approved old-save A decision, not the current branch policy.
+
+**Decision (NGE1 owner-approved A):** Legal native saves created before Snow cutover remain
+Legacy Native Technical-Demo Saves and restore their actual stored values. New Game revisions do
+not rewrite existing saves. This is a **save compatibility policy**.
+
+Do not relocate the player to Snow, reset attributes/experience, remove the starter weapon, grant
+cloth, replenish food/water, rerun birth, revive NPCs/rebuild tombstones, alter corpses, redraw RNG,
+or change allocator continuation. Existing native schema1 itself identifies the technical profile;
+never infer it from experience, inventory or timestamps. Its absent Player metadata is interpreted
+as the existing Player/age20 facts without recalculating saved gameplay values. This approves no
+schema2, world revision implementation, Snow geometry, shops or training work.
+
 ## Active Semi-Auto V1 SPAR establishment is unarmed-only
 
 **Decision:** CXR9 owner authorization restricts SPAR establishment to participants

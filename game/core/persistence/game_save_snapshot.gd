@@ -3,13 +3,14 @@ extends RefCounted
 
 const ValueTypes := preload("res://core/persistence/game_save_value_types.gd")
 
-const CURRENT_SCHEMA_VERSION: int = 1
+const CURRENT_SCHEMA_VERSION: int = 2
 const FORMAT_ID: String = "eastern-stories-native-save"
 const SESSION_KIND_OLDPINE: StringName = &"oldpine"
 const FIXED_SLOT_ID: StringName = &"default-v1"
 
 var _metadata: ValueTypes.GameSaveMetadata
 var _session_kind: StringName
+var _world_content_revision: WorldContentRevision.Value
 var _item_id_allocator: ValueTypes.ItemIdAllocatorSnapshot
 var _player: ValueTypes.PlayerRuntimeSnapshot
 var _npc_spawn_states: Array[ValueTypes.NpcSpawnStateSnapshot] = []
@@ -23,6 +24,8 @@ var metadata: ValueTypes.GameSaveMetadata:
 	get: return _metadata.duplicate_snapshot()
 var session_kind: StringName:
 	get: return _session_kind
+var world_content_revision: WorldContentRevision.Value:
+	get: return _world_content_revision
 var item_id_allocator: ValueTypes.ItemIdAllocatorSnapshot:
 	get: return _item_id_allocator.duplicate_snapshot()
 var player: ValueTypes.PlayerRuntimeSnapshot:
@@ -61,12 +64,14 @@ func _init(
 	p_combat_rng: RandomStreamSnapshot = null,
 	p_npc_initialization_rng: RandomStreamSnapshot = null,
 	p_world_interaction_rng: RandomStreamSnapshot = null,
+	p_world_content_revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1,
 ) -> void:
 	_metadata = (
 		ValueTypes.GameSaveMetadata.new(FORMAT_ID, CURRENT_SCHEMA_VERSION, "", ValueTypes.OptionalText.none(), &"development", FIXED_SLOT_ID)
 		if p_metadata == null else p_metadata.duplicate_snapshot()
 	)
 	_session_kind = p_session_kind
+	_world_content_revision = p_world_content_revision
 	_item_id_allocator = ValueTypes.ItemIdAllocatorSnapshot.new() if p_item_id_allocator == null else p_item_id_allocator.duplicate_snapshot()
 	_player = ValueTypes.PlayerRuntimeSnapshot.new() if p_player == null else p_player.duplicate_snapshot()
 	for record: ValueTypes.NpcSpawnStateSnapshot in p_npc_spawn_states:
@@ -82,7 +87,7 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng)
+	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision)
 
 
 static func _npc_before(left: ValueTypes.NpcSpawnStateSnapshot, right: ValueTypes.NpcSpawnStateSnapshot) -> bool:

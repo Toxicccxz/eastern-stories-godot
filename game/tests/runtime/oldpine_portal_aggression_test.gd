@@ -428,6 +428,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		base_player.life_status,
 		base_player.exists_in_world,
 		base_player.combat_available,
+		base_player.body_facts,
 	)
 	var partial: WorldPortalTraversalResult = direct_adapter.traverse(
 		rejecting_player,

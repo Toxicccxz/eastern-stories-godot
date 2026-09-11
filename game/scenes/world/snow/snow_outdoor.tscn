@@ -1,0 +1,282 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://runtime/world/snow_outdoor_controller.gd" id="1"]
+[ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
+[ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="3"]
+[ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="4"]
+[ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="5"]
+[sub_resource type="RectangleShape2D" id="SouthPassageShape"]
+size = Vector2(120, 60)
+[sub_resource type="RectangleShape2D" id="SouthBlockerShape"]
+size = Vector2(140, 24)
+[sub_resource type="RectangleShape2D" id="PlayerShape"]
+size = Vector2(34, 34)
+[sub_resource type="RectangleShape2D" id="PassageShape"]
+size = Vector2(30, 120)
+
+[sub_resource type="RectangleShape2D" id="SquareShape"]
+size = Vector2(600, 500)
+
+[sub_resource type="RectangleShape2D" id="SouthRoadShape"]
+size = Vector2(200, 400)
+
+[sub_resource type="RectangleShape2D" id="EastRoad1Shape"]
+size = Vector2(400, 200)
+
+[sub_resource type="RectangleShape2D" id="EastRoad2Shape"]
+size = Vector2(400, 200)
+
+[sub_resource type="RectangleShape2D" id="EastRoad3Shape"]
+size = Vector2(400, 400)
+
+[node name="SnowOutdoor" type="Node2D"]
+script = ExtResource("1")
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Square" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(-300, -250, 300, -250, 300, 250, -300, 250)
+color = Color(0.27, 0.34, 0.26, 1)
+[node name="SquareLabel" type="Label" parent="Ground"]
+offset_left = -270.0
+offset_top = -220.0
+text = "广场"
+mouse_filter = 2
+
+[node name="SouthRoad" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(-100, 250, 100, 250, 100, 650, -100, 650)
+color = Color(0.27, 0.34, 0.26, 1)
+[node name="SouthRoadLabel" type="Label" parent="Ground"]
+offset_left = -70.0
+offset_top = 280.0
+text = "雪亭镇街道"
+mouse_filter = 2
+
+[node name="EastRoad1" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(100, 450, 500, 450, 500, 650, 100, 650)
+color = Color(0.27, 0.34, 0.26, 1)
+[node name="EastRoad1Label" type="Label" parent="Ground"]
+offset_left = 130.0
+offset_top = 480.0
+text = "黄土小径 · 1"
+mouse_filter = 2
+
+[node name="EastRoad2" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(500, 450, 900, 450, 900, 650, 500, 650)
+color = Color(0.27, 0.34, 0.26, 1)
+[node name="EastRoad2Label" type="Label" parent="Ground"]
+offset_left = 530.0
+offset_top = 480.0
+text = "黄土小径 · 2"
+mouse_filter = 2
+
+[node name="EastRoad3" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(900, 450, 1300, 450, 1300, 850, 900, 850)
+color = Color(0.27, 0.34, 0.26, 1)
+[node name="EastRoad3Label" type="Label" parent="Ground"]
+offset_left = 930.0
+offset_top = 480.0
+text = "山路 · 老松林方向"
+mouse_filter = 2
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Wall0" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-300, -262, 300, -262, 300, -238, -300, -238)
+[node name="Visual0" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-300, -262, 300, -262, 300, -238, -300, -238)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall1" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(288, -250, 312, -250, 312, 250, 288, 250)
+[node name="Visual1" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(288, -250, 312, -250, 312, 250, 288, 250)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall2" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(300, 238, 100, 238, 100, 262, 300, 262)
+[node name="Visual2" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(300, 238, 100, 238, 100, 262, 300, 262)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall3" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(88, 250, 112, 250, 112, 450, 88, 450)
+[node name="Visual3" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(88, 250, 112, 250, 112, 450, 88, 450)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall4" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(100, 438, 1300, 438, 1300, 462, 100, 462)
+[node name="Visual4" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(100, 438, 1300, 438, 1300, 462, 100, 462)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall5" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(1288, 450, 1312, 450, 1312, 850, 1288, 850)
+[node name="Visual5" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(1288, 450, 1312, 450, 1312, 850, 1288, 850)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall6" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(1300, 838, 1170, 838, 1170, 862, 1300, 862)
+[node name="Visual6" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(1300, 838, 1170, 838, 1170, 862, 1300, 862)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="SouthWestWall" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(1030, 838, 900, 838, 900, 862, 1030, 862)
+[node name="SouthWestVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(1030, 838, 900, 838, 900, 862, 1030, 862)
+color = Color(0.12, 0.18, 0.12, 1)
+[node name="SouthBlocker" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1100, 850)
+shape = SubResource("SouthBlockerShape")
+[node name="SouthPassageBackstop" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(1018, 838, 1030, 838, 1030, 890, 1170, 890, 1170, 838, 1182, 838, 1182, 902, 1018, 902)
+
+[node name="Wall7" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(888, 850, 912, 850, 912, 650, 888, 650)
+[node name="Visual7" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(888, 850, 912, 850, 912, 650, 888, 650)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall8" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(900, 638, -100, 638, -100, 662, 900, 662)
+[node name="Visual8" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(900, 638, -100, 638, -100, 662, 900, 662)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall9" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-112, 650, -88, 650, -88, 250, -112, 250)
+[node name="Visual9" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-112, 650, -88, 650, -88, 250, -112, 250)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall10" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-100, 238, -300, 238, -300, 262, -100, 262)
+[node name="Visual10" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-100, 238, -300, 238, -300, 262, -100, 262)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall11" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-312, 250, -288, 250, -288, 70, -312, 70)
+[node name="Visual11" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-312, 250, -288, 250, -288, 70, -312, 70)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall12" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-300, 58, -335, 58, -335, 82, -300, 82)
+[node name="Visual12" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-300, 58, -335, 58, -335, 82, -300, 82)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall13" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-347, 70, -323, 70, -323, -70, -347, -70)
+[node name="Visual13" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-347, 70, -323, 70, -323, -70, -347, -70)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall14" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-335, -82, -300, -82, -300, -58, -335, -58)
+[node name="Visual14" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-335, -82, -300, -82, -300, -58, -335, -58)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall15" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-312, -70, -288, -70, -288, -250, -312, -250)
+[node name="Visual15" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-312, -70, -288, -70, -288, -250, -312, -250)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Zones" type="Node2D" parent="."]
+
+[node name="Square" type="Area2D" parent="Zones"]
+position = Vector2(0, 0)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.square"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/Square"]
+shape = SubResource("SquareShape")
+
+[node name="SouthRoad" type="Area2D" parent="Zones"]
+position = Vector2(0, 450)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.sroad1"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/SouthRoad"]
+shape = SubResource("SouthRoadShape")
+
+[node name="EastRoad1" type="Area2D" parent="Zones"]
+position = Vector2(300, 550)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.eroad1"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/EastRoad1"]
+shape = SubResource("EastRoad1Shape")
+
+[node name="EastRoad2" type="Area2D" parent="Zones"]
+position = Vector2(700, 550)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.eroad2"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/EastRoad2"]
+shape = SubResource("EastRoad2Shape")
+
+[node name="EastRoad3" type="Area2D" parent="Zones"]
+position = Vector2(1100, 650)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.eroad3"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/EastRoad3"]
+shape = SubResource("EastRoad3Shape")
+
+[node name="Passage" type="Area2D" parent="."]
+script = ExtResource("5")
+portal_id = &"snow.square.west"
+position = Vector2(-285, 0)
+collision_layer = 0
+input_pickable = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Passage"]
+shape = SubResource("PassageShape")
+[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="OldPineReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1100, 730)
+script = ExtResource("3")
+spawn_point_id = &"snow.eroad3.oldpine_return"
+[node name="PlayerBirth" type="Marker2D" parent="SpawnPoints"]
+unique_name_in_owner = true
+position = Vector2(-200, 0)
+script = ExtResource("3")
+spawn_point_id = &"snow.square.inn_entry"
+[node name="Characters" type="Node2D" parent="."]
+[node name="OldPinePassage" type="Area2D" parent="."]
+position = Vector2(1100, 820)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("5")
+portal_id = &"snow.eroad3.south"
+closed_wall_path = NodePath("../Walls/SouthBlocker")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OldPinePassage"]
+shape = SubResource("SouthPassageShape")
+[node name="Player" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+script = ExtResource("2")
+[node name="Visual" type="Polygon2D" parent="Characters/Player"]
+polygon = PackedVector2Array(-17, -17, 17, -17, 17, 17, -17, 17)
+color = Color(0.68, 0.73, 0.8, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Player"]
+shape = SubResource("PlayerShape")
+[node name="NameLabel" type="Label" parent="Characters/Player"]
+offset_left = -45.0
+offset_top = -46.0
+offset_right = 45.0
+offset_bottom = -20.0
+horizontal_alignment = 1
+mouse_filter = 2
+[node name="Camera2D" type="Camera2D" parent="Characters/Player"]
+enabled = false
+zoom = Vector2(0.9, 0.9)

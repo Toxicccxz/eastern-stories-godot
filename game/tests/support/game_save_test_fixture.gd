@@ -29,7 +29,7 @@ static func substantial(profile_id: StringName = &"test", marker: int = 1) -> Ga
 		Values.ApprenticeshipSnapshot.new(&"teacher:master", "師父", 2),
 	)
 	var location := Values.WorldLocationSnapshot.new(&"region:oldpine", &"map:outdoor", &"zone:pine", &"combat:pine")
-	var player := Values.PlayerRuntimeSnapshot.new(&"character:player", character, &"active", true, true, 9000, location, Values.MapPositionSnapshot.new(-12.5, 333.25))
+	var player := Values.PlayerRuntimeSnapshot.new(&"character:player", character, &"active", true, true, location, Values.MapPositionSnapshot.new(-12.5, 333.25), Values.PlayerIdentitySnapshot.new("Player", "", 20, &"human"), Values.PlayerBodySnapshot.new(62000, 9000))
 	var item_records: Array[NativeItemRecord] = [
 		NativeItemRecord.new(&"armor:leather", &"definition:leather", 300, Endpoint.new(Endpoint.Kind.CHARACTER, &"character:player")),
 		NativeItemRecord.new(&"corpse:bandit", &"definition:corpse", 1000, Endpoint.new(Endpoint.Kind.WORLD, &"world:outdoor")),

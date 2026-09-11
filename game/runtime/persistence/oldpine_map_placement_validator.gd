@@ -6,7 +6,7 @@ const CORPSE_FOOTPRINT: Vector2 = Vector2(76.0, 18.0)
 
 
 static func is_valid_character_position(
-	map: OldPineResidentMapController,
+	map: WorldResidentMapController,
 	zone_id: StringName,
 	position: Vector2,
 ) -> bool:
@@ -14,7 +14,7 @@ static func is_valid_character_position(
 
 
 static func is_valid_corpse_position(
-	map: OldPineResidentMapController,
+	map: WorldResidentMapController,
 	zone_id: StringName,
 	position: Vector2,
 ) -> bool:
@@ -22,7 +22,7 @@ static func is_valid_corpse_position(
 
 
 static func _is_valid_position(
-	map: OldPineResidentMapController,
+	map: WorldResidentMapController,
 	zone_id: StringName,
 	position: Vector2,
 	footprint_size: Vector2,
@@ -30,6 +30,12 @@ static func _is_valid_position(
 	if map == null or not position.is_finite():
 		return false
 	var zone_paths: Dictionary[StringName, NodePath] = _zone_paths(map.map_id())
+	# Snow uses its actual authored physical-zone components, not copied coordinates.
+	if map is SnowResidentMapController:
+		for node: Node in map.get_node("Zones").get_children():
+			var zone: WorldPhysicalZoneArea2D = node as WorldPhysicalZoneArea2D
+			if zone != null and map.location_for_zone(zone.zone_id) != null:
+				zone_paths[zone.zone_id] = map.get_path_to(zone.get_node("CollisionShape2D"))
 	if not zone_paths.has(zone_id):
 		return false
 	var containing_zones: Array[StringName] = []
@@ -37,7 +43,12 @@ static func _is_valid_position(
 		var collision: CollisionShape2D = map.get_node_or_null(
 			zone_paths[candidate_id]
 		) as CollisionShape2D
-		if collision != null and _point_inside(collision, position):
+		var contains_point: bool = collision != null and _point_inside(collision, position)
+		if map is SnowResidentMapController and collision != null:
+			# Match runtime half-open center ownership at exact street joins.
+			var zone: WorldPhysicalZoneArea2D = collision.get_parent() as WorldPhysicalZoneArea2D
+			contains_point = zone != null and zone.contains_center(position)
+		if contains_point:
 			containing_zones.append(candidate_id)
 	if containing_zones.size() != 1 or containing_zones[0] != zone_id:
 		return false

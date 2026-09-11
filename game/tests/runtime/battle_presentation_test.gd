@@ -153,11 +153,15 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	tree.root.add_child(shell)
 	await _settle(tree)
 	await _tap(tree, shell.new_game_button)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.NEW_GAME_SETUP, "real New Game opens character setup")
+	preload("res://tests/support/technical_shell_fixture.gd").start(shell)
 	await _settle(tree, 25)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
-	_check(session != null and session.is_initialized(), "real Shell New Game input")
+	_check(session != null and session.is_initialized(), "explicit technical Battle fixture initialized")
 	if session == null:
 		shell.free()
+		tree.root.size = original_size
+		tree.root.content_scale_size = original_scale
 		return
 	session.set_process(false)
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")

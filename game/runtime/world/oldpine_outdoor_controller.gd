@@ -47,19 +47,11 @@ const AggressionAdapterType := preload(
 @onready var cliff1_up_interaction: Area2D = $Interactions/Cliff1UpInteraction
 @onready var cliffside_pine_exit: Area2D = $Interactions/CliffsidePineExit
 
-var _player: WorldPlayerRuntimeType
-var _session_owner: OldPineWorldSessionController
 var _map_characters: MapCharacterRuntimeState
 var _all_npcs: Array[NpcRuntimeState] = []
 var _registered_npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
 var _registered_npc_presence: Dictionary[StringName, Area2D] = {}
 var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
-var _inventory: InventoryState
-var _stacks: CombinedStackCollection
-var _item_index: WorldItemInstanceIndex
-var _npc_random: NpcInitializationRandomSource
-var _combat_random: CombatRandomSource
-var _world_interaction_random: WorldInteractionRandomSource
 var _effects: SkillImprovementEffectRegistry
 var _bandit_content: CombatSliceContentProfile
 var _tall_bandit_content: CombatSliceContentProfile
@@ -71,14 +63,10 @@ var _last_tick_order: Array[StringName] = []
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
 var _presenter: CombatSlicePresenter = CombatSlicePresenter.new()
-var _item_instance_scope: StringName = &""
-var _item_id_allocator: SessionItemIdAllocator
-var _world_simulation_gate: WorldSimulationGate
 var _encounter_freeze_owner_id: StringName = &""
 var _encounter_cadence_was_running: bool = false
 var _encounter_cadence_time_left: float = 0.0
 var _initialized: bool = false
-var _configured: bool = false
 var _initialization_count: int = 0
 var _portal_adapter: PortalTraversalAdapterType = PortalTraversalAdapterType.new()
 var _vine_adapter: OldPineVineTraversalAdapter = OldPineVineTraversalAdapter.new()
@@ -131,53 +119,10 @@ func map_id() -> StringName:
 	return OldPineWorldDefinitions.OUTDOOR_MAP_ID
 
 
-func configure_session_authorities(
-	p_session: OldPineWorldSessionController,
-	p_player: WorldPlayerRuntimeType,
-	p_inventory: InventoryState,
-	p_stacks: CombinedStackCollection,
-	p_item_index: WorldItemInstanceIndex,
-	p_npc_random: NpcInitializationRandomSource,
-	p_combat_random: CombatRandomSource,
-	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_id_allocator: SessionItemIdAllocator,
-	p_world_simulation_gate: WorldSimulationGate,
-) -> bool:
-	if (
-		_configured
-		or p_session == null
-		or p_player == null
-		or not p_player.is_valid()
-		or p_inventory == null
-		or p_stacks == null
-		or p_item_index == null
-		or p_npc_random == null
-		or p_combat_random == null
-		or p_world_interaction_random == null
-		or p_item_id_allocator == null
-		or not p_item_id_allocator.is_valid()
-		or p_world_simulation_gate == null
-	):
-		return false
-	_session_owner = p_session
-	_player = p_player
-	_inventory = p_inventory
-	_stacks = p_stacks
-	_item_index = p_item_index
-	_npc_random = p_npc_random
-	_combat_random = p_combat_random
-	_world_interaction_random = p_world_interaction_random
-	_item_id_allocator = p_item_id_allocator
-	_item_instance_scope = p_item_id_allocator.scope
-	_world_simulation_gate = p_world_simulation_gate
-	_configured = true
-	return true
-
-
 func initialize_map() -> bool:
 	if _initialized:
 		return true
-	if not _configured:
+	if not _configured or _session_owner == null:
 		return false
 	if not _bind_world_simulation_gate_to_bodies():
 		return false
@@ -209,7 +154,7 @@ func initialize_map() -> bool:
 		)
 		or (
 			_session_owner.bootstrap_mode()
-			== OldPineWorldSessionController.BootstrapMode.NEW_GAME
+			!= OldPineWorldSessionController.BootstrapMode.RESTORE
 			and (
 				not _initialize_player()
 				or not _initialize_bandits()
@@ -220,6 +165,8 @@ func initialize_map() -> bool:
 	):
 		return false
 	hud.configure(_player)
+	if not initialize_passages():
+		return false
 	opportunity_timer.stop()
 	_initialized = true
 	_initialization_count += 1
@@ -444,6 +391,11 @@ func spawn_matches_zone(
 	spawn_point_id: StringName,
 	zone_id: StringName,
 ) -> bool:
+	if spawn_point_id == SnowOldPineConnectionDefinitions.NORTH_ENTRY_SPAWN_ID:
+		var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
+		var shape: CollisionShape2D = $Zones/NorthApproachZone/CollisionShape2D
+		var rectangle: RectangleShape2D = shape.shape as RectangleShape2D
+		return zone_id == OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID and marker != null and rectangle != null and Rect2(-rectangle.size / 2.0, rectangle.size).has_point(shape.to_local(marker.global_position))
 	return (
 		(
 			spawn_point_id == &"oldpine.outdoor.central_clearing.player_start"
@@ -500,6 +452,11 @@ func resolve_location(
 	return _location_for_zone(zone_id)
 
 
+func location_for_zone(zone_id: StringName) -> WorldLocationState:
+	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	return null if zone == null else resolve_location(zone_id, zone.combat_location_id)
+
+
 func prepare_for_activation(spawn_point_id: StringName) -> bool:
 	if not _initialized:
 		return false
@@ -525,6 +482,7 @@ func complete_activation() -> bool:
 
 
 func prepare_for_deactivation() -> void:
+	clear_passage_contacts()
 	_cadence_was_running = not opportunity_timer.is_stopped()
 	_suspended_cadence_time_left = (
 		opportunity_timer.time_left if _cadence_was_running else 0.0
@@ -1460,8 +1418,11 @@ func _death_context_for(
 	killer: CombatSliceCharacterBinding,
 	destination: InventoryTransferDestination,
 ) -> DeathContext:
-	var display_name: String = "Player"
-	var age: int = 20
+	if _player != null and victim.character_id == _player.character_id:
+		return _player.death_context(destination, killer != null)
+	var fallback: PlayerIdentityFacts = PlayerIdentityFacts.legacy_technical()
+	var display_name: String = fallback.display_name
+	var age: int = fallback.age
 	var strength: int = victim.state.attributes.strength
 	var body_weight: int = CharacterDerivedValues.human_weight(strength)
 	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)
@@ -1732,7 +1693,7 @@ func _selected_opponent_id(
 
 func _display_name(character_id: StringName) -> String:
 	if character_id == _player.character_id:
-		return "Player"
+		return _player.facts.display_name
 	var npc: NpcRuntimeState = _find_npc(character_id)
 	return "Unknown" if npc == null else npc.definition().display_name
 

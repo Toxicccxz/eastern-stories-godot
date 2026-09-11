@@ -215,6 +215,8 @@ func _target_ui(tree: SceneTree) -> void:
 	tree.root.add_child(shell)
 	await _settle(tree)
 	await _tap(tree, shell.new_game_button)
+	_check(shell.new_game_setup_panel.visible, "public tap opens setup; remaining subject uses technical fixture")
+	TechnicalShellFixture.start(shell)
 	await _settle(tree, 25)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	session.set_process(false)

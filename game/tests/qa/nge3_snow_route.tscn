@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/qa/nge3_snow_route.gd" id="1"]
+
+[node name="Nge3SnowRouteQA" type="Node"]
+script = ExtResource("1")
+
+[node name="ActiveMapSlot" type="Node" parent="."]
+unique_name_in_owner = true

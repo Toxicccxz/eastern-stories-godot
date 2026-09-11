@@ -21,7 +21,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			Result.Outcome.UNKNOWN_CONTENT_ID,
 			"player.character_id",
 		)
-	if not _location_is_current(snapshot.player.world_location):
+	if not _player_location_is_current(snapshot.player.world_location, snapshot.world_content_revision):
 		return Result.failure(
 			Result.Outcome.INVALID_WORLD_LOCATION,
 			"player.world_location",
@@ -30,7 +30,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	var item_restore: NativeItemRestoreCompositionResult = (
 		NativeItemPersistenceComposition.restore(
 			snapshot.items,
-			OldPineNativeItemDefinitionProjections.create(),
+			OldPineNativeItemDefinitionProjections.create(snapshot.world_content_revision),
 			snapshot.item_id_allocator,
 		)
 	)
@@ -65,15 +65,6 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			Result.Outcome.CHARACTER_RESTORE_FAILED,
 			"player.character",
 		)
-	if snapshot.player.maximum_encumbrance != (
-		CharacterDerivedValues.maximum_encumbrance(
-			player_state.attributes.strength
-		)
-	):
-		return Result.failure(
-			Result.Outcome.CHARACTER_RESTORE_FAILED,
-			"player.maximum_encumbrance",
-		)
 	var player_life: int = _life_status(snapshot.player.life_status)
 	if player_life < 0:
 		return Result.failure(
@@ -90,7 +81,8 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		player_life,
 		snapshot.player.exists_in_world,
 		snapshot.player.combat_available,
-		snapshot.player.maximum_encumbrance,
+		PlayerBodyFacts.new(snapshot.player.body_facts.body_weight, snapshot.player.body_facts.maximum_encumbrance),
+		PlayerIdentityFacts.new(snapshot.player.identity.display_name, snapshot.player.identity.title, snapshot.player.identity.age),
 	)
 	if not player.is_valid():
 		return Result.failure(
@@ -145,6 +137,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			world_random,
 			npc_entries,
 			corpse_entries,
+			snapshot.world_content_revision,
 		)
 	)
 	if not preparation.is_valid():
@@ -334,14 +327,11 @@ static func _restore_corpses(
 		var victim_character: Values.CharacterStateSnapshot = victim.character
 		var victim_life: StringName = victim.life_status
 		var victim_exists: bool = victim.exists_in_world
-		var expected_name: String = "Player"
-		# The current Player runtime has no durable age field. Its death context
-		# uses the authored Phase 6B3 constant 20, so a Player corpse must prove
-		# that same fact instead of accepting its own saved value tautologically.
-		var expected_age: int = 20
-		var expected_weight: int = CharacterDerivedValues.human_weight(
-			victim_character.attributes.strength
-		)
+		var expected_name: String = snapshot.player.identity.display_name
+		var expected_age: int = snapshot.player.identity.age
+		var expected_weight: int = snapshot.player.body_facts.body_weight
+		# Player capacity is a stored body fact, not current str * 5000.
+		var expected_capacity: int = snapshot.player.body_facts.maximum_encumbrance
 		if victim is Values.NpcSpawnStateSnapshot:
 			var victim_npc: Values.NpcSpawnStateSnapshot = victim
 			var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(
@@ -352,16 +342,15 @@ static func _restore_corpses(
 			expected_name = definition.display_name
 			expected_age = victim_npc.age
 			expected_weight = victim_npc.body_weight
+			# Preserve the existing NPC validation policy (not a Player body change).
+			expected_capacity = CharacterDerivedValues.maximum_encumbrance(victim_character.attributes.strength)
 		if (
 			victim_life != &"dead"
 			or victim_exists
 			or saved.victim_display_name != expected_name
 			or saved.victim_gender != victim_character.gender
 			or saved.victim_age != expected_age
-			or saved.maximum_contents_encumbrance
-			!= CharacterDerivedValues.maximum_encumbrance(
-				victim_character.attributes.strength
-			)
+			or saved.maximum_contents_encumbrance != expected_capacity
 			or record.own_weight != expected_weight
 		):
 			return Result.failure(
@@ -478,6 +467,15 @@ static func _character_aggregate_ids_match(
 		domain.equipment_character_ids() == expected
 		and domain.armor_character_ids() == expected
 	)
+
+
+static func _player_location_is_current(value: Values.WorldLocationSnapshot, revision: WorldContentRevision.Value) -> bool:
+	if _location_is_current(value):
+		return true
+	if revision != WorldContentRevision.Value.SOURCE_ENTRY_V1 or value == null or value.region_id != SnowWorldDefinitions.REGION_ID:
+		return false
+	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(value.zone_id)
+	return zone != null and zone.map_id == value.map_id and zone.combat_location_id == value.combat_location_id
 
 
 static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:

@@ -919,7 +919,7 @@ func _make_player(maximum_encumbrance: int) -> WorldPlayerRuntimeState:
 		CharacterRuntimeLifeStatus.Value.ACTIVE,
 		true,
 		true,
-		maximum_encumbrance,
+		PlayerBodyFacts.new(60000, maximum_encumbrance),
 	)
 
 

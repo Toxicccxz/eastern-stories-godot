@@ -10,6 +10,7 @@ enum Mode {
 	SAVING,
 	SETTINGS,
 	RECOVERY_CHOICE,
+	NEW_GAME_SETUP,
 	RESULT,
 }
 
@@ -109,7 +110,7 @@ func is_valid() -> bool:
 				and _result_origin in [ResultOrigin.MAIN_MENU, ResultOrigin.PAUSED]
 				and _settings_origin == SettingsOrigin.NONE
 			)
-		Mode.MAIN_MENU, Mode.PLAYING, Mode.PAUSED, Mode.RECOVERY_CHOICE:
+		Mode.MAIN_MENU, Mode.PLAYING, Mode.PAUSED, Mode.RECOVERY_CHOICE, Mode.NEW_GAME_SETUP:
 			return (
 				_operation == Operation.NONE
 				and _result_origin == ResultOrigin.NONE
@@ -124,6 +125,10 @@ static func boot_inspecting() -> ApplicationShellState:
 
 static func main_menu() -> ApplicationShellState:
 	return ApplicationShellState.new(Mode.MAIN_MENU)
+
+
+static func new_game_setup() -> ApplicationShellState:
+	return ApplicationShellState.new(Mode.NEW_GAME_SETUP)
 
 
 static func starting(operation_value: int) -> ApplicationShellState:

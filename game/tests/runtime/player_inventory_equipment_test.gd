@@ -338,7 +338,7 @@ func _make_fixture(include_short: bool, include_silver: bool) -> InventoryFixtur
 		CharacterRuntimeLifeStatus.Value.ACTIVE,
 		true,
 		true,
-		100_000,
+		PlayerBodyFacts.new(60000, 100_000),
 	)
 	_add_owned_item(fixture, fixture.long_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, 7000)
 	fixture.player.state.equipment.wield(

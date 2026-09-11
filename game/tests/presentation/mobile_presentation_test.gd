@@ -108,6 +108,9 @@ func _test_matrix(tree: SceneTree) -> void:
 		await _surface(tree, shell.result_overlay, capability.metrics)
 		shell.confirm_current_result()
 		await _settle(tree)
+		await _surface(tree, shell.new_game_setup_panel, capability.metrics)
+		TechnicalShellFixture.start(shell) # Preserve old HUD/Old Pine regression subject.
+		await _settle(tree)
 		var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 		_check(session != null, "New Game still owns exactly one Session")
 		if session != null:

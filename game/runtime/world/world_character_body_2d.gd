@@ -26,7 +26,7 @@ func bind_player(value: WorldPlayerRuntimeType) -> bool:
 	_player = value
 	_npc = null
 	_character_id = value.character_id
-	_update_label("Player")
+	_update_label(value.facts.display_name)
 	refresh_runtime_state()
 	return true
 

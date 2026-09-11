@@ -1,0 +1,148 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://runtime/world/snow_inn_controller.gd" id="1"]
+[ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
+[ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="3"]
+[ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="4"]
+[ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="5"]
+
+[sub_resource type="RectangleShape2D" id="FloorShape"]
+size = Vector2(960, 600)
+
+[sub_resource type="RectangleShape2D" id="HorizontalWall"]
+size = Vector2(1024, 32)
+
+[sub_resource type="RectangleShape2D" id="VerticalWall"]
+size = Vector2(32, 600)
+
+[sub_resource type="RectangleShape2D" id="PlayerShape"]
+size = Vector2(34, 34)
+
+[sub_resource type="RectangleShape2D" id="EastWallSegment"]
+size = Vector2(32, 230)
+
+[sub_resource type="RectangleShape2D" id="PassageShape"]
+size = Vector2(40, 140)
+
+[node name="SnowInn" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Floor" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-480, -300, 480, -300, 480, 300, -480, 300)
+color = Color(0.30, 0.23, 0.16, 1)
+
+[node name="InnName" type="Label" parent="."]
+offset_left = -180.0
+offset_top = -240.0
+offset_right = 180.0
+offset_bottom = -200.0
+text = "雪亭镇 · 饮风客栈"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 26
+mouse_filter = 2
+
+[node name="Boundary" type="StaticBody2D" parent="."]
+
+[node name="North" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(0, -316)
+shape = SubResource("HorizontalWall")
+
+[node name="South" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(0, 316)
+shape = SubResource("HorizontalWall")
+
+[node name="West" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(-496, 0)
+shape = SubResource("VerticalWall")
+
+[node name="EastUpper" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(496, -185)
+shape = SubResource("EastWallSegment")
+
+[node name="EastLower" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(496, 185)
+shape = SubResource("EastWallSegment")
+
+[node name="PassageBackstop" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(548, 0)
+shape = SubResource("VerticalWall")
+
+[node name="NorthWall" type="Polygon2D" parent="Boundary"]
+polygon = PackedVector2Array(-512, -332, 512, -332, 512, -300, -512, -300)
+color = Color(0.12, 0.10, 0.08, 1)
+
+[node name="SouthWall" type="Polygon2D" parent="Boundary"]
+polygon = PackedVector2Array(-512, 300, 512, 300, 512, 332, -512, 332)
+color = Color(0.12, 0.10, 0.08, 1)
+
+[node name="WestWall" type="Polygon2D" parent="Boundary"]
+polygon = PackedVector2Array(-512, -300, -480, -300, -480, 300, -512, 300)
+color = Color(0.12, 0.10, 0.08, 1)
+
+[node name="EastWall" type="Polygon2D" parent="Boundary"]
+polygon = PackedVector2Array(480, -300, 512, -300, 512, -70, 480, -70)
+color = Color(0.12, 0.10, 0.08, 1)
+
+[node name="EastWallLower" type="Polygon2D" parent="Boundary"]
+polygon = PackedVector2Array(480, 70, 512, 70, 512, 300, 480, 300)
+color = Color(0.12, 0.10, 0.08, 1)
+
+[node name="Passage" type="Area2D" parent="."]
+script = ExtResource("5")
+portal_id = &"snow.inn.east"
+position = Vector2(465, 0)
+collision_layer = 0
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Passage"]
+shape = SubResource("PassageShape")
+
+[node name="Zones" type="Node2D" parent="."]
+
+[node name="MainFloor" type="Area2D" parent="Zones"]
+unique_name_in_owner = true
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.inn.main_floor"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/MainFloor"]
+shape = SubResource("FloorShape")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PlayerBirth" type="Marker2D" parent="SpawnPoints"]
+unique_name_in_owner = true
+position = Vector2(0, 0)
+script = ExtResource("3")
+spawn_point_id = &"snow.inn.main_floor.player_birth"
+
+[node name="SquareReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(350, 0)
+script = ExtResource("3")
+spawn_point_id = &"snow.inn.main_floor.square_return"
+
+[node name="Characters" type="Node2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+script = ExtResource("2")
+
+[node name="Visual" type="Polygon2D" parent="Characters/Player"]
+polygon = PackedVector2Array(-17, -17, 17, -17, 17, 17, -17, 17)
+color = Color(0.68, 0.73, 0.8, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Player"]
+shape = SubResource("PlayerShape")
+
+[node name="NameLabel" type="Label" parent="Characters/Player"]
+offset_left = -45.0
+offset_top = -46.0
+offset_right = 45.0
+offset_bottom = -20.0
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="Camera2D" type="Camera2D" parent="Characters/Player"]
+enabled = false
+zoom = Vector2(0.9, 0.9)

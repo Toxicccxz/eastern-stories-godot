@@ -7,9 +7,17 @@
 [ext_resource type="Script" uid="uid://gyvf6qijku2n" path="res://ui/world/oldpine_loot_panel.gd" id="5_7i4ts"]
 [ext_resource type="Script" uid="uid://dtaotwcg5s5p1" path="res://runtime/world/world_landmark_area_2d.gd" id="5_vreye"]
 [ext_resource type="Script" uid="uid://duk20722t8yhw" path="res://ui/world/player_inventory_panel.gd" id="6_dv2l0"]
+[ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="7_nge4"]
+
+[sub_resource type="RectangleShape2D" id="SnowNorthPassage"]
+size = Vector2(120, 60)
+[sub_resource type="RectangleShape2D" id="SnowNorthBlocker"]
+size = Vector2(140, 30)
+[sub_resource type="RectangleShape2D" id="NorthEastWall"]
+size = Vector2(995, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e12ve"]
-size = Vector2(3630, 30)
+size = Vector2(2495, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6rgc"]
 size = Vector2(3630, 30)
@@ -269,8 +277,17 @@ text = "Ancient pine — click to inspect / climb"
 [node name="WorldBounds" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=574248178]
 
 [node name="Top" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=1080462664]
-position = Vector2(-300, -515)
+position = Vector2(-867.5, -515)
 shape = SubResource("RectangleShape2D_e12ve")
+
+[node name="TopEast" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds"]
+position = Vector2(1017.5, -515)
+shape = SubResource("NorthEastWall")
+[node name="SnowBlocker" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds"]
+position = Vector2(450, -515)
+shape = SubResource("SnowNorthBlocker")
+[node name="SnowPassageBackstop" type="CollisionPolygon2D" parent="Terrain/Boundaries/WorldBounds"]
+polygon = PackedVector2Array(368, -500, 380, -500, 380, -555, 520, -555, 520, -500, 532, -500, 532, -567, 368, -567)
 
 [node name="Bottom" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=857833452]
 position = Vector2(-300, 2230)
@@ -1342,7 +1359,23 @@ position = Vector2(-520, 60)
 [node name="CliffFutureBoundary" type="Marker2D" parent="MazeEvidence" unique_id=2080534348]
 position = Vector2(-2040, 300)
 
+[node name="SnowEntry" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(450, -380)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.north_approach.snow_entry"
+
+[node name="SnowPassage" type="Area2D" parent="."]
+position = Vector2(450, -480)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("7_nge4")
+portal_id = &"oldpine.npath1.north"
+closed_wall_path = NodePath("../Terrain/Boundaries/WorldBounds/SnowBlocker")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SnowPassage"]
+shape = SubResource("SnowNorthPassage")
+
 [connection signal="body_entered" from="Zones/CentralClearingZone" to="." method="_on_central_clearing_body_entered"]
+
 [connection signal="body_entered" from="Zones/SouthSlopeZone" to="." method="_on_south_slope_body_entered"]
 [connection signal="body_entered" from="Zones/NorthApproachZone" to="." method="_on_north_approach_body_entered"]
 [connection signal="body_entered" from="Zones/EastBridgeZone" to="." method="_on_east_bridge_body_entered"]

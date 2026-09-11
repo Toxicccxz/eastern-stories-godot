@@ -30,7 +30,7 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states: npcs.append(_encode_npc(npc))
 	var corpses: Array[Variant] = []
 	for corpse: Values.CorpseSnapshot in snapshot.corpses: corpses.append(_encode_corpse(corpse))
-	return {
+	var root: Dictionary[String, Variant] = {
 		"metadata": {
 			"format_id": snapshot.metadata.format_id,
 			"schema_version": snapshot.metadata.schema_version,
@@ -51,6 +51,8 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 			"world_interaction": _encode_rng(snapshot.world_interaction_rng),
 		},
 	}
+	root["world_content_revision"] = WorldContentRevision.serialized(snapshot.world_content_revision)
+	return root
 
 
 func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[String, Variant]:
@@ -95,7 +97,10 @@ func _encode_track(value: Values.ResourceTrackSnapshot) -> Dictionary[String, Va
 
 
 func _encode_player(value: Values.PlayerRuntimeSnapshot) -> Dictionary[String, Variant]:
-	return {"character_id": String(value.character_id), "character": _encode_character(value.character), "life_status": String(value.life_status), "exists_in_world": value.exists_in_world, "combat_available": value.combat_available, "maximum_encumbrance": _i(value.maximum_encumbrance), "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}}
+	var result: Dictionary[String, Variant] = {"character_id": String(value.character_id), "character": _encode_character(value.character), "life_status": String(value.life_status), "exists_in_world": value.exists_in_world, "combat_available": value.combat_available, "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}}
+	result["identity"] = {"display_name": value.identity.display_name, "title": value.identity.title, "age": _i(value.identity.age), "race_id": String(value.identity.race_id)}
+	result["body_facts"] = {"body_weight": _i(value.body_facts.body_weight), "maximum_encumbrance": _i(value.body_facts.maximum_encumbrance)}
+	return result
 
 
 func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Variant]:
@@ -142,8 +147,10 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	if typeof(value) != TYPE_DICTIONARY:
 		_fail(GameSaveResult.Outcome.INVALID_ROOT, "root", "expected object")
 		return null
-	var root: Dictionary = _obj(value, "root", ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng"])
-	if _error: return null
+	var root: Dictionary = value
+	if not root.has("metadata"):
+		_fail(GameSaveResult.Outcome.MISSING_FIELD, "metadata")
+		return null
 	var metadata_object: Dictionary = _obj(root["metadata"], "metadata", ["format_id", "schema_version", "saved_at_utc", "build_commit", "storage_profile", "slot_id"])
 	if _error: return null
 	var format_id: String = _string(metadata_object["format_id"], "metadata.format_id")
@@ -153,6 +160,16 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	if _error: return null
 	if format_id != GameSaveSnapshot.FORMAT_ID: _fail(GameSaveResult.Outcome.INVALID_FORMAT_ID, "metadata.format_id")
 	if schema != GameSaveSnapshot.CURRENT_SCHEMA_VERSION: _fail(GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "metadata.schema_version")
+	if _error: return null
+	var root_keys: Array[String] = ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng", "world_content_revision"]
+	var revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
+	root = _obj(value, "root", root_keys)
+	if _error: return null
+	var revision_text: String = _string(root["world_content_revision"], "world_content_revision")
+	match revision_text:
+		"LEGACY_OLDPINE_V1": revision = WorldContentRevision.Value.LEGACY_OLDPINE_V1
+		"SOURCE_ENTRY_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_V1
+		_: _fail(GameSaveResult.Outcome.INVALID_SNAPSHOT, "world_content_revision")
 	if _error: return null
 	var build_commit: Values.OptionalText = Values.OptionalText.none() if build_commit_value == null else Values.OptionalText.some(build_commit_value)
 	var metadata := Values.GameSaveMetadata.new(format_id, schema, _string(metadata_object["saved_at_utc"], "metadata.saved_at_utc"), build_commit, StringName(_string(metadata_object["storage_profile"], "metadata.storage_profile")), StringName(_string(metadata_object["slot_id"], "metadata.slot_id")))
@@ -167,7 +184,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	for index: int in range(corpse_values.size()): corpses.append(_decode_corpse(corpse_values[index], "corpses[%d]" % index))
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"))
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:
@@ -235,10 +252,14 @@ func _decode_condition(value: Variant, path: String) -> Values.ConditionSnapshot
 
 
 func _decode_player(value: Variant, path: String) -> Values.PlayerRuntimeSnapshot:
-	var object: Dictionary = _obj(value, path, ["character_id", "character", "life_status", "exists_in_world", "combat_available", "maximum_encumbrance", "world_location", "map_position"])
+	var object: Dictionary = _obj(value, path, ["character_id", "character", "life_status", "exists_in_world", "combat_available", "world_location", "map_position", "identity", "body_facts"])
 	if _error: return null
-	return Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"))
-
+	var i: Dictionary = _obj(object["identity"], path + ".identity", ["display_name", "title", "age", "race_id"])
+	var b: Dictionary = _obj(object["body_facts"], path + ".body_facts", ["body_weight", "maximum_encumbrance"])
+	if _error: return null
+	var identity := Values.PlayerIdentitySnapshot.new(_string(i["display_name"], path + ".identity.display_name"), _string(i["title"], path + ".identity.title"), _int64(i["age"], path + ".identity.age"), StringName(_string(i["race_id"], path + ".identity.race_id")))
+	var body := Values.PlayerBodySnapshot.new(_int64(b["body_weight"], path + ".body_facts.body_weight"), _int64(b["maximum_encumbrance"], path + ".body_facts.maximum_encumbrance"))
+	return Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), identity, body)
 
 func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	var object: Dictionary = _obj(value, path, ["spawn_id", "spawn_point_id", "npc_definition_id", "character_id", "exists_in_world", "life_status", "combat_available", "character", "age", "body_weight", "maximum_encumbrance", "world_location", "map_position", "live_loadout_item_ids"])

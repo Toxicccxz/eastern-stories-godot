@@ -11,21 +11,9 @@ const VINE_LANDING_SPAWN_ID: StringName = (
 @onready var spawn_points: Node2D = %SpawnPoints
 @onready var south_exit: Area2D = %SouthExit
 
-var _player: WorldPlayerRuntimeState
-var _inventory: InventoryState
-var _stacks: CombinedStackCollection
-var _item_index: WorldItemInstanceIndex
-var _npc_random: NpcInitializationRandomSource
-var _combat_random: CombatRandomSource
-var _world_interaction_random: WorldInteractionRandomSource
-var _item_id_allocator: SessionItemIdAllocator
-var _world_simulation_gate: WorldSimulationGate
 var _encounter_freeze_owner_id: StringName = &""
-var _item_instance_scope: StringName = &""
-var _configured: bool = false
 var _initialized: bool = false
 var _initialization_count: int = 0
-var _session_owner: OldPineWorldSessionController
 var _exit_request_pending: bool = false
 
 
@@ -37,54 +25,12 @@ func map_id() -> StringName:
 	return OldPineWorldDefinitions.CAVE_MAP_ID
 
 
-func configure_session_authorities(
-	p_session: OldPineWorldSessionController,
-	p_player: WorldPlayerRuntimeState,
-	p_inventory: InventoryState,
-	p_stacks: CombinedStackCollection,
-	p_item_index: WorldItemInstanceIndex,
-	p_npc_random: NpcInitializationRandomSource,
-	p_combat_random: CombatRandomSource,
-	p_world_interaction_random: WorldInteractionRandomSource,
-	p_item_id_allocator: SessionItemIdAllocator,
-	p_world_simulation_gate: WorldSimulationGate,
-) -> bool:
-	if (
-		_configured
-		or p_session == null
-		or p_player == null
-		or not p_player.is_valid()
-		or p_inventory == null
-		or p_stacks == null
-		or p_item_index == null
-		or p_npc_random == null
-		or p_combat_random == null
-		or p_world_interaction_random == null
-		or p_item_id_allocator == null
-		or not p_item_id_allocator.is_valid()
-		or p_world_simulation_gate == null
-	):
-		return false
-	_session_owner = p_session
-	_player = p_player
-	_inventory = p_inventory
-	_stacks = p_stacks
-	_item_index = p_item_index
-	_npc_random = p_npc_random
-	_combat_random = p_combat_random
-	_world_interaction_random = p_world_interaction_random
-	_item_id_allocator = p_item_id_allocator
-	_item_instance_scope = p_item_id_allocator.scope
-	_world_simulation_gate = p_world_simulation_gate
-	_configured = true
-	return true
-
-
 func initialize_map() -> bool:
 	if _initialized:
 		return true
 	if (
 		not _configured
+		or _session_owner == null
 		or player_body == null
 		or spawn_points == null
 		or south_exit == null

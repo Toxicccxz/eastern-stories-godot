@@ -180,7 +180,7 @@ func _make_fixture() -> ArmorFixture:
 		CharacterRuntimeLifeStatus.Value.ACTIVE,
 		true,
 		true,
-		100000,
+		PlayerBodyFacts.new(60000, 100000),
 	)
 	_add_owned(fixture, LEATHER_ID, OldPineItemContentDefinitions.LEATHER_ITEM_ID, 6000)
 	var sword: ItemInstance = _add_owned(

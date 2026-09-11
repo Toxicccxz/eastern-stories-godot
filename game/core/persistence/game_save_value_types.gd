@@ -361,33 +361,67 @@ class MapPositionSnapshot extends RefCounted:
 		return MapPositionSnapshot.new(x, y)
 
 
+class PlayerIdentitySnapshot extends RefCounted:
+	var display_name: String
+	var title: String
+	var age: int
+	var race_id: StringName
+
+	func _init(p_display_name: String, p_title: String, p_age: int, p_race_id: StringName) -> void:
+		display_name = p_display_name
+		title = p_title
+		age = p_age
+		race_id = p_race_id
+
+	func duplicate_snapshot() -> PlayerIdentitySnapshot:
+		return PlayerIdentitySnapshot.new(display_name, title, age, race_id)
+
+	func is_legacy_technical() -> bool:
+		return display_name == "Player" and title.is_empty() and age == 20 and race_id == &"human"
+
+
+class PlayerBodySnapshot extends RefCounted:
+	var body_weight: int
+	var maximum_encumbrance: int
+
+	func _init(p_body_weight: int = 0, p_maximum_encumbrance: int = 0) -> void:
+		body_weight = p_body_weight
+		maximum_encumbrance = p_maximum_encumbrance
+
+	func duplicate_snapshot() -> PlayerBodySnapshot:
+		return PlayerBodySnapshot.new(body_weight, maximum_encumbrance)
+
+
 class PlayerRuntimeSnapshot extends RefCounted:
 	var character_id: StringName
 	var character: CharacterStateSnapshot
 	var life_status: StringName
 	var exists_in_world: bool
 	var combat_available: bool
-	var maximum_encumbrance: int
+	var identity: PlayerIdentitySnapshot
+	var body_facts: PlayerBodySnapshot
 	var world_location: WorldLocationSnapshot
 	var map_position: MapPositionSnapshot
 
 	func _init(
 		p_character_id: StringName = &"", p_character: CharacterStateSnapshot = null,
 		p_life_status: StringName = &"active", p_exists_in_world: bool = true,
-		p_combat_available: bool = true, p_maximum_encumbrance: int = 0,
+		p_combat_available: bool = true,
 		p_world_location: WorldLocationSnapshot = null, p_map_position: MapPositionSnapshot = null,
+		p_identity: PlayerIdentitySnapshot = null, p_body_facts: PlayerBodySnapshot = null,
 	) -> void:
 		character_id = p_character_id
 		character = CharacterStateSnapshot.new() if p_character == null else p_character.duplicate_snapshot()
 		life_status = p_life_status
 		exists_in_world = p_exists_in_world
 		combat_available = p_combat_available
-		maximum_encumbrance = p_maximum_encumbrance
+		identity = null if p_identity == null else p_identity.duplicate_snapshot()
+		body_facts = null if p_body_facts == null else p_body_facts.duplicate_snapshot()
 		world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location.duplicate_snapshot()
 		map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position.duplicate_snapshot()
 
 	func duplicate_snapshot() -> PlayerRuntimeSnapshot:
-		return PlayerRuntimeSnapshot.new(character_id, character, life_status, exists_in_world, combat_available, maximum_encumbrance, world_location, map_position)
+		return PlayerRuntimeSnapshot.new(character_id, character, life_status, exists_in_world, combat_available, world_location, map_position, identity, body_facts)
 
 
 class NpcSpawnStateSnapshot extends RefCounted:
