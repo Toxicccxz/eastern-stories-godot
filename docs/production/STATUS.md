@@ -2,20 +2,24 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S2 IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S3A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
 38 Snow rooms, 26 local NPC definitions and both object directories, traces fresh-player income,
 supply, weapon and teaching paths, and distinguishes executable rules from incomplete/account-only
-content. S1 is owner-approved/closed. [S2 work income](../migration/PHASE_SNOW_TOWN_CORE_HUB_WORK_INCOME.md)
+content. S1 and S2 are OWNER APPROVED / CLOSED. [S2 work income](../migration/PHASE_SNOW_TOWN_CORE_HUB_WORK_INCOME.md)
 adds physical Square → mstreet1 → mstreet2 → Workplace access, source-ordered resource costs and
 real silver stack composition, with owner-approved immediate lifecycle cleanup of capacity-rejected
 rewards. Focused122 / complete canonical18438 / Python46 PASS; real desktop Work/Pause Save/cold
 Continue/return route PASS. Schema2/SOURCE_ENTRY_V1 and public birth are unchanged; exact main-save
 compatibility PASS. Repository-content sanitizer/headless PASS; direct-worktree sanitizer still
-rejects ignored owner-local Godot AI update backups, preserved unchanged. S3, NPCs, commerce,
-training, PR and merge are not started or authorized by this checkpoint.
+rejects ignored owner-local Godot AI update backups, preserved unchanged.
+[S3A currency/payment source contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md)
+is analysis complete / awaiting owner review: exact denomination/presence gates, ordered payment,
+Bank default-one movement then amount growth, capacity/lifetime anomalies and native reuse are
+documented. S3A has no implementation or newly locked compatibility decision. S3B is NOT AUTHORIZED.
+Snow has no final PR or merge; NPCs, commerce and training implementation remain unstarted.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD
@@ -67,7 +71,7 @@ restore rejection. Focused1658 / UI6027 / route128 / persistence332 PASS; real p
 forward/reverse route and fresh-process continuation PASS. The final integration gates completed
 with four successful same-HEAD PR jobs and four post-main jobs linked above. Historical NGE6
 pre-PR checkpoint wording remains unchanged. NGE did not implement full Snow services/population;
-the new S1 is analysis only. Lake and Phase5B4 remain outside authorization.
+Snow's current scope is recorded above. Lake and Phase5B4 remain outside authorization.
 
 **Start-of-Game Source Rebaseline / S0 — COMPLETE / FULLY INTEGRATED ON MAIN** through
 [PR #14](https://github.com/Toxicccxz/eastern-stories-godot/pull/14), merged at
