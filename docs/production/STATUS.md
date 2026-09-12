@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S3B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S4A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -23,8 +23,12 @@ and over-cap growth, with explicitly approved direct-Player lookup/immediate lif
 Coin/gold join shared silver in the existing item/save authority; schema2/SOURCE_ENTRY_V1 unchanged.
 Focused182 / canonical18,620 / Python46 and exact pre-S3B save compatibility PASS;
 development/repository-content sanitized headless PASS. Evidence is local, not new GitHub CI.
-S3B is implementation complete / awaiting owner review, not owner-closed. Snow has no final PR or merge;
-Bank world/UI, Vendor purchasing, NPC population, training and the next slice remain unauthorized.
+S3B is now OWNER APPROVED / CLOSED.
+[S4A Inn Vendor/consumables contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md)
+is analysis complete / awaiting owner review: exact offers/prices, paid-delivery failures,
+food/water overshoot, missing cake, drunk/weapon dependencies and item/NPC Save gaps are documented.
+Recommendations are not locked decisions. S4B remains NOT AUTHORIZED; Snow has no final PR or merge.
+Bank world/UI, Vendor purchasing, NPC population and training remain unimplemented/unauthorized.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

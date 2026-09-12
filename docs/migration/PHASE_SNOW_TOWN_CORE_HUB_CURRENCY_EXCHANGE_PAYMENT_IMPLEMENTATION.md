@@ -1,5 +1,9 @@
 # S3B — Currency Exchange / Payment Core Implementation
 
+Current owner-review status: **OWNER APPROVED / CLOSED**. Recorded during the authorized
+[S4A analysis](PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md); S4B and the final
+Snow PR remain unauthorized. The implementation/evidence body below preserves its original checkpoint.
+
 ## Scope and authority
 
 Branch: `phase/snow-town-core-hub`; exact starting HEAD
