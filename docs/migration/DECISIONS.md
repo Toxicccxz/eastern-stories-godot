@@ -1,5 +1,52 @@
 # Migration Decisions
 
+## Currency exchange / payment core (S3B only)
+
+**OWNER APPROVED — S3B.** The following A–H decisions are locked by the owner's S3B instruction,
+not proposals. S3A is OWNER APPROVED / CLOSED. These decisions do not authorize Bank world/UI,
+Vendor purchasing or a general economy framework.
+
+- **A — Type A:** Preserve executable `can_afford()` presence checks, strict `<` comparisons and
+  distinct 0/1/2 meanings, including false rejections and false-positive1. Coin100 paying100 is2;
+  silver1 paying100 and gold1 paying10000 are1; gold1+silver1 paying9900 is1 although payment fails.
+- **B — source order / typed errors:** Payment processes gold → silver → coin. Preserve mutations
+  completed before a later error; return a typed failure at that stage. No rollback, refund,
+  auto-change, new denomination minting or seller credit. Results expose completed mutations.
+- **C — Bank-only Type B:** New target allocation and authored amount1 creation precede its
+  one-unit-weight transfer attempt. On ordinary failed delivery, establish the converted target
+  amount, debit source in source order, then immediately destroy the parentless target through
+  ItemLifecycle. Forget index state only after authoritative removal. Keep consumed sequence;
+  no refund/source restoration/drop/persistent orphan/timer/retry. Cleanup failure is an authority
+  failure with no fallback. This is separately approved for Bank, not inherited from S2 or applicable
+  to Vendor. Exact MudOS cleanup timing is deliberately not preserved.
+- **D — Type A:** Existing target growth has no transfer/capacity admission. New targets move at
+  amount1 before full growth and before source debit. No final/net/gross weight preflight or
+  post-growth veto; over-cap results and strict-cap equality are retained.
+- **E — Type A:** Payment and Bank are ordered, non-atomic operations. No generic transaction,
+  compensation engine or rollback snapshot. Transactional native Save reconstruction is unrelated.
+- **F — Type B:** Finance selects at most one stack per denomination from direct Player inventory
+  only. No ground, NPC, bag/recursive or world fallback. Duplicate direct stacks use ascending
+  stable-instance-ID selection without summing or merging. Presence remains distinct from amount0.
+  Bank retains its source direct-only scope. Removing finance's ground-money fallback is explicit.
+- **G — S3B-only Type B:** At each full-consumption point, complete denomination arithmetic,
+  invoke existing lifecycle immediately and forget the index only after success before continuing.
+  No stale-positive one-second window, timer or pending-destruction save state. Stop on lifecycle
+  failure, retaining earlier mutations, without fallback deletion. Global Combined semantics and
+  the existing item-schema1 omission remain unchanged outside this composition.
+- **H — bounded Type B representation:** Only canonical coin(value1/weight1/unit文), shared
+  silver(100/37/两), gold(10000/37/两). Exact source-path stack compatibility; no duplicate silver.
+  Same-type exchange retains temporary target growth then source subtraction, not a shortcut.
+  Reject unsupported denominations/aliases/custom per-instance values explicitly; use checked
+  arithmetic, never overflow/clamp to success. Genuine thousand-cash content remains deferred.
+
+**I — boundary, not a Vendor failure decision:** Vendor fulfillment remains deferred. S2, Bank
+cleanup and payment decisions must not be generalized to future goods delivery or other commerce.
+
+Sources: `reference/es2/mudlib/feature/finance.c`, `cmds/std/buy.c`, `feature/vendor.c`,
+`std/room/bank.c`, `d/snow/bank.c`, `obj/money/{coin,silver,gold,thousand-cash}.c`,
+`std/money.c`, `std/item/combined.c`, `feature/move.c`, `feature/clean_up.c`.
+Reviewed archaeology: [S3A contract](PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md).
+
 ## Snow Workplace undeliverable reward cleanup (S2 only)
 
 **Decision (owner-approved):** When the source work reward is created but cannot be moved to
