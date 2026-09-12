@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S4A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S3C IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -25,10 +25,16 @@ Focused182 / canonical18,620 / Python46 and exact pre-S3B save compatibility PAS
 development/repository-content sanitized headless PASS. Evidence is local, not new GitHub CI.
 S3B is now OWNER APPROVED / CLOSED.
 [S4A Inn Vendor/consumables contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md)
-is analysis complete / awaiting owner review: exact offers/prices, paid-delivery failures,
+is OWNER APPROVED / CLOSED (analysis only): exact offers/prices, paid-delivery failures,
 food/water overshoot, missing cake, drunk/weapon dependencies and item/NPC Save gaps are documented.
 Recommendations are not locked decisions. S4B remains NOT AUTHORIZED; Snow has no final PR or merge.
-Bank world/UI, Vendor purchasing, NPC population and training remain unimplemented/unauthorized.
+[S3C Bank physical exchange](../migration/PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md)
+adds mstreet1 west ↔ snow.bank in the existing outdoor resident, with a narrow typed exchange UI
+using unchanged S3B services. Real two-Work → silver1/coin100 → Bank Save/cold Continue PASS;
+school east stays closed. Focused384 / canonical18,729 / Python46, exact pre-S3C save and
+repository-content sanitizer/headless PASS (local evidence, not new PR CI).
+S4A sequencing K is resolved; A–J are not locked. No Bank NPC/accounts, Vendor, recovery or training.
+S3C awaits owner review; S4B and final Snow PR remain unauthorized.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

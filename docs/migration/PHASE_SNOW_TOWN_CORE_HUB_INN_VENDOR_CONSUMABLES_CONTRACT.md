@@ -2,6 +2,11 @@
 
 ## EXECUTIVE RESULT
 
+**Current status: OWNER APPROVED / CLOSED (analysis only).** Owner subsequently authorized
+S3C Bank physical access before Vendor. The historical analysis below records the S4A baseline;
+S3C resolves sequencing item K operationally, not recommendations A–J. S4B remains NOT AUTHORIZED.
+See [S3C Bank access](PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md).
+
 S4A is analysis complete / awaiting owner review. S1/S2/S3A/S3B are OWNER APPROVED / CLOSED.
 S4B and the final Snow PR remain NOT AUTHORIZED. No executable change accompanies this contract.
 

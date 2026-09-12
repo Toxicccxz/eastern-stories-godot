@@ -1,10 +1,11 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=31 format=3]
 
 [ext_resource type="Script" path="res://runtime/world/snow_outdoor_controller.gd" id="1"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="3"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="4"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="5"]
+[ext_resource type="Script" path="res://runtime/world/snow_bank_exchange_panel.gd" id="6"]
 [sub_resource type="RectangleShape2D" id="SouthPassageShape"]
 size = Vector2(120, 60)
 [sub_resource type="RectangleShape2D" id="SouthBlockerShape"]
@@ -39,7 +40,16 @@ size = Vector2(200, 300)
 size = Vector2(400, 200)
 
 [sub_resource type="RectangleShape2D" id="WorkWallShape0"]
-size = Vector2(24, 600)
+size = Vector2(24, 390)
+
+[sub_resource type="RectangleShape2D" id="BankShape"]
+size = Vector2(400, 300)
+[sub_resource type="RectangleShape2D" id="BankDoorLower"]
+size = Vector2(24, 90)
+[sub_resource type="RectangleShape2D" id="BankWestWall"]
+size = Vector2(24, 300)
+[sub_resource type="RectangleShape2D" id="BankCounterShape"]
+size = Vector2(32, 100)
 
 [sub_resource type="RectangleShape2D" id="WorkWallShape1"]
 size = Vector2(24, 400)
@@ -371,10 +381,10 @@ zone_id = &"snow.workplace"
 shape = SubResource("WorkplaceShape")
 
 [node name="WorkWall0" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-100, -550)
+position = Vector2(-100, -655)
 shape = SubResource("WorkWallShape0")
 [node name="WorkWallVisual0" type="Polygon2D" parent="Walls"]
-polygon = PackedVector2Array(-112, -850, -88, -850, -88, -250, -112, -250)
+polygon = PackedVector2Array(-112, -850, -88, -850, -88, -460, -112, -460)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="WorkWall1" type="CollisionShape2D" parent="Walls"]
@@ -457,4 +467,104 @@ text = "工作 · 消耗精30 / 神30 · 工钱一两"
 [node name="Feedback" type="Label" parent="WorkUI/Panel/Rows"]
 layout_mode = 2
 text = "靠近磨盘，可以在这里工作。"
+mouse_filter = 2
+
+[node name="Bank" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(-500, -550, -100, -550, -100, -250, -500, -250)
+color = Color(0.38, 0.32, 0.23, 1)
+[node name="BankLabel" type="Label" parent="Ground"]
+offset_left = -460.0
+offset_top = -520.0
+text = "安记钱庄 · 靠近柜台兑换\n东 → 雪亭镇街道"
+mouse_filter = 2
+[node name="Bank" type="Area2D" parent="Zones"]
+position = Vector2(-300, -400)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.bank"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/Bank"]
+shape = SubResource("BankShape")
+[node name="BankDoorLower" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-100, -295)
+shape = SubResource("BankDoorLower")
+[node name="BankDoorLowerVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-112, -340, -88, -340, -88, -250, -112, -250)
+color = Color(0.12, 0.18, 0.12, 1)
+[node name="BankWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-500, -400)
+shape = SubResource("BankWestWall")
+[node name="BankWestVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-512, -550, -488, -550, -488, -250, -512, -250)
+color = Color(0.12, 0.18, 0.12, 1)
+[node name="BankNorth" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-300, -550)
+shape = SubResource("WorkWallShape3")
+[node name="BankNorthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-500, -562, -100, -562, -100, -538, -500, -538)
+color = Color(0.12, 0.18, 0.12, 1)
+[node name="BankSouth" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-300, -250)
+shape = SubResource("WorkWallShape3")
+[node name="BankSouthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(-500, -262, -100, -262, -100, -238, -500, -238)
+color = Color(0.12, 0.18, 0.12, 1)
+[node name="BankExchange" type="Marker2D" parent="."]
+position = Vector2(-375, -400)
+[node name="Counter" type="StaticBody2D" parent="BankExchange"]
+position = Vector2(-50, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BankExchange/Counter"]
+shape = SubResource("BankCounterShape")
+[node name="Visual" type="Polygon2D" parent="BankExchange/Counter"]
+polygon = PackedVector2Array(-16, -50, 16, -50, 16, 50, -16, 50)
+color = Color(0.65, 0.48, 0.24, 1)
+[node name="BankUI" type="CanvasLayer" parent="."]
+[node name="Panel" type="PanelContainer" parent="BankUI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -410.0
+offset_top = 90.0
+offset_right = -20.0
+offset_bottom = 430.0
+grow_horizontal = 0
+script = ExtResource("6")
+[node name="Rows" type="VBoxContainer" parent="BankUI/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+[node name="Title" type="Label" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+text = "安记钱庄 · 兑换（非存取款）"
+mouse_filter = 2
+[node name="Holdings" type="Label" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+autowrap_mode = 3
+mouse_filter = 2
+[node name="SourceLabel" type="Label" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+text = "支付货币"
+mouse_filter = 2
+[node name="Source" type="OptionButton" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+[node name="TargetLabel" type="Label" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+text = "取得货币"
+mouse_filter = 2
+[node name="Target" type="OptionButton" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+[node name="Quantity" type="LineEdit" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+text = "1"
+placeholder_text = "支付数量（正整数）"
+[node name="Convert" type="Button" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "兑换 Convert"
+[node name="Feedback" type="Label" parent="BankUI/Panel/Rows"]
+layout_mode = 2
+text = "请选择货币与数量。同币种亦可兑换。"
+autowrap_mode = 3
 mouse_filter = 2

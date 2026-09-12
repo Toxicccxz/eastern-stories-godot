@@ -118,7 +118,7 @@ func physical_test(tree: SceneTree) -> void:
 	await walk_to(tree, session, "move_up", -400, 1)
 	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.MSTREET1_ZONE_ID, "physical mstreet1")
 	await walk(tree, session, "move_left", 60)
-	_check(session.active_map().runtime_player_body().position.x > -85, "bank boundary blocks void")
+	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.BANK_ZONE_ID, "S3C opens authored west Bank access")
 	await walk_to(tree, session, "move_right", 0, 0)
 	await walk_to(tree, session, "move_up", -750, 1)
 	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.MSTREET2_ZONE_ID, "physical mstreet2")
