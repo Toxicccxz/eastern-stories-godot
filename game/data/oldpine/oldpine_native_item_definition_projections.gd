@@ -26,6 +26,10 @@ static func create(revision: WorldContentRevision.Value = WorldContentRevision.V
 			stacks.append(stack_definition)
 	items.append(ItemDefinition.new(CORPSE_DEFINITION_ID, CORPSE_LEGACY_SOURCE))
 	if revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+		items.append(SourceCoin.item_definition())
+		items.append(SourceGold.item_definition())
+		stacks.append(SourceCoin.stack_definition())
+		stacks.append(SourceGold.stack_definition())
 		items.append(SourcePlayerCloth.item_definition())
 		armor.append(SourcePlayerCloth.armor_definition())
 	return NativeItemDefinitionProjections.new(items, weapons, armor, stacks)

@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S3A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S3B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -16,10 +16,15 @@ Continue/return route PASS. Schema2/SOURCE_ENTRY_V1 and public birth are unchang
 compatibility PASS. Repository-content sanitizer/headless PASS; direct-worktree sanitizer still
 rejects ignored owner-local Godot AI update backups, preserved unchanged.
 [S3A currency/payment source contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md)
-is analysis complete / awaiting owner review: exact denomination/presence gates, ordered payment,
-Bank default-one movement then amount growth, capacity/lifetime anomalies and native reuse are
-documented. S3A has no implementation or newly locked compatibility decision. S3B is NOT AUTHORIZED.
-Snow has no final PR or merge; NPCs, commerce and training implementation remain unstarted.
+is OWNER APPROVED / CLOSED. Owner-approved A–H decisions were committed before implementing
+[S3B currency exchange/payment core](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_IMPLEMENTATION.md).
+S3B preserves source affordability anomalies, ordered partial payment, Bank default-one admission
+and over-cap growth, with explicitly approved direct-Player lookup/immediate lifecycle cleanup.
+Coin/gold join shared silver in the existing item/save authority; schema2/SOURCE_ENTRY_V1 unchanged.
+Focused182 / canonical18,620 / Python46 and exact pre-S3B save compatibility PASS;
+development/repository-content sanitized headless PASS. Evidence is local, not new GitHub CI.
+S3B is implementation complete / awaiting owner review, not owner-closed. Snow has no final PR or merge;
+Bank world/UI, Vendor purchasing, NPC population, training and the next slice remain unauthorized.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

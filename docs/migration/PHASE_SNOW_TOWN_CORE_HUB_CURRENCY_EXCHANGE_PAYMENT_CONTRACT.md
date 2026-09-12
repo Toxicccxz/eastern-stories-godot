@@ -1,5 +1,10 @@
 # S3A — Currency Exchange / Payment Source Contract
 
+**Current status: OWNER APPROVED / CLOSED.** Owner-approved S3B A–H choices are recorded in
+[DECISIONS](DECISIONS.md); implementation/evidence is in
+[S3B](PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_IMPLEMENTATION.md).
+The analysis and proposal/authorization wording below are historical S3A evidence, not the current gate.
+
 ## EXECUTIVE RESULT
 
 **S3A ANALYSIS COMPLETE — AWAIT OWNER REVIEW.** Source archaeology, dependency analysis and

@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S3A ANALYSIS COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — S3B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -221,10 +221,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     [S2 work income/minimal access](../migration/PHASE_SNOW_TOWN_CORE_HUB_WORK_INCOME.md) is implemented
     and locally validated; S1 and S2 are OWNER APPROVED / CLOSED. No NPC population or commerce is added.
     [S3A currency exchange/payment source contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md)
-    is analysis complete / awaiting owner review, not owner-approved. S3B implementation is
-    NOT AUTHORIZED; money lookup, affordability/payment anomalies, depletion lifetime and Bank
-    capacity/failure choices require explicit review. No proposed choice was added to DECISIONS.
-    Subsequent proposed order is owner-reviewed currency exchange/payment, Inn supplies, world-active recovery, school/weapon access, narrow teaching,
+    is OWNER APPROVED / CLOSED; A–H choices are locked in DECISIONS before production changes.
+    [S3B currency/payment core](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_IMPLEMENTATION.md)
+    implements canonical coin/silver/gold, exact affordability/ordered payment and Bank conversion,
+    approved lifecycle substitutions and same-schema cold continuation. Implementation complete,
+    awaiting owner review; not authorization for Bank geometry/UI or Vendor purchasing.
+    Subsequent proposed order is owner-reviewed physical commerce/Inn supplies, world-active recovery, school/weapon access, narrow teaching,
     then bounded smith/medicine support. These are review proposals, not approved slices or a
     mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains
     and source-save cutoff require explicit decisions before affected implementation.
