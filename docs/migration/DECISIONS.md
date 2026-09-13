@@ -1,5 +1,81 @@
 # Migration Decisions
 
+## Fresh water supply loop (S6B only)
+
+**OWNER APPROVED — S6B.** S6A is OWNER APPROVED / CLOSED at
+`945a8bde0d8d2734f737b51fb6619cf42e8ff5cd`. These A–M decisions are committed separately
+before implementation. They authorize no final Snow PR, alcohol runtime or next slice.
+
+- **A — source selection:** First source is `d/oldpine/waterfall.c`, resource/water1,
+  represented by `oldpine.outdoor.waterfall_basin`. Unlimited; no depletion, reset or cooldown.
+- **B — narrow Type B Vine supersession:** For playable SOURCE_ENTRY_V1 only, effective dodge<=0
+  selects the existing Waterfall branch through normal presentation/movement with zero World RNG
+  draws. No clamp, fake draw, dodge mutation, skill grant or reverse cliff edge. Historical
+  random(0) behavior is still unproven; this resolves the monotonic low-dodge intent, not new
+  Type A evidence. Positive bounds retain exactly one existing draw, range [0,bound), <5 Waterfall,
+  otherwise Passage; invalid draws remain typed failure. Other revisions and authored random-bound
+  policies retain their previous ambiguity behavior.
+- **C — canonical content:** Waiter sells `es2:obj/example/wineskin` from `obj/example/wineskin.c`:
+  牛皮酒袋, aliases wineskin/skin, unit个, weight700, value/price20, max15, fresh alcohol/红酒15,
+  drunk_apply6. Ordinary ITEM+F_LIQUID, not combined/food/weapon/armor. Unlimited fresh-ID purchases.
+- **D — truthful fresh wine:** Preserve RED_WINE15, including through Save/Continue. No empty,
+  clear-water or renamed substitute. Staged UI must explain incomplete alcohol support honestly.
+- **E — Type B alcohol omission:** Alcohol Drink returns typed ALCOHOL_DEFERRED before mutations:
+  zero portions/water/busy/conditions/RNG. No harmless wine substitute. ConditionSystem, drunk,
+  missing receive_healing, recovery condition freeze and unconscious/revive remain untouched.
+- **F — Type A fill and identity:** Full/partial/empty wine or water can be discarded/refilled
+  to CLEAR_WATER15 on the SAME item/definition/parent/weight, zero allocation. No empty-first rule,
+  poured-wine item or replacement. Authored drunk_apply6 remains; water never applies drunk.
+- **G — water semantics and valid-state boundary:** Validate action/item, ACTIVE/in-world ordinary
+  availability, busy, direct ownership, staged combat exclusion, valid positive remaining, then
+  Player water<capacity. Success decrements one portion then adds30 water without clamping or
+  immediate healing. Body80000 capacity400:400 refuses unchanged,399→429,0→30. Empty0 survives,
+  with same ID/parent/weight700/value20/content. No food/condition/busy/RNG mutation. Native legal
+  liquid states are remaining0..15; source arbitrary negative truthiness is not normalized.
+- **H — Type B reachability:** Specific Player-direct-held instance only, no ground/nested/NPC/
+  other-holder use. Distinct wineskins remain independent. This is not full LPC add_action reach.
+- **I — Type B noncombat/ACTIVE staging:** Reject active encounter/fighting without busy or other
+  mutation. Existing busy blocks but is not advanced/cleared. Successful noncombat use adds no
+  busy; source fighting-success busy2 is deferred. Require published active Session, ACTIVE world
+  Player and ordinary interaction availability; paused/staged/nonworld/dead/ghost use is excluded.
+- **J — wineskin-specific Vendor extension:** Explicitly extend S4B waiter A–D ONLY to this offer.
+  Resolve/validate item/liquid/persistence facts and canonical price before affordability/payment;
+  malformed static facts reject free. Preserve S3B0/1/2 and ordered payment. After payment allocate
+  → full-weight registration → index → fresh liquid state → post-payment capacity transfer.
+  No pre-payment final-weight preflight. Paid failure retains money and sequence/ID consumption;
+  destroy only safe parentless product through authoritative ItemLifecycle, then liquid association,
+  then derived index. No refund/drop/orphan Save/timer/fallback. Cleanup failure is authority failure.
+  Truthful paid=true/delivered=false. Dumpling remains unchanged; no generic Vendor/Bank policy.
+- **K — Type B typed composition:** Session owns one LiquidCollection keyed by ItemInstanceId;
+  LiquidState holds typed RED_WINE/CLEAR_WATER plus remaining. Definitions own max/hydration/drunk
+  metadata/display/weight/value. Inventory owns existence/parent/weight. No UI text/dictionary/
+  Callable/parent/price in mutable payload, duplicate inventory or generic consumable engine.
+  Do not infer universal liquid-versus-food/weapon/armor/stack role exclusivity from this one item.
+- **L — Type B embedded format:** Item schema2→3, deterministic typed liquid_consumables records
+  of ID/content/remaining. Root schema2, SOURCE_ENTRY_V1, root keys and three saved RNG streams
+  unchanged. Strict item1 five historical keys; item2 adds food_consumables; item3 also requires
+  liquid_consumables. Unknown/missing/extra keys reject. Legal old1/2 decode with empty liquid
+  records then current validation; explicit resave writes3, not old JSON byte equality. Never
+  recreate fresh wine for missing state. Reject duplicate/dangling/non-liquid/missing records,
+  unknown content, negative/>15 remaining, wrong weight/identity. Both content kinds0..15 valid,
+  including empty live items. Restore fresh collection with exact IDs/parents/allocator, no draw
+  or allocation/refill. Preserve supported root2/item1 food-validation behavior; root1 unsupported.
+- **M — Type B bounded physical/UI scope:** Only Waterfall exposes environmental Fill, requiring
+  current active-map/authoritative zone/valid placement/near-marker proof and selected direct-held
+  instance. No map-ID-only access or direct environmental Drink. Static marker is not saved/item/NPC.
+  Fill validates availability → ownership → busy/combat → water source → liquid facts, then sets
+  CLEAR_WATER and max15; Player water unchanged. Held clear-water Drink is map-independent via one
+  Session UI. Show contents/remaining and truthful wine-discard action. Riverbanks remain authored
+  but staged; no Green/Snow north/Lake or new return shortcut. Work/Bank/dumpling and S5B unchanged.
+
+Source facts: `reference/es2/mudlib/feature/liquid.c`, `obj/example/wineskin.c`,
+`d/snow/npc/waiter.c`, `d/oldpine/epath2.c`, `d/oldpine/waterfall.c`, `feature/damage.c`,
+`feature/vendor.c`, `feature/finance.c`, `feature/move.c`. See
+[S6A archaeology](PHASE_SNOW_TOWN_CORE_HUB_WATER_DRINK_SOURCE_CONTRACT.md).
+S4B wine deferral and single-offer boundary are superseded only as explicitly scoped above;
+its historical evidence and unrelated decisions remain unchanged. S5B's embedded item2 checkpoint
+is historical after L; its recovery behavior, independent body facts and timing remain unchanged.
+
 ## Player recovery / metabolism cadence (S5B only)
 
 **OWNER APPROVED — S5B.** S1/S2/S3A/S3B/S3C/S4A/S4B/S5A are OWNER APPROVED / CLOSED.
@@ -382,6 +458,10 @@ from their retained runtime state when reattached; no elapsed off-screen combat,
 NPC activity is synthesized. This is an in-memory session-lifetime rule, not save persistence.
 
 ## Non-positive authored world random bounds become ordered typed ambiguities
+
+**S6B supersession:** The owner-approved SOURCE_ENTRY_V1 playable Vine exception above now selects
+Waterfall for effective dodge<=0 with zero draws. The original policy/evidence below is historical
+for that case and remains current for other revisions/interactions. Positive Vine behavior is unchanged.
 
 **Decision:** When a future authored world interaction reaches an LPC `random(bound)` call with
 `bound <= 0`, native code returns a typed legacy ambiguity/failure at that exact source position, consumes
