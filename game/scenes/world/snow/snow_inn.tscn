@@ -61,9 +61,13 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="WaiterUI/Panel/Rows"]
 layout_mode = 2
-text = "店小二 · 当前恢复包子供应"
+text = "店小二 · 包子 / 酒袋"
 
 [node name="Buy" type="Button" parent="WaiterUI/Panel/Rows"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+
+[node name="BuyWineskin" type="Button" parent="WaiterUI/Panel/Rows"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
 

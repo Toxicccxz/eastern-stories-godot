@@ -1707,6 +1707,9 @@ func _init() -> void:
 		assertion_count += int(nge1_result["assertions"])
 		failures.append_array(nge1_result["failures"])
 	var snow_work_result: Dictionary = await load("res://tests/runtime/snow_work_income_test.gd").new().run_all(self)
+	var snow_water_result: Dictionary = await load("res://tests/runtime/snow_water_test.gd").new().run_all(self)
+	assertion_count += snow_water_result["assertions"]
+	failures.append_array(snow_water_result["failures"])
 	var snow_recovery_result: Dictionary = await load("res://tests/runtime/player_recovery_cadence_test.gd").new().run_all(self)
 	assertion_count += int(snow_recovery_result["assertions"])
 	failures.append_array(snow_recovery_result["failures"])

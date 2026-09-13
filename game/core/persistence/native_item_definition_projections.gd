@@ -9,6 +9,7 @@ var _weapons: Dictionary[StringName, WeaponDefinition] = {}
 var _armor: Dictionary[StringName, ArmorDefinition] = {}
 var _stacks: Dictionary[StringName, CombinedStackDefinition] = {}
 var _foods: Dictionary[StringName, FoodDefinition] = {}
+var _liquids: Dictionary[StringName, LiquidDefinition] = {}
 
 var is_valid: bool:
 	get:
@@ -21,6 +22,7 @@ func _init(
 	p_armor: Array[ArmorDefinition] = [],
 	p_stacks: Array[CombinedStackDefinition] = [],
 	p_foods: Array[FoodDefinition] = [],
+	p_liquids: Array[LiquidDefinition] = [],
 ) -> void:
 	for definition: ItemDefinition in p_items:
 		if (
@@ -70,6 +72,18 @@ func _init(
 			_is_valid = false
 			continue
 		_foods[definition.item_definition_id] = definition.duplicate_definition()
+	# Independent role projection; canonical validation must not create a global
+	# liquid-vs-weapon/food/armor/stack exclusion law.
+	for definition: LiquidDefinition in p_liquids:
+		if definition == null or not definition.is_valid() or not _items.has(definition.item_definition_id) or _liquids.has(definition.item_definition_id):
+			_is_valid = false
+			continue
+		_liquids[definition.item_definition_id] = definition.duplicate_definition()
+
+
+func liquid_definition(id: StringName) -> LiquidDefinition:
+	var definition: LiquidDefinition = _liquids.get(id)
+	return null if definition == null else definition.duplicate_definition()
 
 
 func food_definition(id: StringName) -> FoodDefinition:

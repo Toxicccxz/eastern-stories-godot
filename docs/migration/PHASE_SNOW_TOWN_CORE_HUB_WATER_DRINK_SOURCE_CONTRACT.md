@@ -2,7 +2,13 @@
 
 ## EXECUTIVE RESULT
 
-**ANALYSIS COMPLETE — AWAIT OWNER REVIEW. No S6B implementation authorization.**
+**S6A OWNER APPROVED / CLOSED at `945a8bde0d8d2734f737b51fb6619cf42e8ff5cd`.**
+
+Historical analysis below describes that exact pre-S6B baseline, not current runtime capabilities.
+Owner A–M choices are now recorded in [DECISIONS](DECISIONS.md) and implemented in
+[S6B](PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md). In particular the source-entry-only
+nonpositive Vine boundary is explicitly superseded; alcohol and Green remain deferred. This
+annotation preserves the original inspection/analysis evidence rather than rewriting it.
 
 ES2 decides WHAT / WHY / RESULT; Godot decides native architecture, physical embodiment,
 interaction translation and presentation. Type A is semantic migration; Type B is an explicitly

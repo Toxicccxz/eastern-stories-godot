@@ -59,7 +59,7 @@ func definition_tests() -> void:
 	check(definitions().stack_definition(SourceDumpling.DEFINITION_ID) == null and definitions().weapon_definition(SourceDumpling.DEFINITION_ID) == null and definitions().armor_definition(SourceDumpling.DEFINITION_ID) == null, "ordinary noncombined food")
 	food.initial_value = 999
 	check(definitions().food_definition(SourceDumpling.DEFINITION_ID).initial_value == 15, "content projection independent")
-	for id: StringName in [&"es2:obj/example/wineskin", &"es2:obj/example/dagger", &"es2:obj/example/chickenleg", &"es2:obj/example/cake"]:
+	for id: StringName in [&"es2:obj/example/dagger", &"es2:obj/example/chickenleg", &"es2:obj/example/cake"]:
 		check(not definitions().has_item_definition(id), "deferred source goods " + String(id))
 
 
@@ -138,7 +138,7 @@ func consumption_and_save(tree: SceneTree) -> void:
 		check(result.outcome == FoodUseResult.Outcome.ATE and result.food_after == row[1], "food.c precheck and unclamped +60 " + str(row))
 		check(session.food_collection().state(id).remaining_portions == 2 and session.food_collection().state(id).current_value == 0, "value0 + exact decrement")
 	var snap: GameSaveSnapshot = Work.capture(session)
-	check(snap != null and snap.items.schema_version == 2 and snap.items.food_consumable_records.size() == 2, "partial foods captured via native item schema2")
+	check(snap != null and snap.items.schema_version == 3 and snap.items.food_consumable_records.size() == 2, "partial foods captured via native item schema3")
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snap).text)
 	check(decoded.succeeded(), "strict codec roundtrip")
 	var restore: NativeItemRestoreCompositionResult = NativeItemPersistenceComposition.restore(decoded.snapshot.items, definitions(), decoded.snapshot.item_id_allocator)
@@ -184,7 +184,7 @@ func consumption_and_save(tree: SceneTree) -> void:
 	var final_failure: FoodUseResult = HeldFoodUseService.eat(player, failed_context, failed_foods, definitions(), doomed.item_id, true)
 	check(final_failure.accepted_bite and final_failure.outcome == FoodUseResult.Outcome.AUTHORITY_FAILURE and player.state.recovery.food == 180, "terminal removal failure leaves food +60 spent")
 	check(failed_foods.state(doomed.item_id).remaining_portions == 0 and failed_foods.state(doomed.item_id).current_value == 0 and failed_context.index.has_snapshot(doomed.item_id), "no rollback or prematurely forgotten food")
-	var invalid: NativeItemStateSnapshot = NativeItemStateSnapshot.new(2, [NativeItemRecord.new(doomed.item_id, SourceDumpling.DEFINITION_ID, 80, failed_context.endpoint())], [], [], [], [NativeFoodConsumableRecord.new(doomed.item_id, 0, 0)])
+	var invalid: NativeItemStateSnapshot = NativeItemStateSnapshot.new(3, [NativeItemRecord.new(doomed.item_id, SourceDumpling.DEFINITION_ID, 80, failed_context.endpoint())], [], [], [], [NativeFoodConsumableRecord.new(doomed.item_id, 0, 0)])
 	check(NativeItemStateValidator.validate(invalid, definitions()).outcome == NativeItemStateValidationResult.Outcome.INVALID_FOOD_RECORD, "reached live zero-portions state cannot Save")
 	var independent: OldPineWorldSessionController = Work.create_session(tree)
 	check(independent.food_collection().instance_ids().is_empty(), "independent Session collections")
@@ -218,6 +218,7 @@ func strict_save_tests(snapshot: GameSaveSnapshot) -> void:
 			"v1-food":
 				modified.items.schema_version = 1
 				modified.items.erase("food_consumables")
+				modified.items.erase("liquid_consumables")
 			"unknown-version": modified.items.schema_version = 99
 		var decoded: GameSaveResult = GameSaveJsonCodec.decode(JSON.stringify(modified))
 		check(not decoded.succeeded() or not NativeItemStateValidator.validate(decoded.snapshot.items, definitions()).succeeded, "strict schema/definition rejects " + mutation)

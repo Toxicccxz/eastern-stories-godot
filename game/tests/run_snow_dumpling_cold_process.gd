@@ -49,15 +49,16 @@ func _run() -> void:
 			if mode in ["pre-read", "pre-v2"]:
 				check(ids.is_empty(), "no food granted to pre-S4B save")
 				check(Food.context(session).select(Food.SILVER).amount == 1 and Food.context(session).select(Food.COIN).amount == 100, "old source currency exact")
-				check(original.items.schema_version == (1 if mode == "pre-read" else 2), "original embedded version")
+				check(original.items.schema_version == (1 if mode == "pre-read" else 3), "original/current embedded version")
 				if mode == "pre-read":
 					# Only expected representation changes; every other raw field identical.
-					original.items.schema_version = 2.0 # JSON parser represents numbers as float.
+					original.items.schema_version = 3.0 # JSON parser represents numbers as float.
 					original.items.food_consumables = []
+					original.items.liquid_consumables = []
 					var current: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(captured.snapshot).text)
 					check(recursive_equal(original, current), "old-v1 semantic exactness: all fields except explicit item-version extension")
 					if not failed:
-						check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "resave item-v2")
+						check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "resave current item-v3")
 			elif mode == "absent":
 				check(ids.is_empty() and session.player_runtime().state.recovery.food == 360, "six bites total; no resurrection")
 			else:

@@ -35,6 +35,7 @@ enum BootstrapMode {
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
 var _foods: FoodCollection = FoodCollection.new()
+var _liquids: LiquidCollection = LiquidCollection.new()
 var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
@@ -62,10 +63,30 @@ func _ready() -> void:
 		food_ui.name = "HeldFoodUI"
 		food_ui.configure(self)
 		add_child(food_ui)
+		var liquid_ui: HeldLiquidPanel = HeldLiquidPanel.new()
+		liquid_ui.name = "HeldLiquidUI"
+		liquid_ui.configure(self)
+		add_child(liquid_ui)
+
+
+func liquid_interaction_available() -> bool:
+	if not application_gameplay_allows_encounter_advance() or not can_process() or _restore_candidate_staged or _session_swap_reparenting or _transitioning:
+		return false
+	var map: WorldResidentMapController = active_map()
+	return _world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1 and world_simulation_gate().is_open() and map != null and map.is_map_initialized() and map.runtime_player_body() != null and map.runtime_player_body().player_controlled and _player.exists_in_world and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+
+
+func waterfall_water_available() -> bool:
+	var map: OldPineOutdoorController = active_map() as OldPineOutdoorController
+	return liquid_interaction_available() and map != null and map.can_fill_at_waterfall()
 
 
 func food_collection() -> FoodCollection:
 	return _foods
+
+
+func liquid_collection() -> LiquidCollection:
+	return _liquids
 
 
 func _process(delta: float) -> void:
@@ -678,6 +699,7 @@ func _initialize_restore_authorities() -> bool:
 	_inventory = _restore_preparation.item_domain.inventory
 	_stacks = _restore_preparation.item_domain.combined_stacks
 	_foods = _restore_preparation.item_domain.food_collection
+	_liquids = _restore_preparation.item_domain.liquid_collection
 	_item_index = _restore_preparation.item_index
 	_item_id_allocator = _restore_preparation.item_allocator
 	_item_instance_scope = _item_id_allocator.scope
@@ -717,7 +739,7 @@ func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
 	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
 	for map: WorldResidentMapController in [inn, snow]:
 		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
-			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate, _foods) or not register_resident_map(map):
+			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate, _foods, _liquids) or not register_resident_map(map):
 			return false
 		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
 	if not snow.configure_passage(SnowOldPineConnectionDefinitions.to_oldpine()) or not outdoor.configure_passage(SnowOldPineConnectionDefinitions.to_snow()):

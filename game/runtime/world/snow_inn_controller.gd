@@ -7,12 +7,16 @@ extends SnowResidentMapController
 @onready var buy_button: Button = $WaiterUI/Panel/Rows/Buy
 @onready var shop_feedback: Label = $WaiterUI/Panel/Rows/Feedback
 var last_purchase: DumplingPurchaseResult
+var last_wineskin_purchase: WineskinPurchaseResult
 
 
 func _ready() -> void:
 	super._ready()
 	buy_button.text = "%s · %d文 · 买一个" % [SourceDumpling.DISPLAY_NAME, SourceDumpling.VALUE]
 	buy_button.pressed.connect(request_dumpling)
+	var wineskin_button: Button = $WaiterUI/Panel/Rows/BuyWineskin
+	wineskin_button.text = "酒袋 · 红酒15份 · 20文 · 买一个"
+	wineskin_button.pressed.connect(request_wineskin)
 	shop_panel.hide()
 
 
@@ -42,6 +46,24 @@ func request_dumpling() -> DumplingPurchaseResult:
 	else:
 		shop_feedback.text = "交易未完成，状态异常；已发生的扣款不会退回。"
 	return last_purchase
+
+
+func request_wineskin() -> WineskinPurchaseResult:
+	last_wineskin_purchase = WineskinPurchaseResult.new()
+	if not can_purchase_here():
+		last_wineskin_purchase.outcome = WineskinPurchaseResult.Outcome.INTERACTION_BLOCKED
+		return last_wineskin_purchase
+	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor), _inventory, _stacks, _item_index)
+	last_wineskin_purchase = WineskinPurchaseService.buy(context, _liquids, _item_id_allocator, _player.maximum_encumbrance, OldPineNativeItemDefinitionProjections.create(WorldContentRevision.Value.SOURCE_ENTRY_V1))
+	if last_wineskin_purchase.delivered:
+		shop_feedback.text = "已付款，酒袋（红酒15份）已放入随身物品。酒精饮用暂未开放；可到瀑布换装清水。"
+	elif last_wineskin_purchase.paid:
+		shop_feedback.text = "已付款，但未收到酒袋。" + ("负重过高。" if last_wineskin_purchase.outcome == WineskinPurchaseResult.Outcome.DELIVERY_FAILED else "物品状态异常，请停止操作。")
+	elif last_wineskin_purchase.affordability != null:
+		shop_feedback.text = "钱不够。" if last_wineskin_purchase.affordability.outcome == MoneyAffordabilityResult.Outcome.INSUFFICIENT_TOTAL else "零钱不足，请先去钱庄兑换。"
+	else:
+		shop_feedback.text = "交易未完成，状态异常；已发生的扣款不会退回。"
+	return last_wineskin_purchase
 
 
 func map_id() -> StringName:

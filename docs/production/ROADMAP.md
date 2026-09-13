@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S6A ANALYSIS COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — S6B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -246,11 +246,14 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     Existing recovery/Work/food formulas remain unchanged. Focused184, natural desktop economy/Eat,
     Pause/Resume and exact cold Continue PASS. S5B is OWNER APPROVED / CLOSED at `add93fcf`.
     [S6A water/drink analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_WATER_DRINK_SOURCE_CONTRACT.md)
-    now prepares owner decisions only: same-ID wineskin fill bypasses alcohol, but fresh dodge0
-    blocks the existing Vine entrance to Old Pine water. Decide access before calling the loop
-    implementation-ready; existing Waterfall needs minimal geometry, whereas deterministic Green
-    station0 access adds six deferred room identities. Liquid state/item schema and Vendor policy
-    remain proposals. No S6B implementation or final PR is authorized.
+    is OWNER APPROVED / CLOSED at `945a8bde`. Owner A–M decisions are implemented in
+    [S6B fresh water supply](../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md):
+    source-entry nonpositive dodge→existing Waterfall/zero RNG; canonical red-wine wineskin20;
+    same-ID Fill→water15; direct-held noncombat Drink+30 without clamp; strict embedded item3
+    continuation, with legal old item1/2 support and unchanged root2/SOURCE_ENTRY_V1.
+    Natural desktop supply/Pause Save/cold Continue PASS. Alcohol, Riverbank Fill, Green access,
+    condition cadence and further content remain deferred. S6B awaits owner review; no next slice
+    or final PR is authorized.
     Later proposed work remains school/weapon access, narrow teaching,
     then bounded smith/medicine support. These are review proposals, not approved slices or a
     mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains

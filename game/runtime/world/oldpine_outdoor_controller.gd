@@ -119,6 +119,12 @@ func map_id() -> StringName:
 	return OldPineWorldDefinitions.OUTDOOR_MAP_ID
 
 
+## A physical water point, not a portable/recursive source or new room object.
+func can_fill_at_waterfall() -> bool:
+	var point: Marker2D = get_node_or_null("WaterfallWaterPoint") as Marker2D
+	return _initialized and is_inside_tree() and not get_tree().paused and _world_gameplay_is_open() and player_body.player_controlled and point != null and _player.world_location().map_id == map_id() and _player.world_location().zone_id == OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID and player_body.global_position.distance_squared_to(point.global_position) <= 96.0 * 96.0 and OldPineMapPlacementValidator.is_valid_character_position(self, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, player_body.global_position)
+
+
 func initialize_map() -> bool:
 	if _initialized:
 		return true

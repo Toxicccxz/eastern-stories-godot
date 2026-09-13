@@ -555,6 +555,21 @@ offset_bottom = 550.0
 mouse_filter = 2
 color = Color(0.043137256, 0.16862746, 0.11372549, 1)
 
+[node name="WaterfallWaterPoint" type="Marker2D" parent="."]
+position = Vector2(1200, 900)
+
+[node name="Visual" type="Polygon2D" parent="WaterfallWaterPoint"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="WaterfallWaterPoint"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "瀑布清水 · 靠近装水"
+horizontal_alignment = 1
+
 [node name="WaterfallBasin" type="ColorRect" parent="Terrain" unique_id=1625979581]
 offset_left = 900.0
 offset_top = 600.0

@@ -264,7 +264,7 @@ func restore_tests(tree: SceneTree) -> void:
 	var json: Dictionary = JSON.parse_string(encoded)
 	var rng_keys: Array = json.rng.keys()
 	rng_keys.sort()
-	check(rng_keys == ["combat", "npc_initialization", "world_interaction"] and json.size() == 9 and json.metadata.schema_version == 2 and json.items.schema_version == 2, "strict unchanged root/item/RNG schema")
+	check(rng_keys == ["combat", "npc_initialization", "world_interaction"] and json.size() == 9 and json.metadata.schema_version == 2 and json.items.schema_version == 3, "root/RNG unchanged, current embedded item3")
 	check(not encoded.contains("cadence") and not encoded.contains("countdown") and not encoded.contains("accumulator"), "no transient Save fields")
 	check(session.player_recovery_cadence().source_tick == 4 and session.player_recovery_cadence().accumulated_seconds == 1.0 and random.calls == 2, "capture preserves phase")
 	var preparation: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)

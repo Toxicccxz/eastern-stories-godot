@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S6A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S6B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -56,13 +56,20 @@ PASS. Canonical19,018 / Python46 / static / development and repository-content s
 PASS; exact pre-S5B save compatibility PASS. This is local evidence, not new GitHub CI.
 S5B is OWNER APPROVED / CLOSED at `add93fcf17aba82ebc05bbf5c3eb9972feb73e4d`.
 [S6A water/drink source contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_WATER_DRINK_SOURCE_CONTRACT.md)
-is analysis only: ten source water rooms, none in Snow; three already embodied in Old Pine.
-Source wineskin fill can discard wine and provide renewable clear water without drunk, but fresh
-source Player dodge0 cannot pass the current Vine random-bound policy; the Pine shortcut has no
-reverse Cliffside entry. Existing Waterfall is the smallest geometry candidate only after an
-explicit access decision; Green station0 via six deferred identities is the larger source-route
-alternative. Typed liquid state/item persistence and scoped Vendor/interaction decisions remain
-proposals. No code/schema/DECISIONS changed; no new gameplay execution evidence. S6B is NOT AUTHORIZED.
+is OWNER APPROVED / CLOSED at `945a8bde0d8d2734f737b51fb6619cf42e8ff5cd`.
+Its source archaeology remains historical evidence; owner A–M decisions now precede
+[S6B fresh water supply](../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).
+SOURCE_ENTRY_V1 dodge<=0 takes the existing Waterfall branch with zero RNG (explicit Type B,
+not proof of LPC random(0)); positive-dodge behavior is unchanged. The staged waiter sells canonical
+wine-filled wineskins20 through existing payment and scoped Vendor cleanup. Same-ID Waterfall Fill
+replaces wine with clear water15; direct-held noncombat Drink consumes one and adds30 without clamp.
+Alcohol remains explicitly deferred. Session-owned liquid state extends embedded item2→3 only;
+root schema2/SOURCE_ENTRY_V1 and S5B cadence are unchanged. Focused118 / canonical19,135 / Python46
+PASS, with static/development/repository-content sanitized checks; real fresh-player
+Work×2→Bank→purchase→Vine→Fill→Drink→Pause Save→fresh Continue PASS; exact pre-S6B item2 Save loads.
+Full return smoke reached Pine, where existing authored bandit combat stopped further free walking;
+no aggression/shortcut change. See S6B for canonical/static/sanitizer evidence and boundaries.
+These are local execution results, not new GitHub CI. Next slice requires owner review.
 Snow remains unmerged, with no final PR authorized or created.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
