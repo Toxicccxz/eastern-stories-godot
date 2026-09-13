@@ -2,7 +2,10 @@
 
 ## Baseline and authority
 
-Implementation complete / awaiting owner review on `phase/snow-town-core-hub`.
+**OWNER APPROVED / CLOSED** at `52ece42255c6094cd2378013245eb2f86e35d5ef`.
+The owner subsequently authorized [S5A analysis](PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md)
+only; the implementation evidence and stop-state wording below remain historical.
+Implementation branch: `phase/snow-town-core-hub`.
 Exact starting local/remote HEAD: `78b59f090e1497581d265741937cc43ab6ea94c7`
 (`Add Snow Bank exchange access`). Main: `047f29083e881156abbdad6ed480bffc1350dfa8`.
 S1/S2/S3A/S3B/S3C/S4A are OWNER APPROVED / CLOSED. No Snow final PR or merge is authorized.

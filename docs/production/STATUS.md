@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S4B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S5A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -42,8 +42,14 @@ Only embedded item schema1→2 evolves; root schema2/SOURCE_ENTRY_V1 remain unch
 pre-S4B semantic compatibility and partial-food cold Continue verified. Focused489 / canonical18,834 /
 Python46, development/repository-content sanitized editor and real Work→Bank→Inn purchase PASS.
 Actual full-food refusal and explicitly QA-controlled consumption/cold Continue/no-resurrection PASS.
-This is local evidence, not PR CI, full waiter parity or natural hunger. S4B awaits owner review;
-next slice and final Snow PR remain unauthorized.
+This is local evidence, not PR CI, full waiter parity or natural hunger. S4B is OWNER APPROVED / CLOSED.
+[S5A recovery/metabolism contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md)
+is analysis complete:6–15 eligible heartbeat calls, busy countdown freeze, fighting recovery,
+condition-before-heal, exact food/water gates and restart/RNG decisions are documented.
+Actual ES2 wall-clock heartbeat period is not proven. No production recovery/condition cadence exists;
+combat owns a closed world gate, so a future gate-only clock would omit source combat recovery.
+S5B remains NOT AUTHORIZED; proposed timing/lifecycle/save choices require owner review.
+Snow remains unmerged, with no final PR authorized or created.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

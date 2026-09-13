@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S4B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — S5A ANALYSIS COMPLETE / AWAIT OWNER REVIEW**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -236,9 +236,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     one unlimited source offer, ordered S3B payment/delivery, typed food and shared direct-held use.
     Partial-food continuation and strict embedded item1→2 compatibility pass without changing root
     schema2/SOURCE_ENTRY_V1. Focused489 / canonical18,834 and actual desktop purchase/controlled
-    consumption/cold Continue PASS. S4B awaits owner review; no Bank NPC/accounts, full waiter NPC,
+    consumption/cold Continue PASS. S4B is OWNER APPROVED / CLOSED; no Bank NPC/accounts, full waiter NPC,
     wine/dagger/chicken/cake or hunger/recovery scheduler is implemented.
-    Subsequent proposed order is owner-reviewed physical commerce/Inn supplies, world-active recovery, school/weapon access, narrow teaching,
+    [S5A Player recovery/metabolism analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md)
+    is complete, with exact source heartbeat counts/formulas and owner-required timing, combat/gate,
+    condition/life-status, Pause/offline, RNG and cadence-save choices. S5B is NOT AUTHORIZED.
+    Subsequent proposed order is owner-reviewed recovery/metabolism, school/weapon access, narrow teaching,
     then bounded smith/medicine support. These are review proposals, not approved slices or a
     mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains
     and source-save cutoff require explicit decisions before affected implementation.
