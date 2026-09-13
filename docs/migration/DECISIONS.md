@@ -1,5 +1,71 @@
 # Migration Decisions
 
+## Snow waiter / dumpling supply loop (S4B only)
+
+**OWNER APPROVED — S4B.** These decisions take effect under the owner's S4B instruction.
+S1/S2/S3A/S3B/S3C and S4A analysis are OWNER APPROVED / CLOSED. The historical S4A
+recommendation table is not rewritten. This does not authorize a final Snow PR or later goods.
+
+- **A — Vendor-specific Type B:** Resolve/quote, affordability, successful ordered payment,
+  allocate/create goods, then attempt full-weight delivery. Ordinary capacity failure keeps all
+  payment/depletion and consumed IDs/sequences. Immediately remove the provably parentless
+  product through authoritative ItemLifecycle, remove associated food state only after removal,
+  then update the derived index. No refund, ground drop, orphan persistence, timer or retry.
+  Cleanup failure is an explicit authority failure; no fallback. This is separately approved
+  for Vendor, not inherited from Workplace S2 or Bank S3B and not a general failed-transfer policy.
+- **B — static validation / ordered failure:** Validate the supported offer, source price,
+  item/food/persistence definitions before affordability/payment. Missing/malformed content
+  rejects without payment or allocation, never substitutes a product/price. After successful
+  payment, allocation/creation/registration failures retain reached money/sequence mutations.
+  A known safe parentless live partial product may be cleaned using A's ordered lifecycle.
+  Unknown ownership is not destroyed; cleanup failure has no fallback or compensation.
+  Capacity admission still uses post-payment inventory, never an earlier final-weight preflight.
+- **C — Type B truthful presentation:** Report paid=true/delivered=false when paid goods
+  are not received. Suppress LPC Vendor's unconditional success text without changing money order.
+  Preserve underlying affordability, payment, allocation, transfer and cleanup evidence.
+- **D — Type A stock:** Unlimited clone-on-demand offers; every purchase creates a fresh ID.
+  No stock counts, restock, cooldown, merchant money/inventory, sold-out state or stock Save.
+- **E — Type B staged omission:** Waiter's missing /obj/example/cake remains deferred.
+  No substitute cake, free supplies, birthday relay or persistent gift entitlement.
+- **F — deferred wine contract:** No wineskin/red wine, water-only substitute, drunk,
+  receive_healing repair or intoxication/lifecycle scheduling. Liquid/condition semantics
+  require a later explicit contract.
+- **G — Type B initial use reachability:** Eat only the specific Player-direct-held food
+  instance, ACTIVE and outside combat with ordinary world interaction available. No ground,
+  nested, NPC-held or combat use; no new busy2/timer. Preserve an existing applicable busy
+  block. Use remains map-independent, never Inn-only or waiter-proximity-dependent.
+- **H — typed state / exact semantics:** Session owns one typed food collection keyed by
+  ItemInstanceId, associated with the existing item graph, not CombinedStack/scene/UI/payload.
+  Dumpling starts portions3/value15; accepted bite adds food60 without clamping, sets value0
+  and decrements one portion. Body-fact weight determines capacity; reject at food>=capacity.
+  Final bite uses authoritative immediate item destruction, then removes food association
+  and index. If removal fails, already-reached food/value/portion mutations remain, with
+  authority failure, no rollback or fallback, and no legal successful Save checkpoint.
+- **H1 — bounded embedded format evolution:** NativeItemStateSnapshot current version1→2;
+  captures encode item schema2 and deterministic typed food records. Decoder accepts exact
+  old schema1 keys as empty food state, or exact schema2 keys including food records.
+  Unknown versions/keys, duplicate/dangling/non-food records and missing required food state
+  reject. A schema1 dumpling without food state fails, never receives fresh portions.
+  Legal live dumpling states are only 3/15, 2/0, 1/0. Root schema2 and SOURCE_ENTRY_V1 stay
+  unchanged; root schema1 remains unsupported. Pre-S4B semantic continuation is preserved;
+  resaving necessarily changes embedded representation1→2, not byte-identical old JSON.
+- **I — deferred authored weapon goods:** No dagger/sword-action substitution, chicken/hammer,
+  bone variant or their persistence. These remain real deferred waiter offers, not placeholders.
+- **J — Type B staged contact:** One deterministic scene-owned 店小二 commerce contact in
+  existing Inn main floor, with only the dumpling offer. No NPC character/body/equipment,
+  RNG greeting, combat/death, reset/respawn ledger, AI, birthday relay or dialogue system.
+  Static contact reappears as scene content on Continue; no mutable waiter Save record.
+  Full waiter parity is explicitly not claimed.
+
+**K — sequencing only:** Owner-approved S3C supplies natural Work→Bank→Inn denomination
+access. No starter coins, Vendor change-making or denomination normalization is authorized.
+S3B's exact affordability/payment anomalies and source price15 remain unchanged.
+
+Sources: `reference/es2/mudlib/d/snow/inn.c`, `d/snow/npc/waiter.c`,
+`obj/example/dumpling.c`, `cmds/std/buy.c`, `feature/vendor.c`, `feature/finance.c`,
+`feature/food.c`, `feature/move.c`, `feature/clean_up.c`, `std/item.c`.
+These are owner-selected boundaries, not a general consumables/commerce authorization.
+
 ## Currency exchange / payment core (S3B only)
 
 **OWNER APPROVED — S3B.** The following A–H decisions are locked by the owner's S3B instruction,
