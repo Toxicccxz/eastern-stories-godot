@@ -1,5 +1,62 @@
 # Migration Decisions
 
+## Player recovery / metabolism cadence (S5B only)
+
+**OWNER APPROVED — S5B.** S1/S2/S3A/S3B/S3C/S4A/S4B/S5A are OWNER APPROVED / CLOSED.
+These A–M choices supersede S5A's recommendations, not its source findings. This ledger is
+committed separately before production implementation; it does not authorize a final Snow PR.
+
+- **A — Type A count shape:** Preserve `5 + random(10)` stored countdown5–14 and source
+  post-decrement semantics: reset5/6/14 yields recovery on eligible pulse6/7/15. At old0,
+  draw/store the next reset before applying recovery. No fixed mean or reroll after a failure.
+- **B — Type B timing:** Native S5B uses an owner-approved **2.0-second base pulse because
+  the original wall-clock heartbeat period is not proven**. The bundled manual's usual2s
+  is supporting context, not proof of ES2 deployment. Unblocked opportunities take6–15
+  pulses (12–30 seconds of eligible Native time). Process all complete active-delta pulses
+  synchronously in order and retain remainder; reject non-finite/negative time, no silent cap.
+- **C — source busy ordering:** At each due base pulse inspect busy at entry. Consume the
+  pulse's time but do not decrement countdown, recover, update conditions, advance busy or
+  draw RNG. Busy1 still blocks. Existing busy authority remains the only advancement owner.
+- **D — Type B staged combat omission:** Source permits nonbusy fighting recovery. S5B
+  freezes accumulator/countdown during any active encounter or fighting relationship,
+  consuming no recovery RNG/metabolism. Resume the same phase after combat. Do not change
+  combat timing or use its scheduler as heartbeat; noncombat world-gate freezes also freeze time.
+- **E — staged condition dependency:** Any active condition payload (including unsupported
+  IDs or zero/negative durations) freezes the entire S5B phase. No handlers, duration mutation,
+  expiry or RNG. Source condition→no-heal→recovery order cannot be partially activated by
+  healing while its conditions are frozen. This is not source condition behavior/parity.
+- **F — Player-only staged scope:** Exactly one Session-owned cadence for SOURCE_ENTRY_V1
+  Player. None for NPCs, inactive residents, corpses or LEGACY_OLDPINE_V1 technical sessions.
+  Invalid/unpublished/staged candidates cannot tick; unsafe handoff/swap freezes time.
+- **G — Type B Pause:** Freeze the complete phase and resume its exact in-memory remainder
+  and countdown, without catch-up or reroll. Menus never grant rest/recovery time.
+- **H — no offline simulation:** Closed-app time causes zero recovery/metabolism. No clock,
+  login/save timestamp, elapsed offline calculation or bounded catch-up is introduced.
+- **I — transient phase:** LPC `tick` is static and not saved. Native Save does not reset the
+  live phase; fresh Source Session/Continue creates accumulator0 and draws one initial tick.
+  Do not save countdown, accumulator or cadence RNG. Map activation/handoff/rollback, Pause,
+  combat and condition appearance/removal retain the same live authority without reroll.
+- **J — independent transient RNG:** One typed private recovery random source, with injectable
+  deterministic tests and dedicated production RNG; no global random state or use of combat,
+  NPC-initialization or world-interaction streams. Continue draws only the new transient stream;
+  the three persisted streams restore exactly with zero draws. No RNG field is added to Save.
+- **K — unchanged Save contract:** Root schema2, embedded item schema2 and SOURCE_ENTRY_V1
+  remain exact. Pre-S5B saves load without migration or new optional keys. Only existing
+  character facts mutated by recovery persist. Capture is synchronous at a settled boundary;
+  ordinary counting does not itself block Save. No cadence section or recovery timestamp.
+- **L — ACTIVE-only staged life scope:** Freeze for UNCONSCIOUS/DEAD/other non-ACTIVE state;
+  no recovery, metabolism, revive, ghost behavior or new lifecycle reconciliation. Only an
+  existing legitimate return to ACTIVE resumes the retained phase. This omits source paths.
+- **M — deferred age/idle:** No age/mud_age clock, idle timeout, user_dump, netdead/login
+  heartbeat, age gifts or idle rewards/penalties. This is not a general heartbeat emulator.
+
+Implementation must borrow existing `CharacterRecovery.apply_tick` with current raw magic,
+force and spells, Player=true/no-heal=false only after the staging guards. No formula, food,
+Work, Bank or Vendor changes. Water remains a real supply limit; no refill/starvation system.
+Sources: `reference/es2/mudlib/std/char.c`, `feature/damage.c`, `feature/condition.c`,
+`include/condition.h`, `doc/efuns/random`, `set_heart_beat`, `save_object`.
+Archaeology: [S5A contract](PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md).
+
 ## Snow waiter / dumpling supply loop (S4B only)
 
 **OWNER APPROVED — S4B.** These decisions take effect under the owner's S4B instruction.
