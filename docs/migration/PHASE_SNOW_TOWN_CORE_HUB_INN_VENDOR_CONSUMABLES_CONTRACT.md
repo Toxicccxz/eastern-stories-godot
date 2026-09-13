@@ -4,7 +4,9 @@
 
 **Current status: OWNER APPROVED / CLOSED (analysis only).** Owner subsequently authorized
 S3C Bank physical access before Vendor. The historical analysis below records the S4A baseline;
-S3C resolves sequencing item K operationally, not recommendations A–J. S4B remains NOT AUTHORIZED.
+S3C resolved sequencing item K. Owner has now selected A–J/H1 in [DECISIONS](DECISIONS.md)
+before [S4B implementation](PHASE_SNOW_TOWN_CORE_HUB_WAITER_DUMPLING.md).
+The recommendation/authorization wording below remains the historical analysis, not current policy.
 See [S3C Bank access](PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md).
 
 S4A is analysis complete / awaiting owner review. S1/S2/S3A/S3B are OWNER APPROVED / CLOSED.

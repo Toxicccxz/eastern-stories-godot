@@ -10,6 +10,7 @@ static func create(revision: WorldContentRevision.Value = WorldContentRevision.V
 	var weapons: Array[WeaponDefinition] = []
 	var armor: Array[ArmorDefinition] = []
 	var stacks: Array[CombinedStackDefinition] = []
+	var foods: Array[FoodDefinition] = []
 	for content: NpcLoadoutItemDefinition in OldPineNpcDefinitions.loadout_item_definitions():
 		if content == null or not content.is_valid():
 			return NativeItemDefinitionProjections.new([ItemDefinition.new(&"")])
@@ -26,10 +27,12 @@ static func create(revision: WorldContentRevision.Value = WorldContentRevision.V
 			stacks.append(stack_definition)
 	items.append(ItemDefinition.new(CORPSE_DEFINITION_ID, CORPSE_LEGACY_SOURCE))
 	if revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+		items.append(SourceDumpling.item_definition())
+		foods.append(SourceDumpling.food_definition())
 		items.append(SourceCoin.item_definition())
 		items.append(SourceGold.item_definition())
 		stacks.append(SourceCoin.stack_definition())
 		stacks.append(SourceGold.stack_definition())
 		items.append(SourcePlayerCloth.item_definition())
 		armor.append(SourcePlayerCloth.armor_definition())
-	return NativeItemDefinitionProjections.new(items, weapons, armor, stacks)
+	return NativeItemDefinitionProjections.new(items, weapons, armor, stacks, foods)

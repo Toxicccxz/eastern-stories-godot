@@ -6,8 +6,11 @@ implementation.
 ## Authority and identity
 
 - `GameSaveSnapshot` is the only root native-save authority.
-- Its `NativeItemStateSnapshot` v1 member is the only item-persistence authority. Inventory, stacks,
-  Equipment, and Armor are composed through that existing format; no second Inventory save model exists.
+- Its `NativeItemStateSnapshot` v2 member is the only item-persistence authority. Inventory, stacks,
+  Equipment, Armor and typed food-consumable records compose through this format; no second Inventory
+  save model exists. Embedded v1 decodes strictly as empty food state; definition validation rejects
+  a food item missing its record. Root schema2 / SOURCE_ENTRY_V1 and the root old-save cutoff remain
+  unchanged. See [S4B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_WAITER_DUMPLING.md).
 - `WorldItemInstanceIndex` is derived from restored Inventory and is never serialized as authority.
 - Semantic character, item, NPC, corpse, spawn, and world identities persist across Load. Runtime Godot
   object identities are fresh.

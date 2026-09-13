@@ -48,7 +48,7 @@ func _test_substantial_round_trip_and_determinism() -> void:
 	_assert_eq(decoded.snapshot.player.character.conditions[1].legacy_message, "毒性仍在。", "typed poison payload survives UTF-8")
 	_assert_eq(decoded.snapshot.player.world_location.zone_id, &"zone:pine", "zone survives independently")
 	_assert_eq(decoded.snapshot.player.world_location.combat_location_id, &"combat:pine", "combat location survives independently")
-	_assert_eq(decoded.snapshot.items.schema_version, 1, "embedded item schema stays independently versioned")
+	_assert_eq(decoded.snapshot.items.schema_version, 2, "embedded item schema stays independently versioned")
 	_assert_eq(decoded.snapshot.items.item_records.size(), 4, "existing native item records are directly embedded")
 	_assert_eq(decoded.snapshot.npc_spawn_states.size(), 1, "typed NPC structural record survives")
 	_assert_eq(decoded.snapshot.corpses.size(), 1, "typed corpse structural record survives")
@@ -57,7 +57,7 @@ func _test_substantial_round_trip_and_determinism() -> void:
 	_assert_eq(decoded.snapshot.player.character.kee.current, 82, "root snapshot returns defensive nested values")
 	var detached_items: NativeItemStateSnapshot = decoded.snapshot.items
 	detached_items._schema_version = 99
-	_assert_eq(decoded.snapshot.items.schema_version, 1, "embedded item snapshot getter is defensive")
+	_assert_eq(decoded.snapshot.items.schema_version, 2, "embedded item snapshot getter is defensive")
 
 
 func _test_equivalent_input_order_is_canonical() -> void:
@@ -115,7 +115,7 @@ func _test_strict_shape_and_security_failures() -> void:
 	root["metadata"]["schema_version"] = 3
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "unsupported game schema rejects distinctly")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
-	root["items"]["schema_version"] = 2
+	root["items"]["schema_version"] = 3
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA, "unsupported item schema rejects distinctly")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["player"]["character"]["resources"]["kee"]["current"] = 82

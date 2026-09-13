@@ -34,6 +34,7 @@ enum BootstrapMode {
 
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
+var _foods: FoodCollection = FoodCollection.new()
 var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
@@ -54,7 +55,15 @@ var _source_gender: StringName = &""
 
 
 func _ready() -> void:
-	initialize_session()
+	if initialize_session() and _world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+		var food_ui: HeldFoodPanel = HeldFoodPanel.new()
+		food_ui.name = "HeldFoodUI"
+		food_ui.configure(self)
+		add_child(food_ui)
+
+
+func food_collection() -> FoodCollection:
+	return _foods
 
 
 func _process(delta: float) -> void:
@@ -599,6 +608,7 @@ func _initialize_restore_authorities() -> bool:
 	_player = _restore_preparation.player
 	_inventory = _restore_preparation.item_domain.inventory
 	_stacks = _restore_preparation.item_domain.combined_stacks
+	_foods = _restore_preparation.item_domain.food_collection
 	_item_index = _restore_preparation.item_index
 	_item_id_allocator = _restore_preparation.item_allocator
 	_item_instance_scope = _item_id_allocator.scope
@@ -638,7 +648,7 @@ func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
 	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
 	for map: WorldResidentMapController in [inn, snow]:
 		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
-			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate) or not register_resident_map(map):
+			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate, _foods) or not register_resident_map(map):
 			return false
 		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
 	if not snow.configure_passage(SnowOldPineConnectionDefinitions.to_oldpine()) or not outdoor.configure_passage(SnowOldPineConnectionDefinitions.to_snow()):

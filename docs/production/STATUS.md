@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S3C IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S4B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -27,14 +27,23 @@ S3B is now OWNER APPROVED / CLOSED.
 [S4A Inn Vendor/consumables contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md)
 is OWNER APPROVED / CLOSED (analysis only): exact offers/prices, paid-delivery failures,
 food/water overshoot, missing cake, drunk/weapon dependencies and item/NPC Save gaps are documented.
-Recommendations are not locked decisions. S4B remains NOT AUTHORIZED; Snow has no final PR or merge.
+Its historical recommendations are now owner-selected in DECISIONS for S4B; Snow has no final PR or merge.
 [S3C Bank physical exchange](../migration/PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md)
 adds mstreet1 west ↔ snow.bank in the existing outdoor resident, with a narrow typed exchange UI
 using unchanged S3B services. Real two-Work → silver1/coin100 → Bank Save/cold Continue PASS;
 school east stays closed. Focused384 / canonical18,729 / Python46, exact pre-S3C save and
 repository-content sanitizer/headless PASS (local evidence, not new PR CI).
-S4A sequencing K is resolved; A–J are not locked. No Bank NPC/accounts, Vendor, recovery or training.
-S3C awaits owner review; S4B and final Snow PR remain unauthorized.
+S3C is OWNER APPROVED / CLOSED; sequencing K is resolved. No Bank NPC/accounts, recovery or training.
+[S4B waiter/dumpling](../migration/PHASE_SNOW_TOWN_CORE_HUB_WAITER_DUMPLING.md) implements the
+owner-approved A–J/H1 boundaries: staged Inn contact, one unlimited source-priced dumpling offer,
+unchanged S3B payment then goods delivery, Vendor-specific cleanup, and Session-owned typed food.
+Direct-held non-combat eating is map-independent; exact portions/value and overshoot are preserved.
+Only embedded item schema1→2 evolves; root schema2/SOURCE_ENTRY_V1 remain unchanged, with exact
+pre-S4B semantic compatibility and partial-food cold Continue verified. Focused489 / canonical18,834 /
+Python46, development/repository-content sanitized editor and real Work→Bank→Inn purchase PASS.
+Actual full-food refusal and explicitly QA-controlled consumption/cold Continue/no-resurrection PASS.
+This is local evidence, not PR CI, full waiter parity or natural hunger. S4B awaits owner review;
+next slice and final Snow PR remain unauthorized.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

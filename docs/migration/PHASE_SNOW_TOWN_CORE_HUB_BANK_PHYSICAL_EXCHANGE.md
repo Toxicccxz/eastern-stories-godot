@@ -2,7 +2,9 @@
 
 ## Baseline and authorization
 
-Implementation complete / awaiting owner review on `phase/snow-town-core-hub`.
+**OWNER APPROVED / CLOSED.** Implementation on `phase/snow-town-core-hub`.
+Owner subsequently authorized [S4B waiter/dumpling](PHASE_SNOW_TOWN_CORE_HUB_WAITER_DUMPLING.md);
+the authorization/deferred-decision wording below records this slice's historical baseline.
 Starting local/remote HEAD: `5fc0627447c299b943c55789c02860a99bf4a54c`.
 Main remains `047f29083e881156abbdad6ed480bffc1350dfa8`.
 S1/S2/S3A/S3B are OWNER APPROVED / CLOSED. Owner also closed S4A **analysis** and

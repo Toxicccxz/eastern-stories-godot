@@ -185,7 +185,7 @@ func _test_money_denominations_positive_zero_and_failures() -> void:
 	_assert_eq(zero.stack_destruction_intents.size(), 1, "zero emits schema-external destruction intent")
 	_assert_eq(zero.stack_destruction_intents[0].requested_amount, 0, "zero intent records requested amount")
 	_assert_eq(zero.stack_destruction_intents[0].delay_seconds, 1, "combined.c delay is exact")
-	_assert_eq(zero.snapshot_candidate.schema_version, 1, "zero intent does not alter schema")
+	_assert_eq(zero.snapshot_candidate.schema_version, 2, "zero intent uses current embedded schema")
 
 	for malformed_entry: String in [
 		COIN_PATH + ":abc",

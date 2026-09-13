@@ -130,7 +130,7 @@ func _test_schema_shape_ordering_and_immutability() -> void:
 			ArmorRecordScript.new(&"character:a"),
 		],
 	)
-	_assert_eq(snapshot.schema_version, 1, "schema v1 is explicit and positive")
+	_assert_eq(snapshot.schema_version, 2, "current item schema2 is explicit and positive")
 	_assert_eq(
 		_item_record_ids(snapshot.item_records),
 		[&"item:a", &"item:z"],
@@ -420,7 +420,7 @@ func _test_schema_item_and_parent_failures() -> void:
 		definitions,
 	)
 	_assert_restore_failure(
-		_snapshot([], [], [], [], 2),
+		_snapshot([], [], [], [], 3),
 		ValidationResultScript.Outcome.INVALID_SCHEMA_VERSION,
 		"unknown positive schema rejects",
 		definitions,

@@ -87,12 +87,17 @@ static func restore(
 			return _reconstruction_failure(record.character_id)
 		armor_by_character[record.character_id] = armor
 
+	var foods: FoodCollection = FoodCollection.new()
+	for record: NativeFoodConsumableRecord in snapshot.food_consumable_records:
+		if not foods.register_state(record.item_instance_id, FoodState.new(record.remaining_portions, record.current_value)):
+			return _reconstruction_failure(record.item_instance_id)
 	var reconstructed: NativeItemDomainState = NativeItemDomainState.new(
 		items,
 		inventory,
 		stacks,
 		equipment_by_character,
 		armor_by_character,
+		foods,
 	)
 	return NativeItemStateRestoreResult.new(reconstructed, validation)
 

@@ -892,7 +892,7 @@ func _test_persistence_interaction_and_stale_identity() -> void:
 		definitions,
 	)
 	_assert_true(capture_live.succeeded, "capture succeeds with only currently live ItemInstances")
-	_assert_eq(capture_live.snapshot.schema_version, 1, "Phase 4B5B leaves schema v1 unchanged")
+	_assert_eq(capture_live.snapshot.schema_version, 2, "lifecycle capture uses current embedded schema")
 	_assert_false(_has_property(capture_live.snapshot, &"destroyed_ids"), "schema gains no lifecycle field")
 	var capture_stale: CaptureResultScript = CaptureScript.capture(
 		[alive, destroyed],

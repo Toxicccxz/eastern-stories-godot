@@ -157,7 +157,7 @@ func _test_graph_capture_restore_and_continuation() -> void:
 	_assert_true(capture.succeeded, "runtime authorities compose into Phase4 snapshot v1")
 	if not capture.succeeded:
 		return
-	_assert_eq(capture.snapshot.schema_version, 1, "composition reuses native item schema v1")
+	_assert_eq(capture.snapshot.schema_version, 2, "composition reuses current native item schema")
 	var restored: NativeItemRestoreCompositionResult = NativeItemPersistenceComposition.restore(
 		capture.snapshot,
 		definitions,

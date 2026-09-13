@@ -13,6 +13,7 @@ static func capture(
 	equipment_sources: Array[NativeCharacterEquipmentSource],
 	armor_sources: Array[NativeCharacterArmorSource],
 	definitions: NativeItemDefinitionProjections,
+	foods: FoodCollection = null,
 ) -> NativeItemSnapshotCaptureResult:
 	if inventory == null or stacks == null:
 		return _failure(ResultType.Outcome.INVALID_SNAPSHOT)
@@ -57,6 +58,11 @@ static func capture(
 				item_instance_id,
 			)
 
+	var food_records: Array[NativeFoodConsumableRecord] = []
+	if foods != null:
+		for id: StringName in foods.instance_ids():
+			var food: FoodState = foods.state(id)
+			food_records.append(NativeFoodConsumableRecord.new(id, food.remaining_portions, food.current_value))
 	var item_records: Array[NativeItemRecord] = []
 	var stack_records: Array[NativeCombinedStackRecord] = []
 	var sorted_item_ids: Array[StringName] = []
@@ -141,6 +147,7 @@ static func capture(
 		stack_records,
 		equipment_records,
 		armor_records,
+		food_records,
 	)
 	var validation: NativeItemStateValidationResult = NativeItemStateValidator.validate(
 		snapshot,

@@ -8,6 +8,7 @@ var _items: Dictionary[StringName, ItemDefinition] = {}
 var _weapons: Dictionary[StringName, WeaponDefinition] = {}
 var _armor: Dictionary[StringName, ArmorDefinition] = {}
 var _stacks: Dictionary[StringName, CombinedStackDefinition] = {}
+var _foods: Dictionary[StringName, FoodDefinition] = {}
 
 var is_valid: bool:
 	get:
@@ -19,6 +20,7 @@ func _init(
 	p_weapons: Array[WeaponDefinition] = [],
 	p_armor: Array[ArmorDefinition] = [],
 	p_stacks: Array[CombinedStackDefinition] = [],
+	p_foods: Array[FoodDefinition] = [],
 ) -> void:
 	for definition: ItemDefinition in p_items:
 		if (
@@ -63,6 +65,16 @@ func _init(
 			_is_valid = false
 			continue
 		_stacks[definition.item_definition_id] = _copy_stack(definition)
+	for definition: FoodDefinition in p_foods:
+		if definition == null or not definition.is_valid() or not _items.has(definition.item_definition_id) or _foods.has(definition.item_definition_id) or _stacks.has(definition.item_definition_id) or _weapons.has(definition.item_definition_id) or _armor.has(definition.item_definition_id):
+			_is_valid = false
+			continue
+		_foods[definition.item_definition_id] = definition.duplicate_definition()
+
+
+func food_definition(id: StringName) -> FoodDefinition:
+	var definition: FoodDefinition = _foods.get(id)
+	return null if definition == null else definition.duplicate_definition()
 
 
 func has_item_definition(item_definition_id: StringName) -> bool:

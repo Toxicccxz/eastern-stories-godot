@@ -9,6 +9,7 @@ signal passage_requested(portal: PortalDefinition)
 var _player: WorldPlayerRuntimeState
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
+var _foods: FoodCollection
 var _item_index: WorldItemInstanceIndex
 var _npc_random: NpcInitializationRandomSource
 var _combat_random: CombatRandomSource
@@ -38,6 +39,7 @@ func configure_world_authorities(
 	p_world_interaction_random: WorldInteractionRandomSource,
 	p_item_id_allocator: SessionItemIdAllocator,
 	p_world_simulation_gate: WorldSimulationGate,
+	p_foods: FoodCollection = null,
 ) -> bool:
 	if (
 		_configured
@@ -57,6 +59,7 @@ func configure_world_authorities(
 	_player = p_player
 	_inventory = p_inventory
 	_stacks = p_stacks
+	_foods = p_foods
 	_item_index = p_item_index
 	_npc_random = p_npc_random
 	_combat_random = p_combat_random

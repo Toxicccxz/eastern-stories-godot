@@ -7,6 +7,7 @@ extends RefCounted
 var _items: Dictionary[StringName, ItemInstance] = {}
 var _inventory: InventoryState
 var _combined_stacks: CombinedStackCollection
+var food_collection: FoodCollection
 var _equipment_by_character: Dictionary[StringName, EquipmentState] = {}
 var _armor_by_character: Dictionary[StringName, ArmorState] = {}
 
@@ -24,7 +25,9 @@ func _init(
 	p_combined_stacks: CombinedStackCollection = null,
 	p_equipment_by_character: Dictionary[StringName, EquipmentState] = {},
 	p_armor_by_character: Dictionary[StringName, ArmorState] = {},
+	p_food_collection: FoodCollection = null,
 ) -> void:
+	food_collection = p_food_collection if p_food_collection != null else FoodCollection.new()
 	for item_instance_id: StringName in p_items:
 		var item: ItemInstance = p_items[item_instance_id]
 		_items[item_instance_id] = ItemInstance.new(

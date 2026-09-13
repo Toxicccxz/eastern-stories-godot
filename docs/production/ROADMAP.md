@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S3C IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — S4B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -227,11 +227,17 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     approved lifecycle substitutions and same-schema cold continuation. S3B is OWNER APPROVED / CLOSED.
     [S4A Inn Vendor/consumables analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md)
     is OWNER APPROVED / CLOSED (analysis only); paid-goods failure, consumable/weapon dependencies,
-    denomination access and Save boundaries require decisions before S4B (NOT AUTHORIZED).
+    denomination access and Save boundaries are recorded as historical decision preparation.
     The separate owner-authorized [S3C Bank physical exchange](../migration/PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md)
     now provides same-map mstreet1 ↔ Bank access and UI composition over S3B: real two-Work
-    denomination access and Bank Save/cold Continue validated, awaiting owner review.
-    This resolves sequencing K, not S4A A–J. No Vendor purchasing or Bank NPC/accounts is implemented.
+    denomination access and Bank Save/cold Continue validated; S3C is OWNER APPROVED / CLOSED.
+    This resolves sequencing K. Owner then approved A–J/H1 in DECISIONS before
+    [S4B waiter/dumpling](../migration/PHASE_SNOW_TOWN_CORE_HUB_WAITER_DUMPLING.md): staged contact,
+    one unlimited source offer, ordered S3B payment/delivery, typed food and shared direct-held use.
+    Partial-food continuation and strict embedded item1→2 compatibility pass without changing root
+    schema2/SOURCE_ENTRY_V1. Focused489 / canonical18,834 and actual desktop purchase/controlled
+    consumption/cold Continue PASS. S4B awaits owner review; no Bank NPC/accounts, full waiter NPC,
+    wine/dagger/chicken/cake or hunger/recovery scheduler is implemented.
     Subsequent proposed order is owner-reviewed physical commerce/Inn supplies, world-active recovery, school/weapon access, narrow teaching,
     then bounded smith/medicine support. These are review proposals, not approved slices or a
     mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains

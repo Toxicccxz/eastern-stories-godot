@@ -111,6 +111,21 @@ static func validate(
 				item_record.item_definition_id,
 			)
 
+	var food_ids: Dictionary[StringName, bool] = {}
+	for record: NativeFoodConsumableRecord in snapshot.food_consumable_records:
+		if record == null or not items.has(record.item_instance_id):
+			return _failure(ResultType.Outcome.INVALID_FOOD_RECORD)
+		if food_ids.has(record.item_instance_id):
+			return _failure(ResultType.Outcome.DUPLICATE_FOOD_RECORD, record.item_instance_id)
+		var item: NativeItemRecord = items[record.item_instance_id]
+		var definition: FoodDefinition = definitions.food_definition(item.item_definition_id)
+		if definition == null or not definition.accepts_live_state(record.remaining_portions, record.current_value) or item.own_weight != definition.own_weight:
+			return _failure(ResultType.Outcome.INVALID_FOOD_RECORD, record.item_instance_id)
+		food_ids[record.item_instance_id] = true
+	for id: StringName in items:
+		if definitions.food_definition(items[id].item_definition_id) != null and not food_ids.has(id):
+			return _failure(ResultType.Outcome.MISSING_FOOD_STATE, id)
+
 	var equipment_characters: Dictionary[StringName, bool] = {}
 	var hand_instances: Dictionary[StringName, bool] = {}
 	for record: NativeCharacterEquipmentRecord in snapshot.character_equipment_records:
