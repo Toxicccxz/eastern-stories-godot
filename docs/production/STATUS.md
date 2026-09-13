@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S6B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S7A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -69,7 +69,14 @@ PASS, with static/development/repository-content sanitized checks; real fresh-pl
 Work×2→Bank→purchase→Vine→Fill→Drink→Pause Save→fresh Continue PASS; exact pre-S6B item2 Save loads.
 Full return smoke reached Pine, where existing authored bandit combat stopped further free walking;
 no aggression/shortcut change. See S6B for canonical/static/sanitizer evidence and boundaries.
-These are local execution results, not new GitHub CI. Next slice requires owner review.
+These are local execution results, not new GitHub CI. S6B is OWNER APPROVED / CLOSED at
+`add8d32107277fef7cc57a4a121c64b6b9b5c027`; its historical evidence is unchanged.
+[S7A north street/core services rebaseline](../migration/PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md)
+is analysis complete, awaiting owner review: all38 rooms rechecked, proposed A10/B2/C0/D21/E2/F3.
+It recommends one bounded north-spine implementation through crossroad with honest deferred
+frontages/region boundaries, then final Snow audit. Existing recovery can slowly cure effective
+wounds; loot selling remains a separate missing loop; postal mail depends on accounts. These are
+scope recommendations, not owner decisions. S7B implementation is NOT AUTHORIZED.
 Snow remains unmerged, with no final PR authorized or created.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through

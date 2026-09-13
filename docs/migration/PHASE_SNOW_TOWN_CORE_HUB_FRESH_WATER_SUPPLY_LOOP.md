@@ -2,7 +2,9 @@
 
 ## Status and authority
 
-**S6B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW.** No final Snow PR, merge or next slice.
+**S6B — OWNER APPROVED / CLOSED** at `add8d32107277fef7cc57a4a121c64b6b9b5c027`.
+Owner closeout recorded during S7A; the implementation evidence below is unchanged.
+No final Snow PR or merge. S7A is analysis only; S7B implementation is not authorized.
 Branch: `phase/snow-town-core-hub`. Starting local/remote HEAD:
 `945a8bde0d8d2734f737b51fb6619cf42e8ff5cd`; main/merge base:
 `047f29083e881156abbdad6ed480bffc1350dfa8`.

@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S6B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — S7A ANALYSIS COMPLETE / AWAIT OWNER REVIEW**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -252,10 +252,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     same-ID Fill→water15; direct-held noncombat Drink+30 without clamp; strict embedded item3
     continuation, with legal old item1/2 support and unchanged root2/SOURCE_ENTRY_V1.
     Natural desktop supply/Pause Save/cold Continue PASS. Alcohol, Riverbank Fill, Green access,
-    condition cadence and further content remain deferred. S6B awaits owner review; no next slice
-    or final PR is authorized.
-    Later proposed work remains school/weapon access, narrow teaching,
-    then bounded smith/medicine support. These are review proposals, not approved slices or a
-    mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains
-    and source-save cutoff require explicit decisions before affected implementation.
+    condition cadence and further content remain deferred. S6B is OWNER APPROVED / CLOSED at
+    `add8d32107277fef7cc57a4a121c64b6b9b5c027`; its evidence is unchanged.
+    [S7A north street/core services rebaseline](../migration/PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md)
+    rechecks all38 rooms and proposes one bounded mstreet3/mstreet4/crossroad physical slice,
+    honest deferred storefront/region boundaries, then distinct final audit and owner review.
+    Existing supply/eligible recovery loops are sufficient under that proposed finish line;
+    loot monetization, fast medicine, postal mail and school/smith gameplay remain explicit
+    deferrals. This supersedes the old mandatory-looking school→smith/medicine sequence as a
+    planning recommendation only. Owner A–L choices remain open; S7B is NOT AUTHORIZED.
     No final PR, merge, Lake, full population or Phase5B4 is authorized by this analysis.
