@@ -1,5 +1,11 @@
 # S5B — Player Recovery / Metabolism Cadence
 
+Current owner-review status: **OWNER APPROVED / CLOSED** at
+`add93fcf17aba82ebc05bbf5c3eb9972feb73e4d`. Recorded during authorized
+[S6A analysis](PHASE_SNOW_TOWN_CORE_HUB_WATER_DRINK_SOURCE_CONTRACT.md).
+S6B implementation and the final Snow PR remain unauthorized. The implementation/evidence body
+below preserves its original checkpoint; S5B A–M decisions are unchanged.
+
 ## Scope and authority
 
 Implementation on `phase/snow-town-core-hub`, starting at exact local/remote
