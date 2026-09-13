@@ -1,5 +1,55 @@
 # Migration Decisions
 
+## Snow north public spine and Core Hub finish line (S7B)
+
+**OWNER APPROVED — S7B.** S7A is OWNER APPROVED / CLOSED at
+`04c77650ea72d48cae1173a422a78c3c0188abd5`. Record these decisions separately before
+production implementation. They approve the bounded S7A A–L recommendations, not a final
+Snow audit/PR/merge. Source semantics remain Type A; the observable staged omissions and
+physical embodiment below are **Type B milestone scope**, not authored source closures.
+
+- **A — extent:** Extend the existing `snow.outdoor` resident continuously from mstreet2
+  through distinct `snow.mstreet3`, `snow.mstreet4`, `snow.crossroad` zones. Preserve exact
+  reciprocal north/south source adjacency; no new map, ordinary-walking portal or shortcut.
+  Southwestern sroad2–5 and other optional branches remain deferred.
+- **B — external boundaries:** Crossroad itself is required. Its north Goathill and east
+  Green directions remain visible static closed content boundaries, with no destination
+  definition, travel action, portal, guard, key or invented authored lock.
+- **C — Hockshop:** Static east frontage only. No interior, NPC, appraisal, pawn/sell,
+  payout/destruction, custody/ticket/retrieve or persistence. Source doors do not authorize
+  generic door runtime. No failed-transfer cleanup decision is generalized to Hockshop.
+- **D — Herbshop:** Static west frontage only. No interior, herbalist/woodcutter, medicine,
+  inquiry, healing or poison cure. Frontage is not service parity.
+- **E — Postoffice:** Static west frontage on mstreet4 only. No interior, officer, mailbox,
+  mail fees, accounts, online/offline mail or fake local inbox.
+- **F — School:** Later progression; mstreet1 east remains closed. No teachers, training,
+  faction/apprenticeship or free weapon access.
+- **G — Smithy:** Later commerce/weapon content; mstreet2 west remains closed. No hammer,
+  repair or crafting.
+- **H — ordinary interiors:** Exposed source services receive honest facades/signs and
+  collision boundaries, not empty accessible interiors or unusable service buttons.
+  These closures are staging, not claims that ES2 permanently closes the shops. mstreet4
+  has no executable east exit: add no alley route, zone, interaction or future-region gate.
+- **I — secret/storage:** herbshop1, secret_storage, weapon-storage puzzle and unrelated
+  storerooms do not block this bounded milestone; no invented secret entrance.
+- **J — healing:** Accept existing eligible S5B slow effective-resource recovery as the
+  current healing finish line. Preserve cadence, food/water, condition freezes and lifecycle;
+  no new recovery Timer, combat recovery, poison scheduling or medicine.
+- **K — loot:** Excess-loot monetization remains an acknowledged high-value later commerce
+  gap, not a Snow Core blocker. Do not add selling/value projections in S7B.
+- **L — completion:** Source New Game, Work, Bank, dumpling, wineskin/water, eligible recovery,
+  Old Pine link, north spine, honest deferred frontages/regions and old/new-position Save/
+  Continue must work within existing authority. Keep root2/item3/SOURCE_ENTRY_V1; no new
+  mutable street/door/NPC state or gameplay RNG use. All38 rooms are not required. A distinct
+  Final Snow Audit is the next possible phase **only after S7B owner approval and separate
+  authorization**; implementation completion does not close the milestone or authorize PR.
+
+Sources: `reference/es2/mudlib/d/snow/mstreet2.c`, `mstreet3.c`, `mstreet4.c`, `crossroad.c`,
+`hockshop.c`, `herbshop.c`, `postoffice.c`, `d/green/path6.c`, `d/goathill/mroad1.c`.
+See [S7A analysis](PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md).
+No Type C redesign is approved; existing PlayerBodyFacts, item authority, prior service
+failure policies and owner-local tooling remain unchanged.
+
 ## Fresh water supply loop (S6B only)
 
 **OWNER APPROVED — S6B.** S6A is OWNER APPROVED / CLOSED at
