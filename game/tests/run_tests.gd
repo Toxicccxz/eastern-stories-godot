@@ -1731,6 +1731,9 @@ func _init() -> void:
 	var nge5b_result: Dictionary = await load("res://tests/application/public_source_new_game_test.gd").new().run_all(self)
 	assertion_count += int(nge5b_result["assertions"])
 	failures.append_array(nge5b_result["failures"])
+	var snow_spine_result: Dictionary = await load("res://tests/runtime/snow_north_spine_test.gd").new().run_all(self)
+	assertion_count += int(snow_spine_result["assertions"])
+	failures.append_array(snow_spine_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

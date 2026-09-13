@@ -2,7 +2,11 @@
 
 ## EXECUTIVE RESULT
 
-**S7A ANALYSIS COMPLETE — AWAIT OWNER REVIEW.** This is a docs-only scope proposal, not an implementation authorization or a final Snow audit.
+**S7A OWNER APPROVED / CLOSED** at `04c77650ea72d48cae1173a422a78c3c0188abd5`.
+The owner selected recommendations A–L in the subsequent S7B instruction; they are recorded in
+[DECISIONS](DECISIONS.md). The analysis/proposal language below is historical, not a remaining
+approval blocker. [S7B physical spine](PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_PHYSICAL_SPINE.md)
+implements that bounded selection. This does not authorize or complete the Final Snow Audit.
 
 Recommend **one remaining bounded implementation: the north public spine through crossroad, with honest deferred storefront/region boundaries; then the distinct final Snow audit and owner review**. Existing income, denomination exchange, food, water and eligible recovery already form a renewable preparation loop. No additional shop is intrinsically required to make that loop function. Selling loot would add the most useful *new* economic loop, but is a separate service contract, not a street-construction dependency. Fast medicine is useful, but absence of a medicine vendor does **not** mean effective wounds cannot recover.
 

@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S7A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S7B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -72,11 +72,16 @@ no aggression/shortcut change. See S6B for canonical/static/sanitizer evidence a
 These are local execution results, not new GitHub CI. S6B is OWNER APPROVED / CLOSED at
 `add8d32107277fef7cc57a4a121c64b6b9b5c027`; its historical evidence is unchanged.
 [S7A north street/core services rebaseline](../migration/PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md)
-is analysis complete, awaiting owner review: all38 rooms rechecked, proposed A10/B2/C0/D21/E2/F3.
-It recommends one bounded north-spine implementation through crossroad with honest deferred
-frontages/region boundaries, then final Snow audit. Existing recovery can slowly cure effective
-wounds; loot selling remains a separate missing loop; postal mail depends on accounts. These are
-scope recommendations, not owner decisions. S7B implementation is NOT AUTHORIZED.
+is OWNER APPROVED / CLOSED at `04c77650ea72d48cae1173a422a78c3c0188abd5`; its all38-room
+analysis remains the source baseline. Owner-selected A–L decisions precede
+[S7B north public spine](../migration/PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_PHYSICAL_SPINE.md):
+mstreet2 ↔ mstreet3 ↔ mstreet4 ↔ crossroad continuously in the existing outdoor resident;
+Snow zone count10→13. Hockshop/Herbshop/Postoffice are static closed frontages; Green/Goathill
+are visible solid boundaries, not new regions. mstreet4 has no east route. No service, NPC,
+cadence, RNG, schema or existing-position change. Focused188 / canonical19,410 / Python46 PASS;
+real New Game/north-and-back journey, both mstreet3/crossroad Save/cold Continue, exact pre-S7B
+save compatibility and repository-content sanitizer/headless PASS. This is local execution
+evidence, not new GitHub CI. S7B awaits owner review; Final Snow Audit is NOT AUTHORIZED.
 Snow remains unmerged, with no final PR authorized or created.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
