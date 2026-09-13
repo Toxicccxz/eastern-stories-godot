@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S5A ANALYSIS COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — S5B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -44,11 +44,17 @@ Python46, development/repository-content sanitized editor and real Work→Bank�
 Actual full-food refusal and explicitly QA-controlled consumption/cold Continue/no-resurrection PASS.
 This is local evidence, not PR CI, full waiter parity or natural hunger. S4B is OWNER APPROVED / CLOSED.
 [S5A recovery/metabolism contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md)
-is analysis complete:6–15 eligible heartbeat calls, busy countdown freeze, fighting recovery,
-condition-before-heal, exact food/water gates and restart/RNG decisions are documented.
-Actual ES2 wall-clock heartbeat period is not proven. No production recovery/condition cadence exists;
-combat owns a closed world gate, so a future gate-only clock would omit source combat recovery.
-S5B remains NOT AUTHORIZED; proposed timing/lifecycle/save choices require owner review.
+is OWNER APPROVED / CLOSED. A–M owner decisions precede the
+[S5B Player cadence implementation](../migration/PHASE_SNOW_TOWN_CORE_HUB_PLAYER_RECOVERY_CADENCE.md):
+one Session-owned transient count/remainder and independent RNG call unchanged recovery formulas.
+2.0s is approved Type B Native timing, not a proven ES2 period; counts5–14 require6–15 pulses.
+Busy consumes pulse time without counting down; Pause/staging/handoff/combat/any condition/non-ACTIVE
+life freeze the full phase. Combat/condition recovery is explicitly deferred, not source parity.
+Schema2/item2/SOURCE_ENTRY_V1 and three saved RNG streams remain unchanged; Continue draws a fresh
+unsaved phase. Focused184 and actual natural Work→Bank→purchase→Eat, Pause/Resume and cold Continue
+PASS. Canonical19,018 / Python46 / static / development and repository-content sanitized headless
+PASS; exact pre-S5B save compatibility PASS. This is local evidence, not new GitHub CI.
+Next slice is NOT AUTHORIZED; await owner review.
 Snow remains unmerged, with no final PR authorized or created.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through

@@ -52,6 +52,8 @@ var _session_swap_suspended: bool = false
 var _session_swap_reparenting: bool = false
 var _source_name: String = ""
 var _source_gender: StringName = &""
+var _recovery_random: RecoveryCadenceRandomSource
+var _player_recovery_cadence: PlayerRecoveryCadence
 
 
 func _ready() -> void:
@@ -67,8 +69,70 @@ func food_collection() -> FoodCollection:
 
 
 func _process(delta: float) -> void:
+	# Inspect before combat advances: a combat-ending frame is not world time.
+	advance_player_recovery(delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
+
+
+## One transient authority across every resident. Injection is pre-initialization only.
+func configure_recovery_random_source(value: RecoveryCadenceRandomSource) -> bool:
+	if value == null or _player_recovery_cadence != null or _initialized:
+		return false
+	_recovery_random = value
+	return true
+
+
+func player_recovery_cadence() -> PlayerRecoveryCadence:
+	return _player_recovery_cadence
+
+
+func _initialize_player_recovery() -> bool:
+	if _world_content_revision != WorldContentRevision.Value.SOURCE_ENTRY_V1:
+		return true
+	if _player_recovery_cadence == null:
+		if _recovery_random == null:
+			_recovery_random = GodotRecoveryCadenceRandomSource.new()
+		_player_recovery_cadence = PlayerRecoveryCadence.new(_recovery_random)
+	return _player_recovery_cadence.is_valid()
+
+
+## S5B staged path: no combat/conditions/lifecycle execution. Busy is NOT a time gate.
+func player_recovery_time_allowed() -> bool:
+	if (
+		_world_content_revision != WorldContentRevision.Value.SOURCE_ENTRY_V1
+		or not application_gameplay_allows_encounter_advance()
+		or not can_process() or _restore_candidate_staged
+		or _session_swap_reparenting or _transitioning
+		or _player_recovery_cadence == null or _player == null
+		or not _player.exists_in_world
+		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+	):
+		return false
+	# Separate documented omissions, not a claim gate.is_open alone means eligibility.
+	if _combat_encounter_coordinator.has_active_encounter() or _player.relationship.is_fighting():
+		return false
+	if _player.state.conditions.size() != 0 or not _world_simulation_gate.is_open():
+		return false
+	if _last_map_handoff != null and not _last_map_handoff.succeeded():
+		if _last_map_handoff.location_committed or (_last_map_handoff.source_detached and not _last_map_handoff.source_restored):
+			return false
+	var map: WorldResidentMapController = active_map()
+	var location: WorldLocationState = _player.world_location()
+	return (
+		map != null and map.is_inside_tree() and map.can_process()
+		and map.get_parent() == active_map_slot and active_map_child_count() == 1
+		and location != null and location.map_id == _active_map_id
+		and map.runtime_player_body() != null and map.runtime_player_body().is_inside_tree()
+	)
+
+
+func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:
+	if not player_recovery_time_allowed():
+		var frozen: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
+		frozen.outcome = PlayerRecoveryCadenceResult.Outcome.FROZEN
+		return frozen
+	return _player_recovery_cadence.advance(delta, _player.state, _player.busy)
 
 
 func _exit_tree() -> void:
@@ -216,6 +280,11 @@ func activate_restore_candidate() -> bool:
 		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.ACTIVATION_FAILED
 		return false
 	map.resume_after_relationship_reconciliation()
+	if not _initialize_player_recovery():
+		map.prepare_for_deactivation()
+		map.set_restore_staging(true)
+		process_mode = Node.PROCESS_MODE_DISABLED
+		return false
 	_restore_candidate_staged = false
 	return true
 
@@ -640,7 +709,7 @@ func _initialize_source_residents(
 	if not inn.complete_activation():
 		return false
 	_initialized = true
-	return _reconcile_active_residents()
+	return _reconcile_active_residents() and _initialize_player_recovery()
 
 
 func _register_source_maps(outdoor: WorldResidentMapController) -> bool:

@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S5A ANALYSIS COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — S5B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -239,9 +239,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     consumption/cold Continue PASS. S4B is OWNER APPROVED / CLOSED; no Bank NPC/accounts, full waiter NPC,
     wine/dagger/chicken/cake or hunger/recovery scheduler is implemented.
     [S5A Player recovery/metabolism analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md)
-    is complete, with exact source heartbeat counts/formulas and owner-required timing, combat/gate,
-    condition/life-status, Pause/offline, RNG and cadence-save choices. S5B is NOT AUTHORIZED.
-    Subsequent proposed order is owner-reviewed recovery/metabolism, school/weapon access, narrow teaching,
+    is OWNER APPROVED / CLOSED. Owner-approved A–M precede
+    [S5B cadence](../migration/PHASE_SNOW_TOWN_CORE_HUB_PLAYER_RECOVERY_CADENCE.md): source Player only,
+    one transient Session clock/private RNG, Native2s pulses and source6–15-pulse opportunities.
+    Pause/combat/conditions/non-ACTIVE/staging freeze; no offline catch-up or cadence Save fields.
+    Existing recovery/Work/food formulas remain unchanged. Focused184, natural desktop economy/Eat,
+    Pause/Resume and exact cold Continue PASS; await owner review, not authorization for another slice.
+    Subsequent proposed order is school/weapon access, narrow teaching,
     then bounded smith/medicine support. These are review proposals, not approved slices or a
     mandate to port every room/NPC. Finance defects, timing/reset policy, broken authored chains
     and source-save cutoff require explicit decisions before affected implementation.

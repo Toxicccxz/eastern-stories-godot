@@ -2,7 +2,10 @@
 
 ## EXECUTIVE RESULT
 
-**ANALYSIS COMPLETE — AWAIT OWNER REVIEW. S5B NOT AUTHORIZED.** No scheduler or gameplay change.
+**S5A OWNER APPROVED / CLOSED.** This document records the pre-S5B analysis, not current runtime.
+Owner subsequently approved A–M in [DECISIONS](DECISIONS.md); the resulting
+[S5B implementation/evidence](PHASE_SNOW_TOWN_CORE_HUB_PLAYER_RECOVERY_CADENCE.md) supersedes
+historical pending-authorization/no-cadence statements below. S5A itself changed no gameplay.
 
 ES2 naturally consumes food/water and repairs resources only when character execution reaches its
 shared condition/recovery opportunity. This is **6–15 eligible heartbeat invocations**, not 5–14:
