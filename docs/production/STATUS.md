@@ -2,9 +2,21 @@
 
 ## Current milestone
 
-**Snow Hockshop / Loot Monetization — FINAL AUDIT PASS — AWAIT OWNER FINAL-PR AUTHORIZATION**
-is the current milestone on `phase/snow-hockshop-loot-monetization`, based on exact green main
-`112f3208937c9f5a480b9f27588af811599937ac`.
+**Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
+[PR #17](https://github.com/Toxicccxz/eastern-stories-godot/pull/17), frozen audited PR HEAD
+`c37645dfffd3584ae80072a70d15634947f8ae5d`, merged by ordinary merge commit at
+`eb45d5dbde07a2d6f324d152f0a0082e05eaf518` on `2026-09-14T17:19:18Z`.
+The merge tree equals the frozen audited head tree: `5f703d5f0cbcd87fd917613928d567c0ceb5ff11`.
+[PR CI 34869018905](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34869018905)
+passed on that exact PR HEAD. Post-main
+[workflow 34874035416](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34874035416)
+completed successfully for `push/main` on exact merge SHA `eb45d5dbde07a2d6f324d152f0a0082e05eaf518`:
+Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation all passed.
+Canonical19,844 assertions/0 failures, Python46, repository/static/headless and sanitizer validation
+passed; all three build/export and artifact-upload gates passed. These are CI results, not
+Android/iOS physical-device qualification; iOS validation is an unsigned export/compile.
+The retained phase branch is `phase/snow-hockshop-loot-monetization`, originally based on
+`112f3208937c9f5a480b9f27588af811599937ac`. The following slice evidence remains historical/local.
 [H1 source contract / Native dependency analysis](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md)
 is OWNER APPROVED / CLOSED at `7dc3efc`. Owner A–N were recorded separately in DECISIONS
 before [H2 typed core](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md): exact held-item
@@ -20,8 +32,11 @@ H1/H2/H3 are OWNER APPROVED / CLOSED. The distinct
 passed on frozen executable `b011bab118988ff2ceb8387cd293941b55428018`: fresh H2 298 / H3 107 /
 canonical19,844 / old-position12 / Python46, static/headless/sanitizer and real journeys A/B/C.
 Exact pre-H3 saves and both live cold Continues pass. No production correction or new decision.
-The audit changes documentation only. No pawn, PR or merge; await owner final-PR authorization.
-The bounded milestone is implementation/audit complete, not integrated on main; no next slice starts.
+The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APPROVED / CLOSED;
+PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
+Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
+engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
+No next major gameplay milestone has been selected or authorized; owner authorization is required.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
@@ -115,7 +130,7 @@ A/B/C with exact cold Continue passed. Current focused dumpling count is488; ear
 above are historical. The approved bounded Core Hub implementation is complete, not full Snow parity.
 That pre-PR audit checkpoint is now followed by owner-authorized PR #16 merge and successful
 post-main CI as recorded above. Audit changed documentation only. Further gameplay requires
-separate slice authorization; the current H1 analysis does not authorize implementation.
+separate slice authorization; the historical H1 analysis was not implementation authorization.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

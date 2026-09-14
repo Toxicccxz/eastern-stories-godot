@@ -272,24 +272,25 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     passed all four required jobs on that exact commit. This closes the bounded Core Hub, not
     all38 Snow rooms or deferred services/NPC population. Historical slice evidence remains intact.
 
-11. **Snow Hockshop / Loot Monetization — FINAL AUDIT PASS / AWAIT OWNER FINAL-PR AUTHORIZATION**
+11. **Snow Hockshop / Loot Monetization — COMPLETE / FULLY INTEGRATED ON MAIN**
 
-    Current planned major milestone on `phase/snow-hockshop-loot-monetization`, from exact green
-    main `112f3208937c9f5a480b9f27588af811599937ac`.
-    [H1 source contract / Native dependencies](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md)
-    analyzes the missing Loot→Money link: direct-held valuation, irreversible pawn/sell,
-    physical silver/coin payout, capacity/merge ordering, lifecycle and Save/UI boundaries.
-    H1 is OWNER APPROVED / CLOSED at `7dc3efc`. Owner A–N are recorded in DECISIONS before
-    [H2 typed core](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md): readonly valuation,
-    exact held-ID sell, full-amount silver→coin admission/merge, ordered partial failures,
-    Hockshop-specific cleanup and live lifecycle/unchanged Save composition. H2 is owner approved.
-    [H3 physical runtime](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_RUNTIME.md) implements
-    the continuous front room, transient two-sided door and exact-item Value/Sell UI, with fresh
-    automated and real-input commerce/cold-Continue evidence. H1/H2/H3 are OWNER APPROVED / CLOSED.
-    The distinct [Final Hockshop Audit](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_FINAL_AUDIT.md)
-    is PASS on frozen executable `b011bab118988ff2ceb8387cd293941b55428018`: fresh canonical19,844,
-    H2 298 / H3 107 / old-position12 / Python46, exact pre-H3 saves, static/headless/sanitizer and
-    real journeys A/B/C pass. The audit is documentation only, with no production correction.
-    Await owner final-PR authorization; no PR, merge or next milestone is started.
-    No new region, NPC population, pawn/custody, medicine or generic merchant system is implemented.
-    The bounded milestone is implementation/audit complete, not integrated on main.
+    [PR #17](https://github.com/Toxicccxz/eastern-stories-godot/pull/17), final audited HEAD
+    `c37645dfffd3584ae80072a70d15634947f8ae5d`, merged at
+    `eb45d5dbde07a2d6f324d152f0a0082e05eaf518`. Post-main
+    [workflow 34874035416](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34874035416)
+    passed Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation on
+    that exact merge commit. The phase branch `phase/snow-hockshop-loot-monetization` is retained.
+    [H1 source contract](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md),
+    [H2 typed core](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md),
+    [H3 physical runtime](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_RUNTIME.md) and the
+    [Final Hockshop Audit](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_FINAL_AUDIT.md)
+    are OWNER APPROVED / CLOSED; PR CI, merge and post-main CI are complete.
+    The bounded front room provides Value/Sell with exact ItemInstanceId selection, physical
+    silver/coin payout, source-ordered capacity loss and scoped failed-clone cleanup. A local
+    transient two-sided door, unchanged Save/Continue and real loot→sale→supplies journeys complete
+    the loot monetization loop. Historical phase reports retain their original checkpoint evidence.
+    Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant/door
+    engines, other Snow services (Herbshop/Postoffice/School/Smithy), Green/Goathill and full Snow
+    parity remain deferred. Mobile CI builds do not establish physical-device qualification.
+
+Next major gameplay milestone: not yet selected / owner authorization required.

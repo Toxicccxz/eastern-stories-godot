@@ -5,9 +5,12 @@ project preserves meaningful legacy rules and authored content while rebuilding 
 runtime interaction, and presentation as a real RPG. It is not an LPC interpreter, a FluffOS
 compatibility layer, or a graphical MUD client.
 
-The supported Phase 10A engine is exactly **Godot 4.7.2**. Open
-`game/project.godot`; the current playable milestone is the Old Pine session with combat, loot,
-inventory/equipment, the Vine and Cave Passage roundtrip, Waterfall, River, Cliff, and Pine route.
+The supported Phase 10A engine is exactly **Godot 4.7.2**. Open `game/project.godot` for a bounded
+playable Snow ↔ Old Pine vertical slice: source-valid New Game in Snow Inn, continuous Snow core
+routes, Work income, physical currency and Bank exchange, Inn supplies, food/water, and eligible
+recovery/metabolism. Snow ↔ Old Pine travel connects active semi-auto combat, corpse/loot and
+inventory/equipment to Hockshop Value/Sell, completing the loot → money → supplies loop with native
+Save/Continue. Windows, Android and unsigned iOS builds share the cross-platform build foundation.
 The game is incomplete and is not store-ready or production-ready. Phone input, responsive layout,
 safe areas, and mobile lifecycle foundations are implemented. Android has bounded physical-device
 evidence, but broad device coverage, iOS runtime qualification, and store qualification remain
