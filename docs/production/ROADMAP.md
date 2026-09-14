@@ -272,7 +272,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     passed all four required jobs on that exact commit. This closes the bounded Core Hub, not
     all38 Snow rooms or deferred services/NPC population. Historical slice evidence remains intact.
 
-11. **Snow Hockshop / Loot Monetization — H3 IMPLEMENTATION COMPLETE / OWNER REVIEW**
+11. **Snow Hockshop / Loot Monetization — FINAL AUDIT PASS / AWAIT OWNER FINAL-PR AUTHORIZATION**
 
     Current planned major milestone on `phase/snow-hockshop-loot-monetization`, from exact green
     main `112f3208937c9f5a480b9f27588af811599937ac`.
@@ -285,6 +285,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     Hockshop-specific cleanup and live lifecycle/unchanged Save composition. H2 is owner approved.
     [H3 physical runtime](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_RUNTIME.md) implements
     the continuous front room, transient two-sided door and exact-item Value/Sell UI, with fresh
-    automated and real-input commerce/cold-Continue evidence. H3 awaits owner review; Final Audit
-    and PR are not started or authorized. No new region, NPC population, pawn/custody, medicine
-    or generic merchant system is implemented. The milestone is not integrated on main.
+    automated and real-input commerce/cold-Continue evidence. H1/H2/H3 are OWNER APPROVED / CLOSED.
+    The distinct [Final Hockshop Audit](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_FINAL_AUDIT.md)
+    is PASS on frozen executable `b011bab118988ff2ceb8387cd293941b55428018`: fresh canonical19,844,
+    H2 298 / H3 107 / old-position12 / Python46, exact pre-H3 saves, static/headless/sanitizer and
+    real journeys A/B/C pass. The audit is documentation only, with no production correction.
+    Await owner final-PR authorization; no PR, merge or next milestone is started.
+    No new region, NPC population, pawn/custody, medicine or generic merchant system is implemented.
+    The bounded milestone is implementation/audit complete, not integrated on main.
