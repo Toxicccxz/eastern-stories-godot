@@ -293,4 +293,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     engines, other Snow services (Herbshop/Postoffice/School/Smithy), Green/Goathill and full Snow
     parity remain deferred. Mobile CI builds do not establish physical-device qualification.
 
-Next major gameplay milestone: not yet selected / owner authorization required.
+12. **Snow First Progression Loop / 淳风武馆 — OWNER SELECTED / P1 ANALYSIS COMPLETE**
+
+    [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
+    is complete and awaiting owner review on `phase/snow-first-progression-loop`.
+    Gameplay implementation/P2 is **NOT authorized**; proposed scope remains subject to owner approval.

@@ -2,6 +2,10 @@
 
 ## Current milestone
 
+**Snow First Progression Loop / 淳风武馆 — P1 ANALYSIS COMPLETE, AWAITING OWNER REVIEW.**
+The owner selected this milestone; [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
+is complete on `phase/snow-first-progression-loop`. Gameplay implementation/P2 is **NOT authorized**.
+
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
 [PR #17](https://github.com/Toxicccxz/eastern-stories-godot/pull/17), frozen audited PR HEAD
 `c37645dfffd3584ae80072a70d15634947f8ae5d`, merged by ordinary merge commit at
@@ -36,7 +40,7 @@ The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APP
 PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
 Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
 engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
-No next major gameplay milestone has been selected or authorized; owner authorization is required.
+The next selected milestone is Snow First Progression Loop; only its P1 analysis is authorized.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
