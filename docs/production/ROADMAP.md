@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — S7B IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
+10. **Snow Town Core Hub Restoration — FINAL AUDIT PASS / AWAIT OWNER FINAL-PR AUTHORIZATION**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -262,5 +262,9 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     Focused188 / canonical19,410 / Python46 and real desktop route/cold Continue PASS.
     Existing supply/eligible recovery meet the approved bounded finish line; loot monetization,
     fast medicine, postal mail, school/smith gameplay and southwest streets remain deferred.
-    S7B awaits owner review. Final Snow Audit needs separate authorization afterward;
-    no final PR, merge, Lake, full population or Phase5B4 is authorized.
+    S1–S7B are OWNER APPROVED / CLOSED. The separately authorized
+    [Final Snow Audit](../migration/PHASE_SNOW_TOWN_CORE_HUB_FINAL_AUDIT.md) is PASS — PR READY:
+    fresh canonical19,410 / focused1,666 / Python46, real economy/water/north journeys and
+    exact cold Continue pass. The approved bounded implementation is complete.
+    **Next: owner authorization for final Snow PR.** No final PR has been authorized/created;
+    no merge, another gameplay slice, Lake, full population or Phase5B4 is authorized.

@@ -1,6 +1,8 @@
 # S7B — Snow North Street Physical Spine
 
-**IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW.** No Final Snow Audit, PR or merge.
+**OWNER APPROVED / CLOSED** at `f6c8688b61a4fd850ce80699413b00ce3324d331`.
+The separately authorized [Final Snow Audit](PHASE_SNOW_TOWN_CORE_HUB_FINAL_AUDIT.md)
+passed; final PR authorization is still pending. Historical implementation evidence below is unchanged.
 
 ## Baseline and authority
 
@@ -200,6 +202,6 @@ explicitly deferred. Existing slow eligible effective-resource recovery is the a
 finish line, not a claim of fast-medicine parity. Prior failed-transfer substitutions do not
 automatically generalize to these services. No Lake, Phase5B4 or next region.
 
-The bounded spine is ready for **S7B owner review**. A distinct Final Snow Audit becomes a
-possible next task only after owner approval and separate authorization. No claim of full Snow
-parity or major-milestone closure. Branch/worktree preserved; no final PR or new CI claim.
+Historical implementation stop was S7B owner review. Owner subsequently approved/closed S7B and
+authorized the distinct Final Snow Audit, now PASS — PR READY. No claim of full Snow parity or
+integration on main. Branch/worktree preserved; no final PR or new CI claim.

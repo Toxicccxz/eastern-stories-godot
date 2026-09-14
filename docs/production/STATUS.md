@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — S7B IMPLEMENTATION COMPLETE — AWAIT OWNER REVIEW**
+**Snow Town Core Hub Restoration — FINAL AUDIT PASS — AWAIT OWNER FINAL-PR AUTHORIZATION**
 is the current milestone on `phase/snow-town-core-hub`, based on exact green main
 `047f29083e881156abbdad6ed480bffc1350dfa8`.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
@@ -81,8 +81,14 @@ are visible solid boundaries, not new regions. mstreet4 has no east route. No se
 cadence, RNG, schema or existing-position change. Focused188 / canonical19,410 / Python46 PASS;
 real New Game/north-and-back journey, both mstreet3/crossroad Save/cold Continue, exact pre-S7B
 save compatibility and repository-content sanitizer/headless PASS. This is local execution
-evidence, not new GitHub CI. S7B awaits owner review; Final Snow Audit is NOT AUTHORIZED.
-Snow remains unmerged, with no final PR authorized or created.
+evidence, not new GitHub CI. S7B is OWNER APPROVED / CLOSED at `f6c8688b61a4fd850ce80699413b00ce3324d331`.
+All S1–S7B slices are closed. The distinct [Final Snow Audit](../migration/PHASE_SNOW_TOWN_CORE_HUB_FINAL_AUDIT.md)
+is PASS — PR READY: fresh canonical19,410 / focused1,666 / Python46, static/headless,
+repository-content sanitizer, seven archived-save current readers and real desktop journeys
+A/B/C with exact cold Continue passed. Current focused dumpling count is488; earlier slice counts
+above are historical. The approved bounded Core Hub implementation is complete, not full Snow parity.
+Snow remains unmerged; final PR is NOT YET AUTHORIZED or created. Next is owner authorization
+for the final Snow PR, not another gameplay slice. Audit changed documentation only.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD
