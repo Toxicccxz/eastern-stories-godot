@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://runtime/world/snow_outdoor_controller.gd" id="1"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
@@ -52,7 +52,7 @@ size = Vector2(24, 300)
 size = Vector2(32, 100)
 
 [sub_resource type="RectangleShape2D" id="WorkWallShape1"]
-size = Vector2(24, 400)
+size = Vector2(24, 190)
 
 [sub_resource type="RectangleShape2D" id="WorkWallShape2"]
 size = Vector2(400, 24)
@@ -89,6 +89,13 @@ size = Vector2(200, 24)
 
 [sub_resource type="RectangleShape2D" id="WorkWallShape8"]
 size = Vector2(200, 24)
+
+[sub_resource type="RectangleShape2D" id="SchoolEntranceShape"]
+size = Vector2(300, 300)
+[sub_resource type="RectangleShape2D" id="SchoolLongWallShape"]
+size = Vector2(1100, 24)
+[sub_resource type="RectangleShape2D" id="SchoolTeacherShape"]
+size = Vector2(32, 44)
 
 [node name="SnowOutdoor" type="Node2D"]
 script = ExtResource("1")
@@ -403,10 +410,10 @@ polygon = PackedVector2Array(-112, -850, -88, -850, -88, -460, -112, -460)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="WorkWall1" type="CollisionShape2D" parent="Walls"]
-position = Vector2(100, -450)
+position = Vector2(100, -555)
 shape = SubResource("WorkWallShape1")
 [node name="WorkWallVisual1" type="Polygon2D" parent="Walls"]
-polygon = PackedVector2Array(88, -650, 112, -650, 112, -250, 88, -250)
+polygon = PackedVector2Array(88, -650, 112, -650, 112, -460, 88, -460)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="WorkWall2" type="CollisionShape2D" parent="Walls"]
@@ -802,4 +809,176 @@ color = Color(0.12, 0.21, 0.38, 1)
 offset_left = 435.0
 offset_top = -925.0
 text = "后室 · 暂未开放"
+mouse_filter = 2
+
+[node name="School1" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(100, -550, 400, -550, 400, -250, 100, -250)
+color = Color(0.37, 0.34, 0.28, 1)
+
+[node name="School1Label" type="Label" parent="Ground"]
+offset_left = 135.0
+offset_top = -495.0
+text = "淳风武馆大门"
+mouse_filter = 2
+
+[node name="School1" type="Area2D" parent="Zones"]
+position = Vector2(250, -400)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.school1"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/School1"]
+shape = SubResource("SchoolEntranceShape")
+
+[node name="School2" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(400, -550, 800, -550, 800, -250, 400, -250)
+color = Color(0.48, 0.42, 0.29, 1)
+
+[node name="School2Label" type="Label" parent="Ground"]
+offset_left = 435.0
+offset_top = -495.0
+text = "淳风武馆教练场"
+mouse_filter = 2
+
+[node name="School2" type="Area2D" parent="Zones"]
+position = Vector2(600, -400)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.school2"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/School2"]
+shape = SubResource("BankShape")
+
+[node name="SchoolHall" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(800, -550, 1200, -550, 1200, -250, 800, -250)
+color = Color(0.32, 0.29, 0.24, 1)
+
+[node name="SchoolHallLabel" type="Label" parent="Ground"]
+offset_left = 835.0
+offset_top = -495.0
+text = "淳风武馆大厅"
+mouse_filter = 2
+
+[node name="SchoolHall" type="Area2D" parent="Zones"]
+position = Vector2(1000, -400)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.schoolhall"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/SchoolHall"]
+shape = SubResource("BankShape")
+
+[node name="SchoolEntryLower" type="CollisionShape2D" parent="Walls"]
+position = Vector2(100, -295)
+shape = SubResource("BankDoorLower")
+
+[node name="SchoolEntryLowerVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(88, -340, 112, -340, 112, -250, 88, -250)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolNorth" type="CollisionShape2D" parent="Walls"]
+position = Vector2(650, -550)
+shape = SubResource("SchoolLongWallShape")
+
+[node name="SchoolNorthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(100, -562, 1200, -562, 1200, -538, 100, -538)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolSouth" type="CollisionShape2D" parent="Walls"]
+position = Vector2(650, -250)
+shape = SubResource("SchoolLongWallShape")
+
+[node name="SchoolSouthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(100, -262, 1200, -262, 1200, -238, 100, -238)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolPost400_505" type="CollisionShape2D" parent="Walls"]
+position = Vector2(400, -505)
+shape = SubResource("BankDoorLower")
+
+[node name="SchoolPost400_505Visual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(388, -550, 412, -550, 412, -460, 388, -460)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolPost400_295" type="CollisionShape2D" parent="Walls"]
+position = Vector2(400, -295)
+shape = SubResource("BankDoorLower")
+
+[node name="SchoolPost400_295Visual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(388, -340, 412, -340, 412, -250, 388, -250)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolPost800_505" type="CollisionShape2D" parent="Walls"]
+position = Vector2(800, -505)
+shape = SubResource("BankDoorLower")
+
+[node name="SchoolPost800_505Visual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(788, -550, 812, -550, 812, -460, 788, -460)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolPost800_295" type="CollisionShape2D" parent="Walls"]
+position = Vector2(800, -295)
+shape = SubResource("BankDoorLower")
+
+[node name="SchoolPost800_295Visual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(788, -340, 812, -340, 812, -250, 788, -250)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1200, -400)
+shape = SubResource("BankWestWall")
+
+[node name="SchoolEastVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(1188, -550, 1212, -550, 1212, -250, 1188, -250)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolDoor" type="CollisionShape2D" parent="Walls"]
+position = Vector2(400, -400)
+shape = SubResource("HockshopDoorShape")
+
+[node name="SchoolShutter" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(388, -460, 412, -460, 412, -340, 388, -340)
+color = Color(0.5, 0.13, 0.09, 1)
+
+[node name="SchoolGateSign" type="Label" parent="Ground"]
+offset_left = 275.0
+offset_top = -315.0
+text = "红漆大门"
+mouse_filter = 2
+
+[node name="SchoolStorageBoundary" type="Label" parent="Ground"]
+offset_left = 490.0
+offset_top = -535.0
+text = "兵器厅方向 · 暂未开放"
+mouse_filter = 2
+
+[node name="SchoolInnerBoundary" type="Label" parent="Ground"]
+offset_left = 1000.0
+offset_top = -295.0
+text = "内院方向 · 暂未开放"
+mouse_filter = 2
+
+[node name="SchoolTeacher" type="Marker2D" parent="."]
+position = Vector2(1080, -400)
+
+[node name="SchoolTeacher" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1080, -400)
+shape = SubResource("SchoolTeacherShape")
+
+[node name="SchoolTeacherVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(1064, -422, 1096, -422, 1096, -378, 1064, -378)
+color = Color(0.25, 0.2, 0.16, 1)
+
+[node name="SchoolTeacherRobe" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(1060, -418, 1100, -418, 1100, -378, 1060, -378)
+color = Color(0.48, 0.59, 0.61, 1)
+
+[node name="SchoolTeacherHead" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(1068, -418, 1068, -435, 1092, -435, 1092, -418)
+color = Color(0.83, 0.69, 0.52, 1)
+
+[node name="SchoolTeacherName" type="Label" parent="Ground"]
+offset_left = 1045.0
+offset_top = -468.0
+text = "柳淳风"
 mouse_filter = 2

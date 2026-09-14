@@ -32,12 +32,13 @@ static func _is_valid_position(
 	# H3's transient door closes on cold Continue. Keep its closed footprint
 	# save-invalid even while open; never relocate a restored Player to compensate.
 	if map is SnowOutdoorController:
-		var door: CollisionShape2D = map.get_node_or_null("Walls/HockshopDoor") as CollisionShape2D
-		if door != null:
-			var saved_footprint: RectangleShape2D = RectangleShape2D.new()
-			saved_footprint.size = footprint_size
-			if door.shape.collide(door.global_transform, saved_footprint, Transform2D(0.0, position)):
-				return false
+		for path: String in ["Walls/HockshopDoor", "Walls/SchoolDoor"]:
+			var door: CollisionShape2D = map.get_node_or_null(path) as CollisionShape2D
+			if door != null:
+				var saved_footprint: RectangleShape2D = RectangleShape2D.new()
+				saved_footprint.size = footprint_size
+				if door.shape.collide(door.global_transform, saved_footprint, Transform2D(0.0, position)):
+					return false
 	var zone_paths: Dictionary[StringName, NodePath] = _zone_paths(map.map_id())
 	# Snow uses its actual authored physical-zone components, not copied coordinates.
 	if map is SnowResidentMapController:

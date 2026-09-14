@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 13, "S7B twelve outdoor zones plus H3 Hockshop; Inn makes 14")
+	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 16, "S7B twelve outdoor zones plus H3 Hockshop and P2 three school zones")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
 		var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(id)
@@ -34,7 +34,7 @@ func definition_tests() -> void:
 	for row: Array in [["mstreet3:east","/d/snow/hockshop"], ["mstreet3:west","/d/snow/herbshop"], ["mstreet4:west","/d/snow/postoffice"], ["crossroad:north","/d/goathill/mroad1"], ["crossroad:east","/d/green/path6"]]:
 		check(exits.get(row[0]) == row[1], "source exit metadata " + row[0])
 	check(not exits.has("mstreet4:east"), "mstreet4.c exits mapping overrides contradictory east prose")
-	for deferred: StringName in [&"snow.hockshop2", &"snow.herbshop", &"snow.postoffice", &"snow.alley", &"green.path6", &"goathill.mroad1", &"snow.school1", &"snow.smithy"]:
+	for deferred: StringName in [&"snow.hockshop2", &"snow.herbshop", &"snow.postoffice", &"snow.alley", &"green.path6", &"goathill.mroad1", &"snow.school", &"snow.smithy"]:
 		check(SnowWorldDefinitions.zone_by_id(deferred) == null and SnowWorldDefinitions.portal_by_id(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not SnowWorldDefinitions.route_neighbours(id, deferred), "no deferred neighbor")
@@ -57,7 +57,7 @@ func physical_tests(tree: SceneTree) -> void:
 	geometry_tests(snow)
 	await walk.walk_to(tree, session, "move_right", 0, 0)
 	await walk.walk_to(tree, session, "move_up", -400, 1)
-	await wall_test(tree, session, walk, "move_right", 0, 100, "School east", &"snow.mstreet1")
+	await wall_test(tree, session, walk, "move_right", 0, 400, "School closed gate", &"snow.school1")
 	await walk.walk_to(tree, session, "move_left", 0, 0)
 	await walk.walk_to(tree, session, "move_up", -700, 1)
 	await wall_test(tree, session, walk, "move_left", 0, -100, "Smithy west", &"snow.mstreet2")

@@ -293,8 +293,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     engines, other Snow services (Herbshop/Postoffice/School/Smithy), Green/Goathill and full Snow
     parity remain deferred. Mobile CI builds do not establish physical-device qualification.
 
-12. **Snow First Progression Loop / 淳风武馆 — OWNER SELECTED / P1 ANALYSIS COMPLETE**
+12. **Snow First Progression Loop / 淳风武馆 — P2 COMPLETE WITH LIVE PROGRESSION BLOCKER / AWAIT OWNER REVIEW**
 
     [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
-    is complete and awaiting owner review on `phase/snow-first-progression-loop`.
-    Gameplay implementation/P2 is **NOT authorized**; proposed scope remains subject to owner approval.
+    is OWNER APPROVED / CLOSED. Authorized [P2](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md)
+    implements the three-zone school, transient two-sided gate, Liu teaching contact,
+    first apprenticeship, basic unarmed Learn and compatible root2 persistence on the same branch.
+    Focused247 / canonical20,179 / Python46 and real school/cold Continue pass.
+    Natural E≥2 and uninterrupted combat return are **BLOCKED** by the observed existing
+    incomplete riposte chain. No balance/EXP workaround, P2 PR or merge. P3 and Final Audit await authorization.

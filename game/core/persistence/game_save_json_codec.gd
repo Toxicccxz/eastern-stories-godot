@@ -89,6 +89,14 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		"conditions": conditions,
 		"family": {"family_id": String(value.family.family_id), "generation": _i(value.family.generation)},
 		"apprenticeship": {"master_teacher_id": String(value.apprenticeship.master_teacher_id), "legacy_master_name": value.apprenticeship.legacy_master_name, "betrayer_count": _i(value.apprenticeship.betrayer_count)},
+		"affiliation": {
+			"schema_version": 1, "class_id": String(value.affiliation.class_id),
+			"has_family_rank": value.affiliation.has_family_rank,
+			"family_title": value.affiliation.family_title,
+			"family_privileges": _i(value.affiliation.family_privileges),
+			"entry_time_status": ["ABSENT", "UNKNOWN", "RECORDED"][value.affiliation.entry_time_status],
+			"entry_time_utc": _i(value.affiliation.entry_time_utc),
+		},
 	}
 
 
@@ -194,7 +202,12 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:
-	var object: Dictionary = _obj(value, path, ["gender", "attributes", "resources", "internal_resources", "progression", "skills", "conditions", "family", "apprenticeship"])
+	# Root2 historically had no affiliation block. Both shapes are strict;
+	# an explicitly present malformed/new-version block never falls back to legacy.
+	var fields: Array[String] = ["gender", "attributes", "resources", "internal_resources", "progression", "skills", "conditions", "family", "apprenticeship"]
+	if value is Dictionary and value.has("affiliation"):
+		fields.append("affiliation")
+	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var a: Dictionary = _obj(object["attributes"], path + ".attributes", ["strength", "courage", "intelligence", "spirituality", "composure", "personality", "constitution", "karma", "force_factor", "bellicosity"])
 	var attributes := Values.BaseAttributesSnapshot.new(_int64(a.get("strength"), path + ".attributes.strength"), _int64(a.get("courage"), path + ".attributes.courage"), _int64(a.get("intelligence"), path + ".attributes.intelligence"), _int64(a.get("spirituality"), path + ".attributes.spirituality"), _int64(a.get("composure"), path + ".attributes.composure"), _int64(a.get("personality"), path + ".attributes.personality"), _int64(a.get("constitution"), path + ".attributes.constitution"), _int64(a.get("karma"), path + ".attributes.karma"), _int64(a.get("force_factor"), path + ".attributes.force_factor"), _int64(a.get("bellicosity"), path + ".attributes.bellicosity"))
@@ -220,7 +233,32 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var apprentice_object: Dictionary = _obj(object["apprenticeship"], path + ".apprenticeship", ["master_teacher_id", "legacy_master_name", "betrayer_count"])
 	var apprenticeship := Values.ApprenticeshipSnapshot.new(StringName(_string(apprentice_object.get("master_teacher_id"), path + ".apprenticeship.master_teacher_id")), _string(apprentice_object.get("legacy_master_name"), path + ".apprenticeship.legacy_master_name"), _int64(apprentice_object.get("betrayer_count"), path + ".apprenticeship.betrayer_count"))
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship)
+	var affiliation: CharacterAffiliationState = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty())
+	if object.has("affiliation"):
+		affiliation = _decode_affiliation(object["affiliation"], path + ".affiliation")
+	if _error: return null
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation)
+
+
+func _decode_affiliation(value: Variant, path: String) -> CharacterAffiliationState:
+	var object: Dictionary = _obj(value, path, ["schema_version", "class_id", "has_family_rank", "family_title", "family_privileges", "entry_time_status", "entry_time_utc"])
+	if _error: return null
+	if _small_int(object["schema_version"], path + ".schema_version") != 1:
+		_fail(GameSaveResult.Outcome.INVALID_SNAPSHOT, path + ".schema_version", "unsupported affiliation version")
+		return null
+	var result := CharacterAffiliationState.new()
+	result.class_id = StringName(_string(object["class_id"], path + ".class_id"))
+	result.has_family_rank = _bool(object["has_family_rank"], path + ".has_family_rank")
+	result.family_title = _string(object["family_title"], path + ".family_title")
+	result.family_privileges = _int64(object["family_privileges"], path + ".family_privileges")
+	var status: String = _string(object["entry_time_status"], path + ".entry_time_status")
+	match status:
+		"ABSENT": result.entry_time_status = CharacterAffiliationState.EntryTime.ABSENT
+		"UNKNOWN": result.entry_time_status = CharacterAffiliationState.EntryTime.UNKNOWN
+		"RECORDED": result.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+		_: _fail(GameSaveResult.Outcome.INVALID_SNAPSHOT, path + ".entry_time_status")
+	result.entry_time_utc = _int64(object["entry_time_utc"], path + ".entry_time_utc")
+	return result
 
 
 func _decode_track(value: Variant, path: String) -> Values.ResourceTrackSnapshot:

@@ -12,6 +12,7 @@ var _exists_in_world: bool
 var _combat_available: bool
 var _body_facts: PlayerBodyFacts
 var _facts: PlayerIdentityFacts
+var school_apprenticeship: SwordsmanApprenticeship = SwordsmanApprenticeship.new()
 
 var facts: PlayerIdentityFacts:
 	get: return _facts
@@ -80,6 +81,15 @@ func death_context(destination: InventoryTransferDestination, has_killer: bool) 
 
 func world_location() -> WorldLocationState:
 	return null if _world_location == null else _world_location.duplicate_snapshot()
+
+
+## Only successful source recruitment may replace the read-only identity title.
+## Body, CharacterState and character ID retain their existing authorities.
+func request_school_apprenticeship(entry_time_utc: int) -> SwordsmanApprenticeship.Outcome:
+	var outcome := school_apprenticeship.request(_state, entry_time_utc)
+	if outcome == SwordsmanApprenticeship.Outcome.RECRUITED:
+		_facts = PlayerIdentityFacts.new(_facts.display_name, SwordsmanApprenticeship.DISPLAY_TITLE, _facts.age)
+	return outcome
 
 
 func set_world_location(value: WorldLocationState) -> bool:

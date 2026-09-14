@@ -10,6 +10,14 @@ var last_work_result: SnowWorkResult
 @onready var bank_panel: SnowBankExchangePanel = $BankUI/Panel
 var last_bank_result: SnowBankInteractionResult
 var hockshop: SnowHockshopInteraction
+var school: SnowSchoolContact
+
+
+func configure_school(session: OldPineWorldSessionController) -> void:
+	school = SnowSchoolContact.new()
+	school.name = "SchoolContact"
+	school.configure(session, self)
+	add_child(school)
 
 
 func configure_hockshop(session: OldPineWorldSessionController) -> void:

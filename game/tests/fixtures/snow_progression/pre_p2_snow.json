@@ -1,0 +1,847 @@
+{
+	"metadata": {
+		"format_id": "eastern-stories-native-save",
+		"schema_version": 2,
+		"saved_at_utc": "2026-09-11T00:00:00Z",
+		"build_commit": null,
+		"storage_profile": "test",
+		"slot_id": "default-v1"
+	},
+	"session_kind": "oldpine",
+	"item_id_allocator": {
+		"scope": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc",
+		"next_dynamic_sequence": "1"
+	},
+	"player": {
+		"character_id": "oldpine.player",
+		"character": {
+			"gender": "女性",
+			"attributes": {
+				"strength": "30",
+				"courage": "30",
+				"intelligence": "30",
+				"spirituality": "30",
+				"composure": "30",
+				"personality": "30",
+				"constitution": "30",
+				"karma": "30",
+				"force_factor": "0",
+				"bellicosity": "0"
+			},
+			"resources": {
+				"gin": {
+					"current": "100",
+					"effective": "100",
+					"maximum": "100"
+				},
+				"kee": {
+					"current": "100",
+					"effective": "100",
+					"maximum": "100"
+				},
+				"sen": {
+					"current": "100",
+					"effective": "100",
+					"maximum": "100"
+				}
+			},
+			"internal_resources": {
+				"force": "0",
+				"max_force": "0",
+				"mana": "0",
+				"max_mana": "0",
+				"atman": "0",
+				"max_atman": "0",
+				"food": "400",
+				"water": "400"
+			},
+			"progression": {
+				"combat_experience": "0",
+				"potential": "99",
+				"potential_spent": "0"
+			},
+			"skills": {
+				"has_skills_mapping": false,
+				"has_learned_mapping": false,
+				"raw_levels": [],
+				"learned_progress": [],
+				"mappings": []
+			},
+			"conditions": [],
+			"family": {
+				"family_id": "",
+				"generation": "0"
+			},
+			"apprenticeship": {
+				"master_teacher_id": "",
+				"legacy_master_name": "",
+				"betrayer_count": "0"
+			}
+		},
+		"life_status": "active",
+		"exists_in_world": true,
+		"combat_available": true,
+		"world_location": {
+			"region_id": "snow",
+			"map_id": "snow.outdoor",
+			"zone_id": "snow.mstreet1",
+			"combat_location_id": "snow.mstreet1"
+		},
+		"map_position": {
+			"x": 0.0,
+			"y": -400.0
+		},
+		"identity": {
+			"display_name": "雪工",
+			"title": "普通百姓",
+			"age": "14",
+			"race_id": "human"
+		},
+		"body_facts": {
+			"body_weight": "80000",
+			"maximum_encumbrance": "150000"
+		}
+	},
+	"npc_spawn_states": [
+		{
+			"spawn_id": "oldpine.outdoor.pine1.fat_bandit",
+			"spawn_point_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
+			"npc_definition_id": "oldpine.npc.fat_bandit",
+			"character_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character",
+			"exists_in_world": true,
+			"life_status": "active",
+			"combat_available": true,
+			"character": {
+				"gender": "男性",
+				"attributes": {
+					"strength": "12",
+					"courage": "27",
+					"intelligence": "13",
+					"spirituality": "17",
+					"composure": "29",
+					"personality": "16",
+					"constitution": "23",
+					"karma": "25",
+					"force_factor": "0",
+					"bellicosity": "0"
+				},
+				"resources": {
+					"gin": {
+						"current": "190",
+						"effective": "190",
+						"maximum": "190"
+					},
+					"kee": {
+						"current": "220",
+						"effective": "220",
+						"maximum": "220"
+					},
+					"sen": {
+						"current": "130",
+						"effective": "130",
+						"maximum": "130"
+					}
+				},
+				"internal_resources": {
+					"force": "0",
+					"max_force": "0",
+					"mana": "0",
+					"max_mana": "0",
+					"atman": "0",
+					"max_atman": "0",
+					"food": "0",
+					"water": "0"
+				},
+				"progression": {
+					"combat_experience": "500",
+					"potential": "0",
+					"potential_spent": "0"
+				},
+				"skills": {
+					"has_skills_mapping": true,
+					"has_learned_mapping": false,
+					"raw_levels": [
+						{
+							"skill_id": "dodge",
+							"value": "10"
+						},
+						{
+							"skill_id": "parry",
+							"value": "10"
+						},
+						{
+							"skill_id": "sword",
+							"value": "20"
+						}
+					],
+					"learned_progress": [],
+					"mappings": []
+				},
+				"conditions": [],
+				"family": {
+					"family_id": "",
+					"generation": "0"
+				},
+				"apprenticeship": {
+					"master_teacher_id": "",
+					"legacy_master_name": "",
+					"betrayer_count": "0"
+				}
+			},
+			"age": "36",
+			"body_weight": "44000",
+			"maximum_encumbrance": "60000",
+			"world_location": {
+				"region_id": "oldpine",
+				"map_id": "oldpine.outdoor",
+				"zone_id": "oldpine.outdoor.pine_entrance",
+				"combat_location_id": "oldpine.outdoor.pine_entrance"
+			},
+			"map_position": {
+				"x": -200.0,
+				"y": 400.0
+			},
+			"live_loadout_item_ids": [
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.2.0"
+			]
+		},
+		{
+			"spawn_id": "oldpine.outdoor.pine1.tall_bandit",
+			"spawn_point_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
+			"npc_definition_id": "oldpine.npc.tall_bandit",
+			"character_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character",
+			"exists_in_world": true,
+			"life_status": "active",
+			"combat_available": true,
+			"character": {
+				"gender": "男性",
+				"attributes": {
+					"strength": "13",
+					"courage": "19",
+					"intelligence": "24",
+					"spirituality": "22",
+					"composure": "25",
+					"personality": "16",
+					"constitution": "17",
+					"karma": "30",
+					"force_factor": "0",
+					"bellicosity": "0"
+				},
+				"resources": {
+					"gin": {
+						"current": "220",
+						"effective": "220",
+						"maximum": "220"
+					},
+					"kee": {
+						"current": "220",
+						"effective": "220",
+						"maximum": "220"
+					},
+					"sen": {
+						"current": "100",
+						"effective": "100",
+						"maximum": "100"
+					}
+				},
+				"internal_resources": {
+					"force": "0",
+					"max_force": "0",
+					"mana": "0",
+					"max_mana": "0",
+					"atman": "0",
+					"max_atman": "0",
+					"food": "0",
+					"water": "0"
+				},
+				"progression": {
+					"combat_experience": "900",
+					"potential": "0",
+					"potential_spent": "0"
+				},
+				"skills": {
+					"has_skills_mapping": true,
+					"has_learned_mapping": false,
+					"raw_levels": [
+						{
+							"skill_id": "dodge",
+							"value": "10"
+						},
+						{
+							"skill_id": "parry",
+							"value": "15"
+						},
+						{
+							"skill_id": "sword",
+							"value": "15"
+						}
+					],
+					"learned_progress": [],
+					"mappings": []
+				},
+				"conditions": [],
+				"family": {
+					"family_id": "",
+					"generation": "0"
+				},
+				"apprenticeship": {
+					"master_teacher_id": "",
+					"legacy_master_name": "",
+					"betrayer_count": "0"
+				}
+			},
+			"age": "27",
+			"body_weight": "46000",
+			"maximum_encumbrance": "65000",
+			"world_location": {
+				"region_id": "oldpine",
+				"map_id": "oldpine.outdoor",
+				"zone_id": "oldpine.outdoor.pine_entrance",
+				"combat_location_id": "oldpine.outdoor.pine_entrance"
+			},
+			"map_position": {
+				"x": -300.0,
+				"y": 300.0
+			},
+			"live_loadout_item_ids": [
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.1.0"
+			]
+		},
+		{
+			"spawn_id": "oldpine.outdoor.spath1.bandits",
+			"spawn_point_id": "oldpine.outdoor.south_slope.spath1.bandit.1",
+			"npc_definition_id": "oldpine.npc.bandit",
+			"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+			"exists_in_world": true,
+			"life_status": "active",
+			"combat_available": true,
+			"character": {
+				"gender": "男性",
+				"attributes": {
+					"strength": "25",
+					"courage": "21",
+					"intelligence": "26",
+					"spirituality": "14",
+					"composure": "12",
+					"personality": "27",
+					"constitution": "29",
+					"karma": "24",
+					"force_factor": "0",
+					"bellicosity": "0"
+				},
+				"resources": {
+					"gin": {
+						"current": "200",
+						"effective": "200",
+						"maximum": "200"
+					},
+					"kee": {
+						"current": "200",
+						"effective": "200",
+						"maximum": "200"
+					},
+					"sen": {
+						"current": "100",
+						"effective": "100",
+						"maximum": "100"
+					}
+				},
+				"internal_resources": {
+					"force": "0",
+					"max_force": "0",
+					"mana": "0",
+					"max_mana": "0",
+					"atman": "0",
+					"max_atman": "0",
+					"food": "0",
+					"water": "0"
+				},
+				"progression": {
+					"combat_experience": "600",
+					"potential": "0",
+					"potential_spent": "0"
+				},
+				"skills": {
+					"has_skills_mapping": true,
+					"has_learned_mapping": false,
+					"raw_levels": [
+						{
+							"skill_id": "dodge",
+							"value": "10"
+						},
+						{
+							"skill_id": "parry",
+							"value": "10"
+						},
+						{
+							"skill_id": "sword",
+							"value": "10"
+						}
+					],
+					"learned_progress": [],
+					"mappings": []
+				},
+				"conditions": [],
+				"family": {
+					"family_id": "",
+					"generation": "0"
+				},
+				"apprenticeship": {
+					"master_teacher_id": "",
+					"legacy_master_name": "",
+					"betrayer_count": "0"
+				}
+			},
+			"age": "19",
+			"body_weight": "70000",
+			"maximum_encumbrance": "125000",
+			"world_location": {
+				"region_id": "oldpine",
+				"map_id": "oldpine.outdoor",
+				"zone_id": "oldpine.outdoor.south_slope",
+				"combat_location_id": "oldpine.outdoor.south_slope"
+			},
+			"map_position": {
+				"x": 300.0,
+				"y": 800.0
+			},
+			"live_loadout_item_ids": [
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0"
+			]
+		},
+		{
+			"spawn_id": "oldpine.outdoor.spath1.bandits",
+			"spawn_point_id": "oldpine.outdoor.south_slope.spath1.bandit.2",
+			"npc_definition_id": "oldpine.npc.bandit",
+			"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+			"exists_in_world": true,
+			"life_status": "active",
+			"combat_available": true,
+			"character": {
+				"gender": "男性",
+				"attributes": {
+					"strength": "20",
+					"courage": "23",
+					"intelligence": "16",
+					"spirituality": "30",
+					"composure": "13",
+					"personality": "21",
+					"constitution": "19",
+					"karma": "27",
+					"force_factor": "0",
+					"bellicosity": "0"
+				},
+				"resources": {
+					"gin": {
+						"current": "200",
+						"effective": "200",
+						"maximum": "200"
+					},
+					"kee": {
+						"current": "200",
+						"effective": "200",
+						"maximum": "200"
+					},
+					"sen": {
+						"current": "100",
+						"effective": "100",
+						"maximum": "100"
+					}
+				},
+				"internal_resources": {
+					"force": "0",
+					"max_force": "0",
+					"mana": "0",
+					"max_mana": "0",
+					"atman": "0",
+					"max_atman": "0",
+					"food": "0",
+					"water": "0"
+				},
+				"progression": {
+					"combat_experience": "600",
+					"potential": "0",
+					"potential_spent": "0"
+				},
+				"skills": {
+					"has_skills_mapping": true,
+					"has_learned_mapping": false,
+					"raw_levels": [
+						{
+							"skill_id": "dodge",
+							"value": "10"
+						},
+						{
+							"skill_id": "parry",
+							"value": "10"
+						},
+						{
+							"skill_id": "sword",
+							"value": "10"
+						}
+					],
+					"learned_progress": [],
+					"mappings": []
+				},
+				"conditions": [],
+				"family": {
+					"family_id": "",
+					"generation": "0"
+				},
+				"apprenticeship": {
+					"master_teacher_id": "",
+					"legacy_master_name": "",
+					"betrayer_count": "0"
+				}
+			},
+			"age": "19",
+			"body_weight": "60000",
+			"maximum_encumbrance": "100000",
+			"world_location": {
+				"region_id": "oldpine",
+				"map_id": "oldpine.outdoor",
+				"zone_id": "oldpine.outdoor.south_slope",
+				"combat_location_id": "oldpine.outdoor.south_slope"
+			},
+			"map_position": {
+				"x": 450.0,
+				"y": 880.0
+			},
+			"live_loadout_item_ids": [
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0"
+			]
+		},
+		{
+			"spawn_id": "oldpine.outdoor.spath1.bandits",
+			"spawn_point_id": "oldpine.outdoor.south_slope.spath1.bandit.3",
+			"npc_definition_id": "oldpine.npc.bandit",
+			"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+			"exists_in_world": true,
+			"life_status": "active",
+			"combat_available": true,
+			"character": {
+				"gender": "男性",
+				"attributes": {
+					"strength": "27",
+					"courage": "11",
+					"intelligence": "28",
+					"spirituality": "11",
+					"composure": "24",
+					"personality": "16",
+					"constitution": "22",
+					"karma": "15",
+					"force_factor": "0",
+					"bellicosity": "0"
+				},
+				"resources": {
+					"gin": {
+						"current": "200",
+						"effective": "200",
+						"maximum": "200"
+					},
+					"kee": {
+						"current": "200",
+						"effective": "200",
+						"maximum": "200"
+					},
+					"sen": {
+						"current": "100",
+						"effective": "100",
+						"maximum": "100"
+					}
+				},
+				"internal_resources": {
+					"force": "0",
+					"max_force": "0",
+					"mana": "0",
+					"max_mana": "0",
+					"atman": "0",
+					"max_atman": "0",
+					"food": "0",
+					"water": "0"
+				},
+				"progression": {
+					"combat_experience": "600",
+					"potential": "0",
+					"potential_spent": "0"
+				},
+				"skills": {
+					"has_skills_mapping": true,
+					"has_learned_mapping": false,
+					"raw_levels": [
+						{
+							"skill_id": "dodge",
+							"value": "10"
+						},
+						{
+							"skill_id": "parry",
+							"value": "10"
+						},
+						{
+							"skill_id": "sword",
+							"value": "10"
+						}
+					],
+					"learned_progress": [],
+					"mappings": []
+				},
+				"conditions": [],
+				"family": {
+					"family_id": "",
+					"generation": "0"
+				},
+				"apprenticeship": {
+					"master_teacher_id": "",
+					"legacy_master_name": "",
+					"betrayer_count": "0"
+				}
+			},
+			"age": "19",
+			"body_weight": "74000",
+			"maximum_encumbrance": "135000",
+			"world_location": {
+				"region_id": "oldpine",
+				"map_id": "oldpine.outdoor",
+				"zone_id": "oldpine.outdoor.south_slope",
+				"combat_location_id": "oldpine.outdoor.south_slope"
+			},
+			"map_position": {
+				"x": 600.0,
+				"y": 800.0
+			},
+			"live_loadout_item_ids": [
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+				"oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0"
+			]
+		}
+	],
+	"corpses": [],
+	"items": {
+		"schema_version": 3,
+		"records": [
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.dynamic.0",
+				"item_definition_id": "es2:obj/cloth",
+				"own_weight": "3000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.player"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+				"item_definition_id": "es2:d/oldpine/obj/short_sword",
+				"own_weight": "3000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+				"item_definition_id": "es2:d/oldpine/obj/leather",
+				"own_weight": "6000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.2.0",
+				"item_definition_id": "es2:obj/money/silver",
+				"own_weight": "185",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+				"item_definition_id": "es2:d/oldpine/obj/long_sword",
+				"own_weight": "7000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.1.0",
+				"item_definition_id": "es2:obj/money/silver",
+				"own_weight": "222",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+				"item_definition_id": "es2:d/oldpine/obj/short_sword",
+				"own_weight": "3000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0",
+				"item_definition_id": "es2:obj/money/silver",
+				"own_weight": "111",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+				"item_definition_id": "es2:d/oldpine/obj/short_sword",
+				"own_weight": "3000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0",
+				"item_definition_id": "es2:obj/money/silver",
+				"own_weight": "111",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+				"item_definition_id": "es2:d/oldpine/obj/short_sword",
+				"own_weight": "3000",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character"
+				}
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0",
+				"item_definition_id": "es2:obj/money/silver",
+				"own_weight": "111",
+				"direct_parent": {
+					"kind": "character",
+					"endpoint_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character"
+				}
+			}
+		],
+		"combined_stacks": [
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.2.0",
+				"amount": "5"
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.1.0",
+				"amount": "6"
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0",
+				"amount": "3"
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0",
+				"amount": "3"
+			},
+			{
+				"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0",
+				"amount": "3"
+			}
+		],
+		"equipment": [
+			{
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character",
+				"primary_item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+				"secondary_item_instance_id": null
+			},
+			{
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character",
+				"primary_item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+				"secondary_item_instance_id": null
+			},
+			{
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+				"primary_item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+				"secondary_item_instance_id": null
+			},
+			{
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+				"primary_item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+				"secondary_item_instance_id": null
+			},
+			{
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+				"primary_item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+				"secondary_item_instance_id": null
+			},
+			{
+				"character_id": "oldpine.player",
+				"primary_item_instance_id": null,
+				"secondary_item_instance_id": null
+			}
+		],
+		"armor": [
+			{
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character",
+				"slots": [
+					{
+						"armor_type": "cloth",
+						"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0"
+					}
+				]
+			},
+			{
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character",
+				"slots": []
+			},
+			{
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+				"slots": []
+			},
+			{
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+				"slots": []
+			},
+			{
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+				"slots": []
+			},
+			{
+				"character_id": "oldpine.player",
+				"slots": [
+					{
+						"armor_type": "cloth",
+						"item_instance_id": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc.dynamic.0"
+					}
+				]
+			}
+		],
+		"food_consumables": [],
+		"liquid_consumables": []
+	},
+	"rng": {
+		"combat": {
+			"adapter_id": "godot-random-number-generator-pcg32-v1",
+			"seed": "5232",
+			"state": "-7542915721565470398"
+		},
+		"npc_initialization": {
+			"adapter_id": "godot-random-number-generator-pcg32-v1",
+			"seed": "7021",
+			"state": "-1136062569884875933"
+		},
+		"world_interaction": {
+			"adapter_id": "godot-random-number-generator-pcg32-v1",
+			"seed": "93232",
+			"state": "-6705295025768092158"
+		}
+	},
+	"world_content_revision": "SOURCE_ENTRY_V1"
+}

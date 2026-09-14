@@ -299,6 +299,7 @@ class CharacterStateSnapshot extends RefCounted:
 			return result
 	var family: FamilySnapshot
 	var apprenticeship: ApprenticeshipSnapshot
+	var affiliation: CharacterAffiliationState
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -306,6 +307,7 @@ class CharacterStateSnapshot extends RefCounted:
 		p_internal_resources: InternalResourcesSnapshot = null, p_progression: ProgressionSnapshot = null,
 		p_skills: SkillStateSnapshot = null, p_conditions: Array[ConditionSnapshot] = [],
 		p_family: FamilySnapshot = null, p_apprenticeship: ApprenticeshipSnapshot = null,
+		p_affiliation: CharacterAffiliationState = null,
 	) -> void:
 		gender = p_gender
 		attributes = BaseAttributesSnapshot.new() if p_attributes == null else p_attributes.duplicate_snapshot()
@@ -320,9 +322,10 @@ class CharacterStateSnapshot extends RefCounted:
 		_conditions.sort_custom(_condition_before)
 		family = FamilySnapshot.new() if p_family == null else p_family.duplicate_snapshot()
 		apprenticeship = ApprenticeshipSnapshot.new() if p_apprenticeship == null else p_apprenticeship.duplicate_snapshot()
+		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation)
 
 	static func _condition_before(left: ConditionSnapshot, right: ConditionSnapshot) -> bool:
 		if left == null: return right != null

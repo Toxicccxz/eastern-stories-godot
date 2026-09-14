@@ -29,7 +29,7 @@ func physical_tests(tree: SceneTree) -> void:
 	var authorities: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence()]
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() + 1 == 14, "14 Snow zones including Inn")
+	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() + 1 == 17, "17 Snow zones including Inn and P2 school")
 	check(SnowWorldDefinitions.zone_by_id(&"snow.hockshop").legacy_room_ids() == ["/d/snow/hockshop"], "source metadata")
 	check(SnowWorldDefinitions.route_neighbours(&"snow.hockshop", &"snow.mstreet3") and SnowWorldDefinitions.route_neighbours(&"snow.mstreet3", &"snow.hockshop"), "two-way local neighbor")
 	check(SnowWorldDefinitions.zone_by_id(&"snow.hockshop2") == null and SnowWorldDefinitions.portal_by_id(&"snow.hockshop2") == null and not SnowWorldDefinitions.route_neighbours(&"snow.hockshop", &"snow.hockshop2"), "back room remains absent")

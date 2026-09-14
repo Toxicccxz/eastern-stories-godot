@@ -138,6 +138,8 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 static func _validate_runtime_character(character: Values.CharacterStateSnapshot, life_status: StringName, exists_in_world: bool, location: Values.WorldLocationSnapshot, position: Values.MapPositionSnapshot, path: String) -> GameSaveResult:
 	if character == null:
 		return _invalid(path + ".character", "character snapshot is null")
+	if character.affiliation == null or not character.affiliation.is_valid():
+		return _invalid(path + ".character.affiliation", "invalid affiliation value or entry time")
 	for pair: Array in [[character.gin, "gin"], [character.kee, "kee"], [character.sen, "sen"]]:
 		var track: Values.ResourceTrackSnapshot = pair[0]
 		if track == null or track.maximum < 0 or track.effective < -1 or track.current < -1 or track.current > track.effective or track.effective > track.maximum:

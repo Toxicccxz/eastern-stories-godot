@@ -2,9 +2,15 @@
 
 ## Current milestone
 
-**Snow First Progression Loop / 淳风武馆 — P1 ANALYSIS COMPLETE, AWAITING OWNER REVIEW.**
-The owner selected this milestone; [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
-is complete on `phase/snow-first-progression-loop`. Gameplay implementation/P2 is **NOT authorized**.
+**Snow First Progression Loop / 淳风武馆 — P2 IMPLEMENTATION COMPLETE WITH LIVE PROGRESSION BLOCKER, AWAITING OWNER REVIEW.**
+[P1](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md) is OWNER APPROVED / CLOSED.
+Authorized [P2 implementation](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md) stays on
+`phase/snow-first-progression-loop`: three physical school zones, transient cold-closed gate,
+Liu teaching contact, exact first apprenticeship, basic unarmed Learn and root2-compatible persistence.
+Focused247 / canonical20,179 / Python46 and real school/New Game/Save/cold Continue pass.
+Natural E≥2 is **BLOCKED**: existing real combat stopped on an incomplete riposte attack chain;
+no gifted experience or balance fix. Teaching contact is not full Liu NPC parity.
+No P2 PR/merge/remote integration CI; no P3 or Final Audit authorization.
 
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
 [PR #17](https://github.com/Toxicccxz/eastern-stories-godot/pull/17), frozen audited PR HEAD
@@ -40,7 +46,7 @@ The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APP
 PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
 Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
 engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
-The next selected milestone is Snow First Progression Loop; only its P1 analysis is authorized.
+The next selected milestone is Snow First Progression Loop; its current P2 status is recorded above.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
