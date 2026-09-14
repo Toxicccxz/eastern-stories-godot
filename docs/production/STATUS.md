@@ -2,9 +2,21 @@
 
 ## Current milestone
 
-**Snow Town Core Hub Restoration — FINAL AUDIT PASS — AWAIT OWNER FINAL-PR AUTHORIZATION**
-is the current milestone on `phase/snow-town-core-hub`, based on exact green main
-`047f29083e881156abbdad6ed480bffc1350dfa8`.
+**Snow Hockshop / Loot Monetization — H1 ANALYSIS IN REVIEW**
+is the current milestone on `phase/snow-hockshop-loot-monetization`, based on exact green main
+`112f3208937c9f5a480b9f27588af811599937ac`.
+[H1 source contract / Native dependency analysis](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md)
+is documentation only. Implementation awaits owner decisions A–N; no Hockshop gameplay or PR
+has started. Recommendations are not owner decisions; DECISIONS remains unchanged.
+
+**Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
+[PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
+`112f3208937c9f5a480b9f27588af811599937ac`.
+Post-main [workflow 34807091663](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34807091663)
+passed Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation
+on that exact merge commit. This remains the approved bounded Core Hub, not all38 rooms,
+full Snow NPC population or deferred services. The retained branch is `phase/snow-town-core-hub`.
+The following slice checkpoints are historical evidence from that integrated milestone.
 [S1 source and dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md) inventories all
 38 Snow rooms, 26 local NPC definitions and both object directories, traces fresh-player income,
 supply, weapon and teaching paths, and distinguishes executable rules from incomplete/account-only
@@ -27,7 +39,7 @@ S3B is now OWNER APPROVED / CLOSED.
 [S4A Inn Vendor/consumables contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md)
 is OWNER APPROVED / CLOSED (analysis only): exact offers/prices, paid-delivery failures,
 food/water overshoot, missing cake, drunk/weapon dependencies and item/NPC Save gaps are documented.
-Its historical recommendations are now owner-selected in DECISIONS for S4B; Snow has no final PR or merge.
+Its historical recommendations were owner-selected in DECISIONS for S4B; PR #16 integration is recorded above.
 [S3C Bank physical exchange](../migration/PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md)
 adds mstreet1 west ↔ snow.bank in the existing outdoor resident, with a narrow typed exchange UI
 using unchanged S3B services. Real two-Work → silver1/coin100 → Bank Save/cold Continue PASS;
@@ -87,8 +99,9 @@ is PASS — PR READY: fresh canonical19,410 / focused1,666 / Python46, static/he
 repository-content sanitizer, seven archived-save current readers and real desktop journeys
 A/B/C with exact cold Continue passed. Current focused dumpling count is488; earlier slice counts
 above are historical. The approved bounded Core Hub implementation is complete, not full Snow parity.
-Snow remains unmerged; final PR is NOT YET AUTHORIZED or created. Next is owner authorization
-for the final Snow PR, not another gameplay slice. Audit changed documentation only.
+That pre-PR audit checkpoint is now followed by owner-authorized PR #16 merge and successful
+post-main CI as recorded above. Audit changed documentation only. Further gameplay requires
+separate slice authorization; the current H1 analysis does not authorize implementation.
 
 **Source-valid New Game Entry — FULLY INTEGRATED ON MAIN** through
 [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final PR HEAD

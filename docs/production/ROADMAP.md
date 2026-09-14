@@ -211,7 +211,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
    keep their original pre-PR checkpoints; they are not new implementation authorization.
 
-10. **Snow Town Core Hub Restoration — FINAL AUDIT PASS / AWAIT OWNER FINAL-PR AUTHORIZATION**
+10. **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN**
 
     New major-phase branch `phase/snow-town-core-hub`, based on exact green main
     `047f29083e881156abbdad6ed480bffc1350dfa8`.
@@ -266,5 +266,19 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     [Final Snow Audit](../migration/PHASE_SNOW_TOWN_CORE_HUB_FINAL_AUDIT.md) is PASS — PR READY:
     fresh canonical19,410 / focused1,666 / Python46, real economy/water/north journeys and
     exact cold Continue pass. The approved bounded implementation is complete.
-    **Next: owner authorization for final Snow PR.** No final PR has been authorized/created;
-    no merge, another gameplay slice, Lake, full population or Phase5B4 is authorized.
+    [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16) merged at
+    `112f3208937c9f5a480b9f27588af811599937ac`. Post-main
+    [workflow 34807091663](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34807091663)
+    passed all four required jobs on that exact commit. This closes the bounded Core Hub, not
+    all38 Snow rooms or deferred services/NPC population. Historical slice evidence remains intact.
+
+11. **Snow Hockshop / Loot Monetization — H1 ANALYSIS IN REVIEW**
+
+    Current planned major milestone on `phase/snow-hockshop-loot-monetization`, from exact green
+    main `112f3208937c9f5a480b9f27588af811599937ac`.
+    [H1 source contract / Native dependencies](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md)
+    analyzes the missing Loot→Money link: direct-held valuation, irreversible pawn/sell,
+    physical silver/coin payout, capacity/merge ordering, lifecycle and Save/UI boundaries.
+    H1 is analysis only; implementation awaits owner decisions A–N. Recommended two implementation
+    slices and final audit are not automatic authorization. No PR, gameplay, new region,
+    NPC population, medicine or generic merchant/custody system is started.
