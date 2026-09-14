@@ -2,7 +2,11 @@
 
 ## EXECUTIVE RESULT
 
-**H1 ANALYSIS IN REVIEW. No implementation or owner decisions are recorded here.**
+**H1 OWNER APPROVED / CLOSED.** H2's owner-approved A–N choices are recorded in
+[DECISIONS](DECISIONS.md#hockshop-valuation--payout--sell-lifecycle-h2). The archaeology and
+original recommendation tables below remain historical, not current undecided authorization.
+In particular H2 chooses value+sell, defers pawn, and requires immediate cleanup after EACH
+capacity-refused denomination BEFORE the next attempt, superseding H1's proposed cleanup timing.
 
 Restoring the executable Hockshop is a justified, bounded next milestone: currently obtainable
 short swords, long swords and leather have unused resale values, and existing physical money,
@@ -621,5 +625,6 @@ tool installation or environment configuration was changed. No new gameplay asse
 
 ## STOP STATE
 
-H1 ANALYSIS COMPLETE / IN REVIEW. Implementation awaits explicit owner decisions A–N and next-slice
-authorization. No H2/H3 implementation, final PR, merge or cleanup is authorized by this document.
+H1 OWNER APPROVED / CLOSED at `7dc3efcdbe7a27fd0d39ee648053dff6f7c612b7`.
+The separate H2 instruction authorizes the [typed core](PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md)
+and the decision-only commit. H3, final audit, PR and merge still require separate authorization.

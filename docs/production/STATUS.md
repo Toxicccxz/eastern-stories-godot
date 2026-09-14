@@ -2,12 +2,16 @@
 
 ## Current milestone
 
-**Snow Hockshop / Loot Monetization — H1 ANALYSIS IN REVIEW**
+**Snow Hockshop / Loot Monetization — H2 CORE IMPLEMENTED / OWNER REVIEW**
 is the current milestone on `phase/snow-hockshop-loot-monetization`, based on exact green main
 `112f3208937c9f5a480b9f27588af811599937ac`.
 [H1 source contract / Native dependency analysis](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md)
-is documentation only. Implementation awaits owner decisions A–N; no Hockshop gameplay or PR
-has started. Recommendations are not owner decisions; DECISIONS remains unchanged.
+is OWNER APPROVED / CLOSED at `7dc3efc`. Owner A–N were recorded separately in DECISIONS
+before [H2 typed core](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md): exact held-item
+appraisal, source sell80%, full-quantity silver→coin payout, partial capacity results and scoped
+immediate failed-clone cleanup, followed by live item/equipment/food/liquid removal. Existing Save
+format remains root2/item3/SOURCE_ENTRY_V1. H2 awaits owner review; there is no physical Hockshop
+access, UI, door or pawn. H3, final audit and PR are not authorized; the milestone is not integrated.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
