@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 12, "9 old + 3 new outdoor zones; Inn makes 13 Snow zones")
+	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 13, "S7B twelve outdoor zones plus H3 Hockshop; Inn makes 14")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
 		var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(id)
@@ -34,7 +34,7 @@ func definition_tests() -> void:
 	for row: Array in [["mstreet3:east","/d/snow/hockshop"], ["mstreet3:west","/d/snow/herbshop"], ["mstreet4:west","/d/snow/postoffice"], ["crossroad:north","/d/goathill/mroad1"], ["crossroad:east","/d/green/path6"]]:
 		check(exits.get(row[0]) == row[1], "source exit metadata " + row[0])
 	check(not exits.has("mstreet4:east"), "mstreet4.c exits mapping overrides contradictory east prose")
-	for deferred: StringName in [&"snow.hockshop", &"snow.herbshop", &"snow.postoffice", &"snow.alley", &"green.path6", &"goathill.mroad1", &"snow.school1", &"snow.smithy"]:
+	for deferred: StringName in [&"snow.hockshop2", &"snow.herbshop", &"snow.postoffice", &"snow.alley", &"green.path6", &"goathill.mroad1", &"snow.school1", &"snow.smithy"]:
 		check(SnowWorldDefinitions.zone_by_id(deferred) == null and SnowWorldDefinitions.portal_by_id(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not SnowWorldDefinitions.route_neighbours(id, deferred), "no deferred neighbor")

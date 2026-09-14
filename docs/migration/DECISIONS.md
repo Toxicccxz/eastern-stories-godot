@@ -1,5 +1,74 @@
 # Migration Decisions
 
+## Hockshop valuation / payout / sell lifecycle (H2)
+
+**OWNER APPROVED — H2.** H1 is OWNER APPROVED / CLOSED at
+`7dc3efcdbe7a27fd0d39ee648053dff6f7c612b7`. This A–N package is recorded in a
+standalone decision-only commit before production implementation. It supersedes H1's
+recommendations, not its source archaeology. No Type C redesign is approved.
+
+- **A — Type B scope:** Value/appraisal and irreversible sell only. Defer pawn and its60%
+  transaction, tickets, retrieve, custody, loan and auction; no dormant production pawn API.
+- **B — Type B truthful omission:** Do not repeat the source ticket/redeem promise or invent
+  redemption. The contradictory prose and low-value pawn formatting remain documented defects;
+  reconsidering pawn requires a separate owner decision.
+- **C — Type A ownership / Type B selection:** Exact ItemInstanceId replaces textual aliases.
+  Appraisal and execution independently require current index/inventory existence, Player direct
+  ownership and supported leaf content. Wielded/worn items remain eligible. Reject stale, ground,
+  nested, other-character, corpse-held, container, living and unknown items; no recursive sale.
+- **D — Type B typed representation carrying Type A facts:** Narrow hybrid: exact dumpling
+  FoodState.current_value (fresh15, bitten0); valid wineskin Liquid association with existing
+  immutable value20; static source projections cloth0, short sword300, long sword700, leather200.
+  No universal mutable price, dbase dictionary, query emulator or merchant inventory. Known-zero
+  and unsupported are distinct. Current swords have no new depreciation state.
+- **E — Type A zero / Type B invalid-state boundary:** Zero appraises WORTHLESS and rejects
+  sale with no allocation, payout or destruction. Negative/malformed/unsupported values fail
+  closed explicitly; no abs, clamp-to-one or emulated broken coercion for invalid Native state.
+- **F — Type A payout / Type B checked boundary:** Checked integer source_value*80 then /100;
+  for positive valid values preserve pay_player's result<1→1. Overflow fails before allocation
+  or mutation. Quote actual payout; no floating point or pawn calculation API. Fresh dumpling12,
+  wineskin16, leather160, short sword240, long sword560.
+- **G — Type A physical money:** Silver first (N/100), then coin (N%100), skipping zero.
+  Never gold or wallet. Each attempt allocates a new canonical full-quantity stack BEFORE move.
+  Do not reuse Bank's amount1 admission or directly grow an existing target. Normal merge retains
+  the incoming ID and destroys old same-denomination stacks.
+- **H — Type A ordered partial capacity result:** Sold item remains held/equipped during
+  admission. Ordinary capacity refusal continues after its required cleanup; retain earlier
+  delivered money and destroy the sold item after normal attempts complete, even if both fail.
+  No refund, rollback, ground drop, final-total/net-weight preflight or existing-stack bypass.
+- **I — NEW Hockshop-specific Type B cleanup:** Immediately after each ordinary capacity
+  refusal, destroy that parentless clone through authoritative ItemLifecycle, retaining consumed
+  allocator sequence/ID, BEFORE attempting the next denomination. No orphan persistence, ID reuse,
+  cleanup timer or compensation. This deliberately replaces later MudOS cleanup, NOT its exact
+  timing, and is separately approved, NOT inherited from Work/Bank/Vendor. Cleanup failure returns
+  AUTHORITY_FAILURE, retains reached effects and stops: no later denomination or sold-item
+  destruction. This supersedes H1's suggested all-attempts-before-cleanup order.
+- **J — Type A payout-before-destruction / Type B authority errors:** After normal attempts and
+  cleanups, use existing lifecycle with LIVE Player Equipment/Armor/Inventory/Combined authorities.
+  Clear the exact hand/worn slot without invented secondary promotion; remove Inventory/stack,
+  then Food/Liquid associations, then derived index. Allocation/registration/merge/cleanup or
+  final detach/destruction errors stop with typed AUTHORITY_FAILURE and prior effects retained,
+  never rollback or false success. Current non-money stack commerce remains unsupported.
+- **K — Type B future physical scope:** H3 front room /d/snow/hockshop only; hockshop2 deferred.
+  Narrow authored-closed reopenable local door, no generic door engine or persistent door state;
+  fresh Session/cold Continue may restore the closed default. No H2 scene/topology/door changes.
+- **L — Type B future interaction:** H3 physical room/proximity-scoped exact-instance Value/Sell
+  panel, not global Inventory Sell, merchant NPC, stock/cash or anywhere-commerce. H2 provides
+  no world permission or player-facing UI; physical gates belong to the separately authorized H3.
+- **M — unchanged Save:** Root schema2 / embedded item schema3 / SOURCE_ENTRY_V1. No saved
+  transaction, account, stock, ticket, door or sale history. Existing money, item absence,
+  equipment/armor and Food/Liquid absence plus allocator continuation carry settled full/partial/
+  zero-delivery sales. Restore allocates zero gameplay IDs; legal baseline saves remain supported.
+- **N — staged authorization:** H1 closed; H2 typed core current. H3, distinct Final Audit and
+  the one final milestone PR are NOT authorized now. Commit/push H2 then stop for owner review.
+
+Sources: `reference/es2/mudlib/std/room/hockshop.c`, `feature/move.c`,
+`std/item/combined.c`, `adm/simul_efun/object.c`, `feature/equip.c`, `feature/food.c`,
+`feature/liquid.c`, `obj/cloth.c`, `obj/example/dumpling.c`, `obj/example/wineskin.c`,
+`d/oldpine/obj/{short_sword,long_sword,leather}.c`, `obj/money/{coin,silver,gold}.c`.
+See [H1 archaeology](PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md). Prior service
+failure policies, PlayerBodyFacts, economy, recovery and owner-local tooling remain unchanged.
+
 ## Snow north public spine and Core Hub finish line (S7B)
 
 **OWNER APPROVED — S7B.** S7A is OWNER APPROVED / CLOSED at

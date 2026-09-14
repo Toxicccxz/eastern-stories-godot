@@ -737,6 +737,7 @@ func _initialize_source_residents(
 func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
 	var inn: SnowInnController = (load(SnowWorldDefinitions.INN_SCENE) as PackedScene).instantiate() as SnowInnController
 	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
+	snow.configure_hockshop(self)
 	for map: WorldResidentMapController in [inn, snow]:
 		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
 			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate, _foods, _liquids) or not register_resident_map(map):

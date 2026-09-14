@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3]
+[gd_scene load_steps=37 format=3]
 
 [ext_resource type="Script" path="res://runtime/world/snow_outdoor_controller.gd" id="1"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
@@ -61,7 +61,16 @@ size = Vector2(400, 24)
 size = Vector2(24, 1000)
 
 [sub_resource type="RectangleShape2D" id="NorthEastWallShape"]
-size = Vector2(24, 600)
+size = Vector2(24, 390)
+
+[sub_resource type="RectangleShape2D" id="HockshopSouthWestShape"]
+size = Vector2(24, 90)
+[sub_resource type="RectangleShape2D" id="HockshopDoorShape"]
+size = Vector2(24, 120)
+[sub_resource type="RectangleShape2D" id="HockshopFloorShape"]
+size = Vector2(440, 300)
+[sub_resource type="RectangleShape2D" id="HockshopWallShape"]
+size = Vector2(440, 24)
 
 [sub_resource type="RectangleShape2D" id="WorkWallShape3"]
 size = Vector2(400, 24)
@@ -641,11 +650,11 @@ polygon = PackedVector2Array(-112, -1850, -88, -1850, -88, -850, -112, -850)
 color = Color(0.17, 0.2, 0.14, 1)
 
 [node name="NorthEast" type="CollisionShape2D" parent="Walls"]
-position = Vector2(100, -1150)
+position = Vector2(100, -1255)
 shape = SubResource("NorthEastWallShape")
 
 [node name="NorthEastVisual" type="Polygon2D" parent="Walls"]
-polygon = PackedVector2Array(88, -1450, 112, -1450, 112, -850, 88, -850)
+polygon = PackedVector2Array(88, -1450, 112, -1450, 112, -1060, 88, -1060)
 color = Color(0.17, 0.2, 0.14, 1)
 
 [node name="GoathillBoundary" type="CollisionShape2D" parent="Walls"]
@@ -673,17 +682,17 @@ polygon = PackedVector2Array(100, -1462, 300, -1462, 300, -1438, 100, -1438)
 color = Color(0.17, 0.2, 0.14, 1)
 
 [node name="HockshopFacade" type="Polygon2D" parent="Ground"]
-polygon = PackedVector2Array(112, -1090, 268, -1090, 268, -910, 112, -910)
-color = Color(0.4, 0.3, 0.22, 1)
+polygon = PackedVector2Array(100, -1150, 540, -1150, 540, -850, 100, -850)
+color = Color(0.21, 0.19, 0.16, 1)
 
 [node name="HockshopShutter" type="Polygon2D" parent="Ground"]
-polygon = PackedVector2Array(154, -1025, 226, -1025, 226, -960, 154, -960)
+polygon = PackedVector2Array(88, -1060, 112, -1060, 112, -940, 88, -940)
 color = Color(0.22, 0.17, 0.13, 1)
 
 [node name="HockshopSign" type="Label" parent="Ground"]
-offset_left = 120.0
-offset_top = -1065.0
-text = "丰登当铺 · 当"
+offset_left = 170.0
+offset_top = -1120.0
+text = "丰登当铺 · 估价 / 卖断"
 mouse_filter = 2
 
 [node name="HerbshopFacade" type="Polygon2D" parent="Ground"]
@@ -732,4 +741,65 @@ mouse_filter = 2
 offset_left = 150.0
 offset_top = -1585.0
 text = "东 · 邻村"
+mouse_filter = 2
+
+
+[node name="HockshopSouthWest" type="CollisionShape2D" parent="Walls"]
+position = Vector2(100, -895)
+shape = SubResource("HockshopSouthWestShape")
+[node name="HockshopSouthWestVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(88, -940, 112, -940, 112, -850, 88, -850)
+color = Color(0.31, 0.25, 0.19, 1)
+
+[node name="HockshopNorth" type="CollisionShape2D" parent="Walls"]
+position = Vector2(320, -1150)
+shape = SubResource("HockshopWallShape")
+[node name="HockshopNorthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(100, -1162, 540, -1162, 540, -1138, 100, -1138)
+color = Color(0.31, 0.25, 0.19, 1)
+
+[node name="HockshopSouth" type="CollisionShape2D" parent="Walls"]
+position = Vector2(320, -850)
+shape = SubResource("HockshopWallShape")
+[node name="HockshopSouthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(100, -862, 540, -862, 540, -838, 100, -838)
+color = Color(0.31, 0.25, 0.19, 1)
+
+[node name="HockshopEast" type="CollisionShape2D" parent="Walls"]
+position = Vector2(540, -1000)
+shape = SubResource("BankWestWall")
+[node name="HockshopEastVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(528, -1150, 552, -1150, 552, -850, 528, -850)
+color = Color(0.31, 0.25, 0.19, 1)
+
+[node name="HockshopCounter" type="CollisionShape2D" parent="Walls"]
+position = Vector2(410, -1000)
+shape = SubResource("BankCounterShape")
+[node name="HockshopCounterVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(394, -1050, 426, -1050, 426, -950, 394, -950)
+color = Color(0.31, 0.25, 0.19, 1)
+
+[node name="HockshopDoor" type="CollisionShape2D" parent="Walls"]
+position = Vector2(100, -1000)
+shape = SubResource("HockshopDoorShape")
+
+[node name="Hockshop" type="Area2D" parent="Zones"]
+position = Vector2(320, -1000)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.hockshop"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/Hockshop"]
+shape = SubResource("HockshopFloorShape")
+
+[node name="HockshopCounter" type="Marker2D" parent="."]
+position = Vector2(365, -1000)
+
+[node name="HockshopCurtain" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(518, -1040, 535, -1040, 535, -960, 518, -960)
+color = Color(0.12, 0.21, 0.38, 1)
+[node name="HockshopCurtainLabel" type="Label" parent="Ground"]
+offset_left = 435.0
+offset_top = -925.0
+text = "后室 · 暂未开放"
 mouse_filter = 2

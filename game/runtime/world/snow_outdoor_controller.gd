@@ -9,6 +9,14 @@ var last_work_result: SnowWorkResult
 @onready var bank_marker: Marker2D = $BankExchange
 @onready var bank_panel: SnowBankExchangePanel = $BankUI/Panel
 var last_bank_result: SnowBankInteractionResult
+var hockshop: SnowHockshopInteraction
+
+
+func configure_hockshop(session: OldPineWorldSessionController) -> void:
+	hockshop = SnowHockshopInteraction.new()
+	hockshop.name = "HockshopUI"
+	hockshop.configure(session, self)
+	add_child(hockshop)
 
 
 func _ready() -> void:
