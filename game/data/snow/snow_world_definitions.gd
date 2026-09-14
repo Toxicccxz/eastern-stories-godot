@@ -23,6 +23,7 @@ const NORTH_SPINE_ZONE_IDS: Array[StringName] = [MSTREET2_ZONE_ID, MSTREET3_ZONE
 const WORKPLACE_ZONE_ID: StringName = &"snow.workplace"
 const WORKPLACE_TARGET_ID: StringName = &"snow.workplace.work"
 const BANK_ZONE_ID: StringName = &"snow.bank"
+const HOCKSHOP_ZONE_ID: StringName = &"snow.hockshop"
 const LEGACY_MSTREET2_DRUNK_COUNT: int = 1
 const LEGACY_MSTREET2_SCAVENGER_COUNT: int = 1
 const LEGACY_SQUARE_TRAV_BLADE_COUNT: int = 3
@@ -56,6 +57,7 @@ static func outdoor_map() -> MapDefinition:
 	var ids: Array[StringName] = ROUTE_ZONE_IDS.duplicate()
 	ids.append_array([MSTREET1_ZONE_ID, MSTREET2_ZONE_ID, WORKPLACE_ZONE_ID, BANK_ZONE_ID])
 	ids.append_array([MSTREET3_ZONE_ID, MSTREET4_ZONE_ID, CROSSROAD_ZONE_ID])
+	ids.append(HOCKSHOP_ZONE_ID)
 	return MapDefinition.new(OUTDOOR_MAP_ID, REGION_ID, OUTDOOR_SCENE, ids, [INN_RETURN_PORTAL_ID], [SQUARE_ENTRY_SPAWN_ID])
 
 
@@ -73,6 +75,7 @@ static func route_zones() -> Array[ZoneDefinition]:
 		ZoneDefinition.new(MSTREET3_ZONE_ID, OUTDOOR_MAP_ID, MSTREET3_ZONE_ID, "雪亭镇街道", ["/d/snow/mstreet3"]),
 		ZoneDefinition.new(MSTREET4_ZONE_ID, OUTDOOR_MAP_ID, MSTREET4_ZONE_ID, "雪亭镇街道", ["/d/snow/mstreet4"]),
 		ZoneDefinition.new(CROSSROAD_ZONE_ID, OUTDOOR_MAP_ID, CROSSROAD_ZONE_ID, "山坳", ["/d/snow/crossroad"]),
+		ZoneDefinition.new(HOCKSHOP_ZONE_ID, OUTDOOR_MAP_ID, HOCKSHOP_ZONE_ID, "丰登当铺", ["/d/snow/hockshop"]),
 	]
 
 
@@ -86,6 +89,8 @@ static func zone_by_id(id: StringName) -> ZoneDefinition:
 
 
 static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
+	if (from_id == HOCKSHOP_ZONE_ID and to_id == MSTREET3_ZONE_ID) or (to_id == HOCKSHOP_ZONE_ID and from_id == MSTREET3_ZONE_ID):
+		return true
 	var north_from: int = NORTH_SPINE_ZONE_IDS.find(from_id)
 	var north_to: int = NORTH_SPINE_ZONE_IDS.find(to_id)
 	if north_from >= 0 and north_to >= 0 and absi(north_from - north_to) == 1:
@@ -106,6 +111,7 @@ static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
 ## Traceability only: these entries do not create native portals or destinations.
 static func authored_outdoor_exits() -> Dictionary[String, String]:
 	return {
+		"hockshop:west": "/d/snow/mstreet3", "hockshop:east": "/d/snow/hockshop2", # East is metadata only; no destination.
 		"bank:east": "/d/snow/mstreet1",
 		"mstreet1:south": "/d/snow/square", "mstreet1:north": "/d/snow/mstreet2",
 		"mstreet1:east": "/d/snow/school1", "mstreet1:west": "/d/snow/bank",

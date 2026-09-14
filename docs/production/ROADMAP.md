@@ -272,7 +272,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     passed all four required jobs on that exact commit. This closes the bounded Core Hub, not
     all38 Snow rooms or deferred services/NPC population. Historical slice evidence remains intact.
 
-11. **Snow Hockshop / Loot Monetization — H2 CORE IMPLEMENTED / OWNER REVIEW**
+11. **Snow Hockshop / Loot Monetization — H3 IMPLEMENTATION COMPLETE / OWNER REVIEW**
 
     Current planned major milestone on `phase/snow-hockshop-loot-monetization`, from exact green
     main `112f3208937c9f5a480b9f27588af811599937ac`.
@@ -282,6 +282,9 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     H1 is OWNER APPROVED / CLOSED at `7dc3efc`. Owner A–N are recorded in DECISIONS before
     [H2 typed core](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md): readonly valuation,
     exact held-ID sell, full-amount silver→coin admission/merge, ordered partial failures,
-    Hockshop-specific cleanup and live lifecycle/unchanged Save composition. H2 awaits owner review.
-    H3 physical front room/local door/UI and final audit/PR are NOT AUTHORIZED. No new region,
-    NPC population, pawn/custody, medicine or generic merchant system is implemented.
+    Hockshop-specific cleanup and live lifecycle/unchanged Save composition. H2 is owner approved.
+    [H3 physical runtime](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_RUNTIME.md) implements
+    the continuous front room, transient two-sided door and exact-item Value/Sell UI, with fresh
+    automated and real-input commerce/cold-Continue evidence. H3 awaits owner review; Final Audit
+    and PR are not started or authorized. No new region, NPC population, pawn/custody, medicine
+    or generic merchant system is implemented. The milestone is not integrated on main.

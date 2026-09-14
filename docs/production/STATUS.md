@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Hockshop / Loot Monetization — H2 CORE IMPLEMENTED / OWNER REVIEW**
+**Snow Hockshop / Loot Monetization — H3 IMPLEMENTATION COMPLETE / OWNER REVIEW**
 is the current milestone on `phase/snow-hockshop-loot-monetization`, based on exact green main
 `112f3208937c9f5a480b9f27588af811599937ac`.
 [H1 source contract / Native dependency analysis](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md)
@@ -10,8 +10,12 @@ is OWNER APPROVED / CLOSED at `7dc3efc`. Owner A–N were recorded separately in
 before [H2 typed core](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CORE.md): exact held-item
 appraisal, source sell80%, full-quantity silver→coin payout, partial capacity results and scoped
 immediate failed-clone cleanup, followed by live item/equipment/food/liquid removal. Existing Save
-format remains root2/item3/SOURCE_ENTRY_V1. H2 awaits owner review; there is no physical Hockshop
-access, UI, door or pawn. H3, final audit and PR are not authorized; the milestone is not integrated.
+format remains root2/item3/SOURCE_ENTRY_V1. H2 is owner approved at `84fdeb4`.
+[H3 physical runtime](../migration/PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_RUNTIME.md) adds the continuous
+front room, two-sided local Open control and scoped Value/Sell panel. Fresh focused107/H2 regression298/
+canonical19,844/Python46 passed, along with real loot→sale→supplies→Save→cold Continue and separate
+inside-save/closed-door/physical-exit evidence. The disclosed combat QA fixture is detailed in H3.
+H3 awaits owner review. No pawn, Final Audit or PR; the milestone is not integrated.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
