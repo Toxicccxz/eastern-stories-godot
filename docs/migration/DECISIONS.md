@@ -1,5 +1,318 @@
 # Migration Decisions
 
+## Snow north public spine and Core Hub finish line (S7B)
+
+**OWNER APPROVED — S7B.** S7A is OWNER APPROVED / CLOSED at
+`04c77650ea72d48cae1173a422a78c3c0188abd5`. Record these decisions separately before
+production implementation. They approve the bounded S7A A–L recommendations, not a final
+Snow audit/PR/merge. Source semantics remain Type A; the observable staged omissions and
+physical embodiment below are **Type B milestone scope**, not authored source closures.
+
+- **A — extent:** Extend the existing `snow.outdoor` resident continuously from mstreet2
+  through distinct `snow.mstreet3`, `snow.mstreet4`, `snow.crossroad` zones. Preserve exact
+  reciprocal north/south source adjacency; no new map, ordinary-walking portal or shortcut.
+  Southwestern sroad2–5 and other optional branches remain deferred.
+- **B — external boundaries:** Crossroad itself is required. Its north Goathill and east
+  Green directions remain visible static closed content boundaries, with no destination
+  definition, travel action, portal, guard, key or invented authored lock.
+- **C — Hockshop:** Static east frontage only. No interior, NPC, appraisal, pawn/sell,
+  payout/destruction, custody/ticket/retrieve or persistence. Source doors do not authorize
+  generic door runtime. No failed-transfer cleanup decision is generalized to Hockshop.
+- **D — Herbshop:** Static west frontage only. No interior, herbalist/woodcutter, medicine,
+  inquiry, healing or poison cure. Frontage is not service parity.
+- **E — Postoffice:** Static west frontage on mstreet4 only. No interior, officer, mailbox,
+  mail fees, accounts, online/offline mail or fake local inbox.
+- **F — School:** Later progression; mstreet1 east remains closed. No teachers, training,
+  faction/apprenticeship or free weapon access.
+- **G — Smithy:** Later commerce/weapon content; mstreet2 west remains closed. No hammer,
+  repair or crafting.
+- **H — ordinary interiors:** Exposed source services receive honest facades/signs and
+  collision boundaries, not empty accessible interiors or unusable service buttons.
+  These closures are staging, not claims that ES2 permanently closes the shops. mstreet4
+  has no executable east exit: add no alley route, zone, interaction or future-region gate.
+- **I — secret/storage:** herbshop1, secret_storage, weapon-storage puzzle and unrelated
+  storerooms do not block this bounded milestone; no invented secret entrance.
+- **J — healing:** Accept existing eligible S5B slow effective-resource recovery as the
+  current healing finish line. Preserve cadence, food/water, condition freezes and lifecycle;
+  no new recovery Timer, combat recovery, poison scheduling or medicine.
+- **K — loot:** Excess-loot monetization remains an acknowledged high-value later commerce
+  gap, not a Snow Core blocker. Do not add selling/value projections in S7B.
+- **L — completion:** Source New Game, Work, Bank, dumpling, wineskin/water, eligible recovery,
+  Old Pine link, north spine, honest deferred frontages/regions and old/new-position Save/
+  Continue must work within existing authority. Keep root2/item3/SOURCE_ENTRY_V1; no new
+  mutable street/door/NPC state or gameplay RNG use. All38 rooms are not required. A distinct
+  Final Snow Audit is the next possible phase **only after S7B owner approval and separate
+  authorization**; implementation completion does not close the milestone or authorize PR.
+
+Sources: `reference/es2/mudlib/d/snow/mstreet2.c`, `mstreet3.c`, `mstreet4.c`, `crossroad.c`,
+`hockshop.c`, `herbshop.c`, `postoffice.c`, `d/green/path6.c`, `d/goathill/mroad1.c`.
+See [S7A analysis](PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md).
+No Type C redesign is approved; existing PlayerBodyFacts, item authority, prior service
+failure policies and owner-local tooling remain unchanged.
+
+## Fresh water supply loop (S6B only)
+
+**OWNER APPROVED — S6B.** S6A is OWNER APPROVED / CLOSED at
+`945a8bde0d8d2734f737b51fb6619cf42e8ff5cd`. These A–M decisions are committed separately
+before implementation. They authorize no final Snow PR, alcohol runtime or next slice.
+
+- **A — source selection:** First source is `d/oldpine/waterfall.c`, resource/water1,
+  represented by `oldpine.outdoor.waterfall_basin`. Unlimited; no depletion, reset or cooldown.
+- **B — narrow Type B Vine supersession:** For playable SOURCE_ENTRY_V1 only, effective dodge<=0
+  selects the existing Waterfall branch through normal presentation/movement with zero World RNG
+  draws. No clamp, fake draw, dodge mutation, skill grant or reverse cliff edge. Historical
+  random(0) behavior is still unproven; this resolves the monotonic low-dodge intent, not new
+  Type A evidence. Positive bounds retain exactly one existing draw, range [0,bound), <5 Waterfall,
+  otherwise Passage; invalid draws remain typed failure. Other revisions and authored random-bound
+  policies retain their previous ambiguity behavior.
+- **C — canonical content:** Waiter sells `es2:obj/example/wineskin` from `obj/example/wineskin.c`:
+  牛皮酒袋, aliases wineskin/skin, unit个, weight700, value/price20, max15, fresh alcohol/红酒15,
+  drunk_apply6. Ordinary ITEM+F_LIQUID, not combined/food/weapon/armor. Unlimited fresh-ID purchases.
+- **D — truthful fresh wine:** Preserve RED_WINE15, including through Save/Continue. No empty,
+  clear-water or renamed substitute. Staged UI must explain incomplete alcohol support honestly.
+- **E — Type B alcohol omission:** Alcohol Drink returns typed ALCOHOL_DEFERRED before mutations:
+  zero portions/water/busy/conditions/RNG. No harmless wine substitute. ConditionSystem, drunk,
+  missing receive_healing, recovery condition freeze and unconscious/revive remain untouched.
+- **F — Type A fill and identity:** Full/partial/empty wine or water can be discarded/refilled
+  to CLEAR_WATER15 on the SAME item/definition/parent/weight, zero allocation. No empty-first rule,
+  poured-wine item or replacement. Authored drunk_apply6 remains; water never applies drunk.
+- **G — water semantics and valid-state boundary:** Validate action/item, ACTIVE/in-world ordinary
+  availability, busy, direct ownership, staged combat exclusion, valid positive remaining, then
+  Player water<capacity. Success decrements one portion then adds30 water without clamping or
+  immediate healing. Body80000 capacity400:400 refuses unchanged,399→429,0→30. Empty0 survives,
+  with same ID/parent/weight700/value20/content. No food/condition/busy/RNG mutation. Native legal
+  liquid states are remaining0..15; source arbitrary negative truthiness is not normalized.
+- **H — Type B reachability:** Specific Player-direct-held instance only, no ground/nested/NPC/
+  other-holder use. Distinct wineskins remain independent. This is not full LPC add_action reach.
+- **I — Type B noncombat/ACTIVE staging:** Reject active encounter/fighting without busy or other
+  mutation. Existing busy blocks but is not advanced/cleared. Successful noncombat use adds no
+  busy; source fighting-success busy2 is deferred. Require published active Session, ACTIVE world
+  Player and ordinary interaction availability; paused/staged/nonworld/dead/ghost use is excluded.
+- **J — wineskin-specific Vendor extension:** Explicitly extend S4B waiter A–D ONLY to this offer.
+  Resolve/validate item/liquid/persistence facts and canonical price before affordability/payment;
+  malformed static facts reject free. Preserve S3B0/1/2 and ordered payment. After payment allocate
+  → full-weight registration → index → fresh liquid state → post-payment capacity transfer.
+  No pre-payment final-weight preflight. Paid failure retains money and sequence/ID consumption;
+  destroy only safe parentless product through authoritative ItemLifecycle, then liquid association,
+  then derived index. No refund/drop/orphan Save/timer/fallback. Cleanup failure is authority failure.
+  Truthful paid=true/delivered=false. Dumpling remains unchanged; no generic Vendor/Bank policy.
+- **K — Type B typed composition:** Session owns one LiquidCollection keyed by ItemInstanceId;
+  LiquidState holds typed RED_WINE/CLEAR_WATER plus remaining. Definitions own max/hydration/drunk
+  metadata/display/weight/value. Inventory owns existence/parent/weight. No UI text/dictionary/
+  Callable/parent/price in mutable payload, duplicate inventory or generic consumable engine.
+  Do not infer universal liquid-versus-food/weapon/armor/stack role exclusivity from this one item.
+- **L — Type B embedded format:** Item schema2→3, deterministic typed liquid_consumables records
+  of ID/content/remaining. Root schema2, SOURCE_ENTRY_V1, root keys and three saved RNG streams
+  unchanged. Strict item1 five historical keys; item2 adds food_consumables; item3 also requires
+  liquid_consumables. Unknown/missing/extra keys reject. Legal old1/2 decode with empty liquid
+  records then current validation; explicit resave writes3, not old JSON byte equality. Never
+  recreate fresh wine for missing state. Reject duplicate/dangling/non-liquid/missing records,
+  unknown content, negative/>15 remaining, wrong weight/identity. Both content kinds0..15 valid,
+  including empty live items. Restore fresh collection with exact IDs/parents/allocator, no draw
+  or allocation/refill. Preserve supported root2/item1 food-validation behavior; root1 unsupported.
+- **M — Type B bounded physical/UI scope:** Only Waterfall exposes environmental Fill, requiring
+  current active-map/authoritative zone/valid placement/near-marker proof and selected direct-held
+  instance. No map-ID-only access or direct environmental Drink. Static marker is not saved/item/NPC.
+  Fill validates availability → ownership → busy/combat → water source → liquid facts, then sets
+  CLEAR_WATER and max15; Player water unchanged. Held clear-water Drink is map-independent via one
+  Session UI. Show contents/remaining and truthful wine-discard action. Riverbanks remain authored
+  but staged; no Green/Snow north/Lake or new return shortcut. Work/Bank/dumpling and S5B unchanged.
+
+Source facts: `reference/es2/mudlib/feature/liquid.c`, `obj/example/wineskin.c`,
+`d/snow/npc/waiter.c`, `d/oldpine/epath2.c`, `d/oldpine/waterfall.c`, `feature/damage.c`,
+`feature/vendor.c`, `feature/finance.c`, `feature/move.c`. See
+[S6A archaeology](PHASE_SNOW_TOWN_CORE_HUB_WATER_DRINK_SOURCE_CONTRACT.md).
+S4B wine deferral and single-offer boundary are superseded only as explicitly scoped above;
+its historical evidence and unrelated decisions remain unchanged. S5B's embedded item2 checkpoint
+is historical after L; its recovery behavior, independent body facts and timing remain unchanged.
+
+## Player recovery / metabolism cadence (S5B only)
+
+**OWNER APPROVED — S5B.** S1/S2/S3A/S3B/S3C/S4A/S4B/S5A are OWNER APPROVED / CLOSED.
+These A–M choices supersede S5A's recommendations, not its source findings. This ledger is
+committed separately before production implementation; it does not authorize a final Snow PR.
+
+- **A — Type A count shape:** Preserve `5 + random(10)` stored countdown5–14 and source
+  post-decrement semantics: reset5/6/14 yields recovery on eligible pulse6/7/15. At old0,
+  draw/store the next reset before applying recovery. No fixed mean or reroll after a failure.
+- **B — Type B timing:** Native S5B uses an owner-approved **2.0-second base pulse because
+  the original wall-clock heartbeat period is not proven**. The bundled manual's usual2s
+  is supporting context, not proof of ES2 deployment. Unblocked opportunities take6–15
+  pulses (12–30 seconds of eligible Native time). Process all complete active-delta pulses
+  synchronously in order and retain remainder; reject non-finite/negative time, no silent cap.
+- **C — source busy ordering:** At each due base pulse inspect busy at entry. Consume the
+  pulse's time but do not decrement countdown, recover, update conditions, advance busy or
+  draw RNG. Busy1 still blocks. Existing busy authority remains the only advancement owner.
+- **D — Type B staged combat omission:** Source permits nonbusy fighting recovery. S5B
+  freezes accumulator/countdown during any active encounter or fighting relationship,
+  consuming no recovery RNG/metabolism. Resume the same phase after combat. Do not change
+  combat timing or use its scheduler as heartbeat; noncombat world-gate freezes also freeze time.
+- **E — staged condition dependency:** Any active condition payload (including unsupported
+  IDs or zero/negative durations) freezes the entire S5B phase. No handlers, duration mutation,
+  expiry or RNG. Source condition→no-heal→recovery order cannot be partially activated by
+  healing while its conditions are frozen. This is not source condition behavior/parity.
+- **F — Player-only staged scope:** Exactly one Session-owned cadence for SOURCE_ENTRY_V1
+  Player. None for NPCs, inactive residents, corpses or LEGACY_OLDPINE_V1 technical sessions.
+  Invalid/unpublished/staged candidates cannot tick; unsafe handoff/swap freezes time.
+- **G — Type B Pause:** Freeze the complete phase and resume its exact in-memory remainder
+  and countdown, without catch-up or reroll. Menus never grant rest/recovery time.
+- **H — no offline simulation:** Closed-app time causes zero recovery/metabolism. No clock,
+  login/save timestamp, elapsed offline calculation or bounded catch-up is introduced.
+- **I — transient phase:** LPC `tick` is static and not saved. Native Save does not reset the
+  live phase; fresh Source Session/Continue creates accumulator0 and draws one initial tick.
+  Do not save countdown, accumulator or cadence RNG. Map activation/handoff/rollback, Pause,
+  combat and condition appearance/removal retain the same live authority without reroll.
+- **J — independent transient RNG:** One typed private recovery random source, with injectable
+  deterministic tests and dedicated production RNG; no global random state or use of combat,
+  NPC-initialization or world-interaction streams. Continue draws only the new transient stream;
+  the three persisted streams restore exactly with zero draws. No RNG field is added to Save.
+- **K — unchanged Save contract:** Root schema2, embedded item schema2 and SOURCE_ENTRY_V1
+  remain exact. Pre-S5B saves load without migration or new optional keys. Only existing
+  character facts mutated by recovery persist. Capture is synchronous at a settled boundary;
+  ordinary counting does not itself block Save. No cadence section or recovery timestamp.
+- **L — ACTIVE-only staged life scope:** Freeze for UNCONSCIOUS/DEAD/other non-ACTIVE state;
+  no recovery, metabolism, revive, ghost behavior or new lifecycle reconciliation. Only an
+  existing legitimate return to ACTIVE resumes the retained phase. This omits source paths.
+- **M — deferred age/idle:** No age/mud_age clock, idle timeout, user_dump, netdead/login
+  heartbeat, age gifts or idle rewards/penalties. This is not a general heartbeat emulator.
+
+Implementation must borrow existing `CharacterRecovery.apply_tick` with current raw magic,
+force and spells, Player=true/no-heal=false only after the staging guards. No formula, food,
+Work, Bank or Vendor changes. Water remains a real supply limit; no refill/starvation system.
+Sources: `reference/es2/mudlib/std/char.c`, `feature/damage.c`, `feature/condition.c`,
+`include/condition.h`, `doc/efuns/random`, `set_heart_beat`, `save_object`.
+Archaeology: [S5A contract](PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md).
+
+## Snow waiter / dumpling supply loop (S4B only)
+
+**OWNER APPROVED — S4B.** These decisions take effect under the owner's S4B instruction.
+S1/S2/S3A/S3B/S3C and S4A analysis are OWNER APPROVED / CLOSED. The historical S4A
+recommendation table is not rewritten. This does not authorize a final Snow PR or later goods.
+
+- **A — Vendor-specific Type B:** Resolve/quote, affordability, successful ordered payment,
+  allocate/create goods, then attempt full-weight delivery. Ordinary capacity failure keeps all
+  payment/depletion and consumed IDs/sequences. Immediately remove the provably parentless
+  product through authoritative ItemLifecycle, remove associated food state only after removal,
+  then update the derived index. No refund, ground drop, orphan persistence, timer or retry.
+  Cleanup failure is an explicit authority failure; no fallback. This is separately approved
+  for Vendor, not inherited from Workplace S2 or Bank S3B and not a general failed-transfer policy.
+- **B — static validation / ordered failure:** Validate the supported offer, source price,
+  item/food/persistence definitions before affordability/payment. Missing/malformed content
+  rejects without payment or allocation, never substitutes a product/price. After successful
+  payment, allocation/creation/registration failures retain reached money/sequence mutations.
+  A known safe parentless live partial product may be cleaned using A's ordered lifecycle.
+  Unknown ownership is not destroyed; cleanup failure has no fallback or compensation.
+  Capacity admission still uses post-payment inventory, never an earlier final-weight preflight.
+- **C — Type B truthful presentation:** Report paid=true/delivered=false when paid goods
+  are not received. Suppress LPC Vendor's unconditional success text without changing money order.
+  Preserve underlying affordability, payment, allocation, transfer and cleanup evidence.
+- **D — Type A stock:** Unlimited clone-on-demand offers; every purchase creates a fresh ID.
+  No stock counts, restock, cooldown, merchant money/inventory, sold-out state or stock Save.
+- **E — Type B staged omission:** Waiter's missing /obj/example/cake remains deferred.
+  No substitute cake, free supplies, birthday relay or persistent gift entitlement.
+- **F — deferred wine contract:** No wineskin/red wine, water-only substitute, drunk,
+  receive_healing repair or intoxication/lifecycle scheduling. Liquid/condition semantics
+  require a later explicit contract.
+- **G — Type B initial use reachability:** Eat only the specific Player-direct-held food
+  instance, ACTIVE and outside combat with ordinary world interaction available. No ground,
+  nested, NPC-held or combat use; no new busy2/timer. Preserve an existing applicable busy
+  block. Use remains map-independent, never Inn-only or waiter-proximity-dependent.
+- **H — typed state / exact semantics:** Session owns one typed food collection keyed by
+  ItemInstanceId, associated with the existing item graph, not CombinedStack/scene/UI/payload.
+  Dumpling starts portions3/value15; accepted bite adds food60 without clamping, sets value0
+  and decrements one portion. Body-fact weight determines capacity; reject at food>=capacity.
+  Final bite uses authoritative immediate item destruction, then removes food association
+  and index. If removal fails, already-reached food/value/portion mutations remain, with
+  authority failure, no rollback or fallback, and no legal successful Save checkpoint.
+- **H1 — bounded embedded format evolution:** NativeItemStateSnapshot current version1→2;
+  captures encode item schema2 and deterministic typed food records. Decoder accepts exact
+  old schema1 keys as empty food state, or exact schema2 keys including food records.
+  Unknown versions/keys, duplicate/dangling/non-food records and missing required food state
+  reject. A schema1 dumpling without food state fails, never receives fresh portions.
+  Legal live dumpling states are only 3/15, 2/0, 1/0. Root schema2 and SOURCE_ENTRY_V1 stay
+  unchanged; root schema1 remains unsupported. Pre-S4B semantic continuation is preserved;
+  resaving necessarily changes embedded representation1→2, not byte-identical old JSON.
+- **I — deferred authored weapon goods:** No dagger/sword-action substitution, chicken/hammer,
+  bone variant or their persistence. These remain real deferred waiter offers, not placeholders.
+- **J — Type B staged contact:** One deterministic scene-owned 店小二 commerce contact in
+  existing Inn main floor, with only the dumpling offer. No NPC character/body/equipment,
+  RNG greeting, combat/death, reset/respawn ledger, AI, birthday relay or dialogue system.
+  Static contact reappears as scene content on Continue; no mutable waiter Save record.
+  Full waiter parity is explicitly not claimed.
+
+**K — sequencing only:** Owner-approved S3C supplies natural Work→Bank→Inn denomination
+access. No starter coins, Vendor change-making or denomination normalization is authorized.
+S3B's exact affordability/payment anomalies and source price15 remain unchanged.
+
+Sources: `reference/es2/mudlib/d/snow/inn.c`, `d/snow/npc/waiter.c`,
+`obj/example/dumpling.c`, `cmds/std/buy.c`, `feature/vendor.c`, `feature/finance.c`,
+`feature/food.c`, `feature/move.c`, `feature/clean_up.c`, `std/item.c`.
+These are owner-selected boundaries, not a general consumables/commerce authorization.
+
+## Currency exchange / payment core (S3B only)
+
+**OWNER APPROVED — S3B.** The following A–H decisions are locked by the owner's S3B instruction,
+not proposals. S3A is OWNER APPROVED / CLOSED. These decisions do not authorize Bank world/UI,
+Vendor purchasing or a general economy framework.
+
+- **A — Type A:** Preserve executable `can_afford()` presence checks, strict `<` comparisons and
+  distinct 0/1/2 meanings, including false rejections and false-positive1. Coin100 paying100 is2;
+  silver1 paying100 and gold1 paying10000 are1; gold1+silver1 paying9900 is1 although payment fails.
+- **B — source order / typed errors:** Payment processes gold → silver → coin. Preserve mutations
+  completed before a later error; return a typed failure at that stage. No rollback, refund,
+  auto-change, new denomination minting or seller credit. Results expose completed mutations.
+- **C — Bank-only Type B:** New target allocation and authored amount1 creation precede its
+  one-unit-weight transfer attempt. On ordinary failed delivery, establish the converted target
+  amount, debit source in source order, then immediately destroy the parentless target through
+  ItemLifecycle. Forget index state only after authoritative removal. Keep consumed sequence;
+  no refund/source restoration/drop/persistent orphan/timer/retry. Cleanup failure is an authority
+  failure with no fallback. This is separately approved for Bank, not inherited from S2 or applicable
+  to Vendor. Exact MudOS cleanup timing is deliberately not preserved.
+- **D — Type A:** Existing target growth has no transfer/capacity admission. New targets move at
+  amount1 before full growth and before source debit. No final/net/gross weight preflight or
+  post-growth veto; over-cap results and strict-cap equality are retained.
+- **E — Type A:** Payment and Bank are ordered, non-atomic operations. No generic transaction,
+  compensation engine or rollback snapshot. Transactional native Save reconstruction is unrelated.
+- **F — Type B:** Finance selects at most one stack per denomination from direct Player inventory
+  only. No ground, NPC, bag/recursive or world fallback. Duplicate direct stacks use ascending
+  stable-instance-ID selection without summing or merging. Presence remains distinct from amount0.
+  Bank retains its source direct-only scope. Removing finance's ground-money fallback is explicit.
+- **G — S3B-only Type B:** At each full-consumption point, complete denomination arithmetic,
+  invoke existing lifecycle immediately and forget the index only after success before continuing.
+  No stale-positive one-second window, timer or pending-destruction save state. Stop on lifecycle
+  failure, retaining earlier mutations, without fallback deletion. Global Combined semantics and
+  the existing item-schema1 omission remain unchanged outside this composition.
+- **H — bounded Type B representation:** Only canonical coin(value1/weight1/unit文), shared
+  silver(100/37/两), gold(10000/37/两). Exact source-path stack compatibility; no duplicate silver.
+  Same-type exchange retains temporary target growth then source subtraction, not a shortcut.
+  Reject unsupported denominations/aliases/custom per-instance values explicitly; use checked
+  arithmetic, never overflow/clamp to success. Genuine thousand-cash content remains deferred.
+
+**I — boundary, not a Vendor failure decision:** Vendor fulfillment remains deferred. S2, Bank
+cleanup and payment decisions must not be generalized to future goods delivery or other commerce.
+
+Sources: `reference/es2/mudlib/feature/finance.c`, `cmds/std/buy.c`, `feature/vendor.c`,
+`std/room/bank.c`, `d/snow/bank.c`, `obj/money/{coin,silver,gold,thousand-cash}.c`,
+`std/money.c`, `std/item/combined.c`, `feature/move.c`, `feature/clean_up.c`.
+Reviewed archaeology: [S3A contract](PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md).
+
+## Snow Workplace undeliverable reward cleanup (S2 only)
+
+**Decision (owner-approved):** When the source work reward is created but cannot be moved to
+Player because of capacity, Native preserves the already-applied sen30 then gin30 costs and
+consumed SessionItemIdAllocator sequence, then immediately destroys the undelivered reward
+through the existing ItemLifecycle authority. Its derived index snapshot is removed only after
+authoritative destruction. Native does not refund the work cost, drop the reward, persist the
+orphan or introduce a cleanup timer.
+
+**Compatibility impact:** `d/snow/workplace.c` ignores `silver->move(me)` failure; source leaves
+a transient ownerless object for later MudOS/driver cleanup (`feature/move.c`, `feature/clean_up.c`).
+Immediate deterministic cleanup replaces only that infrastructure lifetime, not eligibility,
+resource order, reward amount, inventory outcome or allocator consumption. Exact cleanup-timing
+parity is not claimed. Cleanup failure is an authority error with no alternate destruction or
+persistent-orphan fallback. This decision applies only to the audited Snow Workplace path; it is
+not a general policy for future failed transfers.
+
 ### Native Character Entry
 
 **Decision (owner-authorized NGE5B):** Native single-player New Game collects only display name
@@ -195,6 +508,10 @@ from their retained runtime state when reattached; no elapsed off-screen combat,
 NPC activity is synthesized. This is an in-memory session-lifetime rule, not save persistence.
 
 ## Non-positive authored world random bounds become ordered typed ambiguities
+
+**S6B supersession:** The owner-approved SOURCE_ENTRY_V1 playable Vine exception above now selects
+Waterfall for effective dodge<=0 with zero draws. The original policy/evidence below is historical
+for that case and remains current for other revisions/interactions. Positive Vine behavior is unchanged.
 
 **Decision:** When a future authored world interaction reaches an LPC `random(bound)` call with
 `bound <= 0`, native code returns a typed legacy ambiguity/failure at that exact source position, consumes

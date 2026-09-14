@@ -41,6 +41,19 @@ func snapshot_count() -> int:
 	return _items.size()
 
 
+## Projection maintenance AFTER ItemLifecycle/CombinedStackService removal.
+## This cannot destroy a live item or change Inventory/stack authority.
+func forget_destroyed_snapshots(ids: Array[StringName], inventory: InventoryState) -> bool:
+	if inventory == null:
+		return false
+	for id: StringName in ids:
+		if id.is_empty() or inventory.is_registered(id):
+			return false
+	for id: StringName in ids:
+		_items.erase(id)
+	return true
+
+
 func snapshot_ids() -> Array[StringName]:
 	var result: Array[StringName] = []
 	result.assign(_items.keys())

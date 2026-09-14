@@ -1,5 +1,10 @@
 # Phase 9B3B2：藤蔓策略、世界交互随机数与玩家可见跨地图往返
 
+> S6B 当前边界注记：仅 SOURCE_ENTRY_V1 的 effective dodge<=0 经 owner 明确批准直接选择既有
+> Waterfall 分支、零 RNG；这是 Type B 替代，不是 random(0) 的新源码证据。正数边界及技术基线
+> 的历史 ambiguity 行为不变。见 [S6B](PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md)
+> 与 [DECISIONS](DECISIONS.md)。下文保留本阶段当时的实现和测试记录。
+
 ## 范围与前置边界
 
 Phase 9B3B1 的 `OldPineWorldSessionController`、常驻 Outdoor/Cave 地图、单一活动地图槽、跨图 handoff 与最小 Passage 场景保持为已关闭基础。本阶段只接通 `d/oldpine/epath2.c` 的藤蔓交互、Waterfall 落点、Passage 南出口，以及该路径所需的独立世界交互随机源；没有加入 Riverbank、悬崖、湖、蛇、秘密通道北行、洞穴迷宫/NPC、存档、全局 WorldManager、Phase 5B4、TileMap 或通用事件脚本框架。

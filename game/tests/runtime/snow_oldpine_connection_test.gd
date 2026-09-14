@@ -10,6 +10,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var entry: Entry = (load("res://tests/qa/nge4_source_entry.tscn") as PackedScene).instantiate()
 	tree.root.add_child(entry)
 	var session: OldPineWorldSessionController = entry.session
+	# This fixture proves portal/authority continuity, not elapsed recovery time.
+	# S5B tests cadence separately, including preserving its phase across handoffs.
+	# Keep physics/input active; freeze only Session's process-owned schedulers so
+	# this pre-S5B exact-state assertion is independent of host wall-clock speed.
+	session.set_process(false)
 	_check(session.is_initialized(), "production source Session initializes")
 	if not session.is_initialized():
 		entry.free()

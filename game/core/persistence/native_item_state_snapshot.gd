@@ -1,13 +1,29 @@
 class_name NativeItemStateSnapshot
 extends RefCounted
 
-const CURRENT_SCHEMA_VERSION: int = 1
+const CURRENT_SCHEMA_VERSION: int = 3
 
 var _schema_version: int
 var _item_records: Array[NativeItemRecord] = []
 var _combined_stack_records: Array[NativeCombinedStackRecord] = []
 var _character_equipment_records: Array[NativeCharacterEquipmentRecord] = []
 var _character_armor_records: Array[NativeCharacterArmorRecord] = []
+var _food_consumable_records: Array[NativeFoodConsumableRecord] = []
+var _liquid_consumable_records: Array[NativeLiquidConsumableRecord] = []
+
+var liquid_consumable_records: Array[NativeLiquidConsumableRecord]:
+	get:
+		var copies: Array[NativeLiquidConsumableRecord] = []
+		for record: NativeLiquidConsumableRecord in _liquid_consumable_records:
+			copies.append(null if record == null else record.duplicate_snapshot())
+		return copies
+
+var food_consumable_records: Array[NativeFoodConsumableRecord]:
+	get:
+		var copies: Array[NativeFoodConsumableRecord] = []
+		for record: NativeFoodConsumableRecord in _food_consumable_records:
+			copies.append(null if record == null else record.duplicate_snapshot())
+		return copies
 
 var schema_version: int:
 	get:
@@ -32,8 +48,22 @@ func _init(
 	p_combined_stack_records: Array[NativeCombinedStackRecord] = [],
 	p_character_equipment_records: Array[NativeCharacterEquipmentRecord] = [],
 	p_character_armor_records: Array[NativeCharacterArmorRecord] = [],
+	p_food_consumable_records: Array[NativeFoodConsumableRecord] = [],
+	p_liquid_consumable_records: Array[NativeLiquidConsumableRecord] = [],
 ) -> void:
 	_schema_version = p_schema_version
+	for record: NativeLiquidConsumableRecord in p_liquid_consumable_records:
+		_liquid_consumable_records.append(null if record == null else record.duplicate_snapshot())
+	_liquid_consumable_records.sort_custom(func(a: NativeLiquidConsumableRecord, b: NativeLiquidConsumableRecord) -> bool:
+		if a == null:
+			return b != null
+		return b != null and String(a.item_instance_id) < String(b.item_instance_id))
+	for record: NativeFoodConsumableRecord in p_food_consumable_records:
+		_food_consumable_records.append(null if record == null else record.duplicate_snapshot())
+	_food_consumable_records.sort_custom(func(a: NativeFoodConsumableRecord, b: NativeFoodConsumableRecord) -> bool:
+		if a == null:
+			return b != null
+		return b != null and String(a.item_instance_id) < String(b.item_instance_id))
 	for record: NativeItemRecord in p_item_records:
 		_item_records.append(null if record == null else record.duplicate_snapshot())
 	for record: NativeCombinedStackRecord in p_combined_stack_records:
@@ -61,6 +91,8 @@ func duplicate_snapshot() -> NativeItemStateSnapshot:
 		_combined_stack_records,
 		_character_equipment_records,
 		_character_armor_records,
+		_food_consumable_records,
+		_liquid_consumable_records,
 	)
 
 

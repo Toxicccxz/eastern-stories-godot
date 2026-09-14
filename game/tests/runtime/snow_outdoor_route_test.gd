@@ -33,7 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		return {"assertions": _count, "failures": _failures}
 	var player: WorldPlayerRuntimeState = entry._player
 	var identities: Array[Object] = [player, player.state, player.state.equipment, player.armor, entry.birth.inventory, entry.birth.stacks, entry.birth.item_index, entry.allocator, entry.npc_random, entry.combat_random, entry.world_random, entry._world_simulation_gate]
-	_check(SnowWorldDefinitions.outdoor_map().zone_ids() == SnowWorldDefinitions.ROUTE_ZONE_IDS, "one map / five ordered native zones")
+	_check(SnowWorldDefinitions.outdoor_map().zone_ids().slice(0, 5) == SnowWorldDefinitions.ROUTE_ZONE_IDS, "original five route zones remain ordered within expanded map")
 	for zone: ZoneDefinition in SnowWorldDefinitions.route_zones():
 		_check(zone.is_valid() and zone.map_id == &"snow.outdoor" and zone.combat_location_id == zone.zone_id, "valid authored zone and combat identity")
 	var expected_exits: Dictionary[String, String] = {
@@ -43,7 +43,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		"eroad2:west":"/d/snow/eroad1", "eroad2:east":"/d/snow/eroad3",
 		"eroad3:west":"/d/snow/eroad2", "eroad3:east":"/d/temple/sroad", "eroad3:south":"/d/oldpine/npath1",
 	}
-	_check(SnowWorldDefinitions.authored_outdoor_exits() == expected_exits, "all sixteen inspected LPC exits exact")
+	for key: String in expected_exits:
+		_check(SnowWorldDefinitions.authored_outdoor_exits().get(key) == expected_exits[key], "original LPC exit exact: " + key)
 	_check(SnowWorldDefinitions.outdoor_map().portal_ids() == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID], "only west Inn transition executable")
 	_check(SnowWorldDefinitions.portal_by_id(&"eroad3:south") == null, "Old Pine not a native portal")
 	_check(SnowWorldDefinitions.LEGACY_SQUARE_TRAV_BLADE_COUNT == 3 and SnowWorldDefinitions.LEGACY_EROAD2_DOG_COUNT == 2, "authored population counts")

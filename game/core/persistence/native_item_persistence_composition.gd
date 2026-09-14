@@ -9,6 +9,8 @@ static func capture(
 	equipment_sources: Array[NativeCharacterEquipmentSource],
 	armor_sources: Array[NativeCharacterArmorSource],
 	definitions: NativeItemDefinitionProjections,
+	foods: FoodCollection = null,
+	liquids: LiquidCollection = null,
 ) -> NativeItemSnapshotCaptureResult:
 	if inventory == null or stacks == null or item_index == null:
 		return _capture_failure(
@@ -30,6 +32,8 @@ static func capture(
 		equipment_sources,
 		armor_sources,
 		definitions,
+		foods,
+		liquids,
 	)
 
 

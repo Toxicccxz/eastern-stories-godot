@@ -162,9 +162,15 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    passed all four required jobs. Source ES2 begins at Snow's inn: age14, eight attributes30,
    effective combat_exp0, cloth and no weapon. Historical S0 pre-review wording remains as evidence.
 
-9. **Source-valid New Game Entry — NGE6 FINAL AUDIT COMPLETE / FINAL INTEGRATION GATE**
+9. **Source-valid New Game Entry — COMPLETE / FULLY INTEGRATED ON MAIN**
 
-   One new milestone branch: `phase/source-valid-new-game-entry`, based on the green S0 merge above.
+   [PR #15](https://github.com/Toxicccxz/eastern-stories-godot/pull/15), final HEAD
+   `56ae4ba9bf20b2d7d81b7b9fb5ea5854b23662e2`, merged at
+   `047f29083e881156abbdad6ed480bffc1350dfa8`. Post-main
+   [workflow 34631309438](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34631309438)
+   passed all four required jobs on that merge commit. Branch `phase/source-valid-new-game-entry`
+   and its worktree are retained. Below are historical slice checkpoints; later NGE slices supersede
+   earlier technical-entry and compatibility wording.
    [NGE0 contract](../migration/PHASE_NEW_GAME_ENTRY_COMPATIBILITY_CONTRACT.md) has owner-approved
    gift B / food-water B / old-save A, recorded in DECISIONS.
    [NGE1 initialization](../migration/PHASE_NEW_GAME_ENTRY_PLAYER_INITIALIZATION.md) implements the
@@ -200,10 +206,65 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
    Full Chinese mobile IME/birth and iOS device qualification are not claimed. NGE5B is OWNER APPROVED.
    [NGE6 final audit](../migration/PHASE_NEW_GAME_ENTRY_FINAL_AUDIT.md) corrects public technical-save
    reachability and exact Snow street-join restoration; focused/runtime/sanitizer evidence passes.
-   Final committed-HEAD canonical and the unique final PR's four same-HEAD jobs gate integration.
-   This is not fully integrated on main; merge still requires explicit owner authorization.
-   Proposed slices: typed initialization/cloth and save-contract fixtures; Inn and shared map boundary;
-   square/east route; Old Pine north connection; compatible Save/Continue and gated New Game cutover;
-   real acceptance/audit and one final PR. Persistence dependencies are planned before cutover, not
-   deferred until after the public entry changes. This is not full Snow, supply economy, or combat-victory
-   acceptance. One final PR is authorized after local gates; no merge or next-slice implementation.
+   The unique final PR and post-main four-job gates completed successfully as linked above.
+   Public New Game now begins in Snow Inn with source birth and exact schema2 continuation.
+   This is not full Snow, supply economy, or combat-victory acceptance. Historical phase documents
+   keep their original pre-PR checkpoints; they are not new implementation authorization.
+
+10. **Snow Town Core Hub Restoration — FINAL AUDIT PASS / AWAIT OWNER FINAL-PR AUTHORIZATION**
+
+    New major-phase branch `phase/snow-town-core-hub`, based on exact green main
+    `047f29083e881156abbdad6ed480bffc1350dfa8`.
+    [S1 source rebaseline / dependency analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_REBASELINE.md)
+    is owner-approved/closed. It covers the entire Snow source population/topology/item set,
+    actual fresh-player paths, commerce/recovery/teaching dependencies and save-content risks.
+    [S2 work income/minimal access](../migration/PHASE_SNOW_TOWN_CORE_HUB_WORK_INCOME.md) is implemented
+    and locally validated; S1 and S2 are OWNER APPROVED / CLOSED. No NPC population or commerce is added.
+    [S3A currency exchange/payment source contract](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md)
+    is OWNER APPROVED / CLOSED; A–H choices are locked in DECISIONS before production changes.
+    [S3B currency/payment core](../migration/PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_IMPLEMENTATION.md)
+    implements canonical coin/silver/gold, exact affordability/ordered payment and Bank conversion,
+    approved lifecycle substitutions and same-schema cold continuation. S3B is OWNER APPROVED / CLOSED.
+    [S4A Inn Vendor/consumables analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_INN_VENDOR_CONSUMABLES_CONTRACT.md)
+    is OWNER APPROVED / CLOSED (analysis only); paid-goods failure, consumable/weapon dependencies,
+    denomination access and Save boundaries are recorded as historical decision preparation.
+    The separate owner-authorized [S3C Bank physical exchange](../migration/PHASE_SNOW_TOWN_CORE_HUB_BANK_PHYSICAL_EXCHANGE.md)
+    now provides same-map mstreet1 ↔ Bank access and UI composition over S3B: real two-Work
+    denomination access and Bank Save/cold Continue validated; S3C is OWNER APPROVED / CLOSED.
+    This resolves sequencing K. Owner then approved A–J/H1 in DECISIONS before
+    [S4B waiter/dumpling](../migration/PHASE_SNOW_TOWN_CORE_HUB_WAITER_DUMPLING.md): staged contact,
+    one unlimited source offer, ordered S3B payment/delivery, typed food and shared direct-held use.
+    Partial-food continuation and strict embedded item1→2 compatibility pass without changing root
+    schema2/SOURCE_ENTRY_V1. Focused489 / canonical18,834 and actual desktop purchase/controlled
+    consumption/cold Continue PASS. S4B is OWNER APPROVED / CLOSED; no Bank NPC/accounts, full waiter NPC,
+    wine/dagger/chicken/cake or hunger/recovery scheduler is implemented.
+    [S5A Player recovery/metabolism analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRACT.md)
+    is OWNER APPROVED / CLOSED. Owner-approved A–M precede
+    [S5B cadence](../migration/PHASE_SNOW_TOWN_CORE_HUB_PLAYER_RECOVERY_CADENCE.md): source Player only,
+    one transient Session clock/private RNG, Native2s pulses and source6–15-pulse opportunities.
+    Pause/combat/conditions/non-ACTIVE/staging freeze; no offline catch-up or cadence Save fields.
+    Existing recovery/Work/food formulas remain unchanged. Focused184, natural desktop economy/Eat,
+    Pause/Resume and exact cold Continue PASS. S5B is OWNER APPROVED / CLOSED at `add93fcf`.
+    [S6A water/drink analysis](../migration/PHASE_SNOW_TOWN_CORE_HUB_WATER_DRINK_SOURCE_CONTRACT.md)
+    is OWNER APPROVED / CLOSED at `945a8bde`. Owner A–M decisions are implemented in
+    [S6B fresh water supply](../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md):
+    source-entry nonpositive dodge→existing Waterfall/zero RNG; canonical red-wine wineskin20;
+    same-ID Fill→water15; direct-held noncombat Drink+30 without clamp; strict embedded item3
+    continuation, with legal old item1/2 support and unchanged root2/SOURCE_ENTRY_V1.
+    Natural desktop supply/Pause Save/cold Continue PASS. Alcohol, Riverbank Fill, Green access,
+    condition cadence and further content remain deferred. S6B is OWNER APPROVED / CLOSED at
+    `add8d32107277fef7cc57a4a121c64b6b9b5c027`; its evidence is unchanged.
+    [S7A north street/core services rebaseline](../migration/PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md)
+    is OWNER APPROVED / CLOSED at `04c77650ea72d48cae1173a422a78c3c0188abd5`.
+    [S7B physical spine](../migration/PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_PHYSICAL_SPINE.md)
+    implements owner-selected A–L: three distinct zones in the same outdoor resident, static
+    closed service frontages and external boundaries, with old/new Save continuation.
+    Focused188 / canonical19,410 / Python46 and real desktop route/cold Continue PASS.
+    Existing supply/eligible recovery meet the approved bounded finish line; loot monetization,
+    fast medicine, postal mail, school/smith gameplay and southwest streets remain deferred.
+    S1–S7B are OWNER APPROVED / CLOSED. The separately authorized
+    [Final Snow Audit](../migration/PHASE_SNOW_TOWN_CORE_HUB_FINAL_AUDIT.md) is PASS — PR READY:
+    fresh canonical19,410 / focused1,666 / Python46, real economy/water/north journeys and
+    exact cold Continue pass. The approved bounded implementation is complete.
+    **Next: owner authorization for final Snow PR.** No final PR has been authorized/created;
+    no merge, another gameplay slice, Lake, full population or Phase5B4 is authorized.

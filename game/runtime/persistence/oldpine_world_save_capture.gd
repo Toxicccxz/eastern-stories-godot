@@ -71,6 +71,8 @@ func capture(
 			equipment_sources,
 			armor_sources,
 			OldPineNativeItemDefinitionProjections.create(session.world_content_revision()),
+			session.food_collection(),
+			session.liquid_collection(),
 		)
 	)
 	if not item_capture.succeeded:

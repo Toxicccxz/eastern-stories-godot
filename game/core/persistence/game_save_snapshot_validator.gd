@@ -57,6 +57,24 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		if stack == null or stack.item_instance_id.is_empty(): return _invalid("items.combined_stacks[%d]" % index, "empty stack ID")
 		if stack_ids.has(stack.item_instance_id): return _duplicate("items.combined_stacks[%d].item_instance_id" % index)
 		stack_ids[stack.item_instance_id] = true
+	var food_ids: Dictionary[StringName, bool] = {}
+	for index: int in range(snapshot.items.food_consumable_records.size()):
+		var food: NativeFoodConsumableRecord = snapshot.items.food_consumable_records[index]
+		if food == null or not item_ids.has(food.item_instance_id) or food.remaining_portions <= 0 or food.current_value < 0:
+			return _invalid("items.food_consumables[%d]" % index, "invalid live food association")
+		if food_ids.has(food.item_instance_id):
+			return _duplicate("items.food_consumables[%d].item_instance_id" % index)
+		food_ids[food.item_instance_id] = true
+	var liquid_ids: Dictionary[StringName, bool] = {}
+	for index: int in range(snapshot.items.liquid_consumable_records.size()):
+		var liquid: NativeLiquidConsumableRecord = snapshot.items.liquid_consumable_records[index]
+		if liquid == null or not item_ids.has(liquid.item_instance_id) or liquid.remaining < 0 or liquid.content not in [LiquidState.Content.RED_WINE, LiquidState.Content.CLEAR_WATER]:
+			return _invalid("items.liquid_consumables[%d]" % index, "invalid live liquid association")
+		if liquid_ids.has(liquid.item_instance_id):
+			return _duplicate("items.liquid_consumables[%d].item_instance_id" % index)
+		liquid_ids[liquid.item_instance_id] = true
+	# Definition-dependent portion/value/weight checks remain in the existing
+	# NativeItemStateValidator invoked by capture and fresh graph reconstruction.
 	var equipment_characters: Dictionary[StringName, bool] = {}
 	for index: int in range(snapshot.items.character_equipment_records.size()):
 		var equipment: NativeCharacterEquipmentRecord = snapshot.items.character_equipment_records[index]

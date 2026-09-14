@@ -140,7 +140,13 @@ func _encode_items(value: NativeItemStateSnapshot) -> Dictionary[String, Variant
 		var slots: Array[Variant] = []
 		for slot: NativeArmorSlotRecord in record.slots: slots.append({"armor_type": String(slot.armor_type), "item_instance_id": String(slot.item_instance_id)})
 		armor.append({"character_id": String(record.character_id), "slots": slots})
-	return {"schema_version": value.schema_version, "records": records, "combined_stacks": stacks, "equipment": equipment, "armor": armor}
+	var foods: Array[Variant] = []
+	for record: NativeFoodConsumableRecord in value.food_consumable_records:
+		foods.append({"item_instance_id": String(record.item_instance_id), "remaining_portions": _i(record.remaining_portions), "current_value": _i(record.current_value)})
+	var liquids: Array[Variant] = []
+	for record: NativeLiquidConsumableRecord in value.liquid_consumable_records:
+		liquids.append({"item_instance_id": String(record.item_instance_id), "content": "RED_WINE" if record.content == LiquidState.Content.RED_WINE else "CLEAR_WATER", "remaining": _i(record.remaining)})
+	return {"schema_version": NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, "records": records, "combined_stacks": stacks, "equipment": equipment, "armor": armor, "food_consumables": foods, "liquid_consumables": liquids}
 
 
 func _decode_root(value: Variant) -> GameSaveSnapshot:
@@ -297,10 +303,25 @@ func _decode_rng(value: Variant, path: String) -> RandomStreamSnapshot:
 
 
 func _decode_items(value: Variant, path: String) -> NativeItemStateSnapshot:
-	var object: Dictionary = _obj(value, path, ["schema_version", "records", "combined_stacks", "equipment", "armor"])
+	if typeof(value) != TYPE_DICTIONARY:
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected object")
+		return null
+	var raw: Dictionary = value
+	if not raw.has("schema_version"):
+		_fail(GameSaveResult.Outcome.MISSING_FIELD, path + ".schema_version")
+		return null
+	var schema: int = _small_int(raw["schema_version"], path + ".schema_version")
 	if _error: return null
-	var schema: int = _small_int(object["schema_version"], path + ".schema_version")
-	if schema != NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION: _fail(GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA, path + ".schema_version")
+	if schema not in [1, 2, NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION]:
+		_fail(GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA, path + ".schema_version")
+		return null
+	var keys: Array[String] = ["schema_version", "records", "combined_stacks", "equipment", "armor"]
+	if schema >= 2:
+		keys.append("food_consumables")
+	if schema == 3:
+		keys.append("liquid_consumables")
+	var object: Dictionary = _obj(value, path, keys)
+	if _error: return null
 	var records: Array[NativeItemRecord] = []
 	var record_values: Array = _array(object["records"], path + ".records")
 	for index: int in range(record_values.size()):
@@ -335,7 +356,31 @@ func _decode_items(value: Variant, path: String) -> NativeItemStateSnapshot:
 			var slot: Dictionary = _obj(slot_values[slot_index], slot_path, ["armor_type", "item_instance_id"])
 			slots.append(NativeArmorSlotRecord.new(StringName(_string(slot.get("armor_type"), slot_path + ".armor_type")), StringName(_string(slot.get("item_instance_id"), slot_path + ".item_instance_id"))))
 		armor.append(NativeCharacterArmorRecord.new(StringName(_string(record.get("character_id"), record_path + ".character_id")), slots))
-	return NativeItemStateSnapshot.new(schema, records, stacks, equipment, armor)
+	var foods: Array[NativeFoodConsumableRecord] = []
+	if schema >= 2:
+		var food_values: Array = _array(object["food_consumables"], path + ".food_consumables")
+		for index: int in range(food_values.size()):
+			var record_path: String = path + ".food_consumables[%d]" % index
+			var record: Dictionary = _obj(food_values[index], record_path, ["item_instance_id", "remaining_portions", "current_value"])
+			foods.append(NativeFoodConsumableRecord.new(StringName(_string(record.get("item_instance_id"), record_path + ".item_instance_id")), _int64(record.get("remaining_portions"), record_path + ".remaining_portions"), _int64(record.get("current_value"), record_path + ".current_value")))
+	var liquids: Array[NativeLiquidConsumableRecord] = []
+	if schema == 3:
+		var liquid_values: Array = _array(object["liquid_consumables"], path + ".liquid_consumables")
+		for index: int in range(liquid_values.size()):
+			var record_path: String = path + ".liquid_consumables[%d]" % index
+			var record: Dictionary = _obj(liquid_values[index], record_path, ["item_instance_id", "content", "remaining"])
+			liquids.append(NativeLiquidConsumableRecord.new(StringName(_string(record.get("item_instance_id"), record_path + ".item_instance_id")), _liquid_content_value(_string(record.get("content"), record_path + ".content"), record_path + ".content"), _int64(record.get("remaining"), record_path + ".remaining")))
+	# v1: no food/liquid; v2: no liquid. Definition validation rejects a live
+	# consumable missing its record. Never synthesize/refill on legacy decode.
+	return NativeItemStateSnapshot.new(NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, records, stacks, equipment, armor, foods, liquids)
+
+
+func _liquid_content_value(value: String, path: String) -> LiquidState.Content:
+	match value:
+		"RED_WINE": return LiquidState.Content.RED_WINE
+		"CLEAR_WATER": return LiquidState.Content.CLEAR_WATER
+	_fail(GameSaveResult.Outcome.INVALID_SNAPSHOT, path, "unknown liquid content")
+	return LiquidState.Content.RED_WINE
 
 
 func _obj(value: Variant, path: String, expected_keys: Array[String]) -> Dictionary:
