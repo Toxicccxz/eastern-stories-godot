@@ -293,7 +293,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     engines, other Snow services (Herbshop/Postoffice/School/Smithy), Green/Goathill and full Snow
     parity remain deferred. Mobile CI builds do not establish physical-device qualification.
 
-12. **Snow First Progression Loop / 淳风武馆 — P2 COMPLETE / LIVE ACCEPTANCE PASS; AWAIT OWNER FINAL-AUDIT AUTHORIZATION**
+12. **Snow First Progression Loop / 淳风武馆 — FINAL AUDIT PASS WITH RESIDUAL RISKS; AWAIT OWNER PR AUTHORIZATION**
+
+    The [complete milestone Final Audit](../migration/PHASE_SNOW_FIRST_PROGRESSION_FINAL_AUDIT.md)
+    covers base `88be5c0e` through pre-audit `6379af74`: Type A12 / Type B10 / Type C0,
+    HIGH blockers0, Snow outdoor16 plus Inn=17. The single docs-only audit commit becomes the
+    frozen audited head after exact-commit local verification/push; owner PR authorization is next.
+    Earlier slice authorization checkpoints remain historical.
 
     [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
     is OWNER APPROVED / CLOSED. Authorized [P2](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md)
@@ -309,4 +315,5 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The lengthy recovery route is evidence of completion, not a balance qualification.
     Only authorized docs record this result; no gameplay/EXP/RNG workaround or schema change.
     No P2 PR, merge or remote integration CI; not integrated on main.
-    Final Audit, P3 and Migration Tooling remain unauthorized.
+    Final Audit passed with disclosed non-blocking risks; the single milestone PR still requires
+    owner authorization. P3 and Migration Tooling remain unauthorized.
