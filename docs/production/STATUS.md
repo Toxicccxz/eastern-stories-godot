@@ -2,13 +2,27 @@
 
 ## Current milestone
 
-**Snow First Progression Loop / 淳风武馆 — FINAL AUDIT PASS WITH RESIDUAL RISKS; AWAIT OWNER PR AUTHORIZATION.**
+**Migration Tooling v1 — P2 AUTHORIZED / IN PROGRESS.**
+[P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
+`0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
+[DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
+The same `phase/migration-tooling-v1` branch starts P2 static direct-ROOM source extraction,
+exact provenance and explicit findings. Implementation is not yet claimed at this decision checkpoint.
+NPC/item extraction and Native generation remain deferred. No phase PR, merge or P3 authorization.
+
+**Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**
+[PR #19](https://github.com/Toxicccxz/eastern-stories-godot/pull/19) merged by standard merge commit
+`cd07808cb76147d0b8c0dad9b82d078b49fefe64`. Accepted post-main
+[run 34985105844](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34985105844)
+passed all four jobs on that exact merge SHA: Godot Verify, Windows Release Build,
+Android Release Build and iOS Build Validation. This is prior integration evidence, not a new P2 CI run.
+The following audit and slice evidence remains historical.
 [Final milestone audit](../migration/PHASE_SNOW_FIRST_PROGRESSION_FINAL_AUDIT.md) covers the complete
 main `88be5c0e` → frozen pre-audit `6379af74` milestone: Type A12 / Type B10 / Type C0,
 HIGH blockers0. School adds three zones: Snow outdoor16 plus Inn=17. The sole audit commit
 is documentation only; its verified/pushed SHA is the frozen audited head reported at completion.
 P1/P2/P2B/ZE1 authorization checkpoints below and in their reports are historical; the current
-owner instruction approves those slices/live acceptance and authorizes this Final Audit only.
+integration status above supersedes their earlier authorization checkpoints.
 [P1](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md) is OWNER APPROVED / CLOSED.
 Authorized [P2 implementation](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md) stays on
 `phase/snow-first-progression-loop`: three physical school zones, transient cold-closed gate,
@@ -25,9 +39,9 @@ Cold gate closed, one active map/correct camera, ACTIVE player and no residual e
 This required lengthy natural recovery; it is not a balance qualification. No EXP/state injection,
 RNG reset, reload fishing or gameplay changes. Earlier failed attempts remain historical.
 Teaching contact is not full Liu NPC parity.
-No P2 PR/merge/remote integration CI; the milestone is not integrated on main.
-The frozen audited milestone awaits owner review and authorization for its single PR.
-P3 and Migration Tooling remain unauthorized. See the audit for the low-risk fixture hash typo,
+The prior pre-PR audit checkpoint is superseded by PR #19 and exact-merge-SHA post-main PASS above.
+Snow P3 remains unauthorized; Migration Tooling has its own bounded authorization above.
+See the audit for the low-risk fixture hash typo,
 pacing, historical zero-bound, platform and operational limitations.
 
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
@@ -64,7 +78,7 @@ The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APP
 PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
 Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
 engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
-The selected milestone is Snow First Progression Loop; its current Final Audit status is recorded above.
+The selected milestone is Migration Tooling v1; Snow First Progression integration is recorded above.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit

@@ -293,12 +293,18 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     engines, other Snow services (Herbshop/Postoffice/School/Smithy), Green/Goathill and full Snow
     parity remain deferred. Mobile CI builds do not establish physical-device qualification.
 
-12. **Snow First Progression Loop / 淳风武馆 — FINAL AUDIT PASS WITH RESIDUAL RISKS; AWAIT OWNER PR AUTHORIZATION**
+12. **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED**
+
+    [PR #19](https://github.com/Toxicccxz/eastern-stories-godot/pull/19) merged by standard merge
+    commit `cd07808cb76147d0b8c0dad9b82d078b49fefe64`. Accepted post-main
+    [run 34985105844](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34985105844)
+    passed Godot Verify, Windows Release Build, Android Release Build and iOS Build Validation
+    on that exact merge SHA. This is prior integration evidence, not a new tooling CI run.
 
     The [complete milestone Final Audit](../migration/PHASE_SNOW_FIRST_PROGRESSION_FINAL_AUDIT.md)
     covers base `88be5c0e` through pre-audit `6379af74`: Type A12 / Type B10 / Type C0,
     HIGH blockers0, Snow outdoor16 plus Inn=17. The single docs-only audit commit becomes the
-    frozen audited head after exact-commit local verification/push; owner PR authorization is next.
+    frozen audited head after exact-commit local verification/push; PR #19 subsequently integrated it.
     Earlier slice authorization checkpoints remain historical.
 
     [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
@@ -314,6 +320,15 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     persisted RNG streams matched; one cold resident/correct camera/closed gate, no active encounter.
     The lengthy recovery route is evidence of completion, not a balance qualification.
     Only authorized docs record this result; no gameplay/EXP/RNG workaround or schema change.
-    No P2 PR, merge or remote integration CI; not integrated on main.
-    Final Audit passed with disclosed non-blocking risks; the single milestone PR still requires
-    owner authorization. P3 and Migration Tooling remain unauthorized.
+    The historical pre-PR checkpoint is superseded by the completed integration above.
+    Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
+
+13. **Migration Tooling v1 — P2 AUTHORIZED / IN PROGRESS**
+
+    [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
+    `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
+    [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
+    P2 on `phase/migration-tooling-v1` is bounded to static direct-ROOM extraction, provenance
+    and explicit findings using Python standard-library tooling. This decision checkpoint does
+    not claim implementation. NPC/item extraction and Native generation remain deferred;
+    no PR, merge or P3 is authorized.
