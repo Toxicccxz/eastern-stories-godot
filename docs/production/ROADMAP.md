@@ -293,7 +293,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     engines, other Snow services (Herbshop/Postoffice/School/Smithy), Green/Goathill and full Snow
     parity remain deferred. Mobile CI builds do not establish physical-device qualification.
 
-12. **Snow First Progression Loop / 淳风武馆 — P2B-ZE1 FIX PASS; P2 LIVE ACCEPTANCE STILL BLOCKED / AWAIT OWNER REVIEW**
+12. **Snow First Progression Loop / 淳风武馆 — P2 COMPLETE / LIVE ACCEPTANCE PASS; AWAIT OWNER FINAL-AUDIT AUTHORIZATION**
 
     [P1 source/dependency analysis](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md)
     is OWNER APPROVED / CLOSED. Authorized [P2](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md)
@@ -301,8 +301,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     first apprenticeship, basic unarmed Learn and compatible root2 persistence on the same branch.
     [ZE1's narrow zero-EXP defense fix](../migration/PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_FIX.md)
     passes focused combat1,466 / Snow247 / canonical20,261 / Python46 locally.
-    Fresh real play reached raw3 and natural E1 with complete attack chains, then normal
-    unconscious defeat; automation did not switch promptly from movement to Flee.
-    No new semantic defect was observed. E≥2/return/Learn/Save/cold Continue remain **BLOCKED / incomplete**;
-    later QA event export also encountered a debugger compile error. No balance/EXP workaround,
-    P2 PR or merge. P3 and Final Audit remain unauthorized.
+    The [fresh evidence-only rerun](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md#fresh-live-acceptance-2026-09-15-utc)
+    on ZE1 `315d3863a5b72fbbb3f84006440d7b9e796bf512` passed one New Game→apprentice→raw3→
+    nine production encounters with real Flee/natural recovery→E2→physical return→Learn raw4→
+    real Save→complete process termination→cold Continue. Entire encoded state and all three
+    persisted RNG streams matched; one cold resident/correct camera/closed gate, no active encounter.
+    The lengthy recovery route is evidence of completion, not a balance qualification.
+    Only authorized docs record this result; no gameplay/EXP/RNG workaround or schema change.
+    No P2 PR, merge or remote integration CI; not integrated on main.
+    Final Audit, P3 and Migration Tooling remain unauthorized.

@@ -2,10 +2,12 @@
 
 ## Outcome and authority
 
-**P2 IMPLEMENTATION COMPLETE WITH LIVE PROGRESSION BLOCKER — AWAIT OWNER REVIEW.**
-Natural E≥2 and the uninterrupted combat→return→Save journey are **BLOCKED**.
-Teaching, school traversal, source gates, persistence and cold Continue pass the
-evidence below. This is the P2 implementation self-review, not Final Audit or P3.
+**P2 COMPLETE — LIVE ACCEPTANCE PASS; AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
+The evidence-only rerun on frozen ZE1 `315d3863a5b72fbbb3f84006440d7b9e796bf512`
+completed natural E2, physical return/Learn, Save, whole-process termination and exact
+cold state/RNG restoration. See [the fresh acceptance record](#fresh-live-acceptance-2026-09-15-utc).
+The original implementation evidence and superseded blocker below remain historical.
+This is not Final Audit, PR readiness authorization or integration on main.
 
 P1 `5780139b82fad932f6bc7786ea295c20602ae0a5` is OWNER APPROVED / CLOSED.
 Owner authorized P2 A–F and this bounded implementation on the existing
@@ -172,7 +174,7 @@ Local detailed evidence is retained in ignored `build/p2-live-events.jsonl`,
 `p2-live-{school,learn1,learn2,save-school,combat-diagnosis,cold-compare2,cold-door,health-final}.log`,
 `p2-frame-*.png`, `p2-focused-final.log`, `p2-canonical-final.log`, and sanitizer logs.
 
-## BLOCKED: natural experience / uninterrupted return
+## Historical P2 blocker: natural experience / uninterrupted return
 
 The unmodified fresh character actually selected existing spath1 bandit3 and
 clicked Attack. The lethal encounter produced three scheduler events, then at
@@ -187,8 +189,8 @@ logical cycle2 the player's attack was dodged and its riposte chain failed:
 - Twelve additional real seconds made no progress; a real Flee click did not end
   the failed encounter. The scoped observation does not identify a deeper root cause.
 
-Thus natural E≥2, a live numerical skill benefit after that threshold, and physical
-return/save after that encounter are **BLOCKED**, not PASS. The cold proof loads
+At that original checkpoint, natural E≥2, a live numerical skill benefit after that
+threshold, and physical return/save after that encounter were **BLOCKED**, not PASS. The cold proof loads
 the real pre-combat school Save checkpoint; it is not falsely described as a
 post-victory save or uninterrupted completed journey. Existing combat code is
 unchanged. No EXP, enemy tuning, damage/flee/recovery/reward adjustment or dummy was
@@ -203,8 +205,8 @@ avoidance, strict old/new codec, pending/door transience, one RNG draw and scope
 `reference/es2` delta0; project settings/editor churn restored to delta0. No owner
 backup/config removed, no generic NPC/trainer/door engine or migration tool added.
 
-P2 is implementation-complete with the disclosed live progression blocker, awaiting
-owner review. The major milestone is not fully integrated: no PR, merge or P2 remote
+At the original P2 checkpoint, implementation was complete with the disclosed live
+progression blocker, awaiting owner review. The major milestone is not fully integrated: no PR, merge or P2 remote
 integration CI. Original main is unchanged. No P3 or Final Audit started.
 
 Deferred: advanced ten-skill interactions, liuh-ken/force/sword/chaos/spider usage,
@@ -212,3 +214,109 @@ enable/mappings/practice/exercise/selflearn/study/exert/perform/formations; comp
 Liu combat/equipment/death/respawn; guards/trainers/trainees/population; inner yard,
 storage/puzzles/board/academy; generic frameworks, migration tooling and balancing.
 Mobile-device/package qualification was not part of this P2 desktop proof.
+
+## Fresh live acceptance (2026-09-15 UTC)
+
+**SNOW FIRST PROGRESSION P2 LIVE ACCEPTANCE PASS.** Owner authorized evidence only,
+on existing `phase/snow-first-progression-loop`. Starting HEAD and origin phase both
+matched `315d3863a5b72fbbb3f84006440d7b9e796bf512`, parent
+`affbe5030a5a2f03c2bff2ab14195f9f86c5f53c`; origin/main remained
+`88be5c0e9e297b8f92d38b1f14a131a0cb8abf4e`. Worktree/index were clean.
+P1, P2 implementation, P2B and ZE1 are owner approved; the old zero-EXP failure is resolved.
+
+Godot 4.7.2 ran the canonical application main scene with the existing helper and
+an isolated APPDATA under ignored `build/p2r-live-env`. One fresh New Game used real
+Unicode input for 林清, male. There was no discarded gameplay attempt, checkpoint
+retry, EXP grant, state/position injection, enemy/armor tuning or RNG replacement/reset.
+All gameplay used real buttons, input actions, physical traversal and normal cadence.
+
+| Step | Actual evidence from this one timeline |
+| --- | --- |
+| New Game | E0, no family/master, no learned skills; `snow.inn` |
+| School route | Inn→Square→mstreet1→school1; closed collision stopped x370.993; real Open and walking through school2→schoolhall |
+| Apprentice | Real Liu UI: `family.fonxan`, generation14, `teacher.liu_chunfeng` / 柳淳风, swordsman, rank弟子, privileges0, RECORDED entry1789446817, betrayer0, title封山剑派第十四代弟子 |
+| Individual Learn | Three clicks naturally reached raw1/0→raw2/0→raw3/0; spent3. Fourth click at E0 was rejected for EXP, gin76→65, raw/progress/spent unchanged |
+| Old Pine | Actual Snow south/east route and production portal; existing spath1 Bandit03 only |
+| Survival control | Short movement bursts near aggression; normal Escape pauses between observations; real Flee immediately after each observed hit, then physical retreat and natural recovery |
+| Return | After E2, physical north route→Snow eroad3→street spine→schoolhall; school gate remained open within the same resident session |
+| Same authority | Character instance `-9223371763470038350` and apprenticeship instance `-9223371763235157312` unchanged; all relationship fields retained |
+| Post-E2 Learn | One real click: success / LEVEL_INCREASED, failure NONE, raw3→4, learned0→0, spent3→4, gin100→89; required E2, natural roll21 below30 |
+| Save | Real pause-menu Save reported “Your journey was saved.”; complete encoded capture exactly equalled the real saved checkpoint |
+| Whole-process restart | Game PID57284 ended, verified absent; new PID63804 used real Continue, then normal Escape pause |
+| Cold authority | New Session460165483425 and Character `-9223371597929247873`; one active `snow.outdoor` map; correct Player Camera2D; ACTIVE, no encounter, teaching panel hidden, gate closed with collision |
+
+Nine separate production encounters ended with successful real Flee and
+`resolution.failure=NONE`; none ended in unconsciousness/death. The observed hit
+and EXP sequence was:
+
+| Encounter | Player damage | EXP before→after | Exit vitality current/effective |
+| --- | --- | --- | --- |
+| 1 | 31, ordinary NPC hit | 0→0 | 69/70 |
+| 2 | 25, riposte | 0→0 | 46/48 |
+| 3 | 26, riposte | 0→0 | 44/46 |
+| 4 | 29, riposte | 0→0 | 32/34 |
+| 5 | 20, ordinary NPC hit | 0→0 | 45/47 |
+| 6 | 26, ordinary NPC hit | 0→0 | 39/41 |
+| 7 | 32, riposte | 0→1 | 32/34 |
+| 8 | 28, ordinary NPC hit | 1→1 | 38/40 |
+| 9 | 22, riposte | 1→2 | 43/45 |
+
+The E1→E2 completed progression result retained its actual bound143/draw16; the
+earlier encounter4 retained bound132/draw116 with no EXP gain. These were reads of
+already completed results, not test draws. Real ordinary hits and completed reverse
+chains crossed the former E0 boundary without `DEFENSE_FACTOR_RANDOM_BOUND`.
+This run required lengthy natural wound recovery between encounters; it proves the
+bounded journey can complete, not that fresh progression is fast or balance-qualified.
+
+Production skill evidence: the actual player attack records consumed `unarmed`,
+raw3/effective1, with AP1 at E0/E1. After the real Learn, the existing encounter
+authority lookup referenced the exact same CharacterState and CharacterSkillState
+(`combat_state_same=true`, `combat_skills_same=true`), now explicit raw4/effective2/E2.
+`WorldCombatBindingAdapter.from_player` passes that state to the existing production
+projection, which reads `state.skills.effective_level`. No alternate calculation,
+bonus or extra post-Learn attack was manufactured; no new post-Learn AP is claimed.
+
+Cold comparison used the established `OldPineWorldSaveCapture` and `GameSaveJsonCodec`
+mechanism. Reusing the saved metadata for the read-only capture, the **entire encoded
+snapshot** matched before shutdown and after Continue. This includes player identity,
+all relationship/progression/skill mappings/resources, inventory/equipment/money,
+food/liquid records, allocator, world position, NPC states, corpses and all RNG streams.
+Checkpoint: E2, explicit unarmed4/progress0, potential101/spent4, gin100/100/100,
+kee51/52/100, sen100/100/100, food211/water211, empty skill mappings, schoolhall
+position `(1008.33404541016,-399.333709716797)`. The only player item was the original
+equipped cloth; no player weapon/money/food-item/liquid-item was added. All12 item
+records and allocator scope/next sequence1 matched exactly.
+
+| Persisted RNG | Exact saved and cold-restored state |
+| --- | --- |
+| Combat | `4754167863713160086` |
+| NPC initialization | `440029765285268016` |
+| World interaction | `-4028637667228911038` |
+
+Adapter IDs and seeds also matched as part of the complete encoded comparison.
+No arbitrary next RNG draw was consumed. Natural post-gate Learn reached raw4 while
+E remained2, below the next Learn requirement E6; consequently this run claims exact
+persisted RNG round-trip, not an additional next-operation continuation experiment.
+Transient recovery cadence is outside the persisted RNG contract.
+
+Helper/session/capture were live/active/ready. Captures were never stale: first-run
+frames18→387098(E2 exit)→410264(Save result); cold frames7→2538→5531→11199.
+Both launches reported `current_run_errors=[]`; retained first-run game logs contained
+only the desktop virtual-keyboard warning, and cold game logs had no errors/warnings.
+No error buffers were cleared. A redundant `project_run` during play was rejected by
+the helper without changing PID/session; the following read-only health check confirmed
+the original process and advancing frame. One movement burst while normally paused
+was ignored and then performed after Resume. Neither interrupted or rewound gameplay.
+Cold startup initially exceeded the helper's3-second window, then became fully live;
+no retry/restart was used to change an outcome and no QA debugger break occurred.
+
+Ignored local evidence: `build/p2r-live-events.jsonl`, `p2r-frame-*.png`,
+`p2r-post-gate-learn.log`, `p2r-checkpoint.json`, `p2r-cold-checkpoint.json`,
+`p2r-cold-compare.log`, `p2r-pre-cold-stop.log`, `p2r-final-health.log`.
+Both game processes and the temporary editor were stopped after proof. Only the
+editor's own omitted viewport lines were restored; production/test/source/config/CI
+delta from ZE1 is zero. This acceptance update changes only the four authorized docs.
+Documentation links/static checks and `git diff --check` pass; no canonical rerun or
+remote CI is claimed. No Final Audit, PR, merge, P3 or Migration Tooling was started.
+
+**P2 COMPLETE — AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**

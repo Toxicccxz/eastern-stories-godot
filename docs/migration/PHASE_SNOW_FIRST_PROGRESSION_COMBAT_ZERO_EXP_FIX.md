@@ -7,10 +7,12 @@ parent `affbe5030a5a2f03c2bff2ab14195f9f86c5f53c` (approved P2B analysis).
 P2 is `611535dfe10ce858206574c5494bc5e9a2accbe7`; P1 is
 `5780139b82fad932f6bc7786ea295c20602ae0a5`; frozen main is
 `88be5c0e9e297b8f92d38b1f14a131a0cb8abf4e`. Preflight matched these identities
-with a clean worktree/index. The historical P2/P2B reports remain unchanged.
+with a clean worktree/index. The ZE1 implementation left historical P2/P2B reports unchanged.
 
-**ZE1 implementation and local regression PASS. P2 live acceptance remains BLOCKED / incomplete.**
-The single fresh gameplay timeline reached natural EXP1 and normal unconscious defeat,
+**ZE1 OWNER APPROVED / CLOSED. P2 live acceptance now PASS; Final Audit remains unauthorized.**
+The [subsequent evidence-only rerun](PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md#fresh-live-acceptance-2026-09-15-utc)
+on frozen `315d3863a5b72fbbb3f84006440d7b9e796bf512` completed the whole fresh journey.
+The earlier ZE1 implementation attempt below reached natural EXP1 and normal unconscious defeat,
 not E>=2 and return-to-learning. No new zero-bound or incomplete-chain defect was observed.
 This is a failed acceptance attempt, not evidence that the existing defeat rules are defective
 or authorization to redesign them. No Final Audit, PR, merge, P3 or Migration Tooling.
@@ -75,7 +77,7 @@ cause nonzero exits or script/test failures. No owner configuration was changed 
 The live editor omitted the two default viewport dimensions in `project.godot`; those
 exact lines were restored after editor shutdown, leaving zero project/config delta.
 
-## Real main-scene attempt (2026-09-15 UTC)
+## Historical ZE1 main-scene attempt (2026-09-15 UTC)
 
 Canonical `application_shell.tscn` launched through Godot AI into the production world.
 Isolated `build/ze1-live-env/Roaming` protected owner saves. One New Game, no save reload,
@@ -124,7 +126,30 @@ do not rely on these workstation files being present in another checkout.
 Separate self-review confirms the sole production edit is the resolver guard; three test files
 plus DECISIONS/this report/STATUS/ROADMAP document it. Zero legacy-source, enemy, balance,
 EXP-grant, advanced-skill, RNG-adapter/stream, Save schema/revision or migration-tooling delta.
-Historical P2/P2B documentation is untouched. One implementation commit is authorized for this
+Historical P2/P2B documentation was untouched by the ZE1 implementation. One implementation commit was authorized for this
 same branch. No PR/merge or remote integration CI; no claim of milestone integration on main.
-ZE1 is independently verified; full P2 live acceptance still needs owner review and a successful
-complete route. This report does not approve another repair or Final Audit.
+ZE1 is independently verified. At that checkpoint the full P2 live route remained incomplete.
+This report does not approve another repair or Final Audit.
+
+## Subsequent evidence-only acceptance
+
+The owner-authorized fresh rerun used one New Game, nine existing Bandit03 encounters,
+prompt real Flee and natural recovery: EXP stayed0 through encounter6, became1 in7,
+stayed1 in8 and became2 in9. Every encounter ended with failure NONE and an ACTIVE
+survivor; real E0 ordinary hits/ripostes confirmed the resolved boundary. Actual walking
+returned the same Character/apprenticeship instances to Liu. One real Learn then
+passed the E2 gate: raw3→4, progress0→0, spent3→4, gin100→89, natural roll21/bound30.
+The production combat authority referenced the same learned CharacterSkillState.
+
+Real Save→PID57284 fully ended→new PID63804→real Continue passed the entire encoded
+state comparison, including all three persisted RNG streams, items/allocator and
+physical schoolhall position. Cold gate closed, one active resident, correct camera,
+no teaching panel/encounter. Exact next-operation RNG execution was not added: raw4/E2
+is below the next Learn E6 gate, and no arbitrary test draw was consumed.
+Helper/session/capture were healthy, frames advanced and were not stale; game logs
+had no gameplay errors. Non-mutating helper rejection/startup delay are disclosed in
+the linked acceptance record. No code/test/config/source/CI/schema/RNG changes.
+
+**P2 LIVE ACCEPTANCE PASS — P2 COMPLETE; AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
+Only the four authorized documentation files record this result on the same phase branch.
+No Final Audit, PR, merge, P3, Migration Tooling or remote integration CI.

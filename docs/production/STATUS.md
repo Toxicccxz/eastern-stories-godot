@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow First Progression Loop / 淳风武馆 — P2B-ZE1 FIX PASS; P2 LIVE ACCEPTANCE STILL BLOCKED / AWAIT OWNER REVIEW.**
+**Snow First Progression Loop / 淳风武馆 — P2 COMPLETE / LIVE ACCEPTANCE PASS; AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
 [P1](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md) is OWNER APPROVED / CLOSED.
 Authorized [P2 implementation](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md) stays on
 `phase/snow-first-progression-loop`: three physical school zones, transient cold-closed gate,
@@ -10,13 +10,17 @@ Liu teaching contact, exact first apprenticeship, basic unarmed Learn and root2-
 Approved [P2B-ZE1](../migration/PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_FIX.md) adds only
 the zero-EXP defense-loop compatibility guard: zero iterations/draws for defender0/attacker>=0.
 Focused combat1,466 / Snow247 / canonical20,261 / Python46 pass locally.
-The fresh live rerun completed school/Learn raw3 and real attack chains, naturally reached E1,
-then ended in normal unconscious defeat after the movement automation failed to switch promptly
-to Flee. No new semantic failure was observed; full E≥2/return/Learn/Save/cold Continue acceptance
-remains **BLOCKED / incomplete**. Later QA event export also hit a debugger compile error.
-Historical P2 school/Save/cold Continue evidence remains historical; no gifted EXP or balance fix.
+The [fresh evidence-only rerun](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md#fresh-live-acceptance-2026-09-15-utc)
+on frozen ZE1 `315d3863a5b72fbbb3f84006440d7b9e796bf512` completed one New Game→apprentice→raw3→
+nine normal encounters with prompt Flee/natural recovery→E2→physical return→Learn raw4→Save→
+whole-process termination→cold Continue. Same apprenticeship/Character authority before Save;
+entire encoded saved/restored state and all three persisted RNG streams matched exactly.
+Cold gate closed, one active map/correct camera, ACTIVE player and no residual encounter/UI.
+This required lengthy natural recovery; it is not a balance qualification. No EXP/state injection,
+RNG reset, reload fishing or gameplay changes. Earlier failed attempts remain historical.
 Teaching contact is not full Liu NPC parity.
-No P2 PR/merge/remote integration CI; no P3 or Final Audit authorization.
+No P2 PR/merge/remote integration CI; the milestone is not integrated on main.
+Final Audit, P3 and Migration Tooling remain unauthorized.
 
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
 [PR #17](https://github.com/Toxicccxz/eastern-stories-godot/pull/17), frozen audited PR HEAD
