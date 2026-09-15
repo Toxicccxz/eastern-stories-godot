@@ -31,17 +31,38 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.0'
+EXTRACTOR_VERSION = '1.0.1'
 PROFILE = 'static-room-v1'
+# Exact constants from reference/es2/mudlib/include/globals.h:54-68.
+# Admission evidence only: no path guessing, subclass lookup or macro evaluation.
+EXCLUDED_LITERAL_BASES = {
+    '/std/room/bank': 'BANK', '/std/room/class_guild': 'CLASS_GUILD',
+    '/std/force': 'FORCE', '/std/room/hockshop': 'HOCKSHOP', '/std/item': 'ITEM',
+    '/std/liquid': 'LIQUID', '/std/char/npc': 'NPC', '/std/skill': 'SKILL',
+}
 
 
 def directive_parts(token: Token) -> list[str]:
-    # Reuse lexical comment/string boundaries, never evaluate a preprocessor expression.
+    # Splice only the analysis view. Map diagnostic offsets back to original bytes;
+    # token text and all stored provenance retain authored LF/CRLF continuations.
+    raw = token.text.encode('utf-8')
+    view, offsets = bytearray(), []
+    i = 1  # skip '#'
+    while i < len(raw):
+        if raw.startswith(b'\\\r\n', i):
+            i += 3
+        elif raw.startswith(b'\\\n', i):
+            i += 2
+        else:
+            offsets.append(i)
+            view.append(raw[i])
+            i += 1
+    offsets.append(len(raw))
     try:
-        return [t.text for t in lex(Source('directive', token.text[1:].encode('utf-8')))]
+        return [t.text for t in lex(Source('directive', bytes(view)))]
     except SourceError as error:
-        raise SourceError(str(error), token.start + 1 + error.start,
-                          token.start + 1 + error.end, encoding=error.encoding) from error
+        raise SourceError(str(error), token.start + offsets[error.start],
+                          token.start + offsets[error.end], encoding=error.encoding) from error
 
 
 def canonical(document: dict) -> bytes:
@@ -226,6 +247,11 @@ class RoomExtractor:
                                           symbol=symbol, provenance=self.provenance(ts[i:end + 1], 'top-level', 'inherit')))
                 if symbol:
                     self.record['category_candidates'].append(symbol)
+                if len(expr) == 1 and expr[0].kind == 'string':
+                    base = literal(expr[0])
+                    category = EXCLUDED_LITERAL_BASES.get(base['value']) if base else None
+                    if category:
+                        self.record['category_candidates'].append(category)
                 i = end + 1
                 start = i
                 continue
@@ -256,7 +282,7 @@ class RoomExtractor:
                     'F_FOOD', 'F_LIQUID', 'F_VENDOR', 'F_MASTER', 'LIQUID', 'CLOTH', 'BOOTS',
                     'GLOVES', 'HEAD', 'NECK', 'FINGER', 'SHIELD', 'SKILL', 'FORCE', 'DAEMON'}
         supported = (self.source.path.startswith('d/') and self.source.path.endswith('.c') and direct
-                     and 'ROOM' not in hazards
+                     and not hazards.intersection({'ROOM', 'unresolved include'})
                      and not excluded.intersection(self.record['category_candidates']))
         self.record['supported_candidate'] = supported
         if not supported:
@@ -264,6 +290,10 @@ class RoomExtractor:
                          ts[:1], severity='INFO')
             if direct and hazards:
                 self.finding(FindingCode.UNRESOLVED_INHERITANCE, 'Preprocessor context prevents reliable ROOM identification.', ts[:1])
+            if 'unresolved include' in hazards:
+                for token in ts:
+                    if token.kind == 'directive' and directive_parts(token)[:1] == ['include']:
+                        self.finding(FindingCode.UNRESOLVED_INCLUDE, 'Include dependency context cannot be resolved reliably.', [token])
             return
         self.record['status'] = 'EXTRACTED'
         for declaration in self.inherits:
@@ -345,7 +375,9 @@ class RoomExtractor:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Setter field is outside static-room-v1.', ts, 'create')
 
     def exits(self, ts: list[Token], hazards: set[str]) -> None:
-        if len(ts) < 4 or [t.text for t in ts[:2]] != ['(', '['] or [t.text for t in ts[-2:]] != [']', ')']:
+        matching = pairs(ts)
+        if (len(ts) < 4 or [t.text for t in ts[:2]] != ['(', '[']
+                or matching.get(0) != len(ts) - 1 or matching.get(1) != len(ts) - 2):
             self.finding(FindingCode.DYNAMIC_EXPRESSION, 'Exit mapping is computed, not a literal mapping.', ts, 'create')
             return
         seen: set[str] = set()
@@ -360,7 +392,14 @@ class RoomExtractor:
                 continue
             pair = split_at(entry, ':')
             if len(pair) != 2 or not pair[0] or not pair[1]:
-                raise SourceError('exit mapping requires key: value', entry[0].start, entry[-1].end)
+                # Quarantine only positively malformed literal entries. Balanced
+                # unfamiliar colon-bearing expressions are not syntax validation.
+                missing_separator = len(pair) == 1 and all(literal(t) is not None for t in entry)
+                missing_side = len(pair) == 2 and (not pair[0] or not pair[1])
+                if missing_separator or missing_side:
+                    raise SourceError('exit mapping requires key: value', entry[0].start, entry[-1].end)
+                self.finding(FindingCode.DYNAMIC_EXPRESSION, 'Exit entry separator/expression is outside the static subset.', entry, 'create')
+                continue
             key, target = pair
             direction = literal(key[0]) if len(key) == 1 else None
             value = literal(target[0]) if len(target) == 1 else None

@@ -405,6 +405,188 @@ class ScanAndCliTests(unittest.TestCase):
         self.assertEqual(3, len({o['object_id'] for o in r['objects']}))
         self.assertEqual(['source-root', 'mudlib', 'mudlib'], [o['source_namespace'] for o in r['objects']])
 
+    def test_previous_complete_100_output_upgrades_atomically(self):
+        self.write('d/a.c', b'inherit ROOM; void create() {}')
+        previous, _ = scan(self.source)
+        previous['extractor_version'] = '1.0.0'
+        self.output.mkdir()
+        target = self.output / 'static-rooms.json'
+        target.write_bytes(canonical(previous))
+        self.assertEqual(0, self.run_cli())
+        self.assertEqual('1.0.1', json.loads(target.read_bytes())['extractor_version'])
+
+    def test_metadata_only_json_is_never_recognized(self):
+        self.write('d/a.c', b'inherit ROOM; void create() {}')
+        self.output.mkdir()
+        target = self.output / 'static-rooms.json'
+        for version in ('1.0.0', '1.0.1'):
+            payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
+            target.write_bytes(payload)
+            with patch.object(cli, 'atomic_write') as writer:
+                self.assertEqual(2, self.run_cli())
+                writer.assert_not_called()
+            self.assertEqual(payload, target.read_bytes())
+
+    def test_edited_reviewed_or_unknown_output_not_replaced(self):
+        self.write('d/a.c', b'inherit ROOM; void create() {}')
+        self.output.mkdir()
+        target = self.output / 'static-rooms.json'
+        for edit in ('version', 'review', 'manifest', 'summary', 'notes'):
+            previous, _ = scan(self.source)
+            if edit == 'version':
+                previous['extractor_version'] = '9.0.0'
+            elif edit == 'review':
+                previous['review_state'] = 'APPROVED'
+            elif edit == 'manifest':
+                previous['source_manifest']['sha256'] = '0' * 64
+            elif edit == 'summary':
+                previous['summary']['scanned_files'] = 123
+            else:
+                previous['owner_notes'] = 'preserve'
+            payload = canonical(previous)
+            target.write_bytes(payload)
+            with self.subTest(edit=edit):
+                self.assertEqual(2, self.run_cli())
+                self.assertEqual(payload, target.read_bytes())
+
+
+class AuditBlockerRegressionTests(unittest.TestCase):
+    """P2F1: adversarial admission, provenance and classification boundaries."""
+
+    def test_h1_parent_output_root_cannot_reenter_protected_checkout(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / 'input'
+            (source / 'd').mkdir(parents=True)
+            (source / 'd/probe.c').write_text(room(''), encoding='utf-8')
+            for folder in ('game', 'reference/es2', 'docs'):
+                target = REPOSITORY / folder / 'p2f1-never-written.json'
+                before = sorted(p.name for p in target.parent.iterdir())
+                self.assertFalse(target.exists())
+                for output in (target, target.relative_to(REPOSITORY.parent)):
+                    with self.subTest(folder=folder, output=str(output)), patch.object(cli, 'atomic_write') as writer:
+                        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                            result = cli.main(['--source-root', str(source), '--output-root',
+                                               str(REPOSITORY.parent), '--output', str(output)])
+                        self.assertEqual(2, result)
+                        writer.assert_not_called()
+                self.assertFalse(target.exists())
+                self.assertEqual(before, sorted(p.name for p in target.parent.iterdir()))
+            allowed = cli.DEFAULT_OUTPUT_ROOT / 'p2f1-allowed.json'
+            self.assertEqual(allowed, cli.destination(source, REPOSITORY.parent, allowed))
+
+    def check_shadow(self, directive, name):
+        text = directive + room('set("short", "雪"); set("exits", (["e":__DIR__"x"]));')
+        record, findings = extract(text)
+        if name == 'ROOM':
+            self.assertFalse(record['supported_candidate'])
+            self.assertEqual([], record['facts'])
+            self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
+        elif name in ('set', 'create'):
+            self.assertEqual([], fields(record, 'short'))
+            self.assertEqual([], fields(record, 'exit'))
+        else:
+            self.assertEqual([], fields(record, 'exit'))
+            self.assertFalse(any('normalization' in f for f in record['facts']))
+        raw = text.encode('utf-8')
+        for entry in record['facts'] + findings + record['direct_inherits']:
+            p = entry['provenance']
+            self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode('utf-8'), p['raw'])
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+        self.assertTrue(any(f['provenance']['raw'] == directive for f in findings))
+
+    def test_h2_continued_critical_names_lf_and_crlf(self):
+        for newline in ('\n', '\r\n'):
+            for name in ('ROOM', 'set', '__DIR__', 'create'):
+                with self.subTest(newline=repr(newline), name=name):
+                    self.check_shadow('#define \\' + newline + name + ' replacement' + newline, name)
+
+    def test_h2_split_keyword_name_and_undef(self):
+        for newline in ('\n', '\r\n'):
+            for directive in ('#define RO\\' + newline + 'OM NPC',
+                              '#de\\' + newline + 'fine ROOM NPC',
+                              '#undef \\' + newline + 'ROOM'):
+                with self.subTest(directive=directive):
+                    self.check_shadow(directive + newline, 'ROOM')
+
+    def test_h2_benign_continuation_does_not_block_safe_facts(self):
+        for newline in ('\n', '\r\n'):
+            directive = '#define LABEL \\' + newline + '"label"' + newline
+            record, findings = extract(directive + room('set("short", "safe");'))
+            self.assertTrue(record['supported_candidate'])
+            self.assertEqual('safe', fields(record, 'short')[0]['value']['value'])
+            self.assertNotIn('UNRESOLVED_INHERITANCE', codes(findings))
+
+    def test_h2_spliced_directive_error_offsets_use_original_bytes(self):
+        for newline in ('\n', '\r\n'):
+            text = '#define LABEL \\' + newline + '"雪'
+            record, findings = extract(text)
+            self.assertEqual('QUARANTINED', record['status'])
+            p = findings[-1]['provenance']
+            self.assertEqual(text.encode('utf-8').index(b'"'), p['byte_start'])
+            self.assertEqual('"雪', p['raw'])
+
+    def test_m1_exact_literal_excluded_bases(self):
+        # Independent expectations from include/globals.h:54-68; no inferred subclasses.
+        bases = {'/std/room/bank': 'BANK', '/std/room/class_guild': 'CLASS_GUILD',
+                 '/std/force': 'FORCE', '/std/room/hockshop': 'HOCKSHOP', '/std/item': 'ITEM',
+                 '/std/liquid': 'LIQUID', '/std/char/npc': 'NPC', '/std/skill': 'SKILL'}
+        for base, category in bases.items():
+            with self.subTest(base=base):
+                text = 'inherit ROOM; inherit "' + base + '"; void create(){set("short","mixed");}'
+                record, findings = extract(text)
+                self.assertFalse(record['supported_candidate'])
+                self.assertEqual([], record['facts'])
+                self.assertEqual(2, len(record['direct_inherits']))
+                self.assertEqual('"' + base + '"', record['direct_inherits'][1]['expression'])
+                self.assertEqual('inherit "' + base + '";', record['direct_inherits'][1]['provenance']['raw'])
+                self.assertIn(category, record['category_candidates'])
+                self.assertIn('OUT_OF_SCOPE', codes(findings))
+
+    def test_m1_does_not_guess_indirect_or_similar_names(self):
+        for base in ('/custom/npc', '/std/char/npc_child', '/STD/char/npc'):
+            record, findings = extract('inherit "' + base + '"; ' + room(''))
+            self.assertTrue(record['supported_candidate'])
+            self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
+
+    def test_m2_missing_include_rejects_admission_without_quarantine(self):
+        record, findings = extract('#include <missing.h>\n' + room('set("short", "x");'))
+        self.assertFalse(record['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+        self.assertEqual([], record['facts'])
+        self.assertIn('UNRESOLVED_INCLUDE', codes(findings))
+        self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_m2_transitive_missing_include_retains_shadow_evidence(self):
+        dep = Source('include/test.h', b'#include <missing.h>\n#define ROOM NPC\n')
+        record, findings = extract('#include <test.h>\n' + room(''), dependencies={dep.path: dep})
+        self.assertFalse(record['supported_candidate'])
+        self.assertEqual([], record['facts'])
+        self.assertTrue({'UNRESOLVED_INCLUDE', 'UNRESOLVED_INHERITANCE'} <= codes(findings))
+
+    def test_m3_computed_mapping_and_balanced_values_remain_partial(self):
+        expressions = ['(["e":"/a"])+(["w":"/b"])',
+                       '(["e": (["nested":"/a"])])',
+                       '(["e": flag ? "/a" : "/b"])',
+                       '(["e": random(2)])', '(["e": (: choose, "a:b" :)])',
+                       '([(: choose :) : "/a"])', '(["e": "/a"; "/b"])',
+                       '(["e": value:other])']
+        for expression in expressions:
+            with self.subTest(expression=expression):
+                record, findings = extract(room('set("short","safe"); set("exits",' + expression + ');'))
+                self.assertEqual('PARTIAL', record['status'])
+                self.assertEqual('safe', fields(record, 'short')[0]['value']['value'])
+                self.assertEqual([], fields(record, 'exit'))
+                self.assertIn('DYNAMIC_EXPRESSION', codes(findings))
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_m3_genuinely_malformed_mapping_stays_quarantined(self):
+        for expression in ('(["e" "/a"])', '([,"e":"/a"])', '(["e":])', '(["e":"/a"]) )'):
+            with self.subTest(expression=expression):
+                record, findings = extract(room('set("short","safe"); set("exits",' + expression + ');'))
+                self.assertEqual('QUARANTINED', record['status'])
+                self.assertEqual([], record['facts'])
+                self.assertIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
 
 class RealSourceTests(unittest.TestCase):
     @classmethod
