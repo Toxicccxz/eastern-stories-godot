@@ -1,0 +1,107 @@
+"""Extract static ROOM source facts and findings; never execute or approve LPC."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+from .es2_source import ToolError, safe_path
+from .room_extractor import EXTRACTOR_VERSION, PROFILE, canonical, scan
+
+
+REPOSITORY = Path(__file__).resolve().parents[2]
+DEFAULT_OUTPUT_ROOT = REPOSITORY / 'build/migration-tooling-v1'
+
+
+def destination(source: Path, output_root: Path, output: Path) -> Path:
+    source = safe_path(source)
+    output_root = safe_path(output_root)
+    target = safe_path(output if output.is_absolute() else output_root / output)
+    if output_root == Path(output_root.anchor) or not target.is_relative_to(output_root) or target == output_root:
+        raise ToolError('output must be a file within the intended non-root output directory')
+    if output_root.is_relative_to(source) or source.is_relative_to(output_root):
+        raise ToolError('source and output roots must not overlap')
+    if output_root.is_relative_to(REPOSITORY) and not output_root.is_relative_to(DEFAULT_OUTPUT_ROOT):
+        raise ToolError('repository output is restricted to build/migration-tooling-v1/')
+    # Explicit external output roots may belong to another checkout; protect tracked files there too.
+    ancestor = target.parent
+    while not ancestor.exists():
+        ancestor = ancestor.parent
+    probe = subprocess.run(['git', '-C', str(ancestor), 'rev-parse', '--show-toplevel'],
+                           capture_output=True, text=True, check=False)
+    if probe.returncode == 0:
+        checkout = Path(probe.stdout.strip()).resolve()
+        relative = target.relative_to(checkout).as_posix()
+        tracked = subprocess.run(['git', '-C', str(checkout), 'ls-files', '--error-unmatch', '--', relative],
+                                 capture_output=True, check=False)
+        if tracked.returncode == 0:
+            raise ToolError('refusing to replace a tracked file')
+        if tracked.returncode != 1:
+            raise ToolError('cannot verify tracked output protection')
+    if target.exists():
+        if not target.is_file():
+            raise ToolError('output target is not a regular file')
+        try:
+            previous = json.loads(target.read_text(encoding='utf-8'))
+        except (ValueError, UnicodeError) as error:
+            raise ToolError('refusing to overwrite non-migration output') from error
+        if not isinstance(previous, dict) or previous.get('profile') != PROFILE or previous.get('extractor_version') != EXTRACTOR_VERSION or previous.get('schema_version') != 1:
+            raise ToolError('refusing to overwrite unrecognized output')
+    return target
+
+
+def atomic_write(target: Path, payload: bytes) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    safe_path(target)  # Recheck after creating directories, before allocating the temp file.
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='wb', dir=target.parent, prefix='.migration-', suffix='.tmp', delete=False) as stream:
+            temporary = Path(stream.name)
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, target)
+        temporary = None
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument('--source-root', type=Path, default=REPOSITORY / 'reference/es2',
+                        help='ES2 root containing mudlib/d, or a mudlib-shaped root containing d')
+    result.add_argument('--output-root', type=Path, default=DEFAULT_OUTPUT_ROOT,
+                        help='explicit intended output directory; defaults to ignored build output')
+    result.add_argument('--output', type=Path, default=Path('static-rooms.json'),
+                        help='destination within output-root (default: static-rooms.json)')
+    result.add_argument('--profile', choices=[PROFILE], default=PROFILE)
+    return result
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parser().parse_args(argv)
+    try:
+        target = destination(args.source_root, args.output_root, args.output)
+        document, code = scan(args.source_root)
+        payload = canonical(document)
+        # Serialization must be complete and round-trip clean before replacement.
+        if json.loads(payload) != document:
+            raise ToolError('IR serialization invariant failed')
+        atomic_write(target, payload)
+        print(json.dumps({'exit_code': code, **document['summary']}, ensure_ascii=True))
+        return code
+    except Exception as error:
+        # Object SourceError is caught by the extractor; everything else is fatal exit2.
+        # Keep machine-specific details out of canonical output (stderr is diagnostic only).
+        print(f'FATAL: {type(error).__name__}: {error}', file=sys.stderr)
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

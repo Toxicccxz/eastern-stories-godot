@@ -2,12 +2,15 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2 AUTHORIZED / IN PROGRESS.**
+**Migration Tooling v1 — P2 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
-The same `phase/migration-tooling-v1` branch starts P2 static direct-ROOM source extraction,
-exact provenance and explicit findings. Implementation is not yet claimed at this decision checkpoint.
+The same `phase/migration-tooling-v1` branch implements
+[P2 static direct-ROOM extraction](../migration/MIGRATION_TOOLING_V1_P2_STATIC_ROOM_EXTRACTOR.md),
+exact provenance and explicit findings. LOCAL migration62/full Python108/static checks PASS.
+Two whole-corpus runs are byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/QUARANTINED13,
+exit1 for observable source errors; no source repair or semantic approval. P2 is not owner-closed yet.
 NPC/item extraction and Native generation remain deferred. No phase PR, merge or P3 authorization.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**

@@ -323,12 +323,15 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2 AUTHORIZED / IN PROGRESS**
+13. **Migration Tooling v1 — P2 IMPLEMENTATION COMPLETE / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
     [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
     P2 on `phase/migration-tooling-v1` is bounded to static direct-ROOM extraction, provenance
-    and explicit findings using Python standard-library tooling. This decision checkpoint does
-    not claim implementation. NPC/item extraction and Native generation remain deferred;
+    and explicit findings using Python standard-library tooling.
+    [Implementation/local verification](../migration/MIGRATION_TOOLING_V1_P2_STATIC_ROOM_EXTRACTOR.md)
+    passes migration62/full Python108/static checks and byte-identical whole-corpus runs.
+    Exit1 reports13 quarantined source objects, not a tooling test failure or semantic approval.
+    P2 awaits owner review. NPC/item extraction and Native generation remain deferred;
     no PR, merge or P3 is authorized.
