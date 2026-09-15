@@ -2,17 +2,19 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F1 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F2 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
 [P2 static direct-ROOM extraction](../migration/MIGRATION_TOOLING_V1_P2_STATIC_ROOM_EXTRACTOR.md)
-is OWNER APPROVED / CLOSED. Its first Final Audit was BLOCKED; owner confirmed HIGH2 / MEDIUM3
-and authorized [P2F1 blocker fixes](../migration/MIGRATION_TOOLING_V1_P2F1_AUDIT_BLOCKER_FIXES.md)
-on the same `phase/migration-tooling-v1` branch. LOCAL migration76/full Python122/static PASS;
-version1.0.1 whole-corpus double-run byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
-QUARANTINED13, facts2,804/findings4,457, exit1 for retained source errors.
-P2F1 awaits owner review; re-Final-Audit is not yet authorized or completed. No phase PR or merge.
+is OWNER APPROVED / CLOSED. First Final Audit was BLOCKED; approved/closed
+[P2F1](../migration/MIGRATION_TOOLING_V1_P2F1_AUDIT_BLOCKER_FIXES.md) resolved its HIGH2 / MEDIUM3.
+Re-Final Audit was BLOCKED on HIGH1 nested manual metadata overwrite and MEDIUM1 MONEY/COMBINED_ITEM
+admission. Authorized [P2F2 fixes](../migration/MIGRATION_TOOLING_V1_P2F2_RE_AUDIT_BLOCKER_FIXES.md)
+on the same `phase/migration-tooling-v1` branch pass LOCAL migration83/full Python129/static checks.
+Version1.0.2 whole-corpus double-run is byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
+QUARANTINED13, facts2,804/findings4,457, exit1. P2F2 awaits owner review;
+next Re-Final Audit is not yet authorized/completed. No phase PR or merge.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**

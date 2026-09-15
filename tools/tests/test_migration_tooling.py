@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import contextlib
+import copy
 import hashlib
 import io
 import json
@@ -413,13 +414,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.1', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.2', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1'):
+        for version in ('1.0.0', '1.0.1', '1.0.2'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -443,7 +444,8 @@ class ScanAndCliTests(unittest.TestCase):
                 previous['summary']['scanned_files'] = 123
             else:
                 previous['owner_notes'] = 'preserve'
-            payload = canonical(previous)
+            # Invalid external input must bypass the now-shared strict serializer.
+            payload = (json.dumps(previous, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
             target.write_bytes(payload)
             with self.subTest(edit=edit):
                 self.assertEqual(2, self.run_cli())
@@ -586,6 +588,137 @@ class AuditBlockerRegressionTests(unittest.TestCase):
                 self.assertEqual('QUARANTINED', record['status'])
                 self.assertEqual([], record['facts'])
                 self.assertIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+
+class P2F2RegressionTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.source = Path(self.temp.name) / 'input'
+        (self.source / 'd').mkdir(parents=True)
+        (self.source / 'd/room.c').write_text(room(
+            'set("short","safe");set("long","text only");set("no_fight",0);'
+            'set("exits",(["e":__DIR__"room","w":"/d/room"]));'), encoding='utf-8')
+        (self.source / 'd/bad.c').write_bytes(b'\xff')
+        self.output = Path(self.temp.name) / 'output'
+        self.output.mkdir()
+        self.target = self.output / 'static-rooms.json'
+        self.document, self.scan_code = scan(self.source)
+
+    def run_cli(self):
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            return cli.main(['--source-root', str(self.source), '--output-root', str(self.output)])
+
+    def levels(self, doc):
+        obj = next(o for o in doc['objects'] if o['facts'])
+        fact = next(f for f in obj['facts'] if 'normalization' in f)
+        diagnostic = next(f for f in doc['findings'] if f['provenance']['raw'] is None)
+        return {'document': doc, 'manifest': doc['source_manifest'],
+                'manifest_file': doc['source_manifest']['files'][0], 'object': obj,
+                'inherit': obj['direct_inherits'][0], 'inherit_provenance': obj['direct_inherits'][0]['provenance'],
+                'fact': fact, 'finding': doc['findings'][0], 'fact_provenance': fact['provenance'],
+                'finding_provenance': doc['findings'][0]['provenance'],
+                'encoding_provenance': diagnostic['provenance'], 'normalization': fact['normalization'],
+                'normalization_input': fact['normalization']['inputs'][0], 'exit_value': fact['value'],
+                'reference_value': fields(obj, 'inherit')[0]['value'],
+                'text_value': fields(obj, 'short')[0]['value'], 'integer_value': fields(obj, 'no_fight')[0]['value'],
+                'exit_reference': fact['value']['reference'], 'summary': doc['summary'],
+                'statuses': doc['summary']['statuses'], 'finding_codes': doc['summary']['finding_codes']}
+
+    def assert_preserved(self, doc):
+        # Deliberately bypass canonical(): this is adversarial input, not producer output.
+        payload = (json.dumps(doc, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+        self.target.write_bytes(payload)
+        with patch.object(cli, 'atomic_write') as writer:
+            result = self.run_cli()
+            self.assertEqual(2, result)
+            writer.assert_not_called()
+        self.assertFalse(cli.recognized_output(payload))
+        self.assertEqual(payload, self.target.read_bytes())
+
+    def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
+        for version in ('1.0.0', '1.0.1', '1.0.2'):
+            for level in self.levels(self.document):
+                for key in ('owner_notes', 'future_field'):
+                    with self.subTest(version=version, level=level, key=key):
+                        doc = copy.deepcopy(self.document)
+                        doc['extractor_version'] = version
+                        self.levels(doc)[level][key] = 'preserve manual data'
+                        self.assert_preserved(doc)
+
+    def test_canonical_uses_same_closed_schema(self):
+        for level in self.levels(self.document):
+            with self.subTest(level=level):
+                doc = copy.deepcopy(self.document)
+                self.levels(doc)[level]['manual_tag'] = 'keep'
+                with self.assertRaises(ToolError):
+                    canonical(doc)
+
+    def test_all_known_versions_upgrade_with_real_atomic_replace(self):
+        for version in ('1.0.0', '1.0.1', '1.0.2'):
+            with self.subTest(version=version):
+                doc = copy.deepcopy(self.document)
+                doc['extractor_version'] = version
+                payload = canonical(doc)
+                self.assertTrue(cli.recognized_output(payload))
+                self.target.write_bytes(payload)
+                with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
+                    self.assertEqual(self.scan_code, self.run_cli())
+                    replace.assert_called_once()
+                self.assertEqual('1.0.2', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual([self.target], list(self.output.iterdir()))
+
+    def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
+        for change in ('text_classification', 'normalization', 'missing_normalization', 'raw_hex', 'missing_raw_hex'):
+            with self.subTest(change=change):
+                doc = copy.deepcopy(self.document)
+                levels = self.levels(doc)
+                if change == 'text_classification':
+                    levels['fact']['text_classification'] = 'TEXT_ONLY'
+                elif change == 'normalization':
+                    obj = levels['object']
+                    fields(obj, 'short')[0]['normalization'] = copy.deepcopy(levels['normalization'])
+                elif change == 'missing_normalization':
+                    del levels['fact']['normalization']
+                elif change == 'raw_hex':
+                    levels['fact_provenance']['raw_hex'] = '00'
+                else:
+                    del levels['encoding_provenance']['raw_hex']
+                self.assert_preserved(doc)
+
+    def test_invalid_typed_values_and_counts_rejected(self):
+        for level, key, value in [('integer_value', 'value', 0), ('integer_value', 'value', '01'),
+                                  ('text_value', 'value', {}), ('exit_value', 'kind', 'text'),
+                                  ('exit_reference', 'candidates', {}), ('statuses', 'PARTIAL', True),
+                                  ('summary', 'scanned_files', True), ('finding_codes', 'OUT_OF_SCOPE', -1)]:
+            with self.subTest(level=level, key=key):
+                doc = copy.deepcopy(self.document)
+                self.levels(doc)[level][key] = value
+                self.assert_preserved(doc)
+
+    def test_money_combined_symbol_and_literal_excluded(self):
+        for expr, category in [('MONEY', 'MONEY'), ('COMBINED_ITEM', 'COMBINED_ITEM'),
+                               ('"/std/money"', 'MONEY'), ('"/std/item/combined"', 'COMBINED_ITEM')]:
+            with self.subTest(expr=expr):
+                text = 'inherit ' + expr + ';' + room('set("short","bad candidate");')
+                obj, findings = extract(text)
+                self.assertFalse(obj['supported_candidate'])
+                self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                self.assertEqual([], obj['facts'])
+                self.assertEqual([expr, 'ROOM'], [d['expression'] for d in obj['direct_inherits']])
+                self.assertIn(category, obj['category_candidates'])
+                self.assertIn('OUT_OF_SCOPE', codes(findings))
+                for declaration in obj['direct_inherits']:
+                    p = declaration['provenance']
+                    self.assertEqual(text.encode()[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+                    self.assertEqual(hashlib.sha256(text.encode()).hexdigest(), p['source_sha256'])
+
+    def test_similar_money_combined_literals_are_not_guessed(self):
+        for path in ('/std/money_custom', '/std/item/combined_child'):
+            obj, findings = extract('inherit "' + path + '";' + room(''))
+            self.assertTrue(obj['supported_candidate'])
+            self.assertFalse({'MONEY', 'COMBINED_ITEM'} & set(obj['category_candidates']))
+            self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
 
 
 class RealSourceTests(unittest.TestCase):

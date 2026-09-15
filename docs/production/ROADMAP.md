@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F1 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F2 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -332,8 +332,10 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     and explicit findings using Python standard-library tooling.
     [Implementation/local verification](../migration/MIGRATION_TOOLING_V1_P2_STATIC_ROOM_EXTRACTOR.md)
     is OWNER APPROVED / CLOSED. First Final Audit was BLOCKED, with owner-confirmed HIGH2 / MEDIUM3.
-    Authorized [P2F1 fixes](../migration/MIGRATION_TOOLING_V1_P2F1_AUDIT_BLOCKER_FIXES.md) now pass
-    LOCAL migration76/full Python122/static checks and byte-identical version1.0.1 corpus runs.
-    Exit1 retains13 genuinely quarantined source objects; facts2,804/findings4,457.
-    P2F1 awaits owner review; re-Final-Audit is not yet authorized/completed.
+    Approved/closed [P2F1 fixes](../migration/MIGRATION_TOOLING_V1_P2F1_AUDIT_BLOCKER_FIXES.md) resolved those five.
+    Re-Final Audit was BLOCKED on HIGH1 nested manual metadata overwrite and MEDIUM1 MONEY/COMBINED_ITEM
+    admission. Authorized [P2F2](../migration/MIGRATION_TOOLING_V1_P2F2_RE_AUDIT_BLOCKER_FIXES.md) now passes
+    LOCAL migration83/full Python129/static checks and byte-identical version1.0.2 corpus runs.
+    Exit1 retains13 quarantined source objects; facts2,804/findings4,457. P2F2 awaits owner review;
+    next Re-Final Audit is not yet authorized/completed.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

@@ -3,17 +3,15 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import subprocess
 import sys
 import tempfile
-from collections import Counter
 from pathlib import Path
 
 from .es2_source import ToolError, safe_path
-from .room_extractor import EXTRACTOR_VERSION, PROFILE, canonical, scan
+from .room_extractor import PROFILE, canonical, scan
 
 
 REPOSITORY = Path(__file__).resolve().parents[2]
@@ -21,48 +19,13 @@ DEFAULT_OUTPUT_ROOT = REPOSITORY / 'build/migration-tooling-v1'
 
 
 def recognized_output(payload: bytes) -> bool:
-    """Recognize complete canonical, unreviewed v1 output, including version 1.0.0.
+    """Accept only known, closed, internally consistent generated canonical IR.
 
-    Metadata alone is insufficient. This is format recognition, not authentication;
-    noncanonical, reviewed or inconsistent documents are not replaced.
+    Shared canonical validation rejects unknown keys at every generated layer.
+    This is format recognition, not cryptographic proof of authorship.
     """
     try:
-        previous = json.loads(payload)
-        if (set(previous) != {'schema_version', 'extractor_version', 'profile', 'review_state',
-                             'source_manifest', 'objects', 'findings', 'summary'}
-                or previous['extractor_version'] not in {'1.0.0', EXTRACTOR_VERSION}
-                or previous['review_state'] != 'UNREVIEWED' or canonical(previous) != payload):
-            return False
-        objects, findings = previous['objects'], previous['findings']
-        manifest = previous['source_manifest']['files']
-        digest = hashlib.sha256()
-        for obj, item in zip(objects, manifest):
-            if (item['review_state'] != 'UNREVIEWED' or item['status'] != obj['status']
-                    or item['sha256'] != obj['source_sha256']
-                    or item['source_path'] != obj['source_path']
-                    or item['source_namespace'] != obj['source_namespace']
-                    or item['kind'] not in {'LPC_SOURCE', 'HEADER', 'OTHER'}
-                    or type(item['size_bytes']) is not int or item['size_bytes'] < 0
-                    or len(item['sha256']) != 64
-                    or any(c not in '0123456789abcdef' for c in item['sha256'])
-                    or type(obj['supported_candidate']) is not bool
-                    or not isinstance(obj['direct_inherits'], list)
-                    or not isinstance(obj['category_candidates'], list)):
-                return False
-            digest.update(item['input_path'].encode('utf-8') + b'\0' + item['sha256'].encode('ascii') + b'\n')
-        if digest.hexdigest() != previous['source_manifest']['sha256']:
-            return False
-        expected_ids = {obj['object_id']: obj['finding_ids'] for obj in objects}
-        actual_ids = {identity: [] for identity in expected_ids}
-        for finding in findings:
-            if finding['review_state'] != 'UNREVIEWED':
-                return False
-            actual_ids[finding['object_id']].append(finding['finding_id'])
-        counts = Counter(obj['status'] for obj in objects)
-        summary = dict(scanned_files=len(objects), supported_candidates=sum(o['supported_candidate'] for o in objects),
-                       statuses={key: counts[key] for key in ('EXTRACTED', 'PARTIAL', 'OUT_OF_SCOPE', 'QUARANTINED')},
-                       total_findings=len(findings), finding_codes=dict(sorted(Counter(f['code'] for f in findings).items())))
-        return expected_ids == actual_ids and summary == previous['summary']
+        return canonical(json.loads(payload)) == payload
     except (ValueError, TypeError, KeyError, AttributeError, ToolError):
         return False
 

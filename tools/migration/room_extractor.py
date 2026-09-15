@@ -31,7 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.1'
+EXTRACTOR_VERSION = '1.0.2'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2'}
 PROFILE = 'static-room-v1'
 # Exact constants from reference/es2/mudlib/include/globals.h:54-68.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -39,6 +40,7 @@ EXCLUDED_LITERAL_BASES = {
     '/std/room/bank': 'BANK', '/std/room/class_guild': 'CLASS_GUILD',
     '/std/force': 'FORCE', '/std/room/hockshop': 'HOCKSHOP', '/std/item': 'ITEM',
     '/std/liquid': 'LIQUID', '/std/char/npc': 'NPC', '/std/skill': 'SKILL',
+    '/std/money': 'MONEY', '/std/item/combined': 'COMBINED_ITEM',
 }
 
 
@@ -65,24 +67,161 @@ def directive_parts(token: Token) -> list[str]:
                           token.start + offsets[error.end], encoding=error.encoding) from error
 
 
-def canonical(document: dict) -> bytes:
-    if document.get('schema_version') != 1 or document.get('profile') != PROFILE:
-        raise ToolError('unsupported IR schema/profile')
-    objects, manifest = document.get('objects', []), document.get('source_manifest', {}).get('files', [])
-    if not manifest or len(manifest) != len(objects):
-        raise ToolError('IR manifest coverage invariant failed')
-    if len({o['object_id'] for o in objects}) != len(objects):
-        raise ToolError('IR object identity collision')
-    if [o['input_path'] for o in objects] != [m['input_path'] for m in manifest]:
-        raise ToolError('IR object/manifest ordering mismatch')
-    for obj in objects:
-        if obj['review_state'] != 'UNREVIEWED' or obj['status'] not in {'EXTRACTED', 'PARTIAL', 'OUT_OF_SCOPE', 'QUARANTINED'}:
-            raise ToolError('IR review/status invariant failed')
-        if obj['status'] in {'OUT_OF_SCOPE', 'QUARANTINED'} and obj['facts']:
-            raise ToolError('IR ineligible object emitted facts')
+def validate_document(document: dict) -> None:
+    """Closed generated schema shared by serialization and overwrite recognition.
+
+    The three known patch versions share these shapes. Unknown future fields are
+    preserved by rejecting the document, never by stripping or ignoring them.
+    This validates structure/integrity, not authorship or LPC semantics.
+    """
+    def require(condition: bool, reason: str) -> None:
+        if not condition:
+            raise ToolError('IR validation: ' + reason)
+
+    def record(value, *, strings='', integers='', lists='', booleans='', dictionaries='', nullable_strings=''):
+        groups = ((strings, str), (integers, int), (lists, list), (booleans, bool),
+                  (dictionaries, dict), (nullable_strings, (str, type(None))))
+        expected = {key: kind for names, kind in groups for key in names.split()}
+        require(type(value) is dict and set(value) == set(expected), 'unknown or missing record fields')
+        for key, kind in expected.items():
+            allowed = kind if isinstance(kind, tuple) else (kind,)
+            require(type(value[key]) in allowed, 'invalid field type: ' + key)
+        for key in integers.split():
+            require(value[key] >= 0, 'negative count/offset: ' + key)
+
+    def sha(value: str) -> None:
+        require(len(value) == 64 and all(c in '0123456789abcdef' for c in value), 'invalid SHA-256')
+
+    def string_list(value: list) -> None:
+        require(all(type(x) is str for x in value), 'invalid string array')
+
+    def unreviewed(value: dict) -> None:
+        require(value['review_state'] == 'UNREVIEWED', 'reviewed data is not generated output')
+
+    def provenance(p: dict, obj: dict, size: int) -> None:
+        extra = ' raw_hex' if type(p) is dict and p.get('raw') is None else ''
+        record(p, strings='source_path source_sha256 scope construct' + extra,
+               integers='source_ordinal byte_start byte_end_exclusive line column', nullable_strings='raw')
+        require(p['source_path'] == obj['source_path'] and p['source_sha256'] == obj['source_sha256'],
+                'provenance source mismatch')
+        require(p['byte_start'] <= p['byte_end_exclusive'] <= size and p['line'] > 0 and p['column'] > 0,
+                'invalid provenance range/location')
+        if p['raw'] is None:
+            require(len(p['raw_hex']) % 2 == 0 and all(c in '0123456789abcdef' for c in p['raw_hex']),
+                    'invalid raw_hex')
+            raw = bytes.fromhex(p['raw_hex'])
+            try:
+                raw.decode('utf-8')
+            except UnicodeDecodeError:
+                pass
+            else:
+                raise ToolError('IR validation: raw_hex variant must represent undecodable UTF-8')
+        else:
+            raw = p['raw'].encode('utf-8')
+        require(len(raw) == p['byte_end_exclusive'] - p['byte_start'], 'raw/span length mismatch')
+
+    record(document, strings='extractor_version profile review_state', integers='schema_version',
+           lists='objects findings', dictionaries='source_manifest summary')
+    require(document['schema_version'] == 1 and document['profile'] == PROFILE
+            and document['extractor_version'] in KNOWN_EXTRACTOR_VERSIONS, 'unsupported schema/profile/version')
+    unreviewed(document)
+    record(document['source_manifest'], strings='sha256', lists='files')
+    sha(document['source_manifest']['sha256'])
+    objects, manifest = document['objects'], document['source_manifest']['files']
+    require(bool(manifest) and len(objects) == len(manifest), 'manifest coverage')
+    statuses = {'EXTRACTED', 'PARTIAL', 'OUT_OF_SCOPE', 'QUARANTINED'}
+    known_codes = {code.value for code in FindingCode}
+    digest = hashlib.sha256()
+    by_id, sizes = {}, {}
+    for obj, item in zip(objects, manifest):
+        record(obj, strings='object_id source_path source_sha256 review_state status input_path source_namespace',
+               booleans='supported_candidate', lists='category_candidates direct_inherits facts finding_ids')
+        record(item, strings='input_path source_path kind source_namespace sha256 status review_state', integers='size_bytes')
+        unreviewed(obj)
+        unreviewed(item)
+        sha(item['sha256'])
+        require(obj['object_id'] not in by_id, 'object identity collision')
+        by_id[obj['object_id']], sizes[obj['object_id']] = obj, item['size_bytes']
+        require(obj['status'] in statuses and item['status'] == obj['status'], 'object/manifest status mismatch')
+        require(item['kind'] in {'LPC_SOURCE', 'HEADER', 'OTHER'} and obj['source_namespace'] in {'mudlib', 'source-root'},
+                'invalid source kind/namespace')
+        for key in ('input_path', 'source_path', 'source_namespace'):
+            require(item[key] == obj[key], 'object/manifest identity mismatch')
+        require(item['sha256'] == obj['source_sha256'], 'object/manifest hash mismatch')
+        digest.update(item['input_path'].encode('utf-8') + b'\0' + item['sha256'].encode('ascii') + b'\n')
+        string_list(obj['category_candidates'])
+        string_list(obj['finding_ids'])
+        require(obj['status'] not in {'OUT_OF_SCOPE', 'QUARANTINED'} or not obj['facts'], 'ineligible object facts')
+        for declaration in obj['direct_inherits']:
+            record(declaration, strings='expression', nullable_strings='symbol', dictionaries='provenance')
+            provenance(declaration['provenance'], obj, item['size_bytes'])
         for fact in obj['facts']:
-            if fact['field'] not in TEXT_FIELDS | FLAGS | {'inherit', 'exit'} or fact['review_state'] != 'UNREVIEWED':
-                raise ToolError('IR supported fact boundary violated')
+            require(type(fact) is dict, 'invalid fact')
+            is_long = fact.get('field') == 'long'
+            normalized = fact.get('classification') == 'STATIC_NORMALIZED'
+            record(fact, strings='fact_id field classification review_state' + (' text_classification' if is_long else ''),
+                   dictionaries='value provenance' + (' normalization' if normalized else ''))
+            unreviewed(fact)
+            sha(fact['fact_id'])
+            field = fact['field']
+            require(field in TEXT_FIELDS | FLAGS | {'inherit', 'exit'}, 'unsupported fact field')
+            require(fact['classification'] in {'EXACT_LITERAL', 'STATIC_NORMALIZED'}, 'invalid classification')
+            require(not normalized or field == 'exit', 'normalization on non-exit fact')
+            if is_long:
+                require(fact['text_classification'] == 'TEXT_ONLY', 'invalid long classification')
+            provenance(fact['provenance'], obj, item['size_bytes'])
+            value = fact['value']
+            if field == 'exit':
+                record(value, strings='kind direction target direction_raw target_raw', dictionaries='reference')
+                require(value['kind'] == 'exit', 'invalid exit kind')
+                ref = value['reference']
+                record(ref, strings='target status', lists='candidates')
+                string_list(ref['candidates'])
+                require(ref['target'] == value['target'] and ref['status'] in
+                        {'EXISTS', 'CASE_MISMATCH', 'AMBIGUOUS', 'MISSING', 'UNRESOLVED'}, 'invalid exit reference')
+            else:
+                record(value, strings='kind value')
+                allowed = {'reference'} if field == 'inherit' else {'text'} if field in TEXT_FIELDS else {'text', 'integer'}
+                require(value['kind'] in allowed, 'invalid typed value kind')
+                if value['kind'] == 'integer':
+                    text = value['value']
+                    require(bool(text) and all(c in '0123456789' for c in text)
+                            and (text == '0' or not text.startswith('0')), 'invalid decimal integer')
+            if normalized:
+                normalization = fact['normalization']
+                record(normalization, strings='rule', integers='version', lists='inputs')
+                require(normalization['rule'] == 'SOURCE_DIR_LITERAL_CONCAT' and normalization['version'] == 1
+                        and len(normalization['inputs']) == 1, 'invalid normalization')
+                provenance(normalization['inputs'][0], obj, item['size_bytes'])
+    paths = [item['input_path'] for item in manifest]
+    require(paths == sorted(set(paths)), 'manifest ordering/duplicate path')
+    require(digest.hexdigest() == document['source_manifest']['sha256'], 'manifest digest mismatch')
+    actual_ids = {identity: [] for identity in by_id}
+    for finding in document['findings']:
+        record(finding, strings='code severity object_id reason review_state finding_id',
+               booleans='prevents_supported_consumption', dictionaries='provenance')
+        unreviewed(finding)
+        require(finding['code'] in known_codes and finding['severity'] in {'INFO', 'WARNING', 'ERROR'}, 'invalid finding')
+        require(finding['object_id'] in by_id, 'unknown finding object')
+        identity = finding['object_id']
+        actual_ids[identity].append(finding['finding_id'])
+        require(finding['finding_id'] == f'{identity}:{len(actual_ids[identity])}', 'finding identity/order mismatch')
+        provenance(finding['provenance'], by_id[identity], sizes[identity])
+    require(actual_ids == {identity: obj['finding_ids'] for identity, obj in by_id.items()}, 'finding references mismatch')
+    summary = document['summary']
+    record(summary, integers='scanned_files supported_candidates total_findings', dictionaries='statuses finding_codes')
+    record(summary['statuses'], integers='EXTRACTED PARTIAL OUT_OF_SCOPE QUARANTINED')
+    require(set(summary['finding_codes']) <= known_codes, 'unknown finding count code')
+    require(all(type(count) is int and count > 0 for count in summary['finding_codes'].values()), 'invalid finding count')
+    counts = Counter(obj['status'] for obj in objects)
+    expected = dict(scanned_files=len(objects), supported_candidates=sum(o['supported_candidate'] for o in objects),
+                    statuses={key: counts[key] for key in statuses}, total_findings=len(document['findings']),
+                    finding_codes=dict(Counter(f['code'] for f in document['findings'])))
+    require(summary == expected, 'summary mismatch')
+
+
+def canonical(document: dict) -> bytes:
+    validate_document(document)
     return (json.dumps(document, ensure_ascii=False, indent=2, allow_nan=False) + '\n').encode('utf-8')
 
 
@@ -277,7 +416,7 @@ class RoomExtractor:
             unknown_top.append(ts[start:])
         direct = any(x['symbol'] == 'ROOM' for x in self.inherits)
         hazards = self.include_hazards(ts)
-        excluded = {'BANK', 'HOCKSHOP', 'CLASS_GUILD', 'NPC', 'ITEM', 'WEAPON', 'ARMOR',
+        excluded = {'BANK', 'HOCKSHOP', 'CLASS_GUILD', 'NPC', 'ITEM', 'MONEY', 'COMBINED_ITEM', 'WEAPON', 'ARMOR',
                     'SWORD', 'BLADE', 'HAMMER', 'AXE', 'STAFF', 'WHIP', 'SPEAR', 'THROWING',
                     'F_FOOD', 'F_LIQUID', 'F_VENDOR', 'F_MASTER', 'LIQUID', 'CLOTH', 'BOOTS',
                     'GLOVES', 'HEAD', 'NECK', 'FINGER', 'SHIELD', 'SKILL', 'FORCE', 'DAEMON'}
