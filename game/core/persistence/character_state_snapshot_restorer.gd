@@ -123,6 +123,7 @@ static func restore(
 			snapshot.apprenticeship.betrayer_count,
 		),
 		equipment,
+		snapshot.affiliation.duplicate_snapshot(),
 	)
 	state.gender = snapshot.gender
 	return state if state.resources_have_valid_invariants() else null

@@ -24,6 +24,10 @@ const WORKPLACE_ZONE_ID: StringName = &"snow.workplace"
 const WORKPLACE_TARGET_ID: StringName = &"snow.workplace.work"
 const BANK_ZONE_ID: StringName = &"snow.bank"
 const HOCKSHOP_ZONE_ID: StringName = &"snow.hockshop"
+const SCHOOL1_ZONE_ID: StringName = &"snow.school1"
+const SCHOOL2_ZONE_ID: StringName = &"snow.school2"
+const SCHOOLHALL_ZONE_ID: StringName = &"snow.schoolhall"
+const SCHOOL_ZONE_IDS: Array[StringName] = [SCHOOL1_ZONE_ID, SCHOOL2_ZONE_ID, SCHOOLHALL_ZONE_ID]
 const LEGACY_MSTREET2_DRUNK_COUNT: int = 1
 const LEGACY_MSTREET2_SCAVENGER_COUNT: int = 1
 const LEGACY_SQUARE_TRAV_BLADE_COUNT: int = 3
@@ -58,6 +62,7 @@ static func outdoor_map() -> MapDefinition:
 	ids.append_array([MSTREET1_ZONE_ID, MSTREET2_ZONE_ID, WORKPLACE_ZONE_ID, BANK_ZONE_ID])
 	ids.append_array([MSTREET3_ZONE_ID, MSTREET4_ZONE_ID, CROSSROAD_ZONE_ID])
 	ids.append(HOCKSHOP_ZONE_ID)
+	ids.append_array(SCHOOL_ZONE_IDS)
 	return MapDefinition.new(OUTDOOR_MAP_ID, REGION_ID, OUTDOOR_SCENE, ids, [INN_RETURN_PORTAL_ID], [SQUARE_ENTRY_SPAWN_ID])
 
 
@@ -76,6 +81,9 @@ static func route_zones() -> Array[ZoneDefinition]:
 		ZoneDefinition.new(MSTREET4_ZONE_ID, OUTDOOR_MAP_ID, MSTREET4_ZONE_ID, "雪亭镇街道", ["/d/snow/mstreet4"]),
 		ZoneDefinition.new(CROSSROAD_ZONE_ID, OUTDOOR_MAP_ID, CROSSROAD_ZONE_ID, "山坳", ["/d/snow/crossroad"]),
 		ZoneDefinition.new(HOCKSHOP_ZONE_ID, OUTDOOR_MAP_ID, HOCKSHOP_ZONE_ID, "丰登当铺", ["/d/snow/hockshop"]),
+		ZoneDefinition.new(SCHOOL1_ZONE_ID, OUTDOOR_MAP_ID, SCHOOL1_ZONE_ID, "淳风武馆大门", ["/d/snow/school1"]),
+		ZoneDefinition.new(SCHOOL2_ZONE_ID, OUTDOOR_MAP_ID, SCHOOL2_ZONE_ID, "淳风武馆教练场", ["/d/snow/school2"]),
+		ZoneDefinition.new(SCHOOLHALL_ZONE_ID, OUTDOOR_MAP_ID, SCHOOLHALL_ZONE_ID, "淳风武馆大厅", ["/d/snow/schoolhall"]),
 	]
 
 
@@ -89,6 +97,11 @@ static func zone_by_id(id: StringName) -> ZoneDefinition:
 
 
 static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
+	var school_route: Array[StringName] = [MSTREET1_ZONE_ID, SCHOOL1_ZONE_ID, SCHOOL2_ZONE_ID, SCHOOLHALL_ZONE_ID]
+	var school_from: int = school_route.find(from_id)
+	var school_to: int = school_route.find(to_id)
+	if school_from >= 0 and school_to >= 0 and absi(school_from - school_to) == 1:
+		return true
 	if (from_id == HOCKSHOP_ZONE_ID and to_id == MSTREET3_ZONE_ID) or (to_id == HOCKSHOP_ZONE_ID and from_id == MSTREET3_ZONE_ID):
 		return true
 	var north_from: int = NORTH_SPINE_ZONE_IDS.find(from_id)
@@ -111,6 +124,10 @@ static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
 ## Traceability only: these entries do not create native portals or destinations.
 static func authored_outdoor_exits() -> Dictionary[String, String]:
 	return {
+		"school1:west": "/d/snow/mstreet1", "school1:east": "/d/snow/school2",
+		"school2:west": "/d/snow/school1", "school2:east": "/d/snow/schoolhall",
+		"school2:north": "/d/snow/weapon_storage", # Deferred side route.
+		"schoolhall:west": "/d/snow/school2", "schoolhall:east": "/d/snow/inneryard",
 		"hockshop:west": "/d/snow/mstreet3", "hockshop:east": "/d/snow/hockshop2", # East is metadata only; no destination.
 		"bank:east": "/d/snow/mstreet1",
 		"mstreet1:south": "/d/snow/square", "mstreet1:north": "/d/snow/mstreet2",

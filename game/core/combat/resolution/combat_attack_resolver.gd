@@ -431,6 +431,10 @@ static func resolve(
 	var defense_factor: int = defender.combat_experience
 	while true:
 		calculation._defense_factor_at_exit = defense_factor
+		# P2B-ZE1 owner Type B: original defender EXP0 has no experience reduction
+		# or draw. This does not define random(0), or permit invalid negative EXP.
+		if defender.combat_experience == 0 and attacker.combat_experience >= 0:
+			break
 		if defense_factor <= 0:
 			return _finish(
 				CombatAttackResult.Outcome.INVALID_SOURCE_STATE,

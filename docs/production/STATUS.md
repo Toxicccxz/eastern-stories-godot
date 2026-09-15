@@ -2,6 +2,34 @@
 
 ## Current milestone
 
+**Snow First Progression Loop / 淳风武馆 — FINAL AUDIT PASS WITH RESIDUAL RISKS; AWAIT OWNER PR AUTHORIZATION.**
+[Final milestone audit](../migration/PHASE_SNOW_FIRST_PROGRESSION_FINAL_AUDIT.md) covers the complete
+main `88be5c0e` → frozen pre-audit `6379af74` milestone: Type A12 / Type B10 / Type C0,
+HIGH blockers0. School adds three zones: Snow outdoor16 plus Inn=17. The sole audit commit
+is documentation only; its verified/pushed SHA is the frozen audited head reported at completion.
+P1/P2/P2B/ZE1 authorization checkpoints below and in their reports are historical; the current
+owner instruction approves those slices/live acceptance and authorizes this Final Audit only.
+[P1](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md) is OWNER APPROVED / CLOSED.
+Authorized [P2 implementation](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md) stays on
+`phase/snow-first-progression-loop`: three physical school zones, transient cold-closed gate,
+Liu teaching contact, exact first apprenticeship, basic unarmed Learn and root2-compatible persistence.
+Approved [P2B-ZE1](../migration/PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_FIX.md) adds only
+the zero-EXP defense-loop compatibility guard: zero iterations/draws for defender0/attacker>=0.
+Focused combat1,466 / Snow247 / canonical20,261 / Python46 pass locally.
+The [fresh evidence-only rerun](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md#fresh-live-acceptance-2026-09-15-utc)
+on frozen ZE1 `315d3863a5b72fbbb3f84006440d7b9e796bf512` completed one New Game→apprentice→raw3→
+nine normal encounters with prompt Flee/natural recovery→E2→physical return→Learn raw4→Save→
+whole-process termination→cold Continue. Same apprenticeship/Character authority before Save;
+entire encoded saved/restored state and all three persisted RNG streams matched exactly.
+Cold gate closed, one active map/correct camera, ACTIVE player and no residual encounter/UI.
+This required lengthy natural recovery; it is not a balance qualification. No EXP/state injection,
+RNG reset, reload fishing or gameplay changes. Earlier failed attempts remain historical.
+Teaching contact is not full Liu NPC parity.
+No P2 PR/merge/remote integration CI; the milestone is not integrated on main.
+The frozen audited milestone awaits owner review and authorization for its single PR.
+P3 and Migration Tooling remain unauthorized. See the audit for the low-risk fixture hash typo,
+pacing, historical zero-bound, platform and operational limitations.
+
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
 [PR #17](https://github.com/Toxicccxz/eastern-stories-godot/pull/17), frozen audited PR HEAD
 `c37645dfffd3584ae80072a70d15634947f8ae5d`, merged by ordinary merge commit at
@@ -36,7 +64,7 @@ The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APP
 PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
 Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
 engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
-No next major gameplay milestone has been selected or authorized; owner authorization is required.
+The selected milestone is Snow First Progression Loop; its current Final Audit status is recorded above.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit

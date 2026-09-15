@@ -331,6 +331,7 @@ func _character_snapshot(
 			state.apprenticeship.legacy_master_name,
 			state.apprenticeship.betrayer_count,
 		),
+		state.affiliation,
 	)
 
 

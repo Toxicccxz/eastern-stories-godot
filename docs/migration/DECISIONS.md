@@ -1,5 +1,72 @@
 # Migration Decisions
 
+## Snow First Progression P2B-ZE1 — zero-EXP combat defense boundary
+
+**OWNER APPROVED — narrow Type B compatibility translation.** P2B analysis
+`affbe5030a5a2f03c2bff2ab14195f9f86c5f53c` is approved/closed. This decision authorizes
+only the existing combat defense-factor boundary on `phase/snow-first-progression-loop`.
+
+Source: `reference/es2/mudlib/adm/daemons/combatd.c:362–366`:
+`defense_factor = your["combat_exp"]`, then `while (random(defense_factor) > my["combat_exp"])`
+reduces damage by integer damage/3 and halves the factor. Repository evidence does not prove
+historical MudOS `random(0)` return/error behavior or RNG-state consumption.
+
+Only when execution actually reaches this stage, **original defender EXP == 0 and attacker EXP >= 0**
+means **zero experience-reduction iterations and zero RNG draws**. Continue normal requested damage,
+damage mutation, wound, progression, status, busy, relationship/post-action and chain completion.
+Do not move the gate before earlier source stages, roll back mutations, or promise later success.
+
+Positive defender EXP retains every existing draw, strict comparison, integer reduction/halving
+and ordering. Negative defender/attacker cases remain fail-closed, including attacker -1 with
+defender 1 that performs the existing iteration before factor becomes0 and fails at its old stage.
+No clamp0→1, fake draw, generator advance or new observation/API surface is required.
+
+This specifically supersedes the older combat invalid-bound decision for this one condition only.
+It is not Type A historical-driver evidence or a global `random(0)=0` rule. Generic Combat/World/NPC
+RNG adapters and all other nonpositive-bound policies remain unchanged, including wound, force,
+progression, riposte cps, perception, Vine and Learn. No EXP gift, initialization/enemy/skill tuning,
+source edit, new RNG stream or Save schema change is authorized. Apply equally to Player/NPC
+defenders and forward/QUICK/RIPOSTE ordinary attacks without ID-specific exceptions.
+
+Implementation and P2 real-input acceptance rerun are authorized; a new semantic blocker must be
+reported without another fix. Final Audit, PR, merge, P3 and Migration Tooling remain unauthorized.
+See [historical analysis](PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_BLOCKER.md).
+
+## Snow First Progression P2 — owner-approved bounded teaching embodiment
+
+**Authority:** Owner approved/closed P1 `5780139b82fad932f6bc7786ea295c20602ae0a5`
+and authorized P2 A–F on `phase/snow-first-progression-loop` only.
+
+**Decision:** Embody school1 → school2 → schoolhall as three continuous Snow outdoor zones.
+The red gate supports physical Open/Close from both sides, defaults closed on cold start/Continue,
+and is transient. Its closed collision footprint remains save-invalid even while open; no relocation
+on load. Side routes, guard, fist trainer, trainees and the inner school remain deferred.
+
+Liu Chunfeng is a bounded teaching contact, not a combat/persistent NPC. Preserve his authored
+identity, all eleven skill levels and source teaching facts; expose only basic unarmed Learn.
+Use existing LearnService, F_MASTER, improvement and combat formulas. One request makes at most
+one gameplay draw from the existing saved world-interaction stream at the source progress point;
+presentation text consumes none. No gifted experience, balance changes or advanced skill UI.
+
+The public first-apprenticeship chain retains effective cor/cps ≥20, failed pending intent,
+Cancel/retry, and idempotent master acknowledgement. Pending is transient per Player. Cross-family,
+reverse recruitment and betrayal interfaces remain deferred. Correct active Session/map/zone,
+placement, proximity, active life, noncombat/nonbusy and input quarantine are approved Type B
+contact gates, not claims about LPC busy restrictions.
+
+First recruitment records the complete source family/master/generation14, distinct family title
+and privileges, swordsman class, actual UTC entry seconds, and source display title through a
+controlled recruitment seam. No skills or rewards are granted. Owner permits the smallest strict
+versioned relationship extension within root2; item3 and SOURCE_ENTRY_V1 remain unchanged.
+Historical absent fields remain absent; historical nonempty relationships without an entry time
+retain UNKNOWN/NOT_RECORDED, never load time. Old valid root2 saves must remain readable.
+
+**Compatibility impact:** Narrow physical/contact staging only; not full school or Liu NPC parity.
+Type C: none. Natural combat evidence may be BLOCKED; no gameplay correction is authorized to
+manufacture success. Sources: `d/snow/school1.c`, `school2.c`, `schoolhall.c`,
+`daemon/class/swordsman/master.c`, `cmds/std/{apprentice,recruit,learn}.c`,
+`feature/{apprentice,skill,attribute}.c`, relative to `reference/es2/mudlib/`.
+
 ## Hockshop valuation / payout / sell lifecycle (H2)
 
 **OWNER APPROVED — H2.** H1 is OWNER APPROVED / CLOSED at

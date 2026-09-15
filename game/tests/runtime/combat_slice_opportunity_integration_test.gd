@@ -92,6 +92,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_guard_regular_and_quick_opportunities()
 	_test_dodge_parry_hit_and_rng_timeline()
 	_test_live_reverse_projection_after_progression()
+	_test_zero_experience_forward_and_reverse()
 	_test_reverse_threshold_is_not_applied_mid_chain()
 	_test_partial_mutations_survive_later_failures()
 	_test_threshold_candidate_deferred_to_affected_opportunity()
@@ -718,6 +719,56 @@ func _test_partial_mutations_survive_later_failures() -> void:
 	_assert_eq(reverse_failure.chain_result.outcome, ChainResultScript.Outcome.REVERSE_ACTION_SELECTION_FAILED, "reverse unavailable provider fails at closed selection boundary")
 	_assert_eq(reverse_failure_pair[1].state.progression.combat_experience, 11, "forward progression remains after reverse failure")
 	_assert_true(reverse_failure.chain_result.partial_mutation_preserved, "chain records preserved forward mutation")
+
+
+func _test_zero_experience_forward_and_reverse() -> void:
+	for riposte_roll: int in [0, 29]:
+		var pair := _zero_experience_pair()
+		pair[1].relationship.set_guarding(true)
+		var draws: Array[int] = [0, 0, 0, 0, 0, riposte_roll, 0, 0, 1, 1, 0, 0, 1, 0]
+		var rng := ScriptedRandomScript.new(draws)
+		var result := _execute(pair[0], pair, rng)
+		_assert_eq(result.outcome, OpportunityResultScript.Outcome.ATTACK_CHAIN_COMPLETE, "ZE1 fresh reverse defender completes actual opportunity")
+		_assert_eq(result.forward_result.ordinary_attack_result.base_result.outcome, BaseAttackResultScript.Outcome.DODGE, "fresh forward attack is genuinely dodged")
+		_assert_true(result.forward_result.riposte_guard_clear_attempted and result.forward_result.victim_guarding_before_clear and not result.forward_result.victim_guarding_after_clear, "source guard clear precedes reverse")
+		_assert_false(pair[1].relationship.guarding, "forward guard mutation remains after reverse")
+		var chain: CombatAttackChainResult = result.chain_result
+		_assert_eq(chain.outcome, ChainResultScript.Outcome.REVERSE_COMPLETE, "positive NPC reverse completes")
+		_assert_eq(chain.reverse_attacker_id, NPC_ID, "reverse attacker is NPC")
+		_assert_eq(chain.reverse_victim_id, PLAYER_ID, "reverse defender is fresh Player")
+		_assert_eq(chain.reverse_attack_type, CombatAttackType.Value.QUICK if riposte_roll == 0 else CombatAttackType.Value.RIPOSTE, "both source reverse types exercised")
+		var ordinary: CombatOrdinaryAttackResult = chain.reverse_ordinary_result
+		_assert_eq(ordinary.base_result.failure_stage, BaseAttackResultScript.FailureStage.NONE, "reverse has no defense zero failure")
+		_assert_eq(ordinary.base_result.calculation.defense_iterations, 0, "reverse zero EXP uses zero reduction iterations")
+		_assert_eq(ordinary.base_result.calculation.defense_factor_at_exit, 0, "fresh projected zero remains zero")
+		_assert_eq(pair[0].state.vitality.current, 78, "reverse damage executes on live Player authority")
+		_assert_eq(pair[0].state.vitality.effective, 78, "later wound stage executes")
+		_assert_eq(pair[0].state.progression.combat_experience, 1, "later source defender progression executes, not an EXP grant")
+		_assert_eq(ordinary.outcome, CombatOrdinaryAttackResult.Outcome.COMPLETED, "progression/status/busy complete")
+		_assert_true(chain.reverse_post_action_reached, "reverse post-action is reached")
+		_assert_eq(rng.requested_bounds(), [4, 60, 1, 16, 601, 30, 1, 16, 601, 601, 25, 20, 22, 178], "shared RNG keeps exact forward/reverse/wound/progression order; no zero draw or third reverse")
+		_assert_eq(result.random_draws(), draws, "result retains all actual draws")
+		_assert_eq(rng.call_count(), 14, "reverse consumes only the recorded source draws")
+		_assert_true(pair[0].relationship.has_lethal_target(NPC_ID) and pair[1].relationship.has_lethal_target(PLAYER_ID), "earlier lethal relationships remain")
+
+	var pair := _zero_experience_pair()
+	var rng := ScriptedRandomScript.new([0, 0, 0, 0, 1, 1, 0, 0, 1, 0])
+	var forward := _execute(pair[1], pair, rng)
+	_assert_eq(forward.chain_result.outcome, ChainResultScript.Outcome.FORWARD_COMPLETE_NO_REVERSE, "ordinary forward NPC hit does not require riposte")
+	_assert_eq(forward.forward_result.ordinary_attack_result.base_result.calculation.defense_iterations, 0, "forward zero EXP also bypasses only reduction")
+	_assert_eq(pair[0].state.vitality.current, 78, "ordinary forward hit damages fresh defender")
+	_assert_eq(rng.requested_bounds(), [4, 90, 1, 16, 601, 601, 25, 20, 22, 178], "forward damage/wound/progression sequence has no defense draw")
+
+
+func _zero_experience_pair() -> Array[CombatSliceCharacterBinding]:
+	var state := NewPlayerInitializationPolicy.create(CharacterState.GENDER_MALE, "初学").state
+	# Deterministic integration setup only; live acceptance uses real Learn input.
+	state.skills.set_raw_level(&"unarmed", 3)
+	var player := BindingScript.new(PLAYER_ID, state, RelationshipScript.new(PLAYER_ID), BusyScript.new(), ArmorScript.new(), ContentScript.new(), ARENA_ID, true, LifeStatusScript.Value.ACTIVE, true, true)
+	var npc := _binding(NPC_ID, false)
+	npc.state.progression.combat_experience = 600
+	ExecutorScript.initiate_lethal_combat(player, npc)
+	return [player, npc]
 
 
 func _test_threshold_candidate_deferred_to_affected_opportunity() -> void:

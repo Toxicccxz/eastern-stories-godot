@@ -34,8 +34,11 @@ func _test_godot_random_adapter() -> void:
 			left_draw >= 0 and left_draw < bound,
 			"Godot adapter honors exclusive bound",
 		)
+	var before_invalid: RandomStreamSnapshot = left.capture_random_state()
 	_assert_eq(left.next_below(0), -1, "invalid zero bound is not clamped")
 	_assert_eq(left.next_below(-5), -1, "invalid negative bound is not randomized")
+	_assert_eq(left.capture_random_state().state, before_invalid.state, "invalid bounds do not advance generic RNG state")
+	_assert_eq(left.next_below(1000), right.next_below(1000), "ZE1 preserves generic RNG continuation after rejected bounds")
 
 
 func _test_persisted_project_configuration() -> void:

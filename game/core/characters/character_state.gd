@@ -56,6 +56,7 @@ var skills: CharacterSkillStateType
 var progression: CharacterProgressionStateType
 var family: FamilyStateType
 var apprenticeship: ApprenticeshipStateType
+var affiliation: CharacterAffiliationState
 var equipment: EquipmentStateType
 
 
@@ -71,6 +72,7 @@ func _init(
 	p_family: FamilyStateType = null,
 	p_apprenticeship: ApprenticeshipStateType = null,
 	p_equipment: EquipmentStateType = null,
+	p_affiliation: CharacterAffiliationState = null,
 ) -> void:
 	attributes = p_attributes if p_attributes != null else CharacterBaseAttributesType.new()
 	essence = p_essence if p_essence != null else CharacterResourceStateType.new()
@@ -91,6 +93,7 @@ func _init(
 		else ApprenticeshipStateType.new()
 	)
 	equipment = p_equipment if p_equipment != null else EquipmentStateType.new()
+	affiliation = p_affiliation if p_affiliation != null else CharacterAffiliationState.legacy(family.has_family() or apprenticeship.has_master())
 
 
 ## std/char.c checks effective values first, so death takes precedence when

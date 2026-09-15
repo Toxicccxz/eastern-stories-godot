@@ -151,7 +151,7 @@ func physical_test(tree: SceneTree) -> bool:
 	await walk.walk_to(tree, session, "move_right", 0, 0)
 	await walk.walk_to(tree, session, "move_up", -400, 1)
 	await walk.walk(tree, session, "move_right", 60)
-	check(session.active_map().runtime_player_body().position.x < 75, "school east collision retained")
+	check(session.active_map().runtime_player_body().position.x > 100 and session.active_map().runtime_player_body().position.x < 372, "P2 school entrance opens east; inner closed gate still bounds travel")
 	await walk.walk_to(tree, session, "move_left", -340, 0)
 	var bank: SnowOutdoorController = session.active_map() as SnowOutdoorController
 	check(bank != null and bank.can_exchange_here(), "physical west entry/proximity")

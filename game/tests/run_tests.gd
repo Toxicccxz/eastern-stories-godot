@@ -1740,6 +1740,9 @@ func _init() -> void:
 	var hockshop_runtime_result: Dictionary = await load("res://tests/runtime/hockshop_runtime_test.gd").new().run_all(self)
 	assertion_count += int(hockshop_runtime_result["assertions"])
 	failures.append_array(hockshop_runtime_result["failures"])
+	var progression_result: Dictionary = await load("res://tests/runtime/snow_first_progression_test.gd").new().run_all(self)
+	assertion_count += int(progression_result["assertions"])
+	failures.append_array(progression_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -29,6 +29,7 @@ static func learn(
 	skill_definition: SkillDefinitionType,
 	skill_policy: SkillLearnPolicyType,
 	effect_registry: EffectRegistryType = null,
+	improvement_random: WorldInteractionRandomSource = null,
 ) -> LearnResultType:
 	var skill_id: StringName = context.offer.skill_id
 	var result: LearnResultType = LearnResultType.new(skill_id)
@@ -243,9 +244,15 @@ static func learn(
 			result,
 			LearnResultType.FailureReason.LEGACY_NON_POSITIVE_RANDOM_BOUND,
 		)
+	# Runtime draws here, after spent and bound evaluation, never during a quote.
+	# Existing deterministic contexts remain testable without a runtime generator.
+	var improvement_roll: int = context.deterministic_improvement_roll
+	if improvement_random != null:
+		improvement_roll = improvement_random.next_below(random_upper_bound)
+	result.deterministic_improvement_roll = improvement_roll
 	if (
-		context.deterministic_improvement_roll < 0
-		or context.deterministic_improvement_roll >= random_upper_bound
+		improvement_roll < 0
+		or improvement_roll >= random_upper_bound
 	):
 		return _legacy_error(
 			result,
@@ -255,7 +262,7 @@ static func learn(
 	## 17. Existing generic progression executes exactly once.
 	result.skill_improvement = student.skills.improve_skill(
 		skill_id,
-		context.deterministic_improvement_roll,
+		improvement_roll,
 		student.attributes.spirituality,
 	)
 
