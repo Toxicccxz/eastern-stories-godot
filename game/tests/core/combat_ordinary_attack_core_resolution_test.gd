@@ -50,6 +50,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_authored_hook_stop_points()
 	_test_policy_classification_and_force_predicate()
 	_test_defense_factor_loop()
+	_test_zero_experience_defense_boundary()
 	_test_damage_wound_and_partial_failure()
 	_test_additional_damage_and_wound_boundaries()
 	_test_threshold_candidates()
@@ -438,14 +439,17 @@ func _test_defense_factor_loop() -> void:
 	_assert_eq(multiple.calculation.defense_iterations, 2, "multiple defense iterations retained")
 	_assert_eq(multiple.calculation.requested_damage, 7, "15 -> 10 -> 7 preserves per-round truncation")
 	_assert_eq(multiple.calculation.random_upper_bounds().slice(-3), [40, 20, 10], "factor halves after each successful defense")
+	_assert_eq(multiple.calculation.random_upper_bounds(), [2, 22, 22, 30, 40, 20, 10], "positive loop retains complete ordered bounds")
+	_assert_eq(multiple.calculation.random_draws(), [0, 20, 20, 0, 20, 6, 5], "positive loop retains every actual draw")
+	_assert_eq(multiple.calculation.defense_factor_at_exit, 10, "positive loop exits at exact halved factor")
 
 	var invalid_factor_vitality: CharacterResourceStateScript = _resource()
 	var invalid_factor: CombatAttackResultScript = _resolve(
-		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 0), _defender(0), _action()),
+		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 0), _defender(-1), _action()),
 		ScriptedCombatRandomSourceScript.new([0, 2, 2, 0]),
 		invalid_factor_vitality,
 	)
-	_assert_eq(invalid_factor.failure_stage, CombatAttackResultScript.FailureStage.DEFENSE_FACTOR_RANDOM_BOUND, "nonpositive defense factor is typed at required random")
+	_assert_eq(invalid_factor.failure_stage, CombatAttackResultScript.FailureStage.DEFENSE_FACTOR_RANDOM_BOUND, "negative defense factor remains typed at required random")
 	_assert_false(invalid_factor.resource_mutation.damage_transition_completed, "invalid factor precedes damage mutation")
 
 	var negative_attacker: CombatAttackResultScript = _resolve(
@@ -455,6 +459,55 @@ func _test_defense_factor_loop() -> void:
 	)
 	_assert_eq(negative_attacker.failure_stage, CombatAttackResultScript.FailureStage.DEFENSE_FACTOR_RANDOM_BOUND, "negative attacker exp cannot hang when factor reaches zero")
 	_assert_eq(negative_attacker.calculation.defense_iterations, 1, "source-valid factor-one iteration occurs before typed zero-bound failure")
+	_assert_eq(negative_attacker.calculation.defense_factor_at_exit, 0, "abnormal positive factor still fails after halving to zero")
+	_assert_eq(negative_attacker.calculation.random_upper_bounds(), [2, 11, 11, 10, 1], "negative attacker retains earlier draws including random(1)")
+	_assert_false(negative_attacker.resource_mutation.damage_transition_completed, "abnormal zero exit does not reach damage")
+
+
+func _test_zero_experience_defense_boundary() -> void:
+	for experience: int in [0, 5]:
+		var vitality := _resource()
+		var rng := ScriptedCombatRandomSourceScript.new([0, 1, 1, 0])
+		var result := _resolve(
+			CombatAttackInputScript.new(_attacker(experience, 3, 0, 10, 0), _defender(0, 0, 0, 0), _action()),
+			rng, vitality,
+		)
+		_assert_eq(result.outcome, CombatAttackResultScript.Outcome.HIT, "ZE1 nonnegative attacker hits zero-EXP defender")
+		_assert_eq(result.failure_stage, CombatAttackResultScript.FailureStage.NONE, "ZE1 removes only the approved failure")
+		_assert_eq(result.calculation.defense_iterations, 0, "zero EXP has zero reduction iterations")
+		_assert_eq(result.calculation.defense_factor_at_exit, 0, "zero factor is not clamped")
+		_assert_eq(rng.requested_bounds(), [2, 10 + experience, 10 + experience, 10], "only limb/dodge/parry/base draws; no defense draw")
+		_assert_eq(rng.call_count(), 4, "zero defense consumes exactly zero additional RNG calls")
+		_assert_eq(result.calculation.random_draws(), [0, 1, 1, 0], "earlier actual draws remain in order")
+		_assert_eq(result.calculation.requested_damage, 5, "zero iterations preserve base damage")
+		_assert_eq(vitality.current, 95, "later damage mutation really executes")
+		_assert_true(result.interrupt_requested, "later positive-hit busy boundary remains reachable")
+
+	var one_rng := ScriptedCombatRandomSourceScript.new([0, 1, 1, 0, 0])
+	var one := _resolve(
+		CombatAttackInputScript.new(_attacker(0, 3, 0, 10, 0), _defender(1, 0, 0, 0), _action()),
+		one_rng, _resource(),
+	)
+	_assert_eq(one.outcome, CombatAttackResultScript.Outcome.HIT, "EXP1 still completes")
+	_assert_eq(one_rng.requested_bounds(), [2, 10, 10, 10, 1], "EXP1 retains exactly one random(1)")
+	_assert_eq(one_rng.call_count(), 5, "EXP1 is not optimized into zero draws")
+	_assert_eq(one.calculation.random_draws(), [0, 1, 1, 0, 0], "EXP1 records actual draw zero")
+	_assert_eq(one.calculation.defense_iterations, 0, "random(1) exits before any reduction")
+
+	var invalid := _resolve(
+		CombatAttackInputScript.new(_attacker(-1, 3, 0, 10, 0), _defender(0, 0, 0, 0), _action()),
+		ScriptedCombatRandomSourceScript.new([0, 1, 1, 0]), _resource(),
+	)
+	_assert_eq(invalid.failure_stage, CombatAttackResultScript.FailureStage.DEFENSE_FACTOR_RANDOM_BOUND, "negative attacker with original zero defender still fails")
+	_assert_false(invalid.resource_mutation.damage_transition_completed, "invalid negative pair retains failure ordering")
+
+	var late := _resolve(
+		CombatAttackInputScript.new(_attacker(0, 3, 0, 0, 0, 0, 0, 0, true), _defender(0, 0, 0, 0), _action()),
+		ScriptedCombatRandomSourceScript.new([0, 1, 1]), _resource(),
+	)
+	_assert_eq(late.failure_stage, CombatAttackResultScript.FailureStage.WOUND_RANDOM_BOUND, "ZE1 does not approve wound random(0)")
+	_assert_true(late.resource_mutation.damage_transition_completed, "late failure preserves preceding damage stage")
+	_assert_eq(late.calculation.random_upper_bounds(), [2, 10, 10], "neither unarmed base zero nor defense zero nor invalid wound fabricates RNG")
 
 
 func _test_policy_classification_and_force_predicate() -> void:

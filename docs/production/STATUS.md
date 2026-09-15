@@ -2,14 +2,20 @@
 
 ## Current milestone
 
-**Snow First Progression Loop / 淳风武馆 — P2 IMPLEMENTATION COMPLETE WITH LIVE PROGRESSION BLOCKER, AWAITING OWNER REVIEW.**
+**Snow First Progression Loop / 淳风武馆 — P2B-ZE1 FIX PASS; P2 LIVE ACCEPTANCE STILL BLOCKED / AWAIT OWNER REVIEW.**
 [P1](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md) is OWNER APPROVED / CLOSED.
 Authorized [P2 implementation](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md) stays on
 `phase/snow-first-progression-loop`: three physical school zones, transient cold-closed gate,
 Liu teaching contact, exact first apprenticeship, basic unarmed Learn and root2-compatible persistence.
-Focused247 / canonical20,179 / Python46 and real school/New Game/Save/cold Continue pass.
-Natural E≥2 is **BLOCKED**: existing real combat stopped on an incomplete riposte attack chain;
-no gifted experience or balance fix. Teaching contact is not full Liu NPC parity.
+Approved [P2B-ZE1](../migration/PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_FIX.md) adds only
+the zero-EXP defense-loop compatibility guard: zero iterations/draws for defender0/attacker>=0.
+Focused combat1,466 / Snow247 / canonical20,261 / Python46 pass locally.
+The fresh live rerun completed school/Learn raw3 and real attack chains, naturally reached E1,
+then ended in normal unconscious defeat after the movement automation failed to switch promptly
+to Flee. No new semantic failure was observed; full E≥2/return/Learn/Save/cold Continue acceptance
+remains **BLOCKED / incomplete**. Later QA event export also hit a debugger compile error.
+Historical P2 school/Save/cold Continue evidence remains historical; no gifted EXP or balance fix.
+Teaching contact is not full Liu NPC parity.
 No P2 PR/merge/remote integration CI; no P3 or Final Audit authorization.
 
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through

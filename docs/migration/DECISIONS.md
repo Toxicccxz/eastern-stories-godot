@@ -1,5 +1,37 @@
 # Migration Decisions
 
+## Snow First Progression P2B-ZE1 — zero-EXP combat defense boundary
+
+**OWNER APPROVED — narrow Type B compatibility translation.** P2B analysis
+`affbe5030a5a2f03c2bff2ab14195f9f86c5f53c` is approved/closed. This decision authorizes
+only the existing combat defense-factor boundary on `phase/snow-first-progression-loop`.
+
+Source: `reference/es2/mudlib/adm/daemons/combatd.c:362–366`:
+`defense_factor = your["combat_exp"]`, then `while (random(defense_factor) > my["combat_exp"])`
+reduces damage by integer damage/3 and halves the factor. Repository evidence does not prove
+historical MudOS `random(0)` return/error behavior or RNG-state consumption.
+
+Only when execution actually reaches this stage, **original defender EXP == 0 and attacker EXP >= 0**
+means **zero experience-reduction iterations and zero RNG draws**. Continue normal requested damage,
+damage mutation, wound, progression, status, busy, relationship/post-action and chain completion.
+Do not move the gate before earlier source stages, roll back mutations, or promise later success.
+
+Positive defender EXP retains every existing draw, strict comparison, integer reduction/halving
+and ordering. Negative defender/attacker cases remain fail-closed, including attacker -1 with
+defender 1 that performs the existing iteration before factor becomes0 and fails at its old stage.
+No clamp0→1, fake draw, generator advance or new observation/API surface is required.
+
+This specifically supersedes the older combat invalid-bound decision for this one condition only.
+It is not Type A historical-driver evidence or a global `random(0)=0` rule. Generic Combat/World/NPC
+RNG adapters and all other nonpositive-bound policies remain unchanged, including wound, force,
+progression, riposte cps, perception, Vine and Learn. No EXP gift, initialization/enemy/skill tuning,
+source edit, new RNG stream or Save schema change is authorized. Apply equally to Player/NPC
+defenders and forward/QUICK/RIPOSTE ordinary attacks without ID-specific exceptions.
+
+Implementation and P2 real-input acceptance rerun are authorized; a new semantic blocker must be
+reported without another fix. Final Audit, PR, merge, P3 and Migration Tooling remain unauthorized.
+See [historical analysis](PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_BLOCKER.md).
+
 ## Snow First Progression P2 — owner-approved bounded teaching embodiment
 
 **Authority:** Owner approved/closed P1 `5780139b82fad932f6bc7786ea295c20602ae0a5`
