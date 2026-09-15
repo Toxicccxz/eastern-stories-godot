@@ -31,16 +31,27 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.2'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2'}
+EXTRACTOR_VERSION = '1.0.3'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3'}
 PROFILE = 'static-room-v1'
-# Exact constants from reference/es2/mudlib/include/globals.h:54-68.
+# Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
 EXCLUDED_LITERAL_BASES = {
     '/std/room/bank': 'BANK', '/std/room/class_guild': 'CLASS_GUILD',
     '/std/force': 'FORCE', '/std/room/hockshop': 'HOCKSHOP', '/std/item': 'ITEM',
     '/std/liquid': 'LIQUID', '/std/char/npc': 'NPC', '/std/skill': 'SKILL',
     '/std/money': 'MONEY', '/std/item/combined': 'COMBINED_ITEM',
+    '/std/weapon/axe': 'AXE', '/std/weapon/blade': 'BLADE',
+    '/std/weapon/dagger': 'DAGGER', '/std/weapon/fork': 'FORK',
+    '/std/weapon/hammer': 'HAMMER', '/std/weapon/sword': 'SWORD',
+    '/std/weapon/staff': 'STAFF', '/std/weapon/throwing': 'THROWING',
+    '/std/weapon/whip': 'WHIP',
+    '/std/armor/head': 'HEAD', '/std/armor/neck': 'NECK',
+    '/std/armor/cloth': 'CLOTH', '/std/armor/armor': 'ARMOR',
+    '/std/armor/surcoat': 'SURCOAT', '/std/armor/waist': 'WAIST',
+    '/std/armor/wrists': 'WRISTS', '/std/armor/shield': 'SHIELD',
+    '/std/armor/finger': 'FINGER', '/std/armor/hands': 'HANDS',
+    '/std/armor/boots': 'BOOTS',
 }
 
 
@@ -70,7 +81,7 @@ def directive_parts(token: Token) -> list[str]:
 def validate_document(document: dict) -> None:
     """Closed generated schema shared by serialization and overwrite recognition.
 
-    The three known patch versions share these shapes. Unknown future fields are
+    The known patch versions share these shapes. Unknown future fields are
     preserved by rejecting the document, never by stripping or ignoring them.
     This validates structure/integrity, not authorship or LPC semantics.
     """
@@ -418,6 +429,7 @@ class RoomExtractor:
         hazards = self.include_hazards(ts)
         excluded = {'BANK', 'HOCKSHOP', 'CLASS_GUILD', 'NPC', 'ITEM', 'MONEY', 'COMBINED_ITEM', 'WEAPON', 'ARMOR',
                     'SWORD', 'BLADE', 'HAMMER', 'AXE', 'STAFF', 'WHIP', 'SPEAR', 'THROWING',
+                    'DAGGER', 'FORK', 'SURCOAT', 'WAIST', 'WRISTS', 'HANDS',
                     'F_FOOD', 'F_LIQUID', 'F_VENDOR', 'F_MASTER', 'LIQUID', 'CLOTH', 'BOOTS',
                     'GLOVES', 'HEAD', 'NECK', 'FINGER', 'SHIELD', 'SKILL', 'FORCE', 'DAEMON'}
         supported = (self.source.path.startswith('d/') and self.source.path.endswith('.c') and direct

@@ -7,6 +7,7 @@ import copy
 import hashlib
 import io
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -20,7 +21,7 @@ if str(REPOSITORY) not in sys.path:
     sys.path.insert(0, str(REPOSITORY))
 from tools.migration import cli
 from tools.migration.es2_source import Source, SourceError, ToolError, discover, lex, literal, pairs
-from tools.migration.room_extractor import RoomExtractor, canonical, reference, scan
+from tools.migration.room_extractor import EXCLUDED_LITERAL_BASES, RoomExtractor, canonical, reference, scan
 
 
 FIXTURES = Path(__file__).parent / 'fixtures/migration_v1'
@@ -414,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.2', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.3', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -637,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -655,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -665,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.2', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.3', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -719,6 +720,92 @@ class P2F2RegressionTests(unittest.TestCase):
             self.assertTrue(obj['supported_candidate'])
             self.assertFalse({'MONEY', 'COMBINED_ITEM'} & set(obj['category_candidates']))
             self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
+
+
+class P2F3RegressionTests(unittest.TestCase):
+    # Hand-reviewed object bases only; never generate expectations from production
+    # policy or source headers. Changes in authority require explicit review.
+    WEAPONS = {
+        'AXE': '/std/weapon/axe', 'BLADE': '/std/weapon/blade',
+        'DAGGER': '/std/weapon/dagger', 'FORK': '/std/weapon/fork',
+        'HAMMER': '/std/weapon/hammer', 'SWORD': '/std/weapon/sword',
+        'STAFF': '/std/weapon/staff', 'THROWING': '/std/weapon/throwing',
+        'WHIP': '/std/weapon/whip',
+    }
+    ARMORS = {
+        'HEAD': '/std/armor/head', 'NECK': '/std/armor/neck',
+        'CLOTH': '/std/armor/cloth', 'ARMOR': '/std/armor/armor',
+        'SURCOAT': '/std/armor/surcoat', 'WAIST': '/std/armor/waist',
+        'WRISTS': '/std/armor/wrists', 'SHIELD': '/std/armor/shield',
+        'FINGER': '/std/armor/finger', 'HANDS': '/std/armor/hands',
+        'BOOTS': '/std/armor/boots',
+    }
+
+    def assert_excluded(self, expression, category):
+        text = ('inherit ROOM;\ninherit ' + expression + ';\n'
+                'void create()\n{\n    set("short", "must not migrate");\n}\n')
+        obj, findings = extract(text)
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        self.assertEqual([], obj['facts'])
+        self.assertEqual(['ROOM', expression], [d['expression'] for d in obj['direct_inherits']])
+        self.assertIn(category, obj['category_candidates'])
+        self.assertIn('OUT_OF_SCOPE', codes(findings))
+        for index, declaration in enumerate(obj['direct_inherits']):
+            p = declaration['provenance']
+            expected_raw = 'inherit ' + ('ROOM' if index == 0 else expression) + ';'
+            start = text.index(expected_raw)
+            self.assertEqual((start, start + len(expected_raw)),
+                             (p['byte_start'], p['byte_end_exclusive']))
+            self.assertEqual(expected_raw, p['raw'])
+            self.assertEqual(expected_raw.encode(), text.encode()[p['byte_start']:p['byte_end_exclusive']])
+            self.assertEqual(hashlib.sha256(text.encode()).hexdigest(), p['source_sha256'])
+            self.assertEqual('d/test/room.c', p['source_path'])
+            self.assertEqual((index + 1, 1), (p['line'], p['column']))
+            self.assertEqual(('top-level', 'inherit'), (p['scope'], p['construct']))
+
+    def test_all_standard_symbols_excluded(self):
+        for symbol in self.WEAPONS | self.ARMORS:
+            with self.subTest(symbol=symbol):
+                self.assert_excluded(symbol, symbol)
+
+    def test_all_standard_literals_excluded(self):
+        for symbol, path in (self.WEAPONS | self.ARMORS).items():
+            with self.subTest(path=path):
+                self.assert_excluded('"' + path + '"', symbol)
+
+    def test_authorized_exact_mapping_complete(self):
+        self.assertEqual((9, 11), (len(self.WEAPONS), len(self.ARMORS)))
+        for symbol, path in (self.WEAPONS | self.ARMORS).items():
+            with self.subTest(symbol=symbol):
+                self.assertEqual(symbol, EXCLUDED_LITERAL_BASES.get(path))
+        # Feature/mixin bases are outside this object-base authorization.
+        for name in ('axe', 'blade', 'dagger', 'fork', 'hammer', 'sword', 'staff', 'whip'):
+            self.assertNotIn('/std/weapon/_' + name, EXCLUDED_LITERAL_BASES)
+
+    def test_checked_in_authority_matches_hand_reviewed_mapping(self):
+        for header, expected in [('weapon.h', self.WEAPONS), ('armor.h', self.ARMORS)]:
+            with self.subTest(header=header):
+                text = (REPOSITORY / 'reference/es2/mudlib/include' / header).read_text(encoding='utf-8')
+                # Read-only drift check, not a runtime policy generator. F_* are
+                # feature bases; numeric flags and TYPE_* are not object bases.
+                definitions = re.findall(r'^#define\s+([A-Z_]+)\s+"(/std/(?:weapon|armor)/[^"\n]+)"\s*$',
+                                         text, re.MULTILINE)
+                objects = [(symbol, path) for symbol, path in definitions if not symbol.startswith('F_')]
+                self.assertEqual(len(expected), len(objects))
+                self.assertEqual(expected, dict(objects))
+
+    def test_similar_unknown_bases_are_not_guessed(self):
+        for expression in ('"/std/weapon/sword_custom"', '"/std/weapon/dagger_child"',
+                           '"/std/armor/cloth_custom"', '"/std/armor/hands_child"',
+                           'DAGGER_CHILD', 'CUSTOM_ARMOR'):
+            with self.subTest(expression=expression):
+                obj, findings = extract('inherit ROOM;\ninherit ' + expression + ';')
+                self.assertTrue(obj['supported_candidate'])
+                self.assertEqual('PARTIAL', obj['status'])
+                self.assertEqual(['ROOM', expression], obj['category_candidates'])
+                self.assertFalse(set(self.WEAPONS | self.ARMORS) & set(obj['category_candidates']))
+                self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
 
 
 class RealSourceTests(unittest.TestCase):
