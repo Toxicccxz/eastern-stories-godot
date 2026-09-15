@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.3', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.4', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.3', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.4', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -806,6 +806,105 @@ class P2F3RegressionTests(unittest.TestCase):
                 self.assertEqual(['ROOM', expression], obj['category_candidates'])
                 self.assertFalse(set(self.WEAPONS | self.ARMORS) & set(obj['category_candidates']))
                 self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
+
+
+class P2F4RegressionTests(unittest.TestCase):
+    # Hand-reviewed globals.h object categories relevant to the authorized D2 fix.
+    STANDARD_OBJECTS = {
+        'BANK': '/std/room/bank', 'BULLETIN_BOARD': '/std/bboard',
+        'CHARACTER': '/std/char', 'CLASS_GUILD': '/std/room/class_guild',
+        'COMBINED_ITEM': '/std/item/combined', 'EQUIP': '/std/equip',
+        'FORCE': '/std/force', 'HOCKSHOP': '/std/room/hockshop',
+        'ITEM': '/std/item', 'LIQUID': '/std/liquid', 'MONEY': '/std/money',
+        'NPC': '/std/char/npc', 'POWDER': '/std/medicine/powder',
+        'ROOM': '/std/room', 'SKILL': '/std/skill',
+    }
+    NEW_BASES = ('BULLETIN_BOARD', 'CHARACTER', 'EQUIP', 'POWDER')
+    SPECIALIZED_ROOMS = {'BANK', 'CLASS_GUILD', 'HOCKSHOP'}
+    # Present in the same authority section, but a skill helper rather than one
+    # of this slice's four authorized object-family additions. Pin its definition
+    # for full-section drift detection without changing its admission semantics.
+    OTHER_STANDARD_DEFINITIONS = {'SSERVER': '/std/sserver'}
+
+    def assert_excluded(self, expression, category):
+        text = ('inherit ROOM;\ninherit ' + expression + ';\n'
+                'void create() { set("short", "must not migrate"); }\n')
+        obj, findings = extract(text)
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        self.assertEqual([], obj['facts'])
+        self.assertEqual(['ROOM', expression], [d['expression'] for d in obj['direct_inherits']])
+        self.assertIn(category, obj['category_candidates'])
+        self.assertIn('OUT_OF_SCOPE', codes(findings))
+        for index, declaration in enumerate(obj['direct_inherits']):
+            expected = 'inherit ' + ('ROOM' if index == 0 else expression) + ';'
+            start = text.index(expected)
+            p = declaration['provenance']
+            self.assertEqual((start, start + len(expected)), (p['byte_start'], p['byte_end_exclusive']))
+            self.assertEqual(expected, p['raw'])
+            self.assertEqual(expected.encode(), text.encode()[p['byte_start']:p['byte_end_exclusive']])
+            self.assertEqual(hashlib.sha256(text.encode()).hexdigest(), p['source_sha256'])
+            self.assertEqual('d/test/room.c', p['source_path'])
+            self.assertEqual((index + 1, 1), (p['line'], p['column']))
+
+    def test_four_symbolic_bases_excluded(self):
+        for symbol in self.NEW_BASES:
+            with self.subTest(symbol=symbol):
+                self.assert_excluded(symbol, symbol)
+
+    def test_four_literal_bases_excluded(self):
+        for symbol in self.NEW_BASES:
+            with self.subTest(symbol=symbol):
+                self.assert_excluded('"' + self.STANDARD_OBJECTS[symbol] + '"', symbol)
+
+    def test_near_matches_are_not_guessed(self):
+        for expression in ('"/std/bboard_custom"', '"/std/char_child"', '"/std/equip_custom"',
+                           '"/std/medicine/powder_child"', 'BULLETIN_BOARD_CHILD',
+                           'CHARACTER_CUSTOM', 'EQUIP_CHILD', 'POWDER_CUSTOM'):
+            with self.subTest(expression=expression):
+                obj, findings = extract('inherit ROOM;\ninherit ' + expression + ';')
+                self.assertTrue(obj['supported_candidate'])
+                self.assertEqual('PARTIAL', obj['status'])
+                self.assertEqual(['ROOM', expression], obj['category_candidates'])
+                self.assertFalse(set(self.NEW_BASES) & set(obj['category_candidates']))
+                self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
+
+    def test_globals_standard_object_policy_complete(self):
+        self.assertEqual(15, len(self.STANDARD_OBJECTS))
+        self.assertEqual({'BANK', 'CLASS_GUILD', 'HOCKSHOP'}, self.SPECIALIZED_ROOMS)
+        for symbol, path in self.STANDARD_OBJECTS.items():
+            category = ('generic-room' if symbol == 'ROOM' else
+                        'specialized-room' if symbol in self.SPECIALIZED_ROOMS else 'non-room-object')
+            with self.subTest(symbol=symbol, category=category):
+                if category == 'generic-room':
+                    self.assertNotIn(path, EXCLUDED_LITERAL_BASES)
+                    obj, _ = extract(room('set("short", "plain room");'))
+                    self.assertTrue(obj['supported_candidate'])
+                    self.assertEqual('EXTRACTED', obj['status'])
+                    self.assertEqual('plain room', fields(obj, 'short')[0]['value']['value'])
+                else:
+                    self.assertEqual(symbol, EXCLUDED_LITERAL_BASES.get(path))
+                    self.assert_excluded(symbol, symbol)
+                    self.assert_excluded('"' + path + '"', symbol)
+
+    def test_globals_authority_section_matches_hand_reviewed_table(self):
+        text = (REPOSITORY / 'reference/es2/mudlib/include/globals.h').read_text(encoding='utf-8')
+        section = text.split('// Inheritable Standard Objects\n', 1)[1].split('// User IDs', 1)[0]
+        definitions = re.findall(r'^#define\s+([A-Z_]+)\s+"([^"\n]+)"\s*$', section, re.MULTILINE)
+        expected = self.STANDARD_OBJECTS | self.OTHER_STANDARD_DEFINITIONS
+        self.assertEqual(len(expected), len(definitions))
+        self.assertEqual(expected, dict(definitions))
+
+    def test_room_admission_safeguards_remain_required(self):
+        for source, path in [(room(''), 'std/room.c'),
+                             ('inherit "/std/room"; void create() {}', 'd/test/room.c'),
+                             ('#define ROOM ITEM\n' + room(''), 'd/test/room.c'),
+                             ('#include "missing.h"\n' + room(''), 'd/test/room.c')]:
+            with self.subTest(source=source, path=path):
+                obj, _ = extract(source, path=path)
+                self.assertFalse(obj['supported_candidate'])
+                self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                self.assertEqual([], obj['facts'])
 
 
 class RealSourceTests(unittest.TestCase):

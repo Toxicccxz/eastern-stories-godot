@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F3 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F4 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -12,11 +12,13 @@ is OWNER APPROVED / CLOSED. First Final Audit was BLOCKED; approved/closed
 Re-Final Audit was BLOCKED on HIGH1 nested manual metadata overwrite and MEDIUM1 MONEY/COMBINED_ITEM
 admission. [P2F2 fixes](../migration/MIGRATION_TOOLING_V1_P2F2_RE_AUDIT_BLOCKER_FIXES.md) are OWNER APPROVED / CLOSED.
 Owner review found one additional MEDIUM D2 gap: incomplete standard weapon/armor symbol/literal exclusions.
-Authorized [P2F3](../migration/MIGRATION_TOOLING_V1_P2F3_WEAPON_ARMOR_ADMISSION_FIXES.md) on the same
-`phase/migration-tooling-v1` branch completes all20 standard bases; LOCAL migration88/full Python134/static checks pass.
-Version1.0.3 whole-corpus double-run is byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
-QUARANTINED13, facts2,804/findings4,457, exit1; no object delta. P2F3 awaits owner review.
-Next Re-Final Audit is not yet authorized/completed; not PR-ready until a fresh Final Audit passes. No phase PR or merge.
+[P2F3](../migration/MIGRATION_TOOLING_V1_P2F3_WEAPON_ARMOR_ADMISSION_FIXES.md) is OWNER APPROVED / CLOSED.
+Owner's globals D2 sweep found four remaining bases: BULLETIN_BOARD/CHARACTER/EQUIP/POWDER.
+Authorized [P2F4](../migration/MIGRATION_TOOLING_V1_P2F4_STANDARD_OBJECT_ADMISSION_FIXES.md) on the same
+`phase/migration-tooling-v1` branch completes those exclusions and authority tests; LOCAL migration94/full Python140/static pass.
+Version1.0.4 whole-corpus double-run is byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
+QUARANTINED13, facts2,804/findings4,457, exit1; no object delta. P2F4 awaits owner review.
+Final Re-Audit is not yet authorized/completed; not PR-ready until a fresh Final/Re-Final Audit passes. No phase PR or merge.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**
