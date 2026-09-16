@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F10 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F11 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -360,6 +360,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     effect classification across full signatures and bodies; LOCAL focused54/prior123/migration242/
     full Python288/static pass. Version1.0.10 A/B is byte-identical: supported485, OUT_OF_SCOPE1,838,
     QUARANTINED13, facts2,736/findings4,296; 14 affected candidates are listed in the fix report.
-    P2F10 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-    Eight prior blocked audits remain historical evidence; no new remote CI run.
+    P2F10 is CLOSED. Final Re-Audit after P2F10 was BLOCKED on FR10-01 blocking MEDIUM / D9:
+    legal create-tail directives were falsely quarantined.
+    [P2F11](../migration/MIGRATION_TOOLING_V1_P2F11_CREATE_BODY_DIRECTIVE_SEGMENTATION.md) adds two-phase
+    directive segmentation/reliability checks; LOCAL focused38/prior177/migration280/full Python326/static
+    and 204 external CLI cases pass. Version1.0.11 A/B is byte-identical with no object/fact delta;
+    all 14 ANSI exclusions remain. P2F11 awaits owner review; another complete Final Re-Audit is required
+    and not yet authorized. Nine prior blocked audits remain historical evidence; no new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

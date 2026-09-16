@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.10'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'}
+EXTRACTOR_VERSION = '1.0.11'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -774,23 +774,71 @@ class RoomExtractor:
             self.record['status'] = 'PARTIAL'
 
     def create_body(self, ts: list[Token], hazards: set[str]) -> None:
-        # Semicolon-delimited outer statements only. Nested expressions are never scanned as initial state.
+        # Plan original source slices before emitting facts. Directives are not
+        # runtime statements, and interrupted fragments must never be stitched.
         matching = pairs(ts)
+        segments: list[tuple[bool, list[Token]]] = []
+        issues: dict[int, str] = {}
+        non_runtime_directives = {'define', 'undef', 'pragma', 'echo'}
+        for index, token in enumerate(ts):
+            if token.kind != 'directive':
+                continue
+            keyword = directive_keyword(token.text)[0]
+            if keyword == 'include':
+                issues[index] = 'Include inside create may inject runtime statements; create-derived facts are not reliable.'
+            elif keyword not in non_runtime_directives:
+                issues[index] = 'Unknown directive inside create; create-derived facts are not reliable.'
+
+        def interrupted(first: int, end: int) -> None:
+            for index in range(first, end):
+                if ts[index].kind == 'directive':
+                    issues.setdefault(index, 'Preprocessor directive interrupts create statement; create-derived facts are not reliable.')
+
         start, i = 0, 0
         while i < len(ts):
-            if ts[i].text == '{':
+            if ts[i].kind == 'directive':
+                if start == i:
+                    start = i + 1  # An independent preprocessing boundary.
+                else:
+                    interrupted(i, i + 1)
+                i += 1
+            elif ts[i].text == '{':
                 end = matching[i]
-                self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Conditional/nested create scope is not extracted.', ts[start:end + 1], 'create')
+                # Harmless directives within this already-unsupported block do
+                # not change its extraction policy. Include/unknown issues were
+                # collected at every depth above; global hazards still apply.
+                segments.append((True, ts[start:end + 1]))
                 start, i = end + 1, end + 1
             elif i in matching:
+                interrupted(i + 1, matching[i])
                 i = matching[i] + 1
             elif ts[i].text == ';':
-                self.statement(ts[start:i + 1], hazards)
+                segments.append((False, ts[start:i + 1]))
                 start, i = i + 1, i + 1
             else:
                 i += 1
         if start < len(ts):
-            raise SourceError('unterminated create statement', ts[start].start, ts[-1].end)
+            tail = ts[start:]
+            if any(t.kind == 'directive' and directive_keyword(t.text)[0] not in non_runtime_directives for t in tail):
+                # Textual inclusion/unknown semantics might complete this tail;
+                # do not invent syntax corruption without preprocessing it.
+                interrupted(start, len(ts))
+            else:
+                # Known non-runtime directives cannot supply the missing ';'.
+                # Diagnose the actual unfinished runtime range, not a directive.
+                runtime = [t for t in tail if t.kind != 'directive']
+                if runtime:
+                    raise SourceError('unterminated create statement', runtime[0].start, runtime[-1].end)
+        if issues:
+            for index, reason in sorted(issues.items()):
+                self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, reason, [ts[index]], 'create')
+            return
+        # Only a reliable plan reaches the existing bounded statement extractor.
+        for nested, tokens in segments:
+            if nested:
+                self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Conditional/nested create scope is not extracted.', tokens, 'create')
+            else:
+                self.statement(tokens, hazards)
 
     def statement(self, ts: list[Token], hazards: set[str]) -> None:
         if len(ts) == 1:

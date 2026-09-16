@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.10', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.11', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.10', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.11', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2140,6 +2140,229 @@ class P2F10RegressionTests(unittest.TestCase):
                         obj=next(o for o in doc['objects'] if o['source_path']=='d/room.c')
                         self.assertEqual(candidate,obj['supported_candidate'])
                         self.assertEqual(['inherit'] if candidate else [],[f['field'] for f in obj['facts']])
+
+
+class P2F11RegressionTests(unittest.TestCase):
+    FIRST = 'set("short","safe");\n'
+    REST = ('set("name","name");set("long","text");set("outdoors",1);set("indoors",0);'
+            'set("no_clean_up",1);set("no_fight",0);set("exits",(["east":__DIR__"east"]));\n')
+    FIELDS = ['inherit', 'short', 'name', 'long', 'outdoors', 'indoors', 'no_clean_up', 'no_fight', 'exit']
+    DIRECTIVES = {
+        'define': '#define UNUSED 1\n', 'undef': '#undef UNUSED\n',
+        'pragma': '#pragma warnings\n', 'echo': '#echo raw ; { #define set x " /* \\\n',
+        'empty': '#include "empty.h"\n', 'macro': '#include "macro.h"\n',
+        'unknown': '#unsupported message\n',
+    }
+    HEADERS = {'d/test/empty.h': '', 'd/test/macro.h': '#define UNUSED 1\n'}
+    PLACEMENTS = ('start', 'middle', 'tail', 'arguments', 'before-semicolon', 'receiver',
+                  'mapping', 'nested', 'helper-tail', 'top-level')
+
+    def source(self, directive, placement):
+        body, extra, prefix = self.FIRST + self.REST, '', ''
+        if placement == 'start': body = directive + body
+        elif placement == 'middle': body = self.FIRST + directive + self.REST
+        elif placement == 'tail': body += directive
+        elif placement == 'arguments': body += 'set(\n' + directive + '"short","other");\n'
+        elif placement == 'before-semicolon': body += 'set("short","other")\n' + directive + ';\n'
+        elif placement == 'receiver': body += 'set\n' + directive + '("short","other");\n'
+        elif placement == 'mapping': body += 'set("exits",([\n' + directive + '"west":__DIR__"west"]));\n'
+        elif placement == 'nested': body += 'if(flag){\n' + directive + 'helper();\n}\n'
+        elif placement == 'helper-tail': extra = 'void helper(){\n' + directive + '}\n'
+        elif placement == 'top-level': prefix = directive
+        else: raise AssertionError(placement)
+        return prefix + room(body, extra)
+
+    def check(self, text, expected='FULL', dependencies=None):
+        for nl in ('\n', '\r\n'):
+            raw = text.replace('\n', nl).encode()
+            deps = {p: Source(p, s.replace('\n', nl).encode()) for p, s in (dependencies or {}).items()}
+            with self.subTest(newline=repr(nl)):
+                obj, findings = extract(raw, dependencies=deps)
+                self.assertEqual(expected != 'OOS', obj['supported_candidate'])
+                self.assertEqual('OUT_OF_SCOPE' if expected == 'OOS' else 'PARTIAL', obj['status'])
+                self.assertEqual([] if expected == 'OOS' else ['inherit'] if expected == 'STATE' else self.FIELDS,
+                                 [f['field'] for f in obj['facts']])
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+                self.assertEqual(['ROOM'], [d['symbol'] for d in obj['direct_inherits']])
+                for item in obj['facts'] + obj['direct_inherits'] + findings:
+                    p = item['provenance']
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual('d/test/room.c', p['source_path'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']], p['raw'].encode())
+                if expected == 'STATE':
+                    self.assertTrue(any(f['code'] == 'UNSUPPORTED_CONSTRUCT' and f['prevents_supported_consumption']
+                                        and f['provenance']['scope'] == 'create' for f in findings))
+
+    def test_define_start(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'start'))
+
+    def test_define_middle(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'middle'))
+
+    def test_define_tail(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'tail'))
+
+    def test_undef_tail(self):
+        self.check(self.source(self.DIRECTIVES['undef'], 'tail'))
+
+    def test_pragma_tail(self):
+        self.check(self.source(self.DIRECTIVES['pragma'], 'tail'))
+
+    def test_echo_tail(self):
+        self.check(self.source(self.DIRECTIVES['echo'], 'tail'))
+
+    def test_empty_include_tail(self):
+        self.check(self.source(self.DIRECTIVES['empty'], 'tail'), 'STATE', self.HEADERS)
+
+    def test_macro_only_include_tail(self):
+        self.check(self.source(self.DIRECTIVES['macro'], 'tail'), 'STATE', self.HEADERS)
+
+    def test_unknown_directive_tail(self):
+        self.check(self.source(self.DIRECTIVES['unknown'], 'tail'), 'STATE')
+
+    def test_directive_inside_set_arguments(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'arguments'), 'STATE')
+
+    def test_directive_between_call_and_semicolon(self):
+        self.check(self.source(self.DIRECTIVES['pragma'], 'before-semicolon'), 'STATE')
+
+    def test_directive_between_receiver_and_opening(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'receiver'), 'STATE')
+
+    def test_directive_inside_mapping(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'mapping'), 'STATE')
+
+    def test_directive_inside_nested_call(self):
+        self.check(room(self.FIRST + 'helper(\n#define UNUSED 1\nset("short","other"));\n' + self.REST), 'STATE')
+
+    def test_nested_unsupported_block(self):
+        self.check(self.source(self.DIRECTIVES['pragma'], 'nested'))
+
+    def test_helper_tail_control(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'helper-tail'))
+
+    def test_top_level_control(self):
+        self.check(self.source(self.DIRECTIVES['define'], 'top-level'))
+
+    def test_comment_prefixed_start_middle_tail(self):
+        for place in ('start', 'middle', 'tail'):
+            self.check(self.source('/* prefix */ #define UNUSED 1\n', place))
+
+    def test_multiline_comment_start_middle_tail(self):
+        for place in ('start', 'middle', 'tail'):
+            self.check(self.source('#define UNUSED /* first\nsecond */ 1\n', place))
+
+    def test_continued_keyword_start_middle_tail(self):
+        for place in ('start', 'middle', 'tail'):
+            self.check(self.source('#de\\\nfine UNUSED 1\n', place))
+
+    def test_echo_payload_opaque_and_next_line_independent(self):
+        self.check(self.source('#echo text ; { #define set x " /* \\\n#define UNUSED 1\n', 'tail'))
+        self.check(self.source('#echo text ; { #define set x " /* \\\n#define ROOM NPC\n', 'tail'), 'OOS')
+
+    def test_true_unfinished_runtime_statement(self):
+        for prefix in ('', '#define UNUSED 1\n'):
+            for nl in ('\n', '\r\n'):
+                obj, findings = extract(room(prefix + 'set("short","unfinished")').replace('\n', nl))
+                self.assertEqual('QUARANTINED', obj['status'])
+                self.assertEqual([], obj['facts'])
+                self.assertTrue(any(f['reason'] == 'unterminated create statement' for f in findings))
+
+    def test_true_lexical_and_delimiter_errors(self):
+        for broken in ('set("short",', 'set("short","unterminated);', '/* unclosed', 'set("short","x"];'):
+            for nl in ('\n', '\r\n'):
+                obj, findings = extract(room('#define UNUSED 1\n' + broken).replace('\n', nl))
+                self.assertEqual('QUARANTINED', obj['status'])
+                self.assertEqual([], obj['facts'])
+                self.assertIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_unfinished_runtime_before_tail_directive(self):
+        for name in ('define', 'undef', 'pragma', 'echo'):
+            for nl in ('\n', '\r\n'):
+                obj, findings = extract(room('set("short","unfinished")\n' + self.DIRECTIVES[name]).replace('\n', nl))
+                self.assertEqual('QUARANTINED', obj['status'])
+                self.assertEqual([], obj['facts'])
+                error = next(f for f in findings if f['code'] == 'SOURCE_SYNTAX_ERROR')
+                self.assertEqual('unterminated create statement', error['reason'])
+                self.assertEqual('set("short","unfinished")', error['provenance']['raw'])
+
+    def test_interrupted_tail_include_may_supply_terminator(self):
+        self.check(room(self.FIRST + self.REST + 'set("short","other")\n#include "end.h"\n'),
+                   'STATE', {'d/test/end.h': ';'})
+
+    def test_include_runtime_calls(self):
+        for statement in ('set("short","other");', 'add("exits/east","/other");',
+                          'delete("exits/east");', 'helper();'):
+            self.check(self.source('#include "runtime.h"\n', 'tail'), 'STATE', {'d/test/runtime.h': statement})
+
+    def test_include_prototype_and_data(self):
+        for content in ('int helper();', 'int value=1;'):
+            self.check(self.source('#include "safe.h"\n', 'middle'), 'STATE', {'d/test/safe.h': content})
+
+    def test_missing_include(self):
+        self.check(self.source('#include "missing.h"\n', 'tail'), 'OOS')
+
+    def test_malformed_include_dependency(self):
+        self.check(self.source('#include "bad.h"\n', 'tail'), 'OOS', {'d/test/bad.h': 'void broken(){'})
+
+    def test_include_inherit_stronger_hazard(self):
+        self.check(self.source('#include "bad.h"\n', 'tail'), 'OOS', {'d/test/bad.h': 'inherit NPC;'})
+
+    def test_nested_include(self):
+        self.check(self.source('#include "a.h"\n', 'tail'), 'STATE',
+                   {'d/test/a.h':'#include "sub/b.h"\n', 'd/test/sub/b.h':'delete("exits/east");'})
+
+    def test_nested_block_include_and_unknown(self):
+        self.check(self.source(self.DIRECTIVES['empty'], 'nested'), 'STATE', self.HEADERS)
+        self.check(self.source(self.DIRECTIVES['unknown'], 'nested'), 'STATE')
+
+    def test_root_conditionals_still_out_of_scope(self):
+        for name in ('if FLAG', 'ifdef FLAG', 'ifndef FLAG', 'elif FLAG', 'else', 'endif'):
+            obj, findings = extract(self.source('#' + name + '\n', 'tail'))
+            self.assertFalse(obj['supported_candidate'])
+            self.assertEqual('OUT_OF_SCOPE', obj['status'])
+            self.assertEqual([], obj['facts'])
+            self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_existing_macro_hazards_remain_stronger(self):
+        self.check(self.source('#define UNUSED 1\n#define ROOM NPC\n', 'tail'), 'OOS')
+        text = self.source('#define BAD } inherit NPC; {\n', 'tail').replace('set("short","safe");', 'BAD;')
+        obj, _ = extract(text)
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        self.assertEqual([], obj['facts'])
+
+    def test_provenance_no_included_facts(self):
+        self.check(self.source('#include "runtime.h"\n', 'tail'), 'STATE',
+                   {'d/test/runtime.h':'set("short","injected");set("exits",(["west":"/injected"]));'})
+
+    def test_early_and_late_facts_suppressed_together(self):
+        self.check(room(self.FIRST + 'set(\n#pragma warnings\n"name","interrupted");\n' + self.REST), 'STATE')
+
+    def test_directive_position_matrix(self):
+        for name, directive in self.DIRECTIVES.items():
+            for place in self.PLACEMENTS:
+                expected = ('FULL' if place in ('helper-tail', 'top-level') else
+                            'STATE' if name in ('empty', 'macro', 'unknown') or
+                            place in ('arguments', 'before-semicolon', 'receiver', 'mapping') else 'FULL')
+                with self.subTest(name=name, placement=place):
+                    self.check(self.source(directive, place), expected, self.HEADERS)
+
+    def test_original_reproducer_real_cli(self):
+        for nl in ('\n', '\r\n'):
+            with tempfile.TemporaryDirectory() as tmp:
+                root, output = Path(tmp)/'source', Path(tmp)/'output'
+                (root/'d').mkdir(parents=True)
+                (root/'d/room.c').write_bytes(room('set("short","authored");\n#define UNUSED 1\n').replace('\n', nl).encode())
+                result = subprocess.run([sys.executable, '-m', 'tools.migration.cli', '--source-root', str(root),
+                                         '--output-root', str(output)], cwd=REPOSITORY, capture_output=True)
+                self.assertEqual(0, result.returncode, result.stderr)
+                document = json.loads((output/'static-rooms.json').read_bytes())
+                obj = document['objects'][0]
+                self.assertTrue(obj['supported_candidate'])
+                self.assertEqual('PARTIAL', obj['status'])
+                self.assertEqual(['inherit', 'short'], [f['field'] for f in obj['facts']])
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(document['findings']))
 
 
 class RealSourceTests(unittest.TestCase):
