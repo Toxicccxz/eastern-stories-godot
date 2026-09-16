@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F5 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F6 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -340,8 +340,10 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     Owner's globals D2 sweep found BULLETIN_BOARD/CHARACTER/EQUIP/POWDER still missing.
     [P2F4](../migration/MIGRATION_TOOLING_V1_P2F4_STANDARD_OBJECT_ADMISSION_FIXES.md) is OWNER APPROVED / CLOSED.
     Final Re-Audit after P2F4 was BLOCKED by FR-01 HIGH comment-prefixed directive recognition.
-    Authorized [P2F5](../migration/MIGRATION_TOOLING_V1_P2F5_COMMENT_PREFIXED_DIRECTIVE_FIXES.md) fixes the lexer;
-    LOCAL focused10/migration104/full Python150/static and byte-identical version1.0.5 corpus runs pass.
-    Exit1 retains13 quarantined source objects; facts2,804/findings4,457; no object delta. P2F5 awaits owner review;
+    [P2F5](../migration/MIGRATION_TOOLING_V1_P2F5_COMMENT_PREFIXED_DIRECTIVE_FIXES.md) is OWNER APPROVED / CLOSED; FR-01 closed.
+    Final Re-Audit after P2F5 was BLOCKED by FR5-01 MEDIUM false quarantine of closed multiline directive comments.
+    Authorized [P2F6](../migration/MIGRATION_TOOLING_V1_P2F6_MULTILINE_DIRECTIVE_COMMENT_FIXES.md) fixes directive boundaries;
+    LOCAL focused14/migration118/full Python164/static and byte-identical version1.0.6 corpus runs pass.
+    Exit1 retains13 quarantined source objects; facts2,804/findings4,457; no object delta. P2F6 awaits owner review;
     a new Final Re-Audit is not yet authorized. Not PR-ready until a fresh audit passes.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

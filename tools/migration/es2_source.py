@@ -138,16 +138,43 @@ def lex(source: Source) -> list[Token]:
                 line_prefix_is_trivia = True
             i = end + 2
         elif char == '#' and line_prefix_is_trivia:
-            # Directive bodies are opaque, including continued macro definitions.
-            while True:
-                end = text.find('\n', i)
-                if end < 0:
-                    i = length
+            # Keep the complete raw directive. Only an outside-comment newline
+            # without continuation terminates it; quoted delimiters are opaque.
+            quoted = False
+            while i < length:
+                if text[i] == '\n':
+                    previous = i - 2 if i > start and text[i - 1] == '\r' else i - 1
+                    continued = text[previous:previous + 1] == '\\'
+                    i += 1
+                    if not continued:
+                        break
+                elif quoted:
+                    if text[i] == '\\':
+                        i = min(i + 2, length)
+                    elif text[i] == '"':
+                        quoted = False
+                        i += 1
+                    else:
+                        i += 1
+                elif text.startswith('/*', i):
+                    end = text.find('*/', i + 2)
+                    if end < 0:
+                        fail('unterminated block comment', i)
+                    i = end + 2
+                elif text.startswith('//', i):
+                    end = text.find('\n', i)
+                    i = length if end < 0 else end + 1
                     break
-                continued = text[i:end].rstrip('\r').endswith('\\')
-                i = end + 1
-                if not continued:
-                    break
+                elif text[i] == '"':
+                    quoted = True
+                    i += 1
+                elif text[i] == "'":
+                    # Same bounded character-literal rule as the outer lexer;
+                    # an LPC quoted symbol must not hide a following comment.
+                    end = i + (3 if text[i + 1:i + 2] == '\\' else 2)
+                    i = end + 1 if text[end:end + 1] == "'" else i + 1
+                else:
+                    i += 1
             emit('directive', start, i)
         elif char == '"':
             i += 1
