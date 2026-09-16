@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.6', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.7', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.6', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.7', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -1270,6 +1270,214 @@ class P2F6RegressionTests(unittest.TestCase):
                     self.assertEqual([] if unclosed else ['inherit', 'short'], [f['field'] for f in obj['facts']])
                     self.assertEqual({'SOURCE_SYNTAX_ERROR'} if unclosed else
                                      {'REQUIRES_SEMANTIC_REVIEW', 'UNSUPPORTED_CONSTRUCT'}, codes(doc['findings']))
+
+
+class P2F7RegressionTests(unittest.TestCase):
+    BODY = 'inherit ROOM;\nvoid create(){set("short","safe");set("exits",(["east":__DIR__"east"]));}\n'
+    PAYLOADS = ('plain', '/*', '*/', '//', '"', "'", '"unterminated-looking',
+                '/* unterminated-looking', '@MARKER', '@@MARKER',
+                '#define set(k,v) ignored(k,v)', '#endif', '\\', '雪 中文 Unicode',
+                'mixed " /* // @ @@ #define \\')
+
+    def check_echo(self, authored, nl='\n', *, prefix='// 雪\n', after=None):
+        after = self.BODY if after is None else after
+        prefix, authored, after = (s.replace('\n', nl) for s in (prefix, authored, after))
+        raw = (prefix + authored + after).encode()
+        source = Source('d/test/room.c', raw)
+        tokens = lex(source)
+        token = next(t for t in tokens if t.kind == 'directive')
+        start = len(prefix.encode())
+        self.assertEqual((start, start + len(authored.encode())), (token.start, token.end))
+        self.assertEqual(authored, token.text)
+        self.assertEqual(raw[token.start:token.end], token.text.encode())
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), source.sha256)
+        self.assertEqual(['echo'], directive_parts(token))
+        if after:
+            self.assertTrue(any(t.start >= token.end for t in tokens))
+        obj, findings = extract(raw)
+        self.assertNotEqual('QUARANTINED', obj['status'])
+        self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+        records = obj['direct_inherits'] + obj['facts'] + findings
+        for record in records:
+            p = record['provenance']
+            a, b = p['byte_start'], p['byte_end_exclusive']
+            self.assertEqual(raw[a:b], p['raw'].encode())
+            self.assertEqual(source.sha256, p['source_sha256'])
+            preceding = raw[:a].decode()
+            self.assertEqual((preceding.count('\n') + 1, len(preceding.rsplit('\n', 1)[-1]) + 1),
+                             (p['line'], p['column']))
+        if obj['supported_candidate']:
+            echo_finding = next(f for f in findings if f['provenance']['byte_start'] == token.start)
+            self.assertEqual(authored, echo_finding['provenance']['raw'])
+            self.assertEqual('UNSUPPORTED_CONSTRUCT', echo_finding['code'])
+        return obj, findings, tokens
+
+    def test_plain_echo_lf_crlf_eof(self):
+        for nl in ('\n', '\r\n'):
+            self.check_echo('#echo plain\n', nl)
+        self.check_echo('#echo plain', after='')
+
+    def test_empty_message(self):
+        for nl in ('\n', '\r\n'):
+            self.check_echo('#echo\n', nl)
+        self.check_echo('#echo', after='')
+
+    def test_raw_quote_comment_heredoc_payload_matrix(self):
+        for payload in self.PAYLOADS:
+            for nl in ('\n', '\r\n', ''):
+                with self.subTest(payload=payload, newline=repr(nl)):
+                    self.check_echo('#echo ' + payload + ('\n' if nl else ''), nl or '\n',
+                                    after=None if nl else '')
+
+    def test_trailing_backslash_does_not_continue(self):
+        for nl in ('\n', '\r\n'):
+            for space in ('', ' '):
+                obj, _, tokens = self.check_echo('#echo' + space + '\\\n', nl,
+                                                  after='#define ROOM NPC\n' + self.BODY)
+                self.assertEqual(2, sum(t.kind == 'directive' for t in tokens))
+                self.assertFalse(obj['supported_candidate'])
+
+    def test_next_line_critical_macros_and_undef(self):
+        hazards = ('define ROOM NPC', 'define set(k,v) ignored(k,v)', 'define create renamed',
+                   'define __DIR__ "/wrong/"', 'undef ROOM', 'undef set', 'undef create', 'undef __DIR__')
+        for payload in ('/*', '"', '@MARKER', '@@MARKER', '\\', 'plain'):
+            for hazard in hazards:
+                for nl in ('\n', '\r\n'):
+                    with self.subTest(payload=payload, hazard=hazard, newline=repr(nl)):
+                        obj, _, tokens = self.check_echo('#echo ' + payload + '\n', nl,
+                                                          after='#' + hazard + ' /* closed */\n' + self.BODY)
+                        self.assertEqual(2, sum(t.kind == 'directive' for t in tokens))
+                        if 'ROOM' in hazard:
+                            self.assertFalse(obj['supported_candidate'])
+                            self.assertEqual([], obj['facts'])
+                        elif '__DIR__' in hazard:
+                            self.assertEqual([], fields(obj, 'exit'))
+                            self.assertEqual(1, len(fields(obj, 'short')))
+                        else:
+                            self.assertEqual(['inherit'], [f['field'] for f in obj['facts']])
+
+    def test_next_line_include_and_conditional(self):
+        for payload in ('/*', '"', '@MARKER', '@@MARKER', '\\', 'plain'):
+            for directive, code in (('#include <missing.h>\n', 'UNRESOLVED_INCLUDE'),
+                                    ('#if FOO\n', 'DRIVER_SEMANTICS_UNKNOWN')):
+                for nl in ('\n', '\r\n'):
+                    obj, findings, tokens = self.check_echo('#echo ' + payload + '\n', nl,
+                        after=directive + self.BODY + ('#endif\n' if directive.startswith('#if') else ''))
+                    self.assertTrue(any(t.text.startswith(directive.rstrip()) for t in tokens[1:]))
+                    self.assertFalse(obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                    self.assertEqual([], obj['facts'])
+                    self.assertIn(code, codes(findings))
+
+    def test_same_line_hash_is_message_not_hazard(self):
+        for nl in ('\n', '\r\n'):
+            for payload in ('#define ROOM NPC', '#define set(k,v) ignored(k,v)', '#endif'):
+                obj, _, tokens = self.check_echo('#echo ' + payload + '\n', nl)
+                self.assertEqual(1, sum(t.kind == 'directive' for t in tokens))
+                self.assertEqual(['inherit', 'short', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_exact_keyword_and_unknown_stay_generic(self):
+        for word in ('echofoo', 'echo_value', 'Echo', 'unknown', 'echo1'):
+            for nl in ('\n', '\r\n'):
+                obj, findings = extract(('#' + word + ' /*\n' + self.BODY).replace('\n', nl).encode())
+                self.assertEqual('QUARANTINED', obj['status'])
+                self.assertIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_spacing_and_trivia_before_keyword(self):
+        for head in ('#echo', '# echo', '#   echo', '#\techo', '#/* before */echo', '#/* before\nend */ echo'):
+            for nl in ('\n', '\r\n'):
+                self.check_echo(head + ' /* " @ \\\n', nl)
+
+    def test_split_keyword_uses_existing_continuation_only_in_head(self):
+        for head in ('#ec\\\nho', '#e\\\nc\\\nho', '#\\\necho', '# \\\n ec\\\nho'):
+            for nl in ('\n', '\r\n'):
+                obj, _, tokens = self.check_echo(head + ' /* \\\n', nl,
+                                                  after='#define set(k,v) ignored(k,v)\n' + self.BODY)
+                self.assertEqual(2, sum(t.kind == 'directive' for t in tokens))
+                self.assertEqual(['inherit'], [f['field'] for f in obj['facts']])
+        token = lex(Source('d/x.c', b'#ec\\\nhofoo plain\n'))[0]
+        self.assertEqual('echofoo', directive_parts(token)[0])
+
+    def test_comment_prefix_positive_and_code_negative(self):
+        for nl in ('\n', '\r\n'):
+            for prefix in ('/* prefix */ ', '/* one */ /* two */ '):
+                obj, _, _ = self.check_echo('#echo /*\n', nl, prefix=prefix,
+                                              after='#define ROOM NPC\n' + self.BODY)
+                self.assertFalse(obj['supported_candidate'])
+            tokens = lex(Source('d/x.c', 'x /* prefix */ #echo plain\n'.replace('\n', nl).encode()))
+            self.assertFalse(any(t.kind == 'directive' for t in tokens))
+
+    def test_multiline_prefix_retains_p2f5_line_state(self):
+        for nl in ('\n', '\r\n'):
+            obj, _, _ = self.check_echo('#echo /*\n', nl, prefix='x /* old line\nnew line */ ',
+                                          after='#define ROOM NPC\n' + self.BODY)
+            self.assertFalse(obj['supported_candidate'])
+
+    def test_unicode_raw_offsets_and_finding_provenance(self):
+        for nl in ('\n', '\r\n'):
+            self.check_echo('#echo 雪 中文 " /* \\\n', nl, prefix='/* 雪 */ ')
+
+    def test_directive_parts_never_relexes_echo_payload(self):
+        for payload in self.PAYLOADS:
+            token = lex(Source('d/x.c', ('#echo ' + payload + '\n').encode()))[0]
+            with patch('tools.migration.room_extractor.lex', side_effect=AssertionError('echo payload re-lexed')):
+                self.assertEqual(['echo'], directive_parts(token))
+
+    def test_true_non_echo_corruption_remains_quarantined(self):
+        for text in ('"unterminated normal string', '/* unterminated comment', '#define X /* first\nsecond'):
+            for nl in ('\n', '\r\n'):
+                obj, findings = extract(text.replace('\n', nl).encode())
+                self.assertEqual('QUARANTINED', obj['status'])
+                self.assertEqual([], obj['facts'])
+                self.assertIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_authoritative_non_echo_directive_families(self):
+        # Hand-reviewed doc/concepts/preprocessor families, not generated policy.
+        bodies = ('define X 1', 'undef X', 'include <missing.h>', 'if FOO', 'ifdef FOO',
+                  'ifndef FOO', 'elif FOO', 'else', 'endif', 'pragma strict_types')
+        for body in bodies:
+            for nl in ('\n', '\r\n'):
+                authored = ('#' + body + ' /* first\nsecond */\n').replace('\n', nl)
+                ts = lex(Source('d/x.c', (authored + 'void create(){}\n').encode()))
+                self.assertEqual(authored, ts[0].text)
+                self.assertEqual(body.split()[0], directive_parts(ts[0])[0])
+        for head in ('@MARKER', '@@MARKER'):
+            self.assertFalse(any(t.kind == 'directive' for t in lex(Source('x.c', (head+'\ntext\nMARKER\n').encode()))))
+
+    def run_echo_cli(self, text, nl):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'source'
+            (root / 'd').mkdir(parents=True)
+            (root / 'd/probe.c').write_bytes(text.replace('\n', nl).encode())
+            output = Path(temp) / 'output'
+            result = subprocess.run([sys.executable, '-m', 'tools.migration.cli', '--source-root', str(root),
+                                     '--output-root', str(output)], cwd=REPOSITORY, capture_output=True, text=True)
+            self.assertEqual(0, result.returncode, result.stderr)
+            document = json.loads((output / 'static-rooms.json').read_bytes())
+            self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(document['findings']))
+            return document['objects'][0], document['findings']
+
+    def test_real_cli_fr6_01(self):
+        for nl in ('\n', '\r\n'):
+            for directive in ('define ROOM NPC', 'define set(k,v) ignored(k,v)', 'define create renamed',
+                              'define __DIR__ "/wrong/"', 'include <missing.h>', 'if FOO'):
+                obj, findings = self.run_echo_cli('#echo /*\n#' + directive + '\n' + self.BODY, nl)
+                if directive.startswith(('define ROOM', 'include', 'if')):
+                    self.assertFalse(obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                    self.assertEqual([], obj['facts'])
+                elif '__DIR__' in directive:
+                    self.assertEqual(['inherit', 'short'], [f['field'] for f in obj['facts']])
+                else:
+                    self.assertEqual(['inherit'], [f['field'] for f in obj['facts']])
+
+    def test_real_cli_fr6_02(self):
+        for payload in ('"', '/*', '@MARKER', '@@MARKER', '\\', 'plain'):
+            for ending in ('\n', '\r\n', ''):
+                obj, _ = self.run_echo_cli('#echo ' + payload + ('\n' + self.BODY if ending else ''), ending or '\n')
+                self.assertEqual('PARTIAL' if ending else 'OUT_OF_SCOPE', obj['status'])
+                self.assertEqual(bool(ending), obj['supported_candidate'])
+                self.assertEqual(['inherit', 'short', 'exit'] if ending else [], [f['field'] for f in obj['facts']])
 
 
 class RealSourceTests(unittest.TestCase):

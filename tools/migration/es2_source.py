@@ -90,6 +90,45 @@ def discover(root: Path) -> tuple[Path, list[tuple[str, Source]]]:
     return mudlib, sorted(found, key=lambda entry: entry[0])
 
 
+def directive_keyword(text: str, start: int = 0) -> tuple[str, int]:
+    """Read only the directive head; return its name and authored character end.
+
+    Keep accepted trivia and keyword splices, but never inspect payload as LPC.
+    A splice joins a keyword only when another identifier character follows it.
+    Thus an echo's trailing backslash remains message data, including before #.
+    """
+    def splice_end(i: int) -> int:
+        while text.startswith('\\\n', i) or text.startswith('\\\r\n', i):
+            i += 3 if text.startswith('\\\r\n', i) else 2
+        return i
+
+    i = start + 1
+    while i < len(text):
+        end = splice_end(i)
+        if end != i:
+            i = end
+        elif text[i].isspace() and text[i] != '\n':
+            i += 1
+        elif text.startswith('/*', i):
+            end = text.find('*/', i + 2)
+            if end < 0:
+                return '', i  # The generic scanner retains its original error.
+            i = end + 2
+        else:
+            break
+    if i == len(text) or not (text[i].isascii() and (text[i].isalpha() or text[i] == '_')):
+        return '', i
+    name = []
+    while i < len(text):
+        end = splice_end(i)
+        if end < len(text) and text[end].isascii() and (text[end].isalnum() or text[end] == '_'):
+            name.append(text[end])
+            i = end + 1
+        else:
+            break
+    return ''.join(name), i
+
+
 def lex(source: Source) -> list[Token]:
     """Scan tokens without preprocessing, expression evaluation or runtime grammar."""
     data = source.data
@@ -138,6 +177,14 @@ def lex(source: Source) -> list[Token]:
                 line_prefix_is_trivia = True
             i = end + 2
         elif char == '#' and line_prefix_is_trivia:
+            keyword, head_end = directive_keyword(text, i)
+            if keyword == 'echo':
+                # ES2 doc/concepts/preprocessor: the rest of the physical line
+                # or EOF is a verbatim message, including quotes/comments/\\.
+                end = text.find('\n', head_end)
+                i = length if end < 0 else end + 1
+                emit('directive', start, i)
+                continue
             # Keep the complete raw directive. Only an outside-comment newline
             # without continuation terminates it; quoted delimiters are opaque.
             quoted = False

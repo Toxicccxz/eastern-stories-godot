@@ -9,7 +9,7 @@ from collections import Counter
 from enum import StrEnum
 from pathlib import Path
 
-from .es2_source import Source, SourceError, Token, ToolError, discover, lex, literal, pairs
+from .es2_source import Source, SourceError, Token, ToolError, directive_keyword, discover, lex, literal, pairs
 
 
 class FindingCode(StrEnum):
@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.6'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6'}
+EXTRACTOR_VERSION = '1.0.7'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -58,6 +58,8 @@ EXCLUDED_LITERAL_BASES = {
 
 
 def directive_parts(token: Token) -> list[str]:
+    if directive_keyword(token.text)[0] == 'echo':
+        return ['echo']  # Raw payload stays in token/provenance, never re-lexed.
     # Splice only the analysis view. Map diagnostic offsets back to original bytes;
     # token text and all stored provenance retain authored LF/CRLF continuations.
     raw = token.text.encode('utf-8')
