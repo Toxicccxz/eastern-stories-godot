@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.7', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.8', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.7', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.8', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -1478,6 +1478,194 @@ class P2F7RegressionTests(unittest.TestCase):
                 self.assertEqual('PARTIAL' if ending else 'OUT_OF_SCOPE', obj['status'])
                 self.assertEqual(bool(ending), obj['supported_candidate'])
                 self.assertEqual(['inherit', 'short', 'exit'] if ending else [], [f['field'] for f in obj['facts']])
+
+
+class P2F8RegressionTests(unittest.TestCase):
+    ROOT = ('#include "hazard.h"\ninherit ROOM;\n'
+            'void create(){set("short","unsafe");set("exits",(["east":__DIR__ + "east"]));}\n')
+
+    def check(self, header, expected='setter', *, extra=None, root=None, newline='\n'):
+        sources = {'d/test/hazard.h': header, **(extra or {})}
+        deps = {p: Source(p, t.replace('\n', newline).encode()) for p, t in sources.items()}
+        raw = (root or self.ROOT).replace('\n', newline).encode()
+        obj, findings = extract(raw, dependencies=deps)
+        self.assertNotEqual('QUARANTINED', obj['status'])
+        self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+        self.assertNotIn('SOURCE_ENCODING_ISSUE', codes(findings))
+        if expected == 'admission':
+            self.assertFalse(obj['supported_candidate'])
+            self.assertEqual('OUT_OF_SCOPE', obj['status'])
+            self.assertEqual([], obj['facts'])
+            self.assertIn('UNRESOLVED_INHERITANCE', codes(findings))
+        else:
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual('PARTIAL', obj['status'])
+            self.assertEqual(['inherit'] if expected == 'setter' else
+                             ['inherit', 'short'] if expected == 'dir' else ['inherit', 'short', 'exit'],
+                             [f['field'] for f in obj['facts']])
+        self.assertEqual(['ROOM'], [d['expression'] for d in obj['direct_inherits']])
+        for p in [d['provenance'] for d in obj['direct_inherits']] + [f['provenance'] for f in obj['facts'] + findings]:
+            self.assertEqual('d/test/room.c', p['source_path'])
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+            self.assertEqual(p['raw'].encode(), raw[p['byte_start']:p['byte_end_exclusive']])
+        return obj, findings
+
+    def test_included_set(self):
+        for nl in ('\n', '\r\n'):
+            self.check('void set(string key, mixed value) {}\n', newline=nl)
+
+    def test_included_create(self):
+        for nl in ('\n', '\r\n'):
+            self.check('void create() {}\n', newline=nl)
+
+    def test_included_room_inherit(self):
+        self.check('inherit ROOM;\n', 'admission')
+
+    def test_included_excluded_inherit(self):
+        for base in ('NPC', 'ITEM', '"/std/item"'):
+            self.check('inherit ' + base + ';\n', 'admission')
+
+    def test_included_unknown_inherit(self):
+        for base in ('CUSTOM', '"/std/unknown"'):
+            self.check('inherit ' + base + ';\n', 'admission')
+
+    def test_nested_set(self):
+        self.check('#include <b.h>\n', extra={'include/b.h': 'mixed set(string k,mixed v){return 0;}\n'})
+
+    def test_nested_create(self):
+        self.check('#include <b.h>\n', extra={'include/b.h': 'void create(){}\n'})
+
+    def test_nested_inherit(self):
+        self.check('#include <b.h>\n', 'admission', extra={'include/b.h': 'inherit CUSTOM;\n'})
+
+    def test_nested_critical_macros(self):
+        for name, expected in [('ROOM', 'admission'), ('set', 'setter'), ('create', 'setter'), ('__DIR__', 'dir')]:
+            for directive in ('define', 'undef'):
+                self.check('#include <b.h>\n', expected,
+                           extra={'include/b.h': '#' + directive + ' ' + name + (' other' if directive == 'define' else '') + '\n'})
+
+    def test_nested_missing_include(self):
+        _, findings = self.check('#include <b.h>\n', 'admission', extra={'include/b.h': '#include "missing.h"\n'})
+        self.assertIn('UNRESOLVED_INCLUDE', codes(findings))
+
+    def test_conditional_potential_definitions(self):
+        for directive in ('if 0', 'ifdef CUSTOM', 'ifndef CUSTOM'):
+            for code, expected in [('void set(string k,mixed v){}', 'setter'), ('void create(){}', 'setter'),
+                                   ('inherit NPC;', 'admission')]:
+                self.check('#' + directive + '\n' + code + '\n#endif\n', expected)
+
+    def test_conditional_alternative_shapes_are_unresolved_not_root_corruption(self):
+        _, findings = self.check('#if CUSTOM\nvoid set(){\n#else\nvoid set(){\n#endif\n}\n', 'admission')
+        self.assertIn('UNRESOLVED_INCLUDE', codes(findings))
+
+    def test_split_conditional_signatures_are_not_joined_into_harmless_definition(self):
+        for text in ('void\n#if CUSTOM\nset\n#else\nhelper\n#endif\n(){}\n',
+                     'void helper(\n#if CUSTOM\nint x\n#else\nstring x\n#endif\n){}\n'):
+            _, findings = self.check(text, 'admission')
+            self.assertIn('UNRESOLVED_INCLUDE', codes(findings))
+
+    def test_cyclic_includes_preserve_hazards_and_determinism(self):
+        for code, expected in [('', 'safe'), ('void set(){}', 'setter'), ('void create(){}', 'setter'),
+                               ('inherit NPC;', 'admission'), ('#define ROOM NPC\n', 'admission')]:
+            header = '#include "b.h"\n' + code + '\n'
+            deps = {'d/test/b.h': '#include "hazard.h"\n'}
+            a = self.check(header, expected, extra=deps)
+            self.assertEqual(a, self.check(header, expected, extra=deps))
+            self.check('#include "b.h"\n', expected,
+                       extra={'d/test/b.h': '#include "hazard.h"\n' + code + '\n'})
+
+    def test_repeated_include_keeps_hazards(self):
+        for code, expected in [('void set(){}', 'setter'), ('void create(){}', 'setter'), ('inherit ROOM;', 'admission')]:
+            self.check(code, expected, root='#include "hazard.h"\n' + self.ROOT)
+
+    def test_relative_nested_paths_use_including_file_directory(self):
+        self.check('#include "headers/a.h"\n', extra={
+            'd/test/headers/a.h': '#include "sub/b.h"\n',
+            'd/test/headers/sub/b.h': 'void set(){}\n',
+            'd/test/sub/b.h': '// misleading root-relative safe header\n'})
+
+    def test_include_path_escape_remains_unresolved(self):
+        self.check('#include "../other.h"\n', 'admission', extra={'d/other.h': '// safe\n'})
+
+    def test_comment_string_heredoc_and_nested_body_negatives(self):
+        self.check('// void set(){}\n/* inherit NPC; */\n'
+                   'string text="void create(){} inherit NPC;";\n'
+                   'string long_text=@END\ninherit NPC;\nvoid set(){}\nEND\n;\n'
+                   'void helper(){int set; create(); set=1;}\n', 'safe')
+
+    def test_harmless_helper_and_near_names(self):
+        self.check('int helper(){return 1;}\nvoid setter(){}\nvoid creator(){}\n', 'safe')
+
+    def test_data_and_prototypes_are_not_function_definitions(self):
+        self.check('int x; string foo; mapping data; int set; mixed set(string k,mixed v); void create();\n', 'safe')
+
+    def test_combined_hazards_choose_strongest_boundary(self):
+        for text, expected in [('void set(){} void create(){}', 'setter'), ('void set(){} inherit CUSTOM;', 'admission'),
+                               ('void create(){} inherit ROOM;', 'admission'), ('#define __DIR__ "/wrong/"\nvoid set(){}', 'setter'),
+                               ('#define set other\ninherit NPC;', 'admission')]:
+            self.check(text, expected)
+
+    def test_include_order_does_not_erase_compilation_unit_hazards(self):
+        bare = self.ROOT.removeprefix('#include "hazard.h"\n')
+        for code, expected in [('void set(){}', 'setter'), ('void create(){}', 'setter'), ('inherit CUSTOM;', 'admission')]:
+            for root in ('#include "hazard.h"\n'+bare, bare.replace('inherit ROOM;\n', 'inherit ROOM;\n#include "hazard.h"\n'),
+                         bare+'#include "hazard.h"\n'):
+                self.check(code, expected, root=root)
+
+    def test_malformed_dependency_does_not_quarantine_root(self):
+        for text in ('/* unclosed', 'void set(){', 'int x', 'inherit NPC', '}', '\ufffd', '{ weird; }'):
+            _, findings = self.check(text, 'admission')
+            self.assertIn('UNRESOLVED_INCLUDE', codes(findings))
+
+    def test_bad_dependency_manifest_is_quarantined_separately(self):
+        for raw in (b'void set(){', b'\xff'):
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                (root/'d/test').mkdir(parents=True)
+                (root/'d/test/room.c').write_bytes(self.ROOT.encode())
+                (root/'d/test/hazard.h').write_bytes(raw)
+                doc, code = scan(root)
+                self.assertEqual(1, code)
+                objects = {o['source_path']: o for o in doc['objects']}
+                self.assertEqual('QUARANTINED', objects['d/test/hazard.h']['status'])
+                self.assertEqual('OUT_OF_SCOPE', objects['d/test/room.c']['status'])
+                self.assertEqual([], objects['d/test/room.c']['facts'])
+                self.assertFalse(any(f['code'].startswith('SOURCE_') and f['object_id']=='es2:d/test/room'
+                                     for f in doc['findings']))
+
+    def test_real_cli_fr7_matrix_and_root_provenance(self):
+        cases = [('set', 'void set(string k,mixed v){}', 'setter'), ('create', 'void create(){}', 'setter'),
+                 ('room', 'inherit ROOM;', 'admission'), ('npc', 'inherit NPC;', 'admission'),
+                 ('unknown', 'inherit "/std/unknown";', 'admission'), ('helper', 'int helper(){return 1;}', 'safe')]
+        cases += [('nested-'+name, text, expected) for name, text, expected in cases[:3]]
+        cases += [('nested-missing', '#include "missing.h"\n', 'admission')]
+        for nl in ('\n', '\r\n'):
+            for name, text, expected in cases:
+                with self.subTest(name=name, newline=repr(nl)), tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)/'source'
+                    (root/'d/test').mkdir(parents=True)
+                    source = self.ROOT.replace('\n', nl).encode()
+                    (root/'d/test/room.c').write_bytes(source)
+                    header = '#include "b.h"\n' if name.startswith('nested-') else text
+                    (root/'d/test/hazard.h').write_bytes(header.replace('\n', nl).encode())
+                    if name.startswith('nested-'):
+                        (root/'d/test/b.h').write_bytes(text.replace('\n', nl).encode())
+                    result = subprocess.run([sys.executable, '-m', 'tools.migration.cli', '--source-root', str(root),
+                                             '--output-root', str(Path(tmp)/'out')], cwd=REPOSITORY, capture_output=True)
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    raw = (Path(tmp)/'out/static-rooms.json').read_bytes()
+                    doc = json.loads(raw)
+                    self.assertEqual(raw, canonical(doc))
+                    obj = next(o for o in doc['objects'] if o['source_path']=='d/test/room.c')
+                    self.assertEqual(expected != 'admission', obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE' if expected=='admission' else 'PARTIAL', obj['status'])
+                    self.assertEqual([] if expected=='admission' else ['inherit'] if expected=='setter' else ['inherit','short','exit'],
+                                     [f['field'] for f in obj['facts']])
+                    self.assertEqual(['ROOM'], [i['expression'] for i in obj['direct_inherits']])
+                    for fact in obj['facts']:
+                        p = fact['provenance']
+                        self.assertEqual('d/test/room.c', p['source_path'])
+                        self.assertEqual(source[p['byte_start']:p['byte_end_exclusive']], p['raw'].encode())
 
 
 class RealSourceTests(unittest.TestCase):

@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.7'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'}
+EXTRACTOR_VERSION = '1.0.8'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -271,6 +271,54 @@ def reference(target: str, paths: set[str]) -> dict:
                                        'AMBIGUOUS' if matches else 'MISSING'), 'candidates': matches}
 
 
+def included_structure_hazards(tokens: list[Token]) -> set[str]:
+    """Summarize possible top-level declarations, never splice dependency bytes.
+
+    Inspect all conditional content without choosing branches. If its combined
+    structure cannot be balanced/summarized, the caller marks the include
+    unresolved (not the root corrupt). Prototypes and ordinary declarations do
+    not define functions; function bodies and grouped initializers stay opaque.
+    """
+    ts = tokens
+    matching = pairs(ts)
+    hazards: set[str] = set()
+    i, start = 0, 0
+    while i < len(ts):
+        token = ts[i]
+        if token.kind == 'directive':
+            if start < i:
+                raise SourceError('directive interrupts included declaration', token.start, token.end)
+            i += 1
+            start = i
+            continue
+        if i == start and token.kind == 'identifier' and token.text == 'inherit':
+            hazards.add('included inherit')
+        if token.text == '(' and i in matching:
+            close = matching[i]
+            if (i > start and ts[i - 1].kind == 'identifier'
+                    and close + 1 < len(ts) and ts[close + 1].text == '{'):
+                if any(t.kind == 'directive' for t in ts[start:close + 1]):
+                    raise SourceError('directive interrupts included signature', ts[start].start, ts[close].end)
+                name = ts[i - 1].text
+                if name in {'set', 'create'}:
+                    hazards.add(name)
+                i = matching[close + 1] + 1
+                start = i
+                continue
+        if token.kind == 'punctuation' and token.text == '{':
+            raise SourceError('unresolved included top-level structure', token.start, token.end)
+        if i in matching:
+            i = matching[i] + 1
+        elif token.kind == 'punctuation' and token.text == ';':
+            i += 1
+            start = i
+        else:
+            i += 1
+    if start < len(ts):
+        raise SourceError('unterminated included declaration', ts[start].start, ts[-1].end)
+    return hazards
+
+
 class RoomExtractor:
     def __init__(self, source: Source, paths: set[str], dependencies: dict[str, Source]):
         self.source, self.paths, self.dependencies = source, paths, dependencies
@@ -314,7 +362,11 @@ class RoomExtractor:
         self.facts.append(fact)
 
     def include_hazards(self, ts: list[Token], visited: set[str] | None = None) -> set[str]:
-        """Dependency inspection only: no macro expansion or condition evaluation."""
+        """Whole-source dependency hazards, independent of include order/count.
+
+        Each dependency is visited once per root. The union propagates through
+        cycles/repeated includes without evaluating guards or expanding macros.
+        """
         visited = set() if visited is None else visited
         hazards: set[str] = set()
         for token in ts:
@@ -344,7 +396,9 @@ class RoomExtractor:
                     visited.add(path)
                     dep = RoomExtractor(self.dependencies[path], self.paths, self.dependencies)
                     try:
-                        hazards.update(dep.include_hazards(lex(dep.source), visited))
+                        included_tokens = lex(dep.source)
+                        hazards.update(dep.include_hazards(included_tokens, visited))
+                        hazards.update(included_structure_hazards(included_tokens))
                     except SourceError:
                         hazards.add('unresolved include')
         return hazards
@@ -438,7 +492,7 @@ class RoomExtractor:
                     'F_FOOD', 'F_LIQUID', 'F_VENDOR', 'F_MASTER', 'LIQUID', 'CLOTH', 'BOOTS',
                     'GLOVES', 'HEAD', 'NECK', 'FINGER', 'SHIELD', 'SKILL', 'FORCE', 'DAEMON'}
         supported = (self.source.path.startswith('d/') and self.source.path.endswith('.c') and direct
-                     and not hazards.intersection({'ROOM', 'unresolved include'})
+                     and not hazards.intersection({'ROOM', 'unresolved include', 'included inherit'})
                      and not excluded.intersection(self.record['category_candidates']))
         self.record['supported_candidate'] = supported
         if not supported:
