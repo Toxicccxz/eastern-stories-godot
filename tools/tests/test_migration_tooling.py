@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.8', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.9', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.8', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.9', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -1666,6 +1666,219 @@ class P2F8RegressionTests(unittest.TestCase):
                         p = fact['provenance']
                         self.assertEqual('d/test/room.c', p['source_path'])
                         self.assertEqual(source[p['byte_start']:p['byte_end_exclusive']], p['raw'].encode())
+
+
+class P2F9RegressionTests(unittest.TestCase):
+    BODY = 'set("short","safe");set("exits",(["east":__DIR__"east"]));'
+
+    def check_case(self, prefix, expected='function', dependencies=None):
+        return_obj = None
+        for newline in ('\n', '\r\n'):
+            raw = (prefix + '\n' + room(self.BODY)).replace('\n', newline).encode()
+            deps = {p: Source(p, text.replace('\n', newline).encode())
+                    for p, text in (dependencies or {}).items()}
+            with self.subTest(prefix=prefix, newline=repr(newline)):
+                obj, findings = extract(raw, dependencies=deps)
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+                self.assertEqual(expected != 'inherit', obj['supported_candidate'])
+                self.assertEqual('OUT_OF_SCOPE' if expected == 'inherit' else 'PARTIAL', obj['status'])
+                self.assertEqual([] if expected == 'inherit' else ['inherit'] if expected == 'function'
+                                 else ['inherit', 'short', 'exit'], [f['field'] for f in obj['facts']])
+                # No synthetic source: every span still slices the authored root.
+                for item in obj['direct_inherits'] + obj['facts'] + findings:
+                    p = item['provenance']
+                    self.assertEqual(p['raw'].encode(), raw[p['byte_start']:p['byte_end_exclusive']])
+                return_obj = obj
+        return return_obj
+
+    def test_simple_set(self):
+        self.check_case('#define S set\nvoid S(string key,mixed value) {}')
+
+    def test_chain_set(self):
+        self.check_case('#define A B\n#define B set\nvoid A() {}')
+
+    def test_simple_create(self):
+        self.check_case('#define C create\nvoid C() {}')
+
+    def test_chain_create(self):
+        self.check_case('#define A B\n#define B create\nvoid A() {}')
+
+    def test_hidden_inherit(self):
+        obj = self.check_case('#define I inherit\nI NPC;', 'inherit')
+        self.assertEqual(['ROOM'], [x['symbol'] for x in obj['direct_inherits']])
+        self.check_case('#define inherit helper\n', 'inherit')
+
+    def test_chain_inherit(self):
+        self.check_case('#define A B\n#define B inherit\nA NPC;', 'inherit')
+
+    def test_inherit_operand_room(self):
+        self.check_case('#define BASE ROOM\ninherit BASE;', 'inherit')
+
+    def test_inherit_operand_npc(self):
+        self.check_case('#define BASE NPC\ninherit BASE;', 'inherit')
+
+    def test_inherit_operand_item(self):
+        self.check_case('#define BASE ITEM\ninherit BASE;', 'inherit')
+
+    def test_inherit_operand_custom(self):
+        self.check_case('#define BASE CUSTOM\ninherit BASE;', 'inherit')
+
+    def test_literal_and_chained_bases(self):
+        for base in ('ROOM', 'NPC', 'ITEM', 'CUSTOM', '"/std/item"', '"/std/unknown"'):
+            self.check_case(f'#define A B\n#define B {base}\ninherit A;', 'inherit')
+        for base in EXCLUDED_LITERAL_BASES:
+            self.check_case(f'#define BASE "{base}"\ninherit BASE;', 'inherit')
+
+    def test_include_aliases(self):
+        for target, use, expected in (('set', 'void A() {}', 'function'),
+                                       ('create', 'void A() {}', 'function'),
+                                       ('inherit', 'A NPC;', 'inherit'),
+                                       ('NPC', 'inherit A;', 'inherit')):
+            self.check_case('#include "a.h"\n' + use, expected, {'d/test/a.h': f'#define A {target}\n'})
+
+    def test_nested_include_chains(self):
+        for target, use, expected in (('set', 'void A() {}', 'function'),
+                                       ('create', 'void A() {}', 'function'),
+                                       ('inherit', 'A NPC;', 'inherit'),
+                                       ('NPC', 'inherit A;', 'inherit')):
+            self.check_case('#include "a.h"\n' + use, expected,
+                            {'d/test/a.h': '#include "b.h"\n', 'd/test/b.h': f'#define A B\n#define B {target}\n'})
+
+    def test_cross_file_definition_and_usage(self):
+        for target, use, expected in (('set', 'void A() {}', 'function'),
+                                       ('create', 'void A() {}', 'function'),
+                                       ('inherit', 'A NPC;', 'inherit')):
+            self.check_case(f'#define A {target}\n#include "a.h"', expected, {'d/test/a.h': use})
+            self.check_case('#include "a.h"\n#include "b.h"', expected,
+                            {'d/test/a.h': use, 'd/test/b.h': f'#define A {target}\n'})
+
+    def test_include_cycle_back_to_root_preserves_include_veto(self):
+        for header in ('#include "room.c"\n', '#include "a.h"\n'):
+            text = header + room(self.BODY)
+            deps = {'d/test/room.c': Source('d/test/room.c', text.encode()),
+                    'd/test/a.h': Source('d/test/a.h', b'#include "room.c"\n')}
+            obj, findings = extract(text, dependencies=deps)
+            self.assertFalse(obj['supported_candidate'])
+            self.assertEqual('OUT_OF_SCOPE', obj['status'])
+            self.assertEqual([], obj['facts'])
+            self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_conditional_aliases_are_not_evaluated(self):
+        for target, use, expected in (('set', 'void A() {}', 'function'), ('inherit', 'A NPC;', 'inherit')):
+            self.check_case('#include "a.h"\n' + use, expected,
+                            {'d/test/a.h': f'#if FLAG\n#define A {target}\n#endif\n'})
+            obj, findings = extract(f'#if FLAG\n#define A {target}\n#endif\n' + use + room(self.BODY))
+            self.assertFalse(obj['supported_candidate'])
+            self.assertEqual([], obj['facts'])
+            self.assertIn('DRIVER_SEMANTICS_UNKNOWN', codes(findings))
+
+    def test_undef_and_redefinition_do_not_erase_hazards(self):
+        self.check_case('#define A set\n#undef A\n#define A helper\nvoid A() {}')
+        self.check_case('#define A inherit\n#undef A\nA NPC;', 'inherit')
+
+    def test_cycles_terminate_conservatively(self):
+        self.check_case('#define A B\n#define B A\nvoid A() {}')
+        self.check_case('#define A B\n#define B A\ninherit A;', 'inherit')
+        self.check_case('#define A B\n#define B A\n', 'safe')
+        self.check_case('#define A B\n#define B A\n#define B set\nvoid A() {}')
+
+    def test_function_like_and_complex_macros(self):
+        for target in ('set', 'create'):
+            self.check_case(f'#define A(...) {target}(__VA_ARGS__)\nvoid A() {{}}')
+            self.check_case(f'#define A {target}(string key,mixed value)\nvoid A {{}}', 'inherit')
+            self.check_case(f'#define A B\n#define B(...) {target}(__VA_ARGS__)\nvoid A() {{}}')
+        self.check_case('#define I(x) inherit x\nI(NPC);', 'inherit')
+        self.check_case('#define BASE(x) x\ninherit BASE(NPC);', 'inherit')
+        self.check_case('#define NAME(x) x\nvoid NAME(set) {}')
+        self.check_case('#define NAME se ## t\nvoid NAME() {}')
+        self.check_case('#define DECL(x) x\nDECL(inherit NPC);', 'inherit')
+
+    def test_unused_critical_aliases(self):
+        self.check_case('#define S set\n#define C create\n#define I inherit\n#define BASE NPC\n', 'safe')
+
+    def test_harmless_helper_and_color_aliases(self):
+        self.check_case('#define H helper\n#define COLOR red\nvoid H() {}', 'safe')
+        self.check_case('#define H J\n#define J helper\nvoid H() {}', 'safe')
+
+    def test_opaque_and_body_mentions_are_not_definitions(self):
+        self.check_case('#define S set\n#define I inherit\n'
+                        '// void S() {} I NPC;\n/* void S() {} I NPC; */\n'
+                        'string text = "void S() {} I NPC;";\n'
+                        'string help = @TEXT\nvoid S() {} I NPC;\nTEXT;\n'
+                        '#echo void S() {} I NPC; " /*\n'
+                        'void helper() { S("x",1); I; }', 'safe')
+        self.check_case('// #define S set\n/* #define S set */\n'
+                        'string text = "#define S set";\n'
+                        'string help = @TEXT\n#define S set\nTEXT;\n'
+                        '#echo #define S set\nvoid S() {}', 'safe')
+
+    def test_dir_aliases_never_normalize(self):
+        for prefix in ('#define D __DIR__\n', '#define D A\n#define A __DIR__\n', '#include "a.h"\n'):
+            obj, findings = extract(prefix + room('set("exits",(["east":D "east"]));'),
+                                    dependencies={'d/test/a.h': Source('d/test/a.h', b'#define D __DIR__\n')})
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual([], fields(obj, 'exit'))
+            self.assertIn('DYNAMIC_EXPRESSION', codes(findings))
+
+    def test_direct_critical_define_undef_policy(self):
+        for directive in ('define', 'undef'):
+            for name in ('set', 'create'):
+                self.check_case(f'#{directive} {name}\n')
+            self.check_case(f'#{directive} ROOM\n', 'inherit')
+            obj, _ = extract(f'#{directive} __DIR__\n' + room(self.BODY))
+            self.assertTrue(fields(obj, 'short'))
+            self.assertFalse(fields(obj, 'exit'))
+
+    def test_summary_shape_and_reachability(self):
+        from tools.migration.room_extractor import MacroSummary
+        macros = MacroSummary()
+        text = '#define A B\n#define B set\n#define H helper\n#define F(x) create(x)\n#define O (helper)\n'
+        text += '#define D __DIR__\n#define R ROOM\n#define L "/std/item"\n'
+        for token in lex(Source('a.h', text.encode())):
+            macros.add(token)
+        self.assertEqual(({'A', 'B', 'set'}, False), macros.reach('A'))
+        self.assertFalse(macros.definitions['O'][0][0])
+        self.assertTrue(macros.definitions['F'][0][0])
+        for name, target in [('F', 'create'), ('D', '__DIR__'), ('R', 'ROOM'), ('L', '/std/item')]:
+            self.assertIn(target, macros.reach(name)[0])
+
+    def test_directive_splices_comments_and_newlines(self):
+        self.check_case('/* prefix */ #define A B\\\n\n#define B /* gap */ set\nvoid A() {}')
+        self.check_case('#de\\\nfine S se\\\nt\nvoid S() {}')
+
+    def test_real_cli_matrix(self):
+        cases = [
+            ('set', '#define S set\nvoid S() {}', {}, 'function'),
+            ('create', '#define C create\nvoid C() {}', {}, 'function'),
+            ('inherit', '#define I inherit\nI NPC;', {}, 'inherit'),
+            ('npc', '#define BASE NPC\ninherit BASE;', {}, 'inherit'),
+            ('item', '#define BASE ITEM\ninherit BASE;', {}, 'inherit'),
+            ('chain-set', '#define A B\n#define B set\nvoid A() {}', {}, 'function'),
+            ('chain-create', '#define A B\n#define B create\nvoid A() {}', {}, 'function'),
+            ('chain-inherit', '#define A B\n#define B inherit\nA NPC;', {}, 'inherit'),
+            ('included-set', '#include "a.h"\nvoid A() {}', {'a.h': '#define A set\n'}, 'function'),
+            ('included-create', '#include "a.h"\nvoid A() {}', {'a.h': '#define A create\n'}, 'function'),
+            ('included-inherit', '#include "a.h"\nA NPC;', {'a.h': '#define A inherit\n'}, 'inherit'),
+            ('nested', '#include "a.h"\nvoid A() {}', {'a.h': '#include "b.h"\n', 'b.h': '#define A B\n#define B set\n'}, 'function'),
+            ('unused', '#define S set\n', {}, 'safe'),
+            ('helper', '#define H helper\nvoid H() {}', {}, 'safe'),
+        ]
+        for name, prefix, deps, expected in cases:
+            for newline in ('\n', '\r\n'):
+                with self.subTest(name=name, newline=repr(newline)), tempfile.TemporaryDirectory() as tmp:
+                    source, output = Path(tmp)/'source', Path(tmp)/'output'
+                    (source/'d/test').mkdir(parents=True)
+                    for path, text in {'room.c': prefix + '\n' + room(self.BODY), **deps}.items():
+                        (source/'d/test'/path).write_bytes(text.replace('\n', newline).encode())
+                    result = subprocess.run([sys.executable, '-m', 'tools.migration.cli', '--source-root', str(source),
+                                             '--output-root', str(output)], cwd=REPOSITORY, capture_output=True)
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    document = json.loads((output/'static-rooms.json').read_bytes())
+                    obj = next(o for o in document['objects'] if o['source_path'] == 'd/test/room.c')
+                    self.assertEqual(expected != 'inherit', obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE' if expected == 'inherit' else 'PARTIAL', obj['status'])
+                    self.assertEqual([] if expected == 'inherit' else ['inherit'] if expected == 'function'
+                                     else ['inherit', 'short', 'exit'], [f['field'] for f in obj['facts']])
 
 
 class RealSourceTests(unittest.TestCase):

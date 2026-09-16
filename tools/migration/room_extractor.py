@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.8'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'}
+EXTRACTOR_VERSION = '1.0.9'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -57,9 +57,9 @@ EXCLUDED_LITERAL_BASES = {
 }
 
 
-def directive_parts(token: Token) -> list[str]:
+def directive_tokens(token: Token) -> list[Token]:
     if directive_keyword(token.text)[0] == 'echo':
-        return ['echo']  # Raw payload stays in token/provenance, never re-lexed.
+        return []  # Raw payload is not a replacement-token analysis view.
     # Splice only the analysis view. Map diagnostic offsets back to original bytes;
     # token text and all stored provenance retain authored LF/CRLF continuations.
     raw = token.text.encode('utf-8')
@@ -76,10 +76,123 @@ def directive_parts(token: Token) -> list[str]:
             i += 1
     offsets.append(len(raw))
     try:
-        return [t.text for t in lex(Source('directive', bytes(view)))]
+        return lex(Source('directive', bytes(view)))
     except SourceError as error:
         raise SourceError(str(error), token.start + offsets[error.start],
                           token.start + offsets[error.end], encoding=error.encoding) from error
+
+
+def directive_parts(token: Token) -> list[str]:
+    if directive_keyword(token.text)[0] == 'echo':
+        return ['echo']
+    return [t.text for t in directive_tokens(token)]
+
+
+class MacroSummary:
+    """Possible replacement dependencies, not a preprocessor or expanded source.
+
+    Union every definition in the resolved compilation unit, regardless of order,
+    guards or undef. Only a single-identifier object alias has a known identity;
+    all other replacements and cycles are uncertain at relevant use sites.
+    Token offsets here belong solely to the existing directive analysis view.
+    """
+    def __init__(self):
+        self.definitions: dict[str, list[tuple[bool, list[Token]]]] = {}
+
+    def add(self, token: Token) -> None:
+        ts = directive_tokens(token)
+        if len(ts) < 2 or ts[0].text != 'define' or ts[1].kind != 'identifier':
+            return
+        function_like = (len(ts) > 2 and ts[2].text == '(' and ts[1].end == ts[2].start)
+        replacement = ts[2:]
+        if function_like:
+            # Parameters are not replacement dependencies. Malformed signatures
+            # remain an uncertain definition, never a root syntax quarantine.
+            end = next((i for i in range(3, len(ts)) if ts[i].text == ')'), None)
+            replacement = ts[end + 1:] if end is not None else []
+        self.definitions.setdefault(ts[1].text, []).append((function_like, replacement))
+
+    def reach(self, name: str) -> tuple[set[str], bool]:
+        """Iterative graph walk; each reachable name visited once, including cycles."""
+        reached, uncertain, pending = set(), False, [name]
+        edges: dict[str, set[str]] = {}
+        while pending:
+            current = pending.pop()
+            if current in reached:
+                continue
+            reached.add(current)
+            edges[current] = set()
+            for function_like, replacement in self.definitions.get(current, []):
+                uncertain |= function_like or len(replacement) != 1 or replacement[0].kind != 'identifier'
+                for token in replacement:
+                    if token.kind == 'identifier':
+                        edges[current].add(token.text)
+                        pending.append(token.text)
+                    elif token.kind == 'string':
+                        value = literal(token)
+                        if value and value['value'] in EXCLUDED_LITERAL_BASES:
+                            reached.add(value['value'])
+        # Remove leaves to detect any reachable cycle without recursion/depth risk.
+        remaining = set(edges)
+        while remaining:
+            leaves = {node for node in remaining if not edges[node] & remaining}
+            if not leaves:
+                uncertain = True
+                break
+            remaining -= leaves
+        return reached, uncertain
+
+
+def macro_structure_hazards(ts: list[Token], macros: MacroSummary) -> set[str]:
+    """Check authored top-level positions only; bodies/opaque tokens stay opaque."""
+    matching, hazards = pairs(ts), set()
+
+    def use(tokens: list[Token], context: str) -> None:
+        names = [t.text for t in tokens if t.kind == 'identifier' and t.text in macros.definitions]
+        for name in names:
+            reached, uncertain = macros.reach(name)
+            if context == 'inherit' or 'inherit' in reached:
+                hazards.add('macro inheritance')
+            elif context == 'function':
+                hazards.update(reached & {'set', 'create'})
+                if uncertain:
+                    hazards.update({'set', 'create'})
+            elif uncertain:
+                # A complex declaration-position macro may emit a whole inherit
+                # or function definition. Do not guess its expanded structure.
+                hazards.add('macro inheritance')
+
+    i, start = 0, 0
+    while i < len(ts):
+        token = ts[i]
+        if token.kind == 'directive':
+            use(ts[start:i], 'statement')
+            start = i = i + 1
+            continue
+        if i == start and token.kind == 'identifier' and token.text == 'inherit':
+            end = next((j for j in range(i + 1, len(ts)) if ts[j].text == ';'), len(ts))
+            use(ts[i:end], 'inherit')
+            start = i = min(end + 1, len(ts))
+            continue
+        if token.text == '(' and i in matching:
+            close = matching[i]
+            if (i > start and ts[i - 1].kind == 'identifier'
+                    and close + 1 < len(ts) and ts[close + 1].text == '{'):
+                use(ts[start:i], 'function')
+                start = i = matching[close + 1] + 1
+                continue
+        if token.kind == 'punctuation' and token.text == '{':
+            use(ts[start:i], 'function')
+            start = i = matching[i] + 1
+        elif i in matching:
+            i = matching[i] + 1
+        elif token.kind == 'punctuation' and token.text == ';':
+            use(ts[start:i], 'statement')
+            start = i = i + 1
+        else:
+            i += 1
+    use(ts[start:], 'statement')
+    return hazards
 
 
 def validate_document(document: dict) -> None:
@@ -361,46 +474,69 @@ class RoomExtractor:
             fact['normalization'] = normalized
         self.facts.append(fact)
 
-    def include_hazards(self, ts: list[Token], visited: set[str] | None = None) -> set[str]:
-        """Whole-source dependency hazards, independent of include order/count.
+    def include_hazards(self, ts: list[Token]) -> set[str]:
+        """Collect first, classify second: aliases cross root/sibling/nested files.
 
-        Each dependency is visited once per root. The union propagates through
-        cycles/repeated includes without evaluating guards or expanding macros.
+        Source tokens are never merged. Each include is visited once per root;
+        unresolved dependencies retain the existing admission veto.
         """
-        visited = set() if visited is None else visited
         hazards: set[str] = set()
-        for token in ts:
-            if token.kind != 'directive':
-                continue
-            words = directive_parts(token)
-            if not words:
-                continue
-            directive = words[0]
-            if directive in ('define', 'undef') and len(words) > 1:
-                name = words[1]
-                if name in {'ROOM', '__DIR__', 'set', 'create'}:
-                    hazards.add(name)
-            if directive == 'include':
+        macros = MacroSummary()
+        units = [(self.source.path, ts)]
+        visited = {self.source.path}
+        included: set[str] = set()
+        index = 0
+        while index < len(units):
+            source_path, tokens = units[index]
+            index += 1
+            for token in tokens:
+                if token.kind != 'directive':
+                    continue
+                try:
+                    words = directive_parts(token)
+                    macros.add(token)
+                except SourceError:
+                    if source_path == self.source.path:
+                        raise
+                    hazards.add('unresolved include')
+                    continue
+                if not words:
+                    continue
+                if words[0] in ('define', 'undef') and len(words) > 1:
+                    if words[1] in {'ROOM', '__DIR__', 'set', 'create'}:
+                        hazards.add(words[1])
+                if words[0] != 'include':
+                    continue
                 authored = ''.join(words[1:])
                 if authored.startswith('<') and authored.endswith('>'):
                     path = 'include/' + authored[1:-1]
                 elif authored.startswith('"') and authored.endswith('"'):
-                    path = posixpath.join(posixpath.dirname(self.source.path), authored[1:-1])
+                    path = posixpath.join(posixpath.dirname(source_path), authored[1:-1])
                 else:
                     hazards.add('unresolved include')
                     continue
                 if '..' in path.split('/') or path.startswith('/') or path not in self.dependencies:
                     hazards.add('unresolved include')
                     continue
+                included.add(path)
                 if path not in visited:
                     visited.add(path)
-                    dep = RoomExtractor(self.dependencies[path], self.paths, self.dependencies)
                     try:
-                        included_tokens = lex(dep.source)
-                        hazards.update(dep.include_hazards(included_tokens, visited))
-                        hazards.update(included_structure_hazards(included_tokens))
+                        units.append((path, lex(self.dependencies[path])))
                     except SourceError:
                         hazards.add('unresolved include')
+        for source_path, tokens in units:
+            try:
+                hazards.update(macro_structure_hazards(tokens, macros))
+            except SourceError:
+                if source_path == self.source.path:
+                    raise
+                hazards.add('unresolved include')
+            if source_path in included:
+                try:
+                    hazards.update(included_structure_hazards(tokens))
+                except SourceError:
+                    hazards.add('unresolved include')
         return hazards
 
     def extract(self) -> tuple[dict, list[dict]]:
@@ -492,7 +628,7 @@ class RoomExtractor:
                     'F_FOOD', 'F_LIQUID', 'F_VENDOR', 'F_MASTER', 'LIQUID', 'CLOTH', 'BOOTS',
                     'GLOVES', 'HEAD', 'NECK', 'FINGER', 'SHIELD', 'SKILL', 'FORCE', 'DAEMON'}
         supported = (self.source.path.startswith('d/') and self.source.path.endswith('.c') and direct
-                     and not hazards.intersection({'ROOM', 'unresolved include', 'included inherit'})
+                     and not hazards.intersection({'ROOM', 'unresolved include', 'included inherit', 'macro inheritance'})
                      and not excluded.intersection(self.record['category_candidates']))
         self.record['supported_candidate'] = supported
         if not supported:

@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F8 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F9 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -350,6 +350,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     Final Re-Audit after P2F7 was BLOCKED on FR7-01 HIGH resolved-include semantic hazards.
     [P2F8](../migration/MIGRATION_TOOLING_V1_P2F8_RESOLVED_INCLUDE_SEMANTIC_HAZARDS.md) implements recursive
     structural hazard summaries; LOCAL focused25/migration161/full Python207/static pass and version1.0.8
-    corpus double-run is byte-identical, with no object delta. P2F8 awaits owner review; another complete
-    Final Re-Audit is required and not yet authorized. Six prior blocked audits remain historical evidence.
+    corpus double-run is byte-identical, with no object delta. P2F8 is CLOSED.
+    Final Re-Audit after P2F8 was BLOCKED on FR8-01 HIGH macro-alias semantic hazards.
+    [P2F9](../migration/MIGRATION_TOOLING_V1_P2F9_MACRO_ALIAS_SEMANTIC_HAZARDS.md) adds bounded macro summaries
+    and structural-use checks; LOCAL focused27/prior96/migration188/full Python234/static pass,
+    210 external CLI cases pass, and version1.0.9 corpus A/B is byte-identical with no object delta.
+    P2F9 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    Seven prior blocked audits remain historical evidence.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.
