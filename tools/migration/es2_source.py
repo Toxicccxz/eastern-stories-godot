@@ -106,9 +106,14 @@ def lex(source: Source) -> list[Token]:
             raise SourceError('NUL or replacement character in source', offsets[i], offsets[i + 1], encoding=True)
     tokens: list[Token] = []
     i, length = 0, len(text)
+    line_prefix_is_trivia = True
 
     def emit(kind: str, start: int, end: int) -> None:
+        nonlocal line_prefix_is_trivia
         tokens.append(Token(kind, text[start:end], offsets[start], offsets[end]))
+        # Strings/heredocs end with non-trivia on their final physical line.
+        # A directive consumes its final newline, when present, unlike other tokens.
+        line_prefix_is_trivia = kind == 'directive' and text[end - 1:end] == '\n'
 
     def fail(reason: str, start: int) -> None:
         raise SourceError(reason, offsets[start], len(data))
@@ -117,6 +122,8 @@ def lex(source: Source) -> list[Token]:
         start = i
         char = text[i]
         if char.isspace():
+            if char == '\n':
+                line_prefix_is_trivia = True
             i += 1
         elif text.startswith('//', i):
             end = text.find('\n', i)
@@ -125,8 +132,12 @@ def lex(source: Source) -> list[Token]:
             end = text.find('*/', i + 2)
             if end < 0:
                 fail('unterminated block comment', start)
+            # Comments are trivia; a newline inside one also discards any code
+            # prefix on the earlier line. Keep original source/offsets untouched.
+            if '\n' in text[i:end + 2]:
+                line_prefix_is_trivia = True
             i = end + 2
-        elif char == '#' and not text[text.rfind('\n', 0, i) + 1:i].strip():
+        elif char == '#' and line_prefix_is_trivia:
             # Directive bodies are opaque, including continued macro definitions.
             while True:
                 end = text.find('\n', i)

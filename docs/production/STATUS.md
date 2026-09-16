@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F4 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F5 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -14,11 +14,13 @@ admission. [P2F2 fixes](../migration/MIGRATION_TOOLING_V1_P2F2_RE_AUDIT_BLOCKER_
 Owner review found one additional MEDIUM D2 gap: incomplete standard weapon/armor symbol/literal exclusions.
 [P2F3](../migration/MIGRATION_TOOLING_V1_P2F3_WEAPON_ARMOR_ADMISSION_FIXES.md) is OWNER APPROVED / CLOSED.
 Owner's globals D2 sweep found four remaining bases: BULLETIN_BOARD/CHARACTER/EQUIP/POWDER.
-Authorized [P2F4](../migration/MIGRATION_TOOLING_V1_P2F4_STANDARD_OBJECT_ADMISSION_FIXES.md) on the same
-`phase/migration-tooling-v1` branch completes those exclusions and authority tests; LOCAL migration94/full Python140/static pass.
-Version1.0.4 whole-corpus double-run is byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
-QUARANTINED13, facts2,804/findings4,457, exit1; no object delta. P2F4 awaits owner review.
-Final Re-Audit is not yet authorized/completed; not PR-ready until a fresh Final/Re-Final Audit passes. No phase PR or merge.
+[P2F4](../migration/MIGRATION_TOOLING_V1_P2F4_STANDARD_OBJECT_ADMISSION_FIXES.md) is OWNER APPROVED / CLOSED.
+Final Re-Audit after P2F4 was BLOCKED by FR-01 HIGH: comment-prefixed directives bypassed lexer recognition.
+Authorized [P2F5](../migration/MIGRATION_TOOLING_V1_P2F5_COMMENT_PREFIXED_DIRECTIVE_FIXES.md) fixes physical-line
+trivia recognition on the same `phase/migration-tooling-v1` branch; LOCAL focused10/migration104/full Python150/static pass.
+Version1.0.5 whole-corpus double-run is byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
+QUARANTINED13, facts2,804/findings4,457, exit1; no object delta. P2F5 awaits owner review.
+A new Final Re-Audit is not yet authorized; not PR-ready until a fresh audit passes. No phase PR or merge.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**

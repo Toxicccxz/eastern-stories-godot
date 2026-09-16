@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.4', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.5', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.4', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.5', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -905,6 +905,181 @@ class P2F4RegressionTests(unittest.TestCase):
                 self.assertFalse(obj['supported_candidate'])
                 self.assertEqual('OUT_OF_SCOPE', obj['status'])
                 self.assertEqual([], obj['facts'])
+
+
+class P2F5RegressionTests(unittest.TestCase):
+    BODY = 'void create(){set("short","雪");set("exits",(["e":__DIR__ + "next"]));}\n'
+
+    def assert_directive(self, text, directive, dependencies=None):
+        raw = text.encode('utf-8')
+        source = Source('d/test/room.c', raw)
+        tokens = [t for t in lex(source) if t.kind == 'directive' and t.text == directive]
+        self.assertEqual(1, len(tokens))
+        token = tokens[0]
+        start = raw.index(directive.encode('utf-8'))
+        self.assertEqual((start, start + len(directive.encode('utf-8'))), (token.start, token.end))
+        self.assertEqual(directive.encode('utf-8'), raw[token.start:token.end])
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), source.sha256)
+        obj, findings = extract(raw, dependencies=dependencies)
+        records = obj['direct_inherits'] + obj['facts'] + findings
+        for record in records:
+            spans = [record['provenance']]
+            if 'normalization' in record:
+                spans += record['normalization']['inputs']
+            for p in spans:
+                self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']], p['raw'].encode('utf-8'))
+                self.assertEqual(source.sha256, p['source_sha256'])
+                prefix = raw[:p['byte_start']].decode('utf-8')
+                self.assertEqual((prefix.count('\n') + 1, len(prefix.rsplit('\n', 1)[-1]) + 1),
+                                 (p['line'], p['column']))
+        return obj, findings
+
+    def assert_hazard(self, obj, findings, name):
+        if name == 'ROOM':
+            self.assertFalse(obj['supported_candidate'])
+            self.assertEqual('OUT_OF_SCOPE', obj['status'])
+            self.assertEqual([], obj['facts'])
+        elif name in ('set', 'create'):
+            self.assertEqual([], fields(obj, 'short'))
+            self.assertEqual([], fields(obj, 'exit'))
+            self.assertEqual('PARTIAL', obj['status'])
+        else:
+            self.assertEqual([], fields(obj, 'exit'))
+            self.assertFalse(any('normalization' in f for f in obj['facts']))
+            self.assertEqual('雪', fields(obj, 'short')[0]['value']['value'])
+        self.assertTrue(findings)
+
+    def test_comment_prefixed_critical_defines_lf_crlf(self):
+        for nl in ('\n', '\r\n'):
+            for name, tail in [('ROOM', ' NPC'), ('set', '(key,value) ignored(key,value)'),
+                               ('create', ' renamed'), ('__DIR__', ' "/wrong/"')]:
+                with self.subTest(newline=repr(nl), name=name):
+                    directive = '#define ' + name + tail + nl
+                    text = 'inherit ROOM;' + nl + '/* 雪 */ ' + directive + self.BODY.replace('\n', nl)
+                    obj, findings = self.assert_directive(text, directive)
+                    self.assert_hazard(obj, findings, name)
+
+    def test_comment_prefixed_conditionals_lf_crlf(self):
+        for nl in ('\n', '\r\n'):
+            for keyword in ('if FLAG', 'ifdef FLAG', 'ifndef FLAG', 'elif FLAG', 'else', 'endif'):
+                with self.subTest(newline=repr(nl), keyword=keyword):
+                    directive = '#' + keyword + nl
+                    obj, findings = self.assert_directive('inherit ROOM;' + nl + '/* c */ ' + directive
+                                                         + self.BODY.replace('\n', nl), directive)
+                    self.assertFalse(obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                    self.assertEqual([], obj['facts'])
+                    self.assertIn('DRIVER_SEMANTICS_UNKNOWN', codes(findings))
+
+    def test_comment_prefixed_undef_all_critical_names(self):
+        for nl in ('\n', '\r\n'):
+            for name in ('ROOM', 'set', 'create', '__DIR__'):
+                with self.subTest(newline=repr(nl), name=name):
+                    directive = '#undef ' + name + nl
+                    obj, findings = self.assert_directive('inherit ROOM;' + nl + '/* c */ ' + directive
+                                                         + self.BODY.replace('\n', nl), directive)
+                    self.assert_hazard(obj, findings, name)
+
+    def test_comment_prefixed_missing_and_resolved_includes(self):
+        for nl in ('\n', '\r\n'):
+            for mode in ('missing', 'resolved', 'shadowed'):
+                with self.subTest(newline=repr(nl), mode=mode):
+                    directive = '#include <probe.h>' + nl
+                    deps = {} if mode == 'missing' else {'include/probe.h': Source('include/probe.h',
+                           ('/* header */ #define set other' + nl if mode == 'shadowed' else '// harmless' + nl).encode())}
+                    obj, findings = self.assert_directive('/* c */ ' + directive + 'inherit ROOM;' + nl
+                                                         + self.BODY.replace('\n', nl), directive, deps)
+                    if mode == 'missing':
+                        self.assertFalse(obj['supported_candidate'])
+                        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                        self.assertEqual([], obj['facts'])
+                        self.assertIn('UNRESOLVED_INCLUDE', codes(findings))
+                    elif mode == 'shadowed':
+                        self.assert_hazard(obj, findings, 'set')
+                    else:
+                        self.assertTrue(obj['supported_candidate'])
+                        self.assertEqual('雪', fields(obj, 'short')[0]['value']['value'])
+                    self.assertNotEqual('QUARANTINED', obj['status'])
+
+    def test_comment_prefix_with_continued_directives(self):
+        for nl in ('\n', '\r\n'):
+            for value in ('#define \\' + nl + 'ROOM NPC', '#define RO\\' + nl + 'OM NPC',
+                          '#de\\' + nl + 'fine ROOM NPC'):
+                with self.subTest(newline=repr(nl), value=value):
+                    directive = value + nl
+                    obj, findings = self.assert_directive('inherit ROOM;' + nl + '/* c */ ' + directive
+                                                         + self.BODY.replace('\n', nl), directive)
+                    self.assert_hazard(obj, findings, 'ROOM')
+
+    def test_multiple_multiline_comment_prefixes(self):
+        prefixes = ('', '    ', '/* a */ ', '/* a */ /* b */ ', '  /* a */  /* b */  ',
+                    '/*\n a\n*/ ', '/* a\n*/ ', '/* a\n */ /* b\n */ ', 'x /* a\ncontinued */ ')
+        for nl in ('\n', '\r\n'):
+            for prefix in prefixes:
+                with self.subTest(newline=repr(nl), prefix=prefix):
+                    directive = '#define set(k,v) ignored(k,v)' + nl
+                    obj, findings = self.assert_directive('inherit ROOM;' + nl + prefix.replace('\n', nl)
+                                                         + directive + self.BODY.replace('\n', nl), directive)
+                    self.assert_hazard(obj, findings, 'set')
+
+    def test_actual_code_before_comment_is_not_directive(self):
+        for nl in ('\n', '\r\n'):
+            for prefix in ('x /* a */ ', 'inherit ROOM; /* a */ '):
+                with self.subTest(newline=repr(nl), prefix=prefix):
+                    tokens = lex(Source('d/test/room.c', (prefix + '#define ROOM NPC' + nl).encode()))
+                    self.assertEqual([], [t for t in tokens if t.kind == 'directive'])
+                    self.assertEqual(['#'], [t.text for t in tokens if t.text == '#'])
+
+    def test_hashes_in_comments_strings_and_heredocs_stay_opaque(self):
+        samples = ('// #define ROOM NPC\n', '/* #define ROOM NPC */', '/*\n#define ROOM NPC\n*/',
+                   '"/* comment */ #define ROOM NPC"', '@TEXT\n#define ROOM NPC\nTEXT\n',
+                   '@@TEXT\n#define ROOM NPC\nTEXT\n')
+        for nl in ('\n', '\r\n'):
+            for text in samples:
+                with self.subTest(newline=repr(nl), text=text):
+                    tokens = lex(Source('d/test/room.c', text.replace('\n', nl).encode()))
+                    self.assertEqual([], [t for t in tokens if t.kind == 'directive'])
+
+    def test_raw_offsets_and_line_state_after_multiline_tokens(self):
+        for nl in ('\n', '\r\n'):
+            for prefix in ('"雪\ntext" /* c */ ', '@TEXT\n雪\nTEXT; /* c */ '):
+                with self.subTest(newline=repr(nl), prefix=prefix):
+                    # A token's final physical line still contains code, even
+                    # though its body consumed newlines. The following line resets.
+                    directive = '#define LABEL "safe"' + nl
+                    text = prefix.replace('\n', nl) + '#not_a_directive' + nl + '/* 雪 */ ' + directive
+                    self.assert_directive(text, directive)
+                    tokens = lex(Source('d/test/room.c', text.encode()))
+                    self.assertEqual([directive], [t.text for t in tokens if t.kind == 'directive'])
+            directive = '#define FIRST 1' + nl
+            next_directive = '#define SECOND 2' + nl
+            text = '/* 雪 */ ' + directive + '/* 二 */ ' + next_directive
+            self.assert_directive(text, directive)
+            self.assert_directive(text, next_directive)
+
+    def test_original_fr01_real_cli_four_cases(self):
+        for nl in ('\n', '\r\n'):
+            for conditional in (False, True):
+                with self.subTest(newline=repr(nl), conditional=conditional), tempfile.TemporaryDirectory() as temp:
+                    source = Path(temp) / 'source'
+                    (source / 'd').mkdir(parents=True)
+                    directive = '#if FOO' if conditional else '#define set(key,value) ignored(key,value)'
+                    text = ('inherit ROOM;\n/* audit */ ' + directive + '\n'
+                            'void create(){set("short","must not extract");}\n'
+                            + ('/* audit */ #endif\n' if conditional else '')).replace('\n', nl)
+                    (source / 'd/probe.c').write_bytes(text.encode())
+                    output = Path(temp) / 'output'
+                    result = subprocess.run([sys.executable, '-m', 'tools.migration.cli', '--source-root', str(source),
+                                             '--output-root', str(output)], cwd=REPOSITORY, capture_output=True, text=True)
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    document = json.loads((output / 'static-rooms.json').read_bytes())
+                    obj = document['objects'][0]
+                    self.assertEqual([], fields(obj, 'short'))
+                    self.assertEqual(not conditional, obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE' if conditional else 'PARTIAL', obj['status'])
+                    self.assertEqual([] if conditional else ['inherit'], [f['field'] for f in obj['facts']])
+                    self.assertIn('DRIVER_SEMANTICS_UNKNOWN' if conditional else 'UNSUPPORTED_CONSTRUCT',
+                                  codes(document['findings']))
 
 
 class RealSourceTests(unittest.TestCase):
