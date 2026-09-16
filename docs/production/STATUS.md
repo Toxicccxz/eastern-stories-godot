@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F9 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F10 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -32,8 +32,14 @@ Final Re-Audit after P2F8 was BLOCKED on FR8-01 HIGH: macro aliases hid function
 [P2F9](../migration/MIGRATION_TOOLING_V1_P2F9_MACRO_ALIAS_SEMANTIC_HAZARDS.md) adds bounded macro summaries
 and structural-use reliability checks; LOCAL focused27/prior96/migration188/full Python234/static pass.
 Version1.0.9 corpus double-run is byte-identical with no object delta; 210 external CLI cases pass.
-P2F9 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-All seven prior audits remain historical blocked evidence. No phase PR or merge.
+P2F9 is CLOSED. Final Re-Audit after P2F9 was BLOCKED on FR9-01 HIGH: signature/body macros could
+invalidate authored structural boundaries or hide state mutations.
+[P2F10](../migration/MIGRATION_TOOLING_V1_P2F10_MACRO_STRUCTURAL_BOUNDARY_BODY_HAZARDS.md) adds bounded
+macro-effect classification over full signatures and function bodies; LOCAL focused54/prior123/
+migration242/full Python288/static pass. Version1.0.10 corpus A/B is byte-identical: supported485,
+OUT_OF_SCOPE1,838, QUARANTINED13, facts2,736/findings4,296; 14 candidate changes are documented.
+P2F10 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+All eight prior audits remain historical blocked evidence. No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**

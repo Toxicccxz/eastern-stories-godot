@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.9', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.10', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.9', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.10', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -934,8 +934,8 @@ class P2F5RegressionTests(unittest.TestCase):
                                  (p['line'], p['column']))
         return obj, findings
 
-    def assert_hazard(self, obj, findings, name):
-        if name == 'ROOM':
+    def assert_hazard(self, obj, findings, name, structural=False):
+        if name == 'ROOM' or structural:
             self.assertFalse(obj['supported_candidate'])
             self.assertEqual('OUT_OF_SCOPE', obj['status'])
             self.assertEqual([], obj['facts'])
@@ -957,7 +957,7 @@ class P2F5RegressionTests(unittest.TestCase):
                     directive = '#define ' + name + tail + nl
                     text = 'inherit ROOM;' + nl + '/* 雪 */ ' + directive + self.BODY.replace('\n', nl)
                     obj, findings = self.assert_directive(text, directive)
-                    self.assert_hazard(obj, findings, name)
+                    self.assert_hazard(obj, findings, name, structural=name == 'set')
 
     def test_comment_prefixed_conditionals_lf_crlf(self):
         for nl in ('\n', '\r\n'):
@@ -1020,7 +1020,7 @@ class P2F5RegressionTests(unittest.TestCase):
                     directive = '#define set(k,v) ignored(k,v)' + nl
                     obj, findings = self.assert_directive('inherit ROOM;' + nl + prefix.replace('\n', nl)
                                                          + directive + self.BODY.replace('\n', nl), directive)
-                    self.assert_hazard(obj, findings, 'set')
+                    self.assert_hazard(obj, findings, 'set', structural=True)
 
     def test_actual_code_before_comment_is_not_directive(self):
         for nl in ('\n', '\r\n'):
@@ -1075,10 +1075,11 @@ class P2F5RegressionTests(unittest.TestCase):
                     document = json.loads((output / 'static-rooms.json').read_bytes())
                     obj = document['objects'][0]
                     self.assertEqual([], fields(obj, 'short'))
-                    self.assertEqual(not conditional, obj['supported_candidate'])
-                    self.assertEqual('OUT_OF_SCOPE' if conditional else 'PARTIAL', obj['status'])
-                    self.assertEqual([] if conditional else ['inherit'], [f['field'] for f in obj['facts']])
-                    self.assertIn('DRIVER_SEMANTICS_UNKNOWN' if conditional else 'UNSUPPORTED_CONSTRUCT',
+                    # P2F10: parameter substitution has unknown boundary effects.
+                    self.assertFalse(obj['supported_candidate'])
+                    self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                    self.assertEqual([], obj['facts'])
+                    self.assertIn('DRIVER_SEMANTICS_UNKNOWN' if conditional else 'UNRESOLVED_INHERITANCE',
                                   codes(document['findings']))
 
 
@@ -1347,7 +1348,7 @@ class P2F7RegressionTests(unittest.TestCase):
                         obj, _, tokens = self.check_echo('#echo ' + payload + '\n', nl,
                                                           after='#' + hazard + ' /* closed */\n' + self.BODY)
                         self.assertEqual(2, sum(t.kind == 'directive' for t in tokens))
-                        if 'ROOM' in hazard:
+                        if 'ROOM' in hazard or hazard.startswith('define set('):
                             self.assertFalse(obj['supported_candidate'])
                             self.assertEqual([], obj['facts'])
                         elif '__DIR__' in hazard:
@@ -1394,7 +1395,9 @@ class P2F7RegressionTests(unittest.TestCase):
                 obj, _, tokens = self.check_echo(head + ' /* \\\n', nl,
                                                   after='#define set(k,v) ignored(k,v)\n' + self.BODY)
                 self.assertEqual(2, sum(t.kind == 'directive' for t in tokens))
-                self.assertEqual(['inherit'], [f['field'] for f in obj['facts']])
+                self.assertFalse(obj['supported_candidate'])
+                self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                self.assertEqual([], obj['facts'])
         token = lex(Source('d/x.c', b'#ec\\\nhofoo plain\n'))[0]
         self.assertEqual('echofoo', directive_parts(token)[0])
 
@@ -1462,7 +1465,7 @@ class P2F7RegressionTests(unittest.TestCase):
             for directive in ('define ROOM NPC', 'define set(k,v) ignored(k,v)', 'define create renamed',
                               'define __DIR__ "/wrong/"', 'include <missing.h>', 'if FOO'):
                 obj, findings = self.run_echo_cli('#echo /*\n#' + directive + '\n' + self.BODY, nl)
-                if directive.startswith(('define ROOM', 'include', 'if')):
+                if directive.startswith(('define ROOM', 'define set(', 'include', 'if')):
                     self.assertFalse(obj['supported_candidate'])
                     self.assertEqual('OUT_OF_SCOPE', obj['status'])
                     self.assertEqual([], obj['facts'])
@@ -1773,24 +1776,25 @@ class P2F9RegressionTests(unittest.TestCase):
             self.assertIn('DRIVER_SEMANTICS_UNKNOWN', codes(findings))
 
     def test_undef_and_redefinition_do_not_erase_hazards(self):
-        self.check_case('#define A set\n#undef A\n#define A helper\nvoid A() {}')
+        # P2F10 explicitly makes ambiguous/cyclic signatures inadmissible.
+        self.check_case('#define A set\n#undef A\n#define A helper\nvoid A() {}', 'inherit')
         self.check_case('#define A inherit\n#undef A\nA NPC;', 'inherit')
 
     def test_cycles_terminate_conservatively(self):
-        self.check_case('#define A B\n#define B A\nvoid A() {}')
+        self.check_case('#define A B\n#define B A\nvoid A() {}', 'inherit')
         self.check_case('#define A B\n#define B A\ninherit A;', 'inherit')
         self.check_case('#define A B\n#define B A\n', 'safe')
-        self.check_case('#define A B\n#define B A\n#define B set\nvoid A() {}')
+        self.check_case('#define A B\n#define B A\n#define B set\nvoid A() {}', 'inherit')
 
     def test_function_like_and_complex_macros(self):
         for target in ('set', 'create'):
-            self.check_case(f'#define A(...) {target}(__VA_ARGS__)\nvoid A() {{}}')
+            self.check_case(f'#define A(...) {target}(__VA_ARGS__)\nvoid A() {{}}', 'inherit')
             self.check_case(f'#define A {target}(string key,mixed value)\nvoid A {{}}', 'inherit')
-            self.check_case(f'#define A B\n#define B(...) {target}(__VA_ARGS__)\nvoid A() {{}}')
+            self.check_case(f'#define A B\n#define B(...) {target}(__VA_ARGS__)\nvoid A() {{}}', 'inherit')
         self.check_case('#define I(x) inherit x\nI(NPC);', 'inherit')
         self.check_case('#define BASE(x) x\ninherit BASE(NPC);', 'inherit')
-        self.check_case('#define NAME(x) x\nvoid NAME(set) {}')
-        self.check_case('#define NAME se ## t\nvoid NAME() {}')
+        self.check_case('#define NAME(x) x\nvoid NAME(set) {}', 'inherit')
+        self.check_case('#define NAME se ## t\nvoid NAME() {}', 'inherit')
         self.check_case('#define DECL(x) x\nDECL(inherit NPC);', 'inherit')
 
     def test_unused_critical_aliases(self):
@@ -1806,7 +1810,7 @@ class P2F9RegressionTests(unittest.TestCase):
                         'string text = "void S() {} I NPC;";\n'
                         'string help = @TEXT\nvoid S() {} I NPC;\nTEXT;\n'
                         '#echo void S() {} I NPC; " /*\n'
-                        'void helper() { S("x",1); I; }', 'safe')
+                        'void helper() { S("x",1); I; }', 'inherit')  # P2F10: actual inherit alias use.
         self.check_case('// #define S set\n/* #define S set */\n'
                         'string text = "#define S set";\n'
                         'string help = @TEXT\n#define S set\nTEXT;\n'
@@ -1881,6 +1885,263 @@ class P2F9RegressionTests(unittest.TestCase):
                                      else ['inherit', 'short', 'exit'], [f['field'] for f in obj['facts']])
 
 
+class P2F10RegressionTests(unittest.TestCase):
+    BODY = ('set("short","safe");set("name","name");set("long","text");'
+            'set("outdoors",1);set("indoors",0);set("no_clean_up",1);set("no_fight",0);'
+            'set("exits",(["east":__DIR__"east"]));')
+    FIELDS = ['inherit', 'short', 'name', 'long', 'outdoors', 'indoors', 'no_clean_up', 'no_fight', 'exit']
+
+    def check(self, definitions='', declaration='', body='', expected='OUT_OF_SCOPE',
+              signature='void create()', dependencies=None, conditional_root=False):
+        text = definitions + '\ninherit ROOM;\n' + declaration + '\n' + signature + '{' + self.BODY + body + '}\n'
+        result = None
+        for newline in ('\n', '\r\n'):
+            raw = text.replace('\n', newline).encode()
+            deps = {p: Source(p, content.replace('\n', newline).encode()) for p, content in (dependencies or {}).items()}
+            with self.subTest(newline=repr(newline), definitions=definitions, body=body):
+                obj, findings = extract(raw, dependencies=deps)
+                result = obj
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+                self.assertEqual(expected != 'OUT_OF_SCOPE', obj['supported_candidate'])
+                self.assertEqual('OUT_OF_SCOPE' if expected == 'OUT_OF_SCOPE' else 'PARTIAL', obj['status'])
+                wanted = [] if expected == 'OUT_OF_SCOPE' else ['inherit'] if expected == 'STATE' else self.FIELDS
+                self.assertEqual(wanted, [f['field'] for f in obj['facts']])
+                self.assertEqual([] if conditional_root else ['ROOM'], [d['symbol'] for d in obj['direct_inherits']])
+                for item in obj['direct_inherits'] + obj['facts'] + findings:
+                    p = item['provenance']
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual(p['raw'].encode(), raw[p['byte_start']:p['byte_end_exclusive']])
+        return result
+
+    def test_safe_return_type_alias(self):
+        self.check('#define INT int', 'INT helper(){return 1;}', expected='SAFE')
+
+    def test_complex_return_prefix(self):
+        self.check('#define TYPE int; inherit NPC; int', 'TYPE helper(){return 1;}')
+
+    def test_name_aliases(self):
+        self.check('#define H helper', 'void H(){}', expected='SAFE')
+        for name in ('set', 'create'):
+            self.check(f'#define H {name}', 'void H(){}', expected='STATE')
+
+    def test_safe_parameter_type(self):
+        self.check('#define INT int', 'void helper(INT x){}', expected='SAFE')
+
+    def test_signature_modifiers_parameter_names_and_defaults(self):
+        self.check('#define MOD nomask\n#define ARG value', 'MOD void helper(int ARG){}', expected='SAFE')
+        for signature in ('BAD void helper(){}', 'void helper(int BAD){}',
+                          'void helper(int x=BAD){}', 'void helper(int x BAD string y){}'):
+            self.check('#define BAD ){} inherit NPC; void tail(', signature)
+
+    def test_other_body_semicolon_is_structural(self):
+        self.check('#define RET return;', 'void helper(){RET}')
+
+    def test_ambiguous_sibling_definitions(self):
+        self.check('#include "a.h"\n#include "b.h"', body='M;', dependencies={
+            'd/test/a.h':'#define M 1\n', 'd/test/b.h':'#define M 2\n'})
+
+    def test_compound_literal_alias_remains_unknown(self):
+        # The bounded classifier does not evaluate ANSI-like concatenations.
+        self.check('#define ESC "escape"\n#define COLOR ESC+"[31m"', 'void helper(){write(COLOR);}')
+
+    def test_inert_function_like_chain_without_substitution(self):
+        self.check('#define ONE(x) N\n#define N 1', 'int helper(){return ONE(0);}', expected='SAFE')
+
+    def test_parameter_structure_uncertain(self):
+        self.check('#define P int x, string y', 'void helper(P){}')
+
+    def test_parameter_injects_set(self):
+        self.check('#define P ){} mixed set(string k,mixed v){return 0;} void tail(', 'void helper(P){}')
+
+    def test_parameter_injects_create(self):
+        self.check('#define P ){} void create(){} void tail(', 'void helper(P){}')
+
+    def test_parameter_injects_inherit(self):
+        self.check('#define P ){} inherit NPC; void tail(', 'void helper(P){}')
+
+    def test_between_parameter_close_and_body(self):
+        self.check('#define END ; inherit NPC; void tail()', 'void helper() END {}')
+        self.check('#define END ; inherit NPC; void tail()', signature='void create() END')
+
+    def test_function_like_signature(self):
+        self.check('#define P(x) x', 'void helper(P(set)){}')
+        self.check('#define P() ){} void set(){} void tail(', 'void helper(P()){}')
+
+    def test_chained_signature(self):
+        self.check('#define A B\n#define B ){} void set(){} void tail(', 'void helper(A){}')
+
+    def test_cyclic_signature(self):
+        self.check('#define A B\n#define B A', 'void helper(A){}')
+
+    def test_create_set_alias(self):
+        self.check('#define M set', body='M("short","other");', expected='STATE')
+
+    def test_create_add_alias(self):
+        self.check('#define M add', body='M("exits/east","/other");', expected='STATE')
+
+    def test_create_delete_alias(self):
+        self.check('#define M delete', body='M("exits/east");', expected='STATE')
+
+    def test_create_create_alias(self):
+        self.check('#define M create', body='M();', expected='STATE')
+
+    def test_create_inherit_alias(self):
+        self.check('#define M inherit', body='M NPC;')
+
+    def test_body_closes_brace(self):
+        self.check('#define M }', body='M;')
+
+    def test_body_opens_brace(self):
+        self.check('#define M {', body='M;')
+
+    def test_body_semicolon_or_declaration(self):
+        for replacement in (';', 'int x;', 'set("short","other");'):
+            self.check('#define M ' + replacement, body='M;')
+
+    def test_body_injects_function(self):
+        self.check('#define M } mixed set(string k,mixed v){return 0;} void tail(){', body='M;')
+
+    def test_body_injects_inherit(self):
+        self.check('#define M } inherit NPC; void tail(){', body='M;')
+
+    def test_function_like_body(self):
+        self.check('#define M(x) set(x)', body='M("short");')
+        self.check('#define DECL(x) x', body='DECL(set("short","other"));')
+        self.check('#define WRAP(x) } x {', body='WRAP(inherit NPC;);')
+
+    def test_body_chains(self):
+        for target in ('set', 'add', 'delete', 'create'):
+            self.check(f'#define A B\n#define B {target}', body='A("short","other");', expected='STATE')
+        self.check('#define A B\n#define B inherit', body='A NPC;')
+        self.check('#define A B\n#define B } void tail(){', body='A;')
+
+    def test_body_cycle(self):
+        self.check('#define A B\n#define B A', body='A;')
+        self.check('#define A B\n#define B A', expected='SAFE')
+
+    def test_other_body_constants(self):
+        self.check('#define ONE 1\n#define LABEL "text"', 'int helper(){return ONE;} int other(){return LABEL!=0;}', expected='SAFE')
+
+    def test_other_body_helper_alias(self):
+        self.check('#define H helper', 'void helper(){} void other(){H();}', expected='SAFE')
+
+    def test_other_body_escape(self):
+        self.check('#define M } void tail(){', 'void helper(){M}')
+
+    def test_other_body_hidden_inherit(self):
+        self.check('#define M } inherit NPC; void tail(){', 'void helper(){M}')
+
+    def test_other_body_hidden_functions(self):
+        for name in ('set', 'create'):
+            self.check(f'#define M }} void {name}(){{}} void tail(){{', 'void helper(){M}')
+
+    def test_header_definition_root_use(self):
+        self.check('#include "a.h"', 'void helper(P){}', dependencies={'d/test/a.h':'#define P ){} void set(){} void tail(\n'})
+        self.check('#include "a.h"', body='M("short","other");', expected='STATE', dependencies={'d/test/a.h':'#define M set\n'})
+
+    def test_root_definition_header_use(self):
+        self.check('#define P ){} void set(){} void tail(\n#include "a.h"', dependencies={'d/test/a.h':'void helper(P){}\n'})
+
+    def test_nested_definition_root_use(self):
+        self.check('#include "a.h"', 'void helper(P){}', dependencies={'d/test/a.h':'#include "sub/b.h"\n','d/test/sub/b.h':'#define P ){} void set(){} void tail(\n'})
+
+    def test_conditional_definitions(self):
+        self.check('#include "a.h"', body='M("short","other");', expected='STATE', dependencies={'d/test/a.h':'#if FLAG\n#define M set\n#endif\n'})
+        self.check('#if FLAG\n#define M set\n#endif', body='M("short","other");', conditional_root=True)
+
+    def test_undef_redefinitions(self):
+        self.check('#define M set\n#undef M', body='M("short","other");', expected='STATE')
+        self.check('#define M set\n#undef M\n#define M helper', body='M("short","other");')
+
+    def test_comment_prefix_and_continuations(self):
+        self.check('/* prefix */ #define M ad\\\nd', body='M("short","other");', expected='STATE')
+        self.check('#define M /* first\nsecond */ delete', body='M("exits/east");', expected='STATE')
+
+    def test_opaque_negatives(self):
+        self.check('#define BAD } inherit NPC; {\n#echo BAD #define M set " /*',
+                   'void helper(){/* BAD */ string x="BAD";string y=@TXT\nBAD\nTXT;\n// BAD\n}',
+                   body='/* BAD */ // BAD\n', expected='SAFE')
+
+    def test_authored_provenance_and_no_synthetic_inherit(self):
+        obj = self.check('#define BAD inherit NPC;', body='BAD;')
+        self.assertEqual('inherit ROOM;', obj['direct_inherits'][0]['provenance']['raw'])
+        self.assertEqual([], obj['facts'])
+
+    def test_contained_object_mutator_calls(self):
+        for replacement in ('set("short","other")', 'add("exits/east","/other")', 'delete("exits/east")'):
+            self.check('#define M ' + replacement, body='M;', expected='STATE')
+
+    def test_state_hazards_before_after_and_nested(self):
+        for use in ('M("short","other");', 'if(0){M("short","other");}', 'helper(M("short","other"));'):
+            self.check('#define M set', body=use, expected='STATE')
+        obj, _ = extract('#define M set\n' + room('M("short","other");' + self.BODY))
+        self.assertEqual(['inherit'], [f['field'] for f in obj['facts']])
+
+    def test_parameter_independent_function_like(self):
+        self.check('#define ONE(x) 1', 'int helper(){return ONE(0);}', body='ONE(0);', expected='SAFE')
+        self.check('#define M(x) set("short","other")', body='M(0);', expected='STATE')
+
+    def test_safe_constants_inside_create(self):
+        self.check('#define ONE 1\n#define LABEL "text"', body='helper(ONE,LABEL);', expected='SAFE')
+
+    def test_contained_mutator_in_other_body(self):
+        self.check('#define M set("short","other")', 'void helper(){M;}', expected='SAFE')
+
+    def test_source_backed_mapping_mutators(self):
+        for name in ('_set', '_delete', 'map_delete', 'set_default_object'):
+            self.check('#define M ' + name, body='M(query_entire_dbase(),"short",0);', expected='STATE')
+
+    def test_pasting_stringification_and_unknown_calls(self):
+        for replacement in ('se ## t', '# x', 'helper()', '(1+2)'):
+            self.check('#define M ' + replacement, body='M;')
+
+    def test_sibling_headers_and_cycle(self):
+        self.check('#include "a.h"\n#include "b.h"', dependencies={
+            'd/test/a.h':'#define P Q\n#include "b.h"\n',
+            'd/test/b.h':'#include "a.h"\n#define Q ){} void set(){} void tail(\nvoid helper(P){}\n'})
+
+    def test_unused_dangerous_definitions(self):
+        self.check('#define S set\n#define I inherit\n#define BAD } inherit NPC; {', expected='SAFE')
+
+    def test_effect_classes_and_cycle_termination(self):
+        from tools.migration.room_extractor import MacroEffect, MacroSummary
+        summary = MacroSummary()
+        source = ('#define INT int\n#define ONE 1\n#define M set("short","other")\n'
+                  '#define BAD } inherit NPC; {\n#define F(x) x\n#define A B\n#define B A\n')
+        for token in lex(Source('macros.h', source.encode())):
+            summary.add(token)
+        for name, expected in [('INT',MacroEffect.INERT),('ONE',MacroEffect.INERT),
+                               ('M',MacroEffect.CREATE_STATE_HAZARD),('BAD',MacroEffect.STRUCTURAL_BOUNDARY_HAZARD),
+                               ('F',MacroEffect.UNKNOWN),('A',MacroEffect.UNKNOWN)]:
+            self.assertEqual(expected, summary.effect(name))
+
+    def test_real_cli_matrix(self):
+        cases = [('parameter','#define P ){} void set(){} void tail(\n','void helper(P){}\n','',False),
+                 ('set','#define M set\n','','M("short","other");',True),
+                 ('add','#define M add\n','','M("exits/east","/other");',True),
+                 ('delete','#define M delete\n','','M("exits/east");',True),
+                 ('escape','#define M } void set(){} void tail(){\n','','M;',False),
+                 ('inherit','#define M inherit\n','','M NPC;',False),
+                 ('function','#define M(x) set(x)\n','','M("short");',False),
+                 ('chain','#define M N\n#define N add\n','','M("short",1);',True),
+                 ('cycle','#define M N\n#define N M\n','','M;',False)]
+        for name, definition, declaration, body, candidate in cases:
+            for layout in ('inline', 'header', 'nested'):
+                for newline in ('\n','\r\n'):
+                    with self.subTest(name=name,layout=layout,newline=repr(newline)), tempfile.TemporaryDirectory() as tmp:
+                        source, output = Path(tmp)/'source', Path(tmp)/'output'
+                        (source/'d').mkdir(parents=True)
+                        files={'d/a.h':definition} if layout=='header' else {'d/a.h':'#include "b.h"\n','d/b.h':definition} if layout=='nested' else {}
+                        files['d/room.c']=(definition if layout=='inline' else '#include "a.h"\n')+'inherit ROOM;\n'+declaration+'void create(){'+self.BODY+body+'}\n'
+                        for path,text in files.items():(source/path).write_bytes(text.replace('\n',newline).encode())
+                        result=subprocess.run([sys.executable,'-m','tools.migration.cli','--source-root',str(source),'--output-root',str(output)],cwd=REPOSITORY,capture_output=True)
+                        self.assertEqual(0,result.returncode,result.stderr)
+                        doc=json.loads((output/'static-rooms.json').read_bytes())
+                        obj=next(o for o in doc['objects'] if o['source_path']=='d/room.c')
+                        self.assertEqual(candidate,obj['supported_candidate'])
+                        self.assertEqual(['inherit'] if candidate else [],[f['field'] for f in obj['facts']])
+
+
 class RealSourceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -1917,11 +2178,13 @@ class RealSourceTests(unittest.TestCase):
         self.assertEqual([], fields(self.objects['d/oldpine/pine3.c'], 'exit'))
         self.assertIn('RNG_SEMANTICS', codes(self.findings('d/oldpine/pine3.c')))
 
-    def test_keep2_static_facts_and_mutation_findings(self):
+    def test_keep2_complex_body_macros_reject_authored_boundary(self):
         r = self.objects['d/oldpine/keep2.c']
-        self.assertEqual(2, len(fields(r, 'exit')))
-        self.assertEqual('PARTIAL', r['status'])
-        self.assertIn('ORDER_SENSITIVE_MUTATION', codes(self.findings('d/oldpine/keep2.c')))
+        # HIY/NOR reach compound ESC + string replacements through ansi.h.
+        self.assertFalse(r['supported_candidate'])
+        self.assertEqual([], r['facts'])
+        self.assertEqual('OUT_OF_SCOPE', r['status'])
+        self.assertIn('UNRESOLVED_INHERITANCE', codes(self.findings('d/oldpine/keep2.c')))
 
     def test_lake_retains_callback_lifecycle_boundary(self):
         r = self.objects['d/village/lake.c']

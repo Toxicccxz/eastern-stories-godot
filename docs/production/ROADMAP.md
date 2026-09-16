@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F9 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F10 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -355,6 +355,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     [P2F9](../migration/MIGRATION_TOOLING_V1_P2F9_MACRO_ALIAS_SEMANTIC_HAZARDS.md) adds bounded macro summaries
     and structural-use checks; LOCAL focused27/prior96/migration188/full Python234/static pass,
     210 external CLI cases pass, and version1.0.9 corpus A/B is byte-identical with no object delta.
-    P2F9 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-    Seven prior blocked audits remain historical evidence.
+    P2F9 is CLOSED. Final Re-Audit after P2F9 was BLOCKED on FR9-01 HIGH signature/body macro hazards.
+    [P2F10](../migration/MIGRATION_TOOLING_V1_P2F10_MACRO_STRUCTURAL_BOUNDARY_BODY_HAZARDS.md) adds bounded
+    effect classification across full signatures and bodies; LOCAL focused54/prior123/migration242/
+    full Python288/static pass. Version1.0.10 A/B is byte-identical: supported485, OUT_OF_SCOPE1,838,
+    QUARANTINED13, facts2,736/findings4,296; 14 affected candidates are listed in the fix report.
+    P2F10 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    Eight prior blocked audits remain historical evidence; no new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

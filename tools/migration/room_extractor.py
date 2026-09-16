@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.9'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9'}
+EXTRACTOR_VERSION = '1.0.10'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -88,29 +88,53 @@ def directive_parts(token: Token) -> list[str]:
     return [t.text for t in directive_tokens(token)]
 
 
+class MacroEffect(StrEnum):
+    INERT = 'INERT'
+    CREATE_STATE_HAZARD = 'CREATE_STATE_HAZARD'
+    STRUCTURAL_BOUNDARY_HAZARD = 'STRUCTURAL_BOUNDARY_HAZARD'
+    UNKNOWN = 'UNKNOWN'
+
+
+# Source-backed persistent mapping mutations: feature/dbase.c and treemap.c.
+# Temporary dbase APIs are separate; no speculative gameplay mutator registry.
+MACRO_STATE_NAMES = {'set', 'add', 'delete', '_set', '_delete', 'map_delete', 'set_default_object', 'create'}
+
+
 class MacroSummary:
     """Possible replacement dependencies, not a preprocessor or expanded source.
 
     Union every definition in the resolved compilation unit, regardless of order,
-    guards or undef. Only a single-identifier object alias has a known identity;
-    all other replacements and cycles are uncertain at relevant use sites.
+    guards or undef. Identity reachability and bounded effect classification are
+    separate: inert constants need no identity, while cycles remain uncertain.
     Token offsets here belong solely to the existing directive analysis view.
     """
     def __init__(self):
         self.definitions: dict[str, list[tuple[bool, list[Token]]]] = {}
+        self.parameters: dict[str, set[str]] = {}
+        self.invalid: set[str] = set()
+        self._effects: dict[str, MacroEffect] = {}
 
     def add(self, token: Token) -> None:
         ts = directive_tokens(token)
         if len(ts) < 2 or ts[0].text != 'define' or ts[1].kind != 'identifier':
             return
         function_like = (len(ts) > 2 and ts[2].text == '(' and ts[1].end == ts[2].start)
+        name = ts[1].text
         replacement = ts[2:]
         if function_like:
             # Parameters are not replacement dependencies. Malformed signatures
             # remain an uncertain definition, never a root syntax quarantine.
             end = next((i for i in range(3, len(ts)) if ts[i].text == ')'), None)
             replacement = ts[end + 1:] if end is not None else []
-        self.definitions.setdefault(ts[1].text, []).append((function_like, replacement))
+            if end is None:
+                self.invalid.add(name)
+            else:
+                parameters = {t.text for t in ts[3:end] if t.kind == 'identifier'}
+                if any(t.text == '.' for t in ts[3:end]):
+                    parameters.add('__VA_ARGS__')
+                self.parameters.setdefault(name, set()).update(parameters)
+        self.definitions.setdefault(name, []).append((function_like, replacement))
+        self._effects.clear()
 
     def reach(self, name: str) -> tuple[set[str], bool]:
         """Iterative graph walk; each reachable name visited once, including cycles."""
@@ -142,56 +166,134 @@ class MacroSummary:
             remaining -= leaves
         return reached, uncertain
 
+    def effect(self, name: str) -> MacroEffect:
+        """Classify possible effects, never substitute arguments or source tokens.
 
-def macro_structure_hazards(ts: list[Token], macros: MacroSummary) -> set[str]:
-    """Check authored top-level positions only; bodies/opaque tokens stay opaque."""
-    matching, hazards = pairs(ts), set()
+        A narrow contained call to a known mutator is state-only. Other complex
+        expressions are unknown. Function-like replacement can be classified
+        only when it does not reference formal parameters (no substitution).
+        Every reachable definition contributes, including after undef/branches.
+        """
+        if name in self._effects:
+            return self._effects[name]
+        effects: set[MacroEffect] = set()
+        edges: dict[str, set[str]] = {}
+        pending = [name]
+        while pending:
+            current = pending.pop()
+            if current in edges:
+                continue
+            edges[current] = set()
+            definitions = self.definitions.get(current, [])
+            if not definitions and current == 'inherit':
+                effects.add(MacroEffect.STRUCTURAL_BOUNDARY_HAZARD)
+            elif not definitions and current in MACRO_STATE_NAMES:
+                effects.add(MacroEffect.CREATE_STATE_HAZARD)
+            shapes = {(f, tuple((t.kind, t.text) for t in r)) for f, r in definitions}
+            if len(shapes) > 1 or current in self.invalid:
+                effects.add(MacroEffect.UNKNOWN)
+            for function_like, replacement in definitions:
+                identifiers = {t.text for t in replacement if t.kind == 'identifier'}
+                edges[current].update(identifiers)
+                pending.extend(identifiers)
+                punctuation = {t.text for t in replacement if t.kind == 'punctuation'}
+                if punctuation & {'{', '}', ';', '#'}:
+                    effects.add(MacroEffect.STRUCTURAL_BOUNDARY_HAZARD)
+                    continue
+                try:
+                    matching = pairs(replacement)
+                except SourceError:
+                    # Semantic uncertainty in a macro is not corrupt root bytes.
+                    effects.add(MacroEffect.STRUCTURAL_BOUNDARY_HAZARD)
+                    continue
+                if function_like and identifiers & self.parameters.get(current, set()):
+                    effects.add(MacroEffect.UNKNOWN)
+                elif not replacement or (len(replacement) == 1 and replacement[0].kind in
+                                          {'identifier', 'number', 'string', 'character'}):
+                    effects.add(MacroEffect.INERT)
+                elif (len(replacement) > 2 and replacement[0].kind == 'identifier'
+                      and replacement[1].text == '(' and matching.get(1) == len(replacement) - 1
+                      and self.reach(replacement[0].text)[0] & MACRO_STATE_NAMES):
+                    effects.add(MacroEffect.CREATE_STATE_HAZARD)
+                else:
+                    effects.add(MacroEffect.UNKNOWN)
+        remaining = set(edges)
+        while remaining:
+            leaves = {node for node in remaining if not edges[node] & remaining}
+            if not leaves:
+                effects.add(MacroEffect.UNKNOWN)
+                break
+            remaining -= leaves
+        result = next((effect for effect in (MacroEffect.STRUCTURAL_BOUNDARY_HAZARD,
+                      MacroEffect.UNKNOWN, MacroEffect.CREATE_STATE_HAZARD) if effect in effects), MacroEffect.INERT)
+        self._effects[name] = result
+        return result
 
-    def use(tokens: list[Token], context: str) -> None:
-        names = [t.text for t in tokens if t.kind == 'identifier' and t.text in macros.definitions]
-        for name in names:
-            reached, uncertain = macros.reach(name)
-            if context == 'inherit' or 'inherit' in reached:
-                hazards.add('macro inheritance')
-            elif context == 'function':
-                hazards.update(reached & {'set', 'create'})
-                if uncertain:
-                    hazards.update({'set', 'create'})
-            elif uncertain:
-                # A complex declaration-position macro may emit a whole inherit
-                # or function definition. Do not guess its expanded structure.
-                hazards.add('macro inheritance')
 
+def macro_regions(ts: list[Token]):
+    """Yield original signature/body/declaration slices, never expanded syntax.
+
+    A possible signature includes everything through the body opening, even
+    macro tokens between ')' and '{'. Nested body tokens stay available for
+    effect checks; only their authored scope is used as a provisional context.
+    """
+    matching = pairs(ts)
     i, start = 0, 0
     while i < len(ts):
         token = ts[i]
         if token.kind == 'directive':
-            use(ts[start:i], 'statement')
+            yield 'statement', ts[start:i]
             start = i = i + 1
             continue
         if i == start and token.kind == 'identifier' and token.text == 'inherit':
             end = next((j for j in range(i + 1, len(ts)) if ts[j].text == ';'), len(ts))
-            use(ts[i:end], 'inherit')
+            yield 'inherit', ts[i:end]
             start = i = min(end + 1, len(ts))
             continue
         if token.text == '(' and i in matching:
             close = matching[i]
-            if (i > start and ts[i - 1].kind == 'identifier'
-                    and close + 1 < len(ts) and ts[close + 1].text == '{'):
-                use(ts[start:i], 'function')
-                start = i = matching[close + 1] + 1
+            opening = close + 1
+            while opening < len(ts) and ts[opening].kind in {'identifier', 'directive'}:
+                opening += 1
+            if (i > start and ts[i - 1].kind == 'identifier' and opening < len(ts)
+                    and ts[opening].text == '{'):
+                yield 'signature', ts[start:opening]
+                yield ('create' if ts[i - 1].text == 'create' else 'body'), ts[opening + 1:matching[opening]]
+                start = i = matching[opening] + 1
                 continue
         if token.kind == 'punctuation' and token.text == '{':
-            use(ts[start:i], 'function')
+            yield 'signature', ts[start:i]
+            yield 'body', ts[i + 1:matching[i]]
             start = i = matching[i] + 1
         elif i in matching:
             i = matching[i] + 1
         elif token.kind == 'punctuation' and token.text == ';':
-            use(ts[start:i], 'statement')
+            yield 'statement', ts[start:i]
             start = i = i + 1
         else:
             i += 1
-    use(ts[start:], 'statement')
+    yield 'statement', ts[start:]
+
+
+def macro_structure_hazards(ts: list[Token], macros: MacroSummary) -> set[str]:
+    hazards: set[str] = set()
+    for context, tokens in macro_regions(ts):
+        for token in tokens:
+            if token.kind != 'identifier' or token.text not in macros.definitions:
+                continue
+            effect = macros.effect(token.text)
+            if context == 'inherit':
+                hazards.add('macro inheritance')
+            elif effect in {MacroEffect.STRUCTURAL_BOUNDARY_HAZARD, MacroEffect.UNKNOWN}:
+                hazards.add('macro structure')
+            elif context == 'signature':
+                reached, uncertain = macros.reach(token.text)
+                if effect == MacroEffect.CREATE_STATE_HAZARD and uncertain:
+                    hazards.add('macro structure')
+                else:
+                    hazards.update(reached & {'set', 'create'})
+            elif context == 'create' and effect == MacroEffect.CREATE_STATE_HAZARD:
+                hazards.add('create state')
     return hazards
 
 
@@ -628,7 +730,7 @@ class RoomExtractor:
                     'F_FOOD', 'F_LIQUID', 'F_VENDOR', 'F_MASTER', 'LIQUID', 'CLOTH', 'BOOTS',
                     'GLOVES', 'HEAD', 'NECK', 'FINGER', 'SHIELD', 'SKILL', 'FORCE', 'DAEMON'}
         supported = (self.source.path.startswith('d/') and self.source.path.endswith('.c') and direct
-                     and not hazards.intersection({'ROOM', 'unresolved include', 'included inherit', 'macro inheritance'})
+                     and not hazards.intersection({'ROOM', 'unresolved include', 'included inherit', 'macro inheritance', 'macro structure'})
                      and not excluded.intersection(self.record['category_candidates']))
         self.record['supported_candidate'] = supported
         if not supported:
@@ -657,7 +759,7 @@ class RoomExtractor:
         for statement in unknown_top:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Top-level construct outside the supported declaration subset.', statement)
         create_functions = [f for f in functions if f[0] == 'create']
-        shadowed = any(f[0] == 'set' for f in functions) or bool(hazards & {'set', 'create', 'unresolved include'})
+        shadowed = any(f[0] == 'set' for f in functions) or bool(hazards & {'set', 'create', 'unresolved include', 'create state'})
         for name, first, opening, end in functions:
             if name != 'create':
                 self.finding(FindingCode.CALLBACK_BEHAVIOR, 'Function body retained for human semantic review.', ts[first:end + 1], name)
