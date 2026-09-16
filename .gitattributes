@@ -1,2 +1,3 @@
 # Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf
+docs/migration/MIGRATION_TOOLING_V1_FINAL_RE_AUDIT_AFTER_P2F10.md -text
