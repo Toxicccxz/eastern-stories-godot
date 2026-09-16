@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.11'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'}
+EXTRACTOR_VERSION = '1.0.12'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -165,6 +165,53 @@ class MacroSummary:
                 break
             remaining -= leaves
         return reached, uncertain
+
+    def pairing_uncertain(self, name: str, invoked: bool) -> bool:
+        """Can this actual use invalidate an authored delimiter error?
+
+        This is narrower than effect(): balanced replacements (even ';' or '#')
+        cannot repair pairing by themselves. Invocation-shaped function macros
+        can discard/transform arguments. Follow possible definitions iteratively,
+        preserving invocation context through aliases, without expanding tokens.
+        """
+        edges: dict[tuple[str, bool], set[tuple[str, bool]]] = {}
+        pending = [(name, invoked)]
+        while pending:
+            current, called = node = pending.pop()
+            if node in edges:
+                continue
+            edges[node] = set()
+            for function_like, replacement in self.definitions.get(current, []):
+                if function_like:
+                    if called:
+                        return True  # Includes invalid signatures/parameter removal.
+                    continue  # A bare function-macro name is not an invocation.
+                try:
+                    pairs(replacement)
+                except SourceError:
+                    return True
+                # Token pasting can name another macro not visible as an authored
+                # identifier edge. A lone '#' / ';' has no such pairing effect.
+                if (any(t.kind == 'identifier' for t in replacement)
+                        and any(a.text == b.text == '#' for a, b in zip(replacement, replacement[1:]))):
+                    return True
+                for index, token in enumerate(replacement):
+                    if token.kind != 'identifier':
+                        continue
+                    follows_call = (index + 1 < len(replacement)
+                                    and replacement[index + 1].text == '(')
+                    # A trailing alias may receive the root use's following '('.
+                    dependency = (token.text, follows_call or (called and index == len(replacement) - 1))
+                    edges[node].add(dependency)
+                    pending.append(dependency)
+        # The same bounded cycle policy as reach(); no recursive expansion.
+        remaining = set(edges)
+        while remaining:
+            leaves = {node for node in remaining if not edges[node] & remaining}
+            if not leaves:
+                return True
+            remaining -= leaves
+        return False
 
     def effect(self, name: str) -> MacroEffect:
         """Classify possible effects, never substitute arguments or source tokens.
@@ -576,8 +623,8 @@ class RoomExtractor:
             fact['normalization'] = normalized
         self.facts.append(fact)
 
-    def include_hazards(self, ts: list[Token]) -> set[str]:
-        """Collect first, classify second: aliases cross root/sibling/nested files.
+    def macro_context(self, ts: list[Token]) -> tuple[MacroSummary, list[tuple[str, list[Token]]], set[str], set[str]]:
+        """Collect existing root/include context without requiring paired tokens.
 
         Source tokens are never merged. Each include is visited once per root;
         unresolved dependencies retain the existing admission veto.
@@ -627,6 +674,10 @@ class RoomExtractor:
                         units.append((path, lex(self.dependencies[path])))
                     except SourceError:
                         hazards.add('unresolved include')
+        return macros, units, included, hazards
+
+    def include_hazards(self, ts: list[Token]) -> set[str]:
+        macros, units, included, hazards = self.macro_context(ts)
         for source_path, tokens in units:
             try:
                 hazards.update(macro_structure_hazards(tokens, macros))
@@ -641,6 +692,17 @@ class RoomExtractor:
                     hazards.add('unresolved include')
         return hazards
 
+    def pairing_uncertain_use(self) -> Token | None:
+        """Called only after root pairs() fails; definitions alone are not proof."""
+        macros, _, _, _ = self.macro_context(self.tokens)
+        for index, token in enumerate(self.tokens):
+            if token.kind != 'identifier' or token.text not in macros.definitions:
+                continue
+            invoked = index + 1 < len(self.tokens) and self.tokens[index + 1].text == '('
+            if macros.pairing_uncertain(token.text, invoked):
+                return token  # Authored use, never replacement/header provenance.
+        return None
+
     def extract(self) -> tuple[dict, list[dict]]:
         try:
             self.tokens = lex(self.source)
@@ -650,8 +712,20 @@ class RoomExtractor:
                 self.finding(FindingCode.OUT_OF_SCOPE, 'Conditional compilation prevents reliable profile admission.', self.tokens[:1], severity='INFO')
                 self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN, 'Preprocessor branches retained without evaluating or balancing mutually exclusive code.', self.tokens)
             else:
-                matching = pairs(self.tokens)
-                self.extract_structure(matching)
+                try:
+                    matching = pairs(self.tokens)
+                except SourceError:
+                    use = self.pairing_uncertain_use()
+                    if use is None:
+                        raise  # Preserve the original pairing error and byte span.
+                    self.finding(FindingCode.OUT_OF_SCOPE,
+                                 'Preprocessor structure prevents reliable static-room admission.',
+                                 [use], severity='INFO')
+                    self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                                 'Preprocessor macro usage may alter delimiter structure; authored delimiter imbalance is not sufficient evidence of source corruption.',
+                                 [use])
+                else:
+                    self.extract_structure(matching)
         except SourceError as error:
             self.facts.clear()
             self.record['status'] = 'QUARANTINED'

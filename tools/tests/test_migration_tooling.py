@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.11', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.12', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.11', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.12', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2363,6 +2363,238 @@ class P2F11RegressionTests(unittest.TestCase):
                 self.assertEqual('PARTIAL', obj['status'])
                 self.assertEqual(['inherit', 'short'], [f['field'] for f in obj['facts']])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(document['findings']))
+
+
+class P2F12RegressionTests(unittest.TestCase):
+    # Handwritten macro/literal/malformed triplets; no generated expansion oracle.
+    CASES = {
+        '{': ('inherit ROOM;\nvoid create() M\nset("short","x");\n}\n',
+              'inherit ROOM;\nvoid create() {\nset("short","x");\n}\n',
+              'inherit ROOM;\nvoid create()\nset("short","x");\n}\n'),
+        '}': ('inherit ROOM;\nvoid create() {\nset("short","x");\nM\n',
+              'inherit ROOM;\nvoid create() {\nset("short","x");\n}\n',
+              'inherit ROOM;\nvoid create() {\nset("short","x");\n'),
+        '(': ('inherit ROOM;\nvoid create() { set M "short","x"); }\n',
+              'inherit ROOM;\nvoid create() { set("short","x"); }\n',
+              'inherit ROOM;\nvoid create() { set "short","x"); }\n'),
+        ')': ('inherit ROOM;\nvoid create() { set("short","x" M; }\n',
+              'inherit ROOM;\nvoid create() { set("short","x"); }\n',
+              'inherit ROOM;\nvoid create() { set("short","x"; }\n'),
+        '[': ('inherit ROOM;\nvoid create() { set("exits", (M "east":"/d/test/room",])); }\n',
+              'inherit ROOM;\nvoid create() { set("exits", (["east":"/d/test/room",])); }\n',
+              'inherit ROOM;\nvoid create() { set("exits", ("east":"/d/test/room",])); }\n'),
+        ']': ('inherit ROOM;\nvoid create() { set("exits", (["east":"/d/test/room",M)); }\n',
+              'inherit ROOM;\nvoid create() { set("exits", (["east":"/d/test/room",])); }\n',
+              'inherit ROOM;\nvoid create() { set("exits", (["east":"/d/test/room",)); }\n'),
+    }
+
+    def check(self, text, expected, dependencies=None):
+        for newline in ('\n', '\r\n'):
+            raw = text.replace('\n', newline).encode('utf-8')
+            deps = {p: Source(p, t.replace('\n', newline).encode('utf-8'))
+                    for p, t in (dependencies or {}).items()}
+            with self.subTest(newline=repr(newline), source=text):
+                r, fs = extract(raw, paths={'d/test/room.c'}, dependencies=deps)
+                self.assertEqual(expected, r['status'])
+                if expected == 'OUT_OF_SCOPE':
+                    self.assertFalse(r['supported_candidate'])
+                    self.assertEqual([], r['facts'])
+                    self.assertEqual([], r['direct_inherits'])
+                    self.assertEqual({'OUT_OF_SCOPE', 'DRIVER_SEMANTICS_UNKNOWN'}, codes(fs))
+                    self.assertTrue(all(f['provenance']['raw'] in ('M', 'A', 'OPEN', 'DROP', 'ONE') for f in fs))
+                elif expected == 'QUARANTINED':
+                    self.assertEqual([], r['facts'])
+                    self.assertIn('SOURCE_SYNTAX_ERROR', codes(fs))
+                    # The original failed pairing still owns the diagnostic span.
+                    with self.assertRaises(SourceError) as failure:
+                        pairs(lex(Source('d/test/room.c', raw)))
+                    error = next(f for f in fs if f['code'] == 'SOURCE_SYNTAX_ERROR')
+                    self.assertEqual(str(failure.exception), error['reason'])
+                    self.assertEqual(failure.exception.start, error['provenance']['byte_start'])
+                    self.assertEqual(failure.exception.end, error['provenance']['byte_end_exclusive'])
+                else:
+                    self.assertTrue(r['supported_candidate'])
+                    self.assertTrue(r['facts'])
+                    self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(fs))
+                for f in fs + r['facts']:
+                    p = f['provenance']
+                    self.assertEqual('d/test/room.c', p['source_path'])
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+
+    def delimiter(self, mark):
+        macro, _, _ = self.CASES[mark]
+        self.check('#define M ' + mark + '\n' + macro, 'OUT_OF_SCOPE')
+
+    def test_object_open_brace(self):
+        self.delimiter('{')
+
+    def test_object_close_brace(self):
+        self.delimiter('}')
+
+    def test_object_open_parenthesis(self):
+        self.delimiter('(')
+
+    def test_object_close_parenthesis(self):
+        self.delimiter(')')
+
+    def test_object_open_square(self):
+        self.delimiter('[')
+
+    def test_object_close_square(self):
+        self.delimiter(']')
+
+    def test_handwritten_controls_all_six(self):
+        for _, literal_source, _ in self.CASES.values():
+            self.check(literal_source, 'EXTRACTED')
+
+    def test_true_malformed_all_six(self):
+        for _, _, malformed in self.CASES.values():
+            self.check(malformed, 'QUARANTINED')
+
+    def test_unused_dangerous_all_six(self):
+        for mark, (_, _, malformed) in self.CASES.items():
+            self.check('#define M ' + mark + '\n' + malformed, 'QUARANTINED')
+
+    def test_used_pairing_neutral_replacements(self):
+        for replacement in ('1', '"text"', '"{(["', "'}'", ';', '#', '{}', '(1)', '[1]', '1 + 2'):
+            self.check('#define M ' + replacement + '\ninherit ROOM;\nvoid create()\nset("short",M);\n}\n',
+                       'QUARANTINED')
+
+    def test_alias_chain_open_brace(self):
+        self.check('#define A B\n#define B {\n' + self.CASES['{'][0].replace(' M', ' A'), 'OUT_OF_SCOPE')
+
+    def test_alias_chain_close_parenthesis(self):
+        self.check('#define A B\n#define B C\n#define C )\n' + self.CASES[')'][0].replace(' M', ' A'), 'OUT_OF_SCOPE')
+
+    def test_iterative_long_alias_chain(self):
+        definitions = '#define A N0\n' + ''.join(f'#define N{i} N{i + 1}\n' for i in range(1100)) + '#define N1100 {\n'
+        self.check(definitions + self.CASES['{'][0].replace(' M', ' A'), 'OUT_OF_SCOPE')
+
+    def test_used_cycle(self):
+        self.check('#define A B\n#define B A\n' + self.CASES['{'][0].replace(' M', ' A'), 'OUT_OF_SCOPE')
+
+    def test_unused_cycle(self):
+        self.check('#define A B\n#define B A\n' + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_competing_pairing_definition(self):
+        for definitions in ('#define M 1\n#define M {\n', '#define M {\n#undef M\n#define M 1\n'):
+            self.check(definitions + self.CASES['{'][0], 'OUT_OF_SCOPE')
+
+    def test_competing_neutral_definitions(self):
+        self.check('#define M 1\n#define M "text"\n' + self.CASES['{'][0], 'QUARANTINED')
+
+    def test_token_paste_can_hide_pairing_macro_identity(self):
+        self.check('#define OPEN {\n#define M OP ## EN\n' + self.CASES['{'][0], 'OUT_OF_SCOPE')
+
+    def test_function_open_brace_invocation(self):
+        self.check('#define M() {\n' + self.CASES['{'][0].replace(' M', ' M()'), 'OUT_OF_SCOPE')
+
+    def test_function_close_parenthesis_invocation(self):
+        self.check('#define M() )\n' + self.CASES[')'][0].replace(' M', ' M()'), 'OUT_OF_SCOPE')
+
+    def test_function_parameter_dependent_invocation(self):
+        self.check('#define M(x) x\ninherit ROOM;\nvoid create() M({)\nset("short","x");\n}\n', 'OUT_OF_SCOPE')
+
+    def test_function_drops_delimiter_argument(self):
+        self.check('#define DROP(x)\ninherit ROOM;\nvoid create() { DROP({) set("short","x"); }\n', 'OUT_OF_SCOPE')
+
+    def test_function_invalid_signature_invoked(self):
+        self.check('#define M(x\n' + self.CASES['{'][0].replace(' M', ' M()'), 'OUT_OF_SCOPE')
+
+    def test_function_name_is_not_invocation(self):
+        self.check('#define M() {\n' + self.CASES['{'][0], 'QUARANTINED')
+
+    def test_unused_function_macro(self):
+        self.check('#define M() {\n' + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_alias_function_invoked_and_bare(self):
+        definitions = '#define A B\n#define B M\n#define M() {\n'
+        self.check(definitions + self.CASES['{'][0].replace(' M', ' A()'), 'OUT_OF_SCOPE')
+        self.check(definitions + self.CASES['{'][0].replace(' M', ' A'), 'QUARANTINED')
+
+    def test_internal_function_invocation_in_object_replacement(self):
+        self.check('#define A M({)\n#define M(x)\n' + self.CASES['{'][0].replace(' M', ' A'), 'OUT_OF_SCOPE')
+
+    def test_direct_header_definition(self):
+        self.check('#include "delimiters.h"\n' + self.CASES['{'][0], 'OUT_OF_SCOPE',
+                   {'d/test/delimiters.h': '#define M {\n'})
+
+    def test_nested_header_definition(self):
+        self.check('#include "a.h"\n' + self.CASES['{'][0], 'OUT_OF_SCOPE',
+                   {'d/test/a.h': '#include "nested/b.h"\n', 'd/test/nested/b.h': '#define M {\n'})
+
+    def test_sibling_root_header_aliases(self):
+        self.check('#define A B\n#include "a.h"\n#include "b.h"\n' + self.CASES['{'][0].replace(' M', ' A'),
+                   'OUT_OF_SCOPE', {'d/test/a.h': '#define B C\n', 'd/test/b.h': '#define C {\n'})
+
+    def test_header_function_macro(self):
+        self.check('#include <delimiters.h>\n' + self.CASES['{'][0].replace(' M', ' M()'), 'OUT_OF_SCOPE',
+                   {'include/delimiters.h': '#define M() {\n'})
+
+    def test_include_cycles_and_conditional_definitions(self):
+        self.check('#include "a.h"\n' + self.CASES['{'][0], 'OUT_OF_SCOPE',
+                   {'d/test/a.h': '#include "b.h"\n', 'd/test/b.h': '#include "a.h"\n#ifdef X\n#define M {\n#endif\n'})
+
+    def test_safe_or_missing_include_is_not_pairing_evidence(self):
+        for deps in ({}, {'d/test/a.h': ''}, {'d/test/a.h': '#define UNUSED {\n'},
+                     {'d/test/a.h': 'int helper(){return 1;}\n'}, {'d/test/a.h': '"bad'}):
+            self.check('#include "a.h"\n' + self.CASES['{'][2], 'QUARANTINED', deps)
+
+    def test_opaque_comments(self):
+        self.check('#define OPEN {\n// OPEN\n/* OPEN */\n' + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_opaque_strings(self):
+        self.check('#define OPEN {\nstring label="OPEN";\n' + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_opaque_characters_and_symbols(self):
+        self.check("#define O {\n#define OPEN {\nint label='O';\nmixed symbol='OPEN;\n" + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_opaque_heredoc(self):
+        self.check('#define OPEN {\nstring label=@TEXT\nOPEN\nTEXT;\n' + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_opaque_echo_and_unused_replacement(self):
+        self.check('#define OPEN {\n#echo OPEN({\n#define OTHER OPEN\n' + self.CASES['{'][2], 'QUARANTINED')
+
+    def test_root_conditional_does_not_enter_gate(self):
+        for directive in ('if 1', 'ifdef X', 'ifndef X', 'elif 1', 'else', 'endif'):
+            with patch.object(RoomExtractor, 'pairing_uncertain_use', side_effect=AssertionError('must stay lazy')):
+                r, fs = extract('#' + directive + '\n' + self.CASES['{'][2])
+            self.assertEqual('OUT_OF_SCOPE', r['status'])
+            self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(fs))
+
+    def test_paired_source_does_not_enter_gate(self):
+        for source in (self.CASES['{'][1], '#define M {\n' + room('M; set("short","x");'),
+                       '#define M "text"\n' + room('set("short",M);')):
+            with patch.object(RoomExtractor, 'pairing_uncertain_use', side_effect=AssertionError('must stay lazy')):
+                extract(source)
+
+    def test_lexical_and_encoding_errors_bypass_gate(self):
+        for invalid in (b'\xff', b'\0', '\ufffd'.encode(), b'"unterminated', b'/* unterminated'):
+            raw = b'#define OPEN {\ninherit ROOM;\nvoid create() OPEN\n' + invalid
+            with patch.object(RoomExtractor, 'pairing_uncertain_use', side_effect=AssertionError('must stay lazy')):
+                r, fs = extract(raw)
+            self.assertEqual('QUARANTINED', r['status'])
+            self.assertEqual([], r['facts'])
+            self.assertTrue(codes(fs) & {'SOURCE_ENCODING_ISSUE', 'SOURCE_SYNTAX_ERROR'})
+
+    def test_original_reproducer_real_cli(self):
+        text = '#define OPEN {\ninherit ROOM;\nvoid create() OPEN\n    set("short", "x");\n}\n'
+        for newline in ('\n', '\r\n'):
+            with tempfile.TemporaryDirectory() as directory:
+                base = Path(directory); source = base / 'source'; (source / 'd').mkdir(parents=True)
+                raw = text.replace('\n', newline).encode(); (source / 'd/room.c').write_bytes(raw)
+                result = subprocess.run([sys.executable, '-m', 'tools.migration.cli', '--source-root', str(source),
+                                         '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
+                self.assertEqual(0, result.returncode, result.stderr)
+                doc = json.loads((base / 'output/static-rooms.json').read_bytes())
+                self.assertEqual('1.0.12', doc['extractor_version'])
+                self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
+                self.assertEqual([], doc['objects'][0]['facts'])
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
+                for f in doc['findings']:
+                    self.assertEqual('OPEN', f['provenance']['raw'])
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), f['provenance']['source_sha256'])
 
 
 class RealSourceTests(unittest.TestCase):

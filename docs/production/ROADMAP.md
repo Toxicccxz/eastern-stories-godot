@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F11 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F12 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -365,6 +365,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     [P2F11](../migration/MIGRATION_TOOLING_V1_P2F11_CREATE_BODY_DIRECTIVE_SEGMENTATION.md) adds two-phase
     directive segmentation/reliability checks; LOCAL focused38/prior177/migration280/full Python326/static
     and 204 external CLI cases pass. Version1.0.11 A/B is byte-identical with no object/fact delta;
-    all 14 ANSI exclusions remain. P2F11 awaits owner review; another complete Final Re-Audit is required
-    and not yet authorized. Nine prior blocked audits remain historical evidence; no new remote CI run.
+    all 14 ANSI exclusions remain. P2F11 is CLOSED. Final Re-Audit after P2F11 Rerun was BLOCKED on
+    FR11-01 / blocking MEDIUM / D9: macro-supplied delimiter imbalance was falsely quarantined before
+    macro analysis. ARCHIVE-01 is CLOSED and historical audit bytes remain preserved.
+    [P2F12](../migration/MIGRATION_TOOLING_V1_P2F12_PRE_PAIR_MACRO_DELIMITER_UNCERTAINTY.md) implements
+    a lazy actual-use pairing-uncertainty gate after authored pairing fails, preserving the normal path.
+    P2F12 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    The FR11 blocked rerun report remains owner-local/untracked/unchanged; no new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

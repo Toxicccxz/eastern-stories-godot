@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F11 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F12 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -43,8 +43,14 @@ legal create-tail directives were falsely quarantined as unfinished runtime stat
 [P2F11](../migration/MIGRATION_TOOLING_V1_P2F11_CREATE_BODY_DIRECTIVE_SEGMENTATION.md) separates directive
 placement/reliability checks from create extraction; LOCAL focused38/prior177/migration280/full Python326/
 static pass. Version1.0.11 corpus A/B is byte-identical with no object/fact delta; 204 external CLI cases
-pass, and all 14 ANSI exclusions remain. P2F11 awaits owner review; another complete Final Re-Audit
-is required and not yet authorized. All nine prior audits remain historical blocked evidence.
+pass, and all 14 ANSI exclusions remain. P2F11 is CLOSED. Final Re-Audit after P2F11 Rerun was
+BLOCKED on FR11-01 / blocking MEDIUM / D9: macro-supplied delimiters caused false source quarantine
+before macro analysis. ARCHIVE-01 is CLOSED; historical audit bytes remain preserved.
+[P2F12](../migration/MIGRATION_TOOLING_V1_P2F12_PRE_PAIR_MACRO_DELIMITER_UNCERTAINTY.md) adds a lazy,
+actual-use pairing-uncertainty gate only after authored delimiter pairing fails; normal paired
+extraction stays unchanged. P2F12 is implemented and awaits owner review. Another complete Final
+Re-Audit is required and not yet authorized; the FR11 blocked rerun report remains owner-local,
+untracked and unchanged. Historical blocked reports are not overwritten.
 No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
