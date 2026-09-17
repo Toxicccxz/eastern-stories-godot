@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.17'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'}
+EXTRACTOR_VERSION = '1.0.18'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1155,6 +1155,7 @@ class RoomExtractor:
         # Only a reliable plan reaches the existing bounded statement extractor.
         for nested, tokens in segments:
             if nested:
+                self.unsupported_exit_mutations(tokens)
                 self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Conditional/nested create scope is not extracted.', tokens, 'create')
             else:
                 self.statement(tokens, hazards)
@@ -1164,14 +1165,17 @@ class RoomExtractor:
             return
         matching = pairs(ts)
         if len(ts) < 4 or ts[0].kind != 'identifier' or ts[1].text != '(' or matching.get(1) != len(ts) - 2:
+            self.unsupported_exit_mutations(ts)
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Statement receiver/control/expression outside static subset.', ts, 'create')
             return
         if ts[0].text != 'set':
+            self.unsupported_exit_mutations(ts[2:-2])
             self.finding(FindingCode.REQUIRES_SEMANTIC_REVIEW, 'Call is a reference only; lifecycle/door/population is not executed.', ts, 'create')
             return
         args = split_at(ts[2:-2], ',')
         key = literal(args[0][0]) if args and len(args[0]) == 1 else None
         if len(args) != 2 or not key or key['kind'] != 'text':
+            self.unsupported_exit_mutations(ts)
             self.finding(FindingCode.DYNAMIC_EXPRESSION, 'Setter key/argument shape is not a supported literal declaration.', ts, 'create')
             return
         field = key['value']
@@ -1188,6 +1192,30 @@ class RoomExtractor:
                 self.finding(FindingCode.DYNAMIC_EXPRESSION, 'Value is outside approved static scalar/text literals.', ts, 'create')
         else:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Setter field is outside static-room-v1.', ts, 'create')
+
+    def unsupported_exit_mutations(self, ts: list[Token]) -> None:
+        """Veto authored exit calls in a skipped region, preserving receiver identity."""
+        for index, token in enumerate(ts[:-3]):
+            if (token.kind != 'identifier' or token.text not in {'set', 'add', 'delete'}
+                    or ts[index + 1].text != '('):
+                continue
+            receiver = ts[index - 1].text if index else ''
+            if receiver == '->':
+                continue
+            key = literal(ts[index + 2])
+            if (key and key['kind'] == 'text' and ts[index + 3].text in {',', ')'}
+                    and (key['value'] == 'exits' or key['value'].startswith('exits/'))):
+                self.exit_sequence_uncertain = True
+                if receiver == '::':
+                    # Inherited dispatch is not a direct local call or a call
+                    # on a different object. Do not resolve/execute its body.
+                    self.finding(FindingCode.UNSUPPORTED_CONSTRUCT,
+                                 'Inherited-qualified exit call in an unsupported create region makes this exit sequence uncertain.',
+                                 ts[index - 1:index + 3], 'create')
+                else:
+                    self.finding(FindingCode.ORDER_SENSITIVE_MUTATION,
+                                 'Local exit mutation in an unsupported create region prevents reliable exit facts from this sequence.',
+                                 ts[index:index + 3], 'create')
 
     def mapping_preprocessing_use(self, ts: list[Token]) -> Token | None:
         """Actual authored use only; no replacement tokens or macro evaluation."""
@@ -1209,7 +1237,8 @@ class RoomExtractor:
         for index, token in enumerate(self.tokens[:-2]):
             if (self.scopes.get(index) != 'create' or token.kind != 'identifier'
                     or token.text not in {'set', 'add', 'delete'}
-                    or self.tokens[index + 1].text != '('):
+                    or self.tokens[index + 1].text != '('
+                    or index > 0 and self.tokens[index - 1].text in {'->', '::'}):
                 continue
             key = literal(self.tokens[index + 2])
             if (key and key['kind'] == 'text'

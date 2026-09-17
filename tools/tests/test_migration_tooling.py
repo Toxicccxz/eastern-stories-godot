@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.17', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.18', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.17', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.18', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2594,7 +2594,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.17', doc['extractor_version'])
+                self.assertEqual('1.0.18', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3310,6 +3310,127 @@ class P2F17RegressionTests(unittest.TestCase):
                              'void reset(){delete("exits/n");ob->set("exits",other);}'))
         self.assertEqual(1, len(fields(r, 'exit')))
         self.assertEqual(2, sum(f['code'] == 'ORDER_SENSITIVE_MUTATION' for f in ff))
+
+
+class P2F18RegressionTests(unittest.TestCase):
+    # Handwritten expectations: inherited dispatch is distinct from direct calls.
+    CASES = [
+        ('prompt-primary', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){set("exits",variable);}}\n', {}, 0),
+        ('computed-before', 'inherit ROOM;\nvoid create(){set("short","room");{set("exits",variable);}set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('computed-after', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits",variable);}}\n', {}, 0),
+        ('computed-between', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits",variable);}set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('literal-before', 'inherit ROOM;\nvoid create(){set("short","room");{set("exits",(["south":"/b"]));}set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('literal-after', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits",(["south":"/b"]));}}\n', {}, 0),
+        ('literal-between', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits",(["south":"/b"]));}set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('macro-before', '#define KEY "south"\ninherit ROOM;\nvoid create(){set("short","room");{set("exits",([KEY:"/b"]));}set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('macro-after', '#define KEY "south"\ninherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits",([KEY:"/b"]));}}\n', {}, 0),
+        ('macro-between', '#define KEY "south"\ninherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits",([KEY:"/b"]));}set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('two-level', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){while(other){set("exits",variable);}}}\n', {}, 0),
+        ('three-level', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){while(other){{set("exits",variable);}}}}\n', {}, 0),
+        ('unbraced-if', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition) set("exits",variable);}\n', {}, 0),
+        ('unbraced-while', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));while(condition) set("exits",variable);}\n', {}, 0),
+        ('switch', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));switch(flag){case 1:set("exits",variable);break;}}\n', {}, 0),
+        ('flat-set-subtree', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));set("exits/e","/b");}\n', {}, 0),
+        ('nested-set-subtree', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{set("exits/e","/b");}}\n', {}, 0),
+        ('flat-add-whole', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));add("exits",variable);}\n', {}, 0),
+        ('nested-add-whole', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{add("exits",variable);}}\n', {}, 0),
+        ('flat-add-subtree', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));add("exits/e",variable);}\n', {}, 0),
+        ('nested-add-subtree', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{add("exits/e",variable);}}\n', {}, 0),
+        ('flat-delete-whole', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));delete("exits");}\n', {}, 0),
+        ('nested-delete-whole', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{delete("exits");}}\n', {}, 0),
+        ('flat-delete-subtree', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));delete("exits/e");}\n', {}, 0),
+        ('nested-delete-subtree', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{delete("exits/e");}}\n', {}, 0),
+        ('unrelated-short', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){set("short","x");}}\n', {}, 1),
+        ('unrelated-name', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){set("name","x");}}\n', {}, 1),
+        ('unrelated-long', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){set("long","x");}}\n', {}, 1),
+        ('unrelated-indoors', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){set("indoors","x");}}\n', {}, 1),
+        ('unrelated-call', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){foo();}}\n', {}, 1),
+        ('unrelated-expression', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){x=x+1;}}\n', {}, 1),
+        ('cross-set-exits', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){other->set("exits",variable);}}\n', {}, 1),
+        ('cross-set-exits-e', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){other->set("exits/e",variable);}}\n', {}, 1),
+        ('cross-add-exits', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){other->add("exits",variable);}}\n', {}, 1),
+        ('cross-add-exits-e', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){other->add("exits/e",variable);}}\n', {}, 1),
+        ('cross-delete-exits', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){other->delete("exits");}}\n', {}, 1),
+        ('cross-delete-exits-e', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){other->delete("exits/e");}}\n', {}, 1),
+        ('inherited-nested', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));if(condition){::set("exits",variable);}}\n', {}, 0),
+        ('inherited-flat', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));::set("exits",variable);}\n', {}, 0),
+        ('include-nested', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{\n#include "mutate.h"\n}}\n', {'d/mutate.h': 'set("exits",variable);\n'}, 0),
+        ('macro-hazard', '#define MUTATE() set("exits",variable)\ninherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));{MUTATE();}}\n', {}, 0),
+        ('two-reliable', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));set("exits",(["north":"/a"]));}\n', {}, 2),
+        ('single-reliable', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));}\n', {}, 1),
+        ('normalized-reliable', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["n":__DIR__+"a"]));}\n', {}, 1),
+        ('callback-only', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));}\nvoid reset(){set("exits",variable);}\n', {}, 1),
+        ('duplicate-create', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));}\nvoid create(){set("exits",variable);}\n', {}, 0),
+        ('shadowed-set', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));}\nvoid set(string key,mixed value){}\n', {}, 0),
+        ('missing-include', '#include "missing.h"\ninherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));}\n', {}, 0),
+        ('true-mapping', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["n":"/a",,"s":"/b"]));}\n', {}, -1),
+        ('true-tail', 'inherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a"]));unfinished}\n', {}, -1),
+    ]
+
+    def test_nested_create_matrix(self):
+        for name, text, headers, expected in self.CASES:
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    raw = text.replace('\n', newline).encode()
+                    deps = {p: Source(p, h.replace('\n', newline).encode()) for p, h in headers.items()}
+                    r, ff = extract(raw, path='d/probe.c', dependencies=deps)
+                    self.assertEqual(max(0, expected), len(fields(r, 'exit')))
+                    self.assertEqual(expected == -1, r['status'] == 'QUARANTINED')
+                    for f in r['facts'] + ff:
+                        p = f['provenance']
+                        self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                        self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+
+    def test_suppressed_exit_ids_never_created(self):
+        original = RoomExtractor.fact
+        def reject_exit(instance, field, *args, **kwargs):
+            self.assertNotEqual('exit', field)
+            return original(instance, field, *args, **kwargs)
+        reliable = 'set("exits",(["n":"/a"]));'
+        nested = '{set("exits",variable);}'
+        for body in (nested+reliable, reliable+nested, reliable+nested+reliable):
+            with patch.object(RoomExtractor, 'fact', reject_exit):
+                r, ff = extract(room('set("short","room");'+body))
+            self.assertEqual(['inherit', 'short'], [f['field'] for f in r['facts']])
+            f = next(f for f in ff if 'Local exit mutation in an unsupported' in f['reason'])
+            self.assertEqual('set("exits"', f['provenance']['raw'])
+            self.assertTrue(f['prevents_supported_consumption'])
+
+    def test_flat_literal_identity_is_unchanged(self):
+        text = room('set("exits",(["n":__DIR__+"a","s":"/b"]));')
+        r, ff = extract(text)
+        self.assertEqual(['n', 's'], [f['value']['direction'] for f in fields(r, 'exit')])
+        for f in fields(r, 'exit'):
+            p = f['provenance']
+            identity = f"d/test/room.c\0{hashlib.sha256(text.encode()).hexdigest()}\0exit\0{p['byte_start']}\0{p['byte_end_exclusive']}"
+            self.assertEqual(hashlib.sha256(identity.encode()).hexdigest(), f['fact_id'])
+        self.assertEqual((r, ff), extract(text))
+
+    def test_opaque_text_and_unrelated_nested_statements_do_not_veto(self):
+        for body in ('{foo();}', '{set("short","exits");}', '{/* set("exits",x); */}',
+                     '{"set(\"exits\",x)";}', '{set("exits_other",x);}'):
+            r, ff = extract(room('set("exits",(["n":"/a"]));'+body))
+            self.assertEqual(1, len(fields(r, 'exit')))
+            self.assertFalse(any('Local exit mutation in an unsupported' in f['reason'] for f in ff))
+
+    def test_direct_local_mutations_in_unbraced_regions(self):
+        for control in ('if(flag)', 'while(flag)', 'for(i=0;i<1;i++)'):
+            r, ff = extract(room('set("exits",(["n":"/a"]));'+control+' set("exits",variable);'))
+            self.assertEqual([], fields(r, 'exit'))
+            self.assertIn('ORDER_SENSITIVE_MUTATION', codes(ff))
+
+    def test_receiver_findings_preserve_authored_identity(self):
+        for call in ('set("exits",x)', 'add("exits/e",x)', 'delete("exits")'):
+            for prefix in ('', '::', 'other->'):
+                r, ff = extract(room('set("exits",(["n":"/a"]));{'+prefix+call+';}'))
+                self.assertEqual(1 if prefix == 'other->' else 0, len(fields(r, 'exit')))
+                local = [f for f in ff if 'Local exit mutation in an unsupported' in f['reason']]
+                inherited = [f for f in ff if 'Inherited-qualified exit call' in f['reason']]
+                self.assertEqual(prefix == '', bool(local))
+                self.assertEqual(prefix == '::', bool(inherited))
+                if inherited:
+                    self.assertEqual('UNSUPPORTED_CONSTRUCT', inherited[0]['code'])
+                    self.assertTrue(inherited[0]['provenance']['raw'].startswith('::'))
 
 
 class RealSourceTests(unittest.TestCase):
