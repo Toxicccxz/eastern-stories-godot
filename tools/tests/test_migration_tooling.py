@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.18', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.19', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.18', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.19', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2594,7 +2594,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.18', doc['extractor_version'])
+                self.assertEqual('1.0.19', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3431,6 +3431,119 @@ class P2F18RegressionTests(unittest.TestCase):
                 if inherited:
                     self.assertEqual('UNSUPPORTED_CONSTRUCT', inherited[0]['code'])
                     self.assertTrue(inherited[0]['provenance']['raw'].startswith('::'))
+
+
+class P2F19RegressionTests(unittest.TestCase):
+    SAFE = 'set("exits",(["north":"/a"]));'
+    INNER = 'set("exits",(["south":"/b"]))'
+    # Expectations describe authored calls, never evaluated expression results.
+    CASES = [
+        *[(field, 'set("exits",(["north":"/a"]));set("' + field + '",sizeof(set("exits",(["south":"/b"]))));', 0)
+          for field in ('short', 'name', 'long', 'indoors', 'outdoors', 'no_fight', 'no_clean_up', 'objects', 'foo')],
+        ('deep', SAFE + 'set("indoors",foo(bar(baz(' + INNER + '))));', 0),
+        ('conditional', SAFE + 'set("indoors",flag ? ' + INNER + ' : 1);', 0),
+        ('before', 'set("objects",' + INNER + ');' + SAFE, 0),
+        ('between', SAFE + 'set("objects",' + INNER + ');' + SAFE, 0),
+        ('mapping-inner', 'set("exits",(["north":"/a","south":' + INNER + ']));', 0),
+        ('computed-inner', SAFE + 'set("exits",compute(' + INNER + '));', 0),
+        ('generic-wrapper', SAFE + 'foo(' + INNER + ');', 0),
+        ('nested', SAFE + '{' + INNER + ';}', 0),
+        ('nested-deep', SAFE + '{{{' + INNER + ';}}}', 0),
+        ('nested-before', '{' + INNER + ';}' + SAFE, 0),
+        ('nested-between', SAFE + '{' + INNER + ';}' + SAFE, 0),
+        ('unrelated-flag', SAFE + 'set("indoors",sizeof(foo()));', 1),
+        ('unrelated-text', SAFE + 'set("short",some_dynamic_value);', 1),
+        ('comment', SAFE + 'set("indoors",foo(/* set("exits",x) */));', 1),
+        ('string', SAFE + r'set("short","set(\"exits\", x)");', 1),
+        ('character', SAFE + "set(\"indoors\",'(');", 1),
+        ('heredoc', SAFE + '\nset("long",@TEXT\nset("exits",x);\nTEXT\n);', 1),
+        ('echo', SAFE + '\n#echo set("exits",x);\n', 1),
+        ('single-flat', SAFE, 1),
+        ('two-flat', SAFE + SAFE, 2),
+        ('computed-flat', SAFE + 'set("exits",variable);', 0),
+        ('flat-delete', SAFE + 'delete("exits/e");', 0),
+    ]
+
+    def test_value_matrix_lf_crlf(self):
+        for name, body, expected in self.CASES:
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    raw = room(body).replace('\n', newline).encode()
+                    r, ff = extract(raw)
+                    self.assertEqual(expected, len(fields(r, 'exit')))
+                    self.assertNotEqual('QUARANTINED', r['status'])
+                    for f in r['facts'] + ff:
+                        p = f['provenance']
+                        self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                        self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+
+    def test_receiver_and_key_family(self):
+        for call in ('set("exits",x)', 'set("exits/e",x)', 'add("exits",x)',
+                     'add("exits/e",x)', 'delete("exits")', 'delete("exits/e")'):
+            for prefix in ('', '::', 'other->'):
+                with self.subTest(call=call, prefix=prefix):
+                    r, ff = extract(room(self.SAFE + 'set("objects",' + prefix + call + ');'))
+                    self.assertEqual(1 if prefix == 'other->' else 0, len(fields(r, 'exit')))
+                    inherited = [f for f in ff if 'Inherited-qualified exit call' in f['reason']]
+                    self.assertEqual(prefix == '::', bool(inherited))
+                    if inherited:
+                        self.assertTrue(inherited[0]['provenance']['raw'].startswith('::'))
+
+    def test_exact_registration_and_no_suppressed_fact_ids(self):
+        original = RoomExtractor.fact
+        def reject_exit(instance, field, *args, **kwargs):
+            self.assertNotEqual('exit', field)
+            return original(instance, field, *args, **kwargs)
+        text = room('set("short","independent");set("exits",(["north":"/a","south":' + self.INNER + ']));')
+        extractor = RoomExtractor(Source('d/probe.c', text.encode()), set(), {})
+        with patch.object(RoomExtractor, 'fact', reject_exit):
+            r, ff = extractor.extract()
+        outer = text.index('set("exits"')
+        inner = text.index('set("exits"', outer + 1)
+        self.assertEqual({outer}, extractor.flat_exit_setter_starts)
+        self.assertEqual({inner}, extractor.exit_uncertainty_call_starts)
+        self.assertEqual(['inherit', 'short'], [f['field'] for f in r['facts']])
+        self.assertEqual([], extractor.exit_candidates)
+
+    def test_finalizer_catches_calls_even_without_early_scanner(self):
+        for body in ('foo(' + self.INNER + ');', '{' + self.INNER + ';}',
+                     'set("indoors",sizeof(' + self.INNER + '));'):
+            with patch.object(RoomExtractor, 'unsupported_exit_mutations'):
+                r, ff = extract(room(self.SAFE + body))
+            self.assertEqual([], fields(r, 'exit'))
+            self.assertTrue(any('prevents reliable exit facts' in f['reason'] for f in ff))
+
+    def test_early_and_finalizer_findings_are_deduplicated(self):
+        for prefix in ('', '::'):
+            for call in (self.INNER, 'add("exits",x)', 'delete("exits/e")'):
+                r, ff = extract(room(self.SAFE + '{' + prefix + call + ';}'))
+                refusals = [f for f in ff if 'exit sequence uncertain' in f['reason']
+                            or 'prevents reliable exit facts' in f['reason']]
+                self.assertEqual(1, len(refusals))
+                self.assertEqual([], fields(r, 'exit'))
+
+    def test_flat_exits_keep_stable_authored_ids(self):
+        text = room(self.SAFE + self.SAFE)
+        r, ff = extract(text)
+        self.assertEqual(2, len(fields(r, 'exit')))
+        for f in fields(r, 'exit'):
+            p = f['provenance']
+            identity = f"d/test/room.c\0{hashlib.sha256(text.encode()).hexdigest()}\0exit\0{p['byte_start']}\0{p['byte_end_exclusive']}"
+            self.assertEqual(hashlib.sha256(identity.encode()).hexdigest(), f['fact_id'])
+        self.assertEqual((r, ff), extract(text))
+
+    def test_registration_does_not_override_mapping_or_environment(self):
+        for text in ('#define KEY "s"\n' + room(self.SAFE + 'set("exits",([KEY:"/b"]));'),
+                     room(self.SAFE + 'set("exits",variable);'),
+                     room(self.SAFE, 'void create(){set("exits",x);}\n'),
+                     room(self.SAFE, 'void set(string key,mixed value){}\n')):
+            r, _ = extract(text)
+            self.assertEqual([], fields(r, 'exit'))
+
+    def test_other_function_scopes_do_not_veto_create(self):
+        for name in ('reset', 'init', 'helper'):
+            r, _ = extract(room(self.SAFE, 'void ' + name + '(){' + self.INNER + ';}\n'))
+            self.assertEqual(1, len(fields(r, 'exit')))
 
 
 class RealSourceTests(unittest.TestCase):

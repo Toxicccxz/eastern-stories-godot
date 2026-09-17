@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.18'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18'}
+EXTRACTOR_VERSION = '1.0.19'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -674,6 +674,8 @@ class RoomExtractor:
         self.facts: list[dict] = []
         self.exit_candidates: list[tuple[dict, list[Token], dict | None]] = []
         self.exit_sequence_uncertain = False
+        self.flat_exit_setter_starts: set[int] = set()
+        self.exit_uncertainty_call_starts: set[int] = set()
         self.inherits: list[dict] = []
         self.scopes: dict[int, str] = {}
         self.declarations: Counter = Counter()
@@ -1183,6 +1185,7 @@ class RoomExtractor:
             self.finding(FindingCode.DUPLICATE_DECLARATION, 'Repeated setter retained in source order; no last-wins rule.', ts, 'create')
         self.declarations[field] += 1
         if field == 'exits':
+            self.flat_exit_setter_starts.add(ts[0].start)
             self.exits(args[1], hazards)
         elif field in FLAGS | TEXT_FIELDS:
             value = literal(args[1][0]) if len(args[1]) == 1 else None
@@ -1193,29 +1196,46 @@ class RoomExtractor:
         else:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Setter field is outside static-room-v1.', ts, 'create')
 
+    @staticmethod
+    def classify_exit_call(ts: list[Token], index: int) -> str | None:
+        """Classify bounded authored calls only; never evaluate receiver or value."""
+        token = ts[index]
+        if (index + 3 >= len(ts) or token.kind != 'identifier'
+                or token.text not in {'set', 'add', 'delete'} or ts[index + 1].text != '('):
+            return None
+        key = literal(ts[index + 2])
+        if (not key or key['kind'] != 'text' or ts[index + 3].text not in {',', ')'}
+                or not (key['value'] == 'exits' or key['value'].startswith('exits/'))):
+            return None
+        receiver = ts[index - 1].text if index else ''
+        if receiver == '->':
+            return 'cross-object'
+        if receiver == '::':
+            return 'inherited'
+        return 'local-whole-set' if token.text == 'set' and key['value'] == 'exits' else 'local-mutation'
+
+    def refuse_exit_call(self, ts: list[Token], index: int, kind: str, *, finalizer: bool = False) -> None:
+        self.exit_sequence_uncertain = True
+        start = ts[index].start
+        if start in self.exit_uncertainty_call_starts:
+            return
+        self.exit_uncertainty_call_starts.add(start)
+        if kind == 'inherited':
+            self.finding(FindingCode.UNSUPPORTED_CONSTRUCT,
+                         'Inherited-qualified exit call in an unsupported create region makes this exit sequence uncertain.',
+                         ts[index - 1:index + 3], 'create')
+        else:
+            reason = ('Unsupported create exit mutation prevents reliable exit facts from this sequence.'
+                      if finalizer else
+                      'Local exit mutation in an unsupported create region prevents reliable exit facts from this sequence.')
+            self.finding(FindingCode.ORDER_SENSITIVE_MUTATION, reason, ts[index:index + 3], 'create')
+
     def unsupported_exit_mutations(self, ts: list[Token]) -> None:
         """Veto authored exit calls in a skipped region, preserving receiver identity."""
-        for index, token in enumerate(ts[:-3]):
-            if (token.kind != 'identifier' or token.text not in {'set', 'add', 'delete'}
-                    or ts[index + 1].text != '('):
-                continue
-            receiver = ts[index - 1].text if index else ''
-            if receiver == '->':
-                continue
-            key = literal(ts[index + 2])
-            if (key and key['kind'] == 'text' and ts[index + 3].text in {',', ')'}
-                    and (key['value'] == 'exits' or key['value'].startswith('exits/'))):
-                self.exit_sequence_uncertain = True
-                if receiver == '::':
-                    # Inherited dispatch is not a direct local call or a call
-                    # on a different object. Do not resolve/execute its body.
-                    self.finding(FindingCode.UNSUPPORTED_CONSTRUCT,
-                                 'Inherited-qualified exit call in an unsupported create region makes this exit sequence uncertain.',
-                                 ts[index - 1:index + 3], 'create')
-                else:
-                    self.finding(FindingCode.ORDER_SENSITIVE_MUTATION,
-                                 'Local exit mutation in an unsupported create region prevents reliable exit facts from this sequence.',
-                                 ts[index:index + 3], 'create')
+        for index in range(len(ts)):
+            kind = self.classify_exit_call(ts, index)
+            if kind is not None and kind != 'cross-object':
+                self.refuse_exit_call(ts, index, kind)
 
     def mapping_preprocessing_use(self, ts: list[Token]) -> Token | None:
         """Actual authored use only; no replacement tokens or macro evaluation."""
@@ -1234,20 +1254,17 @@ class RoomExtractor:
     def commit_exit_facts(self) -> None:
         # Exit declarations are staged until the entire create sequence is known.
         # Never choose a last write or remove already-created fact identities.
-        for index, token in enumerate(self.tokens[:-2]):
-            if (self.scopes.get(index) != 'create' or token.kind != 'identifier'
-                    or token.text not in {'set', 'add', 'delete'}
-                    or self.tokens[index + 1].text != '('
-                    or index > 0 and self.tokens[index - 1].text in {'->', '::'}):
+        for index, token in enumerate(self.tokens):
+            if self.scopes.get(index) != 'create':
                 continue
-            key = literal(self.tokens[index + 2])
-            if (key and key['kind'] == 'text'
-                    and (key['value'].startswith('exits/')
-                         or key['value'] == 'exits' and token.text != 'set')):
-                self.exit_sequence_uncertain = True
-                self.finding(FindingCode.ORDER_SENSITIVE_MUTATION,
-                             'Unsupported create exit mutation prevents reliable exit facts from this sequence.',
-                             self.tokens[index:index + 3], 'create')
+            kind = self.classify_exit_call(self.tokens, index)
+            if kind is None or kind == 'cross-object':
+                continue
+            # Only this exact authored call was consumed by the flat declaration
+            # path. Its mapping still has to pass the existing reliability gates.
+            if kind == 'local-whole-set' and token.start in self.flat_exit_setter_starts:
+                continue
+            self.refuse_exit_call(self.tokens, index, kind, finalizer=True)
         if not self.exit_sequence_uncertain:
             for value, entry, normalization in self.exit_candidates:
                 self.fact('exit', value, entry, normalized=normalization)
