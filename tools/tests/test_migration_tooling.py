@@ -267,9 +267,10 @@ class ExitTests(unittest.TestCase):
     def test_local_callback_and_cross_object_exit_mutations(self):
         r, f = extract(room('set("exits", (["e": "/a"])); delete("exits/e");',
                             'void reset() { ob->set("exits/e", "b"); set("exits", variable); }'))
-        self.assertEqual(1, len(fields(r, 'exit')))
+        # P2F17: the unsupported create mutation suppresses this exit sequence.
+        self.assertEqual(0, len(fields(r, 'exit')))
         self.assertEqual('PARTIAL', r['status'])
-        self.assertEqual(3, sum(x['code'] == 'ORDER_SENSITIVE_MUTATION' for x in f))
+        self.assertEqual(4, sum(x['code'] == 'ORDER_SENSITIVE_MUTATION' for x in f))
 
     def test_multiple_exit_assignments_even_empty_first(self):
         _, f = extract(room('set("exits", ([])); set("exits", (["e": "/a"]));'))
@@ -415,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.16', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.17', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.16', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.17', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2593,7 +2594,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.16', doc['extractor_version'])
+                self.assertEqual('1.0.17', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3159,6 +3160,156 @@ class P2F16RegressionTests(unittest.TestCase):
         with patch.object(RoomExtractor, 'create_tail_uncertain_use', side_effect=AssertionError('must stay lazy')):
             self.check(room(''), {}, 'EXTRACTED')
             self.check(room('set("short","x");'), {}, 'EXTRACTED')
+
+
+class P2F17RegressionTests(unittest.TestCase):
+    # Handwritten source and contract counts, never generated expected output.
+    CASES = [
+        ('key-alias', '#define K KEY\n#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", K:"/b"]));}\n', {}, 0),
+        ('key-function', '#define KEY() "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY():"/b"]));}\n', {}, 0),
+        ('key-parameter', '#define KEY(x) x\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY("north"):"/b"]));}\n', {}, 0),
+        ('key-header', '#include "defs.h"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY:"/b"]));}\n', {'d/defs.h': '#define KEY "north"\n'}, 0),
+        ('key-nested', '#include "outer.h"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY:"/b"]));}\n', {'d/outer.h': '#include "inner.h"\n', 'd/inner.h': '#define KEY "north"\n'}, 0),
+        ('key-standard', '#include <defs.h>\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY:"/b"]));}\n', {'include/defs.h': '#define KEY "north"\n'}, 0),
+        ('key-cross-header', '#include "a.h"\n#include "b.h"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", K:"/b"]));}\n', {'d/a.h': '#define K KEY\n', 'd/b.h': '#define KEY "north"\n'}, 0),
+        ('key-before-literal', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",([KEY:"/b", "north":"/a"]));}\n', {}, 0),
+        ('key-between-literals', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY:"/b", "east":"/e"]));}\n', {}, 0),
+        ('key-only', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",([KEY:"/b"]));}\n', {}, 0),
+        ('value-after-literal', '#define TARGET "/b"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":TARGET]));}\n', {}, 0),
+        ('value-before-literal', '#define TARGET "/b"\ninherit ROOM;\nvoid create(){set("exits",(["south":TARGET, "north":"/a"]));}\n', {}, 0),
+        ('value-function', '#define TARGET() "/b"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":TARGET()]));}\n', {}, 0),
+        ('empty-value-prefix', '#define EMPTY\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":EMPTY "/b"]));}\n', {}, 0),
+        ('entry-suffix', '#define SUFFIX\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b" SUFFIX]));}\n', {}, 0),
+        ('literal-equivalent', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 2),
+        ('whole-entry-object', '#define ENTRY "south":"/b"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", ENTRY]));}\n', {}, 0),
+        ('whole-entry-function', '#define ENTRY() "south":"/b"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", ENTRY()]));}\n', {}, 0),
+        ('comma-object', '#define COMMA ,\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a" COMMA "south":"/b"]));}\n', {}, 0),
+        ('comma-function', '#define COMMA() ,\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a" COMMA() "south":"/b"]));}\n', {}, 0),
+        ('colon-object', '#define COLON :\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south" COLON "/b"]));}\n', {}, 0),
+        ('colon-alias', '#define C COLON\n#define COLON :\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south" C "/b"]));}\n', {}, 0),
+        ('raw-entry', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",\n#include "entry.h"\n]));}\n', {'d/entry.h': '"south":"/b"\n'}, 0),
+        ('raw-comma', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a"\n#include "comma.h"\n"south":"/b"]));}\n', {'d/comma.h': ',\n'}, 0),
+        ('raw-key', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",\n#include "key.h"\n:"/b"]));}\n', {'d/key.h': '"south"\n'}, 0),
+        ('raw-value', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":\n#include "value.h"\n]));}\n', {'d/value.h': '"/b"\n'}, 0),
+        ('raw-colon', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south"\n#include "colon.h"\n"/b"]));}\n', {'d/colon.h': ':\n'}, 0),
+        ('raw-nested-entry', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",\n#include "outer.h"\n]));}\n', {'d/outer.h': '#include "inner.h"\n', 'd/inner.h': '"south":"/b"\n'}, 0),
+        ('raw-standard-entry', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",\n#include <entry.h>\n]));}\n', {'include/entry.h': '"south":"/b"\n'}, 0),
+        ('missing-include', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",\n#include "missing.h"\n]));}\n', {}, 0),
+        ('empty-function-fragment', '#define DROP(x)\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":DROP(:)"/b"]));}\n', {}, 0),
+        ('empty-middle', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",,"south":"/b"]));}\n', {}, -1),
+        ('missing-colon', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south" "/b"]));}\n', {}, -1),
+        ('empty-key', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", :"/b"]));}\n', {}, -1),
+        ('empty-value', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":]));}\n', {}, -1),
+        ('missing-comma', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a" "south":"/b"]));}\n', {}, 0),
+        ('unfinished-entry', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south"]));}\n', {}, -1),
+        ('unused-structural', '#define UNUSED ,\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a",,"south":"/b"]));}\n', {}, -1),
+        ('unreferenced-header', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a",,"south":"/b"]));}\n', {'d/unused.h': ',\n'}, -1),
+        ('neutral-cannot-repair', '#define VALUE "/b"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a",,"south":VALUE]));}\n', {}, -1),
+        ('unrelated-include', '#include "safe.h"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a",,"south":"/b"]));}\n', {'d/safe.h': '#define UNUSED 1\n'}, -1),
+        ('primary-formatted', '#define KEY "north"\ninherit ROOM;\nvoid create(){\n    set("exits", ([\n        "north": "/a",\n        KEY: "/b"\n    ]));\n}\n', {}, 0),
+        ('complete-control', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 2),
+        ('runtime-scope', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", runtime_key:"/b"]));}\n', {}, 1),
+        ('conditional-scope', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", flag ? "n" : "s":"/b"]));}\n', {}, 1),
+        ('uninvoked-scope', '#define KEY() "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY:"/b"]));}\n', {}, 1),
+        ('unused-definition', '#define UNUSED ,\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 2),
+        ('unreferenced-header', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));}\n', {'d/unused.h': ',\n'}, 2),
+        ('unrelated-directive', 'inherit ROOM;\nvoid create(){\n#pragma strict_types\nset("exits",(["north":"/a", "south":"/b"]));}\n', {}, 2),
+        ('unused-header-definition', '#include "key.h"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));}\n', {'d/key.h': '#define KEY "north"\n'}, 2),
+        ('duplicate-literal', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a","north":"/b"]));}\n', {}, 2),
+        ('normalized-literal', 'inherit ROOM;\nvoid create(){set("exits",(["north":__DIR__+"a","south":__DIR__"b"]));}\n', {}, 2),
+        ('normalized-uncertain', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":__DIR__+"a",KEY:"/b"]));}\n', {}, 0),
+        ('independent-short', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("short","room");set("exits",(["north":"/a", KEY:"/b"]));}\n', {}, 0),
+        ('reliable-then-uncertain', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));set("exits",(["north":"/a", KEY:"/b"]));}\n', {}, 0),
+        ('uncertain-then-reliable', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",(["north":"/a", KEY:"/b"]));set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 0),
+        ('both-reliable', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 4),
+        ('add-before', 'inherit ROOM;\nvoid create(){add("exits",(["west":"/c"]));set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 0),
+        ('add-after', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));add("exits",(["west":"/c"]));}\n', {}, 0),
+        ('delete-before', 'inherit ROOM;\nvoid create(){delete("exits");set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 0),
+        ('delete-after', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));delete("exits");}\n', {}, 0),
+        ('nested-key-before', 'inherit ROOM;\nvoid create(){set("exits/west","/c");set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 0),
+        ('nested-key-after', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));set("exits/west","/c");}\n', {}, 0),
+        ('delete-path-before', 'inherit ROOM;\nvoid create(){delete("exits/west");set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 0),
+        ('delete-path-after', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));delete("exits/west");}\n', {}, 0),
+        ('computed-before', 'inherit ROOM;\nvoid create(){set("exits",runtime_map);set("exits",(["north":"/a", "south":"/b"]));}\n', {}, 0),
+        ('computed-after', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));set("exits",runtime_map);}\n', {}, 0),
+        ('other-field-mutation', 'inherit ROOM;\nvoid create(){set("exits",(["north":"/a", "south":"/b"]));add("counter",1);delete("counter");}\n', {}, 2),
+        ('value-header', '#include "target.h"\ninherit ROOM;\nvoid create(){set("exits",(["n":"/a","s":TARGET]));}\n', {'d/target.h': '#define TARGET "/b"\n'}, 0),
+        ('value-alias', '#define TARGET VALUE\n#define VALUE "/b"\ninherit ROOM;\nvoid create(){set("exits",(["n":"/a","s":TARGET]));}\n', {}, 0),
+        ('empty-alias', '#define EMPTY NOTHING\n#define NOTHING\ninherit ROOM;\nvoid create(){set("exits",(["n":"/a","s":EMPTY "/b"]));}\n', {}, 0),
+        ('empty-header', '#include "empty.h"\ninherit ROOM;\nvoid create(){set("exits",(["n":"/a","s":"/b" EMPTY]));}\n', {'d/empty.h': '#define EMPTY\n'}, 0),
+        ('function-whitespace', '#define KEY() "s"\ninherit ROOM;\nvoid create(){set("exits",(["n":"/a",KEY /* gap */ ():"/b"]));}\n', {}, 0),
+        ('opaque-macro-string', '#define KEY "north"\ninherit ROOM;\nvoid create(){set("exits",(["KEY":"/KEY"]));}\n', {}, 1),
+        ('unknown-directive', 'inherit ROOM;\nvoid create(){set("exits",(["n":"/a",\n#unknown mapping\n"s":"/b"]));}\n', {}, 0),
+        ('neutral-macro-real-defect', '#define TARGET "/a"\ninherit ROOM;\nvoid create(){set("exits",(["n":TARGET,,"s":"/b"]));}\n', {}, -1),
+    ]
+
+    def test_mapping_fact_safety_matrix(self):
+        for name, text, headers, expected in self.CASES:
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    raw = text.replace('\n', newline).encode()
+                    deps = {p: Source(p, h.replace('\n', newline).encode()) for p, h in headers.items()}
+                    r, ff = extract(raw, path='d/probe.c', dependencies=deps)
+                    self.assertEqual(max(0, expected), len(fields(r, 'exit')))
+                    self.assertEqual(expected == -1, r['status'] == 'QUARANTINED')
+                    if expected == -1:
+                        self.assertEqual([], r['facts'])
+                        self.assertIn('SOURCE_SYNTAX_ERROR', codes(ff))
+                    else:
+                        self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(ff))
+                    for f in ff + r['facts']:
+                        p = f['provenance']
+                        self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                        self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+                        self.assertEqual('UNREVIEWED', f['review_state'])
+
+    def test_no_exit_fact_is_created_before_refusal(self):
+        for entries in ('KEY:"/b", "north":"/a"', '"north":"/a", KEY:"/b"',
+                        '"north":"/a", KEY:"/b", "east":"/c"'):
+            text = '#define KEY "south"\n' + room('set("short","room");set("exits",(['+entries+']));')
+            original = RoomExtractor.fact
+            def reject_exit(instance, field, *args, **kwargs):
+                self.assertNotEqual('exit', field)
+                return original(instance, field, *args, **kwargs)
+            with patch.object(RoomExtractor, 'fact', reject_exit):
+                r, ff = extract(text)
+            self.assertEqual(['inherit', 'short'], [f['field'] for f in r['facts']])
+            finding = next(f for f in ff if 'Actual preprocessing use makes this exit mapping' in f['reason'])
+            self.assertEqual('KEY', finding['provenance']['raw'])
+            self.assertTrue(finding['prevents_supported_consumption'])
+
+    def test_reliable_order_identity_normalization_and_duplicates(self):
+        text = room('set("exits",(["n":"/a","n":"/b","s":__DIR__+"c"]));')
+        r, ff = extract(text)
+        exits = fields(r, 'exit')
+        self.assertEqual(['n', 'n', 's'], [f['value']['direction'] for f in exits])
+        self.assertIn('DUPLICATE_DECLARATION', codes(ff))
+        self.assertEqual('STATIC_NORMALIZED', exits[-1]['classification'])
+        for f in exits:
+            p = f['provenance']
+            identity = f"d/test/room.c\0{hashlib.sha256(text.encode()).hexdigest()}\0exit\0{p['byte_start']}\0{p['byte_end_exclusive']}"
+            self.assertEqual(hashlib.sha256(identity.encode()).hexdigest(), f['fact_id'])
+        self.assertEqual((r, ff), extract(text))
+
+    def test_uninvoked_and_runtime_dynamic_scope(self):
+        for prefix, key in (('', 'runtime_key'), ('', 'flag ? "n" : "s"'), ('#define KEY() "s"\n', 'KEY')):
+            r, ff = extract(prefix+room('set("exits",(["n":"/a",'+key+':"/b"]));'))
+            self.assertEqual(1, len(fields(r, 'exit')))
+            self.assertFalse(any('Actual preprocessing use makes this exit mapping' in f['reason'] for f in ff))
+
+    def test_mutation_sequence_preserves_independent_facts(self):
+        for mutation in ('add("exits",(["w":"/c"]));', 'delete("exits");', 'set("exits/w","/c");'):
+            for before in (True, False):
+                mapping = 'set("exits",(["n":"/a"]));'
+                r, ff = extract(room('set("short","room");'+(mutation+mapping if before else mapping+mutation)))
+                self.assertEqual(['inherit', 'short'], [f['field'] for f in r['facts']])
+                self.assertIn('ORDER_SENSITIVE_MUTATION', codes(ff))
+
+    def test_callback_mutations_remain_review_dependencies(self):
+        r, ff = extract(room('set("exits",(["n":"/a"]));',
+                             'void reset(){delete("exits/n");ob->set("exits",other);}'))
+        self.assertEqual(1, len(fields(r, 'exit')))
+        self.assertEqual(2, sum(f['code'] == 'ORDER_SENSITIVE_MUTATION' for f in ff))
 
 
 class RealSourceTests(unittest.TestCase):

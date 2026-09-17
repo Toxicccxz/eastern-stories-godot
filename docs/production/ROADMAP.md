@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F16 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F17 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -386,8 +386,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     actual empty macro uses at create tails were falsely quarantined as unfinished runtime statements.
     [P2F16](../migration/MIGRATION_TOOLING_V1_P2F16_PREPROCESSOR_SENSITIVE_CREATE_TAIL_COMPLETION.md)
     adds bounded tail-specific macro classification while retaining genuine unfinished-runtime quarantine.
-    P2F16 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    P2F16 is CLOSED. Final Re-Audit after P2F16 was BLOCKED on FR16-01 / HIGH / mapping fact-safety:
+    literal exit facts survived inside preprocessing-uncertain mappings.
+    [P2F17](../migration/MIGRATION_TOOLING_V1_P2F17_PREPROCESSOR_UNCERTAIN_EXIT_MAPPING_FACT_SAFETY.md)
+    stages exit candidates and suppresses unreliable exit sequences while preserving independent facts.
+    P2F17 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
     The systematic quarantine-path audit and mapping category-C challenges remain for that complete Final Re-Audit.
-    ARCHIVE-01 remains CLOSED; all five FR11/FR12/FR13/FR14/FR15 blocked reports remain owner-local/untracked/byte-identical.
+    ARCHIVE-01 remains CLOSED; all six FR11/FR12/FR13/FR14/FR15/FR16 blocked reports remain owner-local/untracked/byte-identical.
     No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.16'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'}
+EXTRACTOR_VERSION = '1.0.17'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -672,6 +672,8 @@ class RoomExtractor:
         self.tokens: list[Token] = []
         self.findings: list[dict] = []
         self.facts: list[dict] = []
+        self.exit_candidates: list[tuple[dict, list[Token], dict | None]] = []
+        self.exit_sequence_uncertain = False
         self.inherits: list[dict] = []
         self.scopes: dict[int, str] = {}
         self.declarations: Counter = Counter()
@@ -1055,6 +1057,7 @@ class RoomExtractor:
                 self.create_body(ts[opening + 1:end], hazards)
         if not create_functions:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'No unambiguous create() body.', ts[:1])
+        self.commit_exit_facts()
         self.dynamic_findings()
         if any(f['prevents_supported_consumption'] for f in self.findings):
             self.record['status'] = 'PARTIAL'
@@ -1186,11 +1189,53 @@ class RoomExtractor:
         else:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Setter field is outside static-room-v1.', ts, 'create')
 
+    def mapping_preprocessing_use(self, ts: list[Token]) -> Token | None:
+        """Actual authored use only; no replacement tokens or macro evaluation."""
+        macros, _, _, _ = self.macro_context(self.tokens)
+        for index, token in enumerate(ts):
+            if token.kind == 'directive':
+                return token
+            if token.kind != 'identifier':
+                continue
+            invoked = index + 1 < len(ts) and ts[index + 1].text == '('
+            if any(not function_like or invoked
+                   for function_like, _ in macros.definitions.get(token.text, [])):
+                return token
+        return None
+
+    def commit_exit_facts(self) -> None:
+        # Exit declarations are staged until the entire create sequence is known.
+        # Never choose a last write or remove already-created fact identities.
+        for index, token in enumerate(self.tokens[:-2]):
+            if (self.scopes.get(index) != 'create' or token.kind != 'identifier'
+                    or token.text not in {'set', 'add', 'delete'}
+                    or self.tokens[index + 1].text != '('):
+                continue
+            key = literal(self.tokens[index + 2])
+            if (key and key['kind'] == 'text'
+                    and (key['value'].startswith('exits/')
+                         or key['value'] == 'exits' and token.text != 'set')):
+                self.exit_sequence_uncertain = True
+                self.finding(FindingCode.ORDER_SENSITIVE_MUTATION,
+                             'Unsupported create exit mutation prevents reliable exit facts from this sequence.',
+                             self.tokens[index:index + 3], 'create')
+        if not self.exit_sequence_uncertain:
+            for value, entry, normalization in self.exit_candidates:
+                self.fact('exit', value, entry, normalized=normalization)
+        self.exit_candidates.clear()
+
     def exits(self, ts: list[Token], hazards: set[str]) -> None:
+        use = self.mapping_preprocessing_use(ts)
+        if use is not None:
+            self.exit_sequence_uncertain = True
+            self.finding(FindingCode.DYNAMIC_EXPRESSION,
+                         'Actual preprocessing use makes this exit mapping uncertain; no exit facts from the create exit sequence are emitted.',
+                         [use], 'create')
         matching = pairs(ts)
         if (len(ts) < 4 or [t.text for t in ts[:2]] != ['(', '[']
                 or matching.get(0) != len(ts) - 1 or matching.get(1) != len(ts) - 2):
             self.finding(FindingCode.DYNAMIC_EXPRESSION, 'Exit mapping is computed, not a literal mapping.', ts, 'create')
+            self.exit_sequence_uncertain = True
             return
         seen: set[str] = set()
         entries = split_at(ts[2:-2], ',')
@@ -1236,7 +1281,7 @@ class RoomExtractor:
                           'direction_raw': self.source.data[key[0].start:key[-1].end].decode('utf-8'),
                           'target_raw': self.source.data[target[0].start:target[-1].end].decode('utf-8'),
                           'reference': resolved}
-            self.fact('exit', exit_value, entry, normalized=normalization)
+            self.exit_candidates.append((exit_value, entry, normalization))
             if resolved['status'] != 'EXISTS':
                 self.finding(FindingCode.UNRESOLVED_REFERENCE, 'Authored target is missing, case-ambiguous or not a safe absolute source path.', entry, 'create')
 
