@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.14'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14'}
+EXTRACTOR_VERSION = '1.0.15'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -905,7 +905,16 @@ class RoomExtractor:
                         break
                     end += 1
                 if end == len(ts) or ts[end].text != ';':
-                    uncertain = self.inherit_boundary_uncertain(ts[i + 1:end])
+                    # A candidate boundary is not yet a trusted boundary: its
+                    # leading identifier may itself be an actual macro use.
+                    # Preserve that authored use and invocation marker for the
+                    # existing uncertainty analysis, never the following body.
+                    pending_end = end
+                    if end < len(ts) and ts[end].kind == 'identifier':
+                        pending_end += 1
+                        if pending_end < len(ts) and ts[pending_end].text == '(':
+                            pending_end += 1
+                    uncertain = self.inherit_boundary_uncertain(ts[i + 1:pending_end])
                     if uncertain is not None:
                         use, unresolved = uncertain
                         self.inherits.clear()

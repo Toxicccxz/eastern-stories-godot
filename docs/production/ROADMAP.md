@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F14 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F15 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -378,7 +378,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     preprocessor-supplied inherit terminators were falsely quarantined before declaration-boundary analysis.
     [P2F14](../migration/MIGRATION_TOOLING_V1_P2F14_PREPROCESSOR_INHERIT_DECLARATION_BOUNDARY.md) adds
     declaration-scoped conservative refusal before fact emission, preserving true unterminated-inherit detection.
-    P2F14 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-    ARCHIVE-01 remains CLOSED; all three FR11/FR12/FR13 blocked reports remain owner-local/untracked/byte-identical.
+    P2F14 is CLOSED. Final Re-Audit after P2F14 was BLOCKED on FR14-01 / blocking MEDIUM / D9:
+    apparent declaration/function boundaries discarded actual preprocessing-sensitive pending-inherit uses.
+    [P2F15](../migration/MIGRATION_TOOLING_V1_P2F15_PREPROCESSOR_SENSITIVE_PENDING_INHERIT_BOUNDARY.md)
+    preserves that boundary evidence before uncertainty analysis; true authored boundary errors remain detected.
+    P2F15 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    The create-tail empty-macro observation remains UNCONFIRMED / NOT YET NUMBERED / NOT FIXED.
+    ARCHIVE-01 remains CLOSED; all four FR11/FR12/FR13/FR14 blocked reports remain owner-local/untracked/byte-identical.
     No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.
