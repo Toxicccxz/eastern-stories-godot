@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.13', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.14', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.13', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.14', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2593,7 +2593,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.13', doc['extractor_version'])
+                self.assertEqual('1.0.14', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -2790,6 +2790,136 @@ class P2F13RegressionTests(unittest.TestCase):
     def test_original_fr12_reproducer_real_cli(self):
         self.check('inherit ROOM;\nvoid create()\n#include "open.h"\n    set("short", "x");\n}\n',
                    {'d/open.h':'{\n'}, anchor='#include "open.h"\n', real_cli=True)
+
+
+
+class P2F14RegressionTests(unittest.TestCase):
+    # Independently authored inputs/expectations, never extractor-generated.
+    CASES = [
+        ('include-function-invocation', '#define END() ;\ninherit ROOM\n#include "tail.h"\n', {'d/tail.h': 'END()\n'}, 'OUT_OF_SCOPE'),
+        ('include-neutral-invocation', '#define END() 1\ninherit ROOM\n#include "tail.h"\n', {'d/tail.h': 'END()\n'}, 'QUARANTINED'),
+        ('direct', 'inherit ROOM\n#include "semi.h"\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('at-eof', 'inherit ROOM\n#include "semi.h"\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('nested', 'inherit ROOM\n#include "outer.h"\nvoid create() {}\n', {'d/outer.h': '#include "semi.h"\n', 'd/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('standard', 'inherit ROOM\n#include <semi.h>\nvoid create() {}\n', {'include/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('safe-sibling', '#include "safe.h"\ninherit ROOM\n#include "semi.h"\nvoid create() {}\n', {'d/safe.h': 'int helper() { return 1; }\n', 'd/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('literal-base', 'inherit "/std/room"\n#include "semi.h"\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('whole-expression', 'inherit\n#include "base.h"\nvoid create() {}\n', {'d/base.h': 'ROOM;\n'}, 'OUT_OF_SCOPE'),
+        ('macro-object', '#define END ;\ninherit ROOM END\nvoid create() {}\n', {}, 'OUT_OF_SCOPE'),
+        ('macro-alias', '#define END ;\n#define FIN END\ninherit ROOM FIN\nvoid create() {}\n', {}, 'OUT_OF_SCOPE'),
+        ('macro-function', '#define END() ;\ninherit ROOM END()\nvoid create() {}\n', {}, 'OUT_OF_SCOPE'),
+        ('macro-header', '#include "macros.h"\ninherit ROOM END\nvoid create() {}\n', {'d/macros.h': '#define END ;\n'}, 'OUT_OF_SCOPE'),
+        ('literal', 'inherit ROOM;\nvoid create() {}\n', {}, 'EXTRACTED'),
+        ('literal-fact', 'inherit ROOM;\nvoid create() { set("short", "x"); }\n', {}, 'EXTRACTED'),
+        ('missing-terminator', 'inherit ROOM\nvoid create() {}\n', {}, 'QUARANTINED'),
+        ('empty-include', 'inherit ROOM\n#include "empty.h"\nvoid create() {}\n', {'d/empty.h': ''}, 'QUARANTINED'),
+        ('safe-include', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'int helper() { return 1; }\n'}, 'QUARANTINED'),
+        ('unused-macro', '#define END ;\ninherit ROOM\nvoid create() {}\n', {}, 'QUARANTINED'),
+        ('neutral-used-macro', '#define BASE ROOM\ninherit BASE\nvoid create() {}\n', {}, 'QUARANTINED'),
+        ('unreferenced-header', 'inherit ROOM\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'QUARANTINED'),
+        ('missing-include', 'inherit ROOM\n#include "missing.h"\nvoid create() {}\n', {}, 'OUT_OF_SCOPE'),
+        ('whole-literal', 'inherit\n#include "base.h"\nvoid create() {}\n', {'d/base.h': '"/std/room";\n'}, 'OUT_OF_SCOPE'),
+        ('suffix', 'inherit "/std/"\n#include "tail.h"\n', {'d/tail.h': '+ "room";\n'}, 'OUT_OF_SCOPE'),
+        ('unrelated-missing', '#include "missing.h"\ninherit ROOM\nvoid create() {}\n', {}, 'QUARANTINED'),
+        ('unrelated-terminator', '#include "semi.h"\ninherit ROOM\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'QUARANTINED'),
+        ('safe-data', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'int x;\n'}, 'QUARANTINED'),
+        ('untyped-helper', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'helper(){return 1;}\n'}, 'QUARANTINED'),
+        ('missing-nested', 'inherit ROOM\n#include "outer.h"\n', {'d/outer.h': '#include "missing.h"\n'}, 'OUT_OF_SCOPE'),
+        ('missing-standard', 'inherit ROOM\n#include <missing.h>\n', {}, 'OUT_OF_SCOPE'),
+        ('include-macro-path', 'inherit ROOM\n#include UNKNOWN\n', {}, 'OUT_OF_SCOPE'),
+        ('cross-header', '#include "a.h"\n#include "b.h"\ninherit ROOM END\n', {'d/a.h': '#define END FIN\n', 'd/b.h': '#define FIN ;\n'}, 'OUT_OF_SCOPE'),
+        ('cycle', '#define END FIN\n#define FIN END\ninherit ROOM END\n', {}, 'OUT_OF_SCOPE'),
+        ('competing', '#define END 1\n#define END 2\ninherit ROOM END\n', {}, 'OUT_OF_SCOPE'),
+        ('paste', '#define END A ## B\ninherit ROOM END\n', {}, 'OUT_OF_SCOPE'),
+        ('invalid-function', '#define END(x ;\ninherit ROOM END()\n', {}, 'OUT_OF_SCOPE'),
+        ('parameter', '#define END(x) x\ninherit ROOM END(1)\n', {}, 'OUT_OF_SCOPE'),
+        ('neutral-number', '#define V 1\ninherit ROOM V\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('neutral-function', '#define V() 1\ninherit ROOM V()\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('uninvoked-function', '#define V() ;\ninherit ROOM V\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('later-macro', '#define END ;\ninherit ROOM\nvoid create(){END}\n', {}, 'QUARANTINED'),
+        ('later-untyped-macro', '#define END ;\ninherit ROOM\ncreate(){END}\n', {}, 'QUARANTINED'),
+        ('later-include', 'inherit ROOM\nvoid create(){\n#include "semi.h"\n}\n', {'d/semi.h': ';\n'}, 'QUARANTINED'),
+        ('unused-define-at-boundary', 'inherit ROOM\n#define END ;\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('raw-echo', 'inherit ROOM\n#echo ; raw "\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('pragma', 'inherit ROOM\n#pragma strict_types\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('undef', 'inherit ROOM\n#undef END\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('later-authored-semicolon', 'inherit ROOM\nvoid create(){set("short","x");}\n', {}, 'QUARANTINED'),
+        ('include-before-later-authored-semicolon', 'inherit ROOM\n#include "semi.h"\nvoid create(){set("short","x");}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('uncertain-second', 'inherit ROOM;\ninherit ROOM\n#include "semi.h"\nvoid create(){}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+        ('uncertain-first', 'inherit ROOM\n#include "semi.h"\ninherit ROOM;\nvoid create(){}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
+    ]
+
+    def check(self, text, headers, status):
+        for newline in ('\n', '\r\n'):
+            raw = text.replace('\n', newline).encode()
+            deps = {p: Source(p, h.replace('\n', newline).encode()) for p, h in headers.items()}
+            record, findings = extract(raw, path='d/probe.c', dependencies=deps)
+            with self.subTest(newline=repr(newline), text=text):
+                self.assertEqual(status, record['status'])
+                if status == 'OUT_OF_SCOPE':
+                    self.assertFalse(record['supported_candidate'])
+                    self.assertEqual([], record['facts'])
+                    self.assertEqual([], record['direct_inherits'])
+                    self.assertEqual([], record['category_candidates'])
+                    self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+                    self.assertIn('DRIVER_SEMANTICS_UNKNOWN', codes(findings))
+                elif status == 'QUARANTINED':
+                    self.assertEqual([], record['facts'])
+                    error = next(f for f in findings if f['code'] == 'SOURCE_SYNTAX_ERROR')
+                    self.assertEqual('unterminated inherit', error['reason'])
+                    self.assertEqual('inherit', error['provenance']['raw'])
+                for f in findings + record['facts']:
+                    p = f['provenance']
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+        return record, findings
+
+    def test_pending_declaration_matrix(self):
+        for name, text, headers, status in self.CASES:
+            with self.subTest(case=name): self.check(text, headers, status)
+
+    def test_long_alias_chain(self):
+        defs = ''.join(f'#define A{i} A{i+1}\n' for i in range(1100))+'#define A1100 ;\n'
+        self.check(defs+'inherit ROOM A0\n', {}, 'OUT_OF_SCOPE')
+
+    def test_finding_anchors(self):
+        for text, headers, anchor in [
+            ('inherit ROOM\n#include "a.h"\n', {'d/a.h':'#include "nested/semi.h"\n','d/nested/semi.h':';'}, '#include "a.h"\n'),
+            ('inherit ROOM\n#include "missing.h"\n', {}, '#include "missing.h"\n'),
+            ('#define END ;\ninherit ROOM END\n', {}, 'END'),
+        ]:
+            _, ff = self.check(text, headers, 'OUT_OF_SCOPE')
+            self.assertTrue(all(f['provenance']['raw'].replace('\r\n','\n') == anchor for f in ff))
+
+    def test_missing_dependency_finding(self):
+        _, ff = self.check('inherit ROOM\n#include "missing.h"\n', {}, 'OUT_OF_SCOPE')
+        self.assertIn('UNRESOLVED_INCLUDE', codes(ff))
+
+    def test_multiple_authored_inherits(self):
+        r, _ = extract('inherit ROOM; inherit "/custom/base"; void create(){}')
+        self.assertEqual('PARTIAL', r['status']); self.assertEqual(2, len(fields(r, 'inherit')))
+
+    def test_authored_valid_path_is_lazy(self):
+        with patch.object(RoomExtractor, 'inherit_boundary_uncertain', side_effect=AssertionError('must stay lazy')):
+            self.check('inherit ROOM;\nvoid create(){}', {}, 'EXTRACTED')
+            r, _ = self.check(room('set("short","x");'), {}, 'EXTRACTED')
+            self.assertEqual('x', fields(r, 'short')[0]['value']['value'])
+
+    def test_existing_exclusions(self):
+        for base in ('NPC', 'ITEM', 'BANK', 'HOCKSHOP', '"/std/weapon/sword"', '"/std/armor/boots"'):
+            r, _ = extract(f'inherit ROOM; inherit {base}; void create(){{}}')
+            self.assertFalse(r['supported_candidate']); self.assertEqual([], r['facts'])
+
+    def test_header_fragments(self):
+        for fragment in (';', 'ROOM;', '{', '}', '(', ')', '[', ']', 'inherit ROOM'):
+            r, ff = RoomExtractor(Source('include/x.h', fragment.encode()), set(), {}).extract(header=True)
+            self.assertEqual('OUT_OF_SCOPE', r['status']); self.assertEqual([], r['facts'])
+            self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(ff))
+
+    def test_header_corruption(self):
+        for raw in (b'\xff', b'\0', b'"unfinished', b'/* unfinished', b'@TEXT\nunfinished'):
+            r, _ = RoomExtractor(Source('include/x.h', raw), set(), {}).extract(header=True)
+            self.assertEqual('QUARANTINED', r['status']); self.assertEqual([], r['facts'])
 
 
 class RealSourceTests(unittest.TestCase):

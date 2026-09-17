@@ -31,8 +31,13 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.13'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13'}
+# Authored declaration starters bound a pending inherit; later bodies are not
+# evidence for its missing terminator. This is not an LPC grammar.
+DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
+                       'float', 'status', 'static', 'private', 'protected', 'public',
+                       'nomask', 'varargs', 'nosave'}
+EXTRACTOR_VERSION = '1.0.14'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -205,6 +210,43 @@ class MacroSummary:
                     edges[node].add(dependency)
                     pending.append(dependency)
         # The same bounded cycle policy as reach(); no recursive expansion.
+        remaining = set(edges)
+        while remaining:
+            leaves = {node for node in remaining if not edges[node] & remaining}
+            if not leaves:
+                return True
+            remaining -= leaves
+        return False
+
+    def inherit_boundary_uncertain(self, name: str, invoked: bool) -> bool:
+        """Summarize an actual declaration use; never expand a replacement.
+
+        Only empty/single-atom replacements and their alias dependencies prove
+        neutrality here. Uninvoked function macros contribute no replacement.
+        """
+        edges: dict[tuple[str, bool], set[tuple[str, bool]]] = {}
+        pending = [(name, invoked)]
+        while pending:
+            current, called = node = pending.pop()
+            if node in edges:
+                continue
+            edges[node] = set()
+            definitions = [(f, r) for f, r in self.definitions.get(current, []) if not f or called]
+            shapes = {(f, tuple((t.kind, t.text) for t in r)) for f, r in definitions}
+            if definitions and (len(shapes) > 1 or current in self.invalid):
+                return True
+            for function_like, replacement in definitions:
+                if not replacement:
+                    continue
+                if len(replacement) != 1 or replacement[0].kind not in {'identifier', 'number', 'string', 'character'}:
+                    return True
+                token = replacement[0]
+                if token.kind == 'identifier':
+                    if function_like and token.text in self.parameters.get(current, set()):
+                        return True
+                    dependency = (token.text, called)
+                    edges[node].add(dependency)
+                    pending.append(dependency)
         remaining = set(edges)
         while remaining:
             leaves = {node for node in remaining if not edges[node] & remaining}
@@ -789,6 +831,52 @@ class RoomExtractor:
             self.record['finding_ids'].append(finding['finding_id'])
         return self.record, self.findings
 
+    def inherit_boundary_uncertain(self, pending: list[Token]) -> tuple[Token, bool] | None:
+        """Inspect only preprocessing participating in this pending declaration.
+
+        Reuse compilation-context macros, but resolve each participating include
+        through the existing traversal separately so unrelated units cannot waive
+        an error. Units remain separate authored token lists throughout.
+        """
+        macros, _, _, _ = self.macro_context(self.tokens)
+
+        def macro_use(tokens: list[Token]) -> Token | None:
+            for index, token in enumerate(tokens):
+                invoked = index + 1 < len(tokens) and tokens[index + 1].text == '('
+                if (token.kind == 'identifier' and token.text in macros.definitions
+                        and macros.inherit_boundary_uncertain(token.text, invoked)):
+                    return token
+            return None
+
+        for token in pending:
+            if token.kind != 'directive' or directive_parts(token)[:1] != ['include']:
+                continue
+            origins: dict[str, Token] = {}
+            _, units, _, hazards = self.macro_context([token], origins=origins)
+            if 'unresolved include' in hazards:
+                return token, True
+            for path, tokens in units[1:]:
+                # A declaration/function header is not a terminator fragment.
+                # Accept only an expression-shaped raw prefix, not a semicolon
+                # buried inside a helper, variable declaration or function body.
+                prefix = []
+                for part in tokens:
+                    if part.kind == 'directive':
+                        continue
+                    if part.text in DECLARATION_STARTERS or part.text in {'{', '}'}:
+                        break
+                    if part.text == ';':
+                        return origins[path], False
+                    if part.kind not in {'identifier', 'string', 'number', 'character'} and part.text != '+':
+                        if part.text == '(':
+                            prefix.append(part)  # Retain invocation evidence only.
+                        break
+                    prefix.append(part)
+                if macro_use(prefix) is not None:
+                    return origins[path], False
+        use = macro_use(pending)
+        return (use, False) if use is not None else None
+
     def extract_structure(self, matching: dict[int, int]) -> None:
         ts = self.tokens
         functions: list[tuple[str, int, int, int]] = []
@@ -805,8 +893,33 @@ class RoomExtractor:
             if token.text == 'inherit' and i == start:
                 end = i + 1
                 while end < len(ts) and ts[end].text != ';':
+                    part = ts[end]
+                    if (part.kind == 'identifier' and part.text in DECLARATION_STARTERS
+                            or part.text == '{'):
+                        break
+                    # Untyped function definitions also end the pending slice.
+                    if (part.kind == 'identifier' and end + 1 in matching
+                            and ts[end + 1].text == '('
+                            and matching[end + 1] + 1 < len(ts)
+                            and ts[matching[end + 1] + 1].text == '{'):
+                        break
                     end += 1
-                if end == len(ts):
+                if end == len(ts) or ts[end].text != ';':
+                    uncertain = self.inherit_boundary_uncertain(ts[i + 1:end])
+                    if uncertain is not None:
+                        use, unresolved = uncertain
+                        self.inherits.clear()
+                        self.record['category_candidates'].clear()
+                        self.finding(FindingCode.OUT_OF_SCOPE,
+                                     'Preprocessing at a pending inherit boundary prevents reliable admission.',
+                                     [use], severity='INFO')
+                        self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                                     'Pending inherit terminator or expression tail depends on preprocessing; no declaration is recovered.',
+                                     [use])
+                        if unresolved:
+                            self.finding(FindingCode.UNRESOLVED_INCLUDE,
+                                         'Pending inherit include dependency is unavailable or cannot be analyzed.', [use])
+                        return  # No facts or reliable inheritance metadata emitted.
                     raise SourceError('unterminated inherit', token.start, token.end)
                 expr = ts[i + 1:end]
                 symbol = expr[0].text if len(expr) == 1 else None

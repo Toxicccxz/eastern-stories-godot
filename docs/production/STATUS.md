@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F13 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F14 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -52,8 +52,12 @@ extraction stays unchanged. P2F12 is CLOSED. Final Re-Audit after P2F12 was BLOC
 FR12-01 / blocking MEDIUM / D9: raw include delimiters and standalone header fragments were falsely quarantined.
 [P2F13](../migration/MIGRATION_TOOLING_V1_P2F13_INCLUDE_FRAGMENT_PAIRING_CLASSIFICATION.md) adds lazy
 resolved-fragment pairing refusal and separates header lexical corruption from structural incompleteness.
-P2F13 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-ARCHIVE-01 remains CLOSED. Both FR11/FR12 blocked reports remain owner-local, untracked and byte-identical.
+P2F13 is CLOSED. Final Re-Audit after P2F13 was BLOCKED on FR13-01 / blocking MEDIUM / D9:
+preprocessor-supplied inherit terminators were falsely quarantined before declaration-boundary analysis.
+[P2F14](../migration/MIGRATION_TOOLING_V1_P2F14_PREPROCESSOR_INHERIT_DECLARATION_BOUNDARY.md) adds
+declaration-scoped conservative refusal before fact emission, preserving true unterminated-inherit detection.
+P2F14 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+ARCHIVE-01 remains CLOSED. All three FR11/FR12/FR13 blocked reports remain owner-local, untracked and byte-identical.
 No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
