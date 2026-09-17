@@ -21,7 +21,7 @@ if str(REPOSITORY) not in sys.path:
     sys.path.insert(0, str(REPOSITORY))
 from tools.migration import cli
 from tools.migration.es2_source import Source, SourceError, ToolError, discover, lex, literal, pairs
-from tools.migration.room_extractor import EXCLUDED_LITERAL_BASES, RoomExtractor, canonical, directive_parts, reference, scan
+from tools.migration.room_extractor import CreateTailEffect, MacroSummary, EXCLUDED_LITERAL_BASES, RoomExtractor, canonical, directive_parts, reference, scan
 
 
 FIXTURES = Path(__file__).parent / 'fixtures/migration_v1'
@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.20', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.21', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.20', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.21', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2594,7 +2594,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.20', doc['extractor_version'])
+                self.assertEqual('1.0.21', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3683,6 +3683,121 @@ class P2F20RegressionTests(unittest.TestCase):
             self.assertEqual('QUARANTINED', r['status'])
             self.assertEqual([], r['facts'])
             self.assertTrue(codes(ff) & {'SOURCE_SYNTAX_ERROR', 'SOURCE_ENCODING_ISSUE'})
+
+
+class P2F21RegressionTests(unittest.TestCase):
+    DEFINITIONS = '#define A() B\n#define B()\n'
+
+    @staticmethod
+    def summary(definitions):
+        result = MacroSummary()
+        for token in lex(Source('d/probe.c', definitions.encode())):
+            result.add(token)
+        return result
+
+    @classmethod
+    def cases(cls):
+        cases = []
+        for tail in ('A()()', 'A () ()', 'A()\n()', 'A()/* trivia */()',
+                     'A()() A()()', 'EMPTY A()()', 'A()() EMPTY',
+                     'DROP(ignored) A()()', 'A()() DROP(ignored)'):
+            cases.append((tail, cls.DEFINITIONS + '#define EMPTY\n#define DROP(x)\n' + room(tail), {}, 'PARTIAL'))
+        for definitions, tail in (
+            ('#define A(x) B\n#define B(y)\n', 'A(7)(unused_identifier)'),
+            ('#define A() B\n#define B() C\n#define C()\n', 'A()()()'),
+            ('#define A() B\n#define B() C\n#define C() D\n#define D()\n', 'A()()()()'),
+            ('#define START A\n' + cls.DEFINITIONS, 'START()()'),
+            ('#define A() LINK\n#define LINK B\n#define B()\n', 'A()()'),
+            ('#define A() X\n#define X Y\n#define Y B\n#define B() Z\n#define Z C\n#define C()\n', 'A()()()'),
+        ):
+            cases.append((tail + definitions, definitions + room(tail), {}, 'PARTIAL'))
+        for prefix, headers in (
+            ('#include "end.h"\n', {'d/end.h': cls.DEFINITIONS}),
+            ('#include "outer.h"\n', {'d/outer.h': '#include "inner.h"\n', 'd/inner.h': cls.DEFINITIONS}),
+            ('#include <end.h>\n', {'include/end.h': cls.DEFINITIONS}),
+            ('#include "a.h"\n#include "b.h"\n', {'d/a.h': '#define A() B\n', 'd/b.h': '#define B()\n'}),
+        ):
+            cases.append((prefix, prefix + room('A()()'), headers, 'PARTIAL'))
+        for tail in ('A()', 'A() identifier ()', 'identifier A()()', 'A()() identifier', 'A()()()'):
+            cases.append((tail, cls.DEFINITIONS + room(tail), {}, 'QUARANTINED'))
+        for definitions, tail in (
+            ('#define A()\n', 'A()()'),
+            ('#define A() B\n#define B\n', 'A()()'),
+            ('#define A() B\n#define B() 1\n', 'A()()'),
+            ('#define A() B\n#define B() "x"\n', 'A()()'),
+            ("#define A() B\n#define B() 'x'\n", 'A()()'),
+            ('#define A() unknown_name\n', 'A()()'),
+        ):
+            cases.append((definitions, definitions + room(tail), {}, 'QUARANTINED'))
+        for definitions in ('#define A(x) x\n', '#define A(x) B(x)\n',
+                            '#define A() B\n#define B() A\n', '#define A B\n#define B A\n',
+                            '#define A()\n#define A() 1\n', '#define A\n#define A()\n',
+                            '#define A(x\n', '#define A X ## Y\n', '#define A() (1 + 2)\n'):
+            cases.append((definitions, definitions + room('A()()'), {}, 'OUT_OF_SCOPE'))
+        return cases
+
+    def test_legal_and_adversarial_continuation_matrix(self):
+        for name, text, headers, status in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    deps = {p: Source(p, v.replace('\n', newline).encode()) for p, v in headers.items()}
+                    record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                    self.assertEqual(status, record['status'])
+                    self.assertEqual(status == 'QUARANTINED', 'SOURCE_SYNTAX_ERROR' in codes(findings))
+                    if status == 'PARTIAL':
+                        self.assertEqual(['inherit'], [f['field'] for f in record['facts']])
+
+    def test_step_keeps_returned_callable_separate_from_consumed_arguments(self):
+        summary = self.summary(self.DEFINITIONS)
+        self.assertEqual((CreateTailEffect.CALLABLE_CONTINUATION, True, 'B'), summary.create_tail_effect('A', True))
+        self.assertEqual((CreateTailEffect.NONEMPTY_NEUTRAL, False, None), summary.create_tail_effect('B', False))
+        self.assertEqual((CreateTailEffect.EMPTY, True, None), summary.create_tail_effect('B', True))
+        self.assertEqual((CreateTailEffect.NONEMPTY_NEUTRAL, False, None), summary.create_tail_effect('A', False))
+
+    def test_object_aliases_before_and_after_consumed_function(self):
+        summary = self.summary('#define START A\n#define A() X\n#define X Y\n#define Y B\n#define B()\n')
+        self.assertEqual((CreateTailEffect.CALLABLE_CONTINUATION, True, 'B'), summary.create_tail_effect('START', True))
+        self.assertEqual((CreateTailEffect.EMPTY, True, None), summary.create_tail_effect('X', True))
+
+    def test_empty_result_does_not_own_extra_authored_call(self):
+        for definitions in ('#define A()\n', '#define A() E\n#define E\n'):
+            self.assertEqual((CreateTailEffect.EMPTY, True, None), self.summary(definitions).create_tail_effect('A', True))
+            r, _ = extract(definitions + room('A()()'))
+            self.assertEqual('QUARANTINED', r['status'])
+
+    def test_parameter_cycles_and_ambiguous_definitions_are_uncertain(self):
+        for definitions in ('#define A(x) x\n', '#define A(x) B(x)\n', '#define A B\n#define B A\n',
+                            '#define A() A\n', '#define A()\n#define A() 1\n',
+                            '#define A\n#define A()\n', '#define A(x\n', '#define A X ## Y\n'):
+            self.assertEqual(CreateTailEffect.UNCERTAIN, self.summary(definitions).create_tail_effect('A', True)[0])
+
+    def test_provenance_and_suppression_anchor_original_use(self):
+        for newline in ('\n', '\r\n'):
+            text = ('#include "tail.h"\n' + room('set("short","independent"); A()()')).replace('\n', newline)
+            source = Source('d/probe.c', text.encode())
+            ext = RoomExtractor(source, set(), {'d/tail.h': Source('d/tail.h', self.DEFINITIONS.encode())})
+            r, findings = ext.extract()
+            self.assertEqual(['inherit'], [f['field'] for f in r['facts']])
+            f = next(f for f in findings if 'create tail' in f['reason'])
+            self.assertEqual('A', f['provenance']['raw'])
+            self.assertEqual('d/probe.c', f['provenance']['source_path'])
+            self.assertEqual(text.index('A()()'), f['provenance']['byte_start'])
+            self.assertFalse(any(t.text == 'B' for t in ext.tokens))
+
+    def test_long_alias_and_continuation_chains_are_iterative(self):
+        aliases = '#define START() A0\n' + ''.join(f'#define A{i} A{i+1}\n' for i in range(1100)) + '#define A1100()\n'
+        calls = ''.join(f'#define A{i}() A{i+1}\n' for i in range(1100)) + '#define A1100()\n'
+        for definitions, tail in ((aliases, 'START()()'), (calls, 'A0' + '()' * 1101)):
+            for newline in ('\n', '\r\n'):
+                record, findings = extract((definitions + room(tail)).replace('\n', newline))
+                self.assertEqual('PARTIAL', record['status'])
+                self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_completed_statement_boundary_keeps_existing_dispatch(self):
+        r, findings = extract(self.DEFINITIONS + room('A()(); set("short","safe");'))
+        self.assertEqual('PARTIAL', r['status'])
+        self.assertEqual('safe', fields(r, 'short')[0]['value']['value'])
+        self.assertFalse(any('create tail' in f['reason'] for f in findings))
 
 
 class RealSourceTests(unittest.TestCase):

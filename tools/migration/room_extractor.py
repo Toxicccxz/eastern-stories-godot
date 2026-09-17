@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.20'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'}
+EXTRACTOR_VERSION = '1.0.21'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -104,6 +104,7 @@ class CreateTailEffect(StrEnum):
     EMPTY = 'EMPTY'
     NONEMPTY_NEUTRAL = 'NONEMPTY_NEUTRAL'
     UNCERTAIN = 'UNCERTAIN'
+    CALLABLE_CONTINUATION = 'CALLABLE_CONTINUATION'
 
 
 # Source-backed persistent mapping mutations: feature/dbase.c and treemap.c.
@@ -261,38 +262,45 @@ class MacroSummary:
             remaining -= leaves
         return False
 
-    def create_tail_effect(self, name: str, invoked: bool) -> tuple[CreateTailEffect, bool]:
+    def create_tail_effect(self, name: str, invoked: bool) -> tuple[CreateTailEffect, bool, str | None]:
         """Classify a single actual use and whether it consumes its authored call.
 
         Follow only single-identifier aliases, iteratively. No replacement tokens
         are produced. Empty object macros leave following parentheses in place;
         a function macro consumes them, even when reached through object aliases.
+        A returned function name is summary metadata for a separate authored call,
+        never a replacement token or permission to reuse the consumed arguments.
         """
         visited: set[tuple[str, bool]] = set()
         consumes_call = False
         while True:
             node = (name, invoked)
             if node in visited:
-                return CreateTailEffect.UNCERTAIN, consumes_call
+                return CreateTailEffect.UNCERTAIN, consumes_call, None
             visited.add(node)
-            definitions = [(f, r) for f, r in self.definitions.get(name, []) if not f or invoked]
-            if not definitions:
-                return CreateTailEffect.NONEMPTY_NEUTRAL, consumes_call
+            definitions = self.definitions.get(name, [])
             shapes = {(f, tuple((t.kind, t.text) for t in r)) for f, r in definitions}
-            if len(shapes) != 1 or name in self.invalid:
-                return CreateTailEffect.UNCERTAIN, consumes_call
+            if len(shapes) > 1 or name in self.invalid:
+                return CreateTailEffect.UNCERTAIN, consumes_call, None
+            definitions = [(f, r) for f, r in definitions if not f or invoked]
+            if not definitions:
+                if consumes_call and name in self.definitions:
+                    if (name, True) in visited:
+                        return CreateTailEffect.UNCERTAIN, consumes_call, None
+                    return CreateTailEffect.CALLABLE_CONTINUATION, consumes_call, name
+                return CreateTailEffect.NONEMPTY_NEUTRAL, consumes_call, None
             function_like, replacement = definitions[0]
             if function_like:
                 consumes_call = True
             if not replacement:
-                return CreateTailEffect.EMPTY, consumes_call
+                return CreateTailEffect.EMPTY, consumes_call, None
             if len(replacement) != 1 or replacement[0].kind not in {'identifier', 'number', 'string', 'character'}:
-                return CreateTailEffect.UNCERTAIN, consumes_call
+                return CreateTailEffect.UNCERTAIN, consumes_call, None
             token = replacement[0]
             if token.kind != 'identifier':
-                return CreateTailEffect.NONEMPTY_NEUTRAL, consumes_call
+                return CreateTailEffect.NONEMPTY_NEUTRAL, consumes_call, None
             if function_like and token.text in self.parameters.get(name, set()):
-                return CreateTailEffect.UNCERTAIN, consumes_call
+                return CreateTailEffect.UNCERTAIN, consumes_call, None
             # The invocation belongs to the function just consumed, not to its
             # replacement identifier. Object aliases retain the following call.
             invoked = invoked and not function_like
@@ -1075,14 +1083,26 @@ class RoomExtractor:
             token = runtime[i]
             invoked = i + 1 in matching and runtime[i + 1].text == '('
             if token.kind == 'identifier' and token.text in macros.definitions:
-                effect, consumes_call = macros.create_tail_effect(token.text, invoked)
+                effect, consumes_call, continuation = macros.create_tail_effect(token.text, invoked)
+                end = matching[i + 1] + 1 if consumes_call else i + 1
+                continued = {token.text}
+                while effect == CreateTailEffect.CALLABLE_CONTINUATION:
+                    if end not in matching or runtime[end].text != '(':
+                        break  # An uninvoked returned name remains runtime residue.
+                    if continuation in continued:
+                        return token  # Cyclic summaries never establish corruption.
+                    continued.add(continuation)
+                    effect, consumes_call, continuation = macros.create_tail_effect(continuation, True)
+                    # The pending name consumes this new list only. Every step
+                    # advances through authored tokens, without recursive expansion.
+                    end = matching[end] + 1
                 if effect == CreateTailEffect.UNCERTAIN:
                     return token
                 if effect == CreateTailEffect.EMPTY:
                     first_empty = first_empty or token
                 else:
                     residual = True
-                i = matching[i + 1] + 1 if consumes_call else i + 1
+                i = end
             else:
                 residual = True
                 i += 1
