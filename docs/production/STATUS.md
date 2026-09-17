@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F15 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F16 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -60,9 +60,13 @@ P2F14 is CLOSED. Final Re-Audit after P2F14 was BLOCKED on FR14-01 / blocking ME
 apparent declaration/function boundaries discarded actual preprocessing-sensitive pending-inherit uses.
 [P2F15](../migration/MIGRATION_TOOLING_V1_P2F15_PREPROCESSOR_SENSITIVE_PENDING_INHERIT_BOUNDARY.md)
 preserves that boundary evidence before uncertainty analysis; true authored boundary errors remain detected.
-P2F15 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-The create-tail empty-macro observation remains UNCONFIRMED / NOT YET NUMBERED / NOT FIXED.
-ARCHIVE-01 remains CLOSED. All four FR11/FR12/FR13/FR14 blocked reports remain owner-local, untracked and byte-identical.
+P2F15 is CLOSED. Final Re-Audit after P2F15 was BLOCKED on FR15-01 / blocking MEDIUM / D9:
+actual empty macro uses at create tails were falsely quarantined as unfinished runtime statements.
+[P2F16](../migration/MIGRATION_TOOLING_V1_P2F16_PREPROCESSOR_SENSITIVE_CREATE_TAIL_COMPLETION.md)
+adds bounded tail-specific macro classification while retaining genuine unfinished-runtime quarantine.
+P2F16 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+The systematic quarantine-path audit and mapping category-C challenges remain for that complete Final Re-Audit.
+ARCHIVE-01 remains CLOSED. All five FR11/FR12/FR13/FR14/FR15 blocked reports remain owner-local, untracked and byte-identical.
 No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 

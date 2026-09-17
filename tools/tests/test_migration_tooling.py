@@ -415,13 +415,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.15', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.16', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -638,7 +638,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -656,7 +656,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -666,7 +666,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.15', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.16', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2593,7 +2593,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.15', doc['extractor_version'])
+                self.assertEqual('1.0.16', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3026,6 +3026,138 @@ class P2F15RegressionTests(unittest.TestCase):
     def test_valid_authored_declaration_stays_lazy(self):
         with patch.object(RoomExtractor, 'inherit_boundary_uncertain', side_effect=AssertionError('must stay lazy')):
             self.check('inherit ROOM;void create(){}', {}, 'EXTRACTED')
+            self.check(room('set("short","x");'), {}, 'EXTRACTED')
+
+
+class P2F16RegressionTests(unittest.TestCase):
+    # Handwritten original FR15 controls plus causal/residual-tail challenges.
+    CASES = [
+        ('primary-empty-object', '#define NOTHING\ninherit ROOM;\nvoid create(){ NOTHING }\n', {}, 'PARTIAL'),
+        ('primary-handwritten-literal', 'inherit ROOM;\nvoid create(){ }\n', {}, 'EXTRACTED'),
+        ('empty-alias', '#define EMPTY\n#define END EMPTY\ninherit ROOM;void create(){ END }\n', {}, 'PARTIAL'),
+        ('empty-function', '#define ERASE()\ninherit ROOM;void create(){ ERASE() }\n', {}, 'PARTIAL'),
+        ('header-empty', '#include "empty.h"\ninherit ROOM;void create(){ EMPTY }\n', {'d/empty.h': '#define EMPTY\n'}, 'PARTIAL'),
+        ('nested-header-empty', '#include "outer.h"\ninherit ROOM;void create(){ EMPTY }\n', {'d/outer.h': '#include "inner.h"\n', 'd/inner.h': '#define EMPTY\n'}, 'PARTIAL'),
+        ('standard-header-empty', '#include <empty.h>\ninherit ROOM;void create(){ EMPTY }\n', {'include/empty.h': '#define EMPTY\n'}, 'PARTIAL'),
+        ('semicolon-macro', '#define END ;\ninherit ROOM;void create(){ END }\n', {}, 'OUT_OF_SCOPE'),
+        ('complete-statement-macro', '#define DONE return;\ninherit ROOM;void create(){ DONE }\n', {}, 'OUT_OF_SCOPE'),
+        ('complete-setter-macro', '#define DONE set("short","x");\ninherit ROOM;void create(){ DONE }\n', {}, 'OUT_OF_SCOPE'),
+        ('neutral-literal-macro', '#define VALUE 1\ninherit ROOM;void create(){ VALUE }\n', {}, 'QUARANTINED'),
+        ('unused-empty', '#define EMPTY\ninherit ROOM;void create(){ }\n', {}, 'PARTIAL'),
+        ('earlier-not-tail', '#define EMPTY\ninherit ROOM;void create(){ EMPTY; set("short","x"); }\n', {}, 'PARTIAL'),
+        ('raw-include-tail', 'inherit ROOM;void create(){ set("short","x")\n#include "end.h"\n}\n', {'d/end.h': ';\n'}, 'PARTIAL'),
+        ('safe-include-tail', 'inherit ROOM;void create(){\n#include "safe.h"\n}\n', {'d/safe.h': '#define UNUSED 1\n'}, 'PARTIAL'),
+        ('missing-include-tail', 'inherit ROOM;void create(){\n#include "missing.h"\n}\n', {}, 'OUT_OF_SCOPE'),
+        ('unknown-directive-tail', 'inherit ROOM;void create(){\n#unknown foo\n}\n', {}, 'PARTIAL'),
+        ('pragma-tail', 'inherit ROOM;void create(){\n#pragma strict_types\n}\n', {}, 'PARTIAL'),
+        ('undef-tail', 'inherit ROOM;void create(){\n#undef UNUSED\n}\n', {}, 'PARTIAL'),
+        ('define-tail', 'inherit ROOM;void create(){\n#define EMPTY\n}\n', {}, 'PARTIAL'),
+        ('runtime-identifier', 'inherit ROOM;void create(){ ordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('runtime-call', 'inherit ROOM;void create(){ ordinary_call() }\n', {}, 'QUARANTINED'),
+        ('setter-fragment', 'inherit ROOM;void create(){ set("short","x") }\n', {}, 'QUARANTINED'),
+        ('unused-empty-runtime-tail', '#define EMPTY\ninherit ROOM;void create(){ ordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('literal-semicolon', 'inherit ROOM;void create(){ ; }\n', {}, 'EXTRACTED'),
+        ('literal-return', 'inherit ROOM;void create(){ return; }\n', {}, 'PARTIAL'),
+        ('literal-setter', 'inherit ROOM;void create(){ set("short","x"); }\n', {}, 'EXTRACTED'),
+        ('literal-neutral-unfinished', 'inherit ROOM;void create(){ 1 }\n', {}, 'QUARANTINED'),
+        ('unfinished-pragma', 'inherit ROOM;void create(){ ordinary_identifier\n#pragma strict_types\n}\n', {}, 'QUARANTINED'),
+        ('unfinished-undef', 'inherit ROOM;void create(){ ordinary_identifier\n#undef UNUSED\n}\n', {}, 'QUARANTINED'),
+        ('unfinished-define', 'inherit ROOM;void create(){ ordinary_identifier\n#define EMPTY\n}\n', {}, 'QUARANTINED'),
+        ('parameter-empty', '#define ERASE(x)\ninherit ROOM;\nvoid create(){ ERASE(anything) }\n', {}, 'PARTIAL'),
+        ('parameter-nested-empty', '#define ERASE(x)\ninherit ROOM;\nvoid create(){ ERASE(call(1, 2)) }\n', {}, 'PARTIAL'),
+        ('cross-header', '#include "a.h"\n#include "b.h"\ninherit ROOM;\nvoid create(){ END }\n', {'d/a.h': '#define END EMPTY\n', 'd/b.h': '#define EMPTY\n'}, 'PARTIAL'),
+        ('two-empty', '#define A\n#define B\ninherit ROOM;\nvoid create(){ A B }\n', {}, 'PARTIAL'),
+        ('empty-runtime', '#define EMPTY\ninherit ROOM;\nvoid create(){ EMPTY ordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('runtime-empty', '#define EMPTY\ninherit ROOM;\nvoid create(){ ordinary_identifier EMPTY }\n', {}, 'QUARANTINED'),
+        ('two-empty-runtime', '#define A\n#define B\ninherit ROOM;\nvoid create(){ A ordinary_identifier B }\n', {}, 'QUARANTINED'),
+        ('neutral-string', '#define VALUE "x"\ninherit ROOM;\nvoid create(){ VALUE }\n', {}, 'QUARANTINED'),
+        ('neutral-character', "#define VALUE 'x'\ninherit ROOM;\nvoid create(){ VALUE }\n", {}, 'QUARANTINED'),
+        ('neutral-alias', '#define VALUE NUMBER\n#define NUMBER 1\ninherit ROOM;\nvoid create(){ VALUE }\n', {}, 'QUARANTINED'),
+        ('neutral-function', '#define VALUE() 1\ninherit ROOM;\nvoid create(){ VALUE() }\n', {}, 'QUARANTINED'),
+        ('uninvoked-function', '#define ERASE()\ninherit ROOM;\nvoid create(){ ERASE }\n', {}, 'QUARANTINED'),
+        ('earlier-only', '#define EMPTY\ninherit ROOM;\nvoid create(){ EMPTY; ordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('cycle', '#define A B\n#define B A\ninherit ROOM;\nvoid create(){ A }\n', {}, 'OUT_OF_SCOPE'),
+        ('competing', '#define A\n#define A 1\ninherit ROOM;\nvoid create(){ A }\n', {}, 'OUT_OF_SCOPE'),
+        ('paste', '#define A X ## Y\ninherit ROOM;\nvoid create(){ A }\n', {}, 'OUT_OF_SCOPE'),
+        ('invalid-function', '#define A(x\ninherit ROOM;\nvoid create(){ A() }\n', {}, 'OUT_OF_SCOPE'),
+        ('parameter-dependent', '#define A(x) x\ninherit ROOM;\nvoid create(){ A(END) }\n', {}, 'OUT_OF_SCOPE'),
+        ('complex', '#define A (1 + 2)\ninherit ROOM;\nvoid create(){ A }\n', {}, 'OUT_OF_SCOPE'),
+        ('unknown-residual', '#define A X ## Y\ninherit ROOM;\nvoid create(){ ordinary_identifier A }\n', {}, 'OUT_OF_SCOPE'),
+        ('empty-authored-semicolon', '#define EMPTY\ninherit ROOM;\nvoid create(){ EMPTY; }\n', {}, 'PARTIAL'),
+        ('empty-before-setter', '#define EMPTY\ninherit ROOM;\nvoid create(){ EMPTY\nset("short","x"); }\n', {}, 'PARTIAL'),
+        ('setter-before-empty', '#define EMPTY\ninherit ROOM;\nvoid create(){ set("short","x"); EMPTY }\n', {}, 'PARTIAL'),
+        ('setter-before-two-empty', '#define A\n#define B\ninherit ROOM;\nvoid create(){ set("short","x"); A B }\n', {}, 'PARTIAL'),
+        ('opaque-comment', '#define EMPTY\ninherit ROOM;\nvoid create(){ /* EMPTY */ ordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('opaque-string', '#define EMPTY\ninherit ROOM;\nvoid create(){ "EMPTY" }\n', {}, 'QUARANTINED'),
+        ('opaque-character', "#define E\ninherit ROOM;\nvoid create(){ 'E' }\n", {}, 'QUARANTINED'),
+        ('opaque-symbol', "#define EMPTY\ninherit ROOM;\nvoid create(){ 'EMPTY }\n", {}, 'QUARANTINED'),
+        ('opaque-heredoc', '#define EMPTY\ninherit ROOM;\nvoid create(){ @END\nEMPTY\nEND\n }\n', {}, 'QUARANTINED'),
+        ('opaque-echo', '#define EMPTY\ninherit ROOM;\nvoid create(){ \n#echo EMPTY\nordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('function-whitespace', '#define ERASE()\ninherit ROOM;\nvoid create(){ ERASE () }\n', {}, 'PARTIAL'),
+        ('function-multiline', '#define ERASE()\ninherit ROOM;\nvoid create(){ ERASE\n() }\n', {}, 'PARTIAL'),
+        ('object-to-function', '#define A E\n#define E()\ninherit ROOM;\nvoid create(){ A() }\n', {}, 'PARTIAL'),
+        ('function-to-object', '#define A() E\n#define E\ninherit ROOM;\nvoid create(){ A() }\n', {}, 'PARTIAL'),
+        ('object-empty-parentheses', '#define E\ninherit ROOM;\nvoid create(){ E() }\n', {}, 'QUARANTINED'),
+        ('object-alias-empty-parentheses', '#define A E\n#define E\ninherit ROOM;\nvoid create(){ A() }\n', {}, 'QUARANTINED'),
+        ('function-empty-extra-parentheses', '#define E()\ninherit ROOM;\nvoid create(){ E()() }\n', {}, 'QUARANTINED'),
+        ('function-to-uninvoked-function', '#define A() E\n#define E()\ninherit ROOM;\nvoid create(){ A() }\n', {}, 'QUARANTINED'),
+        ('uninvoked-alias-function', '#define A E\n#define E()\ninherit ROOM;\nvoid create(){ A }\n', {}, 'QUARANTINED'),
+        ('function-empty-runtime', '#define E(x)\ninherit ROOM;\nvoid create(){ E(ignored) ordinary_identifier }\n', {}, 'QUARANTINED'),
+        ('runtime-function-empty', '#define E(x)\ninherit ROOM;\nvoid create(){ ordinary_identifier E(ignored) }\n', {}, 'QUARANTINED'),
+        ('two-function-empty', '#define A(x)\n#define B()\ninherit ROOM;\nvoid create(){ A(ignored) B() }\n', {}, 'PARTIAL'),
+        ('neutral-function-argument', '#define V(x) 1\ninherit ROOM;\nvoid create(){ V(ignored) }\n', {}, 'QUARANTINED'),
+        ('neutral-function-empty-argument', '#define V(x) 1\n#define E\ninherit ROOM;\nvoid create(){ V(E) }\n', {}, 'QUARANTINED'),
+    ]
+
+    def check(self, text, headers, status):
+        for newline in ('\n', '\r\n'):
+            raw = text.replace('\n', newline).encode()
+            deps = {p: Source(p, h.replace('\n', newline).encode()) for p, h in headers.items()}
+            r, ff = extract(raw, path='d/probe.c', dependencies=deps)
+            with self.subTest(newline=repr(newline), text=text):
+                self.assertEqual(status, r['status'])
+                if status in {'OUT_OF_SCOPE', 'QUARANTINED'}:
+                    self.assertEqual([], r['facts'])
+                if status == 'QUARANTINED':
+                    error = next(f for f in ff if f['code'] == 'SOURCE_SYNTAX_ERROR')
+                    self.assertEqual('unterminated create statement', error['reason'])
+                else:
+                    self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(ff))
+                for f in ff + r['facts']:
+                    p = f['provenance']
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+        return r, ff
+
+    def test_create_tail_matrix(self):
+        for name, text, headers, status in self.CASES:
+            with self.subTest(case=name): self.check(text, headers, status)
+
+    def test_long_empty_alias_chains(self):
+        definitions = ''.join(f'#define A{i} A{i+1}\n' for i in range(1100))
+        self.check(definitions+'#define A1100\n'+room('A0'), {}, 'PARTIAL')
+        self.check(definitions+'#define A1100(x)\n'+room('A0(ignored)'), {}, 'PARTIAL')
+
+    def test_tail_refusal_suppresses_earlier_create_facts(self):
+        text = '#define EMPTY\n'+room('set("short","x"); EMPTY')
+        r, ff = self.check(text, {}, 'PARTIAL')
+        self.assertEqual(['inherit'], [f['field'] for f in r['facts']])
+        f = next(f for f in ff if 'create tail' in f['reason'])
+        self.assertEqual('EMPTY', f['provenance']['raw'])
+        self.assertEqual('create', f['provenance']['scope'])
+
+    def test_nested_header_refusal_anchors_root_use(self):
+        text = '#include "outer.h"\n'+room('ERASE(value)')
+        r, ff = self.check(text, {'d/outer.h':'#include "inner.h"\n',
+                                  'd/inner.h':'#define ERASE(x)\n'}, 'PARTIAL')
+        self.assertEqual(['inherit'], [f['field'] for f in r['facts']])
+        f = next(f for f in ff if 'create tail' in f['reason'])
+        self.assertEqual('ERASE', f['provenance']['raw'])
+        self.assertEqual('d/probe.c', f['provenance']['source_path'])
+
+    def test_complete_authored_bodies_stay_lazy(self):
+        with patch.object(RoomExtractor, 'create_tail_uncertain_use', side_effect=AssertionError('must stay lazy')):
+            self.check(room(''), {}, 'EXTRACTED')
             self.check(room('set("short","x");'), {}, 'EXTRACTED')
 
 

@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.15'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15'}
+EXTRACTOR_VERSION = '1.0.16'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -98,6 +98,12 @@ class MacroEffect(StrEnum):
     CREATE_STATE_HAZARD = 'CREATE_STATE_HAZARD'
     STRUCTURAL_BOUNDARY_HAZARD = 'STRUCTURAL_BOUNDARY_HAZARD'
     UNKNOWN = 'UNKNOWN'
+
+
+class CreateTailEffect(StrEnum):
+    EMPTY = 'EMPTY'
+    NONEMPTY_NEUTRAL = 'NONEMPTY_NEUTRAL'
+    UNCERTAIN = 'UNCERTAIN'
 
 
 # Source-backed persistent mapping mutations: feature/dbase.c and treemap.c.
@@ -254,6 +260,43 @@ class MacroSummary:
                 return True
             remaining -= leaves
         return False
+
+    def create_tail_effect(self, name: str, invoked: bool) -> tuple[CreateTailEffect, bool]:
+        """Classify a single actual use and whether it consumes its authored call.
+
+        Follow only single-identifier aliases, iteratively. No replacement tokens
+        are produced. Empty object macros leave following parentheses in place;
+        a function macro consumes them, even when reached through object aliases.
+        """
+        visited: set[tuple[str, bool]] = set()
+        consumes_call = False
+        while True:
+            node = (name, invoked)
+            if node in visited:
+                return CreateTailEffect.UNCERTAIN, consumes_call
+            visited.add(node)
+            definitions = [(f, r) for f, r in self.definitions.get(name, []) if not f or invoked]
+            if not definitions:
+                return CreateTailEffect.NONEMPTY_NEUTRAL, consumes_call
+            shapes = {(f, tuple((t.kind, t.text) for t in r)) for f, r in definitions}
+            if len(shapes) != 1 or name in self.invalid:
+                return CreateTailEffect.UNCERTAIN, consumes_call
+            function_like, replacement = definitions[0]
+            if function_like:
+                consumes_call = True
+            if not replacement:
+                return CreateTailEffect.EMPTY, consumes_call
+            if len(replacement) != 1 or replacement[0].kind not in {'identifier', 'number', 'string', 'character'}:
+                return CreateTailEffect.UNCERTAIN, consumes_call
+            token = replacement[0]
+            if token.kind != 'identifier':
+                return CreateTailEffect.NONEMPTY_NEUTRAL, consumes_call
+            if function_like and token.text in self.parameters.get(name, set()):
+                return CreateTailEffect.UNCERTAIN, consumes_call
+            # The invocation belongs to the function just consumed, not to its
+            # replacement identifier. Object aliases retain the following call.
+            invoked = invoked and not function_like
+            name = token.text
 
     def effect(self, name: str) -> MacroEffect:
         """Classify possible effects, never substitute arguments or source tokens.
@@ -1016,6 +1059,30 @@ class RoomExtractor:
         if any(f['prevents_supported_consumption'] for f in self.findings):
             self.record['status'] = 'PARTIAL'
 
+    def create_tail_uncertain_use(self, runtime: list[Token]) -> Token | None:
+        """Inspect only the unfinished tail, retaining all authored provenance."""
+        macros, _, _, _ = self.macro_context(self.tokens)
+        matching = pairs(runtime)
+        first_empty = None
+        residual = False
+        i = 0
+        while i < len(runtime):
+            token = runtime[i]
+            invoked = i + 1 in matching and runtime[i + 1].text == '('
+            if token.kind == 'identifier' and token.text in macros.definitions:
+                effect, consumes_call = macros.create_tail_effect(token.text, invoked)
+                if effect == CreateTailEffect.UNCERTAIN:
+                    return token
+                if effect == CreateTailEffect.EMPTY:
+                    first_empty = first_empty or token
+                else:
+                    residual = True
+                i = matching[i + 1] + 1 if consumes_call else i + 1
+            else:
+                residual = True
+                i += 1
+        return first_empty if not residual else None
+
     def create_body(self, ts: list[Token], hazards: set[str]) -> None:
         # Plan original source slices before emitting facts. Directives are not
         # runtime statements, and interrupted fragments must never be stitched.
@@ -1071,6 +1138,12 @@ class RoomExtractor:
                 # Diagnose the actual unfinished runtime range, not a directive.
                 runtime = [t for t in tail if t.kind != 'directive']
                 if runtime:
+                    use = self.create_tail_uncertain_use(runtime)
+                    if use is not None:
+                        self.finding(FindingCode.UNSUPPORTED_CONSTRUCT,
+                                     'Actual preprocessing use may erase or complete the create tail; create-derived facts are not extracted.',
+                                     [use], 'create')
+                        return  # Suppress even earlier create segments; no expansion.
                     raise SourceError('unterminated create statement', runtime[0].start, runtime[-1].end)
         if issues:
             for index, reason in sorted(issues.items()):
