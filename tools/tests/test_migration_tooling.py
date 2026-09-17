@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.19', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.20', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.19', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.20', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2594,7 +2594,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.19', doc['extractor_version'])
+                self.assertEqual('1.0.20', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3544,6 +3544,145 @@ class P2F19RegressionTests(unittest.TestCase):
         for name in ('reset', 'init', 'helper'):
             r, _ = extract(room(self.SAFE, 'void ' + name + '(){' + self.INNER + ';}\n'))
             self.assertEqual(1, len(fields(r, 'exit')))
+
+
+class P2F20RegressionTests(unittest.TestCase):
+    SAFE = 'set("exits",(["north":"/a"]));'
+
+    @classmethod
+    def cases(cls):
+        # Handwritten policies, generated spellings only; no observed-output oracle.
+        cases = []
+        for operation in ('set', 'add', 'delete'):
+            for key in ('exits', 'exits/east'):
+                for depth in (1, 2, 3):
+                    grouped = '(' * depth + '"' + key + '"' + ')' * depth
+                    call = operation + '(' + grouped + ('' if operation == 'delete' else ',value') + ');'
+                    cases.append((f'group-{operation}-{key}-{depth}', room(cls.SAFE + call), 0))
+            for key in ('variable', '(variable)', 'foo()', '"exits" + suffix', '("exits" + "")',
+                        'mapping[index]', 'condition ? "exits" : "short"', '(("exits", "short"))',
+                        '("exits"[0..])', 'K', '42'):
+                call = operation + '(' + key + ('' if operation == 'delete' else ',value') + ');'
+                cases.append((f'unknown-{operation}-{key}', room(cls.SAFE + call), 0))
+            for receiver in ('::', 'other->'):
+                for key in ('variable', 'foo()', '("exits")', '(("short"))'):
+                    call = receiver + operation + '(' + key + ('' if operation == 'delete' else ',value') + ');'
+                    cases.append((f'receiver-{receiver}-{operation}-{key}', room(cls.SAFE + call),
+                                  1 if receiver == 'other->' or key == '(("short"))' else 0))
+        for key in ('("exits")', 'unknown_key'):
+            for receiver in ('', '::'):
+                call = receiver + 'set(' + key + ',value)'
+                for place, body in (
+                    ('flat', cls.SAFE + call + ';'),
+                    ('nested', cls.SAFE + '{' + call + ';}'),
+                    ('value', cls.SAFE + 'set("objects",' + call + ');'),
+                    ('wrapper', cls.SAFE + 'foo(' + call + ');'),
+                    ('mapping', 'set("exits",(["north":"/a","south":' + call + ']));'),
+                    ('before', call + ';' + cls.SAFE),
+                    ('after', cls.SAFE + call + ';'),
+                    ('between', cls.SAFE + call + ';' + cls.SAFE),
+                ):
+                    cases.append((f'position-{key}-{receiver}-{place}', room(body), 0))
+        for key in ('("short")', '(("name"))', '("indoors")', '"exits_other"', '"objects"', '("inventory")'):
+            for receiver in ('', '::', 'other->'):
+                cases.append((f'non-exit-{receiver}-{key}', room(cls.SAFE + receiver + 'set(' + key + ',value);'), 1))
+        for name in ('reset', 'init', 'helper'):
+            cases.append(('scope-' + name, room(cls.SAFE, 'void ' + name + '(){set(variable,x);delete(("exits"));}'), 1))
+        for name, extra in (
+            ('comment', '/* delete(("exits")); set(variable,x); */'),
+            ('string', r'set("long","delete((\"exits\")); set(variable,x)");'),
+            ('character', "set(\"indoors\",'(');"),
+            ('heredoc', 'set("long",@TEXT\ndelete(("exits"));\nTEXT\n);'),
+            ('echo', '\n#echo delete(("exits")); set(variable,x);\n'),
+        ):
+            cases.append(('opaque-' + name, room(cls.SAFE + extra), 1))
+        for definition in ('', '#define K "exits"\n'):
+            for operation in ('set', 'delete'):
+                call = operation + '((K)' + (',value' if operation == 'set' else '') + ');'
+                cases.append((f'macro-{bool(definition)}-{operation}', definition + room(cls.SAFE + call), 0))
+        cases += [('single', room(cls.SAFE), 1), ('double', room(cls.SAFE + cls.SAFE), 2)]
+        return cases
+
+    def test_grouped_unknown_receiver_position_matrix(self):
+        for name, text, expected in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    r, ff = extract(text.replace('\n', newline))
+                    self.assertEqual(expected, len(fields(r, 'exit')))
+                    self.assertNotEqual('QUARANTINED', r['status'])
+                    self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(ff))
+
+    def test_key_reduction_is_static_text_or_unknown_only(self):
+        for key, expected in [('"exits"', 'exits'), ('((("short")))', 'short'),
+                              ('("exits" + "")', None), ('(("exits", "short"))', None),
+                              ('foo()', None), ('((variable))', None), ('("exits"[0..])', None)]:
+            raw = ('set(' + key + ',value);').encode()
+            ts = lex(Source('d/probe.c', raw))
+            value, end = RoomExtractor.classify_property_key(ts, 2)
+            self.assertEqual(expected, value)
+            self.assertEqual(',', ts[end].text)
+            self.assertEqual(key, raw[ts[2].start:ts[end - 1].end].decode())
+
+    def test_grouped_calls_are_not_registered_as_flat_declarations(self):
+        text = room(self.SAFE + 'set(("exits"),(["s":"/b"]));')
+        ext = RoomExtractor(Source('d/probe.c', text.encode()), set(), {})
+        r, _ = ext.extract()
+        self.assertEqual({text.index('set("exits"')}, ext.flat_exit_setter_starts)
+        self.assertEqual({text.index('set(("exits"')}, ext.exit_uncertainty_call_starts)
+        self.assertEqual([], fields(r, 'exit'))
+
+    def test_finalizer_alone_and_no_suppressed_fact_allocation(self):
+        original = RoomExtractor.fact
+        def reject_exit(instance, field, *args, **kwargs):
+            self.assertNotEqual('exit', field)
+            return original(instance, field, *args, **kwargs)
+        for call in ('set(("exits"),x)', 'delete(("exits/east"))', 'set(variable,x)',
+                     '::set(("exits"),x)', '::delete(compute_key())'):
+            with patch.object(RoomExtractor, 'unsupported_exit_mutations'), patch.object(RoomExtractor, 'fact', reject_exit):
+                r, _ = extract(room('set("short","independent");' + self.SAFE + 'foo(' + call + ');'))
+            self.assertEqual(['inherit', 'short'], [f['field'] for f in r['facts']])
+        for call in ('other->set(variable,x)', 'other->delete(("exits"))'):
+            with patch.object(RoomExtractor, 'unsupported_exit_mutations'):
+                r, _ = extract(room(self.SAFE + call + ';'))
+            self.assertEqual(1, len(fields(r, 'exit')))
+
+    def test_grouped_and_unknown_findings_deduplicate_and_keep_authored_span(self):
+        for call in ('delete((("exits/east")))', 'set(compute_key(),x)', '::delete(("exits/east"))',
+                     '::set(variable,x)'):
+            for newline in ('\n', '\r\n'):
+                raw = room(self.SAFE + '{' + call + ';}').replace('\n', newline).encode()
+                r, ff = extract(raw)
+                refused = [f for f in ff if 'prevents reliable exit facts' in f['reason']
+                           or 'makes this exit sequence uncertain' in f['reason']]
+                self.assertEqual(1, len(refused))
+                p = refused[0]['provenance']
+                self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+                self.assertTrue(p['raw'].startswith(call.split('(')[0] + '('))
+                self.assertEqual(call.rsplit(',', 1)[0] if ',' in call else call[:-1], p['raw'])
+                self.assertEqual([], fields(r, 'exit'))
+
+    def test_long_grouping_is_iterative(self):
+        for value, expected in (('exits', 0), ('short', 1)):
+            key = '(' * 1100 + '"' + value + '"' + ')' * 1100
+            for newline in ('\n', '\r\n'):
+                r, _ = extract(room(self.SAFE + 'set(' + key + ',value);').replace('\n', newline))
+                self.assertEqual(expected, len(fields(r, 'exit')))
+                self.assertNotEqual('QUARANTINED', r['status'])
+
+    def test_static_non_exit_inherited_keys_do_not_veto(self):
+        for call in ('::set("short",value)', '::delete("objects")', '::add(("inventory"),value)'):
+            r, ff = extract(room(self.SAFE + call + ';'))
+            self.assertEqual(1, len(fields(r, 'exit')))
+            self.assertFalse(any('exit sequence uncertain' in f['reason'] for f in ff))
+
+    def test_existing_true_source_corruption_is_unchanged(self):
+        for text in ('inherit ROOM; void create(){', 'inherit ROOM\nvoid create(){}',
+                     room('unfinished'), room('set("exits",(["n":"/a",,"s":"/b"]));'),
+                     b'inherit ROOM;\x00'):
+            r, ff = extract(text)
+            self.assertEqual('QUARANTINED', r['status'])
+            self.assertEqual([], r['facts'])
+            self.assertTrue(codes(ff) & {'SOURCE_SYNTAX_ERROR', 'SOURCE_ENCODING_ISSUE'})
 
 
 class RealSourceTests(unittest.TestCase):

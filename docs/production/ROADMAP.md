@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F19 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F20 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -398,8 +398,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     whole-exits calls hidden inside setter values bypassed create exit-sequence refusal.
     [P2F19](../migration/MIGRATION_TOOLING_V1_P2F19_CREATE_SCOPE_EXIT_MUTATION_FINALIZER_BACKSTOP.md)
     adds exact flat-setter registration and an exhaustive authored create-call finalizer backstop.
-    P2F19 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    P2F19 is CLOSED. Final Re-Audit after P2F19 was BLOCKED on FR19-01 / HIGH / D3-D6:
+    grouped property keys bypassed the shared create exit-mutation classifier.
+    [P2F20](../migration/MIGRATION_TOOLING_V1_P2F20_CONSERVATIVE_EXIT_MUTATION_KEY_CLASSIFICATION.md)
+    classifies redundantly grouped static text keys and conservatively refuses unknown current-object mutation keys.
+    P2F20 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
     The systematic quarantine-path audit and mapping category-C challenges remain for that complete Final Re-Audit.
-    ARCHIVE-01 remains CLOSED; all eight FR11/FR12/FR13/FR14/FR15/FR16/FR17/FR18 blocked reports remain owner-local/untracked/byte-identical.
+    ARCHIVE-01 remains CLOSED; all nine FR11/FR12/FR13/FR14/FR15/FR16/FR17/FR18/FR19 blocked reports remain owner-local/untracked/byte-identical.
     No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

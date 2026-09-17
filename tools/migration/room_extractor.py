@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.19'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19'}
+EXTRACTOR_VERSION = '1.0.20'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1197,22 +1197,50 @@ class RoomExtractor:
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT, 'Setter field is outside static-room-v1.', ts, 'create')
 
     @staticmethod
-    def classify_exit_call(ts: list[Token], index: int) -> str | None:
+    def classify_property_key(ts: list[Token], start: int) -> tuple[str | None, int]:
+        """Return static text (or unknown) and the authored first-argument end.
+
+        Delimiter depth only locates the argument; reduction accepts exactly one
+        text literal with redundant parentheses. No expressions are evaluated.
+        """
+        end, depth = start, 0
+        while end < len(ts):
+            token = ts[end]
+            if token.kind == 'punctuation':
+                if depth == 0 and token.text in {',', ')'}:
+                    break
+                if token.text in {'(', '[', '{'}:
+                    depth += 1
+                elif token.text in {')', ']', '}'}:
+                    depth -= 1
+            end += 1
+        left, right = start, end
+        while left < right and ts[left].text == '(' and ts[right - 1].text == ')':
+            left += 1
+            right -= 1
+        key = literal(ts[left]) if right - left == 1 else None
+        if end < len(ts) and key and key['kind'] == 'text':
+            return key['value'], end
+        return None, end
+
+    @classmethod
+    def classify_exit_call(cls, ts: list[Token], index: int) -> str | None:
         """Classify bounded authored calls only; never evaluate receiver or value."""
         token = ts[index]
         if (index + 3 >= len(ts) or token.kind != 'identifier'
                 or token.text not in {'set', 'add', 'delete'} or ts[index + 1].text != '('):
             return None
-        key = literal(ts[index + 2])
-        if (not key or key['kind'] != 'text' or ts[index + 3].text not in {',', ')'}
-                or not (key['value'] == 'exits' or key['value'].startswith('exits/'))):
+        key, _ = cls.classify_property_key(ts, index + 2)
+        if key is not None and key != 'exits' and not key.startswith('exits/'):
             return None
         receiver = ts[index - 1].text if index else ''
         if receiver == '->':
             return 'cross-object'
         if receiver == '::':
-            return 'inherited'
-        return 'local-whole-set' if token.text == 'set' and key['value'] == 'exits' else 'local-mutation'
+            return 'inherited-unknown-key' if key is None else 'inherited'
+        if key is None:
+            return 'local-unknown-key'
+        return 'local-whole-set' if token.text == 'set' and key == 'exits' else 'local-mutation'
 
     def refuse_exit_call(self, ts: list[Token], index: int, kind: str, *, finalizer: bool = False) -> None:
         self.exit_sequence_uncertain = True
@@ -1220,15 +1248,20 @@ class RoomExtractor:
         if start in self.exit_uncertainty_call_starts:
             return
         self.exit_uncertainty_call_starts.add(start)
-        if kind == 'inherited':
+        _, end = self.classify_property_key(ts, index + 2)
+        if kind in {'inherited', 'inherited-unknown-key'}:
+            reason = ('Inherited-qualified mutation with an unknown property key makes this exit sequence uncertain.'
+                      if kind == 'inherited-unknown-key' else
+                      'Inherited-qualified exit call in an unsupported create region makes this exit sequence uncertain.')
             self.finding(FindingCode.UNSUPPORTED_CONSTRUCT,
-                         'Inherited-qualified exit call in an unsupported create region makes this exit sequence uncertain.',
-                         ts[index - 1:index + 3], 'create')
+                         reason, ts[index - 1:end], 'create')
         else:
-            reason = ('Unsupported create exit mutation prevents reliable exit facts from this sequence.'
+            reason = ('Unknown property key on a local create mutation prevents reliable exit facts from this sequence.'
+                      if kind == 'local-unknown-key' else
+                      'Unsupported create exit mutation prevents reliable exit facts from this sequence.'
                       if finalizer else
                       'Local exit mutation in an unsupported create region prevents reliable exit facts from this sequence.')
-            self.finding(FindingCode.ORDER_SENSITIVE_MUTATION, reason, ts[index:index + 3], 'create')
+            self.finding(FindingCode.ORDER_SENSITIVE_MUTATION, reason, ts[index:end], 'create')
 
     def unsupported_exit_mutations(self, ts: list[Token]) -> None:
         """Veto authored exit calls in a skipped region, preserving receiver identity."""

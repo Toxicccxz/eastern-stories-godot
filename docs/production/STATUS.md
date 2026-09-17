@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F19 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F20 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -76,9 +76,13 @@ P2F18 is CLOSED. Final Re-Audit after P2F18 was BLOCKED on FR18-01 / HIGH / D3-D
 whole-exits calls hidden inside setter values bypassed create exit-sequence refusal.
 [P2F19](../migration/MIGRATION_TOOLING_V1_P2F19_CREATE_SCOPE_EXIT_MUTATION_FINALIZER_BACKSTOP.md)
 adds exact flat-setter registration and an exhaustive authored create-call finalizer backstop.
-P2F19 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+P2F19 is CLOSED. Final Re-Audit after P2F19 was BLOCKED on FR19-01 / HIGH / D3-D6:
+grouped property keys bypassed the shared create exit-mutation classifier.
+[P2F20](../migration/MIGRATION_TOOLING_V1_P2F20_CONSERVATIVE_EXIT_MUTATION_KEY_CLASSIFICATION.md)
+classifies redundantly grouped static text keys and conservatively refuses unknown current-object mutation keys.
+P2F20 is implemented and awaits owner review; another complete Final Re-Audit is required and not yet authorized.
 The systematic quarantine-path audit and mapping category-C challenges remain for that complete Final Re-Audit.
-ARCHIVE-01 remains CLOSED. All eight FR11/FR12/FR13/FR14/FR15/FR16/FR17/FR18 blocked reports remain owner-local, untracked and byte-identical.
+ARCHIVE-01 remains CLOSED. All nine FR11/FR12/FR13/FR14/FR15/FR16/FR17/FR18/FR19 blocked reports remain owner-local, untracked and byte-identical.
 No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
