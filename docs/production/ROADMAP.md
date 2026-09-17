@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F12 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F13 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -370,6 +370,11 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     macro analysis. ARCHIVE-01 is CLOSED and historical audit bytes remain preserved.
     [P2F12](../migration/MIGRATION_TOOLING_V1_P2F12_PRE_PAIR_MACRO_DELIMITER_UNCERTAINTY.md) implements
     a lazy actual-use pairing-uncertainty gate after authored pairing fails, preserving the normal path.
-    P2F12 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
-    The FR11 blocked rerun report remains owner-local/untracked/unchanged; no new remote CI run.
+    P2F12 is CLOSED. Final Re-Audit after P2F12 was BLOCKED on FR12-01 / blocking MEDIUM / D9:
+    raw include delimiters and standalone header fragments were falsely quarantined.
+    [P2F13](../migration/MIGRATION_TOOLING_V1_P2F13_INCLUDE_FRAGMENT_PAIRING_CLASSIFICATION.md) adds lazy
+    resolved-fragment pairing refusal and separates header lexical corruption from structural incompleteness.
+    P2F13 awaits owner review; another complete Final Re-Audit is required and not yet authorized.
+    ARCHIVE-01 remains CLOSED; both FR11/FR12 blocked reports remain owner-local/untracked/byte-identical.
+    No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

@@ -31,8 +31,8 @@ class FindingCode(StrEnum):
 
 FLAGS = {'outdoors', 'indoors', 'no_clean_up', 'no_fight'}
 TEXT_FIELDS = {'short', 'name', 'long'}
-EXTRACTOR_VERSION = '1.0.12'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12'}
+EXTRACTOR_VERSION = '1.0.13'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -623,7 +623,7 @@ class RoomExtractor:
             fact['normalization'] = normalized
         self.facts.append(fact)
 
-    def macro_context(self, ts: list[Token]) -> tuple[MacroSummary, list[tuple[str, list[Token]]], set[str], set[str]]:
+    def macro_context(self, ts: list[Token], *, origins: dict[str, Token] | None = None) -> tuple[MacroSummary, list[tuple[str, list[Token]]], set[str], set[str]]:
         """Collect existing root/include context without requiring paired tokens.
 
         Source tokens are never merged. Each include is visited once per root;
@@ -670,6 +670,8 @@ class RoomExtractor:
                 included.add(path)
                 if path not in visited:
                     visited.add(path)
+                    if origins is not None:
+                        origins[path] = token if source_path == self.source.path else origins[source_path]
                     try:
                         units.append((path, lex(self.dependencies[path])))
                     except SourceError:
@@ -703,9 +705,34 @@ class RoomExtractor:
                 return token  # Authored use, never replacement/header provenance.
         return None
 
-    def extract(self) -> tuple[dict, list[dict]]:
+    def include_pairing_uncertain_use(self) -> Token | None:
+        """Resolved raw fragments only; retain the reaching root include token."""
+        origins: dict[str, Token] = {}
+        _, units, _, _ = self.macro_context(self.tokens, origins=origins)
+        for path, tokens in units[1:]:
+            try:
+                # Directives contain their own lexical analysis view. A lexical
+                # failure is not evidence of a valid raw pairing fragment.
+                for token in tokens:
+                    if token.kind == 'directive':
+                        directive_tokens(token)
+            except SourceError:
+                continue
+            try:
+                pairs(tokens)
+            except SourceError:
+                return origins[path]
+        return None
+
+    def extract(self, *, header: bool = False) -> tuple[dict, list[dict]]:
+        header_lexed = False
         try:
             self.tokens = lex(self.source)
+            if header:
+                for token in self.tokens:
+                    if token.kind == 'directive':
+                        directive_tokens(token)
+                header_lexed = True
             conditional = any(t.kind == 'directive' and directive_parts(t)[:1] in
                               [['if'], ['ifdef'], ['ifndef'], ['else'], ['elif'], ['endif']] for t in self.tokens)
             if conditional:
@@ -716,24 +743,44 @@ class RoomExtractor:
                     matching = pairs(self.tokens)
                 except SourceError:
                     use = self.pairing_uncertain_use()
+                    reason = 'Preprocessor macro usage may alter delimiter structure; authored delimiter imbalance is not sufficient evidence of source corruption.'
+                    if use is None and not header:
+                        use = self.include_pairing_uncertain_use()
+                        reason = 'Resolved textual include fragments may alter delimiter structure; authored delimiter imbalance is not sufficient evidence of source corruption.'
                     if use is None:
                         raise  # Preserve the original pairing error and byte span.
                     self.finding(FindingCode.OUT_OF_SCOPE,
                                  'Preprocessor structure prevents reliable static-room admission.',
                                  [use], severity='INFO')
                     self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
-                                 'Preprocessor macro usage may alter delimiter structure; authored delimiter imbalance is not sufficient evidence of source corruption.',
+                                 reason,
                                  [use])
                 else:
                     self.extract_structure(matching)
         except SourceError as error:
             self.facts.clear()
-            self.record['status'] = 'QUARANTINED'
-            self.findings.append(dict(code=(FindingCode.SOURCE_ENCODING_ISSUE if error.encoding else
-                                           FindingCode.SOURCE_SYNTAX_ERROR).value,
-                                     severity='ERROR', object_id=self.record['object_id'],
-                                     reason=str(error), prevents_supported_consumption=True,
-                                     provenance=self.source.span(error.start, error.end, 'unknown', 'source-error', 0)))
+            if header_lexed:
+                # Headers are textual fragments, not standalone translation units.
+                # Lexical failures were excluded before any structural analysis.
+                self.inherits.clear()
+                self.findings.clear()
+                self.record['category_candidates'] = []
+                self.finding(FindingCode.OUT_OF_SCOPE, 'Header fragment is outside the standalone ROOM profile.',
+                             self.tokens[:1], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Header structural completeness depends on its include site; standalone parsing is not corruption evidence.',
+                             self.tokens)
+            else:
+                self.record['status'] = 'QUARANTINED'
+                self.findings.append(dict(code=(FindingCode.SOURCE_ENCODING_ISSUE if error.encoding else
+                                               FindingCode.SOURCE_SYNTAX_ERROR).value,
+                                         severity='ERROR', object_id=self.record['object_id'],
+                                         reason=str(error), prevents_supported_consumption=True,
+                                         provenance=self.source.span(error.start, error.end, 'unknown', 'source-error', 0)))
+        if header and self.record['status'] != 'QUARANTINED':
+            self.record['status'] = 'OUT_OF_SCOPE'
+            self.record['supported_candidate'] = False
+            self.facts.clear()
         self.facts.sort(key=lambda f: (f['provenance']['byte_start'], f['provenance']['byte_end_exclusive'], f['field']))
         self.findings.sort(key=lambda f: (f['provenance']['byte_start'], f['code'], f['reason']))
         for index, finding in enumerate(self.findings):
@@ -1031,7 +1078,7 @@ def scan(root: Path) -> tuple[dict, int]:
         in_mudlib = relative.startswith(prefix)
         if kind in {'LPC_SOURCE', 'HEADER'} and in_mudlib:
             extractor = RoomExtractor(source, paths, dependencies)
-            record, diagnostics = extractor.extract()
+            record, diagnostics = extractor.extract(header=kind == 'HEADER')
             if kind != 'LPC_SOURCE' and record['status'] != 'QUARANTINED':
                 record['status'] = 'OUT_OF_SCOPE'
                 record['supported_candidate'] = False
