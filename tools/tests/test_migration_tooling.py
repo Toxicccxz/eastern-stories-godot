@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.21', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.22', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.21', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.22', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2594,7 +2594,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.21', doc['extractor_version'])
+                self.assertEqual('1.0.22', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -3798,6 +3798,130 @@ class P2F21RegressionTests(unittest.TestCase):
         self.assertEqual('PARTIAL', r['status'])
         self.assertEqual('safe', fields(r, 'short')[0]['value']['value'])
         self.assertFalse(any('create tail' in f['reason'] for f in findings))
+
+
+class P2F22RegressionTests(unittest.TestCase):
+    @classmethod
+    def cases(cls):
+        cases = []
+        for name, definitions, use in (
+            ('empty-function', '#define inherit()\n', 'inherit()'),
+            ('parameter', '#define inherit(x)\n', 'inherit(ROOM)'),
+            ('parameters', '#define inherit(x,y)\n', 'inherit(ROOM,ignored())'),
+            ('opaque-arguments', '#define inherit(x)\n', 'inherit(set("exits",value))'),
+            ('empty-object', '#define inherit\n', 'inherit'),
+            ('object-alias', '#define inherit END\n#define END\n', 'inherit'),
+            ('object-function', '#define inherit END\n#define END(x)\n', 'inherit(ROOM)'),
+            ('function-object', '#define inherit(x) END\n#define END\n', 'inherit(ROOM)'),
+            ('continuation', '#define inherit() END\n#define END()\n', 'inherit()()'),
+            ('longer-alias', '#define inherit() A\n#define A B\n#define B END\n#define END()\n', 'inherit()()'),
+            ('object-cycle', '#define inherit A\n#define A inherit\n', 'inherit'),
+            ('function-cycle', '#define inherit() A\n#define A() inherit\n', 'inherit()()'),
+            ('competing', '#define inherit(x)\n#define inherit(x) 1\n', 'inherit(ROOM)'),
+            ('object-function-ambiguity', '#define inherit\n#define inherit(x)\n', 'inherit ROOM;'),
+            ('invalid', '#define inherit(x\n', 'inherit(ROOM)'),
+            ('dependent', '#define inherit(x) x\n', 'inherit(ROOM)'),
+            ('paste', '#define inherit A ## B\n', 'inherit ROOM;'),
+            ('compound', '#define inherit() (1+2)\n', 'inherit()'),
+            ('semicolon', '#define inherit()\n', 'inherit();'),
+            ('apparent-declaration', '#define inherit SOMETHING\n', 'inherit ROOM;'),
+            ('comment', '#define inherit(x)\n', 'inherit /*comment*/ (ROOM)'),
+            ('multiline', '#define inherit(x)\n', 'inherit\n(ROOM)'),
+        ):
+            cases.append((name, definitions + use + '\nvoid create() {}\n', {}, 'OUT_OF_SCOPE'))
+        for name, prefix, headers in (
+            ('local', '#include "macros.h"\n', {'d/macros.h': '#define inherit(x)\n'}),
+            ('nested', '#include "outer.h"\n', {'d/outer.h': '#include "macros.h"\n', 'd/macros.h': '#define inherit(x)\n'}),
+            ('standard', '#include <macros.h>\n', {'include/macros.h': '#define inherit(x)\n'}),
+            ('cross', '#include "a.h"\n#include "b.h"\n', {'d/a.h': '#define inherit(x) END\n', 'd/b.h': '#define END\n'}),
+        ):
+            cases.append((name, prefix + 'inherit(ROOM)\nvoid create() {}\n', headers, 'OUT_OF_SCOPE'))
+        cases += [
+            ('normal', room('set("short","safe");'), {}, 'EXTRACTED'),
+            ('literal-only', 'inherit "/std/room"; void create() {}', {}, 'OUT_OF_SCOPE'),
+            ('additional', 'inherit ROOM; inherit "/custom/base"; void create() {}', {}, 'PARTIAL'),
+            ('uninvoked-valid', '#define inherit(x)\n' + room('set("short","safe");'), {}, 'PARTIAL'),
+            ('uninvoked-structural', '#define inherit(x) ; inherit NPC;\n' + room(''), {}, 'PARTIAL'),
+            ('uninvoked-missing', '#define inherit(x)\ninherit ROOM\nvoid create() {}', {}, 'QUARANTINED'),
+            ('normal-missing', 'inherit ROOM\nvoid create() {}', {}, 'QUARANTINED'),
+            ('unused', '#define UNUSED(x)\ninherit ROOM\nvoid create() {}', {}, 'QUARANTINED'),
+            ('typed-boundary', '#define inherit(x)\ninherit(ROOM)\nint helper(){return 1;}\n', {}, 'OUT_OF_SCOPE'),
+            ('untyped-boundary', '#define inherit(x)\ninherit(ROOM)\ncreate() {}\n', {}, 'OUT_OF_SCOPE'),
+            ('missing-include-valid', '#include "missing.h"\n' + room(''), {}, 'OUT_OF_SCOPE'),
+            ('missing-with-known-use', '#include "missing.h"\n#define inherit(x)\ninherit(ROOM)\n', {}, 'OUT_OF_SCOPE'),
+            ('earlier-normal', '#define inherit(x)\ninherit ROOM;\ninherit(ROOM)\nvoid create(){}', {}, 'OUT_OF_SCOPE'),
+            ('later-normal', '#define inherit(x)\ninherit(ROOM)\ninherit ROOM;\nvoid create(){}', {}, 'OUT_OF_SCOPE'),
+            ('earlier-excluded', '#define inherit(x)\ninherit NPC;\ninherit(ROOM)\nvoid create(){}', {}, 'OUT_OF_SCOPE'),
+        ]
+        return cases
+
+    def test_handwritten_keyword_use_matrix(self):
+        for name, text, headers, expected in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    deps = {p: Source(p, v.replace('\n', newline).encode()) for p, v in headers.items()}
+                    record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                    self.assertEqual(expected, record['status'])
+                    self.assertEqual(expected == 'QUARANTINED', 'SOURCE_SYNTAX_ERROR' in codes(findings))
+                    if expected == 'OUT_OF_SCOPE':
+                        self.assertFalse(record['supported_candidate'])
+                        self.assertEqual([], record['facts'])
+
+    def test_uninvoked_definition_keeps_real_declaration_and_facts(self):
+        plain, _ = extract(room('set("short","safe");set("exits",(["n":"/a"]));'))
+        for definition in ('#define inherit(x)\n', '#define inherit(x) ; inherit NPC;\n'):
+            record, _ = extract(definition + room('set("short","safe");set("exits",(["n":"/a"]));'))
+            self.assertTrue(record['supported_candidate'])
+            self.assertEqual([f['value'] for f in plain['facts']], [f['value'] for f in record['facts']])
+            self.assertEqual(['ROOM'], record['category_candidates'])
+
+    def test_refusal_clears_earlier_inheritance_before_any_fact_allocation(self):
+        for prefix in ('inherit ROOM;', 'inherit NPC;', 'inherit ROOM;inherit "/custom/base";'):
+            with patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no uncertain facts')):
+                record, _ = extract('#define inherit(x)\n' + prefix + '\ninherit(ignored)\nvoid create(){}')
+            self.assertEqual('OUT_OF_SCOPE', record['status'])
+            self.assertFalse(record['supported_candidate'])
+            self.assertEqual([], record['direct_inherits'])
+            self.assertEqual([], record['category_candidates'])
+            self.assertEqual([], record['facts'])
+
+    def test_header_finding_uses_authored_root_keyword_only(self):
+        for newline in ('\n', '\r\n'):
+            raw = ('// 中文\n#include "outer.h"\ninherit(ROOM)\nvoid create(){}').replace('\n', newline).encode()
+            deps = {'d/outer.h': Source('d/outer.h', b'#include "inner.h"\n'),
+                    'd/inner.h': Source('d/inner.h', b'#define inherit(x) ERASE\n#define ERASE\n')}
+            ext = RoomExtractor(Source('d/probe.c', raw), set(), deps)
+            record, findings = ext.extract()
+            self.assertEqual([], record['facts'])
+            self.assertEqual({'OUT_OF_SCOPE', 'DRIVER_SEMANTICS_UNKNOWN'}, codes(findings))
+            for finding in findings:
+                p = finding['provenance']
+                self.assertEqual('d/probe.c', p['source_path'])
+                self.assertEqual('inherit', p['raw'])
+                self.assertEqual(raw.index(b'inherit(ROOM)'), p['byte_start'])
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                self.assertEqual((3, 1), (p['line'], p['column']))
+            self.assertFalse(any(t.text == 'ERASE' for t in ext.tokens))
+
+    def test_macro_gate_does_not_summarize_replacements_or_expand(self):
+        with (patch.object(MacroSummary, 'create_tail_effect', side_effect=AssertionError('not a create tail')),
+              patch.object(MacroSummary, 'inherit_boundary_uncertain', side_effect=AssertionError('not a trusted declaration'))):
+            record, _ = extract('#define inherit(x) unknown(x)\ninherit(ROOM)\nvoid create(){}')
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+
+    def test_normal_missing_terminator_still_has_original_diagnostic(self):
+        for prefix in ('', '#define inherit(x)\n'):
+            record, findings = extract(prefix + 'inherit ROOM\nvoid create(){}')
+            self.assertEqual('QUARANTINED', record['status'])
+            error = next(f for f in findings if f['code'] == 'SOURCE_SYNTAX_ERROR')
+            self.assertEqual('unterminated inherit', error['reason'])
+            self.assertEqual('inherit', error['provenance']['raw'])
+
+    def test_long_alias_context_does_not_require_expansion(self):
+        definitions = '#define inherit A0\n' + ''.join(f'#define A{i} A{i+1}\n' for i in range(1100)) + '#define A1100\n'
+        record, _ = extract(definitions + 'inherit\nvoid create(){}')
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+        self.assertEqual([], record['direct_inherits'])
 
 
 class RealSourceTests(unittest.TestCase):

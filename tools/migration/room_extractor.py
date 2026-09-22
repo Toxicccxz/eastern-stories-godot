@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.21'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21'}
+EXTRACTOR_VERSION = '1.0.22'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -420,6 +420,12 @@ def macro_structure_hazards(ts: list[Token], macros: MacroSummary) -> set[str]:
     for context, tokens in macro_regions(ts):
         for token in tokens:
             if token.kind != 'identifier' or token.text not in macros.definitions:
+                continue
+            if (context == 'inherit' and token is tokens[0] and token.text == 'inherit'
+                    and all(function_like for function_like, _ in macros.definitions['inherit'])
+                    and (len(tokens) < 2 or tokens[1].text != '(')):
+                # An uninvoked function macro leaves the authored keyword intact.
+                # Other declaration tokens retain their existing hazard policy.
                 continue
             effect = macros.effect(token.text)
             if context == 'inherit':
@@ -932,6 +938,13 @@ class RoomExtractor:
         use = macro_use(pending)
         return (use, False) if use is not None else None
 
+    def inherit_keyword_preprocessing_use(self, index: int, matching: dict[int, int]) -> bool:
+        """Is the authored keyword a macro use, without interpreting replacements?"""
+        macros, _, _, _ = self.macro_context(self.tokens)
+        invoked = index + 1 in matching and self.tokens[index + 1].text == '('
+        return any(not function_like or invoked
+                   for function_like, _ in macros.definitions.get('inherit', []))
+
     def extract_structure(self, matching: dict[int, int]) -> None:
         ts = self.tokens
         functions: list[tuple[str, int, int, int]] = []
@@ -946,6 +959,16 @@ class RoomExtractor:
                 i += 1
                 continue
             if token.text == 'inherit' and i == start:
+                if self.inherit_keyword_preprocessing_use(i, matching):
+                    self.inherits.clear()
+                    self.record['category_candidates'].clear()
+                    self.finding(FindingCode.OUT_OF_SCOPE,
+                                 'Preprocessing shadows the authored inherit keyword; static-room admission is not reliable.',
+                                 [token], severity='INFO')
+                    self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                                 'Authored inherit token is an actual macro use; no inheritance declaration is recovered without preprocessing.',
+                                 [token])
+                    return  # Refuse before semicolon search or inheritance allocation.
                 end = i + 1
                 while end < len(ts) and ts[end].text != ';':
                     part = ts[end]
