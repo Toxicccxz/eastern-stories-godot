@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.22'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22'}
+EXTRACTOR_VERSION = '1.0.23'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -945,6 +945,34 @@ class RoomExtractor:
         return any(not function_like or invoked
                    for function_like, _ in macros.definitions.get('inherit', []))
 
+    def preprocessing_hidden_inherit_use(self, statement: list[Token]) -> tuple[Token, Token] | None:
+        """Refuse a possible declaration behind an entirely preprocessing prefix.
+
+        Only one already-segmented, terminated top-level statement is inspected.
+        Actual macro uses and adjacent authored call groups are opaque; neither
+        replacements nor the hidden inheritance expression are interpreted.
+        """
+        if (not statement or statement[-1].kind != 'punctuation' or statement[-1].text != ';'
+                or any(t.kind == 'directive' for t in statement)):
+            return None
+        macros, _, _, _ = self.macro_context(self.tokens)
+        matching = pairs(statement)
+        i = 0
+        while i < len(statement) - 1:
+            token = statement[i]
+            if i and token.kind == 'identifier' and token.text == 'inherit':
+                return statement[0], token
+            invoked = i + 1 in matching and statement[i + 1].text == '('
+            if (token.kind != 'identifier' or not any(not function_like or invoked
+                    for function_like, _ in macros.definitions.get(token.text, []))):
+                return None  # Definite non-macro material cannot be erased here.
+            i += 1
+            # These groups may belong to a callable continuation. Refusal needs
+            # no proof of that chain and never reuses or expands their arguments.
+            while i in matching and statement[i].text == '(':
+                i = matching[i] + 1
+        return None
+
     def extract_structure(self, matching: dict[int, int]) -> None:
         ts = self.tokens
         functions: list[tuple[str, int, int, int]] = []
@@ -1042,6 +1070,19 @@ class RoomExtractor:
                 i += 1
         if start < len(ts):
             unknown_top.append(ts[start:])
+        for statement in unknown_top:
+            hidden = self.preprocessing_hidden_inherit_use(statement)
+            if hidden is not None:
+                prefix, keyword = hidden
+                self.inherits.clear()
+                self.record['category_candidates'].clear()
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Preprocessing-sensitive top-level prefix may expose an authored inherit declaration; static-room admission is not reliable.',
+                             [prefix], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Potential inheritance declaration behind a preprocessing prefix is not recovered without preprocessing.',
+                             [keyword])
+                return  # Before candidate admission and any fact allocation.
         direct = any(x['symbol'] == 'ROOM' for x in self.inherits)
         hazards = self.include_hazards(ts)
         excluded = {'BANK', 'HOCKSHOP', 'CLASS_GUILD', 'NPC', 'ITEM', 'MONEY', 'COMBINED_ITEM', 'WEAPON', 'ARMOR',

@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F22 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F23 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -411,8 +411,12 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     FR21-01 / blocking MEDIUM / D9: an actual macro use of the authored inherit keyword was falsely quarantined.
     [P2F22](../migration/MIGRATION_TOOLING_V1_P2F22_MACRO_SHADOWED_INHERIT_KEYWORD_SAFETY.md)
     refuses such macro uses before inheritance parsing while preserving uninvoked function-macro controls.
-    P2F22 is implemented and awaits owner review; the next Complete Final Re-Audit is not yet authorized.
+    P2F22 is CLOSED. Final Re-Audit after P2F22 was BLOCKED on FR22-01 / HIGH / D2-D3:
+    a preprocessing-only prefix hid an authored top-level inherit and allowed an unsafe fact subset.
+    [P2F23](../migration/MIGRATION_TOOLING_V1_P2F23_PREPROCESSOR_SENSITIVE_INHERIT_PREFIX_SAFETY.md)
+    adds a pre-admission full-object refusal gate without expansion or hidden declaration recovery.
+    P2F23 is implemented and awaits owner review; the next Complete Final Re-Audit is not yet authorized.
     The systematic quarantine-path audit remains INCOMPLETE and mandatory, including mapping category-C challenges, in the next Complete Final Re-Audit.
-    ARCHIVE-01 remains CLOSED; all twelve owner-local blocked/preflight reports through P2F21 and its rerun remain owner-local/untracked/byte-identical.
+    ARCHIVE-01 remains CLOSED; all thirteen owner-local blocked/preflight reports through P2F22 remain owner-local/untracked/byte-identical.
     No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.
