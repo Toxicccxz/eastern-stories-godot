@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.24', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.25', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.24', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.25', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2598,7 +2598,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.24', doc['extractor_version'])
+                self.assertEqual('1.0.25', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -2802,7 +2802,7 @@ class P2F14RegressionTests(unittest.TestCase):
     # Independently authored inputs/expectations, never extractor-generated.
     CASES = [
         ('include-function-invocation', '#define END() ;\ninherit ROOM\n#include "tail.h"\n', {'d/tail.h': 'END()\n'}, 'OUT_OF_SCOPE'),
-        ('include-neutral-invocation', '#define END() 1\ninherit ROOM\n#include "tail.h"\n', {'d/tail.h': 'END()\n'}, 'QUARANTINED'),
+        ('include-neutral-invocation', '#define END() 1\ninherit ROOM\n#include "tail.h"\n', {'d/tail.h': 'END()\n'}, 'OUT_OF_SCOPE'),
         ('direct', 'inherit ROOM\n#include "semi.h"\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
         ('at-eof', 'inherit ROOM\n#include "semi.h"\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
         ('nested', 'inherit ROOM\n#include "outer.h"\nvoid create() {}\n', {'d/outer.h': '#include "semi.h"\n', 'd/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
@@ -2817,8 +2817,8 @@ class P2F14RegressionTests(unittest.TestCase):
         ('literal', 'inherit ROOM;\nvoid create() {}\n', {}, 'EXTRACTED'),
         ('literal-fact', 'inherit ROOM;\nvoid create() { set("short", "x"); }\n', {}, 'EXTRACTED'),
         ('missing-terminator', 'inherit ROOM\nvoid create() {}\n', {}, 'QUARANTINED'),
-        ('empty-include', 'inherit ROOM\n#include "empty.h"\nvoid create() {}\n', {'d/empty.h': ''}, 'QUARANTINED'),
-        ('safe-include', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'int helper() { return 1; }\n'}, 'QUARANTINED'),
+        ('empty-include', 'inherit ROOM\n#include "empty.h"\nvoid create() {}\n', {'d/empty.h': ''}, 'OUT_OF_SCOPE'),
+        ('safe-include', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'int helper() { return 1; }\n'}, 'OUT_OF_SCOPE'),
         ('unused-macro', '#define END ;\ninherit ROOM\nvoid create() {}\n', {}, 'QUARANTINED'),
         ('neutral-used-macro', '#define BASE ROOM\ninherit BASE\nvoid create() {}\n', {}, 'QUARANTINED'),
         ('unreferenced-header', 'inherit ROOM\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'QUARANTINED'),
@@ -2827,8 +2827,8 @@ class P2F14RegressionTests(unittest.TestCase):
         ('suffix', 'inherit "/std/"\n#include "tail.h"\n', {'d/tail.h': '+ "room";\n'}, 'OUT_OF_SCOPE'),
         ('unrelated-missing', '#include "missing.h"\ninherit ROOM\nvoid create() {}\n', {}, 'QUARANTINED'),
         ('unrelated-terminator', '#include "semi.h"\ninherit ROOM\nvoid create() {}\n', {'d/semi.h': ';\n'}, 'QUARANTINED'),
-        ('safe-data', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'int x;\n'}, 'QUARANTINED'),
-        ('untyped-helper', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'helper(){return 1;}\n'}, 'QUARANTINED'),
+        ('safe-data', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'int x;\n'}, 'OUT_OF_SCOPE'),
+        ('untyped-helper', 'inherit ROOM\n#include "safe.h"\nvoid create() {}\n', {'d/safe.h': 'helper(){return 1;}\n'}, 'OUT_OF_SCOPE'),
         ('missing-nested', 'inherit ROOM\n#include "outer.h"\n', {'d/outer.h': '#include "missing.h"\n'}, 'OUT_OF_SCOPE'),
         ('missing-standard', 'inherit ROOM\n#include <missing.h>\n', {}, 'OUT_OF_SCOPE'),
         ('include-macro-path', 'inherit ROOM\n#include UNKNOWN\n', {}, 'OUT_OF_SCOPE'),
@@ -2844,10 +2844,10 @@ class P2F14RegressionTests(unittest.TestCase):
         ('later-macro', '#define END ;\ninherit ROOM\nvoid create(){END}\n', {}, 'QUARANTINED'),
         ('later-untyped-macro', '#define END ;\ninherit ROOM\ncreate(){END}\n', {}, 'QUARANTINED'),
         ('later-include', 'inherit ROOM\nvoid create(){\n#include "semi.h"\n}\n', {'d/semi.h': ';\n'}, 'QUARANTINED'),
-        ('unused-define-at-boundary', 'inherit ROOM\n#define END ;\nvoid create(){}\n', {}, 'QUARANTINED'),
-        ('raw-echo', 'inherit ROOM\n#echo ; raw "\nvoid create(){}\n', {}, 'QUARANTINED'),
-        ('pragma', 'inherit ROOM\n#pragma strict_types\nvoid create(){}\n', {}, 'QUARANTINED'),
-        ('undef', 'inherit ROOM\n#undef END\nvoid create(){}\n', {}, 'QUARANTINED'),
+        ('unused-define-at-boundary', 'inherit ROOM\n#define END ;\nvoid create(){}\n', {}, 'OUT_OF_SCOPE'),
+        ('raw-echo', 'inherit ROOM\n#echo ; raw "\nvoid create(){}\n', {}, 'OUT_OF_SCOPE'),
+        ('pragma', 'inherit ROOM\n#pragma strict_types\nvoid create(){}\n', {}, 'OUT_OF_SCOPE'),
+        ('undef', 'inherit ROOM\n#undef END\nvoid create(){}\n', {}, 'OUT_OF_SCOPE'),
         ('later-authored-semicolon', 'inherit ROOM\nvoid create(){set("short","x");}\n', {}, 'QUARANTINED'),
         ('include-before-later-authored-semicolon', 'inherit ROOM\n#include "semi.h"\nvoid create(){set("short","x");}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
         ('uncertain-second', 'inherit ROOM;\ninherit ROOM\n#include "semi.h"\nvoid create(){}\n', {'d/semi.h': ';\n'}, 'OUT_OF_SCOPE'),
@@ -2894,11 +2894,14 @@ class P2F14RegressionTests(unittest.TestCase):
             ('#define END ;\ninherit ROOM END\n', {}, 'END'),
         ]:
             _, ff = self.check(text, headers, 'OUT_OF_SCOPE')
-            self.assertTrue(all(f['provenance']['raw'].replace('\r\n','\n') == anchor for f in ff))
+            # P2F25 refuses participating directives before pending parsing.
+            anchors = {anchor, 'inherit'} if anchor.startswith('#include') else {anchor}
+            self.assertEqual(anchors, {f['provenance']['raw'].replace('\r\n', '\n') for f in ff})
 
     def test_missing_dependency_finding(self):
         _, ff = self.check('inherit ROOM\n#include "missing.h"\n', {}, 'OUT_OF_SCOPE')
-        self.assertIn('UNRESOLVED_INCLUDE', codes(ff))
+        # Structural refusal no longer depends on resolving this include.
+        self.assertEqual({'OUT_OF_SCOPE', 'DRIVER_SEMANTICS_UNKNOWN'}, codes(ff))
 
     def test_multiple_authored_inherits(self):
         r, _ = extract('inherit ROOM; inherit "/custom/base"; void create(){}')
@@ -2969,7 +2972,7 @@ class P2F15RegressionTests(unittest.TestCase):
         ('character-only', "#define X ;\ninherit ROOM 'X'\ncreate() {}\n", {}, 'QUARANTINED'),
         ('quoted-symbol-only', "#define FINISH() ; void create()\ninherit ROOM 'FINISH\ncreate() {}\n", {}, 'QUARANTINED'),
         ('heredoc-only', '#define FINISH() ; void create()\ninherit @END\nFINISH() {}\nEND\ncreate() {}\n', {}, 'QUARANTINED'),
-        ('raw-echo-only', '#define FINISH() ; void create()\ninherit ROOM\n#echo FINISH() {}\ncreate() {}\n', {}, 'QUARANTINED'),
+        ('raw-echo-only', '#define FINISH() ; void create()\ninherit ROOM\n#echo FINISH() {}\ncreate() {}\n', {}, 'OUT_OF_SCOPE'),
         ('whitespace-call', '#define FINISH() ; void create()\ninherit ROOM FINISH () {}\n', {}, 'OUT_OF_SCOPE'),
         ('multiline-call', '#define FINISH() ; void create()\ninherit ROOM FINISH\n(\n)\n{}\n', {}, 'OUT_OF_SCOPE'),
         ('competing', '#define FINISH() 1\n#define FINISH() ; void create()\ninherit ROOM FINISH() {}\n', {}, 'OUT_OF_SCOPE'),
@@ -3995,7 +3998,7 @@ class P2F23RegressionTests(unittest.TestCase):
             ('conditional', '#if 1\n#endif\n', {}, 'OUT_OF_SCOPE'),
             ('unknown', '#mystery\n', {}, 'PARTIAL'),
         ):
-            cases.append(('directive-' + name, '#define E\ninherit ROOM;\nE\n' + directive + 'inherit ROOM;\n' + body, headers, False, expected))
+            cases.append(('directive-' + name, '#define E\ninherit ROOM;\nE\n' + directive + 'inherit ROOM;\n' + body, headers, False, 'OUT_OF_SCOPE'))
         return cases
 
     def test_handwritten_prefix_matrix(self):
@@ -4006,7 +4009,7 @@ class P2F23RegressionTests(unittest.TestCase):
                     record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
                     self.assertEqual(expected, record['status'])
                     self.assertEqual(refused, any('preprocessing prefix' in f['reason'] for f in findings))
-                    if refused:
+                    if refused or name.startswith('directive-'):
                         self.assertFalse(record['supported_candidate'])
                         for field in ('facts', 'direct_inherits', 'category_candidates'):
                             self.assertEqual([], record[field])
@@ -4065,6 +4068,159 @@ class P2F23RegressionTests(unittest.TestCase):
                 self.assertEqual(first, extract(text))
                 self.assertEqual('OUT_OF_SCOPE', first[0]['status'])
                 self.assertEqual([], first[0]['facts'])
+
+
+class P2F25RegressionTests(unittest.TestCase):
+    @classmethod
+    def cases(cls):
+        body = 'void create(){set("short","preflight");set("exits",(["n":"/a"]));}\n'
+        cases = []
+        directives = ('#define UNUSED 1', '#undef UNUSED', '#pragma warnings', '#echo audit',
+                      '#include "empty.h"', '#unknown', '#if 1', '#ifdef UNUSED',
+                      '#ifndef UNUSED', '#elif 1', '#else', '#endif')
+        for directive in directives:
+            for shape, declaration in (
+                ('keyword', 'inherit\n' + directive + '\nNPC;\n'),
+                ('tail', 'inherit NPC\n' + directive + '\n;\n'),
+                ('hidden', 'E inherit NPC\n' + directive + '\n;\n'),
+                ('prefix', 'E\n' + directive + '\ninherit NPC;\n'),
+            ):
+                for location in ('root', 'header'):
+                    headers = {'d/empty.h': ''}
+                    if location == 'root':
+                        text = '#define E\ninherit ROOM;\n' + declaration + body
+                    else:
+                        text = 'inherit ROOM;\n#include "base.h"\n' + body
+                        headers['d/base.h'] = '#define E\n' + declaration
+                    cases.append((location + shape + directive, text, headers, True))
+        for name, definitions, prefix in (
+            ('empty', '#define E\n', 'E'),
+            ('function', '#define E(x)\n', 'E(opaque(inherit, set))'),
+            ('alias', '#define E NEXT\n#define NEXT\n', 'E'),
+            ('object-function', '#define E NEXT\n#define NEXT(x)\n', 'E(1)'),
+            ('function-object', '#define E() NEXT\n#define NEXT\n', 'E()'),
+            ('continuation', '#define E() NEXT\n#define NEXT()\n', 'E()()'),
+            ('multiple', '#define E\n#define NEXT(x)\n', 'E NEXT(1)'),
+        ):
+            for location, include, headers in (
+                ('root', definitions, {}),
+                ('local', '#include "defs.h"\n', {'d/defs.h': definitions}),
+                ('nested', '#include "outer.h"\n', {'d/outer.h': '#include "defs.h"\n', 'd/defs.h': definitions}),
+                ('standard', '#include <defs.h>\n', {'include/defs.h': definitions}),
+                ('cross', '#include "a.h"\n#include "b.h"\n', {'d/a.h': '#define START E\n', 'd/b.h': definitions}),
+            ):
+                cases.append((name + location, include + prefix + '\n#pragma warnings\ninherit NPC;\ninherit ROOM;\n' + body, headers, True))
+        for declaration in ('inherit NPC\n#pragma warnings\n#define X 1\n#undef X\n;\n',
+                            'inherit ROOM\n#include "empty.h"\n;\n',
+                            'inherit\n#include "empty.h"\nROOM;\n'):
+            for position in ('before', 'after'):
+                text = declaration + 'inherit ROOM;\n' if position == 'before' else 'inherit ROOM;\n' + declaration
+                cases.append(('order-' + position + declaration, text + body, {'d/empty.h': ''}, True))
+        for name, fragment in (
+            ('standalone-before', '#pragma warnings\ninherit ROOM;\n'),
+            ('standalone-after', 'inherit ROOM;\n#pragma warnings\n'),
+            ('define-before', '#define X 1\ninherit ROOM;\n'),
+            ('normal-room', 'inherit ROOM;\n'),
+            ('normal-npc', 'inherit ROOM;\ninherit NPC;\n'),
+            ('normal-item', 'inherit ROOM;\ninherit ITEM;\n'),
+            ('literal-item', 'inherit ROOM;\ninherit "/std/item";\n'),
+            ('custom', 'inherit ROOM;\ninherit "/custom/base";\n'),
+            ('separate-excluded', 'inherit ROOM;\n#pragma warnings\ninherit NPC;\n'),
+            ('complete-prefix', '#define E\nE;\n#pragma warnings\ninherit ROOM;\n'),
+            ('ordinary-prefix', '#define E\ninherit ROOM;\nordinary E inherit NPC;\n'),
+            ('interrupted-prefix', '#define E\ninherit ROOM;\nE ordinary inherit NPC;\n'),
+            ('function-body', 'inherit ROOM;\nvoid helper(){\n#pragma warnings\ncall("inherit");}\n'),
+            ('arguments', 'inherit ROOM;\nvoid helper(){call(inherit, (["set":"create"]));}\n'),
+            ('top-group', 'inherit ROOM;\n(inherit NPC\n#pragma warnings\n);\n'),
+            ('mapping', 'inherit ROOM;\nmapping m=(["inherit":"create"]);\n'),
+            ('array', 'inherit ROOM;\nmixed a=({"inherit", "set"});\n'),
+            ('comment', 'inherit ROOM;\n/* inherit NPC\n#pragma warnings\n; */\n'),
+            ('text', 'inherit ROOM;\nstring s=@TEXT\ninherit NPC\n#pragma warnings\n;\nTEXT\n;\n'),
+            ('after-function', 'inherit ROOM;\nvoid helper(){}\n#pragma warnings\n'),
+        ):
+            cases.append((name, fragment + body, {}, False))
+        return cases
+
+    def test_directive_inheritance_matrix(self):
+        for name, text, headers, refused in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    deps = {p: Source(p, s.replace('\n', newline).encode()) for p, s in headers.items()}
+                    record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                    self.assertNotEqual('QUARANTINED', record['status'])
+                    if refused:
+                        self.assertEqual('OUT_OF_SCOPE', record['status'])
+                        self.assertFalse(record['supported_candidate'])
+                        for field in ('facts', 'direct_inherits', 'category_candidates'):
+                            self.assertEqual([], record[field])
+                    else:
+                        self.assertFalse(any('Preprocessing directives participate' in f['reason'] for f in findings))
+
+    def test_all_positive_cases_allocate_no_facts(self):
+        for name, text, headers, refused in self.cases():
+            if refused:
+                with self.subTest(case=name), patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no allocation')):
+                    record, _ = extract(text, path='d/probe.c', dependencies={p: Source(p, s.encode()) for p, s in headers.items()})
+                self.assertEqual([], record['facts'])
+
+    def test_shared_preflight_precedes_raw_inherit_and_dependency_fallback(self):
+        class NoDeclarations(list):
+            def append(self, _):
+                raise AssertionError('raw inheritance parsing must not run')
+        for declaration in ('inherit NPC\n#pragma warnings\n;', 'E inherit NPC\n#pragma warnings\n;',
+                            'E\n#pragma warnings\ninherit NPC;'):
+            for dependency in (False, True):
+                text = 'inherit ROOM;\n#include "bad.h"\n' if dependency else '#define E\ninherit ROOM;\n' + declaration
+                headers = {'d/bad.h': Source('d/bad.h', ('#define E\n' + declaration).encode())} if dependency else {}
+                ext = RoomExtractor(Source('d/probe.c', text.encode()), set(), headers)
+                ext.inherits = NoDeclarations()
+                ext.record['direct_inherits'] = ext.inherits
+                ext.tokens = lex(ext.source)
+                macros, units, _, _ = ext.macro_context(ext.tokens)
+                hit = next((ext.preprocessing_admission_structure_use(tokens, macros) for _, tokens in units
+                            if ext.preprocessing_admission_structure_use(tokens, macros) is not None), None)
+                self.assertIsNotNone(hit)
+                self.assertEqual('inherit-directive', hit[0])
+                with (patch.object(ext, 'include_hazards', side_effect=AssertionError('no fallback')),
+                      patch.object(ext, 'inherit_keyword_preprocessing_use', side_effect=AssertionError('no raw loop')),
+                      patch.object(ext, 'fact', side_effect=AssertionError('no fact'))):
+                    record, _ = ext.extract()
+                self.assertEqual('OUT_OF_SCOPE', record['status'])
+
+    def test_root_and_nested_include_authored_provenance(self):
+        for newline in ('\n', '\r\n'):
+            for dependency in (False, True):
+                text = '// 中文\n#include "outer.h"\ninherit ROOM;\n' if dependency else '// 中文\ninherit ROOM;\ninherit NPC\n#pragma warnings\n;'
+                raw = text.replace('\n', newline).encode()
+                deps = {p: Source(p, s.replace('\n', newline).encode()) for p, s in {
+                    'd/outer.h': '#include "inner.h"\n', 'd/inner.h': 'inherit NPC\n#pragma warnings\n;'}.items()} if dependency else {}
+                record, findings = extract(raw, path='d/probe.c', dependencies=deps)
+                self.assertEqual([], record['direct_inherits'])
+                self.assertEqual({'OUT_OF_SCOPE', 'DRIVER_SEMANTICS_UNKNOWN'}, codes(findings))
+                for finding in findings:
+                    p = finding['provenance']
+                    self.assertEqual('d/probe.c', p['source_path'])
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+                    self.assertEqual(raw[:p['byte_start']].count(b'\n') + 1, p['line'])
+                    if dependency:
+                        self.assertEqual('#include "outer.h"' + newline, p['raw'])
+                        self.assertEqual(2, p['line'])
+
+    def test_no_macro_or_directive_interpretation(self):
+        with (patch.object(MacroSummary, 'effect', side_effect=AssertionError('no effect')),
+              patch.object(MacroSummary, 'reach', side_effect=AssertionError('no expansion')),
+              patch.object(MacroSummary, 'create_tail_effect', side_effect=AssertionError('no expansion'))):
+            record, _ = extract('#define E\nE\n#pragma warnings\ninherit NPC;\ninherit ROOM;')
+        self.assertEqual([], record['facts'])
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+
+    def test_long_prefix_state_is_iterative(self):
+        text = '#define E()\n' + 'E' + '()' * 1100 + '\n#pragma warnings\ninherit NPC;\ninherit ROOM;'
+        first = extract(text)
+        self.assertEqual(first, extract(text))
+        self.assertEqual('OUT_OF_SCOPE', first[0]['status'])
+        self.assertEqual([], first[0]['facts'])
 
 
 class P2F24RegressionTests(unittest.TestCase):

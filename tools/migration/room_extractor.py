@@ -36,8 +36,8 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.24'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'}
+EXTRACTOR_VERSION = '1.0.25'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -980,20 +980,50 @@ class RoomExtractor:
         Only top-level set/create identities affect create fact trust. Matched
         groups stay opaque; macro arguments and possible parameter groups are
         never distinguished by expansion or used to build a function signature.
-        Hidden inherit uses share the root's terminated-statement primitive.
+        Preserve inheritance/prefix witnesses across directives before raw
+        segmentation. No base expression or directive is interpreted.
         """
         matching = pairs(ts)
         i, start = 0, 0
+        prefix: Token | None = None
+        prefix_directive: Token | None = None
+        inheritance: Token | None = None
+        prefix_allowed = True
         while i < len(ts):
             critical = ts[i]
             if critical.kind == 'directive':
-                start = i + 1
+                if inheritance is not None:
+                    return 'inherit-directive', inheritance, critical
+                if prefix is not None:
+                    prefix_directive = prefix_directive or critical
+                else:
+                    start = i + 1
+                    prefix_allowed = True
             elif critical.kind == 'punctuation' and critical.text == ';':
                 hidden = self.preprocessing_hidden_inherit_use(ts[start:i + 1], macros)
                 if hidden is not None:
                     prefix, keyword = hidden
                     return 'inherit', keyword, prefix
                 start = i + 1
+                prefix = prefix_directive = inheritance = None
+                prefix_allowed = True
+            elif inheritance is None:
+                invoked = i + 1 in matching and ts[i + 1].text == '('
+                actual_macro = critical.kind == 'identifier' and any(
+                    not function_like or invoked
+                    for function_like, _ in macros.definitions.get(critical.text, []))
+                if (prefix_allowed and critical.kind == 'identifier'
+                        and critical.text == 'inherit' and not actual_macro):
+                    if prefix_directive is not None:
+                        return 'inherit-directive', critical, prefix_directive
+                    inheritance = critical
+                elif prefix_allowed and actual_macro:
+                    prefix = prefix or critical
+                elif prefix is not None and critical.text == '(' and i in matching:
+                    pass  # Opaque authored invocation/continuation; never expand.
+                else:
+                    prefix = prefix_directive = None
+                    prefix_allowed = False
             if critical.kind == 'identifier' and critical.text in {'set', 'create'}:
                 j = i + 1
                 use = None
@@ -1023,11 +1053,57 @@ class RoomExtractor:
             # nested blocks or function bodies. Directive text is one opaque token.
             if critical.kind == 'punctuation' and critical.text == '{':
                 start = matching[i] + 1
+                prefix = prefix_directive = inheritance = None
+                prefix_allowed = True
             i = matching[i] + 1 if i in matching else i + 1
         return None
 
     def extract_structure(self, matching: dict[int, int]) -> None:
         ts = self.tokens
+        origins: dict[str, Token] = {}
+        macros, units, _, _ = self.macro_context(ts, origins=origins)
+        for source_path, tokens in units:
+            try:
+                uncertain_structure = self.preprocessing_admission_structure_use(tokens, macros)
+            except SourceError:
+                if source_path == self.source.path:
+                    raise
+                continue  # Existing include/fragment hazards handle incomplete units.
+            if uncertain_structure is None:
+                continue
+            kind, critical, use = uncertain_structure
+            self.inherits.clear()
+            self.record['category_candidates'].clear()
+            if source_path != self.source.path:
+                origin = origins[source_path]
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Resolved dependency contains preprocessing-sensitive admission-critical structure; static-room extraction is not reliable.',
+                             [origin], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Dependency-authored inheritance or set/create structure depends on preprocessing; no included declaration is recovered.',
+                             [origin])
+            elif kind == 'inherit-directive':
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Preprocessing directives participate in authored top-level inheritance structure; static-room admission is not reliable.',
+                             [use], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Inheritance structure depends on preprocessing; no declaration is recovered.',
+                             [critical])
+            elif kind == 'inherit':
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Preprocessing-sensitive top-level prefix may expose an authored inherit declaration; static-room admission is not reliable.',
+                             [use], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Potential inheritance declaration behind a preprocessing prefix is not recovered without preprocessing.',
+                             [critical])
+            else:
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Preprocessing may alter admission-critical top-level function structure; static-room extraction is not reliable.',
+                             [use], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Authored set/create function identity or body adjacency depends on preprocessing; function structure is not recovered.',
+                             [critical])
+            return  # Before candidate admission or any inherit/create/exit fact allocation.
         functions: list[tuple[str, int, int, int]] = []
         unknown_top: list[list[Token]] = []
         i, start = 0, 0
@@ -1136,43 +1212,6 @@ class RoomExtractor:
                              'Potential inheritance declaration behind a preprocessing prefix is not recovered without preprocessing.',
                              [keyword])
                 return  # Before candidate admission and any fact allocation.
-        origins: dict[str, Token] = {}
-        macros, units, _, _ = self.macro_context(ts, origins=origins)
-        for source_path, tokens in units:
-            try:
-                uncertain_structure = self.preprocessing_admission_structure_use(tokens, macros)
-            except SourceError:
-                if source_path == self.source.path:
-                    raise
-                continue  # Existing include/fragment hazards handle incomplete units.
-            if uncertain_structure is None:
-                continue
-            kind, critical, use = uncertain_structure
-            self.inherits.clear()
-            self.record['category_candidates'].clear()
-            if source_path != self.source.path:
-                origin = origins[source_path]
-                self.finding(FindingCode.OUT_OF_SCOPE,
-                             'Resolved dependency contains preprocessing-sensitive admission-critical structure; static-room extraction is not reliable.',
-                             [origin], severity='INFO')
-                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
-                             'Dependency-authored inheritance or set/create structure depends on preprocessing; no included declaration is recovered.',
-                             [origin])
-            elif kind == 'inherit':
-                self.finding(FindingCode.OUT_OF_SCOPE,
-                             'Preprocessing-sensitive top-level prefix may expose an authored inherit declaration; static-room admission is not reliable.',
-                             [use], severity='INFO')
-                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
-                             'Potential inheritance declaration behind a preprocessing prefix is not recovered without preprocessing.',
-                             [critical])
-            else:
-                self.finding(FindingCode.OUT_OF_SCOPE,
-                             'Preprocessing may alter admission-critical top-level function structure; static-room extraction is not reliable.',
-                             [use], severity='INFO')
-                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
-                             'Authored set/create function identity or body adjacency depends on preprocessing; function structure is not recovered.',
-                             [critical])
-            return  # Before candidate admission or any inherit/create/exit fact allocation.
         direct = any(x['symbol'] == 'ROOM' for x in self.inherits)
         hazards = self.include_hazards(ts)
         excluded = {'BANK', 'HOCKSHOP', 'CLASS_GUILD', 'NPC', 'ITEM', 'MONEY', 'COMBINED_ITEM', 'WEAPON', 'ARMOR',
