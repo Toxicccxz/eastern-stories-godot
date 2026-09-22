@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F25 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F26 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -425,8 +425,14 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     directives could split inheritance evidence or pollute a direct inherit expression before exclusion.
     [P2F25](../migration/MIGRATION_TOOLING_V1_P2F25_DIRECTIVE_SENSITIVE_INHERIT_STRUCTURE_PREFLIGHT.md)
     moves shared root/dependency inheritance safety ahead of raw structural segmentation and refuses directive-sensitive declarations before fact allocation.
-    P2F25 is implemented and awaits owner review. The next Complete Final Re-Audit is not yet authorized.
+    P2F25 is CLOSED. Final Re-Audit after P2F25 was BLOCKED on FR25-01 / HIGH / D2-D3.
+    [P2F26](../migration/MIGRATION_TOOLING_V1_P2F26_MACRO_SUPPLIED_CRITICAL_FUNCTION_IDENTITY_PREFLIGHT.md)
+    extends the pre-segmentation gate to macro-supplied critical function identities. Attempt 1 stopped
+    before commit on helper/EMPTY over-refusal; Attempt 2 stopped on macro-supplied declaration-prefix
+    regression. Neither adds a semantic blocker number. Attempt 3 uses bounded declaration-prefix
+    and function-name slot classification, preserving helper controls and critical structural refusal.
+    P2F26 is implemented and awaits owner review. The next Complete Final Re-Audit is not yet authorized.
     The Structural-Preprocessing Consolidation Final Audit is still required; the systematic quarantine-path audit remains INCOMPLETE.
-    ARCHIVE-01 remains CLOSED; all sixteen owner-local evidence files, including the byte-identical Attempt-1 blocked report copy, remain untracked and unstaged.
+    ARCHIVE-01 remains CLOSED; all nineteen owner-local evidence files, including the byte-identical P2F24/P2F26 blocked-attempt copies, remain untracked and unstaged.
     No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

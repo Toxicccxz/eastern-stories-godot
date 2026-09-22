@@ -36,8 +36,11 @@ TEXT_FIELDS = {'short', 'name', 'long'}
 DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping', 'mixed',
                        'float', 'status', 'static', 'private', 'protected', 'public',
                        'nomask', 'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.25'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'}
+FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
+                         'status', 'static', 'private', 'protected', 'public', 'nomask',
+                         'varargs', 'nosave'}
+EXTRACTOR_VERSION = '1.0.26'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -974,6 +977,82 @@ class RoomExtractor:
                 i = matching[i] + 1
         return None
 
+    def preprocessing_critical_function_identity(self, token: Token, calls: int, macros: MacroSummary) -> tuple[str, int | None]:
+        """Summarize prefix/name role and, when proven, authored cursor advance.
+
+        Single-name edges carry a count of separately authored adjacent groups.
+        No replacement token, argument substitution or generic reach uncertainty
+        participates. All applicable definitions contribute terminal outcomes.
+        """
+        pending = [(token.text, 0)]
+        edges: dict[tuple[str, int], set[tuple[str, int]]] = {}
+        outcomes: set[tuple[str, int]] = set()
+        while pending:
+            state = pending.pop()
+            if state in edges:
+                continue
+            name, consumed = state
+            edges[state] = set()
+            if name in {'set', 'create'}:
+                outcomes.add((name.upper(), consumed))
+                continue
+            definitions = [(function_like, replacement) for function_like, replacement
+                           in macros.definitions.get(name, []) if not function_like or consumed < calls]
+            if not definitions:
+                # An authored uninvoked function-only name is not a macro use.
+                # A returned callable with no remaining pre-gap group cannot be
+                # resolved here; never borrow a previously consumed argument list.
+                kind = ('UNKNOWN' if name in macros.definitions and state != (token.text, 0)
+                        else 'PREFIX' if name in FUNCTION_DECL_PREFIXES else 'NONCRITICAL')
+                outcomes.add((kind, consumed))
+                continue
+            if name in macros.invalid:
+                outcomes.add(('UNKNOWN', consumed))
+            for function_like, replacement in definitions:
+                cursor = consumed + int(function_like)
+                if not replacement:
+                    outcomes.add(('EMPTY', cursor))
+                elif (len(replacement) == 1
+                      and replacement[0].kind in {'number', 'string', 'character'}):
+                    outcomes.add(('UNKNOWN', cursor))  # Neither prefix nor name.
+                elif (len(replacement) == 1 and replacement[0].kind == 'identifier'
+                      and not (function_like and replacement[0].text in macros.parameters.get(name, set()))):
+                    next_state = (replacement[0].text, cursor)
+                    edges[state].add(next_state)
+                    pending.append(next_state)
+                else:
+                    outcomes.add(('UNKNOWN', cursor))
+        # Iterative cycle detection; convergent aliases are not mistaken for cycles.
+        parents: dict[tuple[str, int], set[tuple[str, int]]] = {state: set() for state in edges}
+        remaining = {state: len(children) for state, children in edges.items()}
+        for state, children in edges.items():
+            for child in children:
+                parents[child].add(state)
+        leaves = [state for state, count in remaining.items() if count == 0]
+        visited = 0
+        while leaves:
+            state = leaves.pop()
+            visited += 1
+            for parent in parents[state]:
+                remaining[parent] -= 1
+                if remaining[parent] == 0:
+                    leaves.append(parent)
+        if visited != len(edges):
+            outcomes.add(('UNKNOWN', 0))
+        kinds = {kind for kind, _ in outcomes}
+        if kinds & {'SET', 'CREATE'} and kinds & {'EMPTY', 'PREFIX'}:
+            return 'UNKNOWN', None  # Critical name versus a still-open name slot.
+        for identity in ('SET', 'CREATE', 'UNKNOWN'):
+            if any(kind == identity for kind, _ in outcomes):
+                return identity, None
+        if kinds <= {'EMPTY', 'PREFIX'}:
+            cursors = {consumed for _, consumed in outcomes}
+            return ('EMPTY' if kinds == {'EMPTY'} else 'PREFIX',
+                    next(iter(cursors)) if len(cursors) == 1 else None)
+        if kinds == {'NONCRITICAL'}:
+            return 'NONCRITICAL', None
+        return 'UNKNOWN', None  # Disappearance/prefix versus name is ambiguous.
+
     def preprocessing_admission_structure_use(self, ts: list[Token], macros: MacroSummary) -> tuple[str, Token, Token] | None:
         """Inspect one separate authored unit for admission-critical uncertainty.
 
@@ -989,6 +1068,7 @@ class RoomExtractor:
         prefix_directive: Token | None = None
         inheritance: Token | None = None
         prefix_allowed = True
+        name_state, name_resume = 'DECLARATION_PREFIX', 0
         while i < len(ts):
             critical = ts[i]
             if critical.kind == 'directive':
@@ -1007,6 +1087,7 @@ class RoomExtractor:
                 start = i + 1
                 prefix = prefix_directive = inheritance = None
                 prefix_allowed = True
+                name_state = 'DECLARATION_PREFIX'
             elif inheritance is None:
                 invoked = i + 1 in matching and ts[i + 1].text == '('
                 actual_macro = critical.kind == 'identifier' and any(
@@ -1024,7 +1105,27 @@ class RoomExtractor:
                 else:
                     prefix = prefix_directive = None
                     prefix_allowed = False
-            if critical.kind == 'identifier' and critical.text in {'set', 'create'}:
+            literal_critical = critical.kind == 'identifier' and critical.text in {'set', 'create'}
+            identity = 'NONCRITICAL'
+            if name_state == 'DECLARATION_PREFIX' and i >= name_resume and critical.kind != 'directive' and critical.text != ';':
+                if critical.kind == 'identifier' and critical.text != 'inherit':
+                    ends = []
+                    cursor = i + 1
+                    while cursor in matching and ts[cursor].text == '(':
+                        cursor = matching[cursor] + 1
+                        ends.append(cursor)
+                    identity, consumed = self.preprocessing_critical_function_identity(critical, len(ends), macros)
+                    if identity in {'EMPTY', 'PREFIX'} and consumed is not None:
+                        name_resume = ends[consumed - 1] if consumed else i + 1
+                    else:
+                        if identity in {'EMPTY', 'PREFIX'}:
+                            identity = 'UNKNOWN'  # Role agrees, call ownership does not.
+                        name_state = 'FUNCTION_NAME'
+                else:
+                    name_state = 'AFTER_NAME'
+                    if critical.text != 'inherit' and i not in matching:
+                        identity = 'UNKNOWN'  # Unsupported prefix syntax is not a name.
+            if identity in {'SET', 'CREATE', 'UNKNOWN'}:
                 j = i + 1
                 use = None
                 grouped = False
@@ -1040,8 +1141,12 @@ class RoomExtractor:
                             break  # An uninvoked function-only macro is authored residue.
                         use = use or token
                         j += 1
+                    elif identity == 'UNKNOWN' and token.kind == 'identifier':
+                        # An uncertain role may be a prefix before an authored
+                        # name. Retain that possibility without recovering it.
+                        j += 1
                     elif token.text == '(' and j in matching:
-                        if grouped and use is None:
+                        if grouped and use is None and literal_critical:
                             break  # Extra raw groups alone are not preprocessing evidence.
                         grouped = True
                         j = matching[j] + 1
@@ -1049,12 +1154,15 @@ class RoomExtractor:
                         if token.text == '{' and grouped and use is not None:
                             return 'function', critical, use
                         break  # Never cross a statement or unrelated authored token.
+            if name_state == 'FUNCTION_NAME':
+                name_state = 'AFTER_NAME'  # Suffix macros cannot claim another name.
             # Do not inspect critical words inside parameters, calls, literals,
             # nested blocks or function bodies. Directive text is one opaque token.
             if critical.kind == 'punctuation' and critical.text == '{':
                 start = matching[i] + 1
                 prefix = prefix_directive = inheritance = None
                 prefix_allowed = True
+                name_state = 'DECLARATION_PREFIX'
             i = matching[i] + 1 if i in matching else i + 1
         return None
 

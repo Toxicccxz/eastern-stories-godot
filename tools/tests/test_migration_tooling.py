@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.25', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.26', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.25', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.26', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2598,7 +2598,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.25', doc['extractor_version'])
+                self.assertEqual('1.0.26', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -4068,6 +4068,263 @@ class P2F23RegressionTests(unittest.TestCase):
                 self.assertEqual(first, extract(text))
                 self.assertEqual('OUT_OF_SCOPE', first[0]['status'])
                 self.assertEqual([], first[0]['facts'])
+
+
+class P2F26RegressionTests(unittest.TestCase):
+    @classmethod
+    def cases(cls):
+        ordinary = 'void create(){set("short","identity");set("exits",(["e":"/end"]));}\n'
+        cases = []
+        directives = ('#define NOTE 1', '#undef NOTE', '#pragma strict_types', '#echo identity',
+                      '#include "neutral.h"', '#unknown', '#if 1', '#ifdef NOTE',
+                      '#ifndef NOTE', '#elif 1', '#else', '#endif')
+        for target in ('set', 'create'):
+            ret, params, body = ('mixed', 'string key,mixed value', 'return value;') if target == 'set' else ('void', '', '')
+            for directive in directives:
+                for gap in ('name', 'body'):
+                    fragment = (f'{ret} IDENTITY\n{directive}\n({params}){{{body}}}\n' if gap == 'name'
+                                else f'{ret} IDENTITY({params})\n{directive}\n{{{body}}}\n')
+                    for where in ('root', 'header'):
+                        definition = '#define IDENTITY ' + target + '\n'
+                        headers = {'d/neutral.h': ''}
+                        text = definition + 'inherit ROOM;\n' + fragment + ordinary
+                        if where == 'header':
+                            text = 'inherit ROOM;\n#include "fn.h"\n' + ordinary
+                            headers['d/fn.h'] = definition + fragment
+                        cases.append((target + directive + gap + where, text, headers, True))
+            for kind, definitions, use in (
+                ('object', '#define IDENTITY ' + target + '\n', 'IDENTITY'),
+                ('alias', '#define IDENTITY NEXT\n#define NEXT ' + target + '\n', 'IDENTITY'),
+                ('function', '#define IDENTITY(x) ' + target + '\n', 'IDENTITY(opaque_expression)'),
+                ('object-function', '#define IDENTITY NEXT\n#define NEXT(x) ' + target + '\n', 'IDENTITY(7)'),
+                ('function-object', '#define IDENTITY() NEXT\n#define NEXT ' + target + '\n', 'IDENTITY()'),
+                ('continuation', '#define IDENTITY() NEXT\n#define NEXT() ' + target + '\n', 'IDENTITY()()'),
+            ):
+                fragment = f'{ret} {use}\n#pragma strict_types\n({params})\n#define NOTE 1\n#undef NOTE\n{{{body}}}\n'
+                for context in ('root', 'local', 'nested', 'standard', 'cross', 'nested-cross'):
+                    if context == 'root':
+                        text, headers = definitions + 'inherit ROOM;\n' + fragment + ordinary, {}
+                    elif context == 'local':
+                        text, headers = 'inherit ROOM;\n#include "fn.h"\n' + ordinary, {'d/fn.h': definitions + fragment}
+                    elif context == 'nested':
+                        text, headers = 'inherit ROOM;\n#include "outer.h"\n' + ordinary, {'d/outer.h': '#include "fn.h"\n', 'd/fn.h': definitions + fragment}
+                    elif context == 'standard':
+                        text, headers = 'inherit ROOM;\n#include <fn.h>\n' + ordinary, {'include/fn.h': definitions + fragment}
+                    elif context == 'cross':
+                        text, headers = 'inherit ROOM;\n#include "defs.h"\n#include "fn.h"\n' + ordinary, {'d/defs.h': definitions, 'd/fn.h': fragment}
+                    else:
+                        text, headers = 'inherit ROOM;\n#include "outer.h"\n' + ordinary, {'d/outer.h': '#include "defs.h"\n#include "fn.h"\n', 'd/defs.h': definitions, 'd/fn.h': fragment}
+                    cases.append((target + kind + context, text, headers, True))
+        for name, definitions, use in (
+            ('competing', '#define IDENTITY helper\n#define IDENTITY other\n', 'IDENTITY'),
+            ('mixed', '#define IDENTITY helper\n#define IDENTITY(x) helper\n', 'IDENTITY'),
+            ('cycle', '#define IDENTITY NEXT\n#define NEXT IDENTITY\n', 'IDENTITY'),
+            ('compound', '#define IDENTITY a + b\n', 'IDENTITY'),
+            ('paste', '#define IDENTITY(x) s ## x\n', 'IDENTITY(et)'),
+            ('parameter', '#define IDENTITY(x) x\n', 'IDENTITY(set)'),
+            ('structural', '#define IDENTITY {\n', 'IDENTITY'),
+        ):
+            fragment = 'mixed ' + use + '\n#pragma strict_types\n(string k,mixed v){return v;}\n'
+            for dependency in (False, True):
+                text = 'inherit ROOM;\n#include "fn.h"\n' + ordinary if dependency else definitions + 'inherit ROOM;\n' + fragment + ordinary
+                # Attempt 2 explicitly treats all-safe competing definitions as
+                # NONCRITICAL, rather than generic graph uncertainty.
+                cases.append((name + str(dependency), text, {'d/fn.h': definitions + fragment} if dependency else {}, name not in {'competing', 'mixed'}))
+        controls = (
+            ('no-directive-set', '#define IDENTITY set\n', 'mixed IDENTITY(string k,mixed v){return v;}\n'),
+            ('no-directive-create', '#define IDENTITY create\n', 'void IDENTITY(){}\n'),
+            ('helper', '#define IDENTITY helper\n', 'mixed IDENTITY\n#pragma strict_types\n(){}\n'),
+            ('helper-chain', '#define IDENTITY NEXT\n#define NEXT helper\n', 'mixed IDENTITY\n#pragma strict_types\n(){}\n'),
+            ('uninvoked', '#define IDENTITY() set\n', 'mixed IDENTITY\n#pragma strict_types\n(){}\n'),
+            ('before', '#define IDENTITY set\n', '#pragma strict_types\nmixed IDENTITY(string k,mixed v){return v;}\n'),
+            ('after', '#define IDENTITY set\n', 'mixed IDENTITY(string k,mixed v){return v;}\n#pragma strict_types\n'),
+            ('semicolon', '#define IDENTITY set\n', 'IDENTITY;\n#pragma strict_types\nvoid helper(){}\n'),
+            ('completed-function', '#define IDENTITY set\n', 'void helper(){IDENTITY("short","x");}\n#pragma strict_types\n'),
+            ('nested', '#define IDENTITY set\n', 'void helper(){{\n#pragma strict_types\nIDENTITY("short","x");}}\n'),
+            ('arguments', '#define IDENTITY set\n', 'void helper(){call(IDENTITY);}\n'),
+            ('mapping', '#define IDENTITY set\n', 'mapping x=(["set":IDENTITY]);\n'),
+            ('array', '#define IDENTITY create\n', 'mixed a=({IDENTITY});\n'),
+            ('string', '#define IDENTITY set\n', 'string s="IDENTITY #pragma (){}";\n'),
+            ('comment', '#define IDENTITY set\n', '/* IDENTITY\n#pragma strict_types\n(){} */\n'),
+            ('text', '#define IDENTITY set\n', 'string s=@TEXT\nIDENTITY\n#pragma strict_types\n(){}\nTEXT\n;\n'),
+        )
+        for name, definitions, fragment in controls:
+            cases.append((name, definitions + 'inherit ROOM;\n' + fragment + ordinary, {}, False))
+        cases.append(('unreferenced', 'inherit ROOM;\n' + ordinary, {'d/unused.h': '#define IDENTITY set\nmixed IDENTITY\n#pragma strict_types\n(){}'}, False))
+        return cases
+
+    def test_handwritten_identity_matrix(self):
+        for name, text, headers, refused in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    deps = {p: Source(p, s.replace('\n', newline).encode()) for p, s in headers.items()}
+                    record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                    self.assertNotEqual('QUARANTINED', record['status'])
+                    if refused:
+                        self.assertEqual('OUT_OF_SCOPE', record['status'])
+                        self.assertFalse(record['supported_candidate'])
+                        for field in ('facts', 'direct_inherits', 'category_candidates'):
+                            self.assertEqual([], record[field])
+                    else:
+                        self.assertFalse(any('admission-critical' in f['reason'] for f in findings))
+
+    def test_every_positive_precedes_fact_allocation(self):
+        for name, text, headers, refused in self.cases():
+            if refused:
+                with self.subTest(case=name), patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no allocation')):
+                    record, _ = extract(text, path='d/probe.c', dependencies={p: Source(p, s.encode()) for p, s in headers.items()})
+                    self.assertEqual([], record['facts'])
+
+    def test_shared_classifier_actual_use_and_identity(self):
+        text = '#define A set\n#define F() set\n#define H helper\n#define C C\n#define M helper\n#define M(x) helper\n'
+        ext = RoomExtractor(Source('d/a.c', text.encode()), set(), {})
+        macros, _, _, _ = ext.macro_context(lex(ext.source))
+        for name, called, expected in (('set', 0, 'SET'), ('create', 0, 'CREATE'),
+                                        ('A', 0, 'SET'), ('F', 0, 'NONCRITICAL'), ('F', 1, 'SET'),
+                                        ('H', 0, 'NONCRITICAL'), ('C', 0, 'UNKNOWN'), ('M', 0, 'NONCRITICAL')):
+            token = lex(Source('d/a.c', name.encode()))[0]
+            self.assertEqual(expected, ext.preprocessing_critical_function_identity(token, called, macros)[0])
+
+    def test_dedicated_terminals_and_applicable_definitions(self):
+        definitions = ('#define E\n#define N 1\n#define S "helper"\n#define C \'x\'\n'
+                       '#define H helper\n#define H2 H\n#define F(x) helper\n#define EF(x)\n'
+                       '#define P(x) x\n#define X(x) s ## x\n#define U a + b\n'
+                       '#define SAFE helper\n#define SAFE other\n#define SAFE() helper\n'
+                       '#define CRIT helper\n#define CRIT set\n#define CRIT() create\n'
+                       '#define BAD(x\n')
+        ext = RoomExtractor(Source('d/a.c', definitions.encode()), set(), {})
+        macros, _, _, _ = ext.macro_context(lex(ext.source))
+        for name, calls, expected in (('E', 0, 'EMPTY'), ('N', 0, 'UNKNOWN'), ('S', 0, 'UNKNOWN'),
+                                     ('C', 0, 'UNKNOWN'), ('H2', 0, 'NONCRITICAL'), ('F', 1, 'NONCRITICAL'),
+                                     ('EF', 1, 'EMPTY'), ('P', 1, 'UNKNOWN'), ('X', 1, 'UNKNOWN'),
+                                     ('U', 0, 'UNKNOWN'), ('SAFE', 0, 'NONCRITICAL'), ('SAFE', 1, 'NONCRITICAL'),
+                                     ('CRIT', 0, 'SET'), ('CRIT', 1, 'SET'), ('BAD', 1, 'UNKNOWN')):
+            with self.subTest(name=name, calls=calls), patch.object(MacroSummary, 'reach', side_effect=AssertionError('generic reach forbidden')):
+                self.assertEqual(expected, ext.preprocessing_critical_function_identity(lex(Source('d/a.c', name.encode()))[0], calls, macros)[0])
+
+    def test_distinct_authored_call_ownership(self):
+        definitions = '#define A() B\n#define B() set\n#define E() F\n#define F()\n#define O A\n'
+        ext = RoomExtractor(Source('d/a.c', definitions.encode()), set(), {})
+        macros, _, _, _ = ext.macro_context(lex(ext.source))
+        for name, calls, expected in (('A', 0, ('NONCRITICAL', None)), ('A', 1, ('UNKNOWN', None)),
+                                     ('A', 2, ('SET', None)), ('O', 2, ('SET', None)),
+                                     ('E', 1, ('UNKNOWN', None)), ('E', 2, ('EMPTY', 2))):
+            with self.subTest(name=name, calls=calls):
+                self.assertEqual(expected, ext.preprocessing_critical_function_identity(lex(Source('d/a.c', name.encode()))[0], calls, macros))
+
+    def test_single_function_name_slot_with_empty_prefixes_and_suffixes(self):
+        definitions = '#define E\n#define E2 E\n#define F()\n#define X(x) x ## whatever\n#define W set\n'
+        for name in ('mixed helper E', 'helper E', 'mixed E helper', 'mixed E E2 helper',
+                     'mixed F() helper', 'mixed helper X(opaque)', 'mixed E helper W'):
+            text = definitions + 'inherit ROOM;\n' + name + '\n#pragma warnings\n(){}\nvoid create(){set("short","kept");}'
+            with self.subTest(name=name):
+                ext = RoomExtractor(Source('d/a.c', text.encode()), set(), {})
+                macros, _, _, _ = ext.macro_context(lex(ext.source))
+                self.assertIsNone(ext.preprocessing_admission_structure_use(lex(ext.source), macros))
+                record, findings = ext.extract()
+                self.assertFalse(any('admission-critical' in f['reason'] for f in findings))
+        for name in ('mixed E W', 'E E2 W', 'mixed F() W'):
+            with self.subTest(name=name), patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no allocation')):
+                record, _ = extract(definitions + 'inherit ROOM;\n' + name + '\n#pragma warnings\n(){}\nvoid create(){}')
+                self.assertEqual('OUT_OF_SCOPE', record['status'])
+                self.assertEqual([], record['facts'])
+
+    def test_declaration_prefix_role_and_competing_categories(self):
+        definitions = ('#define T mixed\n#define T2 T\n#define M static\n#define F() T\n'
+                       '#define EP\n#define EP mixed\n#define EN\n#define EN helper\n'
+                       '#define PN mixed\n#define PN helper\n#define PC mixed\n#define PC set\n'
+                       '#define PP mixed\n#define PP static\n#define BOTH\n#define BOTH()\n')
+        ext = RoomExtractor(Source('d/a.c', definitions.encode()), set(), {})
+        macros, _, _, _ = ext.macro_context(lex(ext.source))
+        for name, calls, expected in (('mixed', 0, ('PREFIX', 0)), ('static', 0, ('PREFIX', 0)),
+                                     ('T2', 0, ('PREFIX', 0)), ('M', 0, ('PREFIX', 0)), ('F', 1, ('PREFIX', 1)),
+                                     ('F', 0, ('NONCRITICAL', None)), ('EP', 0, ('PREFIX', 0)),
+                                     ('EN', 0, ('UNKNOWN', None)), ('PN', 0, ('UNKNOWN', None)),
+                                     ('PC', 0, ('UNKNOWN', None)), ('PP', 0, ('PREFIX', 0)),
+                                     ('BOTH', 1, ('EMPTY', None)), ('inherit', 0, ('NONCRITICAL', None))):
+            with self.subTest(name=name, calls=calls), patch.object(MacroSummary, 'reach', side_effect=AssertionError('no generic reach')):
+                self.assertEqual(expected, ext.preprocessing_critical_function_identity(lex(Source('d/a.c', name.encode()))[0], calls, macros))
+
+    def test_type_prefix_positions_precede_fact_allocation(self):
+        definitions = ('#define T mixed\n#define T2 T\n#define M static\n#define E\n#define W set\n'
+                       '#define F() set\n#define TF() mixed\n#define X static mixed\n#define Y(a) a\n'
+                       '#define PN mixed\n#define PN helper\n#define EN\n#define EN helper\n')
+        positives = ('T set', 'T create', 'T2 set', 'M T set', 'private static T set',
+                     'E T set', 'T W', 'T F()', 'TF() set', 'X set', 'Y(opaque) set',
+                     'PN set', 'EN set', 'T *set', 'mixed *set', 'set', 'create')
+        negatives = ('T helper', 'T2 helper', 'E T helper', 'T helper E', 'mixed helper T',
+                     'M helper', 'helper E')
+        for identity in positives + negatives:
+            for newline in ('\n', '\r\n'):
+                for dependency in (False, True):
+                    fragment = definitions + identity + '\n#pragma warnings\n(){}\n'
+                    text = 'inherit ROOM;\n' + ('#include "fn.h"\n' if dependency else fragment) + 'void create(){set("name","ordinary");}\n'
+                    deps = {'d/fn.h': Source('d/fn.h', fragment.replace('\n', newline).encode())} if dependency else {}
+                    with self.subTest(identity=identity, newline=repr(newline), dependency=dependency):
+                        if identity in positives:
+                            with patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no allocation')):
+                                obj, _ = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                            self.assertEqual('OUT_OF_SCOPE', obj['status'])
+                            self.assertEqual([], obj['facts'])
+                        else:
+                            _, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                            self.assertFalse(any('admission-critical' in f['reason'] for f in findings))
+
+    def test_type_prefix_is_never_function_name_provenance(self):
+        for identity in ('set', 'WRITER'):
+            text = '#define TYPE mixed\n#define WRITER set\ninherit ROOM;\nTYPE ' + identity + '\n#pragma warnings\n(){}\nvoid create(){}'
+            obj, findings = extract(text)
+            self.assertEqual([], obj['facts'])
+            self.assertEqual({identity, '#pragma warnings\n'}, {f['provenance']['raw'] for f in findings})
+
+    def test_preflight_itself_wins_before_raw_or_dependency_fallback(self):
+        for dependency in (False, True):
+            fragment = '#define A set\nmixed A\n#pragma strict_types\n(string k,mixed v){return v;}\n'
+            text = 'inherit ROOM;\n#include "fn.h"\nvoid create(){}' if dependency else 'inherit ROOM;\n' + fragment + 'void create(){}'
+            deps = {'d/fn.h': Source('d/fn.h', fragment.encode())} if dependency else {}
+            ext = RoomExtractor(Source('d/probe.c', text.encode()), set(), deps)
+            with (patch.object(ext, 'include_hazards', side_effect=AssertionError('no fallback')),
+                  patch.object(ext, 'inherit_keyword_preprocessing_use', side_effect=AssertionError('no raw parser')),
+                  patch.object(ext, 'fact', side_effect=AssertionError('no allocation'))):
+                record, _ = ext.extract()
+            self.assertEqual('OUT_OF_SCOPE', record['status'])
+            self.assertEqual([], record['direct_inherits'])
+
+    def test_root_macro_and_nested_root_include_provenance(self):
+        for newline in ('\n', '\r\n'):
+            for dependency in (False, True):
+                fragment = '#define ALIAS set\nmixed ALIAS\n#pragma strict_types\n(string k,mixed v){return v;}\n'
+                text = '// 中文\ninherit ROOM;\n' + ('#include "outer.h"\n' if dependency else fragment) + 'void create(){}'
+                raw = text.replace('\n', newline).encode()
+                deps = {p: Source(p, s.replace('\n', newline).encode()) for p, s in {'d/outer.h': '#include "inner.h"\n', 'd/inner.h': fragment}.items()} if dependency else {}
+                ext = RoomExtractor(Source('d/probe.c', raw), set(), deps)
+                record, findings = ext.extract()
+                self.assertEqual([], record['facts'])
+                for f in findings:
+                    p = f['provenance']
+                    self.assertEqual('d/probe.c', p['source_path'])
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']].decode(), p['raw'])
+                    self.assertEqual(raw[:p['byte_start']].count(b'\n') + 1, p['line'])
+                    if dependency:
+                        self.assertEqual('#include "outer.h"' + newline, p['raw'])
+                if not dependency:
+                    self.assertEqual({'ALIAS', '#pragma strict_types' + newline}, {f['provenance']['raw'] for f in findings})
+                self.assertFalse(any(t.kind == 'identifier' and t.text == 'set' for t in ext.tokens))
+
+    def test_no_effect_tail_expansion_or_recovery(self):
+        with (patch.object(MacroSummary, 'effect', side_effect=AssertionError('no effect execution')),
+              patch.object(MacroSummary, 'create_tail_effect', side_effect=AssertionError('no tail engine'))):
+            record, _ = extract('#define A() B\n#define B() set\ninherit ROOM;\nmixed A()()\n#pragma strict_types\n(string k,mixed v){return v;}\nvoid create(){}')
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+
+    def test_long_aliases_and_authored_groups_are_iterative(self):
+        definitions = ''.join(f'#define A{i} A{i+1}\n' for i in range(1100)) + '#define A1100 set\n'
+        for defs, identity in ((definitions, 'A0'), ('#define A() set\n', 'A' + '()' * 1100)):
+            text = defs + 'inherit ROOM;\nmixed ' + identity + '\n#pragma strict_types\n(string k,mixed v){return v;}\nvoid create(){}'
+            first = extract(text)
+            self.assertEqual(first, extract(text))
+            self.assertEqual('OUT_OF_SCOPE', first[0]['status'])
 
 
 class P2F25RegressionTests(unittest.TestCase):
