@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.27'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'}
+EXTRACTOR_VERSION = '1.0.28'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1120,9 +1120,13 @@ class RoomExtractor:
         inheritance: Token | None = None
         prefix_allowed = True
         name_state, name_resume = 'DECLARATION_PREFIX', 0
+        unknown_prefix: Token | None = None
+        unknown_use: Token | None = None
         while i < len(ts):
             critical = ts[i]
             if critical.kind == 'directive':
+                if name_state == 'DECLARATION_PREFIX_UNKNOWN':
+                    unknown_use = unknown_use or critical
                 if inheritance is not None:
                     return 'inherit-directive', inheritance, critical
                 if prefix is not None:
@@ -1139,6 +1143,7 @@ class RoomExtractor:
                 prefix = prefix_directive = inheritance = None
                 prefix_allowed = True
                 name_state = 'DECLARATION_PREFIX'
+                unknown_prefix = unknown_use = None
             elif inheritance is None:
                 invoked = i + 1 in matching and ts[i + 1].text == '('
                 actual_macro = critical.kind == 'identifier' and any(
@@ -1158,29 +1163,47 @@ class RoomExtractor:
                     prefix_allowed = False
             literal_critical = critical.kind == 'identifier' and critical.text in {'set', 'create'}
             identity = 'NONCRITICAL'
-            if name_state == 'DECLARATION_PREFIX' and i >= name_resume and critical.kind != 'directive' and critical.text != ';':
+            if name_state in {'DECLARATION_PREFIX', 'DECLARATION_PREFIX_UNKNOWN'} and i >= name_resume and critical.kind != 'directive' and critical.text != ';':
                 if critical.kind == 'identifier' and critical.text != 'inherit':
                     groups = self.preprocessing_possible_call_groups(ts, i, matching)
                     witness = self.preprocessing_directive_invocation_use(critical, groups, macros)
                     if witness is not None:
+                        if unknown_prefix is not None:
+                            return 'unsupported-prefix', unknown_prefix, witness
                         return 'macro-invocation', critical, witness
                     # Only direct-adjacent groups feed the unchanged P2F26 role
                     # classifier. Cross-directive precision cannot widen admission.
                     ends = [end for end, witness in groups if witness is None]
                     identity, consumed = self.preprocessing_critical_function_identity(critical, len(ends), macros)
+                    actual_name_macro = any(not function_like or ends
+                                            for function_like, _ in macros.definitions.get(critical.text, []))
+                    if unknown_prefix is not None and actual_name_macro:
+                        unknown_use = unknown_use or critical
                     if identity in {'EMPTY', 'PREFIX'} and consumed is not None:
                         name_resume = ends[consumed - 1] if consumed else i + 1
+                    elif unknown_prefix is not None and actual_name_macro:
+                        # No terminal role can resolve unsupported prefix syntax.
+                        # Retain uncertainty, without expanding or recovering a name.
+                        identity = 'UNKNOWN'
                     else:
                         if identity in {'EMPTY', 'PREFIX'}:
                             identity = 'UNKNOWN'  # Role agrees, call ownership does not.
+                        elif unknown_prefix is not None and critical.text not in macros.definitions:
+                            identity = 'UNKNOWN'
                         name_state = 'FUNCTION_NAME'
                 else:
-                    name_state = 'AFTER_NAME'
-                    if critical.text != 'inherit' and i not in matching:
-                        identity = 'UNKNOWN'  # Unsupported prefix syntax is not a name.
+                    if critical.text == 'inherit':
+                        name_state = 'AFTER_NAME'
+                    else:
+                        # Punctuation is not proof that a function name was seen.
+                        # Balanced groups remain opaque; no return-type grammar.
+                        name_state = 'DECLARATION_PREFIX_UNKNOWN'
+                        unknown_prefix = unknown_prefix or critical
+                        if i not in matching:
+                            identity = 'UNKNOWN'
             if identity in {'SET', 'CREATE', 'UNKNOWN'}:
                 j = i + 1
-                use = None
+                use = unknown_use
                 grouped = False
                 while j < len(ts):
                     token = ts[j]
@@ -1205,6 +1228,8 @@ class RoomExtractor:
                         j = matching[j] + 1
                     else:
                         if token.text == '{' and grouped and use is not None:
+                            if unknown_prefix is not None and critical is not unknown_prefix:
+                                return 'unsupported-prefix', unknown_prefix, use
                             return 'function', critical, use
                         break  # Never cross a statement or unrelated authored token.
             if name_state == 'FUNCTION_NAME':
@@ -1216,6 +1241,7 @@ class RoomExtractor:
                 prefix = prefix_directive = inheritance = None
                 prefix_allowed = True
                 name_state = 'DECLARATION_PREFIX'
+                unknown_prefix = unknown_use = None
             i = matching[i] + 1 if i in matching else i + 1
         return None
 
@@ -1243,8 +1269,17 @@ class RoomExtractor:
                 self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
                              ('Dependency-authored function-macro invocation ownership crosses preprocessing directives; no terminal role is resolved.'
                               if kind == 'macro-invocation' else
+                              'Resolved dependency contains unsupported declaration-prefix structure interacting with preprocessing; no function identity is recovered.'
+                              if kind == 'unsupported-prefix' else
                               'Dependency-authored inheritance or set/create structure depends on preprocessing; no included declaration is recovered.'),
                              [origin])
+            elif kind == 'unsupported-prefix':
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Top-level declaration prefix is outside the supported static subset and interacts with preprocessing-sensitive structure; static-room admission is not reliable.',
+                             [use], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Function identity/signature cannot be established without interpreting unsupported declaration syntax and preprocessing.',
+                             [critical])
             elif kind == 'macro-invocation':
                 self.finding(FindingCode.OUT_OF_SCOPE,
                              'Directive-separated possible function-macro invocation in a top-level declaration is outside static-room-v1.',

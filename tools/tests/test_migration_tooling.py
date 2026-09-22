@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.27', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.28', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.27', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.28', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2598,7 +2598,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.27', doc['extractor_version'])
+                self.assertEqual('1.0.28', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -4897,6 +4897,82 @@ class RealSourceTests(unittest.TestCase):
         for obj in objects:
             self.assertEqual('UNREVIEWED', obj['review_state'])
             self.assertNotEqual('APPROVED', obj['status'])
+
+
+class P2F28RegressionTests(unittest.TestCase):
+    tail = 'void create(){set("name","prefix control");set("exits",(["east":"/d/end"]));}\n'
+    gap = '\n#pragma strict_types\n'
+
+    def refused(self, definitions, declaration, dependency=False):
+        text = definitions + declaration
+        deps = {'d/unit.h': Source('d/unit.h', text.encode())} if dependency else {}
+        root = 'inherit ROOM;\n' + ('#include "unit.h"\n' if dependency else text) + self.tail
+        ext = RoomExtractor(Source('d/probe.c', root.encode()), set(deps), deps)
+        with (patch.object(ext, 'fact', side_effect=AssertionError('no allocation')),
+              patch.object(ext, 'include_hazards', side_effect=AssertionError('no late fallback')),
+              patch.object(ext, 'inherit_keyword_preprocessing_use', side_effect=AssertionError('no raw segmentation'))):
+            obj, findings = ext.extract()
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        for key in ('facts', 'direct_inherits', 'category_candidates'):
+            self.assertEqual([], obj[key])
+        for f in findings:
+            p = f['provenance']
+            self.assertEqual('d/probe.c', p['source_path'])
+            self.assertEqual(root.encode()[p['byte_start']:p['byte_end_exclusive']], p['raw'].encode())
+            if dependency:
+                self.assertEqual('#include "unit.h"\n', p['raw'])
+        return findings
+
+    def test_original_macro_and_independent_alias(self):
+        for defs, name in (('#define WRITER() set\n', 'WRITER'),
+                           ('#define RESOLVE(x) TARGET\n#define TARGET set\n', 'RESOLVE')):
+            for dependency in (False, True):
+                self.refused(defs, 'static mixed *' + name + self.gap + '()(string k,mixed v){}\n', dependency)
+
+    def test_unsupported_punctuation_has_no_type_semantics(self):
+        for punctuation in ('*', '&', '[]', '+', '[opaque]', '**'):
+            for dependency in (False, True):
+                self.refused('#define F() set\n', 'mixed ' + punctuation + 'F' + self.gap + '()(){}\n', dependency)
+
+    def test_literal_critical_and_helper_directives(self):
+        for name in ('set', 'create', 'helper'):
+            for position in ('before', 'after', 'body'):
+                declaration = ('mixed []' + self.gap + name + '(){}\n' if position == 'before' else
+                               'mixed []' + name + self.gap + '(){}\n' if position == 'after' else
+                               'mixed []' + name + '()' + self.gap + '{}\n')
+                self.refused('', declaration)
+
+    def test_empty_prefix_helper_unknown_roles(self):
+        for replacement in ('', 'mixed', 'helper', 'set', 'create', 'x + x'):
+            for dependency in (False, True):
+                self.refused('#define F(x) ' + replacement + '\n', 'mixed &F' + self.gap + '(opaque) set(){}\n', dependency)
+
+    def test_no_preprocessing_and_completed_body_controls(self):
+        for declaration in ('mixed *helper(){}\n', '#pragma warnings\nmixed *helper(){}\n',
+                            'mixed *helper(){}\n#pragma warnings\n', 'mixed *value;\nvoid helper(){}\n'):
+            obj, _ = extract('inherit ROOM;\n' + declaration + self.tail)
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual(['inherit', 'name', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_no_call_boundary_does_not_borrow_later_group(self):
+        for boundary in (';', 'ordinary'):
+            obj, _ = extract('#define F() set\ninherit ROOM;\nmixed *F' + self.gap + boundary + '(){}\n' + self.tail)
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual(['inherit', 'name', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_nested_and_unreferenced_prefix_has_no_gate_effect(self):
+        declaration = 'mixed *F' + self.gap + '()(){}\n'
+        baseline = extract('inherit ROOM;\n' + self.tail)
+        self.assertEqual(baseline, extract('inherit ROOM;\n' + self.tail,
+                         dependencies={'d/unused.h': Source('d/unused.h', ('#define F() set\n' + declaration).encode())}))
+        obj, _ = extract('#define F() set\ninherit ROOM;\nvoid helper(){' + declaration + '}\n' + self.tail)
+        self.assertTrue(obj['supported_candidate'])
+
+    def test_authored_unknown_prefix_witness(self):
+        findings = self.refused('#define F() set\n', 'mixed *F' + self.gap + '()(){}\n')
+        self.assertEqual({'*', '#pragma strict_types\n'}, {f['provenance']['raw'] for f in findings})
+        self.assertTrue(any('unsupported declaration syntax' in f['reason'] for f in findings))
 
 
 if __name__ == '__main__':

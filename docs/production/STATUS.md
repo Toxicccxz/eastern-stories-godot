@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F27 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F28 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -115,11 +115,15 @@ Attempt 1 stopped before commit because increased macro-call precision widened a
 Attempt 2 deliberately tightens static-room-v1: a directive-separated possible function-macro invocation
 in an unresolved top-level declaration header forces full-object refusal, with intentional D2/D3 false-negative bias.
 Direct-adjacent invocation retains the P2F26 classifier; no terminal recovery across directives.
-P2F27 is implemented and awaits owner review. Fresh migration464/full Python510, 6,046 synthetic CLI,
-28-version compatibility, security and deterministic corpus A/B pass; supported485 remains unchanged.
+P2F27 is CLOSED. Final Re-Audit after P2F27 was BLOCKED on FR27-01 / HIGH / D2-D3.
+[P2F28](../migration/MIGRATION_TOOLING_V1_P2F28_UNSUPPORTED_DECLARATION_PREFIX_PREPROCESSING_REFUSAL.md)
+treats unsupported pre-name declaration-prefix syntax as unresolved structure; participating
+preprocessing-sensitive function structure forces full-object refusal. No array/pointer grammar is added.
+P2F28 is implemented and awaits owner review. Fresh migration472/full Python518, 6,517 synthetic CLI,
+29-version compatibility, security and deterministic corpus A/B pass; supported485 remains unchanged.
 The next Complete Final Re-Audit is not yet authorized.
 The Structural-Preprocessing Consolidation Final Audit is still required; the systematic quarantine-path audit remains INCOMPLETE.
-ARCHIVE-01 remains CLOSED. All twenty-one owner-local evidence files, including the byte-identical P2F24/P2F26/P2F27 blocked-attempt copies, remain untracked and unstaged.
+ARCHIVE-01 remains CLOSED. All twenty-two owner-local evidence files, including the byte-identical P2F24/P2F26/P2F27 blocked-attempt copies, remain untracked and unstaged.
 No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
