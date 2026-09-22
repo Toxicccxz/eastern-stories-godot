@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.23', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.24', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.23', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.24', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -1898,7 +1898,7 @@ class P2F10RegressionTests(unittest.TestCase):
     FIELDS = ['inherit', 'short', 'name', 'long', 'outdoors', 'indoors', 'no_clean_up', 'no_fight', 'exit']
 
     def check(self, definitions='', declaration='', body='', expected='OUT_OF_SCOPE',
-              signature='void create()', dependencies=None, conditional_root=False):
+              signature='void create()', dependencies=None, conditional_root=False, cleared_admission=False):
         text = definitions + '\ninherit ROOM;\n' + declaration + '\n' + signature + '{' + self.BODY + body + '}\n'
         result = None
         for newline in ('\n', '\r\n'):
@@ -1912,7 +1912,9 @@ class P2F10RegressionTests(unittest.TestCase):
                 self.assertEqual('OUT_OF_SCOPE' if expected == 'OUT_OF_SCOPE' else 'PARTIAL', obj['status'])
                 wanted = [] if expected == 'OUT_OF_SCOPE' else ['inherit'] if expected == 'STATE' else self.FIELDS
                 self.assertEqual(wanted, [f['field'] for f in obj['facts']])
-                self.assertEqual([] if conditional_root else ['ROOM'], [d['symbol'] for d in obj['direct_inherits']])
+                self.assertEqual([] if conditional_root or cleared_admission else ['ROOM'], [d['symbol'] for d in obj['direct_inherits']])
+                if cleared_admission:
+                    self.assertEqual([], obj['category_candidates'])
                 for item in obj['direct_inherits'] + obj['facts'] + findings:
                     p = item['provenance']
                     self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
@@ -1967,7 +1969,9 @@ class P2F10RegressionTests(unittest.TestCase):
 
     def test_between_parameter_close_and_body(self):
         self.check('#define END ; inherit NPC; void tail()', 'void helper() END {}')
-        self.check('#define END ; inherit NPC; void tail()', signature='void create() END')
+        # P2F24 explicitly clears admission metadata for critical function gaps;
+        # the helper control above retains the original P2F10 disposition.
+        self.check('#define END ; inherit NPC; void tail()', signature='void create() END', cleared_admission=True)
 
     def test_function_like_signature(self):
         self.check('#define P(x) x', 'void helper(P(set)){}')
@@ -2594,7 +2598,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.23', doc['extractor_version'])
+                self.assertEqual('1.0.24', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -4061,6 +4065,212 @@ class P2F23RegressionTests(unittest.TestCase):
                 self.assertEqual(first, extract(text))
                 self.assertEqual('OUT_OF_SCOPE', first[0]['status'])
                 self.assertEqual([], first[0]['facts'])
+
+
+class P2F24RegressionTests(unittest.TestCase):
+    @classmethod
+    def cases(cls):
+        ordinary = 'void create(){set("short","ordinary");set("exits",(["n":"/a"]));}\n'
+        definitions = '#define E\n#define F(x)\n#define A() B\n#define B()\n#define ALIAS E\n'
+        cases = []
+        for name in ('set', 'create'):
+            for typed in ('', 'mixed '):
+                for gap in ('E', 'F(opaque(set, create))', 'ALIAS', 'A()()', 'A()()()', 'E F(7)', 'E ALIAS E'):
+                    for position in ('name', 'body', 'both'):
+                        left = gap if position != 'body' else ''
+                        right = gap if position != 'name' else ''
+                        declaration = f'{typed}{name} {left} (mixed value) {right} {{ return value; }}\n'
+                        cases.append((f'{name}-{bool(typed)}-{gap}-{position}', definitions + 'inherit ROOM;\n' + declaration + ordinary, {}, True))
+        for name in ('set', 'create'):
+            for position in ('name', 'body'):
+                for directive in ('#define UNUSED 1', '#undef E', '#pragma strict_types', '#echo message', '#mystery', '#include "empty.h"'):
+                    gap = '\n' + directive + '\n'
+                    left, right = (gap, '') if position == 'name' else ('', gap)
+                    declaration = f'mixed {name}{left}(mixed value){right}{{ return value; }}\n'
+                    cases.append((f'directive-{name}-{position}-{directive}', 'inherit ROOM;\n' + declaration + ordinary, {'d/empty.h': ''}, True))
+        for name in ('set', 'create'):
+            for context, prefix, headers in (
+                ('local', '#include "a.h"\n', {'d/a.h': '#define E\n'}),
+                ('nested', '#include "a.h"\n', {'d/a.h': '#include "b.h"\n', 'd/b.h': '#define E\n'}),
+                ('standard', '#include <a.h>\n', {'include/a.h': '#define E\n'}),
+                ('cross', '#include "a.h"\n#include "b.h"\n', {'d/a.h': '#define E NEXT\n', 'd/b.h': '#define NEXT\n'}),
+            ):
+                for position in ('name', 'body'):
+                    left, right = ('E', '') if position == 'name' else ('', 'E')
+                    cases.append((f'{context}-{name}-{position}', prefix + 'inherit ROOM;\n' + ordinary + f'mixed {name} {left} () {right} {{}}', headers, True))
+        for name in ('set', 'create'):
+            for prefix in ('E mixed ', 'mixed E ', 'E ', 'F(7) mixed '):
+                cases.append((f'prefix-{name}-{prefix}', definitions + 'inherit ROOM;\n' + prefix + name + '() {}\n' + ordinary, {}, False))
+        for name in ('helper', 'foo', 'reset', 'init'):
+            for typed in ('', 'mixed '):
+                for left, right in (('E', ''), ('', 'E'), ('A()()', 'F(7)')):
+                    cases.append((f'helper-{name}-{typed}-{left}-{right}', definitions + 'inherit ROOM;\n' + f'{typed}{name} {left} () {right} {{}}\n' + ordinary, {}, False))
+        for fragment in ('set ordinary_identifier () {}', 'create 123 () {}', 'set F {}',
+                         'void helper(){foo(set E ());}', 'void helper(){mixed m=(["set":"create E"]);}',
+                         'void helper(){mixed a=({set, create});}', 'void helper(){{set E ();}}',
+                         'void helper(){string x="create E () {}";}', '/* set E () {} */',
+                         'void helper(){string x=@TEXT\nset E () {}\nTEXT\n;}',
+                         'void helper(){foo(create E ());}'):
+            cases.append(('negative-' + fragment, definitions + 'inherit ROOM;\n' + fragment + '\n' + ordinary, {}, False))
+        for name in ('set', 'create'):
+            cases.append(('ambiguity-' + name, '#define E\n#define E(x)\ninherit ROOM;\n' + name + ' E () {}\n' + ordinary, {}, True))
+            cases.append(('statement-order-' + name, definitions + 'inherit ROOM;\nint marker;\n' + ordinary + name + ' E () {}\nvoid helper(){}', {}, True))
+        return cases
+
+    def test_critical_gap_matrix(self):
+        for name, text, headers, refused in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    deps = {p: Source(p, s.replace('\n', newline).encode()) for p, s in headers.items()}
+                    record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                    self.assertEqual(refused, any('admission-critical' in f['reason'] for f in findings))
+                    if refused:
+                        self.assertEqual('OUT_OF_SCOPE', record['status'])
+                        self.assertFalse(record['supported_candidate'])
+                        for field in ('facts', 'direct_inherits', 'category_candidates'):
+                            self.assertEqual([], record[field])
+
+    def test_all_refusals_precede_any_fact_allocation(self):
+        for name, text, headers, refused in self.cases():
+            if refused:
+                with self.subTest(case=name), patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no fact allocation')):
+                    record, _ = extract(text, path='d/probe.c', dependencies={p: Source(p, s.encode()) for p, s in headers.items()})
+                    self.assertEqual([], record['facts'])
+
+    def test_no_replacement_summary_or_function_recovery(self):
+        with (patch.object(MacroSummary, 'effect', side_effect=AssertionError('no expansion')),
+              patch.object(MacroSummary, 'reach', side_effect=AssertionError('no reach')),
+              patch.object(MacroSummary, 'create_tail_effect', side_effect=AssertionError('no tail summary'))):
+            record, _ = extract('#define E unknown\ninherit ROOM;\nset E () {}\nvoid create(){}')
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+
+    def test_findings_anchor_root_tokens_not_header_replacement(self):
+        for newline in ('\n', '\r\n'):
+            raw = ('// 中文\n#include "a.h"\ninherit ROOM;\nmixed set GAP () {}\nvoid create(){}').replace('\n', newline).encode()
+            ext = RoomExtractor(Source('d/probe.c', raw), set(), {'d/a.h': Source('d/a.h', b'#define GAP HIDDEN\n')})
+            record, findings = ext.extract()
+            self.assertEqual([], record['facts'])
+            self.assertEqual({'set', 'GAP'}, {f['provenance']['raw'] for f in findings})
+            for f in findings:
+                p = f['provenance']
+                self.assertEqual('d/probe.c', p['source_path'])
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                self.assertEqual(p['raw'].encode(), raw[p['byte_start']:p['byte_end_exclusive']])
+                self.assertEqual(4, p['line'])
+            self.assertFalse(any(t.text == 'HIDDEN' for t in ext.tokens))
+
+    def test_iterative_long_gaps_and_alias_context(self):
+        aliases = '#define E A0\n' + ''.join(f'#define A{i} A{i+1}\n' for i in range(1100)) + '#define A1100\n'
+        for defs, gap in ((aliases, 'E'), ('#define E\n', 'E ' * 1100), ('#define E()\n', 'E' + '()' * 1100)):
+            text = defs + 'inherit ROOM;\nset ' + gap + ' () {}\nvoid create(){}'
+            self.assertEqual(extract(text), extract(text))
+            self.assertEqual('OUT_OF_SCOPE', extract(text)[0]['status'])
+
+    def test_historical_macro_supplied_critical_names_stay_conservative(self):
+        for name in ('set', 'create'):
+            record, _ = extract('#define F ' + name + '\ninherit ROOM;\nmixed F() {}\nvoid create(){set("short","x");}')
+            self.assertEqual([], fields(record, 'short'))
+
+
+class P2F24DependencyRegressionTests(unittest.TestCase):
+    @classmethod
+    def cases(cls):
+        ordinary = 'void create(){set("short","ordinary");set("exits",(["n":"/a"]));}\n'
+        cases = []
+        for context in ('local', 'nested', 'standard', 'cross', 'nested-cross'):
+            for structure in ('mixed set GAP (mixed value) {return value;}',
+                              'mixed set(mixed value) GAP {return value;}',
+                              'void create GAP () {}', 'void create() GAP {}',
+                              'GAP inherit NPC;', 'GAP inherit "/custom/base";'):
+                if context == 'local':
+                    prefix, headers = '#include "a.h"\n', {'d/a.h': '#define GAP\n' + structure}
+                elif context == 'nested':
+                    prefix, headers = '#include "outer.h"\n', {'d/outer.h': '#include "a.h"\n', 'd/a.h': '#define GAP\n' + structure}
+                elif context == 'standard':
+                    prefix, headers = '#include <a.h>\n', {'include/a.h': '#define GAP\n' + structure}
+                elif context == 'cross':
+                    prefix, headers = '#include "macros.h"\n#include "a.h"\n', {'d/macros.h': '#define GAP\n', 'd/a.h': structure}
+                else:
+                    prefix, headers = '#include "outer.h"\n', {'d/outer.h': '#include "macros.h"\n#include "a.h"\n', 'd/macros.h': '#define GAP\n', 'd/a.h': structure}
+                cases.append((context + '-' + structure, 'inherit ROOM;\n' + prefix + ordinary, headers, True))
+        for name in ('set', 'create'):
+            for definitions, gap in (('#define F(x)\n', 'F(opaque(set, create))'),
+                                     ('#define F() B\n#define B()\n', 'F()()'),
+                                     ('#define F E\n#define E\n', 'F'),
+                                     ('#define F\n#define F(x)\n', 'F'),
+                                     ('#define F\n#define E\n', 'F E')):
+                for left, right in ((gap, ''), ('', gap), (gap, gap)):
+                    header = definitions + f'mixed {name} {left} (mixed arg) {right} {{return arg;}}'
+                    cases.append(('macro-' + name + left + right + definitions, 'inherit ROOM;\n#include "a.h"\n' + ordinary, {'d/a.h': header}, True))
+            for directive in ('#pragma strict_types', '#define UNUSED', '#undef UNUSED', '#echo hi', '#mystery', '#include "neutral.h"'):
+                for left, right in (('\n' + directive + '\n', ''), ('', '\n' + directive + '\n')):
+                    header = f'mixed {name} {left} (mixed arg) {right} {{return arg;}}'
+                    cases.append(('directive-' + name + left + right, 'inherit ROOM;\n#include "a.h"\n' + ordinary, {'d/a.h': header, 'd/neutral.h': ''}, True))
+        for header in ('mixed set(string key,mixed value){return value;}', 'void create(){}', 'inherit NPC;',
+                       '#define GAP\nmixed helper GAP (){}', '#define GAP\nhelper GAP (){}',
+                       '#define GAP\nGAP;\nmixed set(){}', '#define GAP\nmixed GAP set(){}',
+                       '#define GAP\nGAP mixed set(){}', '#define GAP(x)\nmixed set GAP {}',
+                       '#define GAP\nvoid helper(){foo(set GAP (),create GAP (),inherit);}',
+                       '#define GAP\nvoid helper(){mixed m=(["set":"create GAP"]);mixed a=({inherit,set,create});}',
+                       '#define GAP\nvoid helper(){{foo(set GAP ());}}',
+                       '#define GAP\n/* set GAP (){} */\nstring s="create GAP (){}";',
+                       '#define GAP\nordinary GAP inherit NPC;', '}', 'mixed incomplete(', ''):
+            cases.append(('control-' + header, 'inherit ROOM;\n#include "a.h"\n' + ordinary, {'d/a.h': header}, False))
+        cases.append(('unreferenced', 'inherit ROOM;\n' + ordinary, {'d/a.h': '#define GAP\nset GAP () {}\nGAP inherit NPC;'}, False))
+        cases.append(('direct-root-set', 'inherit ROOM;\n#include "a.h"\nmixed set(){}\n' + ordinary, {'d/a.h': 'void helper(){}'}, False))
+        for includes in ('#include "safe.h"\n#include "a.h"\n', '#include "a.h"\n#include "safe.h"\n'):
+            cases.append(('multiple-' + includes, 'inherit ROOM;\n' + includes + ordinary, {'d/safe.h': 'void helper(){}', 'd/a.h': '#define GAP\nset GAP (){}'}, True))
+        for root, header in (('set GAP (){}', 'void helper(){}'), ('void create GAP (){}', 'set GAP (){}'),
+                             ('GAP inherit NPC;', 'void create GAP (){}')):
+            cases.append(('combined-' + root, '#define GAP\ninherit ROOM;\n#include "a.h"\n' + root + '\n' + ordinary, {'d/a.h': header}, True))
+        return cases
+
+    def test_dependency_matrix(self):
+        for name, text, headers, refused in self.cases():
+            for newline in ('\n', '\r\n'):
+                with self.subTest(case=name, newline=repr(newline)):
+                    deps = {p: Source(p, s.replace('\n', newline).encode()) for p, s in headers.items()}
+                    record, findings = extract(text.replace('\n', newline), path='d/probe.c', dependencies=deps)
+                    if refused:
+                        self.assertFalse(record['supported_candidate'])
+                        self.assertEqual('OUT_OF_SCOPE', record['status'])
+                        for key in ('facts', 'direct_inherits', 'category_candidates'):
+                            self.assertEqual([], record[key])
+                    else:
+                        self.assertFalse(any('resolved dependency contains preprocessing-sensitive' in f['reason'].lower() for f in findings))
+
+    def test_dependency_refusal_precedes_any_fact_allocation(self):
+        for name, text, headers, refused in self.cases():
+            if refused:
+                with self.subTest(case=name), patch.object(RoomExtractor, 'fact', side_effect=AssertionError('no allocation')):
+                    record, _ = extract(text, path='d/probe.c', dependencies={p: Source(p, s.encode()) for p, s in headers.items()})
+                    self.assertEqual([], record['facts'])
+
+    def test_nested_dependency_anchors_root_include(self):
+        for newline in ('\n', '\r\n'):
+            raw = ('// 中文\ninherit ROOM;\n#include "outer.h"\nvoid create(){set("short","x");}').replace('\n', newline).encode()
+            deps = {'d/outer.h': Source('d/outer.h', b'#include "inner.h"\n'),
+                    'd/inner.h': Source('d/inner.h', b'#define GAP\nmixed set GAP (){}')}
+            ext = RoomExtractor(Source('d/probe.c', raw), set(), deps)
+            record, findings = ext.extract()
+            self.assertEqual([], record['facts'])
+            self.assertEqual({'OUT_OF_SCOPE', 'DRIVER_SEMANTICS_UNKNOWN'}, codes(findings))
+            for f in findings:
+                p = f['provenance']
+                self.assertEqual('d/probe.c', p['source_path'])
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                self.assertEqual(p['raw'].encode(), raw[p['byte_start']:p['byte_end_exclusive']])
+                self.assertEqual('#include "outer.h"' + newline, p['raw'])
+                self.assertEqual((3, 1), (p['line'], p['column']))
+            self.assertFalse(any(t.text == 'GAP' for t in ext.tokens))
+
+    def test_multiple_dangerous_dependencies_have_deterministic_origin(self):
+        deps = {p: Source(p, b'#define GAP\nset GAP (){}') for p in ('d/a.h', 'd/b.h')}
+        for first, second in (('a', 'b'), ('b', 'a')):
+            text = f'inherit ROOM;\n#include "{first}.h"\n#include "{second}.h"\nvoid create(){{}}'
+            result = extract(text, path='d/probe.c', dependencies=deps)
+            self.assertEqual(result, extract(text, path='d/probe.c', dependencies=deps))
+            self.assertTrue(all(f['provenance']['raw'] == f'#include "{first}.h"\n' for f in result[1]))
 
 
 class RealSourceTests(unittest.TestCase):

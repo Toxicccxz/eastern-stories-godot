@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F23 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F24 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -93,9 +93,15 @@ P2F22 is CLOSED. Final Re-Audit after P2F22 was BLOCKED on FR22-01 / HIGH / D2-D
 a preprocessing-only prefix hid an authored top-level inherit and allowed an unsafe fact subset.
 [P2F23](../migration/MIGRATION_TOOLING_V1_P2F23_PREPROCESSOR_SENSITIVE_INHERIT_PREFIX_SAFETY.md)
 adds a pre-admission full-object refusal gate without expansion or hidden declaration recovery.
-P2F23 is implemented and awaits owner review; the next Complete Final Re-Audit is not yet authorized.
-The systematic quarantine-path audit remains INCOMPLETE and mandatory, including mapping category-C challenges, in the next Complete Final Re-Audit.
-ARCHIVE-01 remains CLOSED. All thirteen owner-local blocked/preflight reports through P2F22 remain owner-local, untracked and byte-identical.
+P2F23 is CLOSED. Final Re-Audit after P2F23 was BLOCKED on FR23-01 / HIGH / D2-D3:
+preprocessing-sensitive function adjacency hid set overrides or duplicate create structure and leaked facts.
+[P2F24](../migration/MIGRATION_TOOLING_V1_P2F24_CRITICAL_FUNCTION_STRUCTURE_PREPROCESSING_CONSOLIDATION.md)
+addresses FR23-01 across root and resolved dependency authored structure before any fact allocation.
+Attempt 1 stopped on a hidden header setter; Attempt 2 shares one bounded scanner across reached units,
+preserves root include provenance, and passes both independent consolidation sweeps and complete local gates.
+P2F24 is implemented and awaits owner review. The next Complete Final Re-Audit is not yet authorized.
+The Structural-Preprocessing Consolidation Final Audit is still required; the systematic quarantine-path audit remains INCOMPLETE.
+ARCHIVE-01 remains CLOSED. All fifteen owner-local evidence files, including the byte-identical Attempt-1 blocked report copy, remain untracked and unstaged.
 No phase PR, merge or remote CI run.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
