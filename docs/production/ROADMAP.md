@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F26 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F27 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -431,8 +431,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     before commit on helper/EMPTY over-refusal; Attempt 2 stopped on macro-supplied declaration-prefix
     regression. Neither adds a semantic blocker number. Attempt 3 uses bounded declaration-prefix
     and function-name slot classification, preserving helper controls and critical structural refusal.
-    P2F26 is implemented and awaits owner review. The next Complete Final Re-Audit is not yet authorized.
+    P2F26 is CLOSED. Final Re-Audit after P2F26 was BLOCKED on FR26-01 / HIGH / D2-D3.
+    [P2F27](../migration/MIGRATION_TOOLING_V1_P2F27_DIRECTIVE_TRANSPARENT_FUNCTION_MACRO_INVOCATION_PREFLIGHT.md)
+    Attempt 1 stopped before commit because increased macro-call precision widened a frozen conservative helper case.
+    Attempt 2 deliberately tightens static-room-v1: a directive-separated possible function-macro invocation
+    in an unresolved top-level declaration header forces full-object refusal, with intentional D2/D3 false-negative bias.
+    Direct-adjacent invocation retains the P2F26 classifier; no terminal recovery across directives.
+    P2F27 is implemented and awaits owner review. Fresh migration464/full Python510, 6,046 synthetic CLI,
+    28-version compatibility, security and deterministic corpus A/B pass; supported485 remains unchanged.
+    The next Complete Final Re-Audit is not yet authorized.
     The Structural-Preprocessing Consolidation Final Audit is still required; the systematic quarantine-path audit remains INCOMPLETE.
-    ARCHIVE-01 remains CLOSED; all nineteen owner-local evidence files, including the byte-identical P2F24/P2F26 blocked-attempt copies, remain untracked and unstaged.
+    ARCHIVE-01 remains CLOSED; all twenty-one owner-local evidence files, including the byte-identical P2F24/P2F26/P2F27 blocked-attempt copies, remain untracked and unstaged.
     No new remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

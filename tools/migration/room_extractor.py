@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.26'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'}
+EXTRACTOR_VERSION = '1.0.27'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1053,6 +1053,57 @@ class RoomExtractor:
             return 'NONCRITICAL', None
         return 'UNKNOWN', None  # Disappearance/prefix versus name is ambiguous.
 
+    def preprocessing_possible_call_groups(self, ts: list[Token], index: int,
+                                          matching: dict[int, int]) -> list[tuple[int, Token | None]]:
+        """Distinct authored groups and their cumulative first directive witness.
+
+        Directives make ownership possible, not proven invocation or expansion.
+        Commit a witness only upon reaching a group: a trailing directive cannot
+        retroactively change an already completed call. Every other token stops.
+        """
+        groups: list[tuple[int, Token | None]] = []
+        cursor, witness = index + 1, None
+        while cursor < len(ts):
+            if ts[cursor].kind == 'directive':
+                witness = witness or ts[cursor]
+                cursor += 1
+            elif ts[cursor].text == '(' and cursor in matching:
+                cursor = matching[cursor] + 1
+                groups.append((cursor, witness))
+            else:
+                break
+        return groups
+
+    def preprocessing_directive_invocation_use(self, token: Token,
+                                              groups: list[tuple[int, Token | None]],
+                                              macros: MacroSummary) -> Token | None:
+        """Refuse a possible function stage at a directive-separated group.
+
+        Single-name shape edges only establish that an invocation may be needed.
+        Direct groups advance once per function stage. At the first directive
+        boundary return its authored witness without resolving the result role.
+        """
+        pending = [(token.text, 0)]
+        seen: set[tuple[str, int]] = set()
+        while pending:
+            name, consumed = state = pending.pop()
+            if state in seen:
+                continue
+            seen.add(state)
+            for function_like, replacement in macros.definitions.get(name, []):
+                cursor = consumed
+                if function_like:
+                    if cursor >= len(groups):
+                        continue
+                    witness = groups[cursor][1]
+                    if witness is not None:
+                        return witness  # Do not inspect this stage's terminal.
+                    cursor += 1
+                if (len(replacement) == 1 and replacement[0].kind == 'identifier'
+                        and not (function_like and replacement[0].text in macros.parameters.get(name, set()))):
+                    pending.append((replacement[0].text, cursor))
+        return None
+
     def preprocessing_admission_structure_use(self, ts: list[Token], macros: MacroSummary) -> tuple[str, Token, Token] | None:
         """Inspect one separate authored unit for admission-critical uncertainty.
 
@@ -1109,11 +1160,13 @@ class RoomExtractor:
             identity = 'NONCRITICAL'
             if name_state == 'DECLARATION_PREFIX' and i >= name_resume and critical.kind != 'directive' and critical.text != ';':
                 if critical.kind == 'identifier' and critical.text != 'inherit':
-                    ends = []
-                    cursor = i + 1
-                    while cursor in matching and ts[cursor].text == '(':
-                        cursor = matching[cursor] + 1
-                        ends.append(cursor)
+                    groups = self.preprocessing_possible_call_groups(ts, i, matching)
+                    witness = self.preprocessing_directive_invocation_use(critical, groups, macros)
+                    if witness is not None:
+                        return 'macro-invocation', critical, witness
+                    # Only direct-adjacent groups feed the unchanged P2F26 role
+                    # classifier. Cross-directive precision cannot widen admission.
+                    ends = [end for end, witness in groups if witness is None]
                     identity, consumed = self.preprocessing_critical_function_identity(critical, len(ends), macros)
                     if identity in {'EMPTY', 'PREFIX'} and consumed is not None:
                         name_resume = ends[consumed - 1] if consumed else i + 1
@@ -1188,8 +1241,17 @@ class RoomExtractor:
                              'Resolved dependency contains preprocessing-sensitive admission-critical structure; static-room extraction is not reliable.',
                              [origin], severity='INFO')
                 self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
-                             'Dependency-authored inheritance or set/create structure depends on preprocessing; no included declaration is recovered.',
+                             ('Dependency-authored function-macro invocation ownership crosses preprocessing directives; no terminal role is resolved.'
+                              if kind == 'macro-invocation' else
+                              'Dependency-authored inheritance or set/create structure depends on preprocessing; no included declaration is recovered.'),
                              [origin])
+            elif kind == 'macro-invocation':
+                self.finding(FindingCode.OUT_OF_SCOPE,
+                             'Directive-separated possible function-macro invocation in a top-level declaration is outside static-room-v1.',
+                             [use], severity='INFO')
+                self.finding(FindingCode.DRIVER_SEMANTICS_UNKNOWN,
+                             'Function-macro invocation ownership crosses preprocessing directives; no terminal role or declaration is recovered.',
+                             [critical])
             elif kind == 'inherit-directive':
                 self.finding(FindingCode.OUT_OF_SCOPE,
                              'Preprocessing directives participate in authored top-level inheritance structure; static-room admission is not reliable.',

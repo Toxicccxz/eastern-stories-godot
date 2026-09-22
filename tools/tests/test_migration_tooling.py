@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.26', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.27', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -639,7 +639,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -657,7 +657,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -667,7 +667,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.26', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.27', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2598,7 +2598,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.26', doc['extractor_version'])
+                self.assertEqual('1.0.27', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -4127,9 +4127,9 @@ class P2F26RegressionTests(unittest.TestCase):
             fragment = 'mixed ' + use + '\n#pragma strict_types\n(string k,mixed v){return v;}\n'
             for dependency in (False, True):
                 text = 'inherit ROOM;\n#include "fn.h"\n' + ordinary if dependency else definitions + 'inherit ROOM;\n' + fragment + ordinary
-                # Attempt 2 explicitly treats all-safe competing definitions as
-                # NONCRITICAL, rather than generic graph uncertainty.
-                cases.append((name + str(dependency), text, {'d/fn.h': definitions + fragment} if dependency else {}, name not in {'competing', 'mixed'}))
+                # P2F27 Attempt 2 refuses the mixed object/function shape when
+                # obtaining its possible invocation crosses the directive.
+                cases.append((name + str(dependency), text, {'d/fn.h': definitions + fragment} if dependency else {}, name != 'competing'))
         controls = (
             ('no-directive-set', '#define IDENTITY set\n', 'mixed IDENTITY(string k,mixed v){return v;}\n'),
             ('no-directive-create', '#define IDENTITY create\n', 'void IDENTITY(){}\n'),
@@ -4149,7 +4149,7 @@ class P2F26RegressionTests(unittest.TestCase):
             ('text', '#define IDENTITY set\n', 'string s=@TEXT\nIDENTITY\n#pragma strict_types\n(){}\nTEXT\n;\n'),
         )
         for name, definitions, fragment in controls:
-            cases.append((name, definitions + 'inherit ROOM;\n' + fragment + ordinary, {}, False))
+            cases.append((name, definitions + 'inherit ROOM;\n' + fragment + ordinary, {}, name == 'uninvoked'))
         cases.append(('unreferenced', 'inherit ROOM;\n' + ordinary, {'d/unused.h': '#define IDENTITY set\nmixed IDENTITY\n#pragma strict_types\n(){}'}, False))
         return cases
 
@@ -4684,6 +4684,152 @@ class P2F24DependencyRegressionTests(unittest.TestCase):
             result = extract(text, path='d/probe.c', dependencies=deps)
             self.assertEqual(result, extract(text, path='d/probe.c', dependencies=deps))
             self.assertTrue(all(f['provenance']['raw'] == f'#include "{first}.h"\n' for f in result[1]))
+
+
+class P2F27RegressionTests(unittest.TestCase):
+    tail = 'void create(){set("name","safe");set("exits",(["west":"/d/x"]));}\n'
+    gap = '\n#pragma strict_types\n'
+
+    def refused(self, definitions, declaration, dependency=False):
+        text = 'inherit ROOM;\n' + ('#include "unit.h"\n' if dependency else definitions + declaration) + self.tail
+        deps = {'d/unit.h': Source('d/unit.h', (definitions + declaration).encode())} if dependency else {}
+        ext = RoomExtractor(Source('d/probe.c', text.encode()), set(), deps)
+        ext.tokens = lex(ext.source)
+        macros, units, _, _ = ext.macro_context(ext.tokens)
+        self.assertTrue(any(ext.preprocessing_admission_structure_use(ts, macros) is not None for _, ts in units))
+        with (patch.object(ext, 'fact', side_effect=AssertionError('no allocation')),
+              patch.object(ext, 'include_hazards', side_effect=AssertionError('no late include fallback')),
+              patch.object(ext, 'inherit_keyword_preprocessing_use', side_effect=AssertionError('no raw segmentation'))):
+            record, findings = ext.extract()
+        self.assertFalse(record['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', record['status'])
+        for key in ('facts', 'direct_inherits', 'category_candidates'):
+            self.assertEqual([], record[key])
+        return record, findings
+
+    def test_empty_prefix_literal_critical_and_single_gap(self):
+        for name in ('set', 'create'):
+            for second in ('', self.gap):
+                for dependency in (False, True):
+                    with self.subTest(name=name, second=second, dependency=dependency):
+                        self.refused('#define DROP(x)\n', 'DROP' + self.gap + '(ignored) mixed ' + name + second + '(){}\n', dependency)
+
+    def test_prefix_modifier_and_critical_function_results(self):
+        for result,rest in (('mixed', 'set'), ('void', 'create'), ('static', 'mixed set'), ('set', ''), ('create', '')):
+            for dependency in (False, True):
+                self.refused('#define F() ' + result + '\n', 'F' + self.gap + '() ' + rest + '(){}\n', dependency)
+
+    def test_every_directive_kind_and_multiple_directives(self):
+        for directive in ('#define UNUSED 1', '#undef UNUSED', '#pragma warnings', '#echo raw payload', '#include "neutral.h"',
+                          '#unknown', '#if 1', '#ifdef FLAG', '#ifndef FLAG', '#elif 0', '#else', '#endif',
+                          '#pragma warnings\n#define X 1\n#undef X'):
+            for dependency in (False, True):
+                self.refused('#define F()\n', 'F\n' + directive + '\n() mixed set(){}\n', dependency)
+
+    def test_callable_stages_consume_distinct_groups(self):
+        defs = '#define A() B\n#define B() TYPE\n#define TYPE mixed\n'
+        self.refused(defs, 'A' + self.gap + '()\n#define UNUSED\n() set(){}\n')
+        text = defs + 'A' + self.gap + '()\n#define UNUSED\n() set(){}\n'
+        ext = RoomExtractor(Source('d/probe.c', text.encode()), set(), {})
+        ts = lex(ext.source);macros, _, _, _ = ext.macro_context(ts)
+        index = next(i for i,t in enumerate(ts) if t.kind == 'identifier' and t.text == 'A')
+        groups = ext.preprocessing_possible_call_groups(ts, index, pairs(ts))
+        self.assertEqual(2, len(groups))
+        self.assertLess(groups[0][0], groups[1][0])
+        self.assertIs(groups[0][1], ext.preprocessing_directive_invocation_use(ts[index], groups, macros))
+        self.assertTrue(all(w.text.startswith('#pragma') for _, w in groups))
+
+    def test_hard_boundaries_and_trailing_directive(self):
+        for boundary in (';', 'helper', '123', '"text"', "'x'", '{}', ',', '+', '*'):
+            text = 'F\n#pragma warnings\n' + boundary + '()'
+            ext = RoomExtractor(Source('d/p.c', text.encode()), set(), {});ts = lex(ext.source)
+            self.assertEqual([], ext.preprocessing_possible_call_groups(ts, 0, pairs(ts)))
+        for text in ('F()\n#pragma warnings\nhelper()', 'F()\n#pragma warnings\n'):
+            ext = RoomExtractor(Source('d/p.c', text.encode()), set(), {});ts = lex(ext.source)
+            groups = ext.preprocessing_possible_call_groups(ts, 0, pairs(ts))
+            self.assertEqual(1, len(groups));self.assertIsNone(groups[0][1])
+
+    def test_directive_separated_helper_roles_are_intentionally_refused(self):
+        for definitions,decl in (
+            ('#define F() helper\n', 'mixed F' + self.gap + '()(){}'),
+            ('#define F(x)\n', 'F' + self.gap + '(ignored) mixed helper' + self.gap + '(){}'),
+            ('#define F() mixed\n', 'F' + self.gap + '() helper' + self.gap + '(){}'),
+        ):
+            for dependency in (False, True):
+                self.refused(definitions, decl + '\n', dependency)
+
+    def test_definite_helper_suffix_never_reopens_name_slot(self):
+        for definitions, decl in (
+            ('#define F() set\n', 'mixed helper F' + self.gap + '()(){}'),
+            ('#define EMPTY\n', 'mixed helper EMPTY' + self.gap + '(){}'),
+        ):
+            record, findings = extract(definitions + 'inherit ROOM;\n' + decl + '\n' + self.tail)
+            self.assertFalse(any('admission-critical' in f['reason'] for f in findings))
+            self.assertNotEqual('QUARANTINED', record['status'])
+
+    def test_root_and_nested_dependency_authored_witness(self):
+        for newline in ('\n', '\r\n'):
+            declaration = '#define F()\nF\n#pragma warnings\n() mixed set(){}\n'
+            for dependency in (False, True):
+                text = '// 中文\ninherit ROOM;\n' + ('#include "outer.h"\n' if dependency else declaration) + self.tail
+                raw = text.replace('\n', newline).encode()
+                deps = {p: Source(p,s.replace('\n',newline).encode()) for p,s in {
+                    'd/outer.h':'#include "inner.h"\n','d/inner.h':declaration}.items()} if dependency else {}
+                record, findings = extract(raw, path='d/probe.c', dependencies=deps)
+                self.assertEqual([], record['facts'])
+                self.assertEqual({'OUT_OF_SCOPE','DRIVER_SEMANTICS_UNKNOWN'},codes(findings))
+                for f in findings:
+                    p=f['provenance'];self.assertEqual('d/probe.c',p['source_path'])
+                    self.assertEqual(raw[p['byte_start']:p['byte_end_exclusive']],p['raw'].encode())
+                    if dependency:self.assertEqual('#include "outer.h"'+newline,p['raw'])
+                if not dependency:self.assertEqual({'F','#pragma warnings'+newline},{f['provenance']['raw'] for f in findings})
+
+    def test_nested_and_unreferenced_controls(self):
+        declaration = '#define F()\nF\n#pragma warnings\n() mixed set(){}\n'
+        baseline = extract('inherit ROOM;\n' + self.tail)
+        self.assertEqual(baseline,extract('inherit ROOM;\n'+self.tail,dependencies={'d/unused.h':Source('d/unused.h',declaration.encode())}))
+        text = '#define F()\ninherit ROOM;\nvoid helper(){ F\n#pragma warnings\n(); }\n'+self.tail
+        record,findings=extract(text)
+        self.assertFalse(any('admission-critical' in f['reason'] for f in findings))
+        self.assertTrue(record['supported_candidate'])
+
+    def test_ambiguous_roles_do_not_guess_ownership(self):
+        for defs in ('#define F\n#define F() mixed\n', '#define F() mixed\n#define F() helper\n',
+                     '#define F()\n#define F() set\n', '#define F(x) x\n', '#define F() X ## Y\n'):
+            self.refused(defs, 'F'+self.gap+'() set(){}\n')
+
+    def test_no_generic_expansion_or_execution(self):
+        with (patch.object(MacroSummary,'reach',side_effect=AssertionError('no generic reach')),
+              patch.object(MacroSummary,'effect',side_effect=AssertionError('no generic effect')),
+              patch.object(MacroSummary,'create_tail_effect',side_effect=AssertionError('no tail summary'))):
+            self.refused('#define F() mixed\n','F'+self.gap+'() set(){}\n')
+
+    def test_barrier_precedes_terminal_role_analysis(self):
+        for result in ('', 'mixed', 'helper', 'set', 'create', 'x + y'):
+            text = '#define F() ' + result + '\nF' + self.gap + '() helper(){}\n'
+            ext = RoomExtractor(Source('d/p.c', text.encode()), set(), {})
+            ts = lex(ext.source); macros, _, _, _ = ext.macro_context(ts)
+            with patch.object(ext, 'preprocessing_critical_function_identity', side_effect=AssertionError('no terminal recovery')):
+                self.assertEqual('macro-invocation', ext.preprocessing_admission_structure_use(ts, macros)[0])
+
+    def test_prior_attempt_helper_continuation_cannot_widen(self):
+        self.refused('#define NEXT() LAST\n#define LAST() mixed\n', 'NEXT()' + self.gap + '() helper(){}\n')
+
+    def test_direct_adjacent_role_classifier_retained(self):
+        for result, expected in (('', ('EMPTY', 1)), ('mixed', ('PREFIX', 1)), ('helper', ('NONCRITICAL', None)),
+                                 ('set', ('SET', None)), ('create', ('CREATE', None)), ('x + y', ('UNKNOWN', None))):
+            text = '#define F() ' + result + '\nF() helper(){}\n'
+            ext = RoomExtractor(Source('d/p.c', text.encode()), set(), {})
+            ts = lex(ext.source); macros, _, _, _ = ext.macro_context(ts)
+            index = next(i for i,t in enumerate(ts) if t.kind == 'identifier' and t.text == 'F')
+            groups = ext.preprocessing_possible_call_groups(ts, index, pairs(ts))
+            self.assertIsNone(ext.preprocessing_directive_invocation_use(ts[index], groups, macros))
+            self.assertEqual(expected, ext.preprocessing_critical_function_identity(ts[index], 1, macros))
+
+    def test_long_directive_separated_chain_is_iterative(self):
+        defs=''.join(f'#define A{i}() A{i+1}\n' for i in range(1100))+'#define A1100() mixed\n'
+        declaration='A0'+('\n#pragma warnings\n()'*1101)+' set(){}\n'
+        self.refused(defs,declaration)
 
 
 class RealSourceTests(unittest.TestCase):
