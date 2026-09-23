@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.29'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29'}
+EXTRACTOR_VERSION = '1.0.30'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1104,14 +1104,17 @@ class RoomExtractor:
                     pending.append((replacement[0].text, cursor))
         return None
 
-    def preprocessing_admission_structure_use(self, ts: list[Token], macros: MacroSummary) -> tuple[str, Token, Token] | None:
+    def preprocessing_admission_structure_use(self, ts: list[Token], macros: MacroSummary, *,
+                                              reached_dependency: bool = False) -> tuple[str, Token, Token] | None:
         """Inspect one separate authored unit for admission-critical uncertainty.
 
         Unresolved top-level headers cannot establish create fact trust. Matched
         groups stay opaque; macro arguments and possible parameter groups are
         never distinguished by expansion or used to build a function signature.
         Preserve inheritance/prefix witnesses across directives before raw
-        segmentation. No base expression or directive is interpreted.
+        segmentation. No base expression or directive is interpreted. A reached
+        dependency's EOF cannot reset a pending preprocessing-sensitive header;
+        root EOF retains its existing structural/syntax handling.
         """
         matching = pairs(ts)
         i, start = 0, 0
@@ -1261,6 +1264,11 @@ class RoomExtractor:
                 name_state = 'DECLARATION_HEADER_OPEN'
                 unknown_prefix = unknown_use = header_macro = None
             i = matching[i] + 1 if i in matching else i + 1
+        if (reached_dependency and name_state == 'DECLARATION_HEADER_UNRESOLVED'
+                and unknown_prefix is not None and unknown_use is not None):
+            # Keep separate authored units: surface uncertainty, never splice or
+            # recover a declaration from the tokens following an include site.
+            return 'unsupported-prefix', unknown_prefix, unknown_use
         return None
 
     def extract_structure(self, matching: dict[int, int]) -> None:
@@ -1269,7 +1277,8 @@ class RoomExtractor:
         macros, units, _, _ = self.macro_context(ts, origins=origins)
         for source_path, tokens in units:
             try:
-                uncertain_structure = self.preprocessing_admission_structure_use(tokens, macros)
+                uncertain_structure = self.preprocessing_admission_structure_use(
+                    tokens, macros, reached_dependency=source_path != self.source.path)
             except SourceError:
                 if source_path == self.source.path:
                     raise

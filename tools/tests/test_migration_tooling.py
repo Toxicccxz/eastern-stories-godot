@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.29', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.30', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -645,7 +645,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -663,7 +663,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -673,7 +673,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.29', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.30', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2615,7 +2615,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.29', doc['extractor_version'])
+                self.assertEqual('1.0.30', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -5072,6 +5072,158 @@ class P2F29RegressionTests(P2F28RegressionTests):
     def test_unresolved_identifier_witness_is_authored(self):
         findings = self.refused('#define STORE() set\n', 'CUSTOM STORE' + self.gap + '()(){}\n')
         self.assertEqual({'CUSTOM', '#pragma strict_types\n'}, {f['provenance']['raw'] for f in findings})
+
+
+class P2F30RegressionTests(unittest.TestCase):
+    tail = 'void create(){set("name","eof");set("exits",(["north":"/d/end"]));}\n'
+
+    def fixture(self, definitions, header, continuation='(){}\n', layout='local', newline='\n'):
+        origin = '#include "unit.h"\n'
+        if layout == 'local':
+            includes, headers = origin, {'d/unit.h': definitions + header}
+        elif layout == 'nested':
+            origin = '#include "outer.h"\n'
+            includes, headers = origin, {'d/outer.h': '#include "unit.h"\n', 'd/unit.h': definitions + header}
+        elif layout == 'standard':
+            origin = '#include <unit.h>\n'
+            includes, headers = origin, {'include/unit.h': definitions + header}
+        elif layout == 'cross':
+            includes = '#include "defs.h"\n' + origin
+            headers = {'d/defs.h': definitions, 'd/unit.h': header}
+        else:
+            self.assertEqual('nested-cross', layout)
+            origin = '#include "outer.h"\n'
+            includes, headers = origin, {'d/outer.h': '#include "defs.h"\n#include "unit.h"\n',
+                                        'd/defs.h': definitions, 'd/unit.h': header}
+        root = '// 雪山\ninherit ROOM;\n' + includes + continuation + self.tail
+        source = Source('d/probe.c', root.replace('\n', newline).encode())
+        dependencies = {p: Source(p, text.replace('\n', newline).encode()) for p, text in headers.items()}
+        return RoomExtractor(source, set(dependencies), dependencies), origin.replace('\n', newline)
+
+    def assert_early_refusal(self, ext, origin):
+        # These are distinct forbidden downstream paths, not output-only checks.
+        with contextlib.ExitStack() as stack:
+            for method in ('inherit_keyword_preprocessing_use', 'include_hazards', 'create_body', 'fact'):
+                stack.enter_context(patch.object(ext, method, side_effect=AssertionError('late path: ' + method)))
+            obj, findings = ext.extract()
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        for key in ('direct_inherits', 'category_candidates', 'facts'):
+            self.assertEqual([], obj[key])
+        self.assertEqual(2, len(findings))
+        for finding in findings:
+            p = finding['provenance']
+            raw, start, end = ext.source.data, p['byte_start'], p['byte_end_exclusive']
+            self.assertEqual(origin, p['raw'])
+            self.assertEqual(raw[start:end], origin.encode())
+            self.assertEqual(ext.source.path, p['source_path'])
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+            self.assertEqual(raw[:start].count(b'\n') + 1, p['line'])
+            self.assertEqual(len(raw[raw.rfind(b'\n', 0, start) + 1:start].decode()) + 1, p['column'])
+
+    def test_primary_and_renamed_before_raw_inherit_or_fallback(self):
+        for name in ('STORE', 'ASSIGN'):
+            for newline in ('\n', '\r\n'):
+                with self.subTest(name=name, newline=newline):
+                    self.assert_early_refusal(*self.fixture('#define ' + name + ' set\n',
+                                              'function ' + name + '\n', newline=newline))
+
+    def test_six_eof_shapes_in_five_dependency_layouts(self):
+        shapes = [('#define STORE set\n', 'function STORE\n', '(string key,mixed value){}\n'),
+                  ('#define STORE() set\n', 'function STORE()\n', '(string key,mixed value){}\n'),
+                  ('#define STORE set\n', 'function STORE(string key,mixed value)\n', '{}\n'),
+                  ('#define STORE() set\n', 'function STORE()(string key,mixed value)\n', '{}\n'),
+                  ('#define GAP\n', 'function GAP set\n', '(string key,mixed value){}\n'),
+                  ('#define STORE helper\n', 'function STORE\n', '(){}\n')]
+        for definitions, header, continuation in shapes:
+            for layout in ('local', 'nested', 'standard', 'cross', 'nested-cross'):
+                for newline in ('\n', '\r\n'):
+                    with self.subTest(header=header, layout=layout, newline=newline):
+                        self.assert_early_refusal(*self.fixture(definitions, header, continuation, layout, newline))
+
+    def test_roles_and_witness_order_at_eof(self):
+        for replacement in ('set', 'create', 'helper', '', 'mixed', 'unknown + value'):
+            for function in (False, True):
+                definitions = '#define ROLE' + ('(x)' if function else '') + ' ' + replacement + '\n'
+                use = 'ROLE(opaque)' if function else 'ROLE'
+                for header in ('CUSTOM ' + use, '* ' + use, use + ' CUSTOM', 'CUSTOM ' + use + '(string arg)'):
+                    with self.subTest(replacement=replacement, header=header):
+                        self.assert_early_refusal(*self.fixture(definitions, header + '\n'))
+        self.assert_early_refusal(*self.fixture('#define ROLE left\n#define ROLE right\n', 'CUSTOM ROLE\n'))
+
+    def test_directive_witness_at_unresolved_eof(self):
+        self.assert_early_refusal(*self.fixture('', 'CUSTOM helper\n#pragma warnings\n'))
+
+    def test_root_eof_is_not_dependency_eof(self):
+        source = Source('d/probe.c', b'#define ROLE set\nCUSTOM ROLE')
+        ext = RoomExtractor(source, set(), {})
+        tokens = lex(source)
+        macros, *_ = ext.macro_context(tokens)
+        self.assertIsNone(ext.preprocessing_admission_structure_use(tokens, macros))
+        self.assertIsNotNone(ext.preprocessing_admission_structure_use(tokens, macros, reached_dependency=True))
+        obj, _ = extract('inherit ROOM;\nvoid create(){')
+        self.assertEqual('QUARANTINED', obj['status'])
+
+    def test_no_preprocessing_fragment_keeps_existing_fallback(self):
+        ext, _ = self.fixture('', 'function set\n')
+        with patch.object(ext, 'include_hazards', wraps=ext.include_hazards) as late:
+            obj, _ = ext.extract()
+        late.assert_called_once()
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        self.assertEqual([], obj['facts'])
+        self.assertEqual(['ROOM'], obj['category_candidates'])
+
+    def test_semicolon_and_body_resets_do_not_leave_eof_hazard(self):
+        for header in ('CUSTOM ROLE;\n',
+                       'CUSTOM helper(){}\n', '#pragma warnings\nCUSTOM helper(){}\n',
+                       'CUSTOM helper(){}\n#pragma warnings\n'):
+            ext, _ = self.fixture('#define ROLE\n', header, continuation='')
+            obj, _ = ext.extract()
+            self.assertTrue(obj['supported_candidate'], header)
+            self.assertEqual(['inherit', 'name', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_directive_reset_preserves_late_incomplete_dependency_policy(self):
+        # P2F29 already refuses this interrupted declaration in include_hazards.
+        # The semicolon resets the shared gate; it does not certify the header.
+        ext, _ = self.fixture('#define ROLE\n', 'CUSTOM value\n#pragma warnings\n;\n', continuation='')
+        with patch.object(ext, 'include_hazards', wraps=ext.include_hazards) as late:
+            obj, _ = ext.extract()
+        late.assert_called_once()
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        self.assertEqual([], obj['facts'])
+        self.assertEqual(['ROOM'], obj['category_candidates'])
+
+    def test_unused_definitions_and_unreferenced_header(self):
+        root = 'inherit ROOM;\n' + self.tail
+        self.assertEqual(extract(root), extract(root, dependencies={
+            'd/unused.h': Source('d/unused.h', b'#define ROLE set\nCUSTOM ROLE')}))
+        for header in ('#define ROLE set\n', '#define ROLE(x) x\n', 'int ordinary;\n#define ROLE set\n'):
+            ext, _ = self.fixture('', header, continuation='')
+            obj, _ = ext.extract()
+            self.assertTrue(obj['supported_candidate'])
+
+    def test_opaque_nested_lookalikes_do_not_create_pending_header(self):
+        for header in ('void helper(){CUSTOM ROLE;}\n',
+                       'void helper(){ {CUSTOM ROLE;} }\n',
+                       'void helper(string arg="CUSTOM ROLE"){}\n',
+                       'mapping data=(["key":"CUSTOM ROLE"]);\n',
+                       'mixed *data=({"CUSTOM ROLE"});\n',
+                       'string value="CUSTOM ROLE";\n', '/* CUSTOM ROLE */\n'):
+            ext, _ = self.fixture('#define ROLE\n', header, continuation='')
+            obj, _ = ext.extract()
+            self.assertTrue(obj['supported_candidate'], header)
+
+    def test_complete_and_literal_set_controls(self):
+        self.assert_early_refusal(*self.fixture('#define STORE set\n', 'function STORE(){}\n', continuation=''))
+        for dependency in (False, True):
+            if dependency:
+                ext, _ = self.fixture('', 'function set(string key,mixed value){}\n', continuation='')
+                obj, _ = ext.extract()
+            else:
+                obj, _ = extract('inherit ROOM;\nfunction set(string key,mixed value){}\n' + self.tail)
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual(['inherit'], [f['field'] for f in obj['facts']])
 
 
 if __name__ == '__main__':
