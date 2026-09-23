@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F28 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F29 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -441,10 +441,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     [P2F28](../migration/MIGRATION_TOOLING_V1_P2F28_UNSUPPORTED_DECLARATION_PREFIX_PREPROCESSING_REFUSAL.md)
     treats unsupported pre-name declaration-prefix syntax as unresolved structure; participating
     preprocessing-sensitive function structure forces full-object refusal. No array/pointer grammar is added.
-    P2F28 is implemented and awaits owner review. Fresh migration472/full Python518, 6,517 synthetic CLI,
-    29-version compatibility, security and deterministic corpus A/B pass; supported485 remains unchanged.
+    P2F28 is CLOSED. Final Re-Audit after P2F28 was BLOCKED: FR28-01 / HIGH / D2-D3.
+    [P2F29](../migration/MIGRATION_TOOLING_V1_P2F29_UNRESOLVED_DECLARATION_HEADER_REFUSAL.md)
+    Attempt 1 stopped before commit because macro SET/CREATE summaries still prematurely resolved an unresolved declaration header.
+    Attempt 2 makes DECLARATION_HEADER_UNRESOLVED absorbing with respect to macro semantic roles.
+    Only direct authored name(signature){body} evidence or a hard top-level boundary may resolve/reset that header state.
+    No LPC type whitelist or declaration grammar was added. Preprocessing-sensitive unresolved declarations force full-object refusal.
+    P2F29 is implemented and awaits owner review. Fresh migration491/full Python537, 8,504 synthetic CLI,
+    30-version compatibility, output security and deterministic corpus A/B pass; supported485 remains unchanged with no semantic widening.
     The next Complete Final Re-Audit is not yet authorized.
     The Structural-Preprocessing Consolidation Final Audit is still required; the systematic quarantine-path audit remains INCOMPLETE.
-    ARCHIVE-01 remains CLOSED; all twenty-two owner-local evidence files, including the byte-identical P2F24/P2F26/P2F27 blocked-attempt copies, remain untracked and unstaged.
-    No new remote CI run.
+    ARCHIVE-01 remains CLOSED. All twenty-four owner-local historical evidence files, including the byte-identical P2F29 Attempt-1 report, remain untracked and unstaged.
+    No phase PR, merge or remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.
