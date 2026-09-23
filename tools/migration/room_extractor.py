@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.30'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30'}
+EXTRACTOR_VERSION = '1.0.31'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1128,6 +1128,19 @@ class RoomExtractor:
         header_macro: Token | None = None
         while i < len(ts):
             critical = ts[i]
+            groups = (self.preprocessing_possible_call_groups(ts, i, matching)
+                      if critical.kind == 'identifier' else [])
+            invocation_witness = (self.preprocessing_directive_invocation_use(critical, groups, macros)
+                                  if critical.kind == 'identifier' else None)
+            invoked = i + 1 in matching and ts[i + 1].text == '('
+            actual_macro = critical.kind == 'identifier' and any(
+                not function_like or invoked
+                for function_like, _ in macros.definitions.get(critical.text, []))
+            # Spelling alone cannot turn an actual macro use into a keyword.
+            # A directive-separated possible invocation also needs the existing
+            # ownership refusal, not recovery as an inheritance declaration.
+            inherit_keyword = (critical.kind == 'identifier' and critical.text == 'inherit'
+                               and not actual_macro and invocation_witness is None)
             if critical.kind == 'directive':
                 if name_state == 'DECLARATION_HEADER_UNRESOLVED':
                     unknown_use = unknown_use or critical
@@ -1149,12 +1162,7 @@ class RoomExtractor:
                 name_state = 'DECLARATION_HEADER_OPEN'
                 unknown_prefix = unknown_use = header_macro = None
             elif inheritance is None:
-                invoked = i + 1 in matching and ts[i + 1].text == '('
-                actual_macro = critical.kind == 'identifier' and any(
-                    not function_like or invoked
-                    for function_like, _ in macros.definitions.get(critical.text, []))
-                if (prefix_allowed and critical.kind == 'identifier'
-                        and critical.text == 'inherit' and not actual_macro):
+                if prefix_allowed and inherit_keyword:
                     if prefix_directive is not None:
                         return 'inherit-directive', critical, prefix_directive
                     inheritance = critical
@@ -1168,9 +1176,8 @@ class RoomExtractor:
             literal_critical = critical.kind == 'identifier' and critical.text in {'set', 'create'}
             identity = 'NONCRITICAL'
             if name_state in {'DECLARATION_HEADER_OPEN', 'DECLARATION_HEADER_UNRESOLVED'} and i >= name_resume and critical.kind != 'directive' and critical.text != ';':
-                if critical.kind == 'identifier' and critical.text != 'inherit':
-                    groups = self.preprocessing_possible_call_groups(ts, i, matching)
-                    witness = self.preprocessing_directive_invocation_use(critical, groups, macros)
+                if critical.kind == 'identifier' and not inherit_keyword:
+                    witness = invocation_witness
                     if witness is not None:
                         if unknown_prefix is not None:
                             return 'unsupported-prefix', unknown_prefix, witness
@@ -1179,11 +1186,9 @@ class RoomExtractor:
                     # classifier. Cross-directive precision cannot widen admission.
                     ends = [end for end, witness in groups if witness is None]
                     identity, consumed = self.preprocessing_critical_function_identity(critical, len(ends), macros)
-                    actual_name_macro = any(not function_like or ends
-                                            for function_like, _ in macros.definitions.get(critical.text, []))
-                    if actual_name_macro:
+                    if actual_macro:
                         header_macro = header_macro or critical
-                    if unknown_prefix is not None and actual_name_macro:
+                    if unknown_prefix is not None and actual_macro:
                         unknown_use = unknown_use or critical
                     if (unknown_prefix is None and identity in {'EMPTY', 'PREFIX'}
                             and consumed is not None):
@@ -1192,7 +1197,7 @@ class RoomExtractor:
                         # An arbitrary identifier is not proof of a name. Only
                         # a direct authored parameter group and body establish
                         # a noncritical literal name, without macro interpretation.
-                        direct_name = (not actual_name_macro and i + 1 in matching
+                        direct_name = (not actual_macro and i + 1 in matching
                                        and ts[i + 1].text == '('
                                        and matching[i + 1] + 1 in matching
                                        and ts[matching[i + 1] + 1].text == '{')
@@ -1212,7 +1217,7 @@ class RoomExtractor:
                             unknown_use = unknown_use or header_macro
                             identity = 'UNKNOWN'
                 else:
-                    if critical.text == 'inherit':
+                    if inherit_keyword:
                         name_state = 'AFTER_NAME'
                     else:
                         # Punctuation is not proof that a function name was seen.

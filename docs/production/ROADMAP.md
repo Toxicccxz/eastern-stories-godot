@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F30 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F31 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -451,11 +451,16 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The completed Final Re-Audit after P2F29 was BLOCKED: FR29-01 / blocking MEDIUM / D2, D6.
     [P2F30](../migration/MIGRATION_TOOLING_V1_P2F30_REACHED_HEADER_EOF_UNRESOLVED_DECLARATION_REFUSAL.md)
     preserves unresolved preprocessing-sensitive reached-header EOF state at the shared early gate, before inheritance metadata or facts.
-    P2F30 is implemented and awaits owner review. Fresh focused53/migration502/full Python548, retained8,504 + new514 = 9,018 CLI,
+    P2F30 is OWNER APPROVED / CLOSED for FR29-01. Its historical focused53/migration502/full Python548, retained8,504 + new514 = 9,018 CLI,
     31-version compatibility, output security and deterministic corpus A/B pass; supported485 and all semantic projections remain unchanged.
-    The ledger contains 35 prior repaired blockers plus FR29-01, now repaired at implementation level pending owner review (36 total).
+    The completed Final Re-Audit after P2F30 was BLOCKED: FR30-01 / blocking MEDIUM / D2, D6.
+    [P2F31](../migration/MIGRATION_TOOLING_V1_P2F31_INVOKED_INHERIT_MACRO_DECLARATION_PREFLIGHT.md)
+    routes actual invoked inherit macros through shared declaration preflight; uninvoked function macros retain ordinary inheritance handling.
+    P2F31 is implemented and awaits owner review. Fresh focused11/combined84/migration513/full Python559, retained9,018 + new1,080 = 10,098 CLI pass.
+    32-version compatibility, output security and corpus A/B pass; supported485, genuine quarantines13, ANSI exclusions14; no corpus semantic delta except version.
+    The ledger contains 36 prior repaired blockers plus FR30-01, now repaired at implementation level pending owner review (37 total).
     The next Complete Final Re-Audit is not authorized. Structural-Preprocessing Consolidation Audit remains BLOCKED / INCOMPLETE;
     Systematic Quarantine-Path Audit remains NOT STARTED / INCOMPLETE.
-    ARCHIVE-01 remains CLOSED. All twenty-five owner-local historical evidence files remain byte-identical, untracked and unstaged.
+    ARCHIVE-01 remains CLOSED. All twenty-six owner-local historical evidence files remain byte-identical, untracked and unstaged.
     No phase PR, merge or remote CI run.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.
