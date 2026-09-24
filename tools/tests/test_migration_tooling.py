@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.34', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.35', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -645,7 +645,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -663,7 +663,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -673,7 +673,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.34', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.35', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2615,7 +2615,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.34', doc['extractor_version'])
+                self.assertEqual('1.0.35', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -5657,6 +5657,76 @@ class P2F34RegressionTests(unittest.TestCase):
 
     def test_independent_literal_prefix_residual_final_safety(self):
         self.assert_accepted_directive_residual('mixed\n#pragma warnings\n', 'standard')
+
+
+class P2F35RegressionTests(unittest.TestCase):
+    def check(self, definitions, body, headers=None, newline='\n', quarantine=False):
+        text = definitions + 'inherit ROOM;\nvoid create(){\n' + body + '\n}\n'
+        files = {'d/probe.c': text, **(headers or {})}
+        sources = {p: Source(p, s.replace('\n', newline).encode()) for p, s in files.items()}
+        obj, findings = RoomExtractor(sources['d/probe.c'], set(sources), sources).extract()
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual([], obj['facts'])
+        self.assertEqual('QUARANTINED' if quarantine else 'OUT_OF_SCOPE', obj['status'])
+        self.assertEqual(quarantine, 'SOURCE_SYNTAX_ERROR' in codes(findings))
+        if not quarantine:
+            self.assertIn('DRIVER_SEMANTICS_UNKNOWN', codes(findings))
+        for finding in findings:
+            p = finding['provenance']
+            raw = sources[p['source_path']].data
+            start, end = p['byte_start'], p['byte_end_exclusive']
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+            self.assertEqual(raw[start:end], p['raw'].encode())
+            self.assertEqual(raw[:start].count(b'\n') + 1, p['line'])
+            self.assertEqual(len(raw[raw.rfind(b'\n', 0, start) + 1:start].decode()) + 1, p['column'])
+        return findings
+
+    def test_primary_pragma_lf_crlf(self):
+        for newline in ('\n', '\r\n'):
+            self.check('#define DROP(x)\n', 'DROP\n#pragma strict_types\n(})', newline=newline)
+
+    def test_independent_standard_header_echo_lf_crlf(self):
+        for newline in ('\n', '\r\n'):
+            self.check('#include <remove.h>\n', 'ERASE\n#echo independent audit\n(])',
+                       {'include/remove.h': '#define ERASE(unused)\n'}, newline)
+
+    def test_direct_adjacent_unchanged(self):
+        self.check('#define DROP(x)\n', 'DROP(})')
+
+    def test_multiple_directives_and_parameterized_replacement(self):
+        self.check('#define DROP(x) x\n', 'DROP\n#pragma strict_types\n#echo audit\n(})')
+
+    def test_function_and_object_aliases(self):
+        for definitions in ('#define DROP(x) NEXT(x)\n#define NEXT(x)\n',
+                            '#define DROP NEXT\n#define NEXT(x)\n'):
+            self.check(definitions, 'DROP\n#pragma warnings\n(})')
+
+    def test_nested_and_cross_headers(self):
+        self.check('#include "outer.h"\n#include "last.h"\n', 'DROP\n#pragma warnings\n(])',
+                   {'d/outer.h': '#include "defs.h"\n', 'd/defs.h': '#define DROP NEXT\n',
+                    'd/last.h': '#define NEXT(x)\n'})
+
+    def test_authored_token_stops_possible_invocation(self):
+        for separator in ('identifier', ';', '+', ',', '"literal"', '1', '{}'):
+            with self.subTest(separator=separator):
+                self.check('#define DROP(x)\n', 'DROP\n#pragma warnings\n' + separator + '\n(})', quarantine=True)
+
+    def test_bare_unused_and_no_macro_corruption(self):
+        for definitions, body in (('', '(})'), ('#define DROP(x)\n', '(})'),
+                                  ('#define DROP(x)\n', 'DROP\n#pragma warnings\n]'),
+                                  ('#define DROP(x)\n', '] DROP\n#pragma warnings\n'),
+                                  ('#define VALUE 1\n', 'VALUE\n#pragma warnings\n(})')):
+            self.check(definitions, body, quarantine=True)
+
+    def test_malformed_groups_need_no_matching_map(self):
+        for group in ('(})', '(])', '(({])', '((('):
+            self.check('#define DROP(x)\n', 'DROP\n#pragma warnings\n' + group)
+
+    def test_authored_unicode_provenance(self):
+        for newline in ('\n', '\r\n'):
+            findings = self.check('#define DROP(x)\n', '/* 雪 */ DROP\n#echo audit\n(})', newline=newline)
+            self.assertTrue(all(f['provenance']['raw'] == 'DROP' for f in findings))
+            self.assertTrue(all(f['provenance']['source_path'] == 'd/probe.c' for f in findings))
 
 
 if __name__ == '__main__':

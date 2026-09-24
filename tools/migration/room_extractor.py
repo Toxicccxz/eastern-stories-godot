@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.34'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'}
+EXTRACTOR_VERSION = '1.0.35'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -806,7 +806,12 @@ class RoomExtractor:
         for index, token in enumerate(self.tokens):
             if token.kind != 'identifier' or token.text not in macros.definitions:
                 continue
-            invoked = index + 1 < len(self.tokens) and self.tokens[index + 1].text == '('
+            following = index + 1
+            # Directives leave possible authored call ownership unresolved. Only
+            # skip directive tokens; failed root pairing supplies no matching map.
+            while following < len(self.tokens) and self.tokens[following].kind == 'directive':
+                following += 1
+            invoked = following < len(self.tokens) and self.tokens[following].text == '('
             if macros.pairing_uncertain(token.text, invoked):
                 return token  # Authored use, never replacement/header provenance.
         return None

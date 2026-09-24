@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F34 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F35 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -151,8 +151,8 @@ records actual macro/invocation participation before name-state routing; the ret
 Fresh pre-commit focused18/combined129/migration558/full Python604 and retained12,370 + new1,264 = 13,634 structural CLI pass.
 Separate AR-01 controls: 20 CLI PASS final-safety oracle, not early-refusal precision. Prior Attempt 1 remains a historical BLOCKED stop.
 35-version compatibility, output security, 9,587 provenance/IDs and corpus A/B pass; supported485, quarantines13, ANSI exclusions14;
-only extractor_version changes versus exact P2F33. P2F34 awaits owner review; FR33-01 becomes IMPLEMENTATION REPAIRED only after
-all fresh immutable post-commit gates pass and the five-file commit is pushed. This is the 40th implementation repair, not milestone certification.
+only extractor_version changes versus exact P2F33. P2F34 is OWNER APPROVED / CLOSED; FR33-01 is CLOSED at implementation level.
+This was implementation repair 40; the subsequent Final Re-Audit passed Gate A but stopped Gate B on FR34-01 false quarantine.
 
 Owner-frozen final blocking threshold: unsafe admission/facts/exits; false quarantine; integrity/provenance/ID/manifest/summary failures;
 output/security/schema/version/atomic-write failures; or dangerous unexplained real-corpus semantic regression.
@@ -162,10 +162,15 @@ AR-01 (OPEN literal declaration prefix + directive, late include refusal) is ACC
 oracles remain mandatory. Other safe residuals do not automatically authorize a repair; genuine safety blockers require an owner stop.
 DECISIONS.md remains unchanged.
 
-The next Complete Final Re-Audit is not authorized. Structural-Preprocessing Consolidation Audit remains BLOCKED / INCOMPLETE;
-Systematic Quarantine-Path Audit remains NOT STARTED / INCOMPLETE.
-ARCHIVE-01 remains CLOSED. All 29 prior owner-local files plus P2F34 Attempt 1 (30 total) remain byte-identical, untracked and unstaged.
-No P2F35, phase PR, merge, P3, Native generation or remote CI run is authorized; stop for owner review.
+[P2F35](../migration/MIGRATION_TOOLING_V1_P2F35_DIRECTIVE_SEPARATED_PAIRING_UNCERTAINTY.md) repairs FR34-01 (blocking MEDIUM / D9 / safety class C),
+semantic blocker41, by recognizing possible function-macro argument ownership across only consecutive directives after root pairing fails.
+Gate A remains historically PASS; frozen13,634 structural regression and accepted AR-01 final-safety20 pass. No declaration-state redesign.
+Fresh pre-commit focused10/combined139/migration568/full Python614; pairing984+primary4 CLI;36-version/security/33-position schema checks pass.
+Corpus A/B:2336/485 supported/13 genuine quarantines, facts2736/findings4296; only version delta versus exact P2F34;9587 provenance and14 ANSI pass.
+All immutable post-commit gates must pass before normal push; this remains implementation repair, not milestone Final Re-Audit certification.
+Systematic Quarantine-Path Audit / Gate B remains BLOCKED / INCOMPLETE pending owner review and later authorization.
+ARCHIVE-01 remains CLOSED. All31 owner-local historical evidence files remain byte-identical, untracked and unstaged.
+No further Final Re-Audit, P2F36, phase PR, merge, P3, Native generation or remote CI; stop for owner review.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**
