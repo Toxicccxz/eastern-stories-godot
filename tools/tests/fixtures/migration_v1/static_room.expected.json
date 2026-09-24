@@ -1,0 +1,12 @@
+{
+  "status": "EXTRACTED",
+  "fields": ["inherit", "short", "name", "long", "no_fight", "outdoors", "exit", "exit", "exit"],
+  "text": ["Test room", "Source name", "Two imaginary guards are text only.\n"],
+  "flags": [{"kind": "integer", "value": "0"}, {"kind": "text", "value": "test"}],
+  "exits": [
+    {"direction": "east", "target": "/d/test/east", "classification": "EXACT_LITERAL"},
+    {"direction": "west", "target": "/d/test/west", "classification": "STATIC_NORMALIZED"},
+    {"direction": "north", "target": "/d/test/north", "classification": "STATIC_NORMALIZED"}
+  ],
+  "finding_codes": ["REQUIRES_SEMANTIC_REVIEW"]
+}

@@ -2,13 +2,209 @@
 
 ## Current milestone
 
-**Snow First Progression Loop / 淳风武馆 — FINAL AUDIT PASS WITH RESIDUAL RISKS; AWAIT OWNER PR AUTHORIZATION.**
+**Migration Tooling v1 — P2F37 IMPLEMENTATION DELIVERED / AWAIT OWNER REVIEW.**
+[P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
+`0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
+[DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
+[P2 static direct-ROOM extraction](../migration/MIGRATION_TOOLING_V1_P2_STATIC_ROOM_EXTRACTOR.md)
+is OWNER APPROVED / CLOSED. First Final Audit was BLOCKED; approved/closed
+[P2F1](../migration/MIGRATION_TOOLING_V1_P2F1_AUDIT_BLOCKER_FIXES.md) resolved its HIGH2 / MEDIUM3.
+Re-Final Audit was BLOCKED on HIGH1 nested manual metadata overwrite and MEDIUM1 MONEY/COMBINED_ITEM
+admission. [P2F2 fixes](../migration/MIGRATION_TOOLING_V1_P2F2_RE_AUDIT_BLOCKER_FIXES.md) are OWNER APPROVED / CLOSED.
+Owner review found one additional MEDIUM D2 gap: incomplete standard weapon/armor symbol/literal exclusions.
+[P2F3](../migration/MIGRATION_TOOLING_V1_P2F3_WEAPON_ARMOR_ADMISSION_FIXES.md) is OWNER APPROVED / CLOSED.
+Owner's globals D2 sweep found four remaining bases: BULLETIN_BOARD/CHARACTER/EQUIP/POWDER.
+[P2F4](../migration/MIGRATION_TOOLING_V1_P2F4_STANDARD_OBJECT_ADMISSION_FIXES.md) is OWNER APPROVED / CLOSED.
+Final Re-Audit after P2F4 was BLOCKED by FR-01 HIGH: comment-prefixed directives bypassed lexer recognition.
+[P2F5](../migration/MIGRATION_TOOLING_V1_P2F5_COMMENT_PREFIXED_DIRECTIVE_FIXES.md) is OWNER APPROVED / CLOSED; FR-01 closed.
+Final Re-Audit after P2F5 was BLOCKED by FR5-01 MEDIUM: closed multiline comments inside directives were falsely quarantined.
+[P2F6](../migration/MIGRATION_TOOLING_V1_P2F6_MULTILINE_DIRECTIVE_COMMENT_FIXES.md) is OWNER APPROVED / CLOSED; FR5-01 closed.
+Final Re-Audit after P2F6 was BLOCKED by raw #echo semantics: FR6-01 HIGH hazard bypass and FR6-02 blocking MEDIUM false quarantine.
+Authorized [P2F7](../migration/MIGRATION_TOOLING_V1_P2F7_RAW_ECHO_DIRECTIVE_FIXES.md) fixes raw echo boundaries and payload handling
+on the same `phase/migration-tooling-v1` branch; LOCAL focused18/migration136/full Python182/static pass.
+Version1.0.7 whole-corpus double-run is byte-identical: 2,336 inputs, PARTIAL499/OUT_OF_SCOPE1,824/
+QUARANTINED13, facts2,804/findings4,457, exit1; no object delta. P2F7 is OWNER APPROVED / CLOSED.
+Final Re-Audit after P2F7 was BLOCKED on FR7-01 HIGH: resolved includes hid semantic hazards.
+[P2F8](../migration/MIGRATION_TOOLING_V1_P2F8_RESOLVED_INCLUDE_SEMANTIC_HAZARDS.md) adds recursive
+include structural hazards; LOCAL focused25/migration161/full Python207/static pass. Version1.0.8 corpus
+double-run is byte-identical with no object delta. P2F8 is CLOSED.
+Final Re-Audit after P2F8 was BLOCKED on FR8-01 HIGH: macro aliases hid function/inheritance identities.
+[P2F9](../migration/MIGRATION_TOOLING_V1_P2F9_MACRO_ALIAS_SEMANTIC_HAZARDS.md) adds bounded macro summaries
+and structural-use reliability checks; LOCAL focused27/prior96/migration188/full Python234/static pass.
+Version1.0.9 corpus double-run is byte-identical with no object delta; 210 external CLI cases pass.
+P2F9 is CLOSED. Final Re-Audit after P2F9 was BLOCKED on FR9-01 HIGH: signature/body macros could
+invalidate authored structural boundaries or hide state mutations.
+[P2F10](../migration/MIGRATION_TOOLING_V1_P2F10_MACRO_STRUCTURAL_BOUNDARY_BODY_HAZARDS.md) adds bounded
+macro-effect classification over full signatures and function bodies; LOCAL focused54/prior123/
+migration242/full Python288/static pass. Version1.0.10 corpus A/B is byte-identical: supported485,
+OUT_OF_SCOPE1,838, QUARANTINED13, facts2,736/findings4,296; 14 candidate changes are documented.
+P2F10 is CLOSED. Final Re-Audit after P2F10 was BLOCKED on FR10-01 blocking MEDIUM / D9:
+legal create-tail directives were falsely quarantined as unfinished runtime statements.
+[P2F11](../migration/MIGRATION_TOOLING_V1_P2F11_CREATE_BODY_DIRECTIVE_SEGMENTATION.md) separates directive
+placement/reliability checks from create extraction; LOCAL focused38/prior177/migration280/full Python326/
+static pass. Version1.0.11 corpus A/B is byte-identical with no object/fact delta; 204 external CLI cases
+pass, and all 14 ANSI exclusions remain. P2F11 is CLOSED. Final Re-Audit after P2F11 Rerun was
+BLOCKED on FR11-01 / blocking MEDIUM / D9: macro-supplied delimiters caused false source quarantine
+before macro analysis. ARCHIVE-01 is CLOSED; historical audit bytes remain preserved.
+[P2F12](../migration/MIGRATION_TOOLING_V1_P2F12_PRE_PAIR_MACRO_DELIMITER_UNCERTAINTY.md) adds a lazy,
+actual-use pairing-uncertainty gate only after authored delimiter pairing fails; normal paired
+extraction stays unchanged. P2F12 is CLOSED. Final Re-Audit after P2F12 was BLOCKED on
+FR12-01 / blocking MEDIUM / D9: raw include delimiters and standalone header fragments were falsely quarantined.
+[P2F13](../migration/MIGRATION_TOOLING_V1_P2F13_INCLUDE_FRAGMENT_PAIRING_CLASSIFICATION.md) adds lazy
+resolved-fragment pairing refusal and separates header lexical corruption from structural incompleteness.
+P2F13 is CLOSED. Final Re-Audit after P2F13 was BLOCKED on FR13-01 / blocking MEDIUM / D9:
+preprocessor-supplied inherit terminators were falsely quarantined before declaration-boundary analysis.
+[P2F14](../migration/MIGRATION_TOOLING_V1_P2F14_PREPROCESSOR_INHERIT_DECLARATION_BOUNDARY.md) adds
+declaration-scoped conservative refusal before fact emission, preserving true unterminated-inherit detection.
+P2F14 is CLOSED. Final Re-Audit after P2F14 was BLOCKED on FR14-01 / blocking MEDIUM / D9:
+apparent declaration/function boundaries discarded actual preprocessing-sensitive pending-inherit uses.
+[P2F15](../migration/MIGRATION_TOOLING_V1_P2F15_PREPROCESSOR_SENSITIVE_PENDING_INHERIT_BOUNDARY.md)
+preserves that boundary evidence before uncertainty analysis; true authored boundary errors remain detected.
+P2F15 is CLOSED. Final Re-Audit after P2F15 was BLOCKED on FR15-01 / blocking MEDIUM / D9:
+actual empty macro uses at create tails were falsely quarantined as unfinished runtime statements.
+[P2F16](../migration/MIGRATION_TOOLING_V1_P2F16_PREPROCESSOR_SENSITIVE_CREATE_TAIL_COMPLETION.md)
+adds bounded tail-specific macro classification while retaining genuine unfinished-runtime quarantine.
+P2F16 is CLOSED. Final Re-Audit after P2F16 was BLOCKED on FR16-01 / HIGH / mapping fact-safety:
+literal exit facts survived inside preprocessing-uncertain mappings.
+[P2F17](../migration/MIGRATION_TOOLING_V1_P2F17_PREPROCESSOR_UNCERTAIN_EXIT_MAPPING_FACT_SAFETY.md)
+stages exit candidates and suppresses unreliable exit sequences while preserving independent facts.
+P2F17 is CLOSED. Final Re-Audit after P2F17 was BLOCKED on FR17-01 / HIGH / D3-D6:
+nested exit setters could leave another setter's literal exit facts in the create sequence.
+[P2F18](../migration/MIGRATION_TOOLING_V1_P2F18_NESTED_CREATE_EXIT_SEQUENCE_UNCERTAINTY.md)
+propagates skipped create-region exit uncertainty while preserving reliable flat exits and unrelated facts.
+P2F18 is CLOSED. Final Re-Audit after P2F18 was BLOCKED on FR18-01 / HIGH / D3-D6:
+whole-exits calls hidden inside setter values bypassed create exit-sequence refusal.
+[P2F19](../migration/MIGRATION_TOOLING_V1_P2F19_CREATE_SCOPE_EXIT_MUTATION_FINALIZER_BACKSTOP.md)
+adds exact flat-setter registration and an exhaustive authored create-call finalizer backstop.
+P2F19 is CLOSED. Final Re-Audit after P2F19 was BLOCKED on FR19-01 / HIGH / D3-D6:
+grouped property keys bypassed the shared create exit-mutation classifier.
+[P2F20](../migration/MIGRATION_TOOLING_V1_P2F20_CONSERVATIVE_EXIT_MUTATION_KEY_CLASSIFICATION.md)
+classifies redundantly grouped static text keys and conservatively refuses unknown current-object mutation keys.
+P2F20 is CLOSED. Final Re-Audit after P2F20 was BLOCKED on FR20-01 / blocking MEDIUM / D9:
+chained function-macro results lost separate authored invocation lists and falsely quarantined create tails.
+[P2F21](../migration/MIGRATION_TOOLING_V1_P2F21_CHAINED_CREATE_TAIL_MACRO_CONTINUATIONS.md)
+preserves bounded callable continuation metadata without macro expansion or argument substitution.
+P2F21 is CLOSED. Initial Final Re-Audit after P2F21 was preflight-blocked operationally by a dirty
+game/project.godot; no semantic blocker was assigned. The semantic rerun was BLOCKED on
+FR21-01 / blocking MEDIUM / D9: an actual macro use of the authored inherit keyword was falsely quarantined.
+[P2F22](../migration/MIGRATION_TOOLING_V1_P2F22_MACRO_SHADOWED_INHERIT_KEYWORD_SAFETY.md)
+refuses such macro uses before inheritance parsing while preserving uninvoked function-macro controls.
+P2F22 is CLOSED. Final Re-Audit after P2F22 was BLOCKED on FR22-01 / HIGH / D2-D3:
+a preprocessing-only prefix hid an authored top-level inherit and allowed an unsafe fact subset.
+[P2F23](../migration/MIGRATION_TOOLING_V1_P2F23_PREPROCESSOR_SENSITIVE_INHERIT_PREFIX_SAFETY.md)
+adds a pre-admission full-object refusal gate without expansion or hidden declaration recovery.
+P2F23 is CLOSED. Final Re-Audit after P2F23 was BLOCKED on FR23-01 / HIGH / D2-D3:
+preprocessing-sensitive function adjacency hid set overrides or duplicate create structure and leaked facts.
+[P2F24](../migration/MIGRATION_TOOLING_V1_P2F24_CRITICAL_FUNCTION_STRUCTURE_PREPROCESSING_CONSOLIDATION.md)
+addresses FR23-01 across root and resolved dependency authored structure before any fact allocation.
+Attempt 1 stopped on a hidden header setter; Attempt 2 shares one bounded scanner across reached units,
+preserves root include provenance, and passes both independent consolidation sweeps and complete local gates.
+P2F24 is CLOSED. Final Re-Audit after P2F24 was BLOCKED on FR24-01 / HIGH / D2-D3:
+directives could split inheritance evidence or pollute a direct inherit expression before exclusion.
+[P2F25](../migration/MIGRATION_TOOLING_V1_P2F25_DIRECTIVE_SENSITIVE_INHERIT_STRUCTURE_PREFLIGHT.md)
+moves shared root/dependency inheritance safety ahead of raw structural segmentation and refuses directive-sensitive declarations before fact allocation.
+P2F25 is CLOSED. Final Re-Audit after P2F25 was BLOCKED on FR25-01 / HIGH / D2-D3.
+[P2F26](../migration/MIGRATION_TOOLING_V1_P2F26_MACRO_SUPPLIED_CRITICAL_FUNCTION_IDENTITY_PREFLIGHT.md)
+extends the pre-segmentation gate to macro-supplied critical function identities. Attempt 1 stopped
+before commit on helper/EMPTY over-refusal; Attempt 2 stopped on macro-supplied declaration-prefix
+regression. Neither adds a semantic blocker number. Attempt 3 uses bounded declaration-prefix
+and function-name slot classification, preserving helper controls and critical structural refusal.
+P2F26 is CLOSED. Final Re-Audit after P2F26 was BLOCKED on FR26-01 / HIGH / D2-D3.
+[P2F27](../migration/MIGRATION_TOOLING_V1_P2F27_DIRECTIVE_TRANSPARENT_FUNCTION_MACRO_INVOCATION_PREFLIGHT.md)
+Attempt 1 stopped before commit because increased macro-call precision widened a frozen conservative helper case.
+Attempt 2 deliberately tightens static-room-v1: a directive-separated possible function-macro invocation
+in an unresolved top-level declaration header forces full-object refusal, with intentional D2/D3 false-negative bias.
+Direct-adjacent invocation retains the P2F26 classifier; no terminal recovery across directives.
+P2F27 is CLOSED. Final Re-Audit after P2F27 was BLOCKED on FR27-01 / HIGH / D2-D3.
+[P2F28](../migration/MIGRATION_TOOLING_V1_P2F28_UNSUPPORTED_DECLARATION_PREFIX_PREPROCESSING_REFUSAL.md)
+treats unsupported pre-name declaration-prefix syntax as unresolved structure; participating
+preprocessing-sensitive function structure forces full-object refusal. No array/pointer grammar is added.
+P2F28 is CLOSED. Final Re-Audit after P2F28 was BLOCKED: FR28-01 / HIGH / D2-D3.
+[P2F29](../migration/MIGRATION_TOOLING_V1_P2F29_UNRESOLVED_DECLARATION_HEADER_REFUSAL.md)
+Attempt 1 stopped before commit because macro SET/CREATE summaries still prematurely resolved an unresolved declaration header.
+Attempt 2 makes DECLARATION_HEADER_UNRESOLVED absorbing with respect to macro semantic roles.
+Only direct authored name(signature){body} evidence or a hard top-level boundary may resolve/reset that header state.
+No LPC type whitelist or declaration grammar was added. Preprocessing-sensitive unresolved declarations force full-object refusal.
+P2F29 is OWNER APPROVED / CLOSED for FR28-01; its historical migration491/full Python537 and 8,504 CLI passed.
+The completed Final Re-Audit after P2F29 was BLOCKED: FR29-01 / blocking MEDIUM / D2, D6.
+[P2F30](../migration/MIGRATION_TOOLING_V1_P2F30_REACHED_HEADER_EOF_UNRESOLVED_DECLARATION_REFUSAL.md)
+preserves unresolved preprocessing-sensitive reached-header EOF state at the shared early gate, before inheritance metadata or facts.
+P2F30 is OWNER APPROVED / CLOSED for FR29-01. Its historical focused53/migration502/full Python548, retained8,504 + new514 = 9,018 CLI,
+31-version compatibility, output security and deterministic corpus A/B pass; supported485 and all semantic projections remain unchanged.
+The completed Final Re-Audit after P2F30 was BLOCKED: FR30-01 / blocking MEDIUM / D2, D6.
+[P2F31](../migration/MIGRATION_TOOLING_V1_P2F31_INVOKED_INHERIT_MACRO_DECLARATION_PREFLIGHT.md)
+routes actual invoked inherit macros through shared declaration preflight; uninvoked function macros retain ordinary inheritance handling.
+P2F31 is OWNER APPROVED / CLOSED for FR30-01. Its historical focused11/combined84/migration513/full Python559, retained9,018 + new1,080 = 10,098 CLI pass.
+32-version compatibility, output security and corpus A/B pass; supported485, genuine quarantines13, ANSI exclusions14; no corpus semantic delta except version.
+The completed Final Re-Audit after P2F31 was BLOCKED: FR31-01 / blocking MEDIUM / D2, D6.
+[P2F32](../migration/MIGRATION_TOOLING_V1_P2F32_PREPROCESSING_SENSITIVE_INHERIT_KEYWORD_RECOVERY.md)
+preserves active preprocessing-sensitive declaration state before ordinary inherit keyword recovery, including reached-header EOF.
+P2F32 is OWNER APPROVED / CLOSED for FR31-01. Its historical focused12/combined96/migration525/full Python571, retained10,098 + new940 = 11,038 CLI pass.
+33-version compatibility, output security and corpus A/B pass; supported485, genuine quarantines13, ANSI exclusions14; only extractor_version changes in the corpus.
+The completed Final Re-Audit after P2F32 was BLOCKED: FR32-01 / blocking MEDIUM / D2, D6.
+[P2F33](../migration/MIGRATION_TOOLING_V1_P2F33_PENDING_PREPROCESSING_DECLARATION_EOF_REFUSAL.md)
+tracks pending preprocessing declaration evidence independently of name state and refuses reached EOF before inheritance/fact allocation.
+P2F33 is OWNER APPROVED / CLOSED for FR32-01. Its historical focused15/combined111/migration540/full Python586 and 12,370 CLI passed.
+The completed Final Re-Audit after P2F33 was BLOCKED on FR33-01: actual macro uses after AFTER_NAME missed pending declaration evidence.
+[P2F34](../migration/MIGRATION_TOOLING_V1_P2F34_STATE_INDEPENDENT_PREPROCESSING_DECLARATION_WITNESS.md)
+records actual macro/invocation participation before name-state routing; the retained candidate is unchanged on resume.
+Fresh pre-commit focused18/combined129/migration558/full Python604 and retained12,370 + new1,264 = 13,634 structural CLI pass.
+Separate AR-01 controls: 20 CLI PASS final-safety oracle, not early-refusal precision. Prior Attempt 1 remains a historical BLOCKED stop.
+35-version compatibility, output security, 9,587 provenance/IDs and corpus A/B pass; supported485, quarantines13, ANSI exclusions14;
+only extractor_version changes versus exact P2F33. P2F34 is OWNER APPROVED / CLOSED; FR33-01 is CLOSED at implementation level.
+This was implementation repair 40; the subsequent Final Re-Audit passed Gate A but stopped Gate B on FR34-01 false quarantine.
+
+Owner-frozen final blocking threshold: unsafe admission/facts/exits; false quarantine; integrity/provenance/ID/manifest/summary failures;
+output/security/schema/version/atomic-write failures; or dangerous unexplained real-corpus semantic regression.
+Safe conservative synthetic cases ending candidate=false, OUT_OF_SCOPE, facts=[], no new exits or false quarantine, truthful provenance,
+and no dangerous corpus delta are not independently blocking merely for later refusal or retained non-consumed structural metadata.
+AR-01 (OPEN literal declaration prefix + directive, late include refusal) is ACCEPTED / NON-BLOCKING. Existing FR29-FR33 early-refusal
+oracles remain mandatory. Other safe residuals do not automatically authorize a repair; genuine safety blockers require an owner stop.
+DECISIONS.md remains unchanged.
+
+[P2F35](../migration/MIGRATION_TOOLING_V1_P2F35_DIRECTIVE_SEPARATED_PAIRING_UNCERTAINTY.md) repairs FR34-01 (blocking MEDIUM / D9 / safety class C),
+semantic blocker41, by recognizing possible function-macro argument ownership across only consecutive directives after root pairing fails.
+Gate A remains historically PASS; frozen13,634 structural regression and accepted AR-01 final-safety20 pass. No declaration-state redesign.
+Fresh pre-commit focused10/combined139/migration568/full Python614; pairing984+primary4 CLI;36-version/security/33-position schema checks pass.
+Corpus A/B:2336/485 supported/13 genuine quarantines, facts2736/findings4296; only version delta versus exact P2F34;9587 provenance and14 ANSI pass.
+All immutable post-commit gates must pass before normal push; this remains implementation repair, not milestone Final Re-Audit certification.
+Systematic Quarantine-Path Audit / Gate B remains BLOCKED / INCOMPLETE pending owner review and later authorization.
+ARCHIVE-01 remains CLOSED. All31 owner-local historical evidence files remain byte-identical, untracked and unstaged.
+P2F35 is now OWNER APPROVED / CLOSED; its subsequent Final Re-Audit was BLOCKED by FR35-01 HIGH output-protection bypass.
+
+[P2F36](../migration/MIGRATION_TOOLING_V1_P2F36_FAIL_CLOSED_GIT_OUTPUT_PROTECTION.md) implements FR35-01 (semantic blocker42 / D7-D9 / safety class E):
+failed Git probes inspect ancestor .git markers without following indirection; ambiguous/failed inspection returns exit2 before scan/write.
+Healthy tracked/ls-files protection remains intact; marker-free non-Git external output remains allowed. No Git safety/config bypass.
+Resume corrected only six version-test registration sites; Attempt 1 remains frozen as a non-semantic acceptance gap. Fresh pre-commit focused18/combined157/migration586/full Python632 pass;39 independent output cases+2 real CLI,37 canonical versions/33 pollution positions pass.
+FR34 primary4/pairing984, Gate A13,634 and AR-01 final-safety20 pass; corpus A/B2336/485/13Q/facts2736/findings4296,9587 provenance and14 ANSI pass.
+Only extractor_version changes versus exact P2F35; parser bytes otherwise unchanged. All33 owner-local evidence files remain untracked/unstaged/byte-identical; ARCHIVE-01 CLOSED.
+All immutable post-commit gates must pass before normal push. Gate B remains BLOCKED / INCOMPLETE; this is implementation repair, not Final Re-Audit certification.
+At the P2F36 delivery gate, further slices/integration remained unauthorized; the owner subsequently authorized the P2F37 resume below.
+
+P2F36 is now OWNER APPROVED / CLOSED. Its Final Re-Audit stopped on FR36-01 diagnostic-output exit classification (blocker43, Class E, D9).
+[P2F37](../migration/MIGRATION_TOOLING_V1_P2F37_STABLE_FATAL_EXIT2_DIAGNOSTIC_BOUNDARY.md) implementation is delivered: FR36-01 is repaired at implementation level.
+Attempt1 remains a frozen historical stop; this resume preserves its fatal reporter and adds only a local argparse diagnostic transport override.
+Healthy argparse semantics remain; broken diagnostic write/flush reaches the fatal-safe sink, preserving real process exit2 and empty stdout without target mutation.
+Fresh pre-commit focused24/combined181/migration610/full Python656 pass; FR36 independent24, FR35 matrix39+real2, FR34 primary4/pairing984 pass.
+Gate A remains PASS/FROZEN with13634 fresh CLI; AR-01 remains accepted with20 final-safety passes.38 versions/6 invalid classes/33 pollution positions pass.
+Corpus A/B and exact P2F36 projection differ only by extractor_version1.0.37;13Q/14ANSI/9587 provenance pass. All35 owner-local reports remain byte-identical; ARCHIVE-01 CLOSED.
+Gate B remains BLOCKED / INCOMPLETE and requires owner-authorized Final Re-Audit continuation; no PR. All immutable post-commit gates must pass before normal push.
+No automatic Final Re-Audit, Gate-B continuation, P2F38, PR, merge, P3, Native output or remote CI; stop for owner review.
+NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
+
+**Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**
+[PR #19](https://github.com/Toxicccxz/eastern-stories-godot/pull/19) merged by standard merge commit
+`cd07808cb76147d0b8c0dad9b82d078b49fefe64`. Accepted post-main
+[run 34985105844](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/34985105844)
+passed all four jobs on that exact merge SHA: Godot Verify, Windows Release Build,
+Android Release Build and iOS Build Validation. This is prior integration evidence, not a new P2 CI run.
+The following audit and slice evidence remains historical.
 [Final milestone audit](../migration/PHASE_SNOW_FIRST_PROGRESSION_FINAL_AUDIT.md) covers the complete
 main `88be5c0e` → frozen pre-audit `6379af74` milestone: Type A12 / Type B10 / Type C0,
 HIGH blockers0. School adds three zones: Snow outdoor16 plus Inn=17. The sole audit commit
 is documentation only; its verified/pushed SHA is the frozen audited head reported at completion.
 P1/P2/P2B/ZE1 authorization checkpoints below and in their reports are historical; the current
-owner instruction approves those slices/live acceptance and authorizes this Final Audit only.
+integration status above supersedes their earlier authorization checkpoints.
 [P1](../migration/PHASE_SNOW_FIRST_PROGRESSION_SOURCE_ANALYSIS.md) is OWNER APPROVED / CLOSED.
 Authorized [P2 implementation](../migration/PHASE_SNOW_FIRST_PROGRESSION_RUNTIME.md) stays on
 `phase/snow-first-progression-loop`: three physical school zones, transient cold-closed gate,
@@ -25,9 +221,9 @@ Cold gate closed, one active map/correct camera, ACTIVE player and no residual e
 This required lengthy natural recovery; it is not a balance qualification. No EXP/state injection,
 RNG reset, reload fishing or gameplay changes. Earlier failed attempts remain historical.
 Teaching contact is not full Liu NPC parity.
-No P2 PR/merge/remote integration CI; the milestone is not integrated on main.
-The frozen audited milestone awaits owner review and authorization for its single PR.
-P3 and Migration Tooling remain unauthorized. See the audit for the low-risk fixture hash typo,
+The prior pre-PR audit checkpoint is superseded by PR #19 and exact-merge-SHA post-main PASS above.
+Snow P3 remains unauthorized; Migration Tooling has its own bounded authorization above.
+See the audit for the low-risk fixture hash typo,
 pacing, historical zero-bound, platform and operational limitations.
 
 **Snow Hockshop / Loot Monetization — FULLY INTEGRATED ON MAIN** through
@@ -64,7 +260,7 @@ The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APP
 PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
 Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
 engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
-The selected milestone is Snow First Progression Loop; its current Final Audit status is recorded above.
+The selected milestone is Migration Tooling v1; Snow First Progression integration is recorded above.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
