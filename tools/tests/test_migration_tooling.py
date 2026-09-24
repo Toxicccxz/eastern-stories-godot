@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.36', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.37', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36', '1.0.37'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -645,7 +645,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36', '1.0.37'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -663,7 +663,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36', '1.0.37'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -673,7 +673,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.36', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.37', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2615,7 +2615,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.36', doc['extractor_version'])
+                self.assertEqual('1.0.37', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -5924,3 +5924,209 @@ class P2F36RegressionTests(unittest.TestCase):
     def test_non_git_unknown_output_still_refused(self):
         self.target.write_bytes(b'owner notes')
         self.assert_refused()
+
+
+class P2F37RegressionTests(unittest.TestCase):
+    """Diagnostic transport must not change a fatal tool failure's exit2."""
+
+    class WriteFailure:
+        def write(self, value):
+            raise OSError('diagnostic write failed')
+
+        def flush(self):
+            pass
+
+    class FlushFailure(io.StringIO):
+        def flush(self):
+            raise OSError('diagnostic flush failed')
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.source = self.base / 'source'
+        (self.source / 'd').mkdir(parents=True)
+        self.input = self.source / 'd/room.c'
+        self.input.write_bytes(b'inherit ROOM;void create(){}')
+        self.output = self.base / 'output'
+        self.target = self.output / 'static-rooms.json'
+        self.args = ['--source-root', str(self.source), '--output-root', str(self.output)]
+
+    def assert_fatal(self, sink, args=None, *, replaced=True, writing=False):
+        before = self.target.read_bytes() if self.target.exists() else None
+        stdout = io.StringIO()
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(sink), \
+                patch.object(cli, 'atomic_write', wraps=cli.atomic_write) as writer:
+            self.assertEqual(2, cli.main(self.args if args is None else args))
+            if not writing:
+                writer.assert_not_called()
+            if replaced:
+                self.assertIsNot(sys.stderr, sink)
+                self.assertIsInstance(sys.stderr, io.StringIO)
+                sys.stderr.write('shutdown remains safe')
+                sys.stderr.flush()
+            else:
+                self.assertIs(sys.stderr, sink)
+        self.assertEqual('', stdout.getvalue())
+        self.assertEqual(before, self.target.read_bytes() if self.target.exists() else None)
+
+    def missing_args(self):
+        return ['--source-root', str(self.base / 'missing'), '--output-root', str(self.output)]
+
+    def test_normal_fatal_preserves_diagnostic(self):
+        stderr = io.StringIO()
+        self.assert_fatal(stderr, self.missing_args(), replaced=False)
+        self.assertIn('FATAL: ToolError: source root', stderr.getvalue())
+
+    def test_write_failure_replaces_sink(self):
+        self.assert_fatal(self.WriteFailure(), self.missing_args())
+
+    def test_flush_failure_replaces_sink(self):
+        self.assert_fatal(self.FlushFailure(), self.missing_args())
+
+    def test_format_failure_replaces_sink(self):
+        class UnprintableError(Exception):
+            def __str__(self):
+                raise ValueError('cannot format original failure')
+        with patch.object(cli, 'scan', side_effect=UnprintableError()):
+            self.assert_fatal(io.StringIO())
+
+    def test_non_io_diagnostic_exception_is_safe(self):
+        class InvalidSink:
+            def write(self, value):
+                raise ValueError('closed text stream')
+        self.assert_fatal(InvalidSink(), self.missing_args())
+
+    def test_keyboard_interrupt_is_not_caught(self):
+        with patch.object(cli, 'scan', side_effect=KeyboardInterrupt()), \
+                patch.object(cli, 'atomic_write') as writer, \
+                contextlib.redirect_stderr(io.StringIO()) as stderr:
+            with self.assertRaises(KeyboardInterrupt):
+                cli.main(self.args)
+            writer.assert_not_called()
+            self.assertEqual('', stderr.getvalue())
+
+    def test_manual_output_refusal_with_broken_stderr(self):
+        self.output.mkdir()
+        self.target.write_bytes(b'owner notes')
+        self.assert_fatal(self.WriteFailure())
+
+    def test_schema_refusal_with_broken_stderr(self):
+        self.output.mkdir()
+        self.target.write_bytes(b'{}')
+        self.assert_fatal(self.FlushFailure())
+
+    def test_git_fatal_probe_with_broken_stderr(self):
+        self.output.mkdir()
+        (self.output / '.git').write_bytes(b'gitdir: unavailable')
+        with patch.object(cli.subprocess, 'run', return_value=subprocess.CompletedProcess([], 128, '', '')), \
+                patch.object(cli, 'scan') as scanner:
+            self.assert_fatal(self.WriteFailure())
+            scanner.assert_not_called()
+
+    def test_source_read_failure_with_broken_stderr(self):
+        read = Path.read_bytes
+        def read_bytes(path):
+            if path == self.input:
+                raise PermissionError('source read failed')
+            return read(path)
+        with patch.object(Path, 'read_bytes', read_bytes):
+            self.assert_fatal(self.WriteFailure())
+
+    def test_serialization_failure_with_broken_stderr(self):
+        with patch.object(cli, 'canonical', side_effect=ValueError('serialization failed')):
+            self.assert_fatal(self.FlushFailure())
+
+    def test_internal_failure_with_broken_stderr(self):
+        with patch.object(cli, 'scan', side_effect=RuntimeError('internal failure')):
+            self.assert_fatal(self.WriteFailure())
+
+    def test_atomic_replace_failure_with_broken_stderr(self):
+        self.output.mkdir()
+        before = canonical(scan(self.source)[0])
+        self.target.write_bytes(before)
+        with patch.object(cli.os, 'replace', side_effect=OSError('replace failed')):
+            self.assert_fatal(self.FlushFailure(), writing=True)
+        self.assertEqual([], list(self.output.glob('.migration-*.tmp')))
+
+    def test_argparse_normal_system_exit(self):
+        with contextlib.redirect_stderr(io.StringIO()) as stderr, \
+                contextlib.redirect_stdout(io.StringIO()) as stdout:
+            with self.assertRaises(SystemExit) as raised:
+                cli.main([*self.args, '--profile', 'invalid'])
+        self.assertEqual(2, raised.exception.code)
+        self.assertIn('invalid choice', stderr.getvalue())
+        self.assertEqual('', stdout.getvalue())
+        self.assertFalse(self.target.exists())
+
+    def test_argparse_write_failure(self):
+        self.assert_fatal(self.WriteFailure(), [*self.args, '--profile', 'invalid'])
+
+    def test_argparse_flush_failure(self):
+        self.assert_fatal(self.FlushFailure(), [*self.args, '--profile', 'invalid'])
+
+    def test_argparse_non_io_diagnostic_failure(self):
+        class InvalidSink:
+            def write(self, value):
+                raise ValueError('closed parser diagnostic stream')
+        self.assert_fatal(InvalidSink(), [*self.args, '--profile', 'invalid'])
+
+    def test_help_retains_normal_argparse_behavior(self):
+        with contextlib.redirect_stdout(io.StringIO()) as stdout, \
+                contextlib.redirect_stderr(io.StringIO()) as stderr:
+            with self.assertRaises(SystemExit) as raised:
+                cli.main(['--help'])
+        self.assertEqual(0, raised.exception.code)
+        self.assertIn('--source-root', stdout.getvalue())
+        self.assertEqual('', stderr.getvalue())
+        self.assertFalse(self.target.exists())
+
+    def assert_process(self, args, *, closed=False):
+        cmd = [sys.executable, '-m', 'tools.migration.cli', *args]
+        before = self.target.read_bytes() if self.target.exists() else None
+        if closed:
+            with subprocess.Popen(cmd, cwd=REPOSITORY, stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE) as child:
+                child.stderr.close()
+                code = child.wait(timeout=30)
+                stdout = child.stdout.read()
+        else:
+            result = subprocess.run(cmd, cwd=REPOSITORY, capture_output=True, timeout=30)
+            code, stdout = result.returncode, result.stdout
+            self.assertTrue(result.stderr)
+        self.assertEqual(2, code)
+        self.assertEqual(b'', stdout)
+        self.assertEqual(before, self.target.read_bytes() if self.target.exists() else None)
+
+    def test_real_missing_root_normal_stderr(self):
+        self.assert_process(self.missing_args())
+
+    def test_real_missing_root_closed_stderr(self):
+        self.assert_process(self.missing_args(), closed=True)
+
+    def test_real_manual_refusal_closed_stderr(self):
+        self.output.mkdir()
+        self.target.write_bytes(b'owner notes')
+        self.assert_process(self.args, closed=True)
+
+    def test_real_invalid_profile_closed_stderr(self):
+        self.assert_process([*self.args, '--profile', 'invalid'], closed=True)
+
+    def test_real_invalid_profile_normal_stderr(self):
+        self.assert_process([*self.args, '--profile', 'invalid'])
+
+    def test_real_flush_failure_shutdown(self):
+        wrapper = '''import sys
+from tools.migration import cli
+class FlushFailure:
+ def write(self, text): return len(text)
+ def flush(self): raise OSError('shutdown flush failed')
+sys.stderr = FlushFailure()
+raise SystemExit(cli.main(sys.argv[1:]))
+'''
+        result = subprocess.run([sys.executable, '-c', wrapper, *self.missing_args()],
+                                cwd=REPOSITORY, capture_output=True, timeout=30)
+        self.assertEqual(2, result.returncode)
+        self.assertEqual(b'', result.stdout)
+        self.assertEqual(b'', result.stderr)
+        self.assertFalse(self.target.exists())

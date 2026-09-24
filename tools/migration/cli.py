@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import os
 import subprocess
@@ -92,8 +93,19 @@ def atomic_write(target: Path, payload: bytes) -> None:
             temporary.unlink(missing_ok=True)
 
 
+class MigrationArgumentParser(argparse.ArgumentParser):
+    """Let diagnostic transport failures reach main's fatal-safe boundary."""
+
+    def _print_message(self, message, file=None):
+        if message:
+            if file is None:
+                file = sys.stderr
+            file.write(message)
+            file.flush()
+
+
 def parser() -> argparse.ArgumentParser:
-    result = argparse.ArgumentParser(description=__doc__)
+    result = MigrationArgumentParser(description=__doc__)
     result.add_argument('--source-root', type=Path, default=REPOSITORY / 'reference/es2',
                         help='ES2 root containing mudlib/d, or a mudlib-shaped root containing d')
     result.add_argument('--output-root', type=Path, default=DEFAULT_OUTPUT_ROOT,
@@ -105,8 +117,8 @@ def parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = parser().parse_args(argv)
     try:
+        args = parser().parse_args(argv)
         target = destination(args.source_root, args.output_root, args.output)
         document, code = scan(args.source_root)
         payload = canonical(document)
@@ -119,7 +131,13 @@ def main(argv: list[str] | None = None) -> int:
     except Exception as error:
         # Object SourceError is caught by the extractor; everything else is fatal exit2.
         # Keep machine-specific details out of canonical output (stderr is diagnostic only).
-        print(f'FATAL: {type(error).__name__}: {error}', file=sys.stderr)
+        try:
+            print(f'FATAL: {type(error).__name__}: {error}', file=sys.stderr)
+            sys.stderr.flush()
+        except Exception:
+            # Do not retry a broken buffered stream during interpreter shutdown:
+            # CPython could otherwise replace the intended exit2 with exit120.
+            sys.stderr = io.StringIO()
         return 2
 
 

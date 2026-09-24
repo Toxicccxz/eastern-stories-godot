@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F36 FIX IMPLEMENTED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — P2F37 IMPLEMENTATION DELIVERED / AWAIT OWNER REVIEW.**
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -179,7 +179,17 @@ Resume corrected only six version-test registration sites; Attempt 1 remains fro
 FR34 primary4/pairing984, Gate A13,634 and AR-01 final-safety20 pass; corpus A/B2336/485/13Q/facts2736/findings4296,9587 provenance and14 ANSI pass.
 Only extractor_version changes versus exact P2F35; parser bytes otherwise unchanged. All33 owner-local evidence files remain untracked/unstaged/byte-identical; ARCHIVE-01 CLOSED.
 All immutable post-commit gates must pass before normal push. Gate B remains BLOCKED / INCOMPLETE; this is implementation repair, not Final Re-Audit certification.
-No further Final Re-Audit, Gate-B continuation, P2F37, phase PR, merge, P3, Native generation or remote CI; stop for owner review.
+At the P2F36 delivery gate, further slices/integration remained unauthorized; the owner subsequently authorized the P2F37 resume below.
+
+P2F36 is now OWNER APPROVED / CLOSED. Its Final Re-Audit stopped on FR36-01 diagnostic-output exit classification (blocker43, Class E, D9).
+[P2F37](../migration/MIGRATION_TOOLING_V1_P2F37_STABLE_FATAL_EXIT2_DIAGNOSTIC_BOUNDARY.md) implementation is delivered: FR36-01 is repaired at implementation level.
+Attempt1 remains a frozen historical stop; this resume preserves its fatal reporter and adds only a local argparse diagnostic transport override.
+Healthy argparse semantics remain; broken diagnostic write/flush reaches the fatal-safe sink, preserving real process exit2 and empty stdout without target mutation.
+Fresh pre-commit focused24/combined181/migration610/full Python656 pass; FR36 independent24, FR35 matrix39+real2, FR34 primary4/pairing984 pass.
+Gate A remains PASS/FROZEN with13634 fresh CLI; AR-01 remains accepted with20 final-safety passes.38 versions/6 invalid classes/33 pollution positions pass.
+Corpus A/B and exact P2F36 projection differ only by extractor_version1.0.37;13Q/14ANSI/9587 provenance pass. All35 owner-local reports remain byte-identical; ARCHIVE-01 CLOSED.
+Gate B remains BLOCKED / INCOMPLETE and requires owner-authorized Final Re-Audit continuation; no PR. All immutable post-commit gates must pass before normal push.
+No automatic Final Re-Audit, Gate-B continuation, P2F38, PR, merge, P3, Native output or remote CI; stop for owner review.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**
