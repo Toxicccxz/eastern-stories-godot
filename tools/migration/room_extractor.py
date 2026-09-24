@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.31'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31'}
+EXTRACTOR_VERSION = '1.0.32'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1139,8 +1139,14 @@ class RoomExtractor:
             # Spelling alone cannot turn an actual macro use into a keyword.
             # A directive-separated possible invocation also needs the existing
             # ownership refusal, not recovery as an inheritance declaration.
-            inherit_keyword = (critical.kind == 'identifier' and critical.text == 'inherit'
-                               and not actual_macro and invocation_witness is None)
+            possible_inherit = (critical.kind == 'identifier' and critical.text == 'inherit'
+                                and not actual_macro and invocation_witness is None)
+            # Local absence of a call group is not declaration-boundary proof.
+            # Preserve this statement's preprocessing evidence, including at a
+            # reached unit's EOF; only a clean context may recover the keyword.
+            inherit_keyword = (possible_inherit and header_macro is None
+                               and unknown_use is None and prefix is None
+                               and prefix_directive is None)
             if critical.kind == 'directive':
                 if name_state == 'DECLARATION_HEADER_UNRESOLVED':
                     unknown_use = unknown_use or critical
@@ -1162,7 +1168,9 @@ class RoomExtractor:
                 name_state = 'DECLARATION_HEADER_OPEN'
                 unknown_prefix = unknown_use = header_macro = None
             elif inheritance is None:
-                if prefix_allowed and inherit_keyword:
+                if prefix_allowed and possible_inherit:
+                    # Retain a possible inheritance witness for the existing
+                    # directive refusal, without closing the declaration slot.
                     if prefix_directive is not None:
                         return 'inherit-directive', critical, prefix_directive
                     inheritance = critical

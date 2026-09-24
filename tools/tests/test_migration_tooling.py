@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.31', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.32', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -645,7 +645,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -663,7 +663,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -673,7 +673,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.31', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.32', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2615,7 +2615,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.31', doc['extractor_version'])
+                self.assertEqual('1.0.32', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -5329,6 +5329,96 @@ class P2F31RegressionTests(unittest.TestCase):
             macros, *_ = ext.macro_context(ts)
             with self.subTest(declaration=declaration):
                 self.assertIsNone(ext.preprocessing_admission_structure_use(ts, macros))
+
+
+class P2F32RegressionTests(unittest.TestCase):
+    definitions = '#define RETURN_TYPE mixed\n#define inherit() set\n'
+
+    def refusal(self, definitions, header, continuation='()(){}\n', layout='local', newline='\n'):
+        factory = P2F30RegressionTests()
+        ext, origin = factory.fixture(definitions, header, continuation, layout, newline)
+        factory.assert_early_refusal(ext, origin)
+
+    def test_primary_lf_crlf_before_all_downstream_paths(self):
+        for newline in ('\n', '\r\n'):
+            self.refusal(self.definitions, 'RETURN_TYPE inherit\n',
+                         '()(string key,mixed value){return 0;}\n', newline=newline)
+
+    def test_independent_create_alias(self):
+        for newline in ('\n', '\r\n'):
+            self.refusal('#define RESULT function\n#define BUILD create\n#define inherit(ignored) BUILD\n',
+                         'RESULT inherit\n', '(123)(){return 0;}\n', 'standard', newline)
+
+    def test_all_five_layouts_use_root_include_provenance(self):
+        for layout in ('local', 'nested', 'standard', 'cross', 'nested-cross'):
+            for newline in ('\n', '\r\n'):
+                with self.subTest(layout=layout, newline=newline):
+                    self.refusal(self.definitions, 'RETURN_TYPE inherit\n', layout=layout, newline=newline)
+
+    def test_active_prefix_roles_survive_keyword_spelling(self):
+        for replacement in ('mixed', '', 'helper', 'set', 'create', 'x + y'):
+            for function in (False, True):
+                definition = '#define ROLE' + ('(x)' if function else '') + ' ' + replacement + '\n'
+                use = 'ROLE(opaque)' if function else 'ROLE'
+                with self.subTest(replacement=replacement, function=function):
+                    self.refusal(definition + '#define inherit() set\n', use + ' inherit\n')
+        self.refusal('#define ROLE NEXT\n#define NEXT mixed\n#define inherit() set\n', 'ROLE inherit\n')
+        self.refusal('#define ROLE mixed\n#define ROLE helper\n#define inherit() set\n', 'ROLE inherit\n')
+
+    def test_existing_unknown_header_witness_is_not_reset(self):
+        self.refusal('#define EMPTY\n#define inherit() set\n', 'function EMPTY inherit\n')
+        self.refusal('#define inherit() set\n', 'CUSTOM\n#pragma warnings\ninherit\n')
+
+    def test_no_inherit_definition_still_preserves_active_header(self):
+        self.refusal('#define PREFIX mixed\n', 'PREFIX inherit\n')
+
+    def test_ordinary_uninvoked_and_undef_controls(self):
+        body = 'inherit ROOM;\n' + P2F31RegressionTests.tail
+        for definitions in ('', '#define inherit(x) set\n', '#define inherit(x) set\n#undef inherit\n'):
+            obj, _ = extract(definitions + body)
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual(['inherit', 'name', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_invoked_and_object_shadowing_remain_refused(self):
+        factory = P2F31RegressionTests()
+        factory.assert_refusal(factory.root('#define inherit() set\n', 'void inherit()(){}\n'))
+        obj, _ = extract('#define inherit set\ninherit ROOM;\n' + factory.tail)
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        for key in ('facts', 'direct_inherits', 'category_candidates'):
+            self.assertEqual([], obj[key])
+
+    def test_semicolon_and_completed_body_reset_header_state(self):
+        for reset in ('PREFIX value;\n', 'PREFIX helper(){}\n', 'void helper(){PREFIX;}\n'):
+            ext = P2F31RegressionTests().root('#define PREFIX mixed\n#define inherit(x) set\n', '')
+            text = '#define PREFIX mixed\n#define inherit(x) set\n' + reset + 'inherit ROOM;\n' + P2F31RegressionTests.tail
+            ts = lex(Source('d/probe.c', text.encode()))
+            macros, *_ = ext.macro_context(ts)
+            self.assertIsNone(ext.preprocessing_admission_structure_use(ts, macros))
+            obj, _ = extract(text)
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual(['inherit', 'name', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_no_preprocessing_prefix_is_not_new_uncertainty(self):
+        ext = P2F31RegressionTests().root('', '')
+        for prefix in ('mixed', 'function', 'CUSTOM', '*'):
+            ts = lex(Source('d/unit.h', (prefix + ' inherit').encode()))
+            macros, *_ = ext.macro_context(ts)
+            self.assertIsNone(ext.preprocessing_admission_structure_use(ts, macros, reached_dependency=True))
+
+    def test_opaque_regions_do_not_start_header_state(self):
+        for text in ('void helper(){ROLE inherit;}\n', 'void helper(){{ROLE inherit;}}\n',
+                     'void helper(mixed ROLE, mixed inherit){}\n',
+                     'mapping m=(["ROLE":"inherit"]);\n', 'mixed *a=({"ROLE","inherit"});\n',
+                     'string s="ROLE inherit";\n', '/* ROLE inherit */\n'):
+            ext = P2F31RegressionTests().root('#define ROLE mixed\n#define inherit(x) set\n', text)
+            ts = lex(ext.source)
+            macros, *_ = ext.macro_context(ts)
+            self.assertIsNone(ext.preprocessing_admission_structure_use(ts, macros))
+
+    def test_unreferenced_header_has_no_effect(self):
+        text = 'inherit ROOM;\n' + P2F31RegressionTests.tail
+        self.assertEqual(extract(text), extract(text, dependencies={
+            'd/unused.h': Source('d/unused.h', (self.definitions + 'RETURN_TYPE inherit').encode())}))
 
 
 if __name__ == '__main__':
