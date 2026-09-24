@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.32'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32'}
+EXTRACTOR_VERSION = '1.0.33'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1126,6 +1126,10 @@ class RoomExtractor:
         unknown_prefix: Token | None = None
         unknown_use: Token | None = None
         header_macro: Token | None = None
+        # Declaration evidence has a separate lifetime from name classification.
+        # OPEN may still carry consumed EMPTY/PREFIX uses; neither role summaries
+        # nor cursor advancement discharge an unfinished authored declaration.
+        pending_declaration: Token | None = None
         while i < len(ts):
             critical = ts[i]
             groups = (self.preprocessing_possible_call_groups(ts, i, matching)
@@ -1150,6 +1154,7 @@ class RoomExtractor:
             if critical.kind == 'directive':
                 if name_state == 'DECLARATION_HEADER_UNRESOLVED':
                     unknown_use = unknown_use or critical
+                    pending_declaration = pending_declaration or critical
                 if inheritance is not None:
                     return 'inherit-directive', inheritance, critical
                 if prefix is not None:
@@ -1167,6 +1172,7 @@ class RoomExtractor:
                 prefix_allowed = True
                 name_state = 'DECLARATION_HEADER_OPEN'
                 unknown_prefix = unknown_use = header_macro = None
+                pending_declaration = None
             elif inheritance is None:
                 if prefix_allowed and possible_inherit:
                     # Retain a possible inheritance witness for the existing
@@ -1196,6 +1202,7 @@ class RoomExtractor:
                     identity, consumed = self.preprocessing_critical_function_identity(critical, len(ends), macros)
                     if actual_macro:
                         header_macro = header_macro or critical
+                        pending_declaration = pending_declaration or critical
                     if unknown_prefix is not None and actual_macro:
                         unknown_use = unknown_use or critical
                     if (unknown_prefix is None and identity in {'EMPTY', 'PREFIX'}
@@ -1215,6 +1222,7 @@ class RoomExtractor:
                                 and (unknown_prefix is None or header_macro is None)):
                             name_state = 'FUNCTION_NAME_CONFIRMED'
                             unknown_prefix = None
+                            pending_declaration = None  # Existing direct parameter/body proof.
                         else:
                             # Semantic macro roles never resolve an uncertain
                             # header, including SET/CREATE and EMPTY/PREFIX.
@@ -1276,12 +1284,12 @@ class RoomExtractor:
                 prefix_allowed = True
                 name_state = 'DECLARATION_HEADER_OPEN'
                 unknown_prefix = unknown_use = header_macro = None
+                pending_declaration = None
             i = matching[i] + 1 if i in matching else i + 1
-        if (reached_dependency and name_state == 'DECLARATION_HEADER_UNRESOLVED'
-                and unknown_prefix is not None and unknown_use is not None):
+        if reached_dependency and pending_declaration is not None:
             # Keep separate authored units: surface uncertainty, never splice or
             # recover a declaration from the tokens following an include site.
-            return 'unsupported-prefix', unknown_prefix, unknown_use
+            return 'unsupported-prefix', unknown_prefix or pending_declaration, pending_declaration
         return None
 
     def extract_structure(self, matching: dict[int, int]) -> None:
