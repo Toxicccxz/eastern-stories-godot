@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F33 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F34 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -466,11 +466,26 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The completed Final Re-Audit after P2F32 was BLOCKED: FR32-01 / blocking MEDIUM / D2, D6.
     [P2F33](../migration/MIGRATION_TOOLING_V1_P2F33_PENDING_PREPROCESSING_DECLARATION_EOF_REFUSAL.md)
     tracks pending preprocessing declaration evidence independently of name state and refuses reached EOF before inheritance/fact allocation.
-    P2F33 is implemented and awaits owner review. Fresh focused15/combined111/migration540/full Python586, retained11,038 + new1,332 = 12,370 CLI pass.
-    34-version compatibility, output security and corpus A/B pass; supported485, genuine quarantines13, ANSI exclusions14; only extractor_version changes in the corpus.
-    The ledger contains 38 prior repaired blockers plus FR32-01, now repaired at implementation level pending owner review (39 total).
+    P2F33 is OWNER APPROVED / CLOSED for FR32-01. Its historical focused15/combined111/migration540/full Python586 and 12,370 CLI passed.
+    The completed Final Re-Audit after P2F33 was BLOCKED on FR33-01: actual macro uses after AFTER_NAME missed pending declaration evidence.
+    [P2F34](../migration/MIGRATION_TOOLING_V1_P2F34_STATE_INDEPENDENT_PREPROCESSING_DECLARATION_WITNESS.md)
+    records actual macro/invocation participation before name-state routing; the retained candidate is unchanged on resume.
+    Fresh pre-commit focused18/combined129/migration558/full Python604 and retained12,370 + new1,264 = 13,634 structural CLI pass.
+    Separate AR-01 controls: 20 CLI PASS final-safety oracle, not early-refusal precision. Prior Attempt 1 remains a historical BLOCKED stop.
+    35-version compatibility, output security, 9,587 provenance/IDs and corpus A/B pass; supported485, quarantines13, ANSI exclusions14;
+    only extractor_version changes versus exact P2F33. P2F34 awaits owner review; FR33-01 becomes IMPLEMENTATION REPAIRED only after
+    all fresh immutable post-commit gates pass and the five-file commit is pushed. This is the 40th implementation repair, not milestone certification.
+
+    Owner-frozen final blocking threshold: unsafe admission/facts/exits; false quarantine; integrity/provenance/ID/manifest/summary failures;
+    output/security/schema/version/atomic-write failures; or dangerous unexplained real-corpus semantic regression.
+    Safe conservative synthetic cases ending candidate=false, OUT_OF_SCOPE, facts=[], no new exits or false quarantine, truthful provenance,
+    and no dangerous corpus delta are not independently blocking merely for later refusal or retained non-consumed structural metadata.
+    AR-01 (OPEN literal declaration prefix + directive, late include refusal) is ACCEPTED / NON-BLOCKING. Existing FR29-FR33 early-refusal
+    oracles remain mandatory. Other safe residuals do not automatically authorize a repair; genuine safety blockers require an owner stop.
+    DECISIONS.md remains unchanged.
+
     The next Complete Final Re-Audit is not authorized. Structural-Preprocessing Consolidation Audit remains BLOCKED / INCOMPLETE;
     Systematic Quarantine-Path Audit remains NOT STARTED / INCOMPLETE.
-    ARCHIVE-01 remains CLOSED. All twenty-eight owner-local historical evidence files remain byte-identical, untracked and unstaged.
-    No phase PR, merge or remote CI run.
+    ARCHIVE-01 remains CLOSED. All 29 prior owner-local files plus P2F34 Attempt 1 (30 total) remain byte-identical, untracked and unstaged.
+    No P2F35, phase PR, merge, P3, Native generation or remote CI run is authorized; stop for owner review.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.33', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.34', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -645,7 +645,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -663,7 +663,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -673,7 +673,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.33', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.34', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2615,7 +2615,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.33', doc['extractor_version'])
+                self.assertEqual('1.0.34', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -5521,6 +5521,142 @@ class P2F33RegressionTests(unittest.TestCase):
             ('#define TYPE mixed\n', 'TYPE\n')):
             for layout in ('local', 'standard'):
                 self.refusal(definitions, header, layout=layout)
+
+
+class P2F34RegressionTests(unittest.TestCase):
+    definitions = '#define BASE "/std/item"\n#define SELECT(x) "/std/npc"\n#define EMPTY\n'
+
+    def refusal(self, definitions, header, layout='local', newline='\n'):
+        factory = P2F30RegressionTests()
+        factory.assert_early_refusal(*factory.fixture(definitions, header, ';\n', layout, newline))
+
+    def test_object_base_before_raw_metadata_and_fallback(self):
+        for newline in ('\n', '\r\n'):
+            self.refusal(self.definitions, 'inherit BASE\n', newline=newline)
+
+    def test_independent_function_base_standard_include(self):
+        for newline in ('\n', '\r\n'):
+            self.refusal('#define ANCESTOR(ignored) "/std/npc"\n',
+                         'inherit ANCESTOR(73)\n', 'standard', newline)
+
+    def test_actual_participation_across_open_unresolved_and_after_name(self):
+        for replacement in ('mixed', '', 'set', 'create', 'helper', 'x + y'):
+            for function in (False, True):
+                definitions = '#define ROLE' + ('(x)' if function else '') + ' ' + replacement + '\n'
+                use = 'ROLE(opaque)' if function else 'ROLE'
+                for header in (use, 'CUSTOM ' + use, 'inherit ' + use, 'mixed helper ' + use):
+                    with self.subTest(replacement=replacement, header=header):
+                        self.refusal(definitions, header + '\n')
+
+    def test_alias_and_competing_base_definitions(self):
+        for definitions, use in (
+            ('#define BASE NEXT\n#define NEXT "/std/item"\n', 'BASE'),
+            ('#define BASE() NEXT\n#define NEXT(x) "/std/item"\n', 'BASE()(opaque)'),
+            ('#define BASE "/std/item"\n#define BASE "/std/npc"\n', 'BASE')):
+            self.refusal(definitions, 'inherit ' + use + '\n')
+
+    def test_empty_macro_suffix_is_participation(self):
+        self.refusal('#define EMPTY\n', 'inherit "/std/item" EMPTY\n')
+        self.refusal('#define EMPTY(x)\n', 'inherit "/std/item" EMPTY(opaque)\n')
+
+    def test_sequential_uses_preserve_current_declaration(self):
+        for header in ('inherit BASE EMPTY\n', 'inherit SELECT(73) EMPTY\n',
+                       'CUSTOM BASE EMPTY\n', 'BASE EMPTY\n'):
+            self.refusal(self.definitions, header)
+
+    def test_all_dependency_layouts_and_raw_include_provenance(self):
+        for layout in ('local', 'nested', 'standard', 'cross', 'nested-cross'):
+            for newline in ('\n', '\r\n'):
+                self.refusal(self.definitions, 'inherit BASE\n', layout, newline)
+
+    def test_semicolon_discharges_before_later_safe_source(self):
+        for declaration in ('inherit BASE;', 'inherit SELECT(73);', 'inherit "/std/item" EMPTY;'):
+            ext = RoomExtractor(Source('d/unit.h', (self.definitions + declaration + '\n').encode()), set(), {})
+            tokens = lex(ext.source)
+            macros, *_ = ext.macro_context(tokens)
+            self.assertIsNone(ext.preprocessing_admission_structure_use(tokens, macros, reached_dependency=True))
+
+    def test_genuine_root_eof_retains_syntax_handling(self):
+        for declaration in ('inherit BASE', 'inherit SELECT(73)', 'inherit "/std/item" EMPTY'):
+            obj, findings = extract(self.definitions + 'inherit ROOM;\n' + declaration)
+            self.assertEqual('QUARANTINED', obj['status'])
+            self.assertEqual([], obj['facts'])
+            self.assertIn('SOURCE_SYNTAX_ERROR', codes(findings))
+
+    def test_completed_header_retains_dependency_exclusion(self):
+        ext, _ = P2F30RegressionTests().fixture(self.definitions, 'inherit BASE;\n', '')
+        obj, _ = ext.extract()
+        self.assertFalse(obj['supported_candidate'])
+        self.assertEqual('OUT_OF_SCOPE', obj['status'])
+        self.assertEqual([], obj['facts'])
+        self.assertEqual(['ROOM'], obj['category_candidates'])
+
+    def test_unreferenced_header_has_no_effect(self):
+        text = 'inherit ROOM;\n' + P2F30RegressionTests.tail
+        self.assertEqual(extract(text), extract(text, dependencies={
+            'd/unused.h': Source('d/unused.h', (self.definitions + 'inherit BASE\n').encode())}))
+
+    def test_direct_proof_and_completed_body_discharge(self):
+        for header in ('void helper(){}\n', 'TYPE helper(string arg){}\n',
+                       'TYPE helper(){}\n#pragma warnings\n', 'TYPE helper(){}\nTYPE value;\n'):
+            ext, _ = P2F30RegressionTests().fixture('#define TYPE mixed\n', header, '')
+            obj, _ = ext.extract()
+            self.assertTrue(obj['supported_candidate'])
+            self.assertEqual(['inherit', 'name', 'exit'], [f['field'] for f in obj['facts']])
+
+    def test_new_statement_after_completed_body_creates_its_own_witness(self):
+        self.refusal('#define TYPE mixed\n', 'TYPE helper(){}\nTYPE\n')
+
+    def test_opaque_regions_do_not_create_top_level_witness(self):
+        for header in ('void helper(){BASE;{SELECT(73);}}\n', 'void helper(mixed BASE){}\n',
+                       'mapping m=(["k":BASE]);\n', 'mixed *a=({BASE});\n',
+                       'string s="BASE";\n', '/* BASE */\n',
+                       'string s=@TEXT\nBASE SELECT(73)\nTEXT\n;\n'):
+            ext, _ = P2F30RegressionTests().fixture(self.definitions, header, '')
+            tokens = lex(ext.source)
+            macros, units, *_ = ext.macro_context(tokens)
+            for _, unit in units:
+                self.assertIsNone(ext.preprocessing_admission_structure_use(unit, macros, reached_dependency=True))
+
+    def test_unused_and_uninvoked_definitions_do_not_create_witness(self):
+        for text in (self.definitions, '#define ONLY(x) set\nONLY\n'):
+            ext = RoomExtractor(Source('d/unit.h', text.encode()), set(), {})
+            tokens = lex(ext.source)
+            macros, *_ = ext.macro_context(tokens)
+            self.assertIsNone(ext.preprocessing_admission_structure_use(tokens, macros, reached_dependency=True))
+
+    def test_inherit_directives_keep_existing_early_refusal(self):
+        for header in ('inherit\n#pragma warnings\nBASE\n',
+                       'inherit BASE\n#pragma warnings\n',
+                       'inherit SELECT\n#pragma warnings\n(73)\n'):
+            self.refusal(self.definitions, header)
+
+    def assert_accepted_directive_residual(self, header, layout):
+        # AR-01 freezes final safety; metadata and fallback timing are permitted.
+        for newline in ('\n', '\r\n'):
+            ext, _ = P2F30RegressionTests().fixture(
+                '', header, 'set(string key, mixed value){}\n', layout, newline)
+            obj, findings = ext.extract()
+            self.assertFalse(obj['supported_candidate'])
+            self.assertEqual('OUT_OF_SCOPE', obj['status'])
+            self.assertEqual([], obj['facts'])
+            self.assertTrue(findings)
+            self.assertFalse(codes(findings) & {'SOURCE_SYNTAX_ERROR', 'SOURCE_ENCODING_ISSUE'})
+            for record in [*findings, *obj['direct_inherits']]:
+                p = record['provenance']
+                self.assertEqual(ext.source.path, p['source_path'])
+                raw = ext.source.data
+                start, end = p['byte_start'], p['byte_end_exclusive']
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), p['source_sha256'])
+                self.assertEqual(raw[start:end], p['raw'].encode())
+                self.assertEqual(raw[:start].count(b'\n') + 1, p['line'])
+                self.assertEqual(len(raw[raw.rfind(b'\n', 0, start) + 1:start].decode()) + 1, p['column'])
+
+    def test_accepted_open_directive_residual_final_safety(self):
+        self.assert_accepted_directive_residual('void\n#pragma strict_types\n', 'local')
+
+    def test_independent_literal_prefix_residual_final_safety(self):
+        self.assert_accepted_directive_residual('mixed\n#pragma warnings\n', 'standard')
 
 
 if __name__ == '__main__':

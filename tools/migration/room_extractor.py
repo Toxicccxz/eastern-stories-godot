@@ -39,8 +39,8 @@ DECLARATION_STARTERS = {'inherit', 'void', 'int', 'string', 'object', 'mapping',
 FUNCTION_DECL_PREFIXES = {'void', 'int', 'string', 'object', 'mapping', 'mixed', 'float',
                          'status', 'static', 'private', 'protected', 'public', 'nomask',
                          'varargs', 'nosave'}
-EXTRACTOR_VERSION = '1.0.33'
-KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33'}
+EXTRACTOR_VERSION = '1.0.34'
+KNOWN_EXTRACTOR_VERSIONS = {'1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34'}
 PROFILE = 'static-room-v1'
 # Exact object constants from reference/es2/mudlib/include/{globals,weapon,armor}.h.
 # Admission evidence only: no path guessing, subclass lookup or macro evaluation.
@@ -1140,6 +1140,12 @@ class RoomExtractor:
             actual_macro = critical.kind == 'identifier' and any(
                 not function_like or invoked
                 for function_like, _ in macros.definitions.get(critical.text, []))
+            # This cursor visits only exposed top-level declaration tokens;
+            # matched parameters/bodies remain opaque. Record participation
+            # before name routing, including after an authored inherit keyword.
+            # Name certainty does not complete the current statement.
+            if actual_macro or invocation_witness is not None:
+                pending_declaration = pending_declaration or critical
             # Spelling alone cannot turn an actual macro use into a keyword.
             # A directive-separated possible invocation also needs the existing
             # ownership refusal, not recovery as an inheritance declaration.
@@ -1202,7 +1208,6 @@ class RoomExtractor:
                     identity, consumed = self.preprocessing_critical_function_identity(critical, len(ends), macros)
                     if actual_macro:
                         header_macro = header_macro or critical
-                        pending_declaration = pending_declaration or critical
                     if unknown_prefix is not None and actual_macro:
                         unknown_use = unknown_use or critical
                     if (unknown_prefix is None and identity in {'EMPTY', 'PREFIX'}
