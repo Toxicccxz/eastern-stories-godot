@@ -323,7 +323,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F35 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — P2F36 FIX IMPLEMENTED / AWAIT OWNER REVIEW**
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -492,5 +492,14 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     All immutable post-commit gates must pass before normal push; this remains implementation repair, not milestone Final Re-Audit certification.
     Systematic Quarantine-Path Audit / Gate B remains BLOCKED / INCOMPLETE pending owner review and later authorization.
     ARCHIVE-01 remains CLOSED. All31 owner-local historical evidence files remain byte-identical, untracked and unstaged.
-    No further Final Re-Audit, P2F36, phase PR, merge, P3, Native generation or remote CI; stop for owner review.
+    P2F35 is now OWNER APPROVED / CLOSED; its subsequent Final Re-Audit was BLOCKED by FR35-01 HIGH output-protection bypass.
+
+    [P2F36](../migration/MIGRATION_TOOLING_V1_P2F36_FAIL_CLOSED_GIT_OUTPUT_PROTECTION.md) implements FR35-01 (semantic blocker42 / D7-D9 / safety class E):
+    failed Git probes inspect ancestor .git markers without following indirection; ambiguous/failed inspection returns exit2 before scan/write.
+    Healthy tracked/ls-files protection remains intact; marker-free non-Git external output remains allowed. No Git safety/config bypass.
+    Resume corrected only six version-test registration sites; Attempt 1 remains frozen as a non-semantic acceptance gap. Fresh pre-commit focused18/combined157/migration586/full Python632 pass;39 independent output cases+2 real CLI,37 canonical versions/33 pollution positions pass.
+    FR34 primary4/pairing984, Gate A13,634 and AR-01 final-safety20 pass; corpus A/B2336/485/13Q/facts2736/findings4296,9587 provenance and14 ANSI pass.
+    Only extractor_version changes versus exact P2F35; parser bytes otherwise unchanged. All33 owner-local evidence files remain untracked/unstaged/byte-identical; ARCHIVE-01 CLOSED.
+    All immutable post-commit gates must pass before normal push. Gate B remains BLOCKED / INCOMPLETE; this is implementation repair, not Final Re-Audit certification.
+    No further Final Re-Audit, Gate-B continuation, P2F37, phase PR, merge, P3, Native generation or remote CI; stop for owner review.
     NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.

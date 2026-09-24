@@ -416,13 +416,13 @@ class ScanAndCliTests(unittest.TestCase):
         target = self.output / 'static-rooms.json'
         target.write_bytes(canonical(previous))
         self.assertEqual(0, self.run_cli())
-        self.assertEqual('1.0.35', json.loads(target.read_bytes())['extractor_version'])
+        self.assertEqual('1.0.36', json.loads(target.read_bytes())['extractor_version'])
 
     def test_metadata_only_json_is_never_recognized(self):
         self.write('d/a.c', b'inherit ROOM; void create() {}')
         self.output.mkdir()
         target = self.output / 'static-rooms.json'
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36'):
             payload = json.dumps(dict(schema_version=1, profile='static-room-v1', extractor_version=version)).encode()
             target.write_bytes(payload)
             with patch.object(cli, 'atomic_write') as writer:
@@ -645,7 +645,7 @@ class P2F2RegressionTests(unittest.TestCase):
         self.assertEqual(payload, self.target.read_bytes())
 
     def test_unknown_fields_at_every_generated_layer_preserve_bytes(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36'):
             for level in self.levels(self.document):
                 for key in ('owner_notes', 'future_field'):
                     with self.subTest(version=version, level=level, key=key):
@@ -663,7 +663,7 @@ class P2F2RegressionTests(unittest.TestCase):
                     canonical(doc)
 
     def test_all_known_versions_upgrade_with_real_atomic_replace(self):
-        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35'):
+        for version in ('1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8', '1.0.9', '1.0.10', '1.0.11', '1.0.12', '1.0.13', '1.0.14', '1.0.15', '1.0.16', '1.0.17', '1.0.18', '1.0.19', '1.0.20', '1.0.21', '1.0.22', '1.0.23', '1.0.24', '1.0.25', '1.0.26', '1.0.27', '1.0.28', '1.0.29', '1.0.30', '1.0.31', '1.0.32', '1.0.33', '1.0.34', '1.0.35', '1.0.36'):
             with self.subTest(version=version):
                 doc = copy.deepcopy(self.document)
                 doc['extractor_version'] = version
@@ -673,7 +673,7 @@ class P2F2RegressionTests(unittest.TestCase):
                 with patch.object(cli.os, 'replace', wraps=cli.os.replace) as replace:
                     self.assertEqual(self.scan_code, self.run_cli())
                     replace.assert_called_once()
-                self.assertEqual('1.0.35', json.loads(self.target.read_bytes())['extractor_version'])
+                self.assertEqual('1.0.36', json.loads(self.target.read_bytes())['extractor_version'])
                 self.assertEqual([self.target], list(self.output.iterdir()))
 
     def test_conditional_fact_and_provenance_shapes_reject_invalid_variants(self):
@@ -2615,7 +2615,7 @@ class P2F12RegressionTests(unittest.TestCase):
                                          '--output-root', str(base / 'output')], cwd=REPOSITORY, capture_output=True)
                 self.assertEqual(0, result.returncode, result.stderr)
                 doc = json.loads((base / 'output/static-rooms.json').read_bytes())
-                self.assertEqual('1.0.35', doc['extractor_version'])
+                self.assertEqual('1.0.36', doc['extractor_version'])
                 self.assertEqual('OUT_OF_SCOPE', doc['objects'][0]['status'])
                 self.assertEqual([], doc['objects'][0]['facts'])
                 self.assertNotIn('SOURCE_SYNTAX_ERROR', codes(doc['findings']))
@@ -5731,3 +5731,196 @@ class P2F35RegressionTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class P2F36RegressionTests(unittest.TestCase):
+    """Git probe failures cannot authorize writes beneath control markers."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.source = self.base / 'source'
+        (self.source / 'd').mkdir(parents=True)
+        self.input = self.source / 'd/room.c'
+        self.input.write_bytes(b'inherit ROOM; void create(){set("name","before");}\n')
+        self.output = self.base / 'output'
+        self.output.mkdir()
+        self.target = self.output / 'static-rooms.json'
+        self.before = canonical(scan(self.source)[0])
+        self.input.write_bytes(b'inherit ROOM; void create(){set("name","after");}\n')
+
+    def git(self, *args):
+        return subprocess.check_output(['git', '-C', str(self.output), *args],
+                                       stderr=subprocess.PIPE)
+
+    def checkout(self, *, separate=False, tracked=True):
+        args = ['git', 'init', '-q']
+        if separate:
+            args += ['--separate-git-dir', str(self.base / 'metadata')]
+        subprocess.run([*args, str(self.output)], check=True, capture_output=True)
+        self.target.write_bytes(self.before)
+        if tracked:
+            self.git('add', 'static-rooms.json')
+
+    def invoke(self):
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            return cli.main(['--source-root', str(self.source),
+                             '--output-root', str(self.output), '--output', str(self.target)])
+
+    def fatal_probe(self, command='rev-parse'):
+        original = subprocess.run
+
+        def run(args, *positional, **keywords):
+            if args[:1] == ['git'] and command in args:
+                empty = '' if keywords.get('text') else b''
+                # Decision must not depend on English Git diagnostics.
+                return subprocess.CompletedProcess(args, 128, empty, empty)
+            return original(args, *positional, **keywords)
+        return patch.object(cli.subprocess, 'run', side_effect=run)
+
+    def assert_refused(self):
+        existed = self.target.exists()
+        before = self.target.read_bytes() if existed else None
+        with patch.object(cli, 'scan', wraps=cli.scan) as scanner, \
+                patch.object(cli, 'canonical', wraps=cli.canonical) as serializer, \
+                patch.object(cli, 'atomic_write', wraps=cli.atomic_write) as writer:
+            self.assertEqual(2, self.invoke())
+            scanner.assert_not_called()
+            serializer.assert_not_called()
+            writer.assert_not_called()
+        self.assertEqual(existed, self.target.exists())
+        if existed:
+            self.assertEqual(before, self.target.read_bytes())
+
+    def test_normal_tracked_canonical_refused(self):
+        self.checkout()
+        index = self.git('show', ':static-rooms.json')
+        self.assert_refused()
+        self.assertEqual(index, self.git('show', ':static-rooms.json'))
+
+    def test_fatal_probe_directory_preserves_target_and_index(self):
+        self.checkout()
+        index = self.git('show', ':static-rooms.json')
+        with self.fatal_probe():
+            self.assert_refused()
+        self.assertEqual(index, self.git('show', ':static-rooms.json'))
+
+    def test_fatal_probe_real_git_file_preserves_index(self):
+        self.checkout(separate=True)
+        self.assertTrue((self.output / '.git').is_file())
+        index = self.git('show', ':static-rooms.json')
+        with self.fatal_probe():
+            self.assert_refused()
+        self.assertEqual(index, self.git('show', ':static-rooms.json'))
+
+    def test_stray_git_file_is_ambiguous_without_reading(self):
+        (self.output / '.git').write_bytes(b'gitdir: never-follow-this\n')
+        with self.fatal_probe(), patch.object(Path, 'read_bytes',
+                                             side_effect=AssertionError('must not read marker')):
+            self.assert_refused()
+
+    def test_stray_git_directory_is_ambiguous(self):
+        (self.output / '.git').mkdir()
+        with self.fatal_probe():
+            self.assert_refused()
+
+    def test_nested_nonexistent_git_target_refused(self):
+        self.checkout()
+        self.target = self.output / 'not-created' / 'nested' / 'new.json'
+        with self.fatal_probe():
+            self.assert_refused()
+        self.assertFalse(self.target.parent.exists())
+
+    def test_existing_nested_git_target_refused(self):
+        self.checkout()
+        self.target = self.output / 'nested' / 'kept.json'
+        self.target.parent.mkdir()
+        self.target.write_bytes(self.before)
+        with self.fatal_probe():
+            self.assert_refused()
+
+    def test_tracked_absent_working_file_refused(self):
+        self.checkout()
+        index = self.git('show', ':static-rooms.json')
+        self.target.unlink()
+        self.assert_refused()
+        with self.fatal_probe():
+            self.assert_refused()
+        self.assertEqual(index, self.git('show', ':static-rooms.json'))
+
+    def test_healthy_untracked_checkout_allows_output(self):
+        self.checkout(tracked=False)
+        self.assertEqual(0, self.invoke())
+        self.assertNotEqual(self.before, self.target.read_bytes())
+
+    def test_successful_probe_fatal_lsfiles_refused(self):
+        self.checkout()
+        with self.fatal_probe('ls-files'):
+            self.assert_refused()
+        self.assertEqual(self.before, self.git('show', ':static-rooms.json'))
+
+    def test_non_git_new_external_output(self):
+        self.assertNotEqual(0, subprocess.run(
+            ['git', '-C', str(self.output), 'rev-parse', '--show-toplevel'],
+            capture_output=True).returncode)
+        self.assertEqual(0, self.invoke())
+        self.assertTrue(self.target.is_file())
+
+    def test_non_git_recognized_output_replaced(self):
+        self.target.write_bytes(self.before)
+        self.assertEqual(0, self.invoke())
+        self.assertNotEqual(self.before, self.target.read_bytes())
+
+    def test_non_git_nested_nonexistent_output(self):
+        self.output = self.output / 'nested' / 'new'
+        self.target = self.output / 'result.json'
+        self.assertEqual(0, self.invoke())
+        self.assertTrue(self.target.is_file())
+
+    def test_marker_permission_failure_refused(self):
+        original = Path.lstat
+
+        def lstat(path, *args, **kwargs):
+            if path == self.output / '.git':
+                raise PermissionError('marker inspection unavailable')
+            return original(path, *args, **kwargs)
+        with self.fatal_probe(), patch.object(Path, 'lstat', lstat):
+            self.assert_refused()
+
+    def test_marker_other_io_failure_refused(self):
+        original = Path.lstat
+
+        def lstat(path, *args, **kwargs):
+            if path == self.output / '.git':
+                raise OSError('marker inspection unavailable')
+            return original(path, *args, **kwargs)
+        with self.fatal_probe(), patch.object(Path, 'lstat', lstat):
+            self.assert_refused()
+
+    def test_ambiguous_link_marker_lstat_presence_refused(self):
+        original = Path.lstat
+        marker = self.output / '.git'
+
+        def lstat(path, *args, **kwargs):
+            # lstat succeeds even for a dangling link. Its type/target is irrelevant.
+            if path == marker:
+                return object()
+            return original(path, *args, **kwargs)
+        with self.fatal_probe(), patch.object(Path, 'lstat', lstat):
+            self.assert_refused()
+
+    def test_real_git_ownership_rejection_is_exit2(self):
+        self.checkout()
+        index = self.git('show', ':static-rooms.json')
+        env = {'GIT_TEST_ASSUME_DIFFERENT_OWNER': '1', 'GIT_CONFIG_COUNT': '1',
+               'GIT_CONFIG_KEY_0': 'safe.directory', 'GIT_CONFIG_VALUE_0': ''}
+        with patch.dict(cli.os.environ, env):
+            self.assertNotEqual(0, subprocess.run(
+                ['git', '-C', str(self.output), 'rev-parse', '--show-toplevel'],
+                capture_output=True).returncode)
+            self.assert_refused()
+        self.assertEqual(index, self.git('show', ':static-rooms.json'))
+
+    def test_non_git_unknown_output_still_refused(self):
+        self.target.write_bytes(b'owner notes')
+        self.assert_refused()

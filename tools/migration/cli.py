@@ -55,6 +55,18 @@ def destination(source: Path, output_root: Path, output: Path) -> Path:
             raise ToolError('refusing to replace a tracked file')
         if tracked.returncode != 1:
             raise ToolError('cannot verify tracked output protection')
+    else:
+        # A failed probe is not proof that this is a non-Git directory. Any
+        # control marker protects the ancestry, including worktree/submodule
+        # files and dangling links; never read or follow its indirection.
+        for directory in (ancestor, *ancestor.parents):
+            try:
+                (directory / '.git').lstat()
+            except FileNotFoundError:
+                continue
+            except OSError as error:
+                raise ToolError('cannot inspect Git output protection markers') from error
+            raise ToolError('cannot verify Git repository output protection')
     if target.exists():
         if not target.is_file():
             raise ToolError('output target is not a regular file')
