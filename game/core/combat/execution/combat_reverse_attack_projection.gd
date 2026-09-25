@@ -131,4 +131,5 @@ static func _copy_attack_input(value: CombatAttackInput) -> CombatAttackInput:
 		value.attacker,
 		value.defender,
 		value.selected_action,
+		value.approved_actions(),
 	)

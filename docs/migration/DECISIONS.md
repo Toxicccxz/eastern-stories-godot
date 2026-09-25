@@ -920,3 +920,57 @@ partial mutation, not an atomic attack rollback. Sources:
 **Reason:** The Pine rooms use random exit targets to create disorientation within a text-room runtime. `pine1`, `pine2`, and `pine4` through `pine7` rebuild those exits during reset, while `pine3` selects them during create; several fixed links provide an authored skeleton: `pine1 west → pine4`, `pine4 north → pine5`, `pine5 north → pine6`, `pine6 west → pine7`, `pine7 southwest → cliffdown`, plus `pine2 east → keep1`. Reproducing mutable exit tables would port the LPC runtime representation instead of its maze intent and would make physical collision/navigation unstable.
 
 **Compatibility impact:** A given playthrough and scene reload use the same Pine geometry instead of source reset/load randomization. The native layout preserves getting-lost pressure through physical loops, similar branches, barriers, and dead ends while guaranteeing reachability and return. Pine navigation consumes no random source. Sources: `reference/es2/mudlib/d/oldpine/pine1.c`, `pine2.c`, `pine3.c`, `pine4.c`, `pine5.c`, `pine6.c`, `pine7.c`, `cliffdown.c`.
+
+
+## Snow Martial Progression II — owner-locked P2 boundary
+
+P1 at `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd` is OWNER APPROVED / CLOSED.
+P2 is authorized on `phase/snow-martial-progression-liuh-ken` only.
+The [approved source analysis](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
+remains planning authority; this section records the subsequent owner decisions.
+
+| Decision | Locked contract |
+| --- | --- |
+| D-SMP2-01 | Natural combat_exp >=6, basic unarmed raw >=4, liuh-ken raw >=5, enabled for unarmed. Product acceptance finish, not a source unlock. No automatic reduction. |
+| D-SMP2-02 | Explicit Enable/Disable only at valid physical Liu contact: ACTIVE, in range, not paused/fighting/busy. Approved Type B availability substitution, not a source enable restriction. |
+| D-SMP2-03 | All four source actions: 古松挂月, 傲雪冬梅, 孤崖听涛, 荒山虎吟; no level unlock. |
+| D-SMP2-04 | Full authored text, using committed attacker/victim/limb facts; presentation draws no RNG. |
+| D-SMP2-05 | Source dodge/parry metadata is evidence only. No effect on AP/DP/PP, rates, damage or temporary modifiers; CombatActionDefinition and CombatMath do not gain these fields. |
+| D-SMP2-06 | Exact reviewed liuh-ken only: known no authored hit effect. Narrow Type B classification; unknown mapped skills remain unavailable. No generic missing-lfun or hook framework. |
+| D-SMP2-07 | Reuse generic skill/progression/relation/equipment and three-stream RNG persistence. Root schema2, item schema3, SOURCE_ENTRY_V1 unchanged. Missing required durable state requires owner review. |
+| D-SMP2-08 | Attempt full natural EXP6 route on immutable pushed implementation, then mapped combat and full-process Save/cold Continue. No grants, injected XP/stats, favorable production RNG, teleport, enemy/damage/recovery rebalance. If impractical, stop and report the actual acceptance blocker. |
+
+Source-exact Learn ordering, effective skill and primary/secondary weapon distinctions remain Type A.
+Select exactly once per attack from the validated current action set, retain all live authority checks,
+and compose that selected action into the existing resolver. Each genuine reverse attack reprojects
+post-forward live state and draws independently. No singleton-draw optimization or presentation reroll.
+Shared responsive/input/layout regressions are required; physical Android/iOS qualification is deferred
+to the later owner-authorized Final Audit. No PR, merge, automatic Final Audit, P3 or Migration Tooling
+expansion is authorized. All other arts, practice/study, force/techniques, full school/faction systems,
+Phase5B4, Lake/serpent and Native generation remain deferred. Type C = 0.
+
+## Snow Martial Progression II — automated functional acceptance
+
+**Owner decision (2026-09-25):** P2 engineering closure uses deterministic automated
+production-path verification. This supersedes the live-grind/full-process acceptance
+method in D-SMP2-01/08 above, not the gameplay finish or source rules. Genuine prior
+[production combat](PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md)
+already observed EXP0→1; stochastic time-to-EXP6 is deferred to balance/pacing and
+usability qualification. Test fixtures may construct exact prerequisite checkpoints
+(EXP6/basic unarmed4); these are test-only and never naturally earned live evidence.
+No gameplay formula, EXP probability/rule, EXP6 Learn threshold, or unarmed4/liuh5
+finish changes. Public Save/Continue with fresh graph reconstruction closes the
+functional persistence loop; later human play/Final Audit smoke remains separate.
+See the [automated acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
+
+## Generalized Player display names
+
+**Decision (Type B, owner-authorized P2R2):** Replace the historical Chinese-only
+display-name restriction with bounded, safe Unicode letter-based names across languages.
+Default length is 1–24 code points; attached marks and explicit internal separators
+are allowed. Preserve accepted display text exactly, without normalization. Semantic
+Character ID remains independent. This is international single-player product compatibility,
+not multiplayer uniqueness, account naming or moderation. Source:
+[logind.c::check_legal_name](../../reference/es2/mudlib/adm/daemons/logind.c).
+The [policy report](PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) records rules,
+configuration and verification. Birth, gameplay and Save schemas are unchanged.

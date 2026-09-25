@@ -7,8 +7,6 @@ var map: SnowOutdoorController
 var ui: SnowSchoolInteraction
 var _door_open: bool = false
 var last_learn: LearnResult
-var _policy: SkillLearnPolicy = SnowSchoolTeacher.unarmed_policy()
-var _skill: SkillDefinition = SnowSchoolTeacher.unarmed_definition()
 
 
 func configure(p_session: OldPineWorldSessionController, p_map: SnowOutdoorController) -> void:
@@ -75,11 +73,28 @@ func cancel_apprentice() -> SwordsmanApprenticeship.Outcome:
 	return session.player_runtime().school_apprenticeship.cancel()
 
 
-func request_learn() -> LearnResult:
-	if not can_teach() or session.world_interaction_random_source() == null:
-		last_learn = LearnResult.new(&"unarmed")
+func request_learn(skill_id: StringName = &"unarmed") -> LearnResult:
+	if skill_id not in [&"unarmed", LiuhKenDefinition.SKILL_ID] or not can_teach() or session.world_interaction_random_source() == null:
+		last_learn = LearnResult.new(skill_id)
 		last_learn.failure_reason = LearnResult.FailureReason.TEACHER_UNAVAILABLE
 		return last_learn
 	# Fresh facts on every request. No quote or panel state authorizes mutation.
-	last_learn = LearnService.learn(session.player_runtime().state, SnowSchoolTeacher.unarmed_context(), _skill, _policy, null, session.world_interaction_random_source())
+	var definition: SkillDefinition = SnowSchoolTeacher.unarmed_definition() if skill_id == &"unarmed" else LiuhKenDefinition.skill()
+	last_learn = LearnService.learn(session.player_runtime().state, SnowSchoolTeacher.teaching_context(skill_id), definition, SnowSchoolTeacher.learn_policy(skill_id), null, session.world_interaction_random_source())
 	return last_learn
+
+
+func enable_liuh() -> bool:
+	if not can_teach():
+		return false
+	return SkillEnableTransition.try_enable(session.player_runtime().state.skills,
+		LiuhKenDefinition.skill(), &"unarmed").applied
+
+
+func disable_liuh() -> bool:
+	if not can_teach():
+		return false
+	# Source enable none: no raw/learned/resource changes. Combat sources are
+	# projected afresh for every opportunity; there is no cached next action.
+	session.player_runtime().state.skills.unmap_skill(&"unarmed")
+	return true

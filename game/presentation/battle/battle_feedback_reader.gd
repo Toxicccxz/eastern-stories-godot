@@ -112,9 +112,13 @@ static func _attack(result: CombatOrdinaryAttackResult, actor: String, target: S
 	if result == null or not result.has_base_result:
 		return ""
 	var base: CombatAttackResult = result.base_result
+	var authored: String = LiuhKenDefinition.action_text(base.action_id)
+	var prefix: String = ""
+	if not authored.is_empty() and base.outcome in [CombatAttackResult.Outcome.DODGE, CombatAttackResult.Outcome.PARRY, CombatAttackResult.Outcome.HIT]:
+		prefix = " · " + authored.replace("$N", actor).replace("$n", target).replace("$l", String(base.calculation.selected_limb))
 	match base.outcome:
-		CombatAttackResult.Outcome.DODGE: return " · %s dodges %s" % [target, actor]
-		CombatAttackResult.Outcome.PARRY: return " · %s parries %s" % [target, actor]
+		CombatAttackResult.Outcome.DODGE: return prefix + " · %s dodges %s" % [target, actor]
+		CombatAttackResult.Outcome.PARRY: return prefix + " · %s parries %s" % [target, actor]
 		CombatAttackResult.Outcome.HIT:
-			return " · %s hits %s (%d damage)" % [actor, target, base.resource_mutation.requested_damage]
+			return prefix + " · %s hits %s (%d damage)" % [actor, target, base.resource_mutation.requested_damage]
 	return ""

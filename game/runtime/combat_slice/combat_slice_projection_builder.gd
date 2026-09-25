@@ -78,7 +78,7 @@ static func build_action_selection_input(
 		primary_set = attacker.content.slash_action_set()
 	return CombatActionSelectionInput.new(
 		not mapped_skill_id.is_empty(),
-		null,
+		attacker.content.mapped_action_set(attack_skill_id, mapped_skill_id),
 		primary != null,
 		primary_set,
 		attacker.content.unarmed_action_set(),
@@ -113,6 +113,9 @@ static func build_attack_input(
 	var mapped_attack_id: StringName = attacker.state.skills.mapped_skill(
 		attack_skill_id
 	)
+	var approved_actions: CombatActionSet = attacker.content.mapped_action_set(attack_skill_id, mapped_attack_id)
+	if approved_actions != null and not approved_actions.contains_exact(selected_action):
+		return null
 	var mapped_force_id: StringName = attacker.state.skills.mapped_skill(
 		FORCE_SKILL_ID
 	)
@@ -155,7 +158,7 @@ static func build_attack_input(
 		(
 			CombatHitPolicyStatus.Value.NOT_APPLICABLE
 			if mapped_attack_id.is_empty()
-			else CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
+			else (CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT if approved_actions != null else CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE)
 		),
 		(
 			CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
@@ -187,7 +190,7 @@ static func build_attack_input(
 		defender.state.recovery.inner_force.current,
 		defender_armor.armor_vs_force,
 	)
-	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action)
+	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions)
 
 
 static func build_progression_facts(
@@ -239,9 +242,15 @@ static func build_reverse_projection(
 		or request.victim_id != defender.character_id
 	):
 		return null
+	return build_live_projection(attacker, defender)
+
+
+static func build_live_projection(attacker: CombatSliceCharacterBinding, defender: CombatSliceCharacterBinding) -> CombatReverseAttackProjection:
+	if attacker == null or defender == null or not attacker.is_valid() or not defender.is_valid():
+		return null
 	var primary: EquippedWeaponRef = attacker.state.equipment.primary_weapon()
 	var template_action: CombatActionDefinition = (
-		attacker.content.attack_template_for(primary)
+		template_action_for(attacker)
 	)
 	var attacker_armor: ArmorNumericModifiers = (
 		attacker.armor.aggregate_numeric_modifiers()
@@ -289,3 +298,11 @@ static func find_binding(
 		if participant != null and participant.character_id == character_id:
 			return participant
 	return null
+
+
+static func template_action_for(attacker: CombatSliceCharacterBinding) -> CombatActionDefinition:
+	var primary: EquippedWeaponRef = attacker.state.equipment.primary_weapon()
+	var skill_id: StringName = primary.skill_type if primary != null else UNARMED_SKILL_ID
+	var approved: CombatActionSet = attacker.content.mapped_action_set(skill_id, attacker.state.skills.mapped_skill(skill_id))
+	# A source-membership witness only. The actual action is selected once later.
+	return approved.action_at(0) if approved != null else attacker.content.attack_template_for(primary)

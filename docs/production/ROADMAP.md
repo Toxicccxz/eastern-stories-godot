@@ -531,3 +531,34 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     NPC extraction, item extraction, Bank/Hockshop/ClassGuild extraction profiles, Native importer/generator
     and mass content generation remain deferred. No Migration Tooling P3 is automatically authorized or
     designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
+
+
+14. **Snow Martial Progression II — FINAL AUDIT PASS — READY FOR OWNER PR AUTHORIZATION.**
+
+    [Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md) PASS on
+    `c026bd1793e34c1f65829aee5f21d9999ec291aa`: 13 commits / 110 files from main,
+    blocking HIGH=0 / MEDIUM=0. P1/P2, P2R1, P2R2 and automated acceptance are
+    OWNER APPROVED / CLOSED. Test-only EXP6/basic4 prerequisites remain distinct
+    from natural EXP capability; Learn to liuh5, Enable, four-action Combat and exact
+    public Save/fresh-graph Continue pass. Natural time-to-EXP6 pacing/usability is
+    NON-BLOCKING FOR ENGINEERING INTEGRATION and deferred to human playtesting.
+    Godot AI 4.0.4→4.2.3 is accepted as a separate, bounded dependency update.
+    Fresh gates PASS: story110 / focused2,055 / canonical21,055 assertions, 0 failures;
+    Python3.12 656 tests; static, official Godot4.7.2 headless/editor, actual sanitizer,
+    sanitized import and phase/current doc checks. Audit closeout is three docs only.
+    No PR, remote CI or merge; not integrated on main. Await owner PR authorization.
+
+    **Historical checkpoints below:** earlier live requirements and pending repair
+    approval wording are superseded by the owner decision above.
+
+    [P2R2 generalized names](../migration/PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) is implemented/locally verified: 2,303 focused / 20,945 canonical assertions; 656 Python tests; all static/editor/sanitizer/diff/link gates PASS. This bounded Type B adjustment adds configurable Unicode names and preserves exact identity and birth/combat/Liuh/Save contracts. Starting HEAD `3cf9c67e4514e9131f1492a36454ebc625376608` and the Godot AI update are owner-accepted; two desktop viewport entries are restored by separate owner authorization. Await owner review before any live acceptance. No PR, merge, Final Audit or P3.
+
+    [P1 source analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md) is approved at
+    `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`. [D-SMP2-01 through 08](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
+    lock the minimal Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`:
+    existing Liu Learn/Enable/Disable, four actions through existing Combat, authored feedback,
+    natural EXP >=6 / unarmed >=4 / liuh >=5 and exact full-process Save/Continue.
+    [P2 implementation/local gates](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) PASS: 20,544 gameplay assertions and 656 Python tests. Implementation is OWNER APPROVED / FROZEN at `81d0cb63da15f9e384392de98cbaa3fd21475a51`. Owner classified [Attempt1](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_BLOCKER.md) as INCONCLUSIVE / OPERATIONAL-CONTROL FAILURE. [Attempt2](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT2_BLOCKED.md) reached natural EXP1/raw3 and verified real pause, then stopped on a QA input-script compile failure before Flee (0 completed encounters); owner classification is INCONCLUSIVE / OPERATIONAL INPUT SCRIPT FAILURE. [Attempt3](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT3_BLOCKED.md) is ACCEPTANCE TOOLING TRANSPORT BLOCKED before Player creation: existing mouse/Escape passed, Chinese name input returned `Unknown key: 林`; no temporary input script, Player or encounter. Those historical attempts establish no product/pacing defect.
+    [Changed-path acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md) used the owner-authorized existing fixture, verified exact source birth, and performed real travel/apprenticeship/Learn to raw3. First combat reached EXP1 but early pause/Flee was not completed (0 successful encounters). BLK-SMP2-01 stopped source-cloth death handling at INVALID_ITEM_FACTS / DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED. Owner review identified missing aligned cloth armor facts; independent base-to-P2 comparison confirms a pre-existing source-entry / Player-death integration defect, not a Liuh regression. [P2R1](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md) repairs only that projection and adds source Player death/corpse regressions. P2R1 is OWNER APPROVED / CLOSED; approved executable/test freeze is `798842879ebea52b33e7e2136f606a3741659590`. [Post-P2R1 preflight](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_POST_P2R1_LIVE_ACCEPTANCE.md) stopped before bootstrap because installed input_sequence cannot express the required atomic Escape/mouse events. No new Player or encounter; tooling capability gap, not a product/P2R1 regression. Live acceptance remains OPEN / BLOCKED; await owner review.
+    No PR, merge, automatic Final Audit or P3. Other arts, force/exercise, practice/study,
+    perform/exert, school expansion, general hooks/Phase5B4, Lake/serpent and Migration Tooling P3/Native generation remain deferred.

@@ -12,6 +12,9 @@ var feedback: Label
 var apprentice_button: Button
 var cancel_button: Button
 var learn_button: Button
+var learn_liuh_button: Button
+var enable_liuh_button: Button
+var disable_liuh_button: Button
 
 
 func configure(contact: SnowSchoolContact) -> void:
@@ -43,7 +46,10 @@ func _ready() -> void:
 	apprentice_button = _button("Apprentice", "拜师 / 向师父请安", request_apprentice)
 	cancel_button = _button("CancelApprentice", "取消拜师请求", cancel_apprentice)
 	learn_button = _button("Learn", "请教基本拳脚（一次）", request_learn)
-	feedback = _label("馆主传授基本拳脚。每次请教均按当下状态结算。", "Feedback")
+	learn_liuh_button = _button("LearnLiuh", "请教柳家拳（一次）", request_learn_liuh)
+	enable_liuh_button = _button("EnableLiuh", "启用柳家拳", enable_liuh)
+	disable_liuh_button = _button("DisableLiuh", "停用柳家拳", disable_liuh)
+	feedback = _label("馆主传授基本拳脚与柳家拳。每次请教均按当下状态结算。", "Feedback")
 	_button("Close", "离开交谈", close_panel)
 	_layout = ResponsivePanelLayout.new()
 	add_child(_layout)
@@ -138,14 +144,13 @@ func _physics_process(_delta: float) -> void:
 func refresh() -> void:
 	var player := _contact.session.player_runtime()
 	var state := player.state
-	var cost_text: String = "无法计算"
-	if state.attributes.intelligence != 0:
-		@warning_ignore("integer_division")
-		var cost: int = 150 / SnowSchoolTeacher.INTELLIGENCE + 150 / state.attributes.intelligence
-		if state.skills.raw_level(&"unarmed") == 0:
-			cost *= 2
-		cost_text = str(cost)
-	status.text = "%s\n基本拳脚 %d · 学习进度 %d\n精 %d · 本次耗精 %s（精须大于消耗才可进步）\n可用潜能 %d · 实战经验 %d" % [player.facts.title, state.skills.raw_level(&"unarmed"), state.skills.learned_progress(&"unarmed"), state.essence.current, cost_text, state.progression.potential - state.progression.potential_spent, state.progression.combat_experience]
+	var mapping: StringName = state.skills.mapped_skill(&"unarmed")
+	var mapping_name: String = "未启用" if mapping.is_empty() else (LiuhKenDefinition.DISPLAY_NAME if mapping == LiuhKenDefinition.SKILL_ID else String(mapping))
+	status.text = "%s\n基本拳脚 %d · 学习进度 %d · 耗精 %s\n柳家拳 %d · 学习进度 %d · 耗精 %s\n拳脚映射：%s · 有效拳脚 %d\n精 %d（须大于消耗才可进步）\n可用潜能 %d · 实战经验 %d" % [
+		player.facts.title, state.skills.raw_level(&"unarmed"), state.skills.learned_progress(&"unarmed"), _cost_text(state, &"unarmed"),
+		state.skills.raw_level(LiuhKenDefinition.SKILL_ID), state.skills.learned_progress(LiuhKenDefinition.SKILL_ID), _cost_text(state, LiuhKenDefinition.SKILL_ID),
+		mapping_name, state.skills.effective_level(&"unarmed", player.armor.aggregate_numeric_modifiers().unarmed),
+		state.essence.current, state.progression.potential - state.progression.potential_spent, state.progression.combat_experience]
 	cancel_button.visible = player.school_apprenticeship.is_pending()
 
 
@@ -175,17 +180,26 @@ func show_apprenticeship(outcome: SwordsmanApprenticeship.Outcome) -> void:
 
 
 func request_learn() -> void:
+	_learn(&"unarmed")
+
+
+func request_learn_liuh() -> void:
+	_learn(LiuhKenDefinition.SKILL_ID)
+
+
+func _learn(skill_id: StringName) -> void:
 	if not panel.visible:
 		return
-	var result := _contact.request_learn()
+	var result := _contact.request_learn(skill_id)
 	feedback.text = learn_message(result)
 	refresh()
 
 
 static func learn_message(result: LearnResult) -> String:
+	var skill_name: String = LiuhKenDefinition.DISPLAY_NAME if result.skill_id == LiuhKenDefinition.SKILL_ID else "基本拳脚"
 	var message: String
 	match result.completion:
-		LearnResult.Completion.LEVEL_INCREASED: message = "你的基本拳脚进步了！"
+		LearnResult.Completion.LEVEL_INCREASED: message = "你的%s进步了！" % skill_name
 		LearnResult.Completion.PROGRESSED: message = "你有所领悟，学习进度增加，尚未升级。"
 		LearnResult.Completion.NO_PROGRESS_INSUFFICIENT_ESSENCE: message = "你太累了，未有进步；已耗尽当前精。"
 		LearnResult.Completion.NO_PROGRESS_COMBAT_EXPERIENCE: message = "实战经验不足，未有进步；仍消耗了精。"
@@ -199,7 +213,7 @@ static func learn_message(result: LearnResult) -> String:
 				LearnResult.FailureReason.STUDENT_SKILL_NOT_BELOW_TEACHER: message = "这项技能的程度已不低于馆主。"
 				_: message = "本次请教未获准（原因 %d）。" % result.failure_reason
 	if result.created_explicit_zero_skill_entry:
-		message += " 已建立基本拳脚零级记录。"
+		message += " 已建立%s零级记录。" % skill_name
 	return message
 
 
@@ -210,3 +224,25 @@ func close_panel() -> void:
 	panel.hide()
 	if was_open and is_instance_valid(_contact.map.player_body):
 		_contact.map.player_body.quarantine_current_movement_input()
+
+
+static func _cost_text(state: CharacterState, skill_id: StringName) -> String:
+	if state.attributes.intelligence == 0:
+		return "无法计算"
+	@warning_ignore("integer_division")
+	var cost: int = 150 / SnowSchoolTeacher.INTELLIGENCE + 150 / state.attributes.intelligence
+	return str(cost * 2 if state.skills.raw_level(skill_id) == 0 else cost)
+
+
+func enable_liuh() -> void:
+	if not panel.visible:
+		return
+	feedback.text = "拳脚已启用柳家拳。" if _contact.enable_liuh() else "无法启用：须在馆主面前，并已学会基本拳脚与柳家拳。"
+	refresh()
+
+
+func disable_liuh() -> void:
+	if not panel.visible:
+		return
+	feedback.text = "拳脚已停用柳家拳；技能与学习进度保留。" if _contact.disable_liuh() else "目前无法停用柳家拳。"
+	refresh()

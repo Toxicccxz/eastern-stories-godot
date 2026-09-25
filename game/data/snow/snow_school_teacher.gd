@@ -25,9 +25,15 @@ static func definition() -> TeacherDefinition:
 
 
 static func unarmed_context() -> TeachingContext:
+	return teaching_context(&"unarmed")
+
+
+static func teaching_context(skill_id: StringName) -> TeachingContext:
+	if skill_id not in [&"unarmed", LiuhKenDefinition.SKILL_ID]:
+		return null
 	var context := TeachingContext.new(
-		SwordsmanApprenticeship.TEACHER_ID, TeachingOffer.new(&"unarmed"),
-		SKILLS[&"unarmed"], INTELLIGENCE, SPIRIT,
+		SwordsmanApprenticeship.TEACHER_ID, TeachingOffer.new(skill_id),
+		SKILLS[skill_id], INTELLIGENCE, SPIRIT,
 		SwordsmanApprenticeship.FAMILY_ID, TEACHER_GENERATION, -1,
 		SwordsmanApprenticeship.MASTER_NAME,
 	)
@@ -40,6 +46,12 @@ static func unarmed_definition() -> SkillDefinition:
 
 
 static func unarmed_policy() -> SkillLearnPolicy:
+	return learn_policy(&"unarmed")
+
+
+static func learn_policy(skill_id: StringName) -> SkillLearnPolicy:
+	if skill_id not in [&"unarmed", LiuhKenDefinition.SKILL_ID]:
+		return null
 	var registry := SkillLearnPolicyRegistry.new()
 	registry.register_known_legacy_policies()
-	return registry.policy_for(&"unarmed")
+	return registry.policy_for(skill_id)
