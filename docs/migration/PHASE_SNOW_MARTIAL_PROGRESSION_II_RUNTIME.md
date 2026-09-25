@@ -3,12 +3,12 @@
 ## Status and frozen authority
 
 P1 OWNER APPROVED / CLOSED at `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`.
-P2 implementation local gates PASS; natural live acceptance BLOCKED / AWAIT OWNER REVIEW.
+P2 implementation/local verification OWNER APPROVED / FROZEN; live acceptance OPEN / BLOCKED, awaiting owner review.
 Phase: `phase/snow-martial-progression-liuh-ken`; integrated base
 `36a26b13e2bdebeb44c14c0a013d509000c29476`.
 Preflight fetched and matched local/remote P1 and base; tracked/index clean;
 any-state phase PR search returned zero. No PR, merge, Final Audit or P3.
-This implementation is not owner-approved and the major milestone is not integrated.
+Implementation is owner-approved at executable/test freeze `81d0cb63da15f9e384392de98cbaa3fd21475a51`; the major milestone is not integrated.
 
 Authority: [approved P1](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [D-SMP2-01–08](DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary).
@@ -109,6 +109,15 @@ settings. No accepted test skip or suppressed product error was introduced.
 Evidence logs are ignored under `build/smp2-*`; they are not release artifacts.
 
 ## Live acceptance gate
+
+Current [changed-path acceptance](PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md)
+used the owner-authorized existing public-entry fixture and verified exact source birth.
+Real route/apprenticeship/Learn reached raw3; first combat reached EXP1 before late
+pause, with no Flee request. Sustainable progression remains operationally inconclusive.
+Separately, retained source-cloth death receipts show INVALID_ITEM_FACTS →
+DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED, a confirmed production lifecycle blocker;
+no root cause or P2 regression attribution is claimed. No fix was made.
+Historical Attempt1/2/3 reports are preserved. The following paragraphs record Attempt1.
 
 The natural journey ran on pushed `81d0cb63da15f9e384392de98cbaa3fd21475a51`,
 following implementation `8f4ef1dcc41ccbc9b77760a98d5d47d0be499401`. The second commit

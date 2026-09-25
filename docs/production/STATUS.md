@@ -14,10 +14,13 @@ Executable/test freeze: `81d0cb63da15f9e384392de98cbaa3fd21475a51`. Owner classi
 [Attempt2](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT2_BLOCKED.md) reached natural EXP1/unarmed3 and verified real Escape pause,
 then stopped on an operator QA-script compile error before Flee input executed (0 completed encounters).
 Attempt2 is INCONCLUSIVE / OPERATIONAL INPUT SCRIPT FAILURE; it establishes no product/Flee/balance/pacing defect.
-[Attempt3](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT3_BLOCKED.md) is ACCEPTANCE TOOLING TRANSPORT BLOCKED before Player creation:
+[Attempt3](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT3_BLOCKED.md) is owner-classified INCONCLUSIVE / ACCEPTANCE TOOLING TRANSPORT BLOCKED before Player creation:
 existing mouse/Escape preflight passed, but required Chinese name input returned `Unknown key: 林`.
 No temporary input scripts, new Player or encounters; implementation remains frozen.
-Await owner review; EXP6, mapped combat and cold Continue remain unaccepted. No automatic Attempt4.
+[Changed-path acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md) used the newly authorized existing fixture and verified source birth.
+Real route/apprenticeship/Learn reached raw3; first combat reached EXP1, but pause was late and no Flee request occurred (0 successful encounters).
+Separately, source-cloth death handling returned INVALID_ITEM_FACTS / DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED; confirmed production lifecycle blocker, root cause and P2 attribution unestablished.
+No fix or replacement Player. Await owner review; EXP6, mapped combat and cold Continue remain unaccepted. No automatic retry.
 No PR, merge, Final Audit, P3 or Migration Tooling expansion is authorized.
 
 ## Previously integrated milestone
