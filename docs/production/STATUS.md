@@ -2,7 +2,24 @@
 
 ## Current milestone
 
-**Migration Tooling v1 — P2F37 IMPLEMENTATION DELIVERED / AWAIT OWNER REVIEW.**
+**Migration Tooling v1 — COMPLETE / FULLY INTEGRATED ON MAIN.**
+Final certified head `ae2bc306e3060d2ddc700c1da5c75832612e0de5` was integrated through
+[PR #20](https://github.com/Toxicccxz/eastern-stories-godot/pull/20) by normal merge commit
+`ea23ef666a347753fe52e261279e8a005ae0bafc`, preserving all 43 phase commits.
+Final bounded certification is OWNER APPROVED / CLOSED: Gate A PASS / FROZEN;
+Gate B (Systematic Quarantine-Path Audit) PASS; historical semantic blockers 43 / 43 CLOSED;
+new A–F blockers 0; AR-01 ACCEPTED / NON-BLOCKING. ARCHIVE-01 remains CLOSED.
+[Pre-merge CI 36058469131](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36058469131)
+on the certified head and
+[post-merge CI 36062042977](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36062042977)
+on the exact merge commit both passed all four required jobs: Godot Verify, Android Release Build,
+Windows Release Build and iOS Build Validation.
+The Migration Tooling v1 implementation/audit loop is closed. No P2F38 or additional Final Re-Audit is planned.
+Migration Tooling P3, Native generation and Snow Martial Progression II are not authorized by this closeout.
+
+The P1/P2/P2F delivery and audit checkpoints below are historical; the integrated state above
+supersedes their earlier BLOCKED / awaiting-review / authorization statements.
+
 [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are recorded in
 [DECISIONS](../migration/DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary).
@@ -188,8 +205,8 @@ Healthy argparse semantics remain; broken diagnostic write/flush reaches the fat
 Fresh pre-commit focused24/combined181/migration610/full Python656 pass; FR36 independent24, FR35 matrix39+real2, FR34 primary4/pairing984 pass.
 Gate A remains PASS/FROZEN with13634 fresh CLI; AR-01 remains accepted with20 final-safety passes.38 versions/6 invalid classes/33 pollution positions pass.
 Corpus A/B and exact P2F36 projection differ only by extractor_version1.0.37;13Q/14ANSI/9587 provenance pass. All35 owner-local reports remain byte-identical; ARCHIVE-01 CLOSED.
-Gate B remains BLOCKED / INCOMPLETE and requires owner-authorized Final Re-Audit continuation; no PR. All immutable post-commit gates must pass before normal push.
-No automatic Final Re-Audit, Gate-B continuation, P2F38, PR, merge, P3, Native output or remote CI; stop for owner review.
+At the P2F37 delivery checkpoint, Gate B was BLOCKED / INCOMPLETE pending owner-authorized continuation;
+PR/merge authorization and remote CI were still pending. Final certification and integration subsequently closed these gates as recorded above.
 NPC/item extraction, Native generation and P3 remain deferred/unauthorized.
 
 **Snow First Progression Loop / 淳风武馆 — FULLY INTEGRATED / CLOSED.**
@@ -222,7 +239,7 @@ This required lengthy natural recovery; it is not a balance qualification. No EX
 RNG reset, reload fishing or gameplay changes. Earlier failed attempts remain historical.
 Teaching contact is not full Liu NPC parity.
 The prior pre-PR audit checkpoint is superseded by PR #19 and exact-merge-SHA post-main PASS above.
-Snow P3 remains unauthorized; Migration Tooling has its own bounded authorization above.
+Snow P3 remains unauthorized; Migration Tooling v1 is fully integrated as recorded above.
 See the audit for the low-risk fixture hash typo,
 pacing, historical zero-bound, platform and operational limitations.
 
@@ -260,7 +277,7 @@ The audit changed documentation only. H1/H2/H3 and the Final Audit are OWNER APP
 PR CI passed, merge completed and post-main CI passed. The bounded milestone is fully integrated.
 Pawn, ticket/retrieve/custody, Hockshop2, auction, merchant NPC/stock, generic merchant and door
 engines, full Snow parity, Herbshop/Postoffice/School/Smithy and Green/Goathill remain deferred.
-The selected milestone is Migration Tooling v1; Snow First Progression integration is recorded above.
+Migration Tooling v1 and Snow First Progression integration are recorded above; the next milestone requires explicit owner authorization.
 
 **Snow Town Core Hub Restoration — FULLY INTEGRATED ON MAIN** through
 [PR #16](https://github.com/Toxicccxz/eastern-stories-godot/pull/16), merge commit
