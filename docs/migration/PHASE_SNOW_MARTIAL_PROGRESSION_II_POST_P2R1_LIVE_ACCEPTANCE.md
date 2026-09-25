@@ -117,3 +117,35 @@ NO Save schema change. NO PR. NO merge. NO Final Audit. NO P3.
 NO Migration Tooling P3.
 
 **P2 LIVE ACCEPTANCE BLOCKED — AWAIT OWNER REVIEW**
+
+## Recheck after owner update to Godot AI 4.2.3
+
+At the owner's request, repeated the capability preflight after the owner update
+commit `d9f6770a4dddb0b7fdc74e8a50ba6ff50964c150` (`godot AI update`). Fresh fetch
+confirmed local/origin phase equality at that SHA, unchanged main
+`36a26b13e2bdebeb44c14c0a013d509000c29476` and clean worktree/index.
+
+The newly connected session `game@3efd0af432bc0526` reported plugin/server4.2.3,
+Godot4.7.2-stable (steam), editor PID73616, readiness `ready`, canonical
+ApplicationShell scene and play state `stopped`. Thus the update is active, not
+merely present on disk. Custom-tool discovery returned zero tools.
+
+The 4.2.3 tool contract still documents only action-state sequence steps. Direct
+comparison of game_helper.gd before/after the update shows just the screenshot
+HDR argument changed; `_plan_input_sequence`, `_run_input_sequence` and their
+action-only dispatch are unchanged. The updated batch handler still forbids
+`game_command` subcommands. The two required atomic real-key/mouse sequences
+remain unsupported. No malformed sequence, separate latency-dependent fallback,
+temporary script or gameplay callback was attempted.
+
+Gameplay/test source remains identical to approved P2R1 when excluding the owner's
+addon update and project.godot change. The owner update also removed explicit
+1152x648 viewport defaults from project.godot; this recheck did not alter or restore
+them and does not claim whole-development-project byte equality with P2R1.
+
+No game process, Player, bootstrap, encounter, Save or Continue was started in
+this recheck. All fresh gameplay gates above remain NOT RUN. P2R1 stays OWNER
+APPROVED / CLOSED; this remains an acceptance-input capability blocker, not new
+gameplay evidence. Only this report is extended; no code/tooling change is made.
+
+**P2 LIVE ACCEPTANCE BLOCKED — AWAIT OWNER REVIEW**
