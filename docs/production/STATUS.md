@@ -2,6 +2,18 @@
 
 ## Current milestone
 
+**Snow Martial Progression II — P1 ANALYSIS COMPLETE / AWAIT OWNER REVIEW.**
+[Liuh-Ken source and Native dependency analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
+is complete on `phase/snow-martial-progression-liuh-ken`, based on integrated main
+`36a26b13e2bdebeb44c14c0a013d509000c29476` after its four-job post-merge CI passed.
+The recommended P2 is a proposal: extend Liu learning/mapping, integrate all four authored liuh-ken
+actions into existing ordinary combat, and validate exact Save/cold Continue with a natural EXP-6 journey.
+The source supports the proposed unarmed4 / liuh5 finish; practical natural EXP-6 reachability remains unverified.
+**NO P2 implementation is authorized.** No gameplay implementation, runtime PASS, PR or merge is claimed.
+Other martial systems, Phase 5B4 and Migration Tooling P3 remain deferred.
+
+## Previously integrated milestone
+
 **Migration Tooling v1 — COMPLETE / FULLY INTEGRATED ON MAIN.**
 Final certified head `ae2bc306e3060d2ddc700c1da5c75832612e0de5` was integrated through
 [PR #20](https://github.com/Toxicccxz/eastern-stories-godot/pull/20) by normal merge commit
