@@ -13,6 +13,14 @@ The narrow [P2R1 repair](PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEA
 is OWNER APPROVED / CLOSED at the new executable/test freeze
 `798842879ebea52b33e7e2136f606a3741659590`; the major milestone is not integrated.
 
+[P2R2 generalized names](PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) is the subsequent
+owner-authorized Type B product adjustment, locally verified and awaiting owner review
+(2,303 focused / 20,945 canonical assertions; 656 Python tests; all five verify.py stages PASS). It preserves P2R1,
+birth/combat/Liuh semantics and Save schemas. The owner accepted starting HEAD
+`3cf9c67e4514e9131f1492a36454ebc625376608`, including the later Godot AI update;
+the new P2R2 commit is only a candidate executable/test freeze. No changed-path live
+acceptance was resumed and no live Player was created. Final Audit remains unauthorized.
+
 Authority: [approved P1](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [D-SMP2-01–08](DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary).
 The decisions are recorded with implementation, not a separate decision commit.

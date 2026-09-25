@@ -675,7 +675,7 @@ func _open_new_game_setup() -> bool:
 	_draft_gender = &""
 	male_button.set_pressed_no_signal(false)
 	female_button.set_pressed_no_signal(false)
-	setup_message.text = "请输入1–6个中文字符，并选择性别。"
+	setup_message.text = "请输入名称（1–24个字符），并选择性别。"
 	_last_result = null
 	_set_state(ApplicationShellState.new_game_setup())
 	return true
@@ -703,7 +703,7 @@ func submit_new_game_setup() -> bool:
 	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
 		return false
 	if not NamePolicy.is_valid(player_name_edit.text):
-		setup_message.text = "姓名须为1–6个中文字符，不含空白或其它字符。"
+		setup_message.text = "名称限1–24个字符；支持各语言文字及附加符，可在文字间使用半角空格、-、'、’或·，分隔符不能连用；不支持数字、表情或其它符号。"
 		return false
 	if _draft_gender == &"":
 		setup_message.text = "请选择性别。"

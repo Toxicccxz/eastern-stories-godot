@@ -535,6 +535,8 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
 
 14. **Snow Martial Progression II — P1 CLOSED; P2 LIUH IMPLEMENTATION OWNER APPROVED; P2R1 OWNER APPROVED / CLOSED; LIVE ACCEPTANCE OPEN / BLOCKED.**
 
+    [P2R2 generalized names](../migration/PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) is implemented/locally verified: 2,303 focused / 20,945 canonical assertions; 656 Python tests; all static/editor/sanitizer/diff/link gates PASS. This bounded Type B adjustment adds configurable Unicode names and preserves exact identity and birth/combat/Liuh/Save contracts. Starting HEAD `3cf9c67e4514e9131f1492a36454ebc625376608` and the Godot AI update are owner-accepted; two desktop viewport entries are restored by separate owner authorization. Await owner review before any live acceptance. No PR, merge, Final Audit or P3.
+
     [P1 source analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md) is approved at
     `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`. [D-SMP2-01 through 08](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
     lock the minimal Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`:

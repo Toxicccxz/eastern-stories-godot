@@ -26,6 +26,16 @@ P2R1 local gates PASS: 2,282 focused / 20,608 canonical assertions; 656 Python t
 [Post-P2R1 preflight](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_POST_P2R1_LIVE_ACCEPTANCE.md) stopped before bootstrap: installed input_sequence cannot combine genuine Escape/mouse events, only action states. No new Player/encounter; acceptance-tool capability blocker, not gameplay or P2R1 regression. EXP6, mapped combat and cold Continue remain unaccepted. Await owner review.
 No PR, merge, Final Audit, P3 or Migration Tooling expansion is authorized.
 
+[P2R2 generalized Player name policy](../migration/PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md)
+replaces Han-only names with configurable Unicode letter-based names (default 1–24 code points),
+preserving exact identity and existing Save schemas. Implementation/local verification COMPLETE:
+2,303 focused / 20,945 canonical assertions; 656 Python tests; static, headless/editor,
+sanitizer, diff and changed-document link checks PASS. Same branch, starting from
+owner-accepted HEAD `3cf9c67e4514e9131f1492a36454ebc625376608`.
+The Godot AI update is retained; the owner separately authorized restoring two explicit desktop
+viewport settings required by existing release tests. P2R1 remains OWNER APPROVED / CLOSED.
+P2 live acceptance was not resumed; the resulting P2R2 commit requires owner review first.
+
 ## Previously integrated milestone
 
 **Migration Tooling v1 — COMPLETE / FULLY INTEGRATED ON MAIN.**

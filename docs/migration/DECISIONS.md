@@ -948,3 +948,15 @@ Shared responsive/input/layout regressions are required; physical Android/iOS qu
 to the later owner-authorized Final Audit. No PR, merge, automatic Final Audit, P3 or Migration Tooling
 expansion is authorized. All other arts, practice/study, force/techniques, full school/faction systems,
 Phase5B4, Lake/serpent and Native generation remain deferred. Type C = 0.
+
+## Generalized Player display names
+
+**Decision (Type B, owner-authorized P2R2):** Replace the historical Chinese-only
+display-name restriction with bounded, safe Unicode letter-based names across languages.
+Default length is 1–24 code points; attached marks and explicit internal separators
+are allowed. Preserve accepted display text exactly, without normalization. Semantic
+Character ID remains independent. This is international single-player product compatibility,
+not multiplayer uniqueness, account naming or moderation. Source:
+[logind.c::check_legal_name](../../reference/es2/mudlib/adm/daemons/logind.c).
+The [policy report](PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) records rules,
+configuration and verification. Birth, gameplay and Save schemas are unchanged.
