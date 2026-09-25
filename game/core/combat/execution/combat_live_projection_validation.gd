@@ -199,5 +199,3 @@ static func _busy_projection_matches(
 	):
 		return state == null or not state.is_busy()
 	return state == null
-
-
