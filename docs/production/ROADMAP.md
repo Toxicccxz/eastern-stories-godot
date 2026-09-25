@@ -323,7 +323,10 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     The historical pre-PR checkpoint is superseded by the completed integration above.
     Final Audit passed with disclosed non-blocking risks. Snow P3 remains unauthorized.
 
-13. **Migration Tooling v1 — P2F37 IMPLEMENTATION DELIVERED / AWAIT OWNER REVIEW**
+13. **Migration Tooling v1 — COMPLETE / FULLY INTEGRATED ON MAIN**
+
+    The following P1/P2/P2F summary records historical delivery/audit checkpoints. The final closeout
+    at the end of this item supersedes their earlier BLOCKED / awaiting-review / authorization statements.
 
     [P1 analysis](../migration/MIGRATION_TOOLING_V1_P1_ANALYSIS.md) is OWNER APPROVED / CLOSED at
     `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. Owner-locked D1–D9 are in
@@ -510,6 +513,21 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     Fresh pre-commit focused24/combined181/migration610/full Python656 pass; FR36 independent24, FR35 matrix39+real2, FR34 primary4/pairing984 pass.
     Gate A remains PASS/FROZEN with13634 fresh CLI; AR-01 remains accepted with20 final-safety passes.38 versions/6 invalid classes/33 pollution positions pass.
     Corpus A/B and exact P2F36 projection differ only by extractor_version1.0.37;13Q/14ANSI/9587 provenance pass. All35 owner-local reports remain byte-identical; ARCHIVE-01 CLOSED.
-    Gate B remains BLOCKED / INCOMPLETE and requires owner-authorized Final Re-Audit continuation; no PR. All immutable post-commit gates must pass before normal push.
-    No automatic Final Re-Audit, Gate-B continuation, P2F38, PR, merge, P3, Native output or remote CI; stop for owner review.
-    NPC/item extraction and Native generation remain deferred; no PR, merge or P3 authorization.
+    At the P2F37 delivery checkpoint, Gate B was BLOCKED / INCOMPLETE pending owner-authorized continuation;
+    PR/merge authorization and remote CI were still pending. The final closeout below supersedes that checkpoint.
+
+    Final bounded certification PASS — OWNER APPROVED / CLOSED: Gate A PASS / FROZEN;
+    Gate B (Systematic Quarantine-Path Audit) PASS; 43 / 43 historical semantic blockers CLOSED;
+    new A–F blockers 0; AR-01 ACCEPTED / NON-BLOCKING conservative residual; ARCHIVE-01 CLOSED.
+    Certified phase head `ae2bc306e3060d2ddc700c1da5c75832612e0de5` was merged through
+    [PR #20](https://github.com/Toxicccxz/eastern-stories-godot/pull/20) by normal merge commit
+    `ea23ef666a347753fe52e261279e8a005ae0bafc`, retaining the complete 43-commit phase history.
+    [Pre-merge CI 36058469131](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36058469131)
+    on the certified head and
+    [post-merge CI 36062042977](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36062042977)
+    on the exact merge commit both passed Godot Verify, Android Release Build, Windows Release Build
+    and iOS Build Validation. The implementation/audit loop is closed; no P2F38 or additional Final Re-Audit is planned.
+
+    NPC extraction, item extraction, Bank/Hockshop/ClassGuild extraction profiles, Native importer/generator
+    and mass content generation remain deferred. No Migration Tooling P3 is automatically authorized or
+    designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
