@@ -3,7 +3,7 @@
 ## Status and frozen authority
 
 P1 OWNER APPROVED / CLOSED at `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`.
-P2 implementation local gates PASS; natural live acceptance PENDING.
+P2 implementation local gates PASS; natural live acceptance BLOCKED / AWAIT OWNER REVIEW.
 Phase: `phase/snow-martial-progression-liuh-ken`; integrated base
 `36a26b13e2bdebeb44c14c0a013d509000c29476`.
 Preflight fetched and matched local/remote P1 and base; tracked/index clean;
@@ -110,13 +110,25 @@ Evidence logs are ignored under `build/smp2-*`; they are not release artifacts.
 
 ## Live acceptance gate
 
-NOT RUN YET. Required next action: push this verified implementation, freeze its SHA,
-then run one honest public New Game journey with real input on that immutable commit.
-No XP, skill, state, RNG or position injection is allowed in that claimed run.
-Automated fixtures above deliberately seed state and are not live acceptance evidence.
-No natural EXP6, mapped runtime attack, process restart, cold Continue or subsequent
-mapped combat PASS is claimed here. An impractical route must be reported as BLOCKED
-without changing balance or lowering the finish.
+The natural journey ran on pushed `81d0cb63da15f9e384392de98cbaa3fd21475a51`,
+following implementation `8f4ef1dcc41ccbc9b77760a98d5d47d0be499401`. The second commit
+removed only two trailing blank lines identified by the staged new-file check;
+complete P1-to-implementation whitespace validation then passed. No executable
+behavior changed after the complete test run.
+
+[The acceptance blocker report](PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_BLOCKER.md)
+records the sole natural character, real physical route, basic raw0→3, EXP0,
+first Bandit03 encounter, four received hits and unconscious defeat after10 logical
+seconds. The helper's action-state pause did not emit a shell key event; inspection
+latency and a late Flee click contributed. No tactical request was recorded. This
+failed attempt does not prove EXP6 impossible or a Liuh implementation defect.
+No state/RNG/position injection, balance edit, save edit or discarded combat occurred.
+The run stops for owner review; no automatic retry or lower finish is claimed.
+
+Natural EXP6, raw unarmed4/liuh5, live mapped actions, Save/full-process restart/cold
+Continue and post-Continue mapped combat remain unaccepted. Automated fixtures above
+seed state and are not substitutes for those live gates. Later report/status updates
+are documentation only; the immutable production implementation remains unchanged.
 
 ## Explicit deferrals
 

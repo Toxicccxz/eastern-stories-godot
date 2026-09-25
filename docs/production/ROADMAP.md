@@ -533,13 +533,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
 
 
-14. **Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 AUTHORIZED / IN PROGRESS.**
+14. **Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 IMPLEMENTED / LIVE ACCEPTANCE BLOCKED.**
 
     [P1 source analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md) is approved at
     `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`. [D-SMP2-01 through 08](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
     lock the minimal Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`:
     existing Liu Learn/Enable/Disable, four actions through existing Combat, authored feedback,
     natural EXP >=6 / unarmed >=4 / liuh >=5 and exact full-process Save/Continue.
-    [P2 implementation/local gates](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) PASS: 20,544 gameplay assertions and 656 Python tests. Immutable pushed-commit live acceptance and practical EXP6 remain pending.
+    [P2 implementation/local gates](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) PASS: 20,544 gameplay assertions and 656 Python tests. The [immutable natural attempt](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_BLOCKER.md) ended in first-encounter unconscious defeat at EXP0/unarmed3, with input-timing limitations. EXP6, live mapped actions and cold Continue remain unaccepted. Await owner review; no automatic next slice.
     No PR, merge, automatic Final Audit or P3. Other arts, force/exercise, practice/study,
     perform/exert, school expansion, general hooks/Phase5B4, Lake/serpent and Migration Tooling P3/Native generation remain deferred.
