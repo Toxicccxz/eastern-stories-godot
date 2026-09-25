@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — P1 CLOSED; P2 LIUH IMPLEMENTATION OWNER APPROVED; P2R1 REPAIR AWAITING OWNER REVIEW; LIVE ACCEPTANCE OPEN / BLOCKED.**
+**Snow Martial Progression II — P1 CLOSED; P2 LIUH IMPLEMENTATION OWNER APPROVED; P2R1 OWNER APPROVED / CLOSED; LIVE ACCEPTANCE OPEN / BLOCKED.**
 [Approved P1 analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [owner-locked P2 decisions](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
 authorize the bounded Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`.
@@ -21,9 +21,9 @@ No temporary input scripts, new Player or encounters; implementation remains fro
 Real route/apprenticeship/Learn reached raw3; first combat reached EXP1, but pause was late and no Flee request occurred (0 successful encounters).
 Separately, BLK-SMP2-01 source-cloth death handling returned INVALID_ITEM_FACTS / DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED.
 Owner-confirmed root cause: missing aligned source-cloth armor facts in production death composition; independently verified as pre-existing, not a P2/Liuh regression.
-[P2R1 repair](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md) restores the existing cloth definition and adds source Player death/corpse regression coverage. Its commit is a candidate executable freeze pending owner review.
+[P2R1 repair](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md) is OWNER APPROVED / CLOSED. Approved executable/test freeze: `798842879ebea52b33e7e2136f606a3741659590`.
 P2R1 local gates PASS: 2,282 focused / 20,608 canonical assertions; 656 Python tests; static, headless/editor and sanitizer validation.
-No live acceptance retry or replacement Player. EXP6, mapped combat and cold Continue remain unaccepted. Await owner review.
+[Post-P2R1 preflight](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_POST_P2R1_LIVE_ACCEPTANCE.md) stopped before bootstrap: installed input_sequence cannot combine genuine Escape/mouse events, only action states. No new Player/encounter; acceptance-tool capability blocker, not gameplay or P2R1 regression. EXP6, mapped combat and cold Continue remain unaccepted. Await owner review.
 No PR, merge, Final Audit, P3 or Migration Tooling expansion is authorized.
 
 ## Previously integrated milestone

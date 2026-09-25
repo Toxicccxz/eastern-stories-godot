@@ -3,14 +3,15 @@
 ## Status and frozen authority
 
 P1 OWNER APPROVED / CLOSED at `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`.
-P2 Liuh-Ken implementation remains OWNER APPROVED; P2R1 source-cloth death-facts repair awaits owner review. Live acceptance remains OPEN / BLOCKED.
+P2 Liuh-Ken implementation remains OWNER APPROVED; P2R1 source-cloth death-facts repair is OWNER APPROVED / CLOSED. Live acceptance remains OPEN / BLOCKED.
 Phase: `phase/snow-martial-progression-liuh-ken`; integrated base
 `36a26b13e2bdebeb44c14c0a013d509000c29476`.
 Preflight fetched and matched local/remote P1 and base; tracked/index clean;
 any-state phase PR search returned zero. No PR, merge, Final Audit or P3.
 Previous owner-approved executable/test freeze: `81d0cb63da15f9e384392de98cbaa3fd21475a51`.
 The narrow [P2R1 repair](PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md)
-is a candidate replacement freeze pending owner review; the major milestone is not integrated.
+is OWNER APPROVED / CLOSED at the new executable/test freeze
+`798842879ebea52b33e7e2136f606a3741659590`; the major milestone is not integrated.
 
 Authority: [approved P1](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [D-SMP2-01–08](DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary).
@@ -123,7 +124,11 @@ composition boundary. Independent base-to-P2 comparison confirms a pre-existing
 source-entry / Player-death integration defect, not a Liuh-Ken regression.
 [P2R1](PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md) supplies the
 existing aligned cloth definition and adds the exact source Player death regression.
-The repair awaits owner review; no live acceptance retry or replacement Player was run.
+The repair is OWNER APPROVED / CLOSED. The
+[post-P2R1 acceptance preflight](PHASE_SNOW_MARTIAL_PROGRESSION_II_POST_P2R1_LIVE_ACCEPTANCE.md)
+stopped before bootstrap: installed input_sequence supports action states only,
+not the required atomic Escape/mouse events. No Player or encounter was created;
+this is an acceptance-tool capability gap, not a new gameplay or P2R1 failure.
 P2R1 local gates PASS: 2,282 focused / 20,608 canonical assertions, 656 Python tests,
 static, development headless/editor and sanitized-project validation.
 Historical Attempt1/2/3 reports are preserved. The following paragraphs record Attempt1.
