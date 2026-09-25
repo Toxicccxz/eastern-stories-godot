@@ -533,7 +533,7 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
 
 
-14. **Snow Martial Progression II — FINAL AUDIT PASS — READY FOR OWNER PR AUTHORIZATION.**
+14. **Snow Martial Progression II — COMPLETE / MERGED / POST-MERGE VERIFIED.**
 
     [Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md) PASS on
     `c026bd1793e34c1f65829aee5f21d9999ec291aa`: 13 commits / 110 files from main,
@@ -543,10 +543,19 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     public Save/fresh-graph Continue pass. Natural time-to-EXP6 pacing/usability is
     NON-BLOCKING FOR ENGINEERING INTEGRATION and deferred to human playtesting.
     Godot AI 4.0.4→4.2.3 is accepted as a separate, bounded dependency update.
-    Fresh gates PASS: story110 / focused2,055 / canonical21,055 assertions, 0 failures;
+    Recorded Final Audit gates PASS: story110 / focused2,055 / canonical21,055 assertions, 0 failures;
     Python3.12 656 tests; static, official Godot4.7.2 headless/editor, actual sanitizer,
-    sanitized import and phase/current doc checks. Audit closeout is three docs only.
-    No PR, remote CI or merge; not integrated on main. Await owner PR authorization.
+    sanitized import and phase/current doc checks. These are historical acceptance results,
+    not new gameplay verification in this docs closeout.
+
+    [PR #22](https://github.com/Toxicccxz/eastern-stories-godot/pull/22) integrated certified
+    phase head `04b83b3e8a49af3d617caab40c12a78e2d9a8233` by normal merge commit
+    `1194b8d5fa0a1d3b0a1ee1f58b1c56c3d7f663bf`, preserving the phase history.
+    [Post-merge main workflow 36174253078](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36174253078)
+    passed on that exact merge SHA: Godot Verify, Android Release Build, Windows Release Build
+    and iOS Build Validation all **success**. The phase is closed absent a concrete regression;
+    no additional Final Re-Audit is planned. Lake/serpent and other future gameplay phases,
+    Phase5B4 and Migration Tooling P3 remain deferred and require separate owner authorization.
 
     **Historical checkpoints below:** earlier live requirements and pending repair
     approval wording are superseded by the owner decision above.

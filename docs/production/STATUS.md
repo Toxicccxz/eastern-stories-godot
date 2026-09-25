@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — FINAL AUDIT PASS — READY FOR OWNER PR AUTHORIZATION.**
+**Snow Martial Progression II — COMPLETE / MERGED / POST-MERGE VERIFIED.**
 
 The owner-authorized [Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md)
 passed on `c026bd1793e34c1f65829aee5f21d9999ec291aa`: 13 commits / 110 changed files
@@ -14,11 +14,19 @@ and exact public Save/fresh-graph Continue. Natural time-to-EXP6 remains unquali
 for pacing/usability: NON-BLOCKING FOR ENGINEERING INTEGRATION, future human playtest.
 The separately retained Godot AI 4.0.4→4.2.3 update passes its bounded dependency
 audit; it is not part of P2R2. Final project.godot matches main, including 1152×648.
-Fresh Final Audit gates PASS: story110 / focused2,055 / canonical21,055 assertions,
+Recorded Final Audit gates PASS: story110 / focused2,055 / canonical21,055 assertions,
 0 failures; Python3.12 656 tests; static, official Godot4.7.2 headless/editor,
 actual sanitizer/sanitized validation and current/phase document links/anchors.
-Audit closeout changes only its report, STATUS and ROADMAP; executable/tests unchanged.
-No PR, remote CI or merge; not integrated on main. Await owner PR authorization.
+These are historical acceptance results, not new gameplay verification in this docs closeout.
+
+[PR #22](https://github.com/Toxicccxz/eastern-stories-godot/pull/22) integrated certified
+phase head `04b83b3e8a49af3d617caab40c12a78e2d9a8233` by normal merge commit
+`1194b8d5fa0a1d3b0a1ee1f58b1c56c3d7f663bf`, preserving the phase history.
+[Post-merge main workflow 36174253078](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36174253078)
+passed on that exact merge SHA: Godot Verify, Android Release Build, Windows Release Build
+and iOS Build Validation all **success**. The phase is closed absent a concrete regression;
+no additional Final Re-Audit is planned. No next gameplay phase or Migration Tooling P3
+is authorized by this documentation closeout.
 
 ### Historical P2 checkpoints
 

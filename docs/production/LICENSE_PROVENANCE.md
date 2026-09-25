@@ -22,12 +22,20 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 - Vendored locations: `game/addons/godot_ai/` and duplicate repository evidence at
   `game/godot-ai-LICENSE.txt`.
 - Both local license texts are MIT License, “Copyright (c) 2025 Godot AI contributors.”
-- `game/addons/godot_ai/plugin.cfg` identifies addon version 4.0.1, from the unmodified
-  [upstream release](https://github.com/hi-godot/godot-ai/releases/tag/v4.0.1), source commit
-  `9b1f13aded0437da4974a2ccf11a9b94f0c15b29`. All 283 files match the official release manifest's
-  SHA-256 inventory; see [vendor provenance](GODOT_AI_DEVELOPMENT.md#vendor-provenance).
-- It is retained in the development repository but removed from the sanitized production project and
-  is not shipped in Phase 10A runtime artifacts.
+- `game/addons/godot_ai/plugin.cfg` currently identifies addon version **4.2.3**.
+  The [official v4.2.3 release](https://github.com/hi-godot/godot-ai/releases/tag/v4.2.3)
+  points to upstream commit `f58314d9473d11efef94dd68b523e1b52643d736`; this identifies
+  the upstream release, not verified equality of the current local vendor tree.
+- Current local-to-upstream source/manifest equivalence, release-manifest file count and
+  ZIP SHA-256 have **not been independently verified** in this closeout. The old 4.0.1
+  hashes and 283-file comparison are historical only; see
+  [vendor provenance](GODOT_AI_DEVELOPMENT.md#vendor-provenance).
+- The retained 4.0.4 -> 4.2.3 update received a bounded independent dependency review in
+  the [Snow Martial Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md#godot-ai-and-project-configuration).
+  It is not Liuh-Ken gameplay or part of P2R2.
+- The existing [release sanitizer](../../tools/build/prepare_release_project.py) removes the
+  development addon, duplicate license file and helper/plugin activation from production output.
+  Local MIT notices do not establish a license or commercial clearance for the project as a whole.
 
 ## Godot Engine/runtime
 
