@@ -2,20 +2,23 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — P2 IMPLEMENTATION + AUTOMATED FUNCTIONAL ACCEPTANCE COMPLETE — AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
+**Snow Martial Progression II — FINAL AUDIT PASS — READY FOR OWNER PR AUTHORIZATION.**
 
-P1/P2 implementation, P2R1 and P2R2 are OWNER APPROVED / CLOSED at starting freeze
-`96b92799b663adc76776be15f1f9f0e656a2d9c7`. The owner replaced repeated live-input
-acceptance with [automated functional acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
-EXP6/basic unarmed4 prerequisites may be constructed in tests only; real Learn must
-produce liuh5, followed by Enable, Combat and public Save/fresh-graph Continue.
-Natural EXP gain is independently established; stochastic time-to-EXP6 and human
-usability remain deferred. No product formula or Save schema changes. The Godot AI
-update is retained separately from P2R2 for later Final Audit review. No PR or merge.
-Fresh gates PASS: automated story110 / focused2,055 / canonical21,055 assertions,
+The owner-authorized [Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md)
+passed on `c026bd1793e34c1f65829aee5f21d9999ec291aa`: 13 commits / 110 changed files
+from integrated main `36a26b13e2bdebeb44c14c0a013d509000c29476`; blocking HIGH=0,
+MEDIUM=0. P1/P2, P2R1, P2R2 and [automated functional acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md)
+remain OWNER APPROVED / CLOSED. Test-only EXP6/basic4 prerequisites are distinct
+from natural EXP capability; real Learn produces liuh5, followed by Enable, Combat
+and exact public Save/fresh-graph Continue. Natural time-to-EXP6 remains unqualified
+for pacing/usability: NON-BLOCKING FOR ENGINEERING INTEGRATION, future human playtest.
+The separately retained Godot AI 4.0.4→4.2.3 update passes its bounded dependency
+audit; it is not part of P2R2. Final project.godot matches main, including 1152×648.
+Fresh Final Audit gates PASS: story110 / focused2,055 / canonical21,055 assertions,
 0 failures; Python3.12 656 tests; static, official Godot4.7.2 headless/editor,
-sanitizer/sanitized import, whitespace and changed-document links/anchors.
-Production executable bytes remain identical to the starting freeze; only tests/docs changed.
+actual sanitizer/sanitized validation and current/phase document links/anchors.
+Audit closeout changes only its report, STATUS and ROADMAP; executable/tests unchanged.
+No PR, remote CI or merge; not integrated on main. Await owner PR authorization.
 
 ### Historical P2 checkpoints
 

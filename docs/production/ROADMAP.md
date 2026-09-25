@@ -533,17 +533,20 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
 
 
-14. **Snow Martial Progression II — P2 IMPLEMENTATION + AUTOMATED FUNCTIONAL ACCEPTANCE COMPLETE — AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
+14. **Snow Martial Progression II — FINAL AUDIT PASS — READY FOR OWNER PR AUTHORIZATION.**
 
-    P1/P2 implementation, P2R1 and P2R2 are OWNER APPROVED / CLOSED at
-    `96b92799b663adc76776be15f1f9f0e656a2d9c7`. The owner now uses
-    [automated functional acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md):
-    test-only EXP6/basic4 prerequisites, real Learn to liuh5, Enable, four-action Combat,
-    public Save/fresh-graph Continue and post-Continue Combat. Natural time-to-EXP6 is
-    deferred pacing/usability qualification. The Godot AI update remains separately
-    retained for later Final Audit. No production balance or Save schema changes.
+    [Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md) PASS on
+    `c026bd1793e34c1f65829aee5f21d9999ec291aa`: 13 commits / 110 files from main,
+    blocking HIGH=0 / MEDIUM=0. P1/P2, P2R1, P2R2 and automated acceptance are
+    OWNER APPROVED / CLOSED. Test-only EXP6/basic4 prerequisites remain distinct
+    from natural EXP capability; Learn to liuh5, Enable, four-action Combat and exact
+    public Save/fresh-graph Continue pass. Natural time-to-EXP6 pacing/usability is
+    NON-BLOCKING FOR ENGINEERING INTEGRATION and deferred to human playtesting.
+    Godot AI 4.0.4→4.2.3 is accepted as a separate, bounded dependency update.
     Fresh gates PASS: story110 / focused2,055 / canonical21,055 assertions, 0 failures;
-    Python3.12 656 tests; static, headless/editor, sanitizer/sanitized import and doc checks.
+    Python3.12 656 tests; static, official Godot4.7.2 headless/editor, actual sanitizer,
+    sanitized import and phase/current doc checks. Audit closeout is three docs only.
+    No PR, remote CI or merge; not integrated on main. Await owner PR authorization.
 
     **Historical checkpoints below:** earlier live requirements and pending repair
     approval wording are superseded by the owner decision above.
