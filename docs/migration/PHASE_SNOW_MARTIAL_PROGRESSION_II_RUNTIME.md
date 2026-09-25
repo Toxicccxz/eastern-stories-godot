@@ -3,12 +3,14 @@
 ## Status and frozen authority
 
 P1 OWNER APPROVED / CLOSED at `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`.
-P2 implementation/local verification OWNER APPROVED / FROZEN; live acceptance OPEN / BLOCKED, awaiting owner review.
+P2 Liuh-Ken implementation remains OWNER APPROVED; P2R1 source-cloth death-facts repair awaits owner review. Live acceptance remains OPEN / BLOCKED.
 Phase: `phase/snow-martial-progression-liuh-ken`; integrated base
 `36a26b13e2bdebeb44c14c0a013d509000c29476`.
 Preflight fetched and matched local/remote P1 and base; tracked/index clean;
 any-state phase PR search returned zero. No PR, merge, Final Audit or P3.
-Implementation is owner-approved at executable/test freeze `81d0cb63da15f9e384392de98cbaa3fd21475a51`; the major milestone is not integrated.
+Previous owner-approved executable/test freeze: `81d0cb63da15f9e384392de98cbaa3fd21475a51`.
+The narrow [P2R1 repair](PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md)
+is a candidate replacement freeze pending owner review; the major milestone is not integrated.
 
 Authority: [approved P1](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [D-SMP2-01–08](DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary).
@@ -116,7 +118,14 @@ Real route/apprenticeship/Learn reached raw3; first combat reached EXP1 before l
 pause, with no Flee request. Sustainable progression remains operationally inconclusive.
 Separately, retained source-cloth death receipts show INVALID_ITEM_FACTS →
 DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED, a confirmed production lifecycle blocker;
-no root cause or P2 regression attribution is claimed. No fix was made.
+Owner review identified missing SourcePlayerCloth armor facts at the production death
+composition boundary. Independent base-to-P2 comparison confirms a pre-existing
+source-entry / Player-death integration defect, not a Liuh-Ken regression.
+[P2R1](PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md) supplies the
+existing aligned cloth definition and adds the exact source Player death regression.
+The repair awaits owner review; no live acceptance retry or replacement Player was run.
+P2R1 local gates PASS: 2,282 focused / 20,608 canonical assertions, 656 Python tests,
+static, development headless/editor and sanitized-project validation.
 Historical Attempt1/2/3 reports are preserved. The following paragraphs record Attempt1.
 
 The natural journey ran on pushed `81d0cb63da15f9e384392de98cbaa3fd21475a51`,
@@ -136,8 +145,9 @@ The run stops for owner review; no automatic retry or lower finish is claimed.
 
 Natural EXP6, raw unarmed4/liuh5, live mapped actions, Save/full-process restart/cold
 Continue and post-Continue mapped combat remain unaccepted. Automated fixtures above
-seed state and are not substitutes for those live gates. Later report/status updates
-are documentation only; the immutable production implementation remains unchanged.
+seed state and are not substitutes for those live gates. Updates through pre-repair HEAD
+`c31d915c6b09f00c412800f7025ac2c9054b2dc0` were documentation only; P2R1 is the owner's
+subsequent narrow authorization to repair source-cloth death composition.
 
 ## Explicit deferrals
 

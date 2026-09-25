@@ -42,6 +42,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_zone_movement_and_same_location(tree)
 	await _test_selection_inspect_attack_and_no_aggression(tree)
 	await _test_blocked_death_remains_partial(tree)
+	await _test_source_player_cloth_death(tree)
 	await _test_lifecycle_death_corpse_and_continued_map(tree)
 	await _test_fresh_scene_reset_boundary(tree)
 	return {
@@ -378,6 +379,7 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	_assert_eq(lifecycles.size(), 1, "blocked death produces one lifecycle result")
 	if not lifecycles.is_empty():
 		_assert_eq(lifecycles[0].outcome, CombatSliceLifecycleResult.Outcome.DEATH_INVENTORY_BLOCKED, "uncovered direct item blocks death inventory")
+		_assert_eq(lifecycles[0].death_inventory_result.outcome, DeathInventoryResult.Outcome.INVALID_ITEM_FACTS, "uncovered direct item retains strict fact validation")
 	_assert_eq(victim.life_status, CharacterRuntimeLifeStatus.Value.ACTIVE, "blocked death does not commit world DEAD")
 	_assert_true(victim.exists_in_map, "blocked death does not commit world nonexistence")
 	_assert_true(controller.bandit_bodies[1].visible, "blocked death keeps NPC body visible")
@@ -388,6 +390,119 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	_assert_eq(controller.corpse_states().size(), corpse_count, "blocked lifecycle retry gate prevents duplicate corpse creation")
 	controller.queue_free()
 	await tree.process_frame
+
+
+func _test_source_player_cloth_death(tree: SceneTree) -> void:
+	var session: OldPineWorldSessionController = (load(SCENE_PATH) as PackedScene).instantiate()
+	_assert_true(session.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE), "death regression selects real source entry composition")
+	session.deterministic_npc_seed = true
+	session.deterministic_combat_seed = true
+	session.deterministic_world_interaction_seed = true
+	tree.root.add_child(session)
+	session.set_process(false) # Integration fixture drives scheduler synchronously.
+	_assert_eq(session.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.SOURCE_ENTRY, "death regression uses SOURCE_ENTRY, not technical inventory")
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var inventory: InventoryState = session.inventory_state()
+	var index: WorldItemInstanceIndex = session.item_instance_index()
+	var owner := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)
+	var children: Array[StringName] = inventory.direct_children(owner)
+	_assert_eq(children.size(), 1, "source Player starts with exactly one direct cloth item")
+	if children.size() != 1:
+		session.free()
+		return
+	var cloth_id: StringName = children[0]
+	_assert_eq(index.resolve(cloth_id).item_definition_id, SourcePlayerCloth.DEFINITION_ID, "birth item has exact source cloth definition")
+	_assert_eq(player.armor.item_instance_id_in_slot(&"cloth"), cloth_id, "source cloth is live worn before death")
+	_assert_true(OldPineItemContentDefinitions.content_by_id(SourcePlayerCloth.DEFINITION_ID) == null, "source cloth remains outside Old Pine catalogue")
+	var map: OldPineOutdoorController = session.outdoor_map()
+	var facts: Array[DeathItemFacts] = map._death_item_facts_for(player.character_id)
+	_assert_eq(facts.size(), 1, "production death projection covers exact source inventory")
+	if facts.size() != 1:
+		session.free()
+		return
+	_assert_eq(facts[0].item_instance_id, cloth_id, "production fact retains exact live cloth instance ID")
+	_assert_eq(facts[0].item_definition_id, &"es2:obj/cloth", "production fact retains cloth definition ID")
+	_assert_true(facts[0].has_aligned_armor_definition(), "worn source cloth receives aligned armor facts")
+	var armor: ArmorDefinition = facts[0].armor_definition
+	_assert_true(armor != null, "production cloth armor fact is non-null")
+	if armor != null:
+		_assert_eq(armor.item_definition_id, facts[0].item_definition_id, "cloth armor definition aligns with item")
+		_assert_eq(armor.armor_type, &"cloth", "cloth armor type matches live slot")
+		_assert_eq(armor.numeric_modifiers.armor, 1, "cloth preserves authored armor plus one")
+	_test_existing_oldpine_death_facts(map, index)
+
+	# Typed integration setup, not physical-route or live acceptance evidence.
+	var portal: PortalDefinition = SnowOldPineConnectionDefinitions.to_oldpine()
+	_assert_true(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "source Session enters production death host")
+	var npc: NpcRuntimeState = map.npc_runtimes()[0]
+	_assert_true(npc.set_world_location(player.world_location()), "death fixture aligns encounter participants")
+	_assert_true(map.select_npc(npc.character_id), "death fixture selects production opponent")
+	_assert_eq(map.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "production lethal encounter starts")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	_assert_true(encounter != null, "Session owns actual encounter before source Player death")
+	if encounter == null:
+		session.free()
+		return
+	var items_before: Array[StringName] = inventory.registered_item_ids()
+	player.state.vitality.current = -1
+	player.state.vitality.effective = -1
+	coordinator.advance_scheduler(100)
+	var lifecycles: Array[CombatSliceLifecycleResult] = map.last_lifecycle_results()
+	_assert_eq(lifecycles.size(), 1, "source Player death runs production lifecycle once")
+	if not lifecycles.is_empty():
+		_assert_eq(lifecycles[0].outcome, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE, "source Player death completes instead of DEATH_INVENTORY_BLOCKED")
+		var death: DeathInventoryResult = lifecycles[0].death_inventory_result
+		_assert_true(death != null, "normal Player death retains inventory result")
+		if death != null:
+			_assert_eq(death.outcome, DeathInventoryResult.Outcome.COMPLETED, "source cloth no longer causes INVALID_ITEM_FACTS")
+			_assert_eq(death.branch, DeathInventoryResult.Branch.NORMAL, "source Player uses existing normal death branch")
+			_assert_eq(death.rewear_results.size(), 1, "cloth gets one generic rewear result")
+			if not death.rewear_results.is_empty():
+				_assert_eq(death.rewear_results[0].outcome, DeathRewearResult.Outcome.WORN_ON_CORPSE, "generic source cloth rewear succeeds on corpse")
+	_assert_eq(player.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "source Player commits world DEAD")
+	_assert_eq(encounter.phase, CombatEncounterLifecycle.Value.COMPLETED, "source cloth death does not stick encounter in RESOLVING")
+	_assert_true(encounter.terminal_result != null and encounter.terminal_result.kind == CombatEncounterResultKind.Value.DEFEAT, "normal terminal Player defeat is published")
+	_assert_false(coordinator.has_active_encounter(), "successful source Player death releases active encounter")
+	_assert_eq(map.corpse_states().size(), 1, "source Player creates exactly one corpse")
+	if map.corpse_states().size() == 1:
+		var corpse: CorpseState = map.corpse_states()[0]
+		var corpse_owner := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
+		_assert_eq(corpse.victim_character_id, player.character_id, "corpse belongs to exact source Player")
+		_assert_eq(inventory.direct_children(corpse_owner), children, "exact original cloth becomes direct corpse content")
+		_assert_eq(corpse.worn_item_in_slot(&"cloth"), cloth_id, "corpse projection records original cloth in cloth slot")
+		_assert_true(inventory.direct_children(owner).is_empty(), "successful death empties Player direct inventory")
+		_assert_false(player.armor.is_worn(cloth_id), "transfer detaches cloth from live Player ArmorState")
+		_assert_true(inventory.is_registered(cloth_id), "source cloth remains live")
+		_assert_eq(index.resolve(cloth_id).item_definition_id, SourcePlayerCloth.DEFINITION_ID, "post-death cloth definition and instance identity preserved")
+		var remaining_ids: Array[StringName] = inventory.registered_item_ids()
+		remaining_ids.erase(corpse.corpse_item_instance_id)
+		_assert_eq(remaining_ids, items_before, "only corpse is added; no duplicated or lost cloth/item")
+		coordinator.advance_scheduler(100)
+		_assert_eq(map.corpse_states().size(), 1, "later scheduler request creates no second corpse")
+		_assert_eq(map.last_lifecycle_results().size(), 1, "completed Player lifecycle is never replayed")
+	session.free()
+	await tree.process_frame
+
+
+func _test_existing_oldpine_death_facts(map: OldPineOutdoorController, index: WorldItemInstanceIndex) -> void:
+	var seen: Array[StringName] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		for fact: DeathItemFacts in map._death_item_facts_for(npc.character_id):
+			_assert_eq(fact.item_definition_id, index.resolve(fact.item_instance_id).item_definition_id, "Old Pine death facts retain exact instance/definition pairing")
+			if seen.has(fact.item_definition_id):
+				continue
+			seen.append(fact.item_definition_id)
+			if fact.item_definition_id == OldPineItemContentDefinitions.LEATHER_ITEM_ID:
+				_assert_true(fact.has_aligned_armor_definition(), "Old Pine leather retains aligned armor facts")
+				if fact.armor_definition != null:
+					_assert_eq(fact.armor_definition.armor_type, &"cloth", "leather keeps original cloth slot")
+					_assert_eq(fact.armor_definition.numeric_modifiers.armor, 5, "leather keeps armor five")
+					_assert_eq(fact.armor_definition.numeric_modifiers.dodge, -2, "leather keeps dodge minus two")
+			else:
+				_assert_true(fact.armor_definition == null, "Old Pine weapons/currency still have no armor facts")
+	for definition_id: StringName in [OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, OldPineItemContentDefinitions.SILVER_ITEM_ID, OldPineItemContentDefinitions.LEATHER_ITEM_ID]:
+		_assert_true(seen.has(definition_id), "production death fact regression covers " + String(definition_id))
 
 
 func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:

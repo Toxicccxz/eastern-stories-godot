@@ -1473,8 +1473,13 @@ func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
 		var item: ItemInstance = _item_index.resolve(item_id)
 		if item == null:
 			continue # Existing death validator fails closed on incomplete facts.
-		var content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
-		facts.append(DeathItemFacts.new(item, null if content == null else content.armor_definition()))
+		var armor_definition: ArmorDefinition
+		if item.item_definition_id == SourcePlayerCloth.DEFINITION_ID:
+			armor_definition = SourcePlayerCloth.armor_definition()
+		else:
+			var content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+			armor_definition = null if content == null else content.armor_definition()
+		facts.append(DeathItemFacts.new(item, armor_definition))
 	return facts
 
 

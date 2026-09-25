@@ -2,14 +2,14 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 IMPLEMENTATION OWNER APPROVED / FROZEN; LIVE ACCEPTANCE OPEN.**
+**Snow Martial Progression II — P1 CLOSED; P2 LIUH IMPLEMENTATION OWNER APPROVED; P2R1 REPAIR AWAITING OWNER REVIEW; LIVE ACCEPTANCE OPEN / BLOCKED.**
 [Approved P1 analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [owner-locked P2 decisions](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
 authorize the bounded Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`.
 Finish: natural EXP >=6, unarmed >=4, liuh-ken >=5, enabled; four authored actions,
 existing Combat Core, full authored feedback and exact Save/cold Continue with unchanged schema.
 [P2 implementation](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) local gates PASS (20,544 gameplay assertions; 656 Python tests).
-Executable/test freeze: `81d0cb63da15f9e384392de98cbaa3fd21475a51`. Owner classified
+Previous executable/test freeze: `81d0cb63da15f9e384392de98cbaa3fd21475a51`. Owner classified
 [Attempt1](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_BLOCKER.md) as INCONCLUSIVE / OPERATIONAL-CONTROL FAILURE.
 [Attempt2](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT2_BLOCKED.md) reached natural EXP1/unarmed3 and verified real Escape pause,
 then stopped on an operator QA-script compile error before Flee input executed (0 completed encounters).
@@ -19,8 +19,11 @@ existing mouse/Escape preflight passed, but required Chinese name input returned
 No temporary input scripts, new Player or encounters; implementation remains frozen.
 [Changed-path acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md) used the newly authorized existing fixture and verified source birth.
 Real route/apprenticeship/Learn reached raw3; first combat reached EXP1, but pause was late and no Flee request occurred (0 successful encounters).
-Separately, source-cloth death handling returned INVALID_ITEM_FACTS / DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED; confirmed production lifecycle blocker, root cause and P2 attribution unestablished.
-No fix or replacement Player. Await owner review; EXP6, mapped combat and cold Continue remain unaccepted. No automatic retry.
+Separately, BLK-SMP2-01 source-cloth death handling returned INVALID_ITEM_FACTS / DEATH_INVENTORY_BLOCKED / LIFECYCLE_FAILED.
+Owner-confirmed root cause: missing aligned source-cloth armor facts in production death composition; independently verified as pre-existing, not a P2/Liuh regression.
+[P2R1 repair](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md) restores the existing cloth definition and adds source Player death/corpse regression coverage. Its commit is a candidate executable freeze pending owner review.
+P2R1 local gates PASS: 2,282 focused / 20,608 canonical assertions; 656 Python tests; static, headless/editor and sanitizer validation.
+No live acceptance retry or replacement Player. EXP6, mapped combat and cold Continue remain unaccepted. Await owner review.
 No PR, merge, Final Audit, P3 or Migration Tooling expansion is authorized.
 
 ## Previously integrated milestone
