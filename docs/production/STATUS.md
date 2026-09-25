@@ -2,16 +2,18 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 IMPLEMENTED / LIVE ACCEPTANCE BLOCKED.**
+**Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 IMPLEMENTATION OWNER APPROVED / FROZEN; LIVE ACCEPTANCE OPEN.**
 [Approved P1 analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [owner-locked P2 decisions](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
 authorize the bounded Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`.
 Finish: natural EXP >=6, unarmed >=4, liuh-ken >=5, enabled; four authored actions,
 existing Combat Core, full authored feedback and exact Save/cold Continue with unchanged schema.
 [P2 implementation](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) local gates PASS (20,544 gameplay assertions; 656 Python tests).
-Natural live acceptance on `81d0cb63da15f9e384392de98cbaa3fd21475a51` stopped at first-encounter
-unconscious defeat, EXP0/unarmed3. [Evidence and input-timing limitation](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_BLOCKER.md).
-Await owner review; no EXP6, mapped live combat or cold Continue PASS is claimed.
+Executable/test freeze: `81d0cb63da15f9e384392de98cbaa3fd21475a51`. Owner classified
+[Attempt1](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_BLOCKER.md) as INCONCLUSIVE / OPERATIONAL-CONTROL FAILURE.
+[Attempt2](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_ACCEPTANCE_ATTEMPT2_BLOCKED.md) reached natural EXP1/unarmed3 and verified real Escape pause,
+then stopped on an operator QA-script compile error before Flee input executed (0 completed encounters).
+This establishes no product/Flee/balance/pacing defect. Await owner review; EXP6, mapped combat and cold Continue remain unaccepted.
 No PR, merge, Final Audit, P3 or Migration Tooling expansion is authorized.
 
 ## Previously integrated milestone
