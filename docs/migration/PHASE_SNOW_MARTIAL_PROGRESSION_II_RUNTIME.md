@@ -3,7 +3,21 @@
 ## Status and frozen authority
 
 P1 OWNER APPROVED / CLOSED at `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`.
-P2 Liuh-Ken implementation remains OWNER APPROVED; P2R1 source-cloth death-facts repair is OWNER APPROVED / CLOSED. Live acceptance remains OPEN / BLOCKED.
+P2 implementation, P2R1 and P2R2 are OWNER APPROVED / CLOSED. Current starting freeze:
+`96b92799b663adc76776be15f1f9f0e656a2d9c7`.
+**P2 IMPLEMENTATION + AUTOMATED FUNCTIONAL ACCEPTANCE COMPLETE
+— AWAIT OWNER FINAL-AUDIT AUTHORIZATION**, under the
+[new owner decision](DECISIONS.md#snow-martial-progression-ii--automated-functional-acceptance).
+The [new acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md)
+separates genuine historical live evidence from deterministic production-path tests.
+Natural EXP6 session duration is deferred pacing/usability qualification; the test-only
+EXP6 checkpoint changes no gameplay rule. The Godot AI update is retained, separate
+from P2R2, for later owner-authorized Final Audit. No production or Save schema edits.
+Fresh gates PASS: automated story110 / focused2,055 / canonical21,055 assertions,
+0 failures; Python3.12 656 tests; static, Godot4.7.2 headless/editor,
+sanitizer/sanitized import and changed-document validation.
+
+The implementation identities and local counts below are historical checkpoints.
 Phase: `phase/snow-martial-progression-liuh-ken`; integrated base
 `36a26b13e2bdebeb44c14c0a013d509000c29476`.
 Preflight fetched and matched local/remote P1 and base; tracked/index clean;
@@ -14,17 +28,18 @@ is OWNER APPROVED / CLOSED at the new executable/test freeze
 `798842879ebea52b33e7e2136f606a3741659590`; the major milestone is not integrated.
 
 [P2R2 generalized names](PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) is the subsequent
-owner-authorized Type B product adjustment, locally verified and awaiting owner review
+owner-authorized Type B product adjustment, subsequently OWNER APPROVED / CLOSED
 (2,303 focused / 20,945 canonical assertions; 656 Python tests; all five verify.py stages PASS). It preserves P2R1,
 birth/combat/Liuh semantics and Save schemas. The owner accepted starting HEAD
 `3cf9c67e4514e9131f1492a36454ebc625376608`, including the later Godot AI update;
-the new P2R2 commit is only a candidate executable/test freeze. No changed-path live
-acceptance was resumed and no live Player was created. Final Audit remains unauthorized.
+the resulting P2R2 commit is now the approved starting freeze above. That repair task
+did not resume live acceptance. Final Audit remains unauthorized.
 
 Authority: [approved P1](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [D-SMP2-01–08](DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary).
 The decisions are recorded with implementation, not a separate decision commit.
-Natural EXP >=6, basic unarmed >=4, liuh-ken >=5 and enabled remain the finish.
+EXP >=6, basic unarmed >=4, liuh-ken >=5 and enabled remain the functional finish;
+the subsequent owner acceptance decision permits test-only prerequisite construction.
 
 ## Source and bounded implementation
 
@@ -119,7 +134,11 @@ avoided by running the final Godot gates with normal host permissions and isolat
 settings. No accepted test skip or suppressed product error was introduced.
 Evidence logs are ignored under `build/smp2-*`; they are not release artifacts.
 
-## Live acceptance gate
+## Historical live acceptance gate
+
+This section records the former acceptance protocol and its evidence. The subsequent
+owner decision supersedes the requirement to finish a natural live EXP6 grind or
+repeat full-process Continue for P2 functional closure; historical reports stay intact.
 
 Current [changed-path acceptance](PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md)
 used the owner-authorized existing public-entry fixture and verified exact source birth.

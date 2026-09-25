@@ -949,6 +949,20 @@ to the later owner-authorized Final Audit. No PR, merge, automatic Final Audit, 
 expansion is authorized. All other arts, practice/study, force/techniques, full school/faction systems,
 Phase5B4, Lake/serpent and Native generation remain deferred. Type C = 0.
 
+## Snow Martial Progression II — automated functional acceptance
+
+**Owner decision (2026-09-25):** P2 engineering closure uses deterministic automated
+production-path verification. This supersedes the live-grind/full-process acceptance
+method in D-SMP2-01/08 above, not the gameplay finish or source rules. Genuine prior
+[production combat](PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md)
+already observed EXP0→1; stochastic time-to-EXP6 is deferred to balance/pacing and
+usability qualification. Test fixtures may construct exact prerequisite checkpoints
+(EXP6/basic unarmed4); these are test-only and never naturally earned live evidence.
+No gameplay formula, EXP probability/rule, EXP6 Learn threshold, or unarmed4/liuh5
+finish changes. Public Save/Continue with fresh graph reconstruction closes the
+functional persistence loop; later human play/Final Audit smoke remains separate.
+See the [automated acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
+
 ## Generalized Player display names
 
 **Decision (Type B, owner-authorized P2R2):** Replace the historical Chinese-only

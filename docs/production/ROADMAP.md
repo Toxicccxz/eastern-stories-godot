@@ -533,7 +533,20 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
 
 
-14. **Snow Martial Progression II — P1 CLOSED; P2 LIUH IMPLEMENTATION OWNER APPROVED; P2R1 OWNER APPROVED / CLOSED; LIVE ACCEPTANCE OPEN / BLOCKED.**
+14. **Snow Martial Progression II — P2 IMPLEMENTATION + AUTOMATED FUNCTIONAL ACCEPTANCE COMPLETE — AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
+
+    P1/P2 implementation, P2R1 and P2R2 are OWNER APPROVED / CLOSED at
+    `96b92799b663adc76776be15f1f9f0e656a2d9c7`. The owner now uses
+    [automated functional acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md):
+    test-only EXP6/basic4 prerequisites, real Learn to liuh5, Enable, four-action Combat,
+    public Save/fresh-graph Continue and post-Continue Combat. Natural time-to-EXP6 is
+    deferred pacing/usability qualification. The Godot AI update remains separately
+    retained for later Final Audit. No production balance or Save schema changes.
+    Fresh gates PASS: story110 / focused2,055 / canonical21,055 assertions, 0 failures;
+    Python3.12 656 tests; static, headless/editor, sanitizer/sanitized import and doc checks.
+
+    **Historical checkpoints below:** earlier live requirements and pending repair
+    approval wording are superseded by the owner decision above.
 
     [P2R2 generalized names](../migration/PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) is implemented/locally verified: 2,303 focused / 20,945 canonical assertions; 656 Python tests; all static/editor/sanitizer/diff/link gates PASS. This bounded Type B adjustment adds configurable Unicode names and preserves exact identity and birth/combat/Liuh/Save contracts. Starting HEAD `3cf9c67e4514e9131f1492a36454ebc625376608` and the Godot AI update are owner-accepted; two desktop viewport entries are restored by separate owner authorization. Await owner review before any live acceptance. No PR, merge, Final Audit or P3.
 

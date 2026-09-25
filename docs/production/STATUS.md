@@ -2,7 +2,26 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — P1 CLOSED; P2 LIUH IMPLEMENTATION OWNER APPROVED; P2R1 OWNER APPROVED / CLOSED; LIVE ACCEPTANCE OPEN / BLOCKED.**
+**Snow Martial Progression II — P2 IMPLEMENTATION + AUTOMATED FUNCTIONAL ACCEPTANCE COMPLETE — AWAIT OWNER FINAL-AUDIT AUTHORIZATION.**
+
+P1/P2 implementation, P2R1 and P2R2 are OWNER APPROVED / CLOSED at starting freeze
+`96b92799b663adc76776be15f1f9f0e656a2d9c7`. The owner replaced repeated live-input
+acceptance with [automated functional acceptance](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
+EXP6/basic unarmed4 prerequisites may be constructed in tests only; real Learn must
+produce liuh5, followed by Enable, Combat and public Save/fresh-graph Continue.
+Natural EXP gain is independently established; stochastic time-to-EXP6 and human
+usability remain deferred. No product formula or Save schema changes. The Godot AI
+update is retained separately from P2R2 for later Final Audit review. No PR or merge.
+Fresh gates PASS: automated story110 / focused2,055 / canonical21,055 assertions,
+0 failures; Python3.12 656 tests; static, official Godot4.7.2 headless/editor,
+sanitizer/sanitized import, whitespace and changed-document links/anchors.
+Production executable bytes remain identical to the starting freeze; only tests/docs changed.
+
+### Historical P2 checkpoints
+
+The following evidence retains earlier dispositions; the owner acceptance decision
+above supersedes their live-grind requirements and pending P2R1/P2R2 approval wording.
+
 [Approved P1 analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
 and [owner-locked P2 decisions](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
 authorize the bounded Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`.
