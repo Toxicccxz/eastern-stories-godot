@@ -160,13 +160,12 @@ static func execute_opportunity(
 		return _finish(result, CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION)
 
 	result._reached_stage = CombatSliceOpportunityResult.ReachedStage.FORWARD_ATTACK
-	var primary: EquippedWeaponRef = actor.state.equipment.primary_weapon()
-	var action: CombatActionDefinition = actor.content.attack_template_for(primary)
+	var live: CombatReverseAttackProjection = CombatSliceProjectionBuilder.build_live_projection(actor, victim)
 	var forward: CombatSingleAttackExecutionResult = (
 		CombatSingleAttackExecutionService.execute(
 			fight,
 			CombatSliceProjectionBuilder.build_action_selection_input(actor),
-			CombatSliceProjectionBuilder.build_attack_input(actor, victim, action),
+			live.attack_input_template() if live != null else null,
 			actor.state,
 			victim.state,
 			CombatRawComposureAuthority.new(actor.character_id, actor.state.attributes),
@@ -178,6 +177,7 @@ static func execute_opportunity(
 			victim.relationship,
 			random_source,
 			effect_registry,
+			live.modifier_projection() if live != null else null,
 		)
 	)
 	result._forward_result = forward.duplicate_snapshot()

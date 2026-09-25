@@ -48,3 +48,12 @@ func _snapshot_set(source: CombatActionSet) -> CombatActionSet:
 	if source == null:
 		return null
 	return CombatActionSet.new(source.actions())
+
+
+## Same precedence as CombatActionSelector, without performing a draw.
+func current_action_set() -> CombatActionSet:
+	if mapped_skill_present:
+		return mapped_action_set()
+	if primary_weapon_present:
+		return primary_weapon_action_set()
+	return default_action_set()

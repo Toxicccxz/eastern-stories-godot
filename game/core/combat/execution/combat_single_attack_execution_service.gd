@@ -20,6 +20,7 @@ static func execute(
 	defender_relationship: CombatRelationshipState,
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry = null,
+	live_modifiers: CombatReverseModifierProjection = null,
 ) -> CombatSingleAttackExecutionResult:
 	var result: CombatSingleAttackExecutionResult = CombatSingleAttackExecutionResult.new()
 	if fight_decision != null:
@@ -63,6 +64,19 @@ static func execute(
 			CombatSingleAttackExecutionResult.ReachedStage.UPSTREAM_VALIDATED,
 			_prior_mutation(result),
 		)
+	# Multi-action composition is admitted only with the full live scalar,
+	# equipment, mapping, relationship and busy projection checked before RNG.
+	if attack_input_template.approved_actions() != null or live_modifiers != null:
+		var live := CombatReverseAttackProjection.new(
+			CombatCharacterAuthority.new(fight_decision.attacker_id, attacker),
+			CombatCharacterAuthority.new(fight_decision.victim_id, defender),
+			action_selection_input, attack_input_template, attacker_facts, defender_facts,
+			defender_busy_projection, defender_busy_state, attacker_relationship,
+			defender_relationship, live_modifiers)
+		if not CombatLiveProjectionValidation.matches(fight_decision.attacker_id, fight_decision.victim_id, live):
+			return _finish(result, CombatSingleAttackExecutionResult.Outcome.CALLER_AUTHORITY_MISMATCH,
+				CombatSingleAttackExecutionResult.FailureStage.CALLER_AUTHORITY_BINDING,
+				CombatSingleAttackExecutionResult.ReachedStage.UPSTREAM_VALIDATED, _prior_mutation(result))
 	result._reached_stage = CombatSingleAttackExecutionResult.ReachedStage.ACTION_SELECTION
 	var selection: CombatActionSelectionResult = CombatActionSelector.select_action(
 		action_selection_input,
@@ -356,20 +370,7 @@ static func _matches_attack_projection(
 		or defender_snapshot.character_id != fight_decision.victim_id
 	):
 		return false
-	var projected: CombatActionDefinition = template.selected_action
-	return (
-		selected.action_id == projected.action_id
-		and selected.damage_percent == projected.damage_percent
-		and selected.force_percent == projected.force_percent
-		and selected.damage_type == projected.damage_type
-		and selected.presentation_key == projected.presentation_key
-		and selected.legacy_action_text == projected.legacy_action_text
-		and (
-			selected.displayed_weapon_or_body_token
-			== projected.displayed_weapon_or_body_token
-		)
-		and selected.post_action_policy_id == projected.post_action_policy_id
-	)
+	return template.accepts_action(selected)
 
 
 static func _legacy_damage_for(base_result: CombatAttackResult) -> int:

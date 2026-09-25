@@ -2,15 +2,15 @@
 
 ## Current milestone
 
-**Snow Martial Progression II — P1 ANALYSIS COMPLETE / AWAIT OWNER REVIEW.**
-[Liuh-Ken source and Native dependency analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
-is complete on `phase/snow-martial-progression-liuh-ken`, based on integrated main
-`36a26b13e2bdebeb44c14c0a013d509000c29476` after its four-job post-merge CI passed.
-The recommended P2 is a proposal: extend Liu learning/mapping, integrate all four authored liuh-ken
-actions into existing ordinary combat, and validate exact Save/cold Continue with a natural EXP-6 journey.
-The source supports the proposed unarmed4 / liuh5 finish; practical natural EXP-6 reachability remains unverified.
-**NO P2 implementation is authorized.** No gameplay implementation, runtime PASS, PR or merge is claimed.
-Other martial systems, Phase 5B4 and Migration Tooling P3 remain deferred.
+**Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 AUTHORIZED / IN PROGRESS.**
+[Approved P1 analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
+and [owner-locked P2 decisions](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
+authorize the bounded Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`.
+Finish: natural EXP >=6, unarmed >=4, liuh-ken >=5, enabled; four authored actions,
+existing Combat Core, full authored feedback and exact Save/cold Continue with unchanged schema.
+[P2 implementation](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) local gates PASS (20,544 gameplay assertions; 656 Python tests).
+Immutable pushed-commit natural live acceptance is pending; no runtime PASS is claimed.
+No PR, merge, Final Audit, P3 or Migration Tooling expansion is authorized.
 
 ## Previously integrated milestone
 

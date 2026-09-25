@@ -237,3 +237,11 @@ func has_attack_skill_definition(skill_id: StringName) -> bool:
 			and skill_id == _verified_weapon_skill_id
 		)
 	)
+
+
+## Only the reviewed human unarmed liuh mapping is admitted. Beast anatomy,
+## other mappings and the existing singleton default/weapon providers stay closed.
+func mapped_action_set(attack_skill_id: StringName, mapped_skill_id: StringName) -> CombatActionSet:
+	if is_valid() and _race_id == &"human" and attack_skill_id == &"unarmed" and mapped_skill_id == LiuhKenDefinition.SKILL_ID:
+		return LiuhKenDefinition.actions()
+	return null

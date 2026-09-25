@@ -533,16 +533,13 @@ Internal analysis, implementation slices, and audit fixes remain on that milesto
     designated as the next project milestone. Snow Martial Progression II also requires separate owner authorization.
 
 
-14. **Snow Martial Progression II — P1 ANALYSIS COMPLETE / AWAIT OWNER REVIEW.**
+14. **Snow Martial Progression II — P1 OWNER APPROVED / CLOSED; P2 AUTHORIZED / IN PROGRESS.**
 
-    [Liuh-Ken source and Native dependency analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md)
-    is complete on `phase/snow-martial-progression-liuh-ken`, created from integrated main
-    `36a26b13e2bdebeb44c14c0a013d509000c29476` after its exact post-merge CI passed all four jobs.
-    Recommended P2 remains a proposal pending owner review: extend the existing Liu contact with
-    source-valid liuh-ken Learn and explicit unarmed Enable/Disable, four authored actions in the existing
-    ordinary-combat pipeline, committed action feedback and exact Save/process-stop/cold Continue.
-    Proposed primary finish is natural EXP >=6, unarmed >=4 and liuh-ken >=5; natural EXP-6 journey
-    duration/survivability is not yet verified. The report ranks a smaller EXP-2 fallback and a larger option.
-    No gameplay implementation yet; **NO P2 implementation is authorized** and no PR is opened for P1.
-    Other martial arts, force/exercise, practice/study, perform/exert, general hooks/Phase 5B4,
-    school expansion, Lake/serpent, Migration Tooling P3 and Native generation remain deferred.
+    [P1 source analysis](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md) is approved at
+    `c44658ef0e9b557b7a002f4d79ca7bef0fd6b4bd`. [D-SMP2-01 through 08](../migration/DECISIONS.md#snow-martial-progression-ii--owner-locked-p2-boundary)
+    lock the minimal Liuh-Ken slice on `phase/snow-martial-progression-liuh-ken`:
+    existing Liu Learn/Enable/Disable, four actions through existing Combat, authored feedback,
+    natural EXP >=6 / unarmed >=4 / liuh >=5 and exact full-process Save/Continue.
+    [P2 implementation/local gates](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md) PASS: 20,544 gameplay assertions and 656 Python tests. Immutable pushed-commit live acceptance and practical EXP6 remain pending.
+    No PR, merge, automatic Final Audit or P3. Other arts, force/exercise, practice/study,
+    perform/exert, school expansion, general hooks/Phase5B4, Lake/serpent and Migration Tooling P3/Native generation remain deferred.
