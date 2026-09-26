@@ -256,6 +256,8 @@ func _on_registered_presence_entered(body: Node2D, character_id: StringName) -> 
 
 
 func _on_registered_presence_exited(body: Node2D, character_id: StringName) -> void:
+	if body == player_body and not _complete_entry_contact(character_id):
+		_complete_set_consumed_contacts.erase(character_id)
 	if _world_gameplay_is_open() and body == player_body:
 		_aggression_adapter.leave_player_presence(character_id)
 
@@ -1005,6 +1007,80 @@ func traverse_selected_vine() -> OldPineVineTraversalResult:
 		_selected_target = null
 		hud.set_selected_target(null)
 	return _last_vine_traversal
+
+
+## P2A seam; P2B routes Lake entry here. Ordinary pair dispatch is unchanged.
+var _complete_set_consumed_contacts: Array[StringName] = []
+
+func collect_complete_combat_entry(cause: int, requested_target: StringName = &"") -> Array[CombatSliceCharacterBinding]:
+	if not _world_gameplay_is_open() or _session_owner.active_map() != self:
+		return []
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION]:
+		return []
+	var manual: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
+	if manual and _find_npc(requested_target) == null:
+		return []
+	if not manual and not requested_target.is_empty():
+		return []
+	if player_body._player != _player:
+		return []
+	var ids: Array[StringName] = []
+	var fresh_contact: bool = false
+	for npc: NpcRuntimeState in _all_npcs:
+		if npc.exists_in_map:
+			var body: WorldCharacterBodyType = runtime_body_for_character(npc.character_id)
+			if not is_instance_valid(body) or body._npc != npc or map_character_state().find_npc(npc.character_id) != npc:
+				return []
+		var contact: bool = _complete_entry_contact(npc.character_id)
+		if not contact:
+			_complete_set_consumed_contacts.erase(npc.character_id)
+		var decision: OldPineAggressionDecision = _aggression_adapter._evaluate(npc, _player, _current_location_allows_combat())
+		var aggressive: bool = contact and decision.outcome in [OldPineAggressionDecision.Outcome.READY, OldPineAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
+		if aggressive or (manual and npc.character_id == requested_target):
+			if ids.has(npc.character_id):
+				return []
+			ids.append(npc.character_id)
+			fresh_contact = fresh_contact or (aggressive and not _complete_set_consumed_contacts.has(npc.character_id))
+	if ids.is_empty() or (not manual and not fresh_contact):
+		return []
+	ids.sort_custom(_complete_entry_id_less)
+	ids.push_front(_player.character_id)
+	var available: Array[CombatSliceCharacterBinding] = _build_participants()
+	var result: Array[CombatSliceCharacterBinding] = []
+	for id: StringName in ids:
+		var binding: CombatSliceCharacterBinding = _binding_for(available, id)
+		if binding == null or not _session_owner.encounter_participant_is_available(id):
+			return []
+		result.append(binding)
+	return result
+
+
+## Exact current shapes, not cached Area overlap lists or deferred signal order.
+static func _complete_entry_id_less(first: StringName, second: StringName) -> bool:
+	return String(first) < String(second)
+
+
+func _complete_entry_contact(id: StringName) -> bool:
+	var body: WorldCharacterBodyType = runtime_body_for_character(id)
+	if not is_instance_valid(body) or not body.is_inside_tree():
+		return false
+	var area: Area2D = _registered_npc_presence.get(id) if _registered_npc_presence.has(id) else body.get_node_or_null("AggressionPresence")
+	if not is_instance_valid(area) or not area.monitoring or not area.is_inside_tree():
+		return false
+	var player_shape: CollisionShape2D = player_body.get_node_or_null("CollisionShape2D")
+	if player_shape == null or player_shape.disabled or player_shape.shape == null:
+		return false
+	for child: Node in area.get_children():
+		if child is CollisionShape2D and not child.disabled and child.shape != null:
+			if child.shape.collide(child.global_transform, player_shape.shape, player_shape.global_transform):
+				return true
+	return false
+
+
+func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
+	for id: StringName in ids:
+		if _complete_entry_contact(id) and not _complete_set_consumed_contacts.has(id):
+			_complete_set_consumed_contacts.append(id)
 
 
 func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
@@ -1864,6 +1940,8 @@ func _leave_bandit_presence(npc_index: int, body: Node2D) -> void:
 		and npc_index < _all_npcs.size()
 	):
 		_aggression_adapter.leave_player_presence(_all_npcs[npc_index].character_id)
+		if not _complete_entry_contact(_all_npcs[npc_index].character_id):
+			_complete_set_consumed_contacts.erase(_all_npcs[npc_index].character_id)
 
 
 func _on_bandit_selection_requested(character_id: StringName) -> void:

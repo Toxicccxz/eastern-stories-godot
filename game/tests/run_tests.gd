@@ -1749,6 +1749,9 @@ func _init() -> void:
 	var martial_acceptance: Dictionary = await load("res://tests/runtime/snow_martial_progression_acceptance_test.gd").new().run_all(self)
 	assertion_count += int(martial_acceptance["assertions"])
 	failures.append_array(martial_acceptance["failures"])
+	var p2a_result: Dictionary = await load("res://tests/runtime/oldpine_p2a_foundations_test.gd").new().run_all(self)
+	assertion_count += int(p2a_result["assertions"])
+	failures.append_array(p2a_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

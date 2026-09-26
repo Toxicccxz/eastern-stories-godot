@@ -169,6 +169,8 @@ func _test_state_and_product_mapping() -> void:
 	repository_expectations[GameSaveResult.Outcome.BACKUP_AVAILABLE] = ApplicationSlotInspection.Availability.RECOVERY_REQUIRED
 	repository_expectations[GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA] = ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE
 	repository_expectations[GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA] = ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE
+	repository_expectations[GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT] = ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE
+	repository_expectations[GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION] = ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE
 	repository_expectations[GameSaveResult.Outcome.READ_FAILED] = ApplicationSlotInspection.Availability.STORAGE_FAILURE
 	repository_expectations[GameSaveResult.Outcome.OPERATION_IN_PROGRESS] = ApplicationSlotInspection.Availability.STORAGE_FAILURE
 	for outcome: int in repository_expectations:

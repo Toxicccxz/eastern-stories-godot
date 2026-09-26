@@ -1,28 +1,35 @@
 class_name SourceEntrySaveRepository
 extends GameSaveRepository
 
-## Public Shell boundary. The shared codec/restorer still support explicit
-## technical regression fixtures, but public Continue/Recovery must not load them.
+## Public support is checked in the codec before entity decoding/composition.
+## Technical regression fixtures retain the base repository explicitly.
+func _requires_current_public_contract() -> bool:
+	return true
+
+
 func _read_snapshot(path: String) -> GameSaveResult:
 	var result: GameSaveResult = super._read_snapshot(path)
-	if result.succeeded() and not _is_public_source(result.snapshot):
-		return _unsupported_profile()
-	return result
+	if not result.succeeded():
+		return result
+	return _validated_current(result.snapshot)
 
 
 func _save_impl(snapshot: GameSaveSnapshot) -> GameSaveResult:
-	if snapshot != null and not _is_public_source(snapshot):
-		return _unsupported_profile()
+	var validated: GameSaveResult = _validated_current(snapshot)
+	if not validated.succeeded():
+		return validated
 	return super._save_impl(snapshot)
 
 
-static func _is_public_source(snapshot: GameSaveSnapshot) -> bool:
-	return snapshot.world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1
-
-
-static func _unsupported_profile() -> GameSaveResult:
-	return GameSaveResult.failure(
-		GameSaveResult.Outcome.INVALID_SNAPSHOT,
-		"world_content_revision",
-		"Technical world profiles are unsupported by public Continue/Recovery.",
-	)
+static func _validated_current(snapshot: GameSaveSnapshot) -> GameSaveResult:
+	if snapshot == null:
+		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_SNAPSHOT, "root")
+	var support: GameSaveResult = WorldContentRevision.public_support(snapshot.world_content_revision)
+	if not support.succeeded():
+		return support
+	# Same production catalog/ledger authority as capture and staged restore.
+	# Pure preparation: no Nodes, files, fresh NPC factory or gameplay RNG.
+	var prepared: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
+	if prepared.preparation == null:
+		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_SNAPSHOT, prepared.path, prepared.detail)
+	return GameSaveResult.success(snapshot)

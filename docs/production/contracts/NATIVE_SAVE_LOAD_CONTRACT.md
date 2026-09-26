@@ -48,19 +48,25 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-At the policy-update starting HEAD `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`, product code is unchanged
-from integrated main `01f7b18253a1936bce4a1fb11a507a356769c409`: root schema2, item schema3, public
-SOURCE_ENTRY_V1, with some existing older embedded-format readers and internal technical fixtures.
-The existing guarantees below describe that implementation; their version names are not perpetual
-support promises. This documentation does not remove readers, implement new rejection wording,
-activate a Lake revision, create Lake saves or change supported runtime profiles.
+P2A keeps root schema2, item schema3 and current public **SOURCE_ENTRY_V1**, with five human
+NPC slots. `WorldContentRevision.CURRENT_PUBLIC` defines public support; reserved
+`SOURCE_ENTRY_LAKE_V1` has no runtime enum/catalog and is refused. The public repository invokes
+codec support validation before nested entity decoding, and reuses the exact production restore
+composition/ledger before public Save or accepting canonical/backup/temp candidates.
 
-For Lake, the owner-selected plan is **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**: one future
-production catalog/map behavior, no five-human/ten-entity dual-world compatibility and no automatic
-or manual save-upgrade feature. Incompatible historical saves will be rejected at the explicit
-support boundary once implemented. The exact identifier/cutoff belongs to separately authorized
-P2A; root/item schema changes require an actual representation need. See the
-[Lake policy amendment](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26).
+Recognized unsupported content uses `INCOMPATIBLE_DEVELOPMENT_CONTRACT` and the explicit Chinese
+New Game message; unknown content uses `UNKNOWN_WORLD_REVISION`; current corruption remains a
+validation failure; I/O and unsupported schemas retain their separate typed outcomes. Unsupported
+canonical content is not masked by a backup result. Recovery is still explicit and revalidated,
+with no automatic load/promotion/rewrite. Internal LEGACY_OLDPINE_V1 regression fixtures use the
+base repository explicitly; they are not a second supported public world.
+
+The Lake support-marker switch belongs to **P2B atomic production publication**, together with its
+map, five additional authored slots, geometry validation and complete current persistence. P2A does
+not pretend a ten-entity Lake Save can already restore. Source-birth/supply capability equality
+checks remain unchanged until that publication; they must be reviewed as part of the cutover.
+No root/item format bump is needed for these P2A boundaries. See the
+[P2A report](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md).
 
 This policy does not rewrite the historical NGE/S6B approvals in DECISIONS. The
 [project roadmap](../ROADMAP.md) and [scope ledger](../PROJECT_SCOPE.md) distinguish current facts,
@@ -122,4 +128,4 @@ The integrated [Application Shell](APPLICATION_SHELL_CONTRACT.md) supplies expli
 Continue, Pause-menu Save and recovery choices; the [Mobile contract](MOBILE_APPLICATION_CONTRACT.md)
 adds lifecycle/input behavior without autosave. There is no implied cloud synchronization, encryption,
 store-signing or historical-save migration commitment. These current product consumers extend the
-original Phase 10B foundation; the development policy above changes no runtime behavior in this update.
+original Phase 10B foundation; the current implementation changes are bounded by the P2A report above.

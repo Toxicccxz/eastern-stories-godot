@@ -1,5 +1,29 @@
 # Migration Decisions
 
+## Old Pine Lake — owner-locked P2A foundations
+
+Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md):
+
+- **M: complete-set admission before freeze.** Revalidate coherent current physical contact,
+  identity, existence, ACTIVE/available state, combat location and permission. Include every
+  actually eligible aggressive enemy; Player plus five is legal. Same map/zone alone is not
+  contact, and LPC `MAX_OPPONENT=4` is selection behavior, not encounter capacity. Manual Attack
+  retains its own target policy and also includes eligible aggressive contacts. Use stable ID
+  ordering, one transaction, one existing encounter/scheduler and full relationship rollback.
+  No signal-order selection, delay-to-collect, mid-combat joining, replacement or reinforcements.
+- **W: bounded shore Fill.** Reuse direct-held wineskin, ACTIVE, busy/combat, location/distance
+  and liquid-service checks. Lake geometry and UI hookup belong to P2B; no environmental Drink,
+  general river water, poison or swimming.
+- **R: CURRENT WORLD ONLY.** Follow the [development save policy](../production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy).
+  No old/new product-world branches or save migration. Reject incompatible files explicitly;
+  never delete, rewrite, respawn, reroll or silently start New Game. P2A retains current public
+  SOURCE_ENTRY_V1 with five humans. The future content-marker cutover must be atomic with P2B
+  Lake geometry, five additional production slots and complete persistence. Root/item schemas
+  change only for a real format change, not a content publication or a Git commit.
+
+This locks M/W and authorizes P2A foundations only. P2B/P2C, Final Audit and integration require
+separate owner instructions; historical P1 alternatives remain historical.
+
 ## Migration Tooling v1 P2 — owner-locked extraction boundary
 
 **OWNER APPROVED / LOCKED D1–D9.** P1 analysis is OWNER APPROVED / CLOSED at

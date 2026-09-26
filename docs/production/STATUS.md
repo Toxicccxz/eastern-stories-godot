@@ -2,8 +2,7 @@
 
 ## Current milestone
 
-**Old Pine Lake + Production Serpents — P1 COMPLETE; ROADMAP / SAVE POLICY DOCUMENTED;
-P2A NOT STARTED / AWAIT SEPARATE AUTHORIZATION.**
+**Old Pine Lake + Production Serpents — P2A IMPLEMENTED / LOCALLY VERIFIED / AWAIT OWNER REVIEW.**
 
 [P1 source/dependency analysis](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
 is documentation-only on `phase/oldpine-lake-serpent-production`, from main
@@ -16,16 +15,17 @@ P1 was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`. The subsequent
 replaces its dual-world recommendation R with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
 The [long-term Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
 now makes no development-version backward-compatibility promise while retaining strict current
-Save/Continue reliability and file protection. Code/readers, actual saves and supported revisions
-have not changed; no Lake world or new rejection logic is implemented.
+Save/Continue reliability and file protection. [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md)
+add explicit public content-contract refusal and complete-set admission through the existing
+coordinator/scheduler. Root schema2 / item schema3 / public SOURCE_ENTRY_V1 and five-human New Game
+remain current; SOURCE_ENTRY_LAKE_V1 is reserved and rejected, not published. M/W are now owner-locked
+in [DECISIONS](../migration/DECISIONS.md#old-pine-lake--owner-locked-p2a-foundations); R remains
+CURRENT WORLD ONLY. Current Save/Continue stays strict; no historical-world obligation or migration.
 
-[ROADMAP](ROADMAP.md#forward-roadmap) is the sole main A–I planning entry;
-[PROJECT_SCOPE](PROJECT_SCOPE.md) records bounded integrated capabilities and unresolved content.
-The next recommended slice is current-version persistence boundaries plus complete-set combat
-admission, followed by atomic Lake/five-slot/Fill/Save publication and runtime/cold Continue.
-M (eligible-enemy collection) and W (Lake Fill) remain recommendations for the next detailed
-contract, not approved gameplay or implementation. This update authorizes documentation only:
-no P2A, PR, merge, Final Audit or other phase. DECISIONS and closed phases remain unchanged.
+[ROADMAP](ROADMAP.md#forward-roadmap) remains the sole A–I planning entry;
+[PROJECT_SCOPE](PROJECT_SCOPE.md) distinguishes foundations from production content.
+The branch has no PR, merge or P2A remote CI. Lake geography, five production slots and shore Fill
+are not published. P2B/P2C, Final Audit and integration await separate owner authorization.
 
 ## Previously integrated milestone
 

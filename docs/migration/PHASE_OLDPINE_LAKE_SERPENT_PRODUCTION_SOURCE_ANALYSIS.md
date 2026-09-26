@@ -647,3 +647,9 @@ identity are recorded in the delivery response after execution. No PR is created
 no remote CI is manually requested. A normal phase push is backup, not integration.
 
 **P1 ANALYSIS COMPLETE — AWAIT OWNER REVIEW.** Stop here; P2 is not authorized.
+
+## P2A implementation checkpoint
+
+The subsequent owner instruction locks M/W and authorizes P2A, superseding the pending-authorization
+wording in this historical analysis. See [P2A foundations](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md).
+P2B publication and P2C runtime/cold Continue remain separately gated.

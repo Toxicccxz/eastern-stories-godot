@@ -4,6 +4,7 @@ extends RefCounted
 const Values := preload("res://core/persistence/game_save_value_types.gd")
 const Endpoint := preload("res://core/inventory/containment_endpoint.gd")
 
+var _current_public_only: bool = false
 var _error: GameSaveResult
 
 
@@ -15,11 +16,12 @@ static func encode(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	return GameSaveResult.encoded_success(JSON.stringify(root, "\t", false))
 
 
-static func decode(text: String) -> GameSaveResult:
+static func decode(text: String, current_public_only: bool = false) -> GameSaveResult:
 	var parser := JSON.new()
 	if parser.parse(text) != OK:
 		return GameSaveResult.failure(GameSaveResult.Outcome.MALFORMED_JSON, "root", parser.get_error_message())
 	var codec := GameSaveJsonCodec.new()
+	codec._current_public_only = current_public_only
 	var snapshot: GameSaveSnapshot = codec._decode_root(parser.data)
 	if codec._error != null: return codec._error
 	return GameSaveSnapshotValidator.validate(snapshot)
@@ -183,7 +185,11 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	match revision_text:
 		"LEGACY_OLDPINE_V1": revision = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 		"SOURCE_ENTRY_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_V1
-		_: _fail(GameSaveResult.Outcome.INVALID_SNAPSHOT, "world_content_revision")
+		WorldContentRevision.NEXT_PUBLIC_MARKER: _fail(GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "world_content_revision")
+		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
+	if _error == null and _current_public_only:
+		var support: GameSaveResult = WorldContentRevision.public_support(revision)
+		if not support.succeeded(): _error = support
 	if _error: return null
 	var build_commit: Values.OptionalText = Values.OptionalText.none() if build_commit_value == null else Values.OptionalText.some(build_commit_value)
 	var metadata := Values.GameSaveMetadata.new(format_id, schema, _string(metadata_object["saved_at_utc"], "metadata.saved_at_utc"), build_commit, StringName(_string(metadata_object["storage_profile"], "metadata.storage_profile")), StringName(_string(metadata_object["slot_id"], "metadata.slot_id")))
