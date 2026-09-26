@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Old Pine Lake + Production Serpents — P2B IMPLEMENTED / TARGETED VALIDATION COMPLETE / AWAIT OWNER REVIEW.**
+**Old Pine Lake + Production Serpents — P2C DESKTOP / COLD RESTORE VERIFIED; TOUCH QUALIFICATION PENDING / AWAIT OWNER REVIEW.**
 
 Current branch: `phase/oldpine-lake-serpent-production`, based on integrated main
 `01f7b18253a1936bce4a1fb11a507a356769c409` (PR #23;
@@ -19,17 +19,23 @@ Public marker is now **SOURCE_ENTRY_LAKE_V1**; root schema2/item schema3 are unc
 Recognized old public worlds are explicitly refused without migration or file changes.
 Source birth, Snow supplies/recovery and Vine consumers use the current public contract.
 
-Affected regressions pass. The one broad discovery run found obsolete catalog/marker expectations;
-all identified failures were corrected and the affected groups rerun successfully. It is not reported
-as a green full-suite run. Real canonical-Shell smoke used disclosed isolated QA birth/supplies/health,
-then real movement, five-target UI, Flee/reentry, Fill and normal Save/Continue. No natural victory or
-full-process cold-equality claim. See the report for input-tool limitations and exact evidence.
+[P2C acceptance](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md)
+adds real mouse fifth-target selection, manual Attack admitting all five eligible snakes,
+and two real Pause Save / full-process restart / public Continue checkpoints. Complete saved and
+restored runtime state is equal for five-alive and one-dead/four-alive/corpse graphs, including all
+three RNG streams. Real combat killed the disclosed wounded production snake; physical return
+after cold restore did not resurrect it. No gameplay/test/plugin change or natural victory claim.
+Representative actual touch-device qualification remains PENDING; desktop input is not mobile PASS.
+The P2B discovery failures have corresponding committed corrections and successful targeted evidence;
+the complete P2C canonical `verify.py` run passed all five stages in543.86s on unchanged
+executable/test commit `ef8b7d601983c80d817bf28a93e554f2472a49a6`.
 
 [Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy),
 [ROADMAP](ROADMAP.md#forward-roadmap) and [PROJECT_SCOPE](PROJECT_SCOPE.md) reflect this publication.
 Layered local validation now follows the owner-authorized rule in root AGENTS.md; full canonical
 validation remains required at phase closure. No Lake PR, remote CI, merge or post-merge result.
-**P2C / Final Audit / PR / merge are not started and require separate owner authorization.**
+**Overall P2C acceptance remains incomplete pending touch qualification. Final Audit / PR / merge
+are not started and require separate owner authorization.**
 
 ## Previously integrated milestone
 

@@ -35,7 +35,7 @@ Core capability is not production interaction; controlled QA is not a normal-pla
 definitions are not complete content. In particular, Beast QA does not publish Lake or five snakes.
 
 Current branch: `phase/oldpine-lake-serpent-production`. [Lake P1](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
-was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md) are implemented; [P2B](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md) now publishes the Lake composition (targeted validation complete; awaiting owner review).
+was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md) are implemented; [P2B](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md) publishes the Lake composition. [P2C acceptance](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md) verifies desktop mouse/manual Attack, two full-process cold restores and representative real death/corpse persistence. Actual touch-device qualification remains PENDING; overall acceptance is not yet complete.
 Its [owner amendment](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26)
 replaces old-world compatibility with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
 M/W are owner-locked; P2A implements current-contract Save rejection and transactional complete-set
@@ -86,7 +86,8 @@ Finish covers ordinary entry/target selection/Combat/Flee, physical reentry, dea
 Save/Continue. Do not require a source-birth novice to naturally kill five full-strength serpents.
 No poison, swimming, rebalance, invented drops or generic Combat framework. M/W are locked by the
 [P2A decision](../migration/DECISIONS.md#old-pine-lake--owner-locked-p2a-foundations); this roadmap
-does not authorize P2C or subsequent work.
+does not authorize subsequent work. P2C was separately owner-authorized; its remaining device
+qualification and evidence await owner review before any separately authorized Final Audit.
 
 Local validation follows the owner-authorized scope rule in root AGENTS.md: affected tests and
 representative live evidence per slice; one broad discovery run when justified; final canonical
