@@ -1,6 +1,75 @@
 # Old Pine Lake + Production Serpents — P1 Source / Dependency Analysis
 
+## Owner policy amendment — 2026-09-26
+
+**Current disposition: LAKE P1 PLAN — UPDATED FOR CURRENT-WORLD-ONLY POLICY.**
+The owner has replaced original recommendation R with **DEVELOPMENT SAVE CUTOFF /
+CURRENT WORLD ONLY**. This section governs the current plan wherever the preserved
+P1 recommendations below conflict. P1 source analysis was delivered at
+`688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; its original evidence and recommendations
+remain below for context, not as continuing dual-world requirements.
+
+The [long-term Save policy](../production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
+is authoritative for development compatibility. The owner has no requirement to
+preserve old development progress. Lake must not maintain a legacy five-human world
+beside a new ten-entity world, preserve its old closed boundary as a compatibility
+feature, or add automatic/manual save upgrades. The future product has one current
+production catalog and map behavior. Reject incompatible files at the explicit
+format/content support boundary; do not fill missing slots, reroll, resurrect,
+relocate, publish a partial Session or silently start New Game.
+
+Current-contract guarantees remain: ten complete production NPC records when Lake
+is published, five stable serpent identities, deterministic fresh initialization
+order, saved body/attribute values, zero restore draws, death/removal tombstones,
+corpse/item graph, allocator continuity, legal positions, existing Save eligibility,
+atomic writes, staged publication and failure protection. Old files are not deleted
+or migrated by this decision; confirmed New Game/manual Save/backup flows remain.
+Version identifiers identify supported contracts; documentation/compatible commits
+do not force cutoffs, and content changes do not automatically bump root/item schemas.
+
+**Policy approval is not implementation.** This amendment changes no code, fixture,
+test, save file, supported revision or error UI. Existing older readers and technical
+fixtures have not been removed; Lake saves and incompatible-save rejection for Lake
+do not yet exist. Future authorized work may simplify only affected compatibility
+paths, retaining useful formula/identity/transaction regressions. No general cleanup.
+M (pre-freeze collection of actually eligible enemies) and W (existing Fill at Lake)
+remain recommended detailed contract scope, not newly approved gameplay. P2A, live
+QA preparation, Final Audit and PR are not authorized by the overall roadmap.
+
+### Current slice plan and acceptance overrides
+
+| Item | Current applicable plan / stop |
+|---|---|
+| P2A | **Current-version save boundary and complete-set combat admission foundations.** Establish the minimal actual support cutoff/error path, current catalog checks, whole-group transaction/rollback, fifth target and focused tests under separate authorization. Do not expose an incomplete new Lake world. |
+| P2B | Publish Lake map, five production serpents, proposed Fill and legal current Save/Continue together. One current catalog/geometry; no compatibility-only old Lake barrier. Change the support marker at the real incompatible contract cutover, not speculatively at every intermediate commit. |
+| P2C | Obtain applicable real player-input/runtime, full-process restart, actual Continue and current durable equality evidence. Then stop for owner-authorized Final Audit/integration. |
+| Former R options | The two-world recommendation and opt-in upgrade alternative in section D are **SUPERSEDED**, not selectable default work for P2A. No upgrade history/RNG plan is needed. |
+| Former A7 | Replace old-five-slot successful restore with **correct rejection of incompatible historical saves**, explicit reason, zero partial world publication/mutation and no RNG draw. Current-contract ten-slot roundtrip, repeated restore, exact IDs, dead slots and all three saved streams remain mandatory. Unknown revisions and malformed current saves also fail closed. Backup/temp recovery cannot bypass checks. |
+| A6/A8/A12 | Preserve current-state capture, invalid fifth slot/corpse/position rejection, staged rollback and exact cold Continue. No in-combat Save expansion. |
+| A9/A11 | Test the one current Lake map/Fill behavior and physical boundaries, not an old-world compatibility variant. Reject old unsupported Lake/river Save contracts; do not load an old world to prove rejection. M/W remain pending their concrete authorization. |
+| Other acceptance rows | Source data, five independent identities, group Combat/Flee/reentry, death, UI/mobile impact and honest QA/usability boundaries remain applicable proposals. No source-birth novice kill-five requirement or automatic Snow EXP6/basic4 exemption. |
+
+The original risks concerning maintaining old geometry/revision variants now become
+**cutoff consistency risks**: codec, repository, capture, restore composition and
+public error mapping must agree on the supported current world. Review current
+source-entry equality checks without dropping current Snow/birth/supply behavior.
+No need to implement a second content branch solely to satisfy an obsolete success
+test. A missing current entity is corruption, not a reason to invent it on restore.
+
+The original exact slot/factory/geometry observations and source conclusions remain
+baseline facts. The provisional new revision spelling below was a proposal, not a
+published identifier. Root/item structure sufficiency still needs bounded verification
+in the authorized slice. Historical check counts below describe the initial P1 commit,
+not new runtime evidence from this amendment. The general direction and scope ledger
+now live in [ROADMAP](../production/ROADMAP.md#forward-roadmap) and
+[PROJECT_SCOPE](../production/PROJECT_SCOPE.md); DECISIONS is unchanged.
+
+**P2A IMPLEMENTATION — NOT STARTED / AWAIT SEPARATE AUTHORIZATION.**
+
 ## Executive conclusion
+
+> Original P1 checkpoint retained below. Recommendation R, its related acceptance
+> requirements and authorization questions are superseded by the owner amendment above.
 
 **P1 ANALYSIS COMPLETE — AWAIT OWNER REVIEW.** This is a source/dependency analysis,
 not implementation, a Final Audit, or Lake runtime acceptance. All implementation
@@ -331,6 +400,9 @@ before implementing it. Do not weaken the closed-schema validator to admit unkno
 
 ### Recommended compatibility R: explicit new content, exact old worlds
 
+> **SUPERSEDED HISTORICAL RECOMMENDATION.** Do not implement the dual-world or upgrade
+> alternatives below. The owner-selected current-world-only cutoff is recorded above.
+
 Add an explicitly supported content revision (provisional `SOURCE_ENTRY_LAKE_V1`)
 selected by new public games. It keeps source-valid birth and existing Snow gameplay,
 but has ten total production slots: five old humans plus five serpents. A new game
@@ -443,6 +515,9 @@ handoff. Actual cross-map trips and cold Continue must nevertheless prove five-s
 identity, dead-slot persistence and no duplicate registrations.
 
 ## F. Recommended implementation and acceptance plan
+
+> Original plan retained for traceability. Apply the owner amendment's current P2A
+> scope and A7/A9/A11 overrides; old-world successful restoration is no longer required.
 
 All slices below stay on this phase branch. P1 does not authorize starting any of them.
 

@@ -236,6 +236,15 @@ For each substantial implementation slice, follow:
 * These checkpoints do not create separate branches or PRs. All slices and their audit corrections
   remain on the owning major-phase branch under the existing integration workflow.
 
+## Development Save Policy
+
+Development builds do not promise backward-compatible saves. Real contract incompatibility may
+require New Game; do not maintain old product worlds or migrations solely for historical test saves.
+Current-contract Save/Continue must retain exact state, stable identities, atomic/staged failure
+protection, zero restore gameplay RNG and fail-closed eligibility. Never automatically delete old files.
+Follow the [development save policy](docs/production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
+for version boundaries, test coverage and the later formal player-save commitment.
+
 ## Documentation Placement
 
 Documentation placement is a repository-wide decision and MUST be known before choosing a destination path.

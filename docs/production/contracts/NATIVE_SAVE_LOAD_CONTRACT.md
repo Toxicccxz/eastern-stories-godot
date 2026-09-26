@@ -1,9 +1,74 @@
 # Native Save / Load Contract
 
-This document defines the stable contract consumed by work after Phase 10B. It is not a history of the
-implementation.
+This document defines the persistence guarantees consumed by later work and the owner's development
+save-support policy. Reliability within the supported contract is distinct from compatibility between
+development versions. Historical phase reports remain evidence for their own implemented boundaries.
+
+## Development save policy
+
+**OWNER APPROVED — 2026-09-26.** Development saves are mechanism-verification material; the project
+currently has no formal player progression that must survive every development change. This is a
+long-lived operational policy, not a gameplay substitution or authorization to implement the next slice.
+
+1. **No development-version backward-compatibility promise.** A real incompatibility in world content,
+   data structure or rule contract may require New Game. Do not build migration features merely to
+   retain historical test progress. Nor does this require invalidating otherwise compatible saves.
+2. **Current-contract Save/Continue remains strict.** Save and restore legal Player, NPC, item, corpse
+   and world state; preserve semantic identity and correct death/removal records. Retain complete
+   state consistency, atomic file replacement, staged candidate Session publication and rollback,
+   zero gameplay RNG consumption on restore, no fresh initialization of saved entities, existing
+   Save eligibility and fail-closed validation. Dropping historical compatibility cannot excuse
+   partial restore, missing entities, revived enemies or weakened current regression coverage.
+3. **Keep lightweight format/content identification.** Identifiers establish the currently supported
+   contract; they do not promise multiple product worlds. Change the relevant identifier only for
+   an actual incompatibility. Git commits are not automatic save cutoffs; documentation or compatible
+   changes do not require a new game. A content change does not automatically require both root and
+   embedded item schema changes. Determine which boundary changed and document the supported set.
+4. **Reject incompatible files explicitly.** Future affected implementation must use the existing
+   typed error/presentation path to explain: “此存档来自不兼容的开发版本，请开始新游戏。” Do not
+   silently add missing NPCs, reroll attributes, replace worlds, resurrect enemies, fall back to
+   New Game or label failed loading successful. Explicit backup/temp recovery must satisfy the same
+   version and integrity contract; it is not a compatibility bypass.
+5. **Invalid does not mean deleted.** Do not automatically delete, migrate, rewrite or promote old
+   files. Keep existing New Game/overwrite confirmation, explicit manual Save and backup handling.
+   An owner's later real Save may replace a file through that normal confirmed flow; this policy
+   update performs no file operation on saves or backups.
+6. **No historical product-world obligation.** Do not retain old NPC catalogs, closed-map boundaries,
+   feature switches or historical runtime branches solely for obsolete test saves. Future authorized
+   work may minimally remove/simplify affected compatibility paths. This is not a repository-wide
+   cleanup instruction and does not remove any code by documenting it.
+7. **Preserve useful tests, not obsolete promises.** Historical fixtures still testing formulas,
+   identity, transactions and failure protection remain valuable. An obsolete requirement that an
+   unsupported old save must load is no longer a product obligation. Replace affected success
+   expectations with honest incompatible-save rejection where appropriate, retaining current-state
+   roundtrip, corruption, rollback and RNG regressions. Do not delete valid coverage wholesale.
+8. **Set formal player-save support separately.** Before external long-term testing or formal release,
+   the owner must establish a supported player-save baseline and evolution policy. This neither
+   promises compatibility with all development history nor permits arbitrary loss of released progress.
+
+### Policy versus implementation snapshot
+
+At the policy-update starting HEAD `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`, product code is unchanged
+from integrated main `01f7b18253a1936bce4a1fb11a507a356769c409`: root schema2, item schema3, public
+SOURCE_ENTRY_V1, with some existing older embedded-format readers and internal technical fixtures.
+The existing guarantees below describe that implementation; their version names are not perpetual
+support promises. This documentation does not remove readers, implement new rejection wording,
+activate a Lake revision, create Lake saves or change supported runtime profiles.
+
+For Lake, the owner-selected plan is **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**: one future
+production catalog/map behavior, no five-human/ten-entity dual-world compatibility and no automatic
+or manual save-upgrade feature. Incompatible historical saves will be rejected at the explicit
+support boundary once implemented. The exact identifier/cutoff belongs to separately authorized
+P2A; root/item schema changes require an actual representation need. See the
+[Lake policy amendment](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26).
+
+This policy does not rewrite the historical NGE/S6B approvals in DECISIONS. The
+[project roadmap](../ROADMAP.md) and [scope ledger](../PROJECT_SCOPE.md) distinguish current facts,
+planned content and future authorization.
 
 ## Authority and identity
+
+The following version-specific details are the current implementation snapshot described above.
 
 - `GameSaveSnapshot` is the only root native-save authority.
 - Its `NativeItemStateSnapshot` v3 member is the only item-persistence authority. Inventory, stacks,
@@ -42,7 +107,7 @@ implementation.
 - Save encodes and validates a temporary file before replacing the canonical file. The previous canonical
   file is rotated to `.bak`; failed replacement attempts rollback when possible.
 - Load never silently selects `.bak` or `.tmp`. A valid recovery candidate is reported as
-  `BACKUP_AVAILABLE`; the future product layer decides how to present recovery.
+  `BACKUP_AVAILABLE`; the Application Shell presents explicit recovery choices through the Host.
 - A running Load is an A/B transaction. Candidate B is independently decoded, validated, composed,
   staged, activated, attached, and verified before Session A is destroyed. Failure preserves and resumes
   A. Success exposes exactly one playable B.
@@ -52,7 +117,9 @@ implementation.
 
 ## Current product boundary
 
-The production Runtime Host exposes typed Save/Load requests and owns the replaceable Old Pine Session.
-Phase 10B does not define Main Menu, Continue/Save UI, recovery-choice UI, autosave, mobile lifecycle,
-cloud synchronization, encryption, store signing, or schema migration beyond the currently supported
-versions. Those remain explicit Phase 10C/10D-or-later responsibilities.
+The production Runtime Host exposes typed Save/Load requests and owns the replaceable Session.
+The integrated [Application Shell](APPLICATION_SHELL_CONTRACT.md) supplies explicit New Game,
+Continue, Pause-menu Save and recovery choices; the [Mobile contract](MOBILE_APPLICATION_CONTRACT.md)
+adds lifecycle/input behavior without autosave. There is no implied cloud synchronization, encryption,
+store-signing or historical-save migration commitment. These current product consumers extend the
+original Phase 10B foundation; the development policy above changes no runtime behavior in this update.

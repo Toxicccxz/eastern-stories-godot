@@ -2,7 +2,8 @@
 
 ## Current milestone
 
-**Old Pine Lake + Production Serpents — P1 ANALYSIS COMPLETE / AWAIT OWNER REVIEW.**
+**Old Pine Lake + Production Serpents — P1 COMPLETE; ROADMAP / SAVE POLICY DOCUMENTED;
+P2A NOT STARTED / AWAIT SEPARATE AUTHORIZATION.**
 
 [P1 source/dependency analysis](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
 is documentation-only on `phase/oldpine-lake-serpent-production`, from main
@@ -10,10 +11,21 @@ is documentation-only on `phase/oldpine-lake-serpent-production`, from main
 [PR #23 docs closeout](https://github.com/Toxicccxz/eastern-stories-godot/pull/23);
 [post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685)
 passed all four required jobs on that exact main SHA. It is baseline CI, not Lake acceptance.
-P1 recommends same-map Lake, five stable serpent slots, complete-set encounter admission,
-revision-aware Save/Continue and existing Fill reuse. Encounter policy, old-save access
-and Lake Fill scope remain owner-review proposals. No gameplay implementation, PR,
-Final Audit or P2 authorization is implied; DECISIONS and closed phases remain unchanged.
+P1 was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`. The subsequent
+[owner policy amendment](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26)
+replaces its dual-world recommendation R with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
+The [long-term Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
+now makes no development-version backward-compatibility promise while retaining strict current
+Save/Continue reliability and file protection. Code/readers, actual saves and supported revisions
+have not changed; no Lake world or new rejection logic is implemented.
+
+[ROADMAP](ROADMAP.md#forward-roadmap) is the sole main A–I planning entry;
+[PROJECT_SCOPE](PROJECT_SCOPE.md) records bounded integrated capabilities and unresolved content.
+The next recommended slice is current-version persistence boundaries plus complete-set combat
+admission, followed by atomic Lake/five-slot/Fill/Save publication and runtime/cold Continue.
+M (eligible-enemy collection) and W (Lake Fill) remain recommendations for the next detailed
+contract, not approved gameplay or implementation. This update authorizes documentation only:
+no P2A, PR, merge, Final Audit or other phase. DECISIONS and closed phases remain unchanged.
 
 ## Previously integrated milestone
 

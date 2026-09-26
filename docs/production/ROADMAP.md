@@ -1,19 +1,235 @@
 # Productionization Roadmap
 
-Each numbered item below is currently planned as an independent major integration milestone: one
-major-phase branch and one final PR, unless a later explicit planning decision changes that boundary.
-Internal analysis, implementation slices, and audit fixes remain on that milestone's branch.
+## Final objective and completion definition
 
-Current authorized work: **Old Pine Lake + Production Serpents — P1 analysis only**,
-on `phase/oldpine-lake-serpent-production` from green main
-`01f7b18253a1936bce4a1fb11a507a356769c409` (PR #23 docs closeout;
-[exact-main workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685),
-four required jobs success). The [P1 report](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
-is complete for owner review: approve encounter/old-save/water scope before the proposed
-compatibility foundations → atomic Lake/Save production composition → real runtime/cold
-Continue acceptance sequence. These are future slices on this one branch, not separate PRs
-or authorization to implement. Earlier completed milestones and historical deferrals below
-retain their recorded meanings; Lake implementation, Final Audit and PR remain unauthorized.
+**Owner direction recorded 2026-09-26; planning approval is not implementation authorization.**
+This is the project's sole main roadmap. The [scope ledger](PROJECT_SCOPE.md) tracks dispositions
+and evidence; [STATUS](STATUS.md) records the current checkpoint. Neither is a competing roadmap.
+
+Rebuild the confirmed meaningful ES2 mechanics and content as an accessible, interactive,
+progression-capable Native Godot RPG with reliable Save/Continue. The finish is larger than the
+Snow/Old Pine demo and smaller than reproducing every LPC file or MudOS/FluffOS service.
+Completion requires:
+
+- explicit disposition of every item in the owner-confirmed target scope;
+- a coherent normal-start → early → middle → intended late-content gameplay chain;
+- reliable saves within the supported contract;
+- verified presentation, usability, stability and target-platform behavior;
+- qualified candidate artifacts, release readiness and the agreed release process.
+
+There is no assumed universal main-story ending, final boss, multiplayer mode, invented faction
+or new mechanic. Unverified late content remains to be source-analyzed and owner-scoped. G closes
+functional/content scope; H closes quality and candidate readiness; I delivers 1.0 and its bounded
+stabilization. Later expansions must not indefinitely move that original finish line.
+
+## Current position
+
+Integrated main `01f7b18253a1936bce4a1fb11a507a356769c409` includes PR #23 documentation closeout;
+[post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685)
+passed all four required jobs on that SHA. It is the Lake branch's start, not Lake acceptance.
+Existing integrated capabilities include the bounded Snow/Old Pine journey, source New Game,
+economy/supplies, Liu apprenticeship/basic unarmed/Liuh-Ken, Combat/Flee/death, native persistence,
+Shell/Mobile foundations, Beast foundations and Migration Tooling v1. Their limits and evidence
+are in [STATUS](STATUS.md) and the [historical records](#historical-milestone-records) below.
+Core capability is not production interaction; controlled QA is not a normal-player route;
+definitions are not complete content. In particular, Beast QA does not publish Lake or five snakes.
+
+Current branch: `phase/oldpine-lake-serpent-production`. [Lake P1](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
+was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; this follow-up documents policy/plan only.
+Its [owner amendment](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26)
+replaces old-world compatibility with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
+P2A is not implemented or authorized. Proposed encounter collection M and Lake Fill W still need
+the next concrete gameplay contract. Closed milestones remain closed absent a specific regression.
+
+The [development save policy](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
+permits new-game requirements for genuine incompatibility, not arbitrary per-commit invalidation.
+Current-state integrity, atomic/staged failure protection, zero restore RNG, explicit errors and
+protection of existing files remain mandatory. No historical world or migration feature is required
+solely for old test saves. Code may still read some older versions; this document does not remove it.
+
+## Forward roadmap
+
+A–I are **planning groups**, not fixed branches or one giant PR per group. Each explicitly planned
+major integration milestone follows one phase branch → internal slices/fixes → one final PR.
+The owner has approved this direction and hierarchy, not detailed contracts for unexamined content.
+
+| Group | Purpose / order principle | Exit condition |
+|---|---|---|
+| [A](#a--lake-production) | Production Lake; current persistence boundary before publication | Entry, selection, Combat/Flee/reentry, death/corpse and current Save/Continue work together. |
+| [B](#b--early-martial-arts-and-progression) | Internal power → source-dependent offense/defense → Practice/SelfLearning entry | Meaningful early choices connect Learn, mapping, training, equipment, combat effects and durability. |
+| [C](#c--exploration-and-world-behavior) | Conditions/treatment and concrete encounter consumers; recheck Cave/Keep order | State effects, useful items, encounters, mechanisms and exploration rewards run and persist. |
+| [D](#d--snow--old-pine-regional-template) | Complete the regional player loops and a reusable presentation example | Normal players complete the main regional loops without developer narration. |
+| [E](#e--second-region-and-second-faction) | Select by verified topology/prerequisites and actual behavioral differences | A second region/faction reuses authorities with bounded extensions; scale measured. |
+| [F](#f--full-scope-content-packages) | Migrate playable packages with their dependencies and rewards | Target content enters normal play in coherent batches, not just definition files. |
+| [G](#g--functional-and-content-closure) | Resolve scope omissions, dead ends, ambiguity and deferred targets | CONTENT COMPLETE ALPHA. |
+| [H](#h--presentation-usability-and-stability-closure) | Finish assets/consistency, systematic playtesting, performance/devices | BETA / release-candidate conditions satisfied. |
+| [I](#i--release-and-post-release-stabilization) | Qualify real artifacts and execute authorized platform release | 1.0 delivered; predefined stabilization complete. |
+
+### A — Lake production
+
+Connect existing Beast and ordinary Combat capabilities to a real reachable production area.
+The recommended slice sequence is:
+
+1. **P2A: current-version save boundary and complete-set combat admission foundations.**
+   Define the explicit incompatible-development-save cutoff and current catalog validation.
+   Propose pre-freeze collection of actually eligible enemies, transactional relations, fifth-target
+   handling and rollback using the existing coordinator/scheduler. Foundation/tests may be ready
+   without exposing an incomplete Lake world; preserve current reliability while staging the work.
+2. **P2B: publish Lake geometry, five production serpents, Fill and complete Save/Continue together.**
+   One current production world, ten complete spawn records, no legacy five-slot world or old Lake
+   barrier retained for compatibility. The support marker changes only at the real contract boundary;
+   no root/item schema bump by habit and no automatic/manual save-upgrade path.
+3. **P2C: applicable real-runtime, full-process restart and Continue acceptance.** Then stop for
+   separately authorized Final Audit and final integration; do not treat a fresh graph as cold restart.
+
+Finish covers ordinary entry/target selection/Combat/Flee, physical reentry, death/corpse and current
+Save/Continue. Do not require a source-birth novice to naturally kill five full-strength serpents.
+No poison, swimming, rebalance, invented drops or generic Combat framework. M/W remain proposals;
+the roadmap does not itself authorize these gameplay choices, code, tests or live QA setup.
+
+### B — Early martial arts and progression
+
+Recommended near-term dependencies after A, subject to each milestone's source analysis:
+
+| Candidate milestone | Goal / dependencies | Bounded finish |
+|---|---|---|
+| B1 — internal power | `force` / `fonxanforce`, Enable/Disable, `exercise`, necessary resources and real combat consumption; reuse existing Skill/Cultivation/force policies | Obtain, map, cultivate, consume and persist internal power through ordinary interaction. |
+| B2 — offense and defense routes | Place `sword` / `parry` / `dodge`, `fonxansword`, `chaos-steps` according to actual learning/equipment/resource prerequisites | Relevant skill actions/defenses and equipment actually affect combat, with durable progression. Split into more than one milestone if dependencies warrant it. |
+| B3 — practice and usable controls | Reuse existing Practice/SelfLearning; respect each skill's real level/policy requirements. Add minimal skill viewing/mapping/practice access when the number of usable skills needs it | Learning, mapping, training, equipment and combat form meaningful choices; no placeholder level/name-only completion. |
+
+Existing [Skill Core](../migration/PHASE_3A_SKILL_CORE.md),
+[Cultivation](../migration/PHASE_3B1_CULTIVATION.md) and
+[Practice/SelfLearning](../migration/PHASE_3B2_PRACTICE_SELFLEARN.md) are domain foundations,
+not evidence these complete player routes already exist. Recheck current implementations and
+authored prerequisites before defining B1/B2/B3 scope; do not duplicate those systems or assume
+every named art belongs in one milestone. Study and real textbooks also need their own consumers.
+
+### C — Exploration and world behavior
+
+Advance actual consumers: complete condition/treatment/supply lifecycles; the minimal
+condition-producing attack seam required by venomsnake; literacy/Study/real teaching items;
+Cave encounters, routes, burial, reward uses and exits; Keep gates, reinforcements, mechanisms,
+combat and world state. These are source-analysis work packages, not a claim that their exact
+contracts or order are already settled. Recheck Cave vs Keep dependencies at that time.
+
+Reuse existing maps and cross-scene foundations incrementally. Lake's pre-freeze collection does
+not imply dynamic Keep reinforcements. A local mechanism need not become a generic quest engine.
+Do not issue a textbook reward without a usable Study path. Preserve Core/Runtime separation:
+an existing `snake_poison` domain handler alone does not establish an attack producer, update
+cadence, treatment, presentation or saved world lifecycle. Exit when these behaviors and useful
+exploration rewards run and persist through the supported contract.
+
+### D — Snow / Old Pine regional template
+
+Build source-backed service/goods/population/teaching packages, meaningful interiors/doors/secret
+routes, real inquiry/item-exchange/recognition conditions and local events, necessary quest/log
+interaction, and correct connections for later regions. Analyze formal quests separately from
+local mechanisms. Descriptions, empty implementations and ambiguous source behavior do not
+automatically become invented services.
+
+Start a reusable production presentation example here: a town section, wilderness, human/Beast
+characters, battle feedback and principal UI. Verify scale, collision, prompts, text and mobile
+operation; develop assets alongside later regions, rather than deferring all art to H.
+Keep Tree/spy/maniac/wolf and other unfinished packages in [PROJECT_SCOPE](PROJECT_SCOPE.md)
+until their actual dependencies are addressed; future work does not reopen old closed audits.
+Finish when a normal player can complete the principal livelihood, growth, exploration,
+battle/retreat, reward and persistence loops without verbal developer guidance.
+
+### E — Second region and second faction
+
+Select a region/faction by verified source connections, progression conditions and dependency
+analysis, with a real difference in teaching, abilities, weapons or quest behavior. Directory names
+and unverified difficulty impressions are not a selection method. No destination is fixed yet.
+According to concrete consumers, introduce bounded perform/exert, casting, different internal
+resources, special weapon follow-up actions or faction rules. Do not prebuild all of them.
+
+Measure cross-region travel/return, saved world state, memory, loading and data scale. Do not retain
+every future map/NPC permanently without measurement; do not replace the world architecture merely
+because the future is large. Finish by delivering a second region/faction through shared Character,
+Combat, inventory and persistence authorities plus justified extensions, never a second copy of them.
+
+### F — Full-scope content packages
+
+Deliver coherent packages: entry/conditions → map → population/behavior → interaction/combat/
+quest/mechanism → rewards and uses → leaving/return/current Save. Plan regions, factions, arts,
+textbooks, items and growth together so maps have play, skills have acquisition and rewards have use.
+Batch ordinary content whose behavior is already verified; separately track genuinely new procedures.
+
+Use actual needs to settle cross-region quests, time, world flags, population renewal and long-term
+resource sustainability. Neither mechanically port server reset nor impose early INITIAL_ONLY on
+all future regions forever. Review multiplayer-era rules individually for single-player expression
+or explicit exclusion; do not turn the project into a multiplayer game by default.
+Tool growth needs repeated work and demonstrated benefit. Migration Tooling P3 is optional, not
+a compulsory mainline prerequisite; no LPC compiler or automatic gameplay generator. Finish when
+target packages enter normal player routes, not when their definitions have merely been recorded.
+
+### G — Functional and content closure
+
+Review scope/dependency omissions, normal-start through intended late play, resource dead ends,
+softlocks, duplicate rewards, impossible prerequisites, cross-region events/quests and current Save.
+Resolve source defects, ambiguities and long-deferred in-scope items through evidence, an explicit
+owner-approved Native alternative, or explicit exclusion. Unknown targets cannot remain indefinitely
+while claiming complete migration. Exit **CONTENT COMPLETE ALPHA**: the main target capabilities
+and content exist and can be used; no whole target faction, large region or primary gameplay chain
+is absent. The scope ledger records dispositions rather than a guessed completion percentage.
+
+### H — Presentation, usability and stability closure
+
+Complete and unify maps, characters, animation, UI, text, sound/music, guidance, feedback and
+accessibility, building on D and the regional asset work. Conduct systematic player testing and
+explicitly decided pacing/balance adjustments; distinguish defects, interaction problems and rule
+changes. Animation never gains hit/damage/RNG authority from Game Core.
+
+Verify long sessions, map transitions, Save/Continue, performance and actual target devices.
+Before external long-term testing, separately establish the formal player-save support baseline;
+do not retroactively promise all development saves. Exit **BETA / release-candidate conditions met**.
+Successful CI builds are not device runtime proof or blanket iOS/Android qualification.
+
+### I — Release and post-release stabilization
+
+For the actual chosen targets, finish product identifiers, signing, candidate packages, release
+materials, license evidence, asset provenance and distribution eligibility. The
+[license/provenance work](LICENSE_PROVENANCE.md) can advance as an independent early workstream;
+it is not Lake scope, existing clearance, or work to postpone until all development is done.
+Validate the actual candidate artifacts, not just the editor project. Execute releases only with
+their own authorization. Exit **1.0 delivered and predefined stabilization complete**. New regions
+or large expansions then belong to later versions, not a constantly extended original finish line.
+
+## Execution, validation and authorization
+
+1. Owner decides scope, advancement, gameplay tradeoffs and merges. ChatGPT supplies review and
+   instructions; Codex executes the authorized scope. Existing authorization persists; do not ask
+   again for the same approved action. Readiness and roadmap position do not authorize the next slice.
+2. One explicitly planned major integration milestone has one branch and one final PR. Internal
+   analysis, implementation, validation and audit fixes stay together. A–I are not fixed branch names.
+3. Detail the current major phase. State goals/dependencies for the next two or three candidate
+   milestones; keep farther work at scope, ordering principles and exit criteria until analyzed.
+4. Match verification to risk: automate formulas, state, serialization and composition; obtain real
+   runtime evidence for applicable UI, movement, collision, map transitions and lifecycle contracts.
+   Test setup must be disclosed; callbacks/teleports are not physical-input proof. Fresh graph is
+   not full process restart. No unrelated manual typing or exhaustive per-draw narrative by habit;
+   investigate new issues with bounded evidence without weakening explicit acceptance requirements.
+5. Batch equivalent verified content; a normal new NPC does not reopen the entire Combat audit.
+   No concrete regression means no reopened closed phase. Deferred content is new scope, not proof
+   that the old bounded closure was wrong. Technical/input failures are not automatically balance defects.
+6. Integration gates remain: required local validation and Final Audit; final PR exact-HEAD
+   **Godot Verify / Windows Release Build / Android Release Build / iOS Build Validation** success;
+   explicit owner authorization for ordinary merge; the same four jobs on the exact merge SHA;
+   next major phase from the then-green main. Follow [repository policy](REPOSITORY_POLICY.md)
+   and root AGENTS, including narrow CI stabilization. This planning update changes no CI or gate.
+7. Measure progress by usable capability/content-package closure. Commit counts, assertion counts,
+   migrated-file counts and old corpus scans are evidence of work, not game completion. No invented
+   deadline, finish month or precise remaining percentage. Apply the
+   [development save policy](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
+   without relaxing current-contract reliability or deleting real files.
+
+## Historical milestone records
+
+The numbered records below retain their original bodies, numbering and links. Their completed
+milestones remain closed; earlier pending statements are historical checkpoints superseded by their
+later closures. New forward planning above is not retroactive implementation or acceptance evidence.
+Each explicitly planned integration milestone still uses one branch and one final PR; internal
+analysis, implementation slices and audit corrections remain on that branch.
 
 1. **Phase 10A — Cross-Platform Repository / Build / CI Foundation — Complete**
 
