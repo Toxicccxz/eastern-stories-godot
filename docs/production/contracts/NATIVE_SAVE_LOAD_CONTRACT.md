@@ -48,25 +48,27 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-P2A keeps root schema2, item schema3 and current public **SOURCE_ENTRY_V1**, with five human
-NPC slots. `WorldContentRevision.CURRENT_PUBLIC` defines public support; reserved
-`SOURCE_ENTRY_LAKE_V1` has no runtime enum/catalog and is refused. The public repository invokes
-codec support validation before nested entity decoding, and reuses the exact production restore
-composition/ledger before public Save or accepting canonical/backup/temp candidates.
+P2B publishes root schema2, item schema3 and current public **SOURCE_ENTRY_LAKE_V1**,
+with ten authored NPC slots: the existing five humans plus five independent INITIAL_ONLY serpents.
+`WorldContentRevision.CURRENT_PUBLIC` defines public support. Lake geometry, placement validation,
+physical body binding and full current capture/restore are published together. Source birth,
+Snow supplies/recovery, native item definitions and Vine behavior retain their source-entry rules.
 
-Recognized unsupported content uses `INCOMPATIBLE_DEVELOPMENT_CONTRACT` and the explicit Chinese
-New Game message; unknown content uses `UNKNOWN_WORLD_REVISION`; current corruption remains a
-validation failure; I/O and unsupported schemas retain their separate typed outcomes. Unsupported
-canonical content is not masked by a backup result. Recovery is still explicit and revalidated,
-with no automatic load/promotion/rewrite. Internal LEGACY_OLDPINE_V1 regression fixtures use the
-base repository explicitly; they are not a second supported public world.
+Recognized unsupported content (including SOURCE_ENTRY_V1 and LEGACY_OLDPINE_V1) uses
+`INCOMPATIBLE_DEVELOPMENT_CONTRACT` and the explicit Chinese New Game message; unknown content
+uses `UNKNOWN_WORLD_REVISION`; current corruption remains a validation failure. I/O and unsupported
+schemas retain separate typed outcomes. The public repository checks support before nested decode
+and validates the complete current production ledger before Save or accepting canonical/backup/temp.
+Unsupported primary content cannot be masked by backup content. Recovery remains explicit, with no
+automatic load/promotion/rewrite, default entity repair or automatic New Game.
 
-The Lake support-marker switch belongs to **P2B atomic production publication**, together with its
-map, five additional authored slots, geometry validation and complete current persistence. P2A does
-not pretend a ten-entity Lake Save can already restore. Source-birth/supply capability equality
-checks remain unchanged until that publication; they must be reviewed as part of the cutover.
-No root/item format bump is needed for these P2A boundaries. See the
-[P2A report](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md).
+Current restoration preserves living/wounded/dead slots, corpses, inventories, allocator and all
+three RNG streams without rerunning fresh NPC factories. Physical placement includes Lake's solid
+water/perimeter and the shared half-open River/Lake seam. No combat Save was added. Internal LEGACY
+regression fixtures use the base repository and current catalog explicitly; they are not a retained
+five-human product world. Historical schema readers do not grant old public-world compatibility.
+See [P2B evidence](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md).
+Formal cold Continue acceptance remains P2C; ordinary Continue is not its substitute.
 
 This policy does not rewrite the historical NGE/S6B approvals in DECISIONS. The
 [project roadmap](../ROADMAP.md) and [scope ledger](../PROJECT_SCOPE.md) distinguish current facts,
@@ -83,7 +85,7 @@ The following version-specific details are the current implementation snapshot d
   arrays. Each version has a strict key set. Legal v1/v2 decode into v3 without granting/refilling
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
   records contain only stable item ID, typed content and remaining (empty0 is live). Root schema2 /
-  SOURCE_ENTRY_V1 and the root old-save cutoff remain unchanged. See
+  SOURCE_ENTRY_LAKE_V1 is the current public content marker; the root format is unchanged. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).
 - `WorldItemInstanceIndex` is derived from restored Inventory and is never serialized as authority.
 - Semantic character, item, NPC, corpse, spawn, and world identities persist across Load. Runtime Godot

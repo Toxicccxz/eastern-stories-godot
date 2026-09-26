@@ -138,7 +138,7 @@ func _journey(tree: SceneTree, gender: StringName, display_name: String) -> void
 	await _frames(tree)
 	_check(shell.last_result().succeeded(), "public source Save succeeds")
 	var saved: GameSaveResult = GameSaveRepository.new(profile, files).load()
-	_check(saved.succeeded() and saved.snapshot.metadata.schema_version == 2 and saved.snapshot.world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1, "public Save explicit source schema2")
+	_check(saved.succeeded() and saved.snapshot.metadata.schema_version == 2 and saved.snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC, "public Save explicit source schema2")
 	_check(saved.snapshot.player.identity.display_name == display_name and saved.snapshot.items.schema_version == 3, "Save preserves exact accepted name and item schema3")
 	var old_id: int = player.get_instance_id()
 	shell.free()

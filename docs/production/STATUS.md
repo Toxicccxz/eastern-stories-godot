@@ -2,30 +2,34 @@
 
 ## Current milestone
 
-**Old Pine Lake + Production Serpents — P2A IMPLEMENTED / LOCALLY VERIFIED / AWAIT OWNER REVIEW.**
+**Old Pine Lake + Production Serpents — P2B IMPLEMENTED / TARGETED VALIDATION COMPLETE / AWAIT OWNER REVIEW.**
 
-[P1 source/dependency analysis](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
-is documentation-only on `phase/oldpine-lake-serpent-production`, from main
-`01f7b18253a1936bce4a1fb11a507a356769c409`. This baseline includes the completed
-[PR #23 docs closeout](https://github.com/Toxicccxz/eastern-stories-godot/pull/23);
-[post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685)
-passed all four required jobs on that exact main SHA. It is baseline CI, not Lake acceptance.
-P1 was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`. The subsequent
-[owner policy amendment](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26)
-replaces its dual-world recommendation R with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
-The [long-term Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
-now makes no development-version backward-compatibility promise while retaining strict current
-Save/Continue reliability and file protection. [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md)
-add explicit public content-contract refusal and complete-set admission through the existing
-coordinator/scheduler. Root schema2 / item schema3 / public SOURCE_ENTRY_V1 and five-human New Game
-remain current; SOURCE_ENTRY_LAKE_V1 is reserved and rejected, not published. M/W are now owner-locked
-in [DECISIONS](../migration/DECISIONS.md#old-pine-lake--owner-locked-p2a-foundations); R remains
-CURRENT WORLD ONLY. Current Save/Continue stays strict; no historical-world obligation or migration.
+Current branch: `phase/oldpine-lake-serpent-production`, based on integrated main
+`01f7b18253a1936bce4a1fb11a507a356769c409` (PR #23;
+[post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685),
+all four jobs success). This is baseline CI, not Lake acceptance.
+[P1](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md) and
+[P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md)
+remain the source/decision foundation. M/W are locked; R is **CURRENT WORLD ONLY**.
 
-[ROADMAP](ROADMAP.md#forward-roadmap) remains the sole A–I planning entry;
-[PROJECT_SCOPE](PROJECT_SCOPE.md) distinguishes foundations from production content.
-The branch has no PR, merge or P2A remote CI. Lake geography, five production slots and shore Fill
-are not published. P2B/P2C, Final Audit and integration await separate owner authorization.
+[P2B implementation and evidence](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md)
+publishes the continuous Riverbank–Lake route, five INITIAL_ONLY production serpents,
+Lake complete-set admission, shore Fill and the ten-slot current Save/Continue composition.
+Public marker is now **SOURCE_ENTRY_LAKE_V1**; root schema2/item schema3 are unchanged.
+Recognized old public worlds are explicitly refused without migration or file changes.
+Source birth, Snow supplies/recovery and Vine consumers use the current public contract.
+
+Affected regressions pass. The one broad discovery run found obsolete catalog/marker expectations;
+all identified failures were corrected and the affected groups rerun successfully. It is not reported
+as a green full-suite run. Real canonical-Shell smoke used disclosed isolated QA birth/supplies/health,
+then real movement, five-target UI, Flee/reentry, Fill and normal Save/Continue. No natural victory or
+full-process cold-equality claim. See the report for input-tool limitations and exact evidence.
+
+[Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy),
+[ROADMAP](ROADMAP.md#forward-roadmap) and [PROJECT_SCOPE](PROJECT_SCOPE.md) reflect this publication.
+Layered local validation now follows the owner-authorized rule in root AGENTS.md; full canonical
+validation remains required at phase closure. No Lake PR, remote CI, merge or post-merge result.
+**P2C / Final Audit / PR / merge are not started and require separate owner authorization.**
 
 ## Previously integrated milestone
 

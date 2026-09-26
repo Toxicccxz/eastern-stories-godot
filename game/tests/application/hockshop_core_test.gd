@@ -301,7 +301,7 @@ func persistence_tests(tree: SceneTree) -> void:
 		var sold: HockshopSellResult = HockshopSellService.sell(context, session.food_collection(), session.liquid_collection(), session.item_id_allocator(), context.checked_contents_weight()+row[1], &"sale")
 		check(sold.outcome == HockshopSellResult.Outcome.SOLD and sold.payout.delivered_value == row[2], "settled persistence fixture " + str(row))
 		var snapshot: GameSaveSnapshot = Work.capture(session)
-		check(snapshot != null and snapshot.metadata.schema_version == 2 and snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_V1, "root2/item3/source revision unchanged")
+		check(snapshot != null and snapshot.metadata.schema_version == 2 and snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/source revision unchanged")
 		if snapshot == null:
 			session.free()
 			continue

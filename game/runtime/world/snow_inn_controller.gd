@@ -34,7 +34,7 @@ func request_dumpling() -> DumplingPurchaseResult:
 		last_purchase.outcome = DumplingPurchaseResult.Outcome.INTERACTION_BLOCKED
 		return last_purchase
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor), _inventory, _stacks, _item_index)
-	last_purchase = DumplingPurchaseService.buy(context, _foods, _item_id_allocator, _player.maximum_encumbrance, OldPineNativeItemDefinitionProjections.create(WorldContentRevision.Value.SOURCE_ENTRY_V1))
+	last_purchase = DumplingPurchaseService.buy(context, _foods, _item_id_allocator, _player.maximum_encumbrance, OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC))
 	if last_purchase.delivered:
 		shop_feedback.text = "已付款，包子已放入你的随身物品。"
 	elif last_purchase.paid:
@@ -54,7 +54,7 @@ func request_wineskin() -> WineskinPurchaseResult:
 		last_wineskin_purchase.outcome = WineskinPurchaseResult.Outcome.INTERACTION_BLOCKED
 		return last_wineskin_purchase
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor), _inventory, _stacks, _item_index)
-	last_wineskin_purchase = WineskinPurchaseService.buy(context, _liquids, _item_id_allocator, _player.maximum_encumbrance, OldPineNativeItemDefinitionProjections.create(WorldContentRevision.Value.SOURCE_ENTRY_V1))
+	last_wineskin_purchase = WineskinPurchaseService.buy(context, _liquids, _item_id_allocator, _player.maximum_encumbrance, OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC))
 	if last_wineskin_purchase.delivered:
 		shop_feedback.text = "已付款，酒袋（红酒15份）已放入随身物品。酒精饮用暂未开放；可到瀑布换装清水。"
 	elif last_wineskin_purchase.paid:

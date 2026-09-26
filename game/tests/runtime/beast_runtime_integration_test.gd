@@ -23,7 +23,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	tree.root.add_child(session)
 	await tree.process_frame
 	var map: OldPineOutdoorController = session.outdoor_map()
-	_eq(map.npc_runtimes().size(), 5, "normal bootstrap stays five humans")
+	_eq(map.npc_runtimes().size(), 10, "normal bootstrap has five humans and five serpents")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z")
 	_eq(capture.outcome, OldPineWorldCaptureResult.Outcome.SUCCESS, "normal capture remains valid")
 	_eq(capture.snapshot.items.item_records.size(), 12, "normal bootstrap stays twelve items")
@@ -43,11 +43,11 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	_eq(npc.loadout_items().size(), 0, "no fabricated loadout")
 	_eq(map.register_npc_body(npc, qa.body, qa.body.get_node("AggressionPresence"), CombatSliceContentProfile.new()), false, "duplicate registration rejected")
 	_eq(OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z").outcome != OldPineWorldCaptureResult.Outcome.SUCCESS, true, "QA extra slot cannot become normal Save")
-	_eq(OldPineSpawnDefinitions.all_spawns().size(), 3, "authored spawn groups unchanged")
+	_eq(OldPineSpawnDefinitions.all_spawns().size(), 4, "current authored spawn groups")
 	# Removal/republication is precondition work, before the actual approach.
 	_eq(qa.remove_publication(), true, "controlled publication removable")
 	await tree.process_frame
-	_eq(map.npc_runtimes().size(), 5, "membership removed")
+	_eq(map.npc_runtimes().size(), 10, "membership removed")
 	_eq(map.map_character_state().has_character(npc.character_id), false, "map membership removed")
 	qa.queue_free()
 	await tree.process_frame
@@ -103,7 +103,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 		print("BF4 deterministic proof: ", qa.evidence())
 		_eq(qa.proof_random.valid, true, "all scripted draws legal; no exhaustion")
 		_eq(qa.proof_random.draws.size(), 16, "exact predetermined draw count")
-		_eq(qa.proof_random.bounds, [60, 1, 16, 572000, 120, 30, 1, 3, 670500, 250001, 25, 200, 250000, 112, 120, 1799], "source-ordered courage/action/limb/dodge/progression then ordinary hit bounds")
+		_eq(qa.proof_random.bounds, [60, 1, 16, 572000, 120, 18, 1, 3, 670500, 250001, 25, 200, 250000, 112, 120, 1799], "source-ordered courage/action/limb/dodge/progression then ordinary hit bounds")
 		_eq(qa.proof_random.draws, [0, 0, 0, 0, 0, 0, 0, 0, 670499, 250000, 0, 0, 0, 91, 0, 1798], "fixed draws, not seeded retries")
 		var lethal: CombatAttackResult = scheduler.events()[1].resolution.forward_result.ordinary_attack_result.base_result
 		_eq(lethal.calculation.requested_damage, 112, "LPC (25+0)/2 + (200+0)/2")

@@ -35,11 +35,11 @@ Core capability is not production interaction; controlled QA is not a normal-pla
 definitions are not complete content. In particular, Beast QA does not publish Lake or five snakes.
 
 Current branch: `phase/oldpine-lake-serpent-production`. [Lake P1](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
-was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md) now implement the next bounded slice (locally verified; awaiting owner review).
+was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md) are implemented; [P2B](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md) now publishes the Lake composition (targeted validation complete; awaiting owner review).
 Its [owner amendment](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26)
 replaces old-world compatibility with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
 M/W are owner-locked; P2A implements current-contract Save rejection and transactional complete-set
-admission. Public Lake geometry/five-slot publication/Fill remain unstarted and require P2B authorization. Closed milestones remain closed absent a specific regression.
+admission. P2B publishes Lake geometry/five serpent slots/Fill and SOURCE_ENTRY_LAKE_V1 current Save. Closed milestones remain closed absent a specific regression.
 
 The [development save policy](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
 permits new-game requirements for genuine incompatibility, not arbitrary per-commit invalidation.
@@ -86,7 +86,12 @@ Finish covers ordinary entry/target selection/Combat/Flee, physical reentry, dea
 Save/Continue. Do not require a source-birth novice to naturally kill five full-strength serpents.
 No poison, swimming, rebalance, invented drops or generic Combat framework. M/W are locked by the
 [P2A decision](../migration/DECISIONS.md#old-pine-lake--owner-locked-p2a-foundations); this roadmap
-does not authorize P2B/P2C or subsequent work.
+does not authorize P2C or subsequent work.
+
+Local validation follows the owner-authorized scope rule in root AGENTS.md: affected tests and
+representative live evidence per slice; one broad discovery run when justified; final canonical
+`verify.py` at phase closure without duplicating its successful unchanged stages. The final PR and
+exact-merge main four-job gates remain mandatory.
 
 ### B — Early martial arts and progression
 

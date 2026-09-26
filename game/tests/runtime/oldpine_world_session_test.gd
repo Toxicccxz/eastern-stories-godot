@@ -525,7 +525,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(old_corpse_view_ref.get_ref() == null, "old corpse view and signals cannot survive session destruction")
 	var control: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_eq(control.npc_random_source().next_below(1000), npc_random_after_roundtrip, "Cave activation and return consume zero NPC-init RNG draws")
-	_assert_eq(control.outdoor_map().npc_runtimes().size(), 5, "fresh whole-session boundary restores all five authored NPCs")
+	_assert_eq(control.outdoor_map().npc_runtimes().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
 	_assert_eq(control.outdoor_map().corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
 	_assert_true(control.player_runtime().armor.occupied_slots().is_empty(), "fresh whole-session boundary restores initial Armor")
 	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")

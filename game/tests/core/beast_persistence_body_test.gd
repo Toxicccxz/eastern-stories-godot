@@ -106,7 +106,7 @@ func _test_fresh_graph_round_trip(dead: bool) -> void:
 	_eq(f.restored_random.calls, 3, "only the subsequent NEW NPC consumes three draws")
 	_eq(f.restored_random.capture_random_state().state, f.npc_random.capture_random_state().state, "continuation remains identical")
 	# A lower DTO capability is deliberately not a production Old Pine save slot.
-	_eq(OldPineSpawnDefinitions.all_spawns().size(), 3, "production spawn definitions unchanged")
+	_eq(OldPineSpawnDefinitions.all_spawns().size(), 4, "current production spawn catalog")
 
 
 func _test_unconscious_and_malformed_body() -> void:

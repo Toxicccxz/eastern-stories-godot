@@ -1752,6 +1752,9 @@ func _init() -> void:
 	var p2a_result: Dictionary = await load("res://tests/runtime/oldpine_p2a_foundations_test.gd").new().run_all(self)
 	assertion_count += int(p2a_result["assertions"])
 	failures.append_array(p2a_result["failures"])
+	var lake_result: Dictionary = await load("res://tests/runtime/oldpine_lake_production_test.gd").new().run_all(self)
+	assertion_count += int(lake_result["assertions"])
+	failures.append_array(lake_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

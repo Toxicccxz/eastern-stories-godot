@@ -48,7 +48,7 @@ func _definitions() -> bool:
 		check(content.DEFINITION_ID == StringName("es2:obj/money/" + row[1]) and content.MONEY_ID == StringName(row[1]), "canonical identity")
 		check(content.stack_definition().stack_compatibility_id == StringName("/obj/money/" + row[1]), "source merge identity")
 	check(SourceCurrencyDefinitions.source(SILVER) == SourceSilver, "shared silver class")
-	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(WorldContentRevision.Value.SOURCE_ENTRY_V1)
+	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC)
 	check(definitions.is_valid and definitions.has_item_definition(SourceCoin.DEFINITION_ID) and definitions.has_item_definition(SourceGold.DEFINITION_ID), "source restore projections")
 	check(not definitions.has_item_definition(&"es2:obj/money/thousand-cash"), "paper deferred")
 	return true

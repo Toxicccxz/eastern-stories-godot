@@ -40,7 +40,7 @@ func publish(value: OldPineWorldSessionController, wounded: bool = false) -> boo
 	if session != null or value == null or not value.is_initialized():
 		return false
 	var map: OldPineOutdoorController = value.outdoor_map()
-	if value.combat_encounter_coordinator().has_active_encounter() or map.npc_runtimes().size() != 5:
+	if value.combat_encounter_coordinator().has_active_encounter() or map.npc_runtimes().size() != 10:
 		return false
 	session = value
 	npc = NpcCharacterStateFactory.new().create_one(

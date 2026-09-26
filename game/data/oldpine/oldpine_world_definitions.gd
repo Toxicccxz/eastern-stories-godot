@@ -13,6 +13,8 @@ const EAST_BRIDGE_ZONE_ID: StringName = &"oldpine.outdoor.east_bridge"
 const WATERFALL_BASIN_ZONE_ID: StringName = (
 	&"oldpine.outdoor.waterfall_basin"
 )
+const LAKE_ZONE_ID: StringName = &"oldpine.outdoor.lake"
+const LAKE_SERPENT_SPAWN_ID: StringName = &"oldpine.outdoor.lake.serpents"
 const RIVER_GORGE_ZONE_ID: StringName = &"oldpine.outdoor.river_gorge"
 const PINE_ENTRANCE_ZONE_ID: StringName = &"oldpine.outdoor.pine_entrance"
 const PINE_DEEP_ZONE_ID: StringName = &"oldpine.outdoor.pine_deep"
@@ -91,6 +93,7 @@ static func map_definitions() -> Array[MapDefinition]:
 				EAST_BRIDGE_ZONE_ID,
 				WATERFALL_BASIN_ZONE_ID,
 				RIVER_GORGE_ZONE_ID,
+				LAKE_ZONE_ID,
 				PINE_ENTRANCE_ZONE_ID,
 				PINE_DEEP_ZONE_ID,
 				PINE_CLIFF_EDGE_ZONE_ID,
@@ -111,6 +114,7 @@ static func map_definitions() -> Array[MapDefinition]:
 				SPATH1_BANDIT_SPAWN_ID,
 				PINE1_TALL_BANDIT_SPAWN_ID,
 				PINE1_FAT_BANDIT_SPAWN_ID,
+				LAKE_SERPENT_SPAWN_ID,
 			],
 		),
 		MapDefinition.new(
@@ -155,6 +159,7 @@ static func zone_definitions() -> Array[ZoneDefinition]:
 		_zone(WATERFALL_BASIN_ZONE_ID, OUTDOOR_MAP_ID, "瀑布前", [
 			"d/oldpine/waterfall.c",
 		]),
+		_zone(LAKE_ZONE_ID, OUTDOOR_MAP_ID, "水潭", ["d/oldpine/lake.c"]),
 		_zone(RIVER_GORGE_ZONE_ID, OUTDOOR_MAP_ID, "河谷水域", [
 			"d/oldpine/riverbank1.c", "d/oldpine/riverbank2.c",
 		]),

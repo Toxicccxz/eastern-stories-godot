@@ -27,7 +27,7 @@ static func create(revision: WorldContentRevision.Value = WorldContentRevision.V
 		if stack_definition != null:
 			stacks.append(stack_definition)
 	items.append(ItemDefinition.new(CORPSE_DEFINITION_ID, CORPSE_LEGACY_SOURCE))
-	if revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+	if revision == WorldContentRevision.CURRENT_PUBLIC:
 		items.append(SourceWineskin.item_definition())
 		liquids.append(SourceWineskin.liquid_definition())
 		items.append(SourceDumpling.item_definition())

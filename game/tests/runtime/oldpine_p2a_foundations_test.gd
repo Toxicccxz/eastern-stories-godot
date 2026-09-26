@@ -31,9 +31,9 @@ func _save_boundary(tree: SceneTree) -> void:
 	var repo := SourceEntrySaveRepository.new(profile, files)
 	var snapshot: GameSaveSnapshot = captured.snapshot
 	_check(repo.save(snapshot).succeeded() and repo.load().succeeded(), "current public roundtrip")
-	_check(snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC and snapshot.npc_spawn_states.size() == 5, "no premature Lake marker/catalog")
+	_check(snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC and snapshot.npc_spawn_states.size() == 10, "current Lake marker and complete catalog")
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
-	for revision: String in ["LEGACY_OLDPINE_V1", WorldContentRevision.NEXT_PUBLIC_MARKER, "NOT_KNOWN"]:
+	for revision: String in ["LEGACY_OLDPINE_V1", "SOURCE_ENTRY_V1", "NOT_KNOWN"]:
 		var changed: Dictionary = raw.duplicate(true)
 		changed.world_content_revision = revision
 		# Decode refusal precedes nested entities; no guess that corrupt current data is old.

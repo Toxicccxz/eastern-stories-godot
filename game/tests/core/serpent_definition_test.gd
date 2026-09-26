@@ -10,7 +10,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_authored_definition()
 	_test_serpent_creation_and_independence()
 	_test_definition_copy_boundaries()
-	_test_production_spawn_ledger_unchanged()
+	_test_current_production_spawn_ledger()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
@@ -119,16 +119,16 @@ func _test_definition_copy_boundaries() -> void:
 	_eq(definition.authored_combat_facts().intrinsic_dodge, 80, "output fact snapshot isolation")
 
 
-func _test_production_spawn_ledger_unchanged() -> void:
+func _test_current_production_spawn_ledger() -> void:
 	var spawns: Array[NpcSpawnDefinition] = OldPineSpawnDefinitions.all_spawns()
-	_eq(spawns.size(), 3, "only existing three production spawn definitions")
+	_eq(spawns.size(), 4, "four current production spawn definitions")
 	var npc_count: int = 0
 	var item_count: int = 0
 	for spawn: NpcSpawnDefinition in spawns:
-		_eq(spawn.npc_definition_id != &"oldpine.npc.serpent", true, "no serpent placement")
+		_eq(OldPineNpcDefinitions.npc_by_id(spawn.npc_definition_id) != null, true, "authored production placement")
 		npc_count += spawn.quantity
 		item_count += OldPineNpcDefinitions.npc_by_id(spawn.npc_definition_id).loadout_entries().size() * spawn.quantity
-	_eq(npc_count, 5, "3 scouts + tall + fat")
+	_eq(npc_count, 10, "five humans plus five serpents")
 	_eq(item_count, 11, "existing 11 NPC item objects; player starting sword remains separate")
 	_eq(OldPineSpawnDefinitions.validate(), true, "production spawn validation unchanged")
 

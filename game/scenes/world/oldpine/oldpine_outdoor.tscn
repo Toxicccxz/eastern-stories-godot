@@ -20,13 +20,13 @@ size = Vector2(995, 30)
 size = Vector2(2495, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6rgc"]
-size = Vector2(3630, 30)
+size = Vector2(3000, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfple"]
 size = Vector2(30, 2760)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvpdx"]
-size = Vector2(30, 2760)
+size = Vector2(30, 3530)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1t57"]
 size = Vector2(250, 120)
@@ -169,6 +169,21 @@ size = Vector2(240, 240)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oym0o"]
 size = Vector2(400, 100)
 
+[sub_resource type="RectangleShape2D" id="LakeZoneShape"]
+size = Vector2(600, 800)
+
+[sub_resource type="RectangleShape2D" id="LakeWestWallShape"]
+size = Vector2(30, 800)
+
+[sub_resource type="RectangleShape2D" id="LakeSouthWallShape"]
+size = Vector2(630, 30)
+
+[sub_resource type="RectangleShape2D" id="LakeWaterShape"]
+size = Vector2(320, 490)
+
+[sub_resource type="CircleShape2D" id="SerpentPresenceShape"]
+radius = 210.0
+
 [node name="OldPineOutdoor" type="Node2D" unique_id=764268747]
 script = ExtResource("1_o8mse")
 
@@ -272,6 +287,29 @@ offset_bottom = 388.0
 theme_override_font_sizes/font_size = 22
 text = "Ancient pine — click to inspect / climb"
 
+[node name="LakeGround" type="ColorRect" parent="Terrain"]
+offset_left = 900.0
+offset_top = 2200.0
+offset_right = 1500.0
+offset_bottom = 3000.0
+mouse_filter = 2
+color = Color(0.23, 0.29, 0.20, 1)
+
+[node name="LakePool" type="ColorRect" parent="Terrain"]
+offset_left = 930.0
+offset_top = 2380.0
+offset_right = 1250.0
+offset_bottom = 2870.0
+mouse_filter = 2
+color = Color(0.08, 0.23, 0.29, 1)
+
+[node name="LakeLabel" type="Label" parent="Terrain"]
+offset_left = 970.0
+offset_top = 2280.0
+offset_right = 1390.0
+offset_bottom = 2310.0
+text = "水潭 / Lake — 北返山涧"
+
 [node name="Boundaries" type="Node2D" parent="Terrain" unique_id=789751031]
 
 [node name="WorldBounds" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=574248178]
@@ -290,7 +328,7 @@ shape = SubResource("SnowNorthBlocker")
 polygon = PackedVector2Array(368, -500, 380, -500, 380, -555, 520, -555, 520, -500, 532, -500, 532, -567, 368, -567)
 
 [node name="Bottom" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=857833452]
-position = Vector2(-300, 2230)
+position = Vector2(-600, 2230)
 shape = SubResource("RectangleShape2D_u6rgc")
 
 [node name="Left" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=1349771926]
@@ -298,7 +336,7 @@ position = Vector2(-2115, 850)
 shape = SubResource("RectangleShape2D_rfple")
 
 [node name="Right" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds" unique_id=80961316]
-position = Vector2(1515, 850)
+position = Vector2(1515, 1235)
 shape = SubResource("RectangleShape2D_cvpdx")
 
 [node name="ForestObstacles" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=989575123]
@@ -390,10 +428,6 @@ shape = SubResource("RectangleShape2D_qpaqu")
 [node name="CliffNorthWall" type="CollisionShape2D" parent="Terrain/Boundaries/RiverCliffRouteBounds" unique_id=877147929]
 position = Vector2(435, 1115)
 shape = SubResource("RectangleShape2D_nanom")
-
-[node name="LakeBoundary" type="CollisionShape2D" parent="Terrain/Boundaries/RiverCliffRouteBounds" unique_id=1770486509]
-position = Vector2(750, 2215)
-shape = SubResource("RectangleShape2D_w00ii")
 
 [node name="RiverWaterBoundary" type="StaticBody2D" parent="Terrain/Boundaries" unique_id=1874055954]
 position = Vector2(1200, 1650)
@@ -652,7 +686,7 @@ offset_left = 1010.0
 offset_top = 2140.0
 offset_right = 1390.0
 offset_bottom = 2170.0
-text = "Lake route — closed"
+text = "South → 水潭 · 巨蟒出没"
 horizontal_alignment = 1
 
 [node name="CliffLedgeGround" type="ColorRect" parent="Terrain" unique_id=1476729103]
@@ -894,7 +928,7 @@ enabled = false
 limit_left = -2100
 limit_top = -500
 limit_right = 2300
-limit_bottom = 2230
+limit_bottom = 3015
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
@@ -1389,6 +1423,185 @@ closed_wall_path = NodePath("../Terrain/Boundaries/WorldBounds/SnowBlocker")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SnowPassage"]
 shape = SubResource("SnowNorthPassage")
 
+[node name="LakeBounds" type="StaticBody2D" parent="Terrain/Boundaries"]
+
+[node name="West" type="CollisionShape2D" parent="Terrain/Boundaries/LakeBounds"]
+position = Vector2(885, 2600)
+shape = SubResource("LakeWestWallShape")
+
+[node name="South" type="CollisionShape2D" parent="Terrain/Boundaries/LakeBounds"]
+position = Vector2(1200, 3015)
+shape = SubResource("LakeSouthWallShape")
+
+[node name="Pool" type="CollisionShape2D" parent="Terrain/Boundaries/LakeBounds"]
+position = Vector2(1090, 2625)
+shape = SubResource("LakeWaterShape")
+
+[node name="LakeZone" type="Area2D" parent="Zones"]
+position = Vector2(1200, 2600)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/LakeZone"]
+shape = SubResource("LakeZoneShape")
+
+[node name="LakeWaterPoint" type="Marker2D" parent="."]
+position = Vector2(1100, 2325)
+
+[node name="Label" type="Label" parent="LakeWaterPoint"]
+offset_left = -85.0
+offset_top = -30.0
+text = "岸边取水 / Fill"
+
+[node name="LakeSerpent01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1340, 2470)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.lake.serpent.1"
+
+[node name="Serpent01" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+position = Vector2(1340, 2470)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="Polygon2D" parent="Characters/Serpent01"]
+polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
+color = Color(0.18, 0.12, 0.09, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent01"]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/Serpent01"]
+offset_left = -52.0
+offset_top = -43.0
+theme_override_font_sizes/font_size = 14
+text = "黑冠巨蟒"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent01"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent01/AggressionPresence"]
+shape = SubResource("SerpentPresenceShape")
+
+[node name="LakeSerpent02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1430, 2505)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.lake.serpent.2"
+
+[node name="Serpent02" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+position = Vector2(1430, 2505)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="Polygon2D" parent="Characters/Serpent02"]
+polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
+color = Color(0.18, 0.12, 0.09, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent02"]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/Serpent02"]
+offset_left = -52.0
+offset_top = -43.0
+theme_override_font_sizes/font_size = 14
+text = "黑冠巨蟒"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent02"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent02/AggressionPresence"]
+shape = SubResource("SerpentPresenceShape")
+
+[node name="LakeSerpent03" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1340, 2545)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.lake.serpent.3"
+
+[node name="Serpent03" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+position = Vector2(1340, 2545)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="Polygon2D" parent="Characters/Serpent03"]
+polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
+color = Color(0.18, 0.12, 0.09, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent03"]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/Serpent03"]
+offset_left = -52.0
+offset_top = -43.0
+theme_override_font_sizes/font_size = 14
+text = "黑冠巨蟒"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent03"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent03/AggressionPresence"]
+shape = SubResource("SerpentPresenceShape")
+
+[node name="LakeSerpent04" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1440, 2590)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.lake.serpent.4"
+
+[node name="Serpent04" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+position = Vector2(1440, 2590)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="Polygon2D" parent="Characters/Serpent04"]
+polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
+color = Color(0.18, 0.12, 0.09, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent04"]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/Serpent04"]
+offset_left = -52.0
+offset_top = -43.0
+theme_override_font_sizes/font_size = 14
+text = "黑冠巨蟒"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent04"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent04/AggressionPresence"]
+shape = SubResource("SerpentPresenceShape")
+
+[node name="LakeSerpent05" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1350, 2640)
+script = ExtResource("2_vreye")
+spawn_point_id = &"oldpine.outdoor.lake.serpent.5"
+
+[node name="Serpent05" type="CharacterBody2D" parent="Characters"]
+unique_name_in_owner = true
+position = Vector2(1350, 2640)
+input_pickable = true
+script = ExtResource("3_7i4ts")
+
+[node name="Visual" type="Polygon2D" parent="Characters/Serpent05"]
+polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
+color = Color(0.18, 0.12, 0.09, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent05"]
+shape = SubResource("RectangleShape2D_lul68")
+
+[node name="NameLabel" type="Label" parent="Characters/Serpent05"]
+offset_left = -52.0
+offset_top = -43.0
+theme_override_font_sizes/font_size = 14
+text = "黑冠巨蟒"
+
+[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent05"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent05/AggressionPresence"]
+shape = SubResource("SerpentPresenceShape")
+
 [connection signal="body_entered" from="Zones/CentralClearingZone" to="." method="_on_central_clearing_body_entered"]
 
 [connection signal="body_entered" from="Zones/SouthSlopeZone" to="." method="_on_south_slope_body_entered"]
@@ -1437,3 +1650,15 @@ shape = SubResource("SnowNorthPassage")
 [connection signal="selection_requested" from="Interactions/Cliff1DownInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="selection_requested" from="Interactions/Cliff1UpInteraction" to="." method="_on_landmark_selection_requested"]
 [connection signal="body_entered" from="Interactions/CliffsidePineExit" to="." method="_on_cliffside_pine_exit_body_entered"]
+
+[connection signal="body_entered" from="Zones/LakeZone" to="." method="_on_lake_body_entered"]
+
+[connection signal="selection_requested" from="Characters/Serpent01" to="." method="_on_bandit_selection_requested"]
+
+[connection signal="selection_requested" from="Characters/Serpent02" to="." method="_on_bandit_selection_requested"]
+
+[connection signal="selection_requested" from="Characters/Serpent03" to="." method="_on_bandit_selection_requested"]
+
+[connection signal="selection_requested" from="Characters/Serpent04" to="." method="_on_bandit_selection_requested"]
+
+[connection signal="selection_requested" from="Characters/Serpent05" to="." method="_on_bandit_selection_requested"]

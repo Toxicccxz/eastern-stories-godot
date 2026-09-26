@@ -404,6 +404,14 @@ the corresponding evidence.
 
 ## Testing and Verification
 
+Local verification is layered by change scope (owner policy, Lake P2B onward):
+
+* During development, run changed behavior and directly affected regressions; after a fix, rerun the failed and affected cases, not every historical suite.
+* Internal-slice delivery uses targeted domain/integration checks plus required real-runtime evidence. A broad consumer change may justify one complete run once the feature is formed; record why and reuse it.
+* Major-phase closure runs canonical `tools/ci/verify.py` on the final executable code. Its Python/static/editor/gameplay/sanitizer stages need not be duplicated without relevant changes or failures. Documentation-only changes do not invalidate executable evidence.
+* Preserve canonical registration and all four exact-head PR/exact-merge main CI gates. Never use skipped stages as full-suite evidence. Report actual commands, scope, results, duration and deliberately deferred validation.
+* Choose concise success/boundary/failure tests for distinct risks; no assertion quotas, mechanical permutations, copied lower-layer matrices or broad historical-test cleanup.
+
 Rule-heavy code should be testable without loading full visual maps whenever practical.
 
 For migrated mechanics:
