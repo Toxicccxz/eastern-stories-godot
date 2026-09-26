@@ -4,6 +4,17 @@ Each numbered item below is currently planned as an independent major integratio
 major-phase branch and one final PR, unless a later explicit planning decision changes that boundary.
 Internal analysis, implementation slices, and audit fixes remain on that milestone's branch.
 
+Current authorized work: **Old Pine Lake + Production Serpents — P1 analysis only**,
+on `phase/oldpine-lake-serpent-production` from green main
+`01f7b18253a1936bce4a1fb11a507a356769c409` (PR #23 docs closeout;
+[exact-main workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685),
+four required jobs success). The [P1 report](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
+is complete for owner review: approve encounter/old-save/water scope before the proposed
+compatibility foundations → atomic Lake/Save production composition → real runtime/cold
+Continue acceptance sequence. These are future slices on this one branch, not separate PRs
+or authorization to implement. Earlier completed milestones and historical deferrals below
+retain their recorded meanings; Lake implementation, Final Audit and PR remain unauthorized.
+
 1. **Phase 10A — Cross-Platform Repository / Build / CI Foundation — Complete**
 
    Pin Godot 4.7.2, verify the repository, sanitize one production project, and prove Windows,

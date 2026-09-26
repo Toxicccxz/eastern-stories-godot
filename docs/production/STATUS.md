@@ -2,6 +2,21 @@
 
 ## Current milestone
 
+**Old Pine Lake + Production Serpents — P1 ANALYSIS COMPLETE / AWAIT OWNER REVIEW.**
+
+[P1 source/dependency analysis](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
+is documentation-only on `phase/oldpine-lake-serpent-production`, from main
+`01f7b18253a1936bce4a1fb11a507a356769c409`. This baseline includes the completed
+[PR #23 docs closeout](https://github.com/Toxicccxz/eastern-stories-godot/pull/23);
+[post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685)
+passed all four required jobs on that exact main SHA. It is baseline CI, not Lake acceptance.
+P1 recommends same-map Lake, five stable serpent slots, complete-set encounter admission,
+revision-aware Save/Continue and existing Fill reuse. Encounter policy, old-save access
+and Lake Fill scope remain owner-review proposals. No gameplay implementation, PR,
+Final Audit or P2 authorization is implied; DECISIONS and closed phases remain unchanged.
+
+## Previously integrated milestone
+
 **Snow Martial Progression II — COMPLETE / MERGED / POST-MERGE VERIFIED.**
 
 The owner-authorized [Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md)
