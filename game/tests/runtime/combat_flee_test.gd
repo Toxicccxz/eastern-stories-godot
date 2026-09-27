@@ -71,7 +71,7 @@ func _ready_and_multi(tree: SceneTree) -> void:
 		_check(OldPineSaveEligibility.inspect(session).allowed(), "normal post-Flee Save authority allows safe state")
 		var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 		ui.refresh_projection()
-		_check(not ui.visible and session.outdoor_map().hud.world_title.text.begins_with("Escaped"), "only successful completion closes Battle and shows Escaped")
+		_check(not ui.visible and session.outdoor_map().hud._presentation_layout.recent.text.begins_with("Escaped"), "only successful completion closes Battle and shows Escaped")
 		var history: int = encounter.events().size()
 		coordinator.advance_scheduler(10000)
 		scheduler.advance(10000, true, encounter.encounter_id, [], rng, SkillImprovementEffectRegistry.new())

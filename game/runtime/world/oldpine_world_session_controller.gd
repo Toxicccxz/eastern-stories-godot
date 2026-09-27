@@ -58,15 +58,13 @@ var _player_recovery_cadence: PlayerRecoveryCadence
 
 
 func _ready() -> void:
-	if initialize_session() and _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
-		var food_ui: HeldFoodPanel = HeldFoodPanel.new()
-		food_ui.name = "HeldFoodUI"
-		food_ui.configure(self)
-		add_child(food_ui)
-		var liquid_ui: HeldLiquidPanel = HeldLiquidPanel.new()
-		liquid_ui.name = "HeldLiquidUI"
-		liquid_ui.configure(self)
-		add_child(liquid_ui)
+	if initialize_session():
+		shared_ui().configure(player_runtime())
+		shared_ui().initialize_supplies()
+
+
+func shared_ui() -> SharedGameplayUI:
+	return get_node("SharedGameplayUI") as SharedGameplayUI
 
 
 func liquid_interaction_available() -> bool:
@@ -951,3 +949,52 @@ func _find_resident_npc(character_id: StringName) -> NpcRuntimeState:
 		if npc != null:
 			return npc
 	return null
+
+
+## Portable interaction composition: the current Session and active body own the
+## permission, never an inactive Outdoor controller or the displayed row.
+func portable_inventory_available() -> bool:
+	if not _initialized or not can_process() or not application_gameplay_allows_encounter_advance() or _restore_candidate_staged or _session_swap_suspended or _transitioning:
+		return false
+	var map: WorldResidentMapController = active_map()
+	return map != null and map.is_inside_tree() and map.is_map_initialized() and map.runtime_player_body().player_controlled and _world_simulation_gate.is_open() and not _combat_encounter_coordinator.has_active_encounter() and _player.exists_in_world and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not _player.relationship.is_fighting()
+
+
+func player_inventory_rows() -> Array[PlayerInventoryRowProjection]:
+	return PlayerInventoryProjection.new().project_rows(_player, _inventory, _stacks, _item_index)
+
+
+func wield_player_item(id: StringName) -> OldPineEquipmentInteractionResult:
+	if not portable_inventory_available(): return OldPineEquipmentInteractionResult.new()
+	_last_portable_equipment = OldPineEquipmentInteractionAdapter.new().wield(_player, id, _inventory, _item_index)
+	return _last_portable_equipment
+
+
+func unwield_player_item(id: StringName) -> OldPineEquipmentInteractionResult:
+	if not portable_inventory_available(): return OldPineEquipmentInteractionResult.new()
+	_last_portable_equipment = OldPineEquipmentInteractionAdapter.new().unwield(_player, id, _inventory)
+	return _last_portable_equipment
+
+
+func wear_player_item(id: StringName) -> OldPineArmorInteractionResult:
+	if not portable_inventory_available(): return OldPineArmorInteractionResult.new()
+	_last_portable_armor = OldPineArmorInteractionAdapter.new().wear(_player, id, _inventory, _item_index)
+	return _last_portable_armor
+
+
+func remove_player_item(id: StringName) -> OldPineArmorInteractionResult:
+	if not portable_inventory_available(): return OldPineArmorInteractionResult.new()
+	_last_portable_armor = OldPineArmorInteractionAdapter.new().remove(_player, id, _inventory, _item_index)
+	return _last_portable_armor
+
+
+var _last_portable_equipment: OldPineEquipmentInteractionResult
+var _last_portable_armor: OldPineArmorInteractionResult
+
+
+func last_equipment_interaction() -> OldPineEquipmentInteractionResult:
+	return _last_portable_equipment
+
+
+func last_armor_interaction() -> OldPineArmorInteractionResult:
+	return _last_portable_armor

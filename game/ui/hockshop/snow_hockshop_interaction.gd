@@ -5,8 +5,6 @@ extends CanvasLayer
 ## No merchant, saved UI state, timer, RNG, or duplicated item/equipment authority.
 var _session: OldPineWorldSessionController
 var _map: SnowOutdoorController
-var _presenter: SafeAreaPresenter
-var _layout: ResponsivePanelLayout
 var _rows: VBoxContainer
 var _goods: VBoxContainer
 var _actions: HBoxContainer
@@ -72,15 +70,7 @@ func _ready() -> void:
 	_confirm_actions.hide()
 	feedback = _label("", "Feedback")
 	_button(_rows, "Close", "关闭", close_panel)
-	_layout = ResponsivePanelLayout.new()
-	add_child(_layout)
-	_layout.initialize(panel)
-	_layout.blocks_touch_gameplay = true
-	_layout.dismiss_requested.connect(dismiss)
-	panel.add_child(ExplorationPresentationBlocker.new())
-	tree_entered.connect(_attach_presenter)
-	tree_exiting.connect(_detach_presenter)
-	_attach_presenter()
+	panel.visibility_changed.connect(_shared_visibility_changed)
 	_process(0.0)
 
 
@@ -102,28 +92,6 @@ func _button(parent: Node, node_name: String, text: String, action: Callable) ->
 	button.pressed.connect(action)
 	parent.add_child(button)
 	return button
-
-
-func _attach_presenter() -> void:
-	_presenter = SafeAreaPresenter.find_or_create(self)
-	if not _presenter.metrics_changed.is_connected(_reflow):
-		_presenter.metrics_changed.connect(_reflow)
-	_reflow(_presenter.current_metrics())
-
-
-func _detach_presenter() -> void:
-	close_panel()
-	if is_instance_valid(_presenter) and _presenter.metrics_changed.is_connected(_reflow):
-		_presenter.metrics_changed.disconnect(_reflow)
-	_presenter = null
-
-
-func _reflow(metrics: SafeAreaMetrics) -> void:
-	if metrics == null:
-		return
-	_layout.apply(metrics, metrics.content_rect(), true, 620)
-	contact.position = metrics.content_rect().position + Vector2(0, 96)
-	contact.size = Vector2(minf(300, metrics.content_rect().size.x), 64)
 
 
 func available() -> bool:
@@ -161,7 +129,7 @@ func interact() -> void:
 	if can_open_door():
 		open_door()
 	elif can_trade() and not ExplorationPresentationBlocker.is_blocked(get_tree()):
-		panel.show()
+		_session.shared_ui().open_business("丰登当铺", panel, can_trade)
 		refresh()
 		value_button.grab_focus()
 		_map.player_body.quarantine_current_movement_input()
@@ -178,7 +146,7 @@ func _process(_delta: float) -> void:
 		return
 	if panel.visible and not can_trade():
 		close_panel()
-	contact.visible = not panel.visible and available() and not ExplorationPresentationBlocker.is_blocked(get_tree()) and (can_open_door() or can_trade())
+	contact.visible = false
 	contact.text = "打开当铺木门 [Enter / A]" if can_open_door() else "丰登当铺 · 估价 / 卖断 [Enter / A]"
 	if panel.visible:
 		refresh()
@@ -265,7 +233,7 @@ func refresh() -> void:
 		for i: int in range(ids.size()):
 			var button: Button = _button(_goods, "Item%d" % i, labels[i], select_item.bind(ids[i]))
 			button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_layout.restyle_dynamic_content()
+		_session.shared_ui().refresh_panel_rows()
 	if _pending == null and not _ids.has(_selected_id):
 		_selected_id = &""
 		selection.text = "请选择随身物品。"
@@ -363,6 +331,11 @@ func dismiss() -> void:
 		close_panel()
 
 
+func _shared_visibility_changed() -> void:
+	if not panel.visible:
+		close_panel()
+
+
 func close_panel() -> void:
 	if not is_instance_valid(panel):
 		return
@@ -373,5 +346,6 @@ func close_panel() -> void:
 	_confirm_actions.hide()
 	_actions.show()
 	panel.hide()
+	_session.shared_ui().close_business(panel)
 	if was_open and is_instance_valid(_map.player_body):
 		_map.player_body.quarantine_current_movement_input()

@@ -134,7 +134,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	TechnicalShellFixture.start(shell) # Existing Old Pine HUD/cave geometry subject.
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
-	var hud: OldPineOutdoorHud = session.outdoor_map().hud
+	var hud: SharedGameplayUI = session.outdoor_map().hud
 	var live_connections: int = presenter.metrics_changed.get_connections().size()
 	var battle: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	_check(live_connections == menu_connections + 2 and presenter.metrics_changed.is_connected(battle._apply_metrics), "one current HUD plus one CXR6 Session-owned Battle consumer added")
@@ -145,9 +145,9 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	await _cycle_surface(tree, shell, hud.get_node("Overlay") as Control, capability, presenter)
 	for index: int in actions.size():
 		_check(actions[index].pressed.get_connections().size() == signal_counts[index], "HUD reflow preserves exact action object/signal")
-		_check(hud.get_node_or_null(NodePath("%" + String(actions[index].name))) == actions[index], "reparent retains unique-name identity")
+		_check(hud.is_ancestor_of(actions[index]), "reparent retains unique-name identity")
 	for control: Control in [hud.player_vitality, hud.player_vitality_text, hud.selected_target_label, hud.target_vitality, hud.target_vitality_text, hud.inspection_text, hud.combat_log]:
-		_check(hud.get_node_or_null(NodePath("%" + String(control.name))) == control, "reparent preserves authored information identity")
+		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
 	capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(0, 0, 800, 480))
 	presenter.refresh()
 	for landmark: WorldLandmarkDefinition in OldPineLandmarkDefinitions.definitions():
@@ -173,8 +173,8 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		var to_cave: OldPineMapHandoffResult = session.handoff_to(OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, &"oldpine.cave.waterfall_passage.vine_landing")
 		_check(to_cave.succeeded(), "typed handoff fixture enters Cave")
 		await _settle(tree)
-		_check(presenter.metrics_changed.get_connections().size() == menu_connections + 1 and presenter.metrics_changed.is_connected(battle._apply_metrics), "detached Outdoor unsubscribes; Session Battle remains subscribed")
-		_check(session.cave_map().find_children("HUD", "CanvasLayer", true, false).is_empty(), "Cave has no invented Outdoor HUD")
+		_check(presenter.metrics_changed.get_connections().size() == live_connections and presenter.metrics_changed.is_connected(battle._apply_metrics), "shared HUD and Battle retain their Session subscriptions in Cave")
+		_check(session.shared_ui() == hud and hud.visible, "Cave uses the same Session UI")
 		capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(48, 0, 800, 480))
 		presenter.refresh()
 		await _settle(tree)
@@ -182,7 +182,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(back.succeeded(), "typed handoff fixture returns Outdoor")
 		await _settle(tree)
 		_check(presenter.metrics_changed.get_connections().size() == live_connections, "reattached HUD has exactly one subscription")
-		_check(capability.metrics.content_rect().grow(0.5).encloses(hud.get_node("Overlay/ActionPanel").get_global_rect()), "returning resident consumes latest metrics")
+		_check(capability.metrics.content_rect().grow(0.5).encloses(hud.get_node("Overlay/ExplorationHUD").get_global_rect()), "returning resident consumes latest metrics")
 		_check(session.outdoor_map().hud == hud, "resident HUD identity preserved")
 	_check(files.files.size() == 1 and settings_files.files.is_empty(), "metric changes perform zero Save/settings writes")
 	_check(shell.runtime_host().get_instance_id() == host_id, "one persistent Host survives all presentation paths")
@@ -229,7 +229,7 @@ func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface:
 				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel remains safe-bounded")
 
 
-func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: OldPineOutdoorHud, capability: FakeSafe, presenter: SafeAreaPresenter) -> void:
+func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: SharedGameplayUI, capability: FakeSafe, presenter: SafeAreaPresenter) -> void:
 	var stale_row_ids: Array[int] = []
 	for cycle: int in 3:
 		var rows: Array[PlayerInventoryRowProjection] = []
@@ -250,7 +250,7 @@ func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: OldP
 		await _settle(tree)
 		for id: int in stale_row_ids:
 			_check(not is_instance_id_valid(id), "closed dynamic row is freed")
-		var layout: ResponsivePanelLayout = hud.get_node("PresentationLayout").get("_inventory") as ResponsivePanelLayout
+		var layout: ResponsivePanelLayout = hud.get_node("PresentationLayout").get("_frame_layout") as ResponsivePanelLayout
 		var cache_clean: bool = true
 		for key: Variant in layout.get("_minimums").keys():
 			cache_clean = cache_clean and is_instance_valid(key)

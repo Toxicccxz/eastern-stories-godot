@@ -17,6 +17,7 @@ var _rows: Array[PlayerInventoryRowProjection] = []
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	_replace_rows(rows)
 	inspect_text.text = ""
+	inspect_text.hide()
 	visible = true
 
 
@@ -24,6 +25,7 @@ func close_inventory() -> void:
 	visible = false
 	_replace_rows([])
 	inspect_text.text = ""
+	inspect_text.hide()
 
 
 func is_open() -> bool:
@@ -40,6 +42,7 @@ func visible_rows() -> Array[PlayerInventoryRowProjection]:
 func show_inspection(row: PlayerInventoryRowProjection) -> void:
 	if row == null:
 		inspect_text.text = ""
+		inspect_text.hide()
 		return
 	var lines: Array[String] = [
 		row.display_name,
@@ -58,6 +61,7 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 		lines.append("Armor: %+d" % row.armor_modifiers.armor)
 		lines.append("Dodge: %+d" % row.armor_modifiers.dodge)
 	inspect_text.text = "\n".join(lines)
+	inspect_text.show()
 
 
 func inspection_display() -> String:

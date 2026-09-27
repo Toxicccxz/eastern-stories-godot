@@ -804,8 +804,8 @@ const WorldSpawnMarker2DScript := preload(
 const WorldCharacterBody2DScript := preload(
 	"res://runtime/world/world_character_body_2d.gd"
 )
-const OldPineOutdoorHudScript := preload(
-	"res://runtime/world/oldpine_outdoor_hud.gd"
+const SharedGameplayUIScript := preload(
+	"res://ui/world/shared_gameplay_ui.gd"
 )
 const OldPineResidentMapControllerScript := preload(
 	"res://runtime/world/oldpine_resident_map_controller.gd"
@@ -1286,7 +1286,7 @@ func _init() -> void:
 		GodotNpcInitializationRandomSourceScript,
 		WorldSpawnMarker2DScript,
 		WorldCharacterBody2DScript,
-		OldPineOutdoorHudScript,
+		SharedGameplayUIScript,
 		OldPineResidentMapControllerScript,
 		OldPineMapHandoffResultScript,
 		OldPineCavePassageControllerScript,
@@ -1706,6 +1706,9 @@ func _init() -> void:
 	for nge1_result: Dictionary in [NewPlayerInitializationTest.new().run_all(), await PlayerBodyFactsTest.new().run_all(self), await NewPlayerLegacyTest.new().run_all(self), await SnowInnFoundationTest.new().run_all(self), await SnowOutdoorRouteTest.new().run_all(self), await SnowOldPineConnectionTest.new().run_all(self)]:
 		assertion_count += int(nge1_result["assertions"])
 		failures.append_array(nge1_result["failures"])
+	var shared_ui_result: Dictionary = await load("res://tests/runtime/shared_gameplay_ui_test.gd").new().run_all(self)
+	assertion_count += shared_ui_result["assertions"]
+	failures.append_array(shared_ui_result["failures"])
 	var snow_work_result: Dictionary = await load("res://tests/runtime/snow_work_income_test.gd").new().run_all(self)
 	var snow_water_result: Dictionary = await load("res://tests/runtime/snow_water_test.gd").new().run_all(self)
 	assertion_count += snow_water_result["assertions"]

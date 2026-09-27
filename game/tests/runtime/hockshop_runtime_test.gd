@@ -226,15 +226,15 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	session.world_simulation_gate().release(&"h3.test")
 	ui.interact()
 	var metrics: SafeAreaMetrics = SafeAreaMetrics.new(Rect2(0,0,960,540), Rect2(20,0,920,540), false, true)
-	ui._reflow(metrics)
+	session.shared_ui()._presentation_layout._reflow(metrics)
 	await tree.process_frame
 	await tree.process_frame
-	check(metrics.content_rect().encloses(ui.panel.get_rect()), "touch safe-area bounded panel")
+	check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()), "touch safe-area bounded panel")
 	check(ui.confirm_button.custom_minimum_size.y >= 64 and ui.value_button.custom_minimum_size.y >= 64, "touch-sized actions")
-	check(ResponsivePanelLayout.top_interaction_panel(tree) == ui._layout and ExplorationPresentationBlocker.is_blocked(tree), "existing Back/input panel boundary")
-	ui.select_item(&"h3.weapon2"); ui.request_confirmation(); ui._layout.dismiss_requested.emit()
+	check(ResponsivePanelLayout.top_interaction_panel(tree) == session.shared_ui()._presentation_layout._frame_layout and ExplorationPresentationBlocker.is_blocked(tree), "existing Back/input panel boundary")
+	ui.select_item(&"h3.weapon2"); ui.request_confirmation(); session.shared_ui()._presentation_layout._frame_layout.dismiss_requested.emit()
 	check(ui.panel.visible and not ui.confirm_button.is_visible_in_tree(), "Back cancels confirmation first")
-	ui._layout.dismiss_requested.emit()
+	session.shared_ui()._presentation_layout._frame_layout.dismiss_requested.emit()
 	check(not ui.panel.visible, "next Back closes panel")
 	session.free()
 	await tree.process_frame

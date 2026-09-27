@@ -82,7 +82,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var bought: WineskinPurchaseResult = Water.purchase(session)
 	_check(bought.delivered, "source wineskin purchase fixture")
 	if bought.delivered:
-		var panel: HeldLiquidPanel = session.get_node("HeldLiquidUI")
+		await tree.process_frame
+		session.shared_ui().open_supplies()
+		var panel: HeldLiquidPanel = session.shared_ui()._liquid
 		panel._process(0)
 		_check(session.fill_water_available(), "bounded Lake source available")
 		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.FILLED, "existing Fill UI path at Lake")

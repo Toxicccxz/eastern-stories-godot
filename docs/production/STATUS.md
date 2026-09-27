@@ -2,45 +2,40 @@
 
 ## Current milestone
 
-**Old Pine Lake + Production Serpents — ENGINEERING ACCEPTANCE COMPLETE UNDER OWNER-REVISED SCOPE; FINAL AUDIT PASS / READY FOR OWNER PR AUTHORIZATION.**
+**Shared Gameplay UI — ENGINEERING ACCEPTANCE COMPLETE / FINAL AUDIT PASS.**
 
-Current branch: `phase/oldpine-lake-serpent-production`, based on integrated main
-`01f7b18253a1936bce4a1fb11a507a356769c409` (PR #23;
-[post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685),
-all four jobs success). This is baseline CI, not Lake acceptance.
-[P1](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md) and
-[P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md)
-remain the source/decision foundation. M/W are locked; R is **CURRENT WORLD ONLY**.
+Branch: `phase/shared-gameplay-ui`, from main
+`f421ed106a7fd38455790729a5d6dd89a72133da`. The
+[Final Audit](../migration/PHASE_SHARED_GAMEPLAY_UI_FINAL_AUDIT.md) records two narrow closure
+corrections: teaching-panel regression ownership and required shared-UI release paths.
+Full `verify.py` passed all five stages with actual exit0 in 649.719s on code/test freeze
+`4219a0e2f8e5eba72ec2eb23e4fbb6bad8f02876`. Gameplay/presentation bytes remain identical to
+`e61ddc5c5ab5b7f1433659023952798468adc93a`; its [runtime evidence](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md)
+is reused, including real cross-map input, equipment, business feedback, Battle/Flee and
+Save/Menu/Continue UI binding. Historical failed runs remain recorded, not relabelled PASS.
 
-[P2B implementation and evidence](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md)
-publishes the continuous Riverbank–Lake route, five INITIAL_ONLY production serpents,
-Lake complete-set admission, shore Fill and the ten-slot current Save/Continue composition.
-Public marker is now **SOURCE_ENTRY_LAKE_V1**; root schema2/item schema3 are unchanged.
-Recognized old public worlds are explicitly refused without migration or file changes.
-Source birth, Snow supplies/recovery and Vine consumers use the current public contract.
+Actual touch-device qualification is **PENDING / DEFERRED, non-blocking for this Shared UI engineering
+integration only**, under this phase's explicit Owner decision. Synthetic checks remain required;
+actual target-device qualification precedes related mobile external long-term testing/formal release.
+No touch PASS, all-platform completion or integration on main is claimed.
+**READY FOR OWNER PR AUTHORIZATION. PR / MERGE — NOT STARTED.**
+**Internal Power is PAUSED** and requires a separate instruction; later consumers must reuse this UI.
 
-[P2C acceptance](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md)
-adds real mouse fifth-target selection, manual Attack admitting all five eligible snakes,
-and two real Pause Save / full-process restart / public Continue checkpoints. Complete saved and
-restored runtime state is equal for five-alive and one-dead/four-alive/corpse graphs, including all
-three RNG streams. Real combat killed the disclosed wounded production snake; physical return
-after cold restore did not resurrect it. No gameplay/test/plugin change or natural victory claim.
-Under the [owner acceptance decision](../migration/DECISIONS.md#old-pine-lake--owner-revised-engineering-acceptance-scope),
-actual touch-device qualification remains **PENDING / DEFERRED, non-blocking for Lake engineering
-integration**; desktop input is not mobile PASS. The device work remains in PROJECT_SCOPE and is
-required before verified-touch claims or external long-term testing/formal mobile release.
-The P2B discovery failures have corresponding committed corrections and successful targeted evidence;
-the complete P2C canonical `verify.py` run passed all five stages in543.86s on unchanged
-executable/test commit `ef8b7d601983c80d817bf28a93e554f2472a49a6`.
+## Latest integrated milestone
 
-[Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy),
-[ROADMAP](ROADMAP.md#forward-roadmap) and [PROJECT_SCOPE](PROJECT_SCOPE.md) reflect this publication.
-[Final Audit](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md) reviewed the full
-Lake increment from `01f7b18253a1936bce4a1fb11a507a356769c409` through
-`6db58093318c168b8aff2e5df076dcec3997a69d`: no material blockers. It reused the unchanged
-executable's complete validation and P2B/P2C runtime evidence; it did not rerun gameplay.
-Historical P2C retains its original pending conclusion. No Lake PR, remote CI, merge or post-merge
-result exists. **PR / MERGE / NEXT MILESTONE — NOT AUTHORIZED.**
+**Old Pine Lake + Production Serpents — COMPLETE / MERGED / POST-MERGE VERIFIED.**
+
+[PR #24](https://github.com/Toxicccxz/eastern-stories-godot/pull/24) merged at
+`f421ed106a7fd38455790729a5d6dd89a72133da`;
+[push/main workflow 36288212245](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36288212245)
+completed Godot Verify, Android Release Build, Windows Release Build and iOS Build Validation successfully.
+The [Lake Final Audit](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md),
+[P2B](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md) and
+[P2C](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md) retain their historical context.
+SOURCE_ENTRY_LAKE_V1, ten production NPC slots, CURRENT WORLD ONLY and unchanged root2/item3
+schemas remain authoritative. Touch qualification is PENDING / DEFERRED under the
+[bounded Lake owner decision](../migration/DECISIONS.md#old-pine-lake--owner-revised-engineering-acceptance-scope),
+not mobile PASS or general release readiness. Controlled wounded-snake QA is not natural novice victory.
 
 ## Previously integrated milestone
 

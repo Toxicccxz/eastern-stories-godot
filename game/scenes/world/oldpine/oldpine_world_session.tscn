@@ -3,8 +3,14 @@
 [ext_resource type="Script" uid="uid://dv8q1minjmylm" path="res://runtime/world/oldpine_world_session_controller.gd" id="1_session"]
 [ext_resource type="PackedScene" path="res://scenes/battle/battle_presentation.tscn" id="2_battle"]
 
+[ext_resource type="Script" path="res://ui/world/shared_gameplay_ui.gd" id="3_ui"]
+
 [node name="OldPineWorldSession" type="Node" unique_id=291591878]
 script = ExtResource("1_session")
+
+[node name="SharedGameplayUI" type="CanvasLayer" parent="."]
+script = ExtResource("3_ui")
+visible = false
 
 [node name="ActiveMapSlot" type="Node" parent="." unique_id=1860299874]
 unique_name_in_owner = true

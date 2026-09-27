@@ -9,8 +9,21 @@ the existing restore transaction. The Shell configures MANUAL startup before att
 
 The Shell owns typed navigation state, product messages, focus/input, pause policy, and settings
 coordination. It may query the Host; it must not retain a second current-Session authority or a
-GameSaveSnapshot. Gameplay, map HUD, bodies, cameras, timers, and resident maps belong to the
+GameSaveSnapshot. Gameplay, SharedGameplayUI, bodies, cameras, timers, and resident maps belong to the
 replaceable Session. Shell UI and settings survive Session replacement and menu return.
+
+## Shared gameplay presentation
+
+Each committed Session owns one SharedGameplayUI across Inn, Snow, Outdoor and Cave. Maps own
+physical targets, range and business contexts; they do not own duplicate player/inventory HUDs.
+Shared UI projects the current Player and routes portable operations through Session composition
+and existing services. Existing business forms mount in one responsive frame with execution-time
+validation. Map changes and invalid contexts close that frame; combat yields to BattlePresentation.
+Large forms start closed, messages are bounded/nonpersistent, and UI state is not Save authority.
+Staged Sessions expose no interactive HUD. Replacement/menu teardown releases old UI with its
+Session. Item/details block underlying input, never simulation or Save eligibility; one cancel is
+consumed once, including the existing hockshop confirmation-before-close behavior.
+This supersedes former Outdoor-only HUD ownership; Shell Pause/settings/lifecycle ownership remains.
 
 ## Navigation and lifecycle
 

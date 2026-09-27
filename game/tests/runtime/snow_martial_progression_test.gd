@@ -318,13 +318,14 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	for size: Vector2 in [Vector2(1152,648),Vector2(960,540),Vector2(800,480),Vector2(480,320)]:
 		var rect := Rect2(Vector2.ZERO,size)
 		var metrics := SafeAreaMetrics.normalize(rect,rect,rect,Transform2D.IDENTITY,true)
-		school.ui._reflow(metrics)
+		session.shared_ui()._presentation_layout._reflow(metrics)
 		await tree.process_frame
 		await tree.process_frame
-		check(metrics.content_rect().encloses(school.ui.panel.get_rect()),"panel confined " + str(size))
+		check(session.shared_ui()._presentation_layout.frame.visible and session.shared_ui()._presentation_layout.mount.is_ancestor_of(school.ui.panel),"teaching form uses visible shared frame")
+		check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()),"panel confined " + str(size))
 		for button: Button in [school.ui.learn_button,school.ui.learn_liuh_button,school.ui.enable_liuh_button,school.ui.disable_liuh_button]:
 			check(button.custom_minimum_size.y >= 64 and button.custom_minimum_size.x >= 64,"touch targets " + str(size))
-		check(school.ui._layout.scroll.follow_focus,"scroll follows input focus")
+		check(session.shared_ui()._presentation_layout._frame_layout.scroll.follow_focus,"scroll follows input focus")
 	school.ui.close_panel()
 	session.free()
 	await tree.process_frame

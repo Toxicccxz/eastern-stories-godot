@@ -4,6 +4,7 @@ extends SnowResidentMapController
 @onready var work_marker: Marker2D = $WorkplaceWork
 @onready var work_panel: Control = $WorkUI/Panel
 @onready var work_button: Button = $WorkUI/Panel/Rows/WorkButton
+@onready var work_resources: Label = $WorkUI/Panel/Rows/Resources
 @onready var work_feedback: Label = $WorkUI/Panel/Rows/Feedback
 var last_work_result: SnowWorkResult
 @onready var bank_marker: Marker2D = $BankExchange
@@ -36,13 +37,15 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	bank_panel.visible = can_exchange_here()
+	if bank_panel.visible and not can_exchange_here():
+		bank_panel.hide()
 	if bank_panel.visible:
 		var context: MoneyInventoryContext = bank_money_context()
 		bank_panel.holdings.text = "直接携带（每种选定一堆）：\n铜钱 %s 文 / 银子 %s 两 / 黄金 %s 两" % [bank_amount_text(context, CurrencyDenomination.Value.COIN), bank_amount_text(context, CurrencyDenomination.Value.SILVER), bank_amount_text(context, CurrencyDenomination.Value.GOLD)]
-	work_panel.visible = can_work_here()
+	if work_panel.visible and not can_work_here():
+		work_panel.hide()
 	if work_panel.visible:
-		($WorkUI/Panel/Rows/Resources as Label).text = "精 %d / 神 %d · 银子 %d 两" % [_player.state.essence.current, _player.state.spirit.current, silver_amount()]
+		work_resources.text = "精 %d / 神 %d · 银子 %d 两" % [_player.state.essence.current, _player.state.spirit.current, silver_amount()]
 
 
 func _physics_process(delta: float) -> void:

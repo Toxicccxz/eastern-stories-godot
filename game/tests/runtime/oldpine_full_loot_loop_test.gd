@@ -138,7 +138,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 
 	panel.wield_requested.emit(short_id)
 	var short_secondary: OldPineEquipmentInteractionResult = (
-		controller.last_equipment_interaction()
+		controller._session_owner.last_equipment_interaction()
 	)
 	_assert_eq(short_secondary.equipment_transition.outcome, EquipmentTransitionResult.Outcome.WIELDED_SECONDARY, "long primary plus Wield short produces SECONDARY")
 	_assert_eq(controller.player_runtime().state.equipment.primary_weapon().instance_id, long_id, "long stays primary after short secondary Wield")
@@ -247,7 +247,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 	if stale_wield_button != null:
 		stale_wield_button.pressed.emit()
 	_assert_eq(
-		controller.last_equipment_interaction().outcome,
+		controller._session_owner.last_equipment_interaction().outcome,
 		OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_DIRECTLY_OWNED,
 		"stale Wield row is rejected by current direct ownership",
 	)
@@ -281,7 +281,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 	if stale_unwield_button != null:
 		stale_unwield_button.pressed.emit()
 	_assert_eq(
-		controller.last_equipment_interaction().outcome,
+		controller._session_owner.last_equipment_interaction().outcome,
 		OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_DIRECTLY_OWNED,
 		"stale Unwield row is rejected by current direct ownership",
 	)

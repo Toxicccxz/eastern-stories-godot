@@ -2,8 +2,6 @@ class_name SnowSchoolInteraction
 extends CanvasLayer
 
 var _contact: SnowSchoolContact
-var _presenter: SafeAreaPresenter
-var _layout: ResponsivePanelLayout
 var _rows: VBoxContainer
 var contact_button: Button
 var panel: PanelContainer
@@ -51,15 +49,6 @@ func _ready() -> void:
 	disable_liuh_button = _button("DisableLiuh", "停用柳家拳", disable_liuh)
 	feedback = _label("馆主传授基本拳脚与柳家拳。每次请教均按当下状态结算。", "Feedback")
 	_button("Close", "离开交谈", close_panel)
-	_layout = ResponsivePanelLayout.new()
-	add_child(_layout)
-	_layout.initialize(panel)
-	_layout.blocks_touch_gameplay = true
-	_layout.dismiss_requested.connect(close_panel)
-	panel.add_child(ExplorationPresentationBlocker.new())
-	tree_entered.connect(_attach_presenter)
-	tree_exiting.connect(_detach_presenter)
-	_attach_presenter()
 	_process(0.0)
 
 
@@ -82,28 +71,6 @@ func _button(node_name: String, text: String, action: Callable) -> Button:
 	return button
 
 
-func _attach_presenter() -> void:
-	_presenter = SafeAreaPresenter.find_or_create(self)
-	if not _presenter.metrics_changed.is_connected(_reflow):
-		_presenter.metrics_changed.connect(_reflow)
-	_reflow(_presenter.current_metrics())
-
-
-func _detach_presenter() -> void:
-	close_panel()
-	if is_instance_valid(_presenter) and _presenter.metrics_changed.is_connected(_reflow):
-		_presenter.metrics_changed.disconnect(_reflow)
-	_presenter = null
-
-
-func _reflow(metrics: SafeAreaMetrics) -> void:
-	if metrics == null:
-		return
-	_layout.apply(metrics, metrics.content_rect(), true, 570)
-	contact_button.position = metrics.content_rect().position + Vector2(0, 96)
-	contact_button.size = Vector2(minf(330, metrics.content_rect().size.x), 64)
-
-
 func interact() -> void:
 	if ExplorationPresentationBlocker.is_blocked(get_tree()):
 		return
@@ -113,7 +80,7 @@ func interact() -> void:
 		else:
 			_contact.open_door()
 	elif _contact.can_teach():
-		panel.show()
+		_contact.session.shared_ui().open_business("柳淳风 · 教学", panel, _contact.can_teach)
 		refresh()
 		apprentice_button.grab_focus()
 		_contact.map.player_body.quarantine_current_movement_input()
@@ -130,7 +97,7 @@ func _process(_delta: float) -> void:
 		return
 	if panel.visible and not _contact.can_teach():
 		close_panel()
-	contact_button.visible = not panel.visible and not ExplorationPresentationBlocker.is_blocked(get_tree()) and (_contact.can_operate_door() or _contact.can_teach())
+	contact_button.visible = false
 	contact_button.text = ("关闭红漆大门" if _contact.door_is_open() else "打开红漆大门") + " [Enter / A]" if _contact.can_operate_door() else "与柳淳风交谈 [Enter / A]"
 	if panel.visible:
 		refresh()
@@ -222,6 +189,7 @@ func close_panel() -> void:
 		return
 	var was_open: bool = panel.visible
 	panel.hide()
+	_contact.session.shared_ui().close_business(panel)
 	if was_open and is_instance_valid(_contact.map.player_body):
 		_contact.map.player_body.quarantine_current_movement_input()
 

@@ -779,6 +779,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_true(controller.hud.inspection_display().contains("Contents: 1"), "corpse Inspect count updates live from two to one")
 	if sword_take.busy_started:
 		controller.player_runtime().busy.advance()
+	_assert_true(controller.open_selected_loot(), "single shared frame returns from Inspect to Loot")
 	var silver_take: CorpseLootTransferResult = controller.take_selected_loot_item(silver_id)
 	_assert_true(silver_take.succeeded, "scene Take transfers amount-three silver")
 	_assert_eq(controller.stack_collection().stack_state(silver_id).amount, 3, "scene silver amount remains three")

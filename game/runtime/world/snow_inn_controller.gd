@@ -21,7 +21,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	shop_panel.visible = can_purchase_here()
+	if shop_panel.visible and not can_purchase_here():
+		shop_panel.hide()
 
 
 func can_purchase_here() -> bool:

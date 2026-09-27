@@ -12,7 +12,7 @@ func traverse(
 	selected_target: WorldInteractionTarget,
 	definition: OldPineVineInteractionDefinition,
 	random_source: WorldInteractionRandomSource,
-	hud: OldPineOutdoorHud,
+	hud: SharedGameplayUI,
 	same_map_adapter: OldPinePortalTraversalAdapter,
 ) -> OldPineVineTraversalResult:
 	var result: OldPineVineTraversalResult = OldPineVineTraversalResult.new()
