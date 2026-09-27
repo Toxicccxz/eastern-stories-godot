@@ -1,5 +1,28 @@
 # Migration Decisions
 
+## Old Pine Lake — owner-revised engineering acceptance scope
+
+Owner decision (2026-09-26), after [P2C acceptance](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md):
+accept the recorded desktop fifth-target mouse input, manual complete-set Attack, five-alive
+and mixed death/corpse cross-process Save/Continue, exact durable state/three-RNG equality,
+non-resurrection on return, and complete `verify.py` PASS on
+`ef8b7d601983c80d817bf28a93e554f2472a49a6` (543.86s).
+
+**TOUCH DEVICE QUALIFICATION — PENDING — NON-BLOCKING FOR LAKE ENGINEERING INTEGRATION.**
+This defers missing device evidence only; it is not touch PASS, all-platform acceptance,
+or a blanket exemption for later milestones. Actual touch defects, if found, remain separately
+reportable. The [existing platform scope row](../production/PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries)
+retains Lake touch movement, horizontal scrolling, fifth-target selection, Flee, and applicable
+safe-area, focus, Pause/Back/background/resume checks. Qualify the then-target devices before
+claiming verified Lake touch support or external long-term testing/formal release of the related
+mobile version. Later device qualification may be completed directly without reopening all Lake
+work or creating a prerequisite development phase, test platform or plugin upgrade.
+
+P2C's original PENDING conclusion and all P1/P2A/P2B reports retain their historical meaning.
+M/W/R and product behavior are unchanged. This decision authorized one bounded
+[Final Audit](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md), not PR creation, merge,
+or the next milestone. Engineering acceptance under this revised scope does not mean integrated main.
+
 ## Old Pine Lake — owner-locked P2A foundations
 
 Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md):

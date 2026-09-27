@@ -2,7 +2,7 @@
 
 ## Current milestone
 
-**Old Pine Lake + Production Serpents — P2C DESKTOP / COLD RESTORE VERIFIED; TOUCH QUALIFICATION PENDING / AWAIT OWNER REVIEW.**
+**Old Pine Lake + Production Serpents — ENGINEERING ACCEPTANCE COMPLETE UNDER OWNER-REVISED SCOPE; FINAL AUDIT PASS / READY FOR OWNER PR AUTHORIZATION.**
 
 Current branch: `phase/oldpine-lake-serpent-production`, based on integrated main
 `01f7b18253a1936bce4a1fb11a507a356769c409` (PR #23;
@@ -25,17 +25,22 @@ and two real Pause Save / full-process restart / public Continue checkpoints. Co
 restored runtime state is equal for five-alive and one-dead/four-alive/corpse graphs, including all
 three RNG streams. Real combat killed the disclosed wounded production snake; physical return
 after cold restore did not resurrect it. No gameplay/test/plugin change or natural victory claim.
-Representative actual touch-device qualification remains PENDING; desktop input is not mobile PASS.
+Under the [owner acceptance decision](../migration/DECISIONS.md#old-pine-lake--owner-revised-engineering-acceptance-scope),
+actual touch-device qualification remains **PENDING / DEFERRED, non-blocking for Lake engineering
+integration**; desktop input is not mobile PASS. The device work remains in PROJECT_SCOPE and is
+required before verified-touch claims or external long-term testing/formal mobile release.
 The P2B discovery failures have corresponding committed corrections and successful targeted evidence;
 the complete P2C canonical `verify.py` run passed all five stages in543.86s on unchanged
 executable/test commit `ef8b7d601983c80d817bf28a93e554f2472a49a6`.
 
 [Save contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy),
 [ROADMAP](ROADMAP.md#forward-roadmap) and [PROJECT_SCOPE](PROJECT_SCOPE.md) reflect this publication.
-Layered local validation now follows the owner-authorized rule in root AGENTS.md; full canonical
-validation remains required at phase closure. No Lake PR, remote CI, merge or post-merge result.
-**Overall P2C acceptance remains incomplete pending touch qualification. Final Audit / PR / merge
-are not started and require separate owner authorization.**
+[Final Audit](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md) reviewed the full
+Lake increment from `01f7b18253a1936bce4a1fb11a507a356769c409` through
+`6db58093318c168b8aff2e5df076dcec3997a69d`: no material blockers. It reused the unchanged
+executable's complete validation and P2B/P2C runtime evidence; it did not rerun gameplay.
+Historical P2C retains its original pending conclusion. No Lake PR, remote CI, merge or post-merge
+result exists. **PR / MERGE / NEXT MILESTONE — NOT AUTHORIZED.**
 
 ## Previously integrated milestone
 
