@@ -31,7 +31,7 @@ func project_rows(
 		if item == null:
 			continue
 		var content: OldPineItemContentDefinition = (
-			OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+			PlayerItemContentDefinitions.content(item.item_definition_id)
 		)
 		if content == null:
 			continue

@@ -16,7 +16,7 @@ const WorldSpawnMarkerType := preload(
 	"res://runtime/world/world_spawn_marker_2d.gd"
 )
 const OldPineHudType := preload(
-	"res://runtime/world/oldpine_outdoor_hud.gd"
+	"res://ui/world/shared_gameplay_ui.gd"
 )
 const WorldInteractionTargetType := preload(
 	"res://runtime/world/world_interaction_target.gd"
@@ -40,7 +40,7 @@ const AggressionAdapterType := preload(
 @onready var spawn_points: Node2D = %SpawnPoints
 @onready var corpse_layer: Node2D = %CorpseLayer
 @onready var opportunity_timer: Timer = %OpportunityTimer
-@onready var hud: OldPineHudType = %HUD
+@onready var hud: OldPineHudType = null if _session_owner == null else _session_owner.shared_ui()
 @onready var riverbank_cliff_interaction: Area2D = (
 	$Interactions/RiverbankCliffInteraction
 )
@@ -516,7 +516,6 @@ func complete_activation() -> bool:
 	var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
 	if camera != null:
 		camera.enabled = true
-	hud.visible = true
 	hud.refresh_live_state()
 	return true
 
@@ -539,7 +538,6 @@ func prepare_for_deactivation() -> void:
 	if hud != null:
 		hud.close_loot()
 		hud.close_inventory()
-		hud.visible = false
 
 
 func freeze_world_gameplay(encounter_id: StringName) -> bool:
@@ -618,7 +616,6 @@ func resume_after_session_swap_rollback() -> bool:
 	if camera != null:
 		camera.enabled = true
 	if hud != null:
-		hud.visible = true
 		hud.refresh_live_state()
 	opportunity_timer.stop()
 	_cadence_was_running = false

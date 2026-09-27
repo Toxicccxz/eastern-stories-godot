@@ -114,6 +114,8 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 	)
 	var candidate: OldPineWorldSessionController = result.candidate
 	_assert_true(candidate != null and candidate.is_restore_candidate_staged(), "RESTORE candidate remains staged")
+	_assert_false(candidate.shared_ui().visible, "staged candidate UI stays invisible")
+	_assert_false(candidate.shared_ui()._presentation_layout.frame.visible, "staged candidate has no interactive panel")
 	_assert_eq(candidate.process_mode, Node.PROCESS_MODE_DISABLED, "staged Session processing is disabled")
 	_assert_eq(candidate.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.RESTORE, "bootstrap mode was chosen before ready")
 	_assert_eq(candidate.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "active map derives from Player location")

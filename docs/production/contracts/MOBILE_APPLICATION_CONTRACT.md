@@ -12,7 +12,7 @@ remains authoritative for eligibility, storage, recovery and restore transaction
   Session replacement and Return to Menu. Neither owns Player/gameplay state, snapshots,
   movement rules, navigation decisions or persistence operations.
 - Shell owns semantic navigation, application pause/activity and the explicit Resume gate.
-  Session owns gameplay, resident maps, bodies, cameras, timers and map HUD.
+  Session owns gameplay, resident maps, bodies, cameras, timers and SharedGameplayUI.
 
 ## Shared presentation and safe area
 
@@ -22,7 +22,7 @@ portrait gameplay, split-screen and platform multiwindow qualification are not p
 
 `GodotSafeAreaCapability` is the production native measurement boundary; `SafeAreaMetrics`
 normalizes physical content/safe bounds through the root viewport screen transform into
-logical safe bounds. Shell layout, touch geometry and the active Outdoor HUD consume the
+logical safe bounds. Shell layout, touch geometry and the Session shared HUD consume the
 same Shell-lived SafeAreaPresenter. No device-offset table, per-control native safe-area
 reader or Camera/world transform participates. Invalid measurement exposes a full-content
 fallback, not a claim of verified native-safe bounds.
@@ -34,8 +34,9 @@ pad cells. These logical units are not physical Android dp/iOS-point certificati
 Dialogs, HUD and Inventory/Loot retain existing actions and typed signals; long content
 wraps/scrolls and does not require hover. Modal barriers still cover the entire viewport.
 
-Outdoor HUD belongs to the resident Outdoor map and disconnects/rebinds presentation on
-handoff. Cave has shared movement/Pause controls but no transplanted Outdoor gameplay HUD.
+One Session-owned SharedGameplayUI persists across every resident map, including Cave.
+Current-map context is cleared/rebound on handoff; generic player UI is never copied into maps.
+It shares SafeAreaPresenter and one responsive content frame; hidden/staged UI has no input ownership.
 Opening an item/detail panel blocks underlying input, not simulation or Save eligibility.
 
 ## Touch and desktop coexistence
@@ -147,3 +148,10 @@ landscape source/configuration, but iPhone/iPad simulator/device runtime is unqu
 Unsigned iOS Xcode compilation is a required integration CI gate, not iOS runtime proof.
 Hardware qualification and permanent identity/store signing/packaging remain later release
 gates; implemented mobile behavior is not hardware certification or store readiness.
+
+## Shared UI device qualification
+
+Shared Gameplay UI uses existing synthetic safe-area, scrolling, cancellation and touch input tests.
+Actual-device representative navigation/panels/scrolling/cancel and applicable lifecycle qualification
+remain PENDING for this phase. Desktop mouse/keyboard is not touch PASS. Lake
+engineering integration's bounded device deferral does not grant a global exemption.

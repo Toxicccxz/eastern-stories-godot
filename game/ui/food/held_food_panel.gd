@@ -1,5 +1,5 @@
 class_name HeldFoodPanel
-extends CanvasLayer
+extends PanelContainer
 
 ## One Session-owned view across all resident maps. IDs are selection only;
 ## the collection, Player resources and Inventory remain authoritative.
@@ -17,15 +17,7 @@ func configure(session: OldPineWorldSessionController) -> void:
 
 
 func _ready() -> void:
-	layer = 9
-	_panel = PanelContainer.new()
-	_panel.name = "Panel"
-	_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	_panel.offset_left = -370
-	_panel.offset_top = -166
-	_panel.offset_right = -24
-	_panel.offset_bottom = -24
-	add_child(_panel)
+	_panel = self
 	var rows: VBoxContainer = VBoxContainer.new()
 	_panel.add_child(rows)
 	var title: Label = Label.new()
@@ -42,6 +34,7 @@ func _ready() -> void:
 	_eat.pressed.connect(request_eat)
 	rows.add_child(_eat)
 	_feedback = Label.new()
+	_feedback.name = "Feedback"
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rows.add_child(_feedback)
 	_panel.hide()
@@ -56,6 +49,8 @@ func available() -> bool:
 
 
 func _process(_delta: float) -> void:
+	if not is_visible_in_tree():
+		return
 	_panel.visible = available()
 	if not _panel.visible:
 		return
@@ -76,7 +71,7 @@ func _process(_delta: float) -> void:
 		var state: FoodState = _session.food_collection().state(_ids[i])
 		_select.set_item_text(i, "包子 #%d · %d份 · 价值%d文" % [i + 1, state.remaining_portions, state.current_value])
 	_eat.disabled = _ids.is_empty()
-	_panel.visible = not _ids.is_empty() or last_result != null
+
 
 
 func request_eat() -> FoodUseResult:

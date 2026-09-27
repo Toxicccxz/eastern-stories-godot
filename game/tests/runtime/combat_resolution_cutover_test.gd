@@ -136,7 +136,7 @@ func _completion_return(tree: SceneTree) -> void:
 			var log_before: String = ui.log_panel._text.get_parsed_text()
 			ui.refresh_projection()
 			_check(ui.log_panel._text.get_parsed_text() == log_before, "repeated inactive UI refresh neither clears nor duplicates terminal log")
-			_check(map.get_node("HUD").world_title.tooltip_text.contains("hits"), "terminal hit also reaches player-visible world result Details")
+			_check(session.shared_ui().world_title.tooltip_text.contains("hits"), "terminal hit also reaches player-visible world result Details")
 			var copy: Array[CombatSchedulerEvent] = feedback.ordinary_after(0)
 			copy.clear()
 			_check(feedback.ordinary_after(0).size() == scheduler.events().size(), "completed feedback collection defensive")

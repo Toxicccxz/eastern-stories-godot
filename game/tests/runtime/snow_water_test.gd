@@ -224,12 +224,14 @@ func persistence_tests(tree: SceneTree) -> void:
 
 func physical_tests(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
-	check(session.get_node_or_null("HeldLiquidUI") != null and not session.waterfall_water_available(), "Session UI, Inn no water source")
+	check(session.shared_ui()._liquid != null and not session.waterfall_water_available(), "Session UI, Inn no water source")
 	Food.earn_and_exchange(session)
 	purchase(session)
 	await tree.process_frame
 	await tree.process_frame
-	var panel: HeldLiquidPanel = session.get_node("HeldLiquidUI") as HeldLiquidPanel
+	session.shared_ui().open_supplies()
+	await tree.process_frame
+	var panel: HeldLiquidPanel = session.shared_ui()._liquid as HeldLiquidPanel
 	check(panel._panel.visible and panel._drink.text.contains("酒精暂未开放"), "fresh wine UI truthful")
 	var map: OldPineOutdoorController = session.resident_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID) as OldPineOutdoorController
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
@@ -247,7 +249,7 @@ func physical_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	check(not session.liquid_interaction_available(), "Pause blocks stale interaction")
-	check(not panel._panel.visible, "Pause also hides presentation without advancing Session")
+	check(not panel._panel.is_visible_in_tree(), "Pause also hides presentation without advancing Session")
 	tree.paused = false
 	session.free()
 	await tree.process_frame

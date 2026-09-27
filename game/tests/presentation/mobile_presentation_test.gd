@@ -138,14 +138,14 @@ func _test_matrix(tree: SceneTree) -> void:
 	tree.root.content_scale_size = original_scale
 
 
-func _hud(tree: SceneTree, hud: OldPineOutdoorHud, metrics: SafeAreaMetrics) -> void:
-	_check(hud.get_node("PresentationLayout").get("_presenter") == SafeAreaPresenter.find_or_create(hud), "HUD shares Shell metrics provider")
+func _hud(tree: SceneTree, hud: SharedGameplayUI, metrics: SafeAreaMetrics) -> void:
+	_check(hud.get_node("PresentationLayout").get("_safe") == SafeAreaPresenter.find_or_create(hud), "HUD shares Shell metrics provider")
 	var overlay: Control = hud.get_node("Overlay") as Control
-	var action_panel: PanelContainer = overlay.get_node("ActionPanel") as PanelContainer
+	var action_panel: PanelContainer = overlay.get_node("ExplorationHUD") as PanelContainer
 	_check(metrics.content_rect().grow(0.5).encloses(action_panel.get_global_rect()), "HUD action panel safe")
 	var buttons: Array[BaseButton] = []
 	_collect_buttons(action_panel, buttons)
-	_check(buttons.size() == (6 if metrics.is_compact() else 5), "all five actions preserved; compact disclosure is presentation-only")
+	_check(buttons.size() >= 4 and buttons.size() <= 9, "portable entries persist; context controls appear only when available")
 	await _buttons(tree, action_panel, metrics)
 	if metrics.is_compact() and metrics.is_qualified():
 		_check(not action_panel.get_global_rect().intersects(metrics.future_movement_rect()), "action panel leaves future pad clear")
@@ -155,7 +155,7 @@ func _hud(tree: SceneTree, hud: OldPineOutdoorHud, metrics: SafeAreaMetrics) -> 
 		rows.append(PlayerInventoryRowProjection.new(StringName("qa:%d" % index), &"qa", "A long readable item name", "Long description ".repeat(20), 1, &"weapon", PlayerInventoryRowProjection.EquipmentSlot.NONE, &"sword", 25, 0, true))
 	hud.show_inventory(rows)
 	await _settle(tree)
-	await _surface(tree, hud.inventory_panel, metrics)
+	await _surface(tree, hud._presentation_layout.frame, metrics)
 	for row: Node in hud.inventory_panel.row_container.get_children():
 		_check((row as BoxContainer).vertical == metrics.touch_sized(), "every dynamic row reflows, including automatically renamed siblings")
 	_check(not tree.paused, "item panel does not pause gameplay")
@@ -163,7 +163,7 @@ func _hud(tree: SceneTree, hud: OldPineOutdoorHud, metrics: SafeAreaMetrics) -> 
 	var loot: Array[WorldItemRowProjection] = [WorldItemRowProjection.new(&"qa:loot", &"qa", "Long loot name ".repeat(8), "Visible without hover ".repeat(12), 3, &"currency", true)]
 	hud.show_loot("Long corpse title ".repeat(10), loot)
 	await _settle(tree)
-	await _surface(tree, hud.loot_panel, metrics)
+	await _surface(tree, hud._presentation_layout.frame, metrics)
 	var description: Label = hud.loot_panel.row_container.get_child(0).get_node("Description") as Label
 	_check(description.visible and description.text == loot[0].description.strip_edges(), "loot description is inline, not tooltip-only")
 	hud.close_loot()
@@ -177,7 +177,7 @@ func _surface(tree: SceneTree, root: Control, metrics: SafeAreaMetrics) -> void:
 		var panel: PanelContainer = node as PanelContainer
 		if not panel.is_visible_in_tree():
 			continue
-		_check(metrics.content_rect().grow(0.5).encloses(panel.get_global_rect()), "safe panel %s: %s within %s" % [root.name, panel.get_global_rect(), metrics.content_rect()])
+		_check(metrics.content_rect().grow(0.5).encloses(_visible_rect(panel)), "safe panel %s: %s within %s" % [root.name, panel.get_global_rect(), metrics.content_rect()])
 		_check(panel.size.is_finite() and panel.size.x > 0 and panel.size.y > 0, "positive finite panel")
 	await _buttons(tree, root, metrics)
 
@@ -224,3 +224,13 @@ func _check(value: bool, description: String) -> void:
 	_assertions += 1
 	if not value:
 		_failures.append(description)
+
+
+func _visible_rect(control: Control) -> Rect2:
+	var rect: Rect2 = control.get_global_rect()
+	var ancestor: Node = control.get_parent()
+	while ancestor != null:
+		if ancestor is Control and (ancestor as Control).clip_contents:
+			rect = rect.intersection((ancestor as Control).get_global_rect())
+		ancestor = ancestor.get_parent()
+	return rect

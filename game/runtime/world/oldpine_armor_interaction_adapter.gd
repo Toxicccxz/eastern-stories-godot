@@ -19,7 +19,7 @@ func wear(
 		return validation
 	var item: ItemInstance = item_index.resolve(item_instance_id)
 	var content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+		PlayerItemContentDefinitions.content(item.item_definition_id)
 	)
 	if content.category != OldPineItemContentDefinitions.CATEGORY_ARMOR:
 		return _result(
@@ -72,7 +72,7 @@ func remove(
 		return validation
 	var item: ItemInstance = item_index.resolve(item_instance_id)
 	var content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+		PlayerItemContentDefinitions.content(item.item_definition_id)
 	)
 	if content.category != OldPineItemContentDefinitions.CATEGORY_ARMOR:
 		return _result(
@@ -141,7 +141,7 @@ func _validate_content(
 	var item: ItemInstance = item_index.resolve(item_instance_id)
 	if (
 		item == null
-		or OldPineItemContentDefinitions.content_by_id(item.item_definition_id) == null
+		or PlayerItemContentDefinitions.content(item.item_definition_id) == null
 	):
 		return _result(
 			action,

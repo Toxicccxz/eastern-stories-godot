@@ -1,5 +1,5 @@
 class_name HeldLiquidPanel
-extends CanvasLayer
+extends PanelContainer
 
 ## Session view, stable selected ID. Never owns content, water or source facts.
 var _session: OldPineWorldSessionController
@@ -18,16 +18,7 @@ func configure(session: OldPineWorldSessionController) -> void:
 
 func _ready() -> void:
 	# Presentation must hide during Pause; gameplay remains Session-gated.
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	layer = 9
-	_panel = PanelContainer.new()
-	_panel.name = "Panel"
-	_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	_panel.offset_left = -370
-	_panel.offset_top = -370
-	_panel.offset_right = -24
-	_panel.offset_bottom = -184
-	add_child(_panel)
+	_panel = self
 	var rows: VBoxContainer = VBoxContainer.new()
 	_panel.add_child(rows)
 	var title: Label = Label.new()
@@ -50,12 +41,15 @@ func _ready() -> void:
 	_fill.pressed.connect(request_fill)
 	rows.add_child(_fill)
 	_feedback = Label.new()
+	_feedback.name = "Feedback"
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rows.add_child(_feedback)
 	_panel.hide()
 
 
 func _process(_delta: float) -> void:
+	if not is_visible_in_tree():
+		return
 	_panel.visible = _session != null and _session.liquid_interaction_available() and not _session.combat_encounter_coordinator().has_active_encounter() and not _session.player_runtime().relationship.is_fighting()
 	if not _panel.visible:
 		return
@@ -80,7 +74,7 @@ func _process(_delta: float) -> void:
 		_drink.text = "饮用（酒精暂未开放）" if _session.liquid_collection().state(_selected_id()).content == LiquidState.Content.RED_WINE else "喝一份清水"
 	_fill.visible = _session.fill_water_available()
 	_fill.disabled = _ids.is_empty()
-	_panel.visible = not _ids.is_empty()
+
 
 
 func _selected_id() -> StringName:

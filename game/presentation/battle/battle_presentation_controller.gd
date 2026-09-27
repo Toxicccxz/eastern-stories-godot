@@ -131,7 +131,7 @@ func _present_completed_result() -> void:
 	var text: String = BattleFeedbackReader.completion_text(receipt, _session.player_runtime().life_status)
 	if text.is_empty():
 		return
-	var hud: OldPineOutdoorHud = _session.active_map().get_node_or_null("HUD") as OldPineOutdoorHud
+	var hud: SharedGameplayUI = _session.shared_ui()
 	if hud == null:
 		return
 
@@ -309,7 +309,7 @@ func _yield_world_hud() -> void:
 	_saved_focus = weakref(focus) if focus != null else null
 	if focus != null:
 		focus.release_focus()
-	_yielded_hud = _session.active_map().get_node_or_null("HUD") as CanvasLayer
+	_yielded_hud = _session.shared_ui()
 	if _yielded_hud != null:
 		_hud_was_visible = _yielded_hud.visible
 		_yielded_hud.hide()
@@ -317,7 +317,7 @@ func _yield_world_hud() -> void:
 
 func _restore_world_hud() -> void:
 	if is_instance_valid(_yielded_hud):
-		_yielded_hud.visible = _hud_was_visible
+		_yielded_hud.visible = _session.can_process() and not _session.is_restore_candidate_staged() and _session.application_gameplay_allows_encounter_advance()
 	_yielded_hud = null
 	if _saved_focus != null:
 		var focus: Control = _saved_focus.get_ref() as Control

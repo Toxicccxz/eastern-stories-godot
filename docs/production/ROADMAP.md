@@ -24,22 +24,18 @@ stabilization. Later expansions must not indefinitely move that original finish 
 
 ## Current position
 
-Integrated main `01f7b18253a1936bce4a1fb11a507a356769c409` includes PR #23 documentation closeout;
-[post-merge workflow 36212949685](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36212949685)
-passed all four required jobs on that SHA. It is the Lake branch's start, not Lake acceptance.
-Existing integrated capabilities include the bounded Snow/Old Pine journey, source New Game,
-economy/supplies, Liu apprenticeship/basic unarmed/Liuh-Ken, Combat/Flee/death, native persistence,
-Shell/Mobile foundations, Beast foundations and Migration Tooling v1. Their limits and evidence
-are in [STATUS](STATUS.md) and the [historical records](#historical-milestone-records) below.
-Core capability is not production interaction; controlled QA is not a normal-player route;
-definitions are not complete content. In particular, Beast QA does not publish Lake or five snakes.
+Integrated main `f421ed106a7fd38455790729a5d6dd89a72133da` includes Lake PR #24;
+[post-merge workflow 36288212245](https://github.com/Toxicccxz/eastern-stories-godot/actions/runs/36288212245)
+passed all four required jobs on that SHA. Lake engineering integration is complete under its
+owner-revised scope; actual touch qualification remains pending, not mobile PASS.
 
-Current branch: `phase/oldpine-lake-serpent-production`. [Lake P1](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md)
-was delivered at `688647ab15b7d0a3c1c4a1b79f4a2a935e521012`; [P2A foundations](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2A_FOUNDATIONS.md) and [P2B publication](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md) are implemented. [P2C acceptance](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md) supplies desktop input, two cold restores and real death/corpse evidence. The [bounded Final Audit](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md) passes: engineering acceptance is complete under the owner-revised scope. Actual touch qualification is PENDING / DEFERRED and non-blocking for Lake engineering integration; this is not mobile PASS or integration on main.
-Its [owner amendment](../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md#owner-policy-amendment--2026-09-26)
-replaces old-world compatibility with **DEVELOPMENT SAVE CUTOFF / CURRENT WORLD ONLY**.
-M/W are owner-locked; P2A implements current-contract Save rejection and transactional complete-set
-admission. P2B publishes Lake geometry/five serpent slots/Fill and SOURCE_ENTRY_LAKE_V1 current Save. Closed milestones remain closed absent a specific regression.
+Current branch: `phase/shared-gameplay-ui`. The owner places
+[Shared Gameplay UI](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md) before B1:
+one Session-owned interface across Inn/Snow/Old Pine/Cave, existing business services and shared
+panel framing. Internal Power is paused and later consumers must reuse this interface.
+This implementation instruction does not authorize Final Audit, PR, merge or B1.
+Existing Core support is not complete production content; see [STATUS](STATUS.md) and
+[PROJECT_SCOPE](PROJECT_SCOPE.md) for bounded evidence and qualifications.
 
 The [development save policy](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
 permits new-game requirements for genuine incompatibility, not arbitrary per-commit invalidation.
@@ -87,7 +83,8 @@ Save/Continue. Do not require a source-birth novice to naturally kill five full-
 No poison, swimming, rebalance, invented drops or generic Combat framework. M/W are locked by the
 [P2A decision](../migration/DECISIONS.md#old-pine-lake--owner-locked-p2a-foundations); this roadmap
 does not authorize subsequent work. Owner separately accepted P2C engineering evidence and authorized
-the completed Final Audit. PR creation, merge and the next milestone still require authorization.
+the completed Final Audit. PR #24 and exact-merge main CI subsequently completed the Lake integration.
+The next gameplay milestone still requires separate authorization.
 The [device qualification backlog](PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries)
 must be completed on target devices before verified Lake touch claims or external long-term
 testing/formal release of related mobile versions; no whole-Lake reopening is required.
@@ -97,13 +94,21 @@ representative live evidence per slice; one broad discovery run when justified; 
 `verify.py` at phase closure without duplicating its successful unchanged stages. The final PR and
 exact-merge main four-job gates remain mandatory.
 
+### Shared Gameplay UI — before B1
+
+Owner-authorized implementation on `phase/shared-gameplay-ui`: see the
+[single runtime report](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md).
+Shared Session UI replaces Outdoor-private generic HUD ownership. Existing transaction, training,
+combat and save rules remain authoritative. Actual touch-device qualification is pending for this
+phase and requires its own review disposition; no blanket Lake waiver applies.
+
 ### B — Early martial arts and progression
 
 Recommended near-term dependencies after A, subject to each milestone's source analysis:
 
 | Candidate milestone | Goal / dependencies | Bounded finish |
 |---|---|---|
-| B1 — internal power | `force` / `fonxanforce`, Enable/Disable, `exercise`, necessary resources and real combat consumption; reuse existing Skill/Cultivation/force policies | Obtain, map, cultivate, consume and persist internal power through ordinary interaction. |
+| B1 — internal power (PAUSED; follows shared UI) | `force` / `fonxanforce`, Enable/Disable, `exercise`, necessary resources and real combat consumption; reuse existing Skill/Cultivation/force policies | Obtain, map, cultivate, consume and persist internal power through ordinary interaction. |
 | B2 — offense and defense routes | Place `sword` / `parry` / `dodge`, `fonxansword`, `chaos-steps` according to actual learning/equipment/resource prerequisites | Relevant skill actions/defenses and equipment actually affect combat, with durable progression. Split into more than one milestone if dependencies warrant it. |
 | B3 — practice and usable controls | Reuse existing Practice/SelfLearning; respect each skill's real level/policy requirements. Add minimal skill viewing/mapping/practice access when the number of usable skills needs it | Learning, mapping, training, equipment and combat form meaningful choices; no placeholder level/name-only completion. |
 

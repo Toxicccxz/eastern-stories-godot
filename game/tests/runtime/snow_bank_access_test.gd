@@ -158,7 +158,9 @@ func physical_test(tree: SceneTree) -> bool:
 	if bank == null:
 		session.free()
 		return false
-	check(bank.bank_panel.is_visible_in_tree(), "exchange UI visible")
+	check(not bank.bank_panel.is_visible_in_tree(), "bank form closed until requested")
+	session.shared_ui().open_current_context()
+	check(bank.bank_panel.is_visible_in_tree(), "exchange UI visible after explicit request")
 	bank.bank_panel.quantity.grab_focus()
 	var position: Vector2 = bank.player_body.position
 	await walk.walk(tree, session, "move_left", 10)
@@ -168,6 +170,9 @@ func physical_test(tree: SceneTree) -> bool:
 	await walk.walk(tree, session, "move_up", 10)
 	check(bank.player_body.position == position, "currency popup cursor cannot move")
 	bank.bank_panel.source.get_popup().hide()
+	session.shared_ui()._presentation_layout.close_panel()
+	await tree.physics_frame
+	await tree.physics_frame
 	await walk.walk_to(tree, session, "move_right", 0, 0)
 	check(session.player_runtime().world_location().zone_id == &"snow.mstreet1" and not bank.can_exchange_here(), "east exit clears availability")
 	check(bank.resident_npcs().is_empty() and session.resident_map_count() == 4, "no NPC/map added")

@@ -309,7 +309,7 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	_assert_eq(controller.selected_character_id(), controller.npc_runtimes()[2].character_id, "real picking switches HUD target to bandit3")
 	await _click_body_through_viewport(controller.bandit_bodies[1], tree)
 	_assert_eq(controller.selected_character_id(), bandit2.character_id, "bandit body click selects exact second CharacterId")
-	_assert_eq(controller.hud.selected_target_text(), "Selected: 土匪探哨", "HUD follows the current stable target")
+	_assert_eq(controller.hud.selected_target_text(), "土匪探哨", "HUD follows the current stable target")
 	_assert_true(controller.inspect_selected(), "Inspect accepts selected live bandit")
 	_assert_true(controller.hud.inspection_display().contains("土匪探哨"), "Inspect shows authored name")
 	_assert_true(controller.hud.inspection_display().contains("满脸匪气"), "Inspect shows authored long description")

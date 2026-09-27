@@ -347,12 +347,12 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 		var before: int = loot.visible_rows().size()
 		await _tap(tree, loot.row_container.get_child(0).get_child(1) as Button)
 		_check(_takes == 1 and loot.visible_rows().size() == before - 1, "touch Take once removes exactly one authoritative row")
-		await _tap(tree, loot.get_node("%LootCloseButton") as Button)
+		await _tap(tree, outdoor.hud._presentation_layout.close_button)
 		_check(not loot.visible, "touch Loot Close")
 	await _tap(tree, outdoor.hud.inventory_button)
 	var inventory: PlayerInventoryPanel = outdoor.hud.inventory_panel
 	_check(inventory.visible_rows().size() == 2, "taken item appears in existing Inventory authority")
-	await _tap(tree, inventory.get_node("%PlayerInventoryCloseButton") as Button)
+	await _tap(tree, outdoor.hud._presentation_layout.close_button)
 	_check(not inventory.visible, "touch Inventory Close")
 	var id: int = touch.get_instance_id()
 	var right: Vector2 = touch.pad_rect().position + Vector2(160, 96)
@@ -383,15 +383,17 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 	await _back(tree)
 
 
-func _test_panel_scroll_and_geometry(tree: SceneTree, hud: OldPineOutdoorHud, safe: SafeAreaCapability, presenter: SafeAreaPresenter, touch: MobileTouchAdapter) -> void:
+func _test_panel_scroll_and_geometry(tree: SceneTree, hud: SharedGameplayUI, safe: SafeAreaCapability, presenter: SafeAreaPresenter, touch: MobileTouchAdapter) -> void:
 	for extent: Vector2 in [Vector2(960, 540), Vector2(800, 480), Vector2(1280, 720), Vector2(700, 420)]:
 		(safe as FakeSafe).metrics = SafeAreaMetrics.normalize(Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Transform2D.IDENTITY, true)
 		presenter.refresh()
 		await _settle(tree)
-		for panel: Control in [hud.inventory_panel, hud.loot_panel]:
-			_check(not panel.get_global_rect().intersects(touch.pause_button().get_global_rect()), "item panel never overlaps shared Pause at %s" % extent)
+		hud.open_inventory()
+		await _settle(tree)
+		_check(not hud._presentation_layout.frame.get_global_rect().intersects(touch.pause_button().get_global_rect()), "shared item frame never overlaps Pause at %s" % extent)
+		hud._presentation_layout.close_panel()
 		if extent == Vector2(1280, 720):
-			_check(not hud.get_node("Overlay/DetailPanel").get_global_rect().intersects(touch.pad_rect()), "mobile wide details reserve movement pad")
+			_check(not hud.get_node("Overlay/ExplorationHUD").get_global_rect().intersects(touch.pad_rect()), "mobile wide details reserve movement pad")
 	(safe as FakeSafe).metrics = SafeAreaMetrics.normalize(Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), Transform2D.IDENTITY, true)
 	presenter.refresh()
 	var inventory_rows: Array[PlayerInventoryRowProjection] = []

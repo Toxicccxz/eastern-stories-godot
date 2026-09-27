@@ -283,7 +283,7 @@ func _scroll_adversarial(tree: SceneTree, shell: ApplicationShellController, pre
 
 func _reflow_and_blocker(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, presenter: SafeAreaPresenter, safe: SafeAreaCapability) -> void:
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
-	var hud: OldPineOutdoorHud = session.outdoor_map().hud
+	var hud: SharedGameplayUI = session.outdoor_map().hud
 	for extent: Vector2 in [Vector2(960, 540), Vector2(1280, 720)]:
 		tree.root.size = Vector2i(extent)
 		(safe as FakeSafe).metrics = SafeAreaMetrics.normalize(Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Transform2D.IDENTITY, true)

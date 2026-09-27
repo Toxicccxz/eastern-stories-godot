@@ -3,7 +3,7 @@ extends WorldInteractionRandomSource
 
 var _draws: Array[int] = []
 var _requested_bounds: Array[int] = []
-var _hud: OldPineOutdoorHud
+var _hud: SharedGameplayUI
 var _player: WorldPlayerRuntimeState
 var _expected_source_text: String = ""
 var source_text_was_visible_at_draw: bool = false
@@ -12,7 +12,7 @@ var player_was_at_east_bridge_at_draw: bool = false
 
 func _init(
 	draws: Array[int] = [],
-	hud: OldPineOutdoorHud = null,
+	hud: SharedGameplayUI = null,
 	player: WorldPlayerRuntimeState = null,
 	expected_source_text: String = "",
 ) -> void:

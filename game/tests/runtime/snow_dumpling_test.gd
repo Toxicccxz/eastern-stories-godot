@@ -233,7 +233,7 @@ func physical_availability(tree: SceneTree) -> void:
 	await walk.walk_to(tree, session, "move_up", -90, 1)
 	check(inn.can_purchase_here() and walk._failures.is_empty(), "CharacterBody physically reaches static contact")
 	check(inn.request_dumpling().affordability.outcome == MoneyAffordabilityResult.Outcome.INSUFFICIENT_TOTAL, "real controller no free food")
-	check(session.get_node_or_null("HeldFoodUI") != null, "one Session-owned map-independent food view")
+	check(session.shared_ui()._food != null, "one Session-owned map-independent food view")
 	session.free()
 	await tree.process_frame
 
