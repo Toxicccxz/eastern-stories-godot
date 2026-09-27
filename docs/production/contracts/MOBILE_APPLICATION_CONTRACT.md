@@ -151,7 +151,13 @@ gates; implemented mobile behavior is not hardware certification or store readin
 
 ## Shared UI device qualification
 
-Shared Gameplay UI uses existing synthetic safe-area, scrolling, cancellation and touch input tests.
-Actual-device representative navigation/panels/scrolling/cancel and applicable lifecycle qualification
-remain PENDING for this phase. Desktop mouse/keyboard is not touch PASS. Lake
-engineering integration's bounded device deferral does not grant a global exemption.
+Shared Gameplay UI uses existing synthetic safe-area, scrolling, cancellation, focus, touch input
+and lifecycle tests; these checks remain required. Under the owner's 2026-09-27
+[Shared UI closure decision](../../migration/PHASE_SHARED_GAMEPLAY_UI_FINAL_AUDIT.md#owner-touch-device-disposition),
+actual target-device qualification is **PENDING / DEFERRED, NON-BLOCKING FOR THIS SHARED-UI
+ENGINEERING INTEGRATION**. This is an independent bounded decision, not Lake's exception,
+touch PASS, all-platform completion or a waiver for future stages. Concrete product defects remain
+blocking. Complete representative shared input/navigation, panels/scrolling/cancel/focus, safe area
+and applicable Pause/Back/background/resume behavior before verified-touch claims or external
+long-term testing/formal release of related mobile versions. Track this in the existing
+[PROJECT_SCOPE mobile entry](../PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries).

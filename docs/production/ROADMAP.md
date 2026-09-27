@@ -33,7 +33,8 @@ Current branch: `phase/shared-gameplay-ui`. The owner places
 [Shared Gameplay UI](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md) before B1:
 one Session-owned interface across Inn/Snow/Old Pine/Cave, existing business services and shared
 panel framing. Internal Power is paused and later consumers must reuse this interface.
-This implementation instruction does not authorize Final Audit, PR, merge or B1.
+Engineering acceptance and the [bounded Final Audit](../migration/PHASE_SHARED_GAMEPLAY_UI_FINAL_AUDIT.md)
+are complete after full local verification. Await owner PR authorization; PR, merge and B1 are not started.
 Existing Core support is not complete production content; see [STATUS](STATUS.md) and
 [PROJECT_SCOPE](PROJECT_SCOPE.md) for bounded evidence and qualifications.
 
@@ -96,11 +97,13 @@ exact-merge main four-job gates remain mandatory.
 
 ### Shared Gameplay UI — before B1
 
-Owner-authorized implementation on `phase/shared-gameplay-ui`: see the
-[single runtime report](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md).
-Shared Session UI replaces Outdoor-private generic HUD ownership. Existing transaction, training,
-combat and save rules remain authoritative. Actual touch-device qualification is pending for this
-phase and requires its own review disposition; no blanket Lake waiver applies.
+Engineering acceptance complete on `phase/shared-gameplay-ui`: see the
+[runtime report](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md) and
+[Final Audit](../migration/PHASE_SHARED_GAMEPLAY_UI_FINAL_AUDIT.md). Complete local verification passed;
+existing transaction, training, combat and save rules remain authoritative. Actual touch-device
+qualification is PENDING / DEFERRED and non-blocking for this engineering integration under its own
+explicit Owner decision; not touch PASS or a future-stage waiver. PR/merge still require authorization.
+Internal Power remains paused.
 
 ### B — Early martial arts and progression
 

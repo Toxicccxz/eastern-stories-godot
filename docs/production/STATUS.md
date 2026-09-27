@@ -2,16 +2,24 @@
 
 ## Current milestone
 
-**Shared Gameplay UI — implementation and targeted validation; awaiting owner review.**
+**Shared Gameplay UI — ENGINEERING ACCEPTANCE COMPLETE / FINAL AUDIT PASS.**
 
 Branch: `phase/shared-gameplay-ui`, from main
-`f421ed106a7fd38455790729a5d6dd89a72133da`. The [runtime report](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md)
-records Session-owned player UI, shared business framing, portable inventory/supplies, real
-Inn–Snow–Old Pine input, Battle/Flee and public Save/Menu/Continue evidence. Cave uses bounded
-resident-map integration coverage. No gameplay Save revision, formula, population, plugin or CI change.
-Actual touch-device qualification remains pending for this new UI; Lake's exception is not a global
-waiver. Final canonical closure, Final Audit, PR and merge are not claimed by targeted validation.
-**Internal Power is PAUSED** and must reuse the shared UI when separately authorized.
+`f421ed106a7fd38455790729a5d6dd89a72133da`. The
+[Final Audit](../migration/PHASE_SHARED_GAMEPLAY_UI_FINAL_AUDIT.md) records two narrow closure
+corrections: teaching-panel regression ownership and required shared-UI release paths.
+Full `verify.py` passed all five stages with actual exit0 in 649.719s on code/test freeze
+`4219a0e2f8e5eba72ec2eb23e4fbb6bad8f02876`. Gameplay/presentation bytes remain identical to
+`e61ddc5c5ab5b7f1433659023952798468adc93a`; its [runtime evidence](../migration/PHASE_SHARED_GAMEPLAY_UI_RUNTIME.md)
+is reused, including real cross-map input, equipment, business feedback, Battle/Flee and
+Save/Menu/Continue UI binding. Historical failed runs remain recorded, not relabelled PASS.
+
+Actual touch-device qualification is **PENDING / DEFERRED, non-blocking for this Shared UI engineering
+integration only**, under this phase's explicit Owner decision. Synthetic checks remain required;
+actual target-device qualification precedes related mobile external long-term testing/formal release.
+No touch PASS, all-platform completion or integration on main is claimed.
+**READY FOR OWNER PR AUTHORIZATION. PR / MERGE — NOT STARTED.**
+**Internal Power is PAUSED** and requires a separate instruction; later consumers must reuse this UI.
 
 ## Latest integrated milestone
 
