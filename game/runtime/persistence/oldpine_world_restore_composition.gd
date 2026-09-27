@@ -472,7 +472,7 @@ static func _character_aggregate_ids_match(
 static func _player_location_is_current(value: Values.WorldLocationSnapshot, revision: WorldContentRevision.Value) -> bool:
 	if _location_is_current(value):
 		return true
-	if revision != WorldContentRevision.Value.SOURCE_ENTRY_V1 or value == null or value.region_id != SnowWorldDefinitions.REGION_ID:
+	if revision != WorldContentRevision.CURRENT_PUBLIC or value == null or value.region_id != SnowWorldDefinitions.REGION_ID:
 		return false
 	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(value.zone_id)
 	return zone != null and zone.map_id == value.map_id and zone.combat_location_id == value.combat_location_id

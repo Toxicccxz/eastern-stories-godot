@@ -335,7 +335,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_ne(fresh.outdoor_map().get_instance_id(), old_outdoor_id, "fresh session owns a new Outdoor resident Node")
 	_assert_ne(fresh.cave_map().get_instance_id(), old_cave_id, "fresh session owns a new Cave resident Node")
 	_assert_eq(fresh.outdoor_map().corpse_states().size(), 0, "fresh session restores no prior corpse")
-	_assert_eq(fresh.outdoor_map().npc_runtimes().size(), 5, "fresh session creates the authored five Outdoor NPCs")
+	_assert_eq(fresh.outdoor_map().npc_runtimes().size(), 10, "fresh session creates the authored ten Outdoor NPCs")
 	_assert_true(fresh.outdoor_map().selected_interaction_target() == null, "fresh session has no stale Vine selection")
 	_assert_false(fresh.cave_map().exit_request_pending(), "fresh session has no stale SouthExit request")
 	_assert_eq(fresh.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "fresh session starts with Outdoor active")

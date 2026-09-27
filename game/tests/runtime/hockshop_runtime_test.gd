@@ -169,7 +169,7 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 	var ui: SnowHockshopInteraction = await panel_fixture(tree, session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(WorldContentRevision.Value.SOURCE_ENTRY_V1)
+	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC)
 	for id: StringName in [&"h3.weapon1", &"h3.weapon2"]:
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), H2.SHORT, id)
 		check(player.state.equipment.wield(EquippedWeaponRef.new(id, definitions.weapon_definition(H2.SHORT)), false).succeeded, "wield real typed fixture")

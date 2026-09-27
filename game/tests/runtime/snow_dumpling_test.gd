@@ -32,7 +32,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 static func definitions() -> NativeItemDefinitionProjections:
-	return OldPineNativeItemDefinitionProjections.create(WorldContentRevision.Value.SOURCE_ENTRY_V1)
+	return OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC)
 
 
 static func context(session: OldPineWorldSessionController) -> MoneyInventoryContext:

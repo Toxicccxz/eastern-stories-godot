@@ -6,6 +6,7 @@ const MESSAGES: Dictionary[StringName, String] = {
 	&"save.continue_available": "A saved journey is ready to continue.",
 	&"save.recovery_required": "The main save cannot be used. A recovery candidate is available.",
 	&"save.unusable": "The saved journey cannot be read.",
+	&"save.incompatible_development": "此存档来自不兼容的开发版本，请开始新游戏。",
 	&"save.unsupported": "This saved journey was created by an unsupported version.",
 	&"save.storage_failure": "Saved journeys cannot be checked right now.",
 	&"operation.success": "The operation completed.",

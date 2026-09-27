@@ -36,6 +36,7 @@ const AggressionAdapterType := preload(
 ]
 @onready var tall_bandit_body: WorldCharacterBodyType = %TallBandit
 @onready var fat_bandit_body: WorldCharacterBodyType = %FatBandit
+@onready var serpent_bodies: Array[WorldCharacterBodyType] = [%Serpent01, %Serpent02, %Serpent03, %Serpent04, %Serpent05]
 @onready var spawn_points: Node2D = %SpawnPoints
 @onready var corpse_layer: Node2D = %CorpseLayer
 @onready var opportunity_timer: Timer = %OpportunityTimer
@@ -101,7 +102,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _world_gameplay_is_open():
 		return
-	if _initialized and _aggression_adapter.pending_count() > 0:
+	if _initialized:
+		_sync_lake_route_location()
+		for npc: NpcRuntimeState in _all_npcs:
+			if npc.spawn_id == OldPineSpawnDefinitions.LAKE_SERPENT_SPAWN_ID and not _complete_entry_contact(npc.character_id):
+				_complete_set_consumed_contacts.erase(npc.character_id)
+	if _initialized and (_aggression_adapter.pending_count() > 0 or _player.world_location().zone_id == OldPineWorldDefinitions.LAKE_ZONE_ID):
 		process_pending_aggression()
 	if (
 		_initialized
@@ -123,6 +129,31 @@ func map_id() -> StringName:
 func can_fill_at_waterfall() -> bool:
 	var point: Marker2D = get_node_or_null("WaterfallWaterPoint") as Marker2D
 	return _initialized and is_inside_tree() and not get_tree().paused and _world_gameplay_is_open() and player_body.player_controlled and point != null and _player.world_location().map_id == map_id() and _player.world_location().zone_id == OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID and player_body.global_position.distance_squared_to(point.global_position) <= 96.0 * 96.0 and OldPineMapPlacementValidator.is_valid_character_position(self, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, player_body.global_position)
+
+
+func can_fill_at_lake() -> bool:
+	var point: Marker2D = $LakeWaterPoint
+	return _initialized and is_inside_tree() and not get_tree().paused and _world_gameplay_is_open() and player_body.player_controlled and _player.world_location().zone_id == OldPineWorldDefinitions.LAKE_ZONE_ID and player_body.global_position.distance_squared_to(point.global_position) <= 96.0 * 96.0 and OldPineMapPlacementValidator.is_valid_character_position(self, OldPineWorldDefinitions.LAKE_ZONE_ID, player_body.global_position)
+
+
+## Half-open center ownership is shared with Save placement at the river/Lake seam.
+func lake_route_zone_at(position: Vector2) -> StringName:
+	for entry: Array in [[OldPineWorldDefinitions.LAKE_ZONE_ID, $Zones/LakeZone/CollisionShape2D], [OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, $Zones/RiverGorgeZone/CollisionShape2D]]:
+		var collision: CollisionShape2D = entry[1]
+		var half: Vector2 = (collision.shape as RectangleShape2D).size / 2.0
+		var local: Vector2 = collision.global_transform.affine_inverse() * position
+		if local.x >= -half.x and local.x < half.x and local.y >= -half.y and local.y < half.y:
+			return entry[0]
+	return &""
+
+
+func _sync_lake_route_location() -> void:
+	if not _world_gameplay_is_open() or not player_body.player_controlled:
+		return
+	var zone: StringName = lake_route_zone_at(player_body.global_position)
+	if not zone.is_empty() and _player.world_location().zone_id != zone:
+		player_body.set_world_location(_location_for_zone(zone))
+		_refresh_selected_landmark_source()
 
 
 func initialize_map() -> bool:
@@ -166,6 +197,7 @@ func initialize_map() -> bool:
 				or not _initialize_bandits()
 				or not _initialize_tall_bandit()
 				or not _initialize_fat_bandit()
+				or not _initialize_serpents()
 			)
 		)
 	):
@@ -256,6 +288,8 @@ func _on_registered_presence_entered(body: Node2D, character_id: StringName) -> 
 
 
 func _on_registered_presence_exited(body: Node2D, character_id: StringName) -> void:
+	if body == player_body and not _complete_entry_contact(character_id):
+		_complete_set_consumed_contacts.erase(character_id)
 	if _world_gameplay_is_open() and body == player_body:
 		_aggression_adapter.leave_player_presence(character_id)
 
@@ -1007,9 +1041,90 @@ func traverse_selected_vine() -> OldPineVineTraversalResult:
 	return _last_vine_traversal
 
 
+## P2A seam; P2B routes Lake entry here. Ordinary pair dispatch is unchanged.
+var _complete_set_consumed_contacts: Array[StringName] = []
+
+func collect_complete_combat_entry(cause: int, requested_target: StringName = &"") -> Array[CombatSliceCharacterBinding]:
+	if not _world_gameplay_is_open() or _session_owner.active_map() != self:
+		return []
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION]:
+		return []
+	var manual: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
+	if manual and _find_npc(requested_target) == null:
+		return []
+	if not manual and not requested_target.is_empty():
+		return []
+	if player_body._player != _player:
+		return []
+	var ids: Array[StringName] = []
+	var fresh_contact: bool = false
+	for npc: NpcRuntimeState in _all_npcs:
+		if npc.exists_in_map:
+			var body: WorldCharacterBodyType = runtime_body_for_character(npc.character_id)
+			if not is_instance_valid(body) or body._npc != npc or map_character_state().find_npc(npc.character_id) != npc:
+				return []
+		var contact: bool = _complete_entry_contact(npc.character_id)
+		if not contact:
+			_complete_set_consumed_contacts.erase(npc.character_id)
+		var decision: OldPineAggressionDecision = _aggression_adapter._evaluate(npc, _player, _current_location_allows_combat())
+		var aggressive: bool = contact and decision.outcome in [OldPineAggressionDecision.Outcome.READY, OldPineAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
+		if aggressive or (manual and npc.character_id == requested_target):
+			if ids.has(npc.character_id):
+				return []
+			ids.append(npc.character_id)
+			fresh_contact = fresh_contact or (aggressive and not _complete_set_consumed_contacts.has(npc.character_id))
+	if ids.is_empty() or (not manual and not fresh_contact):
+		return []
+	ids.sort_custom(_complete_entry_id_less)
+	ids.push_front(_player.character_id)
+	var available: Array[CombatSliceCharacterBinding] = _build_participants()
+	var result: Array[CombatSliceCharacterBinding] = []
+	for id: StringName in ids:
+		var binding: CombatSliceCharacterBinding = _binding_for(available, id)
+		if binding == null or not _session_owner.encounter_participant_is_available(id):
+			return []
+		result.append(binding)
+	return result
+
+
+## Exact current shapes, not cached Area overlap lists or deferred signal order.
+static func _complete_entry_id_less(first: StringName, second: StringName) -> bool:
+	return String(first) < String(second)
+
+
+func _complete_entry_contact(id: StringName) -> bool:
+	var body: WorldCharacterBodyType = runtime_body_for_character(id)
+	if not is_instance_valid(body) or not body.is_inside_tree():
+		return false
+	var area: Area2D = _registered_npc_presence.get(id) if _registered_npc_presence.has(id) else body.get_node_or_null("AggressionPresence")
+	if not is_instance_valid(area) or not area.monitoring or not area.is_inside_tree():
+		return false
+	var player_shape: CollisionShape2D = player_body.get_node_or_null("CollisionShape2D")
+	if player_shape == null or player_shape.disabled or player_shape.shape == null:
+		return false
+	for child: Node in area.get_children():
+		if child is CollisionShape2D and not child.disabled and child.shape != null:
+			if child.shape.collide(child.global_transform, player_shape.shape, player_shape.global_transform):
+				return true
+	return false
+
+
+func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
+	for id: StringName in ids:
+		if _complete_entry_contact(id) and not _complete_set_consumed_contacts.has(id):
+			_complete_set_consumed_contacts.append(id)
+
+
 func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	if not _world_gameplay_is_open():
 		return []
+	_sync_lake_route_location()
+	if _player.world_location().zone_id == OldPineWorldDefinitions.LAKE_ZONE_ID:
+		_last_aggression_initiations.clear()
+		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
+			var receipt: CombatSliceInitiationResult = _session_owner.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
+			_last_aggression_initiations.append(receipt)
+		return _last_aggression_initiations.duplicate()
 	_last_aggression_decisions = _aggression_adapter.resolve_pending(
 		_all_npcs,
 		_player,
@@ -1038,6 +1153,13 @@ func _initiate_lethal_combat(
 ) -> CombatSliceInitiationResult:
 	if not _world_gameplay_is_open():
 		return CombatSliceInitiationResult.new()
+	_sync_lake_route_location()
+	if _player.world_location().zone_id == OldPineWorldDefinitions.LAKE_ZONE_ID:
+		var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if initiator_id == _player.character_id else CombatTriggerCause.Value.NPC_AGGRESSION
+		var receipt: CombatSliceInitiationResult = _session_owner.combat_encounter_coordinator().start_complete_production(cause, target_id if initiator_id == _player.character_id else &"")
+		if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+			hud.append_log_lines([log_line])
+		return receipt
 	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
 	var initiator_binding: CombatSliceCharacterBinding = _binding_for(
 		participants,
@@ -1157,7 +1279,7 @@ func _initialize_restored_world() -> bool:
 		view.selection_requested.connect(_on_corpse_selection_requested)
 		view.loot_range_changed.connect(_on_corpse_loot_range_changed)
 		corpse_layer.add_child(view)
-	return _all_npcs.size() == 5
+	return _all_npcs.size() == 10
 
 
 func _initialize_restored_player() -> bool:
@@ -1193,6 +1315,9 @@ func _body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBodyType
 		OldPineSpawnDefinitions.pine1_fat_bandit_spawn().spawn_point_ids()[0]
 	):
 		return fat_bandit_body
+	var snake_index: int = OldPineSpawnDefinitions.lake_serpent_spawn().spawn_point_ids().find(spawn_point_id)
+	if snake_index >= 0:
+		return serpent_bodies[snake_index]
 	return null
 
 
@@ -1296,6 +1421,25 @@ func _initialize_fat_bandit() -> bool:
 	return fat_bandit_body.bind_npc(npc)
 
 
+func _initialize_serpents() -> bool:
+	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.lake_serpent_spawn()
+	var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
+		spawn, OldPineNpcDefinitions.serpent_definition(), _location_for_zone(OldPineWorldDefinitions.LAKE_ZONE_ID),
+		_inventory, _stacks, _npc_random, [], _item_instance_scope)
+	if created.size() != serpent_bodies.size():
+		return false
+	for index: int in created.size():
+		var npc: NpcRuntimeState = created[index]
+		var marker: WorldSpawnMarkerType = _find_spawn_marker(npc.spawn_point_id)
+		if marker == null or not _map_characters.register_npc(npc):
+			return false
+		_all_npcs.append(npc)
+		serpent_bodies[index].global_position = marker.global_position
+		if not serpent_bodies[index].bind_npc(npc):
+			return false
+	return true
+
+
 func _find_spawn_marker(spawn_point_id: StringName) -> WorldSpawnMarkerType:
 	for child: Node in spawn_points.get_children():
 		var marker: WorldSpawnMarkerType = child as WorldSpawnMarkerType
@@ -1329,6 +1473,8 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 		var npc_content: CombatSliceContentProfile = _bandit_content
 		if npc.definition().definition_id == OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID:
 			npc_content = _tall_bandit_content
+		if npc.definition().definition_id == OldPineNpcDefinitions.SERPENT_DEFINITION_ID:
+			npc_content = CombatSliceContentProfile.new()
 		if _registered_npc_content.has(npc.character_id):
 			npc_content = _registered_npc_content[npc.character_id]
 		var binding: CombatSliceCharacterBinding = (
@@ -1496,6 +1642,8 @@ func _update_body_zone(body: Node2D, zone_id: StringName, area: Area2D) -> void:
 	if not _world_gameplay_is_open():
 		return
 	var character_body: WorldCharacterBodyType = body as WorldCharacterBodyType
+	if zone_id in [OldPineWorldDefinitions.LAKE_ZONE_ID, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID] and character_body != null and lake_route_zone_at(character_body.global_position) != zone_id:
+		return
 	if character_body != null and _has_current_zone_contact(character_body, area):
 		var updated: bool = character_body.set_world_location(
 			_location_for_zone(zone_id)
@@ -1661,7 +1809,7 @@ func _body_for(character_id: StringName) -> WorldCharacterBodyType:
 		return player_body
 	if _registered_npc_bodies.has(character_id):
 		return _registered_npc_bodies[character_id]
-	for body: WorldCharacterBodyType in bandit_bodies:
+	for body: WorldCharacterBodyType in bandit_bodies + serpent_bodies:
 		if body.character_id == character_id:
 			return body
 	if tall_bandit_body.character_id == character_id:
@@ -1725,6 +1873,7 @@ func _world_gameplay_is_open() -> bool:
 func _world_character_bodies() -> Array[WorldCharacterBodyType]:
 	var result: Array[WorldCharacterBodyType] = [player_body]
 	result.append_array(bandit_bodies)
+	result.append_array(serpent_bodies)
 	result.append(tall_bandit_body)
 	result.append(fat_bandit_body)
 	result.append_array(_registered_npc_bodies.values())
@@ -1864,6 +2013,8 @@ func _leave_bandit_presence(npc_index: int, body: Node2D) -> void:
 		and npc_index < _all_npcs.size()
 	):
 		_aggression_adapter.leave_player_presence(_all_npcs[npc_index].character_id)
+		if not _complete_entry_contact(_all_npcs[npc_index].character_id):
+			_complete_set_consumed_contacts.erase(_all_npcs[npc_index].character_id)
 
 
 func _on_bandit_selection_requested(character_id: StringName) -> void:
@@ -2050,3 +2201,7 @@ func _on_fat_bandit_presence_entered(body: Node2D) -> void:
 
 func _on_fat_bandit_presence_exited(body: Node2D) -> void:
 	_leave_bandit_presence(4, body)
+
+
+func _on_lake_body_entered(body: Node2D) -> void:
+	_update_body_zone(body, OldPineWorldDefinitions.LAKE_ZONE_ID, $Zones/LakeZone)

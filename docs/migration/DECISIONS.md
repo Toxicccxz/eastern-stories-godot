@@ -1,5 +1,52 @@
 # Migration Decisions
 
+## Old Pine Lake — owner-revised engineering acceptance scope
+
+Owner decision (2026-09-26), after [P2C acceptance](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md):
+accept the recorded desktop fifth-target mouse input, manual complete-set Attack, five-alive
+and mixed death/corpse cross-process Save/Continue, exact durable state/three-RNG equality,
+non-resurrection on return, and complete `verify.py` PASS on
+`ef8b7d601983c80d817bf28a93e554f2472a49a6` (543.86s).
+
+**TOUCH DEVICE QUALIFICATION — PENDING — NON-BLOCKING FOR LAKE ENGINEERING INTEGRATION.**
+This defers missing device evidence only; it is not touch PASS, all-platform acceptance,
+or a blanket exemption for later milestones. Actual touch defects, if found, remain separately
+reportable. The [existing platform scope row](../production/PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries)
+retains Lake touch movement, horizontal scrolling, fifth-target selection, Flee, and applicable
+safe-area, focus, Pause/Back/background/resume checks. Qualify the then-target devices before
+claiming verified Lake touch support or external long-term testing/formal release of the related
+mobile version. Later device qualification may be completed directly without reopening all Lake
+work or creating a prerequisite development phase, test platform or plugin upgrade.
+
+P2C's original PENDING conclusion and all P1/P2A/P2B reports retain their historical meaning.
+M/W/R and product behavior are unchanged. This decision authorized one bounded
+[Final Audit](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md), not PR creation, merge,
+or the next milestone. Engineering acceptance under this revised scope does not mean integrated main.
+
+## Old Pine Lake — owner-locked P2A foundations
+
+Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md):
+
+- **M: complete-set admission before freeze.** Revalidate coherent current physical contact,
+  identity, existence, ACTIVE/available state, combat location and permission. Include every
+  actually eligible aggressive enemy; Player plus five is legal. Same map/zone alone is not
+  contact, and LPC `MAX_OPPONENT=4` is selection behavior, not encounter capacity. Manual Attack
+  retains its own target policy and also includes eligible aggressive contacts. Use stable ID
+  ordering, one transaction, one existing encounter/scheduler and full relationship rollback.
+  No signal-order selection, delay-to-collect, mid-combat joining, replacement or reinforcements.
+- **W: bounded shore Fill.** Reuse direct-held wineskin, ACTIVE, busy/combat, location/distance
+  and liquid-service checks. Lake geometry and UI hookup belong to P2B; no environmental Drink,
+  general river water, poison or swimming.
+- **R: CURRENT WORLD ONLY.** Follow the [development save policy](../production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy).
+  No old/new product-world branches or save migration. Reject incompatible files explicitly;
+  never delete, rewrite, respawn, reroll or silently start New Game. P2A retains current public
+  SOURCE_ENTRY_V1 with five humans. The future content-marker cutover must be atomic with P2B
+  Lake geometry, five additional production slots and complete persistence. Root/item schemas
+  change only for a real format change, not a content publication or a Git commit.
+
+This locks M/W and authorizes P2A foundations only. P2B/P2C, Final Audit and integration require
+separate owner instructions; historical P1 alternatives remain historical.
+
 ## Migration Tooling v1 P2 — owner-locked extraction boundary
 
 **OWNER APPROVED / LOCKED D1–D9.** P1 analysis is OWNER APPROVED / CLOSED at

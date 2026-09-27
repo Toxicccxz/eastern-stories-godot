@@ -427,7 +427,7 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_false(fresh.hud.inventory_is_open(), "fresh/reset boundary closes Inventory panel")
 	_assert_false(fresh.hud.loot_is_open(), "fresh/reset boundary closes Loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh/reset boundary has no corpses")
-	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh/reset boundary restores all five bandits")
+	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh/reset boundary restores all ten bandits")
 	_assert_true(fresh.open_player_inventory(), "fresh active player can open Inventory")
 	var rows: Array[PlayerInventoryRowProjection] = fresh.hud.inventory_rows()
 	_assert_eq(rows.size(), 1, "fresh/reset boundary removes acquired short and silver")

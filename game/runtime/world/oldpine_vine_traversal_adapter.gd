@@ -75,7 +75,7 @@ func traverse(
 		definition.passage_portal_id,
 	)
 	result._policy_result = policy.evaluate(result._effective_dodge, random_source,
-		session.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_V1)
+		session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC)
 	result._reached_stage = OldPineVineTraversalResult.ReachedStage.POLICY
 	if (
 		result._policy_result.outcome

@@ -20,6 +20,8 @@ func _run() -> void:
 		check(Food.earn_and_exchange(session), "work + bank source money")
 		check(Food.purchase(session).delivered and Food.purchase(session).delivered, "two products no stock limit")
 		var ids: Array[StringName] = session.food_collection().instance_ids()
+		# Stable test identity across processes; StringName default ordering is allocation-based.
+		ids.sort_custom(_identity_less)
 		check(ids.size() == 2, "two identities")
 		session.player_runtime().state.recovery.food = 0 # Explicit consumption-only QA fixture.
 		check(Food.eat(session, ids[0]).outcome == FoodUseResult.Outcome.ATE, "first bite")
@@ -46,6 +48,7 @@ func _run() -> void:
 			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ENTIRE decoded persisted snapshot equality")
 			var ids: Array[StringName] = session.food_collection().instance_ids()
+			ids.sort_custom(_identity_less)
 			if mode in ["pre-read", "pre-v2"]:
 				check(ids.is_empty(), "no food granted to pre-S4B save")
 				check(Food.context(session).select(Food.SILVER).amount == 1 and Food.context(session).select(Food.COIN).amount == 100, "old source currency exact")
@@ -95,3 +98,6 @@ func check(ok: bool, label: String) -> void:
 	if not ok:
 		failed = true
 		printerr("S4B cold: " + label)
+
+static func _identity_less(first: StringName, second: StringName) -> bool:
+	return String(first) < String(second)

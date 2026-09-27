@@ -36,10 +36,13 @@ static func _inspect_repository_outcome(
 				&"save.recovery_required",
 				recovery_sources,
 			)
-		GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA:
+		GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT:
+			return ApplicationSlotInspection.new(ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE, &"save.incompatible_development", recovery_sources)
+		GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA:
 			return ApplicationSlotInspection.new(
 				ApplicationSlotInspection.Availability.UNSUPPORTED_SAVE,
 				&"save.unsupported",
+				recovery_sources,
 			)
 		GameSaveResult.Outcome.READ_FAILED, GameSaveResult.Outcome.OPERATION_IN_PROGRESS:
 			return ApplicationSlotInspection.new(

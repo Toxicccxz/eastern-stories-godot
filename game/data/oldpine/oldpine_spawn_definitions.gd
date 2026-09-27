@@ -1,6 +1,8 @@
 class_name OldPineSpawnDefinitions
 extends RefCounted
 
+const LAKE_SERPENT_SPAWN_ID: StringName = &"oldpine.outdoor.lake.serpents"
+
 const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
 	&"oldpine.outdoor.pine1.tall_bandit"
@@ -56,8 +58,21 @@ static func pine1_fat_bandit_spawn() -> NpcSpawnDefinition:
 	)
 
 
+static func lake_serpent_spawn() -> NpcSpawnDefinition:
+	return NpcSpawnDefinition.new(
+		LAKE_SERPENT_SPAWN_ID, OldPineNpcDefinitions.SERPENT_DEFINITION_ID,
+		OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.LAKE_ZONE_ID,
+		[&"oldpine.outdoor.lake.serpent.1", &"oldpine.outdoor.lake.serpent.2",
+		 &"oldpine.outdoor.lake.serpent.3", &"oldpine.outdoor.lake.serpent.4",
+		 &"oldpine.outdoor.lake.serpent.5"],
+		5, "d/oldpine/lake.c", 5, NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY,
+	)
+
+
 static func spawn_by_id(spawn_id: StringName) -> NpcSpawnDefinition:
 	match spawn_id:
+		LAKE_SERPENT_SPAWN_ID:
+			return lake_serpent_spawn()
 		SPATH1_BANDIT_SPAWN_ID:
 			return spath1_bandit_spawn()
 		PINE1_TALL_BANDIT_SPAWN_ID:
@@ -72,6 +87,7 @@ static func all_spawns() -> Array[NpcSpawnDefinition]:
 		spath1_bandit_spawn(),
 		pine1_tall_bandit_spawn(),
 		pine1_fat_bandit_spawn(),
+		lake_serpent_spawn(),
 	]
 
 
@@ -125,6 +141,7 @@ static func validate() -> bool:
 		OldPineNpcDefinitions.BANDIT_DEFINITION_ID,
 		OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID,
 		OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID,
+		OldPineNpcDefinitions.SERPENT_DEFINITION_ID,
 	]:
 		if not _register_unique_id(native_ids, definition_id):
 			return false

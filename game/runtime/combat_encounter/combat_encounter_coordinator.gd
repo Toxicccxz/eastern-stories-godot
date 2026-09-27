@@ -63,6 +63,66 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	_restore_entry_relationship(target.relationship, second_opponents, second_lethal)
 	return receipt
 
+## World collects and revalidates synchronously; no caller-supplied eligible list.
+## Player first, enemies in stable lexical CharacterId order; one existing engine.
+func start_complete_production(cause: int, requested_target: StringName = &"") -> CombatSliceInitiationResult:
+	var failed := CombatSliceInitiationResult.new()
+	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or _entry_sequence == 9223372036854775807:
+		return failed
+	var map: OldPineOutdoorController = _session.outdoor_map()
+	if map == null or _session.active_map() != map:
+		return failed
+	var bindings: Array[CombatSliceCharacterBinding] = map.collect_complete_combat_entry(cause, requested_target)
+	if bindings.size() < 2 or bindings[0].character_id != _session.player_runtime().character_id:
+		return failed
+	var player: CombatSliceCharacterBinding = bindings[0]
+	var ids: Array[StringName] = []
+	for binding: CombatSliceCharacterBinding in bindings:
+		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
+		if not binding.is_valid() or current == null or not _session.encounter_participant_is_available(binding.character_id) or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor or binding.location_id != player.location_id:
+			return failed
+		var location: WorldLocationState = _session.resolve_encounter_location(binding.character_id)
+		if location == null or not location.shares_combat_location(_session.resolve_encounter_location(player.character_id)) or ids.has(binding.character_id):
+			return failed
+		for prior: CombatSliceCharacterBinding in bindings.slice(0, ids.size()):
+			if not CombatSliceOpportunityExecutor._bindings_are_independent(prior, binding):
+				return failed
+		ids.append(binding.character_id)
+	for binding: CombatSliceCharacterBinding in bindings:
+		for opponent: StringName in binding.relationship.opponent_ids() + binding.relationship.lethal_target_ids():
+			if not ids.has(opponent) or opponent == binding.character_id or (binding != player and opponent != player.character_id):
+				return failed
+	var saved_opponents: Array[Array] = []
+	var saved_lethal: Array[Array] = []
+	for binding: CombatSliceCharacterBinding in bindings:
+		saved_opponents.append(binding.relationship.opponent_ids())
+		saved_lethal.append(binding.relationship.lethal_target_ids())
+	var receipt: CombatSliceInitiationResult = failed
+	for enemy: CombatSliceCharacterBinding in bindings.slice(1):
+		receipt = CombatSliceOpportunityExecutor.initiate_lethal_combat(player, enemy)
+		if receipt.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+			break
+	if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		var candidates: Array[CombatTriggerCandidate] = []
+		for binding: CombatSliceCharacterBinding in bindings:
+			candidates.append(CombatTriggerCandidate.new(binding.character_id, &"player" if binding == player else &"enemies"))
+		var initiator: StringName = player.character_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else ids[1]
+		_entry_sequence += 1
+		var trigger := CombatTrigger.new(StringName("production:%d" % _entry_sequence), cause,
+			CombatEncounterMode.Value.LETHAL, initiator, candidates, _session.resolve_encounter_location(initiator))
+		if start(trigger).succeeded():
+			if not requested_target.is_empty():
+				_active_encounter.set_current_target(player.character_id, requested_target)
+			map.consume_complete_entry_contacts(ids)
+			receipt._initiator_id = initiator
+			receipt._target_id = player.character_id if cause == CombatTriggerCause.Value.NPC_AGGRESSION else requested_target
+			return receipt
+	for index: int in bindings.size():
+		_restore_entry_relationship(bindings[index].relationship, saved_opponents[index], saved_lethal[index])
+	failed._outcome = CombatSliceInitiationResult.Outcome.ENCOUNTER_START_FAILED
+	return failed
+
+
 func _restore_entry_relationship(state: CombatRelationshipState, opponents: Array[StringName], lethal: Array[StringName]) -> void:
 	for target_id: StringName in state.lethal_target_ids():
 		state.remove_lethal_relation(target_id)

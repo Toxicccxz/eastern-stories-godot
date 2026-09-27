@@ -55,7 +55,7 @@ func _story(tree: SceneTree) -> void:
 	session.set_process(false) # Test timing only; production recovery is unchanged.
 	var player := session.player_runtime()
 	var state := player.state
-	check(session.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_V1 and session.active_map_id() == &"snow.inn", "source revision and Snow Inn")
+	check(session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC and session.active_map_id() == &"snow.inn", "source revision and Snow Inn")
 	check(player.facts.age == 14, "age14")
 	var a := state.attributes
 	check([a.strength,a.courage,a.intelligence,a.spirituality,a.composure,a.personality,a.constitution,a.karma] == [30,30,30,30,30,30,30,30], "all base attributes30")

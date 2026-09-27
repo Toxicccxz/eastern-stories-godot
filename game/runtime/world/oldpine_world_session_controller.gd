@@ -58,7 +58,7 @@ var _player_recovery_cadence: PlayerRecoveryCadence
 
 
 func _ready() -> void:
-	if initialize_session() and _world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+	if initialize_session() and _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
 		var food_ui: HeldFoodPanel = HeldFoodPanel.new()
 		food_ui.name = "HeldFoodUI"
 		food_ui.configure(self)
@@ -73,12 +73,17 @@ func liquid_interaction_available() -> bool:
 	if not application_gameplay_allows_encounter_advance() or not can_process() or _restore_candidate_staged or _session_swap_reparenting or _transitioning:
 		return false
 	var map: WorldResidentMapController = active_map()
-	return _world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1 and world_simulation_gate().is_open() and map != null and map.is_map_initialized() and map.runtime_player_body() != null and map.runtime_player_body().player_controlled and _player.exists_in_world and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	return _world_content_revision == WorldContentRevision.CURRENT_PUBLIC and world_simulation_gate().is_open() and map != null and map.is_map_initialized() and map.runtime_player_body() != null and map.runtime_player_body().player_controlled and _player.exists_in_world and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 
 
 func waterfall_water_available() -> bool:
 	var map: OldPineOutdoorController = active_map() as OldPineOutdoorController
 	return liquid_interaction_available() and map != null and map.can_fill_at_waterfall()
+
+
+func fill_water_available() -> bool:
+	var map: OldPineOutdoorController = active_map() as OldPineOutdoorController
+	return liquid_interaction_available() and map != null and (map.can_fill_at_waterfall() or map.can_fill_at_lake())
 
 
 func food_collection() -> FoodCollection:
@@ -109,7 +114,7 @@ func player_recovery_cadence() -> PlayerRecoveryCadence:
 
 
 func _initialize_player_recovery() -> bool:
-	if _world_content_revision != WorldContentRevision.Value.SOURCE_ENTRY_V1:
+	if _world_content_revision != WorldContentRevision.CURRENT_PUBLIC:
 		return true
 	if _player_recovery_cadence == null:
 		if _recovery_random == null:
@@ -121,7 +126,7 @@ func _initialize_player_recovery() -> bool:
 ## S5B staged path: no combat/conditions/lifecycle execution. Busy is NOT a time gate.
 func player_recovery_time_allowed() -> bool:
 	if (
-		_world_content_revision != WorldContentRevision.Value.SOURCE_ENTRY_V1
+		_world_content_revision != WorldContentRevision.CURRENT_PUBLIC
 		or not application_gameplay_allows_encounter_advance()
 		or not can_process() or _restore_candidate_staged
 		or _session_swap_reparenting or _transitioning
@@ -230,7 +235,7 @@ func configure_source_entry(display_name: String, gender: StringName) -> bool:
 	_source_name = display_name
 	_source_gender = gender
 	_bootstrap_mode = BootstrapMode.SOURCE_ENTRY
-	_world_content_revision = WorldContentRevision.Value.SOURCE_ENTRY_V1
+	_world_content_revision = WorldContentRevision.CURRENT_PUBLIC
 	return true
 
 
@@ -754,7 +759,7 @@ func _initialize_restore_residents(
 	outdoor: OldPineResidentMapController,
 ) -> bool:
 	var residents: Array[WorldResidentMapController] = [cave, outdoor]
-	if _world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1:
+	if _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
 		if not _register_source_maps(outdoor):
 			return false
 		residents.append(_resident_maps[SnowWorldDefinitions.INN_MAP_ID])

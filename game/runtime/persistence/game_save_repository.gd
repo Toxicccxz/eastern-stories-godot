@@ -124,6 +124,9 @@ func _load_impl(valid_recovery_sources: Array[int] = []) -> GameSaveResult:
 		return GameSaveResult.failure(GameSaveResult.Outcome.NO_SAVE, _profile.canonical_path())
 	var canonical: GameSaveResult = _read_snapshot(_profile.canonical_path())
 	if canonical.succeeded(): return canonical
+	# Preserve a precise contract refusal, even when an explicit recovery option exists.
+	if canonical.outcome in [GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION]:
+		return canonical
 	if _has_valid_recovery_candidate(valid_recovery_sources):
 		return GameSaveResult.failure(GameSaveResult.Outcome.BACKUP_AVAILABLE, _profile.canonical_path(), "canonical invalid; validated recovery file exists")
 	return canonical
@@ -158,7 +161,11 @@ func _read_snapshot(path: String) -> GameSaveResult:
 		return GameSaveResult.failure(GameSaveResult.Outcome.READ_FAILED, path, error_string(read.error))
 	if not _is_valid_utf8(read.bytes):
 		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_UTF8, path)
-	return GameSaveJsonCodec.decode(read.bytes.get_string_from_utf8())
+	return GameSaveJsonCodec.decode(read.bytes.get_string_from_utf8(), _requires_current_public_contract())
+
+
+func _requires_current_public_contract() -> bool:
+	return false
 
 
 static func _is_valid_utf8(bytes: PackedByteArray) -> bool:

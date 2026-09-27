@@ -277,7 +277,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		else: player.state.skills.unmap_skill(&"unarmed")
 		var snapshot := Work.capture(session)
 		var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
-		check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_V1","save schema unchanged")
+		check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_LAKE_V1","save schema unchanged")
 		var probe := Work.new()
 		await probe.round_trip(tree,session,snapshot,"liuh enabled=" + str(enabled))
 		check(probe._failures.is_empty(),"full state and all RNG exact; restore draws zero " + str(probe._failures))

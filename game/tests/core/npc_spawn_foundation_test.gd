@@ -629,7 +629,7 @@ func _test_oldpine_native_ids_are_unique() -> void:
 			content.item_definition().item_definition_id,
 			"item",
 		)
-	_assert_eq(native_ids.size(), 38, "all 38 cross-category native IDs are distinct after Phase 9B3B3")
+	_assert_eq(native_ids.size(), 39, "cross-category native IDs remain distinct with Lake zone")
 
 
 func _test_invalid_spawn_and_definition_shapes() -> void:

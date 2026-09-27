@@ -47,7 +47,7 @@ func _run() -> void:
 			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "exact complete state")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no rewrite on load")
-			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_V1, "root2/item3/source-v1")
+			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/current public source")
 			var map: SnowOutdoorController = session.active_map() as SnowOutdoorController
 			check(not map.hockshop.door_is_open() and map.player_body.position == Vector2(330,-1000) and session.player_runtime().world_location().zone_id == &"snow.hockshop", "exact position / closed default")
 			paused = false

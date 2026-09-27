@@ -78,7 +78,7 @@ func _process(_delta: float) -> void:
 	_drink.disabled = _ids.is_empty()
 	if not _ids.is_empty():
 		_drink.text = "饮用（酒精暂未开放）" if _session.liquid_collection().state(_selected_id()).content == LiquidState.Content.RED_WINE else "喝一份清水"
-	_fill.visible = _session.waterfall_water_available()
+	_fill.visible = _session.fill_water_available()
 	_fill.disabled = _ids.is_empty()
 	_panel.visible = not _ids.is_empty()
 
@@ -100,20 +100,20 @@ func _use(fill: bool) -> LiquidUseResult:
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), _session.inventory_state(), _session.stack_collection(), _session.item_instance_index())
 	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(_session.world_content_revision())
 	var encounter: bool = _session.combat_encounter_coordinator().has_active_encounter()
-	last_result = HeldLiquidUseService.fill(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), _session.waterfall_water_available(), encounter) if fill else HeldLiquidUseService.drink(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), encounter)
+	last_result = HeldLiquidUseService.fill(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), _session.fill_water_available(), encounter) if fill else HeldLiquidUseService.drink(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), encounter)
 	match last_result.outcome:
 		LiquidUseResult.Outcome.FILLED:
 			_feedback.text = "已倒掉红酒，装满清水15份。" if last_result.discarded_wine else "已重新装满清水15份。"
 		LiquidUseResult.Outcome.DRANK:
 			_feedback.text = "喝了一份清水。饮水：%d → %d" % [last_result.water_before, last_result.water_after]
 		LiquidUseResult.Outcome.ALCOHOL_DEFERRED:
-			_feedback.text = "酒精饮用暂未开放；请到瀑布换装清水。"
+			_feedback.text = "酒精饮用暂未开放；请到瀑布或水潭取水点换装清水。"
 		LiquidUseResult.Outcome.TOO_FULL:
 			_feedback.text = "已经喝太多了，不能再喝。"
 		LiquidUseResult.Outcome.EMPTY:
-			_feedback.text = "酒袋已空，可到瀑布重新装满。"
+			_feedback.text = "酒袋已空，可到瀑布或水潭取水点重新装满。"
 		LiquidUseResult.Outcome.NO_WATER_SOURCE:
-			_feedback.text = "请靠近瀑布清水取水点。"
+			_feedback.text = "请靠近瀑布或水潭岸边取水点。"
 		LiquidUseResult.Outcome.BUSY:
 			_feedback.text = "上一个动作还没有完成。"
 		LiquidUseResult.Outcome.COMBAT_BLOCKED:

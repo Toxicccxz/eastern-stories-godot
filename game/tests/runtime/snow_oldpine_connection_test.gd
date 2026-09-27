@@ -30,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var combat_rng: int = session.combat_random_source().capture_random_state().state
 	var world_rng: int = session.world_interaction_random_source().capture_random_state().state
 	_check(session.active_map_id() == &"snow.inn" and player.world_location().same_location(SnowWorldDefinitions.birth_location()), "inactive Old Pine initialization leaves authoritative Inn birth")
-	_check(npc_ids.size() == 5 and session.outdoor_map().initialization_count() == 1, "existing five authored human NPCs initialized exactly once")
+	_check(npc_ids.size() == 10 and session.outdoor_map().initialization_count() == 1, "ten authored production NPCs initialized exactly once")
 	_check(session.resident_map_count() == 4, "source profile includes existing Cave dependency")
 	_check(session.inventory_state().registered_item_ids().size() == 12, "source cloth plus unchanged eleven NPC loadout items")
 	_check(session.encounter_display_name(player.character_id) == "Snow Player", "presentation projects source name")

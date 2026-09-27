@@ -147,10 +147,7 @@ func persistence_tests(tree: SceneTree) -> void:
 		check(not (JSON.parse_string(text) as Dictionary).player.character.has("affiliation"), "actual old shape")
 		check(decoded.snapshot.player.character.affiliation.entry_time_status == (CharacterAffiliationState.EntryTime.UNKNOWN if kind == "legacy_relation" else CharacterAffiliationState.EntryTime.ABSENT), "old timestamp never now")
 		check(decoded.snapshot.player.character.affiliation.class_id.is_empty(), "no invented old class")
-		var source := Recovery.create_session(tree,Recovery.RandomSequence.new())
-		await exact_roundtrip(tree,source,decoded.snapshot,"old P1 " + kind)
-		source.free()
-		await tree.process_frame
+		check(GameSaveJsonCodec.decode(text, true).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "historical development contract explicitly refused " + kind)
 	var session := Recovery.create_session(tree,Recovery.RandomSequence.new())
 	var player := session.player_runtime()
 	var state := player.state
@@ -174,7 +171,7 @@ func persistence_tests(tree: SceneTree) -> void:
 	await exact_roundtrip(tree,session,snapshot,"partial skill")
 	var encoded := GameSaveJsonCodec.encode(snapshot)
 	var raw: Dictionary = JSON.parse_string(encoded.text)
-	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_V1", "root/item/content stable")
+	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_LAKE_V1", "root/item/content stable")
 	raw.player.character.affiliation.schema_version = 2
 	check(not GameSaveJsonCodec.decode(JSON.stringify(raw)).succeeded(), "unknown affiliation version rejected")
 	raw.player.character.affiliation.schema_version = 1

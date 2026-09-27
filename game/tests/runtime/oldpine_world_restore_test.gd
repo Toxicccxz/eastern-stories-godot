@@ -126,7 +126,7 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 12, "RESTORE creates no default item duplicate")
 	_assert_eq(candidate.item_instance_index().snapshot_count(), 12, "derived index matches restored Inventory")
 	_assert_eq(candidate.item_instance_scope(), source_scope, "allocator scope survives exactly")
-	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 5, "complete five-slot NPC ledger restores")
+	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 10, "complete ten-slot NPC ledger restores")
 	_assert_eq(candidate.item_id_allocator().next_dynamic_sequence, snapshot.item_id_allocator.next_dynamic_sequence, "RESTORE does not allocate an item ID")
 	_assert_random_equal(candidate.combat_random_source().capture_random_state(), snapshot.combat_rng, "Combat RNG consumes zero draws")
 	_assert_random_equal(candidate.npc_random_source().capture_random_state(), snapshot.npc_initialization_rng, "NPC RNG consumes zero draws")
@@ -205,7 +205,7 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 	_assert_eq(fat.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "dead lifecycle restores independently")
 	_assert_false(fat.exists_in_map, "dead tombstone does not respawn")
 	_assert_false(fat.combat_available, "dead combat availability fact survives")
-	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 5, "tombstone replaces rather than duplicates its slot")
+	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 10, "tombstone replaces rather than duplicates its slot")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 13, "corpse adds one item without default loadout duplicates")
 	_assert_eq(candidate.outdoor_map().corpse_states().size(), 1, "one CorpseState reconstructs")
 	var corpse: CorpseState = candidate.outdoor_map().corpse_states()[0]
@@ -299,7 +299,11 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	var corpse_base: GameSaveSnapshot = OldPineWorldSaveFixture.with_fat_bandit_corpse(base)
 	_free_node(source)
 	await tree.process_frame
-	var original: Values.NpcSpawnStateSnapshot = base.npc_spawn_states[0]
+	var original: Values.NpcSpawnStateSnapshot = _npc_by_definition(base, OldPineNpcDefinitions.BANDIT_DEFINITION_ID)
+	var original_index: int = -1
+	for index: int in base.npc_spawn_states.size():
+		if base.npc_spawn_states[index].character_id == original.character_id:
+			original_index = index
 
 	var duplicate_npcs: Array[Values.NpcSpawnStateSnapshot] = base.npc_spawn_states
 	duplicate_npcs.append(original)
@@ -315,7 +319,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	)
 	var wrong_definition_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_snapshot_replacing_npc(base, 0, wrong_definition), tree.root,
+			_snapshot_replacing_npc(base, original_index, wrong_definition), tree.root,
 		)
 	)
 	_assert_eq(wrong_definition_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "wrong NPC definition is rejected")
@@ -327,7 +331,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	)
 	var wrong_character_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_snapshot_replacing_npc(base, 0, wrong_character), tree.root,
+			_snapshot_replacing_npc(base, original_index, wrong_character), tree.root,
 		)
 	)
 	_assert_eq(wrong_character_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "wrong authored CharacterId is rejected")
@@ -344,7 +348,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	)
 	var wrong_location_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_snapshot_replacing_npc(base, 0, wrong_location), tree.root,
+			_snapshot_replacing_npc(base, original_index, wrong_location), tree.root,
 		)
 	)
 	_assert_eq(wrong_location_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "NPC in wrong authored map is rejected")
@@ -359,7 +363,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	)
 	var wrong_loadout_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_snapshot_replacing_npc(base, 0, wrong_loadout), tree.root,
+			_snapshot_replacing_npc(base, original_index, wrong_loadout), tree.root,
 		)
 	)
 	_assert_eq(wrong_loadout_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "wrong NPC loadout reference is rejected")
@@ -371,7 +375,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	)
 	var incomplete_live_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_snapshot_replacing_npc(base, 0, incomplete_live), tree.root,
+			_snapshot_replacing_npc(base, original_index, incomplete_live), tree.root,
 		)
 	)
 	_assert_eq(incomplete_live_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "living NPC requires complete authored loadout")
@@ -396,7 +400,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 		)
 	)
 	_assert_eq(partial_dead_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead tombstone accepts represented surviving loadout subset")
-	_assert_eq(partial_dead_result.candidate.outdoor_map().npc_runtimes().size(), 5, "partial dead loadout still occupies exactly one authored slot")
+	_assert_eq(partial_dead_result.candidate.outdoor_map().npc_runtimes().size(), 10, "partial dead loadout still occupies exactly one authored slot")
 	_assert_false(_body_for(partial_dead_result.candidate.outdoor_map(), dead_fat.character_id).visible, "dead tombstone body remains inactive")
 	_free_node(partial_dead_result.candidate)
 
@@ -410,7 +414,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 		)
 	)
 	_assert_eq(empty_tombstone_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead tombstone restores after every former loadout item is gone")
-	_assert_eq(empty_tombstone_result.candidate.outdoor_map().npc_runtimes().size(), 5, "itemless dead tombstone remains in the five-slot ledger")
+	_assert_eq(empty_tombstone_result.candidate.outdoor_map().npc_runtimes().size(), 10, "itemless dead tombstone remains in the ten-slot ledger")
 	_assert_eq(empty_tombstone_result.candidate.outdoor_map().corpse_states().size(), 0, "dead tombstone does not require a surviving corpse")
 	_assert_eq(empty_tombstone_result.candidate.inventory_state().registered_item_ids().size(), 9, "destroyed former loadout items are not recreated")
 	_assert_false(_body_for(empty_tombstone_result.candidate.outdoor_map(), dead_fat.character_id).visible, "itemless tombstone never respawns its body")
@@ -685,7 +689,7 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 	_assert_true(current.inventory_state() == current_inventory, "failed builds do not replace current Inventory authority")
 	_assert_true(current.outdoor_map() == current_outdoor, "failed builds do not replace current resident map")
 	_assert_eq(current.inventory_state().registered_item_ids().size(), 12, "failed builds do not mutate current item graph")
-	_assert_eq(current.outdoor_map().npc_runtimes().size(), 5, "failed builds do not mutate current NPC ledger")
+	_assert_eq(current.outdoor_map().npc_runtimes().size(), 10, "failed builds do not mutate current NPC ledger")
 	_assert_eq(current.outdoor_map().corpse_states().size(), 0, "failed builds do not create current corpses")
 	_assert_eq(current.outdoor_map().player_body.global_position, current_position, "failed builds do not move current Player")
 	_assert_true(current.outdoor_map().player_body.player_controlled, "failed builds leave current input active")
@@ -721,7 +725,7 @@ func _test_cave_restore_and_candidate_activation(tree: SceneTree) -> void:
 	_assert_true(candidate.cave_map().get_parent() == candidate.active_map_slot, "Cave alone is attached")
 	_assert_true(candidate.outdoor_map().get_parent() == null, "restored Outdoor remains detached/frozen")
 	_assert_eq(candidate.outdoor_map().process_mode, Node.PROCESS_MODE_DISABLED, "inactive restored Outdoor remains frozen")
-	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 5, "inactive Outdoor retains restored NPC ledger")
+	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 10, "inactive Outdoor retains restored NPC ledger")
 	_assert_eq(candidate.outdoor_map().corpse_states().size(), 1, "inactive Outdoor retains restored corpse ledger")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 13, "Cave-active staging retains exact restored item count")
 	_assert_eq(candidate.item_id_allocator().next_dynamic_sequence, 1, "Cave-active staging retains allocator continuation")
@@ -750,7 +754,7 @@ func _test_new_game_regression(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_game(tree, 1401, 1402, 1403)
 	_assert_eq(session.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.NEW_GAME, "default Session remains NEW_GAME")
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "NEW_GAME still creates twelve bootstrap items")
-	_assert_eq(session.outdoor_map().npc_runtimes().size(), 5, "NEW_GAME still creates five authored NPCs")
+	_assert_eq(session.outdoor_map().npc_runtimes().size(), 10, "NEW_GAME still creates ten authored NPCs")
 	_assert_eq(session.outdoor_map().corpse_states().size(), 0, "NEW_GAME creates no corpse")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "NEW_GAME still starts Outdoor")
 	_assert_true(session.outdoor_map().player_body.player_controlled, "NEW_GAME control remains active")

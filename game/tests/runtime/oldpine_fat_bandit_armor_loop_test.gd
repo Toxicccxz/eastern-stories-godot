@@ -36,7 +36,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		return
 	controller.set_process(false)
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 5, "map-local order contains three scouts, Tall, Fat")
+	_assert_eq(npcs.size(), 10, "map-local order contains three scouts, Tall, Fat and five serpents")
 	_assert_eq(npcs[3].definition_id, OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID, "Tall remains fourth")
 	var fat: NpcRuntimeState = npcs[4]
 	_assert_eq(fat.definition_id, OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID, "Fat is explicit fifth runtime")
@@ -380,7 +380,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var fresh: OldPineOutdoorController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(fresh.find_children("ResetButton", "Button", true, false).is_empty(), "persisted scene retains Phase 10C1A Reset removal")
-	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh scene restores exactly three scouts, Tall, Fat")
+	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh scene restores exactly three scouts, Tall, Fat and five serpents")
 	_assert_eq(
 		[
 			fresh.npc_runtimes()[0].definition_id,

@@ -28,7 +28,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		return {"assertions": _count, "failures": _failures}
 	var snapshot: GameSaveSnapshot = captured.snapshot
 	await _repository_and_host(tree, source, snapshot)
-	_check(snapshot.metadata.schema_version == 2 and snapshot.world_content_revision == WorldContentRevision.Value.SOURCE_ENTRY_V1, "normal writer v2 explicit revision")
+	_check(snapshot.metadata.schema_version == 2 and snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC, "normal writer v2 explicit revision")
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	_check(encoded.succeeded(), "v2 encode")
 	var raw: Dictionary = JSON.parse_string(encoded.text)
@@ -89,7 +89,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(candidate.inventory_state().registered_item_ids() == source.inventory_state().registered_item_ids() and candidate.inventory_state() != source.inventory_state(), "fresh inventory exact semantic IDs")
 		_check(candidate.item_id_allocator().next_dynamic_sequence == source.item_id_allocator().next_dynamic_sequence and candidate.item_id_allocator().scope == source.item_id_allocator().scope, "allocator exact without draw")
 		_check(candidate.combat_random_source().capture_random_state().state == snapshot.combat_rng.state and candidate.npc_random_source().capture_random_state().state == snapshot.npc_initialization_rng.state and candidate.world_interaction_random_source().capture_random_state().state == snapshot.world_interaction_rng.state, "all three RNG states exact")
-		_check(candidate.outdoor_map().npc_runtimes().size() == 5, "off-map five NPC ledger retained")
+		_check(candidate.outdoor_map().npc_runtimes().size() == 10, "off-map ten NPC ledger retained")
 		_check(candidate.activate_restore_candidate(), "activate saved map")
 		var again: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(candidate, &"test", "2026-09-11T00:00:00Z")
 		_check(again.succeeded(), "restored source resave succeeds " + again.path)
@@ -127,7 +127,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if corpse_restore.succeeded():
 		var cold: OldPineWorldSessionController = corpse_restore.candidate
 		_check(cold.active_map().map_id() == SnowWorldDefinitions.INN_MAP_ID and cold.outdoor_map().corpse_states().size() == 1, "Snow active, detached outdoor corpse retained")
-		_check(cold.outdoor_map().npc_runtimes().size() == 5, "dead NPC remains tombstone, no replacement")
+		_check(cold.outdoor_map().npc_runtimes().size() == 10, "dead NPC remains tombstone, no replacement")
 		_check(cold.inventory_state().registered_item_ids().size() == corpse_save.items.item_records.size(), "corpse nested graph exact")
 		_check(cold.activate_restore_candidate(), "corpse candidate activation")
 		var corpse_capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(cold, &"test", "2026-09-11T00:00:00Z")
@@ -156,7 +156,7 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	_check(host.last_load_result() != null and host.last_load_result().succeeded(), "normal Host Continue restores source")
 	var current: OldPineWorldSessionController = host.current_session()
 	if current != null:
-		_check(current.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_V1 and current.player_runtime().facts.display_name == "续雪", "Host adopts exact source identity/profile")
+		_check(current.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC and current.player_runtime().facts.display_name == "续雪", "Host adopts exact source identity/profile")
 	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "Continue does not rewrite source file")
 	var bad: Dictionary = JSON.parse_string(primary.get_string_from_utf8())
 	bad.world_content_revision = "UNKNOWN"

@@ -56,7 +56,7 @@ func _run_qa() -> void:
 	)
 	if (
 		candidate.inventory_state().registered_item_ids().size() != 13
-		or candidate.outdoor_map().npc_runtimes().size() != 5
+		or candidate.outdoor_map().npc_runtimes().size() != 10
 		or candidate.outdoor_map().corpse_states().size() != 1
 		or candidate.active_map_id() != OldPineWorldDefinitions.OUTDOOR_MAP_ID
 		or candidate.cave_map().get_parent() != null

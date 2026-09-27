@@ -815,7 +815,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
 	_assert_eq(fresh.item_instance_index().snapshot_count(), 12, "fresh scene rebuilds only initial item index")
 	_assert_false(fresh.item_instance_index().has_snapshot(old_corpse_id), "fresh scene has no stale corpse identity")
-	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh scene restores all five bandits")
+	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh scene restores all ten production NPCs")
 	_assert_eq(fresh.npc_random_source().next_below(1000), npc_random_after_loot, "loot consumes zero NPC initialization RNG")
 	fresh.queue_free()
 	await tree.process_frame

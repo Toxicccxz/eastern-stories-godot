@@ -54,6 +54,8 @@ static func _is_valid_position(
 			zone_paths[candidate_id]
 		) as CollisionShape2D
 		var contains_point: bool = collision != null and _point_inside(collision, position)
+		if map is OldPineOutdoorController and candidate_id in [OldPineWorldDefinitions.LAKE_ZONE_ID, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID]:
+			contains_point = map.lake_route_zone_at(position) == candidate_id
 		if map is SnowResidentMapController and collision != null:
 			# Match runtime half-open center ownership at exact street joins.
 			var zone: WorldPhysicalZoneArea2D = collision.get_parent() as WorldPhysicalZoneArea2D
@@ -111,6 +113,7 @@ static func _zone_paths(map_id: StringName) -> Dictionary[StringName, NodePath]:
 			OldPineWorldDefinitions.PINE_DEEP_ZONE_ID: ^"Zones/PineDeepZone/CollisionShape2D",
 			OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID: ^"Zones/PineCliffEdgeZone/CollisionShape2D",
 			OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID: ^"Zones/WaterfallBasinZone/CollisionShape2D",
+			OldPineWorldDefinitions.LAKE_ZONE_ID: ^"Zones/LakeZone/CollisionShape2D",
 			OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID: ^"Zones/RiverGorgeZone/CollisionShape2D",
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID: ^"Zones/CliffLedgeZone/CollisionShape2D",
 		}
