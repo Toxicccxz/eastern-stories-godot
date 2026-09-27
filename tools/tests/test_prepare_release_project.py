@@ -153,6 +153,26 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.output / "presentation/layout/safe_area_metrics.gd").unlink()
         self.assertTrue(any("safe_area_metrics.gd" in error for error in validate_release_project(self.output)))
 
+    def test_shared_gameplay_ui_is_required_in_release(self) -> None:
+        self.assertNotIn("presentation/layout/oldpine_hud_layout.gd", REQUIRED_PATHS)
+        prepare_release_project(self.source, self.output)
+        for relative in (
+            "presentation/layout/shared_gameplay_layout.gd",
+            "ui/world/shared_gameplay_ui.gd",
+        ):
+            with self.subTest(path=relative):
+                self.assertIn(relative, REQUIRED_PATHS)
+                self.assertTrue((REPOSITORY / "game" / relative).is_file())
+                path = self.output / relative
+                content = path.read_bytes()
+                path.unlink()
+                self.assertIn(
+                    f"required release path is missing: {relative}",
+                    validate_release_project(self.output),
+                )
+                path.write_bytes(content)
+        self.assertEqual([], validate_release_project(self.output))
+
     def test_touch_back_required_paths_are_production_only(self) -> None:
         prepare_release_project(self.source, self.output)
         for name in ("mobile_touch_adapter", "android_back_adapter", "application_exit_capability"):
