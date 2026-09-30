@@ -44,4 +44,5 @@ static func _apply_killer_reward_penalty(state: CharacterState, result: PlayerDe
 		var before: int = progression.potential
 		progression.potential += (progression.potential_spent - progression.potential) / 2
 		result.potential_lost = before - progression.potential
+	result.enabled_skills_cleared = state.skills.enabled_use_ids().size() if state.skills.has_skills_mapping() else 0
 	result.skill_changes = state.skills.apply_death_penalty()

@@ -1090,8 +1090,11 @@ func _revive_from_unconscious() -> void:
 
 ## d/death/npc/wgargoyle.c death_stage(): reincarnate() and move to
 ## REVIVE_ROOM (/d/snow/temple).
+## If the move cannot happen now the player stays a ghost and it is retried
+## next frame, so the world never holds a living player without a body.
 func _reincarnate_at_revive_room() -> void:
-	PlayerDeathRules.reincarnate(_player.state)
+	var previous_life: int = _player.life_status
+	var previous_exists: bool = _player.exists_in_world
 	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	_player.set_exists_in_world(true)
 	_last_revival_handoff = handoff_to(
@@ -1101,5 +1104,9 @@ func _reincarnate_at_revive_room() -> void:
 		SnowWorldDefinitions.REVIVE_SPAWN_ID,
 	)
 	if not _last_revival_handoff.succeeded():
-		push_error("revival handoff failed: %s" % _last_revival_handoff.outcome)
+		_player.set_life_status(previous_life)
+		_player.set_exists_in_world(previous_exists)
+		_life_flow.retry_reincarnation()
+		return
+	PlayerDeathRules.reincarnate(_player.state)
 	_life_flow.finish()

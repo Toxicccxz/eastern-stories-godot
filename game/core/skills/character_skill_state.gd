@@ -116,9 +116,8 @@ func mapped_skill(use_id: StringName) -> StringName:
 
 ## feature/skill.c skill_death_penalty(). A skill whose learning progress is
 ## more than half of the next level's cost loses that progress; every other
-## skill drops one level and is deleted below 0. Deviation: a use still enabled
-## on a deleted skill is disabled, because saves require every mapping to name
-## an existing skill (LPC leaves the stale mapping behind).
+## skill drops one level and is deleted below 0. Then skill_map = 0: every
+## enabled special skill is disabled.
 func apply_death_penalty() -> Array[SkillDeathPenaltyChange]:
 	var changes: Array[SkillDeathPenaltyChange] = []
 	if not _has_skills_mapping:
@@ -133,13 +132,11 @@ func apply_death_penalty() -> Array[SkillDeathPenaltyChange]:
 			continue
 		if level - 1 < 0:
 			_raw_levels.erase(skill_id)
-			for use_id: StringName in _loadout.enabled_use_ids():
-				if _loadout.enabled_skill(use_id) == skill_id:
-					_loadout.remove_enabled_skill(use_id)
 			changes.append(SkillDeathPenaltyChange.new(skill_id, level, -1, false))
 		else:
 			_raw_levels[skill_id] = level - 1
 			changes.append(SkillDeathPenaltyChange.new(skill_id, level, level - 1, false))
+	_loadout.clear()
 	return changes
 
 

@@ -77,6 +77,12 @@ func skip_to_next_message() -> Event:
 	return _show_next_message()
 
 
+## The move to the revive room could not happen yet; try again next frame.
+func retry_reincarnation() -> void:
+	_stage_elapsed = DEATH_STAGE_SECONDS
+	_messages_shown = DEATH_MESSAGES.size() - 1
+
+
 func finish() -> void:
 	_phase = Phase.NONE
 	_revive_remaining = 0.0

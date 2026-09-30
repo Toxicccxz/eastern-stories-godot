@@ -72,21 +72,26 @@ func _process(delta: float) -> void:
 	_last_phase = flow.phase
 	match flow.phase:
 		PlayerLifeFlow.Phase.UNCONSCIOUS:
-			_show("你的眼前一黑，接著什麽也不知道了....\n\n（约 %d 秒后醒来）" % ceili(flow.revive_remaining_seconds), false)
+			var wake: String = "（约 %d 秒后醒来）" % ceili(flow.revive_remaining_seconds) if flow.revive_remaining_seconds > 0.0 else "（仍然昏迷不醒……）"
+			_show("你的眼前一黑，接著什麽也不知道了....\n\n" + wake, false, true)
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
-			_show(_death_text(flow), true)
+			_show(_death_text(flow), true, true)
 		_:
 			_notice_remaining -= delta
 			if _notice_remaining > 0.0:
-				_show(_notice, false)
+				_show(_notice, false, false)
 			else:
 				visible = false
 
 
-func _show(value: String, can_continue: bool) -> void:
+## A blocking screen dims the world and takes its clicks; the short notice
+## after coming back does neither.
+func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	visible = true
 	_text.text = value
 	_continue.visible = can_continue
+	_dim.color.a = 0.72 if blocking else 0.0
+	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
 
 
 func _death_text(flow: PlayerLifeFlow) -> String:
@@ -113,6 +118,8 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 				skills.append("%s %d→%d" % [skill_name, change.level_before, change.level_after])
 		if not skills.is_empty():
 			lines.append("技能：" + "；".join(skills))
+		if result.enabled_skills_cleared > 0:
+			lines.append("已启用的特殊武功全部取消启用")
 	if not flow.corpse_place.is_empty():
 		lines.append("你的尸体和随身物品留在：" + flow.corpse_place)
 	lines.append("")

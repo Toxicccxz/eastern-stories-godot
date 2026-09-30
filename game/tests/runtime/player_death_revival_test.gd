@@ -58,7 +58,13 @@ func _skill_death_penalty() -> void:
 	check(plain.map_skill(&"unarmed", &"liuh-ken"), "fixture maps unarmed to liuh-ken")
 	var changes: Array[SkillDeathPenaltyChange] = plain.apply_death_penalty()
 	check(plain.raw_level(&"unarmed") == 2 and not plain.has_raw_level(&"liuh-ken"), "without learned mapping every skill drops a level; below 0 is deleted")
-	check(plain.mapped_skill(&"unarmed") == &"", "a use enabled on a deleted skill is disabled")
+	check(plain.enabled_use_ids().is_empty(), "skill_map = 0: every enabled skill is disabled")
+	var kept: CharacterSkillState = CharacterSkillState.new()
+	kept.set_raw_level(&"unarmed", 3)
+	kept.set_raw_level(&"liuh-ken", 5)
+	kept.map_skill(&"unarmed", &"liuh-ken")
+	kept.apply_death_penalty()
+	check(kept.raw_level(&"liuh-ken") == 4 and kept.mapped_skill(&"unarmed") == &"", "even a surviving mapped skill is disabled")
 	check(changes.size() == 2 and changes[0].skill_id == &"liuh-ken" and changes[0].level_after == -1 and changes[1].level_before == 3 and changes[1].level_after == 2, "changes are reported in id order")
 	var learned: CharacterSkillState = CharacterSkillState.new()
 	learned.set_raw_level(&"unarmed", 3)
@@ -129,6 +135,7 @@ func _killers_finish_unconscious_player(tree: SceneTree) -> void:
 		outcomes.append(receipt.outcome)
 	check(outcomes == [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE], "the player falls unconscious, then a killer finishes them")
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.corpse_states().size() == 1, "death leaves a corpse")
+	check(session.player_life_flow().phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE and session.player_life_flow().death_result.penalized, "the unconscious-then-killed path goes to the death sequence with the penalty")
 	session.free()
 	await tree.process_frame
 
@@ -150,11 +157,13 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	var corpse: CorpseState = map.corpse_states()[0]
 	var corpse_owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
 	check(session.inventory_state().direct_children(corpse_owner) == carried, "everything carried is in the corpse")
-	for second: int in range(24):
+	session.skip_death_message()
+	check(flow.messages_shown().size() == 1, "reading ahead shows the next line")
+	for second: int in range(19):
 		session._process(1.0)
-	check(flow.is_active() and player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "still with the gargoyle after 24 s")
+	check(flow.is_active() and player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "still with the gargoyle a second before the last line")
 	session._process(1.0)
-	check(not flow.is_active() and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.exists_in_world, "alive again after 25 s")
+	check(not flow.is_active() and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.exists_in_world, "alive again with the last line")
 	check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple")
 	check([player.state.vitality.current, player.state.vitality.effective] == [1, player.state.vitality.maximum], "reincarnated with 1 kee and full effective kee")
 	check(session.active_map().runtime_player_body().player_controlled and session.active_map().runtime_player_body().visible, "the player can move again")

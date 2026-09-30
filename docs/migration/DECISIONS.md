@@ -13,9 +13,10 @@ Owner decision after playtest: a defeated player is no longer a terminal state.
   `disable_player`). This narrows "Native saves require a restart-stable gameplay boundary": UNCONSCIOUS
   and DEAD players are no longer eligible. Older saves holding such a player resume the flow on
   Continue without a second penalty.
-- **Deviations:** the death penalty disables an enabled skill use whose skill was deleted (LPC leaves a
-  stale mapping the save contract rejects). The death realm walk, corpse decay, NPC revival and healing
-  while unconscious are not implemented yet.
+- **Deviations:** waking up waits until no encounter is active (LPC's call_out fires regardless; an
+  unconscious victim cannot dodge, so killers finish within a few blows). The penalty applies when a
+  lethal opponent is found, not from LPC `last_damage_from`. The death realm walk, corpse decay, NPC
+  revival and healing while unconscious are not implemented yet.
 
 ## Old Pine Lake — owner-revised engineering acceptance scope
 
