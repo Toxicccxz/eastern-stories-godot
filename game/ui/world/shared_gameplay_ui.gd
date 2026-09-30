@@ -509,39 +509,18 @@ func open_look() -> void:
 	_presentation_layout.open_panel(zone.display_name, _presentation_layout.room)
 
 
+## The map's door or service at the player's spot, as the context button text.
 func context_title() -> String:
-	if not _session.portable_inventory_available():
+	var map := _bound_map as WorldMapController
+	if map == null or not _session.portable_inventory_available():
 		return ""
-	var town := _bound_map as SnowOutdoorController
-	if town != null:
-		if town.can_exchange_here(): return "钱庄 · 兑换"
-		if town.can_work_here(): return "短工 · 工作"
-		if town.school != null:
-			if town.school.can_operate_door(): return "关闭武馆大门" if town.school.door_is_open() else "打开武馆大门"
-			if town.school.can_teach(): return "柳淳风 · 交谈"
-		if town.hockshop != null:
-			if town.hockshop.can_open_door(): return "打开当铺木门"
-			if town.hockshop.can_trade(): return "丰登当铺 · 交易"
-	var inn := _bound_map as SnowInnController
-	if inn != null and inn.can_purchase_here(): return "店小二 · 补给"
-	return ""
+	return map.interaction_title()
 
 
 func open_current_context() -> void:
-	if not _session.portable_inventory_available(): return
-	var town := _session.active_map() as SnowOutdoorController
-	if town != null:
-		if town.can_exchange_here():
-			open_business("钱庄 · 兑换", town.bank_panel, town.can_exchange_here)
-		elif town.can_work_here():
-			open_business("短工 · 工作", town.work_panel, town.can_work_here)
-		elif town.school != null and (town.school.can_operate_door() or town.school.can_teach()):
-			town.school.ui.interact()
-		elif town.hockshop != null:
-			town.hockshop.interact()
-	var inn := _session.active_map() as SnowInnController
-	if inn != null and inn.can_purchase_here():
-		open_business("店小二 · 补给", inn.shop_panel, inn.can_purchase_here)
+	var map := _session.active_map() as WorldMapController
+	if map != null and _session.portable_inventory_available():
+		map.interact()
 
 
 func open_business(title: String, form: Control, validate: Callable) -> void:
@@ -653,9 +632,8 @@ func _collect_feedback() -> void:
 
 
 func dismiss_current_panel() -> void:
-	var town := _session.active_map() as SnowOutdoorController
-	if town != null and town.hockshop != null and _presentation_layout._content == town.hockshop.panel:
-		town.hockshop.dismiss()
+	var map := _session.active_map() as WorldMapController
+	if map != null and map.dismiss_panel(_presentation_layout._content):
 		_presentation_layout.validate_open_panel()
 	else:
 		_presentation_layout.close_panel()

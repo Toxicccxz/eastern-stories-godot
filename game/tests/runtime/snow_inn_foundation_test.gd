@@ -16,7 +16,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var map: WorldResidentMapController = entry.inn
 	var player: WorldPlayerRuntimeState = entry.player
 	var born: NewPlayerInitialization = entry.birth.player
-	_check(map is SnowInnController and not map is OldPineResidentMapController, "Snow uses neutral contract, not Old Pine adapter")
+	_check(map is WorldMapController and not map is OldPineResidentMapController, "Snow uses neutral contract, not Old Pine adapter")
 	_check(player.state == born.state and player.facts == born.facts, "same CharacterState and identity")
 	_check(player.armor == born.armor and player.state.equipment == born.state.equipment, "same Armor and Equipment")
 	_check(map._player == player and map._inventory == entry.birth.inventory, "map receives same Player/Inventory")
@@ -89,9 +89,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	map.prepare_for_deactivation()
 	_check(not body.player_controlled and not (body.get_node("Camera2D") as Camera2D).enabled, "deactivation disables input/camera")
 	map.set_restore_staging(true)
-	_check(map.process_mode == Node.PROCESS_MODE_DISABLED and not entry.inn.floor_area.monitoring, "shared staging freezes map/area")
+	_check(map.process_mode == Node.PROCESS_MODE_DISABLED and not (entry.inn.get_node("%MainFloor") as Area2D).monitoring, "shared staging freezes map/area")
 	map.set_restore_staging(false)
-	_check(entry.inn.floor_area.monitoring and map.complete_activation(), "staging restores original state")
+	_check((entry.inn.get_node("%MainFloor") as Area2D).monitoring and map.complete_activation(), "staging restores original state")
 	player.state.recovery.food = 13
 	_check(map.prepare_for_activation(marker.spawn_point_id) and map.complete_activation(), "valid reactivation")
 	_check(player.state.recovery.food == 13 and entry.allocator.next_dynamic_sequence == 1, "activation never rebirth/refill/allocate")

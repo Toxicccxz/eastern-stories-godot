@@ -1,9 +1,10 @@
-class_name SnowSchoolInteraction
+class_name TeacherPanel
 extends CanvasLayer
 
-var _contact: SnowSchoolContact
+## A teacher's talk panel: apprenticeship, learn, enable. The TeacherService
+## owns the rules; this only presents them.
+var _contact: TeacherService
 var _rows: VBoxContainer
-var contact_button: Button
 var panel: PanelContainer
 var status: Label
 var feedback: Label
@@ -15,18 +16,13 @@ var enable_liuh_button: Button
 var disable_liuh_button: Button
 
 
-func configure(contact: SnowSchoolContact) -> void:
+func configure(contact: TeacherService) -> void:
 	_contact = contact
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 12
-	contact_button = Button.new()
-	contact_button.name = "Contact"
-	contact_button.custom_minimum_size = Vector2(240, 64)
-	contact_button.pressed.connect(interact)
-	add_child(contact_button)
 	panel = PanelContainer.new()
 	panel.name = "Panel"
 	panel.hide()
@@ -49,7 +45,6 @@ func _ready() -> void:
 	disable_liuh_button = _button("DisableLiuh", "停用柳家拳", disable_liuh)
 	feedback = _label("馆主传授基本拳脚与柳家拳。每次请教均按当下状态结算。", "Feedback")
 	_button("Close", "离开交谈", close_panel)
-	_process(0.0)
 
 
 func _label(text: String, node_name: String) -> Label:
@@ -72,24 +67,11 @@ func _button(node_name: String, text: String, action: Callable) -> Button:
 
 
 func interact() -> void:
-	if ExplorationPresentationBlocker.is_blocked(get_tree()):
+	if ExplorationPresentationBlocker.is_blocked(get_tree()) or not _contact.can_teach():
 		return
-	if _contact.can_operate_door():
-		if _contact.door_is_open():
-			_contact.close_door()
-		else:
-			_contact.open_door()
-	elif _contact.can_teach():
-		_contact.session.shared_ui().open_business("柳淳风 · 教学", panel, _contact.can_teach)
-		refresh()
-		apprentice_button.grab_focus()
-		_contact.map.player_body.quarantine_current_movement_input()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_accept") and not event.is_echo() and contact_button.visible:
-		interact()
-		get_viewport().set_input_as_handled()
+	_contact.open_panel("柳淳风 · 教学", panel)
+	refresh()
+	apprentice_button.grab_focus()
 
 
 func _process(_delta: float) -> void:
@@ -97,8 +79,6 @@ func _process(_delta: float) -> void:
 		return
 	if panel.visible and not _contact.can_teach():
 		close_panel()
-	contact_button.visible = false
-	contact_button.text = ("关闭红漆大门" if _contact.door_is_open() else "打开红漆大门") + " [Enter / A]" if _contact.can_operate_door() else "与柳淳风交谈 [Enter / A]"
 	if panel.visible:
 		refresh()
 
@@ -109,7 +89,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func refresh() -> void:
-	var player := _contact.session.player_runtime()
+	var player := _contact.map.session.player_runtime()
 	var state := player.state
 	var mapping: StringName = state.skills.mapped_skill(&"unarmed")
 	var mapping_name: String = "未启用" if mapping.is_empty() else (LiuhKenDefinition.DISPLAY_NAME if mapping == LiuhKenDefinition.SKILL_ID else String(mapping))
@@ -189,7 +169,7 @@ func close_panel() -> void:
 		return
 	var was_open: bool = panel.visible
 	panel.hide()
-	_contact.session.shared_ui().close_business(panel)
+	_contact.map.session.shared_ui().close_business(panel)
 	if was_open and is_instance_valid(_contact.map.player_body):
 		_contact.map.player_body.quarantine_current_movement_input()
 

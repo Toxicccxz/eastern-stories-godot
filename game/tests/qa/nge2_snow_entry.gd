@@ -10,7 +10,7 @@ var npc_random: NpcInitializationRandomSource = GodotNpcInitializationRandomSour
 var combat_random: CombatRandomSource = GodotCombatRandomSource.new(22, true)
 var world_random: WorldInteractionRandomSource = GodotWorldInteractionRandomSource.new(23, true)
 var gate: WorldSimulationGate = WorldSimulationGate.new()
-var inn: SnowInnController
+var inn: WorldMapController
 var initialized: bool = false
 
 
@@ -20,7 +20,7 @@ func _ready() -> void:
 		return
 	player = NewPlayerRuntimeComposition.create(PLAYER_ID, birth.player, SnowWorldDefinitions.birth_location())
 	var scene: PackedScene = load(GameContent.catalog().map(SnowWorldDefinitions.INN_MAP_ID).scene_path)
-	inn = scene.instantiate() as SnowInnController
+	inn = scene.instantiate() as WorldMapController
 	if not inn.configure_world_authorities(player, birth.inventory, birth.stacks, birth.item_index,
 		npc_random, combat_random, world_random, allocator, gate):
 		push_error("NGE2 QA authority configuration failed")

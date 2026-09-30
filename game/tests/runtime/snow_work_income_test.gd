@@ -105,13 +105,14 @@ func capacity_test(tree: SceneTree) -> void:
 func physical_test(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = create_session(tree)
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
-	var snow: SnowOutdoorController = session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as SnowOutdoorController
+	var snow: WorldMapController = session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
+	var work: WorkService = snow.service(&"snow.workplace.mill") as WorkService
 	for entry: Array in [[&"snow.mstreet1", Vector2(0,-400)], [&"snow.mstreet2", Vector2(0,-750)], [&"snow.workplace", Vector2(325,-750)], [&"snow.square", Vector2(0,-250)], [&"snow.mstreet1", Vector2(0,-550)], [&"snow.workplace", Vector2(100,-750)]]:
 		_check(OldPineMapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "save position and half-open joins " + str(entry))
 	# S7B opens mstreet2 north; the Workplace north wall remains closed.
 	for entry: Array in [[&"snow.mstreet1", Vector2(90,-500)], [&"snow.workplace", Vector2(300,-840)], [&"snow.workplace", Vector2(495,-750)], [&"snow.workplace", Vector2(100,-815)], [&"snow.workplace", Vector2(510,-750)]]:
 		_check(not OldPineMapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "reject new walls/void " + str(entry))
-	_check(snow.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "inactive remote work rejected")
+	_check(work.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "inactive remote work rejected")
 	await tree.physics_frame
 	await walk(tree, session, "move_right", 125)
 	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID, "real Inn east Area passage")
@@ -124,14 +125,14 @@ func physical_test(tree: SceneTree) -> void:
 	await walk_to(tree, session, "move_up", -750, 1)
 	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.MSTREET2_ZONE_ID, "physical mstreet2")
 	await walk_to(tree, session, "move_right", 325, 0)
-	_check(snow.can_work_here() and session.player_runtime().world_location().zone_id == SnowWorldDefinitions.WORKPLACE_ZONE_ID, "physical workplace and proximity")
+	_check(work.in_reach() and session.player_runtime().world_location().zone_id == SnowWorldDefinitions.WORKPLACE_ZONE_ID, "physical workplace and proximity")
 	var rng: Array[int] = rng_state(session)
 	session.world_simulation_gate().acquire(&"s2.test")
-	_check(snow.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "frozen interaction denied")
+	_check(work.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "frozen interaction denied")
 	session.world_simulation_gate().release(&"s2.test")
-	_check(snow.request_work().succeeded(), "physical eligible work")
+	_check(work.request_work().succeeded(), "physical eligible work")
 	await round_trip(tree, session, capture(session), "workplace exact position")
-	_check(rng_state(session) == rng and snow.silver_amount() == 1, "physical work RNG and real silver")
+	_check(rng_state(session) == rng and work.silver_amount() == 1, "physical work RNG and real silver")
 	for obj: Object in ids: _check(is_instance_valid(obj), "same authorities remain alive")
 	_check(snow._player == ids[0] and snow._inventory == ids[1] and snow._stacks == ids[2] and snow._item_index == ids[3] and snow._item_id_allocator == ids[4] and snow._world_simulation_gate == ids[5], "same injected map authorities")
 	await walk_to(tree, session, "move_left", 0, 0)

@@ -3,8 +3,8 @@
 		{ "id": "snow", "name": "雪亭镇" }
 	],
 	"maps": [
-		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn" },
-		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn" }
+		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn", "entry": "snow.inn.main_floor.player_birth" },
+		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn", "entry": "snow.square.inn_entry" }
 	],
 	"zones": [
 		{ "id": "snow.inn.main_floor", "map": "snow.inn", "rooms": ["es2:d/snow/inn"] },
@@ -41,6 +41,38 @@
 			"id": "snow.eroad3.south", "from_zone": "snow.eroad3",
 			"to_zone": "oldpine.outdoor.north_approach", "to_spawn": "oldpine.outdoor.north_approach.snow_entry",
 			"legacy_room": "es2:d/snow/eroad3", "legacy_command": "south"
+		}
+	],
+	"services": [
+		{
+			"id": "snow.inn.waiter", "kind": "vendor", "zone": "snow.inn.main_floor",
+			"name": "店小二", "reach": 96, "vendor": "snow.vendor.waiter", "legacy_source": "d/snow/npc/waiter.c"
+		},
+		{
+			"id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace",
+			"name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c"
+		},
+		{
+			"id": "snow.bank.counter", "kind": "bank", "zone": "snow.bank",
+			"name": "钱庄", "reach": 96, "legacy_source": "d/snow/bank.c"
+		},
+		{
+			"id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop",
+			"name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c"
+		},
+		{
+			"id": "snow.schoolhall.master", "kind": "teacher", "zone": "snow.schoolhall",
+			"name": "柳淳风", "reach": 96, "legacy_source": "daemon/class/swordsman/master.c"
+		}
+	],
+	"doors": [
+		{
+			"id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"],
+			"reach": 90, "legacy_room": "es2:d/snow/school1"
+		},
+		{
+			"id": "snow.hockshop.door", "name": "木雕门", "zones": ["snow.mstreet3", "snow.hockshop"],
+			"reach": 85, "closable": false, "legacy_room": "es2:d/snow/hockshop"
 		}
 	]
 }

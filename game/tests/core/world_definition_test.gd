@@ -14,6 +14,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_portals()
 	_test_snow_adjacency_follows_room_exits()
 	_test_loader_rejects_broken_world_data()
+	_test_services_and_doors()
+	_test_loader_rejects_broken_services_and_doors()
 	_test_location_identity()
 	return {
 		"assertions": _assertion_count,
@@ -135,8 +137,8 @@ func _test_loader_rejects_broken_world_data() -> void:
 		],
 		"regions": [{"id": "x", "name": "X"}],
 		"maps": [
-			{"id": "x.map", "region": "x", "scene": "res://x.tscn"},
-			{"id": "x.lost", "region": "nowhere", "scene": "res://y.tscn"},
+			{"id": "x.map", "region": "x", "scene": "res://x.tscn", "entry": "x.start"},
+			{"id": "x.lost", "region": "nowhere", "scene": "res://y.tscn", "entry": "x.start"},
 		],
 		"zones": [
 			{"id": "x.a", "map": "x.map", "rooms": ["es2:d/x/a"]},
@@ -157,6 +159,56 @@ func _test_loader_rejects_broken_world_data() -> void:
 		"test.json.zones[2].rooms: unknown room 'es2:d/x/missing'",
 		"test.json.portals[0].to_zone: unknown zone 'x.gone'",
 		"test.json.portals[0].extra: unknown field",
+	]:
+		_assert_true(errors.contains(expected), "reports: " + expected)
+
+
+func _test_services_and_doors() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var ids: Array[StringName] = []
+	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
+		ids.append(service.service_id)
+		_assert_eq(catalog.zone(service.zone_id).map_id, service.map_id, "%s map follows its zone" % service.service_id)
+	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter", &"snow.schoolhall.master"], "Snow outdoor services")
+	var waiter: ServiceDefinition = catalog.service(&"snow.inn.waiter")
+	_assert_eq([waiter.kind, waiter.map_id, waiter.vendor_id], [&"vendor", SnowWorld.INN_MAP_ID, &"snow.vendor.waiter"], "Inn waiter sells the vendor record")
+	var gate: DoorDefinition = catalog.door(&"snow.school.gate")
+	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable], ["红漆大门", [&"snow.school1", &"snow.school2"], true], "school1.c create_door")
+	var hockshop: DoorDefinition = catalog.door(&"snow.hockshop.door")
+	_assert_eq([hockshop.map_id, hockshop.closable], [SnowWorld.OUTDOOR_MAP_ID, false], "pawn shop door is open-only")
+	for map: MapDefinition in catalog.maps():
+		_assert_false(map.entry_spawn_id.is_empty(), "%s has an entry spawn" % map.map_id)
+
+
+func _test_loader_rejects_broken_services_and_doors() -> void:
+	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	builder.add_document({
+		"rooms": [{"id": "es2:d/x/a", "short": "A", "long": "a\n"}],
+		"regions": [{"id": "x", "name": "X"}],
+		"maps": [
+			{"id": "x.one", "region": "x", "scene": "res://x.tscn", "entry": "x.s"},
+			{"id": "x.two", "region": "x", "scene": "res://y.tscn", "entry": "x.s"},
+		],
+		"zones": [
+			{"id": "x.a", "map": "x.one", "rooms": ["es2:d/x/a"]},
+		],
+		"services": [
+			{"id": "x.shop", "kind": "vendor", "zone": "x.a", "name": "S", "reach": 90, "vendor": "x.none", "legacy_source": "x.c"},
+			{"id": "x.odd", "kind": "juggler", "zone": "x.gone", "name": "J", "reach": 0, "legacy_source": "x.c"},
+		],
+		"doors": [
+			{"id": "x.door", "name": "D", "zones": ["x.a"], "reach": 80, "closable": "no", "legacy_room": "es2:d/x/a"},
+		],
+	}, "t.json")
+	_assert_true(builder.build() == null, "broken services and doors do not build")
+	var errors: String = "\n".join(builder.errors())
+	for expected: String in [
+		"t.json.services[0].vendor: unknown vendor 'x.none'",
+		"t.json.services[1].kind: unsupported service kind 'juggler'",
+		"t.json.services[1].reach: must be positive",
+		"t.json.services[1].zone: unknown zone 'x.gone'",
+		"t.json.doors[0].closable: expected true or false",
+		"t.json.doors[0].zones: a door joins exactly two zones",
 	]:
 		_assert_true(errors.contains(expected), "reports: " + expected)
 

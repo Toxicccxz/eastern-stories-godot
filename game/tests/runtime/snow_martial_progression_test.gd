@@ -281,8 +281,8 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		var probe := Work.new()
 		await probe.round_trip(tree,session,snapshot,"liuh enabled=" + str(enabled))
 		check(probe._failures.is_empty(),"full state and all RNG exact; restore draws zero " + str(probe._failures))
-	var map := session.resident_map(&"snow.outdoor") as SnowOutdoorController
-	var school := map.school
+	var map := session.resident_map(&"snow.outdoor") as WorldMapController
+	var school := map.service(&"snow.schoolhall.master") as TeacherService
 	var before := Work.rng_state(session)
 	check(not school.enable_liuh() and not school.disable_liuh() and not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
 	check(Work.rng_state(session) == before,"rejected contact draws zero")

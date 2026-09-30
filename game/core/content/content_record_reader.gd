@@ -71,6 +71,17 @@ func integer(key: String, fallback: int = 0) -> int:
 	return parsed
 
 
+func boolean(key: String, fallback: bool) -> bool:
+	_consumed[key] = true
+	if not _record.has(key):
+		return fallback
+	var value: Variant = _record[key]
+	if value is bool:
+		return value
+	fail(key, "expected true or false")
+	return fallback
+
+
 func required_integer(key: String) -> int:
 	if not _record.has(key):
 		_consumed[key] = true

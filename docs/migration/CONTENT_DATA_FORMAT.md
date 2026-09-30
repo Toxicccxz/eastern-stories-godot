@@ -1,9 +1,9 @@
 # Content data format
 
-Items, NPCs, spawns, vendors and the world (rooms, regions, maps, zones, portals) are JSON under
-`game/data/`, listed in `game/data/content_manifest.json` (load order = manifest order, then file
-order). Each file is one object with any of the arrays `items`, `npcs`, `spawns`, `vendors`,
-`rooms`, `regions`, `maps`, `zones`, `portals`.
+Items, NPCs, spawns, vendors and the world (rooms, regions, maps, zones, portals, services, doors)
+are JSON under `game/data/`, listed in `game/data/content_manifest.json` (load order = manifest
+order, then file order). Each file is one object with any of the arrays `items`, `npcs`, `spawns`,
+`vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`, `doors`.
 
 `GameContent.catalog()` (`game/data/game_content.gd`) reads them once into a `ContentCatalog`.
 Parsing lives in `game/core/content/`. Unknown fields, wrong types, non-integer numbers and broken
@@ -72,7 +72,12 @@ of `set("long")` (hard line breaks kept; the UI rewraps) and the static `set("ex
 
 ## regions, maps
 
-`regions`: `{id, name}`. `maps`: `{id, region, scene}` — one Godot scene the player walks in.
+`regions`: `{id, name}`. `maps`: `{id, region, scene, entry}` — one Godot scene the player walks
+in; `entry` is the spawn marker the player body waits on until the map is entered. Every map scene
+uses `WorldMapController` (`map` export = the map ID) and carries one ID-bearing component per
+record: `WorldPhysicalZoneArea2D` (zone), `WorldSpawnMarker2D`, `WorldPassageArea2D` (portal),
+`WorldServicePoint` (service), `WorldDoor` (door). A map refuses to initialize when scene and data
+disagree.
 
 ## zones
 
@@ -87,6 +92,20 @@ room of the other; Snow's zone tracking only accepts moves between neighbours.
 marker in another zone, same map or not; the maps follow from the zones. `legacy_command` is the
 ES2 command it stands for (`"east"`, `"climb pine"`). Cross-region portals live in their source
 region's file.
+
+## services
+
+`{id, kind, zone, name, reach, vendor?, legacy_source}` — something the player uses standing within
+`reach` pixels of its service point in `zone`. `kind` picks the rules (`WorldServiceKinds`): `bank`
+(convert), `work`, `vendor` (needs `vendor`: a vendors[] ID), `hockshop` (value/sell), `teacher`
+(apprentice/learn; the teaching facts are still `snow_school_teacher.gd`). The context button reads
+`name · verb`, e.g. 钱庄 · 兑换. `hockshop` and `teacher` also require an idle, non-fighting player.
+
+## doors
+
+`{id, name, zones, reach, closable?, legacy_room}` — an ES2 `create_door()` between two zones of one
+map; it starts closed and its state is not saved (a closed doorway is never a valid saved position).
+`closable: false` marks the approved open-only pawn-shop door.
 
 ## Not data yet
 

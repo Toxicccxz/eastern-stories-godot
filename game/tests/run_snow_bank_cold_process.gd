@@ -25,8 +25,8 @@ func _run() -> void:
 		await walk.walk_to(self, session, "move_up", -400, 1)
 		await walk.walk_to(self, session, "move_left", -340, 0)
 		check(walk._failures.is_empty(), "bank physically reached")
-		var bank: SnowOutdoorController = session.active_map() as SnowOutdoorController
-		check(bank.request_bank_conversion(CurrencyDenomination.Value.SILVER, CurrencyDenomination.Value.COIN, "1").succeeded(), "exchange before Save")
+		var bank: BankService = (session.active_map() as WorldMapController).service(&"snow.bank.counter") as BankService
+		check(bank.request_conversion(CurrencyDenomination.Value.SILVER, CurrencyDenomination.Value.COIN, "1").succeeded(), "exchange before Save")
 		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "production bank Save")
 		session.free()
 	elif args[0] == "read":
@@ -46,9 +46,9 @@ func _run() -> void:
 		if session != null:
 			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ENTIRE persisted snapshot exact")
-			var bank: SnowOutdoorController = session.active_map() as SnowOutdoorController
-			check(bank.can_exchange_here(), "bank exact location/proximity restored")
-			var money: MoneyInventoryContext = bank.bank_money_context()
+			var bank: BankService = (session.active_map() as WorldMapController).service(&"snow.bank.counter") as BankService
+			check(bank.in_reach(), "bank exact location/proximity restored")
+			var money: MoneyInventoryContext = bank.money_context()
 			check(money.select(CurrencyDenomination.Value.SILVER).amount == 1 and money.select(CurrencyDenomination.Value.COIN).amount == 100, "denominations restored")
 			var ids: Array[StringName] = session.inventory_state().registered_item_ids()
 			var before: int = session.item_id_allocator().next_dynamic_sequence

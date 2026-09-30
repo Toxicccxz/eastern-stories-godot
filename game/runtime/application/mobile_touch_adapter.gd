@@ -165,7 +165,7 @@ func _node_added(node: Node) -> void:
 	if node is Control and node.name in [&"PlayerInventoryPanel", &"LootPanel", &"DetailPanel"]:
 		if not (node as Control).visibility_changed.is_connected(_sync_presentation):
 			(node as Control).visibility_changed.connect(_sync_presentation)
-	if node is OldPineResidentMapController:
+	if node is WorldResidentMapController:
 		cancel_contacts()
 
 
@@ -174,7 +174,7 @@ func _node_removed(node: Node) -> void:
 		(node as ExplorationPresentationBlocker).context_changed.disconnect(_presentation_context_changed)
 	if node is Control and (node as Control).visibility_changed.is_connected(_sync_presentation):
 		(node as Control).visibility_changed.disconnect(_sync_presentation)
-	if node is OldPineResidentMapController:
+	if node is WorldResidentMapController:
 		cancel_contacts()
 		_blocker_id = 0
 

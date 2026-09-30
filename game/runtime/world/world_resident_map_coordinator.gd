@@ -26,6 +26,10 @@ func register_resident_map(map: WorldResidentMapController) -> bool:
 	return true
 
 
+func has_resident_map(map_id: StringName) -> bool:
+	return _resident_maps.has(map_id)
+
+
 func _on_passage_requested(portal: PortalDefinition, source: WorldResidentMapController) -> void:
 	# Never detach a physics Area while its query is flushing.
 	call_deferred("_execute_passage_request", portal, source)
