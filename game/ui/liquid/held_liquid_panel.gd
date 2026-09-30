@@ -68,13 +68,19 @@ func _process(_delta: float) -> void:
 				_select.select(_select.item_count - 1)
 	for i: int in range(_ids.size()):
 		var state: LiquidState = _session.liquid_collection().state(_ids[i])
-		_select.set_item_text(i, "酒袋 #%d · %s · %d/15份" % [i + 1, SourceWineskin.content_name(state.content), state.remaining])
+		_select.set_item_text(i, "酒袋 #%d · %s · %d/%d份" % [i + 1, LiquidState.content_name(state.content), state.remaining, _maximum_portions(_ids[i])])
 	_drink.disabled = _ids.is_empty()
 	if not _ids.is_empty():
 		_drink.text = "饮用（酒精暂未开放）" if _session.liquid_collection().state(_selected_id()).content == LiquidState.Content.RED_WINE else "喝一份清水"
 	_fill.visible = _session.fill_water_available()
 	_fill.disabled = _ids.is_empty()
 
+
+
+func _maximum_portions(id: StringName) -> int:
+	var item: ItemInstance = _session.item_instance_index().resolve(id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	return 0 if content == null or content.liquid_definition() == null else content.liquid_definition().maximum_portions
 
 
 func _selected_id() -> StringName:
@@ -92,12 +98,12 @@ func request_fill() -> LiquidUseResult:
 func _use(fill: bool) -> LiquidUseResult:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), _session.inventory_state(), _session.stack_collection(), _session.item_instance_index())
-	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(_session.world_content_revision())
+	var definitions: NativeItemDefinitionProjections = GameContent.catalog().native_item_projections()
 	var encounter: bool = _session.combat_encounter_coordinator().has_active_encounter()
 	last_result = HeldLiquidUseService.fill(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), _session.fill_water_available(), encounter) if fill else HeldLiquidUseService.drink(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), encounter)
 	match last_result.outcome:
 		LiquidUseResult.Outcome.FILLED:
-			_feedback.text = "已倒掉红酒，装满清水15份。" if last_result.discarded_wine else "已重新装满清水15份。"
+			_feedback.text = ("已倒掉红酒，装满清水%d份。" if last_result.discarded_wine else "已重新装满清水%d份。") % last_result.remaining_after
 		LiquidUseResult.Outcome.DRANK:
 			_feedback.text = "喝了一份清水。饮水：%d → %d" % [last_result.water_before, last_result.water_after]
 		LiquidUseResult.Outcome.ALCOHOL_DEFERRED:

@@ -1,8 +1,6 @@
 extends RefCounted
 
 const OldPineWorld := preload("res://data/oldpine/oldpine_world_definitions.gd")
-const OldPineNpcs := preload("res://data/oldpine/oldpine_npc_definitions.gd")
-const OldPineSpawns := preload("res://data/oldpine/oldpine_spawn_definitions.gd")
 const RuntimeLifeStatus := preload(
 	"res://runtime/characters/character_runtime_life_status.gd"
 )
@@ -36,7 +34,7 @@ func run_all() -> Dictionary[String, Variant]:
 
 
 func _test_exact_tall_bandit_definition() -> void:
-	var tall: NpcDefinition = OldPineNpcs.tall_bandit_definition()
+	var tall: NpcDefinition = TestContent.npc(TestContent.TALL_BANDIT_NPC_ID)
 	_assert_eq(tall.definition_id, &"oldpine.npc.tall_bandit", "tall bandit native ID")
 	_assert_eq(tall.legacy_source_path, "d/oldpine/npc/tall_bandit.c", "tall bandit source")
 	_assert_eq(tall.display_name, "土匪", "tall bandit name")
@@ -56,12 +54,12 @@ func _test_exact_tall_bandit_definition() -> void:
 	_assert_skill(skills[2], &"dodge", 10, "tall dodge")
 	var loadout: Array[NpcLoadoutEntry] = tall.loadout_entries()
 	_assert_eq(loadout.size(), 2, "tall bandit exact loadout count")
-	_assert_eq(loadout[0].item_definition_id, OldPineNpcs.LONG_SWORD_ITEM_ID, "tall long sword")
+	_assert_eq(loadout[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "tall long sword")
 	_assert_eq(loadout[0].quantity, 1, "tall owns one long sword")
 	_assert_eq(loadout[0].equipment_intent, NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY, "tall wields long sword")
-	_assert_eq(loadout[1].item_definition_id, OldPineNpcs.SILVER_ITEM_ID, "tall silver")
+	_assert_eq(loadout[1].item_definition_id, TestContent.SILVER_ITEM_ID, "tall silver")
 	_assert_eq(loadout[1].quantity, 6, "tall silver amount six")
-	var sword: NpcLoadoutItemDefinition = OldPineNpcs.long_sword_content()
+	var sword: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.LONG_SWORD_ITEM_ID)
 	_assert_eq(sword.weapon_definition().skill_type, &"sword", "long sword skill type")
 	_assert_false(sword.weapon_definition().can_wield_as_secondary, "long sword lacks SECONDARY")
 	_assert_false(sword.weapon_definition().is_two_handed, "long sword is not authored two-handed")
@@ -72,7 +70,7 @@ func _test_exact_tall_bandit_definition() -> void:
 		["d/oldpine/obj/long_sword.c", "d/oldpine/npc/obj/long_sword.c"],
 		"long sword traces both identical authored files",
 	)
-	var spawn: NpcSpawnDefinition = OldPineSpawns.pine1_tall_bandit_spawn()
+	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.PINE1_TALL_BANDIT_SPAWN_ID)
 	_assert_eq(spawn.spawn_id, &"oldpine.outdoor.pine1.tall_bandit", "tall spawn ID")
 	_assert_eq(spawn.zone_id, OldPineWorld.PINE_ENTRANCE_ZONE_ID, "tall spawn zone")
 	_assert_eq(spawn.quantity, 1, "tall spawn quantity")
@@ -81,9 +79,9 @@ func _test_exact_tall_bandit_definition() -> void:
 
 
 func _test_exact_bandit_definition() -> void:
-	_assert_true(OldPineNpcs.validate(), "Old Pine NPC content resolves")
-	_assert_true(OldPineSpawns.validate(), "Old Pine spawn references resolve")
-	var bandit: NpcDefinition = OldPineNpcs.bandit_definition()
+	_assert_true(GameContent.load_errors().is_empty(), "Old Pine NPC content resolves")
+	_assert_true(TestContent.spawns_match_world(), "Old Pine spawn references resolve")
+	var bandit: NpcDefinition = TestContent.npc(TestContent.BANDIT_NPC_ID)
 	_assert_eq(bandit.definition_id, &"oldpine.npc.bandit", "bandit native ID")
 	_assert_eq(bandit.legacy_source_path, "d/oldpine/npc/bandit.c", "bandit source")
 	_assert_eq(bandit.display_name, "土匪探哨", "bandit name")
@@ -97,7 +95,7 @@ func _test_exact_bandit_definition() -> void:
 	_assert_eq(bandit.score, 60, "bandit score")
 	_assert_eq(bandit.attitude, NpcDefinition.Attitude.AGGRESSIVE, "bandit attitude")
 	_assert_true(
-		bandit.has_capability(OldPineNpcs.AGGRESSIVE_ON_PLAYER_PRESENCE),
+		bandit.has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE),
 		"aggression is authored capability data",
 	)
 	_assert_true(bandit.base_attribute_overrides().is_empty(), "no fake authored attributes")
@@ -116,17 +114,17 @@ func _test_exact_bandit_definition() -> void:
 
 	var loadout: Array[NpcLoadoutEntry] = bandit.loadout_entries()
 	_assert_eq(loadout.size(), 2, "exact two loadout entries")
-	_assert_eq(loadout[0].item_definition_id, OldPineNpcs.SHORT_SWORD_ITEM_ID, "short sword definition")
+	_assert_eq(loadout[0].item_definition_id, TestContent.SHORT_SWORD_ITEM_ID, "short sword definition")
 	_assert_eq(loadout[0].quantity, 1, "one short sword")
 	_assert_eq(loadout[0].equipment_intent, NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY, "wield-primary intent")
 	_assert_eq(loadout[0].legacy_source_path, "d/oldpine/npc/obj/short_sword.c", "actual carried sword source")
-	_assert_eq(loadout[1].item_definition_id, OldPineNpcs.SILVER_ITEM_ID, "silver definition")
+	_assert_eq(loadout[1].item_definition_id, TestContent.SILVER_ITEM_ID, "silver definition")
 	_assert_eq(loadout[1].quantity, 3, "silver authored amount three")
 	_assert_eq(loadout[1].equipment_intent, NpcLoadoutEntry.EquipmentIntent.NONE, "silver not equipped")
 
-	var sword: NpcLoadoutItemDefinition = OldPineNpcs.short_sword_content()
-	_assert_eq(sword.item_definition().item_definition_id, OldPineNpcs.SHORT_SWORD_ITEM_ID, "canonical sword item identity")
-	_assert_eq(sword.weapon_definition().weapon_id, OldPineNpcs.SHORT_SWORD_ITEM_ID, "canonical sword weapon identity")
+	var sword: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.SHORT_SWORD_ITEM_ID)
+	_assert_eq(sword.item_definition().item_definition_id, TestContent.SHORT_SWORD_ITEM_ID, "canonical sword item identity")
+	_assert_eq(sword.weapon_definition().weapon_id, TestContent.SHORT_SWORD_ITEM_ID, "canonical sword weapon identity")
 	_assert_eq(sword.weapon_definition().skill_type, &"sword", "SWORD skill type")
 	_assert_true(sword.weapon_definition().can_wield_as_secondary, "SECONDARY capability")
 	_assert_false(sword.weapon_definition().is_two_handed, "short sword one-handed")
@@ -137,7 +135,7 @@ func _test_exact_bandit_definition() -> void:
 		["d/oldpine/obj/short_sword.c", "d/oldpine/npc/obj/short_sword.c"],
 		"one definition traces both byte-identical sources",
 	)
-	var silver: NpcLoadoutItemDefinition = OldPineNpcs.silver_content()
+	var silver: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.SILVER_ITEM_ID)
 	_assert_eq(silver.stack_definition().base_weight, 37, "silver base weight")
 	_assert_eq(silver.currency_definition().base_value, 100, "silver base value")
 	_assert_eq(silver.currency_definition().value_for_amount(3), 300, "silver amount-scaled value")
@@ -161,15 +159,15 @@ func _test_human_rng_order_and_derived_state() -> void:
 	var inventory: InventoryState = InventoryState.new()
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var runtime: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.bandit_definition(),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		&"bandit.rng.character",
-		OldPineSpawns.SPATH1_BANDIT_SPAWN_ID,
+		TestContent.SPATH1_BANDIT_SPAWN_ID,
 		&"bandit.rng.point",
 		_south_location(),
 		inventory,
 		stacks,
 		random_source,
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(runtime != null and runtime.is_valid(), "scripted bandit constructs")
 	_assert_eq(runtime.age, 19, "explicit age preserved")
@@ -217,9 +215,9 @@ func _test_tall_human_rng_order_and_derived_state() -> void:
 	var inventory: InventoryState = InventoryState.new()
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var runtime: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.tall_bandit_definition(),
+		TestContent.npc(TestContent.TALL_BANDIT_NPC_ID),
 		&"tall.rng.character",
-		OldPineSpawns.PINE1_TALL_BANDIT_SPAWN_ID,
+		TestContent.PINE1_TALL_BANDIT_SPAWN_ID,
 		&"tall.rng.point",
 		WorldLocationState.new(
 			OldPineWorld.REGION_ID,
@@ -230,7 +228,7 @@ func _test_tall_human_rng_order_and_derived_state() -> void:
 		inventory,
 		stacks,
 		random_source,
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(runtime != null and runtime.is_valid(), "scripted tall bandit constructs")
 	_assert_eq(runtime.age, 27, "authored tall age preserved")
@@ -339,7 +337,7 @@ func _test_invalid_rng_draw_rejected() -> void:
 	var low_inventory: InventoryState = InventoryState.new()
 	var low_stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var low: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.bandit_definition(),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		&"invalid.low.character",
 		&"invalid.low.spawn",
 		&"invalid.low.point",
@@ -347,7 +345,7 @@ func _test_invalid_rng_draw_rejected() -> void:
 		low_inventory,
 		low_stacks,
 		ScriptedRandom.new([-1]),
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(low == null, "negative RNG draw is rejected, not clamped")
 	_assert_true(low_inventory.registered_item_ids().is_empty(), "invalid low draw creates no items")
@@ -357,7 +355,7 @@ func _test_invalid_rng_draw_rejected() -> void:
 	var high_stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var high_source: ScriptedNpcInitializationRandomSource = ScriptedRandom.new([0, 21])
 	var high: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.bandit_definition(),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		&"invalid.high.character",
 		&"invalid.high.spawn",
 		&"invalid.high.point",
@@ -365,7 +363,7 @@ func _test_invalid_rng_draw_rejected() -> void:
 		high_inventory,
 		high_stacks,
 		high_source,
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(high == null, "draw equal to bound is rejected, not clamped")
 	_assert_eq(high_source.call_count(), 2, "factory stops at first invalid draw")
@@ -378,21 +376,21 @@ func _test_bandit_loadout_uses_closed_item_authorities() -> void:
 	var inventory: InventoryState = InventoryState.new()
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var runtime: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.bandit_definition(),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		&"bandit.loadout.character",
-		OldPineSpawns.SPATH1_BANDIT_SPAWN_ID,
+		TestContent.SPATH1_BANDIT_SPAWN_ID,
 		&"bandit.loadout.point",
 		_south_location(),
 		inventory,
 		stacks,
 		ScriptedRandom.new([0, 0, 0, 0, 0, 0, 0, 0]),
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(runtime != null, "loadout bandit constructs")
 	var items: Array[ItemInstance] = runtime.loadout_items()
 	_assert_eq(items.size(), 2, "one sword object plus one combined silver object")
-	var sword_item: ItemInstance = _item_with_definition(items, OldPineNpcs.SHORT_SWORD_ITEM_ID)
-	var silver_item: ItemInstance = _item_with_definition(items, OldPineNpcs.SILVER_ITEM_ID)
+	var sword_item: ItemInstance = _item_with_definition(items, TestContent.SHORT_SWORD_ITEM_ID)
+	var silver_item: ItemInstance = _item_with_definition(items, TestContent.SILVER_ITEM_ID)
 	_assert_true(sword_item != null, "live short sword instance exists")
 	_assert_true(silver_item != null, "live silver stack instance exists")
 	var owner: ContainmentEndpoint = ContainmentEndpoint.new(
@@ -415,7 +413,7 @@ func _test_bandit_loadout_uses_closed_item_authorities() -> void:
 
 
 func _test_spath1_builds_three_independent_runtime_states() -> void:
-	var spawn: NpcSpawnDefinition = OldPineSpawns.spath1_bandit_spawn()
+	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID)
 	_assert_true(spawn.is_valid(), "spath1 spawn coherent")
 	_assert_eq(spawn.quantity, 3, "spath1 native quantity three")
 	_assert_eq(spawn.legacy_quantity, 3, "spath1 source quantity three")
@@ -429,12 +427,12 @@ func _test_spath1_builds_three_independent_runtime_states() -> void:
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var runtimes: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
 		spawn,
-		OldPineNpcs.bandit_definition(),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		_south_location(),
 		inventory,
 		stacks,
 		random_source,
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_eq(runtimes.size(), 3, "all three source-authored bandits constructed")
 	_assert_eq(random_source.call_count(), 24, "continuous stream: eight draws per instance")
@@ -450,12 +448,12 @@ func _test_spath1_builds_three_independent_runtime_states() -> void:
 	var silver_ids: Dictionary[StringName, bool] = {}
 	for runtime: NpcRuntimeState in runtimes:
 		character_ids[runtime.character_id] = true
-		_assert_eq(runtime.definition_id, OldPineNpcs.BANDIT_DEFINITION_ID, "shared definition identity")
+		_assert_eq(runtime.definition_id, TestContent.BANDIT_NPC_ID, "shared definition identity")
 		_assert_true(runtime.definition() == runtimes[0].definition(), "immutable definition object may be shared")
 		_assert_eq(runtime.spawn_id, spawn.spawn_id, "runtime spawn identity")
 		_assert_true(spawn.spawn_point_ids().has(runtime.spawn_point_id), "runtime spawn point identity")
-		var sword: ItemInstance = _item_with_definition(runtime.loadout_items(), OldPineNpcs.SHORT_SWORD_ITEM_ID)
-		var silver: ItemInstance = _item_with_definition(runtime.loadout_items(), OldPineNpcs.SILVER_ITEM_ID)
+		var sword: ItemInstance = _item_with_definition(runtime.loadout_items(), TestContent.SHORT_SWORD_ITEM_ID)
+		var silver: ItemInstance = _item_with_definition(runtime.loadout_items(), TestContent.SILVER_ITEM_ID)
 		_assert_true(sword != null, "spawned bandit has sword")
 		_assert_true(silver != null, "spawned bandit has silver")
 		sword_ids[sword.item_instance_id] = true
@@ -477,7 +475,7 @@ func _test_spath1_builds_three_independent_runtime_states() -> void:
 
 func _test_runtime_life_status_is_independent_from_threshold() -> void:
 	var runtime: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.bandit_definition(),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		&"threshold.character",
 		&"threshold.spawn",
 		&"threshold.point",
@@ -485,7 +483,7 @@ func _test_runtime_life_status_is_independent_from_threshold() -> void:
 		InventoryState.new(),
 		CombinedStackCollection.new(),
 		ScriptedRandom.new([0, 0, 0, 0, 0, 0, 0, 0]),
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(runtime != null, "threshold test NPC constructs")
 	_assert_eq(runtime.life_status, RuntimeLifeStatus.Value.ACTIVE, "fresh runtime status committed ACTIVE")
@@ -503,13 +501,13 @@ func _test_map_local_collection_order_and_existence() -> void:
 	for index: int in range(24):
 		draws.append(index % 21)
 	var runtimes: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
-		OldPineSpawns.spath1_bandit_spawn(),
-		OldPineNpcs.bandit_definition(),
+		TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID),
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
 		_south_location(),
 		InventoryState.new(),
 		CombinedStackCollection.new(),
 		ScriptedRandom.new(draws),
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	var collection: MapCharacterRuntimeState = MapCharacterRuntimeState.new(
 		OldPineWorld.OUTDOOR_MAP_ID
@@ -619,17 +617,17 @@ func _test_oldpine_native_ids_are_unique() -> void:
 		_assert_register_unique(native_ids, zone.zone_id, "zone")
 	for portal: PortalDefinition in OldPineWorld.portal_definitions():
 		_assert_register_unique(native_ids, portal.portal_id, "portal")
-	_assert_register_unique(native_ids, OldPineNpcs.bandit_definition().definition_id, "NPC")
-	_assert_register_unique(native_ids, OldPineNpcs.tall_bandit_definition().definition_id, "NPC")
-	_assert_register_unique(native_ids, OldPineSpawns.spath1_bandit_spawn().spawn_id, "spawn")
-	_assert_register_unique(native_ids, OldPineSpawns.pine1_tall_bandit_spawn().spawn_id, "spawn")
-	for content: NpcLoadoutItemDefinition in OldPineNpcs.loadout_item_definitions():
+	_assert_register_unique(native_ids, TestContent.npc(TestContent.BANDIT_NPC_ID).definition_id, "NPC")
+	_assert_register_unique(native_ids, TestContent.npc(TestContent.TALL_BANDIT_NPC_ID).definition_id, "NPC")
+	_assert_register_unique(native_ids, TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID).spawn_id, "spawn")
+	_assert_register_unique(native_ids, TestContent.spawn(TestContent.PINE1_TALL_BANDIT_SPAWN_ID).spawn_id, "spawn")
+	for content: NpcLoadoutItemDefinition in GameContent.catalog().loadout_item_definitions():
 		_assert_register_unique(
 			native_ids,
 			content.item_definition().item_definition_id,
 			"item",
 		)
-	_assert_eq(native_ids.size(), 39, "cross-category native IDs remain distinct with Lake zone")
+	_assert_eq(native_ids.size(), 35 + GameContent.catalog().items().size(), "cross-category native IDs remain distinct with Lake zone")
 
 
 func _test_invalid_spawn_and_definition_shapes() -> void:

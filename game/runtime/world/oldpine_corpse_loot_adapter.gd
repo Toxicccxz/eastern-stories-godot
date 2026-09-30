@@ -45,7 +45,7 @@ func contents_are_resolvable(
 		var item: ItemInstance = item_index.resolve(item_id)
 		if (
 			item == null
-			or OldPineItemContentDefinitions.content_by_id(item.item_definition_id) == null
+			or GameContent.catalog().item(item.item_definition_id) == null
 		):
 			return false
 	return true
@@ -68,8 +68,8 @@ func project_rows(
 		return rows
 	for item_id: StringName in inventory.direct_children(_corpse_endpoint(corpse)):
 		var item: ItemInstance = item_index.resolve(item_id)
-		var content: OldPineItemContentDefinition = (
-			OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+		var content: ItemContentDefinition = (
+			GameContent.catalog().item(item.item_definition_id)
 		)
 		var amount: int = 1
 		if stacks.has_stack(item_id):
@@ -175,7 +175,7 @@ func take(
 	var item: ItemInstance = item_index.resolve(requested_item_instance_id)
 	if (
 		item == null
-		or OldPineItemContentDefinitions.content_by_id(item.item_definition_id) == null
+		or GameContent.catalog().item(item.item_definition_id) == null
 	):
 		return _result(
 			CorpseLootTransferResult.Outcome.CONTENT_UNAVAILABLE,

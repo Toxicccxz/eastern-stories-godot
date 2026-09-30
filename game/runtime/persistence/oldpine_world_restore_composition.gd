@@ -5,7 +5,7 @@ const Values := preload("res://core/persistence/game_save_value_types.gd")
 const Result := preload(
 	"res://runtime/persistence/oldpine_world_restore_result.gd"
 )
-const CORPSE_DEFINITION_ID: StringName = &"es2:obj/corpse"
+const CORPSE_DEFINITION_ID: StringName = CorpseState.ITEM_DEFINITION_ID
 
 
 static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
@@ -30,7 +30,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	var item_restore: NativeItemRestoreCompositionResult = (
 		NativeItemPersistenceComposition.restore(
 			snapshot.items,
-			OldPineNativeItemDefinitionProjections.create(snapshot.world_content_revision),
+			GameContent.catalog().native_item_projections(),
 			snapshot.item_id_allocator,
 		)
 	)
@@ -42,7 +42,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		)
 	var domain: NativeItemDomainState = item_restore.domain_state
 	var character_ids: Array[StringName] = [snapshot.player.character_id]
-	for spawn: NpcSpawnDefinition in OldPineSpawnDefinitions.all_spawns():
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
 		for point_id: StringName in spawn.spawn_point_ids():
 			character_ids.append(_character_id_for_spawn_point(point_id))
 	if not _character_aggregate_ids_match(domain, character_ids):
@@ -170,8 +170,8 @@ static func _restore_npc_ledger(
 		saved_by_point[saved.spawn_point_id] = saved
 	var entries: Array[OldPineRestoredNpcEntry] = []
 	var referenced_loadout_ids: Dictionary[StringName, bool] = {}
-	for spawn: NpcSpawnDefinition in OldPineSpawnDefinitions.all_spawns():
-		var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+		var definition: NpcDefinition = GameContent.catalog().npc(
 			spawn.npc_definition_id
 		)
 		if definition == null:
@@ -334,7 +334,7 @@ static func _restore_corpses(
 		var expected_capacity: int = snapshot.player.body_facts.maximum_encumbrance
 		if victim is Values.NpcSpawnStateSnapshot:
 			var victim_npc: Values.NpcSpawnStateSnapshot = victim
-			var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(
+			var definition: NpcDefinition = GameContent.catalog().npc(
 				victim_npc.npc_definition_id
 			)
 			if definition == null:
@@ -374,7 +374,7 @@ static func _restore_corpses(
 			var worn_record: NativeItemRecord = item_records[worn.item_instance_id]
 			var worn_parent: ContainmentEndpoint = worn_record.direct_parent
 			var armor_definition: ArmorDefinition = (
-				OldPineNativeItemDefinitionProjections.create().armor_definition(
+				GameContent.catalog().native_item_projections().armor_definition(
 					worn_record.item_definition_id
 				)
 			)
@@ -424,8 +424,8 @@ static func _loadout_matches(
 ) -> bool:
 	var expected_counts: Dictionary[StringName, int] = {}
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
-		var content: NpcLoadoutItemDefinition = (
-			OldPineNpcDefinitions.loadout_content_by_id(entry.item_definition_id)
+		var content: ItemContentDefinition = (
+			GameContent.catalog().item(entry.item_definition_id)
 		)
 		if content == null:
 			return false

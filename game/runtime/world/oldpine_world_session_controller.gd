@@ -179,6 +179,9 @@ func initialize_session() -> bool:
 		return true
 	if active_map_slot == null:
 		return false
+	# No world is built on unreadable or inconsistent content data.
+	if not GameContent.load_errors().is_empty():
+		return false
 	if _bootstrap_mode == BootstrapMode.RESTORE:
 		if not _initialize_restore_authorities():
 			_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.RECONSTRUCTION_FAILED

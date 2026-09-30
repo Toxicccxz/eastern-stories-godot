@@ -21,7 +21,7 @@ static func drink(player: WorldPlayerRuntimeState, context: MoneyInventoryContex
 		result.outcome = LiquidUseResult.Outcome.TOO_FULL
 		return result
 	state.remaining -= 1
-	player.state.recovery.water += SourceWineskin.HYDRATION
+	player.state.recovery.water += _definition(context, definitions, id).hydration
 	result.remaining_after = state.remaining
 	result.water_after = player.state.recovery.water
 	result.outcome = LiquidUseResult.Outcome.DRANK
@@ -39,7 +39,7 @@ static func fill(player: WorldPlayerRuntimeState, context: MoneyInventoryContext
 	var state: LiquidState = liquids.state(id)
 	result.discarded_wine = state.content == LiquidState.Content.RED_WINE and state.remaining > 0
 	state.content = LiquidState.Content.CLEAR_WATER
-	state.remaining = SourceWineskin.MAXIMUM
+	state.remaining = _definition(context, definitions, id).maximum_portions
 	result.remaining_after = state.remaining
 	result.outcome = LiquidUseResult.Outcome.FILLED
 	return result
@@ -77,10 +77,10 @@ static func _admit(player: WorldPlayerRuntimeState, context: MoneyInventoryConte
 		return result
 	var item: ItemInstance = context.index.resolve(id)
 	var state: LiquidState = liquids.state(id)
-	if item == null or item.item_definition_id != SourceWineskin.DEFINITION_ID or state == null or not context.inventory.is_registered(id):
+	if item == null or state == null or not context.inventory.is_registered(id):
 		return result
 	var definition: LiquidDefinition = definitions.liquid_definition(item.item_definition_id)
-	if not SourceWineskin.is_canonical(definition) or not definition.accepts_live_state(state.content, state.remaining) or context.inventory.own_weight(id) != definition.own_weight:
+	if definition == null or not definition.is_valid() or not definition.accepts_live_state(state.content, state.remaining) or context.inventory.own_weight(id) != definition.own_weight:
 		return result
 	result.water_before = player.state.recovery.water
 	result.water_after = result.water_before
@@ -88,3 +88,9 @@ static func _admit(player: WorldPlayerRuntimeState, context: MoneyInventoryConte
 	result.remaining_after = state.remaining
 	result.outcome = LiquidUseResult.Outcome.ADMITTED
 	return result
+
+
+## Only called after _admit() proved the item and its definition exist.
+static func _definition(context: MoneyInventoryContext,
+	definitions: NativeItemDefinitionProjections, id: StringName) -> LiquidDefinition:
+	return definitions.liquid_definition(context.index.resolve(id).item_definition_id)

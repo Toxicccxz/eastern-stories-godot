@@ -203,11 +203,11 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	var corpse_items: Array[ItemInstance] = victim.loadout_items()
 	var remaining_loot: ItemInstance = _item_by_definition(
 		corpse_items,
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
 	)
 	var looted_silver: ItemInstance = _item_by_definition(
 		corpse_items,
-		OldPineItemContentDefinitions.SILVER_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
 	)
 	_assert_true(remaining_loot != null and looted_silver != null, "corpse exposes exact sword and silver authorities")
 	if remaining_loot == null or looted_silver == null:
@@ -636,8 +636,8 @@ func _add_owned_leather(
 	outdoor: OldPineOutdoorController,
 	instance_id: StringName,
 ) -> bool:
-	var content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(
-		OldPineItemContentDefinitions.LEATHER_ITEM_ID
+	var content: ItemContentDefinition = TestContent.item(
+		TestContent.LEATHER_ITEM_ID
 	)
 	var item: ItemInstance = ItemInstance.new(instance_id, content.item_definition_id)
 	if (

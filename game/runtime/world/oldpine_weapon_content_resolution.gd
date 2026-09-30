@@ -3,8 +3,7 @@ extends RefCounted
 
 enum Outcome {
 	INVALID_REQUEST,
-	LONG_SWORD,
-	SHORT_SWORD,
+	WEAPON,
 	UNARMED,
 	PRIMARY_ITEM_NOT_AVAILABLE,
 	PRIMARY_DEFINITION_MISMATCH,
@@ -27,7 +26,7 @@ var content_profile: CombatSliceContentProfile:
 	get: return _content_profile
 var succeeded: bool:
 	get:
-		return _outcome in [Outcome.LONG_SWORD, Outcome.SHORT_SWORD, Outcome.UNARMED]
+		return _outcome in [Outcome.WEAPON, Outcome.UNARMED]
 
 
 func _init(

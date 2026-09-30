@@ -54,8 +54,6 @@ var _registered_npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
 var _registered_npc_presence: Dictionary[StringName, Area2D] = {}
 var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
 var _effects: SkillImprovementEffectRegistry
-var _bandit_content: CombatSliceContentProfile
-var _tall_bandit_content: CombatSliceContentProfile
 var _selected_target: WorldInteractionTargetType
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
@@ -105,7 +103,7 @@ func _process(_delta: float) -> void:
 	if _initialized:
 		_sync_lake_route_location()
 		for npc: NpcRuntimeState in _all_npcs:
-			if npc.spawn_id == OldPineSpawnDefinitions.LAKE_SERPENT_SPAWN_ID and not _complete_entry_contact(npc.character_id):
+			if npc.spawn_id == OldPineWorldDefinitions.LAKE_SERPENT_SPAWN_ID and not _complete_entry_contact(npc.character_id):
 				_complete_set_consumed_contacts.erase(npc.character_id)
 	if _initialized and (_aggression_adapter.pending_count() > 0 or _player.world_location().zone_id == OldPineWorldDefinitions.LAKE_ZONE_ID):
 		process_pending_aggression()
@@ -166,23 +164,6 @@ func initialize_map() -> bool:
 	_map_characters = MapCharacterRuntimeState.new(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_effects = SkillImprovementEffectRegistry.new()
 	_effects.register_legacy_defaults()
-	_bandit_content = CombatSliceContentProfile.new(
-		OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID,
-		&"sword",
-		OldPineNpcDefinitions.SHORT_SWORD_DAMAGE,
-	)
-	var tall_weapon_content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(
-			OldPineNpcDefinitions.LONG_SWORD_ITEM_ID
-		)
-	)
-	if tall_weapon_content == null:
-		return false
-	_tall_bandit_content = CombatSliceContentProfile.new(
-		tall_weapon_content.item_definition_id,
-		tall_weapon_content.weapon_skill_type,
-		tall_weapon_content.weapon_damage,
-	)
 	if (
 		(
 			_session_owner.bootstrap_mode()
@@ -192,13 +173,7 @@ func initialize_map() -> bool:
 		or (
 			_session_owner.bootstrap_mode()
 			!= OldPineWorldSessionController.BootstrapMode.RESTORE
-			and (
-				not _initialize_player()
-				or not _initialize_bandits()
-				or not _initialize_tall_bandit()
-				or not _initialize_fat_bandit()
-				or not _initialize_serpents()
-			)
+			and (not _initialize_player() or not _initialize_spawns())
 		)
 	):
 		return false
@@ -1276,7 +1251,10 @@ func _initialize_restored_world() -> bool:
 		view.selection_requested.connect(_on_corpse_selection_requested)
 		view.loot_range_changed.connect(_on_corpse_loot_range_changed)
 		corpse_layer.add_child(view)
-	return _all_npcs.size() == 10
+	var authored_npc_count: int = 0
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map_id()):
+		authored_npc_count += spawn.quantity
+	return _all_npcs.size() == authored_npc_count
 
 
 func _initialize_restored_player() -> bool:
@@ -1297,143 +1275,55 @@ func _initialize_restored_player() -> bool:
 	return true
 
 
+## The scene pre-places one body per spawn point, in the authored order of
+## this map's spawns.
 func _body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBodyType:
-	var bandit_points: Array[StringName] = (
-		OldPineSpawnDefinitions.spath1_bandit_spawn().spawn_point_ids()
-	)
-	var bandit_index: int = bandit_points.find(spawn_point_id)
-	if bandit_index >= 0 and bandit_index < bandit_bodies.size():
-		return bandit_bodies[bandit_index]
-	if spawn_point_id == (
-		OldPineSpawnDefinitions.pine1_tall_bandit_spawn().spawn_point_ids()[0]
-	):
-		return tall_bandit_body
-	if spawn_point_id == (
-		OldPineSpawnDefinitions.pine1_fat_bandit_spawn().spawn_point_ids()[0]
-	):
-		return fat_bandit_body
-	var snake_index: int = OldPineSpawnDefinitions.lake_serpent_spawn().spawn_point_ids().find(spawn_point_id)
-	if snake_index >= 0:
-		return serpent_bodies[snake_index]
+	var bodies: Array[WorldCharacterBodyType] = []
+	bodies.append_array(bandit_bodies)
+	bodies.append(tall_bandit_body)
+	bodies.append(fat_bandit_body)
+	bodies.append_array(serpent_bodies)
+	var index: int = 0
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map_id()):
+		for point_id: StringName in spawn.spawn_point_ids():
+			if point_id == spawn_point_id:
+				return bodies[index] if index < bodies.size() else null
+			index += 1
 	return null
 
 
-func _initialize_bandits() -> bool:
-	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.spath1_bandit_spawn()
-	var definition: NpcDefinition = OldPineNpcDefinitions.bandit_definition()
-	var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
-		spawn,
-		definition,
-		_location_for_zone(OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID),
-		_inventory,
-		_stacks,
-		_npc_random,
-		OldPineNpcDefinitions.loadout_item_definitions(),
-		_item_instance_scope,
-	)
-	if created.size() != spawn.quantity or created.size() != bandit_bodies.size():
-		return false
-	for npc: NpcRuntimeState in created:
-		for item: ItemInstance in npc.loadout_items():
-			if not _item_index.register_snapshot(item):
+## Spawns are created in authored order: it fixes each NPC's random draws and
+## loadout item identities.
+func _initialize_spawns() -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var loadout_content: Array[NpcLoadoutItemDefinition] = catalog.loadout_item_definitions()
+	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map_id()):
+		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
+			spawn,
+			catalog.npc(spawn.npc_definition_id),
+			_location_for_zone(spawn.zone_id),
+			_inventory,
+			_stacks,
+			_npc_random,
+			loadout_content,
+			_item_instance_scope,
+		)
+		if created.size() != spawn.quantity:
+			return false
+		for npc: NpcRuntimeState in created:
+			for item: ItemInstance in npc.loadout_items():
+				if not _item_index.register_snapshot(item):
+					return false
+		for npc: NpcRuntimeState in created:
+			var marker: WorldSpawnMarkerType = _find_spawn_marker(npc.spawn_point_id)
+			var body: WorldCharacterBodyType = _body_for_spawn_point(npc.spawn_point_id)
+			if marker == null or body == null or not _map_characters.register_npc(npc):
 				return false
-	var point_ids: Array[StringName] = spawn.spawn_point_ids()
-	for index: int in range(created.size()):
-		var npc: NpcRuntimeState = created[index]
-		var marker: WorldSpawnMarkerType = _find_spawn_marker(point_ids[index])
-		if marker == null or not _map_characters.register_npc(npc):
-			return false
-		_all_npcs.append(npc)
-		var body: WorldCharacterBodyType = bandit_bodies[index]
-		body.global_position = marker.global_position
-		body.player_controlled = false
-		if not body.bind_npc(npc):
-			return false
-	return true
-
-
-func _initialize_tall_bandit() -> bool:
-	var spawn: NpcSpawnDefinition = (
-		OldPineSpawnDefinitions.pine1_tall_bandit_spawn()
-	)
-	var definition: NpcDefinition = OldPineNpcDefinitions.tall_bandit_definition()
-	var created: Array[NpcRuntimeState] = (
-		NpcCharacterStateFactory.new().create_spawn_instances(
-			spawn,
-			definition,
-			_location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID),
-			_inventory,
-			_stacks,
-			_npc_random,
-			OldPineNpcDefinitions.loadout_item_definitions(),
-			_item_instance_scope,
-		)
-	)
-	if created.size() != 1:
-		return false
-	var npc: NpcRuntimeState = created[0]
-	for item: ItemInstance in npc.loadout_items():
-		if not _item_index.register_snapshot(item):
-			return false
-	var point_ids: Array[StringName] = spawn.spawn_point_ids()
-	var marker: WorldSpawnMarkerType = _find_spawn_marker(point_ids[0])
-	if marker == null or not _map_characters.register_npc(npc):
-		return false
-	_all_npcs.append(npc)
-	tall_bandit_body.global_position = marker.global_position
-	tall_bandit_body.player_controlled = false
-	return tall_bandit_body.bind_npc(npc)
-
-
-func _initialize_fat_bandit() -> bool:
-	var spawn: NpcSpawnDefinition = (
-		OldPineSpawnDefinitions.pine1_fat_bandit_spawn()
-	)
-	var definition: NpcDefinition = OldPineNpcDefinitions.fat_bandit_definition()
-	var created: Array[NpcRuntimeState] = (
-		NpcCharacterStateFactory.new().create_spawn_instances(
-			spawn,
-			definition,
-			_location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID),
-			_inventory,
-			_stacks,
-			_npc_random,
-			OldPineNpcDefinitions.loadout_item_definitions(),
-			_item_instance_scope,
-		)
-	)
-	if created.size() != 1:
-		return false
-	var npc: NpcRuntimeState = created[0]
-	for item: ItemInstance in npc.loadout_items():
-		if not _item_index.register_snapshot(item):
-			return false
-	var point_ids: Array[StringName] = spawn.spawn_point_ids()
-	var marker: WorldSpawnMarkerType = _find_spawn_marker(point_ids[0])
-	if marker == null or not _map_characters.register_npc(npc):
-		return false
-	_all_npcs.append(npc)
-	fat_bandit_body.global_position = marker.global_position
-	fat_bandit_body.player_controlled = false
-	return fat_bandit_body.bind_npc(npc)
-
-
-func _initialize_serpents() -> bool:
-	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.lake_serpent_spawn()
-	var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
-		spawn, OldPineNpcDefinitions.serpent_definition(), _location_for_zone(OldPineWorldDefinitions.LAKE_ZONE_ID),
-		_inventory, _stacks, _npc_random, [], _item_instance_scope)
-	if created.size() != serpent_bodies.size():
-		return false
-	for index: int in created.size():
-		var npc: NpcRuntimeState = created[index]
-		var marker: WorldSpawnMarkerType = _find_spawn_marker(npc.spawn_point_id)
-		if marker == null or not _map_characters.register_npc(npc):
-			return false
-		_all_npcs.append(npc)
-		serpent_bodies[index].global_position = marker.global_position
-		if not serpent_bodies[index].bind_npc(npc):
-			return false
+			_all_npcs.append(npc)
+			body.global_position = marker.global_position
+			body.player_controlled = false
+			if not body.bind_npc(npc):
+				return false
 	return true
 
 
@@ -1467,11 +1357,7 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 	for npc: NpcRuntimeState in _all_npcs:
 		if not include_absent and not npc.exists_in_map:
 			continue
-		var npc_content: CombatSliceContentProfile = _bandit_content
-		if npc.definition().definition_id == OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID:
-			npc_content = _tall_bandit_content
-		if npc.definition().definition_id == OldPineNpcDefinitions.SERPENT_DEFINITION_ID:
-			npc_content = CombatSliceContentProfile.new()
+		var npc_content: CombatSliceContentProfile = _authored_weapon_profile(npc.definition())
 		if _registered_npc_content.has(npc.character_id):
 			npc_content = _registered_npc_content[npc.character_id]
 		var binding: CombatSliceCharacterBinding = (
@@ -1480,6 +1366,19 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 		if binding != null:
 			result.append(binding)
 	return result
+
+
+## The weapon an NPC is authored to wield, as its verified combat weapon.
+static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceContentProfile:
+	for entry: NpcLoadoutEntry in definition.loadout_entries():
+		if entry.equipment_intent != NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY:
+			continue
+		var content: ItemContentDefinition = GameContent.catalog().item(entry.item_definition_id)
+		if content != null and content.weapon_definition() != null:
+			return CombatSliceContentProfile.new(
+				content.item_definition_id, content.weapon_skill_type, content.weapon_damage,
+			)
+	return CombatSliceContentProfile.new(&"", &"", 0)
 
 
 ## Map-owned physical publication; rules remain in the existing lifecycle/death
@@ -1616,12 +1515,8 @@ func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
 		var item: ItemInstance = _item_index.resolve(item_id)
 		if item == null:
 			continue # Existing death validator fails closed on incomplete facts.
-		var armor_definition: ArmorDefinition
-		if item.item_definition_id == SourcePlayerCloth.DEFINITION_ID:
-			armor_definition = SourcePlayerCloth.armor_definition()
-		else:
-			var content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
-			armor_definition = null if content == null else content.armor_definition()
+		var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
+		var armor_definition: ArmorDefinition = null if content == null else content.armor_definition()
 		facts.append(DeathItemFacts.new(item, armor_definition))
 	return facts
 

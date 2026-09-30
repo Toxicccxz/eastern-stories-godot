@@ -53,7 +53,7 @@ func _test_target_index_content_and_player_capacity() -> void:
 	_assert_false(WorldInteractionTarget.item(&"").is_valid(), "empty ITEM identity is invalid")
 
 	var index: WorldItemInstanceIndex = WorldItemInstanceIndex.new()
-	var item: ItemInstance = ItemInstance.new(&"item:one", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)
+	var item: ItemInstance = ItemInstance.new(&"item:one", TestContent.SHORT_SWORD_ITEM_ID)
 	_assert_true(index.register_snapshot(item), "map-local index registers immutable snapshot")
 	_assert_false(index.register_snapshot(item), "map-local index rejects duplicate instance identity")
 	var resolved: ItemInstance = index.resolve(item.item_instance_id)
@@ -61,10 +61,10 @@ func _test_target_index_content_and_player_capacity() -> void:
 	_assert_eq(resolved.item_definition_id, item.item_definition_id, "index preserves definition identity")
 	_assert_true(index.resolve(&"missing") == null, "index does not infer unknown identities")
 
-	_assert_true(OldPineItemContentDefinitions.validate(), "narrow Old Pine content validates")
-	var long_sword: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID)
-	var short_sword: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)
-	var silver: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(OldPineItemContentDefinitions.SILVER_ITEM_ID)
+	_assert_true(GameContent.load_errors().is_empty(), "narrow Old Pine content validates")
+	var long_sword: ItemContentDefinition = TestContent.item(TestContent.LONG_SWORD_ITEM_ID)
+	var short_sword: ItemContentDefinition = TestContent.item(TestContent.SHORT_SWORD_ITEM_ID)
+	var silver: ItemContentDefinition = TestContent.item(TestContent.SILVER_ITEM_ID)
 	_assert_eq(long_sword.display_name, "长剑", "prototype long sword uses authored display name")
 	_assert_true(long_sword.description.contains("粗制滥造的长剑"), "long sword uses LPC long text")
 	_assert_eq(long_sword.weapon_damage, 25, "long sword keeps authored damage fact")
@@ -79,7 +79,7 @@ func _test_target_index_content_and_player_capacity() -> void:
 	_assert_true(silver.description.contains("人见人爱"), "silver uses LPC long text")
 	_assert_eq(silver.stack_base_weight, 37, "silver base weight is exact")
 	_assert_eq(silver.currency_base_value, 100, "silver base value is exact")
-	_assert_true(OldPineItemContentDefinitions.content_by_id(&"unknown") == null, "unknown content fails honestly")
+	_assert_true(TestContent.item(&"unknown") == null, "unknown content fails honestly")
 
 	var player: WorldPlayerRuntimeState = _make_player(12345)
 	_assert_eq(player.maximum_encumbrance, 12345, "runtime stores setup-time maximum encumbrance verbatim")
@@ -89,7 +89,7 @@ func _test_target_index_content_and_player_capacity() -> void:
 
 func _test_live_projection_and_short_sword_take() -> void:
 	var fixture: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
 		3000,
 		50000,
 	)
@@ -121,7 +121,7 @@ func _test_live_projection_and_short_sword_take() -> void:
 
 func _test_silver_no_merge_and_merge() -> void:
 	var no_merge: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SILVER_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
 		0,
 		50000,
 		3,
@@ -141,10 +141,10 @@ func _test_silver_no_merge_and_merge() -> void:
 	_assert_false(no_merge_result.merge_result.merge_applied, "no compatible sibling means no merge")
 	_assert_eq(no_merge.stacks.stack_state(no_merge.item.item_instance_id).amount, 3, "same silver keeps amount three")
 	_assert_eq(no_merge.inventory.own_weight(no_merge.item.item_instance_id), 111, "same silver keeps weight 111")
-	_assert_eq(OldPineNpcDefinitions.silver_content().currency_definition().value_for_amount(3), 300, "amount three value is 300")
+	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(3), 300, "amount three value is 300")
 
 	var merged: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SILVER_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
 		0,
 		50000,
 		3,
@@ -159,7 +159,7 @@ func _test_silver_no_merge_and_merge() -> void:
 	_assert_eq(merge_result.resulting_item_instance_id, merged.item.item_instance_id, "incoming corpse silver is survivor")
 	_assert_eq(merged.stacks.stack_state(merged.item.item_instance_id).amount, 8, "survivor amount is eight")
 	_assert_eq(merged.inventory.own_weight(merged.item.item_instance_id), 296, "survivor weight is 8 * 37")
-	_assert_eq(OldPineNpcDefinitions.silver_content().currency_definition().value_for_amount(8), 800, "survivor value is 800")
+	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(8), 800, "survivor value is 800")
 	_assert_false(merged.inventory.is_registered(existing.item_instance_id), "absorbed old player silver is removed from Inventory")
 	_assert_false(merged.stacks.has_stack(existing.item_instance_id), "absorbed old player silver association is removed")
 	_assert_true(merged.item_index.has_snapshot(existing.item_instance_id), "stale immutable index metadata may remain")
@@ -175,12 +175,12 @@ func _test_silver_no_merge_and_merge() -> void:
 
 func _test_partial_merge_and_validation_gates() -> void:
 	var partial: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SILVER_ITEM_ID, 0, 50000, 3
+		TestContent.SILVER_ITEM_ID, 0, 50000, 3
 	)
 	var existing: ItemInstance = _add_player_silver(partial, &"nested-player-silver", 5)
 	partial.player.relationship.add_opponent(&"enemy")
 	var nested: ItemInstance = ItemInstance.new(
-		&"nested-short-sword", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID
+		&"nested-short-sword", TestContent.SHORT_SWORD_ITEM_ID
 	)
 	_assert_true(partial.inventory.register_item(nested, 3000), "partial fixture registers nested child")
 	_assert_true(partial.item_index.register_snapshot(nested), "partial fixture indexes nested child")
@@ -206,7 +206,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 	_assert_true(partial_result.corpse_transfer_result.succeeded, "partial result retains successful corpse-transfer evidence")
 	_assert_true(partial_result.merge_result != null and not partial_result.merge_result.succeeded, "partial result retains failed merge evidence")
 
-	var out_of_range: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var out_of_range: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	var parent_before: ContainmentEndpoint = out_of_range.inventory.direct_parent(out_of_range.item.item_instance_id)
 	var out_result: CorpseLootTransferResult = out_of_range.adapter.take(
 		out_of_range.player, out_of_range.corpse, out_of_range.item.item_instance_id, false,
@@ -215,7 +215,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 	_assert_eq(out_result.outcome, CorpseLootTransferResult.Outcome.OUT_OF_RANGE, "Take revalidates current range")
 	_assert_true(out_of_range.inventory.direct_parent(out_of_range.item.item_instance_id).same_identity(parent_before), "out-of-range Take mutates no ownership")
 
-	var busy: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var busy: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	busy.player.busy.start_busy(2)
 	var busy_result: CorpseLootTransferResult = busy.adapter.take(
 		busy.player, busy.corpse, busy.item.item_instance_id, true,
@@ -225,7 +225,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 	_assert_eq(busy.player.busy.busy_value, 2, "failed Take does not add busy")
 	_assert_true(busy.inventory.is_direct_child(busy.item.item_instance_id, _corpse_endpoint(busy.corpse)), "busy failure keeps corpse ownership")
 
-	var fighting: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var fighting: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	fighting.player.relationship.add_opponent(&"enemy")
 	var fighting_result: CorpseLootTransferResult = fighting.adapter.take(
 		fighting.player, fighting.corpse, fighting.item.item_instance_id, true,
@@ -235,7 +235,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 	_assert_true(fighting_result.busy_started, "successful fighting Take starts existing busy")
 	_assert_eq(fighting.player.busy.busy_value, 1, "fighting Take starts busy one exactly")
 
-	var inactive: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var inactive: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	inactive.player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	var inactive_result: CorpseLootTransferResult = inactive.adapter.take(
 		inactive.player, inactive.corpse, inactive.item.item_instance_id, true,
@@ -251,7 +251,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 		"non-ACTIVE player cannot Open Loot",
 	)
 
-	var wrong_parent: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var wrong_parent: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	_assert_true(InventoryTransferService.new().transfer(
 		wrong_parent.inventory, wrong_parent.item.item_instance_id,
 		_player_destination(wrong_parent.player.maximum_encumbrance),
@@ -262,7 +262,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 	)
 	_assert_eq(wrong_result.outcome, CorpseLootTransferResult.Outcome.ITEM_NOT_IN_CORPSE, "stale row cannot move arbitrary item")
 
-	var stale_item: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var stale_item: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	_assert_true(stale_item.inventory._remove_registered_leaf(stale_item.item.item_instance_id), "stale item fixture removes live authority only")
 	_assert_true(stale_item.item_index.has_snapshot(stale_item.item.item_instance_id), "stale item metadata remains indexed")
 	var stale_item_result: CorpseLootTransferResult = stale_item.adapter.take(
@@ -279,7 +279,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 	)
 	_assert_eq(unknown_result.outcome, CorpseLootTransferResult.Outcome.CONTENT_UNAVAILABLE, "unknown content is not silently Takeable")
 
-	var stale_corpse: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var stale_corpse: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	stale_corpse.adapter.take(
 		stale_corpse.player, stale_corpse.corpse, stale_corpse.item.item_instance_id, true,
 		stale_corpse.inventory, stale_corpse.stacks, stale_corpse.item_index,
@@ -296,14 +296,14 @@ func _test_partial_merge_and_validation_gates() -> void:
 
 
 func _test_capacity_and_corpse_worn_compatibility() -> void:
-	var exact: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 3000)
+	var exact: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 3000)
 	var exact_result: CorpseLootTransferResult = exact.adapter.take(
 		exact.player, exact.corpse, exact.item.item_instance_id, true,
 		exact.inventory, exact.stacks, exact.item_index,
 	)
 	_assert_true(exact_result.succeeded, "exact capacity succeeds")
 
-	var over: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 2999)
+	var over: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 2999)
 	var over_result: CorpseLootTransferResult = over.adapter.take(
 		over.player, over.corpse, over.item.item_instance_id, true,
 		over.inventory, over.stacks, over.item_index,
@@ -313,7 +313,7 @@ func _test_capacity_and_corpse_worn_compatibility() -> void:
 	_assert_eq(over.player.busy.busy_value, 0, "capacity failure starts no busy")
 
 	var exact_with_contents: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 4000
+		TestContent.SHORT_SWORD_ITEM_ID, 3000, 4000
 	)
 	_assert_true(_add_player_burden(exact_with_contents, &"player-burden", 1000), "exact boundary fixture adds existing player contents")
 	var exact_with_contents_result: CorpseLootTransferResult = exact_with_contents.adapter.take(
@@ -324,7 +324,7 @@ func _test_capacity_and_corpse_worn_compatibility() -> void:
 	)
 	_assert_true(exact_with_contents_result.succeeded, "existing 1000 plus moving 3000 equals capacity 4000")
 	var over_with_contents: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 3999
+		TestContent.SHORT_SWORD_ITEM_ID, 3000, 3999
 	)
 	_assert_true(_add_player_burden(over_with_contents, &"player-burden-over", 1000), "over boundary fixture adds existing player contents")
 	var over_with_contents_result: CorpseLootTransferResult = over_with_contents.adapter.take(
@@ -335,14 +335,14 @@ func _test_capacity_and_corpse_worn_compatibility() -> void:
 	)
 	_assert_eq(over_with_contents_result.corpse_transfer_result.transfer_result.outcome, InventoryTransferResult.Outcome.CAPACITY_EXCEEDED, "existing 1000 plus moving 3000 exceeds capacity 3999 by one")
 
-	var silver_capacity: LootFixture = _make_fixture(OldPineItemContentDefinitions.SILVER_ITEM_ID, 0, 110, 3)
+	var silver_capacity: LootFixture = _make_fixture(TestContent.SILVER_ITEM_ID, 0, 110, 3)
 	var silver_failure: CorpseLootTransferResult = silver_capacity.adapter.take(
 		silver_capacity.player, silver_capacity.corpse, silver_capacity.item.item_instance_id, true,
 		silver_capacity.inventory, silver_capacity.stacks, silver_capacity.item_index,
 	)
 	_assert_eq(silver_failure.corpse_transfer_result.transfer_result.outcome, InventoryTransferResult.Outcome.CAPACITY_EXCEEDED, "silver capacity uses current weight 111, not base 37")
 
-	var released: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 2999)
+	var released: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 2999)
 	_assert_true(released.corpse._try_wear(&"cloth", released.item.item_instance_id, released.inventory), "fresh corpse worn projection is established")
 	var release_result: CorpseLootTransferResult = released.adapter.take(
 		released.player, released.corpse, released.item.item_instance_id, true,
@@ -354,7 +354,7 @@ func _test_capacity_and_corpse_worn_compatibility() -> void:
 	_assert_true(released.inventory.is_direct_child(released.item.item_instance_id, _corpse_endpoint(released.corpse)), "failed transfer keeps containment in corpse")
 
 	var released_success: LootFixture = _make_fixture(
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000
+		TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000
 	)
 	_assert_true(released_success.corpse._try_wear(&"cloth", released_success.item.item_instance_id, released_success.inventory), "successful fresh-worn fixture establishes projection")
 	var released_success_result: CorpseLootTransferResult = released_success.adapter.take(
@@ -367,7 +367,7 @@ func _test_capacity_and_corpse_worn_compatibility() -> void:
 	_assert_true(released_success_result.corpse_transfer_result.corpse_worn_released, "successful fresh corpse-worn Take records release")
 	_assert_false(released_success.corpse.is_worn(released_success.item.item_instance_id), "successful Take leaves no stale corpse-worn projection")
 
-	var locked: LootFixture = _make_fixture(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000, 50000)
+	var locked: LootFixture = _make_fixture(TestContent.SHORT_SWORD_ITEM_ID, 3000, 50000)
 	_assert_true(locked.corpse._try_wear(&"cloth", locked.item.item_instance_id, locked.inventory), "locked fixture starts corpse-worn")
 	_assert_true(locked.corpse._apply_next_decay_stage(CorpseState.Stage.ROTTEN), "locked fixture advances to stage one")
 	var locked_result: CorpseLootTransferResult = locked.adapter.take(
@@ -407,10 +407,10 @@ func _test_multiple_corpse_contents_are_independent() -> void:
 			"multiple-corpse fixture places exact corpse in world",
 		)
 	var sword: ItemInstance = ItemInstance.new(
-		&"corpse-a-sword", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID
+		&"corpse-a-sword", TestContent.SHORT_SWORD_ITEM_ID
 	)
 	var silver: ItemInstance = ItemInstance.new(
-		&"corpse-b-silver", OldPineItemContentDefinitions.SILVER_ITEM_ID
+		&"corpse-b-silver", TestContent.SILVER_ITEM_ID
 	)
 	_assert_true(inventory.register_item(sword, 3000), "corpse A sword registers")
 	_assert_true(item_index.register_snapshot(sword), "corpse A sword indexes")
@@ -421,7 +421,7 @@ func _test_multiple_corpse_contents_are_independent() -> void:
 			stacks,
 			inventory,
 			silver,
-			OldPineNpcDefinitions.silver_content().stack_definition(),
+			TestContent.loadout(TestContent.SILVER_ITEM_ID).stack_definition(),
 			3,
 		).accepted,
 		"corpse B silver keeps amount three",
@@ -668,7 +668,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_true(loot_panel.position.y + loot_panel.size.y <= viewport_size.y, "Loot panel bottom edge remains inside the playable viewport")
 	_assert_eq(controller.item_instance_index().snapshot_count(), 12, "index registers player sword and all eleven NPC items")
 	var player_primary: EquippedWeaponRef = controller.player_runtime().state.equipment.primary_weapon()
-	_assert_eq(controller.item_instance_index().resolve(player_primary.instance_id).item_definition_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, "player prototype long sword is indexed")
+	_assert_eq(controller.item_instance_index().resolve(player_primary.instance_id).item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "player prototype long sword is indexed")
 	var expected_maximum: int = CharacterDerivedValues.maximum_encumbrance(controller.player_runtime().state.attributes.strength)
 	_assert_eq(controller.player_runtime().maximum_encumbrance, expected_maximum, "scene stores setup-time strength * 5000 capacity")
 	var initial_strength: int = controller.player_runtime().state.attributes.strength
@@ -733,8 +733,8 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 		controller.inventory_state().direct_children(_corpse_endpoint(corpse)),
 		"loot panel preserves authoritative direct-child ordering",
 	)
-	var sword_id: StringName = _row_id_for_definition(rows, OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)
-	var silver_id: StringName = _row_id_for_definition(rows, OldPineItemContentDefinitions.SILVER_ITEM_ID)
+	var sword_id: StringName = _row_id_for_definition(rows, TestContent.SHORT_SWORD_ITEM_ID)
+	var silver_id: StringName = _row_id_for_definition(rows, TestContent.SILVER_ITEM_ID)
 	_assert_false(sword_id.is_empty(), "panel shows authored 短剑 row")
 	_assert_false(silver_id.is_empty(), "panel shows authored 银子 row")
 	var silver_row: WorldItemRowProjection = _row_for_id(rows, silver_id)
@@ -854,7 +854,7 @@ func _make_fixture(
 			fixture.stacks,
 			fixture.inventory,
 			fixture.item,
-			OldPineNpcDefinitions.silver_content().stack_definition(),
+			TestContent.loadout(TestContent.SILVER_ITEM_ID).stack_definition(),
 			stack_amount,
 		)
 	InventoryTransferService.new().transfer(
@@ -872,14 +872,14 @@ func _add_player_silver(
 	instance_id: StringName,
 	amount: int,
 ) -> ItemInstance:
-	var item: ItemInstance = ItemInstance.new(instance_id, OldPineItemContentDefinitions.SILVER_ITEM_ID)
+	var item: ItemInstance = ItemInstance.new(instance_id, TestContent.SILVER_ITEM_ID)
 	fixture.inventory.register_item(item, 0)
 	fixture.item_index.register_snapshot(item)
 	CombinedStackService.register_stack(
 		fixture.stacks,
 		fixture.inventory,
 		item,
-		OldPineNpcDefinitions.silver_content().stack_definition(),
+		TestContent.loadout(TestContent.SILVER_ITEM_ID).stack_definition(),
 		amount,
 	)
 	InventoryTransferService.new().transfer(

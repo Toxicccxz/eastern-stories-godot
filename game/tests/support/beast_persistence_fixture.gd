@@ -26,7 +26,7 @@ var restored_random: CountingNpcRandom
 
 func _init() -> void:
 	npc = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcDefinitions.serpent_definition(), &"test.serpent", &"test.spawn", &"test.point",
+		TestContent.npc(TestContent.SERPENT_NPC_ID), &"test.serpent", &"test.spawn", &"test.point",
 		WorldLocationState.new(&"test.region", &"test.map", &"test.zone", &"test.location"),
 		inventory, stacks, npc_random, [],
 	)
@@ -39,7 +39,7 @@ func capture() -> GameSaveSnapshot:
 		inventory, stacks, index,
 		[NativeCharacterEquipmentSource.new(npc.character_id, npc.character_state.equipment)],
 		[NativeCharacterArmorSource.new(npc.character_id, npc.armor)],
-		OldPineNativeItemDefinitionProjections.create(),
+		TestContent.projections(),
 	)
 	if character == null or not item_result.succeeded:
 		return null
@@ -69,11 +69,11 @@ func restore(snapshot: GameSaveSnapshot) -> OldPineRestoredNpcEntry:
 	if snapshot == null or not GameSaveSnapshotValidator.validate(snapshot).succeeded():
 		return null
 	var saved: Values.NpcSpawnStateSnapshot = snapshot.npc_spawn_states[0]
-	var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(saved.npc_definition_id)
+	var definition: NpcDefinition = TestContent.npc(saved.npc_definition_id)
 	var body: NpcBodyFacts = NpcBodyFacts.derive(definition, saved.character.attributes.strength)
 	if body == null or not body.matches_saved(saved.body_weight, saved.maximum_encumbrance):
 		return null
-	restored_items = NativeItemPersistenceComposition.restore(snapshot.items, OldPineNativeItemDefinitionProjections.create(), snapshot.item_id_allocator)
+	restored_items = NativeItemPersistenceComposition.restore(snapshot.items, TestContent.projections(), snapshot.item_id_allocator)
 	if not restored_items.succeeded:
 		return null
 	var domain: NativeItemDomainState = restored_items.domain_state

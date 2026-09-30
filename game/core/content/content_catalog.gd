@@ -14,6 +14,7 @@ var _npcs: Dictionary[StringName, NpcDefinition] = {}
 var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
 var _vendors: Dictionary[StringName, VendorDefinition] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
+var _native_item_projections: NativeItemDefinitionProjections
 
 
 func _init(
@@ -100,8 +101,15 @@ func loadout_item_definitions() -> Array[NpcLoadoutItemDefinition]:
 	return result
 
 
-## Every authored item role plus the rule-created corpse item.
+## Every authored item role plus the rule-created corpse item. The projection
+## object is immutable, so one instance is shared.
 func native_item_projections() -> NativeItemDefinitionProjections:
+	if _native_item_projections == null:
+		_native_item_projections = _build_native_item_projections()
+	return _native_item_projections
+
+
+func _build_native_item_projections() -> NativeItemDefinitionProjections:
 	var item_definitions: Array[ItemDefinition] = []
 	var weapons: Array[WeaponDefinition] = []
 	var armor: Array[ArmorDefinition] = []

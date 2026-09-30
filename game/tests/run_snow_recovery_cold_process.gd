@@ -19,7 +19,7 @@ func _run() -> void:
 		var random: RecoveryTest.RandomSequence = RecoveryTest.RandomSequence.new()
 		var session: OldPineWorldSessionController = RecoveryTest.create_session(self, random)
 		check(Food.earn_and_exchange(session), "Work + Bank")
-		var product: DumplingPurchaseResult = Food.purchase(session)
+		var product: VendorPurchaseResult = Food.purchase(session)
 		check(product.delivered and session.advance_player_recovery(12.0).opportunities == 1, "purchase + natural food399")
 		check(Food.eat(session, product.item_id).outcome == FoodUseResult.Outcome.ATE, "natural Eat459")
 		session.advance_player_recovery(3.0)

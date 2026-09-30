@@ -51,15 +51,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 static func add_item(context: MoneyInventoryContext, foods: FoodCollection, liquids: LiquidCollection,
 	definition_id: StringName, id: StringName = &"sale") -> void:
 	var weights: Dictionary[StringName, int] = {SHORT:3000, LONG:7000, LEATHER:6000,
-		SourcePlayerCloth.DEFINITION_ID:3000, SourceDumpling.DEFINITION_ID:80, SourceWineskin.DEFINITION_ID:700}
+		TestContent.CLOTH_ITEM_ID:3000, TestContent.DUMPLING_ITEM_ID:80, TestContent.WINESKIN_ITEM_ID:700}
 	var item: ItemInstance = ItemInstance.new(id, definition_id)
 	context.inventory.register_item(item, weights.get(definition_id, 1))
 	context.index.register_snapshot(item)
 	context.inventory._apply_reparent(id, context.endpoint())
-	if definition_id == SourceDumpling.DEFINITION_ID:
+	if definition_id == TestContent.DUMPLING_ITEM_ID:
 		foods.register_state(id, FoodState.new(3, 15))
-	if definition_id == SourceWineskin.DEFINITION_ID:
-		liquids.register_state(id, SourceWineskin.fresh_state())
+	if definition_id == TestContent.WINESKIN_ITEM_ID:
+		liquids.register_state(id, TestContent.item(TestContent.WINESKIN_ITEM_ID).fresh_liquid_state())
 
 
 func fixture(definition_id: StringName = SHORT, inventory: InventoryState = null) -> Fixture:
@@ -91,8 +91,8 @@ func fingerprint(f: Fixture) -> String:
 
 func valuation_tests() -> void:
 	# Literal source facts/expected results, never computed from production helper.
-	for row: Array in [[SourcePlayerCloth.DEFINITION_ID,0,0,O.WORTHLESS], [SourceDumpling.DEFINITION_ID,15,12,O.SELLABLE],
-		[SourceWineskin.DEFINITION_ID,20,16,O.SELLABLE], [SHORT,300,240,O.SELLABLE], [LONG,700,560,O.SELLABLE], [LEATHER,200,160,O.SELLABLE]]:
+	for row: Array in [[TestContent.CLOTH_ITEM_ID,0,0,O.WORTHLESS], [TestContent.DUMPLING_ITEM_ID,15,12,O.SELLABLE],
+		[TestContent.WINESKIN_ITEM_ID,20,16,O.SELLABLE], [SHORT,300,240,O.SELLABLE], [LONG,700,560,O.SELLABLE], [LEATHER,200,160,O.SELLABLE]]:
 		var f: Fixture = fixture(row[0])
 		var before: String = fingerprint(f)
 		var quote: HockshopValuationResult = f.quote()
@@ -101,20 +101,20 @@ func valuation_tests() -> void:
 		check(fingerprint(f) == before, "appraisal read-only authority fingerprint")
 	for row: Array in [[1,1],[2,1],[3,2],[15,12],[20,16],[125,100],[124,99],[1000,800],[-1,-1],[0,-1],[9223372036854775807,-1]]:
 		check(HockshopValuation.sell_payout(row[0]) == row[1], "multiply80 then integer divide100/minimum/overflow " + str(row))
-	var cloth: Fixture = fixture(SourcePlayerCloth.DEFINITION_ID)
-	cloth.context.owner.armor_state._apply_wear(EquippedArmorRef.new(&"sale", Food.definitions().armor_definition(SourcePlayerCloth.DEFINITION_ID)))
+	var cloth: Fixture = fixture(TestContent.CLOTH_ITEM_ID)
+	cloth.context.owner.armor_state._apply_wear(EquippedArmorRef.new(&"sale", Food.definitions().armor_definition(TestContent.CLOTH_ITEM_ID)))
 	var before: String = fingerprint(cloth)
 	check(cloth.sell().valuation.outcome == O.WORTHLESS and fingerprint(cloth) == before, "worthless worn cloth remains worn/no ID")
-	var bitten: Fixture = fixture(SourceDumpling.DEFINITION_ID)
+	var bitten: Fixture = fixture(TestContent.DUMPLING_ITEM_ID)
 	bitten.foods.state(&"sale").consume_portion() # exact existing accepted-bite state transition
 	before = fingerprint(bitten)
 	check(bitten.quote().outcome == O.WORTHLESS and bitten.sell().valuation.outcome == O.WORTHLESS and fingerprint(bitten) == before, "bitten2/0 not reconstructed15 or destroyed")
-	var changed: Fixture = fixture(SourceDumpling.DEFINITION_ID)
+	var changed: Fixture = fixture(TestContent.DUMPLING_ITEM_ID)
 	check(changed.quote().actual_payout == 12, "fresh quote before bite")
 	changed.foods.state(&"sale").consume_portion()
 	check(changed.sell().valuation.outcome == O.WORTHLESS and changed.allocator.next_dynamic_sequence == 1, "execution rereads changed value, not cached quote")
 	for pair: Vector2i in [Vector2i(3,-1),Vector2i(3,0),Vector2i(2,15),Vector2i(0,0),Vector2i(4,15)]:
-		var f: Fixture = fixture(SourceDumpling.DEFINITION_ID)
+		var f: Fixture = fixture(TestContent.DUMPLING_ITEM_ID)
 		f.foods.state(&"sale").remaining_portions = pair.x
 		f.foods.state(&"sale").current_value = pair.y
 		before = fingerprint(f)
@@ -127,13 +127,13 @@ func valuation_tests() -> void:
 	var unknown: Fixture = fixture(&"test:unknown")
 	check(unknown.sell().valuation.outcome == O.UNSUPPORTED_ITEM and unknown.allocator.next_dynamic_sequence == 1, "unknown != worthless")
 	var missing: Fixture = Fixture.new()
-	add_item(missing.context, FoodCollection.new(), LiquidCollection.new(), SourceDumpling.DEFINITION_ID)
+	add_item(missing.context, FoodCollection.new(), LiquidCollection.new(), TestContent.DUMPLING_ITEM_ID)
 	check(missing.quote().outcome == O.INVALID_ITEM_STATE, "missing food association")
 	missing = Fixture.new()
-	add_item(missing.context, FoodCollection.new(), LiquidCollection.new(), SourceWineskin.DEFINITION_ID)
+	add_item(missing.context, FoodCollection.new(), LiquidCollection.new(), TestContent.WINESKIN_ITEM_ID)
 	check(missing.quote().outcome == O.INVALID_ITEM_STATE, "missing liquid association")
 	for remaining: int in [-1,16]:
-		var f: Fixture = fixture(SourceWineskin.DEFINITION_ID)
+		var f: Fixture = fixture(TestContent.WINESKIN_ITEM_ID)
 		f.liquids.state(&"sale").remaining = remaining
 		check(f.sell().valuation.outcome == O.INVALID_ITEM_STATE and f.allocator.next_dynamic_sequence == 1, "malformed liquid")
 
@@ -155,7 +155,7 @@ func ownership_tests() -> void:
 	f.context.index.forget_destroyed_snapshots([&"sale"], f.context.inventory)
 	check(f.sell().valuation.outcome == O.ITEM_NOT_FOUND and f.allocator.next_dynamic_sequence == 1, "deleted stale ID no allocation")
 	f = fixture()
-	add_item(f.context, f.foods, f.liquids, SourcePlayerCloth.DEFINITION_ID, &"child")
+	add_item(f.context, f.foods, f.liquids, TestContent.CLOTH_ITEM_ID, &"child")
 	f.context.inventory._apply_reparent(&"child", ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, &"sale"))
 	check(f.sell().valuation.outcome == O.UNSUPPORTED_ITEM, "supported identity with children not leaf commerce")
 	f = fixture()
@@ -221,11 +221,11 @@ func lifecycle_tests() -> void:
 	check(armor.aggregate_numeric_modifiers().armor == 5 and armor.aggregate_numeric_modifiers().dodge == -2, "source leather modifiers before")
 	var sold: HockshopSellResult = f.sell()
 	check(sold.payout.delivered_value == 160 and sold.removal.armor_detached and armor.occupied_slots().is_empty() and armor.aggregate_numeric_modifiers().armor == 0 and armor.aggregate_numeric_modifiers().dodge == 0, "exact live armor clears contribution")
-	f = fixture(SourceDumpling.DEFINITION_ID)
+	f = fixture(TestContent.DUMPLING_ITEM_ID)
 	sold = f.sell()
 	check(sold.outcome == HockshopSellResult.Outcome.SOLD and sold.payout.delivered_value == 12 and f.foods.instance_ids().is_empty() and not f.context.index.has_snapshot(&"sale"), "fresh dumpling coin12/food removed after item")
 	for row: Array in [[LiquidState.Content.RED_WINE,15],[LiquidState.Content.RED_WINE,7], [LiquidState.Content.CLEAR_WATER,15],[LiquidState.Content.CLEAR_WATER,14],[LiquidState.Content.CLEAR_WATER,0]]:
-		f = fixture(SourceWineskin.DEFINITION_ID)
+		f = fixture(TestContent.WINESKIN_ITEM_ID)
 		f.liquids.state(&"sale").content = row[0]
 		f.liquids.state(&"sale").remaining = row[1]
 		check(f.quote().source_value == 20 and f.quote().actual_payout == 16, "wineskin source20 all legal contents " + str(row))
@@ -282,7 +282,7 @@ func failure_tests() -> void:
 
 func persistence_tests(tree: SceneTree) -> void:
 	# Full production capture/JSON/restore, not a new item save model.
-	for row: Array in [[SHORT,114,240],[SHORT,50,40],[SHORT,20,0],[LEATHER,1000,160],[SourceDumpling.DEFINITION_ID,1000,12],[SourceWineskin.DEFINITION_ID,1000,16]]:
+	for row: Array in [[SHORT,114,240],[SHORT,50,40],[SHORT,20,0],[LEATHER,1000,160],[TestContent.DUMPLING_ITEM_ID,1000,12],[TestContent.WINESKIN_ITEM_ID,1000,16]]:
 		var random: Recovery.RandomSequence = Recovery.RandomSequence.new()
 		var session: OldPineWorldSessionController = Recovery.create_session(tree, random)
 		var context: MoneyInventoryContext = Food.context(session)

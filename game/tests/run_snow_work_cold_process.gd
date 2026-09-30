@@ -43,7 +43,7 @@ func _run() -> void:
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(saved.snapshot).text, "whole persisted state exact including RNG, position, depleted resources, allocator")
 			check(session.player_runtime().state.essence.current == 70 and session.player_runtime().state.spirit.current == 70, "spent resources remain")
 			var carried: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))
-			check(carried.size() == 1 and session.item_instance_index().resolve(carried[0]).item_definition_id == SourcePlayerCloth.DEFINITION_ID, "player retains only original cloth")
+			check(carried.size() == 1 and session.item_instance_index().resolve(carried[0]).item_definition_id == TestContent.CLOTH_ITEM_ID, "player retains only original cloth")
 			check(session.item_instance_index().snapshot_ids() == session.inventory_state().registered_item_ids() and not session.stack_collection().has_stack(carried[0]), "derived index exact; no player reward stack; full snapshot equality checks all remaining NPC items/ground")
 			var before: int = session.item_id_allocator().next_dynamic_sequence
 			var next: SessionItemIdAllocationResult = session.item_id_allocator().allocate(session.inventory_state())

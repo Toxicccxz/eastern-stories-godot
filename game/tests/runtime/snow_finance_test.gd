@@ -43,13 +43,13 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _definitions() -> bool:
 	for row: Array in [[COIN, "coin", 1, 1, "文"], [SILVER, "silver", 100, 37, "两"], [GOLD, "gold", 10000, 37, "两"]]:
-		var content: GDScript = SourceCurrencyDefinitions.source(row[0])
-		check(content.BASE_VALUE == row[2] and content.BASE_WEIGHT == row[3] and content.BASE_UNIT == row[4], "source denomination facts " + row[1])
-		check(content.DEFINITION_ID == StringName("es2:obj/money/" + row[1]) and content.MONEY_ID == StringName(row[1]), "canonical identity")
+		var content: ItemContentDefinition = GameContent.catalog().currency_item(row[0])
+		check(content.currency_base_value == row[2] and content.stack_base_weight == row[3] and content.base_unit == row[4], "source denomination facts " + row[1])
+		check(content.item_definition_id == StringName("es2:obj/money/" + row[1]) and content.money_id == StringName(row[1]), "canonical identity")
 		check(content.stack_definition().stack_compatibility_id == StringName("/obj/money/" + row[1]), "source merge identity")
-	check(SourceCurrencyDefinitions.source(SILVER) == SourceSilver, "shared silver class")
-	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC)
-	check(definitions.is_valid and definitions.has_item_definition(SourceCoin.DEFINITION_ID) and definitions.has_item_definition(SourceGold.DEFINITION_ID), "source restore projections")
+	check(GameContent.catalog().currency_item(SILVER) == TestContent.item(TestContent.SILVER_ITEM_ID), "shared silver definition")
+	var definitions: NativeItemDefinitionProjections = TestContent.projections()
+	check(definitions.is_valid and definitions.has_item_definition(TestContent.COIN_ITEM_ID) and definitions.has_item_definition(TestContent.GOLD_ITEM_ID), "source restore projections")
 	check(not definitions.has_item_definition(&"es2:obj/money/thousand-cash"), "paper deferred")
 	return true
 
@@ -142,7 +142,7 @@ func _bank() -> bool:
 		add_money(f.context, v[0], v[2], &"source")
 		var result: BankConversionResult = BankConversionService.convert(f.context, f.allocator, 1000000, v[0], v[1], v[3])
 		check(result.succeeded() and amount(f.context, v[0]) == v[4] and amount(f.context, v[1]) == v[5], "literal Bank ratios/remainder " + str(v))
-		check(result.creation.amount_after == 1 and result.creation.own_weight_after == SourceCurrencyDefinitions.source(v[1]).BASE_WEIGHT, "authored amount1 creation")
+		check(result.creation.amount_after == 1 and result.creation.own_weight_after == GameContent.catalog().currency_item(v[1]).stack_base_weight, "authored amount1 creation")
 		check(f.allocator.next_dynamic_sequence == 2, "one new target ID")
 		check(f.context.index.snapshot_ids() == f.context.inventory.registered_item_ids(), "Bank index exact")
 	for type: CurrencyDenomination.Value in [COIN, SILVER, GOLD]:
@@ -236,8 +236,8 @@ static func amounts(gold: int, silver: int, coin: int) -> Fixture:
 
 
 static func add_money(context: MoneyInventoryContext, denomination: CurrencyDenomination.Value, quantity: int, id: StringName, parent: ContainmentEndpoint = null) -> void:
-	var content: GDScript = SourceCurrencyDefinitions.source(denomination)
-	var item: ItemInstance = ItemInstance.new(id, content.DEFINITION_ID)
+	var content: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
+	var item: ItemInstance = ItemInstance.new(id, content.item_definition_id)
 	assert(context.inventory.register_item(item, 0))
 	assert(context.index.register_snapshot(item))
 	assert(CombinedStackService.register_stack(context.stacks, context.inventory, item, content.stack_definition(), quantity).accepted)

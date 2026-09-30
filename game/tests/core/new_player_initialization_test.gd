@@ -61,7 +61,7 @@ func _test_profile(gender: StringName) -> void:
 	_check(fresh.armor.aggregate_numeric_modifiers().armor == 1, "cloth armor +1")
 	_check(fresh.armor.aggregate_numeric_modifiers().dodge == 0, "cloth override has NO 3000-weight dodge penalty")
 	_check(state.equipment.are_both_hands_empty(), "empty hands")
-	_check(SourcePlayerCloth.DISPLAY_NAME == "布衣" and SourcePlayerCloth.OWN_WEIGHT == 3000, "authored name/weight")
+	_check(TestContent.item(TestContent.CLOTH_ITEM_ID).display_name == "布衣" and TestContent.item(TestContent.CLOTH_ITEM_ID).own_weight == 3000, "authored name/weight")
 	var player: WorldPlayerRuntimeState = WorldPlayerRuntimeState.new(
 		&"player", state, CombatRelationshipState.new(&"player"), ActionBusyState.new(),
 		fresh.armor, null, CharacterRuntimeLifeStatus.Value.ACTIVE, true, true,
@@ -118,7 +118,7 @@ func _test_rejection_and_isolation() -> void:
 			_check(not String(property["name"]).to_lower().contains("gift"), "no pending gift field")
 	var random_calls: RegEx = RegEx.new()
 	random_calls.compile("\\b(randf|randi|randf_range|randi_range|randomize|seed|rand_from_seed|RandomNumberGenerator|GodotCombatRandomSource|GodotNpcInitializationRandomSource|GodotWorldInteractionRandomSource)\\s*[.(]")
-	for path: String in ["res://core/characters/new_player_initialization_policy.gd", "res://core/characters/new_player_initialization.gd", "res://core/characters/player_identity_facts.gd", "res://application/new_game/new_player_inventory_composition.gd", "res://data/items/source_player_cloth.gd"]:
+	for path: String in ["res://core/characters/new_player_initialization_policy.gd", "res://core/characters/new_player_initialization.gd", "res://core/characters/player_identity_facts.gd", "res://application/new_game/new_player_inventory_composition.gd"]:
 		_check(random_calls.search(FileAccess.get_file_as_string(path)) == null, "no birth RNG calls/dependencies: " + path)
 
 

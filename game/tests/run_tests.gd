@@ -766,12 +766,6 @@ const OldPineWorldDefinitionsScript := preload(
 const OldPineLandmarkDefinitionsScript := preload(
 	"res://data/oldpine/oldpine_landmark_definitions.gd"
 )
-const OldPineNpcDefinitionsScript := preload(
-	"res://data/oldpine/oldpine_npc_definitions.gd"
-)
-const OldPineSpawnDefinitionsScript := preload(
-	"res://data/oldpine/oldpine_spawn_definitions.gd"
-)
 const ScriptedNpcInitializationRandomSourceScript := preload(
 	"res://tests/support/scripted_npc_initialization_random_source.gd"
 )
@@ -848,12 +842,6 @@ const OldPinePortalAggressionTest := preload(
 )
 const WorldItemInstanceIndexScript := preload(
 	"res://runtime/world/world_item_instance_index.gd"
-)
-const OldPineItemContentDefinitionScript := preload(
-	"res://data/oldpine/oldpine_item_content_definition.gd"
-)
-const OldPineItemContentDefinitionsScript := preload(
-	"res://data/oldpine/oldpine_item_content_definitions.gd"
 )
 const WorldItemRowProjectionScript := preload(
 	"res://runtime/world/world_item_row_projection.gd"
@@ -946,7 +934,6 @@ const SessionItemIdAllocatorScript := preload("res://core/persistence/session_it
 const SessionItemIdScopeFactoryScript := preload("res://core/persistence/session_item_id_scope_factory.gd")
 const NativeItemRestoreCompositionResultScript := preload("res://core/persistence/native_item_restore_composition_result.gd")
 const NativeItemPersistenceCompositionScript := preload("res://core/persistence/native_item_persistence_composition.gd")
-const OldPineNativeItemDefinitionProjectionsScript := preload("res://data/oldpine/oldpine_native_item_definition_projections.gd")
 const NativeItemPersistenceCompositionTest := preload("res://tests/core/native_item_persistence_composition_test.gd")
 const CharacterStateSnapshotRestorerScript := preload("res://core/persistence/character_state_snapshot_restorer.gd")
 const OldPineRestoredNpcEntryScript := preload("res://runtime/persistence/oldpine_restored_npc_entry.gd")
@@ -1276,8 +1263,6 @@ func _init() -> void:
 		MapCharacterRuntimeStateScript,
 		OldPineWorldDefinitionsScript,
 		OldPineLandmarkDefinitionsScript,
-		OldPineNpcDefinitionsScript,
-		OldPineSpawnDefinitionsScript,
 		ScriptedNpcInitializationRandomSourceScript,
 		WorldDefinitionTest,
 		NpcSpawnFoundationTest,
@@ -1301,8 +1286,6 @@ func _init() -> void:
 		OldPineOutdoorSmokeTest,
 		OldPinePortalAggressionTest,
 		WorldItemInstanceIndexScript,
-		OldPineItemContentDefinitionScript,
-		OldPineItemContentDefinitionsScript,
 		WorldItemRowProjectionScript,
 		CorpseLootTransferResultScript,
 		OldPineCorpseLootAdapterScript,
@@ -1348,7 +1331,6 @@ func _init() -> void:
 		SessionItemIdScopeFactoryScript,
 		NativeItemRestoreCompositionResultScript,
 		NativeItemPersistenceCompositionScript,
-		OldPineNativeItemDefinitionProjectionsScript,
 		NativeItemPersistenceCompositionTest,
 		CharacterStateSnapshotRestorerScript,
 		OldPineRestoredNpcEntryScript,
@@ -1758,10 +1740,9 @@ func _init() -> void:
 	var lake_result: Dictionary = await load("res://tests/runtime/oldpine_lake_production_test.gd").new().run_all(self)
 	assertion_count += int(lake_result["assertions"])
 	failures.append_array(lake_result["failures"])
-	for content_suite: String in ["res://tests/core/content_loading_test.gd", "res://tests/core/content_parity_test.gd"]:
-		var content_result: Dictionary = load(content_suite).new().run_all()
-		assertion_count += int(content_result["assertions"])
-		failures.append_array(content_result["failures"])
+	var content_result: Dictionary = load("res://tests/core/content_loading_test.gd").new().run_all()
+	assertion_count += int(content_result["assertions"])
+	failures.append_array(content_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

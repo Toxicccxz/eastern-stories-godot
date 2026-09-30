@@ -16,9 +16,10 @@ static func can_afford(context: MoneyInventoryContext, price: int) -> MoneyAffor
 	result.gold_id = selections[0].item_id
 	result.silver_id = selections[1].item_id
 	result.coin_id = selections[2].item_id
+	var units: Array[int] = _unit_values()
 	result.outcome = SourceAffordability.evaluate(price,
-		CurrencyArithmetic.multiply(selections[0].amount, SourceGold.BASE_VALUE),
-		CurrencyArithmetic.multiply(selections[1].amount, SourceSilver.BASE_VALUE),
+		CurrencyArithmetic.multiply(selections[0].amount, units[0]),
+		CurrencyArithmetic.multiply(selections[1].amount, units[1]),
 		selections[2].amount, not result.silver_id.is_empty(), not result.coin_id.is_empty())
 	return result
 
@@ -34,7 +35,7 @@ static func pay(context: MoneyInventoryContext, price: int) -> MoneyPaymentResul
 	if context == null or not context.is_valid():
 		return result
 	var selections: Array[CurrencyStackSelection] = _select(context)
-	var units: Array[int] = [SourceGold.BASE_VALUE, SourceSilver.BASE_VALUE, SourceCoin.BASE_VALUE]
+	var units: Array[int] = _unit_values()
 	var values: Array[int] = []
 	var total: int = 0
 	result.stage = MoneyPaymentResult.Stage.TOTAL
@@ -84,3 +85,13 @@ static func pay(context: MoneyInventoryContext, price: int) -> MoneyPaymentResul
 
 static func _select(context: MoneyInventoryContext) -> Array[CurrencyStackSelection]:
 	return [context.select(CurrencyDenomination.Value.GOLD), context.select(CurrencyDenomination.Value.SILVER), context.select(CurrencyDenomination.Value.COIN)]
+
+
+## Gold, silver, coin base values. A missing denomination already fails its
+## selection, so the placeholder 0 is never used in arithmetic.
+static func _unit_values() -> Array[int]:
+	var units: Array[int] = []
+	for denomination: CurrencyDenomination.Value in [CurrencyDenomination.Value.GOLD, CurrencyDenomination.Value.SILVER, CurrencyDenomination.Value.COIN]:
+		var content: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
+		units.append(0 if content == null else content.currency_base_value)
+	return units

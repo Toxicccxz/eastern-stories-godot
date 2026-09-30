@@ -275,11 +275,11 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var corpse_items: Array[ItemInstance] = victim.loadout_items()
 	var short_sword: ItemInstance = _item_by_definition(
 		corpse_items,
-		OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
 	)
 	var silver: ItemInstance = _item_by_definition(
 		corpse_items,
-		OldPineNpcDefinitions.SILVER_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
 	)
 	_assert_true(short_sword != null and silver != null, "corpse retains sword and silver authorities")
 	_assert_eq(session.stack_collection().stack_state(silver.item_instance_id).amount, 3, "corpse silver begins at authored amount three")
@@ -291,14 +291,14 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(outdoor.take_selected_loot_item(short_sword.item_instance_id).succeeded, "fixture loots one real short-sword instance")
 	_assert_true(outdoor.unwield_player_item(primary_id).succeeded, "fixture unwields prototype long sword")
 	_assert_true(outdoor.wield_player_item(short_sword.item_instance_id).succeeded, "fixture wields looted short sword")
-	var leather_content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(
-			OldPineItemContentDefinitions.LEATHER_ITEM_ID
+	var leather_content: ItemContentDefinition = (
+		TestContent.item(
+			TestContent.LEATHER_ITEM_ID
 		)
 	)
 	var leather: ItemInstance = ItemInstance.new(
 		StringName("%s.roundtrip-leather" % String(session.item_instance_scope())),
-		OldPineItemContentDefinitions.LEATHER_ITEM_ID,
+		TestContent.LEATHER_ITEM_ID,
 	)
 	_assert_true(session.inventory_state().register_item(leather, leather_content.own_weight), "fixture registers authored leather instance")
 	_assert_true(session.item_instance_index().register_snapshot(leather), "fixture indexes authored leather metadata")
@@ -528,7 +528,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(control.outdoor_map().npc_runtimes().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
 	_assert_eq(control.outdoor_map().corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
 	_assert_true(control.player_runtime().armor.occupied_slots().is_empty(), "fresh whole-session boundary restores initial Armor")
-	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")
+	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, TestContent.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")
 	_assert_false(control.inventory_state().is_registered(leather.item_instance_id), "fresh whole-session boundary excludes acquired leather")
 	control.queue_free()
 	await tree.process_frame

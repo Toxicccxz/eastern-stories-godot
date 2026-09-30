@@ -15,7 +15,7 @@ func run_all() -> Dictionary[String, Variant]:
 
 
 func _test_authored_definition() -> void:
-	var definition: NpcDefinition = OldPineNpcDefinitions.npc_by_id(&"oldpine.npc.serpent")
+	var definition: NpcDefinition = TestContent.npc(&"oldpine.npc.serpent")
 	_eq(definition != null, true, "catalog resolves serpent without spawning")
 	if definition == null:
 		return
@@ -49,11 +49,11 @@ func _test_authored_definition() -> void:
 	_eq(facts.limbs(), ["头部", "躯干", "尾巴"], "ordered limbs")
 	_eq(facts.verbs(), [&"bite"], "ordered verb source")
 	_eq([facts.intrinsic_attack, facts.intrinsic_damage, facts.intrinsic_armor, facts.intrinsic_dodge], [60, 20, 90, 80], "intrinsic apply not skill/equipment")
-	_eq(OldPineNpcDefinitions.bandit_definition().authored_combat_facts(), null, "human has no invented Beast facts")
+	_eq(TestContent.npc(TestContent.BANDIT_NPC_ID).authored_combat_facts(), null, "human has no invented Beast facts")
 
 
 func _test_serpent_creation_and_independence() -> void:
-	var definition: NpcDefinition = OldPineNpcDefinitions.serpent_definition()
+	var definition: NpcDefinition = TestContent.npc(TestContent.SERPENT_NPC_ID)
 	var rng: ScriptedNpcInitializationRandomSource = ScriptedRandom.new([10, 0, 39, 0, 30, 40])
 	var inventory: InventoryState = InventoryState.new()
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
@@ -120,17 +120,17 @@ func _test_definition_copy_boundaries() -> void:
 
 
 func _test_current_production_spawn_ledger() -> void:
-	var spawns: Array[NpcSpawnDefinition] = OldPineSpawnDefinitions.all_spawns()
+	var spawns: Array[NpcSpawnDefinition] = GameContent.catalog().spawns()
 	_eq(spawns.size(), 4, "four current production spawn definitions")
 	var npc_count: int = 0
 	var item_count: int = 0
 	for spawn: NpcSpawnDefinition in spawns:
-		_eq(OldPineNpcDefinitions.npc_by_id(spawn.npc_definition_id) != null, true, "authored production placement")
+		_eq(TestContent.npc(spawn.npc_definition_id) != null, true, "authored production placement")
 		npc_count += spawn.quantity
-		item_count += OldPineNpcDefinitions.npc_by_id(spawn.npc_definition_id).loadout_entries().size() * spawn.quantity
+		item_count += TestContent.npc(spawn.npc_definition_id).loadout_entries().size() * spawn.quantity
 	_eq(npc_count, 10, "five humans plus five serpents")
 	_eq(item_count, 11, "existing 11 NPC item objects; player starting sword remains separate")
-	_eq(OldPineSpawnDefinitions.validate(), true, "production spawn validation unchanged")
+	_eq(TestContent.spawns_match_world(), true, "production spawn validation unchanged")
 
 
 func _eq(actual: Variant, expected: Variant, label: String) -> void:

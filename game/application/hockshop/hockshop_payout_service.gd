@@ -24,11 +24,13 @@ static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocato
 			return result
 		attempt.item_id = attempt.allocation.item_instance_id
 		attempt.stage = HockshopPayoutAttempt.Stage.CREATION
-		var content: GDScript = SourceCurrencyDefinitions.source(denomination)
-		var weight: int = CurrencyArithmetic.multiply(quantity, content.BASE_WEIGHT)
+		var content: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
+		if content == null:
+			return result
+		var weight: int = CurrencyArithmetic.multiply(quantity, content.stack_base_weight)
 		if weight < 0 or context.index.has_snapshot(attempt.item_id) or context.stacks.has_stack(attempt.item_id):
 			return result
-		var item: ItemInstance = ItemInstance.new(attempt.item_id, content.DEFINITION_ID)
+		var item: ItemInstance = ItemInstance.new(attempt.item_id, content.item_definition_id)
 		if not context.inventory.register_item(item, 0) or not context.index.register_snapshot(item):
 			return result
 		attempt.creation = CombinedStackService.register_stack(context.stacks, context.inventory, item, content.stack_definition(), quantity)
@@ -44,7 +46,7 @@ static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocato
 			null, null, context.owner)
 		attempt.delivered = attempt.transfer.inventory_transfer != null and attempt.transfer.inventory_transfer.succeeded
 		if attempt.delivered:
-			result.delivered_value += quantity * content.BASE_VALUE
+			result.delivered_value += quantity * content.currency_base_value
 		attempt.absorbed_index_forgotten = context.index.forget_destroyed_snapshots(attempt.transfer.absorbed_instance_ids, context.inventory)
 		if not attempt.absorbed_index_forgotten:
 			return result
@@ -62,7 +64,7 @@ static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocato
 	return result
 
 
-static func _safe_admission(context: MoneyInventoryContext, content: GDScript, quantity: int, weight: int) -> bool:
+static func _safe_admission(context: MoneyInventoryContext, content: ItemContentDefinition, quantity: int, weight: int) -> bool:
 	var contents: int = context.checked_contents_weight()
 	if contents < 0 or CurrencyArithmetic.add(contents, weight) < 0:
 		return false
@@ -71,16 +73,16 @@ static func _safe_admission(context: MoneyInventoryContext, content: GDScript, q
 		var item: ItemInstance = context.index.resolve(id)
 		if item == null:
 			return false
-		if item.item_definition_id != content.DEFINITION_ID:
+		if item.item_definition_id != content.item_definition_id:
 			continue
 		var state: CombinedStackState = context.stacks.stack_state(id)
 		var definition: CombinedStackDefinition = context.stacks.stack_definition(id)
-		if state == null or definition == null or definition.item_definition_id != content.DEFINITION_ID or definition.base_weight != content.BASE_WEIGHT or definition.stack_compatibility_id != content.stack_definition().stack_compatibility_id:
+		if state == null or definition == null or definition.item_definition_id != content.item_definition_id or definition.base_weight != content.stack_base_weight or definition.stack_compatibility_id != content.stack_definition().stack_compatibility_id:
 			return false
-		var old_weight: int = CurrencyArithmetic.multiply(state.amount, content.BASE_WEIGHT)
+		var old_weight: int = CurrencyArithmetic.multiply(state.amount, content.stack_base_weight)
 		if old_weight < 0 or context.inventory.own_weight(id) != old_weight:
 			return false
 		total = CurrencyArithmetic.add(total, state.amount)
-		if total < 0 or CurrencyArithmetic.multiply(total, content.BASE_WEIGHT) < 0:
+		if total < 0 or CurrencyArithmetic.multiply(total, content.stack_base_weight) < 0:
 			return false
 	return true

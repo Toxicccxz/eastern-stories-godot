@@ -37,9 +37,9 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	controller.set_process(false)
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	_assert_eq(npcs.size(), 10, "map-local order contains three scouts, Tall, Fat and five serpents")
-	_assert_eq(npcs[3].definition_id, OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID, "Tall remains fourth")
+	_assert_eq(npcs[3].definition_id, TestContent.TALL_BANDIT_NPC_ID, "Tall remains fourth")
 	var fat: NpcRuntimeState = npcs[4]
-	_assert_eq(fat.definition_id, OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID, "Fat is explicit fifth runtime")
+	_assert_eq(fat.definition_id, TestContent.FAT_BANDIT_NPC_ID, "Fat is explicit fifth runtime")
 	_assert_eq(fat.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Fat runtime starts in Pine Entrance")
 	_assert_eq(controller.fat_bandit_body.global_position, (controller.get_node("SpawnPoints/Pine1FatBanditSpawn") as Marker2D).global_position, "Fat body uses stable authored marker")
 	_assert_ne(controller.fat_bandit_body.global_position, controller.tall_bandit_body.global_position, "Tall and Fat are not stacked")
@@ -81,9 +81,9 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	)
 	var items: Array[ItemInstance] = fat.loadout_items()
 	_assert_eq(items.size(), 3, "Fat owns sword, leather, one silver stack")
-	var sword: ItemInstance = _item_by_definition(items, OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID)
-	var leather: ItemInstance = _item_by_definition(items, OldPineNpcDefinitions.LEATHER_ITEM_ID)
-	var silver: ItemInstance = _item_by_definition(items, OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var sword: ItemInstance = _item_by_definition(items, TestContent.SHORT_SWORD_ITEM_ID)
+	var leather: ItemInstance = _item_by_definition(items, TestContent.LEATHER_ITEM_ID)
+	var silver: ItemInstance = _item_by_definition(items, TestContent.SILVER_ITEM_ID)
 	var fat_owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, fat.character_id)
 	_assert_eq(fat.character_state.equipment.primary_weapon().instance_id, sword.item_instance_id, "Fat live primary is exact short sword")
 	_assert_true(controller.inventory_state().is_direct_child(leather.item_instance_id, fat_owner), "worn leather remains Fat direct inventory")
@@ -116,7 +116,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	)
 	_assert_eq(next_without_armor.defender.armor, 0, "next Combat input drops removed armor")
 	_assert_eq(next_without_armor.defender.effective_dodge_skill_level, 5, "next Combat input returns to effective raw-half dodge 5")
-	_assert_true(ArmorService.wear(fat.armor, controller.inventory_state(), fat_owner, leather, OldPineItemContentDefinitions.content_by_id(leather.item_definition_id).armor_definition()).succeeded, "test restores Fat leather through ArmorService")
+	_assert_true(ArmorService.wear(fat.armor, controller.inventory_state(), fat_owner, leather, TestContent.item(leather.item_definition_id).armor_definition()).succeeded, "test restores Fat leather through ArmorService")
 
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
@@ -143,9 +143,9 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var fat: NpcRuntimeState = controller.npc_runtimes()[4]
 	var fat_state: CharacterState = fat.character_state
 	var items: Array[ItemInstance] = fat.loadout_items()
-	var sword: ItemInstance = _item_by_definition(items, OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID)
-	var leather: ItemInstance = _item_by_definition(items, OldPineNpcDefinitions.LEATHER_ITEM_ID)
-	var silver: ItemInstance = _item_by_definition(items, OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var sword: ItemInstance = _item_by_definition(items, TestContent.SHORT_SWORD_ITEM_ID)
+	var leather: ItemInstance = _item_by_definition(items, TestContent.LEATHER_ITEM_ID)
+	var silver: ItemInstance = _item_by_definition(items, TestContent.SILVER_ITEM_ID)
 	controller.player_body.global_position = (
 		controller.fat_bandit_body.global_position + Vector2(50, 50)
 	)
@@ -283,7 +283,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_eq(take_silver.resulting_item_instance_id, silver.item_instance_id, "incoming Fat silver survives merge")
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 8, "silver 3 + 5 becomes amount eight")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 296, "merged silver weight is 8 * 37")
-	_assert_eq(OldPineNpcDefinitions.silver_content().currency_definition().value_for_amount(8), 800, "merged silver value is 8 * 100")
+	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(8), 800, "merged silver value is 8 * 100")
 	_assert_false(controller.inventory_state().is_registered(existing_silver.item_instance_id), "absorbed prior silver is destroyed by closed merge")
 
 	_assert_true(controller.open_player_inventory(), "player Inventory opens after leather Take")
@@ -390,18 +390,18 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 			fresh.npc_runtimes()[4].definition_id,
 		],
 		[
-			OldPineNpcDefinitions.BANDIT_DEFINITION_ID,
-			OldPineNpcDefinitions.BANDIT_DEFINITION_ID,
-			OldPineNpcDefinitions.BANDIT_DEFINITION_ID,
-			OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID,
-			OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID,
+			TestContent.BANDIT_NPC_ID,
+			TestContent.BANDIT_NPC_ID,
+			TestContent.BANDIT_NPC_ID,
+			TestContent.TALL_BANDIT_NPC_ID,
+			TestContent.FAT_BANDIT_NPC_ID,
 		],
 		"fresh map-local NPC order remains explicit",
 	)
 	var fresh_fat: NpcRuntimeState = fresh.npc_runtimes()[4]
-	var fresh_leather: ItemInstance = _item_by_definition(fresh_fat.loadout_items(), OldPineNpcDefinitions.LEATHER_ITEM_ID)
-	var fresh_sword: ItemInstance = _item_by_definition(fresh_fat.loadout_items(), OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID)
-	var fresh_silver: ItemInstance = _item_by_definition(fresh_fat.loadout_items(), OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var fresh_leather: ItemInstance = _item_by_definition(fresh_fat.loadout_items(), TestContent.LEATHER_ITEM_ID)
+	var fresh_sword: ItemInstance = _item_by_definition(fresh_fat.loadout_items(), TestContent.SHORT_SWORD_ITEM_ID)
+	var fresh_silver: ItemInstance = _item_by_definition(fresh_fat.loadout_items(), TestContent.SILVER_ITEM_ID)
 	_assert_true(fresh_fat.character_state != fat_state, "fresh scene owns new Fat CharacterState")
 	_assert_ne(fresh_leather.item_instance_id, leather.item_instance_id, "fresh scene owns new leather instance")
 	_assert_ne(fresh_sword.item_instance_id, sword.item_instance_id, "fresh scene owns new Fat short-sword instance")
@@ -411,7 +411,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_eq(fresh.stack_collection().stack_state(fresh_silver.item_instance_id).amount, 5, "fresh Fat restores silver amount five")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene has no corpses")
 	_assert_true(fresh.player_runtime().armor.occupied_slots().is_empty(), "fresh player has no leather equipped")
-	_assert_true(_item_by_definition(_player_items(fresh), OldPineNpcDefinitions.LEATHER_ITEM_ID) == null, "fresh player owns no leather")
+	_assert_true(_item_by_definition(_player_items(fresh), TestContent.LEATHER_ITEM_ID) == null, "fresh player owns no leather")
 	_assert_true(fresh.selected_interaction_target() == null, "fresh scene has no stale target")
 	_assert_false(fresh.hud.inventory_is_open(), "fresh scene closes Inventory panel")
 	_assert_false(fresh.hud.loot_is_open(), "fresh scene closes Loot panel")
@@ -469,10 +469,10 @@ func _inventory_row(rows: Array[PlayerInventoryRowProjection], item_id: StringNa
 
 
 func _add_player_silver(controller: OldPineOutdoorController, item_id: StringName, amount: int) -> ItemInstance:
-	var item: ItemInstance = ItemInstance.new(item_id, OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var item: ItemInstance = ItemInstance.new(item_id, TestContent.SILVER_ITEM_ID)
 	controller.inventory_state().register_item(item, 0)
 	controller.item_instance_index().register_snapshot(item)
-	CombinedStackService.register_stack(controller.stack_collection(), controller.inventory_state(), item, OldPineNpcDefinitions.silver_content().stack_definition(), amount)
+	CombinedStackService.register_stack(controller.stack_collection(), controller.inventory_state(), item, TestContent.loadout(TestContent.SILVER_ITEM_ID).stack_definition(), amount)
 	InventoryTransferService.new().transfer(
 		controller.inventory_state(),
 		item_id,

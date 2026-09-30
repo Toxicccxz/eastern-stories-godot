@@ -121,7 +121,7 @@ func capacity_test(tree: SceneTree, existing: bool) -> bool:
 	if existing: Finance.add_money(context, COIN, 1, &"existing-coin")
 	var cloth: StringName = &""
 	for id: StringName in context.inventory.direct_children(context.endpoint()):
-		if context.index.resolve(id).item_definition_id == SourcePlayerCloth.DEFINITION_ID: cloth = id
+		if context.index.resolve(id).item_definition_id == TestContent.CLOTH_ITEM_ID: cloth = id
 	context.inventory.update_own_weight(cloth, 150000 - 37 - (1 if existing else 0))
 	var before: int = session.item_id_allocator().next_dynamic_sequence
 	var rng: Array[int] = Work.rng_state(session)

@@ -7,11 +7,11 @@ static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllo
 	maximum_encumbrance: int, from: CurrencyDenomination.Value,
 	to: CurrencyDenomination.Value, requested: int) -> BankConversionResult:
 	var result: BankConversionResult = BankConversionResult.new()
-	var target_content: GDScript = SourceCurrencyDefinitions.source(to)
+	var target_content: ItemContentDefinition = GameContent.catalog().currency_item(to)
 	if target_content == null:
 		result.outcome = BankConversionResult.Outcome.UNSUPPORTED_TARGET
 		return result
-	var source_content: GDScript = SourceCurrencyDefinitions.source(from)
+	var source_content: ItemContentDefinition = GameContent.catalog().currency_item(from)
 	if source_content == null:
 		result.outcome = BankConversionResult.Outcome.UNSUPPORTED_SOURCE
 		return result
@@ -33,8 +33,8 @@ static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllo
 		result.outcome = BankConversionResult.Outcome.INSUFFICIENT_SOURCE
 		return result
 	var q: int = requested
-	var bv1: int = source_content.BASE_VALUE
-	var bv2: int = target_content.BASE_VALUE
+	var bv1: int = source_content.currency_base_value
+	var bv2: int = target_content.currency_base_value
 	if bv1 < bv2:
 		q -= q % (bv2 / bv1)
 	result.source_quantity = q
@@ -56,7 +56,7 @@ static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllo
 		result.outcome = BankConversionResult.Outcome.CREATION_FAILED
 		if context.index.has_snapshot(result.target_id) or context.stacks.has_stack(result.target_id):
 			return result
-		var item: ItemInstance = ItemInstance.new(result.target_id, target_content.DEFINITION_ID)
+		var item: ItemInstance = ItemInstance.new(result.target_id, target_content.item_definition_id)
 		if not context.inventory.register_item(item, 0):
 			return result
 		if not context.index.register_snapshot(item):
@@ -66,7 +66,7 @@ static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllo
 			return _cleanup_failed_creation(context, result)
 		result.stage = BankConversionResult.Stage.TRANSFER
 		var contents: int = context.checked_contents_weight()
-		if contents < 0 or CurrencyArithmetic.add(contents, target_content.BASE_WEIGHT) < 0:
+		if contents < 0 or CurrencyArithmetic.add(contents, target_content.stack_base_weight) < 0:
 			result.outcome = BankConversionResult.Outcome.ARITHMETIC_FAILURE
 			return _cleanup_failed_creation(context, result)
 		result.transfer = CombinedStackService.transfer_and_merge(context.stacks, context.inventory,

@@ -43,7 +43,7 @@ func _test_source_growth_and_carry() -> void:
 	birth.inventory.register_item(corpse_item, 0)
 	birth.item_index.register_snapshot(corpse_item)
 	_check(transfer.transfer(birth.inventory, corpse_item.item_instance_id, world).succeeded, "loot fixture corpse placed in world")
-	var sword: ItemInstance = ItemInstance.new(&"body-loot", OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID)
+	var sword: ItemInstance = ItemInstance.new(&"body-loot", TestContent.LONG_SWORD_ITEM_ID)
 	birth.inventory.register_item(sword, 7000)
 	birth.item_index.register_snapshot(sword)
 	_check(transfer.transfer(birth.inventory, sword.item_instance_id, InventoryTransferDestination.new(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id), true, true, 50000)).succeeded, "loot fixture sword placed inside corpse")

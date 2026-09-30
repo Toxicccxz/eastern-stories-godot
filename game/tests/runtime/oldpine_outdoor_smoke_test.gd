@@ -106,7 +106,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		_assert_true(zone != null, "%s persists" % zone_name)
 		_assert_true(zone.get_node_or_null("CollisionShape2D") is CollisionShape2D, "%s has persistent collision" % zone_name)
 		_assert_eq(zone.get_signal_connection_list("body_entered").size(), 1, "%s has one persistent adapter signal" % zone_name)
-	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.spath1_bandit_spawn()
+	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID)
 	var point_ids: Array[StringName] = spawn.spawn_point_ids()
 	var marker_names: Array[String] = ["Spath1Bandit01", "Spath1Bandit02", "Spath1Bandit03"]
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
@@ -118,7 +118,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		_assert_eq(marker.spawn_point_id, point_ids[index], "ordered spawn ID resolves to exact persistent marker")
 		_assert_eq(npcs[index].spawn_point_id, point_ids[index], "runtime spawn order matches definition order")
 		_assert_eq(controller.bandit_bodies[index].global_position, marker.global_position, "bandit body starts at authored Marker2D")
-		_assert_eq(npcs[index].definition_id, OldPineNpcDefinitions.BANDIT_DEFINITION_ID, "visible bandit resolves exact authored definition")
+		_assert_eq(npcs[index].definition_id, TestContent.BANDIT_NPC_ID, "visible bandit resolves exact authored definition")
 		_assert_eq(npcs[index].definition().display_name, "土匪探哨", "authored display name has no arena identity leak")
 		_assert_eq(npcs[index].age, 19, "world runtime retains authored age")
 		_assert_eq(npcs[index].character_state.gender, CharacterState.GENDER_MALE, "world runtime retains authored gender")
@@ -156,7 +156,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 		_assert_true(binding.armor == npc.armor, "NPC projection aliases live ArmorState")
 		var primary: EquippedWeaponRef = npc.character_state.equipment.primary_weapon()
 		_assert_true(binding.content.is_verified_primary(primary), "bandit content verifies current equipped short sword")
-		_assert_eq(binding.content.projected_apply_damage(primary), OldPineNpcDefinitions.SHORT_SWORD_DAMAGE, "bandit projection uses authored short-sword damage")
+		_assert_eq(binding.content.projected_apply_damage(primary), TestContent.item(TestContent.SHORT_SWORD_ITEM_ID).weapon_damage, "bandit projection uses authored short-sword damage")
 	var unequipped_npc: NpcRuntimeState = controller.npc_runtimes()[2]
 	var removed_primary: EquippedWeaponRef = unequipped_npc.character_state.equipment.primary_weapon()
 	_assert_true(unequipped_npc.character_state.equipment.unwield(removed_primary.instance_id).succeeded, "fixture unwields current bandit short sword")
@@ -411,9 +411,9 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 		session.free()
 		return
 	var cloth_id: StringName = children[0]
-	_assert_eq(index.resolve(cloth_id).item_definition_id, SourcePlayerCloth.DEFINITION_ID, "birth item has exact source cloth definition")
+	_assert_eq(index.resolve(cloth_id).item_definition_id, TestContent.CLOTH_ITEM_ID, "birth item has exact source cloth definition")
 	_assert_eq(player.armor.item_instance_id_in_slot(&"cloth"), cloth_id, "source cloth is live worn before death")
-	_assert_true(OldPineItemContentDefinitions.content_by_id(SourcePlayerCloth.DEFINITION_ID) == null, "source cloth remains outside Old Pine catalogue")
+	_assert_true(TestContent.item(TestContent.CLOTH_ITEM_ID).armor_definition() != null, "source cloth armor comes from the shared catalog")
 	var map: OldPineOutdoorController = session.outdoor_map()
 	var facts: Array[DeathItemFacts] = map._death_item_facts_for(player.character_id)
 	_assert_eq(facts.size(), 1, "production death projection covers exact source inventory")
@@ -474,7 +474,7 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 		_assert_true(inventory.direct_children(owner).is_empty(), "successful death empties Player direct inventory")
 		_assert_false(player.armor.is_worn(cloth_id), "transfer detaches cloth from live Player ArmorState")
 		_assert_true(inventory.is_registered(cloth_id), "source cloth remains live")
-		_assert_eq(index.resolve(cloth_id).item_definition_id, SourcePlayerCloth.DEFINITION_ID, "post-death cloth definition and instance identity preserved")
+		_assert_eq(index.resolve(cloth_id).item_definition_id, TestContent.CLOTH_ITEM_ID, "post-death cloth definition and instance identity preserved")
 		var remaining_ids: Array[StringName] = inventory.registered_item_ids()
 		remaining_ids.erase(corpse.corpse_item_instance_id)
 		_assert_eq(remaining_ids, items_before, "only corpse is added; no duplicated or lost cloth/item")
@@ -493,7 +493,7 @@ func _test_existing_oldpine_death_facts(map: OldPineOutdoorController, index: Wo
 			if seen.has(fact.item_definition_id):
 				continue
 			seen.append(fact.item_definition_id)
-			if fact.item_definition_id == OldPineItemContentDefinitions.LEATHER_ITEM_ID:
+			if fact.item_definition_id == TestContent.LEATHER_ITEM_ID:
 				_assert_true(fact.has_aligned_armor_definition(), "Old Pine leather retains aligned armor facts")
 				if fact.armor_definition != null:
 					_assert_eq(fact.armor_definition.armor_type, &"cloth", "leather keeps original cloth slot")
@@ -501,7 +501,7 @@ func _test_existing_oldpine_death_facts(map: OldPineOutdoorController, index: Wo
 					_assert_eq(fact.armor_definition.numeric_modifiers.dodge, -2, "leather keeps dodge minus two")
 			else:
 				_assert_true(fact.armor_definition == null, "Old Pine weapons/currency still have no armor facts")
-	for definition_id: StringName in [OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, OldPineItemContentDefinitions.SILVER_ITEM_ID, OldPineItemContentDefinitions.LEATHER_ITEM_ID]:
+	for definition_id: StringName in [TestContent.LONG_SWORD_ITEM_ID, TestContent.SHORT_SWORD_ITEM_ID, TestContent.SILVER_ITEM_ID, TestContent.LEATHER_ITEM_ID]:
 		_assert_true(seen.has(definition_id), "production death fact regression covers " + String(definition_id))
 
 
@@ -515,8 +515,8 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var victim_body: CharacterBodyType = controller.bandit_bodies[1]
 	victim_body.global_position += Vector2(24.0, -18.0)
 	var death_position: Vector2 = victim_body.global_position
-	var sword: ItemInstance = _item_with_definition(victim.loadout_items(), OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID)
-	var silver: ItemInstance = _item_with_definition(victim.loadout_items(), OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var sword: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SHORT_SWORD_ITEM_ID)
+	var silver: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SILVER_ITEM_ID)
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
 	))

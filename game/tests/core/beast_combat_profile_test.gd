@@ -64,7 +64,7 @@ func _test_readiness() -> void:
 		InventoryState.new(), CombinedStackCollection.new(), ScriptedNpcInitializationRandomSource.new(draws), [])
 	_eq(npc != null, true, "NPC without combat facts can initialize")
 	_eq(WorldCombatBindingAdapter.from_npc(npc, CombatSliceContentProfile.new()), null, "world binding rejects missing facts instead of human fallback")
-	var bad: CombatSliceContentProfile = _profile(OldPineNpcDefinitions.serpent_definition().authored_combat_facts())
+	var bad: CombatSliceContentProfile = _profile(TestContent.npc(TestContent.SERPENT_NPC_ID).authored_combat_facts())
 	bad._unarmed_action = CombatActionDefinition.new()
 	_eq(bad.readiness(), CombatSliceContentProfile.Readiness.INVALID_ACTION_DATA, "invalid resolved definition rejected")
 	bad._unarmed_action = CombatSliceContentProfile.new().unarmed_action()
@@ -90,20 +90,20 @@ func _test_provider_priority_and_mismatched_action() -> void:
 
 
 func _test_human_profiles() -> void:
-	for definition: NpcDefinition in [OldPineNpcDefinitions.bandit_definition(), OldPineNpcDefinitions.tall_bandit_definition(), OldPineNpcDefinitions.fat_bandit_definition()]:
+	for definition: NpcDefinition in [TestContent.npc(TestContent.BANDIT_NPC_ID), TestContent.npc(TestContent.TALL_BANDIT_NPC_ID), TestContent.npc(TestContent.FAT_BANDIT_NPC_ID)]:
 		var profile: CombatSliceContentProfile = CombatSliceContentProfile.new().for_npc_definition(definition)
 		_eq(profile.readiness(), CombatSliceContentProfile.Readiness.READY, "%s ready" % definition.definition_id)
 		_eq(profile.limbs(), [&"头部", &"颈部", &"胸口", &"後心", &"左肩", &"右肩", &"左臂", &"右臂", &"左手", &"右手", &"腰间", &"小腹", &"左腿", &"右腿", &"左脚", &"右脚"], "human ordered 16 limbs unchanged")
 		_eq(profile.unarmed_action().action_id, CombatSliceContentProfile.UNARMED_ACTION_ID, "human punch unchanged")
 		_eq([profile.intrinsic_attack, profile.intrinsic_dodge, profile.intrinsic_armor, profile.projected_apply_damage(null)], [0, 0, 0, 0], "no Beast facts on human")
-	for content: NpcLoadoutItemDefinition in [OldPineNpcDefinitions.long_sword_content(), OldPineNpcDefinitions.short_sword_content()]:
-		var expected: int = 25 if content.item_definition().item_definition_id == OldPineNpcDefinitions.LONG_SWORD_ITEM_ID else 15
+	for content: NpcLoadoutItemDefinition in [TestContent.loadout(TestContent.LONG_SWORD_ITEM_ID), TestContent.loadout(TestContent.SHORT_SWORD_ITEM_ID)]:
+		var expected: int = 25 if content.item_definition().item_definition_id == TestContent.LONG_SWORD_ITEM_ID else 15
 		var weapon: EquippedWeaponRef = EquippedWeaponRef.new(&"test.weapon", content.weapon_definition())
 		var profile: CombatSliceContentProfile = CombatSliceContentProfile.new(weapon.weapon_id, weapon.skill_type, expected)
 		_eq(profile.projected_apply_damage(weapon), expected, "source long25/short15")
 		_eq(profile.attack_template_for(weapon).action_id, CombatSliceContentProfile.SLASH_ACTION_ID, "existing slash unchanged")
-		_eq(profile.for_npc_definition(OldPineNpcDefinitions.serpent_definition()).projected_apply_damage(weapon), expected + 20, "real weapon plus intrinsic damage")
-	var leather: ArmorNumericModifiers = OldPineNpcDefinitions.leather_content().armor_definition().numeric_modifiers
+		_eq(profile.for_npc_definition(TestContent.npc(TestContent.SERPENT_NPC_ID)).projected_apply_damage(weapon), expected + 20, "real weapon plus intrinsic damage")
+	var leather: ArmorNumericModifiers = TestContent.loadout(TestContent.LEATHER_ITEM_ID).armor_definition().numeric_modifiers
 	_eq([leather.armor, leather.dodge], [5, -2], "leather.c armor5 + cloth.c -6000/3000")
 
 

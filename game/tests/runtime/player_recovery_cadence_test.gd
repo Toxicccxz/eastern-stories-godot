@@ -110,7 +110,7 @@ func resource_tests(tree: SceneTree) -> void:
 		session.free()
 	var session: OldPineWorldSessionController = create_session(tree, RandomSequence.new())
 	check(Food.earn_and_exchange(session), "Work twice + Bank")
-	var product: DumplingPurchaseResult = Food.purchase(session)
+	var product: VendorPurchaseResult = Food.purchase(session)
 	var state: CharacterState = session.player_runtime().state
 	check(product.delivered and state.recovery.food == 400, "real product no hunger injection")
 	check(session.advance_player_recovery(12.0).opportunities == 1 and state.recovery.food == 399, "natural first metabolism")
