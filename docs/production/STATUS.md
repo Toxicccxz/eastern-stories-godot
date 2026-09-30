@@ -4,8 +4,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 2 — Data-driven content** is PR #27 (CI green, awaiting owner merge).
-**Death and revival** on `phase/death-and-revival`, stacked on it: killers finish an unconscious
+**Death and revival** on `phase/death-and-revival` (after Package 2, PR #27): killers finish an unconscious
 player; death costs ES2's penalty and the player reincarnates at the Snow temple (城隍庙) instead of the
 run ending. Next: **Package 3 — generic map runtime** (see [ROADMAP](ROADMAP.md)).
 
