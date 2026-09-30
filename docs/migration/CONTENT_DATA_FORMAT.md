@@ -24,9 +24,9 @@ rule are **not** authored; the loader applies the rule.
 | `weight` | `set_weight()` | omitted for money |
 | `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"]}` |
 | `armor` | `inherit CLOTH` + `armor_prop/*` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
-| `food` | `food_remaining`, `food_supply` | `{remaining, supply}` |
+| `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
-| `money` | `money_id`, `base_value`, `base_unit`, `base_weight` | makes the item a stack and a currency; merge key is `/<first legacy source without .c>` |
+| `money` | `money_id`, `base_value`, `base_unit`, `base_weight` | makes the item a stack and a currency; merge key is `/<first legacy source without .c>`; `coin`, `silver` and `gold` must all exist |
 
 The corpse (`obj/corpse.c`) is created by the death rules and is not an item record.
 
@@ -38,7 +38,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `legacy_source` | file path | |
 | `name`, `aliases`, `long` | `set_name`, `set("long")` | |
 | `race` | `set("race")` | `human` (default) or `beast` |
-| `gender`, `age` | `set(...)` | absent = not authored (rolled or race default) |
+| `gender`, `age` | `set(...)` | absent = not authored |
 | `attributes` | `set("str")` … | keys `str cor int spi cps per con kar` |
 | `resources` | `set("max_kee")` … | keys `gin kee sen` with `eff_` / `max_` variants |
 | `combat_exp`, `score` | `set(...)` | |
