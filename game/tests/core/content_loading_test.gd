@@ -149,12 +149,12 @@ func _test_cross_reference_checks() -> void:
 			{"id": "t.spawn.b", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p"], "legacy_room": "t/r.c", "legacy_quantity": 1},
 		],
 		"vendors": [{"id": "t.vendor", "legacy_source": "t/v.c", "goods": [{"key": "pie", "item": "t:pie"}]}],
-		"rooms": [],
+		"places": [],
 	}, "t")
 	_eq(builder.build(), null, "a catalog with problems is not built")
 	_eq(builder.errors(), [
 		"t.items[1].id: 't:sword' is already defined at t.items[0]",
-		"t.rooms: unknown field",
+		"t.places: unknown field",
 		"t.items[3].money.money_id: 'coin' is already t:coin",
 		"t.items[4].money.money_id: unsupported money 'shell'",
 		"items: no money item with money_id 'silver'",
@@ -165,6 +165,8 @@ func _test_cross_reference_checks() -> void:
 		"t.spawns[0].npc: unknown NPC 't.nobody'",
 		"t.spawns[1].points: 'p' is already used by t.spawn.a",
 		"t.vendors[0].goods.pie: unknown item 't:pie'",
+		"t.spawns[0].map: unknown map 'm'",
+		"t.spawns[1].map: unknown map 'm'",
 	], "cross references are checked")
 	var not_object: ContentCatalogBuilder = ContentCatalogBuilder.new()
 	not_object.add_document([], "list.json")

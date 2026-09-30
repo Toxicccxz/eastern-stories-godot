@@ -102,7 +102,7 @@ func _bandits_attack(tree: SceneTree) -> Array:
 	var session: OldPineWorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
-	var portal: PortalDefinition = SnowOldPineConnectionDefinitions.to_oldpine()
+	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "fixture enters Old Pine")
 	var map: OldPineOutdoorController = session.outdoor_map()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -152,7 +152,7 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	var flow: PlayerLifeFlow = session.player_life_flow()
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and flow.phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE, "death starts the way back")
 	check(flow.death_result.penalized and flow.death_result.combat_experience_lost == 100 and player.state.progression.combat_experience == 900, "the killer's reward penalty applies")
-	check(flow.corpse_place == "老松岭 · 南坡林道", "the death screen names where the corpse lies")
+	check(flow.corpse_place == "老松岭 · 林间小路", "the death screen names where the corpse lies")
 	check(not OldPineSaveEligibility.inspect(session).allowed(), "no saving while dead")
 	var corpse: CorpseState = map.corpse_states()[0]
 	var corpse_owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)

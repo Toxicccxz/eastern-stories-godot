@@ -85,4 +85,4 @@ func default_spawn_id() -> StringName:
 
 
 func local_passages() -> Array[PortalDefinition]:
-	return [SnowWorldDefinitions.portal_by_id(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)]
+	return [GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)]

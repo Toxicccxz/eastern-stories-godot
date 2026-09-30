@@ -1,0 +1,46 @@
+{
+	"regions": [
+		{ "id": "snow", "name": "雪亭镇" }
+	],
+	"maps": [
+		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn" },
+		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn" }
+	],
+	"zones": [
+		{ "id": "snow.inn.main_floor", "map": "snow.inn", "rooms": ["es2:d/snow/inn"] },
+		{ "id": "snow.square", "map": "snow.outdoor", "rooms": ["es2:d/snow/square"] },
+		{ "id": "snow.sroad1", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad1"] },
+		{ "id": "snow.eroad1", "map": "snow.outdoor", "rooms": ["es2:d/snow/eroad1"] },
+		{ "id": "snow.eroad2", "map": "snow.outdoor", "rooms": ["es2:d/snow/eroad2"] },
+		{ "id": "snow.eroad3", "map": "snow.outdoor", "rooms": ["es2:d/snow/eroad3"] },
+		{ "id": "snow.temple", "map": "snow.outdoor", "rooms": ["es2:d/snow/temple"] },
+		{ "id": "snow.mstreet1", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet1"] },
+		{ "id": "snow.mstreet2", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet2"] },
+		{ "id": "snow.mstreet3", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet3"] },
+		{ "id": "snow.mstreet4", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet4"] },
+		{ "id": "snow.crossroad", "map": "snow.outdoor", "rooms": ["es2:d/snow/crossroad"] },
+		{ "id": "snow.workplace", "map": "snow.outdoor", "rooms": ["es2:d/snow/workplace"] },
+		{ "id": "snow.bank", "map": "snow.outdoor", "rooms": ["es2:d/snow/bank"] },
+		{ "id": "snow.hockshop", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop"] },
+		{ "id": "snow.school1", "map": "snow.outdoor", "rooms": ["es2:d/snow/school1"] },
+		{ "id": "snow.school2", "map": "snow.outdoor", "rooms": ["es2:d/snow/school2"] },
+		{ "id": "snow.schoolhall", "map": "snow.outdoor", "rooms": ["es2:d/snow/schoolhall"] }
+	],
+	"portals": [
+		{
+			"id": "snow.inn.east", "from_zone": "snow.inn.main_floor",
+			"to_zone": "snow.square", "to_spawn": "snow.square.inn_entry",
+			"legacy_room": "es2:d/snow/inn", "legacy_command": "east"
+		},
+		{
+			"id": "snow.square.west", "from_zone": "snow.square",
+			"to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.square_return",
+			"legacy_room": "es2:d/snow/square", "legacy_command": "west"
+		},
+		{
+			"id": "snow.eroad3.south", "from_zone": "snow.eroad3",
+			"to_zone": "oldpine.outdoor.north_approach", "to_spawn": "oldpine.outdoor.north_approach.snow_entry",
+			"legacy_room": "es2:d/snow/eroad3", "legacy_command": "south"
+		}
+	]
+}

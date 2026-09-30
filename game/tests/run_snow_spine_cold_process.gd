@@ -19,7 +19,7 @@ func _run() -> void:
 	if args[0] == "write":
 		var session: OldPineWorldSessionController = Recovery.create_session(self, Recovery.RandomSequence.new())
 		check(Work.work(session).succeeded(), "nondefault resources/real silver/stable allocator fixture")
-		var portal: PortalDefinition = SnowWorldDefinitions.portal_by_id(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+		var portal: PortalDefinition = GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "source map binding")
 		# Serializer fixture only. Physical reachability is separately proven by input tests/live.
 		session.active_map().runtime_player_body().position = position

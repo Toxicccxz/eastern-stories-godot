@@ -4,9 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Death and revival** on `phase/death-and-revival` (after Package 2, PR #27): killers finish an unconscious
-player; death costs ES2's penalty and the player reincarnates at the Snow temple (城隍庙) instead of the
-run ending. Next: **Package 3 — generic map runtime** (see [ROADMAP](ROADMAP.md)).
+**Package 3 — generic map runtime**, split into four playable PRs (see [ROADMAP](ROADMAP.md)):
+
+1. **World data** (`phase/world-data`, this PR): rooms, regions, maps, zones and portals are JSON; the
+   player reads each room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
+2. Generic map controller + Snow (services, doors, UI actions without map-type casts).
+3. Old Pine on the generic controller (spawned NPC bodies, explicit combat cadence).
+4. Terrain on `TileMapLayer` with a placeholder TileSet.
 
 ## Playable now
 
@@ -16,13 +20,14 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
   value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳).
 * **Old Pine (老松岭)**: outdoor route, Vine/Waterfall/River/Cliff/Pine traversal, minimal Passage
-  Cave, Lake with five serpents; five bandits (29 of 41 rooms).
-* **Across both**: semi-automatic encounter combat with Flee, death/corpse/loot, waking from
+  Cave, Lake with five serpents; five bandits (31 of 41 rooms).
+* **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
+  semi-automatic encounter combat with Flee, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
 * Grey-box visuals (ColorRect/Polygon2D placeholders), no art or audio yet.
 
-Rough coverage of ES2 content: about 5% (47/502 rooms, 4/240 NPC types, 2/70 player-obtainable
+Rough coverage of ES2 content: about 5% (49/502 rooms, 4/240 NPC types, 2/70 player-obtainable
 skills, 1/13 families, 0 quests).
 
 ## Known issues
@@ -37,18 +42,14 @@ Code:
 * `random(n<=0)` is handled by per-site exceptions; needs the global MudOS rule (returns 0).
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.
-* `oldpine_world_definitions.gd` references `oldpine_keep.tscn`, which does not exist.
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.
-* Maps, zones, portals, landmarks, skills and the teacher are still hard-coded GDScript; runtime
-  has many `oldpine_*` / `snow_*` specific classes. The Old Pine scene pre-places NPC bodies, tied
-  to spawn data only by order.
+* Landmarks, the Vine, skills and the teacher are still hard-coded GDScript; runtime has many
+  `oldpine_*` / `snow_*` specific classes. The Old Pine scene pre-places NPC bodies, tied to spawn
+  data only by order. A zone that merges several rooms shows only its first room's text.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
-* Player text is not localized (`tr()` unused), mixes English/Chinese and shows legacy room IDs.
-* On the smallest supported viewport (480×320) the exploration HUD overflows the safe area when all
-  five context buttons are shown (panel 342 px tall vs 288 px content). Whether they are shown when
-  `mobile_presentation_test.gd` checks depends on physics timing, so "HUD action panel safe" fails
-  intermittently (seen locally; CI has not hit it yet).
+* Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix
+  English and Chinese.
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
 qualification for Lake and Shared UI is deferred. The provisional app ID

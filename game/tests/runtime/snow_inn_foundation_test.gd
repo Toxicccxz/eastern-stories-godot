@@ -64,11 +64,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(entry.allocator.next_dynamic_sequence == 1, "map initialized no items")
 	_check(map.resident_npcs().is_empty() and map.find_resident_npc(&"traveller") == null, "authored population deliberately deferred")
 	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 1, "no silent dummy NPC bodies")
-	_check(SnowWorldDefinitions.LEGACY_TRAVELLER_COUNT == 2 and SnowWorldDefinitions.LEGACY_WAITER_COUNT == 1, "deferred source population still documented")
-	_check(SnowWorldDefinitions.LEGACY_VALID_STARTROOM and SnowWorldDefinitions.LEGACY_NORTHWEST_DOOR_CLOSED, "source startroom and closed door facts")
-	_check(SnowWorldDefinitions.inn_map().portal_ids() == [SnowWorldDefinitions.INN_EXIT_PORTAL_ID], "NGE3 enables only the authored east exit; up/NW deferred")
-	_check(SnowWorldDefinitions.LEGACY_EAST_EXIT == "/d/snow/square" and SnowWorldDefinitions.LEGACY_UP_EXIT == "/d/snow/inn_2f" and SnowWorldDefinitions.LEGACY_NORTHWEST_EXIT == "/d/wiz/entrance", "exact source exits")
-	_check(SnowWorldDefinitions.main_floor().is_valid() and SnowWorldDefinitions.inn_map().is_valid(), "typed definitions valid")
+	var inn_portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(SnowWorldDefinitions.INN_MAP_ID)
+	_check(inn_portals.size() == 1 and inn_portals[0].portal_id == SnowWorldDefinitions.INN_EXIT_PORTAL_ID, "NGE3 enables only the authored east exit; up/NW deferred")
+	var exits: Dictionary[String, StringName] = GameContent.catalog().room(&"es2:d/snow/inn").exits()
+	_check(exits.get("east") == &"es2:d/snow/square" and exits.get("up") == &"es2:d/snow/inn_2f" and exits.get("northwest") == &"es2:d/wiz/entrance", "exact source exits")
+	_check(GameContent.catalog().zone(SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID).is_valid() and GameContent.catalog().map(SnowWorldDefinitions.INN_MAP_ID).is_valid(), "typed definitions valid")
 	_check((body.get_node("Camera2D") as Camera2D).enabled and body.player_controlled, "camera/input activated")
 	await tree.physics_frame
 	await tree.physics_frame

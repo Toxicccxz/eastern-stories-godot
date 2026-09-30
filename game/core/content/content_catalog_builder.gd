@@ -2,13 +2,19 @@ class_name ContentCatalogBuilder
 extends RefCounted
 
 ## Collects parsed data documents and cross-checks them. A document is one
-## JSON object with any of the `items`, `npcs`, `spawns`, `vendors` arrays.
+## JSON object with any of the `items`, `npcs`, `spawns`, `vendors`, `rooms`,
+## `regions`, `maps`, `zones`, `portals` arrays.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
 var _npcs: Dictionary[StringName, NpcDefinition] = {}
 var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
 var _vendors: Dictionary[StringName, VendorDefinition] = {}
+var _rooms: Dictionary[StringName, RoomDefinition] = {}
+var _regions: Dictionary[StringName, RegionDefinition] = {}
+var _maps: Dictionary[StringName, MapDefinition] = {}
+var _zones: Dictionary[StringName, ZoneDefinition] = {}
+var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -41,6 +47,26 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: VendorDefinition = VendorDefinition.from_record(record)
 		if _claim(definition.vendor_id, record):
 			_vendors[definition.vendor_id] = definition
+	for record: ContentRecordReader in reader.children("rooms"):
+		var definition: RoomDefinition = RoomDefinition.from_record(record)
+		if _claim(definition.room_id, record):
+			_rooms[definition.room_id] = definition
+	for record: ContentRecordReader in reader.children("regions"):
+		var definition: RegionDefinition = RegionDefinition.from_record(record)
+		if _claim(definition.region_id, record):
+			_regions[definition.region_id] = definition
+	for record: ContentRecordReader in reader.children("maps"):
+		var definition: MapDefinition = MapDefinition.from_record(record)
+		if _claim(definition.map_id, record):
+			_maps[definition.map_id] = definition
+	for record: ContentRecordReader in reader.children("zones"):
+		var definition: ZoneDefinition = ZoneDefinition.from_record(record)
+		if _claim(definition.zone_id, record):
+			_zones[definition.zone_id] = definition
+	for record: ContentRecordReader in reader.children("portals"):
+		var definition: PortalDefinition = PortalDefinition.from_record(record)
+		if _claim(definition.portal_id, record):
+			_portals[definition.portal_id] = definition
 	reader.finish()
 
 
@@ -49,9 +75,14 @@ func build() -> ContentCatalog:
 	_check_npc_loadouts()
 	_check_spawns()
 	_check_vendors()
+	_check_maps()
+	_resolve_zones()
+	_resolve_portals()
+	_check_spawn_locations()
 	if not _errors.is_empty():
 		return null
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
+	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -135,3 +166,57 @@ func _check_vendors() -> void:
 			var item_id: StringName = definition.item_definition_id(key)
 			if not _items.has(item_id):
 				_errors.append("%s.goods.%s: unknown item '%s'" % [origin, key, item_id])
+
+
+func _check_maps() -> void:
+	for definition: MapDefinition in _maps.values():
+		if not _regions.has(definition.region_id):
+			_errors.append("%s.region: unknown region '%s'" % [
+				_origins[definition.map_id], definition.region_id,
+			])
+
+
+## Each room belongs to at most one zone; the zone takes its text from its
+## first room.
+func _resolve_zones() -> void:
+	var room_owners: Dictionary[StringName, StringName] = {}
+	for zone_id: StringName in _zones.keys():
+		var definition: ZoneDefinition = _zones[zone_id]
+		var origin: String = _origins[zone_id]
+		if not _maps.has(definition.map_id):
+			_errors.append("%s.map: unknown map '%s'" % [origin, definition.map_id])
+		for room_id: StringName in definition.room_ids():
+			if not _rooms.has(room_id):
+				_errors.append("%s.rooms: unknown room '%s'" % [origin, room_id])
+			elif room_owners.has(room_id):
+				_errors.append("%s.rooms: '%s' is already in %s" % [origin, room_id, room_owners[room_id]])
+			room_owners[room_id] = zone_id
+		var room_ids: Array[StringName] = definition.room_ids()
+		if not room_ids.is_empty() and _rooms.has(room_ids[0]):
+			_zones[zone_id] = definition.with_primary_room(_rooms[room_ids[0]])
+
+
+func _resolve_portals() -> void:
+	for portal_id: StringName in _portals.keys():
+		var definition: PortalDefinition = _portals[portal_id]
+		var origin: String = _origins[portal_id]
+		var source: ZoneDefinition = _zones.get(definition.source_zone_id)
+		var destination: ZoneDefinition = _zones.get(definition.destination_zone_id)
+		if source == null:
+			_errors.append("%s.from_zone: unknown zone '%s'" % [origin, definition.source_zone_id])
+		if destination == null:
+			_errors.append("%s.to_zone: unknown zone '%s'" % [origin, definition.destination_zone_id])
+		if not _rooms.has(definition.legacy_room_id):
+			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
+		if source != null and destination != null:
+			_portals[portal_id] = definition.with_maps(source.map_id, destination.map_id)
+
+
+func _check_spawn_locations() -> void:
+	for definition: NpcSpawnDefinition in _spawns.values():
+		var origin: String = _origins[definition.spawn_id]
+		var zone: ZoneDefinition = _zones.get(definition.zone_id)
+		if not _maps.has(definition.map_id):
+			_errors.append("%s.map: unknown map '%s'" % [origin, definition.map_id])
+		elif zone == null or zone.map_id != definition.map_id:
+			_errors.append("%s.zone: '%s' is not a zone of %s" % [origin, definition.zone_id, definition.map_id])

@@ -26,6 +26,14 @@ func has(key: String) -> bool:
 	return _record.has(key)
 
 
+## Keys in authored order, for records whose keys are data (e.g. exits).
+func keys() -> Array[String]:
+	var result: Array[String] = []
+	for key: Variant in _record:
+		result.append(str(key))
+	return result
+
+
 func fail(key: String, message: String) -> void:
 	_errors.append("%s%s: %s" % [_path, "" if key.is_empty() else "." + key, message])
 

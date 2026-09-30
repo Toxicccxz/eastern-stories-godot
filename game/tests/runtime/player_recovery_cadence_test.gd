@@ -232,13 +232,13 @@ func map_combat_tests(tree: SceneTree) -> void:
 	check(not session.handoff_to(&"test.reject", &"test.zone", &"test.zone", &"marker").succeeded() and session.player_recovery_time_allowed(), "failed handoff returns valid old owner")
 	session._resident_maps.erase(rejected.map_id())
 	rejected.free()
-	var portals: Array[PortalDefinition] = [SnowWorldDefinitions.portal_by_id(SnowWorldDefinitions.INN_EXIT_PORTAL_ID), SnowOldPineConnectionDefinitions.to_oldpine(), SnowOldPineConnectionDefinitions.to_snow(), SnowWorldDefinitions.portal_by_id(SnowWorldDefinitions.INN_RETURN_PORTAL_ID)]
+	var portals: Array[PortalDefinition] = [GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID), GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID), GameContent.catalog().portal(SnowOldPineConnectionDefinitions.NORTH_PORTAL_ID), GameContent.catalog().portal(SnowWorldDefinitions.INN_RETURN_PORTAL_ID)]
 	for portal: PortalDefinition in portals:
 		var result: OldPineMapHandoffResult = session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id)
 		check(result.succeeded(), "boundary handoff " + String(portal.destination_map_id))
 		check(session.player_recovery_cadence() == cadence and cadence.source_tick == 4 and cadence.accumulated_seconds == 1.0 and random.calls == 1, "same phase/RNG after handoff")
 	# Controlled scripted combat using existing coordinator, no scheduler modifications.
-	var portal: PortalDefinition = SnowOldPineConnectionDefinitions.to_oldpine()
+	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "combat fixture enters Old Pine")
 	var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
 	var player: WorldPlayerRuntimeState = session.player_runtime()

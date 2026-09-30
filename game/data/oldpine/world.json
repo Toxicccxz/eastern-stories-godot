@@ -1,0 +1,106 @@
+{
+	"regions": [
+		{ "id": "oldpine", "name": "老松岭" }
+	],
+	"maps": [
+		{ "id": "oldpine.outdoor", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_outdoor.tscn" },
+		{ "id": "oldpine.cave", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_cave.tscn" }
+	],
+	"zones": [
+		{
+			"id": "oldpine.outdoor.north_approach", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/npath1", "es2:d/oldpine/npath2", "es2:d/oldpine/npath3"]
+		},
+		{ "id": "oldpine.outdoor.central_clearing", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/clearing"] },
+		{
+			"id": "oldpine.outdoor.south_slope", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/spath1", "es2:d/oldpine/spath2", "es2:d/oldpine/spath3", "es2:d/oldpine/spath4"]
+		},
+		{
+			"id": "oldpine.outdoor.east_bridge", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/epath2", "es2:d/oldpine/epath1", "es2:d/oldpine/epath3"]
+		},
+		{ "id": "oldpine.outdoor.waterfall_basin", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/waterfall"] },
+		{
+			"id": "oldpine.outdoor.river_gorge", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/riverbank1", "es2:d/oldpine/riverbank2"]
+		},
+		{ "id": "oldpine.outdoor.lake", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/lake"] },
+		{
+			"id": "oldpine.outdoor.pine_entrance", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/pine1", "es2:d/oldpine/pine2"]
+		},
+		{
+			"id": "oldpine.outdoor.pine_deep", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/pine3", "es2:d/oldpine/pine4", "es2:d/oldpine/pine5", "es2:d/oldpine/pine6"]
+		},
+		{
+			"id": "oldpine.outdoor.pine_cliff_edge", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/cliffdown", "es2:d/oldpine/pine7"]
+		},
+		{
+			"id": "oldpine.outdoor.cliff_ledge", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/cliff1", "es2:d/oldpine/cliffside"]
+		},
+		{
+			"id": "oldpine.outdoor.tree_canopy", "map": "oldpine.outdoor",
+			"rooms": ["es2:d/oldpine/tree1", "es2:d/oldpine/tree2", "es2:d/oldpine/tree3"]
+		},
+		{
+			"id": "oldpine.cave.waterfall_passage", "map": "oldpine.cave",
+			"rooms": ["es2:d/oldpine/passage", "es2:d/oldpine/path3", "es2:d/oldpine/stone"]
+		}
+	],
+	"portals": [
+		{
+			"id": "oldpine.npath1.north", "from_zone": "oldpine.outdoor.north_approach",
+			"to_zone": "snow.eroad3", "to_spawn": "snow.eroad3.oldpine_return",
+			"legacy_room": "es2:d/oldpine/npath1", "legacy_command": "north"
+		},
+		{
+			"id": "oldpine.outdoor.climb_pine", "from_zone": "oldpine.outdoor.central_clearing",
+			"to_zone": "oldpine.outdoor.tree_canopy", "to_spawn": "oldpine.outdoor.tree_canopy.tree1_landing",
+			"legacy_room": "es2:d/oldpine/clearing", "legacy_command": "climb pine"
+		},
+		{
+			"id": "oldpine.outdoor.descend_tree1", "from_zone": "oldpine.outdoor.tree_canopy",
+			"to_zone": "oldpine.outdoor.central_clearing", "to_spawn": "oldpine.outdoor.central_clearing.pine_landing",
+			"legacy_room": "es2:d/oldpine/tree1", "legacy_command": "down"
+		},
+		{
+			"id": "oldpine.outdoor.vine_to_waterfall", "from_zone": "oldpine.outdoor.east_bridge",
+			"to_zone": "oldpine.outdoor.waterfall_basin", "to_spawn": "oldpine.outdoor.waterfall_basin.landing",
+			"legacy_room": "es2:d/oldpine/epath2", "legacy_command": "hold vine"
+		},
+		{
+			"id": "oldpine.outdoor.vine_to_passage", "from_zone": "oldpine.outdoor.east_bridge",
+			"to_zone": "oldpine.cave.waterfall_passage", "to_spawn": "oldpine.cave.waterfall_passage.vine_landing",
+			"legacy_room": "es2:d/oldpine/epath2", "legacy_command": "hold vine"
+		},
+		{
+			"id": "oldpine.cave.passage_to_waterfall", "from_zone": "oldpine.cave.waterfall_passage",
+			"to_zone": "oldpine.outdoor.waterfall_basin", "to_spawn": "oldpine.outdoor.waterfall_basin.landing",
+			"legacy_room": "es2:d/oldpine/passage", "legacy_command": "south"
+		},
+		{
+			"id": "oldpine.outdoor.riverbank1_climb_cliff", "from_zone": "oldpine.outdoor.river_gorge",
+			"to_zone": "oldpine.outdoor.cliff_ledge", "to_spawn": "oldpine.outdoor.cliff_ledge.cliff1_landing",
+			"legacy_room": "es2:d/oldpine/riverbank1", "legacy_command": "climb cliff"
+		},
+		{
+			"id": "oldpine.outdoor.cliff1_climb_down", "from_zone": "oldpine.outdoor.cliff_ledge",
+			"to_zone": "oldpine.outdoor.river_gorge", "to_spawn": "oldpine.outdoor.river_gorge.riverbank1_cliff_landing",
+			"legacy_room": "es2:d/oldpine/cliff1", "legacy_command": "climb down"
+		},
+		{
+			"id": "oldpine.outdoor.cliff1_climb_up", "from_zone": "oldpine.outdoor.cliff_ledge",
+			"to_zone": "oldpine.outdoor.cliff_ledge", "to_spawn": "oldpine.outdoor.cliff_ledge.cliffside_landing",
+			"legacy_room": "es2:d/oldpine/cliff1", "legacy_command": "climb up"
+		},
+		{
+			"id": "oldpine.outdoor.cliffside_north_pine1", "from_zone": "oldpine.outdoor.cliff_ledge",
+			"to_zone": "oldpine.outdoor.pine_entrance", "to_spawn": "oldpine.outdoor.pine_entrance.cliffside_landing",
+			"legacy_room": "es2:d/oldpine/cliffside", "legacy_command": "north"
+		}
+	]
+}

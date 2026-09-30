@@ -51,47 +51,7 @@ static func waiter() -> VendorDefinition:
 	return GameContent.catalog().vendor(WAITER_VENDOR_ID)
 
 
-## Spawn data and the (still GDScript) Old Pine world definitions agree: every
-## spawn sits in a zone of the map that lists it, and no native ID is reused.
+## The loader cross-checks spawns against the world data (map, zone of that
+## map) and keeps native IDs unique across every kind.
 static func spawns_match_world() -> bool:
-	if not OldPineWorldDefinitions.validate() or not GameContent.load_errors().is_empty():
-		return false
-	var catalog: ContentCatalog = GameContent.catalog()
-	for definition: NpcSpawnDefinition in catalog.spawns():
-		var map: MapDefinition = OldPineWorldDefinitions.map_by_id(definition.map_id)
-		var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(definition.zone_id)
-		if (
-			map == null
-			or not map.spawn_ids().has(definition.spawn_id)
-			or zone == null
-			or zone.map_id != definition.map_id
-		):
-			return false
-	var listed: Dictionary[StringName, int] = {}
-	for map: MapDefinition in OldPineWorldDefinitions.map_definitions():
-		for spawn_id: StringName in map.spawn_ids():
-			var definition: NpcSpawnDefinition = catalog.spawn(spawn_id)
-			if definition == null or definition.map_id != map.map_id:
-				return false
-			listed[spawn_id] = listed.get(spawn_id, 0) + 1
-	var native_ids: Array[StringName] = [OldPineWorldDefinitions.region_definition().region_id]
-	for map: MapDefinition in OldPineWorldDefinitions.map_definitions():
-		native_ids.append(map.map_id)
-	for zone: ZoneDefinition in OldPineWorldDefinitions.zone_definitions():
-		native_ids.append(zone.zone_id)
-	for portal: PortalDefinition in OldPineWorldDefinitions.portal_definitions():
-		native_ids.append(portal.portal_id)
-	for definition: NpcDefinition in catalog.npcs():
-		native_ids.append(definition.definition_id)
-	for definition: NpcSpawnDefinition in catalog.spawns():
-		if listed.get(definition.spawn_id, 0) != 1:
-			return false
-		native_ids.append(definition.spawn_id)
-	for definition: ItemContentDefinition in catalog.items():
-		native_ids.append(definition.item_definition_id)
-	var seen: Dictionary[StringName, bool] = {}
-	for id: StringName in native_ids:
-		if id.is_empty() or seen.has(id):
-			return false
-		seen[id] = true
-	return true
+	return GameContent.load_errors().is_empty()

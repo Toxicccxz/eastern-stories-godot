@@ -36,27 +36,27 @@ func _test_authored_definitions() -> void:
 	var vine: OldPineVineInteractionDefinition = (
 		OldPineLandmarkDefinitions.vine_definition()
 	)
-	_assert_true(OldPineWorldDefinitions.validate(), "Old Pine world definitions remain coherent")
+	_assert_true(GameContent.load_errors().is_empty(), "Old Pine world definitions remain coherent")
 	_assert_true(OldPineLandmarkDefinitions.validate(), "landmark and Vine authored definitions validate")
 	_assert_true(vine.is_valid(), "epath2 Vine definition is immutable valid content")
 	_assert_eq(vine.interaction_id, OldPineLandmarkDefinitions.VINE_LANDMARK_ID, "Vine stable landmark identity")
 	_assert_eq(vine.legacy_target_alias, &"vine", "exact LPC target alias retained")
 	_assert_eq(vine.legacy_source_path, "d/oldpine/epath2.c", "exact Vine source path retained")
 	_assert_true(vine.description.contains("高约百丈的山涧深谷"), "exact authored Inspect warning retained")
-	var waterfall: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	var waterfall: ZoneDefinition = GameContent.catalog().zone(
 		OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID
 	)
-	_assert_eq(waterfall.legacy_room_ids(), ["d/oldpine/waterfall.c"], "Waterfall Basin owns only waterfall.c metadata")
-	var river: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	_assert_eq(waterfall.room_ids(), [&"es2:d/oldpine/waterfall"], "Waterfall Basin owns only waterfall.c metadata")
+	var river: ZoneDefinition = GameContent.catalog().zone(
 		OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID
 	)
-	_assert_false(river.legacy_room_ids().has("d/oldpine/waterfall.c"), "River Gorge no longer duplicates waterfall.c metadata")
+	_assert_false(river.room_ids().has(&"es2:d/oldpine/waterfall"), "River Gorge no longer duplicates waterfall.c metadata")
 	_assert_ne(waterfall.combat_location_id, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, "Waterfall has a distinct East Bridge combat location")
 	_assert_ne(waterfall.combat_location_id, river.combat_location_id, "Waterfall and future River Gorge combat locations are distinct")
-	var legacy_rooms: Dictionary[String, bool] = {}
+	var legacy_rooms: Dictionary[StringName, bool] = {}
 	var duplicate_legacy_room: bool = false
-	for zone: ZoneDefinition in OldPineWorldDefinitions.zone_definitions():
-		for legacy_room_id: String in zone.legacy_room_ids():
+	for zone: ZoneDefinition in GameContent.catalog().zones():
+		for legacy_room_id: StringName in zone.room_ids():
 			if legacy_rooms.has(legacy_room_id):
 				duplicate_legacy_room = true
 			legacy_rooms[legacy_room_id] = true
@@ -66,15 +66,11 @@ func _test_authored_definitions() -> void:
 		OldPineWorldDefinitions.VINE_PASSAGE_PORTAL_ID,
 		OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID,
 	]:
-		var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(portal_id)
+		var portal: PortalDefinition = GameContent.catalog().portal(portal_id)
 		_assert_true(portal != null, "%s resolves" % portal_id)
-		var membership_count: int = 0
-		for map: MapDefinition in OldPineWorldDefinitions.map_definitions():
-			membership_count += map.portal_ids().count(portal_id)
-		_assert_eq(membership_count, 1, "%s has exactly one source-map membership" % portal_id)
-		_assert_true(portal != null and OldPineWorldDefinitions.map_by_id(portal.source_map_id).portal_ids().has(portal_id), "%s belongs to its declared source map" % portal_id)
+		_assert_true(portal != null and GameContent.catalog().portals_for_map(portal.source_map_id).has(portal), "%s belongs to its declared source map" % portal_id)
 	_assert_eq(
-		OldPineWorldDefinitions.portal_by_id(
+		GameContent.catalog().portal(
 			OldPineWorldDefinitions.VINE_PASSAGE_PORTAL_ID
 		).destination_spawn_point_id,
 		OldPineWorldDefinitions.CAVE_VINE_LANDING_SPAWN_POINT_ID,

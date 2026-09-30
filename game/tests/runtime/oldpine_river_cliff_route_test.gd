@@ -27,20 +27,20 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_authored_route_definitions() -> void:
-	_assert_true(OldPineWorldDefinitions.validate(), "Old Pine route data validates")
+	_assert_true(GameContent.load_errors().is_empty(), "Old Pine route data validates")
 	_assert_true(OldPineLandmarkDefinitions.validate(), "route landmarks validate")
 	_assert_eq(
-		OldPineWorldDefinitions.zone_by_id(
+		GameContent.catalog().zone(
 			OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID
-		).legacy_room_ids(),
-		["d/oldpine/riverbank1.c", "d/oldpine/riverbank2.c"],
+		).room_ids(),
+		[&"es2:d/oldpine/riverbank1", &"es2:d/oldpine/riverbank2"],
 		"River Gorge represents only implemented riverbank rooms",
 	)
 	_assert_eq(
-		OldPineWorldDefinitions.zone_by_id(
+		GameContent.catalog().zone(
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID
-		).legacy_room_ids(),
-		["d/oldpine/cliffside.c", "d/oldpine/cliff1.c"],
+		).room_ids(),
+		[&"es2:d/oldpine/cliff1", &"es2:d/oldpine/cliffside"],
 		"Cliff Ledge represents only implemented cliff rooms",
 	)
 	var expected: Array[Array] = [
@@ -48,48 +48,46 @@ func _test_authored_route_definitions() -> void:
 			OldPineWorldDefinitions.RIVERBANK1_CLIFF_PORTAL_ID,
 			OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID,
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID,
-			&"climb", &"cliff", "d/oldpine/riverbank1.c",
+			"climb cliff", &"es2:d/oldpine/riverbank1",
 		],
 		[
 			OldPineWorldDefinitions.CLIFF1_DOWN_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID,
 			OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID,
-			&"climb", &"down", "d/oldpine/cliff1.c",
+			"climb down", &"es2:d/oldpine/cliff1",
 		],
 		[
 			OldPineWorldDefinitions.CLIFF1_UP_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID,
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID,
-			&"climb", &"up", "d/oldpine/cliff1.c",
+			"climb up", &"es2:d/oldpine/cliff1",
 		],
 		[
 			OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID,
 			OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
-			&"north", &"", "d/oldpine/cliffside.c",
+			"north", &"es2:d/oldpine/cliffside",
 		],
 	]
 	for facts: Array in expected:
-		var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(facts[0])
+		var portal: PortalDefinition = GameContent.catalog().portal(facts[0])
 		_assert_true(portal != null and portal.is_valid(), "%s resolves" % facts[0])
 		_assert_eq(portal.source_map_id, OldPineWorldDefinitions.OUTDOOR_MAP_ID, "route source remains Outdoor")
 		_assert_eq(portal.destination_map_id, OldPineWorldDefinitions.OUTDOOR_MAP_ID, "route destination remains Outdoor")
 		_assert_eq(portal.source_zone_id, facts[1], "%s source zone" % facts[0])
 		_assert_eq(portal.destination_zone_id, facts[2], "%s destination zone" % facts[0])
-		_assert_eq(portal.legacy_action_verb, facts[3], "%s legacy verb" % facts[0])
-		_assert_eq(portal.legacy_action_argument, facts[4], "%s legacy argument" % facts[0])
-		_assert_eq(portal.legacy_source_path, facts[5], "%s legacy source" % facts[0])
-		_assert_true(portal.policy_id.is_empty(), "%s invents no policy" % facts[0])
+		_assert_eq(portal.legacy_command, facts[3], "%s legacy command" % facts[0])
+		_assert_eq(portal.legacy_room_id, facts[4], "%s legacy room" % facts[0])
 	var reverse_count: int = 0
-	for portal: PortalDefinition in OldPineWorldDefinitions.portal_definitions():
+	for portal: PortalDefinition in GameContent.catalog().portals_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
 		if (
 			portal.source_zone_id == OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID
 			and portal.destination_zone_id == OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID
 		):
 			reverse_count += 1
 	_assert_eq(reverse_count, 0, "pine1 has no invented reverse edge to cliffside")
-	_assert_true(OldPineWorldDefinitions.portal_by_id(&"oldpine.outdoor.cliffdown_to_cliff2") == null, "cliffdown/cliff2 remains deferred")
-	_assert_true(OldPineWorldDefinitions.zone_by_id(OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID).legacy_room_ids().has("d/oldpine/lake.c") == false, "Lake remains outside implemented route metadata")
+	_assert_true(GameContent.catalog().portal(&"oldpine.outdoor.cliffdown_to_cliff2") == null, "cliffdown/cliff2 remains deferred")
+	_assert_true(GameContent.catalog().zone(OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID).room_ids().has(&"es2:d/oldpine/lake") == false, "Lake remains outside implemented route metadata")
 
 
 func _test_complete_physical_route_and_authority_preservation(

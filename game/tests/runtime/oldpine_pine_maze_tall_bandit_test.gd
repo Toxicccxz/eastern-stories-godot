@@ -33,52 +33,47 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_authored_definitions_and_fixed_zone_partition() -> void:
-	_assert_true(OldPineWorldDefinitions.validate(), "Old Pine world definitions validate")
+	_assert_true(GameContent.load_errors().is_empty(), "Old Pine world definitions validate")
 	_assert_true(GameContent.load_errors().is_empty(), "Old Pine NPC definitions validate")
 	_assert_true(TestContent.spawns_match_world(), "Old Pine spawn definitions validate")
 	_assert_eq(
-		OldPineWorldDefinitions.zone_by_id(
+		GameContent.catalog().zone(
 			OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID
-		).legacy_room_ids(),
-		["d/oldpine/pine1.c", "d/oldpine/pine2.c"],
+		).room_ids(),
+		[&"es2:d/oldpine/pine1", &"es2:d/oldpine/pine2"],
 		"Pine Entrance has exact source-room trace",
 	)
 	_assert_eq(
-		OldPineWorldDefinitions.zone_by_id(
+		GameContent.catalog().zone(
 			OldPineWorldDefinitions.PINE_DEEP_ZONE_ID
-		).legacy_room_ids(),
+		).room_ids(),
 		[
-			"d/oldpine/pine3.c", "d/oldpine/pine4.c",
-			"d/oldpine/pine5.c", "d/oldpine/pine6.c",
+			&"es2:d/oldpine/pine3", &"es2:d/oldpine/pine4",
+			&"es2:d/oldpine/pine5", &"es2:d/oldpine/pine6",
 		],
 		"Pine Deep has exact source-room trace",
 	)
 	_assert_eq(
-		OldPineWorldDefinitions.zone_by_id(
+		GameContent.catalog().zone(
 			OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID
-		).legacy_room_ids(),
-		["d/oldpine/pine7.c", "d/oldpine/cliffdown.c"],
+		).room_ids(),
+		[&"es2:d/oldpine/cliffdown", &"es2:d/oldpine/pine7"],
 		"Pine Cliff Edge has exact source-room trace",
 	)
-	var pine_room_counts: Dictionary[String, int] = {}
+	var pine_room_counts: Dictionary[StringName, int] = {}
 	for zone_id: StringName in [
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
 		OldPineWorldDefinitions.PINE_DEEP_ZONE_ID,
 		OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID,
 	]:
-		var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+		var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 		_assert_eq(zone.combat_location_id, zone_id, "Pine combat location is exact zone ID")
-		for source_path: String in zone.legacy_room_ids():
+		for source_path: StringName in zone.room_ids():
 			pine_room_counts[source_path] = pine_room_counts.get(source_path, 0) + 1
 	_assert_eq(pine_room_counts.size(), 8, "exactly eight Pine legacy rooms are represented")
-	for source_path: String in pine_room_counts:
+	for source_path: StringName in pine_room_counts:
 		_assert_eq(pine_room_counts[source_path], 1, "%s occurs exactly once" % source_path)
-	var portal_ids: Array[StringName] = []
-	for portal: PortalDefinition in OldPineWorldDefinitions.portal_definitions():
-		portal_ids.append(portal.portal_id)
-	_assert_eq(
-		portal_ids,
-		[
+	for portal_id: StringName in [
 			OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID,
 			OldPineWorldDefinitions.DESCEND_TREE1_PORTAL_ID,
 			OldPineWorldDefinitions.VINE_WATERFALL_PORTAL_ID,
@@ -88,9 +83,8 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 			OldPineWorldDefinitions.CLIFF1_DOWN_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFF1_UP_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID,
-		],
-		"Phase 9B3B3 preserves prior portals and appends the source-faithful route",
-	)
+	]:
+		_assert_true(GameContent.catalog().portal(portal_id) != null, "%s is authored" % portal_id)
 
 	var tall: NpcDefinition = TestContent.npc(TestContent.TALL_BANDIT_NPC_ID)
 	_assert_eq(tall.definition_id, &"oldpine.npc.tall_bandit", "tall bandit ID")

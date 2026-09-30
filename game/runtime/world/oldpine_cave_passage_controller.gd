@@ -102,7 +102,7 @@ func resolve_location(
 	zone_id: StringName,
 	combat_location_id: StringName,
 ) -> WorldLocationState:
-	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	if (
 		zone == null
 		or zone_id != OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID

@@ -33,9 +33,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		return {"assertions": _count, "failures": _failures}
 	var player: WorldPlayerRuntimeState = entry._player
 	var identities: Array[Object] = [player, player.state, player.state.equipment, player.armor, entry.birth.inventory, entry.birth.stacks, entry.birth.item_index, entry.allocator, entry.npc_random, entry.combat_random, entry.world_random, entry._world_simulation_gate]
-	_check(SnowWorldDefinitions.outdoor_map().zone_ids().slice(0, 5) == SnowWorldDefinitions.ROUTE_ZONE_IDS, "original five route zones remain ordered within expanded map")
-	for zone: ZoneDefinition in SnowWorldDefinitions.route_zones():
-		_check(zone.is_valid() and zone.map_id == &"snow.outdoor" and zone.combat_location_id == zone.zone_id, "valid authored zone and combat identity")
+	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(&"snow.outdoor"):
+		_check(zone.is_valid() and zone.combat_location_id == zone.zone_id, "valid authored zone and combat identity")
 	var expected_exits: Dictionary[String, String] = {
 		"square:north":"/d/snow/mstreet1", "square:west":"/d/snow/inn", "square:south":"/d/snow/sroad1", "square:east":"/d/snow/temple",
 		"sroad1:north":"/d/snow/square", "sroad1:east":"/d/snow/eroad1", "sroad1:west":"/d/snow/sroad2", "sroad1:south":"/u/cloud/dragonhill/nroad",
@@ -44,10 +43,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		"eroad3:west":"/d/snow/eroad2", "eroad3:east":"/d/temple/sroad", "eroad3:south":"/d/oldpine/npath1",
 	}
 	for key: String in expected_exits:
-		_check(SnowWorldDefinitions.authored_outdoor_exits().get(key) == expected_exits[key], "original LPC exit exact: " + key)
-	_check(SnowWorldDefinitions.outdoor_map().portal_ids() == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID], "only west Inn transition executable")
-	_check(SnowWorldDefinitions.portal_by_id(&"eroad3:south") == null, "Old Pine not a native portal")
-	_check(SnowWorldDefinitions.LEGACY_SQUARE_TRAV_BLADE_COUNT == 3 and SnowWorldDefinitions.LEGACY_EROAD2_DOG_COUNT == 2, "authored population counts")
+		var room: RoomDefinition = GameContent.catalog().room(StringName("es2:d/snow/" + key.get_slice(":", 0)))
+		_check(room.exits().get(key.get_slice(":", 1)) == StringName("es2:" + expected_exits[key].trim_prefix("/")), "original LPC exit exact: " + key)
+	var portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(&"snow.outdoor")
+	_check(portals.size() == 2 and portals[0].portal_id == SnowWorldDefinitions.INN_RETURN_PORTAL_ID and portals[1].portal_id == SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, "west Inn door and the south road to Old Pine")
+	_check(GameContent.catalog().portal(&"eroad3:south") == null, "Old Pine not a native portal")
 	_check(entry.inn.resident_npcs().is_empty() and entry.outdoor.resident_npcs().is_empty(), "no dummy NPCs")
 	_check(entry.outdoor.find_children("*", "CharacterBody2D", true, false).size() == 1, "outdoor only Player body")
 	_check(entry.inn.birth_marker.position != entry.inn.resolve_spawn_marker(SnowWorldDefinitions.INN_RETURN_SPAWN_ID).position, "return marker is not fresh birth")
@@ -84,7 +84,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	player.state.recovery.food = 123
 	player.state.recovery.water = 234
 	player.state.progression.combat_experience = 7
-	_check(entry.handoff_to(SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, SnowWorldDefinitions.MAIN_FLOOR_COMBAT_LOCATION_ID, SnowWorldDefinitions.INN_RETURN_SPAWN_ID).succeeded(), "Square to Inn boundary")
+	_check(entry.handoff_to(SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, SnowWorldDefinitions.INN_RETURN_SPAWN_ID).succeeded(), "Square to Inn boundary")
 	_check(entry.inn.player_body.position == Vector2(350, 0), "return east marker, not origin")
 	_check(player.state.recovery.food == 123 and player.state.recovery.water == 234 and player.state.progression.combat_experience == 7 and entry.allocator.next_dynamic_sequence == 1, "return never rebirth/refill/reallocate")
 	_continuity(entry, identities)

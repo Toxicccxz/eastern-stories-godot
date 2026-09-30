@@ -633,7 +633,7 @@ placeholder_text = "支付数量（正整数）"
 [node name="Convert" type="Button" parent="BankUI/Panel/Rows"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
-text = "兑换 Convert"
+text = "兑换"
 [node name="Feedback" type="Label" parent="BankUI/Panel/Rows"]
 layout_mode = 2
 text = "请选择货币与数量。同币种亦可兑换。"

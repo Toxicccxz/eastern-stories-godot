@@ -1,8 +1,9 @@
 # Content data format
 
-Items, NPCs, spawns and vendors are JSON under `game/data/`, listed in
-`game/data/content_manifest.json` (load order = manifest order, then file order). Each file is one
-object with any of the arrays `items`, `npcs`, `spawns`, `vendors`.
+Items, NPCs, spawns, vendors and the world (rooms, regions, maps, zones, portals) are JSON under
+`game/data/`, listed in `game/data/content_manifest.json` (load order = manifest order, then file
+order). Each file is one object with any of the arrays `items`, `npcs`, `spawns`, `vendors`,
+`rooms`, `regions`, `maps`, `zones`, `portals`.
 
 `GameContent.catalog()` (`game/data/game_content.gd`) reads them once into a `ContentCatalog`.
 Parsing lives in `game/core/content/`. Unknown fields, wrong types, non-integer numbers and broken
@@ -62,8 +63,33 @@ IDs. Append new spawns; do not reorder existing ones without expecting a New Gam
 `{id, legacy_source, goods: [{key, item}]}` from `set("vendor_goods")`. The price is the item's
 `value` (`feature/vendor.c`); goods worth less than 1 are not sold (`cmds/std/buy.c`).
 
+## rooms
+
+`{id, short, long, exits?}` — one ES2 room, copied verbatim from `set("short")`, the `@LONG` block
+of `set("long")` (hard line breaks kept; the UI rewraps) and the static `set("exits")`. `id` is
+`es2:<path without .c>`; exit targets use the same form and may name rooms that are not migrated.
+`tools/tests/test_room_data.py` checks the text against `reference/es2/`.
+
+## regions, maps
+
+`regions`: `{id, name}`. `maps`: `{id, region, scene}` — one Godot scene the player walks in.
+
+## zones
+
+`{id, map, rooms}` — a walkable part of a map made of one or more rooms. The **first room is the
+primary room**: its `short` is the zone's title and its `long` is what the player reads on entering.
+A zone's combat location is its ID. Two zones are neighbours when a room of one has an exit into a
+room of the other; Snow's zone tracking only accepts moves between neighbours.
+
+## portals
+
+`{id, from_zone, to_zone, to_spawn, legacy_room, legacy_command}` — a way from a zone to a spawn
+marker in another zone, same map or not; the maps follow from the zones. `legacy_command` is the
+ES2 command it stands for (`"east"`, `"climb pine"`). Cross-region portals live in their source
+region's file.
+
 ## Not data yet
 
-Maps, zones, portals and landmarks (`*_world_definitions.gd`), skills and teachers
+Landmarks and the Vine (`oldpine_landmark_definitions.gd`), skills and teachers
 (`liuh_ken_definition.gd`, `snow_school_teacher.gd`), and the beast bite action stay in GDScript
-until their packages.
+until their packages. `*_world_definitions.gd` now only hold the IDs the runtime names in code.

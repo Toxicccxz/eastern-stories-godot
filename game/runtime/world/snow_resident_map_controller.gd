@@ -88,7 +88,7 @@ func spawn_matches_zone(id: StringName, zone_id: StringName) -> bool:
 
 
 func location_for_zone(id: StringName) -> WorldLocationState:
-	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(id)
+	var zone: ZoneDefinition = GameContent.catalog().zone(id)
 	if zone == null or zone.map_id != map_id():
 		return null
 	return WorldLocationState.new(SnowWorldDefinitions.REGION_ID, map_id(), zone.zone_id, zone.combat_location_id)
@@ -169,7 +169,7 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 		return false
 	if current.zone_id == zone.zone_id:
 		return true
-	if not SnowWorldDefinitions.route_neighbours(current.zone_id, zone.zone_id):
+	if not GameContent.catalog().zones_adjacent(current.zone_id, zone.zone_id):
 		return false
 	return _player.set_world_location(location_for_zone(zone.zone_id))
 

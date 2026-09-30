@@ -1,23 +1,16 @@
 class_name PortalDefinition
 extends RefCounted
 
-enum InteractionKind {
-	INVALID,
-	CLIMB,
-	TRAVERSE,
-}
-
+## A way from one zone to a spawn marker in another zone, on the same map or a
+## different one. The maps follow from the zones.
 var _portal_id: StringName
 var _source_map_id: StringName
 var _source_zone_id: StringName
 var _destination_map_id: StringName
 var _destination_zone_id: StringName
 var _destination_spawn_point_id: StringName
-var _interaction_kind: int
-var _policy_id: StringName
-var _legacy_source_path: String
-var _legacy_action_verb: StringName
-var _legacy_action_argument: StringName
+var _legacy_room_id: StringName
+var _legacy_command: String
 
 var portal_id: StringName:
 	get:
@@ -37,21 +30,14 @@ var destination_zone_id: StringName:
 var destination_spawn_point_id: StringName:
 	get:
 		return _destination_spawn_point_id
-var interaction_kind: int:
+## The ES2 room whose exit or command this portal carries.
+var legacy_room_id: StringName:
 	get:
-		return _interaction_kind
-var policy_id: StringName:
+		return _legacy_room_id
+## The ES2 command that used it, e.g. "east" or "climb pine".
+var legacy_command: String:
 	get:
-		return _policy_id
-var legacy_source_path: String:
-	get:
-		return _legacy_source_path
-var legacy_action_verb: StringName:
-	get:
-		return _legacy_action_verb
-var legacy_action_argument: StringName:
-	get:
-		return _legacy_action_argument
+		return _legacy_command
 
 
 func _init(
@@ -61,11 +47,8 @@ func _init(
 	p_destination_map_id: StringName = &"",
 	p_destination_zone_id: StringName = &"",
 	p_destination_spawn_point_id: StringName = &"",
-	p_interaction_kind: int = InteractionKind.INVALID,
-	p_policy_id: StringName = &"",
-	p_legacy_source_path: String = "",
-	p_legacy_action_verb: StringName = &"",
-	p_legacy_action_argument: StringName = &"",
+	p_legacy_room_id: StringName = &"",
+	p_legacy_command: String = "",
 ) -> void:
 	_portal_id = p_portal_id
 	_source_map_id = p_source_map_id
@@ -73,11 +56,37 @@ func _init(
 	_destination_map_id = p_destination_map_id
 	_destination_zone_id = p_destination_zone_id
 	_destination_spawn_point_id = p_destination_spawn_point_id
-	_interaction_kind = p_interaction_kind
-	_policy_id = p_policy_id
-	_legacy_source_path = p_legacy_source_path
-	_legacy_action_verb = p_legacy_action_verb
-	_legacy_action_argument = p_legacy_action_argument
+	_legacy_room_id = p_legacy_room_id
+	_legacy_command = p_legacy_command
+
+
+static func from_record(reader: ContentRecordReader) -> PortalDefinition:
+	var definition: PortalDefinition = PortalDefinition.new(
+		StringName(reader.required_text("id")),
+		&"",
+		StringName(reader.required_text("from_zone")),
+		&"",
+		StringName(reader.required_text("to_zone")),
+		StringName(reader.required_text("to_spawn")),
+		StringName(reader.required_text("legacy_room")),
+		reader.required_text("legacy_command"),
+	)
+	reader.finish()
+	return definition
+
+
+## Copy with the maps of its source and destination zones filled in.
+func with_maps(source_map_id: StringName, destination_map_id: StringName) -> PortalDefinition:
+	return PortalDefinition.new(
+		_portal_id,
+		source_map_id,
+		_source_zone_id,
+		destination_map_id,
+		_destination_zone_id,
+		_destination_spawn_point_id,
+		_legacy_room_id,
+		_legacy_command,
+	)
 
 
 func is_valid() -> bool:
@@ -88,8 +97,6 @@ func is_valid() -> bool:
 		and not _destination_map_id.is_empty()
 		and not _destination_zone_id.is_empty()
 		and not _destination_spawn_point_id.is_empty()
-		and _interaction_kind > InteractionKind.INVALID
-		and _interaction_kind <= InteractionKind.TRAVERSE
-		and not _legacy_source_path.is_empty()
-		and not _legacy_action_verb.is_empty()
+		and not _legacy_room_id.is_empty()
+		and not _legacy_command.is_empty()
 	)
