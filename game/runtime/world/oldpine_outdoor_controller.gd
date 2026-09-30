@@ -1309,6 +1309,7 @@ func _initialize_spawns() -> bool:
 			_item_instance_scope,
 		)
 		if created.size() != spawn.quantity:
+			push_error("spawn %s could not be created; check its npc, map and zone" % spawn.spawn_id)
 			return false
 		for npc: NpcRuntimeState in created:
 			for item: ItemInstance in npc.loadout_items():

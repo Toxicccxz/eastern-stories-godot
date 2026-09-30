@@ -38,8 +38,10 @@ static func load_catalog(
 	errors: Array[String],
 ) -> ContentCatalog:
 	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
-	var manifest: Variant = _read_json(manifest_path, builder)
-	var files: Variant = manifest.get("files") if manifest is Dictionary else null
+	var manifest: Array = _read_json(manifest_path, builder)
+	var files: Variant = null
+	if not manifest.is_empty() and manifest[0] is Dictionary:
+		files = manifest[0].get("files")
 	if not files is Array or files.is_empty():
 		builder.report("%s: expected a non-empty `files` array" % manifest_path)
 		files = []
@@ -47,20 +49,22 @@ static func load_catalog(
 		if not file is String or file.is_empty():
 			builder.report("%s: `files` entries must be non-empty strings" % manifest_path)
 			continue
-		var document: Variant = _read_json(data_root.path_join(file), builder)
-		if document != null:
-			builder.add_document(document, file)
+		var document: Array = _read_json(data_root.path_join(file), builder)
+		if not document.is_empty():
+			builder.add_document(document[0], file)
 	var result: ContentCatalog = builder.build()
 	errors.append_array(builder.errors())
 	return result
 
 
-static func _read_json(path: String, builder: ContentCatalogBuilder) -> Variant:
+## One-element array holding the parsed document, or empty after reporting why
+## the file could not be read (a document may itself be JSON null).
+static func _read_json(path: String, builder: ContentCatalogBuilder) -> Array:
 	if not FileAccess.file_exists(path):
 		builder.report("%s: file not found" % path)
-		return null
+		return []
 	var parser: JSON = JSON.new()
 	if parser.parse(FileAccess.get_file_as_string(path)) != OK:
 		builder.report("%s:%d: %s" % [path, parser.get_error_line(), parser.get_error_message()])
-		return null
-	return parser.data
+		return []
+	return [parser.data]

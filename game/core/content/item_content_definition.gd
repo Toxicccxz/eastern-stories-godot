@@ -129,6 +129,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	var liquid: ContentRecordReader = reader.child("liquid")
 	if liquid != null:
 		definition._read_liquid(liquid)
+	# The food rules (hockshop value, save validation) assume a plain item.
+	if food != null and (weapon != null or armor != null or money != null):
+		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")
 	reader.finish()
 	return definition
 

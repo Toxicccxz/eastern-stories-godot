@@ -4,8 +4,6 @@ extends RefCounted
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `vendors` arrays.
 ## build() returns null when anything was reported; errors() says what.
-const DOCUMENT_KEYS: Array[String] = ["items", "npcs", "spawns", "vendors"]
-
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
 var _npcs: Dictionary[StringName, NpcDefinition] = {}
@@ -53,7 +51,13 @@ func build() -> ContentCatalog:
 	_check_vendors()
 	if not _errors.is_empty():
 		return null
-	return ContentCatalog.new(_items, _npcs, _spawns, _vendors)
+	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
+	# Backstop for role combinations the item rules cannot represent; saves
+	# validate against these projections.
+	if not catalog.native_item_projections().is_valid:
+		_errors.append("items: item roles are inconsistent (NativeItemDefinitionProjections)")
+		return null
+	return catalog
 
 
 ## IDs are unique across every kind, so one ID never means two things.
@@ -82,6 +86,10 @@ func _check_money() -> void:
 				origin, definition.money_id, seen[definition.money_id],
 			])
 		seen[definition.money_id] = definition.item_definition_id
+	# feature/finance.c pays in gold, silver and coin; all three must exist.
+	for money_id: StringName in ContentCatalog.MONEY_DENOMINATIONS:
+		if not seen.has(money_id):
+			_errors.append("items: no money item with money_id '%s'" % money_id)
 
 
 func _check_npc_loadouts() -> void:

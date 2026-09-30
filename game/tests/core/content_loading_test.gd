@@ -89,9 +89,10 @@ func _test_item_record_errors() -> void:
 		"t.items[0].food: remaining and supply must be positive",
 		"t.items[0].liquid.type: unsupported liquid type 'oil'",
 		"t.items[0].liquid: max_liquid must be positive and remaining within it",
+		"t.items[0].food: food that is also a weapon, armor or money is not supported yet",
 	]:
 		_eq(errors.has(expected), true, "reports: " + expected)
-	_eq(errors.size(), 8, "and nothing else: %s" % str(errors))
+	_eq(errors.size(), 9, "and nothing else: %s" % str(errors))
 
 
 func _test_npc_and_spawn_records() -> void:
@@ -156,6 +157,8 @@ func _test_cross_reference_checks() -> void:
 		"t.rooms: unknown field",
 		"t.items[3].money.money_id: 'coin' is already t:coin",
 		"t.items[4].money.money_id: unsupported money 'shell'",
+		"items: no money item with money_id 'silver'",
+		"items: no money item with money_id 'gold'",
 		"t.npcs[0].carry[0].item: unknown item 't:missing'",
 		"t.npcs[0].carry[1].equip: 't:coin' is not a weapon",
 		"t.npcs[0].carry[2].equip: 't:sword' is not armor",
@@ -165,7 +168,8 @@ func _test_cross_reference_checks() -> void:
 	], "cross references are checked")
 	var not_object: ContentCatalogBuilder = ContentCatalogBuilder.new()
 	not_object.add_document([], "list.json")
-	_eq(not_object.errors(), ["list.json: expected a JSON object"], "a document must be an object")
+	not_object.add_document(null, "null.json")
+	_eq(not_object.errors(), ["list.json: expected a JSON object", "null.json: expected a JSON object"], "a document must be an object")
 
 
 func _test_missing_files_fail_closed() -> void:

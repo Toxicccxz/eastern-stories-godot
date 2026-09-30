@@ -481,6 +481,8 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 		coordinator.advance_scheduler(100)
 		_assert_eq(map.corpse_states().size(), 1, "later scheduler request creates no second corpse")
 		_assert_eq(map.last_lifecycle_results().size(), 1, "completed Player lifecycle is never replayed")
+		var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-30T00:00:00Z")
+		_assert_true(capture.snapshot != null, "a corpse wearing the source cloth passes save validation: %s %s" % [capture.path, capture.detail])
 	session.free()
 	await tree.process_frame
 
