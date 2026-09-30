@@ -1746,6 +1746,9 @@ func _init() -> void:
 	var revival_result: Dictionary = await load("res://tests/runtime/player_death_revival_test.gd").new().run_all(self)
 	assertion_count += int(revival_result["assertions"])
 	failures.append_array(revival_result["failures"])
+	var spawn_baseline_result: Dictionary = await load("res://tests/runtime/oldpine_spawn_baseline_test.gd").new().run_all(self)
+	assertion_count += int(spawn_baseline_result["assertions"])
+	failures.append_array(spawn_baseline_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)
