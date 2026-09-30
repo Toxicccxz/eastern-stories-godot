@@ -28,9 +28,9 @@ func input_test() -> bool:
 		check(SnowBankExchangePanel.positive_amount(text) == -1, "strict quantity rejects " + text)
 	for row: Array in [["1",1], ["0002",2], ["9223372036854775807",9223372036854775807]]:
 		check(SnowBankExchangePanel.positive_amount(row[0]) == row[1], "exact integer " + row[0])
-	check(SnowWorldDefinitions.route_neighbours(&"snow.mstreet1", &"snow.bank") and SnowWorldDefinitions.route_neighbours(&"snow.bank", &"snow.mstreet1"), "source two-way bank east")
-	check(not SnowWorldDefinitions.route_neighbours(&"snow.bank", &"snow.square"), "no bank-square shortcut")
-	check(SnowWorldDefinitions.zone_by_id(&"snow.bank").map_id == &"snow.outdoor", "same map")
+	check(GameContent.catalog().zones_adjacent(&"snow.mstreet1", &"snow.bank") and GameContent.catalog().zones_adjacent(&"snow.bank", &"snow.mstreet1"), "source two-way bank east")
+	check(not GameContent.catalog().zones_adjacent(&"snow.bank", &"snow.square"), "no bank-square shortcut")
+	check(GameContent.catalog().zone(&"snow.bank").map_id == &"snow.outdoor", "same map")
 	return true
 
 

@@ -19,7 +19,7 @@ func _ready() -> void:
 		push_error("NGE2 QA birth failed")
 		return
 	player = NewPlayerRuntimeComposition.create(PLAYER_ID, birth.player, SnowWorldDefinitions.birth_location())
-	var scene: PackedScene = load(SnowWorldDefinitions.INN_SCENE)
+	var scene: PackedScene = load(GameContent.catalog().map(SnowWorldDefinitions.INN_MAP_ID).scene_path)
 	inn = scene.instantiate() as SnowInnController
 	if not inn.configure_world_authorities(player, birth.inventory, birth.stacks, birth.item_index,
 		npc_random, combat_random, world_random, allocator, gate):

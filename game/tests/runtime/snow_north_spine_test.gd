@@ -21,24 +21,30 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 17, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones and the revival temple")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 17, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones and the revival temple")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
-		var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(id)
+		var zone: ZoneDefinition = GameContent.catalog().zone(id)
 		check(zone != null and zone.is_valid() and zone.map_id == &"snow.outdoor" and zone.combat_location_id == id, "separate typed identity " + String(id))
-		check(zone.legacy_room_ids() == ["/d/snow/" + String(id).get_slice(".", 1)], "exact LPC path " + String(id))
+		check(zone.room_ids() == [StringName("es2:d/snow/" + String(id).get_slice(".", 1))], "exact LPC path " + String(id))
 	for i: int in range(spine.size()):
 		for j: int in range(spine.size()):
-			check(SnowWorldDefinitions.route_neighbours(spine[i], spine[j]) == (absi(i-j) == 1), "ordered bidirectional adjacency without shortcut " + str([i,j]))
-	var exits: Dictionary[String, String] = SnowWorldDefinitions.authored_outdoor_exits()
-	for row: Array in [["mstreet3:east","/d/snow/hockshop"], ["mstreet3:west","/d/snow/herbshop"], ["mstreet4:west","/d/snow/postoffice"], ["crossroad:north","/d/goathill/mroad1"], ["crossroad:east","/d/green/path6"]]:
-		check(exits.get(row[0]) == row[1], "source exit metadata " + row[0])
-	check(not exits.has("mstreet4:east"), "mstreet4.c exits mapping overrides contradictory east prose")
+			check(GameContent.catalog().zones_adjacent(spine[i], spine[j]) == (absi(i-j) == 1), "ordered bidirectional adjacency without shortcut " + str([i,j]))
+	for row: Array in [["mstreet3", "east", &"es2:d/snow/hockshop"], ["mstreet3", "west", &"es2:d/snow/herbshop"], ["mstreet4", "west", &"es2:d/snow/postoffice"], ["crossroad", "north", &"es2:d/goathill/mroad1"], ["crossroad", "east", &"es2:d/green/path6"]]:
+		check(GameContent.catalog().room(StringName("es2:d/snow/" + row[0])).exits().get(row[1]) == row[2], "source exit metadata %s:%s" % [row[0], row[1]])
+	check(not GameContent.catalog().room(&"es2:d/snow/mstreet4").exits().has("east"), "mstreet4.c exits mapping overrides contradictory east prose")
 	for deferred: StringName in [&"snow.hockshop2", &"snow.herbshop", &"snow.postoffice", &"snow.alley", &"green.path6", &"goathill.mroad1", &"snow.school", &"snow.smithy"]:
-		check(SnowWorldDefinitions.zone_by_id(deferred) == null and SnowWorldDefinitions.portal_by_id(deferred) == null, "no executable deferred identity " + String(deferred))
+		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
-			check(not SnowWorldDefinitions.route_neighbours(id, deferred), "no deferred neighbor")
-	check(SnowWorldDefinitions.outdoor_map().portal_ids() == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID], "no external portal additions")
+			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
+	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID], "no external portal additions")
+
+
+func _portal_ids(map_id: StringName) -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for portal: PortalDefinition in GameContent.catalog().portals_for_map(map_id):
+		ids.append(portal.portal_id)
+	return ids
 
 
 func physical_tests(tree: SceneTree) -> void:

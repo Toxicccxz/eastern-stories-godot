@@ -103,7 +103,7 @@ func traverse(
 	hud.append_log_lines([branch_text])
 	result._branch_presentation_reached = true
 	result._reached_stage = OldPineVineTraversalResult.ReachedStage.BRANCH_PRESENTATION
-	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var portal: PortalDefinition = GameContent.catalog().portal(
 		result._selected_portal_id
 	)
 	result._reached_stage = OldPineVineTraversalResult.ReachedStage.MOVEMENT
@@ -137,7 +137,7 @@ func traverse(
 		if portal == null:
 			result._outcome = OldPineVineTraversalResult.Outcome.MAP_HANDOFF_FAILED
 			return result
-		var destination_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+		var destination_zone: ZoneDefinition = GameContent.catalog().zone(
 			portal.destination_zone_id
 		)
 		if destination_zone == null:

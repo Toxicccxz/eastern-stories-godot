@@ -15,7 +15,7 @@ func _run() -> void:
 	var repository := SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
 		var session := Recovery.create_session(self,Recovery.RandomSequence.new())
-		var gate := SnowWorldDefinitions.portal_by_id(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+		var gate := GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		check(session.handoff_to(gate.destination_map_id,gate.destination_zone_id,gate.destination_zone_id,gate.destination_spawn_point_id).succeeded(),"fixture outdoor")
 		var map := session.active_map() as SnowOutdoorController
 		# Serializer fixture only; physical/live routes have separate real-input proof.

@@ -47,7 +47,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_authored_landmark_and_portal_data() -> void:
-	_assert_true(OldPineWorldDefinitions.validate(), "Old Pine world data remains coherent")
+	_assert_true(GameContent.load_errors().is_empty(), "Old Pine world data remains coherent")
 	_assert_true(OldPineLandmarkDefinitions.validate(), "landmark references resolve")
 	var pine: WorldLandmarkDefinition = (
 		OldPineLandmarkDefinitions.definition_by_id(
@@ -63,7 +63,7 @@ func _test_authored_landmark_and_portal_data() -> void:
 		"pine inspect text traces clearing.c item_desc",
 	)
 	_assert_eq(pine.legacy_source_path, "d/oldpine/clearing.c", "pine source metadata")
-	var climb: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var climb: PortalDefinition = GameContent.catalog().portal(
 		pine.portal_id
 	)
 	_assert_eq(climb.destination_zone_id, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, "climb destination zone")
@@ -83,13 +83,12 @@ func _test_authored_landmark_and_portal_data() -> void:
 	_assert_eq(descent.action_label, "Descend", "tree1 authored action label")
 	_assert_eq(descent.portal_id, OldPineWorldDefinitions.DESCEND_TREE1_PORTAL_ID, "tree1 descent resolves return portal")
 	_assert_eq(descent.legacy_source_path, "d/oldpine/tree1.c", "tree1 descent source metadata")
-	var return_portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var return_portal: PortalDefinition = GameContent.catalog().portal(
 		descent.portal_id
 	)
 	_assert_eq(return_portal.source_zone_id, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, "return source is exact tree1 canopy zone")
 	_assert_eq(return_portal.destination_zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "return destination is exact clearing zone")
 	_assert_eq(return_portal.destination_spawn_point_id, OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID, "return resolves exact pine landing")
-	_assert_eq(return_portal.policy_id, &"", "tree1 return has no invented policy")
 	var target: WorldInteractionTarget = WorldInteractionTarget.landmark(pine.landmark_id)
 	_assert_true(target.is_valid(), "typed landmark target is valid")
 	_assert_eq(target.kind, WorldInteractionTarget.Kind.LANDMARK, "landmark target kind is closed")
@@ -351,7 +350,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var wrong_map: WorldPortalTraversalResult = direct_adapter.traverse(
 		controller.player_runtime(),
 		controller.player_body,
-		OldPineWorldDefinitions.portal_by_id(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
+		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
 		controller._location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
 	)
@@ -361,7 +360,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var missing_marker: WorldPortalTraversalResult = direct_adapter.traverse(
 		controller.player_runtime(),
 		controller.player_body,
-		OldPineWorldDefinitions.portal_by_id(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
+		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		null,
 		WorldLocationState.new(
 			OldPineWorldDefinitions.REGION_ID,
@@ -377,7 +376,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var wrong_marker: WorldPortalTraversalResult = direct_adapter.traverse(
 		controller.player_runtime(),
 		controller.player_body,
-		OldPineWorldDefinitions.portal_by_id(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
+		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		controller.get_node("SpawnPoints/ClearingPineLanding") as WorldSpawnMarker2D,
 		controller._location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
 	)
@@ -386,7 +385,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var incoherent_destination: WorldPortalTraversalResult = direct_adapter.traverse(
 		controller.player_runtime(),
 		controller.player_body,
-		OldPineWorldDefinitions.portal_by_id(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
+		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
 		WorldLocationState.new(
 			OldPineWorldDefinitions.REGION_ID,
@@ -405,7 +404,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var wrong_region_destination: WorldPortalTraversalResult = direct_adapter.traverse(
 		controller.player_runtime(),
 		controller.player_body,
-		OldPineWorldDefinitions.portal_by_id(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
+		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
 		WorldLocationState.new(
 			&"audit.wrong-region",
@@ -433,7 +432,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	var partial: WorldPortalTraversalResult = direct_adapter.traverse(
 		rejecting_player,
 		controller.player_body,
-		OldPineWorldDefinitions.portal_by_id(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
+		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
 		controller._location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
 	)

@@ -377,6 +377,9 @@ var _food: HeldFoodPanel
 var _liquid: HeldLiquidPanel
 var _supplies: VBoxContainer
 var _elapsed: float = 0.0
+## Zone whose description was last written to the log; entering another zone
+## writes the new one, as ES2 printed a room on arrival.
+var _described_zone_id: StringName = &""
 var _business_feedback: String = ""
 
 
@@ -417,12 +420,16 @@ func _process(delta: float) -> void:
 			_presentation_layout.close_panel()
 		return
 	var current: WorldResidentMapController = _session.active_map()
+	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
 		_presentation_layout.close_panel()
 		set_selected_target(null)
 		_bound_map = current
+		_elapsed = INF
 	var available: bool = not _session.is_restore_candidate_staged() and not _session.is_session_swap_suspended() and _session.can_process() and _session.application_gameplay_allows_encounter_advance()
 	var fighting: bool = _session.combat_encounter_coordinator().has_active_encounter()
+	if not visible and available and not fighting:
+		_elapsed = INF
 	visible = available and not fighting
 	if not visible:
 		_presentation_layout.close_panel()
@@ -467,16 +474,39 @@ func refresh_exploration() -> void:
 	if _presentation_layout.character.is_visible_in_tree():
 		_refresh_character()
 	_collect_feedback()
+	_describe_new_zone()
 	_presentation_layout.recent.visible = not _presentation_layout.recent.text.is_empty()
-	_presentation_layout.bar.size.y = 0
+	_presentation_layout.fit_bar()
+
+
+func current_zone() -> ZoneDefinition:
+	return null if _player == null else GameContent.catalog().zone(_player.world_location().zone_id)
 
 
 func location_name() -> String:
-	var location: WorldLocationState = _player.world_location()
-	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(location.zone_id)
-	if zone == null:
-		zone = OldPineWorldDefinitions.zone_by_id(location.zone_id)
-	return String(location.map_id) if zone == null else zone.display_name
+	var zone: ZoneDefinition = current_zone()
+	return "" if zone == null else zone.display_name
+
+
+## ES2 room text keeps the MUD's hard line breaks; the UI wraps it itself.
+static func room_prose(text: String) -> String:
+	return text.strip_edges().replace("\n", "")
+
+
+func _describe_new_zone() -> void:
+	var zone: ZoneDefinition = current_zone()
+	if zone == null or zone.zone_id == _described_zone_id:
+		return
+	_described_zone_id = zone.zone_id
+	append_log_lines([tr("【%s】%s") % [zone.display_name, room_prose(zone.description)]])
+
+
+func open_look() -> void:
+	var zone: ZoneDefinition = current_zone()
+	if zone == null or not _session.portable_inventory_available():
+		return
+	_presentation_layout.room.text = room_prose(zone.description)
+	_presentation_layout.open_panel(zone.display_name, _presentation_layout.room)
 
 
 func context_title() -> String:

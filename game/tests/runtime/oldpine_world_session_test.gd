@@ -334,15 +334,15 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(unknown_map.outcome, OldPineMapHandoffResult.Outcome.UNKNOWN_DESTINATION_MAP, "unknown destination map is rejected")
 	var wrong_zone: OldPineMapHandoffResult = session.handoff_to(
 		OldPineWorldDefinitions.CAVE_MAP_ID,
-		OldPineWorldDefinitions.SECRET_PASSAGE_ZONE_ID,
-		OldPineWorldDefinitions.SECRET_PASSAGE_ZONE_ID,
+		&"oldpine.cave.secret_passage",
+		&"oldpine.cave.secret_passage",
 		CAVE_VINE_LANDING,
 	)
 	_assert_eq(wrong_zone.outcome, OldPineMapHandoffResult.Outcome.DESTINATION_LOCATION_INVALID, "unimplemented Cave zone is rejected even with internally matching IDs")
 	var wrong_combat: OldPineMapHandoffResult = session.handoff_to(
 		OldPineWorldDefinitions.CAVE_MAP_ID,
 		OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID,
-		OldPineWorldDefinitions.SECRET_PASSAGE_ZONE_ID,
+		&"oldpine.cave.secret_passage",
 		CAVE_VINE_LANDING,
 	)
 	_assert_eq(wrong_combat.outcome, OldPineMapHandoffResult.Outcome.DESTINATION_LOCATION_INVALID, "wrong combat-location ID is rejected")

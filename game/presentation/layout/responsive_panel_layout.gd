@@ -108,7 +108,8 @@ func _layout() -> void:
 	var width: float = minf(_preferred_width, _available.size.x) if _centered else _available.size.x
 	var height: float = _available.size.y
 	if _centered:
-		height = minf(height, content.get_combined_minimum_size().y + 16.0)
+		var margins: float = panel.get_theme_stylebox("panel").get_minimum_size().y
+		height = minf(height, content.get_combined_minimum_size().y + margins)
 	panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	panel.position = _available.position + (_available.size - Vector2(width, height)) / 2.0 if _centered else _available.position
 	panel.size = Vector2(width, height)

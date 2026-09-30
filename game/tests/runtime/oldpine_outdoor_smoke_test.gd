@@ -432,7 +432,7 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 	_test_existing_oldpine_death_facts(map, index)
 
 	# Typed integration setup, not physical-route or live acceptance evidence.
-	var portal: PortalDefinition = SnowOldPineConnectionDefinitions.to_oldpine()
+	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	_assert_true(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "source Session enters production death host")
 	var npc: NpcRuntimeState = map.npc_runtimes()[0]
 	_assert_true(npc.set_world_location(player.world_location()), "death fixture aligns encounter participants")

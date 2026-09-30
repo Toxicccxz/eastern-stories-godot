@@ -43,9 +43,6 @@ func traverse(
 	):
 		result._outcome = WorldPortalTraversalResult.Outcome.SOURCE_LOCATION_MISMATCH
 		return result
-	if not portal.policy_id.is_empty():
-		result._outcome = WorldPortalTraversalResult.Outcome.UNSUPPORTED_POLICY
-		return result
 	if (
 		destination_marker == null
 		or not destination_marker.is_configured()
@@ -86,7 +83,7 @@ func _destination_combat_location_matches(
 	portal: PortalDefinition,
 	destination_location: WorldLocationState,
 ) -> bool:
-	var destination_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	var destination_zone: ZoneDefinition = GameContent.catalog().zone(
 		portal.destination_zone_id
 	)
 	return (

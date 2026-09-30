@@ -96,7 +96,7 @@ static func validate() -> bool:
 			definition == null
 			or not definition.is_valid()
 			or seen.has(definition.landmark_id)
-			or OldPineWorldDefinitions.portal_by_id(definition.portal_id) == null
+			or GameContent.catalog().portal(definition.portal_id) == null
 		):
 			return false
 		seen[definition.landmark_id] = true
@@ -104,6 +104,6 @@ static func validate() -> bool:
 	return (
 		vine.is_valid()
 		and not seen.has(vine.interaction_id)
-		and OldPineWorldDefinitions.portal_by_id(vine.waterfall_portal_id) != null
-		and OldPineWorldDefinitions.portal_by_id(vine.passage_portal_id) != null
+		and GameContent.catalog().portal(vine.waterfall_portal_id) != null
+		and GameContent.catalog().portal(vine.passage_portal_id) != null
 	)

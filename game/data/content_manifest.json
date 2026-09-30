@@ -4,6 +4,10 @@
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",
-		"snow/vendors.json"
+		"snow/vendors.json",
+		"snow/rooms.json",
+		"snow/world.json",
+		"oldpine/rooms.json",
+		"oldpine/world.json"
 	]
 }

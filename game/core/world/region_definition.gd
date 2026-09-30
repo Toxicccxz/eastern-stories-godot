@@ -3,7 +3,6 @@ extends RefCounted
 
 var _region_id: StringName
 var _display_name: String
-var _legacy_source_roots: Array[String] = []
 
 var region_id: StringName:
 	get:
@@ -13,18 +12,18 @@ var display_name: String:
 		return _display_name
 
 
-func _init(
-	p_region_id: StringName = &"",
-	p_display_name: String = "",
-	p_legacy_source_roots: Array[String] = [],
-) -> void:
+func _init(p_region_id: StringName = &"", p_display_name: String = "") -> void:
 	_region_id = p_region_id
 	_display_name = p_display_name
-	_legacy_source_roots = p_legacy_source_roots.duplicate()
 
 
-func legacy_source_roots() -> Array[String]:
-	return _legacy_source_roots.duplicate()
+static func from_record(reader: ContentRecordReader) -> RegionDefinition:
+	var definition: RegionDefinition = RegionDefinition.new(
+		StringName(reader.required_text("id")),
+		reader.required_text("name"),
+	)
+	reader.finish()
+	return definition
 
 
 func is_valid() -> bool:

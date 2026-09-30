@@ -248,10 +248,10 @@ func _test_restored_inactive_map_becomes_playable_on_handoff(
 	tree.root.add_child(host)
 	await tree.process_frame
 	var source: OldPineWorldSessionController = host.current_session()
-	var passage: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var passage: PortalDefinition = GameContent.catalog().portal(
 		OldPineWorldDefinitions.VINE_PASSAGE_PORTAL_ID
 	)
-	var passage_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	var passage_zone: ZoneDefinition = GameContent.catalog().zone(
 		passage.destination_zone_id
 	)
 	var enter_cave: OldPineMapHandoffResult = source.handoff_to(

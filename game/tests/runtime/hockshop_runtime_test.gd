@@ -29,10 +29,10 @@ func physical_tests(tree: SceneTree) -> void:
 	var authorities: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence()]
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() + 1 == 18, "18 Snow zones including Inn, P2 school and the revival temple")
-	check(SnowWorldDefinitions.zone_by_id(&"snow.hockshop").legacy_room_ids() == ["/d/snow/hockshop"], "source metadata")
-	check(SnowWorldDefinitions.route_neighbours(&"snow.hockshop", &"snow.mstreet3") and SnowWorldDefinitions.route_neighbours(&"snow.mstreet3", &"snow.hockshop"), "two-way local neighbor")
-	check(SnowWorldDefinitions.zone_by_id(&"snow.hockshop2") == null and SnowWorldDefinitions.portal_by_id(&"snow.hockshop2") == null and not SnowWorldDefinitions.route_neighbours(&"snow.hockshop", &"snow.hockshop2"), "back room remains absent")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() + 1 == 18, "18 Snow zones including Inn, P2 school and the revival temple")
+	check(GameContent.catalog().zone(&"snow.hockshop").room_ids() == [&"es2:d/snow/hockshop"], "source metadata")
+	check(GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.mstreet3") and GameContent.catalog().zones_adjacent(&"snow.mstreet3", &"snow.hockshop"), "two-way local neighbor")
+	check(GameContent.catalog().zone(&"snow.hockshop2") == null and GameContent.catalog().portal(&"snow.hockshop2") == null and not GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.hockshop2"), "back room remains absent")
 	check(not ui.door_is_open() and not ui.open_door() and not ui.can_trade(), "fresh closed / no remote interaction in Inn")
 	await tree.physics_frame
 	await walk.walk(tree, session, "move_right", 125)

@@ -5,12 +5,6 @@ const PLAYER_ID: StringName = &"oldpine.player"
 ## Retained internal Old Pine/CXR regression bootstrap, not public New Game
 ## or an LPC formula. SOURCE_ENTRY and RESTORE never enter this initializer.
 const NEW_GAME_COMBAT_EXPERIENCE: int = 600
-const OUTDOOR_SCENE: PackedScene = preload(
-	"res://scenes/world/oldpine/oldpine_outdoor.tscn"
-)
-const CAVE_SCENE: PackedScene = preload(
-	"res://scenes/world/oldpine/oldpine_cave.tscn"
-)
 const WorldPlayerRuntimeType := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
@@ -197,10 +191,10 @@ func initialize_session() -> bool:
 		_world_simulation_gate,
 	)
 	var cave: OldPineResidentMapController = (
-		CAVE_SCENE.instantiate() as OldPineResidentMapController
+		_instantiate_map(OldPineWorldDefinitions.CAVE_MAP_ID) as OldPineResidentMapController
 	)
 	var outdoor: OldPineResidentMapController = (
-		OUTDOOR_SCENE.instantiate() as OldPineResidentMapController
+		_instantiate_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID) as OldPineResidentMapController
 	)
 	if cave == null or outdoor == null:
 		return false
@@ -515,7 +509,7 @@ func configure_world_interaction_random_source(
 
 
 func request_passage_south_exit() -> OldPineMapHandoffResult:
-	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var portal: PortalDefinition = GameContent.catalog().portal(
 		OldPineWorldDefinitions.PASSAGE_SOUTH_PORTAL_ID
 	)
 	var result: OldPineMapHandoffResult = OldPineMapHandoffResult.new()
@@ -524,10 +518,10 @@ func request_passage_south_exit() -> OldPineMapHandoffResult:
 		return result
 	if portal == null:
 		return result
-	var source_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	var source_zone: ZoneDefinition = GameContent.catalog().zone(
 		portal.source_zone_id
 	)
-	var destination_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	var destination_zone: ZoneDefinition = GameContent.catalog().zone(
 		portal.destination_zone_id
 	)
 	if source_zone == null or destination_zone == null:
@@ -637,7 +631,7 @@ func _initialize_authorities() -> bool:
 	_stacks = CombinedStackCollection.new()
 	_item_index = WorldItemInstanceIndex.new()
 	var prototype: CombatSliceCharacterBinding = CombatSliceDemoFactory.create_player()
-	var start_zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(
+	var start_zone: ZoneDefinition = GameContent.catalog().zone(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
 	)
 	if prototype == null or start_zone == null:
@@ -744,9 +738,15 @@ func _initialize_source_residents(
 	return _reconcile_active_residents() and _initialize_player_recovery()
 
 
+func _instantiate_map(map_id: StringName) -> Node:
+	var map: MapDefinition = GameContent.catalog().map(map_id)
+	var scene: PackedScene = null if map == null else load(map.scene_path) as PackedScene
+	return null if scene == null else scene.instantiate()
+
+
 func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
-	var inn: SnowInnController = (load(SnowWorldDefinitions.INN_SCENE) as PackedScene).instantiate() as SnowInnController
-	var snow: SnowOutdoorController = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
+	var inn: SnowInnController = _instantiate_map(SnowWorldDefinitions.INN_MAP_ID) as SnowInnController
+	var snow: SnowOutdoorController = _instantiate_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as SnowOutdoorController
 	snow.configure_hockshop(self)
 	snow.configure_school(self)
 	for map: WorldResidentMapController in [inn, snow]:
@@ -754,7 +754,7 @@ func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
 			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate, _foods, _liquids) or not register_resident_map(map):
 			return false
 		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
-	if not snow.configure_passage(SnowOldPineConnectionDefinitions.to_oldpine()) or not outdoor.configure_passage(SnowOldPineConnectionDefinitions.to_snow()):
+	if not snow.configure_passage(GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)) or not outdoor.configure_passage(GameContent.catalog().portal(SnowOldPineConnectionDefinitions.NORTH_PORTAL_ID)):
 		return false
 	return true
 
@@ -1032,12 +1032,13 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 func place_name(location: WorldLocationState) -> String:
 	if location == null:
 		return ""
-	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(location.zone_id)
-	var region: String = "雪亭镇"
-	if zone == null:
-		zone = OldPineWorldDefinitions.zone_by_id(location.zone_id)
-		region = OldPineWorldDefinitions.region_definition().display_name
-	return String(location.zone_id) if zone == null else "%s · %s" % [region, zone.display_name]
+	var catalog: ContentCatalog = GameContent.catalog()
+	var zone: ZoneDefinition = catalog.zone(location.zone_id)
+	var map: MapDefinition = null if zone == null else catalog.map(zone.map_id)
+	var region: RegionDefinition = null if map == null else catalog.region(map.region_id)
+	if region == null:
+		return ""
+	return "%s · %s" % [region.display_name, zone.display_name]
 
 
 ## Presentation convenience: show the next white-gargoyle line now.

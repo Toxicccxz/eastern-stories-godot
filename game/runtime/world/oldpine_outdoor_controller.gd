@@ -457,7 +457,7 @@ func resolve_location(
 	zone_id: StringName,
 	combat_location_id: StringName,
 ) -> WorldLocationState:
-	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	if (
 		zone == null
 		or zone.map_id != map_id()
@@ -468,7 +468,7 @@ func resolve_location(
 
 
 func location_for_zone(zone_id: StringName) -> WorldLocationState:
-	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	return null if zone == null else resolve_location(zone_id, zone.combat_location_id)
 
 
@@ -953,7 +953,7 @@ func traverse_selected_portal() -> WorldPortalTraversalResult:
 	)
 	if landmark == null:
 		return WorldPortalTraversalResult.new()
-	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var portal: PortalDefinition = GameContent.catalog().portal(
 		landmark.portal_id
 	)
 	if (
@@ -1568,7 +1568,7 @@ func _has_current_zone_contact(body: WorldCharacterBodyType, area: Area2D) -> bo
 
 
 func _location_for_zone(zone_id: StringName) -> WorldLocationState:
-	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(zone_id)
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	if zone == null:
 		return null
 	return WorldLocationState.new(
@@ -1800,7 +1800,7 @@ func _current_location_allows_combat() -> bool:
 func _landmark_source_is_current(landmark: WorldLandmarkDefinition) -> bool:
 	if landmark == null or _player == null:
 		return false
-	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var portal: PortalDefinition = GameContent.catalog().portal(
 		landmark.portal_id
 	)
 	var location: WorldLocationState = _player.world_location()
@@ -2024,7 +2024,7 @@ func _on_cliff_ledge_body_entered(body: Node2D) -> void:
 func _on_cliffside_pine_exit_body_entered(body: Node2D) -> void:
 	if body != player_body or not _world_gameplay_is_open():
 		return
-	var portal: PortalDefinition = OldPineWorldDefinitions.portal_by_id(
+	var portal: PortalDefinition = GameContent.catalog().portal(
 		OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID
 	)
 	var marker: WorldSpawnMarkerType = (

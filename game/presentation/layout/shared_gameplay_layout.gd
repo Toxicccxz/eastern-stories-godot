@@ -17,6 +17,8 @@ var mount: VBoxContainer
 var holding: Control
 var details: VBoxContainer
 var character: Label
+## The current zone's authored ES2 description, opened by Look.
+var room: Label
 var character_button: Button
 var close_button: Button
 var _frame_layout: ResponsivePanelLayout
@@ -25,6 +27,8 @@ var _content: Control
 var _return_parent: Node
 var _valid: Callable
 var _bar_rows: VBoxContainer
+var _bar_scroll: ScrollContainer
+var _bar_area: Rect2
 
 
 func build(owner_ui: SharedGameplayUI) -> void:
@@ -42,8 +46,15 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	bar.name = "ExplorationHUD"
 	overlay.add_child(bar)
 	_style(bar)
+	# Small screens scroll the HUD instead of letting it leave the safe area.
+	_bar_scroll = ScrollContainer.new()
+	_bar_scroll.name = "Rows"
+	_bar_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_bar_scroll.follow_focus = true
+	bar.add_child(_bar_scroll)
 	_bar_rows = VBoxContainer.new()
-	bar.add_child(_bar_rows)
+	_bar_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_bar_scroll.add_child(_bar_rows)
 	ui.world_title = _label(_bar_rows, "Location")
 	ui.player_vitality = ProgressBar.new()
 	ui.player_vitality.custom_minimum_size.y = 6
@@ -54,21 +65,29 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	navigation.add_theme_constant_override("h_separation", 8)
 	navigation.add_theme_constant_override("v_separation", 8)
 	_bar_rows.add_child(navigation)
-	character_button = _button(navigation, "Character", "角色", ui.open_character)
-	ui.inventory_button = _button(navigation, "Inventory", "背包", Callable())
-	_button(navigation, "Supplies", "补给", ui.open_supplies)
-	_button(navigation, "Messages", "消息", ui.open_messages)
+	_button(navigation, "Look", tr("观察"), ui.open_look)
+	character_button = _button(navigation, "Character", tr("角色"), ui.open_character)
+	ui.inventory_button = _button(navigation, "Inventory", tr("背包"), Callable())
+	_button(navigation, "Supplies", tr("补给"), ui.open_supplies)
+	_button(navigation, "Messages", tr("消息"), ui.open_messages)
 	contexts = HFlowContainer.new()
 	contexts.add_theme_constant_override("h_separation", 8)
+	contexts.add_theme_constant_override("v_separation", 8)
 	_bar_rows.add_child(contexts)
-	context_button = _button(contexts, "Context", "交互", ui.open_current_context)
-	ui.inspect_button = _button(contexts, "Inspect", "查看", Callable())
-	ui.attack_button = _button(contexts, "Attack", "攻击", Callable())
-	ui.portal_button = _button(contexts, "Traverse", "通行", Callable())
-	ui.open_loot_button = _button(contexts, "Loot", "拾取", Callable())
+	context_button = _button(contexts, "Context", tr("交互"), ui.open_current_context)
+	ui.inspect_button = _button(contexts, "Inspect", tr("查看"), Callable())
+	ui.attack_button = _button(contexts, "Attack", tr("攻击"), Callable())
+	ui.portal_button = _button(contexts, "Traverse", tr("通行"), Callable())
+	ui.open_loot_button = _button(contexts, "Loot", tr("拾取"), Callable())
+	# Context controls appear only once the HUD knows what is here.
+	contexts.hide()
+	for button: Node in contexts.get_children():
+		(button as Control).hide()
 	ui.selected_target_label = _label(_bar_rows, "Target")
+	ui.selected_target_label.hide()
 	recent = _label(_bar_rows, "RecentMessage")
 	recent.max_lines_visible = 2
+	recent.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	barrier = Control.new()
 	barrier.name = "PanelInputBarrier"
 	barrier.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -106,6 +125,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.inspection_text.custom_minimum_size = Vector2(0, 180)
 	details.add_child(ui.inspection_text)
 	character = _label(holding, "CharacterDetails")
+	room = _label(holding, "RoomDescription")
 	ui.combat_log = RichTextLabel.new()
 	ui.combat_log.custom_minimum_size = Vector2(0, 320)
 	holding.add_child(ui.combat_log)
@@ -138,15 +158,34 @@ func _attach() -> void:
 
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	var area: Rect2 = metrics.content_rect()
+	_bar_area = area
 	bar.position = area.position
 	bar.size = Vector2(minf(560, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
+	# Touch-sized buttons stay 64 px square so five fit one row on 480 px.
+	var gap: int = 4 if metrics.touch_sized() else 8
+	for flow: HFlowContainer in [navigation, contexts]:
+		flow.add_theme_constant_override("h_separation", gap)
+		flow.add_theme_constant_override("v_separation", gap)
 	for button: Node in navigation.get_children() + contexts.get_children():
-		(button as Control).custom_minimum_size = Vector2(80, 64 if metrics.touch_sized() else 40)
+		(button as Control).custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 40)
+	# Touch screens keep the world visible: one line here, the full text in Messages/Look.
+	recent.max_lines_visible = 1 if metrics.touch_sized() else 2
+	fit_bar()
 	var panel_area := area
 	if metrics.touch_sized():
 		panel_area.position.y += 72
 		panel_area.size.y = maxf(1, panel_area.size.y - 72)
 	_frame_layout.apply(metrics, panel_area, true, 660)
+
+
+## Shrinks the HUD to its content, but never past the safe content area.
+func fit_bar() -> void:
+	if _bar_area.size.y <= 0:
+		return
+	var margins: float = 24.0
+	var wanted: float = _bar_rows.get_combined_minimum_size().y
+	_bar_scroll.custom_minimum_size.y = minf(wanted, maxf(1, _bar_area.size.y - margins))
+	bar.size.y = 0
 
 
 func open_panel(title: String, content: Control, valid: Callable = Callable()) -> void:

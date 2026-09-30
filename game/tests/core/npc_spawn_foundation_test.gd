@@ -25,7 +25,6 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_runtime_life_status_is_independent_from_threshold()
 	_test_map_local_collection_order_and_existence()
 	_test_authored_npc_and_spawn_arrays_are_defensive()
-	_test_oldpine_native_ids_are_unique()
 	_test_invalid_spawn_and_definition_shapes()
 	return {
 		"assertions": _assertion_count,
@@ -606,28 +605,6 @@ func _test_authored_npc_and_spawn_arrays_are_defensive() -> void:
 	var returned_points: Array[StringName] = spawn.spawn_point_ids()
 	returned_points[0] = &"returned"
 	_assert_eq(spawn.spawn_point_ids(), [&"point"], "spawn point output copied")
-
-
-func _test_oldpine_native_ids_are_unique() -> void:
-	var native_ids: Dictionary[StringName, bool] = {}
-	_assert_register_unique(native_ids, OldPineWorld.region_definition().region_id, "region")
-	for map: MapDefinition in OldPineWorld.map_definitions():
-		_assert_register_unique(native_ids, map.map_id, "map")
-	for zone: ZoneDefinition in OldPineWorld.zone_definitions():
-		_assert_register_unique(native_ids, zone.zone_id, "zone")
-	for portal: PortalDefinition in OldPineWorld.portal_definitions():
-		_assert_register_unique(native_ids, portal.portal_id, "portal")
-	_assert_register_unique(native_ids, TestContent.npc(TestContent.BANDIT_NPC_ID).definition_id, "NPC")
-	_assert_register_unique(native_ids, TestContent.npc(TestContent.TALL_BANDIT_NPC_ID).definition_id, "NPC")
-	_assert_register_unique(native_ids, TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID).spawn_id, "spawn")
-	_assert_register_unique(native_ids, TestContent.spawn(TestContent.PINE1_TALL_BANDIT_SPAWN_ID).spawn_id, "spawn")
-	for content: NpcLoadoutItemDefinition in GameContent.catalog().loadout_item_definitions():
-		_assert_register_unique(
-			native_ids,
-			content.item_definition().item_definition_id,
-			"item",
-		)
-	_assert_eq(native_ids.size(), 35 + GameContent.catalog().items().size(), "cross-category native IDs remain distinct with Lake zone")
 
 
 func _test_invalid_spawn_and_definition_shapes() -> void:

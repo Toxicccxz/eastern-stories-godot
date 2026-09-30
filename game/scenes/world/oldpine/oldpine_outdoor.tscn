@@ -242,7 +242,7 @@ offset_top = 25.0
 offset_right = 26.0
 offset_bottom = 48.0
 theme_override_font_sizes/font_size = 22
-text = "Central Clearing"
+text = "林间空地"
 
 [node name="SouthLabel" type="Label" parent="Terrain" unique_id=2072157512]
 offset_left = 25.0
@@ -250,7 +250,7 @@ offset_top = 630.0
 offset_right = 26.0
 offset_bottom = 653.0
 theme_override_font_sizes/font_size = 22
-text = "South Slope / spath1"
+text = "林间小路 · 南坡"
 
 [node name="NorthLabel" type="Label" parent="Terrain" unique_id=964641280]
 offset_left = 25.0
@@ -258,7 +258,7 @@ offset_top = -470.0
 offset_right = 26.0
 offset_bottom = -447.0
 theme_override_font_sizes/font_size = 22
-text = "North Approach"
+text = "林间小路 · 北"
 
 [node name="EastLabel" type="Label" parent="Terrain" unique_id=162491797]
 offset_left = 940.0
@@ -266,7 +266,7 @@ offset_top = 30.0
 offset_right = 941.0
 offset_bottom = 53.0
 theme_override_font_sizes/font_size = 22
-text = "East Bridge"
+text = "小石桥"
 
 [node name="PineLandmark" type="ColorRect" parent="Terrain" unique_id=1889769006]
 offset_left = 680.0
@@ -282,7 +282,7 @@ offset_top = 365.0
 offset_right = 651.0
 offset_bottom = 388.0
 theme_override_font_sizes/font_size = 22
-text = "Ancient pine — click to inspect / climb"
+text = "大松树"
 
 [node name="LakeGround" type="ColorRect" parent="Terrain"]
 offset_left = 900.0
@@ -305,7 +305,7 @@ offset_left = 970.0
 offset_top = 2280.0
 offset_right = 1390.0
 offset_bottom = 2310.0
-text = "水潭 / Lake — 北返山涧"
+text = "水潭"
 
 [node name="Boundaries" type="Node2D" parent="Terrain" unique_id=789751031]
 
@@ -454,7 +454,7 @@ offset_top = -70.0
 offset_right = 1731.0
 offset_bottom = -47.0
 theme_override_font_sizes/font_size = 22
-text = "Tree canopy / tree1 landing"
+text = "大松树上"
 
 [node name="PineEntranceGround" type="ColorRect" parent="Terrain" unique_id=1800072901]
 offset_left = -600.0
@@ -482,7 +482,7 @@ offset_top = 25.0
 offset_right = 26.0
 offset_bottom = 56.0
 theme_override_font_sizes/font_size = 22
-text = "Pine Entrance / pine1–2"
+text = "松树林"
 
 [node name="PineDeepLabel" type="Label" parent="Terrain" unique_id=1584327424]
 offset_left = -1480.0
@@ -490,7 +490,7 @@ offset_top = 25.0
 offset_right = 26.0
 offset_bottom = 56.0
 theme_override_font_sizes/font_size = 22
-text = "Pine Deep / pine3–6"
+text = "松树林深处"
 
 [node name="PineCliffEdgeLabel" type="Label" parent="Terrain" unique_id=85385173]
 offset_left = -2080.0
@@ -498,7 +498,7 @@ offset_top = 25.0
 offset_right = 26.0
 offset_bottom = 56.0
 theme_override_font_sizes/font_size = 22
-text = "Pine Cliff Edge / pine7 + cliffdown"
+text = "悬崖边"
 
 [node name="KeepBoundaryVisual" type="ColorRect" parent="Terrain" unique_id=281741632]
 offset_left = -590.0
@@ -520,7 +520,7 @@ offset_top = 50.0
 offset_right = -381.0
 offset_bottom = 81.0
 theme_override_font_sizes/font_size = 22
-text = "Keep path — closed"
+text = "山寨方向 · 暂未开放"
 
 [node name="CliffBoundaryLabel" type="Label" parent="Terrain" unique_id=1563206488]
 offset_left = -2040.0
@@ -528,7 +528,7 @@ offset_top = 280.0
 offset_right = -1869.0
 offset_bottom = 311.0
 theme_override_font_sizes/font_size = 22
-text = "Cliff descent — closed"
+text = "崖下方向 · 暂未开放"
 
 [node name="ForestMassEntranceNorth" type="ColorRect" parent="Terrain" unique_id=821062985]
 offset_left = -440.0
@@ -622,14 +622,14 @@ offset_left = 940.0
 offset_top = 630.0
 offset_right = 1250.0
 offset_bottom = 660.0
-text = "Waterfall Basin / 瀑布前"
+text = "瀑布前"
 
 [node name="RiverFutureLabel" type="Label" parent="Terrain" unique_id=898067271]
 offset_left = 1040.0
 offset_top = 1040.0
 offset_right = 1360.0
 offset_bottom = 1070.0
-text = "South to Riverbank 2"
+text = "南 · 山涧"
 horizontal_alignment = 1
 
 [node name="VineLandmark" type="ColorRect" parent="Terrain" unique_id=908152247]
@@ -645,7 +645,7 @@ offset_left = 1290.0
 offset_top = 315.0
 offset_right = 1410.0
 offset_bottom = 340.0
-text = "Vine / 藤蔓"
+text = "藤蔓"
 horizontal_alignment = 1
 
 [node name="RiverGorgeGround" type="ColorRect" parent="Terrain" unique_id=1365033201]
@@ -669,21 +669,21 @@ offset_left = 920.0
 offset_top = 1160.0
 offset_right = 1280.0
 offset_bottom = 1190.0
-text = "Riverbank 2 / 山涧北段"
+text = "山涧之中 · 北"
 
 [node name="Riverbank1Label" type="Label" parent="Terrain" unique_id=1206768272]
 offset_left = 920.0
 offset_top = 1720.0
 offset_right = 1280.0
 offset_bottom = 1750.0
-text = "Riverbank 1 / 山涧南段"
+text = "山涧之中 · 南"
 
 [node name="LakeBoundaryLabel" type="Label" parent="Terrain" unique_id=163490626]
 offset_left = 1010.0
 offset_top = 2140.0
 offset_right = 1390.0
 offset_bottom = 2170.0
-text = "South → 水潭 · 巨蟒出没"
+text = "南 · 水潭"
 horizontal_alignment = 1
 
 [node name="CliffLedgeGround" type="ColorRect" parent="Terrain" unique_id=1476729103]
@@ -706,14 +706,14 @@ offset_left = 120.0
 offset_top = 1190.0
 offset_right = 500.0
 offset_bottom = 1220.0
-text = "Cliffside / 悬崖边"
+text = "悬崖边"
 
 [node name="Cliff1Label" type="Label" parent="Terrain" unique_id=742945290]
 offset_left = 500.0
 offset_top = 1780.0
 offset_right = 840.0
 offset_bottom = 1810.0
-text = "Cliff 1 / 山壁窄穴"
+text = "山壁上的窄穴"
 
 [node name="RiverbankCliffLandmark" type="ColorRect" parent="Terrain" unique_id=143346277]
 offset_left = 1300.0
@@ -1216,7 +1216,7 @@ position = Vector2(1100, 2325)
 [node name="Label" type="Label" parent="LakeWaterPoint"]
 offset_left = -85.0
 offset_top = -30.0
-text = "岸边取水 / Fill"
+text = "岸边取水"
 
 [node name="LakeSerpent01" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1340, 2470)

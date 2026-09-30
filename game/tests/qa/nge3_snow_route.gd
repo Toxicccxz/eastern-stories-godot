@@ -17,8 +17,8 @@ func _ready() -> void:
 		return
 	_player = NewPlayerRuntimeComposition.create(&"nge3.fixture.player", birth.player, SnowWorldDefinitions.birth_location())
 	_world_simulation_gate = WorldSimulationGate.new()
-	inn = (load(SnowWorldDefinitions.INN_SCENE) as PackedScene).instantiate() as SnowInnController
-	outdoor = (load(SnowWorldDefinitions.OUTDOOR_SCENE) as PackedScene).instantiate() as SnowOutdoorController
+	inn = (load(GameContent.catalog().map(SnowWorldDefinitions.INN_MAP_ID).scene_path) as PackedScene).instantiate() as SnowInnController
+	outdoor = (load(GameContent.catalog().map(SnowWorldDefinitions.OUTDOOR_MAP_ID).scene_path) as PackedScene).instantiate() as SnowOutdoorController
 	for map: WorldResidentMapController in [inn, outdoor]:
 		if not map.configure_world_authorities(_player, birth.inventory, birth.stacks, birth.item_index, npc_random, combat_random, world_random, allocator, _world_simulation_gate) or not register_resident_map(map):
 			push_error("NGE3 QA map binding failed")

@@ -13,6 +13,12 @@ var _items: Dictionary[StringName, ItemContentDefinition] = {}
 var _npcs: Dictionary[StringName, NpcDefinition] = {}
 var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
 var _vendors: Dictionary[StringName, VendorDefinition] = {}
+var _rooms: Dictionary[StringName, RoomDefinition] = {}
+var _regions: Dictionary[StringName, RegionDefinition] = {}
+var _maps: Dictionary[StringName, MapDefinition] = {}
+var _zones: Dictionary[StringName, ZoneDefinition] = {}
+var _portals: Dictionary[StringName, PortalDefinition] = {}
+var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
 
@@ -30,6 +36,25 @@ func _init(
 	for definition: ItemContentDefinition in _items.values():
 		if MONEY_DENOMINATIONS.has(definition.money_id):
 			_currency_items[MONEY_DENOMINATIONS[definition.money_id]] = definition
+
+
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_world(
+	p_rooms: Dictionary[StringName, RoomDefinition],
+	p_regions: Dictionary[StringName, RegionDefinition],
+	p_maps: Dictionary[StringName, MapDefinition],
+	p_zones: Dictionary[StringName, ZoneDefinition],
+	p_portals: Dictionary[StringName, PortalDefinition],
+) -> void:
+	_rooms = p_rooms.duplicate()
+	_regions = p_regions.duplicate()
+	_maps = p_maps.duplicate()
+	_zones = p_zones.duplicate()
+	_portals = p_portals.duplicate()
+	_zone_of_room.clear()
+	for definition: ZoneDefinition in _zones.values():
+		for room_id: StringName in definition.room_ids():
+			_zone_of_room[room_id] = definition.zone_id
 
 
 func item(item_definition_id: StringName) -> ItemContentDefinition:
@@ -81,6 +106,72 @@ func vendors() -> Array[VendorDefinition]:
 	var result: Array[VendorDefinition] = []
 	result.assign(_vendors.values())
 	return result
+
+
+func room(room_id: StringName) -> RoomDefinition:
+	return _rooms.get(room_id)
+
+
+func region(region_id: StringName) -> RegionDefinition:
+	return _regions.get(region_id)
+
+
+func map(map_id: StringName) -> MapDefinition:
+	return _maps.get(map_id)
+
+
+func maps() -> Array[MapDefinition]:
+	var result: Array[MapDefinition] = []
+	result.assign(_maps.values())
+	return result
+
+
+func zone(zone_id: StringName) -> ZoneDefinition:
+	return _zones.get(zone_id)
+
+
+func zones() -> Array[ZoneDefinition]:
+	var result: Array[ZoneDefinition] = []
+	result.assign(_zones.values())
+	return result
+
+
+func zones_for_map(map_id: StringName) -> Array[ZoneDefinition]:
+	var result: Array[ZoneDefinition] = []
+	for definition: ZoneDefinition in _zones.values():
+		if definition.map_id == map_id:
+			result.append(definition)
+	return result
+
+
+func portal(portal_id: StringName) -> PortalDefinition:
+	return _portals.get(portal_id)
+
+
+func portals_for_map(map_id: StringName) -> Array[PortalDefinition]:
+	var result: Array[PortalDefinition] = []
+	for definition: PortalDefinition in _portals.values():
+		if definition.source_map_id == map_id:
+			result.append(definition)
+	return result
+
+
+## Two zones touch when a room of one has an ES2 exit into a room of the other.
+func zones_adjacent(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	if from_zone_id == to_zone_id:
+		return false
+	return _has_exit_into(from_zone_id, to_zone_id) or _has_exit_into(to_zone_id, from_zone_id)
+
+
+func _has_exit_into(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	var from_zone: ZoneDefinition = _zones.get(from_zone_id)
+	if from_zone == null:
+		return false
+	for room_id: StringName in from_zone.room_ids():
+		for target: StringName in _rooms[room_id].exits().values():
+			if _zone_of_room.get(target, &"") == to_zone_id:
+				return true
+	return false
 
 
 func currency_item(denomination: CurrencyDenomination.Value) -> ItemContentDefinition:

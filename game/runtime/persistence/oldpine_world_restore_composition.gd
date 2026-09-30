@@ -474,8 +474,14 @@ static func _player_location_is_current(value: Values.WorldLocationSnapshot, rev
 		return true
 	if revision != WorldContentRevision.CURRENT_PUBLIC or value == null or value.region_id != SnowWorldDefinitions.REGION_ID:
 		return false
-	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(value.zone_id)
-	return zone != null and zone.map_id == value.map_id and zone.combat_location_id == value.combat_location_id
+	var zone: ZoneDefinition = GameContent.catalog().zone(value.zone_id)
+	var map: MapDefinition = null if zone == null else GameContent.catalog().map(zone.map_id)
+	return (
+		map != null
+		and map.region_id == value.region_id
+		and zone.map_id == value.map_id
+		and zone.combat_location_id == value.combat_location_id
+	)
 
 
 static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:
@@ -486,7 +492,7 @@ static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:
 		OldPineWorldDefinitions.CAVE_MAP_ID,
 	]:
 		return false
-	var zone: ZoneDefinition = OldPineWorldDefinitions.zone_by_id(value.zone_id)
+	var zone: ZoneDefinition = GameContent.catalog().zone(value.zone_id)
 	return (
 		zone != null
 		and zone.map_id == value.map_id
