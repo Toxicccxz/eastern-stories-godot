@@ -167,6 +167,7 @@ func _test_cross_reference_checks() -> void:
 		"t.vendors[0].goods.pie: unknown item 't:pie'",
 		"t.spawns[0].map: unknown map 'm'",
 		"t.spawns[1].map: unknown map 'm'",
+		"pacing: no document defines it",
 	], "cross references are checked")
 	var not_object: ContentCatalogBuilder = ContentCatalogBuilder.new()
 	not_object.add_document([], "list.json")

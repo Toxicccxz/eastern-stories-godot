@@ -2,9 +2,9 @@ class_name ServiceDefinition
 extends RefCounted
 
 ## Something the player can use at one spot of a zone: an ES2 room or NPC
-## service (bank convert, work, vendor, pawn shop, teacher). The kind picks the
-## rules; the scene places it with a WorldServicePoint of the same ID.
-const KINDS: Array[StringName] = [&"bank", &"work", &"vendor", &"hockshop", &"teacher"]
+## service (bank convert, work, vendor, pawn shop, teacher, water source). The
+## kind picks the rules; the scene places it with a WorldServicePoint of the same ID.
+const KINDS: Array[StringName] = [&"bank", &"work", &"vendor", &"hockshop", &"teacher", &"water"]
 
 var _service_id: StringName
 var _kind: StringName

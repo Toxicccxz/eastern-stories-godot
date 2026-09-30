@@ -25,7 +25,7 @@
 			"id": "oldpine.outdoor.river_gorge", "map": "oldpine.outdoor",
 			"rooms": ["es2:d/oldpine/riverbank1", "es2:d/oldpine/riverbank2"]
 		},
-		{ "id": "oldpine.outdoor.lake", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/lake"] },
+		{ "id": "oldpine.outdoor.lake", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/lake"], "combat_entry": "complete_set" },
 		{
 			"id": "oldpine.outdoor.pine_entrance", "map": "oldpine.outdoor",
 			"rooms": ["es2:d/oldpine/pine1", "es2:d/oldpine/pine2"]
@@ -101,6 +101,62 @@
 			"id": "oldpine.outdoor.cliffside_north_pine1", "from_zone": "oldpine.outdoor.cliff_ledge",
 			"to_zone": "oldpine.outdoor.pine_entrance", "to_spawn": "oldpine.outdoor.pine_entrance.cliffside_landing",
 			"legacy_room": "es2:d/oldpine/cliffside", "legacy_command": "north"
+		}
+	],
+	"services": [
+		{
+			"id": "oldpine.outdoor.waterfall.water", "kind": "water", "zone": "oldpine.outdoor.waterfall_basin",
+			"name": "瀑布清水", "reach": 96, "legacy_source": "d/oldpine/waterfall.c"
+		},
+		{
+			"id": "oldpine.outdoor.lake.water", "kind": "water", "zone": "oldpine.outdoor.lake",
+			"name": "湖水", "reach": 96, "legacy_source": "d/oldpine/lake.c"
+		}
+	],
+	"landmarks": [
+		{
+			"id": "oldpine.outdoor.landmark.ancient_pine", "zone": "oldpine.outdoor.central_clearing",
+			"name": "大松树", "action": "Climb", "portals": ["oldpine.outdoor.climb_pine"],
+			"long": "一株又高又大的松树，当你抬头往上看的时候似乎有个人影\n在树梢之间移动，不过也许是风吹动所造成的错觉。\n",
+			"legacy_source": "d/oldpine/clearing.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.tree1_descent", "zone": "oldpine.outdoor.tree_canopy",
+			"name": "大松树上", "action": "Descend", "portals": ["oldpine.outdoor.descend_tree1"],
+			"long": "你现在正攀附在一株大松树的树干上，从这里可以很清楚地望见树\n下的一切动静，而不被人发觉，似乎是个干偷鸡摸狗勾当的好地方。\n",
+			"legacy_source": "d/oldpine/tree1.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.epath2_vine", "zone": "oldpine.outdoor.east_bridge",
+			"name": "藤蔓", "action": "Hold vine", "policy": "vine",
+			"portals": ["oldpine.outdoor.vine_to_waterfall", "oldpine.outdoor.vine_to_passage"],
+			"long": "其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓，看看\n能不能像泰山一样荡过去，看看瀑布后面有什么？\n对了，提醒你一点，这座石桥下面是高约百丈的山涧深谷....。\n",
+			"messages": {
+				"hold": "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去....",
+				"fall": "只听见一声杀猪般的惨叫，你已经往山涧中坠了下去。",
+				"fall_observer": "你听到有人高声惊叫，一条人影从上方掉了下来，「扑通」一声跌进潭中。",
+				"climb": "你手脚俐落地攀附著藤蔓，慢慢地爬下山涧....。",
+				"climb_observer": "忽然一条人影从南边的帘幕穿了出来。"
+			},
+			"legacy_source": "d/oldpine/epath2.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.riverbank1_cliff", "zone": "oldpine.outdoor.river_gorge",
+			"name": "山涧石壁", "action": "Climb cliff", "portals": ["oldpine.outdoor.riverbank1_climb_cliff"], "contact": true,
+			"long": "两边的山壁看起来又高又陡，看来要爬上岸边实在很不容易。\n",
+			"legacy_source": "d/oldpine/riverbank1.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.cliff1_down", "zone": "oldpine.outdoor.cliff_ledge",
+			"name": "向下的山壁", "action": "Climb down", "portals": ["oldpine.outdoor.cliff1_climb_down"], "contact": true,
+			"long": "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n",
+			"legacy_source": "d/oldpine/cliff1.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.cliff1_up", "zone": "oldpine.outdoor.cliff_ledge",
+			"name": "向上的山壁", "action": "Climb up", "portals": ["oldpine.outdoor.cliff1_climb_up"], "contact": true,
+			"long": "从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n",
+			"legacy_source": "d/oldpine/cliff1.c"
 		}
 	]
 }

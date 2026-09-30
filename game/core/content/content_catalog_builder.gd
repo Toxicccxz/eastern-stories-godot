@@ -3,7 +3,8 @@ extends RefCounted
 
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `vendors`, `rooms`,
-## `regions`, `maps`, `zones`, `portals`, `services`, `doors` arrays.
+## `regions`, `maps`, `zones`, `portals`, `services`, `doors`, `landmarks`
+## arrays, and at most one document has the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -17,6 +18,8 @@ var _zones: Dictionary[StringName, ZoneDefinition] = {}
 var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
+var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
+var _pacing: PacingDefinition
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -77,6 +80,15 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: DoorDefinition = DoorDefinition.from_record(record)
 		if _claim(definition.door_id, record):
 			_doors[definition.door_id] = definition
+	for record: ContentRecordReader in reader.children("landmarks"):
+		var definition: WorldLandmarkDefinition = WorldLandmarkDefinition.from_record(record)
+		if _claim(definition.landmark_id, record):
+			_landmarks[definition.landmark_id] = definition
+	var pacing: ContentRecordReader = reader.child("pacing")
+	if pacing != null:
+		if _pacing != null:
+			pacing.fail("", "pacing is already defined")
+		_pacing = PacingDefinition.from_record(pacing)
 	reader.finish()
 
 
@@ -91,11 +103,15 @@ func build() -> ContentCatalog:
 	_check_spawn_locations()
 	_resolve_services()
 	_resolve_doors()
+	_resolve_landmarks()
+	if _pacing == null:
+		_errors.append("pacing: no document defines it")
 	if not _errors.is_empty():
 		return null
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
-	catalog.set_places(_services, _doors)
+	catalog.set_places(_services, _doors, _landmarks)
+	catalog.set_pacing(_pacing)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -265,3 +281,21 @@ func _resolve_doors() -> void:
 			_errors.append("%s.zones: a door's zones must share one map" % origin)
 		elif maps.size() == 1:
 			_doors[door_id] = definition.with_map(maps.keys()[0])
+
+
+## A landmark's portals leave from its own zone.
+func _resolve_landmarks() -> void:
+	for landmark_id: StringName in _landmarks.keys():
+		var definition: WorldLandmarkDefinition = _landmarks[landmark_id]
+		var origin: String = _origins[landmark_id]
+		var zone: ZoneDefinition = _zones.get(definition.zone_id)
+		if zone == null:
+			_errors.append("%s.zone: unknown zone '%s'" % [origin, definition.zone_id])
+			continue
+		for portal_id: StringName in definition.portal_ids():
+			var portal: PortalDefinition = _portals.get(portal_id)
+			if portal == null:
+				_errors.append("%s.portals: unknown portal '%s'" % [origin, portal_id])
+			elif portal.source_zone_id != definition.zone_id:
+				_errors.append("%s.portals: '%s' does not leave from %s" % [origin, portal_id, definition.zone_id])
+		_landmarks[landmark_id] = definition.with_map(zone.map_id)

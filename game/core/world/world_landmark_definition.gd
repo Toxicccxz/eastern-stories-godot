@@ -1,28 +1,56 @@
 class_name WorldLandmarkDefinition
 extends RefCounted
 
+## Something in a zone the player can select, look at and use: an ES2 room
+## item (`set("item_desc")`) with a verb such as `climb` or `hold`. Using it
+## moves the player through one of its portals; the policy decides which.
+## `portal` always takes the single portal; `vine` rolls dodge (epath2.c).
+const POLICIES: Dictionary[StringName, Dictionary] = {
+	&"portal": {"portals": 1, "messages": []},
+	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"]},
+}
+
 var _landmark_id: StringName
+var _map_id: StringName
+var _zone_id: StringName
 var _display_name: String
 var _description: String
-var _portal_id: StringName
 var _action_label: String
+var _policy: StringName
+var _portal_ids: Array[StringName] = []
+var _requires_contact: bool
+var _messages: Dictionary[String, String] = {}
 var _legacy_source_path: String
 
 var landmark_id: StringName:
 	get:
 		return _landmark_id
+var map_id: StringName:
+	get:
+		return _map_id
+var zone_id: StringName:
+	get:
+		return _zone_id
 var display_name: String:
 	get:
 		return _display_name
 var description: String:
 	get:
 		return _description
-var portal_id: StringName:
-	get:
-		return _portal_id
 var action_label: String:
 	get:
 		return _action_label
+var policy: StringName:
+	get:
+		return _policy
+## The first portal; the only one for the `portal` policy.
+var portal_id: StringName:
+	get:
+		return &"" if _portal_ids.is_empty() else _portal_ids[0]
+## The player must stand inside the landmark's scene area, not only in its zone.
+var requires_contact: bool:
+	get:
+		return _requires_contact
 var legacy_source_path: String:
 	get:
 		return _legacy_source_path
@@ -30,26 +58,90 @@ var legacy_source_path: String:
 
 func _init(
 	p_landmark_id: StringName = &"",
+	p_zone_id: StringName = &"",
 	p_display_name: String = "",
 	p_description: String = "",
-	p_portal_id: StringName = &"",
 	p_action_label: String = "",
+	p_policy: StringName = &"portal",
+	p_portal_ids: Array[StringName] = [],
+	p_requires_contact: bool = false,
+	p_messages: Dictionary[String, String] = {},
 	p_legacy_source_path: String = "",
+	p_map_id: StringName = &"",
 ) -> void:
 	_landmark_id = p_landmark_id
+	_zone_id = p_zone_id
 	_display_name = p_display_name
 	_description = p_description
-	_portal_id = p_portal_id
 	_action_label = p_action_label
+	_policy = p_policy
+	_portal_ids = p_portal_ids.duplicate()
+	_requires_contact = p_requires_contact
+	_messages = p_messages.duplicate()
 	_legacy_source_path = p_legacy_source_path
+	_map_id = p_map_id
+
+
+static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
+	var portal_ids: Array[StringName] = []
+	for id: String in reader.text_list("portals"):
+		portal_ids.append(StringName(id))
+	var messages: Dictionary[String, String] = {}
+	var message_reader: ContentRecordReader = reader.child("messages")
+	if message_reader != null:
+		for key: String in message_reader.keys():
+			messages[key] = message_reader.required_text(key)
+		message_reader.finish()
+	var definition: WorldLandmarkDefinition = WorldLandmarkDefinition.new(
+		StringName(reader.required_text("id")),
+		StringName(reader.required_text("zone")),
+		reader.required_text("name"),
+		reader.required_text("long"),
+		reader.required_text("action"),
+		StringName(reader.text("policy", "portal")),
+		portal_ids,
+		reader.boolean("contact", false),
+		messages,
+		reader.required_text("legacy_source"),
+	)
+	reader.finish()
+	if not POLICIES.has(definition.policy):
+		reader.fail("policy", "unsupported landmark policy '%s'" % definition.policy)
+		return definition
+	var rule: Dictionary = POLICIES[definition.policy]
+	if portal_ids.size() != int(rule["portals"]):
+		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
+	var keys: Array = messages.keys()
+	keys.sort()
+	var expected: Array = (rule["messages"] as Array).duplicate()
+	expected.sort()
+	if keys != expected:
+		reader.fail("messages", "policy '%s' needs exactly %s" % [definition.policy, expected])
+	return definition
+
+
+## Copy placed on the map of its zone.
+func with_map(map_id: StringName) -> WorldLandmarkDefinition:
+	return WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id)
+
+
+func portal_ids() -> Array[StringName]:
+	return _portal_ids.duplicate()
+
+
+## Authored ES2 text the policy prints, by key (see POLICIES).
+func message(key: String) -> String:
+	return _messages.get(key, "")
 
 
 func is_valid() -> bool:
 	return (
 		not _landmark_id.is_empty()
+		and not _zone_id.is_empty()
 		and not _display_name.is_empty()
 		and not _description.is_empty()
-		and not _portal_id.is_empty()
 		and not _action_label.is_empty()
+		and POLICIES.has(_policy)
+		and _portal_ids.size() == int(POLICIES[_policy]["portals"])
 		and not _legacy_source_path.is_empty()
 	)

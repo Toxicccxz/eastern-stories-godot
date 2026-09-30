@@ -81,8 +81,11 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 		reader.required_text("legacy_room"),
 		reader.required_integer("legacy_quantity"),
 		NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY,
+		reader.integer("presence_radius", NpcSpawnDefinition.DEFAULT_PRESENCE_RADIUS),
 	)
 	reader.finish()
+	if definition.presence_radius <= 0:
+		reader.fail("presence_radius", "must be positive")
 	if not definition.is_valid():
 		reader.fail("", "is not a valid spawn (points must be unique and match legacy_quantity)")
 	return definition

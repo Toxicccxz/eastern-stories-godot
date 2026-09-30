@@ -3,10 +3,15 @@ extends RefCounted
 
 ## A walkable part of a map made of one or more ES2 rooms. The first room is
 ## the zone's primary room: its short and long text are what the player sees.
+## How aggressive NPCs start a fight here: `pair` (one at a time) or
+## `complete_set` (every aggressive NPC in contact joins one encounter).
+const COMBAT_ENTRIES: Array[StringName] = [&"pair", &"complete_set"]
+
 var _zone_id: StringName
 var _map_id: StringName
 var _room_ids: Array[StringName] = []
 var _primary_room: RoomDefinition
+var _combat_entry: StringName = &"pair"
 
 var zone_id: StringName:
 	get:
@@ -25,6 +30,9 @@ var display_name: String:
 var description: String:
 	get:
 		return "" if _primary_room == null else _primary_room.long
+var combat_entry: StringName:
+	get:
+		return _combat_entry
 
 
 func _init(
@@ -32,11 +40,13 @@ func _init(
 	p_map_id: StringName = &"",
 	p_room_ids: Array[StringName] = [],
 	p_primary_room: RoomDefinition = null,
+	p_combat_entry: StringName = &"pair",
 ) -> void:
 	_zone_id = p_zone_id
 	_map_id = p_map_id
 	_room_ids = p_room_ids.duplicate()
 	_primary_room = p_primary_room
+	_combat_entry = p_combat_entry
 
 
 static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
@@ -49,14 +59,18 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 		StringName(reader.required_text("id")),
 		StringName(reader.required_text("map")),
 		room_ids,
+		null,
+		StringName(reader.text("combat_entry", "pair")),
 	)
 	reader.finish()
+	if not COMBAT_ENTRIES.has(definition.combat_entry):
+		reader.fail("combat_entry", "unsupported combat entry '%s'" % definition.combat_entry)
 	return definition
 
 
 ## Copy whose text comes from the resolved primary room.
 func with_primary_room(room: RoomDefinition) -> ZoneDefinition:
-	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room)
+	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry)
 
 
 func room_ids() -> Array[StringName]:

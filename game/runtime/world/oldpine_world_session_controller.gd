@@ -378,9 +378,9 @@ func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
 	return null if map == null else map.encounter_skill_effect_registry()
 
 
+## One combat round per ES2 heart_beat, on every map (common/pacing.json).
 func encounter_opportunity_interval_seconds() -> float:
-	var map: WorldResidentMapController = active_map()
-	return 0.0 if map == null else map.encounter_opportunity_interval_seconds()
+	return GameContent.catalog().pacing().combat_round_seconds
 
 
 func application_gameplay_allows_encounter_advance() -> bool:

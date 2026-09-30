@@ -650,10 +650,6 @@ func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
 	return _effects
 
 
-func encounter_opportunity_interval_seconds() -> float:
-	return 0.0 if opportunity_timer == null else opportunity_timer.wait_time
-
-
 func world_interaction_random_source() -> WorldInteractionRandomSource:
 	return _world_interaction_random
 

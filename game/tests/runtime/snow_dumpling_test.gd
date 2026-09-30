@@ -56,6 +56,7 @@ static func refused_offers(goods_key: String) -> Array[Array]:
 		"vendors": [{"id": "t.vendor", "legacy_source": "t/vendor.c", "goods": [{"key": "free", "item": "t:free"}, {"key": "coin", "item": "es2:obj/money/coin"}]}],
 	}, "t")
 	builder.add_document(JSON.parse_string(FileAccess.get_file_as_string("res://data/common/items.json")), "common")
+	builder.add_document(JSON.parse_string(FileAccess.get_file_as_string("res://data/common/pacing.json")), "pacing")
 	var valueless: ContentCatalog = builder.build()
 	return [
 		[null, goods_key, GameContent.catalog()],

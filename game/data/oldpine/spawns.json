@@ -44,7 +44,8 @@
 				"oldpine.outdoor.lake.serpent.5"
 			],
 			"legacy_room": "d/oldpine/lake.c",
-			"legacy_quantity": 5
+			"legacy_quantity": 5,
+			"presence_radius": 210
 		}
 	]
 }

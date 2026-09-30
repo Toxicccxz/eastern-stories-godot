@@ -20,6 +20,8 @@ var _zones: Dictionary[StringName, ZoneDefinition] = {}
 var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
+var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
+var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -63,9 +65,33 @@ func set_world(
 func set_places(
 	p_services: Dictionary[StringName, ServiceDefinition],
 	p_doors: Dictionary[StringName, DoorDefinition],
+	p_landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {},
 ) -> void:
 	_services = p_services.duplicate()
 	_doors = p_doors.duplicate()
+	_landmarks = p_landmarks.duplicate()
+
+
+## Called once by ContentCatalogBuilder.
+func set_pacing(value: PacingDefinition) -> void:
+	_pacing = value
+
+
+## Game-wide timing (combat rounds); an empty catalog has none (0 s).
+func pacing() -> PacingDefinition:
+	return _pacing
+
+
+func landmark(landmark_id: StringName) -> WorldLandmarkDefinition:
+	return _landmarks.get(landmark_id)
+
+
+func landmarks_for_map(map_id: StringName) -> Array[WorldLandmarkDefinition]:
+	var result: Array[WorldLandmarkDefinition] = []
+	for definition: WorldLandmarkDefinition in _landmarks.values():
+		if definition.map_id == map_id:
+			result.append(definition)
+	return result
 
 
 func item(item_definition_id: StringName) -> ItemContentDefinition:
