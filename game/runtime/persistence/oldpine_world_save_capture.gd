@@ -120,7 +120,8 @@ func capture(
 		)
 		if character == null:
 			return _character_failure()
-		var body: WorldCharacterBody2D = session.world_map_of(npc.world_location().map_id).runtime_body_for_character(
+		var npc_map: WorldMapController = session.world_map_of(npc.world_location().map_id)
+		var body: WorldCharacterBody2D = null if npc_map == null else npc_map.runtime_body_for_character(
 			npc.character_id
 		)
 		if body == null or body.character_id != npc.character_id:

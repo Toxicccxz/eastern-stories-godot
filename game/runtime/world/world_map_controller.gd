@@ -286,6 +286,7 @@ func prepare_for_deactivation() -> void:
 	_selected_target = null
 	_aggression.clear_all()
 	if _hud() != null:
+		_hud().set_selected_target(null)
 		_hud().close_loot()
 		_hud().close_inventory()
 
@@ -550,7 +551,7 @@ func register_npc_body(npc: NpcRuntimeState, body: WorldCharacterBody2D, presenc
 
 ## Caller owns physical-node removal. Never detach a live Encounter participant.
 func unregister_npc_body(character_id: StringName) -> bool:
-	if not _gameplay_open() or not _npc_bodies.has(character_id):
+	if not _gameplay_open() or not _registered_npc_content.has(character_id):
 		return false
 	var npc: NpcRuntimeState = find_resident_npc(character_id)
 	if npc == null or npc.relationship.is_fighting():

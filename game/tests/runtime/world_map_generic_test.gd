@@ -67,6 +67,10 @@ func _test_water_sources(tree: SceneTree) -> void:
 	_assert_false(map.water_available(), "the lake point needs the player in the Lake zone")
 	map.player_body.set_world_location(map.location_for_zone(OldPineWorldDefinitions.LAKE_ZONE_ID))
 	_assert_true(map.water_available(), "resource/water at the lake shore")
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	player.relationship.add_opponent(map.npc_runtimes()[5].character_id)
+	_assert_true(map.water_available(), "liquid.c do_fill has no fighting gate")
+	player.relationship.remove_opponent(map.npc_runtimes()[5].character_id)
 	await _free(session, tree)
 
 
