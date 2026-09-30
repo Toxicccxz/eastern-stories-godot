@@ -47,6 +47,14 @@ The stable order is:
 
 Platform exports are intentionally separate from routine verification.
 
+During development, run only the affected suites (a `*_test.gd` path or a directory of them):
+
+```text
+<godot> --headless --path game --script res://tests/run_suite.gd -- tests/core tests/runtime/snow_inn_foundation_test.gd
+```
+
+New suites must still be registered in `run_tests.gd`, which remains the canonical CI gate.
+
 ## One sanitized production project
 
 All targets use the same flow:
