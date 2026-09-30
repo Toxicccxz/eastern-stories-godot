@@ -423,8 +423,13 @@ func _player_terminal(tree: SceneTree) -> void:
 		var encounter: CombatEncounter = coordinator.active_encounter()
 		coordinator.advance_scheduler(100)
 		_check(not coordinator.has_active_encounter() and encounter.terminal_result != null and encounter.terminal_result.kind == CombatEncounterResultKind.Value.DEFEAT, "authoritative player defeat")
-		_check(player.life_status == (CharacterRuntimeLifeStatus.Value.DEAD if mortal else CharacterRuntimeLifeStatus.Value.UNCONSCIOUS), "existing life status; no invented respawn")
-		_check(map.corpse_states().size() == (1 if mortal else 0), "corpse only on actual death")
-		_check(map.hud.player_vitality_text.text.begins_with("-1 / -1" if mortal else "0 /"), "returned world HUD refreshes authoritative post-lifecycle resources")
+		# A knocked-out player is finished by the lethal bandit (feature/attack.c).
+		var lifecycles: Array[int] = []
+		for receipt: CombatSliceLifecycleResult in map.last_lifecycle_results():
+			lifecycles.append(receipt.outcome)
+		_check(lifecycles == ([CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE] if mortal else [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE]), "unconscious then killed, or killed outright")
+		_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "technical fixture keeps the terminal death; no respawn")
+		_check(map.corpse_states().size() == 1, "death leaves one corpse")
+		_check(map.hud.player_vitality_text.text.begins_with("%d / %d" % [player.state.vitality.current, player.state.vitality.effective]), "returned world HUD refreshes authoritative post-lifecycle resources")
 		session.free()
 		await _settle(tree, 2)

@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 16, "S7B twelve outdoor zones plus H3 Hockshop and P2 three school zones")
+	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 17, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones and the revival temple")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
 		var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(id)

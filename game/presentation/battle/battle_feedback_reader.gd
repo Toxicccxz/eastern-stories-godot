@@ -21,8 +21,7 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 		CombatEncounterResultKind.Value.VICTORY:
 			return "Victory — combat ended. Select a fallen opponent's corpse to inspect or loot it."
 		CombatEncounterResultKind.Value.DEFEAT:
-			var condition: String = "dead" if player_life == CharacterRuntimeLifeStatus.Value.DEAD else "unconscious"
-			return "Defeat — you are %s. Pause remains available; Return to Main Menu to start again." % condition
+			return "Defeat — you are dead." if player_life == CharacterRuntimeLifeStatus.Value.DEAD else "Defeat — you fell unconscious."
 		CombatEncounterResultKind.Value.SPAR_CONCLUDED:
 			return "Spar concluded — friendly combat has ended."
 		CombatEncounterResultKind.Value.FLED:

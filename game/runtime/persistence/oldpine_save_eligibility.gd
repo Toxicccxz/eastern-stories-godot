@@ -33,6 +33,14 @@ static func inspect(
 	var cave: OldPineCavePassageController = session.cave_map()
 	if cave != null and cave.exit_request_pending():
 		return Result.block(Result.Outcome.CAVE_EXIT_PENDING)
+	# The player cannot act while unconscious or dead (disable_player/ghost);
+	# waking up and the way back from death are short and are not saved.
+	if session.player_life_flow().is_active():
+		return Result.block(
+			Result.Outcome.INCOMPLETE_LIFECYCLE,
+			session.player_runtime().character_id,
+			"player is unconscious or dead",
+		)
 	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	if outdoor == null:
 		return Result.block(Result.Outcome.SESSION_NOT_READY)

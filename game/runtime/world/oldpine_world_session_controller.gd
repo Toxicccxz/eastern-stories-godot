@@ -55,6 +55,8 @@ var _source_name: String = ""
 var _source_gender: StringName = &""
 var _recovery_random: RecoveryCadenceRandomSource
 var _player_recovery_cadence: PlayerRecoveryCadence
+var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
+var _last_revival_handoff: OldPineMapHandoffResult
 
 
 func _ready() -> void:
@@ -97,6 +99,7 @@ func _process(delta: float) -> void:
 	advance_player_recovery(delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
+	_advance_life_flow(delta)
 
 
 ## One transient authority across every resident. Injection is pre-initialization only.
@@ -313,6 +316,7 @@ func activate_restore_candidate() -> bool:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		return false
 	_restore_candidate_staged = false
+	_resume_restored_life_flow()
 	return true
 
 
@@ -1001,3 +1005,108 @@ func last_equipment_interaction() -> OldPineEquipmentInteractionResult:
 
 func last_armor_interaction() -> OldPineArmorInteractionResult:
 	return _last_portable_armor
+
+
+func player_life_flow() -> PlayerLifeFlow:
+	return _life_flow
+
+
+func last_revival_handoff() -> OldPineMapHandoffResult:
+	return _last_revival_handoff
+
+
+## The map reports a completed combat lifecycle of the player. Only the public
+## world runs the ES2 unconscious/death flow; the technical fixture keeps its
+## terminal defeat.
+func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool, location: WorldLocationState) -> void:
+	if lifecycle == null or _player == null or _world_content_revision != WorldContentRevision.CURRENT_PUBLIC:
+		return
+	match lifecycle.outcome:
+		CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE:
+			_life_flow.begin_unconscious(UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random))
+		CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place_name(location))
+
+
+## "老松岭 · 南坡林道" for a world location.
+func place_name(location: WorldLocationState) -> String:
+	if location == null:
+		return ""
+	var zone: ZoneDefinition = SnowWorldDefinitions.zone_by_id(location.zone_id)
+	var region: String = "雪亭镇"
+	if zone == null:
+		zone = OldPineWorldDefinitions.zone_by_id(location.zone_id)
+		region = OldPineWorldDefinitions.region_definition().display_name
+	return String(location.zone_id) if zone == null else "%s · %s" % [region, zone.display_name]
+
+
+## Presentation convenience: show the next white-gargoyle line now.
+func skip_death_message() -> void:
+	if _life_flow.phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE and application_gameplay_allows_encounter_advance():
+		_handle_life_event(_life_flow.skip_to_next_message())
+
+
+## A save made while the player lay unconscious or dead (before this flow
+## existed) continues where ES2 would: waking up, or the way back from death.
+## Penalties are not applied again.
+func _resume_restored_life_flow() -> void:
+	if _player == null or _world_content_revision != WorldContentRevision.CURRENT_PUBLIC:
+		return
+	match _player.life_status:
+		CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+			_life_flow.begin_unconscious(UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random))
+		CharacterRuntimeLifeStatus.Value.DEAD:
+			_life_flow.begin_death(PlayerDeathResult.new(), "")
+
+
+func _advance_life_flow(delta: float) -> void:
+	if not _life_flow.is_active() or _transitioning or _restore_candidate_staged or not application_gameplay_allows_encounter_advance():
+		return
+	_handle_life_event(_life_flow.advance(delta))
+
+
+func _handle_life_event(event: PlayerLifeFlow.Event) -> void:
+	match event:
+		PlayerLifeFlow.Event.REVIVE_DUE:
+			_revive_from_unconscious()
+		PlayerLifeFlow.Event.REINCARNATE_DUE:
+			_reincarnate_at_revive_room()
+
+
+## feature/damage.c revive(): the player gets up where they fell. While a
+## killer is still at them the encounter decides first.
+func _revive_from_unconscious() -> void:
+	if _player.life_status != CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+		_life_flow.finish()
+		return
+	if _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter():
+		return
+	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	var map: WorldResidentMapController = active_map()
+	if map != null and map.runtime_player_body() != null:
+		map.runtime_player_body().refresh_runtime_state()
+	_life_flow.finish()
+
+
+## d/death/npc/wgargoyle.c death_stage(): reincarnate() and move to
+## REVIVE_ROOM (/d/snow/temple).
+## If the move cannot happen now the player stays a ghost and it is retried
+## next frame, so the world never holds a living player without a body.
+func _reincarnate_at_revive_room() -> void:
+	var previous_life: int = _player.life_status
+	var previous_exists: bool = _player.exists_in_world
+	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	_player.set_exists_in_world(true)
+	_last_revival_handoff = handoff_to(
+		SnowWorldDefinitions.OUTDOOR_MAP_ID,
+		SnowWorldDefinitions.TEMPLE_ZONE_ID,
+		SnowWorldDefinitions.TEMPLE_ZONE_ID,
+		SnowWorldDefinitions.REVIVE_SPAWN_ID,
+	)
+	if not _last_revival_handoff.succeeded():
+		_player.set_life_status(previous_life)
+		_player.set_exists_in_world(previous_exists)
+		_life_flow.retry_reincarnation()
+		return
+	PlayerDeathRules.reincarnate(_player.state)
+	_life_flow.finish()

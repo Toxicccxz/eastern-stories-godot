@@ -28,6 +28,9 @@ const SCHOOL1_ZONE_ID: StringName = &"snow.school1"
 const SCHOOL2_ZONE_ID: StringName = &"snow.school2"
 const SCHOOLHALL_ZONE_ID: StringName = &"snow.schoolhall"
 const SCHOOL_ZONE_IDS: Array[StringName] = [SCHOOL1_ZONE_ID, SCHOOL2_ZONE_ID, SCHOOLHALL_ZONE_ID]
+## include/login.h REVIVE_ROOM: dead players come back here.
+const TEMPLE_ZONE_ID: StringName = &"snow.temple"
+const REVIVE_SPAWN_ID: StringName = &"snow.temple.revive"
 const LEGACY_MSTREET2_DRUNK_COUNT: int = 1
 const LEGACY_MSTREET2_SCAVENGER_COUNT: int = 1
 const LEGACY_SQUARE_TRAV_BLADE_COUNT: int = 3
@@ -63,7 +66,8 @@ static func outdoor_map() -> MapDefinition:
 	ids.append_array([MSTREET3_ZONE_ID, MSTREET4_ZONE_ID, CROSSROAD_ZONE_ID])
 	ids.append(HOCKSHOP_ZONE_ID)
 	ids.append_array(SCHOOL_ZONE_IDS)
-	return MapDefinition.new(OUTDOOR_MAP_ID, REGION_ID, OUTDOOR_SCENE, ids, [INN_RETURN_PORTAL_ID], [SQUARE_ENTRY_SPAWN_ID])
+	ids.append(TEMPLE_ZONE_ID)
+	return MapDefinition.new(OUTDOOR_MAP_ID, REGION_ID, OUTDOOR_SCENE, ids, [INN_RETURN_PORTAL_ID], [SQUARE_ENTRY_SPAWN_ID, REVIVE_SPAWN_ID])
 
 
 static func route_zones() -> Array[ZoneDefinition]:
@@ -84,6 +88,8 @@ static func route_zones() -> Array[ZoneDefinition]:
 		ZoneDefinition.new(SCHOOL1_ZONE_ID, OUTDOOR_MAP_ID, SCHOOL1_ZONE_ID, "淳风武馆大门", ["/d/snow/school1"]),
 		ZoneDefinition.new(SCHOOL2_ZONE_ID, OUTDOOR_MAP_ID, SCHOOL2_ZONE_ID, "淳风武馆教练场", ["/d/snow/school2"]),
 		ZoneDefinition.new(SCHOOLHALL_ZONE_ID, OUTDOOR_MAP_ID, SCHOOLHALL_ZONE_ID, "淳风武馆大厅", ["/d/snow/schoolhall"]),
+		ZoneDefinition.new(TEMPLE_ZONE_ID, OUTDOOR_MAP_ID, TEMPLE_ZONE_ID, "城隍庙", ["/d/snow/temple"],
+			"这是一间十分老旧的城隍庙，在你面前的神桌上供奉著一尊红脸的城隍，庙虽老旧，但是神案四周已被香火薰成乌黑的颜色，显示这里必定相当受到信徒的敬仰。"),
 	]
 
 
@@ -108,6 +114,10 @@ static func route_neighbours(from_id: StringName, to_id: StringName) -> bool:
 	var north_to: int = NORTH_SPINE_ZONE_IDS.find(to_id)
 	if north_from >= 0 and north_to >= 0 and absi(north_from - north_to) == 1:
 		return true
+	# d/snow/temple.c: west to the square, south to the first east road.
+	for pair: Array in [[&"snow.square", TEMPLE_ZONE_ID], [&"snow.eroad1", TEMPLE_ZONE_ID]]:
+		if (from_id == pair[0] and to_id == pair[1]) or (from_id == pair[1] and to_id == pair[0]):
+			return true
 	if (from_id == BANK_ZONE_ID and to_id == MSTREET1_ZONE_ID) or (to_id == BANK_ZONE_ID and from_id == MSTREET1_ZONE_ID):
 		return true
 	if (from_id == &"snow.square" and to_id == MSTREET1_ZONE_ID) or (to_id == &"snow.square" and from_id == MSTREET1_ZONE_ID):
@@ -146,6 +156,7 @@ static func authored_outdoor_exits() -> Dictionary[String, String]:
 		"sroad1:north": "/d/snow/square", "sroad1:east": "/d/snow/eroad1",
 		"sroad1:west": "/d/snow/sroad2", "sroad1:south": "/u/cloud/dragonhill/nroad",
 		"eroad1:west": "/d/snow/sroad1", "eroad1:east": "/d/snow/eroad2", "eroad1:north": "/d/snow/temple",
+		"temple:west": "/d/snow/square", "temple:south": "/d/snow/eroad1",
 		"eroad2:west": "/d/snow/eroad1", "eroad2:east": "/d/snow/eroad3",
 		"eroad3:west": "/d/snow/eroad2", "eroad3:south": "/d/oldpine/npath1", "eroad3:east": "/d/temple/sroad",
 	}

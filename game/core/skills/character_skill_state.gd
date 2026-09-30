@@ -114,6 +114,32 @@ func mapped_skill(use_id: StringName) -> StringName:
 	return _loadout.enabled_skill(use_id)
 
 
+## feature/skill.c skill_death_penalty(). A skill whose learning progress is
+## more than half of the next level's cost loses that progress; every other
+## skill drops one level and is deleted below 0. Then skill_map = 0: every
+## enabled special skill is disabled.
+func apply_death_penalty() -> Array[SkillDeathPenaltyChange]:
+	var changes: Array[SkillDeathPenaltyChange] = []
+	if not _has_skills_mapping:
+		return changes
+	for skill_id: StringName in _sorted_ids(_raw_levels):
+		var level: int = _raw_levels[skill_id]
+		@warning_ignore("integer_division")
+		var progress_threshold: int = (level + 1) * (level + 1) / 2
+		if _has_learned_mapping and _learned_progress.get(skill_id, 0) > progress_threshold:
+			_learned_progress.erase(skill_id)
+			changes.append(SkillDeathPenaltyChange.new(skill_id, level, level, true))
+			continue
+		if level - 1 < 0:
+			_raw_levels.erase(skill_id)
+			changes.append(SkillDeathPenaltyChange.new(skill_id, level, -1, false))
+		else:
+			_raw_levels[skill_id] = level - 1
+			changes.append(SkillDeathPenaltyChange.new(skill_id, level, level - 1, false))
+	_loadout.clear()
+	return changes
+
+
 ## Trusted persistence seam used only after the typed save snapshot has been
 ## validated. It preserves the legacy distinction between an absent mapping
 ## and an existing-but-empty mapping without exposing either Dictionary.

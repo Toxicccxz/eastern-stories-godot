@@ -192,7 +192,7 @@ func physical_tests(tree: SceneTree) -> void:
 	var initial_npc_count: int = Work.capture(session).npc_spawn_states.size()
 	var map := session.resident_map(&"snow.outdoor") as SnowOutdoorController
 	check(not map.school.can_teach() and not map.school.request_learn().success, "inactive resident cannot teach")
-	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 16, "exactly three added zones")
+	check(SnowWorldDefinitions.outdoor_map().zone_ids().size() == 17, "three school zones plus the revival temple")
 	for i: int in range(3):
 		var id: StringName = SnowWorldDefinitions.SCHOOL_ZONE_IDS[i]
 		check(SnowWorldDefinitions.zone_by_id(id).legacy_room_ids() == ["/d/snow/" + String(id).get_slice(".",1)],"school source identity " + String(id))

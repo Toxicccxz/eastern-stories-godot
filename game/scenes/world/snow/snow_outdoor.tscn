@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3]
+[gd_scene load_steps=41 format=3]
 
 [ext_resource type="Script" path="res://runtime/world/snow_outdoor_controller.gd" id="1"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
@@ -17,6 +17,9 @@ size = Vector2(30, 120)
 
 [sub_resource type="RectangleShape2D" id="SquareShape"]
 size = Vector2(600, 500)
+
+[sub_resource type="RectangleShape2D" id="TempleShape"]
+size = Vector2(240, 300)
 
 [sub_resource type="RectangleShape2D" id="SouthRoadShape"]
 size = Vector2(200, 400)
@@ -146,6 +149,15 @@ offset_top = 480.0
 text = "山路 · 老松林方向"
 mouse_filter = 2
 
+[node name="Temple" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(300, 150, 540, 150, 540, 450, 300, 450)
+color = Color(0.33, 0.29, 0.24, 1)
+[node name="TempleLabel" type="Label" parent="Ground"]
+offset_left = 330.0
+offset_top = 180.0
+text = "城隍庙"
+mouse_filter = 2
+
 [node name="Walls" type="StaticBody2D" parent="."]
 
 [node name="Wall0" type="CollisionPolygon2D" parent="Walls"]
@@ -157,9 +169,9 @@ color = Color(0.12, 0.18, 0.12, 1)
 visible = false
 
 [node name="Wall1" type="CollisionPolygon2D" parent="Walls"]
-polygon = PackedVector2Array(288, -250, 312, -250, 312, 250, 288, 250)
+polygon = PackedVector2Array(288, -250, 312, -250, 312, 170, 288, 170)
 [node name="Visual1" type="Polygon2D" parent="Walls"]
-polygon = PackedVector2Array(288, -250, 312, -250, 312, 250, 288, 250)
+polygon = PackedVector2Array(288, -250, 312, -250, 312, 170, 288, 170)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="Wall2" type="CollisionPolygon2D" parent="Walls"]
@@ -175,9 +187,33 @@ polygon = PackedVector2Array(88, 250, 112, 250, 112, 450, 88, 450)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="Wall4" type="CollisionPolygon2D" parent="Walls"]
-polygon = PackedVector2Array(100, 438, 1300, 438, 1300, 462, 100, 462)
+polygon = PackedVector2Array(100, 438, 380, 438, 380, 462, 100, 462)
 [node name="Visual4" type="Polygon2D" parent="Walls"]
-polygon = PackedVector2Array(100, 438, 1300, 438, 1300, 462, 100, 462)
+polygon = PackedVector2Array(100, 438, 380, 438, 380, 462, 100, 462)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="Wall4East" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(460, 438, 1300, 438, 1300, 462, 460, 462)
+[node name="Visual4East" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(460, 438, 1300, 438, 1300, 462, 460, 462)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="TempleWestWall" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(288, 240, 312, 240, 312, 450, 288, 450)
+[node name="TempleWestVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(288, 240, 312, 240, 312, 450, 288, 450)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="TempleNorthWall" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(300, 138, 552, 138, 552, 162, 300, 162)
+[node name="TempleNorthVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(300, 138, 552, 138, 552, 162, 300, 162)
+color = Color(0.12, 0.18, 0.12, 1)
+
+[node name="TempleEastWall" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(528, 150, 552, 150, 552, 450, 528, 450)
+[node name="TempleEastVisual" type="Polygon2D" parent="Walls"]
+polygon = PackedVector2Array(528, 150, 552, 150, 552, 450, 528, 450)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="Wall5" type="CollisionPolygon2D" parent="Walls"]
@@ -304,6 +340,15 @@ zone_id = &"snow.eroad3"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/EastRoad3"]
 shape = SubResource("EastRoad3Shape")
 
+[node name="Temple" type="Area2D" parent="Zones"]
+position = Vector2(420, 300)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("4")
+zone_id = &"snow.temple"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/Temple"]
+shape = SubResource("TempleShape")
+
 [node name="Passage" type="Area2D" parent="."]
 script = ExtResource("5")
 portal_id = &"snow.square.west"
@@ -317,6 +362,10 @@ shape = SubResource("PassageShape")
 position = Vector2(1100, 730)
 script = ExtResource("3")
 spawn_point_id = &"snow.eroad3.oldpine_return"
+[node name="TempleRevive" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(420, 260)
+script = ExtResource("3")
+spawn_point_id = &"snow.temple.revive"
 [node name="PlayerBirth" type="Marker2D" parent="SpawnPoints"]
 unique_name_in_owner = true
 position = Vector2(-200, 0)

@@ -32,6 +32,7 @@ var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
 var _log_lines: Array[String] = []
 var _presentation_layout: SharedGameplayLayout
+var life_overlay: PlayerLifeOverlay
 
 
 func _ready() -> void:
@@ -55,6 +56,17 @@ func _ready() -> void:
 	inventory_panel.unwield_requested.connect(_unwield_item)
 	inventory_panel.wear_requested.connect(_wear_item)
 	inventory_panel.remove_requested.connect(_remove_item)
+	if _session != null:
+		life_overlay = PlayerLifeOverlay.new()
+		life_overlay.name = "PlayerLifeOverlay"
+		life_overlay.configure(_session)
+		_session.add_child.call_deferred(life_overlay)
+
+
+## The overlay joins the session a frame late; free it if the session never got it.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE and is_instance_valid(life_overlay) and life_overlay.get_parent() == null:
+		life_overlay.free()
 
 
 func configure(player: WorldPlayerRuntimeType) -> bool:
