@@ -1,5 +1,23 @@
 # Migration Decisions
 
+## One map runtime: zone ownership, Old Pine geometry and the combat round (2026-09-30)
+
+Owner decisions for Package 3B2 (Old Pine on `WorldMapController`):
+- **Zones follow the body's center.** A zone owns the player when its half-open rectangle holds the
+  body's center, and the player only moves between neighbouring zones (an ES2 exit, or a `links`
+  entry). Old Pine used to switch as soon as the body's edge touched a zone, in any direction.
+  Only the player is tracked; NPCs do not walk between zones.
+- **Recorded native connections become data.** Central Clearing ↔ Pine Entrance ("Old Pine Outdoor
+  directly connects to the Pine Maze") and the fixed maze (Entrance ↔ Deep ↔ Cliff Edge, "Random Pine
+  room exits become one fixed continuous maze") are zone `links`.
+- **The waterfall pool is walled from above.** `waterfall.c` has only `south`; ES2 reaches it by the
+  `epath2.c` vine, `passage.c` south or riverbank2 north. The scene let the player walk down from the
+  East Bridge and the South Slope; both edges are now cliffs.
+- **Global rule — one combat round per heart_beat.** Every living object ran on one driver
+  heart_beat; the encounter scheduler's interval is `common/pacing.json` `combat_round_ms` (1000, the
+  previous feel) on every map. It used to come from an unset Timer on Old Pine only (0 elsewhere).
+- The Lake's complete-set entry (P2A-M) is the zone's `combat_entry`, unchanged in behaviour.
+
 ## Player unconsciousness and death follow ES2 (2026-09-30)
 
 Owner decision after playtest: a defeated player is no longer a terminal state.

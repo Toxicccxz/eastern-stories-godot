@@ -8,11 +8,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 1. **World data** (PR #29): rooms, regions, maps, zones and portals are JSON; the player reads each
    room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
-2. **Generic map controller + Snow** (`phase/generic-map-snow`): one `WorldMapController`; Snow's
-   bank, work, waiter, pawn shop, teacher and doors are data-configured services/doors; the HUD
-   asks the map what is here instead of casting to Snow map types.
-3. Old Pine on the generic controller (spawned NPC bodies, explicit combat cadence).
-4. Terrain on `TileMapLayer` with a placeholder TileSet.
+2. **Generic map controller + Snow** (PR #30): one `WorldMapController`; Snow's bank, work, waiter,
+   pawn shop, teacher and doors are data-configured services/doors; the HUD asks the map what is
+   here instead of casting to Snow map types.
+3. **Old Pine on the generic controller** (`phase/generic-map-oldpine`): Old Pine's outdoor map and
+   cave use `WorldMapController`; NPCs spawn from spawns.json onto one generic body scene; landmarks
+   (climb/descend/vine), water sources and the Lake's complete-set entry are data; one combat round
+   per second on every map (`pacing.json`); saves, combat and the HUD go through every resident map.
+4. Terrain on `TileMapLayer` with a placeholder TileSet (next).
 
 ## Playable now
 
@@ -21,7 +24,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * **Snow (雪亭镇)**: source-valid New Game in the Inn; square, core streets and temple (18 of 38 rooms as
   zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
   value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳).
-* **Old Pine (老松岭)**: outdoor route, Vine/Waterfall/River/Cliff/Pine traversal, minimal Passage
+* **Old Pine (老松岭)**: outdoor route, Vine/Waterfall/River/Cliff/Pine traversal (the waterfall pool
+  only by the vine or the cave, as in ES2), minimal Passage
   Cave, Lake with five serpents; five bandits (31 of 41 rooms).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   semi-automatic encounter combat with Flee, death/corpse/loot, waking from
@@ -36,8 +40,6 @@ skills, 1/13 families, 0 quests).
 
 Code:
 
-* Combat cadence comes from an unset `OpportunityTimer.wait_time` (implicit 1.0 s) and only the Old
-  Pine outdoor controller supplies an interval; other maps return 0.
 * `busy` is only decremented inside encounters; busy left at encounter exit can stall recovery and
   Save eligibility.
 * `apply/parry`, `apply/defense` and weapon-skill `apply/*` bonuses are not projected into combat.
@@ -45,9 +47,13 @@ Code:
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.
-* Landmarks, the Vine, skills and the teacher are still hard-coded GDScript; Old Pine still has
-  its own `oldpine_*` controllers and adapters (next PR). The Old Pine scene pre-places NPC bodies, tied to spawn
-  data only by order. A zone that merges several rooms shows only its first room's text.
+* Skills and the teacher are still hard-coded GDScript. A zone that merges several rooms shows
+  only its first room's text.
+* The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
+  names although they now cover every map; pre-B2 Old Pine regression suites drive combat through
+  a test-only manual cadence (`historical_world_combat_fixture.gd`).
+* `oldpine_lake_production_test.gd` fails its three Fill checks when run on its own (also on main);
+  it passes inside `run_tests.gd`.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix
