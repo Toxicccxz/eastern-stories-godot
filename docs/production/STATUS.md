@@ -40,6 +40,10 @@ Code:
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.
 * Content is hard-coded in GDScript; runtime has many `oldpine_*` / `snow_*` specific classes.
 * Player text is not localized (`tr()` unused), mixes English/Chinese and shows legacy room IDs.
+* On the smallest supported viewport (480×320) the exploration HUD overflows the safe area when all
+  five context buttons are shown (panel 342 px tall vs 288 px content). Whether they are shown when
+  `mobile_presentation_test.gd` checks depends on physics timing, so "HUD action panel safe" fails
+  intermittently (seen locally; CI has not hit it yet).
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
 qualification for Lake and Shared UI is deferred. The provisional app ID
