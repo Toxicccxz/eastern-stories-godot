@@ -250,12 +250,12 @@ func strict_save_tests(snapshot: GameSaveSnapshot) -> void:
 
 func physical_availability(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Work.create_session(tree)
-	var inn: SnowInnController = session.active_map() as SnowInnController
-	check(not inn.can_purchase_here(), "birth does not overlap waiter")
+	var inn: VendorService = (session.active_map() as WorldMapController).service(&"snow.inn.waiter") as VendorService
+	check(not inn.in_reach(), "birth does not overlap waiter")
 	var walk: RefCounted = Work.new()
 	await walk.walk_to(tree, session, "move_left", -225, 0)
 	await walk.walk_to(tree, session, "move_up", -90, 1)
-	check(inn.can_purchase_here() and walk._failures.is_empty(), "CharacterBody physically reaches static contact")
+	check(inn.in_reach() and walk._failures.is_empty(), "CharacterBody physically reaches static contact")
 	check(inn.request_purchase("dumpling").affordability.outcome == MoneyAffordabilityResult.Outcome.INSUFFICIENT_TOTAL, "real controller no free food")
 	check(session.shared_ui()._food != null, "one Session-owned map-independent food view")
 	session.free()

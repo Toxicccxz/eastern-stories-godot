@@ -745,18 +745,14 @@ func _instantiate_map(map_id: StringName) -> Node:
 
 
 func _register_source_maps(outdoor: WorldResidentMapController) -> bool:
-	var inn: SnowInnController = _instantiate_map(SnowWorldDefinitions.INN_MAP_ID) as SnowInnController
-	var snow: SnowOutdoorController = _instantiate_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as SnowOutdoorController
-	snow.configure_hockshop(self)
-	snow.configure_school(self)
-	for map: WorldResidentMapController in [inn, snow]:
-		if not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
+	for map_id: StringName in [SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.OUTDOOR_MAP_ID]:
+		var map: WorldMapController = _instantiate_map(map_id) as WorldMapController
+		if map == null or not map.configure_session(self) or not map.configure_world_authorities(_player, _inventory, _stacks, _item_index,
 			_npc_random, _combat_random, _world_interaction_random, _item_id_allocator, _world_simulation_gate, _foods, _liquids) or not register_resident_map(map):
 			return false
 		map.tree_exiting.connect(_on_resident_map_tree_exiting.bind(map.map_id()))
-	if not snow.configure_passage(GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)) or not outdoor.configure_passage(GameContent.catalog().portal(SnowOldPineConnectionDefinitions.NORTH_PORTAL_ID)):
-		return false
-	return true
+	# Generic maps configure their own passages; Old Pine's road north still needs this.
+	return outdoor.configure_passage(GameContent.catalog().portal(SnowOldPineConnectionDefinitions.NORTH_PORTAL_ID))
 
 
 func _initialize_restore_residents(

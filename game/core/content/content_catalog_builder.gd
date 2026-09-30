@@ -3,7 +3,7 @@ extends RefCounted
 
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `vendors`, `rooms`,
-## `regions`, `maps`, `zones`, `portals` arrays.
+## `regions`, `maps`, `zones`, `portals`, `services`, `doors` arrays.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -15,6 +15,8 @@ var _regions: Dictionary[StringName, RegionDefinition] = {}
 var _maps: Dictionary[StringName, MapDefinition] = {}
 var _zones: Dictionary[StringName, ZoneDefinition] = {}
 var _portals: Dictionary[StringName, PortalDefinition] = {}
+var _services: Dictionary[StringName, ServiceDefinition] = {}
+var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -67,6 +69,14 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: PortalDefinition = PortalDefinition.from_record(record)
 		if _claim(definition.portal_id, record):
 			_portals[definition.portal_id] = definition
+	for record: ContentRecordReader in reader.children("services"):
+		var definition: ServiceDefinition = ServiceDefinition.from_record(record)
+		if _claim(definition.service_id, record):
+			_services[definition.service_id] = definition
+	for record: ContentRecordReader in reader.children("doors"):
+		var definition: DoorDefinition = DoorDefinition.from_record(record)
+		if _claim(definition.door_id, record):
+			_doors[definition.door_id] = definition
 	reader.finish()
 
 
@@ -79,10 +89,13 @@ func build() -> ContentCatalog:
 	_resolve_zones()
 	_resolve_portals()
 	_check_spawn_locations()
+	_resolve_services()
+	_resolve_doors()
 	if not _errors.is_empty():
 		return null
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
+	catalog.set_places(_services, _doors)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -220,3 +233,35 @@ func _check_spawn_locations() -> void:
 			_errors.append("%s.map: unknown map '%s'" % [origin, definition.map_id])
 		elif zone == null or zone.map_id != definition.map_id:
 			_errors.append("%s.zone: '%s' is not a zone of %s" % [origin, definition.zone_id, definition.map_id])
+
+
+func _resolve_services() -> void:
+	for service_id: StringName in _services.keys():
+		var definition: ServiceDefinition = _services[service_id]
+		var origin: String = _origins[service_id]
+		var zone: ZoneDefinition = _zones.get(definition.zone_id)
+		if zone == null:
+			_errors.append("%s.zone: unknown zone '%s'" % [origin, definition.zone_id])
+			continue
+		if not definition.vendor_id.is_empty() and not _vendors.has(definition.vendor_id):
+			_errors.append("%s.vendor: unknown vendor '%s'" % [origin, definition.vendor_id])
+		_services[service_id] = definition.with_map(zone.map_id)
+
+
+func _resolve_doors() -> void:
+	for door_id: StringName in _doors.keys():
+		var definition: DoorDefinition = _doors[door_id]
+		var origin: String = _origins[door_id]
+		var maps: Dictionary[StringName, bool] = {}
+		for zone_id: StringName in definition.zone_ids():
+			var zone: ZoneDefinition = _zones.get(zone_id)
+			if zone == null:
+				_errors.append("%s.zones: unknown zone '%s'" % [origin, zone_id])
+			else:
+				maps[zone.map_id] = true
+		if not _rooms.has(definition.legacy_room_id):
+			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
+		if maps.size() > 1:
+			_errors.append("%s.zones: a door's zones must share one map" % origin)
+		elif maps.size() == 1:
+			_doors[door_id] = definition.with_map(maps.keys()[0])

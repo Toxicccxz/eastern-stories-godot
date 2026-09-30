@@ -29,19 +29,20 @@ static func _is_valid_position(
 ) -> bool:
 	if map == null or not position.is_finite():
 		return false
-	# H3's transient door closes on cold Continue. Keep its closed footprint
-	# save-invalid even while open; never relocate a restored Player to compensate.
-	if map is SnowOutdoorController:
-		for path: String in ["Walls/HockshopDoor", "Walls/SchoolDoor"]:
-			var door: CollisionShape2D = map.get_node_or_null(path) as CollisionShape2D
+	# Doors close again on cold Continue (their state is not saved). Keep the
+	# closed footprint save-invalid even while open; never relocate a restored
+	# Player to compensate.
+	if map is WorldMapController:
+		for world_door: WorldDoor in (map as WorldMapController).doors():
+			var door: CollisionShape2D = world_door.wall_shape()
 			if door != null:
 				var saved_footprint: RectangleShape2D = RectangleShape2D.new()
 				saved_footprint.size = footprint_size
 				if door.shape.collide(door.global_transform, saved_footprint, Transform2D(0.0, position)):
 					return false
 	var zone_paths: Dictionary[StringName, NodePath] = _zone_paths(map.map_id())
-	# Snow uses its actual authored physical-zone components, not copied coordinates.
-	if map is SnowResidentMapController:
+	# Generic maps use their actual authored physical-zone components, not copied coordinates.
+	if map is WorldMapController:
 		for node: Node in map.get_node("Zones").get_children():
 			var zone: WorldPhysicalZoneArea2D = node as WorldPhysicalZoneArea2D
 			if zone != null and map.location_for_zone(zone.zone_id) != null:
@@ -56,7 +57,7 @@ static func _is_valid_position(
 		var contains_point: bool = collision != null and _point_inside(collision, position)
 		if map is OldPineOutdoorController and candidate_id in [OldPineWorldDefinitions.LAKE_ZONE_ID, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID]:
 			contains_point = map.lake_route_zone_at(position) == candidate_id
-		if map is SnowResidentMapController and collision != null:
+		if map is WorldMapController and collision != null:
 			# Match runtime half-open center ownership at exact street joins.
 			var zone: WorldPhysicalZoneArea2D = collision.get_parent() as WorldPhysicalZoneArea2D
 			contains_point = zone != null and zone.contains_center(position)

@@ -1,10 +1,9 @@
-class_name SnowHockshopInteraction
-extends CanvasLayer
+class_name HockshopService
+extends WorldService
 
-## One transient resident-owned view. H2 alone owns appraisal/payout/destruction.
-## No merchant, saved UI state, timer, RNG, or duplicated item/equipment authority.
-var _session: OldPineWorldSessionController
-var _map: SnowOutdoorController
+## inherit HOCKSHOP (d/snow/hockshop.c): value and sell carried goods. One
+## transient view; H2 alone owns appraisal/payout/destruction. No merchant,
+## saved UI state, timer, RNG, or duplicated item/equipment authority.
 var _rows: VBoxContainer
 var _goods: VBoxContainer
 var _actions: HBoxContainer
@@ -14,9 +13,7 @@ var _pending_state: Array[int] = []
 var _pending_equipment: String = ""
 var _ids: Array[StringName] = []
 var _labels: Array[String] = []
-var _door_open: bool = false
 var _selected_id: StringName = &""
-var contact: Button
 var panel: PanelContainer
 var feedback: Label
 var holdings: Label
@@ -28,23 +25,13 @@ var last_valuation: HockshopValuationResult
 var last_sell: HockshopSellResult
 
 
-func configure(session: OldPineWorldSessionController, map: SnowOutdoorController) -> void:
-	_session = session
-	_map = map
-
-
-func _ready() -> void:
+func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: WorldServicePoint) -> void:
+	super.setup(p_map, p_definition, p_point)
 	process_mode = Node.PROCESS_MODE_ALWAYS # Hide/disarm during Pause, never advance gameplay.
-	layer = 12
-	contact = Button.new()
-	contact.name = "Contact"
-	contact.custom_minimum_size = Vector2(220, 64)
-	contact.pressed.connect(interact)
-	add_child(contact)
 	panel = PanelContainer.new()
 	panel.name = "Panel"
 	panel.hide()
-	add_child(panel)
+	ui_layer().add_child(panel)
 	var background: StyleBoxFlat = StyleBoxFlat.new()
 	background.bg_color = Color(0.07, 0.09, 0.085, 1)
 	for side: String in ["left", "right", "top", "bottom"]:
@@ -53,7 +40,7 @@ func _ready() -> void:
 	_rows = VBoxContainer.new()
 	_rows.name = "Rows"
 	panel.add_child(_rows)
-	_label("丰登当铺 · 估价 / 卖断", "Title")
+	_label(tr("%s · 估价 / 卖断") % definition.display_name, "Title")
 	holdings = _label("", "Holdings")
 	_goods = VBoxContainer.new()
 	_goods.name = "Goods"
@@ -71,7 +58,6 @@ func _ready() -> void:
 	feedback = _label("", "Feedback")
 	_button(_rows, "Close", "关闭", close_panel)
 	panel.visibility_changed.connect(_shared_visibility_changed)
-	_process(0.0)
 
 
 func _label(text: String, node_name: String) -> Label:
@@ -94,60 +80,26 @@ func _button(parent: Node, node_name: String, text: String, action: Callable) ->
 	return button
 
 
-func available() -> bool:
-	return is_inside_tree() and _session != null and not get_tree().paused and _session.liquid_interaction_available() and _session.active_map() == _map and not _session.player_runtime().busy.is_busy() and not _session.player_runtime().relationship.is_fighting() and not _session.combat_encounter_coordinator().has_active_encounter()
+func verb() -> String:
+	return tr("交易")
 
 
-func can_open_door() -> bool:
-	if not available() or _door_open:
-		return false
-	var player: WorldPlayerRuntimeState = _session.player_runtime()
-	return player.world_location().zone_id in [SnowWorldDefinitions.MSTREET3_ZONE_ID, SnowWorldDefinitions.HOCKSHOP_ZONE_ID] and _map.player_body.global_position.distance_squared_to((_map.get_node("Walls/HockshopDoor") as CollisionShape2D).global_position) <= 85.0 * 85.0
-
-
-func can_trade() -> bool:
-	if not available():
-		return false
-	return _session.player_runtime().world_location().zone_id == SnowWorldDefinitions.HOCKSHOP_ZONE_ID and _map.player_body.global_position.distance_squared_to((_map.get_node("HockshopCounter") as Marker2D).global_position) <= 90.0 * 90.0 and OldPineMapPlacementValidator.is_valid_character_position(_map, SnowWorldDefinitions.HOCKSHOP_ZONE_ID, _map.player_body.global_position)
-
-
-func door_is_open() -> bool:
-	return _door_open
-
-
-func open_door() -> bool:
-	if not can_open_door():
-		return false
-	# Approved Type B open-only local door; same resident retains it, cold Session does not.
-	_door_open = true
-	(_map.get_node("Walls/HockshopDoor") as CollisionShape2D).set_deferred("disabled", true)
-	(_map.get_node("Ground/HockshopShutter") as Polygon2D).hide()
+func requires_idle() -> bool:
 	return true
 
 
 func interact() -> void:
-	if can_open_door():
-		open_door()
-	elif can_trade() and not ExplorationPresentationBlocker.is_blocked(get_tree()):
-		_session.shared_ui().open_business("丰登当铺", panel, can_trade)
+	if in_reach() and not ExplorationPresentationBlocker.is_blocked(get_tree()):
+		open_panel(definition.display_name, panel)
 		refresh()
 		value_button.grab_focus()
-		_map.player_body.quarantine_current_movement_input()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_accept") and not event.is_echo() and contact.visible:
-		interact()
-		get_viewport().set_input_as_handled()
 
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(panel):
 		return
-	if panel.visible and not can_trade():
+	if panel.visible and not in_reach():
 		close_panel()
-	contact.visible = false
-	contact.text = "打开当铺木门 [Enter / A]" if can_open_door() else "丰登当铺 · 估价 / 卖断 [Enter / A]"
 	if panel.visible:
 		refresh()
 
@@ -155,20 +107,20 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	# UI navigation must not double as walking. Recovery still advances normally.
 	if is_instance_valid(panel) and panel.visible:
-		_map.player_body.quarantine_current_movement_input()
+		map.player_body.quarantine_current_movement_input()
 
 
 func context() -> MoneyInventoryContext:
-	var player: WorldPlayerRuntimeState = _session.player_runtime()
-	return MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), _session.inventory_state(), _session.stack_collection(), _session.item_instance_index())
+	var player: WorldPlayerRuntimeState = map.session.player_runtime()
+	return MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), map.session.inventory_state(), map.session.stack_collection(), map.session.item_instance_index())
 
 
 func quote(id: StringName) -> HockshopValuationResult:
-	return HockshopValuation.appraise(context(), _session.food_collection(), _session.liquid_collection(), id)
+	return HockshopValuation.appraise(context(), map.session.food_collection(), map.session.liquid_collection(), id)
 
 
 func equipment_label(id: StringName) -> String:
-	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	var player: WorldPlayerRuntimeState = map.session.player_runtime()
 	if player.armor.is_worn(id):
 		return "已穿戴"
 	var primary: EquippedWeaponRef = player.state.equipment.primary_weapon()
@@ -179,7 +131,7 @@ func equipment_label(id: StringName) -> String:
 
 
 func item_label(id: StringName) -> String:
-	var item: ItemInstance = _session.item_instance_index().resolve(id)
+	var item: ItemInstance = map.session.item_instance_index().resolve(id)
 	if item == null:
 		return String(id)
 	var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
@@ -196,7 +148,7 @@ func selected_id() -> StringName:
 
 
 func select_item(id: StringName) -> void:
-	if not can_trade() or not _ids.has(id) or _pending != null:
+	if not in_reach() or not _ids.has(id) or _pending != null:
 		return
 	_selected_id = id
 	selection.text = item_label(id)
@@ -231,7 +183,7 @@ func refresh() -> void:
 		for i: int in range(ids.size()):
 			var button: Button = _button(_goods, "Item%d" % i, labels[i], select_item.bind(ids[i]))
 			button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_session.shared_ui().refresh_panel_rows()
+		map.session.shared_ui().refresh_panel_rows()
 	if _pending == null and not _ids.has(_selected_id):
 		_selected_id = &""
 		selection.text = "请选择随身物品。"
@@ -242,7 +194,7 @@ func refresh() -> void:
 
 
 func request_value() -> void:
-	if not panel.visible or not can_trade() or _pending != null:
+	if not panel.visible or not in_reach() or _pending != null:
 		return
 	last_valuation = quote(_selected_id)
 	feedback.text = valuation_text(last_valuation)
@@ -258,13 +210,13 @@ static func valuation_text(result: HockshopValuationResult) -> String:
 
 
 func _item_state(id: StringName) -> Array[int]:
-	var food: FoodState = _session.food_collection().state(id)
-	var liquid: LiquidState = _session.liquid_collection().state(id)
-	return [_session.inventory_state().own_weight(id), -1 if food == null else food.remaining_portions, -1 if liquid == null else int(liquid.content), -1 if liquid == null else liquid.remaining]
+	var food: FoodState = map.session.food_collection().state(id)
+	var liquid: LiquidState = map.session.liquid_collection().state(id)
+	return [map.session.inventory_state().own_weight(id), -1 if food == null else food.remaining_portions, -1 if liquid == null else int(liquid.content), -1 if liquid == null else liquid.remaining]
 
 
 func request_confirmation() -> void:
-	if not panel.visible or not can_trade() or _pending != null:
+	if not panel.visible or not in_reach() or _pending != null:
 		return
 	var appraisal: HockshopValuationResult = quote(_selected_id)
 	if appraisal.outcome != HockshopValuationResult.Outcome.SELLABLE:
@@ -301,11 +253,11 @@ func confirm_sale() -> void:
 	_pending_state.clear()
 	_confirm_actions.hide()
 	_actions.show()
-	if not panel.visible or not can_trade() or not unchanged:
+	if not panel.visible or not in_reach() or not unchanged:
 		feedback.text = "位置或物品状态已变化，未执行卖断；请重新选择。"
 		refresh()
 		return
-	last_sell = HockshopSellService.sell(context(), _session.food_collection(), _session.liquid_collection(), _session.item_id_allocator(), _session.player_runtime().maximum_encumbrance, confirmed.item_id)
+	last_sell = HockshopSellService.sell(context(), map.session.food_collection(), map.session.liquid_collection(), map.session.item_id_allocator(), map.session.player_runtime().maximum_encumbrance, confirmed.item_id)
 	feedback.text = sell_text(last_sell)
 	refresh()
 
@@ -322,11 +274,15 @@ static func sell_text(result: HockshopSellResult) -> String:
 	return "卖断未执行，物品状态已变化；请重新选择。"
 
 
-func dismiss() -> void:
+## Back first cancels a pending sale confirmation, then closes the panel.
+func dismiss(content: Control) -> bool:
+	if content != panel:
+		return false
 	if _pending != null:
 		cancel_confirmation()
 	else:
 		close_panel()
+	return true
 
 
 func _shared_visibility_changed() -> void:
@@ -344,6 +300,6 @@ func close_panel() -> void:
 	_confirm_actions.hide()
 	_actions.show()
 	panel.hide()
-	_session.shared_ui().close_business(panel)
-	if was_open and is_instance_valid(_map.player_body):
-		_map.player_body.quarantine_current_movement_input()
+	map.session.shared_ui().close_business(panel)
+	if was_open and is_instance_valid(map.player_body):
+		map.player_body.quarantine_current_movement_input()

@@ -19,11 +19,11 @@ func _run() -> void:
 		check(Work.work(session).succeeded(), "nondefault work resource/money/allocator")
 		var portal: PortalDefinition = GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "serializer resident setup")
-		var map: SnowOutdoorController = session.active_map() as SnowOutdoorController
+		var map: WorldMapController = session.active_map() as WorldMapController
 		# Serializer fixture only. Separate H3 physical test/live path proves entry.
 		map.player_body.position = Vector2(155,-1000)
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.hockshop"))
-		check(map.hockshop.open_door(), "writer door open")
+		check(map.open_door(&"snow.hockshop.door"), "writer door open")
 		map.player_body.position = Vector2(330,-1000)
 		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "save interior")
 		session.free()
@@ -48,16 +48,16 @@ func _run() -> void:
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "exact complete state")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no rewrite on load")
 			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/current public source")
-			var map: SnowOutdoorController = session.active_map() as SnowOutdoorController
-			check(not map.hockshop.door_is_open() and map.player_body.position == Vector2(330,-1000) and session.player_runtime().world_location().zone_id == &"snow.hockshop", "exact position / closed default")
+			var map: WorldMapController = session.active_map() as WorldMapController
+			check(not map.door(&"snow.hockshop.door").is_open() and map.player_body.position == Vector2(330,-1000) and session.player_runtime().world_location().zone_id == &"snow.hockshop", "exact position / closed default")
 			paused = false
 			session.set_process(false)
-			check(map.hockshop.can_trade(), "service after Continue")
+			check((map.service(&"snow.hockshop.counter") as HockshopService).in_reach(), "service after Continue")
 			await physics_frame
 			await physics_frame # release existing Continue held-input quarantine before fresh input
 			var walker: Work = Work.new()
 			await walker.walk_to(self, session, "move_left", 155, 0)
-			check(map.hockshop.open_door(), "inside opening")
+			check(map.open_door(&"snow.hockshop.door"), "inside opening")
 			await physics_frame
 			await walker.walk_to(self, session, "move_left", 0, 0)
 			check(session.player_runtime().world_location().zone_id == &"snow.mstreet3" and walker._failures.is_empty(), "ordinary physical exit")

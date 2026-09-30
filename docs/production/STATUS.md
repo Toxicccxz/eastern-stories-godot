@@ -6,9 +6,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **Package 3 — generic map runtime**, split into four playable PRs (see [ROADMAP](ROADMAP.md)):
 
-1. **World data** (`phase/world-data`, this PR): rooms, regions, maps, zones and portals are JSON; the
-   player reads each room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
-2. Generic map controller + Snow (services, doors, UI actions without map-type casts).
+1. **World data** (PR #29): rooms, regions, maps, zones and portals are JSON; the player reads each
+   room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
+2. **Generic map controller + Snow** (`phase/generic-map-snow`): one `WorldMapController`; Snow's
+   bank, work, waiter, pawn shop, teacher and doors are data-configured services/doors; the HUD
+   asks the map what is here instead of casting to Snow map types.
 3. Old Pine on the generic controller (spawned NPC bodies, explicit combat cadence).
 4. Terrain on `TileMapLayer` with a placeholder TileSet.
 
@@ -43,8 +45,8 @@ Code:
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.
-* Landmarks, the Vine, skills and the teacher are still hard-coded GDScript; runtime has many
-  `oldpine_*` / `snow_*` specific classes. The Old Pine scene pre-places NPC bodies, tied to spawn
+* Landmarks, the Vine, skills and the teacher are still hard-coded GDScript; Old Pine still has
+  its own `oldpine_*` controllers and adapters (next PR). The Old Pine scene pre-places NPC bodies, tied to spawn
   data only by order. A zone that merges several rooms shows only its first room's text.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.

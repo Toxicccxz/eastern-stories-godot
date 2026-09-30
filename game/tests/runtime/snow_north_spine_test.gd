@@ -51,7 +51,7 @@ func physical_tests(tree: SceneTree) -> void:
 	var random: Recovery.RandomSequence = Recovery.RandomSequence.new([5])
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, random)
 	var walk: Work = Work.new()
-	var snow: SnowOutdoorController = session.resident_map(&"snow.outdoor") as SnowOutdoorController
+	var snow: WorldMapController = session.resident_map(&"snow.outdoor") as WorldMapController
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence(), snow]
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
@@ -122,7 +122,7 @@ func wall_test(tree: SceneTree, session: OldPineWorldSessionController, walk: Wo
 	check(session.player_runtime().world_location().zone_id == zone and session.active_map_id() == &"snow.outdoor", "no hidden transition " + label)
 
 
-func geometry_tests(snow: SnowOutdoorController) -> void:
+func geometry_tests(snow: WorldMapController) -> void:
 	for row: Array in [[&"snow.mstreet3", Vector2(0,-1000)], [&"snow.mstreet4", Vector2(0,-1300)], [&"snow.crossroad", Vector2(100,-1650)], [&"snow.mstreet2", Vector2(0,-840)], [&"snow.mstreet2", Vector2(0,-850)], [&"snow.mstreet3", Vector2(0,-1150)], [&"snow.mstreet4", Vector2(0,-1450)]]:
 		check(OldPineMapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "valid position/half-open join " + str(row))
 	for row: Array in [[&"snow.mstreet3", Vector2(90,-1000)], [&"snow.mstreet3", Vector2(-90,-1000)], [&"snow.mstreet4", Vector2(90,-1300)], [&"snow.crossroad", Vector2(290,-1650)], [&"snow.crossroad", Vector2(100,-1840)], [&"snow.crossroad", Vector2(200,-1460)], [&"snow.mstreet3", Vector2(0,-1300)], [&"snow.mstreet4", Vector2(200,-1300)], [&"green.path6", Vector2(400,-1650)], [&"snow.mstreet3", Vector2(INF,0)]]:

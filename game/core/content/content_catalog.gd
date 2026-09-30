@@ -18,6 +18,8 @@ var _regions: Dictionary[StringName, RegionDefinition] = {}
 var _maps: Dictionary[StringName, MapDefinition] = {}
 var _zones: Dictionary[StringName, ZoneDefinition] = {}
 var _portals: Dictionary[StringName, PortalDefinition] = {}
+var _services: Dictionary[StringName, ServiceDefinition] = {}
+var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -55,6 +57,15 @@ func set_world(
 	for definition: ZoneDefinition in _zones.values():
 		for room_id: StringName in definition.room_ids():
 			_zone_of_room[room_id] = definition.zone_id
+
+
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_places(
+	p_services: Dictionary[StringName, ServiceDefinition],
+	p_doors: Dictionary[StringName, DoorDefinition],
+) -> void:
+	_services = p_services.duplicate()
+	_doors = p_doors.duplicate()
 
 
 func item(item_definition_id: StringName) -> ItemContentDefinition:
@@ -152,6 +163,30 @@ func portals_for_map(map_id: StringName) -> Array[PortalDefinition]:
 	var result: Array[PortalDefinition] = []
 	for definition: PortalDefinition in _portals.values():
 		if definition.source_map_id == map_id:
+			result.append(definition)
+	return result
+
+
+func service(service_id: StringName) -> ServiceDefinition:
+	return _services.get(service_id)
+
+
+func services_for_map(map_id: StringName) -> Array[ServiceDefinition]:
+	var result: Array[ServiceDefinition] = []
+	for definition: ServiceDefinition in _services.values():
+		if definition.map_id == map_id:
+			result.append(definition)
+	return result
+
+
+func door(door_id: StringName) -> DoorDefinition:
+	return _doors.get(door_id)
+
+
+func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
+	var result: Array[DoorDefinition] = []
+	for definition: DoorDefinition in _doors.values():
+		if definition.map_id == map_id:
 			result.append(definition)
 	return result
 

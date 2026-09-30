@@ -1,11 +1,13 @@
 [gd_scene load_steps=41 format=3]
 
-[ext_resource type="Script" path="res://runtime/world/snow_outdoor_controller.gd" id="1"]
+[ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="1"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="2"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="3"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="4"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="5"]
-[ext_resource type="Script" path="res://runtime/world/snow_bank_exchange_panel.gd" id="6"]
+[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="svc"]
+[ext_resource type="Script" path="res://runtime/world/world_door.gd" id="door"]
+
 [sub_resource type="RectangleShape2D" id="SouthPassageShape"]
 size = Vector2(120, 60)
 [sub_resource type="RectangleShape2D" id="SouthBlockerShape"]
@@ -102,6 +104,7 @@ size = Vector2(32, 44)
 
 [node name="SnowOutdoor" type="Node2D"]
 script = ExtResource("1")
+map = &"snow.outdoor"
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="Square" type="Polygon2D" parent="Ground"]
@@ -515,31 +518,12 @@ polygon = PackedVector2Array(100, -262, 300, -262, 300, -238, 100, -238)
 color = Color(0.12, 0.18, 0.12, 1)
 
 [node name="WorkplaceWork" type="Marker2D" parent="."]
+script = ExtResource("svc")
+service_id = &"snow.workplace.mill"
 position = Vector2(325, -750)
 [node name="Mill" type="Polygon2D" parent="WorkplaceWork"]
 polygon = PackedVector2Array(-22, -20, 22, -20, 28, 20, -28, 20)
 color = Color(0.7, 0.6, 0.3, 1)
-[node name="WorkUI" type="CanvasLayer" parent="."]
-[node name="Panel" type="PanelContainer" parent="WorkUI"]
-offset_left = 20.0
-offset_top = 85.0
-offset_right = 460.0
-offset_bottom = 230.0
-[node name="Rows" type="VBoxContainer" parent="WorkUI/Panel"]
-layout_mode = 2
-[node name="Resources" type="Label" parent="WorkUI/Panel/Rows"]
-layout_mode = 2
-text = "谷物加工厂"
-mouse_filter = 2
-[node name="WorkButton" type="Button" parent="WorkUI/Panel/Rows"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "工作 · 消耗精30 / 神30 · 工钱一两"
-[node name="Feedback" type="Label" parent="WorkUI/Panel/Rows"]
-layout_mode = 2
-text = "靠近磨盘，可以在这里工作。"
-mouse_filter = 2
-
 [node name="Bank" type="Polygon2D" parent="Ground"]
 polygon = PackedVector2Array(-500, -550, -100, -550, -100, -250, -500, -250)
 color = Color(0.38, 0.32, 0.23, 1)
@@ -581,6 +565,8 @@ shape = SubResource("WorkWallShape3")
 polygon = PackedVector2Array(-500, -262, -100, -262, -100, -238, -500, -238)
 color = Color(0.12, 0.18, 0.12, 1)
 [node name="BankExchange" type="Marker2D" parent="."]
+script = ExtResource("svc")
+service_id = &"snow.bank.counter"
 position = Vector2(-375, -400)
 [node name="Counter" type="StaticBody2D" parent="BankExchange"]
 position = Vector2(-50, 0)
@@ -589,57 +575,6 @@ shape = SubResource("BankCounterShape")
 [node name="Visual" type="Polygon2D" parent="BankExchange/Counter"]
 polygon = PackedVector2Array(-16, -50, 16, -50, 16, 50, -16, 50)
 color = Color(0.65, 0.48, 0.24, 1)
-[node name="BankUI" type="CanvasLayer" parent="."]
-[node name="Panel" type="PanelContainer" parent="BankUI"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -410.0
-offset_top = 90.0
-offset_right = -20.0
-offset_bottom = 430.0
-grow_horizontal = 0
-script = ExtResource("6")
-[node name="Rows" type="VBoxContainer" parent="BankUI/Panel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-[node name="Title" type="Label" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-text = "安记钱庄 · 兑换（非存取款）"
-mouse_filter = 2
-[node name="Holdings" type="Label" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-autowrap_mode = 3
-mouse_filter = 2
-[node name="SourceLabel" type="Label" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-text = "支付货币"
-mouse_filter = 2
-[node name="Source" type="OptionButton" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 40)
-[node name="TargetLabel" type="Label" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-text = "取得货币"
-mouse_filter = 2
-[node name="Target" type="OptionButton" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 40)
-[node name="Quantity" type="LineEdit" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 40)
-text = "1"
-placeholder_text = "支付数量（正整数）"
-[node name="Convert" type="Button" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "兑换"
-[node name="Feedback" type="Label" parent="BankUI/Panel/Rows"]
-layout_mode = 2
-text = "请选择货币与数量。同币种亦可兑换。"
-autowrap_mode = 3
-mouse_filter = 2
-
 [node name="MainStreet3" type="Polygon2D" parent="Ground"]
 polygon = PackedVector2Array(-100, -1150, 100, -1150, 100, -850, -100, -850)
 color = Color(0.3, 0.32, 0.24, 1)
@@ -849,6 +784,8 @@ zone_id = &"snow.hockshop"
 shape = SubResource("HockshopFloorShape")
 
 [node name="HockshopCounter" type="Marker2D" parent="."]
+script = ExtResource("svc")
+service_id = &"snow.hockshop.counter"
 position = Vector2(365, -1000)
 
 [node name="HockshopCurtain" type="Polygon2D" parent="Ground"]
@@ -1008,6 +945,8 @@ text = "内院方向 · 暂未开放"
 mouse_filter = 2
 
 [node name="SchoolTeacher" type="Marker2D" parent="."]
+script = ExtResource("svc")
+service_id = &"snow.schoolhall.master"
 position = Vector2(1080, -400)
 
 [node name="SchoolTeacher" type="CollisionShape2D" parent="Walls"]
@@ -1031,3 +970,15 @@ offset_left = 1045.0
 offset_top = -468.0
 text = "柳淳风"
 mouse_filter = 2
+
+[node name="SchoolGate" type="Node" parent="."]
+script = ExtResource("door")
+door_id = &"snow.school.gate"
+wall = NodePath("../Walls/SchoolDoor")
+shutter = NodePath("../Ground/SchoolShutter")
+
+[node name="HockshopDoor" type="Node" parent="."]
+script = ExtResource("door")
+door_id = &"snow.hockshop.door"
+wall = NodePath("../Walls/HockshopDoor")
+shutter = NodePath("../Ground/HockshopShutter")

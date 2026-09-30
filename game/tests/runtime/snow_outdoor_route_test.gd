@@ -21,7 +21,7 @@ class RejectPreparation:
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var unbound: SnowInnController = SnowInnController.new()
+	var unbound: WorldMapController = WorldMapController.new()
 	_check(not unbound.complete_activation(), "uninitialized activation fails closed before Player access")
 	_check(not unbound.prepare_for_activation(SnowWorldDefinitions.BIRTH_SPAWN_ID), "uninitialized preparation fails closed before scene access")
 	unbound.free()
@@ -50,7 +50,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(GameContent.catalog().portal(&"eroad3:south") == null, "Old Pine not a native portal")
 	_check(entry.inn.resident_npcs().is_empty() and entry.outdoor.resident_npcs().is_empty(), "no dummy NPCs")
 	_check(entry.outdoor.find_children("*", "CharacterBody2D", true, false).size() == 1, "outdoor only Player body")
-	_check(entry.inn.birth_marker.position != entry.inn.resolve_spawn_marker(SnowWorldDefinitions.INN_RETURN_SPAWN_ID).position, "return marker is not fresh birth")
+	_check(entry.inn.resolve_spawn_marker(SnowWorldDefinitions.BIRTH_SPAWN_ID).position != entry.inn.resolve_spawn_marker(SnowWorldDefinitions.INN_RETURN_SPAWN_ID).position, "return marker is not fresh birth")
 	_continuity(entry, identities)
 	var source: WorldLocationState = player.world_location()
 	var invalids: Array[OldPineMapHandoffResult] = [
@@ -77,7 +77,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_continuity(entry, identities)
 	_check(_to_square(entry).succeeded(), "shared explicit boundary Inn to Square")
 	_check(not entry.inn.is_inside_tree() and not entry.inn.player_body.player_controlled and not (entry.inn.player_body.get_node("Camera2D") as Camera2D).enabled, "inactive Inn detached/input/camera off")
-	_check(entry.outdoor.player_body.position == entry.outdoor.birth_marker.position, "Square authored entry marker")
+	_check(entry.outdoor.player_body.position == entry.outdoor.resolve_spawn_marker(SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID).position, "Square authored entry marker")
 	_check(not entry.outdoor.accept_zone_presence(entry.outdoor.get_node("Zones/EastRoad3")), "remote nonadjacent zone cannot be selected")
 	_continuity(entry, identities)
 	# A return must preserve deliberately changed state, not merely match defaults.

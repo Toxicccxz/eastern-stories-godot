@@ -72,10 +72,10 @@ func _story(tree: SceneTree) -> void:
 
 	# Declared contact placement fixture; no claim of keyboard/door traversal.
 	check(session.handoff_to(&"snow.outdoor",&"snow.square",&"snow.square",SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID).succeeded(), "test contact map handoff")
-	var map := session.active_map() as SnowOutdoorController
+	var map := session.active_map() as WorldMapController
 	map.player_body.position = Vector2(1015,-400)
 	check(player.set_world_location(WorldLocationState.new(SnowWorldDefinitions.REGION_ID,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall")), "test Liu contact placement")
-	var school := map.school
+	var school := map.service(&"snow.schoolhall.master") as TeacherService
 	check(school.request_apprentice() == SwordsmanApprenticeship.Outcome.RECRUITED, "production Liu apprenticeship")
 	check(state.family.family_id == &"family.fonxan" and state.family.generation == 14 and state.apprenticeship.master_teacher_id == &"teacher.liu_chunfeng" and state.affiliation.class_id == &"swordsman", "committed relationship")
 	var basic_rng := LearnDraws.new([29])

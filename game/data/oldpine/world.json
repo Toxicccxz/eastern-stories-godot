@@ -3,8 +3,8 @@
 		{ "id": "oldpine", "name": "老松岭" }
 	],
 	"maps": [
-		{ "id": "oldpine.outdoor", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_outdoor.tscn" },
-		{ "id": "oldpine.cave", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_cave.tscn" }
+		{ "id": "oldpine.outdoor", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_outdoor.tscn", "entry": "oldpine.outdoor.central_clearing.player_start" },
+		{ "id": "oldpine.cave", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_cave.tscn", "entry": "oldpine.cave.waterfall_passage.vine_landing" }
 	],
 	"zones": [
 		{
