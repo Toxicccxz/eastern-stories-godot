@@ -1,14 +1,18 @@
 class_name WorldMapController
 extends WorldResidentMapController
 
-## One walkable map, configured by its data (maps/zones/portals/services/doors
-## in world.json) and by ID-carrying scene components: WorldPhysicalZoneArea2D
-## under Zones, WorldSpawnMarker2D under SpawnPoints, WorldPassageArea2D,
-## WorldServicePoint and WorldDoor. No region-specific code.
+## One walkable map, configured by its data (maps/zones/portals/services/doors/
+## landmarks in world.json, spawns.json) and by ID-carrying scene components:
+## WorldPhysicalZoneArea2D under Zones, WorldSpawnMarker2D under SpawnPoints,
+## WorldPassageArea2D, WorldServicePoint, WorldDoor and WorldLandmarkArea2D.
+## NPCs get a WorldNpcBody2D each, created in spawn order. No region-specific code.
+const NpcBodyScene := preload("res://scenes/world/common/world_npc_body.tscn")
+const WORLD_CAPACITY: int = 1_000_000
+
 @export var map: StringName = &""
 
-## Services talk to the Session's shared UI and player state; optional for
-## isolated map compositions without a Session.
+## Services, the HUD, restore entries and combat talk to the Session; optional
+## for isolated map compositions without one.
 var session: OldPineWorldSessionController
 var player_body: WorldCharacterBody2D
 var _definition: MapDefinition
@@ -20,6 +24,33 @@ var _present_zones: Array[WorldPhysicalZoneArea2D] = []
 var _zone_check_pending: bool = false
 var _services: Array[WorldService] = []
 var _doors: Dictionary[StringName, WorldDoor] = {}
+var _landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
+
+var _map_characters: MapCharacterRuntimeState
+var _npcs: Array[NpcRuntimeState] = []
+var _npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
+var _npc_presence: Dictionary[StringName, Area2D] = {}
+var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
+var _corpse_states: Array[CorpseState] = []
+var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
+var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
+var _effects: SkillImprovementEffectRegistry
+var _selected_target: WorldInteractionTarget
+var _selected_landmark_available: bool = false
+var _aggression: NpcAggressionAdapter = NpcAggressionAdapter.new()
+var _last_aggression_decisions: Array[NpcAggressionDecision] = []
+var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
+## Aggressive NPCs of a complete-set zone whose current contact already started
+## an encounter; contact must break before it can start another.
+var _complete_set_consumed_contacts: Array[StringName] = []
+var _loot: CorpseLootAdapter = CorpseLootAdapter.new()
+var _last_loot_transfer_result: CorpseLootTransferResult
+var _weapon_resolver: WorldWeaponContentResolver = WorldWeaponContentResolver.new()
+var _last_player_content_resolution: WorldWeaponContentResolution
+var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
+var _lifecycle_failed: bool = false
+var _last_landmark_use: RefCounted
+var _last_passage_traversal: RefCounted
 
 
 func _ready() -> void:
@@ -44,7 +75,7 @@ func initialize_map() -> bool:
 	player_body = get_node_or_null("%Player") as WorldCharacterBody2D
 	if not _configured or _definition == null or player_body == null:
 		return false
-	if not _bind_zones() or not _bind_passages() or not _bind_services() or not _bind_doors():
+	if not _bind_zones() or not _bind_passages() or not _bind_services() or not _bind_doors() or not _bind_landmarks():
 		return false
 	var entry: WorldSpawnMarker2D = resolve_spawn_marker(_definition.entry_spawn_id)
 	if entry == null or _zone_at(entry.global_position) == null:
@@ -52,6 +83,12 @@ func initialize_map() -> bool:
 	if not player_body.bind_player(_player) or not player_body.bind_world_simulation_gate(_world_simulation_gate):
 		return false
 	player_body.global_position = entry.global_position
+	_map_characters = MapCharacterRuntimeState.new(map)
+	_effects = SkillImprovementEffectRegistry.new()
+	_effects.register_legacy_defaults()
+	var restoring: bool = session != null and session.bootstrap_mode() == OldPineWorldSessionController.BootstrapMode.RESTORE
+	if not (_restore_actors() if restoring else _spawn_actors()):
+		return false
 	prepare_for_deactivation()
 	_initialized = true
 	_initialization_count += 1
@@ -90,6 +127,8 @@ func _bind_passages() -> bool:
 
 
 func _coordinator() -> WorldResidentMapCoordinator:
+	if session != null:
+		return session
 	var node: Node = get_parent()
 	while node != null and not node is WorldResidentMapCoordinator:
 		node = node.get_parent()
@@ -125,6 +164,21 @@ func _bind_doors() -> bool:
 	return expected.is_empty()
 
 
+func _bind_landmarks() -> bool:
+	var expected: Dictionary[StringName, bool] = {}
+	for definition: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(map):
+		expected[definition.landmark_id] = true
+	for node: Node in find_children("*", "Area2D", true, false):
+		var area: WorldLandmarkArea2D = node as WorldLandmarkArea2D
+		if area == null:
+			continue
+		if not expected.erase(area.landmark_id):
+			return false
+		_landmark_areas[area.landmark_id] = area
+		area.selection_requested.connect(select_landmark)
+	return expected.is_empty()
+
+
 func is_map_initialized() -> bool:
 	return _initialized
 
@@ -151,12 +205,8 @@ func resolve_spawn_marker(id: StringName) -> WorldSpawnMarker2D:
 
 func spawn_matches_zone(id: StringName, zone_id: StringName) -> bool:
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(id)
-	if marker == null:
-		return false
-	for zone: WorldPhysicalZoneArea2D in _zones:
-		if zone.zone_id == zone_id:
-			return zone.contains_center(marker.global_position)
-	return false
+	var zone: WorldPhysicalZoneArea2D = physical_zone(zone_id)
+	return marker != null and zone != null and zone.contains_center(marker.global_position)
 
 
 func _zone_at(point: Vector2) -> WorldPhysicalZoneArea2D:
@@ -166,15 +216,30 @@ func _zone_at(point: Vector2) -> WorldPhysicalZoneArea2D:
 	return null
 
 
+## Read from the scene, so it also works before initialize_map().
 func physical_zones() -> Array[WorldPhysicalZoneArea2D]:
-	return _zones.duplicate()
+	var result: Array[WorldPhysicalZoneArea2D] = []
+	var zones: Node = get_node_or_null("Zones")
+	if zones != null:
+		for child: Node in zones.get_children():
+			if child is WorldPhysicalZoneArea2D:
+				result.append(child as WorldPhysicalZoneArea2D)
+	return result
+
+
+func physical_zone(zone_id: StringName) -> WorldPhysicalZoneArea2D:
+	for zone: WorldPhysicalZoneArea2D in physical_zones():
+		if zone.zone_id == zone_id:
+			return zone
+	return null
 
 
 func location_for_zone(id: StringName) -> WorldLocationState:
 	var zone: ZoneDefinition = GameContent.catalog().zone(id)
-	if zone == null or zone.map_id != map or _definition == null:
+	var definition: MapDefinition = GameContent.catalog().map(map)
+	if zone == null or zone.map_id != map or definition == null:
 		return null
-	return WorldLocationState.new(_definition.region_id, map, zone.zone_id, zone.combat_location_id)
+	return WorldLocationState.new(definition.region_id, map, zone.zone_id, zone.combat_location_id)
 
 
 func resolve_location(zone_id: StringName, combat_id: StringName) -> WorldLocationState:
@@ -204,6 +269,8 @@ func complete_activation() -> bool:
 	player_body.refresh_runtime_state()
 	(player_body.get_node("Camera2D") as Camera2D).enabled = true
 	clear_passage_contacts()
+	if _hud() != null:
+		_hud().refresh_live_state()
 	return true
 
 
@@ -216,6 +283,11 @@ func prepare_for_deactivation() -> void:
 	_present_zones.clear()
 	_zone_check_pending = false
 	clear_passage_contacts()
+	_selected_target = null
+	_aggression.clear_all()
+	if _hud() != null:
+		_hud().close_loot()
+		_hud().close_inventory()
 
 
 func _zone_entered(body: Node2D, zone: WorldPhysicalZoneArea2D) -> void:
@@ -244,7 +316,8 @@ func _physics_process(_delta: float) -> void:
 			return
 
 
-## The player walks from one zone into a neighbouring one (ES2 room exits).
+## The player walks from one zone into a neighbouring one (ES2 room exits and
+## the zone links that DECISIONS records).
 func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 	if not _initialized or not player_body.player_controlled or _world_simulation_gate.is_frozen() or not _zones.has(zone) or not zone.contains_center(player_body.global_position):
 		return false
@@ -262,7 +335,14 @@ func freeze_world_gameplay(id: StringName) -> bool:
 	if not _initialized or id.is_empty() or not _freeze_owner.is_empty() or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = id
-	player_body.quarantine_current_movement_input()
+	_aggression.clear_all()
+	_selected_target = null
+	if _hud() != null:
+		_hud().set_selected_target(null)
+		_hud().close_loot()
+		_hud().close_inventory()
+	for body: WorldCharacterBody2D in _character_bodies():
+		body.quarantine_current_movement_input()
 	return true
 
 
@@ -270,7 +350,10 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if id.is_empty() or _freeze_owner != id or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = &""
-	player_body.quarantine_current_movement_input()
+	for body: WorldCharacterBody2D in _character_bodies():
+		body.quarantine_current_movement_input()
+	if _hud() != null:
+		_hud().refresh_live_state()
 	return true
 
 
@@ -299,21 +382,21 @@ func replace_world_interaction_random_source(value: WorldInteractionRandomSource
 	return true
 
 
-# --- Authorities for services -------------------------------------------------
+# --- Authorities ---------------------------------------------------------------
 
-func player() -> WorldPlayerRuntimeState:
+func player_runtime() -> WorldPlayerRuntimeState:
 	return _player
 
 
-func inventory() -> InventoryState:
+func inventory_state() -> InventoryState:
 	return _inventory
 
 
-func stacks() -> CombinedStackCollection:
+func stack_collection() -> CombinedStackCollection:
 	return _stacks
 
 
-func item_index() -> WorldItemInstanceIndex:
+func item_instance_index() -> WorldItemInstanceIndex:
 	return _item_index
 
 
@@ -321,19 +404,880 @@ func item_id_allocator() -> SessionItemIdAllocator:
 	return _item_id_allocator
 
 
-func foods() -> FoodCollection:
+func food_collection() -> FoodCollection:
 	return _foods
 
 
-func liquids() -> LiquidCollection:
+func liquid_collection() -> LiquidCollection:
 	return _liquids
 
 
-func world_interaction_random() -> WorldInteractionRandomSource:
+func npc_random_source() -> NpcInitializationRandomSource:
+	return _npc_random
+
+
+func combat_random_source() -> CombatRandomSource:
+	return _combat_random
+
+
+func world_interaction_random_source() -> WorldInteractionRandomSource:
 	return _world_interaction_random
 
 
-# --- Interactions: services and doors ----------------------------------------
+func map_character_state() -> MapCharacterRuntimeState:
+	return _map_characters
+
+
+func _hud() -> SharedGameplayUI:
+	return null if session == null else session.shared_ui()
+
+
+func _gameplay_open() -> bool:
+	return _world_simulation_gate == null or _world_simulation_gate.is_open()
+
+
+# --- NPC bodies ----------------------------------------------------------------
+
+## Spawns are created in authored order: it fixes each NPC's random draws and
+## loadout item identities.
+func _spawn_actors() -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var loadout_content: Array[NpcLoadoutItemDefinition] = catalog.loadout_item_definitions()
+	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
+		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
+			spawn,
+			catalog.npc(spawn.npc_definition_id),
+			location_for_zone(spawn.zone_id),
+			_inventory,
+			_stacks,
+			_npc_random,
+			loadout_content,
+			_item_id_allocator.scope,
+		)
+		if created.size() != spawn.quantity:
+			push_error("spawn %s could not be created; check its npc, map and zone" % spawn.spawn_id)
+			return false
+		for npc: NpcRuntimeState in created:
+			for item: ItemInstance in npc.loadout_items():
+				if not _item_index.register_snapshot(item):
+					return false
+		for npc: NpcRuntimeState in created:
+			var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
+			if marker == null or not _add_npc_body(npc, marker.global_position):
+				return false
+	return true
+
+
+## Restore places the saved NPCs and corpses of this map, exactly where they were.
+func _restore_actors() -> bool:
+	for entry: OldPineRestoredNpcEntry in session.restored_npc_entries():
+		var npc: NpcRuntimeState = entry.runtime
+		if npc.world_location().map_id != map:
+			continue
+		# register_npc() is a live-spawn API and marks existence true. Restore
+		# immediately reapplies the persisted tombstone fact before any frame.
+		var saved_exists: bool = npc.exists_in_map
+		if not _add_npc_body(npc, entry.map_position):
+			return false
+		npc.set_exists_in_map(saved_exists)
+		_npc_bodies[npc.character_id].refresh_runtime_state()
+	for entry: OldPineRestoredCorpseEntry in session.restored_corpse_entries():
+		if entry.world_location.map_id == map and not _publish_corpse_view(entry.state, entry.map_position, entry.world_location):
+			return false
+	var authored_npc_count: int = 0
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
+		authored_npc_count += spawn.quantity
+	return _npcs.size() == authored_npc_count
+
+
+func _add_npc_body(npc: NpcRuntimeState, position: Vector2) -> bool:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	if spawn == null or not _map_characters.register_npc(npc):
+		return false
+	var body: WorldNpcBody2D = NpcBodyScene.instantiate() as WorldNpcBody2D
+	body.name = String(npc.spawn_point_id).replace(".", "_")
+	body.configure_npc(spawn, npc.definition())
+	# Enter the physics space already at the spawn point, never at the origin.
+	var parent: Node = _characters_node()
+	body.position = (parent as Node2D).to_local(position) if parent is Node2D else position
+	parent.add_child(body)
+	_npcs.append(npc)
+	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
+		return false
+	_connect_npc_body(npc.character_id, body, body.presence())
+	return true
+
+
+func _characters_node() -> Node:
+	var node: Node = get_node_or_null("Characters")
+	return self if node == null else node
+
+
+func _connect_npc_body(character_id: StringName, body: WorldCharacterBody2D, presence: Area2D) -> void:
+	_npc_bodies[character_id] = body
+	_npc_presence[character_id] = presence
+	body.selection_requested.connect(_on_npc_selection_requested)
+	presence.body_entered.connect(_on_presence_entered.bind(character_id))
+	presence.body_exited.connect(_on_presence_exited.bind(character_id))
+
+
+## Binds an already-created NPC to a caller-owned physical body. This does not
+## author a spawn, initialize a character, or establish combat relationships.
+func register_npc_body(npc: NpcRuntimeState, body: WorldCharacterBody2D, presence: Area2D, content: CombatSliceContentProfile) -> bool:
+	if (
+		not _initialized or not _gameplay_open()
+		or npc == null or not npc.is_valid() or not npc.exists_in_map
+		or npc.character_id == _player.character_id or find_resident_npc(npc.character_id) != null
+		or not is_instance_valid(body) or not is_ancestor_of(body)
+		or not body.character_id.is_empty() or body.player_controlled
+		or not body.get_node_or_null("CollisionShape2D") is CollisionShape2D
+		or not is_instance_valid(presence) or not body.is_ancestor_of(presence)
+		or npc.world_location().map_id != map
+		or _map_characters.has_character(npc.character_id)
+		or WorldCombatBindingAdapter.from_npc(npc, content) == null
+	):
+		return false
+	if not _map_characters.register_npc(npc):
+		return false
+	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
+		_map_characters.remove_character(npc.character_id)
+		return false
+	_registered_npc_content[npc.character_id] = content
+	_npcs.append(npc)
+	_connect_npc_body(npc.character_id, body, presence)
+	return true
+
+
+## Caller owns physical-node removal. Never detach a live Encounter participant.
+func unregister_npc_body(character_id: StringName) -> bool:
+	if not _gameplay_open() or not _npc_bodies.has(character_id):
+		return false
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null or npc.relationship.is_fighting():
+		return false
+	var body: WorldCharacterBody2D = _npc_bodies[character_id]
+	if is_instance_valid(body):
+		body.selection_requested.disconnect(_on_npc_selection_requested)
+	var area: Area2D = _npc_presence[character_id]
+	if is_instance_valid(area):
+		area.body_entered.disconnect(_on_presence_entered.bind(character_id))
+		area.body_exited.disconnect(_on_presence_exited.bind(character_id))
+	_npc_bodies.erase(character_id)
+	_npc_presence.erase(character_id)
+	_registered_npc_content.erase(character_id)
+	_npcs.erase(npc)
+	_map_characters.remove_character(character_id)
+	_aggression.clear_npc(character_id)
+	if selected_character_id() == character_id:
+		_selected_target = null
+	return true
+
+
+func npc_runtimes() -> Array[NpcRuntimeState]:
+	return _npcs.duplicate()
+
+
+func resident_npcs() -> Array[NpcRuntimeState]:
+	return _npcs.duplicate()
+
+
+func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
+	for npc: NpcRuntimeState in _npcs:
+		if npc.character_id == character_id:
+			return npc
+	return null
+
+
+func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:
+	if _player != null and character_id == _player.character_id:
+		return player_body
+	return _npc_bodies.get(character_id)
+
+
+## The body of the NPC spawned at `spawn_point_id` (a spawns[] point).
+func runtime_body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBody2D:
+	for npc: NpcRuntimeState in _npcs:
+		if npc.spawn_point_id == spawn_point_id:
+			return _npc_bodies.get(npc.character_id)
+	return null
+
+
+func _character_bodies() -> Array[WorldCharacterBody2D]:
+	var result: Array[WorldCharacterBody2D] = [player_body]
+	result.append_array(_npc_bodies.values())
+	return result
+
+
+# --- Aggression ------------------------------------------------------------------
+
+func _process(_delta: float) -> void:
+	if not _initialized or not _gameplay_open():
+		return
+	for npc: NpcRuntimeState in _npcs:
+		if _zone_entry(npc.world_location()) == &"complete_set" and not _complete_entry_contact(npc.character_id):
+			_complete_set_consumed_contacts.erase(npc.character_id)
+	if _aggression.pending_count() > 0 or _zone_entry(_player.world_location()) == &"complete_set":
+		process_pending_aggression()
+	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
+		_refresh_selected_corpse()
+	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK:
+		_refresh_selected_landmark_source()
+
+
+static func _zone_entry(location: WorldLocationState) -> StringName:
+	var zone: ZoneDefinition = null if location == null else GameContent.catalog().zone(location.zone_id)
+	return &"" if zone == null else zone.combat_entry
+
+
+## None of the migrated ES2 rooms authors a no_fight fact yet.
+func _combat_allowed() -> bool:
+	var location: WorldLocationState = _player.world_location()
+	return location != null and location.map_id == map
+
+
+## A complete-set zone polls exact contact instead of queueing pair entries.
+func _on_presence_entered(body: Node2D, character_id: StringName) -> void:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if _gameplay_open() and body == player_body and npc != null and _zone_entry(npc.world_location()) != &"complete_set":
+		_aggression.enter_player_presence(npc, _player, _combat_allowed())
+
+
+func _on_presence_exited(body: Node2D, character_id: StringName) -> void:
+	if body == player_body and not _complete_entry_contact(character_id):
+		_complete_set_consumed_contacts.erase(character_id)
+	if _gameplay_open() and body == player_body:
+		_aggression.leave_player_presence(character_id)
+
+
+func aggression_adapter() -> NpcAggressionAdapter:
+	return _aggression
+
+
+func last_aggression_decisions() -> Array[NpcAggressionDecision]:
+	return _last_aggression_decisions.duplicate()
+
+
+func last_aggression_initiations() -> Array[CombatSliceInitiationResult]:
+	return _last_aggression_initiations.duplicate()
+
+
+func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
+	if not _gameplay_open() or session == null:
+		return []
+	_last_aggression_initiations.clear()
+	if _zone_entry(_player.world_location()) == &"complete_set":
+		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
+			_last_aggression_initiations.append(session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION))
+		return _last_aggression_initiations.duplicate()
+	_last_aggression_decisions = _aggression.resolve_pending(_npcs, _player, _combat_allowed())
+	for decision: NpcAggressionDecision in _last_aggression_decisions:
+		var npc: NpcRuntimeState = find_resident_npc(decision.npc_id)
+		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
+			continue
+		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, "%s attacks on sight" % npc.definition().display_name))
+	return _last_aggression_initiations.duplicate()
+
+
+## Owner decision P2A-M: every eligible aggressive enemy in current physical
+## contact, plus a manual target, enters one encounter in stable ID order.
+func collect_complete_combat_entry(cause: int, requested_target: StringName = &"") -> Array[CombatSliceCharacterBinding]:
+	if not _gameplay_open() or session == null or session.active_map() != self:
+		return []
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION]:
+		return []
+	var manual: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
+	if (manual and find_resident_npc(requested_target) == null) or (not manual and not requested_target.is_empty()):
+		return []
+	if player_body._player != _player:
+		return []
+	var ids: Array[StringName] = []
+	var fresh_contact: bool = false
+	for npc: NpcRuntimeState in _npcs:
+		if npc.exists_in_map:
+			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+			if not is_instance_valid(body) or body._npc != npc or _map_characters.find_npc(npc.character_id) != npc:
+				return []
+		var contact: bool = _complete_entry_contact(npc.character_id)
+		if not contact:
+			_complete_set_consumed_contacts.erase(npc.character_id)
+		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed())
+		var aggressive: bool = contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
+		if aggressive or (manual and npc.character_id == requested_target):
+			if ids.has(npc.character_id):
+				return []
+			ids.append(npc.character_id)
+			fresh_contact = fresh_contact or (aggressive and not _complete_set_consumed_contacts.has(npc.character_id))
+	if ids.is_empty() or (not manual and not fresh_contact):
+		return []
+	ids.sort_custom(func(first: StringName, second: StringName) -> bool: return String(first) < String(second))
+	ids.push_front(_player.character_id)
+	var available: Array[CombatSliceCharacterBinding] = _build_participants()
+	var result: Array[CombatSliceCharacterBinding] = []
+	for id: StringName in ids:
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(available, id)
+		if binding == null or not session.encounter_participant_is_available(id):
+			return []
+		result.append(binding)
+	return result
+
+
+## Exact current shapes, not cached Area overlap lists or deferred signal order.
+func _complete_entry_contact(id: StringName) -> bool:
+	var body: WorldCharacterBody2D = runtime_body_for_character(id)
+	if not is_instance_valid(body) or not body.is_inside_tree():
+		return false
+	var area: Area2D = _npc_presence.get(id)
+	if not is_instance_valid(area) or not area.monitoring or not area.is_inside_tree():
+		return false
+	var player_shape: CollisionShape2D = player_body.get_node_or_null("CollisionShape2D")
+	if player_shape == null or player_shape.disabled or player_shape.shape == null:
+		return false
+	for child: Node in area.get_children():
+		if child is CollisionShape2D and not child.disabled and child.shape != null:
+			if child.shape.collide(child.global_transform, player_shape.shape, player_shape.global_transform):
+				return true
+	return false
+
+
+func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
+	for id: StringName in ids:
+		if _complete_entry_contact(id) and not _complete_set_consumed_contacts.has(id):
+			_complete_set_consumed_contacts.append(id)
+
+
+func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, log_line: String) -> CombatSliceInitiationResult:
+	if not _gameplay_open() or session == null:
+		return CombatSliceInitiationResult.new()
+	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if initiator_id == _player.character_id else CombatTriggerCause.Value.NPC_AGGRESSION
+	var result: CombatSliceInitiationResult
+	if _zone_entry(_player.world_location()) == &"complete_set":
+		result = session.combat_encounter_coordinator().start_complete_production(cause, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else &"")
+	else:
+		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+		result = session.combat_encounter_coordinator().start_production(
+			CombatSliceProjectionBuilder.find_binding(participants, initiator_id),
+			CombatSliceProjectionBuilder.find_binding(participants, target_id),
+			cause,
+		)
+	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		_hud().append_log_lines([log_line])
+	return result
+
+
+# --- Combat participants and lifecycle publication ----------------------------------
+
+func encounter_combat_bindings(encounter: CombatEncounter) -> Array[CombatSliceCharacterBinding]:
+	var result: Array[CombatSliceCharacterBinding] = []
+	if not _initialized or encounter == null or not encounter.is_valid():
+		return result
+	var current: Array[CombatSliceCharacterBinding] = _build_participants(true)
+	for participant: CombatParticipant in encounter.participants():
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(current, participant.participant_id)
+		if (
+			binding == null
+			or binding.state != participant.binding.state
+			or binding.relationship != participant.binding.relationship
+			or binding.busy != participant.binding.busy
+			or binding.armor != participant.binding.armor
+		):
+			return []
+		result.append(binding)
+	return result
+
+
+func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
+	return _effects
+
+
+func last_player_content_resolution() -> WorldWeaponContentResolution:
+	return _last_player_content_resolution
+
+
+func _build_participants(include_absent: bool = false) -> Array[CombatSliceCharacterBinding]:
+	var result: Array[CombatSliceCharacterBinding] = []
+	_last_player_content_resolution = _weapon_resolver.resolve(_player, _inventory, _item_index)
+	var player_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
+		_player,
+		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
+	)
+	if player_binding != null:
+		result.append(player_binding)
+	for npc: NpcRuntimeState in _npcs:
+		if not include_absent and not npc.exists_in_map:
+			continue
+		var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
+		if binding != null:
+			result.append(binding)
+	return result
+
+
+## The weapon an NPC is authored to wield, as its verified combat weapon.
+static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceContentProfile:
+	for entry: NpcLoadoutEntry in definition.loadout_entries():
+		if entry.equipment_intent != NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY:
+			continue
+		var content: ItemContentDefinition = GameContent.catalog().item(entry.item_definition_id)
+		if content != null and content.weapon_definition() != null:
+			return CombatSliceContentProfile.new(content.item_definition_id, content.weapon_skill_type, content.weapon_damage)
+	return CombatSliceContentProfile.new(&"", &"", 0)
+
+
+func last_lifecycle_results() -> Array[CombatSliceLifecycleResult]:
+	return _last_lifecycle_results.duplicate()
+
+
+func lifecycle_is_pending() -> bool:
+	return _lifecycle_failed
+
+
+## Map-owned physical publication; rules remain in the existing lifecycle/death
+## services. Encounter calls this only at its synchronous outer boundary.
+func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
+	if _lifecycle_failed:
+		return CombatSliceLifecycleResult.new()
+	# Read before the lifecycle clears lethal relations and moves the body.
+	var is_player: bool = _player != null and victim.character_id == _player.character_id
+	var has_killer: bool = _find_killer(victim, participants) != null
+	var location: WorldLocationState = _location_for_character(victim.character_id)
+	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants)
+	_last_lifecycle_results.append(receipt)
+	if not receipt.completed():
+		_lifecycle_failed = true
+	elif is_player and session != null:
+		session.on_player_lifecycle(receipt, has_killer, location)
+	return receipt
+
+
+func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
+	var body: WorldCharacterBody2D = runtime_body_for_character(victim.character_id)
+	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
+	var death_location: WorldLocationState = _location_for_character(victim.character_id)
+	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants)
+	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
+	if not allocation.succeeded:
+		return CombatSliceLifecycleResult.new()
+	var lifecycle: CombatSliceLifecycleResult = CombatSliceLifecycleAdapter.new().execute(
+		opportunity,
+		victim,
+		participants,
+		killer,
+		_inventory,
+		_stacks,
+		allocation.item_instance_id,
+		destination,
+		_death_item_facts_for(victim.character_id),
+		DeathItemPolicyRegistry.new(),
+		DeathRewearPolicyRegistry.new(),
+		_death_context_for(victim, killer, destination),
+	)
+	if lifecycle.completed():
+		_sync_binding(victim)
+		if body != null:
+			body.refresh_runtime_state()
+	var corpse: CorpseState = null if lifecycle.death_inventory_result == null else lifecycle.death_inventory_result.corpse_state
+	if corpse == null:
+		return lifecycle
+	var view: CombatSliceCorpseView = _add_corpse_view(corpse, death_position, death_location)
+	if view == null:
+		lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
+		return lifecycle
+	# Phase 6B3 keeps a partial corpse mutation and its view even when death
+	# cannot complete; only a completed, indexed death becomes a loot interaction.
+	if lifecycle.outcome != CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+		return lifecycle
+	if not _item_index.register_snapshot(ItemInstance.new(corpse.corpse_item_instance_id, CombatSliceDeathAdapter.CORPSE_DEFINITION_ID)):
+		lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
+		return lifecycle
+	_make_corpse_interactive(view)
+	return lifecycle
+
+
+## A restored corpse is already indexed and interactive.
+func _publish_corpse_view(corpse: CorpseState, position: Vector2, location: WorldLocationState) -> bool:
+	var view: CombatSliceCorpseView = _add_corpse_view(corpse, position, location)
+	if view == null:
+		return false
+	_make_corpse_interactive(view)
+	return true
+
+
+func _add_corpse_view(corpse: CorpseState, position: Vector2, location: WorldLocationState) -> CombatSliceCorpseView:
+	_corpse_states.append(corpse)
+	if location != null:
+		_corpse_locations[corpse.corpse_item_instance_id] = location.duplicate_snapshot()
+	var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
+	if not view.configure(corpse):
+		view.free()
+		return null
+	view.global_position = position
+	_corpse_layer().add_child(view)
+	return view
+
+
+func _make_corpse_interactive(view: CombatSliceCorpseView) -> void:
+	_corpse_views[view.corpse_item_instance_id] = view
+	view.selection_requested.connect(select_corpse)
+	view.loot_range_changed.connect(_on_corpse_loot_range_changed)
+
+
+func _corpse_layer() -> Node2D:
+	var layer: Node2D = get_node_or_null("CorpseLayer") as Node2D
+	if layer == null:
+		layer = Node2D.new()
+		layer.name = "CorpseLayer"
+		add_child(layer)
+	return layer
+
+
+func _death_context_for(victim: CombatSliceCharacterBinding, killer: CombatSliceCharacterBinding, destination: InventoryTransferDestination) -> DeathContext:
+	if _player != null and victim.character_id == _player.character_id:
+		return _player.death_context(destination, killer != null)
+	var fallback: PlayerIdentityFacts = PlayerIdentityFacts.legacy_technical()
+	var display_name: String = fallback.display_name
+	var age: int = fallback.age
+	var strength: int = victim.state.attributes.strength
+	var body_weight: int = CharacterDerivedValues.human_weight(strength)
+	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)
+	var npc: NpcRuntimeState = find_resident_npc(victim.character_id)
+	if npc != null:
+		display_name = npc.definition().display_name
+		age = npc.age
+		# chard.c copies query_weight/query_max_encumbrance, not a fresh race setup.
+		body_weight = npc.body_weight
+		maximum_encumbrance = npc.maximum_encumbrance
+	return DeathContext.new(
+		victim.character_id,
+		false,
+		false,
+		destination,
+		ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor),
+		display_name,
+		victim.state.gender,
+		age,
+		body_weight,
+		maximum_encumbrance,
+		false,
+		destination.endpoint if killer != null else null,
+		victim.state.gender,
+		killer != null,
+	)
+
+
+func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
+	var facts: Array[DeathItemFacts] = []
+	var endpoint: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)
+	# Current direct inventory, not the original bootstrap loadout or only sword.
+	for item_id: StringName in _inventory.direct_children(endpoint):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		if item == null:
+			continue # Existing death validator fails closed on incomplete facts.
+		var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
+		facts.append(DeathItemFacts.new(item, null if content == null else content.armor_definition()))
+	return facts
+
+
+func _sync_binding(binding: CombatSliceCharacterBinding) -> void:
+	if binding.character_id == _player.character_id:
+		WorldCombatBindingAdapter.sync_player(binding, _player)
+		return
+	var npc: NpcRuntimeState = find_resident_npc(binding.character_id)
+	if npc != null:
+		WorldCombatBindingAdapter.sync_npc(binding, npc)
+
+
+func _location_for_character(character_id: StringName) -> WorldLocationState:
+	if _player != null and character_id == _player.character_id:
+		return _player.world_location()
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	return null if npc == null else npc.world_location()
+
+
+func _world_destination_for(character_id: StringName) -> InventoryTransferDestination:
+	var location: WorldLocationState = _location_for_character(character_id)
+	return InventoryTransferDestination.new(
+		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, location.combat_location_id),
+		true,
+		true,
+		WORLD_CAPACITY,
+	)
+
+
+static func _find_killer(victim: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceCharacterBinding:
+	for candidate: CombatSliceCharacterBinding in participants:
+		if candidate != victim and (candidate.relationship.has_lethal_target(victim.character_id) or victim.relationship.has_lethal_target(candidate.character_id)):
+			return candidate
+	return null
+
+
+# --- Corpses -----------------------------------------------------------------------
+
+func corpse_states() -> Array[CorpseState]:
+	return _corpse_states.duplicate()
+
+
+func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
+	return _corpse_views.get(corpse_id)
+
+
+func corpse_world_location(corpse_id: StringName) -> WorldLocationState:
+	var location: WorldLocationState = _corpse_locations.get(corpse_id)
+	return null if location == null else location.duplicate_snapshot()
+
+
+func last_loot_transfer_result() -> CorpseLootTransferResult:
+	return _last_loot_transfer_result
+
+
+func _find_corpse(corpse_id: StringName) -> CorpseState:
+	for corpse: CorpseState in _corpse_states:
+		if corpse.corpse_item_instance_id == corpse_id:
+			return corpse
+	return null
+
+
+func _selected_corpse() -> CorpseState:
+	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.ITEM:
+		return null
+	return _find_corpse(_selected_target.target_id)
+
+
+func _corpse_is_live_in_world(corpse: CorpseState) -> bool:
+	if (
+		corpse == null
+		or not _inventory.is_registered(corpse.corpse_item_instance_id)
+		or not _item_index.has_snapshot(corpse.corpse_item_instance_id)
+		or not _corpse_views.has(corpse.corpse_item_instance_id)
+	):
+		return false
+	var parent: ContainmentEndpoint = _inventory.direct_parent(corpse.corpse_item_instance_id)
+	return parent != null and parent.kind == ContainmentEndpoint.Kind.WORLD
+
+
+func _corpse_content_count(corpse: CorpseState) -> int:
+	if corpse == null:
+		return 0
+	return _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)).size()
+
+
+func _player_is_in_corpse_loot_range(corpse_id: StringName) -> bool:
+	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
+	return view != null and view.is_body_in_loot_range(player_body)
+
+
+func _refresh_selected_corpse() -> void:
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null or not _corpse_is_live_in_world(corpse):
+		if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
+			_selected_target = null
+		_hud().set_selected_corpse("", 0, false, true)
+		return
+	_hud().set_selected_corpse(corpse.victim_display_name, _corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), false)
+
+
+func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_inside: bool) -> void:
+	if _gameplay_open() and body == player_body and _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM and _selected_target.target_id == corpse_id:
+		_refresh_selected_corpse()
+
+
+func _refresh_loot_panel(corpse: CorpseState) -> void:
+	_hud().show_loot("Corpse of %s" % corpse.victim_display_name, _loot.project_rows(corpse, _inventory, _stacks, _item_index))
+
+
+# --- Selection: NPCs, landmarks, corpses --------------------------------------------
+
+func selected_interaction_target() -> WorldInteractionTarget:
+	return _selected_target
+
+
+func selected_character_id() -> StringName:
+	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.CHARACTER:
+		return &""
+	return _selected_target.target_id
+
+
+func selected_npc() -> NpcRuntimeState:
+	return find_resident_npc(selected_character_id())
+
+
+func _on_npc_selection_requested(character_id: StringName) -> void:
+	select_npc(character_id)
+
+
+func select_npc(character_id: StringName) -> bool:
+	if not _gameplay_open() or session == null:
+		return false
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return false
+	_selected_target = WorldInteractionTarget.character(character_id)
+	_hud().set_selected_target(npc)
+	return true
+
+
+func select_landmark(landmark_id: StringName) -> bool:
+	if not _gameplay_open() or session == null or not _landmark_areas.has(landmark_id):
+		return false
+	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
+	_selected_target = WorldInteractionTarget.landmark(landmark_id)
+	_selected_landmark_available = landmark_available(landmark)
+	_hud().set_selected_landmark(landmark, _selected_landmark_available)
+	return true
+
+
+func select_corpse(corpse_id: StringName) -> bool:
+	if not _gameplay_open() or session == null:
+		return false
+	var corpse: CorpseState = _find_corpse(corpse_id)
+	if corpse == null or not _corpse_is_live_in_world(corpse):
+		return false
+	_selected_target = WorldInteractionTarget.item(corpse_id)
+	_hud().set_selected_corpse(corpse.victim_display_name, _corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse_id))
+	return true
+
+
+func inspect_selected() -> bool:
+	if not _gameplay_open() or session == null or _selected_target == null:
+		return false
+	match _selected_target.kind:
+		WorldInteractionTarget.Kind.ITEM:
+			var corpse: CorpseState = _find_corpse(_selected_target.target_id)
+			if corpse == null or not _corpse_is_live_in_world(corpse):
+				return false
+			_hud().show_corpse_inspection(corpse.victim_display_name, _corpse_content_count(corpse))
+			return true
+		WorldInteractionTarget.Kind.LANDMARK:
+			var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
+			if landmark == null:
+				return false
+			_hud().show_landmark_inspection(landmark)
+			return true
+	var npc: NpcRuntimeState = selected_npc()
+	if npc == null or not npc.exists_in_map:
+		return false
+	_hud().show_inspection(npc.definition())
+	return true
+
+
+func attack_selected() -> CombatSliceInitiationResult:
+	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
+	if target == null:
+		return CombatSliceInitiationResult.new()
+	return _initiate_lethal_combat(_player.character_id, target.character_id, "Attack initiated against %s" % target.definition().display_name)
+
+
+func open_selected_loot() -> bool:
+	if not _gameplay_open() or session == null:
+		return false
+	_hud().close_inventory()
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null:
+		_hud().close_loot()
+		return false
+	var validation: int = _loot.validate_open(_player, corpse, _inventory, _item_index, _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id))
+	if validation != CorpseLootAdapter.OpenValidation.READY:
+		_hud().close_loot()
+		_refresh_selected_corpse()
+		return false
+	_refresh_loot_panel(corpse)
+	return true
+
+
+func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransferResult:
+	if not _gameplay_open() or session == null:
+		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, &"" if _player == null else _player.character_id, &"", item_instance_id)
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null:
+		_last_loot_transfer_result = CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.CORPSE_NOT_AVAILABLE, false, _player.character_id, &"", item_instance_id)
+		_hud().close_loot()
+		return _last_loot_transfer_result
+	_last_loot_transfer_result = _loot.take(_player, corpse, item_instance_id, _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), _inventory, _stacks, _item_index)
+	_refresh_selected_corpse()
+	if _hud().loot_is_open():
+		if _corpse_is_live_in_world(corpse):
+			_refresh_loot_panel(corpse)
+		else:
+			_hud().close_loot()
+	if _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return _last_loot_transfer_result
+
+
+# --- Landmarks and same-map passages ------------------------------------------------
+
+## The player stands in the landmark's zone and, when it needs contact, inside its area.
+func landmark_available(landmark: WorldLandmarkDefinition) -> bool:
+	if landmark == null or _player == null or not _landmark_areas.has(landmark.landmark_id):
+		return false
+	var location: WorldLocationState = _player.world_location()
+	var zone: ZoneDefinition = GameContent.catalog().zone(landmark.zone_id)
+	if location == null or zone == null or location.map_id != map or location.zone_id != zone.zone_id or location.combat_location_id != zone.combat_location_id:
+		return false
+	return not landmark.requires_contact or _inside_area(_landmark_areas[landmark.landmark_id], player_body.global_position)
+
+
+static func _inside_area(area: Area2D, point: Vector2) -> bool:
+	var collision: CollisionShape2D = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var rectangle: RectangleShape2D = null if collision == null or collision.disabled else collision.shape as RectangleShape2D
+	if rectangle == null:
+		return false
+	var local: Vector2 = collision.to_local(point)
+	return absf(local.x) <= rectangle.size.x / 2.0 and absf(local.y) <= rectangle.size.y / 2.0
+
+
+func _refresh_selected_landmark_source() -> void:
+	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
+		return
+	var available: bool = landmark_available(GameContent.catalog().landmark(_selected_target.target_id))
+	if available != _selected_landmark_available:
+		_selected_landmark_available = available
+		_hud().set_selected_landmark_source_available(available)
+
+
+## The selected landmark's action (the HUD's portal button).
+func traverse_selected_portal() -> RefCounted:
+	if not _gameplay_open() or session == null or _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
+		return WorldPortalTraversalResult.new()
+	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
+	var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
+	if policy == null:
+		return WorldPortalTraversalResult.new()
+	# The policy reports a wrong source zone itself; only the physical reach is checked here.
+	if landmark.requires_contact and not _inside_area(_landmark_areas[landmark.landmark_id], player_body.global_position):
+		_refresh_selected_landmark_source()
+		return WorldPortalTraversalResult.new()
+	var before: WorldLocationState = _player.world_location()
+	_last_landmark_use = policy.use(self, landmark)
+	if not _player.world_location().same_location(before) and not policy.keeps_selection():
+		_selected_target = null
+		_hud().set_selected_target(null)
+	_refresh_selected_landmark_source()
+	return _last_landmark_use
+
+
+func last_landmark_use() -> RefCounted:
+	return _last_landmark_use
+
+
+## WorldPassageArea2D calls this (deferred) for a portal that stays on this map,
+## e.g. cliffside.c north into the pine forest.
+func traverse_same_map_passage(portal: PortalDefinition) -> void:
+	if not _gameplay_open() or portal == null or not is_passage_current(portal):
+		return
+	_last_passage_traversal = WorldLandmarkPolicy.move_through(self, portal)
+	var traversal: WorldPortalTraversalResult = _last_passage_traversal as WorldPortalTraversalResult
+	if traversal != null and traversal.completed() and session != null:
+		_selected_target = null
+		_hud().set_selected_target(null)
+		_hud().append_log_lines(["%s: %s" % [portal.legacy_command.capitalize(), GameContent.catalog().zone(portal.destination_zone_id).display_name]])
+
+
+func last_passage_traversal() -> RefCounted:
+	return _last_passage_traversal
+
+
+# --- Interactions: services, water and doors ----------------------------------------
 
 ## Whether the player may use something on this map right now. `idle` adds
 ## ES2's busy/fight gate and needs a Session.
@@ -360,8 +1304,16 @@ func player_near(zone_ids: Array[StringName], point: Vector2, reach: int) -> boo
 	return (
 		zone_ids.has(zone_id)
 		and player_body.global_position.distance_squared_to(point) <= float(reach * reach)
-		and OldPineMapPlacementValidator.is_valid_character_position(self, zone_id, player_body.global_position)
+		and MapPlacementValidator.is_valid_character_position(self, zone_id, player_body.global_position)
 	)
+
+
+## A water source (resource/water) is within reach.
+func water_available() -> bool:
+	for candidate: WorldService in _services:
+		if candidate is WaterService and (candidate as WaterService).available():
+			return true
+	return false
 
 
 func services() -> Array[WorldService]:

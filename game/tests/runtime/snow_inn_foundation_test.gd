@@ -16,7 +16,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var map: WorldResidentMapController = entry.inn
 	var player: WorldPlayerRuntimeState = entry.player
 	var born: NewPlayerInitialization = entry.birth.player
-	_check(map is WorldMapController and not map is OldPineResidentMapController, "Snow uses neutral contract, not Old Pine adapter")
+	_check(map is WorldMapController, "Snow uses the generic map controller")
 	_check(player.state == born.state and player.facts == born.facts, "same CharacterState and identity")
 	_check(player.armor == born.armor and player.state.equipment == born.state.equipment, "same Armor and Equipment")
 	_check(map._player == player and map._inventory == entry.birth.inventory, "map receives same Player/Inventory")
@@ -24,7 +24,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(map._item_id_allocator == entry.allocator, "same allocator")
 	_check(map._npc_random == entry.npc_random and map._combat_random == entry.combat_random and map._world_interaction_random == entry.world_random, "same RNG authorities")
 	_check(map._world_simulation_gate == entry.gate, "same simulation gate")
-	for legacy_map: OldPineResidentMapController in [OldPineOutdoorController.new(), OldPineCavePassageController.new()]:
+	for legacy_map: WorldMapController in [WorldMapController.new(), WorldMapController.new()]:
 		_check(legacy_map.configure_world_authorities(player, entry.birth.inventory, entry.birth.stacks, entry.birth.item_index, entry.npc_random, entry.combat_random, entry.world_random, entry.allocator, entry.gate), "neutral authority injection remains explicit")
 		_check(not legacy_map.initialize_map(), "Old Pine bootstrap still requires its specialized Session adapter")
 		legacy_map.free()
@@ -100,11 +100,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	old.deterministic_combat_seed = true
 	old.deterministic_world_interaction_seed = true
 	tree.root.add_child(old)
-	_check(old.outdoor_map() is WorldResidentMapController and old.cave_map() is WorldResidentMapController, "both Old Pine maps use neutral contract")
+	_check(old.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) is WorldResidentMapController and old.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID) is WorldResidentMapController, "both Old Pine maps use neutral contract")
 	_check(old.resident_map_count() == 2 and old.active_map_child_count() == 1, "Old Pine still has two residents / one active")
 	var legacy: WorldPlayerRuntimeState = old.player_runtime()
 	_check(legacy.state.progression.combat_experience == 600 and legacy.facts.age == 20 and legacy.state.equipment.primary_weapon_skill_type() == &"sword", "technical New Game unchanged")
-	_check(old.outdoor_map()._inventory == old.cave_map()._inventory and old.outdoor_map()._player == old.cave_map()._player, "Old Pine shares authority storage")
+	_check(old.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._inventory == old.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)._inventory and old.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._player == old.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)._player, "Old Pine shares authority storage")
 	_check(OldPineWorldSaveCapture.new().capture(old, &"development", "2026-09-11T00:00:00Z").succeeded(), "technical v1 capture succeeds")
 	# QA-only Player injection cannot upgrade an existing legacy world profile.
 	old._player = player

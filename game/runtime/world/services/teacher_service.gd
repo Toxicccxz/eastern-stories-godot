@@ -35,30 +35,30 @@ func can_teach() -> bool:
 func request_apprentice() -> SwordsmanApprenticeship.Outcome:
 	if not can_teach():
 		return SwordsmanApprenticeship.Outcome.AUTHORITY_FAILURE
-	return map.player().request_school_apprenticeship(int(Time.get_unix_time_from_system()))
+	return map.player_runtime().request_school_apprenticeship(int(Time.get_unix_time_from_system()))
 
 
 func cancel_apprentice() -> SwordsmanApprenticeship.Outcome:
 	if not can_teach():
 		return SwordsmanApprenticeship.Outcome.AUTHORITY_FAILURE
-	return map.player().school_apprenticeship.cancel()
+	return map.player_runtime().school_apprenticeship.cancel()
 
 
 func request_learn(skill_id: StringName = &"unarmed") -> LearnResult:
-	if skill_id not in [&"unarmed", LiuhKenDefinition.SKILL_ID] or not can_teach() or map.world_interaction_random() == null:
+	if skill_id not in [&"unarmed", LiuhKenDefinition.SKILL_ID] or not can_teach() or map.world_interaction_random_source() == null:
 		last_learn = LearnResult.new(skill_id)
 		last_learn.failure_reason = LearnResult.FailureReason.TEACHER_UNAVAILABLE
 		return last_learn
 	# Fresh facts on every request. No quote or panel state authorizes mutation.
 	var definition: SkillDefinition = SnowSchoolTeacher.unarmed_definition() if skill_id == &"unarmed" else LiuhKenDefinition.skill()
-	last_learn = LearnService.learn(map.player().state, SnowSchoolTeacher.teaching_context(skill_id), definition, SnowSchoolTeacher.learn_policy(skill_id), null, map.world_interaction_random())
+	last_learn = LearnService.learn(map.player_runtime().state, SnowSchoolTeacher.teaching_context(skill_id), definition, SnowSchoolTeacher.learn_policy(skill_id), null, map.world_interaction_random_source())
 	return last_learn
 
 
 func enable_liuh() -> bool:
 	if not can_teach():
 		return false
-	return SkillEnableTransition.try_enable(map.player().state.skills,
+	return SkillEnableTransition.try_enable(map.player_runtime().state.skills,
 		LiuhKenDefinition.skill(), &"unarmed").applied
 
 
@@ -67,5 +67,5 @@ func disable_liuh() -> bool:
 		return false
 	# Source enable none: no raw/learned/resource changes. Combat sources are
 	# projected afresh for every opportunity; there is no cached next action.
-	map.player().state.skills.unmap_skill(&"unarmed")
+	map.player_runtime().state.skills.unmap_skill(&"unarmed")
 	return true

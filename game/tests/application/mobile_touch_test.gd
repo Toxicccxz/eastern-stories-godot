@@ -293,16 +293,16 @@ func _test_viewport(tree: SceneTree) -> void:
 	await _back(tree)
 	_check(shell.pause_visible() and tree.paused, "Back Save Result paused origin does not Resume")
 	await _back(tree)
-	await _tap(tree, session.outdoor_map().hud.inventory_button)
-	_check(session.outdoor_map().hud.inventory_panel.visible and not tree.paused, "touch Inventory no gameplay pause")
-	var inventory: PlayerInventoryPanel = session.outdoor_map().hud.inventory_panel
+	await _tap(tree, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_button)
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel.visible and not tree.paused, "touch Inventory no gameplay pause")
+	var inventory: PlayerInventoryPanel = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel
 	await _tap(tree, inventory.row_container.get_child(0).get_child(1) as Button)
 	_check(inventory.inspection_display().contains("Skill: sword"), "touch Inspect uses existing stable item row path")
 	await _touch(tree, 4, right, true)
 	_check(not Input.is_action_pressed("move_right"), "item panel blocks movement capture")
 	await _touch(tree, 4, right, false, true)
 	await _back(tree)
-	_check(not session.outdoor_map().hud.inventory_panel.visible and not tree.paused, "Back closes item panel only")
+	_check(not session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel.visible and not tree.paused, "Back closes item panel only")
 	await _touch(tree, 4, right, true)
 	safe.metrics = SafeAreaMetrics.normalize(Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), Rect2(48, 0, 912, 516), Transform2D.IDENTITY, true)
 	presenter.refresh()
@@ -310,7 +310,7 @@ func _test_viewport(tree: SceneTree) -> void:
 	_check(not Input.is_action_pressed("move_right"), "safe reflow quarantines held contact")
 	await _touch(tree, 4, right, false)
 	await _test_item_and_handoff(tree, shell, touch, session)
-	await _test_panel_scroll_and_geometry(tree, session.outdoor_map().hud, safe, presenter, touch)
+	await _test_panel_scroll_and_geometry(tree, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui(), safe, presenter, touch)
 	counter.free()
 	shell.free()
 	await _settle(tree)
@@ -328,31 +328,31 @@ func _mouse_click(tree: SceneTree, position: Vector2) -> void:
 
 
 func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, session: OldPineWorldSessionController) -> void:
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var original_rng: CombatRandomSource = outdoor.combat_random_source()
 	# Corpse/proximity are pre-route fixtures, not a claim that touch killed the NPC.
 	await preload("res://tests/runtime/oldpine_full_loot_loop_test.gd").new()._kill_bandit(outdoor, outdoor.npc_runtimes()[0], tree)
-	outdoor.configure_combat_random_source(original_rng)
+	outdoor.session.configure_combat_random_source(original_rng)
 	var corpse: CorpseState = outdoor.corpse_states()[0]
 	var view: Node2D = outdoor.corpse_view_for(corpse.corpse_item_instance_id)
 	outdoor.player_body.global_position = view.global_position + Vector2(0, 60)
 	for frame: int in 30:
 		await tree.physics_frame
 	await _mouse_click(tree, view.get_global_transform_with_canvas().origin)
-	await _tap(tree, outdoor.hud.open_loot_button)
-	var loot: OldPineLootPanel = outdoor.hud.loot_panel
+	await _tap(tree, outdoor.session.shared_ui().open_loot_button)
+	var loot: OldPineLootPanel = outdoor.session.shared_ui().loot_panel
 	_check(loot.visible and loot.visible_rows().size() == 2, "touch world corpse picking and existing Open Loot HUD")
 	if loot.visible and not loot.visible_rows().is_empty():
 		loot.take_requested.connect(func(_id: StringName) -> void: _takes += 1)
 		var before: int = loot.visible_rows().size()
 		await _tap(tree, loot.row_container.get_child(0).get_child(1) as Button)
 		_check(_takes == 1 and loot.visible_rows().size() == before - 1, "touch Take once removes exactly one authoritative row")
-		await _tap(tree, outdoor.hud._presentation_layout.close_button)
+		await _tap(tree, outdoor.session.shared_ui()._presentation_layout.close_button)
 		_check(not loot.visible, "touch Loot Close")
-	await _tap(tree, outdoor.hud.inventory_button)
-	var inventory: PlayerInventoryPanel = outdoor.hud.inventory_panel
+	await _tap(tree, outdoor.session.shared_ui().inventory_button)
+	var inventory: PlayerInventoryPanel = outdoor.session.shared_ui().inventory_panel
 	_check(inventory.visible_rows().size() == 2, "taken item appears in existing Inventory authority")
-	await _tap(tree, outdoor.hud._presentation_layout.close_button)
+	await _tap(tree, outdoor.session.shared_ui()._presentation_layout.close_button)
 	_check(not inventory.visible, "touch Inventory Close")
 	var id: int = touch.get_instance_id()
 	var right: Vector2 = touch.pad_rect().position + Vector2(160, 96)
@@ -363,7 +363,7 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 	await _drag(tree, 4, right)
 	_check(to_cave.succeeded() and not Input.is_action_pressed("move_right"), "map handoff cancels held pad without recapture")
 	await _touch(tree, 4, right, false)
-	_check(touch.get_instance_id() == id and touch.pause_button().visible and session.cave_map().find_children("HUD", "CanvasLayer", true, false).is_empty(), "same Shell touch adapter in Cave without Outdoor HUD")
+	_check(touch.get_instance_id() == id and touch.pause_button().visible and session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).find_children("HUD", "CanvasLayer", true, false).is_empty(), "same Shell touch adapter in Cave without Outdoor HUD")
 	await _tap(tree, touch.pause_button())
 	_check(shell.pause_visible(), "Cave touch Pause uses same semantic path")
 	await _back(tree)

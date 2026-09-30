@@ -101,7 +101,7 @@ func evidence() -> Dictionary[String, Variant]:
 			"recovery_sources": [] if current_shell == null or current_shell.slot_inspection() == null else current_shell.slot_inspection().recovery_sources(),
 		}
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc_positions: Dictionary[StringName, Vector2] = {}
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
 		var body: WorldCharacterBody2D = outdoor.runtime_body_for_character(npc.character_id)
@@ -118,13 +118,12 @@ func evidence() -> Dictionary[String, Variant]:
 		"position": session.active_map().runtime_player_body().global_position,
 		"item_scope": session.item_instance_scope(),
 		"item_count": session.inventory_state().registered_item_ids().size(),
-		"corpse_count": session.outdoor_map().corpse_states().size(),
+		"corpse_count": session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(),
 		"opponent_ids": player.relationship.opponent_ids(),
 		"lethal_target_ids": player.relationship.lethal_target_ids(),
 		"guarding": player.relationship.guarding,
 		"busy": player.busy.busy_value,
 		"interrupt_threshold": player.busy.interrupt_threshold,
-		"cadence_running": outdoor.cadence_is_running(),
 		"aggression_pending": outdoor.aggression_adapter().pending_count(),
 		"npc_positions": npc_positions,
 		"allocator_sequence": session.item_id_allocator().next_dynamic_sequence,

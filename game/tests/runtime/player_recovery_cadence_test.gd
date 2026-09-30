@@ -240,7 +240,7 @@ func map_combat_tests(tree: SceneTree) -> void:
 	# Controlled scripted combat using existing coordinator, no scheduler modifications.
 	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "combat fixture enters Old Pine")
-	var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.set_world_location(npc.world_location())
 	player.relationship.add_opponent(npc.character_id)

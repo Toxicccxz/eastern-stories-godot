@@ -20,8 +20,8 @@ func _disconnected_candidates(tree: SceneTree) -> void:
 		var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if mode == CombatEncounterMode.Value.LETHAL else CombatTriggerCause.Value.PLAYER_SPAR
 		var prepared: CombatTrigger = Multi.trigger(session, mode, cause)
 		var player: WorldPlayerRuntimeState = session.player_runtime()
-		var a: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
-		var b: NpcRuntimeState = session.outdoor_map().npc_runtimes()[1]
+		var a: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+		var b: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1]
 		if mode == CombatEncounterMode.Value.LETHAL:
 			player.relationship.mark_lethal_target(a.character_id)
 		player.relationship.remove_opponent(b.character_id)
@@ -54,8 +54,8 @@ func _targets(tree: SceneTree) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start(Multi.trigger(session, CombatEncounterMode.Value.SCRIPTED, CombatTriggerCause.Value.SCRIPTED)).succeeded(), "three-side encounter")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var a: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
-	var b: NpcRuntimeState = session.outdoor_map().npc_runtimes()[1]
+	var a: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+	var b: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1]
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	var intent := BattleIntentAdapter.new(coordinator, player.character_id)
@@ -146,7 +146,7 @@ func _modes(tree: SceneTree) -> void:
 			session.set_process(false)
 			var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 			var player: WorldPlayerRuntimeState = session.player_runtime()
-			var a: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+			var a: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 			var npc_initiator: bool = cause in [CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY]
 			var trigger: CombatTrigger = Multi.trigger(session, mode, cause, &"matrix", npc_initiator)
 			if mode == CombatEncounterMode.Value.LETHAL:
@@ -176,7 +176,7 @@ func _modes(tree: SceneTree) -> void:
 	tree.root.add_child(session)
 	session.set_process(false)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var a: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+	var a: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var spar: CombatTrigger = Multi.trigger(session, CombatEncounterMode.Value.SPAR, CombatTriggerCause.Value.PLAYER_SPAR)
 	a.relationship.mark_lethal_target(player.character_id)
@@ -230,13 +230,13 @@ func _target_ui(tree: SceneTree) -> void:
 	player.busy.start_busy(2)
 	await _tap(tree, ui._cards[1].target_button)
 	var a: StringName = ui.current_projection().current_target_id
-	_check(a == session.outdoor_map().npc_runtimes()[0].character_id, "real touch selects A while busy")
+	_check(a == session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_id, "real touch selects A while busy")
 	await _tap(tree, ui.action_panel.first_action_button())
 	await _tap(tree, ui._cards[2].target_button)
-	var b: StringName = session.outdoor_map().npc_runtimes()[1].character_id
+	var b: StringName = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_id
 	_check(ui.current_projection().current_target_id == b and ui.current_projection().queued_action().resolved_target_id == a, "touch current B vs queued A")
 	_check(ui._cards[2]._title.text.contains("Current Target") and ui._cards[1]._status.text.contains("QUEUED TARGET"), "visibly distinct labels")
-	_check(session.outdoor_map().selected_interaction_target() == null and not touch._pad.visible, "target touch does not leak to world")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null and not touch._pad.visible, "target touch does not leak to world")
 	ui._cards[1].target_button.grab_focus()
 	await _key(tree, KEY_ENTER, true)
 	await _key(tree, KEY_ENTER, false)

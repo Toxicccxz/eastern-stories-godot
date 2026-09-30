@@ -26,7 +26,7 @@ static func start(session: OldPineWorldSessionController, id: StringName, third:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var candidates: Array[CombatTriggerCandidate] = [CombatTriggerCandidate.new(player.character_id, &"player")]
 	for index: int in (2 if third else 1):
-		var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[index]
+		var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[index]
 		# Declared QA setup before route; physical position is not moved.
 		npc.set_world_location(player.world_location())
 		player.relationship.add_opponent(npc.character_id)

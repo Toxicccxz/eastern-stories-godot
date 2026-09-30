@@ -12,6 +12,7 @@ var _map_id: StringName
 var _room_ids: Array[StringName] = []
 var _primary_room: RoomDefinition
 var _combat_entry: StringName = &"pair"
+var _link_ids: Array[StringName] = []
 
 var zone_id: StringName:
 	get:
@@ -41,12 +42,14 @@ func _init(
 	p_room_ids: Array[StringName] = [],
 	p_primary_room: RoomDefinition = null,
 	p_combat_entry: StringName = &"pair",
+	p_link_ids: Array[StringName] = [],
 ) -> void:
 	_zone_id = p_zone_id
 	_map_id = p_map_id
 	_room_ids = p_room_ids.duplicate()
 	_primary_room = p_primary_room
 	_combat_entry = p_combat_entry
+	_link_ids = p_link_ids.duplicate()
 
 
 static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
@@ -55,12 +58,16 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 		room_ids.append(StringName(room_id))
 	if room_ids.is_empty():
 		reader.fail("rooms", "needs at least one room")
+	var link_ids: Array[StringName] = []
+	for zone_id: String in reader.text_list("links"):
+		link_ids.append(StringName(zone_id))
 	var definition: ZoneDefinition = ZoneDefinition.new(
 		StringName(reader.required_text("id")),
 		StringName(reader.required_text("map")),
 		room_ids,
 		null,
 		StringName(reader.text("combat_entry", "pair")),
+		link_ids,
 	)
 	reader.finish()
 	if not COMBAT_ENTRIES.has(definition.combat_entry):
@@ -70,11 +77,17 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 
 ## Copy whose text comes from the resolved primary room.
 func with_primary_room(room: RoomDefinition) -> ZoneDefinition:
-	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry)
+	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry, _link_ids)
 
 
 func room_ids() -> Array[StringName]:
 	return _room_ids.duplicate()
+
+
+## Zones the player can walk into although no static ES2 exit says so; each
+## link stands for a recorded decision (DECISIONS.md).
+func link_ids() -> Array[StringName]:
+	return _link_ids.duplicate()
 
 
 func is_valid() -> bool:

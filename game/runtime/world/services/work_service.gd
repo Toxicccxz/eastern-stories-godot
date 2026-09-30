@@ -50,7 +50,7 @@ func _process(_delta: float) -> void:
 	if panel.visible and not in_reach():
 		panel.hide()
 	if panel.visible:
-		var state: CharacterState = map.player().state
+		var state: CharacterState = map.player_runtime().state
 		resources.text = tr("精 %d / 神 %d · 银子 %d 两") % [state.essence.current, state.spirit.current, silver_amount()]
 
 
@@ -59,9 +59,9 @@ func request_work() -> SnowWorkResult:
 	if not in_reach():
 		last_result.outcome = SnowWorkResult.Outcome.INTERACTION_BLOCKED
 		return last_result
-	var player: WorldPlayerRuntimeState = map.player()
+	var player: WorldPlayerRuntimeState = map.player_runtime()
 	last_result = SnowWorkService.work(player.state, player.character_id, player.maximum_encumbrance,
-		player.armor, map.inventory(), map.stacks(), map.item_index(), map.item_id_allocator())
+		player.armor, map.inventory_state(), map.stack_collection(), map.item_instance_index(), map.item_id_allocator())
 	match last_result.outcome:
 		SnowWorkResult.Outcome.SUCCESS:
 			feedback.text = tr("你完成了一份工作，得到一两银子。")
@@ -76,10 +76,10 @@ func request_work() -> SnowWorkResult:
 
 
 func silver_amount() -> int:
-	var player: WorldPlayerRuntimeState = map.player()
+	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var amount: int = 0
-	for id: StringName in map.inventory().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)):
-		var item: ItemInstance = map.item_index().resolve(id)
-		if item != null and GameContent.catalog().denomination_of(item.item_definition_id) == CurrencyDenomination.Value.SILVER and map.stacks().has_stack(id):
-			amount += map.stacks().stack_state(id).amount
+	for id: StringName in map.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)):
+		var item: ItemInstance = map.item_instance_index().resolve(id)
+		if item != null and GameContent.catalog().denomination_of(item.item_definition_id) == CurrencyDenomination.Value.SILVER and map.stack_collection().has_stack(id):
+			amount += map.stack_collection().stack_state(id).amount
 	return amount

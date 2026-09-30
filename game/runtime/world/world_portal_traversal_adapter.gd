@@ -1,4 +1,4 @@
-class_name OldPinePortalTraversalAdapter
+class_name WorldPortalTraversalAdapter
 extends RefCounted
 
 const WorldPlayerRuntimeType := preload(
@@ -53,7 +53,6 @@ func traverse(
 	if (
 		destination_location == null
 		or not destination_location.is_valid()
-		or destination_location.region_id != OldPineWorldDefinitions.REGION_ID
 		or destination_location.map_id != portal.destination_map_id
 		or destination_location.zone_id != portal.destination_zone_id
 		or not _destination_combat_location_matches(
@@ -64,7 +63,7 @@ func traverse(
 		result._outcome = WorldPortalTraversalResult.Outcome.DESTINATION_LOCATION_MISMATCH
 		return result
 
-	# LPC clearing.c moves the living object directly. Physical embodiment is
+	# ES2 moves the living object directly (clearing.c climb, cliffside north). Physical embodiment is
 	# committed before the native logical projection, so the result records both.
 	body.global_position = destination_marker.global_position
 	result._physical_position_updated = true
@@ -86,8 +85,10 @@ func _destination_combat_location_matches(
 	var destination_zone: ZoneDefinition = GameContent.catalog().zone(
 		portal.destination_zone_id
 	)
+	var map: MapDefinition = null if destination_zone == null else GameContent.catalog().map(destination_zone.map_id)
 	return (
-		destination_zone != null
+		map != null
+		and destination_location.region_id == map.region_id
 		and destination_zone.map_id == portal.destination_map_id
 		and destination_location.combat_location_id
 		== destination_zone.combat_location_id

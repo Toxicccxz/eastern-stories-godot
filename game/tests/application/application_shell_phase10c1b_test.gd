@@ -116,7 +116,7 @@ func _test_typed_state_and_save_mapping() -> void:
 			&"save.blocked.world_transition",
 		],
 		[
-			OldPineSaveEligibilityResult.Outcome.CAVE_EXIT_PENDING,
+			OldPineSaveEligibilityResult.Outcome.PASSAGE_PENDING,
 			ApplicationOperationResult.Outcome.SAVE_BLOCKED_WORLD_TRANSITION,
 			&"save.blocked.world_transition",
 		],
@@ -147,11 +147,6 @@ func _test_typed_state_and_save_mapping() -> void:
 		],
 		[
 			OldPineSaveEligibilityResult.Outcome.PENDING_AGGRESSION,
-			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
-			&"save.blocked.combat_or_action",
-		],
-		[
-			OldPineSaveEligibilityResult.Outcome.COMBAT_CADENCE_ACTIVE,
 			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
 			&"save.blocked.combat_or_action",
 		],
@@ -307,9 +302,9 @@ func _test_pause_freeze_and_stable_save(tree: SceneTree) -> void:
 		armor_items[armor_slot] = player.armor.item_instance_id_in_slot(armor_slot)
 	var npc_positions: Dictionary[StringName, Vector2] = {}
 	var npc_velocities: Dictionary[StringName, Vector2] = {}
-	for npc: NpcRuntimeState in session.outdoor_map().npc_runtimes():
+	for npc: NpcRuntimeState in session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes():
 		var npc_body: WorldCharacterBody2D = (
-			session.outdoor_map().runtime_body_for_character(npc.character_id)
+			session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).runtime_body_for_character(npc.character_id)
 		)
 		if npc_body != null:
 			npc_positions[npc.character_id] = npc_body.global_position
@@ -354,7 +349,7 @@ func _test_pause_freeze_and_stable_save(tree: SceneTree) -> void:
 		)
 	for character_id: StringName in npc_positions:
 		var paused_npc_body: WorldCharacterBody2D = (
-			session.outdoor_map().runtime_body_for_character(character_id)
+			session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).runtime_body_for_character(character_id)
 		)
 		_assert_eq(paused_npc_body.global_position, npc_positions[character_id], "NPC position remains frozen")
 		_assert_eq(paused_npc_body.velocity, npc_velocities[character_id], "NPC velocity remains frozen")

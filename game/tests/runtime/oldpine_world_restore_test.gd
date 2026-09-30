@@ -100,7 +100,7 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 	var source_scope: StringName = snapshot.item_id_allocator.scope
 	var source_player_object_id: int = source.player_runtime().get_instance_id()
 	var source_state_object_id: int = source.player_runtime().state.get_instance_id()
-	var source_body_object_id: int = source.outdoor_map().player_body.get_instance_id()
+	var source_body_object_id: int = source.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_instance_id()
 	_free_node(source)
 	await tree.process_frame
 
@@ -119,16 +119,16 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 	_assert_eq(candidate.process_mode, Node.PROCESS_MODE_DISABLED, "staged Session processing is disabled")
 	_assert_eq(candidate.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.RESTORE, "bootstrap mode was chosen before ready")
 	_assert_eq(candidate.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "active map derives from Player location")
-	_assert_true(candidate.outdoor_map().get_parent() == candidate.active_map_slot, "Outdoor alone is attached")
-	_assert_true(candidate.cave_map().get_parent() == null, "inactive Cave is detached")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_parent() == candidate.active_map_slot, "Outdoor alone is attached")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_parent() == null, "inactive Cave is detached")
 	_assert_eq(candidate.active_map_child_count(), 1, "exactly one resident is attached")
 	_assert_eq(candidate.resident_map_count(), 2, "both residents are fresh and retained")
-	_assert_eq(candidate.outdoor_map().initialization_count(), 1, "Outdoor initializes once")
-	_assert_eq(candidate.cave_map().initialization_count(), 1, "Cave initializes once")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count(), 1, "Outdoor initializes once")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).initialization_count(), 1, "Cave initializes once")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 12, "RESTORE creates no default item duplicate")
 	_assert_eq(candidate.item_instance_index().snapshot_count(), 12, "derived index matches restored Inventory")
 	_assert_eq(candidate.item_instance_scope(), source_scope, "allocator scope survives exactly")
-	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 10, "complete ten-slot NPC ledger restores")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "complete ten-slot NPC ledger restores")
 	_assert_eq(candidate.item_id_allocator().next_dynamic_sequence, snapshot.item_id_allocator.next_dynamic_sequence, "RESTORE does not allocate an item ID")
 	_assert_random_equal(candidate.combat_random_source().capture_random_state(), snapshot.combat_rng, "Combat RNG consumes zero draws")
 	_assert_random_equal(candidate.npc_random_source().capture_random_state(), snapshot.npc_initialization_rng, "NPC RNG consumes zero draws")
@@ -136,28 +136,27 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 	var player: WorldPlayerRuntimeState = candidate.player_runtime()
 	_assert_true(player.get_instance_id() != source_player_object_id, "restored Player runtime has fresh Godot identity")
 	_assert_true(player.state.get_instance_id() != source_state_object_id, "restored CharacterState has fresh Godot identity")
-	_assert_true(candidate.outdoor_map().player_body.get_instance_id() != source_body_object_id, "restored Player body has fresh Godot identity")
-	_assert_eq(candidate.outdoor_map().player_body.character_id, snapshot.player.character_id, "fresh Player body binds by stable CharacterId")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_instance_id() != source_body_object_id, "restored Player body has fresh Godot identity")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.character_id, snapshot.player.character_id, "fresh Player body binds by stable CharacterId")
 	_assert_true(player.state.equipment == result.preparation.item_domain.equipment_state(player.character_id), "Player receives exact Phase 10B2 EquipmentState")
 	_assert_true(player.armor == result.preparation.item_domain.armor_state(player.character_id), "Player receives exact Phase 10B2 ArmorState")
 	_assert_eq(player.state.skills.raw_level(&"force"), snapshot.player.character.skills.raw_levels[0].value, "raw skill restores before mapping")
 	_assert_eq(player.state.skills.mapped_skill(&"force"), &"force", "skill mapping restores against raw target")
 	_assert_eq(player.state.skills.learned_progress(&"force"), 7, "learned progress restores exactly")
-	_assert_eq(candidate.outdoor_map().player_body.global_position, Vector2(snapshot.player.map_position.x, snapshot.player.map_position.y), "Player exact map-local position survives")
-	_assert_false(candidate.outdoor_map().player_body.player_controlled, "staged Player control stays disabled")
-	_assert_false((candidate.outdoor_map().player_body.get_node("Camera2D") as Camera2D).enabled, "staged camera stays disabled")
-	_assert_true(_all_areas_disabled(candidate.outdoor_map()), "staged authored Areas are disabled")
-	_assert_true(_all_areas_disabled(candidate.cave_map()), "detached resident Areas remain disabled")
-	_assert_true(candidate.outdoor_map().opportunity_timer.is_stopped(), "staged combat cadence is stopped")
-	_assert_eq(candidate.outdoor_map().aggression_adapter().pending_count(), 0, "staged restore has no pending aggression observation")
-	_assert_eq(candidate.cave_map().process_mode, Node.PROCESS_MODE_DISABLED, "inactive Cave remains frozen")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_position, Vector2(snapshot.player.map_position.x, snapshot.player.map_position.y), "Player exact map-local position survives")
+	_assert_false(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.player_controlled, "staged Player control stays disabled")
+	_assert_false((candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_node("Camera2D") as Camera2D).enabled, "staged camera stays disabled")
+	_assert_true(_all_areas_disabled(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)), "staged authored Areas are disabled")
+	_assert_true(_all_areas_disabled(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)), "detached resident Areas remain disabled")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).aggression_adapter().pending_count(), 0, "staged restore has no pending aggression observation")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).process_mode, Node.PROCESS_MODE_DISABLED, "inactive Cave remains frozen")
 	for saved: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
-		var npc: NpcRuntimeState = candidate.outdoor_map().find_resident_npc(saved.character_id)
+		var npc: NpcRuntimeState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).find_resident_npc(saved.character_id)
 		_assert_true(npc != null, "authored NPC slot %s restores once" % saved.spawn_point_id)
 		_assert_eq(npc.age, saved.age, "NPC age is restored without reroll")
 		_assert_true(npc.character_state.equipment == result.preparation.item_domain.equipment_state(saved.character_id), "NPC receives exact Phase 10B2 EquipmentState")
 		_assert_true(npc.armor == result.preparation.item_domain.armor_state(saved.character_id), "NPC receives exact Phase 10B2 ArmorState")
-		_assert_eq(_body_for(candidate.outdoor_map(), saved.character_id).global_position, Vector2(saved.map_position.x, saved.map_position.y), "NPC exact map-local position survives")
+		_assert_eq(_body_for(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), saved.character_id).global_position, Vector2(saved.map_position.x, saved.map_position.y), "NPC exact map-local position survives")
 	_free_node(candidate)
 	await tree.process_frame
 
@@ -183,7 +182,7 @@ func _test_unconscious_lifecycle_restores_independently(tree: SceneTree) -> void
 	var result := OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "committed unconscious NPC restores")
 	var candidate: OldPineWorldSessionController = result.candidate
-	var runtime: NpcRuntimeState = candidate.outdoor_map().find_resident_npc(saved.character_id)
+	var runtime: NpcRuntimeState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).find_resident_npc(saved.character_id)
 	_assert_eq(runtime.life_status, CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "committed lifecycle is not re-derived")
 	_assert_false(runtime.character_state.is_unconscious_threshold_reached(), "resource thresholds remain an independent fact")
 	_assert_true(runtime.exists_in_map, "unconscious NPC remains present")
@@ -202,22 +201,22 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead NPC/corpse snapshot restores")
 	var candidate: OldPineWorldSessionController = result.candidate
 	var fat_snapshot: Values.NpcSpawnStateSnapshot = _npc_by_definition(snapshot, TestContent.FAT_BANDIT_NPC_ID)
-	var fat: NpcRuntimeState = candidate.outdoor_map().find_resident_npc(fat_snapshot.character_id)
+	var fat: NpcRuntimeState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).find_resident_npc(fat_snapshot.character_id)
 	_assert_true(fat != null, "dead authored slot remains a ledger tombstone")
 	_assert_eq(fat.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "dead lifecycle restores independently")
 	_assert_false(fat.exists_in_map, "dead tombstone does not respawn")
 	_assert_false(fat.combat_available, "dead combat availability fact survives")
-	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 10, "tombstone replaces rather than duplicates its slot")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "tombstone replaces rather than duplicates its slot")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 13, "corpse adds one item without default loadout duplicates")
-	_assert_eq(candidate.outdoor_map().corpse_states().size(), 1, "one CorpseState reconstructs")
-	var corpse: CorpseState = candidate.outdoor_map().corpse_states()[0]
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 1, "one CorpseState reconstructs")
+	var corpse: CorpseState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states()[0]
 	var corpse_snapshot: Values.CorpseSnapshot = snapshot.corpses[0]
 	_assert_eq(corpse.corpse_item_instance_id, corpse_snapshot.corpse_item_instance_id, "corpse stable ItemInstanceId survives")
 	_assert_eq(corpse.victim_character_id, fat.character_id, "corpse victim identity cross-reference survives")
 	_assert_eq(corpse.worn_item_in_slot(&"cloth"), corpse_snapshot.worn_items[0].item_instance_id, "corpse worn projection restores without Wear replay")
-	_assert_true(candidate.outdoor_map().corpse_view_for(corpse.corpse_item_instance_id) != null, "fresh CorpseView binds after domain validation")
-	_assert_true(_all_areas_disabled(candidate.outdoor_map()), "fresh CorpseView Area remains disabled while staged")
-	_assert_eq(candidate.outdoor_map().corpse_view_for(corpse.corpse_item_instance_id).global_position, Vector2(corpse_snapshot.map_position.x, corpse_snapshot.map_position.y), "corpse exact position survives")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id) != null, "fresh CorpseView binds after domain validation")
+	_assert_true(_all_areas_disabled(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)), "fresh CorpseView Area remains disabled while staged")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id).global_position, Vector2(corpse_snapshot.map_position.x, corpse_snapshot.map_position.y), "corpse exact position survives")
 	var corpse_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
 	var direct: Array[StringName] = candidate.inventory_state().direct_children(corpse_endpoint)
 	_assert_eq(direct.size(), 2, "corpse direct contents restore separately from nested contents")
@@ -226,16 +225,16 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 	_assert_true(candidate.inventory_state().is_direct_child(silver_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, short_sword_id)), "nested corpse content parent survives")
 	_assert_true(fat.character_state.equipment == result.preparation.item_domain.equipment_state(fat.character_id), "dead runtime receives exact restored empty EquipmentState")
 	_assert_true(fat.armor == result.preparation.item_domain.armor_state(fat.character_id), "dead runtime receives exact restored empty ArmorState")
-	_assert_eq(_body_count_for(candidate.outdoor_map(), fat.character_id), 1, "dead spawn slot binds exactly one authored body")
+	_assert_eq(_body_count_for(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), fat.character_id), 1, "dead spawn slot binds exactly one authored body")
 	var second_result: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(
 		snapshot,
 		tree.root,
 	)
 	_assert_eq(second_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "same semantic save reconstructs an independent second graph")
 	var second_candidate: OldPineWorldSessionController = second_result.candidate
-	_assert_true(second_candidate.outdoor_map().player_body.get_instance_id() != candidate.outdoor_map().player_body.get_instance_id(), "independent restores do not share Player body objects")
-	_assert_true(second_candidate.outdoor_map().corpse_view_for(corpse.corpse_item_instance_id).get_instance_id() != candidate.outdoor_map().corpse_view_for(corpse.corpse_item_instance_id).get_instance_id(), "independent restores do not share CorpseView objects")
-	_assert_eq(second_candidate.outdoor_map().corpse_states()[0].corpse_item_instance_id, corpse.corpse_item_instance_id, "fresh corpse objects retain the same semantic ItemInstanceId")
+	_assert_true(second_candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_instance_id() != candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_instance_id(), "independent restores do not share Player body objects")
+	_assert_true(second_candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id).get_instance_id() != candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id).get_instance_id(), "independent restores do not share CorpseView objects")
+	_assert_eq(second_candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states()[0].corpse_item_instance_id, corpse.corpse_item_instance_id, "fresh corpse objects retain the same semantic ItemInstanceId")
 	_free_node(second_candidate)
 	_free_node(candidate)
 	await tree.process_frame
@@ -257,10 +256,10 @@ func _test_player_death_corpse_graph(tree: SceneTree) -> void:
 	var player: WorldPlayerRuntimeState = candidate.player_runtime()
 	_assert_eq(player.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "Player committed DEAD status restores")
 	_assert_false(player.exists_in_world, "dead Player remains absent from the world")
-	_assert_false(candidate.outdoor_map().player_body.visible, "dead Player body is not active presentation")
-	_assert_eq(candidate.outdoor_map().corpse_states().size(), 1, "Player victim creates exactly one restored corpse")
+	_assert_false(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.visible, "dead Player body is not active presentation")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 1, "Player victim creates exactly one restored corpse")
 	var corpse_snapshot: Values.CorpseSnapshot = snapshot.corpses[0]
-	var corpse: CorpseState = candidate.outdoor_map().corpse_states()[0]
+	var corpse: CorpseState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states()[0]
 	_assert_eq(corpse.victim_character_id, snapshot.player.character_id, "Player CharacterId is a valid corpse victim")
 	_assert_eq(corpse.victim_age, 20, "Player corpse uses the current runtime death age")
 	_assert_eq(corpse.corpse_item_instance_id, corpse_snapshot.corpse_item_instance_id, "Player corpse semantic ID survives")
@@ -402,8 +401,8 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 		)
 	)
 	_assert_eq(partial_dead_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead tombstone accepts represented surviving loadout subset")
-	_assert_eq(partial_dead_result.candidate.outdoor_map().npc_runtimes().size(), 10, "partial dead loadout still occupies exactly one authored slot")
-	_assert_false(_body_for(partial_dead_result.candidate.outdoor_map(), dead_fat.character_id).visible, "dead tombstone body remains inactive")
+	_assert_eq(partial_dead_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "partial dead loadout still occupies exactly one authored slot")
+	_assert_false(_body_for(partial_dead_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), dead_fat.character_id).visible, "dead tombstone body remains inactive")
 	_free_node(partial_dead_result.candidate)
 
 	var empty_tombstone_snapshot: GameSaveSnapshot = (
@@ -416,10 +415,10 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 		)
 	)
 	_assert_eq(empty_tombstone_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead tombstone restores after every former loadout item is gone")
-	_assert_eq(empty_tombstone_result.candidate.outdoor_map().npc_runtimes().size(), 10, "itemless dead tombstone remains in the ten-slot ledger")
-	_assert_eq(empty_tombstone_result.candidate.outdoor_map().corpse_states().size(), 0, "dead tombstone does not require a surviving corpse")
+	_assert_eq(empty_tombstone_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "itemless dead tombstone remains in the ten-slot ledger")
+	_assert_eq(empty_tombstone_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "dead tombstone does not require a surviving corpse")
 	_assert_eq(empty_tombstone_result.candidate.inventory_state().registered_item_ids().size(), 9, "destroyed former loadout items are not recreated")
-	_assert_false(_body_for(empty_tombstone_result.candidate.outdoor_map(), dead_fat.character_id).visible, "itemless tombstone never respawns its body")
+	_assert_false(_body_for(empty_tombstone_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), dead_fat.character_id).visible, "itemless tombstone never respawns its body")
 	_free_node(empty_tombstone_result.candidate)
 	await tree.process_frame
 
@@ -494,9 +493,10 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 		Values.WorldLocationSnapshot.new(
 			OldPineWorldDefinitions.REGION_ID,
 			OldPineWorldDefinitions.OUTDOOR_MAP_ID,
-			OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
-			OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+			OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID,
+			OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID,
 		),
+		# Half-open zones: the shared edge y=0 belongs to Central Clearing only.
 		Values.MapPositionSnapshot.new(450.0, 0.0),
 	)
 	var boundary_result: OldPineWorldRestoreResult = (
@@ -504,7 +504,7 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 			_copy_snapshot(base, boundary_player), tree.root,
 		)
 	)
-	_assert_eq(boundary_result.outcome, OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION, "exact touching-zone boundary is not silently assigned")
+	_assert_eq(boundary_result.outcome, OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION, "a shared zone edge is owned by one zone, never silently reassigned")
 
 	var outside_player: Values.PlayerRuntimeSnapshot = _player_with_location(
 		base.player,
@@ -577,11 +577,11 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 	var overlap_session: OldPineWorldSessionController = _new_game(
 		tree, 1211, 1212, 1213,
 	)
-	var overlap_map: OldPineOutdoorController = overlap_session.outdoor_map()
+	var overlap_map: WorldMapController = overlap_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var south_zone: Area2D = overlap_map.get_node("Zones/SouthSlopeZone") as Area2D
 	south_zone.global_position = Vector2(450.0, 300.0)
 	_assert_false(
-		OldPineMapPlacementValidator.is_valid_character_position(
+		MapPlacementValidator.is_valid_character_position(
 			overlap_map,
 			OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 			Vector2(450.0, 300.0),
@@ -597,7 +597,7 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(current)
 	var current_player: WorldPlayerRuntimeState = current.player_runtime()
 	var current_inventory: InventoryState = current.inventory_state()
-	var current_outdoor: OldPineOutdoorController = current.outdoor_map()
+	var current_outdoor: WorldMapController = current.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var current_position: Vector2 = current_outdoor.player_body.global_position
 	var current_root_children: int = tree.root.get_child_count()
 	var current_combat_rng: RandomStreamSnapshot = current.combat_random_source().capture_random_state()
@@ -689,12 +689,12 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 
 	_assert_true(current.player_runtime() == current_player, "failed builds do not replace current Player authority")
 	_assert_true(current.inventory_state() == current_inventory, "failed builds do not replace current Inventory authority")
-	_assert_true(current.outdoor_map() == current_outdoor, "failed builds do not replace current resident map")
+	_assert_true(current.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == current_outdoor, "failed builds do not replace current resident map")
 	_assert_eq(current.inventory_state().registered_item_ids().size(), 12, "failed builds do not mutate current item graph")
-	_assert_eq(current.outdoor_map().npc_runtimes().size(), 10, "failed builds do not mutate current NPC ledger")
-	_assert_eq(current.outdoor_map().corpse_states().size(), 0, "failed builds do not create current corpses")
-	_assert_eq(current.outdoor_map().player_body.global_position, current_position, "failed builds do not move current Player")
-	_assert_true(current.outdoor_map().player_body.player_controlled, "failed builds leave current input active")
+	_assert_eq(current.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "failed builds do not mutate current NPC ledger")
+	_assert_eq(current.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "failed builds do not create current corpses")
+	_assert_eq(current.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_position, current_position, "failed builds do not move current Player")
+	_assert_true(current.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.player_controlled, "failed builds leave current input active")
 	_assert_eq(tree.root.get_child_count(), current_root_children, "failed builds leak no candidate node")
 	_assert_random_equal(current.combat_random_source().capture_random_state(), current_combat_rng, "failed builds consume no current Combat RNG")
 	_assert_random_equal(current.npc_random_source().capture_random_state(), current_npc_rng, "failed builds consume no current NPC RNG")
@@ -724,26 +724,26 @@ func _test_cave_restore_and_candidate_activation(tree: SceneTree) -> void:
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "Cave save constructs a candidate")
 	var candidate: OldPineWorldSessionController = result.candidate
 	_assert_eq(candidate.active_map_id(), OldPineWorldDefinitions.CAVE_MAP_ID, "Cave activity derives solely from Player map")
-	_assert_true(candidate.cave_map().get_parent() == candidate.active_map_slot, "Cave alone is attached")
-	_assert_true(candidate.outdoor_map().get_parent() == null, "restored Outdoor remains detached/frozen")
-	_assert_eq(candidate.outdoor_map().process_mode, Node.PROCESS_MODE_DISABLED, "inactive restored Outdoor remains frozen")
-	_assert_eq(candidate.outdoor_map().npc_runtimes().size(), 10, "inactive Outdoor retains restored NPC ledger")
-	_assert_eq(candidate.outdoor_map().corpse_states().size(), 1, "inactive Outdoor retains restored corpse ledger")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_parent() == candidate.active_map_slot, "Cave alone is attached")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_parent() == null, "restored Outdoor remains detached/frozen")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).process_mode, Node.PROCESS_MODE_DISABLED, "inactive restored Outdoor remains frozen")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "inactive Outdoor retains restored NPC ledger")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 1, "inactive Outdoor retains restored corpse ledger")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 13, "Cave-active staging retains exact restored item count")
 	_assert_eq(candidate.item_id_allocator().next_dynamic_sequence, 1, "Cave-active staging retains allocator continuation")
-	_assert_eq(candidate.cave_map().player_body.global_position, Vector2(0.0, 120.0), "Cave Player exact position survives")
-	_assert_false(candidate.cave_map().player_body.player_controlled, "staged Cave input is disabled")
-	_assert_true(_all_areas_disabled(candidate.cave_map()), "staged Cave Areas are disabled")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).player_body.global_position, Vector2(0.0, 120.0), "Cave Player exact position survives")
+	_assert_false(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).player_body.player_controlled, "staged Cave input is disabled")
+	_assert_true(_all_areas_disabled(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)), "staged Cave Areas are disabled")
 	_assert_random_equal(candidate.combat_random_source().capture_random_state(), snapshot.combat_rng, "Cave restore leaves Combat RNG unchanged")
 	_assert_random_equal(candidate.npc_random_source().capture_random_state(), snapshot.npc_initialization_rng, "Cave restore leaves NPC RNG unchanged")
 	_assert_random_equal(candidate.world_interaction_random_source().capture_random_state(), snapshot.world_interaction_rng, "Cave restore leaves World RNG unchanged")
 	_assert_true(candidate.activate_restore_candidate(), "QA-only candidate activation succeeds")
 	_assert_false(candidate.is_restore_candidate_staged(), "activated candidate leaves staging")
-	_assert_true(candidate.cave_map().player_body.player_controlled, "activated restored Player accepts gameplay input")
-	_assert_true((candidate.cave_map().player_body.get_node("Camera2D") as Camera2D).enabled, "activated restored camera owns the view")
-	_assert_true(candidate.cave_map().south_exit.monitoring, "activated authored Area monitoring resumes")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).player_body.player_controlled, "activated restored Player accepts gameplay input")
+	_assert_true((candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).player_body.get_node("Camera2D") as Camera2D).enabled, "activated restored camera owns the view")
+	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_node("SouthExit").monitoring, "activated authored Area monitoring resumes")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 13, "immediate activation creates no item or corpse")
-	_assert_eq(candidate.outdoor_map().corpse_states().size(), 1, "immediate activation preserves the one restored corpse")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 1, "immediate activation preserves the one restored corpse")
 	_assert_eq(candidate.item_id_allocator().next_dynamic_sequence, 1, "immediate activation allocates no second corpse ID")
 	_assert_random_equal(candidate.combat_random_source().capture_random_state(), snapshot.combat_rng, "immediate activation consumes zero Combat RNG")
 	_assert_random_equal(candidate.npc_random_source().capture_random_state(), snapshot.npc_initialization_rng, "immediate activation consumes zero NPC RNG")
@@ -756,10 +756,10 @@ func _test_new_game_regression(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_game(tree, 1401, 1402, 1403)
 	_assert_eq(session.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.NEW_GAME, "default Session remains NEW_GAME")
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "NEW_GAME still creates twelve bootstrap items")
-	_assert_eq(session.outdoor_map().npc_runtimes().size(), 10, "NEW_GAME still creates ten authored NPCs")
-	_assert_eq(session.outdoor_map().corpse_states().size(), 0, "NEW_GAME creates no corpse")
+	_assert_eq(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "NEW_GAME still creates ten authored NPCs")
+	_assert_eq(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "NEW_GAME creates no corpse")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "NEW_GAME still starts Outdoor")
-	_assert_true(session.outdoor_map().player_body.player_controlled, "NEW_GAME control remains active")
+	_assert_true(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.player_controlled, "NEW_GAME control remains active")
 	_assert_eq(session.item_id_allocator().next_dynamic_sequence, 0, "NEW_GAME bootstrap consumes no dynamic ID")
 	_free_node(session)
 	await tree.process_frame
@@ -957,7 +957,7 @@ func _loadout_id_for_definition(
 
 
 func _body_for(
-	outdoor: OldPineOutdoorController,
+	outdoor: WorldMapController,
 	character_id: StringName,
 ) -> WorldCharacterBody2D:
 	for node: Node in outdoor.get_node("Characters").get_children():
@@ -968,7 +968,7 @@ func _body_for(
 
 
 func _body_count_for(
-	outdoor: OldPineOutdoorController,
+	outdoor: WorldMapController,
 	character_id: StringName,
 ) -> int:
 	var result: int = 0

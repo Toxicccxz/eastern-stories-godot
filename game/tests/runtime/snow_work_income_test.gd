@@ -108,10 +108,10 @@ func physical_test(tree: SceneTree) -> void:
 	var snow: WorldMapController = session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
 	var work: WorkService = snow.service(&"snow.workplace.mill") as WorkService
 	for entry: Array in [[&"snow.mstreet1", Vector2(0,-400)], [&"snow.mstreet2", Vector2(0,-750)], [&"snow.workplace", Vector2(325,-750)], [&"snow.square", Vector2(0,-250)], [&"snow.mstreet1", Vector2(0,-550)], [&"snow.workplace", Vector2(100,-750)]]:
-		_check(OldPineMapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "save position and half-open joins " + str(entry))
+		_check(MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "save position and half-open joins " + str(entry))
 	# S7B opens mstreet2 north; the Workplace north wall remains closed.
 	for entry: Array in [[&"snow.mstreet1", Vector2(90,-500)], [&"snow.workplace", Vector2(300,-840)], [&"snow.workplace", Vector2(495,-750)], [&"snow.workplace", Vector2(100,-815)], [&"snow.workplace", Vector2(510,-750)]]:
-		_check(not OldPineMapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "reject new walls/void " + str(entry))
+		_check(not MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "reject new walls/void " + str(entry))
 	_check(work.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "inactive remote work rejected")
 	await tree.physics_frame
 	await walk(tree, session, "move_right", 125)

@@ -11,7 +11,10 @@
 			"id": "oldpine.outdoor.north_approach", "map": "oldpine.outdoor",
 			"rooms": ["es2:d/oldpine/npath1", "es2:d/oldpine/npath2", "es2:d/oldpine/npath3"]
 		},
-		{ "id": "oldpine.outdoor.central_clearing", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/clearing"] },
+		{
+			"id": "oldpine.outdoor.central_clearing", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/clearing"],
+			"links": ["oldpine.outdoor.pine_entrance"]
+		},
 		{
 			"id": "oldpine.outdoor.south_slope", "map": "oldpine.outdoor",
 			"rooms": ["es2:d/oldpine/spath1", "es2:d/oldpine/spath2", "es2:d/oldpine/spath3", "es2:d/oldpine/spath4"]
@@ -28,11 +31,12 @@
 		{ "id": "oldpine.outdoor.lake", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/lake"], "combat_entry": "complete_set" },
 		{
 			"id": "oldpine.outdoor.pine_entrance", "map": "oldpine.outdoor",
-			"rooms": ["es2:d/oldpine/pine1", "es2:d/oldpine/pine2"]
+			"rooms": ["es2:d/oldpine/pine1", "es2:d/oldpine/pine2"], "links": ["oldpine.outdoor.pine_deep"]
 		},
 		{
 			"id": "oldpine.outdoor.pine_deep", "map": "oldpine.outdoor",
-			"rooms": ["es2:d/oldpine/pine3", "es2:d/oldpine/pine4", "es2:d/oldpine/pine5", "es2:d/oldpine/pine6"]
+			"rooms": ["es2:d/oldpine/pine3", "es2:d/oldpine/pine4", "es2:d/oldpine/pine5", "es2:d/oldpine/pine6"],
+			"links": ["oldpine.outdoor.pine_cliff_edge"]
 		},
 		{
 			"id": "oldpine.outdoor.pine_cliff_edge", "map": "oldpine.outdoor",

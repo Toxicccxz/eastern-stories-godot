@@ -1,4 +1,4 @@
-class_name OldPineWeaponContentResolution
+class_name WorldWeaponContentResolution
 extends RefCounted
 
 enum Outcome {

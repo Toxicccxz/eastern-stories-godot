@@ -134,7 +134,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	TechnicalShellFixture.start(shell) # Existing Old Pine HUD/cave geometry subject.
 	await _settle(tree)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
-	var hud: SharedGameplayUI = session.outdoor_map().hud
+	var hud: SharedGameplayUI = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()
 	var live_connections: int = presenter.metrics_changed.get_connections().size()
 	var battle: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	_check(live_connections == menu_connections + 2 and presenter.metrics_changed.is_connected(battle._apply_metrics), "one current HUD plus one CXR6 Session-owned Battle consumer added")
@@ -150,7 +150,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
 	capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(0, 0, 800, 480))
 	presenter.refresh()
-	for landmark: WorldLandmarkDefinition in OldPineLandmarkDefinitions.definitions():
+	for landmark: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
 		hud.set_selected_landmark(landmark, true)
 		await _settle(tree)
 		_check(capability.metrics.content_rect().encloses(hud.portal_button.get_global_rect()), "current authored traversal label fits compact action grid")
@@ -183,7 +183,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		await _settle(tree)
 		_check(presenter.metrics_changed.get_connections().size() == live_connections, "reattached HUD has exactly one subscription")
 		_check(capability.metrics.content_rect().grow(0.5).encloses(hud.get_node("Overlay/ExplorationHUD").get_global_rect()), "returning resident consumes latest metrics")
-		_check(session.outdoor_map().hud == hud, "resident HUD identity preserved")
+		_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui() == hud, "resident HUD identity preserved")
 	_check(files.files.size() == 1 and settings_files.files.is_empty(), "metric changes perform zero Save/settings writes")
 	_check(shell.runtime_host().get_instance_id() == host_id, "one persistent Host survives all presentation paths")
 	shell.request_pause()

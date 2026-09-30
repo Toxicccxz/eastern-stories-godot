@@ -221,7 +221,11 @@ func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
 func zones_adjacent(from_zone_id: StringName, to_zone_id: StringName) -> bool:
 	if from_zone_id == to_zone_id:
 		return false
-	return _has_exit_into(from_zone_id, to_zone_id) or _has_exit_into(to_zone_id, from_zone_id)
+	if _has_exit_into(from_zone_id, to_zone_id) or _has_exit_into(to_zone_id, from_zone_id):
+		return true
+	var first: ZoneDefinition = _zones.get(from_zone_id)
+	var second: ZoneDefinition = _zones.get(to_zone_id)
+	return (first != null and first.link_ids().has(to_zone_id)) or (second != null and second.link_ids().has(from_zone_id))
 
 
 func _has_exit_into(from_zone_id: StringName, to_zone_id: StringName) -> bool:

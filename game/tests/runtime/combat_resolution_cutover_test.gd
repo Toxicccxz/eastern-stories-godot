@@ -56,7 +56,7 @@ func _completion_return(tree: SceneTree) -> void:
 		session.set_script(CompletionSession)
 		tree.root.add_child(session)
 		session.set_process(false)
-		var map: OldPineOutdoorController = session.outdoor_map()
+		var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 		map.set_process(false)
 		var gate: WorldSimulationGate = session.world_simulation_gate()
 		# Change implementation before acquiring; preserve the EXACT bound object.
@@ -68,7 +68,7 @@ func _completion_return(tree: SceneTree) -> void:
 		var player: WorldPlayerRuntimeState = session.player_runtime()
 		var npc: NpcRuntimeState = map.npc_runtimes()[0]
 		npc.set_world_location(player.world_location())
-		map.bandit_bodies[0].global_position = map.player_body.global_position
+		OldPineTestMap.body(map, "Bandit01").global_position = map.player_body.global_position
 		player.state.attributes.courage = 100000
 		player.state.skills.set_raw_level(&"sword", 1000)
 		player.state.progression.combat_experience = 1000000
@@ -115,10 +115,10 @@ func _completion_return(tree: SceneTree) -> void:
 			_check(encounter.phase == CombatEncounterLifecycle.Value.RESOLVING and encounter.terminal_result == null, "failed return remains resolving, never false completed")
 			_check(coordinator.active_encounter() == encounter and coordinator.active_scheduler() == scheduler, "failed return retains exact orchestration authorities")
 			_check(session.world_simulation_gate() == gate and gate.freeze_owner_id() == encounter.encounter_id, "same authoritative gate retains encounter owner")
-			_check(map._encounter_freeze_owner_id == (encounter.encounter_id if fault == 0 else &""), "release failure after local thaw still held by global gate")
+			_check(map._freeze_owner == (encounter.encounter_id if fault == 0 else &""), "release failure after local thaw still held by global gate")
 			_check(ui.visible and ui.current_projection().completion_outcome == expected and ui._title.text.contains("World return blocked"), "visible read-only failure surface")
 			_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, "failed return Save blocked by retained encounter")
-			_check(session.request_passage_south_exit().outcome == OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN, "failed return traversal blocked")
+			_check(session.handoff_to(OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.CAVE_VINE_LANDING_SPAWN_POINT_ID).outcome == OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN, "failed return traversal blocked")
 			_check(not coordinator.start(encounter.accepted_trigger()).succeeded(), "no new encounter over failed return")
 			_check(not coordinator.submit_player_action(request).accepted() and not coordinator.player_can_target(npc.character_id), "no tactical or target input after failure")
 			_check(not Multi.finish(session) and coordinator.complete(coordinator.resolution().result) == receipt, "FLED and repeated completion cannot bypass or retry failure")
@@ -160,7 +160,6 @@ func _completion_return(tree: SceneTree) -> void:
 		_check(session.inventory_state().direct_parent(sword).same_identity(parent), "no inventory retry")
 		_check(player.state.vitality.current == vitality and player.state.recovery.inner_force.current == force and player.state.progression.combat_experience == experience, "no post-completion resource/progression mutation")
 		_check((session as CompletionSession).thaw_calls == 1 and (gate as CompletionGate).release_calls == (0 if fault == 0 else 1), "no automatic world-return retry")
-		_check(not map.cadence_is_running(), "legacy Timer never restarts")
 		# Actual physics processing and input, separate from the typed boundary assertions.
 		await _settle(tree, 2)
 		var position_before: Vector2 = map.player_body.global_position
@@ -206,10 +205,10 @@ func _spar_mortal_failure(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start(Multi.trigger(session, CombatEncounterMode.Value.SPAR, CombatTriggerCause.Value.PLAYER_SPAR, &"mortal-spar")).succeeded(), "mortal SPAR setup")
-	session.outdoor_map().npc_runtimes()[0].character_state.vitality.effective = -1
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_state.vitality.effective = -1
 	coordinator.advance_scheduler(100)
 	_check(coordinator.resolution().failure == CombatEncounterResolution.Failure.SPAR_MORTAL_WOUND, "armed-friendly death conflict explicitly blocked")
-	_check(session.outdoor_map().corpse_states().is_empty() and coordinator.has_active_encounter() and not session.world_simulation_gate().is_open(), "no SPAR corpse/clamp/false completion")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().is_empty() and coordinator.has_active_encounter() and not session.world_simulation_gate().is_open(), "no SPAR corpse/clamp/false completion")
 	_check(not OldPineSaveEligibility.inspect(session).allowed(), "unresolved SPAR cannot save")
 	session.free()
 	await _settle(tree, 2)
@@ -218,12 +217,12 @@ func _new_session(tree: SceneTree) -> OldPineWorldSessionController:
 	var session: OldPineWorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
-	session.outdoor_map().set_process(false)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	return session
 
 func _entry(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = map.npc_runtimes()[0]
 	var rng := MaximumRandom.new()
@@ -238,7 +237,7 @@ func _entry(tree: SceneTree) -> void:
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.LETHAL, "LETHAL encounter")
 	_check(encounter.accepted_trigger().cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, "player cause")
 	_check(encounter.participants().size() == 2 and coordinator.action_infos().size() == 1 and coordinator.action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID, "no proximity sweep / production Flee only")
-	_check(not map.cadence_is_running() and not session.world_simulation_gate().is_open(), "one cadence / frozen world")
+	_check(not session.world_simulation_gate().is_open(), "frozen world")
 	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, "explicit active Save block")
 	player.relationship.clear_opponents_preserving_lethal_targets()
 	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, "Save block independent of old relationship predicate")
@@ -252,12 +251,11 @@ func _entry(tree: SceneTree) -> void:
 	_check(not coordinator.complete(invalid).succeeded(), "foreign terminal subject rejected")
 	_check(encounter.phase == CombatEncounterLifecycle.Value.ACTIVE, "invalid completion cannot enter resolving or cancel queue")
 	_check(Multi.finish(session), "controlled FLED remains supported")
-	_check(not map.cadence_is_running(), "thaw cannot wake legacy cadence")
 	session.free()
 	await _settle(tree, 2)
 	# Failed coordinator start after source relationship establishment restores exact order.
 	session = _new_session(tree)
-	map = session.outdoor_map()
+	map = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	player = session.player_runtime()
 	npc = map.npc_runtimes()[0]
 	npc.set_world_location(player.world_location())
@@ -267,18 +265,18 @@ func _entry(tree: SceneTree) -> void:
 	var receipt: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(bindings[0], bindings[1], CombatTriggerCause.Value.NPC_AGGRESSION)
 	_check(receipt.outcome == CombatSliceInitiationResult.Outcome.ENCOUNTER_START_FAILED, "mode/cause failure after attempted establishment")
 	_check(player.relationship.opponent_ids() == before and player.relationship.lethal_target_ids().is_empty() and not npc.relationship.is_fighting(), "rollback exact prior ordered facts")
-	_check(session.world_simulation_gate().is_open() and not map.cadence_is_running(), "rollback no hybrid state")
+	_check(session.world_simulation_gate().is_open(), "rollback no hybrid state")
 	player.relationship.clear_opponents_preserving_lethal_targets()
 	map.aggression_adapter().enter_player_presence(npc, player, true)
 	var aggression: Array[CombatSliceInitiationResult] = map.process_pending_aggression()
 	_check(aggression.size() == 1 and aggression[0].outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "real aggression adapter entry")
-	_check(session.combat_encounter_coordinator().active_encounter().accepted_trigger().cause == CombatTriggerCause.Value.NPC_AGGRESSION and not map.cadence_is_running(), "aggression cutover no old cadence")
+	_check(session.combat_encounter_coordinator().active_encounter().accepted_trigger().cause == CombatTriggerCause.Value.NPC_AGGRESSION, "aggression enters the encounter")
 	session.free()
 	await _settle(tree, 2)
 
 func _multi_death(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var a: NpcRuntimeState = map.npc_runtimes()[0]
 	var b: NpcRuntimeState = map.npc_runtimes()[1]
@@ -291,8 +289,8 @@ func _multi_death(tree: SceneTree) -> void:
 	var durable_random: CombatRandomSource = session.combat_random_source()
 	session.configure_combat_random_source(random)
 	# Deterministic strong actor; these are test values, not authored balance.
-	map.bandit_bodies[0].global_position = map.player_body.global_position
-	map.bandit_bodies[1].global_position = map.player_body.global_position
+	OldPineTestMap.body(map, "Bandit01").global_position = map.player_body.global_position
+	OldPineTestMap.body(map, "Bandit02").global_position = map.player_body.global_position
 	player.state.attributes.courage = 100000
 	player.state.skills.set_raw_level(&"sword", 1000)
 	player.state.progression.combat_experience = 1000000
@@ -317,7 +315,6 @@ func _multi_death(tree: SceneTree) -> void:
 	_check(b.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.corpse_states().size() == 2, "B dies once before result")
 	_check(not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "world resumes only after all hostiles complete")
 	_check(encounter.terminal_result != null and encounter.terminal_result.kind == CombatEncounterResultKind.Value.VICTORY, "collection result Victory")
-	_check(not map.cadence_is_running(), "completion no old cadence")
 	var calls: int = random.calls
 	coordinator.advance_scheduler(1000)
 	scheduler.advance(1000, true, encounter.encounter_id, [], random, SkillImprovementEffectRegistry.new())
@@ -333,7 +330,7 @@ func _multi_death(tree: SceneTree) -> void:
 		_check(restored.outcome == OldPineWorldRestoreResult.Outcome.SUCCESS, "completed corpse graph restores: %s %s" % [restored.path, restored.detail])
 		if restored.candidate != null:
 			_check(not restored.candidate.combat_encounter_coordinator().has_active_encounter() and restored.candidate.combat_encounter_coordinator().active_scheduler() == null, "no active combat serialization/reconstruction")
-			_check(restored.candidate.outdoor_map().corpse_states().size() == 2, "restore two corpses without NPC respawn")
+			_check(restored.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 2, "restore two corpses without NPC respawn")
 			_check(restored.candidate.inventory_state().direct_parent(sword_id).same_identity(session.inventory_state().direct_parent(sword_id)), "exact item semantic ID/parent restored")
 			_check(restored.candidate.player_runtime().state != player.state, "new graph, not duplicated active Session authority")
 			restored.candidate.free()
@@ -343,7 +340,7 @@ func _multi_death(tree: SceneTree) -> void:
 func _failure(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
 	Multi.register_probes(session) # Synthetic queue only; never production catalog.
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc: NpcRuntimeState = map.npc_runtimes()[0]
 	npc.set_world_location(session.player_runtime().world_location())
 	map.select_npc(npc.character_id)
@@ -376,7 +373,7 @@ func _failure(tree: SceneTree) -> void:
 func _spar(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	Multi._unarm(player.state.equipment)
 	Multi._unarm(npc.character_state.equipment)
 	npc.set_world_location(player.world_location())
@@ -389,14 +386,14 @@ func _spar(tree: SceneTree) -> void:
 	var candidates: Array[CombatTriggerCandidate] = [CombatTriggerCandidate.new(player.character_id, &"a"), CombatTriggerCandidate.new(npc.character_id, &"b")]
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start(CombatTrigger.new(&"spar", CombatTriggerCause.Value.PLAYER_SPAR, CombatEncounterMode.Value.SPAR, player.character_id, candidates, player.world_location())).succeeded(), "source-backed SPAR")
-	var spar_position: Transform2D = session.outdoor_map().player_body.global_transform
+	var spar_position: Transform2D = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_transform
 	var random := MaximumRandom.new()
 	session.configure_combat_random_source(random)
 	coordinator.advance_scheduler(100)
 	_check(not coordinator.has_active_encounter(), "friendly positive hit ends SPAR without threshold invention")
-	_check(npc.character_state.vitality.current > 0 and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and session.outdoor_map().corpse_states().is_empty(), "SPAR ends conscious with no corpse")
+	_check(npc.character_state.vitality.current > 0 and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().is_empty(), "SPAR ends conscious with no corpse")
 	_check(coordinator.last_completion() != null and coordinator.last_completion().succeeded(), "SPAR completion receipt")
-	_check(coordinator.last_completion() != null and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.SPAR_CONCLUDED and session.outdoor_map().player_body.global_transform == spar_position, "ordinary unarmed SPAR concludes at the unchanged world transform")
+	_check(coordinator.last_completion() != null and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.SPAR_CONCLUDED and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_transform == spar_position, "ordinary unarmed SPAR concludes at the unchanged world transform")
 	if coordinator.has_active_encounter():
 		print("SPAR diagnostic: resolution failure=", coordinator.resolution().failure)
 		for event: CombatSchedulerEvent in coordinator.active_scheduler().events():
@@ -410,7 +407,7 @@ func _spar(tree: SceneTree) -> void:
 func _player_terminal(tree: SceneTree) -> void:
 	for mortal: bool in [false, true]:
 		var session: OldPineWorldSessionController = _new_session(tree)
-		var map: OldPineOutdoorController = session.outdoor_map()
+		var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 		var player: WorldPlayerRuntimeState = session.player_runtime()
 		var npc: NpcRuntimeState = map.npc_runtimes()[0]
 		npc.set_world_location(player.world_location())
@@ -430,6 +427,6 @@ func _player_terminal(tree: SceneTree) -> void:
 		_check(lifecycles == ([CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE] if mortal else [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE]), "unconscious then killed, or killed outright")
 		_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "technical fixture keeps the terminal death; no respawn")
 		_check(map.corpse_states().size() == 1, "death leaves one corpse")
-		_check(map.hud.player_vitality_text.text.begins_with("%d / %d" % [player.state.vitality.current, player.state.vitality.effective]), "returned world HUD refreshes authoritative post-lifecycle resources")
+		_check(map.session.shared_ui().player_vitality_text.text.begins_with("%d / %d" % [player.state.vitality.current, player.state.vitality.effective]), "returned world HUD refreshes authoritative post-lifecycle resources")
 		session.free()
 		await _settle(tree, 2)

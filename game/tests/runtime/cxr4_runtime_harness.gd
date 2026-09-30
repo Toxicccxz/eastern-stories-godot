@@ -24,7 +24,7 @@ var _random := AttackFavoringRandomSource.new()
 
 func _ready() -> void:
 	session.configure_combat_random_source(_random)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_position_at_start = outdoor.player_body.global_position
 	_player_vitality_at_start = session.player_runtime().state.vitality.current
 	_npc_vitality_at_start = outdoor.npc_runtimes()[0].character_state.vitality.current
@@ -50,7 +50,7 @@ func _start_controlled_encounter() -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	if coordinator.has_active_encounter():
 		return
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_position_at_start = outdoor.player_body.global_position
@@ -107,7 +107,7 @@ func _refresh_status() -> void:
 		return
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	var cycle: int = _completed_cycle if scheduler == null else scheduler.logical_cycle
@@ -117,7 +117,7 @@ func _refresh_status() -> void:
 	status_label.text = (
 		"CXR4 ACTIVE SEMI-AUTO PROOF\n"
 		+ "Arrow/WASD: real movement | 1: controlled start | 2: complete\n"
-		+ "state=%s encounter=%s gate=%s scheduler=%s legacy_timer_stopped=%s\n"
+		+ "state=%s encounter=%s gate=%s scheduler=%s\n"
 		+ "cycle=%d events=%d rng_calls=%d player_kee=%d npc_kee=%d mutation=%s\n"
 		+ "position=(%.1f, %.1f) start=(%.1f, %.1f) world_position_frozen=%s"
 	) % [
@@ -125,7 +125,6 @@ func _refresh_status() -> void:
 		"ACTIVE" if coordinator.has_active_encounter() else "NONE",
 		"OPEN" if session.world_simulation_gate().is_open() else "FROZEN",
 		"RUNNING" if scheduler != null else "INERT",
-		str(outdoor.opportunity_timer.is_stopped()),
 		cycle,
 		event_count,
 		_random.calls,

@@ -316,8 +316,8 @@ func _test_npc_death_creates_authoritative_corpse(tree: SceneTree) -> void:
 	_assert_false(controller.player_binding.relationship.has_lethal_target(controller.enemy_binding.character_id), "survivor lethal marker is cleared")
 	_assert_eq(controller.corpse_states().size(), 1, "controller retains one authoritative corpse state")
 	_assert_eq(controller.corpse_decay_intents().size(), 1, "controller retains one initial decay intent without scheduling it")
-	_assert_eq(controller.corpse_layer.get_child_count(), 1, "one presentation corpse view is spawned")
-	var view: CombatSliceCorpseView = controller.corpse_layer.get_child(0) as CombatSliceCorpseView
+	_assert_eq(controller.get_node("CorpseLayer").get_child_count(), 1, "one presentation corpse view is spawned")
+	var view: CombatSliceCorpseView = controller.get_node("CorpseLayer").get_child(0) as CombatSliceCorpseView
 	_assert_true(view != null, "corpse layer child is the narrow presentation view")
 	_assert_eq(view.position, corpse_position, "corpse view uses captured body position")
 	_assert_eq(view.corpse_item_instance_id, lifecycle.corpse_item_instance_id, "corpse view exposes only stable corpse identity")
@@ -413,7 +413,7 @@ func _test_blocked_death_preserves_partial_state_and_is_not_retried(
 	_assert_eq(lifecycle.outcome, CombatSliceLifecycleResult.Outcome.DEATH_INVENTORY_BLOCKED, "uncovered direct item produces typed blocked death")
 	_assert_eq(lifecycle.death_inventory_result.outcome, DeathInventoryResult.Outcome.INVALID_ITEM_FACTS, "blocked result retains exact death-service cause")
 	_assert_eq(controller.corpse_states().size(), 1, "corpse creation before validation remains authoritative")
-	_assert_eq(controller.corpse_layer.get_child_count(), 1, "partial corpse mutation is still presented once")
+	_assert_eq(controller.get_node("CorpseLayer").get_child_count(), 1, "partial corpse mutation is still presented once")
 	_assert_true(
 		controller.inventory_state.is_direct_child(
 			unknown.item_instance_id,
@@ -432,7 +432,7 @@ func _test_blocked_death_preserves_partial_state_and_is_not_retried(
 	_assert_true(controller.lifecycle_is_pending(), "blocked incomplete death gates cadence")
 	_assert_true(controller.process_cadence_tick().is_empty(), "blocked incomplete death is not restarted")
 	_assert_eq(controller.corpse_states().size(), 1, "no retry creates no duplicate corpse")
-	_assert_eq(controller.corpse_layer.get_child_count(), 1, "no retry creates no duplicate corpse view")
+	_assert_eq(controller.get_node("CorpseLayer").get_child_count(), 1, "no retry creates no duplicate corpse view")
 	controller.queue_free()
 	await tree.process_frame
 
@@ -447,13 +447,13 @@ func _test_reset_clears_corpses_and_lifecycle_state(tree: SceneTree) -> void:
 	first.opportunity_timer.stop()
 	first.player_binding.state.vitality.effective = -1
 	first.process_cadence_tick()
-	_assert_eq(first.corpse_layer.get_child_count(), 1, "pre-reset encounter has exactly one corpse view")
+	_assert_eq(first.get_node("CorpseLayer").get_child_count(), 1, "pre-reset encounter has exactly one corpse view")
 	var first_corpse_id: StringName = first.corpse_states()[0].corpse_item_instance_id
 	first._on_reset_button_pressed()
 	await tree.process_frame
 	await tree.process_frame
 	var reset: CombatVerticalSliceController = tree.current_scene as CombatVerticalSliceController
-	_assert_eq(reset.corpse_layer.get_child_count(), 0, "reset clears presentation corpses")
+	_assert_eq(reset.get_node("CorpseLayer").get_child_count(), 0, "reset clears presentation corpses")
 	_assert_eq(reset.corpse_states().size(), 0, "reset creates fresh corpse authority collection")
 	_assert_eq(reset.corpse_decay_intents().size(), 0, "reset creates fresh decay intent collection")
 	_assert_false(reset.lifecycle_is_pending(), "reset clears lifecycle failure state")

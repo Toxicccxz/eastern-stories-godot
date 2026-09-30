@@ -50,7 +50,7 @@ func _run_tests() -> void:
 		preload("res://runtime/persistence/oldpine_world_restore_preparation.gd"),
 		preload("res://runtime/persistence/oldpine_world_restore_result.gd"),
 		preload("res://runtime/persistence/oldpine_world_restore_composition.gd"),
-		preload("res://runtime/persistence/oldpine_map_placement_validator.gd"),
+		preload("res://runtime/persistence/map_placement_validator.gd"),
 		preload("res://runtime/persistence/oldpine_world_restore_service.gd"),
 		PhaseTest,
 	]

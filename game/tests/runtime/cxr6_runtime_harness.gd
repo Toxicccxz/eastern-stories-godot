@@ -61,7 +61,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_T:
 			# Test-only authority change, NOT a production player target selector.
 			if coordinator.has_active_encounter():
-				coordinator.active_encounter().set_current_target(session.player_runtime().character_id, session.outdoor_map().npc_runtimes()[1].character_id)
+				coordinator.active_encounter().set_current_target(session.player_runtime().character_id, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_id)
 				print("CXR6 QA current target changed; accepted queue must not retarget")
 
 

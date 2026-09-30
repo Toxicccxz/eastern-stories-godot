@@ -11,7 +11,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.deterministic_world_interaction_seed = true
 	tree.root.add_child(session)
 	session.set_process(false)
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	map.set_process(false)
 	_check(session.is_initialized(), "Lake public composition initializes")
 	_check(session.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_LAKE_V1, "published Lake contract")
@@ -34,10 +34,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.npc_random_source().capture_random_state().state == initial_rng, "handoff consumes no NPC draws")
 	for y: float in [2199.0, 2200.0, 2201.0]:
 		var expected: StringName = OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID if y < 2200 else OldPineWorldDefinitions.LAKE_ZONE_ID
-		_check(map.lake_route_zone_at(Vector2(1440, y)) == expected, "half-open river/Lake center ownership " + str(y))
-		_check(OldPineMapPlacementValidator.is_valid_character_position(map, expected, Vector2(1440, y)), "seam is walkable and save-valid " + str(y))
+		_check(_zone_owning(map, Vector2(1440, y)) == expected, "half-open river/Lake center ownership " + str(y))
+		_check(MapPlacementValidator.is_valid_character_position(map, expected, Vector2(1440, y)), "seam is walkable and save-valid " + str(y))
 	for position: Vector2 in [Vector2(1090,2625), Vector2(1510,2600), Vector2(1200,3020)]:
-		_check(not OldPineMapPlacementValidator.is_valid_character_position(map, OldPineWorldDefinitions.LAKE_ZONE_ID, position), "water/perimeter rejected " + str(position))
+		_check(not MapPlacementValidator.is_valid_character_position(map, OldPineWorldDefinitions.LAKE_ZONE_ID, position), "water/perimeter rejected " + str(position))
 	_place(session, Vector2(1440,2199))
 	_check(map.process_pending_aggression().is_empty(), "river never pulls Lake enemies")
 	_place(session, Vector2(1390,2520))
@@ -99,9 +99,18 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _place(session: OldPineWorldSessionController, position: Vector2) -> void:
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	map.player_body.global_position = position
-	map._sync_lake_route_location()
+	map.player_body.set_world_location(map.location_for_zone(_zone_owning(map, position)))
+
+
+## The one zone whose half-open rectangle owns `position`, as zone tracking sees it.
+func _zone_owning(map: WorldMapController, position: Vector2) -> StringName:
+	var owners: Array[StringName] = []
+	for zone: WorldPhysicalZoneArea2D in map.physical_zones():
+		if zone.contains_center(position):
+			owners.append(zone.zone_id)
+	return owners[0] if owners.size() == 1 else &""
 
 func _flee(session: OldPineWorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()

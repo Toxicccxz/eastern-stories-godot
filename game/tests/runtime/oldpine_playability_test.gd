@@ -26,7 +26,7 @@ func _session(tree: SceneTree, seed_value: int) -> OldPineWorldSessionController
 	session.combat_seed = seed_value
 	tree.root.add_child(session)
 	session.set_process(false)
-	session.outdoor_map().set_process(false)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).set_process(false)
 	return session
 
@@ -49,11 +49,10 @@ func _authored_and_restore(tree: SceneTree) -> void:
 	_check(s.inventory_state().registered_item_ids().size() == 12, "unchanged twelve bootstrap items")
 	_check(s.combat_encounter_coordinator().action_infos().size() == 1 and s.combat_encounter_coordinator().action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID, "one real production Flee, no invented starter technique")
 	_check(s.encounter_opportunity_interval_seconds() == 1.0, "unchanged one-second opportunity configuration")
-	_check(s.outdoor_map().opportunity_timer.is_stopped(), "old cadence Timer remains non-production")
 	var exp_values: Array[int] = [600, 600, 600, 900, 500]
 	var sword_values: Array[int] = [10, 10, 10, 15, 20]
 	for i: int in 5:
-		var n: CharacterState = s.outdoor_map().npc_runtimes()[i].character_state
+		var n: CharacterState = s.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[i].character_state
 		_check(n.progression.combat_experience == exp_values[i], "LPC NPC experience unchanged")
 		_check(n.skills.raw_level(&"sword") == sword_values[i], "LPC NPC sword unchanged")
 		_check(n.vitality.maximum == (200 if i < 3 else 220), "NPC resource unchanged")
@@ -87,7 +86,7 @@ func _feedback_failures() -> void:
 
 func _authored_encounter(tree: SceneTree, seed_value: int, npc_index: int, experience: int) -> void:
 	var s: OldPineWorldSessionController = _session(tree, seed_value)
-	var map: OldPineOutdoorController = s.outdoor_map()
+	var map: WorldMapController = s.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var p: WorldPlayerRuntimeState = s.player_runtime()
 	var npc: NpcRuntimeState = map.npc_runtimes()[npc_index]
 	# Counterfactual before/after experience ONLY. This is a deterministic typed
@@ -115,12 +114,12 @@ func _authored_encounter(tree: SceneTree, seed_value: int, npc_index: int, exper
 	var exp_before: int = p.state.progression.combat_experience
 	var rng_before: RandomStreamSnapshot = s.combat_random_source().capture_random_state()
 	ui.refresh_projection()
-	var lines: Array[String] = map.hud.log_lines()
+	var lines: Array[String] = map.session.shared_ui().log_lines()
 	ui.refresh_projection()
-	_check(map.hud.log_lines() == lines, "result shown exactly once")
+	_check(map.session.shared_ui().log_lines() == lines, "result shown exactly once")
 	_check(not lines.is_empty() and (lines[-1].begins_with("Victory") or lines[-1].begins_with("Defeat")), "result visible in world HUD")
-	_check(not map.hud._presentation_layout.recent.text.is_empty(), "result remains visible even when compact Details is closed")
-	_check(not map.hud._presentation_layout.frame.visible, "result does not open a movement-blocking Details overlay")
+	_check(not map.session.shared_ui()._presentation_layout.recent.text.is_empty(), "result remains visible even when compact Details is closed")
+	_check(not map.session.shared_ui()._presentation_layout.frame.visible, "result does not open a movement-blocking Details overlay")
 	_check(p.state.vitality.current == hp_before and p.state.progression.combat_experience == exp_before, "presentation cannot mutate resources/progression")
 	_check(s.combat_random_source().capture_random_state().state == rng_before.state, "presentation consumes zero RNG")
 	var result_kind: int = c.last_completion().terminal_result.kind if c.last_completion() != null else -1

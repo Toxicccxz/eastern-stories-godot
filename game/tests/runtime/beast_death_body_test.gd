@@ -15,10 +15,10 @@ func run_all() -> Dictionary[String, Variant]:
 	f.npc = restored.runtime
 	f.inventory = f.restored_items.domain_state.inventory
 	f.stacks = f.restored_items.domain_state.combined_stacks
-	var controller: OldPineOutdoorController = OldPineOutdoorController.new()
+	var controller: WorldMapController = WorldMapController.new()
 	# Detached controller only: exercise the actual typed adapter, no QA scene,
 	# spawn ledger, input/cadence or player-visible validation claim.
-	controller._all_npcs.append(f.npc)
+	controller._npcs.append(f.npc)
 	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(f.npc, CombatSliceContentProfile.new())
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"test.location"), true, true, 1000000)

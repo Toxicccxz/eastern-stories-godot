@@ -1,4 +1,4 @@
-class_name OldPineCorpseLootAdapter
+class_name CorpseLootAdapter
 extends RefCounted
 
 enum OpenValidation {

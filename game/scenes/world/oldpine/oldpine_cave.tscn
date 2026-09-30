@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dyfxqrqim33ir"]
 
-[ext_resource type="Script" uid="uid://be5dxryydxue6" path="res://runtime/world/oldpine_cave_passage_controller.gd" id="1_cave"]
+[ext_resource type="Script" uid="uid://ht3mdtxu82fa" path="res://runtime/world/world_map_controller.gd" id="1_cave"]
+[ext_resource type="Script" uid="uid://uhfgmc7bd2w4" path="res://runtime/world/world_physical_zone_area_2d.gd" id="z_zone"]
+[ext_resource type="Script" uid="uid://c4espfhgjkslc" path="res://runtime/world/world_passage_area_2d.gd" id="p_passage"]
 [ext_resource type="Script" uid="uid://degspgdf2s6v7" path="res://runtime/world/world_spawn_marker_2d.gd" id="2_marker"]
 [ext_resource type="Script" uid="uid://byabg1lrlaxrt" path="res://runtime/world/world_character_body_2d.gd" id="3_body"]
 
@@ -21,6 +23,7 @@ size = Vector2(900, 30)
 
 [node name="OldPineCavePassage" type="Node2D" unique_id=1479692287]
 script = ExtResource("1_cave")
+map = &"oldpine.cave"
 
 [node name="Terrain" type="Node2D" parent="." unique_id=2093880277]
 
@@ -67,17 +70,20 @@ horizontal_alignment = 1
 [node name="Zones" type="Node2D" parent="." unique_id=1415510180]
 
 [node name="PassageZone" type="Area2D" parent="Zones" unique_id=100863369]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.cave.waterfall_passage"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/PassageZone" unique_id=1516547939]
 shape = SubResource("PassageShape")
 
-[node name="SouthExit" type="Area2D" parent="Zones" unique_id=2099680664]
-unique_name_in_owner = true
+[node name="SouthExit" type="Area2D" parent="." unique_id=2099680664]
+script = ExtResource("p_passage")
+portal_id = &"oldpine.cave.passage_to_waterfall"
 position = Vector2(0, 225)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/SouthExit" unique_id=306411893]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthExit" unique_id=306411893]
 shape = SubResource("RectangleShape2D_lrrgo")
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1867624570]
@@ -129,6 +135,3 @@ position = Vector2(0, 275)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/SouthOuterBoundary" unique_id=1242247094]
 shape = SubResource("RectangleShape2D_ryoxn")
-
-[connection signal="body_entered" from="Zones/PassageZone" to="." method="_on_passage_zone_body_entered"]
-[connection signal="body_entered" from="Zones/SouthExit" to="." method="_on_south_exit_body_entered"]

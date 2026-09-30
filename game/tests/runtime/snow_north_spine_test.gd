@@ -71,7 +71,7 @@ func physical_tests(tree: SceneTree) -> void:
 	for row: Array in [[&"snow.mstreet3", -1000.0], [&"snow.mstreet4", -1300.0], [&"snow.crossroad", -1650.0]]:
 		await walk.walk_to(tree, session, "move_up", row[1], 1)
 		check(session.player_runtime().world_location().zone_id == row[0] and session.active_map() == snow, "real forward Area entry " + String(row[0]))
-		check(not session.waterfall_water_available(), "no Fill outside waterfall")
+		check(not session.fill_water_available(), "no Fill outside waterfall")
 		check(session.player_recovery_cadence() == ids[6] and session.player_recovery_cadence().source_tick == 4 and session.player_recovery_cadence().accumulated_seconds == 1.0 and random.calls == 1, "zone entry does not reset cadence or draw")
 		await walk.round_trip(tree, session, Work.capture(session), String(row[0]))
 		if row[0] != &"snow.crossroad":
@@ -100,7 +100,7 @@ func physical_tests(tree: SceneTree) -> void:
 			session.player_runtime().state.recovery.water = 399
 			check(Food.eat(session, dumpling.item_id).outcome == FoodUseResult.Outcome.ATE and session.player_runtime().state.recovery.food == 459, "held food unchanged in new zone")
 			check(Water.drink(session, wineskin.item_id).succeeded() and session.player_runtime().state.recovery.water == 429, "held water unchanged in new zone")
-			check(not Water.fill(session, wineskin.item_id, session.waterfall_water_available()).succeeded(), "cannot fill in new zone")
+			check(not Water.fill(session, wineskin.item_id, session.fill_water_available()).succeeded(), "cannot fill in new zone")
 	await wall_test(tree, session, walk, "move_right", 0, 300, "Temple east", &"snow.square")
 	await walk.walk_to(tree, session, "move_left", 0, 0)
 	await walk.walk_to(tree, session, "move_down", 450, 1)
@@ -124,14 +124,14 @@ func wall_test(tree: SceneTree, session: OldPineWorldSessionController, walk: Wo
 
 func geometry_tests(snow: WorldMapController) -> void:
 	for row: Array in [[&"snow.mstreet3", Vector2(0,-1000)], [&"snow.mstreet4", Vector2(0,-1300)], [&"snow.crossroad", Vector2(100,-1650)], [&"snow.mstreet2", Vector2(0,-840)], [&"snow.mstreet2", Vector2(0,-850)], [&"snow.mstreet3", Vector2(0,-1150)], [&"snow.mstreet4", Vector2(0,-1450)]]:
-		check(OldPineMapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "valid position/half-open join " + str(row))
+		check(MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "valid position/half-open join " + str(row))
 	for row: Array in [[&"snow.mstreet3", Vector2(90,-1000)], [&"snow.mstreet3", Vector2(-90,-1000)], [&"snow.mstreet4", Vector2(90,-1300)], [&"snow.crossroad", Vector2(290,-1650)], [&"snow.crossroad", Vector2(100,-1840)], [&"snow.crossroad", Vector2(200,-1460)], [&"snow.mstreet3", Vector2(0,-1300)], [&"snow.mstreet4", Vector2(200,-1300)], [&"green.path6", Vector2(400,-1650)], [&"snow.mstreet3", Vector2(INF,0)]]:
-		check(not OldPineMapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "reject collision/void/wrong zone " + str(row))
+		check(not MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "reject collision/void/wrong zone " + str(row))
 	# Fault injection tests actual overlap rejection; restore fixture before physical path.
 	var mst4: Area2D = snow.get_node("Zones/MainStreet4") as Area2D
 	var original: Vector2 = mst4.position
 	mst4.position = Vector2(0,-1000)
-	check(not OldPineMapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", Vector2(0,-1000)), "ambiguous overlapping zones fail closed")
+	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", Vector2(0,-1000)), "ambiguous overlapping zones fail closed")
 	mst4.position = original
 	for facade: String in ["Hockshop", "Herbshop", "Postoffice"]:
 		check(snow.get_node("Ground/" + facade + "Facade") is Polygon2D and snow.get_node("Ground/" + facade + "Shutter") is Polygon2D and snow.get_node("Ground/" + facade + "Sign") is Label, "visible static shuttered frontage " + facade)

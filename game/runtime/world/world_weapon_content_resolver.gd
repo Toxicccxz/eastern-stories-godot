@@ -1,4 +1,4 @@
-class_name OldPineWeaponContentResolver
+class_name WorldWeaponContentResolver
 extends RefCounted
 
 
@@ -6,13 +6,13 @@ func resolve(
 	player: WorldPlayerRuntimeState,
 	inventory: InventoryState,
 	item_index: WorldItemInstanceIndex,
-) -> OldPineWeaponContentResolution:
+) -> WorldWeaponContentResolution:
 	if player == null or not player.is_valid() or inventory == null or item_index == null:
-		return OldPineWeaponContentResolution.new()
+		return WorldWeaponContentResolution.new()
 	var primary: EquippedWeaponRef = player.state.equipment.primary_weapon()
 	if primary == null:
-		return OldPineWeaponContentResolution.new(
-			OldPineWeaponContentResolution.Outcome.UNARMED,
+		return WorldWeaponContentResolution.new(
+			WorldWeaponContentResolution.Outcome.UNARMED,
 			&"",
 			&"",
 			CombatSliceContentProfile.new(&"", &"", 0),
@@ -25,39 +25,39 @@ func resolve(
 		not inventory.is_registered(primary.instance_id)
 		or not inventory.is_direct_child(primary.instance_id, player_endpoint)
 	):
-		return OldPineWeaponContentResolution.new(
-			OldPineWeaponContentResolution.Outcome.PRIMARY_ITEM_NOT_AVAILABLE,
+		return WorldWeaponContentResolution.new(
+			WorldWeaponContentResolution.Outcome.PRIMARY_ITEM_NOT_AVAILABLE,
 			primary.instance_id,
 			primary.weapon_id,
 		)
 	var item: ItemInstance = item_index.resolve(primary.instance_id)
 	if item == null:
-		return OldPineWeaponContentResolution.new(
-			OldPineWeaponContentResolution.Outcome.PRIMARY_CONTENT_UNAVAILABLE,
+		return WorldWeaponContentResolution.new(
+			WorldWeaponContentResolution.Outcome.PRIMARY_CONTENT_UNAVAILABLE,
 			primary.instance_id,
 			primary.weapon_id,
 		)
 	if item.item_definition_id != primary.weapon_id:
-		return OldPineWeaponContentResolution.new(
-			OldPineWeaponContentResolution.Outcome.PRIMARY_DEFINITION_MISMATCH,
+		return WorldWeaponContentResolution.new(
+			WorldWeaponContentResolution.Outcome.PRIMARY_DEFINITION_MISMATCH,
 			primary.instance_id,
 			item.item_definition_id,
 		)
 	var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
 	if content == null or content.weapon_definition() == null:
-		return OldPineWeaponContentResolution.new(
-			OldPineWeaponContentResolution.Outcome.UNSUPPORTED_PRIMARY,
+		return WorldWeaponContentResolution.new(
+			WorldWeaponContentResolution.Outcome.UNSUPPORTED_PRIMARY,
 			primary.instance_id,
 			item.item_definition_id,
 		)
 	if content.weapon_skill_type != primary.skill_type:
-		return OldPineWeaponContentResolution.new(
-			OldPineWeaponContentResolution.Outcome.PRIMARY_DEFINITION_MISMATCH,
+		return WorldWeaponContentResolution.new(
+			WorldWeaponContentResolution.Outcome.PRIMARY_DEFINITION_MISMATCH,
 			primary.instance_id,
 			item.item_definition_id,
 		)
-	return OldPineWeaponContentResolution.new(
-		OldPineWeaponContentResolution.Outcome.WEAPON,
+	return WorldWeaponContentResolution.new(
+		WorldWeaponContentResolution.Outcome.WEAPON,
 		primary.instance_id,
 		item.item_definition_id,
 		CombatSliceContentProfile.new(

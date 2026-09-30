@@ -136,7 +136,7 @@ func _edges(tree: SceneTree, touch: MobileTouchAdapter, ledger: EventLedger) -> 
 
 
 func _world_cancel(tree: SceneTree, _shell: ApplicationShellController, session: OldPineWorldSessionController) -> void:
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var landmark: WorldLandmarkArea2D = outdoor.get_node("Interactions/VineInteraction")
 	# Before-route proximity/camera fixture. Stimulus is actual touch and physics picking.
 	outdoor.player_body.global_position = landmark.global_position + Vector2(0, 60)
@@ -283,7 +283,7 @@ func _scroll_adversarial(tree: SceneTree, shell: ApplicationShellController, pre
 
 func _reflow_and_blocker(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, presenter: SafeAreaPresenter, safe: SafeAreaCapability) -> void:
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
-	var hud: SharedGameplayUI = session.outdoor_map().hud
+	var hud: SharedGameplayUI = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()
 	for extent: Vector2 in [Vector2(960, 540), Vector2(1280, 720)]:
 		tree.root.size = Vector2i(extent)
 		(safe as FakeSafe).metrics = SafeAreaMetrics.normalize(Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Transform2D.IDENTITY, true)

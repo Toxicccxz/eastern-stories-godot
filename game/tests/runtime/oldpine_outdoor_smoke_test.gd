@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SCENE_PATH: String = "res://scenes/world/oldpine/oldpine_world_session.tscn"
 const MAIN_SCENE_PATH: String = (
 	"res://scenes/application/application_shell.tscn"
@@ -8,7 +10,7 @@ const ScriptedRandomScript := preload(
 	"res://tests/support/scripted_combat_random_source.gd"
 )
 const ControllerType := preload(
-	"res://runtime/world/oldpine_outdoor_controller.gd"
+	"res://runtime/world/world_map_controller.gd"
 )
 const SpawnMarkerType := preload(
 	"res://runtime/world/world_spawn_marker_2d.gd"
@@ -92,12 +94,9 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 	_assert_true(controller.player_runtime() != null, "world player runtime initializes")
 	_assert_eq(controller.npc_runtimes().size(), 10, "five humans and five serpents initialize")
 	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 10, "map-local collection owns ten active NPCs")
-	_assert_eq(controller.opportunity_timer.wait_time, 1.0, "map cadence is exactly one second")
-	_assert_false(controller.opportunity_timer.one_shot, "map cadence uses one repeating Timer")
-	_assert_false(controller.opportunity_timer.autostart, "map cadence never autostarts")
-	_assert_true(controller.opportunity_timer.is_stopped(), "passive authored bandits do not autostart cadence")
+	_assert_true(not HistoricalCombat.cadence_running(controller), "passive authored bandits do not autostart cadence")
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Old Pine hierarchy excludes obsolete Reset control")
-	_assert_true(controller.hud != null, "world HUD initializes")
+	_assert_true(controller.session.shared_ui() != null, "world HUD initializes")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/WorldBounds/Top") is CollisionShape2D, "world top collision persists")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/ForestObstacles/TreeBarrierNorthWest") is CollisionShape2D, "forest obstacle collision persists")
 	_assert_true((controller.get_node("Characters/Player/Camera2D") as Camera2D).enabled, "player Camera2D is active")
@@ -117,7 +116,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		) as SpawnMarkerType
 		_assert_eq(marker.spawn_point_id, point_ids[index], "ordered spawn ID resolves to exact persistent marker")
 		_assert_eq(npcs[index].spawn_point_id, point_ids[index], "runtime spawn order matches definition order")
-		_assert_eq(controller.bandit_bodies[index].global_position, marker.global_position, "bandit body starts at authored Marker2D")
+		_assert_eq(OldPineTestMap.bodies(controller, ["Bandit01", "Bandit02", "Bandit03"])[index].global_position, marker.global_position, "bandit body starts at authored Marker2D")
 		_assert_eq(npcs[index].definition_id, TestContent.BANDIT_NPC_ID, "visible bandit resolves exact authored definition")
 		_assert_eq(npcs[index].definition().display_name, "土匪探哨", "authored display name has no arena identity leak")
 		_assert_eq(npcs[index].age, 19, "world runtime retains authored age")
@@ -126,7 +125,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		for item: ItemInstance in npcs[index].loadout_items():
 			_assert_false(item_ids.has(item.item_instance_id), "each bandit item instance ID is unique")
 			item_ids.append(item.item_instance_id)
-		_assert_eq(controller.bandit_bodies[index].get_signal_connection_list("selection_requested").size(), 1, "each bandit selection signal persists once")
+		_assert_eq(OldPineTestMap.bodies(controller, ["Bandit01", "Bandit02", "Bandit03"])[index].get_signal_connection_list("selection_requested").size(), 1, "each bandit selection signal persists once")
 	var description: String = npcs[0].definition().description
 	_assert_eq(description, "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n", "inspect description is exact bandit.c authored text")
 	_assert_true(controller.npc_random_source() != controller.combat_random_source(), "NPC initialization and combat use distinct RNG instances")
@@ -192,7 +191,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	var expected_body_weight: int = victim.body_weight
 	var expected_capacity: int = victim.maximum_encumbrance
 	victim.character_state.attributes.strength = 30
-	controller.bandit_bodies[0].set_world_location(controller.resolve_location(
+	OldPineTestMap.body(controller, "Bandit01").set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID,
 	))
 	participants = controller._build_participants()
@@ -285,34 +284,34 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	var scripted: ScriptedCombatRandomSource = ScriptedRandomScript.new([0, 0, 0])
-	controller.configure_combat_random_source(scripted)
+	controller.session.configure_combat_random_source(scripted)
 	for _frame: int in range(4):
 		await tree.process_frame
-	_assert_true(controller.process_cadence_tick().is_empty(), "NPCs outside player presence execute no automatic aggression")
+	_assert_true(HistoricalCombat.tick(controller).is_empty(), "NPCs outside player presence execute no automatic aggression")
 	_assert_eq(scripted.call_count(), 0, "three idle NPCs consume zero combat RNG")
 	for npc: NpcRuntimeState in controller.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "out-of-range bandit remains out of combat before explicit Attack")
 	var bandit2: NpcRuntimeState = controller.npc_runtimes()[1]
 	controller.player_body.global_position = Vector2(450.0, 700.0)
-	controller.bandit_bodies[0].global_position = Vector2(600.0, 700.0)
-	controller.bandit_bodies[1].global_position = Vector2(700.0, 700.0)
-	controller.bandit_bodies[2].global_position = Vector2(800.0, 700.0)
+	OldPineTestMap.body(controller, "Bandit01").global_position = Vector2(600.0, 700.0)
+	OldPineTestMap.body(controller, "Bandit02").global_position = Vector2(700.0, 700.0)
+	OldPineTestMap.body(controller, "Bandit03").global_position = Vector2(800.0, 700.0)
 	var camera: Camera2D = controller.get_node("Characters/Player/Camera2D") as Camera2D
 	camera.enabled = true
 	camera.make_current()
 	camera.reset_smoothing()
 	await tree.physics_frame
 	await tree.physics_frame
-	await _click_body_through_viewport(controller.bandit_bodies[0], tree)
+	await _click_body_through_viewport(OldPineTestMap.body(controller, "Bandit01"), tree)
 	_assert_eq(controller.selected_character_id(), controller.npc_runtimes()[0].character_id, "real picking selects bandit1")
-	await _click_body_through_viewport(controller.bandit_bodies[2], tree)
+	await _click_body_through_viewport(OldPineTestMap.body(controller, "Bandit03"), tree)
 	_assert_eq(controller.selected_character_id(), controller.npc_runtimes()[2].character_id, "real picking switches HUD target to bandit3")
-	await _click_body_through_viewport(controller.bandit_bodies[1], tree)
+	await _click_body_through_viewport(OldPineTestMap.body(controller, "Bandit02"), tree)
 	_assert_eq(controller.selected_character_id(), bandit2.character_id, "bandit body click selects exact second CharacterId")
-	_assert_eq(controller.hud.selected_target_text(), "土匪探哨", "HUD follows the current stable target")
+	_assert_eq(controller.session.shared_ui().selected_target_text(), "土匪探哨", "HUD follows the current stable target")
 	_assert_true(controller.inspect_selected(), "Inspect accepts selected live bandit")
-	_assert_true(controller.hud.inspection_display().contains("土匪探哨"), "Inspect shows authored name")
-	_assert_true(controller.hud.inspection_display().contains("满脸匪气"), "Inspect shows authored long description")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("土匪探哨"), "Inspect shows authored name")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("满脸匪气"), "Inspect shows authored long description")
 	_assert_eq(scripted.call_count(), 0, "Inspect consumes no combat RNG")
 	for npc: NpcRuntimeState in controller.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "Inspect mutates no combat relationship")
@@ -326,17 +325,16 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	_assert_false(controller.npc_runtimes()[0].relationship.is_fighting(), "bandit 1 remains idle")
 	_assert_false(controller.npc_runtimes()[2].relationship.is_fighting(), "bandit 3 remains idle")
 	_assert_eq(scripted.call_count(), 0, "Attack initiation executes no combat opportunity RNG")
-	_assert_false(controller.opportunity_timer.is_stopped(), "successful explicit Attack starts one map cadence timer")
-	controller.opportunity_timer.start(9.0)
+	_assert_false(not HistoricalCombat.cadence_running(controller), "successful explicit Attack starts one map cadence timer")
+	HistoricalCombat.set_running(controller, true)
 	var repeated: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(repeated.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "repeated Attack remains idempotently accepted")
-	_assert_true(controller.opportunity_timer.time_left > 8.0, "repeated Attack does not restart cadence timing")
 	_assert_eq(controller.player_runtime().relationship.opponent_ids().size(), 1, "repeated Attack does not duplicate player opponent")
 	_assert_eq(bandit2.relationship.opponent_ids().size(), 1, "repeated Attack does not duplicate NPC opponent")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
-	var cleanup_results: Array[CombatSliceOpportunityResult] = controller.process_cadence_tick()
+	var cleanup_results: Array[CombatSliceOpportunityResult] = HistoricalCombat.tick(controller)
 	_assert_eq(cleanup_results.size(), 2, "both fighting sides receive one cleanup opportunity after zone exit")
 	_assert_false(controller.player_runtime().relationship.has_opponent(bandit2.character_id), "closed availability removes player opponent after zone exit")
 	_assert_false(bandit2.relationship.has_opponent(controller.player_runtime().character_id), "closed availability removes reciprocal opponent after zone exit")
@@ -347,7 +345,7 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
 	))
 	_assert_false(controller.player_runtime().relationship.is_fighting(), "returning to same zone does not invent combat restart")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.queue_free()
 	await tree.process_frame
 
@@ -361,7 +359,7 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	var unknown_item: ItemInstance = ItemInstance.new(&"audit.unknown-item", &"audit.unknown-definition")
 	_assert_true(controller.inventory_state().register_item(unknown_item, 1), "partial-death fixture registers unknown direct item")
 	var victim_destination: InventoryTransferDestination = InventoryTransferDestination.new(
@@ -374,7 +372,7 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.vitality.current = -1
 	victim.character_state.vitality.effective = -1
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	var lifecycles: Array[CombatSliceLifecycleResult] = controller.last_lifecycle_results()
 	_assert_eq(lifecycles.size(), 1, "blocked death produces one lifecycle result")
 	if not lifecycles.is_empty():
@@ -382,11 +380,11 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 		_assert_eq(lifecycles[0].death_inventory_result.outcome, DeathInventoryResult.Outcome.INVALID_ITEM_FACTS, "uncovered direct item retains strict fact validation")
 	_assert_eq(victim.life_status, CharacterRuntimeLifeStatus.Value.ACTIVE, "blocked death does not commit world DEAD")
 	_assert_true(victim.exists_in_map, "blocked death does not commit world nonexistence")
-	_assert_true(controller.bandit_bodies[1].visible, "blocked death keeps NPC body visible")
-	_assert_true(controller.bandit_bodies[1].input_pickable, "blocked death keeps NPC body pickable")
+	_assert_true(OldPineTestMap.body(controller, "Bandit02").visible, "blocked death keeps NPC body visible")
+	_assert_true(OldPineTestMap.body(controller, "Bandit02").input_pickable, "blocked death keeps NPC body pickable")
 	_assert_true(controller.lifecycle_is_pending(), "blocked death raises the closed scene-level lifecycle gate")
 	var corpse_count: int = controller.corpse_states().size()
-	_assert_true(controller.process_cadence_tick().is_empty(), "blocked lifecycle character is not restarted from the beginning")
+	_assert_true(HistoricalCombat.tick(controller).is_empty(), "blocked lifecycle character is not restarted from the beginning")
 	_assert_eq(controller.corpse_states().size(), corpse_count, "blocked lifecycle retry gate prevents duplicate corpse creation")
 	controller.queue_free()
 	await tree.process_frame
@@ -414,7 +412,7 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 	_assert_eq(index.resolve(cloth_id).item_definition_id, TestContent.CLOTH_ITEM_ID, "birth item has exact source cloth definition")
 	_assert_eq(player.armor.item_instance_id_in_slot(&"cloth"), cloth_id, "source cloth is live worn before death")
 	_assert_true(TestContent.item(TestContent.CLOTH_ITEM_ID).armor_definition() != null, "source cloth armor comes from the shared catalog")
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var facts: Array[DeathItemFacts] = map._death_item_facts_for(player.character_id)
 	_assert_eq(facts.size(), 1, "production death projection covers exact source inventory")
 	if facts.size() != 1:
@@ -487,7 +485,7 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func _test_existing_oldpine_death_facts(map: OldPineOutdoorController, index: WorldItemInstanceIndex) -> void:
+func _test_existing_oldpine_death_facts(map: WorldMapController, index: WorldItemInstanceIndex) -> void:
 	var seen: Array[StringName] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		for fact: DeathItemFacts in map._death_item_facts_for(npc.character_id):
@@ -514,7 +512,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var victim: NpcRuntimeState = bandits[1]
 	var expected_body_weight: int = victim.body_weight
 	var expected_capacity: int = victim.maximum_encumbrance
-	var victim_body: CharacterBodyType = controller.bandit_bodies[1]
+	var victim_body: CharacterBodyType = OldPineTestMap.body(controller, "Bandit02")
 	victim_body.global_position += Vector2(24.0, -18.0)
 	var death_position: Vector2 = victim_body.global_position
 	var sword: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SHORT_SWORD_ITEM_ID)
@@ -524,22 +522,22 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30
 	victim.character_state.vitality.current = -1
-	var first_tick: Array[CombatSliceOpportunityResult] = controller.process_cadence_tick()
+	var first_tick: Array[CombatSliceOpportunityResult] = HistoricalCombat.tick(controller)
 	_assert_eq(first_tick.size(), 2, "stable player then selected NPC opportunities ignore idle bandits")
-	_assert_eq(controller.last_tick_order(), [controller.player_runtime().character_id, victim.character_id], "map cadence order is player then spawn-order fighting NPC")
+	_assert_eq(HistoricalCombat.last_tick_order(controller), [controller.player_runtime().character_id, victim.character_id], "map cadence order is player then spawn-order fighting NPC")
 	_assert_eq(victim.life_status, CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "threshold commits unconscious only on victim outer opportunity")
 	_assert_true(victim.exists_in_map, "unconscious NPC remains world-present")
 	var maximum: MaximumCombatRandomSource = MaximumCombatRandomSource.new()
-	controller.configure_combat_random_source(maximum)
+	controller.session.configure_combat_random_source(maximum)
 	var observed_quick: bool = false
 	for _tick: int in range(24):
 		if victim.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			break
-		for opportunity: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for opportunity: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if opportunity.forward_result != null and opportunity.forward_result.attack_type == CombatAttackType.Value.QUICK:
 				observed_quick = true
 	_assert_true(observed_quick, "later closed combat opportunity executes QUICK against unconscious bandit")
@@ -548,13 +546,13 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_false(victim_body.visible, "dead bandit body is hidden")
 	_assert_false(victim_body.input_pickable, "dead bandit body is noninteractive")
 	_assert_eq(controller.corpse_states().size(), 1, "one authoritative corpse state remains")
-	_assert_eq(controller.corpse_layer.get_child_count(), 1, "one corpse view remains in world scene")
-	if controller.corpse_states().is_empty() or controller.corpse_layer.get_child_count() == 0:
+	_assert_eq(controller.get_node("CorpseLayer").get_child_count(), 1, "one corpse view remains in world scene")
+	if controller.corpse_states().is_empty() or controller.get_node("CorpseLayer").get_child_count() == 0:
 		controller.queue_free()
 		await tree.process_frame
 		return
 	var corpse: CorpseState = controller.corpse_states()[0]
-	var view: CombatSliceCorpseView = controller.corpse_layer.get_child(0) as CombatSliceCorpseView
+	var view: CombatSliceCorpseView = controller.get_node("CorpseLayer").get_child(0) as CombatSliceCorpseView
 	_assert_eq(view.global_position, death_position, "corpse view uses captured physical death Vector2")
 	_assert_eq(corpse.maximum_contents_encumbrance, expected_capacity, "successful corpse copies established NPC capacity")
 	_assert_eq(controller.inventory_state().own_weight(corpse.corpse_item_instance_id), expected_body_weight, "successful corpse copies established NPC body weight")
@@ -566,7 +564,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_true(bandits[0].exists_in_map and bandits[2].exists_in_map, "other two bandits remain world-present")
 	_assert_true(controller.is_inside_tree(), "NPC death does not reload or end map")
 	_assert_true(controller.select_npc(bandits[2].character_id), "remaining bandit stays selectable")
-	_assert_true(controller.process_cadence_tick().is_empty(), "dead bandit never respawns or re-enters future cadence")
+	_assert_true(HistoricalCombat.tick(controller).is_empty(), "dead bandit never respawns or re-enters future cadence")
 	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 9, "live map quantity naturally falls to nine after death")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
@@ -575,7 +573,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var second_initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(second_initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "surviving second bandit can begin a new combat")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(bandits[0].character_id), "second combat targets the new selected bandit")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	var before_move: Vector2 = controller.player_body.position
 	Input.action_press("move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
@@ -624,8 +622,7 @@ func _test_fresh_scene_reset_boundary(tree: SceneTree) -> void:
 	_assert_false(reset.player_runtime().relationship.is_fighting(), "fresh scene contains no stale player relation")
 	for npc: NpcRuntimeState in reset.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "fresh NPC contains no stale relationship")
-	_assert_eq(reset.bandit_bodies[0].get_signal_connection_list("selection_requested").size(), 1, "fresh scene has no duplicate selection signals")
-	_assert_eq(reset.opportunity_timer.get_signal_connection_list("timeout").size(), 1, "fresh scene has no duplicate cadence signals")
+	_assert_eq(OldPineTestMap.body(reset, "Bandit01").get_signal_connection_list("selection_requested").size(), 1, "fresh scene has no duplicate selection signals")
 	reset.queue_free()
 	await tree.process_frame
 
@@ -643,7 +640,7 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	session.combat_seed = 88
 	tree.root.add_child(session)
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
-	return session.outdoor_map()
+	return session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 
 
 func _item_with_definition(

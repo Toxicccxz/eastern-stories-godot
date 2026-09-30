@@ -387,7 +387,7 @@ func _test_real_session(tree: SceneTree) -> void:
 	session.set_process(false)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	Probe.prepare(player.state)
 	npc.set_world_location(player.world_location())
 	player.relationship.add_opponent(npc.character_id)
@@ -401,7 +401,6 @@ func _test_real_session(tree: SceneTree) -> void:
 	_eq(coordinator.submit_player_action(request).code, Code.ACCEPTED, "real current Session player accepted")
 	_eq(player.state.recovery.inner_force.current, 10, "runtime submit doesn't execute")
 	_check(session.world_simulation_gate().is_frozen(), "resident world frozen")
-	_check(session.outdoor_map().opportunity_timer.is_stopped(), "legacy timer stopped")
 	tree.paused = true
 	coordinator.advance_scheduler(100.0)
 	_eq(player.state.recovery.inner_force.current, 10, "SceneTree pause preserves queued state")

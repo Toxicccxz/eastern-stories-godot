@@ -478,7 +478,7 @@ func _test_valid_continue_and_confirmation(tree: SceneTree) -> void:
 func _test_reset_path_absent(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = SESSION_SCENE.instantiate()
 	tree.root.add_child(session)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_false(outdoor.has_signal("reset_requested"), "Outdoor exposes no reset signal")
 	_assert_true(outdoor.get_node_or_null("HUD/Overlay/StatusPanel/Margin/VBox/Actions/ResetButton") == null, "Outdoor Reset button is absent")
 	_assert_false(outdoor.has_method("reset_world"), "Outdoor reset handler is absent")

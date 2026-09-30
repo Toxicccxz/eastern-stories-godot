@@ -56,10 +56,10 @@ func _run_qa() -> void:
 	)
 	if (
 		candidate.inventory_state().registered_item_ids().size() != 13
-		or candidate.outdoor_map().npc_runtimes().size() != 10
-		or candidate.outdoor_map().corpse_states().size() != 1
+		or candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() != 10
+		or candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() != 1
 		or candidate.active_map_id() != OldPineWorldDefinitions.OUTDOOR_MAP_ID
-		or candidate.cave_map().get_parent() != null
+		or candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_parent() != null
 		or not rng_unchanged
 	):
 		push_error("PHASE10B3_QA staged authority invariant failed")
@@ -67,9 +67,9 @@ func _run_qa() -> void:
 	if not candidate.activate_restore_candidate():
 		push_error("PHASE10B3_QA candidate activation failed")
 		return
-	var corpse: CorpseState = candidate.outdoor_map().corpse_states()[0]
+	var corpse: CorpseState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states()[0]
 	var corpse_view: CombatSliceCorpseView = (
-		candidate.outdoor_map().corpse_view_for(corpse.corpse_item_instance_id)
+		candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id)
 	)
 	print(
 		(
@@ -78,9 +78,9 @@ func _run_qa() -> void:
 		) % [
 			candidate.active_map_id(),
 			candidate.inventory_state().registered_item_ids().size(),
-			candidate.outdoor_map().npc_runtimes().size(),
-			candidate.outdoor_map().corpse_states().size(),
-			candidate.outdoor_map().player_body.global_position,
+			candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(),
+			candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(),
+			candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_position,
 			corpse_view.global_position,
 			rng_unchanged,
 		]

@@ -46,20 +46,20 @@ func physical_tests(tree: SceneTree) -> void:
 	await tree.physics_frame
 	await tree.physics_frame
 	check((snow.get_node("Walls/HockshopDoor") as CollisionShape2D).disabled, "only door collision disabled")
-	check(not OldPineMapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", Vector2(110,-1000)), "open threshold still save-invalid for closed cold restore")
+	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", Vector2(110,-1000)), "open threshold still save-invalid for closed cold restore")
 	await walk.walk_to(tree, session, "move_right", 190, 0)
 	check(session.player_runtime().world_location().zone_id == &"snow.hockshop" and not ui.in_reach(), "ordinary Area crossing, doorway not counter")
 	await walk.walk_to(tree, session, "move_right", 330, 0)
 	check(ui.in_reach() and session.active_map() == snow, "counter physical reach")
 	check(session.resident_map_count() == 4 and session.active_map_child_count() == 1 and snow.resident_npcs().is_empty(), "four residents one active no NPC")
 	for position: Vector2 in [Vector2(330,-1000),Vector2(170,-900),Vector2(470,-1100)]:
-		check(OldPineMapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
+		check(MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
 	for position: Vector2 in [Vector2(540,-1000),Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(580,-1000),Vector2(NAN,0)]:
-		check(not OldPineMapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))
+		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))
 	var mst3: Area2D = snow.get_node("Zones/MainStreet3") as Area2D
 	var original: Vector2 = mst3.position
 	mst3.position = Vector2(330,-1000)
-	check(not OldPineMapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", Vector2(330,-1000)), "ambiguous zones reject")
+	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", Vector2(330,-1000)), "ambiguous zones reject")
 	mst3.position = original
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	check(snapshot != null, "capture actual entered Hockshop")

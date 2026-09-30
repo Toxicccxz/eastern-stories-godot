@@ -30,9 +30,8 @@ static func inspect(
 	var handoff: OldPineMapHandoffResult = session.last_map_handoff_result()
 	if handoff != null and handoff.has_committed_partial_transition():
 		return Result.block(Result.Outcome.MAP_HANDOFF_PARTIAL)
-	var cave: OldPineCavePassageController = session.cave_map()
-	if cave != null and cave.exit_request_pending():
-		return Result.block(Result.Outcome.CAVE_EXIT_PENDING)
+	if session.passage_request_pending():
+		return Result.block(Result.Outcome.PASSAGE_PENDING)
 	# The player cannot act while unconscious or dead (disable_player/ghost);
 	# waking up and the way back from death are short and are not saved.
 	if session.player_life_flow().is_active():
@@ -41,22 +40,21 @@ static func inspect(
 			session.player_runtime().character_id,
 			"player is unconscious or dead",
 		)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
-	if outdoor == null:
+	var maps: Array[WorldMapController] = session.world_maps()
+	if maps.is_empty():
 		return Result.block(Result.Outcome.SESSION_NOT_READY)
-	if outdoor.lifecycle_is_pending():
-		return Result.block(Result.Outcome.INCOMPLETE_LIFECYCLE)
-	if outdoor.aggression_adapter().pending_count() != 0:
-		return Result.block(Result.Outcome.PENDING_AGGRESSION)
-	if outdoor.cadence_is_running():
-		return Result.block(Result.Outcome.COMBAT_CADENCE_ACTIVE)
-	for corpse: CorpseState in outdoor.corpse_states():
-		if corpse.decay_stage == CorpseState.Stage.FINAL:
-			return Result.block(
-				Result.Outcome.INCOMPLETE_LIFECYCLE,
-				corpse.corpse_item_instance_id,
-				"live corpse has reached FINAL without completed destruction",
-			)
+	for map: WorldMapController in maps:
+		if map.lifecycle_is_pending():
+			return Result.block(Result.Outcome.INCOMPLETE_LIFECYCLE)
+		if map.aggression_adapter().pending_count() != 0:
+			return Result.block(Result.Outcome.PENDING_AGGRESSION)
+		for corpse: CorpseState in map.corpse_states():
+			if corpse.decay_stage == CorpseState.Stage.FINAL:
+				return Result.block(
+					Result.Outcome.INCOMPLETE_LIFECYCLE,
+					corpse.corpse_item_instance_id,
+					"live corpse has reached FINAL without completed destruction",
+				)
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var player_result: OldPineSaveEligibilityResult = _inspect_character(
@@ -69,7 +67,7 @@ static func inspect(
 	)
 	if not player_result.allowed():
 		return player_result
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+	for npc: NpcRuntimeState in session.world_npcs():
 		var npc_result: OldPineSaveEligibilityResult = _inspect_character(
 			npc.character_id,
 			npc.character_state,

@@ -78,16 +78,21 @@ of `set("long")` (hard line breaks kept; the UI rewraps) and the static `set("ex
 `regions`: `{id, name}`. `maps`: `{id, region, scene, entry}` — one Godot scene the player walks
 in; `entry` is the spawn marker the player body waits on until the map is entered. Every map scene
 uses `WorldMapController` (`map` export = the map ID) and carries one ID-bearing component per
-record: `WorldPhysicalZoneArea2D` (zone), `WorldSpawnMarker2D`, `WorldPassageArea2D` (portal),
-`WorldServicePoint` (service), `WorldDoor` (door). A map refuses to initialize when scene and data
-disagree.
+record: `WorldPhysicalZoneArea2D` (zone), `WorldSpawnMarker2D`, `WorldPassageArea2D` (portal; a
+portal that stays on its map moves the player directly), `WorldServicePoint` (service), `WorldDoor`
+(door), `WorldLandmarkArea2D` (landmark). NPCs are not placed in the scene: the map gives each
+spawn point a `WorldNpcBody2D` (`scenes/world/common/world_npc_body.tscn`). A map refuses to
+initialize when scene and data disagree.
 
 ## zones
 
 `{id, map, rooms}` — a walkable part of a map made of one or more rooms. The **first room is the
 primary room**: its `short` is the zone's title and its `long` is what the player reads on entering.
 A zone's combat location is its ID. Two zones are neighbours when a room of one has an exit into a
-room of the other; zone tracking only accepts moves between neighbours. Optional `combat_entry`:
+room of the other, or when one lists the other in `links` — a walkable connection no static ES2
+exit states (random maze exits, a recorded geography decision); each link needs its DECISIONS entry.
+Zone tracking follows the player body's center (half-open rectangles, one owner per point) and
+only accepts moves between neighbours. Optional `combat_entry`:
 `pair` (default — an aggressive NPC starts a fight with the player alone) or `complete_set` (every
 aggressive NPC in contact joins one encounter; Lake, owner decision P2A-M).
 

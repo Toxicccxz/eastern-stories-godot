@@ -220,6 +220,10 @@ func _resolve_zones() -> void:
 			elif room_owners.has(room_id):
 				_errors.append("%s.rooms: '%s' is already in %s" % [origin, room_id, room_owners[room_id]])
 			room_owners[room_id] = zone_id
+		for link_id: StringName in definition.link_ids():
+			var linked: ZoneDefinition = _zones.get(link_id)
+			if linked == null or linked.map_id != definition.map_id or link_id == zone_id:
+				_errors.append("%s.links: '%s' is not another zone of %s" % [origin, link_id, definition.map_id])
 		var room_ids: Array[StringName] = definition.room_ids()
 		if not room_ids.is_empty() and _rooms.has(room_ids[0]):
 			_zones[zone_id] = definition.with_primary_room(_rooms[room_ids[0]])

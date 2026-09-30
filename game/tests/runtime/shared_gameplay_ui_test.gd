@@ -32,7 +32,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(moved.succeeded(), "typed map handoff")
 	await tree.process_frame
 	check(session.shared_ui().get_instance_id() == before and ui.visible, "Snow retains exact UI")
-	check(not session.outdoor_map().is_inside_tree(), "Outdoor is inactive during Snow inventory use")
+	check(not session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).is_inside_tree(), "Outdoor is inactive during Snow inventory use")
 	var id: StringName = session.player_inventory_rows()[0].item_instance_id
 	check(session.player_runtime().armor.is_worn(id), "cloth initially worn")
 	session.remove_player_item(id)

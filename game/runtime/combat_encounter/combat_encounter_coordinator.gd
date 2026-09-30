@@ -69,8 +69,8 @@ func start_complete_production(cause: int, requested_target: StringName = &"") -
 	var failed := CombatSliceInitiationResult.new()
 	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or _entry_sequence == 9223372036854775807:
 		return failed
-	var map: OldPineOutdoorController = _session.outdoor_map()
-	if map == null or _session.active_map() != map:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	if map == null:
 		return failed
 	var bindings: Array[CombatSliceCharacterBinding] = map.collect_complete_combat_entry(cause, requested_target)
 	if bindings.size() < 2 or bindings[0].character_id != _session.player_runtime().character_id:

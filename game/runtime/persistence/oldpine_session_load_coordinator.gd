@@ -168,13 +168,13 @@ func _reparent_candidate(
 static func _candidate_transients_are_fresh(session: OldPineWorldSessionController) -> bool:
 	if session == null or not session.is_restore_candidate_staged():
 		return false
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
-	if outdoor == null or outdoor.aggression_adapter().pending_count() != 0 or outdoor.lifecycle_is_pending():
-		return false
+	for map: WorldMapController in session.world_maps():
+		if map.aggression_adapter().pending_count() != 0 or map.lifecycle_is_pending():
+			return false
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	if not _runtime_transients_are_fresh(player.relationship, player.busy):
 		return false
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+	for npc: NpcRuntimeState in session.world_npcs():
 		if not _runtime_transients_are_fresh(npc.relationship, npc.busy):
 			return false
 	return true

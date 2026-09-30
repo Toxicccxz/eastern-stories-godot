@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SceneType := preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
@@ -139,7 +141,7 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void:
 	# Synchronize scene cleanup before beginning collision-backed movement proofs.
 	await tree.physics_frame
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	_assert_true(controller != null, "Old Pine scene instantiates for maze geometry")
 	if controller == null:
 		return
@@ -175,7 +177,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq((controller.get_node("MazeEvidence/KeepFutureBoundary") as Marker2D).position, Vector2(-520, 60), "future Keep boundary marker")
 	_assert_eq((controller.get_node("MazeEvidence/CliffFutureBoundary") as Marker2D).position, Vector2(-2040, 300), "future cliff boundary marker")
 
-	controller.tall_bandit_body.global_position = Vector2(-300, 210)
+	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(-300, 210)
 	controller.player_body.global_position = Vector2(80, 300)
 	await tree.physics_frame
 	var player_state: CharacterState = controller.player_runtime().state
@@ -184,26 +186,26 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 		player_state.vitality.current,
 		player_state.spirit.current,
 	]
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-550, 350)), "old outdoor connects directly into Pine Entrance")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-550, 350)), "old outdoor connects directly into Pine Entrance")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "physical threshold enters Pine Entrance")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-650, 350)), "physical Entrance-to-Deep seam is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-650, 350)), "physical Entrance-to-Deep seam is traversable")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Entrance-to-Deep seam assigns Deep without a gap")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-550, 350)), "physical Deep-to-Entrance seam is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-550, 350)), "physical Deep-to-Entrance seam is traversable")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Deep-to-Entrance seam assigns Entrance deterministically")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 480)), "south route reaches loop approach")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1050, 480)), "south branch passes central island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 480)), "south route reaches loop approach")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1050, 480)), "south branch passes central island")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "physical route enters Pine Deep")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1350, 480)), "south branch clears central island")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1450, 300)), "south branch exits Pine Deep")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-2040, 300)), "fixed route reaches cliff edge")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 480)), "south branch clears central island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1450, 300)), "south branch exits Pine Deep")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-2040, 300)), "fixed route reaches cliff edge")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "physical route enters Pine Cliff Edge")
@@ -211,11 +213,11 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_true(cliff_collision != null, "future cliff descent remains physically closed")
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "blocked cliff edge retains Pine Cliff Edge location")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1450, 300)), "cliff edge route returns east")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1350, 480)), "return route reaches south loop")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 480)), "return route crosses Pine Deep")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-550, 350)), "return route reaches Pine Entrance")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(80, 300)), "return route reaches original Outdoor")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1450, 300)), "cliff edge route returns east")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 480)), "return route reaches south loop")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 480)), "return route crosses Pine Deep")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-550, 350)), "return route reaches Pine Entrance")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(80, 300)), "return route reaches original Outdoor")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "physical return restores existing Outdoor location")
@@ -230,7 +232,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	)
 
 	controller.player_body.global_position = Vector2(-520, 300)
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-520, 60)), "future Keep boundary remains physically reachable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-520, 60)), "future Keep boundary remains physically reachable")
 	var keep_collision: KinematicCollision2D = controller.player_body.move_and_collide(Vector2(0, -100))
 	_assert_true(keep_collision != null, "future Keep route remains physically closed")
 	await tree.physics_frame
@@ -238,19 +240,19 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "blocked Keep path retains Pine Entrance location")
 
 	controller.player_body.global_position = Vector2(-705, 300)
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-705, 50)), "safe dead-end corridor is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-705, 50)), "safe dead-end corridor is traversable")
 	_assert_true(controller.player_body.move_and_collide(Vector2(0, -100)) != null, "dead end terminates at maze boundary")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-705, 300)), "dead end is safely escapable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-705, 300)), "dead end is safely escapable")
 
 	controller.player_body.global_position = Vector2(-850, 300)
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 120)), "north loop approach is traversable")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1050, 120)), "north branch passes central island")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1350, 120)), "north branch reaches west side of island")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1450, 300)), "loop turns around island west side")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1350, 480)), "loop reaches alternate south branch")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-1050, 480)), "alternate south branch passes island")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 480)), "alternate branch returns east of island")
-	_assert_true(_walk_without_collision(controller.player_body, Vector2(-850, 300)), "physical route closes the loop at its original junction without teleport")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 120)), "north loop approach is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1050, 120)), "north branch passes central island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 120)), "north branch reaches west side of island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1450, 300)), "loop turns around island west side")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 480)), "loop reaches alternate south branch")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1050, 480)), "alternate south branch passes island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 480)), "alternate branch returns east of island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 300)), "physical route closes the loop at its original junction without teleport")
 
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
@@ -271,30 +273,30 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	tree: SceneTree,
 ) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	_assert_eq(npcs.size(), 10, "runtime owns five humans plus five serpents")
 	var tall: NpcRuntimeState = npcs[3]
 	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall runtime starts in Pine Entrance")
-	_assert_eq(controller.tall_bandit_body.global_position, (controller.get_node("SpawnPoints/Pine1TallBanditSpawn") as Marker2D).global_position, "tall body starts at exact marker")
-	_assert_eq(controller.tall_bandit_body.get_signal_connection_list("selection_requested").size(), 1, "tall selection signal persists once")
-	var presence: Area2D = controller.get_node("Characters/TallBandit/AggressionPresence") as Area2D
+	_assert_eq(OldPineTestMap.body(controller, "TallBandit").global_position, (controller.get_node("SpawnPoints/Pine1TallBanditSpawn") as Marker2D).global_position, "tall body starts at exact marker")
+	_assert_eq(OldPineTestMap.body(controller, "TallBandit").get_signal_connection_list("selection_requested").size(), 1, "tall selection signal persists once")
+	var presence: Area2D = OldPineTestMap.body(controller, "TallBandit").get_node("AggressionPresence") as Area2D
 	_assert_eq(presence.get_signal_connection_list("body_entered").size(), 1, "tall aggression enter signal persists once")
 	_assert_eq(presence.get_signal_connection_list("body_exited").size(), 1, "tall aggression exit signal persists once")
 	var click: InputEventMouseButton = InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
-	controller.tall_bandit_body._input_event(controller.get_viewport(), click, 0)
+	OldPineTestMap.body(controller, "TallBandit")._input_event(controller.get_viewport(), click, 0)
 	_assert_eq(controller.selected_character_id(), tall.character_id, "clicking Tall selects exact Tall identity")
-	controller.bandit_bodies[0]._input_event(controller.get_viewport(), click, 0)
+	OldPineTestMap.body(controller, "Bandit01")._input_event(controller.get_viewport(), click, 0)
 	_assert_eq(controller.selected_character_id(), npcs[0].character_id, "clicking existing bandit still selects exact original identity")
 	var map_local_timer_count: int = 0
 	for child: Node in controller.get_children():
 		if child is Timer:
 			map_local_timer_count += 1
-	_assert_eq(map_local_timer_count, 1, "scene retains one direct map-local OpportunityTimer")
+	_assert_eq(map_local_timer_count, 0, "combat cadence is the session encounter scheduler, not a map Timer")
 
 	var long_sword: ItemInstance = _item_by_definition(tall.loadout_items(), TestContent.LONG_SWORD_ITEM_ID)
 	var silver: ItemInstance = _item_by_definition(tall.loadout_items(), TestContent.SILVER_ITEM_ID)
@@ -322,11 +324,13 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_true(tall.character_state.equipment.wield(tall_primary, false).succeeded, "audit restores Tall primary before combat")
 
 	var random: CountingMaximumCombatRandomSource = CountingMaximumCombatRandomSource.new()
-	controller.configure_combat_random_source(random)
-	_assert_true(controller.process_cadence_tick().is_empty(), "idle Tall creates no combat opportunity")
+	controller.session.configure_combat_random_source(random)
+	_assert_true(HistoricalCombat.tick(controller).is_empty(), "idle Tall creates no combat opportunity")
 	_assert_eq(random.calls, 0, "idle Tall consumes zero Combat RNG")
 	controller.set_process(false)
-	controller.player_body.global_position = controller.tall_bandit_body.global_position
+	# A teleport, not a walk: the zone follows the body before its presence reports it.
+	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID))
+	controller.player_body.global_position = OldPineTestMap.body(controller, "TallBandit").global_position
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_true(controller.aggression_adapter().has_pending(tall.character_id), "physical tall-bandit presence queues aggression")
@@ -339,8 +343,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
 	))
-	controller._on_tall_bandit_presence_exited(controller.player_body)
-	controller._on_tall_bandit_presence_entered(controller.player_body)
+	OldPineTestMap.presence_exited(controller, 3, controller.player_body)
+	OldPineTestMap.presence_entered(controller, 3, controller.player_body)
 	var starts: Array[CombatSliceInitiationResult] = controller.process_pending_aggression()
 	_assert_eq(starts.size(), 1, "one tall aggressor establishes combat")
 	_assert_eq(starts[0].initiator_id, tall.character_id, "aggression initiator is exact tall bandit")
@@ -349,7 +353,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID,
 	))
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	_assert_false(controller.player_runtime().relationship.has_opponent(tall.character_id), "Pine zone change uses closed opponent cleanup")
 	_assert_false(tall.relationship.has_opponent(controller.player_runtime().character_id), "Pine zone cleanup is reciprocal")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(tall.character_id), "Pine zone cleanup preserves lethal marker")
@@ -357,18 +361,18 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
 	))
-	controller._on_tall_bandit_presence_exited(controller.player_body)
-	controller._on_tall_bandit_presence_entered(controller.player_body)
+	OldPineTestMap.presence_exited(controller, 3, controller.player_body)
+	OldPineTestMap.presence_entered(controller, 3, controller.player_body)
 	_assert_eq(controller.process_pending_aggression().size(), 1, "returning to Pine Entrance permits authored aggression again")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	var attack_random: CountingAttackFavoringRandomSource = (
 		CountingAttackFavoringRandomSource.new()
 	)
-	controller.configure_combat_random_source(attack_random)
+	controller.session.configure_combat_random_source(attack_random)
 	controller.player_runtime().busy.start_busy(1)
 	var actual_tall_apply_damage: int = -1
 	for _opportunity: int in range(6):
-		for result: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for result: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if result.actor_id != tall.character_id:
 				continue
 			var forward: CombatSingleAttackExecutionResult = result.forward_result
@@ -383,15 +387,18 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(actual_tall_apply_damage, 25, "actual tall attack calculation receives long-sword damage 25")
 	_assert_true(attack_random.calls > 0, "actual tall combat consumes only Combat RNG")
 
-	controller.opportunity_timer.stop()
-	controller.configure_combat_random_source(CountingMaximumCombatRandomSource.new())
+	HistoricalCombat.set_running(controller, false)
+	controller.session.configure_combat_random_source(CountingMaximumCombatRandomSource.new())
 	controller.player_runtime().busy.start_busy(1)
 	# BF3: source death copies stored body facts even after raw strength changes.
 	var expected_body_weight: int = tall.body_weight
 	var expected_capacity: int = tall.maximum_encumbrance
 	tall.character_state.attributes.strength = 30
 	controller.player_body.global_position = Vector2(-1300, 300)
-	controller.tall_bandit_body.global_position = Vector2(-1300, 300)
+	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(-1300, 300)
+	# NPCs never walk between zones; the fixture moves both authorities with the bodies.
+	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID))
+	OldPineTestMap.body(controller, "TallBandit").set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID))
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "player live authority reaches Pine Deep before Tall death")
@@ -411,14 +418,14 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(death_context.victim_environment.endpoint.kind, ContainmentEndpoint.Kind.WORLD, "Tall death destination is a WORLD endpoint")
 	_assert_eq(death_context.victim_environment.endpoint.endpoint_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Tall death context reads current Pine location")
 	tall.character_state.vitality.current = -1
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	for _tick: int in range(24):
 		if tall.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			break
-		controller.process_cadence_tick()
+		HistoricalCombat.tick(controller)
 	_assert_eq(tall.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "existing combat lifecycle kills tall bandit")
 	_assert_false(tall.exists_in_map, "dead tall bandit leaves active map membership")
-	_assert_false(controller.tall_bandit_body.visible, "dead tall body is hidden")
+	_assert_false(OldPineTestMap.body(controller, "TallBandit").visible, "dead tall body is hidden")
 	_assert_eq(controller.corpse_states().size(), 1, "tall death creates one corpse")
 	var corpse: CorpseState = controller.corpse_states()[0]
 	_assert_eq(corpse.victim_display_name, "土匪", "Tall corpse preserves authored display name")
@@ -439,7 +446,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	await tree.physics_frame
 	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "tall corpse is selectable")
 	_assert_true(controller.open_selected_loot(), "tall corpse opens through existing loot UI boundary")
-	var loot_rows: Array[WorldItemRowProjection] = controller.hud.loot_rows()
+	var loot_rows: Array[WorldItemRowProjection] = controller.session.shared_ui().loot_rows()
 	var long_row: WorldItemRowProjection = _loot_row(loot_rows, long_sword.item_instance_id)
 	var silver_row: WorldItemRowProjection = _loot_row(loot_rows, silver.item_instance_id)
 	_assert_true(long_row != null and long_row.display_name == "长剑", "Loot projects authored long sword")
@@ -457,7 +464,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(silver_take.resulting_item_instance_id, silver.item_instance_id, "incoming Tall silver is closed-semantics survivor")
 	var player_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.CHARACTER,
-		OldPineOutdoorController.PLAYER_ID,
+		OldPineWorldSessionController.PLAYER_ID,
 	)
 	_assert_true(controller.inventory_state().is_direct_child(long_sword.item_instance_id, player_endpoint), "looted long sword becomes player direct inventory")
 	_assert_true(controller.inventory_state().is_direct_child(silver.item_instance_id, player_endpoint), "looted silver becomes player direct inventory")
@@ -465,11 +472,11 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 333, "merged silver weight remains 9 * 37")
 	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(9), 900, "merged silver value remains 9 * 100")
 	_assert_false(controller.inventory_state().is_registered(existing_silver.item_instance_id), "absorbed prior player silver is no longer live")
-	_assert_true(controller.open_player_inventory(), "existing Inventory UI opens after Tall loot")
-	_assert_eq(_definition_row_count(controller.hud.inventory_rows(), TestContent.LONG_SWORD_ITEM_ID), 2, "two live long swords remain separate inventory rows")
+	_assert_true(OldPineTestMap.open_inventory(controller), "existing Inventory UI opens after Tall loot")
+	_assert_eq(_definition_row_count(controller.session.shared_ui().inventory_rows(), TestContent.LONG_SWORD_ITEM_ID), 2, "two live long swords remain separate inventory rows")
 	var original_primary: EquippedWeaponRef = controller.player_runtime().state.equipment.primary_weapon()
-	_assert_true(controller.unwield_player_item(original_primary.instance_id).succeeded, "existing equipment action unwields original long sword")
-	_assert_true(controller.wield_player_item(long_sword.item_instance_id).succeeded, "existing equipment action wields looted long sword")
+	_assert_true(OldPineTestMap.unwield(controller, original_primary.instance_id).succeeded, "existing equipment action unwields original long sword")
+	_assert_true(OldPineTestMap.wield(controller, long_sword.item_instance_id).succeeded, "existing equipment action wields looted long sword")
 	_assert_eq(controller.player_runtime().state.equipment.primary_weapon().instance_id, long_sword.item_instance_id, "looted instance is current primary authority")
 	var player_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
 	_assert_eq(player_binding.content.projected_apply_damage(player_binding.state.equipment.primary_weapon()), 25, "looted long sword preserves combat content projection")
@@ -478,7 +485,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var old_silver_id: StringName = silver.item_instance_id
 	controller.queue_free()
 	await tree.process_frame
-	var fresh: OldPineOutdoorController = _instantiate_scene(tree)
+	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var fresh_tall: NpcRuntimeState = fresh.npc_runtimes()[3]
 	_assert_true(fresh_tall.character_state != old_tall_state, "fresh scene owns new tall CharacterState")
@@ -493,14 +500,14 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_ne(fresh_long.item_instance_id, old_long_id, "fresh tall owns new long-sword instance")
 	_assert_ne(fresh_silver.item_instance_id, old_silver_id, "fresh tall owns new silver instance")
 	_assert_eq(fresh.stack_collection().stack_state(fresh_silver.item_instance_id).amount, 6, "fresh tall restores silver amount six")
-	_assert_eq(fresh.tall_bandit_body.get_signal_connection_list("selection_requested").size(), 1, "fresh tall has no duplicate selection signal")
-	_assert_eq((fresh.get_node("Characters/TallBandit/AggressionPresence") as Area2D).get_signal_connection_list("body_entered").size(), 1, "fresh tall has no duplicate presence signal")
+	_assert_eq(OldPineTestMap.body(fresh, "TallBandit").get_signal_connection_list("selection_requested").size(), 1, "fresh tall has no duplicate selection signal")
+	_assert_eq((OldPineTestMap.body(fresh, "TallBandit").get_node("AggressionPresence") as Area2D).get_signal_connection_list("body_entered").size(), 1, "fresh tall has no duplicate presence signal")
 	fresh.queue_free()
 	await tree.process_frame
 
 
 func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var tall: NpcRuntimeState = controller.npc_runtimes()[3]
 	controller.player_body.set_world_location(controller.resolve_location(
@@ -508,7 +515,7 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 	))
 	_assert_true(controller.select_npc(tall.character_id), "partial Tall fixture selects exact Tall")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "partial Tall fixture starts lethal combat")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	var unknown: ItemInstance = ItemInstance.new(
 		&"phase9b1.partial-tall-unknown",
 		&"phase9b1.partial-tall-unknown-definition",
@@ -527,7 +534,7 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 	controller.player_runtime().busy.start_busy(1)
 	tall.character_state.vitality.current = -1
 	tall.character_state.vitality.effective = -1
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	var lifecycles: Array[CombatSliceLifecycleResult] = controller.last_lifecycle_results()
 	_assert_eq(lifecycles.size(), 1, "partial Tall death produces one lifecycle result")
 	_assert_eq(lifecycles[0].outcome, CombatSliceLifecycleResult.Outcome.DEATH_INVENTORY_BLOCKED, "uncovered Tall item preserves typed partial death")
@@ -540,7 +547,7 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
+func _instantiate_scene(tree: SceneTree) -> WorldMapController:
 	var session: OldPineWorldSessionController = (
 		SceneType.instantiate() as OldPineWorldSessionController
 	)
@@ -552,17 +559,23 @@ func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
 	session.combat_seed = 9012
 	tree.root.add_child(session)
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
-	return session.outdoor_map()
+	return session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 
 
+## Walks like a player would: zone tracking follows the body at most 50 px
+## per physics frame, so it sees every neighbouring zone on the way.
 func _walk_without_collision(body: CharacterBody2D, target: Vector2) -> bool:
-	for _step: int in range(1000):
+	for action: StringName in [&"move_left", &"move_right", &"move_up", &"move_down"]:
+		Input.action_release(action)
+	for step: int in range(1000):
 		var remaining: Vector2 = target - body.global_position
 		if remaining.length() <= 0.5:
 			return true
 		var motion: Vector2 = remaining.limit_length(5.0)
 		if body.move_and_collide(motion) != null:
 			return false
+		if step % 10 == 9:
+			await body.get_tree().physics_frame
 	return false
 
 
@@ -577,7 +590,7 @@ func _binding_for(
 
 
 func _add_player_silver(
-	controller: OldPineOutdoorController,
+	controller: WorldMapController,
 	instance_id: StringName,
 	amount: int,
 ) -> ItemInstance:
@@ -604,7 +617,7 @@ func _add_player_silver(
 		InventoryTransferDestination.new(
 			ContainmentEndpoint.new(
 				ContainmentEndpoint.Kind.CHARACTER,
-				OldPineOutdoorController.PLAYER_ID,
+				OldPineWorldSessionController.PLAYER_ID,
 			),
 			true,
 			true,

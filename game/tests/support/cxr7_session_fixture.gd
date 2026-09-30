@@ -8,7 +8,7 @@ static func trigger(session: OldPineWorldSessionController, mode: int, cause: in
 		_unarm(player.state.equipment)
 	var candidates: Array[CombatTriggerCandidate] = [CombatTriggerCandidate.new(player.character_id, &"A")]
 	for index: int in 2:
-		var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[index]
+		var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[index]
 		if mode == CombatEncounterMode.Value.SPAR:
 			_unarm(npc.character_state.equipment)
 		npc.set_world_location(player.world_location()) # QA setup, not physical traversal evidence.
