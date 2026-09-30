@@ -28,3 +28,7 @@ Thumbs.db
 # Python tooling caches
 __pycache__/
 *.py[cod]
+
+# Agent scratch and in-project editor environments
+/.codex_tmp/
+/game/build/
