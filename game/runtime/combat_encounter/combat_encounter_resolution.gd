@@ -69,6 +69,11 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	var player_active: bool = false
 	var any_hostile_active: bool = false
 	var any_fight: bool = false
+	var player_unconscious: bool = false
+	for binding: CombatSliceCharacterBinding in bindings:
+		if binding.character_id == player_id:
+			player_unconscious = binding.exists_in_encounter and binding.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS
+	var player_being_finished: bool = false
 	var winners: Array[StringName] = []
 	var losers: Array[StringName] = []
 	var subjects: Array[StringName] = []
@@ -87,13 +92,24 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			any_hostile_active = true
 		for other: CombatSliceCharacterBinding in bindings:
 			any_fight = any_fight or binding.relationship.has_opponent(other.character_id)
+		# feature/attack.c remove_enemy(): a killer keeps an unconscious victim as
+		# its enemy and std/char.c kills it on the next wound. The fight goes on.
+		if (
+			active
+			and binding.character_id != player_id
+			and _encounter.mode == CombatEncounterMode.Value.LETHAL
+			and player_unconscious
+			and binding.relationship.has_lethal_target(player_id)
+			and binding.relationship.has_opponent(player_id)
+		):
+			player_being_finished = true
 	if _encounter.mode == CombatEncounterMode.Value.SPAR:
 		# combatd.c: positive friendly damage removes reciprocal enemies; no HP score.
 		if any_fight and player_active and any_hostile_active:
 			return
 		_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode, CombatEncounterResultKind.Value.SPAR_CONCLUDED, [], [], subjects)
 		return
-	if player_active and any_hostile_active:
+	if (player_active and any_hostile_active) or player_being_finished:
 		return
 	for side: StringName in _encounter.side_ids():
 		var side_active: bool = false

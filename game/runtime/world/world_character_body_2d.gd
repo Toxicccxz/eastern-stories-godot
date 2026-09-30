@@ -15,6 +15,11 @@ var _npc: NpcRuntimeState
 var _character_id: StringName = &""
 var _world_simulation_gate: WorldSimulationGate
 var _movement_input_quarantined: bool = false
+## Collision in effect before a death/absence removed it; restored when the
+## character comes back to life.
+var _suppressed_collision_layer: int = 0
+var _suppressed_collision_mask: int = 0
+var _collision_suppressed: bool = false
 
 var character_id: StringName:
 	get: return _character_id
@@ -77,8 +82,16 @@ func refresh_runtime_state() -> void:
 	)
 	if not exists or dead:
 		velocity = Vector2.ZERO
+		if not _collision_suppressed:
+			_suppressed_collision_layer = collision_layer
+			_suppressed_collision_mask = collision_mask
+			_collision_suppressed = true
 		collision_layer = 0
 		collision_mask = 0
+	elif _collision_suppressed:
+		collision_layer = _suppressed_collision_layer
+		collision_mask = _suppressed_collision_mask
+		_collision_suppressed = false
 
 
 func _physics_process(_delta: float) -> void:

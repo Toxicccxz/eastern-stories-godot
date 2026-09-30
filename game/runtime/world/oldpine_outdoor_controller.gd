@@ -1387,10 +1387,16 @@ static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceCo
 func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
 	if _lifecycle_failed:
 		return CombatSliceLifecycleResult.new()
+	# Read before the lifecycle clears lethal relations and moves the body.
+	var is_player: bool = _player != null and victim.character_id == _player.character_id
+	var has_killer: bool = _find_killer(victim, participants) != null
+	var location: WorldLocationState = _location_for_character(victim.character_id)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants)
 	_last_lifecycle_results.append(receipt)
 	if not receipt.completed():
 		_lifecycle_failed = true
+	elif is_player and _session_owner != null:
+		_session_owner.on_player_lifecycle(receipt, has_killer, location)
 	return receipt
 
 

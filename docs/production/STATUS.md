@@ -4,26 +4,26 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 2 — Data-driven content** on `phase/data-driven-content` (from green main `ca5a901`).
-Items, NPCs, spawns and vendor goods load from JSON under `game/data/` through one loader into the
-existing typed definitions ([format](../migration/CONTENT_DATA_FORMAT.md)); the per-item classes,
-per-offer purchase services and ID `match` chains are gone. No new content. Next: **Package 3 —
-generic map runtime** (see [ROADMAP](ROADMAP.md)).
+**Package 2 — Data-driven content** is PR #27 (CI green, awaiting owner merge).
+**Death and revival** on `phase/death-and-revival`, stacked on it: killers finish an unconscious
+player; death costs ES2's penalty and the player reincarnates at the Snow temple (城隍庙) instead of the
+run ending. Next: **Package 3 — generic map runtime** (see [ROADMAP](ROADMAP.md)).
 
 ## Playable now
 
 Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game / Continue).
 
-* **Snow (雪亭镇)**: source-valid New Game in the Inn; square and core streets (17 of 38 rooms as
+* **Snow (雪亭镇)**: source-valid New Game in the Inn; square, core streets and temple (18 of 38 rooms as
   zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
   value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳).
 * **Old Pine (老松岭)**: outdoor route, Vine/Waterfall/River/Cliff/Pine traversal, minimal Passage
   Cave, Lake with five serpents; five bandits (29 of 41 rooms).
-* **Across both**: semi-automatic encounter combat with Flee, death/corpse/loot,
+* **Across both**: semi-automatic encounter combat with Flee, death/corpse/loot, waking from
+  unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
 * Grey-box visuals (ColorRect/Polygon2D placeholders), no art or audio yet.
 
-Rough coverage of ES2 content: about 5% (46/502 rooms, 4/240 NPC types, 2/70 player-obtainable
+Rough coverage of ES2 content: about 5% (47/502 rooms, 4/240 NPC types, 2/70 player-obtainable
 skills, 1/13 families, 0 quests).
 
 ## Known issues

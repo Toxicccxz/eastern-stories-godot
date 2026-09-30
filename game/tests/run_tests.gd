@@ -1743,6 +1743,9 @@ func _init() -> void:
 	var content_result: Dictionary = load("res://tests/core/content_loading_test.gd").new().run_all()
 	assertion_count += int(content_result["assertions"])
 	failures.append_array(content_result["failures"])
+	var revival_result: Dictionary = await load("res://tests/runtime/player_death_revival_test.gd").new().run_all(self)
+	assertion_count += int(revival_result["assertions"])
+	failures.append_array(revival_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

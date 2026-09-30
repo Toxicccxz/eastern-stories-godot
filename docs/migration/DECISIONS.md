@@ -1,5 +1,22 @@
 # Migration Decisions
 
+## Player unconsciousness and death follow ES2 (2026-09-30)
+
+Owner decision after playtest: a defeated player is no longer a terminal state.
+- **Killers finish the job:** an encounter continues while an active enemy still holds the unconscious
+  player as a lethal target (`feature/attack.c` `remove_enemy`, `std/char.c` heart_beat). Replaces the
+  CXR8 rule that player unconsciousness always ended the encounter as DEFEAT.
+- **Waking and dying:** unconscious players wake after `random(100 - con) + 30` s (`damage.c`); dead
+  players get the `killer_reward` penalty, the white gargoyle lines and reincarnate at `/d/snow/temple`.
+  The technical fixture revision keeps its terminal defeat.
+- **Save:** blocked while unconscious or on the way back from death (the player cannot act,
+  `disable_player`). This narrows "Native saves require a restart-stable gameplay boundary": UNCONSCIOUS
+  and DEAD players are no longer eligible. Older saves holding such a player resume the flow on
+  Continue without a second penalty.
+- **Deviations:** the death penalty disables an enabled skill use whose skill was deleted (LPC leaves a
+  stale mapping the save contract rejects). The death realm walk, corpse decay, NPC revival and healing
+  while unconscious are not implemented yet.
+
 ## Old Pine Lake — owner-revised engineering acceptance scope
 
 Owner decision (2026-09-26), after [P2C acceptance](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md):

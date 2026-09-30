@@ -160,8 +160,16 @@ func _invalidated(tree: SceneTree) -> void:
 		if mortal:
 			session.player_runtime().state.vitality.effective = -1
 		coordinator.advance_scheduler(100)
-		_check(encounter.terminal_result.kind == CombatEncounterResultKind.Value.DEFEAT, "death/unconscious takes precedence, never FLED")
-		_check(tactics.events()[-1].kind == CombatTacticalEvent.Kind.CANCELLED and tactics.events().size() == 4, "lifecycle cancels once, no Flee execution")
+		if mortal:
+			_check(encounter.terminal_result != null and encounter.terminal_result.kind == CombatEncounterResultKind.Value.DEFEAT, "death takes precedence, never FLED")
+		else:
+			# Killers keep attacking an unconscious player (feature/attack.c); with
+			# this all-zero random source every blow is dodged, so the fight goes on.
+			_check(encounter.terminal_result == null and coordinator.has_active_encounter(), "unconscious player stays in the killers' fight, never FLED")
+		var kinds: Array = tactics.events().map(func(event: CombatTacticalEvent) -> int: return event.kind)
+		# While unconscious the queued Flee reaches its turn and is refused first.
+		var expected_count: int = 4 if mortal else 5
+		_check(tactics.events()[-1].kind == CombatTacticalEvent.Kind.CANCELLED and tactics.events().size() == expected_count and not kinds.has(CombatTacticalEvent.Kind.RESOLVED) and not kinds.has(CombatTacticalEvent.Kind.EXECUTION_STARTED), "lifecycle cancels once, no Flee execution %s" % str(kinds))
 		_check(session.player_runtime().life_status != CharacterRuntimeLifeStatus.Value.ACTIVE, "no Flee resurrection")
 		session.free()
 		await _settle(tree, 2)
