@@ -1758,6 +1758,10 @@ func _init() -> void:
 	var lake_result: Dictionary = await load("res://tests/runtime/oldpine_lake_production_test.gd").new().run_all(self)
 	assertion_count += int(lake_result["assertions"])
 	failures.append_array(lake_result["failures"])
+	for content_suite: String in ["res://tests/core/content_loading_test.gd", "res://tests/core/content_parity_test.gd"]:
+		var content_result: Dictionary = load(content_suite).new().run_all()
+		assertion_count += int(content_result["assertions"])
+		failures.append_array(content_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

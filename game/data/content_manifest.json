@@ -1,0 +1,9 @@
+{
+	"files": [
+		"common/items.json",
+		"oldpine/items.json",
+		"oldpine/npcs.json",
+		"oldpine/spawns.json",
+		"snow/vendors.json"
+	]
+}

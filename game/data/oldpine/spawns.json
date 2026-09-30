@@ -1,0 +1,50 @@
+{
+	"spawns": [
+		{
+			"id": "oldpine.outdoor.spath1.bandits",
+			"npc": "oldpine.npc.bandit",
+			"map": "oldpine.outdoor",
+			"zone": "oldpine.outdoor.south_slope",
+			"points": [
+				"oldpine.outdoor.south_slope.spath1.bandit.1",
+				"oldpine.outdoor.south_slope.spath1.bandit.2",
+				"oldpine.outdoor.south_slope.spath1.bandit.3"
+			],
+			"legacy_room": "d/oldpine/spath1.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "oldpine.outdoor.pine1.tall_bandit",
+			"npc": "oldpine.npc.tall_bandit",
+			"map": "oldpine.outdoor",
+			"zone": "oldpine.outdoor.pine_entrance",
+			"points": ["oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"],
+			"legacy_room": "d/oldpine/pine1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "oldpine.outdoor.pine1.fat_bandit",
+			"npc": "oldpine.npc.fat_bandit",
+			"map": "oldpine.outdoor",
+			"zone": "oldpine.outdoor.pine_entrance",
+			"points": ["oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"],
+			"legacy_room": "d/oldpine/pine1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "oldpine.outdoor.lake.serpents",
+			"npc": "oldpine.npc.serpent",
+			"map": "oldpine.outdoor",
+			"zone": "oldpine.outdoor.lake",
+			"points": [
+				"oldpine.outdoor.lake.serpent.1",
+				"oldpine.outdoor.lake.serpent.2",
+				"oldpine.outdoor.lake.serpent.3",
+				"oldpine.outdoor.lake.serpent.4",
+				"oldpine.outdoor.lake.serpent.5"
+			],
+			"legacy_room": "d/oldpine/lake.c",
+			"legacy_quantity": 5
+		}
+	]
+}

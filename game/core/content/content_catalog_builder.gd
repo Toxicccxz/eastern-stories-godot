@@ -1,0 +1,129 @@
+class_name ContentCatalogBuilder
+extends RefCounted
+
+## Collects parsed data documents and cross-checks them. A document is one
+## JSON object with any of the `items`, `npcs`, `spawns`, `vendors` arrays.
+## build() returns null when anything was reported; errors() says what.
+const DOCUMENT_KEYS: Array[String] = ["items", "npcs", "spawns", "vendors"]
+
+var _errors: Array[String] = []
+var _items: Dictionary[StringName, ItemContentDefinition] = {}
+var _npcs: Dictionary[StringName, NpcDefinition] = {}
+var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
+var _vendors: Dictionary[StringName, VendorDefinition] = {}
+var _origins: Dictionary[StringName, String] = {}
+
+
+func errors() -> Array[String]:
+	return _errors.duplicate()
+
+
+func report(message: String) -> void:
+	_errors.append(message)
+
+
+func add_document(document: Variant, origin: String) -> void:
+	if not document is Dictionary:
+		_errors.append("%s: expected a JSON object" % origin)
+		return
+	var reader: ContentRecordReader = ContentRecordReader.new(document, origin, _errors)
+	for record: ContentRecordReader in reader.children("items"):
+		var definition: ItemContentDefinition = ItemContentDefinition.from_record(record)
+		if _claim(definition.item_definition_id, record):
+			_items[definition.item_definition_id] = definition
+	for record: ContentRecordReader in reader.children("npcs"):
+		var definition: NpcDefinition = NpcContentRecords.npc_from_record(record)
+		if _claim(definition.definition_id, record):
+			_npcs[definition.definition_id] = definition
+	for record: ContentRecordReader in reader.children("spawns"):
+		var definition: NpcSpawnDefinition = NpcContentRecords.spawn_from_record(record)
+		if _claim(definition.spawn_id, record):
+			_spawns[definition.spawn_id] = definition
+	for record: ContentRecordReader in reader.children("vendors"):
+		var definition: VendorDefinition = VendorDefinition.from_record(record)
+		if _claim(definition.vendor_id, record):
+			_vendors[definition.vendor_id] = definition
+	reader.finish()
+
+
+func build() -> ContentCatalog:
+	_check_money()
+	_check_npc_loadouts()
+	_check_spawns()
+	_check_vendors()
+	if not _errors.is_empty():
+		return null
+	return ContentCatalog.new(_items, _npcs, _spawns, _vendors)
+
+
+## IDs are unique across every kind, so one ID never means two things.
+func _claim(id: StringName, record: ContentRecordReader) -> bool:
+	if id.is_empty():
+		return false
+	if _origins.has(id):
+		record.fail("id", "'%s' is already defined at %s" % [id, _origins[id]])
+		return false
+	_origins[id] = record.path
+	return true
+
+
+func _check_money() -> void:
+	var seen: Dictionary[StringName, StringName] = {}
+	for definition: ItemContentDefinition in _items.values():
+		if definition.money_id.is_empty():
+			continue
+		var origin: String = _origins[definition.item_definition_id]
+		if not ContentCatalog.MONEY_DENOMINATIONS.has(definition.money_id):
+			_errors.append("%s.money.money_id: unsupported money '%s'" % [
+				origin, definition.money_id,
+			])
+		elif seen.has(definition.money_id):
+			_errors.append("%s.money.money_id: '%s' is already %s" % [
+				origin, definition.money_id, seen[definition.money_id],
+			])
+		seen[definition.money_id] = definition.item_definition_id
+
+
+func _check_npc_loadouts() -> void:
+	for definition: NpcDefinition in _npcs.values():
+		var origin: String = _origins[definition.definition_id]
+		var entries: Array[NpcLoadoutEntry] = definition.loadout_entries()
+		for index: int in range(entries.size()):
+			var entry: NpcLoadoutEntry = entries[index]
+			var path: String = "%s.carry[%d]" % [origin, index]
+			var item: ItemContentDefinition = _items.get(entry.item_definition_id)
+			if item == null:
+				_errors.append("%s.item: unknown item '%s'" % [path, entry.item_definition_id])
+			elif (
+				entry.equipment_intent == NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY
+				and item.weapon_definition() == null
+			):
+				_errors.append("%s.equip: '%s' is not a weapon" % [path, entry.item_definition_id])
+			elif (
+				entry.equipment_intent == NpcLoadoutEntry.EquipmentIntent.WEAR
+				and item.armor_definition() == null
+			):
+				_errors.append("%s.equip: '%s' is not armor" % [path, entry.item_definition_id])
+
+
+func _check_spawns() -> void:
+	var point_owners: Dictionary[StringName, StringName] = {}
+	for definition: NpcSpawnDefinition in _spawns.values():
+		var origin: String = _origins[definition.spawn_id]
+		if not _npcs.has(definition.npc_definition_id):
+			_errors.append("%s.npc: unknown NPC '%s'" % [origin, definition.npc_definition_id])
+		for point_id: StringName in definition.spawn_point_ids():
+			if point_owners.has(point_id):
+				_errors.append("%s.points: '%s' is already used by %s" % [
+					origin, point_id, point_owners[point_id],
+				])
+			point_owners[point_id] = definition.spawn_id
+
+
+func _check_vendors() -> void:
+	for definition: VendorDefinition in _vendors.values():
+		var origin: String = _origins[definition.vendor_id]
+		for key: String in definition.goods_keys():
+			var item_id: StringName = definition.item_definition_id(key)
+			if not _items.has(item_id):
+				_errors.append("%s.goods.%s: unknown item '%s'" % [origin, key, item_id])
