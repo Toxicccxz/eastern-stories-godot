@@ -20,25 +20,18 @@ func wield(
 	if validation != null:
 		return validation
 	var item: ItemInstance = item_index.resolve(item_instance_id)
-	var content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+	var content: ItemContentDefinition = (
+		GameContent.catalog().item(item.item_definition_id)
 	)
-	if content.category != OldPineItemContentDefinitions.CATEGORY_WEAPON:
+	if content.category != ItemContentDefinition.CATEGORY_WEAPON:
 		return _result(
 			OldPineEquipmentInteractionResult.Action.WIELD,
 			OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_A_WEAPON,
 			item_instance_id,
 		)
-	var definition: WeaponDefinition = WeaponDefinition.new(
-		content.item_definition_id,
-		content.weapon_skill_type,
-		content.can_wield_secondary,
-		content.is_two_handed,
-		content.legacy_source_paths()[0],
-	)
 	var reference: EquippedWeaponRef = EquippedWeaponRef.new(
 		item_instance_id,
-		definition,
+		content.weapon_definition(),
 	)
 	if reference.weapon_id != item.item_definition_id:
 		return _result(
@@ -121,8 +114,8 @@ func _validate_common(
 			OldPineEquipmentInteractionResult.Outcome.ITEM_CONTENT_UNAVAILABLE,
 			item_instance_id,
 		)
-	var content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+	var content: ItemContentDefinition = (
+		GameContent.catalog().item(item.item_definition_id)
 	)
 	if content == null:
 		return _result(

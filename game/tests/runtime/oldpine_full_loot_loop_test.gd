@@ -63,7 +63,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_eq(fresh_rows.size(), 1, "fresh scene inventory has one direct item")
 	_assert_dynamic_row_connections(controller.hud.inventory_panel, 1)
 	var long_id: StringName = fresh_rows[0].item_instance_id
-	_assert_eq(fresh_rows[0].item_definition_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, "fresh direct item is prototype long sword")
+	_assert_eq(fresh_rows[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "fresh direct item is prototype long sword")
 	_assert_eq(fresh_rows[0].equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.PRIMARY, "fresh long sword is PRIMARY")
 	var long_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
 	_assert_eq(long_binding.content.projected_apply_damage(long_binding.state.equipment.primary_weapon()), 25, "fresh world participant resolves long-sword damage 25")
@@ -85,10 +85,10 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_false(controller.hud.inventory_is_open(), "opening Loot closes Inventory panel")
 	var loot_rows: Array[WorldItemRowProjection] = controller.hud.loot_rows()
 	var short_id: StringName = _loot_id_for_definition(
-		loot_rows, OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID
+		loot_rows, TestContent.SHORT_SWORD_ITEM_ID
 	)
 	var silver_id: StringName = _loot_id_for_definition(
-		loot_rows, OldPineItemContentDefinitions.SILVER_ITEM_ID
+		loot_rows, TestContent.SILVER_ITEM_ID
 	)
 	_assert_false(short_id.is_empty(), "corpse exposes exact short sword instance")
 	_assert_false(silver_id.is_empty(), "corpse exposes exact silver instance")
@@ -122,9 +122,9 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 		"live inventory preserves authoritative stable direct-child order",
 	)
 	var projected_definitions: Array[StringName] = _definition_ids(rows)
-	_assert_true(projected_definitions.has(OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID), "live inventory contains long sword")
-	_assert_true(projected_definitions.has(OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID), "live inventory contains short sword")
-	_assert_true(projected_definitions.has(OldPineItemContentDefinitions.SILVER_ITEM_ID), "live inventory contains silver")
+	_assert_true(projected_definitions.has(TestContent.LONG_SWORD_ITEM_ID), "live inventory contains long sword")
+	_assert_true(projected_definitions.has(TestContent.SHORT_SWORD_ITEM_ID), "live inventory contains short sword")
+	_assert_true(projected_definitions.has(TestContent.SILVER_ITEM_ID), "live inventory contains silver")
 	var short_row: PlayerInventoryRowProjection = _inventory_row_for(rows, short_id)
 	var silver_row: PlayerInventoryRowProjection = _inventory_row_for(rows, silver_id)
 	_assert_eq(short_row.equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.NONE, "Take never auto-equips short sword")
@@ -160,7 +160,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_eq(operation_random.calls, 0, "Wield/Unwield/projection refresh consume zero Combat RNG")
 
 	var short_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
-	_assert_eq(controller.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.SHORT_SWORD, "fresh participant projection resolves current short primary")
+	_assert_eq(controller.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "fresh participant projection resolves current short primary")
 	_assert_eq(short_binding.content.projected_apply_damage(short_primary), 15, "fresh participant projects current short damage 15")
 	_assert_eq(long_binding.content.projected_apply_damage(long_binding.state.equipment.primary_weapon()), 0, "old binding does not become a mutable short profile")
 
@@ -217,7 +217,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 		_register_player_item(
 			controller,
 			short_id,
-			OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+			TestContent.SHORT_SWORD_ITEM_ID,
 			3000,
 		),
 		"stale-row fixture registers one direct-owned short sword",
@@ -310,7 +310,7 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 		_register_player_item(
 			controller,
 			short_id,
-			OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+			TestContent.SHORT_SWORD_ITEM_ID,
 			3000,
 		),
 		"live-combat fixture registers short sword",
@@ -431,10 +431,10 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_true(fresh.open_player_inventory(), "fresh active player can open Inventory")
 	var rows: Array[PlayerInventoryRowProjection] = fresh.hud.inventory_rows()
 	_assert_eq(rows.size(), 1, "fresh/reset boundary removes acquired short and silver")
-	_assert_eq(rows[0].item_definition_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, "fresh/reset boundary restores only prototype long")
+	_assert_eq(rows[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "fresh/reset boundary restores only prototype long")
 	_assert_eq(rows[0].equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.PRIMARY, "fresh/reset boundary restores long PRIMARY")
 	var binding: CombatSliceCharacterBinding = fresh._build_participants()[0]
-	_assert_eq(fresh.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.LONG_SWORD, "fresh/reset resolver returns long profile")
+	_assert_eq(fresh.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "fresh/reset resolver returns long profile")
 	_assert_eq(binding.content.projected_apply_damage(binding.state.equipment.primary_weapon()), 25, "fresh/reset combat returns long damage 25")
 	fresh.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	fresh.hud.refresh_live_state()

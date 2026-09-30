@@ -30,7 +30,7 @@ func _test_live_projection_wear_remove_and_weapon_independence() -> void:
 	var row: PlayerInventoryRowProjection = _leather_row(fixture)
 	_assert_eq(row.display_name, "皮衣", "leather row name")
 	_assert_eq(row.description, "皮衣(Leather)。\n", "leather row description")
-	_assert_eq(row.category, OldPineItemContentDefinitions.CATEGORY_ARMOR, "leather row category")
+	_assert_eq(row.category, ItemContentDefinition.CATEGORY_ARMOR, "leather row category")
 	_assert_eq(row.equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.NONE, "taken leather starts NONE")
 	_assert_eq(row.armor_type, &"cloth", "leather row cloth slot")
 	_assert_eq(row.armor_modifiers.armor, 5, "leather row armor +5")
@@ -64,7 +64,7 @@ func _test_slot_occupancy_uses_closed_armor_result() -> void:
 	var fixture: ArmorFixture = _make_fixture()
 	_assert_true(fixture.adapter.wear(fixture.player, LEATHER_ID, fixture.inventory, fixture.index).succeeded, "first cloth wear succeeds")
 	var second_id: StringName = &"item:second-leather"
-	_add_owned(fixture, second_id, OldPineItemContentDefinitions.LEATHER_ITEM_ID, 6000)
+	_add_owned(fixture, second_id, TestContent.LEATHER_ITEM_ID, 6000)
 	var occupied: OldPineArmorInteractionResult = fixture.adapter.wear(
 		fixture.player, second_id, fixture.inventory, fixture.index
 	)
@@ -97,11 +97,11 @@ func _test_stale_wear_and_remove_rows_are_rejected() -> void:
 	var replacement: ItemInstance = _add_owned(
 		stale_remove,
 		replacement_id,
-		OldPineItemContentDefinitions.LEATHER_ITEM_ID,
+		TestContent.LEATHER_ITEM_ID,
 		6000,
 	)
 	var replacement_definition: ArmorDefinition = (
-		OldPineItemContentDefinitions.content_by_id(
+		TestContent.item(
 			replacement.item_definition_id
 		).armor_definition()
 	)
@@ -182,14 +182,14 @@ func _make_fixture() -> ArmorFixture:
 		true,
 		PlayerBodyFacts.new(60000, 100000),
 	)
-	_add_owned(fixture, LEATHER_ID, OldPineItemContentDefinitions.LEATHER_ITEM_ID, 6000)
+	_add_owned(fixture, LEATHER_ID, TestContent.LEATHER_ITEM_ID, 6000)
 	var sword: ItemInstance = _add_owned(
 		fixture,
 		&"item:long-sword",
-		OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID,
+		TestContent.LONG_SWORD_ITEM_ID,
 		7000,
 	)
-	var sword_content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(sword.item_definition_id)
+	var sword_content: ItemContentDefinition = TestContent.item(sword.item_definition_id)
 	fixture.player.state.equipment.wield(
 		EquippedWeaponRef.new(
 			sword.item_instance_id,

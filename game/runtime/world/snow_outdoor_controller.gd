@@ -113,7 +113,7 @@ func silver_amount() -> int:
 	var amount: int = 0
 	for id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
 		var item: ItemInstance = _item_index.resolve(id)
-		if item != null and item.item_definition_id == SourceSilver.DEFINITION_ID and _stacks.has_stack(id):
+		if item != null and GameContent.catalog().denomination_of(item.item_definition_id) == CurrencyDenomination.Value.SILVER and _stacks.has_stack(id):
 			amount += _stacks.stack_state(id).amount
 	return amount
 

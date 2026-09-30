@@ -41,7 +41,7 @@ func _test_live_projection_and_inspect_facts() -> void:
 	_assert_false(rows[0].can_wield, "already-wielded long sword does not expose Wield")
 
 	var looted: InventoryFixture = _make_fixture(true, true)
-	_assert_true(looted.index.register_snapshot(ItemInstance.new(&"stale:metadata", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)), "fixture registers metadata-only stale ID")
+	_assert_true(looted.index.register_snapshot(ItemInstance.new(&"stale:metadata", TestContent.SHORT_SWORD_ITEM_ID)), "fixture registers metadata-only stale ID")
 	rows = looted.projection.project_rows(
 		looted.player, looted.inventory, looted.stacks, looted.index
 	)
@@ -68,7 +68,7 @@ func _test_live_projection_and_inspect_facts() -> void:
 	)
 	var merged_silver_rows: Array[PlayerInventoryRowProjection] = []
 	for row: PlayerInventoryRowProjection in rows:
-		if row.item_definition_id == OldPineItemContentDefinitions.SILVER_ITEM_ID:
+		if row.item_definition_id == TestContent.SILVER_ITEM_ID:
 			merged_silver_rows.append(row)
 	_assert_eq(merged_silver_rows.size(), 1, "live projection emits one silver survivor row despite stale metadata")
 	_assert_eq(merged_silver_rows[0].amount, 8, "live projection reads merged silver amount eight")
@@ -96,7 +96,7 @@ func _test_wield_validation_and_exact_hand_rules() -> void:
 	)
 	_assert_eq(nested_short.outcome, OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_DIRECTLY_OWNED, "root-owned nested short is not accepted as direct player inventory")
 	_assert_true(nested.projection.project_item(nested.player, nested.inventory, nested.stacks, nested.index, nested.short_id) == null, "root-owned nested short is absent from direct Inventory projection")
-	var world_short: ItemInstance = ItemInstance.new(&"world:short", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)
+	var world_short: ItemInstance = ItemInstance.new(&"world:short", TestContent.SHORT_SWORD_ITEM_ID)
 	fixture.inventory.register_item(world_short, 3000)
 	fixture.index.register_snapshot(world_short)
 	_move(fixture, world_short.item_instance_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"zone"))
@@ -110,7 +110,7 @@ func _test_wield_validation_and_exact_hand_rules() -> void:
 	_assert_eq(stale.outcome, OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_REGISTERED, "Wield rejects stale item before metadata lookup")
 	var missing_metadata: ItemInstance = ItemInstance.new(
 		&"item:missing-metadata",
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
 	)
 	fixture.inventory.register_item(missing_metadata, 3000)
 	_move(fixture, missing_metadata.item_instance_id, _player_endpoint())
@@ -145,7 +145,7 @@ func _test_wield_validation_and_exact_hand_rules() -> void:
 	_assert_true(already.succeeded and not already.changed, "already-wielded short preserves LPC recognition success")
 	_assert_eq(already.equipment_transition.outcome, EquipmentTransitionResult.Outcome.ALREADY_WIELDED, "already-wielded result remains exact")
 	var third_long: ItemInstance = _add_owned_item(
-		fixture, &"item:third-long", OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, 7000
+		fixture, &"item:third-long", TestContent.LONG_SWORD_ITEM_ID, 7000
 	)
 	var full_hands: OldPineEquipmentInteractionResult = fixture.adapter.wield(
 		fixture.player, third_long.item_instance_id, fixture.inventory, fixture.index
@@ -190,13 +190,13 @@ func _test_current_weapon_content_resolution() -> void:
 	var long_resolution: OldPineWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(long_resolution.outcome, OldPineWeaponContentResolution.Outcome.LONG_SWORD, "fresh primary resolves exact long profile")
+	_assert_eq(long_resolution.outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "fresh primary resolves exact long profile")
 	_assert_eq(long_resolution.content_profile.projected_apply_damage(fixture.player.state.equipment.primary_weapon()), 25, "long profile projects damage 25")
 	fixture.adapter.wield(fixture.player, fixture.short_id, fixture.inventory, fixture.index)
 	var long_with_secondary: OldPineWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(long_with_secondary.outcome, OldPineWeaponContentResolution.Outcome.LONG_SWORD, "long primary plus short secondary still resolves long")
+	_assert_eq(long_with_secondary.outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "long primary plus short secondary still resolves long")
 	fixture.adapter.unwield(fixture.player, fixture.long_id, fixture.inventory)
 	var secondary_only: OldPineWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
@@ -209,7 +209,7 @@ func _test_current_weapon_content_resolution() -> void:
 	var short_resolution: OldPineWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(short_resolution.outcome, OldPineWeaponContentResolution.Outcome.SHORT_SWORD, "short primary resolves exact short profile")
+	_assert_eq(short_resolution.outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "short primary resolves exact short profile")
 	_assert_eq(short_resolution.content_profile.projected_apply_damage(fixture.player.state.equipment.primary_weapon()), 15, "short profile projects damage 15")
 	fixture.adapter.unwield(fixture.player, fixture.short_id, fixture.inventory)
 	var unarmed: OldPineWeaponContentResolution = fixture.resolver.resolve(
@@ -262,7 +262,7 @@ func _test_current_weapon_content_resolution() -> void:
 	var mismatched: InventoryFixture = _make_fixture(false, false)
 	mismatched.adapter.unwield(mismatched.player, mismatched.long_id, mismatched.inventory)
 	mismatched.player.state.equipment.wield(
-		_weapon_ref(mismatched.long_id, OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID),
+		_weapon_ref(mismatched.long_id, TestContent.SHORT_SWORD_ITEM_ID),
 		false,
 	)
 	var mismatch_resolution: OldPineWeaponContentResolution = mismatched.resolver.resolve(
@@ -275,7 +275,7 @@ func _test_current_weapon_content_resolution() -> void:
 	missing.adapter.unwield(missing.player, missing.long_id, missing.inventory)
 	var missing_primary: ItemInstance = ItemInstance.new(
 		&"item:missing-primary-metadata",
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
 	)
 	missing.inventory.register_item(missing_primary, 3000)
 	_move(missing, missing_primary.item_instance_id, _player_endpoint())
@@ -293,16 +293,16 @@ func _test_current_weapon_content_resolution() -> void:
 func _test_content_profile_additive_seam() -> void:
 	var historical_default: CombatSliceContentProfile = CombatSliceContentProfile.new()
 	_assert_true(historical_default.is_valid(), "historical default weapon profile remains valid")
-	_assert_eq(historical_default.projected_apply_damage(_weapon_ref(&"default:long", OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID)), 25, "historical default profile still projects long damage 25")
+	_assert_eq(historical_default.projected_apply_damage(_weapon_ref(&"default:long", TestContent.LONG_SWORD_ITEM_ID)), 25, "historical default profile still projects long damage 25")
 	_assert_true(historical_default.has_attack_skill_definition(&"sword"), "historical default profile still exposes sword skill")
 	_assert_true(historical_default.has_attack_skill_definition(&"unarmed"), "historical default profile still exposes unarmed fallback skill")
 	var short_profile: CombatSliceContentProfile = CombatSliceContentProfile.new(
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
 		&"sword",
 		15,
 	)
 	_assert_true(short_profile.is_valid(), "ordinary verified short profile remains valid")
-	_assert_eq(short_profile.projected_apply_damage(_weapon_ref(&"default:short", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)), 15, "ordinary short profile projects source damage 15")
+	_assert_eq(short_profile.projected_apply_damage(_weapon_ref(&"default:short", TestContent.SHORT_SWORD_ITEM_ID)), 15, "ordinary short profile projects source damage 15")
 	var unarmed: CombatSliceContentProfile = CombatSliceContentProfile.new(&"", &"", 0)
 	_assert_true(unarmed.is_valid(), "only exact empty-ID zero-damage profile enables unarmed-only seam")
 	_assert_true(unarmed.has_attack_skill_definition(&"unarmed"), "unarmed-only seam exposes unarmed skill")
@@ -340,16 +340,16 @@ func _make_fixture(include_short: bool, include_silver: bool) -> InventoryFixtur
 		true,
 		PlayerBodyFacts.new(60000, 100_000),
 	)
-	_add_owned_item(fixture, fixture.long_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID, 7000)
+	_add_owned_item(fixture, fixture.long_id, TestContent.LONG_SWORD_ITEM_ID, 7000)
 	fixture.player.state.equipment.wield(
-		_weapon_ref(fixture.long_id, OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID),
+		_weapon_ref(fixture.long_id, TestContent.LONG_SWORD_ITEM_ID),
 		false,
 	)
 	if include_short:
-		_add_owned_item(fixture, fixture.short_id, OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID, 3000)
+		_add_owned_item(fixture, fixture.short_id, TestContent.SHORT_SWORD_ITEM_ID, 3000)
 	if include_silver:
 		var silver: ItemInstance = ItemInstance.new(
-			fixture.silver_id, OldPineItemContentDefinitions.SILVER_ITEM_ID
+			fixture.silver_id, TestContent.SILVER_ITEM_ID
 		)
 		fixture.inventory.register_item(silver, 0)
 		fixture.index.register_snapshot(silver)
@@ -357,7 +357,7 @@ func _make_fixture(include_short: bool, include_silver: bool) -> InventoryFixtur
 			fixture.stacks,
 			fixture.inventory,
 			silver,
-			OldPineNpcDefinitions.silver_content().stack_definition(),
+			TestContent.loadout(TestContent.SILVER_ITEM_ID).stack_definition(),
 			3,
 		)
 		_move(fixture, silver.item_instance_id, _player_endpoint())
@@ -393,8 +393,8 @@ func _weapon_ref(
 	instance_id: StringName,
 	definition_id: StringName,
 ) -> EquippedWeaponRef:
-	var content: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(definition_id)
+	var content: ItemContentDefinition = (
+		TestContent.item(definition_id)
 	)
 	return EquippedWeaponRef.new(
 		instance_id,

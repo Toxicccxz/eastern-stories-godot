@@ -34,8 +34,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _test_authored_definitions_and_fixed_zone_partition() -> void:
 	_assert_true(OldPineWorldDefinitions.validate(), "Old Pine world definitions validate")
-	_assert_true(OldPineNpcDefinitions.validate(), "Old Pine NPC definitions validate")
-	_assert_true(OldPineSpawnDefinitions.validate(), "Old Pine spawn definitions validate")
+	_assert_true(GameContent.load_errors().is_empty(), "Old Pine NPC definitions validate")
+	_assert_true(TestContent.spawns_match_world(), "Old Pine spawn definitions validate")
 	_assert_eq(
 		OldPineWorldDefinitions.zone_by_id(
 			OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID
@@ -92,7 +92,7 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 		"Phase 9B3B3 preserves prior portals and appends the source-faithful route",
 	)
 
-	var tall: NpcDefinition = OldPineNpcDefinitions.tall_bandit_definition()
+	var tall: NpcDefinition = TestContent.npc(TestContent.TALL_BANDIT_NPC_ID)
 	_assert_eq(tall.definition_id, &"oldpine.npc.tall_bandit", "tall bandit ID")
 	_assert_eq(tall.display_name, "土匪", "tall bandit display name")
 	_assert_eq(tall.aliases(), [&"bandit"], "tall bandit alias")
@@ -110,15 +110,15 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 	_assert_true(tall.resource_overrides().is_empty(), "no invented resource overrides")
 	var loadout: Array[NpcLoadoutEntry] = tall.loadout_entries()
 	_assert_eq(loadout.size(), 2, "tall bandit has exactly two loadout entries")
-	_assert_eq(loadout[0].item_definition_id, OldPineNpcDefinitions.LONG_SWORD_ITEM_ID, "long sword loadout ID")
+	_assert_eq(loadout[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "long sword loadout ID")
 	_assert_eq(loadout[0].quantity, 1, "one long sword")
 	_assert_eq(loadout[0].equipment_intent, NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY, "long sword starts wielded")
-	_assert_eq(loadout[1].item_definition_id, OldPineNpcDefinitions.SILVER_ITEM_ID, "silver loadout ID")
+	_assert_eq(loadout[1].item_definition_id, TestContent.SILVER_ITEM_ID, "silver loadout ID")
 	_assert_eq(loadout[1].quantity, 6, "six silver")
-	var sword: NpcLoadoutItemDefinition = OldPineNpcDefinitions.long_sword_content()
-	var canonical_sword: OldPineItemContentDefinition = (
-		OldPineItemContentDefinitions.content_by_id(
-			OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID
+	var sword: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.LONG_SWORD_ITEM_ID)
+	var canonical_sword: ItemContentDefinition = (
+		TestContent.item(
+			TestContent.LONG_SWORD_ITEM_ID
 		)
 	)
 	_assert_eq(sword.item_definition().item_definition_id, canonical_sword.item_definition_id, "NPC loadout uses canonical long-sword ID")
@@ -132,11 +132,11 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 		"long sword keeps both source paths",
 	)
 	_assert_eq(
-		OldPineNpcDefinitions.silver_content().currency_definition().value_for_amount(6),
+		TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(6),
 		600,
 		"six silver has LPC-derived value 600",
 	)
-	var spawn: NpcSpawnDefinition = OldPineSpawnDefinitions.pine1_tall_bandit_spawn()
+	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.PINE1_TALL_BANDIT_SPAWN_ID)
 	_assert_eq(spawn.zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall bandit spawns in Pine Entrance")
 	_assert_eq(spawn.quantity, 1, "exactly one tall bandit")
 	_assert_eq(spawn.legacy_source_room_path, "d/oldpine/pine1.c", "tall spawn traces pine1")
@@ -282,7 +282,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	_assert_eq(npcs.size(), 10, "runtime owns five humans plus five serpents")
 	var tall: NpcRuntimeState = npcs[3]
-	_assert_eq(tall.definition_id, OldPineNpcDefinitions.TALL_BANDIT_DEFINITION_ID, "fourth runtime is exact tall bandit")
+	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall runtime starts in Pine Entrance")
 	_assert_eq(controller.tall_bandit_body.global_position, (controller.get_node("SpawnPoints/Pine1TallBanditSpawn") as Marker2D).global_position, "tall body starts at exact marker")
 	_assert_eq(controller.tall_bandit_body.get_signal_connection_list("selection_requested").size(), 1, "tall selection signal persists once")
@@ -302,8 +302,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 			map_local_timer_count += 1
 	_assert_eq(map_local_timer_count, 1, "scene retains one direct map-local OpportunityTimer")
 
-	var long_sword: ItemInstance = _item_by_definition(tall.loadout_items(), OldPineNpcDefinitions.LONG_SWORD_ITEM_ID)
-	var silver: ItemInstance = _item_by_definition(tall.loadout_items(), OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var long_sword: ItemInstance = _item_by_definition(tall.loadout_items(), TestContent.LONG_SWORD_ITEM_ID)
+	var silver: ItemInstance = _item_by_definition(tall.loadout_items(), TestContent.SILVER_ITEM_ID)
 	_assert_true(long_sword != null, "tall runtime owns long sword instance")
 	_assert_true(silver != null, "tall runtime owns silver instance")
 	var tall_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
@@ -469,10 +469,10 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_true(controller.inventory_state().is_direct_child(silver.item_instance_id, player_endpoint), "looted silver becomes player direct inventory")
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 9, "existing silver three plus Tall silver six merges to nine")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 333, "merged silver weight remains 9 * 37")
-	_assert_eq(OldPineNpcDefinitions.silver_content().currency_definition().value_for_amount(9), 900, "merged silver value remains 9 * 100")
+	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(9), 900, "merged silver value remains 9 * 100")
 	_assert_false(controller.inventory_state().is_registered(existing_silver.item_instance_id), "absorbed prior player silver is no longer live")
 	_assert_true(controller.open_player_inventory(), "existing Inventory UI opens after Tall loot")
-	_assert_eq(_definition_row_count(controller.hud.inventory_rows(), OldPineNpcDefinitions.LONG_SWORD_ITEM_ID), 2, "two live long swords remain separate inventory rows")
+	_assert_eq(_definition_row_count(controller.hud.inventory_rows(), TestContent.LONG_SWORD_ITEM_ID), 2, "two live long swords remain separate inventory rows")
 	var original_primary: EquippedWeaponRef = controller.player_runtime().state.equipment.primary_weapon()
 	_assert_true(controller.unwield_player_item(original_primary.instance_id).succeeded, "existing equipment action unwields original long sword")
 	_assert_true(controller.wield_player_item(long_sword.item_instance_id).succeeded, "existing equipment action wields looted long sword")
@@ -494,8 +494,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_false(fresh.player_runtime().relationship.is_fighting(), "fresh scene clears player relationships")
 	for fresh_npc: NpcRuntimeState in fresh.npc_runtimes():
 		_assert_false(fresh_npc.relationship.is_fighting(), "fresh scene clears every NPC relationship")
-	var fresh_long: ItemInstance = _item_by_definition(fresh_tall.loadout_items(), OldPineNpcDefinitions.LONG_SWORD_ITEM_ID)
-	var fresh_silver: ItemInstance = _item_by_definition(fresh_tall.loadout_items(), OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var fresh_long: ItemInstance = _item_by_definition(fresh_tall.loadout_items(), TestContent.LONG_SWORD_ITEM_ID)
+	var fresh_silver: ItemInstance = _item_by_definition(fresh_tall.loadout_items(), TestContent.SILVER_ITEM_ID)
 	_assert_ne(fresh_long.item_instance_id, old_long_id, "fresh tall owns new long-sword instance")
 	_assert_ne(fresh_silver.item_instance_id, old_silver_id, "fresh tall owns new silver instance")
 	_assert_eq(fresh.stack_collection().stack_state(fresh_silver.item_instance_id).amount, 6, "fresh tall restores silver amount six")
@@ -589,7 +589,7 @@ func _add_player_silver(
 ) -> ItemInstance:
 	var item: ItemInstance = ItemInstance.new(
 		instance_id,
-		OldPineNpcDefinitions.SILVER_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
 	)
 	if not controller.inventory_state().register_item(item, 0):
 		return null
@@ -599,7 +599,7 @@ func _add_player_silver(
 		controller.stack_collection(),
 		controller.inventory_state(),
 		item,
-		OldPineNpcDefinitions.silver_content().stack_definition(),
+		TestContent.loadout(TestContent.SILVER_ITEM_ID).stack_definition(),
 		amount,
 	)
 	if not registration.accepted:

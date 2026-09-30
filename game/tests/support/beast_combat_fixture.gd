@@ -12,7 +12,7 @@ var effects: SkillImprovementEffectRegistry = SkillImprovementEffectRegistry.new
 
 func _init() -> void:
 	npc = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcDefinitions.serpent_definition(), &"test.serpent", &"test.spawn", &"test.point",
+		TestContent.npc(TestContent.SERPENT_NPC_ID), &"test.serpent", &"test.spawn", &"test.point",
 		WorldLocationState.new(&"test.region", &"test.map", &"test.zone", &"test.combat"),
 		inventory, stacks, ScriptedNpcInitializationRandomSource.new([0, 0, 0]), [],
 	)

@@ -79,7 +79,7 @@ func request_eat() -> FoodUseResult:
 		return FoodUseResult.new()
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), _session.inventory_state(), _session.stack_collection(), _session.item_instance_index())
-	last_result = HeldFoodUseService.eat(player, context, _session.food_collection(), OldPineNativeItemDefinitionProjections.create(_session.world_content_revision()), _ids[_select.selected], available())
+	last_result = HeldFoodUseService.eat(player, context, _session.food_collection(), GameContent.catalog().native_item_projections(), _ids[_select.selected], available())
 	match last_result.outcome:
 		FoodUseResult.Outcome.ATE:
 			_feedback.text = "吃了一份。食物：%d" % last_result.food_after

@@ -27,8 +27,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": assertions, "failures": failures}
 
 
-static func purchase(session: OldPineWorldSessionController) -> WineskinPurchaseResult:
-	return WineskinPurchaseService.buy(Food.context(session), session.liquid_collection(), session.item_id_allocator(), session.player_runtime().maximum_encumbrance, Food.definitions())
+static func purchase(session: OldPineWorldSessionController) -> VendorPurchaseResult:
+	return Food.purchase(session, "wineskin")
+
+
+static func buy_wineskin(money: MoneyInventoryContext, liquids: LiquidCollection, allocator: SessionItemIdAllocator, capacity: int) -> VendorPurchaseResult:
+	return VendorPurchaseService.buy(TestContent.waiter(), "wineskin", GameContent.catalog(), money, FoodCollection.new(), liquids, allocator, capacity)
 
 
 static func drink(session: OldPineWorldSessionController, id: StringName, available: bool = true, encounter: bool = false) -> LiquidUseResult:
@@ -63,53 +67,54 @@ func funded(inv: InventoryState = null) -> Finance.Fixture:
 
 
 func purchase_tests() -> void:
-	var definition: LiquidDefinition = Food.definitions().liquid_definition(SourceWineskin.DEFINITION_ID)
-	check(SourceWineskin.DISPLAY_NAME == "牛皮酒袋" and SourceWineskin.ALIASES == ["wineskin", "skin"] and SourceWineskin.UNIT == "个", "wineskin.c authored identity")
-	check(SourceWineskin.content_name(LiquidState.Content.RED_WINE) == "红酒" and SourceWineskin.content_name(LiquidState.Content.CLEAR_WATER) == "清水", "source liquid display names")
+	var definition: LiquidDefinition = Food.definitions().liquid_definition(TestContent.WINESKIN_ITEM_ID)
+	var wineskin: ItemContentDefinition = TestContent.item(TestContent.WINESKIN_ITEM_ID)
+	check(wineskin.display_name == "牛皮酒袋" and wineskin.aliases() == ["wineskin", "skin"] and wineskin.unit == "个", "wineskin.c authored identity")
+	check(wineskin.liquid_initial_name == "红酒" and LiquidState.content_name(LiquidState.Content.RED_WINE) == "红酒" and LiquidState.content_name(LiquidState.Content.CLEAR_WATER) == "清水", "source liquid display names")
 	check(definition.maximum_portions == 15 and definition.hydration == 30 and definition.drunk_apply == 6 and definition.value == 20 and definition.own_weight == 700, "wineskin.c + liquid.c literal numeric facts")
-	check(Food.definitions().food_definition(SourceWineskin.DEFINITION_ID) == null and Food.definitions().stack_definition(SourceWineskin.DEFINITION_ID) == null and Food.definitions().weapon_definition(SourceWineskin.DEFINITION_ID) == null and Food.definitions().armor_definition(SourceWineskin.DEFINITION_ID) == null, "ordinary item only; no stack/equip/food")
+	check(Food.definitions().food_definition(TestContent.WINESKIN_ITEM_ID) == null and Food.definitions().stack_definition(TestContent.WINESKIN_ITEM_ID) == null and Food.definitions().weapon_definition(TestContent.WINESKIN_ITEM_ID) == null and Food.definitions().armor_definition(TestContent.WINESKIN_ITEM_ID) == null, "ordinary item only; no stack/equip/food")
 	definition.value = 999
-	check(Food.definitions().liquid_definition(SourceWineskin.DEFINITION_ID).value == 20, "defensive projection")
+	check(Food.definitions().liquid_definition(TestContent.WINESKIN_ITEM_ID).value == 20, "defensive projection")
 	for coins: int in [0,100]:
 		var fixture: Finance.Fixture = Finance.Fixture.new()
 		if coins > 0: Finance.add_money(fixture.context, Food.COIN, coins, &"coin")
-		var result: WineskinPurchaseResult = WineskinPurchaseService.buy(fixture.context, LiquidCollection.new(), fixture.allocator, 1000, Food.definitions())
+		var result: VendorPurchaseResult = buy_wineskin(fixture.context, LiquidCollection.new(), fixture.allocator, 1000)
 		check(result.affordability.outcome == (0 if coins == 0 else 2) and not result.paid and result.allocation == null and fixture.allocator.next_dynamic_sequence == 1, "source finance 0/2 and coin-only anomaly")
-	for defs: NativeItemDefinitionProjections in [null, NativeItemDefinitionProjections.new(), NativeItemDefinitionProjections.new([SourceWineskin.item_definition()], [], [], [], [], [LiquidDefinition.new(SourceWineskin.DEFINITION_ID, 15, 30, 6, 701, 20)])]:
+	for offer: Array in Food.refused_offers("wineskin"):
 		var fixture: Finance.Fixture = funded()
-		var result: WineskinPurchaseResult = WineskinPurchaseService.buy(fixture.context, LiquidCollection.new(), fixture.allocator, 1000, defs)
-		check(result.outcome == WineskinPurchaseResult.Outcome.INVALID_OFFER and fixture.context.select(Food.COIN).amount == 100 and fixture.allocator.next_dynamic_sequence == 1, "static malformed before payment")
+		var result: VendorPurchaseResult = VendorPurchaseService.buy(offer[0], offer[1], offer[2], fixture.context, FoodCollection.new(), LiquidCollection.new(), fixture.allocator, 1000)
+		check(result.outcome == VendorPurchaseResult.Outcome.INVALID_OFFER and fixture.context.select(Food.COIN).amount == 100 and fixture.allocator.next_dynamic_sequence == 1, "refused offer before payment")
 	var fixture: Finance.Fixture = funded()
-	var result: WineskinPurchaseResult = WineskinPurchaseService.buy(fixture.context, LiquidCollection.new(), SessionItemIdAllocator.new(&"overflow", 9223372036854775807), 1000, Food.definitions())
-	check(result.paid and result.outcome == WineskinPurchaseResult.Outcome.ALLOCATION_FAILED and fixture.context.select(Food.COIN).amount == 80, "allocation overflow after payment: no refund")
+	var result: VendorPurchaseResult = buy_wineskin(fixture.context, LiquidCollection.new(), SessionItemIdAllocator.new(&"overflow", 9223372036854775807), 1000)
+	check(result.paid and result.outcome == VendorPurchaseResult.Outcome.ALLOCATION_FAILED and fixture.context.select(Food.COIN).amount == 80, "allocation overflow after payment: no refund")
 	for capacity: int in [816,817]:
 		fixture = funded()
 		var liquids: LiquidCollection = LiquidCollection.new()
-		result = WineskinPurchaseService.buy(fixture.context, liquids, fixture.allocator, capacity, Food.definitions())
+		result = buy_wineskin(fixture.context, liquids, fixture.allocator, capacity)
 		# Source37 silver + coins(100-20) + wine700 =817; before pay would be837.
 		check(result.paid and fixture.context.select(Food.COIN).amount == 80 and fixture.allocator.next_dynamic_sequence == 2, "capacity after20 payment + one allocation")
 		check(result.delivered == (capacity == 817), "exact817 postpayment capacity")
 		if capacity == 816:
-			check(result.outcome == WineskinPurchaseResult.Outcome.DELIVERY_FAILED and result.cleanup.succeeded(), "delivery failure destroys only undelivered product")
+			check(result.outcome == VendorPurchaseResult.Outcome.DELIVERY_FAILED and result.cleanup.succeeded(), "delivery failure destroys only undelivered product")
 			check(not fixture.context.inventory.is_registered(result.item_id) and not fixture.context.index.has_snapshot(result.item_id) and liquids.state(result.item_id) == null, "no orphan/state/index")
 	var failing: Finance.FailingRemoval = Finance.FailingRemoval.new()
 	failing.block_parentless = true
 	fixture = funded(failing)
 	var liquids: LiquidCollection = LiquidCollection.new()
-	result = WineskinPurchaseService.buy(fixture.context, liquids, fixture.allocator, 816, Food.definitions())
-	check(result.paid and result.outcome == WineskinPurchaseResult.Outcome.AUTHORITY_FAILURE and not result.cleanup.succeeded(), "cleanup failure explicit, no refund")
+	result = buy_wineskin(fixture.context, liquids, fixture.allocator, 816)
+	check(result.paid and result.outcome == VendorPurchaseResult.Outcome.AUTHORITY_FAILURE and not result.cleanup.succeeded(), "cleanup failure explicit, no refund")
 	check(fixture.context.inventory.is_registered(result.item_id) and liquids.state(result.item_id) != null and fixture.context.index.has_snapshot(result.item_id), "failed removal does not discard associations")
 	fixture = funded()
-	result = WineskinPurchaseService.buy(fixture.context, RefusingLiquid.new(), fixture.allocator, 1000, Food.definitions())
-	check(result.paid and result.outcome == WineskinPurchaseResult.Outcome.CREATION_FAILED and result.cleanup.succeeded(), "partial registration cleans parentless object")
+	result = buy_wineskin(fixture.context, RefusingLiquid.new(), fixture.allocator, 1000)
+	check(result.paid and result.outcome == VendorPurchaseResult.Outcome.CREATION_FAILED and result.cleanup.succeeded(), "partial registration cleans parentless object")
 
 
 func liquid_tests(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	check(Food.earn_and_exchange(session), "two Work and exchange without injected money")
-	var first: WineskinPurchaseResult = purchase(session)
+	var first: VendorPurchaseResult = purchase(session)
 	check(first.delivered and Food.context(session).select(Food.SILVER).amount == 1 and Food.context(session).select(Food.COIN).amount == 80, "natural mixed denominations price20")
-	var second: WineskinPurchaseResult = purchase(session)
+	var second: VendorPurchaseResult = purchase(session)
 	check(second.delivered and second.item_id != first.item_id, "unlimited independent IDs")
 	var state: LiquidState = session.liquid_collection().state(first.item_id)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -192,7 +197,7 @@ func persistence_tests(tree: SceneTree) -> void:
 			"orphan": data.items.liquid_consumables[0].item_instance_id = "absent"
 			"non-liquid":
 				for item: Dictionary in data.items.records:
-					if item.item_definition_id == String(SourceSilver.DEFINITION_ID): data.items.liquid_consumables[0].item_instance_id = item.item_instance_id
+					if item.item_definition_id == String(TestContent.SILVER_ITEM_ID): data.items.liquid_consumables[0].item_instance_id = item.item_instance_id
 			"negative": data.items.liquid_consumables[0].remaining = "-1"
 			"overfull": data.items.liquid_consumables[0].remaining = "16"
 			"unknown-content": data.items.liquid_consumables[0].content = "ALCOHOL"
@@ -200,7 +205,7 @@ func persistence_tests(tree: SceneTree) -> void:
 			"missing-key": data.items.liquid_consumables[0].erase("remaining")
 			"bad-weight":
 				for item: Dictionary in data.items.records:
-					if item.item_definition_id == String(SourceWineskin.DEFINITION_ID): item.own_weight = "699"
+					if item.item_definition_id == String(TestContent.WINESKIN_ITEM_ID): item.own_weight = "699"
 			"v2-extra": data.items.schema_version = 2
 			"v2-forged", "v1-forged":
 				data.items.schema_version = 2 if mutation == "v2-forged" else 1

@@ -50,13 +50,13 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 		"Category: %s" % String(row.category),
 		"Equipped: %s" % row.equipment_label(),
 	]
-	if row.category == OldPineItemContentDefinitions.CATEGORY_WEAPON:
+	if row.category == ItemContentDefinition.CATEGORY_WEAPON:
 		lines.append("Skill: %s" % String(row.weapon_skill_type))
 		lines.append("Damage: %d" % row.weapon_damage)
-	elif row.category == OldPineItemContentDefinitions.CATEGORY_CURRENCY:
+	elif row.category == ItemContentDefinition.CATEGORY_CURRENCY:
 		lines.append("Amount: %d" % row.amount)
 		lines.append("Value: %d" % row.total_value)
-	elif row.category == OldPineItemContentDefinitions.CATEGORY_ARMOR:
+	elif row.category == ItemContentDefinition.CATEGORY_ARMOR:
 		lines.append("Armor slot: %s" % String(row.armor_type))
 		lines.append("Armor: %+d" % row.armor_modifiers.armor)
 		lines.append("Dodge: %+d" % row.armor_modifiers.dodge)

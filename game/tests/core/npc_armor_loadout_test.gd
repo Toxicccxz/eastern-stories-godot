@@ -1,7 +1,5 @@
 extends RefCounted
 
-const OldPineNpcs := preload("res://data/oldpine/oldpine_npc_definitions.gd")
-const OldPineSpawns := preload("res://data/oldpine/oldpine_spawn_definitions.gd")
 const OldPineWorld := preload("res://data/oldpine/oldpine_world_definitions.gd")
 const ScriptedRandom := preload(
 	"res://tests/support/scripted_npc_initialization_random_source.gd"
@@ -26,7 +24,7 @@ func run_all() -> Dictionary[String, Variant]:
 
 
 func _test_exact_fat_bandit_and_leather_content() -> void:
-	var fat: NpcDefinition = OldPineNpcs.fat_bandit_definition()
+	var fat: NpcDefinition = TestContent.npc(TestContent.FAT_BANDIT_NPC_ID)
 	_assert_eq(fat.definition_id, &"oldpine.npc.fat_bandit", "fat native ID")
 	_assert_eq(fat.legacy_source_path, "d/oldpine/npc/fat_bandit.c", "fat source")
 	_assert_eq(fat.display_name, "土匪", "fat display name")
@@ -46,12 +44,12 @@ func _test_exact_fat_bandit_and_leather_content() -> void:
 	_assert_skill(skills[2], &"dodge", 10, "fat dodge")
 	var entries: Array[NpcLoadoutEntry] = fat.loadout_entries()
 	_assert_eq(entries.size(), 3, "fat exact loadout count")
-	_assert_entry(entries[0], OldPineNpcs.SHORT_SWORD_ITEM_ID, 1, NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY, "fat sword")
-	_assert_entry(entries[1], OldPineNpcs.LEATHER_ITEM_ID, 1, NpcLoadoutEntry.EquipmentIntent.WEAR, "fat leather")
-	_assert_entry(entries[2], OldPineNpcs.SILVER_ITEM_ID, 5, NpcLoadoutEntry.EquipmentIntent.NONE, "fat silver")
-	var leather: NpcLoadoutItemDefinition = OldPineNpcs.leather_content()
+	_assert_entry(entries[0], TestContent.SHORT_SWORD_ITEM_ID, 1, NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY, "fat sword")
+	_assert_entry(entries[1], TestContent.LEATHER_ITEM_ID, 1, NpcLoadoutEntry.EquipmentIntent.WEAR, "fat leather")
+	_assert_entry(entries[2], TestContent.SILVER_ITEM_ID, 5, NpcLoadoutEntry.EquipmentIntent.NONE, "fat silver")
+	var leather: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.LEATHER_ITEM_ID)
 	_assert_true(leather != null and leather.is_valid(), "canonical leather loadout content")
-	_assert_eq(leather.item_definition().item_definition_id, OldPineNpcs.LEATHER_ITEM_ID, "leather item identity")
+	_assert_eq(leather.item_definition().item_definition_id, TestContent.LEATHER_ITEM_ID, "leather item identity")
 	_assert_eq(leather.own_weight, 6000, "leather source weight")
 	_assert_eq(leather.legacy_source_paths(), ["d/oldpine/obj/leather.c", "d/oldpine/npc/obj/leather.c"], "both source-equivalent leather paths")
 	var armor: ArmorDefinition = leather.armor_definition()
@@ -65,11 +63,11 @@ func _test_exact_fat_bandit_and_leather_content() -> void:
 	_assert_eq(armor.numeric_modifiers.dodge, lpc_dodge, "authored content matches independent cloth source contract")
 	_assert_ne(leather.armor_definition(), leather.armor_definition(), "loadout returns independent ArmorDefinition snapshots")
 	_assert_ne(armor.numeric_modifiers, armor.numeric_modifiers, "ArmorDefinition returns independent modifier snapshots")
-	var authored: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(OldPineNpcs.LEATHER_ITEM_ID)
+	var authored: ItemContentDefinition = TestContent.item(TestContent.LEATHER_ITEM_ID)
 	_assert_eq(authored.display_name, "皮衣", "leather display name")
 	_assert_eq(authored.description, "皮衣(Leather)。\n", "leather executable default long")
-	_assert_eq(authored.category, OldPineItemContentDefinitions.CATEGORY_ARMOR, "leather armor category")
-	var spawn: NpcSpawnDefinition = OldPineSpawns.pine1_fat_bandit_spawn()
+	_assert_eq(authored.category, ItemContentDefinition.CATEGORY_ARMOR, "leather armor category")
+	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.PINE1_FAT_BANDIT_SPAWN_ID)
 	_assert_eq(spawn.quantity, 1, "fat exact spawn quantity")
 	_assert_eq(spawn.zone_id, OldPineWorld.PINE_ENTRANCE_ZONE_ID, "fat Pine Entrance placement")
 
@@ -79,9 +77,9 @@ func _test_fat_human_initialization_order_and_derived_state() -> void:
 		[0, 20, 1, 19, 2, 18, 3, 17]
 	)
 	var runtime: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcs.fat_bandit_definition(),
+		TestContent.npc(TestContent.FAT_BANDIT_NPC_ID),
 		&"fat.rng.character",
-		OldPineSpawns.PINE1_FAT_BANDIT_SPAWN_ID,
+		TestContent.PINE1_FAT_BANDIT_SPAWN_ID,
 		&"fat.rng.point",
 		WorldLocationState.new(
 			OldPineWorld.REGION_ID,
@@ -92,7 +90,7 @@ func _test_fat_human_initialization_order_and_derived_state() -> void:
 		InventoryState.new(),
 		CombinedStackCollection.new(),
 		random_source,
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(runtime != null and runtime.is_valid(), "scripted Fat constructs")
 	_assert_eq(runtime.age, 36, "authored Fat age is exact")
@@ -120,18 +118,18 @@ func _test_wear_loadout_registers_transfers_then_wears() -> void:
 	var inventory: InventoryState = InventoryState.new()
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var runtime: NpcRuntimeState = _create(
-		OldPineNpcs.fat_bandit_definition(),
+		TestContent.npc(TestContent.FAT_BANDIT_NPC_ID),
 		&"fat.factory.character",
 		inventory,
 		stacks,
-		OldPineNpcs.loadout_item_definitions(),
+		GameContent.catalog().loadout_item_definitions(),
 	)
 	_assert_true(runtime != null and runtime.is_valid(), "fat factory succeeds")
 	var items: Array[ItemInstance] = runtime.loadout_items()
 	_assert_eq(items.size(), 3, "fat owns three live item objects")
-	var sword: ItemInstance = _item_by_definition(items, OldPineNpcs.SHORT_SWORD_ITEM_ID)
-	var leather: ItemInstance = _item_by_definition(items, OldPineNpcs.LEATHER_ITEM_ID)
-	var silver: ItemInstance = _item_by_definition(items, OldPineNpcs.SILVER_ITEM_ID)
+	var sword: ItemInstance = _item_by_definition(items, TestContent.SHORT_SWORD_ITEM_ID)
+	var leather: ItemInstance = _item_by_definition(items, TestContent.LEATHER_ITEM_ID)
+	var silver: ItemInstance = _item_by_definition(items, TestContent.SILVER_ITEM_ID)
 	var owner: ContainmentEndpoint = _owner(runtime.character_id)
 	_assert_true(inventory.is_direct_child(sword.item_instance_id, owner), "sword transferred before equip")
 	_assert_true(inventory.is_direct_child(leather.item_instance_id, owner), "leather remains direct inventory while worn")
@@ -142,7 +140,7 @@ func _test_wear_loadout_registers_transfers_then_wears() -> void:
 	_assert_eq(runtime.armor.aggregate_numeric_modifiers().dodge, -2, "fat live dodge aggregate")
 	_assert_eq(stacks.stack_state(silver.item_instance_id).amount, 5, "fat silver is one amount-five stack")
 	_assert_eq(inventory.own_weight(silver.item_instance_id), 185, "fat silver weight 5 * 37")
-	_assert_eq(OldPineNpcs.silver_content().currency_definition().value_for_amount(5), 500, "fat silver value 5 * 100")
+	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(5), 500, "fat silver value 5 * 100")
 
 
 func _test_unsupported_armor_preserves_prior_mutation() -> void:
@@ -286,23 +284,23 @@ func _test_failed_wear_spawn_is_not_exposed_as_live_npc() -> void:
 
 func _test_existing_wield_and_none_paths_remain_unchanged() -> void:
 	for fixture: Array[Variant] in [
-		[OldPineNpcs.bandit_definition(), &"regression.bandit", OldPineNpcs.SHORT_SWORD_ITEM_ID, 3],
-		[OldPineNpcs.tall_bandit_definition(), &"regression.tall", OldPineNpcs.LONG_SWORD_ITEM_ID, 6],
+		[TestContent.npc(TestContent.BANDIT_NPC_ID), &"regression.bandit", TestContent.SHORT_SWORD_ITEM_ID, 3],
+		[TestContent.npc(TestContent.TALL_BANDIT_NPC_ID), &"regression.tall", TestContent.LONG_SWORD_ITEM_ID, 6],
 	]:
 		var inventory: InventoryState = InventoryState.new()
 		var stacks: CombinedStackCollection = CombinedStackCollection.new()
-		var runtime: NpcRuntimeState = _create(fixture[0], fixture[1], inventory, stacks, OldPineNpcs.loadout_item_definitions())
+		var runtime: NpcRuntimeState = _create(fixture[0], fixture[1], inventory, stacks, GameContent.catalog().loadout_item_definitions())
 		_assert_true(runtime != null, "closed NPC factory path still succeeds")
 		_assert_eq(runtime.loadout_items().size(), 2, "closed NPC still owns two objects")
 		_assert_eq(runtime.character_state.equipment.primary_weapon().weapon_id, fixture[2], "closed NPC primary definition unchanged")
 		_assert_true(runtime.armor.occupied_slots().is_empty(), "closed NPC gains no armor")
-		var silver: ItemInstance = _item_by_definition(runtime.loadout_items(), OldPineNpcs.SILVER_ITEM_ID)
+		var silver: ItemInstance = _item_by_definition(runtime.loadout_items(), TestContent.SILVER_ITEM_ID)
 		_assert_eq(stacks.stack_state(silver.item_instance_id).amount, fixture[3], "closed NPC silver amount unchanged")
 
 
 func _test_independent_npcs_do_not_share_armor_state() -> void:
-	var first: NpcRuntimeState = _create(OldPineNpcs.fat_bandit_definition(), &"independent.first", InventoryState.new(), CombinedStackCollection.new(), OldPineNpcs.loadout_item_definitions())
-	var second: NpcRuntimeState = _create(OldPineNpcs.fat_bandit_definition(), &"independent.second", InventoryState.new(), CombinedStackCollection.new(), OldPineNpcs.loadout_item_definitions())
+	var first: NpcRuntimeState = _create(TestContent.npc(TestContent.FAT_BANDIT_NPC_ID), &"independent.first", InventoryState.new(), CombinedStackCollection.new(), GameContent.catalog().loadout_item_definitions())
+	var second: NpcRuntimeState = _create(TestContent.npc(TestContent.FAT_BANDIT_NPC_ID), &"independent.second", InventoryState.new(), CombinedStackCollection.new(), GameContent.catalog().loadout_item_definitions())
 	var first_leather: StringName = first.armor.item_instance_id_in_slot(&"cloth")
 	var second_leather: StringName = second.armor.item_instance_id_in_slot(&"cloth")
 	_assert_ne(first_leather, second_leather, "fat leather instances are unique")

@@ -44,7 +44,7 @@ func publish(value: OldPineWorldSessionController, wounded: bool = false) -> boo
 		return false
 	session = value
 	npc = NpcCharacterStateFactory.new().create_one(
-		OldPineNpcDefinitions.serpent_definition(), ID, &"qa.bf4.spawn", &"qa.bf4.point",
+		TestContent.npc(TestContent.SERPENT_NPC_ID), ID, &"qa.bf4.spawn", &"qa.bf4.point",
 		map.player_runtime().world_location(), session.inventory_state(),
 		session.stack_collection(), session.npc_random_source(), [],
 	)

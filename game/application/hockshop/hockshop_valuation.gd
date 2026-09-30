@@ -31,34 +31,36 @@ static func appraise(context: MoneyInventoryContext, foods: FoodCollection,
 	if not context.inventory.is_direct_child(id, context.endpoint()):
 		result.outcome = HockshopValuationResult.Outcome.NOT_DIRECTLY_HELD
 		return result
-	if SourceCurrencyDefinitions.identify(item.item_definition_id) != CurrencyDenomination.Value.UNSUPPORTED:
+	var catalog: ContentCatalog = GameContent.catalog()
+	if catalog.denomination_of(item.item_definition_id) != CurrencyDenomination.Value.UNSUPPORTED:
 		result.outcome = HockshopValuationResult.Outcome.MONEY_REJECTED
 		return result
 	result.outcome = HockshopValuationResult.Outcome.UNSUPPORTED_ITEM
 	if not context.inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, id)).is_empty():
 		return result
-	if not HockshopStaticValues.VALUES.has(item.item_definition_id) and item.item_definition_id not in [SourceDumpling.DEFINITION_ID, SourceWineskin.DEFINITION_ID]:
+	# Only authored items have a value; rule-created ones (a corpse) do not.
+	var content: ItemContentDefinition = catalog.item(item.item_definition_id)
+	if content == null:
 		return result
 	result.outcome = HockshopValuationResult.Outcome.INVALID_ITEM_STATE
-	# Bounded catalog roles, not a universal exclusivity rule for all future items.
 	if context.stacks.has_stack(id):
 		return result
 	var food: FoodState = foods.state(id)
 	var liquid: LiquidState = liquids.state(id)
-	if item.item_definition_id == SourceDumpling.DEFINITION_ID:
-		var definition: FoodDefinition = SourceDumpling.food_definition()
-		if food == null or liquid != null or not definition.accepts_live_state(food.remaining_portions, food.current_value) or context.inventory.own_weight(id) != definition.own_weight:
+	var food_definition: FoodDefinition = content.food_definition()
+	var liquid_definition: LiquidDefinition = content.liquid_definition()
+	if food_definition != null:
+		if food == null or liquid != null or not food_definition.accepts_live_state(food.remaining_portions, food.current_value) or context.inventory.own_weight(id) != food_definition.own_weight:
 			return result
 		result.source_value = food.current_value
-	elif item.item_definition_id == SourceWineskin.DEFINITION_ID:
-		var definition: LiquidDefinition = SourceWineskin.liquid_definition()
-		if liquid == null or food != null or not definition.accepts_live_state(liquid.content, liquid.remaining) or context.inventory.own_weight(id) != definition.own_weight:
+	elif liquid_definition != null:
+		if liquid == null or food != null or not liquid_definition.accepts_live_state(liquid.content, liquid.remaining) or context.inventory.own_weight(id) != liquid_definition.own_weight:
 			return result
-		result.source_value = definition.value
+		result.source_value = liquid_definition.value
 	else:
 		if food != null or liquid != null or context.inventory.own_weight(id) < 0:
 			return result
-		result.source_value = HockshopStaticValues.VALUES[item.item_definition_id]
+		result.source_value = content.value
 	if result.source_value == 0:
 		result.outcome = HockshopValuationResult.Outcome.WORTHLESS
 		return result

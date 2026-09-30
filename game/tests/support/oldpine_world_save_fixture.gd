@@ -33,7 +33,7 @@ static func from_new_game(
 			session.item_instance_index(),
 			equipment_sources,
 			armor_sources,
-			OldPineNativeItemDefinitionProjections.create(),
+			TestContent.projections(),
 		)
 	)
 	if not item_capture.succeeded:
@@ -111,7 +111,7 @@ static func with_fat_bandit_corpse(
 	var fat: Values.NpcSpawnStateSnapshot
 	var npcs: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: Values.NpcSpawnStateSnapshot in base.npc_spawn_states:
-		if npc.npc_definition_id == OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID:
+		if npc.npc_definition_id == TestContent.FAT_BANDIT_NPC_ID:
 			fat = Values.NpcSpawnStateSnapshot.new(
 				npc.spawn_id, npc.spawn_point_id, npc.npc_definition_id,
 				npc.character_id, false, &"dead", false, npc.character,
@@ -130,11 +130,11 @@ static func with_fat_bandit_corpse(
 	for item_id: StringName in fat.live_loadout_item_ids:
 		var definition_id: StringName = _definition_id(base.items, item_id)
 		match definition_id:
-			OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID:
+			TestContent.SHORT_SWORD_ITEM_ID:
 				fat_short_sword = item_id
-			OldPineNpcDefinitions.LEATHER_ITEM_ID:
+			TestContent.LEATHER_ITEM_ID:
 				fat_leather = item_id
-			OldPineNpcDefinitions.SILVER_ITEM_ID:
+			TestContent.SILVER_ITEM_ID:
 				fat_silver = item_id
 	var records: Array[NativeItemRecord] = []
 	for record: NativeItemRecord in base.items.item_records:
@@ -185,7 +185,7 @@ static func with_fat_bandit_corpse(
 	var corpse: Values.CorpseSnapshot = Values.CorpseSnapshot.new(
 		corpse_id,
 		fat.character_id,
-		OldPineNpcDefinitions.fat_bandit_definition().display_name,
+		TestContent.npc(TestContent.FAT_BANDIT_NPC_ID).display_name,
 		fat.character.gender,
 		fat.age,
 		CorpseState.Stage.FRESH,

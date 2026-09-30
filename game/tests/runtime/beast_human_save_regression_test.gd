@@ -29,8 +29,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_eq(snapshot.npc_spawn_states.size(), 10, "ten production NPCs unchanged")
 	_eq(snapshot.items.item_records.size(), 12, "twelve bootstrap items unchanged")
 	for saved: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
-		_eq(OldPineNpcDefinitions.npc_by_id(saved.npc_definition_id) != null, true, "every production definition is authored")
-		var body: NpcBodyFacts = NpcBodyFacts.derive(OldPineNpcDefinitions.npc_by_id(saved.npc_definition_id), saved.character.attributes.strength)
+		_eq(TestContent.npc(saved.npc_definition_id) != null, true, "every production definition is authored")
+		var body: NpcBodyFacts = NpcBodyFacts.derive(TestContent.npc(saved.npc_definition_id), saved.character.attributes.strength)
 		_eq(body.matches_saved(saved.body_weight, saved.maximum_encumbrance), true, "human snapshot facts remain unchanged")
 		for capacity_error: bool in [false, true]:
 			var records: Array[Values.NpcSpawnStateSnapshot] = snapshot.npc_spawn_states

@@ -11,6 +11,9 @@ static func work(
 	var result: SnowWorkResult = SnowWorkResult.new()
 	if character == null or character_id.is_empty() or armor == null or inventory == null or stacks == null or index == null or allocator == null or not allocator.is_valid():
 		return result
+	var silver: ItemContentDefinition = GameContent.catalog().currency_item(CurrencyDenomination.Value.SILVER)
+	if silver == null:
+		return result
 	# LPC has one combined failure response, not separate gin/sen outcomes.
 	if character.essence.current < 30 or character.spirit.current < 30:
 		result.outcome = SnowWorkResult.Outcome.TOO_TIRED
@@ -24,11 +27,11 @@ static func work(
 		result.outcome = SnowWorkResult.Outcome.ALLOCATION_FAILED
 		return result
 	result.reward_id = result.allocation.item_instance_id
-	var item: ItemInstance = ItemInstance.new(result.reward_id, SourceSilver.DEFINITION_ID)
+	var item: ItemInstance = ItemInstance.new(result.reward_id, silver.item_definition_id)
 	result.outcome = SnowWorkResult.Outcome.AUTHORITY_FAILURE
 	if not inventory.register_item(item, 0) or not index.register_snapshot(item):
 		return result
-	if not CombinedStackService.register_stack(stacks, inventory, item, SourceSilver.stack_definition(), 1).accepted:
+	if not CombinedStackService.register_stack(stacks, inventory, item, silver.stack_definition(), 1).accepted:
 		return result
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id), true, true, maximum_encumbrance)

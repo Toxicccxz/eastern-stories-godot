@@ -16,16 +16,16 @@ func run_all() -> Dictionary[String, Variant]:
 
 
 func _test_body_policy() -> void:
-	for definition: NpcDefinition in [OldPineNpcDefinitions.bandit_definition(), OldPineNpcDefinitions.tall_bandit_definition(), OldPineNpcDefinitions.fat_bandit_definition()]:
+	for definition: NpcDefinition in [TestContent.npc(TestContent.BANDIT_NPC_ID), TestContent.npc(TestContent.TALL_BANDIT_NPC_ID), TestContent.npc(TestContent.FAT_BANDIT_NPC_ID)]:
 		var body: NpcBodyFacts = NpcBodyFacts.derive(definition, 40)
 		_eq([body.body_weight, body.maximum_encumbrance], [100000, 200000], "human 40000+(40-10)*2000; common capacity")
 		_eq(body.matches_saved(100000, 200000), true, "human expected accepted")
 		_eq(body.matches_saved(62000, 200000), false, "human Beast-weight rejected")
-	var beast: NpcBodyFacts = NpcBodyFacts.derive(OldPineNpcDefinitions.serpent_definition(), 40)
+	var beast: NpcBodyFacts = NpcBodyFacts.derive(TestContent.npc(TestContent.SERPENT_NPC_ID), 40)
 	_eq([beast.body_weight, beast.maximum_encumbrance], [62000, 200000], "Beast 2000+(40-10)*2000; common capacity")
 	_eq(beast.matches_saved(100000, 200000), false, "Beast human-weight rejected")
 	_eq(beast.matches_saved(62000, 199999), false, "wrong capacity rejected")
-	var changed: NpcBodyFacts = NpcBodyFacts.derive(OldPineNpcDefinitions.serpent_definition(), 41)
+	var changed: NpcBodyFacts = NpcBodyFacts.derive(TestContent.npc(TestContent.SERPENT_NPC_ID), 41)
 	_eq([changed.body_weight, changed.maximum_encumbrance], [64000, 205000], "derive from saved strength, not authored strength40")
 	for race: StringName in [&"", &"monster", &"unknown"]:
 		var definition: NpcDefinition = NpcDefinition.new(&"test.race", "test.c", "test", [&"test"], race)
@@ -106,7 +106,7 @@ func _test_fresh_graph_round_trip(dead: bool) -> void:
 	_eq(f.restored_random.calls, 3, "only the subsequent NEW NPC consumes three draws")
 	_eq(f.restored_random.capture_random_state().state, f.npc_random.capture_random_state().state, "continuation remains identical")
 	# A lower DTO capability is deliberately not a production Old Pine save slot.
-	_eq(OldPineSpawnDefinitions.all_spawns().size(), 4, "current production spawn catalog")
+	_eq(GameContent.catalog().spawns().size(), 4, "current production spawn catalog")
 
 
 func _test_unconscious_and_malformed_body() -> void:
@@ -132,4 +132,4 @@ func _eq(actual: Variant, expected: Variant, label: String) -> void:
 
 
 func _next_fresh(rng: NpcInitializationRandomSource) -> NpcRuntimeState:
-	return NpcCharacterStateFactory.new().create_one(OldPineNpcDefinitions.serpent_definition(), &"test.next", &"test.next.spawn", &"test.next.point", WorldLocationState.new(&"test.region", &"test.map", &"test.zone", &"test.location"), InventoryState.new(), CombinedStackCollection.new(), rng, [])
+	return NpcCharacterStateFactory.new().create_one(TestContent.npc(TestContent.SERPENT_NPC_ID), &"test.next", &"test.next.spawn", &"test.next.point", WorldLocationState.new(&"test.region", &"test.map", &"test.zone", &"test.location"), InventoryState.new(), CombinedStackCollection.new(), rng, [])

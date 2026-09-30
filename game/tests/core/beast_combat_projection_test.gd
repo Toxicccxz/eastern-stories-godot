@@ -37,7 +37,7 @@ func _test_live_state_and_bidirectional_projection() -> void:
 
 func _test_real_armor_and_weapon_composition() -> void:
 	var f: Fixture = Fixture.new()
-	var leather: NpcLoadoutItemDefinition = OldPineNpcDefinitions.leather_content()
+	var leather: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.LEATHER_ITEM_ID)
 	var item: ItemInstance = ItemInstance.new(&"test.leather", leather.item_definition().item_definition_id)
 	var owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, f.serpent.character_id)
 	_eq(f.inventory.register_item(item, leather.own_weight), true, "register actual leather")
@@ -56,7 +56,7 @@ func _test_real_armor_and_weapon_composition() -> void:
 	_assert_projection(f, 63, 20, 97, 84, "add intrinsic and armor contributions once")
 	_eq(f.project(f.serpent, f.human).attacker.effective_attack_skill_level, 2, "armor unarmed is separate from attack usage60+3")
 	_eq(f.reverse(f.serpent, f.human).modifier_projection().attacker_attack_skill_modifier, 2, "reverse armor unarmed contribution")
-	var sword: NpcLoadoutItemDefinition = OldPineNpcDefinitions.long_sword_content()
+	var sword: NpcLoadoutItemDefinition = TestContent.loadout(TestContent.LONG_SWORD_ITEM_ID)
 	var weapon_item: ItemInstance = ItemInstance.new(&"test.sword", sword.item_definition().item_definition_id)
 	f.inventory.register_item(weapon_item, sword.own_weight)
 	InventoryTransferService.new().transfer(f.inventory, weapon_item.item_instance_id, InventoryTransferDestination.new(owner, true, true, 200000))

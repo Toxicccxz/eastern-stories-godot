@@ -2,13 +2,12 @@ class_name FoodItemLifecycle
 extends RefCounted
 
 
-static func remove(context: MoneyInventoryContext, foods: FoodCollection, id: StringName,
-	parentless_only: bool = false) -> FoodItemRemovalResult:
+static func remove(context: MoneyInventoryContext, foods: FoodCollection, id: StringName) -> FoodItemRemovalResult:
 	var result: FoodItemRemovalResult = FoodItemRemovalResult.new()
-	if context == null or not context.is_valid() or foods == null or (parentless_only and context.inventory.direct_parent(id) != null):
+	if context == null or not context.is_valid() or foods == null:
 		return result
 	result.removal = ItemLifecycleService.destroy_item(context.inventory, context.stacks, id,
-		ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF, null if parentless_only else context.owner)
+		ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF, context.owner)
 	if not result.removal.succeeded:
 		return result
 	result.food_forgotten = foods.forget_removed(result.removal.removed_instance_ids, context.inventory)

@@ -18,7 +18,7 @@ func _run() -> void:
 	if args[0] == "write":
 		var session: OldPineWorldSessionController = Recovery.create_session(self, Recovery.RandomSequence.new())
 		check(Food.earn_and_exchange(session), "real Work + Bank")
-		var product: WineskinPurchaseResult = Water.purchase(session)
+		var product: VendorPurchaseResult = Water.purchase(session)
 		check(product.delivered, "paid wineskin")
 		if args[1] != "wine": check(Water.fill(session, product.item_id).succeeded(), "typed Fill")
 		if args[1] == "partial":

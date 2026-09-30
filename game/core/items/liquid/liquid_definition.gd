@@ -2,6 +2,9 @@ class_name LiquidDefinition
 extends RefCounted
 
 ## Definition facts, not state or a generic LPC effect map.
+## feature/liquid.c do_drink(): add("water", 30) for every liquid container.
+const DRINK_HYDRATION: int = 30
+
 var item_definition_id: StringName
 var maximum_portions: int
 var hydration: int

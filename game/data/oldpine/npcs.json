@@ -1,0 +1,77 @@
+{
+	"npcs": [
+		{
+			"id": "oldpine.npc.bandit",
+			"legacy_source": "d/oldpine/npc/bandit.c",
+			"name": "土匪探哨",
+			"aliases": ["bandit"],
+			"gender": "男性",
+			"age": 19,
+			"long": "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n",
+			"combat_exp": 600,
+			"score": 60,
+			"attitude": "aggressive",
+			"skills": { "sword": 10, "parry": 10, "dodge": 10 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 3 }
+			],
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "oldpine.npc.tall_bandit",
+			"legacy_source": "d/oldpine/npc/tall_bandit.c",
+			"name": "土匪",
+			"aliases": ["bandit"],
+			"gender": "男性",
+			"age": 27,
+			"long": "这家伙长得高高瘦瘦，脸色苍白，一付无精打采的样子。\n",
+			"combat_exp": 900,
+			"score": 100,
+			"attitude": "aggressive",
+			"skills": { "sword": 15, "parry": 15, "dodge": 10 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/long_sword", "source": "d/oldpine/npc/obj/long_sword.c", "equip": "wield" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 6 }
+			],
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "oldpine.npc.fat_bandit",
+			"legacy_source": "d/oldpine/npc/fat_bandit.c",
+			"name": "土匪",
+			"aliases": ["bandit"],
+			"gender": "男性",
+			"age": 36,
+			"long": "这家伙又矮又胖，圆滚滚的眼珠子在满脸肥肉中骨碌碌地转来转去。\n",
+			"combat_exp": 500,
+			"score": 80,
+			"attitude": "aggressive",
+			"skills": { "sword": 20, "parry": 10, "dodge": 10 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/obj/leather", "source": "d/oldpine/npc/obj/leather.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
+			],
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "oldpine.npc.serpent",
+			"legacy_source": "d/oldpine/npc/serpent.c",
+			"name": "黑冠巨蟒",
+			"aliases": ["serpent"],
+			"race": "beast",
+			"age": 400,
+			"long": "一只乌黑油亮的巨蟒，头上生著一个大肉瘤。\n",
+			"attributes": { "str": 40, "cor": 70, "spi": 20, "int": 10 },
+			"resources": { "max_gin": 900, "max_kee": 1800, "max_sen": 500 },
+			"combat_exp": 250000,
+			"score": 1000,
+			"attitude": "aggressive",
+			"limbs": ["头部", "躯干", "尾巴"],
+			"verbs": ["bite"],
+			"apply": { "attack": 60, "damage": 20, "armor": 90, "dodge": 80 },
+			"capabilities": ["aggressive_on_player_presence"]
+		}
+	]
+}

@@ -70,7 +70,7 @@ func capture(
 			session.item_instance_index(),
 			equipment_sources,
 			armor_sources,
-			OldPineNativeItemDefinitionProjections.create(session.world_content_revision()),
+			GameContent.catalog().native_item_projections(),
 			session.food_collection(),
 			session.liquid_collection(),
 		)

@@ -90,7 +90,7 @@ func _snakes(session: OldPineWorldSessionController, count: int) -> Array[NpcRun
 	var map: OldPineOutdoorController = session.outdoor_map()
 	for index: int in count:
 		var id := StringName("qa.p2a.snake.%d" % index)
-		var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(OldPineNpcDefinitions.serpent_definition(), id, &"qa.group", id, session.player_runtime().world_location(), session.inventory_state(), session.stack_collection(), session.npc_random_source(), [])
+		var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(TestContent.npc(TestContent.SERPENT_NPC_ID), id, &"qa.group", id, session.player_runtime().world_location(), session.inventory_state(), session.stack_collection(), session.npc_random_source(), [])
 		var body := WorldCharacterBody2D.new()
 		body.name = "QA_P2A_%d" % index
 		body.position = map.player_body.position + Vector2(45, index * 4)

@@ -25,7 +25,7 @@ func endpoint() -> ContainmentEndpoint:
 
 func select(denomination: CurrencyDenomination.Value) -> CurrencyStackSelection:
 	var result: CurrencyStackSelection = CurrencyStackSelection.new()
-	var content: GDScript = SourceCurrencyDefinitions.source(denomination)
+	var content: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
 	if not is_valid() or content == null:
 		result.outcome = CurrencyStackSelection.Outcome.AUTHORITY_FAILURE
 		return result
@@ -35,12 +35,12 @@ func select(denomination: CurrencyDenomination.Value) -> CurrencyStackSelection:
 		if item == null:
 			result.outcome = CurrencyStackSelection.Outcome.AUTHORITY_FAILURE
 			return result
-		if item.item_definition_id != content.DEFINITION_ID:
+		if item.item_definition_id != content.item_definition_id:
 			continue
 		result.item_id = id
 		var state: CombinedStackState = stacks.stack_state(id)
 		var definition: CombinedStackDefinition = stacks.stack_definition(id)
-		if state == null or state.amount < 0 or definition == null or definition.item_definition_id != item.item_definition_id or definition.base_weight != content.BASE_WEIGHT or definition.stack_compatibility_id != content.stack_definition().stack_compatibility_id:
+		if state == null or state.amount < 0 or definition == null or definition.item_definition_id != item.item_definition_id or definition.base_weight != content.stack_base_weight or definition.stack_compatibility_id != content.stack_definition().stack_compatibility_id:
 			result.outcome = CurrencyStackSelection.Outcome.AUTHORITY_FAILURE
 			return result
 		result.outcome = CurrencyStackSelection.Outcome.FOUND

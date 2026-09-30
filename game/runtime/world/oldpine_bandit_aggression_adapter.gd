@@ -96,7 +96,7 @@ func _evaluate(
 			npc_id,
 		)
 	if not npc.definition().has_capability(
-		OldPineNpcDefinitions.AGGRESSIVE_ON_PLAYER_PRESENCE
+		NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE
 	):
 		return OldPineAggressionDecision.new(
 			OldPineAggressionDecision.Outcome.NOT_AUTHORED,

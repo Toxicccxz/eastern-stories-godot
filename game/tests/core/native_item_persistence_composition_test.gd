@@ -27,15 +27,15 @@ func run_all() -> Dictionary[String, Variant]:
 
 func _test_production_definition_projections() -> void:
 	var definitions: NativeItemDefinitionProjections = (
-		OldPineNativeItemDefinitionProjections.create()
+		TestContent.projections()
 	)
 	_assert_true(definitions.is_valid, "Old Pine production item projections validate")
 	for definition_id: StringName in [
-		OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID,
-		OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID,
-		OldPineItemContentDefinitions.SILVER_ITEM_ID,
-		OldPineItemContentDefinitions.LEATHER_ITEM_ID,
-		OldPineNativeItemDefinitionProjections.CORPSE_DEFINITION_ID,
+		TestContent.LONG_SWORD_ITEM_ID,
+		TestContent.SHORT_SWORD_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
+		TestContent.LEATHER_ITEM_ID,
+		CorpseState.ITEM_DEFINITION_ID,
 	]:
 		_assert_true(
 			definitions.has_item_definition(definition_id),
@@ -43,19 +43,19 @@ func _test_production_definition_projections() -> void:
 		)
 	_assert_true(
 		definitions.weapon_definition(
-			OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID
+			TestContent.LONG_SWORD_ITEM_ID
 		) != null,
 		"long sword weapon projection is available",
 	)
 	_assert_true(
 		definitions.armor_definition(
-			OldPineItemContentDefinitions.LEATHER_ITEM_ID
+			TestContent.LEATHER_ITEM_ID
 		) != null,
 		"leather armor projection is available",
 	)
 	_assert_true(
 		definitions.stack_definition(
-			OldPineItemContentDefinitions.SILVER_ITEM_ID
+			TestContent.SILVER_ITEM_ID
 		) != null,
 		"silver stack projection is available",
 	)
@@ -63,26 +63,26 @@ func _test_production_definition_projections() -> void:
 
 func _test_graph_capture_restore_and_continuation() -> void:
 	var definitions: NativeItemDefinitionProjections = (
-		OldPineNativeItemDefinitionProjections.create()
+		TestContent.projections()
 	)
 	var inventory_a: InventoryState = InventoryState.new()
 	var stacks_a: CombinedStackCollection = CombinedStackCollection.new()
 	var index_a: WorldItemInstanceIndex = WorldItemInstanceIndex.new()
 	var sword_a: ItemInstance = ItemInstance.new(
 		&"test-session.player-long-sword",
-		OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID,
+		TestContent.LONG_SWORD_ITEM_ID,
 	)
 	var leather_a: ItemInstance = ItemInstance.new(
 		&"test-session.player-leather",
-		OldPineItemContentDefinitions.LEATHER_ITEM_ID,
+		TestContent.LEATHER_ITEM_ID,
 	)
 	var corpse_a: ItemInstance = ItemInstance.new(
 		&"test-session.dynamic.2",
-		OldPineNativeItemDefinitionProjections.CORPSE_DEFINITION_ID,
+		CorpseState.ITEM_DEFINITION_ID,
 	)
 	var silver_a: ItemInstance = ItemInstance.new(
 		&"test-session.authored-silver",
-		OldPineItemContentDefinitions.SILVER_ITEM_ID,
+		TestContent.SILVER_ITEM_ID,
 	)
 	var items_a: Array[ItemInstance] = [sword_a, leather_a, corpse_a, silver_a]
 	var weights: Array[int] = [7_000, 6_000, 456, 111]
@@ -219,7 +219,7 @@ func _test_graph_capture_restore_and_continuation() -> void:
 			domain_b.inventory.register_item(
 				ItemInstance.new(
 					allocated.item_instance_id,
-					OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID,
+					TestContent.LONG_SWORD_ITEM_ID,
 				),
 				7_000,
 			),
@@ -351,7 +351,7 @@ func _test_allocator_allocation_boundaries() -> void:
 		inventory.register_item(
 			ItemInstance.new(
 				&"test-session.dynamic.0",
-				OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID,
+				TestContent.LONG_SWORD_ITEM_ID,
 			),
 			7_000,
 		),
@@ -396,8 +396,8 @@ func _test_scope_generation() -> void:
 
 func _test_duplicate_registration_does_not_overwrite() -> void:
 	var inventory: InventoryState = InventoryState.new()
-	var original: ItemInstance = ItemInstance.new(&"duplicate-id", OldPineItemContentDefinitions.LONG_SWORD_ITEM_ID)
-	var replacement: ItemInstance = ItemInstance.new(&"duplicate-id", OldPineItemContentDefinitions.SHORT_SWORD_ITEM_ID)
+	var original: ItemInstance = ItemInstance.new(&"duplicate-id", TestContent.LONG_SWORD_ITEM_ID)
+	var replacement: ItemInstance = ItemInstance.new(&"duplicate-id", TestContent.SHORT_SWORD_ITEM_ID)
 	_assert_true(inventory.register_item(original, 7_000), "Inventory accepts first semantic ID")
 	_assert_false(inventory.register_item(replacement, 1), "Inventory rejects duplicate semantic ID")
 	_assert_eq(inventory.own_weight(original.item_instance_id), 7_000, "Inventory duplicate cannot overwrite existing facts")

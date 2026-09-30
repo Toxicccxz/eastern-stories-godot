@@ -3,6 +3,9 @@ extends RefCounted
 
 ## One-shot fresh-player composition for the public SOURCE_ENTRY Session.
 ## Not used by the internal technical fixture or any restore path.
+## adm/daemons/logind.c gives every new character /obj/cloth and wears it.
+const STARTING_CLOTH_ITEM_ID: StringName = &"es2:obj/cloth"
+
 var _player: NewPlayerInitialization
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
@@ -30,14 +33,16 @@ func initialize(
 	var fresh: NewPlayerInitialization = NewPlayerInitializationPolicy.create(selected_gender, display_name)
 	if fresh == null:
 		return false
+	var cloth_content: ItemContentDefinition = GameContent.catalog().item(STARTING_CLOTH_ITEM_ID)
+	if cloth_content == null or cloth_content.armor_definition() == null:
+		return false
 	var inventory_state: InventoryState = InventoryState.new()
 	var allocation: SessionItemIdAllocationResult = allocator.allocate(inventory_state)
 	if not allocation.succeeded:
 		return false
-	var definition: ItemDefinition = SourcePlayerCloth.item_definition()
-	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, definition.item_definition_id)
+	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, cloth_content.item_definition_id)
 	var index: WorldItemInstanceIndex = WorldItemInstanceIndex.new()
-	if not inventory_state.register_item(item, SourcePlayerCloth.OWN_WEIGHT) or not index.register_snapshot(item):
+	if not inventory_state.register_item(item, cloth_content.own_weight) or not index.register_snapshot(item):
 		return false
 	var owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
@@ -45,7 +50,7 @@ func initialize(
 	)
 	if not InventoryTransferService.new().transfer(inventory_state, item.item_instance_id, destination).succeeded:
 		return false
-	if not ArmorService.wear(fresh.armor, inventory_state, owner, item, SourcePlayerCloth.armor_definition()).succeeded:
+	if not ArmorService.wear(fresh.armor, inventory_state, owner, item, cloth_content.armor_definition()).succeeded:
 		return false
 	_player = fresh
 	_inventory = inventory_state

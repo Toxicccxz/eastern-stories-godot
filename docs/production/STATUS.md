@@ -4,9 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 1 — Workflow reset** on `phase/workflow-reset` (from green main `d627daa`, PR #25).
-Slim rules/docs, one-page STATUS, single-suite test runner. Next: **Package 2 — data-driven
-content** (see [ROADMAP](ROADMAP.md)).
+**Package 2 — Data-driven content** on `phase/data-driven-content` (from green main `ca5a901`).
+Items, NPCs, spawns and vendor goods load from JSON under `game/data/` through one loader into the
+existing typed definitions ([format](../migration/CONTENT_DATA_FORMAT.md)); the per-item classes,
+per-offer purchase services and ID `match` chains are gone. No new content. Next: **Package 3 —
+generic map runtime** (see [ROADMAP](ROADMAP.md)).
 
 ## Playable now
 
@@ -38,7 +40,11 @@ Code:
   caller.
 * `oldpine_world_definitions.gd` references `oldpine_keep.tscn`, which does not exist.
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.
-* Content is hard-coded in GDScript; runtime has many `oldpine_*` / `snow_*` specific classes.
+* Maps, zones, portals, landmarks, skills and the teacher are still hard-coded GDScript; runtime
+  has many `oldpine_*` / `snow_*` specific classes. The Old Pine scene pre-places NPC bodies, tied
+  to spawn data only by order.
+* The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
+  copy of the long sword's facts.
 * Player text is not localized (`tr()` unused), mixes English/Chinese and shows legacy room IDs.
 * On the smallest supported viewport (480×320) the exploration HUD overflows the safe area when all
   five context buttons are shown (panel 342 px tall vs 288 px content). Whether they are shown when

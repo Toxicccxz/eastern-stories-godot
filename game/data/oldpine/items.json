@@ -1,0 +1,39 @@
+{
+	"items": [
+		{
+			"id": "es2:d/oldpine/obj/long_sword",
+			"legacy_sources": ["d/oldpine/obj/long_sword.c", "d/oldpine/npc/obj/long_sword.c"],
+			"name": "长剑",
+			"aliases": ["long sword", "sword"],
+			"long": "一把粗制滥造的长剑，把手部份用布缠绕了好几圈以防止武器脱手。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 7000,
+			"value": 700,
+			"weapon": { "skill": "sword", "damage": 25 }
+		},
+		{
+			"id": "es2:d/oldpine/obj/short_sword",
+			"legacy_sources": ["d/oldpine/obj/short_sword.c", "d/oldpine/npc/obj/short_sword.c"],
+			"name": "短剑",
+			"aliases": ["short sword", "sword"],
+			"long": "一把粗制滥造的短剑，把手部份用布缠绕了好几圈以防止武器脱手。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 3000,
+			"value": 300,
+			"weapon": { "skill": "sword", "damage": 15, "flags": ["secondary"] }
+		},
+		{
+			"id": "es2:d/oldpine/obj/leather",
+			"legacy_sources": ["d/oldpine/obj/leather.c", "d/oldpine/npc/obj/leather.c"],
+			"name": "皮衣",
+			"aliases": ["leather"],
+			"unit": "件",
+			"material": "leather",
+			"weight": 6000,
+			"value": 200,
+			"armor": { "type": "cloth", "props": { "armor": 5 } }
+		}
+	]
+}

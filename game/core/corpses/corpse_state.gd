@@ -4,6 +4,10 @@ extends RefCounted
 const EndpointType := preload("res://core/inventory/containment_endpoint.gd")
 const InventoryStateType := preload("res://core/inventory/inventory_state.gd")
 
+## obj/corpse.c is created by the death rules, not authored as item data.
+const ITEM_DEFINITION_ID: StringName = &"es2:obj/corpse"
+const LEGACY_SOURCE_PATH: String = "obj/corpse.c"
+
 enum Stage {
 	FRESH,
 	ROTTEN,

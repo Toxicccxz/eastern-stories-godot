@@ -1,8 +1,8 @@
 class_name CombatSliceDeathAdapter
 extends RefCounted
 
-const CORPSE_DEFINITION_ID: StringName = &"es2:obj/corpse"
-const CORPSE_LEGACY_SOURCE: String = "obj/corpse.c"
+const CORPSE_DEFINITION_ID: StringName = CorpseState.ITEM_DEFINITION_ID
+const CORPSE_LEGACY_SOURCE: String = CorpseState.LEGACY_SOURCE_PATH
 const BODY_OWN_WEIGHT: int = 60000
 const MAXIMUM_ENCUMBRANCE: int = 100000
 

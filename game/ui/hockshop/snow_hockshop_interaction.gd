@@ -182,10 +182,8 @@ func item_label(id: StringName) -> String:
 	var item: ItemInstance = _session.item_instance_index().resolve(id)
 	if item == null:
 		return String(id)
-	var content: OldPineItemContentDefinition = OldPineItemContentDefinitions.content_by_id(item.item_definition_id)
+	var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
 	var display_name: String = String(item.item_definition_id) if content == null else content.display_name
-	var names: Dictionary[StringName, String] = {SourcePlayerCloth.DEFINITION_ID:SourcePlayerCloth.DISPLAY_NAME, SourceDumpling.DEFINITION_ID:SourceDumpling.DISPLAY_NAME, SourceWineskin.DEFINITION_ID:SourceWineskin.DISPLAY_NAME}
-	display_name = names.get(item.item_definition_id, display_name)
 	return "%s · %s\n%s" % [display_name, equipment_label(id), String(id)]
 
 
@@ -215,10 +213,10 @@ func refresh() -> void:
 		var item: ItemInstance = current.index.resolve(id)
 		if item == null:
 			continue
-		var denomination: CurrencyDenomination.Value = SourceCurrencyDefinitions.identify(item.item_definition_id)
+		var denomination: CurrencyDenomination.Value = GameContent.catalog().denomination_of(item.item_definition_id)
 		if denomination != CurrencyDenomination.Value.UNSUPPORTED and current.stacks.has_stack(id):
-			var source: GDScript = SourceCurrencyDefinitions.source(denomination)
-			money.append("%s ×%d%s" % [source.DISPLAY_NAME, current.stacks.stack_state(id).amount, source.BASE_UNIT])
+			var source: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
+			money.append("%s ×%d%s" % [source.display_name, current.stacks.stack_state(id).amount, source.base_unit])
 		var appraisal: HockshopValuationResult = quote(id)
 		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS]:
 			ids.append(id)

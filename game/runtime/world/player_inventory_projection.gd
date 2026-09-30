@@ -30,8 +30,8 @@ func project_rows(
 		var item: ItemInstance = item_index.resolve(item_id)
 		if item == null:
 			continue
-		var content: OldPineItemContentDefinition = (
-			PlayerItemContentDefinitions.content(item.item_definition_id)
+		var content: ItemContentDefinition = (
+			GameContent.catalog().item(item.item_definition_id)
 		)
 		if content == null:
 			continue
@@ -46,11 +46,11 @@ func project_rows(
 		elif player.armor.is_worn(item_id):
 			slot = PlayerInventoryRowProjection.EquipmentSlot.WORN
 		var is_weapon: bool = (
-			content.category == OldPineItemContentDefinitions.CATEGORY_WEAPON
+			content.category == ItemContentDefinition.CATEGORY_WEAPON
 		)
 		var armor_definition: ArmorDefinition = content.armor_definition()
 		var is_armor: bool = (
-			content.category == OldPineItemContentDefinitions.CATEGORY_ARMOR
+			content.category == ItemContentDefinition.CATEGORY_ARMOR
 			and armor_definition != null
 		)
 		rows.append(

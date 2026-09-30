@@ -41,7 +41,7 @@ func _run() -> void:
 					# QA-only load fixture. Uses persisted body authority, no production cap change.
 					var cloth: StringName = context.inventory.direct_children(context.endpoint())[0]
 					for id: StringName in context.inventory.direct_children(context.endpoint()):
-						if context.index.resolve(id).item_definition_id == SourcePlayerCloth.DEFINITION_ID: cloth = id
+						if context.index.resolve(id).item_definition_id == TestContent.CLOTH_ITEM_ID: cloth = id
 					context.inventory.update_own_weight(cloth, 150000 - 74 - 50 - (37 if args[1] == "overcap" else 0))
 				var converted: BankConversionResult = BankConversionService.convert(context, session.item_id_allocator(), 150000, Test.GOLD, Test.SILVER, 1)
 				if args[1] == "failed":

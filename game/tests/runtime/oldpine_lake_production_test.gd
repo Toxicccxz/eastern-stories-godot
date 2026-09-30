@@ -22,7 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	for npc: NpcRuntimeState in map.npc_runtimes().slice(5):
 		_check(not ids.has(npc.character_id), "distinct production serpent identity")
 		ids.append(npc.character_id)
-		_check(npc.definition().definition_id == OldPineNpcDefinitions.SERPENT_DEFINITION_ID, "source Beast definition")
+		_check(npc.definition().definition_id == TestContent.SERPENT_NPC_ID, "source Beast definition")
 		_check(map.runtime_body_for_character(npc.character_id)._npc == npc, "exact authored physical binding")
 		_check(npc.body_weight == 62000, "source Beast body preserved")
 		_check(npc.loadout_items().is_empty(), "no invented serpent loot")
@@ -79,7 +79,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var ctx: MoneyInventoryContext = Water.Food.context(session)
 	Water.Finance.add_money(ctx, Water.Food.SILVER, 1, &"lake-silver")
 	Water.Finance.add_money(ctx, Water.Food.COIN, 100, &"lake-test")
-	var bought: WineskinPurchaseResult = Water.purchase(session)
+	var bought: VendorPurchaseResult = Water.purchase(session)
 	_check(bought.delivered, "source wineskin purchase fixture")
 	if bought.delivered:
 		await tree.process_frame

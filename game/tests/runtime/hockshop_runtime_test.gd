@@ -124,7 +124,7 @@ func panel_tests(tree: SceneTree) -> void:
 		await tree.process_frame
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 	var ui: SnowHockshopInteraction = await panel_fixture(tree, session)
-	for row: Array in [[H2.SHORT,&"h3.a",300,240],[H2.SHORT,&"h3.b",300,240],[H2.LONG,&"h3.long",700,560],[H2.LEATHER,&"h3.leather",200,160],[SourceDumpling.DEFINITION_ID,&"h3.food",15,12],[SourceWineskin.DEFINITION_ID,&"h3.liquid",20,16]]:
+	for row: Array in [[H2.SHORT,&"h3.a",300,240],[H2.SHORT,&"h3.b",300,240],[H2.LONG,&"h3.long",700,560],[H2.LEATHER,&"h3.leather",200,160],[TestContent.DUMPLING_ITEM_ID,&"h3.food",15,12],[TestContent.WINESKIN_ITEM_ID,&"h3.liquid",20,16]]:
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), row[0], row[1])
 	ui.interact()
 	check(ui.visible_ids().has(&"h3.a") and ui.visible_ids().has(&"h3.b") and ui.item_label(&"h3.a") != ui.item_label(&"h3.b"), "duplicate exact-ID disambiguation")
@@ -169,7 +169,7 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 	var ui: SnowHockshopInteraction = await panel_fixture(tree, session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var definitions: NativeItemDefinitionProjections = OldPineNativeItemDefinitionProjections.create(WorldContentRevision.CURRENT_PUBLIC)
+	var definitions: NativeItemDefinitionProjections = TestContent.projections()
 	for id: StringName in [&"h3.weapon1", &"h3.weapon2"]:
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), H2.SHORT, id)
 		check(player.state.equipment.wield(EquippedWeaponRef.new(id, definitions.weapon_definition(H2.SHORT)), false).succeeded, "wield real typed fixture")
@@ -191,11 +191,11 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	check(ui.last_sell.payout.delivered_value == 160 and player.armor.aggregate_numeric_modifiers().armor == 0 and player.armor.aggregate_numeric_modifiers().dodge == 0, "worn leather exact removal")
 	check(not ui.visible_ids().has(&"h3.leather"), "worn row removed")
 	for id: StringName in ui.visible_ids():
-		check(SourceCurrencyDefinitions.identify(session.item_instance_index().resolve(id).item_definition_id) == CurrencyDenomination.Value.UNSUPPORTED, "money omitted from goods")
+		check(GameContent.catalog().denomination_of(session.item_instance_index().resolve(id).item_definition_id) == CurrencyDenomination.Value.UNSUPPORTED, "money omitted from goods")
 	check(ui.holdings.text.contains("银") and ui.holdings.text.contains("钱"), "physical silver and coin projected")
 	var cloth: StringName = &""
 	for id: StringName in ui.visible_ids():
-		if session.item_instance_index().resolve(id).item_definition_id == SourcePlayerCloth.DEFINITION_ID: cloth = id
+		if session.item_instance_index().resolve(id).item_definition_id == TestContent.CLOTH_ITEM_ID: cloth = id
 	ui.select_item(cloth); ui.request_value()
 	check(ui.last_valuation.outcome == O.WORTHLESS and ui.sell_button.disabled, "birth cloth visible worthless")
 	# A real existing lifecycle failure seam: do not alter H2 or bypass its body.

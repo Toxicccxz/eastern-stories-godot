@@ -201,7 +201,7 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 	var result: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead NPC/corpse snapshot restores")
 	var candidate: OldPineWorldSessionController = result.candidate
-	var fat_snapshot: Values.NpcSpawnStateSnapshot = _npc_by_definition(snapshot, OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID)
+	var fat_snapshot: Values.NpcSpawnStateSnapshot = _npc_by_definition(snapshot, TestContent.FAT_BANDIT_NPC_ID)
 	var fat: NpcRuntimeState = candidate.outdoor_map().find_resident_npc(fat_snapshot.character_id)
 	_assert_true(fat != null, "dead authored slot remains a ledger tombstone")
 	_assert_eq(fat.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "dead lifecycle restores independently")
@@ -221,8 +221,8 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 	var corpse_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
 	var direct: Array[StringName] = candidate.inventory_state().direct_children(corpse_endpoint)
 	_assert_eq(direct.size(), 2, "corpse direct contents restore separately from nested contents")
-	var short_sword_id: StringName = _loadout_id_for_definition(snapshot, fat_snapshot, OldPineNpcDefinitions.SHORT_SWORD_ITEM_ID)
-	var silver_id: StringName = _loadout_id_for_definition(snapshot, fat_snapshot, OldPineNpcDefinitions.SILVER_ITEM_ID)
+	var short_sword_id: StringName = _loadout_id_for_definition(snapshot, fat_snapshot, TestContent.SHORT_SWORD_ITEM_ID)
+	var silver_id: StringName = _loadout_id_for_definition(snapshot, fat_snapshot, TestContent.SILVER_ITEM_ID)
 	_assert_true(candidate.inventory_state().is_direct_child(silver_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, short_sword_id)), "nested corpse content parent survives")
 	_assert_true(fat.character_state.equipment == result.preparation.item_domain.equipment_state(fat.character_id), "dead runtime receives exact restored empty EquipmentState")
 	_assert_true(fat.armor == result.preparation.item_domain.armor_state(fat.character_id), "dead runtime receives exact restored empty ArmorState")
@@ -301,7 +301,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	var corpse_base: GameSaveSnapshot = OldPineWorldSaveFixture.with_fat_bandit_corpse(base)
 	_free_node(source)
 	await tree.process_frame
-	var original: Values.NpcSpawnStateSnapshot = _npc_by_definition(base, OldPineNpcDefinitions.BANDIT_DEFINITION_ID)
+	var original: Values.NpcSpawnStateSnapshot = _npc_by_definition(base, TestContent.BANDIT_NPC_ID)
 	var original_index: int = -1
 	for index: int in base.npc_spawn_states.size():
 		if base.npc_spawn_states[index].character_id == original.character_id:
@@ -384,7 +384,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 
 	var dead_fat: Values.NpcSpawnStateSnapshot = _npc_by_definition(
 		corpse_base,
-		OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID,
+		TestContent.FAT_BANDIT_NPC_ID,
 	)
 	var surviving_subset: Array[StringName] = [dead_fat.live_loadout_item_ids[0]]
 	var partial_dead: Values.NpcSpawnStateSnapshot = Values.NpcSpawnStateSnapshot.new(
@@ -889,7 +889,7 @@ func _dead_fat_tombstone_without_items(
 ) -> GameSaveSnapshot:
 	var fat: Values.NpcSpawnStateSnapshot = _npc_by_definition(
 		base,
-		OldPineNpcDefinitions.FAT_BANDIT_DEFINITION_ID,
+		TestContent.FAT_BANDIT_NPC_ID,
 	)
 	var removed_ids: Dictionary[StringName, bool] = {}
 	for item_id: StringName in fat.live_loadout_item_ids:

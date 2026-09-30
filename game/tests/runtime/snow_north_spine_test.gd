@@ -82,8 +82,8 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.advance_player_recovery(1.0).pulses == 1 and session.player_recovery_cadence().source_tick == 3 and random.calls == 1, "next exact pulse continues old phase")
 	# Independent typed consumable setup, not a claim of player-visible purchasing.
 	check(Food.earn_and_exchange(session), "existing Work/Bank setup")
-	var dumpling: DumplingPurchaseResult = Food.purchase(session)
-	var wineskin: WineskinPurchaseResult = Water.purchase(session)
+	var dumpling: VendorPurchaseResult = Food.purchase(session)
+	var wineskin: VendorPurchaseResult = Water.purchase(session)
 	check(dumpling.delivered and wineskin.delivered, "existing paid held consumables")
 	check(Water.fill(session, wineskin.item_id).succeeded(), "typed test setup clear water before use")
 	for row: Array in [[&"snow.mstreet4", -1300.0], [&"snow.mstreet3", -1000.0], [&"snow.mstreet2", -700.0], [&"snow.mstreet1", -400.0], [&"snow.square", 0.0]]:

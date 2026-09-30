@@ -9,6 +9,10 @@ const SkillLevelType := preload("res://core/npcs/npc_skill_level_definition.gd")
 const LoadoutEntryType := preload("res://core/npcs/npc_loadout_entry.gd")
 const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_facts.gd")
 
+## The NPC starts a fight when the player comes into contact (LPC attitude
+## "aggressive" acted on in init()).
+const CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = &"aggressive_on_player_presence"
+
 enum Attitude {
 	PEACEFUL,
 	AGGRESSIVE,
