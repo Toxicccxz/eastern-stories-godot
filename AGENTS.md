@@ -2,465 +2,192 @@
 
 ## Mission
 
-Rebuild classic Eastern Stories / ES2 as a **native Godot RPG**.
+Rebuild classic Eastern Stories / ES2 as a **native 2D Godot RPG** with a modern UI.
 
-This is not a graphical shell around a MUD client. Preserve the original game's meaningful mechanics, rules, data, progression, NPCs, skills, factions, items, quests, and world content while rebuilding maps, movement, scene transitions, interaction, and presentation as a real RPG.
+This is not a graphical shell around a MUD client. Keep the original game's meaningful content and
+rules — rooms, NPCs, items, skills, families, quests, formulas, progression — and rebuild maps,
+movement, interaction and presentation as a real RPG.
+
+The measure of progress is **playable, faithful content in the game**, not documents, audits or
+tooling. Work steadily: every change leaves the game runnable, and each content package adds
+something the owner can walk to, see and use.
+
+## Roles
+
+* **Owner**: sets direction, decides ES2 content trade-offs and deviations, playtests player-visible
+  changes, merges PRs.
+* **Agent**: plans, implements, tests, self-reviews, commits, pushes branches and opens PRs.
+  The agent never merges.
 
 ## Authoritative Source
 
-* `reference/es2/` contains the original ES2 LPC mudlib and is the authoritative behavioral reference for legacy mechanics.
-* Treat legacy source as read-only unless the user explicitly asks to change it.
-* Read the relevant LPC source and inherited behavior before porting a mechanic.
-* Preserve gameplay semantics, formulas, conditions, state transitions, and meaningful content.
-* When behavior is ambiguous, prefer the original LPC implementation over assumptions.
-* Keep legacy source paths or IDs as migration metadata when useful for traceability.
-* Do **not** use external ports or reimplementations, including Flutter/Dart versions, as implementation sources unless the user explicitly asks.
+* `reference/es2/` is the original ES2 LPC mudlib and the behavioral reference. It is read-only.
+* Read the relevant LPC (including inherited/included code) before porting a mechanic or content.
+* Preserve formulas, conditions, state transitions and authored text. When behavior is ambiguous,
+  follow the LPC, not assumptions.
+* Keep legacy paths/IDs on definitions (e.g. `es2:d/oldpine/npc/bandit`) for traceability.
+* Do not use external ports or reimplementations as sources unless the owner asks.
+* `u/cloud/` contains real gameplay content linked from `d/` (a whole town); treat it as content,
+  not wizard space.
 
 ## Core Migration Rule
 
 **Translate game semantics, not the LPC runtime.**
 
-Classify legacy code before porting:
-
-1. **Data/content** → JSON or Godot Resources.
-2. **Game rules** → typed GDScript systems/domain objects.
+1. **Data/content** → data files loaded into typed definitions.
+2. **Game rules** → typed GDScript domain code.
 3. **MudOS/FluffOS infrastructure** → replace with Godot-native behavior or omit.
 
-Do not build:
+Do not build an LPC interpreter, FluffOS compatibility layer, Telnet/socket code, wizard/euid
+security, or login/server daemons. `call_out()` → timers/events; `heart_beat()` → explicit system
+ticks; `environment()` → the right location/inventory/ownership relation; LPC inheritance → understand
+the behavior, don't reproduce the tree.
 
-* an LPC interpreter;
-* a general FluffOS compatibility layer;
-* Telnet/socket infrastructure;
-* wizard/euid/security systems;
-* login/server daemons unrelated to actual game mechanics.
+Known driver semantics may be applied as one global rule instead of per-site exceptions
+(e.g. MudOS `random(n)` with `n <= 0` returns 0). Record such rules once in `DECISIONS.md`.
 
-Examples:
+## Deviations
 
-* `call_out()` → Godot timer/event behavior.
-* `heart_beat()` → explicit system ticks/events, not an emulated MUD heartbeat.
-* `environment()` → the appropriate new location, inventory, ownership, or scene relation.
-* LPC inheritance/mixins → understand the behavior; do not mechanically reproduce the old inheritance tree.
+Do not silently redesign original mechanics. A deliberate deviation (single-player adaptation,
+removing a broken LPC feature, UI-driven change) needs owner agreement and one short entry in
+`docs/migration/DECISIONS.md`: what the LPC does, what we do, why.
+
+Balance/pacing adaptations for single-player must not edit ported formulas. Put them in explicit,
+data-configured knobs whose default reproduces the original.
 
 ## Technology
 
-* Godot 4.x.
-* Modern typed GDScript.
-* Prefer Godot-native APIs.
-* Prefer composition over deep inheritance.
-* Use pure domain classes/`RefCounted` for game logic when possible.
-* Use `Resource` for authored reusable definitions when editor integration adds value.
-* Use `Node` only when scene-tree lifecycle, signals, timers, physics, rendering, or editor integration are needed.
-* Avoid broad global state. Use Autoload only for genuinely global lifecycle services.
-* Do not add third-party dependencies without a concrete need.
+* Godot 4.7.2, modern fully typed GDScript. Prefer Godot-native APIs and composition.
+* Pure domain logic in `RefCounted` classes. Use `Node` only for scene lifecycle, signals, timers,
+  physics, rendering or editor integration.
+* Autoloads only for genuinely global lifecycle services. Dev/QA helpers must be opt-in, never
+  active by default.
+* No third-party runtime dependencies without a concrete need. The Godot AI addon is dev-only and
+  stripped from releases.
+* Player-facing text goes through `tr()`; do not show legacy room IDs or debug labels to players.
 
-## Architectural Boundary
+## Architecture
 
-### Game Core owns authoritative rules/state
+**Game Core** (`game/core`) owns authoritative rules and state: character, combat, skills, inner
+power, conditions, inventory/equipment, NPC state, families, quests, economy, save data. It must not
+depend on nodes, positions, scenes, UI or presentation timing.
 
-Examples:
+**World Runtime** (`game/runtime`) owns physical embodiment: maps, movement, collision, spawns,
+zones, portals, interactables, transitions. Runtime components are **generic and data-configured**;
+do not add region-specific controllers/adapters (`oldpine_*`, `snow_*`) for mechanics that will
+recur in other regions. Timing such as combat cadence is explicit configuration, not an implicit
+node default.
 
-* player/character state and progression;
-* combat, damage, skills, martial arts;
-* inner power/cultivation;
-* conditions/status effects;
-* inventory/equipment;
-* NPC definitions and persistent state;
-* factions/families/apprenticeship;
-* quests/world flags;
-* economy/drops;
-* save-state data.
+**Presentation/UI** (`game/presentation`, `game/ui`) reacts to results. It does not own world state
+or rules, and runtime does not construct UI directly.
 
-Game Core must not depend on sprite positions, TileMap coordinates, camera state, animations, or presentation timing.
-
-### World Runtime owns physical RPG embodiment
-
-Examples:
-
-* maps/scenes;
-* continuous movement;
-* collision/navigation;
-* NPC instances/spawn points;
-* interactable objects;
-* zones;
-* portals;
-* scene/map transitions.
-
-### Presentation owns visual/audio feedback
-
-Examples:
-
-* UI/dialogue;
-* animations;
-* VFX/audio;
-* camera effects;
-* floating combat text.
-
-Presentation reacts to game results. It is not authoritative game state.
+**The game rule decides what happened. The presentation decides how it looks.**
 
 ## World Model
 
-Do **not** port the original flat `room_id -> exit -> room_id` graph as the physical RPG world.
-
-Use:
-
 `World -> Region -> Map/Scene -> Zone/Interior/Portal -> Physical Position`
 
-Definitions:
-
-* **Region**: broad world grouping.
-* **Map/Scene**: a continuously traversable RPG space such as a town, countryside, dungeon, palace grounds, or large building.
-* **Zone**: a logical area inside a continuous map.
-* **Interior**: indoor space; small interiors may stay in the parent scene, substantial interiors may be separate scenes.
-* **Portal**: transition between separate maps/scenes with a named target spawn.
-* **Spawn point**: named entry or NPC placement position.
-
-Prefer a semi-open / hub-based world. Do not default to one giant seamless scene or one scene per legacy MUD room.
-
-## Legacy Room Conversion
-
-Legacy rooms are **topology/content references**, not automatic Godot scenes.
-
-When converting them:
-
-* cluster adjacent MUD rooms into one RPG map when they represent one continuous place;
-* convert meaningful subdivisions into zones when the player walks between them continuously;
-* create portals only for real map/scene transitions;
-* preserve meaningful doors, locks, hazards, quest gates, and scripted transitions;
-* keep legacy room IDs as traceability metadata where useful;
-* do not turn every legacy exit into a loading transition.
-
-Typical example:
-
-* several street rooms + town square → one town scene with multiple zones;
-* town → large inn → portal to an inn scene;
-* rooms inside a small inn → usually one continuous interior scene.
-
-## Movement
-
-Physical walking is Godot-native.
-
-* Use `CharacterBody2D` or the appropriate Godot movement model.
-* Use collision/navigation for physical traversal.
-* Do not route normal walking through the original MUD directional-command system.
-* Game Core decides whether entry/action is allowed because of combat, locks, quests, status, etc.
-* World Runtime performs the actual movement or transition.
-
-**Godot owns how the character moves.
-Game Core owns whether game rules allow the action.**
-
-## Location State
-
-Do not use one `current_room_id` as the complete physical position.
-
-Prefer state such as:
-
-* current region ID;
-* current map ID;
-* current zone ID when relevant;
-* physical position or named spawn;
-* legacy room metadata only when needed for migrated content.
-
-Quest/event conditions should support map, zone, proximity, interaction, and portal-entry concepts instead of relying only on legacy room IDs.
-
-## NPCs
-
-Separate NPC identity/state from physical placement.
-
-Prefer:
-
-* `NpcDefinition` for authored identity/gameplay configuration;
-* runtime NPC state for mutable persistent state;
-* spawn definitions/scene markers for physical placement.
-
-Do not model NPC location only as an LPC-style object environment.
+* Cluster adjacent MUD rooms that form one continuous place into one map; meaningful subdivisions
+  become zones; portals only for real scene transitions.
+* Preserve meaningful doors, locks, hazards, quest gates and scripted transitions.
+* Keep legacy room IDs as zone metadata; show the room's authored description to the player
+  (on entering a zone or on "look"), not its ID.
+* Location state is region/map/zone/position, not a single `current_room_id`.
+* Physical walking is Godot-native (`CharacterBody2D`, collision). Core decides whether an action is
+  allowed; runtime performs it.
+* Map visuals are placeholder art for now; build terrain with `TileMapLayer` so art can be swapped
+  by replacing the TileSet. Logic (zones, portals, spawn markers) stays separate from visuals.
 
 ## Data-Driven Content
 
-Prefer data definitions over one script per content object.
+Content is data, not code:
 
-Good data candidates:
+* NPCs, items, shops/vendors, spawns, zones and room metadata live in data files under
+  `game/data/` and are loaded into typed definitions by generic loaders.
+* No one-script-per-item/NPC classes, no one-service-per-shop-offer, no ID-based `if`/`match`
+  chains for content, no long positional constructors for authored content (use named fields).
+* Each fact has one home. Do not duplicate item stats or values across files.
+* Scripts are for genuinely procedural behavior (custom NPC actions, room verbs, special skills).
 
-* regions/maps/zones and legacy room metadata;
-* NPC base definitions;
-* items/weapons/armor;
-* skills/moves;
-* factions/families;
-* quests;
-* shops/drops;
-* status effects;
-* spawn definitions.
+## Tooling
 
-Avoid large ID-based `if`/`match` chains when behavior can be declared as data.
+A tool is justified only by a **consumer in the game**. Before building or extending a tool, name
+the game data it will produce and the loader that will read it. Content importers are best-effort:
+extract what is regular, flag the rest for human review, keep manual overrides separate so reruns
+don't clobber them. Stop hardening a tool once further work stops changing its real output.
 
-Use scripts for genuinely procedural or rule-driven behavior.
+## How Work Is Done
 
-## Porting Legacy Systems
+Work in **content packages**: a coherent, playable increment the owner can test
+(e.g. "Snow shops complete", "internal power: obtain → cultivate → use in combat → save").
 
-For combat, skills, progression, conditions, equipment, apprenticeship, quests, NPC rules, and similar systems:
+For each package:
 
-1. inspect the relevant LPC source and its dependencies;
-2. identify the actual gameplay rules apart from text output/runtime calls;
-3. decide what is data versus executable rule logic;
-4. implement the rules as testable typed GDScript;
-5. expose structured outcomes/events to the RPG presentation layer;
-6. connect visuals only after the rule is working.
+1. Read the relevant LPC and existing code. For a large or architectural change, present a short
+   plan and get owner agreement first.
+2. Implement with focused tests for rules, formulas and state transitions (seed/inject RNG).
+3. Run the affected suites during development; run the full `verify.py` once before opening the PR.
+4. Self-review the diff (a fresh-context review pass for large changes).
+5. Launch the game for a smoke check when runtime/UI/scene code changed; report what was and wasn't
+   checked live.
+6. Open a PR with: what changed, LPC sources consulted, tests run, **3–5 things for the owner to
+   playtest**, and open questions/deviations for the owner to decide.
 
-Do not silently redesign original mechanics.
+The owner's playtest is the acceptance for player-visible behavior, feel and pacing. Automated or
+agent-driven play is a debugging aid, not an acceptance gate. Do not block on tooling limits; report
+them and move on.
 
-For combat in particular, do not derive outcomes from animation collisions unless the user explicitly changes the design to action combat.
+Do not refactor unrelated code or add speculative features. Do not migrate adjacent systems just
+because they are nearby. When blocked on a real decision, ask the owner once with a recommendation.
 
-**The game rule decides what happened.
-The presentation layer decides how it looks.**
+## Documentation
 
-## Working Discipline
+Keep documentation small and current:
 
-* Think before coding.
-* Make focused changes only.
-* Do not refactor unrelated code.
-* Do not add speculative features.
-* Do not migrate adjacent legacy systems merely because they are nearby.
-* Prefer the simplest implementation that preserves the rule and leaves a clean expansion path.
-* Do not duplicate an existing system before understanding it.
-* When an RPG interaction requires redesign, preserve the original gameplay intent and make the architectural change explicit.
+* `docs/production/STATUS.md` — one page: what is playable, known issues, next package.
+  Overwrite it; don't append history (git and PRs hold history).
+* `docs/production/ROADMAP.md` — forward plan only.
+* `docs/migration/DECISIONS.md` — deviations and global rules, one short entry each.
+* One short note per content package under `docs/migration/` only when it records something the
+  code and PR don't: LPC→native mapping, source anomalies, deferred items.
 
-## One Slice at a Time
+No per-sub-slice reports, formal-audit documents, re-audits, blocker write-ups or evidence logs in
+the repository. Existing historical docs stay as they are; don't extend them.
 
-For each substantial implementation slice, follow:
+## Git and CI
 
-`discover/source check -> analysis/plan -> implement -> focused tests -> distinct verification/self-audit -> real runtime validation when applicable -> document results -> report to owner`
+* `main` is stable. Branch from green `main`: `phase/<slug>`. One package (or a few small related
+  ones) per branch and PR; multiple focused commits are fine.
+* The PR runs the four required jobs (Godot Verify, Windows, Android, iOS). Fix failures on the same
+  branch. The owner merges.
+* Don't force-push published branches, rewrite history, delete remote branches, change repository
+  settings/secrets, or publish releases.
+* If post-merge `main` CI fails, fix it on a narrow `hotfix/<issue>` branch before other work.
 
-* Compilation or focused tests alone do not complete a slice. Separately review its architectural
-  boundaries and acceptance evidence, following the Real Runtime Validation rules below.
-* Report remaining blockers honestly before moving on. Do not silently chain the next slice;
-  a readiness statement is not authorization to implement it. Await the owner's next-slice instruction.
-* These checkpoints do not create separate branches or PRs. All slices and their audit corrections
-  remain on the owning major-phase branch under the existing integration workflow.
+## Save Policy
 
-## Development Save Policy
+Development builds don't promise backward-compatible saves; a contract change may require New Game.
+Current-contract Save/Continue must restore exact state and stable identities, write atomically and
+fail closed on unsupported files. Never delete save files automatically. Details:
+[save contract](docs/production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy).
 
-Development builds do not promise backward-compatible saves. Real contract incompatibility may
-require New Game; do not maintain old product worlds or migrations solely for historical test saves.
-Current-contract Save/Continue must retain exact state, stable identities, atomic/staged failure
-protection, zero restore gameplay RNG and fail-closed eligibility. Never automatically delete old files.
-Follow the [development save policy](docs/production/contracts/NATIVE_SAVE_LOAD_CONTRACT.md#development-save-policy)
-for version boundaries, test coverage and the later formal player-save commitment.
+## Commands
 
-## Documentation Placement
-
-Documentation placement is a repository-wide decision and MUST be known before choosing a destination path.
-
-* Every phase-scoped document whose filename begins with `PHASE_` MUST live under `docs/migration/`, regardless of whether the phase concerns gameplay migration, persistence, runtime architecture, productionization, build tooling, CI, or release engineering.
-* `docs/production/` is reserved for long-lived current operational documentation such as `STATUS.md`, `ROADMAP.md`, `BUILD.md`, `REPOSITORY_POLICY.md`, `GODOT_AI_DEVELOPMENT.md`, and other durable project policies/how-to documents.
-* Do NOT place `PHASE_*.md` under `docs/production/` merely because the owning major phase is part of Productionization or Stabilization.
-* If a phase creates a lasting project policy, keep the phase-specific analysis/audit/history under `docs/migration/` and update the corresponding long-lived operational document under `docs/production/` separately.
-* Do not interrupt an actively running implementation slice solely to move a misplaced document. Correct a misplaced document in the current active major phase at the next safe phase boundary and before the final integration PR.
-* Historical closed-phase documents are not bulk-moved unless the user explicitly requests it.
-* `docs/AGENTS.md` contains the detailed documentation-subtree rules and applies in addition to this repository-wide placement rule.
-
-## Major Phase Branch / PR / CI Workflow
-
-A **major development phase** is the highest planned implementation milestone intended to culminate
-in one integration pull request. Numbering alone does not define that boundary: explicitly separate
-planned integration milestones may use separate branches, while analysis slices, implementation
-slices, subphases, formal audits, and audit corrections inside one milestone MUST remain together.
-
-The mandatory relationship is:
-
-`one planned integration milestone = one phase branch = one final PR`
-
-* Normal development MUST NOT happen directly on `main`; `main` is the latest stable integrated
-  major phase and MUST NOT be used as a scratch branch.
-* A new major phase MUST start from the latest `main` whose post-merge CI is green. A typical start is
-  `git switch main`, `git pull --ff-only`, then `git switch -c phase/<phase>-<slug>` (or the
-  repository/tool-required equivalent, such as `codex/phase-10b-native-save-load`).
-* A new phase branch MUST NOT be based on an unfinished previous phase.
-* All subordinate work MUST stay on that branch. For example, Phase 10B analysis, 10B1, 10B2,
-  10B3, and formal-audit fixes belong on the same Phase 10B branch. Subphases MUST NOT receive
-  separate branches or PRs unless the project plan explicitly promotes them to independent major
-  milestones. Multiple focused commits on the phase branch are expected; squashing is not required.
-* Pushing a phase branch before a PR exists is allowed for backup, collaboration, and continuation,
-  and MUST NOT trigger the expensive cross-platform workflow.
-* The final integration PR SHOULD be opened only after implementation, focused validation, formal
-  local audit, and required complete local validation are ready. Draft PRs are exceptional and MUST
-  be explicitly requested; full CI is skipped while a PR remains draft.
-* A ready PR targeting `main` MUST run the four stable jobs `Godot Verify`, `Windows Release Build`,
-  `Android Release Build`, and `iOS Build Validation`. Opening, reopening, synchronizing, or marking
-  that PR ready for review reruns the integration workflow as applicable.
-* All four PR jobs MUST be green for the same final PR commit before merge. A failure MUST be fixed
-  on the same major-phase branch and pushed so the PR `synchronize` event reruns CI. The gate MUST
-  NOT be weakened or skipped.
-* Codex MUST NOT merge automatically unless the user explicitly authorizes that external action.
-* Merging to `main` MUST trigger the complete four-job workflow again. The next major phase MUST NOT
-  start until this post-merge run is known and green.
-* Future major-phase integration closure means: local/formal audit passed, PR CI passed, merged to
-  `main`, and post-merge main CI passed. Earlier historical uses of “formally closed” remain factual
-  and MUST NOT be rewritten.
-* The phase branch MUST be retained until the PR is merged and post-merge main CI is green; it may be
-  deleted afterward.
-* If PR CI was green but post-merge main CI fails, treat `main` as requiring immediate stabilization.
-  Do not start the next phase. Prefer a narrow `hotfix/<issue>` (or tool-required equivalent) from
-  current `main`, then follow branch → PR → CI → merge → post-merge CI without rewriting history.
-* Branch protection/rulesets SHOULD require PR-only integration into `main`, block normal direct
-  pushes, and require the four stable PR checks. Workflow code MUST NOT guess merge intent from
-  commit messages. Administrative/emergency overrides, if any, are a remote repository policy.
-* A phase-specific prompt that casually asks for a new branch for a subphase does not override this
-  policy. An explicit user instruction to change the milestone/branch boundary does.
-* Formal-audit corrections MUST remain on the current major-phase branch until the final PR is
-  green; do not create one audit branch per subphase.
-
-When relevant, completion reports MUST state the current major phase branch, PR existence and CI
-status, merge status, post-merge main CI status, and whether the phase is implementation-complete or
-fully integrated on `main`. Never claim remote CI without actual evidence.
-
-## Standing Authorization for CI Stabilization
-
-The repository owner has granted standing authorization for the minimum work needed to restore this
-repository's existing required CI gates when the latest `main` post-merge CI is not fully green.
-Codex MUST use this narrow authorization instead of stopping solely to request permission for routine
-CI-stabilization writes.
-
-Within `Toxicccxz/eastern-stories-godot`, Codex MAY without an additional authorization round:
-
-* inspect GitHub Actions runs, jobs, steps, and failure logs;
-* rerun a failed workflow job/run when a retry is useful for distinguishing an environmental flake
-  from a deterministic defect;
-* create one narrow `hotfix/...` or `stabilization/...` branch from the current `main`;
-* diagnose the failing CI/build/test behavior and make the smallest necessary repository fix;
-* run focused/local validation appropriate to the defect;
-* commit the narrow fix to that stabilization branch;
-* push/update that branch to this repository;
-* create or update a PR targeting `main`;
-* observe the PR CI and continue narrow stabilization fixes on the same branch until the required
-  checks are green.
-
-This authorization is repository-specific and CI-stabilization-specific. It does NOT authorize Codex
-to:
-
-* merge a PR into `main` without separate explicit user authorization;
-* force-push or rewrite published history;
-* delete remote branches or tags;
-* modify GitHub repository settings, rulesets, branch protection, secrets, permissions, or Actions
-  credentials;
-* publish GitHub releases or deploy to Steam, Google Play, App Store, TestFlight, or other external
-  services;
-* modify unrelated repositories;
-* broaden a CI hotfix into unrelated gameplay/content/refactor work merely to make a gate green.
-
-When a stabilization PR is green, Codex MUST stop before merge and report the result. If the failure
-is nondeterministic, a green retry is evidence that the current commit can pass but does not by itself
-authorize masking a recurring flake; repeated occurrences should be investigated and stabilized
-narrowly.
-
-## Real Runtime Validation
-
-When an acceptance criterion concerns actual runtime behavior, player-visible interaction,
-SceneTree lifecycle, real input, physics/collision/Area2D, CharacterBody movement, Camera, Timer,
-signals, map traversal, combat cadence, runtime UI, or packaged-game startup, validation MUST run
-the actual Godot game when the environment supports it. Headless/domain tests remain required where
-appropriate, but they are not a substitute for live evidence.
-
-* Launch the canonical project/main scene unless the criterion specifically requires another
-  production scene. For the current Old Pine milestone this normally means `OldPineWorldSession`,
-  not a fake unit-test scene.
-* Before accepting helper-based evidence, verify where supported that `helper_live = true`,
-  `session_active = true`, and `game_capture_ready = true`, and inspect runtime errors. Expected
-  evidence is `current_run_errors = []`, with any known QA-only debugger mistake explained.
-* Screenshot/framebuffer proof MUST have `stale_frame = false`; when liveness matters, frame numbers
-  MUST advance across observations. A frozen frame is not live proof.
-* Player-visible acceptance paths MUST use real game input: keyboard/input actions, framebuffer
-  mouse clicks, real HUD buttons, CharacterBody movement, and actual Area/collision entry as
-  applicable.
-* Direct controller traversal calls, button callbacks, body-entered handlers, combat/portal methods,
-  manual signal emission, or direct position/location assignment MUST NOT substitute for end-to-end
-  player proof. Typed boundary calls remain valid in unit/integration tests whose subject is that
-  boundary.
-* QA setup before the claimed route may adjust existing typed state or inject a deterministic test
-  source when necessary. It MUST be reported, MUST NOT change production formulas, and MUST NOT call
-  the desired branch directly. Once the acceptance path begins, proceed through normal gameplay.
-* Physics/scene changes require physical runtime proof; UI changes require using the real UI; runtime
-  combat changes require real selection/input and cadence; map/handoff changes require before/after
-  runtime-tree, active-map, player, camera, location, and state-identity evidence as applicable.
-* A claim about an exported/packaged build starting or working MUST validate that packaged artifact
-  where the environment permits; running the editor project is not equivalent.
-* Pure documentation, repository policy, CI YAML, build tooling, Node-free domain formulas, and pure
-  serializer/parser changes do not require live gameplay unless their acceptance criteria explicitly
-  include runtime integration.
-* Godot AI helper connectivity is expected for live-validation tasks. Do not assume it is unavailable
-  without checking the running game and development environment. On Windows, inspect excluded TCP
-  port ranges; this repository's validated workstation uses remote-debug port 6107 because 6007 was
-  reserved. The port is machine-specific.
-* If required live validation cannot connect, first diagnose launch state, helper/service health,
-  port exclusion, development configuration, and runtime errors. If it remains blocked, report the
-  criterion as BLOCKED/PENDING; MUST NOT silently downgrade it to headless-only or claim PASS.
-* Helper connectivity is development tooling. MUST NOT change gameplay, domain, or world semantics
-  merely to make MCP connect, and MUST NOT record machine-specific tooling choices as ES migration
-  decisions.
-* A prompt that calls a player-visible or physical path “verified” using only controller calls does
-  not override this rule. Only an explicit user change to the acceptance criterion does.
-
-When live validation is relevant, completion reports MUST say whether it actually ran and include
-helper health, real-input evidence, and any environmental blocker. Never claim live proof without
-the corresponding evidence.
-
-## Testing and Verification
-
-Local verification is layered by change scope (owner policy, Lake P2B onward):
-
-* During development, run changed behavior and directly affected regressions; after a fix, rerun the failed and affected cases, not every historical suite.
-* Internal-slice delivery uses targeted domain/integration checks plus required real-runtime evidence. A broad consumer change may justify one complete run once the feature is formed; record why and reuse it.
-* Major-phase closure runs canonical `tools/ci/verify.py` on the final executable code. Its Python/static/editor/gameplay/sanitizer stages need not be duplicated without relevant changes or failures. Documentation-only changes do not invalidate executable evidence.
-* Preserve canonical registration and all four exact-head PR/exact-merge main CI gates. Never use skipped stages as full-suite evidence. Report actual commands, scope, results, duration and deliberately deferred validation.
-* Choose concise success/boundary/failure tests for distinct risks; no assertion quotas, mechanical permutations, copied lower-layer matrices or broad historical-test cleanup.
-
-Rule-heavy code should be testable without loading full visual maps whenever practical.
-
-For migrated mechanics:
-
-* test formulas and state transitions;
-* inject/seed randomness when deterministic verification helps;
-* validate data IDs/references;
-* test map transitions separately from movement animation;
-* inspect Godot parse/editor errors after changing scripts/resources.
-
-When Godot is available on `PATH`, use an appropriate headless load check, for example:
-
-`godot --headless --path game --editor --quit`
-
-If the repository adopts a dedicated test framework, use its established command.
-
-For visual or interaction changes, run the relevant scene/project and verify behavior; a clean parse alone is not proof.
-
-## Preferred Repository Shape
+Godot 4.7.2 lives at `build/toolchain/editor/` (git-ignored; do not delete `build/toolchain/`).
 
 ```text
-/
-├── AGENTS.md
-├── reference/
-│   └── es2/              # original LPC; reference only
-├── docs/
-│   ├── ARCHITECTURE.md
-│   └── migration/
-└── game/                 # Godot project root
-    ├── core/
-    ├── data/
-    ├── world/
-    ├── characters/
-    ├── scenes/
-    ├── ui/
-    ├── presentation/
-    └── tests/
+python tools/ci/verify.py --godot <godot>                                 # full gate (~10 min)
+<godot> --headless --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
+<godot> --headless --path game --editor --quit                            # parse/import check
 ```
 
-Do not put the LPC mudlib under the Godot `res://` tree without a specific reason.
+Write logs and scratch output under `build/`, never the repository root or `game/`.
 
-As the project grows, move detailed stable architecture into `docs/` and keep this root file focused.
+## Repository Shape
 
-## Completion Report
-
-After coding, report concisely:
-
-* files changed;
-* behavior implemented/changed;
-* original LPC sources consulted for migrated mechanics;
-* tests/checks run and results;
-* intentionally deferred work.
+```text
+reference/es2/   original LPC (read-only, outside res://)
+docs/            production/ (status, roadmap, build, policies) and migration/ (decisions, notes)
+tools/           ci/, build/, migration/ (Python, standard library)
+game/            Godot project: core/ runtime/ application/ data/ presentation/ ui/ scenes/ tests/
+```
