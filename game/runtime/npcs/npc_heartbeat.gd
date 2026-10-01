@@ -5,7 +5,8 @@ extends RefCounted
 ## runs: heal_up() on the `5 + random(10)` tick (one transient cadence per NPC, as
 ## for the player, DECISIONS S5B) and feature/damage.c revive() once an unconscious
 ## NPC's call_out comes due. Fighting, busy or conditioned NPCs heal as the player
-## does (S5B C-E). Cadences are not saved; the revive countdown is.
+## does (S5B C-E); an unconscious NPC heals too (char.c keeps calling heal_up()).
+## Cadences are not saved; the revive countdown is.
 var _random: RecoveryCadenceRandomSource
 var _cadences: Dictionary[StringName, PlayerRecoveryCadence] = {}
 var _revive_remainder_ms: Dictionary[StringName, float] = {}
@@ -23,20 +24,18 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 	for npc: NpcRuntimeState in npcs:
 		if npc == null or not npc.exists_in_map:
 			continue
-		match npc.life_status:
-			CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
-				if _count_down(npc, delta):
-					npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
-					woke.append(npc)
-			CharacterRuntimeLifeStatus.Value.ACTIVE:
-				if npc.relationship.is_fighting() or npc.character_state.conditions.size() > 0:
-					continue
-				var cadence: PlayerRecoveryCadence = _cadences.get(npc.character_id)
-				if cadence == null:
-					cadence = PlayerRecoveryCadence.new(_random, false)
-					_cadences[npc.character_id] = cadence
-				if cadence.is_valid():
-					cadence.advance(delta, npc.character_state, npc.busy)
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			continue
+		if not npc.relationship.is_fighting() and npc.character_state.conditions.size() == 0:
+			var cadence: PlayerRecoveryCadence = _cadences.get(npc.character_id)
+			if cadence == null:
+				cadence = PlayerRecoveryCadence.new(_random, false)
+				_cadences[npc.character_id] = cadence
+			if cadence.is_valid():
+				cadence.advance(delta, npc.character_state, npc.busy)
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and _count_down(npc, delta):
+			npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+			woke.append(npc)
 	return woke
 
 

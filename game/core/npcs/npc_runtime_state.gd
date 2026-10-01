@@ -149,6 +149,10 @@ func set_life_status(value: int) -> bool:
 	if not RuntimeLifeStatusType.is_valid(value):
 		return false
 	_life_status = value
+	# Only the unconscious wait for revive(); die() destructs the object and its
+	# call_out with it.
+	if value != RuntimeLifeStatusType.Value.UNCONSCIOUS:
+		_revive_in_ms = 0
 	return true
 
 

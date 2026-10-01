@@ -3,10 +3,24 @@ extends RefCounted
 
 ## Whether an NPC accepts a spar (cmds/std/fight.c asks obj->accept_fight(me)) and
 ## what it says. NPCs with their own accept_fight() carry it as rules in their
-## definition; the rest follow std/char/npc.c accept_fight().
+## definition; the rest follow std/char/npc.c accept_fight(). The runtime turns
+## the lines into sentences; $RESPECT and $SELF stand for rankd.c's words.
 var accepted: bool = false
-## Display lines in order: "<name>说道：..." or "<name><emote>".
-var lines: Array[String] = []
+var lines: Array[Line] = []
+## How the NPC addresses the challenger (query_respect) and calls itself (query_self).
+var respect: String = ""
+var npc_self: String = ""
+
+
+## The NPC says `text` (say.c), or does the emote `text` after its name.
+class Line:
+	extends RefCounted
+	var emote: bool
+	var text: String
+
+	func _init(p_emote: bool = false, p_text: String = "") -> void:
+		emote = p_emote
+		text = p_text
 
 
 ## Who asks: gender, age and class give the words rankd.c picks; family and gender
@@ -29,18 +43,17 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger) -> NpcSparConse
 	var result := NpcSparConsent.new()
 	var definition: NpcDefinition = npc.definition()
 	var state: CharacterState = npc.character_state
-	var name: String = definition.display_name
-	var npc_self: String = RankWords.query_self(state.gender, npc.age, &"")
-	var respect: String = RankWords.query_respect(challenger.gender, challenger.age, challenger.class_id)
+	result.npc_self = RankWords.query_self(state.gender, npc.age, &"")
+	result.respect = RankWords.query_respect(challenger.gender, challenger.age, challenger.class_id)
 	var rules: Array[NpcFightRule] = definition.fight_rules()
 	if not rules.is_empty():
 		for rule: NpcFightRule in rules:
 			if not rule.matches(challenger.family_id, challenger.gender):
 				continue
 			if not rule.emote.is_empty():
-				result.lines.append(name + rule.emote)
+				result.lines.append(Line.new(true, rule.emote))
 			if not rule.say.is_empty():
-				result.lines.append(_say(name, rule.say.replace("$RESPECT", respect).replace("$SELF", npc_self)))
+				result.lines.append(Line.new(false, rule.say))
 			result.accepted = rule.accept
 			return result
 		return result # accept_fight() fell through: it returns 0.
@@ -48,20 +61,20 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger) -> NpcSparConse
 	var fighting: bool = npc.relationship.is_fighting()
 	if fighting:
 		if definition.attitude != NpcDefinition.Attitude.HEROISM:
-			result.lines.append(_say(name, "想倚多为胜，这不是欺人太甚吗！"))
+			result.lines.append(Line.new(false, "想倚多为胜，这不是欺人太甚吗！"))
 			return result
-		result.lines.append(_say(name, "哼！出招吧！"))
+		result.lines.append(Line.new(false, "哼！出招吧！"))
 	if not (_healthy(state.essence) and _healthy(state.vitality) and _healthy(state.spirit)):
 		return result
 	match definition.attitude:
 		NpcDefinition.Attitude.FRIENDLY:
-			result.lines.append(_say(name, "%s怎麽可能是%s的对手？" % [npc_self, respect]))
+			result.lines.append(Line.new(false, "$SELF怎麽可能是$RESPECT的对手？"))
 			return result
 		NpcDefinition.Attitude.AGGRESSIVE:
-			result.lines.append(_say(name, "哼！出招吧！"))
+			result.lines.append(Line.new(false, "哼！出招吧！"))
 		_:
 			if not fighting:
-				result.lines.append(_say(name, "既然%s赐教，%s只好奉陪。" % [respect, npc_self]))
+				result.lines.append(Line.new(false, "既然$RESPECT赐教，$SELF只好奉陪。"))
 	result.accepted = true
 	return result
 
@@ -70,8 +83,3 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger) -> NpcSparConse
 static func _healthy(resource: CharacterResourceState) -> bool:
 	@warning_ignore("integer_division")
 	return resource.maximum > 0 and resource.current * 100 / resource.maximum >= 90
-
-
-## cmds/std/say.c as others hear it.
-static func _say(name: String, text: String) -> String:
-	return "%s说道：%s" % [name, text]

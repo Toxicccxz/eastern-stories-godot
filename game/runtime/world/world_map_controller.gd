@@ -1268,28 +1268,36 @@ func spar_selected() -> CombatSliceInitiationResult:
 		return CombatSliceInitiationResult.new()
 	var player_state: CharacterState = _player.state
 	var lines: Array[String] = [tr("你对著%s说道：%s%s，领教%s的高招！") % [
-		name, RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id),
-		_player.facts.display_name, RankWords.query_respect(target.character_state.gender, target.age, &""),
+		name, tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
+		_player.facts.display_name, tr(RankWords.query_respect(target.character_state.gender, target.age, &"")),
 	]]
 	var consent: NpcSparConsent = NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
 		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
 	))
-	lines.append_array(consent.lines)
-	if not consent.accepted:
+	var result := CombatSliceInitiationResult.new()
+	if consent.accepted:
+		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+		result = session.combat_encounter_coordinator().start_production(
+			CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
+			CombatSliceProjectionBuilder.find_binding(participants, target.character_id),
+			CombatTriggerCause.Value.PLAYER_SPAR,
+		)
+	var started: bool = result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED
+	if consent.accepted and not started:
+		# Accepted, yet this encounter model cannot hold the fight (e.g. someone
+		# else's fight marks): say no rather than accept into nothing.
+		if OS.is_debug_build():
+			push_warning("Spar with %s accepted but not started: %s" % [target.character_id, CombatSliceInitiationResult.Outcome.find_key(result.outcome)])
+	else:
+		for line: NpcSparConsent.Line in consent.lines:
+			var text: String = tr(line.text).replace("$RESPECT", tr(consent.respect)).replace("$SELF", tr(consent.npc_self))
+			lines.append(name + text if line.emote else tr("%s说道：%s") % [name, text])
+	if not started:
 		lines.append(tr("看起来%s并不想跟你较量。") % name)
-		_hud().append_log_lines(lines)
-		return CombatSliceInitiationResult.new()
-	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-	var result: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
-		CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
-		CombatSliceProjectionBuilder.find_binding(participants, target.character_id),
-		CombatTriggerCause.Value.PLAYER_SPAR,
-	)
-	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+	elif not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty():
 		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
 		# blade draws blood. Native hint; ES2 says nothing here.
-		if not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty():
-			lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
+		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
 	_hud().append_log_lines(lines)
 	return result
 

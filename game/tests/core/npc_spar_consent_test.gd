@@ -29,13 +29,13 @@ func _rank_words() -> void:
 func _default_attitudes() -> void:
 	var asker := NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 14, &"", &"")
 	var friendly: NpcSparConsent = NpcSparConsent.decide(_npc(NpcDefinition.Attitude.FRIENDLY), asker)
-	check(not friendly.accepted and friendly.lines == ["旅客说道：在下怎麽可能是小兄弟的对手？"], "friendly refuses: npc.c's line with rankd.c words")
+	check(not friendly.accepted and _said(friendly) == ["旅客说道：在下怎麽可能是小兄弟的对手？"], "friendly refuses: npc.c's line with rankd.c words")
 	var peaceful: NpcSparConsent = NpcSparConsent.decide(_npc(NpcDefinition.Attitude.PEACEFUL), asker)
-	check(peaceful.accepted and peaceful.lines == ["旅客说道：既然小兄弟赐教，在下只好奉陪。"], "no attitude (or peaceful) accepts")
+	check(peaceful.accepted and _said(peaceful) == ["旅客说道：既然小兄弟赐教，在下只好奉陪。"], "no attitude (or peaceful) accepts")
 	var heroism: NpcSparConsent = NpcSparConsent.decide(_npc(NpcDefinition.Attitude.HEROISM), asker)
-	check(heroism.accepted and heroism.lines == ["旅客说道：既然小兄弟赐教，在下只好奉陪。"], "heroism accepts like the default")
+	check(heroism.accepted and _said(heroism) == ["旅客说道：既然小兄弟赐教，在下只好奉陪。"], "heroism accepts like the default")
 	var aggressive: NpcSparConsent = NpcSparConsent.decide(_npc(NpcDefinition.Attitude.AGGRESSIVE), asker)
-	check(aggressive.accepted and aggressive.lines == ["旅客说道：哼！出招吧！"], "aggressive: 哼！出招吧！")
+	check(aggressive.accepted and _said(aggressive) == ["旅客说道：哼！出招吧！"], "aggressive: 哼！出招吧！")
 
 
 func _health_gate() -> void:
@@ -43,7 +43,7 @@ func _health_gate() -> void:
 	var hurt: NpcRuntimeState = _npc(NpcDefinition.Attitude.PEACEFUL)
 	hurt.character_state.vitality.current = 179
 	var refused: NpcSparConsent = NpcSparConsent.decide(hurt, asker)
-	check(not refused.accepted and refused.lines.is_empty(), "kee 179/200 (89%) refuses without a word")
+	check(not refused.accepted and _said(refused).is_empty(), "kee 179/200 (89%) refuses without a word")
 	hurt.character_state.vitality.current = 180
 	check(NpcSparConsent.decide(hurt, asker).accepted, "kee 180/200 (90%) accepts")
 	hurt.character_state.essence.current = 0
@@ -55,11 +55,11 @@ func _fighting_npc() -> void:
 	var busy: NpcRuntimeState = _npc(NpcDefinition.Attitude.PEACEFUL)
 	busy.relationship.add_opponent(&"someone")
 	var refused: NpcSparConsent = NpcSparConsent.decide(busy, asker)
-	check(not refused.accepted and refused.lines == ["旅客说道：想倚多为胜，这不是欺人太甚吗！"], "already fighting: only heroism goes on")
+	check(not refused.accepted and _said(refused) == ["旅客说道：想倚多为胜，这不是欺人太甚吗！"], "already fighting: only heroism goes on")
 	var hero: NpcRuntimeState = _npc(NpcDefinition.Attitude.HEROISM)
 	hero.relationship.add_opponent(&"someone")
 	var accepted: NpcSparConsent = NpcSparConsent.decide(hero, asker)
-	check(accepted.accepted and accepted.lines == ["旅客说道：哼！出招吧！"], "a fighting heroism NPC: 哼！出招吧！ and no second line")
+	check(accepted.accepted and _said(accepted) == ["旅客说道：哼！出招吧！"], "a fighting heroism NPC: 哼！出招吧！ and no second line")
 
 
 func _own_rules() -> void:
@@ -70,12 +70,12 @@ func _own_rules() -> void:
 	var trainer: NpcRuntimeState = _npc(NpcDefinition.Attitude.HEROISM, rules)
 	trainer.character_state.vitality.current = 1
 	var member: NpcSparConsent = NpcSparConsent.decide(trainer, NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 14, &"", &"family.fonxan"))
-	check(member.accepted and member.lines == ["旅客点了点头。", "旅客说道：进招吧。"], "own rule: family members are accepted, even hurt")
+	check(member.accepted and _said(member) == ["旅客点了点头。", "旅客说道：进招吧。"], "own rule: family members are accepted, even hurt")
 	var guest: NpcSparConsent = NpcSparConsent.decide(trainer, NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 25, &"", &""))
-	check(not guest.accepted and guest.lines == ["旅客说道：壮士，在下不和客人过招。"], "own rule: $RESPECT and $SELF from rankd.c")
+	check(not guest.accepted and _said(guest) == ["旅客说道：壮士，在下不和客人过招。"], "own rule: $RESPECT and $SELF from rankd.c")
 	var none: NpcRuntimeState = _npc(NpcDefinition.Attitude.PEACEFUL, [NpcFightRule.new(&"family.fonxan", &"", "", "进招吧。", true)])
 	var fell_through: NpcSparConsent = NpcSparConsent.decide(none, NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 14, &"", &""))
-	check(not fell_through.accepted and fell_through.lines.is_empty(), "no rule matches: accept_fight() returns 0")
+	check(not fell_through.accepted and _said(fell_through).is_empty(), "no rule matches: accept_fight() returns 0")
 
 
 func _rule_loading() -> void:
@@ -86,6 +86,15 @@ func _rule_loading() -> void:
 	check(scavenger.fight_rules().size() == 1 and not scavenger.fight_rules()[0].accept and scavenger.fight_rules()[0].say.begins_with("$RESPECT"), "收破烂的 begs and refuses")
 	check(GameContent.catalog().npc(&"snow.npc.trainee").fight_rules().is_empty(), "武馆弟子 uses npc.c")
 	check(trainer.can_speak() and not dog.can_speak(), "humans speak (race/human.c can_speak); beasts do not")
+
+
+## The sentences the runtime prints, as spar_selected() builds them (untranslated).
+func _said(consent: NpcSparConsent) -> Array[String]:
+	var result: Array[String] = []
+	for line: NpcSparConsent.Line in consent.lines:
+		var text: String = line.text.replace("$RESPECT", consent.respect).replace("$SELF", consent.npc_self)
+		result.append("旅客" + text if line.emote else "旅客说道：" + text)
+	return result
 
 
 func _npc(attitude: int, rules: Array[NpcFightRule] = []) -> NpcRuntimeState:

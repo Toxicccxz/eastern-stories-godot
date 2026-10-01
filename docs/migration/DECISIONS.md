@@ -20,9 +20,10 @@ Owner decisions for the new-player combat package:
   when a lethal opponent is found": whoever landed the last blow is the killer for
   `killer_reward` and the corpse, in a spar too. A kill mark stands in only when no blow is known.
 - **NPCs heal and come to.** Extends S5B's "None for NPCs": the NPCs of the active map run
-  `heal_up()` on the `char.c` tick between fights (transient cadence, as the player's). An
-  unconscious NPC comes to after `damage.c`'s `random(100 - con) + 30` s of world time; the
-  countdown is saved (`revive_in_ms`, written only while one is pending). Inactive maps stay frozen.
+  `heal_up()` on the `char.c` tick between fights (transient cadence, as the player's), also
+  while unconscious, as `char.c` does. An unconscious NPC comes to after `damage.c`'s
+  `random(100 - con) + 30` s of world time; the countdown is saved (`revive_in_ms`, written only
+  while one is pending) and dropped when the NPC dies. Inactive maps stay frozen.
 
 ## A failed fight ends instead of freezing (2026-10-01)
 
@@ -32,7 +33,8 @@ Owner decision for the new-player combat package:
   stays, anyone below zero kee falls or dies (`char.c` heart_beat does that outside a fight), every
   participant drops its fight and kill marks on the others, the world returns and the log shows
   战斗出错，已中止。. It replaces holding the encounter in RESOLVING for good, which refused Flee
-  and never ended. A partial death still blocks Save.
+  and never ended. A partial death still blocks Save, and later falls on that map abort too,
+  until the cause is fixed.
 - Development builds `push_error` the cause (failure, opportunity, attack and progression stages).
   A test suite during which a fight aborts fails (`SuiteResult`) unless it takes the count itself.
 

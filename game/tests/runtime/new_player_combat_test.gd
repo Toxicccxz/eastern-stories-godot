@@ -22,6 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _spar_runs_to_its_end(tree)
 	await _npc_heals_and_spars_again(tree)
 	await _knocked_out_npc_comes_to_after_continue(tree)
+	await _killed_after_knockout_still_saves(tree)
 	await _armed_spar_death_reincarnation_and_continue(tree)
 	await _failed_fight_ends_instead_of_freezing(tree)
 	return {"assertions": assertions, "failures": failures}
@@ -48,6 +49,12 @@ func _who_spars(tree: SceneTree) -> void:
 	trainee.relationship.add_opponent(session.player_runtime().character_id)
 	check(_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6") == ["加油！加油！加油！"], "fight.c: already fighting you")
 	trainee.relationship.remove_opponent(session.player_runtime().character_id)
+	# Someone else's fight mark on the player: the encounter cannot hold a third
+	# party, so the trainee's yes would start nothing. It reads as a refusal.
+	session.player_runtime().relationship.add_opponent(SCAVENGER)
+	lines = _spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	check(lines.slice(1) == ["看起来武馆弟子并不想跟你较量。"] and not session.combat_encounter_coordinator().has_active_encounter(), "no acceptance into nothing %s" % str(lines))
+	session.player_runtime().relationship.remove_opponent(SCAVENGER)
 	check(_spar(map, KEEPER, &"snow.temple", &"snow.temple.keeper.1") == ["这里禁止战斗。"], "fight.c in a no_fight room")
 	check(_spar(map, TRAINEE, &"snow.square", &"snow.square.inn_entry") == ["你想攻击谁？"], "fight.c: the one asked must be here")
 	map.relocate_player(&"snow.eroad2", &"snow.eroad2.dog.2")
@@ -153,6 +160,27 @@ func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
 	check(again.character_state.vitality.current > kee, "then heals")
 	fresh.free()
 	await tree.process_frame
+
+
+## A kill goes through unconsciousness first; the dead keep no pending revive
+## (die() destructs the object and its call_out), so Save still works.
+func _killed_after_knockout_still_saves(tree: SceneTree) -> void:
+	var fixture: Array = await _snow(tree)
+	var session: OldPineWorldSessionController = fixture[0]
+	var map: WorldMapController = fixture[1]
+	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
+	map.relocate_player(&"snow.school2", &"snow.school2.trainee.6")
+	map.select_npc(TRAINEE)
+	check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "attack the trainee")
+	trainee.character_state.vitality.current = -1
+	_run(session)
+	var outcomes: Array[int] = []
+	for receipt: CombatSliceLifecycleResult in map.last_lifecycle_results():
+		outcomes.append(receipt.outcome)
+	check(outcomes == [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE], "knocked out, then killed")
+	check(trainee.life_status == CharacterRuntimeLifeStatus.Value.DEAD and trainee.revive_in_ms == 0, "the dead wait for no revive")
+	check(OldPineSaveEligibility.inspect(session).allowed() and Work.capture(session) != null, "Save works after the kill")
+	await _close(tree, session)
 
 
 ## An armed spar wounds; a second one while wounded kills. The death runs the
