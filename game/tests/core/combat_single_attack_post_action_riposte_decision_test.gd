@@ -126,8 +126,8 @@ func _test_upstream_and_action_boundaries() -> void:
 
 	var invalid_pair: Array[CombatRelationshipState] = _pair()
 	var invalid: CombatFightDecisionResult = FightServiceScript.decide(
-		_fight_facts(0, false), invalid_pair[0], invalid_pair[1],
-		ScriptedRandomSourceScript.new([0]),
+		_fight_facts(1, false), invalid_pair[0], invalid_pair[1],
+		ScriptedRandomSourceScript.new([3]),
 	)
 	var invalid_rng: ScriptedCombatRandomSource = ScriptedRandomSourceScript.new([0])
 	var invalid_result: CombatSingleAttackExecutionResult = ExecutionServiceScript.execute(
@@ -453,7 +453,8 @@ func _test_riposte_predicate_and_boundaries() -> void:
 	zero_bound["attacker"].attributes.composure = 0
 	zero_bound["relationships"][1].set_guarding(true)
 	var zero_bound_result: CombatSingleAttackExecutionResult = _execute(zero_bound, _input(_action()), _selection_input(_action()))
-	_assert_eq(zero_bound_result.outcome, ExecutionResultScript.Outcome.INVALID_RIPOSTE_RANDOM_BOUND, "zero live raw cps is an ordered typed boundary")
+	_assert_eq(zero_bound_result.outcome, ExecutionResultScript.Outcome.REVERSE_ATTACK_REQUIRED, "zero live raw cps: random(0) is 0 < 5")
+	_assert_eq(zero_bound_result.riposte_request.attack_type, AttackTypeScript.Value.QUICK, "random(0) = 0 requests QUICK")
 	_assert_false(zero_bound["relationships"][1].guarding, "zero bound preserves prior victim guard clear")
 	_assert_false(zero_bound_result.riposte_random_attempted, "zero bound does not call RNG")
 

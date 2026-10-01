@@ -276,9 +276,9 @@ func _test_perception_failures_are_ordered() -> void:
 		_facts(true, false, true, false, -100),
 		bound_pair[0], bound_pair[1], ScriptedRandomSourceScript.new([0])
 	)
-	_assert_eq(invalid_bound.outcome, FightResultScript.Outcome.INVALID_RANDOM_BOUND, "zero perception bound is typed")
-	_assert_eq(invalid_bound.failure_stage, FightResultScript.FailureStage.PERCEPTION_RANDOM_BOUND, "zero perception bound fails at exact source point")
-	_assert_false(bound_pair[0].guarding or bound_pair[1].has_opponent(ATTACKER_ID), "perception bound failure mutates no relationship")
+	_assert_eq(invalid_bound.outcome, FightResultScript.Outcome.TARGET_NOT_PERCEIVED, "zero perception bound: random(0) is 0 < 100, not perceived")
+	_assert_eq(invalid_bound.random_upper_bounds(), [], "zero perception bound draws nothing")
+	_assert_false(bound_pair[0].guarding or bound_pair[1].has_opponent(ATTACKER_ID), "not perceiving mutates no relationship")
 
 	var draw_pair: Array[CombatRelationshipState] = _pair(false)
 	var invalid_draw: CombatFightDecisionResult = FightServiceScript.decide(
@@ -443,10 +443,9 @@ func _test_regular_failures_are_ordered() -> void:
 		_facts(true, true, false, true, 0, 99, 0, 0),
 		invalid_pair[0], invalid_pair[1], ScriptedRandomSourceScript.new([0])
 	)
-	_assert_eq(invalid.outcome, FightResultScript.Outcome.INVALID_RANDOM_BOUND, "zero cps courage bound is typed")
-	_assert_eq(invalid.failure_stage, FightResultScript.FailureStage.COURAGE_RANDOM_BOUND, "zero cps fails at courage source point")
-	_assert_true(invalid_pair[0].guarding, "courage bound failure does not clear guarding")
-	_assert_false(invalid_pair[1].has_opponent(ATTACKER_ID), "courage bound failure adds no reciprocal relation")
+	_assert_eq(invalid.outcome, FightResultScript.Outcome.REGULAR_ATTACK, "zero cps: random(0) is 0 < courage, a regular attack")
+	_assert_eq(invalid.failure_stage, FightResultScript.FailureStage.NONE, "zero cps is no failure")
+	_assert_eq(invalid.random_upper_bounds(), [], "zero cps courage bound draws nothing")
 
 	var invalid_draw_pair: Array[CombatRelationshipState] = _pair(false)
 	var invalid_draw: CombatFightDecisionResult = FightServiceScript.decide(
@@ -465,9 +464,9 @@ func _test_regular_failures_are_ordered() -> void:
 		_facts(true, false, false, true, 1, 10, 0, 0),
 		hidden_pair[0], hidden_pair[1], hidden_rng
 	)
-	_assert_eq(hidden_failure.failure_stage, FightResultScript.FailureStage.COURAGE_RANDOM_BOUND, "late courage bound fails after perception")
-	_assert_eq(hidden_failure.random_upper_bounds(), [101], "late courage failure preserves prior perception RNG only")
-	_assert_eq(hidden_rng.call_count(), 1, "invalid courage bound performs no second random call")
+	_assert_eq(hidden_failure.outcome, FightResultScript.Outcome.REGULAR_ATTACK, "zero cps after perception: random(0) is 0 < courage")
+	_assert_eq(hidden_failure.random_upper_bounds(), [101], "only the perception draw is recorded")
+	_assert_eq(hidden_rng.call_count(), 1, "zero courage bound performs no second random call")
 
 
 func _test_guard_transition_and_all_indices() -> void:

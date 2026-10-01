@@ -27,7 +27,7 @@ func first_choice() -> String:
 
 ## Null-safe draw; returns null when the source answers out of range.
 func resolve(random_source: NpcInitializationRandomSource) -> Variant:
-	var draw: int = random_source.next_below(_bound)
+	var draw: int = random_source.legacy_random(_bound)
 	if draw < 0 or draw >= _bound:
 		return null
 	return _then if draw < _below else _else

@@ -56,20 +56,14 @@ static func decide(
 		result._perception_random_reached = true
 		result._reached_stage = CombatFightDecisionResult.ReachedStage.PERCEPTION_RANDOM
 		result._perception_random_bound = 100 + perception.effective_level
-		if result._perception_random_bound <= 0:
-			result._outcome = CombatFightDecisionResult.Outcome.INVALID_RANDOM_BOUND
-			result._failure_stage = CombatFightDecisionResult.FailureStage.PERCEPTION_RANDOM_BOUND
-			return result
 		if random_source == null:
 			result._outcome = CombatFightDecisionResult.Outcome.RANDOM_SOURCE_MISSING
 			result._failure_stage = CombatFightDecisionResult.FailureStage.PERCEPTION_RANDOM
 			return result
-		result._perception_random_attempted = true
-		result._random_upper_bounds.append(result._perception_random_bound)
-		var perception_draw: int = random_source.next_below(result._perception_random_bound)
+		var perception_draw: int = _draw(random_source, result._perception_random_bound, result)
+		result._perception_random_attempted = result._perception_random_bound > 0
 		result._perception_random_draw = perception_draw
-		result._random_draws.append(perception_draw)
-		if perception_draw < 0 or perception_draw >= result._perception_random_bound:
+		if not _valid_draw(perception_draw, result._perception_random_bound):
 			result._outcome = CombatFightDecisionResult.Outcome.RANDOM_DRAW_OUT_OF_RANGE
 			result._failure_stage = CombatFightDecisionResult.FailureStage.PERCEPTION_RANDOM
 			return result
@@ -93,20 +87,14 @@ static func decide(
 	result._courage_random_reached = true
 	result._reached_stage = CombatFightDecisionResult.ReachedStage.COURAGE_RANDOM
 	result._courage_random_bound = facts.victim_raw_composure * 3
-	if result._courage_random_bound <= 0:
-		result._outcome = CombatFightDecisionResult.Outcome.INVALID_RANDOM_BOUND
-		result._failure_stage = CombatFightDecisionResult.FailureStage.COURAGE_RANDOM_BOUND
-		return result
 	if random_source == null:
 		result._outcome = CombatFightDecisionResult.Outcome.RANDOM_SOURCE_MISSING
 		result._failure_stage = CombatFightDecisionResult.FailureStage.COURAGE_RANDOM
 		return result
-	result._courage_random_attempted = true
-	result._random_upper_bounds.append(result._courage_random_bound)
-	var courage_draw: int = random_source.next_below(result._courage_random_bound)
+	var courage_draw: int = _draw(random_source, result._courage_random_bound, result)
+	result._courage_random_attempted = result._courage_random_bound > 0
 	result._courage_random_draw = courage_draw
-	result._random_draws.append(courage_draw)
-	if courage_draw < 0 or courage_draw >= result._courage_random_bound:
+	if not _valid_draw(courage_draw, result._courage_random_bound):
 		result._outcome = CombatFightDecisionResult.Outcome.RANDOM_DRAW_OUT_OF_RANGE
 		result._failure_stage = CombatFightDecisionResult.FailureStage.COURAGE_RANDOM
 		return result
@@ -142,11 +130,9 @@ static func decide(
 		result._failure_stage = CombatFightDecisionResult.FailureStage.GUARD_PRESENTATION_RANDOM
 		return result
 	result._guard_random_attempted = true
-	result._random_upper_bounds.append(GUARD_PRESENTATION_COUNT)
-	var guard_draw: int = random_source.next_below(GUARD_PRESENTATION_COUNT)
+	var guard_draw: int = _draw(random_source, GUARD_PRESENTATION_COUNT, result)
 	result._guard_random_draw = guard_draw
-	result._random_draws.append(guard_draw)
-	if guard_draw < 0 or guard_draw >= GUARD_PRESENTATION_COUNT:
+	if not _valid_draw(guard_draw, GUARD_PRESENTATION_COUNT):
 		result._outcome = CombatFightDecisionResult.Outcome.RANDOM_DRAW_OUT_OF_RANGE
 		result._failure_stage = CombatFightDecisionResult.FailureStage.GUARD_PRESENTATION_RANDOM
 		return result
@@ -185,3 +171,16 @@ static func _prepare_attack_intent(
 	result._failure_stage = CombatFightDecisionResult.FailureStage.NONE
 	result._reached_stage = CombatFightDecisionResult.ReachedStage.COMPLETED
 	return result
+
+
+## MudOS random(n); a bound <= 0 draws nothing and records nothing.
+static func _draw(random_source: CombatRandomSource, bound: int, result: CombatFightDecisionResult) -> int:
+	var draw: int = random_source.legacy_random(bound)
+	if bound > 0:
+		result._random_upper_bounds.append(bound)
+		result._random_draws.append(draw)
+	return draw
+
+
+static func _valid_draw(draw: int, bound: int) -> bool:
+	return bound <= 0 or (draw >= 0 and draw < bound)

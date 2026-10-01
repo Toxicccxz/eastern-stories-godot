@@ -231,25 +231,8 @@ static func resolve(
 	calculation._base_apply_damage = attacker.projected_apply_damage
 	calculation._damage_value = calculation._base_apply_damage
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.APPLY_DAMAGE_PROJECTED
-	if calculation._damage_value < 0 or (calculation._damage_value == 0 and attacker.has_weapon):
-		return _finish(
-			CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
-			CombatAttackResult.FailureStage.APPLY_DAMAGE_RANDOM_BOUND,
-			CombatAttackResult.AuthoredPolicyKind.NONE,
-			CombatAttackResult.ThresholdCandidate.NOT_OBSERVED,
-			false,
-			attacker,
-			defender,
-			action,
-			calculation,
-			mutation,
-		)
-	# CXR9 explicit compatibility choice: unarmed zero base contributes zero,
-	# without random(0). Strength and every later source-ordered stage still run.
-	var damage_roll: int = 0
-	if calculation._damage_value > 0:
-		damage_roll = _draw(random_source, calculation._damage_value, calculation)
-	if calculation._damage_value > 0 and not _is_valid_draw(damage_roll, calculation._damage_value):
+	var damage_roll: int = _draw(random_source, calculation._damage_value, calculation)
+	if not _is_valid_draw(damage_roll, calculation._damage_value):
 		return _invalid_draw_result(
 			CombatAttackResult.FailureStage.APPLY_DAMAGE_RANDOM_DRAW,
 			attacker,
@@ -431,14 +414,12 @@ static func resolve(
 	var defense_factor: int = defender.combat_experience
 	while true:
 		calculation._defense_factor_at_exit = defense_factor
-		# P2B-ZE1 owner Type B: original defender EXP0 has no experience reduction
-		# or draw. This does not define random(0), or permit invalid negative EXP.
-		if defender.combat_experience == 0 and attacker.combat_experience >= 0:
-			break
-		if defense_factor <= 0:
+		# random(0) is 0, so `random(f) > exp` ends the loop for any exp >= 0.
+		# A negative attacker exp would loop for ever in the LPC: invalid state.
+		if attacker.combat_experience < 0:
 			return _finish(
 				CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
-				CombatAttackResult.FailureStage.DEFENSE_FACTOR_RANDOM_BOUND,
+				CombatAttackResult.FailureStage.DEFENSE_LOOP_NEGATIVE_EXPERIENCE,
 				CombatAttackResult.AuthoredPolicyKind.NONE,
 				CombatAttackResult.ThresholdCandidate.NOT_OBSERVED,
 				false,
@@ -489,21 +470,6 @@ static func resolve(
 		CombatAttackCalculation.ReachedStage.WOUND_ELIGIBILITY_EVALUATED
 	)
 	if calculation._wound_eligible:
-		if calculation._requested_damage <= 0:
-			return _finish(
-				CombatAttackResult.Outcome.INVALID_SOURCE_STATE,
-				CombatAttackResult.FailureStage.WOUND_RANDOM_BOUND,
-				CombatAttackResult.AuthoredPolicyKind.NONE,
-				CombatAttackResult.ThresholdCandidate.NOT_OBSERVED,
-				false,
-				attacker,
-				defender,
-				action,
-				calculation,
-				mutation,
-				&"",
-				standard_force_result,
-			)
 		var wound_roll: int = _draw(
 			random_source,
 			calculation._requested_damage,
@@ -576,14 +542,15 @@ static func _draw(
 	exclusive_upper_bound: int,
 	calculation: CombatAttackCalculation,
 ) -> int:
-	calculation._random_upper_bounds.append(exclusive_upper_bound)
-	var draw: int = random_source.next_below(exclusive_upper_bound)
-	calculation._random_draws.append(draw)
+	var draw: int = random_source.legacy_random(exclusive_upper_bound)
+	if exclusive_upper_bound > 0:
+		calculation._random_upper_bounds.append(exclusive_upper_bound)
+		calculation._random_draws.append(draw)
 	return draw
 
 
 static func _is_valid_draw(draw: int, exclusive_upper_bound: int) -> bool:
-	return draw >= 0 and draw < exclusive_upper_bound
+	return exclusive_upper_bound <= 0 or (draw >= 0 and draw < exclusive_upper_bound)
 
 
 static func _observe_threshold(
@@ -727,12 +694,8 @@ static func _append_force_rng(
 
 static func _force_failure_stage(policy_stage: int) -> int:
 	match policy_stage:
-		StandardForceHitResult.FailureStage.REFLECTION_RANDOM_BOUND:
-			return CombatAttackResult.FailureStage.FORCE_REFLECTION_RANDOM_BOUND
 		StandardForceHitResult.FailureStage.REFLECTION_RANDOM_DRAW:
 			return CombatAttackResult.FailureStage.FORCE_REFLECTION_RANDOM_DRAW
-		StandardForceHitResult.FailureStage.NORMAL_RANDOM_BOUND:
-			return CombatAttackResult.FailureStage.FORCE_NORMAL_RANDOM_BOUND
 		StandardForceHitResult.FailureStage.NORMAL_RANDOM_DRAW:
 			return CombatAttackResult.FailureStage.FORCE_NORMAL_RANDOM_DRAW
 		_:

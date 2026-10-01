@@ -206,14 +206,6 @@ static func execute(
 	result._reached_stage = CombatSingleAttackExecutionResult.ReachedStage.RIPOSTE_GUARD_CLEARED
 	result._riposte_random_reached = true
 	result._riposte_random_bound = attacker_raw_composure.current_raw_composure()
-	if result._riposte_random_bound <= 0:
-		return _finish(
-			result,
-			CombatSingleAttackExecutionResult.Outcome.INVALID_RIPOSTE_RANDOM_BOUND,
-			CombatSingleAttackExecutionResult.FailureStage.RIPOSTE_RANDOM_BOUND,
-			CombatSingleAttackExecutionResult.ReachedStage.RIPOSTE_GUARD_CLEARED,
-			true,
-		)
 	if random_source == null:
 		return _finish(
 			result,
@@ -222,10 +214,10 @@ static func execute(
 			CombatSingleAttackExecutionResult.ReachedStage.RIPOSTE_GUARD_CLEARED,
 			true,
 		)
-	result._riposte_random_attempted = true
-	result._riposte_random_draw = random_source.next_below(result._riposte_random_bound)
+	result._riposte_random_attempted = result._riposte_random_bound > 0
+	result._riposte_random_draw = random_source.legacy_random(result._riposte_random_bound)
 	result._reached_stage = CombatSingleAttackExecutionResult.ReachedStage.RIPOSTE_RANDOM
-	if (
+	if result._riposte_random_bound > 0 and (
 		result._riposte_random_draw < 0
 		or result._riposte_random_draw >= result._riposte_random_bound
 	):

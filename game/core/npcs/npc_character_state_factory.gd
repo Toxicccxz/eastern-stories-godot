@@ -200,7 +200,7 @@ func create_one(
 			resolved_values.append(authored_values[index])
 			continue
 		var bound: int = BEAST_ATTRIBUTE_DRAW_BOUNDS[index] if is_beast else 21
-		if bound == 0:
+		if bound == 0: # beast.c sets no spi or kar: 0, not random(0) + 5
 			resolved_values.append(0)
 			continue
 		var default_value: int = _draw_with_offset(random_source, bound, 5 if is_beast else 10)
@@ -329,8 +329,8 @@ static func _draw_with_offset(
 	exclusive_upper_bound: int,
 	offset: int,
 ) -> int:
-	var draw: int = random_source.next_below(exclusive_upper_bound)
-	if draw < 0 or draw >= exclusive_upper_bound:
+	var draw: int = random_source.legacy_random(exclusive_upper_bound)
+	if exclusive_upper_bound > 0 and (draw < 0 or draw >= exclusive_upper_bound):
 		return INVALID_RANDOM_DRAW
 	return draw + offset
 

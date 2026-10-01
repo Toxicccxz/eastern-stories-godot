@@ -1,5 +1,22 @@
 # Migration Decisions
 
+## MudOS random(n <= 0) is 0, everywhere (2026-10-01)
+
+Owner decision for the new-player combat package:
+- **One driver rule.** MudOS `random(n)` returns 0 for `n <= 0` and draws nothing. Every LPC
+  `random()` the port runs calls `legacy_random(n)` on its random source (combat, NPC creation,
+  world interaction; 16 call sites). A source that answers out of range is still an error.
+- **It replaces the per-site exceptions** recorded below: "Combat invalid random bounds become
+  ordered typed failures", "Non-positive authored world random bounds become ordered typed
+  ambiguities", P2B-ZE1's zero-EXP defense boundary, CXR9's unarmed zero base damage (armed zero
+  base and negative apply/damage now follow the formula as well) and S6B's Vine waterfall
+  exception (the technical fixture now falls too).
+- **In play:** a zero-damage blow that may wound (armed or killing) no longer stalls the fight
+  (`random(0) > armor` is false: no wound); zero cps rolls 0 and attacks or ripostes; zero dodge
+  falls from the vine; an NPC with no int learns nothing from a miss.
+- **Not random(0):** a negative attacker exp would loop `combatd.c`'s defense loop for ever and
+  stays an invalid-state failure; `beast.c` leaves spi and kar unset (0), not `random(0) + 5`.
+
 ## Content importer and Snow's first NPCs (2026-10-01)
 
 Package 4A, from the owner-approved Package 4 plan:

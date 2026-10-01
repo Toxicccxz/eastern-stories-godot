@@ -141,9 +141,9 @@ func _test_dodge_defender_boundaries() -> void:
 	var bound: CombatOrdinaryAttackResultScript = _complete(
 		_input(0, 1), _character(), nonpositive, true, false, bound_rng
 	)
-	_assert_eq(bound.progression_result.failure_stage, CombatProgressionResultScript.FailureStage.DODGE_DEFENDER_RANDOM_BOUND, "nonpositive dodge bound is typed without clamp")
-	_assert_true(bound.progression_result.has_failed_random_bound, "invalid dodge bound presence is explicit")
-	_assert_eq(bound.progression_result.failed_random_bound, -1, "invalid dodge bound preserves exact source arithmetic")
+	_assert_eq(bound.progression_result.failure_stage, CombatProgressionResultScript.FailureStage.NONE, "nonpositive dodge bound: random(-1) is 0, no failure")
+	_assert_false(bound.progression_result.defender_roll_succeeded, "random(-1) = 0 is not > 50")
+	_assert_eq(nonpositive.progression.combat_experience, 1, "the dodge earns nothing")
 	_assert_eq(bound_rng.call_count(), 2, "nonpositive progression bound is not sent to RNG")
 
 
@@ -190,8 +190,9 @@ func _test_dodge_npc_attacker_progression() -> void:
 		true,
 		invalid_int_rng,
 	)
-	_assert_eq(invalid_int.progression_result.failure_stage, CombatProgressionResultScript.FailureStage.DODGE_ATTACKER_EXP_RANDOM_BOUND, "nonpositive NPC raw int fails at first required draw")
-	_assert_eq(invalid_int_rng.call_count(), 2, "nonpositive NPC raw int consumes no progression RNG")
+	_assert_eq(invalid_int.progression_result.failure_stage, CombatProgressionResultScript.FailureStage.NONE, "zero NPC raw int: random(0) is 0, no failure")
+	_assert_false(invalid_int.progression_result.attacker_first_roll_succeeded, "random(0) = 0 is not > 15")
+	_assert_eq(invalid_int_rng.call_count(), 2, "zero NPC raw int consumes no progression RNG")
 
 
 func _test_parry_progression() -> void:
@@ -336,7 +337,9 @@ func _test_hit_partial_failures_and_threshold() -> void:
 		true,
 		late_rng,
 	)
-	_assert_eq(late.progression_result.failure_stage, CombatProgressionResultScript.FailureStage.HIT_DEFENDER_RANDOM_BOUND, "nonpositive live kee bound fails at late defender stage")
+	_assert_eq(late.progression_result.failure_stage, CombatProgressionResultScript.FailureStage.NONE, "nonpositive live kee bound: random(-1) is 0, no failure")
+	_assert_true(late.progression_result.defender_roll_succeeded, "random(-1) = 0 < damage: the defender learns")
+	_assert_eq(invalid_defender.progression.combat_experience, 2, "the defender gains one exp")
 	_assert_eq(attacker.progression.combat_experience, 1, "late defender failure preserves attacker exp")
 	_assert_eq(attacker.progression.potential, 1, "late defender failure preserves attacker potential")
 	_assert_eq(attacker.skills.learned_progress(&"unarmed"), 1, "late defender failure preserves attacker skill progress")
