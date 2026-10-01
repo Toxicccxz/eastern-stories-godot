@@ -1,5 +1,31 @@
 # Migration Decisions
 
+## Old Pine: one map per height level, collision on tiles (2026-09-30)
+
+Owner decisions for Package 3B5:
+- **One map per height level.** ES2 joins Old Pine's levels mostly by actions: climb pine
+  (`clearing.c` → tree1), hold vine (`epath2.c` → waterfall or passage), climb cliff
+  (`riverbank1.c` → cliff1), climb up/down (`cliff1.c`); tree1 `down` and passage `south` are
+  exits. They used to sit side by side in one scene, joined by same-map teleports. Now the forest,
+  the gorge (waterfall, riverbank1-2, lake), the tree top and the cliff niche are separate maps,
+  and each of those moves is a scene transition. No Old Pine portal stays on its map. This
+  replaces B2's "waterfall pool is walled from above". A transition reconciles combat at once, so
+  climbing away from a fight ends it on arrival (it used to wait for the next round, as LPC's
+  `clean_up_enemy` does on the next heart_beat).
+- **The forest follows the ES2 exits.** spath1-4 lie north of the clearing (`clearing.c`
+  north → spath1), npath enters from the west (`clearing.c` west → npath3), and cliffside is
+  walked into pine1 (`cliffside.c` north). The walk works both ways although pine1 has no exit
+  back: cliffside is a dead end with no way down, so this opens no route. The maze keeps B2's
+  native link from the clearing, now on its south side, where ES2 has no exit.
+- **Static terrain collides through its tiles.** Walls, forest, water, cliffs and chasms carry a
+  TileSet physics shape; the map's walkable area is what is painted with walkable tiles. Doors,
+  exits closed in one world (e.g. `SnowBlocker`) and other switchable blockers stay nodes. Old Pine
+  uses this now; Snow follows in 3B6. This replaces 3B4's "collision waits for art".
+- **A corpse lies where its body fell**, shifted sideways (at most 40 px, same zone) when its wider
+  footprint would overlap a wall, so a save always holds a position Continue accepts.
+- **Tile data stays inline.** Large maps keep their `tile_map_data` in the scene file (about 1 MB
+  for Old Pine). Terrain layers move into a per-map sub-scene when real art arrives.
+
 ## Terrain on TileMapLayer, collision unchanged (2026-09-30)
 
 Owner decisions for Package 3B4:

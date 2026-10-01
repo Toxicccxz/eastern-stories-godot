@@ -85,7 +85,7 @@ spawn point a `WorldNpcBody2D` (`scenes/world/common/world_npc_body.tscn`). A ma
 initialize when scene and data disagree.
 
 Terrain is not data: each scene paints it on `TileMapLayer`s with the shared placeholder TileSet
-([TERRAIN_TILES](TERRAIN_TILES.md)). The tiles carry no collision and no IDs.
+([TERRAIN_TILES](TERRAIN_TILES.md)); on Old Pine the tiles are also the collision. Tiles carry no IDs.
 
 ## zones
 

@@ -24,6 +24,9 @@ hand-written files. Fix that before adding breadth.
 | 3 | **Generic map runtime** | One data-configured map controller plus reusable zone/portal/spawn/interaction components; explicit combat cadence; UI no longer dispatches on concrete map types; terrain on `TileMapLayer` with a placeholder TileSet; zones show the room's authored ES2 description. |
 | 4 | **Content importer + Snow complete** | A best-effort LPC → data importer for NPCs/items/vendors/spawns (manual overrides kept separate); all of Snow's rooms, NPCs, shops and services playable. Record the time per NPC as the baseline for later regions. |
 
+Package 3 finishes with two small follow-ups before Package 4: **3B5** Old Pine split into one map per
+height level, with collision on the terrain tiles; **3B6** Snow's collision moved onto its tiles.
+
 Small correctness items ride along with the package that touches the code: global `random(n<=0)`
 rule, busy decrement outside encounters, `apply/*` stat bonuses in combat, the missing Keep scene
 reference, opt-in QA autoload, `tr()` for player text.
