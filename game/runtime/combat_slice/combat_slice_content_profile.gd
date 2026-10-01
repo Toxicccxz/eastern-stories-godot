@@ -252,6 +252,18 @@ func has_attack_skill_definition(skill_id: StringName) -> bool:
 	)
 
 
+## The actions an attack may draw from, when there is more than one: a mapped
+## martial art, or a beast's verbs (beast.c query_action). Null keeps the
+## single-template comparison (punch, slash, a one-verb beast).
+func approved_action_set(weapon: EquippedWeaponRef, attack_skill_id: StringName, mapped_skill_id: StringName) -> CombatActionSet:
+	var mapped: CombatActionSet = mapped_action_set(attack_skill_id, mapped_skill_id)
+	if mapped != null:
+		return mapped
+	if _race_id == &"beast" and weapon == null and is_valid() and _unarmed_action_set.size() > 1:
+		return unarmed_action_set()
+	return null
+
+
 ## Only the reviewed human unarmed liuh mapping is admitted. Beast anatomy,
 ## other mappings and the existing singleton default/weapon providers stay closed.
 func mapped_action_set(attack_skill_id: StringName, mapped_skill_id: StringName) -> CombatActionSet:

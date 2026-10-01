@@ -17,6 +17,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_temple_forbids_fighting(tree, session)
 	session.free()
 	await tree.process_frame
+	await _test_dog_fight_ends(tree)
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -93,6 +94,49 @@ func _test_temple_forbids_fighting(tree: SceneTree, session: OldPineWorldSession
 	_check(result.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not session.combat_encounter_coordinator().has_active_encounter(), "no fight starts in the temple")
 	var lines: Array[String] = session.shared_ui().log_lines()
 	_check(lines.size() == before + 1 and lines[-1] == "这里不准战斗。", "kill.c: 这里不准战斗。")
+
+
+## d/snow/npc/dog.c bites and claws (beast.c query_action draws one verb per
+## attack, forward or riposte). A claw must not stall the encounter.
+func _test_dog_fight_ends(tree: SceneTree) -> void:
+	var session: OldPineWorldSessionController = Work.create_session(tree)
+	await tree.process_frame
+	Input.action_press("move_right")
+	for _step: int in range(400):
+		await tree.physics_frame
+		if session.active_map_id() == &"snow.outdoor":
+			break
+	Input.action_release("move_right")
+	await tree.physics_frame
+	var walker: RefCounted = Work.new()
+	await walker.walk_to(tree, session, "move_right", 0, 0)
+	await walker.walk_to(tree, session, "move_down", 550, 1)
+	await walker.walk_to(tree, session, "move_right", 600, 0)
+	_check(walker._failures.is_empty() and session.player_runtime().world_location().zone_id == &"snow.eroad2", "walked to the dogs on the east road")
+	session.set_process(false)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	map.select_npc(&"snow.eroad2.dog.1.character")
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the fight with the dog starts")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var claws: int = 0
+	var stalled: bool = false
+	for _second: int in range(120):
+		var advanced: CombatSchedulerAdvanceResult = coordinator.advance_scheduler(1.0)
+		for event: CombatSchedulerEvent in advanced.events():
+			var resolution: CombatSliceOpportunityResult = event.resolution
+			if resolution == null:
+				continue
+			if resolution.forward_result != null and resolution.forward_result.selected_action_id == &"es2:adm/daemons/race/beast/claw":
+				claws += 1
+			if resolution.chain_result != null and resolution.chain_result.reverse_selected_action_id == &"es2:adm/daemons/race/beast/claw":
+				claws += 1
+			stalled = stalled or resolution.outcome == CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_INCOMPLETE
+		if not coordinator.has_active_encounter():
+			break
+	_check(not stalled and not coordinator.has_active_encounter(), "the dog fight runs to its end, no incomplete attack chain")
+	_check(claws > 0, "the dog clawed at least once")
+	session.free()
+	await tree.process_frame
 
 
 func _check(ok: bool, label: String) -> void:

@@ -48,6 +48,8 @@ Code:
 * `apply/parry`, `apply/defense` and weapon-skill `apply/*` bonuses are not projected into combat.
 * `random(n<=0)` is handled by per-site exceptions; needs the global MudOS rule (returns 0). The
   16 call sites are combat/learn code; do it with the next package that touches them.
+* A failed attack chain holds the encounter in RESOLVING for good (fail closed); Flee is refused
+  and the fight cannot end. Content that trips it (4A's dog claw) must be fixed at the cause.
 * Snow NPCs do not talk, wander, greet or trade yet (4D/4E); a killed NPC never returns (no room
   reset yet, 4D). Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon
   verbs are not modelled yet.
