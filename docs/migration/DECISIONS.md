@@ -1,5 +1,14 @@
 # Migration Decisions
 
+## Snow: walls on the tile grid, collision on tiles (2026-10-01)
+
+Owner decisions for Package 3B6:
+- **Snow collides through its tiles**, as Old Pine does since 3B5. The 24 px off-grid wall shapes
+  are gone; every wall, town boundary and shop wall is redrawn as one 32 px band (two tiles, the
+  Inn's thickness) on the 16 px grid, so a wall blocks exactly where it is drawn. Walkable widths
+  move by up to 8 px. Doors, the closed Old Pine exit (`SouthBlocker`), the counters and the teacher
+  stay nodes; doors and `SouthBlocker` fill their tile openings exactly.
+
 ## Old Pine: one map per height level, collision on tiles (2026-09-30)
 
 Owner decisions for Package 3B5:
@@ -21,7 +30,7 @@ Owner decisions for Package 3B5:
 - **Static terrain collides through its tiles.** Walls, forest, water, cliffs and chasms carry a
   TileSet physics shape; the map's walkable area is what is painted with walkable tiles. Doors,
   exits closed in one world (e.g. `SnowBlocker`) and other switchable blockers stay nodes. Old Pine
-  uses this now; Snow follows in 3B6. This replaces 3B4's "collision waits for art".
+  uses this from 3B5, Snow from 3B6. This replaces 3B4's "collision waits for art".
 - **A corpse lies where its body fell**, shifted sideways (at most 40 px, same zone) when its wider
   footprint would overlap a wall, so a save always holds a position Continue accepts.
 - **Tile data stays inline.** Large maps keep their `tile_map_data` in the scene file (about 1 MB

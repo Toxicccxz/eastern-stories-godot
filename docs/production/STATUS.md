@@ -4,7 +4,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 3 — generic map runtime**, in playable PRs (see [ROADMAP](ROADMAP.md)):
+**Package 3 — generic map runtime**, in playable PRs (see [ROADMAP](ROADMAP.md)); 3B6 is its last step:
 
 1. **World data** (PR #29): rooms, regions, maps, zones and portals are JSON; the player reads each
    room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
@@ -17,10 +17,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
    per second on every map (`pacing.json`); saves, combat and the HUD go through every resident map.
 4. **Terrain on `TileMapLayer`** (PR #32): Snow and Old Pine are painted with one 16 px placeholder
    TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)). Swapping art means replacing the TileSet.
-5. **Old Pine by height level** (`phase/oldpine-elevation-maps`): forest, gorge, tree top and cliff
+5. **Old Pine by height level** (PR #33): forest, gorge, tree top and cliff
    niche are separate maps; climbing, the vine and the cave are scene transitions; the forest follows
    the ES2 exits (the bandit slope is north of the clearing); Old Pine collides through its tiles.
-6. Snow collision on its tiles (3B6, next).
+6. **Snow collision on its tiles** (`phase/snow-tile-collision`): Snow's walls, town boundaries and
+   shop walls are redrawn as 32 px tile walls on the 16 px grid and block exactly where they are
+   drawn; doors, the closed Old Pine exit, the counters and the teacher stay nodes.
+
+Next: **Package 4 — content importer + Snow complete** (see [ROADMAP](ROADMAP.md)).
 
 ## Playable now
 
@@ -61,6 +65,8 @@ Code:
   a test-only manual cadence (`historical_world_combat_fixture.gd`).
 * `oldpine_lake_production_test.gd` fails its three Fill checks when run on its own (also on main);
   it passes inside `run_tests.gd`.
+* A script error inside a helper a suite calls skips that helper's remaining checks, and the suite
+  still reports PASS; only the log's `SCRIPT ERROR` line shows it.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix

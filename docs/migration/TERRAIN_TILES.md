@@ -1,4 +1,4 @@
-# Terrain tiles (Packages 3B4, 3B5)
+# Terrain tiles (Packages 3B4–3B6)
 
 Map terrain is drawn on `TileMapLayer`s that share one placeholder TileSet,
 `game/scenes/world/common/placeholder_terrain_tileset.tres` (16 px tiles, atlas
@@ -11,12 +11,12 @@ children of the map's terrain node, so labels, door shutters, counters, landmark
 characters draw over them. Edit them in the Godot TileMap editor.
 
 **Collision.** The TileSet has one physics layer: blocking kinds (below) carry a full-cell shape,
-so on Old Pine the tiles are the walls and the walkable area is what is painted walkable. Every
+so on every map the tiles are the walls and the walkable area is what is painted walkable. Every
 walkable cell must border painted cells (no walking off into the void); `terrain_tilemap_test`
-checks it. Zones, portals, spawns, services, doors and landmarks stay separate components, and
-switchable blockers (doors, an exit closed in one world) stay `StaticBody2D` nodes. Snow's layers
-still have `collision_enabled = false` and keep their `StaticBody2D` walls until 3B6. Snow's tiles
-were painted from off-grid shapes, so a painted edge there can sit up to 8 px from its collision.
+checks it. Zones, portals, spawns, services, doors and landmarks stay separate components.
+Switchable blockers (doors, an exit closed in one world) and objects that block (Snow's counters
+and teacher) stay `StaticBody2D` nodes; a door's shape and shutter cover exactly the walkable
+cells of its tile opening, which the test also checks. Snow's walls are 32 px (two tiles) thick.
 
 ## Atlas layout (the `terrain` custom data)
 
