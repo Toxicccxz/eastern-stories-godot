@@ -116,7 +116,7 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	for entry: BattleFeedbackProjection in mixed:
 		_check(entry.progression_order > last_order, "ordinary+tactical sorted by semantic order")
 		last_order = entry.progression_order
-	_check(reader.recent().size() == 3 and reader.recent()[-1] == mixed[-1], "latest three semantic entries")
+	_check(reader.recent().size() <= BattleFeedbackReader.RECENT_LINES and reader.recent()[-1].text == mixed[-1].lines()[-1].text, "latest lines, newest last")
 	_check(reader.read_new(coordinator, BattleProjectionBuilder.build(session)).is_empty(), "incremental read remains empty without events")
 	_check(coordinator.active_scheduler().events_after(last_order).is_empty(), "ordinary suffix accessor")
 	_check(coordinator.active_scheduler().player_tactics().events_after(last_order).is_empty(), "tactical suffix accessor")
@@ -126,7 +126,7 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	coordinator.advance_scheduler(0)
 	_check(encounter.queued_player_action() == null and random.calls == calls, "execution rejection clears without RNG")
 	var rejected: Array[BattleFeedbackProjection] = reader.read_new(coordinator, BattleProjectionBuilder.build(session))
-	_check(rejected[-2].text.contains("Execution Rejected") and rejected[-1].text.contains("Cancelled"), "rejection/cancellation feedback")
+	_check(rejected[-1].text == "你无法qa.probe：条件不足。", "one refusal line; the follow-up cancel is not told twice: %s" % rejected[-1].text)
 	_check(Setup.complete(session), "typed completion fixture")
 	ui.refresh_projection()
 	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "completion restores HUD")
@@ -238,7 +238,7 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	encounter.set_current_target(player.character_id, third.character_id) # Unit setup, not a UI selector.
 	await _settle(tree)
 	_check(ui.current_projection().current_target_id == third.character_id and ui.current_projection().queued_action().resolved_target_id == enemy.character_id, "UI current/queued target distinction")
-	_check(ui.action_panel._queue.text.contains("Queued Target:"), "queued target visibly labeled separately")
+	_check(ui.action_panel._queue.text.contains(" · 目标："), "queued target visibly labeled separately")
 	await _tap(tree, touch.pause_button())
 	_check(tree.paused and encounter.queued_player_action().request.request_id == replacement_id, "shared Pause keeps exact pending request")
 	var busy_before: int = player.busy.busy_value

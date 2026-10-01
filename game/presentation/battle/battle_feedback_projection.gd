@@ -5,14 +5,23 @@ extends RefCounted
 var _progression_order: int
 var progression_order: int:
 	get: return _progression_order
-var _text: String
+var _lines: Array[BattleNarrationLine]
+## The lines as the player reads them, without damage numbers.
 var text: String:
-	get: return _text
+	get:
+		var texts := PackedStringArray()
+		for line: BattleNarrationLine in _lines:
+			texts.append(line.text)
+		return "\n".join(texts)
 
 
 func _init(
 	p_progression_order: int = 0,
-	p_text: String = "",
+	p_lines: Array[BattleNarrationLine] = [],
 ) -> void:
 	_progression_order = p_progression_order
-	_text = p_text
+	_lines = p_lines.duplicate()
+
+
+func lines() -> Array[BattleNarrationLine]:
+	return _lines.duplicate()

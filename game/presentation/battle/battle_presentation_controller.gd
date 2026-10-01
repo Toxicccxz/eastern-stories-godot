@@ -41,6 +41,7 @@ func _ready() -> void:
 	theme = visual_theme if visual_theme != null else BattleVisualTheme.new()
 	if action_catalog == null:
 		action_catalog = BattleActionPresentationCatalog.new()
+	_reader.catalog = action_catalog
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_build()
@@ -98,22 +99,20 @@ func refresh_projection() -> void:
 	var entries: Array[BattleFeedbackProjection] = _reader.read_new(_session.combat_encounter_coordinator(), _projection) if _session.is_initialized() else []
 	if not _projection.active:
 		return
-	_title.text = "ENCOUNTER · %s · %s\nCurrent Target: %s" % [CombatEncounterMode.Value.keys()[_projection.mode], _receipt.text, _projection.display_name(_projection.current_target_id)]
+	var heading: String = _mode_name(_projection.mode)
+	if not _receipt.text.is_empty():
+		heading += " · " + _receipt.text
+	_title.text = heading + "\n" + tr("目标：%s") % _projection.display_name(_projection.current_target_id)
 	if _projection.completion_outcome >= 0:
-		_title.text = "ENCOUNTER · World return blocked\n%s — no automatic retry" % CombatEncounterCompletionResult.Outcome.keys()[_projection.completion_outcome]
+		_title.text = tr("战斗无法正常结束（%s），不会自动重试。") % CombatEncounterCompletionResult.Outcome.keys()[_projection.completion_outcome]
 	_title.tooltip_text = _title.text
 	_present_participants()
 	action_panel.present(_projection)
 	if not entries.is_empty():
 		log_panel.append_entries(entries)
-		var recent: Array[BattleFeedbackProjection] = _reader.recent()
-		for index: int in 3:
-			var line: Label = _recent.get_child(index)
-			line.text = recent[index].text if index < recent.size() else ""
-			line.tooltip_text = line.text
+		_present_recent(_reader.recent())
 	elif changed:
-		for index: int in 3:
-			(_recent.get_child(index) as Label).text = "Combat feedback will appear as opportunities resolve." if index == 0 else ""
+		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
 	if changed:
 		_focus_battle.call_deferred()
 	elif not log_panel.visible:
@@ -146,8 +145,8 @@ func _present_completed_result() -> void:
 		log_panel.clear_entries()
 	var entries: Array[BattleFeedbackProjection] = _reader.read_new(_session.combat_encounter_coordinator(), feedback_projection)
 	log_panel.append_entries(entries)
-	for entry: BattleFeedbackProjection in _reader.recent():
-		text += "\n" + entry.text
+	for line: BattleNarrationLine in _reader.recent():
+		text += "\n" + line.text
 	hud.show_combat_result(text)
 
 
@@ -171,7 +170,7 @@ func _build() -> void:
 	header.add_child(_title)
 	log_button = Button.new()
 	log_button.name = "CombatLogButton"
-	log_button.text = "Combat Log"
+	log_button.text = tr("战斗记录")
 	log_button.custom_minimum_size = Vector2(144, 64)
 	log_button.pressed.connect(_open_log)
 	header.add_child(log_button)
@@ -208,12 +207,23 @@ func _build() -> void:
 	_recent.add_theme_constant_override("separation", 0)
 	_recent.custom_minimum_size.y = 60
 	_content.add_child(_recent)
-	for index: int in 3:
+	for index: int in BattleFeedbackReader.RECENT_LINES:
+		# One row per line: the words, cut short with an ellipsis, and the damage
+		# small and grey at the end of the row.
+		var row := HBoxContainer.new()
+		_recent.add_child(row)
 		var line := Label.new()
+		line.name = "Text"
+		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		line.add_theme_font_size_override("font_size", 16)
 		line.clip_text = true
 		line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		_recent.add_child(line)
+		row.add_child(line)
+		var damage := Label.new()
+		damage.name = "Damage"
+		damage.add_theme_font_size_override("font_size", 12)
+		damage.add_theme_color_override("font_color", Color("8b959e"))
+		row.add_child(damage)
 	log_panel = BattleLogPanel.new()
 	log_panel.name = "CombatLog"
 	log_panel.closed.connect(_focus_battle)
@@ -262,12 +272,32 @@ func _present_participants() -> void:
 		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id)
 
 
+func _present_recent(lines: Array[BattleNarrationLine]) -> void:
+	for index: int in _recent.get_child_count():
+		var row: Node = _recent.get_child(index)
+		var line: BattleNarrationLine = lines[index] if index < lines.size() else null
+		var text: Label = row.get_node("Text")
+		text.text = "" if line == null else line.text
+		text.tooltip_text = text.text
+		var damage: Label = row.get_node("Damage")
+		damage.text = tr("（-%d）") % line.damage if line != null and line.has_damage else ""
+
+
+func _mode_name(mode: int) -> String:
+	match mode:
+		CombatEncounterMode.Value.SPAR:
+			return tr("切磋")
+		CombatEncounterMode.Value.LETHAL:
+			return tr("厮杀")
+	return tr("战斗")
+
+
 func _change_target(id: StringName) -> void:
 	if _intent == null:
 		return
 	target_submitting.emit()
 	var result: CombatTargetResult = _intent.change_target(_projection.encounter_id, id)
-	_receipt.text = "Target: " + String(CombatTargetResult.Code.keys()[result.code]).capitalize()
+	_receipt.text = tr("换目标：%s") % BattleFeedbackReader.target_reason(result.code)
 	target_received.emit(result)
 
 
@@ -280,7 +310,7 @@ func _submit_action(id: StringName) -> void:
 			target = _projection.current_target_id # Declared displayed intent, not validity/retargeting.
 	intent_submitting.emit()
 	var result: CombatTacticalResult = _intent.submit(id, target)
-	_receipt.text = "Request: " + BattleFeedbackReader.reason(result.code)
+	_receipt.text = tr("下令：%s") % BattleFeedbackReader.reason(result.code)
 	intent_received.emit(result)
 
 
@@ -289,7 +319,7 @@ func _cancel_action(expected_request_id: StringName) -> void:
 		return
 	intent_submitting.emit()
 	var result: CombatTacticalResult = _intent.cancel(expected_request_id)
-	_receipt.text = "Cancel: " + BattleFeedbackReader.reason(result.code)
+	_receipt.text = tr("取消：%s") % BattleFeedbackReader.reason(result.code)
 	intent_received.emit(result)
 
 

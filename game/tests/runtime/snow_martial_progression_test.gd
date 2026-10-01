@@ -106,6 +106,19 @@ static func ready_state() -> CharacterState:
 	return state
 
 
+## The battle log for one forward attack, seen by a bystander, the attacker
+## named `attacker` and the victim `victim`.
+static func narrate(result: CombatSingleAttackExecutionResult, attacker: String, victim: String) -> String:
+	var cast := BattlePresentationProjection.new(&"test", CombatEncounterMode.Value.SPAR, &"", &"", [
+		BattleParticipantProjection.new(result.attacker_id, attacker),
+		BattleParticipantProjection.new(result.victim_id, victim),
+	])
+	var texts := PackedStringArray()
+	for line: BattleNarrationLine in BattleNarrator.new().attack_chain(result, null, cast):
+		texts.append(line.text)
+	return "\n".join(texts)
+
+
 static func binding(id: StringName, state: CharacterState = null, user: bool = true) -> CombatSliceCharacterBinding:
 	return CombatSliceCharacterBinding.new(id, ready_state() if state == null else state,
 		CombatRelationshipState.new(id),ActionBusyState.new(),ArmorState.new(),CombatSliceContentProfile.new(),&"test",true,CombatSliceLifeStatus.Value.ACTIVE,user)
@@ -167,8 +180,8 @@ func action_execution() -> void:
 		check(rng.requested_bounds() == [4,16,107],"one action draw, then limb and source dodge math " + str(rng.requested_bounds()))
 		check(result.ordinary_attack_result.base_result.calculation.attack_power == 106,"no action dodge/parry bonuses")
 		var before: int = rng.call_count()
-		var text: String = BattleFeedbackReader._attack(result.ordinary_attack_result,"学徒","对手")
-		check(text.contains(expected[index].replace("$N","学徒").replace("$n","对手").replace("$l","头部")) and text.contains("dodges") and not text.contains("$"),"full committed feedback")
+		var text: String = narrate(result,"学徒","对手")
+		check(text.contains(expected[index].replace("$N","学徒").replace("$n","对手").replace("$l","头部") + "！\n但是") and not text.contains("$"),"full committed feedback, then dodge.c " + text)
 		check(rng.call_count() == before,"presentation zero draws")
 	var actor := binding(&"actor")
 	var target := binding(&"target")
