@@ -9,9 +9,10 @@ Owner decisions for Package 3B5:
   exits. They used to sit side by side in one scene, joined by same-map teleports. Now the forest,
   the gorge (waterfall, riverbank1-2, lake), the tree top and the cliff niche are separate maps,
   and each of those moves is a scene transition. No Old Pine portal stays on its map. This
-  replaces B2's "waterfall pool is walled from above". A transition reconciles combat at once, so
-  climbing away from a fight ends it on arrival (it used to wait for the next round, as LPC's
-  `clean_up_enemy` does on the next heart_beat).
+  replaces B2's "waterfall pool is walled from above". Nobody climbs mid-fight (an encounter
+  freezes the world), but after a Flee the separated opponent mark used to wait for the next round
+  (as LPC's `clean_up_enemy` on the next heart_beat); a transition now clears it on arrival.
+  Lethal (killer) marks stay.
 - **The forest follows the ES2 exits.** spath1-4 lie north of the clearing (`clearing.c`
   north → spath1), npath enters from the west (`clearing.c` west → npath3), and cliffside is
   walked into pine1 (`cliffside.c` north). The walk works both ways although pine1 has no exit
