@@ -135,6 +135,23 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 			break
 	_check(not stalled and not coordinator.has_active_encounter(), "the dog fight runs to its end, no incomplete attack chain")
 	_check(claws > 0, "the dog clawed at least once")
+	# The seeded fight ends as the owner's playtest did: the dog kills the new character on
+	# Snow's own map, so the way back (wgargoyle.c) must not need a scene change.
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and session.player_life_flow().phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE, "the dog killed the new character on the east road")
+	for _second: int in range(60):
+		session.skip_death_message()
+		session._process(1.0)
+		await tree.process_frame
+		if not session.player_life_flow().is_active():
+			break
+	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
+	_check(
+		player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and session.active_map_id() == &"snow.outdoor"
+		and player.world_location().zone_id == &"snow.temple" and body.visible
+		and body.global_position == (session.active_map() as WorldMapController).resolve_spawn_marker(&"snow.temple.revive").global_position,
+		"继续 brings the player back at the temple on the same map",
+	)
 	session.free()
 	await tree.process_frame
 

@@ -1021,13 +1021,20 @@ func _reincarnate_at_revive_room() -> void:
 	var previous_exists: bool = _player.exists_in_world
 	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	_player.set_exists_in_world(true)
-	_last_revival_handoff = handoff_to(
-		SnowWorldDefinitions.OUTDOOR_MAP_ID,
-		SnowWorldDefinitions.TEMPLE_ZONE_ID,
-		SnowWorldDefinitions.TEMPLE_ZONE_ID,
-		SnowWorldDefinitions.REVIVE_SPAWN_ID,
-	)
-	if not _last_revival_handoff.succeeded():
+	var moved: bool
+	if active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID:
+		# Died on the temple's own map (Snow's streets): no scene change, just the move.
+		var snow: WorldMapController = active_map() as WorldMapController
+		moved = snow != null and not _transitioning and snow.relocate_player(SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
+	else:
+		_last_revival_handoff = handoff_to(
+			SnowWorldDefinitions.OUTDOOR_MAP_ID,
+			SnowWorldDefinitions.TEMPLE_ZONE_ID,
+			SnowWorldDefinitions.TEMPLE_ZONE_ID,
+			SnowWorldDefinitions.REVIVE_SPAWN_ID,
+		)
+		moved = _last_revival_handoff.succeeded()
+	if not moved:
 		_player.set_life_status(previous_life)
 		_player.set_exists_in_world(previous_exists)
 		_life_flow.retry_reincarnation()

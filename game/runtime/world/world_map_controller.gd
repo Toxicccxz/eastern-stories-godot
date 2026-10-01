@@ -247,6 +247,26 @@ func resolve_location(zone_id: StringName, combat_id: StringName) -> WorldLocati
 	return location if location != null and location.combat_location_id == combat_id else null
 
 
+## Moves the living player to a spawn marker of this map without a scene
+## change, as ES2's move_object() does within one place: reincarnating at the
+## temple after dying on the temple's own map. False if marker and zone differ.
+func relocate_player(zone_id: StringName, spawn_point_id: StringName) -> bool:
+	if not _initialized or _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return false
+	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
+	var location: WorldLocationState = location_for_zone(zone_id)
+	if marker == null or location == null or not spawn_matches_zone(spawn_point_id, zone_id):
+		return false
+	player_body.global_position = marker.global_position
+	if not _player.set_world_location(location):
+		return false
+	player_body.refresh_runtime_state()
+	_selected_target = null
+	if _hud() != null:
+		_hud().set_selected_target(null)
+	return true
+
+
 func prepare_for_activation(spawn_id: StringName) -> bool:
 	if not _initialized:
 		return false
