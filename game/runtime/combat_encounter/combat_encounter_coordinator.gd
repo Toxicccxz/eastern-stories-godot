@@ -12,6 +12,17 @@ var _resolution: CombatEncounterResolution
 var _last_completion: CombatEncounterCompletionResult
 var _completed_feedback: CombatCompletedFeedback
 var _entry_sequence: int = 0
+var _last_abort_detail: String = ""
+
+## Fights aborted by a failure (see _abort_failed_resolution) since the last take.
+## SuiteResult turns any untaken abort into a test failure.
+static var _aborted_total: int = 0
+
+
+static func take_aborted_total() -> int:
+	var total: int = _aborted_total
+	_aborted_total = 0
+	return total
 
 func resolution() -> CombatEncounterResolution:
 	return _resolution
@@ -22,6 +33,11 @@ func last_completion() -> CombatEncounterCompletionResult:
 func completed_feedback() -> CombatCompletedFeedback:
 	return _completed_feedback
 
+
+## Why the last aborted fight failed (empty when none did).
+func last_abort_detail() -> String:
+	return _last_abort_detail
+
 ## One synchronous production-entry transaction. Reuses the audited playable
 ## relationship establishment; rollback restores order and preexisting facts.
 func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int) -> CombatSliceInitiationResult:
@@ -29,8 +45,9 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 		return CombatSliceInitiationResult.new()
 	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id):
 		return CombatSliceInitiationResult.new()
-	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION] or _entry_sequence == 9223372036854775807:
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR] or _entry_sequence == 9223372036854775807:
 		return CombatSliceInitiationResult.new()
+	var spar: bool = cause == CombatTriggerCause.Value.PLAYER_SPAR
 	for binding: CombatSliceCharacterBinding in [initiator, target]:
 		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
 		if current == null or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor:
@@ -44,7 +61,10 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	var first_lethal: Array[StringName] = initiator.relationship.lethal_target_ids()
 	var second_opponents: Array[StringName] = target.relationship.opponent_ids()
 	var second_lethal: Array[StringName] = target.relationship.lethal_target_ids()
-	var receipt: CombatSliceInitiationResult = CombatSliceOpportunityExecutor.initiate_lethal_combat(initiator, target)
+	var receipt: CombatSliceInitiationResult = (
+		CombatSliceOpportunityExecutor.initiate_spar(initiator, target) if spar
+		else CombatSliceOpportunityExecutor.initiate_lethal_combat(initiator, target)
+	)
 	if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
 		_entry_sequence += 1
 		var candidates: Array[CombatTriggerCandidate] = [
@@ -52,7 +72,7 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 			CombatTriggerCandidate.new(target.character_id, &"target"),
 		]
 		var trigger := CombatTrigger.new(StringName("production:%d" % _entry_sequence), cause,
-			CombatEncounterMode.Value.LETHAL, initiator.character_id, candidates,
+			CombatEncounterMode.Value.SPAR if spar else CombatEncounterMode.Value.LETHAL, initiator.character_id, candidates,
 			_session.resolve_encounter_location(initiator.character_id))
 		var started: CombatEncounterStartResult = start(trigger)
 		if started.succeeded():
@@ -254,18 +274,71 @@ func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 	)
 	if _resolution != null:
 		if _resolution.failure != CombatEncounterResolution.Failure.NONE:
-			_hold_failed_resolution()
+			_abort_failed_resolution()
 		elif _resolution.result != null:
 			_resolution.reconcile_relationships()
 			complete(_resolution.result)
 	return advanced
 
-func _hold_failed_resolution() -> void:
-	if _active_encounter.phase == CombatEncounterLifecycle.Value.ACTIVE:
-		var queued: CombatQueuedAction = _active_encounter.queued_player_action()
-		_active_encounter.begin_resolving()
-		if _active_scheduler.player_tactics() != null:
-			_active_scheduler.player_tactics().report_completion_cancellation(queued)
+
+## A failed opportunity, attack chain or lifecycle ends the fight where it stood instead of
+## freezing it: damage dealt so far stays, anyone already below zero kee falls
+## (char.c heart_beat does that outside any fight), both sides disengage and the
+## world returns. Development builds log the cause; tests fail on it.
+func _abort_failed_resolution() -> void:
+	if _active_encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
+		return
+	_last_abort_detail = _failure_detail()
+	_aborted_total += 1
+	if OS.is_debug_build():
+		push_error("Combat encounter %s aborted: %s" % [_active_encounter.encounter_id, _last_abort_detail])
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
+	if map != null:
+		for victim: CombatSliceCharacterBinding in bindings:
+			var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
+			if required != null and victim.exists_in_encounter:
+				map.execute_encounter_lifecycle(victim, required, bindings)
+	_resolution.disengage_all()
+	_return_world(CombatEncounterResult.new(_active_encounter.encounter_id, _active_encounter.mode,
+		CombatEncounterResultKind.Value.ABORTED, [], [], []))
+
+
+func _failure_detail() -> String:
+	var parts: Array[String] = ["failure=%s" % CombatEncounterResolution.Failure.find_key(_resolution.failure)]
+	var events: Array[CombatSchedulerEvent] = _active_scheduler.events_after(0)
+	var opportunity: CombatSliceOpportunityResult = null
+	for index: int in range(events.size() - 1, -1, -1):
+		if events[index].resolution != null:
+			opportunity = events[index].resolution
+			parts.append("actor=%s target=%s" % [events[index].actor_id, events[index].target_id])
+			break
+	if opportunity != null:
+		parts.append("opportunity=%s@%s" % [CombatSliceOpportunityResult.Outcome.find_key(opportunity.outcome), CombatSliceOpportunityResult.ReachedStage.find_key(opportunity.reached_stage)])
+		if opportunity.opponent_selection_result != null:
+			parts.append("selection=%s" % CombatOpponentSelectionResult.Outcome.find_key(opportunity.opponent_selection_result.outcome))
+		if opportunity.fight_decision_result != null:
+			parts.append("fight=%s@%s" % [CombatFightDecisionResult.Outcome.find_key(opportunity.fight_decision_result.outcome), CombatFightDecisionResult.FailureStage.find_key(opportunity.fight_decision_result.failure_stage)])
+		var forward: CombatSingleAttackExecutionResult = opportunity.forward_result
+		if forward != null:
+			parts.append("forward=%s@%s" % [CombatSingleAttackExecutionResult.Outcome.find_key(forward.outcome), CombatSingleAttackExecutionResult.FailureStage.find_key(forward.failure_stage)])
+			parts.append(_ordinary_detail("forward", forward.ordinary_attack_result))
+		if opportunity.chain_result != null and opportunity.chain_result.reverse_execution_reached:
+			parts.append(_ordinary_detail("reverse", opportunity.chain_result.reverse_ordinary_result))
+		if opportunity.chain_result != null:
+			parts.append("chain@%s" % CombatAttackChainResult.FailureStage.find_key(opportunity.chain_result.failure_stage))
+	return " ".join(parts)
+
+
+static func _ordinary_detail(label: String, ordinary: CombatOrdinaryAttackResult) -> String:
+	if ordinary == null:
+		return "%s.ordinary=none" % label
+	var text: String = "%s.ordinary=%s@%s" % [label, CombatOrdinaryAttackResult.Outcome.find_key(ordinary.outcome), CombatOrdinaryAttackResult.FailureStage.find_key(ordinary.failure_stage)]
+	if ordinary.has_base_result:
+		text += " %s.attack=%s@%s" % [label, CombatAttackResult.Outcome.find_key(ordinary.base_result.outcome), CombatAttackResult.FailureStage.find_key(ordinary.base_result.failure_stage)]
+	if ordinary.progression_result != null:
+		text += " %s.progression@%s" % [label, CombatProgressionResult.FailureStage.find_key(ordinary.progression_result.failure_stage)]
+	return text
 
 
 func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
@@ -311,8 +384,6 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		participants.append(
 			CombatParticipant.new(candidate.participant_id, candidate.side_id, binding)
 		)
-	if not CombatEncounterModePolicy.equipment_supported(trigger, participants):
-		return _start_failure(CombatEncounterStartResult.Outcome.SPAR_WEAPON_NOT_ALLOWED, trigger)
 	if not CombatEncounterModePolicy.relationships_match(trigger, participants, _session.player_runtime().character_id):
 		return _start_failure(CombatEncounterStartResult.Outcome.MODE_RELATIONSHIP_MISMATCH, trigger)
 
@@ -399,6 +470,12 @@ func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
 		)
 	if not _active_encounter.accepts_completion_result(result):
 		return CombatEncounterCompletionResult.new(CombatEncounterCompletionResult.Outcome.INVALID_RESULT, encounter_id)
+	return _return_world(result)
+
+
+## Prevalidated result: RESOLVING, cancel the queued action, thaw, release, commit.
+func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionResult:
+	var encounter_id: StringName = _active_encounter.encounter_id
 	var queued: CombatQueuedAction = _active_encounter.queued_player_action()
 	if not _active_encounter.begin_resolving():
 		return CombatEncounterCompletionResult.new(

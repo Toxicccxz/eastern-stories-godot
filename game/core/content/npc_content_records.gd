@@ -53,6 +53,9 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var attributes: NpcBaseAttributeOverrides = _attribute_overrides(reader)
 	var resources: NpcResourceOverrides = _resource_overrides(reader)
 	var combat_facts: NpcAuthoredCombatFacts = _combat_facts(reader)
+	var fight_rules: Array[NpcFightRule] = []
+	for rule: ContentRecordReader in reader.children("accept_fight"):
+		fight_rules.append(_fight_rule(rule))
 	reader.finish()
 	var definition: NpcDefinition = NpcDefinition.new(
 		StringName(definition_id),
@@ -74,7 +77,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules)
 	if not definition.is_valid():
 		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry or random values)")
 	return definition
@@ -100,6 +103,18 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	if not definition.is_valid():
 		reader.fail("", "is not a valid spawn (points must be unique and match legacy_quantity)")
 	return definition
+
+
+## One `accept_fight` rule: {"family"?, "gender"?, "emote"?, "say"?, "accept"}.
+static func _fight_rule(reader: ContentRecordReader) -> NpcFightRule:
+	var rule := NpcFightRule.new(
+		StringName(reader.text("family")), StringName(reader.text("gender")),
+		reader.text("emote"), reader.text("say"), reader.boolean("accept", false),
+	)
+	if not reader.has("accept"):
+		reader.fail("accept", "is required")
+	reader.finish()
+	return rule
 
 
 static func _attitude(reader: ContentRecordReader) -> int:

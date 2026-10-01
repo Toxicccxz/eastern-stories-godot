@@ -30,6 +30,7 @@ var _age: int
 var _body_weight: int
 var _maximum_encumbrance: int
 var _loadout_items: Array[ItemInstance] = []
+var _revive_in_ms: int = 0
 
 var character_id: StringName:
 	get:
@@ -73,6 +74,11 @@ var body_weight: int:
 var maximum_encumbrance: int:
 	get:
 		return _maximum_encumbrance
+## feature/damage.c unconcious(): the revive call_out still to run, in ms. Only
+## an unconscious NPC has one; it is saved.
+var revive_in_ms: int:
+	get:
+		return _revive_in_ms
 
 
 func _init(
@@ -144,6 +150,10 @@ func set_life_status(value: int) -> bool:
 		return false
 	_life_status = value
 	return true
+
+
+func set_revive_in_ms(value: int) -> void:
+	_revive_in_ms = maxi(value, 0)
 
 
 func set_combat_available(value: bool) -> void:

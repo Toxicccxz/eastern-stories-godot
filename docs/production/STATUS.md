@@ -4,17 +4,20 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 4 — content importer + Snow complete**, in five playable PRs (see [ROADMAP](ROADMAP.md)):
+**New-player combat** (between 4A and 4B), two PRs:
 
-1. **4A — importer + people in Snow's streets** (`phase/content-importer`):
-   `tools/migration/content_importer.py` generates rooms, items, NPCs, spawns and vendors from the
-   LPC plus per-region override files; Snow and Old Pine data regenerate unchanged. Fifteen Snow
-   NPCs stand in the Inn, the east road, the temple, the north street and the school: travellers,
-   dogs, the temple keeper, the drunk, the scavenger, 刘安禄, the trainees and 李火狮.
-   Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
-2. **4B** south road and shops (9 rooms) · **4C** Inn upstairs, school inner rooms, secret storage
-   (10 rooms) · **4D** ask, ambient talk, wandering, room reset · **4E** give, shops and services
-   bound to their NPCs, teachers as data.
+1. **Rules** (`phase/new-player-combat`): 切磋 (ES2 `fight`) with `npc.c` and per-NPC
+   `accept_fight`, armed spars that wound, NPCs healing and coming to between fights, the killer
+   taken from the last blow, a failed fight that ends instead of freezing, and the global
+   `random(n<=0)=0` rule.
+2. **Battle narration** (`phase/battle-narration`): the battle panel in Chinese with ES2's action,
+   dodge, parry and damage lines.
+
+Then Package 4 goes on (see [ROADMAP](ROADMAP.md)): **4B** south road and shops (9 rooms) ·
+**4C** Inn upstairs, school inner rooms, secret storage (10 rooms) · **4D** ask, ambient talk,
+wandering, room reset · **4E** give, shops and services bound to their NPCs, teachers as data.
+4A (importer + Snow's street NPCs) is merged; cost per NPC:
+[SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
@@ -23,8 +26,9 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * **Snow (雪亭镇)**: source-valid New Game in the Inn; square, core streets and temple (18 of 38 rooms as
   zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
   value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳); fifteen NPCs
-  (8 types) to look at and fight, with their ES2 gear and loot; no fighting in the temple or the
-  workplace (`no_fight`).
+  (8 types) to look at, fight or spar (切磋), with their ES2 gear and loot; NPCs heal between
+  fights and come to after being knocked out; no fighting in the temple or the workplace
+  (`no_fight`).
 * **Old Pine (老松岭)**: forest (paths, clearing, bandit slope, bridge, pine maze, cliffside), the gorge
   below the bridge (waterfall pool, river, Lake with five serpents) reached by the vine or the cave,
   the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
@@ -46,10 +50,9 @@ Code:
 * `busy` is only decremented inside encounters; busy left at encounter exit can stall recovery and
   Save eligibility.
 * `apply/parry`, `apply/defense` and weapon-skill `apply/*` bonuses are not projected into combat.
-* `random(n<=0)` is handled by per-site exceptions; needs the global MudOS rule (returns 0). The
-  16 call sites are combat/learn code; do it with the next package that touches them.
-* A failed attack chain holds the encounter in RESOLVING for good (fail closed); Flee is refused
-  and the fight cannot end. Content that trips it (4A's dog claw) must be fixed at the cause.
+* A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
+  cause still has to be fixed in the content or rule that tripped it.
+* Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * Snow NPCs do not talk, wander, greet or trade yet (4D/4E); a killed NPC never returns (no room
   reset yet, 4D). Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon
   verbs are not modelled yet.
@@ -68,7 +71,7 @@ Code:
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix
-  English and Chinese.
+  English and Chinese; the battle panel is still English until the battle-narration PR.
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
 qualification for Lake and Shared UI is deferred. The provisional app ID

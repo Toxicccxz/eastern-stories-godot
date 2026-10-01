@@ -116,7 +116,11 @@ func _encode_player(value: Values.PlayerRuntimeSnapshot) -> Dictionary[String, V
 func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Variant]:
 	var loadout: Array[Variant] = []
 	for item_id: StringName in value.live_loadout_item_ids: loadout.append(String(item_id))
-	return {"spawn_id": String(value.spawn_id), "spawn_point_id": String(value.spawn_point_id), "npc_definition_id": String(value.npc_definition_id), "character_id": String(value.character_id), "exists_in_world": value.exists_in_world, "life_status": String(value.life_status), "combat_available": value.combat_available, "character": _encode_character(value.character), "age": _i(value.age), "body_weight": _i(value.body_weight), "maximum_encumbrance": _i(value.maximum_encumbrance), "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}, "live_loadout_item_ids": loadout}
+	var record: Dictionary[String, Variant] = {"spawn_id": String(value.spawn_id), "spawn_point_id": String(value.spawn_point_id), "npc_definition_id": String(value.npc_definition_id), "character_id": String(value.character_id), "exists_in_world": value.exists_in_world, "life_status": String(value.life_status), "combat_available": value.combat_available, "character": _encode_character(value.character), "age": _i(value.age), "body_weight": _i(value.body_weight), "maximum_encumbrance": _i(value.maximum_encumbrance), "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}, "live_loadout_item_ids": loadout}
+	# Only a pending revive is written, so saves without one keep their shape.
+	if value.revive_in_ms > 0:
+		record["revive_in_ms"] = _i(value.revive_in_ms)
+	return record
 
 
 func _encode_corpse(value: Values.CorpseSnapshot) -> Dictionary[String, Variant]:
@@ -314,10 +318,15 @@ func _decode_player(value: Variant, path: String) -> Values.PlayerRuntimeSnapsho
 	return Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), identity, body)
 
 func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
-	var object: Dictionary = _obj(value, path, ["spawn_id", "spawn_point_id", "npc_definition_id", "character_id", "exists_in_world", "life_status", "combat_available", "character", "age", "body_weight", "maximum_encumbrance", "world_location", "map_position", "live_loadout_item_ids"])
+	var fields: Array[String] = ["spawn_id", "spawn_point_id", "npc_definition_id", "character_id", "exists_in_world", "life_status", "combat_available", "character", "age", "body_weight", "maximum_encumbrance", "world_location", "map_position", "live_loadout_item_ids"]
+	if value is Dictionary and value.has("revive_in_ms"):
+		fields.append("revive_in_ms")
+	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var ids: Array[StringName] = _decode_id_array(object["live_loadout_item_ids"], path + ".live_loadout_item_ids")
-	return Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids)
+	var revive_in_ms: int = _int64(object["revive_in_ms"], path + ".revive_in_ms") if object.has("revive_in_ms") else 0
+	if revive_in_ms < 0 or (object.has("revive_in_ms") and revive_in_ms == 0): _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".revive_in_ms", "expected a positive count")
+	return Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids, revive_in_ms)
 
 
 func _decode_corpse(value: Variant, path: String) -> Values.CorpseSnapshot:

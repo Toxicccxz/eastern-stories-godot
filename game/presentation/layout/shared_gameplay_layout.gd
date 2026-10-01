@@ -77,6 +77,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	context_button = _button(contexts, "Context", tr("交互"), ui.open_current_context)
 	ui.inspect_button = _button(contexts, "Inspect", tr("查看"), Callable())
 	ui.attack_button = _button(contexts, "Attack", tr("攻击"), Callable())
+	ui.spar_button = _button(contexts, "Spar", tr("切磋"), Callable())
 	ui.portal_button = _button(contexts, "Traverse", tr("通行"), Callable())
 	ui.open_loot_button = _button(contexts, "Loot", tr("拾取"), Callable())
 	# Context controls appear only once the HUD knows what is here.

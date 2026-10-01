@@ -267,6 +267,7 @@ static func _restore_npc_ledger(
 					Result.Outcome.RECONSTRUCTION_FAILED,
 					path,
 				)
+			runtime.set_revive_in_ms(saved.revive_in_ms)
 			entries.append(OldPineRestoredNpcEntry.new(
 				runtime,
 				Vector2(saved.map_position.x, saved.map_position.y),

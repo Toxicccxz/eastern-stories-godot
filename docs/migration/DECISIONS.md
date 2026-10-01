@@ -1,5 +1,41 @@
 # Migration Decisions
 
+## 切磋: fight.c, accept_fight and armed spars (2026-10-01)
+
+Owner decisions for the new-player combat package:
+- **The 切磋 button runs `cmds/std/fight.c`** on the selected NPC: 这里禁止战斗。 in a `no_fight`
+  room, 加油！加油！加油！ when it already fights you, …已经无法战斗了。 when it is down, the
+  challenger's line in `rankd.c` words, then the NPC's `accept_fight()`: `npc.c` by attitude and
+  health (gin, kee and sen at 90% or more), or the NPC's own rules as data (`accept_fight` in the
+  NPC definition, written in the override file). A refusal prints the NPC's line and
+  看起来…并不想跟你较量。. The spar ends on the first blow that draws kee (`combatd.c`).
+- **Deviation: beasts are not asked.** `fight.c` makes a non-speaking target `kill_ob` you while
+  you only fight; that needs a mixed encounter shape and NPCs coming to afterwards. Beasts get
+  no 切磋 button for now; the dog can only be attacked.
+- **Armed spars as in ES2.** Replaces "Active Semi-Auto V1 SPAR establishment is unarmed-only":
+  a weapon on either side wounds (`combatd.c`: `is_killing || weapon`), so a spar can knock out
+  or kill, through the normal lifecycle (corpse, gargoyle, temple). A native line, ES2 has none,
+  warns when an armed spar starts: 刀剑无眼，持兵刃比试可能真的受伤。.
+- **The killer is `last_damage_from`.** Replaces the 2026-09-30 deviation "the penalty applies
+  when a lethal opponent is found": whoever landed the last blow is the killer for
+  `killer_reward` and the corpse, in a spar too. A kill mark stands in only when no blow is known.
+- **NPCs heal and come to.** Extends S5B's "None for NPCs": the NPCs of the active map run
+  `heal_up()` on the `char.c` tick between fights (transient cadence, as the player's). An
+  unconscious NPC comes to after `damage.c`'s `random(100 - con) + 30` s of world time; the
+  countdown is saved (`revive_in_ms`, written only while one is pending). Inactive maps stay frozen.
+
+## A failed fight ends instead of freezing (2026-10-01)
+
+Owner decision for the new-player combat package:
+- An attack chain that cannot complete, an opportunity whose opponent selection or fight decision
+  fails, or a lifecycle that fails now ends the encounter with an `ABORTED` result. Damage dealt
+  stays, anyone below zero kee falls or dies (`char.c` heart_beat does that outside a fight), every
+  participant drops its fight and kill marks on the others, the world returns and the log shows
+  战斗出错，已中止。. It replaces holding the encounter in RESOLVING for good, which refused Flee
+  and never ended. A partial death still blocks Save.
+- Development builds `push_error` the cause (failure, opportunity, attack and progression stages).
+  A test suite during which a fight aborts fails (`SuiteResult`) unless it takes the count itself.
+
 ## MudOS random(n <= 0) is 0, everywhere (2026-10-01)
 
 Owner decision for the new-player combat package:

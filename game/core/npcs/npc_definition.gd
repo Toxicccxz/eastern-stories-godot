@@ -14,7 +14,7 @@ const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_fa
 const CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = &"aggressive_on_player_presence"
 
 ## LPC set("attitude"). Friendly and heroism only change how an NPC answers
-## fight and ask (npc.c accept_fight, ask.c), which are not native yet.
+## fight (npc.c accept_fight, NpcSparConsent) and ask (ask.c, not native yet).
 enum Attitude {
 	PEACEFUL,
 	AGGRESSIVE,
@@ -47,6 +47,7 @@ var _gender_roll: NpcRandomText
 var _age_roll: NpcRandomInteger
 var _combat_experience_roll: NpcRandomInteger
 var _score_roll: NpcRandomInteger
+var _fight_rules: Array[NpcFightRule] = []
 
 var definition_id: StringName:
 	get:
@@ -162,6 +163,22 @@ func with_creation_facts(
 	_combat_experience_roll = p_combat_experience_roll
 	_score_roll = p_score_roll
 	return self
+
+
+## The NPC's own accept_fight(), when it has one (see NpcFightRule).
+func with_fight_rules(rules: Array[NpcFightRule]) -> NpcDefinition:
+	_fight_rules = rules.duplicate()
+	return self
+
+
+func fight_rules() -> Array[NpcFightRule]:
+	return _fight_rules.duplicate()
+
+
+## race/human.c sets can_speak; beast.c does not. fight.c only asks a
+## speaking character to spar.
+func can_speak() -> bool:
+	return _race_id == NpcCharacterStateFactory.HUMAN_RACE_ID
 
 
 ## feature/name.c short() without the "(Id)": title, a space, then the name.

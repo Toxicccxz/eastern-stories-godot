@@ -14,6 +14,7 @@ var target_vitality: ProgressBar
 var target_vitality_text: Label
 var inspect_button: Button
 var attack_button: Button
+var spar_button: Button
 var portal_button: Button
 var open_loot_button: Button
 var inventory_button: Button
@@ -46,6 +47,7 @@ func _ready() -> void:
 	_presentation_layout.build(self)
 	inspect_button.pressed.connect(_inspect_context)
 	attack_button.pressed.connect(_attack_context)
+	spar_button.pressed.connect(_spar_context)
 	portal_button.pressed.connect(_traverse_context)
 	open_loot_button.pressed.connect(_loot_context)
 	inventory_button.pressed.connect(open_inventory)
@@ -246,6 +248,8 @@ func refresh_live_state() -> void:
 		not target_available and not landmark_available and not corpse_available
 	)
 	attack_button.disabled = not target_available or not player_available
+	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
+	spar_button.disabled = not target_available or not player_available or not _selected_target.definition().can_speak()
 	open_loot_button.disabled = (
 		not corpse_available
 		or not _selected_corpse_in_range
@@ -291,6 +295,10 @@ func inspection_display() -> String:
 
 func attack_is_enabled() -> bool:
 	return not attack_button.disabled
+
+
+func spar_is_enabled() -> bool:
+	return not spar_button.disabled
 
 
 func portal_action_is_enabled() -> bool:
@@ -418,6 +426,7 @@ func refresh_exploration() -> void:
 	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
 	inspect_button.visible = local_target and not inspect_button.disabled
 	attack_button.visible = local_target and not attack_button.disabled
+	spar_button.visible = local_target and not spar_button.disabled
 	portal_button.visible = local_target and not portal_button.disabled
 	open_loot_button.visible = local_target and not open_loot_button.disabled
 	selected_target_label.visible = local_target
@@ -556,6 +565,11 @@ func _inspect_context() -> void:
 func _attack_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.attack_selected()
+
+
+func _spar_context() -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.spar_selected()
 
 
 func _traverse_context() -> void:

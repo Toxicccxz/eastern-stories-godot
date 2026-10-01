@@ -6,6 +6,19 @@
 			"chicken leg": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)"
 		}
 	},
+	"set": {
+		"snow.npc.scavenger": {
+			"accept_fight": [
+				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
+			]
+		},
+		"snow.npc.fist_trainer": {
+			"accept_fight": [
+				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
+				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
+			]
+		}
+	},
 	"spawn_skip": {
 		"d/snow/inn.c": { "d/snow/npc/waiter.c": "the inn's vendor service until services are bound to their NPC (4E)" },
 		"d/snow/bank.c": { "d/snow/npc/annihir.c": "the bank service until services are bound to their NPC (4E)" },
@@ -70,7 +83,7 @@
 			"set chat_chance": "ambient talk and random_move (4D)",
 			"set chat_msg": "ambient talk and random_move (4D)",
 			"function accept_object": "takes anything: give (4E)",
-			"function accept_fight": "refuses sparring; fight is not native yet"
+			"function accept_fight": "accept_fight rules (set snow.npc.scavenger)"
 		},
 		"d/snow/npc/guard.c": {
 			"set chat_chance_combat": "combat talk: later combat package",
@@ -84,7 +97,7 @@
 			"set force_factor": "internal power is not modelled yet (ROADMAP)",
 			"set inquiry": "ask (4D)",
 			"function recognize_apprentice": "teaches 封山剑派 members: teachers as data (4E)",
-			"function accept_fight": "spars with 封山剑派 members; fight is not native yet"
+			"function accept_fight": "accept_fight rules (set snow.npc.fist_trainer); command(\"nod\") shown as 点了点头。 (data/emoted.o is not in the mudlib)"
 		},
 		"d/snow/obj/blade.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",

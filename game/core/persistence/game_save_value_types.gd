@@ -444,6 +444,8 @@ class NpcSpawnStateSnapshot extends RefCounted:
 	var _live_loadout_item_ids: Array[StringName] = []
 	var live_loadout_item_ids: Array[StringName]:
 		get: return _live_loadout_item_ids.duplicate()
+	## An unconscious NPC's pending revive, in ms; 0 when none is pending.
+	var revive_in_ms: int = 0
 
 	func _init(
 		p_spawn_id: StringName = &"", p_spawn_point_id: StringName = &"",
@@ -453,7 +455,9 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		p_age: int = 0, p_body_weight: int = 0, p_maximum_encumbrance: int = 0,
 		p_world_location: WorldLocationSnapshot = null, p_map_position: MapPositionSnapshot = null,
 		p_live_loadout_item_ids: Array[StringName] = [],
+		p_revive_in_ms: int = 0,
 	) -> void:
+		revive_in_ms = p_revive_in_ms
 		spawn_id = p_spawn_id
 		spawn_point_id = p_spawn_point_id
 		npc_definition_id = p_npc_definition_id
@@ -471,7 +475,7 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		_live_loadout_item_ids.sort_custom(func(left: StringName, right: StringName) -> bool: return String(left) < String(right))
 
 	func duplicate_snapshot() -> NpcSpawnStateSnapshot:
-		return NpcSpawnStateSnapshot.new(spawn_id, spawn_point_id, npc_definition_id, character_id, exists_in_world, life_status, combat_available, character, age, body_weight, maximum_encumbrance, world_location, map_position, _live_loadout_item_ids)
+		return NpcSpawnStateSnapshot.new(spawn_id, spawn_point_id, npc_definition_id, character_id, exists_in_world, life_status, combat_available, character, age, body_weight, maximum_encumbrance, world_location, map_position, _live_loadout_item_ids, revive_in_ms)
 
 
 class CorpseWornItemSnapshot extends RefCounted:

@@ -1,7 +1,14 @@
 class_name CombatEncounterResolution
 extends CombatOpportunityBoundary
 
-enum Failure { NONE, INCOMPLETE_ATTACK_CHAIN, LIFECYCLE_FAILED, SPAR_MORTAL_WOUND, WORLD_COMPLETION_FAILED, PARTICIPANT_STATE_INVALID }
+enum Failure { NONE, INCOMPLETE_ATTACK_CHAIN, OPPORTUNITY_FAILED, LIFECYCLE_FAILED, WORLD_COMPLETION_FAILED, PARTICIPANT_STATE_INVALID }
+
+## Outcomes that would repeat every round if the fight went on: abort instead.
+const FAILED_OPPORTUNITIES: Array[int] = [
+	CombatSliceOpportunityResult.Outcome.INVALID_INPUT,
+	CombatSliceOpportunityResult.Outcome.OPPONENT_SELECTION_FAILED,
+	CombatSliceOpportunityResult.Outcome.FIGHT_DECISION_FAILED,
+]
 
 var _session: OldPineWorldSessionController
 var _encounter: CombatEncounter
@@ -41,6 +48,9 @@ func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedule
 	if event != null and event.resolution != null and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_INCOMPLETE:
 		fail(Failure.INCOMPLETE_ATTACK_CHAIN)
 		return false
+	if event != null and event.resolution != null and event.resolution.outcome in FAILED_OPPORTUNITIES:
+		fail(Failure.OPPORTUNITY_FAILED)
+		return false
 	for victim: CombatSliceCharacterBinding in bindings:
 		if (not victim.exists_in_encounter and victim.life_status != CombatSliceLifeStatus.Value.DEAD) or (victim.life_status == CombatSliceLifeStatus.Value.ACTIVE and not victim.combat_available):
 			fail(Failure.PARTICIPANT_STATE_INVALID)
@@ -48,19 +58,35 @@ func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedule
 		var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
 		if required == null:
 			continue
-		## Source permits armed friendly mortal wounds. Do not clamp, invent revival,
-		## or manufacture a corpse in non-corpse SPAR. Explicit unresolved policy.
-		if _encounter.mode == CombatEncounterMode.Value.SPAR and required.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
-			fail(Failure.SPAR_MORTAL_WOUND)
-			return false
+		# char.c heart_beat falls or dies whatever the fight: an armed spar's
+		# wound can kill (combatd.c wounds on `is_killing || weapon`).
 		var map: WorldMapController = _session.active_map() as WorldMapController
-		var receipt: CombatSliceLifecycleResult = null if map == null else map.execute_encounter_lifecycle(victim, required, bindings)
+		var receipt: CombatSliceLifecycleResult = null if map == null else map.execute_encounter_lifecycle(victim, required, bindings, last_hitter(event, victim.character_id))
 		_lifecycles.append(receipt)
 		if receipt == null or not receipt.completed():
 			fail(Failure.LIFECYCLE_FAILED)
 			return false
 	_derive_result(bindings)
 	return _result == null
+
+## damage.c last_damage_from: who hit the victim last in this opportunity (the
+## riposte comes after the forward blow), or empty when nobody did.
+static func last_hitter(event: CombatSchedulerEvent, victim_id: StringName) -> StringName:
+	if event == null or event.resolution == null:
+		return &""
+	var opportunity: CombatSliceOpportunityResult = event.resolution
+	var chain: CombatAttackChainResult = opportunity.chain_result
+	if chain != null and chain.reverse_execution_reached and chain.reverse_victim_id == victim_id and _hit(chain.reverse_ordinary_result):
+		return chain.reverse_attacker_id
+	var forward: CombatSingleAttackExecutionResult = opportunity.forward_result
+	if forward != null and event.target_id == victim_id and _hit(forward.ordinary_attack_result):
+		return event.actor_id
+	return &""
+
+
+static func _hit(ordinary: CombatOrdinaryAttackResult) -> bool:
+	return ordinary != null and ordinary.has_base_result and ordinary.base_result.outcome == CombatAttackResult.Outcome.HIT
+
 
 func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	var player_id: StringName = _session.player_runtime().character_id
@@ -132,6 +158,16 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
 		CombatEncounterResultKind.Value.VICTORY if player_active else CombatEncounterResultKind.Value.DEFEAT,
 		winners, losers, subjects)
+
+## Abort: every participant stops fighting and stops hunting every other
+## participant (remove_killer + remove_enemy both ways), so nobody resumes it.
+func disengage_all() -> void:
+	for actor: CombatParticipant in _encounter.participants():
+		for target: CombatParticipant in _encounter.participants():
+			if actor.participant_id != target.participant_id:
+				actor.binding.relationship.remove_lethal_relation(target.participant_id)
+		actor.binding.relationship.set_guarding(false)
+
 
 ## Completion-only encounter relationship reconciliation, never Save-side cleanup.
 func reconcile_relationships() -> void:
