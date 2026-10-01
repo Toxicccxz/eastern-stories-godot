@@ -38,6 +38,8 @@ func attack_chain(
 	forward: CombatSingleAttackExecutionResult, chain: CombatAttackChainResult, cast: BattlePresentationProjection,
 ) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
+	if not forward.post_action_reached:
+		return lines # Only an aborting fight stops short; its abort line tells it.
 	_attack(lines, forward.ordinary_attack_result, _selected(forward.action_selection_result),
 		forward.post_action_weapon_present, forward.post_action_weapon_id, forward.post_relationship_result, cast)
 	if not forward.has_riposte_request:
@@ -69,7 +71,7 @@ func _attack(
 	var me: StringName = base.attacker_id
 	var victim: StringName = base.defender_id
 	var limb: String = String(base.calculation.selected_limb)
-	var weapon: String = _weapon_name(armed, weapon_id, action)
+	var weapon: String = _weapon_name(armed, weapon_id)
 	if not action.legacy_action_text.is_empty():
 		lines.append(BattleNarrationLine.new(vision(
 			_limb_and_weapon(tr(action.legacy_action_text) + "！", limb, weapon), me, victim, cast)))
@@ -110,14 +112,13 @@ static func _selected(selection: CombatActionSelectionResult) -> CombatActionDef
 
 
 ## do_attack(): $w is the weapon's name, else the action's own "weapon" word,
-## else it stays as written.
-static func _weapon_name(armed: bool, weapon_id: StringName, action: CombatActionDefinition) -> String:
-	if armed:
-		var item: ItemContentDefinition = GameContent.catalog().item(weapon_id)
-		if item != null:
-			return item.display_name
-	var token: String = action.displayed_weapon_or_body_token
-	return "" if token == "$w" else token
+## else it stays as written. No ported action has a "weapon" word (human.c,
+## beast.c and liuh-ken.c set none), so an unarmed $w stays.
+static func _weapon_name(armed: bool, weapon_id: StringName) -> String:
+	if not armed:
+		return ""
+	var item: ItemContentDefinition = GameContent.catalog().item(weapon_id)
+	return "" if item == null else item.display_name
 
 
 static func _limb_and_weapon(text: String, limb: String, weapon: String) -> String:

@@ -96,7 +96,9 @@ func refresh_projection() -> void:
 		else:
 			hide()
 			_restore_world_hud()
-	var entries: Array[BattleFeedbackProjection] = _reader.read_new(_session.combat_encounter_coordinator(), _projection) if _session.is_initialized() else []
+	var entries: Array[BattleFeedbackProjection] = []
+	if _session.is_initialized():
+		entries = _reader.read_new(_session.combat_encounter_coordinator(), _projection)
 	if not _projection.active:
 		return
 	var heading: String = _mode_name(_projection.mode)
@@ -104,7 +106,7 @@ func refresh_projection() -> void:
 		heading += " · " + _receipt.text
 	_title.text = heading + "\n" + tr("目标：%s") % _projection.display_name(_projection.current_target_id)
 	if _projection.completion_outcome >= 0:
-		_title.text = tr("战斗无法正常结束（%s），不会自动重试。") % CombatEncounterCompletionResult.Outcome.keys()[_projection.completion_outcome]
+		_title.text = tr("战斗无法正常结束，不会自动重试。")
 	_title.tooltip_text = _title.text
 	_present_participants()
 	action_panel.present(_projection)
@@ -139,9 +141,9 @@ func _present_completed_result() -> void:
 	# using the last display names before replacing the now-inactive projection.
 	var feedback_projection: BattlePresentationProjection = _projection
 	if feedback_projection.encounter_id != receipt.encounter_id:
-		# A large first frame can finish before the first UI refresh. Stable IDs
-		# remain a truthful fallback when no prior display-name projection exists.
-		feedback_projection = BattlePresentationProjection.new(receipt.encounter_id)
+		# A large first frame can finish before the first UI refresh: take the
+		# player, names and genders from the Session instead.
+		feedback_projection = BattleProjectionBuilder.completed_cast(_session, receipt.encounter_id)
 		log_panel.clear_entries()
 	var entries: Array[BattleFeedbackProjection] = _reader.read_new(_session.combat_encounter_coordinator(), feedback_projection)
 	log_panel.append_entries(entries)

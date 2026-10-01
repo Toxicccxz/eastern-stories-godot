@@ -392,6 +392,14 @@ func encounter_display_name(character_id: StringName) -> String:
 	return String(character_id) if npc == null else npc.definition().display_name
 
 
+## Content presentation lookup: the legacy gender behind ES2's pronouns.
+func encounter_gender(character_id: StringName) -> StringName:
+	if _player != null and character_id == _player.character_id:
+		return _player.state.gender
+	var npc: NpcRuntimeState = _find_resident_npc(character_id)
+	return &"" if npc == null else npc.character_state.gender
+
+
 func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
 	var map: WorldResidentMapController = active_map()
 	return null if map == null else map.encounter_skill_effect_registry()

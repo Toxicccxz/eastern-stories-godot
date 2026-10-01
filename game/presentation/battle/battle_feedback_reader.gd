@@ -96,7 +96,10 @@ func read_new(
 	if coordinator.active_encounter().encounter_id != projection.encounter_id:
 		return []
 	var tactical: CombatTacticalRuntime = scheduler.player_tactics()
-	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), [] if tactical == null else tactical.events_after(_last_order), projection)
+	var tactics: Array[CombatTacticalEvent] = []
+	if tactical != null: # NPC-only encounters have no player tactics.
+		tactics = tactical.events_after(_last_order)
+	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), tactics, projection)
 
 
 ## Every event read moves the cursor; only those that print something become entries.
