@@ -1,13 +1,15 @@
 extends RefCounted
 
-## Map terrain is painted on TileMapLayers with one placeholder TileSet (3B4). On Old Pine the
-## tiles also carry the collision (3B5); Snow still uses its StaticBody walls until 3B6.
-## Zones, portals, spawns and the other components stay separate nodes.
+## Map terrain is painted on TileMapLayers with one placeholder TileSet (3B4), and the tiles carry
+## the collision: Old Pine since 3B5, Snow since 3B6. Zones, portals, spawns and the other
+## components stay separate nodes.
 const BLOCKING_TERRAIN: Array[String] = ["shop_front", "shutter", "wall", "wall_wood", "boundary", "forest",
 	"water", "deep_water", "blocked", "cliff", "chasm"]
-const TILE_COLLISION_REGIONS: Array[StringName] = [&"oldpine"]
-## Node collision Old Pine keeps: the north exit that is closed in the technical world.
-const KEPT_STATIC_SHAPES: Array[String] = ["SnowBlocker"]
+## Node collision a map keeps besides door walls and closed-passage walls: objects that block.
+const OBJECT_BLOCKS: Dictionary[StringName, Array] = {
+	&"snow.outdoor": ["BankExchange/Counter/CollisionShape2D", "Walls/HockshopCounter", "Walls/SchoolTeacher"],
+}
+const TILE := 16.0
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
@@ -39,20 +41,18 @@ func _test_tileset() -> void:
 func _test_map(map: MapDefinition) -> void:
 	var scene: Node2D = (load(map.scene_path) as PackedScene).instantiate() as Node2D
 	var layers: Array[TileMapLayer] = TerrainProbe.layers(scene)
-	var tile_collision: bool = TILE_COLLISION_REGIONS.has(map.region_id)
 	_assert_true(not layers.is_empty(), "%s paints terrain on TileMapLayers" % map.map_id)
 	for layer: TileMapLayer in layers:
 		_assert_eq(layer.tile_set.resource_path, TerrainProbe.TILESET_PATH, "%s/%s uses the shared TileSet" % [map.map_id, layer.name])
 		_assert_eq(layer.get_child_count(), 0, "%s/%s holds no zone, portal, spawn or collision node" % [map.map_id, layer.name])
-		_assert_eq(layer.collision_enabled, tile_collision, "%s/%s tile collision follows the region" % [map.map_id, layer.name])
+		_assert_true(layer.collision_enabled, "%s/%s collides through its tiles" % [map.map_id, layer.name])
 		var unnamed: int = 0
 		for cell: Vector2i in layer.get_used_cells():
 			var data: TileData = layer.get_cell_tile_data(cell)
 			if data == null or str(data.get_custom_data("terrain")).is_empty():
 				unnamed += 1
 		_assert_eq(unnamed, 0, "%s/%s paints only named terrain tiles" % [map.map_id, layer.name])
-	if tile_collision:
-		_test_tile_collision_map(map, scene, layers)
+	_test_tile_collision_map(map, scene, layers)
 	for node: Node in scene.find_children("*", "Area2D", true, false):
 		var zone: WorldPhysicalZoneArea2D = node as WorldPhysicalZoneArea2D
 		if zone == null:
@@ -69,11 +69,21 @@ func _test_map(map: MapDefinition) -> void:
 	scene.free()
 
 
-## Tiles are the walls: no stray StaticBody, and every walkable cell is enclosed by painted cells.
+## Tiles are the walls: no stray StaticBody, doors fill their tile openings, and every walkable
+## cell is enclosed by painted cells.
 func _test_tile_collision_map(map: MapDefinition, scene: Node2D, layers: Array[TileMapLayer]) -> void:
+	var switchable: Array[Node] = []
+	for node: Node in scene.find_children("*", "", true, false):
+		if node is WorldDoor:
+			switchable.append((node as WorldDoor).wall_shape())
+			_test_door_fits_opening(map, scene, node as WorldDoor)
+		elif node is WorldPassageArea2D and not (node as WorldPassageArea2D).closed_wall_path.is_empty():
+			switchable.append(node.get_node((node as WorldPassageArea2D).closed_wall_path))
+	var objects: Array = OBJECT_BLOCKS.get(map.map_id, [])
 	for node: Node in scene.find_children("*", "", true, false):
 		if (node is CollisionShape2D or node is CollisionPolygon2D) and node.get_parent() is StaticBody2D:
-			_assert_true(KEPT_STATIC_SHAPES.has(String(node.name)), "%s keeps no node collision but %s" % [map.map_id, node.name])
+			var kept: bool = switchable.has(node) or objects.has(String(scene.get_path_to(node)))
+			_assert_true(kept, "%s keeps no node collision but %s" % [map.map_id, scene.get_path_to(node)])
 	var painted: Dictionary[Vector2i, bool] = {}
 	var walkable: Array[Vector2i] = []
 	for layer: TileMapLayer in layers:
@@ -87,6 +97,36 @@ func _test_tile_collision_map(map: MapDefinition, scene: Node2D, layers: Array[T
 			if not painted.has(cell + step):
 				open_edges += 1
 	_assert_eq(open_edges, 0, "%s has no walkable cell next to unpainted void" % map.map_id)
+
+
+## A closed door blocks exactly its doorway: the walkable cells between two wall tiles, and its
+## shutter is drawn over the same cells.
+func _test_door_fits_opening(map: MapDefinition, scene: Node2D, door: WorldDoor) -> void:
+	var wall: CollisionShape2D = door.wall_shape()
+	var size: Vector2 = (wall.shape as RectangleShape2D).size
+	var rect := Rect2(_map_position(scene, wall) - size / 2.0, size)
+	var label: String = "%s door %s" % [map.map_id, door.door_id]
+	_assert_true(is_zero_approx(fposmod(rect.position.x, TILE)) and is_zero_approx(fposmod(rect.position.y, TILE))
+		and is_zero_approx(fposmod(rect.size.x, TILE)) and is_zero_approx(fposmod(rect.size.y, TILE)), "%s sits on the tile grid (%s)" % [label, rect])
+	var shutter: Polygon2D = door.get_node(door.shutter) as Polygon2D
+	var drawn := Rect2(shutter.polygon[0], Vector2.ZERO)
+	for point: Vector2 in shutter.polygon:
+		drawn = drawn.expand(point)
+	drawn.position += _map_position(scene, shutter)
+	_assert_eq(drawn, rect, "%s shutter is drawn where the door blocks" % label)
+	var along: Vector2 = Vector2.DOWN if rect.size.y > rect.size.x else Vector2.RIGHT
+	var across: Vector2 = Vector2(along.y, along.x)
+	var walkable: bool = true
+	var jambs: bool = true
+	for a: int in int(rect.size.dot(across) / TILE):
+		var start: Vector2 = rect.position + across * (a * TILE + TILE / 2.0)
+		for b: int in int(rect.size.dot(along) / TILE):
+			var terrain: String = TerrainProbe.terrain_at(scene, start + along * (b * TILE + TILE / 2.0))
+			walkable = walkable and not terrain.is_empty() and not BLOCKING_TERRAIN.has(terrain)
+		jambs = jambs and BLOCKING_TERRAIN.has(TerrainProbe.terrain_at(scene, start - along * (TILE / 2.0)))
+		jambs = jambs and BLOCKING_TERRAIN.has(TerrainProbe.terrain_at(scene, start + along * (rect.size.dot(along) + TILE / 2.0)))
+	_assert_true(walkable, "%s covers walkable doorway cells only" % label)
+	_assert_true(jambs, "%s spans the doorway from wall tile to wall tile" % label)
 
 
 func _test_terrain_spot_checks() -> void:
@@ -110,13 +150,25 @@ func _test_terrain_spot_checks() -> void:
 	_spot(cave, "Old Pine cave", [Vector2(0, 225), "shallow_water", false])
 	cave.free()
 	var snow: Node2D = _scene("res://scenes/world/snow/snow_outdoor.tscn")
-	for row: Array in [[Vector2(300, -40), "wall"], [Vector2(100, -1300), "boundary"], [Vector2(1200, -400), "wall_wood"], [Vector2(0, 0), "town_ground"], [Vector2(0, -1000), "street"]]:
-		_assert_eq(TerrainProbe.terrain_at(snow, row[0]), row[1], "Snow %s is drawn as %s" % row)
-	_assert_false(TerrainProbe.blocks_at(snow, Vector2(300, -40)), "Snow walls still collide through their StaticBody, not tiles")
+	for row: Array in [
+		[Vector2(300, -40), "wall", true], [Vector2(100, -1300), "boundary", true], [Vector2(1200, -400), "wall_wood", true],
+		[Vector2(0, 0), "town_ground", false], [Vector2(0, -1000), "street", false],
+		# the Inn door alcove west of the square, and the road south to Old Pine beyond the SouthBlocker
+		[Vector2(-310, 0), "town_ground", false], [Vector2(-330, 0), "wall", true],
+		[Vector2(1096, 848), "town_ground", false], [Vector2(1096, 880), "boundary", true],
+		# the crossroad's east boundary runs its full height (it used to collide over 190 px only)
+		[Vector2(300, -1800), "boundary", true], [Vector2(300, -1500), "boundary", true],
+	]:
+		_spot(snow, "Snow", row)
+	var blocker: CollisionShape2D = snow.get_node("Walls/SouthBlocker") as CollisionShape2D
+	_assert_eq(Rect2(_map_position(snow, blocker) - (blocker.shape as RectangleShape2D).size / 2.0, (blocker.shape as RectangleShape2D).size),
+		Rect2(1024, 832, 144, 32), "Snow SouthBlocker closes exactly the gap in the south wall")
 	snow.free()
 	var inn: Node2D = _scene("res://scenes/world/snow/snow_inn.tscn")
-	_assert_eq(TerrainProbe.terrain_at(inn, Vector2(0, -316)), "wall_wood", "Inn north wall is drawn where it collides")
-	_assert_eq(TerrainProbe.terrain_at(inn, Vector2(496, 0)), "", "Inn east doorway is left open")
+	_spot(inn, "Inn", [Vector2(0, -316), "wall_wood", true])
+	_spot(inn, "Inn", [Vector2(496, 0), "floor_wood", false])
+	_spot(inn, "Inn", [Vector2(528, 0), "wall_wood", true])
+	_spot(inn, "Inn", [Vector2(496, 100), "wall_wood", true])
 	inn.free()
 
 
@@ -142,10 +194,6 @@ func _assert_true(condition: bool, message: String) -> void:
 	_assertion_count += 1
 	if not condition:
 		_failures.append("TERRAIN: " + message)
-
-
-func _assert_false(condition: bool, message: String) -> void:
-	_assert_true(not condition, message)
 
 
 func _assert_eq(actual: Variant, expected: Variant, message: String) -> void:
