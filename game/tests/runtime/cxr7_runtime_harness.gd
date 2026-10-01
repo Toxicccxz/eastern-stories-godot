@@ -34,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if key.keycode not in [KEY_1, KEY_3, KEY_4, KEY_5] or coordinator.has_active_encounter():
 		return
 	# Controlled pre-route facts only. No target selector shortcut in this harness.
-	for npc: NpcRuntimeState in session.outdoor_map().npc_runtimes():
+	for npc: NpcRuntimeState in session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes():
 		session.player_runtime().relationship.remove_lethal_relation(npc.character_id)
 		npc.relationship.remove_lethal_relation(session.player_runtime().character_id)
 	var mode: int = CombatEncounterMode.Value.SCRIPTED
@@ -45,7 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif key.keycode == KEY_4:
 		mode = CombatEncounterMode.Value.LETHAL
 		cause = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
-		session.player_runtime().relationship.mark_lethal_target(session.outdoor_map().npc_runtimes()[0].character_id)
+		session.player_runtime().relationship.mark_lethal_target(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_id)
 	elif key.keycode == KEY_5:
 		Multi.register_probes(session)
 		session.player_runtime().busy.start_busy(30)

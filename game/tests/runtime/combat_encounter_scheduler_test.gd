@@ -349,7 +349,7 @@ func _test_real_session_scheduler_world_freeze(tree: SceneTree) -> void:
 	_assert_eq(coordinator.advance_scheduler(10.0).outcome, CombatSchedulerAdvanceResult.Outcome.INERT, "Session drive is inert without encounter")
 	_assert_eq(no_encounter_rng.call_count(), 0, "no-encounter Session drive consumes no RNG")
 
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	_assert_true(player.set_world_location(npc.world_location()), "fixture aligns real Session participants")
@@ -358,7 +358,6 @@ func _test_real_session_scheduler_world_freeze(tree: SceneTree) -> void:
 	var started: CombatEncounterStartResult = coordinator.start(_session_trigger(session, npc))
 	_assert_true(started.succeeded(), "controlled real Session encounter starts")
 	_assert_true(session.world_simulation_gate().is_frozen(), "real world is encounter-frozen")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "legacy OpportunityTimer remains stopped")
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	_assert_true(scheduler != null and scheduler.is_valid(), "coordinator owns active scheduler")
 	var player_state: CharacterState = player.state
@@ -371,7 +370,6 @@ func _test_real_session_scheduler_world_freeze(tree: SceneTree) -> void:
 	_assert_true(due.progressed(), "scheduler progresses inside frozen real Session")
 	_assert_true(no_encounter_rng.call_count() > 0, "real Session opportunity uses Session-owned RNG")
 	_assert_true([_combat_state_snapshot(player_state), _combat_state_snapshot(npc_state)] != before, "real bound CharacterState receives combat mutation")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "legacy cadence never runs beside scheduler")
 
 	var event_count_before_pause: int = scheduler.events().size()
 	tree.paused = true

@@ -20,10 +20,9 @@ func evidence() -> Dictionary[String, Variant]:
 	result["failure"] = -1 if coordinator.resolution() == null else coordinator.resolution().failure
 	result["player_life"] = session.player_runtime().life_status
 	result["hp"] = session.player_runtime().state.vitality.current
-	result["corpse_count"] = session.outdoor_map().corpse_states().size()
+	result["corpse_count"] = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size()
 	result["items"] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))
 	result["world_open"] = session.world_simulation_gate().is_open()
-	result["old_timer"] = session.outdoor_map().cadence_is_running()
 	result["save"] = OldPineSaveEligibility.inspect(session).outcome
 	return result
 
@@ -40,11 +39,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	if session == null or session.combat_encounter_coordinator().has_active_encounter():
 		return
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = map.npc_runtimes()[0]
-	(map.bandit_bodies[0].get_node("AggressionPresence") as Area2D).monitoring = false
-	map.bandit_bodies[0].global_position = map.player_body.global_position + Vector2(0, 60)
+	(OldPineTestMap.body(map, "Bandit01").get_node("AggressionPresence") as Area2D).monitoring = false
+	OldPineTestMap.body(map, "Bandit01").global_position = map.player_body.global_position + Vector2(0, 60)
 	npc.set_world_location(player.world_location())
 	session.configure_combat_random_source(GodotCombatRandomSource.new(88, true))
 	player.state.attributes.courage = 100000

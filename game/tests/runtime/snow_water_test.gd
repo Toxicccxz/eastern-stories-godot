@@ -229,7 +229,7 @@ func persistence_tests(tree: SceneTree) -> void:
 
 func physical_tests(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
-	check(session.shared_ui()._liquid != null and not session.waterfall_water_available(), "Session UI, Inn no water source")
+	check(session.shared_ui()._liquid != null and not session.fill_water_available(), "Session UI, Inn no water source")
 	Food.earn_and_exchange(session)
 	purchase(session)
 	await tree.process_frame
@@ -238,18 +238,18 @@ func physical_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 	var panel: HeldLiquidPanel = session.shared_ui()._liquid as HeldLiquidPanel
 	check(panel._panel.visible and panel._drink.text.contains("酒精暂未开放"), "fresh wine UI truthful")
-	var map: OldPineOutdoorController = session.resident_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID) as OldPineOutdoorController
+	var map: WorldMapController = session.resident_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
 	check(session.handoff_to(OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "fixture waterfall handoff")
 	await tree.physics_frame
 	map.player_body.global_position = Vector2(1200,900)
 	map.player_runtime().set_world_location(map.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))
-	check(map.can_fill_at_waterfall() and session.waterfall_water_available(), "valid physical source")
+	check(map.water_available() and session.fill_water_available(), "valid physical source")
 	map.player_body.global_position = Vector2(1200,780)
-	check(not map.can_fill_at_waterfall(), "same zone but120 distance >96")
+	check(not map.water_available(), "same zone but120 distance >96")
 	map.player_body.global_position = Vector2(1200,900)
 	map.player_runtime().set_world_location(map.location_for_zone(OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID))
-	check(not map.can_fill_at_waterfall(), "wrongzone even ifcoordinatesnear")
+	check(not map.water_available(), "wrongzone even ifcoordinatesnear")
 	tree.paused = true
 	await tree.process_frame
 	await tree.process_frame

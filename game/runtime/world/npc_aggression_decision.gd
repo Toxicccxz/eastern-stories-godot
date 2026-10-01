@@ -1,4 +1,4 @@
-class_name OldPineAggressionDecision
+class_name NpcAggressionDecision
 extends RefCounted
 
 enum Outcome {

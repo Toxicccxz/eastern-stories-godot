@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SceneType := preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
@@ -22,7 +24,7 @@ class LootFixture extends RefCounted:
 	var inventory: InventoryState
 	var stacks: CombinedStackCollection
 	var item_index: WorldItemInstanceIndex
-	var adapter: OldPineCorpseLootAdapter
+	var adapter: CorpseLootAdapter
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
@@ -247,7 +249,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 			inactive.player, inactive.corpse, inactive.inventory,
 			inactive.item_index, true,
 		),
-		OldPineCorpseLootAdapter.OpenValidation.PLAYER_NOT_AVAILABLE,
+		CorpseLootAdapter.OpenValidation.PLAYER_NOT_AVAILABLE,
 		"non-ACTIVE player cannot Open Loot",
 	)
 
@@ -290,7 +292,7 @@ func _test_partial_merge_and_validation_gates() -> void:
 			stale_corpse.player, stale_corpse.corpse, stale_corpse.inventory,
 			stale_corpse.item_index, true,
 		),
-		OldPineCorpseLootAdapter.OpenValidation.CORPSE_NOT_AVAILABLE,
+		CorpseLootAdapter.OpenValidation.CORPSE_NOT_AVAILABLE,
 		"stale indexed corpse cannot reopen loot",
 	)
 
@@ -382,7 +384,7 @@ func _test_multiple_corpse_contents_are_independent() -> void:
 	var inventory: InventoryState = InventoryState.new()
 	var stacks: CombinedStackCollection = CombinedStackCollection.new()
 	var item_index: WorldItemInstanceIndex = WorldItemInstanceIndex.new()
-	var adapter: OldPineCorpseLootAdapter = OldPineCorpseLootAdapter.new()
+	var adapter: CorpseLootAdapter = CorpseLootAdapter.new()
 	var player: WorldPlayerRuntimeState = _make_player(50000)
 	var corpse_a: CorpseState = CorpseState.new(&"corpse:a", &"victim:a", "甲")
 	var corpse_b: CorpseState = CorpseState.new(&"corpse:b", &"victim:b", "乙")
@@ -529,7 +531,7 @@ func _test_corpse_view_identity_and_multiple_views(tree: SceneTree) -> void:
 
 
 func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(controller != null, "partial-death fixture instantiates Old Pine")
 	if controller == null:
@@ -564,18 +566,18 @@ func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
 		CombatSliceInitiationResult.Outcome.COMPLETED,
 		"partial-death fixture starts lethal combat",
 	)
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().state.vitality.effective = -1
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	var lifecycle: CombatSliceLifecycleResult = controller.last_lifecycle_results()[0]
 	_assert_eq(lifecycle.outcome, CombatSliceLifecycleResult.Outcome.DEATH_INVENTORY_BLOCKED, "uncovered player item produces blocked partial death")
 	_assert_eq(controller.corpse_states().size(), 1, "closed Phase 6B3 partial corpse authority remains preserved")
-	_assert_eq(controller.corpse_layer.get_child_count(), 1, "closed Phase 6B3 partial corpse view remains presented")
+	_assert_eq(controller.get_node("CorpseLayer").get_child_count(), 1, "closed Phase 6B3 partial corpse view remains presented")
 	var partial_corpse: CorpseState = controller.corpse_states()[0]
 	_assert_false(controller.item_instance_index().has_snapshot(partial_corpse.corpse_item_instance_id), "partial corpse is not registered as Phase 8B1 item interaction metadata")
 	_assert_true(controller.corpse_view_for(partial_corpse.corpse_item_instance_id) == null, "partial corpse has no active loot-range binding")
 	_assert_false(controller.select_corpse(partial_corpse.corpse_item_instance_id), "partial corpse cannot become an ITEM target")
-	var partial_view: CombatSliceCorpseView = controller.corpse_layer.get_child(0) as CombatSliceCorpseView
+	var partial_view: CombatSliceCorpseView = controller.get_node("CorpseLayer").get_child(0) as CombatSliceCorpseView
 	_assert_true(partial_view.selection_requested.get_connections().is_empty(), "partial corpse picking signal has no controller connection")
 	_assert_true(partial_view.loot_range_changed.get_connections().is_empty(), "partial corpse range signal has no controller connection")
 	var click: InputEventMouseButton = InputEventMouseButton.new()
@@ -588,7 +590,7 @@ func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
 
 
 func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(controller != null, "unconscious allocation fixture instantiates Old Pine")
 	if controller == null:
@@ -606,11 +608,11 @@ func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
 	))
 	_assert_true(controller.select_npc(victim.character_id), "unconscious fixture selects a bandit")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "unconscious fixture starts combat through normal boundary")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30
 	victim.character_state.vitality.current = -1
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	_assert_eq(victim.life_status, CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "first threshold opportunity resolves unconscious rather than death")
 	_assert_eq(controller._item_id_allocator.next_dynamic_sequence, 1, "unconscious opportunity intentionally consumes one sequence gap")
 	_assert_eq(controller.inventory_state().registered_item_ids(), inventory_ids_before, "unconscious creates no Inventory item")
@@ -623,7 +625,7 @@ func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
 func _test_item_index_collision_preserves_completed_lifecycle(
 	tree: SceneTree,
 ) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(controller != null, "index-collision fixture instantiates Old Pine")
 	if controller == null:
@@ -648,7 +650,7 @@ func _test_item_index_collision_preserves_completed_lifecycle(
 	_assert_eq(lifecycle.corpse_item_instance_id, corpse_id, "completed lifecycle retains the exact generated corpse ID")
 	_assert_true(controller.inventory_state().is_registered(corpse_id), "completed corpse remains live Inventory authority")
 	_assert_eq(controller.corpse_states().size(), 1, "completed corpse authority remains retained")
-	_assert_eq(controller.corpse_layer.get_child_count(), 1, "completed corpse presentation remains retained")
+	_assert_eq(controller.get_node("CorpseLayer").get_child_count(), 1, "completed corpse presentation remains retained")
 	_assert_true(controller.corpse_view_for(corpse_id) == null, "failed interaction registration does not expose a half-wired loot view")
 	_assert_false(controller.select_corpse(corpse_id), "index collision cannot activate a normal ITEM target")
 	controller.queue_free()
@@ -656,13 +658,13 @@ func _test_item_index_collision_preserves_completed_lifecycle(
 
 
 func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(controller != null, "Old Pine scene instantiates with loot UI")
 	if controller == null:
 		return
 	var viewport_size: Vector2 = controller.get_viewport_rect().size
-	var loot_panel: OldPineLootPanel = controller.hud.loot_panel
+	var loot_panel: OldPineLootPanel = controller.session.shared_ui().loot_panel
 	_assert_true(loot_panel.position.x >= 0.0 and loot_panel.position.y >= 0.0, "Loot panel begins inside the playable viewport")
 	_assert_true(loot_panel.position.x + loot_panel.size.x <= viewport_size.x, "Loot panel right edge remains inside the playable viewport")
 	_assert_true(loot_panel.position.y + loot_panel.size.y <= viewport_size.y, "Loot panel bottom edge remains inside the playable viewport")
@@ -676,7 +678,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(controller.player_runtime().maximum_encumbrance, expected_maximum, "scene capacity remains setup snapshot after strength mutation")
 
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
-	var death_position: Vector2 = controller.bandit_bodies[0].global_position
+	var death_position: Vector2 = OldPineTestMap.body(controller, "Bandit01").global_position
 	await _kill_bandit(controller, victim, tree)
 	_assert_eq(controller.corpse_states().size(), 1, "bandit death creates one corpse authority")
 	_assert_true(controller.selected_interaction_target() != null and controller.selected_interaction_target().kind == WorldInteractionTarget.Kind.CHARACTER, "death preserves the prior Bandit target until corpse picking")
@@ -694,36 +696,36 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	var selected: WorldInteractionTarget = controller.selected_interaction_target()
 	_assert_eq(selected.kind, WorldInteractionTarget.Kind.ITEM, "corpse click selects ITEM kind")
 	_assert_eq(selected.target_id, corpse.corpse_item_instance_id, "corpse click selects exact corpse ID")
-	_assert_false(controller.hud.attack_is_enabled(), "corpse selection disables Attack")
-	_assert_false(controller.hud.portal_action_is_enabled(), "corpse selection disables Traverse")
-	_assert_false(controller.hud.open_loot_is_enabled(), "Open Loot is disabled outside physical range")
+	_assert_false(controller.session.shared_ui().attack_is_enabled(), "corpse selection disables Attack")
+	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "corpse selection disables Traverse")
+	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "Open Loot is disabled outside physical range")
 	_assert_true(controller.inspect_selected(), "corpse Inspect remains available outside loot range")
-	_assert_true(controller.hud.inspection_display().contains("Contents: 2"), "corpse Inspect reads live content count")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("Contents: 2"), "corpse Inspect reads live content count")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
-	_assert_true(controller.select_landmark(OldPineLandmarkDefinitions.PINE_LANDMARK_ID), "Corpse to Pine target switch succeeds")
+	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "Corpse to Pine target switch succeeds")
 	_assert_eq(controller.selected_interaction_target().kind, WorldInteractionTarget.Kind.LANDMARK, "Pine uses LANDMARK target")
-	_assert_true(controller.hud.portal_action_is_enabled(), "Pine exposes Traverse without stale corpse action")
-	_assert_false(controller.hud.attack_is_enabled(), "Pine clears stale Attack")
-	_assert_false(controller.hud.open_loot_is_enabled(), "Pine clears stale Open Loot")
+	_assert_true(controller.session.shared_ui().portal_action_is_enabled(), "Pine exposes Traverse without stale corpse action")
+	_assert_false(controller.session.shared_ui().attack_is_enabled(), "Pine clears stale Attack")
+	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "Pine clears stale Open Loot")
 	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "Pine to Corpse target switch succeeds")
 	_assert_eq(controller.selected_interaction_target().kind, WorldInteractionTarget.Kind.ITEM, "Corpse restores exact ITEM target")
 	_assert_true(controller.select_npc(controller.npc_runtimes()[1].character_id), "Corpse to living Bandit target switch succeeds")
 	_assert_eq(controller.selected_interaction_target().kind, WorldInteractionTarget.Kind.CHARACTER, "living Bandit restores CHARACTER target")
-	_assert_true(controller.hud.attack_is_enabled(), "living Bandit exposes Attack")
-	_assert_false(controller.hud.portal_action_is_enabled(), "Bandit clears stale Traverse")
-	_assert_false(controller.hud.open_loot_is_enabled(), "Bandit clears stale Open Loot")
+	_assert_true(controller.session.shared_ui().attack_is_enabled(), "living Bandit exposes Attack")
+	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "Bandit clears stale Traverse")
+	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "Bandit clears stale Open Loot")
 	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "Bandit to Corpse target switch succeeds")
 
 	controller.player_body.global_position = view.global_position
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_true(view.is_body_in_loot_range(controller.player_body), "physical Area detects player near corpse")
-	_assert_true(controller.hud.open_loot_is_enabled(), "entering physical range enables Open Loot")
-	controller.hud.open_loot_button.pressed.emit()
-	_assert_true(controller.hud.loot_is_open(), "loot panel is visible")
-	var rows: Array[WorldItemRowProjection] = controller.hud.loot_rows()
+	_assert_true(controller.session.shared_ui().open_loot_is_enabled(), "entering physical range enables Open Loot")
+	controller.session.shared_ui().open_loot_button.pressed.emit()
+	_assert_true(controller.session.shared_ui().loot_is_open(), "loot panel is visible")
+	var rows: Array[WorldItemRowProjection] = controller.session.shared_ui().loot_rows()
 	_assert_eq(rows.size(), 2, "live panel shows two corpse direct children")
 	var projected_ids: Array[StringName] = []
 	for row: WorldItemRowProjection in rows:
@@ -742,7 +744,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	if silver_row != null:
 		_assert_eq(silver_row.amount, 3, "panel reads live silver amount three")
 	var stale_sword_button: Button = _take_button_for_row_id(
-		controller.hud.loot_panel, rows, sword_id
+		controller.session.shared_ui().loot_panel, rows, sword_id
 	)
 	_assert_true(stale_sword_button != null, "live sword row creates a Take button bound to its row")
 
@@ -754,18 +756,18 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	var rejected: CorpseLootTransferResult = controller.last_loot_transfer_result()
 	_assert_eq(rejected.outcome, CorpseLootTransferResult.Outcome.OUT_OF_RANGE, "open panel cannot bypass execution-time range")
 	_assert_eq(rejected.requested_item_instance_id, sword_id, "stale row button carries exact sword ItemInstanceId")
-	_assert_true(controller.hud.loot_is_open(), "out-of-range rejection keeps an honest refreshable panel")
-	_assert_eq(controller.hud.loot_rows().size(), 2, "out-of-range rejection rebuilds unchanged live corpse rows")
+	_assert_true(controller.session.shared_ui().loot_is_open(), "out-of-range rejection keeps an honest refreshable panel")
+	_assert_eq(controller.session.shared_ui().loot_rows().size(), 2, "out-of-range rejection rebuilds unchanged live corpse rows")
 	_assert_eq(controller.player_runtime().busy.busy_value, 0, "out-of-range rejection starts no busy")
 	controller.player_body.global_position = view.global_position
 	await tree.physics_frame
 	await tree.physics_frame
 
 	var random: CountingCombatRandomSource = CountingCombatRandomSource.new()
-	controller.configure_combat_random_source(random)
-	var refreshed_rows: Array[WorldItemRowProjection] = controller.hud.loot_rows()
+	controller.session.configure_combat_random_source(random)
+	var refreshed_rows: Array[WorldItemRowProjection] = controller.session.shared_ui().loot_rows()
 	var sword_button: Button = _take_button_for_row_id(
-		controller.hud.loot_panel, refreshed_rows, sword_id
+		controller.session.shared_ui().loot_panel, refreshed_rows, sword_id
 	)
 	_assert_true(sword_button != null, "refreshed sword row recreates its exact Take button")
 	sword_button.pressed.emit()
@@ -774,28 +776,28 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(sword_take.requested_item_instance_id, sword_id, "successful row signal preserves exact sword ItemInstanceId")
 	_assert_true(controller.inventory_state().is_direct_child(sword_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, controller.player_runtime().character_id)), "same sword instance is player direct inventory")
 	_assert_eq(controller.player_runtime().state.equipment.primary_weapon().instance_id, player_primary.instance_id, "scene Take does not auto-wield short sword")
-	_assert_eq(controller.hud.loot_rows().size(), 1, "panel rebuild removes taken sword row")
+	_assert_eq(controller.session.shared_ui().loot_rows().size(), 1, "panel rebuild removes taken sword row")
 	_assert_true(controller.inspect_selected(), "corpse remains inspectable after one Take")
-	_assert_true(controller.hud.inspection_display().contains("Contents: 1"), "corpse Inspect count updates live from two to one")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("Contents: 1"), "corpse Inspect count updates live from two to one")
 	if sword_take.busy_started:
 		controller.player_runtime().busy.advance()
 	_assert_true(controller.open_selected_loot(), "single shared frame returns from Inspect to Loot")
 	var silver_take: CorpseLootTransferResult = controller.take_selected_loot_item(silver_id)
 	_assert_true(silver_take.succeeded, "scene Take transfers amount-three silver")
 	_assert_eq(controller.stack_collection().stack_state(silver_id).amount, 3, "scene silver amount remains three")
-	_assert_true(controller.hud.loot_rows().is_empty(), "panel rebuild shows empty corpse")
+	_assert_true(controller.session.shared_ui().loot_rows().is_empty(), "panel rebuild shows empty corpse")
 	_assert_true(controller.inspect_selected(), "empty corpse remains inspectable")
-	_assert_true(controller.hud.inspection_display().contains("Contents: 0"), "corpse Inspect count updates live from one to zero")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("Contents: 0"), "corpse Inspect count updates live from one to zero")
 	_assert_true(controller.inventory_state().is_registered(corpse.corpse_item_instance_id), "empty scene corpse remains live")
 	_assert_true(view.visible, "empty corpse remains visible")
 	_assert_eq(random.calls, 0, "Open/Take/merge consume zero Combat RNG")
 	_assert_true(controller.npc_runtimes()[1].exists_in_map and controller.npc_runtimes()[2].exists_in_map, "other bandits remain after looting")
 	_assert_true(controller.is_inside_tree(), "map continues without reload")
-	_assert_true(controller.select_landmark(OldPineLandmarkDefinitions.PINE_LANDMARK_ID), "corpse to Pine target switch remains available")
-	_assert_false(controller.hud.open_loot_is_enabled(), "Pine target clears stale Open Loot")
-	_assert_false(controller.hud.loot_is_open(), "target switch closes stale loot panel")
+	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "corpse to Pine target switch remains available")
+	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "Pine target clears stale Open Loot")
+	_assert_false(controller.session.shared_ui().loot_is_open(), "target switch closes stale loot panel")
 	_assert_true(controller.select_npc(controller.npc_runtimes()[1].character_id), "Pine to Bandit target switch remains available")
-	_assert_false(controller.hud.open_loot_is_enabled(), "Bandit target never exposes Open Loot")
+	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "Bandit target never exposes Open Loot")
 	var npc_random_after_loot: int = controller.npc_random_source().next_below(1000)
 	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "empty corpse remains selectable before liveness removal test")
 	_assert_true(controller.open_selected_loot(), "empty corpse can reopen an Empty panel")
@@ -803,16 +805,16 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	_assert_true(controller.selected_interaction_target() == null, "stale selected corpse clears ITEM target")
-	_assert_false(controller.hud.open_loot_is_enabled(), "stale selected corpse clears Open Loot action")
-	_assert_false(controller.hud.loot_is_open(), "stale selected corpse closes its panel")
+	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "stale selected corpse clears Open Loot action")
+	_assert_false(controller.session.shared_ui().loot_is_open(), "stale selected corpse closes its panel")
 
 	var old_corpse_id: StringName = corpse.corpse_item_instance_id
 	controller.queue_free()
 	await tree.process_frame
-	var fresh: OldPineOutdoorController = _instantiate_scene(tree)
+	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(fresh.selected_interaction_target() == null, "fresh scene clears ITEM target")
-	_assert_false(fresh.hud.loot_is_open(), "fresh scene closes loot panel")
+	_assert_false(fresh.session.shared_ui().loot_is_open(), "fresh scene closes loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
 	_assert_eq(fresh.item_instance_index().snapshot_count(), 12, "fresh scene rebuilds only initial item index")
 	_assert_false(fresh.item_instance_index().has_snapshot(old_corpse_id), "fresh scene has no stale corpse identity")
@@ -833,7 +835,7 @@ func _make_fixture(
 	fixture.inventory = InventoryState.new()
 	fixture.stacks = CombinedStackCollection.new()
 	fixture.item_index = WorldItemInstanceIndex.new()
-	fixture.adapter = OldPineCorpseLootAdapter.new()
+	fixture.adapter = CorpseLootAdapter.new()
 	fixture.corpse = CorpseState.new(&"corpse", &"victim", "土匪探哨", &"男性", 19, 50000)
 	var corpse_item: ItemInstance = ItemInstance.new(&"corpse", CombatSliceDeathAdapter.CORPSE_DEFINITION_ID)
 	fixture.inventory.register_item(corpse_item, 0)
@@ -980,7 +982,7 @@ func _take_button_for_row_id(
 
 
 func _kill_bandit(
-	controller: OldPineOutdoorController,
+	controller: WorldMapController,
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> void:
@@ -989,20 +991,20 @@ func _kill_bandit(
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30
 	victim.character_state.vitality.current = -1
-	controller.process_cadence_tick()
-	controller.configure_combat_random_source(MaximumCombatRandomSource.new())
+	HistoricalCombat.tick(controller)
+	controller.session.configure_combat_random_source(MaximumCombatRandomSource.new())
 	for _tick: int in range(24):
 		if victim.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			break
-		controller.process_cadence_tick()
+		HistoricalCombat.tick(controller)
 	await tree.process_frame
 
 
-func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
+func _instantiate_scene(tree: SceneTree) -> WorldMapController:
 	var session: OldPineWorldSessionController = (
 		SceneType.instantiate() as OldPineWorldSessionController
 	)
@@ -1014,7 +1016,7 @@ func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
 	session.combat_seed = 5232
 	tree.root.add_child(session)
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
-	return session.outdoor_map()
+	return session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 
 
 func _assert_true(value: bool, message: String) -> void:

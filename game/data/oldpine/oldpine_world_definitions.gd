@@ -16,7 +16,6 @@ const WATERFALL_BASIN_ZONE_ID: StringName = (
 	&"oldpine.outdoor.waterfall_basin"
 )
 const LAKE_ZONE_ID: StringName = &"oldpine.outdoor.lake"
-const LAKE_SERPENT_SPAWN_ID: StringName = &"oldpine.outdoor.lake.serpents"
 const RIVER_GORGE_ZONE_ID: StringName = &"oldpine.outdoor.river_gorge"
 const PINE_ENTRANCE_ZONE_ID: StringName = &"oldpine.outdoor.pine_entrance"
 const PINE_DEEP_ZONE_ID: StringName = &"oldpine.outdoor.pine_deep"
@@ -63,11 +62,4 @@ const CLIFFSIDE_LANDING_SPAWN_POINT_ID: StringName = (
 )
 const PINE1_CLIFFSIDE_LANDING_SPAWN_POINT_ID: StringName = (
 	&"oldpine.outdoor.pine_entrance.cliffside_landing"
-)
-const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
-const PINE1_TALL_BANDIT_SPAWN_ID: StringName = (
-	&"oldpine.outdoor.pine1.tall_bandit"
-)
-const PINE1_FAT_BANDIT_SPAWN_ID: StringName = (
-	&"oldpine.outdoor.pine1.fat_bandit"
 )

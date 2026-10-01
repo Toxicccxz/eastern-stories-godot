@@ -45,7 +45,10 @@ func _physics_process(_delta: float) -> void:
 	# the current body center, and recheck again at the deferred coordinator boundary.
 	if _contact and not _pending and is_current(_portal):
 		_pending = true
-		_map.passage_requested.emit(_portal)
+		if _portal.destination_map_id == _portal.source_map_id:
+			_map.call_deferred(&"traverse_same_map_passage", _portal)
+		else:
+			_map.passage_requested.emit(_portal)
 
 
 func clear_contact() -> void:

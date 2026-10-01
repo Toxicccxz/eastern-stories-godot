@@ -47,7 +47,7 @@ func _test_source_growth_and_carry() -> void:
 	birth.inventory.register_item(sword, 7000)
 	birth.item_index.register_snapshot(sword)
 	_check(transfer.transfer(birth.inventory, sword.item_instance_id, InventoryTransferDestination.new(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id), true, true, 50000)).succeeded, "loot fixture sword placed inside corpse")
-	var loot: OldPineCorpseLootAdapter = OldPineCorpseLootAdapter.new()
+	var loot: CorpseLootAdapter = CorpseLootAdapter.new()
 	var denied: CorpseLootTransferResult = loot.take(player, corpse, sword.item_instance_id, true, birth.inventory, birth.stacks, birth.item_index)
 	_check(not denied.succeeded and denied.outcome == CorpseLootTransferResult.Outcome.TRANSFER_FAILED, "real loot adapter rejects157000 despite strength32 derived160000")
 	birth.inventory.update_own_weight(item.item_instance_id, 140000)

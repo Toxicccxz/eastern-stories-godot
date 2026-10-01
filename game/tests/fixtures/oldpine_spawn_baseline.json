@@ -1,0 +1,2798 @@
+{
+	"technical_new_game": {
+		"next_npc_draw": 445061.0,
+		"npcs": [
+			{
+				"age": 19.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 70000.0,
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+				"definition": "oldpine.npc.bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 125000.0,
+				"point": "oldpine.outdoor.south_slope.spath1.bandit.1",
+				"position": [
+					300.0,
+					800.0
+				],
+				"spawn": "oldpine.outdoor.spath1.bandits",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 12.0,
+						"composure_modifier": 0.0,
+						"constitution": 29.0,
+						"constitution_modifier": 0.0,
+						"courage": 21.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 26.0,
+						"intelligence_modifier": 0.0,
+						"karma": 24.0,
+						"karma_modifier": 0.0,
+						"personality": 27.0,
+						"personality_modifier": 0.0,
+						"spirituality": 14.0,
+						"spirituality_modifier": 0.0,
+						"strength": 25.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 600.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 10.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					}
+				},
+				"zone": "oldpine.outdoor.south_slope"
+			},
+			{
+				"age": 19.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 60000.0,
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+				"definition": "oldpine.npc.bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 100000.0,
+				"point": "oldpine.outdoor.south_slope.spath1.bandit.2",
+				"position": [
+					450.0,
+					880.0
+				],
+				"spawn": "oldpine.outdoor.spath1.bandits",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 13.0,
+						"composure_modifier": 0.0,
+						"constitution": 19.0,
+						"constitution_modifier": 0.0,
+						"courage": 23.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 16.0,
+						"intelligence_modifier": 0.0,
+						"karma": 27.0,
+						"karma_modifier": 0.0,
+						"personality": 21.0,
+						"personality_modifier": 0.0,
+						"spirituality": 30.0,
+						"spirituality_modifier": 0.0,
+						"strength": 20.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 600.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 10.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					}
+				},
+				"zone": "oldpine.outdoor.south_slope"
+			},
+			{
+				"age": 19.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 74000.0,
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+				"definition": "oldpine.npc.bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 135000.0,
+				"point": "oldpine.outdoor.south_slope.spath1.bandit.3",
+				"position": [
+					600.0,
+					800.0
+				],
+				"spawn": "oldpine.outdoor.spath1.bandits",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 24.0,
+						"composure_modifier": 0.0,
+						"constitution": 22.0,
+						"constitution_modifier": 0.0,
+						"courage": 11.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 28.0,
+						"intelligence_modifier": 0.0,
+						"karma": 15.0,
+						"karma_modifier": 0.0,
+						"personality": 16.0,
+						"personality_modifier": 0.0,
+						"spirituality": 11.0,
+						"spirituality_modifier": 0.0,
+						"strength": 27.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 600.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 10.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					}
+				},
+				"zone": "oldpine.outdoor.south_slope"
+			},
+			{
+				"age": 27.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 46000.0,
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character",
+				"definition": "oldpine.npc.tall_bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/long_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 65000.0,
+				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
+				"position": [
+					-300.0,
+					300.0
+				],
+				"spawn": "oldpine.outdoor.pine1.tall_bandit",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 25.0,
+						"composure_modifier": 0.0,
+						"constitution": 17.0,
+						"constitution_modifier": 0.0,
+						"courage": 19.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 24.0,
+						"intelligence_modifier": 0.0,
+						"karma": 30.0,
+						"karma_modifier": 0.0,
+						"personality": 16.0,
+						"personality_modifier": 0.0,
+						"spirituality": 22.0,
+						"spirituality_modifier": 0.0,
+						"strength": 13.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": false,
+							"_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/long_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/long_sword",
+							"can_wield_as_secondary": false,
+							"instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/long_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/long_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 900.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 15.0,
+							"sword": 15.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					}
+				},
+				"zone": "oldpine.outdoor.pine_entrance"
+			},
+			{
+				"age": 36.0,
+				"armor": {
+					"_equipped_by_slot": {
+						"cloth": {
+							"_armor_type": "cloth",
+							"_item_definition_id": "es2:d/oldpine/obj/leather",
+							"_item_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+							"_numeric_modifiers": {
+								"_armor": 5.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": -2.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": 0.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 5.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": -2.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": 0.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							},
+							"armor_type": "cloth",
+							"item_definition_id": "es2:d/oldpine/obj/leather",
+							"item_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+							"numeric_modifiers": {
+								"_armor": 5.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": -2.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": 0.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 5.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": -2.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": 0.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							}
+						}
+					}
+				},
+				"body_weight": 44000.0,
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character",
+				"definition": "oldpine.npc.fat_bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+						"es2:d/oldpine/obj/leather"
+					],
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.2.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 60000.0,
+				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
+				"position": [
+					-200.0,
+					400.0
+				],
+				"spawn": "oldpine.outdoor.pine1.fat_bandit",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 29.0,
+						"composure_modifier": 0.0,
+						"constitution": 23.0,
+						"constitution_modifier": 0.0,
+						"courage": 27.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 13.0,
+						"intelligence_modifier": 0.0,
+						"karma": 25.0,
+						"karma_modifier": 0.0,
+						"personality": 16.0,
+						"personality_modifier": 0.0,
+						"spirituality": 17.0,
+						"spirituality_modifier": 0.0,
+						"strength": 12.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 190.0,
+						"_effective": 190.0,
+						"_maximum": 190.0,
+						"current": 190.0,
+						"effective": 190.0,
+						"maximum": 190.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 500.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 20.0
+						}
+					},
+					"spirit": {
+						"_current": 130.0,
+						"_effective": 130.0,
+						"_maximum": 130.0,
+						"current": 130.0,
+						"effective": 130.0,
+						"maximum": 130.0
+					},
+					"vitality": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					}
+				},
+				"zone": "oldpine.outdoor.pine_entrance"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.1.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.1",
+				"position": [
+					1340.0,
+					2470.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 5.0,
+						"composure_modifier": 0.0,
+						"constitution": 27.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 30.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.2.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.2",
+				"position": [
+					1430.0,
+					2505.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 13.0,
+						"composure_modifier": 0.0,
+						"constitution": 28.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 5.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.3.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.3",
+				"position": [
+					1340.0,
+					2545.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 8.0,
+						"composure_modifier": 0.0,
+						"constitution": 15.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 35.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.4.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.4",
+				"position": [
+					1440.0,
+					2590.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 8.0,
+						"composure_modifier": 0.0,
+						"constitution": 29.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 30.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.5.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.5",
+				"position": [
+					1350.0,
+					2640.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 5.0,
+						"composure_modifier": 0.0,
+						"constitution": 25.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 29.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			}
+		]
+	},
+	"source_entry": {
+		"next_npc_draw": 445061.0,
+		"npcs": [
+			{
+				"age": 19.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 70000.0,
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+				"definition": "oldpine.npc.bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 125000.0,
+				"point": "oldpine.outdoor.south_slope.spath1.bandit.1",
+				"position": [
+					300.0,
+					800.0
+				],
+				"spawn": "oldpine.outdoor.spath1.bandits",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 12.0,
+						"composure_modifier": 0.0,
+						"constitution": 29.0,
+						"constitution_modifier": 0.0,
+						"courage": 21.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 26.0,
+						"intelligence_modifier": 0.0,
+						"karma": 24.0,
+						"karma_modifier": 0.0,
+						"personality": 27.0,
+						"personality_modifier": 0.0,
+						"spirituality": 14.0,
+						"spirituality_modifier": 0.0,
+						"strength": 25.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 600.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 10.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					}
+				},
+				"zone": "oldpine.outdoor.south_slope"
+			},
+			{
+				"age": 19.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 60000.0,
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+				"definition": "oldpine.npc.bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 100000.0,
+				"point": "oldpine.outdoor.south_slope.spath1.bandit.2",
+				"position": [
+					450.0,
+					880.0
+				],
+				"spawn": "oldpine.outdoor.spath1.bandits",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 13.0,
+						"composure_modifier": 0.0,
+						"constitution": 19.0,
+						"constitution_modifier": 0.0,
+						"courage": 23.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 16.0,
+						"intelligence_modifier": 0.0,
+						"karma": 27.0,
+						"karma_modifier": 0.0,
+						"personality": 21.0,
+						"personality_modifier": 0.0,
+						"spirituality": 30.0,
+						"spirituality_modifier": 0.0,
+						"strength": 20.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 600.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 10.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					}
+				},
+				"zone": "oldpine.outdoor.south_slope"
+			},
+			{
+				"age": 19.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 74000.0,
+				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+				"definition": "oldpine.npc.bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 135000.0,
+				"point": "oldpine.outdoor.south_slope.spath1.bandit.3",
+				"position": [
+					600.0,
+					800.0
+				],
+				"spawn": "oldpine.outdoor.spath1.bandits",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 24.0,
+						"composure_modifier": 0.0,
+						"constitution": 22.0,
+						"constitution_modifier": 0.0,
+						"courage": 11.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 28.0,
+						"intelligence_modifier": 0.0,
+						"karma": 15.0,
+						"karma_modifier": 0.0,
+						"personality": 16.0,
+						"personality_modifier": 0.0,
+						"spirituality": 11.0,
+						"spirituality_modifier": 0.0,
+						"strength": 27.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 600.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 10.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 200.0,
+						"_effective": 200.0,
+						"_maximum": 200.0,
+						"current": 200.0,
+						"effective": 200.0,
+						"maximum": 200.0
+					}
+				},
+				"zone": "oldpine.outdoor.south_slope"
+			},
+			{
+				"age": 27.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 46000.0,
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character",
+				"definition": "oldpine.npc.tall_bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/long_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.1.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 65000.0,
+				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
+				"position": [
+					-300.0,
+					300.0
+				],
+				"spawn": "oldpine.outdoor.pine1.tall_bandit",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 25.0,
+						"composure_modifier": 0.0,
+						"constitution": 17.0,
+						"constitution_modifier": 0.0,
+						"courage": 19.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 24.0,
+						"intelligence_modifier": 0.0,
+						"karma": 30.0,
+						"karma_modifier": 0.0,
+						"personality": 16.0,
+						"personality_modifier": 0.0,
+						"spirituality": 22.0,
+						"spirituality_modifier": 0.0,
+						"strength": 13.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": false,
+							"_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/long_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/long_sword",
+							"can_wield_as_secondary": false,
+							"instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.tall_bandit.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/long_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/long_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 900.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 15.0,
+							"sword": 15.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"vitality": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					}
+				},
+				"zone": "oldpine.outdoor.pine_entrance"
+			},
+			{
+				"age": 36.0,
+				"armor": {
+					"_equipped_by_slot": {
+						"cloth": {
+							"_armor_type": "cloth",
+							"_item_definition_id": "es2:d/oldpine/obj/leather",
+							"_item_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+							"_numeric_modifiers": {
+								"_armor": 5.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": -2.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": 0.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 5.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": -2.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": 0.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							},
+							"armor_type": "cloth",
+							"item_definition_id": "es2:d/oldpine/obj/leather",
+							"item_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+							"numeric_modifiers": {
+								"_armor": 5.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": -2.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": 0.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 5.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": -2.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": 0.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							}
+						}
+					}
+				},
+				"body_weight": 44000.0,
+				"character_id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character",
+				"definition": "oldpine.npc.fat_bandit",
+				"loadout": [
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/short_sword"
+					],
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.1.0",
+						"es2:d/oldpine/obj/leather"
+					],
+					[
+						"<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.2.0",
+						"es2:obj/money/silver"
+					]
+				],
+				"maximum_encumbrance": 60000.0,
+				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
+				"position": [
+					-200.0,
+					400.0
+				],
+				"spawn": "oldpine.outdoor.pine1.fat_bandit",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 29.0,
+						"composure_modifier": 0.0,
+						"constitution": 23.0,
+						"constitution_modifier": 0.0,
+						"courage": 27.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 13.0,
+						"intelligence_modifier": 0.0,
+						"karma": 25.0,
+						"karma_modifier": 0.0,
+						"personality": 16.0,
+						"personality_modifier": 0.0,
+						"spirituality": 17.0,
+						"spirituality_modifier": 0.0,
+						"strength": 12.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": true,
+							"_instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
+							"instance_id": "<scope>.oldpine.outdoor.pine_entrance.pine1.fat_bandit.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 190.0,
+						"_effective": 190.0,
+						"_maximum": 190.0,
+						"current": 190.0,
+						"effective": 190.0,
+						"maximum": 190.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"progression": {
+						"combat_experience": 500.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 10.0,
+							"parry": 10.0,
+							"sword": 20.0
+						}
+					},
+					"spirit": {
+						"_current": 130.0,
+						"_effective": 130.0,
+						"_maximum": 130.0,
+						"current": 130.0,
+						"effective": 130.0,
+						"maximum": 130.0
+					},
+					"vitality": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					}
+				},
+				"zone": "oldpine.outdoor.pine_entrance"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.1.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.1",
+				"position": [
+					1340.0,
+					2470.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 5.0,
+						"composure_modifier": 0.0,
+						"constitution": 27.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 30.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.2.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.2",
+				"position": [
+					1430.0,
+					2505.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 13.0,
+						"composure_modifier": 0.0,
+						"constitution": 28.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 5.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.3.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.3",
+				"position": [
+					1340.0,
+					2545.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 8.0,
+						"composure_modifier": 0.0,
+						"constitution": 15.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 35.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.4.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.4",
+				"position": [
+					1440.0,
+					2590.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 8.0,
+						"composure_modifier": 0.0,
+						"constitution": 29.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 30.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			},
+			{
+				"age": 400.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 62000.0,
+				"character_id": "oldpine.outdoor.lake.serpent.5.character",
+				"definition": "oldpine.npc.serpent",
+				"loadout": [],
+				"maximum_encumbrance": 200000.0,
+				"point": "oldpine.outdoor.lake.serpent.5",
+				"position": [
+					1350.0,
+					2640.0
+				],
+				"spawn": "oldpine.outdoor.lake.serpents",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 5.0,
+						"composure_modifier": 0.0,
+						"constitution": 25.0,
+						"constitution_modifier": 0.0,
+						"courage": 70.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 10.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 29.0,
+						"personality_modifier": 0.0,
+						"spirituality": 20.0,
+						"spirituality_modifier": 0.0,
+						"strength": 40.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 900.0,
+						"_effective": 900.0,
+						"_maximum": 900.0,
+						"current": 900.0,
+						"effective": 900.0,
+						"maximum": 900.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"progression": {
+						"combat_experience": 250000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 500.0,
+						"_effective": 500.0,
+						"_maximum": 500.0,
+						"current": 500.0,
+						"effective": 500.0,
+						"maximum": 500.0
+					},
+					"vitality": {
+						"_current": 1800.0,
+						"_effective": 1800.0,
+						"_maximum": 1800.0,
+						"current": 1800.0,
+						"effective": 1800.0,
+						"maximum": 1800.0
+					}
+				},
+				"zone": "oldpine.outdoor.lake"
+			}
+		]
+	}
+}

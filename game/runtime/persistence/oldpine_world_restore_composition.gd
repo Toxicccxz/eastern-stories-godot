@@ -303,7 +303,6 @@ static func _restore_corpses(
 			not item_records.has(saved.corpse_item_instance_id)
 			or not character_facts.has(saved.victim_character_id)
 			or not _location_is_current(saved.world_location)
-			or saved.world_location.map_id != OldPineWorldDefinitions.OUTDOOR_MAP_ID
 			or saved.decay_stage < CorpseState.Stage.FRESH
 			or saved.decay_stage > CorpseState.Stage.FINAL
 		):
@@ -470,38 +469,20 @@ static func _character_aggregate_ids_match(
 
 
 static func _player_location_is_current(value: Values.WorldLocationSnapshot, revision: WorldContentRevision.Value) -> bool:
-	if _location_is_current(value):
-		return true
-	if revision != WorldContentRevision.CURRENT_PUBLIC or value == null or value.region_id != SnowWorldDefinitions.REGION_ID:
+	if value == null or (revision != WorldContentRevision.CURRENT_PUBLIC and value.region_id != OldPineWorldDefinitions.REGION_ID):
 		return false
-	var zone: ZoneDefinition = GameContent.catalog().zone(value.zone_id)
+	return _location_is_current(value)
+
+
+## A zone of the current content, on its own map and region.
+static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:
+	var zone: ZoneDefinition = null if value == null else GameContent.catalog().zone(value.zone_id)
 	var map: MapDefinition = null if zone == null else GameContent.catalog().map(zone.map_id)
 	return (
 		map != null
 		and map.region_id == value.region_id
 		and zone.map_id == value.map_id
 		and zone.combat_location_id == value.combat_location_id
-	)
-
-
-static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:
-	if value == null or value.region_id != OldPineWorldDefinitions.REGION_ID:
-		return false
-	if value.map_id not in [
-		OldPineWorldDefinitions.OUTDOOR_MAP_ID,
-		OldPineWorldDefinitions.CAVE_MAP_ID,
-	]:
-		return false
-	var zone: ZoneDefinition = GameContent.catalog().zone(value.zone_id)
-	return (
-		zone != null
-		and zone.map_id == value.map_id
-		and zone.combat_location_id == value.combat_location_id
-		and (
-			value.map_id != OldPineWorldDefinitions.CAVE_MAP_ID
-			or value.zone_id
-			== OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID
-		)
 	)
 
 

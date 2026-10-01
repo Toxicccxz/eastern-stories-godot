@@ -9,7 +9,7 @@ class InventoryFixture extends RefCounted:
 	var adapter: OldPineEquipmentInteractionAdapter = (
 		OldPineEquipmentInteractionAdapter.new()
 	)
-	var resolver: OldPineWeaponContentResolver = OldPineWeaponContentResolver.new()
+	var resolver: WorldWeaponContentResolver = WorldWeaponContentResolver.new()
 	var long_id: StringName = &"item:long"
 	var short_id: StringName = &"item:short"
 	var silver_id: StringName = &"item:silver"
@@ -187,35 +187,35 @@ func _test_unwield_validation_and_no_promotion() -> void:
 
 func _test_current_weapon_content_resolution() -> void:
 	var fixture: InventoryFixture = _make_fixture(true, false)
-	var long_resolution: OldPineWeaponContentResolution = fixture.resolver.resolve(
+	var long_resolution: WorldWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(long_resolution.outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "fresh primary resolves exact long profile")
+	_assert_eq(long_resolution.outcome, WorldWeaponContentResolution.Outcome.WEAPON, "fresh primary resolves exact long profile")
 	_assert_eq(long_resolution.content_profile.projected_apply_damage(fixture.player.state.equipment.primary_weapon()), 25, "long profile projects damage 25")
 	fixture.adapter.wield(fixture.player, fixture.short_id, fixture.inventory, fixture.index)
-	var long_with_secondary: OldPineWeaponContentResolution = fixture.resolver.resolve(
+	var long_with_secondary: WorldWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(long_with_secondary.outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "long primary plus short secondary still resolves long")
+	_assert_eq(long_with_secondary.outcome, WorldWeaponContentResolution.Outcome.WEAPON, "long primary plus short secondary still resolves long")
 	fixture.adapter.unwield(fixture.player, fixture.long_id, fixture.inventory)
-	var secondary_only: OldPineWeaponContentResolution = fixture.resolver.resolve(
+	var secondary_only: WorldWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(secondary_only.outcome, OldPineWeaponContentResolution.Outcome.UNARMED, "secondary-only resolves primary action as unarmed")
+	_assert_eq(secondary_only.outcome, WorldWeaponContentResolution.Outcome.UNARMED, "secondary-only resolves primary action as unarmed")
 	_assert_true(secondary_only.content_profile.is_valid(), "unarmed-only profile is valid runtime content")
 	_assert_eq(secondary_only.content_profile.projected_apply_damage(null), 0, "unarmed profile projects zero weapon damage")
 	fixture.adapter.unwield(fixture.player, fixture.short_id, fixture.inventory)
 	fixture.adapter.wield(fixture.player, fixture.short_id, fixture.inventory, fixture.index)
-	var short_resolution: OldPineWeaponContentResolution = fixture.resolver.resolve(
+	var short_resolution: WorldWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(short_resolution.outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "short primary resolves exact short profile")
+	_assert_eq(short_resolution.outcome, WorldWeaponContentResolution.Outcome.WEAPON, "short primary resolves exact short profile")
 	_assert_eq(short_resolution.content_profile.projected_apply_damage(fixture.player.state.equipment.primary_weapon()), 15, "short profile projects damage 15")
 	fixture.adapter.unwield(fixture.player, fixture.short_id, fixture.inventory)
-	var unarmed: OldPineWeaponContentResolution = fixture.resolver.resolve(
+	var unarmed: WorldWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(unarmed.outcome, OldPineWeaponContentResolution.Outcome.UNARMED, "empty primary resolves unarmed")
+	_assert_eq(unarmed.outcome, WorldWeaponContentResolution.Outcome.UNARMED, "empty primary resolves unarmed")
 
 	var unsupported_definition: WeaponDefinition = WeaponDefinition.new(
 		&"test:unsupported", &"sword", false, false, "test/unsupported.c"
@@ -227,10 +227,10 @@ func _test_current_weapon_content_resolution() -> void:
 		EquippedWeaponRef.new(unsupported_item.item_instance_id, unsupported_definition),
 		false,
 	)
-	var unsupported: OldPineWeaponContentResolution = fixture.resolver.resolve(
+	var unsupported: WorldWeaponContentResolution = fixture.resolver.resolve(
 		fixture.player, fixture.inventory, fixture.index
 	)
-	_assert_eq(unsupported.outcome, OldPineWeaponContentResolution.Outcome.UNSUPPORTED_PRIMARY, "unsupported live primary is explicit")
+	_assert_eq(unsupported.outcome, WorldWeaponContentResolution.Outcome.UNSUPPORTED_PRIMARY, "unsupported live primary is explicit")
 	_assert_true(unsupported.content_profile == null, "unsupported primary has no silent long/short profile")
 	_assert_true(WorldCombatBindingAdapter.from_player(fixture.player, unsupported.content_profile) == null, "unsupported primary cannot become an accidental unarmed player binding")
 
@@ -253,10 +253,10 @@ func _test_current_weapon_content_resolution() -> void:
 		EquippedWeaponRef.new(unavailable_item.item_instance_id, unavailable_definition),
 		false,
 	)
-	var unavailable_resolution: OldPineWeaponContentResolution = unavailable.resolver.resolve(
+	var unavailable_resolution: WorldWeaponContentResolution = unavailable.resolver.resolve(
 		unavailable.player, unavailable.inventory, unavailable.index
 	)
-	_assert_eq(unavailable_resolution.outcome, OldPineWeaponContentResolution.Outcome.PRIMARY_ITEM_NOT_AVAILABLE, "non-owned primary reference is explicit unavailable, not unarmed")
+	_assert_eq(unavailable_resolution.outcome, WorldWeaponContentResolution.Outcome.PRIMARY_ITEM_NOT_AVAILABLE, "non-owned primary reference is explicit unavailable, not unarmed")
 	_assert_true(unavailable_resolution.content_profile == null, "non-owned primary reference exposes no fallback profile")
 
 	var mismatched: InventoryFixture = _make_fixture(false, false)
@@ -265,10 +265,10 @@ func _test_current_weapon_content_resolution() -> void:
 		_weapon_ref(mismatched.long_id, TestContent.SHORT_SWORD_ITEM_ID),
 		false,
 	)
-	var mismatch_resolution: OldPineWeaponContentResolution = mismatched.resolver.resolve(
+	var mismatch_resolution: WorldWeaponContentResolution = mismatched.resolver.resolve(
 		mismatched.player, mismatched.inventory, mismatched.index
 	)
-	_assert_eq(mismatch_resolution.outcome, OldPineWeaponContentResolution.Outcome.PRIMARY_DEFINITION_MISMATCH, "instance/ref definition mismatch is explicit")
+	_assert_eq(mismatch_resolution.outcome, WorldWeaponContentResolution.Outcome.PRIMARY_DEFINITION_MISMATCH, "instance/ref definition mismatch is explicit")
 	_assert_true(mismatch_resolution.content_profile == null, "definition mismatch exposes no unarmed fallback")
 
 	var missing: InventoryFixture = _make_fixture(false, false)
@@ -283,10 +283,10 @@ func _test_current_weapon_content_resolution() -> void:
 		_weapon_ref(missing_primary.item_instance_id, missing_primary.item_definition_id),
 		false,
 	)
-	var missing_resolution: OldPineWeaponContentResolution = missing.resolver.resolve(
+	var missing_resolution: WorldWeaponContentResolution = missing.resolver.resolve(
 		missing.player, missing.inventory, missing.index
 	)
-	_assert_eq(missing_resolution.outcome, OldPineWeaponContentResolution.Outcome.PRIMARY_CONTENT_UNAVAILABLE, "live primary with missing immutable metadata is explicit unavailable")
+	_assert_eq(missing_resolution.outcome, WorldWeaponContentResolution.Outcome.PRIMARY_CONTENT_UNAVAILABLE, "live primary with missing immutable metadata is explicit unavailable")
 	_assert_true(missing_resolution.content_profile == null, "missing primary metadata exposes no fallback profile")
 
 

@@ -43,7 +43,7 @@ func _input(event: InputEvent) -> void:
 			var session: OldPineWorldSessionController = _shell.runtime_host().current_session()
 			if session != null and session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID:
 				session.player_runtime().state.skills.set_raw_level(&"dodge", 100)
-				var vine: Node2D = session.outdoor_map().get_node("Interactions/VineInteraction")
+				var vine: Node2D = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_node("Interactions/VineInteraction")
 				session.active_map().runtime_player_body().global_position = vine.global_position + Vector2(0, 60)
 				_report("PRE_ROUTE_VINE_SETUP_dodge100_proximity_only")
 	if event is InputEventScreenTouch:
@@ -82,7 +82,7 @@ func _report(reason: String) -> void:
 		data["position"] = str(session.active_map().runtime_player_body().global_position)
 		data["velocity"] = str(session.active_map().runtime_player_body().velocity)
 		data["camera"] = str(get_viewport().get_camera_2d().get_instance_id())
-		data["cave_hud_count"] = session.cave_map().find_children("HUD", "", true, false).size()
+		data["cave_hud_count"] = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).find_children("HUD", "", true, false).size()
 		data["items"] = session.inventory_state().registered_item_ids()
 		data["sequence"] = session.item_id_allocator().next_dynamic_sequence
 		data["combat_rng"] = str(session.combat_random_source().capture_random_state().state)

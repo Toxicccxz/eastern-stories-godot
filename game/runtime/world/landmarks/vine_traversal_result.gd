@@ -1,4 +1,4 @@
-class_name OldPineVineTraversalResult
+class_name VineTraversalResult
 extends RefCounted
 
 enum Outcome {

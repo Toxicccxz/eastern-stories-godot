@@ -25,8 +25,8 @@ var _npc: NpcRuntimeState
 func _ready() -> void:
 	session.configure_combat_random_source(_random)
 	session.combat_encounter_coordinator().register_tactical_policy(Probe.new())
-	_npc = session.outdoor_map().npc_runtimes()[0]
-	_start_position = session.outdoor_map().player_body.global_position
+	_npc = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+	_start_position = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_position
 	Probe.prepare(session.player_runtime().state)
 
 
@@ -57,7 +57,7 @@ func _start() -> void:
 	_npc.set_world_location(player.world_location())
 	player.relationship.add_opponent(_npc.character_id)
 	_npc.relationship.add_opponent(player.character_id)
-	_start_position = session.outdoor_map().player_body.global_position
+	_start_position = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_position
 	var started: CombatEncounterStartResult = coordinator.start(CombatTrigger.new(
 		&"cxr5.live", CombatTriggerCause.Value.SCRIPTED, CombatEncounterMode.Value.SCRIPTED,
 		player.character_id,
@@ -114,14 +114,14 @@ func _process(_delta: float) -> void:
 	label.text = (
 		"CXR5 QA ONLY | 1 start | 3 submit | 4 replace pair | 5 submit/cancel | 2 complete\n"
 		+ "%s | %s\ncycles=%d ordinary=%d resolved=%d replaced=%d cancelled=%d RNG=%d\n"
-		+ "exact player force=%d NPC atman=%d gate_frozen=%s legacy_stopped=%s\n"
+		+ "exact player force=%d NPC atman=%d gate_frozen=%s\n"
 		+ "position=%s start=%s scheduler=%s"
 	) % [
 		_state, _receipt,
 		0 if _scheduler == null else _scheduler.logical_cycle,
 		0 if _scheduler == null else _scheduler.events().size(), resolved, replaced, cancelled, _random.calls,
 		session.player_runtime().state.recovery.inner_force.current, _npc.character_state.recovery.atman.current,
-		session.world_simulation_gate().is_frozen(), session.outdoor_map().opportunity_timer.is_stopped(),
-		session.outdoor_map().player_body.global_position, _start_position,
+		session.world_simulation_gate().is_frozen(),
+		session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_position, _start_position,
 		"RUNNING" if session.combat_encounter_coordinator().has_active_encounter() else "INERT",
 	]

@@ -41,7 +41,7 @@ func _start_controlled_encounter() -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	if coordinator.has_active_encounter():
 		return
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_location_before = player.world_location()
@@ -107,7 +107,7 @@ func _refresh_status() -> void:
 	var player_body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var same_identity: bool = (
 		session.get_instance_id() == _session_identity
-		and session.outdoor_map().get_instance_id() == _map_identity
+		and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_instance_id() == _map_identity
 		and session.player_runtime().get_instance_id() == _player_identity
 	)
 	var same_location: bool = (

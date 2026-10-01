@@ -20,6 +20,8 @@ var _zones: Dictionary[StringName, ZoneDefinition] = {}
 var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
+var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
+var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -63,9 +65,33 @@ func set_world(
 func set_places(
 	p_services: Dictionary[StringName, ServiceDefinition],
 	p_doors: Dictionary[StringName, DoorDefinition],
+	p_landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {},
 ) -> void:
 	_services = p_services.duplicate()
 	_doors = p_doors.duplicate()
+	_landmarks = p_landmarks.duplicate()
+
+
+## Called once by ContentCatalogBuilder.
+func set_pacing(value: PacingDefinition) -> void:
+	_pacing = value
+
+
+## Game-wide timing (combat rounds); an empty catalog has none (0 s).
+func pacing() -> PacingDefinition:
+	return _pacing
+
+
+func landmark(landmark_id: StringName) -> WorldLandmarkDefinition:
+	return _landmarks.get(landmark_id)
+
+
+func landmarks_for_map(map_id: StringName) -> Array[WorldLandmarkDefinition]:
+	var result: Array[WorldLandmarkDefinition] = []
+	for definition: WorldLandmarkDefinition in _landmarks.values():
+		if definition.map_id == map_id:
+			result.append(definition)
+	return result
 
 
 func item(item_definition_id: StringName) -> ItemContentDefinition:
@@ -195,7 +221,11 @@ func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
 func zones_adjacent(from_zone_id: StringName, to_zone_id: StringName) -> bool:
 	if from_zone_id == to_zone_id:
 		return false
-	return _has_exit_into(from_zone_id, to_zone_id) or _has_exit_into(to_zone_id, from_zone_id)
+	if _has_exit_into(from_zone_id, to_zone_id) or _has_exit_into(to_zone_id, from_zone_id):
+		return true
+	var first: ZoneDefinition = _zones.get(from_zone_id)
+	var second: ZoneDefinition = _zones.get(to_zone_id)
+	return (first != null and first.link_ids().has(to_zone_id)) or (second != null and second.link_ids().has(from_zone_id))
 
 
 func _has_exit_into(from_zone_id: StringName, to_zone_id: StringName) -> bool:

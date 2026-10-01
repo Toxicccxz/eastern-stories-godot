@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SessionScene := preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
@@ -47,8 +49,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_unconfigured_maps_remain_inert(tree: SceneTree) -> void:
-	var outdoor: OldPineOutdoorController = (
-		OutdoorScene.instantiate() as OldPineOutdoorController
+	var outdoor: WorldMapController = (
+		OutdoorScene.instantiate() as WorldMapController
 	)
 	tree.root.add_child(outdoor)
 	_assert_false(outdoor.is_map_initialized(), "direct Outdoor stays uninitialized without session authorities")
@@ -60,13 +62,12 @@ func _test_unconfigured_maps_remain_inert(tree: SceneTree) -> void:
 	_assert_true(outdoor.combat_random_source() == null, "direct Outdoor creates no fallback Combat RNG")
 	_assert_false(outdoor.player_body.player_controlled, "unconfigured Outdoor body stays non-controllable")
 	_assert_false((outdoor.player_body.get_node("Camera2D") as Camera2D).enabled, "unconfigured Outdoor camera stays disabled")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "unconfigured Outdoor timer stays stopped")
 	_assert_true(outdoor.npc_runtimes().is_empty(), "unconfigured Outdoor creates no NPC runtimes")
 	outdoor.queue_free()
 	await tree.process_frame
 
-	var cave: OldPineCavePassageController = (
-		CaveScene.instantiate() as OldPineCavePassageController
+	var cave: WorldMapController = (
+		CaveScene.instantiate() as WorldMapController
 	)
 	tree.root.add_child(cave)
 	_assert_false(cave.is_map_initialized(), "direct Cave stays uninitialized without session authorities")
@@ -80,8 +81,8 @@ func _test_unconfigured_maps_remain_inert(tree: SceneTree) -> void:
 
 func _test_handoff_failure_boundaries(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _instantiate_session(tree, 9201, 9202)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
-	var cave: OldPineCavePassageController = session.cave_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var location_before: WorldLocationState = session.player_runtime().world_location()
 	session._transitioning = true
 	var concurrent: OldPineMapHandoffResult = session.handoff_to(
@@ -147,8 +148,8 @@ func _test_handoff_failure_boundaries(tree: SceneTree) -> void:
 	await tree.process_frame
 
 	var partial_session: OldPineWorldSessionController = _instantiate_session(tree, 9211, 9212)
-	var partial_outdoor: OldPineOutdoorController = partial_session.outdoor_map()
-	var partial_cave: OldPineCavePassageController = partial_session.cave_map()
+	var partial_outdoor: WorldMapController = partial_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var partial_cave: WorldMapController = partial_session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	partial_outdoor.tree_exiting.connect(
 		func() -> void: partial_cave._initialized = false,
 		CONNECT_ONE_SHOT,
@@ -179,8 +180,8 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(session != null, "Old Pine session scene instantiates")
 	if session == null:
 		return
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
-	var cave: OldPineCavePassageController = session.cave_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var session_allocator: SessionItemIdAllocator = session.item_id_allocator()
 	_assert_true(outdoor != null and cave != null, "session retains both typed resident maps")
 	_assert_eq(session.resident_map_count(), 2, "session has exactly two resident maps")
@@ -205,7 +206,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(cave._item_index == session.item_instance_index(), "Cave receives the same session item index")
 	_assert_true(cave._npc_random == session.npc_random_source(), "Cave receives the same session NPC RNG without consuming it")
 	_assert_true(cave._combat_random == session.combat_random_source(), "Cave receives the same session Combat RNG")
-	_assert_eq(cave._item_instance_scope, session.item_instance_scope(), "Cave receives the same session item-ID scope")
+	_assert_eq(cave.item_id_allocator().scope, session.item_instance_scope(), "Cave receives the same session item-ID scope")
 	_assert_true(cave._item_id_allocator == session_allocator, "Cave receives the exact session item-ID allocator object")
 	_assert_eq(session_allocator.next_dynamic_sequence, 0, "twelve authored bootstrap items consume no dynamic sequence")
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "New Game still creates exactly twelve bootstrap items")
@@ -248,7 +249,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var outdoor_instance_id: int = outdoor.get_instance_id()
 	var cave_instance_id: int = cave.get_instance_id()
 	var victim: NpcRuntimeState = outdoor.npc_runtimes()[1]
-	var victim_body: WorldCharacterBody2D = outdoor.bandit_bodies[1]
+	var victim_body: WorldCharacterBody2D = OldPineTestMap.body(outdoor, "Bandit02")
 	var corpse: CorpseState = await _kill_bandit(outdoor, victim, tree)
 	_assert_true(corpse != null, "fixture creates one DEATH_COMPLETE Outdoor corpse")
 	if corpse == null:
@@ -289,8 +290,8 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(outdoor.select_corpse(corpse_id), "fixture selects the live corpse")
 	_assert_true(outdoor.open_selected_loot(), "fixture opens corpse loot in physical range")
 	_assert_true(outdoor.take_selected_loot_item(short_sword.item_instance_id).succeeded, "fixture loots one real short-sword instance")
-	_assert_true(outdoor.unwield_player_item(primary_id).succeeded, "fixture unwields prototype long sword")
-	_assert_true(outdoor.wield_player_item(short_sword.item_instance_id).succeeded, "fixture wields looted short sword")
+	_assert_true(OldPineTestMap.unwield(outdoor, primary_id).succeeded, "fixture unwields prototype long sword")
+	_assert_true(OldPineTestMap.wield(outdoor, short_sword.item_instance_id).succeeded, "fixture wields looted short sword")
 	var leather_content: ItemContentDefinition = (
 		TestContent.item(
 			TestContent.LEATHER_ITEM_ID
@@ -315,14 +316,14 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 		).succeeded,
 		"fixture places leather in direct player inventory",
 	)
-	_assert_true(outdoor.wear_player_item(leather.item_instance_id).succeeded, "fixture wears authored leather through runtime adapter")
+	_assert_true(OldPineTestMap.wear(outdoor, leather.item_instance_id).succeeded, "fixture wears authored leather through runtime adapter")
 	_assert_true(player.armor.is_worn(leather.item_instance_id), "player armor authority records worn leather")
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
-	var npc_body: WorldCharacterBody2D = outdoor.bandit_bodies[0]
+	var npc_body: WorldCharacterBody2D = OldPineTestMap.body(outdoor, "Bandit01")
 	var npc_body_position: Vector2 = npc_body.global_position
 	npc.character_state.vitality.current -= 7
 	var living_npc_vitality: int = npc.character_state.vitality.current
-	var corpse_layer_id: int = outdoor.corpse_layer.get_instance_id()
+	var corpse_layer_id: int = outdoor.get_node("CorpseLayer").get_instance_id()
 
 	var location_before: WorldLocationState = player.world_location()
 	var unknown_map: OldPineMapHandoffResult = session.handoff_to(
@@ -369,8 +370,8 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(player.relationship.mark_lethal_target(npc.character_id), "fixture creates player lethal relation")
 	_assert_true(npc.relationship.add_opponent(player.character_id), "fixture creates reciprocal ordinary relation")
 	_assert_true(player.busy.start_busy(3), "fixture starts busy without cadence")
-	outdoor.opportunity_timer.start(40.0)
-	_assert_false(outdoor.opportunity_timer.is_stopped(), "fixture starts Outdoor cadence timer before detach")
+	HistoricalCombat.set_running(outdoor, true)
+	_assert_false(not HistoricalCombat.cadence_running(outdoor), "fixture starts Outdoor cadence timer before detach")
 	var busy_before: int = player.busy.busy_value
 	var to_cave: OldPineMapHandoffResult = session.handoff_to(
 		OldPineWorldDefinitions.CAVE_MAP_ID,
@@ -387,7 +388,6 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(session.active_map_child_count(), 1, "handoff leaves exactly one active map child")
 	_assert_true(outdoor.get_parent() == null, "inactive Outdoor is detached, not freed")
 	_assert_false(outdoor.is_inside_tree(), "inactive Outdoor is physically outside SceneTree")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "inactive Outdoor cadence timer is suspended")
 	_assert_eq(outdoor.aggression_adapter().pending_count(), 0, "deactivation clears stale pending aggression")
 	_assert_false(outdoor.aggression_adapter().is_present(pending_npc.character_id), "deactivation clears stale physical presence")
 	_assert_true(cave.get_parent() == session.active_map_slot, "Cave is attached to ActiveMapSlot")
@@ -439,11 +439,11 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 		OUTDOOR_PLAYER_START,
 	)
 	_assert_true(to_outdoor.succeeded(), "typed return handoff reaches Outdoor")
-	_assert_true(session.outdoor_map() == outdoor, "return reuses the exact Outdoor controller")
-	_assert_true(session.cave_map() == cave, "return retains the exact Cave controller")
+	_assert_true(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == outdoor, "return reuses the exact Outdoor controller")
+	_assert_true(session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID) == cave, "return retains the exact Cave controller")
 	_assert_eq(outdoor.initialization_count(), 1, "Outdoor is not reinitialized on return")
 	_assert_eq(cave.initialization_count(), 1, "Cave is not reinitialized after detach")
-	_assert_eq(outdoor.corpse_layer.get_instance_id(), corpse_layer_id, "Outdoor corpse layer identity survives round trip")
+	_assert_eq(outdoor.get_node("CorpseLayer").get_instance_id(), corpse_layer_id, "Outdoor corpse layer identity survives round trip")
 	_assert_true(outdoor.corpse_states()[0] == corpse, "same CorpseState survives round trip")
 	_assert_true(session.item_id_allocator() == session_allocator, "map round trip preserves the exact allocator authority")
 	_assert_eq(outdoor.corpse_view_for(corpse_id).get_instance_id(), corpse_view_id, "same corpse view Node survives round trip")
@@ -459,7 +459,6 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(player.relationship.has_lethal_target(npc.character_id), "return still preserves independent lethal marker")
 	_assert_eq(player.busy.busy_value, busy_before, "round trip performs no combat opportunity")
 	_assert_eq(random.calls, 0, "round trip with no retained opponent consumes zero combat RNG")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "reactivation does not restart cadence when reconciliation leaves no active relationship")
 	_assert_true(session.combat_random_source() == random, "same replacement Combat RNG survives map round trip")
 	_assert_true(player.state == character_state_before, "exact CharacterState identity survives full round trip")
 	_assert_true(player.state.equipment == equipment_before, "exact EquipmentState identity survives full round trip")
@@ -510,7 +509,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var old_cave_body_ref: WeakRef = weakref(cave.player_body)
 	var old_outdoor_camera_ref: WeakRef = weakref(outdoor.player_body.get_node("Camera2D"))
 	var old_cave_camera_ref: WeakRef = weakref(cave.player_body.get_node("Camera2D"))
-	var old_timer_ref: WeakRef = weakref(outdoor.opportunity_timer)
+	var old_npc_body_ref: WeakRef = weakref(OldPineTestMap.body(outdoor, "Bandit01"))
 	var old_corpse_view_ref: WeakRef = weakref(corpse_view)
 	session.queue_free()
 	await tree.process_frame
@@ -521,12 +520,12 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(old_cave_body_ref.get_ref() == null, "old detached Cave player body cannot survive session destruction")
 	_assert_true(old_outdoor_camera_ref.get_ref() == null, "old Outdoor Camera cannot survive session destruction")
 	_assert_true(old_cave_camera_ref.get_ref() == null, "old detached Cave Camera cannot survive session destruction")
-	_assert_true(old_timer_ref.get_ref() == null, "old Outdoor Timer cannot fire after session destruction")
+	_assert_true(old_npc_body_ref.get_ref() == null, "spawned NPC bodies are destroyed with the old session")
 	_assert_true(old_corpse_view_ref.get_ref() == null, "old corpse view and signals cannot survive session destruction")
 	var control: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_eq(control.npc_random_source().next_below(1000), npc_random_after_roundtrip, "Cave activation and return consume zero NPC-init RNG draws")
-	_assert_eq(control.outdoor_map().npc_runtimes().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
-	_assert_eq(control.outdoor_map().corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
+	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
+	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
 	_assert_true(control.player_runtime().armor.occupied_slots().is_empty(), "fresh whole-session boundary restores initial Armor")
 	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, TestContent.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")
 	_assert_false(control.inventory_state().is_registered(leather.item_instance_id), "fresh whole-session boundary excludes acquired leather")
@@ -568,7 +567,7 @@ func _instantiate_session(
 
 
 func _kill_bandit(
-	controller: OldPineOutdoorController,
+	controller: WorldMapController,
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> CorpseState:
@@ -579,16 +578,16 @@ func _kill_bandit(
 		return null
 	if controller.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
 		return null
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30
 	victim.character_state.vitality.current = -1
-	controller.process_cadence_tick()
-	controller.configure_combat_random_source(MaximumCombatRandomSource.new())
+	HistoricalCombat.tick(controller)
+	controller.session.configure_combat_random_source(MaximumCombatRandomSource.new())
 	for _tick: int in range(24):
 		if victim.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			break
-		controller.process_cadence_tick()
+		HistoricalCombat.tick(controller)
 	await tree.process_frame
 	if victim.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 		return null

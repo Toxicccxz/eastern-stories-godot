@@ -25,7 +25,6 @@ var inventory_panel: PlayerInventoryPanel
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
 var _selected_landmark: WorldLandmarkDefinition
-var _selected_vine: OldPineVineInteractionDefinition
 var _selected_landmark_source_available: bool = false
 var _selected_corpse_name: String = ""
 var _selected_corpse_available: bool = false
@@ -81,7 +80,6 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 func set_selected_target(target: NpcRuntimeState) -> void:
 	_selected_target = target
 	_selected_landmark = null
-	_selected_vine = null
 	_selected_landmark_source_available = false
 	_clear_selected_corpse()
 	close_loot()
@@ -99,7 +97,6 @@ func set_selected_landmark(
 ) -> void:
 	_selected_target = null
 	_selected_landmark = landmark
-	_selected_vine = null
 	_selected_landmark_source_available = source_available
 	_clear_selected_corpse()
 	close_loot()
@@ -108,25 +105,6 @@ func set_selected_landmark(
 		""
 		if landmark == null
 		else "%s" % landmark.display_name
-	)
-	refresh_live_state()
-
-
-func set_selected_vine(
-	vine: OldPineVineInteractionDefinition,
-	source_available: bool,
-) -> void:
-	_selected_target = null
-	_selected_landmark = null
-	_selected_vine = vine
-	_selected_landmark_source_available = source_available
-	_clear_selected_corpse()
-	close_loot()
-	inspection_text.text = ""
-	selected_target_label.text = (
-		""
-		if vine == null
-		else "%s" % vine.display_name
 	)
 	refresh_live_state()
 
@@ -144,7 +122,6 @@ func set_selected_corpse(
 ) -> void:
 	_selected_target = null
 	_selected_landmark = null
-	_selected_vine = null
 	_selected_landmark_source_available = false
 	_selected_corpse_name = victim_display_name
 	_selected_corpse_available = not victim_display_name.is_empty()
@@ -172,17 +149,6 @@ func show_inspection(definition: NpcDefinition) -> void:
 
 
 func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	if definition == null:
-		inspection_text.text = ""
-		return
-	inspection_text.text = "%s\n%s" % [
-		definition.display_name,
-		definition.description.strip_edges(),
-	]
-
-
-func show_vine_inspection(definition: OldPineVineInteractionDefinition) -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	if definition == null:
 		inspection_text.text = ""
@@ -269,10 +235,7 @@ func refresh_live_state() -> void:
 		and _selected_target.exists_in_map
 		and _selected_target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 	)
-	var landmark_available: bool = (
-		(_selected_landmark != null and _selected_landmark.is_valid())
-		or (_selected_vine != null and _selected_vine.is_valid())
-	)
+	var landmark_available: bool = _selected_landmark != null and _selected_landmark.is_valid()
 	var corpse_available: bool = _selected_corpse_available
 	var player_available: bool = (
 		_player != null
@@ -294,15 +257,7 @@ func refresh_live_state() -> void:
 		or not _selected_landmark_source_available
 		or not player_available
 	)
-	portal_button.text = (
-		"Traverse"
-		if _selected_landmark == null and _selected_vine == null
-		else (
-			_selected_landmark.action_label
-			if _selected_landmark != null
-			else _selected_vine.action_label
-		)
-	)
+	portal_button.text = "Traverse" if _selected_landmark == null else _selected_landmark.action_label
 
 
 func show_combat_result(text: String) -> void:
@@ -436,7 +391,7 @@ func _process(delta: float) -> void:
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
-		if (_selected_target != null and (not _selected_target.exists_in_map or _selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or ((_selected_landmark != null or _selected_vine != null) and not _selected_landmark_source_available) or (_selected_corpse_available and not _selected_corpse_in_range):
+		if (_selected_target != null and (not _selected_target.exists_in_map or _selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (_selected_landmark != null and not _selected_landmark_source_available) or (_selected_corpse_available and not _selected_corpse_in_range):
 			_presentation_layout.close_panel()
 	_elapsed += delta
 	if _elapsed < 0.1:
@@ -460,8 +415,7 @@ func refresh_exploration() -> void:
 	var state: CharacterState = _player.state
 	world_title.text = "%s · %s" % [_player.facts.display_name, location_name()]
 	player_vitality_text.text = "精 %d  ·  气 %d/%d  ·  神 %d" % [state.essence.current, state.vitality.current, state.vitality.effective, state.spirit.current]
-	var outdoor: OldPineOutdoorController = _bound_map as OldPineOutdoorController
-	var local_target: bool = outdoor != null and not selected_target_label.text.is_empty()
+	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
 	inspect_button.visible = local_target and not inspect_button.disabled
 	attack_button.visible = local_target and not attack_button.disabled
 	portal_button.visible = local_target and not portal_button.disabled
@@ -595,27 +549,27 @@ func _remove_item(id: StringName) -> void:
 
 
 func _inspect_context() -> void:
-	var map := _session.active_map() as OldPineOutdoorController
+	var map := _session.active_map() as WorldMapController
 	if map != null: map.inspect_selected()
 
 
 func _attack_context() -> void:
-	var map := _session.active_map() as OldPineOutdoorController
+	var map := _session.active_map() as WorldMapController
 	if map != null: map.attack_selected()
 
 
 func _traverse_context() -> void:
-	var map := _session.active_map() as OldPineOutdoorController
+	var map := _session.active_map() as WorldMapController
 	if map != null: map.traverse_selected_portal()
 
 
 func _loot_context() -> void:
-	var map := _session.active_map() as OldPineOutdoorController
+	var map := _session.active_map() as WorldMapController
 	if map != null: map.open_selected_loot()
 
 
 func _take_context(id: StringName) -> void:
-	var map := _session.active_map() as OldPineOutdoorController
+	var map := _session.active_map() as WorldMapController
 	if map != null: map.take_selected_loot_item(id)
 
 

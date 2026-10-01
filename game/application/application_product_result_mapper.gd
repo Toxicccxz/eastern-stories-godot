@@ -150,7 +150,7 @@ static func _save_blocked(
 	match eligibility.outcome:
 		OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_ACTIVE, \
 		OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_PARTIAL, \
-		OldPineSaveEligibilityResult.Outcome.CAVE_EXIT_PENDING:
+		OldPineSaveEligibilityResult.Outcome.PASSAGE_PENDING:
 			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_WORLD_TRANSITION
 			message_key = &"save.blocked.world_transition"
 		OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, \
@@ -161,7 +161,6 @@ static func _save_blocked(
 			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_TEMPORARY_EFFECT
 			message_key = &"save.blocked.temporary_effect"
 		OldPineSaveEligibilityResult.Outcome.PENDING_AGGRESSION, \
-		OldPineSaveEligibilityResult.Outcome.COMBAT_CADENCE_ACTIVE, \
 		OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, \
 		OldPineSaveEligibilityResult.Outcome.OPPONENT_RELATIONSHIP, \
 		OldPineSaveEligibilityResult.Outcome.LETHAL_MARKER, \

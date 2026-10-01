@@ -763,9 +763,6 @@ const MapCharacterRuntimeStateScript := preload(
 const OldPineWorldDefinitionsScript := preload(
 	"res://data/oldpine/oldpine_world_definitions.gd"
 )
-const OldPineLandmarkDefinitionsScript := preload(
-	"res://data/oldpine/oldpine_landmark_definitions.gd"
-)
 const ScriptedNpcInitializationRandomSourceScript := preload(
 	"res://tests/support/scripted_npc_initialization_random_source.gd"
 )
@@ -801,20 +798,11 @@ const WorldCharacterBody2DScript := preload(
 const SharedGameplayUIScript := preload(
 	"res://ui/world/shared_gameplay_ui.gd"
 )
-const OldPineResidentMapControllerScript := preload(
-	"res://runtime/world/oldpine_resident_map_controller.gd"
-)
 const OldPineMapHandoffResultScript := preload(
 	"res://runtime/world/oldpine_map_handoff_result.gd"
 )
-const OldPineCavePassageControllerScript := preload(
-	"res://runtime/world/oldpine_cave_passage_controller.gd"
-)
 const OldPineWorldSessionControllerScript := preload(
 	"res://runtime/world/oldpine_world_session_controller.gd"
-)
-const OldPineOutdoorControllerScript := preload(
-	"res://runtime/world/oldpine_outdoor_controller.gd"
 )
 const WorldInteractionTargetScript := preload(
 	"res://runtime/world/world_interaction_target.gd"
@@ -822,14 +810,14 @@ const WorldInteractionTargetScript := preload(
 const WorldPortalTraversalResultScript := preload(
 	"res://runtime/world/world_portal_traversal_result.gd"
 )
-const OldPinePortalTraversalAdapterScript := preload(
-	"res://runtime/world/oldpine_portal_traversal_adapter.gd"
+const WorldPortalTraversalAdapterScript := preload(
+	"res://runtime/world/world_portal_traversal_adapter.gd"
 )
-const OldPineAggressionDecisionScript := preload(
-	"res://runtime/world/oldpine_aggression_decision.gd"
+const NpcAggressionDecisionScript := preload(
+	"res://runtime/world/npc_aggression_decision.gd"
 )
-const OldPineBanditAggressionAdapterScript := preload(
-	"res://runtime/world/oldpine_bandit_aggression_adapter.gd"
+const NpcAggressionAdapterScript := preload(
+	"res://runtime/world/npc_aggression_adapter.gd"
 )
 const WorldLandmarkArea2DScript := preload(
 	"res://runtime/world/world_landmark_area_2d.gd"
@@ -849,8 +837,8 @@ const WorldItemRowProjectionScript := preload(
 const CorpseLootTransferResultScript := preload(
 	"res://runtime/world/corpse_loot_transfer_result.gd"
 )
-const OldPineCorpseLootAdapterScript := preload(
-	"res://runtime/world/oldpine_corpse_loot_adapter.gd"
+const CorpseLootAdapterScript := preload(
+	"res://runtime/world/corpse_loot_adapter.gd"
 )
 const OldPineLootPanelScript := preload(
 	"res://ui/world/oldpine_loot_panel.gd"
@@ -876,11 +864,11 @@ const OldPineArmorInteractionResultScript := preload(
 const OldPineArmorInteractionAdapterScript := preload(
 	"res://runtime/world/oldpine_armor_interaction_adapter.gd"
 )
-const OldPineWeaponContentResolutionScript := preload(
-	"res://runtime/world/oldpine_weapon_content_resolution.gd"
+const WorldWeaponContentResolutionScript := preload(
+	"res://runtime/world/world_weapon_content_resolution.gd"
 )
-const OldPineWeaponContentResolverScript := preload(
-	"res://runtime/world/oldpine_weapon_content_resolver.gd"
+const WorldWeaponContentResolverScript := preload(
+	"res://runtime/world/world_weapon_content_resolver.gd"
 )
 const PlayerInventoryPanelScript := preload(
 	"res://ui/world/player_inventory_panel.gd"
@@ -941,7 +929,7 @@ const OldPineRestoredCorpseEntryScript := preload("res://runtime/persistence/old
 const OldPineWorldRestorePreparationScript := preload("res://runtime/persistence/oldpine_world_restore_preparation.gd")
 const OldPineWorldRestoreResultScript := preload("res://runtime/persistence/oldpine_world_restore_result.gd")
 const OldPineWorldRestoreCompositionScript := preload("res://runtime/persistence/oldpine_world_restore_composition.gd")
-const OldPineMapPlacementValidatorScript := preload("res://runtime/persistence/oldpine_map_placement_validator.gd")
+const MapPlacementValidatorScript := preload("res://runtime/persistence/map_placement_validator.gd")
 const OldPineWorldRestoreServiceScript := preload("res://runtime/persistence/oldpine_world_restore_service.gd")
 const OldPineWorldRestoreTest := preload("res://tests/runtime/oldpine_world_restore_test.gd")
 const OldPineSaveEligibilityResultScript := preload("res://runtime/persistence/oldpine_save_eligibility_result.gd")
@@ -1262,7 +1250,6 @@ func _init() -> void:
 		NpcCharacterStateFactoryScript,
 		MapCharacterRuntimeStateScript,
 		OldPineWorldDefinitionsScript,
-		OldPineLandmarkDefinitionsScript,
 		ScriptedNpcInitializationRandomSourceScript,
 		WorldDefinitionTest,
 		NpcSpawnFoundationTest,
@@ -1272,23 +1259,20 @@ func _init() -> void:
 		WorldSpawnMarker2DScript,
 		WorldCharacterBody2DScript,
 		SharedGameplayUIScript,
-		OldPineResidentMapControllerScript,
 		OldPineMapHandoffResultScript,
-		OldPineCavePassageControllerScript,
 		OldPineWorldSessionControllerScript,
-		OldPineOutdoorControllerScript,
 		WorldInteractionTargetScript,
 		WorldPortalTraversalResultScript,
-		OldPinePortalTraversalAdapterScript,
-		OldPineAggressionDecisionScript,
-		OldPineBanditAggressionAdapterScript,
+		WorldPortalTraversalAdapterScript,
+		NpcAggressionDecisionScript,
+		NpcAggressionAdapterScript,
 		WorldLandmarkArea2DScript,
 		OldPineOutdoorSmokeTest,
 		OldPinePortalAggressionTest,
 		WorldItemInstanceIndexScript,
 		WorldItemRowProjectionScript,
 		CorpseLootTransferResultScript,
-		OldPineCorpseLootAdapterScript,
+		CorpseLootAdapterScript,
 		OldPineLootPanelScript,
 		OldPineCorpseLootInteractionTest,
 		PlayerInventoryRowProjectionScript,
@@ -1297,8 +1281,8 @@ func _init() -> void:
 		OldPineEquipmentInteractionAdapterScript,
 		OldPineArmorInteractionResultScript,
 		OldPineArmorInteractionAdapterScript,
-		OldPineWeaponContentResolutionScript,
-		OldPineWeaponContentResolverScript,
+		WorldWeaponContentResolutionScript,
+		WorldWeaponContentResolverScript,
 		PlayerInventoryPanelScript,
 		PlayerInventoryEquipmentTest,
 		OldPineFullLootLoopTest,
@@ -1338,7 +1322,7 @@ func _init() -> void:
 		OldPineWorldRestorePreparationScript,
 		OldPineWorldRestoreResultScript,
 		OldPineWorldRestoreCompositionScript,
-		OldPineMapPlacementValidatorScript,
+		MapPlacementValidatorScript,
 		OldPineWorldRestoreServiceScript,
 		OldPineWorldRestoreTest,
 		OldPineSaveEligibilityResultScript,
@@ -1746,6 +1730,12 @@ func _init() -> void:
 	var revival_result: Dictionary = await load("res://tests/runtime/player_death_revival_test.gd").new().run_all(self)
 	assertion_count += int(revival_result["assertions"])
 	failures.append_array(revival_result["failures"])
+	var spawn_baseline_result: Dictionary = await load("res://tests/runtime/oldpine_spawn_baseline_test.gd").new().run_all(self)
+	assertion_count += int(spawn_baseline_result["assertions"])
+	failures.append_array(spawn_baseline_result["failures"])
+	var generic_map_result: Dictionary = await load("res://tests/runtime/world_map_generic_test.gd").new().run_all(self)
+	assertion_count += int(generic_map_result["assertions"])
+	failures.append_array(generic_map_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

@@ -39,7 +39,7 @@ var player_precondition: Dictionary[String, Variant] = {}
 func publish(value: OldPineWorldSessionController, wounded: bool = false) -> bool:
 	if session != null or value == null or not value.is_initialized():
 		return false
-	var map: OldPineOutdoorController = value.outdoor_map()
+	var map: WorldMapController = value.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	if value.combat_encounter_coordinator().has_active_encounter() or map.npc_runtimes().size() != 10:
 		return false
 	session = value
@@ -113,7 +113,7 @@ func prepare_wounded_proof() -> bool:
 
 
 func remove_publication() -> bool:
-	if not is_instance_valid(session) or not session.outdoor_map().unregister_npc_body(ID):
+	if not is_instance_valid(session) or not session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).unregister_npc_body(ID):
 		return false
 	body.queue_free()
 	return true
@@ -163,7 +163,7 @@ func evidence() -> Dictionary[String, Variant]:
 					"effective_after": result.resource_mutation.vitality_effective_after})
 			actions.append(record)
 	var lifecycle: Array[Dictionary] = []
-	for receipt: CombatSliceLifecycleResult in session.outdoor_map().last_lifecycle_results():
+	for receipt: CombatSliceLifecycleResult in session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).last_lifecycle_results():
 		lifecycle.append({"victim": receipt.victim_id, "outcome": receipt.outcome,
 			"requested": receipt.requested_kind, "stage": receipt.partial_stage,
 			"death_inventory": -1 if receipt.death_inventory_result == null else receipt.death_inventory_result.outcome,
@@ -174,8 +174,8 @@ func evidence() -> Dictionary[String, Variant]:
 		"rng_draws": [] if proof_random == null else proof_random.draws,
 		"rng_valid": proof_random == null or proof_random.valid,
 		"active": coordinator.has_active_encounter(), "scheduler": coordinator.active_scheduler() != null,
-		"world_open": session.world_simulation_gate().is_open(), "old_cadence": session.outdoor_map().cadence_is_running(),
+		"world_open": session.world_simulation_gate().is_open(),
 		"actions": actions, "player_life": session.player_runtime().life_status,
-		"corpses": session.outdoor_map().corpse_states().size(),
-		"player_position": session.outdoor_map().player_body.position,
+		"corpses": session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(),
+		"player_position": session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position,
 		"terminal": -1 if coordinator.last_completion() == null else coordinator.last_completion().terminal_result.kind}

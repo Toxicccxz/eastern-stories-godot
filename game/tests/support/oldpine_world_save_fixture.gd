@@ -9,10 +9,10 @@ static func from_new_game(
 	player_location_override: Values.WorldLocationSnapshot = null,
 	player_position_override: Values.MapPositionSnapshot = null,
 ) -> GameSaveSnapshot:
-	if session == null or session.outdoor_map() == null:
+	if session == null or session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == null:
 		return null
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var equipment_sources: Array[NativeCharacterEquipmentSource] = [
 		NativeCharacterEquipmentSource.new(player.character_id, player.state.equipment),
 	]
@@ -370,7 +370,7 @@ static func _life_text(value: int) -> StringName:
 
 
 static func _body_for(
-	outdoor: OldPineOutdoorController,
+	outdoor: WorldMapController,
 	character_id: StringName,
 ) -> WorldCharacterBody2D:
 	for node: Node in outdoor.get_node("Characters").get_children():

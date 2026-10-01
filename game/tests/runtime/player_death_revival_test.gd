@@ -104,12 +104,12 @@ func _bandits_attack(tree: SceneTree) -> Array:
 	session.set_process(false)
 	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "fixture enters Old Pine")
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	map.player_body.set_world_location(map._location_for_zone(&"oldpine.outdoor.south_slope"))
-	map.player_body.global_position = map.bandit_bodies[0].global_position + Vector2(0, 40)
+	map.player_body.set_world_location(map.location_for_zone(&"oldpine.outdoor.south_slope"))
+	map.player_body.global_position = OldPineTestMap.body(map, "Bandit01").global_position + Vector2(0, 40)
 	for bandit: NpcRuntimeState in map.npc_runtimes().slice(0, 3):
-		map._aggression_adapter.enter_player_presence(bandit, player, true)
+		map.aggression_adapter().enter_player_presence(bandit, player, true)
 	map.process_pending_aggression()
 	check(session.combat_encounter_coordinator().has_active_encounter(), "bandits attack on sight")
 	return [session, map]
@@ -125,7 +125,7 @@ func _run_encounter(session: OldPineWorldSessionController) -> void:
 func _killers_finish_unconscious_player(tree: SceneTree) -> void:
 	var fixture: Array = await _bandits_attack(tree)
 	var session: OldPineWorldSessionController = fixture[0]
-	var map: OldPineOutdoorController = fixture[1]
+	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	# Knocked out but not mortally wounded: kee < 0, eff_kee >= 0.
 	player.state.vitality.current = -1
@@ -143,7 +143,7 @@ func _killers_finish_unconscious_player(tree: SceneTree) -> void:
 func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	var fixture: Array = await _bandits_attack(tree)
 	var session: OldPineWorldSessionController = fixture[0]
-	var map: OldPineOutdoorController = fixture[1]
+	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.progression.combat_experience = 1000
 	var carried: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id))

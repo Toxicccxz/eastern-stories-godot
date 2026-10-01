@@ -52,7 +52,7 @@ func integration_test(tree: SceneTree) -> bool:
 	Work.work(session)
 	at_bank(session)
 	if not bank.in_reach():
-		check(false, "bank fixture unavailable: init=%s paused=%s controlled=%s gate=%s life=%s fighting=%s loc=%s pos=%s marker=%s valid=%s" % [bank.map._initialized, tree.paused, bank.map.player_body.player_controlled, session.world_simulation_gate().is_open(), session.player_runtime().life_status, session.player_runtime().relationship.is_fighting(), session.player_runtime().world_location().zone_id, bank.map.player_body.global_position, bank.point.global_position, OldPineMapPlacementValidator.is_valid_character_position(bank.map, &"snow.bank", bank.map.player_body.global_position)])
+		check(false, "bank fixture unavailable: init=%s paused=%s controlled=%s gate=%s life=%s fighting=%s loc=%s pos=%s marker=%s valid=%s" % [bank.map._initialized, tree.paused, bank.map.player_body.player_controlled, session.world_simulation_gate().is_open(), session.player_runtime().life_status, session.player_runtime().relationship.is_fighting(), session.player_runtime().world_location().zone_id, bank.map.player_body.global_position, bank.point.global_position, MapPlacementValidator.is_valid_character_position(bank.map, &"snow.bank", bank.map.player_body.global_position)])
 		session.free()
 		return false
 	var context: MoneyInventoryContext = bank.money_context()
@@ -177,8 +177,8 @@ func physical_test(tree: SceneTree) -> bool:
 	check(session.player_runtime().world_location().zone_id == &"snow.mstreet1" and not bank.in_reach(), "east exit clears availability")
 	check(bank.map.resident_npcs().is_empty() and session.resident_map_count() == 4, "no NPC/map added")
 	for entry: Array in [[&"snow.bank",Vector2(-490,-400)], [&"snow.bank",Vector2(-300,-545)], [&"snow.bank",Vector2(-300,-255)], [&"snow.bank",Vector2(-425,-400)], [&"snow.mstreet1",Vector2(-100,-500)]]:
-		check(not OldPineMapPlacementValidator.is_valid_character_position(bank.map, entry[0], entry[1]), "restore rejects walls " + str(entry))
-	check(OldPineMapPlacementValidator.is_valid_character_position(bank.map, &"snow.mstreet1",Vector2(-100,-400)), "half-open east join")
+		check(not MapPlacementValidator.is_valid_character_position(bank.map, entry[0], entry[1]), "restore rejects walls " + str(entry))
+	check(MapPlacementValidator.is_valid_character_position(bank.map, &"snow.mstreet1",Vector2(-100,-400)), "half-open east join")
 	check(walk._failures.is_empty(), "all physical targets reached")
 	session.free()
 	await tree.process_frame

@@ -87,7 +87,7 @@ func _save_boundary(tree: SceneTree) -> void:
 # Isolated source-derived test bodies, not a production catalog or Lake geometry.
 func _snakes(session: OldPineWorldSessionController, count: int) -> Array[NpcRuntimeState]:
 	var result: Array[NpcRuntimeState] = []
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	for index: int in count:
 		var id := StringName("qa.p2a.snake.%d" % index)
 		var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(TestContent.npc(TestContent.SERPENT_NPC_ID), id, &"qa.group", id, session.player_runtime().world_location(), session.inventory_state(), session.stack_collection(), session.npc_random_source(), [])
@@ -121,14 +121,14 @@ func _snakes(session: OldPineWorldSessionController, count: int) -> Array[NpcRun
 func _group(tree: SceneTree, count: int, manual: bool) -> void:
 	var session: OldPineWorldSessionController = _new(tree)
 	var snakes: Array[NpcRuntimeState] = _snakes(session, count)
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rng: Setup.CountingRandom = session.combat_random_source()
 	var npc_rng: int = session.npc_random_source().capture_random_state().state
 	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if manual else CombatTriggerCause.Value.NPC_AGGRESSION
 	var target: StringName = snakes[0].character_id if manual else &""
 	var first: Array[CombatSliceCharacterBinding] = map.collect_complete_combat_entry(cause, target)
-	map._all_npcs.reverse() # Container permutation, not a caller-supplied candidate list.
+	map.npc_runtimes().reverse() # Container permutation, not a caller-supplied candidate list.
 	var again: Array[CombatSliceCharacterBinding] = map.collect_complete_combat_entry(cause, target)
 	_check(first.size() == again.size(), "order independent collection")
 	for index: int in range(1, first.size()):
@@ -173,7 +173,7 @@ func _group(tree: SceneTree, count: int, manual: bool) -> void:
 func _refusals(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new(tree)
 	var snakes: Array[NpcRuntimeState] = _snakes(session, 5)
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cause: int = CombatTriggerCause.Value.NPC_AGGRESSION
 	snakes[0]._exists_in_map = false
 	snakes[1]._combat_available = false
@@ -214,7 +214,7 @@ func _late_failure_and_death(tree: SceneTree) -> void:
 	session.set_script(RejectFreezeSession)
 	tree.root.add_child(session)
 	session.set_process(false)
-	session.outdoor_map().set_process(false)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	var snakes: Array[NpcRuntimeState] = _snakes(session, 5)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION).outcome == CombatSliceInitiationResult.Outcome.ENCOUNTER_START_FAILED, "late freeze refusal")
@@ -227,7 +227,7 @@ func _late_failure_and_death(tree: SceneTree) -> void:
 	session = _new(tree)
 	snakes = _snakes(session, 5)
 	coordinator = session.combat_encounter_coordinator()
-	var body: WorldCharacterBody2D = session.outdoor_map().runtime_body_for_character(snakes[4].character_id)
+	var body: WorldCharacterBody2D = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).runtime_body_for_character(snakes[4].character_id)
 	body._npc = snakes[3]
 	_check(coordinator.start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION).outcome != CombatSliceInitiationResult.Outcome.COMPLETED, "fake fifth body binding refuses full set")
 	body._npc = snakes[4]
@@ -246,7 +246,7 @@ func _late_failure_and_death(tree: SceneTree) -> void:
 	snakes[4].character_state.vitality.effective = -1
 	coordinator.advance_scheduler(0)
 	_check(snakes[4].life_status == CharacterRuntimeLifeStatus.Value.DEAD and not snakes[4].exists_in_map, "fifth death uses real lifecycle publication")
-	_check(coordinator.has_active_encounter() and session.outdoor_map().corpse_states().size() == 1, "four remaining hostiles keep encounter active")
+	_check(coordinator.has_active_encounter() and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 1, "four remaining hostiles keep encounter active")
 	_check(coordinator.change_player_target(CombatTargetRequest.new(encounter.encounter_id, session.player_runtime().character_id, fifth)).code == CombatTargetResult.Code.TARGET_UNAVAILABLE, "dead fifth stale target refused")
 	coordinator.advance_scheduler(1)
 	_check(encounter.current_target_for(session.player_runtime().character_id) == snakes[0].character_id, "stale target retargets stable first survivor")
@@ -255,6 +255,6 @@ func _late_failure_and_death(tree: SceneTree) -> void:
 		npc.character_state.vitality.effective = -1
 	coordinator.advance_scheduler(0)
 	_check(not coordinator.has_active_encounter() and encounter.terminal_result != null and encounter.terminal_result.kind == CombatEncounterResultKind.Value.VICTORY, "completion waits for all five hostiles")
-	_check(session.outdoor_map().corpse_states().size() == 5 and gate.is_open(), "five independent corpse identities and thaw")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 5 and gate.is_open(), "five independent corpse identities and thaw")
 	session.free()
 	await _settle(tree, 2)

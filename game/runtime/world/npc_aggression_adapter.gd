@@ -1,4 +1,4 @@
-class_name OldPineBanditAggressionAdapter
+class_name NpcAggressionAdapter
 extends RefCounted
 
 const WorldPlayerRuntimeType := preload(
@@ -13,24 +13,24 @@ func enter_player_presence(
 	npc: NpcRuntimeState,
 	player: WorldPlayerRuntimeType,
 	combat_allowed: bool,
-) -> OldPineAggressionDecision:
-	var decision: OldPineAggressionDecision = _evaluate(
+) -> NpcAggressionDecision:
+	var decision: NpcAggressionDecision = _evaluate(
 		npc,
 		player,
 		combat_allowed,
 	)
-	if decision.outcome != OldPineAggressionDecision.Outcome.READY:
+	if decision.outcome != NpcAggressionDecision.Outcome.READY:
 		return decision
 	if not _present_npc_ids.has(npc.character_id):
 		_present_npc_ids.append(npc.character_id)
 	if _pending_npc_ids.has(npc.character_id):
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.DUPLICATE_PENDING,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.DUPLICATE_PENDING,
 			npc.character_id,
 		)
 	_pending_npc_ids.append(npc.character_id)
-	return OldPineAggressionDecision.new(
-		OldPineAggressionDecision.Outcome.QUEUED,
+	return NpcAggressionDecision.new(
+		NpcAggressionDecision.Outcome.QUEUED,
 		npc.character_id,
 	)
 
@@ -53,8 +53,8 @@ func resolve_pending(
 	ordered_npcs: Array[NpcRuntimeState],
 	player: WorldPlayerRuntimeType,
 	combat_allowed: bool,
-) -> Array[OldPineAggressionDecision]:
-	var decisions: Array[OldPineAggressionDecision] = []
+) -> Array[NpcAggressionDecision]:
+	var decisions: Array[NpcAggressionDecision] = []
 	var pending: Array[StringName] = _pending_npc_ids.duplicate()
 	_pending_npc_ids.clear()
 	for npc: NpcRuntimeState in ordered_npcs:
@@ -62,8 +62,8 @@ func resolve_pending(
 			continue
 		if not _present_npc_ids.has(npc.character_id):
 			decisions.append(
-				OldPineAggressionDecision.new(
-					OldPineAggressionDecision.Outcome.CANCELLED_NOT_PRESENT,
+				NpcAggressionDecision.new(
+					NpcAggressionDecision.Outcome.CANCELLED_NOT_PRESENT,
 					npc.character_id,
 				)
 			)
@@ -88,56 +88,56 @@ func _evaluate(
 	npc: NpcRuntimeState,
 	player: WorldPlayerRuntimeType,
 	combat_allowed: bool,
-) -> OldPineAggressionDecision:
+) -> NpcAggressionDecision:
 	var npc_id: StringName = &"" if npc == null else npc.character_id
 	if npc == null or player == null or not npc.is_valid() or not player.is_valid():
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.INVALID_INPUT,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.INVALID_INPUT,
 			npc_id,
 		)
 	if not npc.definition().has_capability(
 		NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE
 	):
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.NOT_AUTHORED,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.NOT_AUTHORED,
 			npc_id,
 		)
 	if not player.exists_in_world or not player.combat_available:
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.PLAYER_NOT_AVAILABLE,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.PLAYER_NOT_AVAILABLE,
 			npc_id,
 		)
 	if player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.PLAYER_NOT_ACTIVE,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.PLAYER_NOT_ACTIVE,
 			npc_id,
 		)
 	if not npc.exists_in_map or not npc.combat_available:
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.NPC_NOT_AVAILABLE,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.NPC_NOT_AVAILABLE,
 			npc_id,
 		)
 	if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.NPC_NOT_ACTIVE,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.NPC_NOT_ACTIVE,
 			npc_id,
 		)
 	if npc.relationship.is_fighting():
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.NPC_ALREADY_FIGHTING,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING,
 			npc_id,
 		)
 	if not npc.world_location().shares_combat_location(player.world_location()):
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.DIFFERENT_COMBAT_LOCATION,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.DIFFERENT_COMBAT_LOCATION,
 			npc_id,
 		)
 	if not combat_allowed:
-		return OldPineAggressionDecision.new(
-			OldPineAggressionDecision.Outcome.COMBAT_NOT_ALLOWED,
+		return NpcAggressionDecision.new(
+			NpcAggressionDecision.Outcome.COMBAT_NOT_ALLOWED,
 			npc_id,
 		)
-	return OldPineAggressionDecision.new(
-		OldPineAggressionDecision.Outcome.READY,
+	return NpcAggressionDecision.new(
+		NpcAggressionDecision.Outcome.READY,
 		npc_id,
 	)

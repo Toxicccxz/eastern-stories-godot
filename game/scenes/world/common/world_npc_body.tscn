@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://runtime/world/world_npc_body_2d.gd" id="1_body"]
+
+[sub_resource type="RectangleShape2D" id="BodyShape"]
+size = Vector2(34, 34)
+
+[sub_resource type="CircleShape2D" id="PresenceShape"]
+radius = 120.0
+
+[node name="WorldNpcBody" type="CharacterBody2D"]
+input_pickable = true
+script = ExtResource("1_body")
+
+[node name="HumanVisual" type="ColorRect" parent="."]
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0.7882353, 0.33333334, 0.27058825, 1)
+
+[node name="BeastVisual" type="Polygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
+color = Color(0.18, 0.12, 0.09, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("BodyShape")
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -58.0
+offset_top = -48.0
+offset_right = -57.0
+offset_bottom = -25.0
+theme_override_font_sizes/font_size = 16
+
+[node name="AggressionPresence" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggressionPresence"]
+shape = SubResource("PresenceShape")

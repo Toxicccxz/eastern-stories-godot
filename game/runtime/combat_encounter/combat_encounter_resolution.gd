@@ -53,7 +53,8 @@ func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedule
 		if _encounter.mode == CombatEncounterMode.Value.SPAR and required.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
 			fail(Failure.SPAR_MORTAL_WOUND)
 			return false
-		var receipt: CombatSliceLifecycleResult = _session.outdoor_map().execute_encounter_lifecycle(victim, required, bindings)
+		var map: WorldMapController = _session.active_map() as WorldMapController
+		var receipt: CombatSliceLifecycleResult = null if map == null else map.execute_encounter_lifecycle(victim, required, bindings)
 		_lifecycles.append(receipt)
 		if receipt == null or not receipt.completed():
 			fail(Failure.LIFECYCLE_FAILED)

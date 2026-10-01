@@ -16,6 +16,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_loader_rejects_broken_world_data()
 	_test_services_and_doors()
 	_test_loader_rejects_broken_services_and_doors()
+	_test_landmarks_water_and_pacing()
+	_test_loader_rejects_broken_landmarks_and_pacing()
 	_test_location_identity()
 	return {
 		"assertions": _assertion_count,
@@ -178,6 +180,69 @@ func _test_services_and_doors() -> void:
 	_assert_eq([hockshop.map_id, hockshop.closable], [SnowWorld.OUTDOOR_MAP_ID, false], "pawn shop door is open-only")
 	for map: MapDefinition in catalog.maps():
 		_assert_false(map.entry_spawn_id.is_empty(), "%s has an entry spawn" % map.map_id)
+
+
+func _test_landmarks_water_and_pacing() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	_assert_eq(catalog.pacing().combat_round_seconds, 1.0, "one combat round per second, the pre-B2 implicit cadence")
+	var ids: Array[StringName] = []
+	for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(OldPineWorld.OUTDOOR_MAP_ID):
+		ids.append(landmark.landmark_id)
+		_assert_true(landmark.is_valid(), "%s is valid" % landmark.landmark_id)
+		for portal_id: StringName in landmark.portal_ids():
+			_assert_eq(catalog.portal(portal_id).source_zone_id, landmark.zone_id, "%s leaves from its zone" % portal_id)
+	_assert_eq(ids.size(), 6, "Old Pine outdoor has six landmarks")
+	var vine: WorldLandmarkDefinition = catalog.landmark(&"oldpine.outdoor.landmark.epath2_vine")
+	_assert_eq([vine.policy, vine.portal_ids()], [&"vine", [&"oldpine.outdoor.vine_to_waterfall", &"oldpine.outdoor.vine_to_passage"]], "the vine rolls between waterfall and passage")
+	_assert_eq(vine.message("hold"), "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去....", "epath2.c message_vision text")
+	_assert_true(catalog.landmark(&"oldpine.outdoor.landmark.cliff1_up").requires_contact, "cliff landmarks need contact")
+	_assert_false(catalog.landmark(&"oldpine.outdoor.landmark.ancient_pine").requires_contact, "the pine is usable anywhere in the clearing")
+	var water: Array[StringName] = []
+	for service: ServiceDefinition in catalog.services_for_map(OldPineWorld.OUTDOOR_MAP_ID):
+		water.append(service.service_id)
+		_assert_eq(service.kind, &"water", "%s is a water source (resource/water)" % service.service_id)
+	_assert_eq(water.size(), 2, "waterfall and lake are water sources")
+	_assert_eq(catalog.zone(OldPineWorld.LAKE_ZONE_ID).combat_entry, &"complete_set", "Lake serpents enter as one set")
+	_assert_eq(catalog.zone(OldPineWorld.SOUTH_SLOPE_ZONE_ID).combat_entry, &"pair", "elsewhere fights start one pair at a time")
+	_assert_eq(catalog.spawn(&"oldpine.outdoor.lake.serpents").presence_radius, 210, "serpent presence radius")
+	_assert_eq(catalog.spawn(&"oldpine.outdoor.spath1.bandits").presence_radius, 120, "default presence radius")
+
+
+func _test_loader_rejects_broken_landmarks_and_pacing() -> void:
+	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	builder.add_document({
+		"rooms": [{"id": "es2:d/x/a", "short": "A", "long": "a\n"}, {"id": "es2:d/x/b", "short": "B", "long": "b\n"}],
+		"regions": [{"id": "x", "name": "X"}],
+		"maps": [{"id": "x.one", "region": "x", "scene": "res://x.tscn", "entry": "x.s"}],
+		"zones": [
+			{"id": "x.a", "map": "x.one", "rooms": ["es2:d/x/a"], "combat_entry": "brawl"},
+			{"id": "x.b", "map": "x.one", "rooms": ["es2:d/x/b"]},
+		],
+		"portals": [{"id": "x.up", "from_zone": "x.b", "to_zone": "x.a", "to_spawn": "x.s", "legacy_room": "es2:d/x/b", "legacy_command": "up"}],
+		"landmarks": [
+			{"id": "x.tree", "zone": "x.a", "name": "T", "long": "t", "action": "Climb", "portals": ["x.up"], "legacy_source": "x.c"},
+			{"id": "x.rope", "zone": "x.a", "name": "R", "long": "r", "action": "Hold", "policy": "vine", "portals": ["x.up"], "messages": {"hold": "h"}, "legacy_source": "x.c"},
+			{"id": "x.odd", "zone": "x.gone", "name": "O", "long": "o", "action": "Poke", "policy": "poke", "portals": [], "legacy_source": "x.c"},
+		],
+		"pacing": {"combat_round_ms": 0},
+	}, "l.json")
+	builder.add_document({"pacing": {"combat_round_ms": 1000}}, "p.json")
+	_assert_true(builder.build() == null, "broken landmarks and pacing do not build")
+	var errors: String = "\n".join(builder.errors())
+	for expected: String in [
+		"l.json.zones[0].combat_entry: unsupported combat entry 'brawl'",
+		"l.json.landmarks[0].portals: 'x.up' does not leave from x.a",
+		"l.json.landmarks[1].portals: policy 'vine' needs 2 portal(s)",
+		"l.json.landmarks[1].messages: policy 'vine' needs exactly",
+		"l.json.landmarks[2].policy: unsupported landmark policy 'poke'",
+		"l.json.landmarks[2].zone: unknown zone 'x.gone'",
+		"l.json.pacing.combat_round_ms: must be positive",
+		"p.json.pacing: pacing is already defined",
+	]:
+		_assert_true(errors.contains(expected), "reports: " + expected)
+	var empty: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	empty.add_document({}, "e.json")
+	_assert_true(empty.build() == null and "\n".join(empty.errors()).contains("pacing: no document defines it"), "pacing is required")
 
 
 func _test_loader_rejects_broken_services_and_doors() -> void:

@@ -333,11 +333,11 @@ func _test_failed_new_and_pending_guard(tree: SceneTree) -> void:
 
 func _freeze_facts(session: OldPineWorldSessionController, timer: Timer) -> Array:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var facts: Array = [session.get_instance_id(), session.active_map_id(), session.get_viewport().get_camera_2d(), session.outdoor_map().player_body.position, session.outdoor_map().player_body.velocity, player.life_status, player.exists_in_world, player.relationship.opponent_ids(), player.relationship.lethal_target_ids(), player.relationship.guarding, session.item_id_allocator().next_dynamic_sequence, session.inventory_state().registered_item_ids(), player.state.equipment.primary_weapon().instance_id, player.armor.occupied_slots(), timer.time_left, player.state.equipment.get_instance_id(), player.armor.get_instance_id(), player.busy.busy_value, player.busy.interrupt_threshold, session.outdoor_map().cadence_is_running(), session.outdoor_map().opportunity_timer.time_left]
+	var facts: Array = [session.get_instance_id(), session.active_map_id(), session.get_viewport().get_camera_2d(), session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.velocity, player.life_status, player.exists_in_world, player.relationship.opponent_ids(), player.relationship.lethal_target_ids(), player.relationship.guarding, session.item_id_allocator().next_dynamic_sequence, session.inventory_state().registered_item_ids(), player.state.equipment.primary_weapon().instance_id, player.armor.occupied_slots(), timer.time_left, player.state.equipment.get_instance_id(), player.armor.get_instance_id(), player.busy.busy_value, player.busy.interrupt_threshold]
 	for rng: RandomStreamSnapshot in [session.combat_random_source().capture_random_state(), session.npc_random_source().capture_random_state(), session.world_interaction_random_source().capture_random_state()]:
 		facts.append_array([rng.seed, rng.state])
-	for npc: NpcRuntimeState in session.outdoor_map().npc_runtimes():
-		var body: WorldCharacterBody2D = session.outdoor_map().runtime_body_for_character(npc.character_id)
+	for npc: NpcRuntimeState in session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes():
+		var body: WorldCharacterBody2D = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).runtime_body_for_character(npc.character_id)
 		facts.append_array([npc.get_instance_id(), body.position, body.velocity, npc.life_status, npc.relationship.opponent_ids(), npc.relationship.guarding])
 		facts.append_array([npc.busy.busy_value, npc.busy.interrupt_threshold, npc.exists_in_map, npc.character_state.equipment.get_instance_id(), npc.armor.get_instance_id(), npc.armor.occupied_slots()])
 		for resource: CharacterResourceState in [npc.character_state.essence, npc.character_state.vitality, npc.character_state.spirit]:
@@ -378,7 +378,6 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 	session.player_runtime().relationship.add_opponent(&"lifecycle.unsafe")
 	session.player_runtime().relationship.guarding = true
 	session.player_runtime().busy.start_busy(7, 3)
-	session.outdoor_map().opportunity_timer.start(5.0)
 	var facts: Array = _freeze_facts(session, timer)
 	_loss(shell)
 	_check(tree.paused and shell.pause_visible() and not session.can_process(), "immediate mobile freeze")

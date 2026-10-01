@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://dajqqaob8yjww"]
 
-[ext_resource type="Script" uid="uid://covk7o3wqrqkw" path="res://runtime/world/oldpine_outdoor_controller.gd" id="1_o8mse"]
+[ext_resource type="Script" uid="uid://ht3mdtxu82fa" path="res://runtime/world/world_map_controller.gd" id="1_o8mse"]
 [ext_resource type="Script" uid="uid://degspgdf2s6v7" path="res://runtime/world/world_spawn_marker_2d.gd" id="2_vreye"]
 [ext_resource type="Script" uid="uid://byabg1lrlaxrt" path="res://runtime/world/world_character_body_2d.gd" id="3_7i4ts"]
 [ext_resource type="Script" uid="uid://dtaotwcg5s5p1" path="res://runtime/world/world_landmark_area_2d.gd" id="5_vreye"]
-[ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="7_nge4"]
+[ext_resource type="Script" uid="uid://c4espfhgjkslc" path="res://runtime/world/world_passage_area_2d.gd" id="7_nge4"]
+[ext_resource type="Script" uid="uid://uhfgmc7bd2w4" path="res://runtime/world/world_physical_zone_area_2d.gd" id="z_zone"]
+[ext_resource type="Script" uid="uid://da0o6ty0wwp62" path="res://runtime/world/world_service_point.gd" id="s_service"]
 
 [sub_resource type="RectangleShape2D" id="SnowNorthPassage"]
 size = Vector2(120, 60)
@@ -85,9 +87,6 @@ size = Vector2(30, 1100)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nanom"]
 size = Vector2(870, 30)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w00ii"]
-size = Vector2(1500, 30)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f12dm"]
 size = Vector2(340, 1100)
 
@@ -127,24 +126,6 @@ size = Vector2(870, 1100)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xp5ye"]
 size = Vector2(34, 34)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lul68"]
-size = Vector2(34, 34)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5rpdm"]
-radius = 120.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jk1sc"]
-size = Vector2(34, 34)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_b8w4h"]
-radius = 120.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkqn4"]
-size = Vector2(34, 34)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_4dxmd"]
-radius = 120.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kuh3n"]
 size = Vector2(90, 180)
 
@@ -178,11 +159,15 @@ size = Vector2(630, 30)
 [sub_resource type="RectangleShape2D" id="LakeWaterShape"]
 size = Vector2(320, 490)
 
-[sub_resource type="CircleShape2D" id="SerpentPresenceShape"]
-radius = 210.0
+[sub_resource type="RectangleShape2D" id="WaterfallNorthCliff"]
+size = Vector2(600, 20)
+
+[sub_resource type="RectangleShape2D" id="WaterfallWestCliff"]
+size = Vector2(20, 500)
 
 [node name="OldPineOutdoor" type="Node2D" unique_id=764268747]
 script = ExtResource("1_o8mse")
+map = &"oldpine.outdoor"
 
 [node name="Terrain" type="Node2D" parent="." unique_id=1686154249]
 
@@ -318,9 +303,11 @@ shape = SubResource("RectangleShape2D_e12ve")
 [node name="TopEast" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds"]
 position = Vector2(1017.5, -515)
 shape = SubResource("NorthEastWall")
+
 [node name="SnowBlocker" type="CollisionShape2D" parent="Terrain/Boundaries/WorldBounds"]
 position = Vector2(450, -515)
 shape = SubResource("SnowNorthBlocker")
+
 [node name="SnowPassageBackstop" type="CollisionPolygon2D" parent="Terrain/Boundaries/WorldBounds"]
 polygon = PackedVector2Array(368, -500, 380, -500, 380, -555, 520, -555, 520, -500, 532, -500, 532, -567, 368, -567)
 
@@ -587,6 +574,8 @@ mouse_filter = 2
 color = Color(0.043137256, 0.16862746, 0.11372549, 1)
 
 [node name="WaterfallWaterPoint" type="Marker2D" parent="."]
+script = ExtResource("s_service")
+service_id = &"oldpine.outdoor.waterfall.water"
 position = Vector2(1200, 900)
 
 [node name="Visual" type="Polygon2D" parent="WaterfallWaterPoint"]
@@ -742,6 +731,8 @@ color = Color(0.50980395, 0.4392157, 0.35686275, 1)
 [node name="Zones" type="Node2D" parent="." unique_id=1320053026]
 
 [node name="CentralClearingZone" type="Area2D" parent="Zones" unique_id=1993002777]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.central_clearing"
 position = Vector2(450, 300)
 collision_layer = 0
 
@@ -749,6 +740,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_jblgx")
 
 [node name="SouthSlopeZone" type="Area2D" parent="Zones" unique_id=1820376585]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.south_slope"
 position = Vector2(450, 850)
 collision_layer = 0
 
@@ -756,6 +749,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_ke2bh")
 
 [node name="NorthApproachZone" type="Area2D" parent="Zones" unique_id=186362617]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.north_approach"
 position = Vector2(450, -250)
 collision_layer = 0
 
@@ -763,6 +758,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_5gwyg")
 
 [node name="EastBridgeZone" type="Area2D" parent="Zones" unique_id=1479005570]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.east_bridge"
 position = Vector2(1200, 300)
 collision_layer = 0
 
@@ -770,6 +767,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_kbque")
 
 [node name="TreeCanopyZone" type="Area2D" parent="Zones" unique_id=1892950517]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.tree_canopy"
 position = Vector2(2000, 200)
 collision_layer = 0
 
@@ -777,6 +776,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_33p6k")
 
 [node name="PineEntranceZone" type="Area2D" parent="Zones" unique_id=185982588]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.pine_entrance"
 position = Vector2(-300, 300)
 collision_layer = 0
 
@@ -784,6 +785,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_dguvr")
 
 [node name="PineDeepZone" type="Area2D" parent="Zones" unique_id=1941348270]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.pine_deep"
 position = Vector2(-1050, 300)
 collision_layer = 0
 
@@ -791,6 +794,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_sgsjp")
 
 [node name="PineCliffEdgeZone" type="Area2D" parent="Zones" unique_id=650817117]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.pine_cliff_edge"
 position = Vector2(-1800, 300)
 collision_layer = 0
 
@@ -798,6 +803,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_70yi7")
 
 [node name="WaterfallBasinZone" type="Area2D" parent="Zones" unique_id=2096271497]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.waterfall_basin"
 position = Vector2(1200, 850)
 collision_layer = 0
 
@@ -805,6 +812,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_h07hy")
 
 [node name="RiverGorgeZone" type="Area2D" parent="Zones" unique_id=96170484]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.river_gorge"
 position = Vector2(1200, 1650)
 collision_layer = 0
 
@@ -812,6 +821,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_r0iih")
 
 [node name="CliffLedgeZone" type="Area2D" parent="Zones" unique_id=350301969]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.cliff_ledge"
 position = Vector2(435, 1650)
 collision_layer = 0
 
@@ -929,165 +940,7 @@ limit_bottom = 3015
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
-[node name="Bandit01" type="CharacterBody2D" parent="Characters" unique_id=1339897005]
-unique_name_in_owner = true
-position = Vector2(300, 800)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="ColorRect" parent="Characters/Bandit01" unique_id=1326600464]
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
-mouse_filter = 2
-color = Color(0.7882353, 0.33333334, 0.27058825, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit01" unique_id=1250480384]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/Bandit01" unique_id=1340206359]
-offset_left = -58.0
-offset_top = -48.0
-offset_right = -57.0
-offset_bottom = -25.0
-theme_override_font_sizes/font_size = 16
-text = "土匪探哨"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Bandit01" unique_id=459168777]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit01/AggressionPresence" unique_id=787942982]
-shape = SubResource("CircleShape2D_5rpdm")
-
-[node name="Bandit02" type="CharacterBody2D" parent="Characters" unique_id=1792563842]
-unique_name_in_owner = true
-position = Vector2(450, 880)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="ColorRect" parent="Characters/Bandit02" unique_id=1231475706]
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
-mouse_filter = 2
-color = Color(0.7882353, 0.33333334, 0.27058825, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit02" unique_id=161533696]
-shape = SubResource("RectangleShape2D_jk1sc")
-
-[node name="NameLabel" type="Label" parent="Characters/Bandit02" unique_id=263734130]
-offset_left = -58.0
-offset_top = -48.0
-offset_right = -57.0
-offset_bottom = -25.0
-theme_override_font_sizes/font_size = 16
-text = "土匪探哨"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Bandit02" unique_id=2014410522]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit02/AggressionPresence" unique_id=2034868991]
-shape = SubResource("CircleShape2D_b8w4h")
-
-[node name="Bandit03" type="CharacterBody2D" parent="Characters" unique_id=420212268]
-unique_name_in_owner = true
-position = Vector2(600, 800)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="ColorRect" parent="Characters/Bandit03" unique_id=686216422]
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
-mouse_filter = 2
-color = Color(0.7882353, 0.33333334, 0.27058825, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit03" unique_id=1108372208]
-shape = SubResource("RectangleShape2D_nkqn4")
-
-[node name="NameLabel" type="Label" parent="Characters/Bandit03" unique_id=1531424781]
-offset_left = -58.0
-offset_top = -48.0
-offset_right = -57.0
-offset_bottom = -25.0
-theme_override_font_sizes/font_size = 16
-text = "土匪探哨"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Bandit03" unique_id=1524586913]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Bandit03/AggressionPresence" unique_id=316999734]
-shape = SubResource("CircleShape2D_4dxmd")
-
-[node name="TallBandit" type="CharacterBody2D" parent="Characters" unique_id=1574786604]
-unique_name_in_owner = true
-position = Vector2(-300, 300)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="ColorRect" parent="Characters/TallBandit" unique_id=1706469174]
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
-mouse_filter = 2
-color = Color(0.6901961, 0.41960785, 0.27058825, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/TallBandit" unique_id=719576928]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/TallBandit" unique_id=1771266040]
-offset_left = -58.0
-offset_top = -48.0
-offset_right = -57.0
-offset_bottom = -25.0
-theme_override_font_sizes/font_size = 16
-text = "土匪"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/TallBandit" unique_id=379486236]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/TallBandit/AggressionPresence" unique_id=2130742914]
-shape = SubResource("CircleShape2D_5rpdm")
-
-[node name="FatBandit" type="CharacterBody2D" parent="Characters" unique_id=709402389]
-unique_name_in_owner = true
-position = Vector2(-200, 400)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="ColorRect" parent="Characters/FatBandit" unique_id=887179950]
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
-mouse_filter = 2
-color = Color(0.55, 0.29, 0.18, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/FatBandit" unique_id=1134488877]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/FatBandit" unique_id=1253376319]
-offset_left = -58.0
-offset_top = -48.0
-offset_right = -57.0
-offset_bottom = -25.0
-theme_override_font_sizes/font_size = 16
-text = "土匪"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/FatBandit" unique_id=1548277643]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/FatBandit/AggressionPresence" unique_id=343192469]
-shape = SubResource("CircleShape2D_5rpdm")
-
 [node name="CorpseLayer" type="Node2D" parent="." unique_id=1765940814]
-unique_name_in_owner = true
-
-[node name="OpportunityTimer" type="Timer" parent="." unique_id=315636141]
 unique_name_in_owner = true
 
 [node name="Interactions" type="Node2D" parent="." unique_id=1619827207]
@@ -1148,6 +1001,8 @@ landmark_id = &"oldpine.outdoor.landmark.cliff1_up"
 shape = SubResource("RectangleShape2D_17cfp")
 
 [node name="CliffsidePineExit" type="Area2D" parent="Interactions" unique_id=898328891]
+script = ExtResource("7_nge4")
+portal_id = &"oldpine.outdoor.cliffside_north_pine1"
 position = Vector2(435, 1170)
 collision_layer = 0
 
@@ -1186,6 +1041,7 @@ input_pickable = false
 script = ExtResource("7_nge4")
 portal_id = &"oldpine.npath1.north"
 closed_wall_path = NodePath("../Terrain/Boundaries/WorldBounds/SnowBlocker")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SnowPassage"]
 shape = SubResource("SnowNorthPassage")
 
@@ -1204,6 +1060,8 @@ position = Vector2(1090, 2625)
 shape = SubResource("LakeWaterShape")
 
 [node name="LakeZone" type="Area2D" parent="Zones"]
+script = ExtResource("z_zone")
+zone_id = &"oldpine.outdoor.lake"
 position = Vector2(1200, 2600)
 collision_layer = 0
 
@@ -1211,6 +1069,8 @@ collision_layer = 0
 shape = SubResource("LakeZoneShape")
 
 [node name="LakeWaterPoint" type="Marker2D" parent="."]
+script = ExtResource("s_service")
+service_id = &"oldpine.outdoor.lake.water"
 position = Vector2(1100, 2325)
 
 [node name="Label" type="Label" parent="LakeWaterPoint"]
@@ -1223,195 +1083,32 @@ position = Vector2(1340, 2470)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.lake.serpent.1"
 
-[node name="Serpent01" type="CharacterBody2D" parent="Characters"]
-unique_name_in_owner = true
-position = Vector2(1340, 2470)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="Polygon2D" parent="Characters/Serpent01"]
-polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
-color = Color(0.18, 0.12, 0.09, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent01"]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/Serpent01"]
-offset_left = -52.0
-offset_top = -43.0
-theme_override_font_sizes/font_size = 14
-text = "黑冠巨蟒"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent01"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent01/AggressionPresence"]
-shape = SubResource("SerpentPresenceShape")
-
 [node name="LakeSerpent02" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1430, 2505)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.lake.serpent.2"
-
-[node name="Serpent02" type="CharacterBody2D" parent="Characters"]
-unique_name_in_owner = true
-position = Vector2(1430, 2505)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="Polygon2D" parent="Characters/Serpent02"]
-polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
-color = Color(0.18, 0.12, 0.09, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent02"]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/Serpent02"]
-offset_left = -52.0
-offset_top = -43.0
-theme_override_font_sizes/font_size = 14
-text = "黑冠巨蟒"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent02"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent02/AggressionPresence"]
-shape = SubResource("SerpentPresenceShape")
 
 [node name="LakeSerpent03" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1340, 2545)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.lake.serpent.3"
 
-[node name="Serpent03" type="CharacterBody2D" parent="Characters"]
-unique_name_in_owner = true
-position = Vector2(1340, 2545)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="Polygon2D" parent="Characters/Serpent03"]
-polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
-color = Color(0.18, 0.12, 0.09, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent03"]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/Serpent03"]
-offset_left = -52.0
-offset_top = -43.0
-theme_override_font_sizes/font_size = 14
-text = "黑冠巨蟒"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent03"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent03/AggressionPresence"]
-shape = SubResource("SerpentPresenceShape")
-
 [node name="LakeSerpent04" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1440, 2590)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.lake.serpent.4"
-
-[node name="Serpent04" type="CharacterBody2D" parent="Characters"]
-unique_name_in_owner = true
-position = Vector2(1440, 2590)
-input_pickable = true
-script = ExtResource("3_7i4ts")
-
-[node name="Visual" type="Polygon2D" parent="Characters/Serpent04"]
-polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
-color = Color(0.18, 0.12, 0.09, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent04"]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/Serpent04"]
-offset_left = -52.0
-offset_top = -43.0
-theme_override_font_sizes/font_size = 14
-text = "黑冠巨蟒"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent04"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent04/AggressionPresence"]
-shape = SubResource("SerpentPresenceShape")
 
 [node name="LakeSerpent05" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1350, 2640)
 script = ExtResource("2_vreye")
 spawn_point_id = &"oldpine.outdoor.lake.serpent.5"
 
-[node name="Serpent05" type="CharacterBody2D" parent="Characters"]
-unique_name_in_owner = true
-position = Vector2(1350, 2640)
-input_pickable = true
-script = ExtResource("3_7i4ts")
+[node name="WaterfallCliffBounds" type="StaticBody2D" parent="Terrain/Boundaries"]
 
-[node name="Visual" type="Polygon2D" parent="Characters/Serpent05"]
-polygon = PackedVector2Array(-17, -10, 7, -17, 17, -8, 9, 2, 17, 13, -8, 17, -17, 6)
-color = Color(0.18, 0.12, 0.09, 1)
+[node name="North" type="CollisionShape2D" parent="Terrain/Boundaries/WaterfallCliffBounds"]
+position = Vector2(1200, 600)
+shape = SubResource("WaterfallNorthCliff")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent05"]
-shape = SubResource("RectangleShape2D_lul68")
-
-[node name="NameLabel" type="Label" parent="Characters/Serpent05"]
-offset_left = -52.0
-offset_top = -43.0
-theme_override_font_sizes/font_size = 14
-text = "黑冠巨蟒"
-
-[node name="AggressionPresence" type="Area2D" parent="Characters/Serpent05"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Serpent05/AggressionPresence"]
-shape = SubResource("SerpentPresenceShape")
-
-[connection signal="body_entered" from="Zones/CentralClearingZone" to="." method="_on_central_clearing_body_entered"]
-
-[connection signal="body_entered" from="Zones/SouthSlopeZone" to="." method="_on_south_slope_body_entered"]
-[connection signal="body_entered" from="Zones/NorthApproachZone" to="." method="_on_north_approach_body_entered"]
-[connection signal="body_entered" from="Zones/EastBridgeZone" to="." method="_on_east_bridge_body_entered"]
-[connection signal="body_entered" from="Zones/TreeCanopyZone" to="." method="_on_tree_canopy_body_entered"]
-[connection signal="body_entered" from="Zones/PineEntranceZone" to="." method="_on_pine_entrance_body_entered"]
-[connection signal="body_entered" from="Zones/PineDeepZone" to="." method="_on_pine_deep_body_entered"]
-[connection signal="body_entered" from="Zones/PineCliffEdgeZone" to="." method="_on_pine_cliff_edge_body_entered"]
-[connection signal="body_entered" from="Zones/WaterfallBasinZone" to="." method="_on_waterfall_basin_body_entered"]
-[connection signal="body_entered" from="Zones/RiverGorgeZone" to="." method="_on_river_gorge_body_entered"]
-[connection signal="body_entered" from="Zones/CliffLedgeZone" to="." method="_on_cliff_ledge_body_entered"]
-[connection signal="selection_requested" from="Characters/Bandit01" to="." method="_on_bandit_selection_requested"]
-[connection signal="body_entered" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_entered"]
-[connection signal="body_exited" from="Characters/Bandit01/AggressionPresence" to="." method="_on_bandit_01_presence_exited"]
-[connection signal="selection_requested" from="Characters/Bandit02" to="." method="_on_bandit_selection_requested"]
-[connection signal="body_entered" from="Characters/Bandit02/AggressionPresence" to="." method="_on_bandit_02_presence_entered"]
-[connection signal="body_exited" from="Characters/Bandit02/AggressionPresence" to="." method="_on_bandit_02_presence_exited"]
-[connection signal="selection_requested" from="Characters/Bandit03" to="." method="_on_bandit_selection_requested"]
-[connection signal="body_entered" from="Characters/Bandit03/AggressionPresence" to="." method="_on_bandit_03_presence_entered"]
-[connection signal="body_exited" from="Characters/Bandit03/AggressionPresence" to="." method="_on_bandit_03_presence_exited"]
-[connection signal="selection_requested" from="Characters/TallBandit" to="." method="_on_bandit_selection_requested"]
-[connection signal="body_entered" from="Characters/TallBandit/AggressionPresence" to="." method="_on_tall_bandit_presence_entered"]
-[connection signal="body_exited" from="Characters/TallBandit/AggressionPresence" to="." method="_on_tall_bandit_presence_exited"]
-[connection signal="selection_requested" from="Characters/FatBandit" to="." method="_on_bandit_selection_requested"]
-[connection signal="body_entered" from="Characters/FatBandit/AggressionPresence" to="." method="_on_fat_bandit_presence_entered"]
-[connection signal="body_exited" from="Characters/FatBandit/AggressionPresence" to="." method="_on_fat_bandit_presence_exited"]
-[connection signal="timeout" from="OpportunityTimer" to="." method="_on_opportunity_timer_timeout"]
-[connection signal="selection_requested" from="Interactions/PineInteraction" to="." method="_on_landmark_selection_requested"]
-[connection signal="selection_requested" from="Interactions/Tree1DescentInteraction" to="." method="_on_landmark_selection_requested"]
-[connection signal="selection_requested" from="Interactions/VineInteraction" to="." method="_on_landmark_selection_requested"]
-[connection signal="selection_requested" from="Interactions/RiverbankCliffInteraction" to="." method="_on_landmark_selection_requested"]
-[connection signal="selection_requested" from="Interactions/Cliff1DownInteraction" to="." method="_on_landmark_selection_requested"]
-[connection signal="selection_requested" from="Interactions/Cliff1UpInteraction" to="." method="_on_landmark_selection_requested"]
-[connection signal="body_entered" from="Interactions/CliffsidePineExit" to="." method="_on_cliffside_pine_exit_body_entered"]
-
-[connection signal="body_entered" from="Zones/LakeZone" to="." method="_on_lake_body_entered"]
-
-[connection signal="selection_requested" from="Characters/Serpent01" to="." method="_on_bandit_selection_requested"]
-
-[connection signal="selection_requested" from="Characters/Serpent02" to="." method="_on_bandit_selection_requested"]
-
-[connection signal="selection_requested" from="Characters/Serpent03" to="." method="_on_bandit_selection_requested"]
-
-[connection signal="selection_requested" from="Characters/Serpent04" to="." method="_on_bandit_selection_requested"]
-
-[connection signal="selection_requested" from="Characters/Serpent05" to="." method="_on_bandit_selection_requested"]
+[node name="West" type="CollisionShape2D" parent="Terrain/Boundaries/WaterfallCliffBounds"]
+position = Vector2(900, 850)
+shape = SubResource("WaterfallWestCliff")

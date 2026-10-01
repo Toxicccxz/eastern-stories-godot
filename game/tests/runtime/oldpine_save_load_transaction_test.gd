@@ -74,7 +74,7 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	).instantiate()
 	tree.root.add_child(session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var target_id: StringName = session.outdoor_map().npc_runtimes()[0].character_id
+	var target_id: StringName = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_id
 	_assert_allowed(session, "stable active Outdoor allows Save")
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	_assert_allowed(session, "committed unconscious state allows Save")
@@ -100,27 +100,24 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	player.relationship.set_guarding(true)
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.GUARDING, "guarding blocks")
 	player.relationship.set_guarding(false)
-	session.outdoor_map().aggression_adapter()._pending_npc_ids.append(target_id)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).aggression_adapter()._pending_npc_ids.append(target_id)
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.PENDING_AGGRESSION, "pending aggression blocks")
-	session.outdoor_map().aggression_adapter().clear_all()
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).aggression_adapter().clear_all()
 	session._transitioning = true
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_ACTIVE, "active handoff blocks")
 	session._transitioning = false
-	session.cave_map()._exit_request_pending = true
-	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.CAVE_EXIT_PENDING, "pending Cave exit blocks")
-	session.cave_map()._exit_request_pending = false
-	session.outdoor_map()._lifecycle_failed = true
+	session._passage_request_pending = true
+	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.PASSAGE_PENDING, "pending passage handoff blocks")
+	session._passage_request_pending = false
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._lifecycle_failed = true
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, "incomplete lifecycle blocks")
-	session.outdoor_map()._lifecycle_failed = false
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._lifecycle_failed = false
 	var partial := OldPineMapHandoffResult.new()
 	partial._location_committed = true
 	partial._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_ACTIVATION_FAILED
 	session._last_map_handoff = partial
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_PARTIAL, "committed partial handoff blocks")
 	session._last_map_handoff = null
-	session.outdoor_map().opportunity_timer.start(10.0)
-	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.COMBAT_CADENCE_ACTIVE, "running cadence blocks")
-	session.outdoor_map().opportunity_timer.stop()
 	player.state.attributes.strength_modifier = 1
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.UNREPRESENTED_ATTRIBUTE_MODIFIER, "unrepresented temporary modifier blocks")
 	player.state.attributes.strength_modifier = 0
@@ -131,11 +128,11 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.ROTTEN)
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.SKELETON)
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.FINAL)
-	session.outdoor_map()._corpse_states.append(final_corpse)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._corpse_states.append(final_corpse)
 	var final_result := OldPineSaveEligibility.inspect(session)
 	_assert_eq(final_result.outcome, OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, "live FINAL corpse blocks as incomplete final destruction")
 	_assert_eq(final_result.subject_id, final_corpse.corpse_item_instance_id, "FINAL corpse blocker identifies corpse")
-	session.outdoor_map()._corpse_states.erase(final_corpse)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._corpse_states.erase(final_corpse)
 	session.process_mode = Node.PROCESS_MODE_DISABLED
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.SESSION_NOT_READY, "disabled non-playable Session blocks")
 	session.process_mode = Node.PROCESS_MODE_INHERIT
@@ -203,10 +200,9 @@ func _test_live_capture_and_transactional_replace(tree: SceneTree) -> void:
 	_assert_true(not restored.is_session_swap_suspended(), "activation rollback clears A suspension")
 	_assert_eq(host.session_slot.get_child_count(), 1, "activation rollback leaves one playable Session")
 	_assert_eq(host.staging_slot.get_child_count(), 0, "activation rollback discards candidate B")
-	var opponent: NpcRuntimeState = restored.outdoor_map().npc_runtimes()[0]
+	var opponent: NpcRuntimeState = restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	_assert_true(restored.player_runtime().relationship.add_opponent(opponent.character_id), "rollback fixture establishes current-A relationship")
 	_assert_true(opponent.relationship.add_opponent(restored.player_runtime().character_id), "rollback fixture establishes reciprocal relationship")
-	restored.outdoor_map().opportunity_timer.start(10.0)
 	var rollback_rng: int = restored.combat_random_source().capture_random_state().state
 	var rollback_allocator: int = restored.item_id_allocator().next_dynamic_sequence
 	var reparent_failing := FailingReparentCoordinator.new(
@@ -220,13 +216,11 @@ func _test_live_capture_and_transactional_replace(tree: SceneTree) -> void:
 	_assert_eq(reparent_failed.outcome, OldPineRuntimeSaveLoadResult.Outcome.ACTIVATION_FAILED, "final host reparent failure is typed")
 	_assert_eq(restored.get_instance_id(), current_id, "reparent failure retains exact Session A")
 	_assert_true(restored.player_runtime().relationship.has_opponent(opponent.character_id), "reparent rollback retains A relationships")
-	_assert_true(restored.outdoor_map().opportunity_timer.is_stopped(), "CXR8 rollback cannot reintroduce legacy runtime cadence")
 	_assert_eq(restored.combat_random_source().capture_random_state().state, rollback_rng, "reparent rollback consumes zero Combat RNG")
 	_assert_eq(restored.item_id_allocator().next_dynamic_sequence, rollback_allocator, "reparent rollback consumes no item ID")
 	_assert_true(restored.active_map().runtime_player_body().player_controlled, "reparent rollback restores real input")
 	_assert_eq(host.session_slot.get_child_count(), 1, "reparent rollback leaves one playable Session")
 	_assert_eq(host.staging_slot.get_child_count(), 0, "reparent rollback discards activated candidate")
-	restored.outdoor_map().opportunity_timer.stop()
 	restored.player_runtime().relationship.remove_opponent(opponent.character_id)
 	opponent.relationship.remove_opponent(restored.player_runtime().character_id)
 	_free_host_and_profile(host, profile)
@@ -276,12 +270,15 @@ func _test_restored_inactive_map_becomes_playable_on_handoff(
 		"Cave remains active after restore",
 	)
 	_assert_eq(
-		restored.outdoor_map().process_mode,
+		restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).process_mode,
 		Node.PROCESS_MODE_DISABLED,
 		"restored inactive Outdoor remains staged before handoff",
 	)
-	var return_outdoor: OldPineMapHandoffResult = (
-		restored.request_passage_south_exit()
+	var return_outdoor: OldPineMapHandoffResult = restored.handoff_to(
+		OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+		OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID,
+		OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID,
+		OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID,
 	)
 	_assert_true(return_outdoor.succeeded(), "restored Cave returns through SouthExit")
 	_assert_eq(
@@ -290,12 +287,12 @@ func _test_restored_inactive_map_becomes_playable_on_handoff(
 		"Outdoor becomes active after restored SouthExit",
 	)
 	_assert_eq(
-		restored.outdoor_map().process_mode,
+		restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).process_mode,
 		Node.PROCESS_MODE_INHERIT,
 		"restored destination is process-enabled on first handoff",
 	)
 	_assert_true(
-		restored.outdoor_map().runtime_player_body().player_controlled,
+		restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).runtime_player_body().player_controlled,
 		"restored destination enables real player input",
 	)
 	_assert_true(

@@ -180,10 +180,6 @@ func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
 	return null
 
 
-func encounter_opportunity_interval_seconds() -> float:
-	return 0.0
-
-
 func freeze_world_gameplay(_encounter_id: StringName) -> bool:
 	return false
 

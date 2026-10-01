@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SceneType := preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
@@ -38,30 +40,30 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_full_loot_inventory_equip_second_fight_loop(
 	tree: SceneTree,
 ) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(controller != null, "real Old Pine scene instantiates for full loot loop")
 	if controller == null:
 		return
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Loot hierarchy reflects Phase 10C1A Reset removal")
-	_assert_true(controller.hud.inventory_panel != null, "HUD owns one presentation-only Inventory panel")
-	_assert_false(controller.hud.inventory_is_open(), "Inventory panel starts closed")
-	_assert_false(controller.hud.loot_is_open(), "Loot panel starts closed")
-	_assert_eq(controller.hud.inventory_button.get_signal_connection_list("pressed").size(), 1, "Inventory button has one persisted controller connection")
-	_assert_eq(controller.hud.inventory_panel.inspect_requested.get_connections().size(), 1, "Inspect request has one typed controller connection")
-	_assert_eq(controller.hud.inventory_panel.wield_requested.get_connections().size(), 1, "Wield request has one typed controller connection")
-	_assert_eq(controller.hud.inventory_panel.unwield_requested.get_connections().size(), 1, "Unwield request has one typed controller connection")
-	var panel: PlayerInventoryPanel = controller.hud.inventory_panel
+	_assert_true(controller.session.shared_ui().inventory_panel != null, "HUD owns one presentation-only Inventory panel")
+	_assert_false(controller.session.shared_ui().inventory_is_open(), "Inventory panel starts closed")
+	_assert_false(controller.session.shared_ui().loot_is_open(), "Loot panel starts closed")
+	_assert_eq(controller.session.shared_ui().inventory_button.get_signal_connection_list("pressed").size(), 1, "Inventory button has one persisted controller connection")
+	_assert_eq(controller.session.shared_ui().inventory_panel.inspect_requested.get_connections().size(), 1, "Inspect request has one typed controller connection")
+	_assert_eq(controller.session.shared_ui().inventory_panel.wield_requested.get_connections().size(), 1, "Wield request has one typed controller connection")
+	_assert_eq(controller.session.shared_ui().inventory_panel.unwield_requested.get_connections().size(), 1, "Unwield request has one typed controller connection")
+	var panel: PlayerInventoryPanel = controller.session.shared_ui().inventory_panel
 	var viewport_size: Vector2 = controller.get_viewport_rect().size
 	_assert_true(panel.position.x >= 0.0 and panel.position.y >= 0.0, "Inventory panel begins inside viewport")
 	_assert_true(panel.position.x + panel.size.x <= viewport_size.x, "Inventory panel right edge stays visible")
 	_assert_true(panel.position.y + panel.size.y <= viewport_size.y, "Inventory panel bottom edge stays visible")
 
-	controller.hud.inventory_button.pressed.emit()
-	_assert_true(controller.hud.inventory_is_open(), "Inventory button opens live panel")
-	var fresh_rows: Array[PlayerInventoryRowProjection] = controller.hud.inventory_rows()
+	controller.session.shared_ui().inventory_button.pressed.emit()
+	_assert_true(controller.session.shared_ui().inventory_is_open(), "Inventory button opens live panel")
+	var fresh_rows: Array[PlayerInventoryRowProjection] = controller.session.shared_ui().inventory_rows()
 	_assert_eq(fresh_rows.size(), 1, "fresh scene inventory has one direct item")
-	_assert_dynamic_row_connections(controller.hud.inventory_panel, 1)
+	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel, 1)
 	var long_id: StringName = fresh_rows[0].item_instance_id
 	_assert_eq(fresh_rows[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "fresh direct item is prototype long sword")
 	_assert_eq(fresh_rows[0].equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.PRIMARY, "fresh long sword is PRIMARY")
@@ -82,8 +84,8 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	await tree.physics_frame
 	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "full loop selects exact corpse ITEM")
 	_assert_true(controller.open_selected_loot(), "Open Loot validates live corpse and range")
-	_assert_false(controller.hud.inventory_is_open(), "opening Loot closes Inventory panel")
-	var loot_rows: Array[WorldItemRowProjection] = controller.hud.loot_rows()
+	_assert_false(controller.session.shared_ui().inventory_is_open(), "opening Loot closes Inventory panel")
+	var loot_rows: Array[WorldItemRowProjection] = controller.session.shared_ui().loot_rows()
 	var short_id: StringName = _loot_id_for_definition(
 		loot_rows, TestContent.SHORT_SWORD_ITEM_ID
 	)
@@ -95,26 +97,26 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	var operation_random: CountingAttackFavoringRandomSource = (
 		CountingAttackFavoringRandomSource.new()
 	)
-	controller.configure_combat_random_source(operation_random)
+	controller.session.configure_combat_random_source(operation_random)
 	_assert_true(controller.take_selected_loot_item(short_id).succeeded, "Take transfers short sword to player")
-	_assert_true(controller.open_player_inventory(), "Inventory can reopen while corpse selection remains current")
-	_assert_true(_row_ids(controller.hud.inventory_rows()).has(short_id), "Inventory opened after Take immediately projects acquired short")
+	_assert_true(OldPineTestMap.open_inventory(controller), "Inventory can reopen while corpse selection remains current")
+	_assert_true(_row_ids(controller.session.shared_ui().inventory_rows()).has(short_id), "Inventory opened after Take immediately projects acquired short")
 	_assert_true(controller.take_selected_loot_item(silver_id).succeeded, "Take transfers amount-three silver to player")
-	_assert_true(_row_ids(controller.hud.inventory_rows()).has(silver_id), "successful Take refreshes an already-open Inventory panel")
+	_assert_true(_row_ids(controller.session.shared_ui().inventory_rows()).has(silver_id), "successful Take refreshes an already-open Inventory panel")
 	_assert_true(controller.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)).is_empty(), "corpse authority is Empty after both Take operations")
 	_assert_true(controller.open_selected_loot(), "empty corpse can reopen Loot after live Inventory refresh proof")
-	_assert_true(controller.hud.loot_rows().is_empty(), "reopened corpse panel renders Empty from authority")
+	_assert_true(controller.session.shared_ui().loot_rows().is_empty(), "reopened corpse panel renders Empty from authority")
 	_assert_true(controller.inventory_state().is_direct_child(short_id, _player_endpoint()), "same short sword instance is player direct inventory")
 	_assert_true(controller.inventory_state().is_direct_child(silver_id, _player_endpoint()), "same silver instance is player direct inventory")
 	_assert_eq(operation_random.calls, 0, "Open/Take consume zero Combat RNG")
 
-	controller.hud.inventory_button.pressed.emit()
-	_assert_true(controller.hud.inventory_is_open(), "Inventory opens after loot")
-	_assert_false(controller.hud.loot_is_open(), "opening Inventory closes Loot panel")
-	var rows: Array[PlayerInventoryRowProjection] = controller.hud.inventory_rows()
-	controller.open_player_inventory()
-	controller.open_player_inventory()
-	rows = controller.hud.inventory_rows()
+	controller.session.shared_ui().inventory_button.pressed.emit()
+	_assert_true(controller.session.shared_ui().inventory_is_open(), "Inventory opens after loot")
+	_assert_false(controller.session.shared_ui().loot_is_open(), "opening Inventory closes Loot panel")
+	var rows: Array[PlayerInventoryRowProjection] = controller.session.shared_ui().inventory_rows()
+	OldPineTestMap.open_inventory(controller)
+	OldPineTestMap.open_inventory(controller)
+	rows = controller.session.shared_ui().inventory_rows()
 	_assert_dynamic_row_connections(panel, 3)
 	_assert_eq(
 		_row_ids(rows),
@@ -138,7 +140,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 
 	panel.wield_requested.emit(short_id)
 	var short_secondary: OldPineEquipmentInteractionResult = (
-		controller._session_owner.last_equipment_interaction()
+		controller.session.last_equipment_interaction()
 	)
 	_assert_eq(short_secondary.equipment_transition.outcome, EquipmentTransitionResult.Outcome.WIELDED_SECONDARY, "long primary plus Wield short produces SECONDARY")
 	_assert_eq(controller.player_runtime().state.equipment.primary_weapon().instance_id, long_id, "long stays primary after short secondary Wield")
@@ -147,7 +149,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller.player_runtime().state.equipment.primary_weapon() == null, "Unwield long leaves primary empty")
 	_assert_eq(controller.player_runtime().state.equipment.secondary_weapon().instance_id, short_id, "secondary short is not promoted")
 	var secondary_only_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
-	_assert_eq(controller.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.UNARMED, "secondary-only world participant resolves unarmed")
+	_assert_eq(controller.last_player_content_resolution().outcome, WorldWeaponContentResolution.Outcome.UNARMED, "secondary-only world participant resolves unarmed")
 	_assert_eq(secondary_only_binding.content.projected_apply_damage(null), 0, "secondary-only participant has zero weapon apply damage")
 	panel.unwield_requested.emit(short_id)
 	panel.wield_requested.emit(short_id)
@@ -160,7 +162,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_eq(operation_random.calls, 0, "Wield/Unwield/projection refresh consume zero Combat RNG")
 
 	var short_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
-	_assert_eq(controller.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "fresh participant projection resolves current short primary")
+	_assert_eq(controller.last_player_content_resolution().outcome, WorldWeaponContentResolution.Outcome.WEAPON, "fresh participant projection resolves current short primary")
 	_assert_eq(short_binding.content.projected_apply_damage(short_primary), 15, "fresh participant projects current short damage 15")
 	_assert_eq(long_binding.content.projected_apply_damage(long_binding.state.equipment.primary_weapon()), 0, "old binding does not become a mutable short profile")
 
@@ -175,10 +177,10 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	))
 	_assert_true(controller.select_npc(second.character_id), "second bandit becomes current world target")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "second fight starts through world combat initiation")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	var actual_apply_damage: int = -1
 	for _tick: int in range(12):
-		var results: Array[CombatSliceOpportunityResult] = controller.process_cadence_tick()
+		var results: Array[CombatSliceOpportunityResult] = HistoricalCombat.tick(controller)
 		for result: CombatSliceOpportunityResult in results:
 			if result.actor_id != controller.player_runtime().character_id:
 				continue
@@ -200,7 +202,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 
 	controller.queue_free()
 	await tree.process_frame
-	var comparison: OldPineOutdoorController = _instantiate_scene(tree)
+	var comparison: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_eq(comparison.npc_random_source().next_below(1000), npc_random_after_loop, "inventory/equipment/combat path does not consume NPC initialization RNG")
 	comparison.queue_free()
@@ -210,7 +212,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 func _test_stale_dynamic_rows_revalidate_live_authority(
 	tree: SceneTree,
 ) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var short_id: StringName = &"audit:stale-short"
 	_assert_true(
@@ -222,10 +224,10 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 		),
 		"stale-row fixture registers one direct-owned short sword",
 	)
-	_assert_true(controller.open_player_inventory(), "stale-row fixture opens live Inventory")
-	_assert_dynamic_row_connections(controller.hud.inventory_panel, 2)
+	_assert_true(OldPineTestMap.open_inventory(controller), "stale-row fixture opens live Inventory")
+	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel, 2)
 	var stale_wield_button: Button = _row_action_button(
-		controller.hud.inventory_panel,
+		controller.session.shared_ui().inventory_panel,
 		"短剑",
 		"Wield",
 	)
@@ -234,7 +236,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"audit.world"),
 		true,
 		true,
-		OldPineOutdoorController.WORLD_CAPACITY,
+		WorldMapController.WORLD_CAPACITY,
 	)
 	_assert_true(
 		InventoryTransferService.new().transfer(
@@ -247,7 +249,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 	if stale_wield_button != null:
 		stale_wield_button.pressed.emit()
 	_assert_eq(
-		controller._session_owner.last_equipment_interaction().outcome,
+		controller.session.last_equipment_interaction().outcome,
 		OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_DIRECTLY_OWNED,
 		"stale Wield row is rejected by current direct ownership",
 	)
@@ -256,14 +258,14 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 		"stale Wield row causes zero Equipment mutation",
 	)
 	_assert_eq(
-		controller.hud.inventory_rows().size(),
+		controller.session.shared_ui().inventory_rows().size(),
 		1,
 		"stale Wield failure rebuilds panel and removes non-owned short",
 	)
 
-	var long_id: StringName = controller.hud.inventory_rows()[0].item_instance_id
+	var long_id: StringName = controller.session.shared_ui().inventory_rows()[0].item_instance_id
 	var stale_unwield_button: Button = _row_action_button(
-		controller.hud.inventory_panel,
+		controller.session.shared_ui().inventory_panel,
 		"长剑",
 		"Unwield",
 	)
@@ -281,7 +283,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 	if stale_unwield_button != null:
 		stale_unwield_button.pressed.emit()
 	_assert_eq(
-		controller._session_owner.last_equipment_interaction().outcome,
+		controller.session.last_equipment_interaction().outcome,
 		OldPineEquipmentInteractionResult.Outcome.ITEM_NOT_DIRECTLY_OWNED,
 		"stale Unwield row is rejected by current direct ownership",
 	)
@@ -290,7 +292,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 		"stale Unwield row cannot revive detached equipment",
 	)
 	_assert_true(
-		controller.hud.inventory_rows().is_empty(),
+		controller.session.shared_ui().inventory_rows().is_empty(),
 		"stale Unwield failure rebuilds panel from empty direct inventory",
 	)
 	controller.queue_free()
@@ -300,7 +302,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 	tree: SceneTree,
 ) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var long_id: StringName = controller.inventory_state().direct_children(
 		_player_endpoint()
@@ -325,20 +327,20 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 		CombatSliceInitiationResult.Outcome.COMPLETED,
 		"live-combat fixture establishes real reciprocal lethal fight",
 	)
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	_assert_true(
 		controller.player_runtime().relationship.is_fighting(),
 		"player relationship is active before weapon change",
 	)
 	_assert_true(
-		controller.unwield_player_item(long_id).succeeded,
+		OldPineTestMap.unwield(controller, long_id).succeeded,
 		"source-permitted Unwield succeeds during active combat",
 	)
 	_assert_true(
-		controller.wield_player_item(short_id).succeeded,
+		OldPineTestMap.wield(controller, short_id).succeeded,
 		"source-permitted Wield succeeds during active combat",
 	)
-	_assert_true(controller.opportunity_timer.is_stopped(), "equipment change does not restart combat Timer")
+	_assert_true(not HistoricalCombat.cadence_running(controller), "equipment change does not restart combat Timer")
 	_assert_true(
 		controller.player_runtime().relationship.is_fighting(),
 		"equipment change does not reset combat relationship",
@@ -346,10 +348,10 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 	var combat_random: CountingAttackFavoringRandomSource = (
 		CountingAttackFavoringRandomSource.new()
 	)
-	controller.configure_combat_random_source(combat_random)
+	controller.session.configure_combat_random_source(combat_random)
 	var actual_apply_damage: int = -1
 	for _tick: int in range(12):
-		for result: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for result: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if result.actor_id != controller.player_runtime().character_id:
 				continue
 			var forward: CombatSingleAttackExecutionResult = result.forward_result
@@ -366,12 +368,12 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 	controller.queue_free()
 	await tree.process_frame
 
-	var unsupported_controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var unsupported_controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var unsupported_long_id: StringName = (
 		unsupported_controller.inventory_state().direct_children(_player_endpoint())[0]
 	)
-	unsupported_controller.unwield_player_item(unsupported_long_id)
+	OldPineTestMap.unwield(unsupported_controller, unsupported_long_id)
 	var unsupported_id: StringName = &"audit:unsupported-primary"
 	_assert_true(
 		_register_player_item(
@@ -397,7 +399,7 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 		"test-only closed authority accepts unsupported primary reference",
 	)
 	var zero_random: CountingAttackFavoringRandomSource = CountingAttackFavoringRandomSource.new()
-	unsupported_controller.configure_combat_random_source(zero_random)
+	unsupported_controller.session.configure_combat_random_source(zero_random)
 	var unsupported_opponent: NpcRuntimeState = unsupported_controller.npc_runtimes()[0]
 	unsupported_controller.select_npc(unsupported_opponent.character_id)
 	var unsupported_initiation: CombatSliceInitiationResult = (
@@ -405,7 +407,7 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 	)
 	_assert_eq(
 		unsupported_controller.last_player_content_resolution().outcome,
-		OldPineWeaponContentResolution.Outcome.UNSUPPORTED_PRIMARY,
+		WorldWeaponContentResolution.Outcome.UNSUPPORTED_PRIMARY,
 		"controller records explicit unsupported-primary content result",
 	)
 	_assert_true(
@@ -422,60 +424,60 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 
 
 func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
-	var fresh: OldPineOutdoorController = _instantiate_scene(tree)
+	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
-	_assert_false(fresh.hud.inventory_is_open(), "fresh/reset boundary closes Inventory panel")
-	_assert_false(fresh.hud.loot_is_open(), "fresh/reset boundary closes Loot panel")
+	_assert_false(fresh.session.shared_ui().inventory_is_open(), "fresh/reset boundary closes Inventory panel")
+	_assert_false(fresh.session.shared_ui().loot_is_open(), "fresh/reset boundary closes Loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh/reset boundary has no corpses")
 	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh/reset boundary restores all ten bandits")
-	_assert_true(fresh.open_player_inventory(), "fresh active player can open Inventory")
-	var rows: Array[PlayerInventoryRowProjection] = fresh.hud.inventory_rows()
+	_assert_true(OldPineTestMap.open_inventory(fresh), "fresh active player can open Inventory")
+	var rows: Array[PlayerInventoryRowProjection] = fresh.session.shared_ui().inventory_rows()
 	_assert_eq(rows.size(), 1, "fresh/reset boundary removes acquired short and silver")
 	_assert_eq(rows[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "fresh/reset boundary restores only prototype long")
 	_assert_eq(rows[0].equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.PRIMARY, "fresh/reset boundary restores long PRIMARY")
 	var binding: CombatSliceCharacterBinding = fresh._build_participants()[0]
-	_assert_eq(fresh.last_player_content_resolution().outcome, OldPineWeaponContentResolution.Outcome.WEAPON, "fresh/reset resolver returns long profile")
+	_assert_eq(fresh.last_player_content_resolution().outcome, WorldWeaponContentResolution.Outcome.WEAPON, "fresh/reset resolver returns long profile")
 	_assert_eq(binding.content.projected_apply_damage(binding.state.equipment.primary_weapon()), 25, "fresh/reset combat returns long damage 25")
 	fresh.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
-	fresh.hud.refresh_live_state()
-	_assert_true(fresh.hud.inventory_button.disabled, "non-ACTIVE player cannot open active Inventory actions")
-	var inactive_unwield: OldPineEquipmentInteractionResult = fresh.unwield_player_item(
+	fresh.session.shared_ui().refresh_live_state()
+	_assert_true(fresh.session.shared_ui().inventory_button.disabled, "non-ACTIVE player cannot open active Inventory actions")
+	var inactive_unwield: OldPineEquipmentInteractionResult = OldPineTestMap.unwield(fresh, 
 		rows[0].item_instance_id
 	)
 	_assert_eq(inactive_unwield.outcome, OldPineEquipmentInteractionResult.Outcome.PLAYER_NOT_ACTIVE, "open-panel action revalidates committed non-ACTIVE status")
 	_assert_eq(fresh.player_runtime().state.equipment.primary_weapon().instance_id, rows[0].item_instance_id, "non-ACTIVE stale button path causes zero Equipment mutation")
-	_assert_false(fresh.open_player_inventory(), "controller rejects non-ACTIVE Inventory opening")
+	_assert_false(OldPineTestMap.open_inventory(fresh), "controller rejects non-ACTIVE Inventory opening")
 	fresh.queue_free()
 	await tree.process_frame
 
 
 func _kill_bandit(
-	controller: OldPineOutdoorController,
+	controller: WorldMapController,
 	victim: NpcRuntimeState,
 	tree: SceneTree,
 ) -> void:
 	# This helper prepares historical corpse fixtures for later input tests.
 	# It is not CXR8 production combat acceptance evidence.
-	preload("res://tests/support/historical_world_combat_fixture.gd").install(controller.world_session())
+	preload("res://tests/support/historical_world_combat_fixture.gd").install(controller.session)
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30
 	victim.character_state.vitality.current = -1
-	controller.process_cadence_tick()
-	controller.configure_combat_random_source(CountingMaximumCombatRandomSource.new())
+	HistoricalCombat.tick(controller)
+	controller.session.configure_combat_random_source(CountingMaximumCombatRandomSource.new())
 	for _tick: int in range(24):
 		if victim.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			break
-		controller.process_cadence_tick()
+		HistoricalCombat.tick(controller)
 	await tree.process_frame
 
 
-func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
+func _instantiate_scene(tree: SceneTree) -> WorldMapController:
 	var session: OldPineWorldSessionController = (
 		SceneType.instantiate() as OldPineWorldSessionController
 	)
@@ -487,18 +489,18 @@ func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
 	session.combat_seed = 5232
 	tree.root.add_child(session)
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
-	return session.outdoor_map()
+	return session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 
 
 func _player_endpoint() -> ContainmentEndpoint:
 	return ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.CHARACTER,
-		OldPineOutdoorController.PLAYER_ID,
+		OldPineWorldSessionController.PLAYER_ID,
 	)
 
 
 func _register_player_item(
-	controller: OldPineOutdoorController,
+	controller: WorldMapController,
 	item_instance_id: StringName,
 	item_definition_id: StringName,
 	own_weight: int,

@@ -37,8 +37,8 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	_check(Setup.start(session, &"cxr6.typed", true).succeeded(), "three participant fixture")
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var enemy: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
-	var third: NpcRuntimeState = session.outdoor_map().npc_runtimes()[1]
+	var enemy: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+	var third: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1]
 	encounter.set_current_target(player.character_id, enemy.character_id)
 	var intent := BattleIntentAdapter.new(coordinator, player.character_id)
 	var force_before: int = player.state.recovery.inner_force.current
@@ -129,7 +129,7 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	_check(rejected[-2].text.contains("Execution Rejected") and rejected[-1].text.contains("Cancelled"), "rejection/cancellation feedback")
 	_check(Setup.complete(session), "typed completion fixture")
 	ui.refresh_projection()
-	_check(not ui.visible and session.outdoor_map().hud.visible, "completion restores HUD")
+	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "completion restores HUD")
 	var completed_order: int = reader.last_consumed_order
 	_check(reader.read_new(coordinator, BattleProjectionBuilder.build(session)).is_empty() and reader.last_consumed_order == completed_order, "inactive retains completed cursor; next encounter resets it")
 	_check(intent.submit(&"qa.probe").code == Code.INACTIVE, "post-completion adapter inert")
@@ -165,20 +165,20 @@ func _test_shell_battle(tree: SceneTree) -> void:
 		return
 	session.set_process(false)
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
-	_check(not ui.visible and session.outdoor_map().hud.visible, "no encounter leaves world UI unchanged")
+	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "no encounter leaves world UI unchanged")
 	var position: Vector2 = touch.pad_rect().position + Vector2(160, 96)
 	await _touch(tree, 4, position, true)
 	_check(touch.capture_state().pad_index == 4, "pre-battle movement contact captured")
 	_check(Setup.start(session, &"cxr6.shell").succeeded(), "Shell encounter start")
 	await _settle(tree)
-	_check(ui.visible and not session.outdoor_map().hud.visible, "Session overlay active, exploration HUD yielded")
+	_check(ui.visible and not session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "Session overlay active, exploration HUD yielded")
 	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "first-population layout converges without SafeArea change")
 	_check(touch.capture_state().pad_index == -1 and not Input.is_action_pressed("move_right"), "activation cancels captured direction")
 	_check(not touch._pad.visible and touch.pause_button().visible, "pad blocked, shared Pause remains")
 	await _touch(tree, 4, position, false)
 	await _tap(tree, ui.log_button)
 	_check(ui.log_panel.visible, "touch reaches Battle Log")
-	_check(session.outdoor_map().selected_interaction_target() == null, "Battle Log touch does not reach world picking")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "Battle Log touch does not reach world picking")
 	await _back(tree)
 	_check(not ui.log_panel.visible and ui.visible and not tree.paused, "Back dismisses child, not Battle")
 	await _back(tree)
@@ -202,7 +202,7 @@ func _test_shell_battle(tree: SceneTree) -> void:
 			_check(content_rect.encloses(card.get_global_rect()), "primary participant card inside safe area")
 	_check(Setup.complete(session), "same Session completes")
 	await _settle(tree)
-	_check(not ui.visible and session.outdoor_map().hud.visible and touch._pad.visible, "world UI/pad restored")
+	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible and touch._pad.visible, "world UI/pad restored")
 	_check(not Input.is_action_pressed("move_right"), "no stale movement replay")
 	_check(shell.runtime_host().current_session() == session, "same Session identity")
 	# Same production UI, explicitly test-injected policies; no production actions.
@@ -213,8 +213,8 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var enemy: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
-	var third: NpcRuntimeState = session.outdoor_map().npc_runtimes()[1]
+	var enemy: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+	var third: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1]
 	encounter.set_current_target(player.character_id, enemy.character_id)
 	await _settle(tree)
 	var force_before: int = player.state.recovery.inner_force.current
@@ -324,7 +324,7 @@ func _test_restored_session_battle(tree: SceneTree) -> void:
 	_check(ui._content.get_global_rect() == safe.metrics.content_rect(), "restored Battle follows subsequent SafeArea changes")
 	_check(Setup.complete(session), "restored controlled encounter completes")
 	await _settle(tree)
-	_check(not ExplorationPresentationBlocker.is_blocked(tree) and session.outdoor_map().hud.visible, "restored completion releases presentation context")
+	_check(not ExplorationPresentationBlocker.is_blocked(tree) and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "restored completion releases presentation context")
 	shell.free()
 	await _settle(tree, 2)
 	tree.root.size = original_size

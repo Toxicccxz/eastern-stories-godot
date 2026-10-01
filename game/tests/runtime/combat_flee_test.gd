@@ -16,7 +16,7 @@ func _new(tree: SceneTree) -> OldPineWorldSessionController:
 	var session: OldPineWorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
-	session.outdoor_map().set_process(false)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	session.configure_combat_random_source(Setup.CountingRandom.new())
 	return session
 
@@ -24,7 +24,7 @@ func _start(session: OldPineWorldSessionController, mode: int = CombatEncounterM
 	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if mode == CombatEncounterMode.Value.LETHAL else CombatTriggerCause.Value.PLAYER_SPAR
 	var trigger: CombatTrigger = Multi.trigger(session, mode, cause)
 	if mode == CombatEncounterMode.Value.LETHAL:
-		for npc: NpcRuntimeState in session.outdoor_map().npc_runtimes().slice(0, 2):
+		for npc: NpcRuntimeState in session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().slice(0, 2):
 			session.player_runtime().relationship.mark_lethal_target(npc.character_id)
 			npc.relationship.mark_lethal_target(session.player_runtime().character_id)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -43,7 +43,7 @@ func _ready_and_multi(tree: SceneTree) -> void:
 		var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 		var rng: Setup.CountingRandom = session.combat_random_source()
 		var player: WorldPlayerRuntimeState = session.player_runtime()
-		var position: Transform2D = session.outdoor_map().player_body.global_transform
+		var position: Transform2D = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_transform
 		var values: Array[int] = []
 		for participant: CombatParticipant in encounter.participants():
 			participant.binding.relationship.set_guarding(true)
@@ -60,8 +60,8 @@ func _ready_and_multi(tree: SceneTree) -> void:
 		_check(encounter.phase == CombatEncounterLifecycle.Value.COMPLETED and encounter.terminal_result.kind == CombatEncounterResultKind.Value.FLED, "typed FLED, not Victory/Defeat")
 		_check(encounter.terminal_result.winning_side_ids().is_empty() and encounter.terminal_result.losing_side_ids().is_empty() and encounter.terminal_result.subject_participant_ids() == [player.character_id], "no fake winner or selected enemy victim")
 		_check(coordinator.last_completion().succeeded() and not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "same Session successful world thaw")
-		_check(session.outdoor_map().player_body.global_transform == position and session.outdoor_map().opportunity_timer.is_stopped(), "same transform, no teleport/legacy cadence")
-		_check(session.outdoor_map().corpse_states().is_empty() and session.inventory_state().registered_item_ids().size() == 12, "multi Flee produces no corpse/loot/item")
+		_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_transform == position, "same transform, no teleport")
+		_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().is_empty() and session.inventory_state().registered_item_ids().size() == 12, "multi Flee produces no corpse/loot/item")
 		var index: int = 0
 		for participant: CombatParticipant in encounter.participants():
 			_check(participant.binding.relationship.opponent_ids().is_empty() and participant.binding.relationship.lethal_target_ids().is_empty() and not participant.binding.relationship.guarding, "all included opponent/lethal/guard relations reconciled")
@@ -71,7 +71,7 @@ func _ready_and_multi(tree: SceneTree) -> void:
 		_check(OldPineSaveEligibility.inspect(session).allowed(), "normal post-Flee Save authority allows safe state")
 		var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 		ui.refresh_projection()
-		_check(not ui.visible and session.outdoor_map().hud._presentation_layout.recent.text.begins_with("Escaped"), "only successful completion closes Battle and shows Escaped")
+		_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()._presentation_layout.recent.text.begins_with("Escaped"), "only successful completion closes Battle and shows Escaped")
 		var history: int = encounter.events().size()
 		coordinator.advance_scheduler(10000)
 		scheduler.advance(10000, true, encounter.encounter_id, [], rng, SkillImprovementEffectRegistry.new())
@@ -86,7 +86,7 @@ func _waiting_replace_cancel(tree: SceneTree) -> void:
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	var rng: Setup.CountingRandom = session.combat_random_source()
 	session.player_runtime().busy.start_busy(2)
-	for npc: NpcRuntimeState in session.outdoor_map().npc_runtimes().slice(0, 2):
+	for npc: NpcRuntimeState in session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().slice(0, 2):
 		npc.busy.start_busy(4) # Deterministic no-attack setup, not live/player stats.
 	_check(coordinator.submit_player_action(_request(session, &"old")).accepted(), "busy accepts one slot")
 	_check(coordinator.submit_player_action(_request(session, &"replacement")).accepted(), "busy permits valid replacement")
@@ -108,7 +108,7 @@ func _waiting_replace_cancel(tree: SceneTree) -> void:
 	var ordinary_count: int = scheduler.events().size()
 	coordinator.advance_scheduler(10000)
 	_check(coordinator.last_completion().succeeded() and encounter.terminal_result.kind == CombatEncounterResultKind.Value.FLED and scheduler.events().size() == ordinary_count and rng.calls == 0, "next boundary executes once without catch-up")
-	_check(session.outdoor_map().npc_runtimes()[0].busy.busy_value == 2 and not OldPineSaveEligibility.inspect(session).allowed(), "Flee never clears other busy to force Save permission")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].busy.busy_value == 2 and not OldPineSaveEligibility.inspect(session).allowed(), "Flee never clears other busy to force Save permission")
 	session.free()
 	await _settle(tree, 2)
 
@@ -117,7 +117,7 @@ func _validation(tree: SceneTree) -> void:
 	var encounter: CombatEncounter = _start(session)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var valid: CombatTacticalRequest = _request(session)
-	var npc: NpcRuntimeState = session.outdoor_map().npc_runtimes()[0]
+	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	for request: CombatTacticalRequest in [
 		CombatTacticalRequest.new(&"foreign", &"wrong", valid.actor_id, FLEE, valid.category),
 		CombatTacticalRequest.new(&"npc", valid.encounter_id, npc.character_id, FLEE, valid.category),
@@ -178,7 +178,7 @@ func _armed_spar(tree: SceneTree) -> void:
 	for armed_index: int in [0, 1, 2]:
 		var session: OldPineWorldSessionController = _new(tree)
 		var player: WorldPlayerRuntimeState = session.player_runtime()
-		var actors: Array[CharacterState] = [player.state, session.outdoor_map().npc_runtimes()[0].character_state, session.outdoor_map().npc_runtimes()[1].character_state]
+		var actors: Array[CharacterState] = [player.state, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_state, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_state]
 		# Capture current production weapon; establish truthful friendly facts without auto-unwield.
 		var trigger: CombatTrigger = Multi.trigger(session, CombatEncounterMode.Value.LETHAL, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK)
 		trigger = CombatTrigger.new(&"armed-spar", CombatTriggerCause.Value.PLAYER_SPAR, CombatEncounterMode.Value.SPAR, player.character_id, trigger.candidates(), player.world_location())
@@ -213,7 +213,7 @@ func _flee_input(tree: SceneTree) -> void:
 	await _settle(tree, 25)
 	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 	session.set_process(false)
-	session.outdoor_map().set_process(false)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	session.configure_combat_random_source(Setup.CountingRandom.new())
 	var encounter: CombatEncounter = _start(session)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -223,7 +223,7 @@ func _flee_input(tree: SceneTree) -> void:
 	_check(button != null and button.text == "Flee / Disengage" and button.size.x >= 64 and button.size.y >= 64, "registry/catalog Flee with native touch target")
 	await _tap(tree, button)
 	_check(encounter.queued_player_action() != null and coordinator.last_completion() == null, "Viewport touch queues, never completes synchronously")
-	_check(session.outdoor_map().selected_interaction_target() == null, "touch does not leak world selection")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "touch does not leak world selection")
 	if encounter.queued_player_action() == null:
 		shell.free()
 		tree.root.size = original_size

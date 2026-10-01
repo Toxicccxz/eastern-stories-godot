@@ -23,7 +23,7 @@ func capture(
 		or not session.is_inside_tree()
 		or not session.is_initialized()
 		or session.player_runtime() == null
-		or session.outdoor_map() == null
+		or session.world_maps().is_empty()
 		or session.active_map() == null
 		or session.item_id_allocator() == null
 		or saved_at_utc.is_empty()
@@ -36,7 +36,6 @@ func capture(
 			Result.Outcome.UNREPRESENTED_CHARACTER_STATE,
 			"player.body_facts", "missing body authority",
 		)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
 	var player_character: Values.CharacterStateSnapshot = _character_snapshot(
 		player.state,
 		"player.character",
@@ -53,7 +52,7 @@ func capture(
 	var armor_sources: Array[NativeCharacterArmorSource] = [
 		NativeCharacterArmorSource.new(player.character_id, player.armor),
 	]
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+	for npc: NpcRuntimeState in session.world_npcs():
 		equipment_sources.append(
 			NativeCharacterEquipmentSource.new(
 				npc.character_id,
@@ -97,7 +96,7 @@ func capture(
 			Result.Outcome.BODY_BINDING_MISSING,
 			"player.map_position",
 		)
-	if not OldPineMapPlacementValidator.is_valid_character_position(session.active_map(), player.world_location().zone_id, player_body.global_position):
+	if not MapPlacementValidator.is_valid_character_position(session.active_map(), player.world_location().zone_id, player_body.global_position):
 		return Result.failure(Result.Outcome.INVALID_CAPTURED_SNAPSHOT, "player.map_position", "position outside saved zone or inside obstacle")
 	var player_snapshot: Values.PlayerRuntimeSnapshot = (
 		Values.PlayerRuntimeSnapshot.new(
@@ -114,14 +113,15 @@ func capture(
 	)
 
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+	for npc: NpcRuntimeState in session.world_npcs():
 		var character: Values.CharacterStateSnapshot = _character_snapshot(
 			npc.character_state,
 			"npc_spawn_states[%s].character" % String(npc.character_id),
 		)
 		if character == null:
 			return _character_failure()
-		var body: WorldCharacterBody2D = outdoor.runtime_body_for_character(
+		var npc_map: WorldMapController = session.world_map_of(npc.world_location().map_id)
+		var body: WorldCharacterBody2D = null if npc_map == null else npc_map.runtime_body_for_character(
 			npc.character_id
 		)
 		if body == null or body.character_id != npc.character_id:
@@ -153,11 +153,18 @@ func capture(
 		)
 
 	var corpse_snapshots: Array[Values.CorpseSnapshot] = []
-	for corpse: CorpseState in outdoor.corpse_states():
-		var view: CombatSliceCorpseView = outdoor.corpse_view_for(
+	var corpse_maps: Array[WorldMapController] = []
+	var corpses: Array[CorpseState] = []
+	for map: WorldMapController in session.world_maps():
+		for corpse: CorpseState in map.corpse_states():
+			corpse_maps.append(map)
+			corpses.append(corpse)
+	for index: int in corpses.size():
+		var corpse: CorpseState = corpses[index]
+		var view: CombatSliceCorpseView = corpse_maps[index].corpse_view_for(
 			corpse.corpse_item_instance_id
 		)
-		var location: WorldLocationState = outdoor.corpse_world_location(
+		var location: WorldLocationState = corpse_maps[index].corpse_world_location(
 			corpse.corpse_item_instance_id
 		)
 		if view == null or location == null:

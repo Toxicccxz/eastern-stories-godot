@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SessionScene := preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
 )
@@ -28,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _test_authored_route_definitions() -> void:
 	_assert_true(GameContent.load_errors().is_empty(), "Old Pine route data validates")
-	_assert_true(OldPineLandmarkDefinitions.validate(), "route landmarks validate")
+	_assert_true(GameContent.load_errors().is_empty(), "route landmarks validate")
 	_assert_eq(
 		GameContent.catalog().zone(
 			OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID
@@ -94,7 +96,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	tree: SceneTree,
 ) -> void:
 	var session: OldPineWorldSessionController = await _session(tree, 93_331)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var random: ScriptedWorldInteractionRandomSource = (
 		ScriptedWorldInteractionRandomSource.new([4])
@@ -129,10 +131,10 @@ func _test_complete_physical_route_and_authority_preservation(
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, "physical East Bridge updates location")
 	_select_area(outdoor.get_node("Interactions/VineInteraction") as WorldLandmarkArea2D, outdoor)
-	_assert_true(outdoor.hud.portal_action_is_enabled(), "actual Vine click enables the HUD action")
+	_assert_true(outdoor.session.shared_ui().portal_action_is_enabled(), "actual Vine click enables the HUD action")
 	_press_portal_action(outdoor)
-	var vine: OldPineVineTraversalResult = outdoor.last_vine_traversal()
-	_assert_eq(vine.outcome, OldPineVineTraversalResult.Outcome.COMPLETED_WATERFALL, "default authored route enters Waterfall")
+	var vine: VineTraversalResult = outdoor.last_landmark_use()
+	_assert_eq(vine.outcome, VineTraversalResult.Outcome.COMPLETED_WATERFALL, "default authored route enters Waterfall")
 	_assert_eq(random.call_count(), 1, "Vine consumes the route's only WorldInteraction RNG draw")
 	await tree.process_frame
 	await tree.physics_frame
@@ -153,20 +155,20 @@ func _test_complete_physical_route_and_authority_preservation(
 	_assert_true(outdoor.player_body.global_position.x >= 1387.0, "water collision stays aligned inside the visible stream edge")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1420, 1940), tree), "continuous bank walk reaches riverbank1 cliff without an invisible blocker")
 	await _settle(tree)
-	_select_area(outdoor.riverbank_cliff_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID, "climb reaches Cliff Ledge location")
 	_assert_eq(outdoor.player_body.global_position, outdoor.resolve_spawn_marker(OldPineWorldDefinitions.CLIFF1_LANDING_SPAWN_POINT_ID).global_position, "climb reaches exact cliff1 landing")
 	_assert_true(await _walk(outdoor.player_body, Vector2(680, 1650), tree), "player physically crosses cliff1 to the up route")
 	await _settle(tree)
-	_select_area(outdoor.cliff1_up_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/Cliff1UpInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_eq(outdoor.player_body.global_position, outdoor.resolve_spawn_marker(OldPineWorldDefinitions.CLIFFSIDE_LANDING_SPAWN_POINT_ID).global_position, "cliffside exact landing")
 	var vitality_before_pine: int = player.state.vitality.current
 	var relationships_before_pine: Array[StringName] = player.relationship.opponent_ids()
 	_assert_true(await _walk(outdoor.player_body, Vector2(435, 1180), tree), "player physically walks north into one-way cliffside edge")
 	await _settle(tree)
-	var pine_result: WorldPortalTraversalResult = outdoor.last_cliffside_pine_traversal()
+	var pine_result: WorldPortalTraversalResult = outdoor.last_passage_traversal()
 	_assert_true(pine_result != null and pine_result.completed(), "north edge performs one source-faithful cliffside to pine1 traversal")
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "north edge reaches Pine Entrance")
 	_assert_eq(outdoor.player_body.global_position, outdoor.resolve_spawn_marker(OldPineWorldDefinitions.PINE1_CLIFFSIDE_LANDING_SPAWN_POINT_ID).global_position, "north edge uses exact safe Pine landing")
@@ -175,17 +177,17 @@ func _test_complete_physical_route_and_authority_preservation(
 	_assert_eq(player.relationship.opponent_ids(), relationships_before_pine, "Pine landing creates no combat relationship")
 	for npc_index: int in [3, 4]:
 		var npc_body: WorldCharacterBody2D = (
-			outdoor.tall_bandit_body if npc_index == 3 else outdoor.fat_bandit_body
+			OldPineTestMap.body(outdoor, "TallBandit") if npc_index == 3 else OldPineTestMap.body(outdoor, "FatBandit")
 		)
 		_assert_true(outdoor.player_body.global_position.distance_to(npc_body.global_position) > 150.0, "Pine landing avoids authored bandit body/presence")
 		_assert_false((npc_body.get_node("AggressionPresence") as Area2D).overlaps_body(outdoor.player_body), "Pine landing is outside authored aggression Presence")
 	_assert_true(outdoor.player_body.global_position.distance_to(Vector2(-40, 300)) > 200.0, "Pine landing avoids Phase 9B1 direct shortcut threshold")
-	var forward_result: WorldPortalTraversalResult = outdoor.last_cliffside_pine_traversal()
+	var forward_result: WorldPortalTraversalResult = outdoor.last_passage_traversal()
 	_assert_true(await _walk(outdoor.player_body, Vector2(-80, 520), tree), "Pine-side CharacterBody moves back toward the B3 landing seam")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Pine-side reverse movement does not return to Cliffside")
-	_assert_true(outdoor.last_cliffside_pine_traversal() == forward_result, "Pine-side movement triggers no second one-way traversal")
-	_assert_false(outdoor.cliffside_pine_exit.overlaps_body(outdoor.player_body), "one-way Cliffside Area has no reverse Pine-side overlap")
+	_assert_true(outdoor.last_passage_traversal() == forward_result, "Pine-side movement triggers no second one-way traversal")
+	_assert_false(outdoor.get_node("Interactions/CliffsidePineExit").overlaps_body(outdoor.player_body), "one-way Cliffside Area has no reverse Pine-side overlap")
 	_assert_eq(random.call_count(), 1, "River/Cliff/Pine route consumes zero additional WorldInteraction RNG")
 	_assert_eq(combat_random.calls, 0, "route consumes zero Combat RNG without cadence")
 	_assert_eq(session.combat_random_source(), authorities[10], "route neither replaces nor consumes Combat RNG authority")
@@ -210,7 +212,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	await _settle(tree)
 	var pending_initiations: Array[CombatSliceInitiationResult] = outdoor.process_pending_aggression()
 	_assert_true(player.relationship.is_fighting() or not pending_initiations.is_empty() or not outdoor.last_aggression_initiations().is_empty(), "only physical entry into existing Presence starts authored aggression")
-	outdoor.opportunity_timer.stop()
+	HistoricalCombat.set_running(outdoor, false)
 	_assert_true(await _walk(outdoor.player_body, Vector2(-550, 220), tree), "player follows the existing Pine north approach")
 	_assert_true(await _walk(outdoor.player_body, Vector2(-550, 350), tree), "player turns around the existing dead-end wall")
 	_assert_true(await _walk(outdoor.player_body, Vector2(-650, 350), tree), "complete route reaches Pine Deep without teleport")
@@ -220,7 +222,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	var old_rngs: Array[Variant] = [session.npc_random_source(), session.combat_random_source(), session.world_interaction_random_source()]
 	await _free_session(session, tree)
 	var fresh_session: OldPineWorldSessionController = await _session(tree, 93_334)
-	var fresh: OldPineOutdoorController = fresh_session.outdoor_map()
+	var fresh: WorldMapController = fresh_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_true(old_outdoor.get_ref() == null, "whole Session reset frees the traversed Outdoor node")
 	_assert_eq(fresh.npc_runtimes().size(), 10, "reset creates ten fresh authored NPCs")
 	_assert_eq(fresh.corpse_states().size(), 0, "reset has no prior corpse")
@@ -233,10 +235,15 @@ func _test_complete_physical_route_and_authority_preservation(
 
 func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = await _session(tree, 93_332)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var combat_random: CountingCombatRandomSource = CountingCombatRandomSource.new()
 	_assert_true(session.configure_combat_random_source(combat_random), "combat-location fixture observes traversal RNG isolation")
+	# The stone bridge stands high above the gorge (epath2.c); only the vine or
+	# the cave lead down. Start from the vine's Waterfall landing.
+	outdoor.player_body.global_position = outdoor.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position
+	outdoor.player_body.set_world_location(outdoor.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))
+	await tree.physics_frame
 	_assert_true(await _walk(outdoor.player_body, Vector2(1200, 1000), tree), "return fixture reaches Waterfall south opening")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1420, 1080), tree), "return fixture reaches the intended east bank")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1420, 1940), tree), "return fixture physically walks into River Gorge")
@@ -248,20 +255,20 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	var opponent_original_location: WorldLocationState = opponent.world_location()
 	_assert_true(player.relationship.mark_lethal_target(opponent.character_id), "fixture establishes fighting state without cadence")
 	_assert_true(opponent.relationship.mark_lethal_target(player.character_id), "fixture establishes reciprocal fighting state")
-	_select_area(outdoor.riverbank_cliff_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.CLIFF_LEDGE_ZONE_ID, "busy/fighting climb reaches Cliff1")
 	_assert_eq(player.busy.busy_value, 7, "climb neither rejects nor advances busy")
 	_assert_true(player.relationship.has_opponent(opponent.character_id), "River-to-Cliff traversal directly edits no relationship")
 	for _advance: int in range(8):
 		player.busy.advance()
-	outdoor.process_cadence_tick()
+	HistoricalCombat.tick(outdoor)
 	_assert_false(player.relationship.has_opponent(opponent.character_id), "next availability opportunity clears separated ordinary opponent")
 	_assert_true(player.relationship.has_lethal_target(opponent.character_id), "separation cleanup retains lethal marker")
 	_assert_eq(combat_random.calls, 0, "separated cleanup draws zero Combat RNG")
 	_assert_true(await _walk(outdoor.player_body, Vector2(200, 1940), tree), "player reaches Cliff1 Down landmark")
 	await _settle(tree)
-	_select_area(outdoor.cliff1_down_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/Cliff1DownInteraction") as WorldLandmarkArea2D, outdoor)
 	_assert_true(await _walk(outdoor.player_body, Vector2(435, 1300), tree), "player leaves stale Cliff1 Down while staying in Cliff Ledge")
 	await _settle(tree)
 	var before: Vector2 = outdoor.player_body.global_position
@@ -269,7 +276,7 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	_assert_eq(outdoor.player_body.global_position, before, "stale Cliff1 Down performs no movement")
 	_assert_true(await _walk(outdoor.player_body, Vector2(200, 1940), tree), "player physically reaches climb-down landmark")
 	await _settle(tree)
-	_select_area(outdoor.cliff1_down_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/Cliff1DownInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "climb down restores River Gorge")
 	_assert_eq(outdoor.player_body.global_position, outdoor.resolve_spawn_marker(OldPineWorldDefinitions.RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID).global_position, "climb down exact riverbank1 landing")
@@ -285,20 +292,20 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	await _settle(tree)
 	_assert_true(await _walk(outdoor.player_body, Vector2(1390, 1940), tree), "stale fixture re-enters cliff interaction")
 	await _settle(tree)
-	_select_area(outdoor.riverbank_cliff_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, outdoor)
 	_assert_true(await _walk(outdoor.player_body, Vector2(1420, 1600), tree), "player physically leaves selected landmark while staying in River Gorge")
 	await _settle(tree)
 	before = outdoor.player_body.global_position
 	_assert_false(outdoor.traverse_selected_portal().completed(), "stale landmark execution rechecks physical source")
 	_assert_eq(outdoor.player_body.global_position, before, "stale execution performs no movement")
-	_assert_false(outdoor.hud.portal_action_is_enabled(), "stale execution refreshes visible action availability")
+	_assert_false(outdoor.session.shared_ui().portal_action_is_enabled(), "stale execution refreshes visible action availability")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1390, 1940), tree), "inactive fixture returns to exact cliff interaction")
 	await _settle(tree)
-	_select_area(outdoor.riverbank_cliff_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_true(await _walk(outdoor.player_body, Vector2(680, 1650), tree), "Cliff1 Up stale fixture reaches authored landmark")
 	await _settle(tree)
-	_select_area(outdoor.cliff1_up_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/Cliff1UpInteraction") as WorldLandmarkArea2D, outdoor)
 	_assert_true(await _walk(outdoor.player_body, Vector2(435, 1300), tree), "player leaves stale Cliff1 Up while staying in Cliff Ledge")
 	await _settle(tree)
 	before = outdoor.player_body.global_position
@@ -309,18 +316,18 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	_assert_true(opponent.relationship.mark_lethal_target(player.character_id), "fixture re-establishes reciprocal same-Cliff relationship")
 	_assert_true(await _walk(outdoor.player_body, Vector2(680, 1650), tree), "continuity fixture returns to Cliff1 Up")
 	await _settle(tree)
-	_select_area(outdoor.cliff1_up_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/Cliff1UpInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_true(player.world_location().shares_combat_location(opponent.world_location()), "Cliff1 Up keeps same Cliff Ledge combat location")
 	_assert_true(player.relationship.has_opponent(opponent.character_id), "Cliff1-to-Cliffside traversal performs no ordinary cleanup")
 	_assert_true(opponent.set_world_location(opponent_original_location), "fixture restores authored opponent location")
 	_assert_true(await _walk(outdoor.player_body, Vector2(200, 1940), tree), "inactive fixture reaches Cliff1 Down")
 	await _settle(tree)
-	_select_area(outdoor.cliff1_down_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/Cliff1DownInteraction") as WorldLandmarkArea2D, outdoor)
 	_press_portal_action(outdoor)
 	_assert_true(await _walk(outdoor.player_body, Vector2(1390, 1940), tree), "inactive fixture returns to Riverbank Cliff")
 	await _settle(tree)
-	_select_area(outdoor.riverbank_cliff_interaction as WorldLandmarkArea2D, outdoor)
+	_select_area(outdoor.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, outdoor)
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	before = outdoor.player_body.global_position
 	_assert_false(outdoor.traverse_selected_portal().completed(), "non-ACTIVE character cannot climb")
@@ -330,7 +337,7 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 
 func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = await _session(tree, 93_333)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_true(outdoor.find_children("ResetButton", "Button", true, false).is_empty(), "audited Outdoor hierarchy preserves Phase 10C1A Reset removal")
 	_assert_true(outdoor.get_node_or_null("Terrain/Boundaries/WaterfallSouthBoundary") == null, "only Waterfall south staging block is removed")
 	var river_water: CollisionShape2D = outdoor.get_node_or_null("Terrain/Boundaries/RiverWaterBoundary/CollisionShape2D") as CollisionShape2D
@@ -339,7 +346,7 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 		_assert_eq((river_water.shape as RectangleShape2D).size, Vector2(340, 1100), "water collision exactly matches the visible RiverStream")
 	_assert_true(outdoor.get_node_or_null("Zones/RiverGorgeZone") is Area2D, "River Gorge zone persists")
 	_assert_true(outdoor.get_node_or_null("Zones/CliffLedgeZone") is Area2D, "Cliff Ledge zone persists")
-	_assert_eq(outdoor.cliffside_pine_exit.get_signal_connection_list(&"body_entered").size(), 1, "one-way north edge signal persists once")
+	_assert_eq(outdoor.get_node("Interactions/CliffsidePineExit").get_signal_connection_list(&"body_entered").size(), 1, "one-way north edge signal persists once")
 	_assert_eq((outdoor.get_node("Characters/Player/Camera2D") as Camera2D).limit_bottom, 3015, "camera covers full River/Cliff route")
 	_assert_true(await _walk(outdoor.player_body, Vector2(-100, 300), tree), "Phase 9B1 direct Outdoor to Pine shortcut remains physical")
 	await _settle(tree)
@@ -348,6 +355,11 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	await _settle(tree)
 	_assert_eq(outdoor.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "direct shortcut returns to Outdoor")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1200, 300), tree), "player avoids authored South Slope bodies through East Bridge")
+	# The stone bridge stands high above the gorge (epath2.c); only the vine or
+	# the cave lead down. Start from the vine's Waterfall landing.
+	outdoor.player_body.global_position = outdoor.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position
+	outdoor.player_body.set_world_location(outdoor.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))
+	await tree.physics_frame
 	_assert_true(await _walk(outdoor.player_body, Vector2(1200, 1000), tree), "player returns through the Waterfall south opening")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1420, 1080), tree), "player can step onto the intended River bank without invisible collision")
 	_assert_true(await _walk(outdoor.player_body, Vector2(1420, 2140), tree), "Lake southern boundary is physically reachable along the bank")
@@ -360,16 +372,16 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	await _free_session(session, tree)
 
 
-func _select_area(area: WorldLandmarkArea2D, outdoor: OldPineOutdoorController) -> void:
+func _select_area(area: WorldLandmarkArea2D, outdoor: WorldMapController) -> void:
 	var click: InputEventMouseButton = InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
 	area._input_event(outdoor.get_viewport(), click, 0)
 
 
-func _press_portal_action(outdoor: OldPineOutdoorController) -> void:
-	_assert_true(outdoor.hud.portal_action_is_enabled(), "selected authored action is enabled at its physical source")
-	outdoor.hud.portal_button.pressed.emit()
+func _press_portal_action(outdoor: WorldMapController) -> void:
+	_assert_true(outdoor.session.shared_ui().portal_action_is_enabled(), "selected authored action is enabled at its physical source")
+	outdoor.session.shared_ui().portal_button.pressed.emit()
 
 
 func _npc_item_ids(npc: NpcRuntimeState) -> Array[StringName]:

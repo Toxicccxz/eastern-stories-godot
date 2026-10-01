@@ -1,6 +1,8 @@
 class_name NpcSpawnDefinition
 extends RefCounted
 
+const DEFAULT_PRESENCE_RADIUS: int = 120
+
 enum InitialSpawnPolicy {
 	INVALID,
 	INITIAL_ONLY,
@@ -15,6 +17,7 @@ var _quantity: int
 var _legacy_source_room_path: String
 var _legacy_quantity: int
 var _initial_spawn_policy: int
+var _presence_radius: int
 
 var spawn_id: StringName:
 	get:
@@ -40,6 +43,10 @@ var legacy_quantity: int:
 var initial_spawn_policy: int:
 	get:
 		return _initial_spawn_policy
+## Pixels around the NPC body in which the player is "in its room" for aggression.
+var presence_radius: int:
+	get:
+		return _presence_radius
 
 
 func _init(
@@ -52,6 +59,7 @@ func _init(
 	p_legacy_source_room_path: String = "",
 	p_legacy_quantity: int = 0,
 	p_initial_spawn_policy: int = InitialSpawnPolicy.INVALID,
+	p_presence_radius: int = DEFAULT_PRESENCE_RADIUS,
 ) -> void:
 	_spawn_id = p_spawn_id
 	_npc_definition_id = p_npc_definition_id
@@ -62,6 +70,7 @@ func _init(
 	_legacy_source_room_path = p_legacy_source_room_path
 	_legacy_quantity = p_legacy_quantity
 	_initial_spawn_policy = p_initial_spawn_policy
+	_presence_radius = p_presence_radius
 
 
 func spawn_point_ids() -> Array[StringName]:

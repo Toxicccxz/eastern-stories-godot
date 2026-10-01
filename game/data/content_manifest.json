@@ -1,5 +1,6 @@
 {
 	"files": [
+		"common/pacing.json",
 		"common/items.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",

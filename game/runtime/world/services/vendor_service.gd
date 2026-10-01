@@ -65,9 +65,9 @@ func request_purchase(goods_key: String) -> VendorPurchaseResult:
 		last_purchase.outcome = VendorPurchaseResult.Outcome.INTERACTION_BLOCKED
 		return last_purchase
 	var catalog: ContentCatalog = GameContent.catalog()
-	var player: WorldPlayerRuntimeState = map.player()
-	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), map.inventory(), map.stacks(), map.item_index())
-	last_purchase = VendorPurchaseService.buy(catalog.vendor(definition.vendor_id), goods_key, catalog, context, map.foods(), map.liquids(), map.item_id_allocator(), player.maximum_encumbrance)
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), map.inventory_state(), map.stack_collection(), map.item_instance_index())
+	last_purchase = VendorPurchaseService.buy(catalog.vendor(definition.vendor_id), goods_key, catalog, context, map.food_collection(), map.liquid_collection(), map.item_id_allocator(), player.maximum_encumbrance)
 	var content: ItemContentDefinition = catalog.item(last_purchase.item_definition_id)
 	var goods_name: String = goods_key if content == null else content.display_name
 	if last_purchase.delivered:

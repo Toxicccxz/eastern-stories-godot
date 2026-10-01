@@ -210,7 +210,7 @@ func physical_tests(tree: SceneTree) -> void:
 	check(map.open_door(&"snow.school.gate"),"open west")
 	await tree.physics_frame
 	check((map.get_node("Walls/SchoolDoor") as CollisionShape2D).disabled and not (map.get_node("Walls/SchoolEast") as CollisionShape2D).disabled,"only door collision disabled")
-	check(not OldPineMapPlacementValidator.is_valid_character_position(map,&"snow.school2",Vector2(400,-400)),"open doorway save rejected")
+	check(not MapPlacementValidator.is_valid_character_position(map,&"snow.school2",Vector2(400,-400)),"open doorway save rejected")
 	await walk.walk_to(tree,session,"move_right",450,0)
 	check(map.close_door(&"snow.school.gate"),"close east")
 	await tree.physics_frame

@@ -114,7 +114,7 @@ func _test_matrix(tree: SceneTree) -> void:
 		var session: OldPineWorldSessionController = shell.runtime_host().current_session()
 		_check(session != null, "New Game still owns exactly one Session")
 		if session != null:
-			await _hud(tree, session.outdoor_map().hud, capability.metrics)
+			await _hud(tree, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui(), capability.metrics)
 			_check(shell.request_pause(), "Pause still available after panel use")
 			await _settle(tree)
 			await _surface(tree, shell.pause_panel, capability.metrics)

@@ -44,7 +44,7 @@ func _test_rejected_establishment_is_transactional(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _instantiate_session(tree, 13_001, 13_002)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var gate: WorldSimulationGate = session.world_simulation_gate()
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	var invalid: CombatEncounterStartResult = coordinator.start(CombatTrigger.new())
 	_assert_eq(invalid.outcome, CombatEncounterStartResult.Outcome.INVALID_TRIGGER, "invalid trigger is rejected before world mutation")
@@ -109,7 +109,7 @@ func _test_rejected_establishment_is_transactional(tree: SceneTree) -> void:
 
 func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _instantiate_session(tree, 13_011, 13_012)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	_assert_true(player.set_world_location(npc.world_location()), "fixture aligns participant locations")
@@ -128,7 +128,6 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 	_assert_true(session.configure_combat_random_source(random), "fixture installs observing combat RNG")
 	var player_vitality_before: int = player.state.vitality.current
 	var npc_vitality_before: int = npc.character_state.vitality.current
-	outdoor.opportunity_timer.start(40.0)
 	outdoor.aggression_adapter().enter_player_presence(npc, player, true)
 	_assert_true(outdoor.aggression_adapter().pending_count() > 0, "fixture has pending aggression before freeze")
 
@@ -142,16 +141,14 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 	_assert_eq(encounter.events().size(), 1, "activation emits one establishment event")
 	_assert_true(session.world_simulation_gate().is_frozen(), "encounter freezes world simulation")
 	_assert_eq(session.world_simulation_gate().freeze_owner_id(), started.encounter_id, "freeze is owned by active encounter")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "existing cadence timer is stopped")
 	_assert_eq(outdoor.aggression_adapter().pending_count(), 0, "pending aggression is cleared rather than replayed")
 	_assert_false(outdoor.select_npc(npc.character_id), "selection interaction is blocked while frozen")
-	_assert_false(outdoor.open_player_inventory(), "inventory interaction is blocked while frozen")
-	_assert_true(outdoor.process_cadence_tick().is_empty(), "manual cadence opportunity is blocked while frozen")
+	_assert_false(OldPineTestMap.open_inventory(outdoor), "inventory interaction is blocked while frozen")
 	_assert_eq(random.calls, 0, "frozen cadence consumes zero combat RNG")
 	_assert_eq(player.state.vitality.current, player_vitality_before, "frozen cadence does not mutate player vitality")
 	_assert_eq(npc.character_state.vitality.current, npc_vitality_before, "frozen cadence does not mutate NPC vitality")
-	outdoor._on_cliffside_pine_exit_body_entered(outdoor.player_body)
-	_assert_true(outdoor.last_cliffside_pine_traversal() == null, "frozen late portal contact is discarded")
+	outdoor.traverse_same_map_passage(GameContent.catalog().portal(OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID))
+	_assert_true(outdoor.last_passage_traversal() == null, "frozen late portal contact is discarded")
 	var blocked_handoff: OldPineMapHandoffResult = session.handoff_to(
 		OldPineWorldDefinitions.CAVE_MAP_ID,
 		OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID,
@@ -204,7 +201,6 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 	_assert_eq(outdoor.player_body.global_position, physical_position_before, "encounter does not teleport physical body")
 	_assert_eq(player.relationship.opponent_ids(), player_opponents_before, "encounter topology does not mutate player relationship facts")
 	_assert_eq(npc.relationship.opponent_ids(), npc_opponents_before, "encounter topology does not invent NPC relationship facts")
-	_assert_true(outdoor.opportunity_timer.is_stopped(), "CXR8 thaw never reactivates historical cadence")
 	_assert_true(outdoor.select_npc(npc.character_id), "normal interaction path reopens after completion")
 	session.queue_free()
 	await tree.process_frame
@@ -212,7 +208,7 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 
 func _test_pause_is_independent_and_movement_requires_fresh_input(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _instantiate_session(tree, 13_021, 13_022)
-	var outdoor: OldPineOutdoorController = session.outdoor_map()
+	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	_assert_true(player.relationship.add_opponent(npc.character_id), "fixture establishes movement-test relation")

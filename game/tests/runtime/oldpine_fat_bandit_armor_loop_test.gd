@@ -1,5 +1,7 @@
 extends RefCounted
 
+const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+
 const SceneType := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 
 class CountingMaximumCombatRandomSource extends CombatRandomSource:
@@ -29,7 +31,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(controller != null, "real Old Pine scene instantiates")
 	if controller == null:
@@ -41,30 +43,26 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	var fat: NpcRuntimeState = npcs[4]
 	_assert_eq(fat.definition_id, TestContent.FAT_BANDIT_NPC_ID, "Fat is explicit fifth runtime")
 	_assert_eq(fat.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Fat runtime starts in Pine Entrance")
-	_assert_eq(controller.fat_bandit_body.global_position, (controller.get_node("SpawnPoints/Pine1FatBanditSpawn") as Marker2D).global_position, "Fat body uses stable authored marker")
-	_assert_ne(controller.fat_bandit_body.global_position, controller.tall_bandit_body.global_position, "Tall and Fat are not stacked")
+	_assert_eq(OldPineTestMap.body(controller, "FatBandit").global_position, (controller.get_node("SpawnPoints/Pine1FatBanditSpawn") as Marker2D).global_position, "Fat body uses stable authored marker")
+	_assert_ne(OldPineTestMap.body(controller, "FatBandit").global_position, OldPineTestMap.body(controller, "TallBandit").global_position, "Tall and Fat are not stacked")
 	var entrance_obstacle: CollisionShape2D = controller.get_node(
 		"Terrain/Boundaries/PineMazeObstacles/EntranceNorth"
 	) as CollisionShape2D
 	var obstacle_shape: RectangleShape2D = entrance_obstacle.shape as RectangleShape2D
 	var fat_shape: RectangleShape2D = (
-		(controller.get_node("Characters/FatBandit/CollisionShape2D") as CollisionShape2D).shape
+		(OldPineTestMap.body(controller, "FatBandit").get_node("CollisionShape2D") as CollisionShape2D).shape
 		as RectangleShape2D
 	)
 	var obstacle_delta: Vector2 = (
-		controller.fat_bandit_body.global_position - entrance_obstacle.global_position
+		OldPineTestMap.body(controller, "FatBandit").global_position - entrance_obstacle.global_position
 	)
 	_assert_true(
 		absf(obstacle_delta.x) > (obstacle_shape.size.x + fat_shape.size.x) / 2.0
 		or absf(obstacle_delta.y) > (obstacle_shape.size.y + fat_shape.size.y) / 2.0,
 		"Fat spawn body is outside EntranceNorth collision",
 	)
-	var tall_presence: Area2D = controller.get_node(
-		"Characters/TallBandit/AggressionPresence"
-	) as Area2D
-	var fat_presence: Area2D = controller.get_node(
-		"Characters/FatBandit/AggressionPresence"
-	) as Area2D
+	var tall_presence: Area2D = OldPineTestMap.body(controller, "TallBandit").get_node("AggressionPresence") as Area2D
+	var fat_presence: Area2D = OldPineTestMap.body(controller, "FatBandit").get_node("AggressionPresence") as Area2D
 	var tall_radius: float = (
 		(tall_presence.get_node("CollisionShape2D") as CollisionShape2D).shape
 		as CircleShape2D
@@ -74,8 +72,8 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		as CircleShape2D
 	).radius
 	_assert_true(
-		controller.tall_bandit_body.global_position.distance_to(
-			controller.fat_bandit_body.global_position
+		OldPineTestMap.body(controller, "TallBandit").global_position.distance_to(
+			OldPineTestMap.body(controller, "FatBandit").global_position
 		) < tall_radius + fat_radius,
 		"actual Tall and Fat Presence circles overlap",
 	)
@@ -131,13 +129,12 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		_assert_eq(starts[1].initiator_id, fat.character_id, "multi-aggressor order follows map-local Fat insertion")
 	_assert_true(npcs[3].relationship.has_lethal_target(controller.player_runtime().character_id), "Tall relationship established")
 	_assert_true(fat.relationship.has_lethal_target(controller.player_runtime().character_id), "Fat relationship established independently")
-	_assert_eq(controller.opportunity_timer.get_signal_connection_list("timeout").size(), 1, "one OpportunityTimer remains")
 	controller.queue_free()
 	await tree.process_frame
 
 
 func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
-	var controller: OldPineOutdoorController = _instantiate_scene(tree)
+	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	controller.set_process(false)
 	var fat: NpcRuntimeState = controller.npc_runtimes()[4]
@@ -146,8 +143,10 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var sword: ItemInstance = _item_by_definition(items, TestContent.SHORT_SWORD_ITEM_ID)
 	var leather: ItemInstance = _item_by_definition(items, TestContent.LEATHER_ITEM_ID)
 	var silver: ItemInstance = _item_by_definition(items, TestContent.SILVER_ITEM_ID)
+	# A teleport, not a walk: the zone follows the body before its presence reports it.
+	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID))
 	controller.player_body.global_position = (
-		controller.fat_bandit_body.global_position + Vector2(50, 50)
+		OldPineTestMap.body(controller, "FatBandit").global_position + Vector2(50, 50)
 	)
 	await tree.physics_frame
 	await tree.physics_frame
@@ -156,9 +155,9 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	if starts.size() == 1:
 		_assert_eq(starts[0].initiator_id, fat.character_id, "physical Fat presence initiates exact Fat runtime")
 	else:
-		controller._on_fat_bandit_presence_entered(controller.player_body)
+		OldPineTestMap.presence_entered(controller, 4, controller.player_body)
 		starts = controller.process_pending_aggression()
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	var live_fat_binding: CombatSliceCharacterBinding = _binding_for(
 		controller._build_participants(),
 		fat.character_id,
@@ -174,10 +173,10 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var fat_attack_random: CountingAttackFavoringRandomSource = (
 		CountingAttackFavoringRandomSource.new()
 	)
-	controller.configure_combat_random_source(fat_attack_random)
+	controller.session.configure_combat_random_source(fat_attack_random)
 	var fat_attack_calculation: CombatAttackCalculation = null
 	for _tick: int in range(8):
-		for result: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for result: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if result.actor_id == fat.character_id:
 				fat_attack_calculation = _ordinary_calculation(result)
 		if fat_attack_calculation != null:
@@ -192,10 +191,10 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var player_attack_random: CountingMaximumCombatRandomSource = (
 		CountingMaximumCombatRandomSource.new()
 	)
-	controller.configure_combat_random_source(player_attack_random)
+	controller.session.configure_combat_random_source(player_attack_random)
 	var fat_defense_calculation: CombatAttackCalculation = null
 	for _tick: int in range(8):
-		for result: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for result: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if result.actor_id != controller.player_runtime().character_id:
 				continue
 			var forward: CombatSingleAttackExecutionResult = result.forward_result
@@ -209,20 +208,20 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 		_assert_eq(fat_defense_calculation.armor, 5, "actual ordinary attack consumes Fat live armor +5")
 
 	var lifecycle_random: CountingMaximumCombatRandomSource = CountingMaximumCombatRandomSource.new()
-	controller.configure_combat_random_source(lifecycle_random)
+	controller.session.configure_combat_random_source(lifecycle_random)
 	controller.player_runtime().busy.start_busy(1)
 	fat.character_state.attributes.strength = 30
 	fat.character_state.vitality.current = -1
 	fat.character_state.vitality.effective = -1
-	controller.process_cadence_tick()
+	HistoricalCombat.tick(controller)
 	for _tick: int in range(24):
 		if fat.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			break
-		controller.process_cadence_tick()
+		HistoricalCombat.tick(controller)
 	await tree.process_frame
 	_assert_eq(fat.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "Fat dies through existing outer lifecycle")
 	_assert_false(fat.exists_in_map, "dead Fat leaves active map authority")
-	_assert_false(controller.fat_bandit_body.visible, "dead Fat body is hidden")
+	_assert_false(OldPineTestMap.body(controller, "FatBandit").visible, "dead Fat body is hidden")
 	_assert_eq(controller.corpse_states().size(), 1, "Fat death creates one normal corpse")
 	var corpse: CorpseState = controller.corpse_states()[0]
 	var corpse_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
@@ -241,7 +240,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	await tree.physics_frame
 	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "Fat corpse is selectable")
 	_assert_true(controller.open_selected_loot(), "Fat corpse opens existing Loot panel")
-	var loot_rows: Array[WorldItemRowProjection] = controller.hud.loot_rows()
+	var loot_rows: Array[WorldItemRowProjection] = controller.session.shared_ui().loot_rows()
 	_assert_eq(loot_rows.size(), 3, "Loot projects sword, leather, silver")
 	var leather_loot: WorldItemRowProjection = _loot_row(loot_rows, leather.item_instance_id)
 	_assert_eq(leather_loot.display_name, "皮衣", "Loot resolves canonical leather content")
@@ -270,7 +269,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 			ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID),
 			true,
 			true,
-			OldPineOutdoorController.WORLD_CAPACITY,
+			WorldMapController.WORLD_CAPACITY,
 		),
 	).succeeded, "fixture releases player capacity without touching leather")
 	var take_leather: CorpseLootTransferResult = controller.take_selected_loot_item(leather.item_instance_id)
@@ -286,32 +285,32 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_eq(TestContent.loadout(TestContent.SILVER_ITEM_ID).currency_definition().value_for_amount(8), 800, "merged silver value is 8 * 100")
 	_assert_false(controller.inventory_state().is_registered(existing_silver.item_instance_id), "absorbed prior silver is destroyed by closed merge")
 
-	_assert_true(controller.open_player_inventory(), "player Inventory opens after leather Take")
-	var row: PlayerInventoryRowProjection = _inventory_row(controller.hud.inventory_rows(), leather.item_instance_id)
+	_assert_true(OldPineTestMap.open_inventory(controller), "player Inventory opens after leather Take")
+	var row: PlayerInventoryRowProjection = _inventory_row(controller.session.shared_ui().inventory_rows(), leather.item_instance_id)
 	_assert_eq(row.equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.NONE, "looted leather row starts NONE")
 	_assert_true(row.can_wear and not row.can_remove, "looted leather offers Wear only")
-	_assert_true(controller.inspect_player_item(leather.item_instance_id), "leather Inspect resolves exact live row")
-	var inspection: String = controller.hud.inventory_panel.inspection_display()
+	_assert_true(OldPineTestMap.inspect_item(controller, leather.item_instance_id), "leather Inspect resolves exact live row")
+	var inspection: String = controller.session.shared_ui().inventory_panel.inspection_display()
 	for expected: String in ["皮衣", "皮衣(Leather)", "Armor slot: cloth", "Armor: +5", "Dodge: -2", "Equipped: NONE"]:
 		_assert_true(inspection.contains(expected), "Inspect contains %s" % expected)
 	var surviving: NpcRuntimeState = controller.npc_runtimes()[3]
 	_assert_true(controller.select_npc(surviving.character_id), "same live world selects Tall for post-loot combat")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "post-loot combat relationship starts through world controller")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(4)
 	var wear_busy_before: int = controller.player_runtime().busy.busy_value
 	var wear_random: CountingMaximumCombatRandomSource = CountingMaximumCombatRandomSource.new()
-	controller.configure_combat_random_source(wear_random)
-	_assert_true(controller.wear_player_item(leather.item_instance_id).succeeded, "player Wear uses runtime adapter and ArmorService")
+	controller.session.configure_combat_random_source(wear_random)
+	_assert_true(OldPineTestMap.wear(controller, leather.item_instance_id).succeeded, "player Wear uses runtime adapter and ArmorService")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(surviving.character_id), "Wear preserves active lethal relationship")
 	_assert_true(controller.player_runtime().relationship.is_fighting(), "Wear preserves fighting state")
-	_assert_true(controller.opportunity_timer.is_stopped(), "Wear does not restart stopped OpportunityTimer")
+	_assert_true(not HistoricalCombat.cadence_running(controller), "Wear does not restart stopped OpportunityTimer")
 	_assert_eq(controller.player_runtime().busy.busy_value, wear_busy_before, "Wear does not mutate existing busy")
 	_assert_eq(wear_random.calls, 0, "Inspect, projection and Wear consume zero Combat RNG")
-	row = _inventory_row(controller.hud.inventory_rows(), leather.item_instance_id)
+	row = _inventory_row(controller.session.shared_ui().inventory_rows(), leather.item_instance_id)
 	_assert_eq(row.equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.WORN, "post-Wear row derives WORN")
 	_assert_true(row.can_remove and not row.can_wear, "post-Wear row offers Remove only")
-	_assert_dynamic_row_connections(controller.hud.inventory_panel)
+	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel)
 
 	var player_binding: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), controller.player_runtime().character_id)
 	var surviving_binding: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), surviving.character_id)
@@ -325,10 +324,10 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var worn_attack_random: CountingMaximumCombatRandomSource = (
 		CountingMaximumCombatRandomSource.new()
 	)
-	controller.configure_combat_random_source(worn_attack_random)
+	controller.session.configure_combat_random_source(worn_attack_random)
 	var worn_attack_calculation: CombatAttackCalculation = null
 	for _tick: int in range(8):
-		for result: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for result: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if result.actor_id == surviving.character_id:
 				worn_attack_calculation = _ordinary_calculation(result)
 		if worn_attack_calculation != null:
@@ -336,15 +335,15 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(worn_attack_calculation != null, "actual Tall opportunity attacks worn player")
 	if worn_attack_calculation != null:
 		_assert_eq(worn_attack_calculation.armor, 5, "actual combat calculation observes current player armor +5")
-	controller.opportunity_timer.stop()
+	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(4)
 	var remove_busy_before: int = controller.player_runtime().busy.busy_value
 	var remove_random: CountingMaximumCombatRandomSource = CountingMaximumCombatRandomSource.new()
-	controller.configure_combat_random_source(remove_random)
-	_assert_true(controller.remove_player_item(leather.item_instance_id).succeeded, "player Remove uses narrow runtime adapter")
+	controller.session.configure_combat_random_source(remove_random)
+	_assert_true(OldPineTestMap.remove(controller, leather.item_instance_id).succeeded, "player Remove uses narrow runtime adapter")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(surviving.character_id), "Remove preserves active lethal relationship")
 	_assert_true(controller.player_runtime().relationship.is_fighting(), "Remove preserves fighting state")
-	_assert_true(controller.opportunity_timer.is_stopped(), "Remove does not restart stopped OpportunityTimer")
+	_assert_true(not HistoricalCombat.cadence_running(controller), "Remove does not restart stopped OpportunityTimer")
 	_assert_eq(controller.player_runtime().busy.busy_value, remove_busy_before, "Remove does not mutate existing busy")
 	_assert_eq(remove_random.calls, 0, "Remove and projection consume zero Combat RNG")
 	_assert_true(controller.inventory_state().is_direct_child(leather.item_instance_id, _player_endpoint()), "Remove leaves leather player-owned")
@@ -359,10 +358,10 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var removed_attack_random: CountingMaximumCombatRandomSource = (
 		CountingMaximumCombatRandomSource.new()
 	)
-	controller.configure_combat_random_source(removed_attack_random)
+	controller.session.configure_combat_random_source(removed_attack_random)
 	var removed_attack_calculation: CombatAttackCalculation = null
 	for _tick: int in range(8):
-		for result: CombatSliceOpportunityResult in controller.process_cadence_tick():
+		for result: CombatSliceOpportunityResult in HistoricalCombat.tick(controller):
 			if result.actor_id == surviving.character_id:
 				removed_attack_calculation = _ordinary_calculation(result)
 		if removed_attack_calculation != null:
@@ -370,14 +369,14 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(removed_attack_calculation != null, "actual next Tall opportunity attacks removed player")
 	if removed_attack_calculation != null:
 		_assert_eq(removed_attack_calculation.armor, 0, "actual next combat calculation observes removed armor immediately")
-	row = _inventory_row(controller.hud.inventory_rows(), leather.item_instance_id)
+	row = _inventory_row(controller.session.shared_ui().inventory_rows(), leather.item_instance_id)
 	_assert_eq(row.equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.NONE, "post-Remove row returns to NONE")
 	_assert_true(controller.select_npc(surviving.character_id), "same world continues with surviving NPC")
-	_assert_dynamic_row_connections(controller.hud.inventory_panel)
+	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel)
 
 	controller.queue_free()
 	await tree.process_frame
-	var fresh: OldPineOutdoorController = _instantiate_scene(tree)
+	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(fresh.find_children("ResetButton", "Button", true, false).is_empty(), "persisted scene retains Phase 10C1A Reset removal")
 	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh scene restores exactly three scouts, Tall, Fat and five serpents")
@@ -413,19 +412,18 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(fresh.player_runtime().armor.occupied_slots().is_empty(), "fresh player has no leather equipped")
 	_assert_true(_item_by_definition(_player_items(fresh), TestContent.LEATHER_ITEM_ID) == null, "fresh player owns no leather")
 	_assert_true(fresh.selected_interaction_target() == null, "fresh scene has no stale target")
-	_assert_false(fresh.hud.inventory_is_open(), "fresh scene closes Inventory panel")
-	_assert_false(fresh.hud.loot_is_open(), "fresh scene closes Loot panel")
-	_assert_eq(fresh.opportunity_timer.get_signal_connection_list("timeout").size(), 1, "fresh scene retains one OpportunityTimer signal")
-	_assert_eq(fresh.fat_bandit_body.get_signal_connection_list("selection_requested").size(), 1, "fresh Fat selection signal is unique")
-	_assert_eq((fresh.get_node("Characters/FatBandit/AggressionPresence") as Area2D).get_signal_connection_list("body_entered").size(), 1, "fresh Fat presence signal is unique")
-	_assert_eq((fresh.get_node("Characters/FatBandit/AggressionPresence") as Area2D).get_signal_connection_list("body_exited").size(), 1, "fresh Fat exit signal is unique")
-	_assert_eq(fresh.hud.inventory_panel.get_signal_connection_list("wear_requested").size(), 1, "fresh Inventory Wear signal is unique")
-	_assert_eq(fresh.hud.inventory_panel.get_signal_connection_list("remove_requested").size(), 1, "fresh Inventory Remove signal is unique")
+	_assert_false(fresh.session.shared_ui().inventory_is_open(), "fresh scene closes Inventory panel")
+	_assert_false(fresh.session.shared_ui().loot_is_open(), "fresh scene closes Loot panel")
+	_assert_eq(OldPineTestMap.body(fresh, "FatBandit").get_signal_connection_list("selection_requested").size(), 1, "fresh Fat selection signal is unique")
+	_assert_eq((OldPineTestMap.body(fresh, "FatBandit").get_node("AggressionPresence") as Area2D).get_signal_connection_list("body_entered").size(), 1, "fresh Fat presence signal is unique")
+	_assert_eq((OldPineTestMap.body(fresh, "FatBandit").get_node("AggressionPresence") as Area2D).get_signal_connection_list("body_exited").size(), 1, "fresh Fat exit signal is unique")
+	_assert_eq(fresh.session.shared_ui().inventory_panel.get_signal_connection_list("wear_requested").size(), 1, "fresh Inventory Wear signal is unique")
+	_assert_eq(fresh.session.shared_ui().inventory_panel.get_signal_connection_list("remove_requested").size(), 1, "fresh Inventory Remove signal is unique")
 	fresh.queue_free()
 	await tree.process_frame
 
 
-func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
+func _instantiate_scene(tree: SceneTree) -> WorldMapController:
 	var session: OldPineWorldSessionController = (
 		SceneType.instantiate() as OldPineWorldSessionController
 	)
@@ -437,7 +435,7 @@ func _instantiate_scene(tree: SceneTree) -> OldPineOutdoorController:
 	session.combat_seed = 9023
 	tree.root.add_child(session)
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
-	return session.outdoor_map()
+	return session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 
 
 func _binding_for(bindings: Array[CombatSliceCharacterBinding], character_id: StringName) -> CombatSliceCharacterBinding:
@@ -468,7 +466,7 @@ func _inventory_row(rows: Array[PlayerInventoryRowProjection], item_id: StringNa
 	return null
 
 
-func _add_player_silver(controller: OldPineOutdoorController, item_id: StringName, amount: int) -> ItemInstance:
+func _add_player_silver(controller: WorldMapController, item_id: StringName, amount: int) -> ItemInstance:
 	var item: ItemInstance = ItemInstance.new(item_id, TestContent.SILVER_ITEM_ID)
 	controller.inventory_state().register_item(item, 0)
 	controller.item_instance_index().register_snapshot(item)
@@ -482,7 +480,7 @@ func _add_player_silver(controller: OldPineOutdoorController, item_id: StringNam
 
 
 func _add_player_capacity_filler(
-	controller: OldPineOutdoorController,
+	controller: WorldMapController,
 	item_id: StringName,
 	remaining_capacity: int,
 ) -> ItemInstance:
@@ -529,7 +527,7 @@ func _assert_dynamic_row_connections(panel: PlayerInventoryPanel) -> void:
 				_assert_eq(button.get_signal_connection_list("pressed").size(), 1, "dynamic Inventory action binds exact item once")
 
 
-func _player_items(controller: OldPineOutdoorController) -> Array[ItemInstance]:
+func _player_items(controller: WorldMapController) -> Array[ItemInstance]:
 	var result: Array[ItemInstance] = []
 	for item_id: StringName in controller.inventory_state().direct_children(
 		_player_endpoint()
@@ -548,7 +546,7 @@ func _count_tree_nodes(root: Node) -> int:
 
 
 func _player_endpoint() -> ContainmentEndpoint:
-	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, OldPineOutdoorController.PLAYER_ID)
+	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, OldPineWorldSessionController.PLAYER_ID)
 
 
 func _assert_true(value: bool, label: String) -> void:

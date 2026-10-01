@@ -11,6 +11,7 @@ var _resident_maps: Dictionary[StringName, WorldResidentMapController] = {}
 var _active_map_id: StringName = &""
 var _initialized: bool = false
 var _transitioning: bool = false
+var _passage_request_pending: bool = false
 var _last_map_handoff: OldPineMapHandoffResult
 
 
@@ -32,10 +33,17 @@ func has_resident_map(map_id: StringName) -> bool:
 
 func _on_passage_requested(portal: PortalDefinition, source: WorldResidentMapController) -> void:
 	# Never detach a physics Area while its query is flushing.
+	_passage_request_pending = true
 	call_deferred("_execute_passage_request", portal, source)
 
 
+## A passage asked for a handoff that has not run yet.
+func passage_request_pending() -> bool:
+	return _passage_request_pending
+
+
 func _execute_passage_request(portal: PortalDefinition, source: WorldResidentMapController) -> void:
+	_passage_request_pending = false
 	if source != active_map() or portal == null or not portal.is_valid() or not source.is_passage_current(portal):
 		return
 	var location: WorldLocationState = _player.world_location()

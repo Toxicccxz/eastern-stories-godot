@@ -22,7 +22,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	session.combat_seed = 38
 	tree.root.add_child(session)
 	await tree.process_frame
-	var map: OldPineOutdoorController = session.outdoor_map()
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_eq(map.npc_runtimes().size(), 10, "normal bootstrap has five humans and five serpents")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z")
 	_eq(capture.outcome, OldPineWorldCaptureResult.Outcome.SUCCESS, "normal capture remains valid")
@@ -74,10 +74,9 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	if not coordinator.has_active_encounter():
 		session.free()
 		return
-	_eq(map.last_aggression_decisions()[0].outcome, OldPineAggressionDecision.Outcome.READY, "authored aggression READY")
+	_eq(map.last_aggression_decisions()[0].outcome, NpcAggressionDecision.Outcome.READY, "authored aggression READY")
 	_eq(coordinator.active_encounter().participants().size(), 2, "existing pair topology")
 	_eq(session.world_simulation_gate().is_open(), false, "world frozen")
-	_eq(map.cadence_is_running(), false, "no parallel world attack timer")
 	_eq(map.unregister_npc_body(npc.character_id), false, "active participant cannot be detached")
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	_eq(scheduler != null and scheduler.is_valid(), true, "real scheduler")

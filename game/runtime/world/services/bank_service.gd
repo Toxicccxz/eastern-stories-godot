@@ -44,10 +44,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func money_context() -> MoneyInventoryContext:
-	var player: WorldPlayerRuntimeState = map.player()
+	var player: WorldPlayerRuntimeState = map.player_runtime()
 	return MoneyInventoryContext.new(
 		ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor),
-		map.inventory(), map.stacks(), map.item_index(),
+		map.inventory_state(), map.stack_collection(), map.item_instance_index(),
 	)
 
 
@@ -67,6 +67,6 @@ func request_conversion(from: CurrencyDenomination.Value, to: CurrencyDenominati
 		panel.feedback.text = tr("请输入范围内的正整数，不支持小数或自动取整。")
 		return last_result
 	last_result.outcome = SnowBankInteractionResult.Outcome.CONVERSION
-	last_result.conversion = BankConversionService.convert(money_context(), map.item_id_allocator(), map.player().maximum_encumbrance, from, to, amount)
+	last_result.conversion = BankConversionService.convert(money_context(), map.item_id_allocator(), map.player_runtime().maximum_encumbrance, from, to, amount)
 	panel.show_conversion(last_result.conversion)
 	return last_result
