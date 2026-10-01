@@ -18,13 +18,24 @@ from build import BuildError, _godot_environment, resolve_godot, validate_godot_
 from prepare_release_project import prepare_release_project, validate_release_project  # noqa: E402
 
 
+# A step that outlives its budget has hung (e.g. a GDScript error that stops a SceneTree
+# script before it can quit); fail it instead of waiting forever. CI's job limit is 30 min.
+TOOLING_TIMEOUT_SECONDS = 10 * 60
+IMPORT_TIMEOUT_SECONDS = 10 * 60
+GAMEPLAY_TESTS_TIMEOUT_SECONDS = 20 * 60
+
+
 def _run(
     command: list[str],
     cwd: Path = REPOSITORY,
     env: dict[str, str] | None = None,
+    timeout: float = TOOLING_TIMEOUT_SECONDS,
 ) -> None:
     print(f"+ {' '.join(command)}", flush=True)
-    result = subprocess.run(command, cwd=cwd, env=env, check=False)
+    try:
+        result = subprocess.run(command, cwd=cwd, env=env, check=False, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise RuntimeError(f"verification command timed out after {timeout:g} s and was stopped") from None
     if result.returncode != 0:
         raise RuntimeError(f"verification command failed with exit code {result.returncode}")
 
@@ -55,7 +66,7 @@ def main(argv: list[str] | None = None) -> int:
         validate_godot_version(godot)
         godot_env = _godot_environment(REPOSITORY / "build/verify-godot-environment")
         print("[3/5] Development Godot headless editor validation", flush=True)
-        _run([str(godot), "--headless", "--path", "game", "--editor", "--quit"], env=godot_env)
+        _run([str(godot), "--headless", "--path", "game", "--editor", "--quit"], env=godot_env, timeout=IMPORT_TIMEOUT_SECONDS)
 
         print("[4/5] Canonical complete gameplay test suite", flush=True)
         if args.skip_gameplay_tests:
@@ -64,6 +75,7 @@ def main(argv: list[str] | None = None) -> int:
             _run(
                 [str(godot), "--headless", "--path", "game", "--script", "res://tests/run_tests.gd"],
                 env=godot_env,
+                timeout=GAMEPLAY_TESTS_TIMEOUT_SECONDS,
             )
 
         print("[5/5] Actual release sanitizer and sanitized-project validation", flush=True)
@@ -74,6 +86,7 @@ def main(argv: list[str] | None = None) -> int:
         _run(
             [str(godot), "--headless", "--path", str(release_project), "--editor", "--quit"],
             env=godot_env,
+            timeout=IMPORT_TIMEOUT_SECONDS,
         )
         print("Phase 10A verification PASS", flush=True)
         return 0
