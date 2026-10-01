@@ -21,7 +21,7 @@ const SERPENT_NPC_ID: StringName = &"oldpine.npc.serpent"
 const SPATH1_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.spath1.bandits"
 const PINE1_TALL_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.pine1.tall_bandit"
 const PINE1_FAT_BANDIT_SPAWN_ID: StringName = &"oldpine.outdoor.pine1.fat_bandit"
-const LAKE_SERPENT_SPAWN_ID: StringName = &"oldpine.outdoor.lake.serpents"
+const LAKE_SERPENT_SPAWN_ID: StringName = &"oldpine.gorge.lake.serpents"
 
 const WAITER_VENDOR_ID: StringName = &"snow.vendor.waiter"
 

@@ -116,7 +116,7 @@ func _journey(tree: SceneTree, gender: StringName, display_name: String) -> void
 		shell.free()
 		return
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(session.resident_map_count() == 4 and session.active_map_id() == &"snow.inn", "first public map is Snow Inn with four residents")
+	_check(session.resident_map_count() == GameContent.catalog().maps().size() and session.active_map_id() == &"snow.inn", "first public map is Snow Inn with every map resident")
 	_check(player.facts.display_name == display_name and player.facts.title == "普通百姓" and player.facts.age == 14 and player.facts.race_id == &"human", "source identity exact")
 	_check(player.character_id == &"oldpine.player" and player.state.gender == gender, "fixed semantic ID independent of exact entered name; selected gender")
 	_check(session.encounter_display_name(player.character_id) == display_name and (session.active_map().runtime_player_body().get_node("NameLabel") as Label).text == display_name, "accepted text reaches existing presentation without rewriting")

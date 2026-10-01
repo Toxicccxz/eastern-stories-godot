@@ -557,7 +557,7 @@ func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
 		"partial-death fixture makes unknown item direct player inventory",
 	)
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	_assert_true(controller.select_npc(victim.character_id), "partial-death fixture selects a bandit")
@@ -604,7 +604,7 @@ func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
 	_assert_eq(controller._item_id_allocator.next_dynamic_sequence, 0, "fresh session allocator starts at zero")
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(victim.character_id), "unconscious fixture selects a bandit")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "unconscious fixture starts combat through normal boundary")
@@ -818,7 +818,8 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
 	_assert_eq(fresh.item_instance_index().snapshot_count(), 12, "fresh scene rebuilds only initial item index")
 	_assert_false(fresh.item_instance_index().has_snapshot(old_corpse_id), "fresh scene has no stale corpse identity")
-	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh scene restores all ten production NPCs")
+	_assert_eq(fresh.session.world_npcs().size(), 10, "fresh scene restores all ten production NPCs")
+	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh forest map restores its five production NPCs")
 	_assert_eq(fresh.npc_random_source().next_below(1000), npc_random_after_loot, "loot consumes zero NPC initialization RNG")
 	fresh.queue_free()
 	await tree.process_frame
@@ -987,7 +988,7 @@ func _kill_bandit(
 	tree: SceneTree,
 ) -> void:
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()

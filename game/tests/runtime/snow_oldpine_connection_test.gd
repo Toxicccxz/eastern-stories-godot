@@ -30,8 +30,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var combat_rng: int = session.combat_random_source().capture_random_state().state
 	var world_rng: int = session.world_interaction_random_source().capture_random_state().state
 	_check(session.active_map_id() == &"snow.inn" and player.world_location().same_location(SnowWorldDefinitions.birth_location()), "inactive Old Pine initialization leaves authoritative Inn birth")
-	_check(npc_ids.size() == 10 and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1, "ten authored production NPCs initialized exactly once")
-	_check(session.resident_map_count() == 4, "source profile includes existing Cave dependency")
+	_check(npc_ids.size() == 5 and session.world_npcs().size() == 10 and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "ten authored production NPCs initialized exactly once")
+	_check(session.resident_map_count() == 7, "source profile includes the five Old Pine maps plus Inn and Snow")
 	_check(session.inventory_state().registered_item_ids().size() == 12, "source cloth plus unchanged eleven NPC loadout items")
 	_check(session.encounter_display_name(player.character_id) == "Snow Player", "presentation projects source name")
 	_check((session.active_map().runtime_player_body().get_node("NameLabel") as Label).text == "Snow Player", "body label projects source identity")
@@ -72,13 +72,13 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	rejected.free()
 	_check(session.active_map_child_count() == 1 and session.active_map().is_inside_tree() and player.world_location().same_location(source), "all failures preserve source location and active map")
 	_continuity(session, identities, cloth)
-	# Technical profile uses identical NPC RNG path but still exactly two maps.
+	# Technical profile uses identical NPC RNG path but only the five Old Pine maps.
 	var technical: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	technical.deterministic_npc_seed = true
 	technical.deterministic_combat_seed = true
 	technical.deterministic_world_interaction_seed = true
 	tree.root.add_child(technical)
-	_check(technical.resident_map_count() == 2 and technical.resident_map(&"snow.inn") == null and technical.active_map_id() == &"oldpine.outdoor", "technical map set unchanged")
+	_check(technical.resident_map_count() == 5 and technical.resident_map(&"snow.inn") == null and technical.resident_map(&"snow.outdoor") == null and technical.active_map_id() == &"oldpine.outdoor", "technical map set is the five Old Pine maps")
 	_check(technical.player_runtime().facts.age == 20 and technical.player_runtime().state.progression.combat_experience == 600 and technical.player_runtime().state.equipment.primary_weapon_skill_type() == &"sword" and technical.inventory_state().registered_item_ids().size() == 12, "technical age/experience/sword/items unchanged")
 	_check((technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_node("Terrain/Boundaries/WorldBounds/SnowBlocker") as CollisionShape2D).disabled == false and _passages_to(technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 0, "technical north exit remains physically closed")
 	_check(technical.npc_random_source().capture_random_state().state == npc_rng, "source birth consumes zero NPC RNG; same five-NPC initialization draw sequence")
@@ -93,12 +93,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(player.world_location().zone_id == &"snow.eroad3", "physical Snow route")
 	await _walk_until_map(tree, session, &"oldpine.outdoor", "move_down")
 	_check(player.world_location().zone_id == &"oldpine.outdoor.north_approach", "first Old Pine location is North Approach")
-	_check(session.last_map_handoff_result().destination_spawn_point_id == south.destination_spawn_point_id and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position.distance_to(Vector2(450, -380)) < 25.0, "first physical spawn at north entry")
+	_check(session.last_map_handoff_result().destination_spawn_point_id == south.destination_spawn_point_id and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position.distance_to(Vector2(-352, -380)) < 25.0, "first physical spawn at north-west entry")
 	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._build_participants(), player.character_id)
 	_check(binding != null and binding.state == player.state and binding.state.equipment.primary_weapon() == null, "source exp0/unarmed binds existing combat")
 	_continuity(session, identities, cloth)
+	# npath1-3: down the path from the Snow gap, then east into the clearing's west edge.
 	await _walk_axis(tree, session, 150.0, "move_down")
+	await _walk_axis(tree, session, 100.0, "move_right")
 	_check(player.world_location().zone_id == OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID and session.active_map_id() == &"oldpine.outdoor", "clearing reached by same-map physical movement")
+	await _walk_axis(tree, session, -352.0, "move_left")
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_up")
 	_check(player.world_location().zone_id == &"snow.eroad3" and session.last_map_handoff_result().destination_spawn_point_id == north.destination_spawn_point_id, "reverse passage returns eroad3, not Square")
 	_continuity(session, identities, cloth)
@@ -183,8 +186,7 @@ func _check(value: bool, label: String) -> void:
 		_failures.append("NGE4: " + label)
 
 
-## Configured passages of `map` that lead to `destination_map_id` (same-map
-## passages such as cliffside north are not Snow exits).
+## Configured passages of `map` that lead to `destination_map_id`.
 func _passages_to(map: WorldResidentMapController, destination_map_id: StringName) -> int:
 	var count: int = 0
 	for passage: WorldPassageArea2D in map._passages:

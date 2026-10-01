@@ -12,14 +12,14 @@ static func from_new_game(
 	if session == null or session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == null:
 		return null
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var player_map: WorldMapController = session.world_map_of(player.world_location().map_id)
 	var equipment_sources: Array[NativeCharacterEquipmentSource] = [
 		NativeCharacterEquipmentSource.new(player.character_id, player.state.equipment),
 	]
 	var armor_sources: Array[NativeCharacterArmorSource] = [
 		NativeCharacterArmorSource.new(player.character_id, player.armor),
 	]
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+	for npc: NpcRuntimeState in session.world_npcs():
 		equipment_sources.append(
 			NativeCharacterEquipmentSource.new(npc.character_id, npc.character_state.equipment)
 		)
@@ -45,8 +45,8 @@ static func from_new_game(
 	)
 	var player_position: Values.MapPositionSnapshot = (
 		Values.MapPositionSnapshot.new(
-			outdoor.player_body.global_position.x,
-			outdoor.player_body.global_position.y,
+			player_map.player_body.global_position.x,
+			player_map.player_body.global_position.y,
 		)
 		if player_position_override == null
 		else player_position_override
@@ -63,8 +63,8 @@ static func from_new_game(
 		Values.PlayerBodySnapshot.new(player.body_facts.body_weight, player.maximum_encumbrance),
 	)
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
-		var body: WorldCharacterBody2D = _body_for(outdoor, npc.character_id)
+	for npc: NpcRuntimeState in session.world_npcs():
+		var body: WorldCharacterBody2D = _body_for(session.world_map_of(npc.world_location().map_id), npc.character_id)
 		var loadout_ids: Array[StringName] = []
 		for item: ItemInstance in npc.loadout_items():
 			loadout_ids.append(item.item_instance_id)

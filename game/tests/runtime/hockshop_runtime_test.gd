@@ -51,7 +51,7 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.player_runtime().world_location().zone_id == &"snow.hockshop" and not ui.in_reach(), "ordinary Area crossing, doorway not counter")
 	await walk.walk_to(tree, session, "move_right", 330, 0)
 	check(ui.in_reach() and session.active_map() == snow, "counter physical reach")
-	check(session.resident_map_count() == 4 and session.active_map_child_count() == 1 and snow.resident_npcs().is_empty(), "four residents one active no NPC")
+	check(session.resident_map_count() == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().is_empty(), "every authored map resident, one active, no Snow NPC")
 	for position: Vector2 in [Vector2(330,-1000),Vector2(170,-900),Vector2(470,-1100)]:
 		check(MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
 	for position: Vector2 in [Vector2(540,-1000),Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(580,-1000),Vector2(NAN,0)]:

@@ -92,15 +92,20 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		return
 	await tree.physics_frame
 	_assert_true(controller.player_runtime() != null, "world player runtime initializes")
-	_assert_eq(controller.npc_runtimes().size(), 10, "five humans and five serpents initialize")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 10, "map-local collection owns ten active NPCs")
+	_assert_eq(controller.npc_runtimes().size(), 5, "forest map initializes three scouts, Tall and Fat")
+	_assert_eq(controller.session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "gorge map initializes the five lake serpents")
+	_assert_eq(controller.session.world_npcs().size(), 10, "five humans and five serpents initialize across the Old Pine maps")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 5, "forest map-local collection owns its five active NPCs")
 	_assert_true(not HistoricalCombat.cadence_running(controller), "passive authored bandits do not autostart cadence")
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Old Pine hierarchy excludes obsolete Reset control")
 	_assert_true(controller.session.shared_ui() != null, "world HUD initializes")
-	_assert_true(controller.get_node_or_null("Terrain/Boundaries/WorldBounds/Top") is CollisionShape2D, "world top collision persists")
-	_assert_true(controller.get_node_or_null("Terrain/Boundaries/ForestObstacles/TreeBarrierNorthWest") is CollisionShape2D, "forest obstacle collision persists")
+	# The world edge and forest obstacles are terrain tiles now, not StaticBody2D shapes.
+	_assert_true(TerrainProbe.blocks_at(controller, Vector2(450.0, -512.0)), "world top boundary tile collides north of the slope")
+	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(450.0, -470.0)), Vector2(0.0, -60.0)), "world top boundary physically stops the player")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-100.0, -200.0)), "forest", "forest obstacle is drawn between the approach and the slope")
+	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(60.0, 400.0)), Vector2(-150.0, 0.0)), "forest obstacle physically bounds the clearing's west edge")
 	_assert_true((controller.get_node("Characters/Player/Camera2D") as Camera2D).enabled, "player Camera2D is active")
-	for zone_name: String in ["CentralClearingZone", "SouthSlopeZone", "NorthApproachZone", "EastBridgeZone"]:
+	for zone_name: String in ["CentralClearingZone", "SlopeZone", "NorthApproachZone", "EastBridgeZone"]:
 		var zone: Area2D = controller.get_node_or_null("Zones/%s" % zone_name) as Area2D
 		_assert_true(zone != null, "%s persists" % zone_name)
 		_assert_true(zone.get_node_or_null("CollisionShape2D") is CollisionShape2D, "%s has persistent collision" % zone_name)
@@ -139,7 +144,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
-	_assert_eq(participants.size(), 11, "current projection contains player plus ten live NPCs")
+	_assert_eq(participants.size(), 6, "current projection contains player plus the forest map's five live NPCs")
 	var player_binding: CombatSliceCharacterBinding = participants[0]
 	var player: WorldPlayerRuntimeState = controller.player_runtime()
 	_assert_true(player_binding.state == player.state, "player projection aliases live CharacterState")
@@ -166,11 +171,11 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	_assert_eq(unequipped_binding.content.projected_apply_damage(unequipped_npc.character_state.equipment.primary_weapon()), 0, "unwielded bandit injects no short-sword apply damage")
 	var original_player_location: StringName = player_binding.location_id
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var refreshed: Array[CombatSliceCharacterBinding] = controller._build_participants()
 	_assert_eq(player_binding.location_id, original_player_location, "old projection is an ephemeral snapshot")
-	_assert_eq(refreshed[0].location_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "fresh projection reads current world location")
+	_assert_eq(refreshed[0].location_id, OldPineWorldDefinitions.SLOPE_ZONE_ID, "fresh projection reads current world location")
 	player.state.vitality.current = -1
 	_assert_eq(player.state.life_threshold(), CharacterState.LifeThreshold.UNCONSCIOUS, "resource threshold evidence is unconscious")
 	_assert_eq(player.life_status, CharacterRuntimeLifeStatus.Value.ACTIVE, "threshold evidence does not commit world status")
@@ -242,40 +247,49 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 	var state: CharacterState = controller.player_runtime().state
 	var vitality_before: Array[int] = [state.vitality.current, state.vitality.effective, state.vitality.maximum]
 	var start_position: Vector2 = controller.player_body.position
-	controller.player_body.position = Vector2(450.0, 585.0)
+	# The bandit slope (spath1) lies north of the clearing, as clearing.c's north exit says.
+	controller.player_body.position = Vector2(450.0, 15.0)
 	await tree.physics_frame
-	Input.action_press("move_down")
+	Input.action_press("move_up")
 	for _frame: int in range(12):
 		await tree.physics_frame
-	Input.action_release("move_down")
+	Input.action_release("move_up")
 	await tree.physics_frame
 	_assert_true(controller.player_body.position != start_position, "CharacterBody2D moves continuously through physical space")
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "Area2D transition updates typed logical zone")
-	_assert_eq(controller.player_runtime().world_location().combat_location_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "zone supplies stable combat location ID")
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SLOPE_ZONE_ID, "Area2D transition updates typed logical zone")
+	_assert_eq(controller.player_runtime().world_location().combat_location_id, OldPineWorldDefinitions.SLOPE_ZONE_ID, "zone supplies stable combat location ID")
 	_assert_true(controller.player_runtime().state == state, "zone transition never replaces CharacterState authority")
 	_assert_eq([state.vitality.current, state.vitality.effective, state.vitality.maximum], vitality_before, "zone transition does not mutate CharacterState resources")
 	var target: NpcRuntimeState = controller.npc_runtimes()[1]
-	_assert_true(controller.player_runtime().world_location().shares_combat_location(target.world_location()), "player and bandit share combat location in south slope")
+	_assert_true(controller.player_runtime().world_location().shares_combat_location(target.world_location()), "player and bandit share combat location in the slope")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
 	_assert_false(controller.player_runtime().world_location().shares_combat_location(target.world_location()), "logical zone change makes same-location false without distance comparison")
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, "typed logical location changes central to south")
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SLOPE_ZONE_ID, "typed logical location changes central to slope")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "typed logical location changes south to central")
-	var before_bounds: Vector2 = Vector2(100.0, 300.0)
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "typed logical location changes slope to central")
+	# West along the north-approach path (y 96..192) until the forest edge stops the walk.
+	var before_bounds: Vector2 = Vector2(100.0, 144.0)
 	controller.player_body.position = before_bounds
 	await tree.physics_frame
 	Input.action_press("move_left")
-	for _step: int in range(360):
+	var last_x: float = INF
+	for _step: int in range(1200):
 		controller.player_body._physics_process(1.0 / 60.0)
+		if is_equal_approx(controller.player_body.position.x, last_x):
+			break
+		last_x = controller.player_body.position.x
 	Input.action_release("move_left")
-	_assert_true(controller.player_body.position.x >= -2083.1, "expanded world boundary keeps player in continuous map")
+	_assert_true(controller.player_body.position.x < 0.0, "player walks west out of the clearing through the continuous map")
+	# npath's grass ends at x -480; the forest beyond it holds the body.
+	_assert_true(absf(controller.player_body.position.x - (-480.0 + 17.0)) < 2.0, "the forest edge west of npath stops the walk (x=%s)" % controller.player_body.position.x)
+	_assert_true(controller.player_body.test_move(controller.player_body.global_transform, Vector2(-32, 0)), "the forest edge keeps holding")
 	controller.queue_free()
 	await tree.process_frame
 
@@ -292,10 +306,11 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	for npc: NpcRuntimeState in controller.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "out-of-range bandit remains out of combat before explicit Attack")
 	var bandit2: NpcRuntimeState = controller.npc_runtimes()[1]
-	controller.player_body.global_position = Vector2(450.0, 700.0)
-	OldPineTestMap.body(controller, "Bandit01").global_position = Vector2(600.0, 700.0)
-	OldPineTestMap.body(controller, "Bandit02").global_position = Vector2(700.0, 700.0)
-	OldPineTestMap.body(controller, "Bandit03").global_position = Vector2(800.0, 700.0)
+	# Staged on the open slope grass (x 192..704), north of the clearing.
+	controller.player_body.global_position = Vector2(250.0, -150.0)
+	OldPineTestMap.body(controller, "Bandit01").global_position = Vector2(400.0, -150.0)
+	OldPineTestMap.body(controller, "Bandit02").global_position = Vector2(500.0, -150.0)
+	OldPineTestMap.body(controller, "Bandit03").global_position = Vector2(600.0, -150.0)
 	var camera: Camera2D = controller.get_node("Characters/Player/Camera2D") as Camera2D
 	camera.enabled = true
 	camera.make_current()
@@ -316,7 +331,7 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	for npc: NpcRuntimeState in controller.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "Inspect mutates no combat relationship")
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "explicit Attack delegates to closed lethal initiation")
@@ -342,7 +357,7 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	_assert_true(bandit2.relationship.has_lethal_target(controller.player_runtime().character_id), "zone cleanup preserves reciprocal lethal marker")
 	_assert_eq(scripted.call_count(), 0, "different-location cleanup consumes zero combat RNG")
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_false(controller.player_runtime().relationship.is_fighting(), "returning to same zone does not invent combat restart")
 	HistoricalCombat.set_running(controller, false)
@@ -355,7 +370,7 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var victim: NpcRuntimeState = controller.npc_runtimes()[1]
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
@@ -518,7 +533,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var sword: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SHORT_SWORD_ITEM_ID)
 	var silver: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SILVER_ITEM_ID)
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()
@@ -565,9 +580,9 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_true(controller.is_inside_tree(), "NPC death does not reload or end map")
 	_assert_true(controller.select_npc(bandits[2].character_id), "remaining bandit stays selectable")
 	_assert_true(HistoricalCombat.tick(controller).is_empty(), "dead bandit never respawns or re-enters future cadence")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 9, "live map quantity naturally falls to nine after death")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 4, "live forest map quantity naturally falls to four after death")
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(bandits[0].character_id)
 	var second_initiation: CombatSliceInitiationResult = controller.attack_selected()
@@ -617,7 +632,8 @@ func _test_fresh_scene_reset_boundary(tree: SceneTree) -> void:
 				first_npc_item_ids.has(reset_item.item_instance_id),
 				"fresh scene owns fresh NPC ItemInstance IDs",
 			)
-	_assert_eq(reset.npc_runtimes().size(), 10, "fresh scene reconstructs all ten bandits")
+	_assert_eq(reset.session.world_npcs().size(), 10, "fresh scene reconstructs all ten Old Pine NPCs")
+	_assert_eq(reset.npc_runtimes().size(), 5, "fresh scene reconstructs the forest map's five bandits")
 	_assert_eq(reset.corpse_states().size(), 0, "fresh scene contains no stale corpse authority")
 	_assert_false(reset.player_runtime().relationship.is_fighting(), "fresh scene contains no stale player relation")
 	for npc: NpcRuntimeState in reset.npc_runtimes():

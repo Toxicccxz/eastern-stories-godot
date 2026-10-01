@@ -35,7 +35,7 @@ func _test_maps_have_scenes() -> void:
 		_assert_true(catalog.region(map.region_id) != null, "%s region resolves" % map.map_id)
 		_assert_true(ResourceLoader.exists(map.scene_path), "%s scene exists: %s" % [map.map_id, map.scene_path])
 		_assert_false(catalog.zones_for_map(map.map_id).is_empty(), "%s has zones" % map.map_id)
-	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID], "maps with a scene")
+	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.CLIFF_MAP_ID], "maps with a scene")
 	_assert_eq(catalog.region(OldPineWorld.REGION_ID).display_name, "老松岭", "Old Pine region name")
 	_assert_eq(catalog.region(SnowWorld.REGION_ID).display_name, "雪亭镇", "Snow region name")
 
@@ -44,7 +44,9 @@ func _test_zones_and_rooms() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	_assert_eq(catalog.zones_for_map(SnowWorld.INN_MAP_ID).size(), 1, "Inn main floor")
 	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 17, "Snow outdoor zones")
-	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 12, "Old Pine outdoor zones")
+	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 8, "Old Pine forest zones")
+	_assert_eq(catalog.zones_for_map(OldPineWorld.GORGE_MAP_ID).size(), 3, "Old Pine gorge: waterfall, river, lake")
+	_assert_eq([catalog.zones_for_map(OldPineWorld.TREE_MAP_ID).size(), catalog.zones_for_map(OldPineWorld.CLIFF_MAP_ID).size()], [1, 1], "tree top and cliff niche")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.CAVE_MAP_ID).size(), 1, "minimal Passage Cave")
 	var rooms: Dictionary[StringName, bool] = {}
 	for zone: ZoneDefinition in catalog.zones():
@@ -56,7 +58,7 @@ func _test_zones_and_rooms() -> void:
 			_assert_true(catalog.room(room_id) != null, "%s resolves" % room_id)
 	_assert_eq(rooms.size(), 49, "18 Snow and 31 Old Pine rooms are playable")
 	_assert_eq(
-		catalog.zone(OldPineWorld.SOUTH_SLOPE_ZONE_ID).room_ids(),
+		catalog.zone(OldPineWorld.SLOPE_ZONE_ID).room_ids(),
 		[&"es2:d/oldpine/spath1", &"es2:d/oldpine/spath2", &"es2:d/oldpine/spath3", &"es2:d/oldpine/spath4"],
 		"south slope merges the south path rooms",
 	)
@@ -101,7 +103,12 @@ func _test_portals() -> void:
 	_assert_eq(south.source_map_id, SnowWorld.OUTDOOR_MAP_ID, "Snow south road starts in Snow")
 	_assert_eq(south.destination_map_id, OldPineWorld.OUTDOOR_MAP_ID, "and ends in Old Pine")
 	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 2, "Snow outdoor: Inn door and Old Pine road")
-	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 9, "Old Pine outdoor portals")
+	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 4, "Old Pine forest: Snow road, pine, two vine branches")
+	# One map per height level (DECISIONS 3B5): every Old Pine move that is not a walk changes map.
+	for map: MapDefinition in catalog.maps():
+		if map.region_id == OldPineWorld.REGION_ID:
+			for portal: PortalDefinition in catalog.portals_for_map(map.map_id):
+				_assert_true(portal.destination_map_id != portal.source_map_id, "%s changes map" % portal.portal_id)
 
 
 ## The zone-change guard Snow used to hard-code, now read from room exits.
@@ -185,26 +192,27 @@ func _test_services_and_doors() -> void:
 func _test_landmarks_water_and_pacing() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	_assert_eq(catalog.pacing().combat_round_seconds, 1.0, "one combat round per second, the pre-B2 implicit cadence")
-	var ids: Array[StringName] = []
-	for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(OldPineWorld.OUTDOOR_MAP_ID):
-		ids.append(landmark.landmark_id)
-		_assert_true(landmark.is_valid(), "%s is valid" % landmark.landmark_id)
-		for portal_id: StringName in landmark.portal_ids():
-			_assert_eq(catalog.portal(portal_id).source_zone_id, landmark.zone_id, "%s leaves from its zone" % portal_id)
-	_assert_eq(ids.size(), 6, "Old Pine outdoor has six landmarks")
+	var counts: Array[int] = []
+	for map_id: StringName in [OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.CLIFF_MAP_ID]:
+		counts.append(catalog.landmarks_for_map(map_id).size())
+		for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map_id):
+			_assert_true(landmark.is_valid(), "%s is valid" % landmark.landmark_id)
+			for portal_id: StringName in landmark.portal_ids():
+				_assert_eq(catalog.portal(portal_id).source_zone_id, landmark.zone_id, "%s leaves from its zone" % portal_id)
+	_assert_eq(counts, [2, 1, 1, 2], "pine and vine; tree descent; riverbank cliff; cliff1 up and down")
 	var vine: WorldLandmarkDefinition = catalog.landmark(&"oldpine.outdoor.landmark.epath2_vine")
 	_assert_eq([vine.policy, vine.portal_ids()], [&"vine", [&"oldpine.outdoor.vine_to_waterfall", &"oldpine.outdoor.vine_to_passage"]], "the vine rolls between waterfall and passage")
 	_assert_eq(vine.message("hold"), "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去....", "epath2.c message_vision text")
-	_assert_true(catalog.landmark(&"oldpine.outdoor.landmark.cliff1_up").requires_contact, "cliff landmarks need contact")
+	_assert_true(catalog.landmark(&"oldpine.cliff.landmark.cliff1_up").requires_contact, "cliff landmarks need contact")
 	_assert_false(catalog.landmark(&"oldpine.outdoor.landmark.ancient_pine").requires_contact, "the pine is usable anywhere in the clearing")
 	var water: Array[StringName] = []
-	for service: ServiceDefinition in catalog.services_for_map(OldPineWorld.OUTDOOR_MAP_ID):
+	for service: ServiceDefinition in catalog.services_for_map(OldPineWorld.GORGE_MAP_ID):
 		water.append(service.service_id)
 		_assert_eq(service.kind, &"water", "%s is a water source (resource/water)" % service.service_id)
 	_assert_eq(water.size(), 2, "waterfall and lake are water sources")
 	_assert_eq(catalog.zone(OldPineWorld.LAKE_ZONE_ID).combat_entry, &"complete_set", "Lake serpents enter as one set")
-	_assert_eq(catalog.zone(OldPineWorld.SOUTH_SLOPE_ZONE_ID).combat_entry, &"pair", "elsewhere fights start one pair at a time")
-	_assert_eq(catalog.spawn(&"oldpine.outdoor.lake.serpents").presence_radius, 210, "serpent presence radius")
+	_assert_eq(catalog.zone(OldPineWorld.SLOPE_ZONE_ID).combat_entry, &"pair", "elsewhere fights start one pair at a time")
+	_assert_eq(catalog.spawn(&"oldpine.gorge.lake.serpents").presence_radius, 210, "serpent presence radius")
 	_assert_eq(catalog.spawn(&"oldpine.outdoor.spath1.bandits").presence_radius, 120, "default presence radius")
 
 
@@ -294,8 +302,8 @@ func _test_location_identity() -> void:
 	var south: WorldLocationState = WorldLocationState.new(
 		OldPineWorld.REGION_ID,
 		OldPineWorld.OUTDOOR_MAP_ID,
-		OldPineWorld.SOUTH_SLOPE_ZONE_ID,
-		OldPineWorld.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorld.SLOPE_ZONE_ID,
+		OldPineWorld.SLOPE_ZONE_ID,
 	)
 	_assert_true(central.is_valid(), "world location valid")
 	_assert_false(central.same_location(same_combat_container), "full location facts remain distinct")

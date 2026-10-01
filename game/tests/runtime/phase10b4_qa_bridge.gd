@@ -101,12 +101,16 @@ func evidence() -> Dictionary[String, Variant]:
 			"recovery_sources": [] if current_shell == null or current_shell.slot_inspection() == null else current_shell.slot_inspection().recovery_sources(),
 		}
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc_positions: Dictionary[StringName, Vector2] = {}
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
-		var body: WorldCharacterBody2D = outdoor.runtime_body_for_character(npc.character_id)
-		if body != null:
-			npc_positions[npc.character_id] = body.global_position
+	var corpse_count: int = 0
+	var aggression_pending: int = 0
+	for map: WorldMapController in session.world_maps():
+		corpse_count += map.corpse_states().size()
+		aggression_pending += map.aggression_adapter().pending_count()
+		for npc: NpcRuntimeState in map.npc_runtimes():
+			var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+			if body != null:
+				npc_positions[npc.character_id] = body.global_position
 	return {
 		"shell_mode": -1 if current_shell == null else current_shell.shell_state().mode(),
 		"tree_paused": get_tree().paused,
@@ -118,13 +122,13 @@ func evidence() -> Dictionary[String, Variant]:
 		"position": session.active_map().runtime_player_body().global_position,
 		"item_scope": session.item_instance_scope(),
 		"item_count": session.inventory_state().registered_item_ids().size(),
-		"corpse_count": session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(),
+		"corpse_count": corpse_count,
 		"opponent_ids": player.relationship.opponent_ids(),
 		"lethal_target_ids": player.relationship.lethal_target_ids(),
 		"guarding": player.relationship.guarding,
 		"busy": player.busy.busy_value,
 		"interrupt_threshold": player.busy.interrupt_threshold,
-		"aggression_pending": outdoor.aggression_adapter().pending_count(),
+		"aggression_pending": aggression_pending,
 		"npc_positions": npc_positions,
 		"allocator_sequence": session.item_id_allocator().next_dynamic_sequence,
 		"combat_rng": session.combat_random_source().capture_random_state().state,

@@ -38,28 +38,27 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		return
 	controller.set_process(false)
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 10, "map-local order contains three scouts, Tall, Fat and five serpents")
+	_assert_eq(npcs.size(), 5, "forest map-local order contains three scouts, Tall and Fat")
+	_assert_eq(controller.session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "the five serpents live on the gorge map")
+	_assert_eq(controller.session.world_npcs().size(), 10, "Old Pine owns three scouts, Tall, Fat and five serpents")
 	_assert_eq(npcs[3].definition_id, TestContent.TALL_BANDIT_NPC_ID, "Tall remains fourth")
 	var fat: NpcRuntimeState = npcs[4]
 	_assert_eq(fat.definition_id, TestContent.FAT_BANDIT_NPC_ID, "Fat is explicit fifth runtime")
 	_assert_eq(fat.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Fat runtime starts in Pine Entrance")
 	_assert_eq(OldPineTestMap.body(controller, "FatBandit").global_position, (controller.get_node("SpawnPoints/Pine1FatBanditSpawn") as Marker2D).global_position, "Fat body uses stable authored marker")
 	_assert_ne(OldPineTestMap.body(controller, "FatBandit").global_position, OldPineTestMap.body(controller, "TallBandit").global_position, "Tall and Fat are not stacked")
-	var entrance_obstacle: CollisionShape2D = controller.get_node(
-		"Terrain/Boundaries/PineMazeObstacles/EntranceNorth"
-	) as CollisionShape2D
-	var obstacle_shape: RectangleShape2D = entrance_obstacle.shape as RectangleShape2D
+	# Pine Entrance obstacles are terrain tiles now (no PineMazeObstacles StaticBody2D).
 	var fat_shape: RectangleShape2D = (
 		(OldPineTestMap.body(controller, "FatBandit").get_node("CollisionShape2D") as CollisionShape2D).shape
 		as RectangleShape2D
 	)
-	var obstacle_delta: Vector2 = (
-		OldPineTestMap.body(controller, "FatBandit").global_position - entrance_obstacle.global_position
-	)
 	_assert_true(
-		absf(obstacle_delta.x) > (obstacle_shape.size.x + fat_shape.size.x) / 2.0
-		or absf(obstacle_delta.y) > (obstacle_shape.size.y + fat_shape.size.y) / 2.0,
-		"Fat spawn body is outside EntranceNorth collision",
+		_rect_clear_of_blocking_terrain(controller, OldPineTestMap.body(controller, "FatBandit").global_position, fat_shape.size),
+		"Fat spawn body is outside every Pine Entrance obstacle tile",
+	)
+	_assert_false(
+		_rect_clear_of_blocking_terrain(controller, Vector2(736, 752), fat_shape.size),
+		"the same probe detects the Pine Entrance north-east obstacle",
 	)
 	var tall_presence: Area2D = OldPineTestMap.body(controller, "TallBandit").get_node("AggressionPresence") as Area2D
 	var fat_presence: Area2D = OldPineTestMap.body(controller, "FatBandit").get_node("AggressionPresence") as Area2D
@@ -379,7 +378,8 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(fresh.find_children("ResetButton", "Button", true, false).is_empty(), "persisted scene retains Phase 10C1A Reset removal")
-	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh scene restores exactly three scouts, Tall, Fat and five serpents")
+	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh forest map restores exactly three scouts, Tall and Fat")
+	_assert_eq(fresh.session.world_npcs().size(), 10, "fresh scene restores exactly three scouts, Tall, Fat and five serpents")
 	_assert_eq(
 		[
 			fresh.npc_runtimes()[0].definition_id,
@@ -517,6 +517,22 @@ func _ordinary_calculation(
 	if ordinary == null or not ordinary.has_base_result or ordinary.base_result == null:
 		return null
 	return ordinary.base_result.calculation
+
+
+## No colliding terrain tile under any part of a body rectangle (sampled finer than one 16 px tile).
+func _rect_clear_of_blocking_terrain(map: Node2D, center: Vector2, size: Vector2) -> bool:
+	var half: Vector2 = size / 2.0 - Vector2(0.5, 0.5)
+	var columns: int = ceili(size.x / 8.0)
+	var rows: int = ceili(size.y / 8.0)
+	for column: int in range(columns + 1):
+		for row: int in range(rows + 1):
+			var offset: Vector2 = Vector2(
+				lerpf(-half.x, half.x, float(column) / float(columns)),
+				lerpf(-half.y, half.y, float(row) / float(rows)),
+			)
+			if TerrainProbe.blocks_at(map, center + offset):
+				return false
+	return true
 
 
 func _assert_dynamic_row_connections(panel: PlayerInventoryPanel) -> void:

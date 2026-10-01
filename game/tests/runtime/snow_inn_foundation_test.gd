@@ -100,8 +100,14 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	old.deterministic_combat_seed = true
 	old.deterministic_world_interaction_seed = true
 	tree.root.add_child(old)
-	_check(old.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) is WorldResidentMapController and old.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID) is WorldResidentMapController, "both Old Pine maps use neutral contract")
-	_check(old.resident_map_count() == 2 and old.active_map_child_count() == 1, "Old Pine still has two residents / one active")
+	var old_pine_map_ids: Array[StringName] = []
+	for definition: MapDefinition in GameContent.catalog().maps():
+		if definition.region_id == OldPineWorldDefinitions.REGION_ID:
+			old_pine_map_ids.append(definition.map_id)
+	_check(old_pine_map_ids.has(OldPineWorldDefinitions.OUTDOOR_MAP_ID) and old_pine_map_ids.has(OldPineWorldDefinitions.CAVE_MAP_ID), "Old Pine maps authored in the catalog")
+	for old_pine_map_id: StringName in old_pine_map_ids:
+		_check(old.world_map_of(old_pine_map_id) is WorldResidentMapController, "every Old Pine map uses neutral contract: " + String(old_pine_map_id))
+	_check(old.resident_map_count() == old_pine_map_ids.size() and old.active_map_child_count() == 1, "technical world is exactly the Old Pine maps / one active")
 	var legacy: WorldPlayerRuntimeState = old.player_runtime()
 	_check(legacy.state.progression.combat_experience == 600 and legacy.facts.age == 20 and legacy.state.equipment.primary_weapon_skill_type() == &"sword", "technical New Game unchanged")
 	_check(old.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._inventory == old.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)._inventory and old.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._player == old.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)._player, "Old Pine shares authority storage")

@@ -52,7 +52,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		if restored.succeeded():
 			var cold: WorldPlayerRuntimeState = restored.candidate.player_runtime()
 			_check(cold.facts.is_legacy_technical() and cold.state.progression.combat_experience == 600, "explicit technical identity and exp retained")
-			_check(restored.candidate.resident_map_count() == 2 and cold.state.equipment.primary_weapon_skill_type() == &"sword", "technical two maps and sword retained")
+			_check(restored.candidate.resident_map_count() == 5 and cold.state.equipment.primary_weapon_skill_type() == &"sword", "technical five Old Pine maps and sword retained")
 			restored.candidate.free()
 	# QA-only identity injection must not silently change the legacy world profile.
 	player._facts = PlayerIdentityFacts.new("初雪", "普通百姓", 14)

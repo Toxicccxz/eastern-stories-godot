@@ -55,6 +55,7 @@ func physical_tests(tree: SceneTree) -> void:
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence(), snow]
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
+	var residents: int = session.resident_map_count()
 	# Exact-delta fixture: automatic Session process is disabled, physics/input remains real.
 	session.advance_player_recovery(3.0)
 	await tree.physics_frame
@@ -84,7 +85,7 @@ func physical_tests(tree: SceneTree) -> void:
 	await walk.walk_to(tree, session, "move_left", 0, 0)
 	check(session.player_runtime() == ids[0] and session.inventory_state() == ids[1] and session.stack_collection() == ids[2] and session.item_instance_index() == ids[3] and session.item_id_allocator() == ids[4] and session.world_simulation_gate() == ids[5], "all authority identities unchanged")
 	check(Work.rng_state(session) == rng and session.item_id_allocator().next_dynamic_sequence == sequence, "entire route zero gameplay RNG/allocation")
-	check(session.resident_map_count() == 4 and session.active_map_child_count() == 1 and snow.resident_npcs().is_empty(), "same four residents, one active, no Snow NPC population")
+	check(session.resident_map_count() == residents and residents == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().is_empty(), "same residents (every authored map), one active, no Snow NPC population")
 	check(session.advance_player_recovery(1.0).pulses == 1 and session.player_recovery_cadence().source_tick == 3 and random.calls == 1, "next exact pulse continues old phase")
 	# Independent typed consumable setup, not a claim of player-visible purchasing.
 	check(Food.earn_and_exchange(session), "existing Work/Bank setup")

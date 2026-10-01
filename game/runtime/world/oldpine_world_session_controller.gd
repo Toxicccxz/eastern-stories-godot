@@ -185,37 +185,16 @@ func initialize_session() -> bool:
 		self,
 		_world_simulation_gate,
 	)
-	# The technical fixture world is Old Pine alone; the public world adds Snow.
-	var map_ids: Array[StringName] = [OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.OUTDOOR_MAP_ID]
-	if _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
-		map_ids.append_array([SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.OUTDOOR_MAP_ID])
-	for map_id: StringName in map_ids:
+	for map_id: StringName in _world_map_ids():
 		if not _register_map(map_id):
 			return false
-	var cave: WorldResidentMapController = _resident_maps[OldPineWorldDefinitions.CAVE_MAP_ID]
-	var outdoor: WorldResidentMapController = _resident_maps[OldPineWorldDefinitions.OUTDOOR_MAP_ID]
 
 	if _bootstrap_mode == BootstrapMode.RESTORE:
 		return _initialize_restore_residents()
 	if _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
 		return _initialize_source_residents()
-
-	# Ready-time binding is performed once for both resident maps. The inactive
-	# cave is then detached without being freed or simulated.
-	cave.process_mode = Node.PROCESS_MODE_DISABLED
-	active_map_slot.add_child(cave)
-	if not cave.initialize_map():
-		return false
-	cave.prepare_for_deactivation()
-	active_map_slot.remove_child(cave)
-	cave.process_mode = Node.PROCESS_MODE_INHERIT
-
-	active_map_slot.add_child(outdoor)
-	if not outdoor.initialize_map() or not outdoor.complete_activation():
-		return false
-	_active_map_id = outdoor.map_id()
-	_initialized = true
-	return _reconcile_active_residents()
+	# The technical fixture world starts in the Old Pine clearing.
+	return _bind_residents_staged() and _activate_first_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 
 
 ## Public ApplicationShell/Host selects SOURCE_ENTRY before tree attachment.
@@ -674,8 +653,17 @@ func _initialize_restore_authorities() -> bool:
 
 
 func _initialize_source_residents() -> bool:
-	var inn: WorldResidentMapController = _resident_maps[SnowWorldDefinitions.INN_MAP_ID]
-	# Four maps bind the same authority graph. Fresh source entry alone starts in Inn.
+	# Every map binds the same authority graph. Fresh source entry alone starts in Inn.
+	return (
+		_bind_residents_staged()
+		and _activate_first_map(SnowWorldDefinitions.INN_MAP_ID)
+		and _initialize_player_recovery()
+	)
+
+
+## Ready-time binding once per resident map, in initialization order. Each map is
+## then detached, inert, until it becomes active.
+func _bind_residents_staged() -> bool:
 	for map: WorldResidentMapController in _residents_in_initialization_order():
 		map.set_restore_staging(true)
 		active_map_slot.add_child(map)
@@ -684,13 +672,18 @@ func _initialize_source_residents() -> bool:
 		map.prepare_for_deactivation()
 		map.set_restore_staging(true)
 		active_map_slot.remove_child(map)
-	_active_map_id = inn.map_id()
-	inn.set_restore_staging(false)
-	active_map_slot.add_child(inn)
-	if not inn.complete_activation():
+	return true
+
+
+func _activate_first_map(map_id: StringName) -> bool:
+	var first: WorldResidentMapController = _resident_maps[map_id]
+	_active_map_id = map_id
+	first.set_restore_staging(false)
+	active_map_slot.add_child(first)
+	if not first.complete_activation():
 		return false
 	_initialized = true
-	return _reconcile_active_residents() and _initialize_player_recovery()
+	return _reconcile_active_residents()
 
 
 func _instantiate_map(map_id: StringName) -> Node:
@@ -710,10 +703,24 @@ func _register_map(map_id: StringName) -> bool:
 	return true
 
 
-## Old Pine first: its spawns draw from the NPC random source in this order.
+## The technical fixture world is Old Pine alone; the public world adds every
+## other region. Old Pine first: spawns draw from the NPC random source map by
+## map in this order, then in spawn order.
+func _world_map_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	var others: Array[StringName] = []
+	for definition: MapDefinition in GameContent.catalog().maps():
+		if definition.region_id == OldPineWorldDefinitions.REGION_ID:
+			result.append(definition.map_id)
+		elif _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
+			others.append(definition.map_id)
+	result.append_array(others)
+	return result
+
+
 func _residents_in_initialization_order() -> Array[WorldResidentMapController]:
 	var result: Array[WorldResidentMapController] = []
-	for map_id: StringName in [OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.OUTDOOR_MAP_ID, SnowWorldDefinitions.OUTDOOR_MAP_ID, SnowWorldDefinitions.INN_MAP_ID]:
+	for map_id: StringName in _world_map_ids():
 		if _resident_maps.has(map_id):
 			result.append(_resident_maps[map_id])
 	return result

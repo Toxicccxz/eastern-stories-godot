@@ -68,16 +68,22 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		locations.append(V.WorldLocationSnapshot.new(location.region_id, location.map_id, location.zone_id, location.combat_location_id))
 		positions.append(zone.position)
 	locations.append(V.WorldLocationSnapshot.new(&"oldpine", OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID))
-	positions.append(Vector2(450, -350))
+	positions.append(Vector2(-352, -350))
 	locations.append(V.WorldLocationSnapshot.new(&"oldpine", OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID))
 	positions.append(Vector2.ZERO)
+	# Every Old Pine height level restores as the active map.
+	for row: Array in [[OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, Vector2(1200, 780)],
+			[OldPineWorldDefinitions.TREE_MAP_ID, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, Vector2(2000, 260)],
+			[OldPineWorldDefinitions.CLIFF_MAP_ID, OldPineWorldDefinitions.CLIFF_HOLE_ZONE_ID, Vector2(435, 1900)]]:
+		locations.append(V.WorldLocationSnapshot.new(&"oldpine", row[0], row[1], row[1]))
+		positions.append(row[2])
 	for index: int in range(locations.size()):
 		var placed: GameSaveSnapshot = _placed(snapshot, locations[index], positions[index])
 		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(placed, tree.root)
 		_check(restored.succeeded(), "restore " + String(locations[index].zone_id) + " " + restored.path)
 		if not restored.succeeded(): continue
 		var candidate: OldPineWorldSessionController = restored.candidate
-		_check(candidate.resident_map_count() == 4 and candidate.active_map().map_id() == locations[index].map_id, "exact four maps, only saved map active")
+		_check(candidate.resident_map_count() == 7 and candidate.active_map().map_id() == locations[index].map_id, "exact seven maps, only saved map active")
 		_check(candidate.active_map().runtime_player_body().global_position == positions[index], "exact non-spawn position")
 		var fresh: WorldPlayerRuntimeState = candidate.player_runtime()
 		_check(fresh != player and fresh.state != player.state and fresh.facts != player.facts and fresh.body_facts != player.body_facts, "fresh Player/Character/identity/body authorities")
@@ -89,7 +95,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(candidate.inventory_state().registered_item_ids() == source.inventory_state().registered_item_ids() and candidate.inventory_state() != source.inventory_state(), "fresh inventory exact semantic IDs")
 		_check(candidate.item_id_allocator().next_dynamic_sequence == source.item_id_allocator().next_dynamic_sequence and candidate.item_id_allocator().scope == source.item_id_allocator().scope, "allocator exact without draw")
 		_check(candidate.combat_random_source().capture_random_state().state == snapshot.combat_rng.state and candidate.npc_random_source().capture_random_state().state == snapshot.npc_initialization_rng.state and candidate.world_interaction_random_source().capture_random_state().state == snapshot.world_interaction_rng.state, "all three RNG states exact")
-		_check(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 10, "off-map ten NPC ledger retained")
+		_check(candidate.world_npcs().size() == 10, "off-map ten NPC ledger retained")
 		_check(candidate.activate_restore_candidate(), "activate saved map")
 		var again: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(candidate, &"test", "2026-09-11T00:00:00Z")
 		_check(again.succeeded(), "restored source resave succeeds " + again.path)
@@ -127,7 +133,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if corpse_restore.succeeded():
 		var cold: OldPineWorldSessionController = corpse_restore.candidate
 		_check(cold.active_map().map_id() == SnowWorldDefinitions.INN_MAP_ID and cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 1, "Snow active, detached outdoor corpse retained")
-		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 10, "dead NPC remains tombstone, no replacement")
+		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 5 and cold.world_npcs().size() == 10, "dead NPC remains tombstone, no replacement")
 		_check(cold.inventory_state().registered_item_ids().size() == corpse_save.items.item_records.size(), "corpse nested graph exact")
 		_check(cold.activate_restore_candidate(), "corpse candidate activation")
 		var corpse_capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(cold, &"test", "2026-09-11T00:00:00Z")
@@ -199,7 +205,7 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	legacy_host.request_continue()
 	await tree.process_frame
 	_check(legacy_host.last_load_result().succeeded(), "explicit internal fixture Continue current technical v2")
-	_check(legacy_host.current_session().resident_map_count() == 2 and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "technical profile has no Snow")
+	_check(legacy_host.current_session().resident_map_count() == 5 and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "technical profile has no Snow")
 	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "technical Continue does not rewrite bytes")
 	legacy_host.request_save()
 	await tree.process_frame

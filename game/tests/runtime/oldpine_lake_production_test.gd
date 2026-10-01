@@ -11,15 +11,16 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.deterministic_world_interaction_seed = true
 	tree.root.add_child(session)
 	session.set_process(false)
-	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	map.set_process(false)
 	_check(session.is_initialized(), "Lake public composition initializes")
-	_check(session.world_content_revision() == WorldContentRevision.Value.SOURCE_ENTRY_LAKE_V1, "published Lake contract")
+	_check(session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "published Lake contract")
 	_check(session.active_map_id() == SnowWorldDefinitions.INN_MAP_ID, "source birth still Inn")
 	_check(session.player_recovery_cadence() != null, "source recovery consumer retained")
-	_check(map.npc_runtimes().size() == 10, "ten complete production slots")
+	_check(session.world_npcs().size() == 10, "ten complete production slots")
+	_check(map.npc_runtimes().size() == 5, "the five serpents live on the gorge")
 	var ids: Array[StringName] = []
-	for npc: NpcRuntimeState in map.npc_runtimes().slice(5):
+	for npc: NpcRuntimeState in map.npc_runtimes():
 		_check(not ids.has(npc.character_id), "distinct production serpent identity")
 		ids.append(npc.character_id)
 		_check(npc.definition().definition_id == TestContent.SERPENT_NPC_ID, "source Beast definition")
@@ -29,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var initial_rng: int = session.npc_random_source().capture_random_state().state
 	_roundtrip(tree, session, "birth")
 	# Typed setup for integration, not a claim of player traversal/cold restart.
-	_check(session.handoff_to(map.map_id(), OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, &"oldpine.outdoor.north_approach.snow_entry").succeeded(), "resident Outdoor activation")
+	_check(session.handoff_to(map.map_id(), OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, OldPineWorldDefinitions.RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID).succeeded(), "resident Gorge activation")
 	_check(map.initialization_count() == 1, "activation never respawns")
 	_check(session.npc_random_source().capture_random_state().state == initial_rng, "handoff consumes no NPC draws")
 	for y: float in [2199.0, 2200.0, 2201.0]:
@@ -59,20 +60,20 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if coordinator.has_active_encounter():
 		_check(coordinator.active_encounter().participants().size() == 6, "manual entry cannot isolate fifth")
 		# Representative lifecycle setup; use the existing scheduler/death authority.
-		var fifth: NpcRuntimeState = map.npc_runtimes()[9]
+		var fifth: NpcRuntimeState = map.npc_runtimes()[4]
 		fifth.character_state.vitality.current = -1
 		fifth.character_state.vitality.effective = -1
-		for npc: NpcRuntimeState in map.npc_runtimes().slice(5):
+		for npc: NpcRuntimeState in map.npc_runtimes():
 			npc.busy.start_busy(20)
 		coordinator.advance_scheduler(0)
 		_check(fifth.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "fifth death retained in production slot")
 		_check(map.corpse_states().size() == 1, "independent production corpse")
 		_flee(session)
-		for npc: NpcRuntimeState in map.npc_runtimes().slice(5):
+		for npc: NpcRuntimeState in map.npc_runtimes():
 			while npc.busy.busy_value > 0: npc.busy.advance()
 			npc.busy.advance()
-	map.npc_runtimes()[5].character_state.vitality.current = 1000
-	map.npc_runtimes()[5].character_state.vitality.effective = 1500
+	map.npc_runtimes()[0].character_state.vitality.current = 1000
+	map.npc_runtimes()[0].character_state.vitality.effective = 1500
 	_place(session, Vector2(1100,2325))
 	_roundtrip(tree, session, "wounded/dead/corpse")
 	# Supply fixture uses the existing source purchase service, no new liquid engine.
@@ -99,7 +100,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _place(session: OldPineWorldSessionController, position: Vector2) -> void:
-	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	map.player_body.global_position = position
 	map.player_body.set_world_location(map.location_for_zone(_zone_owning(map, position)))
 
