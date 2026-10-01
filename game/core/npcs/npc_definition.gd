@@ -13,9 +13,13 @@ const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_fa
 ## "aggressive" acted on in init()).
 const CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = &"aggressive_on_player_presence"
 
+## LPC set("attitude"). Friendly and heroism only change how an NPC answers
+## fight and ask (npc.c accept_fight, ask.c), which are not native yet.
 enum Attitude {
 	PEACEFUL,
 	AGGRESSIVE,
+	FRIENDLY,
+	HEROISM,
 }
 
 var _definition_id: StringName
@@ -37,6 +41,12 @@ var _skill_levels: Array[NpcSkillLevelDefinition] = []
 var _loadout_entries: Array[NpcLoadoutEntry] = []
 var _capability_ids: Array[StringName] = []
 var _authored_combat_facts: AuthoredCombatFactsType
+var _title: String
+var _skill_map: Dictionary[StringName, StringName] = {}
+var _gender_roll: NpcRandomText
+var _age_roll: NpcRandomInteger
+var _combat_experience_roll: NpcRandomInteger
+var _score_roll: NpcRandomInteger
 
 var definition_id: StringName:
 	get:
@@ -74,6 +84,10 @@ var score: int:
 var attitude: int:
 	get:
 		return _attitude
+## LPC set("title"), e.g. 门房.
+var title: String:
+	get:
+		return _title
 
 
 func _init(
@@ -131,6 +145,52 @@ func _init(
 	)
 
 
+## Facts create() authors on top of the constructor's: the title, map_skill()
+## and the values it draws (`600+random(400)`). Called once by the loader.
+func with_creation_facts(
+	p_title: String,
+	p_skill_map: Dictionary[StringName, StringName],
+	p_gender_roll: NpcRandomText,
+	p_age_roll: NpcRandomInteger,
+	p_combat_experience_roll: NpcRandomInteger,
+	p_score_roll: NpcRandomInteger,
+) -> NpcDefinition:
+	_title = p_title
+	_skill_map = p_skill_map.duplicate()
+	_gender_roll = p_gender_roll
+	_age_roll = p_age_roll
+	_combat_experience_roll = p_combat_experience_roll
+	_score_roll = p_score_roll
+	return self
+
+
+## feature/name.c short() without the "(Id)": title, a space, then the name.
+func short_name() -> String:
+	return _display_name if _title.is_empty() else "%s %s" % [_title, _display_name]
+
+
+## map_skill(use, skill) in authored order.
+func skill_map() -> Dictionary[StringName, StringName]:
+	return _skill_map.duplicate()
+
+
+func gender_roll() -> NpcRandomText:
+	return _gender_roll
+
+
+func age_roll() -> NpcRandomInteger:
+	return _age_roll
+
+
+func combat_experience_roll() -> NpcRandomInteger:
+	return _combat_experience_roll
+
+
+## Kept for the score rules; nothing reads an NPC's score yet.
+func score_roll() -> NpcRandomInteger:
+	return _score_roll
+
+
 func authored_combat_facts() -> AuthoredCombatFactsType:
 	return (
 		null if _authored_combat_facts == null
@@ -181,9 +241,12 @@ func is_valid() -> bool:
 		or _race_id.is_empty()
 		or (_has_authored_gender and _gender.is_empty())
 		or _attitude < Attitude.PEACEFUL
-		or _attitude > Attitude.AGGRESSIVE
+		or _attitude > Attitude.HEROISM
 	):
 		return false
+	for roll: Variant in [_gender_roll, _age_roll, _combat_experience_roll, _score_roll]:
+		if roll != null and not roll.is_valid():
+			return false
 	if not _unique_non_empty_ids(_aliases) or not _unique_non_empty_ids(_capability_ids):
 		return false
 	var skill_ids: Dictionary[StringName, bool] = {}
@@ -191,6 +254,9 @@ func is_valid() -> bool:
 		if skill == null or not skill.is_valid() or skill_ids.has(skill.skill_id):
 			return false
 		skill_ids[skill.skill_id] = true
+	for use_id: StringName in _skill_map:
+		if use_id.is_empty() or not skill_ids.has(_skill_map[use_id]):
+			return false
 	for entry: LoadoutEntryType in _loadout_entries:
 		if entry == null or not entry.is_valid():
 			return false

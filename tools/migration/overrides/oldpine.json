@@ -1,0 +1,96 @@
+{
+	"spawn_skip": {
+		"d/oldpine/epath3.c": { "d/oldpine/npc/maniac.c": "Old Pine remainder (ROADMAP)" },
+		"d/oldpine/pine7.c": { "d/oldpine/npc/wolf_dog.c": "Old Pine remainder (ROADMAP)" },
+		"d/oldpine/tree1.c": { "d/oldpine/npc/spy.c": "Old Pine remainder (ROADMAP)" },
+		"d/oldpine/tree2.c": { "d/oldpine/npc/butterfly.c": "Old Pine remainder (ROADMAP)" },
+		"d/oldpine/stone.c": { "d/oldpine/npc/venomsnake.c": "Old Pine remainder (ROADMAP)" }
+	},
+	"set": {
+		"oldpine.gorge.lake.serpents": { "presence_radius": 210 }
+	},
+	"review": {
+		"d/oldpine/clearing.c": {
+			"set item_desc": "look targets are not data yet; the pine is a landmark in world.json",
+			"function init": "climb pine: landmark in world.json",
+			"function do_climb": "climb pine: landmark in world.json",
+			"function valid_leave": "only tells tree1 who left; no rule"
+		},
+		"d/oldpine/epath2.c": {
+			"set item_desc": "look targets are not data yet; the vine is a landmark in world.json",
+			"function init": "hold vine: landmark in world.json (policy vine)",
+			"function do_hold_vine": "hold vine: landmark in world.json (policy vine)"
+		},
+		"d/oldpine/epath3.c": { "set item_desc": "look targets are not data yet" },
+		"d/oldpine/pine1.c": {
+			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/pine2.c": {
+			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/pine3.c": {
+			"exits": "random maze exits: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/pine4.c": {
+			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/pine5.c": {
+			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/pine6.c": {
+			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/pine7.c": {
+			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
+			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/cliffdown.c": {
+			"exits": "random maze exits: zone links in world.json (DECISIONS)",
+			"set item_desc": "look targets are not data yet",
+			"function init": "climb: landmark in world.json",
+			"function do_climb": "climb: landmark in world.json"
+		},
+		"d/oldpine/cliffside.c": { "set item_desc": "look targets are not data yet" },
+		"d/oldpine/waterfall.c": {
+			"set item_desc": "look targets are not data yet",
+			"set resource/water": "water service in world.json"
+		},
+		"d/oldpine/riverbank1.c": {
+			"set item_desc": "look targets are not data yet",
+			"set resource/water": "water service in world.json",
+			"function init": "climb: landmark in world.json",
+			"function do_climb": "climb: landmark in world.json"
+		},
+		"d/oldpine/riverbank2.c": {
+			"set item_desc": "look targets are not data yet",
+			"set resource/water": "water service in world.json"
+		},
+		"d/oldpine/lake.c": { "set resource/water": "water service in world.json" },
+		"d/oldpine/cliff1.c": {
+			"function init": "climb: landmark in world.json",
+			"function do_climb": "climb: landmark in world.json"
+		},
+		"d/oldpine/passage.c": { "set item_desc": "look targets are not data yet" },
+		"d/oldpine/path3.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_stone": "look targets are not data yet",
+			"function init": "climb: landmark in world.json",
+			"function do_climb": "climb: landmark in world.json"
+		},
+		"d/oldpine/stone.c": {
+			"function init": "climb: landmark in world.json",
+			"function do_climb": "climb: landmark in world.json"
+		},
+		"d/oldpine/npc/fat_bandit.c": {
+			"set chat_chance": "ambient talk (4D)",
+			"set chat_msg_combat": "combat talk and call_for_help: later combat package",
+			"function call_for_help": "later combat package"
+		}
+	}
+}

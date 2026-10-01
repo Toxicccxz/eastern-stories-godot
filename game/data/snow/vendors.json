@@ -4,8 +4,8 @@
 			"id": "snow.vendor.waiter",
 			"legacy_source": "d/snow/npc/waiter.c",
 			"goods": [
-				{ "key": "dumpling", "item": "es2:obj/example/dumpling" },
-				{ "key": "wineskin", "item": "es2:obj/example/wineskin" }
+				{ "key": "wineskin", "item": "es2:obj/example/wineskin" },
+				{ "key": "dumpling", "item": "es2:obj/example/dumpling" }
 			]
 		}
 	]

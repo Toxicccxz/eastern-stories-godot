@@ -93,7 +93,10 @@ func duplicate_snapshot() -> GameSaveSnapshot:
 static func _npc_before(left: ValueTypes.NpcSpawnStateSnapshot, right: ValueTypes.NpcSpawnStateSnapshot) -> bool:
 	if left == null: return right != null
 	if right == null: return false
-	return String(left.spawn_id) < String(right.spawn_id)
+	# One spawn places several NPCs; sort_custom is not stable, so the point decides ties.
+	if left.spawn_id != right.spawn_id:
+		return String(left.spawn_id) < String(right.spawn_id)
+	return String(left.spawn_point_id) < String(right.spawn_point_id)
 
 
 static func _corpse_before(left: ValueTypes.CorpseSnapshot, right: ValueTypes.CorpseSnapshot) -> bool:

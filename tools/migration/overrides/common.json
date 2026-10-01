@@ -1,0 +1,3 @@
+{
+	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c"]
+}

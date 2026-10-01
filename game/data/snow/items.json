@@ -1,0 +1,27 @@
+{
+	"items": [
+		{
+			"id": "es2:d/snow/obj/blade",
+			"legacy_sources": ["d/snow/obj/blade.c", "d/snow/npc/obj/blade.c"],
+			"name": "单刀",
+			"aliases": ["blade"],
+			"long": "这是一寻常的单刀，份量大约六、七斤重。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 4000,
+			"value": 500,
+			"weapon": { "skill": "blade", "damage": 25 }
+		},
+		{
+			"id": "es2:d/snow/obj/linen",
+			"legacy_sources": ["d/snow/obj/linen.c", "d/snow/npc/obj/linen.c"],
+			"name": "粗布衣",
+			"aliases": ["linen"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 5000,
+			"value": 40,
+			"armor": { "type": "cloth", "props": { "armor": 2 } }
+		}
+	]
+}

@@ -1,0 +1,95 @@
+{
+	"vendors": ["d/snow/npc/waiter.c"],
+	"vendor_skip": {
+		"d/snow/npc/waiter.c": {
+			"dagger": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)",
+			"chicken leg": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)"
+		}
+	},
+	"spawn_skip": {
+		"d/snow/inn.c": { "d/snow/npc/waiter.c": "the inn's vendor service until services are bound to their NPC (4E)" },
+		"d/snow/bank.c": { "d/snow/npc/annihir.c": "the bank service until services are bound to their NPC (4E)" },
+		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" }
+	},
+	"review": {
+		"d/snow/inn.c": {
+			"set item_desc": "look targets are not data yet",
+			"create_door": "door to d/wiz/entrance, which is not migrated",
+			"function look_sign": "look targets are not data yet"
+		},
+		"d/snow/mstreet3.c": { "create_door": "the hockshop door (world.json snow.hockshop.door)" },
+		"d/snow/hockshop.c": {
+			"set item_desc": "look targets are not data yet",
+			"create_door": "world.json snow.hockshop.door (open-only, DECISIONS)"
+		},
+		"d/snow/school1.c": {
+			"set item_desc": "look targets are not data yet",
+			"create_door": "world.json snow.school.gate"
+		},
+		"d/snow/school2.c": { "create_door": "world.json snow.school.gate" },
+		"d/snow/workplace.c": {
+			"set item_desc": "look targets are not data yet",
+			"function init": "work: service in world.json",
+			"function do_work": "work: service in world.json",
+			"function look_sign": "look targets are not data yet"
+		},
+		"d/snow/bank.c": { "set item_desc": "look targets are not data yet" },
+		"d/snow/schoolhall.c": {
+			"statement in create()": "bulletin board: multiplayer feature, omitted",
+			"objects": "柳淳风 (CLASS_D swordsman master): teacher service in world.json"
+		},
+		"d/snow/temple.c": {
+			"objects obj/paper_seal.c": "items on the floor: 4C",
+			"objects d/snow/obj/denotation.c": "items on the floor: 4C"
+		},
+		"d/snow/npc/traveller.c": {
+			"set chat_chance": "ambient talk and random_move (4D)",
+			"set chat_msg": "ambient talk and random_move (4D)"
+		},
+		"d/snow/npc/dog.c": {
+			"set chat_chance": "ambient talk and random_move (4D)",
+			"set chat_msg": "ambient talk and random_move (4D)",
+			"function accept_object": "give a bone, it follows: give (4E)"
+		},
+		"d/snow/npc/keeper.c": {
+			"function init": "greeting on arrival (4D)",
+			"function greeting": "greeting on arrival (4D)",
+			"function accept_object": "donations: give (4E)"
+		},
+		"d/snow/npc/drunk.c": {
+			"set chat_chance": "ambient behaviour (4D)",
+			"set chat_msg": "do_drink as ambient behaviour (4D)",
+			"statement in create()": "has_alcohol belongs to do_drink/accept_object (4D, 4E)",
+			"function do_drink": "ambient behaviour (4D)",
+			"function accept_object": "give alcohol, quest hints: give (4E)"
+		},
+		"d/snow/npc/scavenger.c": {
+			"set force": "internal power is not modelled yet (ROADMAP)",
+			"set max_force": "internal power is not modelled yet (ROADMAP)",
+			"set force_factor": "internal power is not modelled yet (ROADMAP)",
+			"set chat_chance": "ambient talk and random_move (4D)",
+			"set chat_msg": "ambient talk and random_move (4D)",
+			"function accept_object": "takes anything: give (4E)",
+			"function accept_fight": "refuses sparring; fight is not native yet"
+		},
+		"d/snow/npc/guard.c": {
+			"set chat_chance_combat": "combat talk: later combat package",
+			"set chat_msg_combat": "combat talk: later combat package",
+			"set inquiry": "ask (4D); the 血手刘三 reveal is 4E",
+			"function ask_me": "the 血手刘三 reveal (4E)"
+		},
+		"d/snow/npc/fist_trainer.c": {
+			"set force": "internal power is not modelled yet (ROADMAP)",
+			"set max_force": "internal power is not modelled yet (ROADMAP)",
+			"set force_factor": "internal power is not modelled yet (ROADMAP)",
+			"set inquiry": "ask (4D)",
+			"function recognize_apprentice": "teaches 封山剑派 members: teachers as data (4E)",
+			"function accept_fight": "spars with 封山剑派 members; fight is not native yet"
+		},
+		"d/snow/obj/blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/old_book.c": { "set skill": "study is not native yet; a plain item until then" }
+	}
+}

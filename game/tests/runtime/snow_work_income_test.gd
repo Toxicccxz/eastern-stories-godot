@@ -140,7 +140,7 @@ func physical_test(tree: SceneTree) -> void:
 	await walk_to(tree, session, "move_left", 0, 0)
 	await walk_to(tree, session, "move_down", 0, 1)
 	_check(session.player_runtime().world_location().zone_id == &"snow.square", "real workplace west/south return to Square")
-	_check(snow.resident_npcs().is_empty() and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no new NPC/resident")
+	_check(snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0) and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no new NPC/resident")
 	session.free()
 	await tree.process_frame
 

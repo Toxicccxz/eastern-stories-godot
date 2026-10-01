@@ -160,7 +160,8 @@ func liquid_tests(tree: SceneTree) -> void:
 	check(Work.rng_state(session) == rng and session.item_id_allocator().next_dynamic_sequence == sequence, "Fill/Drink/time consume no gameplay RNG/item IDs")
 	check(player.state.conditions.size() == 0 and session.liquid_collection().state(second.item_id).content == LiquidState.Content.RED_WINE and session.liquid_collection().state(second.item_id).remaining == 15, "no drunk and other wine untouched")
 	var independent: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
-	check(independent.liquid_collection().instance_ids().is_empty(), "independent Session collection")
+	# A new Session holds only its own liquids: the drunk's wineskin (4A).
+	check(independent.liquid_collection().instance_ids().size() == 1 and not independent.liquid_collection().instance_ids().has(second.item_id), "independent Session collection")
 	independent.free()
 	session.free()
 
@@ -217,6 +218,11 @@ func persistence_tests(tree: SceneTree) -> void:
 	# Legal old schemas without liquid content upgrade only their representation.
 	session = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	base = JSON.parse_string(GameSaveJsonCodec.encode(Work.capture(session)).text)
+	# Old item schemas predate liquids: leave the drunk's wineskin (4A) out of the fixture.
+	var wineskins: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id == String(TestContent.WINESKIN_ITEM_ID)).map(func(item: Dictionary) -> String: return item.item_instance_id)
+	base.items.records = base.items.records.filter(func(item: Dictionary) -> bool: return not wineskins.has(item.item_instance_id))
+	for npc: Dictionary in base.npc_spawn_states:
+		npc.live_loadout_item_ids = npc.live_loadout_item_ids.filter(func(id: String) -> bool: return not wineskins.has(id))
 	for version: int in [1,2]:
 		var data: Dictionary = base.duplicate(true)
 		data.items.schema_version = version

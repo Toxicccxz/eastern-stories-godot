@@ -65,12 +65,7 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 
 static func _register_role_state(content: ItemContentDefinition, id: StringName,
 	foods: FoodCollection, liquids: LiquidCollection) -> bool:
-	var food: FoodDefinition = content.food_definition()
-	if food != null and not foods.register_state(id, FoodState.new(food.initial_portions, food.initial_value)):
-		return false
-	if content.liquid_definition() != null and not liquids.register_state(id, content.fresh_liquid_state()):
-		return false
-	return true
+	return ItemRoleStates.register_fresh(content, id, foods, liquids)
 
 
 static func _cleanup(context: MoneyInventoryContext, foods: FoodCollection,

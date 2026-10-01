@@ -707,12 +707,17 @@ func _register_map(map_id: StringName) -> bool:
 ## other region. Old Pine first: spawns draw from the NPC random source map by
 ## map in this order, then in spawn order.
 func _world_map_ids() -> Array[StringName]:
+	return world_map_ids_for(_world_content_revision)
+
+
+## The maps, in initialization order, of a world with this content revision.
+static func world_map_ids_for(revision: WorldContentRevision.Value) -> Array[StringName]:
 	var result: Array[StringName] = []
 	var others: Array[StringName] = []
 	for definition: MapDefinition in GameContent.catalog().maps():
 		if definition.region_id == OldPineWorldDefinitions.REGION_ID:
 			result.append(definition.map_id)
-		elif _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
+		elif revision == WorldContentRevision.CURRENT_PUBLIC:
 			others.append(definition.map_id)
 	result.append_array(others)
 	return result

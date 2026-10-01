@@ -101,9 +101,13 @@ func _init(
 		if _beast_facts != null:
 			for limb: String in _beast_facts.limbs():
 				_limbs.append(StringName(limb))
-			if _beast_facts.verbs() == [&"bite"]:
-				_unarmed_action = BeastCombatActionDefinitions.bite()
-				_unarmed_action_set = CombatActionSet.new([_unarmed_action])
+			# beast.c query_action(): combat_action[verbs[random(sizeof(verbs))]].
+			var verb_actions: Array[CombatActionDefinition] = []
+			for verb: StringName in _beast_facts.verbs():
+				verb_actions.append(BeastCombatActionDefinitions.action(verb))
+			if not verb_actions.is_empty() and not verb_actions.has(null):
+				_unarmed_action = verb_actions[0]
+				_unarmed_action_set = CombatActionSet.new(verb_actions)
 
 
 ## NPC construction always resolves anatomy/intrinsics from its definition;
@@ -134,13 +138,19 @@ func readiness() -> Readiness:
 		var verbs: Array[StringName] = _beast_facts.verbs()
 		if verbs.is_empty():
 			return Readiness.EMPTY_VERBS
+		var seen: Dictionary[StringName, bool] = {}
 		for verb: StringName in verbs:
-			if verb != &"bite":
+			if BeastCombatActionDefinitions.action(verb) == null:
 				return Readiness.UNSUPPORTED_VERB
-		if verbs.size() != 1:
-			return Readiness.UNSUPPORTED_VERB_DISTRIBUTION
-		if not _same_action(_unarmed_action, BeastCombatActionDefinitions.bite()):
+			if seen.has(verb):
+				# A repeated verb weights the draw; not modelled yet.
+				return Readiness.UNSUPPORTED_VERB_DISTRIBUTION
+			seen[verb] = true
+		if _unarmed_action_set.size() != verbs.size():
 			return Readiness.INVALID_ACTION_DATA
+		for index: int in range(verbs.size()):
+			if not _same_action(_unarmed_action_set.action_at(index), BeastCombatActionDefinitions.action(verbs[index])):
+				return Readiness.INVALID_ACTION_DATA
 	var has_verified_weapon: bool = (
 		not _verified_weapon_id.is_empty()
 		and not _verified_weapon_skill_id.is_empty()
@@ -158,7 +168,7 @@ func readiness() -> Readiness:
 		and _slash_action_set.is_valid()
 		and _slash_action_set.size() == 1
 		and _unarmed_action_set.is_valid()
-		and _unarmed_action_set.size() == 1
+		and (_race_id == &"beast" or _unarmed_action_set.size() == 1)
 		and _same_action(_unarmed_action_set.action_at(0), _unarmed_action)
 	):
 		return Readiness.INVALID_ACTION_DATA
@@ -172,7 +182,10 @@ func action_readiness(
 	var status: Readiness = readiness()
 	if status != Readiness.READY:
 		return status
-	if _race_id == &"beast" and not _same_action(action, attack_template_for(weapon)):
+	if _race_id == &"beast" and not (
+		_unarmed_action_set.contains_exact(action) if weapon == null
+		else _same_action(action, attack_template_for(weapon))
+	):
 		return Readiness.INVALID_ACTION_DATA
 	return Readiness.READY
 

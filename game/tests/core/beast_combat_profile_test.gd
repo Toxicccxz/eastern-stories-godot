@@ -48,8 +48,17 @@ func _test_readiness() -> void:
 	_eq(_profile(NpcAuthoredCombatFacts.new([], [&"bite"])).readiness(), CombatSliceContentProfile.Readiness.EMPTY_LIMBS, "empty limbs")
 	_eq(_profile(NpcAuthoredCombatFacts.new([""], [&"bite"])).readiness(), CombatSliceContentProfile.Readiness.INVALID_LIMB, "invalid limb")
 	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [])).readiness(), CombatSliceContentProfile.Readiness.EMPTY_VERBS, "empty verbs")
-	for verb: StringName in [&"unknown", &"claw", &"hoof", &"poke"]:
-		_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [verb])).readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_VERB, "unmigrated verb explicit: %s" % verb)
+	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [&"unknown"])).readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_VERB, "verb outside beast.c explicit")
+	for verb: StringName in [&"claw", &"hoof", &"poke"]:
+		_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [verb])).readiness(), CombatSliceContentProfile.Readiness.READY, "beast.c verb ready: %s" % verb)
+	# d/snow/npc/dog.c: verbs ({ "bite", "claw" }); query_action draws one per attack.
+	var dog: CombatSliceContentProfile = _profile(NpcAuthoredCombatFacts.new(["头部", "身体"], [&"bite", &"claw"]))
+	_eq(dog.readiness(), CombatSliceContentProfile.Readiness.READY, "bite and claw ready together")
+	var dog_actions: Array[CombatActionDefinition] = dog.unarmed_action_set().actions()
+	_eq([dog_actions[0].action_id, dog_actions[1].action_id], [&"es2:adm/daemons/race/beast/bite", &"es2:adm/daemons/race/beast/claw"], "one action per verb, in verb order")
+	_eq([dog_actions[1].damage_percent, dog_actions[1].damage_type], [0, &"抓伤"], "claw has no damage entry in beast.c")
+	_eq(dog.action_readiness(null, BeastCombatActionDefinitions.action(&"claw")), CombatSliceContentProfile.Readiness.READY, "claw is an admitted dog action")
+	_eq(dog.action_readiness(null, BeastCombatActionDefinitions.action(&"poke")), CombatSliceContentProfile.Readiness.INVALID_ACTION_DATA, "poke is not the dog's")
 	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [&"bite", &"bite"])).readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_VERB_DISTRIBUTION, "weighted duplicates deferred")
 	_eq(CombatSliceContentProfile.new(&"", &"", 0, &"monster").readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_RACE, "unknown race no fallback")
 	var definition: NpcDefinition = NpcDefinition.new(&"test.beast", "test.c", "Test", [&"test"], &"beast")

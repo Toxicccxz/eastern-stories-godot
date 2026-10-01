@@ -68,7 +68,8 @@
 			"exits": {
 				"south": "es2:d/snow/eroad1",
 				"west": "es2:d/snow/square"
-			}
+			},
+			"no_fight": true
 		},
 		{
 			"id": "es2:d/snow/mstreet1",
@@ -129,7 +130,8 @@
 			"long": "这是一间谷物加工厂，这里是谷子脱壳成米的地方。米厂老板是一个一\n看就知道是十分精明的干瘦的中年人，老是带着一脸奸笑。你可以看到\n许多人正在忙忙碌碌的工作着，门口挂著一块牌子(sign)，往西是通往\n雪亭镇大街的大门。\n",
 			"exits": {
 				"west": "es2:d/snow/mstreet2"
-			}
+			},
+			"no_fight": true
 		},
 		{
 			"id": "es2:d/snow/bank",

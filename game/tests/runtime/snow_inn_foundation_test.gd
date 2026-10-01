@@ -31,7 +31,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(NewPlayerRuntimeComposition.create(&"", born, SnowWorldDefinitions.birth_location()) == null, "empty runtime identity rejected")
 	_check(NewPlayerRuntimeComposition.create(&"fixture", null, SnowWorldDefinitions.birth_location()) == null, "missing birth rejected")
 	_check(NewPlayerRuntimeComposition.create(&"fixture", born, WorldLocationState.new()) == null, "invalid entry location rejected")
-	_check(entry.npc_random.capture_random_state().state == GodotNpcInitializationRandomSource.new(21, true).capture_random_state().state, "Inn consumes zero NPC RNG draws")
+	# d/snow/inn.c places two travellers (4A): gender, age, combat_exp, then eight attributes each.
+	var traveller_draws: GodotNpcInitializationRandomSource = GodotNpcInitializationRandomSource.new(21, true)
+	for draw: int in range(22):
+		traveller_draws.next_below(10)
+	_check(entry.npc_random.capture_random_state().state == traveller_draws.capture_random_state().state, "Inn draws only for its two travellers")
 	_check(entry.combat_random.capture_random_state().state == GodotCombatRandomSource.new(22, true).capture_random_state().state, "Inn consumes zero combat RNG draws")
 	_check(entry.world_random.capture_random_state().state == GodotWorldInteractionRandomSource.new(23, true).capture_random_state().state, "Inn consumes zero world RNG draws")
 	_check(player.facts.age == 14 and player.facts.title == "普通百姓" and player.facts.race_id == &"human", "source Player facts")
@@ -41,7 +45,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(player.armor.item_instance_id_in_slot(&"cloth") == entry.birth.cloth.item_instance_id, "same actual cloth instance ID")
 	_check(map._item_index.resolve(entry.birth.cloth.item_instance_id).item_instance_id == entry.birth.cloth.item_instance_id, "cloth resolves through injected index")
 	_check(player.armor.aggregate_numeric_modifiers().armor == 1 and player.state.equipment.are_both_hands_empty(), "cloth worn with no weapon")
-	_check(map._inventory.registered_item_ids().size() == 1, "no extra bootstrap items")
+	_check(map._inventory.registered_item_ids().size() == 5, "cloth plus the travellers' cloth and coins")
 	_check(player.world_location().same_location(SnowWorldDefinitions.birth_location()), "Snow region/map/zone/combat location exact")
 	_check(player.world_location().region_id == &"snow", "not disguised as Old Pine")
 	var body: WorldCharacterBody2D = map.runtime_player_body()
@@ -62,8 +66,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(map.initialization_count() == 1 and map.initialize_map() and map.initialization_count() == 1, "initialize exactly once")
 	_check(not map.configure_world_authorities(player, entry.birth.inventory, entry.birth.stacks, entry.birth.item_index, entry.npc_random, entry.combat_random, entry.world_random, entry.allocator, entry.gate), "reconfiguration rejected")
 	_check(entry.allocator.next_dynamic_sequence == 1, "map initialized no items")
-	_check(map.resident_npcs().is_empty() and map.find_resident_npc(&"traveller") == null, "authored population deliberately deferred")
-	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 1, "no silent dummy NPC bodies")
+	var residents: Array[StringName] = []
+	for npc: NpcRuntimeState in map.resident_npcs():
+		residents.append(npc.definition_id)
+	_check(residents == [&"snow.npc.traveller", &"snow.npc.traveller"], "the Inn's authored population: two travellers")
+	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 3, "Player plus one body per traveller, no dummies")
 	var inn_portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(SnowWorldDefinitions.INN_MAP_ID)
 	_check(inn_portals.size() == 1 and inn_portals[0].portal_id == SnowWorldDefinitions.INN_EXIT_PORTAL_ID, "NGE3 enables only the authored east exit; up/NW deferred")
 	var exits: Dictionary[String, StringName] = GameContent.catalog().room(&"es2:d/snow/inn").exits()
