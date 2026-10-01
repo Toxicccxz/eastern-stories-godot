@@ -84,6 +84,9 @@ portal that stays on its map moves the player directly), `WorldServicePoint` (se
 spawn point a `WorldNpcBody2D` (`scenes/world/common/world_npc_body.tscn`). A map refuses to
 initialize when scene and data disagree.
 
+Terrain is not data: each scene paints it on `TileMapLayer`s with the shared placeholder TileSet
+([TERRAIN_TILES](TERRAIN_TILES.md)). The tiles carry no collision and no IDs.
+
 ## zones
 
 `{id, map, rooms}` — a walkable part of a map made of one or more rooms. The **first room is the

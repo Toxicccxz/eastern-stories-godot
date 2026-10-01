@@ -11,11 +11,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 2. **Generic map controller + Snow** (PR #30): one `WorldMapController`; Snow's bank, work, waiter,
    pawn shop, teacher and doors are data-configured services/doors; the HUD asks the map what is
    here instead of casting to Snow map types.
-3. **Old Pine on the generic controller** (`phase/generic-map-oldpine`): Old Pine's outdoor map and
+3. **Old Pine on the generic controller** (PR #31): Old Pine's outdoor map and
    cave use `WorldMapController`; NPCs spawn from spawns.json onto one generic body scene; landmarks
    (climb/descend/vine), water sources and the Lake's complete-set entry are data; one combat round
    per second on every map (`pacing.json`); saves, combat and the HUD go through every resident map.
-4. Terrain on `TileMapLayer` with a placeholder TileSet (next).
+4. **Terrain on `TileMapLayer`** (`phase/terrain-tilemap`): Snow and Old Pine are painted with one
+   16 px placeholder TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)). Collision and zones
+   are unchanged. Swapping art means replacing the TileSet.
 
 ## Playable now
 
@@ -31,7 +33,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   semi-automatic encounter combat with Flee, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
-* Grey-box visuals (ColorRect/Polygon2D placeholders), no art or audio yet.
+* Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
+  No art or audio yet.
 
 Rough coverage of ES2 content: about 5% (49/502 rooms, 4/240 NPC types, 2/70 player-obtainable
 skills, 1/13 families, 0 quests).
