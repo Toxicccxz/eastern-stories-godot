@@ -29,9 +29,9 @@ func _test_shipped_content_loads() -> void:
 	_eq(catalog.currency_item(CurrencyDenomination.Value.GOLD).currency_base_value, 10000, "gold base value")
 	# NPC creation order fixes random draws and loadout item identities.
 	var spawn_ids: Array[StringName] = []
-	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(&"oldpine.outdoor"):
+	for spawn: NpcSpawnDefinition in catalog.spawns():
 		spawn_ids.append(spawn.spawn_id)
-	_eq(spawn_ids, [&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.outdoor.lake.serpents"], "spawn order is the authored order")
+	_eq(spawn_ids, [&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.gorge.lake.serpents"], "spawn order is the authored order")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["dumpling", "wineskin"], "waiter goods in authored order")
 	_eq(waiter.item_definition_id("dumpling"), &"es2:obj/example/dumpling", "goods key resolves to its item")

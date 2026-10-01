@@ -628,8 +628,8 @@ func _south_location() -> WorldLocationState:
 	return WorldLocationState.new(
 		OldPineWorld.REGION_ID,
 		OldPineWorld.OUTDOOR_MAP_ID,
-		OldPineWorld.SOUTH_SLOPE_ZONE_ID,
-		OldPineWorld.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorld.SLOPE_ZONE_ID,
+		OldPineWorld.SLOPE_ZONE_ID,
 	)
 
 

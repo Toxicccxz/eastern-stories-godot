@@ -335,7 +335,9 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 	outdoor.session.configure_combat_random_source(original_rng)
 	var corpse: CorpseState = outdoor.corpse_states()[0]
 	var view: Node2D = outdoor.corpse_view_for(corpse.corpse_item_instance_id)
-	outdoor.player_body.global_position = view.global_position + Vector2(0, 60)
+	# Stand north of the slope corpse so it shows below the HUD panel; a teleport, so settle the camera.
+	outdoor.player_body.global_position = view.global_position + Vector2(0, -60)
+	(outdoor.player_body.get_node("Camera2D") as Camera2D).reset_smoothing()
 	for frame: int in 30:
 		await tree.physics_frame
 	await _mouse_click(tree, view.get_global_transform_with_canvas().origin)

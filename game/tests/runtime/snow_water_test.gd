@@ -238,9 +238,9 @@ func physical_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 	var panel: HeldLiquidPanel = session.shared_ui()._liquid as HeldLiquidPanel
 	check(panel._panel.visible and panel._drink.text.contains("酒精暂未开放"), "fresh wine UI truthful")
-	var map: WorldMapController = session.resident_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
+	var map: WorldMapController = session.resident_map(OldPineWorldDefinitions.GORGE_MAP_ID) as WorldMapController
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
-	check(session.handoff_to(OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "fixture waterfall handoff")
+	check(session.handoff_to(OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "fixture waterfall handoff")
 	await tree.physics_frame
 	map.player_body.global_position = Vector2(1200,900)
 	map.player_runtime().set_world_location(map.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))

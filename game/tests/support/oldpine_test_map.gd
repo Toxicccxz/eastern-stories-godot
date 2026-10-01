@@ -7,16 +7,16 @@ extends RefCounted
 ## spawned from spawns.json; these helpers find them by the same names, drive
 ## their presence signals and keep the old direct adapter calls for tests.
 const POINTS: Dictionary[String, StringName] = {
-	"Bandit01": &"oldpine.outdoor.south_slope.spath1.bandit.1",
-	"Bandit02": &"oldpine.outdoor.south_slope.spath1.bandit.2",
-	"Bandit03": &"oldpine.outdoor.south_slope.spath1.bandit.3",
+	"Bandit01": &"oldpine.outdoor.slope.spath1.bandit.1",
+	"Bandit02": &"oldpine.outdoor.slope.spath1.bandit.2",
+	"Bandit03": &"oldpine.outdoor.slope.spath1.bandit.3",
 	"TallBandit": &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 	"FatBandit": &"oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
-	"Serpent01": &"oldpine.outdoor.lake.serpent.1",
-	"Serpent02": &"oldpine.outdoor.lake.serpent.2",
-	"Serpent03": &"oldpine.outdoor.lake.serpent.3",
-	"Serpent04": &"oldpine.outdoor.lake.serpent.4",
-	"Serpent05": &"oldpine.outdoor.lake.serpent.5",
+	"Serpent01": &"oldpine.gorge.lake.serpent.1",
+	"Serpent02": &"oldpine.gorge.lake.serpent.2",
+	"Serpent03": &"oldpine.gorge.lake.serpent.3",
+	"Serpent04": &"oldpine.gorge.lake.serpent.4",
+	"Serpent05": &"oldpine.gorge.lake.serpent.5",
 }
 const ORDER: Array[String] = ["Bandit01", "Bandit02", "Bandit03", "TallBandit", "FatBandit"]
 

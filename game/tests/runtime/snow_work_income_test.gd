@@ -107,6 +107,8 @@ func physical_test(tree: SceneTree) -> void:
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
 	var snow: WorldMapController = session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
 	var work: WorkService = snow.service(&"snow.workplace.mill") as WorkService
+	var residents: int = session.resident_map_count()
+	var npcs: int = session.world_npcs().size()
 	for entry: Array in [[&"snow.mstreet1", Vector2(0,-400)], [&"snow.mstreet2", Vector2(0,-750)], [&"snow.workplace", Vector2(325,-750)], [&"snow.square", Vector2(0,-250)], [&"snow.mstreet1", Vector2(0,-550)], [&"snow.workplace", Vector2(100,-750)]]:
 		_check(MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "save position and half-open joins " + str(entry))
 	# S7B opens mstreet2 north; the Workplace north wall remains closed.
@@ -138,7 +140,7 @@ func physical_test(tree: SceneTree) -> void:
 	await walk_to(tree, session, "move_left", 0, 0)
 	await walk_to(tree, session, "move_down", 0, 1)
 	_check(session.player_runtime().world_location().zone_id == &"snow.square", "real workplace west/south return to Square")
-	_check(snow.resident_npcs().is_empty() and session.resident_map_count() == 4, "no new NPC/resident")
+	_check(snow.resident_npcs().is_empty() and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no new NPC/resident")
 	session.free()
 	await tree.process_frame
 

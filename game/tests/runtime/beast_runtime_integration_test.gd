@@ -23,7 +23,10 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	tree.root.add_child(session)
 	await tree.process_frame
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
-	_eq(map.npc_runtimes().size(), 10, "normal bootstrap has five humans and five serpents")
+	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
+	_eq(map.npc_runtimes().size(), 5, "normal bootstrap has five humans in the forest")
+	_eq(gorge.npc_runtimes().size(), 5, "normal bootstrap has five serpents in the gorge")
+	var bootstrap_npcs: int = map.npc_runtimes().size()
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z")
 	_eq(capture.outcome, OldPineWorldCaptureResult.Outcome.SUCCESS, "normal capture remains valid")
 	_eq(capture.snapshot.items.item_records.size(), 12, "normal bootstrap stays twelve items")
@@ -47,7 +50,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	# Removal/republication is precondition work, before the actual approach.
 	_eq(qa.remove_publication(), true, "controlled publication removable")
 	await tree.process_frame
-	_eq(map.npc_runtimes().size(), 10, "membership removed")
+	_eq(map.npc_runtimes().size(), bootstrap_npcs, "membership removed")
 	_eq(map.map_character_state().has_character(npc.character_id), false, "map membership removed")
 	qa.queue_free()
 	await tree.process_frame

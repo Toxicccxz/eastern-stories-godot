@@ -106,7 +106,7 @@ func _bandits_attack(tree: SceneTree) -> Array:
 	check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "fixture enters Old Pine")
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	map.player_body.set_world_location(map.location_for_zone(&"oldpine.outdoor.south_slope"))
+	map.player_body.set_world_location(map.location_for_zone(&"oldpine.outdoor.slope"))
 	map.player_body.global_position = OldPineTestMap.body(map, "Bandit01").global_position + Vector2(0, 40)
 	for bandit: NpcRuntimeState in map.npc_runtimes().slice(0, 3):
 		map.aggression_adapter().enter_player_presence(bandit, player, true)

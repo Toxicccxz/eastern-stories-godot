@@ -270,29 +270,30 @@ func _test_restored_inactive_map_becomes_playable_on_handoff(
 		"Cave remains active after restore",
 	)
 	_assert_eq(
-		restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).process_mode,
+		restored.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).process_mode,
 		Node.PROCESS_MODE_DISABLED,
-		"restored inactive Outdoor remains staged before handoff",
+		"restored inactive Gorge remains staged before handoff",
 	)
-	var return_outdoor: OldPineMapHandoffResult = restored.handoff_to(
-		OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+	# The Cave's south exit leads down to the Gorge waterfall.
+	var to_gorge: OldPineMapHandoffResult = restored.handoff_to(
+		OldPineWorldDefinitions.GORGE_MAP_ID,
 		OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID,
 		OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID,
 		OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID,
 	)
-	_assert_true(return_outdoor.succeeded(), "restored Cave returns through SouthExit")
+	_assert_true(to_gorge.succeeded(), "restored Cave leaves through SouthExit")
 	_assert_eq(
 		restored.active_map_id(),
-		OldPineWorldDefinitions.OUTDOOR_MAP_ID,
-		"Outdoor becomes active after restored SouthExit",
+		OldPineWorldDefinitions.GORGE_MAP_ID,
+		"Gorge becomes active after restored SouthExit",
 	)
 	_assert_eq(
-		restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).process_mode,
+		restored.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).process_mode,
 		Node.PROCESS_MODE_INHERIT,
 		"restored destination is process-enabled on first handoff",
 	)
 	_assert_true(
-		restored.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).runtime_player_body().player_controlled,
+		restored.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).runtime_player_body().player_controlled,
 		"restored destination enables real player input",
 	)
 	_assert_true(

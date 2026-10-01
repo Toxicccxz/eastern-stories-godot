@@ -72,7 +72,7 @@ func _test_authored_landmark_and_portal_data() -> void:
 	_assert_eq(climb.destination_spawn_point_id, OldPineWorldDefinitions.TREE1_LANDING_SPAWN_POINT_ID, "climb exact landing ID")
 	var descent: WorldLandmarkDefinition = (
 		GameContent.catalog().landmark(
-			&"oldpine.outdoor.landmark.tree1_descent"
+			&"oldpine.tree.landmark.tree1_descent"
 		)
 	)
 	_assert_eq(descent.display_name, "大松树上", "tree1 authored name")
@@ -113,18 +113,23 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	var pine_area: WorldLandmarkArea2D = controller.get_node_or_null(
 		"Interactions/PineInteraction"
 	) as WorldLandmarkArea2D
-	var descent_area: WorldLandmarkArea2D = controller.get_node_or_null(
+	# The tree top is its own map (DECISIONS 3B5); its descent, zone and landing live there.
+	var tree_map: WorldMapController = controller.session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID)
+	_assert_true(tree_map != null and tree_map != controller, "the tree top is a separate resident map")
+	var descent_area: WorldLandmarkArea2D = tree_map.get_node_or_null(
 		"Interactions/Tree1DescentInteraction"
 	) as WorldLandmarkArea2D
 	_assert_true(pine_area != null and pine_area.is_configured(), "pine click Area2D persists")
 	_assert_true(descent_area != null and descent_area.is_configured(), "return click Area2D persists")
+	_assert_true(controller.get_node_or_null("Interactions/Tree1DescentInteraction") == null, "the forest map holds no tree1 descent")
 	_assert_eq(pine_area.get_signal_connection_list("selection_requested").size(), 1, "pine typed selection signal persists once")
 	_assert_eq(descent_area.get_signal_connection_list("selection_requested").size(), 1, "descent typed selection signal persists once")
-	var canopy_zone: Area2D = controller.get_node_or_null("Zones/TreeCanopyZone") as Area2D
+	var canopy_zone: Area2D = tree_map.get_node_or_null("Zones/CanopyZone") as Area2D
 	_assert_true(canopy_zone != null, "TreeCanopyZone Area2D persists")
 	_assert_true(canopy_zone.get_node_or_null("CollisionShape2D") is CollisionShape2D, "TreeCanopyZone has collision")
 	_assert_eq(canopy_zone.get_signal_connection_list("body_entered").size(), 1, "TreeCanopyZone logical adapter persists")
-	var tree_landing: WorldSpawnMarker2D = controller.get_node_or_null(
+	_assert_true(controller.physical_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID) == null, "the forest map holds no canopy zone")
+	var tree_landing: WorldSpawnMarker2D = tree_map.get_node_or_null(
 		"SpawnPoints/Tree1Landing"
 	) as WorldSpawnMarker2D
 	var clearing_landing: WorldSpawnMarker2D = controller.get_node_or_null(
@@ -132,9 +137,14 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	) as WorldSpawnMarker2D
 	_assert_eq(tree_landing.spawn_point_id, OldPineWorldDefinitions.TREE1_LANDING_SPAWN_POINT_ID, "tree1 marker has exact portal ID")
 	_assert_eq(clearing_landing.spawn_point_id, OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID, "return marker has exact portal ID")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(1800, 200)), "grass", "canopy terrain persists in same map")
-	_assert_true(controller.get_node_or_null("Terrain/Boundaries/TreeCanopyBounds/Right") is CollisionShape2D, "canopy boundary collision persists")
-	_assert_eq((controller.get_node("Characters/Player/Camera2D") as Camera2D).limit_right, 2300, "camera covers canopy platform")
+	_assert_ne(TerrainProbe.terrain_at(tree_map, Vector2(1800, 200)), "", "canopy terrain is painted on the tree map")
+	_assert_false(TerrainProbe.blocks_at(tree_map, Vector2(1800, 200)), "canopy terrain is walkable")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(1800, 200)), "", "the forest map no longer paints the canopy")
+	# The canopy's edge is colliding terrain (was a StaticBody2D boundary).
+	_assert_true(TerrainProbe.blocks_at(tree_map, Vector2(2296, 260)), "canopy right boundary collides")
+	_assert_true(TerrainProbe.blocks_at(tree_map, Vector2(1704, 260)), "canopy left boundary collides")
+	var tree_camera: Camera2D = tree_map.get_node("Characters/Player/Camera2D") as Camera2D
+	_assert_true(tree_camera.limit_left <= 1712 and tree_camera.limit_right >= 2288, "camera covers canopy platform")
 	for index: int in range(3):
 		var presence: Area2D = OldPineTestMap.body(controller, "Bandit%02d" % (index + 1)).get_node("AggressionPresence") as Area2D
 		_assert_eq(presence.collision_layer, 0, "presence Area does not become physical body")
@@ -177,7 +187,7 @@ func _test_target_kind_and_inspect_safety(tree: SceneTree) -> void:
 	var random: ScriptedCombatRandomSource = ScriptedRandomType.new([0, 0])
 	controller.session.configure_combat_random_source(random)
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
 	var npc_opponents: Array[StringName] = npc.relationship.opponent_ids()
@@ -209,7 +219,7 @@ func _test_target_kind_and_inspect_safety(tree: SceneTree) -> void:
 		"selected Pine enables Climb only after current source becomes valid",
 	)
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(npc.character_id), "Pine to Bandit restores character target")
 	_assert_true(controller.session.shared_ui().attack_is_enabled(), "Bandit restores Attack availability")
@@ -231,33 +241,45 @@ func _test_climb_and_return_traversal(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var state: CharacterState = controller.player_runtime().state
 	var resource_snapshot: Array[int] = _character_resource_snapshot(state)
+	var session: OldPineWorldSessionController = controller.session
+	var tree_map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID)
 	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "pine target selects")
-	var climb: WorldPortalTraversalResult = controller.traverse_selected_portal()
-	_assert_true(climb.completed(), "clearing climb completes")
-	_assert_true(climb.physical_position_updated, "physical embodiment updates")
-	_assert_true(climb.logical_location_updated, "logical location updates")
-	_assert_eq(climb.previous_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "result records clearing source")
-	_assert_eq(climb.current_location().zone_id, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, "result records canopy destination")
-	_assert_eq(controller.player_body.global_position, (controller.get_node("SpawnPoints/Tree1Landing") as Marker2D).global_position, "physical position uses exact tree1 marker")
+	# Climbing is a map handoff: the canopy is the tree map's (DECISIONS 3B5).
+	var climb: OldPineMapHandoffResult = controller.traverse_selected_portal() as OldPineMapHandoffResult
+	_assert_true(climb != null and climb.succeeded(), "clearing climb completes")
+	if climb == null:
+		await _free_scene(controller, tree)
+		return
+	_assert_true(climb.destination_attached, "physical embodiment updates")
+	_assert_true(climb.location_committed, "logical location updates")
+	_assert_eq(climb.source_map_id, OldPineWorldDefinitions.OUTDOOR_MAP_ID, "result records clearing source")
+	_assert_eq(climb.destination_zone_id, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, "result records canopy destination")
+	_assert_eq(climb.destination_spawn_point_id, OldPineWorldDefinitions.TREE1_LANDING_SPAWN_POINT_ID, "result records the exact tree1 landing")
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.TREE_MAP_ID, "climb activates the tree map")
+	_assert_eq(tree_map.player_body.global_position, (tree_map.get_node("SpawnPoints/Tree1Landing") as Marker2D).global_position, "physical position uses exact tree1 marker")
 	_assert_true(controller.player_runtime().state == state, "portal keeps authoritative CharacterState instance")
 	_assert_eq(_character_resource_snapshot(state), resource_snapshot, "portal mutates no character resources")
 	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "completed climb disables stale Pine action in canopy")
-	controller.player_body.position = Vector2(2275.0, 260.0)
+	# Walkable canopy ends at x 2288; the body is 34 px wide. The reattached
+	# map's tile collision is rebuilt on the next frame, before any real input.
+	await tree.physics_frame
+	tree_map.player_body.position = Vector2(2262.0, 260.0)
 	Input.action_press("move_right")
 	for _step: int in range(30):
-		controller.player_body._physics_process(1.0 / 60.0)
+		tree_map.player_body._physics_process(1.0 / 60.0)
 	Input.action_release("move_right")
-	_assert_true(controller.player_body.global_position.x <= 2283.1, "canopy right boundary blocks movement")
-	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.tree1_descent"), "tree1 descent target selects")
+	_assert_true(tree_map.player_body.global_position.x <= 2271.1, "canopy right boundary blocks movement")
+	_assert_true(tree_map.player_body.global_position.x > 2262.0, "the body moved up to the canopy edge")
+	_assert_true(tree_map.select_landmark(&"oldpine.tree.landmark.tree1_descent"), "tree1 descent target selects")
 	_assert_true(controller.session.shared_ui().portal_action_is_enabled(), "tree1 source enables explicit Descend")
-	var descent: WorldPortalTraversalResult = controller.traverse_selected_portal()
-	_assert_true(descent.completed(), "tree1 down returns to clearing")
+	var descent: OldPineMapHandoffResult = tree_map.traverse_selected_portal() as OldPineMapHandoffResult
+	_assert_true(descent != null and descent.succeeded(), "tree1 down returns to clearing")
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "descent reactivates the forest map")
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "return restores clearing logical zone")
 	_assert_eq(controller.player_body.global_position, (controller.get_node("SpawnPoints/ClearingPineLanding") as Marker2D).global_position, "return uses exact clearing marker")
 	_assert_eq(_character_resource_snapshot(state), resource_snapshot, "return also mutates no character resources")
 	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "completed return disables stale Descend and cannot loop")
-	controller.queue_free()
-	await tree.process_frame
+	await _free_scene(controller, tree)
 
 
 func _test_portal_rng_and_character_state_safety(tree: SceneTree) -> void:
@@ -276,13 +298,14 @@ func _test_portal_rng_and_character_state_safety(tree: SceneTree) -> void:
 		player.relationship.last_opponent_id,
 	]
 	player.busy.start_busy(3)
+	var tree_map: WorldMapController = controller.session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID)
 	controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine")
 	_assert_true(controller.inspect_selected(), "Pine Inspect succeeds before RNG audit")
-	var climb: WorldPortalTraversalResult = controller.traverse_selected_portal()
-	controller.select_landmark(&"oldpine.outdoor.landmark.tree1_descent")
-	_assert_true(controller.inspect_selected(), "tree1 Inspect succeeds before RNG audit")
-	var descent: WorldPortalTraversalResult = controller.traverse_selected_portal()
-	_assert_true(climb.completed() and descent.completed(), "forward and return complete in RNG audit")
+	var climb: OldPineMapHandoffResult = controller.traverse_selected_portal() as OldPineMapHandoffResult
+	tree_map.select_landmark(&"oldpine.tree.landmark.tree1_descent")
+	_assert_true(tree_map.inspect_selected(), "tree1 Inspect succeeds before RNG audit")
+	var descent: OldPineMapHandoffResult = tree_map.traverse_selected_portal() as OldPineMapHandoffResult
+	_assert_true(climb != null and descent != null and climb.succeeded() and descent.succeeded(), "forward and return complete in RNG audit")
 	_assert_eq(player.busy.busy_value, 3, "portal and Inspect do not advance or reject busy state")
 	_assert_eq(random.call_count(), 0, "Inspect and both portal traversals consume zero combat RNG")
 	_assert_eq(
@@ -301,23 +324,20 @@ func _test_portal_rng_and_character_state_safety(tree: SceneTree) -> void:
 		relationship_snapshot,
 		"portal changes no relationship authority directly",
 	)
-	var previous_snapshot: WorldLocationState = climb.previous_location()
-	var current_snapshot: WorldLocationState = climb.current_location()
-	previous_snapshot._zone_id = &"audit.mutated.previous"
-	current_snapshot._zone_id = &"audit.mutated.current"
-	_assert_eq(
-		climb.previous_location().zone_id,
-		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
-		"portal previous location getter returns a defensive snapshot",
-	)
-	_assert_eq(
-		climb.current_location().zone_id,
-		OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID,
-		"portal current location getter returns a defensive snapshot",
-	)
-	controller.queue_free()
-	rng_control.queue_free()
-	await tree.process_frame
+	# A map handoff records value IDs, not location objects a caller could mutate.
+	if climb != null and descent != null:
+		_assert_eq(
+			[climb.source_map_id, climb.destination_map_id, climb.destination_zone_id],
+			[OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.TREE_MAP_ID, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID],
+			"climb result records the clearing source and canopy destination",
+		)
+		_assert_eq(
+			[descent.source_map_id, descent.destination_map_id, descent.destination_zone_id],
+			[OldPineWorldDefinitions.TREE_MAP_ID, OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID],
+			"descent result records the canopy source and clearing destination",
+		)
+	await _free_scene(controller, tree)
+	await _free_scene(rng_control, tree)
 
 
 func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
@@ -325,20 +345,35 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	await tree.physics_frame
 	controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine")
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var before_position: Vector2 = controller.player_body.global_position
 	var before_location: WorldLocationState = controller.player_runtime().world_location()
 	controller._refresh_selected_landmark_source()
 	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "wrong source disables stale Traverse action")
-	var wrong_source: WorldPortalTraversalResult = controller.traverse_selected_portal()
-	_assert_eq(wrong_source.outcome, WorldPortalTraversalResult.Outcome.SOURCE_LOCATION_MISMATCH, "portal rejects wrong source zone")
+	var wrong_source: RefCounted = controller.traverse_selected_portal()
+	_assert_false(_traversal_completed(wrong_source), "portal rejects wrong source zone")
+	_assert_true(wrong_source is OldPineMapHandoffResult and (wrong_source as OldPineMapHandoffResult).outcome == OldPineMapHandoffResult.Outcome.SOURCE_LOCATION_INVALID, "cross-map portal refuses a player outside its source zone")
+	_assert_eq(controller.session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "wrong source starts no map handoff")
 	_assert_eq(controller.player_body.global_position, before_position, "wrong source has no physical mutation")
 	_assert_true(controller.player_runtime().world_location().same_location(before_location), "wrong source has no logical mutation")
+	if controller.session.active_map_id() != OldPineWorldDefinitions.OUTDOOR_MAP_ID:
+		# Keep the rest of the audit on the forest even if the rejection above failed.
+		controller.session.handoff_to(
+			OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+			OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+			OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+			OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID,
+		)
+		controller.player_body.global_position = before_position
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
 	var central_location: WorldLocationState = controller.player_runtime().world_location()
+	# The generic same-map adapter still validates any portal on its own; the
+	# climb portal's destination is now the tree map's canopy and landing.
+	var tree_map: WorldMapController = controller.session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID)
+	var tree_landing: WorldSpawnMarker2D = tree_map.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D
 	var direct_adapter: WorldPortalTraversalAdapter = WorldPortalTraversalAdapter.new()
 	var wrong_map_source: WorldLocationState = WorldLocationState.new(
 		OldPineWorldDefinitions.REGION_ID,
@@ -351,8 +386,8 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		controller.player_runtime(),
 		controller.player_body,
 		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
-		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
-		controller.location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
+		tree_landing,
+		tree_map.location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
 	)
 	_assert_eq(wrong_map.outcome, WorldPortalTraversalResult.Outcome.SOURCE_LOCATION_MISMATCH, "portal independently validates source map")
 	_assert_eq(controller.player_body.global_position, before_position, "wrong source map has no physical mutation")
@@ -364,7 +399,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		null,
 		WorldLocationState.new(
 			OldPineWorldDefinitions.REGION_ID,
-			OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+			OldPineWorldDefinitions.TREE_MAP_ID,
 			OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID,
 			OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID,
 		),
@@ -378,7 +413,7 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		controller.player_body,
 		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
 		controller.get_node("SpawnPoints/ClearingPineLanding") as WorldSpawnMarker2D,
-		controller.location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
+		tree_map.location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
 	)
 	_assert_eq(wrong_marker.outcome, WorldPortalTraversalResult.Outcome.DESTINATION_MARKER_MISMATCH, "wrong exact marker ID is rejected without fallback")
 	_assert_eq(controller.player_body.global_position, before_position, "wrong marker ID has no physical mutation")
@@ -386,10 +421,10 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		controller.player_runtime(),
 		controller.player_body,
 		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
-		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
+		tree_landing,
 		WorldLocationState.new(
 			OldPineWorldDefinitions.REGION_ID,
-			OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+			OldPineWorldDefinitions.TREE_MAP_ID,
 			OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID,
 			&"audit.wrong-combat-location",
 		),
@@ -405,10 +440,10 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		controller.player_runtime(),
 		controller.player_body,
 		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
-		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
+		tree_landing,
 		WorldLocationState.new(
 			&"audit.wrong-region",
-			OldPineWorldDefinitions.OUTDOOR_MAP_ID,
+			OldPineWorldDefinitions.TREE_MAP_ID,
 			OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID,
 			OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID,
 		),
@@ -433,8 +468,8 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 		rejecting_player,
 		controller.player_body,
 		GameContent.catalog().portal(OldPineWorldDefinitions.CLIMB_PINE_PORTAL_ID),
-		controller.get_node("SpawnPoints/Tree1Landing") as WorldSpawnMarker2D,
-		controller.location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
+		tree_landing,
+		tree_map.location_for_zone(OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID),
 	)
 	_assert_eq(partial.outcome, WorldPortalTraversalResult.Outcome.LOGICAL_LOCATION_UPDATE_FAILED, "logical commit failure is typed")
 	_assert_true(partial.physical_position_updated, "logical failure honestly preserves prior physical commit")
@@ -442,21 +477,29 @@ func _test_portal_rejections_and_combat_cleanup(tree: SceneTree) -> void:
 	_assert_eq(rejecting_player.world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "logical failure leaves runtime source unchanged")
 	controller.player_body.global_position = before_position
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
+	var npc_home: WorldLocationState = npc.world_location()
 	npc.set_world_location(controller.player_runtime().world_location())
 	controller.select_npc(npc.character_id)
 	var initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "test combat starts through existing lethal path")
 	controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine")
-	var in_combat: WorldPortalTraversalResult = controller.traverse_selected_portal()
-	_assert_true(in_combat.completed(), "source LPC permits climb during combat")
-	_assert_true(controller.player_runtime().relationship.is_fighting(), "portal does not invent immediate forced disengage")
-	HistoricalCombat.tick(controller)
+	var in_combat: RefCounted = controller.traverse_selected_portal()
+	_assert_true(in_combat is OldPineMapHandoffResult and _traversal_completed(in_combat), "source LPC permits climb during combat")
+	# The climb is a map handoff now. Its relationship reconciliation (the same
+	# availability cleanup a combat round runs) separates the player from the
+	# bandit left below at once; the bandit's own side is reconciled when its
+	# map is active again.
 	_assert_false(controller.player_runtime().relationship.is_fighting(), "existing availability cleanup removes moved player opponent")
+	HistoricalCombat.tick(tree_map)
+	_assert_false(controller.player_runtime().relationship.is_fighting(), "a later round in the canopy restores no opponent")
+	_assert_true(npc.set_world_location(npc_home), "fixture returns the bandit to its slope")
+	tree_map.select_landmark(&"oldpine.tree.landmark.tree1_descent")
+	_assert_true(_traversal_completed(tree_map.traverse_selected_portal()), "the player climbs back down during the separation")
 	_assert_false(npc.relationship.is_fighting(), "existing availability cleanup removes reciprocal opponent")
+	_assert_false(controller.player_runtime().relationship.is_fighting(), "return to the forest restores no separated opponent")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(npc.character_id), "closed cross-location cleanup preserves player lethal intent")
 	_assert_true(npc.relationship.has_lethal_target(controller.player_runtime().character_id), "closed cross-location cleanup preserves NPC lethal intent")
-	controller.queue_free()
-	await tree.process_frame
+	await _free_scene(controller, tree)
 
 
 func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
@@ -465,7 +508,7 @@ func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
 	var random: ScriptedCombatRandomSource = ScriptedRandomType.new([0])
 	controller.session.configure_combat_random_source(random)
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
 	OldPineTestMap.presence_entered(controller, 0, controller.player_body)
@@ -501,7 +544,7 @@ func _test_aggression_cancellation_and_gates(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
 	OldPineTestMap.presence_entered(controller, 0, controller.player_body)
@@ -516,7 +559,7 @@ func _test_aggression_cancellation_and_gates(tree: SceneTree) -> void:
 	_assert_eq(controller.last_aggression_decisions()[0].outcome, NpcAggressionDecision.Outcome.DIFFERENT_COMBAT_LOCATION, "cancellation reason is typed")
 	_assert_false(npc.relationship.is_fighting(), "co-location cancellation mutates no relation")
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	var inactive_npc: NpcAggressionDecision = OldPineTestMap.queue_presence(controller, 0, controller.player_body)
@@ -566,7 +609,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	var escape: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	escape.player_body.set_world_location(escape.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var escape_random: ScriptedCombatRandomSource = ScriptedRandomType.new([0])
 	escape.session.configure_combat_random_source(escape_random)
@@ -594,7 +637,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	var removed: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	removed.player_body.set_world_location(removed.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var removed_npc: NpcRuntimeState = removed.npc_runtimes()[0]
 	OldPineTestMap.presence_entered(removed, 0, removed.player_body)
@@ -615,7 +658,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	var changed: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	changed.player_body.set_world_location(changed.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var changed_npc: NpcRuntimeState = changed.npc_runtimes()[0]
 	OldPineTestMap.presence_entered(changed, 0, changed.player_body)
@@ -646,7 +689,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	var live_recheck: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	live_recheck.player_body.set_world_location(live_recheck.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var live_npc: NpcRuntimeState = live_recheck.npc_runtimes()[0]
 	OldPineTestMap.presence_entered(live_recheck, 0, live_recheck.player_body)
@@ -690,7 +733,7 @@ func _test_player_already_fighting_and_timer_semantics(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	controller.select_npc(npcs[0].character_id)
@@ -720,7 +763,7 @@ func _test_multiple_bandits_are_stable_and_rng_free(tree: SceneTree) -> void:
 	var rng_control: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var random: ScriptedCombatRandomSource = ScriptedRandomType.new([0, 0, 0])
 	controller.session.configure_combat_random_source(random)
@@ -752,7 +795,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	var victim_body: WorldCharacterBody2D = OldPineTestMap.body(controller, "Bandit01")
@@ -800,7 +843,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	_assert_true(controller.npc_runtimes()[1].exists_in_map and controller.npc_runtimes()[2].exists_in_map, "other authored bandits remain after aggressive death")
 	presence.body_entered.emit(controller.player_body)
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "dead NPC Presence cannot retrigger aggression")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 9, "dead aggressor does not respawn")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 4, "dead aggressor does not respawn")
 	var before_move: Vector2 = controller.player_body.position
 	Input.action_press("move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
@@ -823,7 +866,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	_assert_true(fresh.npc_random_source() != old_npc_random, "fresh scene owns new NPC RNG authority")
 	_assert_true(fresh.combat_random_source() != old_combat_random, "fresh scene owns new combat RNG authority")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
-	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh scene restores three scouts, Tall, and Fat")
+	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh scene restores three scouts, Tall, and Fat")
 	_assert_eq(
 		OldPineTestMap.body(fresh, "Bandit01").get_node("AggressionPresence").get_signal_connection_list("body_entered").size(),
 		1,
@@ -839,7 +882,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 		"fresh scene has one Pine selection connection",
 	)
 	_assert_eq(
-		fresh.get_node("Interactions/Tree1DescentInteraction").get_signal_connection_list("selection_requested").size(),
+		fresh.session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID).get_node("Interactions/Tree1DescentInteraction").get_signal_connection_list("selection_requested").size(),
 		1,
 		"fresh scene has one tree1 descent selection connection",
 	)
@@ -849,9 +892,8 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 		"fresh scene has one production Traverse connection",
 	)
 	_assert_true(fresh.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "fresh Pine target works")
-	_assert_true(fresh.traverse_selected_portal().completed(), "fresh Pine portal works after reset boundary")
-	fresh.queue_free()
-	await tree.process_frame
+	_assert_true(_traversal_completed(fresh.traverse_selected_portal()), "fresh Pine portal works after reset boundary")
+	await _free_scene(fresh, tree)
 
 
 func _runtime_without_aggression(source: NpcRuntimeState) -> NpcRuntimeState:
@@ -982,6 +1024,21 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	tree.root.add_child(session)
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(session)
 	return session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+
+
+## Frees the whole Session behind a map: after a climb its other maps hold the player.
+func _free_scene(controller: ControllerType, tree: SceneTree) -> void:
+	controller.session.queue_free()
+	await tree.process_frame
+
+
+## A landmark action moves the player on its map or, across maps, by handoff.
+func _traversal_completed(result: RefCounted) -> bool:
+	if result is WorldPortalTraversalResult:
+		return (result as WorldPortalTraversalResult).completed()
+	if result is OldPineMapHandoffResult:
+		return (result as OldPineMapHandoffResult).succeeded()
+	return false
 
 
 func _click_area_through_viewport(area: Area2D, tree: SceneTree) -> void:

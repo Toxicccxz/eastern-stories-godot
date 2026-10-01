@@ -173,7 +173,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	## immediately before initiation so the test proves combat content,
 	## not an incidental Area2D notification order.
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(second.character_id), "second bandit becomes current world target")
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "second fight starts through world combat initiation")
@@ -319,7 +319,7 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 	)
 	var opponent: NpcRuntimeState = controller.npc_runtimes()[0]
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(opponent.character_id), "live-combat fixture selects first bandit")
 	_assert_eq(
@@ -429,7 +429,8 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_false(fresh.session.shared_ui().inventory_is_open(), "fresh/reset boundary closes Inventory panel")
 	_assert_false(fresh.session.shared_ui().loot_is_open(), "fresh/reset boundary closes Loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh/reset boundary has no corpses")
-	_assert_eq(fresh.npc_runtimes().size(), 10, "fresh/reset boundary restores all ten bandits")
+	_assert_eq(fresh.session.world_npcs().size(), 10, "fresh/reset boundary restores all ten Old Pine NPCs")
+	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh/reset boundary restores the forest map's five bandits")
 	_assert_true(OldPineTestMap.open_inventory(fresh), "fresh active player can open Inventory")
 	var rows: Array[PlayerInventoryRowProjection] = fresh.session.shared_ui().inventory_rows()
 	_assert_eq(rows.size(), 1, "fresh/reset boundary removes acquired short and silver")
@@ -460,7 +461,7 @@ func _kill_bandit(
 	# It is not CXR8 production combat acceptance evidence.
 	preload("res://tests/support/historical_world_combat_fixture.gd").install(controller.session)
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
 	controller.attack_selected()

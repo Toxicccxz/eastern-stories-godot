@@ -183,13 +183,17 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var session_allocator: SessionItemIdAllocator = session.item_id_allocator()
-	_assert_true(outdoor != null and cave != null, "session retains both typed resident maps")
-	_assert_eq(session.resident_map_count(), 2, "session has exactly two resident maps")
+	_assert_true(outdoor != null and cave != null, "session retains the Outdoor and Cave typed resident maps")
+	_assert_eq(session.resident_map_count(), 5, "session has exactly five Old Pine resident maps")
 	_assert_eq(session.active_map_child_count(), 1, "exactly one resident map is tree-active")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "Outdoor starts active")
 	_assert_eq(session.player_runtime().world_location().map_id, OldPineWorldDefinitions.OUTDOOR_MAP_ID, "inactive Cave prewarm never changes player location")
 	_assert_true(outdoor.get_parent() == session.active_map_slot, "Outdoor is the attached resident")
 	_assert_true(cave.get_parent() == null, "Cave starts detached and frozen")
+	for map_id: StringName in [OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.TREE_MAP_ID, OldPineWorldDefinitions.CLIFF_MAP_ID]:
+		var resident: WorldMapController = session.world_map_of(map_id)
+		_assert_true(resident != null and resident.get_parent() == null, "%s starts detached and frozen" % map_id)
+		_assert_eq(resident.initialization_count(), 1, "%s initializes exactly once" % map_id)
 	_assert_eq(outdoor.initialization_count(), 1, "Outdoor initializes exactly once")
 	_assert_eq(cave.initialization_count(), 1, "Cave initializes exactly once")
 	_assert_true(outdoor.player_runtime() == session.player_runtime(), "Outdoor binds the session player authority")
@@ -224,7 +228,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(cave.resolve_spawn_marker(CAVE_VINE_LANDING) != null, "Cave exposes exact VineLanding marker")
 	_assert_true(cave.has_node("Zones/PassageZone"), "Cave contains one PassageZone")
 	_assert_true(cave.has_node("Terrain/NorthBlocked"), "Cave keeps north passage visibly blocked")
-	_assert_true(cave.has_node("Boundaries/NorthBlockedBoundary"), "Cave has a physical north blocked boundary")
+	_assert_eq(TerrainProbe.terrain_at(cave, Vector2(0.0, -240.0)), "blocked", "Cave has a physical north blocked boundary")
 	var outdoor_world_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.WORLD,
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
@@ -524,7 +528,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(old_corpse_view_ref.get_ref() == null, "old corpse view and signals cannot survive session destruction")
 	var control: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_eq(control.npc_random_source().next_below(1000), npc_random_after_roundtrip, "Cave activation and return consume zero NPC-init RNG draws")
-	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
+	_assert_eq(control.world_npcs().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
 	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
 	_assert_true(control.player_runtime().armor.occupied_slots().is_empty(), "fresh whole-session boundary restores initial Armor")
 	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, TestContent.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")
@@ -572,7 +576,7 @@ func _kill_bandit(
 	tree: SceneTree,
 ) -> CorpseState:
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	if not controller.select_npc(victim.character_id):
 		return null

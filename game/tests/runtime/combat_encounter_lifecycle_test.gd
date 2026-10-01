@@ -147,8 +147,7 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 	_assert_eq(random.calls, 0, "frozen cadence consumes zero combat RNG")
 	_assert_eq(player.state.vitality.current, player_vitality_before, "frozen cadence does not mutate player vitality")
 	_assert_eq(npc.character_state.vitality.current, npc_vitality_before, "frozen cadence does not mutate NPC vitality")
-	outdoor.traverse_same_map_passage(GameContent.catalog().portal(OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID))
-	_assert_true(outdoor.last_passage_traversal() == null, "frozen late portal contact is discarded")
+	_assert_false(outdoor.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "landmark (portal) interaction is blocked while frozen")
 	var blocked_handoff: OldPineMapHandoffResult = session.handoff_to(
 		OldPineWorldDefinitions.CAVE_MAP_ID,
 		OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID,

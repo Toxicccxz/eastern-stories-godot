@@ -2,8 +2,10 @@ extends RefCounted
 
 ## Spawning Old Pine from spawns.json must create exactly the NPCs the
 ## pre-placed bodies did: same identities, random draws, loadout item IDs and
-## positions. The fixture was recorded before the map controller changed; set
-## UPDATE_OLDPINE_SPAWN_BASELINE=1 to rewrite it deliberately.
+## positions, map by map in spawn order. Recorded before the map controller
+## changed (B2) and re-recorded when Old Pine was split into one map per height
+## (3B5: only IDs, positions and maps moved); set UPDATE_OLDPINE_SPAWN_BASELINE=1
+## to rewrite it deliberately.
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 const BASELINE_PATH: String = "res://tests/fixtures/oldpine_spawn_baseline.json"
 const MAX_DEPTH: int = 6
@@ -45,7 +47,19 @@ func _capture(tree: SceneTree, source_entry: bool) -> Dictionary:
 	await tree.process_frame
 	var scope: String = String(session.item_instance_scope())
 	var npcs: Array = []
-	var map: WorldResidentMapController = session.resident_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	for map: WorldMapController in session.world_maps():
+		if GameContent.catalog().map(map.map_id()).region_id == OldPineWorldDefinitions.REGION_ID:
+			npcs.append_array(_capture_map(map))
+	# The next draw shows how many draws spawning consumed.
+	var next_draw: int = session.npc_random_source().next_below(1_000_000)
+	session.queue_free()
+	await tree.process_frame
+	# Item IDs carry the session's random scope; everything else must match.
+	return JSON.parse_string(JSON.stringify({"npcs": npcs, "next_npc_draw": next_draw}).replace(scope, "<scope>"))
+
+
+func _capture_map(map: WorldMapController) -> Array:
+	var npcs: Array = []
 	for npc: NpcRuntimeState in map.resident_npcs():
 		var body: WorldCharacterBody2D = null
 		for node: Node in map.find_children("*", "CharacterBody2D", true, false):
@@ -55,6 +69,7 @@ func _capture(tree: SceneTree, source_entry: bool) -> Dictionary:
 		for item: ItemInstance in npc.loadout_items():
 			loadout.append([String(item.item_instance_id), String(item.item_definition_id)])
 		npcs.append({
+			"map": String(map.map_id()),
 			"character_id": String(npc.character_id),
 			"definition": String(npc.definition_id),
 			"spawn": String(npc.spawn_id),
@@ -68,12 +83,7 @@ func _capture(tree: SceneTree, source_entry: bool) -> Dictionary:
 			"armor": _dump(npc.armor, 0),
 			"loadout": loadout,
 		})
-	# The next draw shows how many draws spawning consumed.
-	var next_draw: int = session.npc_random_source().next_below(1_000_000)
-	session.queue_free()
-	await tree.process_frame
-	# Item IDs carry the session's random scope; everything else must match.
-	return JSON.parse_string(JSON.stringify({"npcs": npcs, "next_npc_draw": next_draw}).replace(scope, "<scope>"))
+	return npcs
 
 
 ## Script variables only, recursively; stable key order.

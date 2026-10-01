@@ -40,7 +40,11 @@ func publish(value: OldPineWorldSessionController, wounded: bool = false) -> boo
 	if session != null or value == null or not value.is_initialized():
 		return false
 	var map: WorldMapController = value.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
-	if value.combat_encounter_coordinator().has_active_encounter() or map.npc_runtimes().size() != 10:
+	# Only on the untouched authored population of the forest.
+	var authored: int = 0
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map.map_id()):
+		authored += spawn.quantity
+	if value.combat_encounter_coordinator().has_active_encounter() or map.npc_runtimes().size() != authored:
 		return false
 	session = value
 	npc = NpcCharacterStateFactory.new().create_one(

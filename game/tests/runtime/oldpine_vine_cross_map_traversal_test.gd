@@ -117,7 +117,10 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 	_assert_eq(result.policy_result.draw_value, 4, "upper valid bound-five draw retained")
 	_assert_true(result.source_presentation_reached, "source presentation precedes random")
 	_assert_true(result.branch_presentation_reached, "Waterfall presentation precedes movement")
-	_assert_true(result.movement_location_committed, "same-map Waterfall location commits")
+	# The pool lies on the gorge map below the bridge (DECISIONS 3B5): the fall is a handoff.
+	_assert_true(result.map_handoff_result != null and result.map_handoff_result.succeeded(), "Waterfall fall uses the map handoff")
+	_assert_true(result.same_map_result == null, "Waterfall fall is no same-map teleport")
+	_assert_true(result.movement_location_committed, "Waterfall handoff commits the location")
 	_assert_eq(world_random.call_count(), 1, "valid Vine consumes exactly one World RNG draw")
 	_assert_true(world_random.source_text_was_visible_at_draw, "source presentation is already visible at the exact RNG call")
 	_assert_true(world_random.player_was_at_east_bridge_at_draw, "movement has not occurred at the exact RNG call")
@@ -126,28 +129,35 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 	_assert_eq(hold_lines[hold_log_start + 1], vine_definition.message("fall"), "actual HUD log records selected branch presentation second")
 	_assert_eq(combat_random.call_count(), 0, "Vine consumes zero Combat RNG")
 	_assert_true(session.npc_random_source() == npc_rng_identity, "Vine neither replaces nor consumes another NPC RNG stream")
-	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "Waterfall keeps same Outdoor active")
-	_assert_true(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == outdoor, "Waterfall reuses exact resident Outdoor Node")
+	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "Waterfall activates the resident Gorge map")
+	_assert_true(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == outdoor, "Waterfall keeps the exact resident Outdoor Node")
+	_assert_true(outdoor.get_parent() == null and gorge.get_parent() == session.active_map_slot, "Outdoor detaches and the Gorge attaches")
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "Waterfall logical zone exact")
-	_assert_eq(outdoor.player_body.global_position, outdoor.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position, "Waterfall physical landing exact")
+	_assert_eq(gorge.player_body.global_position, gorge.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position, "Waterfall physical landing exact")
 	_assert_eq(_resource_snapshot(player.state), resources_before, "source fall causes no resource, wound, force, mana, atman, food, or water mutation")
 	_assert_eq(player.busy.busy_value, 7, "Vine neither rejects nor advances busy")
-	_assert_true(player.relationship.has_opponent(target.character_id), "same-map Vine adapter directly edits no relationship")
-	_assert_true(player.relationship.has_lethal_target(target.character_id), "same-map Vine preserves lethal marker")
+	# The handoff reconciles relationships at once (B1), as the Passage branch does.
+	_assert_false(player.relationship.has_opponent(target.character_id), "Waterfall handoff reconciliation clears the separated ordinary opponent")
+	_assert_true(player.relationship.has_lethal_target(target.character_id), "Waterfall handoff preserves lethal marker")
 	_assert_true(outdoor.selected_interaction_target() == null, "successful movement clears stale Vine target")
 	_assert_false(outdoor.session.shared_ui().portal_action_is_enabled(), "stale Vine action cannot retrigger from Waterfall")
-	var marker: WorldSpawnMarker2D = outdoor.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID)
-	var zone_area: Area2D = outdoor.get_node("Zones/WaterfallBasinZone") as Area2D
+	var marker: WorldSpawnMarker2D = gorge.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID)
+	var zone_area: Area2D = gorge.get_node("Zones/WaterfallZone") as Area2D
 	var zone_shape: RectangleShape2D = (zone_area.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
 	_assert_true(absf(marker.global_position.x - zone_area.global_position.x) < zone_shape.size.x / 2.0, "Waterfall landing lies inside zone horizontally")
 	_assert_true(absf(marker.global_position.y - zone_area.global_position.y) < zone_shape.size.y / 2.0, "Waterfall landing lies inside zone vertically")
-	_assert_false(outdoor.player_body.test_move(Transform2D(0.0, Vector2(1420, 1080)), Vector2(0, 60)), "Phase 9B3B3 keeps the intentional east-bank River route physically open")
-	_assert_true(outdoor.player_body.test_move(Transform2D(0.0, Vector2(1420, 1350)), Vector2(-400, 0)), "Phase 9B3B3 water prevents a River shortcut")
-	_assert_true(outdoor.get_node_or_null("Terrain/Boundaries/WaterfallSouthBoundary") == null, "obsolete Waterfall south staging block is absent")
+	# The reattached map's tile collision is rebuilt on the next frame.
+	await tree.physics_frame
+	_assert_false(gorge.player_body.test_move(Transform2D(0.0, Vector2(1420, 1080)), Vector2(0, 60)), "Phase 9B3B3 keeps the intentional east-bank River route physically open")
+	_assert_true(gorge.player_body.test_move(Transform2D(0.0, Vector2(1420, 1350)), Vector2(-400, 0)), "Phase 9B3B3 water prevents a River shortcut")
+	# The south staging block was a StaticBody2D; collision is terrain tiles now.
+	for point: Vector2 in [Vector2(1420, 1080), Vector2(1420, 1110)]:
+		_assert_false(TerrainProbe.blocks_at(gorge, point), "no staging block closes the Waterfall south bank at %s" % point)
 	for index: int in range(8):
 		player.busy.advance()
-	HistoricalCombat.tick(outdoor)
-	_assert_false(player.relationship.has_opponent(target.character_id), "next availability opportunity clears separated ordinary opponent")
+	HistoricalCombat.tick(gorge)
+	_assert_false(player.relationship.has_opponent(target.character_id), "next availability opportunity keeps the separated ordinary opponent cleared")
 	_assert_true(player.relationship.has_lethal_target(target.character_id), "availability cleanup preserves lethal marker")
 	_assert_eq(combat_random.call_count(), 0, "cleanup-to-empty performs no Combat selection draw")
 	await _free_session(session, tree)
@@ -254,6 +264,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	var world_rng_identity: WorldInteractionRandomSource = session.world_interaction_random_source()
 	var outdoor_identity: WorldMapController = outdoor
 	var cave_identity: WorldMapController = cave
+	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	var primary_id: StringName = player.state.equipment.primary_weapon().instance_id
 	var secondary_before: EquippedWeaponRef = player.state.equipment.secondary_weapon()
 	var result: VineTraversalResult = _attempt_from_east(outdoor)
@@ -282,9 +293,10 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.CAVE_MAP_ID, "VineLanding does not immediately trigger south return")
 	_assert_false(cave.get_node("SouthExit").overlaps_body(cave.player_body), "actual VineLanding geometry does not overlap SouthExit")
 	await _physically_enter_south_exit(cave, tree)
-	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "physical Cave south Area returns to Outdoor")
+	# passage.c south leads to the waterfall pool, on the gorge map below the bridge.
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "physical Cave south Area returns to the Gorge waterfall")
 	_assert_true(session.last_map_handoff_result().succeeded(), "south exit emits one successful typed handoff")
-	_assert_true(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == outdoor_identity and session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID) == cave_identity, "roundtrip reuses both resident map Nodes")
+	_assert_true(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID) == outdoor_identity and session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID) == cave_identity and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID) == gorge, "roundtrip reuses every resident map Node")
 	_assert_eq(outdoor.corpse_states()[0], corpse, "same CorpseState survives the Vine roundtrip")
 	_assert_eq(outdoor.corpse_view_for(corpse_id).get_instance_id(), corpse_view_id, "same corpse view Node survives the Vine roundtrip")
 	_assert_true(session.inventory_state().is_direct_child(remaining_loot_id, corpse_endpoint), "remaining corpse loot preserves exact containment")
@@ -295,7 +307,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_eq(opponent.character_state.vitality.current, altered_vitality, "altered living NPC resource survives the Vine roundtrip")
 	_assert_false(victim.exists_in_map, "dead authored NPC remains absent after Vine roundtrip")
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "Passage south returns to Waterfall Basin")
-	_assert_eq(outdoor.player_body.global_position, outdoor.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position, "Passage return uses exact Waterfall landing")
+	_assert_eq(gorge.player_body.global_position, gorge.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position, "Passage return uses exact Waterfall landing")
 	_assert_true(session.player_runtime() == player, "same WorldPlayerRuntimeState survives")
 	_assert_true(player.state == state_identity, "same CharacterState survives")
 	_assert_true(player.state.equipment == equipment_identity, "same EquipmentState survives")
@@ -313,7 +325,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_true(session.inventory_state().is_registered(primary_id), "same primary item remains live")
 	_assert_eq(world_random.call_count(), 1, "Passage handoff and south exit consume no extra World RNG")
 	_assert_eq(session.active_map_child_count(), 1, "roundtrip retains exact-one active map child")
-	_assert_true(outdoor.player_body.player_controlled and not cave.player_body.player_controlled, "only returned Outdoor body controls")
+	_assert_true(gorge.player_body.player_controlled and not cave.player_body.player_controlled and not outdoor.player_body.player_controlled, "only the returned Gorge body controls")
 	var continued: VineTraversalResult = _attempt_from_east(outdoor)
 	_assert_eq(continued.outcome, VineTraversalResult.Outcome.COMPLETED_WATERFALL, "same World RNG stream continues with its second scripted draw")
 	_assert_eq(world_random.requested_bounds(), [6, 6], "roundtrip neither reseeds nor replaces the World RNG stream")
@@ -323,16 +335,19 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	var old_cave_id: int = cave.get_instance_id()
 	var old_outdoor_ref: WeakRef = weakref(outdoor)
 	var old_cave_ref: WeakRef = weakref(cave)
+	var old_gorge_ref: WeakRef = weakref(gorge)
 	await _free_session(session, tree)
 	_assert_true(old_outdoor_ref.get_ref() == null, "whole-session boundary frees the old active Outdoor Node")
 	_assert_true(old_cave_ref.get_ref() == null, "whole-session boundary explicitly frees the detached Cave Node")
+	_assert_true(old_gorge_ref.get_ref() == null, "whole-session boundary frees the Gorge Node")
 	var fresh: OldPineWorldSessionController = await _session(tree, 10_202)
 	_assert_true(fresh.world_interaction_random_source() != world_rng_identity, "fresh whole-session boundary owns a fresh World RNG object")
 	_assert_ne(fresh.item_instance_scope(), old_scope, "fresh whole-session boundary owns a fresh item-ID scope")
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_instance_id(), old_outdoor_id, "fresh session owns a new Outdoor resident Node")
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_instance_id(), old_cave_id, "fresh session owns a new Cave resident Node")
 	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh session restores no prior corpse")
-	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 10, "fresh session creates the authored ten Outdoor NPCs")
+	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 5, "fresh session creates the authored five Outdoor NPCs")
+	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "fresh session creates the authored five Gorge NPCs")
 	_assert_true(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "fresh session has no stale Vine selection")
 	_assert_false(fresh.passage_request_pending(), "fresh session has no stale SouthExit request")
 	_assert_eq(fresh.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "fresh session starts with Outdoor active")
@@ -343,17 +358,20 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 	# Warm actual PhysicsServer contacts before detaching the resident map. Both
 	# the old corpse-fixture position and the real Vine source must be harmless
 	# after return; Input is released and no lifecycle/Shell fixture is involved.
+	# The Cave now returns to the gorge, so the forest is reactivated where the
+	# route really comes back up: cliff1 climb up lands on the cliffside.
 	for from_slope: bool in [true, false]:
 		var session: OldPineWorldSessionController = await _session(tree, 10_251)
 		var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 		var source_zone: StringName = (
-			OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID if from_slope
+			OldPineWorldDefinitions.SLOPE_ZONE_ID if from_slope
 			else OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID
 		)
 		var source_area: Area2D = outdoor.get_node(
-			"Zones/SouthSlopeZone" if from_slope else "Zones/EastBridgeZone"
+			"Zones/SlopeZone" if from_slope else "Zones/EastBridgeZone"
 		)
-		_move_player(outdoor, source_zone, Vector2(450, 880) if from_slope else Vector2(1200, 300))
+		# On the slope path, clear of the three bandits' presence.
+		_move_player(outdoor, source_zone, Vector2(450, -50) if from_slope else Vector2(1200, 300))
 		for frame: int in 8:
 			await tree.physics_frame
 			await tree.process_frame
@@ -362,27 +380,33 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		_assert_true(source_area.overlaps_body(outdoor.player_body), "fixture warms real source Area contact")
 		_assert_eq(Input.get_vector("move_left", "move_right", "move_up", "move_down"), Vector2.ZERO, "contact regression starts without stale global movement")
 		var landing: Vector2 = outdoor.resolve_spawn_marker(
-			OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
+			OldPineWorldDefinitions.CLIFFSIDE_LANDING_SPAWN_POINT_ID
 		).global_position
 		var stale_locations: Array[StringName] = []
 		source_area.body_entered.connect(func(body: Node2D) -> void:
 			if body == outdoor.player_body and body.global_position == landing:
-				if session.player_runtime().world_location().zone_id != OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID:
+				if session.player_runtime().world_location().zone_id != OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID:
 					stale_locations.append(session.player_runtime().world_location().zone_id)
 		)
 		session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
 		session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([5]))
 		_assert_true(_attempt_from_east(outdoor).succeeded(), "contact fixture uses normal Vine handoff")
 		await _physically_enter_south_exit(session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID), tree)
-		_assert_eq(outdoor.player_body.global_position, landing, "no movement/teleport correction after SouthExit")
+		_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "SouthExit returns to the Gorge waterfall")
+		var climb_up: PortalDefinition = GameContent.catalog().portal(OldPineWorldDefinitions.CLIFF1_UP_PORTAL_ID)
+		_assert_true(session.handoff_to(
+			climb_up.destination_map_id, climb_up.destination_zone_id,
+			climb_up.destination_zone_id, climb_up.destination_spawn_point_id,
+		).succeeded(), "the cliff1 climb-up handoff reactivates the forest")
+		_assert_eq(outdoor.player_body.global_position, landing, "no movement/teleport correction after reactivation")
 		# Observe actual subsequent physics, not just a fast idle frame before the
 		# delayed contact callback. Preserve every transient violation above too.
 		for frame: int in 4:
 			await tree.physics_frame
 			await tree.process_frame
 			_assert_eq(session.player_runtime().world_location().zone_id,
-				OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID,
-				"settled return remains Waterfall Basin")
+				OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID,
+				"settled return remains Cliffside")
 		_assert_eq(outdoor.player_body.global_position, landing, "settling with zero input cannot move the body")
 		_assert_true(stale_locations.is_empty(), "no stale notification transiently overwrites committed landing")
 		var event: InputEventKey = InputEventKey.new()
@@ -399,11 +423,11 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		_assert_true(outdoor.player_body.global_position.x > landing.x, "fresh hardware input still moves returned player")
 		_assert_false(Input.is_action_pressed(&"move_right"), "test releases injected hardware action")
 		# Zones own the body's center (half-open), not its footprint edge.
-		OldPineTestMap.enter_zone(outdoor, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, outdoor.player_body)
-		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "disjoint stale SouthSlope callback is rejected")
-		outdoor.player_body.global_position = Vector2(908, 850)
-		OldPineTestMap.enter_zone(outdoor, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, outdoor.player_body)
-		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "a body edge over South Slope keeps the Waterfall Basin center owner")
+		OldPineTestMap.enter_zone(outdoor, OldPineWorldDefinitions.SLOPE_ZONE_ID, outdoor.player_body)
+		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID, "disjoint stale Slope callback is rejected")
+		outdoor.player_body.global_position = Vector2(435, 1108)
+		OldPineTestMap.enter_zone(outdoor, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, outdoor.player_body)
+		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID, "a body edge over Pine Entrance keeps the Cliffside center owner")
 		await _free_session(session, tree)
 
 
@@ -444,14 +468,16 @@ func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
 	_assert_false(invalid_draw.branch_presentation_reached, "invalid draw emits no branch presentation")
 	_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, "invalid draw performs no movement")
 	session.configure_world_interaction_random_source(world_random)
-	var marker: WorldSpawnMarker2D = outdoor.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID)
+	var marker: WorldSpawnMarker2D = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID)
 	marker.spawn_point_id = &"temporarily.missing"
 	outdoor.select_landmark(&"oldpine.outdoor.landmark.epath2_vine")
 	var missing_marker: VineTraversalResult = outdoor.traverse_selected_portal()
-	_assert_eq(missing_marker.outcome, VineTraversalResult.Outcome.SAME_MAP_TRAVERSAL_FAILED, "missing Waterfall marker fails after branch selection")
+	_assert_eq(missing_marker.outcome, VineTraversalResult.Outcome.MAP_HANDOFF_FAILED, "missing Waterfall marker fails after branch selection")
+	_assert_true(missing_marker.map_handoff_result != null and missing_marker.map_handoff_result.outcome == OldPineMapHandoffResult.Outcome.DESTINATION_MARKER_MISSING, "missing Waterfall marker is the typed handoff failure")
 	_assert_true(missing_marker.policy_result.branch_selected(), "missing marker retains selected branch")
 	_assert_true(missing_marker.has_ordered_partial_completion(), "missing marker reports ordered partial completion")
 	_assert_false(missing_marker.movement_location_committed, "missing marker performs no arbitrary fallback move")
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "missing marker keeps the forest active")
 	_assert_eq(world_random.call_count(), 1, "missing marker does not roll back consumed draw")
 	marker.spawn_point_id = OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
 	await _free_session(session, tree)
@@ -514,7 +540,7 @@ func _test_south_exit_failure_recovery(tree: SceneTree) -> void:
 	session.configure_world_interaction_random_source(random)
 	session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
 	_assert_true(_attempt_from_east(outdoor).succeeded(), "SouthExit recovery fixture reaches Cave")
-	var waterfall_marker: WorldSpawnMarker2D = outdoor.resolve_spawn_marker(
+	var waterfall_marker: WorldSpawnMarker2D = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).resolve_spawn_marker(
 		OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
 	)
 	waterfall_marker.spawn_point_id = &"temporarily.missing"
@@ -532,8 +558,8 @@ func _test_south_exit_failure_recovery(tree: SceneTree) -> void:
 	_assert_eq(random.call_count(), 1, "failed SouthExit consumes no additional World RNG")
 	waterfall_marker.spawn_point_id = OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
 	await _physically_enter_south_exit(cave, tree)
-	_assert_true(session.last_map_handoff_result().succeeded(), "recovered physical SouthExit can retry and reach Outdoor")
-	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "recovered SouthExit lands in Outdoor")
+	_assert_true(session.last_map_handoff_result().succeeded(), "recovered physical SouthExit can retry and reach the Gorge")
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "recovered SouthExit lands at the Gorge waterfall")
 	_assert_false(session.passage_request_pending(), "successful SouthExit clears its completed request gate")
 	_assert_eq(random.call_count(), 1, "successful SouthExit still consumes zero World RNG")
 	_assert_true(_attempt_from_east(outdoor).succeeded(), "same resident Cave supports later Vine reactivation")
@@ -568,9 +594,11 @@ func _test_physical_interaction_and_exit_deduplication(tree: SceneTree) -> void:
 	await tree.process_frame
 	_assert_true(first_result != null and first_result.succeeded(), "one Cave south trigger performs one handoff")
 	_assert_true(session.last_map_handoff_result() == first_result, "repeated trigger after detach queues no duplicate handoff")
-	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "deduplicated exit lands Outdoor")
+	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "deduplicated exit lands at the Gorge waterfall")
 	_assert_false(session.passage_request_pending(), "processed SouthExit no longer reports a pending transition")
-	_assert_true(cave.has_node("Boundaries/NorthBlockedBoundary"), "Cave north secret passage remains physically blocked")
+	# The closed north passage is a band of colliding terrain (was a StaticBody2D).
+	for point: Vector2 in [Vector2(-300, -240), Vector2(0, -240), Vector2(300, -240)]:
+		_assert_true(TerrainProbe.blocks_at(cave, point), "Cave north secret passage remains physically blocked at %s" % point)
 	await _free_session(session, tree)
 
 
@@ -606,9 +634,25 @@ func _physically_enter_south_exit(
 
 
 func _attempt_from_east(outdoor: WorldMapController) -> VineTraversalResult:
+	_return_to_forest(outdoor)
 	_move_player(outdoor, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, Vector2(1200, 300))
 	outdoor.select_landmark(&"oldpine.outdoor.landmark.epath2_vine")
 	return outdoor.traverse_selected_portal()
+
+
+## A fall or a Cave exit leaves the player on the gorge map. The forest has no
+## marker on the bridge, so the fixture hands off to its entry in the clearing.
+func _return_to_forest(outdoor: WorldMapController) -> void:
+	var session: OldPineWorldSessionController = outdoor.session
+	if session.active_map_id() == outdoor.map_id():
+		return
+	var handoff: OldPineMapHandoffResult = session.handoff_to(
+		outdoor.map_id(),
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
+		GameContent.catalog().map(outdoor.map_id()).entry_spawn_id,
+	)
+	_assert_true(handoff.succeeded(), "fixture hands the player back to the forest")
 
 
 func _move_player(
@@ -680,7 +724,7 @@ func _kill_bandit(
 	tree: SceneTree,
 ) -> CorpseState:
 	controller.player_body.set_world_location(controller.resolve_location(
-		OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID, OldPineWorldDefinitions.SOUTH_SLOPE_ZONE_ID,
+		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	if not controller.select_npc(victim.character_id):
 		return null

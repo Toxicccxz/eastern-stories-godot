@@ -265,6 +265,10 @@ func complete_activation() -> bool:
 	var resolved: WorldLocationState = resolve_location(location.zone_id, location.combat_location_id)
 	if resolved == null or not location.same_location(resolved):
 		return false
+	# A re-attached TileMapLayer builds its collision on its next update; build it now so
+	# the walls exist from the first physics step after an arrival.
+	for node: Node in find_children("*", "TileMapLayer", true, false):
+		(node as TileMapLayer).update_internals()
 	player_body.player_controlled = true
 	player_body.refresh_runtime_state()
 	(player_body.get_node("Camera2D") as Camera2D).enabled = true
@@ -850,6 +854,18 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	return receipt
 
 
+## A corpse lies where its body fell. It is wider than the body, so beside a wall it is
+## shifted (sideways first, at most 40 px, same zone) until it fits; Continue validates it.
+func _corpse_position(death_position: Vector2, death_location: WorldLocationState) -> Vector2:
+	if death_location == null or MapPlacementValidator.is_valid_corpse_position(self, death_location.zone_id, death_position):
+		return death_position
+	for distance: int in range(8, 41, 8):
+		for offset: Vector2 in [Vector2(distance, 0), Vector2(-distance, 0), Vector2(0, distance), Vector2(0, -distance)]:
+			if MapPlacementValidator.is_valid_corpse_position(self, death_location.zone_id, death_position + offset):
+				return death_position + offset
+	return death_position
+
+
 func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
 	var body: WorldCharacterBody2D = runtime_body_for_character(victim.character_id)
 	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
@@ -880,7 +896,7 @@ func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: Combat
 	var corpse: CorpseState = null if lifecycle.death_inventory_result == null else lifecycle.death_inventory_result.corpse_state
 	if corpse == null:
 		return lifecycle
-	var view: CombatSliceCorpseView = _add_corpse_view(corpse, death_position, death_location)
+	var view: CombatSliceCorpseView = _add_corpse_view(corpse, _corpse_position(death_position, death_location), death_location)
 	if view == null:
 		lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
 		return lifecycle
@@ -1261,8 +1277,8 @@ func last_landmark_use() -> RefCounted:
 	return _last_landmark_use
 
 
-## WorldPassageArea2D calls this (deferred) for a portal that stays on this map,
-## e.g. cliffside.c north into the pine forest.
+## WorldPassageArea2D calls this (deferred) for a portal that stays on this map.
+## No current content has one: Old Pine's height changes all cross maps (DECISIONS 3B5).
 func traverse_same_map_passage(portal: PortalDefinition) -> void:
 	if not _gameplay_open() or portal == null or not is_passage_current(portal):
 		return

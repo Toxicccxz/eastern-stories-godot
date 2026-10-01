@@ -8,23 +8,24 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 70000.0,
-				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+				"character_id": "oldpine.outdoor.slope.spath1.bandit.1.character",
 				"definition": "oldpine.npc.bandit",
 				"loadout": [
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.0.0",
 						"es2:d/oldpine/obj/short_sword"
 					],
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.1.0",
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 125000.0,
-				"point": "oldpine.outdoor.south_slope.spath1.bandit.1",
+				"point": "oldpine.outdoor.slope.spath1.bandit.1",
 				"position": [
 					300.0,
-					800.0
+					-200.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -67,13 +68,13 @@
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
-							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"_instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.0.0",
 							"_is_two_handed": false,
 							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"_skill_type": "sword",
 							"_weapon_id": "es2:d/oldpine/obj/short_sword",
 							"can_wield_as_secondary": true,
-							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.0.0",
 							"is_two_handed": false,
 							"legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"skill_type": "sword",
@@ -145,7 +146,7 @@
 						"maximum": 200.0
 					}
 				},
-				"zone": "oldpine.outdoor.south_slope"
+				"zone": "oldpine.outdoor.slope"
 			},
 			{
 				"age": 19.0,
@@ -153,23 +154,24 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 60000.0,
-				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+				"character_id": "oldpine.outdoor.slope.spath1.bandit.2.character",
 				"definition": "oldpine.npc.bandit",
 				"loadout": [
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.0.0",
 						"es2:d/oldpine/obj/short_sword"
 					],
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.1.0",
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 100000.0,
-				"point": "oldpine.outdoor.south_slope.spath1.bandit.2",
+				"point": "oldpine.outdoor.slope.spath1.bandit.2",
 				"position": [
 					450.0,
-					880.0
+					-280.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -212,13 +214,13 @@
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
-							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"_instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.0.0",
 							"_is_two_handed": false,
 							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"_skill_type": "sword",
 							"_weapon_id": "es2:d/oldpine/obj/short_sword",
 							"can_wield_as_secondary": true,
-							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.0.0",
 							"is_two_handed": false,
 							"legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"skill_type": "sword",
@@ -290,7 +292,7 @@
 						"maximum": 200.0
 					}
 				},
-				"zone": "oldpine.outdoor.south_slope"
+				"zone": "oldpine.outdoor.slope"
 			},
 			{
 				"age": 19.0,
@@ -298,23 +300,24 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 74000.0,
-				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+				"character_id": "oldpine.outdoor.slope.spath1.bandit.3.character",
 				"definition": "oldpine.npc.bandit",
 				"loadout": [
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.0.0",
 						"es2:d/oldpine/obj/short_sword"
 					],
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.1.0",
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 135000.0,
-				"point": "oldpine.outdoor.south_slope.spath1.bandit.3",
+				"point": "oldpine.outdoor.slope.spath1.bandit.3",
 				"position": [
 					600.0,
-					800.0
+					-200.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -357,13 +360,13 @@
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
-							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"_instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.0.0",
 							"_is_two_handed": false,
 							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"_skill_type": "sword",
 							"_weapon_id": "es2:d/oldpine/obj/short_sword",
 							"can_wield_as_secondary": true,
-							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.0.0",
 							"is_two_handed": false,
 							"legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"skill_type": "sword",
@@ -435,7 +438,7 @@
 						"maximum": 200.0
 					}
 				},
-				"zone": "oldpine.outdoor.south_slope"
+				"zone": "oldpine.outdoor.slope"
 			},
 			{
 				"age": 27.0,
@@ -455,11 +458,12 @@
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 65000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 				"position": [
-					-300.0,
-					300.0
+					450.0,
+					880.0
 				],
 				"spawn": "oldpine.outdoor.pine1.tall_bandit",
 				"state": {
@@ -673,11 +677,12 @@
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 60000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
 				"position": [
-					-200.0,
-					400.0
+					560.0,
+					900.0
 				],
 				"spawn": "oldpine.outdoor.pine1.fat_bandit",
 				"state": {
@@ -806,16 +811,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.1.character",
+				"character_id": "oldpine.gorge.lake.serpent.1.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.1",
+				"point": "oldpine.gorge.lake.serpent.1",
 				"position": [
 					1340.0,
 					2470.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -917,7 +923,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -925,16 +931,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.2.character",
+				"character_id": "oldpine.gorge.lake.serpent.2.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.2",
+				"point": "oldpine.gorge.lake.serpent.2",
 				"position": [
 					1430.0,
 					2505.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -1036,7 +1043,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -1044,16 +1051,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.3.character",
+				"character_id": "oldpine.gorge.lake.serpent.3.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.3",
+				"point": "oldpine.gorge.lake.serpent.3",
 				"position": [
 					1340.0,
 					2545.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -1155,7 +1163,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -1163,16 +1171,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.4.character",
+				"character_id": "oldpine.gorge.lake.serpent.4.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.4",
+				"point": "oldpine.gorge.lake.serpent.4",
 				"position": [
 					1440.0,
 					2590.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -1274,7 +1283,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -1282,16 +1291,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.5.character",
+				"character_id": "oldpine.gorge.lake.serpent.5.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.5",
+				"point": "oldpine.gorge.lake.serpent.5",
 				"position": [
 					1350.0,
 					2640.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -1393,7 +1403,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			}
 		]
 	},
@@ -1406,23 +1416,24 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 70000.0,
-				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.1.character",
+				"character_id": "oldpine.outdoor.slope.spath1.bandit.1.character",
 				"definition": "oldpine.npc.bandit",
 				"loadout": [
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.0.0",
 						"es2:d/oldpine/obj/short_sword"
 					],
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.1.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.1.0",
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 125000.0,
-				"point": "oldpine.outdoor.south_slope.spath1.bandit.1",
+				"point": "oldpine.outdoor.slope.spath1.bandit.1",
 				"position": [
 					300.0,
-					800.0
+					-200.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -1465,13 +1476,13 @@
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
-							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"_instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.0.0",
 							"_is_two_handed": false,
 							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"_skill_type": "sword",
 							"_weapon_id": "es2:d/oldpine/obj/short_sword",
 							"can_wield_as_secondary": true,
-							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.1.character.loadout.0.0",
+							"instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.1.character.loadout.0.0",
 							"is_two_handed": false,
 							"legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"skill_type": "sword",
@@ -1543,7 +1554,7 @@
 						"maximum": 200.0
 					}
 				},
-				"zone": "oldpine.outdoor.south_slope"
+				"zone": "oldpine.outdoor.slope"
 			},
 			{
 				"age": 19.0,
@@ -1551,23 +1562,24 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 60000.0,
-				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.2.character",
+				"character_id": "oldpine.outdoor.slope.spath1.bandit.2.character",
 				"definition": "oldpine.npc.bandit",
 				"loadout": [
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.0.0",
 						"es2:d/oldpine/obj/short_sword"
 					],
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.1.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.1.0",
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 100000.0,
-				"point": "oldpine.outdoor.south_slope.spath1.bandit.2",
+				"point": "oldpine.outdoor.slope.spath1.bandit.2",
 				"position": [
 					450.0,
-					880.0
+					-280.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -1610,13 +1622,13 @@
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
-							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"_instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.0.0",
 							"_is_two_handed": false,
 							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"_skill_type": "sword",
 							"_weapon_id": "es2:d/oldpine/obj/short_sword",
 							"can_wield_as_secondary": true,
-							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.2.character.loadout.0.0",
+							"instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.2.character.loadout.0.0",
 							"is_two_handed": false,
 							"legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"skill_type": "sword",
@@ -1688,7 +1700,7 @@
 						"maximum": 200.0
 					}
 				},
-				"zone": "oldpine.outdoor.south_slope"
+				"zone": "oldpine.outdoor.slope"
 			},
 			{
 				"age": 19.0,
@@ -1696,23 +1708,24 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 74000.0,
-				"character_id": "oldpine.outdoor.south_slope.spath1.bandit.3.character",
+				"character_id": "oldpine.outdoor.slope.spath1.bandit.3.character",
 				"definition": "oldpine.npc.bandit",
 				"loadout": [
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.0.0",
 						"es2:d/oldpine/obj/short_sword"
 					],
 					[
-						"<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.1.0",
+						"<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.1.0",
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 135000.0,
-				"point": "oldpine.outdoor.south_slope.spath1.bandit.3",
+				"point": "oldpine.outdoor.slope.spath1.bandit.3",
 				"position": [
 					600.0,
-					800.0
+					-200.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -1755,13 +1768,13 @@
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
-							"_instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"_instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.0.0",
 							"_is_two_handed": false,
 							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"_skill_type": "sword",
 							"_weapon_id": "es2:d/oldpine/obj/short_sword",
 							"can_wield_as_secondary": true,
-							"instance_id": "<scope>.oldpine.outdoor.south_slope.spath1.bandit.3.character.loadout.0.0",
+							"instance_id": "<scope>.oldpine.outdoor.slope.spath1.bandit.3.character.loadout.0.0",
 							"is_two_handed": false,
 							"legacy_source_path": "d/oldpine/obj/short_sword.c",
 							"skill_type": "sword",
@@ -1833,7 +1846,7 @@
 						"maximum": 200.0
 					}
 				},
-				"zone": "oldpine.outdoor.south_slope"
+				"zone": "oldpine.outdoor.slope"
 			},
 			{
 				"age": 27.0,
@@ -1853,11 +1866,12 @@
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 65000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 				"position": [
-					-300.0,
-					300.0
+					450.0,
+					880.0
 				],
 				"spawn": "oldpine.outdoor.pine1.tall_bandit",
 				"state": {
@@ -2071,11 +2085,12 @@
 						"es2:obj/money/silver"
 					]
 				],
+				"map": "oldpine.outdoor",
 				"maximum_encumbrance": 60000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
 				"position": [
-					-200.0,
-					400.0
+					560.0,
+					900.0
 				],
 				"spawn": "oldpine.outdoor.pine1.fat_bandit",
 				"state": {
@@ -2204,16 +2219,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.1.character",
+				"character_id": "oldpine.gorge.lake.serpent.1.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.1",
+				"point": "oldpine.gorge.lake.serpent.1",
 				"position": [
 					1340.0,
 					2470.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -2315,7 +2331,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -2323,16 +2339,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.2.character",
+				"character_id": "oldpine.gorge.lake.serpent.2.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.2",
+				"point": "oldpine.gorge.lake.serpent.2",
 				"position": [
 					1430.0,
 					2505.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -2434,7 +2451,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -2442,16 +2459,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.3.character",
+				"character_id": "oldpine.gorge.lake.serpent.3.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.3",
+				"point": "oldpine.gorge.lake.serpent.3",
 				"position": [
 					1340.0,
 					2545.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -2553,7 +2571,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -2561,16 +2579,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.4.character",
+				"character_id": "oldpine.gorge.lake.serpent.4.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.4",
+				"point": "oldpine.gorge.lake.serpent.4",
 				"position": [
 					1440.0,
 					2590.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -2672,7 +2691,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			},
 			{
 				"age": 400.0,
@@ -2680,16 +2699,17 @@
 					"_equipped_by_slot": {}
 				},
 				"body_weight": 62000.0,
-				"character_id": "oldpine.outdoor.lake.serpent.5.character",
+				"character_id": "oldpine.gorge.lake.serpent.5.character",
 				"definition": "oldpine.npc.serpent",
 				"loadout": [],
+				"map": "oldpine.gorge",
 				"maximum_encumbrance": 200000.0,
-				"point": "oldpine.outdoor.lake.serpent.5",
+				"point": "oldpine.gorge.lake.serpent.5",
 				"position": [
 					1350.0,
 					2640.0
 				],
-				"spawn": "oldpine.outdoor.lake.serpents",
+				"spawn": "oldpine.gorge.lake.serpents",
 				"state": {
 					"affiliation": {
 						"class_id": "",
@@ -2791,7 +2811,7 @@
 						"maximum": 1800.0
 					}
 				},
-				"zone": "oldpine.outdoor.lake"
+				"zone": "oldpine.gorge.lake"
 			}
 		]
 	}

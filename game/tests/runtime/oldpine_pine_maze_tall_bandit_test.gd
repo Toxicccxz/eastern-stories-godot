@@ -84,7 +84,6 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 			OldPineWorldDefinitions.RIVERBANK1_CLIFF_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFF1_DOWN_PORTAL_ID,
 			OldPineWorldDefinitions.CLIFF1_UP_PORTAL_ID,
-			OldPineWorldDefinitions.CLIFFSIDE_PINE1_PORTAL_ID,
 	]:
 		_assert_true(GameContent.catalog().portal(portal_id) != null, "%s is authored" % portal_id)
 
@@ -146,39 +145,55 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	if controller == null:
 		return
 	var initial_npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(initial_npcs.size(), 10, "scene ready constructs all NPCs before Area signals")
+	_assert_eq(initial_npcs.size(), 5, "scene ready constructs all forest NPCs before Area signals")
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
-	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeBounds/Top", Vector2(2100, 30), "maze north boundary")
-	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeBounds/Bottom", Vector2(2100, 30), "maze south boundary")
-	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeObstacles/CentralIsland", Vector2(300, 240), "central loop island")
-	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeObstacles/DeadEndWest", Vector2(40, 220), "dead-end west wall")
-	_assert_rect_shape(controller, "Terrain/Boundaries/PineMazeObstacles/DeadEndEast", Vector2(40, 220), "dead-end east wall")
+	# The maze south of the clearing is drawn with 16 px terrain tiles whose physics is the
+	# collision, so its geometry is read from the TileMapLayers instead of StaticBody2D shapes.
+	_assert_true(_all_blocking(controller, Rect2(-1440, 624, 1824, 16)) and _all_blocking(controller, Rect2(512, 624, 384, 16)), "maze north boundary is solid forest")
+	_assert_true(_none_blocking(controller, Rect2(384, 592, 128, 48)), "maze north boundary opens only into the clearing (clearing to pine1)")
+	_assert_true(_all_blocking(controller, Rect2(-1440, 1056, 1840, 16)) and _all_blocking(controller, Rect2(512, 1056, 384, 16)), "maze south boundary is solid forest")
+	_assert_true(_none_blocking(controller, Rect2(400, 1040, 112, 64)), "maze south boundary opens only to the cliffside (pine1 to cliffside)")
+	_assert_true(_all_blocking(controller, Rect2(-32, 640, 64, 160)) and _all_blocking(controller, Rect2(-32, 928, 64, 128)), "Entrance and Deep are walled apart")
+	_assert_true(_none_blocking(controller, Rect2(-32, 800, 64, 128)), "Entrance-to-Deep wall keeps one opening")
+	_assert_true(_all_blocking(controller, Rect2(-928, 640, 64, 160)) and _all_blocking(controller, Rect2(-928, 928, 64, 128)), "Deep and Cliff Edge are walled apart")
+	_assert_true(_none_blocking(controller, Rect2(-928, 800, 64, 128)), "Deep-to-Cliff Edge wall keeps one opening")
+	_assert_true(_all_blocking(controller, Rect2(-560, 736, 304, 240)), "central loop island is solid")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-408, 856)), "forest", "central loop island is drawn as forest")
+	for corridor: Rect2 in [Rect2(-640, 640, 608, 96), Rect2(-640, 976, 608, 80), Rect2(-640, 640, 80, 416), Rect2(-256, 640, 224, 416)]:
+		_assert_true(_none_blocking(controller, corridor), "loop corridor %s around the island is open" % corridor)
+	_assert_true(_all_blocking(controller, Rect2(-864, 640, 80, 208)), "dead-end west wall")
+	_assert_true(_all_blocking(controller, Rect2(-672, 640, 32, 208)), "dead-end east wall")
+	_assert_true(_none_blocking(controller, Rect2(-784, 640, 112, 208)), "dead-end pocket floor is open")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-728, 660)), "forest_floor", "dead-end pocket is drawn as forest floor")
+	_assert_true(_all_blocking(controller, Rect2(864, 800, 48, 128)), "future Keep boundary is closed at the entrance's east edge")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(880, 864)), "blocked", "future Keep boundary is drawn as blocked")
+	_assert_true(_all_blocking(controller, Rect2(-1520, 640, 80, 416)), "future cliff descent is closed along the west end")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-1480, 864)), "cliff", "future cliff boundary is drawn as cliff")
 	for zone_name: String in ["PineEntranceZone", "PineDeepZone", "PineCliffEdgeZone"]:
 		var zone: Area2D = controller.get_node_or_null("Zones/%s" % zone_name) as Area2D
 		_assert_true(zone != null, "%s persists" % zone_name)
 		_assert_eq(zone.get_signal_connection_list("body_entered").size(), 1, "%s has one typed zone adapter" % zone_name)
-	var entrance_zone: Area2D = controller.get_node("Zones/PineEntranceZone") as Area2D
-	var deep_zone: Area2D = controller.get_node("Zones/PineDeepZone") as Area2D
-	var cliff_zone: Area2D = controller.get_node("Zones/PineCliffEdgeZone") as Area2D
-	var entrance_shape: RectangleShape2D = (entrance_zone.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
-	var deep_shape: RectangleShape2D = (deep_zone.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
-	var cliff_shape: RectangleShape2D = (cliff_zone.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
-	_assert_eq(entrance_zone.position.x - entrance_shape.size.x / 2.0, -600.0, "Pine Entrance begins at exact threshold")
-	_assert_eq(entrance_zone.position.x - entrance_shape.size.x / 2.0, deep_zone.position.x + deep_shape.size.x / 2.0, "Entrance and Deep meet without gap or interior overlap")
-	_assert_eq(deep_zone.position.x - deep_shape.size.x / 2.0, cliff_zone.position.x + cliff_shape.size.x / 2.0, "Deep and Cliff Edge meet without gap or interior overlap")
-	_assert_eq(cliff_zone.position.x - cliff_shape.size.x / 2.0, -2100.0, "Pine Cliff Edge reaches implemented west boundary")
-	_assert_eq([entrance_shape.size.y, deep_shape.size.y, cliff_shape.size.y], [600.0, 600.0, 600.0], "all Pine zone interiors cover the traversable vertical span")
-	_assert_eq((controller.get_node("MazeEvidence/PineThresholdRoute") as Marker2D).position, Vector2(-40, 300), "continuous threshold marker")
-	_assert_eq((controller.get_node("MazeEvidence/PineLoopNorth") as Marker2D).position, Vector2(-1050, 120), "north loop marker")
-	_assert_eq((controller.get_node("MazeEvidence/PineLoopSouth") as Marker2D).position, Vector2(-1050, 480), "south loop marker")
-	_assert_eq((controller.get_node("MazeEvidence/PineDeadEnd") as Marker2D).position, Vector2(-705, 50), "safe dead-end marker")
-	_assert_eq((controller.get_node("MazeEvidence/KeepFutureBoundary") as Marker2D).position, Vector2(-520, 60), "future Keep boundary marker")
-	_assert_eq((controller.get_node("MazeEvidence/CliffFutureBoundary") as Marker2D).position, Vector2(-2040, 300), "future cliff boundary marker")
+	var clearing_rect: Rect2 = _zone_rect(controller, "CentralClearingZone")
+	var entrance_rect: Rect2 = _zone_rect(controller, "PineEntranceZone")
+	var deep_rect: Rect2 = _zone_rect(controller, "PineDeepZone")
+	var cliff_rect: Rect2 = _zone_rect(controller, "PineCliffEdgeZone")
+	var cliffside_rect: Rect2 = _zone_rect(controller, "CliffsideZone")
+	_assert_eq(entrance_rect.position.y, clearing_rect.end.y, "Pine Entrance begins at the clearing's south edge")
+	_assert_eq(entrance_rect.position.x, 0.0, "Pine Entrance begins at exact threshold")
+	_assert_eq(entrance_rect.position.x, deep_rect.end.x, "Entrance and Deep meet without gap or interior overlap")
+	_assert_eq(deep_rect.position.x, cliff_rect.end.x, "Deep and Cliff Edge meet without gap or interior overlap")
+	_assert_eq(cliff_rect.position.x, -1500.0, "Pine Cliff Edge reaches implemented west boundary")
+	_assert_eq(cliffside_rect.position.y, entrance_rect.end.y, "Cliffside meets Pine Entrance at its south edge")
+	_assert_eq([entrance_rect.position.y, deep_rect.position.y, cliff_rect.position.y], [600.0, 600.0, 600.0], "all Pine zones share the same north edge")
+	_assert_eq([entrance_rect.end.y, deep_rect.end.y, cliff_rect.end.y], [1100.0, 1100.0, 1100.0], "all Pine zones share the same south edge")
+	_assert_true(entrance_rect.position.y <= 640.0 and entrance_rect.end.y >= 1056.0, "all Pine zone interiors cover the traversable vertical span")
 
-	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(-300, 210)
-	controller.player_body.global_position = Vector2(80, 300)
+	# Keep both pine1 bandits off the walked routes and out of presence range of them.
+	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(820, 1020)
+	OldPineTestMap.body(controller, "FatBandit").global_position = Vector2(850, 680)
+	controller.player_body.global_position = Vector2(450, 540)
 	await tree.physics_frame
 	var player_state: CharacterState = controller.player_runtime().state
 	var resources_before: Array[int] = [
@@ -186,26 +201,33 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 		player_state.vitality.current,
 		player_state.spirit.current,
 	]
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-550, 350)), "old outdoor connects directly into Pine Entrance")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(450, 700)), "the clearing connects directly into Pine Entrance")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "physical threshold enters Pine Entrance")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-650, 350)), "physical Entrance-to-Deep seam is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(450, 864)), "Pine Entrance floor is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(60, 864)), "Pine Entrance reaches its west opening")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-60, 864)), "physical Entrance-to-Deep seam is traversable")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Entrance-to-Deep seam assigns Deep without a gap")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-550, 350)), "physical Deep-to-Entrance seam is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(60, 864)), "physical Deep-to-Entrance seam is traversable")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Deep-to-Entrance seam assigns Entrance deterministically")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 480)), "south route reaches loop approach")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1050, 480)), "south branch passes central island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 864)), "route re-enters Pine Deep east of the island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 1016)), "south route reaches loop approach")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-410, 1016)), "south branch passes central island")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "physical route enters Pine Deep")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 480)), "south branch clears central island")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1450, 300)), "south branch exits Pine Deep")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-2040, 300)), "fixed route reaches cliff edge")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-820, 1016)), "south branch clears central island and the dead-end pocket")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-820, 888)), "route turns north below the dead-end pocket")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1000, 888)), "physical Deep-to-Cliff Edge seam is traversable")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "Deep-to-Cliff Edge seam assigns Cliff Edge without a gap")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1400, 888)), "fixed route reaches cliff edge")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "physical route enters Pine Cliff Edge")
@@ -213,11 +235,17 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_true(cliff_collision != null, "future cliff descent remains physically closed")
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "blocked cliff edge retains Pine Cliff Edge location")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1450, 300)), "cliff edge route returns east")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 480)), "return route reaches south loop")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 480)), "return route crosses Pine Deep")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-550, 350)), "return route reaches Pine Entrance")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(80, 300)), "return route reaches original Outdoor")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1000, 888)), "cliff edge route returns east")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-820, 888)), "physical Cliff Edge-to-Deep seam is traversable")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Cliff Edge-to-Deep seam assigns Deep deterministically")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-820, 1016)), "return route reaches south loop")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 1016)), "return route crosses Pine Deep")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 864)), "return route turns north east of the island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(60, 864)), "return route reaches Pine Entrance")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(450, 864)), "return route crosses Pine Entrance")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(450, 540)), "return route reaches original Outdoor")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "physical return restores existing Outdoor location")
@@ -231,28 +259,42 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 		"physical zone traversal does not mutate CharacterState resources",
 	)
 
-	controller.player_body.global_position = Vector2(-520, 300)
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-520, 60)), "future Keep boundary remains physically reachable")
-	var keep_collision: KinematicCollision2D = controller.player_body.move_and_collide(Vector2(0, -100))
+	# pine1 south <-> cliffside is ordinary walking now (formerly a same-map portal).
+	controller.player_body.global_position = Vector2(450, 864)
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(450, 1150)), "Pine Entrance walks south into the cliffside")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID, "south opening assigns the cliffside")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(450, 864)), "cliffside walks north back into Pine Entrance")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "cliffside-to-pine1 walk restores Pine Entrance")
+
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(845, 864)), "future Keep boundary remains physically reachable")
+	var keep_collision: KinematicCollision2D = controller.player_body.move_and_collide(Vector2(100, 0))
 	_assert_true(keep_collision != null, "future Keep route remains physically closed")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "blocked Keep path retains Pine Entrance location")
 
-	controller.player_body.global_position = Vector2(-705, 300)
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-705, 50)), "safe dead-end corridor is traversable")
-	_assert_true(controller.player_body.move_and_collide(Vector2(0, -100)) != null, "dead end terminates at maze boundary")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-705, 300)), "dead end is safely escapable")
+	controller.player_body.global_position = Vector2(-728, 1016)
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-728, 660)), "safe dead-end corridor is traversable")
+	_assert_true(controller.player_body.move_and_collide(Vector2(0, -100)) != null, "dead end terminates at the forest edge")
+	_assert_true(controller.player_body.move_and_collide(Vector2(-100, 0)) != null, "dead end is closed to the west")
+	_assert_true(controller.player_body.move_and_collide(Vector2(100, 0)) != null, "dead end is closed to the east")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-728, 680)), "dead end can be re-centred")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-728, 1016)), "dead end is safely escapable")
 
-	controller.player_body.global_position = Vector2(-850, 300)
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 120)), "north loop approach is traversable")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1050, 120)), "north branch passes central island")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 120)), "north branch reaches west side of island")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1450, 300)), "loop turns around island west side")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1350, 480)), "loop reaches alternate south branch")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-1050, 480)), "alternate south branch passes island")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 480)), "alternate branch returns east of island")
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-850, 300)), "physical route closes the loop at its original junction without teleport")
+	controller.player_body.global_position = Vector2(-144, 864)
+	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(-144, 864)), Vector2(-300, 0)), "central island physically blocks the direct way west")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 688)), "north loop approach is traversable")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-410, 688)), "north branch passes central island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-600, 688)), "north branch reaches west side of island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-600, 864)), "loop turns around island west side")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-600, 1016)), "loop reaches alternate south branch")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-410, 1016)), "alternate south branch passes island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 1016)), "alternate branch returns east of island")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-144, 864)), "physical route closes the loop at its original junction without teleport")
 
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
@@ -276,7 +318,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 10, "runtime owns five humans plus five serpents")
+	_assert_eq(npcs.size(), 5, "forest runtime owns the five humans")
+	_assert_eq(controller.session.world_npcs().size(), 10, "Old Pine runtime owns five humans plus five serpents")
 	var tall: NpcRuntimeState = npcs[3]
 	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall runtime starts in Pine Entrance")
@@ -315,7 +358,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 6, "tall silver stack amount is six")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 222, "six silver weighs 6 * 37")
 	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
-	_assert_eq(participants.size(), 11, "combat projection includes player and ten NPCs")
+	_assert_eq(participants.size(), 6, "combat projection includes player and the forest map's five NPCs")
 	_assert_eq(participants[4].content.projected_apply_damage(participants[4].state.equipment.primary_weapon()), 25, "tall combat projection uses long-sword damage 25")
 	var tall_primary: EquippedWeaponRef = tall.character_state.equipment.primary_weapon()
 	_assert_true(tall.character_state.equipment.unwield(tall_primary.instance_id).succeeded, "audit can remove Tall current primary through Equipment authority")
@@ -394,8 +437,9 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var expected_body_weight: int = tall.body_weight
 	var expected_capacity: int = tall.maximum_encumbrance
 	tall.character_state.attributes.strength = 30
-	controller.player_body.global_position = Vector2(-1300, 300)
-	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(-1300, 300)
+	# The south loop below the central island, inside Pine Deep.
+	controller.player_body.global_position = Vector2(-410, 1016)
+	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(-410, 1016)
 	# NPCs never walk between zones; the fixture moves both authorities with the bodies.
 	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID))
 	OldPineTestMap.body(controller, "TallBandit").set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID))
@@ -665,20 +709,38 @@ func _skill_pairs(skills: Array[NpcSkillLevelDefinition]) -> Array[Array]:
 	return result
 
 
-func _assert_rect_shape(
-	root: Node,
-	path: String,
-	expected_size: Vector2,
-	label: String,
-) -> void:
-	var collision: CollisionShape2D = root.get_node_or_null(path) as CollisionShape2D
-	_assert_true(collision != null, "%s persists" % label)
-	if collision == null:
-		return
-	var rectangle: RectangleShape2D = collision.shape as RectangleShape2D
-	_assert_true(rectangle != null, "%s uses RectangleShape2D" % label)
-	if rectangle != null:
-		_assert_eq(rectangle.size, expected_size, "%s exact size" % label)
+## A zone Area's rectangle in map coordinates.
+func _zone_rect(map: Node2D, zone_name: String) -> Rect2:
+	var zone: Area2D = map.get_node("Zones/%s" % zone_name) as Area2D
+	var shape: RectangleShape2D = (zone.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
+	return Rect2(zone.position - shape.size / 2.0, shape.size)
+
+
+## [colliding samples, all samples] over a grid of points inside `rect`, finer than one 16 px tile.
+func _blocking_coverage(map: Node2D, rect: Rect2) -> Vector2i:
+	var columns: int = maxi(1, ceili(rect.size.x / 8.0))
+	var rows: int = maxi(1, ceili(rect.size.y / 8.0))
+	var blocking: int = 0
+	var total: int = 0
+	for column: int in range(columns + 1):
+		for row: int in range(rows + 1):
+			var point: Vector2 = Vector2(
+				lerpf(rect.position.x + 0.5, rect.end.x - 0.5, float(column) / float(columns)),
+				lerpf(rect.position.y + 0.5, rect.end.y - 0.5, float(row) / float(rows)),
+			)
+			total += 1
+			if TerrainProbe.blocks_at(map, point):
+				blocking += 1
+	return Vector2i(blocking, total)
+
+
+func _all_blocking(map: Node2D, rect: Rect2) -> bool:
+	var coverage: Vector2i = _blocking_coverage(map, rect)
+	return coverage.x == coverage.y
+
+
+func _none_blocking(map: Node2D, rect: Rect2) -> bool:
+	return _blocking_coverage(map, rect).x == 0
 
 
 func _count_tree_nodes(root: Node) -> int:

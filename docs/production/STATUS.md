@@ -4,7 +4,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 3 — generic map runtime**, split into four playable PRs (see [ROADMAP](ROADMAP.md)):
+**Package 3 — generic map runtime**, in playable PRs (see [ROADMAP](ROADMAP.md)):
 
 1. **World data** (PR #29): rooms, regions, maps, zones and portals are JSON; the player reads each
    room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
@@ -15,9 +15,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
    cave use `WorldMapController`; NPCs spawn from spawns.json onto one generic body scene; landmarks
    (climb/descend/vine), water sources and the Lake's complete-set entry are data; one combat round
    per second on every map (`pacing.json`); saves, combat and the HUD go through every resident map.
-4. **Terrain on `TileMapLayer`** (`phase/terrain-tilemap`): Snow and Old Pine are painted with one
-   16 px placeholder TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)). Collision and zones
-   are unchanged. Swapping art means replacing the TileSet.
+4. **Terrain on `TileMapLayer`** (PR #32): Snow and Old Pine are painted with one 16 px placeholder
+   TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)). Swapping art means replacing the TileSet.
+5. **Old Pine by height level** (`phase/oldpine-elevation-maps`): forest, gorge, tree top and cliff
+   niche are separate maps; climbing, the vine and the cave are scene transitions; the forest follows
+   the ES2 exits (the bandit slope is north of the clearing); Old Pine collides through its tiles.
+6. Snow collision on its tiles (3B6, next).
 
 ## Playable now
 
@@ -26,9 +29,10 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * **Snow (雪亭镇)**: source-valid New Game in the Inn; square, core streets and temple (18 of 38 rooms as
   zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
   value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳).
-* **Old Pine (老松岭)**: outdoor route, Vine/Waterfall/River/Cliff/Pine traversal (the waterfall pool
-  only by the vine or the cave, as in ES2), minimal Passage
-  Cave, Lake with five serpents; five bandits (31 of 41 rooms).
+* **Old Pine (老松岭)**: forest (paths, clearing, bandit slope, bridge, pine maze, cliffside), the gorge
+  below the bridge (waterfall pool, river, Lake with five serpents) reached by the vine or the cave,
+  the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
+  (31 of 41 rooms).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   semi-automatic encounter combat with Flee, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
@@ -57,6 +61,8 @@ Code:
   a test-only manual cadence (`historical_world_combat_fixture.gd`).
 * `oldpine_lake_production_test.gd` fails its three Fill checks when run on its own (also on main);
   it passes inside `run_tests.gd`.
+* A suite that hits a script error inside `run_all()` stops `run_tests.gd` without quitting, and
+  `verify.py` has no timeout, so the gate hangs instead of failing (`run_suite.gd` now reports it).
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix

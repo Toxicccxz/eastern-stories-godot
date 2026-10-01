@@ -21,6 +21,12 @@ static func move_through(map: WorldMapController, portal: PortalDefinition) -> R
 		var zone: ZoneDefinition = GameContent.catalog().zone(portal.destination_zone_id)
 		if map.session == null or zone == null:
 			return OldPineMapHandoffResult.new()
+		# The verb only works in its own room, as the same-map adapter checks.
+		var location: WorldLocationState = map.player_runtime().world_location()
+		if location == null or location.map_id != portal.source_map_id or location.zone_id != portal.source_zone_id:
+			var refused: OldPineMapHandoffResult = OldPineMapHandoffResult.new()
+			refused._outcome = OldPineMapHandoffResult.Outcome.SOURCE_LOCATION_INVALID
+			return refused
 		return map.session.handoff_to(portal.destination_map_id, zone.zone_id, zone.combat_location_id, portal.destination_spawn_point_id)
 	return WorldPortalTraversalAdapter.new().traverse(
 		map.player_runtime(),
