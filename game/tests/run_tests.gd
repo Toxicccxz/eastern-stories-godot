@@ -1736,6 +1736,9 @@ func _init() -> void:
 	var generic_map_result: Dictionary = await load("res://tests/runtime/world_map_generic_test.gd").new().run_all(self)
 	assertion_count += int(generic_map_result["assertions"])
 	failures.append_array(generic_map_result["failures"])
+	var terrain_result: Dictionary = load("res://tests/runtime/terrain_tilemap_test.gd").new().run_all()
+	assertion_count += int(terrain_result["assertions"])
+	failures.append_array(terrain_result["failures"])
 	if failures.is_empty():
 		print("PASS: %d assertions" % assertion_count)
 		quit(0)

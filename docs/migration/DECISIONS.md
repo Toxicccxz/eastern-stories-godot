@@ -1,5 +1,15 @@
 # Migration Decisions
 
+## Terrain on TileMapLayer, collision unchanged (2026-09-30)
+
+Owner decisions for Package 3B4:
+- **Tiles are visuals only.** Terrain is drawn with 16 px tiles from one placeholder TileSet
+  ([TERRAIN_TILES](TERRAIN_TILES.md)). Collision stays in `StaticBody2D` shapes, so routes and
+  spawns are unchanged. The old geometry is off-grid, so a painted edge may sit up to 8 px from
+  its collision. Aligning collision to the grid (or moving it into a physics layer) waits for art.
+- **Tiles name terrain kinds, not zones.** About 20 kinds (grass, path, water, wall…) replace the
+  per-zone grey-box shades. Neighbouring Old Pine zones no longer differ in colour.
+
 ## One map runtime: zone ownership, Old Pine geometry and the combat round (2026-09-30)
 
 Owner decisions for Package 3B2 (Old Pine on `WorldMapController`):

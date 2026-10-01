@@ -132,7 +132,7 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	) as WorldSpawnMarker2D
 	_assert_eq(tree_landing.spawn_point_id, OldPineWorldDefinitions.TREE1_LANDING_SPAWN_POINT_ID, "tree1 marker has exact portal ID")
 	_assert_eq(clearing_landing.spawn_point_id, OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID, "return marker has exact portal ID")
-	_assert_true(controller.get_node_or_null("Terrain/TreeCanopyPlatform") is ColorRect, "canopy geometry persists in same map")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(1800, 200)), "grass", "canopy terrain persists in same map")
 	_assert_true(controller.get_node_or_null("Terrain/Boundaries/TreeCanopyBounds/Right") is CollisionShape2D, "canopy boundary collision persists")
 	_assert_eq((controller.get_node("Characters/Player/Camera2D") as Camera2D).limit_right, 2300, "camera covers canopy platform")
 	for index: int in range(3):
