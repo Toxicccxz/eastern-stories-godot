@@ -10,8 +10,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
    `accept_fight`, armed spars that wound, NPCs healing and coming to between fights, the killer
    taken from the last blow, a failed fight that ends instead of freezing, and the global
    `random(n<=0)=0` rule.
-2. **Battle narration** (`phase/battle-narration`): the battle panel in Chinese with ES2's action,
-   dodge, parry and damage lines.
+2. **Battle narration** (`phase/battle-narration`, stacked on 1): the battle panel in Chinese,
+   and the log in ES2's words: action, dodge, parry, damage, status, riposte, winner and guard
+   lines, seen from the player.
 
 Then Package 4 goes on (see [ROADMAP](ROADMAP.md)): **4B** south road and shops (9 rooms) ·
 **4C** Inn upstairs, school inner rooms, secret storage (10 rooms) · **4D** ask, ambient talk,
@@ -34,7 +35,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
   (31 of 41 rooms).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
-  semi-automatic encounter combat with Flee, death/corpse/loot, waking from
+  semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
@@ -70,8 +71,9 @@ Code:
   still reports PASS; only the log's `SCRIPT ERROR` line shows it.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
-* Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix
-  English and Chinese; the battle panel is still English until the battle-narration PR.
+* Player text is mostly not localized (`tr()` only in the HUD chrome and the battle panel) and
+  some panels still mix English and Chinese.
+* The battle log has no 昏倒/死亡 line yet (`announce()`), nor force reflection lines.
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
 qualification for Lake and Shared UI is deferred. The provisional app ID
