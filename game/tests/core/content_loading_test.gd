@@ -31,9 +31,21 @@ func _test_shipped_content_loads() -> void:
 	var spawn_ids: Array[StringName] = []
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		spawn_ids.append(spawn.spawn_id)
-	_eq(spawn_ids, [&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.gorge.lake.serpents"], "spawn order is the authored order")
+	_eq(spawn_ids, [
+		&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.gorge.lake.serpents",
+		&"snow.inn.travellers", &"snow.outdoor.eroad2.dogs", &"snow.outdoor.temple.keeper", &"snow.outdoor.mstreet2.drunk",
+		&"snow.outdoor.mstreet2.scavenger", &"snow.outdoor.school1.guard", &"snow.outdoor.school2.trainees", &"snow.outdoor.school2.fist_trainer",
+	], "spawn order is the authored order (manifest, then file)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
-	_eq(waiter.goods_keys(), ["dumpling", "wineskin"], "waiter goods in authored order")
+	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")
+	# Imported Snow facts (tools/migration/content_importer.py).
+	var guard: NpcDefinition = catalog.npc(&"snow.npc.guard")
+	_eq([guard.title, guard.short_name(), guard.attitude], ["门房", "门房 刘安禄", NpcDefinition.Attitude.HEROISM], "set(\"title\") and heroism")
+	var trainer: NpcDefinition = catalog.npc(&"snow.npc.fist_trainer")
+	_eq(trainer.skill_map(), {&"unarmed": &"liuh-ken"}, "map_skill(unarmed, liuh-ken)")
+	var traveller: NpcDefinition = catalog.npc(&"snow.npc.traveller")
+	_eq([traveller.gender_roll() != null, traveller.age_roll().base, traveller.combat_experience_roll().base, traveller.score_roll().base], [true, 15, 600, 5], "create()-time draws are rules, not values")
+	_eq([catalog.zone_forbids_fighting(&"snow.temple"), catalog.zone_forbids_fighting(&"snow.workplace"), catalog.zone_forbids_fighting(&"snow.square")], [true, true, false], "no_fight rooms: temple and workplace")
 	_eq(waiter.item_definition_id("dumpling"), &"es2:obj/example/dumpling", "goods key resolves to its item")
 	_eq(waiter.item_definition_id("dagger"), &"", "unsold goods key is empty")
 
@@ -109,6 +121,27 @@ func _test_npc_and_spawn_records() -> void:
 	_eq([npc.base_attribute_overrides().has_composure(), npc.base_attribute_overrides().composure(), npc.base_attribute_overrides().has_strength()], [true, 12, false], "cps maps to composure only")
 	_eq([npc.skill_levels()[0].skill_id, npc.skill_levels()[1].skill_id], [&"parry", &"dodge"], "skills keep authored order")
 	_eq([npc.loadout_entries()[0].quantity, npc.loadout_entries()[0].equipment_intent], [1, NpcLoadoutEntry.EquipmentIntent.NONE], "carry defaults to one unequipped item")
+	var rolled: NpcDefinition = NpcContentRecords.npc_from_record(ContentRecordReader.new({
+		"id": "t.rolled", "legacy_source": "t/rolled.c", "name": "客", "aliases": ["guest"], "title": "旅人",
+		"gender": {"random": 10, "below": 7, "then": "男性", "else": "女性"}, "age": {"base": 15, "plus_random": 50},
+		"combat_exp": {"base": 600, "plus_random": 400}, "score": {"base": 5, "minus_random": 10},
+		"attitude": "friendly", "skills": {"unarmed": 10, "liuh-ken": 5}, "skill_map": {"unarmed": "liuh-ken"},
+	}, "t.npcs[2]", errors))
+	_eq(errors, [], "random forms, title and skill_map read cleanly")
+	_eq([rolled.short_name(), rolled.attitude, rolled.has_authored_gender, rolled.gender, rolled.age, rolled.combat_experience], ["旅人 客", NpcDefinition.Attitude.FRIENDLY, true, &"男性", 15, 600], "a roll's base stands for the fact before the draw")
+	_eq([rolled.age_roll().admits(15), rolled.age_roll().admits(64), rolled.age_roll().admits(65), rolled.score_roll().admits(-4), rolled.score_roll().admits(-5)], [true, true, false, true, false], "admits exactly the values random(n) can give")
+	var draws: NpcInitializationRandomSource = ScriptedNpcDraws.new([7, 49, 0])
+	_eq([rolled.gender_roll().resolve(draws), rolled.age_roll().resolve(draws), rolled.combat_experience_roll().resolve(draws)], ["女性", 64, 600], "random(10) < 7 picks then; 15+random(50); 600+random(400)")
+	NpcContentRecords.npc_from_record(ContentRecordReader.new({
+		"id": "t.badroll", "legacy_source": "t/badroll.c", "name": "错", "aliases": ["wrong"],
+		"age": {"base": 1}, "combat_exp": {"base": 1, "plus_random": 0}, "skills": {"dodge": 1}, "skill_map": {"unarmed": "liuh-ken"},
+	}, "t.npcs[3]", errors))
+	_eq(errors, [
+		"t.npcs[3].age: needs exactly one of plus_random and minus_random",
+		"t.npcs[3].combat_exp: random bound must be positive",
+		"t.npcs[3]: is not a valid NPC definition (aliases, gender, skills, skill_map, carry or random values)",
+	], "bad rolls and a skill_map to an unknown skill are reported")
+	errors.clear()
 	NpcContentRecords.npc_from_record(ContentRecordReader.new({
 		"id": "t.bad", "legacy_source": "t/bad.c", "name": "坏", "aliases": ["bad"], "race": "dragon",
 		"attitude": "killer", "attributes": {"luck": 1}, "resources": {"mana": 1}, "apply": {"parry": 1},
@@ -192,3 +225,14 @@ func _eq(actual: Variant, expected: Variant, label: String) -> void:
 	_assertions += 1
 	if actual != expected:
 		_failures.append("%s: expected %s, got %s" % [label, str(expected), str(actual)])
+
+
+## Scripted NpcInitializationRandomSource for the roll tests.
+class ScriptedNpcDraws extends NpcInitializationRandomSource:
+	var _values: Array[int] = []
+
+	func _init(values: Array[int]) -> void:
+		_values = values.duplicate()
+
+	func next_below(_exclusive_upper_bound: int) -> int:
+		return _values.pop_front() if not _values.is_empty() else -1

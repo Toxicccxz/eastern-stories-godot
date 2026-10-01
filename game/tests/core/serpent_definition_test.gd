@@ -120,7 +120,7 @@ func _test_definition_copy_boundaries() -> void:
 
 
 func _test_current_production_spawn_ledger() -> void:
-	var spawns: Array[NpcSpawnDefinition] = GameContent.catalog().spawns()
+	var spawns: Array[NpcSpawnDefinition] = _oldpine_spawns()
 	_eq(spawns.size(), 4, "four current production spawn definitions")
 	var npc_count: int = 0
 	var item_count: int = 0
@@ -137,3 +137,12 @@ func _eq(actual: Variant, expected: Variant, label: String) -> void:
 	_assertions += 1
 	if actual != expected:
 		_failures.append("%s: expected %s, got %s" % [label, expected, actual])
+
+
+## Old Pine's production spawns; Snow's (4A) are counted by the Snow suites.
+static func _oldpine_spawns() -> Array[NpcSpawnDefinition]:
+	var result: Array[NpcSpawnDefinition] = []
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+		if GameContent.catalog().map(spawn.map_id).region_id == OldPineWorldDefinitions.REGION_ID:
+			result.append(spawn)
+	return result

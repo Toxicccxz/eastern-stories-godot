@@ -87,7 +87,7 @@ func set_selected_target(target: NpcRuntimeState) -> void:
 	if target == null:
 		selected_target_label.text = ""
 	else:
-		selected_target_label.text = "%s" % target.definition().display_name
+		selected_target_label.text = target.definition().short_name()
 	refresh_live_state()
 
 
@@ -143,7 +143,7 @@ func show_inspection(definition: NpcDefinition) -> void:
 		inspection_text.text = ""
 		return
 	inspection_text.text = "%s\n%s" % [
-		definition.display_name,
+		definition.short_name(),
 		definition.description.strip_edges(),
 	]
 

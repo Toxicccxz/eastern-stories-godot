@@ -106,7 +106,7 @@ func _test_fresh_graph_round_trip(dead: bool) -> void:
 	_eq(f.restored_random.calls, 3, "only the subsequent NEW NPC consumes three draws")
 	_eq(f.restored_random.capture_random_state().state, f.npc_random.capture_random_state().state, "continuation remains identical")
 	# A lower DTO capability is deliberately not a production Old Pine save slot.
-	_eq(GameContent.catalog().spawns().size(), 4, "current production spawn catalog")
+	_eq(_oldpine_spawns().size(), 4, "current production spawn catalog")
 
 
 func _test_unconscious_and_malformed_body() -> void:
@@ -133,3 +133,12 @@ func _eq(actual: Variant, expected: Variant, label: String) -> void:
 
 func _next_fresh(rng: NpcInitializationRandomSource) -> NpcRuntimeState:
 	return NpcCharacterStateFactory.new().create_one(TestContent.npc(TestContent.SERPENT_NPC_ID), &"test.next", &"test.next.spawn", &"test.next.point", WorldLocationState.new(&"test.region", &"test.map", &"test.zone", &"test.location"), InventoryState.new(), CombinedStackCollection.new(), rng, [])
+
+
+## Old Pine's production spawns; Snow's (4A) are counted by the Snow suites.
+static func _oldpine_spawns() -> Array[NpcSpawnDefinition]:
+	var result: Array[NpcSpawnDefinition] = []
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+		if GameContent.catalog().map(spawn.map_id).region_id == OldPineWorldDefinitions.REGION_ID:
+			result.append(spawn)
+	return result

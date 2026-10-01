@@ -148,7 +148,26 @@ func create_one(
 
 	# Fresh creation only. No scheduler tick draw and no restore initialization.
 	var is_beast: bool = definition.race_id == BEAST_RACE_ID
+	# create() draws first (traveller.c: gender, age, combat_exp), then setup()
+	# runs the race's draws below.
+	var gender: StringName = definition.gender
+	if definition.gender_roll() != null:
+		var drawn_gender: Variant = definition.gender_roll().resolve(random_source)
+		if drawn_gender == null:
+			return null
+		gender = StringName(drawn_gender)
 	var age: int = definition.age
+	if definition.age_roll() != null:
+		var drawn_age: Variant = definition.age_roll().resolve(random_source)
+		if drawn_age == null:
+			return null
+		age = drawn_age
+	var combat_experience: int = definition.combat_experience
+	if definition.combat_experience_roll() != null:
+		var drawn_experience: Variant = definition.combat_experience_roll().resolve(random_source)
+		if drawn_experience == null:
+			return null
+		combat_experience = drawn_experience
 	if not definition.has_authored_age:
 		age = _draw_with_offset(random_source, 40 if is_beast else 30, 5 if is_beast else 15)
 		if age == INVALID_RANDOM_DRAW:
@@ -201,7 +220,7 @@ func create_one(
 	)
 	var state: CharacterStateType = CharacterStateType.new(attributes)
 	state.gender = (
-		definition.gender
+		gender
 		if definition.has_authored_gender
 		else (BEAST_DEFAULT_GENDER if is_beast else CharacterStateType.GENDER_MALE)
 	)
@@ -235,9 +254,13 @@ func create_one(
 	)
 	if state.essence == null or state.vitality == null or state.spirit == null:
 		return null
-	state.progression.combat_experience = definition.combat_experience
+	state.progression.combat_experience = combat_experience
 	for skill: NpcSkillLevelDefinition in definition.skill_levels():
 		state.skills.set_raw_level(skill.skill_id, skill.raw_level)
+	var skill_map: Dictionary[StringName, StringName] = definition.skill_map()
+	for use_id: StringName in skill_map:
+		if not state.skills.map_skill(use_id, skill_map[use_id]):
+			return null
 
 	var body: NpcBodyFacts = NpcBodyFacts.derive(definition, attributes.strength)
 	if body == null:

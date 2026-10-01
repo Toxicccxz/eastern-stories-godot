@@ -6,6 +6,8 @@ var allocator: SessionItemIdAllocator = SessionItemIdAllocator.new(&"nge3-fixtur
 var npc_random: NpcInitializationRandomSource = GodotNpcInitializationRandomSource.new(21, true)
 var combat_random: CombatRandomSource = GodotCombatRandomSource.new(22, true)
 var world_random: WorldInteractionRandomSource = GodotWorldInteractionRandomSource.new(23, true)
+var foods: FoodCollection = FoodCollection.new()
+var liquids: LiquidCollection = LiquidCollection.new()
 var inn: WorldMapController
 var outdoor: WorldMapController
 var zone_history: Array[StringName] = []
@@ -21,7 +23,7 @@ func _ready() -> void:
 	outdoor = (load(GameContent.catalog().map(SnowWorldDefinitions.OUTDOOR_MAP_ID).scene_path) as PackedScene).instantiate() as WorldMapController
 	# Register both maps first: a map opens passages only toward resident maps.
 	for map: WorldResidentMapController in [inn, outdoor]:
-		if not map.configure_world_authorities(_player, birth.inventory, birth.stacks, birth.item_index, npc_random, combat_random, world_random, allocator, _world_simulation_gate) or not register_resident_map(map):
+		if not map.configure_world_authorities(_player, birth.inventory, birth.stacks, birth.item_index, npc_random, combat_random, world_random, allocator, _world_simulation_gate, foods, liquids) or not register_resident_map(map):
 			push_error("NGE3 QA map binding failed")
 			return
 	for map: WorldResidentMapController in [inn, outdoor]:

@@ -247,6 +247,26 @@ func resolve_location(zone_id: StringName, combat_id: StringName) -> WorldLocati
 	return location if location != null and location.combat_location_id == combat_id else null
 
 
+## Moves the living player to a spawn marker of this map without a scene
+## change, as ES2's move_object() does within one place: reincarnating at the
+## temple after dying on the temple's own map. False if marker and zone differ.
+func relocate_player(zone_id: StringName, spawn_point_id: StringName) -> bool:
+	if not _initialized or _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return false
+	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
+	var location: WorldLocationState = location_for_zone(zone_id)
+	if marker == null or location == null or not spawn_matches_zone(spawn_point_id, zone_id):
+		return false
+	player_body.global_position = marker.global_position
+	if not _player.set_world_location(location):
+		return false
+	player_body.refresh_runtime_state()
+	_selected_target = null
+	if _hud() != null:
+		_hud().set_selected_target(null)
+	return true
+
+
 func prepare_for_activation(spawn_id: StringName) -> bool:
 	if not _initialized:
 		return false
@@ -466,6 +486,10 @@ func _spawn_actors() -> bool:
 			for item: ItemInstance in npc.loadout_items():
 				if not _item_index.register_snapshot(item):
 					return false
+				# The drunk's wineskin starts full, as a bought one does.
+				var content: ItemContentDefinition = catalog.item(item.item_definition_id)
+				if content != null and not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids):
+					return false
 		for npc: NpcRuntimeState in created:
 			var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
 			if marker == null or not _add_npc_body(npc, marker.global_position):
@@ -634,17 +658,23 @@ static func _zone_entry(location: WorldLocationState) -> StringName:
 	return &"" if zone == null else zone.combat_entry
 
 
-## None of the migrated ES2 rooms authors a no_fight fact yet.
-func _combat_allowed() -> bool:
+## combatd.c start_aggressive/hatred/vendetta return in a no_fight room; an
+## NPC's own zone counts too, since presence can reach across a zone edge.
+func _combat_allowed(npc: NpcRuntimeState = null) -> bool:
 	var location: WorldLocationState = _player.world_location()
-	return location != null and location.map_id == map
+	if location == null or location.map_id != map:
+		return false
+	var catalog: ContentCatalog = GameContent.catalog()
+	if catalog.zone_forbids_fighting(location.zone_id):
+		return false
+	return npc == null or not catalog.zone_forbids_fighting(npc.world_location().zone_id)
 
 
 ## A complete-set zone polls exact contact instead of queueing pair entries.
 func _on_presence_entered(body: Node2D, character_id: StringName) -> void:
 	var npc: NpcRuntimeState = find_resident_npc(character_id)
 	if _gameplay_open() and body == player_body and npc != null and _zone_entry(npc.world_location()) != &"complete_set":
-		_aggression.enter_player_presence(npc, _player, _combat_allowed())
+		_aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
 
 
 func _on_presence_exited(body: Node2D, character_id: StringName) -> void:
@@ -705,7 +735,7 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		var contact: bool = _complete_entry_contact(npc.character_id)
 		if not contact:
 			_complete_set_consumed_contacts.erase(npc.character_id)
-		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed())
+		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed(npc))
 		var aggressive: bool = contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
 		if aggressive or (manual and npc.character_id == requested_target):
 			if ids.has(npc.character_id):
@@ -1180,6 +1210,11 @@ func inspect_selected() -> bool:
 func attack_selected() -> CombatSliceInitiationResult:
 	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
 	if target == null:
+		return CombatSliceInitiationResult.new()
+	# kill.c checks the attacker's room, which in ES2 is also the target's.
+	var catalog: ContentCatalog = GameContent.catalog()
+	if catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(target.world_location().zone_id):
+		_hud().append_log_lines([tr("这里不准战斗。")])
 		return CombatSliceInitiationResult.new()
 	return _initiate_lethal_combat(_player.character_id, target.character_id, "Attack initiated against %s" % target.definition().display_name)
 

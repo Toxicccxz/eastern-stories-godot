@@ -127,6 +127,30 @@ func integer_map(key: String) -> Dictionary[String, int]:
 	return result
 
 
+## True when the key holds an object (a field that is either a value or a rule).
+func is_object(key: String) -> bool:
+	return _record.has(key) and _record[key] is Dictionary
+
+
+## Object of non-empty string values, in authored order.
+func text_map(key: String) -> Dictionary[String, String]:
+	_consumed[key] = true
+	var result: Dictionary[String, String] = {}
+	if not _record.has(key):
+		return result
+	var value: Variant = _record[key]
+	if not value is Dictionary:
+		fail(key, "expected an object of strings")
+		return result
+	for entry_key: Variant in value:
+		var entry: Variant = value[entry_key]
+		if not entry_key is String or entry_key.is_empty() or not entry is String or entry.is_empty():
+			fail("%s.%s" % [key, str(entry_key)], "expected a non-empty string")
+			continue
+		result[entry_key] = entry
+	return result
+
+
 ## Nested object, or null when the key is absent or not an object.
 func child(key: String) -> ContentRecordReader:
 	_consumed[key] = true

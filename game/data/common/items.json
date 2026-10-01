@@ -59,6 +59,17 @@
 			"weight": 700,
 			"value": 20,
 			"liquid": { "max_liquid": 15, "type": "alcohol", "name": "红酒", "remaining": 15, "drunk_apply": 6 }
+		},
+		{
+			"id": "es2:obj/old_book",
+			"legacy_sources": ["obj/old_book.c"],
+			"name": "旧书",
+			"aliases": ["book"],
+			"long": "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n",
+			"unit": "本",
+			"material": "paper",
+			"weight": 600,
+			"value": 70
 		}
 	]
 }

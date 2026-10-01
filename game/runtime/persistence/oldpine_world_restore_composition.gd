@@ -42,7 +42,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		)
 	var domain: NativeItemDomainState = item_restore.domain_state
 	var character_ids: Array[StringName] = [snapshot.player.character_id]
-	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
 		for point_id: StringName in spawn.spawn_point_ids():
 			character_ids.append(_character_id_for_spawn_point(point_id))
 	if not _character_aggregate_ids_match(domain, character_ids):
@@ -170,7 +170,7 @@ static func _restore_npc_ledger(
 		saved_by_point[saved.spawn_point_id] = saved
 	var entries: Array[OldPineRestoredNpcEntry] = []
 	var referenced_loadout_ids: Dictionary[StringName, bool] = {}
-	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
 		var definition: NpcDefinition = GameContent.catalog().npc(
 			spawn.npc_definition_id
 		)
@@ -199,7 +199,11 @@ static func _restore_npc_ledger(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,
 					path,
 				)
-			if definition.has_authored_age and saved.age != definition.age:
+			var age_roll: NpcRandomInteger = definition.age_roll()
+			if (
+				(age_roll != null and not age_roll.admits(saved.age))
+				or (age_roll == null and definition.has_authored_age and saved.age != definition.age)
+			):
 				return Result.failure(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,
 					path + ".age",
@@ -343,9 +347,11 @@ static func _restore_corpses(
 			expected_weight = victim_npc.body_weight
 			# Preserve the existing NPC validation policy (not a Player body change).
 			expected_capacity = CharacterDerivedValues.maximum_encumbrance(victim_character.attributes.strength)
+		# wgargoyle.c reincarnate(): the player lives on and their former body stays
+		# where they fell, so a player's corpse may outlive the death. An NPC's may not.
+		var victim_is_player: bool = not victim is Values.NpcSpawnStateSnapshot
 		if (
-			victim_life != &"dead"
-			or victim_exists
+			(not victim_is_player and (victim_life != &"dead" or victim_exists))
 			or saved.victim_display_name != expected_name
 			or saved.victim_gender != victim_character.gender
 			or saved.victim_age != expected_age
@@ -466,6 +472,17 @@ static func _character_aggregate_ids_match(
 		domain.equipment_character_ids() == expected
 		and domain.armor_character_ids() == expected
 	)
+
+
+## The spawns of the saved world: the technical fixture world has Old Pine's
+## maps only (OldPineWorldSessionController.world_map_ids_for).
+static func _world_spawns(revision: WorldContentRevision.Value) -> Array[NpcSpawnDefinition]:
+	var map_ids: Array[StringName] = OldPineWorldSessionController.world_map_ids_for(revision)
+	var result: Array[NpcSpawnDefinition] = []
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+		if map_ids.has(spawn.map_id):
+			result.append(spawn)
+	return result
 
 
 static func _player_location_is_current(value: Values.WorldLocationSnapshot, revision: WorldContentRevision.Value) -> bool:

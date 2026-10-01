@@ -1,0 +1,83 @@
+{
+	"spawns": [
+		{
+			"id": "snow.inn.travellers",
+			"npc": "snow.npc.traveller",
+			"map": "snow.inn",
+			"zone": "snow.inn.main_floor",
+			"points": ["snow.inn.main_floor.inn.traveller.1", "snow.inn.main_floor.inn.traveller.2"],
+			"legacy_room": "d/snow/inn.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "snow.outdoor.eroad2.dogs",
+			"npc": "snow.npc.dog",
+			"map": "snow.outdoor",
+			"zone": "snow.eroad2",
+			"points": ["snow.eroad2.dog.1", "snow.eroad2.dog.2"],
+			"legacy_room": "d/snow/eroad2.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "snow.outdoor.temple.keeper",
+			"npc": "snow.npc.keeper",
+			"map": "snow.outdoor",
+			"zone": "snow.temple",
+			"points": ["snow.temple.keeper.1"],
+			"legacy_room": "d/snow/temple.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.mstreet2.drunk",
+			"npc": "snow.npc.drunk",
+			"map": "snow.outdoor",
+			"zone": "snow.mstreet2",
+			"points": ["snow.mstreet2.drunk.1"],
+			"legacy_room": "d/snow/mstreet2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.mstreet2.scavenger",
+			"npc": "snow.npc.scavenger",
+			"map": "snow.outdoor",
+			"zone": "snow.mstreet2",
+			"points": ["snow.mstreet2.scavenger.1"],
+			"legacy_room": "d/snow/mstreet2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.school1.guard",
+			"npc": "snow.npc.guard",
+			"map": "snow.outdoor",
+			"zone": "snow.school1",
+			"points": ["snow.school1.guard.1"],
+			"legacy_room": "d/snow/school1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.school2.trainees",
+			"npc": "snow.npc.trainee",
+			"map": "snow.outdoor",
+			"zone": "snow.school2",
+			"points": [
+				"snow.school2.trainee.1",
+				"snow.school2.trainee.2",
+				"snow.school2.trainee.3",
+				"snow.school2.trainee.4",
+				"snow.school2.trainee.5",
+				"snow.school2.trainee.6"
+			],
+			"legacy_room": "d/snow/school2.c",
+			"legacy_quantity": 6
+		},
+		{
+			"id": "snow.outdoor.school2.fist_trainer",
+			"npc": "snow.npc.fist_trainer",
+			"map": "snow.outdoor",
+			"zone": "snow.school2",
+			"points": ["snow.school2.fist_trainer.1"],
+			"legacy_room": "d/snow/school2.c",
+			"legacy_quantity": 1
+		}
+	]
+}

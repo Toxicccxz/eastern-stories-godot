@@ -113,7 +113,7 @@ static func build_attack_input(
 	var mapped_attack_id: StringName = attacker.state.skills.mapped_skill(
 		attack_skill_id
 	)
-	var approved_actions: CombatActionSet = attacker.content.mapped_action_set(attack_skill_id, mapped_attack_id)
+	var approved_actions: CombatActionSet = attacker.content.approved_action_set(primary, attack_skill_id, mapped_attack_id)
 	if approved_actions != null and not approved_actions.contains_exact(selected_action):
 		return null
 	var mapped_force_id: StringName = attacker.state.skills.mapped_skill(
@@ -303,6 +303,6 @@ static func find_binding(
 static func template_action_for(attacker: CombatSliceCharacterBinding) -> CombatActionDefinition:
 	var primary: EquippedWeaponRef = attacker.state.equipment.primary_weapon()
 	var skill_id: StringName = primary.skill_type if primary != null else UNARMED_SKILL_ID
-	var approved: CombatActionSet = attacker.content.mapped_action_set(skill_id, attacker.state.skills.mapped_skill(skill_id))
+	var approved: CombatActionSet = attacker.content.approved_action_set(primary, skill_id, attacker.state.skills.mapped_skill(skill_id))
 	# A source-membership witness only. The actual action is selected once later.
 	return approved.action_at(0) if approved != null else attacker.content.attack_template_for(primary)

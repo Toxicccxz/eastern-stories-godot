@@ -56,7 +56,14 @@ func _run() -> void:
 				check(JSON.parse_string(original_bytes).items.schema_version == 2 and session.liquid_collection().instance_ids().is_empty(), "exact archived pre-S6B item2 grants no liquids")
 				check(session.player_runtime().state.recovery.food == 459 and session.player_runtime().state.recovery.water == 399, "pre-S6B natural food/water exact")
 			else:
-				var records: Array[NativeLiquidConsumableRecord] = loaded.snapshot.items.liquid_consumable_records
+				# The drunk's wineskin (4A) is an NPC's; count the Player's bought one.
+				var npc_items: Array[StringName] = []
+				for npc: GameSaveValueTypes.NpcSpawnStateSnapshot in loaded.snapshot.npc_spawn_states:
+					npc_items.append_array(npc.live_loadout_item_ids)
+				var records: Array[NativeLiquidConsumableRecord] = []
+				for record: NativeLiquidConsumableRecord in loaded.snapshot.items.liquid_consumable_records:
+					if not npc_items.has(record.item_instance_id):
+						records.append(record)
 				check(records.size() == 1, "one stable item")
 				if records.size() == 1:
 					var state: LiquidState = session.liquid_collection().state(records[0].item_instance_id)

@@ -23,18 +23,29 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	)
 	if not RACE_IDS.has(race_id):
 		reader.fail("race", "unsupported race '%s'" % race_id)
+	var title: String = reader.text("title")
 	var has_gender: bool = reader.has("gender")
-	var gender: String = reader.text("gender")
+	var gender_roll: NpcRandomText = _random_text(reader, "gender")
+	var gender: String = gender_roll.first_choice() if gender_roll != null else reader.text("gender")
 	var has_age: bool = reader.has("age")
-	var age: int = reader.integer("age")
+	var age_roll: NpcRandomInteger = _random_integer(reader, "age")
+	var age: int = age_roll.base if age_roll != null else reader.integer("age")
 	var description: String = reader.text("long")
-	var combat_experience: int = reader.integer("combat_exp")
-	var score: int = reader.integer("score")
+	var combat_experience_roll: NpcRandomInteger = _random_integer(reader, "combat_exp")
+	var combat_experience: int = (
+		combat_experience_roll.base if combat_experience_roll != null else reader.integer("combat_exp")
+	)
+	var score_roll: NpcRandomInteger = _random_integer(reader, "score")
+	var score: int = score_roll.base if score_roll != null else reader.integer("score")
 	var attitude: int = _attitude(reader)
 	var skills: Array[NpcSkillLevelDefinition] = []
 	var skill_levels: Dictionary[String, int] = reader.integer_map("skills")
 	for skill_id: String in skill_levels:
 		skills.append(NpcSkillLevelDefinition.new(StringName(skill_id), skill_levels[skill_id]))
+	var skill_map: Dictionary[StringName, StringName] = {}
+	var authored_map: Dictionary[String, String] = reader.text_map("skill_map")
+	for use_id: String in authored_map:
+		skill_map[StringName(use_id)] = StringName(authored_map[use_id])
 	var loadout: Array[NpcLoadoutEntry] = []
 	for carry: ContentRecordReader in reader.children("carry"):
 		loadout.append(_loadout_entry(carry))
@@ -63,9 +74,9 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll)
 	if not definition.is_valid():
-		reader.fail("", "is not a valid NPC definition (aliases, gender, skills or carry)")
+		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry or random values)")
 	return definition
 
 
@@ -98,8 +109,50 @@ static func _attitude(reader: ContentRecordReader) -> int:
 			return NpcDefinition.Attitude.PEACEFUL
 		"aggressive":
 			return NpcDefinition.Attitude.AGGRESSIVE
+		"friendly":
+			return NpcDefinition.Attitude.FRIENDLY
+		"heroism":
+			return NpcDefinition.Attitude.HEROISM
 	reader.fail("attitude", "unsupported attitude '%s'" % attitude)
 	return NpcDefinition.Attitude.PEACEFUL
+
+
+## `{"base": b, "plus_random": n}` is b + random(n), `"minus_random"` b - random(n);
+## null when the field is absent or a plain integer.
+static func _random_integer(reader: ContentRecordReader, key: String) -> NpcRandomInteger:
+	if not reader.is_object(key):
+		return null
+	var roll: ContentRecordReader = reader.child(key)
+	var base: int = roll.required_integer("base")
+	# An unusable rule still stands in for the field, so it is never read as a plain value.
+	var result: NpcRandomInteger = NpcRandomInteger.new(base, 1, 0)
+	if roll.has("plus_random") == roll.has("minus_random"):
+		roll.fail("", "needs exactly one of plus_random and minus_random")
+	elif roll.has("plus_random"):
+		result = NpcRandomInteger.new(base, 1, roll.required_integer("plus_random"))
+	else:
+		result = NpcRandomInteger.new(base, -1, roll.required_integer("minus_random"))
+	roll.finish()
+	if roll.has("plus_random") != roll.has("minus_random") and not result.is_valid():
+		roll.fail("", "random bound must be positive")
+	return result
+
+
+## `{"random": n, "below": k, "then": a, "else": b}`: a when random(n) < k.
+static func _random_text(reader: ContentRecordReader, key: String) -> NpcRandomText:
+	if not reader.is_object(key):
+		return null
+	var roll: ContentRecordReader = reader.child(key)
+	var result: NpcRandomText = NpcRandomText.new(
+		roll.required_integer("random"),
+		roll.required_integer("below"),
+		roll.required_text("then"),
+		roll.required_text("else"),
+	)
+	roll.finish()
+	if not result.is_valid():
+		roll.fail("", "random bound must be positive")
+	return result
 
 
 ## carry_object(path) with optional ->wield()/->wear(); add_money(id, amount).

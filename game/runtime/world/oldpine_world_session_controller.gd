@@ -707,12 +707,17 @@ func _register_map(map_id: StringName) -> bool:
 ## other region. Old Pine first: spawns draw from the NPC random source map by
 ## map in this order, then in spawn order.
 func _world_map_ids() -> Array[StringName]:
+	return world_map_ids_for(_world_content_revision)
+
+
+## The maps, in initialization order, of a world with this content revision.
+static func world_map_ids_for(revision: WorldContentRevision.Value) -> Array[StringName]:
 	var result: Array[StringName] = []
 	var others: Array[StringName] = []
 	for definition: MapDefinition in GameContent.catalog().maps():
 		if definition.region_id == OldPineWorldDefinitions.REGION_ID:
 			result.append(definition.map_id)
-		elif _world_content_revision == WorldContentRevision.CURRENT_PUBLIC:
+		elif revision == WorldContentRevision.CURRENT_PUBLIC:
 			others.append(definition.map_id)
 	result.append_array(others)
 	return result
@@ -1016,13 +1021,20 @@ func _reincarnate_at_revive_room() -> void:
 	var previous_exists: bool = _player.exists_in_world
 	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	_player.set_exists_in_world(true)
-	_last_revival_handoff = handoff_to(
-		SnowWorldDefinitions.OUTDOOR_MAP_ID,
-		SnowWorldDefinitions.TEMPLE_ZONE_ID,
-		SnowWorldDefinitions.TEMPLE_ZONE_ID,
-		SnowWorldDefinitions.REVIVE_SPAWN_ID,
-	)
-	if not _last_revival_handoff.succeeded():
+	var moved: bool
+	if active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID:
+		# Died on the temple's own map (Snow's streets): no scene change, just the move.
+		var snow: WorldMapController = active_map() as WorldMapController
+		moved = snow != null and not _transitioning and snow.relocate_player(SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
+	else:
+		_last_revival_handoff = handoff_to(
+			SnowWorldDefinitions.OUTDOOR_MAP_ID,
+			SnowWorldDefinitions.TEMPLE_ZONE_ID,
+			SnowWorldDefinitions.TEMPLE_ZONE_ID,
+			SnowWorldDefinitions.REVIVE_SPAWN_ID,
+		)
+		moved = _last_revival_handoff.succeeded()
+	if not moved:
 		_player.set_life_status(previous_life)
 		_player.set_exists_in_world(previous_exists)
 		_life_flow.retry_reincarnation()

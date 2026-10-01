@@ -92,6 +92,16 @@ position = Vector2(350, 0)
 script = ExtResource("3")
 spawn_point_id = &"snow.inn.main_floor.square_return"
 
+[node name="InnTraveller01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-60, 170)
+script = ExtResource("3")
+spawn_point_id = &"snow.inn.main_floor.inn.traveller.1"
+
+[node name="InnTraveller02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(180, -170)
+script = ExtResource("3")
+spawn_point_id = &"snow.inn.main_floor.inn.traveller.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

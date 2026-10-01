@@ -181,6 +181,8 @@ static func with_fat_bandit_corpse(
 		base.items.combined_stack_records,
 		equipment,
 		armor,
+		base.items.food_consumable_records,
+		base.items.liquid_consumable_records,
 	)
 	var corpse: Values.CorpseSnapshot = Values.CorpseSnapshot.new(
 		corpse_id,
@@ -259,6 +261,8 @@ static func with_player_corpse(base: GameSaveSnapshot) -> GameSaveSnapshot:
 		base.items.combined_stack_records,
 		equipment,
 		base.items.character_armor_records,
+		base.items.food_consumable_records,
+		base.items.liquid_consumable_records,
 	)
 	var player: Values.PlayerRuntimeSnapshot = Values.PlayerRuntimeSnapshot.new(
 		base.player.character_id,

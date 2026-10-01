@@ -177,7 +177,7 @@ func physical_test(tree: SceneTree) -> bool:
 	await tree.physics_frame
 	await walk.walk_to(tree, session, "move_right", 0, 0)
 	check(session.player_runtime().world_location().zone_id == &"snow.mstreet1" and not bank.in_reach(), "east exit clears availability")
-	check(bank.map.resident_npcs().is_empty() and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no NPC/map added")
+	check(bank.map.resident_npcs().size() == GameContent.catalog().spawns_for_map(bank.map.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0) and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no NPC/map added")
 	for entry: Array in [[&"snow.bank",Vector2(-490,-400)], [&"snow.bank",Vector2(-300,-545)], [&"snow.bank",Vector2(-300,-255)], [&"snow.bank",Vector2(-425,-400)], [&"snow.mstreet1",Vector2(-100,-500)]]:
 		check(not MapPlacementValidator.is_valid_character_position(bank.map, entry[0], entry[1]), "restore rejects walls " + str(entry))
 	check(MapPlacementValidator.is_valid_character_position(bank.map, &"snow.mstreet1",Vector2(-100,-400)), "half-open east join")

@@ -1,16 +1,8 @@
-"""Byte-preserving source, deterministic discovery and a bounded LPC lexer."""
+"""A bounded LPC lexer over byte-preserving source (used by content_importer)."""
 
 from __future__ import annotations
 
-import bisect
-import hashlib
-import os
 from dataclasses import dataclass
-from pathlib import Path
-
-
-class ToolError(Exception):
-    """Fatal input/output or tool contract failure (exit2)."""
 
 
 @dataclass(frozen=True)
@@ -31,63 +23,6 @@ class SourceError(Exception):
 class Source:
     path: str
     data: bytes
-
-    def __post_init__(self) -> None:
-        self.sha256 = hashlib.sha256(self.data).hexdigest()
-        self.lines = [0] + [i + 1 for i, byte in enumerate(self.data) if byte == 10]
-
-    def span(self, start: int, end: int, scope: str, construct: str, ordinal: int) -> dict:
-        if not 0 <= start <= end <= len(self.data):
-            raise ToolError('invalid provenance range')
-        line = bisect.bisect_right(self.lines, start)
-        prefix = self.data[self.lines[line - 1]:start]
-        raw = self.data[start:end]
-        result = dict(source_path=self.path, source_sha256=self.sha256, scope=scope,
-                      construct=construct, source_ordinal=ordinal, byte_start=start,
-                      byte_end_exclusive=end, line=line,
-                      column=len(prefix.decode('utf-8', errors='replace')) + 1)
-        try:
-            result['raw'] = raw.decode('utf-8')
-        except UnicodeDecodeError:
-            result['raw'] = None
-            result['raw_hex'] = raw.hex()
-        return result
-
-
-def safe_path(path: Path) -> Path:
-    """Reject links (including Windows junctions) before resolving any component."""
-    absolute = Path(os.path.abspath(path))
-    for part in [*reversed(absolute.parents), absolute]:
-        if part.is_symlink() or part.is_junction():
-            raise ToolError('filesystem links/junctions are not supported')
-    return absolute.resolve()
-
-
-def discover(root: Path) -> tuple[Path, list[tuple[str, Source]]]:
-    root = safe_path(root)
-    if root == Path(root.anchor) or not root.is_dir():
-        raise ToolError('source root must be a non-root existing directory')
-    mudlib = root / 'mudlib' if (root / 'mudlib').is_dir() else root
-    if not (mudlib / 'd').is_dir():
-        raise ToolError('source root must contain d/ or mudlib/d/')
-    found = []
-
-    def visit(directory: Path) -> None:
-        for path in sorted(directory.iterdir(), key=lambda p: p.name):
-            checked = safe_path(path)
-            if not checked.is_relative_to(root):
-                raise ToolError('source path escaped root')
-            if path.is_dir():
-                visit(path)
-            elif path.is_file():
-                relative = path.relative_to(root).as_posix()
-                source_path = path.relative_to(mudlib).as_posix() if path.is_relative_to(mudlib) else relative
-                found.append((relative, Source(source_path, path.read_bytes())))
-            else:
-                raise ToolError('non-regular source entry')
-
-    visit(root)
-    return mudlib, sorted(found, key=lambda entry: entry[0])
 
 
 def directive_keyword(text: str, start: int = 0) -> tuple[str, int]:
@@ -314,29 +249,3 @@ def pairs(tokens: list[Token]) -> dict[int, int]:
         first = tokens[stack[0]]
         raise SourceError('unclosed delimiter', first.start, first.end)
     return matched
-
-
-def literal(token: Token) -> dict | None:
-    """Only decimal integer and a deliberately explicit string escape subset."""
-    if token.kind == 'number' and token.text.isascii() and token.text.isdecimal():
-        if len(token.text) > 1 and token.text.startswith('0'):
-            return None  # Do not guess octal semantics.
-        return {'kind': 'integer', 'value': str(int(token.text))}
-    if token.kind == 'heredoc':
-        body = token.text.split('\n', 1)[1]
-        return {'kind': 'text', 'value': body[:body.rfind('\n') + 1]}
-    if token.kind != 'string':
-        return None
-    value, i = [], 1
-    escapes = {'n': '\n', 'r': '\r', 't': '\t', 'b': '\b', 'f': '\f',
-               'v': '\v', 'a': '\a', '\\': '\\', '"': '"', "'": "'"}
-    while i < len(token.text) - 1:
-        char = token.text[i]
-        if char == '\\':
-            i += 1
-            if token.text[i] not in escapes:
-                return None
-            char = escapes[token.text[i]]
-        value.append(char)
-        i += 1
-    return {'kind': 'text', 'value': ''.join(value)}

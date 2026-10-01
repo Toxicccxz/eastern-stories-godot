@@ -194,6 +194,58 @@ unique_name_in_owner = true
 position = Vector2(-200, 0)
 script = ExtResource("3")
 spawn_point_id = &"snow.square.inn_entry"
+[node name="EastRoad2Dog01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(640, 490)
+script = ExtResource("3")
+spawn_point_id = &"snow.eroad2.dog.1"
+[node name="EastRoad2Dog02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(800, 615)
+script = ExtResource("3")
+spawn_point_id = &"snow.eroad2.dog.2"
+[node name="TempleKeeper01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(470, 360)
+script = ExtResource("3")
+spawn_point_id = &"snow.temple.keeper.1"
+[node name="MainStreet2Drunk01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-45, -640)
+script = ExtResource("3")
+spawn_point_id = &"snow.mstreet2.drunk.1"
+[node name="MainStreet2Scavenger01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-50, -790)
+script = ExtResource("3")
+spawn_point_id = &"snow.mstreet2.scavenger.1"
+[node name="School1Guard01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(330, -460)
+script = ExtResource("3")
+spawn_point_id = &"snow.school1.guard.1"
+[node name="School2Trainee01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(540, -470)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.trainee.1"
+[node name="School2Trainee02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(620, -470)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.trainee.2"
+[node name="School2Trainee03" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(700, -470)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.trainee.3"
+[node name="School2Trainee04" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(540, -330)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.trainee.4"
+[node name="School2Trainee05" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(620, -330)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.trainee.5"
+[node name="School2Trainee06" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(700, -330)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.trainee.6"
+[node name="School2FistTrainer01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(460, -470)
+script = ExtResource("3")
+spawn_point_id = &"snow.school2.fist_trainer.1"
 [node name="Characters" type="Node2D" parent="."]
 [node name="OldPinePassage" type="Area2D" parent="."]
 position = Vector2(1100, 820)

@@ -1,12 +1,14 @@
 class_name RoomDefinition
 extends RefCounted
 
-## One ES2 room as authored: `set("short")`, `set("long")` and its static
-## `set("exits")`. Exit targets are room IDs that may not be migrated yet.
+## One ES2 room as authored: `set("short")`, `set("long")`, its static
+## `set("exits")` and `set("no_fight")`. Exit targets are room IDs that may not
+## be migrated yet.
 var _room_id: StringName
 var _short: String
 var _long: String
 var _exits: Dictionary[String, StringName] = {}
+var _no_fight: bool
 
 var room_id: StringName:
 	get:
@@ -18,6 +20,10 @@ var short: String:
 var long: String:
 	get:
 		return _long
+## cmds/std/kill.c and fight.c refuse here: "这里不准战斗。"
+var no_fight: bool:
+	get:
+		return _no_fight
 
 
 func _init(
@@ -25,11 +31,13 @@ func _init(
 	p_short: String = "",
 	p_long: String = "",
 	p_exits: Dictionary[String, StringName] = {},
+	p_no_fight: bool = false,
 ) -> void:
 	_room_id = p_room_id
 	_short = p_short
 	_long = p_long
 	_exits = p_exits.duplicate()
+	_no_fight = p_no_fight
 
 
 static func from_record(reader: ContentRecordReader) -> RoomDefinition:
@@ -46,6 +54,7 @@ static func from_record(reader: ContentRecordReader) -> RoomDefinition:
 		reader.required_text("short"),
 		reader.required_text("long"),
 		exits,
+		reader.boolean("no_fight", false),
 	)
 	reader.finish()
 	return definition

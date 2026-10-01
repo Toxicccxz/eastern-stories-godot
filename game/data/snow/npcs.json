@@ -1,0 +1,122 @@
+{
+	"npcs": [
+		{
+			"id": "snow.npc.traveller",
+			"legacy_source": "d/snow/npc/traveller.c",
+			"name": "旅客",
+			"aliases": ["traveller"],
+			"gender": { "random": 10, "below": 7, "then": "男性", "else": "女性" },
+			"age": { "base": 15, "plus_random": 50 },
+			"long": "这是一位来雪亭镇的外地旅客.\n",
+			"combat_exp": { "base": 600, "plus_random": 400 },
+			"score": { "base": 5, "minus_random": 10 },
+			"attitude": "friendly",
+			"skills": { "dodge": 50, "unarmed": 40 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 }
+			]
+		},
+		{
+			"id": "snow.npc.dog",
+			"legacy_source": "d/snow/npc/dog.c",
+			"name": "野狗",
+			"aliases": ["dog"],
+			"race": "beast",
+			"age": 3,
+			"long": "一只浑身脏兮兮的野狗。\n",
+			"attributes": { "str": 24, "cor": 26 },
+			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 10, "armor": 3 }
+		},
+		{
+			"id": "snow.npc.keeper",
+			"legacy_source": "d/snow/npc/keeper.c",
+			"name": "庙祝",
+			"aliases": ["keeper"],
+			"gender": "男性",
+			"age": 74,
+			"long": "这个老人看起来七十多岁了，看著他□偻的身影，你忽然觉得心情沈重了下来。\n",
+			"combat_exp": 1,
+			"attitude": "friendly"
+		},
+		{
+			"id": "snow.npc.drunk",
+			"legacy_source": "d/snow/npc/drunk.c",
+			"name": "醉汉",
+			"aliases": ["drunk", "man", "drunk man"],
+			"gender": "男性",
+			"age": 17,
+			"long": "一个喝得醉醺醺的年轻人.....\n",
+			"attributes": { "con": 30, "str": 30 },
+			"combat_exp": 100,
+			"attitude": "heroism",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/example/wineskin", "source": "obj/example/wineskin.c" }
+			]
+		},
+		{
+			"id": "snow.npc.scavenger",
+			"legacy_source": "d/snow/npc/scavenger.c",
+			"name": "收破烂的",
+			"aliases": ["scavenger"],
+			"gender": "男性",
+			"age": 47,
+			"long": "这个人不但自己收破烂，身上也穿得破烂不堪。\n",
+			"attributes": { "str": 27 },
+			"combat_exp": 10,
+			"carry": [
+				{ "item": "es2:obj/old_book", "source": "obj/old_book.c" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 }
+			]
+		},
+		{
+			"id": "snow.npc.guard",
+			"legacy_source": "d/snow/npc/guard.c",
+			"name": "刘安禄",
+			"aliases": ["liu anru", "liu"],
+			"title": "门房",
+			"gender": "男性",
+			"age": 26,
+			"long": "刘安禄是淳风武馆的门房，除了馆主柳淳风没有人知道他的出身来历，只知\n到他的武艺不弱，一手快刀在这一带罕有敌手。\n",
+			"attributes": { "str": 29, "cor": 30, "cps": 30, "int": 11 },
+			"combat_exp": 20000,
+			"attitude": "heroism",
+			"skills": { "blade": 40, "parry": 40 },
+			"carry": [
+				{ "item": "es2:d/snow/obj/blade", "source": "d/snow/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "snow.npc.trainee",
+			"legacy_source": "d/snow/npc/trainee.c",
+			"name": "武馆弟子",
+			"aliases": ["trainee"],
+			"gender": "男性",
+			"age": 19,
+			"long": "你看到一位身材高大的汉子，正在辛苦地操练著。\n",
+			"combat_exp": 100,
+			"carry": [
+				{ "item": "es2:d/snow/obj/linen", "source": "d/snow/npc/obj/linen.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "snow.npc.fist_trainer",
+			"legacy_source": "d/snow/npc/fist_trainer.c",
+			"name": "李火狮",
+			"aliases": ["trainer", "lee"],
+			"title": "拳法教练",
+			"gender": "男性",
+			"age": 28,
+			"long": "李火狮是个孔武有力的大块头，他正在训练他的弟子们习练「柳家拳\n法」。\n",
+			"attributes": { "str": 26, "int": 14 },
+			"combat_exp": 3000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 30, "liuh-ken": 20, "dodge": 30 },
+			"skill_map": { "unarmed": "liuh-ken" }
+		}
+	]
+}
