@@ -133,8 +133,9 @@ func geometry_tests(snow: WorldMapController) -> void:
 	mst4.position = Vector2(0,-1000)
 	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", Vector2(0,-1000)), "ambiguous overlapping zones fail closed")
 	mst4.position = original
-	for facade: String in ["Hockshop", "Herbshop", "Postoffice"]:
-		check(snow.get_node("Ground/" + facade + "Facade") is Polygon2D and snow.get_node("Ground/" + facade + "Shutter") is Polygon2D and snow.get_node("Ground/" + facade + "Sign") is Label, "visible static shuttered frontage " + facade)
+	check(TerrainProbe.terrain_at(snow, Vector2(320,-1000)) == "floor_shop" and snow.get_node("Ground/HockshopShutter") is Polygon2D and snow.get_node("Ground/HockshopSign") is Label, "visible shuttered frontage Hockshop")
+	for row: Array in [["Herbshop", -1000.0], ["Postoffice", -1300.0]]:
+		check(TerrainProbe.terrain_at(snow, Vector2(-250,row[1] - 50)) == "shop_front" and TerrainProbe.terrain_at(snow, Vector2(-190,row[1] + 8)) == "shutter" and snow.get_node("Ground/" + row[0] + "Sign") is Label, "visible static shuttered frontage " + row[0])
 
 
 func check(ok: bool, label: String) -> void:
