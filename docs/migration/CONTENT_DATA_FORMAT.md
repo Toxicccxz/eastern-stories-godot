@@ -14,6 +14,22 @@ non-empty.
 Field names follow the LPC object so an importer can emit them directly. Facts the LPC derives by
 rule are **not** authored; the loader applies the rule.
 
+## Generated and hand-authored files
+
+`rooms`, `items`, `npcs`, `spawns` and `vendors` files are **generated** by
+`python -m tools.migration.content_importer` and never edited by hand; `world.json`,
+`common/pacing.json` and the manifest are hand-authored. For each region with an override file
+(`tools/migration/overrides/<region>.json`) the importer reads the rooms of the region's zones,
+the NPCs their `set("objects")` place, what those NPCs carry and the goods of the named vendors.
+Records already in a file keep their order (spawn order fixes NPC draws); new ones are appended.
+
+The override file holds every hand decision: `vendors` and `items` (extra roots), `spawn_skip`
+(`{room: {object: why}}`), `vendor_skip` (`{vendor: {goods key: why}}`), `set`/`drop`
+(`{record id: …}`) and `review` (`{lpc source: {finding: decision}}`). A finding is an LPC fact
+that did not become data — another function, a closure, a condition, a field the game does not
+model yet. `--check` (and `tools/tests/test_content_import.py`) fails when a generated file
+differs or a finding has no decision; `build/import/review.md` lists findings and per-NPC counts.
+
 ## items
 
 | Field | LPC source | Notes |
@@ -39,16 +55,23 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `id` | — | native ID `<region>.npc.<name>`; saved in save files |
 | `legacy_source` | file path | |
 | `name`, `aliases`, `long` | `set_name`, `set("long")` | |
-| `race` | `set("race")` | `human` (default) or `beast` |
+| `title` | `set("title")` | shown before the name, as `short()` does |
+| `race` | `set("race")` | `human` (default) or `beast` (`野兽`) |
 | `gender`, `age` | `set(...)` | absent = not authored |
 | `attributes` | `set("str")` … | keys `str cor int spi cps per con kar` |
 | `resources` | `set("max_kee")` … | keys `gin kee sen` with `eff_` / `max_` variants |
 | `combat_exp`, `score` | `set(...)` | |
-| `attitude` | `set("attitude")` | `peaceful` (default) or `aggressive`; others are not modelled yet |
+| `attitude` | `set("attitude")` | `peaceful` (default), `friendly`, `heroism` or `aggressive`; only `aggressive` acts yet |
 | `skills` | `set_skill(id, level)` | object, authored order kept |
+| `skill_map` | `map_skill(use, skill)` | `{use: skill}`; the skill must be in `skills` |
 | `carry` | `carry_object(path)->wield()/wear()`, `add_money(id, n)` | `{item, source, amount?, equip?: "wield"\|"wear"}`; `source` is the path the NPC file names |
 | `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge` |
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
+
+`age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
+is `600+random(400)`, `"minus_random"` subtracts. `gender` may be
+`{"random": 10, "below": 7, "then": "男性", "else": "女性"}`. Draws happen at creation, before the
+race's own draws; a save keeps the drawn values.
 
 `chat_msg`, `inquiry` and functions (`call_for_help`, `ask_me`, …) are not data yet.
 
@@ -68,8 +91,10 @@ IDs. Append new spawns; do not reorder existing ones without expecting a New Gam
 
 ## rooms
 
-`{id, short, long, exits?}` — one ES2 room, copied verbatim from `set("short")`, the `@LONG` block
-of `set("long")` (hard line breaks kept; the UI rewraps) and the static `set("exits")`. `id` is
+`{id, short, long, exits?, no_fight?}` — one ES2 room, copied verbatim from `set("short")`, the
+`@LONG` block of `set("long")` (hard line breaks kept; the UI rewraps) and the static
+`set("exits")`. `no_fight: true` (`set("no_fight")`) refuses attacks from or into every zone
+holding the room ("这里不准战斗。", kill.c) and stops NPC aggression there (combatd.c). `id` is
 `es2:<path without .c>`; exit targets use the same form and may name rooms that are not migrated.
 `tools/tests/test_room_data.py` checks the text against `reference/es2/`.
 

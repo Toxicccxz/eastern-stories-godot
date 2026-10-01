@@ -4,27 +4,17 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 3 — generic map runtime**, in playable PRs (see [ROADMAP](ROADMAP.md)); 3B6 is its last step:
+**Package 4 — content importer + Snow complete**, in five playable PRs (see [ROADMAP](ROADMAP.md)):
 
-1. **World data** (PR #29): rooms, regions, maps, zones and portals are JSON; the player reads each
-   room's ES2 text on arrival and with Look (观察); the HUD fits 480×320.
-2. **Generic map controller + Snow** (PR #30): one `WorldMapController`; Snow's bank, work, waiter,
-   pawn shop, teacher and doors are data-configured services/doors; the HUD asks the map what is
-   here instead of casting to Snow map types.
-3. **Old Pine on the generic controller** (PR #31): Old Pine's outdoor map and
-   cave use `WorldMapController`; NPCs spawn from spawns.json onto one generic body scene; landmarks
-   (climb/descend/vine), water sources and the Lake's complete-set entry are data; one combat round
-   per second on every map (`pacing.json`); saves, combat and the HUD go through every resident map.
-4. **Terrain on `TileMapLayer`** (PR #32): Snow and Old Pine are painted with one 16 px placeholder
-   TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)). Swapping art means replacing the TileSet.
-5. **Old Pine by height level** (PR #33): forest, gorge, tree top and cliff
-   niche are separate maps; climbing, the vine and the cave are scene transitions; the forest follows
-   the ES2 exits (the bandit slope is north of the clearing); Old Pine collides through its tiles.
-6. **Snow collision on its tiles** (`phase/snow-tile-collision`): Snow's walls, town boundaries and
-   shop walls are redrawn as 32 px tile walls on the 16 px grid and block exactly where they are
-   drawn; doors, the closed Old Pine exit, the counters and the teacher stay nodes.
-
-Next: **Package 4 — content importer + Snow complete** (see [ROADMAP](ROADMAP.md)).
+1. **4A — importer + people in Snow's streets** (`phase/content-importer`):
+   `tools/migration/content_importer.py` generates rooms, items, NPCs, spawns and vendors from the
+   LPC plus per-region override files; Snow and Old Pine data regenerate unchanged. Fifteen Snow
+   NPCs stand in the Inn, the east road, the temple, the north street and the school: travellers,
+   dogs, the temple keeper, the drunk, the scavenger, 刘安禄, the trainees and 李火狮.
+   Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
+2. **4B** south road and shops (9 rooms) · **4C** Inn upstairs, school inner rooms, secret storage
+   (10 rooms) · **4D** ask, ambient talk, wandering, room reset · **4E** give, shops and services
+   bound to their NPCs, teachers as data.
 
 ## Playable now
 
@@ -32,7 +22,9 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 
 * **Snow (雪亭镇)**: source-valid New Game in the Inn; square, core streets and temple (18 of 38 rooms as
   zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
-  value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳).
+  value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳); fifteen NPCs
+  (8 types) to look at and fight, with their ES2 gear and loot; no fighting in the temple or the
+  workplace (`no_fight`).
 * **Old Pine (老松岭)**: forest (paths, clearing, bandit slope, bridge, pine maze, cliffside), the gorge
   below the bridge (waterfall pool, river, Lake with five serpents) reached by the vine or the cave,
   the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
@@ -44,7 +36,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Rough coverage of ES2 content: about 5% (49/502 rooms, 4/240 NPC types, 2/70 player-obtainable
+Rough coverage of ES2 content: about 5% (49/502 rooms, 12/240 NPC types, 2/70 player-obtainable
 skills, 1/13 families, 0 quests).
 
 ## Known issues
@@ -54,7 +46,11 @@ Code:
 * `busy` is only decremented inside encounters; busy left at encounter exit can stall recovery and
   Save eligibility.
 * `apply/parry`, `apply/defense` and weapon-skill `apply/*` bonuses are not projected into combat.
-* `random(n<=0)` is handled by per-site exceptions; needs the global MudOS rule (returns 0).
+* `random(n<=0)` is handled by per-site exceptions; needs the global MudOS rule (returns 0). The
+  16 call sites are combat/learn code; do it with the next package that touches them.
+* Snow NPCs do not talk, wander, greet or trade yet (4D/4E); a killed NPC never returns (no room
+  reset yet, 4D). Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon
+  verbs are not modelled yet.
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.

@@ -1,5 +1,28 @@
 # Migration Decisions
 
+## Content importer and Snow's first NPCs (2026-10-01)
+
+Package 4A, from the owner-approved Package 4 plan:
+- **Imported data.** `tools/migration/content_importer.py` writes rooms, items, NPCs, spawns and
+  vendors under `game/data/` from the LPC plus `tools/migration/overrides/<region>.json`. Those
+  files are generated and never edited by hand (`tools/tests/test_content_import.py`); every LPC
+  fact that does not become data is a finding with a recorded decision in the override file.
+  Migration Tooling v1 (`room_extractor.py`, `cli.py`) is retired; its lexer (`es2_source.py`)
+  stays.
+- **Driver rules, applied once:** a string escape MudOS does not know, `\X`, yields `X` (the Big5
+  conversion left `功\德`); colour macros (`CYN`, `NOR`, …) are presentation and leave the text.
+- **Random `create()` values** (`600+random(400)`, `if (random(10)<7) set("gender", …)`) are data
+  rules, drawn when the NPC is created and before its race's draws; saves keep the drawn values.
+- **`no_fight` rooms** (temple, workplace): attacking from or into one prints kill.c's
+  这里不准战斗。, and aggressive NPCs start nothing there (combatd.c). A zone is no-fight when any of
+  its rooms is.
+- **Beasts** use every `beast.c` verb they author, one drawn per attack (`query_action`): the
+  dogs bite and claw.
+- **Deferred, not changed:** the waiter and 安惜迩 stay services without bodies until services are
+  bound to their NPC (4E); the square's three 飞刀 travellers wait for combined throwing weapons;
+  items lying in rooms (the temple's paper seals and donation box) come with 4C.
+- World content revision `SOURCE_ENTRY_SNOW_NPCS_V1`: older development saves need a New Game.
+
 ## Snow: walls on the tile grid, collision on tiles (2026-10-01)
 
 Owner decisions for Package 3B6:
