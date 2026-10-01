@@ -152,8 +152,27 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 		and body.global_position == (session.active_map() as WorldMapController).resolve_spawn_marker(&"snow.temple.revive").global_position,
 		"继续 brings the player back at the temple on the same map",
 	)
+	# The former body still lies on the east road; saving and Continue keep it exactly.
+	session.set_process(false)
+	var corpses: int = (session.active_map() as WorldMapController).corpse_states().size()
+	var saved: GameSaveSnapshot = Work.capture(session)
+	_check(saved != null and corpses == 1 and saved.corpses.size() == 1 and saved.corpses[0].victim_character_id == player.character_id, "Save works after reincarnation, with the player's corpse")
+	if saved == null:
+		session.free()
+		await tree.process_frame
+		return
+	var text: String = GameSaveJsonCodec.encode(saved).text
 	session.free()
 	await tree.process_frame
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(text).snapshot, tree.root)
+	_check(restored.succeeded(), "Continue accepts the reincarnated player's corpse: " + restored.path)
+	if restored.succeeded():
+		var fresh: OldPineWorldSessionController = restored.candidate
+		_check(fresh.activate_restore_candidate(), "the restored session activates")
+		var again: GameSaveSnapshot = Work.capture(fresh)
+		_check(again != null and GameSaveJsonCodec.encode(again).text == text, "the restored world saves exactly as it was")
+		fresh.free()
+		await tree.process_frame
 
 
 func _check(ok: bool, label: String) -> void:

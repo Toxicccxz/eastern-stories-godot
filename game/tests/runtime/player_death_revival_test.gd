@@ -168,6 +168,7 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	check([player.state.vitality.current, player.state.vitality.effective] == [1, player.state.vitality.maximum], "reincarnated with 1 kee and full effective kee")
 	check(session.active_map().runtime_player_body().player_controlled and session.active_map().runtime_player_body().visible, "the player can move again")
 	check(OldPineSaveEligibility.inspect(session).allowed(), "saving works again")
+	check(Work.capture(session) != null, "a save captures the living player with their Old Pine corpse")
 	check(map.corpse_states().size() == 1 and session.inventory_state().direct_children(corpse_owner) == carried, "the corpse still waits in Old Pine")
 	# d/snow/temple.c exits: west to the square, south to the first east road.
 	var walker: RefCounted = Work.new()

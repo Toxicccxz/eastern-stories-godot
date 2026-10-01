@@ -347,9 +347,11 @@ static func _restore_corpses(
 			expected_weight = victim_npc.body_weight
 			# Preserve the existing NPC validation policy (not a Player body change).
 			expected_capacity = CharacterDerivedValues.maximum_encumbrance(victim_character.attributes.strength)
+		# wgargoyle.c reincarnate(): the player lives on and their former body stays
+		# where they fell, so a player's corpse may outlive the death. An NPC's may not.
+		var victim_is_player: bool = not victim is Values.NpcSpawnStateSnapshot
 		if (
-			victim_life != &"dead"
-			or victim_exists
+			(not victim_is_player and (victim_life != &"dead" or victim_exists))
 			or saved.victim_display_name != expected_name
 			or saved.victim_gender != victim_character.gender
 			or saved.victim_age != expected_age
