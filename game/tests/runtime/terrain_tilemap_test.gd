@@ -80,6 +80,8 @@ func _test_tile_collision_map(map: MapDefinition, scene: Node2D, layers: Array[T
 		elif node is WorldPassageArea2D and not (node as WorldPassageArea2D).closed_wall_path.is_empty():
 			switchable.append(node.get_node((node as WorldPassageArea2D).closed_wall_path))
 	var objects: Array = OBJECT_BLOCKS.get(map.map_id, [])
+	for path: String in objects:
+		_assert_true(scene.get_node_or_null(path) is CollisionShape2D, "%s object block %s exists" % [map.map_id, path])
 	for node: Node in scene.find_children("*", "", true, false):
 		if (node is CollisionShape2D or node is CollisionPolygon2D) and node.get_parent() is StaticBody2D:
 			var kept: bool = switchable.has(node) or objects.has(String(scene.get_path_to(node)))
@@ -102,13 +104,16 @@ func _test_tile_collision_map(map: MapDefinition, scene: Node2D, layers: Array[T
 ## A closed door blocks exactly its doorway: the walkable cells between two wall tiles, and its
 ## shutter is drawn over the same cells.
 func _test_door_fits_opening(map: MapDefinition, scene: Node2D, door: WorldDoor) -> void:
+	var label: String = "%s door %s" % [map.map_id, door.door_id]
 	var wall: CollisionShape2D = door.wall_shape()
+	var shutter: Polygon2D = door.get_node_or_null(door.shutter) as Polygon2D
+	_assert_true(wall != null and wall.shape is RectangleShape2D and shutter != null, "%s has a rectangular wall and a shutter" % label)
+	if wall == null or not wall.shape is RectangleShape2D or shutter == null:
+		return
 	var size: Vector2 = (wall.shape as RectangleShape2D).size
 	var rect := Rect2(_map_position(scene, wall) - size / 2.0, size)
-	var label: String = "%s door %s" % [map.map_id, door.door_id]
 	_assert_true(is_zero_approx(fposmod(rect.position.x, TILE)) and is_zero_approx(fposmod(rect.position.y, TILE))
 		and is_zero_approx(fposmod(rect.size.x, TILE)) and is_zero_approx(fposmod(rect.size.y, TILE)), "%s sits on the tile grid (%s)" % [label, rect])
-	var shutter: Polygon2D = door.get_node(door.shutter) as Polygon2D
 	var drawn := Rect2(shutter.polygon[0], Vector2.ZERO)
 	for point: Vector2 in shutter.polygon:
 		drawn = drawn.expand(point)
