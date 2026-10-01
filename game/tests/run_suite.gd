@@ -31,11 +31,8 @@ func _run() -> void:
 			continue
 		var arguments: Array = [self] if _run_all_argument_count(suite) == 1 else []
 		var started_msec: int = Time.get_ticks_msec()
-		var result: Dictionary = await suite.callv("run_all", arguments)
-		var suite_failures: Array = result.get("failures", [])
-		if not result.has("assertions"):
-			# A script error inside run_all() returns nothing; never count that as a pass.
-			suite_failures = ["run_all() returned no result (script error?)"]
+		var result: Dictionary = SuiteResult.checked(path.get_file().get_basename(), await suite.callv("run_all", arguments))
+		var suite_failures: Array = result["failures"]
 		assertions += int(result.get("assertions", 0))
 		for failure: Variant in suite_failures:
 			failures.append("%s: %s" % [path.get_file(), str(failure)])

@@ -61,8 +61,6 @@ Code:
   a test-only manual cadence (`historical_world_combat_fixture.gd`).
 * `oldpine_lake_production_test.gd` fails its three Fill checks when run on its own (also on main);
   it passes inside `run_tests.gd`.
-* A suite that hits a script error inside `run_all()` stops `run_tests.gd` without quitting, and
-  `verify.py` has no timeout, so the gate hangs instead of failing (`run_suite.gd` now reports it).
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` only in the HUD chrome) and some panels still mix
