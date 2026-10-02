@@ -177,6 +177,84 @@
 				"west": "es2:d/snow/school2",
 				"east": "es2:d/snow/inneryard"
 			}
+		},
+		{
+			"id": "es2:d/snow/sroad2",
+			"short": "雪亭镇街道",
+			"long": "这里是雪亭镇的街道，你的北边有一家客栈，从这里就可以听到客\n栈里人们饮酒谈笑的声音，街道往东不远处有个转角往北，如果你往东\n直走就是上山的小径了，往西则可以走到车马来往络绎不绝的官道。\n",
+			"exits": {
+				"west": "es2:d/snow/sroad3",
+				"south": "es2:d/snow/school",
+				"east": "es2:d/snow/sroad1"
+			}
+		},
+		{
+			"id": "es2:d/snow/sroad3",
+			"short": "青石官道",
+			"long": "这是一条宽敞坚实的青石板铺成的大道，路上车马的痕迹已经在路\n面上留下一条条明显的凹痕，往东是一条较小的街道通往雪亭镇，大路\n从这里往北可达水烟阁，往西南穿过黄石隘口则通往戍守京畿重地的天\n驼关。\n",
+			"exits": {
+				"west": "es2:d/snow/sroad4",
+				"east": "es2:d/snow/sroad2"
+			}
+		},
+		{
+			"id": "es2:d/snow/sroad4",
+			"short": "青石官道",
+			"long": "这是一条宽敞坚实的青石板大道，大道两旁种著整齐的花木，从这\n里往北通往水烟阁，往东则是衔接雪亭镇街道的路口。\n",
+			"exits": {
+				"north": "es2:d/snow/sroad5",
+				"east": "es2:d/snow/sroad3",
+				"southwest": "es2:d/canyon/road"
+			}
+		},
+		{
+			"id": "es2:d/snow/sroad5",
+			"short": "青石官道",
+			"long": "这是一条宽敞坚实的青石板大道，大道两旁种著整齐的花木，从这\n里往西通往水烟阁，往南则是衔接雪亭镇街道的路口。\n",
+			"exits": {
+				"west": "es2:d/waterfog/sroad1",
+				"south": "es2:d/snow/sroad4"
+			}
+		},
+		{
+			"id": "es2:d/snow/school",
+			"short": "书院",
+			"long": "这里是一间宽敞的书院，虽然房子看起来很老旧了，但是打扫得很\n整洁。墙壁上挂著一幅山水画，意境颇为不俗。书院的大门开在北边，\n西边有一扇木门通往边厢。\n",
+			"exits": {
+				"north": "es2:d/snow/sroad2"
+			}
+		},
+		{
+			"id": "es2:d/snow/smithy",
+			"short": "打铁铺子",
+			"long": "这里是一间打铁铺子，从火炉中冒出的火光将墙壁映得通红，屋子\n的角落里堆满了各式铁器的完成品或未完成品，像是锄头、铁锤、铲子\n等，叮叮当当的声音敲得满屋子响。\n",
+			"exits": {
+				"east": "es2:d/snow/mstreet2"
+			}
+		},
+		{
+			"id": "es2:d/snow/herbshop",
+			"short": "桑邻药铺",
+			"long": "这里是一间规模不小的药铺，奇怪的是，在这里你闻不到一丝药铺\n应有的药味，有的只是一股淡淡的檀香，令人觉得心旷神怡，药铺的柜\n台就在店铺靠北的一面，柜台后是一个巨大的药柜(cabinet)， 上面的\n小抽屉只怕有七、八百个之多，但是全部没有贴标签，药铺的出口在东\n边，柜台上贴著一张发黄的纸片(sign)。\n",
+			"exits": {
+				"east": "es2:d/snow/mstreet3"
+			}
+		},
+		{
+			"id": "es2:d/snow/postoffice",
+			"short": "雪亭驿",
+			"long": "这里是负责雪亭镇官府文书跟军令往来的雪亭驿，但是因为出了雪\n亭镇往北的野羊山近年来有盗匪盘据，官府的信差最近都改走东边的飞\n鸢栈道，所以雪亭驿来往的人就少了，驿站的官员索性就开始接一些百\n姓的信件，一方面打发时间，一方面也有点事做以免被上级裁撤。驿站\n大门口上悬著一块木牌(sign)，上面写了些字。\n",
+			"exits": {
+				"east": "es2:d/snow/mstreet4"
+			}
+		},
+		{
+			"id": "es2:d/snow/hockshop2",
+			"short": "储藏室",
+			"long": "这里是丰登当铺的储藏室，有时候当铺里的大朝奉会把铺里存不下\n的死当货物拿出来拍卖，不过你现在只能看见一个个锁著的箱子。往西\n边穿过一道布帘可以回到当铺店面。\n",
+			"exits": {
+				"west": "es2:d/snow/hockshop"
+			}
 		}
 	]
 }

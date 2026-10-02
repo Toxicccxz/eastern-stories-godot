@@ -22,6 +22,51 @@
 			"weight": 5000,
 			"value": 40,
 			"armor": { "type": "cloth", "props": { "armor": 2 } }
+		},
+		{
+			"id": "es2:d/snow/obj/raincoat",
+			"legacy_sources": ["d/snow/obj/raincoat.c", "d/snow/npc/obj/raincoat.c"],
+			"name": "蓑衣",
+			"aliases": ["raincoat"],
+			"unit": "件",
+			"material": "plant",
+			"weight": 7000,
+			"value": 30,
+			"armor": { "type": "surcoat", "props": { "armor": 2, "personality": -1 } }
+		},
+		{
+			"id": "es2:d/snow/obj/sandals",
+			"legacy_sources": ["d/snow/obj/sandals.c", "d/snow/npc/obj/sandals.c"],
+			"name": "草鞋",
+			"aliases": ["sandals"],
+			"unit": "双",
+			"material": "wood",
+			"weight": 900,
+			"value": 10,
+			"armor": { "type": "boots", "props": { "dodge": 0 } }
+		},
+		{
+			"id": "es2:d/snow/obj/lumber_axe",
+			"legacy_sources": ["d/snow/obj/lumber_axe.c", "d/snow/npc/obj/lumber_axe.c"],
+			"name": "铁斧",
+			"aliases": ["lumber axe", "axe"],
+			"long": "这是一把沈重的铁斧，用来砍柴。\n",
+			"unit": "把",
+			"weight": 22000,
+			"value": 11,
+			"weapon": { "skill": "axe", "damage": 11, "flags": ["two_handed"] }
+		},
+		{
+			"id": "es2:d/snow/obj/hammer",
+			"legacy_sources": ["d/snow/obj/hammer.c", "d/snow/npc/obj/hammer.c"],
+			"name": "铁锤",
+			"aliases": ["hammer"],
+			"long": "这是一把沈重的铁锤，打造的相当坚实。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 8000,
+			"value": 3,
+			"weapon": { "skill": "hammer", "damage": 15 }
 		}
 	]
 }

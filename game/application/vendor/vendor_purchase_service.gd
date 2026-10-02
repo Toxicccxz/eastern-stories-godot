@@ -2,9 +2,9 @@ class_name VendorPurchaseService
 extends RefCounted
 
 ## cmds/std/buy.c -> feature/vendor.c for any goods a vendor lists. The price
-## is the goods' own value; money is taken first, then the product is created
-## at full weight and moved to the buyer. An undeliverable product is destroyed
-## without refund.
+## is the goods' own value unless the vendor asks its own (VendorDefinition.price);
+## money is taken first, then the product is created at full weight and moved to
+## the buyer. An undeliverable product is destroyed without refund.
 static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCatalog,
 	context: MoneyInventoryContext, foods: FoodCollection, liquids: LiquidCollection,
 	allocator: SessionItemIdAllocator, maximum_encumbrance: int) -> VendorPurchaseResult:
@@ -16,9 +16,9 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 	result.item_definition_id = vendor.item_definition_id(goods_key)
 	var content: ItemContentDefinition = catalog.item(result.item_definition_id)
 	# buy.c: a price below 1 means the owner will not trade. Money is not goods.
-	if content == null or not content.is_valid() or content.is_stack or content.value < 1:
+	if content == null or not content.is_valid() or content.is_stack or vendor.price(goods_key, content) < 1:
 		return result
-	result.price = content.value
+	result.price = vendor.price(goods_key, content)
 	result.outcome = VendorPurchaseResult.Outcome.AUTHORITY_FAILURE
 	if context == null or not context.is_valid() or foods == null or liquids == null:
 		return result

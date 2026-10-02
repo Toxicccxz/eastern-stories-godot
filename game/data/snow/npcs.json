@@ -124,6 +124,82 @@
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
 			]
+		},
+		{
+			"id": "snow.npc.farmer",
+			"legacy_source": "d/snow/npc/farmer.c",
+			"name": "农夫",
+			"aliases": ["farmer"],
+			"gender": "男性",
+			"age": 33,
+			"long": "你看到一位面色黝黑的农夫。\n",
+			"combat_exp": 20,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:d/snow/obj/raincoat", "source": "d/snow/npc/obj/raincoat.c", "equip": "wear" },
+				{ "item": "es2:d/snow/obj/sandals", "source": "d/snow/npc/obj/sandals.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 20 }
+			]
+		},
+		{
+			"id": "snow.npc.crazy_dog",
+			"legacy_source": "d/snow/npc/crazy_dog.c",
+			"name": "疯狗",
+			"aliases": ["crazy dog", "dog"],
+			"race": "beast",
+			"age": 4,
+			"long": "一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。\n",
+			"attributes": { "str": 26, "cor": 30 },
+			"combat_exp": 100,
+			"attitude": "aggressive",
+			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 15, "damage": 6, "armor": 2 },
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "snow.npc.teacher",
+			"legacy_source": "d/snow/npc/teacher.c",
+			"name": "魏无极",
+			"aliases": ["teacher", "wey"],
+			"title": "教书先生",
+			"gender": "男性",
+			"age": 47,
+			"long": "魏无极是个博学多闻的教书先生，他年轻时曾经中过举人，但是\n因为生性喜爱自由而不愿做官，魏无极以教书为业，如果你付他\n一笔学费，就可以成为他的弟子学习读书识字。\n",
+			"attributes": { "int": 26 },
+			"attitude": "peaceful",
+			"skills": { "literate": 60 }
+		},
+		{
+			"id": "snow.npc.woodcutter",
+			"legacy_source": "d/snow/npc/woodcutter.c",
+			"name": "樵夫",
+			"aliases": ["woodcutter"],
+			"gender": "男性",
+			"age": 26,
+			"long": "你看到一个粗壮的大汉，身上穿著普通樵夫的衣服。\n",
+			"attributes": { "str": 30 },
+			"combat_exp": 140,
+			"carry": [
+				{ "item": "es2:d/snow/obj/lumber_axe", "source": "d/snow/npc/obj/lumber_axe.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "snow.npc.post_officer",
+			"legacy_source": "d/snow/npc/post_officer.c",
+			"name": "杜宽",
+			"aliases": ["post officer", "officer"],
+			"title": "雪亭驿长",
+			"gender": "男性",
+			"age": 43,
+			"long": "杜宽担任雪亭驿的驿长已经有十几年了，虽然期间有几次升迁的\n机会，但是他都因为舍不得离开这个小山村而放弃了，雪亭镇的\n居民对杜宽的风评相当不错，常常会来到驿站跟他聊天。\n",
+			"combat_exp": 800,
+			"attitude": "friendly",
+			"skills": { "literate": 70, "dodge": 50, "unarmed": 40 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 70 }
+			]
 		}
 	]
 }

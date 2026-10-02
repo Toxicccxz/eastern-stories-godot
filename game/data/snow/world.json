@@ -24,7 +24,16 @@
 		{ "id": "snow.hockshop", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop"] },
 		{ "id": "snow.school1", "map": "snow.outdoor", "rooms": ["es2:d/snow/school1"] },
 		{ "id": "snow.school2", "map": "snow.outdoor", "rooms": ["es2:d/snow/school2"] },
-		{ "id": "snow.schoolhall", "map": "snow.outdoor", "rooms": ["es2:d/snow/schoolhall"] }
+		{ "id": "snow.schoolhall", "map": "snow.outdoor", "rooms": ["es2:d/snow/schoolhall"] },
+		{ "id": "snow.sroad2", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad2"] },
+		{ "id": "snow.sroad3", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad3"] },
+		{ "id": "snow.sroad4", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad4"] },
+		{ "id": "snow.sroad5", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad5"] },
+		{ "id": "snow.school", "map": "snow.outdoor", "rooms": ["es2:d/snow/school"] },
+		{ "id": "snow.smithy", "map": "snow.outdoor", "rooms": ["es2:d/snow/smithy"] },
+		{ "id": "snow.herbshop", "map": "snow.outdoor", "rooms": ["es2:d/snow/herbshop"] },
+		{ "id": "snow.postoffice", "map": "snow.outdoor", "rooms": ["es2:d/snow/postoffice"] },
+		{ "id": "snow.hockshop2", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop2"] }
 	],
 	"portals": [
 		{
@@ -63,6 +72,14 @@
 		{
 			"id": "snow.schoolhall.master", "kind": "teacher", "zone": "snow.schoolhall",
 			"name": "柳淳风", "reach": 96, "legacy_source": "daemon/class/swordsman/master.c"
+		},
+		{
+			"id": "snow.herbshop.herbalist", "kind": "vendor", "zone": "snow.herbshop",
+			"name": "杨掌柜", "reach": 96, "vendor": "snow.vendor.herbalist", "legacy_source": "d/snow/npc/herbalist.c"
+		},
+		{
+			"id": "snow.smithy.smith", "kind": "vendor", "zone": "snow.smithy",
+			"name": "王铁匠", "reach": 96, "vendor": "snow.vendor.smith", "legacy_source": "d/snow/npc/smith.c"
 		}
 	],
 	"doors": [

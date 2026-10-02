@@ -4,7 +4,7 @@ extends RefCounted
 ## pre-placed bodies did: same identities, random draws, loadout item IDs and
 ## positions, map by map in spawn order. Recorded before the map controller
 ## changed (B2) and re-recorded when Old Pine was split into one map per height
-## (3B5: only IDs, positions and maps moved) and when Snow got its NPCs (4A:
+## (3B5: only IDs, positions and maps moved) and when Snow got its NPCs (4A, 4B:
 ## they draw after Old Pine, so only next_npc_draw moved); set UPDATE_OLDPINE_SPAWN_BASELINE=1
 ## to rewrite it deliberately.
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
