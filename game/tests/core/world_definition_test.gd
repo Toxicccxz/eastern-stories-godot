@@ -35,7 +35,7 @@ func _test_maps_have_scenes() -> void:
 		_assert_true(catalog.region(map.region_id) != null, "%s region resolves" % map.map_id)
 		_assert_true(ResourceLoader.exists(map.scene_path), "%s scene exists: %s" % [map.map_id, map.scene_path])
 		_assert_false(catalog.zones_for_map(map.map_id).is_empty(), "%s has zones" % map.map_id)
-	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.CLIFF_MAP_ID], "maps with a scene")
+	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, &"snow.inn_upstairs", &"snow.cellar", OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.CLIFF_MAP_ID], "maps with a scene")
 	_assert_eq(catalog.region(OldPineWorld.REGION_ID).display_name, "老松岭", "Old Pine region name")
 	_assert_eq(catalog.region(SnowWorld.REGION_ID).display_name, "雪亭镇", "Snow region name")
 
@@ -43,7 +43,8 @@ func _test_maps_have_scenes() -> void:
 func _test_zones_and_rooms() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	_assert_eq(catalog.zones_for_map(SnowWorld.INN_MAP_ID).size(), 1, "Inn main floor")
-	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 26, "Snow outdoor zones")
+	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 31, "Snow outdoor zones")
+	_assert_eq([catalog.zones_for_map(&"snow.inn_upstairs").size(), catalog.zones_for_map(&"snow.cellar").size()], [4, 1], "Inn upstairs: corridor and three rooms; the secret storage")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 8, "Old Pine forest zones")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.GORGE_MAP_ID).size(), 3, "Old Pine gorge: waterfall, river, lake")
 	_assert_eq([catalog.zones_for_map(OldPineWorld.TREE_MAP_ID).size(), catalog.zones_for_map(OldPineWorld.CLIFF_MAP_ID).size()], [1, 1], "tree top and cliff niche")
@@ -56,7 +57,7 @@ func _test_zones_and_rooms() -> void:
 			_assert_false(rooms.has(room_id), "%s is in one zone" % room_id)
 			rooms[room_id] = true
 			_assert_true(catalog.room(room_id) != null, "%s resolves" % room_id)
-	_assert_eq(rooms.size(), 58, "27 Snow and 31 Old Pine rooms are playable")
+	_assert_eq(rooms.size(), 68, "37 Snow and 31 Old Pine rooms are playable")
 	_assert_eq(
 		catalog.zone(OldPineWorld.SLOPE_ZONE_ID).room_ids(),
 		[&"es2:d/oldpine/spath1", &"es2:d/oldpine/spath2", &"es2:d/oldpine/spath3", &"es2:d/oldpine/spath4"],
@@ -102,7 +103,7 @@ func _test_portals() -> void:
 	var south: PortalDefinition = catalog.portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	_assert_eq(south.source_map_id, SnowWorld.OUTDOOR_MAP_ID, "Snow south road starts in Snow")
 	_assert_eq(south.destination_map_id, OldPineWorld.OUTDOOR_MAP_ID, "and ends in Old Pine")
-	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 2, "Snow outdoor: Inn door and Old Pine road")
+	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 3, "Snow outdoor: Inn door, Old Pine road and the weapon storage's hidden way down")
 	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 4, "Old Pine forest: Snow road, pine, two vine branches")
 	# One map per height level (DECISIONS 3B5): every Old Pine move that is not a walk changes map.
 	for map: MapDefinition in catalog.maps():
@@ -122,6 +123,7 @@ func _test_snow_adjacency_follows_room_exits() -> void:
 		"mstreet3|hockshop", "mstreet3|mstreet4", "mstreet4|crossroad",
 		"sroad1|sroad2", "sroad2|sroad3", "sroad3|sroad4", "sroad4|sroad5", "sroad2|school",
 		"mstreet2|smithy", "mstreet3|herbshop", "mstreet4|postoffice", "hockshop|hockshop2",
+		"school2|weapon_storage", "schoolhall|inneryard", "inneryard|innerhall", "inneryard|guestroom", "inneryard|nyard",
 	]
 	var zones: Array[ZoneDefinition] = catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID)
 	var found: Array[String] = []

@@ -1,0 +1,31 @@
+{
+	"item_spawns": [
+		{
+			"id": "snow.outdoor.temple.denotation",
+			"item": "es2:d/snow/obj/denotation",
+			"map": "snow.outdoor",
+			"zone": "snow.temple",
+			"points": ["snow.temple.denotation.1"],
+			"legacy_room": "d/snow/temple.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.weapon_storage.bamboo_sword",
+			"item": "es2:d/snow/obj/bamboo_sword",
+			"map": "snow.outdoor",
+			"zone": "snow.weapon_storage",
+			"points": ["snow.weapon_storage.bamboo_sword.1"],
+			"legacy_room": "d/snow/weapon_storage.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.cellar.secret_storage.shield",
+			"item": "es2:d/snow/obj/shield",
+			"map": "snow.cellar",
+			"zone": "snow.secret_storage",
+			"points": ["snow.secret_storage.shield.1"],
+			"legacy_room": "d/snow/secret_storage.c",
+			"legacy_quantity": 1
+		}
+	]
+}

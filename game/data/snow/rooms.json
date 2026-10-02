@@ -255,6 +255,89 @@
 			"exits": {
 				"west": "es2:d/snow/hockshop"
 			}
+		},
+		{
+			"id": "es2:d/snow/inn_2f",
+			"short": "饮风客栈二楼",
+			"long": "你现在来到了饮风客栈的二楼，这家客栈有个很奇怪的规矩，就是只留宿\n名头够大的客人，如果你只是一个无名小卒，不论出再多银两都租不到一间空\n房，墙边有一道楼梯通往一楼的茶座。\n",
+			"exits": {
+				"west": "es2:d/snow/w_room",
+				"north": "es2:d/snow/n_room",
+				"down": "es2:d/snow/inn",
+				"east": "es2:d/snow/e_room"
+			}
+		},
+		{
+			"id": "es2:d/snow/n_room",
+			"short": "客房",
+			"long": "这是一间打扫得相当乾净的客房，虽然所有的家俱看起来都相当朴\n素，比不上县城里几家著名的大酒馆，但是自有一种敦厚亲切的感觉，\n你在这里相信可以安心的休息。\n",
+			"exits": {
+				"south": "es2:d/snow/inn_2f"
+			}
+		},
+		{
+			"id": "es2:d/snow/e_room",
+			"short": "客房",
+			"long": "这是一间打扫得相当乾净的客房，虽然所有的家俱看起来都相当朴\n素，比不上县城里几家著名的大酒馆，但是自有一种敦厚亲切的感觉，\n你在这里相信可以安心的休息。\n",
+			"exits": {
+				"west": "es2:d/snow/inn_2f"
+			}
+		},
+		{
+			"id": "es2:d/snow/w_room",
+			"short": "客房",
+			"long": "这是一间打扫得相当乾净的客房，虽然所有的家俱看起来都相当朴\n素，比不上县城里几家著名的大酒馆，但是自有一种敦厚亲切的感觉，\n你在这里相信可以安心的休息。\n",
+			"exits": {
+				"east": "es2:d/snow/inn_2f"
+			}
+		},
+		{
+			"id": "es2:d/snow/inneryard",
+			"short": "天井",
+			"long": "这里是淳风武馆中的天井，往西走可以回到正厅，往北边是书房，\n南边是招待客人的厢房，往东一条长廊通往武馆内院，天井中种满了许\n多奇花异草，中央立著一根石柱(pillar)，上面似乎刻著字。\n",
+			"exits": {
+				"south": "es2:d/snow/guestroom",
+				"north": "es2:d/snow/nyard",
+				"west": "es2:d/snow/schoolhall",
+				"east": "es2:d/snow/innerhall"
+			}
+		},
+		{
+			"id": "es2:d/snow/innerhall",
+			"short": "武馆内院",
+			"long": "这里是淳风武馆的内院，平常武馆弟子没有馆主的允许是不敢到这\n里来的，往东是柳家的祠堂，馆主和家眷的卧房分别位于往北一条走道\n的两旁，厨房以及柴房、仆役的卧房都在往南的走道两旁，往西则是天\n井。\n",
+			"exits": {
+				"west": "es2:d/snow/inneryard"
+			}
+		},
+		{
+			"id": "es2:d/snow/guestroom",
+			"short": "客房",
+			"long": "这里是一间布置得相当雅致的厢房，从窗子可以看到北边的天井跟\n南边的庭园中各式各样的奇花异草，以及他们所带来的淡淡香气，厢房\n的东面墙上还挂著一幅仕女图(painting)，画中是一位宫装美妇，往西\n是通往天井的出口。\n",
+			"exits": {
+				"north": "es2:d/snow/inneryard"
+			}
+		},
+		{
+			"id": "es2:d/snow/nyard",
+			"short": "书房",
+			"long": "这里是一间整理得相当乾净的书房，红木桌椅上铺著蓝绸巾，显得\n十分考究，西面的立著一个书架，上面放著一排排的古书，往南走出房\n门可以看到天井。\n",
+			"exits": {
+				"south": "es2:d/snow/inneryard"
+			}
+		},
+		{
+			"id": "es2:d/snow/weapon_storage",
+			"short": "兵器储藏室",
+			"long": "这是一间堆满各式兵器、刀械的储藏室，各式武器都依照种类、长\n短、依次放在一起，并且擦拭得一尘不染，储藏室的出口在你的南边，\n面对出口的左手边有一个架子(shelf)。\n",
+			"exits": {
+				"south": "es2:d/snow/school2"
+			}
+		},
+		{
+			"id": "es2:d/snow/secret_storage",
+			"short": "地下密室",
+			"long": "这里是一间窄小的密室，你的面前只有一个破旧的小床(bed)跟一\n些乾草。\n"
 		}
 	]
 }

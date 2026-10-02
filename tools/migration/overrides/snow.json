@@ -32,7 +32,9 @@
 		"d/snow/bank.c": { "d/snow/npc/annihir.c": "the bank service until services are bound to their NPC (4E)" },
 		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" },
 		"d/snow/herbshop.c": { "d/snow/npc/herbalist.c": "the herbshop's vendor service until services are bound to their NPC (4E)" },
-		"d/snow/smithy.c": { "d/snow/npc/smith.c": "the smithy's vendor service until services are bound to their NPC (4E)" }
+		"d/snow/smithy.c": { "d/snow/npc/smith.c": "the smithy's vendor service until services are bound to their NPC (4E)" },
+		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 is a combined item (only money stacks); with 蛇药 and 飞刀 when combined items come" },
+		"d/snow/nyard.c": { "d/snow/npc/girl.c": "柳绘心 maps sword to fonxansword, whose actions are not ported: every fight would abort; she comes with the 封山剑法/乱七星步 package" }
 	},
 	"review": {
 		"d/snow/inn.c": {
@@ -60,10 +62,6 @@
 		"d/snow/schoolhall.c": {
 			"statement in create()": "bulletin board: multiplayer feature, omitted",
 			"objects": "柳淳风 (CLASS_D swordsman master): teacher service in world.json"
-		},
-		"d/snow/temple.c": {
-			"objects obj/paper_seal.c": "items on the floor: 4C",
-			"objects d/snow/obj/denotation.c": "items on the floor: 4C"
 		},
 		"d/snow/npc/traveller.c": {
 			"set chat_chance": "ambient talk and random_move (4D)",
@@ -152,6 +150,27 @@
 		"d/snow/obj/hammer.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/snow/obj/denotation.c": {
+			"set_max_encumbrance": "a container (put in, get from): with put, drop and give (4E); until then it only lies there, no_get",
+			"function insert_object": "never runs: MudOS has no insert_object apply, so a donation changes nothing (SNOW_CONTENT anomalies)"
+		},
+		"d/snow/inn_2f.c": { "create_door": "world.json snow.inn_2f.north_door, east_door, west_door" },
+		"d/snow/n_room.c": { "create_door": "world.json snow.inn_2f.north_door" },
+		"d/snow/e_room.c": { "create_door": "world.json snow.inn_2f.east_door" },
+		"d/snow/w_room.c": { "create_door": "world.json snow.inn_2f.west_door" },
+		"d/snow/inneryard.c": { "set item_desc": "look targets are not data yet" },
+		"d/snow/weapon_storage.c": {
+			"set item_desc": "the shelf: landmark snow.weapon_storage.landmark.shelf in world.json",
+			"function init": "push: the shelf landmark's hidden_passage policy",
+			"function do_push": "push: the shelf landmark's hidden_passage policy (HiddenPassageState)",
+			"function check_trigger": "push: the shelf landmark's hidden_passage policy (HiddenPassageState)",
+			"function close_passage": "the call_out on world time (WorldHiddenPassages); does not close on a player below (DECISIONS 4C)",
+			"function reset": "delete(\"left_trigger\") on room reset (4D)"
+		},
+		"d/snow/obj/bamboo_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
 		"obj/drug/hurt_drug.c": {
 			"function init": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package",

@@ -72,7 +72,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(residents == [&"snow.npc.traveller", &"snow.npc.traveller"], "the Inn's authored population: two travellers")
 	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 3, "Player plus one body per traveller, no dummies")
 	var inn_portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(SnowWorldDefinitions.INN_MAP_ID)
-	_check(inn_portals.size() == 1 and inn_portals[0].portal_id == SnowWorldDefinitions.INN_EXIT_PORTAL_ID, "NGE3 enables only the authored east exit; up/NW deferred")
+	_check(inn_portals.size() == 2 and inn_portals[0].portal_id == SnowWorldDefinitions.INN_EXIT_PORTAL_ID and inn_portals[1].portal_id == &"snow.inn.up", "the authored east exit and the stairs up (4C); NW (d/wiz) is not migrated")
 	var exits: Dictionary[String, StringName] = GameContent.catalog().room(&"es2:d/snow/inn").exits()
 	_check(exits.get("east") == &"es2:d/snow/square" and exits.get("up") == &"es2:d/snow/inn_2f" and exits.get("northwest") == &"es2:d/wiz/entrance", "exact source exits")
 	_check(GameContent.catalog().zone(SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID).is_valid() and GameContent.catalog().map(SnowWorldDefinitions.INN_MAP_ID).is_valid(), "typed definitions valid")

@@ -4,10 +4,14 @@ extends RefCounted
 ## Something in a zone the player can select, look at and use: an ES2 room
 ## item (`set("item_desc")`) with a verb such as `climb` or `hold`. Using it
 ## moves the player through one of its portals; the policy decides which.
-## `portal` always takes the single portal; `vine` rolls dodge (epath2.c).
+## `portal` always takes the single portal; `vine` rolls dodge (epath2.c);
+## `hidden_passage` does not move the player: each use is one push, and the
+## `pushes`-th opens its two portals (the way down and the way back) for
+## `open_seconds` (weapon_storage.c).
 const POLICIES: Dictionary[StringName, Dictionary] = {
-	&"portal": {"portals": 1, "messages": []},
-	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"]},
+	&"portal": {"portals": 1, "messages": [], "settings": []},
+	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": []},
+	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"]},
 }
 
 var _landmark_id: StringName
@@ -20,6 +24,7 @@ var _policy: StringName
 var _portal_ids: Array[StringName] = []
 var _requires_contact: bool
 var _messages: Dictionary[String, String] = {}
+var _settings: Dictionary[String, int] = {}
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -92,6 +97,10 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		for key: String in message_reader.keys():
 			messages[key] = message_reader.required_text(key)
 		message_reader.finish()
+	var settings: Dictionary[String, int] = {}
+	for key: String in ["pushes", "open_seconds"]:
+		if reader.has(key):
+			settings[key] = reader.required_integer(key)
 	var definition: WorldLandmarkDefinition = WorldLandmarkDefinition.new(
 		StringName(reader.required_text("id")),
 		StringName(reader.required_text("zone")),
@@ -104,6 +113,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		messages,
 		reader.required_text("legacy_source"),
 	)
+	definition._settings = settings
 	reader.finish()
 	if not POLICIES.has(definition.policy):
 		reader.fail("policy", "unsupported landmark policy '%s'" % definition.policy)
@@ -117,12 +127,23 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	expected.sort()
 	if keys != expected:
 		reader.fail("messages", "policy '%s' needs exactly %s" % [definition.policy, expected])
+	var setting_keys: Array = settings.keys()
+	setting_keys.sort()
+	var expected_settings: Array = (rule["settings"] as Array).duplicate()
+	expected_settings.sort()
+	if setting_keys != expected_settings:
+		reader.fail("", "policy '%s' needs exactly the settings %s" % [definition.policy, expected_settings])
+	for key: String in settings:
+		if settings[key] < 1:
+			reader.fail(key, "must be at least 1")
 	return definition
 
 
 ## Copy placed on the map of its zone.
 func with_map(map_id: StringName) -> WorldLandmarkDefinition:
-	return WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id)
+	var copy: WorldLandmarkDefinition = WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id)
+	copy._settings = _settings.duplicate()
+	return copy
 
 
 func portal_ids() -> Array[StringName]:
@@ -132,6 +153,11 @@ func portal_ids() -> Array[StringName]:
 ## Authored ES2 text the policy prints, by key (see POLICIES).
 func message(key: String) -> String:
 	return _messages.get(key, "")
+
+
+## A policy's authored number (see POLICIES), e.g. `pushes`; 0 when absent.
+func setting(key: String) -> int:
+	return _settings.get(key, 0)
 
 
 func is_valid() -> bool:

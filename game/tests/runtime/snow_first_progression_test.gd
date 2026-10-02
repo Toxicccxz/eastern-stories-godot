@@ -171,7 +171,7 @@ func persistence_tests(tree: SceneTree) -> void:
 	await exact_roundtrip(tree,session,snapshot,"partial skill")
 	var encoded := GameSaveJsonCodec.encode(snapshot)
 	var raw: Dictionary = JSON.parse_string(encoded.text)
-	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_SOUTH_V1", "root/item/content stable")
+	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_INNER_V1", "root/item/content stable")
 	raw.player.character.affiliation.schema_version = 2
 	check(not GameSaveJsonCodec.decode(JSON.stringify(raw)).succeeded(), "unknown affiliation version rejected")
 	raw.player.character.affiliation.schema_version = 1
@@ -193,11 +193,10 @@ func physical_tests(tree: SceneTree) -> void:
 	var map := session.resident_map(&"snow.outdoor") as WorldMapController
 	var school := map.service(&"snow.schoolhall.master") as TeacherService
 	check(not school.can_teach() and not school.request_learn().success, "inactive resident cannot teach")
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 26, "three school zones, the revival temple and 4B's nine rooms")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 31, "three school zones, the revival temple, 4B's nine rooms and 4C's five")
 	for i: int in range(3):
 		var id: StringName = [SnowWorldDefinitions.SCHOOL1_ZONE_ID, SnowWorldDefinitions.SCHOOL2_ZONE_ID, SnowWorldDefinitions.SCHOOLHALL_ZONE_ID][i]
 		check(GameContent.catalog().zone(id).room_ids() == [StringName("es2:d/snow/" + String(id).get_slice(".", 1))],"school source identity " + String(id))
-	check(GameContent.catalog().zone(&"snow.inneryard") == null, "no inner yard (4C)")
 	var walk := Work.new()
 	await tree.physics_frame
 	await walk.walk(tree,session,"move_right",125)

@@ -53,6 +53,7 @@ var _npc_recovery_random: RecoveryCadenceRandomSource
 var _npc_revive_random: CombatRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
+var _hidden_passages: WorldHiddenPassages
 
 
 func _ready() -> void:
@@ -90,6 +91,7 @@ func _process(delta: float) -> void:
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	advance_player_recovery(delta)
 	advance_npc_heartbeat(delta)
+	advance_hidden_passages(delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
 	_advance_life_flow(delta)
@@ -189,6 +191,16 @@ func advance_npc_heartbeat(delta: float) -> void:
 		map.advance_npc_heartbeat(delta)
 
 
+## Hidden passages close on world time, which stops in a fight.
+func advance_hidden_passages(delta: float) -> void:
+	if _hidden_passages != null and npc_world_time_allowed():
+		_hidden_passages.advance(delta)
+
+
+func hidden_passages() -> WorldHiddenPassages:
+	return _hidden_passages
+
+
 func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:
 	if not player_recovery_time_allowed():
 		var frozen: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
@@ -235,12 +247,18 @@ func initialize_session() -> bool:
 		if not _register_map(map_id):
 			return false
 
+	var ready: bool
 	if _bootstrap_mode == BootstrapMode.RESTORE:
-		return _initialize_restore_residents()
-	if _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
-		return _initialize_source_residents()
-	# The technical fixture world starts in the Old Pine clearing.
-	return _bind_residents_staged() and _activate_first_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+		ready = _initialize_restore_residents()
+	elif _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
+		ready = _initialize_source_residents()
+	else:
+		# The technical fixture world starts in the Old Pine clearing.
+		ready = _bind_residents_staged() and _activate_first_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	if ready:
+		_hidden_passages = WorldHiddenPassages.new(self)
+		_hidden_passages.open_for_player_below()
+	return ready
 
 
 ## Public ApplicationShell/Host selects SOURCE_ENTRY before tree attachment.

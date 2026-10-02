@@ -1,5 +1,40 @@
 # Migration Decisions
 
+## Snow's inner rooms (2026-10-02)
+
+Package 4C, from the owner-approved plan:
+- **Maps.** The Inn's upper floor (inn_2f and its three guest rooms behind 房门, `DOOR_CLOSED`)
+  is its own map up the Inn's stairs; the secret storage is its own map below the weapon storage
+  (one map per height level, as Old Pine). The school's inner yard (天井), study, guest room,
+  inner hall and weapon storage are zones of the outdoor map, walked into through their ES2 exits.
+- **Items lie on the floor.** A room's `set("objects")` naming an item becomes an item spawn:
+  the item lies on its marker when the world is created and is picked up with 拾取, as
+  `cmds/std/get.c` (busy, no_get 这个东西拿不起来。, move.c's 太重了). Its identity follows from the
+  spawn point, so a save keeps no floor position; there is no drop yet. Room reset (items and
+  NPCs coming back) is 4D.
+- **The weapon storage's shelf** (`weapon_storage.c`) is a landmark whose button is ES2's
+  `push <direction>` (往左推); `push shelf`'s hint line is not shown. Three pushes open the way
+  down and the way up for ten seconds of world time (stopped in a fight). Opening adds an exit,
+  as `set("exits/down")` does: a player standing on the opening is not dropped until they step
+  onto it again. Pushes while it is
+  open keep counting, so the count can pass three and the shelf then does nothing until the room
+  resets, as in the LPC; the count is not saved (ES2 room state), so Continue clears it.
+- **Deviation: nobody is shut in below.** `secret_storage.c` has no exits; the way up exists
+  only while the passage is open, and only if the room happened to be loaded
+  (`find_object`). ES2 players escaped by quitting. Native rooms are always loaded, so both ways
+  open together, and the passage does not close while the player is below: once the ten
+  seconds are up it closes as soon as nobody is down there. Continue below finds the way up
+  open. The far-side lines (天花板…) are never seen and are not data.
+- **Deferred:** 柳绘心 (`girl.c`, the study) maps sword to fonxansword, whose actions are not
+  ported, so every fight with her would abort; she comes with the 封山剑法/乱七星步 package.
+  桃符纸 (`/obj/paper_seal`) is a combined item and waits for combined items, with 蛇药 and
+  飞刀. The 功德箱 lies in the temple and cannot be taken; putting things in and taking them out
+  (`put`, `get from`) come with give (4E). Its `insert_object()` never runs in MudOS (no such
+  apply), so a donation changes nothing.
+- **Driver rule:** an object without `set_weight()` weighs 0 (`feature/move.c`); the importer
+  writes it.
+- World content revision `SOURCE_ENTRY_SNOW_INNER_V1`: older development saves need a New Game.
+
 ## Snow's south road and shops (2026-10-02)
 
 Package 4B, from the owner-approved plan:

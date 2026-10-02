@@ -30,6 +30,7 @@ var _selected_landmark_source_available: bool = false
 var _selected_corpse_name: String = ""
 var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
+var _selected_floor_item: bool = false
 var _log_lines: Array[String] = []
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay
@@ -128,6 +129,7 @@ func set_selected_corpse(
 	_selected_corpse_name = victim_display_name
 	_selected_corpse_available = not victim_display_name.is_empty()
 	_selected_corpse_in_range = in_range
+	_selected_floor_item = false
 	if clear_inspection:
 		inspection_text.text = ""
 		close_loot()
@@ -136,6 +138,22 @@ func set_selected_corpse(
 		if not _selected_corpse_available
 		else "%s的遗体 · %d件物品" % [victim_display_name, content_count]
 	)
+	refresh_live_state()
+
+
+## An item lying on the floor: 拾取 picks it up (get.c) when in reach.
+func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
+	_selected_target = null
+	_selected_landmark = null
+	_selected_landmark_source_available = false
+	_selected_corpse_name = display_name
+	_selected_corpse_available = not display_name.is_empty()
+	_selected_corpse_in_range = in_range
+	_selected_floor_item = _selected_corpse_available
+	if clear_inspection:
+		inspection_text.text = ""
+		close_loot()
+	selected_target_label.text = display_name
 	refresh_live_state()
 
 
@@ -159,6 +177,11 @@ func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
 		definition.display_name,
 		definition.description.strip_edges(),
 	]
+
+
+func show_item_inspection(display_name: String, description: String) -> void:
+	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
+	inspection_text.text = "%s\n%s" % [display_name, description.strip_edges()]
 
 
 func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
@@ -317,6 +340,7 @@ func _clear_selected_corpse() -> void:
 	_selected_corpse_name = ""
 	_selected_corpse_available = false
 	_selected_corpse_in_range = false
+	_selected_floor_item = false
 
 
 func _update_vitality(
@@ -399,7 +423,7 @@ func _process(delta: float) -> void:
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
-		if (_selected_target != null and (not _selected_target.exists_in_map or _selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (_selected_landmark != null and not _selected_landmark_source_available) or (_selected_corpse_available and not _selected_corpse_in_range):
+		if (_selected_target != null and (not _selected_target.exists_in_map or _selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (_selected_landmark != null and not _selected_landmark_source_available) or (_selected_corpse_available and not _selected_corpse_in_range and not _selected_floor_item):
 			_presentation_layout.close_panel()
 	_elapsed += delta
 	if _elapsed < 0.1:

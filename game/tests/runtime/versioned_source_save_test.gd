@@ -83,7 +83,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(restored.succeeded(), "restore " + String(locations[index].zone_id) + " " + restored.path)
 		if not restored.succeeded(): continue
 		var candidate: OldPineWorldSessionController = restored.candidate
-		_check(candidate.resident_map_count() == 7 and candidate.active_map().map_id() == locations[index].map_id, "exact seven maps, only saved map active")
+		_check(candidate.resident_map_count() == 9 and candidate.active_map().map_id() == locations[index].map_id, "exact nine maps, only saved map active")
 		_check(candidate.active_map().runtime_player_body().global_position == positions[index], "exact non-spawn position")
 		var fresh: WorldPlayerRuntimeState = candidate.player_runtime()
 		_check(fresh != player and fresh.state != player.state and fresh.facts != player.facts and fresh.body_facts != player.body_facts, "fresh Player/Character/identity/body authorities")
@@ -95,7 +95,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(candidate.inventory_state().registered_item_ids() == source.inventory_state().registered_item_ids() and candidate.inventory_state() != source.inventory_state(), "fresh inventory exact semantic IDs")
 		_check(candidate.item_id_allocator().next_dynamic_sequence == source.item_id_allocator().next_dynamic_sequence and candidate.item_id_allocator().scope == source.item_id_allocator().scope, "allocator exact without draw")
 		_check(candidate.combat_random_source().capture_random_state().state == snapshot.combat_rng.state and candidate.npc_random_source().capture_random_state().state == snapshot.npc_initialization_rng.state and candidate.world_interaction_random_source().capture_random_state().state == snapshot.world_interaction_rng.state, "all three RNG states exact")
-		_check(candidate.world_npcs().size() == 31, "off-map NPC ledger retained: ten Old Pine, twenty-one Snow")
+		_check(candidate.world_npcs().size() == 37, "off-map NPC ledger retained: ten Old Pine, twenty-seven Snow")
 		_check(candidate.activate_restore_candidate(), "activate saved map")
 		var again: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(candidate, &"test", "2026-09-11T00:00:00Z")
 		_check(again.succeeded(), "restored source resave succeeds " + again.path)
@@ -133,7 +133,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if corpse_restore.succeeded():
 		var cold: OldPineWorldSessionController = corpse_restore.candidate
 		_check(cold.active_map().map_id() == SnowWorldDefinitions.INN_MAP_ID and cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 1, "Snow active, detached outdoor corpse retained")
-		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 5 and cold.world_npcs().size() == 31, "dead NPC remains tombstone, no replacement")
+		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 5 and cold.world_npcs().size() == 37, "dead NPC remains tombstone, no replacement")
 		_check(cold.inventory_state().registered_item_ids().size() == corpse_save.items.item_records.size(), "corpse nested graph exact")
 		_check(cold.activate_restore_candidate(), "corpse candidate activation")
 		var corpse_capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(cold, &"test", "2026-09-11T00:00:00Z")

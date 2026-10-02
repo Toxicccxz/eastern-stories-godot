@@ -11,8 +11,8 @@ generated files are never edited by hand:
     python -m tools.migration.content_importer --check   # fail on any difference
 
 What each region imports follows from its world.json: the rooms of its zones,
-the NPCs those rooms place (`set("objects")`), what the NPCs carry and the
-goods of the vendors the overrides name. Records already in a file keep their
+the NPCs and items those rooms place (`set("objects")`), what the NPCs carry
+and the goods of the vendors the overrides name. Records already in a file keep their
 order (spawn order fixes NPC random draws); new records are appended.
 """
 
@@ -540,30 +540,29 @@ class Importer:
         self.function_findings(path, lpc)
         return record
 
-    # Spawns and NPCs.
+    # Spawns, NPCs and items lying in rooms.
     def spawn(self, region: str, zone: dict, room_path: str, target: str, quantity) -> None:
+        """An NPC spawn (`spawns`), or an item on the floor (`item_spawns`, room.c make_inventory())."""
         if not self.corpus.exists(target):
             self.note(room_path, f'objects {target}', 'file does not exist')
-            return
-        if 'NPC' not in self.corpus.get(target).inherits:
-            self.note(room_path, f'objects {target}', 'not an NPC; item spawns are not data yet')
             return
         if not isinstance(quantity, int) or quantity < 1:
             self.note(room_path, f'objects {target}', f'quantity {describe(quantity)}')
             return
-        npc_id = self.npc(target)
-        room_name, npc_name = basename(room_path), basename(target)
+        is_npc = 'NPC' in self.corpus.get(target).inherits
+        room_name, name = basename(room_path), basename(target)
         prefix = zone['id'] if zone['id'].rsplit('.', 1)[-1] == room_name else f"{zone['id']}.{room_name}"
-        self.add(f'{region}/spawns.json', {
+        record = {
             'id': (zone['map'] if zone['map'].rsplit('.', 1)[-1] == room_name else f"{zone['map']}.{room_name}")
-                  + f".{npc_name}{'s' if quantity > 1 else ''}",
-            'npc': npc_id,
+                  + f".{name}{'s' if quantity > 1 else ''}",
+            'npc' if is_npc else 'item': self.npc(target) if is_npc else self.item(target),
             'map': zone['map'],
             'zone': zone['id'],
-            'points': [f'{prefix}.{npc_name}.{n}' for n in range(1, quantity + 1)],
+            'points': [f'{prefix}.{name}.{n}' for n in range(1, quantity + 1)],
             'legacy_room': room_path,
             'legacy_quantity': quantity,
-        })
+        }
+        self.add(f"{region}/{'spawns' if is_npc else 'item_spawns'}.json", record)
 
     def npc(self, path: str) -> str:
         record_id = f'{region_of(path)}.npc.{basename(path)}'
@@ -694,19 +693,19 @@ class Importer:
         record: dict = {'id': record_id, 'legacy_sources': [canonical, *copies], 'name': name.args[0]}
         if len(name.args) > 1:
             record['aliases'] = name.args[1]
-        handled = {'long', 'unit', 'material', 'value'}
+        handled = {'long', 'unit', 'material', 'value', 'no_get'}
         for key in ('long', 'unit', 'material'):
             if key in sets:
                 record[key] = sets[key]
+        if sets.get('no_get', 0) != 0:
+            record['no_get'] = True
         inherits = set(lpc.inherits)
         weapon_kinds = sorted({k.removeprefix('F_') for k in inherits} & WEAPON_KINDS)
         armor_kinds = sorted(inherits & ARMOR_KINDS)
         weight = lpc.first('set_weight')
         if 'MONEY' not in inherits:
-            if weight is not None:
-                record['weight'] = weight.args[0]
-            else:
-                self.note(canonical, 'set_weight', 'missing')
+            # feature/move.c: `static int weight = 0;` until set_weight().
+            record['weight'] = 0 if weight is None else weight.args[0]
         if 'value' in sets:
             record['value'] = sets['value']
         init_name = ''

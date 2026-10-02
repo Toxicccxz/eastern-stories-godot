@@ -29,7 +29,7 @@ func physical_tests(tree: SceneTree) -> void:
 	var authorities: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence()]
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() + 1 == 27, "27 Snow zones including Inn, P2 school, the revival temple and 4B's rooms")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() + 1 == 32, "32 Snow zones on the Inn and outdoor maps, with 4B's and 4C's rooms")
 	check(GameContent.catalog().zone(&"snow.hockshop").room_ids() == [&"es2:d/snow/hockshop"], "source metadata")
 	check(GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.mstreet3") and GameContent.catalog().zones_adjacent(&"snow.mstreet3", &"snow.hockshop"), "two-way local neighbor")
 	check(GameContent.catalog().zone(&"snow.hockshop2") != null and GameContent.catalog().portal(&"snow.hockshop2") == null and GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.hockshop2"), "4B: the storage room is walked into, no portal")

@@ -50,6 +50,17 @@ class GeneratedDataTest(unittest.TestCase):
         # smith.c has no vendor_goods: its buy_object() asks 300 for a hammer worth 3.
         self.assertEqual(vendors['snow.vendor.smith']['goods'], [{'key': '铁锤', 'item': 'es2:d/snow/obj/hammer', 'price': 300}])
 
+    def test_items_a_room_places_lie_on_its_floor(self) -> None:
+        spawns = {r['id']: r for r in json.loads(self.files['snow/item_spawns.json'])['item_spawns']}
+        # room.c make_inventory(): an object that is no NPC is an item on the floor.
+        self.assertEqual(spawns['snow.outdoor.weapon_storage.bamboo_sword']['points'], ['snow.weapon_storage.bamboo_sword.1'])
+        self.assertEqual(spawns['snow.cellar.secret_storage.shield']['zone'], 'snow.secret_storage')
+        items = {r['id']: r for r in json.loads(self.files['snow/items.json'])['items']}
+        # denotation.c: no set_weight() leaves move.c's `weight = 0`; set("no_get", 1) is data.
+        box = items['es2:d/snow/obj/denotation']
+        self.assertEqual((box['weight'], box['no_get']), (0, True))
+        self.assertNotIn('snow.outdoor.temple.paper_seal', spawns)
+
     def test_hand_read_vendor_goods_are_checked(self) -> None:
         importer = ci.Importer(ci.Corpus(), ci.DATA)
         for entry in ({'price': 300}, {'item': 'd/snow/npc/obj/hammer.c', 'price': 0},

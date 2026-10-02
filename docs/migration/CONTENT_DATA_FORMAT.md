@@ -3,8 +3,8 @@
 Items, NPCs, spawns, vendors and the world (rooms, regions, maps, zones, portals, services, doors)
 are JSON under `game/data/`, listed in `game/data/content_manifest.json` (load order = manifest
 order, then file order). Each file is one object with any of the arrays `items`, `npcs`, `spawns`,
-`vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`, `doors`, `landmarks`; exactly
-one file (`common/pacing.json`) holds the `pacing` object.
+`item_spawns`, `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`, `doors`,
+`landmarks`; exactly one file (`common/pacing.json`) holds the `pacing` object.
 
 `GameContent.catalog()` (`game/data/game_content.gd`) reads them once into a `ContentCatalog`.
 Parsing lives in `game/core/content/`. Unknown fields, wrong types, non-integer numbers and broken
@@ -16,11 +16,12 @@ rule are **not** authored; the loader applies the rule.
 
 ## Generated and hand-authored files
 
-`rooms`, `items`, `npcs`, `spawns` and `vendors` files are **generated** by
+`rooms`, `items`, `npcs`, `spawns`, `item_spawns` and `vendors` files are **generated** by
 `python -m tools.migration.content_importer` and never edited by hand; `world.json`,
 `common/pacing.json` and the manifest are hand-authored. For each region with an override file
 (`tools/migration/overrides/<region>.json`) the importer reads the rooms of the region's zones,
-the NPCs their `set("objects")` place, what those NPCs carry and the goods of the named vendors.
+the NPCs and items their `set("objects")` place, what those NPCs carry and the goods of the named
+vendors.
 Records already in a file keep their order (spawn order fixes NPC draws); new ones are appended.
 
 The override file holds every hand decision: `vendors` and `items` (extra roots), `spawn_skip`
@@ -41,7 +42,8 @@ differs or a finding has no decision; `build/import/review.md` lists findings an
 | `name`, `aliases` | `set_name(name, ids)` | |
 | `long` | `set("long")` | optional; default is `name(Capitalized first alias)。\n` as in `feature/name.c` |
 | `unit`, `material`, `value` | `set(...)` | `value` absent = 0 |
-| `weight` | `set_weight()` | omitted for money |
+| `no_get` | `set("no_get", 1)` | `true`: get.c refuses it (这个东西拿不起来。) |
+| `weight` | `set_weight()` | omitted for money; 0 when the LPC never sets it (`feature/move.c`) |
 | `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"]}` |
 | `armor` | `inherit CLOTH` + `armor_prop/*` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
@@ -86,6 +88,13 @@ race's own draws; a save keeps the drawn values.
 for an aggressive NPC to notice them — the native stand-in for "in the same room".
 **Order matters**: NPCs are created in spawn order, which fixes their random draws and loadout item
 IDs. Append new spawns; do not reorder existing ones without expecting a New Game.
+
+## item_spawns
+
+`{id, item, map, zone, points, legacy_room, legacy_quantity}` — an item a room's `set("objects")`
+places (room.c `make_inventory()`): one item lies on each of `points` when the world is created.
+The item instance ID follows from the point, so a save records only that the item is still in that
+zone's WORLD (Continue puts it back on its marker). Combined items cannot lie on a floor yet.
 
 ## vendors
 
@@ -160,6 +169,10 @@ item (`item_desc`) the player selects, looks at (`long`, verbatim) and uses with
 the landmark's area in the scene, not just in the zone. `policy` picks the rule (default `portal`,
 one portal); `vine` (epath2.c) rolls dodge between two portals `[waterfall, passage]` and prints
 `messages` `hold`, `fall`, `fall_observer`, `climb`, `climb_observer`. The roll stays in code.
+`hidden_passage` (weapon_storage.c) moves nobody: each use is one push (`messages.push`); the
+`pushes`-th opens its portals `[down, up]` for `open_seconds` of world time (`open`, `close`).
+`up` leads from where `down` arrives back to `zone`; both stay shut (their scene passages off)
+until the landmark opens them, and no other landmark may use them.
 
 ## pacing
 

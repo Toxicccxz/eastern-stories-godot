@@ -4,7 +4,9 @@
 	],
 	"maps": [
 		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn", "entry": "snow.inn.main_floor.player_birth" },
-		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn", "entry": "snow.square.inn_entry" }
+		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn", "entry": "snow.square.inn_entry" },
+		{ "id": "snow.inn_upstairs", "region": "snow", "scene": "res://scenes/world/snow/snow_inn_upstairs.tscn", "entry": "snow.inn_2f.stairs_arrival" },
+		{ "id": "snow.cellar", "region": "snow", "scene": "res://scenes/world/snow/snow_cellar.tscn", "entry": "snow.secret_storage.stairs_arrival" }
 	],
 	"zones": [
 		{ "id": "snow.inn.main_floor", "map": "snow.inn", "rooms": ["es2:d/snow/inn"] },
@@ -33,7 +35,17 @@
 		{ "id": "snow.smithy", "map": "snow.outdoor", "rooms": ["es2:d/snow/smithy"] },
 		{ "id": "snow.herbshop", "map": "snow.outdoor", "rooms": ["es2:d/snow/herbshop"] },
 		{ "id": "snow.postoffice", "map": "snow.outdoor", "rooms": ["es2:d/snow/postoffice"] },
-		{ "id": "snow.hockshop2", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop2"] }
+		{ "id": "snow.hockshop2", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop2"] },
+		{ "id": "snow.inn_2f", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/inn_2f"] },
+		{ "id": "snow.n_room", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/n_room"] },
+		{ "id": "snow.e_room", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/e_room"] },
+		{ "id": "snow.w_room", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/w_room"] },
+		{ "id": "snow.inneryard", "map": "snow.outdoor", "rooms": ["es2:d/snow/inneryard"] },
+		{ "id": "snow.innerhall", "map": "snow.outdoor", "rooms": ["es2:d/snow/innerhall"] },
+		{ "id": "snow.guestroom", "map": "snow.outdoor", "rooms": ["es2:d/snow/guestroom"] },
+		{ "id": "snow.nyard", "map": "snow.outdoor", "rooms": ["es2:d/snow/nyard"] },
+		{ "id": "snow.weapon_storage", "map": "snow.outdoor", "rooms": ["es2:d/snow/weapon_storage"] },
+		{ "id": "snow.secret_storage", "map": "snow.cellar", "rooms": ["es2:d/snow/secret_storage"] }
 	],
 	"portals": [
 		{
@@ -50,6 +62,26 @@
 			"id": "snow.eroad3.south", "from_zone": "snow.eroad3",
 			"to_zone": "oldpine.outdoor.north_approach", "to_spawn": "oldpine.outdoor.north_approach.snow_entry",
 			"legacy_room": "es2:d/snow/eroad3", "legacy_command": "south"
+		},
+		{
+			"id": "snow.inn.up", "from_zone": "snow.inn.main_floor",
+			"to_zone": "snow.inn_2f", "to_spawn": "snow.inn_2f.stairs_arrival",
+			"legacy_room": "es2:d/snow/inn", "legacy_command": "up"
+		},
+		{
+			"id": "snow.inn_2f.down", "from_zone": "snow.inn_2f",
+			"to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.stairs_return",
+			"legacy_room": "es2:d/snow/inn_2f", "legacy_command": "down"
+		},
+		{
+			"id": "snow.weapon_storage.down", "from_zone": "snow.weapon_storage",
+			"to_zone": "snow.secret_storage", "to_spawn": "snow.secret_storage.stairs_arrival",
+			"legacy_room": "es2:d/snow/weapon_storage", "legacy_command": "down"
+		},
+		{
+			"id": "snow.secret_storage.up", "from_zone": "snow.secret_storage",
+			"to_zone": "snow.weapon_storage", "to_spawn": "snow.weapon_storage.stairs_return",
+			"legacy_room": "es2:d/snow/secret_storage", "legacy_command": "up"
 		}
 	],
 	"services": [
@@ -90,6 +122,33 @@
 		{
 			"id": "snow.hockshop.door", "name": "木雕门", "zones": ["snow.mstreet3", "snow.hockshop"],
 			"reach": 85, "closable": false, "legacy_room": "es2:d/snow/hockshop"
+		},
+		{
+			"id": "snow.inn_2f.north_door", "name": "房门", "zones": ["snow.inn_2f", "snow.n_room"],
+			"reach": 90, "legacy_room": "es2:d/snow/inn_2f"
+		},
+		{
+			"id": "snow.inn_2f.east_door", "name": "房门", "zones": ["snow.inn_2f", "snow.e_room"],
+			"reach": 90, "legacy_room": "es2:d/snow/inn_2f"
+		},
+		{
+			"id": "snow.inn_2f.west_door", "name": "房门", "zones": ["snow.inn_2f", "snow.w_room"],
+			"reach": 90, "legacy_room": "es2:d/snow/inn_2f"
+		}
+	],
+	"landmarks": [
+		{
+			"id": "snow.weapon_storage.landmark.shelf", "zone": "snow.weapon_storage",
+			"name": "架子", "action": "往左推", "policy": "hidden_passage",
+			"portals": ["snow.weapon_storage.down", "snow.secret_storage.up"],
+			"pushes": 3, "open_seconds": 10,
+			"long": "这个架子上空荡荡的，什么都没有。\n",
+			"messages": {
+				"push": "你将架子往左推...，忽然「喀」一声架子又移回原位。",
+				"open": "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。",
+				"close": "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"
+			},
+			"legacy_source": "d/snow/weapon_storage.c"
 		}
 	]
 }

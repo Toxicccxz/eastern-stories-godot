@@ -142,6 +142,23 @@ func initialize_passages() -> bool:
 	return _passages.size() == _passage_definitions.size()
 
 
+## Opens or shuts the scene passage of `portal_id` (a hidden passage). False
+## when this map has no configured passage for it.
+func set_portal_open(portal_id: StringName, open: bool) -> bool:
+	for passage: WorldPassageArea2D in _passages:
+		if passage.portal_id == portal_id:
+			passage.set_open(open)
+			return true
+	return false
+
+
+func is_portal_open(portal_id: StringName) -> bool:
+	for passage: WorldPassageArea2D in _passages:
+		if passage.portal_id == portal_id:
+			return passage.is_open()
+	return false
+
+
 func clear_passage_contacts() -> void:
 	for passage: WorldPassageArea2D in _passages:
 		passage.clear_contact()

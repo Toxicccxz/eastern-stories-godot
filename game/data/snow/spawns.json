@@ -123,6 +123,22 @@
 			"points": ["snow.postoffice.post_officer.1"],
 			"legacy_room": "d/snow/postoffice.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.inn_upstairs.inn_2f.rats",
+			"npc": "snow.npc.rat",
+			"map": "snow.inn_upstairs",
+			"zone": "snow.inn_2f",
+			"points": [
+				"snow.inn_2f.rat.1",
+				"snow.inn_2f.rat.2",
+				"snow.inn_2f.rat.3",
+				"snow.inn_2f.rat.4",
+				"snow.inn_2f.rat.5",
+				"snow.inn_2f.rat.6"
+			],
+			"legacy_room": "d/snow/inn_2f.c",
+			"legacy_quantity": 6
 		}
 	]
 }
