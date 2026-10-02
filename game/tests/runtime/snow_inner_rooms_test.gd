@@ -215,8 +215,10 @@ func _test_inner_school(tree: SceneTree, session: OldPineWorldSessionController)
 	_check(walker._failures.is_empty(), "walked: " + str(walker._failures))
 
 
-## Pick up the 竹剑, push the shelf three times, go down for the 牛皮盾 and back
+## Pick up the 竹剑 (busy first refuses), push the shelf three times standing on
+## the shut floor, step off and go down for the 牛皮盾 (too heavy first) and back
 ## up; the passage then closes. Save/Continue keeps the floor and the way back.
+## Holding the key after a passage never carries the player straight back.
 func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -224,11 +226,14 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 	var hud: SharedGameplayUI = session.shared_ui()
 	await walker.walk_to(tree, session, "move_up", -620, 1)
 	_check(player.world_location().zone_id == &"snow.weapon_storage", "north of the practice yard is the weapon storage")
-	await walker.walk_to(tree, session, "move_left", 640, 0)
-	await walker.walk_to(tree, session, "move_up", -660, 1)
+	await walker.walk_to(tree, session, "move_left", 680, 0)
+	await walker.walk_to(tree, session, "move_up", -758, 1)
 	var scope: StringName = session.item_id_allocator().scope
 	var sword: StringName = ItemSpawnDefinition.item_instance_id(scope, &"snow.weapon_storage.bamboo_sword.1")
 	_check(map.floor_item_ids().has(sword) and map.select_floor_item(sword) and hud.open_loot_is_enabled(), "the 竹剑 lies on the floor, in reach")
+	player.busy.start_busy(1)
+	_check(not map.open_selected_loot() and hud.log_lines().back() == "你上一个动作还没有完成！" and map.floor_item_ids().has(sword), "get.c: busy refuses first")
+	player.busy.advance()
 	_check(map.open_selected_loot() and session.inventory_state().is_direct_child(sword, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)), "拾取 picks it up")
 	_check(hud.log_lines().back() == "你捡起一把竹剑。" and not map.floor_item_ids().has(sword) and map.floor_item_view(sword) == null, "get.c: 你捡起一把竹剑。")
 	var passages: WorldHiddenPassages = session.hidden_passages()
@@ -241,30 +246,48 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 	map.traverse_selected_portal()
 	_check(down_open.call() and session.world_map_of(&"snow.cellar").is_portal_open(UP), "the third push opens the way down and the way up")
 	_check(hud.log_lines().back() == "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。", "the floor moves (check_trigger)")
-	await walker.walk_to(tree, session, "move_right", 680, 0)
+	for _frame: int in range(10):
+		await tree.physics_frame
+	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.weapon_storage", "the floor opening under the player does not drop them: the exit is there to take")
+	await walker.walk_to(tree, session, "move_down", -680, 1)
 	await _walk_until_map(tree, session, "move_up", &"snow.cellar")
-	_check(session.active_map_id() == &"snow.cellar" and player.world_location().zone_id == &"snow.secret_storage", "down the steps into the secret storage")
+	_check(session.active_map_id() == &"snow.cellar" and player.world_location().zone_id == &"snow.secret_storage", "down the steps into the secret storage, and still there with the key held")
 	session.advance_hidden_passages(30.0)
 	var cellar: WorldMapController = session.active_map() as WorldMapController
-	_check(passages.state(SHELF).is_open and cellar.is_portal_open(UP), "the way up stays open while the player is below")
+	_check(passages.state(SHELF).remaining_ms == 0 and passages.state(SHELF).is_open and cellar.is_portal_open(UP), "the time is up and the way up stays open while the player is below")
 	var shield: StringName = ItemSpawnDefinition.item_instance_id(scope, &"snow.secret_storage.shield.1")
+	await walker.walk_to(tree, session, "move_down", 40, 1)
 	await walker.walk_to(tree, session, "move_right", -60, 0)
+	# feature/move.c: too heavy when the shield would pass the player's maximum encumbrance.
+	var inventory: InventoryState = session.inventory_state()
+	var own: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)
+	var load: ItemInstance = ItemInstance.new(&"test.4c.load", &"es2:d/snow/obj/hammer")
+	_check(inventory.register_item(load, player.maximum_encumbrance - inventory.contents_weight(own) - 6000)
+		and InventoryTransferService.new().transfer(inventory, load.item_instance_id, InventoryTransferDestination.new(own, true, true, WorldMapController.WORLD_CAPACITY)).succeeded, "test load carried")
+	_check(cellar.select_floor_item(shield) and not cellar.open_selected_loot() and hud.log_lines().back() == "牛皮盾对你而言太重了。" and cellar.floor_item_ids().has(shield), "move.c: 牛皮盾对你而言太重了。")
+	_check(ItemLifecycleService.destroy_item(inventory, session.stack_collection(), load.item_instance_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF,
+		ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor)).succeeded, "test load gone")
 	_check(cellar.select_floor_item(shield) and cellar.open_selected_loot() and hud.log_lines().back() == "你捡起一面牛皮盾。", "the 牛皮盾 is picked up")
 	await walker.round_trip(tree, session, Work.capture(session), "4C below")
 	await _test_continue_below(tree, session)
 	await walker.walk_to(tree, session, "move_left", -104, 0)
-	await _walk_until_map(tree, session, "move_up", &"snow.outdoor")
-	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.weapon_storage", "back up the steps")
+	await _walk_until_map(tree, session, "move_down", &"snow.outdoor")
+	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.weapon_storage", "back up the steps, and still up with the key held")
 	await tree.process_frame
 	await tree.process_frame
 	_check(not passages.state(SHELF).is_open and not map.is_portal_open(DOWN), "the passage closes once nobody is below")
 	_check(hud.log_lines().slice(-3).has("地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"), "close_passage's line: " + str(hud.log_lines().slice(-3)))
-	# The temple's donation box cannot be taken (no_get).
+	# The temple's donation box cannot be taken (no_get); it can be looked at from across the room.
 	_check(map.relocate_player(&"snow.temple", &"snow.temple.revive"), "to the temple")
 	var box: StringName = ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1")
 	_check(map.select_floor_item(box) and not map.open_selected_loot() and hud.log_lines().back() == "这个东西拿不起来。" and map.floor_item_ids().has(box), "功德箱: 这个东西拿不起来。")
-	map.inspect_selected()
-	_check(hud.inspection_display().begins_with("功德箱\n这是寺庙接受善男信女捐献香油钱的功德箱"), "look at the box")
+	await walker.walk_to(tree, session, "move_down", 400, 1)
+	_check(player.world_location().zone_id == &"snow.temple" and map.select_floor_item(box) and not hud.open_loot_is_enabled() and map.inspect_selected(), "the box is out of reach but in the room")
+	for _frame: int in range(10):
+		await tree.process_frame
+	_check(hud._presentation_layout.frame.visible and hud.inspection_display().begins_with("功德箱\n这是寺庙接受善男信女捐献香油钱的功德箱"), "look at the box from across the room")
+	hud.dismiss_current_panel()
+	await tree.process_frame
 	await walker.round_trip(tree, session, Work.capture(session), "4C floor")
 	_count += walker._count
 	_failures.append_array(walker._failures)
@@ -279,7 +302,10 @@ func _test_continue_below(tree: SceneTree, session: OldPineWorldSessionControlle
 		return
 	var fresh: OldPineWorldSessionController = restored.candidate
 	_check(fresh.activate_restore_candidate(), "activation below")
-	_check(fresh.hidden_passages().state(SHELF).is_open and fresh.world_map_of(&"snow.cellar").is_portal_open(UP), "Continue below: the way up is open")
+	await tree.physics_frame
+	await tree.physics_frame
+	var stairs: WorldPassageArea2D = fresh.world_map_of(&"snow.cellar").get_node("StairsUp") as WorldPassageArea2D
+	_check(fresh.hidden_passages().state(SHELF).is_open and stairs.is_open() and stairs.visible and not (stairs.get_node("CollisionShape2D") as CollisionShape2D).disabled, "Continue below: the way up is open, its shape on")
 	var scope: StringName = fresh.item_id_allocator().scope
 	_check(fresh.world_map_of(&"snow.outdoor").floor_item_ids() == [ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1")]
 		and fresh.world_map_of(&"snow.cellar").floor_item_ids().is_empty(), "Continue: only the box still lies on the floor")
@@ -287,13 +313,16 @@ func _test_continue_below(tree: SceneTree, session: OldPineWorldSessionControlle
 	await tree.process_frame
 
 
-## Walks until a passage has handed the player to `map_id`.
+## Walks until a passage has handed the player to `map_id`, then keeps the key
+## held for a moment, as a player does: arrival must not lead straight back.
 func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, action: String, map_id: StringName) -> void:
 	Input.action_press(action)
 	for _frame: int in range(400):
 		await tree.physics_frame
 		if session.active_map_id() == map_id and not session.is_transitioning() and not session.passage_request_pending():
 			break
+	for _frame: int in range(40):
+		await tree.physics_frame
 	Input.action_release(action)
 	await tree.physics_frame
 	await tree.physics_frame

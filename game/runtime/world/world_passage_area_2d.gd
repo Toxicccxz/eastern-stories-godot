@@ -12,6 +12,8 @@ var _map: WorldResidentMapController
 var _contact: bool = false
 var _pending: bool = false
 var _open: bool = true
+## Opened under the player: they have not taken the exit until they step off and on again.
+var _wait_for_exit: bool = false
 
 
 func configure(portal: PortalDefinition, map: WorldResidentMapController) -> bool:
@@ -33,12 +35,23 @@ func is_open() -> bool:
 	return _open
 
 
+## Opening adds an exit (ES2 set("exits/down")); whoever already stands on it
+## still has to step onto it.
 func set_open(value: bool) -> void:
 	_open = value
 	visible = value
 	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", not value)
-	if not value:
-		clear_contact()
+	clear_contact()
+	_wait_for_exit = value and _player_overlaps()
+
+
+func _player_overlaps() -> bool:
+	var body: WorldCharacterBody2D = null if _map == null else _map.runtime_player_body()
+	if body == null or not is_inside_tree() or not body.is_inside_tree():
+		return false
+	var mine: CollisionShape2D = get_node("CollisionShape2D") as CollisionShape2D
+	var theirs: CollisionShape2D = body.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	return theirs != null and mine.shape.collide(mine.global_transform, theirs.shape, theirs.global_transform)
 
 
 func is_current(portal: PortalDefinition) -> bool:
@@ -72,10 +85,11 @@ func clear_contact() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if _map != null and body == _map.runtime_player_body():
+	if _map != null and body == _map.runtime_player_body() and not _wait_for_exit:
 		_contact = true
 
 
 func _on_body_exited(body: Node2D) -> void:
 	if _map != null and body == _map.runtime_player_body():
+		_wait_for_exit = false
 		clear_contact()

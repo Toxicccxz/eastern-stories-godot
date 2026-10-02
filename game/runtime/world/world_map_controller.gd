@@ -617,6 +617,12 @@ func _floor_item_content(view: WorldFloorItemView) -> ItemContentDefinition:
 	return null if item == null else GameContent.catalog().item(item.item_definition_id)
 
 
+## look.c sees what lies in the player's own room.
+func _floor_item_in_player_zone(view: WorldFloorItemView) -> bool:
+	var location: WorldLocationState = null if _player == null else _player.world_location()
+	return view != null and location != null and _inventory.is_direct_child(view.item_instance_id, _floor_endpoint(location))
+
+
 func _refresh_selected_floor_item() -> void:
 	var view: WorldFloorItemView = _selected_floor_item()
 	if view != null:
@@ -1362,8 +1368,11 @@ func inspect_selected() -> bool:
 		return false
 	match _selected_target.kind:
 		WorldInteractionTarget.Kind.ITEM:
-			var floor_content: ItemContentDefinition = _floor_item_content(_selected_floor_item())
-			if floor_content != null:
+			var floor_view: WorldFloorItemView = _selected_floor_item()
+			if floor_view != null:
+				var floor_content: ItemContentDefinition = _floor_item_content(floor_view)
+				if floor_content == null or not _floor_item_in_player_zone(floor_view):
+					return false
 				_hud().show_item_inspection(floor_content.display_name, floor_content.description)
 				return true
 			var corpse: CorpseState = _find_corpse(_selected_target.target_id)

@@ -44,7 +44,7 @@ text = "小床"
 mouse_filter = 2
 
 [node name="StairsUp" type="Area2D" parent="."]
-position = Vector2(-104, -72)
+position = Vector2(-104, 104)
 collision_layer = 0
 input_pickable = false
 script = ExtResource("5")
@@ -85,7 +85,7 @@ shape = SubResource("CellarShape")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="StairsArrival" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-104, 8)
+position = Vector2(-104, 16)
 script = ExtResource("3")
 spawn_point_id = &"snow.secret_storage.stairs_arrival"
 

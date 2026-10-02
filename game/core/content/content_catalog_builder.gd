@@ -317,6 +317,10 @@ func _resolve_doors() -> void:
 func _resolve_landmarks() -> void:
 	var hidden_owners: Dictionary[StringName, StringName] = {}
 	for landmark_id: StringName in _landmarks.keys():
+		if _landmarks[landmark_id].policy != &"hidden_passage":
+			for portal_id: StringName in _landmarks[landmark_id].portal_ids():
+				hidden_owners[portal_id] = landmark_id
+	for landmark_id: StringName in _landmarks.keys():
 		var definition: WorldLandmarkDefinition = _landmarks[landmark_id]
 		var origin: String = _origins[landmark_id]
 		var zone: ZoneDefinition = _zones.get(definition.zone_id)
@@ -335,8 +339,8 @@ func _resolve_landmarks() -> void:
 			elif portal.source_zone_id != definition.zone_id:
 				_errors.append("%s.portals: '%s' does not leave from %s" % [origin, portal.portal_id, definition.zone_id])
 			if definition.policy == &"hidden_passage":
-				# A hidden portal is closed until its one landmark opens it.
+				# A hidden portal is closed until its one landmark opens it; no other landmark uses it.
 				if hidden_owners.has(portal_ids[index]):
-					_errors.append("%s.portals: '%s' is already hidden by %s" % [origin, portal_ids[index], hidden_owners[portal_ids[index]]])
+					_errors.append("%s.portals: '%s' is already used by %s" % [origin, portal_ids[index], hidden_owners[portal_ids[index]]])
 				hidden_owners[portal_ids[index]] = landmark_id
 		_landmarks[landmark_id] = definition.with_map(zone.map_id)

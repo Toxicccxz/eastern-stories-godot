@@ -32,37 +32,18 @@ var legacy_quantity: int:
 		return _legacy_quantity
 
 
-func _init(
-	p_spawn_id: StringName = &"",
-	p_item_definition_id: StringName = &"",
-	p_map_id: StringName = &"",
-	p_zone_id: StringName = &"",
-	p_spawn_point_ids: Array[StringName] = [],
-	p_legacy_source_room_path: String = "",
-	p_legacy_quantity: int = 0,
-) -> void:
-	_spawn_id = p_spawn_id
-	_item_definition_id = p_item_definition_id
-	_map_id = p_map_id
-	_zone_id = p_zone_id
-	_spawn_point_ids = p_spawn_point_ids.duplicate()
-	_legacy_source_room_path = p_legacy_source_room_path
-	_legacy_quantity = p_legacy_quantity
-
-
 static func from_record(reader: ContentRecordReader) -> ItemSpawnDefinition:
 	var points: Array[StringName] = []
 	for id: String in reader.text_list("points"):
 		points.append(StringName(id))
-	var definition: ItemSpawnDefinition = ItemSpawnDefinition.new(
-		StringName(reader.required_text("id")),
-		StringName(reader.required_text("item")),
-		StringName(reader.required_text("map")),
-		StringName(reader.required_text("zone")),
-		points,
-		reader.required_text("legacy_room"),
-		reader.required_integer("legacy_quantity"),
-	)
+	var definition: ItemSpawnDefinition = ItemSpawnDefinition.new()
+	definition._spawn_id = StringName(reader.required_text("id"))
+	definition._item_definition_id = StringName(reader.required_text("item"))
+	definition._map_id = StringName(reader.required_text("map"))
+	definition._zone_id = StringName(reader.required_text("zone"))
+	definition._spawn_point_ids = points
+	definition._legacy_source_room_path = reader.required_text("legacy_room")
+	definition._legacy_quantity = reader.required_integer("legacy_quantity")
 	reader.finish()
 	if not definition.is_valid():
 		reader.fail("", "is not a valid item spawn (points must be unique and match legacy_quantity)")

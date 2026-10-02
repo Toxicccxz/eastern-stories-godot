@@ -73,7 +73,6 @@ func _init(
 	p_messages: Dictionary[String, String] = {},
 	p_legacy_source_path: String = "",
 	p_map_id: StringName = &"",
-	p_settings: Dictionary[String, int] = {},
 ) -> void:
 	_landmark_id = p_landmark_id
 	_zone_id = p_zone_id
@@ -86,7 +85,6 @@ func _init(
 	_messages = p_messages.duplicate()
 	_legacy_source_path = p_legacy_source_path
 	_map_id = p_map_id
-	_settings = p_settings.duplicate()
 
 
 static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
@@ -114,9 +112,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.boolean("contact", false),
 		messages,
 		reader.required_text("legacy_source"),
-		&"",
-		settings,
 	)
+	definition._settings = settings
 	reader.finish()
 	if not POLICIES.has(definition.policy):
 		reader.fail("policy", "unsupported landmark policy '%s'" % definition.policy)
@@ -144,7 +141,9 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 
 ## Copy placed on the map of its zone.
 func with_map(map_id: StringName) -> WorldLandmarkDefinition:
-	return WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id, _settings)
+	var copy: WorldLandmarkDefinition = WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id)
+	copy._settings = _settings.duplicate()
+	return copy
 
 
 func portal_ids() -> Array[StringName]:

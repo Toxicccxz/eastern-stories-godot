@@ -14,7 +14,9 @@ Package 4C, from the owner-approved plan:
   NPCs coming back) is 4D.
 - **The weapon storage's shelf** (`weapon_storage.c`) is a landmark whose button is ES2's
   `push <direction>` (往左推); `push shelf`'s hint line is not shown. Three pushes open the way
-  down and the way up for ten seconds of world time (stopped in a fight). Pushes while it is
+  down and the way up for ten seconds of world time (stopped in a fight). Opening adds an exit,
+  as `set("exits/down")` does: a player standing on the opening is not dropped until they step
+  onto it again. Pushes while it is
   open keep counting, so the count can pass three and the shelf then does nothing until the room
   resets, as in the LPC; the count is not saved (ES2 room state), so Continue clears it.
 - **Deviation: nobody is shut in below.** `secret_storage.c` has no exits; the way up exists

@@ -377,12 +377,12 @@ script = ExtResource("3")
 spawn_point_id = &"snow.weapon_storage.bamboo_sword.1"
 
 [node name="WeaponStorageStairsReturn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(680, -608)
+position = Vector2(680, -680)
 script = ExtResource("3")
 spawn_point_id = &"snow.weapon_storage.stairs_return"
 
 [node name="WeaponStorageHole" type="Area2D" parent="."]
-position = Vector2(680, -688)
+position = Vector2(680, -760)
 collision_layer = 0
 input_pickable = false
 script = ExtResource("5")

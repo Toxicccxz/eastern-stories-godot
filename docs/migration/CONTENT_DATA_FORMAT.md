@@ -172,7 +172,7 @@ one portal); `vine` (epath2.c) rolls dodge between two portals `[waterfall, pass
 `hidden_passage` (weapon_storage.c) moves nobody: each use is one push (`messages.push`); the
 `pushes`-th opens its portals `[down, up]` for `open_seconds` of world time (`open`, `close`).
 `up` leads from where `down` arrives back to `zone`; both stay shut (their scene passages off)
-until the landmark opens them.
+until the landmark opens them, and no other landmark may use them.
 
 ## pacing
 
