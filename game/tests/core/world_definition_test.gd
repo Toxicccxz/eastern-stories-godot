@@ -43,7 +43,7 @@ func _test_maps_have_scenes() -> void:
 func _test_zones_and_rooms() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	_assert_eq(catalog.zones_for_map(SnowWorld.INN_MAP_ID).size(), 1, "Inn main floor")
-	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 17, "Snow outdoor zones")
+	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 26, "Snow outdoor zones")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 8, "Old Pine forest zones")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.GORGE_MAP_ID).size(), 3, "Old Pine gorge: waterfall, river, lake")
 	_assert_eq([catalog.zones_for_map(OldPineWorld.TREE_MAP_ID).size(), catalog.zones_for_map(OldPineWorld.CLIFF_MAP_ID).size()], [1, 1], "tree top and cliff niche")
@@ -56,7 +56,7 @@ func _test_zones_and_rooms() -> void:
 			_assert_false(rooms.has(room_id), "%s is in one zone" % room_id)
 			rooms[room_id] = true
 			_assert_true(catalog.room(room_id) != null, "%s resolves" % room_id)
-	_assert_eq(rooms.size(), 49, "18 Snow and 31 Old Pine rooms are playable")
+	_assert_eq(rooms.size(), 58, "27 Snow and 31 Old Pine rooms are playable")
 	_assert_eq(
 		catalog.zone(OldPineWorld.SLOPE_ZONE_ID).room_ids(),
 		[&"es2:d/oldpine/spath1", &"es2:d/oldpine/spath2", &"es2:d/oldpine/spath3", &"es2:d/oldpine/spath4"],
@@ -120,6 +120,8 @@ func _test_snow_adjacency_follows_room_exits() -> void:
 		"mstreet1|bank", "mstreet1|school1", "school1|school2", "school2|schoolhall",
 		"mstreet1|mstreet2", "mstreet2|workplace", "mstreet2|mstreet3",
 		"mstreet3|hockshop", "mstreet3|mstreet4", "mstreet4|crossroad",
+		"sroad1|sroad2", "sroad2|sroad3", "sroad3|sroad4", "sroad4|sroad5", "sroad2|school",
+		"mstreet2|smithy", "mstreet3|herbshop", "mstreet4|postoffice", "hockshop|hockshop2",
 	]
 	var zones: Array[ZoneDefinition] = catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID)
 	var found: Array[String] = []
@@ -178,7 +180,12 @@ func _test_services_and_doors() -> void:
 	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
 		ids.append(service.service_id)
 		_assert_eq(catalog.zone(service.zone_id).map_id, service.map_id, "%s map follows its zone" % service.service_id)
-	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter", &"snow.schoolhall.master"], "Snow outdoor services")
+	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter", &"snow.schoolhall.master",
+		&"snow.herbshop.herbalist", &"snow.smithy.smith"], "Snow outdoor services")
+	var herbalist: ServiceDefinition = catalog.service(&"snow.herbshop.herbalist")
+	var smith: ServiceDefinition = catalog.service(&"snow.smithy.smith")
+	_assert_eq([herbalist.kind, herbalist.zone_id, herbalist.vendor_id], [&"vendor", &"snow.herbshop", &"snow.vendor.herbalist"], "herbshop sells the herbalist's goods")
+	_assert_eq([smith.kind, smith.zone_id, smith.vendor_id], [&"vendor", &"snow.smithy", &"snow.vendor.smith"], "smithy sells the smith's goods")
 	var waiter: ServiceDefinition = catalog.service(&"snow.inn.waiter")
 	_assert_eq([waiter.kind, waiter.map_id, waiter.vendor_id], [&"vendor", SnowWorld.INN_MAP_ID, &"snow.vendor.waiter"], "Inn waiter sells the vendor record")
 	var gate: DoorDefinition = catalog.door(&"snow.school.gate")

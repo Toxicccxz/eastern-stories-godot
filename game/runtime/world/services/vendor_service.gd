@@ -28,7 +28,7 @@ func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: 
 		var content: ItemContentDefinition = catalog.item(vendor.item_definition_id(key))
 		var button: Button = Button.new()
 		button.custom_minimum_size = Vector2(0, 44)
-		button.text = goods_label(content)
+		button.text = goods_label(content, vendor.price(key, content))
 		button.pressed.connect(request_purchase.bind(key))
 		goods_rows.add_child(button)
 		names.append(content.display_name)
@@ -46,7 +46,7 @@ func _label(rows: VBoxContainer, node_name: String) -> Label:
 
 
 func verb() -> String:
-	return tr("补给")
+	return tr("购买")
 
 
 func interact() -> void:
@@ -85,10 +85,20 @@ func request_purchase(goods_key: String) -> VendorPurchaseResult:
 	return last_purchase
 
 
-static func goods_label(content: ItemContentDefinition) -> String:
+static func goods_label(content: ItemContentDefinition, price: int) -> String:
 	var parts: Array[String] = [content.display_name]
 	if content.liquid_definition() != null:
 		parts.append("%s%d份" % [content.liquid_initial_name, content.fresh_liquid_state().remaining])
-	parts.append("%d文" % content.value)
+	parts.append(price_string(price))
 	parts.append("买一%s" % content.unit)
 	return " · ".join(parts)
+
+
+## feature/vendor.c price_string(), as `list` shows a price.
+@warning_ignore("integer_division")
+static func price_string(value: int) -> String:
+	if value % 10000 == 0:
+		return "%d两黄金" % (value / 10000)
+	if value % 100 == 0:
+		return "%d两银子" % (value / 100)
+	return "%d文钱" % value

@@ -4,31 +4,28 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**New-player combat** (between 4A and 4B), two PRs:
+**Package 4B** (`phase/snow-south-road`): Snow's south road and shops. Nine rooms (sroad2-5,
+书院, smithy, herbshop, post office, Hockshop storage room), six NPCs (农夫 ×2, 疯狗, 魏无极, 樵夫,
+杜宽), the herbshop (金疮药) and the smithy (铁锤 at the smith's own price) as vendor services.
 
-1. **Rules** (merged, #37): 切磋 (ES2 `fight`) with `npc.c` and per-NPC `accept_fight`, armed
-   spars that wound, NPCs healing and coming to between fights, the killer taken from the last
-   blow, a failed fight that ends instead of freezing, and the global `random(n<=0)=0` rule.
-2. **Battle narration** (`phase/battle-narration`): the battle panel in Chinese, and the log in
-   ES2's words: action, dodge, parry, damage, status, riposte, winner and guard lines, seen from
-   the player.
-
-Then Package 4 goes on (see [ROADMAP](ROADMAP.md)): **4B** south road and shops (9 rooms) ·
-**4C** Inn upstairs, school inner rooms, secret storage (10 rooms) · **4D** ask, ambient talk,
-wandering, room reset · **4E** give, shops and services bound to their NPCs, teachers as data.
-4A (importer + Snow's street NPCs) is merged; cost per NPC:
+Then Package 4 goes on (see [ROADMAP](ROADMAP.md)): **4C** Inn upstairs, school inner rooms,
+secret storage (10 rooms) · **4D** ask, ambient talk, wandering, room reset · **4E** give, shops
+and services bound to their NPCs, teachers as data. 4A (importer + street NPCs) and the
+new-player combat PRs (#37 切磋 and rules, #38 battle narration) are merged; cost per NPC:
 [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
 Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game / Continue).
 
-* **Snow (雪亭镇)**: source-valid New Game in the Inn; square, core streets and temple (18 of 38 rooms as
-  zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink; Hockshop
-  value/sell; apprenticeship with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳); fifteen NPCs
-  (8 types) to look at, fight or spar (切磋), with their ES2 gear and loot; NPCs heal between
-  fights and come to after being knocked out; no fighting in the temple or the workplace
-  (`no_fight`).
+* **Snow (雪亭镇)**: source-valid New Game in the Inn; square, streets, temple, the south road
+  to the closed exits toward 天驼关 and 水烟阁, the school (书院) and the west-side shops (27 of 38
+  rooms as zones); Work income; physical coins/silver/gold and Bank exchange; Inn food/drink;
+  herbshop (金疮药) and smithy (铁锤); Hockshop value/sell and its storage room; apprenticeship
+  with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳); twenty-one NPCs (13 types) to look
+  at, fight or spar (切磋), with their ES2 gear and loot (the crazy dog on the west road attacks);
+  NPCs heal between fights and come to after being knocked out; no fighting in the temple or the
+  workplace (`no_fight`).
 * **Old Pine (老松岭)**: forest (paths, clearing, bandit slope, bridge, pine maze, cliffside), the gorge
   below the bridge (waterfall pool, river, Lake with five serpents) reached by the vine or the cave,
   the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
@@ -40,7 +37,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Rough coverage of ES2 content: about 5% (49/502 rooms, 12/240 NPC types, 2/70 player-obtainable
+Rough coverage of ES2 content: about 6% (58/502 rooms, 17/240 NPC types, 2/70 player-obtainable
 skills, 1/13 families, 0 quests).
 
 ## Known issues
@@ -54,7 +51,8 @@ Code:
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * Snow NPCs do not talk, wander, greet or trade yet (4D/4E); a killed NPC never returns (no room
-  reset yet, 4D). Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon
+  reset yet, 4D). The herbshop and smithy keepers have no bodies until 4E. 金疮药 cannot be
+  applied yet, and NPCs never flee a losing fight (`wimpy`). Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon
   verbs are not modelled yet.
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.

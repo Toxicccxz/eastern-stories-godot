@@ -70,6 +70,16 @@
 			"material": "paper",
 			"weight": 600,
 			"value": 70
+		},
+		{
+			"id": "es2:obj/drug/hurt_drug",
+			"legacy_sources": ["obj/drug/hurt_drug.c"],
+			"name": "金疮药",
+			"aliases": ["medicine"],
+			"long": "一颗金疮药, 可以用来敷上(apply)治伤 。\n",
+			"unit": "颗",
+			"weight": 30,
+			"value": 2000
 		}
 	]
 }

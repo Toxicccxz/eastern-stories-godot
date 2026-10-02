@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 17, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones and the revival temple")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 26, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones, the revival temple and 4B's nine rooms")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
 		var zone: ZoneDefinition = GameContent.catalog().zone(id)
@@ -33,7 +33,10 @@ func definition_tests() -> void:
 	for row: Array in [["mstreet3", "east", &"es2:d/snow/hockshop"], ["mstreet3", "west", &"es2:d/snow/herbshop"], ["mstreet4", "west", &"es2:d/snow/postoffice"], ["crossroad", "north", &"es2:d/goathill/mroad1"], ["crossroad", "east", &"es2:d/green/path6"]]:
 		check(GameContent.catalog().room(StringName("es2:d/snow/" + row[0])).exits().get(row[1]) == row[2], "source exit metadata %s:%s" % [row[0], row[1]])
 	check(not GameContent.catalog().room(&"es2:d/snow/mstreet4").exits().has("east"), "mstreet4.c exits mapping overrides contradictory east prose")
-	for deferred: StringName in [&"snow.hockshop2", &"snow.herbshop", &"snow.postoffice", &"snow.alley", &"green.path6", &"goathill.mroad1", &"snow.school", &"snow.smithy"]:
+	# 4B opened the herbshop, post office and smithy (west) and the Hockshop storage room.
+	for row: Array in [[&"snow.mstreet2", &"snow.smithy"], [&"snow.mstreet3", &"snow.herbshop"], [&"snow.mstreet4", &"snow.postoffice"], [&"snow.hockshop", &"snow.hockshop2"]]:
+		check(GameContent.catalog().zones_adjacent(row[0], row[1]), "4B shop neighbour " + str(row))
+	for deferred: StringName in [&"snow.alley", &"green.path6", &"goathill.mroad1"]:
 		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
@@ -67,7 +70,7 @@ func physical_tests(tree: SceneTree) -> void:
 	await wall_test(tree, session, walk, "move_right", 0, 400, "School closed gate", &"snow.school1")
 	await walk.walk_to(tree, session, "move_left", 0, 0)
 	await walk.walk_to(tree, session, "move_up", -700, 1)
-	await wall_test(tree, session, walk, "move_left", 0, -100, "Smithy west", &"snow.mstreet2")
+	await wall_test(tree, session, walk, "move_left", 0, -100, "mstreet2 west beside the smithy doorway", &"snow.mstreet2")
 	await walk.walk_to(tree, session, "move_right", 0, 0)
 	for row: Array in [[&"snow.mstreet3", -1000.0], [&"snow.mstreet4", -1300.0], [&"snow.crossroad", -1650.0]]:
 		await walk.walk_to(tree, session, "move_up", row[1], 1)
@@ -77,8 +80,11 @@ func physical_tests(tree: SceneTree) -> void:
 		await walk.round_trip(tree, session, Work.capture(session), String(row[0]))
 		if row[0] != &"snow.crossroad":
 			await wall_test(tree, session, walk, "move_right", 0, 100, "Hockshop or absent mst4 east", row[0])
-			await wall_test(tree, session, walk, "move_left", 0, -100, "Herbshop or Postoffice west", row[0])
+			# 4B: the west fronts are doorways now (herbshop.c, postoffice.c).
+			await walk.walk_to(tree, session, "move_left", -200, 0)
+			check(session.player_runtime().world_location().zone_id == (&"snow.herbshop" if row[0] == &"snow.mstreet3" else &"snow.postoffice"), "west doorway enters the shop from " + String(row[0]))
 			await walk.walk_to(tree, session, "move_right", 0, 0)
+			check(session.player_runtime().world_location().zone_id == row[0], "back out to " + String(row[0]))
 	await wall_test(tree, session, walk, "move_up", 1, -1850, "Goathill north", &"snow.crossroad")
 	await walk.walk_to(tree, session, "move_down", -1650, 1)
 	await wall_test(tree, session, walk, "move_right", 0, 300, "Green east", &"snow.crossroad")
@@ -105,7 +111,7 @@ func physical_tests(tree: SceneTree) -> void:
 	await wall_test(tree, session, walk, "move_right", 0, 300, "Temple east", &"snow.square")
 	await walk.walk_to(tree, session, "move_left", 0, 0)
 	await walk.walk_to(tree, session, "move_down", 450, 1)
-	await wall_test(tree, session, walk, "move_left", 0, -100, "sroad2 west", &"snow.sroad1")
+	await wall_test(tree, session, walk, "move_left", 0, -100, "sroad1 west above the sroad2 road", &"snow.sroad1")
 	await walk.walk_to(tree, session, "move_right", 0, 0)
 	await wall_test(tree, session, walk, "move_down", 1, 650, "Dragonhill south", &"snow.sroad1")
 	await walk.walk_to(tree, session, "move_up", 0, 1)
@@ -126,7 +132,7 @@ func wall_test(tree: SceneTree, session: OldPineWorldSessionController, walk: Wo
 func geometry_tests(snow: WorldMapController) -> void:
 	for row: Array in [[&"snow.mstreet3", Vector2(0,-1000)], [&"snow.mstreet4", Vector2(0,-1300)], [&"snow.crossroad", Vector2(100,-1650)], [&"snow.mstreet2", Vector2(0,-840)], [&"snow.mstreet2", Vector2(0,-850)], [&"snow.mstreet3", Vector2(0,-1150)], [&"snow.mstreet4", Vector2(0,-1450)]]:
 		check(MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "valid position/half-open join " + str(row))
-	for row: Array in [[&"snow.mstreet3", Vector2(90,-1000)], [&"snow.mstreet3", Vector2(-90,-1000)], [&"snow.mstreet4", Vector2(90,-1300)], [&"snow.crossroad", Vector2(290,-1650)], [&"snow.crossroad", Vector2(100,-1840)], [&"snow.crossroad", Vector2(200,-1460)], [&"snow.mstreet3", Vector2(0,-1300)], [&"snow.mstreet4", Vector2(200,-1300)], [&"green.path6", Vector2(400,-1650)], [&"snow.mstreet3", Vector2(INF,0)]]:
+	for row: Array in [[&"snow.mstreet3", Vector2(90,-1000)], [&"snow.mstreet3", Vector2(-90,-900)], [&"snow.mstreet4", Vector2(90,-1300)], [&"snow.crossroad", Vector2(290,-1650)], [&"snow.crossroad", Vector2(100,-1840)], [&"snow.crossroad", Vector2(200,-1460)], [&"snow.mstreet3", Vector2(0,-1300)], [&"snow.mstreet4", Vector2(200,-1300)], [&"green.path6", Vector2(400,-1650)], [&"snow.mstreet3", Vector2(INF,0)]]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "reject collision/void/wrong zone " + str(row))
 	# Fault injection tests actual overlap rejection; restore fixture before physical path.
 	var mst4: Area2D = snow.get_node("Zones/MainStreet4") as Area2D
@@ -135,8 +141,8 @@ func geometry_tests(snow: WorldMapController) -> void:
 	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", Vector2(0,-1000)), "ambiguous overlapping zones fail closed")
 	mst4.position = original
 	check(TerrainProbe.terrain_at(snow, Vector2(320,-1000)) == "floor_shop" and snow.get_node("Ground/HockshopShutter") is Polygon2D and snow.get_node("Ground/HockshopSign") is Label, "visible shuttered frontage Hockshop")
-	for row: Array in [["Herbshop", -1000.0], ["Postoffice", -1300.0]]:
-		check(TerrainProbe.terrain_at(snow, Vector2(-250,row[1] - 50)) == "shop_front" and TerrainProbe.terrain_at(snow, Vector2(-190,row[1] + 8)) == "shutter" and snow.get_node("Ground/" + row[0] + "Sign") is Label, "visible static shuttered frontage " + row[0])
+	for row: Array in [["Herbshop", -1008.0, "floor_shop"], ["Postoffice", -1296.0, "floor_wood"]]:
+		check(TerrainProbe.terrain_at(snow, Vector2(-96,row[1])) == row[2] and snow.get_node("Ground/" + row[0] + "Sign") is Label, "open doorway and sign " + row[0])
 
 
 func check(ok: bool, label: String) -> void:

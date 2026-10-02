@@ -29,10 +29,10 @@ func physical_tests(tree: SceneTree) -> void:
 	var authorities: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence()]
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() + 1 == 18, "18 Snow zones including Inn, P2 school and the revival temple")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() + 1 == 27, "27 Snow zones including Inn, P2 school, the revival temple and 4B's rooms")
 	check(GameContent.catalog().zone(&"snow.hockshop").room_ids() == [&"es2:d/snow/hockshop"], "source metadata")
 	check(GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.mstreet3") and GameContent.catalog().zones_adjacent(&"snow.mstreet3", &"snow.hockshop"), "two-way local neighbor")
-	check(GameContent.catalog().zone(&"snow.hockshop2") == null and GameContent.catalog().portal(&"snow.hockshop2") == null and not GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.hockshop2"), "back room remains absent")
+	check(GameContent.catalog().zone(&"snow.hockshop2") != null and GameContent.catalog().portal(&"snow.hockshop2") == null and GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.hockshop2"), "4B: the storage room is walked into, no portal")
 	check(not snow.door(&"snow.hockshop.door").is_open() and not snow.open_door(&"snow.hockshop.door") and not ui.in_reach(), "fresh closed / no remote interaction in Inn")
 	await tree.physics_frame
 	await walk.walk(tree, session, "move_right", 125)
@@ -54,8 +54,11 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.resident_map_count() == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0), "every authored map resident, one active, only authored Snow NPCs")
 	for position: Vector2 in [Vector2(330,-1000),Vector2(170,-900),Vector2(470,-1100)]:
 		check(MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
-	for position: Vector2 in [Vector2(540,-1000),Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(580,-1000),Vector2(NAN,0)]:
+	for position: Vector2 in [Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(NAN,0)]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))
+	# 4B: east through the curtain is the storage room (hockshop2.c), another zone.
+	for position: Vector2 in [Vector2(540,-1000),Vector2(580,-1000)]:
+		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position) and MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop2", position), "storage room, not the shop " + str(position))
 	var mst3: Area2D = snow.get_node("Zones/MainStreet3") as Area2D
 	var original: Vector2 = mst3.position
 	mst3.position = Vector2(330,-1000)

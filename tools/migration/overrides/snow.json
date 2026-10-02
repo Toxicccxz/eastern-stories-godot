@@ -1,9 +1,17 @@
 {
-	"vendors": ["d/snow/npc/waiter.c"],
+	"vendors": ["d/snow/npc/waiter.c", "d/snow/npc/herbalist.c", "d/snow/npc/smith.c"],
+	"vendor_goods": {
+		"d/snow/npc/smith.c": {
+			"铁锤": { "item": "d/snow/npc/obj/hammer.c", "price": 300 }
+		}
+	},
 	"vendor_skip": {
 		"d/snow/npc/waiter.c": {
 			"dagger": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)",
 			"chicken leg": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)"
+		},
+		"d/snow/npc/herbalist.c": {
+			"snake drug": "蛇药 is a combined item (only money stacks); each apply lowers snake_poison by 1 and uses one up: treatment package"
 		}
 	},
 	"set": {
@@ -22,7 +30,9 @@
 	"spawn_skip": {
 		"d/snow/inn.c": { "d/snow/npc/waiter.c": "the inn's vendor service until services are bound to their NPC (4E)" },
 		"d/snow/bank.c": { "d/snow/npc/annihir.c": "the bank service until services are bound to their NPC (4E)" },
-		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" }
+		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" },
+		"d/snow/herbshop.c": { "d/snow/npc/herbalist.c": "the herbshop's vendor service until services are bound to their NPC (4E)" },
+		"d/snow/smithy.c": { "d/snow/npc/smith.c": "the smithy's vendor service until services are bound to their NPC (4E)" }
 	},
 	"review": {
 		"d/snow/inn.c": {
@@ -103,6 +113,49 @@
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
-		"obj/old_book.c": { "set skill": "study is not native yet; a plain item until then" }
+		"obj/old_book.c": { "set skill": "study is not native yet; a plain item until then" },
+		"d/snow/herbshop.c": { "set item_desc": "look targets are not data yet" },
+		"d/snow/postoffice.c": {
+			"set item_desc": "look targets are not data yet",
+			"function valid_leave": "takes back the mailbox: player mail is a multiplayer feature, omitted"
+		},
+		"d/snow/npc/farmer.c": {
+			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package",
+			"set chat_chance_combat": "combat talk and its surrender: later combat package",
+			"set chat_msg_combat": "combat talk and its surrender: later combat package"
+		},
+		"d/snow/npc/crazy_dog.c": {
+			"set chat_chance": "ambient talk and random_move (4D)",
+			"set chat_msg": "ambient talk and random_move (4D)",
+			"set chat_msg_combat": "never fires: crazy_dog.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port"
+		},
+		"d/snow/npc/teacher.c": {
+			"set inquiry": "ask (4D); follow_player is commented out in the LPC",
+			"function recognize_apprentice": "tuition and literate: give and teachers as data (4E)",
+			"function accept_object": "tuition: any object worth 500 or more marks the giver (marks/魏无极); once marked he accepts and keeps anything: give (4E)",
+			"function accept_learn": "tuition and literate: give and teachers as data (4E)"
+		},
+		"d/snow/npc/woodcutter.c": {
+			"set chat_chance": "ambient talk and random_move (4D)",
+			"set chat_msg": "ambient talk and random_move (4D)",
+			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package"
+		},
+		"d/snow/obj/lumber_axe.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/snow/npc/post_officer.c": {
+			"set inquiry": "ask (4D); 寄信/收信 hand out a mailbox: player mail is a multiplayer feature, omitted",
+			"function send_mail": "player mail is a multiplayer feature, omitted",
+			"function receive_mail": "player mail is a multiplayer feature, omitted"
+		},
+		"d/snow/obj/hammer.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/drug/hurt_drug.c": {
+			"function init": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package",
+			"function apply_medicine": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package"
+		}
 	}
 }

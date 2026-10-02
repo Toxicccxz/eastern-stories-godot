@@ -35,6 +35,8 @@ func _test_shipped_content_loads() -> void:
 		&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.gorge.lake.serpents",
 		&"snow.inn.travellers", &"snow.outdoor.eroad2.dogs", &"snow.outdoor.temple.keeper", &"snow.outdoor.mstreet2.drunk",
 		&"snow.outdoor.mstreet2.scavenger", &"snow.outdoor.school1.guard", &"snow.outdoor.school2.trainees", &"snow.outdoor.school2.fist_trainer",
+		&"snow.outdoor.sroad2.farmers", &"snow.outdoor.sroad4.crazy_dog", &"snow.outdoor.school.teacher",
+		&"snow.outdoor.herbshop.woodcutter", &"snow.outdoor.postoffice.post_officer",
 	], "spawn order is the authored order (manifest, then file)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")
@@ -48,6 +50,13 @@ func _test_shipped_content_loads() -> void:
 	_eq([catalog.zone_forbids_fighting(&"snow.temple"), catalog.zone_forbids_fighting(&"snow.workplace"), catalog.zone_forbids_fighting(&"snow.square")], [true, true, false], "no_fight rooms: temple and workplace")
 	_eq(waiter.item_definition_id("dumpling"), &"es2:obj/example/dumpling", "goods key resolves to its item")
 	_eq(waiter.item_definition_id("dagger"), &"", "unsold goods key is empty")
+	# feature/vendor.c charges the item's value; smith.c's own buy_object() asks 300 for a hammer worth 3.
+	var herbalist: VendorDefinition = catalog.vendor(&"snow.vendor.herbalist")
+	var medicine: ItemContentDefinition = catalog.item(&"es2:obj/drug/hurt_drug")
+	_eq([herbalist.goods_keys(), herbalist.price("medicine", medicine)], [["medicine"], 2000], "herbalist sells medicine at its value; snake drug waits")
+	var smith: VendorDefinition = catalog.vendor(&"snow.vendor.smith")
+	var hammer: ItemContentDefinition = catalog.item(smith.item_definition_id("铁锤"))
+	_eq([hammer.value, smith.price("铁锤", hammer), waiter.price("dumpling", catalog.item(&"es2:obj/example/dumpling"))], [3, 300, 15], "a vendor's own price replaces the value")
 
 
 func _test_record_reader_reports_problems() -> void:
@@ -181,12 +190,17 @@ func _test_cross_reference_checks() -> void:
 			{"id": "t.spawn.a", "npc": "t.nobody", "map": "m", "zone": "z", "points": ["p"], "legacy_room": "t/r.c", "legacy_quantity": 1},
 			{"id": "t.spawn.b", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p"], "legacy_room": "t/r.c", "legacy_quantity": 1},
 		],
-		"vendors": [{"id": "t.vendor", "legacy_source": "t/v.c", "goods": [{"key": "pie", "item": "t:pie"}]}],
+		"vendors": [
+			{"id": "t.vendor", "legacy_source": "t/v.c", "goods": [{"key": "pie", "item": "t:pie"}]},
+			{"id": "t.vendor2", "legacy_source": "t/v2.c", "goods": [{"key": "free", "item": "t:sword", "price": 0}]},
+		],
 		"places": [],
 	}, "t")
 	_eq(builder.build(), null, "a catalog with problems is not built")
 	_eq(builder.errors(), [
 		"t.items[1].id: 't:sword' is already defined at t.items[0]",
+		"t.vendors[1].goods[0].price: must be at least 1",
+		"t.vendors[1].goods: needs at least one entry",
 		"t.places: unknown field",
 		"t.items[3].money.money_id: 'coin' is already t:coin",
 		"t.items[4].money.money_id: unsupported money 'shell'",

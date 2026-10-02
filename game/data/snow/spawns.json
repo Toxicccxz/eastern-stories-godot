@@ -78,6 +78,51 @@
 			"points": ["snow.school2.fist_trainer.1"],
 			"legacy_room": "d/snow/school2.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.sroad2.farmers",
+			"npc": "snow.npc.farmer",
+			"map": "snow.outdoor",
+			"zone": "snow.sroad2",
+			"points": ["snow.sroad2.farmer.1", "snow.sroad2.farmer.2"],
+			"legacy_room": "d/snow/sroad2.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "snow.outdoor.sroad4.crazy_dog",
+			"npc": "snow.npc.crazy_dog",
+			"map": "snow.outdoor",
+			"zone": "snow.sroad4",
+			"points": ["snow.sroad4.crazy_dog.1"],
+			"legacy_room": "d/snow/sroad4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.school.teacher",
+			"npc": "snow.npc.teacher",
+			"map": "snow.outdoor",
+			"zone": "snow.school",
+			"points": ["snow.school.teacher.1"],
+			"legacy_room": "d/snow/school.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.herbshop.woodcutter",
+			"npc": "snow.npc.woodcutter",
+			"map": "snow.outdoor",
+			"zone": "snow.herbshop",
+			"points": ["snow.herbshop.woodcutter.1"],
+			"legacy_room": "d/snow/herbshop.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.postoffice.post_officer",
+			"npc": "snow.npc.post_officer",
+			"map": "snow.outdoor",
+			"zone": "snow.postoffice",
+			"points": ["snow.postoffice.post_officer.1"],
+			"legacy_room": "d/snow/postoffice.c",
+			"legacy_quantity": 1
 		}
 	]
 }

@@ -507,8 +507,11 @@ class Importer:
                         self.spawn(region, zone, room_path, source_path(target), quantity)
         for room, target in sorted(skips - used):
             raise ImportError_(f'overrides/{region}.json: spawn_skip {room} {target} matches no room object')
+        hand_read = override.get('vendor_goods', {})
+        for path in set(hand_read) - set(override.get('vendors', [])):
+            raise ImportError_(f'overrides/{region}.json: vendor_goods {path} is not in vendors')
         for vendor in override.get('vendors', []):
-            self.vendor(region, vendor, override.get('vendor_skip', {}).get(vendor, {}))
+            self.vendor(region, vendor, override.get('vendor_skip', {}).get(vendor, {}), hand_read.get(vendor))
         for path in override.get('items', []):
             self.item(path)
 
@@ -765,17 +768,37 @@ class Importer:
         return path, []
 
     # Vendors.
-    def vendor(self, region: str, path: str, skipped: dict) -> None:
+    def vendor(self, region: str, path: str, skipped: dict, hand_read: dict | None = None) -> None:
+        """`set("vendor_goods")` (feature/vendor.c), or goods read by hand from the
+        vendor's own buy_object() (override `vendor_goods`: {key: {item, price}})."""
         path = source_path(path)
-        goods = self.corpus.get(path).sets().get('vendor_goods')
+        lpc_goods = self.corpus.get(path).sets().get('vendor_goods')
+        if hand_read is not None:
+            if lpc_goods is not None:
+                raise ImportError_(f'vendor_goods {path}: the LPC sets vendor_goods; read it, not a hand list')
+            for key, entry in hand_read.items():
+                if (not isinstance(entry, dict) or set(entry) - {'item', 'price'} or not isinstance(entry.get('item'), str)
+                        or ('price' in entry and (type(entry['price']) is not int or entry['price'] < 1))):
+                    raise ImportError_(f'vendor_goods {path} {key!r}: expected {{"item": path, "price"?: integer >= 1}}')
+            goods = {key: entry['item'] for key, entry in hand_read.items()}
+        else:
+            goods = lpc_goods
         if not isinstance(goods, dict):
             raise ImportError_(f'{path}: no vendor_goods mapping')
         for key in set(skipped) - set(goods):
             raise ImportError_(f'vendor_skip {path} {key!r} is not one of its goods')
+        records = []
+        for key, item in goods.items():
+            if key in skipped:
+                continue
+            record = {'key': key, 'item': self.item(item)}
+            if hand_read is not None and 'price' in hand_read[key]:
+                record['price'] = hand_read[key]['price']
+            records.append(record)
         self.add(f'{region}/vendors.json', {
             'id': f'{region_of(path)}.vendor.{basename(path)}',
             'legacy_source': path,
-            'goods': [{'key': key, 'item': self.item(item)} for key, item in goods.items() if key not in skipped],
+            'goods': records,
         })
 
     # Overrides: "set": {id: {field: value}}, "drop": {id: [field]}.

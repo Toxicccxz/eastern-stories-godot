@@ -7,6 +7,20 @@
 				{ "key": "wineskin", "item": "es2:obj/example/wineskin" },
 				{ "key": "dumpling", "item": "es2:obj/example/dumpling" }
 			]
+		},
+		{
+			"id": "snow.vendor.herbalist",
+			"legacy_source": "d/snow/npc/herbalist.c",
+			"goods": [
+				{ "key": "medicine", "item": "es2:obj/drug/hurt_drug" }
+			]
+		},
+		{
+			"id": "snow.vendor.smith",
+			"legacy_source": "d/snow/npc/smith.c",
+			"goods": [
+				{ "key": "铁锤", "item": "es2:d/snow/obj/hammer", "price": 300 }
+			]
 		}
 	]
 }

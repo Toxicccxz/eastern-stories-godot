@@ -24,7 +24,9 @@ the NPCs their `set("objects")` place, what those NPCs carry and the goods of th
 Records already in a file keep their order (spawn order fixes NPC draws); new ones are appended.
 
 The override file holds every hand decision: `vendors` and `items` (extra roots), `spawn_skip`
-(`{room: {object: why}}`), `vendor_skip` (`{vendor: {goods key: why}}`), `set`/`drop`
+(`{room: {object: why}}`), `vendor_skip` (`{vendor: {goods key: why}}`), `vendor_goods`
+(`{vendor: {goods key: {item, price}}}`: goods a vendor sells through its own `buy_object()`
+instead of `set("vendor_goods")`, read by hand), `set`/`drop`
 (`{record id: …}`) and `review` (`{lpc source: {finding: decision}}`). A finding is an LPC fact
 that did not become data — another function, a closure, a condition, a field the game does not
 model yet. `--check` (and `tools/tests/test_content_import.py`) fails when a generated file
@@ -87,8 +89,10 @@ IDs. Append new spawns; do not reorder existing ones without expecting a New Gam
 
 ## vendors
 
-`{id, legacy_source, goods: [{key, item}]}` from `set("vendor_goods")`. The price is the item's
-`value` (`feature/vendor.c`); goods worth less than 1 are not sold (`cmds/std/buy.c`).
+`{id, legacy_source, goods: [{key, item, price?}]}` from `set("vendor_goods")`, or from the
+override's `vendor_goods`. The price is the item's `value` (`feature/vendor.c`) unless the goods
+carry `price`, what the vendor's own `buy_object()` asks (`d/snow/npc/smith.c`: 300 for a hammer
+worth 3). A price below 1 is not sold (`cmds/std/buy.c`); an authored `price` below 1 is an error.
 
 ## rooms
 
