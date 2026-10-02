@@ -3,6 +3,25 @@ extends SceneTree
 ## Runs selected test suites instead of the full run_tests.gd registry.
 ## Usage: godot --headless --path game --script res://tests/run_suite.gd -- <path>...
 ## Each path is a *_test.gd script or a directory searched recursively for *_test.gd.
+## A suite fails on any script error it logs: such an error ends only the helper it is
+## in, and the suite would still report PASS.
+
+
+class ScriptErrors extends Logger:
+	var _mutex: Mutex = Mutex.new()
+	var _count: int = 0
+
+	func _log_error(_function: String, _file: String, _line: int, _code: String, _rationale: String, _editor_notify: bool, error_type: int, _script_backtraces: Array) -> void:
+		if error_type == ERROR_TYPE_SCRIPT:
+			_mutex.lock()
+			_count += 1
+			_mutex.unlock()
+
+	func count() -> int:
+		_mutex.lock()
+		var value: int = _count
+		_mutex.unlock()
+		return value
 
 
 func _init() -> void:
@@ -20,6 +39,8 @@ func _run() -> void:
 
 	var assertions: int = 0
 	var failures: Array[String] = []
+	var script_errors := ScriptErrors.new()
+	OS.add_logger(script_errors)
 	for path: String in suite_paths:
 		var script: Script = load(path) as Script
 		if script == null or not script.can_instantiate():
@@ -31,8 +52,11 @@ func _run() -> void:
 			continue
 		var arguments: Array = [self] if _run_all_argument_count(suite) == 1 else []
 		var started_msec: int = Time.get_ticks_msec()
+		var errors_before: int = script_errors.count()
 		var result: Dictionary = SuiteResult.checked(path.get_file().get_basename(), await suite.callv("run_all", arguments))
 		var suite_failures: Array = result["failures"]
+		if script_errors.count() > errors_before:
+			suite_failures.append("%d script error(s) (see SCRIPT ERROR above)" % (script_errors.count() - errors_before))
 		assertions += int(result.get("assertions", 0))
 		for failure: Variant in suite_failures:
 			failures.append("%s: %s" % [path.get_file(), str(failure)])
@@ -41,6 +65,7 @@ func _run() -> void:
 			Time.get_ticks_msec() - started_msec,
 		])
 
+	OS.remove_logger(script_errors)
 	for failure: String in failures:
 		printerr(failure)
 	print("%s: %d suite(s), %d assertions, %d failure(s)" % [

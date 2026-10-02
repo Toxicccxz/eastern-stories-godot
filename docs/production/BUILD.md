@@ -54,7 +54,8 @@ During development, run only the affected suites (a `*_test.gd` path or a direct
 ```
 
 New suites must still be registered in `run_tests.gd`, which remains the canonical CI gate.
-Steps 3–5 also fail when Godot prints a `SCRIPT ERROR` line, even if every suite passed.
+Steps 3–5 also fail when Godot prints a `SCRIPT ERROR` line, even if every suite passed;
+`run_suite.gd` fails the suite that logged one.
 
 The Phase 10B4 QA bridge (F6 saves, F7 corrupts the development save) is opt-in:
 

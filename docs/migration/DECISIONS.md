@@ -7,7 +7,8 @@ a non-positive busy clears) and does nothing else that beat. Outside a fight thi
 the S5B 2-second beat, for the player and the NPCs of the active map; inside one the encounter
 scheduler does it as before. Supersedes S5B C ("existing busy authority remains the only
 advancement owner"), under which busy left by a pickup in a fight (get.c `start_busy(1)`) stopped
-recovery and Save for good.
+recovery and Save for good. The beat still stands still with a condition (S5B E) or while the
+player is not ACTIVE (S5B L), where char.c would wear busy down too.
 
 ## Give, drop and put; shops and teachers on their NPCs (2026-10-02)
 
