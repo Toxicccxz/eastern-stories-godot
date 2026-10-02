@@ -22,7 +22,7 @@ hand-written files. Fix that before adding breadth.
 | 1 | **Workflow reset** | Slim AGENTS/docs, one-page STATUS, single-suite test runner. |
 | 2 | **Data-driven content** | NPCs, items, vendors and spawns load from data files through generic loaders into the existing typed definitions; existing Snow/Old Pine content converted with unchanged behavior; per-item classes, per-offer purchase services and ID `match` chains removed. |
 | 3 | **Generic map runtime** | One data-configured map controller plus reusable zone/portal/spawn/interaction components; explicit combat cadence; UI no longer dispatches on concrete map types; terrain on `TileMapLayer` with a placeholder TileSet; zones show the room's authored ES2 description. |
-| 4 | **Content importer + Snow complete** | A best-effort LPC → data importer for NPCs/items/vendors/spawns (manual overrides kept separate); all of Snow's rooms, NPCs, shops and services playable. Record the time per NPC as the baseline for later regions. Five PRs: 4A importer + street NPCs, 4B south road and shops, 4C Inn upstairs / school inner rooms / secret storage, 4D ask, talk, wandering and room reset, 4E give, shops and services bound to NPCs, teachers as data. |
+| 4 | **Content importer + Snow complete** | A best-effort LPC → data importer for NPCs/items/vendors/spawns (manual overrides kept separate); all of Snow's rooms, NPCs, shops and services playable. Record the time per NPC as the baseline for later regions. Five PRs: 4A importer + street NPCs, 4B south road and shops, 4C Inn upstairs / school inner rooms / secret storage, 4D ask, talk, wandering and room reset, 4E give, put and drop, shops and services bound to NPCs, teachers as data. |
 
 Small correctness items ride along with the package that touches the code: busy decrement
 outside encounters, `apply/*` stat bonuses in combat, the missing Keep scene reference, opt-in QA
@@ -34,7 +34,10 @@ Order may change after the near-term packages; each item is a content package wi
 
 * **Internal power**: `force`/`fonxanforce` obtain → enable → exercise → combat use → save.
 * **Offense/defense routes**: `sword`/`parry`/`dodge`, `fonxansword`, `chaos-steps` with real
-  learning and equipment prerequisites; practice/self-learning reachable in play.
+  learning and equipment prerequisites; practice/self-learning reachable in play; then 柳绘心
+  (Snow's study) can be placed.
+* **Combined items**: amounts that merge and split (`std/item/combined.c`): Snow's 桃符纸, 蛇药
+  and the travellers' 飞刀.
 * **Conditions and treatment**: condition-producing attacks, update cadence, cures and supplies.
 * **Old Pine remainder**: full Cave, Keep, Tree and other deferred routes and actors.
 * **Pacing knobs**: data-configured multipliers (default = original) decided from owner playtests.
