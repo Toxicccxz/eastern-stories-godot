@@ -21,7 +21,8 @@ from prepare_release_project import prepare_release_project, validate_release_pr
 
 
 # A step that outlives its budget has hung (e.g. a GDScript error that stops a SceneTree
-# script before it can quit); fail it instead of waiting forever. CI's job limit is 30 min.
+# script before it can quit); fail it instead of waiting forever. CI's job limit (30 min)
+# bounds the whole run; the gameplay suite alone takes about 19 min there.
 TOOLING_TIMEOUT_SECONDS = 10 * 60
 IMPORT_TIMEOUT_SECONDS = 10 * 60
 GAMEPLAY_TESTS_TIMEOUT_SECONDS = 25 * 60
@@ -35,10 +36,19 @@ def _run(
     timeout: float = TOOLING_TIMEOUT_SECONDS,
     fail_on_script_errors: bool = False,
 ) -> None:
-    """Runs one step, relaying its output. A Godot step also fails when its output has a
-    SCRIPT ERROR line: a runtime error inside a suite's helper aborts only that helper, so
-    the suite can still report PASS (and a crashed import still exits 0)."""
+    """Runs one step. A Godot step (fail_on_script_errors) has its output relayed and fails
+    on a SCRIPT ERROR line: a runtime error inside a suite's helper aborts only that helper,
+    so the suite can still report PASS (and a crashed import still exits 0). Other steps
+    write straight to the console as before."""
     print(f"+ {' '.join(command)}", flush=True)
+    if not fail_on_script_errors:
+        try:
+            result = subprocess.run(command, cwd=cwd, env=env, check=False, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            raise RuntimeError(f"verification command timed out after {timeout:g} s and was stopped") from None
+        if result.returncode != 0:
+            raise RuntimeError(f"verification command failed with exit code {result.returncode}")
+        return
     process = subprocess.Popen(command, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     script_errors: list[str] = []
     relay = threading.Thread(target=_relay_output, args=(process.stdout, script_errors), daemon=True)
@@ -50,27 +60,31 @@ def _run(
         process.wait()
         relay.join(timeout=5)
         raise RuntimeError(f"verification command timed out after {timeout:g} s and was stopped") from None
-    relay.join()
+    # A grandchild still holding the pipe must not hang the step.
+    relay.join(timeout=30)
     if returncode != 0:
         raise RuntimeError(f"verification command failed with exit code {returncode}")
-    if fail_on_script_errors and script_errors:
+    if script_errors:
         shown = "\n".join(script_errors[:20])
         raise RuntimeError(f"{len(script_errors)} {SCRIPT_ERROR_MARKER} line(s) in the output:\n{shown}")
 
 
 def _relay_output(stream: BinaryIO, script_errors: list[str]) -> None:
     """Copies the child's output bytes unchanged and remembers each SCRIPT ERROR line
-    with the `at:` line Godot prints after it."""
+    with the `at:` line Godot prints after it. Keeps draining if the console fails."""
     pending: str | None = None
     for raw in iter(stream.readline, b""):
-        sys.stdout.buffer.write(raw)
-        sys.stdout.buffer.flush()
-        line = raw.decode("utf-8", "replace").rstrip()
+        try:
+            sys.stdout.buffer.write(raw)
+            sys.stdout.buffer.flush()
+        except (AttributeError, OSError, ValueError):
+            pass
+        line = raw.decode("utf-8", "replace").rstrip().encode("ascii", "backslashreplace").decode("ascii")
         if pending is not None:
             script_errors.append(f"{pending} {line.strip()}" if line.strip().startswith("at:") else pending)
             pending = None
         if SCRIPT_ERROR_MARKER in line:
-            pending = line.encode("ascii", "backslashreplace").decode("ascii")
+            pending = line
     if pending is not None:
         script_errors.append(pending)
     stream.close()

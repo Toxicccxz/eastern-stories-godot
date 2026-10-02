@@ -35,6 +35,22 @@ class StepRunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, r"1 SCRIPT ERROR line\(s\)[\s\S]*res://tests/x.gd:7"):
             verify._run([sys.executable, "-c", script], timeout=30, fail_on_script_errors=True)
 
+    def test_script_error_on_the_last_line_fails(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "1 SCRIPT ERROR line"):
+            verify._run([sys.executable, "-c", "print('PASS'); print('SCRIPT ERROR: at the end')"], timeout=30, fail_on_script_errors=True)
+
+    def test_exit_code_is_reported_before_script_errors(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "exit code 4"):
+            verify._run([sys.executable, "-c", "print('SCRIPT ERROR: x'); raise SystemExit(4)"], timeout=30, fail_on_script_errors=True)
+
+    def test_relayed_bytes_that_are_not_utf8_do_not_break_the_step(self) -> None:
+        script = "import sys; sys.stdout.buffer.write(bytes([0xff, 0xfe, 10])); print('PASS')"
+        verify._run([sys.executable, "-c", script], timeout=30, fail_on_script_errors=True)
+
+    def test_hung_godot_step_is_stopped_and_fails(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "timed out"):
+            verify._run([sys.executable, "-c", "import time; time.sleep(30)"], timeout=0.5, fail_on_script_errors=True)
+
     def test_script_error_is_only_checked_in_godot_steps(self) -> None:
         verify._run([sys.executable, "-c", "print('SCRIPT ERROR: quoted by a tooling test')"], timeout=30)
 
