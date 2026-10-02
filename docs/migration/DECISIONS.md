@@ -1,5 +1,59 @@
 # Migration Decisions
 
+## NPCs talk and wander; rooms reset (2026-10-02)
+
+Package 4D, from the owner-approved plan:
+- **打听 is `cmds/std/ask.c`** on a selected speaking NPC in the player's place (`present()`):
+  ES2's own listing (这里, 名字, 传闻, then the NPC's `set("inquiry")` keys) stands in for typing a
+  topic; an answer the NPC files under English `here`/`name`/`rumors` sits behind the Chinese topic
+  instead of a second entry. The lines follow ask.c and `inquiryd.c` (the question, then the
+  answer, the name answer by attitude with rankd.c's rude words, the room's title, `msg_dunno`
+  from the world-interaction stream); the `sigh` after a polite name answer prints nothing
+  (`data/emoted.o` is not in the mudlib). Beasts get no 打听, as no 切磋. An answer array keeps
+  its strings; ask.c skips its 0s and functions.
+- **Topics answered by a function are not data.** 刘安禄's 刘老三/血手刘三 are not listed until his
+  reveal is ported. guard.c's `ask_me(who)` receives the NPC itself (dbase.c `evaluate(data,
+  this_object())`), so in ES2 anyone who asks has a 50% chance to unmask him; owner: when ported,
+  the asker's combat_exp gates it, as the code means. 杜宽's 寄信/收信 go with player mail.
+- **Chat is `npc.c` chat()** on the S5B 2-second beat for NPCs in the player's place: `char.c`
+  turns a healed NPC's heart beat off when no player shares its room. Not ported: that it never
+  comes back on until the NPC is hurt (an efficiency artifact ES2's clean_up hid). Lines go to the
+  log as written; an unconscious player reads none (damage.c `block_msg/all`). **Deviation:** an
+  unconscious NPC says nothing, neither chat (char.c still runs chat()) nor its greeting. Beats
+  and their draws are transient, as heal cadences.
+- **Owner: an NPC wanders only at home and next door.** `random_move()` draws one of its room's
+  exits; the move happens when the place is its home zone or a zone next to home on the same map,
+  no closed door is in the way (`room.c` valid_leave()) and the room is migrated; otherwise nothing
+  does, as a failed `go`. ES2's random_move is unbounded until reset calls NPCs home. The
+  travellers' Inn exits all leave the Inn's map, so they stay in for now (cross-map wandering
+  later). go.c's line (旅客往东离开。) shows where it left. The body walks a path over the map's
+  tiles (`AStarGrid2D`, a body's width from walls); its place changes at once, a save takes the
+  walk's end, and a fight or leaving the map puts walking NPCs there. On the way it passes through
+  the player and notices nobody (ES2 moved it in one step); an aggressive one notices whoever is
+  where it arrives, as its init() did.
+- **The keeper's greeting is data** (`greeting.say`, `$RESPECT` the player): keeper.c's
+  `call_out("greeting", 1)` from init() runs one second of world time after the player comes in,
+  or after the keeper comes to where the player is (reset), if the player is still there.
+- **Room reset is `std/room.c` reset()** on world time, each room on its own schedule: MudOS's
+  `TIME_TO_RESET / 2 + random(TIME_TO_RESET / 2)` seconds, with config.ES2's 1800 as
+  `pacing.json` `room_reset_seconds` (a knob; the default is ES2's). A dead NPC is made anew on
+  its marker (`make_inventory()` for a destructed object; its ID gets the next generation,
+  `<point>.character.<n>`); a living one away from home and conscious, not fighting, hurries home
+  (急急忙忙地离开了。); weapon_storage.c's reset() clears the shelf's pushes. Every map resets
+  (native rooms are always loaded); Old Pine's bandits and serpents come back too. Schedules are
+  not saved: Continue starts them afresh.
+- **Owner: an item comes back only once it is gone.** reset() remakes a floor item only when the
+  one it laid down no longer exists (sold, eaten): one the player carries is not replaced. ES2's
+  `clean_up()` (MudOS memory management: an unvisited room was destructed and reloaded with
+  everything new) is not ported.
+- **Save:** no new fields. An NPC record may name a later generation and stand away from its home
+  zone; a corpse may belong to an earlier generation, checked against the NPC's definition. The world
+  content revision stays `SOURCE_ENTRY_SNOW_INNER_V1`: 4C saves load.
+- **Deferred:** 醉汉's do_drink (its empty wineskin is dropped and he asks for wine: with give and
+  drop, 4E), the waiter's greeting and the shopkeepers' answers (with their bodies, 4E), the
+  血手刘三 reveal, combat chat (`chat_msg_combat`), cross-map wandering, corpse decay (corpses of
+  respawned NPCs stay), speech bubbles.
+
 ## Snow's inner rooms (2026-10-02)
 
 Package 4C, from the owner-approved plan:
@@ -11,7 +65,7 @@ Package 4C, from the owner-approved plan:
   the item lies on its marker when the world is created and is picked up with 拾取, as
   `cmds/std/get.c` (busy, no_get 这个东西拿不起来。, move.c's 太重了). Its identity follows from the
   spawn point, so a save keeps no floor position; there is no drop yet. Room reset (items and
-  NPCs coming back) is 4D.
+  NPCs coming back) is 4D (above).
 - **The weapon storage's shelf** (`weapon_storage.c`) is a landmark whose button is ES2's
   `push <direction>` (往左推); `push shelf`'s hint line is not shown. Three pushes open the way
   down and the way up for ten seconds of world time (stopped in a fight). Opening adds an exit,

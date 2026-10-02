@@ -650,6 +650,8 @@ class Importer:
             record['apply'] = apply
         if record.get('attitude') == 'aggressive':
             record['capabilities'] = ['aggressive_on_player_presence']
+        handled.update(self.chat(path, sets, record))
+        handled.update(self.inquiry(path, sets, record))
         for call in lpc.calls:
             if call.name not in {'set', 'set_name', 'set_skill', 'map_skill', 'carry_object', 'add_money', 'set_temp'}:
                 self.note(path, call.name, describe(call.args))
@@ -659,6 +661,47 @@ class Importer:
         self.function_findings(path, lpc)
         self.add(file, record)
         return record_id
+
+    @staticmethod
+    def chat(path: str, sets: dict, record: dict) -> set[str]:
+        """npc.c chat(): `chat_chance` and `chat_msg` (lines, or `(: random_move :)`).
+        Both stay findings unless every entry is data: dropping one would change
+        `random(sizeof(msg))`; a chance without lines never fires."""
+        chance, lines = sets.get('chat_chance'), sets.get('chat_msg')
+        if not isinstance(chance, int) or not isinstance(lines, list) or not lines:
+            return set()
+        entries = []
+        for line in lines:
+            if isinstance(line, str):
+                entries.append(line)
+            elif line == Closure('(: random_move :)'):
+                entries.append({'action': 'random_move'})
+            else:
+                return set()
+        record['chat_chance'] = chance
+        record['chat_msg'] = entries
+        return {'chat_chance', 'chat_msg'}
+
+    def inquiry(self, path: str, sets: dict, record: dict) -> set[str]:
+        """ask.c answers: a string, or an array whose strings are said in turn (ask.c
+        skips 0 and does nothing with a function in it). A topic answered by a
+        function is a finding `inquiry <topic>`."""
+        topics = sets.get('inquiry')
+        if not isinstance(topics, dict):
+            return set()
+        answers = {}
+        for topic, answer in topics.items():
+            if isinstance(answer, str):
+                answers[topic] = [answer]
+            elif isinstance(answer, list) and all(isinstance(a, (str, int, Closure)) for a in answer):
+                answers[topic] = [a for a in answer if isinstance(a, str)]
+                for function in (a for a in answer if isinstance(a, Closure)):
+                    self.note(path, f'inquiry {topic}', describe(function))
+            else:
+                self.note(path, f'inquiry {topic}', describe(answer))
+        if answers:
+            record['inquiry'] = answers
+        return {'inquiry'}
 
     def authored(self, path: str, key: str, value):
         """A plain value, or one of the random forms the loader models; else a finding."""

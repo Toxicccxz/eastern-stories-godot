@@ -15,6 +15,7 @@ var target_vitality_text: Label
 var inspect_button: Button
 var attack_button: Button
 var spar_button: Button
+var ask_button: Button
 var portal_button: Button
 var open_loot_button: Button
 var inventory_button: Button
@@ -49,6 +50,7 @@ func _ready() -> void:
 	inspect_button.pressed.connect(_inspect_context)
 	attack_button.pressed.connect(_attack_context)
 	spar_button.pressed.connect(_spar_context)
+	ask_button.pressed.connect(_ask_context)
 	portal_button.pressed.connect(_traverse_context)
 	open_loot_button.pressed.connect(_loot_context)
 	inventory_button.pressed.connect(open_inventory)
@@ -273,6 +275,8 @@ func refresh_live_state() -> void:
 	attack_button.disabled = not target_available or not player_available
 	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
 	spar_button.disabled = not target_available or not player_available or not _selected_target.definition().can_speak()
+	# ask.c: the same speakers, who must be here (present()).
+	ask_button.disabled = not player_available or not _selected_npc_askable()
 	open_loot_button.disabled = (
 		not corpse_available
 		or not _selected_corpse_in_range
@@ -324,6 +328,72 @@ func spar_is_enabled() -> bool:
 	return not spar_button.disabled
 
 
+func ask_is_enabled() -> bool:
+	return not ask_button.disabled
+
+
+func _selected_npc_askable() -> bool:
+	var map := _bound_map as WorldMapController
+	return map != null and _selected_target != null and map.selected_npc() == _selected_target and map.can_ask_selected()
+
+
+## ask.c without a topic: "你可以打听这些事情：" and the list; each topic asks, and
+## the answer shows under the list (and in the log).
+func open_ask() -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null or not _session.portable_inventory_available() or not map.can_ask_selected():
+		return
+	if _ask_panel == null:
+		_ask_panel = VBoxContainer.new()
+		_ask_panel.name = "AskPanel"
+		_ask_panel.add_theme_constant_override("separation", 10)
+		var heading := Label.new()
+		heading.text = tr("你可以打听这些事情：")
+		_ask_panel.add_child(heading)
+		_ask_topics = HFlowContainer.new()
+		_ask_topics.name = "Topics"
+		_ask_topics.add_theme_constant_override("h_separation", 8)
+		_ask_topics.add_theme_constant_override("v_separation", 8)
+		_ask_panel.add_child(_ask_topics)
+		_ask_answer = Label.new()
+		_ask_answer.name = "Answer"
+		_ask_answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_ask_panel.add_child(_ask_answer)
+		_ask_panel.hide()
+		_presentation_layout.holding.add_child(_ask_panel)
+	for child: Node in _ask_topics.get_children():
+		child.queue_free()
+	for topic: String in map.ask_topics_selected():
+		var button := Button.new()
+		button.name = "Topic"
+		button.text = tr(topic)
+		button.custom_minimum_size = Vector2(80, 40)
+		button.pressed.connect(_ask_topic.bind(topic))
+		_ask_topics.add_child(button)
+	_ask_answer.text = ""
+	_presentation_layout.open_panel(tr("打听 · %s") % _selected_target.definition().display_name, _ask_panel, _selected_npc_askable)
+	_presentation_layout.refresh_rows()
+
+
+func ask_topics_shown() -> Array[String]:
+	var result: Array[String] = []
+	if _ask_topics != null and _presentation_layout._content == _ask_panel:
+		for child: Node in _ask_topics.get_children():
+			if not child.is_queued_for_deletion():
+				result.append((child as Button).text)
+	return result
+
+
+func ask_answer_text() -> String:
+	return "" if _ask_answer == null else _ask_answer.text
+
+
+func _ask_topic(topic: String) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null:
+		_ask_answer.text = "\n".join(map.ask_selected(topic))
+
+
 func portal_action_is_enabled() -> bool:
 	return not portal_button.disabled
 
@@ -368,6 +438,9 @@ var _elapsed: float = 0.0
 ## writes the new one, as ES2 printed a room on arrival.
 var _described_zone_id: StringName = &""
 var _business_feedback: String = ""
+var _ask_panel: VBoxContainer
+var _ask_topics: HFlowContainer
+var _ask_answer: Label
 
 
 func initialize_supplies() -> void:
@@ -451,6 +524,7 @@ func refresh_exploration() -> void:
 	inspect_button.visible = local_target and not inspect_button.disabled
 	attack_button.visible = local_target and not attack_button.disabled
 	spar_button.visible = local_target and not spar_button.disabled
+	ask_button.visible = local_target and not ask_button.disabled
 	portal_button.visible = local_target and not portal_button.disabled
 	open_loot_button.visible = local_target and not open_loot_button.disabled
 	selected_target_label.visible = local_target
@@ -594,6 +668,10 @@ func _attack_context() -> void:
 func _spar_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.spar_selected()
+
+
+func _ask_context() -> void:
+	open_ask()
 
 
 func _traverse_context() -> void:

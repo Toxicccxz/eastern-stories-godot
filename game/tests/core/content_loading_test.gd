@@ -148,7 +148,7 @@ func _test_npc_and_spawn_records() -> void:
 	_eq(errors, [
 		"t.npcs[3].age: needs exactly one of plus_random and minus_random",
 		"t.npcs[3].combat_exp: random bound must be positive",
-		"t.npcs[3]: is not a valid NPC definition (aliases, gender, skills, skill_map, carry or random values)",
+		"t.npcs[3]: is not a valid NPC definition (aliases, gender, skills, skill_map, carry, random values or talk)",
 	], "bad rolls and a skill_map to an unknown skill are reported")
 	errors.clear()
 	NpcContentRecords.npc_from_record(ContentRecordReader.new({

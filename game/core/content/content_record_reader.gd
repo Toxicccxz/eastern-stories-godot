@@ -151,6 +151,27 @@ func text_map(key: String) -> Dictionary[String, String]:
 	return result
 
 
+## Array whose elements are non-empty strings or objects (as readers), in order.
+func strings_or_children(key: String) -> Array:
+	_consumed[key] = true
+	var result: Array = []
+	if not _record.has(key):
+		return result
+	var value: Variant = _record[key]
+	if not value is Array:
+		fail(key, "expected an array of strings and objects")
+		return result
+	for index: int in range(value.size()):
+		var element: Variant = value[index]
+		if element is String and not element.is_empty():
+			result.append(element)
+		elif element is Dictionary:
+			result.append(ContentRecordReader.new(element, "%s.%s[%d]" % [_path, key, index], _errors))
+		else:
+			fail("%s[%d]" % [key, index], "expected a non-empty string or an object")
+	return result
+
+
 ## Nested object, or null when the key is absent or not an object.
 func child(key: String) -> ContentRecordReader:
 	_consumed[key] = true

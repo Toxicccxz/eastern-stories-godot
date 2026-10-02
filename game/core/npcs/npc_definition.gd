@@ -14,7 +14,7 @@ const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_fa
 const CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = &"aggressive_on_player_presence"
 
 ## LPC set("attitude"). Friendly and heroism only change how an NPC answers
-## fight (npc.c accept_fight, NpcSparConsent) and ask (ask.c, not native yet).
+## fight (npc.c accept_fight, NpcSparConsent) and ask (ask.c, NpcInquiry).
 enum Attitude {
 	PEACEFUL,
 	AGGRESSIVE,
@@ -48,6 +48,7 @@ var _age_roll: NpcRandomInteger
 var _combat_experience_roll: NpcRandomInteger
 var _score_roll: NpcRandomInteger
 var _fight_rules: Array[NpcFightRule] = []
+var _talk: NpcTalk
 
 var definition_id: StringName:
 	get:
@@ -175,6 +176,18 @@ func fight_rules() -> Array[NpcFightRule]:
 	return _fight_rules.duplicate()
 
 
+## inquiry, chat and greeting (NpcTalk). Called once by the loader.
+func with_talk(value: NpcTalk) -> NpcDefinition:
+	_talk = value
+	return self
+
+
+func talk() -> NpcTalk:
+	if _talk == null:
+		_talk = NpcTalk.new()
+	return _talk
+
+
 ## race/human.c sets can_speak; beast.c does not. fight.c only asks a
 ## speaking character to spar.
 func can_speak() -> bool:
@@ -277,7 +290,7 @@ func is_valid() -> bool:
 	for entry: LoadoutEntryType in _loadout_entries:
 		if entry == null or not entry.is_valid():
 			return false
-	return true
+	return _talk == null or _talk.is_valid()
 
 
 static func _unique_non_empty_ids(ids: Array[StringName]) -> bool:

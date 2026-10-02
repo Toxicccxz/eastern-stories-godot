@@ -72,19 +72,24 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge` |
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
 | `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept}`; the first matching rule decides; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
+| `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>` |
+| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written) or `{"action": "random_move"}`. Written only when every entry is one of those; otherwise both stay findings |
+| `greeting` | the NPC's init()/greeting() | `{say}`: said as `<name>说道：<say>` one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
 
 `age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
 is `600+random(400)`, `"minus_random"` subtracts. `gender` may be
 `{"random": 10, "below": 7, "then": "男性", "else": "女性"}`. Draws happen at creation, before the
 race's own draws; a save keeps the drawn values.
 
-`chat_msg`, `inquiry` and functions (`call_for_help`, `ask_me`, …) are not data yet.
+Combat talk (`chat_msg_combat`) and functions (`call_for_help`, `ask_me`, `do_drink`, …) are not
+data yet.
 
 ## spawns
 
 `{id, npc, map, zone, points, legacy_room, legacy_quantity, presence_radius?}` — one entry per
 `set("objects")` line of a room. `points` names the scene's spawn markers and must have
-`legacy_quantity` entries. `presence_radius` (pixels, default 120) is how close the player must be
+`legacy_quantity` entries. `zone` is the NPC's home: it wanders only there and in the zones next
+to it, and `legacy_room`'s reset brings it home or makes a new one when it died. `presence_radius` (pixels, default 120) is how close the player must be
 for an aggressive NPC to notice them — the native stand-in for "in the same room".
 **Order matters**: NPCs are created in spawn order, which fixes their random draws and loadout item
 IDs. Append new spawns; do not reorder existing ones without expecting a New Game.
@@ -94,7 +99,8 @@ IDs. Append new spawns; do not reorder existing ones without expecting a New Gam
 `{id, item, map, zone, points, legacy_room, legacy_quantity}` — an item a room's `set("objects")`
 places (room.c `make_inventory()`): one item lies on each of `points` when the world is created.
 The item instance ID follows from the point, so a save records only that the item is still in that
-zone's WORLD (Continue puts it back on its marker). Combined items cannot lie on a floor yet.
+zone's WORLD (Continue puts it back on its marker). `legacy_room`'s reset lays it there again once
+that item no longer exists. Combined items cannot lie on a floor yet.
 
 ## vendors
 
@@ -176,8 +182,10 @@ until the landmark opens them, and no other landmark may use them.
 
 ## pacing
 
-`{combat_round_ms}` — milliseconds between two combat rounds on every map, the native ES2
-heart_beat. 1000 reproduces the pre-B2 feel.
+`{combat_round_ms, room_reset_seconds?}` — milliseconds between two combat rounds on every map,
+the native ES2 heart_beat (1000 reproduces the pre-B2 feel), and MudOS's `time to reset`: a room
+resets half to all of this many seconds of world time after its last reset (default 1800,
+config.ES2; lower it locally to playtest resets).
 
 ## Not data yet
 

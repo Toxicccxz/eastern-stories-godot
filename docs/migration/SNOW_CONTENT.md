@@ -30,6 +30,23 @@ the code does not, and what each NPC cost. The data format and the importer are 
 | secret_storage | 牛皮盾 | on the floor (4C), cellar map |
 | n_room, e_room, w_room, inneryard, innerhall, guestroom | — | rooms only |
 
+## Talk and wandering (4D)
+
+| NPC | LPC | Native |
+|---|---|---|
+| 旅客 | chat 40: random_move | stays in the Inn: its exits all leave the Inn's map |
+| 野狗 | chat 6: random_move, four lines | eroad1-3 |
+| 庙祝 | init()/greeting() | greets one second after the player comes in |
+| 醉汉 | chat 10: do_drink | with give and drop (4E) |
+| 收破烂的 | chat 20: three lines, random_move | mstreet1-3, the smithy, the workplace |
+| 刘安禄 | inquiry 刘老三, 血手刘三 (`ask_me`) | not listed until the reveal is ported |
+| 李火狮 | inquiry here, name, 柳家拳法 | here/name behind 这里/名字 |
+| 疯狗 | chat 15: random_move | sroad3-5 |
+| 魏无极 | inquiry 学费, 读书识字, 刘安禄 | |
+| 樵夫 | chat 15: three lines, random_move | the herbshop and mstreet3 |
+| 杜宽 | inquiry 驿站, 寄信, 收信 | 驿站 (mail omitted) |
+| 店小二, 杨掌柜, 王铁匠, 安惜迩 | greeting, inquiry, chat | with their bodies (4E) |
+
 ## Source anomalies
 
 - `square.c` comments out its four 苦力; only the 飞刀 travellers remain. `hockshop.c` comments
@@ -55,6 +72,15 @@ the code does not, and what each NPC cost. The data format and the importer are 
   `shelf` (`push right` too) as a push to the left.
 - `obj/denotation.c` defines `insert_object()`, which MudOS never calls: the box is a plain
   container and donations change nothing. `d/chuenyu/tunnel4.c` is a copy of `weapon_storage.c`.
+- `guard.c`'s `ask_me(who)` is called by `dbase.c` query() with the NPC itself, so its
+  `combat_exp < 20000` check never refuses (刘安禄 has exactly 20000) and anyone who asks about
+  刘老三 unmasks him half the time. `teacher.c`'s 学费 answer holds three `0` pauses ask.c skips.
+- `std/char.c` keeps calling chat() for an unconscious NPC, and turns a healed NPC's heart beat
+  off when no player is in its room; only a fight or a wound turns it on again.
+- `std/room.c` reset() remakes only objects that were destructed: a picked-up item is not
+  replaced. Items seemed to respawn in ES2 because MudOS `clean_up()` destructed unvisited rooms,
+  which then loaded with everything new. `d/oldpine/npc/fat_bandit.c` sets `chat_chance` with no
+  `chat_msg`.
 
 ## Cost per NPC (baseline for later regions)
 
@@ -113,3 +139,9 @@ Time (4C, agent wall clock, about 45 minutes from the merged 4B to a windowed sm
 reading and planning): floor items (data, map, pickup, Continue) and the hidden passage ~12,
 importer and data ~3, three scenes painted ~5, the new suite and the suites that count Snow
 ~20, the smoke ~7.
+
+4D (2026-10-02) made talk and wandering data and added no NPC type: each talking NPC's cost was
+its importer findings turning into `inquiry`/`chat_msg` (no new decisions but the five function
+answers). Time (agent wall clock, about 35 minutes from the branch to a full local test pass,
+after ~25 of reading and planning): ask and chat as data ~10, wandering (the walk on tiles) ~8,
+room reset with NPC generations and the corpse check ~12, the new suite ~5.

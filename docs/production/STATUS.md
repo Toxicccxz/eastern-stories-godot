@@ -4,16 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 4C** (`phase/snow-inner-rooms`): the Inn's upper floor (its own map up the stairs:
-corridor, three guest rooms behind 房门, six rats), the school's inner yard, study, guest room,
-inner hall and weapon storage, and the secret storage below (its own map). Items lie on the floor
-and are picked up (竹剑, 牛皮盾, the temple's 功德箱, which cannot be taken); the weapon storage's
-shelf opens the way down after three pushes.
+**Package 4D** (`phase/snow-ask-reset`): 打听 (ask.c) on Snow's speaking NPCs, their ambient
+lines and wandering (npc.c chat()/random_move(), at home and next door on their map), the
+temple keeper's greeting, and room reset (room.c reset(), every 15-30 minutes of world time per
+room): a killed NPC comes back, a wandered one hurries home, a floor item lies there again once
+it is gone, the weapon storage's shelf forgets its pushes.
 
-Then Package 4 goes on (see [ROADMAP](ROADMAP.md)): **4D** ask, ambient talk, wandering, room
-reset · **4E** give, put and drop, shops and services bound to their NPCs, teachers as data. 4A
-(importer + street NPCs), 4B (south road and shops, #39) and the new-player combat PRs (#37, #38)
-are merged; cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
+Then **4E** (see [ROADMAP](ROADMAP.md)): give, put and drop, shops and services bound to their
+NPCs, teachers as data. 4A-4C and the new-player combat PRs (#37, #38) are merged; cost per NPC:
+[SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
@@ -25,14 +24,16 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   (37 of 38 rooms; 药铺密室 has no entrance); items on the floor to pick up; Work income; physical coins/silver/gold and Bank exchange; Inn food/drink;
   herbshop (金疮药) and smithy (铁锤); Hockshop value/sell and its storage room; apprenticeship
   with Liu and Learn of basic unarmed and Liuh-Ken (柳家拳); twenty-seven NPCs (14 types) to look
-  at, fight or spar (切磋), with their ES2 gear and loot (the crazy dog on the west road attacks);
-  NPCs heal between fights and come to after being knocked out; no fighting in the temple or the
-  workplace (`no_fight`).
+  at, ask (打听), fight or spar (切磋), with their ES2 gear and loot (the crazy dog on the west road
+  attacks); dogs, the scavenger, the woodcutter and the crazy dog talk and wander next door while
+  you are with them; the temple keeper greets you; NPCs heal between fights and come to after
+  being knocked out; no fighting in the temple or the workplace (`no_fight`).
 * **Old Pine (老松岭)**: forest (paths, clearing, bandit slope, bridge, pine maze, cliffside), the gorge
   below the bridge (waterfall pool, river, Lake with five serpents) reached by the vine or the cave,
   the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
   (31 of 41 rooms).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
+  rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
@@ -52,12 +53,14 @@ Code:
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
-* Snow NPCs do not talk, wander, greet or trade yet (4D/4E); a killed NPC never returns and a
-  picked-up floor item never comes back (no room reset yet, 4D). Nothing can be dropped or put
-  into the 功德箱 yet (4E). 柳绘心 (the study) and 桃符纸 (the temple) are not placed: she needs
-  封山剑法/乱七星步, the seals combined items. The herbshop and smithy keepers have no bodies until 4E. 金疮药 cannot be
-  applied yet, and NPCs never flee a losing fight (`wimpy`). Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon
-  verbs are not modelled yet.
+* The drunk does not drink, the waiter does not greet and the shopkeepers cannot be asked (4E);
+  刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The travellers stay in the Inn
+  (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
+  corpses of NPCs that came back stay. Nothing can be dropped or put into the 功德箱 yet (4E).
+  柳绘心 (the study) and 桃符纸 (the temple) are not placed: she needs 封山剑法/乱七星步, the seals
+  combined items. The herbshop and smithy keepers have no bodies until 4E. 金疮药 cannot be applied
+  yet, and NPCs never flee a losing fight (`wimpy`) nor talk in one. Every weapon attacks with one
+  "slash" action and humans punch; ES2's per-weapon verbs are not modelled yet.
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.
 * The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.

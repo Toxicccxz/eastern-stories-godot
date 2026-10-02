@@ -25,6 +25,11 @@ func first_choice() -> String:
 	return _then
 
 
+## A value this rule can have drawn.
+func admits(value: String) -> bool:
+	return value == _then or value == _else
+
+
 ## Null-safe draw; returns null when the source answers out of range.
 func resolve(random_source: NpcInitializationRandomSource) -> Variant:
 	var draw: int = random_source.legacy_random(_bound)

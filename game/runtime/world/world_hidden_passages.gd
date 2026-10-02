@@ -45,6 +45,13 @@ func push(landmark: WorldLandmarkDefinition) -> HiddenPassagePushResult:
 	return result
 
 
+## weapon_storage.c reset(): delete("left_trigger") when the landmark's room resets.
+func reset_room(legacy_room: String) -> void:
+	for landmark_id: StringName in _states:
+		if GameContent.catalog().landmark(landmark_id).legacy_source_path == legacy_room:
+			_states[landmark_id].reset()
+
+
 ## close_passage() once the call_out's time has passed in the world. The close
 ## line is seen in the landmark's room (message("vision", ..., this_object())).
 func advance(delta: float) -> void:

@@ -39,6 +39,12 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 	return woke
 
 
+## An NPC the room replaced (room.c reset()) beats no more.
+func forget(character_id: StringName) -> void:
+	_cadences.erase(character_id)
+	_revive_remainder_ms.erase(character_id)
+
+
 func _count_down(npc: NpcRuntimeState, delta: float) -> bool:
 	var elapsed: float = _revive_remainder_ms.get(npc.character_id, 0.0) + delta * 1000.0
 	var whole: int = int(elapsed)

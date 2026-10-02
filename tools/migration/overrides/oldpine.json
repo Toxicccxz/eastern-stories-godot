@@ -88,7 +88,7 @@
 			"function do_climb": "climb: landmark in world.json"
 		},
 		"d/oldpine/npc/fat_bandit.c": {
-			"set chat_chance": "ambient talk (4D)",
+			"set chat_chance": "no chat_msg: npc.c chat() never fires outside a fight; nothing to port",
 			"set chat_msg_combat": "combat talk and call_for_help: later combat package",
 			"function call_for_help": "later combat package"
 		}

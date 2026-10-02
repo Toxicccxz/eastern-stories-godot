@@ -15,6 +15,10 @@
 			"carry": [
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
 				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 }
+			],
+			"chat_chance": 40,
+			"chat_msg": [
+				{ "action": "random_move" }
 			]
 		},
 		{
@@ -28,7 +32,15 @@
 			"attributes": { "str": 24, "cor": 26 },
 			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
 			"verbs": ["bite", "claw"],
-			"apply": { "attack": 10, "armor": 3 }
+			"apply": { "attack": 10, "armor": 3 },
+			"chat_chance": 6,
+			"chat_msg": [
+				{ "action": "random_move" },
+				"野狗用鼻子闻了闻你的脚。\n",
+				"野狗在你的脚边挨挨擦擦的，想讨东西吃。\n",
+				"野狗对著你摇了摇尾巴。\n",
+				"野狗用后腿抓了抓自己的耳朵。\n"
+			]
 		},
 		{
 			"id": "snow.npc.keeper",
@@ -39,7 +51,8 @@
 			"age": 74,
 			"long": "这个老人看起来七十多岁了，看著他□偻的身影，你忽然觉得心情沈重了下来。\n",
 			"combat_exp": 1,
-			"attitude": "friendly"
+			"attitude": "friendly",
+			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" }
 		},
 		{
 			"id": "snow.npc.drunk",
@@ -70,6 +83,13 @@
 			"carry": [
 				{ "item": "es2:obj/old_book", "source": "obj/old_book.c" },
 				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 }
+			],
+			"chat_chance": 20,
+			"chat_msg": [
+				"收破烂的吆喝道：收～破～烂～哪～\n",
+				"收破烂的嘴里嘟哝著，不知道说些什么。\n",
+				"收破烂的伸手捉住了身上的虱子，一脚踩得扁扁的。 \n",
+				{ "action": "random_move" }
 			],
 			"accept_fight": [
 				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
@@ -120,6 +140,11 @@
 			"attitude": "heroism",
 			"skills": { "unarmed": 30, "liuh-ken": 20, "dodge": 30 },
 			"skill_map": { "unarmed": "liuh-ken" },
+			"inquiry": {
+				"here": ["这里当然是淳风武馆，不然还是哪里？\n"],
+				"name": ["在下姓李，名字就叫火狮，人称李教头的便是我。\n"],
+				"柳家拳法": ["哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。\n"]
+			},
 			"accept_fight": [
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
@@ -155,7 +180,11 @@
 			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
 			"verbs": ["bite", "claw"],
 			"apply": { "attack": 15, "damage": 6, "armor": 2 },
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
 		},
 		{
 			"id": "snow.npc.teacher",
@@ -168,7 +197,18 @@
 			"long": "魏无极是个博学多闻的教书先生，他年轻时曾经中过举人，但是\n因为生性喜爱自由而不愿做官，魏无极以教书为业，如果你付他\n一笔学费，就可以成为他的弟子学习读书识字。\n",
 			"attributes": { "int": 26 },
 			"attitude": "peaceful",
-			"skills": { "literate": 60 }
+			"skills": { "literate": 60 },
+			"inquiry": {
+				"学费": [
+					"嗯 ... 读书识字是做人的第一步。",
+					"学好了读书识字的本领，胜过于百万的家财。",
+					"所以说学问是金钱买不到的。",
+					"虽然学问是无价的，不过如果你有心的话 ...",
+					"只要五两银子。"
+				],
+				"读书识字": ["对，读书识字。"],
+				"刘安禄": ["哦 ... 你是说野羊山寨的二寨主，人称血手刘三的刘安禄吗？", "他又出来做恶了？", "你带我去见他，让我跟他说几句话。"]
+			}
 		},
 		{
 			"id": "snow.npc.woodcutter",
@@ -183,6 +223,13 @@
 			"carry": [
 				{ "item": "es2:d/snow/obj/lumber_axe", "source": "d/snow/npc/obj/lumber_axe.c", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 15,
+			"chat_msg": [
+				"樵夫说道：野羊山那群臭道士真是该千刀万剐....\n",
+				"樵夫说道：不知道那些牛鼻子施了什么妖法，前天回家差点迷了路。\n",
+				"樵夫说道：唉....日子越来越不好过罗。\n",
+				{ "action": "random_move" }
 			]
 		},
 		{
@@ -199,7 +246,8 @@
 			"skills": { "literate": 70, "dodge": 50, "unarmed": 40 },
 			"carry": [
 				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 70 }
-			]
+			],
+			"inquiry": { "驿站": ["是啊... 这里就是雪亭驿，你要寄信吗？"] }
 		},
 		{
 			"id": "snow.npc.rat",
