@@ -700,7 +700,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "corpse selection disables Traverse")
 	_assert_false(controller.session.shared_ui().open_loot_is_enabled(), "Open Loot is disabled outside physical range")
 	_assert_true(controller.inspect_selected(), "corpse Inspect remains available outside loot range")
-	_assert_true(controller.session.shared_ui().inspection_display().contains("Contents: 2"), "corpse Inspect reads live content count")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("里面有2件物品"), "corpse Inspect reads live content count")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
@@ -778,7 +778,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(controller.player_runtime().state.equipment.primary_weapon().instance_id, player_primary.instance_id, "scene Take does not auto-wield short sword")
 	_assert_eq(controller.session.shared_ui().loot_rows().size(), 1, "panel rebuild removes taken sword row")
 	_assert_true(controller.inspect_selected(), "corpse remains inspectable after one Take")
-	_assert_true(controller.session.shared_ui().inspection_display().contains("Contents: 1"), "corpse Inspect count updates live from two to one")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("里面有1件物品"), "corpse Inspect count updates live from two to one")
 	if sword_take.busy_started:
 		controller.player_runtime().busy.advance()
 	_assert_true(controller.open_selected_loot(), "single shared frame returns from Inspect to Loot")
@@ -787,7 +787,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_eq(controller.stack_collection().stack_state(silver_id).amount, 3, "scene silver amount remains three")
 	_assert_true(controller.session.shared_ui().loot_rows().is_empty(), "panel rebuild shows empty corpse")
 	_assert_true(controller.inspect_selected(), "empty corpse remains inspectable")
-	_assert_true(controller.session.shared_ui().inspection_display().contains("Contents: 0"), "corpse Inspect count updates live from one to zero")
+	_assert_true(controller.session.shared_ui().inspection_display().contains("里面有0件物品"), "corpse Inspect count updates live from one to zero")
 	_assert_true(controller.inventory_state().is_registered(corpse.corpse_item_instance_id), "empty scene corpse remains live")
 	_assert_true(view.visible, "empty corpse remains visible")
 	_assert_eq(random.calls, 0, "Open/Take/merge consume zero Combat RNG")

@@ -141,7 +141,7 @@ func set_selected_corpse(
 	selected_target_label.text = (
 		""
 		if not _selected_corpse_available
-		else "%s的遗体 · %d件物品" % [victim_display_name, content_count]
+		else tr("%s的尸体 · %d件物品") % [victim_display_name, content_count]
 	)
 	refresh_live_state()
 
@@ -191,10 +191,8 @@ func show_item_inspection(display_name: String, description: String) -> void:
 
 func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	inspection_text.text = "Corpse of %s\nContents: %d" % [
-		victim_display_name,
-		content_count,
-	]
+	# chard.c make_corpse(): set_name(victim->name(1) + "的尸体").
+	inspection_text.text = tr("%s的尸体\n里面有%d件物品。") % [victim_display_name, content_count]
 
 
 func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:

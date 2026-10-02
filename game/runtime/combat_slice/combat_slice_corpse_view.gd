@@ -131,7 +131,7 @@ func _draw() -> void:
 	draw_string(
 		ThemeDB.fallback_font,
 		Vector2(-52.0, 31.0),
-		"%s's corpse" % _victim_display_name,
+		tr("%s的尸体") % _victim_display_name,
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1.0,
 		13,
