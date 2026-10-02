@@ -62,9 +62,11 @@ func _story(tree: SceneTree) -> void:
 	check(player.facts.display_name == "凌雪" and files.files.is_empty(), "the name from the form; birth never saves")
 	if not await _work(tree, hud, state):
 		return
+	if not await _buy(tree, hud, false):
+		return
 	if not await _exchange(tree, hud):
 		return
-	if not await _buy(tree, hud):
+	if not await _buy(tree, hud, true):
 		return
 	if not await _learn(tree, hud, state):
 		return
@@ -106,12 +108,10 @@ func _work(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> boo
 	return true
 
 
-## Silver alone buys no 15-coin dumpling, nor coins alone (feature/finance.c
-## can_afford() wants coins for price % 100 and a silver object for the rest, kept as
-## ES2 has it): down the street on foot to the bank and 兑换 one of the two silvers.
+## Up the street on foot to the bank and 兑换 one of the two silvers.
 func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
-	await _walker.walk_to(tree, _session, "move_left", 0, 0)
-	await _walker.walk_to(tree, _session, "move_down", -400, 1)
+	await _to_main_street(tree)
+	await _walker.walk_to(tree, _session, "move_up", -400, 1)
 	await _walker.walk_to(tree, _session, "move_left", -300, 0)
 	var map: WorldMapController = _map()
 	var bank: BankService = map.service(&"snow.bank.counter") as BankService
@@ -123,12 +123,14 @@ func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 	check(bank.last_result.conversion != null and Finance.amount(Finance.session_context(_session), CurrencyDenomination.Value.SILVER) == 1 and Finance.amount(Finance.session_context(_session), CurrencyDenomination.Value.COIN) > 0, "bank.c convert: coins for the silver: %s" % bank.panel.feedback.text)
 	hud.dismiss_current_panel()
 	await _settle(tree)
-	await _walker.walk_to(tree, _session, "move_right", 0, 0)
 	return true
 
 
-## Back to the Inn on foot; a dumpling from 店小二.
-func _buy(tree: SceneTree, hud: SharedGameplayUI) -> bool:
+## Back to the Inn on foot for a dumpling from 店小二. Two silvers buy none, nor would
+## coins alone: feature/finance.c can_afford() wants coins for price % 100 and a silver
+## object for the rest (kept as ES2 has it), and buy.c says so.
+func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
+	await _to_main_street(tree)
 	await _walker.walk_to(tree, _session, "move_down", 0, 1)
 	await _walk_until_map(tree, "move_left", &"snow.inn")
 	if not check(_session.active_map_id() == &"snow.inn", "back into the Inn through the square's west door"):
@@ -148,7 +150,10 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 	if not check(dumpling != null, "a 包子 on his list"):
 		return false
 	dumpling.pressed.emit()
-	check(shop.last_purchase.delivered and _money_value() == before - 15, "vendor.c: a 包子 for 15 coins: %d -> %d (%s)" % [before, _money_value(), shop.feedback.text])
+	if has_change:
+		check(shop.last_purchase.delivered and _money_value() == before - 15, "vendor.c: a 包子 for 15 coins: %d -> %d (%s)" % [before, _money_value(), shop.feedback.text])
+	else:
+		check(not shop.last_purchase.delivered and _money_value() == before and shop.feedback.text == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
 	hud.dismiss_current_panel()
 	await _settle(tree)
 	await _walk_until_map(tree, "move_right", &"snow.outdoor")
@@ -171,6 +176,17 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	var spent: int = state.progression.potential_spent
 	hall.ui.learn_buttons[&"unarmed"].pressed.emit()
 	check(state.progression.potential_spent == spent + 1 and state.essence.current < gin and hall.last_lines[0].begins_with("你向柳淳风请教"), "learn.c: a lesson in unarmed: %s" % [hall.last_lines])
+	hud.dismiss_current_panel()
+	await _settle(tree)
+	# Beside 李火狮 the school gate is in reach too; the nearer one, he, is the context.
+	check(_beside(map, &"snow.school2", &"snow.school2.fist_trainer.1") and map.can_operate_door(&"snow.school.gate"), "TEST-ONLY placement beside 李火狮, by the gate")
+	await _settle(tree)
+	check(map.interaction_title() == "李火狮 · 请教", "the context button offers his lessons, not the gate: " + map.interaction_title())
+	var yard: TeacherService = map.service(&"snow.outdoor.school2.fist_trainer") as TeacherService
+	hud.open_current_context()
+	if check(yard.ui.panel.visible, "李火狮's panel"):
+		yard.ui.learn_buttons[&"unarmed"].pressed.emit()
+		check(yard.last_lines[0] == "你向李火狮请教有关「基本拳脚」的疑问。", "李火狮 teaches a 封山剑派 student: %s" % [yard.last_lines])
 	hud.dismiss_current_panel()
 	await _settle(tree)
 	return true
@@ -371,6 +387,12 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 
 
 # --- Helpers -----------------------------------------------------------------------
+
+## Along the street to the main street's line (x = 0).
+func _to_main_street(tree: SceneTree) -> void:
+	var x: float = _map().runtime_player_body().global_position.x
+	await _walker.walk_to(tree, _session, "move_left" if x > 0.0 else "move_right", 0, 0)
+
 
 ## Passes world time as _process does each frame (one-second steps).
 func _pass(seconds: float) -> void:
