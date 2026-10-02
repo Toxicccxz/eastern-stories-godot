@@ -54,8 +54,11 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.resident_map_count() == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0), "every authored map resident, one active, only authored Snow NPCs")
 	for position: Vector2 in [Vector2(330,-1000),Vector2(170,-900),Vector2(470,-1100)]:
 		check(MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
-	for position: Vector2 in [Vector2(540,-1000),Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(580,-1000),Vector2(NAN,0)]:
+	for position: Vector2 in [Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(NAN,0)]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))
+	# 4B: east through the curtain is the storage room (hockshop2.c), another zone.
+	for position: Vector2 in [Vector2(540,-1000),Vector2(580,-1000)]:
+		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position) and MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop2", position), "storage room, not the shop " + str(position))
 	var mst3: Area2D = snow.get_node("Zones/MainStreet3") as Area2D
 	var original: Vector2 = mst3.position
 	mst3.position = Vector2(330,-1000)

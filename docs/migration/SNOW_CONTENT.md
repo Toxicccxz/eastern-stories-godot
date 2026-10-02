@@ -33,6 +33,8 @@ the code does not, and what each NPC cost. The data format and the importer are 
 - `school.c` describes a west door to a side room and `sroad2.c` an inn to the north; neither
   room has that exit.
 - `teacher.c`'s `学费`/`刘安禄` inquiry calls `follow_player`, whose body is commented out.
+- `crazy_dog.c` sets `chat_msg_combat` but no `chat_chance_combat`, so its fight lines and its
+  fleeing `random_move` never fire (`npc.c` `chat()`).
 - `smith.c` is no `F_VENDOR`: `list` does not work on him, and he sells a hammer worth 3 for 300
   through his own `buy_object()`.
 - `npc/herbalist.c` `heal_me()` stops after the 95% case; below that the NPC gives the default

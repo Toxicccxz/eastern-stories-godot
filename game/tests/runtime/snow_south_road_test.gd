@@ -36,7 +36,7 @@ func _test_rooms_and_text() -> void:
 	_check(catalog.room(&"es2:d/snow/sroad3").short == "青石官道" and catalog.room(&"es2:d/snow/school").short == "书院", "room titles verbatim")
 	_check(catalog.room(&"es2:d/snow/hockshop2").long.begins_with("这里是丰登当铺的储藏室"), "room text verbatim")
 	# Exits out of Snow stay closed: d/canyon and d/waterfog are not migrated.
-	_check(catalog.room(&"es2:d/snow/sroad4").exits().get("southwest") == &"es2:d/canyon/road" and catalog.zone(&"canyon.road") == null, "sroad4 southwest leads nowhere yet")
+	_check(catalog.room(&"es2:d/snow/sroad4").exits().get("southwest") == &"es2:d/canyon/road" and catalog.room(&"es2:d/canyon/road") == null, "sroad4 southwest leads nowhere yet")
 	_check(catalog.room(&"es2:d/snow/sroad5").exits().get("west") == &"es2:d/waterfog/sroad1" and catalog.portals_for_map(&"snow.outdoor").size() == 2, "sroad5 west leads nowhere yet; no new portal")
 	# herbshop1.c (药铺密室) has no entrance anywhere in the mudlib.
 	_check(catalog.room(&"es2:d/snow/herbshop1") == null, "the herbshop's secret room is not migrated")
@@ -72,6 +72,13 @@ func _test_every_zone_is_reachable_on_tiles(session: OldPineWorldSessionControll
 
 func _test_authored_facts(session: OldPineWorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"snow.outdoor")
+	# The dog's presence circle (the native "same room") reaches no player standing in sroad3 or sroad5.
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(&"snow.outdoor.sroad4.crazy_dog")
+	var dog_at: Vector2 = outdoor.resolve_spawn_marker(&"snow.sroad4.crazy_dog.1").global_position
+	for zone_id: StringName in [&"snow.sroad3", &"snow.sroad5"]:
+		var reach: Rect2 = _zone_rect(outdoor, zone_id).grow(17.0)
+		var nearest: Vector2 = dog_at.clamp(reach.position, reach.end)
+		_check(dog_at.distance_to(nearest) > spawn.presence_radius, "疯狗 cannot notice a player in %s (%.0f px)" % [zone_id, dog_at.distance_to(nearest)])
 	for point: int in [1, 2]:
 		var farmer: NpcRuntimeState = outdoor.find_resident_npc(StringName("snow.sroad2.farmer.%d.character" % point))
 		_check(farmer != null and farmer.definition().attitude == NpcDefinition.Attitude.FRIENDLY and farmer.armor.occupied_slots().size() == 2, "farmer %d wears raincoat and sandals" % point)
@@ -103,9 +110,10 @@ func _test_walk_the_south_road(tree: SceneTree, session: OldPineWorldSessionCont
 	await walker.walk_to(tree, session, "move_down", 760, 1)
 	_check(player.world_location().zone_id == &"snow.school", "south through the school door")
 	await walker.walk_to(tree, session, "move_up", 552, 1)
-	await walker.walk_to(tree, session, "move_left", -700, 0)
+	await walker.walk_to(tree, session, "move_left", -900, 0)
 	_check(player.world_location().zone_id == &"snow.sroad3", "on to the 青石官道")
-	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the crazy dog does not notice anyone in sroad3")
+	await tree.physics_frame
+	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the crazy dog does not notice anyone at sroad3's west end")
 	_check(walker._failures.is_empty(), "walked: " + str(walker._failures))
 	await walker.walk(tree, session, "move_left", 160)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -175,6 +183,15 @@ func _test_shops(tree: SceneTree) -> void:
 	_failures.append_array(walker._failures)
 	session.free()
 	await tree.process_frame
+
+
+func _zone_rect(map: WorldMapController, zone_id: StringName) -> Rect2:
+	for zone: WorldPhysicalZoneArea2D in map.find_children("*", "WorldPhysicalZoneArea2D", true, false):
+		if zone.zone_id == zone_id:
+			var shape: CollisionShape2D = zone.get_node("CollisionShape2D") as CollisionShape2D
+			var size: Vector2 = (shape.shape as RectangleShape2D).size
+			return Rect2(zone.position + shape.position - size / 2.0, size)
+	return Rect2()
 
 
 func _leave_inn(tree: SceneTree, session: OldPineWorldSessionController) -> void:

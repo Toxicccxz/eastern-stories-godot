@@ -11,7 +11,7 @@
 			"chicken leg": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)"
 		},
 		"d/snow/npc/herbalist.c": {
-			"snake drug": "蛇药 is a combined item (only money stacks) and cures snake_poison: treatment package"
+			"snake drug": "蛇药 is a combined item (only money stacks); each apply lowers snake_poison by 1 and uses one up: treatment package"
 		}
 	},
 	"set": {
@@ -127,12 +127,12 @@
 		"d/snow/npc/crazy_dog.c": {
 			"set chat_chance": "ambient talk and random_move (4D)",
 			"set chat_msg": "ambient talk and random_move (4D)",
-			"set chat_msg_combat": "combat talk: later combat package; its random_move is 4D"
+			"set chat_msg_combat": "never fires: crazy_dog.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port"
 		},
 		"d/snow/npc/teacher.c": {
 			"set inquiry": "ask (4D); follow_player is commented out in the LPC",
 			"function recognize_apprentice": "tuition and literate: give and teachers as data (4E)",
-			"function accept_object": "tuition (give 5 silver, marks/魏无极): give (4E)",
+			"function accept_object": "tuition: any object worth 500 or more marks the giver (marks/魏无极); once marked he accepts and keeps anything: give (4E)",
 			"function accept_learn": "tuition and literate: give and teachers as data (4E)"
 		},
 		"d/snow/npc/woodcutter.c": {
@@ -154,8 +154,8 @@
 			"set unwield_msg": "wield/unwield messages are not shown yet"
 		},
 		"obj/drug/hurt_drug.c": {
-			"function init": "敷药 (apply: eff_kee +20 outside a fight): treatment package",
-			"function apply_medicine": "敷药 (apply: eff_kee +20 outside a fight): treatment package"
+			"function init": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package",
+			"function apply_medicine": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package"
 		}
 	}
 }

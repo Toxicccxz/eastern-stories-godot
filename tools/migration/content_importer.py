@@ -772,10 +772,17 @@ class Importer:
         """`set("vendor_goods")` (feature/vendor.c), or goods read by hand from the
         vendor's own buy_object() (override `vendor_goods`: {key: {item, price}})."""
         path = source_path(path)
+        lpc_goods = self.corpus.get(path).sets().get('vendor_goods')
         if hand_read is not None:
+            if lpc_goods is not None:
+                raise ImportError_(f'vendor_goods {path}: the LPC sets vendor_goods; read it, not a hand list')
+            for key, entry in hand_read.items():
+                if (not isinstance(entry, dict) or set(entry) - {'item', 'price'} or not isinstance(entry.get('item'), str)
+                        or ('price' in entry and (type(entry['price']) is not int or entry['price'] < 1))):
+                    raise ImportError_(f'vendor_goods {path} {key!r}: expected {{"item": path, "price"?: integer >= 1}}')
             goods = {key: entry['item'] for key, entry in hand_read.items()}
         else:
-            goods = self.corpus.get(path).sets().get('vendor_goods')
+            goods = lpc_goods
         if not isinstance(goods, dict):
             raise ImportError_(f'{path}: no vendor_goods mapping')
         for key in set(skipped) - set(goods):

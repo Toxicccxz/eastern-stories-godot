@@ -50,6 +50,15 @@ class GeneratedDataTest(unittest.TestCase):
         # smith.c has no vendor_goods: its buy_object() asks 300 for a hammer worth 3.
         self.assertEqual(vendors['snow.vendor.smith']['goods'], [{'key': '铁锤', 'item': 'es2:d/snow/obj/hammer', 'price': 300}])
 
+    def test_hand_read_vendor_goods_are_checked(self) -> None:
+        importer = ci.Importer(ci.Corpus(), ci.DATA)
+        for entry in ({'price': 300}, {'item': 'd/snow/npc/obj/hammer.c', 'price': 0},
+                      {'item': 'd/snow/npc/obj/hammer.c', 'price': '300'}, {'item': 'd/snow/npc/obj/hammer.c', 'cost': 1}):
+            with self.subTest(entry=entry), self.assertRaises(ci.ImportError_):
+                importer.vendor('snow', 'd/snow/npc/smith.c', {}, {'铁锤': entry})
+        with self.assertRaises(ci.ImportError_):
+            importer.vendor('snow', 'd/snow/npc/herbalist.c', {}, {'medicine': {'item': 'obj/drug/hurt_drug.c'}})
+
 
 class ParserTest(unittest.TestCase):
     def test_create_facts_in_authored_order(self) -> None:

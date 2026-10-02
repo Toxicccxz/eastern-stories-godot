@@ -14,9 +14,11 @@ Package 4B, from the owner-approved plan:
   hammer worth 3), not `vendor_goods`: the override file holds such goods with their price, and
   a goods record may carry `price` (absent = the item's value, `feature/vendor.c`). The shop
   panel shows prices as `vendor.c`'s `price_string()` (3两银子, 15文钱); its button reads 购买.
-- **Deferred:** 蛇药 (a combined item that cures snake_poison) and applying 金疮药 (`apply`:
-  eff_kee +20 outside a fight) wait for the treatment package; the medicine can be bought and
-  sold. NPC wimpy (farmer, woodcutter) and combat talk wait for a later combat package; ask, chat
+  The smithy's panel lists the hammer too, although `smith.c` has no `list`: in ES2 the price
+  is learned by asking him (4D).
+- **Deferred:** 蛇药 (a combined item; each dose lowers snake_poison by 1) and applying 金疮药
+  (`apply`: refused in a fight or unhurt, restores up to 20 eff_kee, used up) wait for the
+  treatment package; the medicine can be bought and sold. NPC wimpy (farmer, woodcutter) and combat talk wait for a later combat package; ask, chat
   and random_move are 4D; 魏无极's tuition and literate are 4E.
 - **Omitted:** player mail (杜宽's 寄信/收信, the mailbox, `postoffice.c` `valid_leave`) is a
   multiplayer feature.

@@ -257,7 +257,7 @@ func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
 	_assert_false(host.request_pending(), "New Game completion releases request gate")
 	var session: OldPineWorldSessionController = host.current_session()
 	_assert_true(session != null and session.is_initialized(), "New Game commits initialized Session")
-	# Twelve bootstrap items plus the sixteen Snow NPCs carry (4A).
+	# Twelve bootstrap items plus what Snow's NPCs carry (sixteen in 4A, nine more in 4B).
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 37, "New Game retains twelve bootstrap items and twenty-five NPC loadout items")
 	_assert_true(host.session_invariant_holds(), "New Game satisfies committed invariant")
 	_assert_eq(host.staging_slot.get_child_count(), 0, "New Game leaks no staging candidate")
