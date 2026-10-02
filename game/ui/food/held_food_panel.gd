@@ -79,20 +79,28 @@ func request_eat() -> FoodUseResult:
 		return FoodUseResult.new()
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), _session.inventory_state(), _session.stack_collection(), _session.item_instance_index())
+	var food_name: String = _item_name(_ids[_select.selected])
 	last_result = HeldFoodUseService.eat(player, context, _session.food_collection(), GameContent.catalog().native_item_projections(), _ids[_select.selected], available())
+	# feature/food.c do_eat(), in its words.
 	match last_result.outcome:
 		FoodUseResult.Outcome.ATE:
-			_feedback.text = "吃了一份。食物：%d" % last_result.food_after
+			_feedback.text = (tr("你将剩下的%s吃得乾乾净净。") if last_result.cleanup != null else tr("你拿起%s咬了几口。")) % food_name
 		FoodUseResult.Outcome.TOO_FULL:
-			_feedback.text = "已经太饱了，吃不下。"
+			_feedback.text = tr("你已经吃太饱了，再也塞不下任何东西了。")
 		FoodUseResult.Outcome.NOT_DIRECT_HELD:
 			_feedback.text = "只能吃自己直接携带的食物。"
 		FoodUseResult.Outcome.COMBAT_BLOCKED:
 			_feedback.text = "战斗中暂不能吃东西。"
 		FoodUseResult.Outcome.BUSY:
-			_feedback.text = "上一个动作还没有完成。"
+			_feedback.text = tr("你上一个动作还没有完成。")
 		FoodUseResult.Outcome.AUTHORITY_FAILURE:
 			_feedback.text = "物品状态异常，请停止操作。"
 		_:
 			_feedback.text = "现在不能吃这个物品。"
 	return last_result
+
+
+func _item_name(id: StringName) -> String:
+	var item: ItemInstance = _session.item_instance_index().resolve(id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	return "" if content == null else content.display_name

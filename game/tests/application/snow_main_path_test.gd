@@ -18,11 +18,14 @@ var failures: Array[String] = []
 var _shell: ApplicationShellController
 var _session: OldPineWorldSessionController
 var _walker: RefCounted
+var _finished: bool = false
 
 
 func run_all(tree: SceneTree) -> Dictionary:
 	_walker = Work.new()
 	await _story(tree)
+	# A script error ends a step's coroutine without a failed check.
+	check(_finished, "the story ran to its end")
 	if is_instance_valid(_shell):
 		_shell.free()
 	await tree.process_frame
@@ -152,6 +155,13 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 	dumpling.pressed.emit()
 	if has_change:
 		check(shop.last_purchase.delivered and _money_value() == before - 15, "vendor.c: a 包子 for 15 coins: %d -> %d (%s)" % [before, _money_value(), shop.feedback.text])
+		hud.dismiss_current_panel()
+		await _settle(tree)
+		hud.open_supplies()
+		await _frames(tree, 2)
+		hud._food._eat.pressed.emit()
+		var eaten: FoodUseResult = hud._food.last_result
+		check(eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and hud._food._feedback.text == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + hud._food._feedback.text)
 	else:
 		check(not shop.last_purchase.delivered and _money_value() == before and shop.feedback.text == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
 	hud.dismiss_current_panel()
@@ -384,6 +394,7 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 	for map: WorldMapController in _session.world_maps():
 		corpses += map.corpse_states().size()
 	check(corpses >= 2, "the player's corpse on the west road and the bandits' in Old Pine: %d" % corpses)
+	_finished = true
 
 
 # --- Helpers -----------------------------------------------------------------------
