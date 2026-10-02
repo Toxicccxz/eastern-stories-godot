@@ -4,21 +4,23 @@ extends RefCounted
 ## longer): the player stays five minutes in every room in turn, knocks a trainee out,
 ## kills an NPC every half hour and sells a floor item, while rooms reset and NPCs
 ## wander, heal and come to. Each stay ends with a Save, restored and compared every
-## ten minutes; every forty minutes play goes on in the restored world, as after Continue. Nothing may
-## stall: fights end, nobody stays busy, out cold, mid-walk, dead past its room's reset
-## or away from home past it, no fight aborts and no script error is logged.
+## ten minutes; every hour play goes on in the restored world, as after Continue. Nothing
+## may stall: fights end, nobody stays busy, out cold, mid-walk, dead past its room's
+## reset or away from home past it, no fight aborts and no error is logged.
 ## TEST-ONLY: the player is strong enough to win every fight and is placed in each room
 ## instead of walking there (the windowed walkthrough walks them).
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const STAY_SECONDS: int = 300
 ## Every stay ends with a Save; every second one is restored and compared.
 const RESTORE_EVERY_STAYS: int = 2
-const SWAP_EVERY_STAYS: int = 8
+## Longer than a reset period and its slack, so an overdue reset shows before the
+## schedules start afresh with the restored world.
+const SWAP_EVERY_STAYS: int = 12
 const KILL_EVERY_STAYS: int = 6
 ## room.c: TIME_TO_RESET / 2 + random(TIME_TO_RESET / 2), at most the period.
 const RESET_SECONDS: int = 1800
-## A respawn or homecoming is due one reset period after it was first seen pending;
-## stays are five minutes, so it is checked one stay late.
+## A respawn or homecoming is due one reset period after it began; checks run at the
+## end of each five-minute stay, so one stay late.
 const RESET_SLACK_SECONDS: int = 2 * STAY_SECONDS
 ## damage.c revive: random(100 - con) + 30 seconds, at most 129.
 const OUT_COLD_SECONDS: int = 135
@@ -44,12 +46,13 @@ const VICTIMS: Array[Array] = [
 const SWORD_POINT: StringName = &"snow.weapon_storage.bamboo_sword.1"
 
 
-class ScriptErrors extends Logger:
+## Script errors and push_error() (a room reset that could not lay its item, say).
+class LoggedErrors extends Logger:
 	var _mutex: Mutex = Mutex.new()
 	var lines: Array[String] = []
 
 	func _log_error(_function: String, file: String, line: int, code: String, rationale: String, _editor_notify: bool, error_type: int, _script_backtraces: Array) -> void:
-		if error_type != ERROR_TYPE_SCRIPT:
+		if error_type != ERROR_TYPE_SCRIPT and error_type != ERROR_TYPE_ERROR:
 			return
 		_mutex.lock()
 		lines.append("%s:%d %s" % [file, line, rationale if not rationale.is_empty() else code])
@@ -82,11 +85,11 @@ var _restore_msec: int = 0
 
 func run_all(tree: SceneTree) -> Dictionary:
 	_tree = tree
-	var errors := ScriptErrors.new()
+	var errors := LoggedErrors.new()
 	OS.add_logger(errors)
 	await _soak()
 	OS.remove_logger(errors)
-	check(errors.lines.is_empty(), "no script error in %d world seconds: %s" % [_now, errors.lines.slice(0, 5)])
+	check(errors.lines.is_empty(), "no error logged in %d world seconds: %s" % [_now, errors.lines.slice(0, 5)])
 	check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted")
 	if is_instance_valid(_session):
 		_session.free()
@@ -102,8 +105,26 @@ func check(ok: bool, label: String) -> bool:
 	return ok
 
 
+## The heart beat's tick draws, seeded so a failing soak can be rerun.
+class SeededTicks extends RecoveryCadenceRandomSource:
+	var _random: RandomNumberGenerator = RandomNumberGenerator.new()
+
+	func _init(value: int) -> void:
+		_random.seed = value
+
+	func draw_reset_tick() -> int:
+		return 5 + _random.randi_range(0, 9)
+
+
 func _soak() -> void:
-	_session = Work.create_session(_tree)
+	_session = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	_session.configure_source_entry("雪工", CharacterState.GENDER_FEMALE)
+	_session.deterministic_combat_seed = true
+	_session.deterministic_npc_seed = true
+	_session.deterministic_world_interaction_seed = true
+	_session.configure_recovery_random_source(SeededTicks.new(1))
+	_session.configure_npc_random_sources(SeededTicks.new(2), GodotCombatRandomSource.new(3, true))
+	_tree.root.add_child(_session)
 	await _tree.process_frame
 	_session.set_process(false)
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
@@ -142,8 +163,7 @@ func _soak() -> void:
 			_restore_msec += Time.get_ticks_msec() - started
 	check(_fights >= stays / KILL_EVERY_STAYS, "the fights happened: %d" % _fights)
 	check(_knockouts >= 1 and _wakings >= _knockouts, "every knocked-out NPC came to: %d of %d" % [_wakings, _knockouts])
-	if hours <= 0.0:
-		check(_respawns >= 1 and _homecomings >= 1 and _sword_back, "rooms reset: %d respawns, %d homecomings, sword back %s" % [_respawns, _homecomings, _sword_back])
+	check(_respawns >= 1 and _homecomings >= 1 and _sword_back, "rooms reset: %d respawns, %d homecomings, sword back %s" % [_respawns, _homecomings, _sword_back])
 
 
 ## One stay's own action: the 竹剑 taken and sold, a knock-out, or a kill.
@@ -152,12 +172,13 @@ func _act(stay: int, room: StringName) -> void:
 	if room == &"snow.weapon_storage" and _sword_gone_at < 0:
 		var sword: StringName = ItemSpawnDefinition.item_instance_id(_session.item_id_allocator().scope, SWORD_POINT)
 		var view: WorldFloorItemView = map.floor_item_view(sword)
-		if view != null and _place(map, room, view.global_position + Vector2(0, 30)):
-			await _tree.physics_frame
-			check(map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
+		if not check(view != null and _place(map, room, view.global_position + Vector2(0, 30)), "beside the 竹剑 on its shelf"):
+			return
+		await _tree.physics_frame
+		check(map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
 		# Sold at once: room.c reset() lays it again only once it is gone (DECISIONS 4D).
 		var counter: HockshopService = map.service(&"snow.hockshop.counter") as HockshopService
-		if not _carries_sword() or not _place(map, &"snow.hockshop", map.physical_zone(&"snow.hockshop").global_rect().get_center()):
+		if not check(_carries_sword() and _place(map, &"snow.hockshop", map.physical_zone(&"snow.hockshop").global_rect().get_center()), "at the Hockshop counter with the 竹剑"):
 			return
 		await _tree.physics_frame
 		_session.shared_ui().open_current_context()
@@ -170,9 +191,11 @@ func _act(stay: int, room: StringName) -> void:
 			_sword_gone_at = _now
 	elif room == &"snow.school2":
 		var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.6")
-		if trainee != null and trainee.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and _beside(map, trainee):
+		check(trainee != null, "a trainee at school2's sixth marker")
+		if trainee != null and trainee.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			check(_beside(map, trainee), "beside the trainee")
 			map.select_npc(trainee.character_id)
-			if map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+			if check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the trainee spars"):
 				# TEST-ONLY: the blow that knocks it out (kee < 0).
 				trainee.character_state.vitality.current = -1
 				_knockouts += 1
@@ -182,7 +205,10 @@ func _act(stay: int, room: StringName) -> void:
 			return
 		map = _session.active_map() as WorldMapController
 		var npc: NpcRuntimeState = _npc(map, victim[0])
-		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and _beside(map, npc):
+		check(npc != null, "someone at %s" % victim[0])
+		# A victim still dead from an earlier stay waits for its room's reset.
+		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			check(_beside(map, npc), "beside %s" % victim[0])
 			await _tree.physics_frame
 			map.select_npc(npc.character_id)
 			check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter(), "attack %s" % victim[0])
@@ -205,6 +231,7 @@ func _pass(seconds: int) -> void:
 			_fights += 1
 			_fight_seconds = 0
 		_watch(not coordinator.has_active_encounter())
+		_track_resets()
 		if _stopped:
 			return
 		if second % 10 == 9:
@@ -249,9 +276,9 @@ func _settle_for_save() -> bool:
 	return check(false, "Save stayed closed at %s: %d" % [_where(), OldPineSaveEligibility.inspect(_session).outcome])
 
 
-## Dead NPCs come back and wanderers go home within a reset period of being seen so
-## (counted from Continue, which starts the schedules afresh); so does the 竹剑.
-func _check_resets() -> void:
+## Since when each spawn point's NPC has been dead, or away from home, every second on
+## every map (a wanderer may come home at a reset and leave again before a check).
+func _track_resets() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	for map: WorldMapController in _session.world_maps():
 		for npc: NpcRuntimeState in map.npc_runtimes():
@@ -262,13 +289,17 @@ func _check_resets() -> void:
 			elif not dead and _dead_since.has(point):
 				_dead_since.erase(point)
 				_respawns += 1
-			var home: StringName = catalog.spawn(npc.spawn_id).zone_id
-			var away: bool = not dead and npc.world_location().zone_id != home
+			var away: bool = not dead and npc.world_location().zone_id != catalog.spawn(npc.spawn_id).zone_id
 			if away and not _away_since.has(point):
 				_away_since[point] = _now
 			elif not away and _away_since.has(point):
 				_away_since.erase(point)
 				_homecomings += 1
+
+
+## Dead NPCs come back and wanderers go home within a reset period (counted from
+## Continue, which starts the schedules afresh); so does the 竹剑.
+func _check_resets() -> void:
 	for point: StringName in _dead_since:
 		check(_overdue(_dead_since[point]) == false, "%s never came back (dead since %d s)" % [point, _dead_since[point]])
 	for point: StringName in _away_since:
@@ -294,6 +325,8 @@ func _restore(snapshot: GameSaveSnapshot, swap: bool, room: StringName) -> bool:
 		await _tree.process_frame
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, _tree.root)
 	if not check(restored.succeeded(), "restore after %s: %s" % [room, restored.path]):
+		if is_instance_valid(restored.candidate):
+			restored.candidate.free()
 		return false
 	var fresh: OldPineWorldSessionController = restored.candidate
 	check(fresh.activate_restore_candidate(), "activate the restore after %s" % room)
