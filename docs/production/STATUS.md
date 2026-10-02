@@ -6,13 +6,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **New-player combat** (between 4A and 4B), two PRs:
 
-1. **Rules** (`phase/new-player-combat`): 切磋 (ES2 `fight`) with `npc.c` and per-NPC
-   `accept_fight`, armed spars that wound, NPCs healing and coming to between fights, the killer
-   taken from the last blow, a failed fight that ends instead of freezing, and the global
-   `random(n<=0)=0` rule.
-2. **Battle narration** (`phase/battle-narration`, stacked on 1): the battle panel in Chinese,
-   and the log in ES2's words: action, dodge, parry, damage, status, riposte, winner and guard
-   lines, seen from the player.
+1. **Rules** (merged, #37): 切磋 (ES2 `fight`) with `npc.c` and per-NPC `accept_fight`, armed
+   spars that wound, NPCs healing and coming to between fights, the killer taken from the last
+   blow, a failed fight that ends instead of freezing, and the global `random(n<=0)=0` rule.
+2. **Battle narration** (`phase/battle-narration`): the battle panel in Chinese, and the log in
+   ES2's words: action, dodge, parry, damage, status, riposte, winner and guard lines, seen from
+   the player.
 
 Then Package 4 goes on (see [ROADMAP](ROADMAP.md)): **4B** south road and shops (9 rooms) ·
 **4C** Inn upstairs, school inner rooms, secret storage (10 rooms) · **4D** ask, ambient talk,
