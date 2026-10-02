@@ -348,6 +348,7 @@ func _sell(tree: SceneTree, hud: SharedGameplayUI, sword: StringName) -> bool:
 	hud.open_current_context()
 	check(counter.panel.visible, "丰登当铺's panel")
 	counter.select_item(sword)
+	check(counter.selection.text == "短剑 · 未装备", "the sword by its name, no item ID: " + counter.selection.text)
 	counter.value_button.pressed.emit()
 	var price: int = 0 if counter.last_valuation == null else counter.last_valuation.actual_payout
 	check(price > 0, "hockshop.c 估价 the short sword: %d coins" % price)
@@ -362,6 +363,12 @@ func _sell(tree: SceneTree, hud: SharedGameplayUI, sword: StringName) -> bool:
 
 ## Pause → Save; a fresh shell's Continue restores the exact state.
 func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files: ShellTests.MemoryFiles) -> void:
+	var hud: SharedGameplayUI = _session.shared_ui()
+	hud.open_messages()
+	await _frames(tree, 3)
+	check(hud.combat_log.is_visible_in_tree() and hud.combat_log.size.y >= 300.0 and hud.combat_log.get_parsed_text().contains(hud.log_lines().back()), "消息 shows the log, up to its last line")
+	hud.dismiss_current_panel()
+	await _settle(tree)
 	check(_shell.request_pause(), "Pause")
 	var before: GameSaveSnapshot = Work.capture(_session)
 	if not check(before != null, "the whole journey captures"):
