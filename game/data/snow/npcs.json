@@ -70,6 +70,9 @@
 			"carry": [
 				{ "item": "es2:obj/old_book", "source": "obj/old_book.c" },
 				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 }
+			],
+			"accept_fight": [
+				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
 			]
 		},
 		{
@@ -116,7 +119,11 @@
 			"combat_exp": 3000,
 			"attitude": "heroism",
 			"skills": { "unarmed": 30, "liuh-ken": 20, "dodge": 30 },
-			"skill_map": { "unarmed": "liuh-ken" }
+			"skill_map": { "unarmed": "liuh-ken" },
+			"accept_fight": [
+				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
+				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
+			]
 		}
 	]
 }

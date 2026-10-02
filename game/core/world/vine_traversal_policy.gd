@@ -18,7 +18,6 @@ func _init(
 func evaluate(
 	effective_dodge: int,
 	random_source: WorldInteractionRandomSource,
-	source_entry_nonpositive_waterfall: bool = false,
 ) -> VineTraversalPolicyResult:
 	var result: VineTraversalPolicyResult = VineTraversalPolicyResult.new()
 	result._effective_dodge = effective_dodge
@@ -30,26 +29,11 @@ func evaluate(
 		or _waterfall_portal_id == _passage_portal_id
 	):
 		return result
-	result._reached_stage = VineTraversalPolicyResult.ReachedStage.RANDOM_BOUND
-	if effective_dodge <= 0:
-		# S6B owner Type B exception, explicitly opted in by SOURCE_ENTRY runtime.
-		# This is branch selection, not a simulated/clamped random draw.
-		if source_entry_nonpositive_waterfall:
-			result._outcome = VineTraversalPolicyResult.Outcome.WATERFALL_BRANCH
-			result._reached_stage = VineTraversalPolicyResult.ReachedStage.BRANCH_SELECTED
-			result._selected_branch = VineTraversalPolicyResult.Branch.WATERFALL
-			result._selected_portal_id = _waterfall_portal_id
-			return result
-		result._outcome = (
-			VineTraversalPolicyResult.Outcome.LEGACY_RANDOM_BOUND_AMBIGUITY
-		)
-		result._legacy_ambiguity = true
-		return result
-
 	result._reached_stage = VineTraversalPolicyResult.ReachedStage.RANDOM_DRAW
-	result._draw_performed = true
-	result._draw_value = random_source.next_below(effective_dodge)
-	if result._draw_value < 0 or result._draw_value >= effective_dodge:
+	# epath2.c: random(dodge) < 5; with no dodge random(0) is 0 (the waterfall).
+	result._draw_performed = effective_dodge > 0
+	result._draw_value = random_source.legacy_random(effective_dodge)
+	if effective_dodge > 0 and (result._draw_value < 0 or result._draw_value >= effective_dodge):
 		result._outcome = VineTraversalPolicyResult.Outcome.INVALID_RANDOM_DRAW
 		result._invalid_draw = true
 		return result

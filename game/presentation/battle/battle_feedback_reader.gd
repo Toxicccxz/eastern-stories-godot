@@ -26,6 +26,8 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 			return "Spar concluded — friendly combat has ended."
 		CombatEncounterResultKind.Value.FLED:
 			return "Escaped — combat ended. Move away to disengage from danger."
+		CombatEncounterResultKind.Value.ABORTED:
+			return TranslationServer.translate("战斗出错，已中止。")
 	return "Encounter ended — %s." % String(CombatEncounterResultKind.Value.keys()[receipt.terminal_result.kind]).capitalize()
 
 

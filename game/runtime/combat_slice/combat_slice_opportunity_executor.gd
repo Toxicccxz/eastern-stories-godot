@@ -6,6 +6,22 @@ static func initiate_lethal_combat(
 	initiator: CombatSliceCharacterBinding,
 	target: CombatSliceCharacterBinding,
 ) -> CombatSliceInitiationResult:
+	return _initiate(initiator, target, true)
+
+
+## cmds/std/fight.c, accepted: me->fight_ob(obj); obj->fight_ob(me). No kill marks.
+static func initiate_spar(
+	initiator: CombatSliceCharacterBinding,
+	target: CombatSliceCharacterBinding,
+) -> CombatSliceInitiationResult:
+	return _initiate(initiator, target, false)
+
+
+static func _initiate(
+	initiator: CombatSliceCharacterBinding,
+	target: CombatSliceCharacterBinding,
+	lethal: bool,
+) -> CombatSliceInitiationResult:
 	var result: CombatSliceInitiationResult = CombatSliceInitiationResult.new()
 	if initiator != null:
 		result._initiator_id = initiator.character_id
@@ -37,11 +53,9 @@ static func initiate_lethal_combat(
 		return result
 
 	result._first_mutation_attempted = true
-	result._first_mutation_changed = initiator.relationship.mark_lethal_target(
-		target.character_id
-	)
+	result._first_mutation_changed = _engage(initiator.relationship, target.character_id, lethal)
 	result._first_mutation_succeeded = (
-		initiator.relationship.has_lethal_target(target.character_id)
+		(not lethal or initiator.relationship.has_lethal_target(target.character_id))
 		and initiator.relationship.has_opponent(target.character_id)
 	)
 	if not result._first_mutation_succeeded:
@@ -49,11 +63,9 @@ static func initiate_lethal_combat(
 		return result
 
 	result._second_mutation_attempted = true
-	result._second_mutation_changed = target.relationship.mark_lethal_target(
-		initiator.character_id
-	)
+	result._second_mutation_changed = _engage(target.relationship, initiator.character_id, lethal)
 	result._second_mutation_succeeded = (
-		target.relationship.has_lethal_target(initiator.character_id)
+		(not lethal or target.relationship.has_lethal_target(initiator.character_id))
 		and target.relationship.has_opponent(initiator.character_id)
 	)
 	if not result._second_mutation_succeeded:
@@ -61,6 +73,11 @@ static func initiate_lethal_combat(
 		return result
 	result._outcome = CombatSliceInitiationResult.Outcome.COMPLETED
 	return result
+
+
+## kill_ob() marks a kill target (and fights it); fight_ob() only fights.
+static func _engage(relationship: CombatRelationshipState, target_id: StringName, lethal: bool) -> bool:
+	return relationship.mark_lethal_target(target_id) if lethal else relationship.add_opponent(target_id)
 
 
 static func execute_opportunity(

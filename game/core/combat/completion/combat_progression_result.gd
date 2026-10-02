@@ -18,21 +18,15 @@ enum FailureStage {
 	NONE,
 	INVALID_INPUT,
 	DODGE_DEFENDER_GIN_DIVISION,
-	DODGE_DEFENDER_RANDOM_BOUND,
 	DODGE_DEFENDER_RANDOM_DRAW,
-	DODGE_ATTACKER_EXP_RANDOM_BOUND,
 	DODGE_ATTACKER_EXP_RANDOM_DRAW,
-	DODGE_ATTACKER_SKILL_RANDOM_BOUND,
 	DODGE_ATTACKER_SKILL_RANDOM_DRAW,
 	DODGE_ATTACKER_SKILL_DEFINITION,
 	PARRY_DEFENDER_GIN_DIVISION,
-	PARRY_DEFENDER_RANDOM_BOUND,
 	PARRY_DEFENDER_RANDOM_DRAW,
 	HIT_ATTACKER_GIN_DIVISION,
-	HIT_ATTACKER_RANDOM_BOUND,
 	HIT_ATTACKER_RANDOM_DRAW,
 	HIT_ATTACKER_SKILL_DEFINITION,
-	HIT_DEFENDER_RANDOM_BOUND,
 	HIT_DEFENDER_RANDOM_DRAW,
 }
 
@@ -89,8 +83,6 @@ var _attacker_skill_improvement: SkillImprovementResult
 var _defender_skill_improvement: SkillImprovementResult
 var _attacker_skill_effect: SkillImprovementEffectResult
 var _defender_skill_effect: SkillImprovementEffectResult
-var _has_failed_random_bound: bool = false
-var _failed_random_bound: int = 0
 var _random_upper_bounds: Array[int] = []
 var _random_draws: Array[int] = []
 
@@ -187,12 +179,6 @@ var attacker_skill_effect: SkillImprovementEffectResult:
 var defender_skill_effect: SkillImprovementEffectResult:
 	get:
 		return _copy_effect(_defender_skill_effect)
-var has_failed_random_bound: bool:
-	get:
-		return _has_failed_random_bound
-var failed_random_bound: int:
-	get:
-		return _failed_random_bound
 
 
 func random_upper_bounds() -> Array[int]:
@@ -252,8 +238,6 @@ func duplicate_snapshot() -> CombatProgressionResult:
 	copy._defender_skill_improvement = _copy_improvement(_defender_skill_improvement)
 	copy._attacker_skill_effect = _copy_effect(_attacker_skill_effect)
 	copy._defender_skill_effect = _copy_effect(_defender_skill_effect)
-	copy._has_failed_random_bound = _has_failed_random_bound
-	copy._failed_random_bound = _failed_random_bound
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()
 	copy._random_draws = _random_draws.duplicate()
 	return copy

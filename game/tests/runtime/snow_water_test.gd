@@ -47,16 +47,15 @@ func vine_tests() -> void:
 	var policy: VineTraversalPolicy = VineTraversalPolicy.new(&"waterfall", &"passage")
 	for bound: int in [-1, 0]:
 		var rng: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([999])
-		var result: VineTraversalPolicyResult = policy.evaluate(bound, rng, true)
-		check(result.selected_portal_id == &"waterfall" and result.effective_dodge == bound and not result.draw_performed and rng.call_count() == 0, "owner Type B nonpositive branch without fabricated draw " + str(bound))
-		check(policy.evaluate(bound, rng).legacy_ambiguity and rng.call_count() == 0, "technical baseline unchanged")
+		var result: VineTraversalPolicyResult = policy.evaluate(bound, rng)
+		check(result.selected_portal_id == &"waterfall" and result.effective_dodge == bound and not result.draw_performed and rng.call_count() == 0, "random(n<=0) is 0: the waterfall without a draw " + str(bound))
 	for row: Array in [[1,0,"waterfall"], [5,4,"waterfall"], [6,4,"waterfall"], [6,5,"passage"]]:
 		var rng: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([row[1]])
-		var result: VineTraversalPolicyResult = policy.evaluate(row[0], rng, true)
+		var result: VineTraversalPolicyResult = policy.evaluate(row[0], rng)
 		check(result.selected_portal_id == StringName(row[2]) and rng.requested_bounds() == [row[0]] and rng.call_count() == 1, "epath2::random(dodge)<5 positive exact " + str(row))
 	for draw: int in [-1,6]:
 		var rng: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([draw])
-		check(policy.evaluate(6, rng, true).invalid_draw and rng.call_count() == 1, "invalid positive draw neither clamp nor retry")
+		check(policy.evaluate(6, rng).invalid_draw and rng.call_count() == 1, "invalid positive draw neither clamp nor retry")
 
 
 func funded(inv: InventoryState = null) -> Finance.Fixture:

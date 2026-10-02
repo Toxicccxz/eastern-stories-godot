@@ -70,9 +70,11 @@ func is_valid() -> bool:
 			or _attack_type == CombatAttackType.Value.RIPOSTE
 		)
 		and not _triggering_forward_action_id.is_empty()
-		and _random_bound > 0
-		and _random_draw >= 0
-		and _random_draw < _random_bound
+		# random(cps) with cps <= 0 is 0 (MudOS), drawn from nothing.
+		and (
+			(_random_bound <= 0 and _random_draw == 0)
+			or (_random_draw >= 0 and _random_draw < _random_bound)
+		)
 	)
 
 

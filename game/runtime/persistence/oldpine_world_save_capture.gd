@@ -149,6 +149,7 @@ func capture(
 				_location_snapshot(npc.world_location()),
 				_position_snapshot(body.global_position),
 				live_loadout_ids,
+				npc.revive_in_ms,
 			)
 		)
 

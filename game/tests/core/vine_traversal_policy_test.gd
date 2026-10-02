@@ -32,18 +32,11 @@ func _test_non_positive_bounds() -> void:
 			ScriptedWorldInteractionRandomSource.new([0])
 		)
 		var result: VineTraversalPolicyResult = _policy().evaluate(bound, random)
-		_assert_eq(
-			result.outcome,
-			VineTraversalPolicyResult.Outcome.LEGACY_RANDOM_BOUND_AMBIGUITY,
-			"non-positive bound is typed at the legacy random stage",
-		)
-		_assert_eq(result.reached_stage, VineTraversalPolicyResult.ReachedStage.RANDOM_BOUND, "ambiguity reaches bound stage only")
-		_assert_true(result.legacy_ambiguity, "ambiguity evidence retained")
+		_assert_eq(result.outcome, VineTraversalPolicyResult.Outcome.WATERFALL_BRANCH, "no dodge: random(n<=0) is 0 < 5, the waterfall")
 		_assert_false(result.draw_performed, "non-positive bound performs no draw")
 		_assert_eq(random.call_count(), 0, "non-positive bound consumes zero RNG")
-		_assert_eq(result.random_bound, bound, "original ambiguous bound retained")
-		_assert_eq(result.selected_branch, VineTraversalPolicyResult.Branch.NONE, "ambiguity selects no branch")
-		_assert_eq(result.selected_portal_id, &"", "ambiguity selects no portal")
+		_assert_eq(result.random_bound, bound, "original bound retained")
+		_assert_eq(result.selected_portal_id, WATERFALL_PORTAL, "the waterfall portal is selected")
 
 
 func _test_invalid_injected_draws() -> void:

@@ -239,18 +239,15 @@ static func learn(
 		+ student.progression.combat_experience / random_denominator
 	)
 	result.random_upper_bound = random_upper_bound
-	if random_upper_bound <= 0:
-		return _legacy_error(
-			result,
-			LearnResultType.FailureReason.LEGACY_NON_POSITIVE_RANDOM_BOUND,
-		)
 	# Runtime draws here, after spent and bound evaluation, never during a quote.
 	# Existing deterministic contexts remain testable without a runtime generator.
 	var improvement_roll: int = context.deterministic_improvement_roll
 	if improvement_random != null:
-		improvement_roll = improvement_random.next_below(random_upper_bound)
+		improvement_roll = improvement_random.legacy_random(random_upper_bound)
+	elif random_upper_bound <= 0:
+		improvement_roll = 0
 	result.deterministic_improvement_roll = improvement_roll
-	if (
+	if random_upper_bound > 0 and (
 		improvement_roll < 0
 		or improvement_roll >= random_upper_bound
 	):

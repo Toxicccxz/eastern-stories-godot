@@ -4,9 +4,11 @@ extends RefCounted
 ## S5B: owner-approved Native timing, NOT a proven ES2 wall-clock period.
 ## Source std/char.c: if (tick--) return; else tick = 5 + random(10).
 ## Runtime caller owns eligibility. This object owns no character, timer or Save.
+## NPCs run the same cadence (NpcHeartbeat) with is_player_character false.
 const BASE_PULSE_SECONDS: float = 2.0
 
 var _random: RecoveryCadenceRandomSource
+var _is_player_character: bool = true
 var _accumulator: float = 0.0
 var _source_tick: int = -1
 var _valid: bool = false
@@ -17,8 +19,9 @@ var source_tick: int:
 	get: return _source_tick
 
 
-func _init(random: RecoveryCadenceRandomSource) -> void:
+func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true) -> void:
 	_random = random
+	_is_player_character = is_player_character
 	if _random != null:
 		_source_tick = _random.draw_reset_tick()
 		_valid = _source_tick >= 5 and _source_tick <= 14
@@ -60,6 +63,6 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState) -> 
 			character.skills.raw_level(&"magic"), character.skills.raw_level(&"force"),
 			character.skills.raw_level(&"spells"),
 		)
-		result.last_update_count = CharacterRecovery.apply_tick(character, skills, true, false)
+		result.last_update_count = CharacterRecovery.apply_tick(character, skills, _is_player_character, false)
 		result.opportunities += 1
 	return result

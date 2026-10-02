@@ -44,7 +44,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _spar(tree)
 	await _player_terminal(tree)
 	_reverse_chain_boundary()
-	await _spar_mortal_failure(tree)
+	await _spar_mortal_wound(tree)
 	await _completion_return(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
@@ -201,15 +201,21 @@ func _reverse_chain_boundary() -> void:
 	_check(boundary.required != null and boundary.required.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_UNCONSCIOUS, "threshold only consumed after full reverse chain")
 	_check(random.call_count() == 15, "exact shared forward/reverse RNG count; no post-boundary draw")
 
-func _spar_mortal_failure(tree: SceneTree) -> void:
+func _spar_mortal_wound(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = _new_session(tree)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start(Multi.trigger(session, CombatEncounterMode.Value.SPAR, CombatTriggerCause.Value.PLAYER_SPAR, &"mortal-spar")).succeeded(), "mortal SPAR setup")
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_state.vitality.effective = -1
-	coordinator.advance_scheduler(100)
-	_check(coordinator.resolution().failure == CombatEncounterResolution.Failure.SPAR_MORTAL_WOUND, "armed-friendly death conflict explicitly blocked")
-	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().is_empty() and coordinator.has_active_encounter() and not session.world_simulation_gate().is_open(), "no SPAR corpse/clamp/false completion")
-	_check(not OldPineSaveEligibility.inspect(session).allowed(), "unresolved SPAR cannot save")
+	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+	npc.character_state.vitality.effective = -1
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 100:
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	# char.c heart_beat: eff_kee < 0 dies, spar or not (an armed spar's wound).
+	_check(npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "a mortal wound in a spar kills")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 1, "the dead leave a corpse")
+	_check(not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "the spar ends and the world returns")
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no abort")
 	session.free()
 	await _settle(tree, 2)
 
@@ -356,14 +362,17 @@ func _failure(tree: SceneTree) -> void:
 	session.configure_combat_random_source(random)
 	coordinator.advance_scheduler(100)
 	_check(coordinator.resolution().failure == CombatEncounterResolution.Failure.LIFECYCLE_FAILED, "partial death typed failure")
-	_check(coordinator.has_active_encounter() and not session.world_simulation_gate().is_open(), "failure retains frozen encounter")
-	_check(coordinator.active_encounter().phase == CombatEncounterLifecycle.Value.RESOLVING and coordinator.active_encounter().terminal_result == null, "no false Victory")
-	_check(not OldPineSaveEligibility.inspect(session).allowed() and map.lifecycle_is_pending(), "partial Save blocked")
+	_check(CombatEncounterCoordinator.take_aborted_total() == 1, "the failure aborts the fight once")
+	_check(not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "the aborted fight releases the world")
+	_check(coordinator.last_completion() != null and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.ABORTED, "aborted, no false Victory")
+	_check(coordinator.last_abort_detail().begins_with("failure=LIFECYCLE_FAILED"), "the abort records its cause")
+	_check(not session.player_runtime().relationship.has_opponent(npc.character_id) and not npc.relationship.has_opponent(session.player_runtime().character_id), "both sides disengage")
+	_check(not OldPineSaveEligibility.inspect(session).allowed() and map.lifecycle_is_pending(), "a partial death still blocks Save")
 	var count: int = map.corpse_states().size()
 	coordinator.advance_scheduler(100)
 	_check(random.calls == 0 and map.corpse_states().size() == count, "partial mutation never automatically retried")
-	_check(not Multi.finish(session), "external completion cannot thaw failed lifecycle")
-	_check(coordinator.active_encounter().queued_player_action() == null and tactics.events()[-1].kind == CombatTacticalEvent.Kind.CANCELLED, "failed resolution clears single queue with cancellation")
+	_check(not Multi.finish(session), "nothing is left to complete")
+	_check(tactics.events()[-1].kind == CombatTacticalEvent.Kind.CANCELLED, "the abort cancels the queued action")
 	var event_count: int = tactics.events().size()
 	coordinator.advance_scheduler(100)
 	_check(tactics.events().size() == event_count, "failure cancellation cannot repeat")

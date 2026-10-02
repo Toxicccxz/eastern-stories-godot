@@ -49,6 +49,7 @@ var _weapon_resolver: WorldWeaponContentResolver = WorldWeaponContentResolver.ne
 var _last_player_content_resolution: WorldWeaponContentResolution
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
+var _npc_heartbeat: NpcHeartbeat
 var _last_landmark_use: RefCounted
 var _last_passage_traversal: RefCounted
 
@@ -868,20 +869,40 @@ func lifecycle_is_pending() -> bool:
 
 ## Map-owned physical publication; rules remain in the existing lifecycle/death
 ## services. Encounter calls this only at its synchronous outer boundary.
-func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
+func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], last_hitter_id: StringName = &"") -> CombatSliceLifecycleResult:
 	if _lifecycle_failed:
 		return CombatSliceLifecycleResult.new()
 	# Read before the lifecycle clears lethal relations and moves the body.
 	var is_player: bool = _player != null and victim.character_id == _player.character_id
-	var has_killer: bool = _find_killer(victim, participants) != null
+	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants, last_hitter_id)
 	var location: WorldLocationState = _location_for_character(victim.character_id)
-	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants)
+	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
 	if not receipt.completed():
 		_lifecycle_failed = true
 	elif is_player and session != null:
-		session.on_player_lifecycle(receipt, has_killer, location)
+		session.on_player_lifecycle(receipt, killer != null, location)
+	elif receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and session != null:
+		# damage.c unconcious(): call_out("revive", random(100 - con) + 30).
+		var npc: NpcRuntimeState = find_resident_npc(victim.character_id)
+		if npc != null:
+			npc.set_revive_in_ms(1000 * UnconsciousReviveDelay.seconds(npc.character_state.attributes.constitution, session.npc_revive_random_source()))
 	return receipt
+
+
+## One step of NPC heart_beat time (NpcHeartbeat); the session decides when it flows.
+func advance_npc_heartbeat(delta: float) -> void:
+	if not _initialized or session == null:
+		return
+	if _npc_heartbeat == null:
+		_npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
+	for npc: NpcRuntimeState in _npc_heartbeat.advance(delta, npc_runtimes()):
+		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+		if body != null:
+			body.refresh_runtime_state()
+		# combatd.c announce("revive"), heard in the same room.
+		if _player != null and npc.world_location().zone_id == _player.world_location().zone_id:
+			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % npc.definition().display_name])
 
 
 ## A corpse lies where its body fell. It is wider than the body, so beside a wall it is
@@ -896,11 +917,10 @@ func _corpse_position(death_position: Vector2, death_location: WorldLocationStat
 	return death_position
 
 
-func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceLifecycleResult:
+func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], killer: CombatSliceCharacterBinding) -> CombatSliceLifecycleResult:
 	var body: WorldCharacterBody2D = runtime_body_for_character(victim.character_id)
 	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
 	var death_location: WorldLocationState = _location_for_character(victim.character_id)
-	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants)
 	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
 	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
 	if not allocation.succeeded:
@@ -1051,7 +1071,13 @@ func _world_destination_for(character_id: StringName) -> InventoryTransferDestin
 	)
 
 
-static func _find_killer(victim: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding]) -> CombatSliceCharacterBinding:
+## damage.c die(): the killer is last_damage_from, whoever hit the victim last,
+## fight or kill. Without a hit in hand (a fall settled later) a participant
+## holding a kill mark on either side stands in.
+static func _find_killer(victim: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding], last_hitter_id: StringName = &"") -> CombatSliceCharacterBinding:
+	for candidate: CombatSliceCharacterBinding in participants:
+		if candidate != victim and not last_hitter_id.is_empty() and candidate.character_id == last_hitter_id:
+			return candidate
 	for candidate: CombatSliceCharacterBinding in participants:
 		if candidate != victim and (candidate.relationship.has_lethal_target(victim.character_id) or victim.relationship.has_lethal_target(candidate.character_id)):
 			return candidate
@@ -1217,6 +1243,63 @@ func attack_selected() -> CombatSliceInitiationResult:
 		_hud().append_log_lines([tr("这里不准战斗。")])
 		return CombatSliceInitiationResult.new()
 	return _initiate_lethal_combat(_player.character_id, target.character_id, "Attack initiated against %s" % target.definition().display_name)
+
+
+## cmds/std/fight.c for the selected NPC: ask a speaking character to spar; it
+## accepts or refuses (NpcSparConsent). Beasts are not asked (no button).
+func spar_selected() -> CombatSliceInitiationResult:
+	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
+	if target == null or not target.definition().can_speak():
+		return CombatSliceInitiationResult.new()
+	var catalog: ContentCatalog = GameContent.catalog()
+	var name: String = target.definition().display_name
+	if catalog.zone_forbids_fighting(_player.world_location().zone_id):
+		_hud().append_log_lines([tr("这里禁止战斗。")])
+		return CombatSliceInitiationResult.new()
+	# present(arg, environment(me)): only someone in the same place can be asked.
+	if not target.world_location().shares_combat_location(_player.world_location()):
+		_hud().append_log_lines([tr("你想攻击谁？")])
+		return CombatSliceInitiationResult.new()
+	if target.relationship.has_opponent(_player.character_id):
+		_hud().append_log_lines([tr("加油！加油！加油！")])
+		return CombatSliceInitiationResult.new()
+	if target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		_hud().append_log_lines([tr("%s已经无法战斗了。") % name])
+		return CombatSliceInitiationResult.new()
+	var player_state: CharacterState = _player.state
+	var lines: Array[String] = [tr("你对著%s说道：%s%s，领教%s的高招！") % [
+		name, tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
+		_player.facts.display_name, tr(RankWords.query_respect(target.character_state.gender, target.age, &"")),
+	]]
+	var consent: NpcSparConsent = NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
+		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
+	))
+	var result := CombatSliceInitiationResult.new()
+	if consent.accepted:
+		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+		result = session.combat_encounter_coordinator().start_production(
+			CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
+			CombatSliceProjectionBuilder.find_binding(participants, target.character_id),
+			CombatTriggerCause.Value.PLAYER_SPAR,
+		)
+	var started: bool = result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED
+	if consent.accepted and not started:
+		# Accepted, yet this encounter model cannot hold the fight (e.g. someone
+		# else's fight marks): say no rather than accept into nothing.
+		if OS.is_debug_build():
+			push_warning("Spar with %s accepted but not started: %s" % [target.character_id, CombatSliceInitiationResult.Outcome.find_key(result.outcome)])
+	else:
+		for line: NpcSparConsent.Line in consent.lines:
+			var text: String = tr(line.text).replace("$RESPECT", tr(consent.respect)).replace("$SELF", tr(consent.npc_self))
+			lines.append(name + text if line.emote else tr("%s说道：%s") % [name, text])
+	if not started:
+		lines.append(tr("看起来%s并不想跟你较量。") % name)
+	elif not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty():
+		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
+		# blade draws blood. Native hint; ES2 says nothing here.
+		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
+	_hud().append_log_lines(lines)
+	return result
 
 
 func open_selected_loot() -> bool:

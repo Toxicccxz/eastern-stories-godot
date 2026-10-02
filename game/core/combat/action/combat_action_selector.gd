@@ -57,7 +57,7 @@ static func select_action(
 			action_set.size(),
 		)
 
-	var selected_index: int = random_source.next_below(action_set.size())
+	var selected_index: int = random_source.legacy_random(action_set.size())
 	if selected_index < 0 or selected_index >= action_set.size():
 		return CombatActionSelectionResult.new(
 			CombatActionSelectionResult.Outcome.RANDOM_DRAW_OUT_OF_RANGE,

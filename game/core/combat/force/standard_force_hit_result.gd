@@ -11,9 +11,7 @@ enum Outcome {
 enum FailureStage {
 	NONE,
 	INVALID_INPUT,
-	REFLECTION_RANDOM_BOUND,
 	REFLECTION_RANDOM_DRAW,
-	NORMAL_RANDOM_BOUND,
 	NORMAL_RANDOM_DRAW,
 }
 
@@ -40,8 +38,6 @@ var _force_damage_before_armor: int
 var _force_damage_after_armor: int
 var _armor_subtraction_reached: bool
 var _numeric_contribution: int
-var _failed_random_bound: int
-var _has_failed_random_bound: bool
 var _attacker_threshold_candidate: int = CombatAttackResult.ThresholdCandidate.NOT_OBSERVED
 var _reflection_mutation: StandardForceReflectionMutationResult
 var _random_upper_bounds: Array[int] = []
@@ -83,12 +79,6 @@ var armor_subtraction_reached: bool:
 var numeric_contribution: int:
 	get:
 		return _numeric_contribution
-var failed_random_bound: int:
-	get:
-		return _failed_random_bound
-var has_failed_random_bound: bool:
-	get:
-		return _has_failed_random_bound
 var attacker_threshold_candidate: int:
 	get:
 		return _attacker_threshold_candidate
@@ -127,8 +117,6 @@ func duplicate_snapshot() -> StandardForceHitResult:
 	copy._force_damage_after_armor = _force_damage_after_armor
 	copy._armor_subtraction_reached = _armor_subtraction_reached
 	copy._numeric_contribution = _numeric_contribution
-	copy._failed_random_bound = _failed_random_bound
-	copy._has_failed_random_bound = _has_failed_random_bound
 	copy._attacker_threshold_candidate = _attacker_threshold_candidate
 	copy._reflection_mutation = _reflection_mutation.duplicate_snapshot()
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()

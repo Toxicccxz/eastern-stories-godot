@@ -98,13 +98,6 @@ static func _apply_dodge(
 		if defender.essence.maximum == 0:
 			_fail(result, CombatProgressionResult.FailureStage.DODGE_DEFENDER_GIN_DIVISION)
 			return
-		if defender_bound <= 0:
-			_fail_bound(
-				result,
-				CombatProgressionResult.FailureStage.DODGE_DEFENDER_RANDOM_BOUND,
-				defender_bound,
-			)
-			return
 		var defender_draw: int = _draw(result, random_source, defender_bound)
 		if not _valid_draw(defender_draw, defender_bound):
 			_fail(result, CombatProgressionResult.FailureStage.DODGE_DEFENDER_RANDOM_DRAW)
@@ -131,13 +124,6 @@ static func _apply_dodge(
 	result._reached_stage = CombatProgressionResult.ReachedStage.ATTACKER_CONDITION_EVALUATED
 	if result._attacker_condition_matched:
 		var attacker_bound: int = attacker_facts.base_intelligence
-		if attacker_bound <= 0:
-			_fail_bound(
-				result,
-				CombatProgressionResult.FailureStage.DODGE_ATTACKER_EXP_RANDOM_BOUND,
-				attacker_bound,
-			)
-			return
 		var exp_draw: int = _draw(result, random_source, attacker_bound)
 		if not _valid_draw(exp_draw, attacker_bound):
 			_fail(result, CombatProgressionResult.FailureStage.DODGE_ATTACKER_EXP_RANDOM_DRAW)
@@ -148,13 +134,6 @@ static func _apply_dodge(
 		if result._attacker_first_roll_succeeded:
 			attacker.progression.combat_experience += 1
 
-		if attacker_bound <= 0:
-			_fail_bound(
-				result,
-				CombatProgressionResult.FailureStage.DODGE_ATTACKER_SKILL_RANDOM_BOUND,
-				attacker_bound,
-			)
-			return
 		var skill_draw: int = _draw(result, random_source, attacker_bound)
 		if not _valid_draw(skill_draw, attacker_bound):
 			_fail(result, CombatProgressionResult.FailureStage.DODGE_ATTACKER_SKILL_RANDOM_DRAW)
@@ -199,13 +178,6 @@ static func _apply_parry(
 			defender.essence,
 			defender_facts.base_intelligence,
 		)
-		if defender_bound <= 0:
-			_fail_bound(
-				result,
-				CombatProgressionResult.FailureStage.PARRY_DEFENDER_RANDOM_BOUND,
-				defender_bound,
-			)
-			return
 		var defender_draw: int = _draw(result, random_source, defender_bound)
 		if not _valid_draw(defender_draw, defender_bound):
 			_fail(result, CombatProgressionResult.FailureStage.PARRY_DEFENDER_RANDOM_DRAW)
@@ -256,13 +228,6 @@ static func _apply_hit(
 			attacker.essence,
 			attacker_facts.base_intelligence,
 		)
-		if attacker_bound <= 0:
-			_fail_bound(
-				result,
-				CombatProgressionResult.FailureStage.HIT_ATTACKER_RANDOM_BOUND,
-				attacker_bound,
-			)
-			return
 		var attacker_draw: int = _draw(result, random_source, attacker_bound)
 		if not _valid_draw(attacker_draw, attacker_bound):
 			_fail(result, CombatProgressionResult.FailureStage.HIT_ATTACKER_RANDOM_DRAW)
@@ -287,13 +252,6 @@ static func _apply_hit(
 			result._reached_stage = CombatProgressionResult.ReachedStage.HIT_ATTACKER_MUTATION_COMPLETED
 
 	var defender_bound: int = defender.vitality.maximum + defender.vitality.current
-	if defender_bound <= 0:
-		_fail_bound(
-			result,
-			CombatProgressionResult.FailureStage.HIT_DEFENDER_RANDOM_BOUND,
-			defender_bound,
-		)
-		return
 	var defender_draw: int = _draw(result, random_source, defender_bound)
 	if not _valid_draw(defender_draw, defender_bound):
 		_fail(result, CombatProgressionResult.FailureStage.HIT_DEFENDER_RANDOM_DRAW)
@@ -324,14 +282,15 @@ static func _draw(
 	random_source: CombatRandomSource,
 	bound: int,
 ) -> int:
-	result._random_upper_bounds.append(bound)
-	var draw: int = random_source.next_below(bound)
-	result._random_draws.append(draw)
+	var draw: int = random_source.legacy_random(bound)
+	if bound > 0:
+		result._random_upper_bounds.append(bound)
+		result._random_draws.append(draw)
 	return draw
 
 
 static func _valid_draw(draw: int, bound: int) -> bool:
-	return draw >= 0 and draw < bound
+	return bound <= 0 or (draw >= 0 and draw < bound)
 
 
 static func _improve_attacker(
@@ -412,16 +371,6 @@ static func _snapshot_after(
 static func _fail(result: CombatProgressionResult, stage: int) -> void:
 	result._outcome = CombatProgressionResult.Outcome.INVALID_SOURCE_STATE
 	result._failure_stage = stage
-
-
-static func _fail_bound(
-	result: CombatProgressionResult,
-	stage: int,
-	bound: int,
-) -> void:
-	result._has_failed_random_bound = true
-	result._failed_random_bound = bound
-	_fail(result, stage)
 
 
 static func _complete(result: CombatProgressionResult) -> void:

@@ -66,12 +66,6 @@ static func resolve(
 		return _complete_numeric(-input.damage_bonus, result)
 
 	var bound: int = input.attacker_effective_force_skill_level
-	if bound <= 0:
-		return _invalid_bound(
-			bound,
-			StandardForceHitResult.FailureStage.NORMAL_RANDOM_BOUND,
-			result,
-		)
 	var draw: int = _draw(bound, random_source, result)
 	if not _is_valid_draw(draw, bound):
 		result._failure_stage = StandardForceHitResult.FailureStage.NORMAL_RANDOM_DRAW
@@ -94,12 +88,6 @@ static func _resolve_reflection_check(
 	result: StandardForceHitResult,
 ) -> StandardForceHitResult:
 	var bound: int = input.defender_effective_force_skill_level
-	if bound <= 0:
-		return _invalid_bound(
-			bound,
-			StandardForceHitResult.FailureStage.REFLECTION_RANDOM_BOUND,
-			result,
-		)
 	var draw: int = _draw(bound, random_source, result)
 	if not _is_valid_draw(draw, bound):
 		result._failure_stage = StandardForceHitResult.FailureStage.REFLECTION_RANDOM_DRAW
@@ -162,30 +150,20 @@ static func _complete_numeric(
 	return result
 
 
-static func _invalid_bound(
-	bound: int,
-	stage: int,
-	result: StandardForceHitResult,
-) -> StandardForceHitResult:
-	result._failure_stage = stage
-	result._failed_random_bound = bound
-	result._has_failed_random_bound = true
-	return result
-
-
 static func _draw(
 	bound: int,
 	random_source: CombatRandomSource,
 	result: StandardForceHitResult,
 ) -> int:
-	result._random_upper_bounds.append(bound)
-	var draw: int = random_source.next_below(bound)
-	result._random_draws.append(draw)
+	var draw: int = random_source.legacy_random(bound)
+	if bound > 0:
+		result._random_upper_bounds.append(bound)
+		result._random_draws.append(draw)
 	return draw
 
 
 static func _is_valid_draw(draw: int, bound: int) -> bool:
-	return draw >= 0 and draw < bound
+	return bound <= 0 or (draw >= 0 and draw < bound)
 
 
 static func _threshold_candidate(

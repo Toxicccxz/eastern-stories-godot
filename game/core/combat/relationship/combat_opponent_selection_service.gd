@@ -68,7 +68,7 @@ static func prepare(
 		return result
 	result._selection_random_attempted = true
 	result._random_upper_bounds.append(MAX_OPPONENT_SELECTION)
-	var draw: int = random_source.next_below(MAX_OPPONENT_SELECTION)
+	var draw: int = random_source.legacy_random(MAX_OPPONENT_SELECTION)
 	result._selection_random_draw = draw
 	result._random_draws.append(draw)
 	if draw < 0 or draw >= MAX_OPPONENT_SELECTION:

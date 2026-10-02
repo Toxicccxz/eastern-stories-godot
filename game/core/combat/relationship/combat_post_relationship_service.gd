@@ -119,7 +119,7 @@ static func apply(
 		return result
 	result._winner_random_attempted = true
 	result._winner_random_upper_bounds.append(WINNER_PRESENTATION_COUNT)
-	var draw: int = random_source.next_below(WINNER_PRESENTATION_COUNT)
+	var draw: int = random_source.legacy_random(WINNER_PRESENTATION_COUNT)
 	result._winner_random_draw = draw
 	result._winner_random_draws.append(draw)
 	if draw < 0 or draw >= WINNER_PRESENTATION_COUNT:

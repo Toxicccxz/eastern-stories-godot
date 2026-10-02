@@ -48,6 +48,9 @@ var _source_name: String = ""
 var _source_gender: StringName = &""
 var _recovery_random: RecoveryCadenceRandomSource
 var _player_recovery_cadence: PlayerRecoveryCadence
+## Transient NPC streams (not in Save): heal ticks and revive delays.
+var _npc_recovery_random: RecoveryCadenceRandomSource
+var _npc_revive_random: CombatRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
 
@@ -86,6 +89,7 @@ func liquid_collection() -> LiquidCollection:
 func _process(delta: float) -> void:
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	advance_player_recovery(delta)
+	advance_npc_heartbeat(delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
 	_advance_life_flow(delta)
@@ -141,6 +145,48 @@ func player_recovery_time_allowed() -> bool:
 		and location != null and location.map_id == _active_map_id
 		and map.runtime_player_body() != null and map.runtime_player_body().is_inside_tree()
 	)
+
+
+## Test injection before initialization; production draws from fresh generators.
+func configure_npc_random_sources(recovery: RecoveryCadenceRandomSource, revive: CombatRandomSource) -> bool:
+	if recovery == null or revive == null or _initialized:
+		return false
+	_npc_recovery_random = recovery
+	_npc_revive_random = revive
+	return true
+
+
+func npc_recovery_random_source() -> RecoveryCadenceRandomSource:
+	if _npc_recovery_random == null:
+		_npc_recovery_random = GodotRecoveryCadenceRandomSource.new()
+	return _npc_recovery_random
+
+
+func npc_revive_random_source() -> CombatRandomSource:
+	if _npc_revive_random == null:
+		_npc_revive_random = GodotCombatRandomSource.new()
+	return _npc_revive_random
+
+
+## NPC heart_beat time flows when the world does and no fight runs; the player's
+## own life state does not matter (NPCs heal while the player lies unconscious).
+func npc_world_time_allowed() -> bool:
+	return (
+		_initialized and _world_content_revision == WorldContentRevision.CURRENT_PUBLIC
+		and application_gameplay_allows_encounter_advance()
+		and can_process() and not _restore_candidate_staged
+		and not _session_swap_reparenting and not _transitioning
+		and _world_simulation_gate != null and _world_simulation_gate.is_open()
+		and _combat_encounter_coordinator != null and not _combat_encounter_coordinator.has_active_encounter()
+	)
+
+
+func advance_npc_heartbeat(delta: float) -> void:
+	if not npc_world_time_allowed():
+		return
+	var map: WorldMapController = active_map() as WorldMapController
+	if map != null and map.is_inside_tree() and map.can_process():
+		map.advance_npc_heartbeat(delta)
 
 
 func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:

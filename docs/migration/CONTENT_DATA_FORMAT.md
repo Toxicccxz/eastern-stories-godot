@@ -61,12 +61,13 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `attributes` | `set("str")` … | keys `str cor int spi cps per con kar` |
 | `resources` | `set("max_kee")` … | keys `gin kee sen` with `eff_` / `max_` variants |
 | `combat_exp`, `score` | `set(...)` | |
-| `attitude` | `set("attitude")` | `peaceful` (default), `friendly`, `heroism` or `aggressive`; only `aggressive` acts yet |
+| `attitude` | `set("attitude")` | `peaceful` (default), `friendly`, `heroism` or `aggressive`; decides spars (`npc.c accept_fight`) and aggression |
 | `skills` | `set_skill(id, level)` | object, authored order kept |
 | `skill_map` | `map_skill(use, skill)` | `{use: skill}`; the skill must be in `skills` |
 | `carry` | `carry_object(path)->wield()/wear()`, `add_money(id, n)` | `{item, source, amount?, equip?: "wield"\|"wear"}`; `source` is the path the NPC file names |
 | `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge` |
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
+| `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept}`; the first matching rule decides; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
 
 `age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
 is `600+random(400)`, `"minus_random"` subtracts. `gender` may be

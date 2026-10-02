@@ -54,12 +54,8 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	var portals: Array[StringName] = landmark.portal_ids()
 	result._policy_result = VineTraversalPolicy.new(portals[0], portals[1]).evaluate(
 		result._effective_dodge, random_source,
-		session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC,
 	)
 	result._reached_stage = VineTraversalResult.ReachedStage.POLICY
-	if result._policy_result.outcome == VineTraversalPolicyResult.Outcome.LEGACY_RANDOM_BOUND_AMBIGUITY:
-		result._outcome = VineTraversalResult.Outcome.POLICY_AMBIGUITY
-		return result
 	if result._policy_result.outcome == VineTraversalPolicyResult.Outcome.INVALID_RANDOM_DRAW:
 		result._outcome = VineTraversalResult.Outcome.POLICY_INVALID_DRAW
 		return result

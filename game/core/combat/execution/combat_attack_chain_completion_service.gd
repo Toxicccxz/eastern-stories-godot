@@ -226,7 +226,7 @@ static func _is_coherent_request(
 		or not forward.victim_guarding_before_clear
 		or forward.victim_guarding_after_clear
 		or not forward.riposte_random_reached
-		or not forward.riposte_random_attempted
+		or forward.riposte_random_attempted != (forward.riposte_random_bound > 0)
 		or not forward.post_action_reached
 		or forward.post_action_policy_present
 	):

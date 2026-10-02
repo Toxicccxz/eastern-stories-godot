@@ -668,9 +668,11 @@ func _test_legacy_error_boundaries_and_partial_mutation() -> void:
 		_context(SkillIdsScript.SWORD, 20),
 		SkillDefinitionScript.Type.KNOWLEDGE,
 	)
-	_assert_failure(bound_result, LearnResultScript.FailureReason.LEGACY_NON_POSITIVE_RANDOM_BOUND, "non-positive random upper bound is explicit")
-	_assert_eq(non_positive_bound.progression.potential_spent, 1, "random-bound error keeps earlier potential increment")
-	_assert_eq(non_positive_bound.essence.current, 100, "random-bound error occurs before gin damage")
+	# random(n<=0) is 0, so the lesson reaches improve_skill(); a negative int then
+	# makes the gin cost negative, which receive_damage() rejects in the LPC.
+	_assert_failure(bound_result, LearnResultScript.FailureReason.LEGACY_NEGATIVE_STUDENT_ESSENCE_DAMAGE, "non-positive random bound passes the draw")
+	_assert_eq(bound_result.deterministic_improvement_roll, 0, "random(n<=0) improves by zero")
+	_assert_eq(non_positive_bound.progression.potential_spent, 1, "the lesson still spends its potential")
 
 	var denominator_zero: CharacterStateScript = _student(SkillIdsScript.SWORD, 1)
 	denominator_zero.progression.combat_experience = -1_000_000

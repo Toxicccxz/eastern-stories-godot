@@ -57,7 +57,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_negative_unarmed_reflection_boundaries()
 	_test_reflection_mutation_and_threshold()
 	_test_nonnegative_and_post_armor_paths()
-	_test_policy_invalid_random_bounds()
+	_test_policy_zero_random_bounds()
 	_test_resolver_entry_and_provider_routing()
 	_test_resolver_armor_separation()
 	_test_resolver_order_and_later_failures()
@@ -279,7 +279,7 @@ func _test_nonnegative_and_post_armor_paths() -> void:
 	_assert_eq(post_armor_negative.outcome, StandardForceHitResultScript.Outcome.NO_NUMERIC_EFFECT, "nonnegative draw cannot be less than negative force damage")
 
 
-func _test_policy_invalid_random_bounds() -> void:
+func _test_policy_zero_random_bounds() -> void:
 	var reflection_force: CharacterInternalResourceStateScript = _force(5)
 	var reflection_invalid: StandardForceHitResultScript = _policy(
 		_force_input(5, 10, false, 10, 0, 250, 0),
@@ -287,10 +287,10 @@ func _test_policy_invalid_random_bounds() -> void:
 		_resource(),
 		[],
 	)
-	_assert_eq(reflection_invalid.failure_stage, StandardForceHitResultScript.FailureStage.REFLECTION_RANDOM_BOUND, "invalid defender force bound stops at reflection random")
-	_assert_eq(reflection_force.current, 0, "reflection bound failure retains prior force deduction")
-	_assert_true(reflection_invalid.has_failed_random_bound, "reflection bound failure records attempted bound")
-	_assert_eq(reflection_invalid.failed_random_bound, 0, "reflection failed bound is exact")
+	_assert_eq(reflection_invalid.failure_stage, StandardForceHitResultScript.FailureStage.NONE, "zero defender force bound: random(0) is 0, no failure")
+	_assert_true(reflection_invalid.outcome != StandardForceHitResultScript.Outcome.REFLECTION, "random(0) = 0 <= attacker force / 2: no reflection")
+	_assert_eq(reflection_force.current, 0, "the force deduction stands")
+	_assert_eq(reflection_invalid.random_upper_bounds(), [], "zero bound draws nothing")
 
 	var normal_force: CharacterInternalResourceStateScript = _force(50)
 	var normal_invalid: StandardForceHitResultScript = _policy(
@@ -299,8 +299,8 @@ func _test_policy_invalid_random_bounds() -> void:
 		_resource(),
 		[],
 	)
-	_assert_eq(normal_invalid.failure_stage, StandardForceHitResultScript.FailureStage.NORMAL_RANDOM_BOUND, "invalid attacker force bound stops at normal random")
-	_assert_eq(normal_force.current, 40, "normal bound failure retains prior force deduction")
+	_assert_eq(normal_invalid.failure_stage, StandardForceHitResultScript.FailureStage.NONE, "zero attacker force bound: random(0) is 0, no failure")
+	_assert_eq(normal_force.current, 40, "the force deduction stands")
 
 	var reflection_draw_force: CharacterInternalResourceStateScript = _force(5)
 	var reflection_draw_invalid: StandardForceHitResultScript = _policy(

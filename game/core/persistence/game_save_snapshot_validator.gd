@@ -110,6 +110,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			if loadout_id.is_empty(): return _invalid("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index], "empty item ID")
 			if loadout_ids.has(loadout_id): return _duplicate("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index])
 			loadout_ids[loadout_id] = true
+		if npc.revive_in_ms < 0 or (npc.revive_in_ms > 0 and npc.life_status != &"unconscious"): return _invalid("npc_spawn_states[%d].revive_in_ms" % index, "a revive is pending only while unconscious")
 		var npc_result: GameSaveResult = _validate_runtime_character(npc.character, npc.life_status, npc.exists_in_world, npc.world_location, npc.map_position, "npc_spawn_states[%d]" % index)
 		if not npc_result.succeeded(): return npc_result
 	var corpse_ids: Dictionary[StringName, bool] = {}

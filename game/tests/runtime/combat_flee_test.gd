@@ -186,10 +186,9 @@ func _armed_spar(tree: SceneTree) -> void:
 			if index != armed_index:
 				Multi._unarm(actors[index].equipment)
 		var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-		_check(coordinator.start(trigger).outcome == CombatEncounterStartResult.Outcome.SPAR_WEAPON_NOT_ALLOWED, "reject each armed SPAR participant, including noncurrent hostile")
-		_check(not actors[armed_index].equipment.is_primary_hand_empty() and session.world_simulation_gate().is_open() and not coordinator.has_active_encounter(), "rejection never unwields, freezes or starts")
-		Multi._unarm(actors[armed_index].equipment)
-		_check(coordinator.start(trigger).succeeded(), "all empty primary hands accepted")
+		# fight.c lets anyone spar with a weapon in hand; combatd.c then wounds.
+		_check(coordinator.start(trigger).succeeded(), "an armed SPAR participant is accepted")
+		_check(not actors[armed_index].equipment.is_primary_hand_empty(), "starting a spar never unwields")
 		session.free()
 		await _settle(tree, 2)
 

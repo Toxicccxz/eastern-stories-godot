@@ -96,6 +96,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_live_weapon_and_action_source()
 	_test_primary_secondary_weapon_semantics()
 	_test_reverse_outcomes_and_no_second_riposte()
+	_test_zero_composure_riposte()
 	_test_failure_partial_mutations_and_post_action()
 	_test_result_immutability_and_scope()
 	return {
@@ -701,6 +702,22 @@ func _test_reverse_outcomes_and_no_second_riposte() -> void:
 	_assert_false(winner_result.reverse_post_action_reached, "winner failure stops before reverse post_action")
 
 
+## random(cps) with cps 0 is 0 < 5: a QUICK reverse attack without a riposte draw,
+## and the chain accepts that request.
+func _test_zero_composure_riposte() -> void:
+	var bundle: Dictionary = _forward_bundle(ForwardBranch.DODGE_QUICK, [0, 0, 0], false, true, null, 0, 0)
+	var forward: CombatSingleAttackExecutionResult = bundle["forward"]
+	_assert_eq(forward.outcome, ForwardResultScript.Outcome.REVERSE_ATTACK_REQUIRED, "zero cps still asks for a reverse attack")
+	_assert_false(forward.riposte_random_attempted, "random(0) draws nothing")
+	_assert_eq(forward.riposte_request.attack_type, AttackTypeScript.Value.QUICK, "random(0) = 0 < 5 is QUICK")
+	bundle["attacker_relationship"].set_guarding(true)
+	var action: CombatActionDefinition = _action(&"zero-cps-quick")
+	var input: CombatAttackInput = _reverse_input(bundle, action)
+	var result: CombatAttackChainResult = ChainServiceScript.complete(forward, _projection(bundle, input, _default_selection(action)), bundle["rng"])
+	_assert_eq(result.outcome, ChainResultScript.Outcome.REVERSE_COMPLETE, "the chain completes the zero-cps reverse attack")
+	_assert_eq(result.combined_random_upper_bounds().size(), bundle["rng"].call_count(), "every actual draw is recorded once, none for random(0)")
+
+
 func _test_failure_partial_mutations_and_post_action() -> void:
 	var selection_failure: Dictionary = _forward_bundle(ForwardBranch.DODGE_QUICK)
 	var action: CombatActionDefinition = _action(&"unused")
@@ -899,9 +916,12 @@ func _forward_bundle(
 	guarding: bool = true,
 	victim_primary_before: EquippedWeaponRef = null,
 	victim_vitality_damage_before: int = 0,
+	attacker_composure: int = -1,
 ) -> Dictionary:
 	var attacker: CharacterState = _character(1)
 	var victim: CharacterState = _character(1)
+	if attacker_composure >= 0:
+		attacker.attributes.composure = attacker_composure
 	if victim_primary_before != null:
 		_assert_true(victim.equipment.wield(victim_primary_before, false).succeeded, "test equips pre-forward victim primary")
 	if victim_vitality_damage_before != 0:
@@ -917,7 +937,7 @@ func _forward_bundle(
 		draws.assign([0, 0, 0, 0, 51, 4])
 	else:
 		draws.assign([0, 0, 0, 0])
-		if guarding:
+		if guarding and attacker_composure != 0:
 			draws.append(4)
 	draws.append_array(reverse_draws)
 	var rng: ScriptedCombatRandomSource = ScriptedRandomScript.new(draws)
