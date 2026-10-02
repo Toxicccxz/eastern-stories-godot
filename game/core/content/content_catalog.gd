@@ -264,6 +264,11 @@ func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
 	return result
 
 
+## The zone holding an ES2 room, or null when the room is not migrated.
+func zone_of_room(room_id: StringName) -> ZoneDefinition:
+	return _zones.get(_zone_of_room.get(room_id, &""))
+
+
 ## Two zones touch when a room of one has an ES2 exit into a room of the other.
 func zones_adjacent(from_zone_id: StringName, to_zone_id: StringName) -> bool:
 	if from_zone_id == to_zone_id:

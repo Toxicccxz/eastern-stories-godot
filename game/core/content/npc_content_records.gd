@@ -56,6 +56,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var fight_rules: Array[NpcFightRule] = []
 	for rule: ContentRecordReader in reader.children("accept_fight"):
 		fight_rules.append(_fight_rule(rule))
+	var talk: NpcTalk = _talk(reader)
 	reader.finish()
 	var definition: NpcDefinition = NpcDefinition.new(
 		StringName(definition_id),
@@ -77,10 +78,40 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk)
 	if not definition.is_valid():
-		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry or random values)")
+		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry, random values or talk)")
 	return definition
+
+
+## `inquiry` {topic: [lines]}, `chat_chance` with `chat_msg` [line | {"action": "random_move"}]
+## and `greeting` {"say"}.
+static func _talk(reader: ContentRecordReader) -> NpcTalk:
+	var inquiry: Dictionary[String, PackedStringArray] = {}
+	var topics: ContentRecordReader = reader.child("inquiry")
+	if topics != null:
+		for topic: String in topics.keys():
+			inquiry[topic] = PackedStringArray(topics.text_list(topic))
+		topics.finish()
+	var entries: Array = []
+	for entry: Variant in reader.strings_or_children("chat_msg"):
+		if entry is String:
+			entries.append(entry)
+			continue
+		var action: ContentRecordReader = entry
+		if action.required_text("action") != String(NpcTalk.RANDOM_MOVE):
+			action.fail("action", "only random_move is data")
+		action.finish()
+		entries.append(NpcTalk.RANDOM_MOVE)
+	var chance: int = reader.integer("chat_chance")
+	if reader.has("chat_chance") != reader.has("chat_msg"):
+		reader.fail("chat_chance", "chat_chance and chat_msg come together")
+	var greeting: String = ""
+	var greet: ContentRecordReader = reader.child("greeting")
+	if greet != null:
+		greeting = greet.required_text("say")
+		greet.finish()
+	return NpcTalk.new(inquiry, chance, entries, greeting)
 
 
 static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition:

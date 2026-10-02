@@ -25,6 +25,9 @@
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
 			]
+		},
+		"snow.npc.keeper": {
+			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" }
 		}
 	},
 	"spawn_skip": {
@@ -63,47 +66,39 @@
 			"statement in create()": "bulletin board: multiplayer feature, omitted",
 			"objects": "柳淳风 (CLASS_D swordsman master): teacher service in world.json"
 		},
-		"d/snow/npc/traveller.c": {
-			"set chat_chance": "ambient talk and random_move (4D)",
-			"set chat_msg": "ambient talk and random_move (4D)"
-		},
 		"d/snow/npc/dog.c": {
-			"set chat_chance": "ambient talk and random_move (4D)",
-			"set chat_msg": "ambient talk and random_move (4D)",
 			"function accept_object": "give a bone, it follows: give (4E)"
 		},
 		"d/snow/npc/keeper.c": {
-			"function init": "greeting on arrival (4D)",
-			"function greeting": "greeting on arrival (4D)",
+			"function init": "greeting (set snow.npc.keeper)",
+			"function greeting": "greeting (set snow.npc.keeper)",
 			"function accept_object": "donations: give (4E)"
 		},
 		"d/snow/npc/drunk.c": {
-			"set chat_chance": "ambient behaviour (4D)",
-			"set chat_msg": "do_drink as ambient behaviour (4D)",
-			"statement in create()": "has_alcohol belongs to do_drink/accept_object (4D, 4E)",
-			"function do_drink": "ambient behaviour (4D)",
+			"set chat_chance": "do_drink: with give and drop (4E); the emptied wineskin is dropped and he asks for wine, which only give answers",
+			"set chat_msg": "do_drink: with give and drop (4E); the emptied wineskin is dropped and he asks for wine, which only give answers",
+			"statement in create()": "has_alcohol belongs to do_drink/accept_object (4E)",
+			"function do_drink": "with give and drop (4E)",
 			"function accept_object": "give alcohol, quest hints: give (4E)"
 		},
 		"d/snow/npc/scavenger.c": {
 			"set force": "internal power is not modelled yet (ROADMAP)",
 			"set max_force": "internal power is not modelled yet (ROADMAP)",
 			"set force_factor": "internal power is not modelled yet (ROADMAP)",
-			"set chat_chance": "ambient talk and random_move (4D)",
-			"set chat_msg": "ambient talk and random_move (4D)",
 			"function accept_object": "takes anything: give (4E)",
 			"function accept_fight": "accept_fight rules (set snow.npc.scavenger)"
 		},
 		"d/snow/npc/guard.c": {
 			"set chat_chance_combat": "combat talk: later combat package",
 			"set chat_msg_combat": "combat talk: later combat package",
-			"set inquiry": "ask (4D); the 血手刘三 reveal is 4E",
-			"function ask_me": "the 血手刘三 reveal (4E)"
+			"inquiry 刘老三": "the 血手刘三 reveal: not listed until it is ported; then the asker's combat_exp gates it, not the NPC's own (owner, DECISIONS 4D)",
+			"inquiry 血手刘三": "the 血手刘三 reveal: not listed until it is ported; then the asker's combat_exp gates it, not the NPC's own (owner, DECISIONS 4D)",
+			"function ask_me": "the 血手刘三 reveal: later (DECISIONS 4D)"
 		},
 		"d/snow/npc/fist_trainer.c": {
 			"set force": "internal power is not modelled yet (ROADMAP)",
 			"set max_force": "internal power is not modelled yet (ROADMAP)",
 			"set force_factor": "internal power is not modelled yet (ROADMAP)",
-			"set inquiry": "ask (4D)",
 			"function recognize_apprentice": "teaches 封山剑派 members: teachers as data (4E)",
 			"function accept_fight": "accept_fight rules (set snow.npc.fist_trainer); command(\"nod\") shown as 点了点头。 (data/emoted.o is not in the mudlib)"
 		},
@@ -123,19 +118,15 @@
 			"set chat_msg_combat": "combat talk and its surrender: later combat package"
 		},
 		"d/snow/npc/crazy_dog.c": {
-			"set chat_chance": "ambient talk and random_move (4D)",
-			"set chat_msg": "ambient talk and random_move (4D)",
 			"set chat_msg_combat": "never fires: crazy_dog.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port"
 		},
 		"d/snow/npc/teacher.c": {
-			"set inquiry": "ask (4D); follow_player is commented out in the LPC",
+			"inquiry 刘安禄": "ask.c ignores a function in an answer; follow_player's body is commented out in the LPC",
 			"function recognize_apprentice": "tuition and literate: give and teachers as data (4E)",
 			"function accept_object": "tuition: any object worth 500 or more marks the giver (marks/魏无极); once marked he accepts and keeps anything: give (4E)",
 			"function accept_learn": "tuition and literate: give and teachers as data (4E)"
 		},
 		"d/snow/npc/woodcutter.c": {
-			"set chat_chance": "ambient talk and random_move (4D)",
-			"set chat_msg": "ambient talk and random_move (4D)",
 			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package"
 		},
 		"d/snow/obj/lumber_axe.c": {
@@ -143,7 +134,8 @@
 			"set unwield_msg": "wield/unwield messages are not shown yet"
 		},
 		"d/snow/npc/post_officer.c": {
-			"set inquiry": "ask (4D); 寄信/收信 hand out a mailbox: player mail is a multiplayer feature, omitted",
+			"inquiry 寄信": "hands out a mailbox: player mail is a multiplayer feature, omitted",
+			"inquiry 收信": "hands out a mailbox: player mail is a multiplayer feature, omitted",
 			"function send_mail": "player mail is a multiplayer feature, omitted",
 			"function receive_mail": "player mail is a multiplayer feature, omitted"
 		},
@@ -166,7 +158,7 @@
 			"function do_push": "push: the shelf landmark's hidden_passage policy (HiddenPassageState)",
 			"function check_trigger": "push: the shelf landmark's hidden_passage policy (HiddenPassageState)",
 			"function close_passage": "the call_out on world time (WorldHiddenPassages); does not close on a player below (DECISIONS 4C)",
-			"function reset": "delete(\"left_trigger\") on room reset (4D)"
+			"function reset": "room reset clears the shelf's push count (WorldRoomResets, DECISIONS 4D)"
 		},
 		"d/snow/obj/bamboo_sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",

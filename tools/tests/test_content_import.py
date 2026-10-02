@@ -167,6 +167,39 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(lpc.findings, ['condition in create(): clonep() branch does more than set_default_object'])
 
 
+class TalkTest(unittest.TestCase):
+    """npc.c chat() and ask.c answers become data only when every part of them is data."""
+
+    def setUp(self) -> None:
+        self.importer = ci.Importer(ci.Corpus(), ci.DATA)
+
+    def talk(self, source: str) -> tuple[dict, set[str]]:
+        sets, record = parse(source).sets(), {}
+        handled = self.importer.chat('d/test/npc/sample.c', sets, record)
+        handled |= self.importer.inquiry('d/test/npc/sample.c', sets, record)
+        return record, handled
+
+    def test_chat_lines_and_random_move(self) -> None:
+        record, handled = self.talk('void create() { set("chat_chance", 6); set("chat_msg", ({ (: random_move :), "x\\n" })); }')
+        self.assertEqual(record, {'chat_chance': 6, 'chat_msg': [{'action': 'random_move'}, 'x\n']})
+        self.assertEqual(handled, {'chat_chance', 'chat_msg'})
+
+    def test_chat_with_another_function_or_without_lines_stays_a_finding(self) -> None:
+        for source in ('void create() { set("chat_chance", 10); set("chat_msg", ({ (: do_drink :), "x" })); }',
+                       'void create() { set("chat_chance", 10); }'):
+            with self.subTest(source=source):
+                record, handled = self.talk(source)
+                self.assertEqual((record, handled), ({}, set()))
+
+    def test_inquiry_answers_keep_strings_only(self) -> None:
+        record, handled = self.talk('''void create() { set("inquiry", ([
+            "here": "a\\n", "学费": ({ "b", 0, "c" }), "刘安禄": ({ "d", (: follow_player :) }), "寄信": (: send_mail :) ])); }''')
+        self.assertEqual(record, {'inquiry': {'here': ['a\n'], '学费': ['b', 'c'], '刘安禄': ['d']}})
+        self.assertEqual(handled, {'inquiry'})
+        self.assertEqual([(f.key, f.detail) for f in self.importer.findings],
+                         [('inquiry 刘安禄', '(: follow_player :)'), ('inquiry 寄信', '(: send_mail :)')])
+
+
 class OutputTest(unittest.TestCase):
     def test_fields_inline_until_too_wide(self) -> None:
         text = ci.render('spawns', [{'id': 'a', 'points': ['x' * 50, 'y' * 50], 'exits': {'north': 'b'}}])
