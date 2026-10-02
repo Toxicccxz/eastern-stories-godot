@@ -57,26 +57,30 @@ func _ready() -> void:
 func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"") -> void:
 	_participant_id = value.participant_id
 	target_button.disabled = not value.targetable
-	target_button.tooltip_text = "Select target: " + value.display_name if value.targetable else "Not targetable"
-	_title.text = value.display_name + (" · You" if value.participant_id == player_id else " · Current Target" if value.participant_id == current_id else " · Hostile" if value.hostile_to_player else " · Participant")
-	_title.tooltip_text = "%s\n%s" % [_title.text, value.participant_id]
+	target_button.tooltip_text = tr("选为目标：%s") % value.display_name if value.targetable else tr("不能选为目标")
+	var role: String = tr("你") if value.participant_id == player_id else tr("当前目标") if value.participant_id == current_id else tr("对手") if value.hostile_to_player else tr("参战")
+	_title.text = value.display_name + " · " + role
+	_title.tooltip_text = _title.text
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
 	if get_theme_stylebox("panel") != border:
 		add_theme_stylebox_override("panel", border)
 	_vitality.max_value = maxf(1, value.vitality.maximum) # Visual scale only; text retains exact values.
 	_vitality.value = value.vitality.current
-	_primary.text = "Vitality %s\nEssence %s · Spirit %s" % [_track(value.vitality), _track(value.essence), _track(value.spirit)]
-	_primary.tooltip_text = "Current / effective / maximum (kee / gin / sen)"
-	_secondary.text = "Force %d/%d · Mana %d/%d · Atman %d/%d" % [value.force.current, value.force.maximum, value.mana.current, value.mana.maximum, value.atman.current, value.atman.maximum]
+	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(value.vitality), _track(value.essence), _track(value.spirit)]
+	_primary.tooltip_text = tr("当前／有效／上限")
+	_secondary.text = tr("内力 %d/%d · 法力 %d/%d · 灵力 %d/%d") % [value.force.current, value.force.maximum, value.mana.current, value.mana.maximum, value.atman.current, value.atman.maximum]
 	_secondary.tooltip_text = _secondary.text
-	_status.text = "%s%s%s" % [
-		"Available" if value.available else "Unavailable",
-		" · Busy %d" % value.busy_value if value.busy_value != 0 else " · Not busy",
-		" · %s" % String(CharacterState.LifeThreshold.keys()[value.threshold]).capitalize() if value.threshold != CharacterState.LifeThreshold.ACTIVE else "",
-	]
-	if value.life_status != CombatSliceLifeStatus.Value.ACTIVE:
-		_status.text += " · %s" % String(CombatSliceLifeStatus.Value.keys()[value.life_status]).capitalize()
-	_status.text = ("QUEUED TARGET · " if value.participant_id == queued_id else "Select target · " if value.targetable else "Not targetable · ") + _status.text
+	var states := PackedStringArray([
+		tr("已排定目标") if value.participant_id == queued_id else tr("点选为目标") if value.targetable else tr("不能选为目标"),
+		tr("可以行动") if value.available else tr("无法行动"),
+	])
+	if value.busy_value != 0:
+		states.append(tr("忙碌 %d") % value.busy_value)
+	if value.life_status == CombatSliceLifeStatus.Value.DEAD or value.threshold == CharacterState.LifeThreshold.DEAD:
+		states.append(tr("死亡"))
+	elif value.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS or value.threshold == CharacterState.LifeThreshold.UNCONSCIOUS:
+		states.append(tr("昏迷"))
+	_status.text = " · ".join(states)
 	_status.tooltip_text = _status.text
 
 

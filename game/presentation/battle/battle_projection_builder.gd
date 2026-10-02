@@ -28,17 +28,46 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 				_internal(state.recovery.atman), binding.busy.busy_value, binding.life_status,
 				state.life_threshold(), binding.exists_in_encounter and binding.combat_available,
 				coordinator.player_can_target(binding.character_id),
+				state.gender, state.skills.mapped_skill(&"dodge"),
 			))
 			break
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	var tactical: CombatTacticalRuntime = null if scheduler == null else scheduler.player_tactics()
+	var actions: Array[CombatTacticalActionInfo] = []
+	if tactical != null:
+		actions = coordinator.action_infos()
 	return BattlePresentationProjection.new(
 		encounter.encounter_id, encounter.mode, player_id, encounter.current_target_for(player_id),
-		participants, [] if tactical == null else coordinator.action_infos(),
+		participants, actions,
 		encounter.queued_player_action(),
 		CombatQueuedAction.Status.EMPTY if tactical == null else tactical.queue_status(),
 		-1 if coordinator.last_completion() == null else coordinator.last_completion().outcome,
 	)
+
+
+## A finished encounter the panel never projected: who the player is, and the
+## names and genders of everyone its retained events mention, for its log.
+static func completed_cast(session: OldPineWorldSessionController, encounter_id: StringName) -> BattlePresentationProjection:
+	var player_id: StringName = session.player_runtime().character_id
+	var ids: Array[StringName] = [player_id]
+	var feedback: CombatCompletedFeedback = session.combat_encounter_coordinator().completed_feedback()
+	if feedback != null and feedback.encounter_id == encounter_id:
+		for event: CombatSchedulerEvent in feedback.ordinary_after(0):
+			ids.append_array([event.actor_id, event.target_id])
+		for ordered: CombatOrderedTargetEvent in feedback.targets_after(0):
+			ids.append_array([ordered.event.actor_id, ordered.event.current_target_id])
+	var participants: Array[BattleParticipantProjection] = []
+	var seen: Array[StringName] = []
+	for id: StringName in ids:
+		if id.is_empty() or id in seen:
+			continue
+		seen.append(id)
+		var none := BattleResourceProjection.new(0, 0, 0)
+		participants.append(BattleParticipantProjection.new(
+			id, session.encounter_display_name(id), &"", id != player_id, &"",
+			none, none, none, none, none, none, 0, 0, 0, false, false, session.encounter_gender(id),
+		))
+	return BattlePresentationProjection.new(encounter_id, -1, player_id, &"", participants)
 
 
 static func _resource(state: CharacterResourceState) -> BattleResourceProjection:

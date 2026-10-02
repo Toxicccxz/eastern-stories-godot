@@ -195,7 +195,7 @@ func _mapped_attack(state: CharacterState, index: int) -> void:
 	check(rng.requested_bounds() == [4,16,101 + state.progression.combat_experience], "one bound4 action draw; limb/math only thereafter")
 	check(result.ordinary_attack_result.base_result.calculation.attack_power == 100 + state.progression.combat_experience, "authored dodge/parry metadata has no AP effect")
 	var count_before: int = rng.call_count()
-	var feedback := BattleFeedbackReader._attack(result.ordinary_attack_result,"学徒","对手")
+	var feedback := Martial.narrate(result,"学徒","对手")
 	check(feedback.contains(TEXTS[index].replace("$N","学徒").replace("$n","对手").replace("$l","头部")) and not feedback.contains("$"), "full authored feedback " + str(index))
 	check(rng.call_count() == count_before, "presentation cannot reroll")
 

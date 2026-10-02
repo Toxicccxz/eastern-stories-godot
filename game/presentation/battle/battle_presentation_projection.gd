@@ -58,10 +58,20 @@ func queued_action() -> CombatQueuedAction:
 	return null if _queued == null else _queued.duplicate_snapshot()
 
 
+func participant(id: StringName) -> BattleParticipantProjection:
+	for value: BattleParticipantProjection in _participants:
+		if value.participant_id == id:
+			return value
+	return null
+
+
 func display_name(id: StringName) -> String:
 	if id.is_empty():
-		return "none"
-	for participant: BattleParticipantProjection in _participants:
-		if participant.participant_id == id:
-			return participant.display_name
-	return String(id)
+		return tr("无")
+	var value: BattleParticipantProjection = participant(id)
+	return String(id) if value == null else value.display_name
+
+
+func gender(id: StringName) -> StringName:
+	var value: BattleParticipantProjection = participant(id)
+	return &"" if value == null else value.gender

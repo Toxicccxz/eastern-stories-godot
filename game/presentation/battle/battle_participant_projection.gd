@@ -50,6 +50,14 @@ var targetable: bool:
 	get: return _targetable
 var available: bool:
 	get: return _available
+var _gender: StringName
+## The legacy "gender" value, for ES2's pronouns in the battle log.
+var gender: StringName:
+	get: return _gender
+var _dodge_skill_id: StringName
+## The skill mapped to dodge, whose query_dodge_msg() words a dodge.
+var dodge_skill_id: StringName:
+	get: return _dodge_skill_id
 
 
 func _init(
@@ -69,6 +77,8 @@ func _init(
 	p_threshold: int = 0,
 	p_available: bool = false,
 	p_targetable: bool = false,
+	p_gender: StringName = &"",
+	p_dodge_skill_id: StringName = &"",
 ) -> void:
 	_participant_id = p_participant_id
 	_display_name = p_display_name
@@ -86,3 +96,5 @@ func _init(
 	_threshold = p_threshold
 	_available = p_available
 	_targetable = p_targetable
+	_gender = p_gender
+	_dodge_skill_id = p_dodge_skill_id

@@ -107,7 +107,7 @@ func _targets(tree: SceneTree) -> void:
 	_check(not projection.participants()[0].targetable and projection.participants()[1].targetable and projection.participants()[2].targetable, "availability is narrow projection")
 	var reader := BattleFeedbackReader.new()
 	var feedback: Array[BattleFeedbackProjection] = reader.read_new(coordinator, projection)
-	_check(feedback.size() == 5 and feedback.front().text.contains("Target:") and feedback.back().text.contains("Target:"), "target A / REQUESTED, ACCEPTED, QUEUED / target B ordered together")
+	_check(feedback.size() == 3 and feedback.front().text.contains("目标") and feedback[1].text.begins_with("你准备") and feedback.back().text.contains("目标"), "target A / QUEUED / target B ordered together %s" % str(feedback.map(func(entry: BattleFeedbackProjection) -> String: return entry.text)))
 	_check(feedback[0].progression_order < feedback[1].progression_order and feedback[1].progression_order < feedback[2].progression_order, "shared semantic order")
 	_check(reader.read_new(coordinator, projection).is_empty(), "incremental no duplicates")
 	var atman_a: int = a.character_state.recovery.atman.current
@@ -235,7 +235,7 @@ func _target_ui(tree: SceneTree) -> void:
 	await _tap(tree, ui._cards[2].target_button)
 	var b: StringName = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_id
 	_check(ui.current_projection().current_target_id == b and ui.current_projection().queued_action().resolved_target_id == a, "touch current B vs queued A")
-	_check(ui._cards[2]._title.text.contains("Current Target") and ui._cards[1]._status.text.contains("QUEUED TARGET"), "visibly distinct labels")
+	_check(ui._cards[2]._title.text.contains("当前目标") and ui._cards[1]._status.text.contains("已排定目标"), "visibly distinct labels")
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null and not touch._pad.visible, "target touch does not leak to world")
 	ui._cards[1].target_button.grab_focus()
 	await _key(tree, KEY_ENTER, true)

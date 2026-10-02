@@ -21,15 +21,16 @@ func _ready() -> void:
 	var content := VBoxContainer.new()
 	panel.add_child(content)
 	var title := Label.new()
-	title.text = "Combat Log"
+	title.text = tr("战斗记录")
 	content.add_child(title)
 	_text = RichTextLabel.new()
+	_text.bbcode_enabled = true
 	_text.custom_minimum_size = Vector2(0, 240)
 	_text.scroll_following = true
 	content.add_child(_text)
 	close_button = Button.new()
 	close_button.name = "CloseLog"
-	close_button.text = "Close log"
+	close_button.text = tr("关闭")
 	close_button.custom_minimum_size = Vector2(64, 64)
 	close_button.pressed.connect(close_log)
 	content.add_child(close_button)
@@ -47,7 +48,8 @@ func apply_metrics(metrics: SafeAreaMetrics) -> void:
 
 func append_entries(entries: Array[BattleFeedbackProjection]) -> void:
 	for entry: BattleFeedbackProjection in entries:
-		_text.add_text("%d · %s\n" % [entry.progression_order, entry.text])
+		for line: BattleNarrationLine in entry.lines():
+			_text.append_text(line.rich_text() + "\n")
 
 
 func clear_entries() -> void:

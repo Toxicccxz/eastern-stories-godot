@@ -1,5 +1,24 @@
 # Migration Decisions
 
+## Battle narration in ES2's words (2026-10-01)
+
+Owner decisions for the new-player combat package:
+- **The battle log prints `combatd.c`'s lines** as `message_vision()` shows them to the player
+  (你 for the player, names and `gender.c` pronouns for the others): the action, the dodge line
+  of the victim's mapped dodge skill (only `dodge.c` is ported; no content maps another), the
+  `parry.c` line chosen by the attacker's weapon, `damage_msg`, `report_status`, `winner_msg`,
+  `guard_msg` and the two riposte lines. The damage follows its line as a small grey number.
+- **Deviation: dodge and parry wording draws nothing from the combat random source.** The LPC
+  picks them with the driver's `random()`; the port's combat stream never had those draws, so
+  the presentation picks the line with its own generator. `winner_msg` and `guard_msg` use the
+  index Core already draws.
+- **Source text as written:** the Big5 `□` stays (血肉□糊, the `□伤` case), and `$w` stays in a
+  line whose unarmed action names no weapon (a beast's 刺伤 of 80 or more).
+- **Native lines, ES2 has none:** the end-of-fight line (切磋结束。, 你赢了这场战斗。…), the
+  player's target, a queued, refused or given-up Flee. Skipped turns and busy print nothing.
+- **Deferred:** `std/force.c`'s reflection lines (nobody can enforce yet) and `announce()`
+  (昏倒, 死亡) in the battle log.
+
 ## 切磋: fight.c, accept_fight and armed spars (2026-10-01)
 
 Owner decisions for the new-player combat package:

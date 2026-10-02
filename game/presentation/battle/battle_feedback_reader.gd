@@ -1,14 +1,59 @@
 class_name BattleFeedbackReader
 extends RefCounted
 
+const RECENT_LINES: int = 3
+
+## Chinese reasons for a refused or failed request, by CombatTacticalResult.Code.
+const TACTICAL_REASONS: Dictionary[int, String] = {
+	CombatTacticalResult.Code.ACCEPTED: "已接受",
+	CombatTacticalResult.Code.CANCELLED: "已取消",
+	CombatTacticalResult.Code.INVALID_REQUEST: "请求无效",
+	CombatTacticalResult.Code.INACTIVE: "战斗已经结束",
+	CombatTacticalResult.Code.APPLICATION_BLOCKED: "游戏暂停中",
+	CombatTacticalResult.Code.WORLD_GATE_MISMATCH: "世界状态不符",
+	CombatTacticalResult.Code.NOT_PLAYER: "只能由你下令",
+	CombatTacticalResult.Code.AUTHORITY_INVALID: "战斗状态无效",
+	CombatTacticalResult.Code.ACTOR_UNAVAILABLE: "你现在无法行动",
+	CombatTacticalResult.Code.UNKNOWN_ACTION: "没有这个操作",
+	CombatTacticalResult.Code.CATEGORY_MISMATCH: "操作类型不符",
+	CombatTacticalResult.Code.TARGET_INVALID: "目标无效",
+	CombatTacticalResult.Code.PREREQUISITE_FAILED: "条件不足",
+	CombatTacticalResult.Code.DUPLICATE_REQUEST: "重复的请求",
+	CombatTacticalResult.Code.STALE_CANCEL: "要取消的操作已经变了",
+	CombatTacticalResult.Code.SEQUENCE_EXHAUSTED: "操作次数已用尽",
+	CombatTacticalResult.Code.POLICY_UNSUPPORTED: "这个操作还不能用",
+}
+
+## Chinese receipts for a target change, by CombatTargetResult.Code.
+const TARGET_REASONS: Dictionary[int, String] = {
+	CombatTargetResult.Code.NO_ACTIVE_ENCOUNTER: "没有进行中的战斗",
+	CombatTargetResult.Code.INVALID_REQUEST: "请求无效",
+	CombatTargetResult.Code.STALE_ENCOUNTER: "战斗已经变了",
+	CombatTargetResult.Code.APPLICATION_BLOCKED: "游戏暂停中",
+	CombatTargetResult.Code.WORLD_GATE_MISMATCH: "世界状态不符",
+	CombatTargetResult.Code.INVALID_ACTOR: "你现在无法行动",
+	CombatTargetResult.Code.BINDING_MISMATCH: "战斗状态不符",
+	CombatTargetResult.Code.TARGET_UNAVAILABLE: "无法选为目标",
+	CombatTargetResult.Code.UNCHANGED: "目标未变",
+	CombatTargetResult.Code.CHANGED: "已更换目标",
+}
+
+var catalog: BattleActionPresentationCatalog = BattleActionPresentationCatalog.new()
+var _narrator: BattleNarrator
 var _encounter_id: StringName = &""
 var _last_order: int = 0
-var _recent: Array[BattleFeedbackProjection] = []
+var _recent: Array[BattleNarrationLine] = []
 var last_consumed_order: int:
 	get: return _last_order
 
 
-func recent() -> Array[BattleFeedbackProjection]:
+## The dodge and parry wording is picked with `rng` (seed it in tests).
+func _init(rng: RandomNumberGenerator = null) -> void:
+	_narrator = BattleNarrator.new(rng)
+
+
+## The last few lines of the current or last encounter, newest last.
+func recent() -> Array[BattleNarrationLine]:
 	return _recent.duplicate()
 
 
@@ -19,16 +64,18 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 		return ""
 	match receipt.terminal_result.kind:
 		CombatEncounterResultKind.Value.VICTORY:
-			return "Victory — combat ended. Select a fallen opponent's corpse to inspect or loot it."
+			return TranslationServer.translate("你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。")
 		CombatEncounterResultKind.Value.DEFEAT:
-			return "Defeat — you are dead." if player_life == CharacterRuntimeLifeStatus.Value.DEAD else "Defeat — you fell unconscious."
+			if player_life == CharacterRuntimeLifeStatus.Value.DEAD:
+				return TranslationServer.translate("你输了这场战斗，你死了。")
+			return TranslationServer.translate("你输了这场战斗，昏了过去。")
 		CombatEncounterResultKind.Value.SPAR_CONCLUDED:
-			return "Spar concluded — friendly combat has ended."
+			return TranslationServer.translate("切磋结束。")
 		CombatEncounterResultKind.Value.FLED:
-			return "Escaped — combat ended. Move away to disengage from danger."
+			return TranslationServer.translate("你逃离了战斗。走远一些才能摆脱危险。")
 		CombatEncounterResultKind.Value.ABORTED:
 			return TranslationServer.translate("战斗出错，已中止。")
-	return "Encounter ended — %s." % String(CombatEncounterResultKind.Value.keys()[receipt.terminal_result.kind]).capitalize()
+	return TranslationServer.translate("战斗结束。")
 
 
 func read_new(
@@ -49,26 +96,31 @@ func read_new(
 	if coordinator.active_encounter().encounter_id != projection.encounter_id:
 		return []
 	var tactical: CombatTacticalRuntime = scheduler.player_tactics()
-	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), [] if tactical == null else tactical.events_after(_last_order), projection)
+	var tactics: Array[CombatTacticalEvent] = []
+	if tactical != null: # NPC-only encounters have no player tactics.
+		tactics = tactical.events_after(_last_order)
+	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), tactics, projection)
 
+
+## Every event read moves the cursor; only those that print something become entries.
 func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[CombatSchedulerEvent], tactics: Array[CombatTacticalEvent], projection: BattlePresentationProjection) -> Array[BattleFeedbackProjection]:
-	var next: Array[BattleFeedbackProjection] = []
+	var read: Array[BattleFeedbackProjection] = []
 	for ordered: CombatOrderedTargetEvent in targets:
-		var event: CombatEncounterEvent = ordered.event
-		next.append(BattleFeedbackProjection.new(ordered.progression_order, "%s · Target: %s → %s" % [
-			projection.display_name(event.actor_id), projection.display_name(event.previous_target_id),
-			projection.display_name(event.current_target_id),
-		]))
+		read.append(BattleFeedbackProjection.new(ordered.progression_order, _target(ordered.event, projection)))
 	for event: CombatSchedulerEvent in ordinary:
-		next.append(BattleFeedbackProjection.new(event.progression_order, _ordinary(event, projection)))
+		read.append(BattleFeedbackProjection.new(event.progression_order, _narrator.opportunity(event, projection)))
 	for event: CombatTacticalEvent in tactics:
-		next.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))
-	next.sort_custom(_earlier)
-	for entry: BattleFeedbackProjection in next:
-		_last_order = entry.progression_order
-		_recent.append(entry)
-		if _recent.size() > 3:
-			_recent.pop_front()
+		read.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event)))
+	read.sort_custom(_earlier)
+	var next: Array[BattleFeedbackProjection] = []
+	for entry: BattleFeedbackProjection in read:
+		_last_order = maxi(_last_order, entry.progression_order)
+		if entry.lines().is_empty():
+			continue
+		next.append(entry)
+		_recent.append_array(entry.lines())
+	if _recent.size() > RECENT_LINES:
+		_recent = _recent.slice(_recent.size() - RECENT_LINES)
 	return next
 
 
@@ -77,49 +129,46 @@ static func _earlier(a: BattleFeedbackProjection, b: BattleFeedbackProjection) -
 
 
 static func reason(code: int) -> String:
-	if code not in CombatTacticalResult.Code.values():
-		return "Unknown result"
-	return String(CombatTacticalResult.Code.keys()[code]).capitalize()
+	return TranslationServer.translate(TACTICAL_REASONS.get(code, "未知结果"))
 
 
-static func _tactical(event: CombatTacticalEvent, projection: BattlePresentationProjection) -> String:
-	var action: CombatQueuedAction = event.action
-	var detail: String = reason(event.reason)
-	if event.execution != null:
-		detail = String(CombatTacticalExecutionResult.Outcome.keys()[event.execution.outcome]).capitalize()
-	if event.kind == CombatTacticalEvent.Kind.REPLACED:
-		detail = "replaced by %s" % event.replacement_request_id
-	return "%s · %s · %s: %s" % [
-		projection.display_name(action.request.actor_id), action.request.action_id,
-		String(CombatTacticalEvent.Kind.keys()[event.kind]).capitalize(), detail,
-	]
+static func target_reason(code: int) -> String:
+	return TranslationServer.translate(TARGET_REASONS.get(code, "未知结果"))
 
 
-static func _ordinary(event: CombatSchedulerEvent, projection: BattlePresentationProjection) -> String:
-	var actor: String = projection.display_name(event.actor_id)
-	var target: String = projection.display_name(event.target_id)
-	if event.kind == CombatSchedulerEvent.Kind.PARTICIPANT_SKIPPED:
-		return "%s · %s" % [actor, String(CombatSchedulerEvent.SkipReason.keys()[event.skip_reason]).capitalize()]
-	var result: CombatSliceOpportunityResult = event.resolution
-	var text: String = "%s · %s" % [actor, String(CombatSliceOpportunityResult.Outcome.keys()[result.outcome]).capitalize()]
-	if result.forward_result != null:
-		text += _attack(result.forward_result.ordinary_attack_result, actor, target)
-	if result.chain_result != null and result.chain_result.reverse_execution_reached:
-		text += " · Riposte" + _attack(result.chain_result.reverse_ordinary_result, target, actor)
-	return text
+## Only the player's own target changes are told; ES2 prints none.
+static func _target(event: CombatEncounterEvent, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	if event.actor_id == projection.player_id and not event.current_target_id.is_empty():
+		var template: String = "你的目标是%s。" if event.previous_target_id.is_empty() else "你把目标转向%s。"
+		lines.append(BattleNarrationLine.new(TranslationServer.translate(template) % projection.display_name(event.current_target_id)))
+	return lines
 
 
-static func _attack(result: CombatOrdinaryAttackResult, actor: String, target: String) -> String:
-	if result == null or not result.has_base_result:
-		return ""
-	var base: CombatAttackResult = result.base_result
-	var authored: String = LiuhKenDefinition.action_text(base.action_id)
-	var prefix: String = ""
-	if not authored.is_empty() and base.outcome in [CombatAttackResult.Outcome.DODGE, CombatAttackResult.Outcome.PARRY, CombatAttackResult.Outcome.HIT]:
-		prefix = " · " + authored.replace("$N", actor).replace("$n", target).replace("$l", String(base.calculation.selected_limb))
-	match base.outcome:
-		CombatAttackResult.Outcome.DODGE: return prefix + " · %s dodges %s" % [target, actor]
-		CombatAttackResult.Outcome.PARRY: return prefix + " · %s parries %s" % [target, actor]
-		CombatAttackResult.Outcome.HIT:
-			return prefix + " · %s hits %s (%d damage)" % [actor, target, base.resource_mutation.requested_damage]
-	return ""
+## The player's queued actions (Flee): queued, given up, refused and their end.
+func _tactical(event: CombatTacticalEvent) -> Array[BattleNarrationLine]:
+	var label: String = catalog.label_for(event.action.request.action_id)
+	var text: String = ""
+	match event.kind:
+		CombatTacticalEvent.Kind.QUEUED:
+			text = tr("你准备%s。") % label
+		CombatTacticalEvent.Kind.CANCELLED:
+			# Only the player's own cancel; a refusal or the fight's end said why already.
+			if event.reason == CombatTacticalResult.Code.CANCELLED:
+				text = tr("你放弃了%s。") % label
+		CombatTacticalEvent.Kind.REJECTED, CombatTacticalEvent.Kind.EXECUTION_REJECTED:
+			text = tr("你无法%s：%s。") % [label, reason(event.reason)]
+		CombatTacticalEvent.Kind.RESOLVED:
+			match (-1 if event.execution == null else event.execution.outcome):
+				CombatTacticalExecutionResult.Outcome.DISENGAGED:
+					text = tr("你脱离了战斗。")
+				CombatTacticalExecutionResult.Outcome.APPLIED:
+					text = tr("%s生效了。") % label
+				CombatTacticalExecutionResult.Outcome.FAILED:
+					text = tr("%s失败了。") % label
+				_:
+					text = tr("%s无法执行。") % label
+	var lines: Array[BattleNarrationLine] = []
+	if not text.is_empty():
+		lines.append(BattleNarrationLine.new(text))
+	return lines
