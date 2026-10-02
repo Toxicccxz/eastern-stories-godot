@@ -93,7 +93,11 @@ The following version-specific details are the current implementation snapshot d
 - Dynamic item identity uses the session allocator's durable `{scope, next_dynamic_sequence}`. Restore
   never decreases the sequence and advances beyond represented same-scope IDs; ObjectID and gameplay RNG
   are not identity sources.
-- An authored NPC tombstone suppresses respawn. A living NPC record and its tombstone may not coexist.
+- One NPC record per authored spawn point. A dead NPC stays a tombstone until its room resets
+  (`std/room.c` reset()); then the record holds the next generation (`<point>.character.<n>`) and the
+  tombstone is gone. A corpse may name an earlier generation; it is checked against the NPC's
+  definition. A living NPC record and its tombstone may not coexist. A saved NPC stands on its spawn's
+  map, not necessarily in its home zone (random_move, DECISIONS 4D). Room reset schedules are not saved.
 
 ## Durable world boundary
 

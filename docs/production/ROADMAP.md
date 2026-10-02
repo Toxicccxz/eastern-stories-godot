@@ -43,7 +43,7 @@ Order may change after the near-term packages; each item is a content package wi
 * **Pacing knobs**: data-configured multipliers (default = original) decided from owner playtests.
 * **Second region and family**: chosen by source connections; must reuse shared systems.
 * **Breadth**: remaining regions (including `u/cloud`), families, special abilities
-  (perform/exert/cast), quests (`quest/qlist*`), NPC inquiry/chat, doors, death/ghost realm.
+  (perform/exert/cast), quests (`quest/qlist*`), NPCs that wander across maps, doors, death/ghost realm.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
 ## Later — release readiness
