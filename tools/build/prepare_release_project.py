@@ -59,6 +59,10 @@ FORBIDDEN_TEXT = (
     "qa_startup_load",
     "--phase10b4-startup-load",
 )
+# Development runs keep their saves in the development slot; a release reads the
+# release slot (ApplicationShellController).
+DEVELOPMENT_SECTION = "eastern_stories"
+DEVELOPMENT_SAVE_SLOT_KEY = "save/development_slot"
 LOCAL_ABSOLUTE_PATH = re.compile(r"(?:(?<![A-Za-z0-9_])[A-Za-z]:/(?!/)|/(?:Users|home)/)")
 TEXT_SUFFIXES = {
     ".cfg",
@@ -147,6 +151,8 @@ def sanitize_project_config(text: str) -> str:
         kept = list(lines)
         if section == "phase10b4":
             kept = [line for line in kept if not line.strip().startswith("qa_startup_load=")]
+        if section == DEVELOPMENT_SECTION:
+            kept = [line for line in kept if not line.strip().startswith(f"{DEVELOPMENT_SAVE_SLOT_KEY}=")]
         if section == "autoload":
             kept = [
                 line
@@ -209,6 +215,8 @@ def validate_release_project(project: Path) -> list[str]:
                 "canonical main scene changed: "
                 f"expected {EXPECTED_MAIN_SCENE!r}, found {main_scene!r}"
             )
+        if _project_setting(project_text, DEVELOPMENT_SECTION, DEVELOPMENT_SAVE_SLOT_KEY) is not None:
+            errors.append("the development save slot setting remains in project.godot")
 
     for path in sorted(project.rglob("*"), key=lambda item: item.as_posix()):
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:

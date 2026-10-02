@@ -52,7 +52,14 @@ signal interaction_changed
 @onready var cancel_button: Button = %CancelButton
 @onready var acknowledge_button: Button = %AcknowledgeButton
 
-var _profile: GameSaveStorageProfile = GameSaveStorageProfile.release()
+## Development runs keep their saves in the development slot; the release sanitizer
+## drops this setting, so a release reads the release slot.
+const DEVELOPMENT_SAVE_SLOT_SETTING: String = "eastern_stories/save/development_slot"
+
+var _profile: GameSaveStorageProfile = (
+	GameSaveStorageProfile.development() if ProjectSettings.get_setting(DEVELOPMENT_SAVE_SLOT_SETTING, false)
+	else GameSaveStorageProfile.release()
+)
 var _files: SaveFileOperations
 var _coordinator: OldPineSessionLoadCoordinator
 var _settings_files: SaveFileOperations

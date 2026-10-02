@@ -38,6 +38,10 @@ _phase10b4_qa_bridge="*res://tests/runtime/phase10b4_qa_bridge.gd"
 
 run/main_run_args="--remote-debug tcp://127.0.0.1:6107"
 
+[eastern_stories]
+
+save/development_slot=true
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
@@ -109,6 +113,8 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertNotIn("_phase10b4_qa_bridge", sanitized)
         self.assertNotIn("--remote-debug", sanitized)
         self.assertNotIn("6107", sanitized)
+        self.assertNotIn("development_slot", sanitized)
+        self.assertNotIn("[eastern_stories]", sanitized)
         self.assertIn('[rendering]', sanitized)
         self.assertIn('renderer/rendering_method="mobile"', sanitized)
         self.assertIn(EXPECTED_MAIN_SCENE, sanitized)
@@ -238,6 +244,18 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertEqual([], validate_release_project(self.output))
         (self.output / "runtime/bad.gd").write_text('const PATH = "Z:/machine/only"\n', encoding="utf-8")
         self.assertTrue(any("local absolute path" in error for error in validate_release_project(self.output)))
+
+    def test_a_left_development_save_slot_fails_validation(self) -> None:
+        prepare_release_project(self.source, self.output)
+        config = self.output / "project.godot"
+        config.write_text(
+            config.read_text(encoding="utf-8") + "\n[eastern_stories]\nsave/development_slot=true\n",
+            encoding="utf-8",
+        )
+        self.assertIn(
+            "the development save slot setting remains in project.godot",
+            validate_release_project(self.output),
+        )
 
     def test_second_run_discards_stale_output(self) -> None:
         prepare_release_project(self.source, self.output)
