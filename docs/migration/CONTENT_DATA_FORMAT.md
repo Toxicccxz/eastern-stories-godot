@@ -4,7 +4,7 @@ Items, NPCs, spawns, vendors and the world (rooms, regions, maps, zones, portals
 are JSON under `game/data/`, listed in `game/data/content_manifest.json` (load order = manifest
 order, then file order). Each file is one object with any of the arrays `items`, `npcs`, `spawns`,
 `item_spawns`, `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`, `doors`,
-`landmarks`; exactly one file (`common/pacing.json`) holds the `pacing` object.
+`landmarks`, `skills`, `families`; exactly one file (`common/pacing.json`) holds the `pacing` object.
 
 `GameContent.catalog()` (`game/data/game_content.gd`) reads them once into a `ContentCatalog`.
 Parsing lives in `game/core/content/`. Unknown fields, wrong types, non-integer numbers and broken
@@ -32,6 +32,11 @@ instead of `set("vendor_goods")`, read by hand), `set`/`drop`
 that did not become data — another function, a closure, a condition, a field the game does not
 model yet. `--check` (and `tools/tests/test_content_import.py`) fails when a generated file
 differs or a finding has no decision; `build/import/review.md` lists findings and per-NPC counts.
+`common/skills.json` and `common/families.json` are hand-authored too.
+
+A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") + "/master"`, from
+`include/globals.h`); its record lives in `common/npcs.json` with the ID
+`common.npc.<class>.<file>` (`common.npc.swordsman.master`).
 
 ## items
 
@@ -43,9 +48,10 @@ differs or a finding has no decision; `build/import/review.md` lists findings an
 | `long` | `set("long")` | optional; default is `name(Capitalized first alias)。\n` as in `feature/name.c` |
 | `unit`, `material`, `value` | `set(...)` | `value` absent = 0 |
 | `no_get` | `set("no_get", 1)` | `true`: get.c refuses it (这个东西拿不起来。) |
+| `max_encumbrance` | `set_max_encumbrance(n)` | a container: put.c puts things in while their weight fits, get.c takes them out (功德箱 10000) |
 | `weight` | `set_weight()` | omitted for money; 0 when the LPC never sets it (`feature/move.c`) |
 | `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"]}` |
-| `armor` | `inherit CLOTH` + `armor_prop/*` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
+| `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
 | `money` | `money_id`, `base_value`, `base_unit`, `base_weight` | makes the item a stack and a currency; merge key is `/<first legacy source without .c>`; `coin`, `silver` and `gold` must all exist |
@@ -60,6 +66,8 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `legacy_source` | file path | |
 | `name`, `aliases`, `long` | `set_name`, `set("long")` | |
 | `title` | `set("title")` | shown before the name, as `short()` does |
+| `nickname` | `set("nickname")` | e.g. 风雨双侠 |
+| `rank_info` | `set("rank_info/respect")` | `{respect}`: how others address it (rankd.c), e.g. 小二哥 |
 | `race` | `set("race")` | `human` (default) or `beast` (`野兽`) |
 | `gender`, `age` | `set(...)` | absent = not authored |
 | `attributes` | `set("str")` … | keys `str cor int spi cps per con kar` |
@@ -72,17 +80,27 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge` |
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
 | `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept}`; the first matching rule decides; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
-| `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>` |
-| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written) or `{"action": "random_move"}`. Written only when every entry is one of those; otherwise both stay findings |
-| `greeting` | the NPC's init()/greeting() | `{say}`: said as `<name>说道：<say>` one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
+| `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>`. A topic may instead be `{eff_kee_percent: [{at_least, say}]}` (herbalist.c heal_me(), judged on the asker; none matching leaves ask.c's own answer) |
+| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}` or `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()). Generated only when every entry is a line or random_move; otherwise both stay findings |
+| `greeting` | the NPC's init()/greeting() | `{say}` (said as `<name>说道：<say>`) or `{one_of: [{say} \| {emote}]}`, one drawn when it is said (waiter.c `random(3)`; an `emote` follows the name), one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
+| `vendor` | the override's `vendors` | a vendors[] ID: the NPC sells these goods from its body (buy.c finds it with `present()`) |
+| `accept_object` | the NPC's own `accept_object()` | ordered rules, first match decides; conditions `value_at_least`, `value_at_most`, `liquid` (`alcohol`/`water`), `liquid_remaining_at_most`, `npc_flag`, `giver_mark`; outcome `say`/`emote`, `accept`, `mark_giver` (marks/<name>), `set_npc_flag`, `effect` (`temple_donation`: keeper.c). No rule matching, or no rules, refuses (give.c). Hand-written in `set` |
+| `flags` | object variables `create()` sets | e.g. `["has_alcohol"]` (drunk.c); rules test and set them; not saved |
+| `fight_deferred` | — | why the NPC cannot be fought yet (its mapped skills have no ported actions); no 攻击/切磋 |
+| `family` | `create_family(name, generation, title)` | `{name, generation, title}`; the name must be in `families.json`; privileges -1 |
+| `f_master` | `inherit F_MASTER` | `true`: std/char/master.c prevent_learn() limits what it teaches |
+| `recognize_apprentice` | the NPC's own `recognize_apprentice()` | ordered rules `{family?, giver_mark?, say?, emote?, fail?, accept}`; `fail` replaces learn.c's polite refusal. Hand-written in `set` |
+| `apprentice` | the master's `attempt_apprentice()`/`recruit_apprentice()` | `{requires: {cor?, cps?}, refuse_say, accept_say, class}` (effective attributes); needs `family`. Hand-written in `set` |
 
 `age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
 is `600+random(400)`, `"minus_random"` subtracts. `gender` may be
 `{"random": 10, "below": 7, "then": "男性", "else": "女性"}`. Draws happen at creation, before the
 race's own draws; a save keeps the drawn values.
 
-Combat talk (`chat_msg_combat`) and functions (`call_for_help`, `ask_me`, `do_drink`, …) are not
-data yet.
+An NPC teaches every skill it has that `skills.json` defines when its `family` or
+`recognize_apprentice` can admit a student (`NpcTeacher`); the map gives such an NPC, and a
+`vendor`, a service on its body (`NpcService`). Combat talk (`chat_msg_combat`) and functions
+(`call_for_help`, `ask_me`, …) are not data yet.
 
 ## spawns
 
@@ -100,7 +118,8 @@ IDs. Append new spawns; do not reorder existing ones without expecting a New Gam
 places (room.c `make_inventory()`): one item lies on each of `points` when the world is created.
 The item instance ID follows from the point, so a save records only that the item is still in that
 zone's WORLD (Continue puts it back on its marker). `legacy_room`'s reset lays it there again once
-that item no longer exists. Combined items cannot lie on a floor yet.
+that item no longer exists. Combined items cannot be authored on a floor; dropped ones lie there
+(drop.c), and a save keeps every dropped item's zone and position (`floor_items`).
 
 ## vendors
 
@@ -153,13 +172,13 @@ region's file.
 
 ## services
 
-`{id, kind, zone, name, reach, vendor?, legacy_source}` — something the player uses standing within
+`{id, kind, zone, name, reach, legacy_source}` — a room's own command, used standing within
 `reach` pixels of its service point in `zone`. `kind` picks the rules (`WorldServiceKinds`): `bank`
-(convert), `work`, `vendor` (needs `vendor`: a vendors[] ID), `hockshop` (value/sell), `teacher`
-(apprentice/learn; the teaching facts are still `snow_school_teacher.gd`), `water` (ES2
-`set("resource/water", 1)`: a wineskin can be filled here from the supplies panel). The context
-button reads `name · verb`, e.g. 钱庄 · 兑换. `hockshop` and `teacher` also require an idle,
-non-fighting player.
+(convert), `work`, `hockshop` (value/sell), `water` (ES2 `set("resource/water", 1)`: a wineskin
+can be filled here from the supplies panel). The context button reads `name · verb`, e.g. 钱庄 ·
+兑换; `hockshop` also requires an idle, non-fighting player. Goods and teaching belong to NPCs
+(`vendor`, teaching fields): the map binds them to the NPC's body, reached within 96 pixels of it
+(店小二 · 购买, 柳淳风 · 请教).
 
 ## doors
 
@@ -187,7 +206,14 @@ the native ES2 heart_beat (1000 reproduces the pre-B2 feel), and MudOS's `time t
 resets half to all of this many seconds of world time after its last reset (default 1800,
 config.ES2; lower it locally to playtest resets).
 
+## skills, families
+
+`skills`: `{id, name, kind: basic|specialized, type: martial|knowledge, enable?: [use], legacy_source}`
+— a skill the game models (learn, enable, the character panel's name; to_chinese()'s dictionary is
+not in the mudlib, so `name` is authored). A specialized skill names the uses it can be enabled
+for. `families`: `{id, name}` — a family by its ES2 `family_name`; characters keep the ID.
+
 ## Not data yet
 
-Skills and teachers (`liuh_ken_definition.gd`, `snow_school_teacher.gd`) and the beast bite action
-stay in GDScript until their packages. `*_world_definitions.gd` now only hold the IDs the runtime names in code.
+Skill combat actions (`liuh_ken_definition.gd`) and the beast bite action stay in GDScript until
+their packages. `*_world_definitions.gd` now only hold the IDs the runtime names in code.
