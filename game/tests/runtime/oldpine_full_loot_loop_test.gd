@@ -401,6 +401,8 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 	var zero_random: CountingAttackFavoringRandomSource = CountingAttackFavoringRandomSource.new()
 	unsupported_controller.session.configure_combat_random_source(zero_random)
 	var unsupported_opponent: NpcRuntimeState = unsupported_controller.npc_runtimes()[0]
+	# kill.c present(): the fixture's opponent is where the player is.
+	unsupported_opponent.set_world_location(unsupported_controller.player_runtime().world_location())
 	unsupported_controller.select_npc(unsupported_opponent.character_id)
 	var unsupported_initiation: CombatSliceInitiationResult = (
 		unsupported_controller.attack_selected()

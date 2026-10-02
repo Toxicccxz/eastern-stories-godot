@@ -1680,6 +1680,10 @@ func attack_selected() -> CombatSliceInitiationResult:
 	if catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(target.world_location().zone_id):
 		_hud().append_log_lines([tr("这里不准战斗。")])
 		return CombatSliceInitiationResult.new()
+	# present(arg, environment(me)): an NPC selected before it walked away is not here.
+	if not target.world_location().shares_combat_location(_player.world_location()):
+		_hud().append_log_lines([tr("这里没有这个人。")])
+		return CombatSliceInitiationResult.new()
 	return _initiate_lethal_combat(_player.character_id, target.character_id, "Attack initiated against %s" % target.definition().display_name)
 
 

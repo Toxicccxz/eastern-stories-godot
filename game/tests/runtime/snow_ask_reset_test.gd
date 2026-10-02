@@ -161,6 +161,8 @@ func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) ->
 	for step: int in 60:
 		map.advance_npc_heartbeat(0.1)
 	_check(quiet.call_count() == 0, "no beat for an NPC the player is not with")
+	map.select_npc(scavenger.character_id)
+	_check(map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and session.shared_ui().log_lines().back() == "这里没有这个人。", "kill.c present(): the scavenger walked away")
 	_check(not map.npc_walker().is_walking(scavenger.character_id) and body.global_position == rest and body.global_position != home, "the walk takes world time and ends there")
 	await tree.process_frame
 	_check(not shape.disabled and not presence.disabled, "it stands solid again and notices who is there")
