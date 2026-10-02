@@ -73,8 +73,8 @@ Code:
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` in the HUD chrome, the battle panel and what 4E
-  added) and some panels still mix English and Chinese (the inventory's Inspect/Remove/Wield and
-  [WORN]): Package 5.
+  added) and some screens are still English or mixed (the inventory's Inspect/Remove/Wield and
+  [WORN], the pause menu): Package 5.
 * The HUD keeps an NPC selected after the player leaves its room (its actions are refused, kill.c
   `present()`); room labels and NPC names overlap in places (grey-box layout).
 * The battle log has no 昏倒/死亡 line yet (`announce()`), nor force reflection lines.
