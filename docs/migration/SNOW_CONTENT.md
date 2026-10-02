@@ -53,8 +53,9 @@ the code does not, and what each NPC cost. The data format and the importer are 
 
 ## Source anomalies
 
-- give.c destructs a gift that has a value: what an NPC accepts is gone, so the drunk asks for wine
-  again after taking a full wineskin. drunk.c's "我还有酒" branch has no `return 1`: it refuses.
+- `value()` is defined only in `std/money.c`: give.c destructs money only, keeper.c and
+  teacher.c count money only, and other gifts go to the NPC. drunk.c's "我还有酒" branch has no
+  `return 1`: it refuses.
 - keeper.c returns `notify_fail("庙祝不收物品的捐献。")`, which give.c's own notify_fail replaces.
 - give.c, drop.c and put.c split a stack before asking; a refused part had no environment and was
   lost (not ported, DECISIONS 4E).

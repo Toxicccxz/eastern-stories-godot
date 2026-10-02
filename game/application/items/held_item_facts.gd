@@ -4,8 +4,16 @@ extends RefCounted
 ## What the item commands read off one item instance, as LPC asks its object.
 
 
-## value(): a stack's amount times its base value (std/money.c), a food's current
-## value (feature/food.c sets 0 after the first bite), else query("value").
+## LPC value(): only std/money.c defines it (amount times base value); for any other
+## object call_other() returns 0. give.c and accept_object() ask this.
+static func money_value(id: StringName, content: ItemContentDefinition, stacks: CombinedStackCollection) -> int:
+	if content == null or stacks == null or not stacks.has_stack(id) or content.currency_base_value <= 0:
+		return 0
+	return stacks.stack_state(id).amount * content.currency_base_value
+
+
+## drop.c's `query("value") || value()`: a stack's money value, a food's current value
+## (feature/food.c sets 0 after the first bite), else the authored value.
 static func value_of(id: StringName, content: ItemContentDefinition, stacks: CombinedStackCollection, foods: FoodCollection) -> int:
 	if content == null:
 		return 0

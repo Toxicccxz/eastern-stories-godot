@@ -31,8 +31,9 @@ class Authorities:
 
 
 ## give.c: `npc_here` is present(target) and living(who). The NPC's accept_object()
-## rules decide; a gift with a value is then destructed, anything else is moved
-## to the NPC (combined.c merges a stack into a living holder).
+## rules decide; money (the only object with a value(), std/money.c) is then
+## destructed, anything else is moved to the NPC (combined.c merges a stack into a
+## living holder).
 static func give(
 	player: WorldPlayerRuntimeState,
 	npc: NpcRuntimeState,
@@ -52,7 +53,7 @@ static func give(
 		return result
 	var name: String = npc.definition().display_name
 	var offer := NpcObjectRule.Offer.new(
-		_portion_value(authorities, id, content, amount), &"", 0, npc.flags(), player.state.marks,
+		_portion_money(authorities, id, content, amount), &"", 0, npc.flags(), player.state.marks,
 	)
 	var liquid: LiquidState = authorities.liquids.state(id)
 	if liquid != null:
@@ -79,8 +80,10 @@ static func give(
 		result.destroyed = true
 	else:
 		var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)
-		var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance))
+		var npc_owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+		var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance), npc_owner)
 		if moved == null or not moved.succeeded:
+			_return_portion(authorities, id, portion)
 			return _too_heavy(result, moved, TranslationServer.translate("%s对%s而言太重了。") % [content.display_name, name])
 		result.lines.append(TranslationServer.translate("你给%s%s。") % [name, HeldItemFacts.one_unit(content)])
 	result.item_id = portion
@@ -138,6 +141,7 @@ static func put(player: WorldPlayerRuntimeState, id: StringName, amount: int, co
 		return result
 	var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(inside, true, true, container.max_encumbrance))
 	if moved == null or not moved.succeeded:
+		_return_portion(authorities, id, portion)
 		return _too_heavy(result, moved, TranslationServer.translate("%s对%s而言太重了。") % [content.display_name, container.display_name])
 	result.item_id = portion
 	result.lines.append(TranslationServer.translate("你将%s放进%s。") % [HeldItemFacts.one_unit(content), container.display_name])
@@ -196,10 +200,21 @@ static func _partial(authorities: Authorities, id: StringName, amount: int) -> b
 	return amount > 0 and authorities.context.stacks.has_stack(id) and amount < authorities.context.stacks.stack_state(id).amount
 
 
-static func _portion_value(authorities: Authorities, id: StringName, content: ItemContentDefinition, amount: int) -> int:
+## value() of what is handed over: money only (std/money.c).
+static func _portion_money(authorities: Authorities, id: StringName, content: ItemContentDefinition, amount: int) -> int:
 	if _partial(authorities, id, amount):
 		return amount * content.currency_base_value
-	return HeldItemFacts.value_of(id, content, authorities.context.stacks, authorities.foods)
+	return HeldItemFacts.money_value(id, content, authorities.context.stacks)
+
+
+## A part split off for a move that then failed goes back into the stack it came from,
+## so nothing is lost (DECISIONS 4E).
+static func _return_portion(authorities: Authorities, source_id: StringName, portion: StringName) -> void:
+	if portion == source_id or not authorities.context.inventory.is_registered(portion):
+		return
+	var back: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(authorities.context.endpoint(), true, true, WorldMapController.WORLD_CAPACITY))
+	if back == null or not back.succeeded:
+		push_error("a split-off part %s could not be returned" % portion)
 
 
 static func _portion_weight(authorities: Authorities, id: StringName, content: ItemContentDefinition, amount: int) -> int:
@@ -224,13 +239,16 @@ static func _split_portion(result: ItemHandlingResult, authorities: Authorities,
 	return part.item_instance_id
 
 
-## feature/move.c, with combined.c merging a stack into a living holder.
-static func _move(authorities: Authorities, id: StringName, destination: InventoryTransferDestination) -> InventoryTransferResult:
+## feature/move.c, with combined.c merging a stack into a living holder. `owner` is
+## another holder's authorities (an NPC given a stack); the player's are the default.
+static func _move(authorities: Authorities, id: StringName, destination: InventoryTransferDestination, owner: ItemLifecycleOwnerContext = null) -> InventoryTransferResult:
 	var context: MoneyInventoryContext = authorities.context
 	if not context.stacks.has_stack(id):
 		return InventoryTransferService.new().transfer(context.inventory, id, destination, context.owner.equipment_state, context.owner.armor_state)
 	# Merging destroys the holder's own stacks of the kind: the holder's authorities.
-	var holder: ItemLifecycleOwnerContext = context.owner if destination.endpoint.kind == ContainmentEndpoint.Kind.CHARACTER and destination.endpoint.endpoint_id == context.owner.character_id else null
+	var holder: ItemLifecycleOwnerContext = owner
+	if holder == null and destination.endpoint.kind == ContainmentEndpoint.Kind.CHARACTER and destination.endpoint.endpoint_id == context.owner.character_id:
+		holder = context.owner
 	var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(
 		context.stacks, context.inventory, id, destination, context.owner.equipment_state, context.owner.armor_state, holder,
 	)

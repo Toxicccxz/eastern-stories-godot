@@ -6,23 +6,26 @@ Package 4E, from the owner-approved plan:
 - **give, drop, put and get from are `cmds/std/give.c`, `drop.c`, `put.c` and `get.c`** on the
   player's own items, from the inventory panel (给<NPC> when an NPC here is selected, 丢下, 放进<容器>
   beside a container; a stack takes an amount). give.c asks the NPC's `accept_object()`, data
-  rules (`accept_object`, first match), and prints the NPC's lines, then destructs a gift that has
-  a value (`你拿出十文钱给庙祝。`) or moves one worth nothing to the NPC (`你给收破烂的一件布衣。`); no
-  rule, or a refusal, prints 你只能把东西送给其他玩家操纵的人物。 drop.c destructs what is worth
-  nothing (因为这样东西并不值钱…). A container (`set_max_encumbrance()`, the 功德箱) takes what fits;
+  rules (`accept_object`, first match), and prints the NPC's lines, then destructs money
+  (`你拿出十文钱给庙祝。`) and moves anything else to the NPC (`你给收破烂的一件布衣。`): `value()`
+  exists only in `std/money.c`, so give.c, keeper.c and teacher.c count money alone. No rule, or a
+  refusal, prints 你只能把东西送给其他玩家操纵的人物。 drop.c destructs what has neither a value
+  nor a money value (因为这样东西并不值钱…). The world stands still in a fight, so these are used
+  outside one, as eating and drinking. A container (`set_max_encumbrance()`, the 功德箱) takes what fits;
   拾取 on it lists its contents, each taken out with get.c's 你从功德箱中拿出一些钱。 Stacks merge
   into the player's (combined.c). Corpses are not put targets yet.
 - **Deviation (proposed in the 4E PR, for the owner to confirm): a refused part of a stack stays
   with the player.** give/drop/put with an amount
   split the stack before asking (`new(base_name(obj))`); when the NPC or the container then
   refused, ES2's new object had no environment and the money was lost. The port asks first.
-- **ES2 oddities kept:** a gift with a value is destructed, so the wine given to the drunk is gone
-  and he asks again on his next drink; his "我还有酒" refusal returns 0 (no `return 1`). The
-  keeper's 庙祝不收物品的捐献。 never shows: give.c's notify_fail replaces it (driver rule below).
+- **ES2 oddities kept:** the drunk's "我还有酒" refusal returns 0 (no `return 1`); the wine he
+  takes is moved to him and he drinks it. The keeper's 庙祝不收物品的捐献。 never shows: give.c's
+  notify_fail replaces it (driver rule below).
   keeper.c's donation eases bellicosity over 100 (`random(val/10) > kar`, then
   `random(kar) + val/1000`), drawn from the world-interaction stream.
 - **Dropped items are saved with their place** (`floor_items`: item, zone, position; written only
-  when there are some). A floor-spawn item carried off and dropped elsewhere is a dropped item.
+  when there are some), laid just before the dropper's feet on a spot a save accepts. A
+  floor-spawn item carried off and dropped elsewhere, on any map, is a dropped item.
   A living NPC may have lost loadout items (given, dropped, sold) but lists those that exist.
 - **drunk.c do_drink() is a chat action** (`drink`): sated at 380 water it sings; else it drinks
   from its alcohol (liquid.c: water +30, the line), drops the emptied wineskin where it stands

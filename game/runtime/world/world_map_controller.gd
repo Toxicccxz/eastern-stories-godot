@@ -587,7 +587,9 @@ func _place_floor_item(spawn: ItemSpawnDefinition, point_id: StringName) -> bool
 ## says (OldPineWorldRestoreComposition checks that every floor item has a place).
 func _restore_floor_items() -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
+	var dropped_anywhere: Dictionary[StringName, bool] = {}
 	for record: GameSaveValueTypes.FloorItemSnapshot in session.restored_floor_items():
+		dropped_anywhere[record.item_instance_id] = true
 		if record.world_location.map_id != map:
 			continue
 		var location: WorldLocationState = location_for_zone(record.world_location.zone_id)
@@ -601,7 +603,8 @@ func _restore_floor_items() -> bool:
 		for point_id: StringName in spawn.spawn_point_ids():
 			var id: StringName = ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)
 			var parent: ContainmentEndpoint = _inventory.direct_parent(id) if _inventory.is_registered(id) else null
-			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD or _dropped.has(id):
+			# A dropped one lies where its record says, maybe on another map.
+			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD or dropped_anywhere.has(id):
 				continue
 			if parent.endpoint_id != location.combat_location_id or not _add_floor_item_view(id, content, point_id):
 				return false
@@ -640,11 +643,15 @@ func _add_dropped_item_view(item_id: StringName, location: WorldLocationState, p
 
 
 ## Where something dropped by a body standing at `origin` lies: just in front of its feet,
-## where the body does not hide it, on a spot a save accepts (else where it stands).
+## where the body does not hide it, on the nearest spot a save accepts (Continue checks
+## it); where it stands only when no spot nearby is one (a doorway footprint is not).
 func _at_feet(location: WorldLocationState, origin: Vector2) -> Vector2:
-	for offset: Vector2 in [Vector2(0, 28), Vector2(28, 0), Vector2(-28, 0), Vector2(0, -28)]:
-		if MapPlacementValidator.is_valid_character_position(self, location.zone_id, origin + offset):
-			return origin + offset
+	for distance: int in [28, 44, 64, 96]:
+		for direction: Vector2 in [Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)]:
+			var spot: Vector2 = origin + direction.normalized() * distance
+			if MapPlacementValidator.is_valid_character_position(self, location.zone_id, spot):
+				return spot.round()
+	push_warning("no free spot near %s in %s to drop on" % [origin, location.zone_id])
 	return origin
 
 
@@ -786,6 +793,7 @@ func _unbind_npc_services(character_id: StringName) -> void:
 	for service: WorldService in _services.duplicate():
 		if service is NpcService and (service as NpcService).npc.character_id == character_id:
 			_services.erase(service)
+			service.name = "%s_replaced" % service.name
 			service.queue_free()
 
 

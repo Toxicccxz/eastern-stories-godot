@@ -119,10 +119,13 @@ func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var draws := ScriptedWorldInteractionRandomSource.new([21, 3])
 	var eased: ItemHandlingResult = ItemHandlingService.give(player, keeper, true, &"test.coins", 250, _authorities(session), draws)
 	_check(eased.done() and draws.requested_bounds() == [25, 20] and player.state.attributes.bellicosity == 50 - 3, "keeper.c donation eases bellicosity: " + str(draws.requested_bounds()))
-	# The cloth is worth nothing: the keeper refuses, and give.c's notify_fail is what shows.
+	# Only money has a value() (std/money.c): the keeper refuses anything else, and
+	# give.c's notify_fail is what shows.
 	_add_item(session, &"test.cloth", &"es2:obj/cloth")
 	var refused: ItemHandlingResult = map.give_to_selected(&"test.cloth")
 	_check(refused.outcome == ItemHandlingResult.Outcome.REFUSED and refused.lines == ["你只能把东西送给其他玩家操纵的人物。"] and session.inventory_state().is_direct_child(&"test.cloth", money.endpoint()), "a worthless gift: nothing changes hands")
+	_add_item(session, &"test.book", &"es2:obj/old_book")
+	_check(map.give_to_selected(&"test.book").lines == ["你只能把东西送给其他玩家操纵的人物。"], "an old book (value 70) is no money either")
 	# An NPC without accept_object() takes nothing; one knocked out is not living().
 	_check(_beside(map, player, &"snow.sroad2", &"snow.sroad2.farmer.1"), "beside the farmers")
 	var farmer: NpcRuntimeState = _npc(map, &"snow.sroad2.farmer.1")
@@ -203,14 +206,17 @@ func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(drunk.character_state.recovery.water == 30 and map.dropped_item_ids().has(skin) and session.inventory_state().direct_parent(skin).kind == ContainmentEndpoint.Kind.WORLD, "liquid.c water+30; the empty skin lies where he stands")
 	map._act(drunk, action)
 	_check(hud.log_lines().back() == "醉汉说道：酒..... 给我酒...." and not drunk.has_flag(&"has_alcohol"), "no alcohol: has_alcohol = 0, and he asks")
-	# A full wineskin from the player: accepted, and destructed by give.c (it has a value).
+	# A full wineskin from the player: accepted and moved to him (only money has a
+	# value(), std/money.c); he drinks from it next.
 	var bought: VendorPurchaseResult = VendorPurchaseService.buy(TestContent.waiter(), "wineskin", GameContent.catalog(), Finance.session_context(session), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), player.maximum_encumbrance)
 	_check(bought.delivered, "a wineskin bought")
+	map.select_npc(_npc(map, &"snow.temple.keeper.1").character_id)
+	_check(map.give_to_selected(bought.item_id).outcome == ItemHandlingResult.Outcome.NOT_HERE, "the keeper is not here")
 	map.select_npc(drunk.character_id)
 	var given: ItemHandlingResult = map.give_to_selected(bought.item_id)
-	_check(given.destroyed and given.lines == ["醉汉说道：多谢啦.....", "你拿出牛皮酒袋给醉汉。"] and drunk.has_flag(&"has_alcohol"), "give wineskin to drunk: " + str(given.lines))
+	_check(not given.destroyed and given.lines == ["醉汉说道：多谢啦.....", "你给醉汉一个牛皮酒袋。"] and drunk.has_flag(&"has_alcohol") and session.inventory_state().is_direct_child(bought.item_id, holder), "give wineskin to drunk: " + str(given.lines))
 	map._act(drunk, action)
-	_check(hud.log_lines().back() == "醉汉说道：酒..... 给我酒....", "the gift is gone, so he asks again (an ES2 oddity, DECISIONS 4E)")
+	_check(hud.log_lines().back() == "醉汉拿起牛皮酒袋咕噜噜地喝了几口红酒。" and session.liquid_collection().state(bought.item_id).remaining == 14, "he drinks the gift")
 	drunk.character_state.recovery.water = 380
 	var lines: int = hud.log_lines().size()
 	map._act(drunk, action)
@@ -298,8 +304,15 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var street: Vector2 = map.physical_zone(&"snow.mstreet1").global_rect().get_center()
 	_check(_place(map, player, &"snow.mstreet1", street), "in the street")
 	var dropped: ItemHandlingResult = map.drop_item(_coins(session), 3)
+	# The 竹剑, taken in the weapon storage, lies dropped in the cellar (another map).
+	var sword: StringName = ItemSpawnDefinition.item_instance_id(session.item_id_allocator().scope, &"snow.weapon_storage.bamboo_sword.1")
+	_check(_beside(map, player, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1") and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
+	var cellar: WorldMapController = session.world_map_of(&"snow.cellar")
+	var below: WorldLocationState = cellar.location_for_zone(&"snow.secret_storage")
+	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(session.inventory_state(), sword, InventoryTransferDestination.new(ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, below.combat_location_id), true, true, WorldMapController.WORLD_CAPACITY), player.state.equipment, player.armor)
+	_check(moved.succeeded and cellar._add_dropped_item_view(sword, below, cellar._at_feet(below, cellar.physical_zone(&"snow.secret_storage").global_rect().get_center())), "test-only: the 竹剑 dropped below")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
-	_check(snapshot != null and snapshot.floor_items.size() == 2, "the save keeps the dropped coins and the drunk's wineskin: %s" % [dropped.lines])
+	_check(snapshot != null and snapshot.floor_items.size() == 3, "the save keeps the dropped coins, the drunk's wineskin and the 竹剑 below: %s" % [dropped.lines])
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
 	_check(raw.world_content_revision == "SOURCE_ENTRY_SNOW_SERVICES_V1" and raw.player.character.marks.keys() == ["魏无极"] and int(raw.player.character.marks["魏无极"]) == 1, "revision and marks/魏无极 in the save: " + str(raw.world_content_revision))
 	var walker: RefCounted = Work.new()
