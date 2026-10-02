@@ -139,6 +139,21 @@ func set_selected_corpse(
 	refresh_live_state()
 
 
+## An item lying on the floor: 拾取 picks it up (get.c) when in reach.
+func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
+	_selected_target = null
+	_selected_landmark = null
+	_selected_landmark_source_available = false
+	_selected_corpse_name = display_name
+	_selected_corpse_available = not display_name.is_empty()
+	_selected_corpse_in_range = in_range
+	if clear_inspection:
+		inspection_text.text = ""
+		close_loot()
+	selected_target_label.text = display_name
+	refresh_live_state()
+
+
 func show_inspection(definition: NpcDefinition) -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	if definition == null:
@@ -159,6 +174,11 @@ func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
 		definition.display_name,
 		definition.description.strip_edges(),
 	]
+
+
+func show_item_inspection(display_name: String, description: String) -> void:
+	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
+	inspection_text.text = "%s\n%s" % [display_name, description.strip_edges()]
 
 
 func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:

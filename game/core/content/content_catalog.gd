@@ -12,6 +12,7 @@ const MONEY_DENOMINATIONS: Dictionary[StringName, CurrencyDenomination.Value] = 
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
 var _npcs: Dictionary[StringName, NpcDefinition] = {}
 var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
+var _item_spawns: Dictionary[StringName, ItemSpawnDefinition] = {}
 var _vendors: Dictionary[StringName, VendorDefinition] = {}
 var _rooms: Dictionary[StringName, RoomDefinition] = {}
 var _regions: Dictionary[StringName, RegionDefinition] = {}
@@ -72,6 +73,11 @@ func set_places(
 	_landmarks = p_landmarks.duplicate()
 
 
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_item_spawns(p_item_spawns: Dictionary[StringName, ItemSpawnDefinition]) -> void:
+	_item_spawns = p_item_spawns.duplicate()
+
+
 ## Called once by ContentCatalogBuilder.
 func set_pacing(value: PacingDefinition) -> void:
 	_pacing = value
@@ -90,6 +96,22 @@ func landmarks_for_map(map_id: StringName) -> Array[WorldLandmarkDefinition]:
 	var result: Array[WorldLandmarkDefinition] = []
 	for definition: WorldLandmarkDefinition in _landmarks.values():
 		if definition.map_id == map_id:
+			result.append(definition)
+	return result
+
+
+## The hidden_passage landmark that opens `portal_id`; null for a portal that is always open.
+func hidden_passage_for_portal(portal_id: StringName) -> WorldLandmarkDefinition:
+	for definition: WorldLandmarkDefinition in _landmarks.values():
+		if definition.policy == &"hidden_passage" and definition.portal_ids().has(portal_id):
+			return definition
+	return null
+
+
+func hidden_passages() -> Array[WorldLandmarkDefinition]:
+	var result: Array[WorldLandmarkDefinition] = []
+	for definition: WorldLandmarkDefinition in _landmarks.values():
+		if definition.policy == &"hidden_passage":
 			result.append(definition)
 	return result
 
@@ -130,6 +152,19 @@ func spawns() -> Array[NpcSpawnDefinition]:
 func spawns_for_map(map_id: StringName) -> Array[NpcSpawnDefinition]:
 	var result: Array[NpcSpawnDefinition] = []
 	for definition: NpcSpawnDefinition in _spawns.values():
+		if definition.map_id == map_id:
+			result.append(definition)
+	return result
+
+
+func item_spawn(spawn_id: StringName) -> ItemSpawnDefinition:
+	return _item_spawns.get(spawn_id)
+
+
+## Items lying on the floor of `map_id` at world creation, in authored order.
+func item_spawns_for_map(map_id: StringName) -> Array[ItemSpawnDefinition]:
+	var result: Array[ItemSpawnDefinition] = []
+	for definition: ItemSpawnDefinition in _item_spawns.values():
 		if definition.map_id == map_id:
 			result.append(definition)
 	return result

@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 26, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones, the revival temple and 4B's nine rooms")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 31, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones, the revival temple, 4B's nine rooms and 4C's five")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
 		var zone: ZoneDefinition = GameContent.catalog().zone(id)
@@ -40,7 +40,7 @@ func definition_tests() -> void:
 		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
-	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID], "no external portal additions")
+	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, &"snow.weapon_storage.down"], "no external portal additions; the weapon storage's way down (4C)")
 
 
 func _portal_ids(map_id: StringName) -> Array[StringName]:

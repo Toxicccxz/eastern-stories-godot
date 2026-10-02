@@ -3,12 +3,15 @@ extends Area2D
 
 ## One authored physical passage, configured by the owning map composition.
 ## Unconfigured cross-region passages retain their optional blocking wall.
+## A hidden passage (a hidden_passage landmark's portal) can be shut: then it
+## is plain floor, its shape off and its visuals hidden.
 @export var portal_id: StringName = &""
 @export var closed_wall_path: NodePath
 var _portal: PortalDefinition
 var _map: WorldResidentMapController
 var _contact: bool = false
 var _pending: bool = false
+var _open: bool = true
 
 
 func configure(portal: PortalDefinition, map: WorldResidentMapController) -> bool:
@@ -26,8 +29,20 @@ func configure(portal: PortalDefinition, map: WorldResidentMapController) -> boo
 	return true
 
 
+func is_open() -> bool:
+	return _open
+
+
+func set_open(value: bool) -> void:
+	_open = value
+	visible = value
+	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", not value)
+	if not value:
+		clear_contact()
+
+
 func is_current(portal: PortalDefinition) -> bool:
-	if _portal == null or portal != _portal or not is_inside_tree() or not monitoring or _map == null or not _map.is_map_initialized():
+	if _portal == null or portal != _portal or not _open or not is_inside_tree() or not monitoring or _map == null or not _map.is_map_initialized():
 		return false
 	var body: WorldCharacterBody2D = _map.runtime_player_body()
 	if body == null or not body.player_controlled or _map._world_simulation_gate.is_frozen():

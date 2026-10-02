@@ -46,7 +46,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var room: RoomDefinition = GameContent.catalog().room(StringName("es2:d/snow/" + key.get_slice(":", 0)))
 		_check(room.exits().get(key.get_slice(":", 1)) == StringName("es2:" + expected_exits[key].trim_prefix("/")), "original LPC exit exact: " + key)
 	var portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(&"snow.outdoor")
-	_check(portals.size() == 2 and portals[0].portal_id == SnowWorldDefinitions.INN_RETURN_PORTAL_ID and portals[1].portal_id == SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, "west Inn door and the south road to Old Pine")
+	_check(portals.size() == 3 and portals[0].portal_id == SnowWorldDefinitions.INN_RETURN_PORTAL_ID and portals[1].portal_id == SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID and portals[2].portal_id == &"snow.weapon_storage.down", "west Inn door, the south road to Old Pine and the weapon storage's hidden way down")
 	_check(GameContent.catalog().portal(&"eroad3:south") == null, "Old Pine not a native portal")
 	_check(entry.inn.resident_npcs().size() == 2 and entry.outdoor.resident_npcs().size() == 19, "only the authored NPCs (4A, 4B), no dummies")
 	_check(entry.outdoor.find_children("*", "CharacterBody2D", true, false).size() == 20, "outdoor Player body plus one per authored NPC")
@@ -112,7 +112,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	_check(entry.zone_history == [&"snow.inn.main_floor", &"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3", &"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square", &"snow.inn.main_floor"], "complete physical zone order, no extra map load: " + str(entry.zone_history))
 	_check(entry._player.state.recovery.food == 400 and entry._player.state.recovery.water == 400 and entry._player.state.progression.combat_experience == 0, "walking consumes no invented food/RNG/progression")
-	_check(entry.allocator.next_dynamic_sequence == 1 and entry.birth.inventory.registered_item_ids().size() == 26, "one cloth plus the NPC loadouts, still exact on round trip")
+	_check(entry.allocator.next_dynamic_sequence == 1 and entry.birth.inventory.registered_item_ids().size() == 28, "one cloth plus the NPC loadouts and the floor items, still exact on round trip")
 	_check(entry.inn.initialization_count() == 1 and entry.outdoor.initialization_count() == 1, "no scene reinitialization during physical route")
 	# Spawning Snow's NPCs drew 151 times (see snow_oldpine_connection_test); walking draws nothing.
 	var spawn_draws: GodotNpcInitializationRandomSource = GodotNpcInitializationRandomSource.new(21, true)

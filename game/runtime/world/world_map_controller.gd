@@ -34,6 +34,7 @@ var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] =
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
 var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
+var _floor_items: Dictionary[StringName, WorldFloorItemView] = {}
 var _effects: SkillImprovementEffectRegistry
 var _selected_target: WorldInteractionTarget
 var _selected_landmark_available: bool = false
@@ -112,19 +113,27 @@ func _bind_zones() -> bool:
 
 
 ## A passage opens only when its destination map is resident in the
-## coordinator that holds this map; otherwise its blocking wall stays.
+## coordinator that holds this map; otherwise its blocking wall stays. A hidden
+## passage starts shut until its landmark opens it (the Session's WorldHiddenPassages).
 func _bind_passages() -> bool:
 	var coordinator: WorldResidentMapCoordinator = _coordinator()
+	var passages: Array[WorldPassageArea2D] = []
 	for node: Node in find_children("*", "Area2D", true, false):
 		var passage: WorldPassageArea2D = node as WorldPassageArea2D
 		if passage == null:
 			continue
+		passages.append(passage)
 		var portal: PortalDefinition = GameContent.catalog().portal(passage.portal_id)
 		if portal == null:
 			return false
 		if coordinator != null and coordinator.has_resident_map(portal.destination_map_id) and not configure_passage(portal):
 			return false
-	return initialize_passages()
+	if not initialize_passages():
+		return false
+	for passage: WorldPassageArea2D in passages:
+		if GameContent.catalog().hidden_passage_for_portal(passage.portal_id) != null:
+			passage.set_open(false)
+	return true
 
 
 func _coordinator() -> WorldResidentMapCoordinator:
@@ -495,7 +504,7 @@ func _spawn_actors() -> bool:
 			var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
 			if marker == null or not _add_npc_body(npc, marker.global_position):
 				return false
-	return true
+	return _spawn_floor_items()
 
 
 ## Restore places the saved NPCs and corpses of this map, exactly where they were.
@@ -517,7 +526,142 @@ func _restore_actors() -> bool:
 	var authored_npc_count: int = 0
 	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
 		authored_npc_count += spawn.quantity
-	return _npcs.size() == authored_npc_count
+	return _npcs.size() == authored_npc_count and _restore_floor_items()
+
+
+# --- Items on the floor ------------------------------------------------------------
+
+## A new world lays each item spawn's item on its marker (room.c reset() ->
+## make_inventory()). Its identity follows from the spawn point, so nothing
+## draws from a random source or the dynamic ID sequence.
+func _spawn_floor_items() -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
+		var content: ItemContentDefinition = catalog.item(spawn.item_definition_id)
+		var location: WorldLocationState = location_for_zone(spawn.zone_id)
+		if content == null or location == null:
+			return false
+		for point_id: StringName in spawn.spawn_point_ids():
+			var item: ItemInstance = ItemInstance.new(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id), content.item_definition_id)
+			if (
+				not _inventory.register_item(item, content.own_weight)
+				or not _item_index.register_snapshot(item)
+				or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
+			):
+				return false
+			var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
+				_inventory,
+				item.item_instance_id,
+				InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
+			)
+			if not placed.succeeded or not _add_floor_item_view(item.item_instance_id, content, point_id):
+				return false
+	return true
+
+
+## Continue: an item still lies on its spawn marker while the save keeps it in
+## that zone's WORLD; one taken away is wherever its record says.
+func _restore_floor_items() -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
+		var content: ItemContentDefinition = catalog.item(spawn.item_definition_id)
+		var location: WorldLocationState = location_for_zone(spawn.zone_id)
+		if content == null or location == null:
+			return false
+		for point_id: StringName in spawn.spawn_point_ids():
+			var id: StringName = ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)
+			var parent: ContainmentEndpoint = _inventory.direct_parent(id) if _inventory.is_registered(id) else null
+			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD:
+				continue
+			if parent.endpoint_id != location.combat_location_id or not _add_floor_item_view(id, content, point_id):
+				return false
+	return true
+
+
+func _add_floor_item_view(item_id: StringName, content: ItemContentDefinition, point_id: StringName) -> bool:
+	var marker: WorldSpawnMarker2D = resolve_spawn_marker(point_id)
+	var view: WorldFloorItemView = WorldFloorItemView.new()
+	if marker == null or not view.configure(item_id, content.display_name):
+		view.free()
+		return false
+	view.position = marker.position
+	marker.get_parent().add_child(view)
+	_floor_items[item_id] = view
+	view.selection_requested.connect(select_floor_item)
+	return true
+
+
+static func _floor_endpoint(location: WorldLocationState) -> ContainmentEndpoint:
+	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, location.combat_location_id)
+
+
+## Item IDs lying on this map's floor, in spawn order.
+func floor_item_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(_floor_items.keys())
+	return result
+
+
+func floor_item_view(item_id: StringName) -> WorldFloorItemView:
+	return _floor_items.get(item_id)
+
+
+func _selected_floor_item() -> WorldFloorItemView:
+	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.ITEM:
+		return null
+	return _floor_items.get(_selected_target.target_id)
+
+
+func _floor_item_content(view: WorldFloorItemView) -> ItemContentDefinition:
+	var item: ItemInstance = null if view == null else _item_index.resolve(view.item_instance_id)
+	return null if item == null else GameContent.catalog().item(item.item_definition_id)
+
+
+func _refresh_selected_floor_item() -> void:
+	var view: WorldFloorItemView = _selected_floor_item()
+	if view != null:
+		_hud().set_selected_floor_item(view.display_name, view.is_body_in_reach(player_body), false)
+
+
+func select_floor_item(item_id: StringName) -> bool:
+	if not _gameplay_open() or session == null:
+		return false
+	var view: WorldFloorItemView = _floor_items.get(item_id)
+	if view == null:
+		return false
+	_selected_target = WorldInteractionTarget.item(item_id)
+	_hud().set_selected_floor_item(view.display_name, view.is_body_in_reach(player_body))
+	return true
+
+
+## get.c on the selected floor item, with its lines in the log.
+func take_selected_floor_item() -> FloorItemPickup.Outcome:
+	var view: WorldFloorItemView = _selected_floor_item() if _gameplay_open() and session != null else null
+	var content: ItemContentDefinition = _floor_item_content(view)
+	var location: WorldLocationState = null if _player == null else _player.world_location()
+	if view == null or content == null or location == null:
+		return FloorItemPickup.Outcome.INVALID_REQUEST
+	var outcome: FloorItemPickup.Outcome = FloorItemPickup.take(
+		_player, view.item_instance_id, _floor_endpoint(location), view.is_body_in_reach(player_body), _inventory, _item_index,
+	)
+	match outcome:
+		FloorItemPickup.Outcome.TAKEN:
+			_floor_items.erase(view.item_instance_id)
+			view.queue_free()
+			_selected_target = null
+			_hud().set_selected_target(null)
+			_hud().append_log_lines([tr("你捡起一%s%s。") % [content.unit, content.display_name]])
+			if _hud().inventory_is_open():
+				_hud().show_inventory(session.player_inventory_rows())
+		FloorItemPickup.Outcome.BUSY:
+			_hud().append_log_lines([tr("你上一个动作还没有完成！")])
+		FloorItemPickup.Outcome.NOT_HERE:
+			_hud().append_log_lines([tr("你附近没有这样东西。")])
+		FloorItemPickup.Outcome.NO_GET:
+			_hud().append_log_lines([tr("这个东西拿不起来。")])
+		FloorItemPickup.Outcome.TOO_HEAVY:
+			_hud().append_log_lines([tr("%s对你而言太重了。") % content.display_name])
+	return outcome
 
 
 func _add_npc_body(npc: NpcRuntimeState, position: Vector2) -> bool:
@@ -649,7 +793,10 @@ func _process(_delta: float) -> void:
 	if _aggression.pending_count() > 0 or _zone_entry(_player.world_location()) == &"complete_set":
 		process_pending_aggression()
 	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
-		_refresh_selected_corpse()
+		if _floor_items.has(_selected_target.target_id):
+			_refresh_selected_floor_item()
+		else:
+			_refresh_selected_corpse()
 	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK:
 		_refresh_selected_landmark_source()
 
@@ -1215,6 +1362,10 @@ func inspect_selected() -> bool:
 		return false
 	match _selected_target.kind:
 		WorldInteractionTarget.Kind.ITEM:
+			var floor_content: ItemContentDefinition = _floor_item_content(_selected_floor_item())
+			if floor_content != null:
+				_hud().show_item_inspection(floor_content.display_name, floor_content.description)
+				return true
 			var corpse: CorpseState = _find_corpse(_selected_target.target_id)
 			if corpse == null or not _corpse_is_live_in_world(corpse):
 				return false
@@ -1306,6 +1457,9 @@ func open_selected_loot() -> bool:
 	if not _gameplay_open() or session == null:
 		return false
 	_hud().close_inventory()
+	if _selected_floor_item() != null:
+		_hud().close_loot()
+		return take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null:
 		_hud().close_loot()

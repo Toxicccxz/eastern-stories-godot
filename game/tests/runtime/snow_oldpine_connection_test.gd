@@ -30,9 +30,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var combat_rng: int = session.combat_random_source().capture_random_state().state
 	var world_rng: int = session.world_interaction_random_source().capture_random_state().state
 	_check(session.active_map_id() == &"snow.inn" and player.world_location().same_location(SnowWorldDefinitions.birth_location()), "inactive Old Pine initialization leaves authoritative Inn birth")
-	_check(npc_ids.size() == 5 and session.world_npcs().size() == 31 and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "ten Old Pine and twenty-one Snow NPCs initialized exactly once")
-	_check(session.resident_map_count() == 7, "source profile includes the five Old Pine maps plus Inn and Snow")
-	_check(session.inventory_state().registered_item_ids().size() == 37, "source cloth plus eleven Old Pine and twenty-five Snow NPC loadout items")
+	_check(npc_ids.size() == 5 and session.world_npcs().size() == 37 and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "ten Old Pine and twenty-seven Snow NPCs initialized exactly once")
+	_check(session.resident_map_count() == 9, "source profile includes the five Old Pine maps plus Snow's Inn, outdoor, upstairs and cellar")
+	_check(session.inventory_state().registered_item_ids().size() == 40, "source cloth plus eleven Old Pine and twenty-five Snow NPC loadout items, and three Snow items on the floor")
 	_check(session.encounter_display_name(player.character_id) == "Snow Player", "presentation projects source name")
 	_check((session.active_map().runtime_player_body().get_node("NameLabel") as Label).text == "Snow Player", "body label projects source identity")
 	_continuity(session, identities, cloth)
@@ -45,7 +45,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).spawn_matches_zone(south.destination_spawn_point_id, south.destination_zone_id), "north marker physically inside North Approach")
 	var snow: WorldResidentMapController = session.resident_map(&"snow.outdoor")
 	_check(snow.spawn_matches_zone(north.destination_spawn_point_id, north.destination_zone_id), "return marker physically inside eroad3")
-	_check(snow._passages.size() == 2 and _passages_to(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 1, "two independently typed Snow passages")
+	_check(snow._passages.size() == 3 and _passages_to(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 1, "Snow's outdoor passages: the Inn, Old Pine and the hidden way down")
 	_check(not snow.is_passage_current(south), "inactive/remote passage rejected")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-11T00:00:00Z")
 	_check(capture.succeeded() and capture.snapshot.metadata.schema_version == 2, "source Session saves current schema2")
@@ -83,11 +83,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check((technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_node("Terrain/Boundaries/WorldBounds/SnowBlocker") as CollisionShape2D).disabled == false and _passages_to(technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 0, "technical north exit remains physically closed")
 	# Snow's NPCs draw after Old Pine's: travellers 22, dogs 8, keeper 8, drunk 6,
 	# scavenger 7, guard 4, trainees 48, trainer 6 (4A); farmers 16, crazy dog 4, teacher 7,
-	# woodcutter 7, post officer 8 (4B). Old Pine's draws are a shared prefix.
+	# woodcutter 7, post officer 8 (4B); rats 36 (4C). Old Pine's draws are a shared prefix.
 	var technical_draws: NpcInitializationRandomSource = technical.npc_random_source()
-	for draw: int in range(151):
+	for draw: int in range(187):
 		technical_draws.next_below(10)
-	_check(technical_draws.capture_random_state().state == npc_rng, "source birth consumes zero NPC RNG; Old Pine draws first, then Snow's 151")
+	_check(technical_draws.capture_random_state().state == npc_rng, "source birth consumes zero NPC RNG; Old Pine draws first, then Snow's 187")
 	_check(OldPineWorldSaveCapture.new().capture(technical, &"development", "2026-09-11T00:00:00Z").succeeded(), "technical v1 capture preserved")
 	technical.free()
 	await tree.process_frame

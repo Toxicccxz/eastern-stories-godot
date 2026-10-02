@@ -8,6 +8,7 @@
 		"snow/items.json",
 		"snow/npcs.json",
 		"snow/spawns.json",
+		"snow/item_spawns.json",
 		"snow/vendors.json",
 		"snow/rooms.json",
 		"snow/world.json",

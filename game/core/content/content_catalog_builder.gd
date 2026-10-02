@@ -2,14 +2,15 @@ class_name ContentCatalogBuilder
 extends RefCounted
 
 ## Collects parsed data documents and cross-checks them. A document is one
-## JSON object with any of the `items`, `npcs`, `spawns`, `vendors`, `rooms`,
-## `regions`, `maps`, `zones`, `portals`, `services`, `doors`, `landmarks`
-## arrays, and at most one document has the `pacing` object.
+## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
+## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
+## `doors`, `landmarks` arrays, and at most one document has the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
 var _npcs: Dictionary[StringName, NpcDefinition] = {}
 var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
+var _item_spawns: Dictionary[StringName, ItemSpawnDefinition] = {}
 var _vendors: Dictionary[StringName, VendorDefinition] = {}
 var _rooms: Dictionary[StringName, RoomDefinition] = {}
 var _regions: Dictionary[StringName, RegionDefinition] = {}
@@ -48,6 +49,10 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: NpcSpawnDefinition = NpcContentRecords.spawn_from_record(record)
 		if _claim(definition.spawn_id, record):
 			_spawns[definition.spawn_id] = definition
+	for record: ContentRecordReader in reader.children("item_spawns"):
+		var definition: ItemSpawnDefinition = ItemSpawnDefinition.from_record(record)
+		if _claim(definition.spawn_id, record):
+			_item_spawns[definition.spawn_id] = definition
 	for record: ContentRecordReader in reader.children("vendors"):
 		var definition: VendorDefinition = VendorDefinition.from_record(record)
 		if _claim(definition.vendor_id, record):
@@ -111,6 +116,7 @@ func build() -> ContentCatalog:
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
 	catalog.set_places(_services, _doors, _landmarks)
+	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
@@ -186,6 +192,20 @@ func _check_spawns() -> void:
 					origin, point_id, point_owners[point_id],
 				])
 			point_owners[point_id] = definition.spawn_id
+	for definition: ItemSpawnDefinition in _item_spawns.values():
+		var origin: String = _origins[definition.spawn_id]
+		var item: ItemContentDefinition = _items.get(definition.item_definition_id)
+		if item == null:
+			_errors.append("%s.item: unknown item '%s'" % [origin, definition.item_definition_id])
+		elif item.is_stack:
+			# A combined item lies as one stack with an amount, which the floor does not hold yet.
+			_errors.append("%s.item: '%s' is a combined item" % [origin, definition.item_definition_id])
+		for point_id: StringName in definition.spawn_point_ids():
+			if point_owners.has(point_id):
+				_errors.append("%s.points: '%s' is already used by %s" % [
+					origin, point_id, point_owners[point_id],
+				])
+			point_owners[point_id] = definition.spawn_id
 
 
 func _check_vendors() -> void:
@@ -246,13 +266,18 @@ func _resolve_portals() -> void:
 
 
 func _check_spawn_locations() -> void:
+	var places: Array[Array] = []
 	for definition: NpcSpawnDefinition in _spawns.values():
-		var origin: String = _origins[definition.spawn_id]
-		var zone: ZoneDefinition = _zones.get(definition.zone_id)
-		if not _maps.has(definition.map_id):
-			_errors.append("%s.map: unknown map '%s'" % [origin, definition.map_id])
-		elif zone == null or zone.map_id != definition.map_id:
-			_errors.append("%s.zone: '%s' is not a zone of %s" % [origin, definition.zone_id, definition.map_id])
+		places.append([definition.spawn_id, definition.map_id, definition.zone_id])
+	for definition: ItemSpawnDefinition in _item_spawns.values():
+		places.append([definition.spawn_id, definition.map_id, definition.zone_id])
+	for place: Array in places:
+		var origin: String = _origins[place[0]]
+		var zone: ZoneDefinition = _zones.get(place[2])
+		if not _maps.has(place[1]):
+			_errors.append("%s.map: unknown map '%s'" % [origin, place[1]])
+		elif zone == null or zone.map_id != place[1]:
+			_errors.append("%s.zone: '%s' is not a zone of %s" % [origin, place[2], place[1]])
 
 
 func _resolve_services() -> void:
@@ -287,8 +312,10 @@ func _resolve_doors() -> void:
 			_doors[door_id] = definition.with_map(maps.keys()[0])
 
 
-## A landmark's portals leave from its own zone.
+## A landmark's portals leave from its own zone; a hidden passage's second
+## portal is the way back, from where the first leads to the landmark's zone.
 func _resolve_landmarks() -> void:
+	var hidden_owners: Dictionary[StringName, StringName] = {}
 	for landmark_id: StringName in _landmarks.keys():
 		var definition: WorldLandmarkDefinition = _landmarks[landmark_id]
 		var origin: String = _origins[landmark_id]
@@ -296,10 +323,20 @@ func _resolve_landmarks() -> void:
 		if zone == null:
 			_errors.append("%s.zone: unknown zone '%s'" % [origin, definition.zone_id])
 			continue
-		for portal_id: StringName in definition.portal_ids():
-			var portal: PortalDefinition = _portals.get(portal_id)
+		var portal_ids: Array[StringName] = definition.portal_ids()
+		for index: int in portal_ids.size():
+			var portal: PortalDefinition = _portals.get(portal_ids[index])
 			if portal == null:
-				_errors.append("%s.portals: unknown portal '%s'" % [origin, portal_id])
+				_errors.append("%s.portals: unknown portal '%s'" % [origin, portal_ids[index]])
+			elif definition.policy == &"hidden_passage" and index == 1:
+				var down: PortalDefinition = _portals.get(portal_ids[0])
+				if down != null and (portal.source_zone_id != down.destination_zone_id or portal.destination_zone_id != definition.zone_id):
+					_errors.append("%s.portals: '%s' does not lead from %s back to %s" % [origin, portal.portal_id, down.destination_zone_id, definition.zone_id])
 			elif portal.source_zone_id != definition.zone_id:
-				_errors.append("%s.portals: '%s' does not leave from %s" % [origin, portal_id, definition.zone_id])
+				_errors.append("%s.portals: '%s' does not leave from %s" % [origin, portal.portal_id, definition.zone_id])
+			if definition.policy == &"hidden_passage":
+				# A hidden portal is closed until its one landmark opens it.
+				if hidden_owners.has(portal_ids[index]):
+					_errors.append("%s.portals: '%s' is already hidden by %s" % [origin, portal_ids[index], hidden_owners[portal_ids[index]]])
+				hidden_owners[portal_ids[index]] = landmark_id
 		_landmarks[landmark_id] = definition.with_map(zone.map_id)

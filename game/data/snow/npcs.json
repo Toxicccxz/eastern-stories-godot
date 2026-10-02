@@ -200,6 +200,18 @@
 			"carry": [
 				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 70 }
 			]
+		},
+		{
+			"id": "snow.npc.rat",
+			"legacy_source": "d/snow/npc/rat.c",
+			"name": "老鼠",
+			"aliases": ["rat"],
+			"race": "beast",
+			"age": 1,
+			"long": "一只贼头贼脑的大老鼠。\n",
+			"skills": { "dodge": 120 },
+			"limbs": ["头部", "身体"],
+			"verbs": ["bite"]
 		}
 	]
 }

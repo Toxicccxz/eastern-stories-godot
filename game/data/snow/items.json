@@ -67,6 +67,40 @@
 			"weight": 8000,
 			"value": 3,
 			"weapon": { "skill": "hammer", "damage": 15 }
+		},
+		{
+			"id": "es2:d/snow/obj/denotation",
+			"legacy_sources": ["d/snow/obj/denotation.c", "d/snow/npc/obj/denotation.c"],
+			"name": "功德箱",
+			"aliases": ["denotation box", "box"],
+			"long": "这是寺庙接受善男信女捐献香油钱的功德箱，你可以把想捐的钱\n放进去。\n",
+			"unit": "个",
+			"no_get": true,
+			"weight": 0,
+			"value": 1
+		},
+		{
+			"id": "es2:d/snow/obj/bamboo_sword",
+			"legacy_sources": ["d/snow/obj/bamboo_sword.c", "d/snow/npc/obj/bamboo_sword.c"],
+			"name": "竹剑",
+			"aliases": ["bamboo sword", "sword"],
+			"long": "这是一把练习剑法用的竹剑，剑尖处用布包了起来以免误伤同伴。\n",
+			"unit": "把",
+			"material": "bamboo",
+			"weight": 1000,
+			"value": 100,
+			"weapon": { "skill": "sword", "damage": 10 }
+		},
+		{
+			"id": "es2:d/snow/obj/shield",
+			"legacy_sources": ["d/snow/obj/shield.c", "d/snow/npc/obj/shield.c"],
+			"name": "牛皮盾",
+			"aliases": ["leather shield", "shield"],
+			"unit": "面",
+			"material": "leather",
+			"weight": 7000,
+			"value": 340,
+			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 } }
 		}
 	]
 }

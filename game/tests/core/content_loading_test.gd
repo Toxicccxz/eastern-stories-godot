@@ -36,7 +36,7 @@ func _test_shipped_content_loads() -> void:
 		&"snow.inn.travellers", &"snow.outdoor.eroad2.dogs", &"snow.outdoor.temple.keeper", &"snow.outdoor.mstreet2.drunk",
 		&"snow.outdoor.mstreet2.scavenger", &"snow.outdoor.school1.guard", &"snow.outdoor.school2.trainees", &"snow.outdoor.school2.fist_trainer",
 		&"snow.outdoor.sroad2.farmers", &"snow.outdoor.sroad4.crazy_dog", &"snow.outdoor.school.teacher",
-		&"snow.outdoor.herbshop.woodcutter", &"snow.outdoor.postoffice.post_officer",
+		&"snow.outdoor.herbshop.woodcutter", &"snow.outdoor.postoffice.post_officer", &"snow.inn_upstairs.inn_2f.rats",
 	], "spawn order is the authored order (manifest, then file)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")
