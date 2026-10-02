@@ -235,9 +235,17 @@ func can_speak() -> bool:
 	return _race_id == NpcCharacterStateFactory.HUMAN_RACE_ID
 
 
-## feature/name.c short() without the "(Id)": title, a space, then the name.
+## feature/name.c short() without the "(Id)": 「nickname」name after the title (a space
+## between them without a nickname). A family head without a title of its own shows the one
+## feature/apprentice.c assign_apprentice() gives it (封山剑派第十三代掌门人).
 func short_name() -> String:
-	return _display_name if _title.is_empty() else "%s %s" % [_title, _display_name]
+	var text: String = _display_name if _nickname.is_empty() else "「%s」%s" % [_nickname, _display_name]
+	var shown_title: String = _title
+	if shown_title.is_empty() and _teaching != null and _teaching.has_family():
+		shown_title = NpcApprenticeship.family_title(_teaching.family_name, _teaching.family_generation, _teaching.family_title)
+	if shown_title.is_empty():
+		return text
+	return shown_title + ("" if not _nickname.is_empty() else " ") + text
 
 
 ## map_skill(use, skill) in authored order.

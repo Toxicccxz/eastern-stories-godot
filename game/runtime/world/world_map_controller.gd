@@ -639,6 +639,15 @@ func _add_dropped_item_view(item_id: StringName, location: WorldLocationState, p
 	return true
 
 
+## Where something dropped by a body standing at `origin` lies: just in front of its feet,
+## where the body does not hide it, on a spot a save accepts (else where it stands).
+func _at_feet(location: WorldLocationState, origin: Vector2) -> Vector2:
+	for offset: Vector2 in [Vector2(0, 28), Vector2(28, 0), Vector2(-28, 0), Vector2(0, -28)]:
+		if MapPlacementValidator.is_valid_character_position(self, location.zone_id, origin + offset):
+			return origin + offset
+	return origin
+
+
 ## Items dropped on this map's floor (not on a spawn marker), for the save.
 func dropped_item_ids() -> Array[StringName]:
 	var result: Array[StringName] = []
@@ -1392,7 +1401,7 @@ func _drink(npc: NpcRuntimeState, action: NpcDrinkAction) -> void:
 		return
 	if not drank.dropped_item_id.is_empty():
 		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-		_add_dropped_item_view(drank.dropped_item_id, location, Vector2.ZERO if body == null else body.global_position)
+		_add_dropped_item_view(drank.dropped_item_id, location, _at_feet(location, Vector2.ZERO if body == null else body.global_position))
 	if _player_hears(npc):
 		_hud().append_log_lines(drank.lines)
 
@@ -1959,7 +1968,7 @@ func drop_item(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
 		return ItemHandlingResult.new()
 	var location: WorldLocationState = _player.world_location()
 	var result: ItemHandlingResult = ItemHandlingService.drop(_player, item_id, amount, _floor_endpoint(location), _item_authorities())
-	if result.done() and not result.destroyed and not _add_dropped_item_view(result.item_id, location, player_body.global_position):
+	if result.done() and not result.destroyed and not _add_dropped_item_view(result.item_id, location, _at_feet(location, player_body.global_position)):
 		push_error("dropped %s has no view" % result.item_id)
 	_report_item_handling(result)
 	return result
