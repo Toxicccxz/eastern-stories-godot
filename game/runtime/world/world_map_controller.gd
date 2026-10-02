@@ -35,6 +35,8 @@ var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
 var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
 var _floor_items: Dictionary[StringName, WorldFloorItemView] = {}
+## Items lying away from any spawn marker (dropped), with their place; saved.
+var _dropped: Dictionary[StringName, WorldLocationState] = {}
 var _effects: SkillImprovementEffectRegistry
 var _selected_target: WorldInteractionTarget
 var _selected_landmark_available: bool = false
@@ -580,10 +582,17 @@ func _place_floor_item(spawn: ItemSpawnDefinition, point_id: StringName) -> bool
 	return placed.succeeded and _add_floor_item_view(item.item_instance_id, content, point_id)
 
 
-## Continue: an item still lies on its spawn marker while the save keeps it in
-## that zone's WORLD; one taken away is wherever its record says.
+## Continue: a dropped item lies where the save says; an item still in its spawn's
+## zone and not dropped lies on its marker; one taken away is wherever its record
+## says (OldPineWorldRestoreComposition checks that every floor item has a place).
 func _restore_floor_items() -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
+	for record: GameSaveValueTypes.FloorItemSnapshot in session.restored_floor_items():
+		if record.world_location.map_id != map:
+			continue
+		var location: WorldLocationState = location_for_zone(record.world_location.zone_id)
+		if location == null or not _add_dropped_item_view(record.item_instance_id, location, Vector2(record.map_position.x, record.map_position.y)):
+			return false
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
 		var content: ItemContentDefinition = catalog.item(spawn.item_definition_id)
 		var location: WorldLocationState = location_for_zone(spawn.zone_id)
@@ -592,7 +601,7 @@ func _restore_floor_items() -> bool:
 		for point_id: StringName in spawn.spawn_point_ids():
 			var id: StringName = ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)
 			var parent: ContainmentEndpoint = _inventory.direct_parent(id) if _inventory.is_registered(id) else null
-			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD:
+			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD or _dropped.has(id):
 				continue
 			if parent.endpoint_id != location.combat_location_id or not _add_floor_item_view(id, content, point_id):
 				return false
@@ -610,6 +619,44 @@ func _add_floor_item_view(item_id: StringName, content: ItemContentDefinition, p
 	_floor_items[item_id] = view
 	view.selection_requested.connect(select_floor_item)
 	return true
+
+
+## A view for an item lying in `location` at `position` (dropped there), kept in
+## the save (dropped_item_ids()).
+func _add_dropped_item_view(item_id: StringName, location: WorldLocationState, position: Vector2) -> bool:
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	var view: WorldFloorItemView = WorldFloorItemView.new()
+	if content == null or location == null or _floor_items.has(item_id) or not view.configure(item_id, content.display_name):
+		view.free()
+		return false
+	var parent: Node = get_node_or_null("SpawnPoints")
+	(self if parent == null else parent).add_child(view)
+	view.global_position = position
+	_floor_items[item_id] = view
+	_dropped[item_id] = location.duplicate_snapshot()
+	view.selection_requested.connect(select_floor_item)
+	return true
+
+
+## Items dropped on this map's floor (not on a spawn marker), for the save.
+func dropped_item_ids() -> Array[StringName]:
+	var result: Array[StringName] = []
+	result.assign(_dropped.keys())
+	return result
+
+
+func dropped_item_location(item_id: StringName) -> WorldLocationState:
+	var location: WorldLocationState = _dropped.get(item_id)
+	return null if location == null else location.duplicate_snapshot()
+
+
+func _forget_floor_item(item_id: StringName) -> void:
+	var view: WorldFloorItemView = _floor_items.get(item_id)
+	_floor_items.erase(item_id)
+	_dropped.erase(item_id)
+	if view != null:
+		view.queue_free()
 
 
 static func _floor_endpoint(location: WorldLocationState) -> ContainmentEndpoint:
@@ -669,12 +716,11 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 	if view == null or content == null or location == null:
 		return FloorItemPickup.Outcome.INVALID_REQUEST
 	var outcome: FloorItemPickup.Outcome = FloorItemPickup.take(
-		_player, view.item_instance_id, _floor_endpoint(location), view.is_body_in_reach(player_body), _inventory, _item_index,
+		_player, view.item_instance_id, _floor_endpoint(location), view.is_body_in_reach(player_body), _inventory, _item_index, _stacks,
 	)
 	match outcome:
 		FloorItemPickup.Outcome.TAKEN:
-			_floor_items.erase(view.item_instance_id)
-			view.queue_free()
+			_forget_floor_item(view.item_instance_id)
 			_selected_target = null
 			_hud().set_selected_target(null)
 			_hud().append_log_lines([tr("你捡起一%s%s。") % [content.unit, content.display_name]])
@@ -710,7 +756,28 @@ func _add_npc_body(npc: NpcRuntimeState, position: Vector2, at: int = -1) -> boo
 	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
 		return false
 	_connect_npc_body(npc.character_id, body, body.presence())
+	_bind_npc_services(npc)
 	return true
+
+
+## What the NPC offers from its body: its goods (`vendor`) and its teaching.
+func _bind_npc_services(npc: NpcRuntimeState) -> void:
+	var services: Array[NpcService] = []
+	if not npc.definition().dealings().vendor_id.is_empty():
+		services.append(VendorService.new())
+	if not NpcTeacher.teachable_skills(npc.definition(), GameContent.catalog()).is_empty():
+		services.append(TeacherService.new())
+	for service: NpcService in services:
+		service.bind_npc(self, npc)
+		add_child(service)
+		_services.append(service)
+
+
+func _unbind_npc_services(character_id: StringName) -> void:
+	for service: WorldService in _services.duplicate():
+		if service is NpcService and (service as NpcService).npc.character_id == character_id:
+			_services.erase(service)
+			service.queue_free()
 
 
 func _characters_node() -> Node:
@@ -1171,6 +1238,7 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 	_npcs.erase(npc)
 	_map_characters.remove_character(character_id)
 	_aggression.clear_npc(character_id)
+	_unbind_npc_services(character_id)
 	if _ambience != null:
 		_ambience.cancel_greeting(character_id)
 	if _walker != null:
@@ -1248,18 +1316,22 @@ func _note_player_arrival() -> void:
 			npc.world_location().zone_id == zone_id and npc.exists_in_map
 			and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 			and not npc.relationship.is_fighting()
-			and not npc.definition().talk().greeting_say.is_empty()
+			and npc.definition().talk().has_greeting()
 		):
 			_ambience.start_greeting(npc.character_id)
 
 
-## keeper.c greeting(): said only if the player is still there.
+## keeper.c and waiter.c greeting(): said only if the player is still there; the
+## waiter picks one of its lines then (switch(random(3))).
 func _greet(npc: NpcRuntimeState) -> void:
 	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_hears(npc):
 		return
+	var choices: Array[NpcLine] = npc.definition().talk().greeting_choices()
+	if choices.is_empty():
+		return
+	var drawn: int = 0 if choices.size() == 1 else _ambience.random().legacy_random(choices.size())
 	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-	var text: String = NpcTalk.line(npc.definition().talk().greeting_say).replace("$RESPECT", tr(respect))
-	_hud().append_log_lines([tr("%s说道：%s") % [npc.definition().display_name, text]])
+	_hud().append_log_lines([choices[clampi(drawn, 0, choices.size() - 1)].sentence(npc.definition().display_name, tr(respect))])
 
 
 ## interactive(ob) in the NPC's room: an unconscious player still counts.
@@ -1282,7 +1354,7 @@ func _npc_arrived(npc: NpcRuntimeState) -> void:
 	if (
 		_ambience != null and _player_shares_zone(npc)
 		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and not npc.definition().talk().greeting_say.is_empty()
+		and npc.definition().talk().has_greeting()
 	):
 		_ambience.start_greeting(npc.character_id)
 
@@ -1306,6 +1378,23 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 			_hud().append_log_lines([NpcTalk.line(entry)])
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
+	elif entry is NpcDrinkAction:
+		_drink(npc, entry)
+
+
+## drunk.c do_drink(): it drinks, drops the emptied container where it stands,
+## or asks for more.
+func _drink(npc: NpcRuntimeState, action: NpcDrinkAction) -> void:
+	var location: WorldLocationState = npc.world_location()
+	var drank: NpcDrinkService.Result = NpcDrinkService.drink(npc, action, _floor_endpoint(location), _inventory, _item_index, _liquids)
+	if drank.outcome == NpcDrinkService.Outcome.AUTHORITY_FAILURE:
+		push_error("%s could not drink: its carried liquid is inconsistent" % npc.character_id)
+		return
+	if not drank.dropped_item_id.is_empty():
+		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+		_add_dropped_item_view(drank.dropped_item_id, location, Vector2.ZERO if body == null else body.global_position)
+	if _player_hears(npc):
+		_hud().append_log_lines(drank.lines)
 
 
 ## npc.c random_move() through go.c, within the NPC's range (NpcRandomMove). The
@@ -1673,7 +1762,7 @@ func inspect_selected() -> bool:
 
 func attack_selected() -> CombatSliceInitiationResult:
 	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	if target == null:
+	if target == null or target.definition().dealings().is_fight_deferred():
 		return CombatSliceInitiationResult.new()
 	# kill.c checks the attacker's room, which in ES2 is also the target's.
 	var catalog: ContentCatalog = GameContent.catalog()
@@ -1691,7 +1780,7 @@ func attack_selected() -> CombatSliceInitiationResult:
 ## accepts or refuses (NpcSparConsent). Beasts are not asked (no button).
 func spar_selected() -> CombatSliceInitiationResult:
 	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	if target == null or not target.definition().can_speak():
+	if target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
 		return CombatSliceInitiationResult.new()
 	var catalog: ContentCatalog = GameContent.catalog()
 	var name: String = target.definition().display_name
@@ -1711,7 +1800,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 	var player_state: CharacterState = _player.state
 	var lines: Array[String] = [tr("你对著%s说道：%s%s，领教%s的高招！") % [
 		name, tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
-		_player.facts.display_name, tr(RankWords.query_respect(target.character_state.gender, target.age, &"")),
+		_player.facts.display_name, tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
 	]]
 	var consent: NpcSparConsent = NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
 		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
@@ -1755,6 +1844,12 @@ func can_ask_selected() -> bool:
 	)
 
 
+## eff_kee * 100 / max_kee (herbalist.c heal_me()).
+@warning_ignore("integer_division")
+static func _kee_percent(state: CharacterState) -> int:
+	return 0 if state.vitality.maximum <= 0 else state.vitality.effective * 100 / state.vitality.maximum
+
+
 ## What the selected NPC can be asked about, in ES2's listing order (NpcInquiry).
 func ask_topics_selected() -> Array[String]:
 	return NpcInquiry.topics(selected_npc().definition()) if can_ask_selected() else []
@@ -1769,7 +1864,7 @@ func ask_selected(topic: String) -> Array[String]:
 	var lines: Array[String] = NpcInquiry.ask(
 		target.definition(), target.character_state.gender, target.age,
 		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
-		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id),
+		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state)),
 		topic, "" if zone == null else zone.display_name, _world_interaction_random,
 	)
 	_hud().append_log_lines(lines)
@@ -1780,7 +1875,10 @@ func open_selected_loot() -> bool:
 	if not _gameplay_open() or session == null:
 		return false
 	_hud().close_inventory()
-	if _selected_floor_item() != null:
+	var floor_view: WorldFloorItemView = _selected_floor_item()
+	if floor_view != null and _is_container(floor_view.item_instance_id):
+		return _show_container(floor_view)
+	if floor_view != null:
 		_hud().close_loot()
 		return take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN
 	var corpse: CorpseState = _selected_corpse()
@@ -1797,6 +1895,10 @@ func open_selected_loot() -> bool:
 
 
 func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransferResult:
+	var floor_view: WorldFloorItemView = _selected_floor_item() if _gameplay_open() and session != null else null
+	if floor_view != null and _is_container(floor_view.item_instance_id):
+		take_from_selected_container(item_instance_id)
+		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, _player.character_id, &"", item_instance_id)
 	if not _gameplay_open() or session == null:
 		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, &"" if _player == null else _player.character_id, &"", item_instance_id)
 	var corpse: CorpseState = _selected_corpse()
@@ -1814,6 +1916,121 @@ func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransfer
 	if _hud().inventory_is_open():
 		_hud().show_inventory(session.player_inventory_rows())
 	return _last_loot_transfer_result
+
+
+# --- Give, drop, put and get from (4E) ------------------------------------------------
+
+func _item_authorities() -> ItemHandlingService.Authorities:
+	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
+	return ItemHandlingService.Authorities.new(
+		MoneyInventoryContext.new(owner, _inventory, _stacks, _item_index), _foods, _liquids, _item_id_allocator,
+	)
+
+
+## give.c, drop.c and put.c are typed by an active player outside a fight.
+func can_handle_items() -> bool:
+	return _gameplay_open() and session != null and _player != null and can_act(false)
+
+
+## The selected NPC can be given things: present() and living(who).
+func selected_npc_takes_gifts() -> bool:
+	var npc: NpcRuntimeState = selected_npc()
+	return (
+		npc != null and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and npc.world_location().shares_combat_location(_player.world_location())
+	)
+
+
+## give <item> to <selected npc>; `amount` 0 gives the whole object.
+func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
+	var npc: NpcRuntimeState = selected_npc()
+	if not can_handle_items() or npc == null:
+		return ItemHandlingResult.new()
+	var result: ItemHandlingResult = ItemHandlingService.give(
+		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random,
+	)
+	_report_item_handling(result)
+	return result
+
+
+## drop <item>: it lies at the player's feet.
+func drop_item(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
+	if not can_handle_items():
+		return ItemHandlingResult.new()
+	var location: WorldLocationState = _player.world_location()
+	var result: ItemHandlingResult = ItemHandlingService.drop(_player, item_id, amount, _floor_endpoint(location), _item_authorities())
+	if result.done() and not result.destroyed and not _add_dropped_item_view(result.item_id, location, player_body.global_position):
+		push_error("dropped %s has no view" % result.item_id)
+	_report_item_handling(result)
+	return result
+
+
+## A container lying in the player's place within reach (feature/move.c
+## max_encumbrance), the selected one first; empty when none is.
+func container_in_reach() -> StringName:
+	var selected: WorldFloorItemView = _selected_floor_item()
+	if selected != null and _is_container(selected.item_instance_id) and _floor_item_in_player_zone(selected) and selected.is_body_in_reach(player_body):
+		return selected.item_instance_id
+	for item_id: StringName in _floor_items:
+		var view: WorldFloorItemView = _floor_items[item_id]
+		if _is_container(item_id) and _floor_item_in_player_zone(view) and view.is_body_in_reach(player_body):
+			return item_id
+	return &""
+
+
+## put <item> in <container in reach>.
+func put_in_container(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
+	var container_id: StringName = container_in_reach()
+	if not can_handle_items() or container_id.is_empty():
+		return ItemHandlingResult.new()
+	var result: ItemHandlingResult = ItemHandlingService.put(_player, item_id, amount, container_id, _item_authorities())
+	_report_item_handling(result)
+	if result.done() and _hud().loot_is_open():
+		_show_container(_floor_items[container_id])
+	return result
+
+
+## get <item> from <selected container>.
+func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
+	var view: WorldFloorItemView = _selected_floor_item()
+	if not can_handle_items() or view == null or not _is_container(view.item_instance_id) or not _floor_item_in_player_zone(view) or not view.is_body_in_reach(player_body):
+		return ItemHandlingResult.new()
+	var result: ItemHandlingResult = ItemHandlingService.take_from(_player, view.item_instance_id, item_id, _item_authorities())
+	_report_item_handling(result)
+	_show_container(view)
+	return result
+
+
+func _is_container(item_id: StringName) -> bool:
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	return content != null and content.max_encumbrance > 0
+
+
+## The container's contents as loot rows; get.c takes them one by one.
+func _show_container(view: WorldFloorItemView) -> bool:
+	if not _floor_item_in_player_zone(view) or not view.is_body_in_reach(player_body):
+		_hud().close_loot()
+		return false
+	var rows: Array[WorldItemRowProjection] = []
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, view.item_instance_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content == null:
+			continue
+		var amount: int = _stacks.stack_state(item_id).amount if _stacks.has_stack(item_id) else 1
+		rows.append(WorldItemRowProjection.new(item_id, item.item_definition_id, content.display_name, content.description, amount, content.category, true, false, false))
+	_hud().show_loot(view.display_name, rows)
+	return true
+
+
+func _report_item_handling(result: ItemHandlingResult) -> void:
+	if result.outcome == ItemHandlingResult.Outcome.AUTHORITY_FAILURE:
+		push_error("item handling failed: the item state is inconsistent")
+	if not result.lines.is_empty():
+		_hud().append_log_lines(result.lines)
+	if _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
 
 
 # --- Landmarks and same-map passages ------------------------------------------------
@@ -1934,7 +2151,7 @@ func services() -> Array[WorldService]:
 
 func service(service_id: StringName) -> WorldService:
 	for candidate: WorldService in _services:
-		if candidate.definition.service_id == service_id:
+		if candidate.service_id() == service_id:
 			return candidate
 	return null
 

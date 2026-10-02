@@ -114,6 +114,9 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		return corpse_result
 	var corpse_entries: Array[OldPineRestoredCorpseEntry] = []
 	corpse_entries.assign(corpse_result.preparation.corpse_entries())
+	var floor_failure: OldPineWorldRestoreResult = _check_floor_items(snapshot, corpse_entries)
+	if floor_failure != null:
+		return floor_failure
 
 	var npc_random: GodotNpcInitializationRandomSource = (
 		GodotNpcInitializationRandomSource.new(0, true)
@@ -146,6 +149,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			snapshot.world_content_revision,
 		)
 	)
+	preparation.floor_items = snapshot.floor_items
 	if not preparation.is_valid():
 		return Result.failure(
 			Result.Outcome.RECONSTRUCTION_FAILED,
@@ -230,6 +234,7 @@ static func _restore_npc_ledger(
 				definition,
 				item_index,
 				referenced_loadout_ids,
+				snapshot.item_id_allocator.scope,
 			):
 				return Result.failure(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,
@@ -445,6 +450,38 @@ static func _restore_corpses(
 	)
 
 
+## Every item lying on a floor (WORLD parent) is a corpse, a floor-spawn item in
+## its own zone (on its marker), or a dropped item with a place (floor_items);
+## a dropped item's place is the zone its record names.
+static func _check_floor_items(snapshot: GameSaveSnapshot, corpse_entries: Array[OldPineRestoredCorpseEntry]) -> OldPineWorldRestoreResult:
+	var dropped: Dictionary[StringName, Values.FloorItemSnapshot] = {}
+	for record: Values.FloorItemSnapshot in snapshot.floor_items:
+		if record == null or dropped.has(record.item_instance_id) or not _location_is_current(record.world_location) or not record.map_position.has_finite_coordinates():
+			return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "floor_items", "invalid or duplicate record")
+		dropped[record.item_instance_id] = record
+	var corpse_ids: Dictionary[StringName, bool] = {}
+	for entry: OldPineRestoredCorpseEntry in corpse_entries:
+		corpse_ids[entry.state.corpse_item_instance_id] = true
+	var spawn_zones: Dictionary[StringName, StringName] = {}
+	for spawn: ItemSpawnDefinition in GameContent.catalog().item_spawns():
+		for point_id: StringName in spawn.spawn_point_ids():
+			spawn_zones[ItemSpawnDefinition.item_instance_id(snapshot.item_id_allocator.scope, point_id)] = spawn.zone_id
+	for record: NativeItemRecord in snapshot.items.item_records:
+		var parent: ContainmentEndpoint = record.direct_parent
+		var id: StringName = record.item_instance_id
+		if dropped.has(id):
+			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD or parent.endpoint_id != dropped[id].world_location.combat_location_id:
+				return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "floor_items.%s" % String(id), "not on that floor")
+			dropped.erase(id)
+		elif parent != null and parent.kind == ContainmentEndpoint.Kind.WORLD and not corpse_ids.has(id):
+			var zone: ZoneDefinition = GameContent.catalog().zone(spawn_zones.get(id, &""))
+			if zone == null or zone.combat_location_id != parent.endpoint_id:
+				return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "items.%s" % String(id), "on a floor without a place")
+	if not dropped.is_empty():
+		return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "floor_items", "names an item that does not exist")
+	return null
+
+
 ## The definition of the spawn whose saved NPC is a later generation than
 ## `victim_id` (NpcGeneration), or null.
 static func _replaced_npc_definition(snapshot: GameSaveSnapshot, victim_id: StringName) -> NpcDefinition:
@@ -460,6 +497,7 @@ static func _loadout_matches(
 	definition: NpcDefinition,
 	item_index: WorldItemInstanceIndex,
 	global_ids: Dictionary[StringName, bool],
+	snapshot_scope: StringName,
 ) -> bool:
 	var expected_counts: Dictionary[StringName, int] = {}
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
@@ -484,13 +522,14 @@ static func _loadout_matches(
 			return false
 		expected_counts[item.item_definition_id] = remaining - 1
 		resolved_ids.append(item_id)
-	# A living authored NPC still needs its complete loadout. A dead spawn is a
-	# durable tombstone whose former items may already have been looted or
-	# destroyed, so only the represented surviving subset is required.
-	if saved.life_status != &"dead":
-		for remaining: int in expected_counts.values():
-			if remaining != 0:
-				return false
+	# Only the represented surviving subset is required: a dead spawn's items may
+	# have been looted or destroyed, and a living NPC gives and drops things too
+	# (drunk.c drops its emptied wineskin, which may then be sold). A living NPC
+	# lists every loadout item that still exists, as the capture does.
+	var prefix: String = ("" if snapshot_scope.is_empty() else String(snapshot_scope) + ".") + String(saved.character_id) + ".loadout."
+	for item_id: StringName in item_index.snapshot_ids() if saved.life_status != &"dead" else []:
+		if String(item_id).begins_with(prefix) and not resolved_ids.has(item_id):
+			return false
 	for item_id: StringName in resolved_ids:
 		global_ids[item_id] = true
 	return true

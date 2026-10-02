@@ -60,6 +60,9 @@ func _ready() -> void:
 	inventory_panel.unwield_requested.connect(_unwield_item)
 	inventory_panel.wear_requested.connect(_wear_item)
 	inventory_panel.remove_requested.connect(_remove_item)
+	inventory_panel.give_requested.connect(_give_item)
+	inventory_panel.drop_requested.connect(_drop_item)
+	inventory_panel.put_requested.connect(_put_item)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
 		life_overlay.name = "PlayerLifeOverlay"
@@ -216,6 +219,16 @@ func loot_rows() -> Array[WorldItemRowProjection]:
 
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	close_loot()
+	var map: WorldMapController = (_session.active_map() as WorldMapController) if _session != null else null
+	var give_target: String = ""
+	var container: String = ""
+	if map != null and map.can_handle_items():
+		if map.selected_npc_takes_gifts():
+			give_target = map.selected_npc().definition().display_name
+		var container_id: StringName = map.container_in_reach()
+		if not container_id.is_empty():
+			container = map.floor_item_view(container_id).display_name
+	inventory_panel.set_handling_targets(give_target, container)
 	inventory_panel.show_inventory(rows)
 	_presentation_layout.open_panel("背包", inventory_panel)
 	_presentation_layout.refresh_rows()
@@ -272,9 +285,11 @@ func refresh_live_state() -> void:
 	inspect_button.disabled = (
 		not target_available and not landmark_available and not corpse_available
 	)
-	attack_button.disabled = not target_available or not player_available
+	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
+	var fightable: bool = target_available and not _selected_target.definition().dealings().is_fight_deferred()
+	attack_button.disabled = not fightable or not player_available
 	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
-	spar_button.disabled = not target_available or not player_available or not _selected_target.definition().can_speak()
+	spar_button.disabled = not fightable or not player_available or not _selected_target.definition().can_speak()
 	# ask.c: the same speakers, who must be here (present()).
 	ask_button.disabled = not player_available or not _selected_npc_askable()
 	open_loot_button.disabled = (
@@ -600,7 +615,11 @@ func _refresh_character() -> void:
 	var state := _player.state
 	var attr := state.attributes
 	var text: String = "%s · %s · %d岁\n%s\n\n当前 / 有效 / 最大\n精 %s\n气 %s\n神 %s\n\n食物 %d · 饮水 %d\n实战经验 %d · 潜能 %d（已用 %d）\n\n膂力 %d · 胆识 %d · 悟性 %d · 灵性 %d\n定力 %d · 容貌 %d · 根骨 %d · 福缘 %d\n" % [_player.facts.display_name, state.gender, _player.facts.age, _player.facts.title, _resource_text(state.essence), _resource_text(state.vitality), _resource_text(state.spirit), state.recovery.food, state.recovery.water, state.progression.combat_experience, state.progression.potential, state.progression.potential_spent, attr.strength, attr.courage, attr.intelligence, attr.spirituality, attr.composure, attr.personality, attr.constitution, attr.karma]
-	text += "\n基本拳脚 %d · 学习进度 %d\n柳家拳 %d · 学习进度 %d\n有效拳脚 %d" % [state.skills.raw_level(&"unarmed"), state.skills.learned_progress(&"unarmed"), state.skills.raw_level(LiuhKenDefinition.SKILL_ID), state.skills.learned_progress(LiuhKenDefinition.SKILL_ID), state.skills.effective_level(&"unarmed", _player.armor.aggregate_numeric_modifiers().unarmed)]
+	# cmds/usr/skills.c lists every skill the character has; names come from skills.json.
+	for skill_id: StringName in state.skills.raw_skill_ids():
+		var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
+		text += tr("\n%s %d · 学习进度 %d") % [String(skill_id) if skill == null else skill.display_name, state.skills.raw_level(skill_id), state.skills.learned_progress(skill_id)]
+	text += tr("\n有效拳脚 %d") % state.skills.effective_level(&"unarmed", _player.armor.aggregate_numeric_modifiers().unarmed)
 	text += "\n负重 %d / %d · 体重 %d" % [_session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)), _player.maximum_encumbrance, _player.body_facts.body_weight]
 	_presentation_layout.character.text = text
 
@@ -633,6 +652,21 @@ func _inspect_item(id: StringName) -> void:
 			show_inventory_inspection(row)
 			return
 	open_inventory()
+
+
+func _give_item(id: StringName, amount: int) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.give_to_selected(id, amount)
+
+
+func _drop_item(id: StringName, amount: int) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.drop_item(id, amount)
+
+
+func _put_item(id: StringName, amount: int) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.put_in_container(id, amount)
 
 
 func _wield_item(id: StringName) -> void:

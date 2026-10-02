@@ -32,6 +32,7 @@ var _material: String
 var _own_weight: int
 var _value: int
 var _no_get: bool
+var _max_encumbrance: int
 var _weapon_definition: WeaponDefinition
 var _weapon_damage: int
 var _armor_definition: ArmorDefinition
@@ -63,6 +64,10 @@ var value: int:
 ## LPC set("no_get"): get.c refuses it (这个东西拿不起来。).
 var no_get: bool:
 	get: return _no_get
+## feature/move.c set_max_encumbrance(): a container holds this much (put in,
+## get from); 0 for anything that is not a container.
+var max_encumbrance: int:
+	get: return _max_encumbrance
 var weapon_skill_type: StringName:
 	get: return &"" if _weapon_definition == null else _weapon_definition.skill_type
 var weapon_damage: int:
@@ -112,6 +117,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if definition._value < 0:
 		reader.fail("value", "must not be negative")
 	definition._no_get = reader.boolean("no_get", false)
+	definition._max_encumbrance = reader.integer("max_encumbrance")
+	if definition._max_encumbrance < 0:
+		reader.fail("max_encumbrance", "must not be negative")
 	var money: ContentRecordReader = reader.child("money")
 	if money != null:
 		definition._read_money(money)

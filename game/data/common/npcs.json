@@ -1,0 +1,57 @@
+{
+	"npcs": [
+		{
+			"id": "common.npc.swordsman.master",
+			"legacy_source": "daemon/class/swordsman/master.c",
+			"name": "柳淳风",
+			"aliases": ["master swordsman", "swordsman", "master"],
+			"nickname": "风雨双侠",
+			"gender": "男性",
+			"age": 44,
+			"long": "柳淳风是个相当高大的中年儒生，若不是从他腰间挂著的「玄苏剑」你\n大概猜不到眼前这个温文儒雅的中年人竟是家大武馆的馆主。\n",
+			"attributes": { "str": 27, "cor": 30, "cps": 27, "int": 24 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"rank_info": { "respect": "柳馆主" },
+			"family": { "name": "封山剑派", "generation": 13, "title": "掌门人" },
+			"f_master": true,
+			"skills": {
+				"unarmed": 40,
+				"parry": 120,
+				"dodge": 80,
+				"sword": 150,
+				"force": 40,
+				"literate": 60,
+				"fonxanforce": 60,
+				"fonxansword": 150,
+				"liuh-ken": 60,
+				"chaos-steps": 100,
+				"spider-array": 85
+			},
+			"skill_map": {
+				"unarmed": "liuh-ken",
+				"sword": "fonxansword",
+				"parry": "fonxansword",
+				"dodge": "chaos-steps"
+			},
+			"carry": [
+				{ "item": "es2:daemon/class/swordsman/blackthorn", "source": "daemon/class/swordsman/blackthorn.c", "equip": "wield" },
+				{ "item": "es2:daemon/class/swordsman/silk_cloth", "source": "daemon/class/swordsman/silk_cloth.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"淳风武馆": ["淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"],
+				"先人遗志": ["先父临终之时将这武馆交到在下手中，需得好好照看。"],
+				"刘安禄": ["刘兄弟在寒舍管事已经五年了，过去之事不须再提。"],
+				"name": ["你既然知道我是柳□主，怎麽不知道我是柳淳风？"],
+				"here": ["这里便是淳风武馆。"]
+			},
+			"fight_deferred": "maps sword and parry to fonxansword and dodge to chaos-steps, whose actions are not ported: every fight would abort",
+			"apprentice": {
+				"requires": { "cor": 20, "cps": 20 },
+				"refuse_say": "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？",
+				"accept_say": "很好，$RESPECT多加努力，他日必定有成。",
+				"class": "swordsman"
+			}
+		}
+	]
+}

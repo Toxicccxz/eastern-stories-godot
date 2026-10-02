@@ -86,10 +86,6 @@
 	],
 	"services": [
 		{
-			"id": "snow.inn.waiter", "kind": "vendor", "zone": "snow.inn.main_floor",
-			"name": "店小二", "reach": 96, "vendor": "snow.vendor.waiter", "legacy_source": "d/snow/npc/waiter.c"
-		},
-		{
 			"id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace",
 			"name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c"
 		},
@@ -100,18 +96,6 @@
 		{
 			"id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop",
 			"name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c"
-		},
-		{
-			"id": "snow.schoolhall.master", "kind": "teacher", "zone": "snow.schoolhall",
-			"name": "柳淳风", "reach": 96, "legacy_source": "daemon/class/swordsman/master.c"
-		},
-		{
-			"id": "snow.herbshop.herbalist", "kind": "vendor", "zone": "snow.herbshop",
-			"name": "杨掌柜", "reach": 96, "vendor": "snow.vendor.herbalist", "legacy_source": "d/snow/npc/herbalist.c"
-		},
-		{
-			"id": "snow.smithy.smith", "kind": "vendor", "zone": "snow.smithy",
-			"name": "王铁匠", "reach": 96, "vendor": "snow.vendor.smith", "legacy_source": "d/snow/npc/smith.c"
 		}
 	],
 	"doors": [

@@ -26,6 +26,8 @@ var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
+var _skills: Dictionary[StringName, SkillDefinition] = {}
+var _families: Dictionary[StringName, FamilyDefinition] = {}
 
 
 func _init(
@@ -76,6 +78,29 @@ func set_places(
 ## Called once by ContentCatalogBuilder after cross-checking.
 func set_item_spawns(p_item_spawns: Dictionary[StringName, ItemSpawnDefinition]) -> void:
 	_item_spawns = p_item_spawns.duplicate()
+
+
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_teaching(p_skills: Dictionary[StringName, SkillDefinition], p_families: Dictionary[StringName, FamilyDefinition]) -> void:
+	_skills = p_skills.duplicate()
+	_families = p_families.duplicate()
+
+
+## A skill the game defines (skills.json); null for one it does not model yet.
+func skill(skill_id: StringName) -> SkillDefinition:
+	return _skills.get(skill_id)
+
+
+func family(family_id: StringName) -> FamilyDefinition:
+	return _families.get(family_id)
+
+
+## The family whose ES2 family_name is `display_name`; null when none is defined.
+func family_named(display_name: String) -> FamilyDefinition:
+	for definition: FamilyDefinition in _families.values():
+		if definition.display_name == display_name:
+			return definition
+	return null
 
 
 ## Called once by ContentCatalogBuilder.
@@ -162,6 +187,12 @@ func item_spawn(spawn_id: StringName) -> ItemSpawnDefinition:
 
 
 ## Items lying on the floor of `map_id` at world creation, in authored order.
+func item_spawns() -> Array[ItemSpawnDefinition]:
+	var result: Array[ItemSpawnDefinition] = []
+	result.assign(_item_spawns.values())
+	return result
+
+
 func item_spawns_for_map(map_id: StringName) -> Array[ItemSpawnDefinition]:
 	var result: Array[ItemSpawnDefinition] = []
 	for definition: ItemSpawnDefinition in _item_spawns.values():

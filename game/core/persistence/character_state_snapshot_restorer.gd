@@ -126,6 +126,7 @@ static func restore(
 		snapshot.affiliation.duplicate_snapshot(),
 	)
 	state.gender = snapshot.gender
+	state.marks = snapshot.marks.duplicate()
 	return state if state.resources_have_valid_invariants() else null
 
 

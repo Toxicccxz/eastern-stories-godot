@@ -18,15 +18,15 @@ func _run() -> void:
 		var gate := GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		check(session.handoff_to(gate.destination_map_id,gate.destination_zone_id,gate.destination_zone_id,gate.destination_spawn_point_id).succeeded(),"fixture outdoor")
 		var map := session.active_map() as WorldMapController
-		var school := map.service(&"snow.schoolhall.master") as TeacherService
+		var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 		# Serializer fixture only; physical/live routes have separate real-input proof.
 		map.player_body.position = Vector2(340,-400)
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.school1"))
 		check(map.open_door(&"snow.school.gate"),"writer opens transient door")
 		map.player_body.position = Vector2(1000,-400)
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.schoolhall"))
-		check(school.request_apprentice() == SwordsmanApprenticeship.Outcome.RECRUITED,"writer recruits")
-		check(school.request_learn().success,"writer world RNG Learn")
+		check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED,"writer recruits")
+		check(school.request_learn(&"unarmed").success,"writer world RNG Learn")
 		session.player_runtime().state.skills.set_learned_progress(&"unarmed",1)
 		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(),"write school")
 		session.free()
@@ -50,9 +50,9 @@ func _run() -> void:
 			var after := OldPineWorldSaveCapture.new().capture(session,loaded.snapshot.metadata.storage_profile,loaded.snapshot.metadata.saved_at_utc)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text,"whole snapshot exact")
 			var map := session.active_map() as WorldMapController
-			var school := map.service(&"snow.schoolhall.master") as TeacherService
+			var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 			check(not map.door(&"snow.school.gate").is_open() and not (map.get_node("Walls/SchoolDoor") as CollisionShape2D).disabled,"cold-closed gate")
-			check(not session.player_runtime().school_apprenticeship.is_pending() and not school.ui.panel.visible,"pending/UI not restored")
+			check(not session.player_runtime().apprenticeship_request.is_pending() and not school.ui.panel.visible,"pending/UI not restored")
 			check(map.player_body.position == Vector2(1000,-400),"exact school position")
 			check(session.player_runtime().facts.title == "封山剑派第十四代弟子" and session.player_runtime().state.affiliation.class_id == &"swordsman","title/class")
 			var reference_rng := GodotWorldInteractionRandomSource.new()

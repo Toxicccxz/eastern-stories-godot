@@ -4,6 +4,7 @@ const First := preload("res://tests/runtime/snow_first_progression_test.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const LearnDraws := preload("res://tests/support/scripted_world_interaction_random_source.gd")
 const Draws := preload("res://tests/support/scripted_combat_random_source.gd")
+const Master := preload("res://tests/support/snow_master.gd")
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -32,7 +33,7 @@ func check(ok: bool, label: String) -> void:
 
 
 static func learn(state: CharacterState, rng: WorldInteractionRandomSource, context: TeachingContext = null) -> LearnResult:
-	return LearnService.learn(state, context if context != null else SnowSchoolTeacher.teaching_context(&"liuh-ken"), LiuhKenDefinition.skill(), SnowSchoolTeacher.learn_policy(&"liuh-ken"), null, rng)
+	return LearnService.learn(state, context if context != null else Master.context(&"liuh-ken", rng), LiuhKenDefinition.skill(), Master.policy(&"liuh-ken"), null, rng)
 
 
 func definition_and_learn() -> void:
@@ -41,8 +42,8 @@ func definition_and_learn() -> void:
 	check(definition.can_enable_for(&"unarmed"), "unarmed enabled use")
 	for use_id: StringName in [&"sword", &"parry", &"dodge", &"force", &"magic", &"spells"]:
 		check(not definition.can_enable_for(use_id), "invalid use " + String(use_id))
-	check(SnowSchoolTeacher.teaching_context(&"liuh-ken").teacher_raw_level == 60 and SnowSchoolTeacher.teaching_context(&"unarmed").teacher_raw_level == 40, "two exact teacher levels")
-	check(SnowSchoolTeacher.teaching_context(&"sword") == null and SnowSchoolTeacher.learn_policy(&"sword") == null, "other teacher knowledge not a new working surface")
+	check(Master.context(&"liuh-ken").teacher_raw_level == 60 and Master.context(&"unarmed").teacher_raw_level == 40, "two exact teacher levels")
+	check(GameContent.catalog().skill(&"sword") == null and not NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()).has(&"sword"), "other teacher knowledge not a new working surface")
 	var thresholds: Array[int] = [0,0,0,2,6,12,21,34,51,72,100]
 	for raw: int in range(thresholds.size()):
 		for offset: int in [-1,0,1]:
@@ -70,18 +71,18 @@ func definition_and_learn() -> void:
 		for delta: int in [0,1]:
 			var state := First.disciple()
 			state.skills.set_raw_level(&"liuh-ken", raw)
-			var context := SnowSchoolTeacher.teaching_context(&"liuh-ken")
+			var rng := LearnDraws.new([0])
+			var context := Master.context(&"liuh-ken", rng)
 			context.current_spirit = (5 if raw == 0 else 3) + delta
 			var initial: int = context.current_spirit
-			var rng := LearnDraws.new([0])
 			learn(state,rng,context)
 			check(rng.call_count() == delta and context.current_spirit == initial, "strict NPC sen, no debit")
 	for gate: String in ["potential", "no_teach", "bad_random"]:
 		var state := First.disciple()
-		var context := SnowSchoolTeacher.teaching_context(&"liuh-ken")
+		var rng := LearnDraws.new([30])
+		var context := Master.context(&"liuh-ken", rng)
 		if gate == "potential": state.progression.potential_spent = 99
 		if gate == "no_teach": context.teaching_temporarily_disabled = true
-		var rng := LearnDraws.new([30])
 		var result := learn(state,rng,context)
 		check(result.created_explicit_zero_skill_entry and state.skills.has_raw_level(&"liuh-ken") and state.skills.raw_level(&"liuh-ken") == 0, "explicit zero survives " + gate)
 		check(state.essence.current == 100 and rng.call_count() == (1 if gate == "bad_random" else 0), "ordered late failure " + gate)
@@ -93,7 +94,8 @@ func definition_and_learn() -> void:
 			state.apprenticeship.betrayer_count = 3
 		var rng := LearnDraws.new([0])
 		var result := learn(state,rng)
-		check(not result.success and rng.call_count() == 0 and state.essence.current == 100, "teacher rejects " + gate)
+		# learn.c draws its reject_msg only for a student outside the family.
+		check(not result.success and rng.call_count() == (1 if gate == "no_relation" else 0) and state.essence.current == 100, "teacher rejects " + gate)
 
 
 static func ready_state() -> CharacterState:
@@ -275,7 +277,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	var session := Work.create_session(tree)
 	session.set_process(false)
 	var player := session.player_runtime()
-	player.request_school_apprenticeship(1789420000)
+	player.request_apprenticeship(Master.definition(), Master.family(), 1789420000)
 	player.state.skills.set_raw_level(&"unarmed",4)
 	player.state.skills.set_raw_level(&"liuh-ken",5)
 	player.state.skills.set_learned_progress(&"liuh-ken",7)
@@ -290,14 +292,14 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		else: player.state.skills.unmap_skill(&"unarmed")
 		var snapshot := Work.capture(session)
 		var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
-		check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_INNER_V1","save schema unchanged")
+		check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_SERVICES_V1","save schema unchanged")
 		var probe := Work.new()
 		await probe.round_trip(tree,session,snapshot,"liuh enabled=" + str(enabled))
 		check(probe._failures.is_empty(),"full state and all RNG exact; restore draws zero " + str(probe._failures))
 	var map := session.resident_map(&"snow.outdoor") as WorldMapController
-	var school := map.service(&"snow.schoolhall.master") as TeacherService
+	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 	var before := Work.rng_state(session)
-	check(not school.enable_liuh() and not school.disable_liuh() and not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
+	check(not school.enable(&"liuh-ken") and not school.disable(&"liuh-ken") and not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
 	check(Work.rng_state(session) == before,"rejected contact draws zero")
 	var walker := Work.new()
 	await walker.walk(tree,session,"move_right",125)
@@ -307,18 +309,18 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	check(school.can_teach(),"contact fixture valid")
 	school.ui.interact()
 	check(school.ui.panel.visible,"existing Liu panel")
-	school.ui.enable_liuh_button.pressed.emit()
-	check(player.state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and school.ui.status.text.contains("有效拳脚 7"),"real button wiring / authoritative UI")
-	school.ui.disable_liuh_button.pressed.emit()
-	check(player.state.skills.mapped_skill(&"unarmed").is_empty() and school.ui.status.text.contains("有效拳脚 2"),"immediate disable UI")
+	school.ui.enable_buttons[&"liuh-ken"].pressed.emit()
+	check(player.state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and school.ui.status.text.contains("有效基本拳脚 7"),"real button wiring / authoritative UI")
+	school.ui.disable_buttons[&"liuh-ken"].pressed.emit()
+	check(player.state.skills.mapped_skill(&"unarmed").is_empty() and school.ui.status.text.contains("有效基本拳脚 2"),"immediate disable UI")
 	var before_resources: Array[int] = [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current]
-	check(school.enable_liuh() and school.disable_liuh(),"contact transitions succeed")
+	check(school.enable(&"liuh-ken") and school.disable(&"liuh-ken"),"contact transitions succeed")
 	check(before_resources == [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current],"unarmed transitions never reset resources")
 	player.state.skills.set_raw_level(&"liuh-ken",0)
 	player.state.skills.set_learned_progress(&"liuh-ken",0)
 	var learn_rng_before: int = session.world_interaction_random_source().capture_random_state().state
 	var combat_rng_before: int = session.combat_random_source().capture_random_state().state
-	school.ui.learn_liuh_button.pressed.emit()
+	school.ui.learn_buttons[&"liuh-ken"].pressed.emit()
 	check(school.last_learn.skill_id == &"liuh-ken" and school.last_learn.calculated_essence_cost == 22 and school.last_learn.success,"Liu button uses generic liuh Learn with carried inventory/armor")
 	check(session.world_interaction_random_source().capture_random_state().state != learn_rng_before and session.combat_random_source().capture_random_state().state == combat_rng_before,"Learn uses WorldInteraction, never Combat RNG")
 	check(school.ui.feedback.text.contains("柳家拳") or school.last_learn.completion == LearnResult.Completion.PROGRESSED,"liuh label follows committed Learn")
@@ -326,7 +328,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		if gate == "busy": player.busy.start_busy(1)
 		if gate == "fight": player.relationship.add_opponent(&"opponent")
 		if gate == "pause": tree.paused = true
-		check(not school.enable_liuh() and not school.disable_liuh(),"mapping availability " + gate)
+		check(not school.enable(&"liuh-ken") and not school.disable(&"liuh-ken"),"mapping availability " + gate)
 		player.busy.advance(); player.relationship.remove_opponent(&"opponent"); tree.paused = false
 	for size: Vector2 in [Vector2(1152,648),Vector2(960,540),Vector2(800,480),Vector2(480,320)]:
 		var rect := Rect2(Vector2.ZERO,size)
@@ -336,7 +338,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		await tree.process_frame
 		check(session.shared_ui()._presentation_layout.frame.visible and session.shared_ui()._presentation_layout.mount.is_ancestor_of(school.ui.panel),"teaching form uses visible shared frame")
 		check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()),"panel confined " + str(size))
-		for button: Button in [school.ui.learn_button,school.ui.learn_liuh_button,school.ui.enable_liuh_button,school.ui.disable_liuh_button]:
+		for button: Button in [school.ui.learn_buttons[&"unarmed"],school.ui.learn_buttons[&"liuh-ken"],school.ui.enable_buttons[&"liuh-ken"],school.ui.disable_buttons[&"liuh-ken"]]:
 			check(button.custom_minimum_size.y >= 64 and button.custom_minimum_size.x >= 64,"touch targets " + str(size))
 		check(session.shared_ui()._presentation_layout._frame_layout.scroll.follow_focus,"scroll follows input focus")
 	school.ui.close_panel()

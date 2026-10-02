@@ -35,12 +35,13 @@ func _test_data() -> void:
 	_check(teacher.answer("学费").size() == 5 and teacher.answer("刘安禄").size() == 3, "魏无极: ask.c says the strings, skips 0 and the function")
 	_check(catalog.npc(&"snow.npc.post_officer").talk().inquiry_topics() == ["驿站"], "杜宽: 驿站 only (mail omitted)")
 	_check(catalog.npc(&"snow.npc.guard").talk().inquiry_topics().is_empty(), "刘安禄: no topics until the reveal is ported")
-	_check(not catalog.npc(&"snow.npc.drunk").talk().has_chat(), "醉汉: do_drink waits for give and drop (4E)")
+	_check(catalog.npc(&"snow.npc.drunk").talk().chat_chance == 10 and catalog.npc(&"snow.npc.drunk").talk().chat_entries()[0] is NpcDrinkAction, "醉汉: do_drink at 10 (4E)")
 	var traveller: NpcTalk = catalog.npc(&"snow.npc.traveller").talk()
 	_check(traveller.chat_chance == 40 and traveller.chat_entries() == [NpcTalk.RANDOM_MOVE], "旅客: random_move at 40")
 	var dog: NpcTalk = catalog.npc(&"snow.npc.dog").talk()
 	_check(dog.chat_chance == 6 and dog.chat_entries().size() == 5 and dog.chat_entries()[0] == NpcTalk.RANDOM_MOVE, "野狗: random_move and four lines at 6")
-	_check(catalog.npc(&"snow.npc.keeper").talk().greeting_say == "这位$RESPECT，捐点香火钱积点阴德吧。", "庙祝 greets")
+	var greeting: Array[NpcLine] = catalog.npc(&"snow.npc.keeper").talk().greeting_choices()
+	_check(greeting.size() == 1 and not greeting[0].emote and greeting[0].text == "这位$RESPECT，捐点香火钱积点阴德吧。", "庙祝 greets")
 	_check(catalog.npc(&"oldpine.npc.fat_bandit").talk().chat_chance == 0, "矮胖子土匪: a chance without chat_msg is nothing")
 
 
@@ -134,12 +135,13 @@ func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) ->
 	var scavenger: NpcRuntimeState = _npc(map, &"snow.mstreet2.scavenger.1")
 	var body: WorldCharacterBody2D = map.runtime_body_for_character(scavenger.character_id)
 	var home: Vector2 = body.global_position
-	# A beat says nothing (20 is not below 20), the next one the first line.
-	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([20, 0, 0]))
+	# A beat says nothing (20 is not below 20), the next one the first line. The drunk
+	# beside it draws first on each beat (spawn order); 99 keeps him quiet.
+	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([99, 20, 99, 0, 0]))
 	map.advance_npc_heartbeat(4.0)
 	_check(hud.log_lines().back() == "收破烂的吆喝道：收～破～烂～哪～", "chat(): the line as written")
 	# random_move: entry 3, exit 0 (north), then where in mstreet3 the walk ends.
-	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([99, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
 	map.advance_npc_heartbeat(2.0)
 	_check(scavenger.world_location().zone_id == &"snow.mstreet3" and hud.log_lines().back() == "收破烂的往北离开。", "random_move north: go.c's line; the place changes at once")
 	_check(map.npc_walker().is_walking(scavenger.character_id), "the body walks there")
@@ -155,12 +157,12 @@ func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) ->
 		if npc.character_id == scavenger.character_id:
 			saved = npc
 	_check(saved != null and saved.world_location.zone_id == &"snow.mstreet3" and Vector2(saved.map_position.x, saved.map_position.y) == rest, "a save mid-walk keeps where the walk ends")
-	# The player is no longer in its place: its beats stop (char.c).
-	var quiet := ScriptedWorldInteractionRandomSource.new([0, 3, 0, 0])
+	# The player is no longer in its place: its beats stop (char.c); the drunk's go on.
+	var quiet := ScriptedWorldInteractionRandomSource.new([99, 99, 99, 0, 3, 0, 0])
 	session.configure_npc_ambience_random_source(quiet)
 	for step: int in 60:
 		map.advance_npc_heartbeat(0.1)
-	_check(quiet.call_count() == 0, "no beat for an NPC the player is not with")
+	_check(quiet.call_count() == 3, "no beat for an NPC the player is not with (three for the drunk)")
 	map.select_npc(scavenger.character_id)
 	_check(map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and session.shared_ui().log_lines().back() == "这里没有这个人。", "kill.c present(): the scavenger walked away")
 	_check(not map.npc_walker().is_walking(scavenger.character_id) and body.global_position == rest and body.global_position != home, "the walk takes world time and ends there")
@@ -240,11 +242,11 @@ func _test_reset(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	# block_msg/all: the scavenger still beats beside an unconscious player, unread.
 	_check(_place(map, player, &"snow.mstreet2", map.physical_zone(&"snow.mstreet2").global_rect().get_center()), "back beside the scavenger")
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
-	var unread := ScriptedWorldInteractionRandomSource.new([0, 0])
+	var unread := ScriptedWorldInteractionRandomSource.new([99, 0, 0])
 	session.configure_npc_ambience_random_source(unread)
 	var read: int = hud.log_lines().size()
 	map.advance_npc_heartbeat(2.0)
-	_check(unread.call_count() == 2 and hud.log_lines().size() == read, "an unconscious player reads no chat")
+	_check(unread.call_count() == 3 and hud.log_lines().size() == read, "an unconscious player reads no chat")
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	# A keeper made anew where the player stands greets them (make_inventory()'s init()).
 	_check(map.relocate_player(&"snow.temple", &"snow.temple.keeper.1"), "into the temple")

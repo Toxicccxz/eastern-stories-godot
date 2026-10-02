@@ -58,6 +58,9 @@ var family: FamilyStateType
 var apprenticeship: ApprenticeshipStateType
 var affiliation: CharacterAffiliationState
 var equipment: EquipmentStateType
+## LPC marks/<name>: what NPCs have noted about this character (d/snow/npc/teacher.c
+## marks/魏无极 once tuition is paid). Saved.
+var marks: Dictionary[String, int] = {}
 
 
 func _init(

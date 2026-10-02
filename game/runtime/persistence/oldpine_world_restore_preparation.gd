@@ -12,6 +12,8 @@ var combat_random: CombatRandomSource
 var world_interaction_random: WorldInteractionRandomSource
 var _npc_entries: Array[OldPineRestoredNpcEntry] = []
 var _corpse_entries: Array[OldPineRestoredCorpseEntry] = []
+## Dropped items and where they lie (GameSaveSnapshot.floor_items).
+var floor_items: Array[GameSaveValueTypes.FloorItemSnapshot] = []
 
 
 func _init(

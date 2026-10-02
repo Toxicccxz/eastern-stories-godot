@@ -54,6 +54,12 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 		},
 	}
 	root["world_content_revision"] = WorldContentRevision.serialized(snapshot.world_content_revision)
+	# Only dropped items are written, so saves without any keep their shape.
+	var floor_items: Array[Variant] = []
+	for record: Values.FloorItemSnapshot in snapshot.floor_items:
+		floor_items.append({"item_instance_id": String(record.item_instance_id), "world_location": _encode_location(record.world_location), "map_position": {"x": record.map_position.x, "y": record.map_position.y}})
+	if not floor_items.is_empty():
+		root["floor_items"] = floor_items
 	return root
 
 
@@ -70,7 +76,7 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 			conditions.append({"condition_id": String(condition.condition_id), "payload_kind": "duration", "remaining": _i(condition.remaining)})
 		else:
 			conditions.append({"condition_id": String(condition.condition_id), "payload_kind": "poison", "damage": _i(condition.damage), "remaining": _i(condition.remaining), "legacy_message": condition.legacy_message})
-	return {
+	var result: Dictionary[String, Variant] = {
 		"gender": String(value.gender),
 		"attributes": {
 			"strength": _i(value.attributes.strength), "courage": _i(value.attributes.courage),
@@ -100,6 +106,13 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 			"entry_time_utc": _i(value.affiliation.entry_time_utc),
 		},
 	}
+	# marks/<name>: written only when there are some.
+	if not value.marks.is_empty():
+		var marks: Dictionary[String, Variant] = {}
+		for key: String in value.marks:
+			marks[key] = _i(value.marks[key])
+		result["marks"] = marks
+	return result
 
 
 func _encode_track(value: Values.ResourceTrackSnapshot) -> Dictionary[String, Variant]:
@@ -182,6 +195,8 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	if schema != GameSaveSnapshot.CURRENT_SCHEMA_VERSION: _fail(GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "metadata.schema_version")
 	if _error: return null
 	var root_keys: Array[String] = ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng", "world_content_revision"]
+	if root.has("floor_items"):
+		root_keys.append("floor_items")
 	var revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 	root = _obj(value, "root", root_keys)
 	if _error: return null
@@ -194,6 +209,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		"SOURCE_ENTRY_SNOW_NPCS_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_NPCS_V1
 		"SOURCE_ENTRY_SNOW_SOUTH_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_SOUTH_V1
 		"SOURCE_ENTRY_SNOW_INNER_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_INNER_V1
+		"SOURCE_ENTRY_SNOW_SERVICES_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_SERVICES_V1
 		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
 	if _error == null and _current_public_only:
 		var support: GameSaveResult = WorldContentRevision.public_support(revision)
@@ -210,9 +226,18 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	var corpse_values: Array = _array(root["corpses"], "corpses")
 	var corpses: Array[Values.CorpseSnapshot] = []
 	for index: int in range(corpse_values.size()): corpses.append(_decode_corpse(corpse_values[index], "corpses[%d]" % index))
+	var floor_items: Array[Values.FloorItemSnapshot] = []
+	if root.has("floor_items"):
+		var floor_values: Array = _array(root["floor_items"], "floor_items")
+		if floor_values.is_empty(): _fail(GameSaveResult.Outcome.INVALID_SNAPSHOT, "floor_items", "written only when there are some")
+		for index: int in range(floor_values.size()):
+			var path: String = "floor_items[%d]" % index
+			var record: Dictionary = _obj(floor_values[index], path, ["item_instance_id", "world_location", "map_position"])
+			if _error: return null
+			floor_items.append(Values.FloorItemSnapshot.new(StringName(_string(record["item_instance_id"], path + ".item_instance_id")), _decode_location(record["world_location"], path + ".world_location"), _decode_position(record["map_position"], path + ".map_position")))
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:
@@ -221,6 +246,8 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var fields: Array[String] = ["gender", "attributes", "resources", "internal_resources", "progression", "skills", "conditions", "family", "apprenticeship"]
 	if value is Dictionary and value.has("affiliation"):
 		fields.append("affiliation")
+	if value is Dictionary and value.has("marks"):
+		fields.append("marks")
 	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var a: Dictionary = _obj(object["attributes"], path + ".attributes", ["strength", "courage", "intelligence", "spirituality", "composure", "personality", "constitution", "karma", "force_factor", "bellicosity"])
@@ -250,8 +277,18 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var affiliation: CharacterAffiliationState = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty())
 	if object.has("affiliation"):
 		affiliation = _decode_affiliation(object["affiliation"], path + ".affiliation")
+	var marks: Dictionary[String, int] = {}
+	if object.has("marks"):
+		if typeof(object["marks"]) != TYPE_DICTIONARY or (object["marks"] as Dictionary).is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".marks", "expected a non-empty object")
+		else:
+			for key: Variant in object["marks"]:
+				if typeof(key) != TYPE_STRING or (key as String).is_empty():
+					_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".marks", "expected names")
+				else:
+					marks[key] = _int64(object["marks"][key], path + ".marks." + String(key))
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks)
 
 
 func _decode_affiliation(value: Variant, path: String) -> CharacterAffiliationState:

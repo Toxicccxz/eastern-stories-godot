@@ -277,10 +277,14 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 	await tree.process_frame
 	_check(not passages.state(SHELF).is_open and not map.is_portal_open(DOWN), "the passage closes once nobody is below")
 	_check(hud.log_lines().slice(-3).has("地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"), "close_passage's line: " + str(hud.log_lines().slice(-3)))
-	# The temple's donation box cannot be taken (no_get); it can be looked at from across the room.
+	# The temple's donation box is a container (4E): 拾取 lists what is in it, and it stays;
+	# it can be looked at from across the room.
 	_check(map.relocate_player(&"snow.temple", &"snow.temple.revive"), "to the temple")
 	var box: StringName = ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1")
-	_check(map.select_floor_item(box) and not map.open_selected_loot() and hud.log_lines().back() == "这个东西拿不起来。" and map.floor_item_ids().has(box), "功德箱: 这个东西拿不起来。")
+	_check(map.select_floor_item(box) and map.open_selected_loot() and hud.loot_rows().is_empty() and map.floor_item_ids().has(box), "功德箱: an empty container")
+	hud.dismiss_current_panel()
+	for _frame: int in range(3):
+		await tree.physics_frame
 	await walker.walk_to(tree, session, "move_down", 400, 1)
 	_check(player.world_location().zone_id == &"snow.temple" and map.select_floor_item(box) and not hud.open_loot_is_enabled() and map.inspect_selected(), "the box is out of reach but in the room")
 	for _frame: int in range(10):

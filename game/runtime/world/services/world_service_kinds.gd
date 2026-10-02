@@ -5,9 +5,7 @@ extends RefCounted
 const SCRIPTS: Dictionary[StringName, Script] = {
 	&"bank": preload("res://runtime/world/services/bank_service.gd"),
 	&"work": preload("res://runtime/world/services/work_service.gd"),
-	&"vendor": preload("res://runtime/world/services/vendor_service.gd"),
 	&"hockshop": preload("res://runtime/world/services/hockshop_service.gd"),
-	&"teacher": preload("res://runtime/world/services/teacher_service.gd"),
 	&"water": preload("res://runtime/world/services/water_service.gd"),
 }
 

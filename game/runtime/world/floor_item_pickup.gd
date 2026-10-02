@@ -3,7 +3,8 @@ extends RefCounted
 
 ## cmds/std/get.c `get <item>` for an item lying in the player's room: busy
 ## first, then whether it is there, then no_get, then feature/move.c's
-## encumbrance check. Taking it in a fight starts busy(1).
+## encumbrance check; a stack merges into the one the player holds (combined.c).
+## Taking it in a fight starts busy(1).
 enum Outcome {
 	TAKEN,
 	INVALID_REQUEST,
@@ -23,6 +24,7 @@ static func take(
 	player_in_reach: bool,
 	inventory: InventoryState,
 	item_index: WorldItemInstanceIndex,
+	stacks: CombinedStackCollection = null,
 ) -> Outcome:
 	if player == null or inventory == null or item_index == null or world_endpoint == null or item_instance_id.is_empty():
 		return Outcome.INVALID_REQUEST
@@ -36,16 +38,23 @@ static func take(
 		return Outcome.NOT_HERE
 	if content.no_get:
 		return Outcome.NO_GET
-	var transfer: InventoryTransferResult = InventoryTransferService.new().transfer(
-		inventory,
-		item_instance_id,
-		InventoryTransferDestination.new(
-			ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id),
-			true,
-			true,
-			player.maximum_encumbrance,
-		),
+	var destination := InventoryTransferDestination.new(
+		ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id),
+		true,
+		true,
+		player.maximum_encumbrance,
 	)
+	var transfer: InventoryTransferResult
+	if stacks != null and stacks.has_stack(item_instance_id):
+		var owner := ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor)
+		var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(stacks, inventory, item_instance_id, destination, null, null, owner)
+		if not item_index.forget_destroyed_snapshots(merged.absorbed_instance_ids, inventory):
+			return Outcome.TRANSFER_FAILED
+		transfer = merged.inventory_transfer
+		if transfer == null or (transfer.succeeded and not merged.succeeded):
+			return Outcome.TRANSFER_FAILED
+	else:
+		transfer = InventoryTransferService.new().transfer(inventory, item_instance_id, destination)
 	if not transfer.succeeded:
 		return Outcome.TOO_HEAVY if transfer.outcome == InventoryTransferResult.Outcome.CAPACITY_EXCEEDED else Outcome.TRANSFER_FAILED
 	if player.relationship.is_fighting():

@@ -3,6 +3,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Recovery := preload("res://tests/runtime/player_recovery_cadence_test.gd")
 const Draws := preload("res://tests/support/scripted_world_interaction_random_source.gd")
+const Master := preload("res://tests/support/snow_master.gd")
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -27,39 +28,43 @@ static func fresh() -> CharacterState:
 
 static func disciple() -> CharacterState:
 	var state := fresh()
-	SwordsmanApprenticeship.new().request(state, 1789420000)
+	Master.recruit(state, 1789420000)
 	return state
 
 
 func apprenticeship_tests() -> void:
 	var state := fresh()
-	var request := SwordsmanApprenticeship.new()
-	check(request.request(state, 1789420000) == SwordsmanApprenticeship.Outcome.RECRUITED, "fresh 30/30 recruitment")
+	var request := NpcApprenticeship.new()
+	check(Master.recruit(state, 1789420000, request) == NpcApprenticeship.Outcome.RECRUITED, "fresh 30/30 recruitment")
+	check(request.lines == ["你想要拜柳淳风为师。", "柳淳风说道：很好，壮士多加努力，他日必定有成。", "柳淳风决定收你为弟子。", "你跪了下来向柳淳风恭恭敬敬地磕了四个响头，叫道：「师父！」", "恭喜您成为封山剑派的第十四代弟子。"], "apprentice.c, master.c and recruit.c lines: " + str(request.lines))
 	check(state.family.family_id == &"family.fonxan" and state.family.generation == 14, "exact family and generation")
-	check(state.apprenticeship.master_teacher_id == &"teacher.liu_chunfeng" and state.apprenticeship.legacy_master_name == "柳淳风", "both master facts")
+	check(state.apprenticeship.master_teacher_id == Master.MASTER_ID and state.apprenticeship.legacy_master_name == "柳淳风", "both master facts")
 	check(state.affiliation.class_id == &"swordsman" and state.affiliation.family_title == "弟子" and state.affiliation.has_family_rank and state.affiliation.family_privileges == 0, "distinct class/rank/privilege")
 	check(state.affiliation.entry_time_status == CharacterAffiliationState.EntryTime.RECORDED and state.affiliation.entry_time_utc == 1789420000, "entry timestamp")
 	check(state.apprenticeship.betrayer_count == 0 and not state.skills.has_raw_level(&"unarmed") and state.progression.combat_experience == 0, "no betrayal/skill/experience reward")
-	check(request.request(state, 1789429999) == SwordsmanApprenticeship.Outcome.ACKNOWLEDGED and state.affiliation.entry_time_utc == 1789420000 and state.apprenticeship.betrayer_count == 0, "idempotent old time")
+	check(Master.recruit(state, 1789429999, request) == NpcApprenticeship.Outcome.ACKNOWLEDGED and state.affiliation.entry_time_utc == 1789420000 and state.apprenticeship.betrayer_count == 0, "idempotent old time")
+	check(request.lines == ["你恭恭敬敬地向柳淳风磕头请安，叫道：「师父！」"], "apprentice.c greets the master")
 	for attribute: String in ["courage", "composure"]:
 		state = fresh()
 		state.attributes.set(attribute, 19)
-		request = SwordsmanApprenticeship.new()
-		check(request.request(state, 1) == SwordsmanApprenticeship.Outcome.QUALIFICATION_REJECTED and request.is_pending(), attribute + " 19 pending")
+		request = NpcApprenticeship.new()
+		check(Master.recruit(state, 1, request) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.is_pending(), attribute + " 19 pending")
+		check(request.lines[-1] == "柳淳风说道：学剑之人必须胆大心细，依我看壮士的资质似乎不宜？", "attempt_apprentice() refusal")
 		state.attributes.set(attribute, 20)
-		check(request.request(state, 2) == SwordsmanApprenticeship.Outcome.PENDING and not state.family.has_family(), "retry before cancel remains pending")
-		check(request.cancel() == SwordsmanApprenticeship.Outcome.CANCELLED and not request.is_pending(), "explicit cancel")
-		check(request.request(state, 3) == SwordsmanApprenticeship.Outcome.RECRUITED, attribute + " exactly20 accepted")
+		check(Master.recruit(state, 2, request) == NpcApprenticeship.Outcome.PENDING and not state.family.has_family(), "retry before cancel remains pending")
+		check(request.lines == ["你想拜柳淳风为师，但是对方还没有答应。"], "apprentice.c: still pending")
+		check(request.cancel() == NpcApprenticeship.Outcome.CANCELLED and not request.is_pending(), "explicit cancel")
+		check(Master.recruit(state, 3, request) == NpcApprenticeship.Outcome.RECRUITED, attribute + " exactly20 accepted")
 	state = fresh()
 	state.attributes.courage = 19
 	state.attributes.bellicosity = 50
 	state.attributes.composure = 19
 	state.attributes.force_factor = 2
-	check(SwordsmanApprenticeship.new().request(state, 4) == SwordsmanApprenticeship.Outcome.RECRUITED, "effective source attributes, not base")
+	check(Master.recruit(state, 4) == NpcApprenticeship.Outcome.RECRUITED, "effective source attributes, not base")
 	state = fresh()
 	state.family = FamilyState.new(&"other", 1)
-	check(SwordsmanApprenticeship.new().request(state, 5) == SwordsmanApprenticeship.Outcome.OTHER_RELATIONSHIP_DEFERRED and state.family.family_id == &"other", "no family switching")
-	check(SnowSchoolTeacher.definition().offer_count() == 11 and SnowSchoolTeacher.definition().has_offer(&"liuh-ken"), "all source knowledge retained")
+	check(Master.recruit(state, 5) == NpcApprenticeship.Outcome.OTHER_RELATIONSHIP_DEFERRED and state.family.family_id == &"other", "no family switching")
+	check(Master.definition().skill_levels().size() == 11 and NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()) == [&"unarmed", &"literate", &"liuh-ken"], "all source knowledge retained; teaches what skills.json defines")
 
 
 func learn_tests() -> void:
@@ -70,7 +75,7 @@ func learn_tests() -> void:
 				state.skills.set_raw_level(&"unarmed", raw)
 				state.progression.combat_experience = experience
 				var rng := Draws.new([roll])
-				var result := learn(state, SnowSchoolTeacher.unarmed_context(), rng)
+				var result := learn(state, Master.context(&"unarmed", rng), rng)
 				var allowed: bool = raw < 3 or experience >= 2
 				check(result.calculated_essence_cost == (22 if raw == 0 else 11), "exact cost " + str([raw,experience,roll]))
 				check(rng.call_count() == (1 if allowed else 0) and state.progression.potential_spent == (1 if allowed else 0), "gate/draw/spent " + str([raw,experience,roll]))
@@ -85,7 +90,7 @@ func learn_tests() -> void:
 		state.skills.set_raw_level(&"unarmed", row[0])
 		state.essence.current = row[1]
 		var rng := Draws.new([0])
-		var result := learn(state, SnowSchoolTeacher.unarmed_context(), rng)
+		var result := learn(state, Master.context(&"unarmed", rng), rng)
 		check(rng.call_count() == (1 if row[2] else 0), "strict gin " + str(row))
 		check(state.essence.current == (1 if row[2] else 0), "actual drain boundary")
 		check(result.success, "fatigue executed vs pre-gate rejection")
@@ -93,9 +98,9 @@ func learn_tests() -> void:
 		for sen: int in ([5,6] if raw == 0 else [3,4]):
 			var state := disciple()
 			state.skills.set_raw_level(&"unarmed", raw)
-			var context := SnowSchoolTeacher.unarmed_context()
-			context.current_spirit = sen
 			var rng := Draws.new([0])
+			var context := Master.context(&"unarmed", rng)
+			context.current_spirit = sen
 			var result := learn(state,context,rng)
 			var fatigued: bool = sen == (5 if raw == 0 else 3)
 			check(rng.call_count() == (0 if fatigued else 1) and context.current_spirit == sen, "NPC sen threshold/read-only")
@@ -103,22 +108,24 @@ func learn_tests() -> void:
 	var state := disciple()
 	state.progression.potential_spent = 99
 	var rng := Draws.new([0])
-	var result := learn(state,SnowSchoolTeacher.unarmed_context(),rng)
+	var result := learn(state,Master.context(&"unarmed", rng),rng)
 	check(result.created_explicit_zero_skill_entry and state.skills.has_raw_level(&"unarmed") and result.failure_reason == LearnResult.FailureReason.POTENTIAL_EXHAUSTED and rng.call_count() == 0 and state.essence.current == 100, "raw0 before potential failure")
 	state = disciple()
 	rng = Draws.new([30])
-	result = learn(state,SnowSchoolTeacher.unarmed_context(),rng)
+	result = learn(state,Master.context(&"unarmed", rng),rng)
 	check(result.completion == LearnResult.Completion.LEGACY_ERROR and result.failure_reason == LearnResult.FailureReason.INVALID_DETERMINISTIC_ROLL and state.progression.potential_spent == 1 and state.essence.current == 100 and state.skills.has_raw_level(&"unarmed") and rng.call_count() == 1, "invalid draw retains spent/zero before gin")
 	state = fresh()
-	rng = Draws.new([29])
-	result = learn(state,SnowSchoolTeacher.unarmed_context(),rng)
-	check(rng.call_count() == 0 and not state.skills.has_raw_level(&"unarmed") and result.failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, "no relationship rejects before draw/mutation")
-	TeacherPanel.learn_message(result)
-	check(rng.call_count() == 0, "presentation does not draw")
+	rng = Draws.new([2])
+	var context := Master.context(&"unarmed", rng)
+	result = learn(state,context,rng)
+	# learn.c draws reject_msg[random(3)] for its notify_fail before asking recognize_apprentice().
+	check(rng.requested_bounds() == [3] and not state.skills.has_raw_level(&"unarmed") and result.failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, "no relationship rejects before mutation, after the refusal draw")
+	check(LearnLines.lines(result, "柳淳风", "基本拳脚", state, context, "壮士") == ["柳淳风笑著说道：您见笑了，我这点雕虫小技怎够资格「指点」您什麽？"], "the drawn refusal")
+	check(rng.call_count() == 1, "presentation does not draw")
 
 
 static func learn(state: CharacterState, context: TeachingContext, rng: WorldInteractionRandomSource) -> LearnResult:
-	return LearnService.learn(state,context,SnowSchoolTeacher.unarmed_definition(),SnowSchoolTeacher.unarmed_policy(),null,rng)
+	return LearnService.learn(state,context,Master.skill(&"unarmed"),Master.policy(&"unarmed"),null,rng)
 
 
 func combat_tests() -> void:
@@ -152,26 +159,26 @@ func persistence_tests(tree: SceneTree) -> void:
 	var player := session.player_runtime()
 	var state := player.state
 	state.attributes.courage = 19
-	player.request_school_apprenticeship(100)
+	player.request_apprenticeship(Master.definition(), Master.family(), 100)
 	var snapshot := Work.capture(session)
-	check(player.school_apprenticeship.is_pending() and not GameSaveJsonCodec.encode(snapshot).text.contains("pending"), "pending omitted")
-	player.school_apprenticeship.cancel()
+	check(player.apprenticeship_request.is_pending() and not GameSaveJsonCodec.encode(snapshot).text.contains("pending"), "pending omitted")
+	player.apprenticeship_request.cancel()
 	state.attributes.courage = 30
 	var before_ids: Array[Object] = [player,state,player.body_facts,session.item_id_allocator()]
-	check(player.request_school_apprenticeship(1789420000) == SwordsmanApprenticeship.Outcome.RECRUITED and player.facts.title == "封山剑派第十四代弟子", "controlled identity seam")
+	check(player.request_apprenticeship(Master.definition(), Master.family(), 1789420000) == NpcApprenticeship.Outcome.RECRUITED and player.facts.title == "封山剑派第十四代弟子", "controlled identity seam")
 	check(before_ids == [player,player.state,player.body_facts,session.item_id_allocator()], "identity/body/allocator remain")
 	state.progression.potential_spent = 99
-	learn(state,SnowSchoolTeacher.unarmed_context(),Draws.new([0]))
+	learn(state,Master.context(&"unarmed"),Draws.new([0]))
 	snapshot = Work.capture(session)
 	await exact_roundtrip(tree,session,snapshot,"raw0 failure")
 	state.progression.potential_spent = 0
-	learn(state,SnowSchoolTeacher.unarmed_context(),session.world_interaction_random_source())
+	learn(state,Master.context(&"unarmed"),session.world_interaction_random_source())
 	state.skills.set_learned_progress(&"unarmed",1)
 	snapshot = Work.capture(session)
 	await exact_roundtrip(tree,session,snapshot,"partial skill")
 	var encoded := GameSaveJsonCodec.encode(snapshot)
 	var raw: Dictionary = JSON.parse_string(encoded.text)
-	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_INNER_V1", "root/item/content stable")
+	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_SERVICES_V1", "root/item/content stable")
 	raw.player.character.affiliation.schema_version = 2
 	check(not GameSaveJsonCodec.decode(JSON.stringify(raw)).succeeded(), "unknown affiliation version rejected")
 	raw.player.character.affiliation.schema_version = 1
@@ -191,8 +198,8 @@ func physical_tests(tree: SceneTree) -> void:
 	var session := Recovery.create_session(tree,Recovery.RandomSequence.new())
 	var initial_npc_count: int = Work.capture(session).npc_spawn_states.size()
 	var map := session.resident_map(&"snow.outdoor") as WorldMapController
-	var school := map.service(&"snow.schoolhall.master") as TeacherService
-	check(not school.can_teach() and not school.request_learn().success, "inactive resident cannot teach")
+	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	check(school != null and not school.can_teach() and not school.request_learn(&"unarmed").success, "inactive resident cannot teach")
 	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 31, "three school zones, the revival temple, 4B's nine rooms and 4C's five")
 	for i: int in range(3):
 		var id: StringName = [SnowWorldDefinitions.SCHOOL1_ZONE_ID, SnowWorldDefinitions.SCHOOL2_ZONE_ID, SnowWorldDefinitions.SCHOOLHALL_ZONE_ID][i]
@@ -208,7 +215,7 @@ func physical_tests(tree: SceneTree) -> void:
 	check(map.player_body.position.x < 372 and not map.door(&"snow.school.gate").is_open(), "closed real collision")
 	check(map.open_door(&"snow.school.gate"),"open west")
 	await tree.physics_frame
-	check((map.get_node("Walls/SchoolDoor") as CollisionShape2D).disabled and not (map.get_node("Walls/SchoolTeacher") as CollisionShape2D).disabled and TerrainProbe.blocks_at(map,Vector2(1200,-400)),"only door collision disabled")
+	check((map.get_node("Walls/SchoolDoor") as CollisionShape2D).disabled and TerrainProbe.blocks_at(map,Vector2(1200,-400)),"only door collision disabled")
 	check(not MapPlacementValidator.is_valid_character_position(map,&"snow.school2",Vector2(400,-400)),"open doorway save rejected")
 	await walk.walk_to(tree,session,"move_right",450,0)
 	check(map.close_door(&"snow.school.gate"),"close east")
@@ -228,16 +235,16 @@ func physical_tests(tree: SceneTree) -> void:
 	var valid_location := player.world_location()
 	var before_state: String = GameSaveJsonCodec.encode(Work.capture(session)).text
 	player.set_world_location(WorldLocationState.new(valid_location.region_id, valid_location.map_id, &"snow.school2", &"snow.school2"))
-	check(not school.can_teach() and not school.request_learn().success and school.request_apprentice() == SwordsmanApprenticeship.Outcome.AUTHORITY_FAILURE, "wrong zone rejects despite physical teacher proximity")
+	check(not school.can_teach() and not school.request_learn(&"unarmed").success and school.request_apprentice() == NpcApprenticeship.Outcome.AUTHORITY_FAILURE, "wrong zone rejects despite physical teacher proximity")
 	player.set_world_location(valid_location)
 	player.busy.start_busy(1)
-	check(not school.can_teach() and not school.request_learn().success, "busy native contact gate")
+	check(not school.can_teach() and not school.request_learn(&"unarmed").success, "busy native contact gate")
 	player.busy.advance()
 	player.relationship.add_opponent(&"test.opponent")
-	check(not school.can_teach() and not school.request_learn().success, "fighting contact gate")
+	check(not school.can_teach() and not school.request_learn(&"unarmed").success, "fighting contact gate")
 	player.relationship.remove_opponent(&"test.opponent")
 	tree.paused = true
-	check(not school.can_teach() and not school.request_learn().success, "pause rechecks request authority")
+	check(not school.can_teach() and not school.request_learn(&"unarmed").success, "pause rechecks request authority")
 	tree.paused = false
 	check(GameSaveJsonCodec.encode(Work.capture(session)).text == before_state, "rejected contact requests preserve captured authority and RNG")
 	school.ui.interact()
@@ -246,11 +253,12 @@ func physical_tests(tree: SceneTree) -> void:
 	await walk.walk(tree,session,"move_left",12)
 	check(map.player_body.position.distance_to(position) < 0.1,"panel movement quarantine")
 	school.ui.request_apprentice()
-	school.ui.request_learn()
-	check(SwordsmanApprenticeship.is_master_of(session.player_runtime().state) and school.last_learn != null,"UI routing through services")
+	school.ui.learn_buttons[&"unarmed"].pressed.emit()
+	check(NpcApprenticeship.is_master_of(session.player_runtime().state, Master.definition()) and school.last_learn != null,"UI routing through services")
+	check(school.ui.feedback.text.contains("你向柳淳风请教有关「基本拳脚」的疑问。"), "learn.c lines in the panel: " + school.ui.feedback.text)
 	school.ui.close_panel()
 	var snapshot := Work.capture(session)
-	check(snapshot != null and snapshot.npc_spawn_states.size() == initial_npc_count,"no teacher NPC slot")
+	check(snapshot != null and snapshot.npc_spawn_states.size() == initial_npc_count,"the master is one of the authored NPC slots")
 	check(not GameSaveJsonCodec.encode(snapshot).text.contains('"door') and not GameSaveJsonCodec.encode(snapshot).text.contains('"school_door'),"transient gate fields omitted")
 	await exact_roundtrip(tree,session,snapshot,"school position")
 	check(walk._failures.is_empty(),"all physical targets reached: " + str(walk._failures))

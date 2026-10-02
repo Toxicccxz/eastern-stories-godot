@@ -1,17 +1,17 @@
 class_name VendorService
-extends WorldService
+extends NpcService
 
-## feature/vendor.c `buy` from the vendors[] record the service names.
+## feature/vendor.c `buy` from the vendor NPC's vendors[] record (its `vendor`).
 var panel: PanelContainer
 var goods_rows: VBoxContainer
 var feedback: Label
 var last_purchase: VendorPurchaseResult
 
 
-func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: WorldServicePoint) -> void:
-	super.setup(p_map, p_definition, p_point)
+func bind_npc(p_map: WorldMapController, p_npc: NpcRuntimeState) -> void:
+	super.bind_npc(p_map, p_npc)
 	var catalog: ContentCatalog = GameContent.catalog()
-	var vendor: VendorDefinition = catalog.vendor(definition.vendor_id)
+	var vendor: VendorDefinition = catalog.vendor(vendor_id())
 	panel = PanelContainer.new()
 	panel.name = "Panel"
 	panel.hide()
@@ -32,7 +32,7 @@ func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: 
 		button.pressed.connect(request_purchase.bind(key))
 		goods_rows.add_child(button)
 		names.append(content.display_name)
-	title.text = "%s · %s" % [definition.display_name, " / ".join(names)]
+	title.text = "%s · %s" % [display_name(), " / ".join(names)]
 	ui_layer().add_child(panel)
 
 
@@ -43,6 +43,10 @@ func _label(rows: VBoxContainer, node_name: String) -> Label:
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rows.add_child(label)
 	return label
+
+
+func vendor_id() -> StringName:
+	return npc.definition().dealings().vendor_id
 
 
 func verb() -> String:
@@ -67,7 +71,7 @@ func request_purchase(goods_key: String) -> VendorPurchaseResult:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), map.inventory_state(), map.stack_collection(), map.item_instance_index())
-	last_purchase = VendorPurchaseService.buy(catalog.vendor(definition.vendor_id), goods_key, catalog, context, map.food_collection(), map.liquid_collection(), map.item_id_allocator(), player.maximum_encumbrance)
+	last_purchase = VendorPurchaseService.buy(catalog.vendor(vendor_id()), goods_key, catalog, context, map.food_collection(), map.liquid_collection(), map.item_id_allocator(), player.maximum_encumbrance)
 	var content: ItemContentDefinition = catalog.item(last_purchase.item_definition_id)
 	var goods_name: String = goods_key if content == null else content.display_name
 	if last_purchase.delivered:

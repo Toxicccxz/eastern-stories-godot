@@ -52,7 +52,11 @@
 			"long": "这个老人看起来七十多岁了，看著他□偻的身影，你忽然觉得心情沈重了下来。\n",
 			"combat_exp": 1,
 			"attitude": "friendly",
-			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" }
+			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" },
+			"accept_object": [
+				{ "value_at_most": 0, "accept": false },
+				{ "effect": "temple_donation", "say": "多谢这位$RESPECT，神明一定会保佑你的。", "accept": true }
+			]
 		},
 		{
 			"id": "snow.npc.drunk",
@@ -68,6 +72,17 @@
 			"carry": [
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
 				{ "item": "es2:obj/example/wineskin", "source": "obj/example/wineskin.c" }
+			],
+			"flags": ["has_alcohol"],
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "drink", "sated_water": 380, "dry_say": "酒..... 给我酒....", "dry_clears": "has_alcohol" }
+			],
+			"accept_object": [
+				{ "liquid": "alcohol", "liquid_remaining_at_most": 0, "say": "去去去去去.. 我又不是收破烂的...", "accept": false },
+				{ "liquid": "alcohol", "liquid_remaining_at_most": 5, "say": "真没诚意, 剩么一点... ", "accept": false },
+				{ "liquid": "alcohol", "npc_flag": "has_alcohol", "say": "多谢, 不过我还有酒... ", "accept": false },
+				{ "liquid": "alcohol", "set_npc_flag": "has_alcohol", "say": "多谢啦.....", "accept": true }
 			]
 		},
 		{
@@ -93,6 +108,9 @@
 			],
 			"accept_fight": [
 				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
+			],
+			"accept_object": [
+				{ "say": "多谢这位$RESPECT！", "accept": true }
 			]
 		},
 		{
@@ -148,6 +166,10 @@
 			"accept_fight": [
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
+			],
+			"recognize_apprentice": [
+				{ "family": "family.fonxan", "accept": true },
+				{ "say": "对不起，这位$RESPECT，您不是我们武馆的弟子。", "fail": "李火狮不愿意教你拳法。", "accept": false }
 			]
 		},
 		{
@@ -208,7 +230,16 @@
 				],
 				"读书识字": ["对，读书识字。"],
 				"刘安禄": ["哦 ... 你是说野羊山寨的二寨主，人称血手刘三的刘安禄吗？", "他又出来做恶了？", "你带我去见他，让我跟他说几句话。"]
-			}
+			},
+			"accept_object": [
+				{ "giver_mark": "魏无极", "emote": "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。", "accept": true },
+				{ "value_at_least": 500, "mark_giver": "魏无极", "emote": "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "accept": true },
+				{ "say": "你的诚意不够，这钱还是拿回去吧。", "accept": false }
+			],
+			"recognize_apprentice": [
+				{ "giver_mark": "魏无极", "accept": true },
+				{ "say": "咦？我不记得收过你这个学生啊....", "accept": false }
+			]
 		},
 		{
 			"id": "snow.npc.woodcutter",
@@ -260,6 +291,125 @@
 			"skills": { "dodge": 120 },
 			"limbs": ["头部", "身体"],
 			"verbs": ["bite"]
+		},
+		{
+			"id": "snow.npc.waiter",
+			"legacy_source": "d/snow/npc/waiter.c",
+			"name": "店小二",
+			"aliases": ["waiter"],
+			"gender": "男性",
+			"age": 22,
+			"long": "这位店小二正笑咪咪地忙著，还不时拿起挂在脖子上的抹布擦脸。\n",
+			"combat_exp": 10000,
+			"rank_info": { "respect": "小二哥" },
+			"vendor": "snow.vendor.waiter",
+			"attitude": "friendly",
+			"skills": { "dodge": 300 },
+			"greeting": {
+				"one_of": [
+					{ "emote": "笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。" },
+					{ "emote": "用脖子上的毛巾抹了抹手，说道：这位$RESPECT，请进请进。" },
+					{ "say": "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。" }
+				]
+			}
+		},
+		{
+			"id": "snow.npc.annihir",
+			"legacy_source": "d/snow/npc/annihir.c",
+			"name": "安惜迩",
+			"aliases": ["annihir"],
+			"title": "钱庄老板",
+			"gender": "男性",
+			"age": 26,
+			"long": "安惜迩是个看起来相当斯文的年轻人，不过有时候会有些心不在焉的\n样子，雪亭镇的居民对安惜迩都觉得有点神秘莫测的感觉，为什么他\n年纪轻轻就身为一家大钱庄的老板，还有他一身稀奇古怪的武功，所\n幸安惜迩似乎天性恬淡，甚至有些隐者的风骨，只要旁人不去惹他，\n他也绝不会去招惹旁人。\n",
+			"attributes": { "str": 22, "cor": 30, "cps": 30, "int": 26, "per": 23, "con": 24, "spi": 30, "kar": 25 },
+			"combat_exp": 200000,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 100,
+				"parry": 100,
+				"dodge": 100,
+				"force": 100,
+				"celestrike": 100,
+				"celestial": 100,
+				"fonxansword": 100,
+				"six-chaos-sword": 100,
+				"chaos-steps": 100,
+				"spells": 100,
+				"necromancy": 100
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"dodge": "chaos-steps",
+				"sword": "fonxansword",
+				"spells": "necromancy"
+			},
+			"carry": [
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 10 }
+			],
+			"fight_deferred": "maps sword to fonxansword, dodge to chaos-steps and unarmed to celestrike, whose actions are not ported: every fight would abort"
+		},
+		{
+			"id": "snow.npc.smith",
+			"legacy_source": "d/snow/npc/smith.c",
+			"name": "王铁匠",
+			"aliases": ["wang", "smith"],
+			"gender": "男性",
+			"age": 33,
+			"long": "王铁匠正用铁钳夹住一块红热的铁块放进炉中。\n",
+			"combat_exp": 400,
+			"vendor": "snow.vendor.smith",
+			"carry": [
+				{ "item": "es2:d/snow/obj/hammer", "source": "d/snow/npc/obj/hammer.c", "equip": "wield" }
+			],
+			"inquiry": {
+				"name": ["小人姓王，单名一个恒字，可是小人西瓜大的字识不到一担，只有王字会写。\n"],
+				"here": ["这里是小人糊口的铺子，小人一家五口都住在后边的屋子。\n"],
+				"锄头": ["锄头... 抱歉，锄头已经卖光了...\n"],
+				"铲子": ["对不起，小人店里的铲子都给人订走了。\n"],
+				"铁锤": ["铁锤？小人做的铁锤坚固又耐用，一把只要三百文钱。\n"]
+			}
+		},
+		{
+			"id": "snow.npc.herbalist",
+			"legacy_source": "d/snow/npc/herbalist.c",
+			"name": "杨掌柜",
+			"aliases": ["herbalist yang", "yang"],
+			"title": "桑邻药铺",
+			"gender": "男性",
+			"age": 54,
+			"long": "杨掌柜是这附近相当有名的大善人，常常施舍草药给付不起药钱的穷人\n。此外他的医术也不错，年轻时曾经跟著山烟寺的玄智和尚学医，一般\n的伤寒小病直接问他开药吃比医生还灵。\n",
+			"resources": { "max_gin": 200, "max_kee": 400, "max_sen": 300 },
+			"combat_exp": 1300,
+			"vendor": "snow.vendor.herbalist",
+			"attitude": "friendly",
+			"skills": { "literate": 70, "dodge": 60, "unarmed": 60 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 80 }
+			],
+			"inquiry": {
+				"治伤": {
+					"eff_kee_percent": [
+						{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" },
+						{ "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }
+					]
+				},
+				"疗伤": {
+					"eff_kee_percent": [
+						{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" },
+						{ "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }
+					]
+				},
+				"开药": {
+					"eff_kee_percent": [
+						{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" },
+						{ "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }
+					]
+				}
+			}
 		}
 	]
 }

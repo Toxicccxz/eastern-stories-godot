@@ -6,12 +6,25 @@ signal wield_requested(item_instance_id: StringName)
 signal unwield_requested(item_instance_id: StringName)
 signal wear_requested(item_instance_id: StringName)
 signal remove_requested(item_instance_id: StringName)
+## give.c, drop.c and put.c; `amount` 0 hands over the whole object.
+signal give_requested(item_instance_id: StringName, amount: int)
+signal drop_requested(item_instance_id: StringName, amount: int)
+signal put_requested(item_instance_id: StringName, amount: int)
 
 @onready var row_container: VBoxContainer = %PlayerInventoryRows
 @onready var empty_label: Label = %PlayerInventoryEmptyLabel
 @onready var inspect_text: RichTextLabel = %PlayerInventoryInspectText
 
 var _rows: Array[PlayerInventoryRowProjection] = []
+## Who can be given things (the selected NPC here) and the container in reach;
+## empty when there is none.
+var _give_target: String = ""
+var _container: String = ""
+
+
+func set_handling_targets(give_target: String, container: String) -> void:
+	_give_target = give_target
+	_container = container
 
 
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
@@ -115,7 +128,32 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		remove_button.text = "Remove"
 		remove_button.pressed.connect(_on_remove_pressed.bind(row.item_instance_id))
 		container.add_child(remove_button)
+	# A stack can be handed over in part (give 5 silver to ...).
+	var amount: SpinBox = null
+	if row.category == ItemContentDefinition.CATEGORY_CURRENCY and row.amount > 1:
+		amount = SpinBox.new()
+		amount.name = "Amount"
+		amount.min_value = 1
+		amount.max_value = row.amount
+		amount.value = row.amount
+		amount.rounded = true
+		container.add_child(amount)
+	if not _give_target.is_empty():
+		_handling_button(container, "Give", tr("给%s") % _give_target, give_requested, row, amount)
+	if not _container.is_empty():
+		_handling_button(container, "Put", tr("放进%s") % _container, put_requested, row, amount)
+	_handling_button(container, "Drop", tr("丢下"), drop_requested, row, amount)
 	return container
+
+
+func _handling_button(container: BoxContainer, node_name: String, text: String, requested: Signal, row: PlayerInventoryRowProjection, amount: SpinBox) -> void:
+	var button: Button = Button.new()
+	button.name = node_name
+	button.text = text
+	button.pressed.connect(func() -> void:
+		var count: int = 0 if amount == null or int(amount.value) >= row.amount else int(amount.value)
+		requested.emit(row.item_instance_id, count))
+	container.add_child(button)
 
 
 func _row_label(row: PlayerInventoryRowProjection) -> String:

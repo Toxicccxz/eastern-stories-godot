@@ -77,7 +77,8 @@
 			"unit": "个",
 			"no_get": true,
 			"weight": 0,
-			"value": 1
+			"value": 1,
+			"max_encumbrance": 10000
 		},
 		{
 			"id": "es2:d/snow/obj/bamboo_sword",

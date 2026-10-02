@@ -75,11 +75,11 @@ func _story(tree: SceneTree) -> void:
 	var map := session.active_map() as WorldMapController
 	map.player_body.position = Vector2(1015,-400)
 	check(player.set_world_location(WorldLocationState.new(SnowWorldDefinitions.REGION_ID,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall")), "test Liu contact placement")
-	var school := map.service(&"snow.schoolhall.master") as TeacherService
-	check(school.request_apprentice() == SwordsmanApprenticeship.Outcome.RECRUITED, "production Liu apprenticeship")
-	check(state.family.family_id == &"family.fonxan" and state.family.generation == 14 and state.apprenticeship.master_teacher_id == &"teacher.liu_chunfeng" and state.affiliation.class_id == &"swordsman", "committed relationship")
+	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED, "production Liu apprenticeship")
+	check(state.family.family_id == &"family.fonxan" and state.family.generation == 14 and state.apprenticeship.master_teacher_id == &"common.npc.swordsman.master" and state.affiliation.class_id == &"swordsman", "committed relationship")
 	var basic_rng := LearnDraws.new([29])
-	var basic := First.learn(state,SnowSchoolTeacher.unarmed_context(),basic_rng)
+	var basic := First.learn(state,First.Master.context(&"unarmed", basic_rng),basic_rng)
 	check(basic.success and state.skills.raw_level(&"unarmed") == 1 and basic_rng.requested_bounds() == [30], "real basic Learn, no raw assignment")
 	check(state.essence.current == 78 and state.progression.potential_spent == 1, "basic Learn gin/potential debit")
 
@@ -115,12 +115,12 @@ func _story(tree: SceneTree) -> void:
 	var advanced := Martial.learn(state,liuh_rng)
 	check(advanced.success and state.skills.raw_level(&"liuh-ken") == 5 and liuh_rng.call_count() == 5, "EXP6 real Learn reaches liuh5, never assigned")
 	check(state.essence.current == 1 and state.progression.potential_spent == 6 and state.progression.potential == 99, "entire Learn sequence exact cost")
-	check(school.enable_liuh() and state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and state.skills.effective_level(&"unarmed") == 7, "production Enable effective unarmed7")
+	check(school.enable(&"liuh-ken") and state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and state.skills.effective_level(&"unarmed") == 7, "production Enable effective unarmed7")
 	var internal_before: Array[int] = [state.recovery.inner_force.current,state.recovery.mana.current,state.recovery.atman.current]
-	check(school.disable_liuh() and state.skills.mapped_skill(&"unarmed").is_empty(), "production contact Disable")
+	check(school.disable(&"liuh-ken") and state.skills.mapped_skill(&"unarmed").is_empty(), "production contact Disable")
 	check(state.skills.raw_level(&"liuh-ken") == 5 and state.skills.learned_progress(&"liuh-ken") == 0 and state.skills.raw_level(&"unarmed") == 4, "Disable retains raw/learned")
 	check(internal_before == [state.recovery.inner_force.current,state.recovery.mana.current,state.recovery.atman.current], "Disable no internal resource reset")
-	check(school.enable_liuh(), "re-enable through contact")
+	check(school.enable(&"liuh-ken"), "re-enable through contact")
 	for index: int in range(4): _mapped_attack(state,index)
 	_equipment(state)
 	# Existing exhaustive reverse tests additionally exercise QUICK and RIPOSTE.

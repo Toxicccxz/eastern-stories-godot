@@ -4,7 +4,8 @@ extends RefCounted
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
-## `doors`, `landmarks` arrays, and at most one document has the `pacing` object.
+## `doors`, `landmarks`, `skills`, `families` arrays, and at most one document has
+## the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -20,6 +21,8 @@ var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
+var _skills: Dictionary[StringName, SkillDefinition] = {}
+var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _pacing: PacingDefinition
 var _origins: Dictionary[StringName, String] = {}
 
@@ -89,6 +92,14 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: WorldLandmarkDefinition = WorldLandmarkDefinition.from_record(record)
 		if _claim(definition.landmark_id, record):
 			_landmarks[definition.landmark_id] = definition
+	for record: ContentRecordReader in reader.children("skills"):
+		var definition: SkillDefinition = SkillDefinition.from_record(record)
+		if _claim(definition.skill_id, record):
+			_skills[definition.skill_id] = definition
+	for record: ContentRecordReader in reader.children("families"):
+		var definition: FamilyDefinition = FamilyDefinition.from_record(record)
+		if _claim(definition.family_id, record):
+			_families[definition.family_id] = definition
 	var pacing: ContentRecordReader = reader.child("pacing")
 	if pacing != null:
 		if _pacing != null:
@@ -100,6 +111,7 @@ func add_document(document: Variant, origin: String) -> void:
 func build() -> ContentCatalog:
 	_check_money()
 	_check_npc_loadouts()
+	_resolve_npc_dealings()
 	_check_spawns()
 	_check_vendors()
 	_check_maps()
@@ -118,6 +130,7 @@ func build() -> ContentCatalog:
 	catalog.set_places(_services, _doors, _landmarks)
 	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
+	catalog.set_teaching(_skills, _families)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -178,6 +191,29 @@ func _check_npc_loadouts() -> void:
 				and item.armor_definition() == null
 			):
 				_errors.append("%s.equip: '%s' is not armor" % [path, entry.item_definition_id])
+
+
+## A vendor NPC's goods exist; a family an NPC heads or rules test is defined.
+func _resolve_npc_dealings() -> void:
+	for definition: NpcDefinition in _npcs.values():
+		var origin: String = _origins[definition.definition_id]
+		var vendor_id: StringName = definition.dealings().vendor_id
+		if not vendor_id.is_empty() and not _vendors.has(vendor_id):
+			_errors.append("%s.vendor: unknown vendor '%s'" % [origin, vendor_id])
+		var teaching: NpcTeaching = definition.teaching()
+		if teaching == null:
+			continue
+		if teaching.has_family():
+			var family_id: StringName = &""
+			for family: FamilyDefinition in _families.values():
+				if family.display_name == teaching.family_name:
+					family_id = family.family_id
+			if family_id.is_empty():
+				_errors.append("%s.family.name: no family named '%s' (families.json)" % [origin, teaching.family_name])
+			teaching.family_id = family_id
+		for rule: NpcTeaching.RecognizeRule in teaching.recognize_rules:
+			if not rule.family_id.is_empty() and not _families.has(rule.family_id):
+				_errors.append("%s.recognize_apprentice: unknown family '%s'" % [origin, rule.family_id])
 
 
 func _check_spawns() -> void:
@@ -288,8 +324,6 @@ func _resolve_services() -> void:
 		if zone == null:
 			_errors.append("%s.zone: unknown zone '%s'" % [origin, definition.zone_id])
 			continue
-		if not definition.vendor_id.is_empty() and not _vendors.has(definition.vendor_id):
-			_errors.append("%s.vendor: unknown vendor '%s'" % [origin, definition.vendor_id])
 		_services[service_id] = definition.with_map(zone.map_id)
 
 

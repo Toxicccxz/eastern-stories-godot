@@ -61,6 +61,24 @@ class GeneratedDataTest(unittest.TestCase):
         self.assertEqual((box['weight'], box['no_get']), (0, True))
         self.assertNotIn('snow.outdoor.temple.paper_seal', spawns)
 
+    def test_npcs_bound_to_services_and_teachers(self) -> None:
+        npcs = {r['id']: r for r in json.loads(self.files['snow/npcs.json'])['npcs']}
+        # A vendor sells from its body; rank_info/respect is how others address it.
+        self.assertEqual(npcs['snow.npc.waiter']['vendor'], 'snow.vendor.waiter')
+        self.assertEqual(npcs['snow.npc.waiter']['rank_info'], {'respect': '小二哥'})
+        self.assertNotIn('vendor', npcs['snow.npc.annihir'])  # bank.c is the room's convert, not his
+        # schoolhall.c places CLASS_D("swordsman") + "/master": a class daemon's NPC keeps its class.
+        master = {r['id']: r for r in json.loads(self.files['common/npcs.json'])['npcs']}['common.npc.swordsman.master']
+        self.assertEqual(master['family'], {'name': '封山剑派', 'generation': 13, 'title': '掌门人'})
+        self.assertEqual((master['nickname'], master['f_master']), ('风雨双侠', True))
+        spawns = {r['id']: r for r in json.loads(self.files['snow/spawns.json'])['spawns']}
+        self.assertEqual(spawns['snow.outdoor.schoolhall.master']['npc'], 'common.npc.swordsman.master')
+        items = {r['id']: r for r in json.loads(self.files['common/items.json'])['items']}
+        # silk_cloth.c inherits EQUIP and sets its armor_type itself.
+        self.assertEqual(items['es2:daemon/class/swordsman/silk_cloth']['armor'], {'type': 'cloth', 'props': {'dodge': 6, 'armor': 1}})
+        snow_items = {r['id']: r for r in json.loads(self.files['snow/items.json'])['items']}
+        self.assertEqual(snow_items['es2:d/snow/obj/denotation']['max_encumbrance'], 10000)
+
     def test_hand_read_vendor_goods_are_checked(self) -> None:
         importer = ci.Importer(ci.Corpus(), ci.DATA)
         for entry in ({'price': 300}, {'item': 'd/snow/npc/obj/hammer.c', 'price': 0},
@@ -124,6 +142,12 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(lpc.sets(), {'unit': '把', 'liquid': {'type': 'alcohol', 'remaining': 15}})
         self.assertEqual(lpc.first('init_sword').args, [15, [ci.Const('SECONDARY'), ci.Const('EDGED')]])
         self.assertEqual(lpc.findings, [])
+
+    def test_class_d_path_macro(self) -> None:
+        lpc = parse('void create() { set("objects", ([ CLASS_D("swordsman") + "/master": 1 ])); }', 'd/test/hall.c')
+        self.assertEqual(lpc.sets(), {'objects': {'/daemon/class/swordsman/master': 1}})
+        self.assertEqual(ci.npc_id('daemon/class/swordsman/master.c'), 'common.npc.swordsman.master')
+        self.assertEqual(ci.npc_id('d/snow/npc/dog.c'), 'snow.npc.dog')
 
     def test_mudos_escapes_and_colour_macros(self) -> None:
         lpc = parse('void create() { set("msg", CYN "小人不会武功\\，" NOR); set("tab", "a\\tb"); }')
