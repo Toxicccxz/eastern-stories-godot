@@ -68,7 +68,7 @@ func _process(_delta: float) -> void:
 				_select.select(_select.item_count - 1)
 	for i: int in range(_ids.size()):
 		var state: LiquidState = _session.liquid_collection().state(_ids[i])
-		_select.set_item_text(i, "酒袋 #%d · %s · %d/%d份" % [i + 1, LiquidState.content_name(state.content), state.remaining, _maximum_portions(_ids[i])])
+		_select.set_item_text(i, "%s #%d · %s · %d/%d份" % [_item_name(_ids[i]), i + 1, LiquidState.content_name(state.content), state.remaining, _maximum_portions(_ids[i])])
 	_drink.disabled = _ids.is_empty()
 	if not _ids.is_empty():
 		_drink.text = "饮用（酒精暂未开放）" if _session.liquid_collection().state(_selected_id()).content == LiquidState.Content.RED_WINE else "喝一份清水"

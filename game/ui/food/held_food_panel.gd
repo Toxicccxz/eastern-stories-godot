@@ -69,7 +69,7 @@ func _process(_delta: float) -> void:
 				_select.select(_select.item_count - 1)
 	for i: int in range(_ids.size()):
 		var state: FoodState = _session.food_collection().state(_ids[i])
-		_select.set_item_text(i, "包子 #%d · %d份 · 价值%d文" % [i + 1, state.remaining_portions, state.current_value])
+		_select.set_item_text(i, "%s #%d · %d份 · 价值%d文" % [_item_name(_ids[i]), i + 1, state.remaining_portions, state.current_value])
 	_eat.disabled = _ids.is_empty()
 
 
