@@ -366,7 +366,7 @@ func open_ask() -> void:
 	for topic: String in map.ask_topics_selected():
 		var button := Button.new()
 		button.name = "Topic"
-		button.text = topic
+		button.text = tr(topic)
 		button.custom_minimum_size = Vector2(80, 40)
 		button.pressed.connect(_ask_topic.bind(topic))
 		_ask_topics.add_child(button)

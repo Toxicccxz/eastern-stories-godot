@@ -145,7 +145,8 @@ func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) ->
 	_check(map.npc_walker().is_walking(scavenger.character_id), "the body walks there")
 	await tree.process_frame
 	var shape: CollisionShape2D = body.get_node("CollisionShape2D")
-	_check(shape.disabled, "a walking NPC goes through the player, not into them")
+	var presence: CollisionShape2D = body.get_node("AggressionPresence/CollisionShape2D")
+	_check(shape.disabled and presence.disabled, "a walking NPC goes through the player and notices nobody on the way")
 	var rest: Vector2 = map.npc_rest_position(scavenger.character_id)
 	_check(map.physical_zone(&"snow.mstreet3").contains_center(rest) and MapPlacementValidator.is_valid_character_position(map, &"snow.mstreet3", rest), "it ends on a free spot in mstreet3")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
@@ -162,7 +163,7 @@ func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) ->
 	_check(quiet.call_count() == 0, "no beat for an NPC the player is not with")
 	_check(not map.npc_walker().is_walking(scavenger.character_id) and body.global_position == rest and body.global_position != home, "the walk takes world time and ends there")
 	await tree.process_frame
-	_check(not shape.disabled, "it stands solid again")
+	_check(not shape.disabled and not presence.disabled, "it stands solid again and notices who is there")
 
 
 ## keeper.c init()/greeting(): one second after the player comes in, if still there.
@@ -234,6 +235,35 @@ func _test_reset(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 		map.advance_npc_heartbeat(0.1)
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(&"snow.mstreet2.scavenger.1")
 	_check(map.runtime_body_for_character(scavenger.character_id).global_position == marker.global_position, "it walks back to where it stood")
+	# block_msg/all: the scavenger still beats beside an unconscious player, unread.
+	_check(_place(map, player, &"snow.mstreet2", map.physical_zone(&"snow.mstreet2").global_rect().get_center()), "back beside the scavenger")
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
+	var unread := ScriptedWorldInteractionRandomSource.new([0, 0])
+	session.configure_npc_ambience_random_source(unread)
+	var read: int = hud.log_lines().size()
+	map.advance_npc_heartbeat(2.0)
+	_check(unread.call_count() == 2 and hud.log_lines().size() == read, "an unconscious player reads no chat")
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	# A keeper made anew where the player stands greets them (make_inventory()'s init()).
+	_check(map.relocate_player(&"snow.temple", &"snow.temple.keeper.1"), "into the temple")
+	map.advance_npc_heartbeat(1.5)
+	var keeper: NpcRuntimeState = _npc(map, &"snow.temple.keeper.1")
+	keeper.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
+	keeper.set_exists_in_map(false)
+	map.runtime_body_for_character(keeper.character_id).refresh_runtime_state()
+	session.reset_room("d/snow/temple.c")
+	map.advance_npc_heartbeat(1.1)
+	_check(_npc(map, &"snow.temple.keeper.1") != keeper and hud.log_lines().back() == "庙祝说道：这位小姑娘，捐点香火钱积点阴德吧。", "a new keeper greets the player already there")
+	# A traveller dies in the Inn while the player is outdoors: its map is not loaded.
+	var inn: WorldMapController = session.world_map_of(&"snow.inn")
+	var traveller: NpcRuntimeState = _npc(inn, &"snow.inn.main_floor.inn.traveller.1")
+	_check(inn != null and not inn.is_inside_tree() and traveller != null, "the Inn is another map")
+	traveller.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
+	traveller.set_exists_in_map(false)
+	session.reset_room("d/snow/inn.c")
+	var replacement: NpcRuntimeState = _npc(inn, &"snow.inn.main_floor.inn.traveller.1")
+	var marker_inn: WorldSpawnMarker2D = inn.resolve_spawn_marker(&"snow.inn.main_floor.inn.traveller.1")
+	_check(replacement != traveller and replacement.exists_in_map and inn.runtime_body_for_character(replacement.character_id).global_position == marker_inn.global_position, "a reset on a map the player is not on")
 	# A trainee killed in the practice yard.
 	_check(map.relocate_player(&"snow.school2", &"snow.school2.trainee.1"), "into the practice yard")
 	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.1")

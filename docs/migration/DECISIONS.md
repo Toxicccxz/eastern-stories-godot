@@ -18,7 +18,8 @@ Package 4D, from the owner-approved plan:
 - **Chat is `npc.c` chat()** on the S5B 2-second beat for NPCs in the player's place: `char.c`
   turns a healed NPC's heart beat off when no player shares its room. Not ported: that it never
   comes back on until the NPC is hurt (an efficiency artifact ES2's clean_up hid). Lines go to the
-  log as written. **Deviation:** an unconscious NPC says nothing (char.c still runs chat()). Beats
+  log as written; an unconscious player reads none (damage.c `block_msg/all`). **Deviation:** an
+  unconscious NPC says nothing, neither chat (char.c still runs chat()) nor its greeting. Beats
   and their draws are transient, as heal cadences.
 - **Owner: an NPC wanders only at home and next door.** `random_move()` draws one of its room's
   exits; the move happens when the place is its home zone or a zone next to home on the same map,
@@ -27,10 +28,12 @@ Package 4D, from the owner-approved plan:
   travellers' Inn exits all leave the Inn's map, so they stay in for now (cross-map wandering
   later). go.c's line (旅客往东离开。) shows where it left. The body walks a path over the map's
   tiles (`AStarGrid2D`, a body's width from walls); its place changes at once, a save takes the
-  walk's end, and a fight or leaving the map puts walking NPCs there.
+  walk's end, and a fight or leaving the map puts walking NPCs there. On the way it passes through
+  the player and notices nobody (ES2 moved it in one step); an aggressive one notices whoever is
+  where it arrives, as its init() did.
 - **The keeper's greeting is data** (`greeting.say`, `$RESPECT` the player): keeper.c's
   `call_out("greeting", 1)` from init() runs one second of world time after the player comes in,
-  if they are still there.
+  or after the keeper comes to where the player is (reset), if the player is still there.
 - **Room reset is `std/room.c` reset()** on world time, each room on its own schedule: MudOS's
   `TIME_TO_RESET / 2 + random(TIME_TO_RESET / 2)` seconds, with config.ES2's 1800 as
   `pacing.json` `room_reset_seconds` (a knob; the default is ES2's). A dead NPC is made anew on

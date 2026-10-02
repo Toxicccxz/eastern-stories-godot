@@ -1085,7 +1085,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 		if body != null:
 			body.refresh_runtime_state()
 		# combatd.c announce("revive"), heard in the same room.
-		if _player != null and npc.world_location().zone_id == _player.world_location().zone_id:
+		if _player_hears(npc):
 			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % npc.definition().display_name])
 	_advance_ambience(delta)
 
@@ -1132,6 +1132,9 @@ func _npc_at_point(point_id: StringName) -> NpcRuntimeState:
 func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(dead.spawn_point_id)
+	if marker == null or catalog.npc(spawn.npc_definition_id) == null:
+		push_error("room reset has no marker or NPC for %s" % dead.spawn_point_id)
+		return false
 	var fresh: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
 		catalog.npc(spawn.npc_definition_id),
 		NpcGeneration.next(dead.character_id, dead.spawn_point_id),
@@ -1144,12 +1147,15 @@ func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 		catalog.loadout_item_definitions(),
 		_item_id_allocator.scope,
 	)
-	if marker == null or fresh == null or not _register_loadout(fresh):
+	if fresh == null or not _register_loadout(fresh):
 		push_error("room reset could not make a new NPC at %s" % dead.spawn_point_id)
 		return false
 	var at: int = _npcs.find(dead)
 	_drop_npc(dead)
-	return _add_npc_body(fresh, marker.global_position, at)
+	if not _add_npc_body(fresh, marker.global_position, at):
+		return false
+	_npc_arrived(fresh)
+	return true
 
 
 ## Forgets a dead NPC the room has replaced; its corpse stays.
@@ -1192,7 +1198,7 @@ func return_home(npc: NpcRuntimeState) -> bool:
 		or zone == null or catalog.room(zone.room_ids()[0]).exits().is_empty()
 	):
 		return false
-	var seen: bool = _player_shares_zone(npc)
+	var seen: bool = _player_hears(npc)
 	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
 	if body == null or marker == null:
@@ -1204,6 +1210,7 @@ func return_home(npc: NpcRuntimeState) -> bool:
 	npc.set_world_location(location_for_zone(spawn.zone_id))
 	if seen:
 		_hud().append_log_lines([tr("%s急急忙忙地离开了。") % npc.definition().display_name])
+	_npc_arrived(npc)
 	return true
 
 
@@ -1248,13 +1255,14 @@ func _note_player_arrival() -> void:
 
 ## keeper.c greeting(): said only if the player is still there.
 func _greet(npc: NpcRuntimeState) -> void:
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc):
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_hears(npc):
 		return
 	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
 	var text: String = NpcTalk.line(npc.definition().talk().greeting_say).replace("$RESPECT", tr(respect))
 	_hud().append_log_lines([tr("%s说道：%s") % [npc.definition().display_name, text]])
 
 
+## interactive(ob) in the NPC's room: an unconscious player still counts.
 func _player_shares_zone(npc: NpcRuntimeState) -> bool:
 	return (
 		_player != null and _player.exists_in_world
@@ -1263,9 +1271,26 @@ func _player_shares_zone(npc: NpcRuntimeState) -> bool:
 	)
 
 
+## What the player reads of an NPC: only in its place, and not while unconscious
+## (damage.c unconcious() sets block_msg/all).
+func _player_hears(npc: NpcRuntimeState) -> bool:
+	return _player_shares_zone(npc) and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+
+
+## init() of an NPC that comes into the player's place (make_inventory(), move()).
+func _npc_arrived(npc: NpcRuntimeState) -> void:
+	if (
+		_ambience != null and _player_shares_zone(npc)
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and not npc.definition().talk().greeting_say.is_empty()
+	):
+		_ambience.start_greeting(npc.character_id)
+
+
 ## char.c heart_beat() reaches chat() for a conscious NPC that is neither busy nor
 ## fighting, and beats while the player is in its place. A walking NPC is still
 ## making its last move. Deviation: an unconscious NPC says nothing (DECISIONS 4D).
+## The player need not be conscious; only what they read is (`_player_hears`).
 func _chats(npc: NpcRuntimeState) -> bool:
 	return (
 		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
@@ -1277,7 +1302,8 @@ func _chats(npc: NpcRuntimeState) -> bool:
 
 func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 	if entry is String:
-		_hud().append_log_lines([NpcTalk.line(entry)])
+		if _player_hears(npc):
+			_hud().append_log_lines([NpcTalk.line(entry)])
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
 
@@ -1292,7 +1318,7 @@ func random_move(npc: NpcRuntimeState) -> bool:
 	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, _ambience.random(), _door_closed_between)
 	if move == null:
 		return false
-	var seen: bool = _player_shares_zone(npc)
+	var seen: bool = _player_hears(npc)
 	if not npc_walker().walk_into(npc.character_id, runtime_body_for_character(npc.character_id), physical_zone(from_zone_id), physical_zone(move.to_zone_id), _ambience.random()):
 		return false
 	npc.set_world_location(location_for_zone(move.to_zone_id))

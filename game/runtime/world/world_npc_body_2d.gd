@@ -18,7 +18,9 @@ func presence() -> Area2D:
 	return get_node("AggressionPresence") as Area2D
 
 
-## A walking NPC goes through the player instead of shoving them aside; its
-## presence circle stays on, so an aggressive one still notices them.
+## A walking NPC goes through the player instead of shoving them aside, and
+## notices nobody on the way: ES2 moved it in one step, and its init() met who was
+## where it arrived. Its presence comes back on there.
 func set_walking(value: bool) -> void:
 	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", value)
+	(get_node("AggressionPresence/CollisionShape2D") as CollisionShape2D).set_deferred("disabled", value)

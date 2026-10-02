@@ -27,13 +27,10 @@ class Move:
 		direction = p_direction
 		to_zone_id = p_to_zone_id
 
-	## go.c: `<name>往<dir>离开。`
+	## go.c: `<name>往<dir>离开。` (its 走了过来。 is seen where it arrives, which the
+	## player, who must share the NPC's place for it to move, never is.)
 	func leave_line(name: String) -> String:
 		return "%s往%s离开。" % [name, DIRECTION_NAMES.get(direction, direction)]
-
-	## go.c: `<name>走了过来。`
-	static func arrive_line(name: String) -> String:
-		return "%s走了过来。" % name
 
 
 ## The move one random_move() makes, or null. `door_closed(from, to)` answers
