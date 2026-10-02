@@ -1,5 +1,27 @@
 # Migration Decisions
 
+## Snow's south road and shops (2026-10-02)
+
+Package 4B, from the owner-approved plan:
+- **Nine rooms, nine zones of the outdoor map**: sroad2-5, the school (书院), the smithy, the
+  herbshop, the post office and the Hockshop storage room, walked into through their ES2 exits
+  (the storage room through the curtain, no door). sroad4's southwest (`d/canyon`) and sroad5's
+  west (`d/waterfog`) end at a boundary with a sign until those regions exist. `herbshop1.c`
+  (药铺密室) has no entrance anywhere in the mudlib and is not migrated.
+- **Shops are services until 4E**: 杨掌柜 (`herbalist.c`) and 王铁匠 (`smith.c`) are their
+  counters' vendor services without bodies, as the waiter and 安惜迩 in 4A.
+- **A vendor's own price.** `smith.c` sells through its own `buy_object()` (300 coins for a
+  hammer worth 3), not `vendor_goods`: the override file holds such goods with their price, and
+  a goods record may carry `price` (absent = the item's value, `feature/vendor.c`). The shop
+  panel shows prices as `vendor.c`'s `price_string()` (3两银子, 15文钱); its button reads 购买.
+- **Deferred:** 蛇药 (a combined item that cures snake_poison) and applying 金疮药 (`apply`:
+  eff_kee +20 outside a fight) wait for the treatment package; the medicine can be bought and
+  sold. NPC wimpy (farmer, woodcutter) and combat talk wait for a later combat package; ask, chat
+  and random_move are 4D; 魏无极's tuition and literate are 4E.
+- **Omitted:** player mail (杜宽's 寄信/收信, the mailbox, `postoffice.c` `valid_leave`) is a
+  multiplayer feature.
+- World content revision `SOURCE_ENTRY_SNOW_SOUTH_V1`: older development saves need a New Game.
+
 ## Battle narration in ES2's words (2026-10-01)
 
 Owner decisions for the new-player combat package:

@@ -650,7 +650,7 @@ zone_id = &"snow.school"
 shape = SubResource("SchoolStudyShape")
 
 [node name="SouthRoad3Label" type="Label" parent="Ground"]
-offset_left = -890.0
+offset_left = -760.0
 offset_top = 470.0
 text = "青石官道"
 mouse_filter = 2
@@ -665,7 +665,7 @@ zone_id = &"snow.sroad3"
 shape = SubResource("SouthRoad3Shape")
 
 [node name="SouthRoad4Label" type="Label" parent="Ground"]
-offset_left = -1060.0
+offset_left = -1290.0
 offset_top = 470.0
 text = "青石官道"
 mouse_filter = 2
