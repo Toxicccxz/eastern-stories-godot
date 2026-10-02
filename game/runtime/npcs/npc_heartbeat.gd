@@ -5,7 +5,8 @@ extends RefCounted
 ## runs: heal_up() on the `5 + random(10)` tick (one transient cadence per NPC, as
 ## for the player, DECISIONS S5B) and feature/damage.c revive() once an unconscious
 ## NPC's call_out comes due. Fighting, busy or conditioned NPCs heal as the player
-## does (S5B C-E); an unconscious NPC heals too (char.c keeps calling heal_up()).
+## does (S5B C-E; busy wears down on the beat, continue_action()); an unconscious
+## NPC heals too (char.c keeps calling heal_up()).
 ## Cadences are not saved; the revive countdown is.
 var _random: RecoveryCadenceRandomSource
 var _cadences: Dictionary[StringName, PlayerRecoveryCadence] = {}

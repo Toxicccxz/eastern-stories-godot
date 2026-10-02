@@ -4,7 +4,8 @@ extends RefCounted
 ## S5B: owner-approved Native timing, NOT a proven ES2 wall-clock period.
 ## Source std/char.c: if (tick--) return; else tick = 5 + random(10).
 ## Runtime caller owns eligibility. This object owns no character, timer or Save.
-## NPCs run the same cadence (NpcHeartbeat) with is_player_character false.
+## NPCs run the same cadence (NpcHeartbeat) with is_player_character false. Outside a
+## fight it is the heart beat that wears busy down (a fight's scheduler does inside one).
 const BASE_PULSE_SECONDS: float = 2.0
 
 var _random: RecoveryCadenceRandomSource
@@ -46,8 +47,9 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState) -> 
 	while _accumulator >= BASE_PULSE_SECONDS:
 		_accumulator -= BASE_PULSE_SECONDS
 		result.pulses += 1
-		# Borrow busy at pulse entry; never advance or clear it here.
+		# char.c heart_beat(): a busy character spends the beat in continue_action().
 		if busy.is_busy():
+			busy.advance()
 			result.busy_pulses += 1
 			continue
 		if _source_tick > 0:

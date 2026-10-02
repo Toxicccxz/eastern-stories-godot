@@ -114,6 +114,9 @@ func _npc_heals_and_spars_again(tree: SceneTree) -> void:
 	check(seconds >= 12.0, "heal_up waits for the char.c tick")
 	_run(session)
 	check(not session.combat_encounter_coordinator().has_active_encounter(), "the second spar ends")
+	trainee.busy.start_busy(2)
+	session.advance_npc_heartbeat(4.0)
+	check(not trainee.busy.is_busy(), "outside a fight an NPC's busy wears off on its heart beat (continue_action())")
 	await _close(tree, session)
 
 

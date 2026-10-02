@@ -174,10 +174,9 @@ func freeze_tests(tree: SceneTree) -> void:
 	frozen(session, random, "Pause")
 	tree.paused = false
 	check(session.advance_player_recovery(1.0).pulses == 1, "Resume same1s remainder")
-	player.busy.start_busy(1)
-	check(session.advance_player_recovery(5.0).busy_pulses == 2 and session.player_recovery_cadence().source_tick == 4 and player.busy.busy_value == 1, "busy consumes2 pulses not countdown or busy advancement")
-	player.busy.advance()
-	check(session.advance_player_recovery(1.0).pulses == 1 and session.player_recovery_cadence().source_tick == 3, "external busy owner clears; resume countdown")
+	player.busy.start_busy(2)
+	check(session.advance_player_recovery(5.0).busy_pulses == 2 and session.player_recovery_cadence().source_tick == 4 and not player.busy.is_busy(), "char.c heart_beat: a busy beat is continue_action(), busy2 wears off in two beats, no countdown")
+	check(session.advance_player_recovery(1.0).pulses == 1 and session.player_recovery_cadence().source_tick == 3, "the next beat counts down again")
 	for id: StringName in [&"snake_poison", &"bandaged", &"unsupported"]:
 		for duration: int in [0, -1, 9]:
 			player.state.conditions.add_or_replace_duration(id, duration)
@@ -251,6 +250,10 @@ func map_combat_tests(tree: SceneTree) -> void:
 	check(session.combat_encounter_coordinator().complete(fixture._scripted_result(started.encounter_id, player.character_id, npc.character_id)).succeeded(), "legitimate completion")
 	player.relationship.remove_opponent(npc.character_id)
 	check(session.advance_player_recovery(1.0).pulses == 1 and cadence.source_tick == 3 and random.calls == 1, "postcombat same phase")
+	# get.c start_busy(1) for a pickup in the fight: the first beat after it wears it off.
+	player.busy.start_busy(1)
+	check(session.advance_player_recovery(2.0).busy_pulses == 1 and not player.busy.is_busy() and cadence.source_tick == 3, "busy left by a fight wears off on the next beat")
+	check(session.advance_player_recovery(2.0).pulses == 1 and cadence.source_tick == 2, "then the countdown resumes")
 	session.free()
 
 
