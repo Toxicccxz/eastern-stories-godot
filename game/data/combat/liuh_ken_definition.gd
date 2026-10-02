@@ -4,8 +4,6 @@ extends RefCounted
 ## Exact daemon/skill/liuh-ken.c. Unused dodge/parry metadata stays in the
 ## source analysis; it is deliberately not part of combat arithmetic.
 const SKILL_ID: StringName = &"liuh-ken"
-const DISPLAY_NAME: String = "柳家拳"
-const SOURCE_PATH: String = "daemon/skill/liuh-ken.c"
 const ACTION_IDS: Array[StringName] = [
 	&"es2:daemon/skill/liuh-ken/gu-song-gua-yue",
 	&"es2:daemon/skill/liuh-ken/ao-xue-dong-mei",
@@ -20,9 +18,9 @@ const ACTION_TEXTS: Array[String] = [
 ]
 
 
+## Its kind, type, enable use and name are data (common/skills.json).
 static func skill() -> SkillDefinition:
-	return SkillDefinition.new(SKILL_ID, SkillDefinition.Kind.SPECIALIZED,
-		SkillDefinition.Type.MARTIAL, false, [&"unarmed"], SOURCE_PATH)
+	return GameContent.catalog().skill(SKILL_ID)
 
 
 static func actions() -> CombatActionSet:

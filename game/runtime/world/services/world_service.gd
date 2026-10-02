@@ -1,9 +1,9 @@
 class_name WorldService
 extends Node
 
-## Runtime half of a data-defined service (ServiceDefinition). The map creates
-## one per WorldServicePoint; a subclass per kind holds the kind's rules and
-## panel. Panels live on this node's own CanvasLayer until the shared UI
+## Runtime half of a data-defined room service (ServiceDefinition). The map
+## creates one per WorldServicePoint; a subclass per kind holds the kind's rules
+## and panel. NpcService is the same for what an NPC offers from its body. Panels live on this node's own CanvasLayer until the shared UI
 ## borrows them (SharedGameplayUI.open_business).
 var map: WorldMapController
 var definition: ServiceDefinition
@@ -16,6 +16,15 @@ func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: 
 	definition = p_definition
 	point = p_point
 	name = String(definition.service_id).replace(".", "_")
+
+
+func service_id() -> StringName:
+	return definition.service_id
+
+
+## The name before the verb in the context button, e.g. 钱庄.
+func display_name() -> String:
+	return definition.display_name
 
 
 ## Kind verb shown after the service name, e.g. 钱庄 · 兑换.
@@ -37,7 +46,7 @@ func in_reach() -> bool:
 
 
 func context_title() -> String:
-	return "%s · %s" % [definition.display_name, verb()] if in_reach() else ""
+	return "%s · %s" % [display_name(), verb()] if in_reach() else ""
 
 
 func interact() -> void:

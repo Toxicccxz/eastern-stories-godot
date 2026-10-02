@@ -31,6 +31,9 @@ var _body_weight: int
 var _maximum_encumbrance: int
 var _loadout_items: Array[ItemInstance] = []
 var _revive_in_ms: int = 0
+## Object variables its create() sets (drunk.c has_alcohol). Not saved: Continue
+## starts them as create() does (DECISIONS 4E).
+var _flags: Dictionary[StringName, bool] = {}
 
 var character_id: StringName:
 	get:
@@ -121,6 +124,9 @@ func _init(
 			_loadout_items.append(
 				ItemInstanceType.new(item.item_instance_id, item.item_definition_id)
 			)
+	if _definition != null:
+		for flag: StringName in _definition.dealings().initial_flags:
+			_flags[flag] = true
 
 
 func definition() -> NpcDefinitionType:
@@ -154,6 +160,18 @@ func set_life_status(value: int) -> bool:
 	if value != RuntimeLifeStatusType.Value.UNCONSCIOUS:
 		_revive_in_ms = 0
 	return true
+
+
+func flags() -> Dictionary[StringName, bool]:
+	return _flags.duplicate()
+
+
+func has_flag(flag: StringName) -> bool:
+	return _flags.get(flag, false)
+
+
+func set_flag(flag: StringName, value: bool) -> void:
+	_flags[flag] = value
 
 
 func set_revive_in_ms(value: int) -> void:

@@ -19,6 +19,7 @@ var _items: NativeItemStateSnapshot
 var _combat_rng: RandomStreamSnapshot
 var _npc_initialization_rng: RandomStreamSnapshot
 var _world_interaction_rng: RandomStreamSnapshot
+var _floor_items: Array[ValueTypes.FloorItemSnapshot] = []
 
 var metadata: ValueTypes.GameSaveMetadata:
 	get: return _metadata.duplicate_snapshot()
@@ -49,6 +50,13 @@ var corpses: Array[ValueTypes.CorpseSnapshot]:
 	get:
 		var result: Array[ValueTypes.CorpseSnapshot] = []
 		for record: ValueTypes.CorpseSnapshot in _corpses:
+			result.append(null if record == null else record.duplicate_snapshot())
+		return result
+## Items lying on the floor away from their spawn markers (dropped).
+var floor_items: Array[ValueTypes.FloorItemSnapshot]:
+	get:
+		var result: Array[ValueTypes.FloorItemSnapshot] = []
+		for record: ValueTypes.FloorItemSnapshot in _floor_items:
 			result.append(null if record == null else record.duplicate_snapshot())
 		return result
 
@@ -87,7 +95,19 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision)
+	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items)
+
+
+## The dropped items (ordered by item ID); a save without any has none.
+func with_floor_items(records: Array[ValueTypes.FloorItemSnapshot]) -> GameSaveSnapshot:
+	_floor_items.clear()
+	for record: ValueTypes.FloorItemSnapshot in records:
+		_floor_items.append(null if record == null else record.duplicate_snapshot())
+	_floor_items.sort_custom(func(left: ValueTypes.FloorItemSnapshot, right: ValueTypes.FloorItemSnapshot) -> bool:
+		if left == null: return right != null
+		if right == null: return false
+		return String(left.item_instance_id) < String(right.item_instance_id))
+	return self
 
 
 static func _npc_before(left: ValueTypes.NpcSpawnStateSnapshot, right: ValueTypes.NpcSpawnStateSnapshot) -> bool:

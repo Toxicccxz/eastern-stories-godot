@@ -23,10 +23,11 @@ hand-written files. Fix that before adding breadth.
 | 2 | **Data-driven content** | NPCs, items, vendors and spawns load from data files through generic loaders into the existing typed definitions; existing Snow/Old Pine content converted with unchanged behavior; per-item classes, per-offer purchase services and ID `match` chains removed. |
 | 3 | **Generic map runtime** | One data-configured map controller plus reusable zone/portal/spawn/interaction components; explicit combat cadence; UI no longer dispatches on concrete map types; terrain on `TileMapLayer` with a placeholder TileSet; zones show the room's authored ES2 description. |
 | 4 | **Content importer + Snow complete** | A best-effort LPC → data importer for NPCs/items/vendors/spawns (manual overrides kept separate); all of Snow's rooms, NPCs, shops and services playable. Record the time per NPC as the baseline for later regions. Five PRs: 4A importer + street NPCs, 4B south road and shops, 4C Inn upstairs / school inner rooms / secret storage, 4D ask, talk, wandering and room reset, 4E give, put and drop, shops and services bound to NPCs, teachers as data. |
+| 5 | **Localization foundation** | One PR after Package 4, before the second region: Godot translation set up with Simplified Chinese as the source locale, hard-coded player text (and the English labels some panels still show) moved to `tr()`, a key scheme and extractor for data text (POT), a pseudo-locale check that finds untranslated text, font fallback. No translations yet (they wait for release readiness; Traditional Chinese first). |
 
 Small correctness items ride along with the package that touches the code: busy decrement
 outside encounters, `apply/*` stat bonuses in combat, the missing Keep scene reference, opt-in QA
-autoload, `tr()` for player text.
+autoload. New player text goes through `tr()` as whole-sentence templates from 4E on.
 
 ## Then — systems and regions
 
@@ -34,8 +35,9 @@ Order may change after the near-term packages; each item is a content package wi
 
 * **Internal power**: `force`/`fonxanforce` obtain → enable → exercise → combat use → save.
 * **Offense/defense routes**: `sword`/`parry`/`dodge`, `fonxansword`, `chaos-steps` with real
-  learning and equipment prerequisites; practice/self-learning reachable in play; then 柳绘心
-  (Snow's study) can be placed.
+  learning and equipment prerequisites (teachers already teach what `skills.json` defines);
+  practice/self-learning reachable in play; then 柳绘心 (Snow's study) can be placed and 柳淳风
+  and 安惜迩 fought.
 * **Combined items**: amounts that merge and split (`std/item/combined.c`): Snow's 桃符纸, 蛇药
   and the travellers' 飞刀.
 * **Conditions and treatment**: condition-producing attacks, update cadence, cures and supplies.

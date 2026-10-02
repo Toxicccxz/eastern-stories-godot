@@ -1,8 +1,10 @@
 class_name TeacherPanel
 extends CanvasLayer
 
-## A teacher's talk panel: apprenticeship, learn, enable. The TeacherService
-## owns the rules; this only presents them.
+## A teacher's panel: apprenticeship when the NPC takes apprentices, one learn
+## button per skill it teaches, enable/disable for a specialized one. The
+## TeacherService owns the rules; this only presents them and repeats the last
+## lines the log received.
 var _contact: TeacherService
 var _rows: VBoxContainer
 var panel: PanelContainer
@@ -10,10 +12,10 @@ var status: Label
 var feedback: Label
 var apprentice_button: Button
 var cancel_button: Button
-var learn_button: Button
-var learn_liuh_button: Button
-var enable_liuh_button: Button
-var disable_liuh_button: Button
+## Skill ID -> its learn / enable / disable button.
+var learn_buttons: Dictionary[StringName, Button] = {}
+var enable_buttons: Dictionary[StringName, Button] = {}
+var disable_buttons: Dictionary[StringName, Button] = {}
 
 
 func configure(contact: TeacherService) -> void:
@@ -35,16 +37,20 @@ func _ready() -> void:
 	_rows = VBoxContainer.new()
 	_rows.name = "Rows"
 	panel.add_child(_rows)
-	_label("柳淳风 · 封山剑派掌门人", "Title")
+	_label(_contact.npc.definition().short_name(), "Title")
 	status = _label("", "Status")
-	apprentice_button = _button("Apprentice", "拜师 / 向师父请安", request_apprentice)
-	cancel_button = _button("CancelApprentice", "取消拜师请求", cancel_apprentice)
-	learn_button = _button("Learn", "请教基本拳脚（一次）", request_learn)
-	learn_liuh_button = _button("LearnLiuh", "请教柳家拳（一次）", request_learn_liuh)
-	enable_liuh_button = _button("EnableLiuh", "启用柳家拳", enable_liuh)
-	disable_liuh_button = _button("DisableLiuh", "停用柳家拳", disable_liuh)
-	feedback = _label("馆主传授基本拳脚与柳家拳。每次请教均按当下状态结算。", "Feedback")
-	_button("Close", "离开交谈", close_panel)
+	if _contact.takes_apprentices():
+		apprentice_button = _button("Apprentice", tr("拜师 / 向师父请安"), request_apprentice)
+		cancel_button = _button("CancelApprentice", tr("取消拜师请求"), cancel_apprentice)
+	var catalog: ContentCatalog = GameContent.catalog()
+	for skill_id: StringName in _contact.teachable_skills():
+		var skill: SkillDefinition = catalog.skill(skill_id)
+		learn_buttons[skill_id] = _button("Learn_" + String(skill_id), tr("请教%s（一次）") % skill.display_name, _learn.bind(skill_id))
+		if not skill.valid_enabled_uses().is_empty():
+			enable_buttons[skill_id] = _button("Enable_" + String(skill_id), tr("启用%s") % skill.display_name, _enable.bind(skill_id))
+			disable_buttons[skill_id] = _button("Disable_" + String(skill_id), tr("停用%s") % skill.display_name, _disable.bind(skill_id))
+	feedback = _label("", "Feedback")
+	_button("Close", tr("离开"), close_panel)
 
 
 func _label(text: String, node_name: String) -> Label:
@@ -69,9 +75,12 @@ func _button(node_name: String, text: String, action: Callable) -> Button:
 func interact() -> void:
 	if ExplorationPresentationBlocker.is_blocked(get_tree()) or not _contact.can_teach():
 		return
-	_contact.open_panel("柳淳风 · 教学", panel)
+	feedback.text = ""
+	_contact.open_panel(_contact.context_title(), panel)
 	refresh()
-	apprentice_button.grab_focus()
+	var first: Button = apprentice_button if apprentice_button != null else (learn_buttons.values()[0] if not learn_buttons.is_empty() else null)
+	if first != null:
+		first.grab_focus()
 
 
 func _process(_delta: float) -> void:
@@ -89,79 +98,70 @@ func _physics_process(_delta: float) -> void:
 
 
 func refresh() -> void:
-	var player := _contact.map.session.player_runtime()
-	var state := player.state
-	var mapping: StringName = state.skills.mapped_skill(&"unarmed")
-	var mapping_name: String = "未启用" if mapping.is_empty() else (LiuhKenDefinition.DISPLAY_NAME if mapping == LiuhKenDefinition.SKILL_ID else String(mapping))
-	status.text = "%s\n基本拳脚 %d · 学习进度 %d · 耗精 %s\n柳家拳 %d · 学习进度 %d · 耗精 %s\n拳脚映射：%s · 有效拳脚 %d\n精 %d（须大于消耗才可进步）\n可用潜能 %d · 实战经验 %d" % [
-		player.facts.title, state.skills.raw_level(&"unarmed"), state.skills.learned_progress(&"unarmed"), _cost_text(state, &"unarmed"),
-		state.skills.raw_level(LiuhKenDefinition.SKILL_ID), state.skills.learned_progress(LiuhKenDefinition.SKILL_ID), _cost_text(state, LiuhKenDefinition.SKILL_ID),
-		mapping_name, state.skills.effective_level(&"unarmed", player.armor.aggregate_numeric_modifiers().unarmed),
-		state.essence.current, state.progression.potential - state.progression.potential_spent, state.progression.combat_experience]
-	cancel_button.visible = player.school_apprenticeship.is_pending()
+	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
+	var state: CharacterState = player.state
+	var catalog: ContentCatalog = GameContent.catalog()
+	var lines: Array[String] = [player.facts.title]
+	for skill_id: StringName in _contact.teachable_skills():
+		var skill: SkillDefinition = catalog.skill(skill_id)
+		var line: String = tr("%s %d · 学习进度 %d · 耗精 %s") % [skill.display_name, state.skills.raw_level(skill_id), state.skills.learned_progress(skill_id), _cost_text(state, skill_id)]
+		if not skill.valid_enabled_uses().is_empty():
+			var use_id: StringName = skill.valid_enabled_uses()[0]
+			line += tr(" · 已启用") if state.skills.mapped_skill(use_id) == skill_id else tr(" · 未启用")
+		lines.append(line)
+	var uses: Array[StringName] = []
+	for skill_id: StringName in _contact.teachable_skills():
+		for use_id: StringName in catalog.skill(skill_id).valid_enabled_uses():
+			if not uses.has(use_id):
+				uses.append(use_id)
+	for use_id: StringName in uses:
+		var use_skill: SkillDefinition = catalog.skill(use_id)
+		lines.append(tr("有效%s %d") % [String(use_id) if use_skill == null else use_skill.display_name, state.skills.effective_level(use_id, player.armor.aggregate_numeric_modifiers().unarmed if use_id == &"unarmed" else 0)])
+	lines.append(tr("精 %d（须大于消耗才可进步） · 可用潜能 %d · 实战经验 %d") % [
+		state.essence.current, state.progression.potential - state.progression.potential_spent, state.progression.combat_experience,
+	])
+	status.text = "\n".join(lines)
+	if cancel_button != null:
+		cancel_button.visible = player.apprenticeship_request.is_pending()
 
 
 func request_apprentice() -> void:
-	if not panel.visible:
-		return
-	show_apprenticeship(_contact.request_apprentice())
+	if panel.visible:
+		_contact.request_apprentice()
+		_show_last()
 
 
 func cancel_apprentice() -> void:
-	if not panel.visible:
-		return
-	show_apprenticeship(_contact.cancel_apprentice())
-
-
-func show_apprenticeship(outcome: SwordsmanApprenticeship.Outcome) -> void:
-	match outcome:
-		SwordsmanApprenticeship.Outcome.RECRUITED: feedback.text = "柳淳风收你为徒。你成为封山剑派第十四代弟子。"
-		SwordsmanApprenticeship.Outcome.ACKNOWLEDGED: feedback.text = "你恭恭敬敬地向师父请安。"
-		SwordsmanApprenticeship.Outcome.QUALIFICATION_REJECTED: feedback.text = "馆主认为你的胆识或定力不足。拜师请求仍在等待，可取消后再试。"
-		SwordsmanApprenticeship.Outcome.PENDING: feedback.text = "馆主尚未答应你的拜师请求。可先取消。"
-		SwordsmanApprenticeship.Outcome.CANCELLED: feedback.text = "你取消了拜师请求。"
-		SwordsmanApprenticeship.Outcome.NO_PENDING: feedback.text = "你没有等待中的拜师请求。"
-		SwordsmanApprenticeship.Outcome.OTHER_RELATIONSHIP_DEFERRED: feedback.text = "你已有师门关系；这里暂不提供改投师门。"
-		_: feedback.text = "目前无法与馆主完成交谈。"
-	refresh()
-
-
-func request_learn() -> void:
-	_learn(&"unarmed")
-
-
-func request_learn_liuh() -> void:
-	_learn(LiuhKenDefinition.SKILL_ID)
+	if panel.visible:
+		_contact.cancel_apprentice()
+		_show_last()
 
 
 func _learn(skill_id: StringName) -> void:
+	if panel.visible:
+		_contact.request_learn(skill_id)
+		_show_last()
+
+
+func _enable(skill_id: StringName) -> void:
 	if not panel.visible:
 		return
-	var result := _contact.request_learn(skill_id)
-	feedback.text = learn_message(result)
+	var name: String = GameContent.catalog().skill(skill_id).display_name
+	feedback.text = tr("已启用%s。") % name if _contact.enable(skill_id) else tr("无法启用%s：须已学会它和它的基本功夫。") % name
 	refresh()
 
 
-static func learn_message(result: LearnResult) -> String:
-	var skill_name: String = LiuhKenDefinition.DISPLAY_NAME if result.skill_id == LiuhKenDefinition.SKILL_ID else "基本拳脚"
-	var message: String
-	match result.completion:
-		LearnResult.Completion.LEVEL_INCREASED: message = "你的%s进步了！" % skill_name
-		LearnResult.Completion.PROGRESSED: message = "你有所领悟，学习进度增加，尚未升级。"
-		LearnResult.Completion.NO_PROGRESS_INSUFFICIENT_ESSENCE: message = "你太累了，未有进步；已耗尽当前精。"
-		LearnResult.Completion.NO_PROGRESS_COMBAT_EXPERIENCE: message = "实战经验不足，未有进步；仍消耗了精。"
-		LearnResult.Completion.NO_PROGRESS_TEACHER_FATIGUE: message = "馆主太疲倦，未能授课。"
-		LearnResult.Completion.LEGACY_ERROR: message = "学习计算或随机来源异常，请停止操作；此前变化保留。"
-		_:
-			match result.failure_reason:
-				LearnResult.FailureReason.POTENTIAL_EXHAUSTED: message = "你的可用潜能已耗尽。"
-				LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, LearnResult.FailureReason.RECOGNITION_REJECTED: message = "馆主尚未认可你的求教关系。"
-				LearnResult.FailureReason.TEACHER_PREVENTED: message = "馆主不愿继续传授这项技能。"
-				LearnResult.FailureReason.STUDENT_SKILL_NOT_BELOW_TEACHER: message = "这项技能的程度已不低于馆主。"
-				_: message = "本次请教未获准（原因 %d）。" % result.failure_reason
-	if result.created_explicit_zero_skill_entry:
-		message += " 已建立%s零级记录。" % skill_name
-	return message
+func _disable(skill_id: StringName) -> void:
+	if not panel.visible:
+		return
+	var name: String = GameContent.catalog().skill(skill_id).display_name
+	feedback.text = tr("已停用%s；技能与学习进度保留。") % name if _contact.disable(skill_id) else tr("%s没有启用。") % name
+	refresh()
+
+
+func _show_last() -> void:
+	feedback.text = "\n".join(_contact.last_lines)
+	refresh()
 
 
 func close_panel() -> void:
@@ -174,23 +174,11 @@ func close_panel() -> void:
 		_contact.map.player_body.quarantine_current_movement_input()
 
 
-static func _cost_text(state: CharacterState, skill_id: StringName) -> String:
-	if state.attributes.intelligence == 0:
-		return "无法计算"
-	@warning_ignore("integer_division")
-	var cost: int = 150 / SnowSchoolTeacher.INTELLIGENCE + 150 / state.attributes.intelligence
+## learn.c's gin cost with the teacher's own int: 150/int + 150/int, doubled for a new skill.
+@warning_ignore("integer_division")
+func _cost_text(state: CharacterState, skill_id: StringName) -> String:
+	var teacher_int: int = _contact.npc.character_state.attributes.intelligence
+	if state.attributes.intelligence == 0 or teacher_int == 0:
+		return tr("无法计算")
+	var cost: int = 150 / teacher_int + 150 / state.attributes.intelligence
 	return str(cost * 2 if state.skills.raw_level(skill_id) == 0 else cost)
-
-
-func enable_liuh() -> void:
-	if not panel.visible:
-		return
-	feedback.text = "拳脚已启用柳家拳。" if _contact.enable_liuh() else "无法启用：须在馆主面前，并已学会基本拳脚与柳家拳。"
-	refresh()
-
-
-func disable_liuh() -> void:
-	if not panel.visible:
-		return
-	feedback.text = "拳脚已停用柳家拳；技能与学习进度保留。" if _contact.disable_liuh() else "目前无法停用柳家拳。"
-	refresh()

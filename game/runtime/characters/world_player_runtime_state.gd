@@ -12,7 +12,7 @@ var _exists_in_world: bool
 var _combat_available: bool
 var _body_facts: PlayerBodyFacts
 var _facts: PlayerIdentityFacts
-var school_apprenticeship: SwordsmanApprenticeship = SwordsmanApprenticeship.new()
+var apprenticeship_request: NpcApprenticeship = NpcApprenticeship.new()
 
 var facts: PlayerIdentityFacts:
 	get: return _facts
@@ -83,12 +83,15 @@ func world_location() -> WorldLocationState:
 	return null if _world_location == null else _world_location.duplicate_snapshot()
 
 
-## Only successful source recruitment may replace the read-only identity title.
-## Body, CharacterState and character ID retain their existing authorities.
-func request_school_apprenticeship(entry_time_utc: int) -> SwordsmanApprenticeship.Outcome:
-	var outcome := school_apprenticeship.request(_state, entry_time_utc)
-	if outcome == SwordsmanApprenticeship.Outcome.RECRUITED:
-		_facts = PlayerIdentityFacts.new(_facts.display_name, SwordsmanApprenticeship.DISPLAY_TITLE, _facts.age)
+## apprentice <master>. Only successful recruitment may replace the read-only
+## identity title (feature/apprentice.c assign_apprentice()). Body, CharacterState
+## and character ID retain their existing authorities.
+func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
+	var respect: String = RankWords.query_respect(_state.gender, _facts.age, _state.affiliation.class_id)
+	var outcome := apprenticeship_request.request(_state, master, family, entry_time_utc, respect)
+	if outcome == NpcApprenticeship.Outcome.RECRUITED:
+		var title: String = NpcApprenticeship.family_title(family.display_name, _state.family.generation, _state.affiliation.family_title)
+		_facts = PlayerIdentityFacts.new(_facts.display_name, title, _facts.age)
 	return outcome
 
 

@@ -362,6 +362,11 @@ func restored_corpse_entries() -> Array[OldPineRestoredCorpseEntry]:
 	return [] if _restore_preparation == null else _restore_preparation.corpse_entries()
 
 
+## Dropped items and where they lie, while Continue builds the maps.
+func restored_floor_items() -> Array[GameSaveValueTypes.FloorItemSnapshot]:
+	return [] if _restore_preparation == null else _restore_preparation.floor_items.duplicate()
+
+
 func activate_restore_candidate() -> bool:
 	if (
 		_bootstrap_mode != BootstrapMode.RESTORE
@@ -895,6 +900,14 @@ func _validate_restore_positions() -> bool:
 			_resident_maps.get(entry.world_location.map_id),
 			entry.world_location.zone_id,
 			entry.map_position,
+		):
+			return false
+	# A dropped item lies where its holder stood.
+	for record: GameSaveValueTypes.FloorItemSnapshot in _restore_preparation.floor_items:
+		if not MapPlacementValidator.is_valid_character_position(
+			_resident_maps.get(record.world_location.map_id),
+			record.world_location.zone_id,
+			Vector2(record.map_position.x, record.map_position.y),
 		):
 			return false
 	return true

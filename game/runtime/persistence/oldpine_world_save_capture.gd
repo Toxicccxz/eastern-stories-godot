@@ -196,6 +196,15 @@ func capture(
 			)
 		)
 
+	var floor_snapshots: Array[Values.FloorItemSnapshot] = []
+	for map: WorldMapController in session.world_maps():
+		for item_id: StringName in map.dropped_item_ids():
+			var view: WorldFloorItemView = map.floor_item_view(item_id)
+			var location: WorldLocationState = map.dropped_item_location(item_id)
+			if view == null or location == null:
+				return Result.failure(Result.Outcome.INVALID_CAPTURED_SNAPSHOT, "floor_items.%s" % String(item_id), "dropped item without a view")
+			floor_snapshots.append(Values.FloorItemSnapshot.new(item_id, _location_snapshot(location), _position_snapshot(view.global_position)))
+
 	var snapshot: GameSaveSnapshot = GameSaveSnapshot.new(
 		Values.GameSaveMetadata.new(
 			GameSaveSnapshot.FORMAT_ID,
@@ -215,7 +224,7 @@ func capture(
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
 		session.world_content_revision(),
-	)
+	).with_floor_items(floor_snapshots)
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():
 		return Result.failure(
@@ -340,7 +349,7 @@ func _character_snapshot(
 			state.apprenticeship.betrayer_count,
 		),
 		state.affiliation,
-	)
+	).with_marks(state.marks)
 
 
 func _character_failure() -> OldPineWorldCaptureResult:

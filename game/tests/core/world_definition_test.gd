@@ -182,14 +182,11 @@ func _test_services_and_doors() -> void:
 	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
 		ids.append(service.service_id)
 		_assert_eq(catalog.zone(service.zone_id).map_id, service.map_id, "%s map follows its zone" % service.service_id)
-	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter", &"snow.schoolhall.master",
-		&"snow.herbshop.herbalist", &"snow.smithy.smith"], "Snow outdoor services")
-	var herbalist: ServiceDefinition = catalog.service(&"snow.herbshop.herbalist")
-	var smith: ServiceDefinition = catalog.service(&"snow.smithy.smith")
-	_assert_eq([herbalist.kind, herbalist.zone_id, herbalist.vendor_id], [&"vendor", &"snow.herbshop", &"snow.vendor.herbalist"], "herbshop sells the herbalist's goods")
-	_assert_eq([smith.kind, smith.zone_id, smith.vendor_id], [&"vendor", &"snow.smithy", &"snow.vendor.smith"], "smithy sells the smith's goods")
-	var waiter: ServiceDefinition = catalog.service(&"snow.inn.waiter")
-	_assert_eq([waiter.kind, waiter.map_id, waiter.vendor_id], [&"vendor", SnowWorld.INN_MAP_ID, &"snow.vendor.waiter"], "Inn waiter sells the vendor record")
+	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter"], "Snow outdoor services: the rooms' own commands")
+	# The shopkeepers sell from their bodies (4E): the vendor record is on the NPC.
+	for row: Array in [[&"snow.npc.herbalist", &"snow.vendor.herbalist"], [&"snow.npc.smith", &"snow.vendor.smith"], [&"snow.npc.waiter", &"snow.vendor.waiter"]]:
+		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)
+	_assert_true(catalog.services_for_map(SnowWorld.INN_MAP_ID).is_empty(), "the Inn has no room service")
 	var gate: DoorDefinition = catalog.door(&"snow.school.gate")
 	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable], ["红漆大门", [&"snow.school1", &"snow.school2"], true], "school1.c create_door")
 	var hockshop: DoorDefinition = catalog.door(&"snow.hockshop.door")
@@ -275,17 +272,21 @@ func _test_loader_rejects_broken_services_and_doors() -> void:
 			{"id": "x.a", "map": "x.one", "rooms": ["es2:d/x/a"]},
 		],
 		"services": [
-			{"id": "x.shop", "kind": "vendor", "zone": "x.a", "name": "S", "reach": 90, "vendor": "x.none", "legacy_source": "x.c"},
+			{"id": "x.shop", "kind": "vendor", "zone": "x.a", "name": "S", "reach": 90, "legacy_source": "x.c"},
 			{"id": "x.odd", "kind": "juggler", "zone": "x.gone", "name": "J", "reach": 0, "legacy_source": "x.c"},
 		],
 		"doors": [
 			{"id": "x.door", "name": "D", "zones": ["x.a"], "reach": 80, "closable": "no", "legacy_room": "es2:d/x/a"},
 		],
+		"npcs": [
+			{"id": "x.seller", "legacy_source": "x.c", "name": "S", "aliases": ["s"], "vendor": "x.none"},
+		],
 	}, "t.json")
 	_assert_true(builder.build() == null, "broken services and doors do not build")
 	var errors: String = "\n".join(builder.errors())
 	for expected: String in [
-		"t.json.services[0].vendor: unknown vendor 'x.none'",
+		"t.json.services[0].kind: unsupported service kind 'vendor'",
+		"t.json.npcs[0].vendor: unknown vendor 'x.none'",
 		"t.json.services[1].kind: unsupported service kind 'juggler'",
 		"t.json.services[1].reach: must be positive",
 		"t.json.services[1].zone: unknown zone 'x.gone'",

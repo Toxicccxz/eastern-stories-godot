@@ -7,7 +7,7 @@ const BLOCKING_TERRAIN: Array[String] = ["shop_front", "shutter", "wall", "wall_
 	"water", "deep_water", "blocked", "cliff", "chasm"]
 ## Node collision a map keeps besides door walls and closed-passage walls: objects that block.
 const OBJECT_BLOCKS: Dictionary[StringName, Array] = {
-	&"snow.outdoor": ["BankExchange/Counter/CollisionShape2D", "Walls/HockshopCounter", "Walls/SchoolTeacher"],
+	&"snow.outdoor": ["BankExchange/Counter/CollisionShape2D", "Walls/HockshopCounter"],
 }
 const TILE := 16.0
 

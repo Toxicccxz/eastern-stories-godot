@@ -41,6 +41,8 @@ ANSI_MACROS = {
     'HBWHT', 'BBLK', 'BRED', 'BGRN', 'BYEL', 'BBLU', 'BMAG', 'BCYN', 'BOLD', 'CLR',
     'HOME', 'REF', 'BLINK', 'REV', 'U',
 }
+# include/globals.h path macros: CLASS_D("swordsman") is "/daemon/class/swordsman".
+PATH_MACROS = {'CLASS_D': '/daemon/class/'}
 WEAPON_KINDS = {'AXE', 'BLADE', 'DAGGER', 'FORK', 'HAMMER', 'SWORD', 'STAFF', 'WHIP'}
 ARMOR_KINDS = {'ARMOR', 'BOOTS', 'CLOTH', 'FINGER', 'HANDS', 'HEAD', 'NECK', 'SHIELD',
                'SURCOAT', 'WAIST', 'WRISTS'}
@@ -356,6 +358,11 @@ class Parser:
                 pieces.append(heredoc(token))
             elif token.text == '__DIR__':
                 pieces.append('/' + self.object.directory)
+            elif (token.text in PATH_MACROS and i + 3 < end and ts[i + 1].text == '('
+                    and ts[i + 2].kind == 'string' and ts[i + 3].text == ')'):
+                pieces.append(PATH_MACROS[token.text] + decode_string(ts[i + 2]))
+                i += 4
+                continue
             elif token.text in ANSI_MACROS:
                 pieces.append('')
             elif token.text == '+' and pieces:
@@ -423,6 +430,14 @@ def region_of(path: str) -> str:
     return parts[1] if parts[0] == 'd' and len(parts) > 2 else 'common'
 
 
+def npc_id(path: str) -> str:
+    """`snow.npc.dog`; a class daemon's NPC keeps its class: `common.npc.swordsman.master`."""
+    parts = source_path(path).split('/')
+    if parts[:2] == ['daemon', 'class'] and len(parts) == 4:
+        return f'common.npc.{parts[2]}.{basename(path)}'
+    return f'{region_of(path)}.npc.{basename(path)}'
+
+
 class Corpus:
     """Parsed LPC objects by source path, read on demand."""
 
@@ -464,6 +479,8 @@ class Importer:
         self.data = data
         self.overrides = {p.stem: json.loads(p.read_text(encoding='utf-8'))
                           for p in sorted(overrides.glob('*.json'))}
+        # An NPC a region names as a vendor sells from its body (`vendor` on its record).
+        self.vendor_paths = {source_path(v) for o in self.overrides.values() for v in o.get('vendors', [])}
         self.records: dict[str, dict[str, dict]] = {}   # file -> id -> record
         self.findings: list[Finding] = []
         self.generated_fields: dict[str, int] = {}       # record id -> fields read from LPC
@@ -565,7 +582,7 @@ class Importer:
         self.add(f"{region}/{'spawns' if is_npc else 'item_spawns'}.json", record)
 
     def npc(self, path: str) -> str:
-        record_id = f'{region_of(path)}.npc.{basename(path)}'
+        record_id = npc_id(path)
         file = f'{region_of(path)}/npcs.json'
         if record_id in self.records.get(file, {}):
             return record_id
@@ -577,13 +594,14 @@ class Importer:
         record: dict = {'id': record_id, 'legacy_source': path, 'name': name.args[0], 'aliases': name.args[1]}
         handled = set()
 
-        def take(key: str) -> None:
+        def take(key: str, field: str | None = None) -> None:
             if key in sets:
                 handled.add(key)
                 value = self.authored(path, f'set {key}', sets[key])
                 if value is not None:
-                    record[key] = value
+                    record[field or key] = value
 
+        take('nickname')
         take('title')
         if 'race' in sets:
             handled.add('race')
@@ -601,6 +619,23 @@ class Importer:
                 record[group] = values
         take('combat_exp')
         take('score')
+        # rankd.c query_respect(): how others address this NPC.
+        if isinstance(sets.get('rank_info/respect'), str):
+            handled.add('rank_info/respect')
+            record['rank_info'] = {'respect': sets['rank_info/respect']}
+        # feature/apprentice.c create_family(name, generation, title); privs -1.
+        family = lpc.first('create_family')
+        if family is not None and len(family.args) == 3 and is_plain(family.args):
+            record['family'] = {'name': family.args[0], 'generation': family.args[1], 'title': family.args[2]}
+        elif family is not None:
+            self.note(path, 'create_family', describe(family.args))
+        # std/char/master.c prevent_learn(): limits what a master teaches.
+        if 'F_MASTER' in lpc.inherits:
+            record['f_master'] = True
+        if path in self.vendor_paths:
+            # Its goods are the vendors[] record (vendor()); buy.c needs the vendor present.
+            handled.add('vendor_goods')
+            record['vendor'] = f'{region_of(path)}.vendor.{basename(path)}'
         if 'attitude' in sets:
             handled.add('attitude')
             if sets['attitude'] in ATTITUDES:
@@ -653,7 +688,7 @@ class Importer:
         handled.update(self.chat(path, sets, record))
         handled.update(self.inquiry(path, sets, record))
         for call in lpc.calls:
-            if call.name not in {'set', 'set_name', 'set_skill', 'map_skill', 'carry_object', 'add_money', 'set_temp'}:
+            if call.name not in {'set', 'set_name', 'set_skill', 'map_skill', 'carry_object', 'add_money', 'set_temp', 'create_family'}:
                 self.note(path, call.name, describe(call.args))
         for key, value in sets.items():
             if key not in handled:
@@ -751,6 +786,10 @@ class Importer:
             record['weight'] = 0 if weight is None else weight.args[0]
         if 'value' in sets:
             record['value'] = sets['value']
+        # feature/move.c: a container holds up to set_max_encumbrance() (put in, get from).
+        capacity = lpc.first('set_max_encumbrance')
+        if capacity is not None and len(capacity.args) == 1 and type(capacity.args[0]) is int:
+            record['max_encumbrance'] = capacity.args[0]
         init_name = ''
         if weapon_kinds:
             kind = weapon_kinds[0]
@@ -770,10 +809,12 @@ class Importer:
                 if names:
                     weapon['flags'] = names
                 record['weapon'] = weapon
-        elif armor_kinds:
+        elif armor_kinds or ('EQUIP' in inherits and isinstance(sets.get('armor_type'), str)):
+            # std/armor/<kind>.c sets armor_type; an EQUIP sets it itself (armor.h TYPE_*).
             props = {k.removeprefix('armor_prop/'): v for k, v in sets.items() if k.startswith('armor_prop/')}
             handled.update('armor_prop/' + k for k in props)
-            record['armor'] = {'type': armor_kinds[0].lower(), 'props': props}
+            handled.add('armor_type')
+            record['armor'] = {'type': armor_kinds[0].lower() if armor_kinds else sets['armor_type'], 'props': props}
         elif 'MONEY' in inherits:
             keys = ('money_id', 'base_value', 'base_unit', 'base_weight')
             handled.update(keys)
@@ -785,11 +826,13 @@ class Importer:
             handled.update(('max_liquid', 'liquid'))
             record['liquid'] = {'max_liquid': sets.get('max_liquid'), **sets.get('liquid', {})}
         modelled = {'ITEM', 'MONEY', 'F_FOOD', 'F_LIQUID', *armor_kinds, *weapon_kinds,
+                    *(['EQUIP'] if 'armor' in record and not armor_kinds else []),
                     *('F_' + k for k in weapon_kinds)}
         for kind in sorted(inherits - modelled):
             self.note(canonical, f'inherit {kind}')
         for call in lpc.calls:
-            if call.name not in {'set', 'set_name', 'set_weight', init_name}:
+            if call.name not in {'set', 'set_name', 'set_weight', init_name} and not (
+                    call.name == 'set_max_encumbrance' and 'max_encumbrance' in record):
                 self.note(canonical, call.name, describe(call.args))
         for key, value in sets.items():
             if key not in handled:

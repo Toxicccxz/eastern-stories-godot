@@ -396,7 +396,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 			_snapshot_replacing_npc(base, original_index, incomplete_live), tree.root,
 		)
 	)
-	_assert_eq(incomplete_live_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "living NPC requires complete authored loadout")
+	_assert_eq(incomplete_live_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "a living NPC lists every loadout item it still has")
 
 	var dead_fat: Values.NpcSpawnStateSnapshot = _npc_by_definition(
 		corpse_base,

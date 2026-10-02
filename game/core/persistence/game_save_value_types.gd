@@ -300,6 +300,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var family: FamilySnapshot
 	var apprenticeship: ApprenticeshipSnapshot
 	var affiliation: CharacterAffiliationState
+	## LPC marks/<name> (CharacterState.marks); empty for most characters.
+	var marks: Dictionary[String, int] = {}
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -325,7 +327,11 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks)
+
+	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
+		marks = p_marks.duplicate()
+		return self
 
 	static func _condition_before(left: ConditionSnapshot, right: ConditionSnapshot) -> bool:
 		if left == null: return right != null
@@ -347,6 +353,23 @@ class WorldLocationSnapshot extends RefCounted:
 
 	func duplicate_snapshot() -> WorldLocationSnapshot:
 		return WorldLocationSnapshot.new(region_id, map_id, zone_id, combat_location_id)
+
+
+## An item lying on a map's floor away from any spawn marker (dropped, or
+## carried off and dropped elsewhere): where its view stands. Its WORLD parent
+## in the item records is the zone (`world_location`).
+class FloorItemSnapshot extends RefCounted:
+	var item_instance_id: StringName
+	var world_location: WorldLocationSnapshot
+	var map_position: MapPositionSnapshot
+
+	func _init(p_item_instance_id: StringName = &"", p_world_location: WorldLocationSnapshot = null, p_map_position: MapPositionSnapshot = null) -> void:
+		item_instance_id = p_item_instance_id
+		world_location = WorldLocationSnapshot.new() if p_world_location == null else p_world_location.duplicate_snapshot()
+		map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position.duplicate_snapshot()
+
+	func duplicate_snapshot() -> FloorItemSnapshot:
+		return FloorItemSnapshot.new(item_instance_id, world_location, map_position)
 
 
 class MapPositionSnapshot extends RefCounted:

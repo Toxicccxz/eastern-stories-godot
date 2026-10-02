@@ -139,6 +139,51 @@
 			],
 			"legacy_room": "d/snow/inn_2f.c",
 			"legacy_quantity": 6
+		},
+		{
+			"id": "snow.inn.waiter",
+			"npc": "snow.npc.waiter",
+			"map": "snow.inn",
+			"zone": "snow.inn.main_floor",
+			"points": ["snow.inn.main_floor.inn.waiter.1"],
+			"legacy_room": "d/snow/inn.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.bank.annihir",
+			"npc": "snow.npc.annihir",
+			"map": "snow.outdoor",
+			"zone": "snow.bank",
+			"points": ["snow.bank.annihir.1"],
+			"legacy_room": "d/snow/bank.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.schoolhall.master",
+			"npc": "common.npc.swordsman.master",
+			"map": "snow.outdoor",
+			"zone": "snow.schoolhall",
+			"points": ["snow.schoolhall.master.1"],
+			"legacy_room": "d/snow/schoolhall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.smithy.smith",
+			"npc": "snow.npc.smith",
+			"map": "snow.outdoor",
+			"zone": "snow.smithy",
+			"points": ["snow.smithy.smith.1"],
+			"legacy_room": "d/snow/smithy.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.herbshop.herbalist",
+			"npc": "snow.npc.herbalist",
+			"map": "snow.outdoor",
+			"zone": "snow.herbshop",
+			"points": ["snow.herbshop.herbalist.1"],
+			"legacy_room": "d/snow/herbshop.c",
+			"legacy_quantity": 1
 		}
 	]
 }

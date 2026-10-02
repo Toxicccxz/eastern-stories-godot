@@ -80,6 +80,40 @@
 			"unit": "颗",
 			"weight": 30,
 			"value": 2000
+		},
+		{
+			"id": "es2:obj/longsword",
+			"legacy_sources": ["obj/longsword.c"],
+			"name": "长剑",
+			"aliases": ["sword"],
+			"long": "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 7000,
+			"value": 400,
+			"weapon": { "skill": "sword", "damage": 25 }
+		},
+		{
+			"id": "es2:daemon/class/swordsman/blackthorn",
+			"legacy_sources": ["daemon/class/swordsman/blackthorn.c"],
+			"name": "玄苏剑",
+			"aliases": ["blackthorn sword", "blackthorn", "sword"],
+			"long": "这是一把通体黝黑的重剑，上面生满了尖锐的倒钩，乃是乔阴柳家\n历代相传的宝剑，据说这把剑杀人不沾血，永远保持杀气。\n",
+			"unit": "把",
+			"material": "blacksteel",
+			"weight": 15000,
+			"value": 2400,
+			"weapon": { "skill": "sword", "damage": 58 }
+		},
+		{
+			"id": "es2:daemon/class/swordsman/silk_cloth",
+			"legacy_sources": ["daemon/class/swordsman/silk_cloth.c"],
+			"name": "丝绸马褂",
+			"aliases": ["silk cloth", "cloth"],
+			"unit": "件",
+			"weight": 1000,
+			"value": 2500,
+			"armor": { "type": "cloth", "props": { "dodge": 6, "armor": 1 } }
 		}
 	]
 }

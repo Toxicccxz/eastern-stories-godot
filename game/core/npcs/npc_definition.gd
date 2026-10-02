@@ -49,6 +49,10 @@ var _combat_experience_roll: NpcRandomInteger
 var _score_roll: NpcRandomInteger
 var _fight_rules: Array[NpcFightRule] = []
 var _talk: NpcTalk
+var _nickname: String = ""
+var _rank_respect: String = ""
+var _dealings: NpcDealings
+var _teaching: NpcTeaching
 
 var definition_id: StringName:
 	get:
@@ -90,6 +94,14 @@ var attitude: int:
 var title: String:
 	get:
 		return _title
+## LPC set("nickname"), e.g. 风雨双侠.
+var nickname: String:
+	get:
+		return _nickname
+## LPC set("rank_info/respect"): how others address it (rankd.c), e.g. 小二哥.
+var rank_respect: String:
+	get:
+		return _rank_respect
 
 
 func _init(
@@ -188,15 +200,52 @@ func talk() -> NpcTalk:
 	return _talk
 
 
+## nickname and rank_info/respect. Called once by the loader.
+func with_naming(p_nickname: String, p_rank_respect: String) -> NpcDefinition:
+	_nickname = p_nickname
+	_rank_respect = p_rank_respect
+	return self
+
+
+## Vendor goods, accept_object(), object flags, fights deferred (NpcDealings).
+func with_dealings(value: NpcDealings) -> NpcDefinition:
+	_dealings = value
+	return self
+
+
+func dealings() -> NpcDealings:
+	if _dealings == null:
+		_dealings = NpcDealings.new()
+	return _dealings
+
+
+## Family, teaching and apprentices (NpcTeaching); null for an NPC that teaches no one.
+func with_teaching(value: NpcTeaching) -> NpcDefinition:
+	_teaching = value
+	return self
+
+
+func teaching() -> NpcTeaching:
+	return _teaching
+
+
 ## race/human.c sets can_speak; beast.c does not. fight.c only asks a
 ## speaking character to spar.
 func can_speak() -> bool:
 	return _race_id == NpcCharacterStateFactory.HUMAN_RACE_ID
 
 
-## feature/name.c short() without the "(Id)": title, a space, then the name.
+## feature/name.c short() without the "(Id)": 「nickname」name after the title (a space
+## between them without a nickname). A family head without a title of its own shows the one
+## feature/apprentice.c assign_apprentice() gives it (封山剑派第十三代掌门人).
 func short_name() -> String:
-	return _display_name if _title.is_empty() else "%s %s" % [_title, _display_name]
+	var text: String = _display_name if _nickname.is_empty() else "「%s」%s" % [_nickname, _display_name]
+	var shown_title: String = _title
+	if shown_title.is_empty() and _teaching != null and _teaching.has_family():
+		shown_title = NpcApprenticeship.family_title(_teaching.family_name, _teaching.family_generation, _teaching.family_title)
+	if shown_title.is_empty():
+		return text
+	return shown_title + ("" if not _nickname.is_empty() else " ") + text
 
 
 ## map_skill(use, skill) in authored order.

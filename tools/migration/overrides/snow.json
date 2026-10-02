@@ -18,24 +18,83 @@
 		"snow.npc.scavenger": {
 			"accept_fight": [
 				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
+			],
+			"accept_object": [
+				{ "say": "多谢这位$RESPECT！", "accept": true }
 			]
 		},
 		"snow.npc.fist_trainer": {
 			"accept_fight": [
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
+			],
+			"recognize_apprentice": [
+				{ "family": "family.fonxan", "accept": true },
+				{ "say": "对不起，这位$RESPECT，您不是我们武馆的弟子。", "fail": "李火狮不愿意教你拳法。", "accept": false }
 			]
 		},
 		"snow.npc.keeper": {
-			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" }
+			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" },
+			"accept_object": [
+				{ "value_at_most": 0, "accept": false },
+				{ "effect": "temple_donation", "say": "多谢这位$RESPECT，神明一定会保佑你的。", "accept": true }
+			]
+		},
+		"snow.npc.drunk": {
+			"flags": ["has_alcohol"],
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "drink", "sated_water": 380, "dry_say": "酒..... 给我酒....", "dry_clears": "has_alcohol" }
+			],
+			"accept_object": [
+				{ "liquid": "alcohol", "liquid_remaining_at_most": 0, "say": "去去去去去.. 我又不是收破烂的...", "accept": false },
+				{ "liquid": "alcohol", "liquid_remaining_at_most": 5, "say": "真没诚意, 剩么一点... ", "accept": false },
+				{ "liquid": "alcohol", "npc_flag": "has_alcohol", "say": "多谢, 不过我还有酒... ", "accept": false },
+				{ "liquid": "alcohol", "set_npc_flag": "has_alcohol", "say": "多谢啦.....", "accept": true }
+			]
+		},
+		"snow.npc.teacher": {
+			"accept_object": [
+				{ "giver_mark": "魏无极", "emote": "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。", "accept": true },
+				{ "value_at_least": 500, "mark_giver": "魏无极", "emote": "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "accept": true },
+				{ "say": "你的诚意不够，这钱还是拿回去吧。", "accept": false }
+			],
+			"recognize_apprentice": [
+				{ "giver_mark": "魏无极", "accept": true },
+				{ "say": "咦？我不记得收过你这个学生啊....", "accept": false }
+			]
+		},
+		"snow.npc.waiter": {
+			"greeting": {
+				"one_of": [
+					{ "emote": "笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。" },
+					{ "emote": "用脖子上的毛巾抹了抹手，说道：这位$RESPECT，请进请进。" },
+					{ "say": "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。" }
+				]
+			}
+		},
+		"snow.npc.herbalist": {
+			"inquiry": {
+				"治伤": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] },
+				"疗伤": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] },
+				"开药": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] }
+			}
+		},
+		"snow.npc.annihir": {
+			"fight_deferred": "maps sword to fonxansword, dodge to chaos-steps and unarmed to celestrike, whose actions are not ported: every fight would abort"
+		},
+		"common.npc.swordsman.master": {
+			"fight_deferred": "maps sword and parry to fonxansword and dodge to chaos-steps, whose actions are not ported: every fight would abort",
+			"apprentice": {
+				"requires": { "cor": 20, "cps": 20 },
+				"refuse_say": "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？",
+				"accept_say": "很好，$RESPECT多加努力，他日必定有成。",
+				"class": "swordsman"
+			}
 		}
 	},
 	"spawn_skip": {
-		"d/snow/inn.c": { "d/snow/npc/waiter.c": "the inn's vendor service until services are bound to their NPC (4E)" },
-		"d/snow/bank.c": { "d/snow/npc/annihir.c": "the bank service until services are bound to their NPC (4E)" },
 		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" },
-		"d/snow/herbshop.c": { "d/snow/npc/herbalist.c": "the herbshop's vendor service until services are bound to their NPC (4E)" },
-		"d/snow/smithy.c": { "d/snow/npc/smith.c": "the smithy's vendor service until services are bound to their NPC (4E)" },
 		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 is a combined item (only money stacks); with 蛇药 and 飞刀 when combined items come" },
 		"d/snow/nyard.c": { "d/snow/npc/girl.c": "柳绘心 maps sword to fonxansword, whose actions are not ported: every fight would abort; she comes with the 封山剑法/乱七星步 package" }
 	},
@@ -63,29 +122,28 @@
 		},
 		"d/snow/bank.c": { "set item_desc": "look targets are not data yet" },
 		"d/snow/schoolhall.c": {
-			"statement in create()": "bulletin board: multiplayer feature, omitted",
-			"objects": "柳淳风 (CLASS_D swordsman master): teacher service in world.json"
+			"statement in create()": "bulletin board: multiplayer feature, omitted"
 		},
 		"d/snow/npc/dog.c": {
-			"function accept_object": "give a bone, it follows: give (4E)"
+			"function accept_object": "a bone makes it follow the giver: no bone exists yet (the chicken leg is a deferred waiter good) and following is not ported, so it takes nothing (give.c's refusal)"
 		},
 		"d/snow/npc/keeper.c": {
 			"function init": "greeting (set snow.npc.keeper)",
 			"function greeting": "greeting (set snow.npc.keeper)",
-			"function accept_object": "donations: give (4E)"
+			"function accept_object": "accept_object rules (set snow.npc.keeper); the value-0 refusal's notify_fail is overwritten by give.c's (DECISIONS 4E)"
 		},
 		"d/snow/npc/drunk.c": {
-			"set chat_chance": "do_drink: with give and drop (4E); the emptied wineskin is dropped and he asks for wine, which only give answers",
-			"set chat_msg": "do_drink: with give and drop (4E); the emptied wineskin is dropped and he asks for wine, which only give answers",
-			"statement in create()": "has_alcohol belongs to do_drink/accept_object (4E)",
-			"function do_drink": "with give and drop (4E)",
-			"function accept_object": "give alcohol, quest hints: give (4E)"
+			"set chat_chance": "do_drink as the chat action drink (set snow.npc.drunk)",
+			"set chat_msg": "do_drink as the chat action drink (set snow.npc.drunk); sing and sigh print nothing (data/emoted.o is not in the mudlib); the drunk condition waits for conditions",
+			"statement in create()": "has_alcohol = 1: flags (set snow.npc.drunk), not saved",
+			"function do_drink": "the chat action drink (set snow.npc.drunk)",
+			"function accept_object": "accept_object rules (set snow.npc.drunk); the 玉佩/蒙汗药 whispers need d/green's temp flags: with d/green"
 		},
 		"d/snow/npc/scavenger.c": {
 			"set force": "internal power is not modelled yet (ROADMAP)",
 			"set max_force": "internal power is not modelled yet (ROADMAP)",
 			"set force_factor": "internal power is not modelled yet (ROADMAP)",
-			"function accept_object": "takes anything: give (4E)",
+			"function accept_object": "accept_object rules (set snow.npc.scavenger); smile prints nothing",
 			"function accept_fight": "accept_fight rules (set snow.npc.scavenger)"
 		},
 		"d/snow/npc/guard.c": {
@@ -99,7 +157,7 @@
 			"set force": "internal power is not modelled yet (ROADMAP)",
 			"set max_force": "internal power is not modelled yet (ROADMAP)",
 			"set force_factor": "internal power is not modelled yet (ROADMAP)",
-			"function recognize_apprentice": "teaches 封山剑派 members: teachers as data (4E)",
+			"function recognize_apprentice": "recognize_apprentice rules (set snow.npc.fist_trainer)",
 			"function accept_fight": "accept_fight rules (set snow.npc.fist_trainer); command(\"nod\") shown as 点了点头。 (data/emoted.o is not in the mudlib)"
 		},
 		"d/snow/obj/blade.c": {
@@ -122,9 +180,9 @@
 		},
 		"d/snow/npc/teacher.c": {
 			"inquiry 刘安禄": "ask.c ignores a function in an answer; follow_player's body is commented out in the LPC",
-			"function recognize_apprentice": "tuition and literate: give and teachers as data (4E)",
-			"function accept_object": "tuition: any object worth 500 or more marks the giver (marks/魏无极); once marked he accepts and keeps anything: give (4E)",
-			"function accept_learn": "tuition and literate: give and teachers as data (4E)"
+			"function recognize_apprentice": "recognize_apprentice rules (set snow.npc.teacher)",
+			"function accept_object": "accept_object rules (set snow.npc.teacher): 500 or more marks the giver (marks/魏无极)",
+			"function accept_learn": "never called: learn.c asks recognize_apprentice and prevent_learn only"
 		},
 		"d/snow/npc/woodcutter.c": {
 			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package"
@@ -144,7 +202,6 @@
 			"set unwield_msg": "wield/unwield messages are not shown yet"
 		},
 		"d/snow/obj/denotation.c": {
-			"set_max_encumbrance": "a container (put in, get from): with put, drop and give (4E); until then it only lies there, no_get",
 			"function insert_object": "never runs: MudOS has no insert_object apply, so a donation changes nothing (SNOW_CONTENT anomalies)"
 		},
 		"d/snow/inn_2f.c": { "create_door": "world.json snow.inn_2f.north_door, east_door, west_door" },
@@ -163,6 +220,57 @@
 		"d/snow/obj/bamboo_sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/snow/npc/waiter.c": {
+			"function init": "greeting (set snow.npc.waiter) and `list`: the vendor's goods panel",
+			"function greeting": "greeting one_of (set snow.npc.waiter), drawn when it is said",
+			"function relay_say": "the birthday cake answers say: no say command (DECISIONS: Snow waiter / dumpling supply loop, E)"
+		},
+		"obj/longsword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/snow/npc/annihir.c": {
+			"set pursuer": "pursuing who flees is not modelled: with his fights (fight_deferred)",
+			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package",
+			"set max_atman": "spells and magic are not modelled yet (ROADMAP)",
+			"set atman": "spells and magic are not modelled yet (ROADMAP)",
+			"set atman_factor": "spells and magic are not modelled yet (ROADMAP)",
+			"set max_mana": "spells and magic are not modelled yet (ROADMAP)",
+			"set mana": "spells and magic are not modelled yet (ROADMAP)",
+			"set mana_factor": "spells and magic are not modelled yet (ROADMAP)",
+			"set max_force": "internal power is not modelled yet (ROADMAP)",
+			"set force": "internal power is not modelled yet (ROADMAP)",
+			"set force_factor": "internal power is not modelled yet (ROADMAP)",
+			"set chat_chance": "his only chat is exert powerfade: internal power is not modelled yet, so he says nothing",
+			"set chat_msg": "his only chat is exert powerfade: internal power is not modelled yet, so he says nothing",
+			"set chat_chance_combat": "combat talk, perform and cast: with his fights (fight_deferred)",
+			"set chat_msg_combat": "combat talk, perform and cast: with his fights (fight_deferred)",
+			"function accept_fight": "turns a spar into a kill (kill_ob): with his fights (fight_deferred, DECISIONS 4E)"
+		},
+		"daemon/class/swordsman/blackthorn.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"daemon/class/swordsman/master.c": {
+			"set max_force": "internal power is not modelled yet (ROADMAP)",
+			"set force": "internal power is not modelled yet (ROADMAP)",
+			"set force_factor": "internal power is not modelled yet (ROADMAP)",
+			"set chat_chance_combat": "perform sword.counterattack: with his fights (fight_deferred)",
+			"set chat_msg_combat": "perform sword.counterattack: with his fights (fight_deferred)",
+			"function attempt_apprentice": "apprentice rules (set common.npc.swordsman.master); smile prints nothing",
+			"function recruit_apprentice": "class swordsman: apprentice.class (set common.npc.swordsman.master)"
+		},
+		"d/snow/npc/smith.c": {
+			"function buy_object": "vendor_goods 铁锤 at 300 (overrides)",
+			"function compelete_trade": "the purchase (VendorPurchaseService); his 交给 line is not shown, as vendor.c's 买下 line is not"
+		},
+		"d/snow/npc/herbalist.c": {
+			"inquiry 治伤": "heal_me as eff_kee_percent answers (set snow.npc.herbalist), judged on the asker (DECISIONS 4E)",
+			"inquiry 疗伤": "heal_me as eff_kee_percent answers (set snow.npc.herbalist), judged on the asker (DECISIONS 4E)",
+			"inquiry 开药": "heal_me as eff_kee_percent answers (set snow.npc.herbalist), judged on the asker (DECISIONS 4E)",
+			"function init": "`list`: the vendor's goods panel",
+			"function heal_me": "eff_kee_percent answers (set snow.npc.herbalist)"
 		},
 		"obj/drug/hurt_drug.c": {
 			"function init": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package",

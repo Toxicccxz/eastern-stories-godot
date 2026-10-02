@@ -63,7 +63,7 @@ func _who_spars(tree: SceneTree) -> void:
 	check(hud.attack_is_enabled() and not hud.spar_is_enabled() and not hud.spar_button.visible, "a beast can be attacked but not asked to spar")
 	var before: int = hud.log_lines().size()
 	check(map.spar_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and hud.log_lines().size() == before, "nor does spar_selected() ask it")
-	session.player_runtime().state.family = FamilyState.new(SwordsmanApprenticeship.FAMILY_ID, SwordsmanApprenticeship.GENERATION)
+	session.player_runtime().state.family = FamilyState.new(&"family.fonxan", 14)
 	lines = _spar(map, FIST_TRAINER, &"snow.school2", &"snow.school2.trainee.6")
 	check(lines.slice(1) == ["李火狮点了点头。", "李火狮说道：进招吧。"] and session.combat_encounter_coordinator().has_active_encounter(), "李火狮 spars with 封山剑派 members %s" % str(lines))
 	_run(session)

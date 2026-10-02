@@ -1,5 +1,74 @@
 # Migration Decisions
 
+## Give, drop and put; shops and teachers on their NPCs (2026-10-02)
+
+Package 4E, from the owner-approved plan:
+- **give, drop, put and get from are `cmds/std/give.c`, `drop.c`, `put.c` and `get.c`** on the
+  player's own items, from the inventory panel (给<NPC> when an NPC here is selected, 丢下, 放进<容器>
+  beside a container; a stack takes an amount). give.c asks the NPC's `accept_object()`, data
+  rules (`accept_object`, first match), and prints the NPC's lines, then destructs money
+  (`你拿出十文钱给庙祝。`) and moves anything else to the NPC (`你给收破烂的一件布衣。`): `value()`
+  exists only in `std/money.c`, so give.c, keeper.c and teacher.c count money alone. No rule, or a
+  refusal, prints 你只能把东西送给其他玩家操纵的人物。 drop.c destructs what has neither a value
+  nor a money value (因为这样东西并不值钱…). The world stands still in a fight, so these are used
+  outside one, as eating and drinking. A container (`set_max_encumbrance()`, the 功德箱) takes what fits;
+  拾取 on it lists its contents, each taken out with get.c's 你从功德箱中拿出一些钱。 Stacks merge
+  into the player's (combined.c). Corpses are not put targets yet.
+- **Deviation (proposed in the 4E PR, for the owner to confirm): a refused part of a stack stays
+  with the player.** give/drop/put with an amount
+  split the stack before asking (`new(base_name(obj))`); when the NPC or the container then
+  refused, ES2's new object had no environment and the money was lost. The port asks first.
+- **ES2 oddities kept:** the drunk's "我还有酒" refusal returns 0 (no `return 1`); the wine he
+  takes is moved to him and he drinks it. The keeper's 庙祝不收物品的捐献。 never shows: give.c's
+  notify_fail replaces it (driver rule below).
+  keeper.c's donation eases bellicosity over 100 (`random(val/10) > kar`, then
+  `random(kar) + val/1000`), drawn from the world-interaction stream.
+- **Dropped items are saved with their place** (`floor_items`: item, zone, position; written only
+  when there are some), laid just before the dropper's feet on a spot a save accepts. A
+  floor-spawn item carried off and dropped elsewhere, on any map, is a dropped item.
+  A living NPC may have lost loadout items (given, dropped, sold) but lists those that exist.
+- **drunk.c do_drink() is a chat action** (`drink`): sated at 380 water it sings; else it drinks
+  from its alcohol (liquid.c: water +30, the line), drops the emptied wineskin where it stands
+  (drop.c's line) and, with none left, clears `has_alcohol` and asks for wine. **Owner:** the
+  drunk condition waits for conditions (the player's wine is deferred too); `has_alcohol` is an
+  object variable, not saved (Continue starts it at 1, as create()). The 玉佩/蒙汗药 whispers need
+  d/green's temp flags.
+- **Owner: emotes print nothing** (sing, sigh, shake, grin, smile, hmm, pat): `data/emoted.o` is
+  not in the mudlib. 4A's nod (点了点头。) stays.
+- **Shops go with their NPCs.** 店小二, 杨掌柜 and 王铁匠 stand in their shops; their goods
+  (`vendor` on the NPC) are bought beside the body (buy.c `present()`), also from an unconscious
+  vendor (buy.c does not ask `living()`); a dead one sells nothing until its room resets. The bank
+  (`bank.c` convert) and the pawn shop (`HOCKSHOP`) stay the rooms' commands; 安惜迩 stands in the
+  bank. The waiter's greeting is one of three lines (`greeting.one_of`); `rank_info/respect`
+  (小二哥, 柳馆主) is how the player addresses them.
+- **Teachers are data.** `skills.json` names the skills the game models (unarmed, liuh-ken,
+  literate); an NPC whose family (`create_family()`, `families.json`) or `recognize_apprentice`
+  rules admit a student teaches the ones it has, beside its body (X · 请教), with learn.c's lines.
+  柳淳风's `attempt_apprentice()` is the `apprentice` rule (cor and cps 20, class swordsman);
+  F_MASTER's prevent_learn() applies. 李火狮 teaches 封山剑派 students (his refusal's
+  notify_fail, 李火狮不愿意教你拳法。, wins); 魏无极 teaches whoever paid five taels (marks/魏无极,
+  saved with the character). learn.c draws its reject_msg before recognize_apprentice() from the
+  world-interaction stream, as ask.c's msg_dunno. dodge, parry, sword and force wait for the
+  offense/defense package. The master's ID is his NPC definition (`common.npc.swordsman.master`).
+- **heal_me() is judged on the asker (as 4D's owner decision; for the owner to confirm).** dbase.c evaluates herbalist.c's 治伤/疗伤/开药 closure with
+  the herbalist himself, as guard.c's ask_me (4D); following that owner decision, the asker's
+  eff_kee decides (`eff_kee_percent` answers).
+- **Owner: 柳淳风 and 安惜迩 cannot be fought yet** (`fight_deferred`): they map sword to
+  fonxansword and dodge to chaos-steps, whose actions are not ported, so every fight would abort.
+  No 攻击/切磋 until the 封山剑法/乱七星步 package; 安惜迩's accept_fight (a spar becomes a kill)
+  comes with it.
+- **Deferred:** the dog's bone (no chicken leg yet; following is not ported), the waiter's cake
+  (say), vendor.c's and smith.c's purchase lines, betrayal (change of family), combat talk.
+- World content revision `SOURCE_ENTRY_SNOW_SERVICES_V1`: older development saves need a New Game.
+
+## MudOS notify_fail(): the last call wins (2026-10-02)
+
+One driver rule for every command the port runs: when a command fails, the player reads the last
+`notify_fail()` set before it returned 0. A message an NPC function sets is replaced by a later
+one in the command (give.c's 你只能把东西送给其他玩家操纵的人物。 over keeper.c's), and an NPC's own
+`return notify_fail(...)` replaces the command's earlier one (fist_trainer.c over learn.c's
+reject_msg). say() and command("say") lines print at once and stay.
+
 ## NPCs talk and wander; rooms reset (2026-10-02)
 
 Package 4D, from the owner-approved plan:

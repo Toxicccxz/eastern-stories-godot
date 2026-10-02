@@ -4,25 +4,25 @@ How Snow's rooms, NPCs and shops come from `reference/es2/mudlib/d/snow/`, what 
 the code does not, and what each NPC cost. The data format and the importer are described in
 [CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md); decisions are in [DECISIONS](DECISIONS.md).
 
-## Placed so far (4A–4C)
+## Placed (4A–4E)
 
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
-| inn | 旅客 ×2, 店小二 | travellers placed; the waiter stays the Inn's vendor service until 4E |
+| inn | 旅客 ×2, 店小二 | placed; the waiter sells from his body (4E) |
 | eroad2 | 野狗 ×2 | placed |
-| temple | 庙祝, 桃符纸 ×2, 功德箱 | keeper placed; 功德箱 on the floor (no_get, 4C); 桃符纸 waits for combined items |
-| mstreet2 | 醉汉, 收破烂的 | placed |
-| bank | 安惜迩 | the bank service until 4E |
+| temple | 庙祝, 桃符纸 ×2, 功德箱 | keeper placed (takes donations, 4E); 功德箱 on the floor, a container (4E); 桃符纸 waits for combined items |
+| mstreet2 | 醉汉, 收破烂的 | placed; the drunk drinks and asks for wine, the scavenger takes anything (4E) |
+| bank | 安惜迩 | placed (4E), not fought yet; convert is the room's (bank.c) |
 | school1 | 刘安禄 | placed |
-| school2 | 武馆弟子 ×6, 李火狮 | placed |
-| schoolhall | 柳淳风 (`CLASS_D("swordsman")`) | the teacher service |
+| school2 | 武馆弟子 ×6, 李火狮 | placed; 李火狮 teaches 封山剑派 students (4E) |
+| schoolhall | 柳淳风 (`CLASS_D("swordsman")`) | placed (4E), `common.npc.swordsman.master`; takes apprentices and teaches; not fought yet |
 | square | 旅客 (飞刀) ×3 | waits for combined throwing weapons |
 | sroad2 | 农夫 ×2 | placed (4B) |
 | sroad4 | 疯狗 | placed, aggressive (4B) |
-| school | 魏无极 | placed; tuition and literate in 4E |
-| herbshop | 杨掌柜, 樵夫 | the herbshop's vendor service until 4E; the woodcutter placed |
+| school | 魏无极 | placed; five taels of tuition, then literate (4E) |
+| herbshop | 杨掌柜, 樵夫 | placed; 杨掌柜 sells from his body (4E) |
 | postoffice | 杜宽 | placed; mail omitted (multiplayer) |
-| smithy | 王铁匠 | the smithy's vendor service (300 for a hammer) until 4E |
+| smithy | 王铁匠 | placed (4E); sells a hammer for 300 |
 | sroad3, sroad5, hockshop2 | — | rooms only |
 | inn_2f | 老鼠 ×6 | placed (4C), upstairs map; 房门 to n_room, e_room, w_room |
 | nyard | 柳绘心 | waits for the 封山剑法/乱七星步 package (sword maps to fonxansword) |
@@ -37,7 +37,7 @@ the code does not, and what each NPC cost. The data format and the importer are 
 | 旅客 | chat 40: random_move | stays in the Inn: its exits all leave the Inn's map |
 | 野狗 | chat 6: random_move, four lines | eroad1-3 |
 | 庙祝 | init()/greeting() | greets one second after the player comes in |
-| 醉汉 | chat 10: do_drink | with give and drop (4E) |
+| 醉汉 | chat 10: do_drink | drinks, drops the empty wineskin, asks for wine (4E) |
 | 收破烂的 | chat 20: three lines, random_move | mstreet1-3, the smithy, the workplace |
 | 刘安禄 | inquiry 刘老三, 血手刘三 (`ask_me`) | not listed until the reveal is ported |
 | 李火狮 | inquiry here, name, 柳家拳法 | here/name behind 这里/名字 |
@@ -45,9 +45,25 @@ the code does not, and what each NPC cost. The data format and the importer are 
 | 魏无极 | inquiry 学费, 读书识字, 刘安禄 | |
 | 樵夫 | chat 15: three lines, random_move | the herbshop and mstreet3 |
 | 杜宽 | inquiry 驿站, 寄信, 收信 | 驿站 (mail omitted) |
-| 店小二, 杨掌柜, 王铁匠, 安惜迩 | greeting, inquiry, chat | with their bodies (4E) |
+| 店小二 | init()/greeting(), one of three | greets one second after the player comes in (4E) |
+| 杨掌柜 | inquiry 治伤, 疗伤, 开药 (heal_me) | by the asker's eff_kee (4E) |
+| 王铁匠 | inquiry name, here, 锄头, 铲子, 铁锤 | (4E) |
+| 安惜迩 | chat 15: exert powerfade | nothing to say until internal power (4E) |
+| 柳淳风 | inquiry 淳风武馆, 先人遗志, 刘安禄, name, here | (4E) |
 
 ## Source anomalies
+
+- `value()` is defined only in `std/money.c`: give.c destructs money only, keeper.c and
+  teacher.c count money only, and other gifts go to the NPC. drunk.c's "我还有酒" branch has no
+  `return 1`: it refuses.
+- keeper.c returns `notify_fail("庙祝不收物品的捐献。")`, which give.c's own notify_fail replaces.
+- give.c, drop.c and put.c split a stack before asking; a refused part had no environment and was
+  lost (not ported, DECISIONS 4E).
+- herbalist.c's heal_me() is evaluated with the herbalist himself (dbase.c), as guard.c's ask_me.
+- teacher.c's `accept_learn()` is never called (learn.c asks prevent_learn() only). annihir.c maps
+  sword to fonxansword twice; the bank's convert is the room's (`inherit BANK`), not his.
+- learn.c draws its reject_msg before calling recognize_apprentice(), even for a student it then
+  recognizes.
 
 - `square.c` comments out its four 苦力; only the 飞刀 travellers remain. `hockshop.c` comments
   out 陆得财 (the beggar master).
@@ -145,3 +161,19 @@ its importer findings turning into `inquiry`/`chat_msg` (no new decisions but th
 answers). Time (agent wall clock, about 35 minutes from the branch to a full local test pass,
 after ~25 of reading and planning): ask and chat as data ~10, wandering (the walk on tiles) ~8,
 room reset with NPC generations and the corpse check ~12, the new suite ~5.
+
+4E (2026-10-02) added five NPC types and the rules give, drop and put need; each new NPC was
+data only once those rules existed (its review findings decided, one marker).
+
+| NPC | Tier | Fields from LPC | Overrides | Findings decided | Spawn markers | Needed first |
+|---|---|---|---|---|---|---|
+| 店小二 waiter | vendor + greeting | 10 | 1 | 3 | 1 | NPC-bound shops, greeting one_of |
+| 安惜迩 banker | not fought yet | 12 | 1 | 16 | 1 | fight_deferred |
+| 杨掌柜 herbalist | vendor | 12 | 1 | 5 | 1 | answers by eff_kee |
+| 王铁匠 smith | vendor | 9 | 0 | 2 | 1 | — |
+| 柳淳风 master | teacher, not fought yet | 16 | 2 | 7 | 1 | CLASS_D, teachers as data |
+
+Time (4E, agent wall clock, about 2.5 hours from the branch to a full local test pass, after ~40 of
+reading and planning): the importer and the override data ~15, give/drop/put/get-from and their
+save ~45, NPC-bound services and teachers as data ~35, the new suite ~15, the suites that counted
+Snow's NPCs, items and draws or used the old teacher ~40.

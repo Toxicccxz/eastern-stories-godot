@@ -23,17 +23,20 @@ const DUNNO: Array[String] = [
 ]
 
 
-## The asking player's rankd.c facts.
+## The asking player's rankd.c facts, and eff_kee * 100 / max_kee for an answer
+## judged on how hurt they are (NpcTalk.KeeAnswer).
 class Asker:
 	extends RefCounted
 	var gender: StringName
 	var age: int
 	var class_id: StringName
+	var kee_percent: int
 
-	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"") -> void:
+	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_kee_percent: int = 100) -> void:
 		gender = p_gender
 		age = p_age
 		class_id = p_class_id
+		kee_percent = p_kee_percent
 
 
 ## What the player can ask `definition` about, in ES2's listing order.
@@ -72,7 +75,7 @@ static func ask(
 		return lines
 	var name: String = npc_definition.display_name
 	var key: String = asked_key(npc_definition, topic)
-	var npc_respect: String = RankWords.query_respect(npc_gender, npc_age, &"")
+	var npc_respect: String = RankWords.query_respect(npc_gender, npc_age, &"", npc_definition.rank_respect)
 	# inquiryd.c parse_inquiry(), else ask.c's own line.
 	match key:
 		"name", NAME:
@@ -89,9 +92,12 @@ static func ask(
 		lines.append("但是很显然的，%s现在的状况没有办法给你任何答覆。" % name)
 		return lines
 	var talk: NpcTalk = npc_definition.talk()
-	if talk.has_answer(key):
-		for text: String in talk.answer(key):
-			lines.append("%s说道：%s" % [name, NpcTalk.line(text)])
+	var answer: PackedStringArray = talk.answer(key, asker.kee_percent)
+	# An answer function that returns 0 leaves ask.c to its own lines.
+	if talk.has_answer(key) and not (answer.is_empty() and talk.answers_by_kee(key)):
+		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
+		for text: String in answer:
+			lines.append("%s说道：%s" % [name, NpcTalk.line(text).replace("$RESPECT", asker_respect)])
 		return lines
 	if key == name or key == "name" or key == NAME:
 		match npc_definition.attitude:

@@ -92,14 +92,23 @@ func _test_authored_facts(session: OldPineWorldSessionController) -> void:
 	_check(woodcutter != null and woodcutter.character_state.equipment.primary_weapon_skill_type() == &"axe" and woodcutter.character_state.equipment.is_secondary_hand_empty(), "樵夫 wields the lumber axe")
 	var officer: NpcRuntimeState = outdoor.find_resident_npc(&"snow.postoffice.post_officer.1.character")
 	_check(officer != null and officer.definition().short_name() == "雪亭驿长 杜宽" and officer.world_location().zone_id == &"snow.postoffice", "杜宽 in the post office")
-	# The herbalist and the smith are their shops' services until 4E.
-	for id: StringName in [&"snow.npc.herbalist", &"snow.npc.smith"]:
-		_check(GameContent.catalog().npc(id) == null, "%s has no body yet" % id)
+	# The herbalist and the smith sell from their bodies (4E).
+	for row: Array in [[&"snow.herbshop.herbalist.1.character", &"snow.herbshop"], [&"snow.smithy.smith.1.character", &"snow.smithy"]]:
+		var keeper: NpcRuntimeState = outdoor.find_resident_npc(row[0])
+		_check(keeper != null and keeper.world_location().zone_id == row[1] and not keeper.definition().dealings().vendor_id.is_empty(), "%s keeps the shop" % row[0])
+
+
+## Ambience draws that never reach a chat chance (the waiter's greeting takes its last line).
+class Still extends WorldInteractionRandomSource:
+	func next_below(bound: int) -> int:
+		return bound - 1
 
 
 ## Inn → square → sroad1 → sroad2 (farmers) → the school and back → sroad3 → sroad4,
 ## where the crazy dog attacks (set("attitude", "aggressive")).
 func _test_walk_the_south_road(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+	# Nobody chats or wanders on the way (npc.c chat()); the crazy dog stays in sroad4.
+	session.configure_npc_ambience_random_source(Still.new())
 	await _leave_inn(tree, session)
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -139,8 +148,8 @@ func _test_shops(tree: SceneTree) -> void:
 	await walker.walk_to(tree, session, "move_up", -752, 1)
 	await walker.walk_to(tree, session, "move_left", -300, 0)
 	_check(player.world_location().zone_id == &"snow.smithy", "west of mstreet2 is the smithy")
-	var smith: VendorService = map.service(&"snow.smithy.smith") as VendorService
-	_check(smith.in_reach() and smith.context_title() == "王铁匠 · 购买", "the smith's service is at the forge: " + smith.context_title())
+	var smith: VendorService = map.service(&"snow.outdoor.smithy.smith") as VendorService
+	_check(smith.in_reach() and smith.context_title() == "王铁匠 · 购买", "the smith sells at the forge: " + smith.context_title())
 	_check((smith.goods_rows.get_child(0) as Button).text == "铁锤 · 3两银子 · 买一把", "price as vendor.c lists it")
 	var hammer: VendorPurchaseResult = smith.request_purchase("铁锤")
 	_check(hammer.delivered and hammer.price == 300 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 22, "a hammer for 300 coins (smith.c buy_object)")
@@ -148,7 +157,7 @@ func _test_shops(tree: SceneTree) -> void:
 	await walker.walk_to(tree, session, "move_up", -1008, 1)
 	await walker.walk_to(tree, session, "move_left", -272, 0)
 	_check(player.world_location().zone_id == &"snow.herbshop", "west of mstreet3 is the herbshop")
-	var herbalist: VendorService = map.service(&"snow.herbshop.herbalist") as VendorService
+	var herbalist: VendorService = map.service(&"snow.outdoor.herbshop.herbalist") as VendorService
 	_check(herbalist.in_reach() and herbalist.goods_rows.get_child_count() == 1 and (herbalist.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗", "the counter sells 金疮药 only")
 	var medicine: VendorPurchaseResult = herbalist.request_purchase("medicine")
 	_check(medicine.delivered and medicine.price == 2000 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 2, "金疮药 for its value, 2000 coins")

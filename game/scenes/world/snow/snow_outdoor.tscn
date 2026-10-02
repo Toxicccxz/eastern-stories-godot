@@ -57,9 +57,6 @@ size = Vector2(32, 112)
 size = Vector2(440, 300)
 [sub_resource type="RectangleShape2D" id="SchoolEntranceShape"]
 size = Vector2(300, 300)
-[sub_resource type="RectangleShape2D" id="SchoolTeacherShape"]
-size = Vector2(32, 44)
-
 [sub_resource type="RectangleShape2D" id="SchoolDoorShape"]
 size = Vector2(32, 128)
 
@@ -362,6 +359,26 @@ spawn_point_id = &"snow.school.teacher.1"
 position = Vector2(-380, -920)
 script = ExtResource("3")
 spawn_point_id = &"snow.herbshop.woodcutter.1"
+[node name="HerbshopHerbalist01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-330, -1030)
+script = ExtResource("3")
+spawn_point_id = &"snow.herbshop.herbalist.1"
+
+[node name="SmithySmith01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-350, -690)
+script = ExtResource("3")
+spawn_point_id = &"snow.smithy.smith.1"
+
+[node name="BankAnnihir01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-375, -480)
+script = ExtResource("3")
+spawn_point_id = &"snow.bank.annihir.1"
+
+[node name="SchoolhallMaster01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1080, -400)
+script = ExtResource("3")
+spawn_point_id = &"snow.schoolhall.master.1"
+
 [node name="PostofficeOfficer01" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(-370, -1370)
 script = ExtResource("3")
@@ -524,6 +541,10 @@ offset_left = -75.0
 offset_top = -920.0
 text = "雪亭镇街道"
 mouse_filter = 2
+
+[node name="SmithyForgeFire" type="Polygon2D" parent="Ground"]
+polygon = PackedVector2Array(-412, -744, -388, -744, -388, -696, -412, -696)
+color = Color(0.86, 0.38, 0.12, 1)
 
 [node name="MainStreet3" type="Area2D" parent="Zones"]
 position = Vector2(0, -1000)
@@ -739,33 +760,6 @@ offset_top = -760.0
 text = "架子"
 mouse_filter = 2
 
-[node name="SchoolTeacher" type="Marker2D" parent="."]
-script = ExtResource("svc")
-service_id = &"snow.schoolhall.master"
-position = Vector2(1080, -400)
-
-[node name="SchoolTeacher" type="CollisionShape2D" parent="Walls"]
-position = Vector2(1080, -400)
-shape = SubResource("SchoolTeacherShape")
-
-[node name="SchoolTeacherVisual" type="Polygon2D" parent="Walls"]
-polygon = PackedVector2Array(1064, -422, 1096, -422, 1096, -378, 1064, -378)
-color = Color(0.25, 0.2, 0.16, 1)
-
-[node name="SchoolTeacherRobe" type="Polygon2D" parent="Ground"]
-polygon = PackedVector2Array(1060, -418, 1100, -418, 1100, -378, 1060, -378)
-color = Color(0.48, 0.59, 0.61, 1)
-
-[node name="SchoolTeacherHead" type="Polygon2D" parent="Ground"]
-polygon = PackedVector2Array(1068, -418, 1068, -435, 1092, -435, 1092, -418)
-color = Color(0.83, 0.69, 0.52, 1)
-
-[node name="SchoolTeacherName" type="Label" parent="Ground"]
-offset_left = 1045.0
-offset_top = -468.0
-text = "柳淳风"
-mouse_filter = 2
-
 [node name="SchoolGate" type="Node" parent="."]
 script = ExtResource("door")
 door_id = &"snow.school.gate"
@@ -912,16 +906,3 @@ script = ExtResource("4")
 zone_id = &"snow.hockshop2"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/HockshopStorage"]
 shape = SubResource("HockshopStorageShape")
-
-[node name="HerbshopCounter" type="Marker2D" parent="."]
-script = ExtResource("svc")
-service_id = &"snow.herbshop.herbalist"
-position = Vector2(-272, -1050)
-
-[node name="SmithyForge" type="Marker2D" parent="."]
-script = ExtResource("svc")
-service_id = &"snow.smithy.smith"
-position = Vector2(-340, -720)
-[node name="Fire" type="Polygon2D" parent="SmithyForge"]
-polygon = PackedVector2Array(-72, -24, -48, -24, -48, 24, -72, 24)
-color = Color(0.86, 0.38, 0.12, 1)

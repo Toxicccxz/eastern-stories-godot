@@ -2,6 +2,9 @@
 	"files": [
 		"common/pacing.json",
 		"common/items.json",
+		"common/skills.json",
+		"common/families.json",
+		"common/npcs.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",

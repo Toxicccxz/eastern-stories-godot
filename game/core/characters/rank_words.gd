@@ -3,7 +3,8 @@ extends RefCounted
 
 ## adm/daemons/rankd.c: how a character calls itself (query_self) and how others
 ## address it politely (query_respect), with the rude forms ask.c uses, from gender,
-## age and class. The rank_info/* overrides are not modelled yet.
+## age and class. Of the rank_info/* overrides only respect is authored so far
+## (店小二 小二哥, 柳淳风 柳馆主).
 
 
 static func query_self(gender: StringName, age: int, class_id: StringName) -> String:
@@ -19,7 +20,10 @@ static func query_self(gender: StringName, age: int, class_id: StringName) -> St
 	return "在下" if age < 50 else "老头子"
 
 
-static func query_respect(gender: StringName, age: int, class_id: StringName) -> String:
+## `rank_info` is the addressed character's rank_info/respect, which rankd.c returns first.
+static func query_respect(gender: StringName, age: int, class_id: StringName, rank_info: String = "") -> String:
+	if not rank_info.is_empty():
+		return rank_info
 	if gender == CharacterState.GENDER_FEMALE:
 		match class_id:
 			&"bonze":

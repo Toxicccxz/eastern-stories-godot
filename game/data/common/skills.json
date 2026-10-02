@@ -1,0 +1,16 @@
+{
+	"skills": [
+		{
+			"id": "unarmed", "name": "基本拳脚", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/unarmed.c"
+		},
+		{
+			"id": "liuh-ken", "name": "柳家拳", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"legacy_source": "daemon/skill/liuh-ken.c"
+		},
+		{
+			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/literate.c"
+		}
+	]
+}
