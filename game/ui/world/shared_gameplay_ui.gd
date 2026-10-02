@@ -640,7 +640,7 @@ func open_supplies() -> void:
 
 func open_messages() -> void:
 	if _session.portable_inventory_available():
-		_presentation_layout.open_panel("消息", combat_log)
+		_presentation_layout.open_panel("消息", _presentation_layout.messages)
 
 
 func _inspect_item(id: StringName) -> void:
