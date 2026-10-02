@@ -30,6 +30,14 @@ class StepRunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "timed out"):
             verify._run([sys.executable, "-c", "import time; time.sleep(30)"], timeout=0.5)
 
+    def test_script_error_fails_a_godot_step(self) -> None:
+        script = "print('SCRIPT ERROR: Invalid call.'); print('   at: helper (res://tests/x.gd:7)'); print('PASS')"
+        with self.assertRaisesRegex(RuntimeError, r"1 SCRIPT ERROR line\(s\)[\s\S]*res://tests/x.gd:7"):
+            verify._run([sys.executable, "-c", script], timeout=30, fail_on_script_errors=True)
+
+    def test_script_error_is_only_checked_in_godot_steps(self) -> None:
+        verify._run([sys.executable, "-c", "print('SCRIPT ERROR: quoted by a tooling test')"], timeout=30)
+
 
 if __name__ == "__main__":
     unittest.main()
