@@ -4,16 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 4E** (`phase/snow-give-services`), the last of Package 4: give, drop, put and get
-from (give.c, drop.c, put.c, get.c) with each NPC's accept_object() as data (the keeper's
-donations, 魏无极's tuition, the scavenger, the drunk's wine), dropped items saved where they lie,
-the 功德箱 as a container; the drunk drinks and drops his empty wineskin; 店小二, 杨掌柜, 王铁匠,
-安惜迩 and 柳淳风 have bodies, the shops and teaching go with them; teachers are data (skills.json,
-families, recognize_apprentice, apprentice rules): 柳淳风 takes apprentices, 李火狮 teaches 封山剑派
-students, 魏无极 teaches literate.
+**Snow milestone check** (`phase/snow-milestone-check`), after Package 4 (4A–4E merged): busy
+wears off on the heart beat outside a fight (char.c), the QA bridge is opt-in, `verify.py`
+fails on a `SCRIPT ERROR`; Snow's main path runs through the real shell as a suite
+(`snow_main_path_test`) and hours of world time as a soak (`world_soak_test`); a windowed
+walkthrough of all 37 rooms (every speaking NPC asked, every service used) fixed what it found.
 
-Then **Package 5, localization foundation** (see [ROADMAP](ROADMAP.md)). 4A-4D are merged; cost
-per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
+Then **Package 5, localization foundation** (see [ROADMAP](ROADMAP.md)). Cost per NPC:
+[SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
@@ -51,8 +49,6 @@ skills, 1/13 families, 0 quests).
 
 Code:
 
-* `busy` is only decremented inside encounters; busy left at encounter exit can stall recovery and
-  Save eligibility.
 * `apply/parry`, `apply/defense` and weapon-skill `apply/*` bonuses are not projected into combat.
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
   cause still has to be fixed in the content or rule that tripped it.
@@ -67,7 +63,6 @@ Code:
   chicken leg, no following); nothing can be put into a corpse.
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
   caller.
-* The `_phase10b4_qa_bridge` autoload is active in every dev run; F7 overwrites the dev save.
 * Skill combat actions are still GDScript (`liuh_ken_definition.gd`). A zone that merges several
   rooms shows only its first room's text.
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
@@ -75,12 +70,13 @@ Code:
   a test-only manual cadence (`historical_world_combat_fixture.gd`).
 * `oldpine_lake_production_test.gd` fails its three Fill checks when run on its own (also on main);
   it passes inside `run_tests.gd`.
-* A script error inside a helper a suite calls skips that helper's remaining checks, and the suite
-  still reports PASS; only the log's `SCRIPT ERROR` line shows it.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Player text is mostly not localized (`tr()` in the HUD chrome, the battle panel and what 4E
-  added) and some panels still mix English and Chinese (the inventory's Inspect/Wield): Package 5.
+  added) and some panels still mix English and Chinese (the inventory's Inspect/Remove/Wield and
+  [WORN]): Package 5.
+* The HUD keeps an NPC selected after the player leaves its room (its actions are refused, kill.c
+  `present()`); room labels and NPC names overlap in places (grey-box layout).
 * The battle log has no 昏倒/死亡 line yet (`announce()`), nor force reflection lines.
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
@@ -92,5 +88,7 @@ Licensing: no root project license; ES2 rights are unresolved
 
 ## How to verify
 
-See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~10 min). Single
-suites: `<godot> --headless --path game --script res://tests/run_suite.gd -- <suite paths>`.
+See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~13 min; fails on a
+`SCRIPT ERROR` line). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
+-- <suite paths>`. A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
+passed).

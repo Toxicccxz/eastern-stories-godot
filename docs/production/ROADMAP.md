@@ -25,9 +25,9 @@ hand-written files. Fix that before adding breadth.
 | 4 | **Content importer + Snow complete** | A best-effort LPC → data importer for NPCs/items/vendors/spawns (manual overrides kept separate); all of Snow's rooms, NPCs, shops and services playable. Record the time per NPC as the baseline for later regions. Five PRs: 4A importer + street NPCs, 4B south road and shops, 4C Inn upstairs / school inner rooms / secret storage, 4D ask, talk, wandering and room reset, 4E give, put and drop, shops and services bound to NPCs, teachers as data. |
 | 5 | **Localization foundation** | One PR after Package 4, before the second region: Godot translation set up with Simplified Chinese as the source locale, hard-coded player text (and the English labels some panels still show) moved to `tr()`, a key scheme and extractor for data text (POT), a pseudo-locale check that finds untranslated text, font fallback. No translations yet (they wait for release readiness; Traditional Chinese first). |
 
-Small correctness items ride along with the package that touches the code: busy decrement
-outside encounters, `apply/*` stat bonuses in combat, the missing Keep scene reference, opt-in QA
-autoload. New player text goes through `tr()` as whole-sentence templates from 4E on.
+Small correctness items ride along with the package that touches the code: `apply/*` stat
+bonuses in combat, the missing Keep scene reference. New player text goes through `tr()` as
+whole-sentence templates from 4E on.
 
 ## Then — systems and regions
 
