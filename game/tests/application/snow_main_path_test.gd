@@ -220,7 +220,13 @@ func _spar(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerRuntimeSta
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and trainee.life_status != CharacterRuntimeLifeStatus.Value.DEAD, "both stand after the spar")
 	await _settle(tree)
 	_pass(4.0)
-	check(not player.busy.is_busy() and OldPineSaveEligibility.inspect(_session).allowed(), "after the fight busy wears off and Save is open")
+	check(not player.busy.is_busy() and OldPineSaveEligibility.inspect(_session).allowed(), "after the fight Save is open")
+	# TEST-ONLY: the busy 1 a pickup in a fight leaves (get.c start_busy(1)); no fight
+	# here can leave one yet. The heart beat outside the fight wears it off (char.c).
+	player.busy.start_busy(1)
+	check(not OldPineSaveEligibility.inspect(_session).allowed(), "busy keeps Save closed")
+	_pass(2.0)
+	check(not player.busy.is_busy() and OldPineSaveEligibility.inspect(_session).allowed(), "one beat later busy is gone and Save is open")
 	return true
 
 
