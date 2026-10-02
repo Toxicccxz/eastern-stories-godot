@@ -51,9 +51,11 @@ var _player_recovery_cadence: PlayerRecoveryCadence
 ## Transient NPC streams (not in Save): heal ticks and revive delays.
 var _npc_recovery_random: RecoveryCadenceRandomSource
 var _npc_revive_random: CombatRandomSource
+var _npc_ambience_random: WorldInteractionRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
 var _hidden_passages: WorldHiddenPassages
+var _room_resets: WorldRoomResets
 
 
 func _ready() -> void:
@@ -92,6 +94,7 @@ func _process(delta: float) -> void:
 	advance_player_recovery(delta)
 	advance_npc_heartbeat(delta)
 	advance_hidden_passages(delta)
+	advance_room_resets(delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
 	_advance_life_flow(delta)
@@ -170,6 +173,22 @@ func npc_revive_random_source() -> CombatRandomSource:
 	return _npc_revive_random
 
 
+## Transient (not in Save): chat beats, random_move exits and where a walk ends, and
+## room reset times. Seeded with the world-interaction seed when that one is.
+func npc_ambience_random_source() -> WorldInteractionRandomSource:
+	if _npc_ambience_random == null:
+		_npc_ambience_random = GodotWorldInteractionRandomSource.new(world_interaction_seed + 1, deterministic_world_interaction_seed)
+	return _npc_ambience_random
+
+
+## Test injection; the maps draw from it from their next NPC beat on.
+func configure_npc_ambience_random_source(value: WorldInteractionRandomSource) -> bool:
+	if value == null:
+		return false
+	_npc_ambience_random = value
+	return true
+
+
 ## NPC heart_beat time flows when the world does and no fight runs; the player's
 ## own life state does not matter (NPCs heal while the player lies unconscious).
 func npc_world_time_allowed() -> bool:
@@ -195,6 +214,26 @@ func advance_npc_heartbeat(delta: float) -> void:
 func advance_hidden_passages(delta: float) -> void:
 	if _hidden_passages != null and npc_world_time_allowed():
 		_hidden_passages.advance(delta)
+
+
+## Rooms reset on world time, on every map (native rooms are always loaded).
+func advance_room_resets(delta: float) -> void:
+	if _room_resets != null and npc_world_time_allowed():
+		for room: String in _room_resets.advance(delta):
+			reset_room(room)
+
+
+## std/room.c reset() of one ES2 room: its spawns on whichever map holds them, and
+## weapon_storage.c's own reset() of the shelf.
+func reset_room(legacy_room: String) -> void:
+	for map: WorldMapController in world_maps():
+		map.reset_room(legacy_room)
+	if _hidden_passages != null:
+		_hidden_passages.reset_room(legacy_room)
+
+
+func room_resets() -> WorldRoomResets:
+	return _room_resets
 
 
 func hidden_passages() -> WorldHiddenPassages:
@@ -258,6 +297,7 @@ func initialize_session() -> bool:
 	if ready:
 		_hidden_passages = WorldHiddenPassages.new(self)
 		_hidden_passages.open_for_player_below()
+		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 	return ready
 
 

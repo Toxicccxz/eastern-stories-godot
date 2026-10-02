@@ -51,6 +51,10 @@ var _last_player_content_resolution: WorldWeaponContentResolution
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
 var _npc_heartbeat: NpcHeartbeat
+var _ambience: NpcAmbience
+var _walker: WorldNpcWalker
+## The player's place as the NPCs' init() last saw it; another one is an arrival.
+var _arrival_zone_id: StringName = &""
 var _last_landmark_use: RefCounted
 var _last_passage_traversal: RefCounted
 
@@ -314,6 +318,10 @@ func prepare_for_deactivation() -> void:
 	player_body.player_controlled = false
 	player_body.velocity = Vector2.ZERO
 	(player_body.get_node("Camera2D") as Camera2D).enabled = false
+	# Nobody watches a map the player left: its NPCs stand where they were going.
+	if _walker != null:
+		_walker.finish_all()
+	_arrival_zone_id = &""
 	_present_zones.clear()
 	_zone_check_pending = false
 	clear_passage_contacts()
@@ -370,6 +378,10 @@ func freeze_world_gameplay(id: StringName) -> bool:
 	if not _initialized or id.is_empty() or not _freeze_owner.is_empty() or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = id
+	# A fight or a transition takes NPCs where their move was going (their place
+	# already is), so a body never dies or is saved between two zones.
+	if _walker != null:
+		_walker.finish_all()
 	_aggression.clear_all()
 	_selected_target = null
 	if _hud() != null:
@@ -493,18 +505,24 @@ func _spawn_actors() -> bool:
 			push_error("spawn %s could not be created; check its npc, map and zone" % spawn.spawn_id)
 			return false
 		for npc: NpcRuntimeState in created:
-			for item: ItemInstance in npc.loadout_items():
-				if not _item_index.register_snapshot(item):
-					return false
-				# The drunk's wineskin starts full, as a bought one does.
-				var content: ItemContentDefinition = catalog.item(item.item_definition_id)
-				if content != null and not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids):
-					return false
+			if not _register_loadout(npc):
+				return false
 		for npc: NpcRuntimeState in created:
 			var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
 			if marker == null or not _add_npc_body(npc, marker.global_position):
 				return false
 	return _spawn_floor_items()
+
+
+func _register_loadout(npc: NpcRuntimeState) -> bool:
+	for item: ItemInstance in npc.loadout_items():
+		if not _item_index.register_snapshot(item):
+			return false
+		# The drunk's wineskin starts full, as a bought one does.
+		var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
+		if content != null and not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids):
+			return false
+	return true
 
 
 ## Restore places the saved NPCs and corpses of this map, exactly where they were.
@@ -535,28 +553,31 @@ func _restore_actors() -> bool:
 ## make_inventory()). Its identity follows from the spawn point, so nothing
 ## draws from a random source or the dynamic ID sequence.
 func _spawn_floor_items() -> bool:
-	var catalog: ContentCatalog = GameContent.catalog()
-	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
-		var content: ItemContentDefinition = catalog.item(spawn.item_definition_id)
-		var location: WorldLocationState = location_for_zone(spawn.zone_id)
-		if content == null or location == null:
-			return false
+	for spawn: ItemSpawnDefinition in GameContent.catalog().item_spawns_for_map(map):
 		for point_id: StringName in spawn.spawn_point_ids():
-			var item: ItemInstance = ItemInstance.new(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id), content.item_definition_id)
-			if (
-				not _inventory.register_item(item, content.own_weight)
-				or not _item_index.register_snapshot(item)
-				or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
-			):
-				return false
-			var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
-				_inventory,
-				item.item_instance_id,
-				InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
-			)
-			if not placed.succeeded or not _add_floor_item_view(item.item_instance_id, content, point_id):
+			if not _place_floor_item(spawn, point_id):
 				return false
 	return true
+
+
+func _place_floor_item(spawn: ItemSpawnDefinition, point_id: StringName) -> bool:
+	var content: ItemContentDefinition = GameContent.catalog().item(spawn.item_definition_id)
+	var location: WorldLocationState = location_for_zone(spawn.zone_id)
+	if content == null or location == null:
+		return false
+	var item: ItemInstance = ItemInstance.new(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id), content.item_definition_id)
+	if (
+		not _inventory.register_item(item, content.own_weight)
+		or not _item_index.register_snapshot(item)
+		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
+	):
+		return false
+	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
+		_inventory,
+		item.item_instance_id,
+		InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
+	)
+	return placed.succeeded and _add_floor_item_view(item.item_instance_id, content, point_id)
 
 
 ## Continue: an item still lies on its spawn marker while the save keeps it in
@@ -670,7 +691,8 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 	return outcome
 
 
-func _add_npc_body(npc: NpcRuntimeState, position: Vector2) -> bool:
+## A body for `npc` at `position`; `at` keeps a respawned NPC in its spawn order.
+func _add_npc_body(npc: NpcRuntimeState, position: Vector2, at: int = -1) -> bool:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
 	if spawn == null or not _map_characters.register_npc(npc):
 		return false
@@ -681,7 +703,10 @@ func _add_npc_body(npc: NpcRuntimeState, position: Vector2) -> bool:
 	var parent: Node = _characters_node()
 	body.position = (parent as Node2D).to_local(position) if parent is Node2D else position
 	parent.add_child(body)
-	_npcs.append(npc)
+	if at < 0 or at > _npcs.size():
+		_npcs.append(npc)
+	else:
+		_npcs.insert(at, npc)
 	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
 		return false
 	_connect_npc_body(npc.character_id, body, body.presence())
@@ -766,6 +791,12 @@ func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
 		if npc.character_id == character_id:
 			return npc
 	return null
+
+
+## Where a save puts an NPC: its body, or the end of the walk it is on.
+func npc_rest_position(character_id: StringName) -> Vector2:
+	var body: WorldCharacterBody2D = runtime_body_for_character(character_id)
+	return Vector2.INF if body == null else npc_walker().rest_position(character_id, body)
 
 
 func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:
@@ -1056,6 +1087,227 @@ func advance_npc_heartbeat(delta: float) -> void:
 		# combatd.c announce("revive"), heard in the same room.
 		if _player != null and npc.world_location().zone_id == _player.world_location().zone_id:
 			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % npc.definition().display_name])
+	_advance_ambience(delta)
+
+
+# --- Room reset ----------------------------------------------------------------------
+
+## std/room.c reset() for one ES2 room's set("objects") on this map: a new NPC
+## where one died (make_inventory() for a destructed object), the others called
+## home (npc.c return_home()), and an item laid down again once the one it put
+## there is gone from the world (owner, DECISIONS 4D).
+func reset_room(legacy_room: String) -> void:
+	if not _initialized or session == null:
+		return
+	var catalog: ContentCatalog = GameContent.catalog()
+	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
+		if spawn.legacy_source_room_path != legacy_room:
+			continue
+		for point_id: StringName in spawn.spawn_point_ids():
+			var npc: NpcRuntimeState = _npc_at_point(point_id)
+			if npc == null:
+				continue
+			if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+				_respawn_npc(spawn, npc)
+			elif npc.world_location().zone_id != spawn.zone_id:
+				return_home(npc)
+	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
+		if spawn.legacy_source_room_path != legacy_room:
+			continue
+		for point_id: StringName in spawn.spawn_point_ids():
+			if not _inventory.is_registered(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)):
+				if not _place_floor_item(spawn, point_id):
+					push_error("room reset could not lay %s on %s" % [spawn.item_definition_id, point_id])
+
+
+func _npc_at_point(point_id: StringName) -> NpcRuntimeState:
+	for npc: NpcRuntimeState in _npcs:
+		if npc.spawn_point_id == point_id:
+			return npc
+	return null
+
+
+## make_inventory() where an NPC died: a new one, its create() drawn afresh from
+## the NPC stream, on its marker and in its old place in spawn order.
+func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var marker: WorldSpawnMarker2D = resolve_spawn_marker(dead.spawn_point_id)
+	var fresh: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
+		catalog.npc(spawn.npc_definition_id),
+		NpcGeneration.next(dead.character_id, dead.spawn_point_id),
+		spawn.spawn_id,
+		dead.spawn_point_id,
+		location_for_zone(spawn.zone_id),
+		_inventory,
+		_stacks,
+		_npc_random,
+		catalog.loadout_item_definitions(),
+		_item_id_allocator.scope,
+	)
+	if marker == null or fresh == null or not _register_loadout(fresh):
+		push_error("room reset could not make a new NPC at %s" % dead.spawn_point_id)
+		return false
+	var at: int = _npcs.find(dead)
+	_drop_npc(dead)
+	return _add_npc_body(fresh, marker.global_position, at)
+
+
+## Forgets a dead NPC the room has replaced; its corpse stays.
+func _drop_npc(npc: NpcRuntimeState) -> void:
+	var character_id: StringName = npc.character_id
+	var body: WorldCharacterBody2D = _npc_bodies.get(character_id)
+	if is_instance_valid(body):
+		body.selection_requested.disconnect(_on_npc_selection_requested)
+		body.name = "%s_replaced" % body.name
+		body.queue_free()
+	_npc_bodies.erase(character_id)
+	_npc_presence.erase(character_id)
+	_npcs.erase(npc)
+	_map_characters.remove_character(character_id)
+	_aggression.clear_npc(character_id)
+	if _ambience != null:
+		_ambience.cancel_greeting(character_id)
+	if _walker != null:
+		_walker.cancel(character_id)
+	if _npc_heartbeat != null:
+		_npc_heartbeat.forget(character_id)
+	if selected_character_id() == character_id:
+		_selected_target = null
+		if _hud() != null:
+			_hud().set_selected_target(null)
+
+
+## npc.c return_home(): a conscious NPC that is not fighting leaves for home
+## (急急忙忙地离开了。 where it was); move() says nothing where it arrives. The body
+## walks home on the map the player is on and is simply there elsewhere.
+func return_home(npc: NpcRuntimeState) -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var spawn: NpcSpawnDefinition = catalog.spawn(npc.spawn_id)
+	var from_zone_id: StringName = npc.world_location().zone_id
+	if spawn == null or from_zone_id == spawn.zone_id:
+		return true
+	var zone: ZoneDefinition = catalog.zone(from_zone_id)
+	if (
+		npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting()
+		or zone == null or catalog.room(zone.room_ids()[0]).exits().is_empty()
+	):
+		return false
+	var seen: bool = _player_shares_zone(npc)
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
+	if body == null or marker == null:
+		return false
+	npc_walker().cancel(npc.character_id)
+	var watched: bool = session != null and session.active_map() == self
+	if not watched or not npc_walker().walk_to(npc.character_id, body, physical_zone(from_zone_id), physical_zone(spawn.zone_id), marker.global_position):
+		body.global_position = marker.global_position
+	npc.set_world_location(location_for_zone(spawn.zone_id))
+	if seen:
+		_hud().append_log_lines([tr("%s急急忙忙地离开了。") % npc.definition().display_name])
+	return true
+
+
+# --- Talk, greetings and wandering ---------------------------------------------------
+
+## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
+func _advance_ambience(delta: float) -> void:
+	if _ambience == null:
+		_ambience = NpcAmbience.new(session.npc_ambience_random_source())
+	_ambience.set_random(session.npc_ambience_random_source())
+	_note_player_arrival()
+	for character_id: StringName in _ambience.due_greetings(delta):
+		_greet(find_resident_npc(character_id))
+	for beat: int in _ambience.due_beats(delta):
+		for npc: NpcRuntimeState in _npcs.duplicate():
+			if _chats(npc):
+				_act(npc, _ambience.chat(npc.definition().talk()))
+	npc_walker().advance(delta)
+
+
+func npc_walker() -> WorldNpcWalker:
+	if _walker == null:
+		_walker = WorldNpcWalker.new(self)
+	return _walker
+
+
+## The NPCs' init() when the player comes into a place: a greeting call_out.
+func _note_player_arrival() -> void:
+	var zone_id: StringName = &"" if _player == null or not _player.exists_in_world else _player.world_location().zone_id
+	if zone_id == _arrival_zone_id:
+		return
+	_arrival_zone_id = zone_id
+	for npc: NpcRuntimeState in _npcs:
+		if (
+			npc.world_location().zone_id == zone_id and npc.exists_in_map
+			and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+			and not npc.relationship.is_fighting()
+			and not npc.definition().talk().greeting_say.is_empty()
+		):
+			_ambience.start_greeting(npc.character_id)
+
+
+## keeper.c greeting(): said only if the player is still there.
+func _greet(npc: NpcRuntimeState) -> void:
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc):
+		return
+	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
+	var text: String = NpcTalk.line(npc.definition().talk().greeting_say).replace("$RESPECT", tr(respect))
+	_hud().append_log_lines([tr("%s说道：%s") % [npc.definition().display_name, text]])
+
+
+func _player_shares_zone(npc: NpcRuntimeState) -> bool:
+	return (
+		_player != null and _player.exists_in_world
+		and npc.world_location().map_id == _player.world_location().map_id
+		and npc.world_location().zone_id == _player.world_location().zone_id
+	)
+
+
+## char.c heart_beat() reaches chat() for a conscious NPC that is neither busy nor
+## fighting, and beats while the player is in its place. A walking NPC is still
+## making its last move. Deviation: an unconscious NPC says nothing (DECISIONS 4D).
+func _chats(npc: NpcRuntimeState) -> bool:
+	return (
+		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
+		and npc.definition().talk().has_chat() and _player_shares_zone(npc)
+		and not npc_walker().is_walking(npc.character_id)
+	)
+
+
+func _act(npc: NpcRuntimeState, entry: Variant) -> void:
+	if entry is String:
+		_hud().append_log_lines([NpcTalk.line(entry)])
+	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
+		random_move(npc)
+
+
+## npc.c random_move() through go.c, within the NPC's range (NpcRandomMove). The
+## body walks; its place changes now. False when nothing moved.
+func random_move(npc: NpcRuntimeState) -> bool:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	var from_zone_id: StringName = npc.world_location().zone_id
+	if spawn == null or _ambience == null:
+		return false
+	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, _ambience.random(), _door_closed_between)
+	if move == null:
+		return false
+	var seen: bool = _player_shares_zone(npc)
+	if not npc_walker().walk_into(npc.character_id, runtime_body_for_character(npc.character_id), physical_zone(from_zone_id), physical_zone(move.to_zone_id), _ambience.random()):
+		return false
+	npc.set_world_location(location_for_zone(move.to_zone_id))
+	if seen:
+		_hud().append_log_lines([tr(move.leave_line(npc.definition().display_name))])
+	return true
+
+
+## room.c valid_leave(): a closed door between the two zones stops the move.
+func _door_closed_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	for door: WorldDoor in doors():
+		var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
+		if definition != null and definition.zone_ids().has(from_zone_id) and definition.zone_ids().has(to_zone_id) and not door.is_open():
+			return true
+	return false
 
 
 ## A corpse lies where its body fell. It is wider than the body, so beside a wall it is
@@ -1460,6 +1712,38 @@ func spar_selected() -> CombatSliceInitiationResult:
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
 	_hud().append_log_lines(lines)
 	return result
+
+
+## cmds/std/ask.c: the selected NPC can be asked when it speaks and is here
+## (present()); a beast gets no 打听, as it gets no 切磋.
+func can_ask_selected() -> bool:
+	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
+	return (
+		target != null and target.definition().can_speak() and target.exists_in_map
+		and target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+		and _player != null and target.world_location().shares_combat_location(_player.world_location())
+	)
+
+
+## What the selected NPC can be asked about, in ES2's listing order (NpcInquiry).
+func ask_topics_selected() -> Array[String]:
+	return NpcInquiry.topics(selected_npc().definition()) if can_ask_selected() else []
+
+
+## ask <npc> about <topic> on the selected NPC; its lines go to the log too.
+func ask_selected(topic: String) -> Array[String]:
+	if not ask_topics_selected().has(topic):
+		return []
+	var target: NpcRuntimeState = selected_npc()
+	var zone: ZoneDefinition = GameContent.catalog().zone(target.world_location().zone_id)
+	var lines: Array[String] = NpcInquiry.ask(
+		target.definition(), target.character_state.gender, target.age,
+		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
+		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id),
+		topic, "" if zone == null else zone.display_name, _world_interaction_random,
+	)
+	_hud().append_log_lines(lines)
+	return lines
 
 
 func open_selected_loot() -> bool:

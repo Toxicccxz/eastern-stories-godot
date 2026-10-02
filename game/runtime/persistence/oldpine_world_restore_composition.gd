@@ -41,10 +41,16 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			"item or allocator reconstruction rejected",
 		)
 	var domain: NativeItemDomainState = item_restore.domain_state
+	# One NPC per authored spawn point, whatever generation room resets have made
+	# of it; a missing or foreign record is the ledger's failure below.
+	var saved_ids: Dictionary[StringName, StringName] = {}
+	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
+		saved_ids[npc.spawn_point_id] = npc.character_id
 	var character_ids: Array[StringName] = [snapshot.player.character_id]
 	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
 		for point_id: StringName in spawn.spawn_point_ids():
-			character_ids.append(_character_id_for_spawn_point(point_id))
+			var saved_id: StringName = saved_ids.get(point_id, &"")
+			character_ids.append(saved_id if NpcGeneration.of(saved_id, point_id) > 0 else NpcGeneration.character_id(point_id, 1))
 	if not _character_aggregate_ids_match(domain, character_ids):
 		return Result.failure(
 			Result.Outcome.ITEM_RESTORE_FAILED,
@@ -191,7 +197,7 @@ static func _restore_npc_ledger(
 			if (
 				saved.spawn_id != spawn.spawn_id
 				or saved.npc_definition_id != spawn.npc_definition_id
-				or saved.character_id != _character_id_for_spawn_point(point_id)
+				or NpcGeneration.of(saved.character_id, point_id) == 0
 				or not _location_is_current(saved.world_location)
 				or saved.world_location.map_id != spawn.map_id
 			):
@@ -304,9 +310,11 @@ static func _restore_corpses(
 	var entries: Array[OldPineRestoredCorpseEntry] = []
 	for saved: Values.CorpseSnapshot in snapshot.corpses:
 		var path: String = "corpses.%s" % String(saved.corpse_item_instance_id)
+		var known: bool = character_facts.has(saved.victim_character_id)
+		var replaced: NpcDefinition = null if known else _replaced_npc_definition(snapshot, saved.victim_character_id)
 		if (
 			not item_records.has(saved.corpse_item_instance_id)
-			or not character_facts.has(saved.victim_character_id)
+			or (not known and replaced == null)
 			or not _location_is_current(saved.world_location)
 			or saved.decay_stage < CorpseState.Stage.FRESH
 			or saved.decay_stage > CorpseState.Stage.FINAL
@@ -327,42 +335,57 @@ static func _restore_corpses(
 				Result.Outcome.INCONSISTENT_CORPSE_STATE,
 				path + ".item_cross_reference",
 			)
-		var victim: Variant = character_facts[saved.victim_character_id]
-		var victim_character: Values.CharacterStateSnapshot = victim.character
-		var victim_life: StringName = victim.life_status
-		var victim_exists: bool = victim.exists_in_world
-		var expected_name: String = snapshot.player.identity.display_name
-		var expected_age: int = snapshot.player.identity.age
-		var expected_weight: int = snapshot.player.body_facts.body_weight
-		# Player capacity is a stored body fact, not current str * 5000.
-		var expected_capacity: int = snapshot.player.body_facts.maximum_encumbrance
-		if victim is Values.NpcSpawnStateSnapshot:
-			var victim_npc: Values.NpcSpawnStateSnapshot = victim
-			var definition: NpcDefinition = GameContent.catalog().npc(
-				victim_npc.npc_definition_id
-			)
-			if definition == null:
-				return Result.failure(Result.Outcome.UNKNOWN_CONTENT_ID, path)
-			expected_name = definition.display_name
-			expected_age = victim_npc.age
-			expected_weight = victim_npc.body_weight
-			# Preserve the existing NPC validation policy (not a Player body change).
-			expected_capacity = CharacterDerivedValues.maximum_encumbrance(victim_character.attributes.strength)
-		# wgargoyle.c reincarnate(): the player lives on and their former body stays
-		# where they fell, so a player's corpse may outlive the death. An NPC's may not.
-		var victim_is_player: bool = not victim is Values.NpcSpawnStateSnapshot
-		if (
-			(not victim_is_player and (victim_life != &"dead" or victim_exists))
-			or saved.victim_display_name != expected_name
-			or saved.victim_gender != victim_character.gender
-			or saved.victim_age != expected_age
-			or saved.maximum_contents_encumbrance != expected_capacity
-			or record.own_weight != expected_weight
-		):
-			return Result.failure(
-				Result.Outcome.INCONSISTENT_CORPSE_STATE,
-				path + ".victim_facts",
-			)
+		if not known:
+			# An NPC its room has since replaced (room.c reset()): its own record went
+			# with it, so the corpse keeps what its definition allows.
+			if (
+				saved.victim_display_name != replaced.display_name
+				or (replaced.age_roll() != null and not replaced.age_roll().admits(saved.victim_age))
+				or (replaced.age_roll() == null and replaced.has_authored_age and saved.victim_age != replaced.age)
+				or (replaced.gender_roll() != null and not replaced.gender_roll().admits(saved.victim_gender))
+				or (replaced.gender_roll() == null and replaced.has_authored_gender and saved.victim_gender != replaced.gender)
+			):
+				return Result.failure(
+					Result.Outcome.INCONSISTENT_CORPSE_STATE,
+					path + ".victim_facts",
+				)
+		else:
+			var victim: Variant = character_facts[saved.victim_character_id]
+			var victim_character: Values.CharacterStateSnapshot = victim.character
+			var victim_life: StringName = victim.life_status
+			var victim_exists: bool = victim.exists_in_world
+			var expected_name: String = snapshot.player.identity.display_name
+			var expected_age: int = snapshot.player.identity.age
+			var expected_weight: int = snapshot.player.body_facts.body_weight
+			# Player capacity is a stored body fact, not current str * 5000.
+			var expected_capacity: int = snapshot.player.body_facts.maximum_encumbrance
+			if victim is Values.NpcSpawnStateSnapshot:
+				var victim_npc: Values.NpcSpawnStateSnapshot = victim
+				var definition: NpcDefinition = GameContent.catalog().npc(
+					victim_npc.npc_definition_id
+				)
+				if definition == null:
+					return Result.failure(Result.Outcome.UNKNOWN_CONTENT_ID, path)
+				expected_name = definition.display_name
+				expected_age = victim_npc.age
+				expected_weight = victim_npc.body_weight
+				# Preserve the existing NPC validation policy (not a Player body change).
+				expected_capacity = CharacterDerivedValues.maximum_encumbrance(victim_character.attributes.strength)
+			# wgargoyle.c reincarnate(): the player lives on and their former body stays
+			# where they fell, so a player's corpse may outlive the death. An NPC's may not.
+			var victim_is_player: bool = not victim is Values.NpcSpawnStateSnapshot
+			if (
+				(not victim_is_player and (victim_life != &"dead" or victim_exists))
+				or saved.victim_display_name != expected_name
+				or saved.victim_gender != victim_character.gender
+				or saved.victim_age != expected_age
+				or saved.maximum_contents_encumbrance != expected_capacity
+				or record.own_weight != expected_weight
+			):
+				return Result.failure(
+					Result.Outcome.INCONSISTENT_CORPSE_STATE,
+					path + ".victim_facts",
+				)
 		var corpse: CorpseState = CorpseState.new(
 			saved.corpse_item_instance_id,
 			saved.victim_character_id,
@@ -420,6 +443,16 @@ static func _restore_corpses(
 			null, Vector2.ZERO, null, null, null, null, null, null, [], entries,
 		),
 	)
+
+
+## The definition of the spawn whose saved NPC is a later generation than
+## `victim_id` (NpcGeneration), or null.
+static func _replaced_npc_definition(snapshot: GameSaveSnapshot, victim_id: StringName) -> NpcDefinition:
+	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
+		var earlier: int = NpcGeneration.of(victim_id, npc.spawn_point_id)
+		if earlier > 0 and earlier < NpcGeneration.of(npc.character_id, npc.spawn_point_id):
+			return GameContent.catalog().npc(npc.npc_definition_id)
+	return null
 
 
 static func _loadout_matches(
@@ -522,10 +555,6 @@ static func _life_status(value: StringName) -> int:
 		&"dead":
 			return CharacterRuntimeLifeStatus.Value.DEAD
 	return -1
-
-
-static func _character_id_for_spawn_point(point_id: StringName) -> StringName:
-	return StringName("%s.character" % String(point_id))
 
 
 static func _string_name_less_than(left: StringName, right: StringName) -> bool:

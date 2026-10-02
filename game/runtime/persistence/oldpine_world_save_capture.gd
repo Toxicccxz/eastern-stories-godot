@@ -147,7 +147,7 @@ func capture(
 				npc.body_weight,
 				npc.maximum_encumbrance,
 				_location_snapshot(npc.world_location()),
-				_position_snapshot(body.global_position),
+				_position_snapshot(npc_map.npc_rest_position(npc.character_id)),
 				live_loadout_ids,
 				npc.revive_in_ms,
 			)

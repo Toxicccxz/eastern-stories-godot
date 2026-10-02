@@ -16,3 +16,9 @@ func configure_npc(spawn: NpcSpawnDefinition, definition: NpcDefinition) -> void
 
 func presence() -> Area2D:
 	return get_node("AggressionPresence") as Area2D
+
+
+## A walking NPC goes through the player instead of shoving them aside; its
+## presence circle stays on, so an aggressive one still notices them.
+func set_walking(value: bool) -> void:
+	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", value)
