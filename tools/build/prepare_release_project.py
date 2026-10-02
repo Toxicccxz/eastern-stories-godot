@@ -152,7 +152,7 @@ def sanitize_project_config(text: str) -> str:
         if section == "phase10b4":
             kept = [line for line in kept if not line.strip().startswith("qa_startup_load=")]
         if section == DEVELOPMENT_SECTION:
-            kept = [line for line in kept if not line.strip().startswith(f"{DEVELOPMENT_SAVE_SLOT_KEY}=")]
+            kept = [line for line in kept if not _sets_development_slot(line)]
         if section == "autoload":
             kept = [
                 line
@@ -178,6 +178,12 @@ def sanitize_project_config(text: str) -> str:
             output.extend(kept)
 
     return "\n".join(output).strip() + "\n"
+
+
+def _sets_development_slot(line: str) -> bool:
+    """The setting itself or a feature-tag override of it (`save/development_slot.android=`)."""
+    key = line.strip().split("=", 1)[0].strip()
+    return key == DEVELOPMENT_SAVE_SLOT_KEY or key.startswith(f"{DEVELOPMENT_SAVE_SLOT_KEY}.")
 
 
 def _project_setting(text: str, section_name: str, key: str) -> str | None:
@@ -215,7 +221,7 @@ def validate_release_project(project: Path) -> list[str]:
                 "canonical main scene changed: "
                 f"expected {EXPECTED_MAIN_SCENE!r}, found {main_scene!r}"
             )
-        if _project_setting(project_text, DEVELOPMENT_SECTION, DEVELOPMENT_SAVE_SLOT_KEY) is not None:
+        if any(section == DEVELOPMENT_SECTION and _sets_development_slot(line) for section, lines in _section_blocks(project_text) for line in lines):
             errors.append("the development save slot setting remains in project.godot")
 
     for path in sorted(project.rglob("*"), key=lambda item: item.as_posix()):

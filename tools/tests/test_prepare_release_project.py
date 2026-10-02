@@ -41,6 +41,7 @@ run/main_run_args="--remote-debug tcp://127.0.0.1:6107"
 [eastern_stories]
 
 save/development_slot=true
+save/development_slot.windows=true
 
 [editor_plugins]
 
@@ -249,7 +250,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         prepare_release_project(self.source, self.output)
         config = self.output / "project.godot"
         config.write_text(
-            config.read_text(encoding="utf-8") + "\n[eastern_stories]\nsave/development_slot=true\n",
+            config.read_text(encoding="utf-8") + "\n[eastern_stories]\nsave/development_slot.android=true\n",
             encoding="utf-8",
         )
         self.assertIn(
