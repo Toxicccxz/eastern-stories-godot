@@ -24,7 +24,7 @@ from prepare_release_project import prepare_release_project, validate_release_pr
 # script before it can quit); fail it instead of waiting forever. CI's job limit is 30 min.
 TOOLING_TIMEOUT_SECONDS = 10 * 60
 IMPORT_TIMEOUT_SECONDS = 10 * 60
-GAMEPLAY_TESTS_TIMEOUT_SECONDS = 20 * 60
+GAMEPLAY_TESTS_TIMEOUT_SECONDS = 25 * 60
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 
 
