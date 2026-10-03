@@ -134,9 +134,11 @@ func refresh() -> void:
 				uses.append(use_id)
 	for use_id: StringName in uses:
 		var use_skill: SkillDefinition = catalog.skill(use_id)
+		if use_skill == null:
+			continue # a use the game does not model as a skill yet (move)
 		lines.append(tr("有效{skill} {level}").format({
-			"skill": String(use_id) if use_skill == null else tr(use_skill.display_name),
-			"level": state.skills.effective_level(use_id, player.armor.aggregate_numeric_modifiers().unarmed if use_id == &"unarmed" else 0),
+			"skill": tr(use_skill.display_name),
+			"level": state.skills.effective_level(use_id, player.armor.aggregate_numeric_modifiers().value(use_id)),
 		}))
 	lines.append(tr("精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}").format({
 		"gin": state.essence.current, "potential": state.progression.potential - state.progression.potential_spent,

@@ -175,8 +175,8 @@ func _test_content_profile_and_current_projections() -> void:
 	var mutated_limbs: Array[StringName] = profile.limbs()
 	mutated_limbs.clear()
 	_assert_eq(profile.limbs().size(), 16, "limbs are defensively copied")
-	var action_set: CombatActionSet = profile.slash_action_set()
-	_assert_eq(action_set.size(), 1, "slice weapon provider has one action only")
+	var action_set: CombatActionSet = profile.weapon_action_set()
+	_assert_eq(action_set.size(), 3, "a sword draws from slash, slice and thrust (std/weapon/sword.c)")
 	var slash: CombatActionDefinition = action_set.action_at(0)
 	_assert_eq(slash.action_id, ContentScript.SLASH_ACTION_ID, "slash ID is exact")
 	_assert_eq(slash.damage_percent, 0, "slash damage percent is exact")
@@ -190,7 +190,7 @@ func _test_content_profile_and_current_projections() -> void:
 	)
 	_assert_true(selection.primary_weapon_present, "current primary sword is provider")
 	_assert_false(selection.mapped_skill_present, "mapped martial is absent")
-	_assert_eq(selection.primary_weapon_action_set().size(), 1, "primary provider stays slash-only")
+	_assert_eq(selection.primary_weapon_action_set().size(), 3, "primary provider draws a sword's three verbs")
 	var attack: CombatAttackInput = ProjectionBuilderScript.build_attack_input(
 		actor, victim, slash
 	)
@@ -206,7 +206,7 @@ func _test_content_profile_and_current_projections() -> void:
 		ProjectionBuilderScript.build_action_selection_input(actor)
 	)
 	_assert_false(unarmed_selection.primary_weapon_present, "unwield is observed at projection time")
-	_assert_eq(unarmed_selection.default_action_set().size(), 1, "no-primary path has explicit source-backed default")
+	_assert_eq(unarmed_selection.default_action_set().size(), 5, "no-primary path has race/human.c's five moves")
 	_assert_eq(unarmed_selection.default_action_set().action_at(0).action_id, ContentScript.UNARMED_ACTION_ID, "default provider is human punch")
 
 
@@ -245,17 +245,17 @@ func _test_secondary_only_uses_unarmed_provider() -> void:
 		ProjectionBuilderScript.build_action_selection_input(pair[0])
 	)
 	_assert_false(selection.primary_weapon_present, "secondary-only state has no primary provider")
-	_assert_eq(selection.default_action_set().size(), 1, "secondary is not promoted over unarmed default")
+	_assert_eq(selection.default_action_set().size(), 5, "secondary is not promoted over unarmed default")
 	var rng: ScriptedCombatRandomSource = ScriptedRandomScript.new([0, 0, 0, 0, 0])
 	var result: CombatSliceOpportunityResult = _execute(pair[0], pair, rng)
 	_assert_eq(result.forward_result.action_selection_result.source_kind, CombatActionSelectionResult.SourceKind.DEFAULT_ACTIONS, "secondary-only execution selects default provider")
 	_assert_eq(result.forward_result.selected_action_id, ContentScript.UNARMED_ACTION_ID, "secondary-only execution uses source-backed punch")
-	_assert_eq(result.forward_result.action_selection_result.random_upper_bounds(), [1], "one unarmed fallback action still consumes random(1)")
+	_assert_eq(result.forward_result.action_selection_result.random_upper_bounds(), [5], "the unarmed fallback draws random(5)")
 
 
 func _test_current_armor_projection() -> void:
 	var pair: Array[CombatSliceCharacterBinding] = _pair()
-	var slash: CombatActionDefinition = pair[0].content.slash_action()
+	var slash: CombatActionDefinition = pair[0].content.weapon_action()
 	var before: CombatAttackInput = ProjectionBuilderScript.build_attack_input(
 		pair[0], pair[1], slash
 	)
@@ -609,7 +609,7 @@ func _test_guard_regular_and_quick_opportunities() -> void:
 	var quick: CombatSliceOpportunityResult = _execute(quick_pair[0], quick_pair, quick_rng)
 	_assert_eq(quick.fight_decision_result.outcome, FightResultScript.Outcome.QUICK_ATTACK, "busy victim produces QUICK")
 	_assert_false(quick.fight_decision_result.courage_random_reached, "QUICK consumes no courage RNG")
-	_assert_eq(quick.random_upper_bounds(), [4, 1, 16, 13, 120], "QUICK RNG omits fight courage and preserves later closed draws")
+	_assert_eq(quick.random_upper_bounds(), [4, 3, 16, 13, 120], "QUICK RNG omits fight courage and preserves later closed draws")
 	_assert_eq(quick.random_draws(), [0, 0, 0, 0, 0], "QUICK draw zero evidence remains reached and unambiguous")
 
 	var nonliving_pair: Array[CombatSliceCharacterBinding] = _initiated_pair()
@@ -626,8 +626,8 @@ func _test_dodge_parry_hit_and_rng_timeline() -> void:
 	var dodge_rng: ScriptedCombatRandomSource = ScriptedRandomScript.new([0, 0, 0, 0, 0])
 	var dodge: CombatSliceOpportunityResult = _execute(dodge_pair[0], dodge_pair, dodge_rng)
 	_assert_eq(_forward_base_outcome(dodge), BaseAttackResultScript.Outcome.DODGE, "scripted ordinary path dodges")
-	_assert_eq(dodge.random_upper_bounds(), [4, 60, 1, 16, 20], "DODGE shares exact ordered RNG timeline")
-	_assert_eq(dodge.forward_result.action_selection_result.random_upper_bounds(), [1], "slash selector still consumes random(1)")
+	_assert_eq(dodge.random_upper_bounds(), [4, 60, 3, 16, 20], "DODGE shares exact ordered RNG timeline")
+	_assert_eq(dodge.forward_result.action_selection_result.random_upper_bounds(), [3], "the sword selector draws random(3)")
 	_assert_eq(dodge.forward_result.selected_action_id, ContentScript.SLASH_ACTION_ID, "selected slash identity reaches resolver")
 
 	var parry_pair: Array[CombatSliceCharacterBinding] = _initiated_pair()
@@ -635,7 +635,7 @@ func _test_dodge_parry_hit_and_rng_timeline() -> void:
 		parry_pair[0], parry_pair, ScriptedRandomScript.new([0, 0, 0, 0, 10, 0])
 	)
 	_assert_eq(_forward_base_outcome(parry), BaseAttackResultScript.Outcome.PARRY, "scripted ordinary path parries")
-	_assert_eq(parry.random_upper_bounds(), [4, 60, 1, 16, 20, 20], "PARRY timeline includes exact two defense draws")
+	_assert_eq(parry.random_upper_bounds(), [4, 60, 3, 16, 20, 20], "PARRY timeline includes exact two defense draws")
 
 	var hit_pair: Array[CombatSliceCharacterBinding] = _initiated_pair()
 	var hit_draws: Array[int] = [0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0]
@@ -664,7 +664,7 @@ func _test_live_reverse_projection_after_progression() -> void:
 	_assert_eq(result.reverse_attacker_experience_at_projection, 11, "reverse projection rereads post-forward combat_exp")
 	_assert_eq(result.chain_result.outcome, ChainResultScript.Outcome.REVERSE_COMPLETE, "live reverse completes through closed chain service")
 	_assert_true(result.chain_result.reverse_execution_reached, "synchronous reverse body executes once")
-	_assert_eq(result.random_upper_bounds(), [4, 60, 1, 16, 320, 120, 20, 1, 16, 21, 120], "guarding-riposte RNG is selection plus chain without duplicate fight prefix")
+	_assert_eq(result.random_upper_bounds(), [4, 60, 3, 16, 320, 120, 20, 3, 16, 21, 120], "guarding-riposte RNG is selection plus chain without duplicate fight prefix")
 	_assert_eq(result.random_draws(), [0, 0, 0, 0, 0, 51, 0, 0, 0, 0, 0], "guarding-riposte draws preserve one continuous source timeline")
 	_assert_eq(rng.requested_bounds(), result.random_upper_bounds(), "one random source carries forward and reverse timeline")
 	_assert_eq(rng.call_count(), result.random_draws().size(), "result accounts for every shared RNG draw")
@@ -746,7 +746,7 @@ func _test_zero_experience_forward_and_reverse() -> void:
 		_assert_eq(pair[0].state.progression.combat_experience, 1, "later source defender progression executes, not an EXP grant")
 		_assert_eq(ordinary.outcome, CombatOrdinaryAttackResult.Outcome.COMPLETED, "progression/status/busy complete")
 		_assert_true(chain.reverse_post_action_reached, "reverse post-action is reached")
-		_assert_eq(rng.requested_bounds(), [4, 60, 1, 16, 601, 30, 1, 16, 601, 601, 25, 20, 22, 178], "shared RNG keeps exact forward/reverse/wound/progression order; no zero draw or third reverse")
+		_assert_eq(rng.requested_bounds(), [4, 60, 5, 16, 601, 30, 3, 16, 601, 601, 25, 20, 22, 178], "shared RNG keeps exact forward/reverse/wound/progression order; no zero draw or third reverse")
 		_assert_eq(result.random_draws(), draws, "result retains all actual draws")
 		_assert_eq(rng.call_count(), 14, "reverse consumes only the recorded source draws")
 		_assert_true(pair[0].relationship.has_lethal_target(NPC_ID) and pair[1].relationship.has_lethal_target(PLAYER_ID), "earlier lethal relationships remain")
@@ -757,7 +757,7 @@ func _test_zero_experience_forward_and_reverse() -> void:
 	_assert_eq(forward.chain_result.outcome, ChainResultScript.Outcome.FORWARD_COMPLETE_NO_REVERSE, "ordinary forward NPC hit does not require riposte")
 	_assert_eq(forward.forward_result.ordinary_attack_result.base_result.calculation.defense_iterations, 0, "forward zero EXP also bypasses only reduction")
 	_assert_eq(pair[0].state.vitality.current, 78, "ordinary forward hit damages fresh defender")
-	_assert_eq(rng.requested_bounds(), [4, 90, 1, 16, 601, 601, 25, 20, 22, 178], "forward damage/wound/progression sequence has no defense draw")
+	_assert_eq(rng.requested_bounds(), [4, 90, 3, 16, 601, 601, 25, 20, 22, 178], "forward damage/wound/progression sequence has no defense draw")
 
 
 func _zero_experience_pair() -> Array[CombatSliceCharacterBinding]:

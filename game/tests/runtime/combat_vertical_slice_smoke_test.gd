@@ -344,7 +344,7 @@ func _assert_inventory_equipment_coherence(controller: CombatVerticalSliceContro
 	_assert_eq(enemy_weapon.weapon_id, CombatSliceContentProfile.LONG_SWORD_ID, "enemy equipment uses verified long sword definition")
 	_assert_eq(player_weapon.skill_type, &"sword", "long sword projects sword skill type")
 	_assert_eq(controller.player_binding.content.projected_apply_damage(player_weapon), 25, "long sword projects source-backed damage 25")
-	_assert_eq(controller.player_binding.content.slash_action().action_id, CombatSliceContentProfile.SLASH_ACTION_ID, "verified provider exposes slash only")
+	_assert_eq(controller.player_binding.content.weapon_action().action_id, CombatSliceContentProfile.SLASH_ACTION_ID, "verified provider's first verb is slash")
 	_assert_true(
 		controller.inventory_state.is_direct_child(
 			player_weapon.instance_id,

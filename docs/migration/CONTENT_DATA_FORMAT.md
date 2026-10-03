@@ -4,7 +4,8 @@ Items, NPCs, spawns, vendors and the world (rooms, regions, maps, zones, portals
 are JSON under `game/data/`, listed in `game/data/content_manifest.json` (load order = manifest
 order, then file order). Each file is one object with any of the arrays `items`, `npcs`, `spawns`,
 `item_spawns`, `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`, `doors`,
-`landmarks`, `skills`, `families`; exactly one file (`common/pacing.json`) holds the `pacing` object.
+`landmarks`, `skills`, `families`, `race_actions`, `weapon_actions`; exactly one file
+(`common/pacing.json`) holds the `pacing` object.
 
 `GameContent.catalog()` (`game/data/game_content.gd`) reads them once into a `ContentCatalog`.
 Parsing lives in `game/core/content/`. Unknown fields, wrong types, non-integer numbers and broken
@@ -32,7 +33,7 @@ instead of `set("vendor_goods")`, read by hand), `set`/`drop`
 that did not become data — another function, a closure, a condition, a field the game does not
 model yet. `--check` (and `tools/tests/test_content_import.py`) fails when a generated file
 differs or a finding has no decision; `build/import/review.md` lists findings and per-NPC counts.
-`common/skills.json` and `common/families.json` are hand-authored too.
+`common/skills.json`, `common/combat_actions.json` and `common/families.json` are hand-authored too.
 
 A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") + "/master"`, from
 `include/globals.h`); its record lives in `common/npcs.json` with the ID
@@ -48,9 +49,10 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `long` | `set("long")` | optional; default is `name(Capitalized first alias)。\n` as in `feature/name.c` |
 | `unit`, `material`, `value` | `set(...)` | `value` absent = 0 |
 | `no_get` | `set("no_get", 1)` | `true`: get.c refuses it (这个东西拿不起来。) |
+| `female_only` | `set("female_only", 1)` | `true`: wear.c lets only a 女性 character wear it |
 | `max_encumbrance` | `set_max_encumbrance(n)` | a container: put.c puts things in while their weight fits, get.c takes them out (功德箱 10000) |
 | `weight` | `set_weight()` | omitted for money; 0 when the LPC never sets it (`feature/move.c`) |
-| `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"]}` |
+| `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"], apply?}`; `apply` is `weapon_prop/*` other than damage (attack, defense, dodge, courage, intelligence, karma, personality, spells, spirituality), added to the wielder's `apply/*` (equip.c) |
 | `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
@@ -71,15 +73,16 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `race` | `set("race")` | `human` (default) or `beast` (`野兽`) |
 | `gender`, `age` | `set(...)` | absent = not authored |
 | `attributes` | `set("str")` … | keys `str cor int spi cps per con kar` |
-| `resources` | `set("max_kee")` … | keys `gin kee sen` with `eff_` / `max_` variants |
+| `resources` | `set("max_kee")` … | keys `gin kee sen` with `eff_` / `max_` variants; `force atman mana` with `max_` (race/human.c adds a quarter of `max_atman`/`max_force`/`max_mana` to `max_gin`/`max_kee`/`max_sen`) |
+| `force_factor` | `set("force_factor")` | 加力: adds to strength (query_str) and drives the force hit of a mapped force skill |
 | `combat_exp`, `score` | `set(...)` | |
 | `attitude` | `set("attitude")` | `peaceful` (default), `friendly`, `heroism` or `aggressive`; decides spars (`npc.c accept_fight`) and aggression |
 | `skills` | `set_skill(id, level)` | object, authored order kept |
 | `skill_map` | `map_skill(use, skill)` | `{use: skill}`; the skill must be in `skills` |
 | `carry` | `carry_object(path)->wield()/wear()`, `add_money(id, n)` | `{item, source, amount?, equip?: "wield"\|"wear"}`; `source` is the path the NPC file names |
-| `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge` |
+| `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge defense parry`, for any race |
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
-| `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept}`; the first matching rule decides; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
+| `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept, kill?}`; the first matching rule decides; `kill` (with `accept`): the NPC answers with `kill_ob()` (annihir.c) and fights to kill, the challenger only fights back; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
 | `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>`. A topic may instead be `{eff_kee_percent: [{at_least, say}]}` (herbalist.c heal_me(), judged on the asker; none matching leaves ask.c's own answer) |
 | `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}` or `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()). Generated only when every entry is a line or random_move; otherwise both stay findings |
 | `greeting` | the NPC's init()/greeting() | `{say}` (said as `<name>说道：<say>`) or `{one_of: [{say} \| {emote}]}`, one drawn when it is said (waiter.c `random(3)`; an `emote` follows the name), one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
@@ -208,12 +211,29 @@ config.ES2; lower it locally to playtest resets).
 
 ## skills, families
 
-`skills`: `{id, name, kind: basic|specialized, type: martial|knowledge, enable?: [use], legacy_source}`
-— a skill the game models (learn, enable, the character panel's name; to_chinese()'s dictionary is
-not in the mudlib, so `name` is authored). A specialized skill names the uses it can be enabled
-for. `families`: `{id, name}` — a family by its ES2 `family_name`; characters keep the ID.
+`skills`: `{id, name, kind: basic|specialized, type: martial|knowledge, enable?: [use], legacy_source,
+actions?, dodge_messages?, parry_messages?, standard_force_hit?, hit_ob?}` — a skill the game models (learn,
+enable, the character panel's name; to_chinese()'s dictionary is not in the mudlib, so `name` is
+authored). A specialized skill names the uses it can be enabled for. `actions` is the skill's
+`action` table (query_action): `{id, action, damage_type, damage?, force?, weapon?}`, the ID being
+`es2:<legacy_source without .c>/<id>`; combatd.c reads no other key, so `dodge`/`parry` stay in the
+LPC. `hit_ob: true` marks a skill with its own `hit_ob()` (iceforce, spicyclaw, ts-fist): not
+ported, so a fight that would call it stops. `dodge_messages` (query_dodge_msg) and `parry_messages` `{armed, unarmed}`
+(parry.c, which combatd.c always asks) are its lines. `standard_force_hit`: it inherits
+std/force.c and keeps its `hit_ob()`. `families`: `{id, name}` — a family by its ES2
+`family_name`; characters keep the ID.
+
+## race_actions, weapon_actions
+
+`common/combat_actions.json`. `race_actions`: `{race, legacy_source, actions}` — a race's own
+moves (race/human.c `combat_action`, its default_actions). `weapon_actions`: one record
+`{legacy_source: weapond.c, actions, verbs}` — weapond.c's verbs as actions (ID = verb) and
+`verbs: [{skill, verbs, legacy_source}]`, the verbs each weapon kind sets (std/weapon/<kind>.c).
+A wielded weapon without a mapped skill draws one of its kind's verbs. Hammers, staffs and
+throwing weapons have none yet: bash, crush, slam and throw run a `post_action` that is not
+ported, so they attack with `slash`.
 
 ## Not data yet
 
-Skill combat actions (`liuh_ken_definition.gd`) and the beast bite action stay in GDScript until
-their packages. `*_world_definitions.gd` now only hold the IDs the runtime names in code.
+The beast actions stay in GDScript (`beast_combat_action_definitions.gd`).
+`*_world_definitions.gd` now only hold the IDs the runtime names in code.

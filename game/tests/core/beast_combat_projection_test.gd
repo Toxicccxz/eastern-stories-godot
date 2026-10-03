@@ -30,7 +30,7 @@ func _test_live_state_and_bidirectional_projection() -> void:
 	_eq(reverse.attack_input_template().attacker.effective_attack_skill_level, 3, "reverse new unarmed")
 	reverse = f.reverse(f.human, f.serpent)
 	_eq([reverse.attack_input_template().defender.effective_dodge_skill_level, reverse.attack_input_template().defender.effective_parry_skill_level, reverse.attack_input_template().defender.busy], [84, 5, true], "reverse defender symmetry")
-	_eq([f.serpent.content.intrinsic_attack, f.serpent.content.intrinsic_dodge], [60, 80], "mutable skills do not rewrite authored facts")
+	_eq([f.serpent.content.apply_value(&"attack", null), f.serpent.content.apply_value(&"dodge", null)], [60, 80], "mutable skills do not rewrite authored facts")
 	var other: Fixture = Fixture.new()
 	_eq([other.serpent.state.spirit.current, other.serpent.state.skills.raw_level(&"unarmed")], [500, 0], "other character independent")
 

@@ -23,8 +23,7 @@ enum Readiness {
 }
 
 var _limbs: Array[StringName] = []
-var _slash_action: CombatActionDefinition
-var _slash_action_set: CombatActionSet
+var _weapon_action_set: CombatActionSet
 var _unarmed_action: CombatActionDefinition
 var _unarmed_action_set: CombatActionSet
 var _verified_weapon_id: StringName
@@ -32,16 +31,10 @@ var _verified_weapon_skill_id: StringName
 var _verified_weapon_damage: int
 var _race_id: StringName
 var _beast_facts: NpcAuthoredCombatFacts
-
-var intrinsic_attack: int:
-	get:
-		return _beast_facts.intrinsic_attack if _beast_facts != null else 0
-var intrinsic_armor: int:
-	get:
-		return _beast_facts.intrinsic_armor if _beast_facts != null else 0
-var intrinsic_dodge: int:
-	get:
-		return _beast_facts.intrinsic_dodge if _beast_facts != null else 0
+## The NPC's own set_temp("apply/...") values, for any race.
+var _authored: NpcAuthoredCombatFacts
+## The verified weapon's weapon_prop values other than damage.
+var _weapon_apply: Dictionary[StringName, int] = {}
 
 var target_visible: bool:
 	get:
@@ -53,13 +46,11 @@ func _init(
 	p_verified_weapon_skill_id: StringName = LONG_SWORD_SKILL_ID,
 	p_verified_weapon_damage: int = LONG_SWORD_DAMAGE,
 	p_race_id: StringName = &"human",
-	p_beast_facts: NpcAuthoredCombatFacts = null,
+	p_authored_facts: NpcAuthoredCombatFacts = null,
 ) -> void:
 	_race_id = p_race_id
-	_beast_facts = (
-		p_beast_facts.duplicate_snapshot()
-		if p_race_id == &"beast" and p_beast_facts != null else null
-	)
+	_authored = p_authored_facts.duplicate_snapshot() if p_authored_facts != null else null
+	_beast_facts = _authored if p_race_id == &"beast" else null
 	_verified_weapon_id = p_verified_weapon_id
 	_verified_weapon_skill_id = p_verified_weapon_skill_id
 	_verified_weapon_damage = p_verified_weapon_damage
@@ -69,30 +60,16 @@ func _init(
 		&"左手", &"右手", &"腰间", &"小腹",
 		&"左腿", &"右腿", &"左脚", &"右脚",
 	])
-	_slash_action = CombatActionDefinition.new(
-		SLASH_ACTION_ID,
-		0,
-		0,
-		&"割伤",
-		&"combat.weapon.slash",
-		"$N挥动$w，斩向$n的$l",
-		"$w",
-		&"",
-	)
-	_slash_action_set = CombatActionSet.new([_slash_action])
-	## Source-backed first entry in race/human.c's default action table. It is
-	## retained only as an explicit no-primary provider, not as a full port.
-	_unarmed_action = CombatActionDefinition.new(
-		UNARMED_ACTION_ID,
-		0,
-		0,
-		&"瘀伤",
-		&"combat.unarmed.punch",
-		"$N挥拳攻击$n的$l",
-		"拳",
-		&"",
-	)
-	_unarmed_action_set = CombatActionSet.new([_unarmed_action])
+	var weapon_content: ItemContentDefinition = GameContent.catalog().item(_verified_weapon_id)
+	if weapon_content != null:
+		_weapon_apply = weapon_content.weapon_apply
+	var tables: CombatActionTables = GameContent.catalog().combat_actions()
+	# feature/attack.c reset_action(): the weapon's verbs (weapond.c), else the
+	# race's own moves (default_actions).
+	_weapon_action_set = tables.weapon_action_set(_verified_weapon_skill_id)
+	var race_actions: CombatActionSet = tables.race_action_set(&"human")
+	_unarmed_action_set = race_actions if race_actions != null else CombatActionSet.new()
+	_unarmed_action = _unarmed_action_set.action_at(0)
 	if _race_id != &"human":
 		# Never leave human limbs/punch behind when Beast data is absent/unsupported.
 		_limbs.clear()
@@ -165,10 +142,8 @@ func readiness() -> Readiness:
 		return Readiness.INVALID_WEAPON_PROFILE
 	if not (
 		(_race_id == &"beast" or _limbs.size() == 16)
-		and _slash_action_set.is_valid()
-		and _slash_action_set.size() == 1
+		and _weapon_action_set.is_valid()
 		and _unarmed_action_set.is_valid()
-		and (_race_id == &"beast" or _unarmed_action_set.size() == 1)
 		and _same_action(_unarmed_action_set.action_at(0), _unarmed_action)
 	):
 		return Readiness.INVALID_ACTION_DATA
@@ -208,12 +183,14 @@ func limbs() -> Array[StringName]:
 	return _limbs.duplicate()
 
 
-func slash_action() -> CombatActionDefinition:
-	return _slash_action.duplicate_snapshot()
+## The verified weapon's first verb (a sword's slash).
+func weapon_action() -> CombatActionDefinition:
+	return _weapon_action_set.action_at(0)
 
 
-func slash_action_set() -> CombatActionSet:
-	return CombatActionSet.new(_slash_action_set.actions())
+## The verified weapon's verbs (weapond.c query_action draws one).
+func weapon_action_set() -> CombatActionSet:
+	return CombatActionSet.new(_weapon_action_set.actions())
 
 
 func unarmed_action() -> CombatActionDefinition:
@@ -234,12 +211,20 @@ func is_verified_primary(weapon: EquippedWeaponRef) -> bool:
 
 
 func projected_apply_damage(weapon: EquippedWeaponRef) -> int:
-	var intrinsic_damage: int = _beast_facts.intrinsic_damage if _beast_facts != null else 0
-	return intrinsic_damage + (_verified_weapon_damage if is_verified_primary(weapon) else 0)
+	return apply_value(&"damage", weapon) + (_verified_weapon_damage if is_verified_primary(weapon) else 0)
+
+
+## query_temp("apply/<key>") without armor (ArmorNumericModifiers has those): what
+## the NPC set on itself plus the wielded weapon's weapon_prop (equip.c wield()).
+func apply_value(key: StringName, weapon: EquippedWeaponRef) -> int:
+	var value: int = _authored.apply_value(key) if _authored != null else 0
+	if is_verified_primary(weapon):
+		value += _weapon_apply.get(key, 0)
+	return value
 
 
 func attack_template_for(weapon: EquippedWeaponRef) -> CombatActionDefinition:
-	return slash_action() if weapon != null else unarmed_action()
+	return weapon_action() if weapon != null else unarmed_action()
 
 
 func has_attack_skill_definition(skill_id: StringName) -> bool:
@@ -252,21 +237,24 @@ func has_attack_skill_definition(skill_id: StringName) -> bool:
 	)
 
 
-## The actions an attack may draw from, when there is more than one: a mapped
-## martial art, or a beast's verbs (beast.c query_action). Null keeps the
-## single-template comparison (punch, slash, a one-verb beast).
+## feature/attack.c reset_action(): the actions an attack draws from — a mapped
+## martial art's moves, else the verified weapon's verbs, else the race's own
+## moves (a beast's verbs, beast.c query_action). Null when there is no data for
+## the source (an unverified weapon keeps its single-template comparison).
 func approved_action_set(weapon: EquippedWeaponRef, attack_skill_id: StringName, mapped_skill_id: StringName) -> CombatActionSet:
-	var mapped: CombatActionSet = mapped_action_set(attack_skill_id, mapped_skill_id)
-	if mapped != null:
-		return mapped
-	if _race_id == &"beast" and weapon == null and is_valid() and _unarmed_action_set.size() > 1:
-		return unarmed_action_set()
-	return null
+	if not mapped_skill_id.is_empty():
+		return mapped_action_set(mapped_skill_id)
+	if not is_valid():
+		return null
+	if weapon != null:
+		return weapon_action_set() if is_verified_primary(weapon) else null
+	return unarmed_action_set()
 
 
-## Only the reviewed human unarmed liuh mapping is admitted. Beast anatomy,
-## other mappings and the existing singleton default/weapon providers stay closed.
-func mapped_action_set(attack_skill_id: StringName, mapped_skill_id: StringName) -> CombatActionSet:
-	if is_valid() and _race_id == &"human" and attack_skill_id == &"unarmed" and mapped_skill_id == LiuhKenDefinition.SKILL_ID:
-		return LiuhKenDefinition.actions()
-	return null
+## SKILL_D(mapped)->query_action(): the mapped skill's moves (skills.json); null
+## when the skill has none in data, which the fight cannot use.
+func mapped_action_set(mapped_skill_id: StringName) -> CombatActionSet:
+	if not is_valid() or mapped_skill_id.is_empty():
+		return null
+	var skill: SkillDefinition = GameContent.catalog().skill(mapped_skill_id)
+	return null if skill == null else skill.action_set()

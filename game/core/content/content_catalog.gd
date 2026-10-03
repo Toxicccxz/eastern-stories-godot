@@ -28,6 +28,7 @@ var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinitio
 var _native_item_projections: NativeItemDefinitionProjections
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
+var _combat_actions: CombatActionTables = CombatActionTables.new()
 
 
 func _init(
@@ -84,6 +85,16 @@ func set_item_spawns(p_item_spawns: Dictionary[StringName, ItemSpawnDefinition])
 func set_teaching(p_skills: Dictionary[StringName, SkillDefinition], p_families: Dictionary[StringName, FamilyDefinition]) -> void:
 	_skills = p_skills.duplicate()
 	_families = p_families.duplicate()
+
+
+## Called once by ContentCatalogBuilder.
+func set_combat_actions(tables: CombatActionTables) -> void:
+	_combat_actions = tables
+
+
+## Race and weapon attack actions (combat_actions.json).
+func combat_actions() -> CombatActionTables:
+	return _combat_actions
 
 
 ## A skill the game defines (skills.json); null for one it does not model yet.

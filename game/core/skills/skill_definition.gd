@@ -18,7 +18,19 @@ var kind: int
 var skill_type: int
 var is_force_style: bool
 var legacy_source_path: String
+## The skill inherits std/force.c and keeps its hit_ob(): combatd.c's force hit
+## (StandardForceHitPolicy) when it is the mapped force.
+var standard_force_hit: bool = false
+## The skill defines its own hit_ob() (iceforce, spicyclaw, ts-fist), which is not
+## ported: a fight that would call it stops instead of skipping it.
+var has_own_hit_ob: bool = false
+## query_dodge_msg(): what a dodge with this skill looks like ($n dodges $N).
+var dodge_messages: Array[String] = []
+## parry.c query_parry_msg(weapon): against an armed and an unarmed attacker.
+var parry_messages_armed: Array[String] = []
+var parry_messages_unarmed: Array[String] = []
 var _valid_enabled_uses: Array[StringName] = []
+var _actions: Array[CombatActionDefinition] = []
 
 
 func _init(
@@ -47,8 +59,15 @@ func valid_enabled_uses() -> Array[StringName]:
 	return _valid_enabled_uses.duplicate()
 
 
+## query_action(): the moves a mapped martial art draws from (combatd.c do_attack);
+## null when the skill has none.
+func action_set() -> CombatActionSet:
+	return null if _actions.is_empty() else CombatActionSet.new(_actions)
+
+
 ## A skills.json record: {id, name, kind basic|specialized, type martial|knowledge,
-## enable?: [use], legacy_source}.
+## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
+## parry_messages?: {armed, unarmed}, standard_force_hit?, hit_ob?}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	var kinds: Dictionary[String, int] = {"basic": Kind.BASIC, "specialized": Kind.SPECIALIZED}
 	var types: Dictionary[String, int] = {"martial": Type.MARTIAL, "knowledge": Type.KNOWLEDGE}
@@ -62,6 +81,21 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		false, uses, reader.required_text("legacy_source"),
 	)
 	definition.display_name = reader.required_text("name")
+	definition.standard_force_hit = reader.boolean("standard_force_hit", false)
+	definition.has_own_hit_ob = reader.boolean("hit_ob", false)
+	if definition.standard_force_hit and definition.has_own_hit_ob:
+		reader.fail("hit_ob", "a skill with its own hit_ob() is not std/force.c's")
+	definition.dodge_messages = reader.text_list("dodge_messages")
+	var parry: ContentRecordReader = reader.child("parry_messages")
+	if parry != null:
+		definition.parry_messages_armed = parry.text_list("armed")
+		definition.parry_messages_unarmed = parry.text_list("unarmed")
+		parry.finish()
+	var id_prefix: String = "es2:%s/" % definition.legacy_source_path.trim_suffix(".c")
+	for action: ContentRecordReader in reader.children("actions"):
+		definition._actions.append(CombatActionDefinition.from_record(action, id_prefix))
+	if not definition._actions.is_empty() and not CombatActionSet.new(definition._actions).is_valid():
+		reader.fail("actions", "action IDs must be unique")
 	if not kinds.has(kind_text):
 		reader.fail("kind", "expected basic or specialized")
 	if not types.has(type_text):

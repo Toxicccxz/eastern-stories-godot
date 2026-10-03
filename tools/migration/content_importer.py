@@ -51,7 +51,9 @@ WEAPON_FLAGS = {'TWO_HANDED': 'two_handed', 'SECONDARY': 'secondary'}
 RACES = {'人类': 'human', '野兽': 'beast'}
 ATTRIBUTES = ['str', 'cor', 'int', 'spi', 'cps', 'per', 'con', 'kar']
 RESOURCES = [prefix + track for track in ('gin', 'kee', 'sen') for prefix in ('', 'eff_', 'max_')]
-APPLY_KEYS = ['attack', 'damage', 'armor', 'dodge']
+# Internal power has no eff_ tier (force, atman, mana).
+RESOURCES += [prefix + track for track in ('force', 'atman', 'mana') for prefix in ('', 'max_')]
+APPLY_KEYS = ['attack', 'damage', 'armor', 'dodge', 'defense', 'parry']
 ATTITUDES = {'peaceful', 'friendly', 'heroism', 'aggressive'}
 # NPC fields whose create()-time random draws the loader models.
 RANDOM_INTEGER_KEYS = {'set age', 'set combat_exp', 'set score'}
@@ -619,6 +621,7 @@ class Importer:
                 record[group] = values
         take('combat_exp')
         take('score')
+        take('force_factor')
         # rankd.c query_respect(): how others address this NPC.
         if isinstance(sets.get('rank_info/respect'), str):
             handled.add('rank_info/respect')
@@ -777,6 +780,10 @@ class Importer:
                 record[key] = sets[key]
         if sets.get('no_get', 0) != 0:
             record['no_get'] = True
+        # cmds/std/wear.c: only a 女性 character wears it.
+        if sets.get('female_only', 0) != 0:
+            handled.add('female_only')
+            record['female_only'] = True
         inherits = set(lpc.inherits)
         weapon_kinds = sorted({k.removeprefix('F_') for k in inherits} & WEAPON_KINDS)
         armor_kinds = sorted(inherits & ARMOR_KINDS)
@@ -799,6 +806,12 @@ class Importer:
                 self.note(canonical, init_name, 'missing')
             else:
                 weapon = {'skill': kind.lower(), 'damage': init.args[0]}
+                # equip.c wield(): weapon_prop/* other than damage become the wielder's apply/*.
+                apply = {k.removeprefix('weapon_prop/'): v for k, v in sets.items()
+                         if k.startswith('weapon_prop/') and k != 'weapon_prop/damage'}
+                handled.update('weapon_prop/' + k for k in apply)
+                if apply:
+                    weapon['apply'] = apply
                 flags = init.args[1] if len(init.args) > 1 else []
                 names = []
                 for flag in flags if isinstance(flags, list) else [flags]:

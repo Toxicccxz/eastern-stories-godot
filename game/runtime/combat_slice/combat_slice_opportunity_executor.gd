@@ -17,10 +17,20 @@ static func initiate_spar(
 	return _initiate(initiator, target, false)
 
 
+## A spar answered with kill_ob() (annihir.c accept_fight(), then fight.c): the
+## killer marks its challenger to the death; the challenger only fights back.
+static func initiate_directed_kill(
+	killer: CombatSliceCharacterBinding,
+	challenger: CombatSliceCharacterBinding,
+) -> CombatSliceInitiationResult:
+	return _initiate(killer, challenger, true, false)
+
+
 static func _initiate(
 	initiator: CombatSliceCharacterBinding,
 	target: CombatSliceCharacterBinding,
 	lethal: bool,
+	target_lethal: bool = lethal,
 ) -> CombatSliceInitiationResult:
 	var result: CombatSliceInitiationResult = CombatSliceInitiationResult.new()
 	if initiator != null:
@@ -63,9 +73,9 @@ static func _initiate(
 		return result
 
 	result._second_mutation_attempted = true
-	result._second_mutation_changed = _engage(target.relationship, initiator.character_id, lethal)
+	result._second_mutation_changed = _engage(target.relationship, initiator.character_id, target_lethal)
 	result._second_mutation_succeeded = (
-		(not lethal or target.relationship.has_lethal_target(initiator.character_id))
+		(not target_lethal or target.relationship.has_lethal_target(initiator.character_id))
 		and target.relationship.has_opponent(initiator.character_id)
 	)
 	if not result._second_mutation_succeeded:

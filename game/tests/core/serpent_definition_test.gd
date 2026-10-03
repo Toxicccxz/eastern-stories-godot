@@ -99,7 +99,7 @@ func _test_serpent_creation_and_independence() -> void:
 func _test_definition_copy_boundaries() -> void:
 	var limbs: Array[String] = ["头部", "躯干", "尾巴"]
 	var verbs: Array[StringName] = [&"bite"]
-	var facts: NpcAuthoredCombatFacts = NpcAuthoredCombatFacts.new(limbs, verbs, 60, 20, 90, 80)
+	var facts: NpcAuthoredCombatFacts = NpcAuthoredCombatFacts.new(limbs, verbs, {&"attack": 60, &"damage": 20, &"armor": 90, &"dodge": 80})
 	var definition: NpcDefinition = NpcDefinition.new(&"test.beast", "test.c", "Test", [&"test"],
 		&"beast", false, &"", false, 0, null, null, 0, 0, 0, [], [], [], "", facts)
 	limbs.clear()
@@ -113,8 +113,8 @@ func _test_definition_copy_boundaries() -> void:
 	_eq(definition.authored_combat_facts().limbs(), ["头部", "躯干", "尾巴"], "output limbs defensive")
 	_eq(definition.authored_combat_facts().verbs(), [&"bite"], "output verbs defensive")
 	# Test storage alias isolation even against direct internal-field misuse.
-	facts._attack = 999
-	returned._dodge = 999
+	facts._apply[&"attack"] = 999
+	returned._apply[&"dodge"] = 999
 	_eq(definition.authored_combat_facts().intrinsic_attack, 60, "input fact snapshot isolation")
 	_eq(definition.authored_combat_facts().intrinsic_dodge, 80, "output fact snapshot isolation")
 

@@ -6,6 +6,8 @@ extends RefCounted
 ## definition; the rest follow std/char/npc.c accept_fight(). The runtime turns
 ## the lines into sentences; $RESPECT and $SELF stand for rankd.c's words.
 var accepted: bool = false
+## Accepted with kill_ob(): the NPC fights to kill (NpcFightRule.kill).
+var kill: bool = false
 var lines: Array[Line] = []
 ## How the NPC addresses the challenger (query_respect) and calls itself (query_self).
 var respect: String = ""
@@ -55,6 +57,7 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger) -> NpcSparConse
 			if not rule.say.is_empty():
 				result.lines.append(Line.new(false, rule.say))
 			result.accepted = rule.accept
+			result.kill = rule.accept and rule.kill
 			return result
 		return result # accept_fight() fell through: it returns 0.
 

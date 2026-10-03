@@ -53,7 +53,7 @@ func _test_data() -> void:
 	_check(not catalog.zones_adjacent(&"snow.weapon_storage", &"snow.secret_storage"), "no static exit to the secret storage")
 	var rats: NpcSpawnDefinition = catalog.spawn(&"snow.inn_upstairs.inn_2f.rats")
 	_check(rats != null and rats.quantity == 6 and catalog.npc(&"snow.npc.rat").race_id == &"beast", "inn_2f.c: six rats (beasts)")
-	_check(catalog.npc(&"snow.npc.girl") == null, "柳绘心 waits for the 封山剑法 package")
+	_check(catalog.spawn(&"snow.outdoor.nyard.girl") != null and catalog.spawn(&"snow.outdoor.nyard.girl").zone_id == &"snow.nyard", "柳绘心 stands in the study (offense/defense routes)")
 	var items: Dictionary[StringName, StringName] = {}
 	for map_id: StringName in [&"snow.outdoor", &"snow.cellar", &"snow.inn_upstairs"]:
 		for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map_id):

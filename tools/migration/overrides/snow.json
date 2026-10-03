@@ -81,10 +81,18 @@
 			}
 		},
 		"snow.npc.annihir": {
-			"fight_deferred": "maps sword to fonxansword, dodge to chaos-steps and unarmed to celestrike, whose actions are not ported: every fight would abort"
+			"accept_fight": [
+				{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }
+			]
+		},
+		"snow.npc.girl": {
+			"accept_fight": [
+				{ "family": "family.fonxan", "gender": "女性", "say": "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？", "accept": false },
+				{ "family": "family.fonxan", "say": "我才不要，你们去找李教头练吧！", "accept": false },
+				{ "say": "爹爹说过，不能跟你们这些江湖人物比武过招。", "accept": false }
+			]
 		},
 		"common.npc.swordsman.master": {
-			"fight_deferred": "maps sword and parry to fonxansword and dodge to chaos-steps, whose actions are not ported: every fight would abort",
 			"apprentice": {
 				"requires": { "cor": 20, "cps": 20 },
 				"refuse_say": "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？",
@@ -95,8 +103,7 @@
 	},
 	"spawn_skip": {
 		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" },
-		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 is a combined item (only money stacks); with 蛇药 and 飞刀 when combined items come" },
-		"d/snow/nyard.c": { "d/snow/npc/girl.c": "柳绘心 maps sword to fonxansword, whose actions are not ported: every fight would abort; she comes with the 封山剑法/乱七星步 package" }
+		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 is a combined item (only money stacks); with 蛇药 and 飞刀 when combined items come" }
 	},
 	"review": {
 		"d/snow/inn.c": {
@@ -140,9 +147,6 @@
 			"function accept_object": "accept_object rules (set snow.npc.drunk); the 玉佩/蒙汗药 whispers need d/green's temp flags: with d/green"
 		},
 		"d/snow/npc/scavenger.c": {
-			"set force": "internal power is not modelled yet (ROADMAP)",
-			"set max_force": "internal power is not modelled yet (ROADMAP)",
-			"set force_factor": "internal power is not modelled yet (ROADMAP)",
 			"function accept_object": "accept_object rules (set snow.npc.scavenger); smile prints nothing",
 			"function accept_fight": "accept_fight rules (set snow.npc.scavenger)"
 		},
@@ -154,9 +158,6 @@
 			"function ask_me": "the 血手刘三 reveal: later (DECISIONS 4D)"
 		},
 		"d/snow/npc/fist_trainer.c": {
-			"set force": "internal power is not modelled yet (ROADMAP)",
-			"set max_force": "internal power is not modelled yet (ROADMAP)",
-			"set force_factor": "internal power is not modelled yet (ROADMAP)",
 			"function recognize_apprentice": "recognize_apprentice rules (set snow.npc.fist_trainer)",
 			"function accept_fight": "accept_fight rules (set snow.npc.fist_trainer); command(\"nod\") shown as 点了点头。 (data/emoted.o is not in the mudlib)"
 		},
@@ -231,33 +232,32 @@
 			"set unwield_msg": "wield/unwield messages are not shown yet"
 		},
 		"d/snow/npc/annihir.c": {
-			"set pursuer": "pursuing who flees is not modelled: with his fights (fight_deferred)",
+			"set pursuer": "pursuing who flees is not modelled yet: later combat package",
 			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package",
-			"set max_atman": "spells and magic are not modelled yet (ROADMAP)",
-			"set atman": "spells and magic are not modelled yet (ROADMAP)",
 			"set atman_factor": "spells and magic are not modelled yet (ROADMAP)",
-			"set max_mana": "spells and magic are not modelled yet (ROADMAP)",
-			"set mana": "spells and magic are not modelled yet (ROADMAP)",
 			"set mana_factor": "spells and magic are not modelled yet (ROADMAP)",
-			"set max_force": "internal power is not modelled yet (ROADMAP)",
-			"set force": "internal power is not modelled yet (ROADMAP)",
-			"set force_factor": "internal power is not modelled yet (ROADMAP)",
-			"set chat_chance": "his only chat is exert powerfade: internal power is not modelled yet, so he says nothing",
-			"set chat_msg": "his only chat is exert powerfade: internal power is not modelled yet, so he says nothing",
-			"set chat_chance_combat": "combat talk, perform and cast: with his fights (fight_deferred)",
-			"set chat_msg_combat": "combat talk, perform and cast: with his fights (fight_deferred)",
-			"function accept_fight": "turns a spar into a kill (kill_ob): with his fights (fight_deferred, DECISIONS 4E)"
+			"set chat_chance": "his only chat is exert powerfade: exert is not ported yet, so he says nothing",
+			"set chat_msg": "his only chat is exert powerfade: exert is not ported yet, so he says nothing",
+			"set chat_chance_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without them",
+			"set chat_msg_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without them",
+			"function accept_fight": "accept_fight rules (set snow.npc.annihir): the spar becomes his kill_ob; grin prints nothing"
+		},
+		"d/snow/npc/girl.c": {
+			"set chat_chance_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); she fights without sword.counterattack and says nothing",
+			"set chat_msg_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); she fights without sword.counterattack and says nothing",
+			"function accept_fight": "accept_fight rules (set snow.npc.girl): she refuses everyone"
+		},
+		"d/snow/obj/thin_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
 		"daemon/class/swordsman/blackthorn.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
 		"daemon/class/swordsman/master.c": {
-			"set max_force": "internal power is not modelled yet (ROADMAP)",
-			"set force": "internal power is not modelled yet (ROADMAP)",
-			"set force_factor": "internal power is not modelled yet (ROADMAP)",
-			"set chat_chance_combat": "perform sword.counterattack: with his fights (fight_deferred)",
-			"set chat_msg_combat": "perform sword.counterattack: with his fights (fight_deferred)",
+			"set chat_chance_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without sword.counterattack",
+			"set chat_msg_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without sword.counterattack",
 			"function attempt_apprentice": "apprentice rules (set common.npc.swordsman.master); smile prints nothing",
 			"function recruit_apprentice": "class swordsman: apprentice.class (set common.npc.swordsman.master)"
 		},

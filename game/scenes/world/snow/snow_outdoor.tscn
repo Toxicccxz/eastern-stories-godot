@@ -379,6 +379,11 @@ position = Vector2(1080, -400)
 script = ExtResource("3")
 spawn_point_id = &"snow.schoolhall.master.1"
 
+[node name="StudyGirl01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1460, -680)
+script = ExtResource("3")
+spawn_point_id = &"snow.nyard.girl.1"
+
 [node name="PostofficeOfficer01" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(-370, -1370)
 script = ExtResource("3")

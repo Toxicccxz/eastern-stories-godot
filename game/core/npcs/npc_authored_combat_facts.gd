@@ -2,43 +2,41 @@ class_name NpcAuthoredCombatFacts
 extends RefCounted
 
 ## Immutable definition projection, not mutable skills/equipment or an action VM.
-## Legacy limbs, verbs and the four intrinsic apply values used by serpent.c.
-## Actions and Combat projection consumers are intentionally outside BF1.
+## A beast's limbs and verbs, and the set_temp("apply/...") values an NPC sets on
+## itself in create() (serpent.c, the bandit chiefs).
+const APPLY_KEYS: Array[StringName] = [&"attack", &"damage", &"armor", &"dodge", &"defense", &"parry"]
+
 var _limbs: Array[String] = []
 var _verbs: Array[StringName] = []
-var _attack: int
-var _damage: int
-var _armor: int
-var _dodge: int
+var _apply: Dictionary[StringName, int] = {}
 
 var intrinsic_attack: int:
 	get:
-		return _attack
+		return apply_value(&"attack")
 var intrinsic_damage: int:
 	get:
-		return _damage
+		return apply_value(&"damage")
 var intrinsic_armor: int:
 	get:
-		return _armor
+		return apply_value(&"armor")
 var intrinsic_dodge: int:
 	get:
-		return _dodge
+		return apply_value(&"dodge")
 
 
 func _init(
 	p_limbs: Array[String] = [],
 	p_verbs: Array[StringName] = [],
-	p_intrinsic_attack: int = 0,
-	p_intrinsic_damage: int = 0,
-	p_intrinsic_armor: int = 0,
-	p_intrinsic_dodge: int = 0,
+	p_apply: Dictionary[StringName, int] = {},
 ) -> void:
 	_limbs = p_limbs.duplicate()
 	_verbs = p_verbs.duplicate()
-	_attack = p_intrinsic_attack
-	_damage = p_intrinsic_damage
-	_armor = p_intrinsic_armor
-	_dodge = p_intrinsic_dodge
+	_apply = p_apply.duplicate()
+
+
+## query_temp("apply/<key>") as the NPC set it; 0 when it set none.
+func apply_value(key: StringName) -> int:
+	return _apply.get(key, 0)
 
 
 func limbs() -> Array[String]:
@@ -50,4 +48,4 @@ func verbs() -> Array[StringName]:
 
 
 func duplicate_snapshot() -> NpcAuthoredCombatFacts:
-	return NpcAuthoredCombatFacts.new(_limbs, _verbs, _attack, _damage, _armor, _dodge)
+	return NpcAuthoredCombatFacts.new(_limbs, _verbs, _apply)

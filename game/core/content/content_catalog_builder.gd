@@ -4,8 +4,8 @@ extends RefCounted
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
-## `doors`, `landmarks`, `skills`, `families` arrays, and at most one document has
-## the `pacing` object.
+## `doors`, `landmarks`, `skills`, `families`, `race_actions`, `weapon_actions`
+## arrays, and at most one document has the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -23,6 +23,7 @@ var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
+var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _pacing: PacingDefinition
 var _origins: Dictionary[StringName, String] = {}
 
@@ -100,6 +101,10 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: FamilyDefinition = FamilyDefinition.from_record(record)
 		if _claim(definition.family_id, record):
 			_families[definition.family_id] = definition
+	for record: ContentRecordReader in reader.children("race_actions"):
+		_combat_actions.add_race(record)
+	for record: ContentRecordReader in reader.children("weapon_actions"):
+		_combat_actions.add_weapon_actions(record)
 	var pacing: ContentRecordReader = reader.child("pacing")
 	if pacing != null:
 		if _pacing != null:
@@ -121,6 +126,7 @@ func build() -> ContentCatalog:
 	_resolve_services()
 	_resolve_doors()
 	_resolve_landmarks()
+	_check_combat_data()
 	if _pacing == null:
 		_errors.append("pacing: no document defines it")
 	if not _errors.is_empty():
@@ -131,12 +137,30 @@ func build() -> ContentCatalog:
 	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
 	catalog.set_teaching(_skills, _families)
+	catalog.set_combat_actions(_combat_actions)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
 		_errors.append("items: item roles are inconsistent (NativeItemDefinitionProjections)")
 		return null
 	return catalog
+
+
+## A catalog that defines skills is a game's: its fights need the race and weapon
+## moves and the dodge.c and parry.c lines every narration falls back to.
+func _check_combat_data() -> void:
+	if _skills.is_empty():
+		return
+	if _combat_actions.race_action_set(&"human") == null:
+		_errors.append("race_actions: no moves for race 'human'")
+	if not _combat_actions.weapon_action_set(&"").is_valid():
+		_errors.append("weapon_actions: no 'slash' action")
+	var dodge: SkillDefinition = _skills.get(&"dodge")
+	if dodge == null or dodge.dodge_messages.is_empty():
+		_errors.append("skills: 'dodge' needs dodge_messages")
+	var parry: SkillDefinition = _skills.get(&"parry")
+	if parry == null or parry.parry_messages_armed.is_empty() or parry.parry_messages_unarmed.is_empty():
+		_errors.append("skills: 'parry' needs parry_messages armed and unarmed")
 
 
 ## IDs are unique across every kind, so one ID never means two things.

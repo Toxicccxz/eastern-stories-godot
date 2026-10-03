@@ -34,7 +34,7 @@ func _test_data() -> void:
 	for id: StringName in [&"snow.npc.waiter", &"snow.npc.annihir", &"snow.npc.herbalist", &"snow.npc.smith", Master.MASTER_ID]:
 		_check(catalog.npc(id) != null, "%s has a body" % id)
 	_check(catalog.npc(&"snow.npc.waiter").dealings().vendor_id == &"snow.vendor.waiter" and catalog.npc(&"snow.npc.waiter").rank_respect == "小二哥", "店小二 sells from his body; rank_info/respect")
-	_check(catalog.npc(&"snow.npc.annihir").dealings().is_fight_deferred() and Master.definition().dealings().is_fight_deferred(), "安惜迩 and 柳淳风 cannot be fought yet (fight_deferred)")
+	_check(not catalog.npc(&"snow.npc.annihir").dealings().is_fight_deferred() and not Master.definition().dealings().is_fight_deferred(), "安惜迩 and 柳淳风 can be fought (their skills are ported)")
 	var kinds: Array[StringName] = []
 	for map_id: StringName in [&"snow.outdoor", &"snow.inn"]:
 		for service: ServiceDefinition in catalog.services_for_map(map_id):
@@ -43,8 +43,8 @@ func _test_data() -> void:
 	var teaching: NpcTeaching = Master.definition().teaching()
 	_check(teaching.family_id == &"family.fonxan" and teaching.family_generation == 13 and teaching.f_master and teaching.apprentice.requires == {&"cor": 20, &"cps": 20}, "the master's family, F_MASTER and attempt_apprentice()")
 	_check(Master.definition().short_name() == "封山剑派第十三代掌门人「风雨双侠」柳淳风", "name.c short(): assign_apprentice()'s title and his nickname")
-	_check(catalog.skill(&"literate").display_name == "读书识字" and catalog.skill(&"liuh-ken").can_enable_for(&"unarmed") and catalog.skill(&"sword") == null, "skills.json")
-	_check(NpcTeacher.teachable_skills(catalog.npc(&"snow.npc.fist_trainer"), catalog) == [&"unarmed", &"liuh-ken"], "李火狮 teaches what he has and the game defines")
+	_check(catalog.skill(&"literate").display_name == "读书识字" and catalog.skill(&"liuh-ken").can_enable_for(&"unarmed") and catalog.skill(&"fonxansword").valid_enabled_uses() == [&"sword", &"parry"], "skills.json")
+	_check(NpcTeacher.teachable_skills(catalog.npc(&"snow.npc.fist_trainer"), catalog) == [&"unarmed", &"liuh-ken", &"dodge"], "李火狮 teaches what he has and the game defines")
 	_check(NpcTeacher.teachable_skills(catalog.npc(&"snow.npc.teacher"), catalog) == [&"literate"], "魏无极 teaches literate")
 	_check(NpcTeacher.teachable_skills(catalog.npc(&"snow.npc.trainee"), catalog).is_empty() and NpcTeacher.teachable_skills(catalog.npc(&"snow.npc.guard"), catalog).is_empty(), "nobody else admits a student")
 	_check(catalog.item(&"es2:d/snow/obj/denotation").max_encumbrance == 10000, "the 功德箱 holds 10000")
@@ -258,11 +258,11 @@ func _test_shops(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	session.reset_room("d/snow/smithy.c")
 	var next: VendorService = map.service(&"snow.outdoor.smithy.smith") as VendorService
 	_check(next != null and next != forge and next.npc != smith and next.in_reach(), "the new smith sells again")
-	# 安惜迩 and 柳淳风 cannot be fought until their skills are ported.
+	# 安惜迩 can be fought (offense/defense routes; the fight itself: offense_defense_routes_test).
 	_check(_beside(map, player, &"snow.bank", &"snow.bank.annihir.1"), "in the bank")
 	map.select_npc(_npc(map, &"snow.bank.annihir.1").character_id)
 	hud.refresh_live_state()
-	_check(not hud.attack_is_enabled() and not hud.spar_is_enabled() and map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED, "no 攻击/切磋 on 安惜迩")
+	_check(hud.attack_is_enabled() and hud.spar_is_enabled(), "攻击/切磋 on 安惜迩")
 	_check(map.interaction_title() == "" or map.interaction_title().begins_with("钱庄"), "the bank is the room's, not his")
 	await tree.process_frame
 
@@ -293,7 +293,7 @@ func _test_teachers(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	_check(hud.log_lines().back() == "恭喜您成为封山剑派的第十四代弟子。", "recruit.c's congratulation")
 	map.select_npc(_npc(map, &"snow.schoolhall.master.1").character_id)
 	hud.refresh_live_state()
-	_check(not hud.attack_is_enabled() and not hud.spar_is_enabled(), "no 攻击/切磋 on 柳淳风")
+	_check(hud.attack_is_enabled() and hud.spar_is_enabled(), "攻击/切磋 on 柳淳风")
 	_check(_beside(map, player, &"snow.school2", &"snow.school2.fist_trainer.1"), "back in the yard")
 	_check(yard.request_learn(&"unarmed").success, "李火狮 teaches a 封山剑派 student")
 	await tree.process_frame
@@ -315,7 +315,7 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	_check(snapshot != null and snapshot.floor_items.size() == 3, "the save keeps the dropped coins, the drunk's wineskin and the 竹剑 below: %s" % [dropped.lines])
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
-	_check(raw.world_content_revision == "SOURCE_ENTRY_SNOW_SERVICES_V1" and raw.player.character.marks.keys() == ["魏无极"] and int(raw.player.character.marks["魏无极"]) == 1, "revision and marks/魏无极 in the save: " + str(raw.world_content_revision))
+	_check(raw.world_content_revision == "SOURCE_ENTRY_SNOW_ROUTES_V1" and raw.player.character.marks.keys() == ["魏无极"] and int(raw.player.character.marks["魏无极"]) == 1, "revision and marks/魏无极 in the save: " + str(raw.world_content_revision))
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, snapshot, "4E")
 	_check(walker._failures.is_empty(), "Save/Continue keeps dropped items, the box's coins, the scavenger's cloth, marks: " + str(walker._failures))

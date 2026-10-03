@@ -75,10 +75,10 @@ static func build_action_selection_input(
 	)
 	var primary_set: CombatActionSet = null
 	if primary != null and attacker.content.is_verified_primary(primary):
-		primary_set = attacker.content.slash_action_set()
+		primary_set = attacker.content.weapon_action_set()
 	return CombatActionSelectionInput.new(
 		not mapped_skill_id.is_empty(),
-		attacker.content.mapped_action_set(attack_skill_id, mapped_skill_id),
+		attacker.content.mapped_action_set(mapped_skill_id),
 		primary != null,
 		primary_set,
 		attacker.content.unarmed_action_set(),
@@ -107,9 +107,7 @@ static func build_attack_input(
 	var attack_skill_id: StringName = (
 		primary.skill_type if primary != null else UNARMED_SKILL_ID
 	)
-	var attack_skill_modifier: int = (
-		attacker_armor.unarmed if primary == null else 0
-	)
+	var attack_skill_modifier: int = _apply(attacker, attacker_armor, attack_skill_id)
 	var mapped_attack_id: StringName = attacker.state.skills.mapped_skill(
 		attack_skill_id
 	)
@@ -140,7 +138,7 @@ static func build_attack_input(
 			attack_skill_id,
 			attack_skill_modifier,
 		),
-		attacker_armor.attack + attacker.content.intrinsic_attack,
+		_apply(attacker, attacker_armor, &"attack"),
 		attacker.content.projected_apply_damage(primary),
 		CombatStrengthProjection.new(
 			attacker.state.attributes.strength,
@@ -152,13 +150,13 @@ static func build_attack_input(
 		(
 			CombatHitPolicyStatus.Value.NOT_APPLICABLE
 			if mapped_force_id.is_empty()
-			else CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
+			else _force_hit_policy(mapped_force_id)
 		),
 		mapped_attack_id,
 		(
 			CombatHitPolicyStatus.Value.NOT_APPLICABLE
 			if mapped_attack_id.is_empty()
-			else (CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT if approved_actions != null else CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE)
+			else _martial_hit_policy(mapped_attack_id, approved_actions)
 		),
 		(
 			CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
@@ -167,7 +165,7 @@ static func build_attack_input(
 		),
 		weapon_profile,
 		FORCE_SKILL_ID,
-		attacker.state.skills.effective_level(FORCE_SKILL_ID),
+		attacker.state.skills.effective_level(FORCE_SKILL_ID, _apply(attacker, attacker_armor, FORCE_SKILL_ID)),
 	)
 	var defender_snapshot: CombatDefenderSnapshot = CombatDefenderSnapshot.new(
 		defender.character_id,
@@ -176,19 +174,17 @@ static func build_attack_input(
 		defender.state.progression.combat_experience,
 		defender.state.spirit.current,
 		defender.state.spirit.maximum,
-		defender.state.skills.effective_level(
-			DODGE_SKILL_ID, defender_armor.dodge + defender.content.intrinsic_dodge,
-		),
-		defender.state.skills.effective_level(PARRY_SKILL_ID),
-		defender.state.skills.effective_level(UNARMED_SKILL_ID, defender_armor.unarmed),
-		defender_armor.defense,
-		defender_armor.armor + defender.content.intrinsic_armor,
+		defender.state.skills.effective_level(DODGE_SKILL_ID, _apply(defender, defender_armor, DODGE_SKILL_ID)),
+		defender.state.skills.effective_level(PARRY_SKILL_ID, _apply(defender, defender_armor, PARRY_SKILL_ID)),
+		defender.state.skills.effective_level(UNARMED_SKILL_ID, _apply(defender, defender_armor, UNARMED_SKILL_ID)),
+		_apply(defender, defender_armor, &"defense"),
+		_apply(defender, defender_armor, &"armor"),
 		not defender.state.equipment.is_primary_hand_empty(),
 		defender.content.limbs(),
 		FORCE_SKILL_ID,
-		defender.state.skills.effective_level(FORCE_SKILL_ID),
+		defender.state.skills.effective_level(FORCE_SKILL_ID, _apply(defender, defender_armor, FORCE_SKILL_ID)),
 		defender.state.recovery.inner_force.current,
-		defender_armor.armor_vs_force,
+		_apply(defender, defender_armor, &"armor_vs_force"),
 	)
 	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions)
 
@@ -262,17 +258,17 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 		CombatReverseModifierProjection.new(
 			attacker.character_id,
 			defender.character_id,
-			attacker_armor.unarmed if primary == null else 0,
-			0,
-			defender_armor.dodge + defender.content.intrinsic_dodge,
-			0,
-			defender_armor.unarmed,
-			0,
-			attacker_armor.attack + attacker.content.intrinsic_attack,
-			defender_armor.defense,
+			_apply(attacker, attacker_armor, primary.skill_type if primary != null else UNARMED_SKILL_ID),
+			_apply(attacker, attacker_armor, FORCE_SKILL_ID),
+			_apply(defender, defender_armor, DODGE_SKILL_ID),
+			_apply(defender, defender_armor, PARRY_SKILL_ID),
+			_apply(defender, defender_armor, UNARMED_SKILL_ID),
+			_apply(defender, defender_armor, FORCE_SKILL_ID),
+			_apply(attacker, attacker_armor, &"attack"),
+			_apply(defender, defender_armor, &"defense"),
 			attacker.content.projected_apply_damage(primary),
-			defender_armor.armor + defender.content.intrinsic_armor,
-			defender_armor.armor_vs_force,
+			_apply(defender, defender_armor, &"armor"),
+			_apply(defender, defender_armor, &"armor_vs_force"),
 		)
 	)
 	return CombatReverseAttackProjection.new(
@@ -288,6 +284,30 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 		defender.relationship,
 		modifier_projection,
 	)
+
+
+## query_temp("apply/<key>"): what the character's armor gives (equip.c wear()),
+## what its wielded weapon and its own create() set (CombatSliceContentProfile).
+static func _apply(binding: CombatSliceCharacterBinding, armor: ArmorNumericModifiers, key: StringName) -> int:
+	return armor.value(key) + binding.content.apply_value(key, binding.state.equipment.primary_weapon())
+
+
+## A mapped force skill that inherits std/force.c's hit_ob() (skills.json
+## standard_force_hit) takes combatd.c's force hit; any other is not ported.
+static func _force_hit_policy(mapped_force_id: StringName) -> CombatHitPolicyStatus.Value:
+	var skill: SkillDefinition = GameContent.catalog().skill(mapped_force_id)
+	if skill != null and skill.standard_force_hit:
+		return CombatHitPolicyStatus.Value.STANDARD_FORCE
+	return CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
+
+
+## combatd.c calls the mapped martial art's hit_ob(): proven absent for a skill whose
+## moves are data and that does not define one (skills.json `hit_ob`).
+static func _martial_hit_policy(mapped_attack_id: StringName, approved_actions: CombatActionSet) -> CombatHitPolicyStatus.Value:
+	var skill: SkillDefinition = GameContent.catalog().skill(mapped_attack_id)
+	if approved_actions != null and skill != null and not skill.has_own_hit_ob:
+		return CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
+	return CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
 
 
 static func find_binding(

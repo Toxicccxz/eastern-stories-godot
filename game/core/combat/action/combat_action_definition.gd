@@ -63,6 +63,20 @@ func is_valid() -> bool:
 	return not _action_id.is_empty()
 
 
+## One authored action mapping: {id, action, damage_type, damage?, force?, weapon?}.
+## The ID is `id_prefix` + id (the source file's path, e.g. es2:daemon/skill/liuh-ken/);
+## `weapon` is the action's own $w when no weapon is held. combatd.c reads no other key.
+static func from_record(reader: ContentRecordReader, id_prefix: String) -> CombatActionDefinition:
+	var action_id: StringName = StringName(id_prefix + reader.required_text("id"))
+	var definition := CombatActionDefinition.new(
+		action_id, reader.integer("damage"), reader.integer("force"),
+		StringName(reader.required_text("damage_type")), action_id,
+		reader.required_text("action"), reader.text("weapon"), &"",
+	)
+	reader.finish()
+	return definition
+
+
 func duplicate_snapshot() -> CombatActionDefinition:
 	return CombatActionDefinition.new(
 		_action_id,

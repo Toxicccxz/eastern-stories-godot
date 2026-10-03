@@ -23,6 +23,10 @@ const ARMOR_PROPERTY_KEYS: Array[String] = [
 	"armor", "armor_vs_force", "attack", "defense", "dodge", "composure", "courage",
 	"intelligence", "karma", "personality", "magic", "move", "spells", "unarmed",
 ]
+## The weapon_prop keys the mudlib sets besides damage (equip.c adds them to apply/*).
+const WEAPON_APPLY_KEYS: Array[String] = [
+	"attack", "defense", "dodge", "courage", "intelligence", "karma", "personality", "spells", "spirituality",
+]
 
 var _item_definition_id: StringName
 var _legacy_source_paths: Array[String] = []
@@ -36,9 +40,11 @@ var _material: String
 var _own_weight: int
 var _value: int
 var _no_get: bool
+var _female_only: bool
 var _max_encumbrance: int
 var _weapon_definition: WeaponDefinition
 var _weapon_damage: int
+var _weapon_apply: Dictionary[StringName, int] = {}
 var _armor_definition: ArmorDefinition
 var _stack_definition: CombinedStackDefinition
 var _currency_definition: CurrencyDefinition
@@ -68,6 +74,9 @@ var value: int:
 ## LPC set("no_get"): get.c refuses it (这个东西拿不起来。).
 var no_get: bool:
 	get: return _no_get
+## LPC set("female_only"): wear.c lets only a 女性 character wear it.
+var female_only: bool:
+	get: return _female_only
 ## feature/move.c set_max_encumbrance(): a container holds this much (put in,
 ## get from); 0 for anything that is not a container.
 var max_encumbrance: int:
@@ -76,6 +85,10 @@ var weapon_skill_type: StringName:
 	get: return &"" if _weapon_definition == null else _weapon_definition.skill_type
 var weapon_damage: int:
 	get: return _weapon_damage
+## equip.c wield(): the weapon_prop values other than damage the wielder gains as
+## apply/<key> (thin_sword.c's courage -4).
+var weapon_apply: Dictionary[StringName, int]:
+	get: return _weapon_apply.duplicate()
 var can_wield_secondary: bool:
 	get: return _weapon_definition != null and _weapon_definition.can_wield_as_secondary
 var is_two_handed: bool:
@@ -121,6 +134,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if definition._value < 0:
 		reader.fail("value", "must not be negative")
 	definition._no_get = reader.boolean("no_get", false)
+	definition._female_only = reader.boolean("female_only", false)
 	definition._max_encumbrance = reader.integer("max_encumbrance")
 	if definition._max_encumbrance < 0:
 		reader.fail("max_encumbrance", "must not be negative")
@@ -315,6 +329,11 @@ func _read_weapon(weapon: ContentRecordReader) -> void:
 				two_handed = true
 			_:
 				weapon.fail("flags", "unsupported weapon flag '%s'" % flag)
+	var apply: Dictionary[String, int] = weapon.integer_map("apply")
+	for key: String in apply:
+		if not WEAPON_APPLY_KEYS.has(key):
+			weapon.fail("apply." + key, "unsupported weapon_prop (damage is the weapon's damage)")
+		_weapon_apply[StringName(key)] = apply[key]
 	weapon.finish()
 	_weapon_definition = WeaponDefinition.new(
 		_item_definition_id, StringName(skill), secondary, two_handed, _primary_source(),

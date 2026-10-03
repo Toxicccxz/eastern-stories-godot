@@ -66,6 +66,7 @@ static func completed_cast(session: OldPineWorldSessionController, encounter_id:
 		participants.append(BattleParticipantProjection.new(
 			id, session.encounter_display_name(id), &"", id != player_id, &"",
 			none, none, none, none, none, none, 0, 0, 0, false, false, session.encounter_gender(id),
+			session.encounter_dodge_skill(id),
 		))
 	return BattlePresentationProjection.new(encounter_id, -1, player_id, &"", participants)
 

@@ -25,7 +25,7 @@ the code does not, and what each NPC cost. The data format and the importer are 
 | smithy | 王铁匠 | placed (4E); sells a hammer for 300 |
 | sroad3, sroad5, hockshop2 | — | rooms only |
 | inn_2f | 老鼠 ×6 | placed (4C), upstairs map; 房门 to n_room, e_room, w_room |
-| nyard | 柳绘心 | waits for the 封山剑法/乱七星步 package (sword maps to fonxansword) |
+| nyard | 柳绘心 | placed (offense/defense A); refuses every spar |
 | weapon_storage | 竹剑 | on the floor (4C); the shelf opens the way down |
 | secret_storage | 牛皮盾 | on the floor (4C), cellar map |
 | n_room, e_room, w_room, inneryard, innerhall, guestroom | — | rooms only |
@@ -177,3 +177,17 @@ Time (4E, agent wall clock, about 2.5 hours from the branch to a full local test
 reading and planning): the importer and the override data ~15, give/drop/put/get-from and their
 save ~45, NPC-bound services and teachers as data ~35, the new suite ~15, the suites that counted
 Snow's NPCs, items and draws or used the old teacher ~40.
+
+Offense/defense routes A (2026-10-03) made skill moves, weapon verbs and NPC internal power data;
+柳淳风 and 安惜迩 became fightable without new fields, 柳绘心 was data once her skills existed.
+
+| NPC | Tier | Fields from LPC | Overrides | Findings decided | Spawn markers | Needed first |
+|---|---|---|---|---|---|---|
+| 柳绘心 girl | data + accept_fight | 14 | 1 | 3 | 1 | fonxansword, chaos-steps, female_only |
+| 安惜迩 banker | fought; spar → kill | 14 | 1 | 9 | — | accept_fight `kill`, celestial's force hit |
+| 柳淳风 master | fought | 18 | 1 | 4 | — | fonxansword, chaos-steps |
+
+Time (agent wall clock, about 3 hours from the branch to the windowed walk, after ~45 of reading
+and planning): moves, verbs and dodge lines as data ~40, apply/* and NPC internal power ~30, the
+spar-to-kill and 柳绘心 ~25, the importer ~15, the new suite ~20, old suites that assumed one
+punch and one slash ~40, the walk ~30.

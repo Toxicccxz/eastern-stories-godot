@@ -86,7 +86,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(coordinator.active_encounter())
 	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, npc.character_id)
 	_eq(binding.content.limbs().size(), 3, "Beast profile, not human limbs")
-	_eq(binding.content.intrinsic_armor, 90, "Beast intrinsic armor")
+	_eq(binding.content.apply_value(&"armor", null), 90, "Beast intrinsic armor")
 	# Accelerated typed boundary is automated evidence only, never live proof.
 	coordinator.advance_scheduler(300.0)
 	var bite_seen: bool = false
@@ -105,7 +105,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 		print("BF4 deterministic proof: ", qa.evidence())
 		_eq(qa.proof_random.valid, true, "all scripted draws legal; no exhaustion")
 		_eq(qa.proof_random.draws.size(), 16, "exact predetermined draw count")
-		_eq(qa.proof_random.bounds, [60, 1, 16, 572000, 120, 18, 1, 3, 670500, 250001, 25, 200, 250000, 112, 120, 1799], "source-ordered courage/action/limb/dodge/progression then ordinary hit bounds")
+		_eq(qa.proof_random.bounds, [60, 1, 16, 572000, 120, 18, 3, 3, 670500, 250001, 25, 200, 250000, 112, 120, 1799], "source-ordered courage/action/limb/dodge/progression then ordinary hit bounds")
 		_eq(qa.proof_random.draws, [0, 0, 0, 0, 0, 0, 0, 0, 670499, 250000, 0, 0, 0, 91, 0, 1798], "fixed draws, not seeded retries")
 		var lethal: CombatAttackResult = scheduler.events()[1].resolution.forward_result.ordinary_attack_result.base_result
 		_eq(lethal.calculation.requested_damage, 112, "LPC (25+0)/2 + (200+0)/2")

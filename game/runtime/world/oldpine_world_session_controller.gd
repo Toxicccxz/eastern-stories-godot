@@ -463,6 +463,14 @@ func encounter_gender(character_id: StringName) -> StringName:
 	return &"" if npc == null else npc.character_state.gender
 
 
+## Content presentation lookup: the skill dodge is mapped to (whose lines a dodge reads).
+func encounter_dodge_skill(character_id: StringName) -> StringName:
+	if _player != null and character_id == _player.character_id:
+		return _player.state.skills.mapped_skill(&"dodge")
+	var npc: NpcRuntimeState = _find_resident_npc(character_id)
+	return &"" if npc == null else npc.character_state.skills.mapped_skill(&"dodge")
+
+
 func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
 	var map: WorldResidentMapController = active_map()
 	return null if map == null else map.encounter_skill_effect_registry()

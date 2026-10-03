@@ -184,6 +184,15 @@
 			"points": ["snow.herbshop.herbalist.1"],
 			"legacy_room": "d/snow/herbshop.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.nyard.girl",
+			"npc": "snow.npc.girl",
+			"map": "snow.outdoor",
+			"zone": "snow.nyard",
+			"points": ["snow.nyard.girl.1"],
+			"legacy_room": "d/snow/nyard.c",
+			"legacy_quantity": 1
 		}
 	]
 }

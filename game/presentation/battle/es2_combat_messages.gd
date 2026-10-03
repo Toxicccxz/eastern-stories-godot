@@ -27,37 +27,22 @@ const WINNER: Array[String] = [
 const QUICK_COUNTER: String = "$N一击不中，露出了破绽！"
 const RIPOSTE_COUNTER: String = "$N见$n攻击失误，趁机发动攻击！"
 
-## daemon/skill/dodge.c dodge_msg, the table for "dodge" and for an unmapped dodge.
-const DODGE: Array[String] = [
-	"但是和$p$l偏了几寸。",
-	"但是被$p机灵地躲开了。",
-	"但是$n身子一侧，闪了开去。",
-	"但是被$p及时避开。",
-	"但是$n已有准备，不慌不忙的躲开。",
-]
-
-## daemon/skill/parry.c, chosen by the attacker's weapon.
-const PARRY_ARMED: Array[String] = [
-	"只听见「锵」一声，被$p格开了。",
-	"结果「当」地一声被$p挡开了。",
-	"但是被$n用手中兵刃架开。",
-	"但是$n身子一侧，用手中兵刃格开。",
-]
-const PARRY_UNARMED: Array[String] = [
-	"但是被$p格开了。",
-	"结果被$p挡开了。",
-]
+## SKILL_D(dodge_skill)->query_dodge_msg(): the mapped dodge skill's lines
+## (skills.json), combatd.c falling back to "dodge" when none is mapped. A mapped
+## skill without lines of its own reads dodge.c's.
+static func dodge_messages(dodge_skill_id: StringName) -> Array[String]:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var skill: SkillDefinition = catalog.skill(dodge_skill_id) if not dodge_skill_id.is_empty() else null
+	if skill != null and not skill.dodge_messages.is_empty():
+		return skill.dodge_messages.duplicate()
+	return catalog.skill(&"dodge").dodge_messages.duplicate()
 
 
-## SKILL_D(dodge_skill)->query_dodge_msg(). Only dodge.c is ported: no content
-## maps dodge to another skill yet, and combatd.c falls back to "dodge".
-static func dodge_messages(_dodge_skill_id: StringName) -> Array[String]:
-	return DODGE
-
-
-## SKILL_D("parry")->query_parry_msg(weapon), weapon being the attacker's.
+## SKILL_D("parry")->query_parry_msg(weapon), weapon being the attacker's: combatd.c
+## always asks parry.c, whatever parry is mapped to.
 static func parry_messages(attacker_armed: bool) -> Array[String]:
-	return PARRY_ARMED if attacker_armed else PARRY_UNARMED
+	var parry: SkillDefinition = GameContent.catalog().skill(&"parry")
+	return (parry.parry_messages_armed if attacker_armed else parry.parry_messages_unarmed).duplicate()
 
 
 ## combatd.c damage_msg(damage, type). "□伤" is the source's own case label

@@ -11,14 +11,17 @@ var gender: StringName
 var emote: String
 var say: String
 var accept: bool
+## The NPC answers with kill_ob() (annihir.c): the spar becomes its kill.
+var kill: bool
 
 
-func _init(p_family_id: StringName = &"", p_gender: StringName = &"", p_emote: String = "", p_say: String = "", p_accept: bool = false) -> void:
+func _init(p_family_id: StringName = &"", p_gender: StringName = &"", p_emote: String = "", p_say: String = "", p_accept: bool = false, p_kill: bool = false) -> void:
 	family_id = p_family_id
 	gender = p_gender
 	emote = p_emote
 	say = p_say
 	accept = p_accept
+	kill = p_kill
 
 
 func matches(challenger_family_id: StringName, challenger_gender: StringName) -> bool:
