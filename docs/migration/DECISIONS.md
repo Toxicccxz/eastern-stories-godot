@@ -1,5 +1,25 @@
 # Migration Decisions
 
+## Offense/defense routes A: moves as data, apply/* in combat, 柳淳风 and 安惜迩 fought (2026-10-03)
+
+Owner-approved plan (two PRs; this is the first):
+- Skill moves, dodge.c/chaos-steps lines and parry.c lines are skills.json data
+  (`liuh_ken_definition.gd` is gone); a move's `dodge`/`parry` stay in the LPC (D-SMP2-05). A
+  skill with its own hit_ob() is marked `hit_ob` and stops the fight (not ported).
+- A weapon without a mapped skill draws its kind's verbs (weapond.c, std/weapon/*.c); hammers,
+  staffs and throwing weapons keep `slash` until weapond.c's post_action is ported. Unarmed
+  humans draw race/human.c's five moves.
+- Every apply/* reaches combat: armor_prop, the primary weapon's weapon_prop (a secondary
+  weapon's is not added yet) and the NPC's own set_temp, for any race.
+- NPC internal power (force/atman/mana, force_factor) as create() sets it; race/human.c's
+  quarter to max gin/kee/sen. fonxanforce and celestial take std/force.c's force hit; its
+  reflection line is not narrated yet (needs an unarmed attacker).
+- 安惜迩's accept_fight() answers with kill_ob(): he fights to kill, the challenger only fights
+  back, so an unconscious 安惜迩 ends it. 柳绘心 refuses every spar; wear.c female_only.
+- **Owner:** combat talk with perform/cast/exert waits for its own package (柳淳风's and 柳绘心's
+  sword.counterattack, 安惜迩's spells): they fight weaker than in ES2.
+- Revision `SOURCE_ENTRY_SNOW_ROUTES_V1`: older development saves need a New Game.
+
 ## Localization: the source text is the key (2026-10-03)
 
 Package 5, owner-approved; rules and how to add a language: [LOCALIZATION](../production/LOCALIZATION.md).

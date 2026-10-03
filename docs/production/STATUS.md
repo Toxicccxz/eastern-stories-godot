@@ -4,15 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Package 5, localization foundation** (`phase/localization-foundation`): Simplified Chinese is
-the source language and every player text goes through a translation; the template
-(`game/locale/eastern_stories.pot`) is extracted from scripts, scenes and content; the
-language follows the system or Settings (语言; only 简体中文 so far);
-a pseudo-locale run of Snow's main path fails on any untranslated text on screen. No
-translations yet. How to write text and add a language: [LOCALIZATION](LOCALIZATION.md).
+**Offense/defense routes, PR A** (`phase/offense-defense-routes`): sword, parry, dodge, 封山剑法
+and 倒乱七星步法 with their moves and dodge lines as data (skills.json), weapons and bare hands
+drawing ES2's verbs, every `apply/*` bonus in combat, NPC internal power; 柳淳风 and 安惜迩 can
+be fought (a spar with 安惜迩 becomes his kill) and 柳绘心 stands in the study.
 
-Next: the second region and its family, or the offense/defense routes (see
-[ROADMAP](ROADMAP.md)). Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
+Next: PR B of the same package — the player's route: learn force/fonxanforce, enable anywhere
+outside a fight, exercise to max_force 50, then learn and practice 封山剑法/倒乱七星步法, and
+self-learning. Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
@@ -23,11 +22,12 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   west-side shops, 淳风武馆 with its inner rooms and weapon storage, and the secret storage below
   (37 of 38 rooms; 药铺密室 has no entrance); items on the floor to pick up; Work income; physical coins/silver/gold and Bank exchange; Inn food/drink;
   herbshop (金疮药) and smithy (铁锤) bought from their keepers; Hockshop value/sell and its
-  storage room; apprenticeship with 柳淳风 and learning basic unarmed, Liuh-Ken (柳家拳) and literate
-  from 柳淳风, 李火狮 (封山剑派 students) and 魏无极 (after five taels of tuition); give, drop and put
-  (the 功德箱 takes donations and gives them back); thirty-two NPCs (19 types) to look at, ask
-  (打听), fight or spar (切磋) — not 柳淳风 and 安惜迩 yet — with their ES2 gear and loot (the
-  crazy dog on the west road attacks); dogs, the scavenger, the woodcutter and the crazy dog talk
+  storage room; apprenticeship with 柳淳风 and learning basic unarmed, sword, parry, dodge and
+  force, Liuh-Ken (柳家拳), 封山派内功 and literate from 柳淳风, 李火狮 (封山剑派 students) and 魏无极
+  (after five taels of tuition); give, drop and put (the 功德箱 takes donations and gives them
+  back); thirty-three NPCs (20 types) to look at, ask (打听), fight or spar (切磋) with their ES2
+  gear and loot (the crazy dog on the west road attacks; a spar with 安惜迩 becomes his kill;
+  柳绘心 refuses); dogs, the scavenger, the woodcutter and the crazy dog talk
   and wander next door while you are with them; the drunk drinks and begs for wine; the temple
   keeper and the waiter greet you; NPCs heal between fights and come to after being knocked
   out; no fighting in the temple or the workplace (`no_fight`).
@@ -40,32 +40,35 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
+* Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
+  封山剑法), dodges read the mapped dodge skill's lines (倒乱七星步法); armor, weapon and NPC
+  `apply/*` bonuses and NPC internal power count.
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Rough coverage of ES2 content: about 7% (68/502 rooms, 23/240 NPC types, 3/70 player-obtainable
+Rough coverage of ES2 content: about 7% (68/502 rooms, 24/240 NPC types, 8/70 player-obtainable
 skills, 1/13 families, 0 quests).
 
 ## Known issues
 
 Code:
 
-* `apply/parry`, `apply/defense` and weapon-skill `apply/*` bonuses are not projected into combat.
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The travellers stay in the Inn
   (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
-  corpses of NPCs that came back stay. 柳绘心 (the study) and 桃符纸 (the temple) are not placed:
-  she needs 封山剑法/乱七星步, the seals combined items; 柳淳风 and 安惜迩 cannot be fought for the
-  same reason. 金疮药 cannot be applied yet, and NPCs never flee a losing fight (`wimpy`) nor talk
-  in one. Every weapon attacks with one "slash" action and humans punch; ES2's per-weapon verbs
-  are not modelled yet. Wine makes nobody drunk yet (conditions); the dog takes no bone (no
+  corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: the seals are combined
+  items. 金疮药 cannot be applied yet, and NPCs never flee a losing fight (`wimpy`) nor talk in
+  one, nor use perform/cast/exert (柳淳风's, 柳绘心's and 安惜迩's specials; owner: own package).
+  Hammers and staffs still attack with "slash" (weapond.c's bash post_action). Wine makes nobody
+  drunk yet (conditions); the dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
 * Practice, self-learning, exercise (cultivation) and conditions exist in Core but have no runtime
-  caller.
-* Skill combat actions are still GDScript (`liuh_ken_definition.gd`). A zone that merges several
-  rooms shows only its first room's text.
+  caller (PR B). Enabling is only offered in a teacher's panel, for a skill's first use, and does
+  not yet reset force (enable.c).
+  封山剑法/倒乱七星步法 need max_force 50, which nothing can raise yet.
+* A zone that merges several rooms shows only its first room's text.
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
   names although they now cover every map; pre-B2 Old Pine regression suites drive combat through
   a test-only manual cadence (`historical_world_combat_fixture.gd`).
