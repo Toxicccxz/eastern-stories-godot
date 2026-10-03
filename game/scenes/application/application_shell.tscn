@@ -86,7 +86,7 @@ theme_override_constants/separation = 18
 [node name="Title" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
-text = "Eastern Stories"
+text = "东方故事"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
@@ -98,7 +98,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-text = "Checking saved journey..."
+text = "正在检查存档……"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -107,27 +107,27 @@ autowrap_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "New Game"
+text = "新游戏"
 
 [node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 disabled = true
-text = "Continue"
+text = "继续"
 
 [node name="RecoveryButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 disabled = true
-text = "Recovery"
+text = "恢复存档"
 
 [node name="MenuSettingsButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Settings"
+text = "设置"
 
 [node name="NewGameSetupPanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -160,13 +160,13 @@ theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-text = "New Journey"
+text = "新的旅程"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 28
 
 [node name="NameLabel" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-text = "姓名 / Name"
+text = "姓名"
 
 [node name="PlayerNameEdit" type="LineEdit" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -177,7 +177,7 @@ expand_to_text_length = false
 
 [node name="GenderLabel" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-text = "性别 / Gender"
+text = "性别"
 
 [node name="GenderRow" type="HBoxContainer" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
@@ -208,13 +208,13 @@ autowrap_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "Start Journey"
+text = "开始旅程"
 
 [node name="SetupCancelButton" type="Button" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "Cancel"
+text = "取消"
 
 [node name="PausePanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -254,39 +254,39 @@ theme_override_constants/separation = 16
 [node name="Title" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Paused"
+text = "暂停"
 horizontal_alignment = 1
 
 [node name="LifecycleInfo" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "Paused while the app was away. Save manually before leaving to keep recent progress."
+text = "游戏在后台时暂停了。离开前请手动存档，以免丢失最近的进度。"
 autowrap_mode = 2
 
 [node name="ResumeButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Resume"
+text = "继续游戏"
 
 [node name="SaveButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Save"
+text = "存档"
 
 [node name="PauseSettingsButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Settings"
+text = "设置"
 
 [node name="ReturnButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Return to Main Menu"
+text = "返回主菜单"
 
 [node name="SettingsPanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -326,7 +326,7 @@ theme_override_constants/separation = 16
 [node name="Title" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Settings"
+text = "设置"
 horizontal_alignment = 1
 
 [node name="WindowModeRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
@@ -337,10 +337,26 @@ theme_override_constants/separation = 16
 [node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Window Mode"
+text = "窗口模式"
 vertical_alignment = 1
 
 [node name="WindowModeOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+
+[node name="LanguageRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "语言"
+vertical_alignment = 1
+
+[node name="LanguageOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 48)
 layout_mode = 2
@@ -362,13 +378,13 @@ theme_override_constants/separation = 12
 unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 48)
 layout_mode = 2
-text = "Apply"
+text = "应用"
 
 [node name="SettingsCancelButton" type="Button" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 48)
 layout_mode = 2
-text = "Cancel"
+text = "取消"
 
 [node name="RecoveryPanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -408,12 +424,12 @@ theme_override_constants/separation = 16
 [node name="Title" type="Label" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Recover Journey"
+text = "恢复存档"
 horizontal_alignment = 1
 
 [node name="Description" type="Label" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-text = "Choose a validated recovery candidate. Nothing is selected automatically."
+text = "请选择一份检查过的存档来恢复。游戏不会替你选择。"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -421,25 +437,25 @@ autowrap_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Previous completed save"
+text = "上一次完整的存档"
 
 [node name="TempRecoveryButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Interrupted save candidate"
+text = "存档中断时留下的存档"
 
 [node name="RecoveryNewGameButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Start New Game"
+text = "开始新游戏"
 
 [node name="RecoveryCancelButton" type="Button" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Cancel"
+text = "取消"
 
 [node name="BusyOverlay" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -464,7 +480,7 @@ grow_vertical = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Checking saved journey..."
+text = "正在检查存档……"
 
 [node name="ResultOverlay" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -517,18 +533,18 @@ theme_override_constants/separation = 12
 [node name="ConfirmButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Start New Game"
+text = "开始新游戏"
 
 [node name="CancelButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Cancel"
+text = "取消"
 
 [node name="AcknowledgeButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "OK"
+text = "确定"
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]

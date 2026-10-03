@@ -88,17 +88,17 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_snapshot_and_repository() -> void:
 	var defaults: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
 	_assert_true(defaults.is_valid(), "default settings snapshot is valid")
-	_assert_eq(defaults.version(), 1, "settings schema is v1")
+	_assert_eq(defaults.version(), 2, "settings schema is v2 (the language)")
 	_assert_eq(defaults.window_mode(), ApplicationWindowMode.Value.WINDOWED, "desktop-safe default is Windowed")
-	_assert_false(ApplicationSettingsSnapshot.new(2).is_valid(), "unsupported snapshot version rejects")
-	_assert_false(ApplicationSettingsSnapshot.new(1, 99).is_valid(), "unknown window mode rejects")
+	_assert_false(ApplicationSettingsSnapshot.new(3).is_valid(), "unsupported snapshot version rejects")
+	_assert_false(ApplicationSettingsSnapshot.new(2, 99).is_valid(), "unknown window mode rejects")
 
 	var files := MemoryFiles.new()
 	var repository := ApplicationSettingsRepository.new(files)
 	_assert_eq(repository.storage_path(), "user://settings/application-v1.cfg", "settings path is fixed and separate")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.NO_SETTINGS, "missing settings defaults")
 	var write: ApplicationSettingsResult = repository.write(
-		ApplicationSettingsSnapshot.new(1, ApplicationWindowMode.Value.FULLSCREEN)
+		ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION, ApplicationWindowMode.Value.FULLSCREEN)
 	)
 	_assert_true(write.succeeded(), "valid settings write succeeds")
 	var loaded: ApplicationSettingsResult = repository.load()
@@ -107,7 +107,7 @@ func _test_snapshot_and_repository() -> void:
 
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "not a cfg [".to_utf8_buffer()
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "malformed ConfigFile rejects")
-	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(2, "windowed")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(3, "windowed")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION, "unknown schema rejects distinctly")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(1, "borderless")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "unknown enum rejects")
@@ -502,7 +502,7 @@ func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
 	shell.window_mode_option.select(1)
 	_assert_false(shell.apply_settings(), "UI exposes persistence failure instead of false success")
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.SETTINGS, "write failure stays in Settings")
-	_assert_true(shell.settings_status_label.text.contains("applied for this run"), "write failure explains effective unsaved value")
+	_assert_true(shell.settings_status_label.text.contains("本次运行中生效"), "write failure explains effective unsaved value")
 	_assert_true(shell.runtime_host().current_session() == null, "settings write failure creates no Session")
 	shell.cancel_settings()
 	_assert_true(shell.continue_enabled(), "settings write failure cannot disable Continue")
@@ -527,7 +527,7 @@ func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
 	shell.window_mode_option.select(0)
 	_assert_false(shell.apply_settings(), "UI reports runtime apply failure")
 	_assert_eq(shell.window_mode_option.get_selected_id(), ApplicationWindowMode.Value.FULLSCREEN, "failed apply restores effective selection")
-	_assert_true(shell.settings_status_label.text.contains("could not be applied"), "runtime failure has distinct product message")
+	_assert_true(shell.settings_status_label.text.contains("无法切换窗口模式"), "runtime failure has distinct product message")
 	_free_node(shell)
 	await tree.process_frame
 

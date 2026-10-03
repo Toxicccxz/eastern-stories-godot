@@ -134,8 +134,8 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	panel.inspect_requested.emit(short_id)
 	_assert_true(panel.inspection_display().contains("短剑"), "typed Inspect renders authored short name")
 	_assert_true(panel.inspection_display().contains("粗制滥造的短剑"), "typed Inspect renders authored short description")
-	_assert_true(panel.inspection_display().contains("Skill: sword"), "typed Inspect renders sword category fact")
-	_assert_true(panel.inspection_display().contains("Damage: 15"), "typed Inspect renders authored damage 15")
+	_assert_true(panel.inspection_display().contains("兵器：剑"), "typed Inspect renders sword category fact")
+	_assert_true(panel.inspection_display().contains("伤害：15"), "typed Inspect renders authored damage 15")
 	_assert_eq(operation_random.calls, 0, "Inventory open and Inspect consume zero Combat RNG")
 
 	panel.wield_requested.emit(short_id)
@@ -229,7 +229,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 	var stale_wield_button: Button = _row_action_button(
 		controller.session.shared_ui().inventory_panel,
 		"短剑",
-		"Wield",
+		"装备",
 	)
 	_assert_true(stale_wield_button != null, "live short row exposes one bound Wield button")
 	var world_destination: InventoryTransferDestination = InventoryTransferDestination.new(
@@ -267,7 +267,7 @@ func _test_stale_dynamic_rows_revalidate_live_authority(
 	var stale_unwield_button: Button = _row_action_button(
 		controller.session.shared_ui().inventory_panel,
 		"长剑",
-		"Unwield",
+		"放下",
 	)
 	_assert_true(stale_unwield_button != null, "live primary row exposes one bound Unwield button")
 	_assert_true(

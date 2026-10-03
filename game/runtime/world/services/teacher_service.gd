@@ -53,7 +53,7 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 	if not can_teach() or not takes_apprentices():
 		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		_say([tr("你必须先把%s弄醒。") % display_name()])
+		_say([tr("你必须先把%s弄醒。") % tr(display_name())])
 		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var outcome: NpcApprenticeship.Outcome = player.request_apprenticeship(

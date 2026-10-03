@@ -22,4 +22,7 @@ func rich_text() -> String:
 	var escaped: String = _text.replace("[", "[lb]")
 	if not has_damage:
 		return escaped
-	return "%s [color=#8b959e][font_size=12]（-%d）[/font_size][/color]" % [escaped, _damage]
+	# TRANSLATORS: a battle log line ({line}) and the damage behind it, shown small and grey.
+	return TranslationServer.translate("{line} [color=#8b959e][font_size=12]（-{damage}）[/font_size][/color]").format({
+		"line": escaped, "damage": _damage,
+	})

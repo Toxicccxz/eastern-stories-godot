@@ -141,7 +141,9 @@ static func _target(event: CombatEncounterEvent, projection: BattlePresentationP
 	var lines: Array[BattleNarrationLine] = []
 	if event.actor_id == projection.player_id and not event.current_target_id.is_empty():
 		var template: String = "你的目标是%s。" if event.previous_target_id.is_empty() else "你把目标转向%s。"
-		lines.append(BattleNarrationLine.new(TranslationServer.translate(template) % projection.display_name(event.current_target_id)))
+		lines.append(BattleNarrationLine.new(
+			TranslationServer.translate(template) % TranslationServer.translate(projection.display_name(event.current_target_id))
+		))
 	return lines
 
 

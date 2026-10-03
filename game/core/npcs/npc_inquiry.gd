@@ -75,52 +75,61 @@ static func ask(
 		return lines
 	var name: String = npc_definition.display_name
 	var key: String = asked_key(npc_definition, topic)
-	var npc_respect: String = RankWords.query_respect(npc_gender, npc_age, &"", npc_definition.rank_respect)
+	# Lines are put together in the shown language; `name`, `key` and `topic` stay as
+	# authored for the matching below.
+	var npc: String = _t(name)
+	var npc_respect: String = _t(RankWords.query_respect(npc_gender, npc_age, &"", npc_definition.rank_respect))
 	# inquiryd.c parse_inquiry(), else ask.c's own line.
 	match key:
 		"name", NAME:
-			lines.append("你向%s问道：敢问%s尊姓大名？" % [name, npc_respect])
+			lines.append(_t("你向{npc}问道：敢问{respect}尊姓大名？").format({"npc": npc, "respect": npc_respect}))
 		"here", HERE:
-			lines.append("你向%s问道：这位%s，%s初到贵宝地，不知这里有些什麽风土人情？" % [
-				name, npc_respect, RankWords.query_self(asker.gender, asker.age, asker.class_id),
-			])
+			lines.append(_t("你向{npc}问道：这位{respect}，{self}初到贵宝地，不知这里有些什麽风土人情？").format({
+				"npc": npc, "respect": npc_respect, "self": _t(RankWords.query_self(asker.gender, asker.age, asker.class_id)),
+			}))
 		"rumors", RUMORS:
-			lines.append("你向%s问道：这位%s，不知最近有没有听说什麽消息？" % [name, npc_respect])
+			lines.append(_t("你向{npc}问道：这位{respect}，不知最近有没有听说什麽消息？").format({"npc": npc, "respect": npc_respect}))
 		_:
-			lines.append("你向%s打听有关『%s』的消息。" % [name, topic])
+			lines.append(_t("你向{npc}打听有关『{topic}』的消息。").format({"npc": npc, "topic": _t(topic)}))
 	if not conscious:
-		lines.append("但是很显然的，%s现在的状况没有办法给你任何答覆。" % name)
+		lines.append(_t("但是很显然的，%s现在的状况没有办法给你任何答覆。") % npc)
 		return lines
 	var talk: NpcTalk = npc_definition.talk()
 	var answer: PackedStringArray = talk.answer(key, asker.kee_percent)
 	# An answer function that returns 0 leaves ask.c to its own lines.
 	if talk.has_answer(key) and not (answer.is_empty() and talk.answers_by_kee(key)):
-		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
+		var asker_respect: String = _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id))
 		for text: String in answer:
-			lines.append("%s说道：%s" % [name, NpcTalk.line(text).replace("$RESPECT", asker_respect)])
+			lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(text).replace("$RESPECT", asker_respect)}))
 		return lines
 	if key == name or key == "name" or key == NAME:
 		match npc_definition.attitude:
 			NpcDefinition.Attitude.AGGRESSIVE:
-				lines.append("%s对你把眼一瞪：%s的名字是可以随便提的吗？！我看你这%s是活腻了！" % [
-					name, RankWords.query_self_rude(npc_gender, npc_age, &""),
-					RankWords.query_rude(asker.gender, asker.age, asker.class_id),
-				])
+				lines.append(_t("{npc}对你把眼一瞪：{self}的名字是可以随便提的吗？！我看你这{rude}是活腻了！").format({
+					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, &"")),
+					"rude": _t(RankWords.query_rude(asker.gender, asker.age, asker.class_id)),
+				}))
 			NpcDefinition.Attitude.HEROISM:
-				lines.append("%s对你哈哈一笑：%s便是%s！" % [name, name, RankWords.query_self_rude(npc_gender, npc_age, &"")])
+				lines.append(_t("{npc}对你哈哈一笑：{npc}便是{self}！").format({
+					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, &"")),
+				}))
 			_:
 				# The EMOTE_D "sigh" that follows prints nothing: data/emoted.o is not in the mudlib.
-				lines.append("%s对你作了一揖：这位%s可真会开玩笑，怎么会突然问起%s的名字？" % [
-					name, RankWords.query_respect(asker.gender, asker.age, asker.class_id),
-					RankWords.query_self(npc_gender, npc_age, &""),
-				])
+				lines.append(_t("{npc}对你作了一揖：这位{respect}可真会开玩笑，怎么会突然问起{self}的名字？").format({
+					"npc": npc, "respect": _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id)),
+					"self": _t(RankWords.query_self(npc_gender, npc_age, &"")),
+				}))
 		return lines
 	if key == "here" or key == HERE:
-		lines.append("%s对你说道：这里是%s，至于其它的，%s不便多说。" % [
-			name, room_short, RankWords.query_self(npc_gender, npc_age, &""),
-		])
+		lines.append(_t("{npc}对你说道：这里是{place}，至于其它的，{self}不便多说。").format({
+			"npc": npc, "place": _t(room_short), "self": _t(RankWords.query_self(npc_gender, npc_age, &"")),
+		}))
 		return lines
 	var drawn: int = random.legacy_random(DUNNO.size())
 	if drawn >= 0 and drawn < DUNNO.size():
-		lines.append(DUNNO[drawn] % name)
+		lines.append(_t(DUNNO[drawn]) % npc)
 	return lines
+
+
+static func _t(text: String) -> String:
+	return TranslationServer.translate(text)

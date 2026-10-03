@@ -68,7 +68,11 @@ func _process(_delta: float) -> void:
 				_select.select(_select.item_count - 1)
 	for i: int in range(_ids.size()):
 		var state: LiquidState = _session.liquid_collection().state(_ids[i])
-		_select.set_item_text(i, "%s #%d · %s · %d/%d份" % [_item_name(_ids[i]), i + 1, LiquidState.content_name(state.content), state.remaining, _maximum_portions(_ids[i])])
+		# TRANSLATORS: one container the player carries: its name, which one, what it holds and the portions left of the most it holds.
+		_select.set_item_text(i, tr("{item} #{index} · {liquid} · {portions}/{maximum}份").format({
+			"item": tr(_item_name(_ids[i])), "index": i + 1, "liquid": tr(LiquidState.content_name(state.content)),
+			"portions": state.remaining, "maximum": _maximum_portions(_ids[i]),
+		}))
 	_drink.disabled = _ids.is_empty()
 	if not _ids.is_empty():
 		_drink.text = "饮用（酒精暂未开放）" if _session.liquid_collection().state(_selected_id()).content == LiquidState.Content.RED_WINE else "喝一份清水"
@@ -100,31 +104,32 @@ func _use(fill: bool) -> LiquidUseResult:
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), _session.inventory_state(), _session.stack_collection(), _session.item_instance_index())
 	var definitions: NativeItemDefinitionProjections = GameContent.catalog().native_item_projections()
 	var encounter: bool = _session.combat_encounter_coordinator().has_active_encounter()
-	var vessel: String = _item_name(_selected_id())
+	var vessel: String = tr(_item_name(_selected_id()))
 	var held: LiquidState = _session.liquid_collection().state(_selected_id())
-	var liquid_name: String = "" if held == null else LiquidState.content_name(held.content)
+	var liquid_name: String = "" if held == null else tr(LiquidState.content_name(held.content))
+	var words: Dictionary = {"container": vessel, "liquid": liquid_name}
 	last_result = HeldLiquidUseService.fill(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), _session.fill_water_available(), encounter) if fill else HeldLiquidUseService.drink(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), encounter)
 	# feature/liquid.c do_drink() and do_fill(), in their words.
 	match last_result.outcome:
 		LiquidUseResult.Outcome.FILLED:
 			_feedback.text = tr("你将%s装满清水。") % vessel
 			if last_result.remaining_before > 0:
-				_feedback.text = tr("你将%s里剩下的%s倒掉。") % [vessel, liquid_name] + "\n" + _feedback.text
+				_feedback.text = "\n".join([tr("你将{container}里剩下的{liquid}倒掉。").format(words), _feedback.text])
 		LiquidUseResult.Outcome.DRANK:
-			_feedback.text = tr("你拿起%s咕噜噜地喝了几口%s。") % [vessel, liquid_name]
+			_feedback.text = tr("你拿起{container}咕噜噜地喝了几口{liquid}。").format(words)
 			if last_result.remaining_after == 0:
-				_feedback.text += "\n" + tr("你已经将%s里的%s喝得一滴也不剩了。") % [vessel, liquid_name]
+				_feedback.text = "\n".join([_feedback.text, tr("你已经将{container}里的{liquid}喝得一滴也不剩了。").format(words)])
 		LiquidUseResult.Outcome.ALCOHOL_DEFERRED:
 			_feedback.text = "酒精饮用暂未开放；请到瀑布或水潭取水点换装清水。"
 		LiquidUseResult.Outcome.TOO_FULL:
-			_feedback.text = tr("你已经喝太多了，再也灌不下一滴水了。")
+			_feedback.text = "你已经喝太多了，再也灌不下一滴水了。"
 		LiquidUseResult.Outcome.EMPTY:
 			# liquid.c has no full stop on this line.
 			_feedback.text = tr("%s已经被喝得一滴也不剩了") % vessel
 		LiquidUseResult.Outcome.NO_WATER_SOURCE:
-			_feedback.text = tr("这里没有地方可以装水。")
+			_feedback.text = "这里没有地方可以装水。"
 		LiquidUseResult.Outcome.BUSY:
-			_feedback.text = tr("你上一个动作还没有完成。")
+			_feedback.text = "你上一个动作还没有完成。"
 		LiquidUseResult.Outcome.COMBAT_BLOCKED:
 			_feedback.text = "战斗中暂不能装水或饮用。"
 		LiquidUseResult.Outcome.AUTHORITY_FAILURE:

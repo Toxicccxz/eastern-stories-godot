@@ -133,7 +133,7 @@ func _build_controls() -> void:
 	_pause = Button.new()
 	_pause.name = "TouchPause"
 	_pause.text = "Ⅱ"
-	_pause.tooltip_text = "Pause"
+	_pause.tooltip_text = "暂停"
 	_pause.custom_minimum_size = Vector2(64, 64)
 	_pause.add_theme_font_size_override("font_size", 24)
 	_pause.focus_mode = Control.FOCUS_NONE

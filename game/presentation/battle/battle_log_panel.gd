@@ -21,7 +21,7 @@ func _ready() -> void:
 	var content := VBoxContainer.new()
 	panel.add_child(content)
 	var title := Label.new()
-	title.text = tr("战斗记录")
+	title.text = "战斗记录"
 	content.add_child(title)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
@@ -30,7 +30,7 @@ func _ready() -> void:
 	content.add_child(_text)
 	close_button = Button.new()
 	close_button.name = "CloseLog"
-	close_button.text = tr("关闭")
+	close_button.text = "关闭"
 	close_button.custom_minimum_size = Vector2(64, 64)
 	close_button.pressed.connect(close_log)
 	content.add_child(close_button)

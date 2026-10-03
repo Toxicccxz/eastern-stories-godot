@@ -73,8 +73,9 @@ func _attack(
 	var limb: String = String(base.calculation.selected_limb)
 	var weapon: String = _weapon_name(armed, weapon_id)
 	if not action.legacy_action_text.is_empty():
+		# TRANSLATORS: combatd.c: an attack's own line ({action}, e.g. $N用爪子往$n的$l一抓) and its "！".
 		lines.append(BattleNarrationLine.new(vision(
-			_limb_and_weapon(tr(action.legacy_action_text) + "！", limb, weapon), me, victim, cast)))
+			_limb_and_weapon(tr("{action}！").format({"action": tr(action.legacy_action_text)}), limb, weapon), me, victim, cast)))
 	var damage: int = -1
 	var outcome: String
 	match base.outcome:
@@ -86,8 +87,9 @@ func _attack(
 		CombatAttackResult.Outcome.HIT:
 			damage = base.resource_mutation.requested_damage
 			outcome = Es2CombatMessages.damage_message(damage, String(action.damage_type))
+	var type: String = tr(Es2CombatMessages.damage_type_word(String(action.damage_type)))
 	lines.append(BattleNarrationLine.new(
-		vision(_limb_and_weapon(tr(outcome), limb, weapon), me, victim, cast), damage if damage > 0 else -1))
+		vision(_limb_and_weapon(tr(outcome).format({"type": type}), limb, weapon), me, victim, cast), damage if damage > 0 else -1))
 	if damage <= 0:
 		return
 	var status: CombatStatusReportBoundaryResult = ordinary.status_report_result
@@ -97,7 +99,8 @@ func _attack(
 			if status.value_source == CombatStatusReportBoundaryResult.ValueSource.EFFECTIVE_VITALITY
 			else Es2CombatMessages.status_message(status.ratio)
 		)
-		lines.append(BattleNarrationLine.new(vision("( $N" + tr(words) + " )", victim, &"", cast)))
+		# TRANSLATORS: combatd.c: how the one hit looks now ({status}, e.g. 受伤不轻，看起来状况并不太好。).
+		lines.append(BattleNarrationLine.new(vision(tr("( $N{status} )").format({"status": tr(words)}), victim, &"", cast)))
 	if relationship != null and relationship.has_winner_presentation_index:
 		lines.append(BattleNarrationLine.new(vision(
 			tr(Es2CombatMessages.WINNER[relationship.winner_presentation_index]), me, victim, cast)))
@@ -121,26 +124,34 @@ static func _weapon_name(armed: bool, weapon_id: StringName) -> String:
 	return "" if item == null else item.display_name
 
 
+## `limb` and `weapon` as authored; they go in translated.
 static func _limb_and_weapon(text: String, limb: String, weapon: String) -> String:
-	text = text.replace("$l", limb)
-	return text if weapon.is_empty() else text.replace("$w", weapon)
+	text = text.replace("$l", _t(limb))
+	return text if weapon.is_empty() else text.replace("$w", _t(weapon))
 
 
 ## adm/simul_efun/message.c message_vision(msg, me, you) as the player sees it:
-## as me, as you, or as someone else in the room.
+## as me, as you, or as someone else in the room. `message` is already in the shown
+## language; the names, 你 and the pronouns go in translated.
 static func vision(message: String, me: StringName, you: StringName, cast: BattlePresentationProjection) -> String:
 	var viewer: StringName = cast.player_id
-	var my_name: String = cast.display_name(me)
+	var my_name: String = _t(cast.display_name(me))
+	# TRANSLATORS: message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
+	var player: String = _t("你")
 	if viewer == me:
-		message = message.replace("$P", "你").replace("$N", "你")
+		message = message.replace("$P", player).replace("$N", player)
 		if not you.is_empty():
-			message = message.replace("$p", Es2CombatMessages.pronoun(cast.gender(you))).replace("$n", cast.display_name(you))
+			message = message.replace("$p", _t(Es2CombatMessages.pronoun(cast.gender(you)))).replace("$n", _t(cast.display_name(you)))
 		return message
 	if not you.is_empty() and viewer == you:
-		return (message.replace("$P", Es2CombatMessages.pronoun(cast.gender(me))).replace("$p", "你")
-			.replace("$N", my_name).replace("$n", "你"))
+		return (message.replace("$P", _t(Es2CombatMessages.pronoun(cast.gender(me)))).replace("$p", player)
+			.replace("$N", my_name).replace("$n", player))
 	message = message.replace("$P", my_name).replace("$N", my_name)
 	if not you.is_empty():
-		var your_name: String = cast.display_name(you)
+		var your_name: String = _t(cast.display_name(you))
 		message = message.replace("$p", your_name).replace("$n", your_name)
 	return message
+
+
+static func _t(text: String) -> String:
+	return TranslationServer.translate(text)

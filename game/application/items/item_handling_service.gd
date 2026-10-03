@@ -73,7 +73,9 @@ static func give(
 	if portion.is_empty():
 		return result
 	if offer.value != 0:
-		result.lines.append(TranslationServer.translate("你拿出%s给%s。") % [HeldItemFacts.short_name(portion, content, authorities.context.stacks), name])
+		result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({
+			"item": HeldItemFacts.short_name(portion, content, authorities.context.stacks), "npc": TranslationServer.translate(name),
+		}))
 		if not _destroy(authorities, portion):
 			result.outcome = ItemHandlingResult.Outcome.AUTHORITY_FAILURE
 			return result
@@ -84,8 +86,10 @@ static func give(
 		var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance), npc_owner)
 		if moved == null or not moved.succeeded:
 			_return_portion(authorities, id, portion)
-			return _too_heavy(result, moved, TranslationServer.translate("%s对%s而言太重了。") % [content.display_name, name])
-		result.lines.append(TranslationServer.translate("你给%s%s。") % [name, HeldItemFacts.one_unit(content)])
+			return _too_heavy(result, moved, TranslationServer.translate("{item}对{holder}而言太重了。").format({
+				"item": TranslationServer.translate(content.display_name), "holder": TranslationServer.translate(name),
+			}))
+		result.lines.append(TranslationServer.translate("你给{npc}{item}。").format({"npc": TranslationServer.translate(name), "item": HeldItemFacts.one_unit(content)}))
 	result.item_id = portion
 	result.outcome = ItemHandlingResult.Outcome.DONE
 	return result
@@ -135,16 +139,22 @@ static func put(player: WorldPlayerRuntimeState, id: StringName, amount: int, co
 	var inside := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, container_id)
 	var weight: int = _portion_weight(authorities, id, content, amount)
 	if authorities.context.inventory.contents_weight(inside) + weight > container.max_encumbrance:
-		return _refused(result, ItemHandlingResult.Outcome.TOO_HEAVY, TranslationServer.translate("%s对%s而言太重了。") % [content.display_name, container.display_name])
+		return _refused(result, ItemHandlingResult.Outcome.TOO_HEAVY, TranslationServer.translate("{item}对{holder}而言太重了。").format({
+			"item": TranslationServer.translate(content.display_name), "holder": TranslationServer.translate(container.display_name),
+		}))
 	var portion: StringName = _split_portion(result, authorities, id, content, amount)
 	if portion.is_empty():
 		return result
 	var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(inside, true, true, container.max_encumbrance))
 	if moved == null or not moved.succeeded:
 		_return_portion(authorities, id, portion)
-		return _too_heavy(result, moved, TranslationServer.translate("%s对%s而言太重了。") % [content.display_name, container.display_name])
+		return _too_heavy(result, moved, TranslationServer.translate("{item}对{holder}而言太重了。").format({
+			"item": TranslationServer.translate(content.display_name), "holder": TranslationServer.translate(container.display_name),
+		}))
 	result.item_id = portion
-	result.lines.append(TranslationServer.translate("你将%s放进%s。") % [HeldItemFacts.one_unit(content), container.display_name])
+	result.lines.append(TranslationServer.translate("你将{item}放进{container}。").format({
+		"item": HeldItemFacts.one_unit(content), "container": TranslationServer.translate(container.display_name),
+	}))
 	result.outcome = ItemHandlingResult.Outcome.DONE
 	return result
 
@@ -166,11 +176,13 @@ static func take_from(player: WorldPlayerRuntimeState, container_id: StringName,
 		return _refused(result, ItemHandlingResult.Outcome.REFUSED, TranslationServer.translate("这个东西拿不起来。"))
 	var moved: InventoryTransferResult = _move(authorities, id, InventoryTransferDestination.new(authorities.context.endpoint(), true, true, player.maximum_encumbrance))
 	if moved == null or not moved.succeeded:
-		return _too_heavy(result, moved, TranslationServer.translate("%s对你而言太重了。") % content.display_name)
+		return _too_heavy(result, moved, TranslationServer.translate("%s对你而言太重了。") % TranslationServer.translate(content.display_name))
 	if player.relationship.is_fighting():
 		player.busy.start_busy(1)
 	result.item_id = id
-	result.lines.append(TranslationServer.translate("你从%s中拿出%s。") % [container.display_name, HeldItemFacts.one_unit(content)])
+	result.lines.append(TranslationServer.translate("你从{container}中拿出{item}。").format({
+		"container": TranslationServer.translate(container.display_name), "item": HeldItemFacts.one_unit(content),
+	}))
 	result.outcome = ItemHandlingResult.Outcome.DONE
 	return result
 
@@ -190,7 +202,7 @@ static func _carried(result: ItemHandlingResult, authorities: Authorities, id: S
 		_refused(result, ItemHandlingResult.Outcome.NOT_CARRIED, TranslationServer.translate("你身上没有这样东西。"))
 		return null
 	if amount > 0 and authorities.context.stacks.has_stack(id) and amount > authorities.context.stacks.stack_state(id).amount:
-		_refused(result, ItemHandlingResult.Outcome.NOT_ENOUGH, TranslationServer.translate("你没有那麽多的%s。") % content.display_name)
+		_refused(result, ItemHandlingResult.Outcome.NOT_ENOUGH, TranslationServer.translate("你没有那麽多的%s。") % TranslationServer.translate(content.display_name))
 		return null
 	return content
 

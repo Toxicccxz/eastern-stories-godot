@@ -23,14 +23,26 @@ static func value_of(id: StringName, content: ItemContentDefinition, stacks: Com
 	return content.value if food == null else food.current_value
 
 
-## short() without the "(Id)": combined.c counts a stack, chinese_number(amount)
-## + base_unit + name (十文钱); anything else is its name.
+## short() without the "(Id)", in the shown language: combined.c counts a stack,
+## chinese_number(amount) + base_unit + name (十文钱); anything else is its name.
+## The count phrases here are where a language without measure words (a coin, ten
+## coins) would put its own rule.
 static func short_name(id: StringName, content: ItemContentDefinition, stacks: CombinedStackCollection) -> String:
 	if stacks != null and stacks.has_stack(id):
-		return ChineseNumber.of(stacks.stack_state(id).amount) + content.base_unit + content.display_name
-	return content.display_name
+		# TRANSLATORS: a counted stack, e.g. 十文钱: {count} in words, {unit} its measure word, {item} its name.
+		return TranslationServer.translate("{count}{unit}{item}").format({
+			"count": ChineseNumber.of(stacks.stack_state(id).amount),
+			"unit": TranslationServer.translate(content.base_unit),
+			"item": TranslationServer.translate(content.display_name),
+		})
+	return TranslationServer.translate(content.display_name)
 
 
-## "一个牛皮酒袋", "一些钱": the 一%s%s of give.c, drop.c, put.c and get.c.
+## "一个牛皮酒袋", "一些钱", in the shown language: the 一%s%s of give.c, drop.c,
+## put.c and get.c.
 static func one_unit(content: ItemContentDefinition) -> String:
-	return "一%s%s" % [content.unit, content.display_name]
+	# TRANSLATORS: one of an item, e.g. 一个牛皮酒袋: {unit} is its measure word, {item} its name.
+	return TranslationServer.translate("一{unit}{item}").format({
+		"unit": TranslationServer.translate(content.unit),
+		"item": TranslationServer.translate(content.display_name),
+	})

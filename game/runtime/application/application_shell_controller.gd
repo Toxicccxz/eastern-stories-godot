@@ -36,6 +36,8 @@ signal interaction_changed
 @onready var settings_panel: Control = %SettingsPanel
 @onready var window_mode_row: Control = %WindowModeRow
 @onready var window_mode_option: OptionButton = %WindowModeOption
+@onready var language_row: Control = %LanguageRow
+@onready var language_option: OptionButton = %LanguageOption
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
 @onready var settings_cancel_button: Button = %SettingsCancelButton
@@ -63,6 +65,8 @@ var _profile: GameSaveStorageProfile = (
 var _files: SaveFileOperations
 var _coordinator: OldPineSessionLoadCoordinator
 var _settings_files: SaveFileOperations
+var _languages: LanguageCatalog
+var _localization: LocalizationService
 var _window_capability: ApplicationWindowModeCapability
 var _settings_repository: ApplicationSettingsRepository
 var _settings_service: ApplicationSettingsService
@@ -163,6 +167,7 @@ func configure_before_start(
 	coordinator: OldPineSessionLoadCoordinator = null,
 	settings_files: SaveFileOperations = null,
 	window_capability: ApplicationWindowModeCapability = null,
+	languages: LanguageCatalog = null,
 ) -> bool:
 	if _configured or is_node_ready() or profile == null or not profile.is_valid():
 		return false
@@ -171,6 +176,7 @@ func configure_before_start(
 	_coordinator = coordinator
 	_settings_files = settings_files
 	_window_capability = window_capability
+	_languages = languages
 	_configured = true
 	return true
 
@@ -187,10 +193,13 @@ func _ready() -> void:
 		_configured = true
 	if _window_capability == null:
 		_window_capability = GodotWindowModeCapability.new()
+	_localization = LocalizationService.new(_languages)
 	_settings_repository = ApplicationSettingsRepository.new(_settings_files)
-	_settings_service = ApplicationSettingsService.new(_settings_repository, _window_capability)
+	_settings_service = ApplicationSettingsService.new(_settings_repository, _window_capability, _localization)
 	_settings_bootstrap_result = _settings_service.load_and_apply()
+	_show_window_title()
 	_configure_window_mode_options()
+	_configure_language_options()
 	window_mode_option.get_popup().window_input.connect(_popup_system_input)
 	_set_state(ApplicationShellState.boot_inspecting())
 	_host = HOST_SCENE.instantiate() as OldPineGameRuntimeHost
@@ -209,6 +218,25 @@ func _exit_tree() -> void:
 	var tree: SceneTree = get_tree()
 	if tree != null and tree.paused:
 		tree.paused = false
+	if _localization != null:
+		_localization.release()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+		_show_window_title()
+
+
+## The window title follows the language; config/name stays as it is, it names the
+## user data folder that holds the saves.
+func _show_window_title() -> void:
+	var window: Window = get_window()
+	if window != null and window == get_tree().root and not OS.has_feature("headless"):
+		window.title = tr("东方故事")
+
+
+func localization() -> LocalizationService:
+	return _localization
 
 
 func _input(event: InputEvent) -> void:
@@ -502,8 +530,20 @@ func apply_settings() -> bool:
 		return false
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS or _settings_service == null:
 		return false
+	if language_row.visible and _selected_language() != _settings_service.committed_snapshot().language():
+		var switched: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_language(_selected_language())
+		if switched.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "语言已切换，但这项设置未能保存。"
+			return false
+		if not switched.succeeded():
+			settings_status_label.text = "无法切换到这种语言。"
+			_select_committed_language()
+			return false
 	if not _settings_service.can_edit_window_mode():
-		settings_status_label.text = "Window mode is managed by this platform."
+		if language_row.visible:
+			settings_status_label.text = ""
+			return _return_from_settings(_state.settings_origin())
+		settings_status_label.text = "窗口模式由这个平台管理。"
 		return false
 	var selected_mode: int = window_mode_option.get_selected_id()
 	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist(selected_mode)
@@ -512,16 +552,14 @@ func apply_settings() -> bool:
 			settings_status_label.text = ""
 			return _return_from_settings(_state.settings_origin())
 		ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
-			settings_status_label.text = (
-				"Window mode was applied for this run, but the setting could not be saved."
-			)
+			settings_status_label.text = "窗口模式已在本次运行中生效，但这项设置未能保存。"
 			return false
 		ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE:
-			settings_status_label.text = "Window mode could not be applied."
+			settings_status_label.text = "无法切换窗口模式。"
 			_select_committed_window_mode()
 			return false
 		_:
-			settings_status_label.text = "Window mode is managed by this platform."
+			settings_status_label.text = "窗口模式由这个平台管理。"
 			return false
 
 
@@ -536,6 +574,7 @@ func _open_settings(origin: int) -> bool:
 		return false
 	settings_status_label.text = ""
 	_select_committed_window_mode()
+	_select_committed_language()
 	return _set_state(ApplicationShellState.settings(origin))
 
 
@@ -958,11 +997,13 @@ func _render_state(defer_focus: bool = true) -> void:
 	var settings_interactive: bool = mode == ApplicationShellState.Mode.SETTINGS
 	window_mode_row.visible = _settings_service != null and _settings_service.can_edit_window_mode()
 	window_mode_option.disabled = not settings_interactive or not window_mode_row.visible
-	settings_apply_button.visible = window_mode_row.visible
+	language_row.visible = _localization != null and _localization.catalog().languages().size() > 1
+	language_option.disabled = not settings_interactive or not language_row.visible
+	settings_apply_button.visible = window_mode_row.visible or language_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
 	status_label.text = (
-		"Checking saved journey..."
+		"正在检查存档……"
 		if _slot_inspection == null
 		else ApplicationMessageCatalog.text_for(_slot_inspection.message_key())
 	)
@@ -1001,14 +1042,14 @@ func _focus_current_surface() -> void:
 
 func _busy_text() -> String:
 	if _state.mode() == ApplicationShellState.Mode.BOOT:
-		return "Checking saved journey..."
+		return "正在检查存档……"
 	if _state.mode() == ApplicationShellState.Mode.SAVING:
-		return "Saving journey..."
+		return "正在存档……"
 	if _state.operation() == ApplicationShellState.Operation.END_SESSION:
-		return "Returning to Main Menu..."
+		return "正在返回主菜单……"
 	if _state.operation() == ApplicationShellState.Operation.RECOVER:
-		return "Recovering journey..."
-	return "Starting journey..."
+		return "正在恢复存档……"
+	return "正在开始旅程……"
 
 
 func _render_result() -> void:
@@ -1028,16 +1069,44 @@ func _render_result() -> void:
 	cancel_button.disabled = not confirmation
 	acknowledge_button.disabled = confirmation
 	if confirmation and _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
-		confirm_button.text = "Return to Main Menu"
+		confirm_button.text = "返回主菜单"
 	else:
-		confirm_button.text = "Start New Game"
+		confirm_button.text = "开始新游戏"
 
 
 func _configure_window_mode_options() -> void:
 	window_mode_option.clear()
-	window_mode_option.add_item("Windowed", ApplicationWindowMode.Value.WINDOWED)
-	window_mode_option.add_item("Fullscreen", ApplicationWindowMode.Value.FULLSCREEN)
+	window_mode_option.add_item("窗口", ApplicationWindowMode.Value.WINDOWED)
+	window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
 	_select_committed_window_mode()
+
+
+## 跟随系统 first, then each language by its own name (never translated).
+func _configure_language_options() -> void:
+	language_option.clear()
+	language_option.add_item("跟随系统")
+	language_option.set_item_metadata(0, LocalizationService.FOLLOW_SYSTEM)
+	for language: LanguageDefinition in _localization.catalog().languages():
+		language_option.add_item(language.name)
+		var index: int = language_option.item_count - 1
+		language_option.set_item_metadata(index, language.code)
+		language_option.get_popup().set_item_auto_translate_mode(index, Node.AUTO_TRANSLATE_MODE_DISABLED)
+	_select_committed_language()
+
+
+func _selected_language() -> String:
+	var index: int = language_option.selected
+	return LocalizationService.FOLLOW_SYSTEM if index < 0 else String(language_option.get_item_metadata(index))
+
+
+func _select_committed_language() -> void:
+	if language_option == null or _settings_service == null:
+		return
+	var committed: String = _settings_service.committed_snapshot().language()
+	for index: int in language_option.item_count:
+		if String(language_option.get_item_metadata(index)) == committed:
+			language_option.select(index)
+			return
 
 
 func _select_committed_window_mode() -> void:
@@ -1061,6 +1130,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		save_button,
 		pause_settings_button,
 		return_button,
+		language_option,
 		window_mode_option,
 		settings_apply_button,
 		settings_cancel_button,
@@ -1097,10 +1167,13 @@ func _configure_active_focus_cycle(mode: int) -> void:
 		ApplicationShellState.Mode.PAUSED:
 			controls = [resume_button, save_button, pause_settings_button, return_button]
 		ApplicationShellState.Mode.SETTINGS:
+			if language_row.visible:
+				controls.append(language_option)
 			if window_mode_row.visible:
-				controls = [window_mode_option, settings_apply_button, settings_cancel_button]
-			else:
-				controls = [settings_cancel_button]
+				controls.append(window_mode_option)
+			if settings_apply_button.visible:
+				controls.append(settings_apply_button)
+			controls.append(settings_cancel_button)
 		ApplicationShellState.Mode.RECOVERY_CHOICE:
 			if backup_recovery_button.visible:
 				controls.append(backup_recovery_button)
@@ -1156,7 +1229,9 @@ func _focus_settings_control() -> void:
 		return
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
 		return
-	if window_mode_row.visible and not window_mode_option.disabled:
+	if language_row.visible and not language_option.disabled:
+		language_option.grab_focus()
+	elif window_mode_row.visible and not window_mode_option.disabled:
 		window_mode_option.grab_focus()
 	else:
 		settings_cancel_button.grab_focus()

@@ -297,7 +297,7 @@ func _test_viewport(tree: SceneTree) -> void:
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel.visible and not tree.paused, "touch Inventory no gameplay pause")
 	var inventory: PlayerInventoryPanel = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel
 	await _tap(tree, inventory.row_container.get_child(0).get_child(1) as Button)
-	_check(inventory.inspection_display().contains("Skill: sword"), "touch Inspect uses existing stable item row path")
+	_check(inventory.inspection_display().contains("兵器：剑"), "touch Inspect uses existing stable item row path")
 	await _touch(tree, 4, right, true)
 	_check(not Input.is_action_pressed("move_right"), "item panel blocks movement capture")
 	await _touch(tree, 4, right, false, true)

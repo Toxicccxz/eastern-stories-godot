@@ -46,7 +46,7 @@ func in_reach() -> bool:
 
 
 func context_title() -> String:
-	return "%s · %s" % [display_name(), verb()] if in_reach() else ""
+	return "%s · %s" % [tr(display_name()), verb()] if in_reach() else ""
 
 
 ## Where the service is, for picking the nearest thing the context button acts on.

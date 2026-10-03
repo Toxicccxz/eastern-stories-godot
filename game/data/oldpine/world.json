@@ -116,19 +116,19 @@
 	"landmarks": [
 		{
 			"id": "oldpine.outdoor.landmark.ancient_pine", "zone": "oldpine.outdoor.central_clearing",
-			"name": "大松树", "action": "Climb", "portals": ["oldpine.outdoor.climb_pine"],
+			"name": "大松树", "action": "爬树", "portals": ["oldpine.outdoor.climb_pine"],
 			"long": "一株又高又大的松树，当你抬头往上看的时候似乎有个人影\n在树梢之间移动，不过也许是风吹动所造成的错觉。\n",
 			"legacy_source": "d/oldpine/clearing.c"
 		},
 		{
 			"id": "oldpine.tree.landmark.tree1_descent", "zone": "oldpine.tree.canopy",
-			"name": "大松树上", "action": "Descend", "portals": ["oldpine.tree.descend_tree1"],
+			"name": "大松树上", "action": "往下爬", "portals": ["oldpine.tree.descend_tree1"],
 			"long": "你现在正攀附在一株大松树的树干上，从这里可以很清楚地望见树\n下的一切动静，而不被人发觉，似乎是个干偷鸡摸狗勾当的好地方。\n",
 			"legacy_source": "d/oldpine/tree1.c"
 		},
 		{
 			"id": "oldpine.outdoor.landmark.epath2_vine", "zone": "oldpine.outdoor.east_bridge",
-			"name": "藤蔓", "action": "Hold vine", "policy": "vine",
+			"name": "藤蔓", "action": "抓住藤蔓", "policy": "vine",
 			"portals": ["oldpine.outdoor.vine_to_waterfall", "oldpine.outdoor.vine_to_passage"],
 			"long": "其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓，看看\n能不能像泰山一样荡过去，看看瀑布后面有什么？\n对了，提醒你一点，这座石桥下面是高约百丈的山涧深谷....。\n",
 			"messages": {
@@ -142,19 +142,19 @@
 		},
 		{
 			"id": "oldpine.gorge.landmark.riverbank1_cliff", "zone": "oldpine.gorge.river",
-			"name": "山涧石壁", "action": "Climb cliff", "portals": ["oldpine.gorge.riverbank1_climb_cliff"], "contact": true,
+			"name": "山涧石壁", "action": "攀爬石壁", "portals": ["oldpine.gorge.riverbank1_climb_cliff"], "contact": true,
 			"long": "两边的山壁看起来又高又陡，看来要爬上岸边实在很不容易。\n",
 			"legacy_source": "d/oldpine/riverbank1.c"
 		},
 		{
 			"id": "oldpine.cliff.landmark.cliff1_down", "zone": "oldpine.cliff.hole",
-			"name": "向下的山壁", "action": "Climb down", "portals": ["oldpine.cliff.climb_down"], "contact": true,
+			"name": "向下的山壁", "action": "往下爬", "portals": ["oldpine.cliff.climb_down"], "contact": true,
 			"long": "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n",
 			"legacy_source": "d/oldpine/cliff1.c"
 		},
 		{
 			"id": "oldpine.cliff.landmark.cliff1_up", "zone": "oldpine.cliff.hole",
-			"name": "向上的山壁", "action": "Climb up", "portals": ["oldpine.cliff.climb_up"], "contact": true,
+			"name": "向上的山壁", "action": "往上爬", "portals": ["oldpine.cliff.climb_up"], "contact": true,
 			"long": "从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n",
 			"legacy_source": "d/oldpine/cliff1.c"
 		}

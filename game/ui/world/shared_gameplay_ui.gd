@@ -29,6 +29,7 @@ var _selected_target: NpcRuntimeState
 var _selected_landmark: WorldLandmarkDefinition
 var _selected_landmark_source_available: bool = false
 var _selected_corpse_name: String = ""
+var _selected_corpse_count: int = 0
 var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
 var _selected_floor_item: bool = false
@@ -74,6 +75,24 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE and is_instance_valid(life_overlay) and life_overlay.get_parent() == null:
 		life_overlay.free()
+	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null:
+		# The selection's name and an open panel were put together in the old language;
+		# the heading and the status line follow on the next refresh, the log keeps its lines.
+		selected_target_label.text = _selection_text()
+		_presentation_layout.close_panel()
+
+
+## The selected thing's name in the shown language.
+func _selection_text() -> String:
+	if _selected_target != null:
+		return _selected_target.definition().short_name()
+	if _selected_landmark != null:
+		return tr(_selected_landmark.display_name)
+	if _selected_floor_item:
+		return tr(_selected_corpse_name)
+	if _selected_corpse_available:
+		return tr("{name}的尸体 · {count}件物品").format({"name": tr(_selected_corpse_name), "count": _selected_corpse_count})
+	return ""
 
 
 func configure(player: WorldPlayerRuntimeType) -> bool:
@@ -92,10 +111,7 @@ func set_selected_target(target: NpcRuntimeState) -> void:
 	_clear_selected_corpse()
 	close_loot()
 	inspection_text.text = ""
-	if target == null:
-		selected_target_label.text = ""
-	else:
-		selected_target_label.text = target.definition().short_name()
+	selected_target_label.text = _selection_text()
 	refresh_live_state()
 
 
@@ -109,11 +125,7 @@ func set_selected_landmark(
 	_clear_selected_corpse()
 	close_loot()
 	inspection_text.text = ""
-	selected_target_label.text = (
-		""
-		if landmark == null
-		else "%s" % landmark.display_name
-	)
+	selected_target_label.text = _selection_text()
 	refresh_live_state()
 
 
@@ -132,17 +144,14 @@ func set_selected_corpse(
 	_selected_landmark = null
 	_selected_landmark_source_available = false
 	_selected_corpse_name = victim_display_name
+	_selected_corpse_count = content_count
 	_selected_corpse_available = not victim_display_name.is_empty()
 	_selected_corpse_in_range = in_range
 	_selected_floor_item = false
 	if clear_inspection:
 		inspection_text.text = ""
 		close_loot()
-	selected_target_label.text = (
-		""
-		if not _selected_corpse_available
-		else tr("%s的尸体 · %d件物品") % [victim_display_name, content_count]
-	)
+	selected_target_label.text = _selection_text()
 	refresh_live_state()
 
 
@@ -158,7 +167,7 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 	if clear_inspection:
 		inspection_text.text = ""
 		close_loot()
-	selected_target_label.text = display_name
+	selected_target_label.text = _selection_text()
 	refresh_live_state()
 
 
@@ -169,7 +178,7 @@ func show_inspection(definition: NpcDefinition) -> void:
 		return
 	inspection_text.text = "%s\n%s" % [
 		definition.short_name(),
-		definition.description.strip_edges(),
+		tr(definition.description).strip_edges(),
 	]
 
 
@@ -179,20 +188,22 @@ func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
 		inspection_text.text = ""
 		return
 	inspection_text.text = "%s\n%s" % [
-		definition.display_name,
-		definition.description.strip_edges(),
+		tr(definition.display_name),
+		tr(definition.description).strip_edges(),
 	]
 
 
+## `display_name` as authored; `description` already in the shown language
+## (ItemContentDefinition.shown_description()).
 func show_item_inspection(display_name: String, description: String) -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	inspection_text.text = "%s\n%s" % [display_name, description.strip_edges()]
+	inspection_text.text = "%s\n%s" % [tr(display_name), description.strip_edges()]
 
 
 func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	# chard.c make_corpse(): set_name(victim->name(1) + "的尸体").
-	inspection_text.text = tr("%s的尸体\n里面有%d件物品。") % [victim_display_name, content_count]
+	inspection_text.text = tr("{name}的尸体\n里面有{count}件物品。").format({"name": tr(victim_display_name), "count": content_count})
 
 
 func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
@@ -301,7 +312,7 @@ func refresh_live_state() -> void:
 		or not _selected_landmark_source_available
 		or not player_available
 	)
-	portal_button.text = "Traverse" if _selected_landmark == null else _selected_landmark.action_label
+	portal_button.text = tr("前往") if _selected_landmark == null else tr(_selected_landmark.action_label)
 
 
 func show_combat_result(text: String) -> void:
@@ -361,7 +372,7 @@ func open_ask() -> void:
 		_ask_panel.name = "AskPanel"
 		_ask_panel.add_theme_constant_override("separation", 10)
 		var heading := Label.new()
-		heading.text = tr("你可以打听这些事情：")
+		heading.text = "你可以打听这些事情："
 		_ask_panel.add_child(heading)
 		_ask_topics = HFlowContainer.new()
 		_ask_topics.name = "Topics"
@@ -384,7 +395,7 @@ func open_ask() -> void:
 		button.pressed.connect(_ask_topic.bind(topic))
 		_ask_topics.add_child(button)
 	_ask_answer.text = ""
-	_presentation_layout.open_panel(tr("打听 · %s") % _selected_target.definition().display_name, _ask_panel, _selected_npc_askable)
+	_presentation_layout.open_panel(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
 	_presentation_layout.refresh_rows()
 
 
@@ -531,8 +542,12 @@ func quarantine_movement() -> void:
 
 func refresh_exploration() -> void:
 	var state: CharacterState = _player.state
-	world_title.text = "%s · %s" % [_player.facts.display_name, location_name()]
-	player_vitality_text.text = "精 %d  ·  气 %d/%d  ·  神 %d" % [state.essence.current, state.vitality.current, state.vitality.effective, state.spirit.current]
+	# TRANSLATORS: the HUD's heading: the player's name and the place's.
+	world_title.text = tr("{name} · {place}").format({"name": _player.facts.display_name, "place": tr(location_name())})
+	# TRANSLATORS: the HUD's 精 (gin), 气 (kee, current/effective) and 神 (sen).
+	player_vitality_text.text = tr("精 {gin}  ·  气 {kee}/{effective_kee}  ·  神 {sen}").format({
+		"gin": state.essence.current, "kee": state.vitality.current, "effective_kee": state.vitality.effective, "sen": state.spirit.current,
+	})
 	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
 	inspect_button.visible = local_target and not inspect_button.disabled
 	attack_button.visible = local_target and not attack_button.disabled
@@ -557,6 +572,7 @@ func current_zone() -> ZoneDefinition:
 	return null if _player == null else GameContent.catalog().zone(_player.world_location().zone_id)
 
 
+## The current zone's name, as authored.
 func location_name() -> String:
 	var zone: ZoneDefinition = current_zone()
 	return "" if zone == null else zone.display_name
@@ -572,15 +588,16 @@ func _describe_new_zone() -> void:
 	if zone == null or zone.zone_id == _described_zone_id:
 		return
 	_described_zone_id = zone.zone_id
-	append_log_lines([tr("【%s】%s") % [zone.display_name, room_prose(zone.description)]])
+	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
+	append_log_lines([tr("【{title}】{description}").format({"title": tr(zone.display_name), "description": room_prose(tr(zone.description))})])
 
 
 func open_look() -> void:
 	var zone: ZoneDefinition = current_zone()
 	if zone == null or not _session.portable_inventory_available():
 		return
-	_presentation_layout.room.text = room_prose(zone.description)
-	_presentation_layout.open_panel(zone.display_name, _presentation_layout.room)
+	_presentation_layout.room.text = room_prose(tr(zone.description))
+	_presentation_layout.open_panel(tr(zone.display_name), _presentation_layout.room)
 
 
 ## The map's door or service at the player's spot, as the context button text.
@@ -612,14 +629,28 @@ func open_character() -> void:
 func _refresh_character() -> void:
 	var state := _player.state
 	var attr := state.attributes
-	var text: String = "%s · %s · %d岁\n%s\n\n当前 / 有效 / 最大\n精 %s\n气 %s\n神 %s\n\n食物 %d · 饮水 %d\n实战经验 %d · 潜能 %d（已用 %d）\n\n膂力 %d · 胆识 %d · 悟性 %d · 灵性 %d\n定力 %d · 容貌 %d · 根骨 %d · 福缘 %d\n" % [_player.facts.display_name, state.gender, _player.facts.age, _player.facts.title, _resource_text(state.essence), _resource_text(state.vitality), _resource_text(state.spirit), state.recovery.food, state.recovery.water, state.progression.combat_experience, state.progression.potential, state.progression.potential_spent, attr.strength, attr.courage, attr.intelligence, attr.spirituality, attr.composure, attr.personality, attr.constitution, attr.karma]
+	# TRANSLATORS: the character sheet (score): name, gender, age and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
+	var lines: Array[String] = [tr("{name} · {gender} · {age}岁\n{title}\n\n当前 / 有效 / 最大\n精 {gin}\n气 {kee}\n神 {sen}\n\n食物 {food} · 饮水 {water}\n实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n\n膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n").format({
+		"name": _player.facts.display_name, "gender": tr(state.gender), "age": _player.facts.age, "title": _player.shown_title(),
+		"gin": _resource_text(state.essence), "kee": _resource_text(state.vitality), "sen": _resource_text(state.spirit),
+		"food": state.recovery.food, "water": state.recovery.water, "exp": state.progression.combat_experience,
+		"potential": state.progression.potential, "spent": state.progression.potential_spent,
+		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
+		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
+	})]
 	# cmds/usr/skills.c lists every skill the character has; names come from skills.json.
 	for skill_id: StringName in state.skills.raw_skill_ids():
 		var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
-		text += tr("\n%s %d · 学习进度 %d") % [String(skill_id) if skill == null else skill.display_name, state.skills.raw_level(skill_id), state.skills.learned_progress(skill_id)]
-	text += tr("\n有效拳脚 %d") % state.skills.effective_level(&"unarmed", _player.armor.aggregate_numeric_modifiers().unarmed)
-	text += "\n负重 %d / %d · 体重 %d" % [_session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)), _player.maximum_encumbrance, _player.body_facts.body_weight]
-	_presentation_layout.character.text = text
+		lines.append(tr("{skill} {level} · 学习进度 {progress}").format({
+			"skill": String(skill_id) if skill == null else tr(skill.display_name),
+			"level": state.skills.raw_level(skill_id), "progress": state.skills.learned_progress(skill_id),
+		}))
+	lines.append(tr("有效拳脚 %d") % state.skills.effective_level(&"unarmed", _player.armor.aggregate_numeric_modifiers().unarmed))
+	lines.append(tr("负重 {carried} / {capacity} · 体重 {weight}").format({
+		"carried": _session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)),
+		"capacity": _player.maximum_encumbrance, "weight": _player.body_facts.body_weight,
+	}))
+	_presentation_layout.character.text = "\n".join(lines)
 
 
 func _resource_text(resource: CharacterResourceState) -> String:
@@ -726,7 +757,8 @@ func _collect_feedback() -> void:
 	var lines: Array[String] = []
 	for node: Node in _presentation_layout.mount.find_children("*", "Label", true, false):
 		var label := node as Label
-		if label.name == "Feedback" and not label.text.is_empty(): lines.append(label.text)
+		# A fixed feedback holds its source text and translates itself: the log takes what it shows.
+		if label.name == "Feedback" and not label.text.is_empty(): lines.append(label.atr(label.text) if label.can_auto_translate() else label.text)
 	var text := "\n".join(lines)
 	if not text.is_empty() and text != _business_feedback:
 		_business_feedback = text

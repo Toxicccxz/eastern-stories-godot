@@ -11,6 +11,19 @@ signal give_requested(item_instance_id: StringName, amount: int)
 signal drop_requested(item_instance_id: StringName, amount: int)
 signal put_requested(item_instance_id: StringName, amount: int)
 
+## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
+const CATEGORY_WORDS: Dictionary[StringName, String] = {
+	&"weapon": "武器", &"armor": "防具", &"currency": "钱币", &"food": "食物", &"liquid": "饮品", &"misc": "杂物",
+}
+const WEAPON_WORDS: Dictionary[StringName, String] = {
+	&"sword": "剑", &"blade": "刀", &"axe": "斧", &"hammer": "锤", &"dagger": "匕首", &"staff": "杖",
+	&"stick": "棍", &"whip": "鞭",
+}
+const ARMOR_WORDS: Dictionary[StringName, String] = {
+	&"cloth": "衣服", &"armor": "铠甲", &"surcoat": "外衣", &"boots": "靴子", &"shield": "盾牌", &"head": "头部",
+	&"neck": "颈部", &"wrists": "手腕", &"finger": "手指", &"hands": "手部", &"waist": "腰部",
+}
+
 @onready var row_container: VBoxContainer = %PlayerInventoryRows
 @onready var empty_label: Label = %PlayerInventoryEmptyLabel
 @onready var inspect_text: RichTextLabel = %PlayerInventoryInspectText
@@ -58,27 +71,32 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 		inspect_text.hide()
 		return
 	var lines: Array[String] = [
-		row.display_name,
+		tr(row.display_name),
 		row.description.strip_edges(),
-		"Category: %s" % String(row.category),
-		"Equipped: %s" % row.equipment_label(),
+		tr("类别：%s") % _word(CATEGORY_WORDS, row.category),
+		tr("装备：%s") % (tr("未装备") if row.equipment_label().is_empty() else tr(row.equipment_label())),
 	]
 	if row.category == ItemContentDefinition.CATEGORY_WEAPON:
-		lines.append("Skill: %s" % String(row.weapon_skill_type))
-		lines.append("Damage: %d" % row.weapon_damage)
+		lines.append(tr("兵器：%s") % _word(WEAPON_WORDS, row.weapon_skill_type))
+		lines.append(tr("伤害：%d") % row.weapon_damage)
 	elif row.category == ItemContentDefinition.CATEGORY_CURRENCY:
-		lines.append("Amount: %d" % row.amount)
-		lines.append("Value: %d" % row.total_value)
+		lines.append(tr("数量：%d") % row.amount)
+		lines.append(tr("价值：%d") % row.total_value)
 	elif row.category == ItemContentDefinition.CATEGORY_ARMOR:
-		lines.append("Armor slot: %s" % String(row.armor_type))
-		lines.append("Armor: %+d" % row.armor_modifiers.armor)
-		lines.append("Dodge: %+d" % row.armor_modifiers.dodge)
+		lines.append(tr("部位：%s") % _word(ARMOR_WORDS, row.armor_type))
+		lines.append(tr("防护：%+d") % row.armor_modifiers.armor)
+		lines.append(tr("闪避：%+d") % row.armor_modifiers.dodge)
 	inspect_text.text = "\n".join(lines)
 	inspect_text.show()
 
 
 func inspection_display() -> String:
 	return inspect_text.text
+
+
+## A kind's word, or the ES2 id when there is none.
+func _word(words: Dictionary[StringName, String], id: StringName) -> String:
+	return tr(words[id]) if words.has(id) else String(id)
 
 
 func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
@@ -103,29 +121,30 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text = _row_label(row)
 	label.tooltip_text = row.description.strip_edges()
+	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	container.add_child(label)
 	var inspect_button: Button = Button.new()
-	inspect_button.text = "Inspect"
+	inspect_button.text = "观察"
 	inspect_button.pressed.connect(_on_inspect_pressed.bind(row.item_instance_id))
 	container.add_child(inspect_button)
 	if row.can_wield:
 		var wield_button: Button = Button.new()
-		wield_button.text = "Wield"
+		wield_button.text = "装备"
 		wield_button.pressed.connect(_on_wield_pressed.bind(row.item_instance_id))
 		container.add_child(wield_button)
 	elif row.can_unwield:
 		var unwield_button: Button = Button.new()
-		unwield_button.text = "Unwield"
+		unwield_button.text = "放下"
 		unwield_button.pressed.connect(_on_unwield_pressed.bind(row.item_instance_id))
 		container.add_child(unwield_button)
 	elif row.can_wear:
 		var wear_button: Button = Button.new()
-		wear_button.text = "Wear"
+		wear_button.text = "穿戴"
 		wear_button.pressed.connect(_on_wear_pressed.bind(row.item_instance_id))
 		container.add_child(wear_button)
 	elif row.can_remove:
 		var remove_button: Button = Button.new()
-		remove_button.text = "Remove"
+		remove_button.text = "脱掉"
 		remove_button.pressed.connect(_on_remove_pressed.bind(row.item_instance_id))
 		container.add_child(remove_button)
 	# A stack can be handed over in part (give 5 silver to ...).
@@ -139,10 +158,10 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		amount.rounded = true
 		container.add_child(amount)
 	if not _give_target.is_empty():
-		_handling_button(container, "Give", tr("给%s") % _give_target, give_requested, row, amount)
+		_handling_button(container, "Give", tr("给%s") % tr(_give_target), give_requested, row, amount)
 	if not _container.is_empty():
-		_handling_button(container, "Put", tr("放进%s") % _container, put_requested, row, amount)
-	_handling_button(container, "Drop", tr("丢下"), drop_requested, row, amount)
+		_handling_button(container, "Put", tr("放进%s") % tr(_container), put_requested, row, amount)
+	_handling_button(container, "Drop", "丢下", drop_requested, row, amount)
 	return container
 
 
@@ -157,13 +176,13 @@ func _handling_button(container: BoxContainer, node_name: String, text: String, 
 
 
 func _row_label(row: PlayerInventoryRowProjection) -> String:
-	var amount_label: String = " ×%d" % row.amount if row.amount != 1 else ""
-	var equipment_label: String = (
-		" [%s]" % row.equipment_label()
-		if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE
-		else ""
-	)
-	return "%s%s%s" % [row.display_name, amount_label, equipment_label]
+	var label: String = tr(row.display_name)
+	if row.amount != 1:
+		label = tr("{item} ×{amount}").format({"item": label, "amount": row.amount})
+	if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
+		# TRANSLATORS: an item the player has on, and how: 短剑 · 主手.
+		label = tr("{item} · {slot}").format({"item": label, "slot": tr(row.equipment_label())})
+	return label
 
 
 func _on_inspect_pressed(item_instance_id: StringName) -> void:

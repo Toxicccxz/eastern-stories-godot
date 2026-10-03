@@ -89,18 +89,21 @@ static func damage_message(damage: int, type: String) -> String:
 			if damage < 160: return "结果这一下「砰」地一声打得$n连退了好几步，差一点摔倒！"
 			if damage < 240: return "结果重重地击中，$n「哇」地一声吐出一口鲜血！"
 			return "结果只听见「砰」地一声巨响，$n像一捆稻草般飞了出去！！"
-	if type.is_empty():
-		type = "伤害"
-	var degree: String = "结果造成非常可怕的严重"
-	if damage < 10: degree = "结果只是勉强造成一处轻微"
-	elif damage < 20: degree = "结果造成轻微的"
-	elif damage < 30: degree = "结果造成一处"
-	elif damage < 50: degree = "结果造成一处严重"
-	elif damage < 80: degree = "结果造成颇为严重的"
-	elif damage < 120: degree = "结果造成相当严重的"
-	elif damage < 170: degree = "结果造成十分严重的"
-	elif damage < 230: degree = "结果造成极其严重的"
-	return degree + type + "！"
+	# Any other type: the degree, then the type ({type}, damage_type_word()) and "！".
+	if damage < 10: return "结果只是勉强造成一处轻微{type}！"
+	if damage < 20: return "结果造成轻微的{type}！"
+	if damage < 30: return "结果造成一处{type}！"
+	if damage < 50: return "结果造成一处严重{type}！"
+	if damage < 80: return "结果造成颇为严重的{type}！"
+	if damage < 120: return "结果造成相当严重的{type}！"
+	if damage < 170: return "结果造成十分严重的{type}！"
+	if damage < 230: return "结果造成极其严重的{type}！"
+	return "结果造成非常可怕的严重{type}！"
+
+
+## The {type} of a damage_message() line: the action's damage type, or 伤害.
+static func damage_type_word(type: String) -> String:
+	return "伤害" if type.is_empty() else type
 
 
 ## combatd.c eff_status_msg(eff_kee * 100 / max_kee): after a wound.

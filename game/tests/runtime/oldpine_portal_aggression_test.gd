@@ -82,7 +82,7 @@ func _test_authored_landmark_and_portal_data() -> void:
 		+ "下的一切动静，而不被人发觉，似乎是个干偷鸡摸狗勾当的好地方。\n",
 		"tree1 inspect text traces tree1.c long",
 	)
-	_assert_eq(descent.action_label, "Descend", "tree1 authored action label")
+	_assert_eq(descent.action_label, "往下爬", "tree1 authored action label")
 	_assert_eq(descent.portal_id, OldPineWorldDefinitions.DESCEND_TREE1_PORTAL_ID, "tree1 descent resolves return portal")
 	_assert_eq(descent.legacy_source_path, "d/oldpine/tree1.c", "tree1 descent source metadata")
 	var return_portal: PortalDefinition = GameContent.catalog().portal(
@@ -173,7 +173,7 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	_assert_eq(selected.kind, WorldInteractionTarget.Kind.LANDMARK, "real pine picking selects landmark kind")
 	_assert_eq(selected.target_id, &"oldpine.outdoor.landmark.ancient_pine", "real pine picking selects stable landmark ID")
 	_assert_true(controller.session.shared_ui().portal_action_is_enabled(), "Climb action becomes available for active player")
-	_assert_eq(controller.session.shared_ui().portal_action_text(), "Climb", "HUD uses authored action label")
+	_assert_eq(controller.session.shared_ui().portal_action_text(), "爬树", "HUD uses authored action label")
 	_assert_false(controller.session.shared_ui().attack_is_enabled(), "landmark target never enables Attack")
 	_assert_true(controller.inspect_selected(), "landmark Inspect is available")
 	_assert_true(controller.session.shared_ui().inspection_display().contains("风吹动"), "HUD renders authored pine description")

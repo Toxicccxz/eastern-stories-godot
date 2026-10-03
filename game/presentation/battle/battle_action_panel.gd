@@ -20,10 +20,10 @@ func _ready() -> void:
 	action_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(action_column)
 	var heading := Label.new()
-	heading.text = tr("快捷操作")
+	heading.text = "快捷操作"
 	action_column.add_child(heading)
 	_empty = Label.new()
-	_empty.text = tr("现在没有可用的操作。")
+	_empty.text = "现在没有可用的操作。"
 	_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	action_column.add_child(_empty)
 	_actions = HFlowContainer.new()
@@ -40,7 +40,7 @@ func _ready() -> void:
 	queue_column.add_child(_queue)
 	_cancel = Button.new()
 	_cancel.name = "CancelQueue"
-	_cancel.text = tr("取消已排定的操作")
+	_cancel.text = "取消已排定的操作"
 	_cancel.custom_minimum_size = Vector2(64, 64)
 	_cancel.pressed.connect(_cancel_pressed)
 	queue_column.add_child(_cancel)
@@ -69,7 +69,7 @@ func present(projection: BattlePresentationProjection) -> void:
 	_displayed_request_id = &"" if queued == null else queued.request.request_id
 	_queue.text = tr("排定：%s") % _queue_status(projection.queue_status)
 	if queued != null:
-		_queue.text += "\n" + tr("%s · 目标：%s") % [catalog.label_for(queued.request.action_id), projection.display_name(queued.resolved_target_id)]
+		_queue.text += "\n" + tr("{action} · 目标：{target}").format({"action": catalog.label_for(queued.request.action_id), "target": tr(projection.display_name(queued.resolved_target_id))})
 	_queue.tooltip_text = _queue.text
 	_cancel.visible = queued != null
 

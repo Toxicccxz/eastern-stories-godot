@@ -57,9 +57,9 @@ func _ready() -> void:
 func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"") -> void:
 	_participant_id = value.participant_id
 	target_button.disabled = not value.targetable
-	target_button.tooltip_text = tr("选为目标：%s") % value.display_name if value.targetable else tr("不能选为目标")
+	target_button.tooltip_text = tr("选为目标：%s") % tr(value.display_name) if value.targetable else tr("不能选为目标")
 	var role: String = tr("你") if value.participant_id == player_id else tr("当前目标") if value.participant_id == current_id else tr("对手") if value.hostile_to_player else tr("参战")
-	_title.text = value.display_name + " · " + role
+	_title.text = "%s · %s" % [tr(value.display_name), role]
 	_title.tooltip_text = _title.text
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
 	if get_theme_stylebox("panel") != border:
@@ -67,7 +67,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	_vitality.max_value = maxf(1, value.vitality.maximum) # Visual scale only; text retains exact values.
 	_vitality.value = value.vitality.current
 	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(value.vitality), _track(value.essence), _track(value.spirit)]
-	_primary.tooltip_text = tr("当前／有效／上限")
+	_primary.tooltip_text = "当前／有效／上限"
 	_secondary.text = tr("内力 %d/%d · 法力 %d/%d · 灵力 %d/%d") % [value.force.current, value.force.maximum, value.mana.current, value.mana.maximum, value.atman.current, value.atman.maximum]
 	_secondary.tooltip_text = _secondary.text
 	var states := PackedStringArray([
