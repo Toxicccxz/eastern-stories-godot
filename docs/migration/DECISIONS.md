@@ -2,31 +2,20 @@
 
 ## Localization: the source text is the key (2026-10-03)
 
-Package 5, owner-approved plan; how to write text and add a language:
-[LOCALIZATION](../production/LOCALIZATION.md).
-- **Simplified Chinese is the source language and a message's ID is its source text**
-  (gettext); no context unless one text needs two translations (none yet). One extractor,
-  `tools/l10n/extract_pot.py`, writes the template from scripts, scenes and content.
-- **Authored text stays authored in definitions, state and saves** (a master's name, a corpse's
-  victim, the player's title and gender are compared or saved as written) and is translated
-  where it is shown or put into a sentence. A family title is saved as assign_apprentice() wrote
-  it and shown put together again in the player's language.
-- **Templates with more than one slot name them** (`{npc}`) so a language can reorder or drop
-  them; number words and count phrases go through one function each (ChineseNumber,
-  HeldItemFacts). ES2's own `$N`/`$n`/`$l` slots stay.
-- **The language follows the system unless chosen in Settings** (settings schema 2; a version 1
-  file follows the system). The game picks the language itself (Chinese by script) and loads
-  only that catalog: Godot matches by language alone and would give a zh_CN or zh_SG system the
-  Traditional catalog. A language not listed reads Simplified. A switch applies at once; log
-  lines already written stay as they were.
-- **Fonts are the system's**, listed per language in `languages.json` on the project theme's
-  SystemFont, and the locale is set even for the source language so shaping and fallback use
-  Chinese glyph forms; no font is bundled yet.
-- The window title and the menu read 东方故事; `config/name` stays, it names the user data
-  folder that holds the saves.
-- Native English lines are now Chinese: the player's attack prints cmds/std/kill.c's
-  `$N对著$n喝道：「<rude>！今日不是你死就是我活！」`; an aggressive NPC's attack, silent in ES2
-  (combatd.c start_aggressive()), keeps its native log line as `<name>向你发动攻击！`.
+Package 5, owner-approved; rules and how to add a language: [LOCALIZATION](../production/LOCALIZATION.md).
+- Simplified Chinese is the source language and a message's ID is its source text (gettext);
+  `tools/l10n/extract_pot.py` is the one extractor (Godot's misses `TranslationServer.translate()`,
+  const tables and the content files).
+- Authored text stays authored in definitions, state and saves (logic compares it) and is
+  translated where it is shown or put into a sentence. A family title is saved as
+  assign_apprentice() wrote it and shown put together again. Multi-slot templates name their slots.
+- The language follows the system unless chosen in Settings (settings schema 2). The game matches
+  Chinese by script and loads only that catalog: Godot would give zh_CN and zh_SG the Traditional
+  one. A language not listed reads Simplified; a switch applies at once, old log lines stay.
+- Fonts are the system's, listed per language; no font is bundled yet. The title reads 东方故事;
+  `config/name` stays (it names the user data folder).
+- The player's attack now prints cmds/std/kill.c's line (was a native English line); an aggressive
+  NPC's, silent in ES2 (combatd.c start_aggressive()), keeps a native line: `<name>向你发动攻击！`.
 
 ## Busy wears off on the heart beat (2026-10-02)
 

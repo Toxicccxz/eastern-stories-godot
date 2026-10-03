@@ -103,6 +103,17 @@ class SceneTest(unittest.TestCase):
         )
         self.assertEqual([msgid for _, msgid in _ids(catalog)], ["东方故事", "1–24 个字符", "窗口", '说"明"'])
 
+    def test_multiline_text(self) -> None:
+        catalog = extract_pot.Catalog()
+        extract_pot.extract_scene(
+            '[node name="Hint" type="Label" parent="."]\n'
+            'text = "第一行\n第二行 \\"引\\"\n第三行"\n'
+            'horizontal_alignment = 1\n',
+            "x.tscn",
+            catalog,
+        )
+        self.assertEqual([msgid for _, msgid in _ids(catalog)], ['第一行\n第二行 "引"\n第三行'])
+
 
 class ContentTest(unittest.TestCase):
     def test_text_fields_topics_and_lines_but_not_marks_or_ids(self) -> None:

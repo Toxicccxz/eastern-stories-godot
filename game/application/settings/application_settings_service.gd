@@ -94,6 +94,13 @@ func apply_and_persist_language(language: String) -> ApplicationSettingsServiceR
 			_committed,
 		)
 	_localization.apply(language)
+	if _localization.active_code() != _localization.language_for(language).code:
+		# Its translation would not load: the shown language stays, the choice is not kept.
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
 	_committed = _committed.with_language(language)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(

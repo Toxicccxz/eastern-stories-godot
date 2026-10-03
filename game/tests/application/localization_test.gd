@@ -93,6 +93,15 @@ func _settings() -> void:
 	check(switched.succeeded() and localization.active_code() == PseudoLocale.CODE and repository.load().snapshot().language() == PseudoLocale.CODE, "Settings: the language applies at once and is kept")
 	check(not service.apply_and_persist_language("xx_YY").succeeded() and localization.active_code() == PseudoLocale.CODE, "an unknown language is refused")
 	localization.release()
+	# A listed language whose translation does not load: refused, and not kept.
+	var unloadable := LanguageDefinition.new("xx", "XX", "", "res://locale/missing.po")
+	var broken := LocalizationService.new(LanguageCatalog.load_from().with_language(unloadable), "en_US")
+	var broken_service := ApplicationSettingsService.new(repository, ApplicationWindowModeCapability.new(), broken)
+	broken_service.load_and_apply()
+	var kept_before: String = repository.load().snapshot().language()
+	var refused: ApplicationSettingsServiceResult = broken_service.apply_and_persist_language("xx")
+	check(refused.outcome() == ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE and broken.active_code() != "xx" and repository.load().snapshot().language() == kept_before, "a language that will not load is reported and not kept")
+	broken.release()
 
 
 func _pseudo_marks() -> void:

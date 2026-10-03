@@ -28,8 +28,30 @@ func configure(corpse: CorpseState) -> bool:
 	_corpse_item_instance_id = corpse.corpse_item_instance_id
 	_victim_display_name = corpse.victim_display_name
 	_ensure_interaction_children()
+	_show_name()
 	queue_redraw()
 	return true
+
+
+## chard.c make_corpse(): set_name(victim->name(1) + "的尸体"), in the shown language,
+## on a Label so it takes the language's font and follows a language switch.
+func _show_name() -> void:
+	var label: Label = get_node_or_null("NameLabel") as Label
+	if label == null:
+		label = Label.new()
+		label.name = "NameLabel"
+		label.position = Vector2(-52.0, 18.0)
+		label.add_theme_font_size_override("font_size", 13)
+		label.add_theme_color_override("font_color", Color("d8c4aa"))
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		add_child(label)
+	label.text = tr("%s的尸体") % tr(_victim_display_name)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and not _victim_display_name.is_empty():
+		_show_name()
 
 
 func is_body_in_loot_range(body: Node2D) -> bool:
@@ -128,12 +150,3 @@ func _draw() -> void:
 		PackedColorArray([Color("665448")]),
 	)
 	draw_circle(Vector2(-38.0, 0.0), 11.0, Color("8a7461"))
-	draw_string(
-		ThemeDB.fallback_font,
-		Vector2(-52.0, 31.0),
-		tr("%s的尸体") % _victim_display_name,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		-1.0,
-		13,
-		Color("d8c4aa"),
-	)

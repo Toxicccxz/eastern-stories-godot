@@ -75,7 +75,7 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE and is_instance_valid(life_overlay) and life_overlay.get_parent() == null:
 		life_overlay.free()
-	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null:
+	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
 		selected_target_label.text = _selection_text()

@@ -262,7 +262,8 @@ def lint_concatenation(source: str, relative: str) -> list[str]:
 # --- Scenes -----------------------------------------------------------------------------
 
 _SCENE_SECTION = re.compile(r"^\[(\w+)")
-_SCENE_PROPERTY = re.compile(r'^([A-Za-z0-9_/]+) = "((?:[^"\\]|\\.)*)"\s*$')
+# A string property; Godot writes a multi-line value with real line breaks inside the quotes.
+_SCENE_PROPERTY = re.compile(r'^([A-Za-z0-9_/]+) = "((?:[^"\\]|\\.)*)"\s*$', re.MULTILINE | re.DOTALL)
 
 
 def extract_scene(text: str, relative: str, catalog: Catalog) -> None:
@@ -275,7 +276,11 @@ def extract_scene(text: str, relative: str, catalog: Catalog) -> None:
                 catalog.add(value, relative)
         pending.clear()
 
-    for line in text.splitlines():
+    lines = text.splitlines()
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        index += 1
         if _SCENE_SECTION.match(line):
             flush()
             disabled = False
@@ -283,9 +288,15 @@ def extract_scene(text: str, relative: str, catalog: Catalog) -> None:
         if line.startswith("auto_translate_mode = 2"):
             disabled = True
             continue
-        match = _SCENE_PROPERTY.match(line)
-        if match is None:
+        if not re.match(r'^[A-Za-z0-9_/]+ = "', line):
             continue
+        # Join the following lines until the quoted value closes.
+        while not _SCENE_PROPERTY.fullmatch(line) and index < len(lines):
+            line += "\n" + lines[index]
+            index += 1
+        match = _SCENE_PROPERTY.fullmatch(line)
+        if match is None:
+            raise ValueError(f"{relative}: unterminated string: {line[:60]!r}")
         name, value = match.group(1), _unescape_scene(match.group(2))
         if name in SCENE_TEXT_PROPERTIES or (name.startswith("popup/item_") and name.endswith("/text")):
             pending.append(value)

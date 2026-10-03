@@ -43,6 +43,7 @@ func configure(item_instance_id: StringName, display_name: String) -> bool:
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.position = Vector2(-40.0, 10.0)
 	label.size = Vector2(80.0, 18.0)
+	label.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	label.add_theme_font_size_override("font_size", 13)
 	label.add_theme_color_override("font_color", Color("e2d3b6"))
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE

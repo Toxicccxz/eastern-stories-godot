@@ -223,7 +223,7 @@ func _exit_tree() -> void:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready() and is_inside_tree():
 		_show_window_title()
 
 
