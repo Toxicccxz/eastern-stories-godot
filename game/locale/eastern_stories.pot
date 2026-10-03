@@ -2378,11 +2378,11 @@ msgid "看起来%s并不想跟你较量。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
-msgid "看起来%s想杀死你！"
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
-msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgid "看起来%s想杀死你！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd

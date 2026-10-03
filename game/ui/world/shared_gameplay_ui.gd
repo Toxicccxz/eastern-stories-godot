@@ -34,6 +34,9 @@ var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
 var _selected_floor_item: bool = false
 var _log_lines: Array[String] = []
+## Which log lines are alerts, shown in ES2's HIR bright red (kill_ob()'s 看起来X想杀死你！).
+var _log_alerts: Array[bool] = []
+const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay
 
@@ -322,14 +325,26 @@ func show_combat_result(text: String) -> void:
 	world_title.tooltip_text = text
 
 
-func append_log_lines(lines: Array[String]) -> void:
+## `alert`: the lines are warnings ES2 prints in bright red (HIR).
+func append_log_lines(lines: Array[String], alert: bool = false) -> void:
 	for line: String in lines:
 		if not line.is_empty():
 			_log_lines.append(line)
+			_log_alerts.append(alert)
 	while _log_lines.size() > MAX_LOG_LINES:
 		_log_lines.pop_front()
-	combat_log.text = "\n".join(_log_lines)
-	_presentation_layout.recent.text = "" if _log_lines.is_empty() else _log_lines.back().get_slice("\n", 0)
+		_log_alerts.pop_front()
+	var shown: PackedStringArray = []
+	for index: int in _log_lines.size():
+		var plain: String = _log_lines[index].replace("[", "[lb]")
+		shown.append("[color=#%s]%s[/color]" % [ALERT_COLOR.to_html(false), plain] if _log_alerts[index] else plain)
+	combat_log.text = "\n".join(shown)
+	var recent: Label = _presentation_layout.recent
+	recent.text = "" if _log_lines.is_empty() else _log_lines.back().get_slice("\n", 0)
+	if not _log_alerts.is_empty() and _log_alerts.back():
+		recent.add_theme_color_override("font_color", ALERT_COLOR)
+	else:
+		recent.remove_theme_color_override("font_color")
 
 
 func log_lines() -> Array[String]:
