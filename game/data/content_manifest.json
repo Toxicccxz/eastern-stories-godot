@@ -3,6 +3,7 @@
 		"common/pacing.json",
 		"common/items.json",
 		"common/skills.json",
+		"common/combat_actions.json",
 		"common/families.json",
 		"common/npcs.json",
 		"oldpine/items.json",

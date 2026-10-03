@@ -33,17 +33,17 @@ func check(ok: bool, label: String) -> void:
 
 
 static func learn(state: CharacterState, rng: WorldInteractionRandomSource, context: TeachingContext = null) -> LearnResult:
-	return LearnService.learn(state, context if context != null else Master.context(&"liuh-ken", rng), LiuhKenDefinition.skill(), Master.policy(&"liuh-ken"), null, rng)
+	return LearnService.learn(state, context if context != null else Master.context(&"liuh-ken", rng), GameContent.catalog().skill(&"liuh-ken"), Master.policy(&"liuh-ken"), null, rng)
 
 
 func definition_and_learn() -> void:
-	var definition := LiuhKenDefinition.skill()
+	var definition := GameContent.catalog().skill(&"liuh-ken")
 	check(definition.skill_id == &"liuh-ken" and definition.skill_type == SkillDefinition.Type.MARTIAL and definition.kind == SkillDefinition.Kind.SPECIALIZED, "exact specialized martial identity")
 	check(definition.can_enable_for(&"unarmed"), "unarmed enabled use")
 	for use_id: StringName in [&"sword", &"parry", &"dodge", &"force", &"magic", &"spells"]:
 		check(not definition.can_enable_for(use_id), "invalid use " + String(use_id))
 	check(Master.context(&"liuh-ken").teacher_raw_level == 60 and Master.context(&"unarmed").teacher_raw_level == 40, "two exact teacher levels")
-	check(GameContent.catalog().skill(&"sword") == null and not NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()).has(&"sword"), "other teacher knowledge not a new working surface")
+	check(GameContent.catalog().skill(&"sword").kind == SkillDefinition.Kind.BASIC and NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()).has(&"sword"), "sword is a basic skill 柳淳风 teaches (offense/defense routes)")
 	var thresholds: Array[int] = [0,0,0,2,6,12,21,34,51,72,100]
 	for raw: int in range(thresholds.size()):
 		for offset: int in [-1,0,1]:
@@ -104,7 +104,7 @@ static func ready_state() -> CharacterState:
 	state.skills.set_raw_level(&"liuh-ken",5)
 	state.skills.set_learned_progress(&"liuh-ken",7)
 	state.progression.combat_experience = 6
-	SkillEnableTransition.try_enable(state.skills,LiuhKenDefinition.skill(),&"unarmed")
+	SkillEnableTransition.try_enable(state.skills,GameContent.catalog().skill(&"liuh-ken"),&"unarmed")
 	return state
 
 
@@ -136,7 +136,7 @@ func mapping_and_equipment() -> void:
 			var state := First.disciple()
 			state.skills.set_raw_level(&"unarmed",base)
 			state.skills.set_raw_level(&"liuh-ken",special)
-			var result := SkillEnableTransition.try_enable(state.skills,LiuhKenDefinition.skill(),&"unarmed")
+			var result := SkillEnableTransition.try_enable(state.skills,GameContent.catalog().skill(&"liuh-ken"),&"unarmed")
 			check(result.applied == (base != 0 and special != 0) and result.internal_resource_reset == SkillMappingChangeResult.InternalResourceReset.NONE, "Enable raw gate / no reset")
 	var state := ready_state()
 	check(state.skills.effective_level(&"unarmed") == 7 and state.skills.effective_level(&"unarmed",3) == 10, "authoritative effective formula")
@@ -148,7 +148,7 @@ func mapping_and_equipment() -> void:
 		var rng := LearnDraws.new([0])
 		var result := learn(state,rng)
 		check((result.failure_reason == LearnResult.FailureReason.SKILL_LEARN_REJECTED) == (mode != "empty"), "both refs Learn gate " + mode)
-		check(SkillEnableTransition.try_enable(state.skills,LiuhKenDefinition.skill(),&"unarmed").applied, "Enable has no weapon predicate " + mode)
+		check(SkillEnableTransition.try_enable(state.skills,GameContent.catalog().skill(&"liuh-ken"),&"unarmed").applied, "Enable has no weapon predicate " + mode)
 		var actor := binding(&"actor",state)
 		var selected := CombatSliceProjectionBuilder.build_action_selection_input(actor)
 		check(selected.mapped_skill_present == (mode in ["empty","secondary"]), "primary-only combat source " + mode)
@@ -168,7 +168,7 @@ static func execute(actor: CombatSliceCharacterBinding, target: CombatSliceChara
 
 func action_execution() -> void:
 	var expected: Array[String] = ["$N使一招「古松挂月」，对准$n的$l「呼」地一拳","$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去","$N左手虚晃，右拳「孤崖听涛」往$n的$l击出","$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"]
-	var actions := LiuhKenDefinition.actions()
+	var actions := GameContent.catalog().skill(&"liuh-ken").action_set()
 	check(actions.is_valid() and actions.size() == 4,"four valid actions")
 	for index: int in range(4):
 		var action := actions.action_at(index)
@@ -227,7 +227,7 @@ func action_execution() -> void:
 		if armed: actor.state.equipment.wield(sword(),false)
 		rng = Draws.new([0,0,0])
 		result = execute(actor,target,rng)
-		check(result.outcome == CombatSingleAttackExecutionResult.Outcome.COMPLETED_WITHOUT_RIPOSTE and rng.requested_bounds()[0] == 1,"existing singleton draw preserved")
+		check(result.outcome == CombatSingleAttackExecutionResult.Outcome.COMPLETED_WITHOUT_RIPOSTE and rng.requested_bounds()[0] == (3 if armed else 5),"one draw over the sword's verbs or race/human.c's moves")
 		check(result.selected_action_id == (CombatSliceContentProfile.SLASH_ACTION_ID if armed else CombatSliceContentProfile.UNARMED_ACTION_ID),"existing weapon/default selection retained")
 	actor = binding(&"actor"); target = binding(&"target")
 	actor.state.skills.set_raw_level(&"unknown-style",5)
@@ -261,7 +261,7 @@ func reverse_execution() -> void:
 		var reverse_rng := Draws.new([3,0,0])
 		var chain := CombatAttackChainCompletionService.complete(forward,projection,reverse_rng)
 		check(chain.outcome == CombatAttackChainResult.Outcome.REVERSE_COMPLETE,"reverse completes " + str(branch))
-		check(chain.reverse_selected_action_id == LiuhKenDefinition.ACTION_IDS[3] and forward.selected_action_id == LiuhKenDefinition.ACTION_IDS[1],"reverse independently selects")
+		check(chain.reverse_selected_action_id == &"es2:daemon/skill/liuh-ken/huang-shan-hu-yin" and forward.selected_action_id == &"es2:daemon/skill/liuh-ken/ao-xue-dong-mei","reverse independently selects")
 		check(reverse_rng.requested_bounds() == [4,16,109],"reverse one own action draw")
 		check(chain.reverse_attack_type == (CombatAttackType.Value.QUICK if branch == 0 else CombatAttackType.Value.RIPOSTE),"source reverse branch")
 		# A mapping change after the forward must be reprojected, never reuse forward.
@@ -288,11 +288,11 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		session.world_interaction_random_source().next_below(30)
 		session.npc_random_source().next_below(100)
 	for enabled: bool in [true,false]:
-		if enabled: SkillEnableTransition.try_enable(player.state.skills,LiuhKenDefinition.skill(),&"unarmed")
+		if enabled: SkillEnableTransition.try_enable(player.state.skills,GameContent.catalog().skill(&"liuh-ken"),&"unarmed")
 		else: player.state.skills.unmap_skill(&"unarmed")
 		var snapshot := Work.capture(session)
 		var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
-		check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_SERVICES_V1","save schema unchanged")
+		check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_ROUTES_V1","save schema unchanged")
 		var probe := Work.new()
 		await probe.round_trip(tree,session,snapshot,"liuh enabled=" + str(enabled))
 		check(probe._failures.is_empty(),"full state and all RNG exact; restore draws zero " + str(probe._failures))
@@ -356,7 +356,7 @@ func terminal_feedback(tree: SceneTree) -> void:
 		if weapon != null: player.state.equipment.unwield(weapon.instance_id)
 	player.state.skills.set_raw_level(&"unarmed",4)
 	player.state.skills.set_raw_level(&"liuh-ken",5)
-	SkillEnableTransition.try_enable(player.state.skills,LiuhKenDefinition.skill(),&"unarmed")
+	SkillEnableTransition.try_enable(player.state.skills,GameContent.catalog().skill(&"liuh-ken"),&"unarmed")
 	var rng: CombatRandomSource = setup.CountingRandom.new()
 	session.configure_combat_random_source(rng)
 	check(setup.start(session,&"smp2.receipt").succeeded(),"controlled receipt encounter")

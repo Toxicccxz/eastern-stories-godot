@@ -224,6 +224,12 @@ func create_one(
 		if definition.has_authored_gender
 		else (BEAST_DEFAULT_GENDER if is_beast else CharacterStateType.GENDER_MALE)
 	)
+	# create() sets internal power before setup(): race/human.c then adds
+	# max_atman/4 to max_gin, max_force/4 to max_kee and max_mana/4 to max_sen.
+	state.recovery.inner_force = CharacterInternalResourceState.new(definition.internal_power(&"force"), definition.internal_power(&"max_force"))
+	state.recovery.atman = CharacterInternalResourceState.new(definition.internal_power(&"atman"), definition.internal_power(&"max_atman"))
+	state.recovery.mana = CharacterInternalResourceState.new(definition.internal_power(&"mana"), definition.internal_power(&"max_mana"))
+	state.attributes.force_factor = definition.internal_power(&"force_factor")
 	var resource_overrides: ResourceOverridesType = definition.resource_overrides()
 	state.essence = _create_resource_track(
 		resource_overrides.essence(),

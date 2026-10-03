@@ -1,0 +1,37 @@
+{
+	"race_actions": [
+		{
+			"race": "human", "legacy_source": "adm/daemons/race/human.c",
+			"actions": [
+				{ "id": "punch", "action": "$N挥拳攻击$n的$l", "damage_type": "瘀伤" },
+				{ "id": "grab", "action": "$N往$n的$l一抓", "damage_type": "抓伤" },
+				{ "id": "kick", "action": "$N往$n的$l狠狠地踢了一脚", "damage_type": "瘀伤" },
+				{ "id": "pound", "action": "$N提起拳头往$n的$l捶去", "damage_type": "瘀伤" },
+				{ "id": "swing", "action": "$N对准$n的$l用力挥出一拳", "damage_type": "瘀伤" }
+			]
+		}
+	],
+	"weapon_actions": [
+		{
+			"legacy_source": "adm/daemons/weapond.c",
+			"actions": [
+				{ "id": "slash", "action": "$N挥动$w，斩向$n的$l", "damage_type": "割伤" },
+				{ "id": "slice", "action": "$N用$w往$n的$l砍去", "damage_type": "砍伤" },
+				{ "id": "chop", "action": "$N的$w朝著$n的$l劈将过去", "damage_type": "劈伤" },
+				{ "id": "hack", "action": "$N挥舞$w，对准$n的$l一阵乱砍", "damage": 30, "damage_type": "砍伤" },
+				{ "id": "thrust", "action": "$N用$w往$n的$l刺去", "damage_type": "刺伤" },
+				{ "id": "pierce", "action": "$N的$w往$n的$l狠狠地一捅", "damage_type": "刺伤" },
+				{ "id": "whip", "action": "$N将$w一扬，往$n的$l抽去", "damage_type": "鞭伤" },
+				{ "id": "impale", "action": "$N用$w往$n的$l直戳过去", "damage_type": "刺伤" }
+			],
+			"verbs": [
+				{ "skill": "sword", "verbs": ["slash", "slice", "thrust"], "legacy_source": "std/weapon/sword.c" },
+				{ "skill": "blade", "verbs": ["slash", "slice", "hack"], "legacy_source": "std/weapon/blade.c" },
+				{ "skill": "axe", "verbs": ["chop", "slice", "hack"], "legacy_source": "std/weapon/axe.c" },
+				{ "skill": "dagger", "verbs": ["slice", "pierce", "thrust"], "legacy_source": "std/weapon/dagger.c" },
+				{ "skill": "fork", "verbs": ["thrust"], "legacy_source": "std/weapon/fork.c" },
+				{ "skill": "whip", "verbs": ["whip"], "legacy_source": "std/weapon/whip.c" }
+			]
+		}
+	]
+}

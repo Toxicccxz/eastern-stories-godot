@@ -1831,10 +1831,13 @@ func spar_selected() -> CombatSliceInitiationResult:
 	var result := CombatSliceInitiationResult.new()
 	if consent.accepted:
 		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-		result = session.combat_encounter_coordinator().start_production(
-			CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
-			CombatSliceProjectionBuilder.find_binding(participants, target.character_id),
-			CombatTriggerCause.Value.PLAYER_SPAR,
+		var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
+		var target_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, target.character_id)
+		result = (
+			# accept_fight() answered with kill_ob(): the NPC hunts the challenger.
+			session.combat_encounter_coordinator().start_production(target_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true)
+			if consent.kill
+			else session.combat_encounter_coordinator().start_production(player_binding, target_binding, CombatTriggerCause.Value.PLAYER_SPAR)
 		)
 	var started: bool = result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED
 	if consent.accepted and not started:
@@ -1848,6 +1851,9 @@ func spar_selected() -> CombatSliceInitiationResult:
 			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
 	if not started:
 		lines.append(tr("看起来%s并不想跟你较量。") % name)
+	elif consent.kill:
+		# feature/attack.c kill_ob() tells its victim.
+		lines.append(tr("看起来%s想杀死你！") % name)
 	elif not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty():
 		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
 		# blade draws blood. Native hint; ES2 says nothing here.

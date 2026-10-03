@@ -141,7 +141,7 @@ func facts() -> Dictionary[String, Variant]:
 		"kee": [state.vitality.current, state.vitality.effective, state.vitality.maximum],
 		"exp": state.progression.combat_experience,
 		"limbs": content.limbs(), "verbs": npc.definition().authored_combat_facts().verbs(),
-		"intrinsic": [content.intrinsic_attack, npc.definition().authored_combat_facts().intrinsic_damage, content.intrinsic_armor, content.intrinsic_dodge],
+		"intrinsic": [content.apply_value(&"attack", null), npc.definition().authored_combat_facts().intrinsic_damage, content.apply_value(&"armor", null), content.apply_value(&"dodge", null)],
 		"exists": npc.exists_in_map, "life": npc.life_status,
 	}
 

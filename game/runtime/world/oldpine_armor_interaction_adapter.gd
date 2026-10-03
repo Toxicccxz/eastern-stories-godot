@@ -27,6 +27,12 @@ func wear(
 			OldPineArmorInteractionResult.Outcome.ITEM_NOT_ARMOR,
 			item_instance_id,
 		)
+	if content.female_only and player.state.gender != CharacterState.GENDER_FEMALE:
+		return _result(
+			OldPineArmorInteractionResult.Action.WEAR,
+			OldPineArmorInteractionResult.Outcome.FEMALE_ONLY,
+			item_instance_id,
+		)
 	var definition: ArmorDefinition = content.armor_definition()
 	if definition == null:
 		return _result(

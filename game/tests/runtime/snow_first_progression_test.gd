@@ -64,7 +64,7 @@ func apprenticeship_tests() -> void:
 	state = fresh()
 	state.family = FamilyState.new(&"other", 1)
 	check(Master.recruit(state, 5) == NpcApprenticeship.Outcome.OTHER_RELATIONSHIP_DEFERRED and state.family.family_id == &"other", "no family switching")
-	check(Master.definition().skill_levels().size() == 11 and NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()) == [&"unarmed", &"literate", &"liuh-ken"], "all source knowledge retained; teaches what skills.json defines")
+	check(Master.definition().skill_levels().size() == 11 and NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()) == [&"unarmed", &"parry", &"dodge", &"sword", &"force", &"literate", &"fonxanforce", &"fonxansword", &"liuh-ken", &"chaos-steps"], "all source knowledge retained; teaches what skills.json defines (not spider-array)")
 
 
 func learn_tests() -> void:
@@ -178,7 +178,7 @@ func persistence_tests(tree: SceneTree) -> void:
 	await exact_roundtrip(tree,session,snapshot,"partial skill")
 	var encoded := GameSaveJsonCodec.encode(snapshot)
 	var raw: Dictionary = JSON.parse_string(encoded.text)
-	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_SERVICES_V1", "root/item/content stable")
+	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_SNOW_ROUTES_V1", "root/item/content stable")
 	raw.player.character.affiliation.schema_version = 2
 	check(not GameSaveJsonCodec.decode(JSON.stringify(raw)).succeeded(), "unknown affiliation version rejected")
 	raw.player.character.affiliation.schema_version = 1

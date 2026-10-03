@@ -18,6 +18,8 @@ enum Outcome {
 	ARMOR_DEFINITION_MISMATCH,
 	ITEM_NOT_WORN,
 	ARMOR_TRANSITION,
+	## wear.c: a female_only piece on someone who is not 女性.
+	FEMALE_ONLY,
 }
 
 var _action: int

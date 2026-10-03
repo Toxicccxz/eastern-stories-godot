@@ -81,6 +81,8 @@ msgid "男性"
 msgstr ""
 
 #. snow.npc.traveller gender.else
+#. snow.npc.girl gender
+#. snow.npc.girl accept_fight.gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json
 msgid "女性"
 msgstr ""
@@ -1166,7 +1168,8 @@ msgstr ""
 msgid "你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」"
 msgstr ""
 
-#: core/relationships/npc_apprenticeship.gd
+#. snow.npc.girl family.title
+#: core/relationships/npc_apprenticeship.gd data/snow/npcs.json
 msgid "弟子"
 msgstr ""
 
@@ -1261,7 +1264,9 @@ msgstr ""
 msgid "负"
 msgstr ""
 
-#: data/combat/beast_combat_action_definitions.gd data/combat/liuh_ken_definition.gd presentation/battle/es2_combat_messages.gd runtime/combat_slice/combat_slice_content_profile.gd
+#. liuh-ken actions.damage_type
+#. actions.damage_type
+#: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "瘀伤"
 msgstr ""
 
@@ -1277,7 +1282,8 @@ msgstr ""
 msgid "$N扑上来张嘴往$n的$l狠狠地一咬"
 msgstr ""
 
-#: data/combat/beast_combat_action_definitions.gd
+#. actions.damage_type
+#: data/combat/beast_combat_action_definitions.gd data/common/combat_actions.json
 msgid "抓伤"
 msgstr ""
 
@@ -1285,32 +1291,14 @@ msgstr ""
 msgid "$N用爪子往$n的$l一抓"
 msgstr ""
 
-#: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd
+#. fonxansword actions.damage_type
+#. actions.damage_type
+#: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "刺伤"
 msgstr ""
 
 #: data/combat/beast_combat_action_definitions.gd
 msgid "$N用嘴往$n的$l一啄"
-msgstr ""
-
-#: data/combat/liuh_ken_definition.gd
-msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
-msgstr ""
-
-#: data/combat/liuh_ken_definition.gd
-msgid "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去"
-msgstr ""
-
-#: data/combat/liuh_ken_definition.gd
-msgid "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出"
-msgstr ""
-
-#: data/combat/liuh_ken_definition.gd
-msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
-msgstr ""
-
-#: data/combat/liuh_ken_definition.gd runtime/combat_slice/combat_slice_content_profile.gd
-msgid "拳"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -1687,50 +1675,6 @@ msgid "$N见$n攻击失误，趁机发动攻击！"
 msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd
-msgid "但是和$p$l偏了几寸。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是被$p机灵地躲开了。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是$n身子一侧，闪了开去。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是被$p及时避开。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是$n已有准备，不慌不忙的躲开。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "只听见「锵」一声，被$p格开了。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "结果「当」地一声被$p挡开了。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是被$n用手中兵刃架开。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是$n身子一侧，用手中兵刃格开。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "但是被$p格开了。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
-msgid "结果被$p挡开了。"
-msgstr ""
-
-#: presentation/battle/es2_combat_messages.gd
 msgid "结果没有造成任何伤害。"
 msgstr ""
 
@@ -1738,7 +1682,9 @@ msgstr ""
 msgid "□伤"
 msgstr ""
 
-#: presentation/battle/es2_combat_messages.gd runtime/combat_slice/combat_slice_content_profile.gd
+#. fonxansword actions.damage_type
+#. actions.damage_type
+#: presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "割伤"
 msgstr ""
 
@@ -2152,14 +2098,6 @@ msgstr ""
 msgid "右脚"
 msgstr ""
 
-#: runtime/combat_slice/combat_slice_content_profile.gd
-msgid "$N挥动$w，斩向$n的$l"
-msgstr ""
-
-#: runtime/combat_slice/combat_slice_content_profile.gd
-msgid "$N挥拳攻击$n的$l"
-msgstr ""
-
 #: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/world_map_controller.gd
 msgid "%s的尸体"
 msgstr ""
@@ -2437,6 +2375,10 @@ msgstr ""
 
 #: runtime/world/world_map_controller.gd
 msgid "看起来%s并不想跟你较量。"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "看起来%s想杀死你！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -2851,19 +2793,23 @@ msgstr ""
 msgid "基本拳脚"
 msgstr ""
 
-#: ui/world/player_life_overlay.gd
+#. sword name
+#: ui/world/player_life_overlay.gd data/common/skills.json
 msgid "基本剑法"
 msgstr ""
 
-#: ui/world/player_life_overlay.gd
+#. parry name
+#: ui/world/player_life_overlay.gd data/common/skills.json
 msgid "基本招架"
 msgstr ""
 
-#: ui/world/player_life_overlay.gd
+#. dodge name
+#: ui/world/player_life_overlay.gd data/common/skills.json
 msgid "基本轻功"
 msgstr ""
 
-#: ui/world/player_life_overlay.gd
+#. force name
+#: ui/world/player_life_overlay.gd data/common/skills.json
 msgid "基本内功"
 msgstr ""
 
@@ -3021,6 +2967,10 @@ msgstr ""
 msgid "随身补给"
 msgstr ""
 
+#: ui/world/shared_gameplay_ui.gd
+msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
+msgstr ""
+
 #. es2:obj/money/coin name
 #: data/common/items.json
 msgid "钱"
@@ -3088,6 +3038,7 @@ msgstr ""
 #. es2:d/oldpine/obj/leather unit
 #. es2:d/snow/obj/linen unit
 #. es2:d/snow/obj/raincoat unit
+#. es2:d/snow/obj/pink_cloth unit
 #: data/common/items.json data/oldpine/items.json data/snow/items.json
 msgid "件"
 msgstr ""
@@ -3173,6 +3124,7 @@ msgstr ""
 #. es2:d/snow/obj/lumber_axe unit
 #. es2:d/snow/obj/hammer unit
 #. es2:d/snow/obj/bamboo_sword unit
+#. es2:d/snow/obj/thin_sword unit
 #: data/common/items.json data/oldpine/items.json data/snow/items.json
 msgid "把"
 msgstr ""
@@ -3194,16 +3146,272 @@ msgstr ""
 msgid "丝绸马褂"
 msgstr ""
 
+#. parry parry_messages.armed
+#: data/common/skills.json
+msgid "只听见「锵」一声，被$p格开了。"
+msgstr ""
+
+#. parry parry_messages.armed
+#: data/common/skills.json
+msgid "结果「当」地一声被$p挡开了。"
+msgstr ""
+
+#. parry parry_messages.armed
+#: data/common/skills.json
+msgid "但是被$n用手中兵刃架开。"
+msgstr ""
+
+#. parry parry_messages.armed
+#: data/common/skills.json
+msgid "但是$n身子一侧，用手中兵刃格开。"
+msgstr ""
+
+#. parry parry_messages.unarmed
+#: data/common/skills.json
+msgid "但是被$p格开了。"
+msgstr ""
+
+#. parry parry_messages.unarmed
+#: data/common/skills.json
+msgid "结果被$p挡开了。"
+msgstr ""
+
+#. dodge dodge_messages
+#: data/common/skills.json
+msgid "但是和$p$l偏了几寸。"
+msgstr ""
+
+#. dodge dodge_messages
+#: data/common/skills.json
+msgid "但是被$p机灵地躲开了。"
+msgstr ""
+
+#. dodge dodge_messages
+#: data/common/skills.json
+msgid "但是$n身子一侧，闪了开去。"
+msgstr ""
+
+#. dodge dodge_messages
+#: data/common/skills.json
+msgid "但是被$p及时避开。"
+msgstr ""
+
+#. dodge dodge_messages
+#: data/common/skills.json
+msgid "但是$n已有准备，不慌不忙的躲开。"
+msgstr ""
+
+#. liuh-ken actions.action
+#: data/common/skills.json
+msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
+msgstr ""
+
+#. liuh-ken actions.action
+#: data/common/skills.json
+msgid "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去"
+msgstr ""
+
+#. liuh-ken actions.action
+#: data/common/skills.json
+msgid "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出"
+msgstr ""
+
+#. liuh-ken actions.action
+#: data/common/skills.json
+msgid "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l"
+msgstr ""
+
+#. fonxanforce name
+#: data/common/skills.json
+msgid "封山派内功"
+msgstr ""
+
+#. fonxansword name
+#: data/common/skills.json
+msgid "封山剑法"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N的$w凭空一指，一招「童子引路」刺向$n的$l"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去"
+msgstr ""
+
+#. fonxansword actions.action
+#: data/common/skills.json
+msgid "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l"
+msgstr ""
+
+#. chaos-steps name
+#: data/common/skills.json
+msgid "倒乱七星步法"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "$n使出「倒转天权」，轻轻松松地闪过。"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "$n左足一点，一招「逐影天枢」腾空而起，避了开去。"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "可是$n使一招「风动玉衡」，身子轻轻飘了开去。"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "$n身影微动，已经藉一招「开阳薄雾」轻轻闪过。"
+msgstr ""
+
+#. chaos-steps dodge_messages
+#: data/common/skills.json
+msgid "但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
+msgstr ""
+
+#. celestial name
+#: data/common/skills.json
+msgid "天邪神功"
+msgstr ""
+
 #. literate name
 #. snow.npc.teacher inquiry topic
 #: data/common/skills.json data/snow/npcs.json
 msgid "读书识字"
 msgstr ""
 
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N挥拳攻击$n的$l"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N往$n的$l一抓"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N往$n的$l狠狠地踢了一脚"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N提起拳头往$n的$l捶去"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N对准$n的$l用力挥出一拳"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N挥动$w，斩向$n的$l"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N用$w往$n的$l砍去"
+msgstr ""
+
+#. actions.damage_type
+#: data/common/combat_actions.json
+msgid "砍伤"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N的$w朝著$n的$l劈将过去"
+msgstr ""
+
+#. actions.damage_type
+#: data/common/combat_actions.json
+msgid "劈伤"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N挥舞$w，对准$n的$l一阵乱砍"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N用$w往$n的$l刺去"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N的$w往$n的$l狠狠地一捅"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N将$w一扬，往$n的$l抽去"
+msgstr ""
+
+#. actions.damage_type
+#: data/common/combat_actions.json
+msgid "鞭伤"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N用$w往$n的$l直戳过去"
+msgstr ""
+
 #. family.fonxan name
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
 msgid "封山剑派"
+msgstr ""
+
+#. family.fonxan_north name
+#. snow.npc.girl family.name
+#: data/common/families.json data/snow/npcs.json
+msgid "封山剑派北宗"
 msgstr ""
 
 #. common.npc.swordsman.master name
@@ -3391,6 +3599,7 @@ msgid "草鞋"
 msgstr ""
 
 #. es2:d/snow/obj/sandals unit
+#. es2:d/snow/obj/shoe unit
 #: data/snow/items.json
 msgid "双"
 msgstr ""
@@ -3449,6 +3658,33 @@ msgstr ""
 #. es2:d/snow/obj/shield unit
 #: data/snow/items.json
 msgid "面"
+msgstr ""
+
+#. es2:d/snow/obj/thin_sword name
+#: data/snow/items.json
+msgid "细剑"
+msgstr ""
+
+#. es2:d/snow/obj/thin_sword long
+#: data/snow/items.json
+msgid ""
+"这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
+msgstr ""
+
+#. es2:d/snow/obj/pink_cloth name
+#: data/snow/items.json
+msgid "粉红绸衫"
+msgstr ""
+
+#. es2:d/snow/obj/pink_cloth long
+#: data/snow/items.json
+msgid ""
+"这件粉红色的绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
+msgstr ""
+
+#. es2:d/snow/obj/shoe name
+#: data/snow/items.json
+msgid "绣花小鞋"
 msgstr ""
 
 #. snow.npc.traveller name
@@ -3929,6 +4165,11 @@ msgid ""
 "他也绝不会去招惹旁人。\n"
 msgstr ""
 
+#. snow.npc.annihir accept_fight.say
+#: data/snow/npcs.json
+msgid "咦... 要打就真打吧，光是较量多没意思？"
+msgstr ""
+
 #. snow.npc.smith name
 #: data/snow/npcs.json
 msgid "王铁匠"
@@ -4020,6 +4261,32 @@ msgstr ""
 #. snow.npc.herbalist inquiry topic
 #: data/snow/npcs.json
 msgid "开药"
+msgstr ""
+
+#. snow.npc.girl name
+#: data/snow/npcs.json
+msgid "柳绘心"
+msgstr ""
+
+#. snow.npc.girl long
+#: data/snow/npcs.json
+msgid ""
+"柳绘心是淳风武馆馆主柳淳风的独生女。\n"
+msgstr ""
+
+#. snow.npc.girl accept_fight.say
+#: data/snow/npcs.json
+msgid "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？"
+msgstr ""
+
+#. snow.npc.girl accept_fight.say
+#: data/snow/npcs.json
+msgid "我才不要，你们去找李教头练吧！"
+msgstr ""
+
+#. snow.npc.girl accept_fight.say
+#: data/snow/npcs.json
+msgid "爹爹说过，不能跟你们这些江湖人物比武过招。"
 msgstr ""
 
 #. es2:d/snow/inn short

@@ -5,8 +5,86 @@
 			"legacy_source": "daemon/skill/unarmed.c"
 		},
 		{
+			"id": "sword", "name": "基本剑法", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/sword.c"
+		},
+		{
+			"id": "parry", "name": "基本招架", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/parry.c",
+			"parry_messages": {
+				"armed": [
+					"只听见「锵」一声，被$p格开了。",
+					"结果「当」地一声被$p挡开了。",
+					"但是被$n用手中兵刃架开。",
+					"但是$n身子一侧，用手中兵刃格开。"
+				],
+				"unarmed": [
+					"但是被$p格开了。",
+					"结果被$p挡开了。"
+				]
+			}
+		},
+		{
+			"id": "dodge", "name": "基本轻功", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/dodge.c",
+			"dodge_messages": [
+				"但是和$p$l偏了几寸。",
+				"但是被$p机灵地躲开了。",
+				"但是$n身子一侧，闪了开去。",
+				"但是被$p及时避开。",
+				"但是$n已有准备，不慌不忙的躲开。"
+			]
+		},
+		{
+			"id": "force", "name": "基本内功", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/force.c"
+		},
+		{
 			"id": "liuh-ken", "name": "柳家拳", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
-			"legacy_source": "daemon/skill/liuh-ken.c"
+			"legacy_source": "daemon/skill/liuh-ken.c",
+			"actions": [
+				{ "id": "gu-song-gua-yue", "action": "$N使一招「古松挂月」，对准$n的$l「呼」地一拳", "damage_type": "瘀伤" },
+				{ "id": "ao-xue-dong-mei", "action": "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去", "damage_type": "瘀伤" },
+				{ "id": "gu-ya-ting-tao", "action": "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出", "damage_type": "瘀伤" },
+				{ "id": "huang-shan-hu-yin", "action": "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l", "damage_type": "瘀伤" }
+			]
+		},
+		{
+			"id": "fonxanforce", "name": "封山派内功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/fonxanforce.c",
+			"standard_force_hit": true
+		},
+		{
+			"id": "fonxansword", "name": "封山剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"legacy_source": "daemon/skill/fonxansword.c",
+			"actions": [
+				{ "id": "feng-hui-lu-zhuan", "action": "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l", "damage": 30, "damage_type": "刺伤" },
+				{ "id": "kong-shan-niao-yu", "action": "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l", "damage": 30, "damage_type": "割伤" },
+				{ "id": "yu-feng-er-xing", "action": "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l", "damage": 20, "damage_type": "割伤" },
+				{ "id": "xu-ri-dong-sheng", "action": "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑", "damage_type": "刺伤" },
+				{ "id": "jin-guang-xie-di", "action": "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑", "damage_type": "刺伤" },
+				{ "id": "tong-zi-yin-lu", "action": "$N的$w凭空一指，一招「童子引路」刺向$n的$l", "damage": 40, "damage_type": "刺伤" },
+				{ "id": "liu-an-hua-ming", "action": "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去", "damage": 20, "damage_type": "刺伤" },
+				{ "id": "kong-gu-qiu-hong", "action": "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l", "damage": 10, "damage_type": "割伤" }
+			]
+		},
+		{
+			"id": "chaos-steps", "name": "倒乱七星步法", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"legacy_source": "daemon/skill/chaos-steps.c",
+			"dodge_messages": [
+				"$n一招「天玑离枢」轻轻巧巧地避了开去。",
+				"只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。",
+				"$n使出「倒转天权」，轻轻松松地闪过。",
+				"$n左足一点，一招「逐影天枢」腾空而起，避了开去。",
+				"可是$n使一招「风动玉衡」，身子轻轻飘了开去。",
+				"$n身影微动，已经藉一招「开阳薄雾」轻轻闪过。",
+				"但是$n一招「瑶光音迟」使出，早已绕到$N身後！"
+			]
+		},
+		{
+			"id": "celestial", "name": "天邪神功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/celestial.c",
+			"standard_force_hit": true
 		},
 		{
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",

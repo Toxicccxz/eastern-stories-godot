@@ -205,7 +205,7 @@ func _equipment(state: CharacterState) -> void:
 	state.equipment.wield(weapon,false)
 	var rng := Draws.new([0,0,0])
 	var result := Martial.execute(Martial.binding(&"armed",state),Martial.binding(&"target"),rng)
-	check(state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and result.selected_action_id == CombatSliceContentProfile.SLASH_ACTION_ID and rng.requested_bounds()[0] == 1, "primary weapon overrides retained mapping")
+	check(state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and result.selected_action_id == CombatSliceContentProfile.SLASH_ACTION_ID and rng.requested_bounds()[0] == 3, "primary weapon overrides retained mapping (a sword's three verbs)")
 	state.equipment.unwield(weapon.instance_id)
 	_mapped_attack(state,0)
 	state.equipment._restore_weapons(null,Martial.sword(&"acceptance.secondary"))

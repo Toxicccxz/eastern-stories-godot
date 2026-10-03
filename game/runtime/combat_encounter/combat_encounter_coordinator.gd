@@ -40,7 +40,9 @@ func last_abort_detail() -> String:
 
 ## One synchronous production-entry transaction. Reuses the audited playable
 ## relationship establishment; rollback restores order and preexisting facts.
-func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int) -> CombatSliceInitiationResult:
+## `directed_kill`: an NPC_AGGRESSION where only the initiator kills (a spar it
+## turned into kill_ob); the target only fights back.
+func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int, directed_kill: bool = false) -> CombatSliceInitiationResult:
 	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open():
 		return CombatSliceInitiationResult.new()
 	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id):
@@ -48,6 +50,8 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR] or _entry_sequence == 9223372036854775807:
 		return CombatSliceInitiationResult.new()
 	var spar: bool = cause == CombatTriggerCause.Value.PLAYER_SPAR
+	if directed_kill and cause != CombatTriggerCause.Value.NPC_AGGRESSION:
+		return CombatSliceInitiationResult.new()
 	for binding: CombatSliceCharacterBinding in [initiator, target]:
 		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
 		if current == null or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor:
@@ -63,6 +67,7 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	var second_lethal: Array[StringName] = target.relationship.lethal_target_ids()
 	var receipt: CombatSliceInitiationResult = (
 		CombatSliceOpportunityExecutor.initiate_spar(initiator, target) if spar
+		else CombatSliceOpportunityExecutor.initiate_directed_kill(initiator, target) if directed_kill
 		else CombatSliceOpportunityExecutor.initiate_lethal_combat(initiator, target)
 	)
 	if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:

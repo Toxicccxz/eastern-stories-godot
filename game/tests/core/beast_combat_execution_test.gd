@@ -61,7 +61,7 @@ func _test_defender_wound_boundary() -> void:
 		f.human.state.attributes.strength = 200
 		var rng: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([0, 0, 2, 420500, 125000, 0, 0, wound_draw, 0, 1000])
 		var result: CombatSliceOpportunityResult = f.execute(f.human, rng)
-		_check_complete(result, rng, [15, 1, 3, 421000, 125500, 200, 250000, 100, 120, 3500], "serpent defender")
+		_check_complete(result, rng, [15, 5, 3, 421000, 125500, 200, 250000, 100, 120, 3500], "serpent defender")
 		var c: CombatAttackCalculation = result.forward_result.ordinary_attack_result.base_result.calculation
 		_eq([c.attack_power, c.dodge_power, c.parry_power], [500, 420500, 125000], "80^3/3/500*500+250000 DP; PP exp/2 no Beast ban")
 		_eq(c.selected_limb, &"尾巴", "three Beast limbs, index2 tail")
@@ -102,7 +102,7 @@ func _test_live_riposte() -> void:
 		f.serpent.relationship.set_guarding(true)
 		var rng: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([0, 0, 0, 0, 51, guard_draw, 0, 0, 0, 0])
 		var result: CombatSliceOpportunityResult = f.execute(f.human, rng)
-		_check_complete(result, rng, [15, 1, 3, 1253500, 110, 20, 1, 16, 572001, 120], "guarding reverse")
+		_check_complete(result, rng, [15, 5, 3, 1253500, 110, 20, 1, 16, 572001, 120], "guarding reverse")
 		_eq(result.reverse_projection_built, true, "reverse projected after forward")
 		_eq(result.reverse_attacker_experience_at_projection, 250001, "forward dodge success exp+1 visible")
 		_eq(f.serpent.state.skills.raw_level(&"dodge"), 2, "forward learned+1 levels live NPC dodge")
@@ -122,7 +122,7 @@ func _test_npc_parry_progression() -> void:
 	f.serpent.state.skills.improve_skill(&"parry", 4, 20, false, false)
 	var rng: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([0, 0, 0, 420500, 0, 51])
 	var result: CombatSliceOpportunityResult = f.execute(f.human, rng)
-	_check_complete(result, rng, [15, 1, 3, 1253500, 958000, 110], "NPC parry progression")
+	_check_complete(result, rng, [15, 5, 3, 1253500, 958000, 110], "NPC parry progression")
 	_eq(result.forward_result.ordinary_attack_result.base_result.outcome, CombatAttackResult.Outcome.PARRY, "serpent can parry under ordinary rules")
 	_eq(f.serpent.state.skills.raw_level(&"parry"), 2, "existing NPC parry improves past strict threshold")
 	_eq(f.project(f.human, f.serpent).defender.effective_parry_skill_level, 1, "next projection reads live raw parry2/2")
@@ -144,7 +144,7 @@ func _test_reverse_hit_damage() -> void:
 	# raw200 -> effective100 -> 100^3/3/1000*1000+500000 = 833000.
 	var rng: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([0, 0, 0, 0, 51, 19, 0, 0, 250000, 833000, 0, 0, 0, 0, 1000])
 	var result: CombatSliceOpportunityResult = f.execute(f.human, rng)
-	_check_complete(result, rng, [15, 1, 3, 1253500, 110, 20, 1, 16, 572001, 1155001, 20, 40, 500000, 32, 1968], "reverse bite hit")
+	_check_complete(result, rng, [15, 5, 3, 1253500, 110, 20, 1, 16, 572001, 1155001, 20, 40, 500000, 32, 1968], "reverse bite hit")
 	var base: CombatAttackResult = result.chain_result.reverse_ordinary_result.base_result
 	_eq(base.outcome, CombatAttackResult.Outcome.HIT, "reverse ordinary bite hits")
 	_eq([base.calculation.attack_power, base.calculation.base_apply_damage, base.calculation.requested_damage], [322001, 20, 32], "reverse live AP/intrinsic20/bite20%/strength40 once")

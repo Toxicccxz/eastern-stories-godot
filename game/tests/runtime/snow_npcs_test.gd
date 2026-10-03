@@ -34,7 +34,7 @@ func _test_population(session: OldPineWorldSessionController) -> void:
 				var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 				_check(body != null and MapPlacementValidator.is_valid_character_position(map, spawn.zone_id, body.global_position), "%s body is inside its zone, clear of walls" % point_id)
 				placed += 1
-	_check(placed == 32, "thirty-two Snow NPCs: travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E)")
+	_check(placed == 33, "thirty-three Snow NPCs: travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E); 柳绘心 (offense/defense routes)")
 
 
 func _test_authored_facts(session: OldPineWorldSessionController) -> void:
@@ -116,6 +116,11 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 	session.set_process(false)
 	var map: WorldMapController = session.active_map() as WorldMapController
 	map.select_npc(&"snow.eroad2.dog.1.character")
+	# A hurt new character (70 kee), so the seeded fight ends in a death after a claw, as
+	# the owner's playtest did before race/human.c's five moves shifted the draws.
+	var hurt: CharacterResourceState = session.player_runtime().state.vitality
+	hurt.effective = 70
+	hurt.current = 70
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the fight with the dog starts")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var claws: int = 0
@@ -135,8 +140,8 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 			break
 	_check(not stalled and not coordinator.has_active_encounter(), "the dog fight runs to its end, no incomplete attack chain")
 	_check(claws > 0, "the dog clawed at least once")
-	# The seeded fight ends as the owner's playtest did: the dog kills the new character on
-	# Snow's own map, so the way back (wgargoyle.c) must not need a scene change.
+	# The dog kills the hurt new character on Snow's own map (as in the owner's playtest), so
+	# the way back (wgargoyle.c) must not need a scene change.
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and session.player_life_flow().phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE, "the dog killed the new character on the east road")
 	for _second: int in range(60):

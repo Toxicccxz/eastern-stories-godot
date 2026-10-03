@@ -95,6 +95,26 @@ func _init(
 	_unarmed = p_unarmed
 
 
+## The armor_prop value named as its apply/<key>; 0 for a key no armor gives.
+func value(key: StringName) -> int:
+	match key:
+		&"armor": return _armor
+		&"armor_vs_force": return _armor_vs_force
+		&"attack": return _attack
+		&"defense": return _defense
+		&"dodge": return _dodge
+		&"composure": return _composure
+		&"courage": return _courage
+		&"intelligence": return _intelligence
+		&"karma": return _karma
+		&"personality": return _personality
+		&"magic": return _magic
+		&"move": return _move
+		&"spells": return _spells
+		&"unarmed": return _unarmed
+	return 0
+
+
 func added(other: ArmorNumericModifiers) -> ArmorNumericModifiers:
 	if other == null:
 		return duplicate_snapshot()

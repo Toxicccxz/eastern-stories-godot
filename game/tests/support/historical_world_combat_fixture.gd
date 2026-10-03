@@ -14,7 +14,7 @@ static func install(session: OldPineWorldSessionController) -> void:
 	session._combat_encounter_coordinator = load("res://tests/support/historical_world_combat_fixture.gd").new(session, session.world_simulation_gate())
 
 
-func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, _cause: int) -> CombatSliceInitiationResult:
+func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, _cause: int, _directed_kill: bool = false) -> CombatSliceInitiationResult:
 	var result: CombatSliceInitiationResult = CombatSliceOpportunityExecutor.initiate_lethal_combat(initiator, target)
 	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
 		set_running(_session.active_map() as WorldMapController, true)

@@ -53,6 +53,7 @@ var _nickname: String = ""
 var _rank_respect: String = ""
 var _dealings: NpcDealings
 var _teaching: NpcTeaching
+var _internal_power: Dictionary[StringName, int] = {}
 
 var definition_id: StringName:
 	get:
@@ -227,6 +228,17 @@ func with_teaching(value: NpcTeaching) -> NpcDefinition:
 
 func teaching() -> NpcTeaching:
 	return _teaching
+
+
+## force/max_force, atman/max_atman, mana/max_mana and force_factor as create()
+## sets them (0 when it does not). Called once by the loader.
+func with_internal_power(values: Dictionary[StringName, int]) -> NpcDefinition:
+	_internal_power = values.duplicate()
+	return self
+
+
+func internal_power(key: StringName) -> int:
+	return _internal_power.get(key, 0)
 
 
 ## race/human.c sets can_speak; beast.c does not. fight.c only asks a

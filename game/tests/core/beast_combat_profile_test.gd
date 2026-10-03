@@ -24,7 +24,7 @@ func _test_source_profile_and_selection() -> void:
 	_eq(bite.legacy_action_text, "$N扑上来张嘴往$n的$l狠狠地一咬", "beast.c exact text")
 	_eq([bite.damage_percent, bite.force_percent, bite.damage_type], [20, 0, &"咬伤"], "bite semantics")
 	_eq(bite.post_action_policy_id, &"", "no special hook")
-	_eq([profile.intrinsic_attack, profile.projected_apply_damage(null), profile.intrinsic_armor, profile.intrinsic_dodge], [60, 20, 90, 80], "four independent source contributions")
+	_eq([profile.apply_value(&"attack", null), profile.projected_apply_damage(null), profile.apply_value(&"armor", null), profile.apply_value(&"dodge", null)], [60, 20, 90, 80], "four independent source contributions")
 	var rng: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([0])
 	var result: CombatActionSelectionResult = CombatActionSelector.select_action(
 		CombatSliceProjectionBuilder.build_action_selection_input(f.serpent), rng)
@@ -35,8 +35,8 @@ func _test_source_profile_and_selection() -> void:
 	_eq(f.serpent.state == f.npc.character_state and f.serpent.armor == f.npc.armor, true, "binding preserves authority identity")
 	var other: RefCounted = Fixture.new()
 	profile.limbs().clear()
-	profile._beast_facts._attack = 61 # Deliberate alias-abuse test; never production API.
-	_eq(other.serpent.content.intrinsic_attack, 60, "independent profiles")
+	profile._beast_facts._apply[&"attack"] = 61 # Deliberate alias-abuse test; never production API.
+	_eq(other.serpent.content.apply_value(&"attack", null), 60, "independent profiles")
 	_eq(f.npc.definition().authored_combat_facts().intrinsic_attack, 60, "definition snapshot independent")
 	_eq(profile.limbs().size(), 3, "returned limbs defensive")
 
@@ -60,8 +60,9 @@ func _test_readiness() -> void:
 	_eq(dog.action_readiness(null, BeastCombatActionDefinitions.action(&"claw")), CombatSliceContentProfile.Readiness.READY, "claw is an admitted dog action")
 	_eq(dog.action_readiness(null, BeastCombatActionDefinitions.action(&"poke")), CombatSliceContentProfile.Readiness.INVALID_ACTION_DATA, "poke is not the dog's")
 	_eq(dog.approved_action_set(null, &"unarmed", &"").size(), 2, "both verbs are approved for an attack, forward or riposte")
-	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [&"bite"])).approved_action_set(null, &"unarmed", &""), null, "a one-verb beast keeps the single template")
-	_eq(CombatSliceContentProfile.new().approved_action_set(null, &"unarmed", &""), null, "a human punch keeps the single template")
+	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [&"bite"])).approved_action_set(null, &"unarmed", &"").size(), 1, "a one-verb beast draws from its one verb")
+	var human_actions: CombatActionSet = CombatSliceContentProfile.new().approved_action_set(null, &"unarmed", &"")
+	_eq([human_actions.size(), human_actions.action_at(0).action_id, human_actions.action_at(1).damage_type], [5, CombatSliceContentProfile.UNARMED_ACTION_ID, &"抓伤"], "race/human.c: five moves, punch first")
 	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [&"bite", &"bite"])).readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_VERB_DISTRIBUTION, "weighted duplicates deferred")
 	_eq(CombatSliceContentProfile.new(&"", &"", 0, &"monster").readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_RACE, "unknown race no fallback")
 	var definition: NpcDefinition = NpcDefinition.new(&"test.beast", "test.c", "Test", [&"test"], &"beast")
@@ -106,14 +107,15 @@ func _test_human_profiles() -> void:
 		var profile: CombatSliceContentProfile = CombatSliceContentProfile.new().for_npc_definition(definition)
 		_eq(profile.readiness(), CombatSliceContentProfile.Readiness.READY, "%s ready" % definition.definition_id)
 		_eq(profile.limbs(), [&"头部", &"颈部", &"胸口", &"後心", &"左肩", &"右肩", &"左臂", &"右臂", &"左手", &"右手", &"腰间", &"小腹", &"左腿", &"右腿", &"左脚", &"右脚"], "human ordered 16 limbs unchanged")
-		_eq(profile.unarmed_action().action_id, CombatSliceContentProfile.UNARMED_ACTION_ID, "human punch unchanged")
-		_eq([profile.intrinsic_attack, profile.intrinsic_dodge, profile.intrinsic_armor, profile.projected_apply_damage(null)], [0, 0, 0, 0], "no Beast facts on human")
+		_eq(profile.unarmed_action().action_id, CombatSliceContentProfile.UNARMED_ACTION_ID, "human punch first")
+		_eq([profile.apply_value(&"attack", null), profile.apply_value(&"dodge", null), profile.apply_value(&"armor", null), profile.projected_apply_damage(null)], [0, 0, 0, 0], "no apply on the bandits")
 	for content: NpcLoadoutItemDefinition in [TestContent.loadout(TestContent.LONG_SWORD_ITEM_ID), TestContent.loadout(TestContent.SHORT_SWORD_ITEM_ID)]:
 		var expected: int = 25 if content.item_definition().item_definition_id == TestContent.LONG_SWORD_ITEM_ID else 15
 		var weapon: EquippedWeaponRef = EquippedWeaponRef.new(&"test.weapon", content.weapon_definition())
 		var profile: CombatSliceContentProfile = CombatSliceContentProfile.new(weapon.weapon_id, weapon.skill_type, expected)
 		_eq(profile.projected_apply_damage(weapon), expected, "source long25/short15")
-		_eq(profile.attack_template_for(weapon).action_id, CombatSliceContentProfile.SLASH_ACTION_ID, "existing slash unchanged")
+		_eq(profile.attack_template_for(weapon).action_id, CombatSliceContentProfile.SLASH_ACTION_ID, "a sword's first verb is slash")
+		_eq(profile.weapon_action_set().size(), 3, "std/weapon/sword.c: slash, slice, thrust")
 		_eq(profile.for_npc_definition(TestContent.npc(TestContent.SERPENT_NPC_ID)).projected_apply_damage(weapon), expected + 20, "real weapon plus intrinsic damage")
 	var leather: ArmorNumericModifiers = TestContent.loadout(TestContent.LEATHER_ITEM_ID).armor_definition().numeric_modifiers
 	_eq([leather.armor, leather.dodge], [5, -2], "leather.c armor5 + cloth.c -6000/3000")

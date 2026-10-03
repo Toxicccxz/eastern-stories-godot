@@ -1,5 +1,6 @@
 {
 	"families": [
-		{ "id": "family.fonxan", "name": "封山剑派" }
+		{ "id": "family.fonxan", "name": "封山剑派" },
+		{ "id": "family.fonxan_north", "name": "封山剑派北宗" }
 	]
 }

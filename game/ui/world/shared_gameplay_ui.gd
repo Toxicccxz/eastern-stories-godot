@@ -709,7 +709,9 @@ func _unwield_item(id: StringName) -> void:
 
 
 func _wear_item(id: StringName) -> void:
-	_session.wear_player_item(id)
+	var result: OldPineArmorInteractionResult = _session.wear_player_item(id)
+	if result != null and result.outcome == OldPineArmorInteractionResult.Outcome.FEMALE_ONLY:
+		append_log_lines([tr("这是女人的衣衫，你一个大男人也想穿，羞也不羞？")])
 	open_inventory()
 
 

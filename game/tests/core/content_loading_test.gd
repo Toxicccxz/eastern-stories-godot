@@ -38,7 +38,7 @@ func _test_shipped_content_loads() -> void:
 		&"snow.outdoor.sroad2.farmers", &"snow.outdoor.sroad4.crazy_dog", &"snow.outdoor.school.teacher",
 		&"snow.outdoor.herbshop.woodcutter", &"snow.outdoor.postoffice.post_officer", &"snow.inn_upstairs.inn_2f.rats",
 		&"snow.inn.waiter", &"snow.outdoor.bank.annihir", &"snow.outdoor.schoolhall.master", &"snow.outdoor.smithy.smith",
-		&"snow.outdoor.herbshop.herbalist",
+		&"snow.outdoor.herbshop.herbalist", &"snow.outdoor.nyard.girl",
 	], "spawn order is the authored order (manifest, then file)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")
@@ -155,7 +155,7 @@ func _test_npc_and_spawn_records() -> void:
 	errors.clear()
 	NpcContentRecords.npc_from_record(ContentRecordReader.new({
 		"id": "t.bad", "legacy_source": "t/bad.c", "name": "坏", "aliases": ["bad"], "race": "dragon",
-		"attitude": "killer", "attributes": {"luck": 1}, "resources": {"mana": 1}, "apply": {"parry": 1},
+		"attitude": "killer", "attributes": {"luck": 1}, "resources": {"hp": 1}, "apply": {"karma": 1},
 		"carry": [{"item": "t:sword", "source": "t/sword.c", "equip": "hold"}],
 	}, "t.npcs[1]", errors))
 	_eq(errors, [
@@ -163,8 +163,8 @@ func _test_npc_and_spawn_records() -> void:
 		"t.npcs[1].attitude: unsupported attitude 'killer'",
 		"t.npcs[1].carry[0].equip: expected 'wield' or 'wear'",
 		"t.npcs[1].attributes.luck: unsupported attribute",
-		"t.npcs[1].resources.mana: unsupported resource",
-		"t.npcs[1].apply.parry: unsupported apply value",
+		"t.npcs[1].resources.hp: unsupported resource",
+		"t.npcs[1].apply.karma: unsupported apply value",
 	], "unsupported NPC facts are reported, not guessed")
 	errors.clear()
 	NpcContentRecords.spawn_from_record(ContentRecordReader.new({

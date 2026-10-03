@@ -102,6 +102,43 @@
 			"weight": 7000,
 			"value": 340,
 			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 } }
+		},
+		{
+			"id": "es2:d/snow/obj/thin_sword",
+			"legacy_sources": ["d/snow/obj/thin_sword.c", "d/snow/npc/obj/thin_sword.c"],
+			"name": "细剑",
+			"aliases": ["thin sword", "sword"],
+			"long": "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 1400,
+			"value": 700,
+			"weapon": { "skill": "sword", "damage": 16, "apply": { "courage": -4 } }
+		},
+		{
+			"id": "es2:d/snow/obj/pink_cloth",
+			"legacy_sources": ["d/snow/obj/pink_cloth.c", "d/snow/npc/obj/pink_cloth.c"],
+			"name": "粉红绸衫",
+			"aliases": ["pink cloth", "cloth"],
+			"long": "这件粉红色的绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n",
+			"unit": "件",
+			"material": "cloth",
+			"female_only": true,
+			"weight": 1000,
+			"value": 600,
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 3 } }
+		},
+		{
+			"id": "es2:d/snow/obj/shoe",
+			"legacy_sources": ["d/snow/obj/shoe.c", "d/snow/npc/obj/shoe.c"],
+			"name": "绣花小鞋",
+			"aliases": ["shoes"],
+			"unit": "双",
+			"material": "cloth",
+			"female_only": true,
+			"weight": 900,
+			"value": 300,
+			"armor": { "type": "boots", "props": { "armor": 1 } }
 		}
 	]
 }

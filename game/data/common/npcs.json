@@ -10,8 +10,10 @@
 			"age": 44,
 			"long": "柳淳风是个相当高大的中年儒生，若不是从他腰间挂著的「玄苏剑」你\n大概猜不到眼前这个温文儒雅的中年人竟是家大武馆的馆主。\n",
 			"attributes": { "str": 27, "cor": 30, "cps": 27, "int": 24 },
+			"resources": { "max_force": 1500, "force": 1500 },
 			"combat_exp": 1000000,
 			"score": 200000,
+			"force_factor": 3,
 			"rank_info": { "respect": "柳馆主" },
 			"family": { "name": "封山剑派", "generation": 13, "title": "掌门人" },
 			"f_master": true,
@@ -45,7 +47,6 @@
 				"name": ["你既然知道我是柳□主，怎麽不知道我是柳淳风？"],
 				"here": ["这里便是淳风武馆。"]
 			},
-			"fight_deferred": "maps sword and parry to fonxansword and dodge to chaos-steps, whose actions are not ported: every fight would abort",
 			"apprentice": {
 				"requires": { "cor": 20, "cps": 20 },
 				"refuse_say": "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？",

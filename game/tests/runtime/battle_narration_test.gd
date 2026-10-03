@@ -63,7 +63,10 @@ func _tables() -> void:
 	check(Es2CombatMessages.WINNER.size() == CombatPostRelationshipService.WINNER_PRESENTATION_COUNT, "one winner line per Core draw")
 	check(Es2CombatMessages.GUARD.size() == CombatFightDecisionService.GUARD_PRESENTATION_COUNT, "one guard line per Core draw")
 	check(Es2CombatMessages.parry_messages(true).size() == 4 and Es2CombatMessages.parry_messages(false).size() == 2, "parry.c two sets")
-	check(Es2CombatMessages.dodge_messages(&"").size() == 5 and Es2CombatMessages.dodge_messages(&"dodge") == Es2CombatMessages.DODGE, "dodge.c")
+	check(Es2CombatMessages.dodge_messages(&"").size() == 5 and Es2CombatMessages.dodge_messages(&"dodge") == Es2CombatMessages.dodge_messages(&""), "dodge.c")
+	var steps: Array[String] = Es2CombatMessages.dodge_messages(&"chaos-steps")
+	check(steps.size() == 7 and steps[6] == "但是$n一招「瑶光音迟」使出，早已绕到$N身後！", "chaos-steps.c: a mapped dodge skill's own lines")
+	check(Es2CombatMessages.dodge_messages(&"liuh-ken") == Es2CombatMessages.dodge_messages(&""), "a mapped skill without dodge lines reads dodge.c's")
 	check(Es2CombatMessages.pronoun(CharacterState.GENDER_MALE) == "他" and Es2CombatMessages.pronoun(CharacterState.GENDER_FEMALE) == "她" and Es2CombatMessages.pronoun(CharacterState.GENDER_ANIMAL_MALE) == "它" and Es2CombatMessages.pronoun(&"") == "它", "gender.c pronouns")
 
 
@@ -90,7 +93,7 @@ func _dodge_from_the_player_side() -> void:
 	check(rng.call_count() == calls, "narration draws nothing from the combat source")
 	check(lines.size() == 2 and lines[0] == "你使一招「古松挂月」，对准对手的头部「呼」地一拳！", "the action from the attacker's side %s" % str(lines))
 	var dodges: Array[String] = []
-	for message: String in Es2CombatMessages.DODGE:
+	for message: String in Es2CombatMessages.dodge_messages(&"dodge"):
 		dodges.append(message.replace("$p", "她").replace("$n", "对手").replace("$l", "头部"))
 	check(lines.size() == 2 and lines[1] in dodges, "a dodge.c line about her %s" % str(lines))
 	check(_texts(BattleNarrator.new(_seeded(1)).attack_chain(forward, null, cast)) == lines, "the same seed picks the same words")

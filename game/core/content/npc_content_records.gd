@@ -6,7 +6,8 @@ extends RefCounted
 ## docs/migration/CONTENT_DATA_FORMAT.md.
 const ATTRIBUTE_KEYS: Array[String] = ["str", "cor", "int", "spi", "cps", "per", "con", "kar"]
 const RESOURCE_TRACK_KEYS: Array[String] = ["gin", "kee", "sen"]
-const APPLY_KEYS: Array[String] = ["attack", "damage", "armor", "dodge"]
+## Internal power: current and max of force, atman and mana (no eff_ tier).
+const INTERNAL_RESOURCE_KEYS: Array[String] = ["force", "max_force", "atman", "max_atman", "mana", "max_mana"]
 const RACE_IDS: Array[StringName] = [
 	NpcCharacterStateFactory.HUMAN_RACE_ID,
 	NpcCharacterStateFactory.BEAST_RACE_ID,
@@ -58,6 +59,13 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var capabilities: Array[StringName] = _string_names(reader.text_list("capabilities"))
 	var attributes: NpcBaseAttributeOverrides = _attribute_overrides(reader)
 	var resources: NpcResourceOverrides = _resource_overrides(reader)
+	var internal_power: Dictionary[StringName, int] = {}
+	var authored_resources: Dictionary[String, int] = reader.integer_map("resources")
+	for key: String in INTERNAL_RESOURCE_KEYS:
+		if authored_resources.has(key):
+			internal_power[StringName(key)] = authored_resources[key]
+	if reader.has("force_factor"):
+		internal_power[&"force_factor"] = reader.integer("force_factor")
 	var combat_facts: NpcAuthoredCombatFacts = _combat_facts(reader)
 	var fight_rules: Array[NpcFightRule] = []
 	for rule: ContentRecordReader in reader.children("accept_fight"):
@@ -86,7 +94,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power)
 	if not definition.is_valid():
 		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry, random values or talk)")
 	return definition
@@ -167,12 +175,14 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	return definition
 
 
-## One `accept_fight` rule: {"family"?, "gender"?, "emote"?, "say"?, "accept"}.
+## One `accept_fight` rule: {"family"?, "gender"?, "emote"?, "say"?, "accept", "kill"?}.
 static func _fight_rule(reader: ContentRecordReader) -> NpcFightRule:
 	var rule := NpcFightRule.new(
 		StringName(reader.text("family")), StringName(reader.text("gender")),
-		reader.text("emote"), reader.text("say"), reader.boolean("accept", false),
+		reader.text("emote"), reader.text("say"), reader.boolean("accept", false), reader.boolean("kill", false),
 	)
+	if rule.kill and not rule.accept:
+		reader.fail("kill", "only an accepted spar becomes a kill")
 	if not reader.has("accept"):
 		reader.fail("accept", "is required")
 	reader.finish()
@@ -281,7 +291,7 @@ static func _resource_overrides(reader: ContentRecordReader) -> NpcResourceOverr
 			authored.has("max_" + track), authored.get("max_" + track, 0),
 		))
 	for key: String in authored:
-		if not known.has(key):
+		if not known.has(key) and not INTERNAL_RESOURCE_KEYS.has(key):
 			reader.fail("resources." + key, "unsupported resource")
 	return NpcResourceOverrides.new(tracks[0], tracks[1], tracks[2])
 
@@ -291,20 +301,15 @@ static func _combat_facts(reader: ContentRecordReader) -> NpcAuthoredCombatFacts
 	var has_facts: bool = reader.has("limbs") or reader.has("verbs") or reader.has("apply")
 	var limbs: Array[String] = reader.text_list("limbs")
 	var verbs: Array[StringName] = _string_names(reader.text_list("verbs"))
-	var apply: Dictionary[String, int] = reader.integer_map("apply")
-	for key: String in apply:
-		if not APPLY_KEYS.has(key):
+	var apply: Dictionary[StringName, int] = {}
+	var authored: Dictionary[String, int] = reader.integer_map("apply")
+	for key: String in authored:
+		if not NpcAuthoredCombatFacts.APPLY_KEYS.has(StringName(key)):
 			reader.fail("apply." + key, "unsupported apply value")
+		apply[StringName(key)] = authored[key]
 	if not has_facts:
 		return null
-	return NpcAuthoredCombatFacts.new(
-		limbs,
-		verbs,
-		apply.get("attack", 0),
-		apply.get("damage", 0),
-		apply.get("armor", 0),
-		apply.get("dodge", 0),
-	)
+	return NpcAuthoredCombatFacts.new(limbs, verbs, apply)
 
 
 static func _string_names(values: Array[String]) -> Array[StringName]:
