@@ -1,5 +1,30 @@
 # Migration Decisions
 
+## Internal power in combat: enforce, exert, the force hit (2026-10-03)
+
+Owner-approved plan ("按你的建议"):
+- **enforce.c** on the 武学 page and the battle panel: 0 (none) to query_skill("force") / 2,
+  an enabled force needed, no busy or fight check, so in a fight it is set at once (not
+  queued) and its Ok. joins the battle log. Ok. stays English, as enable.c's (#46 review).
+- **exert.c** with the function files skills.json lists under `exert`: fonxanforce's heal
+  (`daemon/class/swordsman/fonxanforce/heal.c`), the basic force's recover, refresh and
+  regenerate (`/d/force`), tried in exert.c's order; the last notify_fail() is the line a
+  refusal shows. Use is practice: random(120) for the enabled force (weak mode: a player
+  never gains a level from it), random(force * 4) for the basic force. The target is always
+  oneself, so the files' `target != me` lines never show.
+- **Owner:** in a fight 运功 is queued like 逃跑 and waits while the player is busy (等你空下来);
+  ES2 refuses with exert.c's ( 你上一个动作还没有完成，不能施用内功。). Out of a fight a busy
+  player gets that line.
+- **Owner:** powerup and powerfade (天邪神功, `daemon/class/fighter/celestial`) wait for the
+  combat specials package with 安惜迩's exert; the player cannot learn 天邪神功 in Snow.
+- std/force.c's reflection is told between the move and the damage line (combatd.c adds the
+  hit_ob() string there). **Owner:** its third line, 「$N被$N以内力一震」 in the source, shows $n.
+- **Owner (#46 review):** Continue is ES2's login: race/human.c runs again for the player and
+  max gin, kee and sen are recomputed with a quarter of max atman, force and mana (eff and
+  current stay). A save made after max_force grew is therefore not restored bit for bit.
+- **Owner (#46 review):** exercise pace, option B: the pacing knobs package adds a data
+  multiplier for exercise gain or kee recovery, default ES2's; the value is set from playtest.
+
 ## Offense/defense routes B: the player's own training (2026-10-03)
 
 Owner-approved plan (the package's second PR):
