@@ -83,6 +83,7 @@ func _test_waiter(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	var greetings: Array[String] = ["店小二笑咪咪地说道：这位小姑娘，进来喝杯茶，歇歇腿吧。", "店小二用脖子上的毛巾抹了抹手，说道：这位小姑娘，请进请进。", "店小二说道：这位小姑娘，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。"]
 	_check(greetings.has(hud.log_lines().back()), "waiter.c greeting(): one of three lines: " + hud.log_lines().back())
 	_check(shop.in_reach() and map.interaction_title() == "店小二 · 购买", "购买 beside his body")
+	_check(not shop.request_purchase("dumpling").delivered and shop.feedback.text == "你的钱不够。", "buy.c: no money")
 	map.select_npc(waiter.character_id)
 	map.spar_selected()
 	_check(hud.log_lines().any(func(line: String) -> bool: return line.contains("领教小二哥的高招")), "rankd.c: rank_info/respect 小二哥")

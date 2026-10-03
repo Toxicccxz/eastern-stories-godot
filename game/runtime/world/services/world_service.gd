@@ -49,6 +49,11 @@ func context_title() -> String:
 	return "%s · %s" % [display_name(), verb()] if in_reach() else ""
 
 
+## Where the service is, for picking the nearest thing the context button acts on.
+func anchor() -> Vector2:
+	return point.global_position
+
+
 func interact() -> void:
 	pass
 

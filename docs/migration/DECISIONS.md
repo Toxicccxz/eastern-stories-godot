@@ -1,5 +1,15 @@
 # Migration Decisions
 
+## Busy wears off on the heart beat (2026-10-02)
+
+`std/char.c` heart_beat(): a busy character spends the beat in `continue_action()` (busy − 1;
+a non-positive busy clears) and does nothing else that beat. Outside a fight this now runs on
+the S5B 2-second beat, for the player and the NPCs of the active map; inside one the encounter
+scheduler does it as before. Supersedes S5B C ("existing busy authority remains the only
+advancement owner"), under which busy left by a pickup in a fight (get.c `start_busy(1)`) stopped
+recovery and Save for good. The beat still stands still with a condition (S5B E) or while the
+player is not ACTIVE (S5B L), where char.c would wear busy down too.
+
 ## Give, drop and put; shops and teachers on their NPCs (2026-10-02)
 
 Package 4E, from the owner-approved plan:

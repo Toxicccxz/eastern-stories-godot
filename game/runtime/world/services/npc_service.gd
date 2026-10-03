@@ -41,3 +41,8 @@ func in_reach() -> bool:
 		return false
 	var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 	return map.player_near([npc.world_location().zone_id], body.global_position, REACH)
+
+
+func anchor() -> Vector2:
+	var body: WorldCharacterBody2D = null if map == null else map.runtime_body_for_character(npc.character_id)
+	return Vector2.INF if body == null else body.global_position

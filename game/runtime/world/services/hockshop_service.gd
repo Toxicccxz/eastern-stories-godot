@@ -136,7 +136,16 @@ func item_label(id: StringName) -> String:
 		return String(id)
 	var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
 	var display_name: String = String(item.item_definition_id) if content == null else content.display_name
-	return "%s · %s\n%s" % [display_name, equipment_label(id), String(id)]
+	# Two of the same are told apart by their place among the carried ones, not the ID.
+	var current: MoneyInventoryContext = context()
+	var same: Array[StringName] = []
+	for carried: StringName in current.inventory.direct_children(current.endpoint()):
+		var other: ItemInstance = current.index.resolve(carried)
+		if other != null and other.item_definition_id == item.item_definition_id:
+			same.append(carried)
+	if same.size() > 1:
+		display_name += " #%d" % (same.find(id) + 1)
+	return "%s · %s" % [display_name, equipment_label(id)]
 
 
 func visible_ids() -> Array[StringName]:

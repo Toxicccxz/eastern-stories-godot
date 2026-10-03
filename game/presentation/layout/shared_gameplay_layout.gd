@@ -19,6 +19,9 @@ var details: VBoxContainer
 var character: Label
 ## The current zone's authored ES2 description, opened by Look.
 var room: Label
+## The message log (消息). Its own box keeps the log's height: open_panel() zeroes
+## the content's minimum size, and a RichTextLabel alone then shows nothing.
+var messages: VBoxContainer
 var character_button: Button
 var close_button: Button
 var _frame_layout: ResponsivePanelLayout
@@ -128,9 +131,13 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	details.add_child(ui.inspection_text)
 	character = _label(holding, "CharacterDetails")
 	room = _label(holding, "RoomDescription")
+	messages = VBoxContainer.new()
+	messages.name = "Messages"
+	holding.add_child(messages)
 	ui.combat_log = RichTextLabel.new()
 	ui.combat_log.custom_minimum_size = Vector2(0, 320)
-	holding.add_child(ui.combat_log)
+	ui.combat_log.scroll_following = true
+	messages.add_child(ui.combat_log)
 	ui.inventory_panel = load("res://scenes/ui/player_inventory_panel.tscn").instantiate() as PlayerInventoryPanel
 	holding.add_child(ui.inventory_panel)
 	ui.loot_panel = load("res://scenes/ui/oldpine_loot_panel.tscn").instantiate() as OldPineLootPanel

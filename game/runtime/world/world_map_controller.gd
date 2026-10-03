@@ -1692,7 +1692,7 @@ func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_insi
 
 
 func _refresh_loot_panel(corpse: CorpseState) -> void:
-	_hud().show_loot("Corpse of %s" % corpse.victim_display_name, _loot.project_rows(corpse, _inventory, _stacks, _item_index))
+	_hud().show_loot(tr("%s的尸体") % corpse.victim_display_name, _loot.project_rows(corpse, _inventory, _stacks, _item_index))
 
 
 # --- Selection: NPCs, landmarks, corpses --------------------------------------------
@@ -2213,33 +2213,45 @@ func close_door(door_id: StringName) -> bool:
 	return true
 
 
-## What the context button offers here: a door first, then a service.
+## What the context button offers here: the nearest door or service in reach (a door
+## when equally near), so beside 李火狮 by the school gate it is his lessons.
 func interaction_title() -> String:
-	for door_id: StringName in _doors:
-		if can_operate_door(door_id):
-			var name_text: String = GameContent.catalog().door(door_id).display_name
-			return (tr("关闭%s") if _doors[door_id].is_open() else tr("打开%s")) % name_text
-	for candidate: WorldService in _services:
-		var title: String = candidate.context_title()
-		if not title.is_empty():
-			return title
+	var target: Variant = _context_target()
+	if target is WorldService:
+		return (target as WorldService).context_title()
+	if target is StringName:
+		var name_text: String = GameContent.catalog().door(target).display_name
+		return (tr("关闭%s") if _doors[target].is_open() else tr("打开%s")) % name_text
 	return ""
 
 
 func interact() -> void:
 	if ExplorationPresentationBlocker.is_blocked(get_tree()):
 		return
+	var target: Variant = _context_target()
+	if target is WorldService:
+		(target as WorldService).interact()
+	elif target is StringName:
+		if _doors[target].is_open():
+			close_door(target)
+		else:
+			open_door(target)
+
+
+## A door's id or a WorldService, or null.
+func _context_target() -> Variant:
+	var best: Variant = null
+	var nearest: float = INF
+	var at: Vector2 = player_body.global_position
 	for door_id: StringName in _doors:
-		if can_operate_door(door_id):
-			if _doors[door_id].is_open():
-				close_door(door_id)
-			else:
-				open_door(door_id)
-			return
+		if can_operate_door(door_id) and at.distance_to(_doors[door_id].wall_shape().global_position) < nearest:
+			best = door_id
+			nearest = at.distance_to(_doors[door_id].wall_shape().global_position)
 	for candidate: WorldService in _services:
-		if not candidate.context_title().is_empty():
-			candidate.interact()
-			return
+		if not candidate.context_title().is_empty() and at.distance_to(candidate.anchor()) < nearest:
+			best = candidate
+			nearest = at.distance_to(candidate.anchor())
+	return best
 
 
 ## Back/Escape on a service panel. False when no service claims `content`.

@@ -80,10 +80,11 @@ func request_purchase(goods_key: String) -> VendorPurchaseResult:
 			feedback.text += tr("酒精饮用暂未开放；可到瀑布换装清水。")
 	elif last_purchase.paid:
 		feedback.text = tr("已付款，但未收到%s。") % goods_name + (tr("负重过高。") if last_purchase.outcome == VendorPurchaseResult.Outcome.DELIVERY_FAILED else tr("物品状态异常，请停止操作。"))
+	# buy.c: can_afford() 0 and 2.
 	elif last_purchase.affordability != null and last_purchase.affordability.outcome == MoneyAffordabilityResult.Outcome.INSUFFICIENT_TOTAL:
-		feedback.text = tr("钱不够。")
+		feedback.text = tr("你的钱不够。")
 	elif last_purchase.affordability != null and last_purchase.affordability.outcome == MoneyAffordabilityResult.Outcome.DENOMINATION_REJECTED:
-		feedback.text = tr("零钱不足，请先去钱庄兑换。")
+		feedback.text = tr("你没有足够的零钱，而对方也找不开...。")
 	else:
 		feedback.text = tr("交易未完成，状态异常；已发生的扣款不会退回。")
 	return last_purchase

@@ -54,6 +54,14 @@ During development, run only the affected suites (a `*_test.gd` path or a direct
 ```
 
 New suites must still be registered in `run_tests.gd`, which remains the canonical CI gate.
+Steps 3–5 also fail when Godot prints a `SCRIPT ERROR` line, even if every suite passed;
+`run_suite.gd` fails the suite that logged one.
+
+The Phase 10B4 QA bridge (F6 saves, F7 corrupts the development save) is opt-in:
+
+```text
+<godot> --path game --script res://tests/runtime/run_with_qa_bridge.gd
+```
 
 ## One sanitized production project
 
@@ -68,7 +76,7 @@ development game/
 
 The staging directory is deleted and recreated. The sanitizer removes the Godot AI addon, helper
 autoload, editor plugin activation, early `mcp_test.tscn` smoke scene, remote-debug/6107 argument,
-`.godot` cache, `game/tests/`, and QA bridge/startup configuration. Test fixtures and fake capabilities
+`.godot` cache, `game/tests/`, QA startup configuration and the development save slot setting. Test fixtures and fake capabilities
 must not be production dependencies. It retains the canonical
 `res://scenes/application/application_shell.tscn`, production Shell/settings/capability code, persistent
 Runtime Host, and native Save/Continue/recovery runtime. It also retains responsive presentation,
