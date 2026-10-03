@@ -1,5 +1,30 @@
 # Migration Decisions
 
+## Offense/defense routes B: the player's own training (2026-10-03)
+
+Owner-approved plan (the package's second PR):
+- **enable.c anywhere outside a fight**, on the character panel's 武学 page, for every use a
+  special skill can be enabled for (封山剑法: sword and parry). Supersedes D-SMP2-02 (enable only
+  beside 柳淳风) and the teacher panel's 启用/停用 (first use only, no reset). enable.c also works
+  in a fight; the page closes in one like every portable action. No busy check (enable.c has
+  none). Every enable for force (magic, spells) empties force (atman, mana) with enable.c's line,
+  the same skill again too; the page does not offer the skill already enabled.
+- practice.c, exercise.c, selflearn.c and study.c run from the page with their lines.
+  practice_skill() and valid_learn()'s lines are skills.json data; learn.c, practice.c and study.c
+  print valid_learn()'s own line (the last notify_fail wins; PR A printed learn.c's).
+- study.c reads items.json `study` (obj/old_book.c: force to 10; the scavenger carries it). It
+  spends sen and no potential; a negative cost (int over 40 for the book) changes nothing
+  (receive_damage() raises an error).
+- Lines keep ES2's colours in the log and on the HUD: practice.c HIY, improve_skill() HIC,
+  skill_improved() HIW.
+- exercise.c lost characters in the source's encoding: 全身□麻 is shown as 全身酸麻 (痠), the
+  bottleneck line ends 瓶颈。 The page's 打坐 amount starts at 30 (exercise.c's help), minimum 10.
+- **Owner:** ES2's pace stays. Measured: max_force 0 → 50 takes about 8–16 hours of play (kee
+  comes back every heal_up, about 21 s); see the pacing knobs package.
+  `tests/runtime/run_with_max_force.gd` (opt-in) gives a playtest max_force 49.
+- Not yet: race/human.c adds max_force/4 to max kee in setup() (at login in ES2); the player's
+  maxima are not recomputed.
+
 ## Offense/defense routes A: moves as data, apply/* in combat, 柳淳风 and 安惜迩 fought (2026-10-03)
 
 Owner-approved plan (two PRs; this is the first):

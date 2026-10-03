@@ -33,10 +33,9 @@ scene reference. New player text follows
 
 Order may change after the near-term packages; each item is a content package with owner playtest.
 
-* **Offense/defense routes** (in progress): PR A — moves and dodge lines as data, `apply/*` in
-  combat, NPC internal power, 柳淳风 and 安惜迩 fought, 柳绘心 placed; PR B — the player's route:
-  learn `force`/`fonxanforce`, enable anywhere outside a fight, exercise to max_force 50, learn
-  and practice `fonxansword`/`chaos-steps`, self-learning.
+* **Offense/defense routes** (PR B in review): PR A — moves and dodge lines as data, `apply/*` in
+  combat, NPC internal power, 柳淳风 and 安惜迩 fought, 柳绘心 placed; PR B — the player's route on
+  the 武学 page: enable anywhere outside a fight, exercise, practice, self-learning, study.
 * **Internal power in combat**: the player's `enforce` (force_factor), exert (heal, recover,
   powerup) and the force hit for the player.
 * **Combat talk and specials**: `chat_msg_combat` with perform/cast/exert — 柳淳风's and
@@ -45,7 +44,8 @@ Order may change after the near-term packages; each item is a content package wi
   and the travellers' 飞刀.
 * **Conditions and treatment**: condition-producing attacks, update cadence, cures and supplies.
 * **Old Pine remainder**: full Cave, Keep, Tree and other deferred routes and actors.
-* **Pacing knobs**: data-configured multipliers (default = original) decided from owner playtests.
+* **Pacing knobs**: data-configured multipliers (default = original) decided from owner playtests;
+  first candidate: exercise to max_force 50 takes 8–16 hours of play at ES2's pace.
 * **Second region and family**: chosen by source connections; must reuse shared systems.
 * **Breadth**: remaining regions (including `u/cloud`), families, special abilities
   (perform/exert/cast), quests (`quest/qlist*`), NPCs that wander across maps, doors, death/ghost realm.

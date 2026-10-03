@@ -56,6 +56,7 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
+| `study` | `set("skill", ([...]))` | `{skill, exp_required, sen_cost, difficulty, max_skill}`: study.c teaches the skill from it (the LPC `name` key is `skill`) |
 | `money` | `money_id`, `base_value`, `base_unit`, `base_weight` | makes the item a stack and a currency; merge key is `/<first legacy source without .c>`; `coin`, `silver` and `gold` must all exist |
 
 The corpse (`obj/corpse.c`) is created by the death rules and is not an item record.
@@ -212,7 +213,8 @@ config.ES2; lower it locally to playtest resets).
 ## skills, families
 
 `skills`: `{id, name, kind: basic|specialized, type: martial|knowledge, enable?: [use], legacy_source,
-actions?, dodge_messages?, parry_messages?, standard_force_hit?, hit_ob?}` — a skill the game models (learn,
+actions?, dodge_messages?, parry_messages?, standard_force_hit?, hit_ob?, practice?, valid_learn?,
+improved_line?, improved_color?}` — a skill the game models (learn,
 enable, the character panel's name; to_chinese()'s dictionary is not in the mudlib, so `name` is
 authored). A specialized skill names the uses it can be enabled for. `actions` is the skill's
 `action` table (query_action): `{id, action, damage_type, damage?, force?, weapon?}`, the ID being
@@ -220,7 +222,14 @@ authored). A specialized skill names the uses it can be enabled for. `actions` i
 LPC. `hit_ob: true` marks a skill with its own `hit_ob()` (iceforce, spicyclaw, ts-fist): not
 ported, so a fight that would call it stops. `dodge_messages` (query_dodge_msg) and `parry_messages` `{armed, unarmed}`
 (parry.c, which combatd.c always asks) are its lines. `standard_force_hit`: it inherits
-std/force.c and keeps its `hit_ob()`. `families`: `{id, name}` — a family by its ES2
+std/force.c and keeps its `hit_ob()`. `practice` is its `practice_skill()` (practice.c):
+`{kee?, force?, done?, fail?, refuses?}` — kee and force each at least the amount, then both
+spent; `done` what it writes, `fail` its notify_fail(); `refuses: true` never lets it happen
+(fonxanforce). No `practice`: the daemon has none and practice never progresses.
+`valid_learn` maps the rule that refused (`max_force`, `mapped`, `weapon`, `empty_hands`) to
+valid_learn()'s notify_fail(), which learn.c, practice.c and study.c then print. `improved_line`
+and `improved_color` (HIR/HIY/HIC/HIW): `skill_improved()`'s line when its effect applies.
+`families`: `{id, name}` — a family by its ES2
 `family_name`; characters keep the ID.
 
 ## race_actions, weapon_actions
