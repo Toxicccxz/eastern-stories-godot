@@ -139,7 +139,7 @@ func _shell_screens(tree: SceneTree) -> void:
 	_scan(shell, allowed, "New Game confirmation")
 	shell.dismiss_current_result()
 	await _frames(tree, 2)
-	check(shell.request_settings_from_main_menu() and shell.language_row.visible, "Settings shows the language row with two languages")
+	check(shell.request_settings_from_main_menu() and shell.language_row.visible, "Settings shows the language row")
 	_scan(shell, allowed, "Settings")
 	var option: OptionButton = shell.language_option
 	check(option.item_count == 3 and String(option.get_item_metadata(option.selected)) == PseudoLocale.CODE, "跟随系统 and both languages, the kept one selected")
@@ -147,6 +147,15 @@ func _shell_screens(tree: SceneTree) -> void:
 	check(shell.apply_settings() and TranslationServer.get_locale() == "zh_CN", "跟随系统 applies at once (an English or Chinese system reads Simplified)")
 	check(settings.files.has(ApplicationSettingsRepository.SETTINGS_PATH) and ApplicationSettingsRepository.new(settings).load().snapshot().language() == "", "and is kept")
 	shell.free()
+	await _frames(tree, 2)
+	# As shipped: Simplified Chinese alone, still listed in Settings.
+	var shipped: ApplicationShellController = SHELL.instantiate()
+	shipped.configure_before_start(GameSaveStorageProfile.isolated_test("localization-shipped"), ShellTests.MemoryFiles.new(), null, ShellTests.MemoryFiles.new())
+	tree.root.add_child(shipped)
+	await _frames(tree, 4)
+	check(shipped.request_settings_from_main_menu() and shipped.language_row.visible and shipped.language_option.item_count == 2, "as shipped, Settings lists 跟随系统 and 简体中文")
+	check(String(shipped.language_option.get_item_metadata(shipped.language_option.selected)) == LocalizationService.FOLLOW_SYSTEM, "following the system by default")
+	shipped.free()
 	await _frames(tree, 2)
 
 

@@ -997,7 +997,8 @@ func _render_state(defer_focus: bool = true) -> void:
 	var settings_interactive: bool = mode == ApplicationShellState.Mode.SETTINGS
 	window_mode_row.visible = _settings_service != null and _settings_service.can_edit_window_mode()
 	window_mode_option.disabled = not settings_interactive or not window_mode_row.visible
-	language_row.visible = _localization != null and _localization.catalog().languages().size() > 1
+	# Shown on every platform, also while Simplified Chinese is the only language.
+	language_row.visible = _localization != null
 	language_option.disabled = not settings_interactive or not language_row.visible
 	settings_apply_button.visible = window_mode_row.visible or language_row.visible
 	settings_apply_button.disabled = not settings_interactive
@@ -1167,10 +1168,10 @@ func _configure_active_focus_cycle(mode: int) -> void:
 		ApplicationShellState.Mode.PAUSED:
 			controls = [resume_button, save_button, pause_settings_button, return_button]
 		ApplicationShellState.Mode.SETTINGS:
-			if language_row.visible:
-				controls.append(language_option)
 			if window_mode_row.visible:
 				controls.append(window_mode_option)
+			if language_row.visible:
+				controls.append(language_option)
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)
@@ -1229,10 +1230,10 @@ func _focus_settings_control() -> void:
 		return
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
 		return
-	if language_row.visible and not language_option.disabled:
-		language_option.grab_focus()
-	elif window_mode_row.visible and not window_mode_option.disabled:
+	if window_mode_row.visible and not window_mode_option.disabled:
 		window_mode_option.grab_focus()
+	elif language_row.visible and not language_option.disabled:
+		language_option.grab_focus()
 	else:
 		settings_cancel_button.grab_focus()
 

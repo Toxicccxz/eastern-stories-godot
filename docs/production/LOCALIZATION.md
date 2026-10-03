@@ -44,7 +44,7 @@ choice and the Settings language.
    work too) and translate. Untranslated messages show the Simplified source.
 2. Add the language to `game/locale/languages.json`: `code`, its own `name`, `script` (Hans or
    Hant for Chinese), `translation` (`res://locale/<code>.po`) and the system `fonts` to try.
-   Settings shows a 语言 choice once there are two languages.
+   Settings lists it under 语言 (跟随系统 and each language by its own name).
 3. When the source text changes later, regenerate the template and update each `.po` from it
    (Poedit: Update from POT; `msgmerge`); changed messages come back fuzzy.
 

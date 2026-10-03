@@ -7,7 +7,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 **Package 5, localization foundation** (`phase/localization-foundation`): Simplified Chinese is
 the source language and every player text goes through a translation; the template
 (`game/locale/eastern_stories.pot`) is extracted from scripts, scenes and content; the
-language follows the system or Settings (语言, shown once there is a second language);
+language follows the system or Settings (语言; only 简体中文 so far);
 a pseudo-locale run of Snow's main path fails on any untranslated text on screen. No
 translations yet. How to write text and add a language: [LOCALIZATION](LOCALIZATION.md).
 

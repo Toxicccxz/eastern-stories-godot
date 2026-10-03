@@ -319,8 +319,8 @@ func _test_unsupported_capability_ui(tree: SceneTree) -> void:
 	_assert_true(shell.request_settings_from_main_menu(), "unsupported platform still opens Settings")
 	await tree.process_frame
 	_assert_false(shell.window_mode_row.visible, "unsupported platform exposes no fake editable control")
-	_assert_false(shell.settings_apply_button.visible, "unsupported platform exposes no fake Apply")
-	_assert_true(shell.get_viewport().gui_get_focus_owner() == shell.settings_cancel_button, "Back action owns focus")
+	_assert_true(shell.language_row.visible and shell.settings_apply_button.visible, "the language is still chosen there, with Apply")
+	_assert_true(shell.get_viewport().gui_get_focus_owner() == shell.language_option, "the language takes the focus")
 	_assert_eq(capability.apply_calls.size(), 0, "unsupported UI attempts no mode mutation")
 	_assert_true(shell.cancel_settings(), "unsupported Settings still navigates coherently")
 	_free_node(shell)
