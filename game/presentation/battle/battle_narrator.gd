@@ -76,6 +76,10 @@ func _attack(
 		# TRANSLATORS: combatd.c: an attack's own line ({action}, e.g. $N用爪子往$n的$l一抓) and its "！".
 		lines.append(BattleNarrationLine.new(vision(
 			_limb_and_weapon(tr("{action}！").format({"action": tr(action.legacy_action_text)}), limb, weapon), me, victim, cast)))
+	if base.has_standard_force_result and base.standard_force_result.outcome == StandardForceHitResult.Outcome.REFLECTION:
+		# combatd.c adds the force hit's line before the damage line.
+		lines.append(BattleNarrationLine.new(vision(
+			tr(Es2CombatMessages.force_reflection_message(base.standard_force_result.reflection_mutation.requested_wound)), me, victim, cast)))
 	var damage: int = -1
 	var outcome: String
 	match base.outcome:

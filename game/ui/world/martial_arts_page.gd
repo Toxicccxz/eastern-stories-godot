@@ -2,7 +2,8 @@ class_name MartialArtsPage
 extends VBoxContainer
 
 ## The character panel's 武学 page: cmds/usr/skills.c's list, enable.c's uses with
-## their enable, disable and practice buttons, exercise, self-learning and study.
+## their enable, disable and practice buttons, exercise, enforce, exert,
+## self-learning and study.
 ## PlayerMartialArts owns the rules; the page shows the state and repeats the lines
 ## the log received last. Buttons are rebuilt only when the set of actions changes.
 
@@ -27,17 +28,22 @@ var no_uses: Label
 var uses_box: VBoxContainer
 var exercise_amount: SpinBox
 var exercise_button: Button
+var enforce_amount: SpinBox
+var enforce_button: Button
+var exert_title: Label
+var exert_row: HFlowContainer
 var self_learn_title: Label
 var self_learn_row: HFlowContainer
 var study_title: Label
 var study_row: HFlowContainer
 var feedback: Label
 ## Action -> its button: enable:<use>:<skill>, disable:<use>, practice:<use>,
-## self_learn:<skill>, study:<item instance>.
+## exert:<function>, self_learn:<skill>, study:<item instance>.
 var buttons: Dictionary[String, Button] = {}
 var _session: OldPineWorldSessionController
 var _layout_key: String = "-"
 var _use_texts: Dictionary[StringName, RichTextLabel] = {}
+var _shown_factor: int = -1
 
 
 func _init() -> void:
@@ -69,6 +75,21 @@ func _init() -> void:
 	exercise.add_child(exercise_amount)
 	exercise_button = _button(exercise, "ExerciseButton", "打坐")
 	exercise_button.pressed.connect(_exercise)
+	_title("加力")
+	var enforce := HBoxContainer.new()
+	enforce.name = "Enforce"
+	enforce.add_theme_constant_override("separation", 8)
+	add_child(enforce)
+	enforce_amount = SpinBox.new()
+	enforce_amount.name = "EnforceAmount"
+	# enforce.c: 0 (none) to query_skill("force") / 2 points of force a hit.
+	enforce_amount.min_value = 0
+	enforce_amount.step = 1
+	enforce.add_child(enforce_amount)
+	enforce_button = _button(enforce, "EnforceButton", "加力")
+	enforce_button.pressed.connect(_enforce)
+	exert_title = _title("运功")
+	exert_row = _flow("Exert")
 	self_learn_title = _title("自学")
 	self_learn_row = _flow("SelfLearn")
 	study_title = _title("研读")
@@ -90,9 +111,17 @@ func refresh() -> void:
 	var state: CharacterState = _session.player_runtime().state
 	var catalog: ContentCatalog = GameContent.catalog()
 	skills_text.text = _skills_list(state, catalog)
-	force_text.text = tr("内力 {force} / {max_force}").format({
+	# TRANSLATORS: hp.c: internal power, its maximum and enforce.c's force_factor.
+	force_text.text = tr("内力 {force} / {max_force} (+{factor})").format({
 		"force": state.recovery.inner_force.current, "max_force": state.recovery.inner_force.maximum,
+		"factor": state.attributes.force_factor,
 	})
+	enforce_amount.max_value = arts.enforce_limit()
+	# The amount follows the factor whenever the factor changes.
+	if state.attributes.force_factor != _shown_factor:
+		_shown_factor = state.attributes.force_factor
+		enforce_amount.set_value_no_signal(mini(_shown_factor, arts.enforce_limit()))
+	var functions: Array[StringName] = arts.exert_functions()
 	var rows: Array[Dictionary] = _use_rows(arts, state, catalog)
 	var learnable: Array[StringName] = []
 	for skill_id: StringName in SelfLearningService.SELF_LEARNABLE:
@@ -103,6 +132,8 @@ func refresh() -> void:
 	for row: Dictionary in rows:
 		keys.append("use:%s" % row.use)
 		keys.append_array(row.actions)
+	for function_id: StringName in functions:
+		keys.append("exert:%s" % function_id)
 	for skill_id: StringName in learnable:
 		keys.append("self_learn:%s" % skill_id)
 	for book: PlayerInventoryRowProjection in books:
@@ -110,7 +141,7 @@ func refresh() -> void:
 	var key: String = "|".join(keys)
 	if key != _layout_key:
 		_layout_key = key
-		_rebuild(rows, learnable, books)
+		_rebuild(rows, functions, learnable, books)
 	for row: Dictionary in rows:
 		_use_texts[row.use].text = row.text
 	# enable.c with nothing enabled.
@@ -183,10 +214,10 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 	return rows
 
 
-func _rebuild(rows: Array[Dictionary], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:
+func _rebuild(rows: Array[Dictionary], functions: Array[StringName], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:
 	buttons.clear()
 	_use_texts.clear()
-	for container: Node in [uses_box, self_learn_row, study_row]:
+	for container: Node in [uses_box, exert_row, self_learn_row, study_row]:
 		for child: Node in container.get_children():
 			container.remove_child(child)
 			child.queue_free()
@@ -207,6 +238,12 @@ func _rebuild(rows: Array[Dictionary], learnable: Array[StringName], books: Arra
 		for action: String in row.actions:
 			buttons[action] = _button(flow, action.replace(":", "_"), "")
 			buttons[action].pressed.connect(_act.bind(action))
+	for function_id: StringName in functions:
+		var action: String = "exert:%s" % function_id
+		buttons[action] = _button(exert_row, action.replace(":", "_"), "")
+		buttons[action].pressed.connect(_act.bind(action))
+	exert_title.visible = not functions.is_empty()
+	exert_row.visible = not functions.is_empty()
 	for skill_id: StringName in learnable:
 		var action: String = "self_learn:%s" % skill_id
 		buttons[action] = _button(self_learn_row, action.replace(":", "_"), "")
@@ -235,6 +272,9 @@ func _label_buttons(rows: Array[Dictionary], learnable: Array[StringName], books
 					buttons[action].text = tr("练习")
 				"disable":
 					buttons[action].text = tr("停用")
+	for key: String in buttons:
+		if key.begins_with("exert:"):
+			buttons[key].text = tr(ExertFunctions.LABELS[StringName(key.get_slice(":", 1))])
 	for skill_id: StringName in learnable:
 		buttons["self_learn:%s" % skill_id].text = tr("自学%s") % tr(catalog.skill(skill_id).display_name)
 	for book: PlayerInventoryRowProjection in books:
@@ -255,6 +295,8 @@ func _act(action: String) -> void:
 			arts.disable(StringName(subject))
 		"practice":
 			arts.practice(StringName(subject))
+		"exert":
+			arts.exert(StringName(subject))
 		"self_learn":
 			arts.self_learn(StringName(subject))
 		"study":
@@ -282,6 +324,12 @@ func _refocus(action: String) -> void:
 func _exercise() -> void:
 	if _session != null:
 		_session.martial_arts().exercise(int(exercise_amount.value))
+		refresh()
+
+
+func _enforce() -> void:
+	if _session != null:
+		_session.martial_arts().enforce(int(enforce_amount.value))
 		refresh()
 
 

@@ -57,6 +57,15 @@ func recent() -> Array[BattleNarrationLine]:
 	return _recent.duplicate()
 
 
+## Lines told outside the encounter's events (enforce.c's): they join the recent
+## lines, which are returned.
+func note(lines: Array[BattleNarrationLine]) -> Array[BattleNarrationLine]:
+	_recent.append_array(lines)
+	if _recent.size() > RECENT_LINES:
+		_recent = _recent.slice(_recent.size() - RECENT_LINES)
+	return _recent.duplicate()
+
+
 ## Only successful authoritative completion may become a world result message.
 ## No rewards, lifecycle, thaw, or completion decision belongs to this projection.
 static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int) -> String:
@@ -147,8 +156,14 @@ static func _target(event: CombatEncounterEvent, projection: BattlePresentationP
 	return lines
 
 
-## The player's queued actions (Flee): queued, given up, refused and their end.
+## The player's queued actions (Flee, exert): queued, given up, refused and their
+## end; an action that printed lines (exert.c's) ends with them.
 func _tactical(event: CombatTacticalEvent) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and not event.execution.lines().is_empty():
+		for line: ColoredLine in event.execution.lines():
+			lines.append(BattleNarrationLine.new(line.text, -1, line.color))
+		return lines
 	var label: String = catalog.label_for(event.action.request.action_id)
 	var text: String = ""
 	match event.kind:
@@ -170,7 +185,6 @@ func _tactical(event: CombatTacticalEvent) -> Array[BattleNarrationLine]:
 					text = tr("%s失败了。") % label
 				_:
 					text = tr("%s无法执行。") % label
-	var lines: Array[BattleNarrationLine] = []
 	if not text.is_empty():
 		lines.append(BattleNarrationLine.new(text))
 	return lines

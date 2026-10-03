@@ -159,16 +159,23 @@ func _restore_entry_relationship(state: CombatRelationshipState, opponents: Arra
 		state.add_opponent(target_id)
 
 
-## Content/test composition before encounter start; production Flee is registered below.
+## Content/test composition before encounter start; production Flee and exert are registered below.
 func register_tactical_policy(policy: CombatTacticalActionPolicy) -> bool:
 	return not has_active_encounter() and _tactical_registry.register_policy(policy)
 
 
 func action_infos() -> Array[CombatTacticalActionInfo]:
 	var infos: Array[CombatTacticalActionInfo] = []
+	var player: CharacterState = null
+	if _session != null and _session.player_runtime() != null:
+		player = _session.player_runtime().state
 	for info: CombatTacticalActionInfo in _tactical_registry.action_infos():
-		if _active_encounter == null or _tactical_registry.find(info.action_id).supports_mode(_active_encounter.mode):
-			infos.append(info)
+		var policy: CombatTacticalActionPolicy = _tactical_registry.find(info.action_id)
+		if _active_encounter != null and not policy.supports_mode(_active_encounter.mode):
+			continue
+		if not policy.offered_to(player):
+			continue
+		infos.append(info)
 	return infos
 
 
@@ -241,6 +248,8 @@ func _init(
 	_session = p_session
 	_world_gate = p_world_gate
 	_tactical_registry.register_policy(CombatFleeTacticalPolicy.new())
+	for function_id: StringName in ExertFunctions.ORDER:
+		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id))
 
 
 func is_valid() -> bool:

@@ -128,8 +128,10 @@ func _soak() -> void:
 	await _tree.process_frame
 	_session.set_process(false)
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
-	# TEST-ONLY: strong enough to win every fight here.
+	# TEST-ONLY: strong enough to win every fight here. The max kee survives Continue
+	# (race/human.c at login: 100 + max_force / 4).
 	player.state.progression.combat_experience = 1000000
+	player.state.recovery.inner_force.maximum = 39600
 	player.state.vitality = CharacterResourceState.new(10000, 10000, 10000)
 	var rooms: Array[StringName] = []
 	for zone: ZoneDefinition in GameContent.catalog().zones():

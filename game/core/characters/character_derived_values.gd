@@ -55,6 +55,15 @@ static func human_maximum_spirit(age: int, maximum_mana: int = 0) -> int:
 	return result
 
 
+## race/human.c setup_human() for a player (userp() always recomputes): max gin,
+## kee and sen from age and a quarter of max atman, force and mana. ES2 runs it at
+## every login (user setup()); max_force grown by exercise counts from then on.
+static func refresh_human_player_maxima(state: CharacterState, age: int) -> void:
+	state.essence.maximum = human_maximum_essence(age, state.recovery.atman.maximum)
+	state.vitality.maximum = human_maximum_vitality(age, state.recovery.inner_force.maximum)
+	state.spirit.maximum = human_maximum_spirit(age, state.recovery.mana.maximum)
+
+
 ## reference/es2/mudlib/adm/daemons/race/monster.c: setup_monster()
 static func monster_maximum_essence(age: int) -> int:
 	if age <= 3:

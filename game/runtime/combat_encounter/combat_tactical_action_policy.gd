@@ -47,6 +47,12 @@ func supports_mode(_mode: int) -> bool:
 	return true
 
 
+## Whether the battle panel offers the action to a player in this state (null
+## without a Session). Advisory, like the mode: request and execution still validate.
+func offered_to(_state: CharacterState) -> bool:
+	return true
+
+
 func validate_execution(_context: CombatTacticalContext) -> int:
 	return CombatTacticalResult.Code.POLICY_UNSUPPORTED
 

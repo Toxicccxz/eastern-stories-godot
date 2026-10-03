@@ -372,8 +372,10 @@ func _old_pine_loot(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerR
 	if not check(_session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID, "eroad3 south into Old Pine"):
 		return &""
 	var forest: WorldMapController = _map()
-	# TEST-ONLY: the strength to beat three bandits (a new character cannot).
+	# TEST-ONLY: the strength to beat three bandits (a new character cannot). The max
+	# kee survives Continue (race/human.c at login: 100 + max_force / 4).
 	player.state.progression.combat_experience = 1000000
+	player.state.recovery.inner_force.maximum = 39600
 	player.state.vitality = CharacterResourceState.new(10000, 10000, 10000)
 	var bandits: Array[NpcRuntimeState] = forest.npc_runtimes().slice(0, 3)
 	var bandit: WorldCharacterBody2D = forest.runtime_body_for_character(bandits[0].character_id)

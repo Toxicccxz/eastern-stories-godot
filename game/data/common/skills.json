@@ -39,6 +39,7 @@
 		{
 			"id": "force", "name": "基本内功", "kind": "basic", "type": "martial",
 			"legacy_source": "daemon/skill/force.c",
+			"exert": ["recover", "refresh", "regenerate"],
 			"improved_line": "由於你的内功修炼有成，你的体质改善了。", "improved_color": "HIW"
 		},
 		{
@@ -57,6 +58,7 @@
 			"id": "fonxanforce", "name": "封山派内功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/fonxanforce.c",
 			"standard_force_hit": true,
+			"exert": ["heal"],
 			"practice": { "refuses": true, "fail": "封山派内功只能用学的，或是从运用(exert)中增加熟练度。" }
 		},
 		{

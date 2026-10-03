@@ -28,7 +28,7 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 				_internal(state.recovery.atman), binding.busy.busy_value, binding.life_status,
 				state.life_threshold(), binding.exists_in_encounter and binding.combat_available,
 				coordinator.player_can_target(binding.character_id),
-				state.gender, state.skills.mapped_skill(&"dodge"),
+				state.gender, state.skills.mapped_skill(&"dodge"), state.attributes.force_factor,
 			))
 			break
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
@@ -36,12 +36,16 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 	var actions: Array[CombatTacticalActionInfo] = []
 	if tactical != null:
 		actions = coordinator.action_infos()
+	var enforce_limit: int = -1
+	if not session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
+		enforce_limit = session.martial_arts().enforce_limit()
 	return BattlePresentationProjection.new(
 		encounter.encounter_id, encounter.mode, player_id, encounter.current_target_for(player_id),
 		participants, actions,
 		encounter.queued_player_action(),
 		CombatQueuedAction.Status.EMPTY if tactical == null else tactical.queue_status(),
 		-1 if coordinator.last_completion() == null else coordinator.last_completion().outcome,
+		enforce_limit,
 	)
 
 
