@@ -118,6 +118,6 @@ func is_valid() -> bool:
 	return true
 
 
-## An authored line as the log shows it: the MUD's trailing newline goes.
+## An authored line as the log shows it: translated, and the MUD's trailing newline gone.
 static func line(text: String) -> String:
-	return text.strip_edges()
+	return TranslationServer.translate(text).strip_edges()

@@ -58,7 +58,7 @@ func project_rows(
 				item_id,
 				item.item_definition_id,
 				content.display_name,
-				content.description,
+				content.shown_description(),
 				amount,
 				content.category,
 				slot,

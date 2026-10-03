@@ -27,7 +27,7 @@ static func drink(
 	var result := Result.new()
 	if npc == null or action == null or floor == null or inventory == null or index == null or liquids == null:
 		return result
-	var name: String = npc.definition().display_name
+	var name: String = TranslationServer.translate(npc.definition().display_name)
 	var recovery: CharacterRecoveryState = npc.character_state.recovery
 	if recovery.water >= action.sated_water:
 		result.outcome = Outcome.SATED # command("sing"): prints nothing.
@@ -42,7 +42,7 @@ static func drink(
 	if container_id.is_empty():
 		if not action.dry_clears.is_empty():
 			npc.set_flag(action.dry_clears, false)
-		result.lines.append(TranslationServer.translate("%s说道：%s") % [name, NpcTalk.line(action.dry_say)])
+		result.lines.append(TranslationServer.translate("{npc}说道：{line}").format({"npc": name, "line": NpcTalk.line(action.dry_say)}))
 		result.outcome = Outcome.DRY
 		return result
 	var item: ItemInstance = index.resolve(container_id)
@@ -55,7 +55,10 @@ static func drink(
 	if not npc.busy.is_busy() and liquid.remaining > 0 and recovery.water < CharacterRecovery.maximum_water_capacity(npc.body_weight):
 		liquid.remaining -= 1
 		recovery.water += content.liquid_definition().hydration
-		result.lines.append(TranslationServer.translate("%s拿起%s咕噜噜地喝了几口%s。") % [name, content.display_name, LiquidState.content_name(liquid.content)])
+		result.lines.append(TranslationServer.translate("{npc}拿起{container}咕噜噜地喝了几口{liquid}。").format({
+			"npc": name, "container": TranslationServer.translate(content.display_name),
+			"liquid": TranslationServer.translate(LiquidState.content_name(liquid.content)),
+		}))
 		result.outcome = Outcome.DRANK
 	if liquid.remaining == 0:
 		var dropped: InventoryTransferResult = InventoryTransferService.new().transfer(
@@ -65,6 +68,6 @@ static func drink(
 		if not dropped.succeeded:
 			result.outcome = Outcome.AUTHORITY_FAILURE
 			return result
-		result.lines.append(TranslationServer.translate("%s丢下%s。") % [name, HeldItemFacts.one_unit(content)])
+		result.lines.append(TranslationServer.translate("{npc}丢下{item}。").format({"npc": name, "item": HeldItemFacts.one_unit(content)}))
 		result.dropped_item_id = container_id
 	return result

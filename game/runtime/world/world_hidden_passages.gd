@@ -37,11 +37,11 @@ func push(landmark: WorldLandmarkDefinition) -> HiddenPassagePushResult:
 	if passage == null:
 		return result
 	result.pushed = true
-	_session.shared_ui().append_log_lines([landmark.message("push")])
+	_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("push"))])
 	result.opened = passage.push(landmark.setting("pushes"), 1000 * landmark.setting("open_seconds"))
 	if result.opened:
 		_apply(landmark, true)
-		_session.shared_ui().append_log_lines([landmark.message("open")])
+		_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("open"))])
 	return result
 
 
@@ -64,7 +64,7 @@ func advance(delta: float) -> void:
 			_apply(landmark, false)
 			var location: WorldLocationState = _session.player_runtime().world_location()
 			if location != null and location.zone_id == landmark.zone_id:
-				_session.shared_ui().append_log_lines([landmark.message("close")])
+				_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("close"))])
 
 
 func _apply(landmark: WorldLandmarkDefinition, open: bool) -> void:

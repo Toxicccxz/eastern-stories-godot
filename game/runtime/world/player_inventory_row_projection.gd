@@ -120,12 +120,13 @@ func duplicate_snapshot() -> PlayerInventoryRowProjection:
 	)
 
 
+## How the item is on the player, as the inventory says it (empty when it is not).
 func equipment_label() -> String:
 	match _equipment_slot:
 		EquipmentSlot.PRIMARY:
-			return "PRIMARY"
+			return "主手"
 		EquipmentSlot.SECONDARY:
-			return "SECONDARY"
+			return "副手"
 		EquipmentSlot.WORN:
-			return "WORN"
-	return "NONE"
+			return "已穿戴"
+	return ""

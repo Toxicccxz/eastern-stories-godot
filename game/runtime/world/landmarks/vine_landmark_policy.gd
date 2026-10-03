@@ -46,7 +46,7 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 
 	var hud: SharedGameplayUI = session.shared_ui()
 	# epath2.c emits the hold message before reading dodge/random.
-	hud.append_log_lines([landmark.message("hold")])
+	hud.append_log_lines([TranslationServer.translate(landmark.message("hold"))])
 	result._source_presentation_reached = true
 	result._reached_stage = VineTraversalResult.ReachedStage.SOURCE_PRESENTATION
 	var armor_dodge: int = player.armor.aggregate_numeric_modifiers().dodge
@@ -65,7 +65,7 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	result._selected_portal_id = result._policy_result.selected_portal_id
 	var waterfall: bool = result._policy_result.selected_branch == VineTraversalPolicyResult.Branch.WATERFALL
 	# The branch message precedes both moves in epath2.c.
-	hud.append_log_lines([landmark.message("fall" if waterfall else "climb")])
+	hud.append_log_lines([TranslationServer.translate(landmark.message("fall" if waterfall else "climb"))])
 	result._branch_presentation_reached = true
 	result._reached_stage = VineTraversalResult.ReachedStage.BRANCH_PRESENTATION
 	var portal: PortalDefinition = GameContent.catalog().portal(result._selected_portal_id)

@@ -739,7 +739,7 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 			_forget_floor_item(view.item_instance_id)
 			_selected_target = null
 			_hud().set_selected_target(null)
-			_hud().append_log_lines([tr("你捡起一%s%s。") % [content.unit, content.display_name]])
+			_hud().append_log_lines([tr("你捡起%s。") % HeldItemFacts.one_unit(content)])
 			if _hud().inventory_is_open():
 				_hud().show_inventory(session.player_inventory_rows())
 		FloorItemPickup.Outcome.BUSY:
@@ -749,7 +749,7 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 		FloorItemPickup.Outcome.NO_GET:
 			_hud().append_log_lines([tr("这个东西拿不起来。")])
 		FloorItemPickup.Outcome.TOO_HEAVY:
-			_hud().append_log_lines([tr("%s对你而言太重了。") % content.display_name])
+			_hud().append_log_lines([tr("%s对你而言太重了。") % tr(content.display_name)])
 	return outcome
 
 
@@ -978,7 +978,8 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 		var npc: NpcRuntimeState = find_resident_npc(decision.npc_id)
 		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
 			continue
-		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, "%s attacks on sight" % npc.definition().display_name))
+		# combatd.c start_aggressive() prints nothing; the log says why the fight began.
+		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, tr("%s向你发动攻击！") % tr(npc.definition().display_name)))
 	return _last_aggression_initiations.duplicate()
 
 
@@ -1170,7 +1171,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 			body.refresh_runtime_state()
 		# combatd.c announce("revive"), heard in the same room.
 		if _player_hears(npc):
-			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % npc.definition().display_name])
+			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
 	_advance_ambience(delta)
 
 
@@ -1294,7 +1295,7 @@ func return_home(npc: NpcRuntimeState) -> bool:
 		body.global_position = marker.global_position
 	npc.set_world_location(location_for_zone(spawn.zone_id))
 	if seen:
-		_hud().append_log_lines([tr("%s急急忙忙地离开了。") % npc.definition().display_name])
+		_hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
 	_npc_arrived(npc)
 	return true
 
@@ -1348,7 +1349,7 @@ func _greet(npc: NpcRuntimeState) -> void:
 		return
 	var drawn: int = 0 if choices.size() == 1 else _ambience.random().legacy_random(choices.size())
 	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-	_hud().append_log_lines([choices[clampi(drawn, 0, choices.size() - 1)].sentence(npc.definition().display_name, tr(respect))])
+	_hud().append_log_lines([choices[clampi(drawn, 0, choices.size() - 1)].sentence(npc.definition().display_name, respect)])
 
 
 ## interactive(ob) in the NPC's room: an unconscious player still counts.
@@ -1429,7 +1430,7 @@ func random_move(npc: NpcRuntimeState) -> bool:
 		return false
 	npc.set_world_location(location_for_zone(move.to_zone_id))
 	if seen:
-		_hud().append_log_lines([tr(move.leave_line(npc.definition().display_name))])
+		_hud().append_log_lines([move.leave_line(npc.definition().display_name)])
 	return true
 
 
@@ -1692,7 +1693,7 @@ func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_insi
 
 
 func _refresh_loot_panel(corpse: CorpseState) -> void:
-	_hud().show_loot(tr("%s的尸体") % corpse.victim_display_name, _loot.project_rows(corpse, _inventory, _stacks, _item_index))
+	_hud().show_loot(tr("%s的尸体") % tr(corpse.victim_display_name), _loot.project_rows(corpse, _inventory, _stacks, _item_index))
 
 
 # --- Selection: NPCs, landmarks, corpses --------------------------------------------
@@ -1757,7 +1758,7 @@ func inspect_selected() -> bool:
 				var floor_content: ItemContentDefinition = _floor_item_content(floor_view)
 				if floor_content == null or not _floor_item_in_player_zone(floor_view):
 					return false
-				_hud().show_item_inspection(floor_content.display_name, floor_content.description)
+				_hud().show_item_inspection(floor_content.display_name, floor_content.shown_description())
 				return true
 			var corpse: CorpseState = _find_corpse(_selected_target.target_id)
 			if corpse == null or not _corpse_is_live_in_world(corpse):
@@ -1790,7 +1791,11 @@ func attack_selected() -> CombatSliceInitiationResult:
 	if not target.world_location().shares_combat_location(_player.world_location()):
 		_hud().append_log_lines([tr("这里没有这个人。")])
 		return CombatSliceInitiationResult.new()
-	return _initiate_lethal_combat(_player.character_id, target.character_id, "Attack initiated against %s" % target.definition().display_name)
+	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」
+	return _initiate_lethal_combat(_player.character_id, target.character_id, tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
+		"npc": tr(target.definition().display_name),
+		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, &"")),
+	}))
 
 
 ## cmds/std/fight.c for the selected NPC: ask a speaking character to spar; it
@@ -1800,7 +1805,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 	if target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
 		return CombatSliceInitiationResult.new()
 	var catalog: ContentCatalog = GameContent.catalog()
-	var name: String = target.definition().display_name
+	var name: String = tr(target.definition().display_name)
 	if catalog.zone_forbids_fighting(_player.world_location().zone_id):
 		_hud().append_log_lines([tr("这里禁止战斗。")])
 		return CombatSliceInitiationResult.new()
@@ -1815,10 +1820,11 @@ func spar_selected() -> CombatSliceInitiationResult:
 		_hud().append_log_lines([tr("%s已经无法战斗了。") % name])
 		return CombatSliceInitiationResult.new()
 	var player_state: CharacterState = _player.state
-	var lines: Array[String] = [tr("你对著%s说道：%s%s，领教%s的高招！") % [
-		name, tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
-		_player.facts.display_name, tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
-	]]
+	var lines: Array[String] = [tr("你对著{npc}说道：{self}{name}，领教{respect}的高招！").format({
+		"npc": name, "self": tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
+		"name": _player.facts.display_name,
+		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
+	})]
 	var consent: NpcSparConsent = NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
 		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
 	))
@@ -1839,7 +1845,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 	else:
 		for line: NpcSparConsent.Line in consent.lines:
 			var text: String = tr(line.text).replace("$RESPECT", tr(consent.respect)).replace("$SELF", tr(consent.npc_self))
-			lines.append(name + text if line.emote else tr("%s说道：%s") % [name, text])
+			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
 	if not started:
 		lines.append(tr("看起来%s并不想跟你较量。") % name)
 	elif not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty():
@@ -2036,8 +2042,8 @@ func _show_container(view: WorldFloorItemView) -> bool:
 		if content == null:
 			continue
 		var amount: int = _stacks.stack_state(item_id).amount if _stacks.has_stack(item_id) else 1
-		rows.append(WorldItemRowProjection.new(item_id, item.item_definition_id, content.display_name, content.description, amount, content.category, true, false, false))
-	_hud().show_loot(view.display_name, rows)
+		rows.append(WorldItemRowProjection.new(item_id, item.item_definition_id, content.display_name, content.shown_description(), amount, content.category, true, false, false))
+	_hud().show_loot(tr(view.display_name), rows)
 	return true
 
 
@@ -2116,7 +2122,7 @@ func traverse_same_map_passage(portal: PortalDefinition) -> void:
 	if traversal != null and traversal.completed() and session != null:
 		_selected_target = null
 		_hud().set_selected_target(null)
-		_hud().append_log_lines(["%s: %s" % [portal.legacy_command.capitalize(), GameContent.catalog().zone(portal.destination_zone_id).display_name]])
+		_hud().append_log_lines([tr("你来到%s。") % tr(GameContent.catalog().zone(portal.destination_zone_id).display_name)])
 
 
 func last_passage_traversal() -> RefCounted:
@@ -2220,7 +2226,7 @@ func interaction_title() -> String:
 	if target is WorldService:
 		return (target as WorldService).context_title()
 	if target is StringName:
-		var name_text: String = GameContent.catalog().door(target).display_name
+		var name_text: String = tr(GameContent.catalog().door(target).display_name)
 		return (tr("关闭%s") if _doors[target].is_open() else tr("打开%s")) % name_text
 	return ""
 

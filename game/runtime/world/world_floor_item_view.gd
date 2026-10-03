@@ -36,6 +36,18 @@ func configure(item_instance_id: StringName, display_name: String) -> bool:
 	picking.add_child(shape)
 	picking.input_event.connect(_on_picking_input_event)
 	add_child(picking)
+	# A Label, so the name is shown translated and in the language's font.
+	var label := Label.new()
+	label.name = "NameLabel"
+	label.text = display_name
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.position = Vector2(-40.0, 10.0)
+	label.size = Vector2(80.0, 18.0)
+	label.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color("e2d3b6"))
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(label)
 	queue_redraw()
 	return true
 
@@ -53,4 +65,3 @@ func _on_picking_input_event(_viewport: Viewport, event: InputEvent, _shape_idx:
 func _draw() -> void:
 	draw_rect(Rect2(-10.0, -6.0, 20.0, 12.0), Color("b79a62"))
 	draw_rect(Rect2(-10.0, -6.0, 20.0, 12.0), Color("3a2f22"), false, 1.0)
-	draw_string(ThemeDB.fallback_font, Vector2(-40.0, 24.0), _display_name, HORIZONTAL_ALIGNMENT_CENTER, 80.0, 13, Color("e2d3b6"))

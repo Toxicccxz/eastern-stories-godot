@@ -10,5 +10,9 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 		or result is OldPineMapHandoffResult and (result as OldPineMapHandoffResult).succeeded()
 	)
 	if completed and map.session != null:
-		map.session.shared_ui().append_log_lines(["%s: %s" % [landmark.action_label, landmark.display_name]])
+		# TRANSLATORS: a landmark used to move on: {action} (爬树) and the landmark (大松树).
+		map.session.shared_ui().append_log_lines([TranslationServer.translate("{action}：{landmark}").format({
+			"action": TranslationServer.translate(landmark.action_label),
+			"landmark": TranslationServer.translate(landmark.display_name),
+		})])
 	return result

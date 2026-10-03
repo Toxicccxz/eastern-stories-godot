@@ -1,15 +1,30 @@
 class_name ChineseNumber
 extends RefCounted
 
-## adm/daemons/chinesed.c chinese_number(): 十, 一百零五, 三千零二十.
+## adm/daemons/chinesed.c chinese_number(): 十, 一百零五, 三千零二十. The number is
+## written in source glyphs and each glyph then goes through the translation (萬 for
+## 万 in Traditional Chinese); a language that does not write numbers in Han
+## characters needs number words of its own.
+# TRANSLATORS: one glyph of a number written in Chinese characters (十, 百, 万...).
 const DIGITS: Array[String] = ["零", "十", "百", "千", "万", "亿", "兆"]
+# TRANSLATORS: one glyph of a number written in Chinese characters (一, 二, 三...).
 const NUMBERS: Array[String] = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+# TRANSLATORS: the sign of a negative number written in Chinese characters.
+const MINUS: String = "负"
 
 
-@warning_ignore("integer_division")
 static func of(i: int) -> String:
+	var result: String = ""
+	for glyph: String in source_text(i):
+		result += TranslationServer.translate(glyph)
+	return result
+
+
+## The number in source glyphs, for text that is kept as ES2 wrote it (a saved title).
+@warning_ignore("integer_division")
+static func source_text(i: int) -> String:
 	if i < 0:
-		return "负" + of(-i)
+		return MINUS + source_text(-i)
 	if i < 11:
 		return NUMBERS[i]
 	if i < 20:
@@ -20,23 +35,23 @@ static func of(i: int) -> String:
 		if i % 100 == 0:
 			return NUMBERS[i / 100] + DIGITS[2]
 		if i % 100 < 10:
-			return NUMBERS[i / 100] + DIGITS[2] + NUMBERS[0] + of(i % 100)
+			return NUMBERS[i / 100] + DIGITS[2] + NUMBERS[0] + source_text(i % 100)
 		if i % 100 < 20:
-			return NUMBERS[i / 100] + DIGITS[2] + NUMBERS[1] + of(i % 100)
-		return NUMBERS[i / 100] + DIGITS[2] + of(i % 100)
+			return NUMBERS[i / 100] + DIGITS[2] + NUMBERS[1] + source_text(i % 100)
+		return NUMBERS[i / 100] + DIGITS[2] + source_text(i % 100)
 	if i < 10000:
 		if i % 1000 == 0:
 			return NUMBERS[i / 1000] + DIGITS[3]
 		if i % 1000 < 100:
-			return NUMBERS[i / 1000] + DIGITS[3] + DIGITS[0] + of(i % 1000)
-		return NUMBERS[i / 1000] + DIGITS[3] + of(i % 1000)
+			return NUMBERS[i / 1000] + DIGITS[3] + DIGITS[0] + source_text(i % 1000)
+		return NUMBERS[i / 1000] + DIGITS[3] + source_text(i % 1000)
 	return _large(i, 10000, 4) if i < 100000000 else (_large(i, 100000000, 5) if i < 1000000000000 else _large(i, 1000000000000, 6))
 
 
 @warning_ignore("integer_division")
 static func _large(i: int, unit: int, digit: int) -> String:
 	if i % unit == 0:
-		return of(i / unit) + DIGITS[digit]
+		return source_text(i / unit) + DIGITS[digit]
 	if i % unit < unit / 10:
-		return of(i / unit) + DIGITS[digit] + DIGITS[0] + of(i % unit)
-	return of(i / unit) + DIGITS[digit] + of(i % unit)
+		return source_text(i / unit) + DIGITS[digit] + DIGITS[0] + source_text(i % unit)
+	return source_text(i / unit) + DIGITS[digit] + source_text(i % unit)

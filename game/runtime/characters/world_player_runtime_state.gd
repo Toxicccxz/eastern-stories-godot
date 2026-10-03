@@ -95,6 +95,16 @@ func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, ent
 	return outcome
 
 
+## The title as the player reads it. A family member's is assign_apprentice()'s put
+## together again in the shown language; the one kept (and saved) stays as ES2 wrote it.
+func shown_title() -> String:
+	if _state.family.has_family() and _state.affiliation.has_family_rank:
+		var family: FamilyDefinition = GameContent.catalog().family(_state.family.family_id)
+		if family != null:
+			return NpcApprenticeship.shown_family_title(family.display_name, _state.family.generation, _state.affiliation.family_title)
+	return TranslationServer.translate(_facts.title)
+
+
 func set_world_location(value: WorldLocationState) -> bool:
 	if value == null or not value.is_valid():
 		return false

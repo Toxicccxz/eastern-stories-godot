@@ -1,5 +1,22 @@
 # Migration Decisions
 
+## Localization: the source text is the key (2026-10-03)
+
+Package 5, owner-approved; rules and how to add a language: [LOCALIZATION](../production/LOCALIZATION.md).
+- Simplified Chinese is the source language and a message's ID is its source text (gettext);
+  `tools/l10n/extract_pot.py` is the one extractor (Godot's misses `TranslationServer.translate()`,
+  const tables and the content files).
+- Authored text stays authored in definitions, state and saves (logic compares it) and is
+  translated where it is shown or put into a sentence. A family title is saved as
+  assign_apprentice() wrote it and shown put together again. Multi-slot templates name their slots.
+- The language follows the system unless chosen in Settings (settings schema 2). The game matches
+  Chinese by script and loads only that catalog: Godot would give zh_CN and zh_SG the Traditional
+  one. A language not listed reads Simplified; a switch applies at once, old log lines stay.
+- Fonts are the system's, listed per language; no font is bundled yet. The title reads 东方故事;
+  `config/name` stays (it names the user data folder).
+- The player's attack now prints cmds/std/kill.c's line (was a native English line); an aggressive
+  NPC's, silent in ES2 (combatd.c start_aggressive()), keeps a native line: `<name>向你发动攻击！`.
+
 ## Busy wears off on the heart beat (2026-10-02)
 
 `std/char.c` heart_beat(): a busy character spends the beat in `continue_action()` (busy − 1;

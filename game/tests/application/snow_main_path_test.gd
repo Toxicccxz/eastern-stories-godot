@@ -7,6 +7,10 @@ extends RefCounted
 ## each declared where used: placements beside far contacts (walking is checked for
 ## the first legs; the windowed walkthrough walks every room), the combat seed, a
 ## hurt player before the crazy dog, and the strength to beat the slope bandits.
+## With `pseudo` set (snow_main_path_pseudo_test) the same story switches to the test
+## pseudo-locale in Settings after the first leg, mid-journey as a player would; from
+## then on, at every check, each text on screen must have gone through a translation.
+## The story's own text checks read through _plain().
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -19,6 +23,13 @@ var _shell: ApplicationShellController
 var _session: OldPineWorldSessionController
 var _walker: RefCounted
 var _finished: bool = false
+var pseudo: bool = false
+## Untranslated text seen on screen in a pseudo run: finding -> the check it was seen at.
+var _untranslated: Dictionary[String, String] = {}
+var _settings_files := ShellTests.MemoryFiles.new()
+var _languages: LanguageCatalog
+## The log keeps the lines written before the switch in the language they were written in.
+var _logged_before_switch: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary:
@@ -26,6 +37,11 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _story(tree)
 	# A script error ends a step's coroutine without a failed check.
 	check(_finished, "the story ran to its end")
+	if pseudo:
+		var seen: Array[String] = []
+		for finding: String in _untranslated:
+			seen.append("%s  (at: %s)" % [finding, _untranslated[finding]])
+		check(seen.is_empty(), "every text on screen went through a translation; %d did not:\n    %s" % [seen.size(), "\n    ".join(seen.slice(0, 80))])
 	if is_instance_valid(_shell):
 		_shell.free()
 	await tree.process_frame
@@ -38,14 +54,63 @@ func check(ok: bool, label: String) -> bool:
 	assertions += 1
 	if not ok:
 		failures.append("main path: " + label)
+	if pseudo and is_instance_valid(_shell) and TranslationServer.get_locale() == PseudoLocale.CODE:
+		for finding: String in VisibleTextScan.untranslated(_shell, _allowed_text()):
+			if not _untranslated.has(finding):
+				_untranslated[finding] = label
 	return ok
+
+
+## Text as the source language reads it (a pseudo run's marks taken out).
+func _plain(text: String) -> String:
+	return PseudoLocale.plain(text)
+
+
+## What a translation never changes: the player's own name, the languages' own names
+## and the log's lines from before the switch.
+func _allowed_text() -> PackedStringArray:
+	var allowed := PackedStringArray(_logged_before_switch)
+	if _session != null and is_instance_valid(_session) and _session.player_runtime() != null:
+		allowed.append(_session.player_runtime().facts.display_name)
+	for language: LanguageDefinition in _languages.languages():
+		allowed.append(language.name)
+	return allowed
+
+
+## The pseudo run's shells know the pseudo-locale and share one settings file, so the
+## language chosen mid-journey is the one the shell after Continue starts in.
+func _new_shell(profile: GameSaveStorageProfile, files: ShellTests.MemoryFiles) -> ApplicationShellController:
+	var shell: ApplicationShellController = SHELL.instantiate()
+	if pseudo:
+		shell.configure_before_start(profile, files, null, _settings_files, null, _languages)
+	else:
+		shell.configure_before_start(profile, files, null, ShellTests.MemoryFiles.new())
+	return shell
+
+
+## Pause → Settings → 语言 → Apply → Resume, while standing in the world.
+func _switch_language(tree: SceneTree) -> bool:
+	_logged_before_switch = _session.shared_ui().log_lines()
+	if not check(_shell.request_pause() and _shell.request_settings_from_pause(), "Settings from the pause menu"):
+		return false
+	await _frames(tree, 2)
+	var option: OptionButton = _shell.language_option
+	if not check(_shell.language_row.visible and option.item_count == 3, "the language row lists 跟随系统 and both languages"):
+		return false
+	for index: int in option.item_count:
+		if String(option.get_item_metadata(index)) == PseudoLocale.CODE:
+			option.select(index)
+	check(_shell.apply_settings() and TranslationServer.get_locale() == PseudoLocale.CODE, "Apply switches the language at once")
+	check(_shell.request_resume(), "back to the journey")
+	await _frames(tree, 6)
+	return check(_settings_files.files.has(ApplicationSettingsRepository.SETTINGS_PATH), "the choice is kept in the settings")
 
 
 func _story(tree: SceneTree) -> void:
 	var files := ShellTests.MemoryFiles.new()
 	var profile := GameSaveStorageProfile.isolated_test("snow-main-path")
-	_shell = SHELL.instantiate()
-	_shell.configure_before_start(profile, files, null, ShellTests.MemoryFiles.new())
+	_languages = LanguageCatalog.load_from().with_language(PseudoLocale.language()) if pseudo else LanguageCatalog.load_from()
+	_shell = _new_shell(profile, files)
 	tree.root.add_child(_shell)
 	await _frames(tree, 3)
 	# New Game through the setup form.
@@ -64,6 +129,8 @@ func _story(tree: SceneTree) -> void:
 	check(_session.active_map_id() == &"snow.inn" and player.world_location().zone_id == &"snow.inn.main_floor", "born in the Inn")
 	check(player.facts.display_name == "凌雪" and files.files.is_empty(), "the name from the form; birth never saves")
 	if not await _work(tree, hud, state):
+		return
+	if pseudo and not await _switch_language(tree):
 		return
 	if not await _buy(tree, hud, false):
 		return
@@ -142,13 +209,13 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 	check(_beside(inn, &"snow.inn.main_floor", &"snow.inn.main_floor.inn.waiter.1"), "TEST-ONLY placement beside the waiter")
 	await _settle(tree)
 	var shop: VendorService = inn.service(&"snow.inn.waiter") as VendorService
-	check(inn.interaction_title() == "店小二 · 购买", "购买 beside the waiter: " + inn.interaction_title())
+	check(_plain(inn.interaction_title()) == "店小二 · 购买", "购买 beside the waiter: " + inn.interaction_title())
 	var before: int = _money_value()
 	hud.open_current_context()
 	check(shop.panel.visible, "his goods open")
 	var dumpling: Button = null
 	for button: Node in shop.goods_rows.get_children():
-		if (button as Button).text.begins_with("包子"):
+		if _plain((button as Button).text).begins_with("包子"):
 			dumpling = button as Button
 	if not check(dumpling != null, "a 包子 on his list"):
 		return false
@@ -161,9 +228,9 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 		await _frames(tree, 2)
 		hud._food._eat.pressed.emit()
 		var eaten: FoodUseResult = hud._food.last_result
-		check(eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and hud._food._feedback.text == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + hud._food._feedback.text)
+		check(eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and _plain(hud._food._feedback.text) == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + hud._food._feedback.text)
 	else:
-		check(not shop.last_purchase.delivered and _money_value() == before and shop.feedback.text == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
+		check(not shop.last_purchase.delivered and _money_value() == before and _plain(shop.feedback.text) == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
 	hud.dismiss_current_panel()
 	await _settle(tree)
 	await _walk_until_map(tree, "move_right", &"snow.outdoor")
@@ -185,18 +252,18 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	var gin: int = state.essence.current
 	var spent: int = state.progression.potential_spent
 	hall.ui.learn_buttons[&"unarmed"].pressed.emit()
-	check(state.progression.potential_spent == spent + 1 and state.essence.current < gin and hall.last_lines[0].begins_with("你向柳淳风请教"), "learn.c: a lesson in unarmed: %s" % [hall.last_lines])
+	check(state.progression.potential_spent == spent + 1 and state.essence.current < gin and _plain(hall.last_lines[0]).begins_with("你向柳淳风请教"), "learn.c: a lesson in unarmed: %s" % [hall.last_lines])
 	hud.dismiss_current_panel()
 	await _settle(tree)
 	# Beside 李火狮 the school gate is in reach too; the nearer one, he, is the context.
 	check(_beside(map, &"snow.school2", &"snow.school2.fist_trainer.1") and map.can_operate_door(&"snow.school.gate"), "TEST-ONLY placement beside 李火狮, by the gate")
 	await _settle(tree)
-	check(map.interaction_title() == "李火狮 · 请教", "the context button offers his lessons, not the gate: " + map.interaction_title())
+	check(_plain(map.interaction_title()) == "李火狮 · 请教", "the context button offers his lessons, not the gate: " + map.interaction_title())
 	var yard: TeacherService = map.service(&"snow.outdoor.school2.fist_trainer") as TeacherService
 	hud.open_current_context()
 	if check(yard.ui.panel.visible, "李火狮's panel"):
 		yard.ui.learn_buttons[&"unarmed"].pressed.emit()
-		check(yard.last_lines[0] == "你向李火狮请教有关「基本拳脚」的疑问。", "李火狮 teaches a 封山剑派 student: %s" % [yard.last_lines])
+		check(_plain(yard.last_lines[0]) == "你向李火狮请教有关「基本拳脚」的疑问。", "李火狮 teaches a 封山剑派 student: %s" % [yard.last_lines])
 	hud.dismiss_current_panel()
 	await _settle(tree)
 	return true
@@ -239,11 +306,11 @@ func _ask(hud: SharedGameplayUI) -> bool:
 	if not check(hud.ask_is_enabled(), "打听 offered on 杨掌柜"):
 		return false
 	hud.ask_button.pressed.emit()
-	check(hud.ask_topics_shown().has("治伤"), "ask.c lists his topics: %s" % [hud.ask_topics_shown()])
+	check(hud.ask_topics_shown().map(_plain).has("治伤"), "ask.c lists his topics: %s" % [hud.ask_topics_shown()])
 	for button: Node in hud._ask_topics.get_children():
-		if (button as Button).text == "治伤" and not button.is_queued_for_deletion():
+		if _plain((button as Button).text) == "治伤" and not button.is_queued_for_deletion():
 			(button as Button).pressed.emit()
-	check(hud.ask_answer_text().contains("杨掌柜说道："), "he answers: " + hud.ask_answer_text())
+	check(_plain(hud.ask_answer_text()).contains("杨掌柜说道："), "he answers: " + hud.ask_answer_text())
 	hud.dismiss_current_panel()
 	return true
 
@@ -325,7 +392,7 @@ func _old_pine_loot(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerR
 	hud.open_loot_button.pressed.emit()
 	var sword: StringName = &""
 	for row: WorldItemRowProjection in hud.loot_rows():
-		if row.display_name == "短剑":
+		if _plain(row.display_name) == "短剑":
 			sword = row.item_instance_id
 	if not check(hud.loot_is_open() and not sword.is_empty(), "拾取 lists the short sword: %s" % [hud.loot_rows().map(func(row: WorldItemRowProjection) -> String: return row.display_name)]):
 		return &""
@@ -354,7 +421,7 @@ func _sell(tree: SceneTree, hud: SharedGameplayUI, sword: StringName) -> bool:
 	hud.open_current_context()
 	check(counter.panel.visible, "丰登当铺's panel")
 	counter.select_item(sword)
-	check(counter.selection.text == "短剑 · 未装备", "the sword by its name, no item ID: " + counter.selection.text)
+	check(_plain(counter.selection.text) == "短剑 · 未装备", "the sword by its name, no item ID: " + counter.selection.text)
 	counter.value_button.pressed.emit()
 	var price: int = 0 if counter.last_valuation == null else counter.last_valuation.actual_payout
 	check(price > 0, "hockshop.c 估价 the short sword: %d coins" % price)
@@ -388,8 +455,7 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 	_shell.free()
 	await _frames(tree, 3)
 	check(old_session.get_ref() == null, "the old session is gone")
-	_shell = SHELL.instantiate()
-	_shell.configure_before_start(profile, files, null, ShellTests.MemoryFiles.new())
+	_shell = _new_shell(profile, files)
 	tree.root.add_child(_shell)
 	await _frames(tree, 3)
 	check(_shell.request_continue_from_menu(), "Continue from the menu")

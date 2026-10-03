@@ -104,9 +104,9 @@ func refresh_projection() -> void:
 	var heading: String = _mode_name(_projection.mode)
 	if not _receipt.text.is_empty():
 		heading += " · " + _receipt.text
-	_title.text = heading + "\n" + tr("目标：%s") % _projection.display_name(_projection.current_target_id)
+	_title.text = heading + "\n" + tr("目标：%s") % tr(_projection.display_name(_projection.current_target_id))
 	if _projection.completion_outcome >= 0:
-		_title.text = tr("战斗无法正常结束，不会自动重试。")
+		_title.text = "战斗无法正常结束，不会自动重试。"
 	_title.tooltip_text = _title.text
 	_present_participants()
 	action_panel.present(_projection)
@@ -172,7 +172,7 @@ func _build() -> void:
 	header.add_child(_title)
 	log_button = Button.new()
 	log_button.name = "CombatLogButton"
-	log_button.text = tr("战斗记录")
+	log_button.text = "战斗记录"
 	log_button.custom_minimum_size = Vector2(144, 64)
 	log_button.pressed.connect(_open_log)
 	header.add_child(log_button)

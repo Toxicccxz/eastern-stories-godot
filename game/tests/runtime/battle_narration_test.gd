@@ -47,10 +47,13 @@ func _tables() -> void:
 	check(damage.call(80, "刺伤") == "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉□糊的血窟窿！", "刺伤 80 keeps the source's □")
 	check(damage.call(119, "瘀伤") == "结果「砰」地一声，$n退了两步！" and damage.call(120, "瘀伤") == "结果这一下「砰」地一声打得$n连退了好几步，差一点摔倒！", "瘀伤 120")
 	check(damage.call(239, "瘀伤") == "结果重重地击中，$n「哇」地一声吐出一口鲜血！" and damage.call(240, "瘀伤") == "结果只听见「砰」地一声巨响，$n像一捆稻草般飞了出去！！", "瘀伤 240")
-	check(damage.call(9, "咬伤") == "结果只是勉强造成一处轻微咬伤！" and damage.call(29, "咬伤") == "结果造成一处咬伤！" and damage.call(30, "咬伤") == "结果造成一处严重咬伤！", "other types: degree + type")
-	check(damage.call(229, "抓伤") == "结果造成极其严重的抓伤！" and damage.call(230, "抓伤") == "结果造成非常可怕的严重抓伤！", "抓伤 230")
-	check(damage.call(25, "砍伤") == "结果造成一处砍伤！", "weapond.c's 砍伤 falls to the default branch")
-	check(damage.call(50, "") == "结果造成颇为严重的伤害！", "no type reads 伤害")
+	# The other types: a degree line whose {type} the narrator fills (damage_type_word()).
+	var typed := func(amount: int, type: String) -> String:
+		return Es2CombatMessages.damage_message(amount, type).format({"type": Es2CombatMessages.damage_type_word(type)})
+	check(typed.call(9, "咬伤") == "结果只是勉强造成一处轻微咬伤！" and typed.call(29, "咬伤") == "结果造成一处咬伤！" and typed.call(30, "咬伤") == "结果造成一处严重咬伤！", "other types: degree + type")
+	check(typed.call(229, "抓伤") == "结果造成极其严重的抓伤！" and typed.call(230, "抓伤") == "结果造成非常可怕的严重抓伤！", "抓伤 230")
+	check(typed.call(25, "砍伤") == "结果造成一处砍伤！", "weapond.c's 砍伤 falls to the default branch")
+	check(typed.call(50, "") == "结果造成颇为严重的伤害！", "no type reads 伤害")
 	var status := Callable(Es2CombatMessages, "status_message")
 	check(status.call(100) == "看起来充满活力，一点也不累。" and status.call(96) == "似乎有些疲惫，但是仍然十分有活力。" and status.call(95) == "看起来可能有些累了。", "status_msg top")
 	check(status.call(11) == "摇头晃脑、歪歪斜斜地站都站不稳，眼看就要倒在地上。" and status.call(10) == "已经陷入半昏迷状态，随时都可能摔倒晕去。" and status.call(-3) == status.call(10), "status_msg bottom")

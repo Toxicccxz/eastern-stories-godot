@@ -13,10 +13,15 @@ func _init(p_emote: bool = false, p_text: String = "") -> void:
 	text = p_text
 
 
-## The sentence the log shows, with $RESPECT already replaced by the caller's word.
+## The sentence the log shows, in the shown language. `npc_name` and `respect`
+## (rankd.c query_respect() of whoever the NPC speaks to, for $RESPECT) are as authored.
 func sentence(npc_name: String, respect: String) -> String:
-	var body: String = NpcTalk.line(text).replace("$RESPECT", respect)
-	return npc_name + body if emote else tr("%s说道：%s") % [npc_name, body]
+	var body: String = NpcTalk.line(text).replace("$RESPECT", TranslationServer.translate(respect))
+	var npc: String = TranslationServer.translate(npc_name)
+	if emote:
+		# TRANSLATORS: what an NPC does, after its name: {npc}笑咪咪地说道：……
+		return TranslationServer.translate("{npc}{action}").format({"npc": npc, "action": body})
+	return TranslationServer.translate("{npc}说道：{line}").format({"npc": npc, "line": body})
 
 
 ## A record with exactly one of `say` and `emote`; null (and a reported failure) otherwise.

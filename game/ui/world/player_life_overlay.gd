@@ -64,7 +64,7 @@ func _process(delta: float) -> void:
 		return
 	var flow: PlayerLifeFlow = _session.player_life_flow()
 	if flow.phase == PlayerLifeFlow.Phase.NONE and _last_phase != PlayerLifeFlow.Phase.NONE:
-		_notice = "慢慢地你终於又有了知觉...." if _last_phase == PlayerLifeFlow.Phase.UNCONSCIOUS else "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
+		_notice = tr("慢慢地你终於又有了知觉....") if _last_phase == PlayerLifeFlow.Phase.UNCONSCIOUS else tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")
 		_notice_remaining = REVIVED_NOTICE_SECONDS
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
@@ -72,8 +72,9 @@ func _process(delta: float) -> void:
 	_last_phase = flow.phase
 	match flow.phase:
 		PlayerLifeFlow.Phase.UNCONSCIOUS:
-			var wake: String = "（约 %d 秒后醒来）" % ceili(flow.revive_remaining_seconds) if flow.revive_remaining_seconds > 0.0 else "（仍然昏迷不醒……）"
-			_show("你的眼前一黑，接著什麽也不知道了....\n\n" + wake, false, true)
+			var wake: String = tr("（约 %d 秒后醒来）") % ceili(flow.revive_remaining_seconds) if flow.revive_remaining_seconds > 0.0 else tr("（仍然昏迷不醒……）")
+			# TRANSLATORS: unconsciousness; {wake} says when the player comes to.
+			_show(tr("你的眼前一黑，接著什麽也不知道了....\n\n{wake}").format({"wake": wake}), false, true)
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
 			_show(_death_text(flow), true, true)
 		_:
@@ -95,35 +96,36 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 
 
 func _death_text(flow: PlayerLifeFlow) -> String:
-	var lines: Array[String] = ["你死了。"]
+	var lines: Array[String] = [tr("你死了。")]
 	var result: PlayerDeathResult = flow.death_result
 	if result != null and result.penalized:
 		var losses: Array[String] = []
 		if result.combat_experience_lost > 0:
-			losses.append("实战经验 -%d" % result.combat_experience_lost)
+			losses.append(tr("实战经验 -%d") % result.combat_experience_lost)
 		if result.potential_lost > 0:
-			losses.append("潜能 -%d" % result.potential_lost)
+			losses.append(tr("潜能 -%d") % result.potential_lost)
 		if result.bellicosity_lost > 0:
-			losses.append("杀气清零")
+			losses.append(tr("杀气清零"))
 		if not losses.is_empty():
 			lines.append(" · ".join(losses))
 		var skills: Array[String] = []
 		for change: SkillDeathPenaltyChange in result.skill_changes:
-			var skill_name: String = SKILL_NAMES.get(change.skill_id, String(change.skill_id))
+			var skill_name: String = tr(SKILL_NAMES[change.skill_id]) if SKILL_NAMES.has(change.skill_id) else String(change.skill_id)
 			if change.progress_cleared:
-				skills.append("%s 学习进度清空" % skill_name)
+				skills.append(tr("%s 学习进度清空") % skill_name)
 			elif change.level_after < 0:
-				skills.append("%s 失传" % skill_name)
+				skills.append(tr("%s 失传") % skill_name)
 			else:
-				skills.append("%s %d→%d" % [skill_name, change.level_before, change.level_after])
+				skills.append(tr("{skill} {before}→{after}").format({"skill": skill_name, "before": change.level_before, "after": change.level_after}))
 		if not skills.is_empty():
-			lines.append("技能：" + "；".join(skills))
+			# TRANSLATORS: the skills death changed, joined by the list separator below.
+			lines.append(tr("技能：%s") % tr("；").join(skills))
 		if result.enabled_skills_cleared > 0:
-			lines.append("已启用的特殊武功全部取消启用")
+			lines.append(tr("已启用的特殊武功全部取消启用"))
 	if not flow.corpse_place.is_empty():
-		lines.append("你的尸体和随身物品留在：" + flow.corpse_place)
+		lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
 	lines.append("")
-	lines.append("\n\n".join(flow.messages_shown()))
+	lines.append("\n\n".join(flow.messages_shown().map(func(message: String) -> String: return tr(message))))
 	return "\n".join(lines).strip_edges()
 
 

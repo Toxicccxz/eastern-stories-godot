@@ -17,6 +17,8 @@ const WEAPON_FLAG_TWO_HANDED: String = "two_handed"
 const ARMOR_TYPE_CLOTH: StringName = &"cloth"
 ## std/armor/cloth.c setup(): cloth heavier than this gets dodge -weight/3000.
 const CLOTH_DODGE_WEIGHT_STEP: int = 3000
+# TRANSLATORS: an item with no description of its own: its name and its ES2 id, e.g. 草鞋(Sandals)。
+const DEFAULT_LONG: String = "{name}({id})。\n"
 const ARMOR_PROPERTY_KEYS: Array[String] = [
 	"armor", "armor_vs_force", "attack", "defense", "dodge", "composure", "courage",
 	"intelligence", "karma", "personality", "magic", "move", "spells", "unarmed",
@@ -27,6 +29,8 @@ var _legacy_source_paths: Array[String] = []
 var _display_name: String
 var _aliases: Array[String] = []
 var _description: String
+## No authored long: the description is feature/name.c's default.
+var _default_long: bool = false
 var _unit: String
 var _material: String
 var _own_weight: int
@@ -255,11 +259,24 @@ static func _long_or_default(
 	if definition._aliases.is_empty():
 		reader.fail("long", "needs either long or an alias for the default description")
 		return ""
-	var primary_id: String = definition._aliases[0]
-	return "%s(%s)。\n" % [
-		definition._display_name,
-		primary_id.substr(0, 1).to_upper() + primary_id.substr(1),
-	]
+	definition._default_long = true
+	return DEFAULT_LONG.format({"name": definition._display_name, "id": definition._default_id()})
+
+
+## The description in the shown language. The default one is put together again from
+## its parts, so that the name is translated and the ES2 id kept as written.
+func shown_description() -> String:
+	if not _default_long:
+		return TranslationServer.translate(_description)
+	return TranslationServer.translate(DEFAULT_LONG).format({
+		"name": TranslationServer.translate(_display_name),
+		"id": _default_id(),
+	})
+
+
+func _default_id() -> String:
+	var primary_id: String = _aliases[0]
+	return primary_id.substr(0, 1).to_upper() + primary_id.substr(1)
 
 
 ## std/money.c: a combined item whose weight and value scale with the amount.

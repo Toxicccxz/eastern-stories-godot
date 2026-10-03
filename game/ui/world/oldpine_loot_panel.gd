@@ -53,14 +53,15 @@ func _build_row(row: WorldItemRowProjection) -> BoxContainer:
 	var label: Label = Label.new()
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text = (
-		"%s ×%d" % [row.display_name, row.amount]
+		tr("{item} ×{amount}").format({"item": tr(row.display_name), "amount": row.amount})
 		if row.amount != 1
-		else row.display_name
+		else tr(row.display_name)
 	)
+	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	label.tooltip_text = row.description.strip_edges()
 	container.add_child(label)
 	var take_button: Button = Button.new()
-	take_button.text = "Take"
+	take_button.text = "拿取"
 	take_button.disabled = not row.can_take
 	take_button.pressed.connect(_on_take_pressed.bind(row.item_instance_id))
 	container.add_child(take_button)

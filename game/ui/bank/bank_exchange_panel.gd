@@ -20,22 +20,22 @@ func _init() -> void:
 	add_child(rows)
 	title = _label(rows, "Title", "")
 	holdings = _label(rows, "Holdings", "")
-	_label(rows, "SourceLabel", tr("支付货币"))
+	_label(rows, "SourceLabel", "支付货币")
 	source = _selector(rows, "Source")
-	_label(rows, "TargetLabel", tr("取得货币"))
+	_label(rows, "TargetLabel", "取得货币")
 	target = _selector(rows, "Target")
 	quantity = LineEdit.new()
 	quantity.name = "Quantity"
 	quantity.custom_minimum_size = Vector2(0, 40)
 	quantity.text = "1"
-	quantity.placeholder_text = tr("支付数量（正整数）")
+	quantity.placeholder_text = "支付数量（正整数）"
 	rows.add_child(quantity)
 	var convert: Button = Button.new()
 	convert.name = "Convert"
 	convert.custom_minimum_size = Vector2(0, 48)
-	convert.text = tr("兑换")
+	convert.text = "兑换"
 	rows.add_child(convert)
-	feedback = _label(rows, "Feedback", tr("请选择货币与数量。同币种亦可兑换。"))
+	feedback = _label(rows, "Feedback", "请选择货币与数量。同币种亦可兑换。")
 	source.select(1)
 	target.select(0)
 	convert.pressed.connect(_submit)
@@ -56,9 +56,9 @@ func _selector(rows: VBoxContainer, node_name: String) -> OptionButton:
 	var selector: OptionButton = OptionButton.new()
 	selector.name = node_name
 	selector.custom_minimum_size = Vector2(0, 40)
-	selector.add_item(tr("铜钱 · 文"), CurrencyDenomination.Value.COIN)
-	selector.add_item(tr("银子 · 两"), CurrencyDenomination.Value.SILVER)
-	selector.add_item(tr("黄金 · 两"), CurrencyDenomination.Value.GOLD)
+	selector.add_item("铜钱 · 文", CurrencyDenomination.Value.COIN)
+	selector.add_item("银子 · 两", CurrencyDenomination.Value.SILVER)
+	selector.add_item("黄金 · 两", CurrencyDenomination.Value.GOLD)
 	rows.add_child(selector)
 	return selector
 
@@ -85,7 +85,7 @@ static func positive_amount(text: String) -> int:
 func show_conversion(result: BankConversionResult) -> void:
 	match result.outcome:
 		BankConversionResult.Outcome.SUCCESS:
-			feedback.text = "兑换成功：扣除 %d，取得 %d。" % [result.source_quantity, result.target_quantity]
+			feedback.text = tr("兑换成功：扣除 {paid}，取得 {received}。").format({"paid": result.source_quantity, "received": result.target_quantity})
 		BankConversionResult.Outcome.DELIVERY_FAILED:
 			feedback.text = "负重过高，兑换未交付：原币已扣除，未收到目标货币；未交付物品已清理，无退款。"
 		BankConversionResult.Outcome.SOURCE_MISSING:

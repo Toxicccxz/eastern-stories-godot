@@ -1,0 +1,11 @@
+{
+	"default": "zh_CN",
+	"languages": [
+		{
+			"code": "zh_CN",
+			"name": "简体中文",
+			"script": "Hans",
+			"fonts": ["Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei"]
+		}
+	]
+}

@@ -14,7 +14,7 @@ func _ready() -> void:
 	_window_row = shell.get_node("%WindowModeRow") as Control
 	_platform_hint = Label.new()
 	_platform_hint.name = "PlatformWindowModeHint"
-	_platform_hint.text = "Window mode is managed by this platform."
+	_platform_hint.text = "窗口模式由这个平台管理。"
 	_platform_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_platform_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_window_row.get_parent().add_child(_platform_hint)

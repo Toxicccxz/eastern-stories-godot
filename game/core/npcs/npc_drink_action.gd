@@ -17,7 +17,7 @@ func _init(p_sated_water: int = 0, p_dry_say: String = "", p_dry_clears: StringN
 
 
 func is_valid() -> bool:
-	return sated_water > 0 and not NpcTalk.line(dry_say).is_empty()
+	return sated_water > 0 and not dry_say.strip_edges().is_empty()
 
 
 static func from_record(reader: ContentRecordReader) -> NpcDrinkAction:

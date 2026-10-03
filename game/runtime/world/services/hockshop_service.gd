@@ -4,6 +4,7 @@ extends WorldService
 ## inherit HOCKSHOP (d/snow/hockshop.c): value and sell carried goods. One
 ## transient view; H2 alone owns appraisal/payout/destruction. No merchant,
 ## saved UI state, timer, RNG, or duplicated item/equipment authority.
+var _title: Label
 var _rows: VBoxContainer
 var _goods: VBoxContainer
 var _actions: HBoxContainer
@@ -40,7 +41,7 @@ func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: 
 	_rows = VBoxContainer.new()
 	_rows.name = "Rows"
 	panel.add_child(_rows)
-	_label(tr("%s · 估价 / 卖断") % definition.display_name, "Title")
+	_title = _label("", "Title")
 	holdings = _label("", "Holdings")
 	_goods = VBoxContainer.new()
 	_goods.name = "Goods"
@@ -90,7 +91,9 @@ func requires_idle() -> bool:
 
 func interact() -> void:
 	if in_reach() and not ExplorationPresentationBlocker.is_blocked(get_tree()):
-		open_panel(definition.display_name, panel)
+		# The title in the shown language, put together again on each opening.
+		_title.text = tr("%s · 估价 / 卖断") % tr(definition.display_name)
+		open_panel(tr(definition.display_name), panel)
 		refresh()
 		value_button.grab_focus()
 
@@ -135,7 +138,7 @@ func item_label(id: StringName) -> String:
 	if item == null:
 		return String(id)
 	var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
-	var display_name: String = String(item.item_definition_id) if content == null else content.display_name
+	var display_name: String = String(item.item_definition_id) if content == null else tr(content.display_name)
 	# Two of the same are told apart by their place among the carried ones, not the ID.
 	var current: MoneyInventoryContext = context()
 	var same: Array[StringName] = []
@@ -145,7 +148,7 @@ func item_label(id: StringName) -> String:
 			same.append(carried)
 	if same.size() > 1:
 		display_name += " #%d" % (same.find(id) + 1)
-	return "%s · %s" % [display_name, equipment_label(id)]
+	return "%s · %s" % [display_name, tr(equipment_label(id))]
 
 
 func visible_ids() -> Array[StringName]:
@@ -177,12 +180,15 @@ func refresh() -> void:
 		var denomination: CurrencyDenomination.Value = GameContent.catalog().denomination_of(item.item_definition_id)
 		if denomination != CurrencyDenomination.Value.UNSUPPORTED and current.stacks.has_stack(id):
 			var source: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
-			money.append("%s ×%d%s" % [source.display_name, current.stacks.stack_state(id).amount, source.base_unit])
+			# TRANSLATORS: money the player carries: 银子 ×2两.
+			money.append(tr("{money} ×{amount}{unit}").format({
+				"money": tr(source.display_name), "amount": current.stacks.stack_state(id).amount, "unit": tr(source.base_unit),
+			}))
 		var appraisal: HockshopValuationResult = quote(id)
 		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS]:
 			ids.append(id)
 			labels.append(item_label(id))
-	holdings.text = "直接携带的钱：" + ("无" if money.is_empty() else " / ".join(money))
+	holdings.text = tr("直接携带的钱：%s") % (tr("无") if money.is_empty() else " / ".join(money))
 	if ids != _ids or labels != _labels:
 		_ids = ids
 		_labels = labels
@@ -212,10 +218,12 @@ func request_value() -> void:
 
 static func valuation_text(result: HockshopValuationResult) -> String:
 	if result.outcome == HockshopValuationResult.Outcome.SELLABLE:
-		return "价值%d文 · 卖断可得%d文（以实际交付为准）。" % [result.source_value, result.actual_payout]
+		return TranslationServer.translate("价值{value}文 · 卖断可得{payout}文（以实际交付为准）。").format({
+			"value": result.source_value, "payout": result.actual_payout,
+		})
 	if result.outcome == HockshopValuationResult.Outcome.WORTHLESS:
-		return "一文不值，不能卖断。"
-	return "物品已变化或现在不可交易，请重新选择。"
+		return TranslationServer.translate("一文不值，不能卖断。")
+	return TranslationServer.translate("物品已变化或现在不可交易，请重新选择。")
 
 
 func _item_state(id: StringName) -> Array[int]:
@@ -235,7 +243,9 @@ func request_confirmation() -> void:
 	_pending = appraisal
 	_pending_state = _item_state(_selected_id)
 	_pending_equipment = equipment_label(_selected_id)
-	selection.text = "卖断 %s\n报价%d文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。" % [item_label(_selected_id), appraisal.actual_payout]
+	selection.text = tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
+		"item": item_label(_selected_id), "price": appraisal.actual_payout,
+	})
 	_confirm_actions.show()
 	_actions.hide()
 	refresh()
@@ -274,13 +284,14 @@ func confirm_sale() -> void:
 static func sell_text(result: HockshopSellResult) -> String:
 	var delivered: int = 0 if result.payout == null else result.payout.delivered_value
 	if result.outcome == HockshopSellResult.Outcome.SOLD:
-		var message: String = "卖断完成，物品已移除；实际收到%d文。" % delivered
 		if delivered < result.valuation.actual_payout:
-			message += " 部分钱款因负重不足未能交付，已销毁，不会补发或退款。"
-		return message
+			return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。") % delivered
+		return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。") % delivered
 	if result.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE:
-		return "交易技术异常（阶段%d），请停止操作。已交付%d文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。" % [result.stage, delivered]
-	return "卖断未执行，物品状态已变化；请重新选择。"
+		return TranslationServer.translate("交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。").format({
+			"stage": result.stage, "delivered": delivered,
+		})
+	return TranslationServer.translate("卖断未执行，物品状态已变化；请重新选择。")
 
 
 ## Back first cancels a pending sale confirmation, then closes the panel.
