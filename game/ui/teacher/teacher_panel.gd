@@ -2,9 +2,9 @@ class_name TeacherPanel
 extends CanvasLayer
 
 ## A teacher's panel: apprenticeship when the NPC takes apprentices, one learn
-## button per skill it teaches, enable/disable for a specialized one. The
-## TeacherService owns the rules; this only presents them and repeats the last
-## lines the log received.
+## button per skill it teaches. The TeacherService owns the rules; this only
+## presents them and repeats the last lines the log received. Enabling a skill is
+## on the character panel's 武学 page.
 var _contact: TeacherService
 var _rows: VBoxContainer
 var _title: Label
@@ -13,10 +13,8 @@ var status: Label
 var feedback: Label
 var apprentice_button: Button
 var cancel_button: Button
-## Skill ID -> its learn / enable / disable button.
+## Skill ID -> its learn button.
 var learn_buttons: Dictionary[StringName, Button] = {}
-var enable_buttons: Dictionary[StringName, Button] = {}
-var disable_buttons: Dictionary[StringName, Button] = {}
 
 
 func configure(contact: TeacherService) -> void:
@@ -43,14 +41,11 @@ func _ready() -> void:
 	if _contact.takes_apprentices():
 		apprentice_button = _button("Apprentice", "拜师 / 向师父请安", request_apprentice)
 		cancel_button = _button("CancelApprentice", "取消拜师请求", cancel_apprentice)
-	var catalog: ContentCatalog = GameContent.catalog()
 	for skill_id: StringName in _contact.teachable_skills():
-		var skill: SkillDefinition = catalog.skill(skill_id)
 		learn_buttons[skill_id] = _button("Learn_" + String(skill_id), "", _learn.bind(skill_id))
-		if not skill.valid_enabled_uses().is_empty():
-			enable_buttons[skill_id] = _button("Enable_" + String(skill_id), "", _enable.bind(skill_id))
-			disable_buttons[skill_id] = _button("Disable_" + String(skill_id), "", _disable.bind(skill_id))
-	feedback = _label("", "Feedback")
+	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log, and
+	# TeacherService has logged these lines already.
+	feedback = _label("", "LastLines")
 	_button("Close", "离开", close_panel)
 	_present()
 
@@ -62,9 +57,6 @@ func _present() -> void:
 	for skill_id: StringName in learn_buttons:
 		var skill: String = tr(catalog.skill(skill_id).display_name)
 		learn_buttons[skill_id].text = tr("请教%s（一次）") % skill
-		if enable_buttons.has(skill_id):
-			enable_buttons[skill_id].text = tr("启用%s") % skill
-			disable_buttons[skill_id].text = tr("停用%s") % skill
 
 
 func _label(text: String, node_name: String) -> Label:
@@ -123,9 +115,6 @@ func refresh() -> void:
 			"skill": tr(skill.display_name), "level": state.skills.raw_level(skill_id),
 			"progress": state.skills.learned_progress(skill_id), "cost": _cost_text(state, skill_id),
 		})
-		if not skill.valid_enabled_uses().is_empty():
-			var use_id: StringName = skill.valid_enabled_uses()[0]
-			line += tr(" · 已启用") if state.skills.mapped_skill(use_id) == skill_id else tr(" · 未启用")
 		lines.append(line)
 	var uses: Array[StringName] = []
 	for skill_id: StringName in _contact.teachable_skills():
@@ -138,7 +127,7 @@ func refresh() -> void:
 			continue # a use the game does not model as a skill yet (move)
 		lines.append(tr("有效{skill} {level}").format({
 			"skill": tr(use_skill.display_name),
-			"level": state.skills.effective_level(use_id, player.armor.aggregate_numeric_modifiers().value(use_id)),
+			"level": _contact.map.session.martial_arts().effective_level(use_id),
 		}))
 	lines.append(tr("精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}").format({
 		"gin": state.essence.current, "potential": state.progression.potential - state.progression.potential_spent,
@@ -165,22 +154,6 @@ func _learn(skill_id: StringName) -> void:
 	if panel.visible:
 		_contact.request_learn(skill_id)
 		_show_last()
-
-
-func _enable(skill_id: StringName) -> void:
-	if not panel.visible:
-		return
-	var name: String = tr(GameContent.catalog().skill(skill_id).display_name)
-	feedback.text = tr("已启用%s。") % name if _contact.enable(skill_id) else tr("无法启用%s：须已学会它和它的基本功夫。") % name
-	refresh()
-
-
-func _disable(skill_id: StringName) -> void:
-	if not panel.visible:
-		return
-	var name: String = tr(GameContent.catalog().skill(skill_id).display_name)
-	feedback.text = tr("已停用%s；技能与学习进度保留。") % name if _contact.disable(skill_id) else tr("%s没有启用。") % name
-	refresh()
 
 
 func _show_last() -> void:

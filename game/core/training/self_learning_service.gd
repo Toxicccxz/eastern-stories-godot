@@ -2,7 +2,6 @@ class_name SelfLearningService
 extends RefCounted
 
 const CharacterStateType := preload("res://core/characters/character_state.gd")
-const SkillIdsType := preload("res://core/skills/skill_ids.gd")
 const SelfLearningResultType := preload("res://core/training/self_learning_result.gd")
 const SkillImprovementResultType := preload(
 	"res://core/skills/skill_improvement_result.gd"
@@ -14,19 +13,24 @@ const EffectResultType := preload(
 	"res://core/skills/improvement_effects/skill_improvement_effect_result.gd"
 )
 
+## selflearn.c: the only skills that can be self-learned.
+const SELF_LEARNABLE: Array[StringName] = [&"dodge", &"force", &"sword", &"blade", &"staff", &"parry", &"unarmed"]
 const MINIMUM_RAW_SKILL_LEVEL: int = 40
 const ESSENCE_COST_NUMERATOR: int = 300
 const COMBAT_EXPERIENCE_DIVISOR: int = 10
 
 
 ## Deterministic translation of cmds/std/selflearn.c. improvement_roll is the
-## externally supplied result of legacy random(base_intelligence + raw_level).
+## externally supplied result of legacy random(base_intelligence + raw_level);
+## with `improvement_random` the roll is drawn from it instead, only where
+## selflearn.c calls random().
 static func self_learn(
 	character: CharacterStateType,
 	skill_id: StringName,
 	is_fighting: bool,
 	improvement_roll: int,
 	effect_registry: EffectRegistryType = null,
+	improvement_random: WorldInteractionRandomSource = null,
 ) -> SelfLearningResultType:
 	if not _is_self_learnable(skill_id):
 		return _failure(SelfLearningResultType.FailureReason.SKILL_NOT_SELF_LEARNABLE, skill_id)
@@ -93,6 +97,8 @@ static func self_learn(
 		)
 
 	var improvement_roll_upper_bound: int = base_intelligence + level
+	if improvement_random != null:
+		improvement_roll = improvement_random.legacy_random(improvement_roll_upper_bound)
 	if improvement_roll < 0 or improvement_roll >= improvement_roll_upper_bound:
 		return _failure(
 			SelfLearningResultType.FailureReason.INVALID_IMPROVEMENT_ROLL,
@@ -136,15 +142,7 @@ static func self_learn(
 
 
 static func _is_self_learnable(skill_id: StringName) -> bool:
-	return (
-		skill_id == SkillIdsType.DODGE
-		or skill_id == SkillIdsType.FORCE
-		or skill_id == SkillIdsType.SWORD
-		or skill_id == SkillIdsType.BLADE
-		or skill_id == SkillIdsType.STAFF
-		or skill_id == SkillIdsType.PARRY
-		or skill_id == SkillIdsType.UNARMED
-	)
+	return SELF_LEARNABLE.has(skill_id)
 
 
 static func _failure(reason: int, skill_id: StringName) -> SelfLearningResultType:

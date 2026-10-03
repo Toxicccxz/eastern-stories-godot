@@ -255,6 +255,15 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	check(state.progression.potential_spent == spent + 1 and state.essence.current < gin and _plain(hall.last_lines[0]).begins_with("你向柳淳风请教"), "learn.c: a lesson in unarmed: %s" % [hall.last_lines])
 	hud.dismiss_current_panel()
 	await _settle(tree)
+	# The character panel's 武学 page: skills.c's list, and exercise.c with no force enabled.
+	hud._presentation_layout.character_button.pressed.emit()
+	hud._presentation_layout.character.arts_tab.pressed.emit()
+	var page: MartialArtsPage = hud.martial_arts_page()
+	check(page.is_visible_in_tree() and _plain(page.skills_text.text).contains("基本拳脚"), "武学 lists the skill learnt: " + page.skills_text.text)
+	page.exercise_button.pressed.emit()
+	check(_plain(hud.log_lines().back()) == "你必须先用 enable 选择你要用的内功心法。", "打坐 without an enabled force (exercise.c)")
+	hud.dismiss_current_panel()
+	await _settle(tree)
 	# Beside 李火狮 the school gate is in reach too; the nearer one, he, is the context.
 	check(_beside(map, &"snow.school2", &"snow.school2.fist_trainer.1") and map.can_operate_door(&"snow.school.gate"), "TEST-ONLY placement beside 李火狮, by the gate")
 	await _settle(tree)

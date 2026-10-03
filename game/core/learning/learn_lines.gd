@@ -7,18 +7,28 @@ extends RefCounted
 
 # TRANSLATORS: learn.c: {npc} is the teacher, {skill} the skill asked about.
 const ASKED: String = "你向{npc}请教有关「{skill}」的疑问。"
-## SKILL_D(skill)->skill_improved() lines, printed when its effect applies.
-const IMPROVED_LINES: Dictionary[StringName, String] = {
-	&"literate": "由於你的勤学苦读，你的悟性提高了。",
-}
 
 
-## In the shown language; `teacher`, `skill_name` and `respect` are as authored.
-static func lines(result: LearnResult, teacher: String, skill_name: String, student: CharacterState, context: TeachingContext, respect: String) -> Array[String]:
+## In the shown language; `teacher` and `respect` are as authored.
+static func lines(result: LearnResult, teacher: String, skill: SkillDefinition, student: CharacterState, context: TeachingContext, respect: String) -> Array[String]:
+	return ColoredLine.texts(colored(result, teacher, skill, student, context, respect))
+
+
+## The lines with the colours ES2 prints them in (improve_skill()'s is HIC).
+static func colored(result: LearnResult, teacher: String, skill: SkillDefinition, student: CharacterState, context: TeachingContext, respect: String) -> Array[ColoredLine]:
+	var out: Array[ColoredLine] = []
+	for line: String in _plain_lines(result, teacher, skill, student, context, respect):
+		out.append(ColoredLine.new(line))
+	if result.failure_reason == LearnResult.FailureReason.NONE:
+		out.append_array(TrainingLines.improved(result.skill_improvement, result.authored_effect, skill))
+	return out
+
+
+static func _plain_lines(result: LearnResult, teacher: String, skill: SkillDefinition, student: CharacterState, context: TeachingContext, respect: String) -> Array[String]:
 	var policy: NpcRecognitionPolicy = context.recognition_policy as NpcRecognitionPolicy
 	var out: Array[String] = []
 	var npc: String = _t(teacher)
-	var asked: Dictionary = {"npc": npc, "skill": _t(skill_name)}
+	var asked: Dictionary = {"npc": npc, "skill": _t(skill.display_name)}
 	match result.failure_reason:
 		LearnResult.FailureReason.NONE:
 			pass
@@ -53,7 +63,9 @@ static func lines(result: LearnResult, teacher: String, skill_name: String, stud
 		LearnResult.FailureReason.STUDENT_SKILL_NOT_BELOW_TEACHER:
 			return [_t("这项技能你的程度已经不输你师父了。")]
 		LearnResult.FailureReason.SKILL_LEARN_REJECTED:
-			return [_t("依你目前的能力，没有办法学习这种技能。")]
+			# valid_learn()'s own notify_fail() replaces learn.c's (the last call wins).
+			var refusal: String = skill.valid_learn_line(result.skill_learn_policy_result)
+			return [_t(refusal if not refusal.is_empty() else "依你目前的能力，没有办法学习这种技能。")]
 		LearnResult.FailureReason.POTENTIAL_EXHAUSTED:
 			return [_t("你的潜能已经发挥到极限了，没有办法再成长了。")]
 		LearnResult.FailureReason.TEACHING_TEMPORARILY_DISABLED:
@@ -71,13 +83,7 @@ static func lines(result: LearnResult, teacher: String, skill_name: String, stud
 			out.append(_t("你今天太累了，结果什麽也没有学到。"))
 		LearnResult.Completion.PROGRESSED, LearnResult.Completion.LEVEL_INCREASED:
 			out.append(_t("你听了%s的指导，似乎有些心得。") % npc)
-	if result.completion == LearnResult.Completion.LEVEL_INCREASED:
-		out.append(_t("你的「%s」进步了！") % asked["skill"])
-		if (
-			result.authored_effect != null and result.authored_effect.status == SkillImprovementEffectResult.Status.APPLIED
-			and IMPROVED_LINES.has(result.skill_id)
-		):
-			out.append(_t(IMPROVED_LINES[result.skill_id]))
+	# improve_skill()'s and skill_improved()'s lines follow (colored()).
 	return out
 
 

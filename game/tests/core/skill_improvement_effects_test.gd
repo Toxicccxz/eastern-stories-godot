@@ -1,5 +1,6 @@
 extends RefCounted
 
+const PracticeSelfLearningTestScript := preload("res://tests/core/practice_self_learning_test.gd")
 const CharacterStateScript := preload("res://core/characters/character_state.gd")
 const CharacterResourceStateScript := preload(
 	"res://core/characters/character_resource_state.gd"
@@ -15,7 +16,6 @@ const EffectResultScript := preload(
 const EffectRegistryScript := preload(
 	"res://core/skills/improvement_effects/skill_improvement_effect_registry.gd"
 )
-const PracticePoliciesScript := preload("res://core/training/practice_policies.gd")
 const PracticeResultScript := preload("res://core/training/practice_result.gd")
 const PracticeServiceScript := preload("res://core/training/practice_service.gd")
 const SkillLearnPolicyRegistryScript := preload(
@@ -316,7 +316,7 @@ func _test_practice_level_up_without_authored_hook() -> void:
 	var result: PracticeResultScript = PracticeServiceScript.practice(
 		character,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		PracticeSelfLearningTestScript._fall_steps(),
 		learn_policies.policy_for(SkillIdsScript.FALL_STEPS),
 		false,
 	)

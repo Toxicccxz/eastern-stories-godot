@@ -1053,6 +1053,14 @@ func remove_player_item(id: StringName) -> OldPineArmorInteractionResult:
 
 var _last_portable_equipment: OldPineEquipmentInteractionResult
 var _last_portable_armor: OldPineArmorInteractionResult
+var _martial_arts: PlayerMartialArts
+
+
+## The player's enable, practice, exercise, self-learning and study (the 武学 page).
+func martial_arts() -> PlayerMartialArts:
+	if _martial_arts == null:
+		_martial_arts = PlayerMartialArts.new(self)
+	return _martial_arts
 
 
 func last_equipment_interaction() -> OldPineEquipmentInteractionResult:

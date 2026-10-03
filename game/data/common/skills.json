@@ -2,7 +2,8 @@
 	"skills": [
 		{
 			"id": "unarmed", "name": "基本拳脚", "kind": "basic", "type": "martial",
-			"legacy_source": "daemon/skill/unarmed.c"
+			"legacy_source": "daemon/skill/unarmed.c",
+			"improved_line": "由於你勤练武艺，你的膂力提高了。", "improved_color": "HIW"
 		},
 		{
 			"id": "sword", "name": "基本剑法", "kind": "basic", "type": "martial",
@@ -37,11 +38,14 @@
 		},
 		{
 			"id": "force", "name": "基本内功", "kind": "basic", "type": "martial",
-			"legacy_source": "daemon/skill/force.c"
+			"legacy_source": "daemon/skill/force.c",
+			"improved_line": "由於你的内功修炼有成，你的体质改善了。", "improved_color": "HIW"
 		},
 		{
 			"id": "liuh-ken", "name": "柳家拳", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
 			"legacy_source": "daemon/skill/liuh-ken.c",
+			"practice": { "kee": 30, "fail": "你的体力不够了，休息一下再练吧。" },
+			"valid_learn": { "empty_hands": "练柳家拳法必须空手。" },
 			"actions": [
 				{ "id": "gu-song-gua-yue", "action": "$N使一招「古松挂月」，对准$n的$l「呼」地一拳", "damage_type": "瘀伤" },
 				{ "id": "ao-xue-dong-mei", "action": "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去", "damage_type": "瘀伤" },
@@ -52,11 +56,18 @@
 		{
 			"id": "fonxanforce", "name": "封山派内功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/fonxanforce.c",
-			"standard_force_hit": true
+			"standard_force_hit": true,
+			"practice": { "refuses": true, "fail": "封山派内功只能用学的，或是从运用(exert)中增加熟练度。" }
 		},
 		{
 			"id": "fonxansword", "name": "封山剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/fonxansword.c",
+			"practice": { "kee": 30, "force": 3, "done": "你按著所学练了一遍封山剑法。", "fail": "你的内力或气不够，没有办法练习封山剑法。" },
+			"valid_learn": {
+				"max_force": "你的内力不够，没有办法练封山剑法。",
+				"mapped": "封山剑法必须配合封山派内功才能练。",
+				"weapon": "你必须先找一把剑才能练剑法。"
+			},
 			"actions": [
 				{ "id": "feng-hui-lu-zhuan", "action": "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l", "damage": 30, "damage_type": "刺伤" },
 				{ "id": "kong-shan-niao-yu", "action": "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l", "damage": 30, "damage_type": "割伤" },
@@ -71,6 +82,8 @@
 		{
 			"id": "chaos-steps", "name": "倒乱七星步法", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
 			"legacy_source": "daemon/skill/chaos-steps.c",
+			"practice": { "kee": 30, "force": 3, "fail": "你的气或内力不够，不能练倒乱七星步法。" },
+			"valid_learn": { "max_force": "你的内力不够，没有办法练倒乱七星步。" },
 			"dodge_messages": [
 				"$n一招「天玑离枢」轻轻巧巧地避了开去。",
 				"只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。",
@@ -84,11 +97,13 @@
 		{
 			"id": "celestial", "name": "天邪神功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/celestial.c",
-			"standard_force_hit": true
+			"standard_force_hit": true,
+			"improved_line": "由於你苦练天邪神功，你的定力提高了", "improved_color": "HIW"
 		},
 		{
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",
-			"legacy_source": "daemon/skill/literate.c"
+			"legacy_source": "daemon/skill/literate.c",
+			"improved_line": "由於你的勤学苦读，你的悟性提高了。", "improved_color": "HIW"
 		}
 	]
 }

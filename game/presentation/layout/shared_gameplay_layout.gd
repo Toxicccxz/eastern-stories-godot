@@ -16,7 +16,7 @@ var frame_title: Label
 var mount: VBoxContainer
 var holding: Control
 var details: VBoxContainer
-var character: Label
+var character: CharacterPanel
 ## The current zone's authored ES2 description, opened by Look.
 var room: Label
 ## The message log (消息). Its own box keeps the log's height: open_panel() zeroes
@@ -129,7 +129,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.inspection_text = RichTextLabel.new()
 	ui.inspection_text.custom_minimum_size = Vector2(0, 180)
 	details.add_child(ui.inspection_text)
-	character = _label(holding, "CharacterDetails")
+	character = CharacterPanel.new()
+	holding.add_child(character)
 	room = _label(holding, "RoomDescription")
 	messages = VBoxContainer.new()
 	messages.name = "Messages"
@@ -137,6 +138,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.combat_log = RichTextLabel.new()
 	ui.combat_log.custom_minimum_size = Vector2(0, 320)
 	ui.combat_log.scroll_following = true
+	# Alert lines are coloured (SharedGameplayUI escapes the rest).
+	ui.combat_log.bbcode_enabled = true
 	messages.add_child(ui.combat_log)
 	ui.inventory_panel = load("res://scenes/ui/player_inventory_panel.tscn").instantiate() as PlayerInventoryPanel
 	holding.add_child(ui.inventory_panel)

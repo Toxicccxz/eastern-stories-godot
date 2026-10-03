@@ -862,11 +862,7 @@ msgstr ""
 msgid "你向{npc}请教有关「{skill}」的疑问。"
 msgstr ""
 
-#: core/learning/learn_lines.gd
-msgid "由於你的勤学苦读，你的悟性提高了。"
-msgstr ""
-
-#: core/learning/learn_lines.gd
+#: core/learning/learn_lines.gd core/training/training_lines.gd
 msgid "临阵磨枪？来不及啦。"
 msgstr ""
 
@@ -910,7 +906,7 @@ msgstr ""
 msgid "依你目前的能力，没有办法学习这种技能。"
 msgstr ""
 
-#: core/learning/learn_lines.gd
+#: core/learning/learn_lines.gd core/training/training_lines.gd
 msgid "你的潜能已经发挥到极限了，没有办法再成长了。"
 msgstr ""
 
@@ -930,16 +926,12 @@ msgstr ""
 msgid "也许是缺乏实战经验，你对%s的回答总是无法领会。"
 msgstr ""
 
-#: core/learning/learn_lines.gd
+#: core/learning/learn_lines.gd core/training/training_lines.gd
 msgid "你今天太累了，结果什麽也没有学到。"
 msgstr ""
 
 #: core/learning/learn_lines.gd
 msgid "你听了%s的指导，似乎有些心得。"
-msgstr ""
-
-#: core/learning/learn_lines.gd
-msgid "你的「%s」进步了！"
 msgstr ""
 
 #: core/learning/npc_recognition_policy.gd
@@ -1177,6 +1169,62 @@ msgstr ""
 msgid "恭喜您成为{family}的第{generation}代弟子。"
 msgstr ""
 
+#: core/skills/skill_use_ids.gd
+msgid "拳脚"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "剑法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "刀法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "棍法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "杖法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "暗器"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "内功"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "招架"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "轻功"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "法术"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "咒文"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "行动"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "阵法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "鞭法"
+msgstr ""
+
 #. one glyph of a number written in Chinese characters (十, 百, 万...).
 #. one glyph of a number written in Chinese characters (一, 二, 三...).
 #: core/text/chinese_number.gd
@@ -1264,6 +1312,180 @@ msgstr ""
 msgid "负"
 msgstr ""
 
+#. feature/skill.c improve_skill(): %s is the skill's name.
+#: core/training/training_lines.gd
+msgid "你的「%s」进步了！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "没有这个技能种类，用 enable ? 可以查看有哪些种类。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "「{skill}」是所有{kind}的基础，不需要 enable。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你不会这种技能。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你连「{basic}」都没学会，更别提{skill}了。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "这个技能不能当成这种用途。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你改用另一种法术系，灵力必须重新锻炼。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你改用另一种内功，内力必须重新锻炼。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你改用另一种咒文系，法力必须重新修炼。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你已经在战斗中了，学一点实战经验吧。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你只能练习用 enable 指定的特殊技能。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你好像还没「学会」这项技能吧？最好先去请教别人。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你对这方面的技能还是一窍不通，最好从先从基本学起。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在不能练习这项技能。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你试著练习%s，但是并没有任何进步。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你的%s进步了！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "战斗中不能练内功，会走火入魔。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你必须先用 enable 选择你要用的内功心法。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你最少要花 10 点「气」才能练功。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在的气太少了，无法产生内息运行全身经脉。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在精神状况太差了，无法凝神专一！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在精力不够，无法控制内息的流动！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在无法练功。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你坐下来运气用功，一股内息开始在体内流动。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "但是当你行功完毕，只觉得全身酸麻。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你的内力增强了！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "这项技能不能通过自学取得进步！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你得有「%s」的入门知识才行。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在无法自学。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你开始钻研有关「%s」的问题。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "也许是缺乏实战经验，结果是一无所获。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你苦思冥想，似乎有些心得。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你无法在战斗中专心下来研读新知！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你无法从这样东西学到任何东西。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你是个文盲，先学学读书识字(literate)吧。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你的实战经验不足，再怎麽读也没用。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "以你目前的能力，还没有办法学这个技能。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在过於疲倦，无法专心下来研读新知。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你研读了一会儿，但是发现上面所说的对你而言都太浅了，没有学到任何东西。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你研读有关%s的技巧，似乎有点心得。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在无法研读。"
+msgstr ""
+
+#. enable.c's answer when a skill is enabled or disabled; ES2 prints it in English.
+#: core/training/training_lines.gd
+msgid "Ok."
+msgstr ""
+
 #. liuh-ken actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
@@ -1329,7 +1551,7 @@ msgstr ""
 msgid "等你空下来"
 msgstr ""
 
-#: presentation/battle/battle_action_panel.gd presentation/battle/battle_presentation_projection.gd runtime/world/services/hockshop_service.gd
+#: presentation/battle/battle_action_panel.gd presentation/battle/battle_presentation_projection.gd runtime/world/services/hockshop_service.gd ui/world/martial_arts_page.gd
 msgid "无"
 msgstr ""
 
@@ -1916,7 +2138,7 @@ msgstr ""
 msgid "观察"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/character_panel.gd ui/world/shared_gameplay_ui.gd
 msgid "角色"
 msgstr ""
 
@@ -2378,11 +2600,11 @@ msgid "看起来%s并不想跟你较量。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
-msgid "看起来%s想杀死你！"
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
-msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgid "看起来%s想杀死你！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -2572,23 +2794,7 @@ msgid "请教%s（一次）"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
-msgid "启用%s"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid "停用%s"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
 msgid "{skill} {level} · 学习进度 {progress} · 耗精 {cost}"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid " · 已启用"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid " · 未启用"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -2600,23 +2806,157 @@ msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} ·
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
-msgid "已启用%s。"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid "无法启用%s：须已学会它和它的基本功夫。"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid "已停用%s；技能与学习进度保留。"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid "%s没有启用。"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
 msgid "无法计算"
+msgstr ""
+
+#: ui/world/character_panel.gd
+msgid "武学"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "初学乍练"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "粗通皮毛"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "半生不熟"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "马马虎虎"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "驾轻就熟"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "出类拔萃"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "神乎其技"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "出神入化"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "登峰造极"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "一代宗师"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "深不可测"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "新学乍用"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "初窥门径"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "略知一二"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "已有小成"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "心领神会"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "了然於胸"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "豁然贯通"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "举世无双"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "震古铄今"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "技能"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "使用中的特殊技能"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "你现在没有使用任何特殊技能。"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "打坐"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "每次花费的气"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "自学"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "研读"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "内力 {force} / {max_force}"
+msgstr ""
+
+#. skills.c: {mark} is □ for an enabled skill, {rank} its rank, {level}/{progress} level and learning progress.
+#: ui/world/martial_arts_page.gd
+msgid "{mark}{skill} - {rank} {level}/{progress}"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "你目前并没有学会任何技能。"
+msgstr ""
+
+#. enable.c: a use (拳脚, 剑法 …), the skill enabled for it (or 无) and the effective level.
+#: ui/world/martial_arts_page.gd
+msgid "{use}：{skill} · 有效等级 {level}"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "激发%s"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "练习"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "停用"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "自学%s"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "研读%s"
 msgstr ""
 
 #: ui/world/oldpine_loot_panel.gd ui/world/player_inventory_panel.gd
@@ -2952,14 +3292,6 @@ msgid ""
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
-msgid "{skill} {level} · 学习进度 {progress}"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "有效拳脚 %d"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
 msgid "负重 {carried} / {capacity} · 体重 {weight}"
 msgstr ""
 
@@ -3146,6 +3478,11 @@ msgstr ""
 msgid "丝绸马褂"
 msgstr ""
 
+#. unarmed improved_line
+#: data/common/skills.json
+msgid "由於你勤练武艺，你的膂力提高了。"
+msgstr ""
+
 #. parry parry_messages.armed
 #: data/common/skills.json
 msgid "只听见「锵」一声，被$p格开了。"
@@ -3201,6 +3538,21 @@ msgstr ""
 msgid "但是$n已有准备，不慌不忙的躲开。"
 msgstr ""
 
+#. force improved_line
+#: data/common/skills.json
+msgid "由於你的内功修炼有成，你的体质改善了。"
+msgstr ""
+
+#. liuh-ken practice.fail
+#: data/common/skills.json
+msgid "你的体力不够了，休息一下再练吧。"
+msgstr ""
+
+#. liuh-ken valid_learn.empty_hands
+#: data/common/skills.json
+msgid "练柳家拳法必须空手。"
+msgstr ""
+
 #. liuh-ken actions.action
 #: data/common/skills.json
 msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
@@ -3226,9 +3578,39 @@ msgstr ""
 msgid "封山派内功"
 msgstr ""
 
+#. fonxanforce practice.fail
+#: data/common/skills.json
+msgid "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
 #. fonxansword name
 #: data/common/skills.json
 msgid "封山剑法"
+msgstr ""
+
+#. fonxansword practice.done
+#: data/common/skills.json
+msgid "你按著所学练了一遍封山剑法。"
+msgstr ""
+
+#. fonxansword practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习封山剑法。"
+msgstr ""
+
+#. fonxansword valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练封山剑法。"
+msgstr ""
+
+#. fonxansword valid_learn.mapped
+#: data/common/skills.json
+msgid "封山剑法必须配合封山派内功才能练。"
+msgstr ""
+
+#. fonxansword valid_learn.weapon
+#: data/common/skills.json
+msgid "你必须先找一把剑才能练剑法。"
 msgstr ""
 
 #. fonxansword actions.action
@@ -3276,6 +3658,16 @@ msgstr ""
 msgid "倒乱七星步法"
 msgstr ""
 
+#. chaos-steps practice.fail
+#: data/common/skills.json
+msgid "你的气或内力不够，不能练倒乱七星步法。"
+msgstr ""
+
+#. chaos-steps valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练倒乱七星步。"
+msgstr ""
+
 #. chaos-steps dodge_messages
 #: data/common/skills.json
 msgid "$n一招「天玑离枢」轻轻巧巧地避了开去。"
@@ -3316,10 +3708,20 @@ msgstr ""
 msgid "天邪神功"
 msgstr ""
 
+#. celestial improved_line
+#: data/common/skills.json
+msgid "由於你苦练天邪神功，你的定力提高了"
+msgstr ""
+
 #. literate name
 #. snow.npc.teacher inquiry topic
 #: data/common/skills.json data/snow/npcs.json
 msgid "读书识字"
+msgstr ""
+
+#. literate improved_line
+#: data/common/skills.json
+msgid "由於你的勤学苦读，你的悟性提高了。"
 msgstr ""
 
 #. actions.action

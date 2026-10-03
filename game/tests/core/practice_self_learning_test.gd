@@ -8,7 +8,6 @@ const SkillIdsScript := preload("res://core/skills/skill_ids.gd")
 const VitalityInnerForcePracticePolicyScript := preload(
 	"res://core/training/vitality_inner_force_practice_policy.gd"
 )
-const PracticePoliciesScript := preload("res://core/training/practice_policies.gd")
 const PracticeResultScript := preload("res://core/training/practice_result.gd")
 const PracticeServiceScript := preload("res://core/training/practice_service.gd")
 const SkillLearnPolicyScript := preload("res://core/learning/skill_learn_policy.gd")
@@ -28,6 +27,11 @@ const SelfLearningServiceScript := preload("res://core/training/self_learning_se
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
+
+
+## daemon/skill/fall-steps.c practice_skill(): kee 30 and force 3, both spent.
+static func _fall_steps() -> VitalityInnerForcePracticePolicyScript:
+	return VitalityInnerForcePracticePolicyScript.new(SkillIdsScript.FALL_STEPS, 30, 30, 3, 3)
 
 
 func run_all() -> Dictionary[String, Variant]:
@@ -63,7 +67,7 @@ func _test_practice_normal_attempt() -> void:
 	var result: PracticeResultScript = PracticeServiceScript.practice(
 		character,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -83,7 +87,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 	var fighting: PracticeResultScript = PracticeServiceScript.practice(
 		unmapped,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		true,
 	)
@@ -92,7 +96,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 	var no_mapping: PracticeResultScript = PracticeServiceScript.practice(
 		unmapped,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -102,7 +106,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 	var missing_special: PracticeResultScript = PracticeServiceScript.practice(
 		missing_both,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -116,7 +120,7 @@ func _test_practice_validation_order_and_missing_skills() -> void:
 	var basic_failure: PracticeResultScript = PracticeServiceScript.practice(
 		missing_basic,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -134,7 +138,7 @@ func _test_practice_valid_learn_requirement() -> void:
 	var result: PracticeResultScript = PracticeServiceScript.practice(
 		character,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -288,7 +292,7 @@ func _test_practice_resource_boundaries() -> void:
 	var vitality_failure: PracticeResultScript = PracticeServiceScript.practice(
 		low_vitality,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -305,7 +309,7 @@ func _test_practice_resource_boundaries() -> void:
 	var force_failure: PracticeResultScript = PracticeServiceScript.practice(
 		low_force,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -322,7 +326,7 @@ func _test_practice_resource_boundaries() -> void:
 	var exact_result: PracticeResultScript = PracticeServiceScript.practice(
 		exact,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -338,7 +342,7 @@ func _test_practice_no_progress_policy() -> void:
 	var result: PracticeResultScript = PracticeServiceScript.practice(
 		character,
 		SkillIdsScript.FORCE,
-		PracticePoliciesScript.create_fonxan_force(),
+		GameContent.catalog().skill(SkillIdsScript.FONXAN_FORCE).practice_policy(),
 		_learn_policy(SkillIdsScript.FONXAN_FORCE),
 		false,
 	)
@@ -364,7 +368,7 @@ func _test_practice_improvement_integer_division_boundaries() -> void:
 		var result: PracticeResultScript = PracticeServiceScript.practice(
 			character,
 			SkillIdsScript.DODGE,
-			PracticePoliciesScript.create_fall_steps(),
+			_fall_steps(),
 			_learn_policy(SkillIdsScript.FALL_STEPS),
 			false,
 		)
@@ -381,7 +385,7 @@ func _test_practice_exact_level_threshold_and_level_up() -> void:
 	var below_result: PracticeResultScript = PracticeServiceScript.practice(
 		below,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -395,7 +399,7 @@ func _test_practice_exact_level_threshold_and_level_up() -> void:
 	var exact_result: PracticeResultScript = PracticeServiceScript.practice(
 		exact,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -410,7 +414,7 @@ func _test_practice_exact_level_threshold_and_level_up() -> void:
 	var level_result: PracticeResultScript = PracticeServiceScript.practice(
 		level_up,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -426,7 +430,7 @@ func _test_practice_weak_player_semantics() -> void:
 	var result: PracticeResultScript = PracticeServiceScript.practice(
 		character,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 		true,
@@ -440,10 +444,10 @@ func _test_practice_weak_player_semantics() -> void:
 
 func _test_practice_policy_and_state_isolation() -> void:
 	var first_policy: VitalityInnerForcePracticePolicyScript = (
-		PracticePoliciesScript.create_fall_steps()
+		_fall_steps()
 	)
 	var second_policy: VitalityInnerForcePracticePolicyScript = (
-		PracticePoliciesScript.create_fall_steps()
+		_fall_steps()
 	)
 	first_policy.required_vitality = 99
 	_assert_eq(second_policy.required_vitality, 30, "practice policies independent")
@@ -468,7 +472,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 	var second_result: PracticeResultScript = PracticeServiceScript.practice(
 		second,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -477,7 +481,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 	var mismatch: PracticeResultScript = PracticeServiceScript.practice(
 		_practice_character(50, 20),
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fonxan_force(),
+		GameContent.catalog().skill(SkillIdsScript.FONXAN_FORCE).practice_policy(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
@@ -493,7 +497,7 @@ func _test_practice_policy_and_state_isolation() -> void:
 	PracticeServiceScript.practice(
 		validation_failure,
 		SkillIdsScript.DODGE,
-		PracticePoliciesScript.create_fall_steps(),
+		_fall_steps(),
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)

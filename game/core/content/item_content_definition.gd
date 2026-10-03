@@ -55,6 +55,7 @@ var _liquid_definition: LiquidDefinition
 var _liquid_initial_content: LiquidState.Content
 var _liquid_initial_remaining: int
 var _liquid_initial_name: String
+var _study: StudyMaterial
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
@@ -105,6 +106,9 @@ var base_unit: String:
 	get: return _base_unit
 var liquid_initial_name: String:
 	get: return _liquid_initial_name
+## set("skill", ...): what study.c teaches from the item; null for most items.
+var study: StudyMaterial:
+	get: return _study
 var category: StringName:
 	get:
 		if _currency_definition != null:
@@ -160,6 +164,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	var liquid: ContentRecordReader = reader.child("liquid")
 	if liquid != null:
 		definition._read_liquid(liquid)
+	var study: ContentRecordReader = reader.child("study")
+	if study != null:
+		definition._study = StudyMaterial.from_record(study)
 	# The food rules (hockshop value, save validation) assume a plain item.
 	if food != null and (weapon != null or armor != null or money != null):
 		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")

@@ -1851,14 +1851,14 @@ func spar_selected() -> CombatSliceInitiationResult:
 			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
 	if not started:
 		lines.append(tr("看起来%s并不想跟你较量。") % name)
-	elif consent.kill:
-		# feature/attack.c kill_ob() tells its victim.
-		lines.append(tr("看起来%s想杀死你！") % name)
-	elif not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty():
+	elif not consent.kill and (not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()):
 		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
 		# blade draws blood. Native hint; ES2 says nothing here.
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
 	_hud().append_log_lines(lines)
+	if started and consent.kill:
+		# feature/attack.c kill_ob() tells its victim, in HIR bright red.
+		_hud().append_log_lines([tr("看起来%s想杀死你！") % name], true)
 	return result
 
 

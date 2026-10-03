@@ -61,6 +61,12 @@ class GeneratedDataTest(unittest.TestCase):
         self.assertEqual((box['weight'], box['no_get']), (0, True))
         self.assertNotIn('snow.outdoor.temple.paper_seal', spawns)
 
+    def test_a_book_teaches_what_its_skill_mapping_says(self) -> None:
+        items = {r['id']: r for r in json.loads(self.files['common/items.json'])['items']}
+        # obj/old_book.c set("skill", ([...])): study.c reads it; `name` becomes `skill`.
+        self.assertEqual(items['es2:obj/old_book']['study'], {
+            'skill': 'force', 'exp_required': 0, 'sen_cost': 30, 'difficulty': 20, 'max_skill': 10})
+
     def test_npcs_bound_to_services_and_teachers(self) -> None:
         npcs = {r['id']: r for r in json.loads(self.files['snow/npcs.json'])['npcs']}
         # A vendor sells from its body; rank_info/respect is how others address it.

@@ -34,6 +34,17 @@ var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
 var _selected_floor_item: bool = false
 var _log_lines: Array[String] = []
+## The ES2 colour of each log line (ColoredLine; &"" plain), e.g. kill_ob()'s
+## 看起来X想杀死你！ in HIR bright red.
+var _log_colors: Array[StringName] = []
+const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
+## How include/ansi.h's bright colours look in the log and on the HUD's last line.
+const ES2_COLORS: Dictionary[StringName, Color] = {
+	ColoredLine.HIR: ALERT_COLOR,
+	ColoredLine.HIY: Color(1.0, 0.9, 0.35),
+	ColoredLine.HIC: Color(0.45, 0.92, 1.0),
+	ColoredLine.HIW: Color(1.0, 1.0, 1.0),
+}
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay
 
@@ -64,6 +75,7 @@ func _ready() -> void:
 	inventory_panel.give_requested.connect(_give_item)
 	inventory_panel.drop_requested.connect(_drop_item)
 	inventory_panel.put_requested.connect(_put_item)
+	_presentation_layout.character.arts.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
 		life_overlay.name = "PlayerLifeOverlay"
@@ -322,14 +334,35 @@ func show_combat_result(text: String) -> void:
 	world_title.tooltip_text = text
 
 
-func append_log_lines(lines: Array[String]) -> void:
+## `alert`: the lines are warnings ES2 prints in bright red (HIR).
+func append_log_lines(lines: Array[String], alert: bool = false) -> void:
+	var colored: Array[ColoredLine] = []
 	for line: String in lines:
-		if not line.is_empty():
-			_log_lines.append(line)
+		colored.append(ColoredLine.new(line, ColoredLine.HIR if alert else ColoredLine.PLAIN))
+	append_colored_lines(colored)
+
+
+## Lines in the colours ES2 prints them in.
+func append_colored_lines(lines: Array[ColoredLine]) -> void:
+	for line: ColoredLine in lines:
+		if not line.text.is_empty():
+			_log_lines.append(line.text)
+			_log_colors.append(line.color)
 	while _log_lines.size() > MAX_LOG_LINES:
 		_log_lines.pop_front()
-	combat_log.text = "\n".join(_log_lines)
-	_presentation_layout.recent.text = "" if _log_lines.is_empty() else _log_lines.back().get_slice("\n", 0)
+		_log_colors.pop_front()
+	var shown: PackedStringArray = []
+	for index: int in _log_lines.size():
+		var plain: String = _log_lines[index].replace("[", "[lb]")
+		var color: StringName = _log_colors[index]
+		shown.append("[color=#%s]%s[/color]" % [ES2_COLORS[color].to_html(false), plain] if ES2_COLORS.has(color) else plain)
+	combat_log.text = "\n".join(shown)
+	var recent: Label = _presentation_layout.recent
+	recent.text = "" if _log_lines.is_empty() else _log_lines.back().get_slice("\n", 0)
+	if not _log_colors.is_empty() and ES2_COLORS.has(_log_colors.back()):
+		recent.add_theme_color_override("font_color", ES2_COLORS[_log_colors.back()])
+	else:
+		recent.remove_theme_color_override("font_color")
 
 
 func log_lines() -> Array[String]:
@@ -626,6 +659,17 @@ func open_character() -> void:
 	_presentation_layout.open_panel("角色", _presentation_layout.character)
 
 
+## The character panel on its 武学 page.
+func open_martial_arts() -> void:
+	open_character()
+	if _presentation_layout.character.is_visible_in_tree():
+		_presentation_layout.character.show_arts()
+
+
+func martial_arts_page() -> MartialArtsPage:
+	return _presentation_layout.character.arts
+
+
 func _refresh_character() -> void:
 	var state := _player.state
 	var attr := state.attributes
@@ -638,19 +682,13 @@ func _refresh_character() -> void:
 		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
 		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
 	})]
-	# cmds/usr/skills.c lists every skill the character has; names come from skills.json.
-	for skill_id: StringName in state.skills.raw_skill_ids():
-		var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
-		lines.append(tr("{skill} {level} · 学习进度 {progress}").format({
-			"skill": String(skill_id) if skill == null else tr(skill.display_name),
-			"level": state.skills.raw_level(skill_id), "progress": state.skills.learned_progress(skill_id),
-		}))
-	lines.append(tr("有效拳脚 %d") % state.skills.effective_level(&"unarmed", _player.armor.aggregate_numeric_modifiers().unarmed))
 	lines.append(tr("负重 {carried} / {capacity} · 体重 {weight}").format({
 		"carried": _session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)),
 		"capacity": _player.maximum_encumbrance, "weight": _player.body_facts.body_weight,
 	}))
-	_presentation_layout.character.text = "\n".join(lines)
+	_presentation_layout.character.sheet.text = "\n".join(lines)
+	if _presentation_layout.character.arts_shown():
+		_presentation_layout.character.arts.refresh()
 
 
 func _resource_text(resource: CharacterResourceState) -> String:

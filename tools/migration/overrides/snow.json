@@ -165,7 +165,6 @@
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
-		"obj/old_book.c": { "set skill": "study is not native yet; a plain item until then" },
 		"d/snow/herbshop.c": { "set item_desc": "look targets are not data yet" },
 		"d/snow/postoffice.c": {
 			"set item_desc": "look targets are not data yet",
