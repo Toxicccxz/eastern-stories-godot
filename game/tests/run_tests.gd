@@ -93,7 +93,6 @@ const VitalityInnerForcePracticePolicyScript := preload(
 const UnpracticeablePracticePolicyScript := preload(
 	"res://core/training/unpracticeable_practice_policy.gd"
 )
-const PracticePoliciesScript := preload("res://core/training/practice_policies.gd")
 const PracticeResultScript := preload("res://core/training/practice_result.gd")
 const PracticeServiceScript := preload("res://core/training/practice_service.gd")
 const SelfLearningResultScript := preload("res://core/training/self_learning_result.gd")
@@ -998,7 +997,6 @@ func _init() -> void:
 		PracticePolicyScript,
 		VitalityInnerForcePracticePolicyScript,
 		UnpracticeablePracticePolicyScript,
-		PracticePoliciesScript,
 		PracticeResultScript,
 		PracticeServiceScript,
 		SelfLearningResultScript,
@@ -1757,6 +1755,12 @@ func _init() -> void:
 	var offense_defense_result: Dictionary = SuiteResult.checked("offense_defense_routes_test", await load("res://tests/runtime/offense_defense_routes_test.gd").new().run_all(self))
 	assertion_count += int(offense_defense_result["assertions"])
 	failures.append_array(offense_defense_result["failures"])
+	var martial_training_result: Dictionary = SuiteResult.checked("martial_training_test", load("res://tests/core/martial_training_test.gd").new().run_all())
+	assertion_count += int(martial_training_result["assertions"])
+	failures.append_array(martial_training_result["failures"])
+	var martial_arts_page_result: Dictionary = SuiteResult.checked("martial_arts_page_test", await load("res://tests/runtime/martial_arts_page_test.gd").new().run_all(self))
+	assertion_count += int(martial_arts_page_result["assertions"])
+	failures.append_array(martial_arts_page_result["failures"])
 	var snow_main_path_result: Dictionary = SuiteResult.checked("snow_main_path_test", await load("res://tests/application/snow_main_path_test.gd").new().run_all(self))
 	assertion_count += int(snow_main_path_result["assertions"])
 	failures.append_array(snow_main_path_result["failures"])

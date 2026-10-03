@@ -140,6 +140,20 @@ class ContentTest(unittest.TestCase):
         name = next(entry for entry in catalog.entries() if entry.msgid == "魏无极")
         self.assertEqual(name.notes, ["snow.npc.teacher name"])
 
+    def test_skill_practice_valid_learn_and_improved_lines(self) -> None:
+        catalog = extract_pot.Catalog()
+        document = {"skills": [{
+            "id": "fonxansword", "name": "封山剑法", "kind": "specialized", "enable": ["sword"],
+            "practice": {"kee": 30, "force": 3, "done": "你按著所学练了一遍封山剑法。", "fail": "你的内力或气不够。"},
+            "valid_learn": {"max_force": "你的内力不够。", "weapon": "你必须先找一把剑。"},
+            "improved_line": "你的体质改善了。", "improved_color": "HIW",
+        }]}
+        extract_pot.extract_content(document, "data/common/skills.json", catalog)
+        self.assertEqual(
+            [msgid for _, msgid in _ids(catalog)],
+            ["封山剑法", "你按著所学练了一遍封山剑法。", "你的内力或气不够。", "你的内力不够。", "你必须先找一把剑。", "你的体质改善了。"],
+        )
+
 
 class RenderTest(unittest.TestCase):
     def test_multiline_and_context(self) -> None:

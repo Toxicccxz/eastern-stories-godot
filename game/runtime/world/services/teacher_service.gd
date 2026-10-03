@@ -5,7 +5,7 @@ extends NpcService
 ## or recognize_apprentice() admits learns the skills it has that skills.json
 ## defines (NpcTeacher); a master with an attempt_apprentice() rule takes
 ## apprentices (NpcApprenticeship). Its lines go to the log; the panel shows the
-## student's skills and the last lines.
+## student's skills and the last lines. Enabling is the player's own (武学 page).
 var ui: TeacherPanel
 var last_learn: LearnResult
 var last_lines: Array[String] = []
@@ -89,32 +89,18 @@ func request_learn(skill_id: StringName) -> LearnResult:
 	var skill: SkillDefinition = catalog.skill(skill_id)
 	last_learn = LearnService.learn(player.state, context, skill, registry.policy_for(skill_id), map.encounter_skill_effect_registry(), random)
 	var respect: String = RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id)
-	_say(LearnLines.lines(last_learn, display_name(), skill.display_name, player.state, context, respect))
+	_say_colored(LearnLines.colored(last_learn, display_name(), skill, player.state, context, respect))
 	return last_learn
 
 
-## enable <use> <skill> for a specialized skill this teacher teaches.
-func enable(skill_id: StringName) -> bool:
-	var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
-	if not can_teach() or skill == null or skill.valid_enabled_uses().is_empty():
-		return false
-	return SkillEnableTransition.try_enable(map.player_runtime().state.skills, skill, skill.valid_enabled_uses()[0]).applied
-
-
-func disable(skill_id: StringName) -> bool:
-	var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
-	if not can_teach() or skill == null or skill.valid_enabled_uses().is_empty():
-		return false
-	var use_id: StringName = skill.valid_enabled_uses()[0]
-	if map.player_runtime().state.skills.mapped_skill(use_id) != skill_id:
-		return false
-	# Source enable none: no raw/learned/resource changes. Combat sources are
-	# projected afresh for every opportunity; there is no cached next action.
-	map.player_runtime().state.skills.unmap_skill(use_id)
-	return true
-
-
 func _say(lines: Array[String]) -> void:
-	last_lines.assign(lines)
+	var colored: Array[ColoredLine] = []
+	for line: String in lines:
+		colored.append(ColoredLine.new(line))
+	_say_colored(colored)
+
+
+func _say_colored(lines: Array[ColoredLine]) -> void:
+	last_lines = ColoredLine.texts(lines)
 	if map.session != null and not lines.is_empty():
-		map.session.shared_ui().append_log_lines(lines)
+		map.session.shared_ui().append_colored_lines(lines)

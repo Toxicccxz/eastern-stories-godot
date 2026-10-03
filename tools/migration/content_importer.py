@@ -784,6 +784,12 @@ class Importer:
         if sets.get('female_only', 0) != 0:
             handled.add('female_only')
             record['female_only'] = True
+        # cmds/std/study.c: set("skill", ([name, exp_required, sen_cost, difficulty, max_skill])).
+        study = sets.get('skill')
+        if isinstance(study, dict) and isinstance(study.get('name'), str):
+            handled.add('skill')
+            record['study'] = {'skill': study['name'], **{k: study[k] for k in (
+                'exp_required', 'sen_cost', 'difficulty', 'max_skill') if k in study}}
         inherits = set(lpc.inherits)
         weapon_kinds = sorted({k.removeprefix('F_') for k in inherits} & WEAPON_KINDS)
         armor_kinds = sorted(inherits & ARMOR_KINDS)

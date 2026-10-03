@@ -299,7 +299,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	var map := session.resident_map(&"snow.outdoor") as WorldMapController
 	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 	var before := Work.rng_state(session)
-	check(not school.enable(&"liuh-ken") and not school.disable(&"liuh-ken") and not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
+	check(not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
 	check(Work.rng_state(session) == before,"rejected contact draws zero")
 	var walker := Work.new()
 	await walker.walk(tree,session,"move_right",125)
@@ -307,15 +307,22 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	map.player_body.position = Vector2(1015,-400)
 	player.set_world_location(WorldLocationState.new(player.world_location().region_id,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall"))
 	check(school.can_teach(),"contact fixture valid")
+	# enable.c is the player's own: the character panel's 武学 page, anywhere outside a fight.
+	var arts: PlayerMartialArts = session.martial_arts()
+	session.shared_ui().open_martial_arts()
+	var page: MartialArtsPage = session.shared_ui().martial_arts_page()
+	check(page.is_visible_in_tree() and page.buttons.has("enable:unarmed:liuh-ken"),"the 武学 page offers 激发柳家拳")
+	page.buttons["enable:unarmed:liuh-ken"].pressed.emit()
+	check(player.state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and page._use_texts[&"unarmed"].text.contains("柳家拳 · 有效等级 7") and arts.last_lines[0].text == "Ok.","real button wiring / authoritative UI")
+	page.buttons["disable:unarmed"].pressed.emit()
+	check(player.state.skills.mapped_skill(&"unarmed").is_empty() and page._use_texts[&"unarmed"].text.contains("无 · 有效等级 2"),"immediate disable UI")
+	var before_resources: Array[int] = [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current]
+	check(arts.enable(&"unarmed",&"liuh-ken") and arts.disable(&"unarmed"),"transitions succeed")
+	check(before_resources == [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current],"unarmed transitions never reset resources")
+	session.shared_ui()._presentation_layout.close_panel()
 	school.ui.interact()
 	check(school.ui.panel.visible,"existing Liu panel")
-	school.ui.enable_buttons[&"liuh-ken"].pressed.emit()
-	check(player.state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and school.ui.status.text.contains("有效基本拳脚 7"),"real button wiring / authoritative UI")
-	school.ui.disable_buttons[&"liuh-ken"].pressed.emit()
-	check(player.state.skills.mapped_skill(&"unarmed").is_empty() and school.ui.status.text.contains("有效基本拳脚 2"),"immediate disable UI")
-	var before_resources: Array[int] = [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current]
-	check(school.enable(&"liuh-ken") and school.disable(&"liuh-ken"),"contact transitions succeed")
-	check(before_resources == [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current],"unarmed transitions never reset resources")
+	check(school.ui.status.text.contains("有效基本拳脚 2"),"the teacher's panel shows the effective level")
 	player.state.skills.set_raw_level(&"liuh-ken",0)
 	player.state.skills.set_learned_progress(&"liuh-ken",0)
 	var learn_rng_before: int = session.world_interaction_random_source().capture_random_state().state
@@ -328,7 +335,8 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		if gate == "busy": player.busy.start_busy(1)
 		if gate == "fight": player.relationship.add_opponent(&"opponent")
 		if gate == "pause": tree.paused = true
-		check(not school.enable(&"liuh-ken") and not school.disable(&"liuh-ken"),"mapping availability " + gate)
+		# enable.c has no busy check; fights and the pause close portable actions.
+		check(arts.enable(&"unarmed",&"liuh-ken") == (gate == "busy") and arts.disable(&"unarmed") == (gate == "busy"),"mapping availability " + gate)
 		player.busy.advance(); player.relationship.remove_opponent(&"opponent"); tree.paused = false
 	for size: Vector2 in [Vector2(1152,648),Vector2(960,540),Vector2(800,480),Vector2(480,320)]:
 		var rect := Rect2(Vector2.ZERO,size)
@@ -338,7 +346,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		await tree.process_frame
 		check(session.shared_ui()._presentation_layout.frame.visible and session.shared_ui()._presentation_layout.mount.is_ancestor_of(school.ui.panel),"teaching form uses visible shared frame")
 		check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()),"panel confined " + str(size))
-		for button: Button in [school.ui.learn_buttons[&"unarmed"],school.ui.learn_buttons[&"liuh-ken"],school.ui.enable_buttons[&"liuh-ken"],school.ui.disable_buttons[&"liuh-ken"]]:
+		for button: Button in [school.ui.learn_buttons[&"unarmed"],school.ui.learn_buttons[&"liuh-ken"]]:
 			check(button.custom_minimum_size.y >= 64 and button.custom_minimum_size.x >= 64,"touch targets " + str(size))
 		check(session.shared_ui()._presentation_layout._frame_layout.scroll.follow_focus,"scroll follows input focus")
 	school.ui.close_panel()

@@ -115,12 +115,13 @@ func _story(tree: SceneTree) -> void:
 	var advanced := Martial.learn(state,liuh_rng)
 	check(advanced.success and state.skills.raw_level(&"liuh-ken") == 5 and liuh_rng.call_count() == 5, "EXP6 real Learn reaches liuh5, never assigned")
 	check(state.essence.current == 1 and state.progression.potential_spent == 6 and state.progression.potential == 99, "entire Learn sequence exact cost")
-	check(school.enable(&"liuh-ken") and state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and state.skills.effective_level(&"unarmed") == 7, "production Enable effective unarmed7")
+	var arts: PlayerMartialArts = session.martial_arts()
+	check(arts.enable(&"unarmed", &"liuh-ken") and state.skills.mapped_skill(&"unarmed") == &"liuh-ken" and state.skills.effective_level(&"unarmed") == 7, "production Enable effective unarmed7")
 	var internal_before: Array[int] = [state.recovery.inner_force.current,state.recovery.mana.current,state.recovery.atman.current]
-	check(school.disable(&"liuh-ken") and state.skills.mapped_skill(&"unarmed").is_empty(), "production contact Disable")
+	check(arts.disable(&"unarmed") and state.skills.mapped_skill(&"unarmed").is_empty(), "production Disable")
 	check(state.skills.raw_level(&"liuh-ken") == 5 and state.skills.learned_progress(&"liuh-ken") == 0 and state.skills.raw_level(&"unarmed") == 4, "Disable retains raw/learned")
 	check(internal_before == [state.recovery.inner_force.current,state.recovery.mana.current,state.recovery.atman.current], "Disable no internal resource reset")
-	check(school.enable(&"liuh-ken"), "re-enable through contact")
+	check(arts.enable(&"unarmed", &"liuh-ken"), "re-enable")
 	for index: int in range(4): _mapped_attack(state,index)
 	_equipment(state)
 	# Existing exhaustive reverse tests additionally exercise QUICK and RIPOSTE.

@@ -18,19 +18,23 @@ static func try_enable(
 	use_id: StringName,
 ) -> SkillMappingChangeResultType:
 	if not SkillUseIdsType.is_enable_command_use(use_id):
-		return SkillMappingChangeResultType.new()
+		return _refused(SkillMappingChangeResultType.Failure.NOT_A_USE)
 	if definition.skill_id == use_id:
-		return SkillMappingChangeResultType.new()
+		return _refused(SkillMappingChangeResultType.Failure.BASIC_OF_ITSELF)
 	if skills.raw_level(definition.skill_id) == 0:
-		return SkillMappingChangeResultType.new()
+		return _refused(SkillMappingChangeResultType.Failure.SKILL_NOT_KNOWN)
 	if skills.raw_level(use_id) == 0:
-		return SkillMappingChangeResultType.new()
+		return _refused(SkillMappingChangeResultType.Failure.USE_NOT_KNOWN)
 	if not definition.can_enable_for(use_id):
-		return SkillMappingChangeResultType.new()
+		return _refused(SkillMappingChangeResultType.Failure.INVALID_USE)
 	if not skills.map_skill(use_id, definition.skill_id):
-		return SkillMappingChangeResultType.new()
+		return _refused(SkillMappingChangeResultType.Failure.MAPPING_REJECTED)
 
 	return SkillMappingChangeResultType.new(true, _resource_reset_for(use_id))
+
+
+static func _refused(failure: int) -> SkillMappingChangeResultType:
+	return SkillMappingChangeResultType.new(false, SkillMappingChangeResultType.InternalResourceReset.NONE, failure)
 
 
 static func _resource_reset_for(use_id: StringName) -> int:

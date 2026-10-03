@@ -68,6 +68,7 @@
 			"long": "这本旧书的纸张都已经泛黄了，上面只有一些字迹模糊的字句，似乎\n提到一些呼吸方法什么的。\n",
 			"unit": "本",
 			"material": "paper",
+			"study": { "skill": "force", "exp_required": 0, "sen_cost": 30, "difficulty": 20, "max_skill": 10 },
 			"weight": 600,
 			"value": 70
 		},

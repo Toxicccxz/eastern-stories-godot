@@ -120,7 +120,7 @@ func learn_tests() -> void:
 	result = learn(state,context,rng)
 	# learn.c draws reject_msg[random(3)] for its notify_fail before asking recognize_apprentice().
 	check(rng.requested_bounds() == [3] and not state.skills.has_raw_level(&"unarmed") and result.failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, "no relationship rejects before mutation, after the refusal draw")
-	check(LearnLines.lines(result, "柳淳风", "基本拳脚", state, context, "壮士") == ["柳淳风笑著说道：您见笑了，我这点雕虫小技怎够资格「指点」您什麽？"], "the drawn refusal")
+	check(LearnLines.lines(result, "柳淳风", GameContent.catalog().skill(&"unarmed"), state, context, "壮士") == ["柳淳风笑著说道：您见笑了，我这点雕虫小技怎够资格「指点」您什麽？"], "the drawn refusal")
 	check(rng.call_count() == 1, "presentation does not draw")
 
 
