@@ -137,6 +137,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.combat_log = RichTextLabel.new()
 	ui.combat_log.custom_minimum_size = Vector2(0, 320)
 	ui.combat_log.scroll_following = true
+	# Alert lines are coloured (SharedGameplayUI escapes the rest).
+	ui.combat_log.bbcode_enabled = true
 	messages.add_child(ui.combat_log)
 	ui.inventory_panel = load("res://scenes/ui/player_inventory_panel.tscn").instantiate() as PlayerInventoryPanel
 	holding.add_child(ui.inventory_panel)

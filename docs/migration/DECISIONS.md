@@ -18,6 +18,9 @@ Owner-approved plan (two PRs; this is the first):
   back, so an unconscious 安惜迩 ends it. 柳绘心 refuses every spar; wear.c female_only.
 - **Owner:** combat talk with perform/cast/exert waits for its own package (柳淳风's and 柳绘心's
   sword.counterattack, 安惜迩's spells): they fight weaker than in ES2.
+- **Owner (PR review):** the verbs of every weapon kind without a post_action and race/human.c's
+  moves stay; an NPC whose learn.c always refuses (柳绘心) keeps its 请教, so players find out by
+  trying; kill_ob()'s 看起来X想杀死你！ shows in ES2's HIR red (log and HUD), no native warning.
 - Revision `SOURCE_ENTRY_SNOW_ROUTES_V1`: older development saves need a New Game.
 
 ## Localization: the source text is the key (2026-10-03)
