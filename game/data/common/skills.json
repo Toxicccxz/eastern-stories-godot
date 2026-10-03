@@ -2,7 +2,8 @@
 	"skills": [
 		{
 			"id": "unarmed", "name": "基本拳脚", "kind": "basic", "type": "martial",
-			"legacy_source": "daemon/skill/unarmed.c"
+			"legacy_source": "daemon/skill/unarmed.c",
+			"improved_line": "由於你勤练武艺，你的膂力提高了。", "improved_color": "HIW"
 		},
 		{
 			"id": "sword", "name": "基本剑法", "kind": "basic", "type": "martial",
@@ -96,7 +97,8 @@
 		{
 			"id": "celestial", "name": "天邪神功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/celestial.c",
-			"standard_force_hit": true
+			"standard_force_hit": true,
+			"improved_line": "由於你苦练天邪神功，你的定力提高了", "improved_color": "HIW"
 		},
 		{
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",

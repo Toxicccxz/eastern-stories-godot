@@ -14,8 +14,9 @@ static func from_record(reader: ContentRecordReader) -> StudyMaterial:
 	var material := StudyMaterial.new()
 	material.skill_id = StringName(reader.required_text("skill"))
 	material.exp_required = reader.integer("exp_required")
-	material.sen_cost = reader.required_integer("sen_cost")
-	material.difficulty = reader.required_integer("difficulty")
-	material.max_skill = reader.required_integer("max_skill")
+	# An LPC mapping key the book does not set reads as 0.
+	material.sen_cost = reader.integer("sen_cost")
+	material.difficulty = reader.integer("difficulty")
+	material.max_skill = reader.integer("max_skill")
 	reader.finish()
 	return material

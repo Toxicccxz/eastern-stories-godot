@@ -22,8 +22,10 @@ Owner-approved plan (the package's second PR):
 - **Owner:** ES2's pace stays. Measured: max_force 0 → 50 takes about 8–16 hours of play (kee
   comes back every heal_up, about 21 s); see the pacing knobs package.
   `tests/runtime/run_with_max_force.gd` (opt-in) gives a playtest max_force 49.
-- Not yet: race/human.c adds max_force/4 to max kee in setup() (at login in ES2); the player's
-  maxima are not recomputed.
+- Where the driver would stop the command with an error (a zero maximum in exercise.c, int 0 in
+  selflearn.c, a negative study cost) nothing changes and the page says 你现在无法练功 / 自学 / 研读.
+- Not yet: the move use (chaos-steps) has no basic skill, so it is not offered; race/human.c adds
+  max_force/4 to max kee in setup() (at login in ES2), and the player's maxima are not recomputed.
 
 ## Offense/defense routes A: moves as data, apply/* in combat, 柳淳风 and 安惜迩 fought (2026-10-03)
 

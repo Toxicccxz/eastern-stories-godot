@@ -6,13 +6,6 @@ extends RefCounted
 ## skill's skill_improved() line when the skill gains a level. In the shown language;
 ## names come from skills.json and items.json as authored.
 
-## enable.c valid_types: the uses a special skill can be enabled for.
-const USE_KINDS: Dictionary[StringName, String] = {
-	&"unarmed": "拳脚", &"sword": "剑法", &"blade": "刀法", &"stick": "棍法",
-	&"staff": "杖法", &"throwing": "暗器", &"force": "内功", &"parry": "招架",
-	&"dodge": "轻功", &"magic": "法术", &"spells": "咒文", &"move": "行动",
-	&"array": "阵法", &"whip": "鞭法",
-}
 # TRANSLATORS: feature/skill.c improve_skill(): %s is the skill's name.
 const LEVEL_UP: String = "你的「%s」进步了！"
 
@@ -25,7 +18,7 @@ static func enable(result: SkillMappingChangeResult, use: SkillDefinition, skill
 		SkillMappingChangeResult.Failure.NOT_A_USE:
 			return _plain(["没有这个技能种类，用 enable ? 可以查看有哪些种类。"])
 		SkillMappingChangeResult.Failure.BASIC_OF_ITSELF:
-			var kind: String = _t(USE_KINDS.get(use.skill_id, "")) if use != null else ""
+			var kind: String = _t(SkillUseIds.KINDS.get(use.skill_id, "")) if use != null else ""
 			return [ColoredLine.new(_t("「{skill}」是所有{kind}的基础，不需要 enable。").format({"skill": use_name, "kind": kind}))]
 		SkillMappingChangeResult.Failure.SKILL_NOT_KNOWN, SkillMappingChangeResult.Failure.MAPPING_REJECTED:
 			return _plain(["你不会这种技能。"])

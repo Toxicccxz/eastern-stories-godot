@@ -146,7 +146,7 @@ func _skills_list(state: CharacterState, catalog: ContentCatalog) -> String:
 ## player knows for it; {use, text, actions}.
 func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentCatalog) -> Array[Dictionary]:
 	var rows: Array[Dictionary] = []
-	for use_id: StringName in TrainingLines.USE_KINDS:
+	for use_id: StringName in SkillUseIds.KINDS:
 		var basic: SkillDefinition = catalog.skill(use_id)
 		if basic == null:
 			continue # a use the game does not model as a skill yet (move)
@@ -175,7 +175,7 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 		var mapped_skill: SkillDefinition = catalog.skill(mapped)
 		# TRANSLATORS: enable.c: a use (拳脚, 剑法 …), the skill enabled for it (or 无) and the effective level.
 		var text: String = tr("{use}：{skill} · 有效等级 {level}").format({
-			"use": tr(TrainingLines.USE_KINDS[use_id]),
+			"use": tr(SkillUseIds.KINDS[use_id]),
 			"skill": tr(mapped_skill.display_name) if mapped_skill != null else tr("无"),
 			"level": level,
 		})
@@ -260,6 +260,23 @@ func _act(action: String) -> void:
 		"study":
 			arts.study(StringName(subject))
 	refresh()
+	_refocus(action)
+
+
+## After a rebuild the pressed button may be gone (激发 becomes 停用): focus the same
+## action, else the use's other buttons, else 打坐.
+func _refocus(action: String) -> void:
+	var use: String = action.get_slice(":", 1)
+	var wanted: Array[String] = [action, "disable:" + use, "practice:" + use]
+	for key: String in buttons:
+		if key.begins_with("enable:%s:" % use):
+			wanted.append(key)
+	for key: String in wanted:
+		if buttons.has(key) and buttons[key].is_visible_in_tree():
+			buttons[key].grab_focus()
+			return
+	if exercise_button.is_visible_in_tree():
+		exercise_button.grab_focus()
 
 
 func _exercise() -> void:

@@ -77,6 +77,21 @@ func _test_skill_data() -> void:
 	_check(sword.valid_learn_line(refused) == "你必须先找一把剑才能练剑法。", "a wrong weapon reads the weapon line")
 	_check(_skill(&"liuh-ken").valid_learn_line(SkillLearnPolicyResult.new(SkillLearnPolicyResult.Status.REJECTED, SkillLearnPolicyResult.Reason.WEAPON_REFERENCES_NOT_EMPTY)) == "练柳家拳法必须空手。", "liuh-ken.c's empty hands line")
 	_check(sword.valid_learn_line(SkillLearnPolicyResult.new(SkillLearnPolicyResult.Status.REJECTED, SkillLearnPolicyResult.Reason.GENDER_MISMATCH)).is_empty(), "a rule without an authored line leaves the command's")
+	# Every skill whose skill_improved() the game applies prints its line too.
+	var effects := SkillImprovementEffectRegistry.new()
+	effects.register_legacy_defaults()
+	var records: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/common/skills.json"))
+	for record: Dictionary in records.skills:
+		var skill: SkillDefinition = _skill(StringName(record.id))
+		if effects.has_effect(skill.skill_id):
+			_check(not skill.improved_line.is_empty() and skill.improved_color == ColoredLine.HIW, "%s: skill_improved()'s line in skills.json" % skill.skill_id)
+	_check(_skill(&"unarmed").improved_line == "由於你勤练武艺，你的膂力提高了。", "unarmed.c's line")
+	var errors: Array[String] = []
+	SkillDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "kind": "basic", "type": "martial", "legacy_source": "x.c", "valid_learn": {"strength": "x"}}, "x", errors))
+	_check(errors.size() == 1 and errors[0].contains("unknown rule"), "an unknown valid_learn rule fails the load: %s" % [errors])
+	errors.clear()
+	SkillDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "kind": "basic", "type": "martial", "legacy_source": "x.c", "improved_line": "x", "improved_color": "RED"}, "x", errors))
+	_check(errors.size() == 1 and errors[0].contains("improved_color"), "an unknown colour fails the load: %s" % [errors])
 
 
 func _test_enable() -> void:
@@ -253,3 +268,15 @@ func _test_study() -> void:
 	_check(_texts(TrainingLines.study(_study(character, manual), _skill(&"fonxansword"))) == ["你的实战经验不足，再怎麽读也没用。"], "exp_required")
 	manual.exp_required = 0
 	_check(_texts(TrainingLines.study(_study(character, manual), _skill(&"fonxansword"))) == ["你的内力不够，没有办法练封山剑法。"], "valid_learn()'s line replaces study.c's")
+	# force.c skill_improved() at level 9 with con below 9/4: con + 2, its HIW line before study.c's.
+	var reader := _character()
+	reader.skills.set_raw_level(&"literate", 5)
+	reader.skills.set_raw_level(&"force", 8)
+	reader.skills.set_learned_progress(&"force", 80)
+	reader.attributes.constitution = 1
+	var lines: Array[ColoredLine] = TrainingLines.study(_study(reader, book), _skill(&"force"))
+	_check(_texts(lines) == ["你的「基本内功」进步了！", "由於你的内功修炼有成，你的体质改善了。", "你研读有关基本内功的技巧，似乎有点心得。"] and lines[1].color == ColoredLine.HIW, "level 9: improve_skill() HIC, skill_improved() HIW, then study.c: %s" % [_texts(lines)])
+	_check(reader.attributes.constitution == 3 and reader.skills.raw_level(&"force") == 9, "con + 2")
+	var errors: Array[String] = []
+	var blank := StudyMaterial.from_record(ContentRecordReader.new({"skill": "force"}, "x", errors))
+	_check(errors.is_empty() and blank.sen_cost == 0 and blank.max_skill == 0, "keys a book does not set read as 0 (LPC mapping)")

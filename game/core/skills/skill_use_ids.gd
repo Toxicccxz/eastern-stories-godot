@@ -22,20 +22,13 @@ const WHIP: StringName = &"whip"
 const LEGACY_IRON_CLOTH: StringName = &"iron-cloth"
 
 
+# TRANSLATORS: enable.c valid_types: what each use is called (拳脚 for unarmed …).
+const KINDS: Dictionary[StringName, String] = {
+	UNARMED: "拳脚", SWORD: "剑法", BLADE: "刀法", STICK: "棍法", STAFF: "杖法",
+	THROWING: "暗器", FORCE: "内功", PARRY: "招架", DODGE: "轻功", MAGIC: "法术",
+	SPELLS: "咒文", MOVE: "行动", ARRAY: "阵法", WHIP: "鞭法",
+}
+
+
 static func is_enable_command_use(use_id: StringName) -> bool:
-	return (
-		use_id == UNARMED
-		or use_id == SWORD
-		or use_id == BLADE
-		or use_id == STICK
-		or use_id == STAFF
-		or use_id == THROWING
-		or use_id == FORCE
-		or use_id == PARRY
-		or use_id == DODGE
-		or use_id == MAGIC
-		or use_id == SPELLS
-		or use_id == MOVE
-		or use_id == ARRAY
-		or use_id == WHIP
-	)
+	return KINDS.has(use_id)

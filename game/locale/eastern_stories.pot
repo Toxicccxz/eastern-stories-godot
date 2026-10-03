@@ -1169,6 +1169,62 @@ msgstr ""
 msgid "恭喜您成为{family}的第{generation}代弟子。"
 msgstr ""
 
+#: core/skills/skill_use_ids.gd
+msgid "拳脚"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "剑法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "刀法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "棍法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "杖法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "暗器"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "内功"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "招架"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "轻功"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "法术"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "咒文"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "行动"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "阵法"
+msgstr ""
+
+#: core/skills/skill_use_ids.gd
+msgid "鞭法"
+msgstr ""
+
 #. one glyph of a number written in Chinese characters (十, 百, 万...).
 #. one glyph of a number written in Chinese characters (一, 二, 三...).
 #: core/text/chinese_number.gd
@@ -1254,62 +1310,6 @@ msgstr ""
 #. the sign of a negative number written in Chinese characters.
 #: core/text/chinese_number.gd
 msgid "负"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "拳脚"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "剑法"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "刀法"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "棍法"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "杖法"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "暗器"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "内功"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "招架"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "轻功"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "法术"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "咒文"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "行动"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "阵法"
-msgstr ""
-
-#: core/training/training_lines.gd
-msgid "鞭法"
 msgstr ""
 
 #. feature/skill.c improve_skill(): %s is the skill's name.
@@ -3478,6 +3478,11 @@ msgstr ""
 msgid "丝绸马褂"
 msgstr ""
 
+#. unarmed improved_line
+#: data/common/skills.json
+msgid "由於你勤练武艺，你的膂力提高了。"
+msgstr ""
+
 #. parry parry_messages.armed
 #: data/common/skills.json
 msgid "只听见「锵」一声，被$p格开了。"
@@ -3701,6 +3706,11 @@ msgstr ""
 #. celestial name
 #: data/common/skills.json
 msgid "天邪神功"
+msgstr ""
+
+#. celestial improved_line
+#: data/common/skills.json
+msgid "由於你苦练天邪神功，你的定力提高了"
 msgstr ""
 
 #. literate name

@@ -2,11 +2,11 @@ extends SceneTree
 
 ## Opt-in development run for playtesting what needs max_force 50 (封山剑法,
 ## 倒乱七星步法) without exercising for hours: the game starts as usual, and each
-## journey begun or continued gets max_force raised once to the given value (default
-## 49) when it is lower, with force at twice that, so the next 打坐 passes the
-## threshold (if 基本内功 allows: max_force stops at (基本内功 + 有效内功 / 5) * 10).
-## The log says so. A save made afterwards keeps the values. Never an autoload;
-## tests/ is not in a release:
+## journey begun or continued, once a force skill is enabled (enabling one empties
+## force), gets max_force raised once to the given value (default 49) when it is
+## lower, with force at twice that, so the next 打坐 passes the threshold (if 基本内功
+## allows: max_force stops at (基本内功 + 有效内功 / 5) * 10). The log says so. A save
+## made afterwards keeps the values. Never an autoload; tests/ is not in a release:
 ## <godot> --path game --script res://tests/runtime/run_with_max_force.gd [-- <max_force>]
 
 const DEFAULT_MAX_FORCE: int = 49
@@ -25,6 +25,8 @@ class Booster extends Node:
 			return
 		if _done.has(session.get_instance_id()):
 			return
+		if session.player_runtime().state.skills.mapped_skill(&"force").is_empty():
+			return # 打坐 needs an enabled force skill, and enabling one empties force.
 		_done.append(session.get_instance_id())
 		var force: CharacterInternalResourceState = session.player_runtime().state.recovery.inner_force
 		if force.maximum >= target:
