@@ -26,8 +26,8 @@ hand-written files. Fix that before adding breadth.
 | 5 | **Localization foundation** | One PR after Package 4, before the second region: Godot translation set up with Simplified Chinese as the source locale, hard-coded player text (and the English labels some panels still show) moved to `tr()`, a key scheme and extractor for data text (POT), a pseudo-locale check that finds untranslated text, font fallback. No translations yet (they wait for release readiness; Traditional Chinese first). |
 
 Small correctness items ride along with the package that touches the code: `apply/*` stat
-bonuses in combat, the missing Keep scene reference. New player text goes through `tr()` as
-whole-sentence templates from 4E on.
+bonuses in combat, the missing Keep scene reference. New player text follows
+[LOCALIZATION](LOCALIZATION.md) from Package 5 on.
 
 ## Then — systems and regions
 

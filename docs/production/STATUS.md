@@ -4,14 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Snow milestone check** (`phase/snow-milestone-check`), after Package 4 (4A–4E merged): busy
-wears off on the heart beat outside a fight (char.c), the QA bridge is opt-in, `verify.py`
-fails on a `SCRIPT ERROR`; Snow's main path runs through the real shell as a suite
-(`snow_main_path_test`) and hours of world time as a soak (`world_soak_test`); a windowed
-walkthrough of all 37 rooms (every speaking NPC asked, every service used) fixed what it found.
+**Package 5, localization foundation** (`phase/localization-foundation`): Simplified Chinese is
+the source language and every player text goes through a translation; the template
+(`game/locale/eastern_stories.pot`) is extracted from scripts, scenes and content; the
+language follows the system or Settings (语言, shown once there is a second language);
+a pseudo-locale run of Snow's main path fails on any untranslated text on screen. No
+translations yet. How to write text and add a language: [LOCALIZATION](LOCALIZATION.md).
 
-Then **Package 5, localization foundation** (see [ROADMAP](ROADMAP.md)). Cost per NPC:
-[SNOW_CONTENT](../migration/SNOW_CONTENT.md).
+Next: the second region and its family, or the offense/defense routes (see
+[ROADMAP](ROADMAP.md)). Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
@@ -72,9 +73,10 @@ Code:
   it passes inside `run_tests.gd`.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
-* Player text is mostly not localized (`tr()` in the HUD chrome, the battle panel and what 4E
-  added) and some screens are still English or mixed (the inventory's Inspect/Remove/Wield and
-  [WORN], the pause menu): Package 5.
+* Only Simplified Chinese exists. English and other languages without measure words will need
+  their own count phrases and number words, and ES2's combat lines person and pronoun rules
+  (你 punches / he punches); see [LOCALIZATION](LOCALIZATION.md). Log lines written before a
+  language switch stay in the old language.
 * The HUD keeps an NPC selected after the player leaves its room (its actions are refused, kill.c
   `present()`); room labels and NPC names overlap in places (grey-box layout).
 * The battle log has no 昏倒/死亡 line yet (`announce()`), nor force reflection lines.
@@ -89,6 +91,6 @@ Licensing: no root project license; ES2 rights are unresolved
 ## How to verify
 
 See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~13 min; fails on a
-`SCRIPT ERROR` line). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
+`SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
 -- <suite paths>`. A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).
