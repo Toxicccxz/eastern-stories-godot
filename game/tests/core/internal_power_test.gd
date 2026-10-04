@@ -192,7 +192,15 @@ func _test_practice() -> void:
 
 func _test_login_maxima() -> void:
 	var character := _student()
-	character.vitality.maximum = 100
+	character.recovery.atman.maximum = 40
+	character.recovery.mana.maximum = 80
 	CharacterDerivedValues.refresh_human_player_maxima(character, 14)
-	_check(character.vitality.maximum == 112 and character.essence.maximum == 100 and character.spirit.maximum == 100, "race/human.c: max_kee 100 + max_force 50 / 4")
+	_check(character.vitality.maximum == 112 and character.essence.maximum == 110 and character.spirit.maximum == 120, "race/human.c: 100 + max_force 50, max_atman 40 and max_mana 80 / 4")
 	_check(character.vitality.effective == 100 and character.vitality.current == 100, "eff_kee and kee stay")
+	CharacterDerivedValues.refresh_human_player_maxima(character, 25)
+	_check(character.vitality.maximum == 232 and character.essence.maximum == 230 and character.spirit.maximum == 120, "by age: kee 220, gin 220 at 25")
+	character.recovery.inner_force.maximum = 0
+	character.vitality.effective = 232
+	character.vitality.current = 232
+	CharacterDerivedValues.refresh_human_player_maxima(character, 14)
+	_check(character.vitality.maximum == 100 and character.vitality.effective == 100 and character.vitality.current == 100, "a lower maximum clamps eff and current (DECISIONS)")

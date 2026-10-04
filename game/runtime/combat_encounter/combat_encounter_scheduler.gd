@@ -146,7 +146,7 @@ func advance(
 	if boundary != null and not boundary.inspect(bindings):
 		return CombatSchedulerAdvanceResult.new()
 	if _tactical != null:
-		var tactical_result: CombatTacticalExecutionResult = _tactical.process_command_boundary(bindings, random_source)
+		var tactical_result: CombatTacticalExecutionResult = _tactical.process_command_boundary(bindings, random_source, effect_registry)
 		if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.DISENGAGED:
 			if boundary != null:
 				boundary.accept_tactical(tactical_result)

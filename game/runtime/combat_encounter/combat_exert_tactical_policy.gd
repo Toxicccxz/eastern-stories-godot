@@ -8,6 +8,7 @@ extends CombatTacticalActionPolicy
 const PREFIX: String = "exert."
 
 var _function_id: StringName
+## skill_improved() effects when the context brings none (run outside the scheduler).
 var _effects: SkillImprovementEffectRegistry
 var function_id: StringName:
 	get: return _function_id
@@ -54,7 +55,7 @@ func execute(context: CombatTacticalContext, random_source: CombatRandomSource) 
 	)
 	var result: ExertResult = ExertService.exert(
 		actor.state, _function_id, GameContent.catalog(), force_level, true, actor.busy,
-		random_source.legacy_random, _effects,
+		random_source.legacy_random, context.effect_registry if context.effect_registry != null else _effects,
 	)
 	return CombatTacticalExecutionResult.new(
 		CombatTacticalExecutionResult.Outcome.APPLIED if result.succeeded() else CombatTacticalExecutionResult.Outcome.FAILED,

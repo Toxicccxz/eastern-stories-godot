@@ -36,8 +36,9 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 	var actions: Array[CombatTacticalActionInfo] = []
 	if tactical != null:
 		actions = coordinator.action_infos()
+	# The 加力 row only while enforce.c can act: the player's own active fight, conscious.
 	var enforce_limit: int = -1
-	if not session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
+	if session.martial_arts().in_own_fight() and not session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
 		enforce_limit = session.martial_arts().enforce_limit()
 	return BattlePresentationProjection.new(
 		encounter.encounter_id, encounter.mode, player_id, encounter.current_target_for(player_id),

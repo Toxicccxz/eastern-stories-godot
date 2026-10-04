@@ -136,6 +136,7 @@ func cancel(
 func process_command_boundary(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry = null,
 ) -> CombatTacticalExecutionResult:
 	var action: CombatQueuedAction = _encounter.queued_player_action()
 	if action == null:
@@ -157,7 +158,7 @@ func process_command_boundary(
 	if not _encounter.clear_queued_player_action(action.request.request_id):
 		return null
 	_emit(Kind.EXECUTION_STARTED, action)
-	var result: CombatTacticalExecutionResult = policy.execute(_context(action), random_source)
+	var result: CombatTacticalExecutionResult = policy.execute(_context(action, effect_registry), random_source)
 	if result == null:
 		result = CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED)
 	_emit(Kind.RESOLVED, action, Code.ACCEPTED, result)
@@ -240,12 +241,13 @@ func _available(binding: CombatSliceCharacterBinding) -> bool:
 	)
 
 
-func _context(action: CombatQueuedAction) -> CombatTacticalContext:
+func _context(action: CombatQueuedAction, effect_registry: SkillImprovementEffectRegistry = null) -> CombatTacticalContext:
 	var target: CombatParticipant = _encounter.participant_for(action.resolved_target_id)
 	return CombatTacticalContext.new(
 		_encounter.participant_for(action.request.actor_id).binding,
 		null if target == null else target.binding,
 		_encounter.mode,
+		effect_registry,
 	)
 
 

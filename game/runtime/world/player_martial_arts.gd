@@ -59,7 +59,7 @@ func enforce_limit() -> int:
 ## enforce <points> (0 is none): outside a fight or in the player's own. Returns the
 ## lines; outside a fight they also go to the log.
 func enforce(points: int) -> Array[ColoredLine]:
-	var fighting: bool = _in_own_fight()
+	var fighting: bool = in_own_fight()
 	if not fighting and not available():
 		return []
 	var lines: Array[ColoredLine] = EnforceService.enforce(_state(), points, force_level())
@@ -177,8 +177,8 @@ func _fighting() -> bool:
 	return _session.player_runtime().relationship.is_fighting()
 
 
-## The player is conscious in an active fight of their own.
-func _in_own_fight() -> bool:
+## The player is conscious in an active fight of their own (enforce.c still works).
+func in_own_fight() -> bool:
 	if _session == null or not _session.is_initialized() or not _session.application_gameplay_allows_encounter_advance():
 		return false
 	var encounter: CombatEncounter = _session.combat_encounter_coordinator().active_encounter()

@@ -1868,13 +1868,13 @@ msgstr ""
 msgid "当前／有效／上限"
 msgstr ""
 
-#. the player's card; (+%d) is enforce.c's force_factor, as hp.c shows it.
+#. the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it.
 #: presentation/battle/battle_participant_card.gd
-msgid "内力 %d/%d (+%d) · 法力 %d/%d · 灵力 %d/%d"
+msgid "内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
-msgid "内力 %d/%d · 法力 %d/%d · 灵力 %d/%d"
+msgid "内力 {force}/{max_force} · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd

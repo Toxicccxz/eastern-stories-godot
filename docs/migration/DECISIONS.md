@@ -20,8 +20,10 @@ Owner-approved plan ("按你的建议"):
 - std/force.c's reflection is told between the move and the damage line (combatd.c adds the
   hit_ob() string there). **Owner:** its third line, 「$N被$N以内力一震」 in the source, shows $n.
 - **Owner (#46 review):** Continue is ES2's login: race/human.c runs again for the player and
-  max gin, kee and sen are recomputed with a quarter of max atman, force and mana (eff and
-  current stay). A save made after max_force grew is therefore not restored bit for bit.
+  max gin, kee and sen are recomputed with a quarter of max atman, force and mana. Eff and
+  current stay unless a maximum falls below them: our tracks keep current ≤ eff ≤ max, where
+  ES2 leaves them above until they drop (no maximum shrinks in the game yet). A save made after
+  max_force grew is therefore not restored bit for bit.
 - **Owner (#46 review):** exercise pace, option B: the pacing knobs package adds a data
   multiplier for exercise gain or kee recovery, default ES2's; the value is set from playtest.
 

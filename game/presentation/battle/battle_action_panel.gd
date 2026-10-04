@@ -18,6 +18,7 @@ var enforce_text: Label
 var enforce_amount: SpinBox
 var enforce_button: Button
 var _shown_factor: int = -1
+var _shown_encounter: StringName = &""
 
 
 func _ready() -> void:
@@ -75,7 +76,8 @@ func present(projection: BattlePresentationProjection) -> void:
 	var ids: Array[StringName] = []
 	for info: CombatTacticalActionInfo in infos:
 		ids.append(info.action_id)
-	_empty.visible = ids.is_empty()
+	_present_enforce(projection)
+	_empty.visible = ids.is_empty() and not enforce_row.visible
 	_actions.visible = not ids.is_empty()
 	if ids != _shown_ids:
 		_shown_ids = ids
@@ -89,7 +91,6 @@ func present(projection: BattlePresentationProjection) -> void:
 			button.custom_minimum_size = Vector2(64, 64)
 			button.pressed.connect(_action_pressed.bind(id))
 			_actions.add_child(button)
-	_present_enforce(projection)
 	var queued: CombatQueuedAction = projection.queued_action()
 	_displayed_request_id = &"" if queued == null else queued.request.request_id
 	_queue.text = tr("排定：%s") % _queue_status(projection.queue_status)
@@ -100,11 +101,14 @@ func present(projection: BattlePresentationProjection) -> void:
 
 
 ## enforce.c's factor now (hp.c's +N) and the amount to set, from 0 to its limit;
-## the amount follows the factor whenever the factor changes.
+## the amount follows the factor whenever the factor changes or a fight begins.
 func _present_enforce(projection: BattlePresentationProjection) -> void:
-	enforce_row.visible = projection.enforce_limit >= 0
 	var player: BattleParticipantProjection = projection.participant(projection.player_id)
-	if not enforce_row.visible or player == null:
+	enforce_row.visible = projection.enforce_limit >= 0 and player != null
+	if not enforce_row.visible or projection.encounter_id != _shown_encounter:
+		_shown_factor = -1
+		_shown_encounter = projection.encounter_id
+	if not enforce_row.visible:
 		return
 	enforce_amount.max_value = projection.enforce_limit
 	# TRANSLATORS: the battle panel: enforce.c's force_factor now, as hp.c shows it.

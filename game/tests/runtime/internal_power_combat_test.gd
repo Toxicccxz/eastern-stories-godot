@@ -99,6 +99,11 @@ func _test_battle(tree: SceneTree) -> void:
 	await tree.physics_frame
 	map.select_npc(_npc(map, &"snow.school2.trainee.1").character_id)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
+	# TEST-ONLY: without an enabled force there is no 加力 row and no 运功.
+	_state.skills.unmap_skill(&"force")
+	_ui.refresh_projection()
+	_check(not _ui.action_panel.enforce_row.visible and _ui.current_projection().actions().size() == 1, "no enabled force: Flee alone, no 加力")
+	_state.skills.map_skill(&"force", &"fonxanforce")
 	_ui.refresh_projection()
 	var labels: Array[String] = []
 	for info: CombatTacticalActionInfo in _ui.current_projection().actions():
@@ -149,9 +154,7 @@ func _test_reflection(tree: SceneTree) -> void:
 	map.select_npc(_npc(map, &"snow.schoolhall.master.1").character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks 柳淳风")
 	_reflected = null
-	var effective_before: int = 0
 	for _second: int in range(300):
-		effective_before = _state.vitality.effective
 		_advance()
 		if _reflected != null or not _session.combat_encounter_coordinator().has_active_encounter():
 			break
@@ -162,7 +165,9 @@ func _test_reflection(tree: SceneTree) -> void:
 	var wound: int = reflected.reflection_mutation.requested_wound
 	var line: String = Es2CombatMessages.force_reflection_message(wound).replace("$N", "你").replace("$n", "柳淳风")
 	_check(_log().contains(line), "std/force.c's line for %d: %s" % [wound, line])
-	_check(reflected.reflection_mutation.requested_damage == wound * 2 and _state.vitality.effective <= effective_before - wound, "kee damage twice the wound, eff_kee down by it")
+	var mutation: StandardForceReflectionMutationResult = reflected.reflection_mutation
+	_check(mutation.requested_damage == wound * 2 and mutation.vitality_effective_after_wound == mutation.vitality_effective_before - wound, "kee damage twice the wound, eff_kee down by it")
+	_check(mutation.vitality_current_after_damage == mutation.vitality_current_before - wound * 2, "kee down by twice the wound")
 	await tree.process_frame
 
 
