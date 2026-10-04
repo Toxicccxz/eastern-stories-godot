@@ -48,6 +48,7 @@ var _source_name: String = ""
 var _source_gender: StringName = &""
 var _recovery_random: RecoveryCadenceRandomSource
 var _player_recovery_cadence: PlayerRecoveryCadence
+var _player_timed_remainder_ms: float = 0.0
 ## Transient NPC streams (not in Save): heal ticks and revive delays.
 var _npc_recovery_random: RecoveryCadenceRandomSource
 var _npc_revive_random: CombatRandomSource
@@ -92,6 +93,7 @@ func liquid_collection() -> LiquidCollection:
 func _process(delta: float) -> void:
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	advance_player_recovery(delta)
+	advance_player_timed_applies(delta)
 	advance_npc_heartbeat(delta)
 	advance_hidden_passages(delta)
 	advance_room_resets(delta)
@@ -208,6 +210,22 @@ func advance_npc_heartbeat(delta: float) -> void:
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.can_process():
 		map.advance_npc_heartbeat(delta)
+
+
+## The player's timed applies (fakefault.c's) count down on world time outside a
+## fight, as call_out() does; one ending there only takes its applies back (its
+## remove_effect() strikes only in the fight it began in, owner).
+func advance_player_timed_applies(delta: float) -> void:
+	if not npc_world_time_allowed() or _player == null or not is_finite(delta) or delta < 0.0:
+		return
+	var timed: CharacterTimedApplies = _player.state.timed_applies
+	if timed.is_empty():
+		_player_timed_remainder_ms = 0.0
+		return
+	var elapsed: float = _player_timed_remainder_ms + delta * 1000.0
+	var whole: int = int(elapsed)
+	_player_timed_remainder_ms = elapsed - whole
+	timed.advance(whole)
 
 
 ## Hidden passages close on world time, which stops in a fight.

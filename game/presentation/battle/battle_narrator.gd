@@ -16,11 +16,13 @@ func _init(rng: RandomNumberGenerator = null) -> void:
 
 
 ## The lines one resolved combat opportunity printed, in do_attack() order, or what
-## an NPC's chat() said or did.
+## an NPC's chat() or a timed special's end said or did.
 func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null:
 		return seen(event.chat.lines(), cast)
+	if event.kind == CombatSchedulerEvent.Kind.SPECIAL_EFFECT_ENDED and event.special != null:
+		return special(event.special, cast)
 	if event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED or event.resolution == null:
 		return lines
 	var result: CombatSliceOpportunityResult = event.resolution
@@ -111,6 +113,22 @@ func _attack(
 	if relationship != null and relationship.has_winner_presentation_index:
 		lines.append(BattleNarrationLine.new(vision(
 			tr(Es2CombatMessages.WINNER[relationship.winner_presentation_index]), me, victim, cast)))
+
+
+## A special file's lines with its attacks where it made them, each told as an
+## ordinary do_attack() is.
+func special(report: SpecialReport, cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	var said: Array[VisionLine] = report.lines()
+	var attacks: Array[SpecialAttack] = report.attacks()
+	var next: int = 0
+	for index: int in range(said.size() + 1):
+		while next < attacks.size() and attacks[next].line_index <= index:
+			lines.append_array(attack_chain(attacks[next].forward, attacks[next].chain, cast))
+			next += 1
+		if index < said.size():
+			lines.append_array(seen([said[index]], cast))
+	return lines
 
 
 ## message_vision() lines (VisionLine) as the player sees them: a line said or a

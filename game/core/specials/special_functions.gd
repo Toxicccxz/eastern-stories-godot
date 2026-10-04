@@ -4,7 +4,7 @@ extends RefCounted
 ## The perform and spell files the game has, by name. A martial skill's
 ## perform_action_file() and a spells skill's cast_spell_file() reach those
 ## skills.json lists under `perform` and `cast`; exert files are ExertFunctions.
-const PERFORMS: Array[StringName] = [&"counterattack"]
+const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault"]
 const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt"]
 
 static var _performs: Dictionary[StringName, PerformFunction] = {}
@@ -13,9 +13,20 @@ static var _casts: Dictionary[StringName, CastFunction] = {}
 
 static func perform(function_id: StringName) -> PerformFunction:
 	if _performs.is_empty():
-		var counterattack := CounterattackPerform.new()
-		_performs[counterattack.id] = counterattack
+		for function: PerformFunction in [CounterattackPerform.new(), SwordjabPerform.new(), FakefaultPerform.new()]:
+			_performs[function.id] = function
 	return _performs.get(function_id)
+
+
+## The perform file whose timed apply `effect_id` is (its remove_effect()), or null.
+static func ending(effect_id: StringName) -> PerformFunction:
+	if effect_id.is_empty():
+		return null
+	for function_id: StringName in PERFORMS:
+		var function: PerformFunction = perform(function_id)
+		if function != null and function.effect_id == effect_id:
+			return function
+	return null
 
 
 static func cast(function_id: StringName) -> CastFunction:

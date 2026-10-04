@@ -14,4 +14,8 @@ func label_for(action_id: StringName) -> String:
 	if ExertFunctions.LABELS.has(function_id):
 		# TRANSLATORS: a battle button: exert.c with one of its functions ({function}, e.g. 恢复气).
 		return tr("运功{function}").format({"function": tr(ExertFunctions.LABELS[function_id])})
+	var perform: PerformFunction = SpecialFunctions.perform(CombatPerformTacticalPolicy.function_for(action_id))
+	if perform != null:
+		# TRANSLATORS: a battle button: perform.c with one of its actions ({action}, e.g. 「封」字诀).
+		return tr("使出{action}").format({"action": tr(perform.label)})
 	return String(action_id) # Honest semantic-ID fallback for a registered action.

@@ -15,11 +15,15 @@ var _encounter: CombatEncounter
 var _failure: Failure = Failure.NONE
 var _result: CombatEncounterResult
 var _lifecycles: Array[CombatSliceLifecycleResult] = []
+var _failed_special: SpecialReport
 
 var failure: Failure:
 	get: return _failure
 var result: CombatEncounterResult:
 	get: return null if _result == null else _result.duplicate_snapshot()
+## The special whose attack did not finish, when that failed the fight.
+var failed_special: SpecialReport:
+	get: return _failed_special
 
 func _init(session: OldPineWorldSessionController, encounter: CombatEncounter) -> void:
 	_session = session
@@ -42,10 +46,18 @@ func accept_tactical(value: CombatTacticalExecutionResult) -> void:
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
 		CombatEncounterResultKind.Value.FLED, [], [], [_session.player_runtime().character_id])
 
-func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null) -> bool:
+func inspect(
+	bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null,
+	tactical: CombatTacticalExecutionResult = null,
+) -> bool:
 	if _failure != Failure.NONE or _result != null:
 		return false
 	if event != null and event.resolution != null and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_INCOMPLETE:
+		fail(Failure.INCOMPLETE_ATTACK_CHAIN)
+		return false
+	var special: SpecialReport = _special_of(event, tactical)
+	if special != null and not special.is_complete():
+		_failed_special = special
 		fail(Failure.INCOMPLETE_ATTACK_CHAIN)
 		return false
 	if event != null and event.resolution != null and event.resolution.outcome in FAILED_OPPORTUNITIES:
@@ -61,7 +73,8 @@ func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedule
 		# char.c heart_beat falls or dies whatever the fight: an armed spar's
 		# wound can kill (combatd.c wounds on `is_killing || weapon`).
 		var map: WorldMapController = _session.active_map() as WorldMapController
-		var receipt: CombatSliceLifecycleResult = null if map == null else map.execute_encounter_lifecycle(victim, required, bindings, last_hitter(event, victim.character_id))
+		var hitter: StringName = special.last_hitter(victim.character_id) if special != null else last_hitter(event, victim.character_id)
+		var receipt: CombatSliceLifecycleResult = null if map == null else map.execute_encounter_lifecycle(victim, required, bindings, hitter)
 		_lifecycles.append(receipt)
 		if receipt == null or not receipt.completed():
 			fail(Failure.LIFECYCLE_FAILED)
@@ -69,10 +82,20 @@ func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedule
 	_derive_result(bindings)
 	return _result == null
 
+## What a special file did since the last check: a timed apply's remove_effect()
+## (the event) or the player's perform (the tactical result).
+static func _special_of(event: CombatSchedulerEvent, tactical: CombatTacticalExecutionResult) -> SpecialReport:
+	if event != null and event.special != null:
+		return event.special
+	return null if tactical == null else tactical.special
+
+
 ## damage.c last_damage_from: who hit the victim last in this opportunity (the
-## riposte comes after the forward blow) or NPC chat (a spell), or empty when
-## nobody did.
+## riposte comes after the forward blow), NPC chat (a spell) or special (its
+## attacks), or empty when nobody did.
 static func last_hitter(event: CombatSchedulerEvent, victim_id: StringName) -> StringName:
+	if event != null and event.special != null:
+		return event.special.last_hitter(victim_id)
 	if event != null and event.chat != null:
 		return event.actor_id if event.chat.damaged(victim_id) else &""
 	if event == null or event.resolution == null:

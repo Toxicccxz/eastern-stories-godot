@@ -10,10 +10,11 @@ const OWN_BUSY: int = 1
 
 func _init() -> void:
 	id = &"counterattack"
+	label = "「封」字诀"
 
 
 func perform(context: SpecialContext) -> bool:
-	var target: SpecialSide = context.offensive_target()
+	var target: SpecialSide = context.target_or_offensive()
 	if target == null or not context.me.is_fighting(target.character_id):
 		return context.refuse("牵制攻击只能对战斗中的对手使用。")
 	if target.busy.is_busy():

@@ -10,6 +10,18 @@ const CHAT_AFTER: Array[int] = [
 	CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION,
 ]
 
+
+## A timed apply that ran out this round, and whose it was.
+class EndedEffect:
+	extends RefCounted
+	var binding: CombatSliceCharacterBinding
+	var entry: CharacterTimedApplies.Entry
+
+	func _init(p_binding: CombatSliceCharacterBinding, p_entry: CharacterTimedApplies.Entry) -> void:
+		binding = p_binding
+		entry = p_entry
+
+
 var _encounter: CombatEncounter
 var _config: CombatSchedulerConfig
 var _accumulated_input_seconds: float = 0.0
@@ -161,15 +173,17 @@ func advance(
 		)
 	if boundary != null and not boundary.inspect(bindings):
 		return CombatSchedulerAdvanceResult.new()
+	var tactical_result: CombatTacticalExecutionResult = null
 	if _tactical != null:
-		var tactical_result: CombatTacticalExecutionResult = _tactical.process_command_boundary(bindings, random_source, effect_registry)
+		tactical_result = _tactical.process_command_boundary(bindings, random_source, effect_registry)
 		if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.DISENGAGED:
 			if boundary != null:
 				boundary.accept_tactical(tactical_result)
 			# Never accumulate delta or execute an ordinary opportunity after escape,
 			# even if a standalone scheduler has no completion adapter installed.
 			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
-	if boundary != null and not boundary.inspect(bindings):
+	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
+	if boundary != null and not boundary.inspect(bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(
@@ -187,7 +201,17 @@ func advance(
 	for _cycle_index: int in range(due_cycles):
 		_logical_cycle += 1
 		processed_cycles += 1
-		_wear_timed_applies(bindings)
+		for ended: EndedEffect in _wear_timed_applies(bindings):
+			var effect: CombatSchedulerEvent = _remove_effect(ended, bindings, random_source, effect_registry)
+			if effect == null:
+				continue
+			_events.append(effect)
+			emitted.append(effect)
+			_next_event_sequence += 1
+			if boundary != null and not boundary.inspect(bindings, effect):
+				return CombatSchedulerAdvanceResult.new(
+					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
+				)
 		for participant: CombatParticipant in _encounter.participants():
 			var event: CombatSchedulerEvent = _process_participant(
 				participant,
@@ -287,12 +311,47 @@ func _process_participant(
 
 
 ## call_out() runs on the driver's clock: a round of the fight is combat_round_ms of
-## it for every timed apply (CharacterTimedApplies). An ended one's remove_effect()
-## tells only its user; no player has one yet.
-func _wear_timed_applies(bindings: Array[CombatSliceCharacterBinding]) -> void:
+## it for every timed apply (CharacterTimedApplies). Returns the entries that ended,
+## in the bindings' order. powerup's remove_effect() tells only its user (an NPC).
+func _wear_timed_applies(bindings: Array[CombatSliceCharacterBinding]) -> Array[EndedEffect]:
+	var ended: Array[EndedEffect] = []
 	var round_ms: int = roundi(_config.opportunity_interval_seconds * 1000.0)
 	for binding: CombatSliceCharacterBinding in bindings:
-		binding.state.timed_applies.advance(round_ms)
+		for entry: CharacterTimedApplies.Entry in binding.state.timed_applies.advance_entries(round_ms):
+			ended.append(EndedEffect.new(binding, entry))
+	return ended
+
+
+## A perform file's remove_effect() for an entry that ended this round
+## (fakefault.c's strike), as an event, or null when it showed and did nothing.
+func _remove_effect(
+	ended: EndedEffect,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+) -> CombatSchedulerEvent:
+	var function: PerformFunction = SpecialFunctions.ending(ended.entry.effect_id)
+	if function == null:
+		return null
+	var context: SpecialContext = CombatSpecialAttackSource.context_for(ended.binding, bindings, random_source, effect_registry)
+	context.target = context.other(ended.entry.target_id)
+	function.remove_effect(context, ended.entry)
+	var report: SpecialReport = context.report()
+	if report.is_empty():
+		return null
+	return CombatSchedulerEvent.new(
+		_next_event_sequence,
+		_logical_cycle,
+		logical_time_seconds,
+		CombatSchedulerEvent.Kind.SPECIAL_EFFECT_ENDED,
+		CombatSchedulerEvent.SkipReason.NONE,
+		ended.binding.character_id,
+		ended.entry.target_id,
+		null,
+		_progression_order.take(),
+		null,
+		report,
+	)
 
 
 ## npc.c chat() after the attack of an NPC that is still fighting (CombatNpcChat),

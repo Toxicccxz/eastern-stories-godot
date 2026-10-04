@@ -154,7 +154,7 @@ func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[Comb
 	for event: CombatSchedulerEvent in ordinary:
 		read.append(BattleFeedbackProjection.new(event.progression_order, _narrator.opportunity(event, projection)))
 	for event: CombatTacticalEvent in tactics:
-		read.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event)))
+		read.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))
 	read.sort_custom(_earlier)
 	var next: Array[BattleFeedbackProjection] = []
 	for entry: BattleFeedbackProjection in read:
@@ -191,10 +191,13 @@ static func _target(event: CombatEncounterEvent, projection: BattlePresentationP
 	return lines
 
 
-## The player's queued actions (Flee, exert): queued, given up, refused and their
-## end; an action that printed lines (exert.c's) ends with them.
-func _tactical(event: CombatTacticalEvent) -> Array[BattleNarrationLine]:
+## The player's queued actions (Flee, exert, perform): queued, given up, refused
+## and their end; an action that printed lines (exert.c's) ends with them, a perform
+## with its file's lines and attacks.
+func _tactical(event: CombatTacticalEvent, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
+	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.special != null and not event.execution.special.is_empty():
+		return _narrator.special(event.execution.special, projection)
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and not event.execution.lines().is_empty():
 		for line: ColoredLine in event.execution.lines():
 			lines.append(BattleNarrationLine.new(line.text, -1, line.color))

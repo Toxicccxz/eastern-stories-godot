@@ -82,6 +82,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_farmer(tree)
 	await _test_annihir_fight(tree)
 	await _test_fall_outside_a_fight(tree)
+	await _test_fall_between_batched_beats(tree)
 	_session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -106,7 +107,7 @@ func _test_content() -> void:
 	_check(farmer.combat_chat_chance == 50 and (farmer.combat_chat_entries()[2] as NpcSpecialAction).kind == NpcSpecialAction.Kind.SURRENDER, "the farmer: two cries and surrender at 50")
 	_check(_catalog.npc(&"snow.npc.girl").talk().combat_chat_chance == 25 and _catalog.npc(&"common.npc.swordsman.master").talk().combat_chat_chance == 60, "柳绘心 25, 柳淳风 60")
 	_check(not _catalog.npc(&"snow.npc.crazy_dog").talk().has_combat_chat(), "the crazy dog has lines but no chance: it never talks in a fight")
-	_check(_catalog.skill(&"fonxansword").perform_functions == [&"counterattack"], "封山剑法 performs counterattack")
+	_check(_catalog.skill(&"fonxansword").perform_functions == [&"counterattack", &"swordjab", &"fakefault"], "封山剑法 performs counterattack, swordjab and fakefault")
 	_check(_catalog.skill(&"celestial").exert_functions == [&"powerup", &"powerfade"], "天邪神功 exerts powerup and powerfade (no recover file)")
 	_check(_catalog.skill(&"necromancy").cast_functions == [&"drainerbolt", &"feeblebolt"], "茅山道术 casts the two bolts")
 
@@ -446,6 +447,31 @@ func _test_fall_outside_a_fight(tree: SceneTree) -> void:
 	_check(state.spirit.current == -1 and annihir.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "powerfade: sen below zero (%d)" % state.spirit.current)
 	_session.advance_npc_heartbeat(0.1)
 	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and annihir.revive_in_ms > 0, "he falls on his next beat and will come to")
+
+
+## Several beats in one step (a long frame) fall before each beat's chat too (Codex
+## on #49): one powerfade takes him below zero, the next beat he falls instead of
+## calming down again.
+func _test_fall_between_batched_beats(tree: SceneTree) -> void:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var state: CharacterState = annihir.character_state
+	# TEST-ONLY: he comes to at once (revive()), then bellicosity to calm, little sen
+	# and plenty of force.
+	annihir.set_revive_in_ms(1)
+	_session.advance_npc_heartbeat(0.1)
+	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "安惜迩 comes to")
+	state.spirit = CharacterResourceState.new(20, 300, 300)
+	state.attributes.bellicosity = 175
+	state.recovery.inner_force.current = 1000
+	await tree.physics_frame
+	_session.configure_npc_ambience_random_source(Low.new())
+	_session.advance_npc_heartbeat(4.0)
+	_session.configure_npc_ambience_random_source(Still.new())
+	var falls: Array[CombatSliceLifecycleResult] = map.last_lifecycle_results()
+	var fall: String = "none" if falls.is_empty() else "%s for %s" % [CombatSliceLifecycleResult.Outcome.find_key(falls.back().outcome), falls.back().victim_id]
+	_check(state.recovery.inner_force.current == 900 and state.attributes.bellicosity == 25, "one powerfade in two beats: force %d, bellicosity %d, last fall %s" % [state.recovery.inner_force.current, state.attributes.bellicosity, fall])
+	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "he falls on the second beat of the same step: %s, last fall %s" % [CharacterRuntimeLifeStatus.Value.find_key(annihir.life_status), fall])
 
 
 # --- Helpers ---------------------------------------------------------------------------

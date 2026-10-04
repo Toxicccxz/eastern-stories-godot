@@ -30,7 +30,7 @@ class CompletionGate extends WorldSimulationGate:
 class ReverseBoundary extends CombatOpportunityBoundary:
 	var observed: CombatSchedulerEvent
 	var required: CombatSliceOpportunityResult
-	func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null) -> bool:
+	func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null, _tactical: CombatTacticalExecutionResult = null) -> bool:
 		if event == null:
 			return true
 		observed = event
