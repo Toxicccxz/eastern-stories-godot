@@ -152,7 +152,7 @@ func _present_completed_result() -> void:
 		log_panel.clear_entries()
 	var entries: Array[BattleFeedbackProjection] = _reader.read_new(_session.combat_encounter_coordinator(), feedback_projection)
 	log_panel.append_entries(entries)
-	for line: BattleNarrationLine in _reader.recent():
+	for line: BattleNarrationLine in _reader.recent_events():
 		text += "\n" + line.text
 	hud.show_combat_result(text)
 

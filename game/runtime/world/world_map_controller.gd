@@ -1068,7 +1068,7 @@ func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, li
 			cause,
 		)
 	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		_announce_fight(lines)
+		_announce_fight(lines, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else initiator_id)
 	return result
 
 
@@ -1077,7 +1077,8 @@ func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, li
 ## that now fights the player to the death (kill.c's obj->kill_ob(me),
 ## combatd.c start_aggressive(), annihir.c accept_fight()). The battle log opens
 ## with the same lines and keeps the warnings pinned while the panel covers the log.
-func _announce_fight(lines: Array[String]) -> void:
+## `first_id`: the NPC whose kill_ob() came first (kill.c's target), when one did.
+func _announce_fight(lines: Array[String], first_id: StringName = &"") -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	var warnings: Array[String] = []
@@ -1085,7 +1086,11 @@ func _announce_fight(lines: Array[String]) -> void:
 		for participant: CombatParticipant in encounter.participants():
 			var npc: NpcRuntimeState = find_resident_npc(participant.participant_id)
 			if npc != null and participant.binding.relationship.has_lethal_target(_player.character_id):
-				warnings.append(tr("看起来%s想杀死你！") % tr(npc.definition().display_name))
+				var warning: String = tr("看起来%s想杀死你！") % tr(npc.definition().display_name)
+				if participant.participant_id == first_id:
+					warnings.push_front(warning)
+				else:
+					warnings.append(warning)
 	if not lines.is_empty():
 		_hud().append_log_lines(lines)
 	if not warnings.is_empty():
