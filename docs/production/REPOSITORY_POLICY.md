@@ -5,12 +5,12 @@
 ## Branches and PRs
 
 ```text
-green main -> phase/<slug> branch -> focused commits -> full verify.py -> ready PR
-  -> four CI jobs green on the final commit -> owner merges -> main CI runs again
+main -> phase/<slug> branch -> focused commits -> full verify.py -> ready PR
+  -> four CI jobs green on the final commit -> owner merges
 ```
 
-* Start from the latest `main` whose post-merge CI is green (`git switch main`,
-  `git pull --ff-only`, `git switch -c phase/<slug>`).
+* Start from the latest `main` (`git switch main`, `git pull --ff-only`,
+  `git switch -c phase/<slug>`).
 * One content package, or a few small related ones, per branch and PR. Multiple focused commits are
   expected; squashing is not required.
 * Pushing a branch without a PR is fine for backup and does not run the expensive CI.
@@ -21,10 +21,13 @@ green main -> phase/<slug> branch -> focused commits -> full verify.py -> ready 
 
 The four required jobs are `Godot Verify`, `Windows Release Build`, `Android Release Build` and
 `iOS Build Validation`. They run when a ready PR to `main` is opened, reopened, synchronized or
-marked ready, on every push to `main`, and on manual `workflow_dispatch`.
+marked ready, and on manual `workflow_dispatch`. **Owner (2026-10-04):** a change is verified
+once, on its PR; merging into `main` runs nothing. A PR's CI tests it merged with `main` as it was
+then: when another PR merged in between, update the branch (CI runs again) before merging.
 
-If PR CI fails, fix it on the same branch. If post-merge `main` CI fails, fix it first on a narrow
-`hotfix/<issue>` branch from `main` before other work. Never weaken or skip the gate to get green.
+If PR CI fails, fix it on the same branch. A run on `main` is manual (`workflow_dispatch`); if one
+fails, fix it first on a narrow `hotfix/<issue>` branch from `main` before other work. Never weaken
+or skip the gate to get green.
 
 Recommended remote setting (not enforced by this repository): require a PR and the four checks
 before merging into `main`.

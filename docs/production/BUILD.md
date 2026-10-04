@@ -224,10 +224,10 @@ Each target rebuild removes only its controlled staging/output directory. The to
 
 ## GitHub Actions
 
-`.github/workflows/ci.yml` implements two integration gates. A ready pull request targeting `main`
-runs on open, reopen, synchronization, and transition from draft to ready; merging then runs the
-same workflow again through `push: main`. Ordinary pushes to a phase branch before a PR exists do
-not trigger it. Draft pull requests may exist for explicitly requested collaboration, but the
+`.github/workflows/ci.yml` implements one integration gate: a ready pull request targeting `main`
+runs on open, reopen, synchronization, and transition from draft to ready. Merging runs nothing
+(owner, 2026-10-04: one run per change), and neither do pushes to a phase branch before a PR
+exists. Draft pull requests may exist for explicitly requested collaboration, but the
 expensive jobs are skipped while the PR remains draft. Manual dispatch remains available for an
 intentional diagnostic run.
 
