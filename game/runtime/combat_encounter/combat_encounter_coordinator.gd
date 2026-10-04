@@ -13,6 +13,10 @@ var _last_completion: CombatEncounterCompletionResult
 var _completed_feedback: CombatCompletedFeedback
 var _entry_sequence: int = 0
 var _last_abort_detail: String = ""
+## What the world printed as the active (or last) fight began; see note_opening().
+var _opening_encounter_id: StringName = &""
+var _opening_lines: Array[String] = []
+var _opening_warnings: Array[String] = []
 
 ## Fights aborted by a failure (see _abort_failed_resolution) since the last take.
 ## SuiteResult turns any untaken abort into a test failure.
@@ -37,6 +41,36 @@ func completed_feedback() -> CombatCompletedFeedback:
 ## Why the last aborted fight failed (empty when none did).
 func last_abort_detail() -> String:
 	return _last_abort_detail
+
+
+## The lines the world printed as the active fight began (fight.c's or kill.c's
+## words), then feature/attack.c kill_ob()'s 看起来X想杀死你！ warnings: the
+## battle log opens with them and the warnings stay pinned. Kept for the fight's
+## encounter ID until the next fight notes its own.
+func note_opening(lines: Array[String], warnings: Array[String]) -> void:
+	if _active_encounter == null:
+		return
+	_opening_encounter_id = _active_encounter.encounter_id
+	_opening_lines = lines.duplicate()
+	_opening_warnings = warnings.duplicate()
+
+
+func opening_lines(encounter_id: StringName) -> Array[String]:
+	var lines: Array[String] = []
+	if _is_opening_of(encounter_id):
+		lines.assign(_opening_lines)
+	return lines
+
+
+func opening_warnings(encounter_id: StringName) -> Array[String]:
+	var warnings: Array[String] = []
+	if _is_opening_of(encounter_id):
+		warnings.assign(_opening_warnings)
+	return warnings
+
+
+func _is_opening_of(encounter_id: StringName) -> bool:
+	return not encounter_id.is_empty() and encounter_id == _opening_encounter_id
 
 ## One synchronous production-entry transaction. Reuses the audited playable
 ## relationship establishment; rollback restores order and preexisting facts.

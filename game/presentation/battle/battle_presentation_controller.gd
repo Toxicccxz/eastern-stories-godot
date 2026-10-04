@@ -21,6 +21,8 @@ var _participants: HBoxContainer
 var _cards: Array[BattleParticipantCard] = []
 var _shown_participants: Array[StringName] = []
 var _title: Label
+## kill_ob()'s 看起来X想杀死你！ lines, pinned under the title for the whole fight.
+var _warning: Label
 var _recent: VBoxContainer
 var _receipt: Label
 var _yielded_hud: CanvasLayer
@@ -89,6 +91,9 @@ func refresh_projection() -> void:
 		_receipt.text = ""
 		if _projection.active:
 			log_panel.clear_entries()
+			var warnings: Array[String] = _session.combat_encounter_coordinator().opening_warnings(_projection.encounter_id)
+			_warning.text = "\n".join(PackedStringArray(warnings))
+			_warning.visible = not warnings.is_empty()
 			if _intent == null:
 				_intent = BattleIntentAdapter.new(_session.combat_encounter_coordinator(), _projection.player_id)
 			_yield_world_hud()
@@ -181,6 +186,14 @@ func _build() -> void:
 	pause_space.custom_minimum_size = Vector2(64, 64)
 	pause_space.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	header.add_child(pause_space)
+	# The panel covers the log the warning was printed to, and the first round's
+	# lines would push it out of the recent strip: it stays here instead.
+	_warning = Label.new()
+	_warning.name = "KillWarning"
+	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_warning.add_theme_color_override("font_color", SharedGameplayUI.ALERT_COLOR)
+	_warning.visible = false
+	_content.add_child(_warning)
 	var participant_scroll := ScrollContainer.new()
 	participant_scroll.name = "ParticipantScroll"
 	participant_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO

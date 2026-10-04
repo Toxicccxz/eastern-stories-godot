@@ -971,15 +971,18 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	_last_aggression_initiations.clear()
 	if _zone_entry(_player.world_location()) == &"complete_set":
 		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
-			_last_aggression_initiations.append(session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION))
+			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
+			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+				_announce_fight([])
+			_last_aggression_initiations.append(started)
 		return _last_aggression_initiations.duplicate()
 	_last_aggression_decisions = _aggression.resolve_pending(_npcs, _player, _combat_allowed())
 	for decision: NpcAggressionDecision in _last_aggression_decisions:
 		var npc: NpcRuntimeState = find_resident_npc(decision.npc_id)
 		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
 			continue
-		# combatd.c start_aggressive() prints nothing; the log says why the fight began.
-		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, tr("%s向你发动攻击！") % tr(npc.definition().display_name)))
+		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
+		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, []))
 	return _last_aggression_initiations.duplicate()
 
 
@@ -1050,7 +1053,7 @@ func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
 			_complete_set_consumed_contacts.append(id)
 
 
-func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, log_line: String) -> CombatSliceInitiationResult:
+func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lines: Array[String]) -> CombatSliceInitiationResult:
 	if not _gameplay_open() or session == null:
 		return CombatSliceInitiationResult.new()
 	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if initiator_id == _player.character_id else CombatTriggerCause.Value.NPC_AGGRESSION
@@ -1065,8 +1068,29 @@ func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lo
 			cause,
 		)
 	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		_hud().append_log_lines([log_line])
+		_announce_fight(lines)
 	return result
+
+
+## A fight the player is in has just begun: `lines` (what was said) go to the log,
+## then feature/attack.c kill_ob()'s warning, in HIR bright red, from every NPC
+## that now fights the player to the death (kill.c's obj->kill_ob(me),
+## combatd.c start_aggressive(), annihir.c accept_fight()). The battle log opens
+## with the same lines and keeps the warnings pinned while the panel covers the log.
+func _announce_fight(lines: Array[String]) -> void:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	var warnings: Array[String] = []
+	if encounter != null:
+		for participant: CombatParticipant in encounter.participants():
+			var npc: NpcRuntimeState = find_resident_npc(participant.participant_id)
+			if npc != null and participant.binding.relationship.has_lethal_target(_player.character_id):
+				warnings.append(tr("看起来%s想杀死你！") % tr(npc.definition().display_name))
+	if not lines.is_empty():
+		_hud().append_log_lines(lines)
+	if not warnings.is_empty():
+		_hud().append_log_lines(warnings, true)
+	coordinator.note_opening(lines, warnings)
 
 
 # --- Combat participants and lifecycle publication ----------------------------------
@@ -1791,11 +1815,12 @@ func attack_selected() -> CombatSliceInitiationResult:
 	if not target.world_location().shares_combat_location(_player.world_location()):
 		_hud().append_log_lines([tr("这里没有这个人。")])
 		return CombatSliceInitiationResult.new()
-	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」
-	return _initiate_lethal_combat(_player.character_id, target.character_id, tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
+	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
+	# obj->kill_ob(me) warns the player (_announce_fight()).
+	return _initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
 		"npc": tr(target.definition().display_name),
 		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, &"")),
-	}))
+	})])
 
 
 ## cmds/std/fight.c for the selected NPC: ask a speaking character to spar; it
@@ -1855,10 +1880,10 @@ func spar_selected() -> CombatSliceInitiationResult:
 		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
 		# blade draws blood. Native hint; ES2 says nothing here.
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
-	_hud().append_log_lines(lines)
-	if started and consent.kill:
-		# feature/attack.c kill_ob() tells its victim, in HIR bright red.
-		_hud().append_log_lines([tr("看起来%s想杀死你！") % name], true)
+	if started:
+		_announce_fight(lines)
+	else:
+		_hud().append_log_lines(lines)
 	return result
 
 

@@ -4,11 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Internal power in combat** (`phase/internal-power-combat`): the player's 加力 (enforce.c) and
-运功 (exert.c: 封山派内功's 疗伤, the basic force's 恢复气/神/精) on the 武学 page and the battle
-panel, the force hit spending force_factor on each landed blow, std/force.c's reflection told in
-the battle log, and Continue recomputing max 精/气/神 with race/human.c's max_force/4. The
-offense/defense routes (PR A and B) are merged.
+**How a fight opens** (`phase/battle-opening-lines`): the battle panel covered the log, so a
+spar that 安惜迩 turns into his kill gave no visible warning. The opening lines now open the
+battle log and kill_ob()'s 看起来X想杀死你！ stays pinned in red under the title; the player's
+attack and aggressive NPCs show it too. Internal power in combat is merged.
 
 Next: combat talk and specials (perform/cast/exert for NPCs: 柳淳风's and 柳绘心's 「封」字诀,
 安惜迩's spells and powerup). Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).

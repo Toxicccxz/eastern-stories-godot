@@ -2673,7 +2673,7 @@ msgid "你附近没有这样东西。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
-msgid "%s向你发动攻击！"
+msgid "看起来%s想杀死你！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -2718,10 +2718,6 @@ msgstr ""
 
 #: runtime/world/world_map_controller.gd
 msgid "刀剑无眼，持兵刃比试可能真的受伤。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "看起来%s想杀死你！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd

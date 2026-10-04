@@ -92,10 +92,33 @@ func read_new(
 ) -> Array[BattleFeedbackProjection]:
 	if not projection.active:
 		return [] # Keep the completed history until a new encounter replaces it.
+	var read: Array[BattleFeedbackProjection] = []
 	if projection.encounter_id != _encounter_id:
 		_encounter_id = projection.encounter_id
 		_last_order = 0
 		_recent.clear()
+		var opening: Array[BattleNarrationLine] = opening_lines(coordinator, projection.encounter_id)
+		if not opening.is_empty():
+			read.append(BattleFeedbackProjection.new(0, opening))
+			note(opening)
+	read.append_array(_read_new_events(coordinator, projection))
+	return read
+
+
+## What was said as the fight began, then kill_ob()'s warnings in HIR red
+## (CombatEncounterCoordinator.note_opening()).
+static func opening_lines(coordinator: CombatEncounterCoordinator, encounter_id: StringName) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	for text: String in coordinator.opening_lines(encounter_id):
+		lines.append(BattleNarrationLine.new(text))
+	for text: String in coordinator.opening_warnings(encounter_id):
+		lines.append(BattleNarrationLine.new(text, -1, ColoredLine.HIR))
+	return lines
+
+
+func _read_new_events(
+	coordinator: CombatEncounterCoordinator, projection: BattlePresentationProjection,
+) -> Array[BattleFeedbackProjection]:
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	if scheduler == null:
 		var completed: CombatCompletedFeedback = coordinator.completed_feedback()
