@@ -158,7 +158,7 @@ func process_command_boundary(
 	if not _encounter.clear_queued_player_action(action.request.request_id):
 		return null
 	_emit(Kind.EXECUTION_STARTED, action)
-	var result: CombatTacticalExecutionResult = policy.execute(_context(action, effect_registry), random_source)
+	var result: CombatTacticalExecutionResult = policy.execute(_context(action, effect_registry, bindings), random_source)
 	if result == null:
 		result = CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED)
 	_emit(Kind.RESOLVED, action, Code.ACCEPTED, result)
@@ -207,10 +207,12 @@ func _target_validation(
 ) -> int:
 	if policy.target_rule == Target.NONE:
 		return Code.ACCEPTED if action.resolved_target_id.is_empty() else Code.TARGET_INVALID
+	if policy.target_rule == Target.CURRENT_HOSTILE and action.resolved_target_id.is_empty() and policy.accepts_no_target():
+		return Code.ACCEPTED
 	var target: CombatSliceCharacterBinding = _find(bindings, action.resolved_target_id)
-	if not _exact_authority(target) or not _available(target):
-		return Code.TARGET_INVALID
 	var actor: CombatSliceCharacterBinding = _find(bindings, action.request.actor_id)
+	if not _exact_authority(target) or not (_available(target) or _downed_victim(policy, actor, target)):
+		return Code.TARGET_INVALID
 	if policy.target_rule == Target.SELF:
 		return Code.ACCEPTED if target.character_id == actor.character_id else Code.TARGET_INVALID
 	if (
@@ -234,6 +236,17 @@ func _exact_authority(binding: CombatSliceCharacterBinding) -> bool:
 	)
 
 
+## The actor's unconscious lethal target, for a policy that reaches one.
+func _downed_victim(policy: CombatTacticalActionPolicy, actor: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding) -> bool:
+	return (
+		policy.reaches_downed_target() and actor != null
+		and _encounter.mode == CombatEncounterMode.Value.LETHAL
+		and target.exists_in_encounter and target.combat_available
+		and target.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS
+		and actor.relationship.has_lethal_target(target.character_id)
+	)
+
+
 func _available(binding: CombatSliceCharacterBinding) -> bool:
 	return (
 		binding.exists_in_encounter and binding.combat_available
@@ -241,13 +254,17 @@ func _available(binding: CombatSliceCharacterBinding) -> bool:
 	)
 
 
-func _context(action: CombatQueuedAction, effect_registry: SkillImprovementEffectRegistry = null) -> CombatTacticalContext:
+func _context(
+	action: CombatQueuedAction, effect_registry: SkillImprovementEffectRegistry = null,
+	bindings: Array[CombatSliceCharacterBinding] = [],
+) -> CombatTacticalContext:
 	var target: CombatParticipant = _encounter.participant_for(action.resolved_target_id)
 	return CombatTacticalContext.new(
 		_encounter.participant_for(action.request.actor_id).binding,
 		null if target == null else target.binding,
 		_encounter.mode,
 		effect_registry,
+		bindings,
 	)
 
 

@@ -1353,6 +1353,10 @@ msgid "但是被$n躲开了。"
 msgstr ""
 
 #: core/specials/counterattack_perform.gd
+msgid "「封」字诀"
+msgstr ""
+
+#: core/specials/counterattack_perform.gd
 msgid "牵制攻击只能对战斗中的对手使用。"
 msgstr ""
 
@@ -1366,6 +1370,46 @@ msgstr ""
 
 #: core/specials/counterattack_perform.gd
 msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "「缺」字诀"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "'缺'字诀只能在战斗中使用。"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "你要对谁使用'缺'字诀？"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "你已经在运用中了。"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "$N剑招陡变，空门大开，诱使$n进招，"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "可是$n看破了$N的企图，并没有上当。"
+msgstr ""
+
+#: core/specials/fakefault_perform.gd
+msgid "$N突然对$n发出奋力一击！"
+msgstr ""
+
+#: core/specials/perform_service.gd
+msgid "( 你上一个动作还没有完成，不能施用外功。)"
+msgstr ""
+
+#: core/specials/perform_service.gd
+msgid "你请先用 enable 指令选择你要使用的外功。"
+msgstr ""
+
+#: core/specials/perform_service.gd
+msgid "你所使用的外功中没有这种功能。"
 msgstr ""
 
 #: core/specials/special_functions.gd
@@ -1403,6 +1447,22 @@ msgstr ""
 
 #: core/specials/surrender_command.gd
 msgid "$N说道：「不打了，不打了，我投降....。」"
+msgstr ""
+
+#: core/specials/swordjab_perform.gd
+msgid "「逐」字诀"
+msgstr ""
+
+#: core/specials/swordjab_perform.gd
+msgid "「逐」字诀只能对战斗中的对手使用。"
+msgstr ""
+
+#: core/specials/swordjab_perform.gd
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p已显吃力。"
+msgstr ""
+
+#: core/specials/swordjab_perform.gd
+msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p从容化解"
 msgstr ""
 
 #. one glyph of a number written in Chinese characters (十, 百, 万...).
@@ -1751,6 +1811,11 @@ msgstr ""
 #. a battle button: exert.c with one of its functions ({function}, e.g. 恢复气).
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "运功{function}"
+msgstr ""
+
+#. a battle button: perform.c with one of its actions ({action}, e.g. 「封」字诀).
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "使出{action}"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd

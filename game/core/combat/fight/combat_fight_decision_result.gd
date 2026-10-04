@@ -194,6 +194,20 @@ var partial_relationship_mutation_preserved: bool:
 		)
 
 
+## combatd.c do_attack(attacker, victim, weapon) called straight, with no fight()
+## before it (a special file's: swordjab.c, fakefault.c): a TYPE_REGULAR attack with
+## no visibility, courage or guarding step and no draw.
+static func direct(p_attacker_id: StringName, p_victim_id: StringName) -> CombatFightDecisionResult:
+	var result := CombatFightDecisionResult.new()
+	result._outcome = Outcome.REGULAR_ATTACK
+	result._failure_stage = FailureStage.NONE
+	result._reached_stage = ReachedStage.COMPLETED
+	result._attacker_id = p_attacker_id
+	result._victim_id = p_victim_id
+	result._attack_type = CombatAttackType.Value.REGULAR
+	return result
+
+
 func random_upper_bounds() -> Array[int]:
 	return _random_upper_bounds.duplicate()
 

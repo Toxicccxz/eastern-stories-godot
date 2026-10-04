@@ -6,6 +6,8 @@ enum Kind {
 	ORDINARY_OPPORTUNITY_RESOLVED,
 	## npc.c chat() after an NPC's attack (CombatNpcChat): a line or a special.
 	NPC_CHAT,
+	## A timed apply's remove_effect() at the start of a round (fakefault.c's strike).
+	SPECIAL_EFFECT_ENDED,
 }
 
 enum SkipReason {
@@ -24,6 +26,7 @@ var _actor_id: StringName
 var _target_id: StringName
 var _resolution: CombatSliceOpportunityResult
 var _chat: CombatNpcChatResult
+var _special: SpecialReport
 var _progression_order: int
 
 var progression_order: int:
@@ -49,6 +52,9 @@ var resolution: CombatSliceOpportunityResult:
 var chat: CombatNpcChatResult:
 	get:
 		return _chat
+var special: SpecialReport:
+	get:
+		return _special
 
 
 func _init(
@@ -62,6 +68,7 @@ func _init(
 	p_resolution: CombatSliceOpportunityResult = null,
 	p_progression_order: int = 0,
 	p_chat: CombatNpcChatResult = null,
+	p_special: SpecialReport = null,
 ) -> void:
 	_progression_order = p_progression_order
 	_sequence = p_sequence
@@ -75,6 +82,7 @@ func _init(
 		null if p_resolution == null else p_resolution.duplicate_snapshot()
 	)
 	_chat = p_chat
+	_special = p_special
 
 
 func is_valid() -> bool:
@@ -84,11 +92,13 @@ func is_valid() -> bool:
 		or not is_finite(_logical_time_seconds)
 		or _logical_time_seconds <= 0.0
 		or _actor_id.is_empty()
-		or _kind not in [Kind.PARTICIPANT_SKIPPED, Kind.ORDINARY_OPPORTUNITY_RESOLVED, Kind.NPC_CHAT]
+		or _kind not in [Kind.PARTICIPANT_SKIPPED, Kind.ORDINARY_OPPORTUNITY_RESOLVED, Kind.NPC_CHAT, Kind.SPECIAL_EFFECT_ENDED]
 	):
 		return false
 	if _kind == Kind.NPC_CHAT:
 		return _skip_reason == SkipReason.NONE and _resolution == null and _chat != null
+	if _kind == Kind.SPECIAL_EFFECT_ENDED:
+		return _skip_reason == SkipReason.NONE and _resolution == null and _special != null
 	if _kind == Kind.PARTICIPANT_SKIPPED:
 		return (
 			_resolution == null
@@ -113,4 +123,5 @@ func duplicate_snapshot() -> CombatSchedulerEvent:
 		_resolution,
 		_progression_order,
 		_chat,
+		_special,
 	)

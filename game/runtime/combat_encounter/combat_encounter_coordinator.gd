@@ -284,6 +284,8 @@ func _init(
 	_tactical_registry.register_policy(CombatFleeTacticalPolicy.new())
 	for function_id: StringName in ExertFunctions.ORDER:
 		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id))
+	for function_id: StringName in SpecialFunctions.PERFORMS:
+		_tactical_registry.register_policy(CombatPerformTacticalPolicy.new(function_id))
 
 
 func is_valid() -> bool:
@@ -354,6 +356,13 @@ func _abort_failed_resolution() -> void:
 
 func _failure_detail() -> String:
 	var parts: Array[String] = ["failure=%s" % CombatEncounterResolution.Failure.find_key(_resolution.failure)]
+	var special: SpecialReport = _resolution.failed_special
+	if special != null:
+		for attack: SpecialAttack in special.attacks():
+			parts.append("special %s>%s chain=%s" % [attack.attacker_id, attack.victim_id, "none" if attack.chain == null else CombatAttackChainResult.Outcome.find_key(attack.chain.outcome)])
+			if attack.forward != null:
+				parts.append(_ordinary_detail("special", attack.forward.ordinary_attack_result))
+		return " ".join(parts)
 	var events: Array[CombatSchedulerEvent] = _active_scheduler.events_after(0)
 	var opportunity: CombatSliceOpportunityResult = null
 	for index: int in range(events.size() - 1, -1, -1):
@@ -539,6 +548,10 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 		)
 	if _active_scheduler != null and _active_scheduler.player_tactics() != null:
 		_active_scheduler.player_tactics().report_completion_cancellation(queued)
+	# Owner: fakefault.c's strike only in the fight it began in; a timed apply that
+	# outlives the fight only takes its applies back.
+	for participant: CombatParticipant in _active_encounter.participants():
+		participant.binding.state.timed_applies.forget_targets()
 	# No await or deferred work: the Core stays RESOLVING throughout world return.
 	# Local thaw only prepares the map; the same global gate still blocks gameplay.
 	if not _session.thaw_world_after_encounter(encounter_id):

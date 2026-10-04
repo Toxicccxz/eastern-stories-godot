@@ -4,13 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Combat talk and NPC specials, PR A** (`phase/combat-specials`): NPCs talk in a fight
-(npc.c chat_msg_combat) and use their specials: 柳淳风's and 柳绘心's 「封」字诀 holds the player
-for a few rounds, 安惜迩 casts drainerbolt and feeblebolt, powers up with 天邪神功 and calms
-down with powerfade afterwards, the farmer begs to surrender. Powerup's bonus is a saved timed
-apply.
+**Combat talk and specials, PR B** (`phase/player-perform`): the player's perform. With a
+sword in hand and 封山剑法 enabled, the battle panel offers 「封」字诀 (holds the target a few
+rounds), 「逐」字诀 (one to three extra blows for 10 eff_kee) and 「缺」字诀 (attack down and dodge
+up for a few rounds, then a strike both ways), queued like 运功; using one practises 封山剑法.
+PR A (NPCs' combat talk and specials) is merged.
 
-Next: PR B, the player's perform with 封山剑法 (封, 逐, 缺 from the battle panel).
+Next: combined items (`std/item/combined.c`).
 
 ## Playable now
 
@@ -30,7 +30,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   back); thirty-three NPCs (20 types) to look at, ask (打听), fight or spar (切磋) with their ES2
   gear and loot (the crazy dog on the west road attacks; a spar with 安惜迩 becomes his kill;
   柳绘心 refuses); in a fight 刘安禄, the farmer, 柳绘心, 柳淳风 and 安惜迩 talk and use their
-  specials (「封」字诀, 安惜迩's spells and powerup); dogs, the scavenger, the woodcutter and the crazy dog talk
+  specials (「封」字诀, 安惜迩's spells and powerup), and the player uses 封山剑法's 「封」「逐」「缺」
+  from the battle panel; dogs, the scavenger, the woodcutter and the crazy dog talk
   and wander next door while you are with them; the drunk drinks and begs for wine; the temple
   keeper and the waiter greet you; NPCs heal between fights and come to after being knocked
   out; no fighting in the temple or the workplace (`no_fight`).
@@ -63,8 +64,7 @@ Code:
 * 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The travellers stay in the Inn
   (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
   corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: the seals are combined
-  items. 金疮药 cannot be applied yet, and NPCs never flee a losing fight (`wimpy`). The player
-  has no perform yet (PR B).
+  items. 金疮药 cannot be applied yet, and NPCs never flee a losing fight (`wimpy`).
   Hammers and staffs still attack with "slash" (weapond.c's bash post_action). Wine makes nobody
   drunk yet (conditions); the dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.

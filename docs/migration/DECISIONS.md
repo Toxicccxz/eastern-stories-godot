@@ -1,5 +1,32 @@
 # Migration Decisions
 
+## The player's perform: 封山剑法's 封, 逐, 缺 (2026-10-04)
+
+Owner-approved plan ("四条都照建议做"), second PR of combat talk and specials:
+- **perform.c on the battle panel**: one button per perform file the wielded weapon's enabled
+  skill reaches (a sword with 封山剑法: 「封」「逐」「缺」; 「点」 powerfocus has no file), against
+  the current target (`perform <action> <target>`: no offensive_target() draw), or with none
+  while the player has none yet (before their first round: `perform <action>`, the file's
+  offensive_target()). Like exert it is queued and waits while the player is busy (perform.c
+  refuses) and runs between rounds, as a command does. Use is practice: random(120) <
+  query_skill(skill) in weak mode.
+- **A special's do_attack()** is a direct TYPE_REGULAR attack through the ordinary attack chain
+  (a riposte may follow), with no fight() step (guarding, courage) and whoever is busy, also on a
+  killer's unconscious victim (「逐」 and 「封」 only ask is_fighting(); 「缺」 refuses); its lines
+  are an ordinary blow's. Nobody falls in the middle of a special: the fight's lifecycle check runs
+  after it (char.c heart_beat()), and the victim's last_damage_from is its last landed blow.
+- **Owner, obvious slips fixed** (as the reflection line): swordjab.c's attacks use the wielded
+  weapon (it passes query("weapon"), never set) and its line comes before them (the source prints
+  it after); fakefault.c's 你已经在运用中了。 stops a second 「缺」 (it checks the temp flag and sets
+  the permanent one). PR A's two (surrender.c's $N/$n, guard.c's 刘安录) are confirmed.
+- **Owner: 「逐」 has no busy**, as in ES2; eff_kee − 10 per use is its only limit.
+- **Owner: 「缺」 strikes only in its fight.** Its applies are a timed apply (a round is
+  combat_round_ms); ending in the fight against the target still conscious and there, remove_effect()
+  strikes both ways. When the fight ends the entry forgets its target: ending on world time after
+  it (a decided spar, both standing), in a later fight, or with the performer unconscious, it only
+  takes the applies back; ES2 would trade two blows wherever both still stand.
+- Codex on #49: several NPC beats in one step fall below zero before each beat's chat.
+
 ## Combat talk and NPC specials (2026-10-04)
 
 Owner-approved plan, first of two PRs (the second is the player's perform); what each NPC
@@ -14,9 +41,8 @@ does is in [SNOW_CONTENT](SNOW_CONTENT.md#combat-talk-and-specials).
 - Outside a fight an NPC below zero gin, kee or sen falls on its next beat (std/char.c), so
   powerfade's 100 sen can knock 安惜迩 out. Not ported: powerfade's faint in a fight (only his
   peaceful chat uses it), the farmer's score loss on surrender (NPC score is not tracked).
-- **Owner decision 1 not confirmed yet, applied as recommended** (obvious slips fixed, as with
-  the reflection line): surrender.c's swapped $N/$n (the farmer begs, the player refuses) and
-  guard.c's 刘安录 (an override).
+- **Owner (confirmed in PR B)**: obvious slips fixed, as with the reflection line: surrender.c's
+  swapped $N/$n (the farmer begs, the player refuses) and guard.c's 刘安录 (an override).
 
 ## How a fight opens (2026-10-04)
 

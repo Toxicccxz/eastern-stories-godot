@@ -62,6 +62,7 @@ static func side_of(binding: CombatSliceCharacterBinding, npc: NpcRuntimeState) 
 		func(key: StringName) -> int: return CombatSliceProjectionBuilder.apply_of(binding, key),
 	)
 	side.living = binding.life_status == CombatSliceLifeStatus.Value.ACTIVE
+	side.location_id = binding.location_id
 	side.is_user = binding.is_user
 	side.age = 0 if npc == null else npc.age
 	return side

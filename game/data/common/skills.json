@@ -64,7 +64,7 @@
 		{
 			"id": "fonxansword", "name": "封山剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/fonxansword.c",
-			"perform": ["counterattack"],
+			"perform": ["counterattack", "swordjab", "fakefault"],
 			"practice": { "kee": 30, "force": 3, "done": "你按著所学练了一遍封山剑法。", "fail": "你的内力或气不够，没有办法练习封山剑法。" },
 			"valid_learn": {
 				"max_force": "你的内力不够，没有办法练封山剑法。",

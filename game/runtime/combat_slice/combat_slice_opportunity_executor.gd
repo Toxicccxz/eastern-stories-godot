@@ -186,6 +186,57 @@ static func execute_opportunity(
 	if not fight.has_attack_intent:
 		return _finish(result, CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION)
 
+	return _attack(result, fight, actor, victim, participants, random_source, effect_registry)
+
+
+## combatd.c do_attack(actor, victim, actor's weapon) called straight by a special
+## file (swordjab.c, fakefault.c): TYPE_REGULAR, no fight() first (no guarding, no
+## courage draw), whoever is busy; the victim may still riposte. Both must be in the
+## fight; the actor conscious, the victim conscious or not (an unconscious one's
+## skill_power() is 0). A kee below zero falls only on the next lifecycle check, as
+## char.c heart_beat() does.
+static func execute_direct_attack(
+	actor: CombatSliceCharacterBinding,
+	victim: CombatSliceCharacterBinding,
+	participants: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+) -> CombatSliceOpportunityResult:
+	var result: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
+	if actor == null or not actor.is_valid():
+		return result
+	result._actor_id = actor.character_id
+	result._life_status_observed = actor.life_status
+	result._life_threshold_observed = actor.state.life_threshold()
+	result._reached_stage = CombatSliceOpportunityResult.ReachedStage.ACTOR_AVAILABILITY
+	if not actor.exists_in_encounter:
+		return _finish(result, CombatSliceOpportunityResult.Outcome.ACTOR_NOT_AVAILABLE)
+	if actor.life_status != CombatSliceLifeStatus.Value.ACTIVE:
+		return _finish(result, CombatSliceOpportunityResult.Outcome.ACTOR_NOT_ACTIVE)
+	if not actor.combat_available:
+		return _finish(result, CombatSliceOpportunityResult.Outcome.COMBAT_NOT_AVAILABLE)
+	result._busy_before = actor.busy.busy_value
+	result._busy_after = actor.busy.busy_value
+	if (
+		victim == null or not victim.is_valid() or not victim.exists_in_encounter
+		or victim.life_status == CombatSliceLifeStatus.Value.DEAD
+		or not _participants_are_coherent(actor, participants) or not participants.has(victim) or victim == actor
+	):
+		return _finish(result, CombatSliceOpportunityResult.Outcome.OPPONENT_SELECTION_FAILED)
+	return _attack(result, CombatFightDecisionResult.direct(actor.character_id, victim.character_id), actor, victim, participants, random_source, effect_registry)
+
+
+## The decided attack of `actor` on `victim` and, when the victim answers, its
+## riposte (do_attack() from step (1) on).
+static func _attack(
+	result: CombatSliceOpportunityResult,
+	fight: CombatFightDecisionResult,
+	actor: CombatSliceCharacterBinding,
+	victim: CombatSliceCharacterBinding,
+	participants: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+) -> CombatSliceOpportunityResult:
 	result._reached_stage = CombatSliceOpportunityResult.ReachedStage.FORWARD_ATTACK
 	var live: CombatReverseAttackProjection = CombatSliceProjectionBuilder.build_live_projection(actor, victim)
 	var forward: CombatSingleAttackExecutionResult = (

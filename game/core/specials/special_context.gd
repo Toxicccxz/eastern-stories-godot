@@ -7,8 +7,13 @@ extends RefCounted
 ## the content and the skill_improved() effects. The file writes the lines
 ## message_vision() shows into `lines`, or sets the notify_fail() line only its
 ## performer reads and returns false. `damaged` lists whom it hurt: their
-## last_damage_from is `me`.
+## last_damage_from is `me`. `target` is the one the command named (perform
+## <action> <target>), null for none; the do_attack() calls it makes run through
+## `attack_source` and are kept in `attacks`, in order with the lines.
 var me: SpecialSide
+var target: SpecialSide
+var attack_source: SpecialAttackSource
+var attacks: Array[SpecialAttack] = []
 var enemies: Array[SpecialSide] = []
 ## Everyone else in the fight, enemies or not (remove_all_enemy() asks them all).
 var others: Array[SpecialSide] = []
@@ -47,6 +52,11 @@ func offensive_target() -> SpecialSide:
 	return enemies[clampi(random.call(size), 0, size - 1)]
 
 
+## The perform files' `if( !target ) target = offensive_target(me);`.
+func target_or_offensive() -> SpecialSide:
+	return target if target != null else offensive_target()
+
+
 ## The one in the fight with `character_id`, or null.
 func other(character_id: StringName) -> SpecialSide:
 	for side: SpecialSide in others:
@@ -60,6 +70,26 @@ func say(template: String, target_id: StringName = &"", color: StringName = Colo
 	var line := VisionLine.new(template, me.character_id, target_id, color)
 	lines.append(line)
 	return line
+
+
+## combatd.c do_attack(attacker, victim, attacker's weapon), after the lines said so
+## far; null (nothing happens) without an attack source.
+func do_attack(attacker: SpecialSide, victim: SpecialSide) -> SpecialAttack:
+	if attack_source == null or attacker == null or victim == null:
+		return null
+	var attack: SpecialAttack = attack_source.attack(attacker.character_id, victim.character_id)
+	if attack != null:
+		attack.line_index = lines.size()
+		attacks.append(attack)
+	return attack
+
+
+## What the file showed and did: its lines and attacks, or its refusal alone.
+func report() -> SpecialReport:
+	var shown: Array[VisionLine] = lines
+	if lines.is_empty() and attacks.is_empty() and fail_line != null:
+		shown = [fail_line]
+	return SpecialReport.new(me.character_id, shown, attacks, damaged)
 
 
 ## notify_fail(template): what only the performer reads; the file returns 0.

@@ -53,6 +53,18 @@ func offered_to(_state: CharacterState) -> bool:
 	return true
 
 
+## A CURRENT_HOSTILE action that may run with no current target (the player picked
+## none yet): it then goes without one and chooses for itself.
+func accepts_no_target() -> bool:
+	return false
+
+
+## A CURRENT_HOSTILE action that may name the player's unconscious victim in a fight
+## to the death (feature/attack.c: a killer keeps it as an enemy).
+func reaches_downed_target() -> bool:
+	return false
+
+
 func validate_execution(_context: CombatTacticalContext) -> int:
 	return CombatTacticalResult.Code.POLICY_UNSUPPORTED
 

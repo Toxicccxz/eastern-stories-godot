@@ -4,12 +4,14 @@ extends RefCounted
 ## One character a perform, cast or exert file works on, as the LPC asks it: its
 ## state and busy, query_temp("apply/<key>") (armor, weapon, create() and timed
 ## applies, from `applies`), its fight (feature/attack.c: whom it fights and kills,
-## last_opponent; none outside a fight) and whether it is living() (conscious).
+## last_opponent; none outside a fight), whether it is living() (conscious) and
+## where it is (environment()).
 var character_id: StringName
 var state: CharacterState
 var busy: ActionBusyState
 var relationship: CombatRelationshipState
 var living: bool = true
+var location_id: StringName
 ## A player (userp()): improve_skill() in weak mode gives no level.
 var is_user: bool = false
 ## query("age"), for rankd.c's words.
