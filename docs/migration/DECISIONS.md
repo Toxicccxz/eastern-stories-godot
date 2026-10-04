@@ -1,5 +1,16 @@
 # Migration Decisions
 
+## How a fight opens (2026-10-04)
+
+- feature/attack.c kill_ob() tells its victim 看起来X想杀死你！ (HIR) every time: after
+  kill.c's line (obj->kill_ob(me)), from combatd.c start_aggressive() and from 安惜迩's
+  accept_fight(). The player now sees it for each NPC that fights them to the death; the
+  aggressive NPC's native `<name>向你发动攻击！` is gone.
+- **Owner:** the battle panel covers the log, so a fight's opening lines (fight.c's or kill.c's
+  words, the NPC's answer, the warnings) also open the battle log, and the warnings stay pinned
+  under the title for the whole fight. No confirmation dialog: ES2 has none, an NPC's answer is
+  content, and Flee is already on the panel.
+
 ## Internal power in combat: enforce, exert, the force hit (2026-10-03)
 
 Owner-approved plan ("按你的建议"):
@@ -92,7 +103,7 @@ Package 5, owner-approved; rules and how to add a language: [LOCALIZATION](../pr
 - Fonts are the system's, listed per language; no font is bundled yet. The title reads 东方故事;
   `config/name` stays (it names the user data folder).
 - The player's attack now prints cmds/std/kill.c's line (was a native English line); an aggressive
-  NPC's, silent in ES2 (combatd.c start_aggressive()), keeps a native line: `<name>向你发动攻击！`.
+  NPC's kept a native line, replaced by kill_ob()'s warning (How a fight opens, 2026-10-04).
 
 ## Busy wears off on the heart beat (2026-10-02)
 

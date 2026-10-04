@@ -43,6 +43,8 @@ var _narrator: BattleNarrator
 var _encounter_id: StringName = &""
 var _last_order: int = 0
 var _recent: Array[BattleNarrationLine] = []
+## The current encounter's opening lines, which the log already holds.
+var _opening: Array[BattleNarrationLine] = []
 var last_consumed_order: int:
 	get: return _last_order
 
@@ -55,6 +57,16 @@ func _init(rng: RandomNumberGenerator = null) -> void:
 ## The last few lines of the current or last encounter, newest last.
 func recent() -> Array[BattleNarrationLine]:
 	return _recent.duplicate()
+
+
+## recent() without the opening lines: the fight's result adds these to the log,
+## which got the opening when the fight began.
+func recent_events() -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	for line: BattleNarrationLine in _recent:
+		if not _opening.has(line):
+			lines.append(line)
+	return lines
 
 
 ## Lines told outside the encounter's events (enforce.c's): they join the recent
@@ -92,10 +104,33 @@ func read_new(
 ) -> Array[BattleFeedbackProjection]:
 	if not projection.active:
 		return [] # Keep the completed history until a new encounter replaces it.
+	var read: Array[BattleFeedbackProjection] = []
 	if projection.encounter_id != _encounter_id:
 		_encounter_id = projection.encounter_id
 		_last_order = 0
 		_recent.clear()
+		_opening = opening_lines(coordinator, projection.encounter_id)
+		if not _opening.is_empty():
+			read.append(BattleFeedbackProjection.new(0, _opening))
+			note(_opening)
+	read.append_array(_read_new_events(coordinator, projection))
+	return read
+
+
+## What was said as the fight began, then kill_ob()'s warnings in HIR red
+## (CombatEncounterCoordinator.note_opening()).
+static func opening_lines(coordinator: CombatEncounterCoordinator, encounter_id: StringName) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	for text: String in coordinator.opening_lines(encounter_id):
+		lines.append(BattleNarrationLine.new(text))
+	for text: String in coordinator.opening_warnings(encounter_id):
+		lines.append(BattleNarrationLine.new(text, -1, ColoredLine.HIR))
+	return lines
+
+
+func _read_new_events(
+	coordinator: CombatEncounterCoordinator, projection: BattlePresentationProjection,
+) -> Array[BattleFeedbackProjection]:
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	if scheduler == null:
 		var completed: CombatCompletedFeedback = coordinator.completed_feedback()
