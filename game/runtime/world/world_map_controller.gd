@@ -1357,6 +1357,9 @@ func _advance_ambience(delta: float) -> void:
 	for character_id: StringName in _ambience.due_greetings(delta):
 		_greet(find_resident_npc(character_id))
 	for beat: int in _ambience.due_beats(delta):
+		if beat > 0:
+			# char.c heart_beat() falls before it chats, on each of several beats too.
+			_fall_below_zero()
 		for npc: NpcRuntimeState in _npcs.duplicate():
 			if _chats(npc):
 				_act(npc, _ambience.chat(npc.definition().talk()))
