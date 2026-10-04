@@ -61,6 +61,15 @@ the code does not, and what each NPC cost. The data format and the importer are 
 | 柳淳风 | 60 | 「封」 |
 | 安惜迩 | 40 | four CYN lines, 「封」, drainerbolt, feeblebolt, powerup, recover (no file) |
 
+npc.c calls the skill daemon itself: no busy check, no practice from use, a refusal shows
+nothing. 「封」 (counterattack.c) holds the target query_skill("fonxansword") / 20 + 2 rounds
+(柳淳风 5, 安惜迩 4, 柳绘心 3) and no blow breaks it; the player's queued Flee and 运功 wait. The
+bolts follow their files (25 mana, 20 or 10 sen, one failure in max_mana / 50 that only the caster
+reads, report_status() after a hit). powerup gives apply/attack and apply/dodge + 50 for 150 s
+and 175 bellicosity; powerfade, from his peaceful chat, takes 150 back for 100 force and 100 sen.
+A killer refuses the farmer's surrender (always, as he only fights the player who attacks him);
+otherwise he stops fighting (remove_all_enemy()) and says 我投降.
+
 ## Source anomalies
 
 - `value()` is defined only in `std/money.c`: give.c destructs money only, keeper.c and

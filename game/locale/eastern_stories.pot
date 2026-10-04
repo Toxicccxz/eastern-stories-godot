@@ -1396,6 +1396,7 @@ msgstr ""
 msgid "投降？现在没有人在打你啊....？"
 msgstr ""
 
+#. surrender.c: $n begs $N, who will not have it ({rude}: rankd.c's rude word for $n, e.g. 臭贼).
 #: core/specials/surrender_command.gd
 msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
 msgstr ""

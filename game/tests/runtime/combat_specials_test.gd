@@ -33,6 +33,14 @@ class Seeded extends CombatRandomSource:
 
 ## Every chat beat fires and takes the first entry.
 class Low extends WorldInteractionRandomSource:
+	var calls: int = 0
+	func next_below(_bound: int) -> int:
+		calls += 1
+		return 0
+
+
+## random(n) is always 0.
+class Zero extends CombatRandomSource:
 	func next_below(_bound: int) -> int:
 		return 0
 
@@ -60,6 +68,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_bolts()
 	_test_celestial()
 	_test_surrender()
+	_test_restore_lines_are_seen()
+	_test_last_hitter()
 	_session = Work.create_session(tree)
 	await tree.process_frame
 	await _to_snow(tree)
@@ -71,6 +81,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_powerup_is_saved(tree)
 	await _test_farmer(tree)
 	await _test_annihir_fight(tree)
+	await _test_fall_outside_a_fight(tree)
 	_session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -141,7 +152,7 @@ func _test_bolts() -> void:
 	_check(me.state.essence.current == 100 + damage and me.state.recovery.mana.current == 975 and me.state.spirit.current == 280 and me.busy.busy_value == 2, "drained into the caster, 25 mana and 20 sen, busy 2")
 	_check(me.state.skills.learned_progress(&"necromancy") == learned + 1 and context.damaged == [&"player"], "necromancy practised; the player's last_damage_from")
 	var lines: Array[VisionLine] = context.lines
-	_check(lines.size() == 3 and lines[0].color == ColoredLine.HIM and lines[0].template.contains("紫光射向$n") and lines[1].color == ColoredLine.HIR and lines[1].damage == damage and lines[2].is_status() and lines[2].actor_id == &"player", "the purple flash (HIM), the hit (HIR, its damage), report_status(target)")
+	_check(lines.size() == 3 and lines[0].color == ColoredLine.HIM and lines[0].template.contains("紫光射向$n") and lines[1].color == ColoredLine.HIR and lines[2].is_status() and lines[2].actor_id == &"player", "the purple flash (HIM), the hit (HIR), report_status(target)")
 	pair = _casters()
 	context = _context(pair[0], [pair[1]], Pattern.new([0, 100, 5, 7, 3]))
 	_check(NpcSpecials.run(_cast(&"feeblebolt"), context) and pair[1].state.spirit.current == 200 - damage and pair[1].state.spirit.effective == 200 - damage / 3 and pair[0].state.spirit.current == 290, "feeblebolt takes sen (10 sen to cast)")
@@ -223,9 +234,11 @@ func _test_powerfade_in_the_bank(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
 	var state: CharacterState = annihir.character_state
-	_session.configure_npc_ambience_random_source(Low.new())
+	var low := Low.new()
+	_session.configure_npc_ambience_random_source(low)
+	var shown_before: int = _hud.log_lines().size()
 	_session.advance_npc_heartbeat(2.0)
-	_check(state.attributes.bellicosity == 0 and not _hud.log_lines().back().contains("收敛"), "no bellicosity: powerfade refuses, nothing shown")
+	_check(low.calls == 2 and state.attributes.bellicosity == 0 and _hud.log_lines().size() == shown_before, "a chat beat picks powerfade; no bellicosity: it refuses, nothing shown (%d draws)" % low.calls)
 	state.attributes.bellicosity = 175 # TEST-ONLY: what a powerup leaves.
 	var force: int = state.recovery.inner_force.current
 	var sen: int = state.spirit.current
@@ -263,10 +276,24 @@ func _test_powerup_is_saved(tree: SceneTree) -> void:
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 	_check(restored.succeeded(), "Continue " + restored.path)
 	if restored.succeeded():
+		var back: NpcRuntimeState = restored.candidate.world_map_of(&"snow.outdoor").find_resident_npc(annihir.character_id)
+		var entries: Array[CharacterTimedApplies.Entry] = []
+		if back != null:
+			entries = back.character_state.timed_applies.entries()
+		_check(entries.size() == 1 and entries[0].remaining_ms == 147500 and back.character_state.timed_applies.value(&"dodge") == 50, "Continue: 安惜迩's powerup runs on with 147.5 s")
 		restored.candidate.free()
 		await tree.process_frame
-	var broken: String = encoded.replace("147500", "0")
-	_check(not GameSaveJsonCodec.decode(broken).succeeded(), "an entry with no time left fails closed")
+	_check(not GameSaveJsonCodec.decode(encoded.replace("147500", "0")).succeeded(), "an entry with no time left fails closed")
+	for broken: Callable in [
+		func(list: Array) -> void: list.append(list[0].duplicate(true)),
+		func(list: Array) -> void: list[0]["applies"] = {},
+		func(list: Array) -> void: list.clear(),
+	]:
+		var root: Dictionary = JSON.parse_string(encoded)
+		for npc: Dictionary in root["npc_spawn_states"]:
+			if npc["character"].has("timed_applies"):
+				broken.call(npc["character"]["timed_applies"])
+		_check(not GameSaveJsonCodec.decode(JSON.stringify(root)).succeeded(), "a twice-named, empty or unbonused entry fails closed")
 	state.timed_applies.advance(147500)
 	_check(state.timed_applies.is_empty(), "and ends")
 
@@ -292,6 +319,18 @@ func _test_farmer(tree: SceneTree) -> void:
 	var shown: Array[BattleNarrationLine] = BattleNarrator.seen(result.lines(), _ui.current_projection())
 	_check(shown.size() == 1 and shown[0].text == "农夫向你求饶，但是你大声说道：臭贼废话少说，纳命来！", "surrender, refused, as the player reads it: " + (shown[0].text if not shown.is_empty() else ""))
 	_check(chat.beat(me, [player], [player], Pattern.new([50]), SkillImprovementEffectRegistry.new()) == null, "random(100) 50 is not below 50: nothing")
+	# A busy beat (continue_action()) says nothing; the next one does, every draw 0.
+	_session.configure_combat_random_source(Zero.new())
+	farmer.busy.start_busy(1) # TEST-ONLY
+	var scheduler: CombatEncounterScheduler = _coordinator.active_scheduler()
+	var before: int = scheduler.events().size()
+	_coordinator.advance_scheduler(1.0)
+	_check(_chats(scheduler.events().slice(before), farmer.character_id).is_empty(), "busy: no chat")
+	before = scheduler.events().size()
+	_coordinator.advance_scheduler(1.0)
+	var said: Array[CombatSchedulerEvent] = _chats(scheduler.events().slice(before), farmer.character_id)
+	_check(said.size() == 1 and said[0].chat.lines()[0].template.begins_with("农夫叫道：杀人哪！"), "not busy: random(100) 0 < 50, the first line")
+	_session.configure_combat_random_source(Seeded.new(7))
 	var heard: bool = false
 	for _round: int in range(60):
 		if not _coordinator.has_active_encounter():
@@ -325,8 +364,9 @@ func _test_annihir_fight(tree: SceneTree) -> void:
 	var seen: Dictionary[String, bool] = {}
 	var order: int = 0
 	var wearing: bool = false
+	var wore: bool = false
 	for _round: int in range(300):
-		if not _coordinator.has_active_encounter() or seen.has_all(["said", "held", "bolt", "powerup"]):
+		if not _coordinator.has_active_encounter() or (seen.has_all(["said", "held", "bolt", "powerup"]) and wore):
 			break
 		_coordinator.advance_scheduler(1.0)
 		_ui.refresh_projection()
@@ -334,6 +374,7 @@ func _test_annihir_fight(tree: SceneTree) -> void:
 			var left: Array[CharacterTimedApplies.Entry] = annihir.character_state.timed_applies.entries()
 			_check(left.size() == 1 and left[0].remaining_ms == 149000, "a round of the fight is a second of powerup")
 			wearing = false
+			wore = true
 		for event: CombatSchedulerEvent in scheduler.events_after(order):
 			order = event.progression_order
 			if event.kind != CombatSchedulerEvent.Kind.NPC_CHAT:
@@ -360,10 +401,62 @@ func _test_annihir_fight(tree: SceneTree) -> void:
 				_check(annihir.character_state.attributes.bellicosity >= 175, "bellicosity up")
 	for key: String in ["said", "held", "bolt", "powerup"]:
 		_check(seen.has(key), "安惜迩 shows %s in the fight" % key)
+	_check(wore, "the round after powerup was watched")
 	await _flee(tree)
 
 
+## recover.c's line is message_vision(): an NPC's is seen by everyone in the room.
+func _test_restore_lines_are_seen() -> void:
+	var state: CharacterState = _character(0)
+	state.recovery.inner_force = CharacterInternalResourceState.new(100, 100)
+	state.vitality = CharacterResourceState.new(50, 200, 200)
+	var context := ExertContext.new(state, 10, true, ActionBusyState.new(), &"npc")
+	_check(ExertFunctions.find(&"recover").exert(context), "recover")
+	_check(context.lines.size() == 1 and context.lines[0].text == "你深深吸了几口气，脸色看起来好多了。", "its user reads 你")
+	_check(context.vision_lines.size() == 1 and context.vision_lines[0].template == "$N深深吸了几口气，脸色看起来好多了。" and context.vision_lines[0].actor_id == &"npc", "everyone else reads $N")
+
+
+## damage.c last_damage_from: a spell's victim was hurt by its caster.
+func _test_last_hitter() -> void:
+	var chat := CombatNpcChatResult.new([VisionLine.new("x", &"annihir", &"player")], [&"player"])
+	var event := CombatSchedulerEvent.new(1, 1, 1.0, CombatSchedulerEvent.Kind.NPC_CHAT, CombatSchedulerEvent.SkipReason.NONE, &"annihir", &"", null, 1, chat)
+	_check(event.is_valid() and CombatEncounterResolution.last_hitter(event, &"player") == &"annihir", "the caster is the player's last_damage_from")
+	_check(CombatEncounterResolution.last_hitter(event, &"annihir") == &"", "nobody hurt the caster")
+
+
+## std/char.c heart_beat() outside a fight: powerfade's 100 sen takes 安惜迩 below zero
+## and he falls on his next beat.
+func _test_fall_outside_a_fight(tree: SceneTree) -> void:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var state: CharacterState = annihir.character_state
+	_check(_beside(map, &"snow.bank", &"snow.bank.annihir.1"), "back in the bank")
+	await tree.physics_frame
+	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not annihir.relationship.is_fighting(), "安惜迩 is up and not fighting")
+	# TEST-ONLY: bellicosity to calm, sen spent on his spells, nothing running.
+	state.timed_applies.advance(1000000)
+	state.attributes.bellicosity = 175
+	state.recovery.inner_force.current = 1000
+	state.spirit.current = 50
+	while annihir.busy.is_busy():
+		annihir.busy.advance()
+	_session.configure_npc_ambience_random_source(Low.new())
+	_session.advance_npc_heartbeat(2.0)
+	_session.configure_npc_ambience_random_source(Still.new())
+	_check(state.spirit.current == -1 and annihir.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "powerfade: sen below zero (%d)" % state.spirit.current)
+	_session.advance_npc_heartbeat(0.1)
+	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and annihir.revive_in_ms > 0, "he falls on his next beat and will come to")
+
+
 # --- Helpers ---------------------------------------------------------------------------
+
+func _chats(events: Array[CombatSchedulerEvent], actor_id: StringName) -> Array[CombatSchedulerEvent]:
+	var result: Array[CombatSchedulerEvent] = []
+	for event: CombatSchedulerEvent in events:
+		if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.actor_id == actor_id:
+			result.append(event)
+	return result
+
 
 func _character(experience: int, levels: Dictionary = {}, mapped: Dictionary = {}) -> CharacterState:
 	var state := CharacterState.new()

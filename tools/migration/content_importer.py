@@ -726,7 +726,7 @@ class Importer:
             chance, lines = sets.get(chance_key), sets.get(lines_key)
             if not isinstance(chance, int) or not isinstance(lines, list) or not lines:
                 continue
-            entries = [Importer.chat_entry(line) for line in lines]
+            entries = [Importer.chat_entry(line, lines_key == 'chat_msg_combat') for line in lines]
             if None in entries:
                 continue
             record[chance_key] = chance
@@ -735,13 +735,15 @@ class Importer:
         return handled
 
     @staticmethod
-    def chat_entry(line) -> str | dict | None:
+    def chat_entry(line, in_fight: bool) -> str | dict | None:
+        """One entry as data, or None. random_move is data only outside a fight (the
+        game moves no NPC out of one yet)."""
         if isinstance(line, ColoredText):
             return {'say': str(line), 'color': line.color}
         if isinstance(line, str):
             return line
         if line == Closure('(: random_move :)'):
-            return {'action': 'random_move'}
+            return None if in_fight else {'action': 'random_move'}
         match = re.fullmatch(r'\(:\s*(perform_action|cast_spell|exert_function|command)\s*,\s*"([^"]+)"\s*:\)',
                              line.text if isinstance(line, Closure) else '')
         if match is None:

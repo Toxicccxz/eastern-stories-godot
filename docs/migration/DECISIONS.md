@@ -2,29 +2,21 @@
 
 ## Combat talk and NPC specials (2026-10-04)
 
-Owner-approved plan, first of two PRs (the second is the player's perform):
-- **npc.c chat() in a fight**: on an NPC's beat that is not busy, after its attack and while it
-  still fights, chat_chance_combat percent picks one of chat_msg_combat; the draws come from
-  the fight's random source. A line is said into the battle log (in its ES2 colour: 安惜迩's are
-  CYN); a beat whose blow ended the fight says nothing. 刘安禄, the farmer, 柳绘心, 柳淳风 and
-  安惜迩 talk; the crazy dog and Old Pine's fat bandit set lines without a chance (never fire).
-- **Chat functions are data**: perform_action, cast_spell, exert_function and
-  command("surrender"). npc.c calls the skill daemon itself, so no busy check and no practice
-  from use (perform.c, cast.c, exert.c are not involved); a refusal shows nothing.
-- 「封」字诀 (counterattack.c): the target is busy query_skill("fonxansword") / 20 + 2 rounds
-  (柳淳风 5, 安惜迩 4, 柳绘心 3), which no blow breaks; the player's queued Flee and 运功 wait.
-- drainerbolt and feeblebolt as written, the caster's eff_sen in both random terms included;
-  their 你失败了 goes to the caster alone. The hit line's mid-sentence break is joined.
-- 天邪神功's powerup/powerfade: **timed applies** (`CharacterTimedApplies`) hold apply/attack and
-  apply/dodge until the call_out; a fight's round is combat_round_ms of it, world time the rest.
-  Saved only while one runs, so older saves still load. 天邪神功 has no recover file: that chat
-  entry does nothing. powerfade's faint in a fight is not ported: only 安惜迩's peaceful chat
-  uses it.
-- surrender.c: a killer refuses ($N/$n swapped in the source: the farmer begs, the player
-  shouts); otherwise remove_all_enemy() and 我投降. The score it costs is not ported (NPCs keep
-  none).
-- **Owner decision 1 not yet confirmed, applied as recommended**: obvious slips are fixed, as
-  with the reflection line: surrender's $N/$n, guard.c's 刘安录 (an override).
+Owner-approved plan, first of two PRs (the second is the player's perform); what each NPC
+does is in [SNOW_CONTENT](SNOW_CONTENT.md#combat-talk-and-specials).
+- **npc.c chat() in a fight** runs after an NPC's attack on a beat it is not busy, while it still
+  fights, with draws from the fight's random source; after the blow that ends the fight it says
+  nothing. A beat whose attack found nobody to fight chats outside a fight in ES2; the world
+  stands still during a fight, so it says nothing.
+- **Timed applies** (powerup's call_out): a fight's round is combat_round_ms of their time, world
+  time counts the rest for the NPCs of the active map (as heal_up and revive). Saved only while
+  one runs: older saves still load.
+- Outside a fight an NPC below zero gin, kee or sen falls on its next beat (std/char.c), so
+  powerfade's 100 sen can knock 安惜迩 out. Not ported: powerfade's faint in a fight (only his
+  peaceful chat uses it), the farmer's score loss on surrender (NPC score is not tracked).
+- **Owner decision 1 not confirmed yet, applied as recommended** (obvious slips fixed, as with
+  the reflection line): surrender.c's swapped $N/$n (the farmer begs, the player refuses) and
+  guard.c's 刘安录 (an override).
 
 ## How a fight opens (2026-10-04)
 

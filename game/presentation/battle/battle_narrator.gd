@@ -127,7 +127,7 @@ static func seen(vision_lines: Array[VisionLine], cast: BattlePresentationProjec
 			for key: String in line.slots:
 				slots[key] = _t(line.slots[key])
 			text = text.format(slots)
-		lines.append(BattleNarrationLine.new(vision(text, line.actor_id, line.target_id, cast), line.damage, line.color))
+		lines.append(BattleNarrationLine.new(vision(text, line.actor_id, line.target_id, cast), -1, line.color))
 	return lines
 
 

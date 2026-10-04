@@ -20,15 +20,18 @@ static func perform(function_id: StringName) -> PerformFunction:
 
 static func cast(function_id: StringName) -> CastFunction:
 	if _casts.is_empty():
-		for spell: CastFunction in [
-			BoltSpell.new(&"drainerbolt", BoltSpell.Track.GIN, 20,
-				"$N口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向$n！", ColoredLine.HIM,
-				"结果「嗤」地一声，紫光从$p身上透体而过，拖出一条长长的七彩光气，光气绕了回转过来又从$N顶门注入$P的体内！",
-				"结果「嗤」地一声，紫光从$p身上透体而过，无声无息地钻入地下！"),
-			BoltSpell.new(&"feeblebolt", BoltSpell.Track.SEN, 10,
-				"$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！", ColoredLine.HIW,
-				"结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！",
-				"结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"),
-		]:
+		var drainer := BoltSpell.new(&"drainerbolt", BoltSpell.Track.GIN)
+		drainer.sen_cost = 20
+		drainer.flash = "$N口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向$n！"
+		drainer.flash_color = ColoredLine.HIM
+		drainer.hit = "结果「嗤」地一声，紫光从$p身上透体而过，拖出一条长长的七彩光气，光气绕了回转过来又从$N顶门注入$P的体内！"
+		drainer.miss = "结果「嗤」地一声，紫光从$p身上透体而过，无声无息地钻入地下！"
+		var feeble := BoltSpell.new(&"feeblebolt", BoltSpell.Track.SEN)
+		feeble.sen_cost = 10
+		feeble.flash = "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！"
+		feeble.flash_color = ColoredLine.HIW
+		feeble.hit = "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
+		feeble.miss = "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+		for spell: CastFunction in [drainer, feeble]:
 			_casts[spell.id] = spell
 	return _casts.get(function_id)

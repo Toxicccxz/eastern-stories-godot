@@ -17,22 +17,19 @@ const MANA_COST: int = 25
 const FAIL_BELOW: int = 50
 const BUSY: int = 2
 
-var _track: Track
-var _sen_cost: int
-var _flash: String
-var _flash_color: StringName
-var _hit: String
-var _miss: String
+## Which resource a hit drains, what the spell costs in sen, and its lines: the
+## bolt flying (in its colour), the hit (HIR) and the bolt going through harmlessly.
+var track: Track
+var sen_cost: int
+var flash: String
+var flash_color: StringName
+var hit: String
+var miss: String
 
 
-func _init(p_id: StringName, p_track: Track, p_sen_cost: int, p_flash: String, p_flash_color: StringName, p_hit: String, p_miss: String) -> void:
+func _init(p_id: StringName, p_track: Track) -> void:
 	id = p_id
-	_track = p_track
-	_sen_cost = p_sen_cost
-	_flash = p_flash
-	_flash_color = p_flash_color
-	_hit = p_hit
-	_miss = p_miss
+	track = p_track
 
 
 func cast(context: SpecialContext) -> bool:
@@ -43,13 +40,13 @@ func cast(context: SpecialContext) -> bool:
 	var mana: CharacterInternalResourceState = me.state.recovery.mana
 	if mana.current < MANA_COST:
 		return context.refuse("你的法力不够！")
-	if me.state.spirit.current < _sen_cost:
+	if me.state.spirit.current < sen_cost:
 		return context.refuse("你的精神没有办法有效集中！")
 	mana.current -= MANA_COST
-	me.state.spirit.apply_damage(_sen_cost)
+	me.state.spirit.apply_damage(sen_cost)
 	if context.random.call(mana.maximum) < FAIL_BELOW:
 		return true # write("你失败了。"): the caster alone reads it.
-	context.say(_flash, target.character_id, _flash_color)
+	context.say(flash, target.character_id, flash_color)
 	var ap: int = me.query_skill(&"spells")
 	@warning_ignore("integer_division")
 	ap = (ap * ap * ap / 4) * me.state.spirit.current / 100
@@ -62,12 +59,12 @@ func cast(context: SpecialContext) -> bool:
 		@warning_ignore("integer_division")
 		damage -= target.state.recovery.mana.maximum / 30 + context.random.call(eff_sen / 15)
 		if damage > 0:
-			context.say(_hit, target.character_id, ColoredLine.HIR).damage = damage
+			context.say(hit, target.character_id, ColoredLine.HIR)
 			_strike(me, target, damage)
 			context.damaged.append(target.character_id)
 			context.improve(&"necromancy", 1, true)
 		else:
-			context.say(_miss, target.character_id)
+			context.say(miss, target.character_id)
 	else:
 		context.say("但是被$n躲开了。", target.character_id)
 	if damage > 0:
@@ -79,7 +76,7 @@ func cast(context: SpecialContext) -> bool:
 func _strike(me: SpecialSide, target: SpecialSide, damage: int) -> void:
 	@warning_ignore("integer_division")
 	var wound: int = damage / 3
-	match _track:
+	match track:
 		Track.GIN:
 			me.state.essence.heal(target.state.essence.apply_damage(damage))
 			target.state.essence.apply_wound(wound)

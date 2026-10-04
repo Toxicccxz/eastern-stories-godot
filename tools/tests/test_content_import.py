@@ -226,7 +226,8 @@ class TalkTest(unittest.TestCase):
 
     def test_combat_chat_without_its_chance_or_with_another_command_stays_a_finding(self) -> None:
         for source in ('void create() { set("chat_msg_combat", ({ "x" })); }',
-                       'void create() { set("chat_chance_combat", 10); set("chat_msg_combat", ({ (: command, "flee" :) })); }'):
+                       'void create() { set("chat_chance_combat", 10); set("chat_msg_combat", ({ (: command, "flee" :) })); }',
+                       'void create() { set("chat_chance_combat", 10); set("chat_msg_combat", ({ (: random_move :) })); }'):
             with self.subTest(source=source):
                 record, handled = self.talk(source)
                 self.assertEqual((record, handled), ({}, set()))
