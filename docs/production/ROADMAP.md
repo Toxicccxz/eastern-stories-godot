@@ -33,11 +33,9 @@ scene reference. New player text follows
 
 Order may change after the near-term packages; each item is a content package with owner playtest.
 
-* **Internal power in combat** (in review): the player's `enforce` (force_factor), exert (heal,
-  recover, refresh, regenerate) on the 武学 page and the battle panel, the force hit and its
-  reflection; max_force/4 to max kee at Continue.
-* **Combat talk and specials**: `chat_msg_combat` with perform/cast/exert — 柳淳风's and
-  柳绘心's 「封」字诀, 安惜迩's spells and 天邪神功's powerup/powerfade; the player's perform.
+* **Combat talk and specials** (PR A in review): NPCs' `chat_msg_combat` with perform/cast/exert
+  — 柳淳风's and 柳绘心's 「封」字诀, 安惜迩's spells and 天邪神功's powerup/powerfade; then PR B,
+  the player's perform (封山剑法's 封, 逐, 缺).
 * **Combined items**: amounts that merge and split (`std/item/combined.c`): Snow's 桃符纸, 蛇药
   and the travellers' 飞刀.
 * **Conditions and treatment**: condition-producing attacks, update cadence, cures and supplies.
