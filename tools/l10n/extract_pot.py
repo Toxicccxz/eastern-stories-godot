@@ -46,7 +46,7 @@ TEXT_KEYS = frozenset({
     "damage_type", "done", "improved_line",
 })
 TEXT_LIST_KEYS = frozenset({"limbs"})
-# Inside lines and messages `action` names a chat function (random_move, drink), not a label.
+# Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
 })
@@ -347,7 +347,7 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
                 if has_chinese(topic):
                     catalog.add(topic, relative, note=f"{record_id} inquiry topic")
                 _walk_text(answer, relative, f"{record_id} inquiry.{topic}", catalog)
-        elif key in ("messages", "chat_msg", "dodge_messages", "parry_messages"):
+        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages"):
             _walk_text(value, relative, note, catalog)
         elif key == "valid_learn" and isinstance(value, dict):
             # A skill's valid_learn() lines, keyed by the rule that refuses.

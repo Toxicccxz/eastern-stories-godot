@@ -36,7 +36,7 @@ func exert(context: ExertContext) -> bool:
 	var most: int = context.force_level / 3 + 10
 	force.current -= COST
 	track.heal(mini(missing, most))
-	context.lines.append(ColoredLine.new(_as_actor(_done_line)))
+	context.vision(_done_line)
 	if context.is_fighting:
 		context.busy.start_busy(1)
 	return true

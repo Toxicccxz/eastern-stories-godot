@@ -139,7 +139,7 @@ static func build_attack_input(
 			attack_skill_modifier,
 		),
 		_apply(attacker, attacker_armor, &"attack"),
-		attacker.content.projected_apply_damage(primary),
+		attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage"),
 		CombatStrengthProjection.new(
 			attacker.state.attributes.strength,
 			attacker.state.attributes.force_factor,
@@ -266,7 +266,7 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 			_apply(defender, defender_armor, FORCE_SKILL_ID),
 			_apply(attacker, attacker_armor, &"attack"),
 			_apply(defender, defender_armor, &"defense"),
-			attacker.content.projected_apply_damage(primary),
+			attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage"),
 			_apply(defender, defender_armor, &"armor"),
 			_apply(defender, defender_armor, &"armor_vs_force"),
 		)
@@ -287,9 +287,18 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 
 
 ## query_temp("apply/<key>"): what the character's armor gives (equip.c wear()),
-## what its wielded weapon and its own create() set (CombatSliceContentProfile).
+## what its wielded weapon and its own create() set (CombatSliceContentProfile) and
+## what a special adds for a while (CharacterTimedApplies: powerup).
 static func _apply(binding: CombatSliceCharacterBinding, armor: ArmorNumericModifiers, key: StringName) -> int:
-	return armor.value(key) + binding.content.apply_value(key, binding.state.equipment.primary_weapon())
+	return (
+		armor.value(key) + binding.content.apply_value(key, binding.state.equipment.primary_weapon())
+		+ binding.state.timed_applies.value(key)
+	)
+
+
+## query_temp("apply/<key>") for a participant (special files' query_skill()).
+static func apply_of(binding: CombatSliceCharacterBinding, key: StringName) -> int:
+	return _apply(binding, binding.armor.aggregate_numeric_modifiers(), key)
 
 
 ## A mapped force skill that inherits std/force.c's hit_ob() (skills.json

@@ -4,6 +4,8 @@ extends RefCounted
 enum Kind {
 	PARTICIPANT_SKIPPED,
 	ORDINARY_OPPORTUNITY_RESOLVED,
+	## npc.c chat() after an NPC's attack (CombatNpcChat): a line or a special.
+	NPC_CHAT,
 }
 
 enum SkipReason {
@@ -21,6 +23,7 @@ var _skip_reason: int
 var _actor_id: StringName
 var _target_id: StringName
 var _resolution: CombatSliceOpportunityResult
+var _chat: CombatNpcChatResult
 var _progression_order: int
 
 var progression_order: int:
@@ -43,6 +46,9 @@ var target_id: StringName:
 var resolution: CombatSliceOpportunityResult:
 	get:
 		return null if _resolution == null else _resolution.duplicate_snapshot()
+var chat: CombatNpcChatResult:
+	get:
+		return _chat
 
 
 func _init(
@@ -55,6 +61,7 @@ func _init(
 	p_target_id: StringName = &"",
 	p_resolution: CombatSliceOpportunityResult = null,
 	p_progression_order: int = 0,
+	p_chat: CombatNpcChatResult = null,
 ) -> void:
 	_progression_order = p_progression_order
 	_sequence = p_sequence
@@ -67,6 +74,7 @@ func _init(
 	_resolution = (
 		null if p_resolution == null else p_resolution.duplicate_snapshot()
 	)
+	_chat = p_chat
 
 
 func is_valid() -> bool:
@@ -76,9 +84,11 @@ func is_valid() -> bool:
 		or not is_finite(_logical_time_seconds)
 		or _logical_time_seconds <= 0.0
 		or _actor_id.is_empty()
-		or _kind not in [Kind.PARTICIPANT_SKIPPED, Kind.ORDINARY_OPPORTUNITY_RESOLVED]
+		or _kind not in [Kind.PARTICIPANT_SKIPPED, Kind.ORDINARY_OPPORTUNITY_RESOLVED, Kind.NPC_CHAT]
 	):
 		return false
+	if _kind == Kind.NPC_CHAT:
+		return _skip_reason == SkipReason.NONE and _resolution == null and _chat != null
 	if _kind == Kind.PARTICIPANT_SKIPPED:
 		return (
 			_resolution == null
@@ -102,4 +112,5 @@ func duplicate_snapshot() -> CombatSchedulerEvent:
 		_target_id,
 		_resolution,
 		_progression_order,
+		_chat,
 	)

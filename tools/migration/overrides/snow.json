@@ -80,6 +80,14 @@
 				"开药": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] }
 			}
 		},
+		"snow.npc.guard": {
+			"chat_msg_combat": [
+				"刘安禄说道：你当这里是什么地方，敢来这里撒野？\n",
+				"刘安禄说道：想我堂堂....呃....连我这个淳风武馆的小小的门房都可以收拾你！\n",
+				"刘安禄忽然挥出一刀，招数精奇，但是刀到中途忽然像是想起什么，急忙收招。\n",
+				"刘安禄说道：你快走吧，就算我输了你啦....\n"
+			]
+		},
 		"snow.npc.annihir": {
 			"accept_fight": [
 				{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }
@@ -151,8 +159,6 @@
 			"function accept_fight": "accept_fight rules (set snow.npc.scavenger)"
 		},
 		"d/snow/npc/guard.c": {
-			"set chat_chance_combat": "combat talk: later combat package",
-			"set chat_msg_combat": "combat talk: later combat package",
 			"inquiry 刘老三": "the 血手刘三 reveal: not listed until it is ported; then the asker's combat_exp gates it, not the NPC's own (owner, DECISIONS 4D)",
 			"inquiry 血手刘三": "the 血手刘三 reveal: not listed until it is ported; then the asker's combat_exp gates it, not the NPC's own (owner, DECISIONS 4D)",
 			"function ask_me": "the 血手刘三 reveal: later (DECISIONS 4D)"
@@ -171,9 +177,7 @@
 			"function valid_leave": "takes back the mailbox: player mail is a multiplayer feature, omitted"
 		},
 		"d/snow/npc/farmer.c": {
-			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package",
-			"set chat_chance_combat": "combat talk and its surrender: later combat package",
-			"set chat_msg_combat": "combat talk and its surrender: later combat package"
+			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package"
 		},
 		"d/snow/npc/crazy_dog.c": {
 			"set chat_msg_combat": "never fires: crazy_dog.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port"
@@ -235,15 +239,9 @@
 			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package",
 			"set atman_factor": "spells and magic are not modelled yet (ROADMAP)",
 			"set mana_factor": "spells and magic are not modelled yet (ROADMAP)",
-			"set chat_chance": "his only chat is exert powerfade: exert is not ported yet, so he says nothing",
-			"set chat_msg": "his only chat is exert powerfade: exert is not ported yet, so he says nothing",
-			"set chat_chance_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without them",
-			"set chat_msg_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without them",
 			"function accept_fight": "accept_fight rules (set snow.npc.annihir): the spar becomes his kill_ob; grin prints nothing"
 		},
 		"d/snow/npc/girl.c": {
-			"set chat_chance_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); she fights without sword.counterattack and says nothing",
-			"set chat_msg_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); she fights without sword.counterattack and says nothing",
 			"function accept_fight": "accept_fight rules (set snow.npc.girl): she refuses everyone"
 		},
 		"d/snow/obj/thin_sword.c": {
@@ -255,8 +253,6 @@
 			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
 		"daemon/class/swordsman/master.c": {
-			"set chat_chance_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without sword.counterattack",
-			"set chat_msg_combat": "combat talk with perform, cast and exert: their own later package (owner, offense/defense routes); he fights without sword.counterattack",
 			"function attempt_apprentice": "apprentice rules (set common.npc.swordsman.master); smile prints nothing",
 			"function recruit_apprentice": "class swordsman: apprentice.class (set common.npc.swordsman.master)"
 		},

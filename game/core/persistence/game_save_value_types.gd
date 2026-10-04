@@ -302,6 +302,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var affiliation: CharacterAffiliationState
 	## LPC marks/<name> (CharacterState.marks); empty for most characters.
 	var marks: Dictionary[String, int] = {}
+	## CharacterState.timed_applies (powerup): empty for most characters.
+	var timed_applies: Array[CharacterTimedApplies.Entry] = []
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -327,10 +329,16 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies)
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()
+		return self
+
+	func with_timed_applies(p_entries: Array[CharacterTimedApplies.Entry]) -> CharacterStateSnapshot:
+		timed_applies.clear()
+		for entry: CharacterTimedApplies.Entry in p_entries:
+			timed_applies.append(null if entry == null else entry.duplicate_entry())
 		return self
 
 	static func _condition_before(left: ConditionSnapshot, right: ConditionSnapshot) -> bool:

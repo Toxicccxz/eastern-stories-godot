@@ -101,8 +101,10 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 
 
 ## `inquiry` {topic: [lines] | {"eff_kee_percent": [{"at_least", "say"}]}}, `chat_chance`
-## with `chat_msg` [line | {"action": "random_move"} | {"action": "drink", ...}] and
-## `greeting` {"say"} or {"one_of": [{"say" | "emote"}]}.
+## with `chat_msg` [line | {"say", "color"} | {"action": "random_move"} | {"action": "drink",
+## ...} | a special], `chat_chance_combat` with `chat_msg_combat` [line | {"say", "color"} |
+## a special] (NpcSpecialAction: perform, cast, exert, surrender) and `greeting` {"say"} or
+## {"one_of": [{"say" | "emote"}]}.
 static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	var inquiry: Dictionary[String, PackedStringArray] = {}
 	var kee_answers: Dictionary[String, Array] = {}
@@ -120,23 +122,14 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 			by_kee.finish()
 			kee_answers[topic] = cases
 		topics.finish()
-	var entries: Array = []
-	for entry: Variant in reader.strings_or_children("chat_msg"):
-		if entry is String:
-			entries.append(entry)
-			continue
-		var action: ContentRecordReader = entry
-		match action.required_text("action"):
-			"random_move":
-				entries.append(NpcTalk.RANDOM_MOVE)
-			"drink":
-				entries.append(NpcDrinkAction.from_record(action))
-			var other:
-				action.fail("action", "'%s' is not a chat action (random_move, drink)" % other)
-		action.finish()
+	var entries: Array = _chat_entries(reader, "chat_msg", false)
 	var chance: int = reader.integer("chat_chance")
 	if reader.has("chat_chance") != reader.has("chat_msg"):
 		reader.fail("chat_chance", "chat_chance and chat_msg come together")
+	var combat_entries: Array = _chat_entries(reader, "chat_msg_combat", true)
+	var combat_chance: int = reader.integer("chat_chance_combat")
+	if reader.has("chat_chance_combat") != reader.has("chat_msg_combat"):
+		reader.fail("chat_chance_combat", "chat_chance_combat and chat_msg_combat come together")
 	var greeting: Array[NpcLine] = []
 	var greet: ContentRecordReader = reader.child("greeting")
 	if greet != null:
@@ -150,7 +143,37 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 			if line != null:
 				greeting.append(line)
 		greet.finish()
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries)
+
+
+## npc.c chat() entries: lines, coloured lines and chat functions; random_move and
+## drink only outside a fight.
+static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bool) -> Array:
+	var entries: Array = []
+	for entry: Variant in reader.strings_or_children(key):
+		if entry is String:
+			entries.append(entry)
+			continue
+		var record: ContentRecordReader = entry
+		if record.has("say"):
+			var color := StringName(record.required_text("color"))
+			if not ColoredLine.COLORS.has(color):
+				record.fail("color", "expected one of %s" % ", ".join(ColoredLine.COLORS))
+			entries.append(ColoredLine.new(record.required_text("say"), color))
+			record.finish()
+			continue
+		var action: String = record.required_text("action")
+		if NpcSpecialAction.KINDS.has(action):
+			entries.append(NpcSpecialAction.from_record(record, action))
+		elif action == "random_move" and not in_fight:
+			entries.append(NpcTalk.RANDOM_MOVE)
+		elif action == "drink" and not in_fight:
+			entries.append(NpcDrinkAction.from_record(record))
+		else:
+			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
+				"perform, cast, exert, surrender" if in_fight else "random_move, drink, perform, cast, exert, surrender"])
+		record.finish()
+	return entries
 
 
 static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition:

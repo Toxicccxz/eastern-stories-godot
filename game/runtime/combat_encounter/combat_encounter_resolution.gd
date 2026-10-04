@@ -70,8 +70,11 @@ func inspect(bindings: Array[CombatSliceCharacterBinding], event: CombatSchedule
 	return _result == null
 
 ## damage.c last_damage_from: who hit the victim last in this opportunity (the
-## riposte comes after the forward blow), or empty when nobody did.
+## riposte comes after the forward blow) or NPC chat (a spell), or empty when
+## nobody did.
 static func last_hitter(event: CombatSchedulerEvent, victim_id: StringName) -> StringName:
+	if event != null and event.chat != null:
+		return event.actor_id if event.chat.damaged(victim_id) else &""
 	if event == null or event.resolution == null:
 		return &""
 	var opportunity: CombatSliceOpportunityResult = event.resolution

@@ -1,5 +1,23 @@
 # Migration Decisions
 
+## Combat talk and NPC specials (2026-10-04)
+
+Owner-approved plan, first of two PRs (the second is the player's perform); what each NPC
+does is in [SNOW_CONTENT](SNOW_CONTENT.md#combat-talk-and-specials).
+- **npc.c chat() in a fight** runs after an NPC's attack on a beat it is not busy, while it still
+  fights, with draws from the fight's random source; after the blow that ends the fight it says
+  nothing. A beat whose attack found nobody to fight chats outside a fight in ES2; the world
+  stands still during a fight, so it says nothing.
+- **Timed applies** (powerup's call_out): a fight's round is combat_round_ms of their time, world
+  time counts the rest for the NPCs of the active map (as heal_up and revive). Saved only while
+  one runs: older saves still load.
+- Outside a fight an NPC below zero gin, kee or sen falls on its next beat (std/char.c), so
+  powerfade's 100 sen can knock 安惜迩 out. Not ported: powerfade's faint in a fight (only his
+  peaceful chat uses it), the farmer's score loss on surrender (NPC score is not tracked).
+- **Owner decision 1 not confirmed yet, applied as recommended** (obvious slips fixed, as with
+  the reflection line): surrender.c's swapped $N/$n (the farmer begs, the player refuses) and
+  guard.c's 刘安录 (an override).
+
 ## How a fight opens (2026-10-04)
 
 - feature/attack.c kill_ob() tells its victim 看起来X想杀死你！ (HIR) every time: after

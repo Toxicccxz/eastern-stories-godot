@@ -1194,6 +1194,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 		return
 	if _npc_heartbeat == null:
 		_npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
+	_fall_below_zero()
 	for npc: NpcRuntimeState in _npc_heartbeat.advance(delta, npc_runtimes()):
 		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
 		if body != null:
@@ -1202,6 +1203,22 @@ func advance_npc_heartbeat(delta: float) -> void:
 		if _player_hears(npc):
 			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
 	_advance_ambience(delta)
+
+
+## std/char.c heart_beat(): an NPC whose gin, kee or sen went below zero outside a
+## fight (安惜迩's powerfade costs 100 sen) falls unconscious, or dies below zero
+## effective, on its next beat. In a fight the encounter does it.
+func _fall_below_zero() -> void:
+	for npc: NpcRuntimeState in npc_runtimes():
+		if not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting():
+			continue
+		if npc.character_state.life_threshold() == CharacterState.LifeThreshold.ACTIVE:
+			continue
+		var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
+		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
+		if required != null:
+			execute_encounter_lifecycle(binding, required, [binding])
 
 
 # --- Room reset ----------------------------------------------------------------------
@@ -1423,10 +1440,35 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 	if entry is String:
 		if _player_hears(npc):
 			_hud().append_log_lines([NpcTalk.line(entry)])
+	elif entry is ColoredLine:
+		if _player_hears(npc):
+			_hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
 	elif entry is NpcDrinkAction:
 		_drink(npc, entry)
+	elif entry is NpcSpecialAction:
+		_special(npc, entry)
+
+
+## npc.c's chat functions outside a fight (安惜迩's exert powerfade): with no enemy
+## a perform or a spell refuses; an exert runs. The player in the NPC's place sees
+## what it shows.
+func _special(npc: NpcRuntimeState, action: NpcSpecialAction) -> void:
+	var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
+	if binding == null:
+		return
+	var context := SpecialContext.new(
+		CombatNpcChat.side_of(binding, npc), [], _ambience.random().legacy_random, GameContent.catalog(), null,
+	)
+	if not NpcSpecials.run(action, context) or not _player_hears(npc):
+		return
+	var lines: Array[ColoredLine] = []
+	for line: VisionLine in context.lines:
+		# Out of a fight only exert lines show: $N is the NPC.
+		lines.append(ColoredLine.new(tr(line.template).strip_edges().replace("$N", tr(npc.definition().display_name)), line.color))
+	_hud().append_colored_lines(lines)
 
 
 ## drunk.c do_drink(): it drinks, drops the emptied container where it stands,

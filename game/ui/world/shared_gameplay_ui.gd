@@ -44,6 +44,8 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIY: Color(1.0, 0.9, 0.35),
 	ColoredLine.HIC: Color(0.45, 0.92, 1.0),
 	ColoredLine.HIW: Color(1.0, 1.0, 1.0),
+	ColoredLine.HIM: Color(1.0, 0.5, 1.0),
+	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
 }
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay

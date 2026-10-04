@@ -15,9 +15,12 @@ func _init(rng: RandomNumberGenerator = null) -> void:
 	_rng = rng
 
 
-## The lines one resolved combat opportunity printed, in do_attack() order.
+## The lines one resolved combat opportunity printed, in do_attack() order, or what
+## an NPC's chat() said or did.
 func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
+	if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null:
+		return seen(event.chat.lines(), cast)
 	if event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED or event.resolution == null:
 		return lines
 	var result: CombatSliceOpportunityResult = event.resolution
@@ -108,6 +111,29 @@ func _attack(
 	if relationship != null and relationship.has_winner_presentation_index:
 		lines.append(BattleNarrationLine.new(vision(
 			tr(Es2CombatMessages.WINNER[relationship.winner_presentation_index]), me, victim, cast)))
+
+
+## message_vision() lines (VisionLine) as the player sees them: a line said or a
+## special's, in its colour; report_status() worded by combatd.c status_msg().
+static func seen(vision_lines: Array[VisionLine], cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	for line: VisionLine in vision_lines:
+		if line.is_status():
+			lines.append(BattleNarrationLine.new(vision(tr_status(line.status_ratio), line.actor_id, &"", cast)))
+			continue
+		var text: String = _t(line.template).strip_edges()
+		if not line.slots.is_empty():
+			var slots: Dictionary = {}
+			for key: String in line.slots:
+				slots[key] = _t(line.slots[key])
+			text = text.format(slots)
+		lines.append(BattleNarrationLine.new(vision(text, line.actor_id, line.target_id, cast), -1, line.color))
+	return lines
+
+
+## combatd.c report_status(): ( $N<status> ), the template _attack() tells a blow's with.
+static func tr_status(ratio: int) -> String:
+	return _t("( $N{status} )").format({"status": _t(Es2CombatMessages.status_message(ratio))})
 
 
 func _pick(messages: Array[String]) -> String:

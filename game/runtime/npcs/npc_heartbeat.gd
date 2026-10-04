@@ -6,11 +6,13 @@ extends RefCounted
 ## for the player, DECISIONS S5B) and feature/damage.c revive() once an unconscious
 ## NPC's call_out comes due. Fighting, busy or conditioned NPCs heal as the player
 ## does (S5B C-E; busy wears down on the beat, continue_action()); an unconscious
-## NPC heals too (char.c keeps calling heal_up()).
-## Cadences are not saved; the revive countdown is.
+## NPC heals too (char.c keeps calling heal_up()). Timed applies (powerup) count
+## down on world time, as call_out() does.
+## Cadences are not saved; the revive countdown and timed applies are.
 var _random: RecoveryCadenceRandomSource
 var _cadences: Dictionary[StringName, PlayerRecoveryCadence] = {}
 var _revive_remainder_ms: Dictionary[StringName, float] = {}
+var _timed_remainder_ms: Dictionary[StringName, float] = {}
 
 
 func _init(random: RecoveryCadenceRandomSource) -> void:
@@ -27,6 +29,7 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 			continue
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
+		_wear_timed_applies(npc, delta)
 		if not npc.relationship.is_fighting() and npc.character_state.conditions.size() == 0:
 			var cadence: PlayerRecoveryCadence = _cadences.get(npc.character_id)
 			if cadence == null:
@@ -44,6 +47,18 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 func forget(character_id: StringName) -> void:
 	_cadences.erase(character_id)
 	_revive_remainder_ms.erase(character_id)
+	_timed_remainder_ms.erase(character_id)
+
+
+func _wear_timed_applies(npc: NpcRuntimeState, delta: float) -> void:
+	var timed: CharacterTimedApplies = npc.character_state.timed_applies
+	if timed.is_empty():
+		_timed_remainder_ms.erase(npc.character_id)
+		return
+	var elapsed: float = _timed_remainder_ms.get(npc.character_id, 0.0) + delta * 1000.0
+	var whole: int = int(elapsed)
+	_timed_remainder_ms[npc.character_id] = elapsed - whole
+	timed.advance(whole)
 
 
 func _count_down(npc: NpcRuntimeState, delta: float) -> bool:

@@ -2,6 +2,13 @@ class_name CombatEncounterScheduler
 extends RefCounted
 
 const TIME_EPSILON_SECONDS: float = 0.000000001
+## What an NPC's heart beat did before npc.c chat() runs in it: attack() (std/char.c).
+## A busy beat (continue_action()) or a falling one says nothing.
+const CHAT_AFTER: Array[int] = [
+	CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_COMPLETE,
+	CombatSliceOpportunityResult.Outcome.ENTERED_GUARDING,
+	CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION,
+]
 
 var _encounter: CombatEncounter
 var _config: CombatSchedulerConfig
@@ -12,6 +19,7 @@ var _events: Array[CombatSchedulerEvent] = []
 var _progression_order := CombatProgressionOrder.new()
 var _tactical: CombatTacticalRuntime
 var _target_events: Array[CombatOrderedTargetEvent] = []
+var _npc_chat: CombatNpcChat
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -52,6 +60,14 @@ func configure_player_tactics(player_id: StringName, registry: CombatTacticalAct
 
 func player_tactics() -> CombatTacticalRuntime:
 	return _tactical
+
+
+## NPCs' npc.c chat() in the fight, configured once before the first advance.
+func configure_npc_chat(chat: CombatNpcChat) -> bool:
+	if _npc_chat != null or _accumulated_input_seconds != 0.0 or chat == null:
+		return false
+	_npc_chat = chat
+	return true
 
 
 func target_events_after(order: int) -> Array[CombatOrderedTargetEvent]:
@@ -171,6 +187,7 @@ func advance(
 	for _cycle_index: int in range(due_cycles):
 		_logical_cycle += 1
 		processed_cycles += 1
+		_wear_timed_applies(bindings)
 		for participant: CombatParticipant in _encounter.participants():
 			var event: CombatSchedulerEvent = _process_participant(
 				participant,
@@ -183,6 +200,16 @@ func advance(
 				emitted.append(event)
 				_next_event_sequence += 1
 			if boundary != null and not boundary.inspect(bindings, event):
+				return CombatSchedulerAdvanceResult.new(
+					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
+				)
+			var chat: CombatSchedulerEvent = _chat_after(event, bindings, random_source, effect_registry)
+			if chat == null:
+				continue
+			_events.append(chat)
+			emitted.append(chat)
+			_next_event_sequence += 1
+			if boundary != null and not boundary.inspect(bindings, chat):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
@@ -256,6 +283,55 @@ func _process_participant(
 			effect_registry,
 			target_id,
 		),
+	)
+
+
+## call_out() runs on the driver's clock: a round of the fight is combat_round_ms of
+## it for every timed apply (CharacterTimedApplies). An ended one's remove_effect()
+## tells only its user; no player has one yet.
+func _wear_timed_applies(bindings: Array[CombatSliceCharacterBinding]) -> void:
+	var round_ms: int = roundi(_config.opportunity_interval_seconds * 1000.0)
+	for binding: CombatSliceCharacterBinding in bindings:
+		binding.state.timed_applies.advance(round_ms)
+
+
+## npc.c chat() after the attack of an NPC that is still fighting (CombatNpcChat),
+## against its enemies as they are now: those it may still target, in its order.
+func _chat_after(
+	event: CombatSchedulerEvent,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+) -> CombatSchedulerEvent:
+	if _npc_chat == null or event == null or event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED:
+		return null
+	if event.resolution == null or event.resolution.outcome not in CHAT_AFTER:
+		return null
+	var actor: CombatSliceCharacterBinding = _find_binding(bindings, event.actor_id)
+	if actor == null or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting():
+		return null
+	var enemies: Array[CombatSliceCharacterBinding] = []
+	for target_id: StringName in actor.relationship.opponent_ids():
+		if _target_is_currently_eligible(actor, target_id, bindings):
+			enemies.append(_find_binding(bindings, target_id))
+	var others: Array[CombatSliceCharacterBinding] = []
+	for binding: CombatSliceCharacterBinding in bindings:
+		if binding != actor:
+			others.append(binding)
+	var result: CombatNpcChatResult = _npc_chat.beat(actor, enemies, others, random_source, effect_registry)
+	if result == null:
+		return null
+	return CombatSchedulerEvent.new(
+		_next_event_sequence,
+		_logical_cycle,
+		logical_time_seconds,
+		CombatSchedulerEvent.Kind.NPC_CHAT,
+		CombatSchedulerEvent.SkipReason.NONE,
+		actor.character_id,
+		&"",
+		null,
+		_progression_order.take(),
+		result,
 	)
 
 

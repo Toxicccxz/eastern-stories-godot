@@ -24,8 +24,8 @@ func available() -> bool:
 	return _session != null and _session.portable_inventory_available()
 
 
-## query_temp("apply/<key>"): the worn armor's armor_prop and the wielded weapon's
-## weapon_prop (equip.c), as combat counts them.
+## query_temp("apply/<key>"): the worn armor's armor_prop, the wielded weapon's
+## weapon_prop (equip.c) and timed applies (powerup), as combat counts them.
 func apply_modifier(key: StringName) -> int:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	return apply_of(player.state, player.armor, key)
@@ -38,7 +38,7 @@ static func apply_of(state: CharacterState, armor: ArmorState, key: StringName) 
 		var content: ItemContentDefinition = GameContent.catalog().item(primary.weapon_id)
 		if content != null:
 			value += content.weapon_apply.get(key, 0)
-	return value
+	return value + state.timed_applies.value(key)
 
 
 ## query_skill(skill): half the raw level, the mapped skill's level and apply/<skill>.

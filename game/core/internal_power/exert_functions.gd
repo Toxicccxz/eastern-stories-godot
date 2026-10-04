@@ -3,15 +3,17 @@ extends RefCounted
 
 ## The exert function files the game has, by the name exert.c is given. A force
 ## skill's exert_function_file() reaches those skills.json lists under `exert`.
-## Labels follow doc/help/force (regenerate 恢复自己的精 …).
+## Labels follow doc/help/force (regenerate 恢复自己的精 …) and doc/skill/celestial.
 
-const ORDER: Array[StringName] = [&"heal", &"recover", &"refresh", &"regenerate"]
-# TRANSLATORS: doc/help/force: what an exert function does, as a button (运功 X).
+const ORDER: Array[StringName] = [&"heal", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade"]
+# TRANSLATORS: doc/help/force, doc/skill/celestial: what an exert function does, as a button (运功 X).
 const LABELS: Dictionary[StringName, String] = {
 	&"heal": "疗伤",
 	&"recover": "恢复气",
 	&"refresh": "恢复神",
 	&"regenerate": "恢复精",
+	&"powerup": "提升战斗力",
+	&"powerfade": "压制杀气",
 }
 
 static var _functions: Dictionary[StringName, ExertFunction] = {}
@@ -27,6 +29,8 @@ static func find(function_id: StringName) -> ExertFunction:
 				"你的神已经恢复到上限了。", "$N微一凝神，缓缓地吸了口气，看起来有精神多了。"),
 			RestoreExertFunction.new(&"regenerate", RestoreExertFunction.Track.GIN,
 				"你的精力已经恢复到上限了。", "$N深深地吸了口气，手脚活动了几下，看起来有活力多了。"),
+			PowerupExertFunction.new(),
+			PowerfadeExertFunction.new(),
 		]
 		for function: ExertFunction in all:
 			_functions[function.id] = function

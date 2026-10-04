@@ -48,8 +48,27 @@ the code does not, and what each NPC cost. The data format and the importer are 
 | 店小二 | init()/greeting(), one of three | greets one second after the player comes in (4E) |
 | 杨掌柜 | inquiry 治伤, 疗伤, 开药 (heal_me) | by the asker's eff_kee (4E) |
 | 王铁匠 | inquiry name, here, 锄头, 铲子, 铁锤 | (4E) |
-| 安惜迩 | chat 15: exert powerfade | nothing to say until internal power (4E) |
+| 安惜迩 | chat 15: exert powerfade | 收敛杀气 only with bellicosity left from a powerup |
 | 柳淳风 | inquiry 淳风武馆, 先人遗志, 刘安禄, name, here | (4E) |
+
+## Combat talk and specials
+
+| NPC | chat_chance_combat | chat_msg_combat |
+|---|---|---|
+| 刘安禄 | 15 | four lines (刘安录 in the third, fixed) |
+| 农夫 | 50 | two cries, surrender (refused by a killer) |
+| 柳绘心 | 25 | 「封」, two lines |
+| 柳淳风 | 60 | 「封」 |
+| 安惜迩 | 40 | four CYN lines, 「封」, drainerbolt, feeblebolt, powerup, recover (no file) |
+
+npc.c calls the skill daemon itself: no busy check, no practice from use, a refusal shows
+nothing. 「封」 (counterattack.c) holds the target query_skill("fonxansword") / 20 + 2 rounds
+(柳淳风 5, 安惜迩 4, 柳绘心 3) and no blow breaks it; the player's queued Flee and 运功 wait. The
+bolts follow their files (25 mana, 20 or 10 sen, one failure in max_mana / 50 that only the caster
+reads, report_status() after a hit). powerup gives apply/attack and apply/dodge + 50 for 150 s
+and 175 bellicosity; powerfade, from his peaceful chat, takes 150 back for 100 force and 100 sen.
+A killer refuses the farmer's surrender (always, as he only fights the player who attacks him);
+otherwise he stops fighting (remove_all_enemy()) and says 我投降.
 
 ## Source anomalies
 
@@ -72,7 +91,12 @@ the code does not, and what each NPC cost. The data format and the importer are 
   room has that exit.
 - `teacher.c`'s `学费`/`刘安禄` inquiry calls `follow_player`, whose body is commented out.
 - `crazy_dog.c` sets `chat_msg_combat` but no `chat_chance_combat`, so its fight lines and its
-  fleeing `random_move` never fire (`npc.c` `chat()`).
+  fleeing `random_move` never fire (`npc.c` `chat()`); so do Old Pine's fat bandit's and its
+  `call_for_help`.
+- `guard.c`'s third combat line names 刘安录. `cmds/std/surrender.c` swaps `$N`/`$n` in the
+  killer's refusal. `daemon/class/fighter/celestial/*.c` are hard-wrapped at 80 columns (powerfade's
+  line breaks inside a string); 天邪神功 has no `recover.c` there (`d/skill/celestial/` holds an
+  unused copy). The bolts' second random term uses the caster's `eff_sen`.
 - `smith.c` is no `F_VENDOR`: `list` does not work on him, and he sells a hammer worth 3 for 300
   through his own `buy_object()`.
 - `npc/herbalist.c` `heal_me()` stops after the 95% case; below that the NPC gives the default

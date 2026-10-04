@@ -349,7 +349,7 @@ func _character_snapshot(
 			state.apprenticeship.betrayer_count,
 		),
 		state.affiliation,
-	).with_marks(state.marks)
+	).with_marks(state.marks).with_timed_applies(state.timed_applies.entries())
 
 
 func _character_failure() -> OldPineWorldCaptureResult:

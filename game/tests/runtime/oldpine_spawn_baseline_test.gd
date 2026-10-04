@@ -5,7 +5,8 @@ extends RefCounted
 ## positions, map by map in spawn order. Recorded before the map controller
 ## changed (B2) and re-recorded when Old Pine was split into one map per height
 ## (3B5: only IDs, positions and maps moved) and when Snow got its NPCs (4A, 4B, 4E, 柳绘心:
-## they draw after Old Pine, so only next_npc_draw moved; 4E added the empty marks); set UPDATE_OLDPINE_SPAWN_BASELINE=1
+## they draw after Old Pine, so only next_npc_draw moved; 4E added the empty marks, combat specials
+## the empty timed applies); set UPDATE_OLDPINE_SPAWN_BASELINE=1
 ## to rewrite it deliberately.
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 const BASELINE_PATH: String = "res://tests/fixtures/oldpine_spawn_baseline.json"
