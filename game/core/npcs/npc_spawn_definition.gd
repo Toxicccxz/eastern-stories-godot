@@ -6,6 +6,9 @@ const DEFAULT_PRESENCE_RADIUS: int = 120
 enum InitialSpawnPolicy {
 	INVALID,
 	INITIAL_ONLY,
+	## Made with the world but absent until a room rule calls them in (keep2.c
+	## valid_leave() new()s its guards); a room reset does not remake them.
+	SUMMONED,
 }
 
 var _spawn_id: StringName
@@ -47,6 +50,9 @@ var initial_spawn_policy: int:
 var presence_radius: int:
 	get:
 		return _presence_radius
+var summoned: bool:
+	get:
+		return _initial_spawn_policy == InitialSpawnPolicy.SUMMONED
 
 
 func _init(
@@ -88,7 +94,7 @@ func is_valid() -> bool:
 		or _quantity != _legacy_quantity
 		or _spawn_point_ids.size() != _quantity
 		or _legacy_source_room_path.is_empty()
-		or _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY
+		or _initial_spawn_policy not in [InitialSpawnPolicy.INITIAL_ONLY, InitialSpawnPolicy.SUMMONED]
 	):
 		return false
 	var seen: Dictionary[StringName, bool] = {}

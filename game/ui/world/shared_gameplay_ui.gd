@@ -77,6 +77,7 @@ func _ready() -> void:
 	inventory_panel.give_requested.connect(_give_item)
 	inventory_panel.drop_requested.connect(_drop_item)
 	inventory_panel.put_requested.connect(_put_item)
+	inventory_panel.play_requested.connect(_play_item)
 	_presentation_layout.character.arts.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
@@ -736,6 +737,11 @@ func _drop_item(id: StringName, amount: int) -> void:
 func _put_item(id: StringName, amount: int) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.put_in_container(id, amount)
+
+
+func _play_item(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.play_item(id)
 
 
 func _wield_item(id: StringName) -> void:

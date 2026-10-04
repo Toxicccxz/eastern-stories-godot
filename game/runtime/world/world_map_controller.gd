@@ -177,6 +177,7 @@ func _bind_doors() -> bool:
 		if door.wall_shape() == null or not expected.erase(door.door_id):
 			return false
 		_doors[door.door_id] = door
+		door.set_open(GameContent.catalog().door(door.door_id).starts_open)
 	return expected.is_empty()
 
 
@@ -373,6 +374,8 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 		return true
 	if not GameContent.catalog().zones_adjacent(current.zone_id, zone.zone_id):
 		return false
+	if session != null:
+		session.player_leaving_zone(current.zone_id, zone.zone_id)
 	return _player.set_world_location(location_for_zone(zone.zone_id))
 
 
@@ -513,6 +516,9 @@ func _spawn_actors() -> bool:
 			var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
 			if marker == null or not _add_npc_body(npc, marker.global_position):
 				return false
+			if spawn.summoned:
+				npc.set_exists_in_map(false)
+				_npc_bodies[npc.character_id].refresh_runtime_state()
 	return _spawn_floor_items()
 
 
@@ -653,6 +659,82 @@ func _at_feet(location: WorldLocationState, origin: Vector2) -> Vector2:
 				return spot.round()
 	push_warning("no free spot near %s in %s to drop on" % [origin, location.zone_id])
 	return origin
+
+
+## bamboo_pipe.c do_play(): the player plays a carried item; the room's trap
+## listening for its sound hears it (environment()->pipe_notify()).
+func play_item(item_id: StringName) -> bool:
+	if _player == null or not can_act(false):
+		return false
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	var carried: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	if content == null or content.play.is_empty() or not _inventory.is_descendant_of(item_id, carried):
+		return false
+	# TRANSLATORS: bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
+	_hud().append_log_lines([tr("你拿起一根%s呜嘟嘟地吹了起来。") % tr(content.display_name)])
+	if session != null:
+		session.room_traps().hear(content.play, _player.world_location().zone_id)
+	return true
+
+
+## The item of `item_definition_id` lying in `zone_id` (present(id, room)), or empty.
+func floor_item_of(item_definition_id: StringName, zone_id: StringName) -> StringName:
+	var location: WorldLocationState = location_for_zone(zone_id)
+	if location == null:
+		return &""
+	for item_id: StringName in _floor_items:
+		var item: ItemInstance = _item_index.resolve(item_id)
+		if item != null and item.item_definition_id == item_definition_id and _inventory.is_direct_child(item_id, _floor_endpoint(location)):
+			return item_id
+	return &""
+
+
+## destruct() of something on the floor (cave5.c moves the buried skeleton to
+## /obj/void); a spawn's item comes back with its room's reset.
+func destroy_floor_item(item_id: StringName) -> bool:
+	if not _floor_items.has(item_id):
+		return false
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF)
+	if not (
+		removal.succeeded
+		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
+		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
+		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
+	):
+		return false
+	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM and _selected_target.target_id == item_id:
+		_selected_target = null
+		_hud().set_selected_target(null)
+	_forget_floor_item(item_id)
+	return true
+
+
+## new(item)->move(room): a new item lying at the player's feet in their zone
+## (cave5.c's book falling from the roof); kept in the save as a dropped one.
+func place_new_floor_item(item_definition_id: StringName) -> StringName:
+	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
+	var location: WorldLocationState = null if _player == null else _player.world_location()
+	if content == null or location == null or location.map_id != map:
+		return &""
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
+	if not allocation.succeeded:
+		return &""
+	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
+	if (
+		not _inventory.register_item(item, content.own_weight)
+		or not _item_index.register_snapshot(item)
+		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
+	):
+		return &""
+	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
+		_inventory,
+		item.item_instance_id,
+		InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
+	)
+	if not placed.succeeded or not _add_dropped_item_view(item.item_instance_id, location, _at_feet(location, player_body.global_position)):
+		return &""
+	return item.item_instance_id
 
 
 ## Items dropped on this map's floor (not on a spawn marker), for the save.
@@ -981,9 +1063,32 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 		var npc: NpcRuntimeState = find_resident_npc(decision.npc_id)
 		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
 			continue
+		if not npc.definition().has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+			_go_berserk(npc)
+			continue
 		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
 		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, []))
 	return _last_aggression_initiations.duplicate()
+
+
+## attack.c init()'s berserk case and combatd.c start_berserk() (NpcBerserk).
+func _go_berserk(npc: NpcRuntimeState) -> void:
+	var outcome: NpcBerserk.Outcome = NpcBerserk.roll(npc.character_state, npc.definition().score, _world_interaction_random)
+	if outcome == NpcBerserk.Outcome.NONE:
+		return
+	var name: String = tr(npc.definition().display_name)
+	var lines: Array[String] = [tr("%s用一种异样的眼神扫视著在场的每一个人。") % name]
+	if outcome == NpcBerserk.Outcome.STARE:
+		_hud().append_log_lines(lines)
+		return
+	# TRANSLATORS: combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
+	lines.append(tr("{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。").format({
+		"npc": name, "self": tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &"")),
+	}))
+	var started: CombatSliceInitiationResult = _initiate_lethal_combat(npc.character_id, _player.character_id, lines)
+	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+		_hud().append_log_lines(lines)
+	_last_aggression_initiations.append(started)
 
 
 ## Owner decision P2A-M: every eligible aggressive enemy in current physical
@@ -1009,7 +1114,10 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		if not contact:
 			_complete_set_consumed_contacts.erase(npc.character_id)
 		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed(npc))
-		var aggressive: bool = contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
+		var aggressive: bool = (
+			contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
+			and npc.definition().has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE)
+		)
 		if aggressive or (manual and npc.character_id == requested_target):
 			if ids.has(npc.character_id):
 				return []
@@ -1232,7 +1340,7 @@ func reset_room(legacy_room: String) -> void:
 		return
 	var catalog: ContentCatalog = GameContent.catalog()
 	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
-		if spawn.legacy_source_room_path != legacy_room:
+		if spawn.legacy_source_room_path != legacy_room or spawn.summoned:
 			continue
 		for point_id: StringName in spawn.spawn_point_ids():
 			var npc: NpcRuntimeState = _npc_at_point(point_id)
@@ -1249,6 +1357,35 @@ func reset_room(legacy_room: String) -> void:
 			if not _inventory.is_registered(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)):
 				if not _place_floor_item(spawn, point_id):
 					push_error("room reset could not lay %s on %s" % [spawn.item_definition_id, point_id])
+
+
+## A summoned spawn's NPCs come in on their markers (keep2.c valid_leave()'s
+## new(...)->move(this_object())): an absent one appears, a dead one is made anew
+## as a room reset would; one already here stays. Returns those that came.
+func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
+	var came: Array[NpcRuntimeState] = []
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
+	if not _initialized or spawn == null or not spawn.summoned or spawn.map_id != map:
+		return came
+	for point_id: StringName in spawn.spawn_point_ids():
+		var npc: NpcRuntimeState = _npc_at_point(point_id)
+		if npc == null:
+			continue
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			if _respawn_npc(spawn, npc):
+				came.append(_npc_at_point(point_id))
+		elif not npc.exists_in_map:
+			var marker: WorldSpawnMarker2D = resolve_spawn_marker(point_id)
+			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+			if marker == null or body == null:
+				continue
+			body.global_position = marker.global_position
+			npc.set_world_location(location_for_zone(spawn.zone_id))
+			npc.set_exists_in_map(true)
+			body.refresh_runtime_state()
+			_npc_arrived(npc)
+			came.append(npc)
+	return came
 
 
 func _npc_at_point(point_id: StringName) -> NpcRuntimeState:
@@ -2278,6 +2415,7 @@ func can_operate_door(door_id: StringName) -> bool:
 	var definition: DoorDefinition = GameContent.catalog().door(door_id)
 	return (
 		node != null
+		and definition.operable
 		and (definition.closable or not node.is_open())
 		and can_act(true)
 		and player_near(definition.zone_ids(), node.wall_shape().global_position, definition.reach)
@@ -2288,6 +2426,15 @@ func open_door(door_id: StringName) -> bool:
 	if not can_operate_door(door_id) or _doors[door_id].is_open():
 		return false
 	_doors[door_id].set_open(true)
+	return true
+
+
+## A room rule's door (DoorDefinition.operable false): no reach, no player.
+func set_door_open(door_id: StringName, open: bool) -> bool:
+	var node: WorldDoor = _doors.get(door_id)
+	if node == null:
+		return false
+	node.set_open(open)
 	return true
 
 

@@ -56,6 +56,7 @@ var _liquid_initial_content: LiquidState.Content
 var _liquid_initial_remaining: int
 var _liquid_initial_name: String
 var _study: StudyMaterial
+var _play: StringName = &""
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
@@ -109,6 +110,10 @@ var liquid_initial_name: String:
 ## set("skill", ...): what study.c teaches from the item; null for most items.
 var study: StudyMaterial:
 	get: return _study
+## An item one can play or blow (bamboo_pipe.c do_play()): what its room hears
+## (`pipe` for environment()->pipe_notify()); empty for most items.
+var play: StringName:
+	get: return _play
 var category: StringName:
 	get:
 		if _currency_definition != null:
@@ -139,6 +144,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 		reader.fail("value", "must not be negative")
 	definition._no_get = reader.boolean("no_get", false)
 	definition._female_only = reader.boolean("female_only", false)
+	definition._play = StringName(reader.text("play"))
 	definition._max_encumbrance = reader.integer("max_encumbrance")
 	if definition._max_encumbrance < 0:
 		reader.fail("max_encumbrance", "must not be negative")

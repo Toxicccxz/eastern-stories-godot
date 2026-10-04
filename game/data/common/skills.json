@@ -107,7 +107,7 @@
 		{
 			"id": "necromancy", "name": "茅山道术", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
 			"legacy_source": "daemon/skill/necromancy.c",
-			"cast": ["drainerbolt", "feeblebolt"]
+			"cast": ["drainerbolt", "feeblebolt", "netherbolt"]
 		},
 		{
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",

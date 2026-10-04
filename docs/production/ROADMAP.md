@@ -23,7 +23,7 @@ Re-estimate the schedule after each region.
 | # | Region (source) | Way in | Rooms | NPC types | Families | Martial arts | Quest targets | Build first |
 |---|---|---|---|---|---|---|---|---|
 | 0 | 雪亭镇 (`d/snow`) | start | 37/38 | 20/27 | 1/1 封山剑派 | 6/9 | 0/15 | Leftovers only: 乞丐, the blade 旅客, five NPCs no room places; 柳淳风's spider-array, 安惜迩's celestrike and six-chaos-sword. |
-| 1 | 老松岭 (`d/oldpine`) | 山路 (Snow) south | 31/41 | 4/13 | — | 1/1 | 0/5 | Conditions (金银花蛇's 蛇毒; 蛇药 cures it), the keep and caves, 肥土匪 calling 土匪老大 in, NPC `apply/defense`. |
+| 1 | 老松岭 (`d/oldpine`) | 山路 (Snow) south | 41/41 | 10/13 | — | 1/1 | 0/5 | Remainder A done (keep and gate trap, caves, berserk, bury). B: conditions (金银花蛇's 蛇毒; 蛇药 cures it), combined items (蛇药, 黑衣人's 飞刀 and 化尸粉). 土匪老大 never comes in ES2 (fat_bandit.c's call never fires). |
 | 2 | 野羊山 (`d/goathill`) | 山坳 north | 0/16 | 0/8 | — | 0/1 | 0/5 | Nothing new expected (bandits and leeches): a speed check. |
 | 3 | 卧龙岗 + 绮云镇 (`u/cloud/dragonhill`, `u/cloud`) | Snow street south | 0/43 | 0/32 | 0/1 振远镖局 | 0/9 | 0/19 | Quest system (朱鸿雪 hands out `quest/qlist*` by combat_exp), 赌场 betting, 红娘庄 marriage, eleven vendors, the 江北渡口 ferry (crosses once #8 exists). |
 | 4 | 水烟阁 (`d/waterfog`) | 青石官道 (Snow) west | 0/28 | 0/12 | 0/1 天邪派 | 2/7 | 0/1 | Joining by oath (swear), NPC exert, master-level specials (萧辟尘, 於兰天武, the elders); blade arts' second consumer, so family and teacher data are generalized here. |
@@ -36,7 +36,7 @@ Re-estimate the schedule after each region.
 | 11 | 玉螺湖村 (`d/village`) | 天驼关 south | 0/26 | 0/9 | — | 5/9 | 0/0 | Boats (paddle) and diving to the lake bottom. |
 | 12 | 京师 (`d/city`, `u/cp`) | 玉螺湖村 south | 0/55 | 0/27 | 振远镖局's head office | 5/18 | 0/0 | Doors in 16 rooms, seven shops, the second 振远镖局 master (陈天星). |
 | 13 | 鬼门关 (`d/death`) | dying | 0/12 | 0/3 | — | — | — | The ghost realm instead of today's direct revival at the Snow temple (owner decision when we get there). |
-| | **Total** | | **68/551** | **24/286** | **1/10** | **6/35** special, **6/25** basic | **0/87** | |
+| | **Total** | | **78/551** | **30/286** | **1/10** | **6/35** special, **6/25** basic | **0/87** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
 

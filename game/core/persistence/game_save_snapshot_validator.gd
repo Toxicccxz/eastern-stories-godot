@@ -111,7 +111,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			if loadout_ids.has(loadout_id): return _duplicate("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index])
 			loadout_ids[loadout_id] = true
 		if npc.revive_in_ms < 0 or (npc.revive_in_ms > 0 and npc.life_status != &"unconscious"): return _invalid("npc_spawn_states[%d].revive_in_ms" % index, "a revive is pending only while unconscious")
-		var npc_result: GameSaveResult = _validate_runtime_character(npc.character, npc.life_status, npc.exists_in_world, npc.world_location, npc.map_position, "npc_spawn_states[%d]" % index)
+		var npc_result: GameSaveResult = _validate_runtime_character(npc.character, npc.life_status, npc.exists_in_world, npc.world_location, npc.map_position, "npc_spawn_states[%d]" % index, true)
 		if not npc_result.succeeded(): return npc_result
 	var corpse_ids: Dictionary[StringName, bool] = {}
 	for index: int in range(snapshot.corpses.size()):
@@ -136,7 +136,8 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	return GameSaveResult.success(snapshot)
 
 
-static func _validate_runtime_character(character: Values.CharacterStateSnapshot, life_status: StringName, exists_in_world: bool, location: Values.WorldLocationSnapshot, position: Values.MapPositionSnapshot, path: String) -> GameSaveResult:
+## `may_be_absent`: an NPC may be alive and not in the world yet (a summoned spawn, keep2.c).
+static func _validate_runtime_character(character: Values.CharacterStateSnapshot, life_status: StringName, exists_in_world: bool, location: Values.WorldLocationSnapshot, position: Values.MapPositionSnapshot, path: String, may_be_absent: bool = false) -> GameSaveResult:
 	if character == null:
 		return _invalid(path + ".character", "character snapshot is null")
 	if character.affiliation == null or not character.affiliation.is_valid():
@@ -147,7 +148,7 @@ static func _validate_runtime_character(character: Values.CharacterStateSnapshot
 			return _invalid(path + ".character.resources." + pair[1], "invalid current/effective/maximum invariant")
 	if life_status not in [&"active", &"unconscious", &"dead"]:
 		return _invalid(path + ".life_status", "invalid life status")
-	if (life_status == &"dead") == exists_in_world:
+	if (life_status == &"dead" and exists_in_world) or (life_status != &"dead" and not exists_in_world and not may_be_absent):
 		return _invalid(
 			path + ".exists_in_world",
 			"committed life status contradicts world existence",

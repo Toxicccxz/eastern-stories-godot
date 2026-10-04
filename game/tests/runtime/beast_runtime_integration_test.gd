@@ -24,12 +24,12 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	await tree.process_frame
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
-	_eq(map.npc_runtimes().size(), 5, "normal bootstrap has five humans in the forest")
+	_eq(map.npc_runtimes().size(), 23, "normal bootstrap has 23 in the forest")
 	_eq(gorge.npc_runtimes().size(), 5, "normal bootstrap has five serpents in the gorge")
 	var bootstrap_npcs: int = map.npc_runtimes().size()
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z")
 	_eq(capture.outcome, OldPineWorldCaptureResult.Outcome.SUCCESS, "normal capture remains valid")
-	_eq(capture.snapshot.items.item_records.size(), 12, "normal bootstrap stays twelve items")
+	_eq(capture.snapshot.items.item_records.size(), 53, "normal bootstrap stays 53 items")
 	var qa: Publication = Publication.new()
 	session.add_child(qa)
 	_eq(qa.publish(session, wounded), true, "publish real source factory NPC")
@@ -46,7 +46,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	_eq(npc.loadout_items().size(), 0, "no fabricated loadout")
 	_eq(map.register_npc_body(npc, qa.body, qa.body.get_node("AggressionPresence"), CombatSliceContentProfile.new()), false, "duplicate registration rejected")
 	_eq(OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z").outcome != OldPineWorldCaptureResult.Outcome.SUCCESS, true, "QA extra slot cannot become normal Save")
-	_eq(_oldpine_spawns().size(), 4, "current authored spawn groups")
+	_eq(_oldpine_spawns().size(), 13, "current authored spawn groups")
 	# Removal/republication is precondition work, before the actual approach.
 	_eq(qa.remove_publication(), true, "controlled publication removable")
 	await tree.process_frame
@@ -105,7 +105,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 		print("BF4 deterministic proof: ", qa.evidence())
 		_eq(qa.proof_random.valid, true, "all scripted draws legal; no exhaustion")
 		_eq(qa.proof_random.draws.size(), 16, "exact predetermined draw count")
-		_eq(qa.proof_random.bounds, [60, 1, 16, 572000, 120, 18, 3, 3, 670500, 250001, 25, 200, 250000, 112, 120, 1799], "source-ordered courage/action/limb/dodge/progression then ordinary hit bounds")
+		_eq(qa.proof_random.bounds, [60, 1, 16, 572000, 120, 33, 3, 3, 670500, 250001, 25, 200, 250000, 112, 120, 1799], "source-ordered courage/action/limb/dodge/progression then ordinary hit bounds")
 		_eq(qa.proof_random.draws, [0, 0, 0, 0, 0, 0, 0, 0, 670499, 250000, 0, 0, 0, 91, 0, 1798], "fixed draws, not seeded retries")
 		var lethal: CombatAttackResult = scheduler.events()[1].resolution.forward_result.ordinary_attack_result.base_result
 		_eq(lethal.calculation.requested_damage, 112, "LPC (25+0)/2 + (200+0)/2")

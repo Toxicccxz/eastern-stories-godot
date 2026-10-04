@@ -34,6 +34,85 @@
 			"weight": 6000,
 			"value": 200,
 			"armor": { "type": "cloth", "props": { "armor": 5 } }
+		},
+		{
+			"id": "es2:d/oldpine/obj/robe",
+			"legacy_sources": ["d/oldpine/obj/robe.c", "d/oldpine/npc/obj/robe.c"],
+			"name": "太阴八卦袍",
+			"aliases": ["robe"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 3000,
+			"value": 10000,
+			"armor": { "type": "cloth", "props": { "armor": 2, "spells": 3 } }
+		},
+		{
+			"id": "es2:d/oldpine/npc/skeleton",
+			"legacy_sources": ["d/oldpine/npc/skeleton.c"],
+			"name": "一具已经腐朽的骸骨",
+			"aliases": ["skeleton"],
+			"long": "一具已经腐朽的骸骨静静地不知躺了多久。\n",
+			"unit": "具",
+			"no_get": true,
+			"weight": 3500
+		},
+		{
+			"id": "es2:d/oldpine/obj/blade",
+			"legacy_sources": ["d/oldpine/obj/blade.c", "d/oldpine/npc/obj/blade.c"],
+			"name": "单刀",
+			"aliases": ["blade"],
+			"long": "这是一寻常的单刀，份量大约六、七斤重。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 4000,
+			"value": 500,
+			"weapon": { "skill": "blade", "damage": 25 }
+		},
+		{
+			"id": "es2:d/oldpine/obj/glaive",
+			"legacy_sources": ["d/oldpine/obj/glaive.c", "d/oldpine/npc/obj/glaive.c"],
+			"name": "鬼头刀",
+			"aliases": ["glaive"],
+			"long": "这是一把沈重的鬼头刀，刀柄上雕著 一个丑陋可怖的鬼头正裂开了嘴大笑。\n",
+			"unit": "柄",
+			"material": "steel",
+			"weight": 20000,
+			"value": 1500,
+			"weapon": { "skill": "blade", "damage": 45 }
+		},
+		{
+			"id": "es2:d/oldpine/obj/fur_coat",
+			"legacy_sources": ["d/oldpine/obj/fur_coat.c", "d/oldpine/npc/obj/fur_coat.c"],
+			"name": "狼皮披风",
+			"aliases": ["wolfskin cloak", "cloak"],
+			"unit": "件",
+			"material": "fur",
+			"weight": 9000,
+			"value": 1200,
+			"armor": { "type": "surcoat", "props": { "armor": 8, "attack": 1 } }
+		},
+		{
+			"id": "es2:d/oldpine/obj/bamboo_pipe",
+			"legacy_sources": ["d/oldpine/obj/bamboo_pipe.c", "d/oldpine/npc/obj/bamboo_pipe.c"],
+			"name": "竹管",
+			"aliases": ["bamboo pipe", "pipe"],
+			"long": "一根约两寸多长的竹管，上面戳了三个小孔，也许可以用来吹奏？\n",
+			"unit": "根",
+			"material": "bamboo",
+			"weight": 100,
+			"play": "pipe"
+		},
+		{
+			"id": "es2:d/oldpine/npc/obj/parrybook",
+			"legacy_sources": ["d/oldpine/npc/obj/parrybook.c"],
+			"name": "过招要旨",
+			"aliases": ["parrybook", "pbook"],
+			"long": "这是一本介绍过招时如何拆招卸力的书籍。\n对练武人来说是本不可多得的珍宝。\n",
+			"unit": "把",
+			"material": "paper",
+			"study": { "skill": "parry", "exp_required": 15000, "sen_cost": 30, "difficulty": 25, "max_skill": 50 },
+			"weight": 800,
+			"value": 100
 		}
 	]
 }

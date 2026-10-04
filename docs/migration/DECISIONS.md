@@ -1,5 +1,31 @@
 # Migration Decisions
 
+## Old Pine remainder A: the keep, the caves and cliff2 (2026-10-04)
+
+The region plan's first package (owner confirmed the order); what is placed where is in
+[OLDPINE_CONTENT](OLDPINE_CONTENT.md).
+- **One map per height level, as in 3B5.** The stone over path3, the caves below it (cave1-5) and
+  cliff2 are maps of their own; path3 `climb up`, stone `climb down`, cliffdown `climb down` and
+  cliff2's `climb up`/`climb down` are landmarks that say the room's own line.
+- **The caves' random exits become one fixed maze** (as the pine maze): cave1-4 are one zone with
+  forks, loops and dead ends and one way on to cave5, whose `eastdown` leads to the waterfall.
+- **keep2.c's gate** is a door only its room rule operates (`traps[]`): it starts open; leaving
+  keep2 east while it is open shouts, shuts it and brings five 土匪喽罗 into keep2; 常老大's 竹管
+  played in keep2 (pipe_notify()) or keep2's reset opens it. ES2 adds five more guards every time
+  it shuts; the native trap brings back those of its five that are gone and leaves the living
+  ones. Like every door its state is not saved: a Continue finds it open, as a login would.
+  The summoned guards' absence is saved; only a summoned spawn's NPC may be alive and absent.
+- **The keep's three rooms enter fights as the Lake does** (`combat_entry: complete_set`, P2A-M):
+  every aggressive guard in contact joins one encounter, as each one's init() kill_ob()s the
+  player on arrival in ES2; a pair entry left guards standing beside the player after a fight.
+- **A beast's authored kee above its race's maximum raises the maximum** (wolf_dog.c: kee and
+  eff_kee 200 at age 4, max_kee 50). LPC keeps eff_kee over max_kee; a resource state cannot.
+  The dog fights with 200 kee as in ES2; it heals back to 200, not to 50.
+- **Berserk** (attack.c init(), combatd.c start_berserk()): an NPC that is not aggressive but has
+  bellicosity rolls on the player's arrival and, above its score, attacks to kill (疯老头子). Its
+  spar branch (fight_ob(), bellicosity not above score) is not ported; the loader refuses such an
+  NPC. Bellicosity also counts as courage in a fight (attribute.c query_cor()).
+
 ## The player's perform: 封山剑法's 封, 逐, 缺 (2026-10-04)
 
 Owner-approved plan ("四条都照建议做"), second PR of combat talk and specials:

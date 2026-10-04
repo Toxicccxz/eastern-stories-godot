@@ -39,9 +39,14 @@ class GeneratedDataTest(unittest.TestCase):
     def test_old_pine_keeps_its_hand_checked_records(self) -> None:
         npcs = {r['id']: r for r in json.loads(self.files['oldpine/npcs.json'])['npcs']}
         self.assertEqual(list(npcs), ['oldpine.npc.bandit', 'oldpine.npc.tall_bandit',
-                                      'oldpine.npc.fat_bandit', 'oldpine.npc.serpent'])
+                                      'oldpine.npc.fat_bandit', 'oldpine.npc.serpent', 'oldpine.npc.maniac',
+                                      'oldpine.npc.wolf_dog', 'oldpine.npc.butterfly', 'oldpine.npc.bandit_guard',
+                                      'oldpine.npc.bandit_leader', 'oldpine.npc.bandit_commander'])
         self.assertEqual(npcs['oldpine.npc.serpent']['race'], 'beast')
         self.assertEqual(npcs['oldpine.npc.fat_bandit']['carry'][1]['item'], 'es2:d/oldpine/obj/leather')
+        # set("bellicosity") is data; set_temp("apply/defense") joins the other applies.
+        self.assertEqual(npcs['oldpine.npc.maniac']['bellicosity'], 10000)
+        self.assertEqual(npcs['oldpine.npc.bandit_commander']['apply'], {'attack': 100, 'defense': 60})
 
     def test_vendor_goods_from_lpc_or_hand_read_buy_object(self) -> None:
         vendors = {r['id']: r for r in json.loads(self.files['snow/vendors.json'])['vendors']}

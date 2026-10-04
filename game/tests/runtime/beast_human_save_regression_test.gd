@@ -26,8 +26,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var snapshot: GameSaveSnapshot = capture.snapshot
 	var prepared: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
 	_eq(prepared.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "real production human ledger restores")
-	_eq(snapshot.npc_spawn_states.size(), 10, "ten production NPCs unchanged")
-	_eq(snapshot.items.item_records.size(), 12, "twelve bootstrap items unchanged")
+	_eq(snapshot.npc_spawn_states.size(), 34, "34 production NPCs")
+	_eq(snapshot.items.item_records.size(), 53, "53 bootstrap items")
 	for saved: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
 		_eq(TestContent.npc(saved.npc_definition_id) != null, true, "every production definition is authored")
 		var body: NpcBodyFacts = NpcBodyFacts.derive(TestContent.npc(saved.npc_definition_id), saved.character.attributes.strength)

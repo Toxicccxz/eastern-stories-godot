@@ -105,10 +105,21 @@ func _test_authored_zero_and_resource_presence() -> void:
 
 
 func _test_unrepresentable_tracks_rejected() -> void:
+	# wolf_dog.c: kee and eff_kee 200 over the age-4 max_kee 50. The maximum rises to
+	# them (DECISIONS, Old Pine remainder A); LPC would keep eff_kee above max_kee.
+	for track_index: int in range(3):
+		var wolf: Array[NpcResourceTrackOverride] = [null, null, null]
+		wolf[track_index] = NpcResourceTrackOverride.new(true, 200, true, 200)
+		var raised: NpcRuntimeState = _create(_definition(null,
+			NpcResourceOverrides.new(wolf[0], wolf[1], wolf[2]), true, 4),
+			ScriptedRandom.new([0, 0, 0, 0, 0, 0]), InventoryState.new())
+		_eq(raised != null, true, "authored track %d over the derived maximum raises it" % track_index)
+		if raised != null:
+			var tracks: Array[CharacterResourceState] = [raised.character_state.essence, raised.character_state.vitality, raised.character_state.spirit]
+			_track(tracks[track_index], [200, 200, 200], "track %d: 200/200/200" % track_index)
 	# chard.c leaves these unchanged; the closed resource type cannot. Reject,
-	# don't silently normalize them or open wolf migration in this slice.
+	# don't silently normalize them.
 	var invalid_tracks: Array[NpcResourceTrackOverride] = [
-		NpcResourceTrackOverride.new(true, 200, true, 200),
 		NpcResourceTrackOverride.new(false, 0, true, 20), # missing current -> max, NOT eff
 		NpcResourceTrackOverride.new(true, -2),
 		NpcResourceTrackOverride.new(true, -1, true, -2),

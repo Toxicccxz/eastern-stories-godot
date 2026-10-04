@@ -315,7 +315,7 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	_check(snapshot != null and snapshot.floor_items.size() == 3, "the save keeps the dropped coins, the drunk's wineskin and the 竹剑 below: %s" % [dropped.lines])
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
-	_check(raw.world_content_revision == "SOURCE_ENTRY_SNOW_ROUTES_V1" and raw.player.character.marks.keys() == ["魏无极"] and int(raw.player.character.marks["魏无极"]) == 1, "revision and marks/魏无极 in the save: " + str(raw.world_content_revision))
+	_check(raw.world_content_revision == "SOURCE_ENTRY_OLDPINE_KEEP_V1" and raw.player.character.marks.keys() == ["魏无极"] and int(raw.player.character.marks["魏无极"]) == 1, "revision and marks/魏无极 in the save: " + str(raw.world_content_revision))
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, snapshot, "4E")
 	_check(walker._failures.is_empty(), "Save/Continue keeps dropped items, the box's coins, the scavenger's cloth, marks: " + str(walker._failures))

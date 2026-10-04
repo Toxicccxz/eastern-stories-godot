@@ -37,6 +37,9 @@ static func resetting_rooms() -> Array[String]:
 	for landmark: WorldLandmarkDefinition in catalog.hidden_passages():
 		if not rooms.has(landmark.legacy_source_path):
 			rooms.append(landmark.legacy_source_path)
+	for trap: RoomTrapDefinition in catalog.traps():
+		if not rooms.has(trap.legacy_source_path):
+			rooms.append(trap.legacy_source_path)
 	return rooms
 
 

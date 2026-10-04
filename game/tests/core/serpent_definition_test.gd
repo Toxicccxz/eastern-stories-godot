@@ -121,15 +121,15 @@ func _test_definition_copy_boundaries() -> void:
 
 func _test_current_production_spawn_ledger() -> void:
 	var spawns: Array[NpcSpawnDefinition] = _oldpine_spawns()
-	_eq(spawns.size(), 4, "four current production spawn definitions")
+	_eq(spawns.size(), 13, "13 current production spawn definitions")
 	var npc_count: int = 0
 	var item_count: int = 0
 	for spawn: NpcSpawnDefinition in spawns:
 		_eq(TestContent.npc(spawn.npc_definition_id) != null, true, "authored production placement")
 		npc_count += spawn.quantity
 		item_count += TestContent.npc(spawn.npc_definition_id).loadout_entries().size() * spawn.quantity
-	_eq(npc_count, 10, "five humans plus five serpents")
-	_eq(item_count, 11, "existing 11 NPC item objects; player starting sword remains separate")
+	_eq(npc_count, 34, "Old Pine's 34 NPCs")
+	_eq(item_count, 51, "51 NPC item objects; player starting sword remains separate")
 	_eq(TestContent.spawns_match_world(), true, "production spawn validation unchanged")
 
 

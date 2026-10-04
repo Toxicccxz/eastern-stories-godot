@@ -4,13 +4,16 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Combat talk and specials, PR B** (`phase/player-perform`): the player's perform. With a
-sword in hand and 封山剑法 enabled, the battle panel offers 「封」字诀 (holds the target a few
-rounds), 「逐」字诀 (one to three extra blows for 10 eff_kee) and 「缺」字诀 (attack down and dodge
-up for a few rounds, then a strike both ways), queued like 运功; using one practises 封山剑法.
-PR A (NPCs' combat talk and specials) is merged.
+**Old Pine remainder A** (`phase/oldpine-remainder`), the first package of the
+[region plan](ROADMAP.md#region-plan): all 41 Old Pine rooms. The keep (keep1-3) east of the
+pine maze with its gate trap (leave keep2 east and the gate is blocked by a boulder, five more
+guards come; 常老大's 竹管 played in keep2 opens it), the secret passage (secrectpath1, path3) up the
+big stone and down into the caves (cave1-4 a fixed maze, cave5 where burying 南危水's bones may
+drop 过招要旨), cliff2 between the cliff edge and epath3; 土匪喽罗, 土匪首领, 常老大, 疯老头子 (goes
+berserk, casts three bolts), 狼狗 and six 蝴蝶.
 
-Next: combined items (`std/item/combined.c`).
+Next: Old Pine remainder B — 蛇毒 (conditions), combined items (蛇药, 飞刀, 化尸粉), 金银花蛇 and
+黑衣人.
 
 ## Playable now
 
@@ -35,10 +38,12 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   and wander next door while you are with them; the drunk drinks and begs for wine; the temple
   keeper and the waiter greet you; NPCs heal between fights and come to after being knocked
   out; no fighting in the temple or the workplace (`no_fight`).
-* **Old Pine (老松岭)**: forest (paths, clearing, bandit slope, bridge, pine maze, cliffside), the gorge
-  below the bridge (waterfall pool, river, Lake with five serpents) reached by the vine or the cave,
-  the pine top, the cliff niche between gorge and cliffside, minimal Passage Cave; five bandits
-  (31 of 41 rooms).
+* **Old Pine (老松岭)**: all 41 rooms. Forest (paths, clearing, bandit slope, bridge, pine maze,
+  cliffside), the keep (土匪喽罗, 土匪首领, 常老大 and the gate trap), the gorge below the bridge
+  (waterfall pool, river, Lake with five serpents) reached by the vine, the cave or cliff2, the pine
+  top with six butterflies, both cliff niches, the secret passage, the stone and the caves (bury the
+  bones for 过招要旨, or fall to the waterfall); 疯老头子 on the east path, 狼狗 in the pine maze.
+  金银花蛇 and 黑衣人 wait for remainder B.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
@@ -51,8 +56,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Rough coverage of ES2 content: about 7% (68/502 rooms, 24/240 NPC types, 10/70 player-obtainable
-skills, 1/13 families, 0 quests).
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 78/551 rooms, 30/286 NPC
+types, 1/10 joinable families, 6/35 special and 6/25 basic martial arts, 0/87 quest targets.
 
 ## Known issues
 

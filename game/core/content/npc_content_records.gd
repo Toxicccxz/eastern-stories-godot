@@ -73,6 +73,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var talk: NpcTalk = _talk(reader)
 	var dealings: NpcDealings = NpcDealings.from_record(reader)
 	var teaching: NpcTeaching = NpcTeaching.from_record(reader)
+	var bellicosity: int = reader.integer("bellicosity")
 	reader.finish()
 	var definition: NpcDefinition = NpcDefinition.new(
 		StringName(definition_id),
@@ -94,7 +95,13 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity)
+	if bellicosity < 0:
+		reader.fail("bellicosity", "must not be negative")
+	# combatd.c start_berserk() fights (fight_ob, a spar) when bellicosity is not above
+	# score; only its kill_ob() branch is ported.
+	if bellicosity > 0 and attitude != NpcDefinition.Attitude.AGGRESSIVE and bellicosity <= score:
+		reader.fail("bellicosity", "a berserk NPC whose bellicosity is not above its score would spar; not supported yet")
 	if not definition.is_valid():
 		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry, random values or talk)")
 	return definition
@@ -187,7 +194,7 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 		points.size(),
 		reader.required_text("legacy_room"),
 		reader.required_integer("legacy_quantity"),
-		NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY,
+		NpcSpawnDefinition.InitialSpawnPolicy.SUMMONED if reader.boolean("summoned", false) else NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY,
 		reader.integer("presence_radius", NpcSpawnDefinition.DEFAULT_PRESENCE_RADIUS),
 	)
 	reader.finish()

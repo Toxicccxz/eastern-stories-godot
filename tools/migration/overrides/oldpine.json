@@ -1,13 +1,19 @@
 {
 	"spawn_skip": {
-		"d/oldpine/epath3.c": { "d/oldpine/npc/maniac.c": "Old Pine remainder (ROADMAP)" },
-		"d/oldpine/pine7.c": { "d/oldpine/npc/wolf_dog.c": "Old Pine remainder (ROADMAP)" },
-		"d/oldpine/tree1.c": { "d/oldpine/npc/spy.c": "Old Pine remainder (ROADMAP)" },
-		"d/oldpine/tree2.c": { "d/oldpine/npc/butterfly.c": "Old Pine remainder (ROADMAP)" },
-		"d/oldpine/stone.c": { "d/oldpine/npc/venomsnake.c": "Old Pine remainder (ROADMAP)" }
+		"d/oldpine/tree1.c": {
+			"d/oldpine/npc/spy.c": "Old Pine remainder B (combined items: 飞刀, 化尸粉)"
+		},
+		"d/oldpine/stone.c": {
+			"d/oldpine/npc/venomsnake.c": "Old Pine remainder B (conditions: 蛇毒)"
+		}
 	},
 	"set": {
-		"oldpine.gorge.lake.serpents": { "presence_radius": 210 }
+		"oldpine.gorge.lake.serpents": {
+			"presence_radius": 210
+		},
+		"es2:d/oldpine/obj/bamboo_pipe": {
+			"play": "pipe"
+		}
 	},
 	"review": {
 		"d/oldpine/clearing.c": {
@@ -21,7 +27,9 @@
 			"function init": "hold vine: landmark in world.json (policy vine)",
 			"function do_hold_vine": "hold vine: landmark in world.json (policy vine)"
 		},
-		"d/oldpine/epath3.c": { "set item_desc": "look targets are not data yet" },
+		"d/oldpine/epath3.c": {
+			"set item_desc": "look targets are not data yet"
+		},
 		"d/oldpine/pine1.c": {
 			"function reset": "maze exits re-roll: zone links in world.json (DECISIONS)",
 			"function valid_leave": "maze confusion text; zone links in world.json (DECISIONS)"
@@ -56,7 +64,9 @@
 			"function init": "climb: landmark in world.json",
 			"function do_climb": "climb: landmark in world.json"
 		},
-		"d/oldpine/cliffside.c": { "set item_desc": "look targets are not data yet" },
+		"d/oldpine/cliffside.c": {
+			"set item_desc": "look targets are not data yet"
+		},
 		"d/oldpine/waterfall.c": {
 			"set item_desc": "look targets are not data yet",
 			"set resource/water": "water service in world.json"
@@ -71,12 +81,16 @@
 			"set item_desc": "look targets are not data yet",
 			"set resource/water": "water service in world.json"
 		},
-		"d/oldpine/lake.c": { "set resource/water": "water service in world.json" },
+		"d/oldpine/lake.c": {
+			"set resource/water": "water service in world.json"
+		},
 		"d/oldpine/cliff1.c": {
 			"function init": "climb: landmark in world.json",
 			"function do_climb": "climb: landmark in world.json"
 		},
-		"d/oldpine/passage.c": { "set item_desc": "look targets are not data yet" },
+		"d/oldpine/passage.c": {
+			"set item_desc": "look targets are not data yet"
+		},
 		"d/oldpine/path3.c": {
 			"set item_desc": "look targets are not data yet",
 			"function look_stone": "look targets are not data yet",
@@ -91,6 +105,57 @@
 			"set chat_chance": "no chat_msg: npc.c chat() never fires outside a fight; nothing to port",
 			"set chat_msg_combat": "never fires: fat_bandit.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port",
 			"function call_for_help": "only chat_msg_combat calls it, which never fires: nothing to port"
+		},
+		"d/oldpine/cave1.c": {
+			"function reset": "random cave exits: one fixed maze on the caves map, zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/cave2.c": {
+			"function reset": "random cave exits: one fixed maze on the caves map, zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/cave3.c": {
+			"function reset": "random cave exits: one fixed maze on the caves map, zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/cave4.c": {
+			"function reset": "random cave exits: one fixed maze on the caves map, zone links in world.json (DECISIONS)"
+		},
+		"d/oldpine/cave5.c": {
+			"set item_desc": "the wall is the bury landmark in world.json (its long is look_wall())",
+			"function init": "bury skeleton: landmark policy bury in world.json",
+			"function do_bury": "bury skeleton: landmark policy bury in world.json",
+			"function look_wall": "the bury landmark's long in world.json"
+		},
+		"d/oldpine/cliff2.c": {
+			"function init": "climb up/down: landmarks in world.json",
+			"function do_climb": "climb up/down: landmarks in world.json"
+		},
+		"d/oldpine/keep2.c": {
+			"function valid_leave": "the gate trap: traps[] in world.json",
+			"function reset": "the gate trap reopens the gate: traps[] in world.json",
+			"function pipe_notify": "the gate trap opens on the pipe: traps[] in world.json"
+		},
+		"d/oldpine/npc/maniac.c": {
+			"statement in create()": "an unused local (object ob): nothing to port"
+		},
+		"d/oldpine/npc/wolf_dog.c": {
+			"set chat_msg_combat": "never fires: wolf_dog.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port"
+		},
+		"d/oldpine/obj/bamboo_pipe.c": {
+			"function init": "play/blow pipe: the item's play field (set), heard by the room's trap",
+			"function do_play": "play/blow pipe: the item's play field (set), heard by the room's trap"
+		},
+		"d/oldpine/obj/blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/oldpine/obj/glaive.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/oldpine/npc/obj/parrybook.c": {
+			"set replica_ob": "only feature/unique.c reads it, and parrybook.c's F_UNIQUE is commented out: nothing to port"
 		}
-	}
+	},
+	"items": [
+		"d/oldpine/npc/obj/parrybook.c"
+	]
 }

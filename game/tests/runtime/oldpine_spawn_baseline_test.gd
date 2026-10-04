@@ -6,8 +6,10 @@ extends RefCounted
 ## changed (B2) and re-recorded when Old Pine was split into one map per height
 ## (3B5: only IDs, positions and maps moved) and when Snow got its NPCs (4A, 4B, 4E, 柳绘心:
 ## they draw after Old Pine, so only next_npc_draw moved; 4E added the empty marks, combat specials
-## the empty timed applies); set UPDATE_OLDPINE_SPAWN_BASELINE=1
-## to rewrite it deliberately.
+## the empty timed applies) and when Old Pine got its remainder (the keep's and the east path's
+## NPCs draw on the forest map before the gorge, so the five serpents' drawn attributes moved; the
+## forest's first five are unchanged); set UPDATE_OLDPINE_SPAWN_BASELINE=1 to rewrite it
+## deliberately.
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 const BASELINE_PATH: String = "res://tests/fixtures/oldpine_spawn_baseline.json"
 const MAX_DEPTH: int = 6

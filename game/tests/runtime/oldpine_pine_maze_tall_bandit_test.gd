@@ -145,7 +145,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	if controller == null:
 		return
 	var initial_npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(initial_npcs.size(), 5, "scene ready constructs all forest NPCs before Area signals")
+	_assert_eq(initial_npcs.size(), 23, "scene ready constructs all forest NPCs before Area signals")
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
@@ -167,8 +167,8 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_true(_all_blocking(controller, Rect2(-672, 640, 32, 208)), "dead-end east wall")
 	_assert_true(_none_blocking(controller, Rect2(-784, 640, 112, 208)), "dead-end pocket floor is open")
 	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-728, 660)), "forest_floor", "dead-end pocket is drawn as forest floor")
-	_assert_true(_all_blocking(controller, Rect2(864, 800, 48, 128)), "future Keep boundary is closed at the entrance's east edge")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(880, 864)), "blocked", "future Keep boundary is drawn as blocked")
+	_assert_true(_none_blocking(controller, Rect2(864, 816, 48, 96)), "the way east to the keep opens at the entrance's east edge (pine2 east → keep1)")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(880, 864)), "forest_floor", "the way to the keep is drawn as forest floor")
 	_assert_true(_all_blocking(controller, Rect2(-1520, 640, 80, 416)), "future cliff descent is closed along the west end")
 	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-1480, 864)), "cliff", "future cliff boundary is drawn as cliff")
 	for zone_name: String in ["PineEntranceZone", "PineDeepZone", "PineCliffEdgeZone"]:
@@ -270,12 +270,11 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "cliffside-to-pine1 walk restores Pine Entrance")
 
-	_assert_true(await _walk_without_collision(controller.player_body, Vector2(845, 864)), "future Keep boundary remains physically reachable")
-	var keep_collision: KinematicCollision2D = controller.player_body.move_and_collide(Vector2(100, 0))
-	_assert_true(keep_collision != null, "future Keep route remains physically closed")
+	_assert_true(await _walk_without_collision(controller.player_body, Vector2(845, 864)), "the east edge of Pine Entrance is reachable")
+	_assert_true(controller.player_body.move_and_collide(Vector2(60, 0), true) == null, "the way on east to the keep is open")
 	await tree.physics_frame
 	await tree.physics_frame
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "blocked Keep path retains Pine Entrance location")
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "short of keep1 the player is still in Pine Entrance")
 
 	controller.player_body.global_position = Vector2(-728, 1016)
 	_assert_true(await _walk_without_collision(controller.player_body, Vector2(-728, 660)), "safe dead-end corridor is traversable")
@@ -318,8 +317,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 5, "forest runtime owns the five humans")
-	_assert_eq(controller.session.world_npcs().size(), 10, "Old Pine runtime owns five humans plus five serpents")
+	_assert_eq(npcs.size(), 23, "forest runtime owns its 23 NPCs")
+	_assert_eq(controller.session.world_npcs().size(), 34, "Old Pine runtime owns its 34 NPCs")
 	var tall: NpcRuntimeState = npcs[3]
 	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall runtime starts in Pine Entrance")
@@ -358,7 +357,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 6, "tall silver stack amount is six")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 222, "six silver weighs 6 * 37")
 	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
-	_assert_eq(participants.size(), 6, "combat projection includes player and the forest map's five NPCs")
+	_assert_eq(participants.size(), 19, "combat projection includes player and the forest map's 18 present NPCs")
 	_assert_eq(participants[4].content.projected_apply_damage(participants[4].state.equipment.primary_weapon()), 25, "tall combat projection uses long-sword damage 25")
 	var tall_primary: EquippedWeaponRef = tall.character_state.equipment.primary_weapon()
 	_assert_true(tall.character_state.equipment.unwield(tall_primary.instance_id).succeeded, "audit can remove Tall current primary through Equipment authority")

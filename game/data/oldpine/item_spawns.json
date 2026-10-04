@@ -1,0 +1,13 @@
+{
+	"item_spawns": [
+		{
+			"id": "oldpine.caves.cave5.skeleton",
+			"item": "es2:d/oldpine/npc/skeleton",
+			"map": "oldpine.caves",
+			"zone": "oldpine.caves.mouth",
+			"points": ["oldpine.caves.mouth.cave5.skeleton.1"],
+			"legacy_room": "d/oldpine/cave5.c",
+			"legacy_quantity": 1
+		}
+	]
+}

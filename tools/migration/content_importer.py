@@ -635,6 +635,7 @@ class Importer:
                 record[group] = values
         take('combat_exp')
         take('score')
+        take('bellicosity')
         take('force_factor')
         # rankd.c query_respect(): how others address this NPC.
         if isinstance(sets.get('rank_info/respect'), str):

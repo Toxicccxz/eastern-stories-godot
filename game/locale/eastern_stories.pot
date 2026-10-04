@@ -61,6 +61,10 @@ msgstr ""
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
+#. oldpine.npc.maniac gender
+#. oldpine.npc.bandit_guard gender
+#. oldpine.npc.bandit_leader gender
+#. oldpine.npc.bandit_commander gender
 #. snow.npc.traveller gender.then
 #. snow.npc.keeper gender
 #. snow.npc.drunk gender
@@ -168,16 +172,32 @@ msgstr ""
 msgid "秘密通道入口"
 msgstr ""
 
-#: scenes/world/oldpine/oldpine_cave.tscn
-msgid "北 · 暂未开放"
+#. es2:d/oldpine/path3 short
+#. es2:d/oldpine/secrectpath1 short
+#: scenes/world/oldpine/oldpine_cave.tscn data/oldpine/rooms.json
+msgid "秘密通道"
 msgstr ""
 
 #: scenes/world/oldpine/oldpine_cave.tscn
 msgid "南 · 瀑布前"
 msgstr ""
 
+#. es2:d/oldpine/cave1 short
+#. es2:d/oldpine/cave2 short
+#. es2:d/oldpine/cave3 short
+#. es2:d/oldpine/cave4 short
+#. es2:d/oldpine/cave5 short
+#: scenes/world/oldpine/oldpine_caves.tscn data/oldpine/rooms.json
+msgid "山洞"
+msgstr ""
+
+#: scenes/world/oldpine/oldpine_caves.tscn
+msgid "东下 · 瀑布前"
+msgstr ""
+
 #. es2:d/oldpine/cliff1 short
-#: scenes/world/oldpine/oldpine_cliff.tscn data/oldpine/rooms.json
+#. es2:d/oldpine/cliff2 short
+#: scenes/world/oldpine/oldpine_cliff.tscn scenes/world/oldpine/oldpine_cliff2.tscn data/oldpine/rooms.json
 msgid "山壁上的窄穴"
 msgstr ""
 
@@ -267,20 +287,37 @@ msgid "悬崖边"
 msgstr ""
 
 #: scenes/world/oldpine/oldpine_outdoor.tscn
-msgid "山寨方向 · 暂未开放"
-msgstr ""
-
-#: scenes/world/oldpine/oldpine_outdoor.tscn
-msgid "崖下方向 · 暂未开放"
-msgstr ""
-
-#: scenes/world/oldpine/oldpine_outdoor.tscn
 msgid "北 · 雪亭镇"
 msgstr ""
 
 #. oldpine.outdoor.landmark.epath2_vine name
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
 msgid "藤蔓"
+msgstr ""
+
+#. es2:d/oldpine/keep1 short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+msgid "老松寨秘密入口"
+msgstr ""
+
+#. es2:d/oldpine/keep2 short
+#. es2:d/oldpine/keep3 short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+msgid "老松寨"
+msgstr ""
+
+#: scenes/world/oldpine/oldpine_outdoor.tscn
+msgid "老松寨 · 大厅"
+msgstr ""
+
+#. oldpine.outdoor.landmark.cliffdown_cliff name
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
+msgid "悬崖"
+msgstr ""
+
+#. es2:d/oldpine/stone short
+#: scenes/world/oldpine/oldpine_stone.tscn data/oldpine/rooms.json
+msgid "大青石上"
 msgstr ""
 
 #. es2:d/oldpine/tree1 short
@@ -618,7 +655,7 @@ msgstr ""
 msgid "因为这样东西并不值钱，所以人们并不会注意到它的存在。"
 msgstr ""
 
-#: application/items/item_handling_service.gd
+#: application/items/item_handling_service.gd runtime/world/landmarks/bury_landmark_policy.gd
 msgid "这里没有这样东西。"
 msgstr ""
 
@@ -666,7 +703,8 @@ msgstr ""
 msgid "雄性"
 msgstr ""
 
-#: core/characters/character_state.gd
+#. oldpine.npc.butterfly gender
+#: core/characters/character_state.gd data/oldpine/npcs.json
 msgid "雌性"
 msgstr ""
 
@@ -1434,6 +1472,18 @@ msgstr ""
 
 #: core/specials/special_functions.gd
 msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
 msgstr ""
 
 #: core/specials/surrender_command.gd
@@ -2528,6 +2578,8 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.serpent limbs
+#. oldpine.npc.wolf_dog limbs
+#. oldpine.npc.butterfly limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. snow.npc.rat limbs
@@ -2822,12 +2874,26 @@ msgstr ""
 msgid "工作状态异常，请停止操作。"
 msgstr ""
 
+#. bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
+#: runtime/world/world_map_controller.gd
+msgid "你拿起一根%s呜嘟嘟地吹了起来。"
+msgstr ""
+
 #: runtime/world/world_map_controller.gd
 msgid "你捡起%s。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
 msgid "你附近没有这样东西。"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "%s用一种异样的眼神扫视著在场的每一个人。"
+msgstr ""
+
+#. combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
+#: runtime/world/world_map_controller.gd
+msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -3388,6 +3454,10 @@ msgid "脱掉"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
+msgid "吹奏"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
 msgid "给%s"
 msgstr ""
 
@@ -3644,6 +3714,8 @@ msgstr ""
 #. es2:obj/cloth unit
 #. es2:daemon/class/swordsman/silk_cloth unit
 #. es2:d/oldpine/obj/leather unit
+#. es2:d/oldpine/obj/robe unit
+#. es2:d/oldpine/obj/fur_coat unit
 #. es2:d/snow/obj/linen unit
 #. es2:d/snow/obj/raincoat unit
 #. es2:d/snow/obj/pink_cloth unit
@@ -3729,6 +3801,7 @@ msgstr ""
 #. es2:daemon/class/swordsman/blackthorn unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
+#. es2:d/oldpine/npc/obj/parrybook unit
 #. es2:d/snow/obj/lumber_axe unit
 #. es2:d/snow/obj/hammer unit
 #. es2:d/snow/obj/bamboo_sword unit
@@ -4198,6 +4271,91 @@ msgstr ""
 msgid "皮衣"
 msgstr ""
 
+#. es2:d/oldpine/obj/robe name
+#: data/oldpine/items.json
+msgid "太阴八卦袍"
+msgstr ""
+
+#. es2:d/oldpine/npc/skeleton name
+#: data/oldpine/items.json
+msgid "一具已经腐朽的骸骨"
+msgstr ""
+
+#. es2:d/oldpine/npc/skeleton long
+#: data/oldpine/items.json
+msgid ""
+"一具已经腐朽的骸骨静静地不知躺了多久。\n"
+msgstr ""
+
+#. es2:d/oldpine/npc/skeleton unit
+#: data/oldpine/items.json
+msgid "具"
+msgstr ""
+
+#. es2:d/oldpine/obj/blade name
+#. es2:d/snow/obj/blade name
+#: data/oldpine/items.json data/snow/items.json
+msgid "单刀"
+msgstr ""
+
+#. es2:d/oldpine/obj/blade long
+#. es2:d/snow/obj/blade long
+#: data/oldpine/items.json data/snow/items.json
+msgid ""
+"这是一寻常的单刀，份量大约六、七斤重。\n"
+msgstr ""
+
+#. es2:d/oldpine/obj/blade unit
+#. es2:d/oldpine/obj/glaive unit
+#. es2:d/snow/obj/blade unit
+#: data/oldpine/items.json data/snow/items.json
+msgid "柄"
+msgstr ""
+
+#. es2:d/oldpine/obj/glaive name
+#: data/oldpine/items.json
+msgid "鬼头刀"
+msgstr ""
+
+#. es2:d/oldpine/obj/glaive long
+#: data/oldpine/items.json
+msgid ""
+"这是一把沈重的鬼头刀，刀柄上雕著 一个丑陋可怖的鬼头正裂开了嘴大笑。\n"
+msgstr ""
+
+#. es2:d/oldpine/obj/fur_coat name
+#: data/oldpine/items.json
+msgid "狼皮披风"
+msgstr ""
+
+#. es2:d/oldpine/obj/bamboo_pipe name
+#: data/oldpine/items.json
+msgid "竹管"
+msgstr ""
+
+#. es2:d/oldpine/obj/bamboo_pipe long
+#: data/oldpine/items.json
+msgid ""
+"一根约两寸多长的竹管，上面戳了三个小孔，也许可以用来吹奏？\n"
+msgstr ""
+
+#. es2:d/oldpine/obj/bamboo_pipe unit
+#: data/oldpine/items.json
+msgid "根"
+msgstr ""
+
+#. es2:d/oldpine/npc/obj/parrybook name
+#: data/oldpine/items.json
+msgid "过招要旨"
+msgstr ""
+
+#. es2:d/oldpine/npc/obj/parrybook long
+#: data/oldpine/items.json
+msgid ""
+"这是一本介绍过招时如何拆招卸力的书籍。\n"
+"对练武人来说是本不可多得的珍宝。\n"
+msgstr ""
+
 #. oldpine.npc.bandit name
 #: data/oldpine/npcs.json
 msgid "土匪探哨"
@@ -4244,26 +4402,148 @@ msgid "躯干"
 msgstr ""
 
 #. oldpine.npc.serpent limbs
+#. oldpine.npc.wolf_dog limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #: data/oldpine/npcs.json data/snow/npcs.json
 msgid "尾巴"
 msgstr ""
 
-#. es2:d/snow/obj/blade name
-#: data/snow/items.json
-msgid "单刀"
+#. oldpine.npc.maniac name
+#: data/oldpine/npcs.json
+msgid "疯老头子"
 msgstr ""
 
-#. es2:d/snow/obj/blade long
-#: data/snow/items.json
+#. oldpine.npc.maniac long
+#: data/oldpine/npcs.json
 msgid ""
-"这是一寻常的单刀，份量大约六、七斤重。\n"
+"这个老头子正对著你龇牙裂嘴，他看起来已经完全疯了。\n"
 msgstr ""
 
-#. es2:d/snow/obj/blade unit
-#: data/snow/items.json
-msgid "柄"
+#. oldpine.npc.wolf_dog name
+#: data/oldpine/npcs.json
+msgid "狼狗"
+msgstr ""
+
+#. oldpine.npc.wolf_dog long
+#: data/oldpine/npcs.json
+msgid ""
+"一只凶猛的狼狗，一只独眼正恶狠狠地瞪著你。\n"
+msgstr ""
+
+#. oldpine.npc.wolf_dog limbs
+#. oldpine.npc.butterfly limbs
+#. snow.npc.dog limbs
+#. snow.npc.crazy_dog limbs
+#. snow.npc.rat limbs
+#: data/oldpine/npcs.json data/snow/npcs.json
+msgid "身体"
+msgstr ""
+
+#. oldpine.npc.wolf_dog limbs
+#. snow.npc.dog limbs
+#. snow.npc.crazy_dog limbs
+#: data/oldpine/npcs.json data/snow/npcs.json
+msgid "前脚"
+msgstr ""
+
+#. oldpine.npc.wolf_dog limbs
+#. snow.npc.dog limbs
+#. snow.npc.crazy_dog limbs
+#: data/oldpine/npcs.json data/snow/npcs.json
+msgid "后脚"
+msgstr ""
+
+#. oldpine.npc.wolf_dog chat_msg
+#: data/oldpine/npcs.json
+msgid ""
+"狼狗用一只独眼恶狠狠地瞪著你。\n"
+msgstr ""
+
+#. oldpine.npc.butterfly name
+#: data/oldpine/npcs.json
+msgid "蝴蝶"
+msgstr ""
+
+#. oldpine.npc.butterfly long
+#: data/oldpine/npcs.json
+msgid ""
+"一只翩翩起舞的小蝴蝶哦! \n"
+msgstr ""
+
+#. oldpine.npc.butterfly limbs
+#: data/oldpine/npcs.json
+msgid "翅膀"
+msgstr ""
+
+#. oldpine.npc.butterfly chat_msg
+#: data/oldpine/npcs.json
+msgid ""
+"蝴蝶拍动著翅膀! \n"
+msgstr ""
+
+#. oldpine.npc.butterfly chat_msg
+#: data/oldpine/npcs.json
+msgid ""
+"蝴蝶停在花上吸花蜜。 \n"
+msgstr ""
+
+#. oldpine.npc.bandit_guard name
+#: data/oldpine/npcs.json
+msgid "土匪喽罗"
+msgstr ""
+
+#. oldpine.npc.bandit_guard long
+#: data/oldpine/npcs.json
+msgid ""
+"这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n"
+msgstr ""
+
+#. oldpine.npc.bandit_leader name
+#: data/oldpine/npcs.json
+msgid "土匪首领"
+msgstr ""
+
+#. oldpine.npc.bandit_leader long
+#: data/oldpine/npcs.json
+msgid ""
+"这家伙眼神凶恶，一双精光四射的眼珠正盯著你的脖子。\n"
+msgstr ""
+
+#. oldpine.npc.bandit_leader chat_msg_combat
+#: data/oldpine/npcs.json
+msgid ""
+"\n"
+"土匪首领阴恻恻地说道：这种三脚猫的功夫也敢上老松寨来撒野？！\n"
+msgstr ""
+
+#. oldpine.npc.bandit_leader chat_msg_combat
+#: data/oldpine/npcs.json
+msgid ""
+"\n"
+"土匪首领说道：去你的，老子今天要剁下你的头来练练毒爪！\n"
+msgstr ""
+
+#. oldpine.npc.bandit_leader chat_msg_combat
+#: data/oldpine/npcs.json
+msgid ""
+"\n"
+"土匪首领虎吼一声，欺身上前。\n"
+msgstr ""
+
+#. oldpine.npc.bandit_commander name
+#: data/oldpine/npcs.json
+msgid "常老大"
+msgstr ""
+
+#. oldpine.npc.bandit_commander nickname
+#: data/oldpine/npcs.json
+msgid "泼风刀王"
+msgstr ""
+
+#. oldpine.npc.bandit_commander title
+#: data/oldpine/npcs.json
+msgid "老松寨寨主"
 msgstr ""
 
 #. es2:d/snow/obj/linen name
@@ -4390,25 +4670,6 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "一只浑身脏兮兮的野狗。\n"
-msgstr ""
-
-#. snow.npc.dog limbs
-#. snow.npc.crazy_dog limbs
-#. snow.npc.rat limbs
-#: data/snow/npcs.json
-msgid "身体"
-msgstr ""
-
-#. snow.npc.dog limbs
-#. snow.npc.crazy_dog limbs
-#: data/snow/npcs.json
-msgid "前脚"
-msgstr ""
-
-#. snow.npc.dog limbs
-#. snow.npc.crazy_dog limbs
-#: data/snow/npcs.json
-msgid "后脚"
 msgstr ""
 
 #. snow.npc.dog chat_msg
@@ -5566,6 +5827,7 @@ msgid ""
 msgstr ""
 
 #. es2:d/oldpine/cliff1 long
+#. es2:d/oldpine/cliff2 long
 #: data/oldpine/rooms.json
 msgid ""
 "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n"
@@ -5611,11 +5873,6 @@ msgid ""
 "著许多铜铸的烛台，照亮了这个岩穴，往北似乎有亮光。\n"
 msgstr ""
 
-#. es2:d/oldpine/path3 short
-#: data/oldpine/rooms.json
-msgid "秘密通道"
-msgstr ""
-
 #. es2:d/oldpine/path3 long
 #: data/oldpine/rooms.json
 msgid ""
@@ -5623,16 +5880,64 @@ msgid ""
 "爬伏在一块突出的大青石(stone)上, 令人望而生畏, 也许你该回头逃跑了。\n"
 msgstr ""
 
-#. es2:d/oldpine/stone short
-#: data/oldpine/rooms.json
-msgid "大青石上"
-msgstr ""
-
 #. es2:d/oldpine/stone long
-#: data/oldpine/rooms.json
+#. oldpine.stone.landmark.climb_down long
+#: data/oldpine/rooms.json data/oldpine/world.json
 msgid ""
 "你现在正站在一块突出的大青石上, 虽然有点滑, 你还是能站稳,\n"
 "往四周看, 除了长满了青苔的石壁, 好象无路可走了。\n"
+msgstr ""
+
+#. es2:d/oldpine/secrectpath1 long
+#: data/oldpine/rooms.json
+msgid ""
+"你现在正站在一个岩石通道之中，从南边隐隐传来哗哗的水声，岩\n"
+"壁上生著厚厚的青苔，一股恶臭从北边传来，像是什么野兽，也许你该\n"
+"回头出去了。\n"
+msgstr ""
+
+#. es2:d/oldpine/cave1 long
+#. es2:d/oldpine/cave2 long
+#. es2:d/oldpine/cave3 long
+#. es2:d/oldpine/cave4 long
+#: data/oldpine/rooms.json
+msgid ""
+"你现在已经到达山洞的深处了, 四面八方都是些黑漆漆的小石洞,\n"
+"简直不知道该往那里走, 要不是北面还有一点光线, 你都要彻底绝望了。\n"
+msgstr ""
+
+#. es2:d/oldpine/cave5 long
+#: data/oldpine/rooms.json
+msgid ""
+"你现在已经到达山洞的深处了, 耶...东面就是洞口了, 还可以听\n"
+"见外面瀑布的水声, 仔细的观察石壁(wall), 可以发现上面有一些用利\n"
+"剑雕刻的字....\n"
+msgstr ""
+
+#. es2:d/oldpine/keep1 long
+#: data/oldpine/rooms.json
+msgid ""
+"这里只见一个木头搭成的大门，门框上挂著四、五的不知道是什么\n"
+"动物的头骨跟一些铁链，外面再铺上一层乾枯的松枝，在这样一个森林\n"
+"里还真不容易发觉。\n"
+msgstr ""
+
+#. es2:d/oldpine/keep2 long
+#: data/oldpine/rooms.json
+msgid ""
+"这里应该是老松寨了，虽然围绕著你的墙都是木头搭成的，但是仔\n"
+"细一看，在许多险要的位置都放了不少沙包石堆，后面显然是埋伏人手\n"
+"的好地方，如果有人贸然从大门口攻进来，肯定会吃大亏的，大寨的门\n"
+"在你的西边，东边越过一排木桩之后就是大厅。\n"
+msgstr ""
+
+#. es2:d/oldpine/keep3 long
+#: data/oldpine/rooms.json
+msgid ""
+"这里就是老松寨的大厅了，靠北边的地面上铺了一张巨大的熊皮，\n"
+"上面摆了三张椅子，大厅四周散落著几个取暖用的火盆，几个上了锁的\n"
+"木箱子，比较奇特的是中央掘了一个大坑(pool)，坑里是许多头骨浸在\n"
+"一种发著恶臭的黄水之中。\n"
 msgstr ""
 
 #. oldpine name
@@ -5650,6 +5955,26 @@ msgstr ""
 msgid "湖水"
 msgstr ""
 
+#. oldpine.keep.gate name
+#: data/oldpine/world.json
+msgid "大门"
+msgstr ""
+
+#. oldpine.keep2.gate_trap messages.shout
+#: data/oldpine/world.json
+msgid "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！"
+msgstr ""
+
+#. oldpine.keep2.gate_trap messages.shut
+#: data/oldpine/world.json
+msgid "接著「轰」地一声，通往外面的大门已经被一块大石堵死了。"
+msgstr ""
+
+#. oldpine.keep2.gate_trap messages.open
+#: data/oldpine/world.json
+msgid "你听到一阵轧轧的轮盘绞动声，堵住门口的大石慢慢地被移开了。"
+msgstr ""
+
 #. oldpine.outdoor.landmark.ancient_pine action
 #: data/oldpine/world.json
 msgid "爬树"
@@ -5664,6 +5989,9 @@ msgstr ""
 
 #. oldpine.tree.landmark.tree1_descent action
 #. oldpine.cliff.landmark.cliff1_down action
+#. oldpine.stone.landmark.climb_down action
+#. oldpine.outdoor.landmark.cliffdown_cliff action
+#. oldpine.cliff2.landmark.down action
 #: data/oldpine/world.json
 msgid "往下爬"
 msgstr ""
@@ -5723,28 +6051,119 @@ msgid ""
 msgstr ""
 
 #. oldpine.cliff.landmark.cliff1_down name
+#. oldpine.cliff2.landmark.down name
 #: data/oldpine/world.json
 msgid "向下的山壁"
 msgstr ""
 
 #. oldpine.cliff.landmark.cliff1_down long
+#. oldpine.cliff2.landmark.down long
 #: data/oldpine/world.json
 msgid ""
 "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n"
 msgstr ""
 
 #. oldpine.cliff.landmark.cliff1_up name
+#. oldpine.cliff2.landmark.up name
 #: data/oldpine/world.json
 msgid "向上的山壁"
 msgstr ""
 
 #. oldpine.cliff.landmark.cliff1_up action
+#. oldpine.cave.landmark.stone action
+#. oldpine.cliff2.landmark.up action
 #: data/oldpine/world.json
 msgid "往上爬"
 msgstr ""
 
 #. oldpine.cliff.landmark.cliff1_up long
+#. oldpine.cliff2.landmark.up long
 #: data/oldpine/world.json
 msgid ""
 "从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n"
+msgstr ""
+
+#. oldpine.cave.landmark.stone name
+#. oldpine.stone.landmark.climb_down name
+#: data/oldpine/world.json
+msgid "大青石"
+msgstr ""
+
+#. oldpine.cave.landmark.stone long
+#: data/oldpine/world.json
+msgid ""
+"一块比人还高的钟乳石, 虽然长满了青苔, 但爬(climb)上去\n"
+"应该不会太困难。\n"
+msgstr ""
+
+#. oldpine.cave.landmark.stone messages.use
+#: data/oldpine/world.json
+msgid "你慢慢地攀上大青石。"
+msgstr ""
+
+#. oldpine.stone.landmark.climb_down messages.use
+#: data/oldpine/world.json
+msgid "你迅速地爬下大青石。"
+msgstr ""
+
+#. oldpine.caves.landmark.wall name
+#: data/oldpine/world.json
+msgid "石壁"
+msgstr ""
+
+#. oldpine.caves.landmark.wall action
+#: data/oldpine/world.json
+msgid "埋葬骸骨"
+msgstr ""
+
+#. oldpine.caves.landmark.wall long
+#: data/oldpine/world.json
+msgid ""
+"老夫南危水, 乃是昔年水烟阁五长老中第一高手,\n"
+"一生醉心武学, 集天邪、封山两派之所长, 为营救盟主遭小人暗算,\n"
+"埋骨于此。男子汉大丈夫死不足惜, 只可恨一身武学尚无传人!\n"
+"葬(bury)我遗骨者老夫将赠以过招要旨, 唉......\n"
+msgstr ""
+
+#. oldpine.caves.landmark.wall messages.bury
+#: data/oldpine/world.json
+msgid "你小心翼翼地埋好了那具骸骨。"
+msgstr ""
+
+#. oldpine.caves.landmark.wall messages.book
+#: data/oldpine/world.json
+msgid "你听见山洞顶部的石壁「喀喇」地一声响，一本书坠落下来。"
+msgstr ""
+
+#. oldpine.caves.landmark.wall messages.paper
+#: data/oldpine/world.json
+msgid "你只看见山洞顶部纷纷扬扬飘下几张纸片来。"
+msgstr ""
+
+#. oldpine.caves.landmark.wall messages.fall
+#: data/oldpine/world.json
+msgid "你听得「轰」的一声响，已经从这摔了下去"
+msgstr ""
+
+#. oldpine.outdoor.landmark.cliffdown_cliff long
+#: data/oldpine/world.json
+msgid ""
+"你定下心神一看，其实这个悬崖没有想像中那么恐怖，也许还\n"
+"可以从这里爬下山涧，只是这世界上大概没有这种白痴愿意干\n"
+"这种傻事吧。\n"
+msgstr ""
+
+#. oldpine.outdoor.landmark.cliffdown_cliff messages.use
+#: data/oldpine/world.json
+msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去。"
+msgstr ""
+
+#. oldpine.cliff2.landmark.up messages.use
+#: data/oldpine/world.json
+msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬。"
+msgstr ""
+
+#. oldpine.cliff2.landmark.down messages.use
+#: data/oldpine/world.json
+msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。"
 msgstr ""
