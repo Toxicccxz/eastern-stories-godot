@@ -880,6 +880,14 @@ msgid "恢复精"
 msgstr ""
 
 #: core/internal_power/exert_functions.gd
+msgid "提升战斗力"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "压制杀气"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
 msgid "你的气已经恢复到上限了。"
 msgstr ""
 
@@ -931,8 +939,24 @@ msgstr ""
 msgid "你全身放松，坐下来开始运功疗伤。"
 msgstr ""
 
-#: core/internal_power/restore_exert_function.gd
+#: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd
 msgid "你的内力不够。"
+msgstr ""
+
+#: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd
+msgid "你已经在运功中了。"
+msgstr ""
+
+#: core/internal_power/powerfade_exert_function.gd
+msgid "你现在毫无杀气。"
+msgstr ""
+
+#: core/internal_power/powerfade_exert_function.gd
+msgid "$N微一凝神，运起天邪神功，放慢呼吸，开始收敛自己的杀气 ...."
+msgstr ""
+
+#: core/internal_power/powerup_exert_function.gd
+msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
 msgstr ""
 
 #. es2:obj/example/wineskin liquid.name
@@ -1310,6 +1334,74 @@ msgstr ""
 
 #: core/skills/skill_use_ids.gd
 msgid "鞭法"
+msgstr ""
+
+#: core/specials/bolt_spell.gd
+msgid "你要对谁施展这个法术？"
+msgstr ""
+
+#: core/specials/bolt_spell.gd
+msgid "你的法力不够！"
+msgstr ""
+
+#: core/specials/bolt_spell.gd
+msgid "你的精神没有办法有效集中！"
+msgstr ""
+
+#: core/specials/bolt_spell.gd
+msgid "但是被$n躲开了。"
+msgstr ""
+
+#: core/specials/counterattack_perform.gd
+msgid "牵制攻击只能对战斗中的对手使用。"
+msgstr ""
+
+#: core/specials/counterattack_perform.gd
+msgid "$n目前正自顾不暇，放胆攻击吧！"
+msgstr ""
+
+#: core/specials/counterattack_perform.gd
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，结果$p被$P攻了个措手不及！"
+msgstr ""
+
+#: core/specials/counterattack_perform.gd
+msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向$n！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，拖出一条长长的七彩光气，光气绕了回转过来又从$N顶门注入$P的体内！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "结果「嗤」地一声，紫光从$p身上透体而过，无声无息地钻入地下！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+msgstr ""
+
+#: core/specials/surrender_command.gd
+msgid "投降？现在没有人在打你啊....？"
+msgstr ""
+
+#: core/specials/surrender_command.gd
+msgid "$n向$N求饶，但是$N大声说道：{rude}废话少说，纳命来！"
+msgstr ""
+
+#: core/specials/surrender_command.gd
+msgid "$N说道：「不打了，不打了，我投降....。」"
 msgstr ""
 
 #. one glyph of a number written in Chinese characters (十, 百, 万...).
@@ -3831,6 +3923,11 @@ msgstr ""
 msgid "由於你苦练天邪神功，你的定力提高了"
 msgstr ""
 
+#. necromancy name
+#: data/common/skills.json
+msgid "茅山道术"
+msgstr ""
+
 #. literate name
 #. snow.npc.teacher inquiry topic
 #: data/common/skills.json data/snow/npcs.json
@@ -4380,6 +4477,30 @@ msgid ""
 "到他的武艺不弱，一手快刀在这一带罕有敌手。\n"
 msgstr ""
 
+#. snow.npc.guard chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"刘安禄说道：你当这里是什么地方，敢来这里撒野？\n"
+msgstr ""
+
+#. snow.npc.guard chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"刘安禄说道：想我堂堂....呃....连我这个淳风武馆的小小的门房都可以收拾你！\n"
+msgstr ""
+
+#. snow.npc.guard chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"刘安禄忽然挥出一刀，招数精奇，但是刀到中途忽然像是想起什么，急忙收招。\n"
+msgstr ""
+
+#. snow.npc.guard chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"刘安禄说道：你快走吧，就算我输了你啦....\n"
+msgstr ""
+
 #. snow.npc.trainee name
 #: data/snow/npcs.json
 msgid "武馆弟子"
@@ -4465,6 +4586,18 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "你看到一位面色黝黑的农夫。\n"
+msgstr ""
+
+#. snow.npc.farmer chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"农夫叫道：杀人哪！杀人哪！\n"
+msgstr ""
+
+#. snow.npc.farmer chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"农夫叫道：有土匪哪！光天化日下打劫哪！\n"
 msgstr ""
 
 #. snow.npc.crazy_dog name
@@ -4685,6 +4818,30 @@ msgid ""
 "他也绝不会去招惹旁人。\n"
 msgstr ""
 
+#. snow.npc.annihir chat_msg_combat.say
+#: data/snow/npcs.json
+msgid ""
+"安惜迩似笑非笑地望著你，脸上的神气古理古怪，不知道在想些什么？\n"
+msgstr ""
+
+#. snow.npc.annihir chat_msg_combat.say
+#: data/snow/npcs.json
+msgid ""
+"安惜迩的身影晃了一下，似乎在你身上各处大穴摸了一下，不过也许是你的错觉。\n"
+msgstr ""
+
+#. snow.npc.annihir chat_msg_combat.say
+#: data/snow/npcs.json
+msgid ""
+"安惜迩神情忽然严肃了起来，不过好像是在想自己的事，与你无关。\n"
+msgstr ""
+
+#. snow.npc.annihir chat_msg_combat.say
+#: data/snow/npcs.json
+msgid ""
+"安惜迩忽然呵呵呵地笑了起来，却不知道在笑些什么....\n"
+msgstr ""
+
 #. snow.npc.annihir accept_fight.say
 #: data/snow/npcs.json
 msgid "咦... 要打就真打吧，光是较量多没意思？"
@@ -4787,6 +4944,18 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "柳绘心是淳风武馆馆主柳淳风的独生女。\n"
+msgstr ""
+
+#. snow.npc.girl chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"柳绘心秀眉微蹙，说道：喂！我哪里得罪你了？干嘛这样跟我拼死拼活？\n"
+msgstr ""
+
+#. snow.npc.girl chat_msg_combat
+#: data/snow/npcs.json
+msgid ""
+"柳绘心不住地望著窗外：你还是快走吧，我没空陪你练功夫！\n"
 msgstr ""
 
 #. snow.npc.girl accept_fight.say

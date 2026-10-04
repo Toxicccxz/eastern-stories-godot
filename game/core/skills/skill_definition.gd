@@ -38,6 +38,10 @@ var improved_line: String = ""
 var improved_color: StringName = ColoredLine.PLAIN
 ## The exert functions its exert_function_file() reaches (ExertFunctions ids).
 var exert_functions: Array[StringName] = []
+## The perform actions and spells its perform_action_file() and cast_spell_file()
+## reach (SpecialFunctions ids).
+var perform_functions: Array[StringName] = []
+var cast_functions: Array[StringName] = []
 var _valid_enabled_uses: Array[StringName] = []
 var _actions: Array[CombatActionDefinition] = []
 var _practice: PracticePolicy
@@ -109,7 +113,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
 ## parry_messages?: {armed, unarmed}, standard_force_hit?, hit_ob?,
 ## practice?: {kee?, force?, done?, fail?, refuses?}, valid_learn?: {key: line},
-## improved_line?, improved_color?, exert?: [function]}.
+## improved_line?, improved_color?, exert?: [function], perform?: [action], cast?: [spell]}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	var kinds: Dictionary[String, int] = {"basic": Kind.BASIC, "specialized": Kind.SPECIALIZED}
 	var types: Dictionary[String, int] = {"martial": Type.MARTIAL, "knowledge": Type.KNOWLEDGE}
@@ -151,12 +155,20 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 			reader.fail("valid_learn", "unknown rule %s (expected %s)" % [key, ", ".join(VALID_LEARN_KEYS.keys())])
 	definition.improved_line = reader.text("improved_line")
 	definition.improved_color = StringName(reader.text("improved_color"))
-	if definition.improved_color not in [ColoredLine.PLAIN, ColoredLine.HIR, ColoredLine.HIY, ColoredLine.HIC, ColoredLine.HIW]:
-		reader.fail("improved_color", "expected HIR, HIY, HIC or HIW")
+	if definition.improved_color != ColoredLine.PLAIN and not ColoredLine.COLORS.has(definition.improved_color):
+		reader.fail("improved_color", "expected one of %s" % ", ".join(ColoredLine.COLORS))
 	for function_id: String in reader.text_list("exert"):
 		if not ExertFunctions.has(StringName(function_id)):
 			reader.fail("exert", "no exert function %s (expected %s)" % [function_id, ", ".join(ExertFunctions.ORDER)])
 		definition.exert_functions.append(StringName(function_id))
+	for function_id: String in reader.text_list("perform"):
+		if not SpecialFunctions.PERFORMS.has(StringName(function_id)):
+			reader.fail("perform", "no perform action %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.PERFORMS)])
+		definition.perform_functions.append(StringName(function_id))
+	for function_id: String in reader.text_list("cast"):
+		if not SpecialFunctions.CASTS.has(StringName(function_id)):
+			reader.fail("cast", "no spell %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.CASTS)])
+		definition.cast_functions.append(StringName(function_id))
 	var id_prefix: String = "es2:%s/" % definition.legacy_source_path.trim_suffix(".c")
 	for action: ContentRecordReader in reader.children("actions"):
 		definition._actions.append(CombatActionDefinition.from_record(action, id_prefix))

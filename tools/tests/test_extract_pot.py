@@ -127,6 +127,7 @@ class ContentTest(unittest.TestCase):
             "inquiry": {"学费": ["只要五两银子。"], "here": ["这里是书院。"], "治伤": {"eff_kee_percent": [{"at_least": 0, "say": "伤得不轻。"}]}},
             "accept_object": [{"giver_mark": "魏无极", "emote": "点了点头。", "accept": True}],
             "chat_msg": ["老先生摇头晃脑。\n", {"action": "random_move"}],
+            "chat_msg_combat": ["你走吧！\n", {"say": "他笑了。\n", "color": "CYN"}, {"action": "perform", "skill": "sword", "function": "counterattack"}],
             "family": {"name": "封山剑派", "title": "弟子"},
             "recognize_apprentice": [{"family": "family.fonxan", "fail": "他不愿意教你。"}],
             "limbs": ["头部", "尾巴"],
@@ -135,7 +136,7 @@ class ContentTest(unittest.TestCase):
         self.assertEqual(
             [msgid for _, msgid in _ids(catalog)],
             ["魏无极", "男性", "一位老先生。\n", "学费", "只要五两银子。", "这里是书院。", "治伤", "伤得不轻。",
-             "点了点头。", "老先生摇头晃脑。\n", "封山剑派", "弟子", "他不愿意教你。", "头部", "尾巴"],
+             "点了点头。", "老先生摇头晃脑。\n", "你走吧！\n", "他笑了。\n", "封山剑派", "弟子", "他不愿意教你。", "头部", "尾巴"],
         )
         name = next(entry for entry in catalog.entries() if entry.msgid == "魏无极")
         self.assertEqual(name.notes, ["snow.npc.teacher name"])

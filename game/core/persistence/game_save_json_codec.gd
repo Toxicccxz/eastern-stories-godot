@@ -112,6 +112,15 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.marks:
 			marks[key] = _i(value.marks[key])
 		result["marks"] = marks
+	# CharacterTimedApplies: written only when one runs.
+	if not value.timed_applies.is_empty():
+		var timed: Array[Variant] = []
+		for entry: CharacterTimedApplies.Entry in value.timed_applies:
+			var applies: Dictionary[String, Variant] = {}
+			for key: StringName in entry.applies:
+				applies[String(key)] = _i(entry.applies[key])
+			timed.append({"effect_id": String(entry.effect_id), "applies": applies, "remaining_ms": _i(entry.remaining_ms)})
+		result["timed_applies"] = timed
 	return result
 
 
@@ -249,6 +258,8 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("affiliation")
 	if value is Dictionary and value.has("marks"):
 		fields.append("marks")
+	if value is Dictionary and value.has("timed_applies"):
+		fields.append("timed_applies")
 	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var a: Dictionary = _obj(object["attributes"], path + ".attributes", ["strength", "courage", "intelligence", "spirituality", "composure", "personality", "constitution", "karma", "force_factor", "bellicosity"])
@@ -288,8 +299,44 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 					_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".marks", "expected names")
 				else:
 					marks[key] = _int64(object["marks"][key], path + ".marks." + String(key))
+	var timed: Array[CharacterTimedApplies.Entry] = []
+	if object.has("timed_applies"):
+		timed = _decode_timed_applies(object["timed_applies"], path + ".timed_applies")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed)
+
+
+## A non-empty list of {effect_id, applies {key: int}, remaining_ms > 0}, IDs unique.
+func _decode_timed_applies(value: Variant, path: String) -> Array[CharacterTimedApplies.Entry]:
+	var entries: Array[CharacterTimedApplies.Entry] = []
+	var values: Array = _array(value, path)
+	if _error: return entries
+	if values.is_empty():
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected a non-empty list")
+		return entries
+	var seen: Array[StringName] = []
+	for index: int in range(values.size()):
+		var here: String = path + "[%d]" % index
+		var object: Dictionary = _obj(values[index], here, ["effect_id", "applies", "remaining_ms"])
+		if _error: return entries
+		var effect_id := StringName(_string(object["effect_id"], here + ".effect_id"))
+		var applies: Dictionary[StringName, int] = {}
+		if typeof(object["applies"]) != TYPE_DICTIONARY or (object["applies"] as Dictionary).is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, here + ".applies", "expected a non-empty object")
+			return entries
+		for key: Variant in object["applies"]:
+			if typeof(key) != TYPE_STRING or (key as String).is_empty():
+				_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, here + ".applies", "expected names")
+				return entries
+			applies[StringName(key)] = _int64(object["applies"][key], here + ".applies." + String(key))
+		var entry := CharacterTimedApplies.Entry.new(effect_id, applies, _int64(object["remaining_ms"], here + ".remaining_ms"))
+		if _error: return entries
+		if not entry.is_valid() or seen.has(effect_id):
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, here, "expected a named entry with time left, once")
+			return entries
+		seen.append(effect_id)
+		entries.append(entry)
+	return entries
 
 
 func _decode_affiliation(value: Variant, path: String) -> CharacterAffiliationState:

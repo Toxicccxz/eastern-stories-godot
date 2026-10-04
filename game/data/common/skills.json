@@ -64,6 +64,7 @@
 		{
 			"id": "fonxansword", "name": "封山剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/fonxansword.c",
+			"perform": ["counterattack"],
 			"practice": { "kee": 30, "force": 3, "done": "你按著所学练了一遍封山剑法。", "fail": "你的内力或气不够，没有办法练习封山剑法。" },
 			"valid_learn": {
 				"max_force": "你的内力不够，没有办法练封山剑法。",
@@ -100,7 +101,13 @@
 			"id": "celestial", "name": "天邪神功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/celestial.c",
 			"standard_force_hit": true,
+			"exert": ["powerup", "powerfade"],
 			"improved_line": "由於你苦练天邪神功，你的定力提高了", "improved_color": "HIW"
+		},
+		{
+			"id": "necromancy", "name": "茅山道术", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
+			"legacy_source": "daemon/skill/necromancy.c",
+			"cast": ["drainerbolt", "feeblebolt"]
 		},
 		{
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",

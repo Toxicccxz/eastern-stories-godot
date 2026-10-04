@@ -127,6 +127,8 @@ static func restore(
 	)
 	state.gender = snapshot.gender
 	state.marks = snapshot.marks.duplicate()
+	if not state.timed_applies.restore(snapshot.timed_applies):
+		return null
 	return state if state.resources_have_valid_invariants() else null
 
 

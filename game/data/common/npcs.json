@@ -40,6 +40,10 @@
 				{ "item": "es2:daemon/class/swordsman/blackthorn", "source": "daemon/class/swordsman/blackthorn.c", "equip": "wield" },
 				{ "item": "es2:daemon/class/swordsman/silk_cloth", "source": "daemon/class/swordsman/silk_cloth.c", "equip": "wear" }
 			],
+			"chat_chance_combat": 60,
+			"chat_msg_combat": [
+				{ "action": "perform", "skill": "sword", "function": "counterattack" }
+			],
 			"inquiry": {
 				"淳风武馆": ["淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"],
 				"先人遗志": ["先父临终之时将这武馆交到在下手中，需得好好照看。"],

@@ -83,14 +83,14 @@ func _test_data() -> void:
 	_check(ExertService.offered(character, _catalog()) == [&"heal", &"recover", &"refresh", &"regenerate"], "with fonxanforce enabled: its heal and /d/force's three")
 	character.skills.set_raw_level(&"celestial", 1)
 	character.skills.map_skill(&"force", &"celestial")
-	_check(ExertService.offered(character, _catalog()) == [&"recover", &"refresh", &"regenerate"], "another force reaches /d/force only: " + str(ExertService.offered(character, _catalog())))
+	_check(ExertService.offered(character, _catalog()) == [&"recover", &"refresh", &"regenerate", &"powerup", &"powerfade"], "天邪神功: /d/force's three, then its powerup and powerfade: " + str(ExertService.offered(character, _catalog())))
 	_check(ExertService.offered(CharacterState.new(), _catalog()).is_empty(), "nothing without an enabled force")
 	var errors: Array[String] = []
 	SkillDefinition.from_record(ContentRecordReader.new({
 		"id": "x", "name": "X", "kind": "specialized", "type": "martial", "enable": ["force"], "legacy_source": "x.c",
-		"exert": ["powerup"],
+		"exert": ["roar"],
 	}, "s", errors))
-	_check(errors.size() == 1 and errors[0].contains("powerup"), "skills.json lists only exert functions the game has: " + str(errors))
+	_check(errors.size() == 1 and errors[0].contains("roar"), "skills.json lists only exert functions the game has (celestial's roar.c is not one): " + str(errors))
 
 
 func _test_enforce() -> void:

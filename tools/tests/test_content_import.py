@@ -214,6 +214,23 @@ class TalkTest(unittest.TestCase):
         self.assertEqual(record, {'chat_chance': 6, 'chat_msg': [{'action': 'random_move'}, 'x\n']})
         self.assertEqual(handled, {'chat_chance', 'chat_msg'})
 
+    def test_combat_chat_specials_and_coloured_lines(self) -> None:
+        record, handled = self.talk('''void create() { set("chat_chance_combat", 40); set("chat_msg_combat", ({
+            CYN "a\\n" NOR, "b\\n", (: perform_action, "sword.counterattack" :), (: cast_spell, "drainerbolt" :),
+            (: exert_function, "powerup" :), (: command, "surrender" :) })); }''')
+        self.assertEqual(record, {'chat_chance_combat': 40, 'chat_msg_combat': [
+            {'say': 'a\n', 'color': 'CYN'}, 'b\n', {'action': 'perform', 'skill': 'sword', 'function': 'counterattack'},
+            {'action': 'cast', 'function': 'drainerbolt'}, {'action': 'exert', 'function': 'powerup'},
+            {'action': 'surrender'}]})
+        self.assertEqual(handled, {'chat_chance_combat', 'chat_msg_combat'})
+
+    def test_combat_chat_without_its_chance_or_with_another_command_stays_a_finding(self) -> None:
+        for source in ('void create() { set("chat_msg_combat", ({ "x" })); }',
+                       'void create() { set("chat_chance_combat", 10); set("chat_msg_combat", ({ (: command, "flee" :) })); }'):
+            with self.subTest(source=source):
+                record, handled = self.talk(source)
+                self.assertEqual((record, handled), ({}, set()))
+
     def test_chat_with_another_function_or_without_lines_stays_a_finding(self) -> None:
         for source in ('void create() { set("chat_chance", 10); set("chat_msg", ({ (: do_drink :), "x" })); }',
                        'void create() { set("chat_chance", 10); }'):

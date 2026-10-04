@@ -80,6 +80,17 @@ class Closure:
     text: str
 
 
+class ColoredText(str):
+    """A string an include/ansi.h macro opens (`CYN "..." NOR`): still the text, and
+    `color` names the macro for the fields that keep it (chat lines)."""
+    color: str
+
+    def __new__(cls, text: str, color: str) -> 'ColoredText':
+        value = super().__new__(cls, text)
+        value.color = color
+        return value
+
+
 @dataclass(frozen=True)
 class Unknown:
     text: str
@@ -351,7 +362,7 @@ class Parser:
         if flags is not None:
             return flags
         # String concatenation: literals, heredocs, __DIR__, colour macros, `+`.
-        pieces, i = [], start
+        pieces, i, color = [], start, ''
         while i < end:
             token = ts[i]
             if token.kind == 'string':
@@ -366,6 +377,9 @@ class Parser:
                 i += 4
                 continue
             elif token.text in ANSI_MACROS:
+                # The macro that opens the text is its colour.
+                if not color and not ''.join(pieces) and token.text != 'NOR':
+                    color = token.text
                 pieces.append('')
             elif token.text == '+' and pieces:
                 pass
@@ -376,7 +390,7 @@ class Parser:
             else:
                 return Unknown(self.text(start, end))
             i += 1
-        return ''.join(pieces)
+        return ColoredText(''.join(pieces), color) if color else ''.join(pieces)
 
     def mapping(self, start: int, end: int) -> dict | Unknown:
         result = {}
@@ -702,23 +716,43 @@ class Importer:
 
     @staticmethod
     def chat(path: str, sets: dict, record: dict) -> set[str]:
-        """npc.c chat(): `chat_chance` and `chat_msg` (lines, or `(: random_move :)`).
-        Both stay findings unless every entry is data: dropping one would change
-        `random(sizeof(msg))`; a chance without lines never fires."""
-        chance, lines = sets.get('chat_chance'), sets.get('chat_msg')
-        if not isinstance(chance, int) or not isinstance(lines, list) or not lines:
-            return set()
-        entries = []
-        for line in lines:
-            if isinstance(line, str):
-                entries.append(line)
-            elif line == Closure('(: random_move :)'):
-                entries.append({'action': 'random_move'})
-            else:
-                return set()
-        record['chat_chance'] = chance
-        record['chat_msg'] = entries
-        return {'chat_chance', 'chat_msg'}
+        """npc.c chat(): `chat_chance` and `chat_msg`, in a fight `chat_chance_combat`
+        and `chat_msg_combat`. Entries are lines (a coloured one as {"say", "color"}),
+        `(: random_move :)`, npc.c's perform_action, cast_spell and exert_function, and
+        `(: command, "surrender" :)`. Both keys stay findings unless every entry is data:
+        dropping one would change `random(sizeof(msg))`; a chance without lines never fires."""
+        handled = set()
+        for chance_key, lines_key in (('chat_chance', 'chat_msg'), ('chat_chance_combat', 'chat_msg_combat')):
+            chance, lines = sets.get(chance_key), sets.get(lines_key)
+            if not isinstance(chance, int) or not isinstance(lines, list) or not lines:
+                continue
+            entries = [Importer.chat_entry(line) for line in lines]
+            if None in entries:
+                continue
+            record[chance_key] = chance
+            record[lines_key] = entries
+            handled |= {chance_key, lines_key}
+        return handled
+
+    @staticmethod
+    def chat_entry(line) -> str | dict | None:
+        if isinstance(line, ColoredText):
+            return {'say': str(line), 'color': line.color}
+        if isinstance(line, str):
+            return line
+        if line == Closure('(: random_move :)'):
+            return {'action': 'random_move'}
+        match = re.fullmatch(r'\(:\s*(perform_action|cast_spell|exert_function|command)\s*,\s*"([^"]+)"\s*:\)',
+                             line.text if isinstance(line, Closure) else '')
+        if match is None:
+            return None
+        function, argument = match.groups()
+        if function == 'perform_action':
+            skill, _, action = argument.partition('.')
+            return {'action': 'perform', 'skill': skill, 'function': action} if action else None
+        if function == 'command':
+            return {'action': argument} if argument == 'surrender' else None
+        return {'action': 'cast' if function == 'cast_spell' else 'exert', 'function': argument}
 
     def inquiry(self, path: str, sets: dict, record: dict) -> set[str]:
         """ask.c answers: a string, or an array whose strings are said in turn (ask.c

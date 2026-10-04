@@ -466,6 +466,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
+	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc))
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -487,6 +488,12 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		trigger.trigger_id,
 		encounter_id,
 	)
+
+
+## The NPC a participant is (npc.c chat() in the fight), or null.
+func _resident_npc(character_id: StringName) -> NpcRuntimeState:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	return null if map == null else map.find_resident_npc(character_id)
 
 
 func complete(result: CombatEncounterResult) -> CombatEncounterCompletionResult:

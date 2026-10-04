@@ -89,8 +89,8 @@
 		},
 		"d/oldpine/npc/fat_bandit.c": {
 			"set chat_chance": "no chat_msg: npc.c chat() never fires outside a fight; nothing to port",
-			"set chat_msg_combat": "combat talk and call_for_help: later combat package",
-			"function call_for_help": "later combat package"
+			"set chat_msg_combat": "never fires: fat_bandit.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight; nothing to port",
+			"function call_for_help": "only chat_msg_combat calls it, which never fires: nothing to port"
 		}
 	}
 }
