@@ -33,19 +33,18 @@ scene reference. New player text follows
 
 Order may change after the near-term packages; each item is a content package with owner playtest.
 
-* **Offense/defense routes** (PR B in review): PR A — moves and dodge lines as data, `apply/*` in
-  combat, NPC internal power, 柳淳风 and 安惜迩 fought, 柳绘心 placed; PR B — the player's route on
-  the 武学 page: enable anywhere outside a fight, exercise, practice, self-learning, study.
-* **Internal power in combat**: the player's `enforce` (force_factor), exert (heal, recover,
-  powerup) and the force hit for the player.
+* **Internal power in combat** (in review): the player's `enforce` (force_factor), exert (heal,
+  recover, refresh, regenerate) on the 武学 page and the battle panel, the force hit and its
+  reflection; max_force/4 to max kee at Continue.
 * **Combat talk and specials**: `chat_msg_combat` with perform/cast/exert — 柳淳风's and
-  柳绘心's 「封」字诀, 安惜迩's spells; the player's perform.
+  柳绘心's 「封」字诀, 安惜迩's spells and 天邪神功's powerup/powerfade; the player's perform.
 * **Combined items**: amounts that merge and split (`std/item/combined.c`): Snow's 桃符纸, 蛇药
   and the travellers' 飞刀.
 * **Conditions and treatment**: condition-producing attacks, update cadence, cures and supplies.
 * **Old Pine remainder**: full Cave, Keep, Tree and other deferred routes and actors.
 * **Pacing knobs**: data-configured multipliers (default = original) decided from owner playtests;
-  first candidate: exercise to max_force 50 takes 8–16 hours of play at ES2's pace.
+  first: exercise gain or kee recovery (owner chose this for max_force 0 → 50, 8–16 hours at ES2's
+  pace).
 * **Second region and family**: chosen by source connections; must reuse shared systems.
 * **Breadth**: remaining regions (including `u/cloud`), families, special abilities
   (perform/exert/cast), quests (`quest/qlist*`), NPCs that wander across maps, doors, death/ghost realm.

@@ -848,6 +848,93 @@ msgid ""
 "{name}({id})。\n"
 msgstr ""
 
+#: core/internal_power/enforce_service.gd
+msgid "你必须先 enable 一种内功。"
+msgstr ""
+
+#: core/internal_power/enforce_service.gd
+msgid "你只能用 none 表示不运内力，或数字表示每一击用几点内力。"
+msgstr ""
+
+#. message_vision(): the actor of an exert line, for its $N.
+#. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
+#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd
+msgid "你"
+msgstr ""
+
+#. snow.npc.herbalist inquiry topic
+#: core/internal_power/exert_functions.gd data/snow/npcs.json
+msgid "疗伤"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "恢复气"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "恢复神"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "恢复精"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "你的气已经恢复到上限了。"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "$N深深吸了几口气，脸色看起来好多了。"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "你的神已经恢复到上限了。"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "$N微一凝神，缓缓地吸了口气，看起来有精神多了。"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "你的精力已经恢复到上限了。"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "$N深深地吸了口气，手脚活动了几下，看起来有活力多了。"
+msgstr ""
+
+#: core/internal_power/exert_service.gd
+msgid "( 你上一个动作还没有完成，不能施用内功。)"
+msgstr ""
+
+#: core/internal_power/exert_service.gd
+msgid "你请先用 enable 指令选择你要使用的内功。"
+msgstr ""
+
+#: core/internal_power/exert_service.gd
+msgid "你所学的内功中没有这种功能。"
+msgstr ""
+
+#: core/internal_power/heal_exert_function.gd
+msgid "战斗中运功疗伤？找死吗？"
+msgstr ""
+
+#: core/internal_power/heal_exert_function.gd
+msgid "你的真气不够。"
+msgstr ""
+
+#: core/internal_power/heal_exert_function.gd
+msgid "你已经受伤过重，只怕一运真气便有生命危险！"
+msgstr ""
+
+#: core/internal_power/heal_exert_function.gd
+msgid "你全身放松，坐下来开始运功疗伤。"
+msgstr ""
+
+#: core/internal_power/restore_exert_function.gd
+msgid "你的内力不够。"
+msgstr ""
+
 #. es2:obj/example/wineskin liquid.name
 #: core/items/liquid/liquid_state.gd data/common/items.json
 msgid "红酒"
@@ -1531,6 +1618,10 @@ msgstr ""
 msgid "现在没有可用的操作。"
 msgstr ""
 
+#: presentation/battle/battle_action_panel.gd ui/world/martial_arts_page.gd
+msgid "加力"
+msgstr ""
+
 #: presentation/battle/battle_action_panel.gd
 msgid "取消已排定的操作"
 msgstr ""
@@ -1541,6 +1632,11 @@ msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
 msgid "{action} · 目标：{target}"
+msgstr ""
+
+#. the battle panel: enforce.c's force_factor now, as hp.c shows it.
+#: presentation/battle/battle_action_panel.gd
+msgid "加力 +%d"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -1557,6 +1653,11 @@ msgstr ""
 
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "逃跑"
+msgstr ""
+
+#. a battle button: exert.c with one of its functions ({function}, e.g. 恢复气).
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "运功{function}"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
@@ -1737,11 +1838,6 @@ msgstr ""
 msgid "( $N{status} )"
 msgstr ""
 
-#. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd
-msgid "你"
-msgstr ""
-
 #: presentation/battle/battle_participant_card.gd
 msgid "选为目标：%s"
 msgstr ""
@@ -1772,8 +1868,13 @@ msgstr ""
 msgid "当前／有效／上限"
 msgstr ""
 
+#. the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it.
 #: presentation/battle/battle_participant_card.gd
-msgid "内力 %d/%d · 法力 %d/%d · 灵力 %d/%d"
+msgid "内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
+msgstr ""
+
+#: presentation/battle/battle_participant_card.gd
+msgid "内力 {force}/{max_force} · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
@@ -1886,6 +1987,22 @@ msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd
 msgid "$n向後一纵，躬身做揖说道：阁下武艺不凡，果然高明！"
+msgstr ""
+
+#: presentation/battle/es2_combat_messages.gd
+msgid "$N受到$n的内力反震，闷哼一声。"
+msgstr ""
+
+#: presentation/battle/es2_combat_messages.gd
+msgid "$N被$n以内力反震，「嘿」地一声退了两步。"
+msgstr ""
+
+#: presentation/battle/es2_combat_messages.gd
+msgid "$N被$n以内力一震，胸口有如受到一记重击，连退了五六步！"
+msgstr ""
+
+#: presentation/battle/es2_combat_messages.gd
+msgid "$N被$n的内力一震，眼前一黑，身子向後飞出丈许！！"
 msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd
@@ -2914,6 +3031,10 @@ msgid "每次花费的气"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
+msgid "运功"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
 msgid "自学"
 msgstr ""
 
@@ -2921,8 +3042,9 @@ msgstr ""
 msgid "研读"
 msgstr ""
 
+#. hp.c: internal power, its maximum and enforce.c's force_factor.
 #: ui/world/martial_arts_page.gd
-msgid "内力 {force} / {max_force}"
+msgid "内力 {force} / {max_force} (+{factor})"
 msgstr ""
 
 #. skills.c: {mark} is □ for an enabled skill, {rank} its rank, {level}/{progress} level and learning progress.
@@ -4653,11 +4775,6 @@ msgstr ""
 #. snow.npc.herbalist inquiry.开药.eff_kee_percent.say
 #: data/snow/npcs.json
 msgid "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。"
-msgstr ""
-
-#. snow.npc.herbalist inquiry topic
-#: data/snow/npcs.json
-msgid "疗伤"
 msgstr ""
 
 #. snow.npc.herbalist inquiry topic

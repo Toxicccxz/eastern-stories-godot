@@ -68,7 +68,16 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	_vitality.value = value.vitality.current
 	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(value.vitality), _track(value.essence), _track(value.spirit)]
 	_primary.tooltip_text = "当前／有效／上限"
-	_secondary.text = tr("内力 %d/%d · 法力 %d/%d · 灵力 %d/%d") % [value.force.current, value.force.maximum, value.mana.current, value.mana.maximum, value.atman.current, value.atman.maximum]
+	var powers: Dictionary = {
+		"force": value.force.current, "max_force": value.force.maximum, "factor": value.force_factor,
+		"mana": value.mana.current, "max_mana": value.mana.maximum,
+		"atman": value.atman.current, "max_atman": value.atman.maximum,
+	}
+	if value.participant_id == player_id:
+		# TRANSLATORS: the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it.
+		_secondary.text = tr("内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}").format(powers)
+	else:
+		_secondary.text = tr("内力 {force}/{max_force} · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}").format(powers)
 	_secondary.tooltip_text = _secondary.text
 	var states := PackedStringArray([
 		tr("已排定目标") if value.participant_id == queued_id else tr("点选为目标") if value.targetable else tr("不能选为目标"),

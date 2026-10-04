@@ -3,6 +3,8 @@ extends PanelContainer
 
 signal action_requested(action_id: StringName)
 signal cancel_requested(expected_request_id: StringName)
+## enforce.c: set at once, not queued (it has no busy check).
+signal enforce_requested(points: int)
 
 var catalog: BattleActionPresentationCatalog = BattleActionPresentationCatalog.new()
 var _actions: HFlowContainer
@@ -11,6 +13,12 @@ var _queue: Label
 var _cancel: Button
 var _shown_ids: Array[StringName] = []
 var _displayed_request_id: StringName = &""
+var enforce_row: HBoxContainer
+var enforce_text: Label
+var enforce_amount: SpinBox
+var enforce_button: Button
+var _shown_factor: int = -1
+var _shown_encounter: StringName = &""
 
 
 func _ready() -> void:
@@ -30,6 +38,23 @@ func _ready() -> void:
 	_actions.add_theme_constant_override("h_separation", 8)
 	_actions.add_theme_constant_override("v_separation", 8)
 	action_column.add_child(_actions)
+	enforce_row = HBoxContainer.new()
+	enforce_row.name = "Enforce"
+	enforce_row.add_theme_constant_override("separation", 8)
+	action_column.add_child(enforce_row)
+	enforce_text = Label.new()
+	enforce_row.add_child(enforce_text)
+	enforce_amount = SpinBox.new()
+	enforce_amount.name = "EnforceAmount"
+	enforce_amount.min_value = 0
+	enforce_amount.step = 1
+	enforce_row.add_child(enforce_amount)
+	enforce_button = Button.new()
+	enforce_button.name = "EnforceButton"
+	enforce_button.text = "加力"
+	enforce_button.custom_minimum_size = Vector2(64, 64)
+	enforce_button.pressed.connect(_enforce_pressed)
+	enforce_row.add_child(enforce_button)
 	var queue_column := VBoxContainer.new()
 	queue_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(queue_column)
@@ -51,7 +76,8 @@ func present(projection: BattlePresentationProjection) -> void:
 	var ids: Array[StringName] = []
 	for info: CombatTacticalActionInfo in infos:
 		ids.append(info.action_id)
-	_empty.visible = ids.is_empty()
+	_present_enforce(projection)
+	_empty.visible = ids.is_empty() and not enforce_row.visible
 	_actions.visible = not ids.is_empty()
 	if ids != _shown_ids:
 		_shown_ids = ids
@@ -72,6 +98,28 @@ func present(projection: BattlePresentationProjection) -> void:
 		_queue.text += "\n" + tr("{action} · 目标：{target}").format({"action": catalog.label_for(queued.request.action_id), "target": tr(projection.display_name(queued.resolved_target_id))})
 	_queue.tooltip_text = _queue.text
 	_cancel.visible = queued != null
+
+
+## enforce.c's factor now (hp.c's +N) and the amount to set, from 0 to its limit;
+## the amount follows the factor whenever the factor changes or a fight begins.
+func _present_enforce(projection: BattlePresentationProjection) -> void:
+	var player: BattleParticipantProjection = projection.participant(projection.player_id)
+	enforce_row.visible = projection.enforce_limit >= 0 and player != null
+	if not enforce_row.visible or projection.encounter_id != _shown_encounter:
+		_shown_factor = -1
+		_shown_encounter = projection.encounter_id
+	if not enforce_row.visible:
+		return
+	enforce_amount.max_value = projection.enforce_limit
+	# TRANSLATORS: the battle panel: enforce.c's force_factor now, as hp.c shows it.
+	enforce_text.text = tr("加力 +%d") % player.force_factor
+	if player.force_factor != _shown_factor:
+		_shown_factor = player.force_factor
+		enforce_amount.set_value_no_signal(mini(player.force_factor, projection.enforce_limit))
+
+
+func _enforce_pressed() -> void:
+	enforce_requested.emit(int(enforce_amount.value))
 
 
 func _queue_status(status: int) -> String:

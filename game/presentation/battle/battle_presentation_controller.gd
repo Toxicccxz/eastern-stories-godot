@@ -198,6 +198,7 @@ func _build() -> void:
 	action_panel.catalog = action_catalog
 	action_panel.action_requested.connect(_submit_action)
 	action_panel.cancel_requested.connect(_cancel_action)
+	action_panel.enforce_requested.connect(_enforce)
 	_content.add_child(action_panel)
 	_receipt = Label.new()
 	_receipt.name = "IntentReceipt"
@@ -281,6 +282,10 @@ func _present_recent(lines: Array[BattleNarrationLine]) -> void:
 		var text: Label = row.get_node("Text")
 		text.text = "" if line == null else line.text
 		text.tooltip_text = text.text
+		if line != null and SharedGameplayUI.ES2_COLORS.has(line.color):
+			text.add_theme_color_override("font_color", SharedGameplayUI.ES2_COLORS[line.color])
+		else:
+			text.remove_theme_color_override("font_color")
 		var damage: Label = row.get_node("Damage")
 		damage.text = tr("（-%d）") % line.damage if line != null and line.has_damage else ""
 
@@ -314,6 +319,19 @@ func _submit_action(id: StringName) -> void:
 	var result: CombatTacticalResult = _intent.submit(id, target)
 	_receipt.text = tr("下令：%s") % BattleFeedbackReader.reason(result.code)
 	intent_received.emit(result)
+
+
+## enforce.c in the fight: set now; its lines join the battle log.
+func _enforce(points: int) -> void:
+	if not _projection.active or _session == null or not _session.is_initialized():
+		return
+	var lines: Array[BattleNarrationLine] = []
+	for line: ColoredLine in _session.martial_arts().enforce(points):
+		lines.append(BattleNarrationLine.new(line.text, -1, line.color))
+	if lines.is_empty():
+		return
+	log_panel.append_entries([BattleFeedbackProjection.new(_reader.last_consumed_order, lines)])
+	_present_recent(_reader.note(lines))
 
 
 func _cancel_action(expected_request_id: StringName) -> void:

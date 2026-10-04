@@ -36,6 +36,8 @@ var practice_fail: String = ""
 ## skill_improved(): the line it prints when its effect applies, in its colour.
 var improved_line: String = ""
 var improved_color: StringName = ColoredLine.PLAIN
+## The exert functions its exert_function_file() reaches (ExertFunctions ids).
+var exert_functions: Array[StringName] = []
 var _valid_enabled_uses: Array[StringName] = []
 var _actions: Array[CombatActionDefinition] = []
 var _practice: PracticePolicy
@@ -107,7 +109,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
 ## parry_messages?: {armed, unarmed}, standard_force_hit?, hit_ob?,
 ## practice?: {kee?, force?, done?, fail?, refuses?}, valid_learn?: {key: line},
-## improved_line?, improved_color?}.
+## improved_line?, improved_color?, exert?: [function]}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	var kinds: Dictionary[String, int] = {"basic": Kind.BASIC, "specialized": Kind.SPECIALIZED}
 	var types: Dictionary[String, int] = {"martial": Type.MARTIAL, "knowledge": Type.KNOWLEDGE}
@@ -151,6 +153,10 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	definition.improved_color = StringName(reader.text("improved_color"))
 	if definition.improved_color not in [ColoredLine.PLAIN, ColoredLine.HIR, ColoredLine.HIY, ColoredLine.HIC, ColoredLine.HIW]:
 		reader.fail("improved_color", "expected HIR, HIY, HIC or HIW")
+	for function_id: String in reader.text_list("exert"):
+		if not ExertFunctions.has(StringName(function_id)):
+			reader.fail("exert", "no exert function %s (expected %s)" % [function_id, ", ".join(ExertFunctions.ORDER)])
+		definition.exert_functions.append(StringName(function_id))
 	var id_prefix: String = "es2:%s/" % definition.legacy_source_path.trim_suffix(".c")
 	for action: ContentRecordReader in reader.children("actions"):
 		definition._actions.append(CombatActionDefinition.from_record(action, id_prefix))

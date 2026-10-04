@@ -4,14 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Offense/defense routes, PR B** (`phase/offense-defense-routes-b`): the player's own route on
-the character panel's 武学 page — enable anywhere outside a fight (enable.c, force reset),
-exercise, practice, self-learning and study (the scavenger's 旧书), with the LPC lines and colours;
-then 封山剑法 and 倒乱七星步法 from 柳淳风 at max_force 50. PR A (moves as data, `apply/*` in
-combat, NPC internal power, 柳淳风/安惜迩 fought) is merged.
+**Internal power in combat** (`phase/internal-power-combat`): the player's 加力 (enforce.c) and
+运功 (exert.c: 封山派内功's 疗伤, the basic force's 恢复气/神/精) on the 武学 page and the battle
+panel, the force hit spending force_factor on each landed blow, std/force.c's reflection told in
+the battle log, and Continue recomputing max 精/气/神 with race/human.c's max_force/4. The
+offense/defense routes (PR A and B) are merged.
 
-Next: internal power in combat (the player's enforce, exert, force hit). Cost per NPC:
-[SNOW_CONTENT](../migration/SNOW_CONTENT.md).
+Next: combat talk and specials (perform/cast/exert for NPCs: 柳淳风's and 柳绘心's 「封」字诀,
+安惜迩's spells and powerup). Cost per NPC: [SNOW_CONTENT](../migration/SNOW_CONTENT.md).
 
 ## Playable now
 
@@ -26,7 +26,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   force, Liuh-Ken (柳家拳), 封山派内功 and literate from 柳淳风, 李火狮 (封山剑派 students) and 魏无极
   (after five taels of tuition), then 封山剑法 and 倒乱七星步法 at max_force 50; the character
   panel's 武学 page: skills, enabled skills and effective levels, enable/disable anywhere outside a
-  fight, 打坐 (exercise), 练习 (practice), 自学 and 研读 (the scavenger's 旧书); give, drop and put (the 功德箱 takes donations and gives them
+  fight, 打坐 (exercise), 练习 (practice), 自学, 研读 (the scavenger's 旧书), 加力 (enforce) and
+  运功 (exert: 疗伤, 恢复气, 恢复神, 恢复精; in a fight from the battle panel); give, drop and put (the 功德箱 takes donations and gives them
   back); thirty-three NPCs (20 types) to look at, ask (打听), fight or spar (切磋) with their ES2
   gear and loot (the crazy dog on the west road attacks; a spar with 安惜迩 becomes his kill;
   柳绘心 refuses); dogs, the scavenger, the woodcutter and the crazy dog talk
@@ -44,7 +45,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
   封山剑法), dodges read the mapped dodge skill's lines (倒乱七星步法); armor, weapon and NPC
-  `apply/*` bonuses and NPC internal power count.
+  `apply/*` bonuses and internal power count: force_factor on every landed blow, and a bare-handed
+  blow against stronger force is thrown back (std/force.c, told in the battle log).
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
@@ -66,9 +68,10 @@ Code:
   Hammers and staffs still attack with "slash" (weapond.c's bash post_action). Wine makes nobody
   drunk yet (conditions); the dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
-* At ES2's pace, exercise takes about 8–16 hours of play from max_force 0 to 50 (pacing knobs);
-  `tests/runtime/run_with_max_force.gd` gives a playtest 49. race/human.c's max_force/4 is not
-  added to the player's max kee (setup() at login in ES2). Conditions exist in Core with no caller.
+* At ES2's pace, exercise takes about 8–16 hours of play from max_force 0 to 50 (owner: a data
+  multiplier in the pacing knobs package); `tests/runtime/run_with_max_force.gd` gives a playtest
+  49. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions exist in Core
+  with no caller.
 * A zone that merges several rooms shows only its first room's text.
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
   names although they now cover every map; pre-B2 Old Pine regression suites drive combat through
@@ -83,7 +86,7 @@ Code:
   language switch stay in the old language.
 * The HUD keeps an NPC selected after the player leaves its room (its actions are refused, kill.c
   `present()`); room labels and NPC names overlap in places (grey-box layout).
-* The battle log has no 昏倒/死亡 line yet (`announce()`), nor force reflection lines.
+* The battle log has no 昏倒/死亡 line yet (`announce()`).
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
 qualification for Lake and Shared UI is deferred. The provisional app ID

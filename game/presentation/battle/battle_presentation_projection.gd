@@ -24,6 +24,10 @@ var current_target_id: StringName:
 	get: return _current_target_id
 var queue_status: int:
 	get: return _queue_status
+var _enforce_limit: int
+## enforce.c's highest factor for the player, -1 without an enabled force.
+var enforce_limit: int:
+	get: return _enforce_limit
 
 
 func _init(
@@ -34,6 +38,7 @@ func _init(
 	p_queued: CombatQueuedAction = null,
 	p_queue_status: int = CombatQueuedAction.Status.EMPTY,
 	p_completion_outcome: int = -1,
+	p_enforce_limit: int = -1,
 ) -> void:
 	_encounter_id = p_encounter_id
 	_mode = p_mode
@@ -44,6 +49,7 @@ func _init(
 	_queued = null if p_queued == null else p_queued.duplicate_snapshot()
 	_queue_status = p_queue_status
 	_completion_outcome = p_completion_outcome
+	_enforce_limit = p_enforce_limit
 
 
 func participants() -> Array[BattleParticipantProjection]:

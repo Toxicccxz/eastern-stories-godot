@@ -33,6 +33,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_sword_route(tree)
 	_test_self_learn_and_study()
 	_test_availability()
+	# Continue is ES2's login: race/human.c adds max_force 50 / 4 to max kee. With that
+	# applied first, the round trip is exact.
+	CharacterDerivedValues.refresh_human_player_maxima(_state, _player.facts.age)
+	_check(_state.vitality.maximum == 112, "the max kee a Continue gives: %d" % _state.vitality.maximum)
 	var snapshot: GameSaveSnapshot = Work.capture(_session)
 	var probe := Work.new()
 	await probe.round_trip(tree, _session, snapshot, "routes B")
@@ -49,7 +53,7 @@ func _test_page_opens() -> void:
 	_check(layout.frame.visible and layout.character.sheet.visible and not _page.visible, "角色 opens on the score sheet")
 	layout.character.arts_tab.pressed.emit()
 	_check(_page.is_visible_in_tree() and not layout.character.sheet.visible, "the 武学 tab shows the page")
-	_check(_page.force_text.text == "内力 0 / 0", "the page shows internal power: " + _page.force_text.text)
+	_check(_page.force_text.text == "内力 0 / 0 (+0)", "the page shows internal power: " + _page.force_text.text)
 	_page.exercise_button.pressed.emit()
 	_check(_last() == ["你必须先用 enable 选择你要用的内功心法。"], "exercise.c without an enabled force")
 	_check(_hud.log_lines().back() == "你必须先用 enable 选择你要用的内功心法。", "the line reaches the log")
@@ -92,7 +96,7 @@ func _test_force_route(tree: SceneTree) -> void:
 	_page.exercise_button.pressed.emit()
 	_check(_last() == ["你坐下来运气用功，一股内息开始在体内流动。", "你的内力增强了！"] and _state.recovery.inner_force.maximum == 50, "max_force 50 " + str(_last()))
 	_page.refresh()
-	_check(_page.force_text.text == "内力 50 / 50", "the page follows: " + _page.force_text.text)
+	_check(_page.force_text.text == "内力 50 / 50 (+0)", "the page follows: " + _page.force_text.text)
 	_hud.dismiss_current_panel()
 	await tree.physics_frame
 

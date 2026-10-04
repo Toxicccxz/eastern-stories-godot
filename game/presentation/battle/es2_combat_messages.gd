@@ -23,6 +23,27 @@ const WINNER: Array[String] = [
 	"$n向後一纵，躬身做揖说道：阁下武艺不凡，果然高明！",
 ]
 
+## std/force.c hit_ob(): an unarmed attacker whose force hit falls short is thrown
+## back by the victim's force, by the reflected damage: under 10, 20, 40, more. The
+## third line reads 「$N被$N以内力一震」 in the source, a typo for $n (owner: $n).
+const FORCE_REFLECTION: Array[String] = [
+	"$N受到$n的内力反震，闷哼一声。",
+	"$N被$n以内力反震，「嘿」地一声退了两步。",
+	"$N被$n以内力一震，胸口有如受到一记重击，连退了五六步！",
+	"$N被$n的内力一震，眼前一黑，身子向後飞出丈许！！",
+]
+
+
+static func force_reflection_message(damage: int) -> String:
+	if damage < 10:
+		return FORCE_REFLECTION[0]
+	if damage < 20:
+		return FORCE_REFLECTION[1]
+	if damage < 40:
+		return FORCE_REFLECTION[2]
+	return FORCE_REFLECTION[3]
+
+
 ## adm/daemons/combatd.c do_attack(), the two riposte lines.
 const QUICK_COUNTER: String = "$N一击不中，露出了破绽！"
 const RIPOSTE_COUNTER: String = "$N见$n攻击失误，趁机发动攻击！"

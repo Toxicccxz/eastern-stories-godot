@@ -2,10 +2,12 @@ class_name PlayerMartialArts
 extends RefCounted
 
 ## The player's own training, anywhere outside a fight (the character panel's 武学
-## page): cmds/std/enable.c, practice.c, exercise.c, selflearn.c and study.c, each
-## with fresh facts. The lines go to the log; `last_lines` keeps them for the page.
-## Every request is refused (no lines) while portable actions are closed: in a fight,
-## unconscious, between maps.
+## page): cmds/std/enable.c, practice.c, exercise.c, selflearn.c, study.c, enforce.c
+## and exert.c, each with fresh facts. The lines go to the log; `last_lines` keeps
+## them for the page. Every request is refused (no lines) while portable actions are
+## closed: in a fight, unconscious, between maps. enforce.c alone also works in the
+## player's fight (the battle panel), where its lines are the battle log's; exert in a
+## fight is the battle panel's queued action (CombatExertTacticalPolicy).
 
 var last_lines: Array[ColoredLine] = []
 var _session: OldPineWorldSessionController
@@ -26,8 +28,12 @@ func available() -> bool:
 ## weapon_prop (equip.c), as combat counts them.
 func apply_modifier(key: StringName) -> int:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
-	var value: int = player.armor.aggregate_numeric_modifiers().value(key)
-	var primary: EquippedWeaponRef = player.state.equipment.primary_weapon()
+	return apply_of(player.state, player.armor, key)
+
+
+static func apply_of(state: CharacterState, armor: ArmorState, key: StringName) -> int:
+	var value: int = armor.aggregate_numeric_modifiers().value(key)
+	var primary: EquippedWeaponRef = state.equipment.primary_weapon()
 	if primary != null:
 		var content: ItemContentDefinition = GameContent.catalog().item(primary.weapon_id)
 		if content != null:
@@ -38,6 +44,47 @@ func apply_modifier(key: StringName) -> int:
 ## query_skill(skill): half the raw level, the mapped skill's level and apply/<skill>.
 func effective_level(skill_id: StringName) -> int:
 	return _session.player_runtime().state.skills.effective_level(skill_id, apply_modifier(skill_id))
+
+
+## query_skill("force").
+func force_level() -> int:
+	return effective_level(&"force")
+
+
+## The highest factor enforce.c accepts now.
+func enforce_limit() -> int:
+	return EnforceService.limit(force_level())
+
+
+## enforce <points> (0 is none): outside a fight or in the player's own. Returns the
+## lines; outside a fight they also go to the log.
+func enforce(points: int) -> Array[ColoredLine]:
+	var fighting: bool = in_own_fight()
+	if not fighting and not available():
+		return []
+	var lines: Array[ColoredLine] = EnforceService.enforce(_state(), points, force_level())
+	if fighting:
+		last_lines = lines
+	else:
+		_say(lines)
+	return lines
+
+
+## The functions exert.c reaches with the enabled force.
+func exert_functions() -> Array[StringName]:
+	return ExertService.offered(_state(), GameContent.catalog())
+
+
+## exert <function>, outside a fight.
+func exert(function_id: StringName) -> ExertResult:
+	if not available():
+		return null
+	var result: ExertResult = ExertService.exert(
+		_state(), function_id, GameContent.catalog(), force_level(), false,
+		_session.player_runtime().busy, _session.world_interaction_random_source().legacy_random, _effects(),
+	)
+	_say(result.lines)
+	return result
 
 
 ## enable <use> <skill>.
@@ -128,6 +175,19 @@ func _state() -> CharacterState:
 
 func _fighting() -> bool:
 	return _session.player_runtime().relationship.is_fighting()
+
+
+## The player is conscious in an active fight of their own (enforce.c still works).
+func in_own_fight() -> bool:
+	if _session == null or not _session.is_initialized() or not _session.application_gameplay_allows_encounter_advance():
+		return false
+	var encounter: CombatEncounter = _session.combat_encounter_coordinator().active_encounter()
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	return (
+		encounter != null and encounter.phase == CombatEncounterLifecycle.Value.ACTIVE
+		and encounter.participant_for(player.character_id) != null
+		and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	)
 
 
 func _effects() -> SkillImprovementEffectRegistry:
