@@ -124,9 +124,9 @@ def ci_trigger_policy_errors(workflow_text: str) -> list[str]:
             "synchronize, and ready_for_review"
         )
 
-    expected_push = ["  push:", "    branches:", "      - main"]
-    if _workflow_trigger_block(normalized, "push") != expected_push:
-        errors.append("CI push trigger must target only main for post-merge validation")
+    # Owner (2026-10-04): a change is verified once, on its pull request; merging runs nothing.
+    if _workflow_trigger_block(normalized, "push"):
+        errors.append("CI must not run on push: a change is verified once, on its pull request")
     if "  workflow_dispatch:\n" not in normalized:
         errors.append("CI must retain manual workflow_dispatch")
     if "github.event.pull_request.draft == false" not in normalized:

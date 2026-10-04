@@ -156,13 +156,13 @@ the repository. Existing historical docs stay as they are; don't extend them.
 
 ## Git and CI
 
-* `main` is stable. Branch from green `main`: `phase/<slug>`. One package (or a few small related
-  ones) per branch and PR; multiple focused commits are fine.
-* The PR runs the four required jobs (Godot Verify, Windows, Android, iOS). Fix failures on the same
-  branch. The owner merges.
+* `main` is stable. Branch from the latest `main`: `phase/<slug>`. One package (or a few small
+  related ones) per branch and PR; multiple focused commits are fine.
+* The PR runs the four required jobs (Godot Verify, Windows, Android, iOS); merging runs no CI.
+  Fix failures on the same branch. The owner merges.
 * Don't force-push published branches, rewrite history, delete remote branches, change repository
   settings/secrets, or publish releases.
-* If post-merge `main` CI fails, fix it on a narrow `hotfix/<issue>` branch before other work.
+* If a manual CI run on `main` fails, fix it on a narrow `hotfix/<issue>` branch before other work.
 
 ## Save Policy
 

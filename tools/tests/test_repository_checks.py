@@ -29,13 +29,13 @@ class CiTriggerPolicyTests(unittest.TestCase):
         errors = repository_checks.ci_trigger_policy_errors(altered)
         self.assertTrue(any("pull_request trigger" in error for error in errors))
 
-    def test_feature_branch_push_cannot_be_added_to_main_post_merge_gate(self) -> None:
+    def test_push_trigger_is_rejected(self) -> None:
         altered = self.workflow.replace(
-            "      - main\n  workflow_dispatch:",
-            "      - main\n      - feature/**\n  workflow_dispatch:",
+            "  workflow_dispatch:",
+            "  push:\n    branches:\n      - main\n  workflow_dispatch:",
         )
         errors = repository_checks.ci_trigger_policy_errors(altered)
-        self.assertIn("CI push trigger must target only main for post-merge validation", errors)
+        self.assertIn("CI must not run on push: a change is verified once, on its pull request", errors)
 
     def test_draft_skip_guard_is_required(self) -> None:
         altered = self.workflow.replace("github.event.pull_request.draft == false", "true")
