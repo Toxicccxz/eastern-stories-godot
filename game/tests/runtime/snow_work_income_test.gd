@@ -15,6 +15,12 @@ class OrderedResource extends CharacterResourceState:
 		return super.apply_damage(amount)
 
 
+
+## random(n) is n - 1: no NPC chat beat fires (test fixtures that must not wander).
+class StillAmbience extends WorldInteractionRandomSource:
+	func next_below(bound: int) -> int:
+		return bound - 1
+
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var session: OldPineWorldSessionController = create_session(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -104,6 +110,9 @@ func capacity_test(tree: SceneTree) -> void:
 
 func physical_test(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = create_session(tree)
+	# TEST-ONLY: no chat beat fires, so the square's wanderers (the 飞刀 travellers) do not
+	# step into the walk down to the square; every map's NPCs share the ambience stream.
+	session.configure_npc_ambience_random_source(StillAmbience.new())
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
 	var snow: WorldMapController = session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
 	var work: WorkService = snow.service(&"snow.workplace.mill") as WorkService
