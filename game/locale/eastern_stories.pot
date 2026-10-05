@@ -185,6 +185,10 @@ msgstr ""
 msgid "岩穴"
 msgstr ""
 
+#: scenes/world/goathill/goathill_caverns.tscn
+msgid "西 · 峡谷"
+msgstr ""
+
 #. es2:d/snow/eroad3 short
 #. es2:d/goathill/mroad1 short
 #. es2:d/goathill/mroad2 short
@@ -215,6 +219,10 @@ msgstr ""
 #. es2:d/goathill/canyon3 short
 #: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
 msgid "峡谷"
+msgstr ""
+
+#: scenes/world/goathill/goathill_mountain.tscn
+msgid "南 · 雪亭镇"
 msgstr ""
 
 #. es2:d/oldpine/passage short

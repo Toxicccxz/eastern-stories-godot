@@ -25,6 +25,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_tiles(session)
 	_test_two_hands(session)
 	await _test_portals(tree, session)
+	await _test_corner(tree, session)
 	await _test_bash(tree, session)
 	await _test_hwang_fight(tree, session)
 	session.free()
@@ -87,12 +88,19 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 					reached[cell + step] = true
 					frontier.append(cell + step)
 		var cut_off: Array[StringName] = []
+		var rects: Array[Rect2] = []
 		for zone: WorldPhysicalZoneArea2D in map.find_children("*", "WorldPhysicalZoneArea2D", true, false):
 			var shape: RectangleShape2D = (zone.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
 			var rect := Rect2(zone.position - shape.size / 2.0, shape.size)
+			rects.append(rect)
 			if not reached.keys().any(func(cell: Vector2i) -> bool: return rect.has_point(layers[0].map_to_local(cell))):
 				cut_off.append(zone.zone_id)
 		_check(cut_off.is_empty(), "every room of %s is joined to its entry on the tiles: cut off %s" % [map_id, cut_off])
+		var outside: Array[Vector2i] = []
+		for cell: Vector2i in walkable:
+			if not rects.any(func(rect: Rect2) -> bool: return rect.has_point(layers[0].map_to_local(cell))):
+				outside.append(cell)
+		_check(outside.is_empty(), "%s: no open ground outside its rooms: %s" % [map_id, outside.slice(0, 5)])
 		var unplaced: Array[String] = []
 		for npc: NpcRuntimeState in map.npc_runtimes():
 			var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
@@ -137,6 +145,44 @@ func _test_portals(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	_check(session.active_map_id() == &"goathill.caverns" and player.world_location().zone_id == &"goathill.cavern1", "east from canyon3: 岩洞 (cavern1)")
 	await _walk_until_map(tree, session, &"goathill.mountain", "move_left")
 	_check(session.active_map_id() == &"goathill.mountain" and player.world_location().zone_id == &"goathill.canyon3", "west again: canyon3")
+
+
+## The corner's four come on together (complete_set: everyone whose presence reaches the
+## player as they step onto the corner), walked up the steep road from mroad3 and along the
+## narrow one from mroad5. Each fight is fled at once.
+func _test_corner(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for way: Array in [[&"goathill.mroad3", Vector2(640, 1420), "move_up"], [&"goathill.mroad5", Vector2(900, 1216), "move_left"]]:
+		map.runtime_player_body().global_position = way[1] # TEST-ONLY: on the road, out of the bandits' reach
+		player.set_world_location(map.location_for_zone(way[0]))
+		for _step: int in range(3):
+			await tree.physics_frame
+		Input.action_press(way[2])
+		for _step: int in range(300):
+			await tree.physics_frame
+			if coordinator.has_active_encounter():
+				break
+		Input.action_release(way[2])
+		var joined: Array[String] = []
+		if coordinator.has_active_encounter():
+			for participant: CombatParticipant in coordinator.active_encounter().participants():
+				var npc: NpcRuntimeState = map.find_resident_npc(participant.participant_id)
+				joined.append("player" if npc == null else String(npc.definition().definition_id))
+		joined.sort()
+		_check(player.world_location().zone_id == &"goathill.mroad4" and joined == ["goathill.npc.bandit", "goathill.npc.bandit", "goathill.npc.bandit", "goathill.npc.bandit_leader", "player"],
+			"from %s onto the corner: one fight with all four: %s" % [way[0], joined])
+		if coordinator.has_active_encounter():
+			coordinator.submit_player_action(CombatTacticalRequest.new(&"flee", coordinator.active_encounter().encounter_id, player.character_id,
+				CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE))
+			for tick: int in range(10):
+				coordinator.advance_scheduler(0.0 if tick == 0 else 1.0)
+				if not coordinator.has_active_encounter():
+					break
+		_check(not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "fled from the corner")
+	session.handoff_to(&"goathill.mountain", &"goathill.canyon3", &"goathill.canyon3", &"goathill.canyon3.cavern_return")
+	await tree.physics_frame
 
 
 ## weapond.c bash_weapon() with scripted rolls: the player's 大金槌 against a bandit's
