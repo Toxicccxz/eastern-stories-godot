@@ -1,0 +1,13 @@
+{
+	"item_spawns": [
+		{
+			"id": "cloud.outdoor.monky.dumplings",
+			"item": "es2:obj/example/dumpling",
+			"map": "cloud.outdoor",
+			"zone": "cloud.monky",
+			"points": ["cloud.monky.dumpling.1", "cloud.monky.dumpling.2", "cloud.monky.dumpling.3"],
+			"legacy_room": "u/cloud/monky.c",
+			"legacy_quantity": 3
+		}
+	]
+}

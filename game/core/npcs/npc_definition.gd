@@ -362,6 +362,20 @@ func has_capability(capability_id: StringName) -> bool:
 	return _capability_ids.has(capability_id)
 
 
+## The runtime flag a toll-taker carries once it has fought the player (NpcDealings).
+const FLAG_FOUGHT_PLAYER: StringName = &"fought_player"
+
+
+## Whether it starts a fight when the player comes into contact: attitude
+## "aggressive", or a toll-taker (`attack_unless_mark`) facing a player without the
+## mark, or one it has already fought.
+func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player_marks: Dictionary[String, int]) -> bool:
+	if has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+		return true
+	var mark: String = dealings().attack_unless_mark
+	return not mark.is_empty() and (npc_flags.get(FLAG_FOUGHT_PLAYER, false) or player_marks.get(mark, 0) == 0)
+
+
 func is_valid() -> bool:
 	if (
 		_definition_id.is_empty()

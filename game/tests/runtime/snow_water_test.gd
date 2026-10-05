@@ -217,9 +217,11 @@ func persistence_tests(tree: SceneTree) -> void:
 	# Legal old schemas without liquid content upgrade only their representation.
 	session = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	base = JSON.parse_string(GameSaveJsonCodec.encode(Work.capture(session)).text)
-	# Old item schemas predate liquids: leave the drunk's wineskin (4A) out of the fixture.
-	var wineskins: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id == String(TestContent.WINESKIN_ITEM_ID)).map(func(item: Dictionary) -> String: return item.item_instance_id)
+	# Old item schemas predate liquids, schema 1 food too: leave the drunk's wineskin (4A) and
+	# the 斋院's three 包子 (绮云镇) out of the fixture.
+	var wineskins: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id in [String(TestContent.WINESKIN_ITEM_ID), String(TestContent.DUMPLING_ITEM_ID)]).map(func(item: Dictionary) -> String: return item.item_instance_id)
 	base.items.records = base.items.records.filter(func(item: Dictionary) -> bool: return not wineskins.has(item.item_instance_id))
+	base.items.food_consumables = base.items.food_consumables.filter(func(food: Dictionary) -> bool: return not wineskins.has(food.item_instance_id))
 	for npc: Dictionary in base.npc_spawn_states:
 		npc.live_loadout_item_ids = npc.live_loadout_item_ids.filter(func(id: String) -> bool: return not wineskins.has(id))
 	for version: int in [1,2]:

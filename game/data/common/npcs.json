@@ -57,6 +57,28 @@
 				"accept_say": "很好，$RESPECT多加努力，他日必定有成。",
 				"class": "swordsman"
 			}
+		},
+		{
+			"id": "common.npc.garrison",
+			"legacy_source": "obj/npc/garrison.c",
+			"name": "县城官兵",
+			"aliases": ["town garrison", "garrison"],
+			"long": "这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 25 },
+			"combat_exp": 100000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 70, "sword": 70, "parry": 70, "dodge": 70, "move": 100 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"apply": { "attack": 70, "defense": 70, "damage": 30, "armor": 70 },
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "random_move" }
+			],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["县城官兵喝道：还不快放下武器束手就缚？\n", "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"]
 		}
 	]
 }

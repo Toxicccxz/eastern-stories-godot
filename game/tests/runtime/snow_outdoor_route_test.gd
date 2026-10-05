@@ -46,7 +46,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var room: RoomDefinition = GameContent.catalog().room(StringName("es2:d/snow/" + key.get_slice(":", 0)))
 		_check(room.exits().get(key.get_slice(":", 1)) == StringName("es2:" + expected_exits[key].trim_prefix("/")), "original LPC exit exact: " + key)
 	var portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(&"snow.outdoor")
-	_check(portals.size() == 4 and portals[0].portal_id == SnowWorldDefinitions.INN_RETURN_PORTAL_ID and portals[1].portal_id == SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID and portals[2].portal_id == &"snow.crossroad.north" and portals[3].portal_id == &"snow.weapon_storage.down", "west Inn door, the south road to Old Pine, the crossroad north to 野羊山 and the weapon storage's hidden way down")
+	_check(portals.size() == 5 and portals[0].portal_id == SnowWorldDefinitions.INN_RETURN_PORTAL_ID and portals[1].portal_id == SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID and portals[2].portal_id == &"snow.crossroad.north" and portals[3].portal_id == &"snow.sroad1.south" and portals[4].portal_id == &"snow.weapon_storage.down", "west Inn door, the south road to Old Pine, the crossroad north to 野羊山, sroad1 south to 卧龙岗 and the weapon storage's hidden way down")
 	_check(GameContent.catalog().portal(&"eroad3:south") == null, "Old Pine not a native portal")
 	_check(entry.inn.resident_npcs().size() == 3 and entry.outdoor.resident_npcs().size() == 27, "only the authored NPCs (4A, 4B, 4E, 柳绘心, the 飞刀 travellers), no dummies")
 	_check(entry.outdoor.find_children("*", "CharacterBody2D", true, false).size() == 28, "outdoor Player body plus one per authored NPC")

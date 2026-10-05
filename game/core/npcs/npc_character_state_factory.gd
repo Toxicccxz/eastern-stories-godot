@@ -422,7 +422,14 @@ func _apply_loadout(
 					EquippedWeaponRefType.new(item.item_instance_id, weapon_definition),
 					false,
 				)
-				if not wield_result.succeeded or not state.equipment.has_weapon_instance(item.item_instance_id):
+				# A wield equip.c refuses for want of a free hand leaves the weapon carried
+				# (卧龙岗强盗's 飞镖 after his 钢刀: carry_object() keeps it, ->wield() fails).
+				var hands_full: bool = wield_result.outcome in [
+					EquipmentTransitionResult.Outcome.NO_FREE_HAND,
+					EquipmentTransitionResult.Outcome.PRIMARY_MUST_BE_UNWIELDED,
+					EquipmentTransitionResult.Outcome.TWO_HANDED_REQUIRES_EMPTY_HANDS,
+				]
+				if not hands_full and (not wield_result.succeeded or not state.equipment.has_weapon_instance(item.item_instance_id)):
 					return []
 			elif entry.equipment_intent == LoadoutEntryType.EquipmentIntent.WEAR:
 				var armor_definition: ArmorDefinition = content.armor_definition()

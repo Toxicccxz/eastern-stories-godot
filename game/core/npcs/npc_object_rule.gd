@@ -5,8 +5,10 @@ extends RefCounted
 ## like), tested by cmds/std/give.c before anything changes hands. The first rule
 ## whose conditions all hold decides; an NPC without rules has no accept_object()
 ## and takes nothing. Conditions: the item's value() range, its liquid type and how
-## much is left, a flag of the NPC (drunk.c has_alcohol) and a mark of the giver
-## (marks/魏无极). The outcome: lines, accept or refuse, and what it changes.
+## much is left, a flag of the NPC (drunk.c has_alcohol), a mark of the giver
+## (marks/魏无极), the giver's gender and raw per (u/cloud girl.c). The outcome: lines,
+## accept or refuse, what it changes, and `kill`: a refusal that attacks the giver
+## (u/cloud gangster.c kill_passenger()).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION]
 const NO_BOUND: int = -1
@@ -17,11 +19,14 @@ var liquid_type: StringName = &""
 var liquid_remaining_at_most: int = NO_BOUND
 var npc_flag: StringName = &""
 var giver_mark: String = ""
+var giver_gender: StringName = &""
+var giver_per_below: int = NO_BOUND
 var lines: Array[NpcLine] = []
 var accept: bool = false
 var mark_giver: String = ""
 var set_npc_flag: StringName = &""
 var effect: StringName = &""
+var kill: bool = false
 
 
 ## What give.c knows about the gift and the two sides when it asks.
@@ -33,6 +38,9 @@ class Offer:
 	var liquid_remaining: int
 	var npc_flags: Dictionary[StringName, bool]
 	var giver_marks: Dictionary[String, int]
+	var giver_gender: StringName = &""
+	## query("per"): the raw attribute.
+	var giver_per: int = 0
 
 	func _init(p_value: int = 0, p_liquid_type: StringName = &"", p_liquid_remaining: int = 0, p_npc_flags: Dictionary[StringName, bool] = {}, p_giver_marks: Dictionary[String, int] = {}) -> void:
 		value = p_value
@@ -50,6 +58,8 @@ func matches(offer: Offer) -> bool:
 		and (liquid_remaining_at_most == NO_BOUND or (not offer.liquid_type.is_empty() and offer.liquid_remaining <= liquid_remaining_at_most))
 		and (npc_flag.is_empty() or offer.npc_flags.get(npc_flag, false))
 		and (giver_mark.is_empty() or offer.giver_marks.get(giver_mark, 0) != 0)
+		and (giver_gender.is_empty() or offer.giver_gender == giver_gender)
+		and (giver_per_below == NO_BOUND or offer.giver_per < giver_per_below)
 	)
 
 
@@ -69,6 +79,9 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.liquid_remaining_at_most = reader.integer("liquid_remaining_at_most", NO_BOUND)
 	rule.npc_flag = StringName(reader.text("npc_flag"))
 	rule.giver_mark = reader.text("giver_mark")
+	rule.giver_gender = StringName(reader.text("giver_gender"))
+	rule.giver_per_below = reader.integer("giver_per_below", NO_BOUND)
+	rule.kill = reader.boolean("kill", false)
 	rule.lines = NpcLine.optional_lines(reader)
 	rule.accept = reader.boolean("accept", false)
 	rule.mark_giver = reader.text("mark_giver")
@@ -82,5 +95,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
 	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty()):
 		reader.fail("accept", "a refusal changes nothing")
+	if rule.kill and rule.accept:
+		reader.fail("kill", "only a refusal attacks the giver")
 	reader.finish()
 	return rule

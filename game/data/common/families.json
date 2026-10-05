@@ -1,6 +1,8 @@
 {
 	"families": [
 		{ "id": "family.fonxan", "name": "封山剑派" },
-		{ "id": "family.fonxan_north", "name": "封山剑派北宗" }
+		{ "id": "family.fonxan_north", "name": "封山剑派北宗" },
+		{ "id": "family.zhenyuan", "name": "振远镖局" },
+		{ "id": "family.dongfang", "name": "东方神教" }
 	]
 }

@@ -4,14 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**野羊山** (`phase/goathill`), region plan #2: all its rooms north of Snow's crossroad. The
-mountain road with three 土匪爪牙 and their 土匪首领 on its corner (they attack together), 黄霸 in
-the small temple with a 大金槌 in each hand and 伏蛟功, the canyon down to the caverns and their
-thirteen rock leeches. New: a second weapon in the other hand (its weapon_prop counts, the
-player's too), hammers' and staffs' bash, crush and slam with weapond.c's bash_weapon (a
-parried blow knocks the weapon away or breaks it: 断掉的), 伏蛟功.
+**卧龙岗 + 绮云镇 3A** (`phase/cloud-streets`), region plan #3: all 43 rooms south of Snow's
+street — the road over 卧龙岗 with its two robbers and their toll (ten gold taels set
+marks/强盗), the town's markets, streets and shops, the upper floors of 香茗坊, 怡红院 and the
+赌场. Six shops sell by Snow's rules (说文解字 is studied for literate), 李师师 teaches literate
+after a keepsake, the 张家花园 thief steals silver from arrivals (steal.c), the 家丁 fight with
+春风快意刀. The later packages' NPCs stand already: 陈剑秋 and 趟子手 (3B joining 振远镖局),
+朱鸿雪 (3C quests), 宝官 and 媒婆 (3D betting, marriage), the boatman (the ferry, #8).
 
-Next: 卧龙岗 + 绮云镇 (region plan #3: the quest system).
+Next: 3B joining 振远镖局.
 
 ## Playable now
 
@@ -46,6 +47,11 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * **野羊山**: north of Snow's crossroad, all 15 rooms on two maps: the mountain road (土匪爪牙,
   土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
   巨岩蛭).
+* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on two maps (the ridge and the
+  town; the three upper floors): 卧龙岗强盗 and their toll, six shops (书局, 肉铺, 药店, 杂货铺,
+  布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
+  the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
+  the 木雕门 and 木门. Not yet: joining 振远镖局, quests, betting, marriage, the ferry.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
@@ -59,8 +65,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 93/551 rooms, 40/286 NPC
-types, 1/10 joinable families, 7/35 special and 6/25 basic martial arts, 0/87 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 136/551 rooms, 67/286 NPC
+types, 1/10 joinable families, 8/35 special and 6/25 basic martial arts, 0/87 quest targets.
 
 ## Known issues
 
@@ -81,6 +87,9 @@ Code:
   49. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions do not tick
   in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
+* 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
+  no bones, 弈者's 下棋 and 鸨母's 极乐逍遥散 (pour) are not ported, a carried 布袋 is not opened.
+  朱鸿雪 and 化缘和尚 cannot be fought until their arts are ported (#7, #8).
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
   names although they now cover every map; pre-B2 Old Pine regression suites drive combat through
   a test-only manual cadence (`historical_world_combat_fixture.gd`).

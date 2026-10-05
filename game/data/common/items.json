@@ -138,6 +138,140 @@
 			"value": 1000,
 			"combined": { "base_unit": "份", "base_weight": 0, "amount": 1 },
 			"apply": "snake_drug"
+		},
+		{
+			"id": "es2:obj/example/dart",
+			"legacy_sources": ["obj/example/dart.c"],
+			"name": "飞镖",
+			"aliases": ["dart"],
+			"long": "飞镖是一种十分常见的暗器。\n",
+			"unit": "些",
+			"combined": { "base_unit": "枝", "base_weight": 40, "amount": 1 },
+			"weapon": { "skill": "throwing", "damage": 20 }
+		},
+		{
+			"id": "es2:obj/weapon/longsword",
+			"legacy_sources": ["obj/weapon/longsword.c"],
+			"name": "长剑",
+			"aliases": ["sword"],
+			"long": "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 7000,
+			"value": 400,
+			"weapon": { "skill": "sword", "damage": 25 }
+		},
+		{
+			"id": "es2:obj/toy/poison_dust",
+			"legacy_sources": ["obj/toy/poison_dust.c"],
+			"name": "极乐逍遥散",
+			"aliases": ["poison dust", "dust"],
+			"long": "这是一种毒性猛烈的春药，你可以把它倒(pour)在酒水之中使用。\n",
+			"unit": "包",
+			"combined": { "base_unit": "份", "base_weight": 30, "amount": 1 }
+		},
+		{
+			"id": "es2:obj/example/dagger",
+			"legacy_sources": ["obj/example/dagger.c"],
+			"name": "匕首",
+			"aliases": ["dagger"],
+			"long": "这是一把看起相当普通的匕首。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 1000,
+			"value": 50,
+			"weapon": { "skill": "dagger", "damage": 4 }
+		},
+		{
+			"id": "es2:obj/weapon/blade",
+			"legacy_sources": ["obj/weapon/blade.c"],
+			"name": "单刀",
+			"aliases": ["blade"],
+			"long": "这是一寻常的单刀，份量大约六、七斤重。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 4000,
+			"value": 500,
+			"weapon": { "skill": "blade", "damage": 25 }
+		},
+		{
+			"id": "es2:obj/example/bag",
+			"legacy_sources": ["obj/example/bag.c"],
+			"name": "布袋",
+			"aliases": ["bag"],
+			"long": "这是一口寻常的布袋，可以用来装一些杂物。\n",
+			"unit": "口",
+			"weight": 500,
+			"value": 1,
+			"max_encumbrance": 8000
+		},
+		{
+			"id": "es2:obj/weapon/whip",
+			"legacy_sources": ["obj/weapon/whip.c"],
+			"name": "皮鞭",
+			"aliases": ["whip"],
+			"unit": "条",
+			"material": "skin",
+			"weight": 500,
+			"value": 500,
+			"weapon": { "skill": "whip", "damage": 1 }
+		},
+		{
+			"id": "es2:obj/weapon/dart",
+			"legacy_sources": ["obj/weapon/dart.c"],
+			"name": "飞镖",
+			"aliases": ["dart"],
+			"long": "飞镖是一种十分常见的暗器。\n",
+			"unit": "些",
+			"combined": { "base_unit": "枝", "base_weight": 40, "amount": 1 },
+			"weapon": { "skill": "throwing", "damage": 20 }
+		},
+		{
+			"id": "es2:obj/weapon/shield",
+			"legacy_sources": ["obj/weapon/shield.c"],
+			"name": "牛皮盾",
+			"aliases": ["leather shield", "shield"],
+			"unit": "面",
+			"material": "leather",
+			"weight": 7000,
+			"value": 340,
+			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 } }
+		},
+		{
+			"id": "es2:obj/weapon/sixhammer",
+			"legacy_sources": ["obj/weapon/sixhammer.c"],
+			"name": "八角锤",
+			"aliases": ["sixhammer"],
+			"long": "这是一把八角铜锤，沉甸甸的。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 12000,
+			"value": 400,
+			"weapon": { "skill": "hammer", "damage": 25 }
+		},
+		{
+			"id": "es2:obj/weapon/thin_sword",
+			"legacy_sources": ["obj/weapon/thin_sword.c"],
+			"name": "细剑",
+			"aliases": ["thin sword", "sword"],
+			"long": "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 1400,
+			"value": 700,
+			"weapon": { "skill": "sword", "damage": 16, "apply": { "courage": -4 } }
+		},
+		{
+			"id": "es2:obj/weapon/dagger",
+			"legacy_sources": ["obj/weapon/dagger.c"],
+			"name": "匕首",
+			"aliases": ["dagger"],
+			"long": "这是一把看起相当普通的匕首。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 1000,
+			"value": 50,
+			"weapon": { "skill": "dagger", "damage": 4 }
 		}
 	]
 }

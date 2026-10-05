@@ -136,6 +136,10 @@ def decode_string(token: Token) -> str:
         if text[i] == '\\' and i + 1 < len(text):
             out.append(escapes.get(text[i + 1], text[i + 1]))
             i += 2
+        elif text[i] in '\r\n':
+            # No LPC string holds a raw line break: the archive's 80-column hard
+            # wrap (u/cloud, daemon/class/fighter/celestial) put it there.
+            i += 1
         else:
             out.append(text[i])
             i += 1
@@ -446,8 +450,14 @@ def basename(path: str) -> str:
 
 
 def region_of(path: str) -> str:
+    """`d/<region>/...`; u/cloud is a whole town (绮云镇, region `cloud`, 卧龙岗 included)
+    and its sunhill subdirectory the south bank; anything else is `common`."""
     parts = source_path(path).split('/')
-    return parts[1] if parts[0] == 'd' and len(parts) > 2 else 'common'
+    if parts[0] == 'd' and len(parts) > 2:
+        return parts[1]
+    if parts[:2] == ['u', 'cloud'] and len(parts) > 2:
+        return 'sunhill' if parts[2] == 'sunhill' else 'cloud'
+    return 'common'
 
 
 def npc_id(path: str) -> str:
@@ -756,7 +766,7 @@ class Importer:
             return {'say': str(line), 'color': line.color}
         if isinstance(line, str):
             return line
-        if line == Closure('(: random_move :)'):
+        if isinstance(line, Closure) and ''.join(line.text.split()) == '(:random_move:)':
             return None if in_fight else {'action': 'random_move'}
         match = re.fullmatch(r'\(:\s*(perform_action|cast_spell|exert_function|command)\s*,\s*"([^"]+)"\s*:\)',
                              line.text if isinstance(line, Closure) else '')
