@@ -1,0 +1,659 @@
+{
+	"npcs": [
+		{
+			"id": "cloud.npc.gangster",
+			"legacy_source": "u/cloud/npc/gangster.c",
+			"name": "卧龙岗强盗",
+			"aliases": ["gangster"],
+			"gender": "男性",
+			"age": 27,
+			"long": "这强盗满脸伤疤，虎背熊腰，一脸凶狠而霸道的样子。\n",
+			"attributes": { "str": 27, "int": 12, "per": 10 },
+			"combat_exp": 10000,
+			"score": 100,
+			"attitude": "heroism",
+			"skills": { "unarmed": 100, "blade": 40, "dodge": 40, "parry": 50 },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 1 },
+				{ "item": "es2:u/cloud/obj/npc/gangster/blade", "source": "u/cloud/obj/npc/gangster/blade.c", "equip": "wield" },
+				{ "item": "es2:obj/dust", "source": "obj/dust.c", "amount": 1 },
+				{ "item": "es2:obj/example/dart", "source": "obj/example/dart.c", "equip": "wield", "amount": 1 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": { "买路钱": ["看你也不象有钱的样子，大爷我只要十两金子意思一下。\n"] },
+			"attack_unless_mark": "强盗",
+			"chat_chance": 1,
+			"chat_msg": ["强盗喝道：呔！此山是我开，此树乃我栽。要想从此过，留下 买路财！\n", "强盗将你上上下下打量了一番，说道：识相的放下十两买路钱 走你的路。\n"],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["强盗显是以劫为生，刀刀冲要害而来。\n", "强盗高喊：叫你人财两空。\n"],
+			"accept_object": [
+				{ "giver_mark": "强盗", "line": "强盗眼中放出异样的光彩，忙不迭的笑道：算你识相，以后我不会难为你的。\n", "accept": true },
+				{ "value_at_least": 100000, "mark_giver": "强盗", "line": "强盗接过钱，眼睛瞪得大大的，点了点头，说道：大爷今天做个善人，放你条生路。还不快滚！\n", "accept": true },
+				{ "line": "强盗往地上吐了口唾沫，目露凶光，说道：不给你点颜色你是不知道大爷的厉害！\n", "kill": true, "accept": false }
+			],
+			"accept_fight": [
+				{ "say": "竟敢太岁爷头上动土？纳命来！", "accept": true, "kill": true }
+			]
+		},
+		{
+			"id": "cloud.npc.butcher",
+			"legacy_source": "u/cloud/npc/butcher.c",
+			"name": "郑屠夫",
+			"aliases": ["butcher", "zheng"],
+			"title": "镇北肉铺",
+			"gender": "男性",
+			"age": 35,
+			"long": "你看到一个剽悍的大块头, 正在用钢刀剔牛骨。\n",
+			"attributes": { "str": 29, "int": 14 },
+			"combat_exp": 2500,
+			"vendor": "cloud.vendor.butcher",
+			"attitude": "heroism",
+			"skills": { "unarmed": 100, "parry": 100, "dodge": 100 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 12 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 500 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:u/cloud/obj/npc/butcher/knife", "source": "u/cloud/obj/npc/butcher/knife.c" },
+				{ "item": "es2:u/cloud/obj/npc/butcher/skin_belt", "source": "u/cloud/obj/npc/butcher/skin_belt.c", "equip": "wear" }
+			],
+			"inquiry": { "碧玉刀": ["这刀可是个宝物, 据说是当年张家老祖宗退隐时皇上赐的。"], "香茗坊": ["您也知道'碧海银针'？茶楼就在街对面，我常去的。"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "屠夫边剔骨头边嘟囔着：真是好刀，剔得好舒服! \n" },
+					{ "line": "屠夫摇摇头, 叹了口气说：唉, 不知那碧玉刀究竟比我这刀厉害几倍...\n" },
+					{ "line": "屠夫咧开大嘴, 笑着道：这位$RESPECT，要买肉是吗? \n" },
+					{ "line": "屠夫忙着给人取肉, 似乎没注意到你进来。\n" }
+				]
+			}
+		},
+		{
+			"id": "cloud.npc.fly",
+			"legacy_source": "u/cloud/npc/fly.c",
+			"name": "苍蝇",
+			"aliases": ["fly"],
+			"race": "beast",
+			"age": 1,
+			"long": "一只绿头金翅的大苍蝇。\n",
+			"skills": { "dodge": 100 },
+			"limbs": ["头部", "身体", "翅膀"],
+			"verbs": ["bite"]
+		},
+		{
+			"id": "cloud.npc.tea_waiter",
+			"legacy_source": "u/cloud/npc/tea_waiter.c",
+			"name": "茶博士",
+			"aliases": ["waiter"],
+			"gender": "男性",
+			"age": 40,
+			"long": "茶博士正忙着招呼客人, 一手提着茶壶, 一手拿着抹布\n",
+			"combat_exp": 5,
+			"rank_info": { "respect": "茶博士" },
+			"attitude": "friendly",
+			"inquiry": { "香茗坊": ["这里就是香茗坊呀! 客官。"], "碧海银针": ["您算是问着啦! 这可是百年的贡品啦，可惜..."], "金匾": ["这是当今皇上的高祖御笔亲书的，好不威风!"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "茶博士笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。\n" },
+					{ "line": "茶博士用毛巾抹了抹靠门的一张桌子，说道：这位$RESPECT，请进请进。\n" },
+					{ "line": "茶博士说道：这位$RESPECT，进来尝尝才采的新茶叶。哇! 好香啊!...\n" }
+				]
+			}
+		},
+		{
+			"id": "cloud.npc.box_boss",
+			"legacy_source": "u/cloud/npc/box_boss.c",
+			"name": "林三爷",
+			"aliases": ["boxboss", "lin"],
+			"title": "棺材铺老板",
+			"gender": "男性",
+			"age": 55,
+			"long": "这位面目慈善的老人经营棺材铺已经有很多年了。\n",
+			"attributes": { "str": 29, "int": 14 },
+			"resources": { "max_kee": 800 },
+			"combat_exp": 2000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 60, "parry": 60, "dodge": 70 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 4 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"apply": { "armor": 20 },
+			"inquiry": { "棺材": ["您这么年轻就要棺材，早了点吧？"], "香茗坊": ["您也知道'碧海银针'？茶楼就在街对面，我常去的。"] }
+		},
+		{
+			"id": "cloud.npc.box_waiter",
+			"legacy_source": "u/cloud/npc/box_waiter.c",
+			"name": "伙计",
+			"aliases": ["waiter"],
+			"title": "棺材铺",
+			"gender": "男性",
+			"age": 35,
+			"long": "他一副垂头丧气的样子，一脸倒霉相。\n",
+			"attributes": { "str": 30, "cor": 35, "int": 14 },
+			"resources": { "max_kee": 1000 },
+			"combat_exp": 1000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 60, "parry": 60, "dodge": 70 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 3 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"apply": { "armor": 25 }
+		},
+		{
+			"id": "cloud.npc.god",
+			"legacy_source": "u/cloud/npc/god.c",
+			"name": "朱鸿雪",
+			"aliases": ["Zhu hongxue", "zhu hongxue", "zhu"],
+			"gender": "女性",
+			"age": 69,
+			"long": "朱鸿雪慈眉善目，可又有谁能想到她竟是杀手组织中人。\n",
+			"attributes": { "str": 26000, "cor": 30, "int": 24, "cps": 30 },
+			"resources": { "force": 5000, "max_force": 5000 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 10,
+			"family": { "name": "东方神教", "generation": 2, "title": "教主" },
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"force": 100,
+				"pyrobat-steps": 100,
+				"snowshade-force": 100,
+				"snowshade-sword": 100,
+				"sword": 100
+			},
+			"skill_map": { "sword": "snowshade-sword", "force": "snowshade-force", "dodge": "pyrobat-steps" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/sword", "source": "d/latemoon/obj/sword.c", "equip": "wield" }
+			],
+			"accept_fight": [
+				{ "say": "生命可贵！不要自寻死路！", "accept": false }
+			],
+			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)"
+		},
+		{
+			"id": "cloud.npc.tailor",
+			"legacy_source": "u/cloud/npc/tailor.c",
+			"name": "裁缝",
+			"aliases": ["tailor"],
+			"title": "布庄",
+			"gender": "男性",
+			"age": 42,
+			"long": "一位看上去很和蔼的老裁缝，正在缝制衣服。\n",
+			"attributes": { "str": 12, "int": 24 },
+			"combat_exp": 500,
+			"vendor": "cloud.vendor.tailor",
+			"attitude": "friendly",
+			"skills": { "sword": 30, "parry": 30, "dodge": 30 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:u/cloud/obj/npc/tailor/ruler", "source": "u/cloud/obj/npc/tailor/ruler.c" },
+				{ "item": "es2:u/cloud/obj/npc/tailor/scissors", "source": "u/cloud/obj/npc/tailor/scissors.c", "equip": "wield" }
+			],
+			"inquiry": { "香茗坊": ["您也知道'碧海银针'？茶楼就在斜对面，我常去的。"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "老裁缝抬起头看了你一眼，问道：客官买布还是制衣?\n" },
+					{ "line": "裁缝的手脚甚是麻利，显然已做了多年了。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "cloud.npc.seller",
+			"legacy_source": "u/cloud/npc/seller.c",
+			"name": "杂货贩",
+			"aliases": ["seller"],
+			"title": "杂货铺",
+			"gender": "男性",
+			"age": 32,
+			"long": "卖杂货的是个年轻汉子，面带微笑。\n",
+			"combat_exp": 1000,
+			"vendor": "cloud.vendor.seller",
+			"attitude": "friendly",
+			"skills": { "unarmed": 60, "dodge": 50, "throwing": 30 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 300 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/example/dart", "source": "obj/example/dart.c", "amount": 29, "equip": "wield" }
+			],
+			"inquiry": { "杂货铺": ["这是祖上传下来的产业，小的在勉力维持。"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "杂货贩笑脸相迎，道：这位$RESPECT，要买什么？\n" },
+					{ "line": "杂货贩正忙着整理货架\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "cloud.npc.doctor",
+			"legacy_source": "u/cloud/npc/doctor.c",
+			"name": "伙计",
+			"aliases": ["waiter"],
+			"title": "药店",
+			"gender": "男性",
+			"age": 17,
+			"long": "药店的小伙计，正在学着配药。\n",
+			"combat_exp": 100,
+			"vendor": "cloud.vendor.doctor",
+			"attitude": "heroism",
+			"skills": { "unarmed": 30, "parry": 10, "dodge": 10 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": { "抓药": ["这里是附近最好的药店，您要什么？"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "小伙计称了几味药，包做个纸包。\n" },
+					{ "line": "伙计点头道：这位$RESPECT，买药？\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "cloud.npc.weaponor",
+			"legacy_source": "u/cloud/npc/weaponor.c",
+			"name": "兵器贩子",
+			"aliases": ["weaponor"],
+			"title": "兵器屋",
+			"gender": "男性",
+			"age": 32,
+			"long": "卖兵器的是个中年人，满脸伤疤。\n",
+			"combat_exp": 20000,
+			"vendor": "cloud.vendor.weaponor",
+			"attitude": "friendly",
+			"skills": { "unarmed": 100, "dodge": 100, "sword": 60 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 300 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/weapon/longsword", "source": "obj/weapon/longsword.c", "equip": "wield" }
+			],
+			"inquiry": { "兵器屋": ["本店专卖各种长短兵器"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "兵器贩子道：这位$RESPECT，自个儿挑一件称手的兵器吧\n" },
+					{ "line": "兵器贩子突然间出了神，好象想起了他的往事\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "cloud.npc.monk",
+			"legacy_source": "u/cloud/npc/monk.c",
+			"name": "化缘和尚",
+			"aliases": ["monk"],
+			"gender": "男性",
+			"age": 46,
+			"long": "    这和尚是从南边山烟寺来的，寺院常在此化缘施斋。\n",
+			"attributes": { "str": 29, "cor": 26, "cps": 29, "int": 22, "per": 18, "spi": 23, "kar": 25, "con": 27 },
+			"resources": {
+				"atman": 1000,
+				"max_atman": 1000,
+				"force": 500,
+				"max_force": 500,
+				"mana": 100,
+				"max_mana": 100
+			},
+			"combat_exp": 10000,
+			"score": 100,
+			"force_factor": 2,
+			"attitude": "friendly",
+			"skills": {
+				"staff": 60,
+				"unarmed": 80,
+				"force": 60,
+				"dodge": 40,
+				"literate": 50,
+				"chanting": 30,
+				"parry": 60,
+				"cloudstaff": 20,
+				"lotusforce": 20
+			},
+			"skill_map": { "parry": "cloudstaff", "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/monk/jiasha", "source": "u/cloud/obj/npc/monk/jiasha.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["和尚道：我佛慈悲，望住持不会怪罪我。\n"],
+			"inquiry": { "山烟寺": ["贫僧即是山烟寺来的，从此南行便是。"] },
+			"accept_object": [
+				{ "value_at_most": 0, "accept": false },
+				{ "effect": "temple_donation", "line": "和尚说道：多谢这位$RESPECT，佛祖一定会保佑你的。\n", "accept": true }
+			],
+			"accept_fight": [
+				{ "say": "施主既然身负绝艺，贫僧佩服便是，也不必较量了。", "accept": false }
+			],
+			"fight_deferred": "cloudstaff and lotusforce are not ported yet (山烟寺, region plan #8)"
+		},
+		{
+			"id": "cloud.npc.book_seller",
+			"legacy_source": "u/cloud/npc/book_seller.c",
+			"name": "潘若秋",
+			"aliases": ["seller"],
+			"title": "书局老板",
+			"gender": "男性",
+			"age": 32,
+			"long": "潘老板长得很白净，一副读书人的老实相。\n",
+			"combat_exp": 5000,
+			"vendor": "cloud.vendor.book_seller",
+			"attitude": "friendly",
+			"skills": { "unarmed": 70, "dodge": 50 },
+			"inquiry": { "书局": ["为读书人办点事也是尽一份心意。"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "潘若秋迎上来，说道：$RESPECT可是来买书的？\n" },
+					{ "line": "潘若秋幽幽地叹了口气，说道：“作个读书人难啊！”。\n" },
+					{ "line": "潘若秋真聚精会神地看着书，似乎没注意你的到来。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "cloud.npc.mei_po",
+			"legacy_source": "u/cloud/npc/mei_po.c",
+			"name": "媒婆",
+			"aliases": ["mei_po"],
+			"title": "红娘庄",
+			"gender": "女性",
+			"age": 43,
+			"long": "一位精明能干的老媒婆\n",
+			"combat_exp": 10000,
+			"attitude": "friendly",
+			"skills": { "literate": 70, "dodge": 500, "unarmed": 300 },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 5 }
+			],
+			"inquiry": { "婚约": ["是啊... 这里就可以缔结和解除婚约"] }
+		},
+		{
+			"id": "cloud.npc.boater",
+			"legacy_source": "u/cloud/npc/boater.c",
+			"name": "船夫",
+			"aliases": ["boater"],
+			"title": "渡口",
+			"gender": "男性",
+			"age": 30,
+			"long": "船夫的皮肤晒得黝黑，脸上的沧桑是多年摆渡的痕迹。\n",
+			"attributes": { "str": 27 },
+			"combat_exp": 1500,
+			"attitude": "heroism",
+			"skills": { "unarmed": 100, "parry": 50, "dodge": 30 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 200 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": { "过江": ["交五两银子"], "摆渡": ["交五两银子"] }
+		},
+		{
+			"id": "cloud.npc.mother",
+			"legacy_source": "u/cloud/npc/mother.c",
+			"name": "鸨母",
+			"aliases": ["mother"],
+			"gender": "女性",
+			"age": 49,
+			"long": "    鸨母是个浓妆艳抹的中年女子，身材微胖，全身上下珠光宝气。\n",
+			"attributes": { "str": 10, "per": 26 },
+			"combat_exp": 10,
+			"attitude": "friendly",
+			"skills": { "unarmed": 100, "parry": 50 },
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/lm_guard/color_cloth", "source": "u/cloud/obj/npc/lm_guard/color_cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/toy/poison_dust", "source": "obj/toy/poison_dust.c", "amount": 1 }
+			],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["鸨母说道：你当这里是什么地方，敢来这里骚扰？\n"],
+			"inquiry": { "怡红院": ["哎呀！就是我们这里啊，您里面请"] }
+		},
+		{
+			"id": "cloud.npc.judge",
+			"legacy_source": "u/cloud/npc/judge.c",
+			"name": "宝官",
+			"aliases": ["judge"],
+			"gender": "男性",
+			"age": 22,
+			"long": "他脸上的表情仿佛是看到了你口袋里的钱一般。\n",
+			"attributes": { "per": 25 },
+			"combat_exp": 500,
+			"attitude": "friendly",
+			"skills": { "unarmed": 50, "parry": 70 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 1 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/example/dagger", "source": "obj/example/dagger.c", "equip": "wield" }
+			],
+			"inquiry": { "赌": ["客官您把钱给我就行了。\n"] },
+			"greeting": { "one_of": [{ "line": "快来赌，快来赌啦！\n" }, { "line": "赢了可是利滚利啊！\n" }], "out_of": 4 }
+		},
+		{
+			"id": "cloud.npc.thief",
+			"legacy_source": "u/cloud/npc/thief.c",
+			"name": "飞贼",
+			"aliases": ["thief"],
+			"gender": "男性",
+			"age": 35,
+			"long": "    飞贼经常出没于大户人家, 因为他轻功高强, 官府也拿他没有办法。\n",
+			"attributes": { "int": 25, "con": 28 },
+			"combat_exp": 3000,
+			"score": -30,
+			"attitude": "heroism",
+			"skills": { "dodge": 140, "parry": 100, "unarmed": 30, "move": 100, "stealing": 70 },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 3 },
+				{ "item": "es2:u/cloud/obj/cloth/black_cloth", "source": "u/cloud/obj/cloth/black_cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 40,
+			"chat_msg": ["飞贼说道: 小心我把你变成穷光蛋! 吓得你不禁把钱攥紧了\n", { "action": "random_move" }],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": ["飞贼恶狠狠的说道: 快滚！这没你的事！", "飞贼喝道: 你要是敢惹我, 咱们以后可没完!"],
+			"steal": { "what": "silver", "chance_below": 2 },
+			"accept_fight": [
+				{ "say": "好小子, 居然管起大爷的事来, 看招!", "accept": true, "kill": true }
+			]
+		},
+		{
+			"id": "cloud.npc.b_header",
+			"legacy_source": "u/cloud/npc/b_header.c",
+			"name": "陈剑秋",
+			"aliases": ["master guardman", "guardman", "master"],
+			"nickname": "霹雳刀",
+			"gender": "男性",
+			"age": 38,
+			"long": "    陈剑秋在十几年前创立了振远镖局，凭着一手春风快意刀法在远近\n颇有些名头，因此镖局的生意还算可以。\n",
+			"attributes": { "str": 28, "cor": 27, "cps": 25, "int": 23 },
+			"resources": { "max_force": 1000, "force": 1000 },
+			"combat_exp": 1000000,
+			"score": 20000,
+			"force_factor": 3,
+			"rank_info": { "respect": "陈镖头" },
+			"family": { "name": "振远镖局", "generation": 1, "title": "镖头" },
+			"f_master": true,
+			"skills": {
+				"unarmed": 60,
+				"parry": 100,
+				"dodge": 60,
+				"blade": 100,
+				"force": 20,
+				"literate": 40,
+				"spring-blade": 120
+			},
+			"skill_map": { "blade": "spring-blade" },
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/b_header/moon_blade", "source": "u/cloud/obj/npc/b_header/moon_blade.c", "equip": "wield" }
+			],
+			"inquiry": {
+				"淳风武馆": ["淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"],
+				"name": ["在下姓陈，人称霹雳刀"],
+				"霹雳刀": ["江湖上的弟兄看得起在下就这么叫开了，实在是惭愧。"],
+				"陈天星": ["他是我师叔，如果你帮我找到忘忧草并交给我，我就介绍你去那学艺。"],
+				"忘忧草": ["我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"]
+			}
+		},
+		{
+			"id": "cloud.npc.bfighter",
+			"legacy_source": "u/cloud/npc/bfighter.c",
+			"name": "趟子手",
+			"aliases": ["bfighter"],
+			"gender": "男性",
+			"age": 38,
+			"long": "这是一位镖局的趟子手，负责镖局的护镖任务。\n",
+			"attributes": { "str": 28, "cor": 27, "cps": 25, "int": 23 },
+			"resources": { "max_force": 100, "force": 100 },
+			"combat_exp": 10000,
+			"score": 200,
+			"force_factor": 3,
+			"family": { "name": "振远镖局", "generation": 2, "title": "趟子手" },
+			"skills": {
+				"unarmed": 60,
+				"parry": 50,
+				"dodge": 30,
+				"blade": 50,
+				"force": 20,
+				"literate": 10,
+				"spring-blade": 40
+			},
+			"skill_map": { "blade": "spring-blade" },
+			"carry": [
+				{ "item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield" }
+			],
+			"chat_chance": 20,
+			"chat_msg": ["趟子手喊道：振远镖局..., 盛名远扬...\n", { "action": "random_move" }],
+			"chat_chance_combat": 40,
+			"chat_msg_combat": ["趟子手喊道：教你尝尝我的厉害！\n", "趟子手叫道：我们镖局可不是好惹的！\n趟子手大叫：我一定要杀了你，替镖局扬名！\n"]
+		},
+		{
+			"id": "cloud.npc.room_gua",
+			"legacy_source": "u/cloud/npc/room_gua.c",
+			"name": "保镖",
+			"aliases": ["guard"],
+			"title": "贴身保镖",
+			"gender": "男性",
+			"age": 25,
+			"long": "你看到一个剽悍的大块头。\n",
+			"attributes": { "str": 29, "int": 14, "cor": 56 },
+			"resources": { "max_kee": 800 },
+			"combat_exp": 10000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 200, "parry": 140, "dodge": 220 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 12 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 500 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": { "碧玉刀": ["这刀可是个宝物, 据说是当年张家老祖宗退隐时皇上赐的。"], "镇关西": ["这雪亭镇有谁不知道我家老爷镇大官人！"] }
+		},
+		{
+			"id": "cloud.npc.millinare",
+			"legacy_source": "u/cloud/npc/millinare.c",
+			"name": "张百万",
+			"aliases": ["zhang"],
+			"title": "主人",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位精明能干的大奸商\n",
+			"combat_exp": 10000,
+			"attitude": "friendly",
+			"skills": { "literate": 70, "dodge": 300, "unarmed": 200 },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 5 }
+			]
+		},
+		{
+			"id": "cloud.npc.jiading",
+			"legacy_source": "u/cloud/npc/jiading.c",
+			"name": "家丁",
+			"aliases": ["jiading"],
+			"title": "张府家丁",
+			"gender": "男性",
+			"age": 35,
+			"long": "张府的家丁的俸禄极高，当然能在张府做事武功也不弱\n",
+			"combat_exp": 40000,
+			"skills": { "dodge": 70, "parry": 90, "blade": 70, "spring-blade": 40 },
+			"skill_map": { "blade": "spring-blade" },
+			"carry": [
+				{ "item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "cloud.npc.worker",
+			"legacy_source": "u/cloud/npc/worker.c",
+			"name": "茶工",
+			"aliases": ["tea worker", "worker"],
+			"gender": "男性",
+			"age": 32,
+			"long": "茶工正在忙碌着。\n",
+			"combat_exp": 500,
+			"attitude": "friendly",
+			"skills": { "unarmed": 10, "parry": 20, "dodge": 20, "throwing": 10 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 15 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:u/cloud/obj/npc/worker/tea_leaf", "source": "u/cloud/obj/npc/worker/tea_leaf.c", "equip": "wield", "amount": 10 }
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "random_move" }
+			],
+			"inquiry": { "碧海银针": ["这要到香茗坊去问。"] }
+		},
+		{
+			"id": "cloud.npc.chess_player",
+			"legacy_source": "u/cloud/npc/chess_player.c",
+			"name": "弈者",
+			"aliases": ["chess player", "player"],
+			"gender": "男性",
+			"age": 43,
+			"long": "一位十分文气的男子，装束象个雅儒。\n",
+			"attributes": { "str": 12, "int": 28 },
+			"combat_exp": 500,
+			"attitude": "friendly",
+			"skills": { "unarmed": 10, "dodge": 80, "throwing": 30 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:u/cloud/obj/npc/chess_player/chess", "source": "u/cloud/obj/npc/chess_player/chess.c", "equip": "wield", "amount": 100 }
+			]
+		},
+		{
+			"id": "cloud.npc.girl",
+			"legacy_source": "u/cloud/npc/girl.c",
+			"name": "李师师",
+			"aliases": ["girl"],
+			"title": "名妓",
+			"gender": "女性",
+			"age": 22,
+			"long": "    李师师是怡红院的名妓，精通琴棋书画，周围的纨绔子弟们常往这\n里钻。\n",
+			"attributes": { "str": 10, "per": 30 },
+			"combat_exp": 10,
+			"attitude": "friendly",
+			"skills": { "literate": 100 },
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/girl/pink_cloth", "source": "u/cloud/obj/npc/girl/pink_cloth.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": ["李师师秀眉微蹙，说道：喂！我哪里得罪您了？干嘛这样跟我拼死拼活？\n"],
+			"inquiry": { "过夜": ["官人可要洁身自好啊！"], "嫖妓": ["官人可要洁身自好啊！"], "学艺": ["请您留件信物！"] },
+			"accept_object": [
+				{ "value_at_least": 1, "say": "我对钱没兴趣！", "accept": false },
+				{ "giver_per_below": 25, "say": "我对您没兴趣！", "accept": false },
+				{ "giver_gender": "女性", "say": "我对您没兴趣！", "accept": false },
+				{ "say": "能做相公的老师，真是三生有幸。", "mark_giver": "李师师", "accept": true }
+			],
+			"recognize_apprentice": [
+				{ "giver_mark": "李师师", "accept": true },
+				{ "line": "李师师说道：咦？我不记得您啊......\n", "accept": false }
+			],
+			"accept_fight": [
+				{ "say": "小女子哪里是您的对手？", "accept": false }
+			]
+		}
+	]
+}

@@ -1,0 +1,399 @@
+{
+	"vendors": [
+		"u/cloud/npc/book_seller.c",
+		"u/cloud/npc/butcher.c",
+		"u/cloud/npc/doctor.c",
+		"u/cloud/npc/seller.c",
+		"u/cloud/npc/tailor.c",
+		"u/cloud/npc/weaponor.c"
+	],
+	"set": {
+		"cloud.outdoor.hummock.gangsters": { "presence_radius": 100 },
+		"cloud.npc.gangster": {
+			"attack_unless_mark": "强盗",
+			"chat_chance": 1,
+			"chat_msg": [
+				"强盗喝道：呔！此山是我开，此树乃我栽。要想从此过，留下 买路财！\n",
+				"强盗将你上上下下打量了一番，说道：识相的放下十两买路钱 走你的路。\n"
+			],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				"强盗显是以劫为生，刀刀冲要害而来。\n",
+				"强盗高喊：叫你人财两空。\n"
+			],
+			"accept_object": [
+				{ "giver_mark": "强盗", "line": "强盗眼中放出异样的光彩，忙不迭的笑道：算你识相，以后我不会难为你的。\n", "accept": true },
+				{ "value_at_least": 100000, "mark_giver": "强盗", "line": "强盗接过钱，眼睛瞪得大大的，点了点头，说道：大爷今天做个善人，放你条生路。还不快滚！\n", "accept": true },
+				{ "line": "强盗往地上吐了口唾沫，目露凶光，说道：不给你点颜色你是不知道大爷的厉害！\n", "kill": true, "accept": false }
+			],
+			"accept_fight": [
+				{ "say": "竟敢太岁爷头上动土？纳命来！", "accept": true, "kill": true }
+			]
+		},
+		"cloud.npc.book_seller": {
+			"greeting": {
+				"one_of": [
+					{ "line": "潘若秋迎上来，说道：$RESPECT可是来买书的？\n" },
+					{ "line": "潘若秋幽幽地叹了口气，说道：“作个读书人难啊！”。\n" },
+					{ "line": "潘若秋真聚精会神地看着书，似乎没注意你的到来。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"cloud.npc.butcher": {
+			"greeting": {
+				"one_of": [
+					{ "line": "屠夫边剔骨头边嘟囔着：真是好刀，剔得好舒服! \n" },
+					{ "line": "屠夫摇摇头, 叹了口气说：唉, 不知那碧玉刀究竟比我这刀厉害几倍...\n" },
+					{ "line": "屠夫咧开大嘴, 笑着道：这位$RESPECT，要买肉是吗? \n" },
+					{ "line": "屠夫忙着给人取肉, 似乎没注意到你进来。\n" }
+				]
+			}
+		},
+		"cloud.npc.doctor": {
+			"greeting": {
+				"one_of": [
+					{ "line": "小伙计称了几味药，包做个纸包。\n" },
+					{ "line": "伙计点头道：这位$RESPECT，买药？\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"cloud.npc.seller": {
+			"greeting": {
+				"one_of": [
+					{ "line": "杂货贩笑脸相迎，道：这位$RESPECT，要买什么？\n" },
+					{ "line": "杂货贩正忙着整理货架\n" }
+				],
+				"out_of": 4
+			},
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 300 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/example/dart", "source": "obj/example/dart.c", "amount": 29, "equip": "wield" }
+			]
+		},
+		"cloud.npc.tailor": {
+			"greeting": {
+				"one_of": [
+					{ "line": "老裁缝抬起头看了你一眼，问道：客官买布还是制衣?\n" },
+					{ "line": "裁缝的手脚甚是麻利，显然已做了多年了。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"cloud.npc.weaponor": {
+			"greeting": {
+				"one_of": [
+					{ "line": "兵器贩子道：这位$RESPECT，自个儿挑一件称手的兵器吧\n" },
+					{ "line": "兵器贩子突然间出了神，好象想起了他的往事\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"cloud.npc.tea_waiter": {
+			"greeting": {
+				"one_of": [
+					{ "line": "茶博士笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。\n" },
+					{ "line": "茶博士用毛巾抹了抹靠门的一张桌子，说道：这位$RESPECT，请进请进。\n" },
+					{ "line": "茶博士说道：这位$RESPECT，进来尝尝才采的新茶叶。哇! 好香啊!...\n" }
+				]
+			}
+		},
+		"cloud.npc.judge": {
+			"greeting": {
+				"one_of": [
+					{ "line": "快来赌，快来赌啦！\n" },
+					{ "line": "赢了可是利滚利啊！\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"cloud.npc.girl": {
+			"accept_object": [
+				{ "value_at_least": 1, "say": "我对钱没兴趣！", "accept": false },
+				{ "giver_per_below": 25, "say": "我对您没兴趣！", "accept": false },
+				{ "giver_gender": "女性", "say": "我对您没兴趣！", "accept": false },
+				{ "say": "能做相公的老师，真是三生有幸。", "mark_giver": "李师师", "accept": true }
+			],
+			"recognize_apprentice": [
+				{ "giver_mark": "李师师", "accept": true },
+				{ "line": "李师师说道：咦？我不记得您啊......\n", "accept": false }
+			],
+			"accept_fight": [
+				{ "say": "小女子哪里是您的对手？", "accept": false }
+			]
+		},
+		"cloud.npc.monk": {
+			"accept_object": [
+				{ "value_at_most": 0, "accept": false },
+				{ "effect": "temple_donation", "line": "和尚说道：多谢这位$RESPECT，佛祖一定会保佑你的。\n", "accept": true }
+			],
+			"accept_fight": [
+				{ "say": "施主既然身负绝艺，贫僧佩服便是，也不必较量了。", "accept": false }
+			],
+			"fight_deferred": "cloudstaff and lotusforce are not ported yet (山烟寺, region plan #8)"
+		},
+		"cloud.npc.god": {
+			"accept_fight": [
+				{ "say": "生命可贵！不要自寻死路！", "accept": false }
+			],
+			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)"
+		},
+		"cloud.npc.boater": {
+			"inquiry": { "过江": ["交五两银子"], "摆渡": ["交五两银子"] }
+		},
+		"cloud.npc.thief": {
+			"steal": { "what": "silver", "chance_below": 2 },
+			"accept_fight": [
+				{ "say": "好小子, 居然管起大爷的事来, 看招!", "accept": true, "kill": true }
+			]
+		}
+	},
+	"review": {
+		"d/latemoon/obj/sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/example/bag.c": {
+			"function is_container": "a container: put.c works on one lying in reach (max_encumbrance); a carried one is not opened yet"
+		},
+		"obj/example/dagger.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/npc/garrison.c": {
+			"set_temp apply/move": "move (轻功 travel) is not modelled",
+			"set vendetta_mark": "vendettas (attack.c init(): the authorities hunt wanted players) are not modelled; nothing marks the player",
+			"set pursuer": "following who flees is not modelled yet (as 安惜迩's and 金银花蛇's)"
+		},
+		"obj/toy/poison_dust.c": {
+			"function init": "pour (into a drink, slumber_drug) waits for the slumber_drug condition: the mother carries it as loot",
+			"function do_pour": "pour (into a drink, slumber_drug) waits for the slumber_drug condition: the mother carries it as loot",
+			"function drink_drug": "pour (into a drink, slumber_drug) waits for the slumber_drug condition: the mother carries it as loot"
+		},
+		"obj/weapon/blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/weapon/dagger.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/weapon/longsword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/weapon/sixhammer.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/weapon/thin_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/weapon/whip.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/biaoju.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/bookstore.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/butchery.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/drugstore.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/duchang.c": {
+			"set item_desc": "look targets are not data yet"
+		},
+		"u/cloud/duchang2.c": {
+			"set item_desc": "look targets are not data yet",
+			"function init": "bet: do_bet is a TODO that does nothing (the betting is the judge's accept_object, package 3D)",
+			"function do_bet": "bet: do_bet is a TODO that does nothing (the betting is the judge's accept_object, package 3D)"
+		},
+		"u/cloud/entrance.c": {
+			"set item_desc": "look targets are not data yet; no code takes the toll the notice names",
+			"function look_sign": "look targets are not data yet; no code takes the toll the notice names"
+		},
+		"u/cloud/god1.c": {
+			"create_door": "world.json cloud.woodboxy.door"
+		},
+		"u/cloud/jiyuan.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/marry_room.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/monky.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/npc/b_header.c": {
+			"function attempt_apprentice": "joining 振远镖局: package 3B",
+			"function recruit_apprentice": "joining 振远镖局: package 3B",
+			"function accept_object": "忘忧草 for the letter to 陈天星: package 3B"
+		},
+		"u/cloud/npc/bfighter.c": {
+			"set pursuer": "following who flees is not modelled yet (as 安惜迩's and 金银花蛇's)",
+			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)"
+		},
+		"u/cloud/npc/boater.c": {
+			"inquiry 过江": "cross_river() returns a constant: inquiry (set cloud.npc.boater)",
+			"inquiry 摆渡": "cross_river() returns a constant: inquiry (set cloud.npc.boater)",
+			"function accept_object": "paying the ferry (marks/船夫): with the crossing, region plan #8; he takes nothing until then",
+			"function cross_river": "cross_river() returns a constant: inquiry (set cloud.npc.boater)"
+		},
+		"u/cloud/npc/book_seller.c": {
+			"function init": "greeting (set cloud.npc.book_seller) and `list`: the vendor's goods panel",
+			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.book_seller)"
+		},
+		"u/cloud/npc/butcher.c": {
+			"function init": "greeting (set cloud.npc.butcher) and `list`: the vendor's goods panel",
+			"function greeting": "greeting one_of (set cloud.npc.butcher)"
+		},
+		"u/cloud/npc/chess_player.c": {
+			"inquiry 下棋": "play_chess() (a coin flip that hands over his 棋子) is not data yet",
+			"function play_chess": "play_chess() (a coin flip that hands over his 棋子) is not data yet"
+		},
+		"u/cloud/npc/doctor.c": {
+			"function init": "greeting (set cloud.npc.doctor) and `list`: the vendor's goods panel",
+			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.doctor)"
+		},
+		"u/cloud/npc/gangster.c": {
+			"function init": "greeting: attack_unless_mark (set cloud.npc.gangster)",
+			"function greeting": "attack_unless_mark 强盗; its chat lines are set from the start (set cloud.npc.gangster)",
+			"function accept_object": "accept_object rules, the refusal kills (set cloud.npc.gangster)",
+			"function kill_passenger": "attack_unless_mark and the accept_object kill; its combat lines are set from the start (set cloud.npc.gangster)",
+			"function accept_fight": "accept_fight kill (set cloud.npc.gangster)"
+		},
+		"u/cloud/npc/girl.c": {
+			"function recognize_apprentice": "recognize_apprentice giver_mark 李师师 (set cloud.npc.girl)",
+			"function accept_object": "accept_object with giver_per_below and giver_gender (set cloud.npc.girl)",
+			"function accept_fight": "accept_fight (set cloud.npc.girl)"
+		},
+		"u/cloud/npc/god.c": {
+			"set skill_public": "skill_public is read by no mudlib code",
+			"function accept_fight": "accept_fight (set cloud.npc.god)",
+			"function init": "the quest command: package 3C",
+			"function give_quest": "the quest command: package 3C",
+			"function time_period": "the quest command: package 3C"
+		},
+		"u/cloud/npc/judge.c": {
+			"function init": "greeting (set cloud.npc.judge)",
+			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.judge)",
+			"function pay_player": "betting: package 3D",
+			"function accept_object": "betting: package 3D; he takes nothing until then"
+		},
+		"u/cloud/npc/mei_po.c": {
+			"function init": "marry/unmarry: package 3D",
+			"function do_marry": "marry/unmarry: package 3D",
+			"function do_unmarry": "marry/unmarry: package 3D"
+		},
+		"u/cloud/npc/monk.c": {
+			"function accept_fight": "accept_fight (set cloud.npc.monk); the bonze branch needs 山烟寺's class (region plan #8)",
+			"function greeting": "nothing calls it (monk.c has no init())",
+			"function accept_object": "accept_object: temple_donation, keeper.c's formula (set cloud.npc.monk); a gift of no value is refused by give.c's own line, which replaces its notify_fail"
+		},
+		"u/cloud/npc/seller.c": {
+			"for in create()": "29 darts merge into one wielded stack (combined.c move()): carry (set cloud.npc.seller)",
+			"function init": "greeting (set cloud.npc.seller) and `list`; the extra dart on half the arrivals is not modelled",
+			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.seller)"
+		},
+		"u/cloud/npc/tailor.c": {
+			"function init": "greeting (set cloud.npc.tailor) and `list`: the vendor's goods panel",
+			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.tailor)"
+		},
+		"u/cloud/npc/tea_waiter.c": {
+			"function init": "greeting (set cloud.npc.tea_waiter)",
+			"function greeting": "greeting one_of (set cloud.npc.tea_waiter)"
+		},
+		"u/cloud/npc/thief.c": {
+			"set rank": "rank is read by no mudlib code",
+			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
+			"function init": "steal (set cloud.npc.thief): NpcSteal; an NPC that walks in is not robbed",
+			"function steal_it": "steal (set cloud.npc.thief): NpcSteal with cmds/std/steal.c",
+			"function accept_fight": "accept_fight kill (set cloud.npc.thief)"
+		},
+		"u/cloud/npc/weaponor.c": {
+			"function init": "greeting (set cloud.npc.weaponor) and `list`: the vendor's goods panel",
+			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.weaponor)"
+		},
+		"u/cloud/obj/etc/rope.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/meat/dog_m.c": {
+			"function finish_eat": "what is left once eaten (狗骨头) is not modelled: an eaten food is gone"
+		},
+		"u/cloud/obj/meat/hind.c": {
+			"set food_remaining": "a hammer that is also food is not supported yet: 牛腿 is a hammer for now",
+			"set food_supply": "a hammer that is also food is not supported yet: 牛腿 is a hammer for now",
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"function finish_eat": "what is left once eaten (牛腿骨) is not modelled"
+		},
+		"u/cloud/obj/meat/tail.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/b_header/moon_blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/butcher/knife.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/gangster/blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/monk/jiasha.c": {
+			"set male_only": "wear.c checks only female_only: anyone may wear it"
+		},
+		"u/cloud/obj/npc/tailor/ruler.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/tailor/scissors.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/tailory.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/tea_corridor.c": {
+			"create_door": "world.json cloud.tearoom.door"
+		},
+		"u/cloud/tearoom.c": {
+			"set item_desc": "look targets are not data yet",
+			"create_door": "world.json cloud.tearoom.door",
+			"statement in create()": "message boards are not modelled (single player)",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/weapony.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/woodboxy.c": {
+			"set item_desc": "look targets are not data yet",
+			"create_door": "world.json cloud.woodboxy.door",
+			"function look_sign": "look targets are not data yet"
+		},
+		"u/cloud/zaihuoy.c": {
+			"set item_desc": "look targets are not data yet",
+			"function look_sign": "look targets are not data yet"
+		}
+	}
+}

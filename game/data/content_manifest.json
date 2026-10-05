@@ -23,6 +23,14 @@
 		"goathill/npcs.json",
 		"goathill/spawns.json",
 		"goathill/rooms.json",
-		"goathill/world.json"
+		"goathill/world.json",
+		"latemoon/items.json",
+		"cloud/items.json",
+		"cloud/npcs.json",
+		"cloud/spawns.json",
+		"cloud/item_spawns.json",
+		"cloud/vendors.json",
+		"cloud/rooms.json",
+		"cloud/world.json"
 	]
 }

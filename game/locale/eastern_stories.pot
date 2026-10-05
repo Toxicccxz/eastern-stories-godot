@@ -82,10 +82,32 @@ msgstr ""
 #. snow.npc.smith gender
 #. snow.npc.herbalist gender
 #. snow.npc.trav_blade gender.then
+#. snow.npc.beggar gender
 #. goathill.npc.bandit_hwang gender
 #. goathill.npc.bandit gender
 #. goathill.npc.bandit_leader gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json
+#. cloud.npc.gangster gender
+#. cloud.npc.butcher gender
+#. cloud.npc.tea_waiter gender
+#. cloud.npc.box_boss gender
+#. cloud.npc.box_waiter gender
+#. cloud.npc.tailor gender
+#. cloud.npc.seller gender
+#. cloud.npc.doctor gender
+#. cloud.npc.weaponor gender
+#. cloud.npc.monk gender
+#. cloud.npc.book_seller gender
+#. cloud.npc.boater gender
+#. cloud.npc.judge gender
+#. cloud.npc.thief gender
+#. cloud.npc.b_header gender
+#. cloud.npc.bfighter gender
+#. cloud.npc.room_gua gender
+#. cloud.npc.millinare gender
+#. cloud.npc.jiading gender
+#. cloud.npc.worker gender
+#. cloud.npc.chess_player gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -93,7 +115,11 @@ msgstr ""
 #. snow.npc.girl gender
 #. snow.npc.girl accept_fight.gender
 #. snow.npc.trav_blade gender.else
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json
+#. cloud.npc.god gender
+#. cloud.npc.mei_po gender
+#. cloud.npc.mother gender
+#. cloud.npc.girl gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json data/cloud/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -171,6 +197,221 @@ msgstr ""
 
 #: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
 msgid "背包"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/nroad short
+#. es2:u/cloud/dragonhill/sroad short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "黄土路"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/nhillfoot short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "卧龙岗北坡"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/hummock short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "卧龙岗"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/shillfoot short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "卧龙岗南坡"
+msgstr ""
+
+#. es2:u/cloud/entrance short
+#. cloud name
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/cloud/world.json
+msgid "绮云镇"
+msgstr ""
+
+#. es2:u/cloud/tea_corridor short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "香茗坊茶窖"
+msgstr ""
+
+#. cloud.npc.butcher title
+#. es2:u/cloud/butchery short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "镇北肉铺"
+msgstr ""
+
+#. es2:u/cloud/nwroad1 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "北市场"
+msgstr ""
+
+#. cloud.npc.butcher inquiry topic
+#. cloud.npc.tea_waiter inquiry topic
+#. cloud.npc.box_boss inquiry topic
+#. cloud.npc.tailor inquiry topic
+#. es2:u/cloud/tearoom short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "香茗坊"
+msgstr ""
+
+#. cloud.npc.doctor title
+#. es2:u/cloud/drugstore short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "药店"
+msgstr ""
+
+#. es2:u/cloud/god2 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "场院前厅"
+msgstr ""
+
+#. es2:u/cloud/god1 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "场院"
+msgstr ""
+
+#. cloud.npc.box_waiter title
+#. es2:u/cloud/woodboxy short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "棺材铺"
+msgstr ""
+
+#. es2:u/cloud/nwroad2 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "西市场"
+msgstr ""
+
+#. es2:u/cloud/nwroad3 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "中市场"
+msgstr ""
+
+#. es2:u/cloud/nroad1 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "东市场"
+msgstr ""
+
+#. cloud.npc.weaponor title
+#. cloud.npc.weaponor inquiry topic
+#. es2:u/cloud/weapony short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "兵器屋"
+msgstr ""
+
+#. es2:u/cloud/rich short
+#. es2:u/cloud/m_house short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "张百万家"
+msgstr ""
+
+#. cloud.npc.mei_po title
+#. es2:u/cloud/marry_room short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "红娘庄"
+msgstr ""
+
+#. cloud.npc.tailor title
+#. es2:u/cloud/tailory short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "布庄"
+msgstr ""
+
+#. cloud.npc.seller title
+#. cloud.npc.seller inquiry topic
+#. es2:u/cloud/zaihuoy short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "杂货铺"
+msgstr ""
+
+#. es2:u/cloud/nroad2 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "南市场"
+msgstr ""
+
+#. cloud.npc.mother inquiry topic
+#. es2:u/cloud/jiyuan short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "怡红院"
+msgstr ""
+
+#. es2:u/cloud/park short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "张家花园"
+msgstr ""
+
+#. es2:u/cloud/wroad2 short
+#. es2:u/cloud/wroad1 short
+#. es2:u/cloud/wroad0 short
+#. es2:u/cloud/sroad1 short
+#. es2:u/cloud/eroad1 short
+#. es2:u/cloud/eroad2 short
+#. es2:u/cloud/eroad3 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "绮云镇街道"
+msgstr ""
+
+#. es2:u/cloud/cross short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "十字路口"
+msgstr ""
+
+#. es2:u/cloud/eroad4 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "茶场"
+msgstr ""
+
+#. cloud.npc.book_seller inquiry topic
+#. es2:u/cloud/bookstore short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "书局"
+msgstr ""
+
+#. es2:u/cloud/monky short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "斋院"
+msgstr ""
+
+#. es2:u/cloud/duchang short
+#. es2:u/cloud/duchang2 short
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/cloud/cloud_upstairs.tscn data/cloud/rooms.json
+msgid "赌场"
+msgstr ""
+
+#. es2:u/cloud/biaoju short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "镖局"
+msgstr ""
+
+#. es2:u/cloud/dukou short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "江北渡口"
+msgstr ""
+
+#: scenes/world/cloud/cloud_outdoor.tscn
+msgid "西 · 晚月庄"
+msgstr ""
+
+#: scenes/world/cloud/cloud_outdoor.tscn
+msgid "南 · 泓水"
+msgstr ""
+
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/oldpine/oldpine_outdoor.tscn
+msgid "北 · 雪亭镇"
+msgstr ""
+
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/snow/snow_inn.tscn
+msgid "楼梯 · 上楼"
+msgstr ""
+
+#. es2:u/cloud/tearoom2 short
+#: scenes/world/cloud/cloud_upstairs.tscn data/cloud/rooms.json
+msgid "香茗坊二楼"
+msgstr ""
+
+#. es2:u/cloud/jiyuan2 short
+#: scenes/world/cloud/cloud_upstairs.tscn data/cloud/rooms.json
+msgid "怡红院二楼"
+msgstr ""
+
+#: scenes/world/cloud/cloud_upstairs.tscn scenes/world/snow/snow_inn_upstairs.tscn
+msgid "楼梯 · 下楼"
 msgstr ""
 
 #. es2:d/goathill/cavern1 short
@@ -336,10 +577,6 @@ msgstr ""
 msgid "悬崖边"
 msgstr ""
 
-#: scenes/world/oldpine/oldpine_outdoor.tscn
-msgid "北 · 雪亭镇"
-msgstr ""
-
 #. oldpine.outdoor.landmark.epath2_vine name
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
 msgid "藤蔓"
@@ -394,10 +631,6 @@ msgstr ""
 msgid "雪亭镇 · 饮风客栈"
 msgstr ""
 
-#: scenes/world/snow/snow_inn.tscn
-msgid "楼梯 · 上楼"
-msgstr ""
-
 #: scenes/world/snow/snow_inn_upstairs.tscn
 msgid "饮风客栈 · 二楼"
 msgstr ""
@@ -408,10 +641,6 @@ msgstr ""
 #. es2:d/snow/guestroom short
 #: scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "客房"
-msgstr ""
-
-#: scenes/world/snow/snow_inn_upstairs.tscn
-msgid "楼梯 · 下楼"
 msgstr ""
 
 #. es2:d/snow/square short
@@ -444,6 +673,10 @@ msgstr ""
 #. es2:d/snow/temple short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "城隍庙"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "南 · 卧龙岗"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
@@ -2317,10 +2550,12 @@ msgstr ""
 msgid "结果没有造成任何伤害。"
 msgstr ""
 
-#: presentation/battle/es2_combat_messages.gd
+#. spring-blade actions.damage_type
+#: presentation/battle/es2_combat_messages.gd data/common/skills.json
 msgid "□伤"
 msgstr ""
 
+#. spring-blade actions.damage_type
 #. fonxansword actions.damage_type
 #. actions.damage_type
 #: presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
@@ -2680,7 +2915,8 @@ msgstr ""
 #. goathill.npc.fat_worm limbs
 #. goathill.npc.big_worm limbs
 #. goathill.npc.huge_worm limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json
+#. cloud.npc.fly limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -3034,6 +3270,14 @@ msgstr ""
 
 #: runtime/world/world_map_controller.gd
 msgid "%s急急忙忙地离开了。"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "你一回头，正好发现{npc}的手正抓著你身上的{item}！"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "你喝道：「干什麽！」"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -3477,7 +3721,9 @@ msgstr ""
 msgid "锤"
 msgstr ""
 
-#: ui/world/player_inventory_panel.gd
+#. es2:obj/example/dagger name
+#. es2:obj/weapon/dagger name
+#: ui/world/player_inventory_panel.gd data/common/items.json
 msgid "匕首"
 msgstr ""
 
@@ -3814,6 +4060,8 @@ msgstr ""
 #. es2:obj/money/coin unit
 #. es2:obj/money/silver unit
 #. es2:obj/money/gold unit
+#. es2:obj/example/dart unit
+#. es2:obj/weapon/dart unit
 #. es2:d/oldpine/obj/throwing_knife unit
 #. es2:d/snow/npc/obj/throwing_knife unit
 #: data/common/items.json data/oldpine/items.json data/snow/items.json
@@ -3854,7 +4102,8 @@ msgid ""
 msgstr ""
 
 #. es2:obj/cloth name
-#: data/common/items.json
+#. es2:u/cloud/obj/cloth/cloth name
+#: data/common/items.json data/cloud/items.json
 msgid "布衣"
 msgstr ""
 
@@ -3873,7 +4122,13 @@ msgstr ""
 #. es2:d/snow/obj/linen unit
 #. es2:d/snow/obj/raincoat unit
 #. es2:d/snow/obj/pink_cloth unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json
+#. es2:d/latemoon/obj/deer_boot unit
+#. es2:u/cloud/obj/npc/monk/jiasha unit
+#. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
+#. es2:u/cloud/obj/cloth/black_cloth unit
+#. es2:u/cloud/obj/npc/girl/pink_cloth unit
+#. es2:u/cloud/obj/cloth/cloth unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/cloud/items.json
 msgid "件"
 msgstr ""
 
@@ -3919,7 +4174,8 @@ msgid ""
 msgstr ""
 
 #. es2:obj/old_book unit
-#: data/common/items.json
+#. es2:u/cloud/obj/literate_book unit
+#: data/common/items.json data/cloud/items.json
 msgid "本"
 msgstr ""
 
@@ -3940,12 +4196,14 @@ msgid "颗"
 msgstr ""
 
 #. es2:obj/longsword name
+#. es2:obj/weapon/longsword name
 #. es2:d/oldpine/obj/long_sword name
 #: data/common/items.json data/oldpine/items.json
 msgid "长剑"
 msgstr ""
 
 #. es2:obj/longsword long
+#. es2:obj/weapon/longsword long
 #: data/common/items.json
 msgid ""
 "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
@@ -3953,6 +4211,11 @@ msgstr ""
 
 #. es2:obj/longsword unit
 #. es2:daemon/class/swordsman/blackthorn unit
+#. es2:obj/weapon/longsword unit
+#. es2:obj/example/dagger unit
+#. es2:obj/weapon/sixhammer unit
+#. es2:obj/weapon/thin_sword unit
+#. es2:obj/weapon/dagger unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
@@ -3963,7 +4226,14 @@ msgstr ""
 #. es2:d/snow/obj/thin_sword unit
 #. es2:d/snow/npc/obj/throwing_knife combined.base_unit
 #. es2:d/goathill/obj/sledge_hammer unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json
+#. es2:d/latemoon/obj/sword unit
+#. es2:u/cloud/obj/npc/butcher/knife unit
+#. es2:u/cloud/obj/npc/tailor/ruler unit
+#. es2:u/cloud/obj/npc/tailor/scissors unit
+#. es2:u/cloud/obj/npc/b_header/moon_blade unit
+#. es2:u/cloud/obj/npc/worker/tea_leaf unit
+#. es2:u/cloud/obj/npc/chess_player/chess unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json
 msgid "把"
 msgstr ""
 
@@ -3998,12 +4268,14 @@ msgstr ""
 
 #. es2:obj/dust unit
 #. es2:obj/drug/snake_drug unit
+#. es2:obj/toy/poison_dust unit
 #: data/common/items.json
 msgid "包"
 msgstr ""
 
 #. es2:obj/dust combined.base_unit
 #. es2:obj/drug/snake_drug combined.base_unit
+#. es2:obj/toy/poison_dust combined.base_unit
 #: data/common/items.json
 msgid "份"
 msgstr ""
@@ -4018,6 +4290,133 @@ msgstr ""
 msgid ""
 "这是一包用来解蛇毒的药\n"
 "可以用(apply)来解蛇毒!\n"
+msgstr ""
+
+#. es2:obj/example/dart name
+#. es2:obj/weapon/dart name
+#: data/common/items.json
+msgid "飞镖"
+msgstr ""
+
+#. es2:obj/example/dart long
+#. es2:obj/weapon/dart long
+#: data/common/items.json
+msgid ""
+"飞镖是一种十分常见的暗器。\n"
+msgstr ""
+
+#. es2:obj/example/dart combined.base_unit
+#. es2:obj/weapon/dart combined.base_unit
+#: data/common/items.json
+msgid "枝"
+msgstr ""
+
+#. es2:obj/toy/poison_dust name
+#: data/common/items.json
+msgid "极乐逍遥散"
+msgstr ""
+
+#. es2:obj/toy/poison_dust long
+#: data/common/items.json
+msgid ""
+"这是一种毒性猛烈的春药，你可以把它倒(pour)在酒水之中使用。\n"
+msgstr ""
+
+#. es2:obj/example/dagger long
+#. es2:obj/weapon/dagger long
+#: data/common/items.json
+msgid ""
+"这是一把看起相当普通的匕首。\n"
+msgstr ""
+
+#. es2:obj/weapon/blade name
+#. es2:d/oldpine/obj/blade name
+#. es2:d/snow/obj/blade name
+#: data/common/items.json data/oldpine/items.json data/snow/items.json
+msgid "单刀"
+msgstr ""
+
+#. es2:obj/weapon/blade long
+#. es2:d/oldpine/obj/blade long
+#. es2:d/snow/obj/blade long
+#: data/common/items.json data/oldpine/items.json data/snow/items.json
+msgid ""
+"这是一寻常的单刀，份量大约六、七斤重。\n"
+msgstr ""
+
+#. es2:obj/weapon/blade unit
+#. es2:d/oldpine/obj/blade unit
+#. es2:d/oldpine/obj/glaive unit
+#. es2:d/snow/obj/blade unit
+#. es2:d/goathill/obj/steel_blade unit
+#. es2:d/goathill/obj/hand_axe unit
+#. es2:u/cloud/obj/npc/gangster/blade unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/cloud/items.json
+msgid "柄"
+msgstr ""
+
+#. es2:obj/example/bag name
+#: data/common/items.json
+msgid "布袋"
+msgstr ""
+
+#. es2:obj/example/bag long
+#: data/common/items.json
+msgid ""
+"这是一口寻常的布袋，可以用来装一些杂物。\n"
+msgstr ""
+
+#. es2:obj/example/bag unit
+#: data/common/items.json
+msgid "口"
+msgstr ""
+
+#. es2:obj/weapon/whip name
+#: data/common/items.json
+msgid "皮鞭"
+msgstr ""
+
+#. es2:obj/weapon/whip unit
+#. es2:u/cloud/obj/npc/butcher/skin_belt unit
+#. es2:u/cloud/obj/etc/rope unit
+#: data/common/items.json data/cloud/items.json
+msgid "条"
+msgstr ""
+
+#. es2:obj/weapon/shield name
+#. es2:d/snow/obj/shield name
+#: data/common/items.json data/snow/items.json
+msgid "牛皮盾"
+msgstr ""
+
+#. es2:obj/weapon/shield unit
+#. es2:d/snow/obj/shield unit
+#: data/common/items.json data/snow/items.json
+msgid "面"
+msgstr ""
+
+#. es2:obj/weapon/sixhammer name
+#: data/common/items.json
+msgid "八角锤"
+msgstr ""
+
+#. es2:obj/weapon/sixhammer long
+#: data/common/items.json
+msgid ""
+"这是一把八角铜锤，沉甸甸的。\n"
+msgstr ""
+
+#. es2:obj/weapon/thin_sword name
+#. es2:d/snow/obj/thin_sword name
+#: data/common/items.json data/snow/items.json
+msgid "细剑"
+msgstr ""
+
+#. es2:obj/weapon/thin_sword long
+#. es2:d/snow/obj/thin_sword long
+#: data/common/items.json data/snow/items.json
+msgid ""
+"这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
 msgstr ""
 
 #. unarmed improved_line
@@ -4128,6 +4527,46 @@ msgstr ""
 #. serpentforce name
 #: data/common/skills.json
 msgid "伏蛟功"
+msgstr ""
+
+#. spring-blade name
+#: data/common/skills.json
+msgid "春风快意刀"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l"
+msgstr ""
+
+#. spring-blade actions.action
+#: data/common/skills.json
+msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
 msgstr ""
 
 #. fonxansword name
@@ -4393,6 +4832,19 @@ msgstr ""
 msgid "封山剑派北宗"
 msgstr ""
 
+#. family.zhenyuan name
+#. cloud.npc.b_header family.name
+#. cloud.npc.bfighter family.name
+#: data/common/families.json data/cloud/npcs.json
+msgid "振远镖局"
+msgstr ""
+
+#. family.dongfang name
+#. cloud.npc.god family.name
+#: data/common/families.json data/cloud/npcs.json
+msgid "东方神教"
+msgstr ""
+
 #. common.npc.swordsman.master name
 #: data/common/npcs.json
 msgid "柳淳风"
@@ -4421,12 +4873,14 @@ msgid "掌门人"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
-#: data/common/npcs.json
+#. cloud.npc.b_header inquiry topic
+#: data/common/npcs.json data/cloud/npcs.json
 msgid "淳风武馆"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.淳风武馆
-#: data/common/npcs.json
+#. cloud.npc.b_header inquiry.淳风武馆
+#: data/common/npcs.json data/cloud/npcs.json
 msgid "淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"
 msgstr ""
 
@@ -4472,6 +4926,31 @@ msgstr ""
 msgid "很好，$RESPECT多加努力，他日必定有成。"
 msgstr ""
 
+#. common.npc.garrison name
+#: data/common/npcs.json
+msgid "县城官兵"
+msgstr ""
+
+#. common.npc.garrison long
+#: data/common/npcs.json
+msgid ""
+"这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n"
+"们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n"
+"轻易地招惹他们。\n"
+msgstr ""
+
+#. common.npc.garrison chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"县城官兵喝道：还不快放下武器束手就缚？\n"
+msgstr ""
+
+#. common.npc.garrison chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"
+msgstr ""
+
 #. es2:d/oldpine/obj/long_sword long
 #: data/oldpine/items.json
 msgid ""
@@ -4515,30 +4994,9 @@ msgstr ""
 msgid "具"
 msgstr ""
 
-#. es2:d/oldpine/obj/blade name
-#. es2:d/snow/obj/blade name
-#: data/oldpine/items.json data/snow/items.json
-msgid "单刀"
-msgstr ""
-
-#. es2:d/oldpine/obj/blade long
-#. es2:d/snow/obj/blade long
-#: data/oldpine/items.json data/snow/items.json
-msgid ""
-"这是一寻常的单刀，份量大约六、七斤重。\n"
-msgstr ""
-
-#. es2:d/oldpine/obj/blade unit
-#. es2:d/oldpine/obj/glaive unit
-#. es2:d/snow/obj/blade unit
-#. es2:d/goathill/obj/steel_blade unit
-#. es2:d/goathill/obj/hand_axe unit
-#: data/oldpine/items.json data/snow/items.json data/goathill/items.json
-msgid "柄"
-msgstr ""
-
 #. es2:d/oldpine/obj/glaive name
-#: data/oldpine/items.json
+#. es2:u/cloud/obj/npc/gangster/blade name
+#: data/oldpine/items.json data/cloud/items.json
 msgid "鬼头刀"
 msgstr ""
 
@@ -4565,7 +5023,8 @@ msgid ""
 msgstr ""
 
 #. es2:d/oldpine/obj/bamboo_pipe unit
-#: data/oldpine/items.json
+#. es2:u/cloud/obj/meat/tail unit
+#: data/oldpine/items.json data/cloud/items.json
 msgid "根"
 msgstr ""
 
@@ -4582,12 +5041,14 @@ msgid ""
 msgstr ""
 
 #. es2:d/oldpine/npc/obj/black_cloth name
-#: data/oldpine/items.json
+#. es2:u/cloud/obj/cloth/black_cloth name
+#: data/oldpine/items.json data/cloud/items.json
 msgid "夜行衣"
 msgstr ""
 
 #. es2:d/oldpine/npc/obj/black_cloth long
-#: data/oldpine/items.json
+#. es2:u/cloud/obj/cloth/black_cloth long
+#: data/oldpine/items.json data/cloud/items.json
 msgid ""
 "这是一件夜行人用来掩藏行踪的黑色紧身衣。\n"
 msgstr ""
@@ -4691,7 +5152,8 @@ msgstr ""
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. snow.npc.rat limbs
-#: data/oldpine/npcs.json data/snow/npcs.json
+#. cloud.npc.fly limbs
+#: data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json
 msgid "身体"
 msgstr ""
 
@@ -4727,7 +5189,8 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.butterfly limbs
-#: data/oldpine/npcs.json
+#. cloud.npc.fly limbs
+#: data/oldpine/npcs.json data/cloud/npcs.json
 msgid "翅膀"
 msgstr ""
 
@@ -4902,34 +5365,15 @@ msgid ""
 "这是一把练习剑法用的竹剑，剑尖处用布包了起来以免误伤同伴。\n"
 msgstr ""
 
-#. es2:d/snow/obj/shield name
-#: data/snow/items.json
-msgid "牛皮盾"
-msgstr ""
-
-#. es2:d/snow/obj/shield unit
-#: data/snow/items.json
-msgid "面"
-msgstr ""
-
-#. es2:d/snow/obj/thin_sword name
-#: data/snow/items.json
-msgid "细剑"
-msgstr ""
-
-#. es2:d/snow/obj/thin_sword long
-#: data/snow/items.json
-msgid ""
-"这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
-msgstr ""
-
 #. es2:d/snow/obj/pink_cloth name
-#: data/snow/items.json
+#. es2:u/cloud/obj/npc/girl/pink_cloth name
+#: data/snow/items.json data/cloud/items.json
 msgid "粉红绸衫"
 msgstr ""
 
 #. es2:d/snow/obj/pink_cloth long
-#: data/snow/items.json
+#. es2:u/cloud/obj/npc/girl/pink_cloth long
+#: data/snow/items.json data/cloud/items.json
 msgid ""
 "这件粉红色的绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
 msgstr ""
@@ -5074,6 +5518,7 @@ msgid ""
 msgstr ""
 
 #. snow.npc.scavenger accept_fight.say
+#. snow.npc.beggar accept_fight.say
 #: data/snow/npcs.json
 msgid "$RESPECT饶命！小的这就离开！"
 msgstr ""
@@ -5591,6 +6036,40 @@ msgstr ""
 msgid "爹爹说过，不能跟你们这些江湖人物比武过招。"
 msgstr ""
 
+#. snow.npc.beggar name
+#: data/snow/npcs.json
+msgid "乞丐"
+msgstr ""
+
+#. snow.npc.beggar long
+#: data/snow/npcs.json
+msgid ""
+"一个满脸风霜之色的老乞丐。\n"
+msgstr ""
+
+#. snow.npc.beggar chat_msg
+#: data/snow/npcs.json
+msgid ""
+"乞丐说道：好心的大爷哪～ 赏我要饭的几文钱吧～\n"
+msgstr ""
+
+#. snow.npc.beggar chat_msg
+#: data/snow/npcs.json
+msgid ""
+"乞丐懒洋洋地打了个哈欠。\n"
+msgstr ""
+
+#. snow.npc.beggar chat_msg
+#: data/snow/npcs.json
+msgid ""
+"乞丐伸手捉住了身上的虱子，骂道：老子身上没几两肉，全叫你们给咬糜了。 \n"
+msgstr ""
+
+#. snow.npc.beggar accept_object.say
+#: data/snow/npcs.json
+msgid "多谢这位$RESPECT，您好心一定会有好报的！"
+msgstr ""
+
 #. es2:d/snow/inn short
 #: data/snow/rooms.json
 msgid "饮风客栈"
@@ -5928,7 +6407,8 @@ msgid "钱庄"
 msgstr ""
 
 #. snow.hockshop.door name
-#: data/snow/world.json
+#. cloud.tearoom.door name
+#: data/snow/world.json data/cloud/world.json
 msgid "木雕门"
 msgstr ""
 
@@ -6694,4 +7174,1357 @@ msgstr ""
 #. goathill name
 #: data/goathill/world.json
 msgid "野羊山"
+msgstr ""
+
+#. es2:d/latemoon/obj/deer_boot name
+#: data/latemoon/items.json
+msgid "鹿皮小靴"
+msgstr ""
+
+#. es2:d/latemoon/obj/sword name
+#: data/latemoon/items.json
+msgid "紫玉宝剑"
+msgstr ""
+
+#. es2:d/latemoon/obj/sword long
+#: data/latemoon/items.json
+msgid ""
+"这是一把宝剑，隐含神秘力量。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/gangster/blade long
+#: data/cloud/items.json
+msgid ""
+"这种厚重的大刀，强盗喜欢用，份量大约十斤重。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/butcher/knife name
+#: data/cloud/items.json
+msgid "解牛刀"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/butcher/knife long
+#: data/cloud/items.json
+msgid ""
+"这是一把很锋利的钢刀, 就是短了些。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/butcher/skin_belt name
+#: data/cloud/items.json
+msgid "牛皮束带"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/tailor/ruler name
+#: data/cloud/items.json
+msgid "量衣尺"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/tailor/ruler long
+#: data/cloud/items.json
+msgid ""
+"一把量衣用的尺子，比一般的宽些。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/tailor/scissors name
+#: data/cloud/items.json
+msgid "裁衣剪"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/tailor/scissors long
+#: data/cloud/items.json
+msgid ""
+"一把长而锋利的剪刀。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/monk/jiasha name
+#: data/cloud/items.json
+msgid "青布袈裟"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/monk/jiasha long
+#: data/cloud/items.json
+msgid ""
+"这件青色的袈裟洗得很是干净。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/lm_guard/color_cloth name
+#: data/cloud/items.json
+msgid "舞蝶彩衫"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/lm_guard/color_cloth long
+#: data/cloud/items.json
+msgid ""
+"这件淡绿色的绸衫上面绣著几只彩蝶，煞是好看。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/b_header/moon_blade name
+#: data/cloud/items.json
+msgid "霜月刀"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/b_header/moon_blade long
+#: data/cloud/items.json
+msgid ""
+"这是一把耀眼的利刃，刀背上面带有道凹槽，乃是陈剑秋的成名武器。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/worker/tea_leaf name
+#: data/cloud/items.json
+msgid "茶叶"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/worker/tea_leaf long
+#: data/cloud/items.json
+msgid ""
+"才采的新茶，发出一股淡淡的香气。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
+#: data/cloud/items.json
+msgid "片"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/chess_player/chess name
+#: data/cloud/items.json
+msgid "棋子"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/chess_player/chess long
+#: data/cloud/items.json
+msgid ""
+"棋子是一种较轻的暗器。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/chess_player/chess combined.base_unit
+#: data/cloud/items.json
+msgid "枚"
+msgstr ""
+
+#. es2:u/cloud/obj/literate_book name
+#: data/cloud/items.json
+msgid "说文解字"
+msgstr ""
+
+#. es2:u/cloud/obj/literate_book long
+#: data/cloud/items.json
+msgid ""
+"这是一本介绍读书识字的入门书籍。\n"
+"开篇上赫然写着人之初，性本善什么的。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/b_beef name
+#: data/cloud/items.json
+msgid "生牛肉"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/b_beef long
+#: data/cloud/items.json
+msgid ""
+"看样子是牛的后腰，但是生肉, 不知能不能吃。\n"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/b_beef unit
+#: data/cloud/items.json
+msgid "挂"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/hind name
+#: data/cloud/items.json
+msgid "牛腿"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/hind long
+#: data/cloud/items.json
+msgid ""
+"哇! 好香的牛腿! 不吃还等什么?\n"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/hind unit
+#: data/cloud/items.json
+msgid "只"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/tail name
+#: data/cloud/items.json
+msgid "牛尾"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/tail long
+#: data/cloud/items.json
+msgid ""
+"一根又粗又长的牛尾\n"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/zasui name
+#: data/cloud/items.json
+msgid "熟杂碎"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/zasui long
+#: data/cloud/items.json
+msgid ""
+"可以吃的杂碎\n"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/zasui unit
+#. es2:u/cloud/obj/meat/dog_m unit
+#: data/cloud/items.json
+msgid "斤"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/dog_m name
+#: data/cloud/items.json
+msgid "狗肉"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/dog_m long
+#: data/cloud/items.json
+msgid ""
+"哇! 好香的狗肉! 不吃还等什么?\n"
+msgstr ""
+
+#. es2:u/cloud/obj/etc/rope name
+#: data/cloud/items.json
+msgid "麻绳"
+msgstr ""
+
+#. cloud.npc.gangster name
+#: data/cloud/npcs.json
+msgid "卧龙岗强盗"
+msgstr ""
+
+#. cloud.npc.gangster long
+#: data/cloud/npcs.json
+msgid ""
+"这强盗满脸伤疤，虎背熊腰，一脸凶狠而霸道的样子。\n"
+msgstr ""
+
+#. cloud.npc.gangster inquiry topic
+#: data/cloud/npcs.json
+msgid "买路钱"
+msgstr ""
+
+#. cloud.npc.gangster inquiry.买路钱
+#: data/cloud/npcs.json
+msgid ""
+"看你也不象有钱的样子，大爷我只要十两金子意思一下。\n"
+msgstr ""
+
+#. cloud.npc.gangster chat_msg
+#: data/cloud/npcs.json
+msgid ""
+"强盗喝道：呔！此山是我开，此树乃我栽。要想从此过，留下 买路财！\n"
+msgstr ""
+
+#. cloud.npc.gangster chat_msg
+#: data/cloud/npcs.json
+msgid ""
+"强盗将你上上下下打量了一番，说道：识相的放下十两买路钱 走你的路。\n"
+msgstr ""
+
+#. cloud.npc.gangster chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"强盗显是以劫为生，刀刀冲要害而来。\n"
+msgstr ""
+
+#. cloud.npc.gangster chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"强盗高喊：叫你人财两空。\n"
+msgstr ""
+
+#. cloud.npc.gangster accept_object.line
+#: data/cloud/npcs.json
+msgid ""
+"强盗眼中放出异样的光彩，忙不迭的笑道：算你识相，以后我不会难为你的。\n"
+msgstr ""
+
+#. cloud.npc.gangster accept_object.line
+#: data/cloud/npcs.json
+msgid ""
+"强盗接过钱，眼睛瞪得大大的，点了点头，说道：大爷今天做个善人，放你条生路。还不快滚！\n"
+msgstr ""
+
+#. cloud.npc.gangster accept_object.line
+#: data/cloud/npcs.json
+msgid ""
+"强盗往地上吐了口唾沫，目露凶光，说道：不给你点颜色你是不知道大爷的厉害！\n"
+msgstr ""
+
+#. cloud.npc.gangster accept_fight.say
+#: data/cloud/npcs.json
+msgid "竟敢太岁爷头上动土？纳命来！"
+msgstr ""
+
+#. cloud.npc.butcher name
+#: data/cloud/npcs.json
+msgid "郑屠夫"
+msgstr ""
+
+#. cloud.npc.butcher long
+#: data/cloud/npcs.json
+msgid ""
+"你看到一个剽悍的大块头, 正在用钢刀剔牛骨。\n"
+msgstr ""
+
+#. cloud.npc.butcher inquiry topic
+#. cloud.npc.room_gua inquiry topic
+#: data/cloud/npcs.json
+msgid "碧玉刀"
+msgstr ""
+
+#. cloud.npc.butcher inquiry.碧玉刀
+#. cloud.npc.room_gua inquiry.碧玉刀
+#: data/cloud/npcs.json
+msgid "这刀可是个宝物, 据说是当年张家老祖宗退隐时皇上赐的。"
+msgstr ""
+
+#. cloud.npc.butcher inquiry.香茗坊
+#. cloud.npc.box_boss inquiry.香茗坊
+#: data/cloud/npcs.json
+msgid "您也知道'碧海银针'？茶楼就在街对面，我常去的。"
+msgstr ""
+
+#. cloud.npc.butcher greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"屠夫边剔骨头边嘟囔着：真是好刀，剔得好舒服! \n"
+msgstr ""
+
+#. cloud.npc.butcher greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"屠夫摇摇头, 叹了口气说：唉, 不知那碧玉刀究竟比我这刀厉害几倍...\n"
+msgstr ""
+
+#. cloud.npc.butcher greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"屠夫咧开大嘴, 笑着道：这位$RESPECT，要买肉是吗? \n"
+msgstr ""
+
+#. cloud.npc.butcher greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"屠夫忙着给人取肉, 似乎没注意到你进来。\n"
+msgstr ""
+
+#. cloud.npc.fly name
+#: data/cloud/npcs.json
+msgid "苍蝇"
+msgstr ""
+
+#. cloud.npc.fly long
+#: data/cloud/npcs.json
+msgid ""
+"一只绿头金翅的大苍蝇。\n"
+msgstr ""
+
+#. cloud.npc.tea_waiter name
+#. cloud.npc.tea_waiter rank_info.respect
+#: data/cloud/npcs.json
+msgid "茶博士"
+msgstr ""
+
+#. cloud.npc.tea_waiter long
+#: data/cloud/npcs.json
+msgid ""
+"茶博士正忙着招呼客人, 一手提着茶壶, 一手拿着抹布\n"
+msgstr ""
+
+#. cloud.npc.tea_waiter inquiry.香茗坊
+#: data/cloud/npcs.json
+msgid "这里就是香茗坊呀! 客官。"
+msgstr ""
+
+#. cloud.npc.tea_waiter inquiry topic
+#. cloud.npc.worker inquiry topic
+#: data/cloud/npcs.json
+msgid "碧海银针"
+msgstr ""
+
+#. cloud.npc.tea_waiter inquiry.碧海银针
+#: data/cloud/npcs.json
+msgid "您算是问着啦! 这可是百年的贡品啦，可惜..."
+msgstr ""
+
+#. cloud.npc.tea_waiter inquiry topic
+#: data/cloud/npcs.json
+msgid "金匾"
+msgstr ""
+
+#. cloud.npc.tea_waiter inquiry.金匾
+#: data/cloud/npcs.json
+msgid "这是当今皇上的高祖御笔亲书的，好不威风!"
+msgstr ""
+
+#. cloud.npc.tea_waiter greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"茶博士笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。\n"
+msgstr ""
+
+#. cloud.npc.tea_waiter greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"茶博士用毛巾抹了抹靠门的一张桌子，说道：这位$RESPECT，请进请进。\n"
+msgstr ""
+
+#. cloud.npc.tea_waiter greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"茶博士说道：这位$RESPECT，进来尝尝才采的新茶叶。哇! 好香啊!...\n"
+msgstr ""
+
+#. cloud.npc.box_boss name
+#: data/cloud/npcs.json
+msgid "林三爷"
+msgstr ""
+
+#. cloud.npc.box_boss title
+#: data/cloud/npcs.json
+msgid "棺材铺老板"
+msgstr ""
+
+#. cloud.npc.box_boss long
+#: data/cloud/npcs.json
+msgid ""
+"这位面目慈善的老人经营棺材铺已经有很多年了。\n"
+msgstr ""
+
+#. cloud.npc.box_boss inquiry topic
+#: data/cloud/npcs.json
+msgid "棺材"
+msgstr ""
+
+#. cloud.npc.box_boss inquiry.棺材
+#: data/cloud/npcs.json
+msgid "您这么年轻就要棺材，早了点吧？"
+msgstr ""
+
+#. cloud.npc.box_waiter name
+#. cloud.npc.doctor name
+#: data/cloud/npcs.json
+msgid "伙计"
+msgstr ""
+
+#. cloud.npc.box_waiter long
+#: data/cloud/npcs.json
+msgid ""
+"他一副垂头丧气的样子，一脸倒霉相。\n"
+msgstr ""
+
+#. cloud.npc.god name
+#: data/cloud/npcs.json
+msgid "朱鸿雪"
+msgstr ""
+
+#. cloud.npc.god long
+#: data/cloud/npcs.json
+msgid ""
+"朱鸿雪慈眉善目，可又有谁能想到她竟是杀手组织中人。\n"
+msgstr ""
+
+#. cloud.npc.god family.title
+#: data/cloud/npcs.json
+msgid "教主"
+msgstr ""
+
+#. cloud.npc.god accept_fight.say
+#: data/cloud/npcs.json
+msgid "生命可贵！不要自寻死路！"
+msgstr ""
+
+#. cloud.npc.tailor name
+#: data/cloud/npcs.json
+msgid "裁缝"
+msgstr ""
+
+#. cloud.npc.tailor long
+#: data/cloud/npcs.json
+msgid ""
+"一位看上去很和蔼的老裁缝，正在缝制衣服。\n"
+msgstr ""
+
+#. cloud.npc.tailor inquiry.香茗坊
+#: data/cloud/npcs.json
+msgid "您也知道'碧海银针'？茶楼就在斜对面，我常去的。"
+msgstr ""
+
+#. cloud.npc.tailor greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"老裁缝抬起头看了你一眼，问道：客官买布还是制衣?\n"
+msgstr ""
+
+#. cloud.npc.tailor greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"裁缝的手脚甚是麻利，显然已做了多年了。\n"
+msgstr ""
+
+#. cloud.npc.seller name
+#: data/cloud/npcs.json
+msgid "杂货贩"
+msgstr ""
+
+#. cloud.npc.seller long
+#: data/cloud/npcs.json
+msgid ""
+"卖杂货的是个年轻汉子，面带微笑。\n"
+msgstr ""
+
+#. cloud.npc.seller inquiry.杂货铺
+#: data/cloud/npcs.json
+msgid "这是祖上传下来的产业，小的在勉力维持。"
+msgstr ""
+
+#. cloud.npc.seller greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"杂货贩笑脸相迎，道：这位$RESPECT，要买什么？\n"
+msgstr ""
+
+#. cloud.npc.seller greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"杂货贩正忙着整理货架\n"
+msgstr ""
+
+#. cloud.npc.doctor long
+#: data/cloud/npcs.json
+msgid ""
+"药店的小伙计，正在学着配药。\n"
+msgstr ""
+
+#. cloud.npc.doctor inquiry topic
+#: data/cloud/npcs.json
+msgid "抓药"
+msgstr ""
+
+#. cloud.npc.doctor inquiry.抓药
+#: data/cloud/npcs.json
+msgid "这里是附近最好的药店，您要什么？"
+msgstr ""
+
+#. cloud.npc.doctor greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"小伙计称了几味药，包做个纸包。\n"
+msgstr ""
+
+#. cloud.npc.doctor greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"伙计点头道：这位$RESPECT，买药？\n"
+msgstr ""
+
+#. cloud.npc.weaponor name
+#: data/cloud/npcs.json
+msgid "兵器贩子"
+msgstr ""
+
+#. cloud.npc.weaponor long
+#: data/cloud/npcs.json
+msgid ""
+"卖兵器的是个中年人，满脸伤疤。\n"
+msgstr ""
+
+#. cloud.npc.weaponor inquiry.兵器屋
+#: data/cloud/npcs.json
+msgid "本店专卖各种长短兵器"
+msgstr ""
+
+#. cloud.npc.weaponor greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"兵器贩子道：这位$RESPECT，自个儿挑一件称手的兵器吧\n"
+msgstr ""
+
+#. cloud.npc.weaponor greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"兵器贩子突然间出了神，好象想起了他的往事\n"
+msgstr ""
+
+#. cloud.npc.monk name
+#: data/cloud/npcs.json
+msgid "化缘和尚"
+msgstr ""
+
+#. cloud.npc.monk long
+#: data/cloud/npcs.json
+msgid ""
+"    这和尚是从南边山烟寺来的，寺院常在此化缘施斋。\n"
+msgstr ""
+
+#. cloud.npc.monk chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"和尚道：我佛慈悲，望住持不会怪罪我。\n"
+msgstr ""
+
+#. cloud.npc.monk inquiry topic
+#: data/cloud/npcs.json
+msgid "山烟寺"
+msgstr ""
+
+#. cloud.npc.monk inquiry.山烟寺
+#: data/cloud/npcs.json
+msgid "贫僧即是山烟寺来的，从此南行便是。"
+msgstr ""
+
+#. cloud.npc.monk accept_object.line
+#: data/cloud/npcs.json
+msgid ""
+"和尚说道：多谢这位$RESPECT，佛祖一定会保佑你的。\n"
+msgstr ""
+
+#. cloud.npc.monk accept_fight.say
+#: data/cloud/npcs.json
+msgid "施主既然身负绝艺，贫僧佩服便是，也不必较量了。"
+msgstr ""
+
+#. cloud.npc.book_seller name
+#: data/cloud/npcs.json
+msgid "潘若秋"
+msgstr ""
+
+#. cloud.npc.book_seller title
+#: data/cloud/npcs.json
+msgid "书局老板"
+msgstr ""
+
+#. cloud.npc.book_seller long
+#: data/cloud/npcs.json
+msgid ""
+"潘老板长得很白净，一副读书人的老实相。\n"
+msgstr ""
+
+#. cloud.npc.book_seller inquiry.书局
+#: data/cloud/npcs.json
+msgid "为读书人办点事也是尽一份心意。"
+msgstr ""
+
+#. cloud.npc.book_seller greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"潘若秋迎上来，说道：$RESPECT可是来买书的？\n"
+msgstr ""
+
+#. cloud.npc.book_seller greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"潘若秋幽幽地叹了口气，说道：“作个读书人难啊！”。\n"
+msgstr ""
+
+#. cloud.npc.book_seller greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"潘若秋真聚精会神地看着书，似乎没注意你的到来。\n"
+msgstr ""
+
+#. cloud.npc.mei_po name
+#: data/cloud/npcs.json
+msgid "媒婆"
+msgstr ""
+
+#. cloud.npc.mei_po long
+#: data/cloud/npcs.json
+msgid ""
+"一位精明能干的老媒婆\n"
+msgstr ""
+
+#. cloud.npc.mei_po inquiry topic
+#: data/cloud/npcs.json
+msgid "婚约"
+msgstr ""
+
+#. cloud.npc.mei_po inquiry.婚约
+#: data/cloud/npcs.json
+msgid "是啊... 这里就可以缔结和解除婚约"
+msgstr ""
+
+#. cloud.npc.boater name
+#: data/cloud/npcs.json
+msgid "船夫"
+msgstr ""
+
+#. cloud.npc.boater title
+#: data/cloud/npcs.json
+msgid "渡口"
+msgstr ""
+
+#. cloud.npc.boater long
+#: data/cloud/npcs.json
+msgid ""
+"船夫的皮肤晒得黝黑，脸上的沧桑是多年摆渡的痕迹。\n"
+msgstr ""
+
+#. cloud.npc.boater inquiry topic
+#: data/cloud/npcs.json
+msgid "过江"
+msgstr ""
+
+#. cloud.npc.boater inquiry.过江
+#. cloud.npc.boater inquiry.摆渡
+#: data/cloud/npcs.json
+msgid "交五两银子"
+msgstr ""
+
+#. cloud.npc.boater inquiry topic
+#: data/cloud/npcs.json
+msgid "摆渡"
+msgstr ""
+
+#. cloud.npc.mother name
+#: data/cloud/npcs.json
+msgid "鸨母"
+msgstr ""
+
+#. cloud.npc.mother long
+#: data/cloud/npcs.json
+msgid ""
+"    鸨母是个浓妆艳抹的中年女子，身材微胖，全身上下珠光宝气。\n"
+msgstr ""
+
+#. cloud.npc.mother chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"鸨母说道：你当这里是什么地方，敢来这里骚扰？\n"
+msgstr ""
+
+#. cloud.npc.mother inquiry.怡红院
+#: data/cloud/npcs.json
+msgid "哎呀！就是我们这里啊，您里面请"
+msgstr ""
+
+#. cloud.npc.judge name
+#: data/cloud/npcs.json
+msgid "宝官"
+msgstr ""
+
+#. cloud.npc.judge long
+#: data/cloud/npcs.json
+msgid ""
+"他脸上的表情仿佛是看到了你口袋里的钱一般。\n"
+msgstr ""
+
+#. cloud.npc.judge inquiry topic
+#: data/cloud/npcs.json
+msgid "赌"
+msgstr ""
+
+#. cloud.npc.judge inquiry.赌
+#: data/cloud/npcs.json
+msgid ""
+"客官您把钱给我就行了。\n"
+msgstr ""
+
+#. cloud.npc.judge greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"快来赌，快来赌啦！\n"
+msgstr ""
+
+#. cloud.npc.judge greeting.one_of.line
+#: data/cloud/npcs.json
+msgid ""
+"赢了可是利滚利啊！\n"
+msgstr ""
+
+#. cloud.npc.thief name
+#: data/cloud/npcs.json
+msgid "飞贼"
+msgstr ""
+
+#. cloud.npc.thief long
+#: data/cloud/npcs.json
+msgid ""
+"    飞贼经常出没于大户人家, 因为他轻功高强, 官府也拿他没有办法。\n"
+msgstr ""
+
+#. cloud.npc.thief chat_msg
+#: data/cloud/npcs.json
+msgid ""
+"飞贼说道: 小心我把你变成穷光蛋! 吓得你不禁把钱攥紧了\n"
+msgstr ""
+
+#. cloud.npc.thief chat_msg_combat
+#: data/cloud/npcs.json
+msgid "飞贼恶狠狠的说道: 快滚！这没你的事！"
+msgstr ""
+
+#. cloud.npc.thief chat_msg_combat
+#: data/cloud/npcs.json
+msgid "飞贼喝道: 你要是敢惹我, 咱们以后可没完!"
+msgstr ""
+
+#. cloud.npc.thief accept_fight.say
+#: data/cloud/npcs.json
+msgid "好小子, 居然管起大爷的事来, 看招!"
+msgstr ""
+
+#. cloud.npc.b_header name
+#: data/cloud/npcs.json
+msgid "陈剑秋"
+msgstr ""
+
+#. cloud.npc.b_header nickname
+#. cloud.npc.b_header inquiry topic
+#: data/cloud/npcs.json
+msgid "霹雳刀"
+msgstr ""
+
+#. cloud.npc.b_header long
+#: data/cloud/npcs.json
+msgid ""
+"    陈剑秋在十几年前创立了振远镖局，凭着一手春风快意刀法在远近\n"
+"颇有些名头，因此镖局的生意还算可以。\n"
+msgstr ""
+
+#. cloud.npc.b_header rank_info.respect
+#: data/cloud/npcs.json
+msgid "陈镖头"
+msgstr ""
+
+#. cloud.npc.b_header family.title
+#: data/cloud/npcs.json
+msgid "镖头"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.name
+#: data/cloud/npcs.json
+msgid "在下姓陈，人称霹雳刀"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.霹雳刀
+#: data/cloud/npcs.json
+msgid "江湖上的弟兄看得起在下就这么叫开了，实在是惭愧。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry topic
+#: data/cloud/npcs.json
+msgid "陈天星"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.陈天星
+#: data/cloud/npcs.json
+msgid "他是我师叔，如果你帮我找到忘忧草并交给我，我就介绍你去那学艺。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry topic
+#: data/cloud/npcs.json
+msgid "忘忧草"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.忘忧草
+#: data/cloud/npcs.json
+msgid "我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"
+msgstr ""
+
+#. cloud.npc.bfighter name
+#. cloud.npc.bfighter family.title
+#: data/cloud/npcs.json
+msgid "趟子手"
+msgstr ""
+
+#. cloud.npc.bfighter long
+#: data/cloud/npcs.json
+msgid ""
+"这是一位镖局的趟子手，负责镖局的护镖任务。\n"
+msgstr ""
+
+#. cloud.npc.bfighter chat_msg
+#: data/cloud/npcs.json
+msgid ""
+"趟子手喊道：振远镖局..., 盛名远扬...\n"
+msgstr ""
+
+#. cloud.npc.bfighter chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"趟子手喊道：教你尝尝我的厉害！\n"
+msgstr ""
+
+#. cloud.npc.bfighter chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"趟子手叫道：我们镖局可不是好惹的！\n"
+"趟子手大叫：我一定要杀了你，替镖局扬名！\n"
+msgstr ""
+
+#. cloud.npc.room_gua name
+#: data/cloud/npcs.json
+msgid "保镖"
+msgstr ""
+
+#. cloud.npc.room_gua title
+#: data/cloud/npcs.json
+msgid "贴身保镖"
+msgstr ""
+
+#. cloud.npc.room_gua long
+#: data/cloud/npcs.json
+msgid ""
+"你看到一个剽悍的大块头。\n"
+msgstr ""
+
+#. cloud.npc.room_gua inquiry topic
+#: data/cloud/npcs.json
+msgid "镇关西"
+msgstr ""
+
+#. cloud.npc.room_gua inquiry.镇关西
+#: data/cloud/npcs.json
+msgid "这雪亭镇有谁不知道我家老爷镇大官人！"
+msgstr ""
+
+#. cloud.npc.millinare name
+#: data/cloud/npcs.json
+msgid "张百万"
+msgstr ""
+
+#. cloud.npc.millinare title
+#: data/cloud/npcs.json
+msgid "主人"
+msgstr ""
+
+#. cloud.npc.millinare long
+#: data/cloud/npcs.json
+msgid ""
+"一位精明能干的大奸商\n"
+msgstr ""
+
+#. cloud.npc.jiading name
+#: data/cloud/npcs.json
+msgid "家丁"
+msgstr ""
+
+#. cloud.npc.jiading title
+#: data/cloud/npcs.json
+msgid "张府家丁"
+msgstr ""
+
+#. cloud.npc.jiading long
+#: data/cloud/npcs.json
+msgid ""
+"张府的家丁的俸禄极高，当然能在张府做事武功也不弱\n"
+msgstr ""
+
+#. cloud.npc.worker name
+#: data/cloud/npcs.json
+msgid "茶工"
+msgstr ""
+
+#. cloud.npc.worker long
+#: data/cloud/npcs.json
+msgid ""
+"茶工正在忙碌着。\n"
+msgstr ""
+
+#. cloud.npc.worker inquiry.碧海银针
+#: data/cloud/npcs.json
+msgid "这要到香茗坊去问。"
+msgstr ""
+
+#. cloud.npc.chess_player name
+#: data/cloud/npcs.json
+msgid "弈者"
+msgstr ""
+
+#. cloud.npc.chess_player long
+#: data/cloud/npcs.json
+msgid ""
+"一位十分文气的男子，装束象个雅儒。\n"
+msgstr ""
+
+#. cloud.npc.girl name
+#: data/cloud/npcs.json
+msgid "李师师"
+msgstr ""
+
+#. cloud.npc.girl title
+#: data/cloud/npcs.json
+msgid "名妓"
+msgstr ""
+
+#. cloud.npc.girl long
+#: data/cloud/npcs.json
+msgid ""
+"    李师师是怡红院的名妓，精通琴棋书画，周围的纨绔子弟们常往这\n"
+"里钻。\n"
+msgstr ""
+
+#. cloud.npc.girl chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"李师师秀眉微蹙，说道：喂！我哪里得罪您了？干嘛这样跟我拼死拼活？\n"
+msgstr ""
+
+#. cloud.npc.girl inquiry topic
+#: data/cloud/npcs.json
+msgid "过夜"
+msgstr ""
+
+#. cloud.npc.girl inquiry.过夜
+#. cloud.npc.girl inquiry.嫖妓
+#: data/cloud/npcs.json
+msgid "官人可要洁身自好啊！"
+msgstr ""
+
+#. cloud.npc.girl inquiry topic
+#: data/cloud/npcs.json
+msgid "嫖妓"
+msgstr ""
+
+#. cloud.npc.girl inquiry topic
+#: data/cloud/npcs.json
+msgid "学艺"
+msgstr ""
+
+#. cloud.npc.girl inquiry.学艺
+#: data/cloud/npcs.json
+msgid "请您留件信物！"
+msgstr ""
+
+#. cloud.npc.girl accept_object.say
+#: data/cloud/npcs.json
+msgid "我对钱没兴趣！"
+msgstr ""
+
+#. cloud.npc.girl accept_object.say
+#: data/cloud/npcs.json
+msgid "我对您没兴趣！"
+msgstr ""
+
+#. cloud.npc.girl accept_object.say
+#: data/cloud/npcs.json
+msgid "能做相公的老师，真是三生有幸。"
+msgstr ""
+
+#. cloud.npc.girl recognize_apprentice.line
+#: data/cloud/npcs.json
+msgid ""
+"李师师说道：咦？我不记得您啊......\n"
+msgstr ""
+
+#. cloud.npc.girl accept_fight.say
+#: data/cloud/npcs.json
+msgid "小女子哪里是您的对手？"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/nroad long
+#: data/cloud/rooms.json
+msgid ""
+"这里是雪亭镇通往绮云镇的必经之路。北面就是雪亭镇，南面通往\n"
+"卧龙岗。早先官府想在此修条大路连接两镇，无奈地势所限，加上卧龙\n"
+"岗上常有强人出没，只得做罢。虽说是土路，可过往的人很多，路面已\n"
+"被踩得很平了。\n"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/nhillfoot long
+#: data/cloud/rooms.json
+msgid ""
+"从这往西北有条路通往雪亭镇，向南爬就是卧龙岗。\n"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/hummock long
+#: data/cloud/rooms.json
+msgid ""
+"这是位于雪亭和绮云两镇间的一道山梁。据说山上时常有强盗拦路\n"
+"抢劫。\n"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/shillfoot long
+#: data/cloud/rooms.json
+msgid ""
+"这是卧龙岗的东南坡。东南的路通向绮云镇，往北就要过岗了。\n"
+msgstr ""
+
+#. es2:u/cloud/dragonhill/sroad long
+#: data/cloud/rooms.json
+msgid ""
+"这里是雪亭镇通往绮云镇的必经之路。南面就是绮云镇，北面通往\n"
+"卧龙岗。早先官府想在此修条大路连接两镇，无奈地势所限，加上卧龙\n"
+"岗上常有强人出没，只得做罢。虽说是土路，可过往的人很多，路面已\n"
+"被踩得很平了。\n"
+msgstr ""
+
+#. es2:u/cloud/entrance long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的入口。绮云镇是坐落在泓水北岸的一个大镇, 以其商业\n"
+"发达和盛产茶叶而为来往客商们所青睐。北边过了卧龙岗就是著名的\n"
+"封山剑派北宗所在的雪亭镇; 镇南有个渡口, 过了江就是少林的支脉 \n"
+"-- 山烟寺。镇上很是热闹, 在这里就能听到南边集市上传来的叫卖声。\n"
+"入口处有个官府的公告(sign), 不知是写了些什么。 \n"
+msgstr ""
+
+#. es2:u/cloud/nwroad1 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的北市场，再向北就是镇口了。\n"
+"    一股茶香与腥膻相混合的气味扑鼻而来，西首铺子外挂着个牛头;\n"
+"东面是家二层的茶楼，金字招牌十分晃眼。\n"
+msgstr ""
+
+#. es2:u/cloud/butchery long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在镇北肉铺里，肉架上挂满了血淋淋的生肉，一股腥\n"
+"气扑面而来，不时有几只苍蝇在屋里飞来飞去。\n"
+"    靠近门口的地方有一块牛骨雕成的招牌(sign)，上面写着些\n"
+"什么。\n"
+msgstr ""
+
+#. es2:u/cloud/tearoom long
+#: data/cloud/rooms.json
+msgid ""
+"你来到绮云镇西边的一家茶坊里, 它的历史已不下百年, 绮云镇本 \n"
+"就是以盛产茶叶而闻名于世, 因此茶楼的生意出奇的好。\n"
+"    高高悬起的金匾(sign)让你的有一种眩晕的感觉, 幸好阵阵茶香使\n"
+"你清醒了许多。\n"
+"    站在门口, 你可以看到北首有一扇不太起眼的木雕门(door)。\n"
+"    东侧的楼梯通往楼上的雅座, 不时能听到上面传来丝竹之声和阵阵\n"
+"笑声... \n"
+msgstr ""
+
+#. es2:u/cloud/tea_corridor long
+#: data/cloud/rooms.json
+msgid ""
+"茶窖里有几个大竹箩，里面装满了茶叶。 \n"
+msgstr ""
+
+#. es2:u/cloud/nwroad2 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的西市场，西边是家棺材铺，南面是家布庄。\n"
+msgstr ""
+
+#. es2:u/cloud/woodboxy long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在棺材铺里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/god1 long
+#: data/cloud/rooms.json
+msgid ""
+"    这里好象是大户人家子弟玩乐的场院, 原来建有秋千架的草地，\n"
+"已经成了荆棘丛生的荒草场了。再往西是一座凉亭，亭子似乎也快要倒塌了...\n"
+msgstr ""
+
+#. es2:u/cloud/god2 long
+#: data/cloud/rooms.json
+msgid ""
+"    这里是这座场院的前厅，简单的陈设中透出一股尊贵不凡的气派。\n"
+"一张黑漆镶金的八仙桌摆放在大厅中央，两只黝黑的太师椅座在这张桌\n"
+"子的两旁。\n"
+msgstr ""
+
+#. es2:u/cloud/tailory long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在布庄里。靠近门口的墙壁上挂着招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/nwroad3 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的中市场，北面是茶楼，南面是杂货铺。\n"
+msgstr ""
+
+#. es2:u/cloud/zaihuoy long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在杂货铺里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/nroad1 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的东市场，北面是药店，东面是兵器店。\n"
+msgstr ""
+
+#. es2:u/cloud/drugstore long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在药店里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/weapony long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在兵器屋里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/nroad2 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的南市场，西面是杂货铺，向东可看到 怡红院 的二楼。\n"
+msgstr ""
+
+#. es2:u/cloud/cross long
+#: data/cloud/rooms.json
+msgid ""
+"绮云镇的两条青石路在这里交叉，路旁栽着棵古槐，有两个汉子合\n"
+"抱那么粗。槐树下有个告示，象是官府立的。\n"
+msgstr ""
+
+#. es2:u/cloud/wroad2 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇西，东边就是十字路口。南面的院子里甚是喧闹，象\n"
+"是有很多人的样子。北面是杂货铺，不过门不朝这个方向开。\n"
+msgstr ""
+
+#. es2:u/cloud/monky long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在斋院里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/wroad1 long
+#: data/cloud/rooms.json
+msgid ""
+"东边青板石铺的路与向西的碎石小径在这里汇合。西面仿佛是座庄\n"
+"院，似可听到曲乐声，却又分辨不清; 南面是家私塾。 \n"
+msgstr ""
+
+#. es2:u/cloud/bookstore long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在书局里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/wroad0 long
+#: data/cloud/rooms.json
+msgid ""
+"东边青板石铺的路与向西的碎石小径在这里汇合。西面仿佛是座庄\n"
+"院，似可听到曲乐声，却又分辨不清; 北面是红娘庄，常常有一对对\n"
+"男女来往。 \n"
+msgstr ""
+
+#. es2:u/cloud/marry_room long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在红娘庄里，这里是专门替人缔结婚约和解除婚约的地方，\n"
+"镇里所有的夫妇都是在这里喜结良缘的，就连附近镇子也有许多慕名\n"
+"而来的。靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/sroad1 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇南，通往过江的渡口。\n"
+msgstr ""
+
+#. es2:u/cloud/dukou long
+#: data/cloud/rooms.json
+msgid ""
+"这是个虽说不大却过客甚多的渡口。往北去是通往绮云镇里的青石\n"
+"道，南面就是无风亦起浪的泓水了。向南望去，隐约可见对岸日照山的\n"
+"轮廓，山顶有袅袅炊烟升起。\n"
+msgstr ""
+
+#. es2:u/cloud/eroad1 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是十字路口的东侧，两边房子里都颇为吵闹。北面似乎是家春\n"
+"楼，不时可听到风尘女子的卖笑声。南面却是些三教九流的人物在吆三\n"
+"喝五，象是家赌场。\n"
+msgstr ""
+
+#. es2:u/cloud/jiyuan long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在怡红院里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/duchang long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在赌场里。靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/eroad2 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇东，通往茶场的路。南边是一家有名的大镖局 -- 振\n"
+"远镖局。北面是绮云张家的宅院。\n"
+"\n"
+msgstr ""
+
+#. es2:u/cloud/park long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在张家花园里\n"
+msgstr ""
+
+#. es2:u/cloud/biaoju long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在镖局里。靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/eroad3 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇东头，北面是张家，东南方就是茶场。\n"
+msgstr ""
+
+#. es2:u/cloud/rich long
+#: data/cloud/rooms.json
+msgid ""
+"你现在正站在张百万家里\n"
+"    靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. es2:u/cloud/m_house long
+#: data/cloud/rooms.json
+msgid ""
+"这里是张百万的府宅，常人可进不来\n"
+msgstr ""
+
+#. es2:u/cloud/eroad4 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是绮云镇的茶场，绮云盛产茶叶，因此这里有不少茶工在忙着\n"
+"采茶。\n"
+msgstr ""
+
+#. es2:u/cloud/tearoom2 long
+#: data/cloud/rooms.json
+msgid ""
+"这是茶楼的二层，附近的文人墨客常喜欢在此品茗作赋。\n"
+"    里首摆着个棋盘。\n"
+msgstr ""
+
+#. es2:u/cloud/jiyuan2 long
+#: data/cloud/rooms.json
+msgid ""
+"这是怡红院的姑娘们陪客人们饮酒品茗，吟诗作赋的地方，甚是幽\n"
+"雅。\n"
+msgstr ""
+
+#. es2:u/cloud/duchang2 long
+#: data/cloud/rooms.json
+msgid ""
+"这里是赌场的二楼，很多人在围着几张桌子高声叫嚷，煞是热闹。\n"
+"靠近门口的地方有一块乌木雕成的招牌(sign)。\n"
+msgstr ""
+
+#. cloud.woodboxy.door name
+#: data/cloud/world.json
+msgid "木门"
 msgstr ""

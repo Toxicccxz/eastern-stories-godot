@@ -1,0 +1,60 @@
+{
+	"vendors": [
+		{
+			"id": "cloud.vendor.book_seller",
+			"legacy_source": "u/cloud/npc/book_seller.c",
+			"goods": [
+				{ "key": "literate book", "item": "es2:u/cloud/obj/literate_book" }
+			]
+		},
+		{
+			"id": "cloud.vendor.butcher",
+			"legacy_source": "u/cloud/npc/butcher.c",
+			"goods": [
+				{ "key": "beef", "item": "es2:u/cloud/obj/meat/b_beef" },
+				{ "key": "hind", "item": "es2:u/cloud/obj/meat/hind" },
+				{ "key": "tail", "item": "es2:u/cloud/obj/meat/tail" },
+				{ "key": "fragment", "item": "es2:u/cloud/obj/meat/zasui" },
+				{ "key": "dog meat", "item": "es2:u/cloud/obj/meat/dog_m" }
+			]
+		},
+		{
+			"id": "cloud.vendor.doctor",
+			"legacy_source": "u/cloud/npc/doctor.c",
+			"goods": [
+				{ "key": "medicine", "item": "es2:obj/drug/hurt_drug" },
+				{ "key": "snake drug", "item": "es2:obj/drug/snake_drug" }
+			]
+		},
+		{
+			"id": "cloud.vendor.seller",
+			"legacy_source": "u/cloud/npc/seller.c",
+			"goods": [
+				{ "key": "rope", "item": "es2:u/cloud/obj/etc/rope" },
+				{ "key": "bag", "item": "es2:obj/example/bag" },
+				{ "key": "dust", "item": "es2:obj/dust" }
+			]
+		},
+		{
+			"id": "cloud.vendor.tailor",
+			"legacy_source": "u/cloud/npc/tailor.c",
+			"goods": [
+				{ "key": "cloth", "item": "es2:u/cloud/obj/cloth/cloth" }
+			]
+		},
+		{
+			"id": "cloud.vendor.weaponor",
+			"legacy_source": "u/cloud/npc/weaponor.c",
+			"goods": [
+				{ "key": "whip", "item": "es2:obj/weapon/whip" },
+				{ "key": "sword", "item": "es2:obj/weapon/longsword" },
+				{ "key": "blade", "item": "es2:obj/weapon/blade" },
+				{ "key": "dart", "item": "es2:obj/weapon/dart" },
+				{ "key": "leather shield", "item": "es2:obj/weapon/shield" },
+				{ "key": "sixhammer", "item": "es2:obj/weapon/sixhammer" },
+				{ "key": "thin sword", "item": "es2:obj/weapon/thin_sword" },
+				{ "key": "dagger", "item": "es2:obj/weapon/dagger" }
+			]
+		}
+	]
+}

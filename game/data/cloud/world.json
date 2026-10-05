@@ -1,0 +1,67 @@
+{
+	"regions": [
+		{ "id": "cloud", "name": "绮云镇" }
+	],
+	"maps": [
+		{ "id": "cloud.outdoor", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_outdoor.tscn", "entry": "cloud.dragonhill.nroad.snow_entry" },
+		{ "id": "cloud.upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_upstairs.tscn", "entry": "cloud.tearoom2.stairs_arrival" }
+	],
+	"zones": [
+		{ "id": "cloud.dragonhill.nroad", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/nroad"] },
+		{ "id": "cloud.dragonhill.nhillfoot", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/nhillfoot"] },
+		{ "id": "cloud.dragonhill.hummock", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/hummock"], "combat_entry": "complete_set" },
+		{ "id": "cloud.dragonhill.shillfoot", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/shillfoot"] },
+		{ "id": "cloud.dragonhill.sroad", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/sroad"] },
+		{ "id": "cloud.entrance", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/entrance"] },
+		{ "id": "cloud.nwroad1", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/nwroad1"] },
+		{ "id": "cloud.butchery", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/butchery"] },
+		{ "id": "cloud.tearoom", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/tearoom"] },
+		{ "id": "cloud.tea_corridor", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/tea_corridor"] },
+		{ "id": "cloud.nwroad2", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/nwroad2"] },
+		{ "id": "cloud.woodboxy", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/woodboxy"] },
+		{ "id": "cloud.god1", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/god1"] },
+		{ "id": "cloud.god2", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/god2"] },
+		{ "id": "cloud.tailory", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/tailory"] },
+		{ "id": "cloud.nwroad3", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/nwroad3"] },
+		{ "id": "cloud.zaihuoy", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/zaihuoy"] },
+		{ "id": "cloud.nroad1", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/nroad1"] },
+		{ "id": "cloud.drugstore", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/drugstore"] },
+		{ "id": "cloud.weapony", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/weapony"] },
+		{ "id": "cloud.nroad2", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/nroad2"] },
+		{ "id": "cloud.cross", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/cross"] },
+		{ "id": "cloud.wroad2", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/wroad2"] },
+		{ "id": "cloud.monky", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/monky"] },
+		{ "id": "cloud.wroad1", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/wroad1"] },
+		{ "id": "cloud.bookstore", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/bookstore"] },
+		{ "id": "cloud.wroad0", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/wroad0"] },
+		{ "id": "cloud.marry_room", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/marry_room"] },
+		{ "id": "cloud.sroad1", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/sroad1"] },
+		{ "id": "cloud.dukou", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dukou"] },
+		{ "id": "cloud.eroad1", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/eroad1"] },
+		{ "id": "cloud.jiyuan", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/jiyuan"] },
+		{ "id": "cloud.duchang", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/duchang"] },
+		{ "id": "cloud.eroad2", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/eroad2"] },
+		{ "id": "cloud.park", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/park"] },
+		{ "id": "cloud.biaoju", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/biaoju"] },
+		{ "id": "cloud.eroad3", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/eroad3"] },
+		{ "id": "cloud.rich", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/rich"] },
+		{ "id": "cloud.m_house", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/m_house"] },
+		{ "id": "cloud.eroad4", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/eroad4"] },
+		{ "id": "cloud.tearoom2", "map": "cloud.upstairs", "rooms": ["es2:u/cloud/tearoom2"] },
+		{ "id": "cloud.jiyuan2", "map": "cloud.upstairs", "rooms": ["es2:u/cloud/jiyuan2"] },
+		{ "id": "cloud.duchang2", "map": "cloud.upstairs", "rooms": ["es2:u/cloud/duchang2"] }
+	],
+	"portals": [
+		{ "id": "cloud.dragonhill.nroad.north", "from_zone": "cloud.dragonhill.nroad", "to_zone": "snow.sroad1", "to_spawn": "snow.sroad1.cloud_return", "legacy_room": "es2:u/cloud/dragonhill/nroad", "legacy_command": "north" },
+		{ "id": "cloud.tearoom.up", "from_zone": "cloud.tearoom", "to_zone": "cloud.tearoom2", "to_spawn": "cloud.tearoom2.stairs_arrival", "legacy_room": "es2:u/cloud/tearoom", "legacy_command": "up" },
+		{ "id": "cloud.tearoom2.down", "from_zone": "cloud.tearoom2", "to_zone": "cloud.tearoom", "to_spawn": "cloud.tearoom.stairs_return", "legacy_room": "es2:u/cloud/tearoom2", "legacy_command": "down" },
+		{ "id": "cloud.jiyuan.up", "from_zone": "cloud.jiyuan", "to_zone": "cloud.jiyuan2", "to_spawn": "cloud.jiyuan2.stairs_arrival", "legacy_room": "es2:u/cloud/jiyuan", "legacy_command": "up" },
+		{ "id": "cloud.jiyuan2.down", "from_zone": "cloud.jiyuan2", "to_zone": "cloud.jiyuan", "to_spawn": "cloud.jiyuan.stairs_return", "legacy_room": "es2:u/cloud/jiyuan2", "legacy_command": "down" },
+		{ "id": "cloud.duchang.up", "from_zone": "cloud.duchang", "to_zone": "cloud.duchang2", "to_spawn": "cloud.duchang2.stairs_arrival", "legacy_room": "es2:u/cloud/duchang", "legacy_command": "up" },
+		{ "id": "cloud.duchang2.down", "from_zone": "cloud.duchang2", "to_zone": "cloud.duchang", "to_spawn": "cloud.duchang.stairs_return", "legacy_room": "es2:u/cloud/duchang2", "legacy_command": "down" }
+	],
+	"doors": [
+		{ "id": "cloud.tearoom.door", "name": "木雕门", "zones": ["cloud.tearoom", "cloud.tea_corridor"], "reach": 90, "legacy_room": "es2:u/cloud/tearoom" },
+		{ "id": "cloud.woodboxy.door", "name": "木门", "zones": ["cloud.woodboxy", "cloud.god1"], "reach": 90, "legacy_room": "es2:u/cloud/woodboxy" }
+	]
+}

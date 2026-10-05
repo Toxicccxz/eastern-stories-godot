@@ -115,7 +115,8 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 ## with `chat_msg` [line | {"say", "color"} | {"action": "random_move"} | {"action": "drink",
 ## ...} | a special], `chat_chance_combat` with `chat_msg_combat` [line | {"say", "color"} |
 ## a special] (NpcSpecialAction: perform, cast, exert, surrender) and `greeting` {"say"} or
-## {"one_of": [{"say" | "emote"}]}.
+## {"one_of": [{"say" | "emote" | "line"}], "out_of"?: n} (switch(random(n)); a draw past
+## the lines says nothing).
 static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	var inquiry: Dictionary[String, PackedStringArray] = {}
 	var kee_answers: Dictionary[String, Array] = {}
@@ -142,8 +143,10 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	if reader.has("chat_chance_combat") != reader.has("chat_msg_combat"):
 		reader.fail("chat_chance_combat", "chat_chance_combat and chat_msg_combat come together")
 	var greeting: Array[NpcLine] = []
+	var greeting_out_of: int = 0
 	var greet: ContentRecordReader = reader.child("greeting")
 	if greet != null:
+		greeting_out_of = greet.integer("out_of")
 		if greet.has("say") == greet.has("one_of"):
 			greet.fail("", "needs exactly one of say and one_of")
 		elif greet.has("say"):
@@ -154,7 +157,9 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 			if line != null:
 				greeting.append(line)
 		greet.finish()
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries)
+		if greet.has("out_of") and (not greet.has("one_of") or greeting_out_of <= greeting.size()):
+			greet.fail("out_of", "needs one_of and more draws than lines")
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; random_move and

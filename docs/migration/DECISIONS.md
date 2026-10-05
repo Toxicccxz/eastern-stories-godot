@@ -1,5 +1,37 @@
 # Migration Decisions
 
+## 卧龙岗 + 绮云镇 3A: the streets and shops (2026-10-05)
+
+The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.md).
+- **Two maps**: the outdoor map holds 卧龙岗's five rooms north of the town's ground floor (a
+  room each on a 256 px grid); the three upper floors (香茗坊, 怡红院, 赌场) are one map of three
+  separate rooms, reached by their stairs. Snow's 雪亭镇街道 leads south. Diagonal exits become
+  straight; the entrance is two rooms wide so 南坡 and the second 黄土路 both open onto it, as
+  the three lead to each other. Closed: south across 泓水 (#8), west to 晚月庄 (#7).
+- **Owner: the later packages' NPCs stand now** as ordinary NPCs (陈剑秋 and 趟子手, 3B; 朱鸿雪,
+  3C; 宝官 and 媒婆, 3D; 船夫, #8). 朱鸿雪 and 化缘和尚 cannot be fought until their arts are
+  ported; 春风快意刀 is, for the 家丁 (and so 陈剑秋 and 趟子手).
+- **The toll** (gangster.c): a robber attacks a player without marks/强盗 on sight (its greeting's
+  kill_passenger()); giving it something worth ten gold taels sets the mark; less, and that robber
+  attacks. The native presence (radius 100 here) stands in for the greeting's call_out, so the
+  toll is paid from the edge of the room. A robber that has fought the player attacks on sight
+  from then on, mark or not (kill_passenger()'s attitude, attack.c's hatred), until it is made
+  anew. Its chat and fight lines are set from the start where ES2 sets them at that first meeting.
+- **Owner: the thief steals** (thief.c, cmds/std/steal.c), the NPC side only (the player's steal
+  waits for #9): an arriving player (or the thief arriving) is tried when random(kar) < 2, one
+  second later steal.c picks present("silver") or a random carried thing, three seconds later it
+  rolls. The player reads nothing when robbed, only when caught; then they fight (fight_ob both
+  ways: a spar). An NPC is not robbed. His `thief` count is not saved, as NPCs are not.
+- **Rules as data**: accept_object rules test the giver's gender and raw per (李师师's keepsake)
+  and may attack on a refusal (`kill`); greetings draw `out_of` n (switch(random(4)) with fewer
+  cases says nothing on the rest); a `line` is shown as written (the say() efun naming its
+  speaker). A `->wield()` that finds no free hand leaves the weapon carried (the robber's 飞镖).
+- **The archive's hard wrap**: a raw line break inside an LPC string is dropped on import (the
+  u/cloud files and daemon/class/fighter/celestial are wrapped at 80 columns).
+- **For the owner**: 牛腿 (sold by the butcher) is a hammer only, since food that is also a weapon
+  is not supported yet; food eaten up leaves no bones (finish_eat); 弈者's 下棋 is not ported.
+- World content revision `SOURCE_ENTRY_CLOUD_V1`: older development saves need a New Game.
+
 ## 野羊山: the mountain road, the caverns, two hands, bash_weapon (2026-10-05)
 
 The region plan's #2; what is placed where is in [GOATHILL_CONTENT](GOATHILL_CONTENT.md).

@@ -1,0 +1,286 @@
+{
+	"spawns": [
+		{
+			"id": "cloud.outdoor.hummock.gangsters",
+			"npc": "cloud.npc.gangster",
+			"map": "cloud.outdoor",
+			"zone": "cloud.dragonhill.hummock",
+			"points": ["cloud.dragonhill.hummock.gangster.1", "cloud.dragonhill.hummock.gangster.2"],
+			"legacy_room": "u/cloud/dragonhill/hummock.c",
+			"legacy_quantity": 2,
+			"presence_radius": 100
+		},
+		{
+			"id": "cloud.outdoor.butchery.butcher",
+			"npc": "cloud.npc.butcher",
+			"map": "cloud.outdoor",
+			"zone": "cloud.butchery",
+			"points": ["cloud.butchery.butcher.1"],
+			"legacy_room": "u/cloud/butchery.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.butchery.flys",
+			"npc": "cloud.npc.fly",
+			"map": "cloud.outdoor",
+			"zone": "cloud.butchery",
+			"points": [
+				"cloud.butchery.fly.1",
+				"cloud.butchery.fly.2",
+				"cloud.butchery.fly.3",
+				"cloud.butchery.fly.4",
+				"cloud.butchery.fly.5",
+				"cloud.butchery.fly.6"
+			],
+			"legacy_room": "u/cloud/butchery.c",
+			"legacy_quantity": 6
+		},
+		{
+			"id": "cloud.outdoor.tearoom.tea_waiter",
+			"npc": "cloud.npc.tea_waiter",
+			"map": "cloud.outdoor",
+			"zone": "cloud.tearoom",
+			"points": ["cloud.tearoom.tea_waiter.1"],
+			"legacy_room": "u/cloud/tearoom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.woodboxy.box_boss",
+			"npc": "cloud.npc.box_boss",
+			"map": "cloud.outdoor",
+			"zone": "cloud.woodboxy",
+			"points": ["cloud.woodboxy.box_boss.1"],
+			"legacy_room": "u/cloud/woodboxy.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.woodboxy.box_waiters",
+			"npc": "cloud.npc.box_waiter",
+			"map": "cloud.outdoor",
+			"zone": "cloud.woodboxy",
+			"points": [
+				"cloud.woodboxy.box_waiter.1",
+				"cloud.woodboxy.box_waiter.2",
+				"cloud.woodboxy.box_waiter.3",
+				"cloud.woodboxy.box_waiter.4",
+				"cloud.woodboxy.box_waiter.5",
+				"cloud.woodboxy.box_waiter.6",
+				"cloud.woodboxy.box_waiter.7",
+				"cloud.woodboxy.box_waiter.8"
+			],
+			"legacy_room": "u/cloud/woodboxy.c",
+			"legacy_quantity": 8
+		},
+		{
+			"id": "cloud.outdoor.god2.god",
+			"npc": "cloud.npc.god",
+			"map": "cloud.outdoor",
+			"zone": "cloud.god2",
+			"points": ["cloud.god2.god.1"],
+			"legacy_room": "u/cloud/god2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.tailory.tailor",
+			"npc": "cloud.npc.tailor",
+			"map": "cloud.outdoor",
+			"zone": "cloud.tailory",
+			"points": ["cloud.tailory.tailor.1"],
+			"legacy_room": "u/cloud/tailory.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.nwroad3.garrisons",
+			"npc": "common.npc.garrison",
+			"map": "cloud.outdoor",
+			"zone": "cloud.nwroad3",
+			"points": ["cloud.nwroad3.garrison.1", "cloud.nwroad3.garrison.2"],
+			"legacy_room": "u/cloud/nwroad3.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "cloud.outdoor.zaihuoy.seller",
+			"npc": "cloud.npc.seller",
+			"map": "cloud.outdoor",
+			"zone": "cloud.zaihuoy",
+			"points": ["cloud.zaihuoy.seller.1"],
+			"legacy_room": "u/cloud/zaihuoy.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.drugstore.doctor",
+			"npc": "cloud.npc.doctor",
+			"map": "cloud.outdoor",
+			"zone": "cloud.drugstore",
+			"points": ["cloud.drugstore.doctor.1"],
+			"legacy_room": "u/cloud/drugstore.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.weapony.weaponor",
+			"npc": "cloud.npc.weaponor",
+			"map": "cloud.outdoor",
+			"zone": "cloud.weapony",
+			"points": ["cloud.weapony.weaponor.1"],
+			"legacy_room": "u/cloud/weapony.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.monky.monk",
+			"npc": "cloud.npc.monk",
+			"map": "cloud.outdoor",
+			"zone": "cloud.monky",
+			"points": ["cloud.monky.monk.1"],
+			"legacy_room": "u/cloud/monky.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.monky.beggars",
+			"npc": "snow.npc.beggar",
+			"map": "cloud.outdoor",
+			"zone": "cloud.monky",
+			"points": ["cloud.monky.beggar.1", "cloud.monky.beggar.2"],
+			"legacy_room": "u/cloud/monky.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "cloud.outdoor.bookstore.book_seller",
+			"npc": "cloud.npc.book_seller",
+			"map": "cloud.outdoor",
+			"zone": "cloud.bookstore",
+			"points": ["cloud.bookstore.book_seller.1"],
+			"legacy_room": "u/cloud/bookstore.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.marry_room.mei_po",
+			"npc": "cloud.npc.mei_po",
+			"map": "cloud.outdoor",
+			"zone": "cloud.marry_room",
+			"points": ["cloud.marry_room.mei_po.1"],
+			"legacy_room": "u/cloud/marry_room.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.dukou.boater",
+			"npc": "cloud.npc.boater",
+			"map": "cloud.outdoor",
+			"zone": "cloud.dukou",
+			"points": ["cloud.dukou.boater.1"],
+			"legacy_room": "u/cloud/dukou.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.jiyuan.mother",
+			"npc": "cloud.npc.mother",
+			"map": "cloud.outdoor",
+			"zone": "cloud.jiyuan",
+			"points": ["cloud.jiyuan.mother.1"],
+			"legacy_room": "u/cloud/jiyuan.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.duchang.judge",
+			"npc": "cloud.npc.judge",
+			"map": "cloud.outdoor",
+			"zone": "cloud.duchang",
+			"points": ["cloud.duchang.judge.1"],
+			"legacy_room": "u/cloud/duchang.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.park.thief",
+			"npc": "cloud.npc.thief",
+			"map": "cloud.outdoor",
+			"zone": "cloud.park",
+			"points": ["cloud.park.thief.1"],
+			"legacy_room": "u/cloud/park.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.biaoju.b_header",
+			"npc": "cloud.npc.b_header",
+			"map": "cloud.outdoor",
+			"zone": "cloud.biaoju",
+			"points": ["cloud.biaoju.b_header.1"],
+			"legacy_room": "u/cloud/biaoju.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.biaoju.bfighter",
+			"npc": "cloud.npc.bfighter",
+			"map": "cloud.outdoor",
+			"zone": "cloud.biaoju",
+			"points": ["cloud.biaoju.bfighter.1"],
+			"legacy_room": "u/cloud/biaoju.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.rich.room_guas",
+			"npc": "cloud.npc.room_gua",
+			"map": "cloud.outdoor",
+			"zone": "cloud.rich",
+			"points": [
+				"cloud.rich.room_gua.1",
+				"cloud.rich.room_gua.2",
+				"cloud.rich.room_gua.3",
+				"cloud.rich.room_gua.4",
+				"cloud.rich.room_gua.5"
+			],
+			"legacy_room": "u/cloud/rich.c",
+			"legacy_quantity": 5
+		},
+		{
+			"id": "cloud.outdoor.m_house.millinare",
+			"npc": "cloud.npc.millinare",
+			"map": "cloud.outdoor",
+			"zone": "cloud.m_house",
+			"points": ["cloud.m_house.millinare.1"],
+			"legacy_room": "u/cloud/m_house.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.outdoor.m_house.jiadings",
+			"npc": "cloud.npc.jiading",
+			"map": "cloud.outdoor",
+			"zone": "cloud.m_house",
+			"points": ["cloud.m_house.jiading.1", "cloud.m_house.jiading.2"],
+			"legacy_room": "u/cloud/m_house.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "cloud.outdoor.eroad4.workers",
+			"npc": "cloud.npc.worker",
+			"map": "cloud.outdoor",
+			"zone": "cloud.eroad4",
+			"points": [
+				"cloud.eroad4.worker.1",
+				"cloud.eroad4.worker.2",
+				"cloud.eroad4.worker.3",
+				"cloud.eroad4.worker.4",
+				"cloud.eroad4.worker.5",
+				"cloud.eroad4.worker.6"
+			],
+			"legacy_room": "u/cloud/eroad4.c",
+			"legacy_quantity": 6
+		},
+		{
+			"id": "cloud.upstairs.tearoom2.chess_player",
+			"npc": "cloud.npc.chess_player",
+			"map": "cloud.upstairs",
+			"zone": "cloud.tearoom2",
+			"points": ["cloud.tearoom2.chess_player.1"],
+			"legacy_room": "u/cloud/tearoom2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "cloud.upstairs.jiyuan2.girl",
+			"npc": "cloud.npc.girl",
+			"map": "cloud.upstairs",
+			"zone": "cloud.jiyuan2",
+			"points": ["cloud.jiyuan2.girl.1"],
+			"legacy_room": "u/cloud/jiyuan2.c",
+			"legacy_quantity": 1
+		}
+	]
+}

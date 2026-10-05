@@ -55,6 +55,8 @@ static func give(
 	var offer := NpcObjectRule.Offer.new(
 		_portion_money(authorities, id, content, amount), &"", 0, npc.flags(), player.state.marks,
 	)
+	offer.giver_gender = player.state.gender
+	offer.giver_per = player.state.attributes.personality
 	var liquid: LiquidState = authorities.liquids.state(id)
 	if liquid != null:
 		offer.liquid_type = LiquidState.legacy_type(liquid.content)
@@ -93,6 +95,17 @@ static func give(
 	result.item_id = portion
 	result.outcome = ItemHandlingResult.Outcome.DONE
 	return result
+
+
+## ob->move(npc) of something the player carries (u/cloud thief.c through steal.c):
+## the whole object, merged into the NPC's own stack. False when it is too heavy.
+static func hand_over(npc: NpcRuntimeState, id: StringName, authorities: Authorities) -> bool:
+	if npc == null or authorities == null or not authorities.is_valid():
+		return false
+	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)
+	var npc_owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+	var moved: InventoryTransferResult = _move(authorities, id, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance), npc_owner)
+	return moved != null and moved.succeeded
 
 
 ## drop.c: onto the floor of the player's place (`floor`); something worth

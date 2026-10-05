@@ -1,0 +1,397 @@
+{
+	"rooms": [
+		{
+			"id": "es2:u/cloud/dragonhill/nroad",
+			"short": "黄土路",
+			"long": "这里是雪亭镇通往绮云镇的必经之路。北面就是雪亭镇，南面通往\n卧龙岗。早先官府想在此修条大路连接两镇，无奈地势所限，加上卧龙\n岗上常有强人出没，只得做罢。虽说是土路，可过往的人很多，路面已\n被踩得很平了。\n",
+			"exits": {
+				"north": "es2:d/snow/sroad1",
+				"southeast": "es2:u/cloud/dragonhill/nhillfoot"
+			}
+		},
+		{
+			"id": "es2:u/cloud/dragonhill/nhillfoot",
+			"short": "卧龙岗北坡",
+			"long": "从这往西北有条路通往雪亭镇，向南爬就是卧龙岗。\n",
+			"exits": {
+				"northwest": "es2:u/cloud/dragonhill/nroad",
+				"southup": "es2:u/cloud/dragonhill/hummock"
+			}
+		},
+		{
+			"id": "es2:u/cloud/dragonhill/hummock",
+			"short": "卧龙岗",
+			"long": "这是位于雪亭和绮云两镇间的一道山梁。据说山上时常有强盗拦路\n抢劫。\n",
+			"exits": {
+				"northdown": "es2:u/cloud/dragonhill/nhillfoot",
+				"southdown": "es2:u/cloud/dragonhill/shillfoot"
+			}
+		},
+		{
+			"id": "es2:u/cloud/dragonhill/shillfoot",
+			"short": "卧龙岗南坡",
+			"long": "这是卧龙岗的东南坡。东南的路通向绮云镇，往北就要过岗了。\n",
+			"exits": {
+				"northup": "es2:u/cloud/dragonhill/hummock",
+				"southeast": "es2:u/cloud/entrance"
+			}
+		},
+		{
+			"id": "es2:u/cloud/dragonhill/sroad",
+			"short": "黄土路",
+			"long": "这里是雪亭镇通往绮云镇的必经之路。南面就是绮云镇，北面通往\n卧龙岗。早先官府想在此修条大路连接两镇，无奈地势所限，加上卧龙\n岗上常有强人出没，只得做罢。虽说是土路，可过往的人很多，路面已\n被踩得很平了。\n",
+			"exits": {
+				"northwest": "es2:u/cloud/dragonhill/shillfoot",
+				"southeast": "es2:u/cloud/entrance"
+			}
+		},
+		{
+			"id": "es2:u/cloud/entrance",
+			"short": "绮云镇",
+			"long": "这里是绮云镇的入口。绮云镇是坐落在泓水北岸的一个大镇, 以其商业\n发达和盛产茶叶而为来往客商们所青睐。北边过了卧龙岗就是著名的\n封山剑派北宗所在的雪亭镇; 镇南有个渡口, 过了江就是少林的支脉 \n-- 山烟寺。镇上很是热闹, 在这里就能听到南边集市上传来的叫卖声。\n入口处有个官府的公告(sign), 不知是写了些什么。 \n",
+			"exits": {
+				"northwest": "es2:u/cloud/dragonhill/sroad",
+				"south": "es2:u/cloud/nwroad1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/nwroad1",
+			"short": "北市场",
+			"long": "这里是绮云镇的北市场，再向北就是镇口了。\n    一股茶香与腥膻相混合的气味扑鼻而来，西首铺子外挂着个牛头;\n东面是家二层的茶楼，金字招牌十分晃眼。\n",
+			"exits": {
+				"west": "es2:u/cloud/butchery",
+				"north": "es2:u/cloud/entrance",
+				"south": "es2:u/cloud/nwroad2",
+				"east": "es2:u/cloud/tearoom"
+			}
+		},
+		{
+			"id": "es2:u/cloud/butchery",
+			"short": "镇北肉铺",
+			"long": "你现在正站在镇北肉铺里，肉架上挂满了血淋淋的生肉，一股腥\n气扑面而来，不时有几只苍蝇在屋里飞来飞去。\n    靠近门口的地方有一块牛骨雕成的招牌(sign)，上面写着些\n什么。\n",
+			"exits": {
+				"east": "es2:u/cloud/nwroad1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/tearoom",
+			"short": "香茗坊",
+			"long": "你来到绮云镇西边的一家茶坊里, 它的历史已不下百年, 绮云镇本 \n就是以盛产茶叶而闻名于世, 因此茶楼的生意出奇的好。\n    高高悬起的金匾(sign)让你的有一种眩晕的感觉, 幸好阵阵茶香使\n你清醒了许多。\n    站在门口, 你可以看到北首有一扇不太起眼的木雕门(door)。\n    东侧的楼梯通往楼上的雅座, 不时能听到上面传来丝竹之声和阵阵\n笑声... \n",
+			"exits": {
+				"south": "es2:u/cloud/nwroad3",
+				"west": "es2:u/cloud/nwroad1",
+				"north": "es2:u/cloud/tea_corridor",
+				"up": "es2:u/cloud/tearoom2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/tea_corridor",
+			"short": "香茗坊茶窖",
+			"long": "茶窖里有几个大竹箩，里面装满了茶叶。 \n",
+			"exits": {
+				"south": "es2:u/cloud/tearoom"
+			}
+		},
+		{
+			"id": "es2:u/cloud/nwroad2",
+			"short": "西市场",
+			"long": "这里是绮云镇的西市场，西边是家棺材铺，南面是家布庄。\n",
+			"exits": {
+				"west": "es2:u/cloud/woodboxy",
+				"north": "es2:u/cloud/nwroad1",
+				"south": "es2:u/cloud/tailory",
+				"east": "es2:u/cloud/nwroad3"
+			}
+		},
+		{
+			"id": "es2:u/cloud/woodboxy",
+			"short": "棺材铺",
+			"long": "你现在正站在棺材铺里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"east": "es2:u/cloud/nwroad2",
+				"west": "es2:u/cloud/god1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/god1",
+			"short": "场院",
+			"long": "    这里好象是大户人家子弟玩乐的场院, 原来建有秋千架的草地，\n已经成了荆棘丛生的荒草场了。再往西是一座凉亭，亭子似乎也快要倒塌了...\n",
+			"exits": {
+				"east": "es2:u/cloud/woodboxy",
+				"west": "es2:u/cloud/god2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/god2",
+			"short": "场院前厅",
+			"long": "    这里是这座场院的前厅，简单的陈设中透出一股尊贵不凡的气派。\n一张黑漆镶金的八仙桌摆放在大厅中央，两只黝黑的太师椅座在这张桌\n子的两旁。\n",
+			"exits": {
+				"east": "es2:u/cloud/god1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/tailory",
+			"short": "布庄",
+			"long": "你现在正站在布庄里。靠近门口的墙壁上挂着招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/nwroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/nwroad3",
+			"short": "中市场",
+			"long": "这里是绮云镇的中市场，北面是茶楼，南面是杂货铺。\n",
+			"exits": {
+				"west": "es2:u/cloud/nwroad2",
+				"north": "es2:u/cloud/tearoom",
+				"south": "es2:u/cloud/zaihuoy",
+				"east": "es2:u/cloud/nroad1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/zaihuoy",
+			"short": "杂货铺",
+			"long": "你现在正站在杂货铺里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/nwroad3",
+				"east": "es2:u/cloud/nroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/nroad1",
+			"short": "东市场",
+			"long": "这里是绮云镇的东市场，北面是药店，东面是兵器店。\n",
+			"exits": {
+				"west": "es2:u/cloud/nwroad3",
+				"north": "es2:u/cloud/drugstore",
+				"south": "es2:u/cloud/nroad2",
+				"east": "es2:u/cloud/weapony"
+			}
+		},
+		{
+			"id": "es2:u/cloud/drugstore",
+			"short": "药店",
+			"long": "你现在正站在药店里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"south": "es2:u/cloud/nroad1"
+			},
+			"no_fight": true
+		},
+		{
+			"id": "es2:u/cloud/weapony",
+			"short": "兵器屋",
+			"long": "你现在正站在兵器屋里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"west": "es2:u/cloud/nroad1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/nroad2",
+			"short": "南市场",
+			"long": "这里是绮云镇的南市场，西面是杂货铺，向东可看到 怡红院 的二楼。\n",
+			"exits": {
+				"west": "es2:u/cloud/zaihuoy",
+				"north": "es2:u/cloud/nroad1",
+				"south": "es2:u/cloud/cross"
+			}
+		},
+		{
+			"id": "es2:u/cloud/cross",
+			"short": "十字路口",
+			"long": "绮云镇的两条青石路在这里交叉，路旁栽着棵古槐，有两个汉子合\n抱那么粗。槐树下有个告示，象是官府立的。\n",
+			"exits": {
+				"west": "es2:u/cloud/wroad2",
+				"north": "es2:u/cloud/nroad2",
+				"south": "es2:u/cloud/sroad1",
+				"east": "es2:u/cloud/eroad1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/wroad2",
+			"short": "绮云镇街道",
+			"long": "这里是绮云镇西，东边就是十字路口。南面的院子里甚是喧闹，象\n是有很多人的样子。北面是杂货铺，不过门不朝这个方向开。\n",
+			"exits": {
+				"west": "es2:u/cloud/wroad1",
+				"south": "es2:u/cloud/monky",
+				"east": "es2:u/cloud/cross"
+			}
+		},
+		{
+			"id": "es2:u/cloud/monky",
+			"short": "斋院",
+			"long": "你现在正站在斋院里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/wroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/wroad1",
+			"short": "绮云镇街道",
+			"long": "东边青板石铺的路与向西的碎石小径在这里汇合。西面仿佛是座庄\n院，似可听到曲乐声，却又分辨不清; 南面是家私塾。 \n",
+			"exits": {
+				"south": "es2:u/cloud/bookstore",
+				"west": "es2:u/cloud/wroad0",
+				"east": "es2:u/cloud/wroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/bookstore",
+			"short": "书局",
+			"long": "你现在正站在书局里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/wroad1"
+			}
+		},
+		{
+			"id": "es2:u/cloud/wroad0",
+			"short": "绮云镇街道",
+			"long": "东边青板石铺的路与向西的碎石小径在这里汇合。西面仿佛是座庄\n院，似可听到曲乐声，却又分辨不清; 北面是红娘庄，常常有一对对\n男女来往。 \n",
+			"exits": {
+				"west": "es2:d/latemoon/entrance",
+				"east": "es2:u/cloud/wroad1",
+				"north": "es2:u/cloud/marry_room"
+			}
+		},
+		{
+			"id": "es2:u/cloud/marry_room",
+			"short": "红娘庄",
+			"long": "你现在正站在红娘庄里，这里是专门替人缔结婚约和解除婚约的地方，\n镇里所有的夫妇都是在这里喜结良缘的，就连附近镇子也有许多慕名\n而来的。靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"south": "es2:u/cloud/wroad0"
+			}
+		},
+		{
+			"id": "es2:u/cloud/sroad1",
+			"short": "绮云镇街道",
+			"long": "这里是绮云镇南，通往过江的渡口。\n",
+			"exits": {
+				"north": "es2:u/cloud/cross",
+				"south": "es2:u/cloud/dukou"
+			}
+		},
+		{
+			"id": "es2:u/cloud/dukou",
+			"short": "江北渡口",
+			"long": "这是个虽说不大却过客甚多的渡口。往北去是通往绮云镇里的青石\n道，南面就是无风亦起浪的泓水了。向南望去，隐约可见对岸日照山的\n轮廓，山顶有袅袅炊烟升起。\n",
+			"exits": {
+				"north": "es2:u/cloud/sroad1",
+				"south": "es2:u/cloud/sunhill/northriver"
+			}
+		},
+		{
+			"id": "es2:u/cloud/eroad1",
+			"short": "绮云镇街道",
+			"long": "这里是十字路口的东侧，两边房子里都颇为吵闹。北面似乎是家春\n楼，不时可听到风尘女子的卖笑声。南面却是些三教九流的人物在吆三\n喝五，象是家赌场。\n",
+			"exits": {
+				"west": "es2:u/cloud/cross",
+				"north": "es2:u/cloud/jiyuan",
+				"south": "es2:u/cloud/duchang",
+				"east": "es2:u/cloud/eroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/jiyuan",
+			"short": "怡红院",
+			"long": "你现在正站在怡红院里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"south": "es2:u/cloud/eroad1",
+				"up": "es2:u/cloud/jiyuan2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/duchang",
+			"short": "赌场",
+			"long": "你现在正站在赌场里。靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/eroad1",
+				"up": "es2:u/cloud/duchang2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/eroad2",
+			"short": "绮云镇街道",
+			"long": "这里是绮云镇东，通往茶场的路。南边是一家有名的大镖局 -- 振\n远镖局。北面是绮云张家的宅院。\n\n",
+			"exits": {
+				"west": "es2:u/cloud/eroad1",
+				"north": "es2:u/cloud/park",
+				"south": "es2:u/cloud/biaoju",
+				"northeast": "es2:u/cloud/eroad3"
+			}
+		},
+		{
+			"id": "es2:u/cloud/park",
+			"short": "张家花园",
+			"long": "你现在正站在张家花园里\n",
+			"exits": {
+				"south": "es2:u/cloud/eroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/biaoju",
+			"short": "镖局",
+			"long": "你现在正站在镖局里。靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/eroad2"
+			}
+		},
+		{
+			"id": "es2:u/cloud/eroad3",
+			"short": "绮云镇街道",
+			"long": "这里是绮云镇东头，北面是张家，东南方就是茶场。\n",
+			"exits": {
+				"north": "es2:u/cloud/rich",
+				"southwest": "es2:u/cloud/eroad2",
+				"southeast": "es2:u/cloud/eroad4"
+			}
+		},
+		{
+			"id": "es2:u/cloud/rich",
+			"short": "张百万家",
+			"long": "你现在正站在张百万家里\n    靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"north": "es2:u/cloud/m_house",
+				"south": "es2:u/cloud/eroad3"
+			}
+		},
+		{
+			"id": "es2:u/cloud/m_house",
+			"short": "张百万家",
+			"long": "这里是张百万的府宅，常人可进不来\n",
+			"exits": {
+				"south": "es2:u/cloud/rich"
+			}
+		},
+		{
+			"id": "es2:u/cloud/eroad4",
+			"short": "茶场",
+			"long": "这里是绮云镇的茶场，绮云盛产茶叶，因此这里有不少茶工在忙着\n采茶。\n",
+			"exits": {
+				"northwest": "es2:u/cloud/eroad3"
+			}
+		},
+		{
+			"id": "es2:u/cloud/tearoom2",
+			"short": "香茗坊二楼",
+			"long": "这是茶楼的二层，附近的文人墨客常喜欢在此品茗作赋。\n    里首摆着个棋盘。\n",
+			"exits": {
+				"down": "es2:u/cloud/tearoom"
+			}
+		},
+		{
+			"id": "es2:u/cloud/jiyuan2",
+			"short": "怡红院二楼",
+			"long": "这是怡红院的姑娘们陪客人们饮酒品茗，吟诗作赋的地方，甚是幽\n雅。\n",
+			"exits": {
+				"down": "es2:u/cloud/jiyuan"
+			}
+		},
+		{
+			"id": "es2:u/cloud/duchang2",
+			"short": "赌场",
+			"long": "这里是赌场的二楼，很多人在围着几张桌子高声叫嚷，煞是热闹。\n靠近门口的地方有一块乌木雕成的招牌(sign)。\n",
+			"exits": {
+				"down": "es2:u/cloud/duchang"
+			}
+		}
+	]
+}

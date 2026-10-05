@@ -20,6 +20,9 @@ var _combat_chat_chance: int = 0
 ## As _chat_entries, without RANDOM_MOVE and NpcDrinkAction.
 var _combat_chat_entries: Array = []
 var _greeting: Array[NpcLine] = []
+## switch(random(n)) in greeting(): n, of which only the first lines say something
+## (書局 random(4) with three cases); 0 when every draw says one of the lines.
+var _greeting_out_of: int = 0
 
 var chat_chance: int:
 	get:
@@ -115,6 +118,17 @@ func has_greeting() -> bool:
 ## The lines one greeting chooses from (waiter.c switch(random(3))); one for keeper.c.
 func greeting_choices() -> Array[NpcLine]:
 	return _greeting.duplicate()
+
+
+## How many ways one greeting draws (switch(random(n))): a draw past the lines says nothing.
+func greeting_draws() -> int:
+	return maxi(_greeting_out_of, _greeting.size())
+
+
+## greeting `out_of`. Called once by the loader.
+func with_greeting_out_of(value: int) -> NpcTalk:
+	_greeting_out_of = value
+	return self
 
 
 func is_valid() -> bool:

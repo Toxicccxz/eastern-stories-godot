@@ -47,6 +47,16 @@ func _test_shipped_content_loads() -> void:
 		&"goathill.caverns.cavern1.worms", &"goathill.caverns.cavern2.fat_worm", &"goathill.caverns.cavern2.worms",
 		&"goathill.caverns.cavern3.big_worms", &"goathill.caverns.cavern3.huge_worms", &"goathill.caverns.cavern4.worms",
 		&"goathill.caverns.cavern4.big_worm",
+		&"cloud.outdoor.hummock.gangsters", &"cloud.outdoor.butchery.butcher", &"cloud.outdoor.butchery.flys",
+		&"cloud.outdoor.tearoom.tea_waiter", &"cloud.outdoor.woodboxy.box_boss", &"cloud.outdoor.woodboxy.box_waiters",
+		&"cloud.outdoor.god2.god", &"cloud.outdoor.tailory.tailor", &"cloud.outdoor.nwroad3.garrisons",
+		&"cloud.outdoor.zaihuoy.seller", &"cloud.outdoor.drugstore.doctor", &"cloud.outdoor.weapony.weaponor",
+		&"cloud.outdoor.monky.monk", &"cloud.outdoor.monky.beggars", &"cloud.outdoor.bookstore.book_seller",
+		&"cloud.outdoor.marry_room.mei_po", &"cloud.outdoor.dukou.boater", &"cloud.outdoor.jiyuan.mother",
+		&"cloud.outdoor.duchang.judge", &"cloud.outdoor.park.thief", &"cloud.outdoor.biaoju.b_header",
+		&"cloud.outdoor.biaoju.bfighter", &"cloud.outdoor.rich.room_guas", &"cloud.outdoor.m_house.millinare",
+		&"cloud.outdoor.m_house.jiadings", &"cloud.outdoor.eroad4.workers", &"cloud.upstairs.tearoom2.chess_player",
+		&"cloud.upstairs.jiyuan2.girl",
 	], "spawn order is the authored order (manifest, then file)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")

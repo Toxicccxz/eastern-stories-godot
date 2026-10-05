@@ -17,7 +17,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "published Lake contract")
 	_check(session.active_map_id() == SnowWorldDefinitions.INN_MAP_ID, "source birth still Inn")
 	_check(session.player_recovery_cadence() != null, "source recovery consumer retained")
-	_check(session.world_npcs().size() == 90, "36 Old Pine, thirty-six Snow and eighteen 野羊山 production slots")
+	_check(session.world_npcs().size() == 143, "36 Old Pine, thirty-six Snow, eighteen 野羊山 and fifty-three 绮云镇 production slots")
 	_check(map.npc_runtimes().size() == 5, "the five serpents live on the gorge")
 	var ids: Array[StringName] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():

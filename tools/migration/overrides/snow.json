@@ -20,6 +20,14 @@
 				{ "say": "多谢这位$RESPECT！", "accept": true }
 			]
 		},
+		"snow.npc.beggar": {
+			"accept_fight": [
+				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
+			],
+			"accept_object": [
+				{ "say": "多谢这位$RESPECT，您好心一定会有好报的！", "accept": true }
+			]
+		},
 		"snow.npc.fist_trainer": {
 			"accept_fight": [
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
@@ -149,6 +157,10 @@
 			"statement in create()": "has_alcohol = 1: flags (set snow.npc.drunk), not saved",
 			"function do_drink": "the chat action drink (set snow.npc.drunk)",
 			"function accept_object": "accept_object rules (set snow.npc.drunk); the 玉佩/蒙汗药 whispers need d/green's temp flags: with d/green"
+		},
+		"d/snow/npc/beggar.c": {
+			"function accept_object": "accept_object rules (set snow.npc.beggar); smile prints nothing",
+			"function accept_fight": "accept_fight rules (set snow.npc.beggar)"
 		},
 		"d/snow/npc/scavenger.c": {
 			"function accept_object": "accept_object rules (set snow.npc.scavenger); smile prints nothing",

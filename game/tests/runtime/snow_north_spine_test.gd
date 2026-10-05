@@ -40,7 +40,7 @@ func definition_tests() -> void:
 		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
-	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, &"snow.crossroad.north", &"snow.weapon_storage.down"], "external portals: Old Pine, 野羊山 (crossroad north) and the weapon storage's way down (4C)")
+	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, &"snow.crossroad.north", &"snow.sroad1.south", &"snow.weapon_storage.down"], "external portals: Old Pine, 野羊山 (crossroad north), 卧龙岗 (sroad1 south) and the weapon storage's way down (4C)")
 
 
 func _portal_ids(map_id: StringName) -> Array[StringName]:
@@ -117,7 +117,11 @@ func physical_tests(tree: SceneTree) -> void:
 	await walk.walk_to(tree, session, "move_down", 450, 1)
 	await wall_test(tree, session, walk, "move_left", 0, -100, "sroad1 west above the sroad2 road", &"snow.sroad1")
 	await walk.walk_to(tree, session, "move_right", 0, 0)
-	await wall_test(tree, session, walk, "move_down", 1, 650, "Dragonhill south", &"snow.sroad1")
+	# 卧龙岗 (绮云镇 3A): sroad1's south is a passage now, there and back.
+	await _walk_until_map(tree, session, &"cloud.outdoor", "move_down")
+	check(session.player_runtime().world_location().zone_id == &"cloud.dragonhill.nroad", "south out of sroad1: 卧龙岗's 黄土路")
+	await _walk_until_map(tree, session, &"snow.outdoor", "move_up")
+	check(session.player_runtime().world_location().zone_id == &"snow.sroad1" and session.active_map() == snow, "and back north to sroad1")
 	await walk.walk_to(tree, session, "move_up", 0, 1)
 	check(session.player_runtime().world_location().zone_id == &"snow.square", "physical final Square return")
 	assertions += walk._count

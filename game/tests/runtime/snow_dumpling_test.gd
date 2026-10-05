@@ -40,6 +40,15 @@ static func context(session: OldPineWorldSessionController) -> MoneyInventoryCon
 	return MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), session.inventory_state(), session.stack_collection(), session.item_instance_index())
 
 
+## The food the player carries: the 斋院's three 包子 (绮云镇) lie on a floor of their own.
+static func held_food_ids(session: OldPineWorldSessionController) -> Array[StringName]:
+	var held: Array[StringName] = []
+	for id: StringName in session.food_collection().instance_ids():
+		if session.inventory_state().is_direct_child(id, context(session).endpoint()):
+			held.append(id)
+	return held
+
+
 static func purchase(session: OldPineWorldSessionController, goods_key: String = "dumpling") -> VendorPurchaseResult:
 	return VendorPurchaseService.buy(TestContent.waiter(), goods_key, GameContent.catalog(), context(session), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.player_runtime().maximum_encumbrance)
 
@@ -84,7 +93,8 @@ func definition_tests() -> void:
 	check(definitions().stack_definition(TestContent.DUMPLING_ITEM_ID) == null and definitions().weapon_definition(TestContent.DUMPLING_ITEM_ID) == null and definitions().armor_definition(TestContent.DUMPLING_ITEM_ID) == null, "ordinary noncombined food")
 	food.initial_value = 999
 	check(definitions().food_definition(TestContent.DUMPLING_ITEM_ID).initial_value == 15, "content projection independent")
-	for id: StringName in [&"es2:obj/example/dagger", &"es2:obj/example/chickenleg", &"es2:obj/example/cake"]:
+	# The waiter's dagger is an item now (绮云镇's 宝官 carries one); he still does not sell it.
+	for id: StringName in [&"es2:obj/example/chickenleg", &"es2:obj/example/cake"]:
 		check(not definitions().has_item_definition(id), "deferred source goods " + String(id))
 
 
@@ -155,7 +165,7 @@ func consumption_and_save(tree: SceneTree) -> void:
 	check(eat(session, first.item_id).outcome == FoodUseResult.Outcome.TOO_FULL and session.player_runtime().state.recovery.food == 400, "fresh food400 refuses")
 	check(session.food_collection().state(first.item_id).remaining_portions == 3 and session.food_collection().state(first.item_id).current_value == 15, "refusal preserves untouched product")
 	var second: VendorPurchaseResult = purchase(session)
-	check(second.delivered and second.item_id != first.item_id and session.food_collection().instance_ids().size() == 2, "unlimited fresh independent products; no merge")
+	check(second.delivered and second.item_id != first.item_id and held_food_ids(session).size() == 2, "unlimited fresh independent products; no merge")
 	for row: Array in [[399,459], [340,400]]:
 		var id: StringName = first.item_id if row[0] == 399 else second.item_id
 		session.player_runtime().state.recovery.food = row[0]
@@ -163,7 +173,7 @@ func consumption_and_save(tree: SceneTree) -> void:
 		check(result.outcome == FoodUseResult.Outcome.ATE and result.food_after == row[1], "food.c precheck and unclamped +60 " + str(row))
 		check(session.food_collection().state(id).remaining_portions == 2 and session.food_collection().state(id).current_value == 0, "value0 + exact decrement")
 	var snap: GameSaveSnapshot = Work.capture(session)
-	check(snap != null and snap.items.schema_version == 3 and snap.items.food_consumable_records.size() == 2, "partial foods captured via native item schema3")
+	check(snap != null and snap.items.schema_version == 3 and snap.items.food_consumable_records.filter(func(food: NativeFoodConsumableRecord) -> bool: return [first.item_id, second.item_id].has(food.item_instance_id)).size() == 2, "partial foods captured via native item schema3")
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snap).text)
 	check(decoded.succeeded(), "strict codec roundtrip")
 	var restore: NativeItemRestoreCompositionResult = NativeItemPersistenceComposition.restore(decoded.snapshot.items, definitions(), decoded.snapshot.item_id_allocator)
@@ -212,7 +222,7 @@ func consumption_and_save(tree: SceneTree) -> void:
 	var invalid: NativeItemStateSnapshot = NativeItemStateSnapshot.new(3, [NativeItemRecord.new(doomed.item_id, TestContent.DUMPLING_ITEM_ID, 80, failed_context.endpoint())], [], [], [], [NativeFoodConsumableRecord.new(doomed.item_id, 0, 0)])
 	check(NativeItemStateValidator.validate(invalid, definitions()).outcome == NativeItemStateValidationResult.Outcome.INVALID_FOOD_RECORD, "reached live zero-portions state cannot Save")
 	var independent: OldPineWorldSessionController = Work.create_session(tree)
-	check(independent.food_collection().instance_ids().is_empty(), "independent Session collections")
+	check(independent.food_collection() != session.food_collection() and held_food_ids(independent).is_empty(), "independent Session collections")
 	independent.free()
 	session.free()
 	await tree.process_frame

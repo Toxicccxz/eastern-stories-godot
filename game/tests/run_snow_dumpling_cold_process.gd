@@ -19,7 +19,7 @@ func _run() -> void:
 		var session: OldPineWorldSessionController = Work.create_session(self)
 		check(Food.earn_and_exchange(session), "work + bank source money")
 		check(Food.purchase(session).delivered and Food.purchase(session).delivered, "two products no stock limit")
-		var ids: Array[StringName] = session.food_collection().instance_ids()
+		var ids: Array[StringName] = Food.held_food_ids(session)
 		# Stable test identity across processes; StringName default ordering is allocation-based.
 		ids.sort_custom(_identity_less)
 		check(ids.size() == 2, "two identities")
@@ -47,7 +47,7 @@ func _run() -> void:
 		if session != null:
 			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ENTIRE decoded persisted snapshot equality")
-			var ids: Array[StringName] = session.food_collection().instance_ids()
+			var ids: Array[StringName] = Food.held_food_ids(session)
 			ids.sort_custom(_identity_less)
 			if mode in ["pre-read", "pre-v2"]:
 				check(ids.is_empty(), "no food granted to pre-S4B save")

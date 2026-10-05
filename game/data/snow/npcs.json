@@ -521,6 +521,35 @@
 			"chat_msg": [
 				{ "action": "random_move" }
 			]
+		},
+		{
+			"id": "snow.npc.beggar",
+			"legacy_source": "d/snow/npc/beggar.c",
+			"name": "乞丐",
+			"aliases": ["beggar"],
+			"gender": "男性",
+			"age": 53,
+			"long": "一个满脸风霜之色的老乞丐。\n",
+			"attributes": { "str": 27 },
+			"resources": { "force": 200, "max_force": 200 },
+			"combat_exp": 100,
+			"force_factor": 2,
+			"carry": [
+				{ "item": "es2:obj/old_book", "source": "obj/old_book.c" }
+			],
+			"chat_chance": 15,
+			"chat_msg": [
+				"乞丐说道：好心的大爷哪～ 赏我要饭的几文钱吧～\n",
+				"乞丐懒洋洋地打了个哈欠。\n",
+				"乞丐伸手捉住了身上的虱子，骂道：老子身上没几两肉，全叫你们给咬糜了。 \n",
+				{ "action": "random_move" }
+			],
+			"accept_fight": [
+				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
+			],
+			"accept_object": [
+				{ "say": "多谢这位$RESPECT，您好心一定会有好报的！", "accept": true }
+			]
 		}
 	]
 }

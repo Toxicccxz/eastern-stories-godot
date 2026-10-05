@@ -1,0 +1,26 @@
+{
+	"items": [
+		{
+			"id": "es2:d/latemoon/obj/deer_boot",
+			"legacy_sources": ["d/latemoon/obj/deer_boot.c", "d/latemoon/npc/obj/deer_boot.c"],
+			"name": "鹿皮小靴",
+			"aliases": ["deer boots", "boots"],
+			"unit": "件",
+			"weight": 700,
+			"value": 2000,
+			"armor": { "type": "boots", "props": { "armor": 2, "dodge": 1 } }
+		},
+		{
+			"id": "es2:d/latemoon/obj/sword",
+			"legacy_sources": ["d/latemoon/obj/sword.c", "d/latemoon/npc/obj/sword.c"],
+			"name": "紫玉宝剑",
+			"aliases": ["yu sword", "sword"],
+			"long": "这是一把宝剑，隐含神秘力量。\n",
+			"unit": "把",
+			"material": "bamboo",
+			"weight": 1000,
+			"value": 100,
+			"weapon": { "skill": "sword", "damage": 27 }
+		}
+	]
+}

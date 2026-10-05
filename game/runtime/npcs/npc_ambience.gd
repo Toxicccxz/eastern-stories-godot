@@ -13,6 +13,8 @@ const GREETING_DELAY_SECONDS: float = 1.0
 var _random: WorldInteractionRandomSource
 var _remainder: float = 0.0
 var _greetings: Dictionary[StringName, float] = {}
+## Other call_outs an NPC starts (thief.c steal_it, steal.c compelete_steal), by NPC.
+var _calls: Dictionary[StringName, float] = {}
 
 
 func _init(random: WorldInteractionRandomSource) -> void:
@@ -57,6 +59,31 @@ func start_greeting(character_id: StringName) -> void:
 
 func cancel_greeting(character_id: StringName) -> void:
 	_greetings.erase(character_id)
+
+
+func start_call(character_id: StringName, seconds: float) -> void:
+	_calls[character_id] = seconds
+
+
+func cancel_call(character_id: StringName) -> void:
+	_calls.erase(character_id)
+
+
+func has_call(character_id: StringName) -> bool:
+	return _calls.has(character_id)
+
+
+## The NPCs whose other call_out runs in these `delta` seconds, in start order.
+func due_calls(delta: float) -> Array[StringName]:
+	var due: Array[StringName] = []
+	if not is_finite(delta) or delta < 0.0:
+		return due
+	for character_id: StringName in _calls.keys():
+		_calls[character_id] -= delta
+		if _calls[character_id] <= 0.0:
+			_calls.erase(character_id)
+			due.append(character_id)
+	return due
 
 
 ## The NPCs whose greeting call_out runs in these `delta` seconds, in start order.
