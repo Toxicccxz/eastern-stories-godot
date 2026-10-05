@@ -37,13 +37,16 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("player.body_facts", "missing independent body facts")
 	var player_result: GameSaveResult = _validate_runtime_character(snapshot.player.character, snapshot.player.life_status, snapshot.player.exists_in_world, snapshot.player.world_location, snapshot.player.map_position, "player")
 	if not player_result.succeeded(): return player_result
-	if snapshot.items == null:
+	# The snapshot's getters return deep copies: read each one once, never per index.
+	var items: NativeItemStateSnapshot = snapshot.items
+	if items == null:
 		return _invalid("items", "item snapshot is null")
-	if snapshot.items.schema_version != NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION:
+	if items.schema_version != NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION:
 		return GameSaveResult.failure(GameSaveResult.Outcome.UNSUPPORTED_ITEM_SCHEMA, "items.schema_version")
 	var item_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.items.item_records.size()):
-		var item: NativeItemRecord = snapshot.items.item_records[index]
+	var item_records: Array[NativeItemRecord] = items.item_records
+	for index: int in range(item_records.size()):
+		var item: NativeItemRecord = item_records[index]
 		if item == null or item.item_instance_id.is_empty() or item.item_definition_id.is_empty():
 			return _invalid("items.records[%d].item_instance_id" % index, "empty item ID")
 		if item.direct_parent != null and not item.direct_parent.is_valid():
@@ -52,22 +55,25 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			return _duplicate("items.records[%d].item_instance_id" % index)
 		item_ids[item.item_instance_id] = true
 	var stack_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.items.combined_stack_records.size()):
-		var stack: NativeCombinedStackRecord = snapshot.items.combined_stack_records[index]
+	var combined_stack_records: Array[NativeCombinedStackRecord] = items.combined_stack_records
+	for index: int in range(combined_stack_records.size()):
+		var stack: NativeCombinedStackRecord = combined_stack_records[index]
 		if stack == null or stack.item_instance_id.is_empty(): return _invalid("items.combined_stacks[%d]" % index, "empty stack ID")
 		if stack_ids.has(stack.item_instance_id): return _duplicate("items.combined_stacks[%d].item_instance_id" % index)
 		stack_ids[stack.item_instance_id] = true
 	var food_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.items.food_consumable_records.size()):
-		var food: NativeFoodConsumableRecord = snapshot.items.food_consumable_records[index]
+	var food_consumable_records: Array[NativeFoodConsumableRecord] = items.food_consumable_records
+	for index: int in range(food_consumable_records.size()):
+		var food: NativeFoodConsumableRecord = food_consumable_records[index]
 		if food == null or not item_ids.has(food.item_instance_id) or food.remaining_portions <= 0 or food.current_value < 0:
 			return _invalid("items.food_consumables[%d]" % index, "invalid live food association")
 		if food_ids.has(food.item_instance_id):
 			return _duplicate("items.food_consumables[%d].item_instance_id" % index)
 		food_ids[food.item_instance_id] = true
 	var liquid_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.items.liquid_consumable_records.size()):
-		var liquid: NativeLiquidConsumableRecord = snapshot.items.liquid_consumable_records[index]
+	var liquid_consumable_records: Array[NativeLiquidConsumableRecord] = items.liquid_consumable_records
+	for index: int in range(liquid_consumable_records.size()):
+		var liquid: NativeLiquidConsumableRecord = liquid_consumable_records[index]
 		if liquid == null or not item_ids.has(liquid.item_instance_id) or liquid.remaining < 0 or liquid.content not in [LiquidState.Content.RED_WINE, LiquidState.Content.CLEAR_WATER]:
 			return _invalid("items.liquid_consumables[%d]" % index, "invalid live liquid association")
 		if liquid_ids.has(liquid.item_instance_id):
@@ -76,14 +82,16 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	# Definition-dependent portion/value/weight checks remain in the existing
 	# NativeItemStateValidator invoked by capture and fresh graph reconstruction.
 	var equipment_characters: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.items.character_equipment_records.size()):
-		var equipment: NativeCharacterEquipmentRecord = snapshot.items.character_equipment_records[index]
+	var character_equipment_records: Array[NativeCharacterEquipmentRecord] = items.character_equipment_records
+	for index: int in range(character_equipment_records.size()):
+		var equipment: NativeCharacterEquipmentRecord = character_equipment_records[index]
 		if equipment == null or equipment.character_id.is_empty(): return _invalid("items.equipment[%d].character_id" % index, "empty character ID")
 		if equipment_characters.has(equipment.character_id): return _duplicate("items.equipment[%d].character_id" % index)
 		equipment_characters[equipment.character_id] = true
 	var armor_characters: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.items.character_armor_records.size()):
-		var armor: NativeCharacterArmorRecord = snapshot.items.character_armor_records[index]
+	var character_armor_records: Array[NativeCharacterArmorRecord] = items.character_armor_records
+	for index: int in range(character_armor_records.size()):
+		var armor: NativeCharacterArmorRecord = character_armor_records[index]
 		if armor == null or armor.character_id.is_empty(): return _invalid("items.armor[%d].character_id" % index, "empty character ID")
 		if armor_characters.has(armor.character_id): return _duplicate("items.armor[%d].character_id" % index)
 		armor_characters[armor.character_id] = true
@@ -95,8 +103,9 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			slots[slot.armor_type] = true
 	var spawn_point_ids: Dictionary[StringName, bool] = {}
 	var character_ids: Dictionary[StringName, bool] = {snapshot.player.character_id: true}
-	for index: int in range(snapshot.npc_spawn_states.size()):
-		var npc: Values.NpcSpawnStateSnapshot = snapshot.npc_spawn_states[index]
+	var npc_states: Array[Values.NpcSpawnStateSnapshot] = snapshot.npc_spawn_states
+	for index: int in range(npc_states.size()):
+		var npc: Values.NpcSpawnStateSnapshot = npc_states[index]
 		if npc == null or npc.spawn_id.is_empty():
 			return _invalid("npc_spawn_states[%d].spawn_id" % index, "empty spawn ID")
 		if npc.spawn_point_id.is_empty() or npc.npc_definition_id.is_empty() or npc.character_id.is_empty(): return _invalid("npc_spawn_states[%d]" % index, "empty NPC stable identity")
@@ -114,8 +123,9 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		var npc_result: GameSaveResult = _validate_runtime_character(npc.character, npc.life_status, npc.exists_in_world, npc.world_location, npc.map_position, "npc_spawn_states[%d]" % index, true)
 		if not npc_result.succeeded(): return npc_result
 	var corpse_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(snapshot.corpses.size()):
-		var corpse: Values.CorpseSnapshot = snapshot.corpses[index]
+	var corpse_states: Array[Values.CorpseSnapshot] = snapshot.corpses
+	for index: int in range(corpse_states.size()):
+		var corpse: Values.CorpseSnapshot = corpse_states[index]
 		if corpse == null or corpse.corpse_item_instance_id.is_empty():
 			return _invalid("corpses[%d].corpse_item_instance_id" % index, "empty corpse ID")
 		if corpse_ids.has(corpse.corpse_item_instance_id): return _duplicate("corpses[%d].corpse_item_instance_id" % index)
