@@ -60,6 +60,11 @@ position = Vector2(2000, 260)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.tree.canopy.tree1_landing"
 
+[node name="Tree1Spy01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2120, 300)
+script = ExtResource("marker")
+spawn_point_id = &"oldpine.tree.canopy.tree1.spy.1"
+
 [node name="Tree2Butterfly01" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1820, -40)
 script = ExtResource("marker")

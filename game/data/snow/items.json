@@ -139,6 +139,17 @@
 			"weight": 900,
 			"value": 300,
 			"armor": { "type": "boots", "props": { "armor": 1 } }
+		},
+		{
+			"id": "es2:d/snow/npc/obj/throwing_knife",
+			"legacy_sources": ["d/snow/npc/obj/throwing_knife.c"],
+			"name": "飞刀",
+			"aliases": ["throwing knife", "knife"],
+			"long": "飞刀是一种十分轻、锐利的匕首，用来当作暗器使用。\n",
+			"unit": "些",
+			"material": "iron",
+			"combined": { "base_unit": "把", "base_weight": 300, "amount": 100 },
+			"weapon": { "skill": "throwing", "damage": 20 }
 		}
 	]
 }

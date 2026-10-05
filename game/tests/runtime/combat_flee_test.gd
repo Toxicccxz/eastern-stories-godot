@@ -61,7 +61,7 @@ func _ready_and_multi(tree: SceneTree) -> void:
 		_check(encounter.terminal_result.winning_side_ids().is_empty() and encounter.terminal_result.losing_side_ids().is_empty() and encounter.terminal_result.subject_participant_ids() == [player.character_id], "no fake winner or selected enemy victim")
 		_check(coordinator.last_completion().succeeded() and not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "same Session successful world thaw")
 		_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.global_transform == position, "same transform, no teleport")
-		_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().is_empty() and session.inventory_state().registered_item_ids().size() == 53, "multi Flee produces no corpse/loot/item")
+		_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().is_empty() and session.inventory_state().registered_item_ids().size() == 56, "multi Flee produces no corpse/loot/item")
 		var index: int = 0
 		for participant: CombatParticipant in encounter.participants():
 			_check(participant.binding.relationship.opponent_ids().is_empty() and participant.binding.relationship.lethal_target_ids().is_empty() and not participant.binding.relationship.guarding, "all included opponent/lethal/guard relations reconciled")

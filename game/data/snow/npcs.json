@@ -499,6 +499,28 @@
 				{ "family": "family.fonxan", "say": "我才不要，你们去找李教头练吧！", "accept": false },
 				{ "say": "爹爹说过，不能跟你们这些江湖人物比武过招。", "accept": false }
 			]
+		},
+		{
+			"id": "snow.npc.trav_blade",
+			"legacy_source": "d/snow/npc/trav_blade.c",
+			"name": "旅客",
+			"aliases": ["traveller"],
+			"gender": { "random": 10, "below": 7, "then": "男性", "else": "女性" },
+			"age": { "base": 15, "plus_random": 50 },
+			"long": "这是一位来雪亭镇的外地旅客.\n",
+			"combat_exp": { "base": 600, "plus_random": 400 },
+			"score": { "base": 5, "minus_random": 10 },
+			"attitude": "friendly",
+			"skills": { "dodge": 50, "throwing": 30, "unarmed": 40 },
+			"carry": [
+				{ "item": "es2:d/snow/npc/obj/throwing_knife", "source": "d/snow/npc/obj/throwing_knife.c", "equip": "wield", "amount": 100 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 }
+			],
+			"chat_chance": 40,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
 		}
 	]
 }

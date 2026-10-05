@@ -20,6 +20,7 @@ var _attacker_hit_policy_status: int
 var _weapon_profile: WeaponCombatProfile
 var _projected_force_skill_type: StringName
 var _effective_force_skill_level: int
+var _hit_condition: NpcHitCondition
 
 var character_id: StringName:
 	get:
@@ -66,6 +67,10 @@ var mapped_attack_skill_id: StringName:
 var martial_hit_policy_status: int:
 	get:
 		return _martial_hit_policy_status
+## The attacker's own hit_ob() when attacker_hit_policy_status is CONDITION_ON_HIT.
+var hit_condition: NpcHitCondition:
+	get:
+		return _hit_condition
 var attacker_hit_policy_status: int:
 	get:
 		return _attacker_hit_policy_status
@@ -103,6 +108,7 @@ func _init(
 	p_weapon_profile: WeaponCombatProfile = null,
 	p_projected_force_skill_type: StringName = &"force",
 	p_effective_force_skill_level: int = 0,
+	p_hit_condition: NpcHitCondition = null,
 ) -> void:
 	_character_id = p_character_id
 	_living = p_living
@@ -129,6 +135,7 @@ func _init(
 	)
 	_projected_force_skill_type = p_projected_force_skill_type
 	_effective_force_skill_level = p_effective_force_skill_level
+	_hit_condition = p_hit_condition
 
 
 func is_valid() -> bool:
@@ -148,6 +155,7 @@ func is_valid() -> bool:
 			or _attacker_hit_policy_status != CombatHitPolicyStatus.Value.NOT_APPLICABLE
 		)
 		and (_weapon_profile == null or _weapon_profile.is_valid())
+		and (_attacker_hit_policy_status == CombatHitPolicyStatus.Value.CONDITION_ON_HIT) == (_hit_condition != null)
 	)
 
 
@@ -172,4 +180,5 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 		_weapon_profile,
 		_projected_force_skill_type,
 		_effective_force_skill_level,
+		_hit_condition,
 	)

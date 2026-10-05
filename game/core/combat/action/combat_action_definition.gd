@@ -63,7 +63,8 @@ func is_valid() -> bool:
 	return not _action_id.is_empty()
 
 
-## One authored action mapping: {id, action, damage_type, damage?, force?, weapon?}.
+## One authored action mapping: {id, action, damage_type, damage?, force?, weapon?,
+## post_action?} (post_action: a CombatPostActionIds function, weapond.c's throw).
 ## The ID is `id_prefix` + id (the source file's path, e.g. es2:daemon/skill/liuh-ken/);
 ## `weapon` is the action's own $w when no weapon is held. combatd.c reads no other key.
 static func from_record(reader: ContentRecordReader, id_prefix: String) -> CombatActionDefinition:
@@ -71,8 +72,10 @@ static func from_record(reader: ContentRecordReader, id_prefix: String) -> Comba
 	var definition := CombatActionDefinition.new(
 		action_id, reader.integer("damage"), reader.integer("force"),
 		StringName(reader.required_text("damage_type")), action_id,
-		reader.required_text("action"), reader.text("weapon"), &"",
+		reader.required_text("action"), reader.text("weapon"), StringName(reader.text("post_action")),
 	)
+	if reader.has("post_action") and not CombatPostActionIds.is_supported(definition.post_action_policy_id):
+		reader.fail("post_action", "'%s' is not ported (%s)" % [definition.post_action_policy_id, ", ".join(CombatPostActionIds.SUPPORTED)])
 	reader.finish()
 	return definition
 

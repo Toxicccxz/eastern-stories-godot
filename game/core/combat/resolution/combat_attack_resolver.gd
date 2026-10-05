@@ -19,6 +19,7 @@ static func resolve(
 	attacker_essence: CharacterResourceState = null,
 	attacker_vitality: CharacterResourceState = null,
 	attacker_spirit: CharacterResourceState = null,
+	defender_conditions: CharacterConditionState = null,
 ) -> CombatAttackResult:
 	if (
 		input == null
@@ -370,6 +371,26 @@ static func resolve(
 			mutation,
 			standard_force_result,
 		)
+	elif attacker.attacker_hit_policy_status == CombatHitPolicyStatus.Value.CONDITION_ON_HIT:
+		# The attacker's own hit_ob() (venomsnake.c): random(damage_bonus) > the
+		# victim's apply/armor and its condition below the mark set the condition.
+		var hit: NpcHitCondition = attacker.hit_condition
+		var bonus: int = calculation._final_strength_bonus
+		var roll: int = _draw(random_source, bonus, calculation) if bonus > 0 else 0
+		if not _is_valid_draw(roll, bonus):
+			return _invalid_draw_result(
+				CombatAttackResult.FailureStage.ATTACKER_HIT_POLICY,
+				attacker,
+				defender,
+				action,
+				calculation,
+				mutation,
+				standard_force_result,
+			)
+		if roll > defender.armor and defender_conditions != null and _condition_below(defender_conditions, hit.condition_id, hit.below):
+			defender_conditions.add_or_replace_duration(hit.condition_id, hit.duration)
+			calculation._hit_condition_applied = true
+			calculation._hit_condition = hit
 	else:
 		terminal_policy_result = _policy_gate_result(
 			attacker.attacker_hit_policy_status,
@@ -594,6 +615,15 @@ static func _mutation_snapshot(
 		vitality.current,
 		vitality.effective,
 	)
+
+
+## query_condition(id) < below; absent is 0. A payload that is not a duration (a
+## mapping in ES2) cannot be compared: no.
+static func _condition_below(conditions: CharacterConditionState, condition_id: StringName, below: int) -> bool:
+	if not conditions.has_condition(condition_id):
+		return 0 < below
+	var duration: DurationConditionPayload = conditions.get_condition(condition_id) as DurationConditionPayload
+	return duration != null and duration.remaining < below
 
 
 static func _invalid_draw_result(

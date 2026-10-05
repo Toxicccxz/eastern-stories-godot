@@ -211,6 +211,49 @@
 			],
 			"apply": { "attack": 100, "defense": 60 },
 			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "oldpine.npc.spy",
+			"legacy_source": "d/oldpine/npc/spy.c",
+			"name": "黑衣人",
+			"aliases": ["spy"],
+			"gender": "男性",
+			"age": 24,
+			"long": "这个男人看起来鬼鬼祟祟的，想必不是什么好东西。\n",
+			"combat_exp": 6000,
+			"score": 400,
+			"bellicosity": 2000,
+			"skills": { "throwing": 20, "unarmed": 20, "sword": 20, "parry": 20, "dodge": 40 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/throwing_knife", "source": "d/oldpine/npc/obj/throwing_knife.c", "equip": "wield", "amount": 30 },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/dust", "source": "obj/dust.c", "amount": 30 }
+			],
+			"killed_enemy": { "say": "哈哈哈哈哈哈。", "dissolve_after_ms": 1000 }
+		},
+		{
+			"id": "oldpine.npc.venomsnake",
+			"legacy_source": "d/oldpine/npc/venomsnake.c",
+			"name": "金银花蛇",
+			"aliases": ["venomsnake", "snake"],
+			"race": "beast",
+			"age": 5,
+			"long": "一支昂首吐信的毒蛇正虎视眈眈地盯著你。\n",
+			"attributes": { "str": 10, "cor": 50 },
+			"resources": { "max_gin": 260, "max_kee": 260, "max_sen": 100 },
+			"combat_exp": 30000,
+			"attitude": "aggressive",
+			"limbs": ["头部", "身体", "尾巴"],
+			"verbs": ["bite"],
+			"apply": { "attack": 70, "damage": 70, "armor": 60 },
+			"capabilities": ["aggressive_on_player_presence"],
+			"hit_ob": {
+				"condition": "snake_poison",
+				"duration": 20,
+				"below": 10,
+				"message": "你觉得被咬中的地方一阵麻痒！",
+				"color": "HIG"
+			}
 		}
 	]
 }

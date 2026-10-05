@@ -4,7 +4,8 @@ extends RefCounted
 ## One item's authored facts, read from an `items` record in game/data/.
 ## Immutable after from_record(); role definitions are handed out as copies.
 ## Field names follow the LPC object (name/long/unit/value, weapon_prop,
-## armor_prop, food_*, liquid, money base_*); see docs/migration/CONTENT_DATA_FORMAT.md.
+## armor_prop, food_*, liquid, money base_*, combined base_*); see
+## docs/migration/CONTENT_DATA_FORMAT.md.
 const CATEGORY_WEAPON: StringName = &"weapon"
 const CATEGORY_ARMOR: StringName = &"armor"
 const CATEGORY_CURRENCY: StringName = &"currency"
@@ -57,6 +58,9 @@ var _liquid_initial_remaining: int
 var _liquid_initial_name: String
 var _study: StudyMaterial
 var _play: StringName = &""
+var _default_amount: int = 1
+var _apply: StringName = &""
+var _dissolves: bool = false
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
@@ -114,6 +118,16 @@ var study: StudyMaterial:
 ## (`pipe` for environment()->pipe_notify()); empty for most items.
 var play: StringName:
 	get: return _play
+## combined.c: the amount create() gives a new one (set_amount); 1 for anything else.
+var default_amount: int:
+	get: return _default_amount
+## What `apply` does with the item (ItemApplyFunctions: snake_drug.c, hurt_drug.c);
+## empty for most items.
+var apply: StringName:
+	get: return _apply
+## obj/dust.c: the item dissolves a corpse (do_dissolve).
+var dissolves: bool:
+	get: return _dissolves
 var category: StringName:
 	get:
 		if _currency_definition != null:
@@ -145,14 +159,25 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._no_get = reader.boolean("no_get", false)
 	definition._female_only = reader.boolean("female_only", false)
 	definition._play = StringName(reader.text("play"))
+	definition._apply = StringName(reader.text("apply"))
+	if not definition._apply.is_empty() and not ItemApplyFunctions.has(definition._apply):
+		reader.fail("apply", "unknown apply '%s'" % definition._apply)
+	definition._dissolves = reader.boolean("dissolve", false)
 	definition._max_encumbrance = reader.integer("max_encumbrance")
 	if definition._max_encumbrance < 0:
 		reader.fail("max_encumbrance", "must not be negative")
 	var money: ContentRecordReader = reader.child("money")
+	var combined: ContentRecordReader = reader.child("combined")
 	if money != null:
 		definition._read_money(money)
 		if reader.has("weight"):
 			reader.fail("weight", "money weight comes from money.base_weight")
+		if combined != null:
+			reader.fail("combined", "money is already combined")
+	elif combined != null:
+		definition._read_combined(combined)
+		if reader.has("weight"):
+			reader.fail("weight", "a combined item's weight comes from combined.base_weight")
 	else:
 		definition._own_weight = reader.required_integer("weight")
 	if definition._own_weight < 0:
@@ -174,7 +199,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if study != null:
 		definition._study = StudyMaterial.from_record(study)
 	# The food rules (hockshop value, save validation) assume a plain item.
-	if food != null and (weapon != null or armor != null or money != null):
+	if food != null and (weapon != null or armor != null or money != null or combined != null):
 		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")
 	reader.finish()
 	return definition
@@ -325,6 +350,25 @@ func _read_money(money: ContentRecordReader) -> void:
 		base_weight,
 	)
 	_currency_definition = CurrencyDefinition.new(_item_definition_id, base_value)
+
+
+## std/item/combined.c (COMBINED_ITEM, THROWING): an amount whose weight is amount x
+## base_weight, merged into a character's stack of the same file (base_name()).
+func _read_combined(combined: ContentRecordReader) -> void:
+	_base_unit = combined.required_text("base_unit")
+	var base_weight: int = combined.required_integer("base_weight")
+	_default_amount = combined.required_integer("amount")
+	if base_weight < 0:
+		combined.fail("base_weight", "must not be negative")
+	if _default_amount < 1:
+		combined.fail("amount", "must be positive")
+	combined.finish()
+	_own_weight = base_weight
+	_stack_definition = CombinedStackDefinition.new(
+		_item_definition_id,
+		StringName("/" + _primary_source().trim_suffix(".c")),
+		base_weight,
+	)
 
 
 func _read_weapon(weapon: ContentRecordReader) -> void:

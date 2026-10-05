@@ -4,7 +4,7 @@ How Old Pine's last rooms and NPCs come from `reference/es2/mudlib/d/oldpine/`, 
 that the code does not, and what the package cost. Decisions are in [DECISIONS](DECISIONS.md);
 the data format in [CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md).
 
-## Placed (remainder A)
+## Placed
 
 | Room | LPC `set("objects")` / rule | Native |
 |---|---|---|
@@ -12,14 +12,17 @@ the data format in [CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md).
 | keep2 | 土匪喽罗 ×2, 土匪首领; valid_leave() shuts the gate and new()s five 土匪喽罗; pipe_notify(), reset() open it | the gate is a rule's door; five summoned guards (`traps[]`) |
 | keep3 | 土匪首领 ×3, 常老大 (apply/defense 60, 竹管) | the hall |
 | secrectpath1, path3 | — | cave map, north of the passage; path3 `climb up` the stone |
-| stone | 金银花蛇 | its own map; `climb down` to cave1; the snake waits for remainder B (蛇毒) |
+| stone | 金银花蛇 (B) | its own map; `climb down` to cave1; hit_ob() poisons (snake_poison 20) |
 | cave1-4 | random exits | one fixed maze on the caves map |
 | cave5 | skeleton; do_bury(), look_wall() | the wall is the bury landmark; `eastdown` to the waterfall |
 | cliff2 | climb up / down | its own map, between cliffdown and epath3 |
 | epath3 | 疯老头子 | berserk, three necromancy bolts |
 | pine7 | 狼狗 | aggressive |
-| tree1 | 黑衣人 | waits for remainder B (飞刀, 化尸粉 are combined items) |
+| tree1 | 黑衣人 (B) | berserk; throws his thirty 飞刀; killed_enemy() dissolves the corpse |
 | tree2 | 蝴蝶 ×6 | peaceful |
+
+Remainder B also placed Snow's three 飞刀 travellers (square.c, trav_blade.c, a hundred each) and
+杨掌柜's 蛇药 (herbalist.c `vendor_goods`).
 
 ## Source anomalies
 
@@ -36,6 +39,12 @@ the data format in [CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md).
   reachable only through `item_desc`. `parrybook.c` comments out F_UNIQUE (its `replica_ob` is
   never read). The keep's `fur_coat.c` is a 狼皮披风 whose header says leather.c.
 - keep2.c's trap adds five guards each time the gate shuts; nothing removes the ones from before.
+- `snake_drug.c` sets `base_weiht`, so 蛇药 weighs nothing; one dose lowers snake_poison by one,
+  against the snake's 20. `snake_poison.c` strikes once more at 0 before it ends.
+- `spy.c` gets his 飞刀 as `ob = carry_object(); ob->set_amount(30); ob->wield();` (an
+  override); `d/oldpine/obj/throwing_knife.c` and its `npc/obj` copy are one item. THROWING sets
+  only `base_value`, which nothing but std/money.c reads: 飞刀 is worth nothing.
+- `cmds/std/get.c`'s `get N x` keeps N on the floor and takes the rest.
 
 ## Cost (calibration for the next regions)
 

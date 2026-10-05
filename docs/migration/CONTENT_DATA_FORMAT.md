@@ -238,9 +238,10 @@ and `improved_color` (HIR/HIY/HIC/HIW): `skill_improved()`'s line when its effec
 moves (race/human.c `combat_action`, its default_actions). `weapon_actions`: one record
 `{legacy_source: weapond.c, actions, verbs}` — weapond.c's verbs as actions (ID = verb) and
 `verbs: [{skill, verbs, legacy_source}]`, the verbs each weapon kind sets (std/weapon/<kind>.c).
-A wielded weapon without a mapped skill draws one of its kind's verbs. Hammers, staffs and
-throwing weapons have none yet: bash, crush, slam and throw run a `post_action` that is not
-ported, so they attack with `slash`.
+A wielded weapon without a mapped skill draws one of its kind's verbs. An action's
+`post_action` names a ported weapond.c function (`throw_weapon`: the thrown weapon loses one
+of its amount). Hammers and staffs have no verbs yet: bash, crush and slam run bash_weapon,
+which is not ported, so they attack with `slash`.
 
 ## Not data yet
 

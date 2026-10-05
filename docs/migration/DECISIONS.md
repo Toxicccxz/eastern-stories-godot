@@ -1,5 +1,38 @@
 # Migration Decisions
 
+## Old Pine remainder B: conditions, combined items, 金银花蛇 and 黑衣人 (2026-10-05)
+
+What is placed where is in [OLDPINE_CONTENT](OLDPINE_CONTENT.md).
+- **Conditions update on the heart beat** (supersedes S5B E): on the `5 + random(10)` tick
+  update_condition() runs before heal_up(), which CND_NO_HEAL_UP skips (char.c), for the player
+  and the active map's NPCs. **Owner: not in a fight** — the world stands still there (S5B D),
+  conditions too, where ES2 ticks them; nor while the player lies unconscious (S5B L). The lines
+  print in their colour (HIG added). Below zero after a tick the player falls or dies at once
+  (char.c heart_beat); the killer is whoever last landed a blow (damage.c `last_damage_from`,
+  0 damage too, kept from the fight, not saved) while that NPC still stands on the map, so dying of a bite after
+  fleeing costs the death penalty. The HUD names 蛇毒 after 精/气/神: presentation only, ES2
+  shows conditions only through their lines.
+- **hit_ob is data** (venomsnake.c; shaoin.c's rose_poison has the same shape): `{condition,
+  duration, below, message, color}`. random(damage_bonus) is drawn from the combat stream between
+  the martial hit_ob and the strength draw, only for an NPC that has one.
+- **Combined items** (`combined` `{base_unit, base_weight, amount}`) are the money stack
+  generalized: a new one has create()'s amount, a carried one its carry `amount`
+  (`->set_amount()`), and a stack at 0 is destroyed at once (S3B G). drop.c destructs 飞刀 on the
+  floor (it has no value); hockshop.c values a stack by `query("value")`, whatever its amount.
+  get.c's `get N x` leaves N on the floor and takes the rest: the floor pickup still takes the
+  whole stack.
+- **weapond.c throw_weapon** runs after the attack and before the riposte: the thrown weapon
+  loses one; the last one is unwielded first and its thrower told 你的飞刀用完了！. bash_weapon
+  (hammers) is still not ported.
+- **killed_enemy is data** (`{say, dissolve_after_ms}`): 黑衣人 laughs and a second of world time
+  later dissolves the newest corpse in his room with his 化尸粉 (present() finds the object moved
+  in last). **Owner: as ES2**, also the player's own corpse with all it holds. The pending
+  dissolve is not saved (a call_out).
+- **apply** (snake_drug.c, hurt_drug.c; **owner: 金疮药 too**) is the inventory's 使用, used
+  outside a fight as eating is. One 蛇药 lowers snake_poison by one (a bite gives 20) and the last
+  leaves it at 0, where snake_poison.c strikes once more before it ends.
+- World content revision `SOURCE_ENTRY_OLDPINE_VENOM_V1`: older development saves need a New Game.
+
 ## Old Pine remainder A: the keep, the caves and cliff2 (2026-10-04)
 
 The region plan's first package (owner confirmed the order); what is placed where is in

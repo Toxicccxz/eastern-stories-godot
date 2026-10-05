@@ -165,7 +165,8 @@ static func complete(
 		not result._reverse_post_action_policy_id.is_empty()
 	)
 	result._reached_stage = CombatAttackChainResult.ReachedStage.REVERSE_POST_ACTION
-	if result._reverse_post_action_policy_present:
+	# A ported post_action (throw_weapon) is run by the caller after the chain.
+	if result._reverse_post_action_policy_present and not CombatPostActionIds.is_supported(result._reverse_post_action_policy_id):
 		return _finish(
 			result,
 			CombatAttackChainResult.Outcome.REVERSE_POST_ACTION_UNAVAILABLE,
@@ -228,7 +229,7 @@ static func _is_coherent_request(
 		or not forward.riposte_random_reached
 		or forward.riposte_random_attempted != (forward.riposte_random_bound > 0)
 		or not forward.post_action_reached
-		or forward.post_action_policy_present
+		or (forward.post_action_policy_present and not CombatPostActionIds.is_supported(forward.post_action_policy_id))
 	):
 		return false
 	var ordinary: CombatOrdinaryAttackResult = forward.ordinary_attack_result

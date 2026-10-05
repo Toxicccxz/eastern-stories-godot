@@ -45,9 +45,12 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIC: Color(0.45, 0.92, 1.0),
 	ColoredLine.HIW: Color(1.0, 1.0, 1.0),
 	ColoredLine.HIM: Color(1.0, 0.5, 1.0),
+	ColoredLine.HIG: Color(0.45, 1.0, 0.45),
 	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
 }
 var _presentation_layout: SharedGameplayLayout
+## Names the player's shown conditions (蛇毒) on the HUD.
+var _conditions: ConditionSystem = ConditionSystem.new()
 var life_overlay: PlayerLifeOverlay
 
 
@@ -78,6 +81,8 @@ func _ready() -> void:
 	inventory_panel.drop_requested.connect(_drop_item)
 	inventory_panel.put_requested.connect(_put_item)
 	inventory_panel.play_requested.connect(_play_item)
+	inventory_panel.apply_requested.connect(_apply_item)
+	inventory_panel.dissolve_requested.connect(_dissolve_with)
 	_presentation_layout.character.arts.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
@@ -253,6 +258,7 @@ func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 		if not container_id.is_empty():
 			container = map.floor_item_view(container_id).display_name
 	inventory_panel.set_handling_targets(give_target, container)
+	inventory_panel.set_dissolvable_corpse(map.dissolvable_corpse_name() if map != null and map.can_handle_items() else "")
 	inventory_panel.show_inventory(rows)
 	_presentation_layout.open_panel("背包", inventory_panel)
 	_presentation_layout.refresh_rows()
@@ -584,6 +590,13 @@ func refresh_exploration() -> void:
 	player_vitality_text.text = tr("精 {gin}  ·  气 {kee}/{effective_kee}  ·  神 {sen}").format({
 		"gin": state.essence.current, "kee": state.vitality.current, "effective_kee": state.vitality.effective, "sen": state.spirit.current,
 	})
+	var conditions: Array[String] = _conditions.shown_names(state)
+	if not conditions.is_empty():
+		# TRANSLATORS: the HUD's 精/气/神 line ({vitals}) and the conditions the player has (蛇毒).
+		player_vitality_text.text = tr("{vitals}  ·  {conditions}").format({
+			# TRANSLATORS: between two conditions on the HUD.
+			"vitals": player_vitality_text.text, "conditions": tr("、").join(conditions),
+		})
 	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
 	inspect_button.visible = local_target and not inspect_button.disabled
 	attack_button.visible = local_target and not attack_button.disabled
@@ -742,6 +755,16 @@ func _put_item(id: StringName, amount: int) -> void:
 func _play_item(id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.play_item(id)
+
+
+func _apply_item(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.apply_item(id)
+
+
+func _dissolve_with(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.dissolve_selected_corpse(id)
 
 
 func _wield_item(id: StringName) -> void:

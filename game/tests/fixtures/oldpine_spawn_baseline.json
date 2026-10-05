@@ -1,6 +1,6 @@
 {
 	"technical_new_game": {
-		"next_npc_draw": 183190.0,
+		"next_npc_draw": 943961.0,
 		"npcs": [
 			{
 				"age": 19.0,
@@ -5394,11 +5394,362 @@
 					}
 				},
 				"zone": "oldpine.tree.canopy"
+			},
+			{
+				"age": 24.0,
+				"armor": {
+					"_equipped_by_slot": {
+						"cloth": {
+							"_armor_type": "cloth",
+							"_item_definition_id": "es2:d/oldpine/npc/obj/black_cloth",
+							"_item_instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.1.0",
+							"_numeric_modifiers": {
+								"_armor": 1.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": 1.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": -1.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 1.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": 1.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": -1.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							},
+							"armor_type": "cloth",
+							"item_definition_id": "es2:d/oldpine/npc/obj/black_cloth",
+							"item_instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.1.0",
+							"numeric_modifiers": {
+								"_armor": 1.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": 1.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": -1.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 1.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": 1.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": -1.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							}
+						}
+					}
+				},
+				"body_weight": 58000.0,
+				"character_id": "oldpine.tree.canopy.tree1.spy.1.character",
+				"definition": "oldpine.npc.spy",
+				"loadout": [
+					[
+						"<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/throwing_knife"
+					],
+					[
+						"<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.1.0",
+						"es2:d/oldpine/npc/obj/black_cloth"
+					],
+					[
+						"<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.2.0",
+						"es2:obj/dust"
+					]
+				],
+				"map": "oldpine.tree",
+				"maximum_encumbrance": 95000.0,
+				"point": "oldpine.tree.canopy.tree1.spy.1",
+				"position": [
+					2120.0,
+					300.0
+				],
+				"spawn": "oldpine.tree.tree1.spy",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 2000.0,
+						"composure": 10.0,
+						"composure_modifier": 0.0,
+						"constitution": 23.0,
+						"constitution_modifier": 0.0,
+						"courage": 15.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 13.0,
+						"intelligence_modifier": 0.0,
+						"karma": 20.0,
+						"karma_modifier": 0.0,
+						"personality": 13.0,
+						"personality_modifier": 0.0,
+						"spirituality": 22.0,
+						"spirituality_modifier": 0.0,
+						"strength": 19.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": false,
+							"_instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/throwing_knife.c",
+							"_skill_type": "throwing",
+							"_weapon_id": "es2:d/oldpine/obj/throwing_knife",
+							"can_wield_as_secondary": false,
+							"instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/throwing_knife.c",
+							"skill_type": "throwing",
+							"weapon_id": "es2:d/oldpine/obj/throwing_knife"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"marks": {},
+					"progression": {
+						"combat_experience": 6000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 40.0,
+							"parry": 20.0,
+							"sword": 20.0,
+							"throwing": 20.0,
+							"unarmed": 20.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"timed_applies": {
+						"_entries": [],
+						"_held": {}
+					},
+					"vitality": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					}
+				},
+				"zone": "oldpine.tree.canopy"
+			},
+			{
+				"age": 5.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 2000.0,
+				"character_id": "oldpine.stone.top.stone.venomsnake.1.character",
+				"definition": "oldpine.npc.venomsnake",
+				"loadout": [],
+				"map": "oldpine.stone",
+				"maximum_encumbrance": 50000.0,
+				"point": "oldpine.stone.top.stone.venomsnake.1",
+				"position": [
+					70.0,
+					40.0
+				],
+				"spawn": "oldpine.stone.venomsnake",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 5.0,
+						"composure_modifier": 0.0,
+						"constitution": 12.0,
+						"constitution_modifier": 0.0,
+						"courage": 50.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 11.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 31.0,
+						"personality_modifier": 0.0,
+						"spirituality": 0.0,
+						"spirituality_modifier": 0.0,
+						"strength": 10.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 260.0,
+						"_effective": 260.0,
+						"_maximum": 260.0,
+						"current": 260.0,
+						"effective": 260.0,
+						"maximum": 260.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"marks": {},
+					"progression": {
+						"combat_experience": 30000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"timed_applies": {
+						"_entries": [],
+						"_held": {}
+					},
+					"vitality": {
+						"_current": 260.0,
+						"_effective": 260.0,
+						"_maximum": 260.0,
+						"current": 260.0,
+						"effective": 260.0,
+						"maximum": 260.0
+					}
+				},
+				"zone": "oldpine.stone.top"
 			}
 		]
 	},
 	"source_entry": {
-		"next_npc_draw": 130918.0,
+		"next_npc_draw": 179445.0,
 		"npcs": [
 			{
 				"age": 19.0,
@@ -10792,6 +11143,357 @@
 					}
 				},
 				"zone": "oldpine.tree.canopy"
+			},
+			{
+				"age": 24.0,
+				"armor": {
+					"_equipped_by_slot": {
+						"cloth": {
+							"_armor_type": "cloth",
+							"_item_definition_id": "es2:d/oldpine/npc/obj/black_cloth",
+							"_item_instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.1.0",
+							"_numeric_modifiers": {
+								"_armor": 1.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": 1.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": -1.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 1.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": 1.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": -1.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							},
+							"armor_type": "cloth",
+							"item_definition_id": "es2:d/oldpine/npc/obj/black_cloth",
+							"item_instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.1.0",
+							"numeric_modifiers": {
+								"_armor": 1.0,
+								"_armor_vs_force": 0.0,
+								"_attack": 0.0,
+								"_composure": 0.0,
+								"_courage": 0.0,
+								"_defense": 0.0,
+								"_dodge": 1.0,
+								"_intelligence": 0.0,
+								"_karma": 0.0,
+								"_magic": 0.0,
+								"_move": 0.0,
+								"_personality": -1.0,
+								"_spells": 0.0,
+								"_unarmed": 0.0,
+								"armor": 1.0,
+								"armor_vs_force": 0.0,
+								"attack": 0.0,
+								"composure": 0.0,
+								"courage": 0.0,
+								"defense": 0.0,
+								"dodge": 1.0,
+								"intelligence": 0.0,
+								"karma": 0.0,
+								"magic": 0.0,
+								"move": 0.0,
+								"personality": -1.0,
+								"spells": 0.0,
+								"unarmed": 0.0
+							}
+						}
+					}
+				},
+				"body_weight": 58000.0,
+				"character_id": "oldpine.tree.canopy.tree1.spy.1.character",
+				"definition": "oldpine.npc.spy",
+				"loadout": [
+					[
+						"<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.0.0",
+						"es2:d/oldpine/obj/throwing_knife"
+					],
+					[
+						"<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.1.0",
+						"es2:d/oldpine/npc/obj/black_cloth"
+					],
+					[
+						"<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.2.0",
+						"es2:obj/dust"
+					]
+				],
+				"map": "oldpine.tree",
+				"maximum_encumbrance": 95000.0,
+				"point": "oldpine.tree.canopy.tree1.spy.1",
+				"position": [
+					2120.0,
+					300.0
+				],
+				"spawn": "oldpine.tree.tree1.spy",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 2000.0,
+						"composure": 10.0,
+						"composure_modifier": 0.0,
+						"constitution": 23.0,
+						"constitution_modifier": 0.0,
+						"courage": 15.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 13.0,
+						"intelligence_modifier": 0.0,
+						"karma": 20.0,
+						"karma_modifier": 0.0,
+						"personality": 13.0,
+						"personality_modifier": 0.0,
+						"spirituality": 22.0,
+						"spirituality_modifier": 0.0,
+						"strength": 19.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": {
+							"_can_wield_as_secondary": false,
+							"_instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.0.0",
+							"_is_two_handed": false,
+							"_legacy_source_path": "d/oldpine/obj/throwing_knife.c",
+							"_skill_type": "throwing",
+							"_weapon_id": "es2:d/oldpine/obj/throwing_knife",
+							"can_wield_as_secondary": false,
+							"instance_id": "<scope>.oldpine.tree.canopy.tree1.spy.1.character.loadout.0.0",
+							"is_two_handed": false,
+							"legacy_source_path": "d/oldpine/obj/throwing_knife.c",
+							"skill_type": "throwing",
+							"weapon_id": "es2:d/oldpine/obj/throwing_knife"
+						},
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "男性",
+					"marks": {},
+					"progression": {
+						"combat_experience": 6000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": true,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {
+							"dodge": 40.0,
+							"parry": 20.0,
+							"sword": 20.0,
+							"throwing": 20.0,
+							"unarmed": 20.0
+						}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"timed_applies": {
+						"_entries": [],
+						"_held": {}
+					},
+					"vitality": {
+						"_current": 220.0,
+						"_effective": 220.0,
+						"_maximum": 220.0,
+						"current": 220.0,
+						"effective": 220.0,
+						"maximum": 220.0
+					}
+				},
+				"zone": "oldpine.tree.canopy"
+			},
+			{
+				"age": 5.0,
+				"armor": {
+					"_equipped_by_slot": {}
+				},
+				"body_weight": 2000.0,
+				"character_id": "oldpine.stone.top.stone.venomsnake.1.character",
+				"definition": "oldpine.npc.venomsnake",
+				"loadout": [],
+				"map": "oldpine.stone",
+				"maximum_encumbrance": 50000.0,
+				"point": "oldpine.stone.top.stone.venomsnake.1",
+				"position": [
+					70.0,
+					40.0
+				],
+				"spawn": "oldpine.stone.venomsnake",
+				"state": {
+					"affiliation": {
+						"class_id": "",
+						"entry_time_status": 0.0,
+						"entry_time_utc": 0.0,
+						"family_privileges": 0.0,
+						"family_title": "",
+						"has_family_rank": false
+					},
+					"apprenticeship": {
+						"betrayer_count": 0.0,
+						"legacy_master_name": "",
+						"master_teacher_id": ""
+					},
+					"attributes": {
+						"bellicosity": 0.0,
+						"composure": 5.0,
+						"composure_modifier": 0.0,
+						"constitution": 12.0,
+						"constitution_modifier": 0.0,
+						"courage": 50.0,
+						"courage_modifier": 0.0,
+						"force_factor": 0.0,
+						"intelligence": 11.0,
+						"intelligence_modifier": 0.0,
+						"karma": 0.0,
+						"karma_modifier": 0.0,
+						"personality": 31.0,
+						"personality_modifier": 0.0,
+						"spirituality": 0.0,
+						"spirituality_modifier": 0.0,
+						"strength": 10.0,
+						"strength_modifier": 0.0
+					},
+					"conditions": {
+						"_conditions": {}
+					},
+					"equipment": {
+						"_primary_weapon": null,
+						"_secondary_weapon": null
+					},
+					"essence": {
+						"_current": 260.0,
+						"_effective": 260.0,
+						"_maximum": 260.0,
+						"current": 260.0,
+						"effective": 260.0,
+						"maximum": 260.0
+					},
+					"family": {
+						"family_id": "",
+						"generation": 0.0
+					},
+					"gender": "雄性",
+					"marks": {},
+					"progression": {
+						"combat_experience": 30000.0,
+						"potential": 0.0,
+						"potential_spent": 0.0
+					},
+					"recovery": {
+						"atman": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"food": 0.0,
+						"inner_force": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"mana": {
+							"current": 0.0,
+							"maximum": 0.0
+						},
+						"water": 0.0
+					},
+					"skills": {
+						"_has_learned_mapping": false,
+						"_has_skills_mapping": false,
+						"_learned_progress": {},
+						"_loadout": {
+							"_enabled_skills": {}
+						},
+						"_raw_levels": {}
+					},
+					"spirit": {
+						"_current": 100.0,
+						"_effective": 100.0,
+						"_maximum": 100.0,
+						"current": 100.0,
+						"effective": 100.0,
+						"maximum": 100.0
+					},
+					"timed_applies": {
+						"_entries": [],
+						"_held": {}
+					},
+					"vitality": {
+						"_current": 260.0,
+						"_effective": 260.0,
+						"_maximum": 260.0,
+						"current": 260.0,
+						"effective": 260.0,
+						"maximum": 260.0
+					}
+				},
+				"zone": "oldpine.stone.top"
 			}
 		]
 	}

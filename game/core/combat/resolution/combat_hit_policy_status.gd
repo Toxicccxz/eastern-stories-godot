@@ -10,11 +10,13 @@ enum Value {
 	STANDARD_FORCE,
 	AUTHORED_POLICY_UNAVAILABLE,
 	DRIVER_AMBIGUITY,
+	## The attacker's own hit_ob() sets a condition (NpcHitCondition); the damage is unchanged.
+	CONDITION_ON_HIT,
 }
 
 
 static func is_valid(value: int) -> bool:
-	return value >= Value.NOT_APPLICABLE and value <= Value.DRIVER_AMBIGUITY
+	return value >= Value.NOT_APPLICABLE and value <= Value.CONDITION_ON_HIT
 
 
 static func is_non_force_valid(value: int) -> bool:

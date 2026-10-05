@@ -113,7 +113,7 @@ func _test_chat_rule() -> void:
 	_check(resets.remaining_ms("d/snow/a.c") == 1_000_000, "900 + random(900) seconds")
 	_check(resets.advance(999.9).is_empty() and resets.advance(0.2) == ["d/snow/a.c"] and resets.remaining_ms("d/snow/a.c") == 900_000, "due once, then scheduled again")
 	var rooms: Array[String] = WorldRoomResets.resetting_rooms()
-	_check(rooms.has("d/snow/school2.c") and rooms.has("d/snow/weapon_storage.c") and rooms.has("d/snow/secret_storage.c") and rooms.has("d/oldpine/lake.c") and not rooms.has("d/snow/square.c"), "rooms whose reset() does something: spawns, items, the shelf")
+	_check(rooms.has("d/snow/school2.c") and rooms.has("d/snow/weapon_storage.c") and rooms.has("d/snow/secret_storage.c") and rooms.has("d/oldpine/lake.c") and rooms.has("d/snow/square.c"), "rooms whose reset() does something: spawns (the square's 飞刀 travellers too), items, the shelf")
 	_check(GameContent.catalog().pacing().room_reset_seconds == 1800, "pacing.json: config.ES2 time to reset")
 	_check(NpcGeneration.of(&"p.character", &"p") == 1 and NpcGeneration.of(&"p.character.3", &"p") == 3 and NpcGeneration.next(&"p.character", &"p") == &"p.character.2", "generations")
 	_check(NpcGeneration.of(&"p.character.1", &"p") == 0 and NpcGeneration.of(&"p.character.03", &"p") == 0 and NpcGeneration.of(&"q.character", &"p") == 0, "nothing else is a generation")

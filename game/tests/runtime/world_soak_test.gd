@@ -273,9 +273,16 @@ func _settle_for_save() -> bool:
 			_check_resets()
 			return true
 		await _pass(1)
+		# The map's own _process() resolves a presence entered at the end of the stay
+		# (an NPC walking home into the player): let a frame run, as the game does.
+		await _tree.process_frame
 		if _stopped:
 			return false
-	return check(false, "Save stayed closed at %s: %d" % [_where(), OldPineSaveEligibility.inspect(_session).outcome])
+	var pending: Array[String] = []
+	for map: WorldMapController in _session.world_maps():
+		if map.aggression_adapter().pending_count() > 0:
+			pending.append(String(map.map_id()))
+	return check(false, "Save stayed closed at %s: %d (pending aggression on %s)" % [_where(), OldPineSaveEligibility.inspect(_session).outcome, pending])
 
 
 ## Since when each spawn point's NPC has been dead, or away from home, every second on

@@ -43,7 +43,9 @@ static func appraise(context: MoneyInventoryContext, foods: FoodCollection,
 	if content == null:
 		return result
 	result.outcome = HockshopValuationResult.Outcome.INVALID_ITEM_STATE
-	if context.stacks.has_stack(id):
+	# A combined item (蛇药) is valued as hockshop.c asks it: query("value"), whatever
+	# the amount; 飞刀 has none (一文不值).
+	if context.stacks.has_stack(id) != content.is_stack:
 		return result
 	var food: FoodState = foods.state(id)
 	var liquid: LiquidState = liquids.state(id)

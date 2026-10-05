@@ -89,7 +89,6 @@ func _test_data() -> void:
 		counts[spawn_id] = 0 if spawn == null else spawn.quantity
 	_check(counts.values() == [4, 2, 1, 3, 1, 5, 1, 1, 6], "keep1 four guards, keep2 two and a leader, keep3 three leaders and 常老大, five trap guards, the maniac, the wolf dog, six butterflies: %s" % counts)
 	_check(catalog.spawn(TRAP_GUARDS).summoned and not catalog.spawn(&"oldpine.outdoor.keep2.bandit_guards").summoned, "only the trap's guards are summoned")
-	_check(catalog.spawn(&"oldpine.outdoor.tree1.spy") == null and catalog.spawn(&"oldpine.outdoor.stone.venomsnake") == null, "黑衣人 and 金银花蛇 wait for part B")
 	var boss: NpcDefinition = catalog.npc(&"oldpine.npc.bandit_commander")
 	_check(boss.authored_combat_facts().apply_value(&"defense") == 60 and boss.authored_combat_facts().apply_value(&"attack") == 100, "常老大: apply/attack 100, apply/defense 60")
 	_check(boss.short_name() == "老松寨寨主「泼风刀王」常老大" and boss.bellicosity() == 6000, "常老大's title, nickname and bellicosity: " + boss.short_name())

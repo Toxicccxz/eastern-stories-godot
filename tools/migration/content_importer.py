@@ -43,7 +43,9 @@ ANSI_MACROS = {
 }
 # include/globals.h path macros: CLASS_D("swordsman") is "/daemon/class/swordsman".
 PATH_MACROS = {'CLASS_D': '/daemon/class/'}
-WEAPON_KINDS = {'AXE', 'BLADE', 'DAGGER', 'FORK', 'HAMMER', 'SWORD', 'STAFF', 'WHIP'}
+WEAPON_KINDS = {'AXE', 'BLADE', 'DAGGER', 'FORK', 'HAMMER', 'SWORD', 'STAFF', 'THROWING', 'WHIP'}
+# std/item/combined.c and what inherits it besides money (std/weapon/throwing.c).
+COMBINED_KINDS = {'COMBINED_ITEM', 'THROWING'}
 ARMOR_KINDS = {'ARMOR', 'BOOTS', 'CLOTH', 'FINGER', 'HANDS', 'HEAD', 'NECK', 'SHIELD',
                'SURCOAT', 'WAIST', 'WRISTS'}
 # include/weapon.h; only the flags the game models.
@@ -59,7 +61,7 @@ ATTITUDES = {'peaceful', 'friendly', 'heroism', 'aggressive'}
 RANDOM_INTEGER_KEYS = {'set age', 'set combat_exp', 'set score'}
 RANDOM_TEXT_KEYS = {'set gender'}
 # Bookkeeping calls with no game meaning.
-SILENT_CALLS = {'setup', 'seteuid', 'set_default_object', 'replace_program', 'set_amount'}
+SILENT_CALLS = {'setup', 'seteuid', 'set_default_object', 'replace_program'}
 SILENT_ROOM_KEYS = {'no_clean_up', 'outdoors', 'valid_startroom'}
 
 
@@ -152,6 +154,7 @@ class Call:
     name: str
     args: list
     chain: list[str]
+    chain_args: list = field(default_factory=list)   # the arguments of each chained call
 
 
 @dataclass
@@ -325,6 +328,7 @@ class Parser:
             if not (ts[j].text == '->' and j + 2 < stop and ts[j + 2].text == '('):
                 return None
             call.chain.append(ts[j + 1].text)
+            call.chain_args.append([self.value(a, b) for a, b in self.arguments(j + 3, self.match[j + 2])])
             j = self.match[j + 2] + 1
         return call
 
@@ -508,6 +512,9 @@ class Importer:
             bucket[record['id']] = record
             self.generated_fields[record['id']] = len(record)
 
+    def item_record(self, record_id: str) -> dict:
+        return next((bucket[record_id] for bucket in self.records.values() if record_id in bucket), {})
+
     def note(self, source: str, key: str, detail: str = '') -> None:
         source = source_path(source)
         if not any(f.source == source and f.key == key for f in self.findings):
@@ -676,7 +683,13 @@ class Importer:
                 equip = [c for c in call.chain if c in ('wield', 'wear')]
                 if equip:
                     entry['equip'] = equip[0]
-                if len(call.chain) != len(equip):
+                # ->set_amount(n) on a combined item; else the amount its create() sets.
+                amounts = [args[0] for c, args in zip(call.chain, call.chain_args)
+                           if c == 'set_amount' and len(args) == 1 and type(args[0]) is int]
+                combined = self.item_record(entry['item']).get('combined')
+                if combined is not None:
+                    entry['amount'] = amounts[-1] if amounts else combined['amount']
+                if len(call.chain) != len(equip) + (len(amounts) if combined is not None else 0):
                     self.note(path, 'carry_object chain', f'{item_source} -> {call.chain}')
                 carry.append(entry)
             elif call.name == 'add_money' and len(call.args) == 2 and is_plain(call.args):
@@ -831,7 +844,8 @@ class Importer:
         weapon_kinds = sorted({k.removeprefix('F_') for k in inherits} & WEAPON_KINDS)
         armor_kinds = sorted(inherits & ARMOR_KINDS)
         weight = lpc.first('set_weight')
-        if 'MONEY' not in inherits:
+        combined_kinds = inherits & COMBINED_KINDS
+        if 'MONEY' not in inherits and not combined_kinds:
             # feature/move.c: `static int weight = 0;` until set_weight().
             record['weight'] = 0 if weight is None else weight.args[0]
         if 'value' in sets:
@@ -841,6 +855,13 @@ class Importer:
         if capacity is not None and len(capacity.args) == 1 and type(capacity.args[0]) is int:
             record['max_encumbrance'] = capacity.args[0]
         init_name = ''
+        amount = lpc.first('set_amount')
+        if combined_kinds:
+            # combined.c: weight = amount * base_weight; create()'s set_amount() is the
+            # amount a new one has. base_value is read only by std/money.c's value().
+            handled.update(('base_unit', 'base_weight', 'base_value'))
+            record['combined'] = {'base_unit': sets.get('base_unit'), 'base_weight': sets.get('base_weight', 0),
+                                  'amount': amount.args[0] if amount is not None and amount.args else 1}
         if weapon_kinds:
             kind = weapon_kinds[0]
             init_name = 'init_' + kind.lower()
@@ -881,13 +902,14 @@ class Importer:
         elif 'F_LIQUID' in inherits:
             handled.update(('max_liquid', 'liquid'))
             record['liquid'] = {'max_liquid': sets.get('max_liquid'), **sets.get('liquid', {})}
-        modelled = {'ITEM', 'MONEY', 'F_FOOD', 'F_LIQUID', *armor_kinds, *weapon_kinds,
+        modelled = {'ITEM', 'MONEY', 'F_FOOD', 'F_LIQUID', *armor_kinds, *weapon_kinds, *combined_kinds,
                     *(['EQUIP'] if 'armor' in record and not armor_kinds else []),
                     *('F_' + k for k in weapon_kinds)}
         for kind in sorted(inherits - modelled):
             self.note(canonical, f'inherit {kind}')
         for call in lpc.calls:
             if call.name not in {'set', 'set_name', 'set_weight', init_name} and not (
+                    call.name == 'set_amount' and ('combined' in record or 'money' in record)) and not (
                     call.name == 'set_max_encumbrance' and 'max_encumbrance' in record):
                 self.note(canonical, call.name, describe(call.args))
         for key, value in sets.items():

@@ -221,6 +221,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		"SOURCE_ENTRY_SNOW_SERVICES_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_SERVICES_V1
 		"SOURCE_ENTRY_SNOW_ROUTES_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_ROUTES_V1
 		"SOURCE_ENTRY_OLDPINE_KEEP_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_KEEP_V1
+		"SOURCE_ENTRY_OLDPINE_VENOM_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_VENOM_V1
 		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
 	if _error == null and _current_public_only:
 		var support: GameSaveResult = WorldContentRevision.public_support(revision)

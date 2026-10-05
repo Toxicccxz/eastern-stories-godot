@@ -158,7 +158,7 @@ func _test_shops(tree: SceneTree) -> void:
 	await walker.walk_to(tree, session, "move_left", -272, 0)
 	_check(player.world_location().zone_id == &"snow.herbshop", "west of mstreet3 is the herbshop")
 	var herbalist: VendorService = map.service(&"snow.outdoor.herbshop.herbalist") as VendorService
-	_check(herbalist.in_reach() and herbalist.goods_rows.get_child_count() == 1 and (herbalist.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗", "the counter sells 金疮药 only")
+	_check(herbalist.in_reach() and herbalist.goods_rows.get_child_count() == 2 and (herbalist.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗" and (herbalist.goods_rows.get_child(1) as Button).text == "蛇药 · 10两银子 · 买一包", "the counter sells 金疮药 and 蛇药")
 	var medicine: VendorPurchaseResult = herbalist.request_purchase("medicine")
 	_check(medicine.delivered and medicine.price == 2000 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 2, "金疮药 for its value, 2000 coins")
 	await walker.walk_to(tree, session, "move_right", 0, 0)

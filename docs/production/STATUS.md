@@ -4,16 +4,16 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Old Pine remainder A** (`phase/oldpine-remainder`), the first package of the
-[region plan](ROADMAP.md#region-plan): all 41 Old Pine rooms. The keep (keep1-3) east of the
-pine maze with its gate trap (leave keep2 east and the gate is blocked by a boulder, five more
-guards come; 常老大's 竹管 played in keep2 opens it), the secret passage (secrectpath1, path3) up the
-big stone and down into the caves (cave1-4 a fixed maze, cave5 where burying 南危水's bones may
-drop 过招要旨), cliff2 between the cliff edge and epath3; 土匪喽罗, 土匪首领, 常老大, 疯老头子 (goes
-berserk, casts three bolts), 狼狗 and six 蝴蝶.
+**Old Pine remainder B** (`phase/oldpine-remainder-b`), which finishes Old Pine in the
+[region plan](ROADMAP.md#region-plan). Conditions update on the heart beat outside a fight
+(蛇毒 strikes every 6–15 beats, with its line and a 蛇毒 tag on the HUD; it can kill), 金银花蛇 on
+the stone poisons with its bite (hit_ob), combined items (amounts that merge, split and are
+used up one at a time): 蛇药 from 杨掌柜 and 金疮药 are used (使用), 飞刀 are thrown one per
+attack (黑衣人's thirty, the three travellers' hundred on Snow's square, the player's), and
+化尸粉 dissolves a selected corpse; 黑衣人 in the pine goes berserk and, after a kill, laughs and
+dissolves the corpse a second later.
 
-Next: Old Pine remainder B — 蛇毒 (conditions), combined items (蛇药, 飞刀, 化尸粉), 金银花蛇 and
-黑衣人.
+Next: 野羊山 (region plan #2).
 
 ## Playable now
 
@@ -23,7 +23,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   temple, the south road to the closed exits toward 天驼关 and 水烟阁, the school (书院), the
   west-side shops, 淳风武馆 with its inner rooms and weapon storage, and the secret storage below
   (37 of 38 rooms; 药铺密室 has no entrance); items on the floor to pick up; Work income; physical coins/silver/gold and Bank exchange; Inn food/drink;
-  herbshop (金疮药) and smithy (铁锤) bought from their keepers; Hockshop value/sell and its
+  herbshop (金疮药, 蛇药) and smithy (铁锤) bought from their keepers; Hockshop value/sell and its
   storage room; apprenticeship with 柳淳风 and learning basic unarmed, sword, parry, dodge and
   force, Liuh-Ken (柳家拳), 封山派内功 and literate from 柳淳风, 李火狮 (封山剑派 students) and 魏无极
   (after five taels of tuition), then 封山剑法 and 倒乱七星步法 at max_force 50; the character
@@ -36,19 +36,21 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   specials (「封」字诀, 安惜迩's spells and powerup), and the player uses 封山剑法's 「封」「逐」「缺」
   from the battle panel; dogs, the scavenger, the woodcutter and the crazy dog talk
   and wander next door while you are with them; the drunk drinks and begs for wine; the temple
-  keeper and the waiter greet you; NPCs heal between fights and come to after being knocked
-  out; no fighting in the temple or the workplace (`no_fight`).
+  keeper and the waiter greet you; three travellers with 飞刀 wander from the square; NPCs heal
+  between fights and come to after being knocked out; no fighting in the temple or the
+  workplace (`no_fight`).
 * **Old Pine (老松岭)**: all 41 rooms. Forest (paths, clearing, bandit slope, bridge, pine maze,
   cliffside), the keep (土匪喽罗, 土匪首领, 常老大 and the gate trap), the gorge below the bridge
   (waterfall pool, river, Lake with five serpents) reached by the vine, the cave or cliff2, the pine
   top with six butterflies, both cliff niches, the secret passage, the stone and the caves (bury the
-  bones for 过招要旨, or fall to the waterfall); 疯老头子 on the east path, 狼狗 in the pine maze.
-  金银花蛇 and 黑衣人 wait for remainder B.
+  bones for 过招要旨, or fall to the waterfall); 疯老头子 on the east path, 狼狗 in the pine maze,
+  金银花蛇 (蛇毒) on the stone, 黑衣人 (飞刀, 化尸粉) in the pine.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
-  inventory/equipment, eating/drinking and recovery, shared HUD and panels, manual Save/Continue.
+  inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
+  recovery and conditions (蛇毒), shared HUD and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
   封山剑法), dodges read the mapped dodge skill's lines (倒乱七星步法); armor, weapon and NPC
   `apply/*` bonuses and internal power count: force_factor on every landed blow, and a bare-handed
@@ -56,7 +58,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 78/551 rooms, 30/286 NPC
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 78/551 rooms, 33/286 NPC
 types, 1/10 joinable families, 6/35 special and 6/25 basic martial arts, 0/87 quest targets.
 
 ## Known issues
@@ -66,17 +68,17 @@ Code:
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
-* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The travellers stay in the Inn
-  (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
-  corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: the seals are combined
-  items. 金疮药 cannot be applied yet, and NPCs never flee a losing fight (`wimpy`).
+* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The Inn's travellers stay in
+  the Inn (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
+  corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it needs the player's
+  spells. NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   Hammers and staffs still attack with "slash" (weapond.c's bash post_action). Wine makes nobody
-  drunk yet (conditions); the dog takes no bone (no
+  drunk yet (the drunk condition); the dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
 * At ES2's pace, exercise takes about 8–16 hours of play from max_force 0 to 50 (owner: a data
   multiplier in the pacing knobs package); `tests/runtime/run_with_max_force.gd` gives a playtest
-  49. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions exist in Core
-  with no caller.
+  49. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions do not tick
+  in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
   names although they now cover every map; pre-B2 Old Pine regression suites drive combat through

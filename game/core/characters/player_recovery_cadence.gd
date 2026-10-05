@@ -6,9 +6,12 @@ extends RefCounted
 ## Runtime caller owns eligibility. This object owns no character, timer or Save.
 ## NPCs run the same cadence (NpcHeartbeat) with is_player_character false. Outside a
 ## fight it is the heart beat that wears busy down (a fight's scheduler does inside one).
+## On the tick, update_condition() runs before heal_up(), which a condition's
+## CND_NO_HEAL_UP skips (char.c).
 const BASE_PULSE_SECONDS: float = 2.0
 
 var _random: RecoveryCadenceRandomSource
+var _conditions: ConditionSystem
 var _is_player_character: bool = true
 var _accumulator: float = 0.0
 var _source_tick: int = -1
@@ -20,8 +23,9 @@ var source_tick: int:
 	get: return _source_tick
 
 
-func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true) -> void:
+func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true, conditions: ConditionSystem = null) -> void:
 	_random = random
+	_conditions = conditions if conditions != null else ConditionSystem.new()
 	_is_player_character = is_player_character
 	if _random != null:
 		_source_tick = _random.draw_reset_tick()
@@ -61,10 +65,17 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState) -> 
 			_valid = false
 			result.outcome = PlayerRecoveryCadenceResult.Outcome.INVALID_RANDOM
 			return result
+		var conditions: ConditionUpdateResult = _conditions.update_once(character)
+		result.conditions_updated += conditions.updated
+		result.lines.append_array(conditions.lines)
 		var skills: RecoverySkillLevels = RecoverySkillLevels.new(
 			character.skills.raw_level(&"magic"), character.skills.raw_level(&"force"),
 			character.skills.raw_level(&"spells"),
 		)
-		result.last_update_count = CharacterRecovery.apply_tick(character, skills, _is_player_character, false)
+		result.last_update_count = CharacterRecovery.apply_tick(character, skills, _is_player_character, conditions.no_heal_up)
 		result.opportunities += 1
+		# A condition that left the character below zero ends the advance here: the
+		# caller lets it fall (char.c heart_beat checks at the start of the next beat).
+		if character.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+			break
 	return result

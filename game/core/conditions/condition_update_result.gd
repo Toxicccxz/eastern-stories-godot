@@ -6,6 +6,9 @@ const ConditionUpdateFlagsType := preload(
 )
 
 var combined_flags: int = 0
+## Conditions updated in this pass, and the lines they told the character (translated).
+var updated: int = 0
+var lines: Array[ColoredLine] = []
 
 var no_heal_up: bool:
 	get:

@@ -22,7 +22,8 @@
 				{ "id": "thrust", "action": "$N用$w往$n的$l刺去", "damage_type": "刺伤" },
 				{ "id": "pierce", "action": "$N的$w往$n的$l狠狠地一捅", "damage_type": "刺伤" },
 				{ "id": "whip", "action": "$N将$w一扬，往$n的$l抽去", "damage_type": "鞭伤" },
-				{ "id": "impale", "action": "$N用$w往$n的$l直戳过去", "damage_type": "刺伤" }
+				{ "id": "impale", "action": "$N用$w往$n的$l直戳过去", "damage_type": "刺伤" },
+				{ "id": "throw", "action": "$N将$w对准$n的$l射了过去", "damage_type": "刺伤", "post_action": "throw_weapon" }
 			],
 			"verbs": [
 				{ "skill": "sword", "verbs": ["slash", "slice", "thrust"], "legacy_source": "std/weapon/sword.c" },
@@ -30,7 +31,8 @@
 				{ "skill": "axe", "verbs": ["chop", "slice", "hack"], "legacy_source": "std/weapon/axe.c" },
 				{ "skill": "dagger", "verbs": ["slice", "pierce", "thrust"], "legacy_source": "std/weapon/dagger.c" },
 				{ "skill": "fork", "verbs": ["thrust"], "legacy_source": "std/weapon/fork.c" },
-				{ "skill": "whip", "verbs": ["whip"], "legacy_source": "std/weapon/whip.c" }
+				{ "skill": "whip", "verbs": ["whip"], "legacy_source": "std/weapon/whip.c" },
+				{ "skill": "throwing", "verbs": ["throw"], "legacy_source": "std/weapon/throwing.c" }
 			]
 		}
 	]

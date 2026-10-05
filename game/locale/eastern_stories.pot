@@ -65,6 +65,7 @@ msgstr ""
 #. oldpine.npc.bandit_guard gender
 #. oldpine.npc.bandit_leader gender
 #. oldpine.npc.bandit_commander gender
+#. oldpine.npc.spy gender
 #. snow.npc.traveller gender.then
 #. snow.npc.keeper gender
 #. snow.npc.drunk gender
@@ -80,6 +81,7 @@ msgstr ""
 #. snow.npc.annihir gender
 #. snow.npc.smith gender
 #. snow.npc.herbalist gender
+#. snow.npc.trav_blade gender.then
 #: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json
 msgid "男性"
 msgstr ""
@@ -87,6 +89,7 @@ msgstr ""
 #. snow.npc.traveller gender.else
 #. snow.npc.girl gender
 #. snow.npc.girl accept_fight.gender
+#. snow.npc.trav_blade gender.else
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json
 msgid "女性"
 msgstr ""
@@ -655,7 +658,7 @@ msgstr ""
 msgid "因为这样东西并不值钱，所以人们并不会注意到它的存在。"
 msgstr ""
 
-#: application/items/item_handling_service.gd runtime/world/landmarks/bury_landmark_policy.gd
+#: application/items/item_handling_service.gd runtime/world/landmarks/bury_landmark_policy.gd runtime/world/world_map_controller.gd
 msgid "这里没有这样东西。"
 msgstr ""
 
@@ -880,6 +883,14 @@ msgstr ""
 msgid "老子"
 msgstr ""
 
+#: core/conditions/effects/snake_poison_condition_effect.gd
+msgid "你中的蛇毒发作了！"
+msgstr ""
+
+#: core/conditions/effects/snake_poison_condition_effect.gd
+msgid "蛇毒"
+msgstr ""
+
 #. an item with no description of its own: its name and its ES2 id, e.g. 草鞋(Sandals)。
 #: core/content/item_content_definition.gd
 msgid ""
@@ -896,7 +907,7 @@ msgstr ""
 
 #. message_vision(): the actor of an exert line, for its $N.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd
+#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/world_map_controller.gd
 msgid "你"
 msgstr ""
 
@@ -995,6 +1006,35 @@ msgstr ""
 
 #: core/internal_power/powerup_exert_function.gd
 msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "你没有中蛇毒。"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "但是你中的蛇毒并没有完全清除。"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "你终于清除了体内所有的蛇毒！"
+msgstr ""
+
+#. snake_drug.c: 你服下蛇药，顿时感觉好多了。 and, on the same line, whether the poison is gone ({after}).
+#: core/items/item_apply_functions.gd
+msgid "你服下蛇药，顿时感觉好多了。{after}"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "战斗中不能用药治伤!"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "你没有受伤啊?"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "你敷上金疮药 ."
 msgstr ""
 
 #. es2:obj/example/wineskin liquid.name
@@ -1338,7 +1378,7 @@ msgstr ""
 msgid "杖法"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd
+#: core/skills/skill_use_ids.gd ui/world/player_inventory_panel.gd
 msgid "暗器"
 msgstr ""
 
@@ -2580,6 +2620,7 @@ msgstr ""
 #. oldpine.npc.serpent limbs
 #. oldpine.npc.wolf_dog limbs
 #. oldpine.npc.butterfly limbs
+#. oldpine.npc.venomsnake limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. snow.npc.rat limbs
@@ -2647,7 +2688,8 @@ msgstr ""
 msgid "右脚"
 msgstr ""
 
-#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/world_map_controller.gd
+#. dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
+#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/world_map_controller.gd ui/world/player_inventory_panel.gd
 msgid "%s的尸体"
 msgstr ""
 
@@ -2900,8 +2942,18 @@ msgstr ""
 msgid "看起来%s想杀死你！"
 msgstr ""
 
+#. weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
+#: runtime/world/world_map_controller.gd
+msgid "你的%s用完了！"
+msgstr ""
+
 #: runtime/world/world_map_controller.gd
 msgid "%s慢慢睁开眼睛，清醒了过来。"
+msgstr ""
+
+#. dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
+#: runtime/world/world_map_controller.gd
+msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -3458,6 +3510,15 @@ msgid "吹奏"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
+msgid "使用"
+msgstr ""
+
+#. dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
+#: ui/world/player_inventory_panel.gd
+msgid "化去{corpse}"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
 msgid "给%s"
 msgstr ""
 
@@ -3614,6 +3675,16 @@ msgstr ""
 msgid "精 {gin}  ·  气 {kee}/{effective_kee}  ·  神 {sen}"
 msgstr ""
 
+#. the HUD's 精/气/神 line ({vitals}) and the conditions the player has (蛇毒).
+#: ui/world/shared_gameplay_ui.gd
+msgid "{vitals}  ·  {conditions}"
+msgstr ""
+
+#. between two conditions on the HUD.
+#: ui/world/shared_gameplay_ui.gd
+msgid "、"
+msgstr ""
+
 #. a room's title and its description, as the log shows them on arrival.
 #: ui/world/shared_gameplay_ui.gd
 msgid "【{title}】{description}"
@@ -3663,7 +3734,9 @@ msgstr ""
 #. es2:obj/money/coin unit
 #. es2:obj/money/silver unit
 #. es2:obj/money/gold unit
-#: data/common/items.json
+#. es2:d/oldpine/obj/throwing_knife unit
+#. es2:d/snow/npc/obj/throwing_knife unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json
 msgid "些"
 msgstr ""
 
@@ -3716,6 +3789,7 @@ msgstr ""
 #. es2:d/oldpine/obj/leather unit
 #. es2:d/oldpine/obj/robe unit
 #. es2:d/oldpine/obj/fur_coat unit
+#. es2:d/oldpine/npc/obj/black_cloth unit
 #. es2:d/snow/obj/linen unit
 #. es2:d/snow/obj/raincoat unit
 #. es2:d/snow/obj/pink_cloth unit
@@ -3802,10 +3876,12 @@ msgstr ""
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
+#. es2:d/oldpine/obj/throwing_knife combined.base_unit
 #. es2:d/snow/obj/lumber_axe unit
 #. es2:d/snow/obj/hammer unit
 #. es2:d/snow/obj/bamboo_sword unit
 #. es2:d/snow/obj/thin_sword unit
+#. es2:d/snow/npc/obj/throwing_knife combined.base_unit
 #: data/common/items.json data/oldpine/items.json data/snow/items.json
 msgid "把"
 msgstr ""
@@ -3825,6 +3901,42 @@ msgstr ""
 #. es2:daemon/class/swordsman/silk_cloth name
 #: data/common/items.json
 msgid "丝绸马褂"
+msgstr ""
+
+#. es2:obj/dust name
+#: data/common/items.json
+msgid "化尸粉"
+msgstr ""
+
+#. es2:obj/dust long
+#: data/common/items.json
+msgid ""
+"这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n"
+"化去(dissolve)一具尸体！\n"
+msgstr ""
+
+#. es2:obj/dust unit
+#. es2:obj/drug/snake_drug unit
+#: data/common/items.json
+msgid "包"
+msgstr ""
+
+#. es2:obj/dust combined.base_unit
+#. es2:obj/drug/snake_drug combined.base_unit
+#: data/common/items.json
+msgid "份"
+msgstr ""
+
+#. es2:obj/drug/snake_drug name
+#: data/common/items.json
+msgid "蛇药"
+msgstr ""
+
+#. es2:obj/drug/snake_drug long
+#: data/common/items.json
+msgid ""
+"这是一包用来解蛇毒的药\n"
+"可以用(apply)来解蛇毒!\n"
 msgstr ""
 
 #. unarmed improved_line
@@ -4158,6 +4270,11 @@ msgstr ""
 msgid "$N用$w往$n的$l直戳过去"
 msgstr ""
 
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N将$w对准$n的$l射了过去"
+msgstr ""
+
 #. family.fonxan name
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
@@ -4356,6 +4473,30 @@ msgid ""
 "对练武人来说是本不可多得的珍宝。\n"
 msgstr ""
 
+#. es2:d/oldpine/npc/obj/black_cloth name
+#: data/oldpine/items.json
+msgid "夜行衣"
+msgstr ""
+
+#. es2:d/oldpine/npc/obj/black_cloth long
+#: data/oldpine/items.json
+msgid ""
+"这是一件夜行人用来掩藏行踪的黑色紧身衣。\n"
+msgstr ""
+
+#. es2:d/oldpine/obj/throwing_knife name
+#. es2:d/snow/npc/obj/throwing_knife name
+#: data/oldpine/items.json data/snow/items.json
+msgid "飞刀"
+msgstr ""
+
+#. es2:d/oldpine/obj/throwing_knife long
+#. es2:d/snow/npc/obj/throwing_knife long
+#: data/oldpine/items.json data/snow/items.json
+msgid ""
+"飞刀是一种十分轻、锐利的匕首，用来当作暗器使用。\n"
+msgstr ""
+
 #. oldpine.npc.bandit name
 #: data/oldpine/npcs.json
 msgid "土匪探哨"
@@ -4403,6 +4544,7 @@ msgstr ""
 
 #. oldpine.npc.serpent limbs
 #. oldpine.npc.wolf_dog limbs
+#. oldpine.npc.venomsnake limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #: data/oldpine/npcs.json data/snow/npcs.json
@@ -4433,6 +4575,7 @@ msgstr ""
 
 #. oldpine.npc.wolf_dog limbs
 #. oldpine.npc.butterfly limbs
+#. oldpine.npc.venomsnake limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. snow.npc.rat limbs
@@ -4546,6 +4689,38 @@ msgstr ""
 msgid "老松寨寨主"
 msgstr ""
 
+#. oldpine.npc.spy name
+#: data/oldpine/npcs.json
+msgid "黑衣人"
+msgstr ""
+
+#. oldpine.npc.spy long
+#: data/oldpine/npcs.json
+msgid ""
+"这个男人看起来鬼鬼祟祟的，想必不是什么好东西。\n"
+msgstr ""
+
+#. oldpine.npc.spy killed_enemy.say
+#: data/oldpine/npcs.json
+msgid "哈哈哈哈哈哈。"
+msgstr ""
+
+#. oldpine.npc.venomsnake name
+#: data/oldpine/npcs.json
+msgid "金银花蛇"
+msgstr ""
+
+#. oldpine.npc.venomsnake long
+#: data/oldpine/npcs.json
+msgid ""
+"一支昂首吐信的毒蛇正虎视眈眈地盯著你。\n"
+msgstr ""
+
+#. oldpine.npc.venomsnake hit_ob.message
+#: data/oldpine/npcs.json
+msgid "你觉得被咬中的地方一阵麻痒！"
+msgstr ""
+
 #. es2:d/snow/obj/linen name
 #: data/snow/items.json
 msgid "粗布衣"
@@ -4651,11 +4826,13 @@ msgid "绣花小鞋"
 msgstr ""
 
 #. snow.npc.traveller name
+#. snow.npc.trav_blade name
 #: data/snow/npcs.json
 msgid "旅客"
 msgstr ""
 
 #. snow.npc.traveller long
+#. snow.npc.trav_blade long
 #: data/snow/npcs.json
 msgid ""
 "这是一位来雪亭镇的外地旅客.\n"

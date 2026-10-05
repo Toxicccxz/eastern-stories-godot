@@ -14,6 +14,19 @@ func condition_id() -> StringName:
 	return ConditionIdsType.SNAKE_POISON
 
 
+## daemon/condition/snake_poison.c: tell_object(me, HIG "你中的蛇毒发作了！").
+func message() -> String:
+	return "你中的蛇毒发作了！"
+
+
+func message_color() -> StringName:
+	return ColoredLine.HIG
+
+
+func shown_name() -> String:
+	return "蛇毒"
+
+
 func update(character: CharacterStateType, payload: ConditionPayloadType) -> int:
 	var duration: DurationConditionPayloadType = payload as DurationConditionPayloadType
 	if duration == null:

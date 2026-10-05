@@ -12,13 +12,14 @@ static func money_value(id: StringName, content: ItemContentDefinition, stacks: 
 	return stacks.stack_state(id).amount * content.currency_base_value
 
 
-## drop.c's `query("value") || value()`: a stack's money value, a food's current value
-## (feature/food.c sets 0 after the first bite), else the authored value.
+## drop.c's `query("value") || value()`: the authored value (蛇药's 1000 for the whole
+## stack), else a stack's money value; a food's current value (feature/food.c sets 0
+## after the first bite). 飞刀 has neither (THROWING sets only base_value).
 static func value_of(id: StringName, content: ItemContentDefinition, stacks: CombinedStackCollection, foods: FoodCollection) -> int:
 	if content == null:
 		return 0
 	if stacks != null and stacks.has_stack(id):
-		return stacks.stack_state(id).amount * content.currency_base_value
+		return content.value if content.value > 0 else stacks.stack_state(id).amount * content.currency_base_value
 	var food: FoodState = null if foods == null else foods.state(id)
 	return content.value if food == null else food.current_value
 

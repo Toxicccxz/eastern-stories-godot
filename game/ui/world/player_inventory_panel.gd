@@ -11,6 +11,9 @@ signal give_requested(item_instance_id: StringName, amount: int)
 signal drop_requested(item_instance_id: StringName, amount: int)
 signal put_requested(item_instance_id: StringName, amount: int)
 signal play_requested(item_instance_id: StringName)
+## apply <item> (snake_drug.c, hurt_drug.c) and dissolve <corpse> with 化尸粉 (dust.c).
+signal apply_requested(item_instance_id: StringName)
+signal dissolve_requested(item_instance_id: StringName)
 
 ## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
 const CATEGORY_WORDS: Dictionary[StringName, String] = {
@@ -18,7 +21,7 @@ const CATEGORY_WORDS: Dictionary[StringName, String] = {
 }
 const WEAPON_WORDS: Dictionary[StringName, String] = {
 	&"sword": "剑", &"blade": "刀", &"axe": "斧", &"hammer": "锤", &"dagger": "匕首", &"staff": "杖",
-	&"stick": "棍", &"whip": "鞭",
+	&"stick": "棍", &"whip": "鞭", &"throwing": "暗器",
 }
 const ARMOR_WORDS: Dictionary[StringName, String] = {
 	&"cloth": "衣服", &"armor": "铠甲", &"surcoat": "外衣", &"boots": "靴子", &"shield": "盾牌", &"head": "头部",
@@ -34,11 +37,17 @@ var _rows: Array[PlayerInventoryRowProjection] = []
 ## empty when there is none.
 var _give_target: String = ""
 var _container: String = ""
+## The selected corpse lying here (its victim's name), which 化尸粉 can dissolve.
+var _corpse: String = ""
 
 
 func set_handling_targets(give_target: String, container: String) -> void:
 	_give_target = give_target
 	_container = container
+
+
+func set_dissolvable_corpse(victim_name: String) -> void:
+	_corpse = victim_name
 
 
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
@@ -80,6 +89,8 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 	if row.category == ItemContentDefinition.CATEGORY_WEAPON:
 		lines.append(tr("兵器：%s") % _word(WEAPON_WORDS, row.weapon_skill_type))
 		lines.append(tr("伤害：%d") % row.weapon_damage)
+		if row.amount != 1:
+			lines.append(tr("数量：%d") % row.amount)
 	elif row.category == ItemContentDefinition.CATEGORY_CURRENCY:
 		lines.append(tr("数量：%d") % row.amount)
 		lines.append(tr("价值：%d") % row.total_value)
@@ -87,6 +98,8 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 		lines.append(tr("部位：%s") % _word(ARMOR_WORDS, row.armor_type))
 		lines.append(tr("防护：%+d") % row.armor_modifiers.armor)
 		lines.append(tr("闪避：%+d") % row.armor_modifiers.dodge)
+	elif row.amount != 1:
+		lines.append(tr("数量：%d") % row.amount)
 	inspect_text.text = "\n".join(lines)
 	inspect_text.show()
 
@@ -156,9 +169,22 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		play_button.text = "吹奏"
 		play_button.pressed.connect(func() -> void: play_requested.emit(row.item_instance_id))
 		container.add_child(play_button)
-	# A stack can be handed over in part (give 5 silver to ...).
+	if content != null and not content.apply.is_empty():
+		var apply_button: Button = Button.new()
+		apply_button.name = "Apply"
+		apply_button.text = "使用"
+		apply_button.pressed.connect(func() -> void: apply_requested.emit(row.item_instance_id))
+		container.add_child(apply_button)
+	if content != null and content.dissolves and not _corpse.is_empty():
+		var dissolve_button: Button = Button.new()
+		dissolve_button.name = "Dissolve"
+		# TRANSLATORS: dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
+		dissolve_button.text = tr("化去{corpse}").format({"corpse": tr("%s的尸体") % tr(_corpse)})
+		dissolve_button.pressed.connect(func() -> void: dissolve_requested.emit(row.item_instance_id))
+		container.add_child(dissolve_button)
+	# A stack can be handed over in part (give 5 silver to ..., drop 10 throwing knives).
 	var amount: SpinBox = null
-	if row.category == ItemContentDefinition.CATEGORY_CURRENCY and row.amount > 1:
+	if content != null and content.is_stack and row.amount > 1:
 		amount = SpinBox.new()
 		amount.name = "Amount"
 		amount.min_value = 1

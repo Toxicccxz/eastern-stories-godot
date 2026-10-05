@@ -8,3 +8,6 @@ var pulses: int = 0
 var busy_pulses: int = 0
 var opportunities: int = 0
 var last_update_count: int = 0
+## Conditions updated on this advance's ticks and the lines they told the character.
+var conditions_updated: int = 0
+var lines: Array[ColoredLine] = []
