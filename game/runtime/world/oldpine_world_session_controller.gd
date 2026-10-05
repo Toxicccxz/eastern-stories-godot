@@ -1130,7 +1130,7 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 		CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE:
 			_life_flow.begin_unconscious(UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random))
 		CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
-			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place_name(location))
+			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place_name(location), lifecycle.corpse_item_instance_id)
 
 
 ## "老松岭 · 南坡林道" for a world location, in the shown language.

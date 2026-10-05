@@ -3635,6 +3635,10 @@ msgstr ""
 msgid "你的尸体和随身物品留在：%s"
 msgstr ""
 
+#: ui/world/player_life_overlay.gd
+msgid "你的尸体已经不在了。"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid "{name}的尸体 · {count}件物品"
 msgstr ""

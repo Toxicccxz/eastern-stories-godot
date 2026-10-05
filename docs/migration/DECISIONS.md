@@ -10,8 +10,9 @@ What is placed where is in [OLDPINE_CONTENT](OLDPINE_CONTENT.md).
   print in their colour (HIG added). Below zero after a tick the player falls or dies at once
   (char.c heart_beat); the killer is whoever last landed a blow (damage.c `last_damage_from`,
   0 damage too, kept from the fight, not saved) while that NPC still stands on the map, so dying of a bite after
-  fleeing costs the death penalty. The HUD names 蛇毒 after 精/气/神: presentation only, ES2
-  shows conditions only through their lines.
+  fleeing costs the death penalty. The HUD names 蛇毒 after 精/气/神 (**owner: keep**):
+  presentation only, ES2 shows conditions only through their lines; each condition opts in
+  (`shown_name`), so one meant to go unnoticed (slumber_drug) can stay hidden.
 - **hit_ob is data** (venomsnake.c; shaoin.c's rose_poison has the same shape): `{condition,
   duration, below, message, color}`. random(damage_bonus) is drawn from the combat stream between
   the martial hit_ob and the strength draw, only for an NPC that has one.
@@ -27,7 +28,8 @@ What is placed where is in [OLDPINE_CONTENT](OLDPINE_CONTENT.md).
 - **killed_enemy is data** (`{say, dissolve_after_ms}`): 黑衣人 laughs and a second of world time
   later dissolves the newest corpse in his room with his 化尸粉 (present() finds the object moved
   in last). **Owner: as ES2**, also the player's own corpse with all it holds. The pending
-  dissolve is not saved (a call_out).
+  dissolve is not saved (a call_out). The death screen's native line on where the corpse lies
+  becomes 你的尸体已经不在了。 once it is gone (**owner**; ES2 tells the dead nothing).
 - **apply** (snake_drug.c, hurt_drug.c; **owner: 金疮药 too**) is the inventory's 使用, used
   outside a fight as eating is. One 蛇药 lowers snake_poison by one (a bite gives 20) and the last
   leaves it at 0, where snake_poison.c strikes once more before it ends.

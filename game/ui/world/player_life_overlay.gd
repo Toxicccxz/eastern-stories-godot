@@ -123,7 +123,12 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 		if result.enabled_skills_cleared > 0:
 			lines.append(tr("已启用的特殊武功全部取消启用"))
 	if not flow.corpse_place.is_empty():
-		lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+		var corpse: StringName = flow.corpse_item_instance_id
+		if corpse.is_empty() or _session.inventory_state().is_registered(corpse):
+			lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+		else:
+			# The corpse is gone (化尸粉); the dead do not see how.
+			lines.append(tr("你的尸体已经不在了。"))
 	lines.append("")
 	lines.append("\n\n".join(flow.messages_shown().map(func(message: String) -> String: return tr(message))))
 	return "\n".join(lines).strip_edges()
