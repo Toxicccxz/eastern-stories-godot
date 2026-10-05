@@ -41,17 +41,28 @@ class GeneratedDataTest(unittest.TestCase):
         self.assertEqual(list(npcs), ['oldpine.npc.bandit', 'oldpine.npc.tall_bandit',
                                       'oldpine.npc.fat_bandit', 'oldpine.npc.serpent', 'oldpine.npc.maniac',
                                       'oldpine.npc.wolf_dog', 'oldpine.npc.butterfly', 'oldpine.npc.bandit_guard',
-                                      'oldpine.npc.bandit_leader', 'oldpine.npc.bandit_commander'])
+                                      'oldpine.npc.bandit_leader', 'oldpine.npc.bandit_commander',
+                                      'oldpine.npc.spy', 'oldpine.npc.venomsnake'])
         self.assertEqual(npcs['oldpine.npc.serpent']['race'], 'beast')
         self.assertEqual(npcs['oldpine.npc.fat_bandit']['carry'][1]['item'], 'es2:d/oldpine/obj/leather')
         # set("bellicosity") is data; set_temp("apply/defense") joins the other applies.
         self.assertEqual(npcs['oldpine.npc.maniac']['bellicosity'], 10000)
         self.assertEqual(npcs['oldpine.npc.bandit_commander']['apply'], {'attack': 100, 'defense': 60})
+        # carry_object(dust)->set_amount(30): a combined item's carried amount.
+        self.assertEqual(npcs['oldpine.npc.spy']['carry'][2], {'item': 'es2:obj/dust', 'source': 'obj/dust.c', 'amount': 30})
+        items = {r['id']: r for r in json.loads(self.files['common/items.json'])['items']}
+        # COMBINED_ITEM: base_unit, base_weight and create()'s set_amount(); snake_drug.c's
+        # base_weiht typo leaves base_weight 0.
+        self.assertEqual(items['es2:obj/drug/snake_drug']['combined'], {'base_unit': '份', 'base_weight': 0, 'amount': 1})
+        knives = {r['id']: r for r in json.loads(self.files['snow/items.json'])['items']}['es2:d/snow/npc/obj/throwing_knife']
+        # THROWING is a combined weapon: init_throwing(20), set_amount(100).
+        self.assertEqual([knives['combined']['amount'], knives['weapon']], [100, {'skill': 'throwing', 'damage': 20}])
 
     def test_vendor_goods_from_lpc_or_hand_read_buy_object(self) -> None:
         vendors = {r['id']: r for r in json.loads(self.files['snow/vendors.json'])['vendors']}
-        # herbalist.c sets vendor_goods (the value is the price); snake drug is skipped.
-        self.assertEqual(vendors['snow.vendor.herbalist']['goods'], [{'key': 'medicine', 'item': 'es2:obj/drug/hurt_drug'}])
+        # herbalist.c sets vendor_goods (the value is the price).
+        self.assertEqual(vendors['snow.vendor.herbalist']['goods'], [{'key': 'medicine', 'item': 'es2:obj/drug/hurt_drug'},
+                                                                   {'key': 'snake drug', 'item': 'es2:obj/drug/snake_drug'}])
         # smith.c has no vendor_goods: its buy_object() asks 300 for a hammer worth 3.
         self.assertEqual(vendors['snow.vendor.smith']['goods'], [{'key': '铁锤', 'item': 'es2:d/snow/obj/hammer', 'price': 300}])
 
