@@ -173,7 +173,8 @@ static func execute(
 	if result._post_action_weapon_present:
 		result._post_action_weapon_id = projected_attacker.weapon_profile.weapon_id
 	result._reached_stage = CombatSingleAttackExecutionResult.ReachedStage.POST_ACTION
-	if result._post_action_policy_present:
+	# A ported post_action (throw_weapon) is run by the caller before the riposte.
+	if result._post_action_policy_present and not CombatPostActionIds.is_supported(result._post_action_policy_id):
 		return _finish(
 			result,
 			CombatSingleAttackExecutionResult.Outcome.AUTHORED_POST_ACTION_POLICY_UNAVAILABLE,

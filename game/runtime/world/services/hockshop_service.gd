@@ -139,6 +139,9 @@ func item_label(id: StringName) -> String:
 		return String(id)
 	var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
 	var display_name: String = String(item.item_definition_id) if content == null else tr(content.display_name)
+	if content != null and content.is_stack:
+		# A stack is sold whole: 两份蛇药.
+		display_name = HeldItemFacts.short_name(id, content, map.session.stack_collection())
 	# Two of the same are told apart by their place among the carried ones, not the ID.
 	var current: MoneyInventoryContext = context()
 	var same: Array[StringName] = []

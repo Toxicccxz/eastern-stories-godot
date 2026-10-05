@@ -40,6 +40,8 @@ var _attitude: int
 var _skill_levels: Array[NpcSkillLevelDefinition] = []
 var _loadout_entries: Array[NpcLoadoutEntry] = []
 var _bellicosity: int = 0
+var _hit_condition: NpcHitCondition
+var _killed_enemy: NpcKilledEnemy
 var _capability_ids: Array[StringName] = []
 var _authored_combat_facts: AuthoredCombatFactsType
 var _title: String
@@ -251,6 +253,22 @@ func with_bellicosity(value: int) -> NpcDefinition:
 
 func bellicosity() -> int:
 	return _bellicosity
+
+
+## The NPC's own hit_ob() and killed_enemy() (data, not scripts).
+func with_combat_hooks(hit_condition: NpcHitCondition, killed_enemy: NpcKilledEnemy) -> NpcDefinition:
+	_hit_condition = hit_condition
+	_killed_enemy = killed_enemy
+	return self
+
+
+## null: the NPC has no hit_ob() of its own (combatd.c's call has no effect).
+func hit_condition() -> NpcHitCondition:
+	return _hit_condition
+
+
+func killed_enemy() -> NpcKilledEnemy:
+	return _killed_enemy
 
 
 ## race/human.c sets can_speak; beast.c does not. fight.c only asks a

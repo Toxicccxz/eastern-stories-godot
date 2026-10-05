@@ -9,6 +9,9 @@ var _opponent_ids: Array[StringName] = []
 var _lethal_target_ids: Array[StringName] = []
 var _guarding: bool = false
 var _last_opponent_id: StringName = &""
+## damage.c receive_damage()/receive_wound(): set_temp("last_damage_from", who) on a
+## blow that hurts; nothing clears it. A temp: not saved.
+var _last_damage_from_id: StringName = &""
 
 var owner_character_id: StringName:
 	get:
@@ -21,6 +24,10 @@ var guarding: bool:
 var last_opponent_id: StringName:
 	get:
 		return _last_opponent_id
+
+var last_damage_from_id: StringName:
+	get:
+		return _last_damage_from_id
 
 
 func _init(p_owner_character_id: StringName = &"") -> void:
@@ -116,6 +123,11 @@ func set_last_opponent(character_id: StringName) -> bool:
 		return false
 	_last_opponent_id = character_id
 	return true
+
+
+func set_last_damage_from(character_id: StringName) -> void:
+	if _is_valid_target(character_id):
+		_last_damage_from_id = character_id
 
 
 func clear_last_opponent() -> void:

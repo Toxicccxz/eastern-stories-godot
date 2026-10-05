@@ -34,6 +34,10 @@ var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] =
 var _corpse_states: Array[CorpseState] = []
 var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
 var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
+## killed_enemy()'s call_out("dissolve", 1), one per kill: [NPC id, ms of world time
+## left] (transient).
+var _pending_dissolves: Array[Array] = []
+var _post_actions: CombatSlicePostActions
 var _floor_items: Dictionary[StringName, WorldFloorItemView] = {}
 ## Items lying away from any spawn marker (dropped), with their place; saved.
 var _dropped: Dictionary[StringName, WorldLocationState] = {}
@@ -1242,7 +1246,10 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 		_player,
 		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
 	)
+	if _post_actions == null:
+		_post_actions = CombatSlicePostActions.new(_run_post_action)
 	if player_binding != null:
+		player_binding.post_actions = _post_actions
 		result.append(player_binding)
 	for npc: NpcRuntimeState in _npcs:
 		if not include_absent and not npc.exists_in_map:
@@ -1250,8 +1257,29 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 		var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
 		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
 		if binding != null:
+			binding.post_actions = _post_actions
 			result.append(binding)
 	return result
+
+
+## weapond.c throw_weapon(): the weapon of the attack loses one of its amount; the last
+## one is unequipped first and its thrower told (你的飞刀用完了！). At 0 it is gone
+## (combined.c destructs it).
+func _run_post_action(binding: CombatSliceCharacterBinding, policy_id: StringName) -> Array[String]:
+	var told: Array[String] = []
+	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
+	if policy_id != CombatPostActionIds.THROW_WEAPON or weapon == null or not _stacks.has_stack(weapon.instance_id):
+		return told
+	if _stacks.stack_state(weapon.instance_id).amount == 1:
+		binding.state.equipment.unwield(weapon.instance_id)
+		var item: ItemInstance = _item_index.resolve(weapon.instance_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content != null:
+			# TRANSLATORS: weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
+			told.append(tr("你的%s用完了！") % tr(content.display_name))
+	if not use_up_one(weapon.instance_id, ItemLifecycleOwnerContext.new(binding.character_id, binding.state.equipment, binding.armor)):
+		push_error("throwing %s failed: the item state is inconsistent" % weapon.instance_id)
+	return told
 
 
 ## The weapon an NPC is authored to wield, as its verified combat weapon.
@@ -1282,8 +1310,13 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var is_player: bool = _player != null and victim.character_id == _player.character_id
 	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants, last_hitter_id)
 	var location: WorldLocationState = _location_for_character(victim.character_id)
+	# killed_enemy() speaks before the dying player's ghost is moved away (damage.c die()).
+	var killer_npc: NpcRuntimeState = null if killer == null else find_resident_npc(killer.character_id)
+	var killer_heard: bool = killer_npc != null and (_player_hears(killer_npc) or (is_player and _player_shares_zone(killer_npc)))
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
+	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
+		_killed_enemy(killer_npc, killer_heard)
 	if not receipt.completed():
 		_lifecycle_failed = true
 	elif is_player and session != null:
@@ -1303,6 +1336,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 	if _npc_heartbeat == null:
 		_npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
 	_fall_below_zero()
+	_advance_pending_dissolves(delta)
 	for npc: NpcRuntimeState in _npc_heartbeat.advance(delta, npc_runtimes()):
 		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
 		if body != null:
@@ -1327,6 +1361,199 @@ func _fall_below_zero() -> void:
 		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
 		if required != null:
 			execute_encounter_lifecycle(binding, required, [binding])
+
+
+## The same for the player outside a fight, after a condition's tick (snake_poison.c
+## wounds kee without a `who`): the killer is whoever hurt the player last
+## (last_damage_from), while that NPC still stands on this map.
+func player_fall_below_zero() -> void:
+	if _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.relationship.is_fighting():
+		return
+	if _player.state.life_threshold() == CharacterState.LifeThreshold.ACTIVE:
+		return
+	_last_player_content_resolution = _weapon_resolver.resolve(_player, _inventory, _item_index)
+	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
+		_player,
+		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
+	)
+	var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
+	if required == null:
+		return
+	var participants: Array[CombatSliceCharacterBinding] = [binding]
+	var from: NpcRuntimeState = find_resident_npc(_player.relationship.last_damage_from_id)
+	if from != null and from.exists_in_map and from.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+		var killer: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(from, _registered_npc_content.get(from.character_id, _authored_weapon_profile(from.definition())))
+		if killer != null:
+			participants.append(killer)
+	execute_encounter_lifecycle(binding, required, participants, _player.relationship.last_damage_from_id)
+
+
+# --- killed_enemy(), 化尸粉, apply -------------------------------------------------------
+
+## combatd.c killer_reward(): the killer's killed_enemy() (spy.c: say, then
+## call_out("dissolve", 1)). A dying player still hears it (`heard`): die() revives
+## the body first and moves the ghost away only after killer_reward().
+func _killed_enemy(killer: NpcRuntimeState, heard: bool) -> void:
+	var hook: NpcKilledEnemy = null if killer == null else killer.definition().killed_enemy()
+	if hook == null:
+		return
+	if not hook.say.is_empty() and heard:
+		_hud().append_log_lines([NpcLine.new(false, hook.say).sentence(killer.definition().display_name, "")])
+	if hook.dissolve_after_ms > 0:
+		_pending_dissolves.append([killer.character_id, float(hook.dissolve_after_ms)])
+
+
+func _advance_pending_dissolves(delta: float) -> void:
+	var due: Array[StringName] = []
+	for index: int in range(_pending_dissolves.size() - 1, -1, -1):
+		_pending_dissolves[index][1] -= delta * 1000.0
+		if _pending_dissolves[index][1] <= 0.0:
+			due.push_front(_pending_dissolves[index][0])
+			_pending_dissolves.remove_at(index)
+	for character_id: StringName in due:
+		_npc_dissolves_corpse(find_resident_npc(character_id))
+
+
+## command("dissolve corpse"): obj/dust.c's add_action works only while the NPC carries
+## 化尸粉 and stands (living()); present("corpse") finds the corpse that came into its
+## room last.
+func _npc_dissolves_corpse(npc: NpcRuntimeState) -> void:
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return
+	var dust: StringName = _carried_dissolver(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id))
+	var corpse: CorpseState = _newest_corpse_in(npc.world_location())
+	if dust.is_empty() or corpse == null:
+		return
+	var heard: bool = _player_hears(npc)
+	var victim_name: String = corpse.victim_display_name
+	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+	if not _dissolve_corpse(corpse, dust, owner):
+		push_error("dissolving %s failed: the item state is inconsistent" % corpse.corpse_item_instance_id)
+		return
+	if heard:
+		_hud().append_log_lines([_dissolve_line(tr(npc.definition().display_name), victim_name)])
+
+
+## dissolve <corpse> by the player with the 化尸粉 `dust_id` they carry, on the selected
+## corpse lying in their place (present(arg, environment(me))).
+func dissolve_selected_corpse(dust_id: StringName) -> bool:
+	if not can_handle_items():
+		return false
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	var item: ItemInstance = _item_index.resolve(dust_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	if content == null or not content.dissolves or not _inventory.is_direct_child(dust_id, carried):
+		return false
+	var corpse: CorpseState = _selected_corpse()
+	if corpse == null or not _corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
+		_hud().append_log_lines([tr("这里没有这样东西。")])
+		return false
+	var victim_name: String = corpse.victim_display_name
+	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
+	if not _dissolve_corpse(corpse, dust_id, owner):
+		push_error("dissolving %s failed: the item state is inconsistent" % corpse.corpse_item_instance_id)
+		return false
+	_hud().append_log_lines([_dissolve_line(tr("你"), victim_name)])
+	if _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return true
+
+
+## The selected corpse's name when it lies in the player's place, else "" (what the
+## 化尸粉 row offers to dissolve).
+func dissolvable_corpse_name() -> String:
+	var corpse: CorpseState = _selected_corpse()
+	if _player == null or corpse == null or not _corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
+		return ""
+	return corpse.victim_display_name
+
+
+## The 化尸粉 a character carries directly (present(), first found), or empty.
+func _carried_dissolver(holder: ContainmentEndpoint) -> StringName:
+	for item_id: StringName in _inventory.direct_children(holder):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content != null and content.dissolves:
+			return item_id
+	return &""
+
+
+## The corpse made last among those lying in `location`'s room.
+func _newest_corpse_in(location: WorldLocationState) -> CorpseState:
+	for index: int in range(_corpse_states.size() - 1, -1, -1):
+		var corpse: CorpseState = _corpse_states[index]
+		if _corpse_is_live_in_world(corpse) and _corpse_in_location(corpse, location):
+			return corpse
+	return null
+
+
+func _corpse_in_location(corpse: CorpseState, location: WorldLocationState) -> bool:
+	var at: WorldLocationState = _corpse_locations.get(corpse.corpse_item_instance_id)
+	return at != null and location != null and at.shares_combat_location(location)
+
+
+## obj/dust.c: $N用指甲挑了一点化尸粉在$n上……$n只剩下一滩黄水。
+func _dissolve_line(who: String, victim_name: String) -> String:
+	# TRANSLATORS: dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
+	return tr("{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。").format({
+		"who": who, "corpse": tr("%s的尸体") % tr(victim_name),
+	})
+
+
+## destruct(corpse) with all it holds, then add_amount(-1) on the 化尸粉.
+func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: ItemLifecycleOwnerContext) -> bool:
+	var corpse_id: StringName = corpse.corpse_item_instance_id
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, corpse_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE)
+	if not (
+		removal.succeeded
+		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
+		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
+		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
+	):
+		return false
+	_corpse_states.erase(corpse)
+	_corpse_locations.erase(corpse_id)
+	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
+	_corpse_views.erase(corpse_id)
+	if view != null:
+		view.queue_free()
+	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM and _selected_target.target_id == corpse_id:
+		_selected_target = null
+		_hud().set_selected_corpse("", 0, false, true)
+		if _hud().loot_is_open():
+			_hud().close_loot()
+	return use_up_one(dust_id, dust_owner)
+
+
+## combined.c add_amount(-1) (a stack at 0 is destructed) or destruct() of a carried item.
+func use_up_one(item_id: StringName, owner: ItemLifecycleOwnerContext) -> bool:
+	if _stacks.has_stack(item_id) and _stacks.stack_state(item_id).amount > 1:
+		return CombinedStackService.set_amount(_stacks, _inventory, item_id, _stacks.stack_state(item_id).amount - 1).accepted
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF, owner)
+	return (
+		removal.succeeded
+		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
+		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
+		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
+	)
+
+
+## apply <item>: the item's own do_apply() (ItemApplyFunctions), on the player.
+func apply_item(item_id: StringName) -> bool:
+	if not can_handle_items():
+		return false
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	if content == null or content.apply.is_empty() or not _inventory.is_direct_child(item_id, carried):
+		return false
+	var result: ItemApplyFunctions.Result = ItemApplyFunctions.apply(content.apply, _player.state, _player.relationship.is_fighting())
+	_hud().append_log_lines(result.lines)
+	if result.used_up and not use_up_one(item_id, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
+		push_error("using up %s failed: the item state is inconsistent" % item_id)
+	if _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return result.accepted
 
 
 # --- Room reset ----------------------------------------------------------------------

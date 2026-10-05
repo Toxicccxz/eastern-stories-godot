@@ -43,6 +43,9 @@ var _opponent_selection_result: CombatOpponentSelectionResult
 var _fight_decision_result: CombatFightDecisionResult
 var _forward_result: CombatSingleAttackExecutionResult
 var _chain_result: CombatAttackChainResult
+## What the forward and the reverse attack's post_actions told the player (你的飞刀用完了！).
+var _post_action_lines: Array[String] = []
+var _reverse_post_action_lines: Array[String] = []
 var _reverse_projection_built: bool = false
 var _reverse_attacker_experience_at_projection: int = 0
 
@@ -127,6 +130,14 @@ func random_draws() -> Array[int]:
 	return values
 
 
+func post_action_lines() -> Array[String]:
+	return _post_action_lines.duplicate()
+
+
+func reverse_post_action_lines() -> Array[String]:
+	return _reverse_post_action_lines.duplicate()
+
+
 func duplicate_snapshot() -> CombatSliceOpportunityResult:
 	var copy: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
 	copy._outcome = _outcome
@@ -151,6 +162,8 @@ func duplicate_snapshot() -> CombatSliceOpportunityResult:
 	copy._forward_result = (
 		_forward_result.duplicate_snapshot() if _forward_result != null else null
 	)
+	copy._post_action_lines = _post_action_lines.duplicate()
+	copy._reverse_post_action_lines = _reverse_post_action_lines.duplicate()
 	copy._chain_result = (
 		_chain_result.duplicate_snapshot() if _chain_result != null else null
 	)

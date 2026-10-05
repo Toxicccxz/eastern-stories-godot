@@ -113,6 +113,29 @@
 			"study": { "skill": "parry", "exp_required": 15000, "sen_cost": 30, "difficulty": 25, "max_skill": 50 },
 			"weight": 800,
 			"value": 100
+		},
+		{
+			"id": "es2:d/oldpine/npc/obj/black_cloth",
+			"legacy_sources": ["d/oldpine/npc/obj/black_cloth.c"],
+			"name": "夜行衣",
+			"aliases": ["black cloth", "cloth"],
+			"long": "这是一件夜行人用来掩藏行踪的黑色紧身衣。\n",
+			"unit": "件",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 800,
+			"armor": { "type": "cloth", "props": { "armor": 1, "dodge": 1, "personality": -1 } }
+		},
+		{
+			"id": "es2:d/oldpine/obj/throwing_knife",
+			"legacy_sources": ["d/oldpine/obj/throwing_knife.c", "d/oldpine/npc/obj/throwing_knife.c"],
+			"name": "飞刀",
+			"aliases": ["throwing knife", "knife"],
+			"long": "飞刀是一种十分轻、锐利的匕首，用来当作暗器使用。\n",
+			"unit": "些",
+			"material": "iron",
+			"combined": { "base_unit": "把", "base_weight": 300, "amount": 1 },
+			"weapon": { "skill": "throwing", "damage": 20 }
 		}
 	]
 }

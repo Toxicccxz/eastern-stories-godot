@@ -431,7 +431,7 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_false(fresh.session.shared_ui().inventory_is_open(), "fresh/reset boundary closes Inventory panel")
 	_assert_false(fresh.session.shared_ui().loot_is_open(), "fresh/reset boundary closes Loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh/reset boundary has no corpses")
-	_assert_eq(fresh.session.world_npcs().size(), 34, "fresh/reset boundary restores all 34 Old Pine NPCs")
+	_assert_eq(fresh.session.world_npcs().size(), 36, "fresh/reset boundary restores all 36 Old Pine NPCs")
 	_assert_eq(fresh.npc_runtimes().size(), 23, "fresh/reset boundary restores the forest map's 23")
 	_assert_true(OldPineTestMap.open_inventory(fresh), "fresh active player can open Inventory")
 	var rows: Array[PlayerInventoryRowProjection] = fresh.session.shared_ui().inventory_rows()

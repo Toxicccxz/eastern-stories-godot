@@ -80,7 +80,8 @@
 			"long": "一颗金疮药, 可以用来敷上(apply)治伤 。\n",
 			"unit": "颗",
 			"weight": 30,
-			"value": 2000
+			"value": 2000,
+			"apply": "hurt_drug"
 		},
 		{
 			"id": "es2:obj/longsword",
@@ -115,6 +116,28 @@
 			"weight": 1000,
 			"value": 2500,
 			"armor": { "type": "cloth", "props": { "dodge": 6, "armor": 1 } }
+		},
+		{
+			"id": "es2:obj/dust",
+			"legacy_sources": ["obj/dust.c"],
+			"name": "化尸粉",
+			"aliases": ["dust"],
+			"long": "这是一包用来毁尸灭迹的化尸粉，只要用一丁点就可以\n化去(dissolve)一具尸体！\n",
+			"unit": "包",
+			"value": 1000,
+			"combined": { "base_unit": "份", "base_weight": 1, "amount": 1 },
+			"dissolve": true
+		},
+		{
+			"id": "es2:obj/drug/snake_drug",
+			"legacy_sources": ["obj/drug/snake_drug.c"],
+			"name": "蛇药",
+			"aliases": ["drug", "snake drug"],
+			"long": "这是一包用来解蛇毒的药\n可以用(apply)来解蛇毒!\n",
+			"unit": "包",
+			"value": 1000,
+			"combined": { "base_unit": "份", "base_weight": 0, "amount": 1 },
+			"apply": "snake_drug"
 		}
 	]
 }

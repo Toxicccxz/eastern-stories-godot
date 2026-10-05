@@ -4,7 +4,8 @@ extends RefCounted
 ## cmds/std/buy.c -> feature/vendor.c for any goods a vendor lists. The price
 ## is the goods' own value unless the vendor asks its own (VendorDefinition.price);
 ## money is taken first, then the product is created at full weight and moved to
-## the buyer. An undeliverable product is destroyed without refund.
+## the buyer. An undeliverable product is destroyed without refund. A combined item
+## (蛇药) comes with create()'s amount and merges into the buyer's stack (combined.c).
 static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCatalog,
 	context: MoneyInventoryContext, foods: FoodCollection, liquids: LiquidCollection,
 	allocator: SessionItemIdAllocator, maximum_encumbrance: int) -> VendorPurchaseResult:
@@ -16,7 +17,7 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 	result.item_definition_id = vendor.item_definition_id(goods_key)
 	var content: ItemContentDefinition = catalog.item(result.item_definition_id)
 	# buy.c: a price below 1 means the owner will not trade. Money is not goods.
-	if content == null or not content.is_valid() or content.is_stack or vendor.price(goods_key, content) < 1:
+	if content == null or not content.is_valid() or content.currency_definition() != null or vendor.price(goods_key, content) < 1:
 		return result
 	result.price = vendor.price(goods_key, content)
 	result.outcome = VendorPurchaseResult.Outcome.AUTHORITY_FAILURE
@@ -46,14 +47,28 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 	if context.index.has_snapshot(result.item_id) or context.stacks.has_stack(result.item_id) or foods.state(result.item_id) != null or liquids.state(result.item_id) != null:
 		return result
 	var item: ItemInstance = ItemInstance.new(result.item_id, content.item_definition_id)
-	if not context.inventory.register_item(item, content.own_weight):
+	if not context.inventory.register_item(item, 0 if content.is_stack else content.own_weight):
 		return result
 	if not context.index.register_snapshot(item) or not _register_role_state(content, result.item_id, foods, liquids):
 		return _cleanup(context, foods, liquids, result)
+	if content.is_stack and not CombinedStackService.register_stack(context.stacks, context.inventory, item, content.stack_definition(), content.default_amount).accepted:
+		return _cleanup(context, foods, liquids, result)
 	result.stage = VendorPurchaseResult.Stage.DELIVERY
 	# No pre-payment admission. Source creates the full-weight product now.
-	result.transfer = InventoryTransferService.new().transfer(context.inventory, result.item_id,
-		InventoryTransferDestination.new(context.endpoint(), true, true, maximum_encumbrance))
+	var destination := InventoryTransferDestination.new(context.endpoint(), true, true, maximum_encumbrance)
+	if content.is_stack:
+		var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(
+			context.stacks, context.inventory, result.item_id, destination, null, null, context.owner,
+		)
+		if not context.index.forget_destroyed_snapshots(merged.absorbed_instance_ids, context.inventory):
+			result.outcome = VendorPurchaseResult.Outcome.AUTHORITY_FAILURE
+			return result
+		result.transfer = merged.inventory_transfer
+		if result.transfer == null or (result.transfer.succeeded and not merged.succeeded):
+			result.outcome = VendorPurchaseResult.Outcome.AUTHORITY_FAILURE
+			return result
+	else:
+		result.transfer = InventoryTransferService.new().transfer(context.inventory, result.item_id, destination)
 	if not result.transfer.succeeded:
 		result.outcome = VendorPurchaseResult.Outcome.DELIVERY_FAILED if result.transfer.outcome == InventoryTransferResult.Outcome.CAPACITY_EXCEEDED else VendorPurchaseResult.Outcome.AUTHORITY_FAILURE
 		return _cleanup(context, foods, liquids, result)

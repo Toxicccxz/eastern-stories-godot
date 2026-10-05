@@ -137,6 +137,24 @@
 			"points": ["oldpine.outdoor.keep_hall.keep3.bandit_commander.1"],
 			"legacy_room": "d/oldpine/keep3.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "oldpine.tree.tree1.spy",
+			"npc": "oldpine.npc.spy",
+			"map": "oldpine.tree",
+			"zone": "oldpine.tree.canopy",
+			"points": ["oldpine.tree.canopy.tree1.spy.1"],
+			"legacy_room": "d/oldpine/tree1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "oldpine.stone.venomsnake",
+			"npc": "oldpine.npc.venomsnake",
+			"map": "oldpine.stone",
+			"zone": "oldpine.stone.top",
+			"points": ["oldpine.stone.top.stone.venomsnake.1"],
+			"legacy_room": "d/oldpine/stone.c",
+			"legacy_quantity": 1
 		}
 	]
 }

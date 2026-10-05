@@ -177,12 +177,7 @@ func freeze_tests(tree: SceneTree) -> void:
 	player.busy.start_busy(2)
 	check(session.advance_player_recovery(5.0).busy_pulses == 2 and session.player_recovery_cadence().source_tick == 4 and not player.busy.is_busy(), "char.c heart_beat: a busy beat is continue_action(), busy2 wears off in two beats, no countdown")
 	check(session.advance_player_recovery(1.0).pulses == 1 and session.player_recovery_cadence().source_tick == 3, "the next beat counts down again")
-	for id: StringName in [&"snake_poison", &"bandaged", &"unsupported"]:
-		for duration: int in [0, -1, 9]:
-			player.state.conditions.add_or_replace_duration(id, duration)
-			frozen(session, random, "condition " + String(id))
-			check((player.state.conditions.get_condition(id) as DurationConditionPayload).remaining == duration and player.state.vitality.effective == 100, "no handler/expiry/damage")
-			player.state.conditions.remove_condition(id)
+	# Conditions no longer freeze the beat: they update on its tick (oldpine_venom_combined_test).
 	player.relationship.add_opponent(&"test.opponent")
 	frozen(session, random, "fighting without encounter")
 	player.relationship.remove_opponent(&"test.opponent")

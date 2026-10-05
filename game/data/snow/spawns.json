@@ -193,6 +193,15 @@
 			"points": ["snow.nyard.girl.1"],
 			"legacy_room": "d/snow/nyard.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.square.trav_blades",
+			"npc": "snow.npc.trav_blade",
+			"map": "snow.outdoor",
+			"zone": "snow.square",
+			"points": ["snow.square.trav_blade.1", "snow.square.trav_blade.2", "snow.square.trav_blade.3"],
+			"legacy_room": "d/snow/square.c",
+			"legacy_quantity": 3
 		}
 	]
 }

@@ -4,13 +4,15 @@ extends RefCounted
 ## What std/char.c heart_beat() does for the NPCs of the active map while no fight
 ## runs: heal_up() on the `5 + random(10)` tick (one transient cadence per NPC, as
 ## for the player, DECISIONS S5B) and feature/damage.c revive() once an unconscious
-## NPC's call_out comes due. Fighting, busy or conditioned NPCs heal as the player
-## does (S5B C-E; busy wears down on the beat, continue_action()); an unconscious
+## NPC's call_out comes due. Fighting or busy NPCs heal as the player does (S5B C-D;
+## busy wears down on the beat, continue_action()); conditions update on the tick
+## before heal_up() (their lines are told to the NPC: nobody hears them); an unconscious
 ## NPC heals too (char.c keeps calling heal_up()). Timed applies (powerup) count
 ## down on world time, as call_out() does.
 ## Cadences are not saved; the revive countdown and timed applies are.
 var _random: RecoveryCadenceRandomSource
 var _cadences: Dictionary[StringName, PlayerRecoveryCadence] = {}
+var _conditions: ConditionSystem = ConditionSystem.new()
 var _revive_remainder_ms: Dictionary[StringName, float] = {}
 var _timed_remainder_ms: Dictionary[StringName, float] = {}
 
@@ -30,10 +32,10 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
 		_wear_timed_applies(npc, delta)
-		if not npc.relationship.is_fighting() and npc.character_state.conditions.size() == 0:
+		if not npc.relationship.is_fighting():
 			var cadence: PlayerRecoveryCadence = _cadences.get(npc.character_id)
 			if cadence == null:
-				cadence = PlayerRecoveryCadence.new(_random, false)
+				cadence = PlayerRecoveryCadence.new(_random, false, _conditions)
 				_cadences[npc.character_id] = cadence
 			if cadence.is_valid():
 				cadence.advance(delta, npc.character_state, npc.busy)

@@ -35,6 +35,8 @@ var _beast_facts: NpcAuthoredCombatFacts
 var _authored: NpcAuthoredCombatFacts
 ## The verified weapon's weapon_prop values other than damage.
 var _weapon_apply: Dictionary[StringName, int] = {}
+## The NPC's own hit_ob() (null: none, combatd.c's call has no effect).
+var _hit_condition: NpcHitCondition
 
 var target_visible: bool:
 	get:
@@ -90,11 +92,17 @@ func _init(
 ## NPC construction always resolves anatomy/intrinsics from its definition;
 ## the caller's existing verified weapon projection contributes weapons only.
 func for_npc_definition(definition: NpcDefinition) -> CombatSliceContentProfile:
-	return CombatSliceContentProfile.new(
+	var profile := CombatSliceContentProfile.new(
 		_verified_weapon_id, _verified_weapon_skill_id, _verified_weapon_damage,
 		definition.race_id if definition != null else &"",
 		definition.authored_combat_facts() if definition != null else null,
 	)
+	profile._hit_condition = definition.hit_condition() if definition != null else null
+	return profile
+
+
+func hit_condition() -> NpcHitCondition:
+	return _hit_condition
 
 
 func is_valid() -> bool:

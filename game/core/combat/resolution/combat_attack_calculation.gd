@@ -41,6 +41,8 @@ var _defense_factor_at_exit: int
 var _wound_eligible: bool
 var _wound_roll_performed: bool
 var _wound_amount: int
+var _hit_condition_applied: bool = false
+var _hit_condition: NpcHitCondition
 var _random_upper_bounds: Array[int] = []
 var _random_draws: Array[int] = []
 
@@ -92,6 +94,14 @@ var wound_roll_performed: bool:
 var wound_amount: int:
 	get:
 		return _wound_amount
+## The attacker's hit_ob() set its condition on the victim (NpcHitCondition).
+var hit_condition_applied: bool:
+	get:
+		return _hit_condition_applied
+## The hit_ob() that set it (its message is told to the victim), or null.
+var hit_condition: NpcHitCondition:
+	get:
+		return _hit_condition
 var reached_stage: int:
 	get:
 		return _reached_stage
@@ -130,6 +140,8 @@ func duplicate_snapshot() -> CombatAttackCalculation:
 	copy._wound_eligible = _wound_eligible
 	copy._wound_roll_performed = _wound_roll_performed
 	copy._wound_amount = _wound_amount
+	copy._hit_condition_applied = _hit_condition_applied
+	copy._hit_condition = _hit_condition
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()
 	copy._random_draws = _random_draws.duplicate()
 	return copy

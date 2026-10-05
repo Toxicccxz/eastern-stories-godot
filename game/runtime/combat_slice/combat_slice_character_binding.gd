@@ -12,6 +12,8 @@ var _exists_in_encounter: bool
 var _life_status: int
 var _is_user: bool
 var _combat_available: bool
+## Where the character's post_actions run (its thrown weapons); null runs none.
+var post_actions: CombatSlicePostActions
 
 var character_id: StringName:
 	get:

@@ -9,9 +9,6 @@
 		"d/snow/npc/waiter.c": {
 			"dagger": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)",
 			"chicken leg": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)"
-		},
-		"d/snow/npc/herbalist.c": {
-			"snake drug": "蛇药 is a combined item (only money stacks); each apply lowers snake_poison by 1 and uses one up: treatment package"
 		}
 	},
 	"set": {
@@ -110,8 +107,7 @@
 		}
 	},
 	"spawn_skip": {
-		"d/snow/square.c": { "d/snow/npc/trav_blade.c": "carries 飞刀, a combined throwing weapon the item model lacks" },
-		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 is a combined item (only money stacks); with 蛇药 and 飞刀 when combined items come" }
+		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 (a combined item) draws seals with spells (magic): with the player's spells (ROADMAP #5)" }
 	},
 	"review": {
 		"d/snow/inn.c": {
@@ -268,8 +264,8 @@
 			"function heal_me": "eff_kee_percent answers (set snow.npc.herbalist)"
 		},
 		"obj/drug/hurt_drug.c": {
-			"function init": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package",
-			"function apply_medicine": "敷药 (apply): refused in a fight or when unhurt; restores min(20, max_kee - eff_kee) eff_kee and is used up: treatment package"
+			"function init": "apply (set es2:obj/drug/hurt_drug): the 使用 button",
+			"function apply_medicine": "ItemApplyFunctions.hurt_drug: refused in a fight or when unhurt; eff_kee + min(20, max_kee - eff_kee); used up"
 		}
 	}
 }

@@ -125,7 +125,8 @@ func _initialize_player_recovery() -> bool:
 	return _player_recovery_cadence.is_valid()
 
 
-## S5B staged path: no combat/conditions/lifecycle execution. Busy is NOT a time gate.
+## The player's heart beat outside a fight (S5B; conditions update on its tick since
+## Old Pine remainder B). Busy is NOT a time gate.
 func player_recovery_time_allowed() -> bool:
 	if (
 		_world_content_revision != WorldContentRevision.CURRENT_PUBLIC
@@ -140,7 +141,7 @@ func player_recovery_time_allowed() -> bool:
 	# Separate documented omissions, not a claim gate.is_open alone means eligibility.
 	if _combat_encounter_coordinator.has_active_encounter() or _player.relationship.is_fighting():
 		return false
-	if _player.state.conditions.size() != 0 or not _world_simulation_gate.is_open():
+	if not _world_simulation_gate.is_open():
 		return false
 	if _last_map_handoff != null and not _last_map_handoff.succeeded():
 		if _last_map_handoff.location_committed or (_last_map_handoff.source_detached and not _last_map_handoff.source_restored):
@@ -276,7 +277,15 @@ func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:
 		var frozen: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
 		frozen.outcome = PlayerRecoveryCadenceResult.Outcome.FROZEN
 		return frozen
-	return _player_recovery_cadence.advance(delta, _player.state, _player.busy)
+	var result: PlayerRecoveryCadenceResult = _player_recovery_cadence.advance(delta, _player.state, _player.busy)
+	if not result.lines.is_empty() and shared_ui() != null:
+		shared_ui().append_colored_lines(result.lines)
+	# char.c heart_beat(): below zero after a condition (蛇毒), the player falls or dies.
+	if result.conditions_updated > 0 and _player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+		var map: WorldMapController = active_map() as WorldMapController
+		if map != null:
+			map.player_fall_below_zero()
+	return result
 
 
 func _exit_tree() -> void:

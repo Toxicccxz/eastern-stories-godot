@@ -30,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(player.state.skills.raw_level(skill) == 10, "technical skill unchanged")
 	_check(player.state.recovery.food == 0 and player.state.recovery.water == 0, "technical fixture not refilled")
 	_check(session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID, "internal technical Old Pine start unchanged")
-	_check(session.inventory_state().registered_item_ids().size() == 53, "53 original bootstrap items; no source cloth")
+	_check(session.inventory_state().registered_item_ids().size() == 56, "56 original bootstrap items; no source cloth")
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"fixture"),
 	)

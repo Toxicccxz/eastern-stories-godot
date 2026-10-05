@@ -1,18 +1,30 @@
 {
-	"spawn_skip": {
-		"d/oldpine/tree1.c": {
-			"d/oldpine/npc/spy.c": "Old Pine remainder B (combined items: 飞刀, 化尸粉)"
-		},
-		"d/oldpine/stone.c": {
-			"d/oldpine/npc/venomsnake.c": "Old Pine remainder B (conditions: 蛇毒)"
-		}
-	},
 	"set": {
 		"oldpine.gorge.lake.serpents": {
 			"presence_radius": 210
 		},
 		"es2:d/oldpine/obj/bamboo_pipe": {
 			"play": "pipe"
+		},
+		"oldpine.npc.spy": {
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/throwing_knife", "source": "d/oldpine/npc/obj/throwing_knife.c", "equip": "wield", "amount": 30 },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/dust", "source": "obj/dust.c", "amount": 30 }
+			],
+			"killed_enemy": { "say": "哈哈哈哈哈哈。", "dissolve_after_ms": 1000 }
+		},
+		"oldpine.npc.venomsnake": {
+			"hit_ob": { "condition": "snake_poison", "duration": 20, "below": 10, "message": "你觉得被咬中的地方一阵麻痒！", "color": "HIG" }
+		},
+		"es2:obj/dust": {
+			"dissolve": true
+		},
+		"es2:obj/drug/snake_drug": {
+			"apply": "snake_drug"
+		},
+		"es2:obj/drug/hurt_drug": {
+			"apply": "hurt_drug"
 		}
 	},
 	"review": {
@@ -151,11 +163,30 @@
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
+		"d/oldpine/npc/spy.c": {
+			"statement in create()": "ob = carry_object(throwing_knife); ob->set_amount(30); ob->wield(): carry (set oldpine.npc.spy)",
+			"function killed_enemy": "killed_enemy (set oldpine.npc.spy): the say, then dissolve the newest corpse 1 s later",
+			"function dissolve": "command(\"dissolve corpse\"): killed_enemy.dissolve_after_ms (set oldpine.npc.spy)"
+		},
+		"d/oldpine/npc/venomsnake.c": {
+			"set pursuer": "following who flees is not modelled yet (as 安惜迩's)",
+			"function hit_ob": "hit_ob (set oldpine.npc.venomsnake): snake_poison 20 when random(damage_bonus) > apply/armor and below 10"
+		},
+		"obj/dust.c": {
+			"function init": "dissolve (set es2:obj/dust): the 化尸粉 row's 化去 button on a selected corpse here",
+			"function do_dissolve": "dissolve (set es2:obj/dust): the corpse and what it holds are destroyed, one 化尸粉 used"
+		},
+		"obj/drug/snake_drug.c": {
+			"set base_weiht": "a typo in the source: base_weight stays 0, so 蛇药 weighs nothing",
+			"function init": "apply (set es2:obj/drug/snake_drug): the 使用 button",
+			"function do_apply": "ItemApplyFunctions.snake_drug: snake_poison - 1 per dose"
+		},
 		"d/oldpine/npc/obj/parrybook.c": {
 			"set replica_ob": "only feature/unique.c reads it, and parrybook.c's F_UNIQUE is commented out: nothing to port"
 		}
 	},
 	"items": [
-		"d/oldpine/npc/obj/parrybook.c"
+		"d/oldpine/npc/obj/parrybook.c",
+		"d/oldpine/npc/obj/throwing_knife.c"
 	]
 }

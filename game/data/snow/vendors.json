@@ -12,7 +12,8 @@
 			"id": "snow.vendor.herbalist",
 			"legacy_source": "d/snow/npc/herbalist.c",
 			"goods": [
-				{ "key": "medicine", "item": "es2:obj/drug/hurt_drug" }
+				{ "key": "medicine", "item": "es2:obj/drug/hurt_drug" },
+				{ "key": "snake drug", "item": "es2:obj/drug/snake_drug" }
 			]
 		},
 		{

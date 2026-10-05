@@ -48,8 +48,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(&"snow.outdoor")
 	_check(portals.size() == 3 and portals[0].portal_id == SnowWorldDefinitions.INN_RETURN_PORTAL_ID and portals[1].portal_id == SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID and portals[2].portal_id == &"snow.weapon_storage.down", "west Inn door, the south road to Old Pine and the weapon storage's hidden way down")
 	_check(GameContent.catalog().portal(&"eroad3:south") == null, "Old Pine not a native portal")
-	_check(entry.inn.resident_npcs().size() == 3 and entry.outdoor.resident_npcs().size() == 24, "only the authored NPCs (4A, 4B, 4E, 柳绘心), no dummies")
-	_check(entry.outdoor.find_children("*", "CharacterBody2D", true, false).size() == 25, "outdoor Player body plus one per authored NPC")
+	_check(entry.inn.resident_npcs().size() == 3 and entry.outdoor.resident_npcs().size() == 27, "only the authored NPCs (4A, 4B, 4E, 柳绘心, the 飞刀 travellers), no dummies")
+	_check(entry.outdoor.find_children("*", "CharacterBody2D", true, false).size() == 28, "outdoor Player body plus one per authored NPC")
 	_check(entry.inn.resolve_spawn_marker(SnowWorldDefinitions.BIRTH_SPAWN_ID).position != entry.inn.resolve_spawn_marker(SnowWorldDefinitions.INN_RETURN_SPAWN_ID).position, "return marker is not fresh birth")
 	_continuity(entry, identities)
 	var source: WorldLocationState = player.world_location()
@@ -112,11 +112,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	_check(entry.zone_history == [&"snow.inn.main_floor", &"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3", &"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square", &"snow.inn.main_floor"], "complete physical zone order, no extra map load: " + str(entry.zone_history))
 	_check(entry._player.state.recovery.food == 400 and entry._player.state.recovery.water == 400 and entry._player.state.progression.combat_experience == 0, "walking consumes no invented food/RNG/progression")
-	_check(entry.allocator.next_dynamic_sequence == 1 and entry.birth.inventory.registered_item_ids().size() == 38, "one cloth plus the NPC loadouts and the floor items, still exact on round trip")
+	_check(entry.allocator.next_dynamic_sequence == 1 and entry.birth.inventory.registered_item_ids().size() == 47, "one cloth plus the NPC loadouts and the floor items, still exact on round trip")
 	_check(entry.inn.initialization_count() == 1 and entry.outdoor.initialization_count() == 1, "no scene reinitialization during physical route")
-	# Spawning Snow's NPCs drew 182 times (see snow_oldpine_connection_test); walking draws nothing.
+	# Spawning Snow's NPCs drew 215 times (see snow_oldpine_connection_test); walking draws nothing.
 	var spawn_draws: GodotNpcInitializationRandomSource = GodotNpcInitializationRandomSource.new(21, true)
-	for draw: int in range(182):
+	for draw: int in range(215):
 		spawn_draws.next_below(10)
 	_check(entry.combat_random.capture_random_state().state == GodotCombatRandomSource.new(22, true).capture_random_state().state and entry.world_random.capture_random_state().state == GodotWorldInteractionRandomSource.new(23, true).capture_random_state().state and entry.npc_random.capture_random_state().state == spawn_draws.capture_random_state().state, "route consumes zero gameplay RNG")
 	entry.free()

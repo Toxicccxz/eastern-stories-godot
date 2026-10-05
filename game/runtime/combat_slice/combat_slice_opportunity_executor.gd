@@ -259,6 +259,11 @@ static func _attack(
 		)
 	)
 	result._forward_result = forward.duplicate_snapshot()
+	if _hurt(forward.ordinary_attack_result):
+		victim.relationship.set_last_damage_from(actor.character_id)
+	# combatd.c: the action's post_action runs before the victim may riposte.
+	if forward.post_action_reached and forward.post_action_policy_present:
+		result._post_action_lines.append_array(_run_post_action(actor, forward.post_action_policy_id))
 	var reverse_projection: CombatReverseAttackProjection = null
 	if forward.outcome == CombatSingleAttackExecutionResult.Outcome.REVERSE_ATTACK_REQUIRED:
 		var request: CombatRiposteRequest = forward.riposte_request
@@ -290,12 +295,38 @@ static func _attack(
 		effect_registry,
 	)
 	result._chain_result = chain.duplicate_snapshot()
+	if chain.reverse_execution_reached and _hurt(chain.reverse_ordinary_result):
+		var reverse_victim: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, forward.riposte_request.victim_id)
+		if reverse_victim != null:
+			reverse_victim.relationship.set_last_damage_from(forward.riposte_request.attacker_id)
+	if chain.reverse_post_action_reached and chain.reverse_post_action_policy_present:
+		result._reverse_post_action_lines.append_array(_run_post_action(CombatSliceProjectionBuilder.find_binding(participants, forward.riposte_request.attacker_id), chain.reverse_post_action_policy_id))
 	if chain.outcome in [
 		CombatAttackChainResult.Outcome.FORWARD_COMPLETE_NO_REVERSE,
 		CombatAttackChainResult.Outcome.REVERSE_COMPLETE,
 	]:
 		return _finish(result, CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_COMPLETE)
 	return _finish(result, CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_INCOMPLETE)
+
+
+## What the post_action told the attacker, when the attacker is the player.
+static func _run_post_action(attacker: CombatSliceCharacterBinding, policy_id: StringName) -> Array[String]:
+	var shown: Array[String] = []
+	if attacker == null or attacker.post_actions == null:
+		return shown
+	var told: Array[String] = attacker.post_actions.run(attacker, policy_id)
+	if attacker.is_user:
+		shown.assign(told)
+	return shown
+
+
+## combatd.c: a blow that drew damage (receive_damage(..., me)).
+static func _hurt(ordinary: CombatOrdinaryAttackResult) -> bool:
+	return (
+		ordinary != null and ordinary.has_base_result
+		and ordinary.base_result.outcome == CombatAttackResult.Outcome.HIT
+		and ordinary.base_result.resource_mutation.requested_damage > 0
+	)
 
 
 ## Read-only reuse of the audited lifecycle gate. Does not execute an attack.

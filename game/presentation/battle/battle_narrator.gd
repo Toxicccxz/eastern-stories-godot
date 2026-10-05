@@ -34,19 +34,24 @@ func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection
 		return lines
 	if result.forward_result == null:
 		return lines
-	return attack_chain(result.forward_result, result.chain_result, cast)
+	return attack_chain(result.forward_result, result.chain_result, cast, result.post_action_lines(), result.reverse_post_action_lines())
 
 
 ## One forward do_attack() and, when the victim answers, the riposte line and
-## the counter (`chain`'s reverse attack; null when there is none).
+## the counter (`chain`'s reverse attack; null when there is none). `told` and
+## `reverse_told` are what each attack's post_action told the player (throw_weapon),
+## printed after that attack, before the riposte (combatd.c).
 func attack_chain(
 	forward: CombatSingleAttackExecutionResult, chain: CombatAttackChainResult, cast: BattlePresentationProjection,
+	told: Array[String] = [], reverse_told: Array[String] = [],
 ) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	if not forward.post_action_reached:
 		return lines # Only an aborting fight stops short; its abort line tells it.
 	_attack(lines, forward.ordinary_attack_result, _selected(forward.action_selection_result),
 		forward.post_action_weapon_present, forward.post_action_weapon_id, forward.post_relationship_result, cast)
+	for line: String in told:
+		lines.append(BattleNarrationLine.new(line))
 	if not forward.has_riposte_request:
 		return lines
 	# The riposte request runs from the victim back at the attacker.
@@ -58,6 +63,8 @@ func attack_chain(
 	if chain != null and chain.reverse_execution_reached:
 		_attack(lines, chain.reverse_ordinary_result, _selected(chain.reverse_action_selection_result),
 			chain.reverse_weapon_present, chain.reverse_weapon_profile_id, chain.reverse_relationship_result, cast)
+		for line: String in reverse_told:
+			lines.append(BattleNarrationLine.new(line))
 	return lines
 
 
@@ -77,6 +84,10 @@ func _attack(
 	var victim: StringName = base.defender_id
 	var limb: String = String(base.calculation.selected_limb)
 	var weapon: String = _weapon_name(armed, weapon_id)
+	if base.calculation.hit_condition_applied and victim == cast.player_id:
+		# hit_ob() tell_object()s the victim at once, before do_attack() prints its result.
+		var hit: NpcHitCondition = base.calculation.hit_condition
+		lines.append(BattleNarrationLine.new(tr(hit.message), -1, hit.color))
 	if not action.legacy_action_text.is_empty():
 		# TRANSLATORS: combatd.c: an attack's own line ({action}, e.g. $N用爪子往$n的$l一抓) and its "！".
 		lines.append(BattleNarrationLine.new(vision(

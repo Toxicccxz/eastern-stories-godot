@@ -287,6 +287,18 @@ unique_name_in_owner = true
 position = Vector2(-200, 0)
 script = ExtResource("3")
 spawn_point_id = &"snow.square.inn_entry"
+[node name="SquareTravBlade01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(80, -120)
+script = ExtResource("3")
+spawn_point_id = &"snow.square.trav_blade.1"
+[node name="SquareTravBlade02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(140, 110)
+script = ExtResource("3")
+spawn_point_id = &"snow.square.trav_blade.2"
+[node name="SquareTravBlade03" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-60, 150)
+script = ExtResource("3")
+spawn_point_id = &"snow.square.trav_blade.3"
 [node name="EastRoad2Dog01" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(640, 490)
 script = ExtResource("3")

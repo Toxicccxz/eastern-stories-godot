@@ -159,13 +159,16 @@ static func build_attack_input(
 			else _martial_hit_policy(mapped_attack_id, approved_actions)
 		),
 		(
-			CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
-			if primary == null
-			else CombatHitPolicyStatus.Value.NOT_APPLICABLE
+			CombatHitPolicyStatus.Value.NOT_APPLICABLE
+			if primary != null
+			else CombatHitPolicyStatus.Value.CONDITION_ON_HIT
+			if attacker.content.hit_condition() != null
+			else CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
 		),
 		weapon_profile,
 		FORCE_SKILL_ID,
 		attacker.state.skills.effective_level(FORCE_SKILL_ID, _apply(attacker, attacker_armor, FORCE_SKILL_ID)),
+		attacker.content.hit_condition() if primary == null else null,
 	)
 	var defender_snapshot: CombatDefenderSnapshot = CombatDefenderSnapshot.new(
 		defender.character_id,

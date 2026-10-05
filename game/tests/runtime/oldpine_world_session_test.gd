@@ -213,7 +213,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(cave.item_id_allocator().scope, session.item_instance_scope(), "Cave receives the same session item-ID scope")
 	_assert_true(cave._item_id_allocator == session_allocator, "Cave receives the exact session item-ID allocator object")
 	_assert_eq(session_allocator.next_dynamic_sequence, 0, "twelve authored bootstrap items consume no dynamic sequence")
-	_assert_eq(session.inventory_state().registered_item_ids().size(), 53, "New Game still creates exactly 53 bootstrap items")
+	_assert_eq(session.inventory_state().registered_item_ids().size(), 56, "New Game still creates exactly 56 bootstrap items")
 	_assert_true(outdoor.player_body.player_controlled, "only active Outdoor player body is controllable")
 	_assert_false(cave.player_body.player_controlled, "detached Cave player body is not controllable")
 	_assert_true(
@@ -528,7 +528,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(old_corpse_view_ref.get_ref() == null, "old corpse view and signals cannot survive session destruction")
 	var control: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_eq(control.npc_random_source().next_below(1000), npc_random_after_roundtrip, "Cave activation and return consume zero NPC-init RNG draws")
-	_assert_eq(control.world_npcs().size(), 34, "fresh whole-session boundary restores all 34 authored NPCs")
+	_assert_eq(control.world_npcs().size(), 36, "fresh whole-session boundary restores all 36 authored NPCs")
 	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
 	_assert_true(control.player_runtime().armor.occupied_slots().is_empty(), "fresh whole-session boundary restores initial Armor")
 	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, TestContent.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")

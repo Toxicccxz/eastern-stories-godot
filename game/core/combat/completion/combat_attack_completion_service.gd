@@ -43,6 +43,7 @@ static func resolve(
 		attacker.essence,
 		attacker.vitality,
 		attacker.spirit,
+		defender.conditions,
 	)
 	if not base_result.succeeded():
 		return CombatOrdinaryAttackResult.new(

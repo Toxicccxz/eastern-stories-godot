@@ -318,7 +318,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	await tree.physics_frame
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	_assert_eq(npcs.size(), 23, "forest runtime owns its 23 NPCs")
-	_assert_eq(controller.session.world_npcs().size(), 34, "Old Pine runtime owns its 34 NPCs")
+	_assert_eq(controller.session.world_npcs().size(), 36, "Old Pine runtime owns its 36 NPCs")
 	var tall: NpcRuntimeState = npcs[3]
 	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall runtime starts in Pine Entrance")

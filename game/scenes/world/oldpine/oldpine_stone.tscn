@@ -63,6 +63,11 @@ position = Vector2(0, -20)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.stone.top.landing"
 
+[node name="Venomsnake01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(70, 40)
+script = ExtResource("marker")
+spawn_point_id = &"oldpine.stone.top.stone.venomsnake.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
