@@ -439,6 +439,8 @@ func _test_fall_outside_a_fight(tree: SceneTree) -> void:
 	state.attributes.bellicosity = 175
 	state.recovery.inner_force.current = 1000
 	state.spirit.current = 50
+	# No mana: a heal_up() due in the step (con/3 + mana/10 sen) must not save him.
+	state.recovery.mana.current = 0
 	while annihir.busy.is_busy():
 		annihir.busy.advance()
 	_session.configure_npc_ambience_random_source(Low.new())
@@ -461,10 +463,15 @@ func _test_fall_between_batched_beats(tree: SceneTree) -> void:
 	annihir.set_revive_in_ms(1)
 	_session.advance_npc_heartbeat(0.1)
 	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "安惜迩 comes to")
+	# The frame first: world time flows in it, and a heart beat due on a slow machine
+	# would heal the sen set below before the step under test. No mana either: a
+	# heal_up() inside the step (the NPC's tick is drawn unseeded) restores con/3 +
+	# mana/10 sen, and one powerfade must still take him below zero.
+	await tree.physics_frame
 	state.spirit = CharacterResourceState.new(20, 300, 300)
+	state.recovery.mana.current = 0
 	state.attributes.bellicosity = 175
 	state.recovery.inner_force.current = 1000
-	await tree.physics_frame
 	_session.configure_npc_ambience_random_source(Low.new())
 	_session.advance_npc_heartbeat(4.0)
 	_session.configure_npc_ambience_random_source(Still.new())
