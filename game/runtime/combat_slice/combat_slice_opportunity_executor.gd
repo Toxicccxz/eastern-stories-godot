@@ -259,7 +259,7 @@ static func _attack(
 		)
 	)
 	result._forward_result = forward.duplicate_snapshot()
-	if _hurt(forward.ordinary_attack_result):
+	if _landed(forward.ordinary_attack_result):
 		victim.relationship.set_last_damage_from(actor.character_id)
 	# combatd.c: the action's post_action runs before the victim may riposte.
 	if forward.post_action_reached and forward.post_action_policy_present:
@@ -295,7 +295,7 @@ static func _attack(
 		effect_registry,
 	)
 	result._chain_result = chain.duplicate_snapshot()
-	if chain.reverse_execution_reached and _hurt(chain.reverse_ordinary_result):
+	if chain.reverse_execution_reached and _landed(chain.reverse_ordinary_result):
 		var reverse_victim: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, forward.riposte_request.victim_id)
 		if reverse_victim != null:
 			reverse_victim.relationship.set_last_damage_from(forward.riposte_request.attacker_id)
@@ -320,12 +320,12 @@ static func _run_post_action(attacker: CombatSliceCharacterBinding, policy_id: S
 	return shown
 
 
-## combatd.c: a blow that drew damage (receive_damage(..., me)).
-static func _hurt(ordinary: CombatOrdinaryAttackResult) -> bool:
+## combatd.c (6): a blow that landed calls receive_damage("kee", damage, me), which
+## sets last_damage_from whatever the damage, 0 too.
+static func _landed(ordinary: CombatOrdinaryAttackResult) -> bool:
 	return (
 		ordinary != null and ordinary.has_base_result
 		and ordinary.base_result.outcome == CombatAttackResult.Outcome.HIT
-		and ordinary.base_result.resource_mutation.requested_damage > 0
 	)
 
 

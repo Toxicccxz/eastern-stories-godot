@@ -9,8 +9,8 @@ var _opponent_ids: Array[StringName] = []
 var _lethal_target_ids: Array[StringName] = []
 var _guarding: bool = false
 var _last_opponent_id: StringName = &""
-## damage.c receive_damage()/receive_wound(): set_temp("last_damage_from", who) on a
-## blow that hurts; nothing clears it. A temp: not saved.
+## damage.c receive_damage()/receive_wound(): set_temp("last_damage_from", who) on
+## every blow that lands (0 damage too); nothing clears it. A temp: not saved.
 var _last_damage_from_id: StringName = &""
 
 var owner_character_id: StringName:

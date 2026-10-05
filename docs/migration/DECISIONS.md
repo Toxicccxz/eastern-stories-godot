@@ -8,8 +8,8 @@ What is placed where is in [OLDPINE_CONTENT](OLDPINE_CONTENT.md).
   and the active map's NPCs. **Owner: not in a fight** — the world stands still there (S5B D),
   conditions too, where ES2 ticks them; nor while the player lies unconscious (S5B L). The lines
   print in their colour (HIG added). Below zero after a tick the player falls or dies at once
-  (char.c heart_beat); the killer is whoever hurt them last (damage.c `last_damage_from`, kept
-  from the fight, not saved) while that NPC still stands on the map, so dying of a bite after
+  (char.c heart_beat); the killer is whoever last landed a blow (damage.c `last_damage_from`,
+  0 damage too, kept from the fight, not saved) while that NPC still stands on the map, so dying of a bite after
   fleeing costs the death penalty. The HUD names 蛇毒 after 精/气/神: presentation only, ES2
   shows conditions only through their lines.
 - **hit_ob is data** (venomsnake.c; shaoin.c's rose_poison has the same shape): `{condition,
