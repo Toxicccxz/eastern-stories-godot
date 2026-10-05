@@ -83,6 +83,18 @@ func _register_stack(
 	return true
 
 
+## The same stack becomes another kind of item (a broken weapon's form), its amount kept.
+func redefine(item_instance_id: StringName, definition: StackDefinitionType) -> bool:
+	if not _states.has(item_instance_id) or definition == null or not definition.is_valid():
+		return false
+	_definitions[item_instance_id] = StackDefinitionType.new(
+		definition.item_definition_id,
+		definition.stack_compatibility_id,
+		definition.base_weight,
+	)
+	return true
+
+
 func _mutable_state(item_instance_id: StringName) -> StackStateType:
 	return _states.get(item_instance_id)
 

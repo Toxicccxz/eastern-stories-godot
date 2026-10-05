@@ -231,10 +231,19 @@ static func broken_weapon(source: ItemContentDefinition) -> ItemContentDefinitio
 	broken._own_weight = source._own_weight
 	@warning_ignore("integer_division")
 	broken._value = source._value / 10
+	# A broken stack (飞刀) stays one, of broken ones: it no longer joins whole ones.
+	if source._stack_definition != null:
+		broken._base_unit = source._base_unit
+		broken._default_amount = source._default_amount
+		broken._stack_definition = CombinedStackDefinition.new(
+			broken._item_definition_id,
+			StringName(String(source._stack_definition.stack_compatibility_id) + BROKEN_SUFFIX),
+			source._stack_definition.base_weight,
+		)
 	return broken
 
 
-## The ID of `id`'s broken form, or empty for an item no blow can break.
+## The ID of `id`'s broken form (every weapon has one in the catalog).
 static func broken_id(id: StringName) -> StringName:
 	return StringName(String(id) + BROKEN_SUFFIX)
 

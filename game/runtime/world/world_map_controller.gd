@@ -1309,8 +1309,10 @@ func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceChara
 	if roll > 2 * wdp:
 		# TRANSLATORS: weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
 		var line := ColoredLine.new(tr("{who}只觉得手中{weapon}把持不定，脱手飞出！").format({"who": who, "weapon": held}), ColoredLine.HIW)
-		_knock_away(victim, parrying.instance_id, false)
-		return [line]
+		var knocked: Array[ColoredLine] = []
+		if _knock_away(victim, parrying.instance_id, false):
+			knocked.append(line)
+		return knocked
 	if roll > wdp:
 		# TRANSLATORS: weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
 		return [ColoredLine.new(tr("{who}只觉得手中{weapon}一震，险些脱手！").format({"who": who, "weapon": held}))]
@@ -1318,8 +1320,10 @@ func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceChara
 	if roll > wdp / 2:
 		# TRANSLATORS: weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
 		var broken := ColoredLine.new(tr("只听见「啪」地一声，{who}手中的{weapon}已经断为两截！").format({"who": who, "weapon": held}), ColoredLine.HIW)
-		_knock_away(victim, parrying.instance_id, true)
-		return [broken]
+		var shown: Array[ColoredLine] = []
+		if _knock_away(victim, parrying.instance_id, true):
+			shown.append(broken)
+		return shown
 	# TRANSLATORS: weapond.c bash_weapon(): the two weapons meet; {me} and {who} are 你 or names.
 	return [ColoredLine.new(tr("{me}的{weapon}和{who}的{other}相击，冒出点点的火星。").format({
 		"me": _vision_name(binding), "weapon": _item_name(weapon.instance_id), "who": who, "other": held,
@@ -1327,13 +1331,14 @@ func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceChara
 
 
 ## unequip() and move(environment(victim)): the weapon falls at the victim's feet; a broken
-## one is 断掉的 from then on (set("name"), set("value"), set("weapon_prop", 0)).
-func _knock_away(victim: CombatSliceCharacterBinding, item_id: StringName, broken: bool) -> void:
+## one is 断掉的 from then on (set("name"), set("value"), set("weapon_prop", 0)). False when
+## the victim has no place to drop it in (nothing happens).
+func _knock_away(victim: CombatSliceCharacterBinding, item_id: StringName, broken: bool) -> bool:
 	var npc: NpcRuntimeState = null if victim.is_user else find_resident_npc(victim.character_id)
 	var location: WorldLocationState = _player.world_location() if victim.is_user else (null if npc == null else npc.world_location())
 	var body: Node2D = player_body if victim.is_user else runtime_body_for_character(victim.character_id)
 	if location == null or body == null:
-		return
+		return false
 	victim.state.equipment.unwield(item_id)
 	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
 		_inventory, item_id, InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
@@ -1341,13 +1346,18 @@ func _knock_away(victim: CombatSliceCharacterBinding, item_id: StringName, broke
 	)
 	if not moved.succeeded:
 		push_error("knocking %s away failed: the item state is inconsistent" % item_id)
-		return
+		return false
 	if broken:
 		var item: ItemInstance = _item_index.resolve(item_id)
-		if item == null or not _item_index.transmute(item_id, ItemContentDefinition.broken_id(item.item_definition_id)):
+		var broken_id: StringName = &"" if item == null else ItemContentDefinition.broken_id(item.item_definition_id)
+		var form: ItemContentDefinition = GameContent.catalog().item(broken_id)
+		if form == null or not _item_index.transmute(item_id, broken_id) or (_stacks.has_stack(item_id) and not _stacks.redefine(item_id, form.stack_definition())):
 			push_error("breaking %s failed" % item_id)
 	if not _add_dropped_item_view(item_id, location, _at_feet(location, body.global_position)):
 		push_error("knocked-away %s has no view" % item_id)
+	if victim.is_user and _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return true
 
 
 ## $N/$n as the player reads message_vision(): 你, or the character's name.

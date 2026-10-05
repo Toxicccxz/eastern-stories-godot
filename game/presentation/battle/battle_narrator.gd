@@ -135,7 +135,7 @@ func special(report: SpecialReport, cast: BattlePresentationProjection) -> Array
 	var next: int = 0
 	for index: int in range(said.size() + 1):
 		while next < attacks.size() and attacks[next].line_index <= index:
-			lines.append_array(attack_chain(attacks[next].forward, attacks[next].chain, cast))
+			lines.append_array(attack_chain(attacks[next].forward, attacks[next].chain, cast, attacks[next].told, attacks[next].reverse_told))
 			next += 1
 		if index < said.size():
 			lines.append_array(seen([said[index]], cast))

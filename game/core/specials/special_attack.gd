@@ -10,6 +10,10 @@ var victim_id: StringName
 var forward: CombatSingleAttackExecutionResult
 var chain: CombatAttackChainResult
 var line_index: int = 0
+## What the player saw of the forward attack's and the riposte's post_actions (bash_weapon,
+## throw_weapon), told after each.
+var told: Array[ColoredLine] = []
+var reverse_told: Array[ColoredLine] = []
 
 
 func _init(

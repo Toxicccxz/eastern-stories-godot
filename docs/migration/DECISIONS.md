@@ -17,8 +17,11 @@ The region plan's #2; what is placed where is in [GOATHILL_CONTENT](GOATHILL_CON
   knocks the weapon to the floor, over once nearly, over half breaks it, else sparks. A broken
   one is 断掉的<name> from then on (value / 10, weapon_prop 0: not wieldable); every weapon has a
   `#broken` form in the catalog and the object keeps its identity (and its place in its
-  NPC's loadout). No ported item sets rigidity (0). The draw comes after the riposte's: the
-  attack decides the riposte before the runtime runs post_actions. Snow's 铁锤 bashes too.
+  NPC's loadout). A broken stack (飞刀) stays one, of broken ones, which no longer merge with
+  whole ones (combined.c would merge them by file: **for the owner**). No ported item sets
+  rigidity (0). The draw comes after the riposte's, where combatd.c draws it before: the attack
+  decides the riposte before the runtime runs post_actions (**for the owner**). A special
+  file's attacks (fakefault.c's 奋力一击) show their post_actions too. Snow's 铁锤 bashes too.
 - **bash's line keeps the source's □** (用力一□, a character lost in its conversion), as
   combat lines keep 血肉□糊.
 - **伏蛟功** (serpentforce.c) is a force skill with std/force.c's hit; its exert functions (the

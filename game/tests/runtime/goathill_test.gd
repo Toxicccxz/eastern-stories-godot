@@ -182,12 +182,24 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	_check(not session.wield_player_item(blade).succeeded, "断掉的钢刀 cannot be wielded (weapon_prop 0)")
 	var quote: HockshopValuationResult = HockshopValuation.appraise(context, session.food_collection(), session.liquid_collection(), blade)
 	_check(quote.source_value == 70, "worth 70 now (700 / 10): %d" % quote.source_value)
+	# A parrying stack (飞刀) breaks whole and stays a stack, of broken ones (review on #55).
+	var knives: StringName = _give_stack(session, &"es2:d/snow/npc/obj/throwing_knife", 10) # TEST-ONLY
+	_check(session.wield_player_item(knives).succeeded and player.state.equipment.primary_weapon().instance_id == knives, "the player parries with 飞刀")
+	var hwang: CombatSliceCharacterBinding = _binding(map, _find(map, &"goathill.npc.bandit_hwang").character_id)
+	me = _binding(map, player.character_id)
+	@warning_ignore("integer_division")
+	var wdp: int = session.inventory_state().own_weight(knives) / 500 + player.state.attributes.strength
+	lines = map._run_post_action(hwang, CombatPostActionIds.BASH_WEAPON, me, true, ScriptedCombatRandomSource.new([wdp]))
+	var stacks: CombinedStackCollection = session.stack_collection()
+	_check(_texts(lines) == ["只听见「啪」地一声，你手中的飞刀已经断为两截！"], "黄霸 breaks the player's 飞刀: " + str(_texts(lines)))
+	_check(player.state.equipment.primary_weapon() == null or player.state.equipment.primary_weapon().instance_id != knives, "unwielded")
+	_check(stacks.has_stack(knives) and stacks.stack_state(knives).amount == 10 and stacks.stack_definition(knives).item_definition_id == ItemContentDefinition.broken_id(&"es2:d/snow/npc/obj/throwing_knife") and map.floor_item_view(knives).display_name == "断掉的飞刀", "ten 断掉的飞刀 on the floor, still one stack")
 	# TEST-ONLY: strengths back to what Save derives.
 	player.state.attributes.strength = player_strength
 	for index: int in bandits.size():
 		bandits[index].character_state.attributes.strength = strengths[index]
 	var work: RefCounted = Work.new()
-	await work.round_trip(tree, session, Work.capture(session), "a broken blade carried, a knocked-away one on the floor")
+	await work.round_trip(tree, session, Work.capture(session), "a broken blade carried, a knocked-away one and ten broken 飞刀 on the floor")
 	_check(work._failures.is_empty(), "Save/Continue keeps both: " + str(work._failures))
 
 
@@ -243,6 +255,21 @@ func _give(session: OldPineWorldSessionController, definition_id: StringName) ->
 	assert(context.index.register_snapshot(item))
 	assert(InventoryTransferService.new().transfer(context.inventory, item.item_instance_id, InventoryTransferDestination.new(context.endpoint(), true, true, 1000000)).succeeded)
 	return item.item_instance_id
+
+
+## TEST-ONLY: a new stack in the player's hands, merged.
+func _give_stack(session: OldPineWorldSessionController, definition_id: StringName, amount: int) -> StringName:
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
+	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
+	var item := ItemInstance.new(allocation.item_instance_id, definition_id)
+	assert(context.inventory.register_item(item, 0))
+	assert(context.index.register_snapshot(item))
+	assert(CombinedStackService.register_stack(context.stacks, context.inventory, item, content.stack_definition(), amount).accepted)
+	var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(context.stacks, context.inventory, item.item_instance_id,
+		InventoryTransferDestination.new(context.endpoint(), true, true, 1000000), null, null, context.owner)
+	assert(context.index.forget_destroyed_snapshots(merged.absorbed_instance_ids, context.inventory))
+	return merged.surviving_instance_id
 
 
 func _binding(map: WorldMapController, character_id: StringName) -> CombatSliceCharacterBinding:

@@ -22,7 +22,10 @@ func attack(attacker_id: StringName, victim_id: StringName) -> SpecialAttack:
 	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(actor, victim, _bindings, _random, _effects)
 	if result.forward_result == null:
 		return null
-	return SpecialAttack.new(attacker_id, victim_id, result.forward_result, result.chain_result)
+	var made := SpecialAttack.new(attacker_id, victim_id, result.forward_result, result.chain_result)
+	made.told = result.post_action_lines()
+	made.reverse_told = result.reverse_post_action_lines()
+	return made
 
 
 ## The special files' view of a fight: `actor` as `me`, everyone else as `others`
