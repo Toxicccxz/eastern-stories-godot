@@ -62,6 +62,11 @@
 			"practice": { "refuses": true, "fail": "封山派内功只能用学的，或是从运用(exert)中增加熟练度。" }
 		},
 		{
+			"id": "serpentforce", "name": "伏蛟功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/serpentforce.c",
+			"standard_force_hit": true
+		},
+		{
 			"id": "fonxansword", "name": "封山剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/fonxansword.c",
 			"perform": ["counterattack", "swordjab", "fakefault"],

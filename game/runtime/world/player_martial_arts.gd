@@ -33,9 +33,9 @@ func apply_modifier(key: StringName) -> int:
 
 static func apply_of(state: CharacterState, armor: ArmorState, key: StringName) -> int:
 	var value: int = armor.aggregate_numeric_modifiers().value(key)
-	var primary: EquippedWeaponRef = state.equipment.primary_weapon()
-	if primary != null:
-		var content: ItemContentDefinition = GameContent.catalog().item(primary.weapon_id)
+	# equip.c wield(): both hands' weapon_prop (as CombatSliceProjectionBuilder._apply).
+	for weapon: EquippedWeaponRef in [state.equipment.primary_weapon(), state.equipment.secondary_weapon()]:
+		var content: ItemContentDefinition = null if weapon == null else GameContent.catalog().item(weapon.weapon_id)
 		if content != null:
 			value += content.weapon_apply.get(key, 0)
 	return value + state.timed_applies.value(key)

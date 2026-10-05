@@ -1,5 +1,35 @@
 # Migration Decisions
 
+## 野羊山: the mountain road, the caverns, two hands, bash_weapon (2026-10-05)
+
+The region plan's #2; what is placed where is in [GOATHILL_CONTENT](GOATHILL_CONTENT.md).
+- **Two maps**: the mountain (mroad1-6, temple1, slope1, canyon1-3, a room each on a 256 px
+  grid) and the caverns (cavern1-4), entered east from canyon3; Snow's crossroad leads north
+  in. Diagonal exits become straight ones (mroad2 northeast, cavern1 northeast and southeast);
+  mroad5's northeast to mroad6 runs through slope1. mroad4's four bandits join one fight
+  (`complete_set`).
+- **The second hand** (equip.c wield()): a second one-handed SECONDARY weapon goes to the other
+  hand, for NPCs as for the player, and every wielded weapon's weapon_prop counts in apply/*,
+  damage too (黄霸: 45 and 45); only the primary attacks (combatd.c). A player's second weapon
+  counted for nothing before.
+- **bash_weapon** (weapond.c; hammers' and staffs' bash, crush, slam): a blow the victim parried
+  with a weapon pits weight / 500 + rigidity + str against the victim's: random(wap) over twice
+  knocks the weapon to the floor, over once nearly, over half breaks it, else sparks. A broken
+  one is 断掉的<name> from then on (value / 10, weapon_prop 0: not wieldable); every weapon has a
+  `#broken` form in the catalog and the object keeps its identity (and its place in its
+  NPC's loadout). A broken stack (飞刀) stays one, of broken ones, which no longer merge with
+  whole ones (combined.c would merge them by file: **for the owner**). No ported item sets
+  rigidity (0). The draw comes after the riposte's, where combatd.c draws it before: the attack
+  decides the riposte before the runtime runs post_actions (**for the owner**). A special
+  file's attacks (fakefault.c's 奋力一击) show their post_actions too. Snow's 铁锤 bashes too.
+- **bash's line keeps the source's □** (用力一□, a character lost in its conversion), as
+  combat lines keep 血肉□糊.
+- **伏蛟功** (serpentforce.c) is a force skill with std/force.c's hit; its exert functions (the
+  beggar class) and practice by water are not ported (no teacher in reach).
+- **Owner: as LPC**: 银色岩蛭 (no room places it), 死岩蛭 (no code reads `corpse_ob`: leeches leave
+  plain corpses), 护心镜 (nobody carries it). 黄霸's pursuer is not modelled (as 安惜迩's).
+- World content revision `SOURCE_ENTRY_GOATHILL_V1`: older development saves need a New Game.
+
 ## Old Pine remainder B: conditions, combined items, 金银花蛇 and 黑衣人 (2026-10-05)
 
 What is placed where is in [OLDPINE_CONTENT](OLDPINE_CONTENT.md).

@@ -278,6 +278,10 @@ shape = SubResource("WeaponStorageShape")
 position = Vector2(1100, 730)
 script = ExtResource("3")
 spawn_point_id = &"snow.eroad3.oldpine_return"
+[node name="GoathillReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, -1760)
+script = ExtResource("3")
+spawn_point_id = &"snow.crossroad.goathill_return"
 [node name="TempleRevive" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(420, 260)
 script = ExtResource("3")
@@ -460,6 +464,14 @@ script = ExtResource("5")
 portal_id = &"snow.eroad3.south"
 closed_wall_path = NodePath("../Walls/SouthBlocker")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OldPinePassage"]
+shape = SubResource("SouthPassageShape")
+[node name="GoathillPassage" type="Area2D" parent="."]
+position = Vector2(0, -1832)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("5")
+portal_id = &"snow.crossroad.north"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoathillPassage"]
 shape = SubResource("SouthPassageShape")
 [node name="Player" type="CharacterBody2D" parent="Characters"]
 unique_name_in_owner = true

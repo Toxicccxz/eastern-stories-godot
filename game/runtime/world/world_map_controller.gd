@@ -1262,24 +1262,117 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 	return result
 
 
-## weapond.c throw_weapon(): the weapon of the attack loses one of its amount; the last
-## one is unequipped first and its thrower told (你的飞刀用完了！). At 0 it is gone
-## (combined.c destructs it).
-func _run_post_action(binding: CombatSliceCharacterBinding, policy_id: StringName) -> Array[String]:
-	var told: Array[String] = []
+## weapond.c's post_actions for one attack; what the player sees of it.
+func _run_post_action(binding: CombatSliceCharacterBinding, policy_id: StringName, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
+	match policy_id:
+		CombatPostActionIds.THROW_WEAPON:
+			return _throw_weapon(binding)
+		CombatPostActionIds.BASH_WEAPON:
+			return _bash_weapon(binding, victim, parried, random)
+	return []
+
+
+## throw_weapon(): the weapon of the attack loses one of its amount; the last one is
+## unequipped first and its thrower told (你的飞刀用完了！, tell_object()). At 0 it is
+## gone (combined.c destructs it).
+func _throw_weapon(binding: CombatSliceCharacterBinding) -> Array[ColoredLine]:
+	var told: Array[ColoredLine] = []
 	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
-	if policy_id != CombatPostActionIds.THROW_WEAPON or weapon == null or not _stacks.has_stack(weapon.instance_id):
+	if weapon == null or not _stacks.has_stack(weapon.instance_id):
 		return told
 	if _stacks.stack_state(weapon.instance_id).amount == 1:
 		binding.state.equipment.unwield(weapon.instance_id)
-		var item: ItemInstance = _item_index.resolve(weapon.instance_id)
-		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-		if content != null:
+		if binding.is_user:
 			# TRANSLATORS: weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
-			told.append(tr("你的%s用完了！") % tr(content.display_name))
+			told.append(ColoredLine.new(tr("你的%s用完了！") % _item_name(weapon.instance_id)))
 	if not use_up_one(weapon.instance_id, ItemLifecycleOwnerContext.new(binding.character_id, binding.state.equipment, binding.armor)):
 		push_error("throwing %s failed: the item state is inconsistent" % weapon.instance_id)
 	return told
+
+
+## bash_weapon() (hammers, staffs): a blow the victim parried with a weapon pits the two
+## weapons, weight / 500 + rigidity + str each; random(wap) over 2 x wdp knocks the
+## victim's weapon away, over wdp nearly, over wdp / 2 breaks it, else sparks.
+## message_vision(): the room sees it. No ported item sets rigidity yet (0).
+func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
+	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
+	var parrying: EquippedWeaponRef = null if victim == null else victim.state.equipment.primary_weapon()
+	if weapon == null or parrying == null or not parried:
+		return []
+	@warning_ignore("integer_division")
+	var wap: int = _inventory.own_weight(weapon.instance_id) / 500 + binding.state.attributes.strength
+	@warning_ignore("integer_division")
+	var wdp: int = _inventory.own_weight(parrying.instance_id) / 500 + victim.state.attributes.strength
+	var roll: int = random.legacy_random(wap) if wap > 0 else 0
+	var who: String = _vision_name(victim)
+	var held: String = _item_name(parrying.instance_id)
+	if roll > 2 * wdp:
+		# TRANSLATORS: weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
+		var line := ColoredLine.new(tr("{who}只觉得手中{weapon}把持不定，脱手飞出！").format({"who": who, "weapon": held}), ColoredLine.HIW)
+		var knocked: Array[ColoredLine] = []
+		if _knock_away(victim, parrying.instance_id, false):
+			knocked.append(line)
+		return knocked
+	if roll > wdp:
+		# TRANSLATORS: weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
+		return [ColoredLine.new(tr("{who}只觉得手中{weapon}一震，险些脱手！").format({"who": who, "weapon": held}))]
+	@warning_ignore("integer_division")
+	if roll > wdp / 2:
+		# TRANSLATORS: weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
+		var broken := ColoredLine.new(tr("只听见「啪」地一声，{who}手中的{weapon}已经断为两截！").format({"who": who, "weapon": held}), ColoredLine.HIW)
+		var shown: Array[ColoredLine] = []
+		if _knock_away(victim, parrying.instance_id, true):
+			shown.append(broken)
+		return shown
+	# TRANSLATORS: weapond.c bash_weapon(): the two weapons meet; {me} and {who} are 你 or names.
+	return [ColoredLine.new(tr("{me}的{weapon}和{who}的{other}相击，冒出点点的火星。").format({
+		"me": _vision_name(binding), "weapon": _item_name(weapon.instance_id), "who": who, "other": held,
+	}))]
+
+
+## unequip() and move(environment(victim)): the weapon falls at the victim's feet; a broken
+## one is 断掉的 from then on (set("name"), set("value"), set("weapon_prop", 0)). False when
+## the victim has no place to drop it in (nothing happens).
+func _knock_away(victim: CombatSliceCharacterBinding, item_id: StringName, broken: bool) -> bool:
+	var npc: NpcRuntimeState = null if victim.is_user else find_resident_npc(victim.character_id)
+	var location: WorldLocationState = _player.world_location() if victim.is_user else (null if npc == null else npc.world_location())
+	var body: Node2D = player_body if victim.is_user else runtime_body_for_character(victim.character_id)
+	if location == null or body == null:
+		return false
+	victim.state.equipment.unwield(item_id)
+	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
+		_inventory, item_id, InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
+		victim.state.equipment, victim.armor,
+	)
+	if not moved.succeeded:
+		push_error("knocking %s away failed: the item state is inconsistent" % item_id)
+		return false
+	if broken:
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var broken_id: StringName = &"" if item == null else ItemContentDefinition.broken_id(item.item_definition_id)
+		var form: ItemContentDefinition = GameContent.catalog().item(broken_id)
+		if form == null or not _item_index.transmute(item_id, broken_id) or (_stacks.has_stack(item_id) and not _stacks.redefine(item_id, form.stack_definition())):
+			push_error("breaking %s failed" % item_id)
+	if not _add_dropped_item_view(item_id, location, _at_feet(location, body.global_position)):
+		push_error("knocked-away %s has no view" % item_id)
+	if victim.is_user and _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return true
+
+
+## $N/$n as the player reads message_vision(): 你, or the character's name.
+func _vision_name(binding: CombatSliceCharacterBinding) -> String:
+	if binding.is_user:
+		return tr("你")
+	var npc: NpcRuntimeState = find_resident_npc(binding.character_id)
+	return "" if npc == null else tr(npc.definition().display_name)
+
+
+## name() of a held item, in the shown language (断掉的 for a broken one).
+func _item_name(item_id: StringName) -> String:
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	return "" if content == null else tr(content.display_name)
 
 
 ## The weapon an NPC is authored to wield, as its verified combat weapon.

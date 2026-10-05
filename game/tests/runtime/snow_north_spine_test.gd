@@ -36,11 +36,11 @@ func definition_tests() -> void:
 	# 4B opened the herbshop, post office and smithy (west) and the Hockshop storage room.
 	for row: Array in [[&"snow.mstreet2", &"snow.smithy"], [&"snow.mstreet3", &"snow.herbshop"], [&"snow.mstreet4", &"snow.postoffice"], [&"snow.hockshop", &"snow.hockshop2"]]:
 		check(GameContent.catalog().zones_adjacent(row[0], row[1]), "4B shop neighbour " + str(row))
-	for deferred: StringName in [&"snow.alley", &"green.path6", &"goathill.mroad1"]:
+	for deferred: StringName in [&"snow.alley", &"green.path6"]:
 		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
-	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, &"snow.weapon_storage.down"], "no external portal additions; the weapon storage's way down (4C)")
+	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, &"snow.crossroad.north", &"snow.weapon_storage.down"], "external portals: Old Pine, 野羊山 (crossroad north) and the weapon storage's way down (4C)")
 
 
 func _portal_ids(map_id: StringName) -> Array[StringName]:
@@ -85,7 +85,11 @@ func physical_tests(tree: SceneTree) -> void:
 			check(session.player_runtime().world_location().zone_id == (&"snow.herbshop" if row[0] == &"snow.mstreet3" else &"snow.postoffice"), "west doorway enters the shop from " + String(row[0]))
 			await walk.walk_to(tree, session, "move_right", 0, 0)
 			check(session.player_runtime().world_location().zone_id == row[0], "back out to " + String(row[0]))
-	await wall_test(tree, session, walk, "move_up", 1, -1850, "Goathill north", &"snow.crossroad")
+	# 野羊山: the crossroad's north is a passage now, there and back.
+	await _walk_until_map(tree, session, &"goathill.mountain", "move_up")
+	check(session.player_runtime().world_location().zone_id == &"goathill.mroad1", "north out of the crossroad: 野羊山's mroad1")
+	await _walk_until_map(tree, session, &"snow.outdoor", "move_down")
+	check(session.player_runtime().world_location().zone_id == &"snow.crossroad" and session.active_map() == snow, "and back south to the crossroad")
 	await walk.walk_to(tree, session, "move_down", -1650, 1)
 	await wall_test(tree, session, walk, "move_right", 0, 300, "Green east", &"snow.crossroad")
 	await walk.walk_to(tree, session, "move_left", 0, 0)
@@ -120,6 +124,17 @@ func physical_tests(tree: SceneTree) -> void:
 	failures.append_array(walk._failures)
 	session.free()
 	await tree.process_frame
+
+
+func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, target: StringName, action: String) -> void:
+	Input.action_press(action)
+	for _step: int in range(400):
+		await tree.physics_frame
+		if session.active_map_id() == target:
+			break
+	Input.action_release(action)
+	for _step: int in range(3):
+		await tree.physics_frame
 
 
 func wall_test(tree: SceneTree, session: OldPineWorldSessionController, walk: Work, action: String, axis: int, boundary: float, label: String, zone: StringName) -> void:

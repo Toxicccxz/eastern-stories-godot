@@ -61,11 +61,17 @@ var _play: StringName = &""
 var _default_amount: int = 1
 var _apply: StringName = &""
 var _dissolves: bool = false
+## A weapon weapond.c bash_weapon() broke: the original's name (shown as 断掉的<name>).
+var _broken_from_name: String = ""
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
 var display_name: String:
-	get: return _display_name
+	get:
+		if _broken_from_name.is_empty():
+			return _display_name
+		# TRANSLATORS: weapond.c bash_weapon(): a weapon broken in two, set("name", "断掉的" + name).
+		return TranslationServer.translate("断掉的{weapon}").format({"weapon": TranslationServer.translate(_broken_from_name)})
 var description: String:
 	get: return _description
 var unit: String:
@@ -203,6 +209,53 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")
 	reader.finish()
 	return definition
+
+
+## The ID the catalog gives a weapon's broken form (BROKEN_SUFFIX after the weapon's).
+const BROKEN_SUFFIX: String = "#broken"
+
+
+## weapond.c bash_weapon() breaking a weapon in two: set("name", "断掉的" + name),
+## value / 10, set("weapon_prop", 0) (no longer wieldable); the rest stays as it was.
+static func broken_weapon(source: ItemContentDefinition) -> ItemContentDefinition:
+	var broken := ItemContentDefinition.new()
+	broken._item_definition_id = StringName(String(source._item_definition_id) + BROKEN_SUFFIX)
+	broken._legacy_source_paths = source._legacy_source_paths.duplicate()
+	broken._display_name = source._display_name
+	broken._broken_from_name = source._display_name
+	broken._aliases = source._aliases.duplicate()
+	broken._description = source._description
+	broken._default_long = source._default_long
+	broken._unit = source._unit
+	broken._material = source._material
+	broken._own_weight = source._own_weight
+	@warning_ignore("integer_division")
+	broken._value = source._value / 10
+	# A broken stack (飞刀) stays one, of broken ones: it no longer joins whole ones.
+	if source._stack_definition != null:
+		broken._base_unit = source._base_unit
+		broken._default_amount = source._default_amount
+		broken._stack_definition = CombinedStackDefinition.new(
+			broken._item_definition_id,
+			StringName(String(source._stack_definition.stack_compatibility_id) + BROKEN_SUFFIX),
+			source._stack_definition.base_weight,
+		)
+	return broken
+
+
+## The ID of `id`'s broken form (every weapon has one in the catalog).
+static func broken_id(id: StringName) -> StringName:
+	return StringName(String(id) + BROKEN_SUFFIX)
+
+
+## The weapon a broken form was (`id` itself for anything else).
+static func unbroken_id(id: StringName) -> StringName:
+	var text: String = String(id)
+	return StringName(text.trim_suffix(BROKEN_SUFFIX)) if text.ends_with(BROKEN_SUFFIX) else id
+
+
+func is_broken() -> bool:
+	return not _broken_from_name.is_empty()
 
 
 func aliases() -> Array[String]:

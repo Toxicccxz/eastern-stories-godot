@@ -3,6 +3,7 @@ extends RefCounted
 ## Snow's NPCs (4A), imported from d/snow by tools/migration/content_importer.py:
 ## every Snow spawn stands in its zone with its authored facts and loadout, and
 ## the temple (set("no_fight")) refuses an attack.
+const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
 var _count: int = 0
@@ -100,6 +101,9 @@ func _test_temple_forbids_fighting(tree: SceneTree, session: OldPineWorldSession
 ## attack, forward or riposte). A claw must not stall the encounter.
 func _test_dog_fight_ends(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = Work.create_session(tree)
+	# TEST-ONLY: no chat beat fires, so the dogs stay on the east road; every map's NPCs
+	# draw from the one ambience stream, and a new region shifts when they wander.
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
 	await tree.process_frame
 	Input.action_press("move_right")
 	for _step: int in range(400):

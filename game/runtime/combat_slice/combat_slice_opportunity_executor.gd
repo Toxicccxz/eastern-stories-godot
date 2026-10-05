@@ -263,7 +263,7 @@ static func _attack(
 		victim.relationship.set_last_damage_from(actor.character_id)
 	# combatd.c: the action's post_action runs before the victim may riposte.
 	if forward.post_action_reached and forward.post_action_policy_present:
-		result._post_action_lines.append_array(_run_post_action(actor, forward.post_action_policy_id))
+		result._post_action_lines.append_array(_run_post_action(actor, forward.post_action_policy_id, victim, _parried(forward.ordinary_attack_result), random_source))
 	var reverse_projection: CombatReverseAttackProjection = null
 	if forward.outcome == CombatSingleAttackExecutionResult.Outcome.REVERSE_ATTACK_REQUIRED:
 		var request: CombatRiposteRequest = forward.riposte_request
@@ -300,7 +300,10 @@ static func _attack(
 		if reverse_victim != null:
 			reverse_victim.relationship.set_last_damage_from(forward.riposte_request.attacker_id)
 	if chain.reverse_post_action_reached and chain.reverse_post_action_policy_present:
-		result._reverse_post_action_lines.append_array(_run_post_action(CombatSliceProjectionBuilder.find_binding(participants, forward.riposte_request.attacker_id), chain.reverse_post_action_policy_id))
+		result._reverse_post_action_lines.append_array(_run_post_action(
+			CombatSliceProjectionBuilder.find_binding(participants, forward.riposte_request.attacker_id), chain.reverse_post_action_policy_id,
+			CombatSliceProjectionBuilder.find_binding(participants, forward.riposte_request.victim_id), _parried(chain.reverse_ordinary_result), random_source,
+		))
 	if chain.outcome in [
 		CombatAttackChainResult.Outcome.FORWARD_COMPLETE_NO_REVERSE,
 		CombatAttackChainResult.Outcome.REVERSE_COMPLETE,
@@ -309,15 +312,18 @@ static func _attack(
 	return _finish(result, CombatSliceOpportunityResult.Outcome.ATTACK_CHAIN_INCOMPLETE)
 
 
-## What the post_action told the attacker, when the attacker is the player.
-static func _run_post_action(attacker: CombatSliceCharacterBinding, policy_id: StringName) -> Array[String]:
-	var shown: Array[String] = []
+## What the player sees of the attack's post_action (combatd.c evaluate(action["post_action"],
+## me, victim, weapon, damage)).
+static func _run_post_action(attacker: CombatSliceCharacterBinding, policy_id: StringName, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
+	var shown: Array[ColoredLine] = []
 	if attacker == null or attacker.post_actions == null:
 		return shown
-	var told: Array[String] = attacker.post_actions.run(attacker, policy_id)
-	if attacker.is_user:
-		shown.assign(told)
-	return shown
+	return attacker.post_actions.run(attacker, policy_id, victim, parried, random)
+
+
+## combatd.c: damage == RESULT_PARRY.
+static func _parried(ordinary: CombatOrdinaryAttackResult) -> bool:
+	return ordinary != null and ordinary.has_base_result and ordinary.base_result.outcome == CombatAttackResult.Outcome.PARRY
 
 
 ## combatd.c (6): a blow that landed calls receive_damage("kee", damage, me), which

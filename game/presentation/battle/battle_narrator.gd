@@ -39,19 +39,19 @@ func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection
 
 ## One forward do_attack() and, when the victim answers, the riposte line and
 ## the counter (`chain`'s reverse attack; null when there is none). `told` and
-## `reverse_told` are what each attack's post_action told the player (throw_weapon),
-## printed after that attack, before the riposte (combatd.c).
+## `reverse_told` are what the player sees of each attack's post_action (throw_weapon,
+## bash_weapon), printed after that attack, before the riposte (combatd.c).
 func attack_chain(
 	forward: CombatSingleAttackExecutionResult, chain: CombatAttackChainResult, cast: BattlePresentationProjection,
-	told: Array[String] = [], reverse_told: Array[String] = [],
+	told: Array[ColoredLine] = [], reverse_told: Array[ColoredLine] = [],
 ) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	if not forward.post_action_reached:
 		return lines # Only an aborting fight stops short; its abort line tells it.
 	_attack(lines, forward.ordinary_attack_result, _selected(forward.action_selection_result),
 		forward.post_action_weapon_present, forward.post_action_weapon_id, forward.post_relationship_result, cast)
-	for line: String in told:
-		lines.append(BattleNarrationLine.new(line))
+	for line: ColoredLine in told:
+		lines.append(BattleNarrationLine.new(line.text, -1, line.color))
 	if not forward.has_riposte_request:
 		return lines
 	# The riposte request runs from the victim back at the attacker.
@@ -63,8 +63,8 @@ func attack_chain(
 	if chain != null and chain.reverse_execution_reached:
 		_attack(lines, chain.reverse_ordinary_result, _selected(chain.reverse_action_selection_result),
 			chain.reverse_weapon_present, chain.reverse_weapon_profile_id, chain.reverse_relationship_result, cast)
-		for line: String in reverse_told:
-			lines.append(BattleNarrationLine.new(line))
+		for line: ColoredLine in reverse_told:
+			lines.append(BattleNarrationLine.new(line.text, -1, line.color))
 	return lines
 
 
@@ -135,7 +135,7 @@ func special(report: SpecialReport, cast: BattlePresentationProjection) -> Array
 	var next: int = 0
 	for index: int in range(said.size() + 1):
 		while next < attacks.size() and attacks[next].line_index <= index:
-			lines.append_array(attack_chain(attacks[next].forward, attacks[next].chain, cast))
+			lines.append_array(attack_chain(attacks[next].forward, attacks[next].chain, cast, attacks[next].told, attacks[next].reverse_told))
 			next += 1
 		if index < said.size():
 			lines.append_array(seen([said[index]], cast))

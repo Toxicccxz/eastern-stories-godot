@@ -64,6 +64,11 @@
 			"legacy_room": "es2:d/snow/eroad3", "legacy_command": "south"
 		},
 		{
+			"id": "snow.crossroad.north", "from_zone": "snow.crossroad",
+			"to_zone": "goathill.mroad1", "to_spawn": "goathill.mroad1.snow_entry",
+			"legacy_room": "es2:d/snow/crossroad", "legacy_command": "north"
+		},
+		{
 			"id": "snow.inn.up", "from_zone": "snow.inn.main_floor",
 			"to_zone": "snow.inn_2f", "to_spawn": "snow.inn_2f.stairs_arrival",
 			"legacy_room": "es2:d/snow/inn", "legacy_command": "up"

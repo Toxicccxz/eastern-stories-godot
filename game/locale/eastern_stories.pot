@@ -82,7 +82,10 @@ msgstr ""
 #. snow.npc.smith gender
 #. snow.npc.herbalist gender
 #. snow.npc.trav_blade gender.then
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json
+#. goathill.npc.bandit_hwang gender
+#. goathill.npc.bandit gender
+#. goathill.npc.bandit_leader gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -168,6 +171,50 @@ msgstr ""
 
 #: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
 msgid "背包"
+msgstr ""
+
+#. es2:d/goathill/cavern1 short
+#. es2:d/goathill/cavern2 short
+#. es2:d/goathill/cavern4 short
+#: scenes/world/goathill/goathill_caverns.tscn data/goathill/rooms.json
+msgid "岩洞"
+msgstr ""
+
+#. es2:d/goathill/cavern3 short
+#: scenes/world/goathill/goathill_caverns.tscn data/goathill/rooms.json
+msgid "岩穴"
+msgstr ""
+
+#. es2:d/snow/eroad3 short
+#. es2:d/goathill/mroad1 short
+#. es2:d/goathill/mroad2 short
+#. es2:d/goathill/mroad3 short
+#. es2:d/goathill/mroad5 short
+#. es2:d/goathill/mroad6 short
+#: scenes/world/goathill/goathill_mountain.tscn data/snow/rooms.json data/goathill/rooms.json
+msgid "山路"
+msgstr ""
+
+#. es2:d/goathill/temple1 short
+#: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
+msgid "小土地庙"
+msgstr ""
+
+#. es2:d/goathill/mroad4 short
+#: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
+msgid "山路转角"
+msgstr ""
+
+#. es2:d/goathill/slope1 short
+#: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
+msgid "岩石坡"
+msgstr ""
+
+#. es2:d/goathill/canyon1 short
+#. es2:d/goathill/canyon2 short
+#. es2:d/goathill/canyon3 short
+#: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
+msgid "峡谷"
 msgstr ""
 
 #. es2:d/oldpine/passage short
@@ -895,6 +942,11 @@ msgstr ""
 #: core/content/item_content_definition.gd
 msgid ""
 "{name}({id})。\n"
+msgstr ""
+
+#. weapond.c bash_weapon(): a weapon broken in two, set("name", "断掉的" + name).
+#: core/content/item_content_definition.gd
+msgid "断掉的{weapon}"
 msgstr ""
 
 #: core/internal_power/enforce_service.gd
@@ -2624,7 +2676,11 @@ msgstr ""
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. snow.npc.rat limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json
+#. goathill.npc.worm limbs
+#. goathill.npc.fat_worm limbs
+#. goathill.npc.big_worm limbs
+#. goathill.npc.huge_worm limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -2945,6 +3001,26 @@ msgstr ""
 #. weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
 #: runtime/world/world_map_controller.gd
 msgid "你的%s用完了！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
+#: runtime/world/world_map_controller.gd
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
+#: runtime/world/world_map_controller.gd
+msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
+#: runtime/world/world_map_controller.gd
+msgid "只听见「啪」地一声，{who}手中的{weapon}已经断为两截！"
+msgstr ""
+
+#. weapond.c bash_weapon(): the two weapons meet; {me} and {who} are 你 or names.
+#: runtime/world/world_map_controller.gd
+msgid "{me}的{weapon}和{who}的{other}相击，冒出点点的火星。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -3886,7 +3962,8 @@ msgstr ""
 #. es2:d/snow/obj/bamboo_sword unit
 #. es2:d/snow/obj/thin_sword unit
 #. es2:d/snow/npc/obj/throwing_knife combined.base_unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json
+#. es2:d/goathill/obj/sledge_hammer unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json
 msgid "把"
 msgstr ""
 
@@ -4046,6 +4123,11 @@ msgstr ""
 #. fonxanforce practice.fail
 #: data/common/skills.json
 msgid "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. serpentforce name
+#: data/common/skills.json
+msgid "伏蛟功"
 msgstr ""
 
 #. fonxansword name
@@ -4279,6 +4361,26 @@ msgstr ""
 msgid "$N将$w对准$n的$l射了过去"
 msgstr ""
 
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N挥舞$w，往$n的$l用力一□"
+msgstr ""
+
+#. actions.damage_type
+#: data/common/combat_actions.json
+msgid "挫伤"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N高高举起$w，往$n的$l当头砸下"
+msgstr ""
+
+#. actions.action
+#: data/common/combat_actions.json
+msgid "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去"
+msgstr ""
+
 #. family.fonxan name
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
@@ -4429,7 +4531,9 @@ msgstr ""
 #. es2:d/oldpine/obj/blade unit
 #. es2:d/oldpine/obj/glaive unit
 #. es2:d/snow/obj/blade unit
-#: data/oldpine/items.json data/snow/items.json
+#. es2:d/goathill/obj/steel_blade unit
+#. es2:d/goathill/obj/hand_axe unit
+#: data/oldpine/items.json data/snow/items.json data/goathill/items.json
 msgid "柄"
 msgstr ""
 
@@ -4542,7 +4646,11 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.serpent limbs
-#: data/oldpine/npcs.json
+#. goathill.npc.worm limbs
+#. goathill.npc.fat_worm limbs
+#. goathill.npc.big_worm limbs
+#. goathill.npc.huge_worm limbs
+#: data/oldpine/npcs.json data/goathill/npcs.json
 msgid "躯干"
 msgstr ""
 
@@ -4647,7 +4755,8 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.bandit_leader name
-#: data/oldpine/npcs.json
+#. goathill.npc.bandit_leader name
+#: data/oldpine/npcs.json data/goathill/npcs.json
 msgid "土匪首领"
 msgstr ""
 
@@ -4742,7 +4851,8 @@ msgstr ""
 
 #. es2:d/snow/obj/sandals unit
 #. es2:d/snow/obj/shoe unit
-#: data/snow/items.json
+#. es2:d/goathill/obj/boots unit
+#: data/snow/items.json data/goathill/items.json
 msgid "双"
 msgstr ""
 
@@ -5532,11 +5642,6 @@ msgstr ""
 msgid ""
 "这是一条普通的黄土小径，小径往西南通往一处山间的平地，从这\n"
 "里可以望见不少房屋错落在平地上，往北则一路上山。\n"
-msgstr ""
-
-#. es2:d/snow/eroad3 short
-#: data/snow/rooms.json
-msgid "山路"
 msgstr ""
 
 #. es2:d/snow/eroad3 long
@@ -6347,4 +6452,246 @@ msgstr ""
 #. oldpine.cliff2.landmark.down messages.use
 #: data/oldpine/world.json
 msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。"
+msgstr ""
+
+#. es2:d/goathill/obj/sledge_hammer name
+#: data/goathill/items.json
+msgid "大金槌"
+msgstr ""
+
+#. es2:d/goathill/obj/sledge_hammer long
+#: data/goathill/items.json
+msgid ""
+"一把极其沈重的大槌，要挥动这样的武器非得有过人的膂力不可。\n"
+msgstr ""
+
+#. es2:d/goathill/obj/boots name
+#: data/goathill/items.json
+msgid "熊皮短靴"
+msgstr ""
+
+#. es2:d/goathill/obj/steel_blade name
+#: data/goathill/items.json
+msgid "钢刀"
+msgstr ""
+
+#. es2:d/goathill/obj/steel_blade long
+#: data/goathill/items.json
+msgid ""
+"一把沈重的钢刀，磨得又利又快，看起来相当具杀伤力。\n"
+msgstr ""
+
+#. es2:d/goathill/obj/hand_axe name
+#: data/goathill/items.json
+msgid "短斧"
+msgstr ""
+
+#. es2:d/goathill/obj/hand_axe long
+#: data/goathill/items.json
+msgid ""
+"这种斧头的刃长柄短，是专门用来做兵器的斧头，近战具有相当强的\n"
+"杀伤力。\n"
+msgstr ""
+
+#. goathill.npc.bandit_hwang name
+#: data/goathill/npcs.json
+msgid "黄霸"
+msgstr ""
+
+#. goathill.npc.bandit_hwang nickname
+#: data/goathill/npcs.json
+msgid "日月槌"
+msgstr ""
+
+#. goathill.npc.bandit_hwang title
+#: data/goathill/npcs.json
+msgid "野羊山土匪头目"
+msgstr ""
+
+#. goathill.npc.bandit_hwang long
+#: data/goathill/npcs.json
+msgid ""
+"黄霸原是关外一个山寨的寨主，后来因为逃避官府追捕而到也羊山\n"
+"避祸，他的成名武器是一对各重四十斤的大金槌，内功跟横练功夫\n"
+"也都有不错的造诣。\n"
+msgstr ""
+
+#. goathill.npc.bandit name
+#: data/goathill/npcs.json
+msgid "土匪爪牙"
+msgstr ""
+
+#. goathill.npc.bandit long
+#: data/goathill/npcs.json
+msgid ""
+"一个眼神凶恶的土匪，脸上好几条长长的刀疤，看起来就知道不好惹。\n"
+msgstr ""
+
+#. goathill.npc.bandit_leader long
+#: data/goathill/npcs.json
+msgid ""
+"这个土匪看起来相当强悍，至少你从他的动作就可以看得出来他显然\n"
+"是练过武功的硬手，并不是泛泛之辈。\n"
+msgstr ""
+
+#. goathill.npc.worm name
+#: data/goathill/npcs.json
+msgid "岩蛭"
+msgstr ""
+
+#. goathill.npc.worm long
+#. goathill.npc.fat_worm long
+#. goathill.npc.big_worm long
+#. goathill.npc.huge_worm long
+#: data/goathill/npcs.json
+msgid ""
+"一条色作浅灰，带著白色斑点的水蛭模样怪虫，口中露出六对白森森\n"
+"的牙齿，看起来恶心极了。\n"
+msgstr ""
+
+#. goathill.npc.fat_worm name
+#: data/goathill/npcs.json
+msgid "肥岩蛭"
+msgstr ""
+
+#. goathill.npc.big_worm name
+#: data/goathill/npcs.json
+msgid "大岩蛭"
+msgstr ""
+
+#. goathill.npc.huge_worm name
+#: data/goathill/npcs.json
+msgid "巨岩蛭"
+msgstr ""
+
+#. es2:d/goathill/mroad1 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条崎岖的山路上，凹凹凸凸的山石刺得你的脚底隐\n"
+"隐生疼，山路往南不远处通往一个山腰的台地，这一带最大的镇甸就位\n"
+"在台地上，东边跟西边都是陡峭的山壁，山路往北通往层层叠叠的群山\n"
+"之中。\n"
+msgstr ""
+
+#. es2:d/goathill/mroad2 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条崎岖的山路上，路面到处生满了及膝的杂草丛，\n"
+"显示这里已经有一段时间没有车马经过了，从这里往北就是野羊山的地\n"
+"界，野羊山有一座山寨，住著许多凶恶的盗匪，你最好绕道而行。\n"
+msgstr ""
+
+#. es2:d/goathill/mroad3 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条崎岖的山路上，东边的路旁一个山壁的裂缝里有\n"
+"一间小庙，从这里看过去黑漆漆的似乎没有人照顾，山路往北是一段陡\n"
+"峭的上坡，往西南的山路就平缓得多。\n"
+msgstr ""
+
+#. es2:d/goathill/temple1 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正站在一间小土地庙中，这座庙的南北两面都是利用了山壁\n"
+"而建的，只有东面一面土墙，墙上嵌著一个小小的神龛，里面供著一尊\n"
+"残破不堪的土地爷爷，庙门在你的西边。\n"
+msgstr ""
+
+#. es2:d/goathill/mroad4 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条崎岖山路的转角处，山路望东通往野羊山上，从\n"
+"这里可以望见东边不远处有一个石屋立在岩壁边上，看起来像是冈哨或\n"
+"什么的，北边的山壁有一个裂口(crack)，不过离地约有三到四丈， 往\n"
+"南的山路是段陡峭的下坡，如果你要下山，大概就是这条路了。\n"
+msgstr ""
+
+#. es2:d/goathill/mroad5 long
+#: data/goathill/rooms.json
+msgid ""
+"这里是一段狭窄的山路，往东不远处的岩壁边上有一座石屋，路旁\n"
+"生满了及腰的长草，山风吹过一起一伏的有如波浪一般，南北两边有许\n"
+"多大石，看起来倒是个埋伏的好地点，往西是一个山路的转角。\n"
+msgstr ""
+
+#. es2:d/goathill/slope1 long
+#: data/goathill/rooms.json
+msgid ""
+"这里是一处岩石斜坡，斜坡上到处布满乱石及杂草，东边的岩壁边\n"
+"有一间石屋，往西跟往北则可以回到铺满碎石的山路。\n"
+msgstr ""
+
+#. es2:d/goathill/mroad6 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条崎岖的山路上，往北是一个峡谷，通过「飞火崖\n"
+"」的正下方，从这里可以看到一条五、六丈宽的石梁魏颤颤地跨过峡谷\n"
+"，山路往西南转过，南边则是一片岩石斜坡。\n"
+msgstr ""
+
+#. es2:d/goathill/canyon1 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条狭长的峡谷之中，东西两边都是高不可攀的峭壁\n"
+"，一根五、六丈宽的石梁正横跨在你头顶的谷口，看起来摇摇欲坠，万\n"
+"一掉下来只怕当场就会被压成一个肉饼，往南就是峡谷的出口，峡谷谷\n"
+"底的地面看起来像是乾涸的山涧，弯弯曲曲往北通入峡谷深处。\n"
+msgstr ""
+
+#. es2:d/goathill/canyon2 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条狭长的深谷之中，东西两面都是高不可攀的峭壁\n"
+"，往南沿著谷底一条乾涸的山涧可以通往峡谷的出口，北边的峭壁从这\n"
+"里斜斜向上宛如从天上掉下来倒插进地面，形势更是危峻，连天空都被\n"
+"北边的峭壁遮去了七、八分。\n"
+msgstr ""
+
+#. es2:d/goathill/canyon3 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正走在一条峡谷的谷底，这里的峭壁斜度之大让你胆颤心惊\n"
+"，只消有人在这里一声大喝将上面的土石震了下来，只怕立刻就得被活\n"
+"埋，东边的峭壁上有一个黑漆漆的洞穴，里面似乎有什么东西蠕蠕而动\n"
+"，峡谷往西南和西北两边各有狭窄的出口。\n"
+msgstr ""
+
+#. es2:d/goathill/cavern1 long
+#: data/goathill/rooms.json
+msgid ""
+"这个岩洞的内部似乎远比你想像得大，岩壁上有一条条的深沟彷佛\n"
+"是被什么蛀虫给蛀出来的，可是有什么虫会去啃咬这又硬又厚的岩壁呢\n"
+"？洞穴的出口在你的西边透著微光，东北边跟西北边各有一个洞穴，黑\n"
+"暗中似乎有什么东西在蠕蠕而动。\n"
+msgstr ""
+
+#. es2:d/goathill/cavern2 long
+#: data/goathill/rooms.json
+msgid ""
+"你现在正在一个黑漆漆的岩洞中摸索前进，西南边隐隐有些光亮，\n"
+"想必是洞穴的出口，东边似乎有些滴水的声音，不过你得走过去才能听\n"
+"得仔细，你感觉脚边有一些东西在蠕蠕而动，举脚又有些黏黏的，一阵\n"
+"恶心的感觉压迫著你的胃。\n"
+msgstr ""
+
+#. es2:d/goathill/cavern3 long
+#: data/goathill/rooms.json
+msgid ""
+"这里一片黑漆漆，你必须全靠摸索才能不至于撞到岩壁，你听到东\n"
+"边传来阵阵滴水的声音，可是伸手一摸却仍是冷冰冰、又乾又硬的岩石\n"
+"，地上布满了许多又黏又稠的不知名东西，使你每一步都走得异常艰辛\n"
+"。\n"
+msgstr ""
+
+#. es2:d/goathill/cavern4 long
+#: data/goathill/rooms.json
+msgid ""
+"这里是一处阴暗的岩洞，等你走近这个岩洞才发现原来是死路，东\n"
+"北边隐隐透出几道微光，想必是洞穴的出口，地上一滩滩暗黄色的黏稠\n"
+"物不知道士什么东西，闻起来竟一点味道也没有。\n"
+msgstr ""
+
+#. goathill name
+#: data/goathill/world.json
+msgid "野羊山"
 msgstr ""

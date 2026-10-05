@@ -139,7 +139,7 @@ static func build_attack_input(
 			attack_skill_modifier,
 		),
 		_apply(attacker, attacker_armor, &"attack"),
-		attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage"),
+		attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage") + _secondary_apply(attacker, &"damage"),
 		CombatStrengthProjection.new(
 			attacker.state.attributes.strength,
 			attacker.state.attributes.force_factor,
@@ -269,7 +269,7 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 			_apply(defender, defender_armor, FORCE_SKILL_ID),
 			_apply(attacker, attacker_armor, &"attack"),
 			_apply(defender, defender_armor, &"defense"),
-			attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage"),
+			attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage") + _secondary_apply(attacker, &"damage"),
 			_apply(defender, defender_armor, &"armor"),
 			_apply(defender, defender_armor, &"armor_vs_force"),
 		)
@@ -295,8 +295,18 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 static func _apply(binding: CombatSliceCharacterBinding, armor: ArmorNumericModifiers, key: StringName) -> int:
 	return (
 		armor.value(key) + binding.content.apply_value(key, binding.state.equipment.primary_weapon())
-		+ binding.state.timed_applies.value(key)
+		+ binding.state.timed_applies.value(key) + _secondary_apply(binding, key)
 	)
+
+
+## equip.c wield() adds every wielded weapon's weapon_prop to apply/*, the secondary
+## hand's too (damage included); only the primary attacks (combatd.c query_temp("weapon")).
+static func _secondary_apply(binding: CombatSliceCharacterBinding, key: StringName) -> int:
+	var secondary: EquippedWeaponRef = binding.state.equipment.secondary_weapon()
+	var content: ItemContentDefinition = null if secondary == null else GameContent.catalog().item(secondary.weapon_id)
+	if content == null:
+		return 0
+	return content.weapon_damage if key == &"damage" else content.weapon_apply.get(key, 0)
 
 
 ## query_temp("apply/<key>") for a participant (special files' query_skill()).
