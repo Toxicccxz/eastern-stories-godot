@@ -163,12 +163,13 @@ func _test_walks(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	await _goathill._walk_until_map(tree, session, &"cloud.outdoor", "move_right")
 	_check(session.active_map_id() == &"cloud.outdoor" and player.world_location().zone_id == &"cloud.tearoom", "and down again")
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
-	map.runtime_player_body().global_position = Vector2(4 * 256 + 128, 5 * 256 + 60) # TEST-ONLY: by the 木雕门
+	var door_at: Vector2 = map.door(&"cloud.tearoom.door").wall_shape().global_position
+	map.runtime_player_body().global_position = door_at + Vector2(0, 56) # TEST-ONLY: by the 木雕门
 	await tree.physics_frame
 	_check(map.door(&"cloud.tearoom.door") != null and not map.door(&"cloud.tearoom.door").is_open() and map.can_operate_door(&"cloud.tearoom.door"), "the 木雕门 is shut, within reach")
 	_check(map.open_door(&"cloud.tearoom.door"), "opened")
 	await tree.physics_frame
-	await Work.new().walk_to(tree, session, "move_up", 4 * 256 + 140, 1)
+	await Work.new().walk_to(tree, session, "move_up", door_at.y - 60, 1)
 	_check(player.world_location().zone_id == &"cloud.tea_corridor", "through it: 香茗坊茶窖")
 
 
@@ -215,7 +216,8 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.GOLD, 10, &"test.cloud.gold") # TEST-ONLY
 	# TEST-ONLY: just in from 北坡, more than presence_radius 100 from both robbers.
-	map.runtime_player_body().global_position = Vector2(3 * 256 + 128, 2 * 256 + 24)
+	var ridge: Rect2 = map.physical_zone(&"cloud.dragonhill.hummock").global_rect()
+	map.runtime_player_body().global_position = Vector2(ridge.get_center().x, ridge.position.y + 24)
 	await tree.physics_frame
 	await tree.physics_frame
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "not yet in their reach")
@@ -259,7 +261,7 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 			thief = npc
 	session.handoff_to(&"cloud.outdoor", &"cloud.park", &"cloud.park", &"cloud.dragonhill.nroad.snow_entry")
 	await tree.physics_frame
-	map.runtime_player_body().global_position = Vector2(7 * 256 + 128, 7 * 256 + 128) # TEST-ONLY
+	map.runtime_player_body().global_position = map.physical_zone(&"cloud.park").global_rect().end - Vector2(64, 64) # TEST-ONLY: clear of the pond
 	player.set_world_location(map.location_for_zone(&"cloud.park"))
 	thief.set_world_location(map.location_for_zone(&"cloud.park")) # TEST-ONLY: he may have wandered
 	var silver: StringName = _carried(session, &"es2:obj/money/silver")

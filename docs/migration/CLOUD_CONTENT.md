@@ -9,9 +9,9 @@ what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS
 
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
-| dragonhill/nroad, nhillfoot, shillfoot, sroad | — | outdoor map, north of the town; nroad north to Snow's 雪亭镇街道 |
+| dragonhill/nroad, nhillfoot, shillfoot, sroad | — | outdoor map: the road over the ridge, north of the town's gate; nroad north to Snow's 雪亭镇街道 |
 | dragonhill/hummock (卧龙岗) | 卧龙岗强盗 ×2 | the toll (`attack_unless_mark` 强盗), one fight together |
-| entrance, cross, the markets and streets | 县城官兵 ×2 (nwroad3) | outdoor map; the entrance is two rooms wide |
+| entrance, cross, the markets and streets | 县城官兵 ×2 (nwroad3) | outdoor map: the gate, the market street and the main street, one open road |
 | butchery | 郑屠夫, 苍蝇 ×6 | vendor: 生牛肉, 牛腿, 牛尾, 熟杂碎, 狗肉 |
 | tearoom, tea_corridor (木雕门), tearoom2 | 茶博士; 弈者 (upstairs) | 香茗坊; its second floor on the upstairs map |
 | woodboxy, god1 (木门), god2 | 林三爷, 伙计 ×8; 朱鸿雪 | 朱鸿雪 refuses spars; not fightable yet (her arts) |

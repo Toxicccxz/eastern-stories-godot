@@ -226,51 +226,9 @@ msgstr ""
 msgid "绮云镇"
 msgstr ""
 
-#. es2:u/cloud/tea_corridor short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "香茗坊茶窖"
-msgstr ""
-
-#. cloud.npc.butcher title
-#. es2:u/cloud/butchery short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "镇北肉铺"
-msgstr ""
-
 #. es2:u/cloud/nwroad1 short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
 msgid "北市场"
-msgstr ""
-
-#. cloud.npc.butcher inquiry topic
-#. cloud.npc.tea_waiter inquiry topic
-#. cloud.npc.box_boss inquiry topic
-#. cloud.npc.tailor inquiry topic
-#. es2:u/cloud/tearoom short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "香茗坊"
-msgstr ""
-
-#. cloud.npc.doctor title
-#. es2:u/cloud/drugstore short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "药店"
-msgstr ""
-
-#. es2:u/cloud/god2 short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "场院前厅"
-msgstr ""
-
-#. es2:u/cloud/god1 short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "场院"
-msgstr ""
-
-#. cloud.npc.box_waiter title
-#. es2:u/cloud/woodboxy short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "棺材铺"
 msgstr ""
 
 #. es2:u/cloud/nwroad2 short
@@ -288,6 +246,63 @@ msgstr ""
 msgid "东市场"
 msgstr ""
 
+#. es2:u/cloud/nroad2 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "南市场"
+msgstr ""
+
+#. es2:u/cloud/cross short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "十字路口"
+msgstr ""
+
+#. es2:u/cloud/wroad2 short
+#. es2:u/cloud/wroad1 short
+#. es2:u/cloud/wroad0 short
+#. es2:u/cloud/sroad1 short
+#. es2:u/cloud/eroad1 short
+#. es2:u/cloud/eroad2 short
+#. es2:u/cloud/eroad3 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "绮云镇街道"
+msgstr ""
+
+#. es2:u/cloud/eroad4 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "茶场"
+msgstr ""
+
+#. es2:u/cloud/dukou short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "江北渡口"
+msgstr ""
+
+#. es2:u/cloud/tea_corridor short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "香茗坊茶窖"
+msgstr ""
+
+#. cloud.npc.butcher inquiry topic
+#. cloud.npc.tea_waiter inquiry topic
+#. cloud.npc.box_boss inquiry topic
+#. cloud.npc.tailor inquiry topic
+#. es2:u/cloud/tearoom short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "香茗坊"
+msgstr ""
+
+#. cloud.npc.butcher title
+#. es2:u/cloud/butchery short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "镇北肉铺"
+msgstr ""
+
+#. cloud.npc.doctor title
+#. es2:u/cloud/drugstore short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "药店"
+msgstr ""
+
 #. cloud.npc.weaponor title
 #. cloud.npc.weaponor inquiry topic
 #. es2:u/cloud/weapony short
@@ -295,16 +310,20 @@ msgstr ""
 msgid "兵器屋"
 msgstr ""
 
-#. es2:u/cloud/rich short
-#. es2:u/cloud/m_house short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "张百万家"
+#. cloud.npc.box_waiter title
+#. es2:u/cloud/woodboxy short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "棺材铺"
 msgstr ""
 
-#. cloud.npc.mei_po title
-#. es2:u/cloud/marry_room short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "红娘庄"
+#. es2:u/cloud/god1 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "场院"
+msgstr ""
+
+#. es2:u/cloud/god2 short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "场院前厅"
 msgstr ""
 
 #. cloud.npc.tailor title
@@ -320,9 +339,10 @@ msgstr ""
 msgid "杂货铺"
 msgstr ""
 
-#. es2:u/cloud/nroad2 short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "南市场"
+#. cloud.npc.mei_po title
+#. es2:u/cloud/marry_room short
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "红娘庄"
 msgstr ""
 
 #. cloud.npc.mother inquiry topic
@@ -336,25 +356,10 @@ msgstr ""
 msgid "张家花园"
 msgstr ""
 
-#. es2:u/cloud/wroad2 short
-#. es2:u/cloud/wroad1 short
-#. es2:u/cloud/wroad0 short
-#. es2:u/cloud/sroad1 short
-#. es2:u/cloud/eroad1 short
-#. es2:u/cloud/eroad2 short
-#. es2:u/cloud/eroad3 short
+#. es2:u/cloud/rich short
+#. es2:u/cloud/m_house short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "绮云镇街道"
-msgstr ""
-
-#. es2:u/cloud/cross short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "十字路口"
-msgstr ""
-
-#. es2:u/cloud/eroad4 short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "茶场"
+msgid "张百万家"
 msgstr ""
 
 #. cloud.npc.book_seller inquiry topic
@@ -377,11 +382,6 @@ msgstr ""
 #. es2:u/cloud/biaoju short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
 msgid "镖局"
-msgstr ""
-
-#. es2:u/cloud/dukou short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "江北渡口"
 msgstr ""
 
 #: scenes/world/cloud/cloud_outdoor.tscn

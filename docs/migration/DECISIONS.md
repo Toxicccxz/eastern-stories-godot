@@ -3,11 +3,14 @@
 ## 卧龙岗 + 绮云镇 3A: the streets and shops (2026-10-05)
 
 The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.md).
-- **Two maps**: the outdoor map holds 卧龙岗's five rooms north of the town's ground floor (a
-  room each on a 256 px grid); the three upper floors (香茗坊, 怡红院, 赌场) are one map of three
-  separate rooms, reached by their stairs. Snow's 雪亭镇街道 leads south. Diagonal exits become
-  straight; the entrance is two rooms wide so 南坡 and the second 黄土路 both open onto it, as
-  the three lead to each other. Closed: south across 泓水 (#8), west to 晚月庄 (#7).
+- **Two maps, drawn as a town** (owner: not a grid of boxes): the outdoor map holds the road
+  from Snow's 雪亭镇街道 winding over 卧龙岗 to the gate, the market street (北, 西, 中, 东, 南市场)
+  turning down to the crossroad and the main street across the town; street rooms are stretches
+  of one open road with no walls between them, shops and houses are buildings of their own sizes
+  along it with their door onto the street their exit names. The three upper floors (香茗坊,
+  怡红院, 赌场) are one map of three separate rooms, reached by their stairs. Diagonal exits become
+  straight; 南坡 and the second 黄土路 both open onto the gate, as the three lead to each other;
+  a cliff keeps 卧龙岗 from the second 黄土路. Closed: south across 泓水 (#8), west to 晚月庄 (#7).
 - **Owner: the later packages' NPCs stand now** as ordinary NPCs (陈剑秋 and 趟子手, 3B; 朱鸿雪,
   3C; 宝官 and 媒婆, 3D; 船夫, #8). 朱鸿雪 and 化缘和尚 cannot be fought until their arts are
   ported; 春风快意刀 is, for the 家丁 (and so 陈剑秋 and 趟子手).
