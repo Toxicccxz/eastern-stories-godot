@@ -23,6 +23,7 @@ var _stage_elapsed: float = 0.0
 var _messages_shown: int = 0
 var _death_result: PlayerDeathResult
 var _corpse_place: String = ""
+var _corpse_item_instance_id: StringName = &""
 
 var phase: Phase:
 	get: return _phase
@@ -32,6 +33,10 @@ var death_result: PlayerDeathResult:
 	get: return _death_result
 var corpse_place: String:
 	get: return _corpse_place
+## The corpse the death left (empty when unknown), so the screen can tell whether it
+## still lies there (化尸粉 destroys it with all it holds).
+var corpse_item_instance_id: StringName:
+	get: return _corpse_item_instance_id
 
 
 func is_active() -> bool:
@@ -44,10 +49,11 @@ func begin_unconscious(delay_seconds: int) -> void:
 
 
 ## A death replaces a pending revive, as die() calls revive(1) first.
-func begin_death(result: PlayerDeathResult, corpse_place: String) -> void:
+func begin_death(result: PlayerDeathResult, corpse_place: String, corpse_item_instance_id: StringName = &"") -> void:
 	_phase = Phase.DEATH_SEQUENCE
 	_death_result = result
 	_corpse_place = corpse_place
+	_corpse_item_instance_id = corpse_item_instance_id
 	_stage_elapsed = 0.0
 	_messages_shown = 0
 

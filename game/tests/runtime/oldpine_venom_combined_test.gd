@@ -375,10 +375,21 @@ func _test_spy(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	for corpse: CorpseState in map.corpse_states():
 		corpse_ids.append(corpse.corpse_item_instance_id)
 	_check(corpse_ids.size() == 1, "the player's corpse lies in the pine")
+	# TEST-ONLY: world time only as the test steps it; frames just draw the death screen.
+	session.set_process(false)
+	var overlay: PlayerLifeOverlay = session.shared_ui().life_overlay
+	# process_frame comes before that frame's _process(): the screen draws in the second.
+	await tree.process_frame
+	await tree.process_frame
+	_check(overlay.text().contains("你的尸体和随身物品留在：老松岭 · 大松树上"), "the death screen says where the corpse lies: " + overlay.text())
 	map.advance_npc_heartbeat(0.5)
 	_check(map.corpse_states().size() == 1, "half a second: not yet")
 	map.advance_npc_heartbeat(0.6)
 	_check(map.corpse_states().is_empty() and not session.inventory_state().is_registered(corpse_ids[0]) and stacks.stack_state(dust[0]).amount == 29, "a second later the corpse and all in it are dissolved; 29 化尸粉 left")
+	await tree.process_frame
+	await tree.process_frame
+	_check(overlay.text().contains("你的尸体已经不在了。") and not overlay.text().contains("留在"), "and the death screen no longer sends the player back for it: " + overlay.text())
+	session.set_process(true)
 
 
 func _state() -> CharacterState:
