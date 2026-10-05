@@ -1065,7 +1065,6 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
 				_announce_fight([])
 			_last_aggression_initiations.append(started)
-		_note_toll_fights()
 		return _last_aggression_initiations.duplicate()
 	_last_aggression_decisions = _aggression.resolve_pending(_npcs, _player, _combat_allowed())
 	for decision: NpcAggressionDecision in _last_aggression_decisions:
@@ -1077,13 +1076,13 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 			continue
 		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
 		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, []))
-	_note_toll_fights()
 	return _last_aggression_initiations.duplicate()
 
 
 ## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
-## follows whoever it fights: a toll-taker that fights the player attacks on sight
-## from then on, mark or not, until a reset makes it anew.
+## follows whoever it fights: a toll-taker that fights the player (its aggression, a
+## refused toll, the player's 攻击 or 切磋) attacks on sight from then on, mark or not,
+## until a reset makes it anew. An object variable: Continue forgets it.
 func _note_toll_fights() -> void:
 	for npc: NpcRuntimeState in _npcs:
 		if not npc.definition().dealings().attack_unless_mark.is_empty() and npc.relationship.is_fighting():
@@ -1206,6 +1205,7 @@ func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, li
 ## with the same lines and keeps the warnings pinned while the panel covers the log.
 ## `first_id`: the NPC whose kill_ob() came first (kill.c's target), when one did.
 func _announce_fight(lines: Array[String], first_id: StringName = &"") -> void:
+	_note_toll_fights()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	var warnings: Array[String] = []
@@ -1777,6 +1777,8 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 	_unbind_npc_services(character_id)
 	if _ambience != null:
 		_ambience.cancel_greeting(character_id)
+		_ambience.cancel_call(character_id)
+	_pending_steals.erase(character_id)
 	if _walker != null:
 		_walker.cancel(character_id)
 	if _npc_heartbeat != null:
@@ -1968,19 +1970,21 @@ func _start_stealing(npc: NpcRuntimeState) -> void:
 ## compelete_steal(): the player must still be there; taken or unnoticed, the player
 ## reads nothing (the thief's lines are its own); caught, the two fight (fight_ob).
 func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
-	if not npc.exists_in_map or not _player_shares_zone(npc):
+	# A thief killed meanwhile is gone (destructed: no `me` to move anything to).
+	if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not _player_shares_zone(npc):
 		return
 	var item_id: StringName = pending["item"]
 	if not _player_carried_item_ids().has(item_id):
 		return
-	var outcome: NpcSteal.Outcome = NpcSteal.resolve(
-		pending["sp"], pending["dp"], _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
-		npc.character_state.attributes.intelligence, _ambience.random(),
-	)
+	var conscious: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	var outcome: NpcSteal.Outcome = NpcSteal.resolve(pending["sp"], pending["dp"], conscious, _ambience.random())
 	match outcome:
 		NpcSteal.Outcome.TAKEN:
-			# ob->move(me); a thing too heavy for the thief stays (its own notice only).
-			ItemHandlingService.hand_over(npc, item_id, _item_authorities())
+			# ob->move(me); a thing too heavy for the thief stays (its own notice only)
+			# and steal.c returns before its last two draws.
+			if not ItemHandlingService.hand_over(npc, item_id, _item_authorities()):
+				return
+			NpcSteal.after_taken(pending["sp"], conscious, npc.character_state.attributes.intelligence, _ambience.random())
 			if _hud().inventory_is_open():
 				_hud().show_inventory(session.player_inventory_rows())
 		NpcSteal.Outcome.CAUGHT:
@@ -2650,19 +2654,24 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	var result: ItemHandlingResult = ItemHandlingService.give(
 		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random,
 	)
+	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
+	if not attacks:
+		_report_item_handling(result)
+		return result
+	# gangster.c accept_object(): too little, and kill_passenger() kill_ob()s the giver,
+	# this one NPC, wherever in the room the player stands. Its say() and kill_ob()'s
+	# warning come first; give.c's notify_fail prints last.
+	var refusal: String = result.lines.pop_back()
 	_report_item_handling(result)
-	if result.rule != null and result.rule.kill and not npc.relationship.is_fighting():
-		# gangster.c accept_object(): too little, and kill_passenger() kill_ob()s the giver,
-		# this one NPC, wherever in the room the player stands.
-		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-		var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
-			CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
-			CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
-			CombatTriggerCause.Value.NPC_AGGRESSION,
-		)
-		if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-			_announce_fight([])
-		_note_toll_fights()
+	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
+		CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
+		CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
+		CombatTriggerCause.Value.NPC_AGGRESSION,
+	)
+	if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		_announce_fight([])
+	_hud().append_log_lines([refusal])
 	return result
 
 

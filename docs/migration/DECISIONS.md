@@ -15,13 +15,16 @@ The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.m
   kill_passenger()); giving it something worth ten gold taels sets the mark; less, and that robber
   attacks. The native presence (radius 100 here) stands in for the greeting's call_out, so the
   toll is paid from the edge of the room. A robber that has fought the player attacks on sight
-  from then on, mark or not (kill_passenger()'s attitude, attack.c's hatred), until it is made
-  anew. Its chat and fight lines are set from the start where ES2 sets them at that first meeting.
+  from then on, mark or not (kill_passenger()'s attitude, attack.c's hatred, after its
+  aggression, a refused toll, the player's 攻击 or 切磋), until it is made anew. Its chat and fight
+  lines are set from the start where ES2 sets them at that first meeting.
 - **Owner: the thief steals** (thief.c, cmds/std/steal.c), the NPC side only (the player's steal
   waits for #9): an arriving player (or the thief arriving) is tried when random(kar) < 2, one
   second later steal.c picks present("silver") or a random carried thing, three seconds later it
   rolls. The player reads nothing when robbed, only when caught; then they fight (fight_ob both
-  ways: a spar). An NPC is not robbed. His `thief` count is not saved, as NPCs are not.
+  ways: a spar). An NPC is not robbed, nor is a thing the player dropped in those three seconds
+  (steal.c would take it off the floor). His `thief` count and a robber's having fought the
+  player are object variables: Continue forgets them, as drunk.c's has_alcohol.
 - **Rules as data**: accept_object rules test the giver's gender and raw per (李师师's keepsake)
   and may attack on a refusal (`kill`); greetings draw `out_of` n (switch(random(4)) with fewer
   cases says nothing on the rest); a `line` is shown as written (the say() efun naming its

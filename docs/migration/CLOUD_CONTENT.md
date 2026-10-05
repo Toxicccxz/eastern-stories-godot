@@ -41,7 +41,8 @@ what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS
   replaced by give.c's own line.
 - gangster.c's greeting() has no presence check; the chess player gives his whole stack of 棋子
   when he loses (`give chess`), saying it is two.
-- The seller gains a 飞镖 on half the arrivals (init()); not modelled.
+- The seller gains a 飞镖 on half the arrivals (init()); not modelled. The weapon shop lists its
+  飞镖 at 0两黄金 (vendor.c price_string(0)), which buy.c then refuses to sell.
 - entrance.c's notice asks a gold tael toll that no code takes; m_house.c says 常人可进不来 and
   lets anyone in. room_gua.c's 镇关西 answer speaks of 雪亭镇.
 - jiasha.c sets `male_only`, which wear.c does not read. sword_book.c does not compile (and is

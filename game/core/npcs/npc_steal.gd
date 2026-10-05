@@ -54,19 +54,23 @@ static func victim_odds(sen: int, item_weight: int, fighting: bool, equipped: bo
 
 
 ## steal.c compelete_steal(). Taken: random(sp+dp) > dp (no roll on a victim who is
-## not conscious); on a conscious victim improve_skill("stealing", random(int))
-## (NPC skills do not improve; the draw is kept) and random(sp) < dp/2 for whether
-## others see it (nobody else is there; kept too). Failed: random(sp) > dp/2 is unnoticed.
+## not conscious); once it has moved, after_taken(). Failed: random(sp) > dp/2 is unnoticed.
 @warning_ignore("integer_division")
-static func resolve(sp: int, dp: int, victim_conscious: bool, thief_intelligence: int, random: WorldInteractionRandomSource) -> Outcome:
+static func resolve(sp: int, dp: int, victim_conscious: bool, random: WorldInteractionRandomSource) -> Outcome:
 	if not victim_conscious or random.legacy_random(sp + dp) > dp:
-		if victim_conscious:
-			random.legacy_random(thief_intelligence)
-			random.legacy_random(sp)
 		return Outcome.TAKEN
 	if random.legacy_random(sp) > dp / 2:
 		return Outcome.UNNOTICED
 	return Outcome.CAUGHT
+
+
+## What steal.c draws after a theft that moved the thing: on a conscious victim
+## improve_skill("stealing", random(int)) (NPC skills do not improve; the draw is kept),
+## then random(sp) < dp/2 for whether others see it (nobody else is there; kept too).
+static func after_taken(sp: int, victim_conscious: bool, thief_intelligence: int, random: WorldInteractionRandomSource) -> void:
+	if victim_conscious:
+		random.legacy_random(thief_intelligence)
+	random.legacy_random(sp)
 
 
 func is_valid() -> bool:

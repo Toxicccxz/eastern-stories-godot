@@ -98,11 +98,13 @@ func _test_steal_rolls() -> void:
 	_check(NpcSteal.thief_odds(35, 20, 0, false) == 215 and NpcSteal.thief_odds(35, 20, 1, true) == 97 and NpcSteal.thief_odds(0, 0, 3, false) == 1, "sp = stealing*5 + kar*2 - thief*20, at least 1, halved in a fight")
 	_check(NpcSteal.victim_odds(100, 50, false, false) == 202 and NpcSteal.victim_odds(100, 50, true, true) == 20200, "dp = sen*2 + weight/25, x10 fighting, x10 equipped")
 	var random := ScriptedWorldInteractionRandomSource.new([203, 5, 0])
-	_check(NpcSteal.resolve(215, 202, true, 20, random) == NpcSteal.Outcome.TAKEN and random.requested_bounds() == [417, 20, 215], "random(sp+dp) > dp takes it; improve_skill's random(int) and the onlookers' random(sp) are drawn")
-	_check(NpcSteal.resolve(215, 202, true, 20, ScriptedWorldInteractionRandomSource.new([202, 102])) == NpcSteal.Outcome.UNNOTICED, "failed, random(sp) > dp/2: unnoticed")
-	_check(NpcSteal.resolve(215, 202, true, 20, ScriptedWorldInteractionRandomSource.new([10, 101])) == NpcSteal.Outcome.CAUGHT, "failed, random(sp) <= dp/2: caught")
+	_check(NpcSteal.resolve(215, 202, true, random) == NpcSteal.Outcome.TAKEN and random.requested_bounds() == [417], "random(sp+dp) > dp takes it")
+	NpcSteal.after_taken(215, true, 20, random)
+	_check(random.requested_bounds() == [417, 20, 215], "once moved: improve_skill's random(int) and the onlookers' random(sp)")
+	_check(NpcSteal.resolve(215, 202, true, ScriptedWorldInteractionRandomSource.new([202, 102])) == NpcSteal.Outcome.UNNOTICED, "failed, random(sp) > dp/2: unnoticed")
+	_check(NpcSteal.resolve(215, 202, true, ScriptedWorldInteractionRandomSource.new([10, 101])) == NpcSteal.Outcome.CAUGHT, "failed, random(sp) <= dp/2: caught")
 	var asleep := ScriptedWorldInteractionRandomSource.new([])
-	_check(NpcSteal.resolve(215, 202, false, 20, asleep) == NpcSteal.Outcome.TAKEN and asleep.call_count() == 0, "from someone not conscious: taken, no roll")
+	_check(NpcSteal.resolve(215, 202, false, asleep) == NpcSteal.Outcome.TAKEN and asleep.call_count() == 0, "from someone not conscious: taken, no roll")
 
 
 func _test_tiles(session: OldPineWorldSessionController) -> void:
@@ -227,13 +229,22 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	player.state.marks.erase("强盗") # TEST-ONLY
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 1, &"test.cloud.silver2") # TEST-ONLY
 	var silver: StringName = _carried(session, &"es2:obj/money/silver")
+	said = session.shared_ui().log_lines().size()
 	var refused: ItemHandlingResult = map.give_to_selected(silver, 1)
 	_check(not refused.done() and session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id), "one tael: he spits and attacks (kill_passenger)")
+	var order: Array[String] = session.shared_ui().log_lines().slice(said)
+	_check(order.size() >= 3 and order[0].begins_with("强盗往地上吐了口唾沫") and order[-2] == "看起来卧龙岗强盗想杀死你！" and order[-1] == ItemHandlingService.NOT_FOR_NPC,
+		"his line, kill_ob()'s warning, then give.c's refusal: " + str(order))
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER), "and from then on he attacks on sight, mark or not")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
 	CombatEncounterCoordinator.take_aborted_total()
 	player.state.marks["强盗"] = 1
 	_check(map.aggression_adapter()._evaluate(robbers[0], player, true).outcome != NpcAggressionDecision.Outcome.NOT_AUTHORED, "the mark no longer helps with him")
+	# 切磋 with the other, mark paid: accept_fight() kill_passenger()s, so he too remembers.
+	map.select_npc(robbers[1].character_id)
+	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED and robbers[1].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER), "a 切磋 turned kill marks him as having fought the player (review on 3A)")
+	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
+	CombatEncounterCoordinator.take_aborted_total()
 	await tree.physics_frame
 
 
@@ -271,6 +282,17 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(not _carried_ids(session).has(silver) and session.stack_collection().stack_state(silver) != null, "taken: the player's %d silver is gone" % amount)
 	_check(random.call_count() == 3 and session.inventory_state().is_direct_child(silver, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, thief.character_id)), "the thief has it")
 	_check(session.shared_ui().log_lines().size() == lines, "and nothing is said to the player")
+	# A thief killed between steal.c's main() and compelete_steal() takes nothing (review on 3A).
+	var more: MoneyInventoryContext = Finance.session_context(session)
+	Finance.add_money(more, CurrencyDenomination.Value.SILVER, 3, &"test.cloud.silver3") # TEST-ONLY
+	var kept: StringName = _carried(session, &"es2:obj/money/silver")
+	map._pending_steals[thief.character_id] = {"item": kept, "sp": 1, "dp": 0}
+	thief.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY
+	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([999999, 0, 0]))
+	map._advance_ambience(0.0)
+	map._steal_step(thief)
+	_check(_carried_ids(session).has(kept), "a dead thief finishes no theft")
+	thief.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 
 
