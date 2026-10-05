@@ -56,6 +56,7 @@ var _npc_ambience_random: WorldInteractionRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
 var _hidden_passages: WorldHiddenPassages
+var _room_traps: WorldRoomTraps
 var _room_resets: WorldRoomResets
 
 
@@ -248,6 +249,8 @@ func reset_room(legacy_room: String) -> void:
 		map.reset_room(legacy_room)
 	if _hidden_passages != null:
 		_hidden_passages.reset_room(legacy_room)
+	if _room_traps != null:
+		_room_traps.reset_room(legacy_room)
 
 
 func room_resets() -> WorldRoomResets:
@@ -256,6 +259,16 @@ func room_resets() -> WorldRoomResets:
 
 func hidden_passages() -> WorldHiddenPassages:
 	return _hidden_passages
+
+
+func room_traps() -> WorldRoomTraps:
+	return _room_traps
+
+
+## A room's valid_leave() as the player walks out of `from_zone_id` (WorldRoomTraps).
+func player_leaving_zone(from_zone_id: StringName, to_zone_id: StringName) -> void:
+	if _room_traps != null:
+		_room_traps.player_leaving(from_zone_id, to_zone_id)
 
 
 func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:
@@ -315,6 +328,7 @@ func initialize_session() -> bool:
 	if ready:
 		_hidden_passages = WorldHiddenPassages.new(self)
 		_hidden_passages.open_for_player_below()
+		_room_traps = WorldRoomTraps.new(self)
 		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 	return ready
 

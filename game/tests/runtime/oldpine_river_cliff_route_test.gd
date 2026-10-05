@@ -139,7 +139,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	]
 	# The route crosses the forest, the gorge and the cliff: observe every Old Pine NPC.
 	var npc_authorities: Array[NpcRuntimeState] = session.world_npcs()
-	_assert_eq(npc_authorities.size(), 10, "route observes the ten authored Old Pine NPCs")
+	_assert_eq(npc_authorities.size(), 34, "route observes the 34 authored Old Pine NPCs")
 	var npc_vitality_before: Array[int] = []
 	var npc_item_ids_before: Array[Array] = []
 	for npc: NpcRuntimeState in npc_authorities:
@@ -259,7 +259,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	var fresh: WorldMapController = fresh_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	for old_map: WeakRef in old_maps:
 		_assert_true(old_map.get_ref() == null, "whole Session reset frees every traversed map node")
-	_assert_eq(fresh_session.world_npcs().size(), 10, "reset creates ten fresh authored NPCs")
+	_assert_eq(fresh_session.world_npcs().size(), 34, "reset creates 34 fresh authored NPCs")
 	_assert_eq(_corpse_count(fresh_session), 0, "reset has no prior corpse")
 	for map: WorldMapController in fresh_session.world_maps():
 		_assert_true(map.selected_interaction_target() == null, "reset has no stale River/Cliff target on %s" % map.map_id())

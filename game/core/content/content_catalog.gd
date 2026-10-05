@@ -22,6 +22,7 @@ var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
+var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
@@ -70,10 +71,12 @@ func set_places(
 	p_services: Dictionary[StringName, ServiceDefinition],
 	p_doors: Dictionary[StringName, DoorDefinition],
 	p_landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {},
+	p_traps: Dictionary[StringName, RoomTrapDefinition] = {},
 ) -> void:
 	_services = p_services.duplicate()
 	_doors = p_doors.duplicate()
 	_landmarks = p_landmarks.duplicate()
+	_traps = p_traps.duplicate()
 
 
 ## Called once by ContentCatalogBuilder after cross-checking.
@@ -142,6 +145,13 @@ func hidden_passage_for_portal(portal_id: StringName) -> WorldLandmarkDefinition
 		if definition.policy == &"hidden_passage" and definition.portal_ids().has(portal_id):
 			return definition
 	return null
+
+
+func traps() -> Array[RoomTrapDefinition]:
+	var result: Array[RoomTrapDefinition] = []
+	for definition: RoomTrapDefinition in _traps.values():
+		result.append(definition)
+	return result
 
 
 func hidden_passages() -> Array[WorldLandmarkDefinition]:

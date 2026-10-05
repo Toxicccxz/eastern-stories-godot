@@ -1,17 +1,18 @@
 class_name BoltSpell
 extends CastFunction
 
-## daemon/class/taoist/necromancy/drainerbolt.c and feeblebolt.c (茅山道术): at an
-## enemy, for 25 mana and some sen. One time in max_mana / 50 it fails (write()
-## tells only the caster). Else a bolt flies; when random(ap + dp) beats dp
-## (ap = spells³ / 4 * sen / 100, dp the target's combat_exp) it hits for
-## max_mana / 20 + random(eff_sen / 10) less the target's max_mana / 30 and
-## random(eff_sen / 15) (the caster's eff_sen both times, as written). A hit that
-## does damage drains gin into the caster (drainerbolt) or sen (feeblebolt), wounds
-## a third of it, practises necromancy and is followed by report_status(target).
+## daemon/class/taoist/necromancy/drainerbolt.c, feeblebolt.c and netherbolt.c
+## (茅山道术): at an enemy, for 25 mana and some sen. One time in max_mana / 50 it
+## fails (write() tells only the caster). Else a bolt flies; when random(ap + dp)
+## beats dp (ap = spells³ / 4 * sen / 100, dp the target's combat_exp) it hits for
+## max_mana / 20 (netherbolt: / 10) + random(eff_sen / 10) less the target's
+## max_mana / 30 and random(eff_sen / 15) (the caster's eff_sen both times, as
+## written). A hit that does damage drains gin into the caster (drainerbolt), sen
+## (feeblebolt) or kee (netherbolt, without draining it into the caster), wounds a
+## third of it, practises necromancy and is followed by report_status(target).
 ## The caster is busy 2. The files' kill_ob() when the target was not fighting the
 ## caster never runs: they are cast only in a fight, at an enemy.
-enum Track { GIN, SEN }
+enum Track { GIN, SEN, KEE }
 
 const MANA_COST: int = 25
 const FAIL_BELOW: int = 50
@@ -21,6 +22,8 @@ const BUSY: int = 2
 ## bolt flying (in its colour), the hit (HIR) and the bolt going through harmlessly.
 var track: Track
 var sen_cost: int
+## max_mana / this is the hit's base (netherbolt.c 10, the others 20).
+var mana_divisor: int = 20
 var flash: String
 var flash_color: StringName
 var hit: String
@@ -55,7 +58,7 @@ func cast(context: SpecialContext) -> bool:
 	if context.random.call(ap + dp) > dp:
 		var eff_sen: int = me.state.spirit.effective
 		@warning_ignore("integer_division")
-		damage = mana.maximum / 20 + context.random.call(eff_sen / 10)
+		damage = mana.maximum / mana_divisor + context.random.call(eff_sen / 10)
 		@warning_ignore("integer_division")
 		damage -= target.state.recovery.mana.maximum / 30 + context.random.call(eff_sen / 15)
 		if damage > 0:
@@ -83,3 +86,6 @@ func _strike(me: SpecialSide, target: SpecialSide, damage: int) -> void:
 		Track.SEN:
 			target.state.spirit.apply_damage(damage)
 			target.state.spirit.apply_wound(wound)
+		Track.KEE:
+			target.state.vitality.apply_damage(damage)
+			target.state.vitality.apply_wound(wound)

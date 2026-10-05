@@ -39,6 +39,7 @@ var _score: int
 var _attitude: int
 var _skill_levels: Array[NpcSkillLevelDefinition] = []
 var _loadout_entries: Array[NpcLoadoutEntry] = []
+var _bellicosity: int = 0
 var _capability_ids: Array[StringName] = []
 var _authored_combat_facts: AuthoredCombatFactsType
 var _title: String
@@ -239,6 +240,17 @@ func with_internal_power(values: Dictionary[StringName, int]) -> NpcDefinition:
 
 func internal_power(key: StringName) -> int:
 	return _internal_power.get(key, 0)
+
+
+## set("bellicosity") (杀气): courage in a fight (attribute.c query_cor()) and, for
+## an NPC that is not aggressive, attack.c init()'s berserk roll. Called once by the loader.
+func with_bellicosity(value: int) -> NpcDefinition:
+	_bellicosity = value
+	return self
+
+
+func bellicosity() -> int:
+	return _bellicosity
 
 
 ## race/human.c sets can_speak; beast.c does not. fight.c only asks a

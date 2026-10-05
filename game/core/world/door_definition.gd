@@ -1,14 +1,18 @@
 class_name DoorDefinition
 extends RefCounted
 
-## An ES2 `create_door()` pair between two zones of one map. It starts closed;
-## the scene places it with a WorldDoor of the same ID. Door state is not saved.
+## An ES2 `create_door()` pair between two zones of one map. It starts closed
+## (`open`: open); the scene places it with a WorldDoor of the same ID. Door state
+## is not saved. A door the player cannot `operable` is one a room rule opens and
+## shuts (an exit keep2.c deletes and sets again).
 var _door_id: StringName
 var _map_id: StringName
 var _display_name: String
 var _zone_ids: Array[StringName] = []
 var _reach: int
 var _closable: bool
+var _starts_open: bool = false
+var _operable: bool = true
 var _legacy_room_id: StringName
 
 var door_id: StringName:
@@ -31,6 +35,12 @@ var closable: bool:
 var legacy_room_id: StringName:
 	get:
 		return _legacy_room_id
+var starts_open: bool:
+	get:
+		return _starts_open
+var operable: bool:
+	get:
+		return _operable
 
 
 func _init(
@@ -64,6 +74,8 @@ static func from_record(reader: ContentRecordReader) -> DoorDefinition:
 		reader.boolean("closable", true),
 		StringName(reader.required_text("legacy_room")),
 	)
+	definition._starts_open = reader.boolean("open", false)
+	definition._operable = reader.boolean("operable", true)
 	reader.finish()
 	if zones.size() != 2:
 		reader.fail("zones", "a door joins exactly two zones")
@@ -78,4 +90,7 @@ func zone_ids() -> Array[StringName]:
 
 
 func with_map(map_id: StringName) -> DoorDefinition:
-	return DoorDefinition.new(_door_id, map_id, _display_name, _zone_ids, _reach, _closable, _legacy_room_id)
+	var copy: DoorDefinition = DoorDefinition.new(_door_id, map_id, _display_name, _zone_ids, _reach, _closable, _legacy_room_id)
+	copy._starts_open = _starts_open
+	copy._operable = _operable
+	return copy

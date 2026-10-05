@@ -4,7 +4,7 @@ extends RefCounted
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
-## `doors`, `landmarks`, `skills`, `families`, `race_actions`, `weapon_actions`
+## `doors`, `landmarks`, `traps`, `skills`, `families`, `race_actions`, `weapon_actions`
 ## arrays, and at most one document has the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
@@ -21,6 +21,7 @@ var _portals: Dictionary[StringName, PortalDefinition] = {}
 var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
+var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
@@ -93,6 +94,10 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: WorldLandmarkDefinition = WorldLandmarkDefinition.from_record(record)
 		if _claim(definition.landmark_id, record):
 			_landmarks[definition.landmark_id] = definition
+	for record: ContentRecordReader in reader.children("traps"):
+		var definition: RoomTrapDefinition = RoomTrapDefinition.from_record(record)
+		if _claim(definition.trap_id, record):
+			_traps[definition.trap_id] = definition
 	for record: ContentRecordReader in reader.children("skills"):
 		var definition: SkillDefinition = SkillDefinition.from_record(record)
 		if _claim(definition.skill_id, record):
@@ -126,6 +131,7 @@ func build() -> ContentCatalog:
 	_resolve_services()
 	_resolve_doors()
 	_resolve_landmarks()
+	_check_traps()
 	_check_combat_data()
 	if _pacing == null:
 		_errors.append("pacing: no document defines it")
@@ -133,7 +139,7 @@ func build() -> ContentCatalog:
 		return null
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
-	catalog.set_places(_services, _doors, _landmarks)
+	catalog.set_places(_services, _doors, _landmarks, _traps)
 	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
 	catalog.set_teaching(_skills, _families)
@@ -370,6 +376,28 @@ func _resolve_doors() -> void:
 			_doors[door_id] = definition.with_map(maps.keys()[0])
 
 
+## A trap shuts a door a rule alone operates, between the zone it is left from
+## and the one outside; what it calls in is a summoned spawn of that zone.
+func _check_traps() -> void:
+	for trap_id: StringName in _traps.keys():
+		var trap: RoomTrapDefinition = _traps[trap_id]
+		var origin: String = _origins[trap_id]
+		var door: DoorDefinition = _doors.get(trap.door_id)
+		if door == null:
+			_errors.append("%s.door: unknown door '%s'" % [origin, trap.door_id])
+		elif door.operable or not door.starts_open or not door.zone_ids().has(trap.from_zone_id):
+			_errors.append("%s.door: '%s' must start open, be a rule's (operable false) and border %s" % [origin, trap.door_id, trap.from_zone_id])
+		for zone_id: StringName in [trap.from_zone_id, trap.to_zone_id]:
+			if not _zones.has(zone_id):
+				_errors.append("%s: unknown zone '%s'" % [origin, zone_id])
+		if not _rooms.has(trap.room_id):
+			_errors.append("%s.room: unknown room '%s'" % [origin, trap.room_id])
+		if not trap.summon_spawn_id.is_empty():
+			var spawn: NpcSpawnDefinition = _spawns.get(trap.summon_spawn_id)
+			if spawn == null or not spawn.summoned or spawn.zone_id != trap.from_zone_id:
+				_errors.append("%s.summon: '%s' must be a summoned spawn of %s" % [origin, trap.summon_spawn_id, trap.from_zone_id])
+
+
 ## A landmark's portals leave from its own zone; a hidden passage's second
 ## portal is the way back, from where the first leads to the landmark's zone.
 func _resolve_landmarks() -> void:
@@ -401,4 +429,7 @@ func _resolve_landmarks() -> void:
 				if hidden_owners.has(portal_ids[index]):
 					_errors.append("%s.portals: '%s' is already used by %s" % [origin, portal_ids[index], hidden_owners[portal_ids[index]]])
 				hidden_owners[portal_ids[index]] = landmark_id
+		for role: String in ["buried", "reward"]:
+			if not definition.item(role).is_empty() and not _items.has(definition.item(role)):
+				_errors.append("%s.items: unknown item '%s'" % [origin, definition.item(role)])
 		_landmarks[landmark_id] = definition.with_map(zone.map_id)

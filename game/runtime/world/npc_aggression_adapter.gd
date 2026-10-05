@@ -97,7 +97,7 @@ func _evaluate(
 		)
 	if not npc.definition().has_capability(
 		NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE
-	):
+	) and not NpcBerserk.applies_to(npc.definition()):
 		return NpcAggressionDecision.new(
 			NpcAggressionDecision.Outcome.NOT_AUTHORED,
 			npc_id,

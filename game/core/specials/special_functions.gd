@@ -5,7 +5,7 @@ extends RefCounted
 ## perform_action_file() and a spells skill's cast_spell_file() reach those
 ## skills.json lists under `perform` and `cast`; exert files are ExertFunctions.
 const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault"]
-const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt"]
+const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt"]
 
 static var _performs: Dictionary[StringName, PerformFunction] = {}
 static var _casts: Dictionary[StringName, CastFunction] = {}
@@ -43,6 +43,13 @@ static func cast(function_id: StringName) -> CastFunction:
 		feeble.flash_color = ColoredLine.HIW
 		feeble.hit = "结果「嗤」地一声，白光从$p身上透体而过，拖出一条长长的黑气直射到两三丈外的地下！"
 		feeble.miss = "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
-		for spell: CastFunction in [drainer, feeble]:
+		var nether := BoltSpell.new(&"netherbolt", BoltSpell.Track.KEE)
+		nether.sen_cost = 10
+		nether.mana_divisor = 10
+		nether.flash = "$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！"
+		nether.flash_color = ColoredLine.HIC
+		nether.hit = "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
+		nether.miss = "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
+		for spell: CastFunction in [drainer, feeble, nether]:
 			_casts[spell.id] = spell
 	return _casts.get(function_id)

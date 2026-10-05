@@ -139,7 +139,7 @@ func _test_terrain_spot_checks() -> void:
 	for row: Array in [
 		[Vector2(450, -250), "path", false], [Vector2(1200, 100), "chasm", true], [Vector2(1200, 300), "bridge", false],
 		[Vector2(-410, 856), "forest", true], [Vector2(-820, 700), "forest", true], [Vector2(-1480, 850), "cliff", true],
-		[Vector2(880, 860), "blocked", true], [Vector2(325, 1250), "cliff", true], [Vector2(450, 616), "forest_floor", false],
+		[Vector2(880, 860), "forest_floor", false], [Vector2(325, 1250), "cliff", true], [Vector2(450, 616), "forest_floor", false],
 	]:
 		_spot(forest, "Old Pine forest", row)
 	forest.free()
@@ -151,8 +151,9 @@ func _test_terrain_spot_checks() -> void:
 		_spot(gorge, "Old Pine gorge", row)
 	gorge.free()
 	var cave: Node2D = _scene("res://scenes/world/oldpine/oldpine_cave.tscn")
-	_spot(cave, "Old Pine cave", [Vector2(0, -240), "blocked", true])
-	_spot(cave, "Old Pine cave", [Vector2(0, 225), "shallow_water", false])
+	_spot(cave, "Old Pine cave", [Vector2(0, -240), "cave_floor", false])
+	_spot(cave, "Old Pine cave", [Vector2(0, -420), "blocked", true])
+	_spot(cave, "Old Pine cave", [Vector2(0, 400), "shallow_water", false])
 	cave.free()
 	var snow: Node2D = _scene("res://scenes/world/snow/snow_outdoor.tscn")
 	for row: Array in [

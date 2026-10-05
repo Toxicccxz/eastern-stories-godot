@@ -184,7 +184,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var session_allocator: SessionItemIdAllocator = session.item_id_allocator()
 	_assert_true(outdoor != null and cave != null, "session retains the Outdoor and Cave typed resident maps")
-	_assert_eq(session.resident_map_count(), 5, "session has exactly five Old Pine resident maps")
+	_assert_eq(session.resident_map_count(), 8, "session has exactly eight Old Pine resident maps")
 	_assert_eq(session.active_map_child_count(), 1, "exactly one resident map is tree-active")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "Outdoor starts active")
 	_assert_eq(session.player_runtime().world_location().map_id, OldPineWorldDefinitions.OUTDOOR_MAP_ID, "inactive Cave prewarm never changes player location")
@@ -213,7 +213,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(cave.item_id_allocator().scope, session.item_instance_scope(), "Cave receives the same session item-ID scope")
 	_assert_true(cave._item_id_allocator == session_allocator, "Cave receives the exact session item-ID allocator object")
 	_assert_eq(session_allocator.next_dynamic_sequence, 0, "twelve authored bootstrap items consume no dynamic sequence")
-	_assert_eq(session.inventory_state().registered_item_ids().size(), 12, "New Game still creates exactly twelve bootstrap items")
+	_assert_eq(session.inventory_state().registered_item_ids().size(), 53, "New Game still creates exactly 53 bootstrap items")
 	_assert_true(outdoor.player_body.player_controlled, "only active Outdoor player body is controllable")
 	_assert_false(cave.player_body.player_controlled, "detached Cave player body is not controllable")
 	_assert_true(
@@ -227,8 +227,8 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_eq(cave.resident_npcs().size(), 0, "minimal Passage Cave has no authored NPC")
 	_assert_true(cave.resolve_spawn_marker(CAVE_VINE_LANDING) != null, "Cave exposes exact VineLanding marker")
 	_assert_true(cave.has_node("Zones/PassageZone"), "Cave contains one PassageZone")
-	_assert_true(cave.has_node("Terrain/NorthBlocked"), "Cave keeps north passage visibly blocked")
-	_assert_eq(TerrainProbe.terrain_at(cave, Vector2(0.0, -240.0)), "blocked", "Cave has a physical north blocked boundary")
+	_assert_true(cave.has_node("Zones/SecretPathZone") and cave.has_node("Zones/InnerPathZone"), "Cave goes on north: secrectpath1 and path3")
+	_assert_eq(TerrainProbe.terrain_at(cave, Vector2(0.0, -420.0)), "blocked", "the big stone in path3 is drawn as blocked")
 	var outdoor_world_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.WORLD,
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
@@ -413,8 +413,8 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var north_collision: KinematicCollision2D = cave.player_body.move_and_collide(
 		Vector2(0.0, -1000.0)
 	)
-	_assert_true(north_collision != null, "Cave player cannot cross physical north boundary")
-	_assert_true(cave.player_body.global_position.y > -245.0, "north collision leaves player south of blocked passage")
+	_assert_true(north_collision != null, "walking north the player meets the big stone (climbed, not walked)")
+	_assert_true(cave.player_body.global_position.y > -400.0, "the stone stops the player in path3")
 	_assert_false(player.relationship.has_opponent(npc.character_id), "cross-map availability removes ordinary player opponent")
 	_assert_true(player.relationship.has_lethal_target(npc.character_id), "cross-map reconciliation preserves lethal marker")
 	_assert_true(npc.relationship.has_opponent(player.character_id), "inactive source NPC remains frozen until reactivation")
@@ -528,7 +528,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(old_corpse_view_ref.get_ref() == null, "old corpse view and signals cannot survive session destruction")
 	var control: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_eq(control.npc_random_source().next_below(1000), npc_random_after_roundtrip, "Cave activation and return consume zero NPC-init RNG draws")
-	_assert_eq(control.world_npcs().size(), 10, "fresh whole-session boundary restores all ten authored NPCs")
+	_assert_eq(control.world_npcs().size(), 34, "fresh whole-session boundary restores all 34 authored NPCs")
 	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
 	_assert_true(control.player_runtime().armor.occupied_slots().is_empty(), "fresh whole-session boundary restores initial Armor")
 	_assert_eq(control.player_runtime().state.equipment.primary_weapon().weapon_id, TestContent.LONG_SWORD_ITEM_ID, "fresh whole-session boundary restores prototype long sword")

@@ -230,6 +230,7 @@ func create_one(
 	state.recovery.atman = CharacterInternalResourceState.new(definition.internal_power(&"atman"), definition.internal_power(&"max_atman"))
 	state.recovery.mana = CharacterInternalResourceState.new(definition.internal_power(&"mana"), definition.internal_power(&"max_mana"))
 	state.attributes.force_factor = definition.internal_power(&"force_factor")
+	state.attributes.bellicosity = definition.bellicosity()
 	var resource_overrides: ResourceOverridesType = definition.resource_overrides()
 	state.essence = _create_resource_track(
 		resource_overrides.essence(),
@@ -314,11 +315,15 @@ static func _create_resource_track(
 	require_exact: bool = false,
 ) -> CharacterResourceStateType:
 	var maximum: int = override.maximum() if override.has_maximum() else derived_maximum
+	# wolf_dog.c sets kee and eff_kee 200 over beast.c's max_kee 50 for its age;
+	# LPC keeps eff_kee above max_kee, which a resource state cannot hold. A
+	# beast's derived maximum rises to its authored values instead (DECISIONS).
+	if require_exact and not override.has_maximum():
+		maximum = maxi(maximum, maxi(override.effective() if override.has_effective() else 0, override.current() if override.has_current() else 0))
 	var effective: int = override.effective() if override.has_effective() else maximum
 	var current: int = override.current() if override.has_current() else maximum
 	# chard.c does not normalize authored anomalies. Do not silently feed an
 	# unrepresentable Beast track through CharacterResourceState's clamps.
-	# The closed human path is unchanged; wolf-style compatibility is deferred.
 	if require_exact and (
 		maximum < 0
 		or effective < CharacterResourceStateType.INCAPACITATED_FLOOR

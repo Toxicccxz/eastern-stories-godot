@@ -7,11 +7,15 @@ extends RefCounted
 ## `portal` always takes the single portal; `vine` rolls dodge (epath2.c);
 ## `hidden_passage` does not move the player: each use is one push, and the
 ## `pushes`-th opens its two portals (the way down and the way back) for
-## `open_seconds` (weapon_storage.c).
+## `open_seconds` (weapon_storage.c). `bury` buries the `buried` item lying in the
+## zone and rolls the player's kar: the `reward` item falls, or the player falls
+## through its portal (cave5.c do_bury()). A `portal` landmark may say its LPC
+## line (`use`, message_vision() to the mover) instead of the action's name.
 const POLICIES: Dictionary[StringName, Dictionary] = {
-	&"portal": {"portals": 1, "messages": [], "settings": []},
-	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": []},
-	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"]},
+	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
+	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
+	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"], "items": []},
+	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 }
 
 var _landmark_id: StringName
@@ -25,6 +29,7 @@ var _portal_ids: Array[StringName] = []
 var _requires_contact: bool
 var _messages: Dictionary[String, String] = {}
 var _settings: Dictionary[String, int] = {}
+var _items: Dictionary[String, StringName] = {}
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -114,6 +119,11 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.required_text("legacy_source"),
 	)
 	definition._settings = settings
+	var item_reader: ContentRecordReader = reader.child("items")
+	if item_reader != null:
+		for key: String in item_reader.keys():
+			definition._items[key] = StringName(item_reader.required_text(key))
+		item_reader.finish()
 	reader.finish()
 	if not POLICIES.has(definition.policy):
 		reader.fail("policy", "unsupported landmark policy '%s'" % definition.policy)
@@ -122,11 +132,19 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	if portal_ids.size() != int(rule["portals"]):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
+	for optional: String in rule.get("optional_messages", []):
+		keys.erase(optional)
 	keys.sort()
 	var expected: Array = (rule["messages"] as Array).duplicate()
 	expected.sort()
 	if keys != expected:
 		reader.fail("messages", "policy '%s' needs exactly %s" % [definition.policy, expected])
+	var item_keys: Array = definition._items.keys()
+	item_keys.sort()
+	var expected_items: Array = (rule["items"] as Array).duplicate()
+	expected_items.sort()
+	if item_keys != expected_items:
+		reader.fail("items", "policy '%s' needs exactly the items %s" % [definition.policy, expected_items])
 	var setting_keys: Array = settings.keys()
 	setting_keys.sort()
 	var expected_settings: Array = (rule["settings"] as Array).duplicate()
@@ -142,6 +160,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 ## Copy placed on the map of its zone.
 func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	var copy: WorldLandmarkDefinition = WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id)
+	copy._items = _items.duplicate()
 	copy._settings = _settings.duplicate()
 	return copy
 
@@ -158,6 +177,11 @@ func message(key: String) -> String:
 ## A policy's authored number (see POLICIES), e.g. `pushes`; 0 when absent.
 func setting(key: String) -> int:
 	return _settings.get(key, 0)
+
+
+## A policy's item by role (see POLICIES), e.g. `reward`; empty when absent.
+func item(key: String) -> StringName:
+	return _items.get(key, &"")
 
 
 func is_valid() -> bool:

@@ -346,7 +346,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_instance_id(), old_outdoor_id, "fresh session owns a new Outdoor resident Node")
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_instance_id(), old_cave_id, "fresh session owns a new Cave resident Node")
 	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh session restores no prior corpse")
-	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 5, "fresh session creates the authored five Outdoor NPCs")
+	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 23, "fresh session creates the authored 23 Outdoor NPCs")
 	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "fresh session creates the authored five Gorge NPCs")
 	_assert_true(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "fresh session has no stale Vine selection")
 	_assert_false(fresh.passage_request_pending(), "fresh session has no stale SouthExit request")
@@ -587,9 +587,10 @@ func _test_physical_interaction_and_exit_deduplication(tree: SceneTree) -> void:
 	_assert_true(session.last_map_handoff_result() == first_result, "repeated trigger after detach queues no duplicate handoff")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "deduplicated exit lands at the Gorge waterfall")
 	_assert_false(session.passage_request_pending(), "processed SouthExit no longer reports a pending transition")
-	# The closed north passage is a band of colliding terrain (was a StaticBody2D).
-	for point: Vector2 in [Vector2(-300, -240), Vector2(0, -240), Vector2(300, -240)]:
-		_assert_true(TerrainProbe.blocks_at(cave, point), "Cave north secret passage remains physically blocked at %s" % point)
+	# North of the passage the secret path (secrectpath1) is open; rock walls flank it.
+	_assert_true(not TerrainProbe.blocks_at(cave, Vector2(0, -240)), "Cave north secret passage is open")
+	for point: Vector2 in [Vector2(-200, -150), Vector2(200, -150)]:
+		_assert_true(TerrainProbe.blocks_at(cave, point), "Cave rock beside the secret passage at %s" % point)
 	await _free_session(session, tree)
 
 

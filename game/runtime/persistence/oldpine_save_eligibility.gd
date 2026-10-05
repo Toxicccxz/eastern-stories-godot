@@ -75,10 +75,16 @@ static func inspect(
 			npc.busy,
 			npc.life_status,
 			npc.exists_in_map,
+			_summoned(npc),
 		)
 		if not npc_result.allowed():
 			return npc_result
 	return Result.allow()
+
+
+static func _summoned(npc: NpcRuntimeState) -> bool:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	return spawn != null and spawn.summoned
 
 
 static func _inspect_character(
@@ -88,6 +94,7 @@ static func _inspect_character(
 	busy: ActionBusyState,
 	life_status: int,
 	exists_in_world: bool,
+	may_be_absent: bool = false,
 ) -> OldPineSaveEligibilityResult:
 	if (
 		character_id.is_empty()
@@ -107,7 +114,8 @@ static func _inspect_character(
 		return Result.block(Result.Outcome.INTERRUPT_THRESHOLD, character_id)
 	if relationship.guarding:
 		return Result.block(Result.Outcome.GUARDING, character_id)
-	if (life_status == CharacterRuntimeLifeStatus.Value.DEAD) == exists_in_world:
+	# A summoned NPC is alive and not in the world until its room calls it in.
+	if (life_status == CharacterRuntimeLifeStatus.Value.DEAD and exists_in_world) or (life_status != CharacterRuntimeLifeStatus.Value.DEAD and not exists_in_world and not may_be_absent):
 		return Result.block(
 			Result.Outcome.LIFE_EXISTENCE_CONTRADICTION,
 			character_id,

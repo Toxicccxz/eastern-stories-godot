@@ -33,12 +33,15 @@ func _test_shipped_content_loads() -> void:
 		spawn_ids.append(spawn.spawn_id)
 	_eq(spawn_ids, [
 		&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.gorge.lake.serpents",
+		&"oldpine.outdoor.epath3.maniac", &"oldpine.outdoor.pine7.wolf_dog", &"oldpine.tree.tree2.butterflys", &"oldpine.outdoor.keep1.bandit_guards",
+		&"oldpine.outdoor.keep2.bandit_guards", &"oldpine.outdoor.keep2.bandit_leader", &"oldpine.outdoor.keep3.bandit_leaders",
+		&"oldpine.outdoor.keep3.bandit_commander",
 		&"snow.inn.travellers", &"snow.outdoor.eroad2.dogs", &"snow.outdoor.temple.keeper", &"snow.outdoor.mstreet2.drunk",
 		&"snow.outdoor.mstreet2.scavenger", &"snow.outdoor.school1.guard", &"snow.outdoor.school2.trainees", &"snow.outdoor.school2.fist_trainer",
 		&"snow.outdoor.sroad2.farmers", &"snow.outdoor.sroad4.crazy_dog", &"snow.outdoor.school.teacher",
 		&"snow.outdoor.herbshop.woodcutter", &"snow.outdoor.postoffice.post_officer", &"snow.inn_upstairs.inn_2f.rats",
 		&"snow.inn.waiter", &"snow.outdoor.bank.annihir", &"snow.outdoor.schoolhall.master", &"snow.outdoor.smithy.smith",
-		&"snow.outdoor.herbshop.herbalist", &"snow.outdoor.nyard.girl",
+		&"snow.outdoor.herbshop.herbalist", &"snow.outdoor.nyard.girl", &"oldpine.outdoor.keep2.trap_guards",
 	], "spawn order is the authored order (manifest, then file)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")

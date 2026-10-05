@@ -10,6 +10,7 @@ signal remove_requested(item_instance_id: StringName)
 signal give_requested(item_instance_id: StringName, amount: int)
 signal drop_requested(item_instance_id: StringName, amount: int)
 signal put_requested(item_instance_id: StringName, amount: int)
+signal play_requested(item_instance_id: StringName)
 
 ## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
 const CATEGORY_WORDS: Dictionary[StringName, String] = {
@@ -147,6 +148,14 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		remove_button.text = "脱掉"
 		remove_button.pressed.connect(_on_remove_pressed.bind(row.item_instance_id))
 		container.add_child(remove_button)
+	# bamboo_pipe.c add_action("do_play", ({ "play", "blow" })).
+	var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
+	if content != null and not content.play.is_empty():
+		var play_button: Button = Button.new()
+		play_button.name = "Play"
+		play_button.text = "吹奏"
+		play_button.pressed.connect(func() -> void: play_requested.emit(row.item_instance_id))
+		container.add_child(play_button)
 	# A stack can be handed over in part (give 5 silver to ...).
 	var amount: SpinBox = null
 	if row.category == ItemContentDefinition.CATEGORY_CURRENCY and row.amount > 1:

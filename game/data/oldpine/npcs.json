@@ -72,6 +72,145 @@
 			"verbs": ["bite"],
 			"apply": { "attack": 60, "damage": 20, "armor": 90, "dodge": 80 },
 			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "oldpine.npc.maniac",
+			"legacy_source": "d/oldpine/npc/maniac.c",
+			"name": "疯老头子",
+			"aliases": ["mad bad ugly dirty oldman", "man", "oldman"],
+			"gender": "男性",
+			"age": 67,
+			"long": "这个老头子正对著你龇牙裂嘴，他看起来已经完全疯了。\n",
+			"attributes": { "str": 30, "cor": 30 },
+			"resources": { "force": 600, "max_force": 600, "mana": 800, "max_mana": 800 },
+			"combat_exp": 40000,
+			"score": 8000,
+			"bellicosity": 10000,
+			"force_factor": 2,
+			"skills": { "unarmed": 50, "dodge": 70, "force": 100, "spells": 50, "necromancy": 70 },
+			"skill_map": { "spells": "necromancy" },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/robe", "source": "d/oldpine/npc/obj/robe.c", "equip": "wear" }
+			],
+			"apply": { "attack": 30, "damage": 20 },
+			"chat_chance_combat": 60,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "drainerbolt" }
+			]
+		},
+		{
+			"id": "oldpine.npc.wolf_dog",
+			"legacy_source": "d/oldpine/npc/wolf_dog.c",
+			"name": "狼狗",
+			"aliases": ["wolf dog", "dog"],
+			"race": "beast",
+			"age": 4,
+			"long": "一只凶猛的狼狗，一只独眼正恶狠狠地瞪著你。\n",
+			"attributes": { "str": 26, "cor": 30 },
+			"resources": { "kee": 200, "eff_kee": 200 },
+			"combat_exp": 10000,
+			"attitude": "aggressive",
+			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 45, "damage": 40, "armor": 45 },
+			"capabilities": ["aggressive_on_player_presence"],
+			"chat_chance": 15,
+			"chat_msg": ["狼狗用一只独眼恶狠狠地瞪著你。\n"]
+		},
+		{
+			"id": "oldpine.npc.butterfly",
+			"legacy_source": "d/oldpine/npc/butterfly.c",
+			"name": "蝴蝶",
+			"aliases": ["butterfly"],
+			"race": "beast",
+			"gender": "雌性",
+			"age": 1,
+			"long": "一只翩翩起舞的小蝴蝶哦! \n",
+			"attributes": { "str": 6, "cor": 8, "per": 33 },
+			"combat_exp": 100,
+			"score": 10,
+			"attitude": "peaceful",
+			"limbs": ["头部", "身体", "翅膀"],
+			"verbs": ["bite"],
+			"apply": { "dodge": 50 },
+			"chat_chance": 15,
+			"chat_msg": ["蝴蝶拍动著翅膀! \n", "蝴蝶停在花上吸花蜜。 \n"]
+		},
+		{
+			"id": "oldpine.npc.bandit_guard",
+			"legacy_source": "d/oldpine/npc/bandit_guard.c",
+			"name": "土匪喽罗",
+			"aliases": ["bandit"],
+			"gender": "男性",
+			"age": 33,
+			"long": "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n",
+			"combat_exp": 3600,
+			"score": 260,
+			"bellicosity": 600,
+			"attitude": "aggressive",
+			"skills": { "sword": 50, "parry": 40, "dodge": 40 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
+			],
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "oldpine.npc.bandit_leader",
+			"legacy_source": "d/oldpine/npc/bandit_leader.c",
+			"name": "土匪首领",
+			"aliases": ["bandit leader", "chief", "leader"],
+			"gender": "男性",
+			"age": 47,
+			"long": "这家伙眼神凶恶，一双精光四射的眼珠正盯著你的脖子。\n",
+			"resources": { "max_force": 700, "force": 1300 },
+			"combat_exp": 50000,
+			"score": 7700,
+			"bellicosity": 3000,
+			"force_factor": 4,
+			"attitude": "aggressive",
+			"skills": { "blade": 60, "parry": 70, "dodge": 70 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/blade", "source": "d/oldpine/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/obj/leather", "source": "d/oldpine/npc/obj/leather.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 30 }
+			],
+			"apply": { "attack": 70, "dodge": 50 },
+			"capabilities": ["aggressive_on_player_presence"],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"\n土匪首领阴恻恻地说道：这种三脚猫的功夫也敢上老松寨来撒野？！\n",
+				"\n土匪首领说道：去你的，老子今天要剁下你的头来练练毒爪！\n",
+				"\n土匪首领虎吼一声，欺身上前。\n"
+			]
+		},
+		{
+			"id": "oldpine.npc.bandit_commander",
+			"legacy_source": "d/oldpine/npc/bandit_commander.c",
+			"name": "常老大",
+			"aliases": ["boss tsang", "boss", "tsang"],
+			"nickname": "泼风刀王",
+			"title": "老松寨寨主",
+			"gender": "男性",
+			"age": 53,
+			"resources": { "max_force": 1000, "force": 1500 },
+			"combat_exp": 260000,
+			"score": 17000,
+			"bellicosity": 6000,
+			"force_factor": 3,
+			"attitude": "aggressive",
+			"skills": { "force": 60, "blade": 100, "parry": 100, "dodge": 70 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/glaive", "source": "d/oldpine/npc/obj/glaive.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/obj/leather", "source": "d/oldpine/npc/obj/leather.c", "equip": "wear" },
+				{ "item": "es2:d/oldpine/obj/fur_coat", "source": "d/oldpine/npc/obj/fur_coat.c", "equip": "wear" },
+				{ "item": "es2:d/oldpine/obj/bamboo_pipe", "source": "d/oldpine/npc/obj/bamboo_pipe.c" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 50 }
+			],
+			"apply": { "attack": 100, "defense": 60 },
+			"capabilities": ["aggressive_on_player_presence"]
 		}
 	]
 }

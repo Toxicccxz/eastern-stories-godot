@@ -30,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(player.state.skills.raw_level(skill) == 10, "technical skill unchanged")
 	_check(player.state.recovery.food == 0 and player.state.recovery.water == 0, "technical fixture not refilled")
 	_check(session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID, "internal technical Old Pine start unchanged")
-	_check(session.inventory_state().registered_item_ids().size() == 12, "12 original bootstrap items; no source cloth")
+	_check(session.inventory_state().registered_item_ids().size() == 53, "53 original bootstrap items; no source cloth")
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"fixture"),
 	)
@@ -52,7 +52,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		if restored.succeeded():
 			var cold: WorldPlayerRuntimeState = restored.candidate.player_runtime()
 			_check(cold.facts.is_legacy_technical() and cold.state.progression.combat_experience == 600, "explicit technical identity and exp retained")
-			_check(restored.candidate.resident_map_count() == 5 and cold.state.equipment.primary_weapon_skill_type() == &"sword", "technical five Old Pine maps and sword retained")
+			_check(restored.candidate.resident_map_count() == 8 and cold.state.equipment.primary_weapon_skill_type() == &"sword", "technical eight Old Pine maps and sword retained")
 			restored.candidate.free()
 	# QA-only identity injection must not silently change the legacy world profile.
 	player._facts = PlayerIdentityFacts.new("初雪", "普通百姓", 14)

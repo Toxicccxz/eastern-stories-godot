@@ -35,7 +35,7 @@ func _test_maps_have_scenes() -> void:
 		_assert_true(catalog.region(map.region_id) != null, "%s region resolves" % map.map_id)
 		_assert_true(ResourceLoader.exists(map.scene_path), "%s scene exists: %s" % [map.map_id, map.scene_path])
 		_assert_false(catalog.zones_for_map(map.map_id).is_empty(), "%s has zones" % map.map_id)
-	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, &"snow.inn_upstairs", &"snow.cellar", OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.CLIFF_MAP_ID], "maps with a scene")
+	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, &"snow.inn_upstairs", &"snow.cellar", OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.CLIFF_MAP_ID, &"oldpine.stone", &"oldpine.caves", &"oldpine.cliff2"], "maps with a scene")
 	_assert_eq(catalog.region(OldPineWorld.REGION_ID).display_name, "老松岭", "Old Pine region name")
 	_assert_eq(catalog.region(SnowWorld.REGION_ID).display_name, "雪亭镇", "Snow region name")
 
@@ -45,10 +45,10 @@ func _test_zones_and_rooms() -> void:
 	_assert_eq(catalog.zones_for_map(SnowWorld.INN_MAP_ID).size(), 1, "Inn main floor")
 	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 31, "Snow outdoor zones")
 	_assert_eq([catalog.zones_for_map(&"snow.inn_upstairs").size(), catalog.zones_for_map(&"snow.cellar").size()], [4, 1], "Inn upstairs: corridor and three rooms; the secret storage")
-	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 8, "Old Pine forest zones")
+	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 11, "Old Pine forest zones and the keep's three")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.GORGE_MAP_ID).size(), 3, "Old Pine gorge: waterfall, river, lake")
 	_assert_eq([catalog.zones_for_map(OldPineWorld.TREE_MAP_ID).size(), catalog.zones_for_map(OldPineWorld.CLIFF_MAP_ID).size()], [1, 1], "tree top and cliff niche")
-	_assert_eq(catalog.zones_for_map(OldPineWorld.CAVE_MAP_ID).size(), 1, "minimal Passage Cave")
+	_assert_eq(catalog.zones_for_map(OldPineWorld.CAVE_MAP_ID).size(), 3, "Passage Cave: passage, secrectpath1, path3")
 	var rooms: Dictionary[StringName, bool] = {}
 	for zone: ZoneDefinition in catalog.zones():
 		_assert_true(zone.is_valid(), "%s is coherent" % zone.zone_id)
@@ -57,7 +57,7 @@ func _test_zones_and_rooms() -> void:
 			_assert_false(rooms.has(room_id), "%s is in one zone" % room_id)
 			rooms[room_id] = true
 			_assert_true(catalog.room(room_id) != null, "%s resolves" % room_id)
-	_assert_eq(rooms.size(), 68, "37 Snow and 31 Old Pine rooms are playable")
+	_assert_eq(rooms.size(), 78, "37 Snow and 41 Old Pine rooms are playable")
 	_assert_eq(
 		catalog.zone(OldPineWorld.SLOPE_ZONE_ID).room_ids(),
 		[&"es2:d/oldpine/spath1", &"es2:d/oldpine/spath2", &"es2:d/oldpine/spath3", &"es2:d/oldpine/spath4"],
@@ -104,7 +104,7 @@ func _test_portals() -> void:
 	_assert_eq(south.source_map_id, SnowWorld.OUTDOOR_MAP_ID, "Snow south road starts in Snow")
 	_assert_eq(south.destination_map_id, OldPineWorld.OUTDOOR_MAP_ID, "and ends in Old Pine")
 	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 3, "Snow outdoor: Inn door, Old Pine road and the weapon storage's hidden way down")
-	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 4, "Old Pine forest: Snow road, pine, two vine branches")
+	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 5, "Old Pine forest: Snow road, pine, two vine branches, cliffdown")
 	# One map per height level (DECISIONS 3B5): every Old Pine move that is not a walk changes map.
 	for map: MapDefinition in catalog.maps():
 		if map.region_id == OldPineWorld.REGION_ID:
@@ -205,7 +205,7 @@ func _test_landmarks_water_and_pacing() -> void:
 			_assert_true(landmark.is_valid(), "%s is valid" % landmark.landmark_id)
 			for portal_id: StringName in landmark.portal_ids():
 				_assert_eq(catalog.portal(portal_id).source_zone_id, landmark.zone_id, "%s leaves from its zone" % portal_id)
-	_assert_eq(counts, [2, 1, 1, 2], "pine and vine; tree descent; riverbank cliff; cliff1 up and down")
+	_assert_eq(counts, [3, 1, 1, 2], "pine, vine and cliffdown; tree descent; riverbank cliff; cliff1 up and down")
 	var vine: WorldLandmarkDefinition = catalog.landmark(&"oldpine.outdoor.landmark.epath2_vine")
 	_assert_eq([vine.policy, vine.portal_ids()], [&"vine", [&"oldpine.outdoor.vine_to_waterfall", &"oldpine.outdoor.vine_to_passage"]], "the vine rolls between waterfall and passage")
 	_assert_eq(vine.message("hold"), "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去....", "epath2.c message_vision text")

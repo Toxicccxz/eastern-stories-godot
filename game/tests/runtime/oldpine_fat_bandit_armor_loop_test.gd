@@ -38,9 +38,9 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		return
 	controller.set_process(false)
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 5, "forest map-local order contains three scouts, Tall and Fat")
+	_assert_eq(npcs.size(), 23, "forest map-local order contains three scouts, Tall, Fat and the remainder's 18")
 	_assert_eq(controller.session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "the five serpents live on the gorge map")
-	_assert_eq(controller.session.world_npcs().size(), 10, "Old Pine owns three scouts, Tall, Fat and five serpents")
+	_assert_eq(controller.session.world_npcs().size(), 34, "Old Pine owns 23 in the forest, six butterflies and five serpents")
 	_assert_eq(npcs[3].definition_id, TestContent.TALL_BANDIT_NPC_ID, "Tall remains fourth")
 	var fat: NpcRuntimeState = npcs[4]
 	_assert_eq(fat.definition_id, TestContent.FAT_BANDIT_NPC_ID, "Fat is explicit fifth runtime")
@@ -378,8 +378,8 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	_assert_true(fresh.find_children("ResetButton", "Button", true, false).is_empty(), "persisted scene retains Phase 10C1A Reset removal")
-	_assert_eq(fresh.npc_runtimes().size(), 5, "fresh forest map restores exactly three scouts, Tall and Fat")
-	_assert_eq(fresh.session.world_npcs().size(), 10, "fresh scene restores exactly three scouts, Tall, Fat and five serpents")
+	_assert_eq(fresh.npc_runtimes().size(), 23, "fresh forest map restores exactly its 23")
+	_assert_eq(fresh.session.world_npcs().size(), 34, "fresh scene restores exactly its 34")
 	_assert_eq(
 		[
 			fresh.npc_runtimes()[0].definition_id,
