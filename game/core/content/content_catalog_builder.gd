@@ -119,6 +119,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 
 func build() -> ContentCatalog:
+	_add_broken_weapons()
 	_check_money()
 	_check_npc_loadouts()
 	_resolve_npc_dealings()
@@ -150,6 +151,14 @@ func build() -> ContentCatalog:
 		_errors.append("items: item roles are inconsistent (NativeItemDefinitionProjections)")
 		return null
 	return catalog
+
+
+## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
+func _add_broken_weapons() -> void:
+	for item: ItemContentDefinition in _items.values().duplicate():
+		if item.weapon_definition() != null:
+			var broken: ItemContentDefinition = ItemContentDefinition.broken_weapon(item)
+			_items[broken.item_definition_id] = broken
 
 
 ## A catalog that defines skills is a game's: its fights need the race and weapon

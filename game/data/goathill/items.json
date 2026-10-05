@@ -1,0 +1,56 @@
+{
+	"items": [
+		{
+			"id": "es2:d/goathill/obj/sledge_hammer",
+			"legacy_sources": ["d/goathill/obj/sledge_hammer.c", "d/goathill/npc/obj/sledge_hammer.c"],
+			"name": "大金槌",
+			"aliases": ["sledge hammer", "hammer"],
+			"long": "一把极其沈重的大槌，要挥动这样的武器非得有过人的膂力不可。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 40000,
+			"value": 1600,
+			"weapon": {
+				"skill": "hammer",
+				"damage": 45,
+				"apply": { "attack": -4, "defense": 5 },
+				"flags": ["secondary"]
+			}
+		},
+		{
+			"id": "es2:d/goathill/obj/boots",
+			"legacy_sources": ["d/goathill/obj/boots.c", "d/goathill/npc/obj/boots.c"],
+			"name": "熊皮短靴",
+			"aliases": ["bearskin boots", "boots"],
+			"unit": "双",
+			"material": "fur",
+			"weight": 1000,
+			"value": 400,
+			"armor": { "type": "boots", "props": { "armor": 7, "defense": 1 } }
+		},
+		{
+			"id": "es2:d/goathill/obj/steel_blade",
+			"legacy_sources": ["d/goathill/obj/steel_blade.c", "d/goathill/npc/obj/steel_blade.c"],
+			"name": "钢刀",
+			"aliases": ["steel blade", "blade"],
+			"long": "一把沈重的钢刀，磨得又利又快，看起来相当具杀伤力。\n",
+			"unit": "柄",
+			"material": "steel",
+			"weight": 9000,
+			"value": 700,
+			"weapon": { "skill": "blade", "damage": 30, "apply": { "karma": -4 } }
+		},
+		{
+			"id": "es2:d/goathill/obj/hand_axe",
+			"legacy_sources": ["d/goathill/obj/hand_axe.c", "d/goathill/npc/obj/hand_axe.c"],
+			"name": "短斧",
+			"aliases": ["hand axe", "axe"],
+			"long": "这种斧头的刃长柄短，是专门用来做兵器的斧头，近战具有相当强的\n杀伤力。\n",
+			"unit": "柄",
+			"material": "steel",
+			"weight": 5000,
+			"value": 500,
+			"weapon": { "skill": "axe", "damage": 22, "apply": { "attack": 3, "defense": -2 }, "flags": ["secondary"] }
+		}
+	]
+}

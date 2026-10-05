@@ -416,15 +416,13 @@ func _apply_loadout(
 				var weapon_definition: WeaponDefinition = content.weapon_definition()
 				if weapon_definition == null:
 					return []
+				# equip.c wield(): a second one-handed SECONDARY weapon goes to the other
+				# hand (黄霸's two 大金槌, the bandit leader's two 短斧).
 				var wield_result: EquipmentTransitionResult = state.equipment.wield(
 					EquippedWeaponRefType.new(item.item_instance_id, weapon_definition),
 					false,
 				)
-				if (
-					not wield_result.succeeded
-					or state.equipment.primary_weapon() == null
-					or state.equipment.primary_weapon().instance_id != item.item_instance_id
-				):
+				if not wield_result.succeeded or not state.equipment.has_weapon_instance(item.item_instance_id):
 					return []
 			elif entry.equipment_intent == LoadoutEntryType.EquipmentIntent.WEAR:
 				var armor_definition: ArmorDefinition = content.armor_definition()

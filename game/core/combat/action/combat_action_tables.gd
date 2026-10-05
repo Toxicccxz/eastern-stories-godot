@@ -4,8 +4,8 @@ extends RefCounted
 ## The attack actions that come from no skill (common/combat_actions.json): a
 ## race's own moves (race/human.c combat_action, its default_actions) and
 ## weapond.c's verbs with the verbs each weapon kind sets (std/weapon/<kind>.c).
-## Hammers and staffs are missing: their verbs (bash, crush, slam) run bash_weapon,
-## a post_action that is not ported, so they keep `slash`. Throwing weapons throw.
+## Every kind the mudlib's weapons use has its verbs (hammers and staffs bash, crush
+## and slam; throwing weapons throw); a kind without any attacks with `slash`.
 const SLASH_VERB: StringName = &"slash"
 
 var _race_actions: Dictionary[StringName, CombatActionSet] = {}

@@ -44,8 +44,8 @@ var _fight_decision_result: CombatFightDecisionResult
 var _forward_result: CombatSingleAttackExecutionResult
 var _chain_result: CombatAttackChainResult
 ## What the forward and the reverse attack's post_actions told the player (你的飞刀用完了！).
-var _post_action_lines: Array[String] = []
-var _reverse_post_action_lines: Array[String] = []
+var _post_action_lines: Array[ColoredLine] = []
+var _reverse_post_action_lines: Array[ColoredLine] = []
 var _reverse_projection_built: bool = false
 var _reverse_attacker_experience_at_projection: int = 0
 
@@ -130,11 +130,11 @@ func random_draws() -> Array[int]:
 	return values
 
 
-func post_action_lines() -> Array[String]:
+func post_action_lines() -> Array[ColoredLine]:
 	return _post_action_lines.duplicate()
 
 
-func reverse_post_action_lines() -> Array[String]:
+func reverse_post_action_lines() -> Array[ColoredLine]:
 	return _reverse_post_action_lines.duplicate()
 
 

@@ -519,10 +519,12 @@ static func _loadout_matches(
 		var item: ItemInstance = item_index.resolve(item_id)
 		if item == null:
 			return false
-		var remaining: int = expected_counts.get(item.item_definition_id, 0)
+		# A weapon bash_weapon() broke is still the loadout's object (断掉的).
+		var kind: StringName = ItemContentDefinition.unbroken_id(item.item_definition_id)
+		var remaining: int = expected_counts.get(kind, 0)
 		if remaining <= 0:
 			return false
-		expected_counts[item.item_definition_id] = remaining - 1
+		expected_counts[kind] = remaining - 1
 		resolved_ids.append(item_id)
 	# Only the represented surviving subset is required: a dead spawn's items may
 	# have been looted or destroyed, and a living NPC gives and drops things too

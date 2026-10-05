@@ -1,0 +1,43 @@
+{
+	"regions": [
+		{ "id": "goathill", "name": "野羊山" }
+	],
+	"maps": [
+		{ "id": "goathill.mountain", "region": "goathill", "scene": "res://scenes/world/goathill/goathill_mountain.tscn", "entry": "goathill.mroad1.snow_entry" },
+		{ "id": "goathill.caverns", "region": "goathill", "scene": "res://scenes/world/goathill/goathill_caverns.tscn", "entry": "goathill.cavern1.canyon_entry" }
+	],
+	"zones": [
+		{ "id": "goathill.mroad1", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad1"] },
+		{ "id": "goathill.mroad2", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad2"] },
+		{ "id": "goathill.mroad3", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad3"] },
+		{ "id": "goathill.temple1", "map": "goathill.mountain", "rooms": ["es2:d/goathill/temple1"] },
+		{ "id": "goathill.mroad4", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad4"], "combat_entry": "complete_set" },
+		{ "id": "goathill.mroad5", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad5"] },
+		{ "id": "goathill.slope1", "map": "goathill.mountain", "rooms": ["es2:d/goathill/slope1"] },
+		{ "id": "goathill.mroad6", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad6"] },
+		{ "id": "goathill.canyon1", "map": "goathill.mountain", "rooms": ["es2:d/goathill/canyon1"] },
+		{ "id": "goathill.canyon2", "map": "goathill.mountain", "rooms": ["es2:d/goathill/canyon2"] },
+		{ "id": "goathill.canyon3", "map": "goathill.mountain", "rooms": ["es2:d/goathill/canyon3"] },
+		{ "id": "goathill.cavern1", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern1"] },
+		{ "id": "goathill.cavern2", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern2"] },
+		{ "id": "goathill.cavern3", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern3"] },
+		{ "id": "goathill.cavern4", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern4"] }
+	],
+	"portals": [
+		{
+			"id": "goathill.mroad1.south", "from_zone": "goathill.mroad1",
+			"to_zone": "snow.crossroad", "to_spawn": "snow.crossroad.goathill_return",
+			"legacy_room": "es2:d/goathill/mroad1", "legacy_command": "south"
+		},
+		{
+			"id": "goathill.canyon3.east", "from_zone": "goathill.canyon3",
+			"to_zone": "goathill.cavern1", "to_spawn": "goathill.cavern1.canyon_entry",
+			"legacy_room": "es2:d/goathill/canyon3", "legacy_command": "east"
+		},
+		{
+			"id": "goathill.cavern1.west", "from_zone": "goathill.cavern1",
+			"to_zone": "goathill.canyon3", "to_spawn": "goathill.canyon3.cavern_return",
+			"legacy_room": "es2:d/goathill/cavern1", "legacy_command": "west"
+		}
+	]
+}

@@ -98,8 +98,8 @@ func _test_record_rules() -> void:
 	NpcKilledEnemy.from_record(ContentRecordReader.new({}, "t", errors))
 	_check(not errors.is_empty(), "killed_enemy needs a say or a dissolve")
 	errors.clear()
-	CombatActionDefinition.from_record(ContentRecordReader.new({"id": "bash", "action": "x", "damage_type": "挫伤", "post_action": "bash_weapon"}, "t", errors), "w/")
-	_check(not errors.is_empty(), "bash_weapon is not ported: refused")
+	CombatActionDefinition.from_record(ContentRecordReader.new({"id": "bash", "action": "x", "damage_type": "挫伤", "post_action": "spin_weapon"}, "t", errors), "w/")
+	_check(not errors.is_empty(), "a post_action that is not ported is refused")
 	errors.clear()
 	var item: Dictionary = {"id": "t", "legacy_sources": ["t.c"], "name": "t", "aliases": ["t"], "weight": 1, "combined": {"base_unit": "份", "base_weight": 1, "amount": 1}}
 	ItemContentDefinition.from_record(ContentRecordReader.new(item, "t", errors))

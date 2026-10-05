@@ -4,16 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Old Pine remainder B** (`phase/oldpine-remainder-b`), which finishes Old Pine in the
-[region plan](ROADMAP.md#region-plan). Conditions update on the heart beat outside a fight
-(蛇毒 strikes every 6–15 beats, with its line and a 蛇毒 tag on the HUD; it can kill), 金银花蛇 on
-the stone poisons with its bite (hit_ob), combined items (amounts that merge, split and are
-used up one at a time): 蛇药 from 杨掌柜 and 金疮药 are used (使用), 飞刀 are thrown one per
-attack (黑衣人's thirty, the three travellers' hundred on Snow's square, the player's), and
-化尸粉 dissolves a selected corpse; 黑衣人 in the pine goes berserk and, after a kill, laughs and
-dissolves the corpse a second later.
+**野羊山** (`phase/goathill`), region plan #2: all its rooms north of Snow's crossroad. The
+mountain road with three 土匪爪牙 and their 土匪首领 on its corner (they attack together), 黄霸 in
+the small temple with a 大金槌 in each hand and 伏蛟功, the canyon down to the caverns and their
+thirteen rock leeches. New: a second weapon in the other hand (its weapon_prop counts, the
+player's too), hammers' and staffs' bash, crush and slam with weapond.c's bash_weapon (a
+parried blow knocks the weapon away or breaks it: 断掉的), 伏蛟功.
 
-Next: 野羊山 (region plan #2).
+Next: 卧龙岗 + 绮云镇 (region plan #3: the quest system).
 
 ## Playable now
 
@@ -45,6 +43,9 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   top with six butterflies, both cliff niches, the secret passage, the stone and the caves (bury the
   bones for 过招要旨, or fall to the waterfall); 疯老头子 on the east path, 狼狗 in the pine maze,
   金银花蛇 (蛇毒) on the stone, 黑衣人 (飞刀, 化尸粉) in the pine.
+* **野羊山**: north of Snow's crossroad, all 15 rooms on two maps: the mountain road (土匪爪牙,
+  土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
+  巨岩蛭).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee, told in ES2's combat lines, death/corpse/loot, waking from
@@ -58,8 +59,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 78/551 rooms, 33/286 NPC
-types, 1/10 joinable families, 6/35 special and 6/25 basic martial arts, 0/87 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 93/551 rooms, 40/286 NPC
+types, 1/10 joinable families, 7/35 special and 6/25 basic martial arts, 0/87 quest targets.
 
 ## Known issues
 
@@ -72,7 +73,7 @@ Code:
   the Inn (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
   corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it needs the player's
   spells. NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
-  Hammers and staffs still attack with "slash" (weapond.c's bash post_action). Wine makes nobody
+  Wine makes nobody
   drunk yet (the drunk condition); the dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
 * At ES2's pace, exercise takes about 8–16 hours of play from max_force 0 to 50 (owner: a data

@@ -239,9 +239,9 @@ moves (race/human.c `combat_action`, its default_actions). `weapon_actions`: one
 `{legacy_source: weapond.c, actions, verbs}` — weapond.c's verbs as actions (ID = verb) and
 `verbs: [{skill, verbs, legacy_source}]`, the verbs each weapon kind sets (std/weapon/<kind>.c).
 A wielded weapon without a mapped skill draws one of its kind's verbs. An action's
-`post_action` names a ported weapond.c function (`throw_weapon`: the thrown weapon loses one
-of its amount). Hammers and staffs have no verbs yet: bash, crush and slam run bash_weapon,
-which is not ported, so they attack with `slash`.
+`post_action` names a ported weapond.c function: `throw_weapon` (the thrown weapon loses one of
+its amount) and `bash_weapon` (hammers' and staffs' bash, crush and slam: a parried blow may knock
+the parrying weapon away or break it; every weapon has a `<id>#broken` form in the catalog).
 
 ## Not data yet
 

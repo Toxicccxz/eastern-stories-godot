@@ -1,0 +1,94 @@
+{
+	"spawns": [
+		{
+			"id": "goathill.mountain.temple1.bandit_hwang",
+			"npc": "goathill.npc.bandit_hwang",
+			"map": "goathill.mountain",
+			"zone": "goathill.temple1",
+			"points": ["goathill.temple1.bandit_hwang.1"],
+			"legacy_room": "d/goathill/temple1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "goathill.mountain.mroad4.bandits",
+			"npc": "goathill.npc.bandit",
+			"map": "goathill.mountain",
+			"zone": "goathill.mroad4",
+			"points": ["goathill.mroad4.bandit.1", "goathill.mroad4.bandit.2", "goathill.mroad4.bandit.3"],
+			"legacy_room": "d/goathill/mroad4.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "goathill.mountain.mroad4.bandit_leader",
+			"npc": "goathill.npc.bandit_leader",
+			"map": "goathill.mountain",
+			"zone": "goathill.mroad4",
+			"points": ["goathill.mroad4.bandit_leader.1"],
+			"legacy_room": "d/goathill/mroad4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "goathill.caverns.cavern1.worms",
+			"npc": "goathill.npc.worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern1",
+			"points": ["goathill.cavern1.worm.1", "goathill.cavern1.worm.2"],
+			"legacy_room": "d/goathill/cavern1.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "goathill.caverns.cavern2.fat_worm",
+			"npc": "goathill.npc.fat_worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern2",
+			"points": ["goathill.cavern2.fat_worm.1"],
+			"legacy_room": "d/goathill/cavern2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "goathill.caverns.cavern2.worms",
+			"npc": "goathill.npc.worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern2",
+			"points": ["goathill.cavern2.worm.1", "goathill.cavern2.worm.2", "goathill.cavern2.worm.3"],
+			"legacy_room": "d/goathill/cavern2.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "goathill.caverns.cavern3.big_worms",
+			"npc": "goathill.npc.big_worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern3",
+			"points": ["goathill.cavern3.big_worm.1", "goathill.cavern3.big_worm.2"],
+			"legacy_room": "d/goathill/cavern3.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "goathill.caverns.cavern3.huge_worms",
+			"npc": "goathill.npc.huge_worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern3",
+			"points": ["goathill.cavern3.huge_worm.1", "goathill.cavern3.huge_worm.2"],
+			"legacy_room": "d/goathill/cavern3.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "goathill.caverns.cavern4.worms",
+			"npc": "goathill.npc.worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern4",
+			"points": ["goathill.cavern4.worm.1", "goathill.cavern4.worm.2"],
+			"legacy_room": "d/goathill/cavern4.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "goathill.caverns.cavern4.big_worm",
+			"npc": "goathill.npc.big_worm",
+			"map": "goathill.caverns",
+			"zone": "goathill.cavern4",
+			"points": ["goathill.cavern4.big_worm.1"],
+			"legacy_room": "d/goathill/cavern4.c",
+			"legacy_quantity": 1
+		}
+	]
+}

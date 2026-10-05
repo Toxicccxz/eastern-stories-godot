@@ -75,7 +75,7 @@ func _test_attack_tables() -> void:
 	_check(ids == [&"es2:adm/daemons/weapond/slash", &"es2:adm/daemons/weapond/slice", &"es2:adm/daemons/weapond/thrust"], "std/weapon/sword.c: slash, slice, thrust")
 	_check(tables.weapon_action_set(&"blade").action_at(2).damage_percent == 30, "blade.c hack: damage 30")
 	var hammer: CombatActionSet = tables.weapon_action_set(&"hammer")
-	_check(hammer.size() == 1 and hammer.action_at(0).action_id == CombatSliceContentProfile.SLASH_ACTION_ID, "a hammer keeps slash (bash needs weapond.c's post_action)")
+	_check(hammer.size() == 3 and hammer.action_at(0).post_action_policy_id == CombatPostActionIds.BASH_WEAPON, "a hammer bashes, crushes and slams (weapond.c bash_weapon, 野羊山)")
 	var human: CombatActionSet = tables.race_action_set(&"human")
 	_check(human.size() == 5 and human.action_at(2).legacy_action_text == "$N往$n的$l狠狠地踢了一脚", "race/human.c: five moves")
 

@@ -24,6 +24,15 @@ func register_snapshot(item: ItemInstanceType) -> bool:
 	return true
 
 
+## The same object becomes another kind of item (weapond.c bash_weapon() breaks a
+## weapon: set("name"), set("weapon_prop", 0)); its identity stays.
+func transmute(item_instance_id: StringName, item_definition_id: StringName) -> bool:
+	if not _items.has(item_instance_id) or item_definition_id.is_empty():
+		return false
+	_items[item_instance_id] = ItemInstanceType.new(item_instance_id, item_definition_id)
+	return true
+
+
 func has_snapshot(item_instance_id: StringName) -> bool:
 	return not item_instance_id.is_empty() and _items.has(item_instance_id)
 
