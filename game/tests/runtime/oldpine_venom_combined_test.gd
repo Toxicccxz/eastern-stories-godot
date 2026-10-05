@@ -259,7 +259,9 @@ func _test_snake(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(session.shared_ui().player_vitality_text.text.ends_with("蛇毒"), "the HUD names the poison: " + session.shared_ui().player_vitality_text.text)
 	var before: int = _remaining(player.state)
 	var beat: PlayerRecoveryCadenceResult = session.advance_player_recovery(30.0)
-	_check(beat.conditions_updated == 1 and _remaining(player.state) == before - 1, "within fifteen beats the poison strikes: %d -> %d" % [before, _remaining(player.state)])
+	# Fifteen beats hold one tick at least (5 + random(10)); a low countdown left from
+	# before the fight can give two.
+	_check(beat.conditions_updated >= 1 and _remaining(player.state) == before - beat.conditions_updated, "within fifteen beats the poison strikes: %d -> %d" % [before, _remaining(player.state)])
 	_check(Array(session.shared_ui().log_lines()).has("你中的蛇毒发作了！"), "its line in the log")
 	var work: RefCounted = Work.new()
 	await work.round_trip(tree, session, Work.capture(session), "poisoned")
