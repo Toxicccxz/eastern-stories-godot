@@ -666,10 +666,13 @@ func _add_dropped_item_view(item_id: StringName, location: WorldLocationState, p
 ## Where something dropped by a body standing at `origin` lies: just in front of its feet,
 ## where the body does not hide it, on the nearest spot a save accepts (Continue checks
 ## it); where it stands only when no spot nearby is one (a doorway footprint is not).
-func _at_feet(location: WorldLocationState, origin: Vector2) -> Vector2:
+## `apart` passes over spots where something already lies (the casino's piles).
+func _at_feet(location: WorldLocationState, origin: Vector2, apart: bool = false) -> Vector2:
 	for distance: int in [28, 44, 64, 96]:
 		for direction: Vector2 in [Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)]:
 			var spot: Vector2 = origin + direction.normalized() * distance
+			if apart and _floor_items.values().any(func(view: WorldFloorItemView) -> bool: return view.global_position.distance_to(spot) < 16.0):
+				continue
 			if MapPlacementValidator.is_valid_character_position(self, location.zone_id, spot):
 				return spot.round()
 	push_warning("no free spot near %s in %s to drop on" % [origin, location.zone_id])
@@ -828,10 +831,19 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 	var location: WorldLocationState = null if _player == null else _player.world_location()
 	if view == null or content == null or location == null:
 		return FloorItemPickup.Outcome.INVALID_REQUEST
+	var taken: Array[int] = []
 	var outcome: FloorItemPickup.Outcome = FloorItemPickup.take(
 		_player, view.item_instance_id, _floor_endpoint(location), view.is_body_in_reach(player_body), _inventory, _item_index, _stacks,
+		_item_id_allocator, taken,
 	)
 	match outcome:
+		FloorItemPickup.Outcome.TAKEN_PART:
+			_hud().append_log_lines([
+				tr("你捡起%s。") % HeldItemFacts.counted(content, taken[0]),
+				tr("%s对你而言太重了。") % HeldItemFacts.short_name(view.item_instance_id, content, _stacks),
+			])
+			if _hud().inventory_is_open():
+				_hud().show_inventory(session.player_inventory_rows())
 		FloorItemPickup.Outcome.TAKEN:
 			_forget_floor_item(view.item_instance_id)
 			_selected_target = null
@@ -2652,7 +2664,7 @@ func open_selected_loot() -> bool:
 		return _show_container(floor_view)
 	if floor_view != null:
 		_hud().close_loot()
-		return take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN
+		return take_selected_floor_item() in [FloorItemPickup.Outcome.TAKEN, FloorItemPickup.Outcome.TAKEN_PART]
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null:
 		_hud().close_loot()
@@ -2718,9 +2730,13 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	var npc: NpcRuntimeState = selected_npc()
 	if not can_handle_items() or npc == null:
 		return ItemHandlingResult.new()
+	var location: WorldLocationState = _player.world_location()
 	var result: ItemHandlingResult = ItemHandlingService.give(
-		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random,
+		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random, _floor_endpoint(location),
 	)
+	for dropped: StringName in result.dropped_item_ids:
+		if not _add_dropped_item_view(dropped, location, _at_feet(location, player_body.global_position, true)):
+			push_error("winnings %s on the floor have no view" % dropped)
 	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
 	if not attacks:
 		_report_item_handling(result)

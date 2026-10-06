@@ -4,13 +4,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Pacing knobs** (`phase/pacing-knobs`): `common/pacing.json` gives the player ×3 combat exp and
-potential per gain, ×3 recovery per heal_up tick and 1.5 times 朱鸿雪's task time (a record
-without them is ES2's pace); 卧龙岗's robbers attack only a player still in their reach two
-seconds later, so a newcomer walks past. The nine maps the painter scripts drew are now generated
-from `tools/maps/layouts/` (`python -m tools.maps.paint`). Modern fixes and 3C are merged.
+**绮云镇 3D** (`phase/cloud-3d`): the 宝官 in the 赌场 takes any money given to him as a bet on
+小 (judge.c: 20% pays double, in silver and coins; what the player cannot carry lands at their
+feet, and a pile too heavy as a whole is picked up in part). The 媒婆 offers no marriage: ES2's needs a second player (DECISIONS 3D). Pacing
+knobs, modern fixes and 3C are merged.
 
-Next: 3D 赌场 betting and 红娘庄 marriage.
+Next: 水烟阁 (region plan #4).
 
 ## Playable now
 
@@ -52,7 +51,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
   the 木雕门 and 木门; joining 振远镖局 (陈剑秋, cor 25; betrayal from 封山剑派 and back), learning
   from 陈剑秋 and 趟子手, practising 春风快意刀 with a blade; 朱鸿雪's quests (41 of the 84
-  targets stand in the game so far). Not yet: betting, marriage, the ferry, 陈剑秋's letter
+  targets stand in the game so far), betting with the 宝官. Not yet: the ferry, 陈剑秋's letter
   (乔阴县城's 忘忧草).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);

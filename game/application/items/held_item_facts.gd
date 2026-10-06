@@ -30,13 +30,18 @@ static func value_of(id: StringName, content: ItemContentDefinition, stacks: Com
 ## coins) would put its own rule.
 static func short_name(id: StringName, content: ItemContentDefinition, stacks: CombinedStackCollection) -> String:
 	if stacks != null and stacks.has_stack(id):
-		# TRANSLATORS: a counted stack, e.g. 十文钱: {count} in words, {unit} its measure word, {item} its name.
-		return TranslationServer.translate("{count}{unit}{item}").format({
-			"count": ChineseNumber.of(stacks.stack_state(id).amount),
-			"unit": TranslationServer.translate(content.base_unit),
-			"item": TranslationServer.translate(content.display_name),
-		})
+		return counted(content, stacks.stack_state(id).amount)
 	return TranslationServer.translate(content.display_name)
+
+
+## `amount` of a stack's kind, as short_name() counts it (十文钱).
+static func counted(content: ItemContentDefinition, amount: int) -> String:
+	# TRANSLATORS: a counted stack, e.g. 十文钱: {count} in words, {unit} its measure word, {item} its name.
+	return TranslationServer.translate("{count}{unit}{item}").format({
+		"count": ChineseNumber.of(amount),
+		"unit": TranslationServer.translate(content.base_unit),
+		"item": TranslationServer.translate(content.display_name),
+	})
 
 
 ## "一个牛皮酒袋", "一些钱", in the shown language: the 一%s%s of give.c, drop.c,
