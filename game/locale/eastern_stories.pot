@@ -1203,6 +1203,16 @@ msgid ""
 "{score}点综合评价"
 msgstr ""
 
+#. the player killed their own master and is expelled from {family} (封山剑派).
+#: core/death/player_killer_reward.gd
+msgid "你亲手杀了自己的师父，被逐出了{family}！"
+msgstr ""
+
+#. what killing one's master costs, as betraying the family does: score 0 and the betrayals now counted ({count}).
+#: core/death/player_killer_reward.gd
+msgid "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。"
+msgstr ""
+
 #: core/internal_power/enforce_service.gd
 msgid "你必须先 enable 一种内功。"
 msgstr ""

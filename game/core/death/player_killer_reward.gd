@@ -6,7 +6,8 @@ extends RefCounted
 ## player has no killed_enemy() of their own. MKS + 1; the task 朱鸿雪 gave is done
 ## when the victim's name is its target and its time has not run out; bellicosity
 ## + 1; the victim's vendetta_mark marks the killer (attack.c: its kind attacks on
-## sight); killing one's own master (the generation above) leaves the family.
+## sight); killing one's own master (the generation above) leaves the family and,
+## owner's deviation, counts as betraying it.
 ## Lines are tell_object()s to the player, in the shown language.
 
 
@@ -81,15 +82,24 @@ static func _complete_quest(state: CharacterState, victim: NpcDefinition, random
 
 
 ## killer_reward()'s rebel part (added June 25, 1996): the killer's family/master_id
-## is the victim's id and their generation the one below: betrayer - 1, family 0
-## (master and rank with it). The title (REBEL_TITLE) is the player's identity's:
-## the caller sets it when `left_family`.
+## is the victim's id and their generation the one below: family 0 (master and rank
+## with it). The title (REBEL_TITLE) is the player's identity's: the caller sets it
+## when `left_family`. Deviation (owner, 3C): ES2 lowers betrayer by one, so killing
+## one's master washed out a betrayal and, once expelled, joining any family was no
+## betrayal at all: a free way to change families. Here it costs what betraying
+## costs (recruit.c): betrayer + 1 and score 0, and the player is told (ES2 is silent).
 static func _rebel(state: CharacterState, victim: NpcDefinition, result: Result) -> void:
 	var teaching: NpcTeaching = victim.teaching()
 	var generation: int = 0 if teaching == null else teaching.family_generation
 	if state.apprenticeship.master_teacher_id != victim.definition_id or state.family.generation != generation + 1:
 		return
-	state.apprenticeship.betrayer_count -= 1
+	state.apprenticeship.betrayer_count += 1
+	state.progression.score = 0
+	var family_name: String = "" if teaching == null else teaching.family_name
+	# TRANSLATORS: the player killed their own master and is expelled from {family} (封山剑派).
+	result.lines.append(ColoredLine.new(_t("你亲手杀了自己的师父，被逐出了{family}！").format({"family": _t(family_name)}), ColoredLine.HIR))
+	# TRANSLATORS: what killing one's master costs, as betraying the family does: score 0 and the betrayals now counted ({count}).
+	result.lines.append(ColoredLine.new(_t("弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。").format({"count": state.apprenticeship.betrayer_count})))
 	state.apprenticeship.master_teacher_id = &""
 	state.apprenticeship.legacy_master_name = ""
 	state.family = FamilyState.new()

@@ -19,7 +19,12 @@
   is its target and its time has not run out (the exp, potential and score rolls, quest_factor,
   unspent potential capped at 100, a negative score's reward negated, tfinished); bellicosity + 1;
   the victim's vendetta_mark marks the killer; killing one's own master (the generation above)
-  gives betrayer - 1 (below 0 too), title 普通百姓 and no family, master or rank (the class stays).
+  gives title 普通百姓 and no family, master or rank (the class stays).
+- **Owner: killing one's own master counts as betraying the family.** ES2 lowers betrayer by
+  one, so the kill washed out a betrayal (or banked one for later), and an expelled player joins
+  any family without a betrayal: killing the master was the cheapest way to change families.
+  Here it costs what recruit.c's betrayal costs (betrayer + 1, score 0), and the player reads
+  why (你亲手杀了自己的师父，被逐出了…！ and the cost; ES2 says nothing).
 - **vendetta**: an NPC with a vendetta_mark (garrison.c: authority) attacks a player who holds
   vendetta/<mark> on sight (attack.c init(), start_vendetta()); a death with a killer clears it.
   garrison.c's `pursuer` (following who flees) is not ported.

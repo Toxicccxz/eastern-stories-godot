@@ -4,7 +4,7 @@ extends RefCounted
 ## combat_exp and tfinished, cmds/usr/quest.c shows it, and combatd.c killer_reward()
 ## rewards the kill within the time (exp, potential, score, quest_factor, tfinished).
 ## The same killer_reward() counts MKS and bellicosity, marks a vendetta and makes a
-## master's killer leave the family. surrender.c costs 50 score. Draws come from
+## master's killer leave the family (owner: as a betrayal). surrender.c costs 50 score. Draws come from
 ## scripted sources; TEST-ONLY fixtures are marked where used.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -193,7 +193,8 @@ func _test_vendetta_and_death() -> void:
 	_check(state.vendetta.is_empty(), "killer_reward() deletes the dead player's vendetta")
 
 
-## killer_reward()'s rebel part: the master one generation up.
+## killer_reward()'s rebel part: the master one generation up. Owner's deviation:
+## it counts as betraying the family (betrayer + 1, score 0), where ES2 lowers betrayer.
 func _test_master_killed() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var state := _fresh()
@@ -205,10 +206,14 @@ func _test_master_killed() -> void:
 	PlayerKillerReward.apply(state, Master.definition(), ScriptedWorldInteractionRandomSource.new([]).legacy_random)
 	_check(state.family.has_family() and state.apprenticeship.betrayer_count == 0, "the master two generations up: nothing")
 	state.family.generation = 14
+	state.progression.score = 9
 	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(state, Master.definition(), ScriptedWorldInteractionRandomSource.new([]).legacy_random)
-	_check(result.left_family and result.lines.is_empty() and state.apprenticeship.betrayer_count == -1 and PlayerKillerReward.REBEL_TITLE == "普通百姓", "柳淳风's killer: betrayer 0 - 1 = -1, without a word; the title is to be 普通百姓")
+	_check(result.left_family and state.apprenticeship.betrayer_count == 1 and state.progression.score == 0 and PlayerKillerReward.REBEL_TITLE == "普通百姓", "柳淳风's killer: a betrayal (betrayer 1, score 0); the title is to be 普通百姓")
+	_check(ColoredLine.texts(result.lines) == ["你亲手杀了自己的师父，被逐出了封山剑派！", "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 1 次。"] and result.lines[0].color == ColoredLine.HIR, "the player is told: " + str(ColoredLine.texts(result.lines)))
 	_check(not state.family.has_family() and not state.apprenticeship.has_master() and state.apprenticeship.legacy_master_name.is_empty(), "family 0: no family, no master")
 	_check(not state.affiliation.has_family_rank and state.affiliation.family_title.is_empty() and state.affiliation.entry_time_status == CharacterAffiliationState.EntryTime.ABSENT and state.affiliation.class_id == &"swordsman" and state.affiliation.is_valid(), "no rank or entry time; the class stays")
+	var again := NpcApprenticeship.new()
+	_check(Master.recruit(state, 1789430000, again) == NpcApprenticeship.Outcome.RECRUITED and state.apprenticeship.betrayer_count == 1 and not again.lines.has("你决定背叛师门，改投入柳淳风门下！！"), "joining again from no family is no further betrayal; the one counted stays")
 
 
 ## 朱鸿雪 in god2: her 任务 beside her body, the task on the character sheet, the
@@ -297,10 +302,10 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	var header: NpcRuntimeState = _npc(map, &"cloud.biaoju.b_header.1")
 	_check(player.request_apprenticeship(header.definition(), GameContent.catalog().family(&"family.zhenyuan"), 1789420000) == NpcApprenticeship.Outcome.RECRUITED and player.shown_title() == "振远镖局第二代弟子", "TEST-ONLY: 陈剑秋's apprentice")
 	map._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
-	_check(not player.state.family.has_family() and player.state.apprenticeship.betrayer_count == -1 and player.facts.title == "普通百姓" and player.shown_title() == "普通百姓", "his killer leaves the family and is 普通百姓 again: " + player.shown_title())
+	_check(not player.state.family.has_family() and player.state.apprenticeship.betrayer_count == 1 and player.state.progression.score == 0 and player.facts.title == "普通百姓" and player.shown_title() == "普通百姓", "his killer betrays the family, leaves it and is 普通百姓 again: " + player.shown_title())
 	player.state.vitality = CharacterResourceState.new(player.state.vitality.maximum, player.state.vitality.maximum, player.state.vitality.maximum)
 	work = Work.new()
-	await work.round_trip(tree, session, Work.capture(session), "a master's killer, betrayer -1")
+	await work.round_trip(tree, session, Work.capture(session), "a master's killer, betrayer 1")
 	_check(work._failures.is_empty(), "Save/Continue after leaving the family: " + str(work._failures))
 
 
