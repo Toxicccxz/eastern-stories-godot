@@ -32,6 +32,17 @@ static func is_master_of(student: CharacterState, master: NpcDefinition) -> bool
 	)
 
 
+## recruit.c's betrayal branch: `master` taking `student` now would make them leave
+## another family (score 0, betrayer + 1). The panel asks first (owner, DECISIONS 3B).
+static func would_betray(student: CharacterState, master: NpcDefinition) -> bool:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	return (
+		student != null and teaching != null and teaching.apprentice != null
+		and student.family.has_family() and student.family.family_id != teaching.family_id
+		and not is_master_of(student, master)
+	)
+
+
 ## feature/apprentice.c assign_apprentice(): 封山剑派第十四代弟子 (开山祖师 for the first),
 ## as ES2 writes it: this is the title a character keeps (and a save holds).
 static func family_title(family_name: String, generation: int, title: String) -> String:

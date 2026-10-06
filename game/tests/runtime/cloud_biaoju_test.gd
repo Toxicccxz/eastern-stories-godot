@@ -109,7 +109,10 @@ func _test_betrayal() -> void:
 	state.apprenticeship.master_teacher_id = &"test.other_master"
 	state.apprenticeship.legacy_master_name = "陈天星"
 	request = NpcApprenticeship.new()
+	var header: NpcDefinition = GameContent.catalog().npc(HEADER)
+	_check(NpcApprenticeship.would_betray(_disciple(), header) and not NpcApprenticeship.would_betray(_fresh(), header) and not NpcApprenticeship.would_betray(state, header), "the panel asks 柳淳风's disciple, not a newcomer nor a member of 振远镖局")
 	_check(_recruit(state, request, 5) == NpcApprenticeship.Outcome.RECRUITED and request.lines[2] == "陈剑秋决定收你为弟子。" and state.apprenticeship.betrayer_count == 0 and state.family.generation == 2, "a member of 振远镖局 changes master without betraying: " + str(request.lines))
+	_check(not NpcApprenticeship.would_betray(state, header) and not NpcApprenticeship.would_betray(_fresh(), GameContent.catalog().npc(FIGHTER)), "nor his own apprentice; 趟子手 takes no apprentice")
 
 
 ## learn.c with 陈剑秋 (int 23): gin cost 150/23 + 150/int, doubled for a new skill;
@@ -261,8 +264,23 @@ func _test_in_the_biaoju(tree: SceneTree, session: OldPineWorldSessionController
 	var school: TeacherService = map.service(&"cloud.outdoor.biaoju.b_header") as TeacherService
 	_check(school != null and school.can_teach() and school.takes_apprentices(), "he takes apprentices")
 	Master.recruit(player.state, 1789420000) # TEST-ONLY: 柳淳风's disciple without the walk to Snow
+	player.state.progression.score = 4 # TEST-ONLY: 3C's quests give score
 	_check(player.shown_title() == "封山剑派第十四代弟子", "封山剑派's disciple: " + player.shown_title())
-	_check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED and school.last_lines.slice(1, 3) == ["陈剑秋说道：很好，小姑娘多加努力，本镖局不会亏待你的。", "你决定背叛师门，改投入陈剑秋门下！！"], "拜师 betrays 封山剑派: " + str(school.last_lines))
+	school.interact()
+	await tree.process_frame
+	var ui: TeacherPanel = school.ui
+	ui.apprentice_button.pressed.emit()
+	_check(ui.is_confirming() and not ui.apprentice_button.visible and player.state.family.family_id == Master.FAMILY_ID and not player.apprenticeship_request.is_pending() and school.last_lines.is_empty(), "拜师 asks first (owner): nothing has happened yet")
+	var warning: String = ui.confirm_text.text
+	_check(warning.begins_with("你现在是封山剑派第十四代弟子。改投陈剑秋门下，就是背叛师门：") and warning.contains("综合评价清零（现在是 4）") and warning.contains("背叛师门的次数变成 1 次") and warning.contains("都换成振远镖局的"), "what betraying costs: " + warning)
+	ui.keep_button.pressed.emit()
+	_check(not ui.is_confirming() and ui.apprentice_button.visible and player.state.family.family_id == Master.FAMILY_ID and player.state.progression.score == 4, "不改投了: nothing changes")
+	ui.apprentice_button.pressed.emit()
+	ui.confirm_button.pressed.emit()
+	_check(not ui.is_confirming() and school.last_lines.slice(1, 3) == ["陈剑秋说道：很好，小姑娘多加努力，本镖局不会亏待你的。", "你决定背叛师门，改投入陈剑秋门下！！"] and player.state.progression.score == 0, "确定改投 betrays 封山剑派: " + str(school.last_lines))
+	ui.apprentice_button.pressed.emit()
+	_check(not ui.is_confirming() and school.last_lines == ["你恭恭敬敬地向陈剑秋磕头请安，叫道：「师父！」"], "his own apprentice is not asked")
+	ui.close_panel()
 	_check(player.shown_title() == "振远镖局第二代弟子" and player.facts.title == "振远镖局第二代弟子" and player.state.apprenticeship.betrayer_count == 1, "the title kept and shown: " + player.shown_title())
 	var result: LearnResult = school.request_learn(&"blade")
 	_check(result.success and school.last_lines[0] == "你向陈剑秋请教有关「基本刀法」的疑问。", "请教 基本刀法: " + str(school.last_lines))
@@ -303,6 +321,12 @@ func _test_in_the_biaoju(tree: SceneTree, session: OldPineWorldSessionController
 
 static func _fresh() -> CharacterState:
 	return NewPlayerInitializationPolicy.create(CharacterState.GENDER_MALE, "镖师").state
+
+
+static func _disciple() -> CharacterState:
+	var state := _fresh()
+	Master.recruit(state, 1)
+	return state
 
 
 func _recruit(state: CharacterState, request: NpcApprenticeship, entry_time_utc: int) -> NpcApprenticeship.Outcome:

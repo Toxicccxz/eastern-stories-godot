@@ -6,7 +6,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **绮云镇 3B: joining 振远镖局** (`phase/cloud-biaoju`), region plan #3: 陈剑秋 takes apprentices
 with cor 25 into the family's second generation (class guardman); a member of another family
-betrays it (score 0, betrayer + 1). He teaches unarmed, parry, dodge, blade (基本刀法, new),
+betrays it (score 0, betrayer + 1) after a confirmation that says so. He teaches unarmed, parry, dodge, blade (基本刀法, new),
 force, literate and 春风快意刀 by learn.c and F_MASTER; 趟子手 teaches the family's members.
 春风快意刀 is practised with a blade in hand. His three answers to a gift (he keeps it); the
 letter for a 忘忧草 waits for 乔阴县城. 目标详情 names a family member's relation (look.c).

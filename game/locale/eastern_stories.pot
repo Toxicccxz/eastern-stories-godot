@@ -3550,12 +3550,31 @@ msgstr ""
 msgid "现在不能使用这个酒袋。"
 msgstr ""
 
+#. asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"你现在是{title}。改投{master}门下，就是背叛师门：\n"
+"· 综合评价清零（现在是 {score}）。\n"
+"· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n"
+"· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n"
+"· 日后再改投别派，又算一次背叛。\n"
+"确定要改投吗？"
+msgstr ""
+
 #: ui/teacher/teacher_panel.gd
 msgid "拜师 / 向师父请安"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
 msgid "取消拜师请求"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "确定改投"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "不改投了"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd

@@ -7,6 +7,10 @@
   and betrayer + 1, and the new family, master, title, class and entry time replace the old ones.
   A member of the same family is recruited as anyone else (new master, generation, title,
   class and entry time), without the betrayal's lines and penalties.
+- **Owner: betrayal asks first** (a UI deviation). In a master's panel, 拜师 by a member of
+  another family shows what recruit.c will do (score 0, the new number of betrayals and
+  master.c's limit, the new family; skills kept) and needs 确定改投; apprentice.c runs at once
+  (only its help warns). The rule itself is unchanged.
 - **The player's score** (综合评价) is kept and saved (only when it is not 0); betrayal sets it to
   0. Nothing shows it or adds to it before 3C's quests.
 - **look.c's relation** (他是你的师父, 同门师兄, 师叔 …) is the last line of 目标详情 for an NPC
