@@ -10,10 +10,10 @@ Owner: the game is for today's players (AGENTS.md, Deviations). ES2's behaviour,
   忘忧草 from an outsider (你是何人？为什么有我的忘忧草？).
 - vendor.c lists goods priced 0 (the weapon shop's 飞镖, 0两黄金) that buy.c refuses: the shop
   does not list them.
-- steal.c tells the robbed player nothing: a conscious player reads 你忽然觉得身上一轻，X不见了！
-  (HIR), not who took it.
+- steal.c tells the robbed player nothing: the player reads 你忽然觉得身上一轻，X不见了！ (HIR), not
+  who took it; one robbed while unconscious reads 你昏迷不醒的时候，身上的X被人拿走了！ on waking.
 - snake_drug.c lowers the poison by one per dose against a bite's 20, so a dose seemed to do
-  nothing: after each dose the player reads what is left (体内的蛇毒还剩 N 分，每服一剂解去一分。).
+  nothing: after each dose the player reads what is left, and that each bout wears one off too.
 - Kept: study.c's 你是个文盲，先学学读书识字(literate)吧。 already tells an illiterate reader of 说文解字
   what to do.
 - With 3C (#60): the quest reward's cap on unspent potential only stops the gain, and a surrender

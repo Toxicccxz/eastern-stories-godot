@@ -5,8 +5,8 @@ extends RefCounted
 ## generation, class guardman; a member of another family betrays it (recruit.c:
 ## score 0, betrayer + 1). He teaches his skills by learn.c and std/char/master.c;
 ## 趟子手 (bfighter.c, privs -1) teaches the family's members too. His accept_object()
-## keeps whatever he is given, with one of three answers (the letter waits for the
-## 忘忧草's master_id, 乔阴县城). look.c names a member's relation; 春风快意刀 is
+## answers a gift in one of three ways and keeps only his own 忘忧草 from an outsider
+## (modern fixes; ES2 kept everything; the letter waits for the 忘忧草's master_id, 乔阴县城). look.c names a member's relation; 春风快意刀 is
 ## practised with a blade in hand. TEST-ONLY fixtures are marked where used.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -188,7 +188,8 @@ func _test_practice() -> void:
 	_check(ColoredLine.texts(TrainingLines.practice(result, spring))[-1] == "你的春风快意刀进步了！", "你的春风快意刀进步了！")
 
 
-## accept_object(): every branch returns 1, so give.c hands the thing over.
+## accept_object(): every branch returns 1 in ES2; the port hands back what he refuses
+## (modern fixes).
 func _test_gifts() -> void:
 	var rules: Array[NpcObjectRule] = GameContent.catalog().npc(HEADER).dealings().object_rules
 	var offer := NpcObjectRule.Offer.new(0, &"", 0, {}, {})

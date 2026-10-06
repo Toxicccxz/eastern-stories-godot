@@ -8,7 +8,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 with cor 25 into the family's second generation (class guardman); a member of another family
 betrays it (score 0, betrayer + 1) after a confirmation that says so. He teaches unarmed, parry, dodge, blade (基本刀法, new),
 force, literate and 春风快意刀 by learn.c and F_MASTER; 趟子手 teaches the family's members.
-春风快意刀 is practised with a blade in hand. His three answers to a gift (he keeps it); the
+春风快意刀 is practised with a blade in hand. His three answers to a gift (he hands back what he refuses); the
 letter for a 忘忧草 waits for 乔阴县城. 目标详情 names a family member's relation (look.c).
 
 Next: 3C the quest system (朱鸿雪).

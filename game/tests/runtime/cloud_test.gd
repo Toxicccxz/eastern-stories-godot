@@ -238,7 +238,7 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	_check(not refused.done() and session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id), "one tael: he spits and attacks (kill_passenger)")
 	var order: Array[String] = session.shared_ui().log_lines().slice(said)
 	_check(order.size() >= 3 and order[0].begins_with("强盗往地上吐了口唾沫") and order[-2] == "看起来卧龙岗强盗想杀死你！" and order[-1] == "卧龙岗强盗没有收下。",
-		"his line, kill_ob()'s warning, then give.c's refusal: " + str(order))
+		"his line, kill_ob()'s warning, then the refusal: " + str(order))
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER), "and from then on he attacks on sight, mark or not")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
 	CombatEncounterCoordinator.take_aborted_total()
@@ -253,7 +253,8 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## thief.c in 张家花园: an arrival rolls random(kar) < 2; a second later steal.c picks the
-## silver, and three seconds after it rolls. Taken: the silver is his, nothing is said.
+## silver, and three seconds after it rolls. Taken: the silver is his, and the player
+## reads that it is gone (modern fixes; ES2 says nothing).
 func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()

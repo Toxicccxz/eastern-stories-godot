@@ -54,8 +54,7 @@ func sellable_keys() -> Array[String]:
 	var vendor: VendorDefinition = catalog.vendor(vendor_id())
 	var keys: Array[String] = []
 	for key: String in vendor.goods_keys():
-		var content: ItemContentDefinition = catalog.item(vendor.item_definition_id(key))
-		if content != null and vendor.price(key, content) > 0:
+		if vendor.sells(key, catalog.item(vendor.item_definition_id(key))):
 			keys.append(key)
 	return keys
 

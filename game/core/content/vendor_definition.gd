@@ -53,6 +53,11 @@ func item_definition_id(key: String) -> StringName:
 	return _goods.get(key, &"")
 
 
+## buy.c trades `key`: goods, not money, priced 1 or more (below 1 the owner will not).
+func sells(key: String, content: ItemContentDefinition) -> bool:
+	return content != null and content.is_valid() and content.currency_definition() == null and price(key, content) >= 1
+
+
 ## What buy.c charges for `key`: the vendor's own price, else the item's value.
 func price(key: String, content: ItemContentDefinition) -> int:
 	if _prices.has(key):

@@ -151,7 +151,7 @@ func _test_apply_rules() -> void:
 	_check(not none.accepted and none.lines == ["你没有中蛇毒。"] and not none.used_up, "not poisoned: 你没有中蛇毒。")
 	state.conditions.add_or_replace_duration(POISON, 2)
 	var dose: ItemApplyFunctions.Result = ItemApplyFunctions.apply(&"snake_drug", state, true)
-	_check(dose.accepted and dose.used_up and _remaining(state) == 1 and dose.lines == ["你服下蛇药，顿时感觉好多了。但是你中的蛇毒并没有完全清除。", "体内的蛇毒还剩 1 分，每服一剂解去一分。"], "one dose lowers it by one, also in a fight; what is left is said (modern fixes): " + str(dose.lines))
+	_check(dose.accepted and dose.used_up and _remaining(state) == 1 and dose.lines == ["你服下蛇药，顿时感觉好多了。但是你中的蛇毒并没有完全清除。", "体内的蛇毒还剩 1 分：每服一剂解去一分，每次毒发也会消退一分。"], "one dose lowers it by one, also in a fight; what is left is said (modern fixes): " + str(dose.lines))
 	dose = ItemApplyFunctions.apply(&"snake_drug", state, false)
 	_check(dose.accepted and _remaining(state) == 0 and state.conditions.has_condition(POISON) and dose.lines == ["你服下蛇药，顿时感觉好多了。你终于清除了体内所有的蛇毒！"], "the last one: cleared (the condition stays at 0)")
 	var hurt: CharacterState = _state()
@@ -276,6 +276,7 @@ func _test_snake(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	var left: int = _remaining(player.state)
 	_check(map.apply_item(drug) and _remaining(player.state) == left - 1 and session.stack_collection().stack_state(drug).amount == 3, "one dose: poison - 1, three packs left")
 	_check(Array(session.shared_ui().log_lines()).has("你服下蛇药，顿时感觉好多了。但是你中的蛇毒并没有完全清除。"), "snake_drug.c's lines")
+	_check(session.shared_ui().log_lines().back() == "体内的蛇毒还剩 %d 分：每服一剂解去一分，每次毒发也会消退一分。" % (left - 1), "and what is left (modern fixes)")
 	player.state.conditions.add_or_replace_duration(POISON, 1) # TEST-ONLY
 	CombinedStackService.set_amount(session.stack_collection(), session.inventory_state(), drug, 1) # TEST-ONLY
 	_check(map.apply_item(drug) and _remaining(player.state) == 0 and _carried(session, player.character_id, SNAKE_DRUG).is_empty(), "the last pack clears it and is gone")
