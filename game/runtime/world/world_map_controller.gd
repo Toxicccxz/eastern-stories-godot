@@ -1028,6 +1028,13 @@ func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
 	return null
 
 
+## The combat content a binding of this NPC gets now (_npc_content(), with its race and
+## authored facts), or null when it is not here.
+func npc_combat_content(character_id: StringName) -> CombatSliceContentProfile:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	return null if npc == null else _npc_content(npc).for_npc_definition(npc.definition())
+
+
 ## command("wield <type>") / command("unwield <type>") for an NPC: wield.c takes the
 ## first carried weapon of that skill type into a free hand (present(), inventory
 ## order); unwield.c puts the wielded one of that type away. False when nothing

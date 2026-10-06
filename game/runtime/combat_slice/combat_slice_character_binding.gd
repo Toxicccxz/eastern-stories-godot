@@ -50,6 +50,14 @@ var combat_available: bool:
 		return _combat_available
 
 
+## The content after the NPC took up or put away a weapon in the middle of an advance
+## (萧辟尘's consider()): the scheduler keeps one bindings array for every due cycle,
+## so the next cycle must see the weapon it now holds with its own profile.
+func replace_content(content: CombatSliceContentProfile) -> void:
+	if content != null and content.is_valid():
+		_content = content
+
+
 func _init(
 	p_character_id: StringName = &"",
 	p_state: CharacterState = null,

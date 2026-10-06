@@ -209,6 +209,7 @@ func _test_consider(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	var drawn: CombatNpcChatResult = chat.beat(me, [enemy], [enemy], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new())
 	_check(drawn != null and _templates(drawn) == ["萧辟尘说道：%s既然使兵刃，在下空手接招未免不敬。" % respect, "萧辟尘说道：进招吧！"], "random(100) 0 < 80, entry 0: consider() speaks: %s" % [_templates(drawn)])
 	_check(master.character_state.equipment.primary_weapon_skill_type() == &"sword" and me.state.equipment.primary_weapon_skill_type() == &"sword", "and wields his long sword")
+	_check(me.content.is_verified_primary(me.state.equipment.primary_weapon()), "the binding the advance keeps for its next cycles knows the sword at once")
 	_check(chat.beat(me, [enemy], [enemy], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new()) == null, "both armed: nothing more")
 	# His blows are the sword's now: the fight goes on with it (no abort), its damage 25 counts.
 	CombatEncounterCoordinator.take_aborted_total()
@@ -225,6 +226,14 @@ func _test_consider(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	_check(bare != null and _templates(bare) == ["萧辟尘说道：既然%s不使兵刃，在下自然奉陪！" % respect], "bare-handed: he says so: %s" % [_templates(bare)])
 	_check(master.character_state.equipment.is_primary_hand_empty(), "and puts it away")
 	_check(chat.beat(me, [enemy], [enemy], Specials.Pattern.new([80]), SkillImprovementEffectRegistry.new()) == null, "random(100) 80 is not below 80: nothing")
+	# One advance of many cycles (a frame hitch) keeps one bindings array: the cycles after
+	# his draw must fight with the sword, not abort on a weapon his old content does not know.
+	player.state.equipment.wield(EquippedWeaponRef.new(sword, GameContent.catalog().item(LONGSWORD).weapon_definition()), false) # TEST-ONLY
+	session.configure_combat_random_source(Specials.Zero.new()) # TEST-ONLY: every beat chats, consider() first
+	CombatEncounterCoordinator.take_aborted_total()
+	var advanced: CombatSchedulerAdvanceResult = coordinator.advance_scheduler(8.0)
+	_check(advanced.cycles_processed > 1 and master.character_state.equipment.primary_weapon_skill_type() == &"sword", "several cycles in one advance; he drew his sword in it (%d cycles)" % advanced.cycles_processed)
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0 and coordinator.has_active_encounter(), "and fought on with it in the same advance")
 	_end_fight(session)
 
 

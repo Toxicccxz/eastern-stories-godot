@@ -505,10 +505,13 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	)
 
 
-## command("wield <type>") / command("unwield <type>") for an NPC in the fight.
-func _npc_wield(character_id: StringName, weapon_type: StringName, on: bool) -> bool:
+## command("wield <type>") / command("unwield <type>") for an NPC in the fight: its
+## combat content afterwards (null when nothing changed).
+func _npc_wield(character_id: StringName, weapon_type: StringName, on: bool) -> CombatSliceContentProfile:
 	var map: WorldMapController = _session.active_map() as WorldMapController
-	return map != null and map.npc_wield_by_type(character_id, weapon_type, on)
+	if map == null or not map.npc_wield_by_type(character_id, weapon_type, on):
+		return null
+	return map.npc_combat_content(character_id)
 
 
 ## RANK_D->query_respect() of a participant, in the shown language.

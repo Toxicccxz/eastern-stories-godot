@@ -12,8 +12,9 @@ var _respect_for: Callable
 
 
 ## `npc_for`: (character_id: StringName) -> NpcRuntimeState, null for the player.
-## `wield_for`: (character_id, skill type, wield: bool) -> bool, the NPC taking up or
-## putting away a weapon it carries (NpcWeaponMatch). `respect_for`: (character_id)
+## `wield_for`: (character_id, skill type, wield: bool) -> CombatSliceContentProfile, the
+## NPC taking up or putting away a weapon it carries (NpcWeaponMatch), and its combat
+## content now (null when nothing changed). `respect_for`: (character_id)
 ## -> RANK_D->query_respect() of a participant, in the shown language.
 func _init(npc_for: Callable, wield_for: Callable = Callable(), respect_for: Callable = Callable()) -> void:
 	_npc_for = npc_for
@@ -81,7 +82,9 @@ func _match_weapon(rule: NpcWeaponMatch, actor: CombatSliceCharacterBinding, npc
 		# TRANSLATORS: an NPC's say() in a fight: {npc} its name, {line} what it says.
 		lines.append(VisionLine.new(TranslationServer.translate("{npc}说道：{line}").format({"npc": name, "line": say}), actor.character_id))
 	if _wield_for.is_valid():
-		_wield_for.call(actor.character_id, rule.weapon_type, decision.change == NpcWeaponMatch.Change.WIELD)
+		var content: CombatSliceContentProfile = _wield_for.call(actor.character_id, rule.weapon_type, decision.change == NpcWeaponMatch.Change.WIELD)
+		# The rest of this advance's cycles reuse these bindings: they see the new weapon.
+		actor.replace_content(content)
 	return CombatNpcChatResult.new(lines)
 
 
