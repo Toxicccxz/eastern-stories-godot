@@ -222,15 +222,13 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 	await tree.physics_frame
 	await tree.physics_frame
 	map._toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY: the frames so far
-	map._advance_toll_contacts(delay * 0.5)
-	map.process_pending_aggression()
+	map._process(delay * 0.5)
 	_check(map._complete_entry_contact(robbers[0].character_id) and not session.combat_encounter_coordinator().has_active_encounter(), "half the time in his reach: no attack yet")
 	# Walk on: out of reach before the time is up.
 	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12)
 	await tree.physics_frame
 	await tree.physics_frame
-	map._advance_toll_contacts(delay)
-	map.process_pending_aggression()
+	map._process(delay)
 	_check(not session.combat_encounter_coordinator().has_active_encounter() and not map._toll_contact_seconds.has(robbers[0].character_id), "walked on: his greeting finds nobody")
 	_check(not robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER) and robbers[0].definition().toll_attack_delay_ms(robbers[0].flags(), player.state) == 2000, "no grudge for it (owner): the way back has the same time")
 	# Stay: the whole time in his reach and he attacks.
@@ -238,19 +236,35 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 	await tree.physics_frame
 	await tree.physics_frame
 	map._toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY
-	map._advance_toll_contacts(delay * 0.5)
-	map.process_pending_aggression()
+	map._process(delay * 0.5)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "still waiting at half the time")
 	var said: int = session.shared_ui().log_lines().size()
-	map._advance_toll_contacts(delay * 0.5)
-	map.process_pending_aggression()
+	map._process(delay * 0.5)
 	_check(session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id), "the whole time in his reach: he attacks (kill_passenger)")
 	_check(session.shared_ui().log_lines().slice(said).has("看起来卧龙岗强盗想杀死你！"), "kill_ob()'s warning: " + str(session.shared_ui().log_lines().slice(said)))
 	await tree.physics_frame
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER) and robbers[0].definition().toll_attack_delay_ms(robbers[0].flags(), player.state) == 0, "having fought, he attacks at once from then on")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
 	CombatEncounterCoordinator.take_aborted_total()
-	robbers[0].set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, false) # TEST-ONLY: the toll test starts with fresh robbers
+	robbers[0].set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, false) # TEST-ONLY
+	# Between the two (in both reaches), the first's time up and the second's not yet:
+	# both greetings come from the same arrival, so both attack (review on pacing knobs).
+	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12) # out of reach: a new arrival
+	await tree.physics_frame
+	await tree.physics_frame
+	map._process(0.0)
+	body.global_position = (robber_at + map.runtime_body_for_character(robbers[1].character_id).global_position) / 2.0
+	await tree.physics_frame
+	await tree.physics_frame
+	map._toll_contact_seconds[robbers[0].character_id] = delay * 0.6 # TEST-ONLY
+	map._toll_contact_seconds[robbers[1].character_id] = delay * 0.3 # TEST-ONLY
+	map._process(delay * 0.45)
+	_check(session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id) and robbers[1].relationship.has_lethal_target(player.character_id), "in both reaches: the second robber joins the first's attack")
+	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
+	CombatEncounterCoordinator.take_aborted_total()
+	await tree.physics_frame
+	for robber: NpcRuntimeState in robbers:
+		robber.set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, false) # TEST-ONLY: the toll test starts with fresh robbers
 	await tree.physics_frame
 
 

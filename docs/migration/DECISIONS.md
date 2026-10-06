@@ -11,9 +11,9 @@ gives none, and a spar is two blows and a minute's rest); the 40 and 50 s tasks 
 from 朱鸿雪, 14-25 s on foot plus the fight.
 - **Owner: three knobs in `common/pacing.json`**, integers; left out, each is ES2's pace
   (PacingDefinition). No ported formula changed:
-  - `player_exp_gain` 3: where do_attack() gives the player 1 combat_exp and 1 potential, the
-    player gets 3 of each (potential still only up to 100 unspent). NPCs, quest rewards and skill
-    improvement are unchanged.
+  - `player_exp_gain` 3: every 1 combat_exp do_attack() gives the player (a dodge, a parry, a hit
+    either way) is 3, and so is a hit's 1 potential (still only up to 100 unspent). NPCs, quest
+    rewards and skill improvement are unchanged.
   - `player_recovery_gain` 3: heal_up() restores three times as much to the player (gin, kee,
     sen, the effective repair, atman, force, mana); the tick's timing and its food and water are
     ES2's. NPCs are unchanged.
@@ -28,7 +28,8 @@ from 朱鸿雪, 14-25 s on foot plus the fight.
   player still in its reach `toll_attack_delay_ms` after the player came into it: 2000, because
   crossing the native ridge takes 1.2-1.5 s and the way to 南坡 passes within 70 px of the second
   robber (about 1 s in his reach; at 1000 every route tried was caught). Walking on passes both;
-  stopping, or walking into one, does not. **Deviation:** ES2's greeting kill_ob()s a passer-by who
+  stopping, or walking into one, does not, and the other robber in reach then joins (both
+  greetings come from the same arrival). **Deviation:** ES2's greeting kill_ob()s a passer-by who
   has gone, so the robber attacks at once next time; here walking past makes no grudge, and the way
   back has the same time. A fight (stopping in reach, a refused toll, 攻击 or 切磋) still makes one
   until the robber is made anew.

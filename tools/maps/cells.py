@@ -24,6 +24,7 @@ def draw(region, entry: dict) -> Drawn:
     d, scene = entry['draw'], entry['scene']
     style = scene['style']
     cell, rooms = d['cell'], d['rooms']
+    assert cell == 256, 'SLOTS, BAND and the caption offset are laid out for 256 px cells'
     bounds = tuple(d['bounds'])
 
     def box(zone_id):
