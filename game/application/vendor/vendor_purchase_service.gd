@@ -16,8 +16,7 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 		return result
 	result.item_definition_id = vendor.item_definition_id(goods_key)
 	var content: ItemContentDefinition = catalog.item(result.item_definition_id)
-	# buy.c: a price below 1 means the owner will not trade. Money is not goods.
-	if content == null or not content.is_valid() or content.currency_definition() != null or vendor.price(goods_key, content) < 1:
+	if not vendor.sells(goods_key, content):
 		return result
 	result.price = vendor.price(goods_key, content)
 	result.outcome = VendorPurchaseResult.Outcome.AUTHORITY_FAILURE

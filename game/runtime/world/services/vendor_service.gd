@@ -25,7 +25,7 @@ func bind_npc(p_map: WorldMapController, p_npc: NpcRuntimeState) -> void:
 	goods_rows.name = "Goods"
 	rows.add_child(goods_rows)
 	feedback = _label(rows, "Feedback")
-	for key: String in vendor.goods_keys():
+	for key: String in sellable_keys():
 		var button: Button = Button.new()
 		button.custom_minimum_size = Vector2(0, 44)
 		button.pressed.connect(request_purchase.bind(key))
@@ -40,11 +40,23 @@ func _present() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var vendor: VendorDefinition = catalog.vendor(vendor_id())
 	var names: Array[String] = []
-	for key: String in vendor.goods_keys():
+	for key: String in sellable_keys():
 		var content: ItemContentDefinition = catalog.item(vendor.item_definition_id(key))
 		_goods_buttons[key].text = goods_label(content, vendor.price(key, content))
 		names.append(tr(content.display_name))
 	_title.text = "%s · %s" % [tr(display_name()), " / ".join(names)]
+
+
+## The goods buy.c sells: vendor.c lists one priced 0 (0两黄金, the weapon shop's 飞镖)
+## that buy.c then refuses. Deviation (owner, modern fixes): such goods are not listed.
+func sellable_keys() -> Array[String]:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var vendor: VendorDefinition = catalog.vendor(vendor_id())
+	var keys: Array[String] = []
+	for key: String in vendor.goods_keys():
+		if vendor.sells(key, catalog.item(vendor.item_definition_id(key))):
+			keys.append(key)
+	return keys
 
 
 func _label(rows: VBoxContainer, node_name: String) -> Label:

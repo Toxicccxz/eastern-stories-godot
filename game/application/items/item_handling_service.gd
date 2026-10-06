@@ -8,7 +8,10 @@ extends RefCounted
 ## (ES2 lost it: its new object had no environment; DECISIONS 4E). The runtime
 ## decides presence and reach, and prints the returned lines.
 
-const NOT_FOR_NPC: String = "你只能把东西送给其他玩家操纵的人物。"
+## give.c's notify_fail on a refusal, 你只能把东西送给其他玩家操纵的人物。, speaks of other
+## players; deviation (owner, modern fixes): the player reads that the NPC did not take it.
+# TRANSLATORS: give: the NPC ({npc}) did not take what the player offered (it stays with the player).
+const NOT_TAKEN: String = "{npc}没有收下。"
 
 
 ## The authorities one command borrows: the player's MoneyInventoryContext
@@ -69,7 +72,7 @@ static func give(
 		for line: NpcLine in result.rule.lines:
 			result.lines.append(line.sentence(name, respect))
 	if result.rule == null or not result.rule.accept:
-		result.lines.append(TranslationServer.translate(NOT_FOR_NPC))
+		result.lines.append(TranslationServer.translate(NOT_TAKEN).format({"npc": TranslationServer.translate(name)}))
 		result.outcome = ItemHandlingResult.Outcome.REFUSED
 		return result
 	_apply_acceptance(result.rule, player, npc, offer.value, random)

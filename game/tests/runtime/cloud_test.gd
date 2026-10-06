@@ -188,6 +188,8 @@ func _test_shops_and_study(session: OldPineWorldSessionController) -> void:
 	var dart: VendorPurchaseResult = VendorPurchaseService.buy(weapons, "dart", GameContent.catalog(), money,
 		session.food_collection(), session.liquid_collection(), session.item_id_allocator(), player.maximum_encumbrance)
 	_check(not dart.delivered, "飞镖 has no value(): buy.c does not sell it")
+	var shop: VendorService = session.world_map_of(&"cloud.outdoor").service(&"cloud.outdoor.weapony.weaponor") as VendorService
+	_check(shop != null and not shop.sellable_keys().has("dart") and shop.sellable_keys().has("blade") and shop.sellable_keys().size() == 7, "so the shop does not list it (modern fixes): " + str([] if shop == null else shop.sellable_keys()))
 	var illiterate: StudyResult = session.martial_arts().study(bought.item_id)
 	_check(illiterate != null and illiterate.outcome == StudyResult.Outcome.ILLITERATE, "study.c: an illiterate cannot read even 说文解字")
 	player.state.skills.set_raw_level(&"literate", 1) # TEST-ONLY: taught by 魏无极 or 李师师
@@ -235,8 +237,8 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var refused: ItemHandlingResult = map.give_to_selected(silver, 1)
 	_check(not refused.done() and session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id), "one tael: he spits and attacks (kill_passenger)")
 	var order: Array[String] = session.shared_ui().log_lines().slice(said)
-	_check(order.size() >= 3 and order[0].begins_with("强盗往地上吐了口唾沫") and order[-2] == "看起来卧龙岗强盗想杀死你！" and order[-1] == ItemHandlingService.NOT_FOR_NPC,
-		"his line, kill_ob()'s warning, then give.c's refusal: " + str(order))
+	_check(order.size() >= 3 and order[0].begins_with("强盗往地上吐了口唾沫") and order[-2] == "看起来卧龙岗强盗想杀死你！" and order[-1] == "卧龙岗强盗没有收下。",
+		"his line, kill_ob()'s warning, then the refusal: " + str(order))
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER), "and from then on he attacks on sight, mark or not")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
 	CombatEncounterCoordinator.take_aborted_total()
@@ -251,7 +253,8 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## thief.c in 张家花园: an arrival rolls random(kar) < 2; a second later steal.c picks the
-## silver, and three seconds after it rolls. Taken: the silver is his, nothing is said.
+## silver, and three seconds after it rolls. Taken: the silver is his, and the player
+## reads that it is gone (modern fixes; ES2 says nothing).
 func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -283,7 +286,7 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	map._steal_step(thief)
 	_check(not _carried_ids(session).has(silver) and session.stack_collection().stack_state(silver) != null, "taken: the player's %d silver is gone" % amount)
 	_check(random.call_count() == 3 and session.inventory_state().is_direct_child(silver, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, thief.character_id)), "the thief has it")
-	_check(session.shared_ui().log_lines().size() == lines, "and nothing is said to the player")
+	_check(session.shared_ui().log_lines().slice(lines) == ["你忽然觉得身上一轻，银子不见了！"], "the player notices what is gone, not who took it (modern fixes; ES2 says nothing): " + str(session.shared_ui().log_lines().slice(lines)))
 	# A thief killed between steal.c's main() and compelete_steal() takes nothing (review on 3A).
 	var more: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(more, CurrencyDenomination.Value.SILVER, 3, &"test.cloud.silver3") # TEST-ONLY

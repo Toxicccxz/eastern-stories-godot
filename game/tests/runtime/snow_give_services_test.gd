@@ -121,17 +121,17 @@ func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var eased: ItemHandlingResult = ItemHandlingService.give(player, keeper, true, &"test.coins", 250, _authorities(session), draws)
 	_check(eased.done() and draws.requested_bounds() == [25, 20] and player.state.attributes.bellicosity == 50 - 3, "keeper.c donation eases bellicosity: " + str(draws.requested_bounds()))
 	# Only money has a value() (std/money.c): the keeper refuses anything else, and
-	# give.c's notify_fail is what shows.
+	# give.c's notify_fail shows, as the NPC not taking it (modern fixes).
 	_add_item(session, &"test.cloth", &"es2:obj/cloth")
 	var refused: ItemHandlingResult = map.give_to_selected(&"test.cloth")
-	_check(refused.outcome == ItemHandlingResult.Outcome.REFUSED and refused.lines == ["你只能把东西送给其他玩家操纵的人物。"] and session.inventory_state().is_direct_child(&"test.cloth", money.endpoint()), "a worthless gift: nothing changes hands")
+	_check(refused.outcome == ItemHandlingResult.Outcome.REFUSED and refused.lines == ["庙祝没有收下。"] and session.inventory_state().is_direct_child(&"test.cloth", money.endpoint()), "a worthless gift: nothing changes hands")
 	_add_item(session, &"test.book", &"es2:obj/old_book")
-	_check(map.give_to_selected(&"test.book").lines == ["你只能把东西送给其他玩家操纵的人物。"], "an old book (value 70) is no money either")
+	_check(map.give_to_selected(&"test.book").lines == ["庙祝没有收下。"], "an old book (value 70) is no money either")
 	# An NPC without accept_object() takes nothing; one knocked out is not living().
 	_check(_beside(map, player, &"snow.sroad2", &"snow.sroad2.farmer.1"), "beside the farmers")
 	var farmer: NpcRuntimeState = _npc(map, &"snow.sroad2.farmer.1")
 	map.select_npc(farmer.character_id)
-	_check(map.give_to_selected(&"test.coins", 1).lines == ["你只能把东西送给其他玩家操纵的人物。"], "the farmer has no accept_object()")
+	_check(map.give_to_selected(&"test.coins", 1).lines == ["农夫没有收下。"], "the farmer has no accept_object()")
 	farmer.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	_check(not map.selected_npc_takes_gifts() and map.give_to_selected(&"test.coins", 1).lines == ["这里没有这个人。"], "give.c: living(who)")
 	farmer.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
@@ -147,7 +147,7 @@ func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var teacher: NpcRuntimeState = _npc(map, &"snow.school.teacher.1")
 	map.select_npc(teacher.character_id)
 	var short: ItemHandlingResult = map.give_to_selected(&"test.silver", 4)
-	_check(short.outcome == ItemHandlingResult.Outcome.REFUSED and short.lines == ["魏无极说道：你的诚意不够，这钱还是拿回去吧。", "你只能把东西送给其他玩家操纵的人物。"], "four taels refused: " + str(short.lines))
+	_check(short.outcome == ItemHandlingResult.Outcome.REFUSED and short.lines == ["魏无极说道：你的诚意不够，这钱还是拿回去吧。", "魏无极没有收下。"], "four taels refused: " + str(short.lines))
 	_check(Finance.amount(money, CurrencyDenomination.Value.SILVER) == 12, "nothing lost on a refusal")
 	var tuition: ItemHandlingResult = map.give_to_selected(&"test.silver", 5)
 	_check(tuition.done() and tuition.lines == ["魏无极点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "你拿出五两银子给魏无极。"] and player.state.marks == {"魏无极": 1}, "five taels: marks/魏无极: " + str(tuition.lines))

@@ -5,8 +5,8 @@ extends RefCounted
 ## generation, class guardman; a member of another family betrays it (recruit.c:
 ## score 0, betrayer + 1). He teaches his skills by learn.c and std/char/master.c;
 ## 趟子手 (bfighter.c, privs -1) teaches the family's members too. His accept_object()
-## keeps whatever he is given, with one of three answers (the letter waits for the
-## 忘忧草's master_id, 乔阴县城). look.c names a member's relation; 春风快意刀 is
+## answers a gift in one of three ways and keeps only his own 忘忧草 from an outsider
+## (modern fixes; ES2 kept everything; the letter waits for the 忘忧草's master_id, 乔阴县城). look.c names a member's relation; 春风快意刀 is
 ## practised with a blade in hand. TEST-ONLY fixtures are marked where used.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -188,14 +188,15 @@ func _test_practice() -> void:
 	_check(ColoredLine.texts(TrainingLines.practice(result, spring))[-1] == "你的春风快意刀进步了！", "你的春风快意刀进步了！")
 
 
-## accept_object(): every branch returns 1, so give.c hands the thing over.
+## accept_object(): every branch returns 1 in ES2; the port hands back what he refuses
+## (modern fixes).
 func _test_gifts() -> void:
 	var rules: Array[NpcObjectRule] = GameContent.catalog().npc(HEADER).dealings().object_rules
 	var offer := NpcObjectRule.Offer.new(0, &"", 0, {}, {})
 	offer.item_name = "钢刀"
 	offer.giver_family = FAMILY
 	var rule: NpcObjectRule = NpcObjectRule.decide(rules, offer)
-	_check(rule.accept and rule.lines[0].sentence("陈剑秋", "") == "陈剑秋说道：你拿什么东西唬我？", "not a 忘忧草: 你拿什么东西唬我？ (and he keeps it)")
+	_check(not rule.accept and rule.lines[0].sentence("陈剑秋", "") == "陈剑秋说道：你拿什么东西唬我？", "not a 忘忧草: 你拿什么东西唬我？ and he hands it back (modern fixes; ES2 kept it)")
 	offer.item_name = "忘忧草"
 	offer.giver_family = &""
 	rule = NpcObjectRule.decide(rules, offer)
@@ -204,7 +205,7 @@ func _test_gifts() -> void:
 	_check(NpcObjectRule.decide(rules, offer) == rule, "封山剑派 is an outsider too")
 	offer.giver_family = FAMILY
 	rule = NpcObjectRule.decide(rules, offer)
-	_check(rule.accept and rule.lines[0].sentence("陈剑秋", "") == "陈剑秋笑了笑说：“这不是你得到的吧？”。", "a member's 忘忧草 without master_id: 这不是你得到的吧")
+	_check(not rule.accept and rule.lines[0].sentence("陈剑秋", "") == "陈剑秋笑了笑说：“这不是你得到的吧？”。", "a member's 忘忧草 without master_id: 这不是你得到的吧, handed back (modern fixes)")
 	offer.item_name = "钱"
 	offer.value = 10
 	_check(NpcObjectRule.decide(rules, offer).lines[0].text == "你拿什么东西唬我？", "money: the same anger")
@@ -292,11 +293,10 @@ func _test_in_the_biaoju(tree: SceneTree, session: OldPineWorldSessionController
 	Finance.add_money(money, CurrencyDenomination.Value.COIN, 30, &"test.coins") # TEST-ONLY
 	_add_item(session, &"test.grass", GRASS) # TEST-ONLY: no room places one yet
 	var grass: ItemHandlingResult = map.give_to_selected(&"test.grass")
-	_check(grass.done() and grass.lines == ["陈剑秋笑了笑说：“这不是你得到的吧？”。", "你给陈剑秋一棵忘忧草。"], "give 忘忧草: " + str(grass.lines))
-	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, header.character_id)
-	_check(session.inventory_state().direct_children(holder).has(&"test.grass"), "he keeps it")
+	_check(grass.outcome == ItemHandlingResult.Outcome.REFUSED and grass.lines == ["陈剑秋笑了笑说：“这不是你得到的吧？”。", "陈剑秋没有收下。"], "give 忘忧草: " + str(grass.lines))
+	_check(session.inventory_state().is_direct_child(&"test.grass", money.endpoint()), "it stays with the player (modern fixes; ES2 kept it)")
 	var coins: ItemHandlingResult = map.give_to_selected(&"test.coins", 10)
-	_check(coins.done() and coins.destroyed and coins.lines == ["陈剑秋说道：你拿什么东西唬我？", "你拿出十文钱给陈剑秋。"], "give money: " + str(coins.lines))
+	_check(coins.outcome == ItemHandlingResult.Outcome.REFUSED and not coins.destroyed and coins.lines == ["陈剑秋说道：你拿什么东西唬我？", "陈剑秋没有收下。"] and Finance.amount(money, CurrencyDenomination.Value.COIN) == 30, "give money: refused, nothing lost: " + str(coins.lines))
 	player.state.progression.score = 5 # TEST-ONLY: 3C's quests give score
 	var encoded: String = GameSaveJsonCodec.encode(Work.capture(session)).text
 	_check(encoded.contains("\"score\": \"5\""), "a score is saved (DecimalInt64Codec)")

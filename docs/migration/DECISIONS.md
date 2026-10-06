@@ -1,5 +1,26 @@
 # Migration Decisions
 
+## Modern fixes: ES2 behaviour that reads as a bug (2026-10-06)
+
+Owner: the game is for today's players (AGENTS.md, Deviations). ES2's behaviour, then ours:
+- give.c's refusal 你只能把东西送给其他玩家操纵的人物。 speaks of other players: the player reads
+  X没有收下。 (the thing stays with them, as since 4E).
+- b_header.c's accept_object() returns 1 in every branch, so 陈剑秋 kept what he refused (money
+  destructed): his 你拿什么东西唬我？ and 这不是你得到的吧 hand the gift back. He keeps his own
+  忘忧草 from an outsider (你是何人？为什么有我的忘忧草？).
+- vendor.c lists goods priced 0 (the weapon shop's 飞镖, 0两黄金) that buy.c refuses: the shop
+  does not list them.
+- steal.c tells the robbed player nothing: the player reads 你忽然觉得身上一轻，X不见了！ (HIR), not
+  who took it; one robbed while unconscious reads 你昏迷不醒的时候，身上的X被人拿走了！ on waking.
+- snake_drug.c lowers the poison by one per dose against a bite's 20, so a dose seemed to do
+  nothing: after each dose the player reads what is left, and that each bout wears one off too.
+- Kept: study.c's 你是个文盲，先学学读书识字(literate)吧。 already tells an illiterate reader of 说文解字
+  what to do.
+- With 3C (#60): the quest reward's cap on unspent potential only stops the gain, and a surrender
+  before the first blow is refused by a standing killer.
+- Next: the pacing knobs (exp growth, exercise, the quests' 40-second deadlines) and whether
+  卧龙岗's toll should shut new players out of 绮云镇, decided from measurements.
+
 ## 绮云镇 3C: 朱鸿雪's quests, killer_reward() for the player, surrender (2026-10-06)
 
 - **The quest command is 朱鸿雪's** (god.c init(): `quest_giver`): beside her, 任务 runs

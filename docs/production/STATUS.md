@@ -4,15 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**绮云镇 3C: 朱鸿雪's quests** (`phase/cloud-quest`), region plan #3: beside 朱鸿雪 (god2),
-任务 gives a task from `quest/qlist*` by combat_exp and tasks finished in a row (god.c), only
-targets the game has (owner); it runs on play time and shows on the 角色 page (quest.c). Killing
-the target in time pays exp, potential and score (combatd.c killer_reward()); every kill counts
-MKS and bellicosity, a garrison's killer is attacked by the garrison on sight (vendetta), and
-killing one's own master leaves the family. 投降 on the battle panel (surrender.c, -50 score).
-The 角色 page shows 杀气, 综合评价 and the kill count.
+**Modern fixes** (`phase/modern-fixes`): ES2 behaviour that reads as a bug to today's players
+gets the reasonable behaviour, each a recorded deviation: a refused gift reads X没有收下。, 陈剑秋
+hands back what he refuses, shops list only what they sell, a theft is noticed, and a dose of 蛇药
+tells what poison is left. 3C (朱鸿雪's quests, killer_reward() for the player, 投降, the
+garrison's vendetta) is merged.
 
-Next: 3D 赌场 betting and 红娘庄 marriage.
+Next: the pacing knobs (exp growth, exercise, the quests' deadlines, 卧龙岗's toll for new
+players), then 3D 赌场 betting and 红娘庄 marriage.
 
 ## Playable now
 

@@ -918,8 +918,9 @@ msgstr ""
 msgid "一{unit}{item}"
 msgstr ""
 
+#. give: the NPC ({npc}) did not take what the player offered (it stays with the player).
 #: application/items/item_handling_service.gd
-msgid "你只能把东西送给其他玩家操纵的人物。"
+msgid "{npc}没有收下。"
 msgstr ""
 
 #: application/items/item_handling_service.gd runtime/world/world_map_controller.gd
@@ -1339,6 +1340,11 @@ msgstr ""
 #. snake_drug.c: 你服下蛇药，顿时感觉好多了。 and, on the same line, whether the poison is gone ({after}).
 #: core/items/item_apply_functions.gd
 msgid "你服下蛇药，顿时感觉好多了。{after}"
+msgstr ""
+
+#. after a dose of 蛇药: the snake poison left ({left}); a dose takes away one, and so does each bout of the poison.
+#: core/items/item_apply_functions.gd
+msgid "体内的蛇毒还剩 {left} 分：每服一剂解去一分，每次毒发也会消退一分。"
 msgstr ""
 
 #: core/items/item_apply_functions.gd
@@ -3448,6 +3454,16 @@ msgstr ""
 
 #: runtime/world/world_map_controller.gd
 msgid "%s急急忙忙地离开了。"
+msgstr ""
+
+#. a thief took {item} from the player unseen; the player notices it is gone.
+#: runtime/world/world_map_controller.gd
+msgid "你忽然觉得身上一轻，{item}不见了！"
+msgstr ""
+
+#. a thief took {item} from the player lying unconscious; read on waking.
+#: runtime/world/world_map_controller.gd
+msgid "你昏迷不醒的时候，身上的{item}被人拿走了！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
