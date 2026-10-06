@@ -124,6 +124,10 @@ class GameplaySuiteTests(unittest.TestCase):
         run = self._judge("PASS: 1 suite(s), 5 assertions, 0 failure(s)\n", 3)
         self.assertEqual(["exit code 3"], run.problems)
 
+    def test_fail_summary_without_failure_lines_still_fails(self) -> None:
+        run = self._judge("FAIL: 1 suite(s), 7 assertions, 2 failure(s)\n", 1)
+        self.assertEqual(["suite reported 2 failure(s)"], run.problems)
+
     def test_unloadable_suite_fails(self) -> None:
         run = self._judge(f"{self.SUITE}: cannot load or instantiate\nFAIL: 1 suite(s), 0 assertions, 1 failure(s)\n", 1)
         self.assertEqual([f"{self.SUITE}: cannot load or instantiate"], run.failures)
