@@ -1,5 +1,38 @@
 # Migration Decisions
 
+## Pacing knobs and 卧龙岗's second (2026-10-06)
+
+Measured at ES2's pace on the native game (real session, combat scheduler and heal_up cadence; a
+new character's attributes are all 30, as logind.c sets them): 打坐 from max_force 0 to 50 takes
+6.4 h of play (11.6 h at con 20), almost all of it waiting for kee; combat_exp 0 to 1001 takes
+some 30-60 h: sparring the six 武馆弟子 gives 120-140 an hour up to about 150, then nothing in the
+game gives more than about 30 an hour (combatd.c gives exp only to the weaker side of a blow, a kill
+gives none, and a spar is two blows and a minute's rest); the 40 and 50 s tasks lie 9-17 ES2 rooms
+from 朱鸿雪, 14-25 s on foot plus the fight.
+- **Owner: three knobs in `common/pacing.json`**, integers; left out, each is ES2's pace
+  (PacingDefinition). No ported formula changed:
+  - `player_exp_gain` 3: where do_attack() gives the player 1 combat_exp and 1 potential, the
+    player gets 3 of each (potential still only up to 100 unspent). NPCs, quest rewards and skill
+    improvement are unchanged.
+  - `player_recovery_gain` 3: heal_up() restores three times as much to the player (gin, kee,
+    sen, the effective repair, atman, force, mana); the tick's timing and its food and water are
+    ES2's. NPCs are unchanged.
+  - `quest_time_percent` 150: 朱鸿雪 gives one and a half times god.c's time (40 s becomes 60 s)
+    and says so; the save keeps the time she gave.
+  - Suites that pin ES2's own numbers end to end run with the knobs at ES2's pace
+    (`tests/support/es2_pacing.gd`); `tests/core/pacing_knobs_test.gd` shows a gain of 1 is ES2.
+- **Owner: 卧龙岗 lets a newcomer walk through.** gangster.c's greeting comes a second after the
+  player arrives (init(): call_out("greeting", 1)), time for one command out of the room, and go.c
+  leaves a fight without a roll, so in ES2 a newcomer walked past; natively the robbers attacked the
+  moment the player came into reach and killed a newcomer in 4-5 rounds. Now a robber attacks a
+  player still in its reach `toll_attack_delay_ms` after the player came into it: 2000, because
+  crossing the native ridge takes 1.2-1.5 s and the way to 南坡 passes within 70 px of the second
+  robber (about 1 s in his reach; at 1000 every route tried was caught). Walking on passes both;
+  stopping, or walking into one, does not. **Deviation:** ES2's greeting kill_ob()s a passer-by who
+  has gone, so the robber attacks at once next time; here walking past makes no grudge, and the way
+  back has the same time. A fight (stopping in reach, a refused toll, 攻击 or 切磋) still makes one
+  until the robber is made anew.
+
 ## Modern fixes: ES2 behaviour that reads as a bug (2026-10-06)
 
 Owner: the game is for today's players (AGENTS.md, Deviations). ES2's behaviour, then ours:
@@ -18,8 +51,6 @@ Owner: the game is for today's players (AGENTS.md, Deviations). ES2's behaviour,
   what to do.
 - With 3C (#60): the quest reward's cap on unspent potential only stops the gain, and a surrender
   before the first blow is refused by a standing killer.
-- Next: the pacing knobs (exp growth, exercise, the quests' 40-second deadlines) and whether
-  卧龙岗's toll should shut new players out of 绮云镇, decided from measurements.
 
 ## 绮云镇 3C: 朱鸿雪's quests, killer_reward() for the player, surrender (2026-10-06)
 
@@ -100,11 +131,12 @@ The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.m
   ported; 春风快意刀 is, for the 家丁 (and so 陈剑秋 and 趟子手).
 - **The toll** (gangster.c): a robber attacks a player without marks/强盗 on sight (its greeting's
   kill_passenger()); giving it something worth ten gold taels sets the mark; less, and that robber
-  attacks. The native presence (radius 100 here) stands in for the greeting's call_out, so the
-  toll is paid from the edge of the room. A robber that has fought the player attacks on sight
-  from then on, mark or not (kill_passenger()'s attitude, attack.c's hatred, after its
-  aggression, a refused toll, the player's 攻击 or 切磋), until it is made anew. Its chat and fight
-  lines are set from the start where ES2 sets them at that first meeting.
+  attacks. The native presence (radius 100 here) is the room, and the greeting's call_out a second
+  in it (two seconds natively: pacing knobs above), so the toll is paid from the edge of the room. A robber that has
+  fought the player attacks on sight from then on, mark or not (kill_passenger()'s attitude,
+  attack.c's hatred, after its aggression, a refused toll, the player's 攻击 or 切磋), until it is
+  made anew. Its chat and fight lines are set from the start where ES2 sets them at that first
+  meeting.
 - **Owner: the thief steals** (thief.c, cmds/std/steal.c), the NPC side only (the player's steal
   waits for #9): an arriving player (or the thief arriving) is tried when random(kar) < 2, one
   second later steal.c picks present("silver") or a random carried thing, three seconds later it
