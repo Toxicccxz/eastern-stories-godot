@@ -5,7 +5,8 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 ## Current work
 
 **Confirmations** (`phase/confirm-prompt`): one reusable ConfirmPrompt asks before 攻击 on
-one's own master, an armed 切磋, 化尸粉 on a corpse with things in it and the first 拜师; the
+one's own master, a 切磋 to the death (安惜迩) or with a weapon in hand, 化尸粉 on a corpse with
+things in it and the first 拜师; the
 betrayal, the hockshop sale and the menu's two questions use it too (DECISIONS). 绮云镇 3D is
 merged.
 

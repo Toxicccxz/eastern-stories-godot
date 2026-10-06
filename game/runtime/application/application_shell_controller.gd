@@ -185,9 +185,6 @@ func configure_before_start(
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	result_label.custom_minimum_size.y = 76
-	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	result_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	result_prompt.confirmed.connect(_on_result_confirmed)
 	result_prompt.cancelled.connect(_on_result_cancelled)
 	male_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_MALE))
@@ -1066,6 +1063,9 @@ func _render_result() -> void:
 		if _last_result != null
 		else ApplicationMessageCatalog.text_for(&"operation.session_failure")
 	)
+	# _render_state() disables them again while interaction is not allowed.
+	confirm_button.disabled = false
+	cancel_button.disabled = false
 	if not _result_asks():
 		result_prompt.tell(text)
 	elif _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:

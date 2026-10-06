@@ -252,6 +252,8 @@ func request_confirmation() -> void:
 	sale_prompt.ask(tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
 		"item": item_label(_selected_id), "price": appraisal.actual_payout,
 	}), "确认卖断（不可撤销）")
+	# The question names the item: the selection line waits.
+	selection.hide()
 	_actions.hide()
 	refresh()
 	# Deliberate fresh activation: opening confirmation does not execute a sale.
@@ -262,6 +264,7 @@ func cancel_confirmation() -> void:
 	_pending = null
 	_pending_state.clear()
 	sale_prompt.dismiss()
+	selection.show()
 	_actions.show()
 	selection.text = "请选择随身物品。" if _selected_id == &"" else item_label(_selected_id)
 	refresh()
@@ -276,6 +279,7 @@ func confirm_sale() -> void:
 	_pending = null # Consume once, including rejection; no callback replay/retry.
 	_pending_state.clear()
 	sale_prompt.dismiss()
+	selection.show()
 	_actions.show()
 	if not panel.visible or not in_reach() or not unchanged:
 		feedback.text = "位置或物品状态已变化，未执行卖断；请重新选择。"
@@ -323,6 +327,7 @@ func close_panel() -> void:
 	_pending_state.clear()
 	_selected_id = &""
 	sale_prompt.dismiss()
+	selection.show()
 	_actions.show()
 	panel.hide()
 	map.session.shared_ui().close_business(panel)

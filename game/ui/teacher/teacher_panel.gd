@@ -171,7 +171,8 @@ func request_apprentice() -> void:
 	# Asked only when 拜师 will take place: the master takes the player and no
 	# request already waits on him (apprentice.c then only says he has not answered).
 	var takes: bool = (
-		_contact.teaching().apprentice != null and NpcApprenticeship.qualifies(player.state, _contact.teaching().apprentice)
+		_contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and _contact.teaching().apprentice != null and NpcApprenticeship.qualifies(player.state, _contact.teaching().apprentice)
 		and not player.apprenticeship_request.is_pending_with(master.definition_id)
 	)
 	if takes and NpcApprenticeship.would_betray(player.state, master):

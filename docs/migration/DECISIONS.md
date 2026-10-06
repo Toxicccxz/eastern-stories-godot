@@ -5,14 +5,18 @@
 Owner: every important or deadly choice is asked first, through one reusable component
 (`ConfirmPrompt`, `game/ui/common`) that the unified UI can restyle later. ES2 asks nothing;
 the rules themselves are unchanged.
-- **Asked**: 攻击 on one's own master (the kill is a betrayal, 3C); 切磋 while the player or the
-  NPC holds a weapon (an armed spar wounds and can kill; the log's 刀剑无眼 hint stays); 化尸粉
-  on a corpse that still holds things (dust.c destructs it whole); the first master's 拜师
-  (changing family later is a betrayal). 3B's betrayal, the hockshop's sale and the menu's 开始新游戏
-  and 返回主菜单 now use the same component.
-- 拜师 asks only when it will take place: the master's requirements hold and no request already
-  waits on him (apprentice.c then only says 对方还没有答应). 3B asked a member of another family
-  even when the master was going to refuse.
+- **Asked**: 攻击 on one's own master (the kill is a betrayal, 3C); 切磋 with an NPC whose
+  accept_fight() answers with kill_ob() (安惜迩, 卧龙岗强盗, 飞贼: asked as a fight to the death,
+  without its line; the owner had #48's spar with 安惜迩 rechecked, which went without a
+  question); 切磋 while the player or the NPC holds a weapon (a blade's blow wounds and can kill;
+  the log's 刀剑无眼 hint stays); 化尸粉 on a corpse that still holds things (dust.c destructs it
+  whole; 取消 returns to the 背包); the first master's 拜师 (changing family later is a
+  betrayal). 3B's betrayal, the hockshop's sale and the menu's 开始新游戏 and 返回主菜单 now use
+  the same component.
+- A question comes only when the choice will take place: no question for a spar the NPC
+  refuses or a room forbids, nor for 拜师 that the master refuses, is unconscious for, or that
+  already waits on him (apprentice.c then only says 对方还没有答应). 3B asked a member of another
+  family even when the master was going to refuse.
 - 取消 holds the focus, and closing the panel (关闭, Back) answers 取消; the menu's two questions
   used to focus their choice.
 - **Not asked**: ordinary 攻击, 逃跑, 投降 and 运功 (the action is the intent), 老松岭's 藤蔓 and

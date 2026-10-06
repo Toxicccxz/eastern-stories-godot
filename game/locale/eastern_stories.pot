@@ -4206,10 +4206,17 @@ msgid ""
 "确定要攻击吗？"
 msgstr ""
 
-#. asked before 切磋 when the player or the NPC ({npc}) holds a weapon: an armed spar wounds as a real fight (combatd.c).
+#. asked before 切磋 when the player or the NPC ({npc}) holds a weapon: a blow from it wounds as in a real fight (combatd.c).
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
-"刀剑无眼：有人手持兵刃时，切磋的每一下都是真伤，伤重了一样会丧命。\n"
+"刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n"
+"确定要和{npc}切磋吗？"
+msgstr ""
+
+#. asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n"
 "确定要和{npc}切磋吗？"
 msgstr ""
 

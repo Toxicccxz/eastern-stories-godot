@@ -12,6 +12,8 @@ const Master := preload("res://tests/support/snow_master.gd")
 const TRAINEE: StringName = &"snow.school2.trainee.1.character"
 const GUARD: StringName = &"snow.school1.guard.1.character"
 const DOG: StringName = &"snow.eroad2.dog.1.character"
+const ANNIHIR: StringName = &"snow.bank.annihir.1.character"
+const GIRL: StringName = &"snow.nyard.girl.1.character"
 const DUST: StringName = &"es2:obj/dust"
 
 var _count: int = 0
@@ -71,7 +73,9 @@ func _test_component(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-## 切磋: unarmed at once; with 刘安禄's blade, asked first (取消, 关闭, 确定切磋).
+## 切磋: unarmed at once; with 刘安禄's blade, asked first (取消, 关闭, 确定切磋); with
+## 安惜迩, who answers with kill_ob(), asked as a fight to the death; 柳绘心's refusal is
+## not asked although she holds a sword.
 func _test_spar(session: OldPineWorldSessionController, map: WorldMapController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -92,11 +96,35 @@ func _test_spar(session: OldPineWorldSessionController, map: WorldMapController)
 	_check(not hud.is_asking() and not hud._presentation_layout.frame.visible and not coordinator.has_active_encounter(), "取消: no spar, the frame closed")
 	hud.spar_button.pressed.emit()
 	hud._presentation_layout.close_panel()
-	_check(not hud.is_asking() and not coordinator.has_active_encounter(), "关闭 answers 取消")
+	_check(not hud.confirm_prompt.is_asking() and not coordinator.has_active_encounter(), "关闭 answers 取消")
+	hud.confirm_prompt.confirm_button.pressed.emit()
+	_check(not coordinator.has_active_encounter(), "a stale 确定 does nothing once closed")
+	hud.spar_button.pressed.emit()
+	hud.visible = false
+	var hidden_answer: bool = not hud.confirm_prompt.is_asking()
+	hud._presentation_layout.close_panel() # what _process() does next
+	hud.visible = true
+	_check(hidden_answer and hud.confirm_prompt.get_parent() == hud._presentation_layout.holding and not coordinator.has_active_encounter(), "hidden with the HUD: 取消, the prompt back in its holder")
+	var ran: Array[bool] = []
+	hud.ask_first("x", "确定", func() -> void: ran.append(true), func() -> bool: return false)
+	_check(not hud.confirm_prompt.is_asking() and not hud._presentation_layout.frame.visible and ran.is_empty(), "a choice no longer there is not asked")
 	hud.spar_button.pressed.emit()
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	_check(coordinator.has_active_encounter() and coordinator.active_encounter().mode == CombatEncounterMode.Value.SPAR and hud.log_lines().back() == "刀剑无眼，持兵刃比试可能真的受伤。", "确定切磋: the spar, and its hint in the log")
 	_run(session)
+	var annihir: NpcRuntimeState = map.find_resident_npc(ANNIHIR)
+	_select(map, hud, &"snow.bank", annihir)
+	_check(map.selected_spar_risk() == WorldMapController.SparRisk.DEADLY, "安惜迩's spar is a fight to the death")
+	hud.spar_button.pressed.emit()
+	text = hud.confirm_prompt.message.text
+	_check(hud.is_asking() and not coordinator.has_active_encounter() and text.begins_with("安惜迩不会只跟你点到为止：这一场切磋会变成生死相搏。"), "asked as a fight to the death: " + text)
+	hud.confirm_prompt.cancel_button.pressed.emit()
+	_check(not coordinator.has_active_encounter() and not hud.is_asking(), "取消: no fight")
+	var girl: NpcRuntimeState = map.find_resident_npc(GIRL)
+	_select(map, hud, &"snow.nyard", girl)
+	_check(map.spar_is_armed(girl) and map.selected_spar_risk() == WorldMapController.SparRisk.NONE, "柳绘心 holds a sword but refuses")
+	hud.spar_button.pressed.emit()
+	_check(not hud.is_asking() and not coordinator.has_active_encounter() and hud.log_lines().back() == "看起来柳绘心并不想跟你较量。", "a refused spar is not asked: " + hud.log_lines().back())
 
 
 ## 化尸粉: 刘安禄's corpse holds his things (asked); the dog's is empty (at once).
@@ -118,7 +146,7 @@ func _test_dissolve(session: OldPineWorldSessionController, map: WorldMapControl
 	var text: String = hud.confirm_prompt.message.text
 	_check(hud.is_asking() and text.begins_with("化尸粉会把刘安禄的尸体连同里面的 %d 件物品一起化成一滩黄水" % map.dissolvable_corpse_contents()) and hud.confirm_prompt.confirm_button.text == "确定化掉", "asked first: " + text)
 	hud.confirm_prompt.cancel_button.pressed.emit()
-	_check(_corpse_of(map, GUARD) != null and session.stack_collection().stack_state(dust).amount == 3, "取消: the corpse and the powder stay")
+	_check(_corpse_of(map, GUARD) != null and session.stack_collection().stack_state(dust).amount == 3 and hud.inventory_is_open(), "取消: the corpse and the powder stay; back in the 背包")
 	hud.inventory_panel.dissolve_requested.emit(dust)
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	_check(_corpse_of(map, GUARD) == null and session.stack_collection().stack_state(dust).amount == 2 and hud.inventory_is_open(), "确定化掉: dissolved, back in the 背包")

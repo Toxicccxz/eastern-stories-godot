@@ -247,7 +247,7 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	if not check(hall.ui != null and hall.ui.panel.visible, "柳淳风's panel: " + map.interaction_title()):
 		return false
 	hall.ui.apprentice_button.pressed.emit()
-	check(hall.ui.is_confirming() and hall.ui.confirm_text.text.begins_with("拜柳淳风为师，便成为封山剑派的弟子。"), "the first master asks first: " + hall.ui.confirm_text.text)
+	check(hall.ui.is_confirming() and _plain(hall.ui.confirm_text.text).begins_with("拜柳淳风为师，便成为封山剑派的弟子。"), "the first master asks first: " + hall.ui.confirm_text.text)
 	hall.ui.confirm_button.pressed.emit()
 	if not check(state.family.family_id == &"family.fonxan" and state.apprenticeship.master_teacher_id == &"common.npc.swordsman.master", "apprenticed to 柳淳风"):
 		return false

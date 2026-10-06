@@ -522,6 +522,8 @@ theme_override_constants/separation = 18
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("7_prompt")
+message_min_height = 76.0
+centered = true
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]

@@ -10,6 +10,17 @@ extends VBoxContainer
 signal confirmed
 signal cancelled
 
+## The question's least height and centring (the menu's dialog: 76, centred).
+@export var message_min_height: float = 0.0:
+	set(value):
+		message_min_height = value
+		message.custom_minimum_size.y = value
+@export var centered: bool = false:
+	set(value):
+		centered = value
+		message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if value else HORIZONTAL_ALIGNMENT_LEFT
+		message.vertical_alignment = VERTICAL_ALIGNMENT_CENTER if value else VERTICAL_ALIGNMENT_TOP
+
 var message: Label
 var confirm_button: Button
 var cancel_button: Button
@@ -33,6 +44,12 @@ func _init() -> void:
 	cancel_button = _button(actions, "Cancel")
 	confirm_button.pressed.connect(_answer.bind(true))
 	cancel_button.pressed.connect(_answer.bind(false))
+	# Room for the focused button's outline: a scrolling host clips at its content's edge.
+	var room := Control.new()
+	room.name = "OutlineRoom"
+	room.custom_minimum_size.y = 4
+	room.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(room)
 	visibility_changed.connect(_on_visibility_changed)
 
 

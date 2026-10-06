@@ -26,11 +26,14 @@ var inventory_panel: PlayerInventoryPanel
 ## Asked in the shared frame before an important or deadly choice (ask_first()).
 var confirm_prompt: ConfirmPrompt
 var _confirmed_action: Callable = Callable()
+var _cancelled_action: Callable = Callable()
 
 # TRANSLATORS: asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
 const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
-# TRANSLATORS: asked before 切磋 when the player or the NPC ({npc}) holds a weapon: an armed spar wounds as a real fight (combatd.c).
-const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切磋的每一下都是真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
+# TRANSLATORS: asked before 切磋 when the player or the NPC ({npc}) holds a weapon: a blow from it wounds as in a real fight (combatd.c).
+const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
+# TRANSLATORS: asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
+const DEADLY_SPAR_WARNING: String = "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n确定要和{npc}切磋吗？"
 # TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
 const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 
@@ -808,20 +811,25 @@ func _dissolve_with(id: StringName) -> void:
 	if count == 0:
 		map.dissolve_selected_corpse(id)
 		return
-	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", func() -> void:
+	var dissolve: Callable = func() -> void:
 		if map.dissolve_selected_corpse(id):
 			open_inventory()
-	)
+	# 取消 goes back to the 背包 the question came from.
+	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
 
 
 ## Asks in the shared frame before an important or deadly choice (owner,
-## 2026-10-06): `action` runs on the choice; 取消, 关闭 or Back drop it. While
-## `still_valid` returns false the question closes, as any panel does.
-func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable()) -> void:
+## 2026-10-06): `action` runs on the choice; 取消, 关闭 or Back drop it, and 取消 then
+## runs `on_cancel` (back where the question came from). While `still_valid` returns
+## false the question closes, as any panel does.
+func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
 	_confirmed_action = action
+	_cancelled_action = on_cancel
 	confirm_prompt.ask(text, choice)
 	_presentation_layout.open_panel(tr("请确认"), confirm_prompt, still_valid)
 	if _presentation_layout._content == confirm_prompt:
+		# A question that wraps is taller than the frame's first layout.
+		_presentation_layout.refresh_rows()
 		confirm_prompt.focus_default()
 	else:
 		confirm_prompt.cancel()
@@ -835,15 +843,22 @@ func is_asking() -> bool:
 func _on_prompt_confirmed() -> void:
 	var action: Callable = _confirmed_action
 	_confirmed_action = Callable()
+	_cancelled_action = Callable()
 	_presentation_layout.close_panel()
 	if action.is_valid():
 		action.call()
 
 
 func _on_prompt_cancelled() -> void:
+	var back: Callable = _cancelled_action
 	_confirmed_action = Callable()
-	if _presentation_layout._content == confirm_prompt:
+	_cancelled_action = Callable()
+	# Hidden along with the HUD (a fight starts), _process() closes the frame itself;
+	# closing it here would reparent the prompt while its visibility propagates.
+	if _presentation_layout._content == confirm_prompt and confirm_prompt.is_visible_in_tree():
 		_presentation_layout.close_panel()
+		if back.is_valid():
+			back.call()
 
 
 func _wield_item(id: StringName) -> void:
@@ -879,7 +894,7 @@ func _attack_context() -> void:
 	if map == null:
 		return
 	var npc: NpcRuntimeState = map.selected_npc()
-	if npc == null or not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
+	if npc == null or not map.selected_attack_starts() or not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
 		map.attack_selected()
 		return
 	var teaching: NpcTeaching = npc.definition().teaching()
@@ -890,16 +905,18 @@ func _attack_context() -> void:
 	}), "确定攻击", map.attack_selected, attack_is_enabled)
 
 
-## 切磋; with a weapon in hand on either side it asks first: the blows wound.
+## 切磋; asked first when it will be fought to the death (accept_fight()'s kill_ob())
+## or with a weapon in hand on either side (its blows wound).
 func _spar_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
 		return
-	var npc: NpcRuntimeState = map.selected_npc()
-	if not map.spar_is_armed(npc):
+	var risk: WorldMapController.SparRisk = map.selected_spar_risk()
+	if risk == WorldMapController.SparRisk.NONE:
 		map.spar_selected()
 		return
-	ask_first(tr(ARMED_SPAR_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定切磋", map.spar_selected, spar_is_enabled)
+	var warning: String = DEADLY_SPAR_WARNING if risk == WorldMapController.SparRisk.DEADLY else ARMED_SPAR_WARNING
+	ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, spar_is_enabled)
 
 
 func _ask_context() -> void:
