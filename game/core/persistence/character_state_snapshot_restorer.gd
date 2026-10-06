@@ -116,6 +116,7 @@ static func restore(
 			snapshot.progression.potential,
 			snapshot.progression.potential_spent,
 			snapshot.progression.score,
+			snapshot.progression.kills,
 		),
 		FamilyType.new(snapshot.family.family_id, snapshot.family.generation),
 		ApprenticeshipType.new(
@@ -128,6 +129,10 @@ static func restore(
 	)
 	state.gender = snapshot.gender
 	state.marks = snapshot.marks.duplicate()
+	state.vendetta = snapshot.vendetta.duplicate()
+	if not snapshot.quest.is_valid():
+		return null
+	state.quest = snapshot.quest.duplicate_state()
 	if not state.timed_applies.restore(snapshot.timed_applies):
 		return null
 	return state if state.resources_have_valid_invariants() else null

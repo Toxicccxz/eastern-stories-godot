@@ -1190,6 +1190,19 @@ msgstr ""
 msgid "断掉的{weapon}"
 msgstr ""
 
+#: core/death/player_killer_reward.gd
+msgid "恭喜你！你又完成了一项任务！"
+msgstr ""
+
+#. combatd.c: the quest reward, numbers in Chinese numerals: {exp} combat experience, {pot} potential, {score} 综合评价 (score).
+#: core/death/player_killer_reward.gd
+msgid ""
+"你被奖励了：\n"
+"{exp}点实战经验\n"
+"{pot}点潜能\n"
+"{score}点综合评价"
+msgstr ""
+
 #: core/internal_power/enforce_service.gd
 msgid "你必须先 enable 一种内功。"
 msgstr ""
@@ -1598,6 +1611,89 @@ msgstr ""
 
 #: core/npcs/npc_spar_consent.gd
 msgid "既然$RESPECT赐教，$SELF只好奉陪。"
+msgstr ""
+
+#: core/persistence/game_save_json_codec.gd
+msgid "not a task 朱鸿雪 gives, or all default"
+msgstr ""
+
+#. quests.quest_type
+#: core/quests/quest_definition.gd data/common/quests.json
+msgid "杀"
+msgstr ""
+
+#: core/quests/quest_definition.gd
+msgid "寻"
+msgstr ""
+
+#: core/quests/quest_definition.gd
+msgid "a quest needs a target, type 杀 or 寻, time above 0 and bonuses not below 0"
+msgstr ""
+
+#. god.c: 朱鸿雪 sends away a player with 1000 combat_exp or less.
+#: core/quests/quest_giver.gd
+msgid ""
+"朱鸿雪奇怪的眼神盯着你,说:\n"
+"就凭你这种小角色也想? 还不快滚!"
+msgstr ""
+
+#. god.c: the player comes back after the time ran out; 朱鸿雪 then gives another task.
+#: core/quests/quest_giver.gd
+msgid ""
+"朱鸿雪向你一甩袍袖，说道：\n"
+"真没用！不过看在你还回来见我的份上，就在给你一次机会．"
+msgstr ""
+
+#. god.c: 朱鸿雪 gives a task to bring {target} back within {time} (三分二十秒).
+#: core/quests/quest_giver.gd
+msgid ""
+"朱鸿雪沉思了一会儿，说道：\n"
+"请在{time}内找回『{target}』给我。"
+msgstr ""
+
+#. god.c: 朱鸿雪 gives a task to kill {target} within {time} (三分二十秒).
+#: core/quests/quest_giver.gd
+msgid ""
+"朱鸿雪沉思了一会儿，说道：\n"
+"请在{time}内替我杀了『{target}』。"
+msgstr ""
+
+#: core/quests/quest_status.gd
+msgid "你现在没有任何任务！"
+msgstr ""
+
+#. quest.c: the player's task, {type} 杀 (kill) or 寻 (find) and {target} whom or what.
+#: core/quests/quest_status.gd
+msgid "你现在的任务是{type}『{target}』。"
+msgstr ""
+
+#. quest.c: the time left for the task, as time_period() writes it (五分零秒).
+#: core/quests/quest_status.gd
+msgid "你还有{time}去完成它。"
+msgstr ""
+
+#: core/quests/quest_status.gd
+msgid "但是你已经没有足够的时间来完成它了。"
+msgstr ""
+
+#. time_period(): a number of days, {n} in Chinese numerals (三).
+#: core/quests/quest_status.gd
+msgid "{n}天"
+msgstr ""
+
+#. time_period(): a number of hours, {n} in Chinese numerals.
+#: core/quests/quest_status.gd
+msgid "{n}小时"
+msgstr ""
+
+#. time_period(): a number of minutes, {n} in Chinese numerals.
+#: core/quests/quest_status.gd
+msgid "{n}分"
+msgstr ""
+
+#. time_period(): a number of seconds, {n} in Chinese numerals (零 too).
+#: core/quests/quest_status.gd
+msgid "{n}秒"
 msgstr ""
 
 #: core/relationships/family_relation.gd
@@ -2245,6 +2341,10 @@ msgstr ""
 
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "逃跑"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "投降"
 msgstr ""
 
 #. a battle button: exert.c with one of its functions ({function}, e.g. 恢复气).
@@ -3173,6 +3273,10 @@ msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
 msgid "卖断未执行，物品状态已变化；请重新选择。"
+msgstr ""
+
+#: runtime/world/services/quest_service.gd
+msgid "任务"
 msgstr ""
 
 #: runtime/world/services/teacher_service.gd
@@ -4122,6 +4226,13 @@ msgid ""
 "定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n"
 msgstr ""
 
+#. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"杀气 {bellicosity} · 综合评价 {score}\n"
+"总共杀过 {kills} 个人。"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid "负重 {carried} / {capacity} · 体重 {weight}"
 msgstr ""
@@ -4998,9 +5109,10 @@ msgid "先父临终之时将这武馆交到在下手中，需得好好照看。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
+#. quests.target
 #. snow.npc.guard name
 #. snow.npc.teacher inquiry topic
-#: data/common/npcs.json data/snow/npcs.json
+#: data/common/npcs.json data/common/quests.json data/snow/npcs.json
 msgid "刘安禄"
 msgstr ""
 
@@ -5030,7 +5142,8 @@ msgid "很好，$RESPECT多加努力，他日必定有成。"
 msgstr ""
 
 #. common.npc.garrison name
-#: data/common/npcs.json
+#. quests.target
+#: data/common/npcs.json data/common/quests.json
 msgid "县城官兵"
 msgstr ""
 
@@ -5052,6 +5165,474 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"
+msgstr ""
+
+#. quests.target
+#. snow.npc.beggar name
+#: data/common/quests.json data/snow/npcs.json
+msgid "乞丐"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.girl name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "李师师"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.judge name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "宝官"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "知客僧"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.tailor name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "裁缝"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.worker name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "茶工"
+msgstr ""
+
+#. quests.target
+#. snow.npc.crazy_dog name
+#: data/common/quests.json data/snow/npcs.json
+msgid "疯狗"
+msgstr ""
+
+#. quests.target
+#. snow.npc.dog name
+#: data/common/quests.json data/snow/npcs.json
+msgid "野狗"
+msgstr ""
+
+#. quests.target
+#. snow.npc.post_officer name
+#: data/common/quests.json data/snow/npcs.json
+msgid "杜宽"
+msgstr ""
+
+#. quests.target
+#. snow.npc.scavenger name
+#: data/common/quests.json data/snow/npcs.json
+msgid "收破烂的"
+msgstr ""
+
+#. quests.target
+#. snow.npc.smith name
+#: data/common/quests.json data/snow/npcs.json
+msgid "王铁匠"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "扫地僧"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "进香客"
+msgstr ""
+
+#. quests.target
+#. snow.npc.teacher name
+#: data/common/quests.json data/snow/npcs.json
+msgid "魏无极"
+msgstr ""
+
+#. quests.target
+#. snow.npc.trainee name
+#: data/common/quests.json data/snow/npcs.json
+msgid "武馆弟子"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "卖饼大叔"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "卖糖葫芦的"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "卖包子的"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.jiading name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "家丁"
+msgstr ""
+
+#. quests.target
+#. goathill.npc.worm name
+#: data/common/quests.json data/goathill/npcs.json
+msgid "岩蛭"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "蜘蛛"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "金丝雀"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "药僧"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.boater name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "船夫"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.book_seller name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "潘若秋"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.mother name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "鸨母"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.seller name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "杂货贩"
+msgstr ""
+
+#. quests.target
+#. snow.npc.fist_trainer name
+#: data/common/quests.json data/snow/npcs.json
+msgid "李火狮"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "贵公子"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "玄真"
+msgstr ""
+
+#. quests.target
+#. oldpine.npc.butterfly name
+#: data/common/quests.json data/oldpine/npcs.json
+msgid "蝴蝶"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "芳绫"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.chess_player name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "弈者"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.monk name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "化缘和尚"
+msgstr ""
+
+#. quests.target
+#. snow.npc.farmer name
+#: data/common/quests.json data/snow/npcs.json
+msgid "农夫"
+msgstr ""
+
+#. quests.target
+#. snow.npc.traveller name
+#. snow.npc.trav_blade name
+#: data/common/quests.json data/snow/npcs.json
+msgid "旅客"
+msgstr ""
+
+#. quests.target
+#. snow.npc.woodcutter name
+#: data/common/quests.json data/snow/npcs.json
+msgid "樵夫"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "护寺武僧"
+msgstr ""
+
+#. quests.target
+#. goathill.npc.fat_worm name
+#: data/common/quests.json data/goathill/npcs.json
+msgid "肥岩蛭"
+msgstr ""
+
+#. quests.target
+#. goathill.npc.big_worm name
+#: data/common/quests.json data/goathill/npcs.json
+msgid "大岩蛭"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "昭仪"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "圆春"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "惜春"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "跛僧人"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "明心"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.butcher name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "郑屠夫"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "僵尸侍者"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "清虚"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.gangster name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "卧龙岗强盗"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "彩衣少女"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.thief name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "飞贼"
+msgstr ""
+
+#. quests.target
+#. goathill.npc.huge_worm name
+#: data/common/quests.json data/goathill/npcs.json
+msgid "巨岩蛭"
+msgstr ""
+
+#. quests.target
+#. goathill.npc.bandit name
+#: data/common/quests.json data/goathill/npcs.json
+msgid "土匪爪牙"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.weaponor name
+#: data/common/quests.json data/cloud/npcs.json
+msgid "兵器贩子"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "袭人"
+msgstr ""
+
+#. quests.target
+#. snow.npc.girl name
+#: data/common/quests.json data/snow/npcs.json
+msgid "柳绘心"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "老兵"
+msgstr ""
+
+#. quests.target
+#. cloud.npc.bfighter name
+#. cloud.npc.bfighter family.title
+#: data/common/quests.json data/cloud/npcs.json
+msgid "趟子手"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "后备兵"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "书生"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "仆役"
+msgstr ""
+
+#. quests.target
+#. oldpine.npc.bandit_leader name
+#. goathill.npc.bandit_leader name
+#: data/common/quests.json data/oldpine/npcs.json data/goathill/npcs.json
+msgid "土匪首领"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "老队长"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "大队长"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "小队长"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "小兵"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "僵尸护法"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "赫造基"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "清云"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "清玄"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "独眼头陀"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "守城官兵"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "芙云"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "梦玉楼"
+msgstr ""
+
+#. quests.target
+#. snow.npc.annihir name
+#: data/common/quests.json data/snow/npcs.json
+msgid "安惜迩"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "武官"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "李信"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "严廷殷"
+msgstr ""
+
+#. quests.target
+#. oldpine.npc.wolf_dog name
+#: data/common/quests.json data/oldpine/npcs.json
+msgid "狼狗"
+msgstr ""
+
+#. quests.target
+#. oldpine.npc.bandit_commander name
+#: data/common/quests.json data/oldpine/npcs.json
+msgid "常老大"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "蓝雨梅"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "蓝筱薇"
+msgstr ""
+
+#. quests.target
+#. oldpine.npc.maniac name
+#: data/common/quests.json data/oldpine/npcs.json
+msgid "疯老头子"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "莫欣芳"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "邢千慧"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -5227,20 +5808,10 @@ msgstr ""
 msgid "尾巴"
 msgstr ""
 
-#. oldpine.npc.maniac name
-#: data/oldpine/npcs.json
-msgid "疯老头子"
-msgstr ""
-
 #. oldpine.npc.maniac long
 #: data/oldpine/npcs.json
 msgid ""
 "这个老头子正对著你龇牙裂嘴，他看起来已经完全疯了。\n"
-msgstr ""
-
-#. oldpine.npc.wolf_dog name
-#: data/oldpine/npcs.json
-msgid "狼狗"
 msgstr ""
 
 #. oldpine.npc.wolf_dog long
@@ -5280,11 +5851,6 @@ msgid ""
 "狼狗用一只独眼恶狠狠地瞪著你。\n"
 msgstr ""
 
-#. oldpine.npc.butterfly name
-#: data/oldpine/npcs.json
-msgid "蝴蝶"
-msgstr ""
-
 #. oldpine.npc.butterfly long
 #: data/oldpine/npcs.json
 msgid ""
@@ -5320,12 +5886,6 @@ msgid ""
 "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n"
 msgstr ""
 
-#. oldpine.npc.bandit_leader name
-#. goathill.npc.bandit_leader name
-#: data/oldpine/npcs.json data/goathill/npcs.json
-msgid "土匪首领"
-msgstr ""
-
 #. oldpine.npc.bandit_leader long
 #: data/oldpine/npcs.json
 msgid ""
@@ -5351,11 +5911,6 @@ msgstr ""
 msgid ""
 "\n"
 "土匪首领虎吼一声，欺身上前。\n"
-msgstr ""
-
-#. oldpine.npc.bandit_commander name
-#: data/oldpine/npcs.json
-msgid "常老大"
 msgstr ""
 
 #. oldpine.npc.bandit_commander nickname
@@ -5486,22 +6041,11 @@ msgstr ""
 msgid "绣花小鞋"
 msgstr ""
 
-#. snow.npc.traveller name
-#. snow.npc.trav_blade name
-#: data/snow/npcs.json
-msgid "旅客"
-msgstr ""
-
 #. snow.npc.traveller long
 #. snow.npc.trav_blade long
 #: data/snow/npcs.json
 msgid ""
 "这是一位来雪亭镇的外地旅客.\n"
-msgstr ""
-
-#. snow.npc.dog name
-#: data/snow/npcs.json
-msgid "野狗"
 msgstr ""
 
 #. snow.npc.dog long
@@ -5591,11 +6135,6 @@ msgstr ""
 msgid "多谢啦....."
 msgstr ""
 
-#. snow.npc.scavenger name
-#: data/snow/npcs.json
-msgid "收破烂的"
-msgstr ""
-
 #. snow.npc.scavenger long
 #: data/snow/npcs.json
 msgid ""
@@ -5667,20 +6206,10 @@ msgid ""
 "刘安禄说道：你快走吧，就算我输了你啦....\n"
 msgstr ""
 
-#. snow.npc.trainee name
-#: data/snow/npcs.json
-msgid "武馆弟子"
-msgstr ""
-
 #. snow.npc.trainee long
 #: data/snow/npcs.json
 msgid ""
 "你看到一位身材高大的汉子，正在辛苦地操练著。\n"
-msgstr ""
-
-#. snow.npc.fist_trainer name
-#: data/snow/npcs.json
-msgid "李火狮"
 msgstr ""
 
 #. snow.npc.fist_trainer title
@@ -5743,11 +6272,6 @@ msgstr ""
 msgid "李火狮不愿意教你拳法。"
 msgstr ""
 
-#. snow.npc.farmer name
-#: data/snow/npcs.json
-msgid "农夫"
-msgstr ""
-
 #. snow.npc.farmer long
 #: data/snow/npcs.json
 msgid ""
@@ -5766,20 +6290,10 @@ msgid ""
 "农夫叫道：有土匪哪！光天化日下打劫哪！\n"
 msgstr ""
 
-#. snow.npc.crazy_dog name
-#: data/snow/npcs.json
-msgid "疯狗"
-msgstr ""
-
 #. snow.npc.crazy_dog long
 #: data/snow/npcs.json
 msgid ""
 "一只浑身脏兮兮的野狗，一双眼睛正恶狠狠地瞪著你。\n"
-msgstr ""
-
-#. snow.npc.teacher name
-#: data/snow/npcs.json
-msgid "魏无极"
 msgstr ""
 
 #. snow.npc.teacher title
@@ -5865,11 +6379,6 @@ msgstr ""
 msgid "咦？我不记得收过你这个学生啊...."
 msgstr ""
 
-#. snow.npc.woodcutter name
-#: data/snow/npcs.json
-msgid "樵夫"
-msgstr ""
-
 #. snow.npc.woodcutter long
 #: data/snow/npcs.json
 msgid ""
@@ -5892,11 +6401,6 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "樵夫说道：唉....日子越来越不好过罗。\n"
-msgstr ""
-
-#. snow.npc.post_officer name
-#: data/snow/npcs.json
-msgid "杜宽"
 msgstr ""
 
 #. snow.npc.post_officer title
@@ -5964,11 +6468,6 @@ msgstr ""
 msgid "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。"
 msgstr ""
 
-#. snow.npc.annihir name
-#: data/snow/npcs.json
-msgid "安惜迩"
-msgstr ""
-
 #. snow.npc.annihir title
 #: data/snow/npcs.json
 msgid "钱庄老板"
@@ -6011,11 +6510,6 @@ msgstr ""
 #. snow.npc.annihir accept_fight.say
 #: data/snow/npcs.json
 msgid "咦... 要打就真打吧，光是较量多没意思？"
-msgstr ""
-
-#. snow.npc.smith name
-#: data/snow/npcs.json
-msgid "王铁匠"
 msgstr ""
 
 #. snow.npc.smith long
@@ -6101,11 +6595,6 @@ msgstr ""
 msgid "开药"
 msgstr ""
 
-#. snow.npc.girl name
-#: data/snow/npcs.json
-msgid "柳绘心"
-msgstr ""
-
 #. snow.npc.girl long
 #: data/snow/npcs.json
 msgid ""
@@ -6137,11 +6626,6 @@ msgstr ""
 #. snow.npc.girl accept_fight.say
 #: data/snow/npcs.json
 msgid "爹爹说过，不能跟你们这些江湖人物比武过招。"
-msgstr ""
-
-#. snow.npc.beggar name
-#: data/snow/npcs.json
-msgid "乞丐"
 msgstr ""
 
 #. snow.npc.beggar long
@@ -7099,11 +7583,6 @@ msgid ""
 "也都有不错的造诣。\n"
 msgstr ""
 
-#. goathill.npc.bandit name
-#: data/goathill/npcs.json
-msgid "土匪爪牙"
-msgstr ""
-
 #. goathill.npc.bandit long
 #: data/goathill/npcs.json
 msgid ""
@@ -7117,11 +7596,6 @@ msgid ""
 "是练过武功的硬手，并不是泛泛之辈。\n"
 msgstr ""
 
-#. goathill.npc.worm name
-#: data/goathill/npcs.json
-msgid "岩蛭"
-msgstr ""
-
 #. goathill.npc.worm long
 #. goathill.npc.fat_worm long
 #. goathill.npc.big_worm long
@@ -7130,21 +7604,6 @@ msgstr ""
 msgid ""
 "一条色作浅灰，带著白色斑点的水蛭模样怪虫，口中露出六对白森森\n"
 "的牙齿，看起来恶心极了。\n"
-msgstr ""
-
-#. goathill.npc.fat_worm name
-#: data/goathill/npcs.json
-msgid "肥岩蛭"
-msgstr ""
-
-#. goathill.npc.big_worm name
-#: data/goathill/npcs.json
-msgid "大岩蛭"
-msgstr ""
-
-#. goathill.npc.huge_worm name
-#: data/goathill/npcs.json
-msgid "巨岩蛭"
 msgstr ""
 
 #. es2:d/goathill/mroad1 long
@@ -7509,11 +7968,6 @@ msgstr ""
 msgid "麻绳"
 msgstr ""
 
-#. cloud.npc.gangster name
-#: data/cloud/npcs.json
-msgid "卧龙岗强盗"
-msgstr ""
-
 #. cloud.npc.gangster long
 #: data/cloud/npcs.json
 msgid ""
@@ -7576,11 +8030,6 @@ msgstr ""
 #. cloud.npc.gangster accept_fight.say
 #: data/cloud/npcs.json
 msgid "竟敢太岁爷头上动土？纳命来！"
-msgstr ""
-
-#. cloud.npc.butcher name
-#: data/cloud/npcs.json
-msgid "郑屠夫"
 msgstr ""
 
 #. cloud.npc.butcher long
@@ -7757,11 +8206,6 @@ msgstr ""
 msgid "生命可贵！不要自寻死路！"
 msgstr ""
 
-#. cloud.npc.tailor name
-#: data/cloud/npcs.json
-msgid "裁缝"
-msgstr ""
-
 #. cloud.npc.tailor long
 #: data/cloud/npcs.json
 msgid ""
@@ -7783,11 +8227,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "裁缝的手脚甚是麻利，显然已做了多年了。\n"
-msgstr ""
-
-#. cloud.npc.seller name
-#: data/cloud/npcs.json
-msgid "杂货贩"
 msgstr ""
 
 #. cloud.npc.seller long
@@ -7841,11 +8280,6 @@ msgid ""
 "伙计点头道：这位$RESPECT，买药？\n"
 msgstr ""
 
-#. cloud.npc.weaponor name
-#: data/cloud/npcs.json
-msgid "兵器贩子"
-msgstr ""
-
 #. cloud.npc.weaponor long
 #: data/cloud/npcs.json
 msgid ""
@@ -7867,11 +8301,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "兵器贩子突然间出了神，好象想起了他的往事\n"
-msgstr ""
-
-#. cloud.npc.monk name
-#: data/cloud/npcs.json
-msgid "化缘和尚"
 msgstr ""
 
 #. cloud.npc.monk long
@@ -7905,11 +8334,6 @@ msgstr ""
 #. cloud.npc.monk accept_fight.say
 #: data/cloud/npcs.json
 msgid "施主既然身负绝艺，贫僧佩服便是，也不必较量了。"
-msgstr ""
-
-#. cloud.npc.book_seller name
-#: data/cloud/npcs.json
-msgid "潘若秋"
 msgstr ""
 
 #. cloud.npc.book_seller title
@@ -7967,11 +8391,6 @@ msgstr ""
 msgid "是啊... 这里就可以缔结和解除婚约"
 msgstr ""
 
-#. cloud.npc.boater name
-#: data/cloud/npcs.json
-msgid "船夫"
-msgstr ""
-
 #. cloud.npc.boater title
 #: data/cloud/npcs.json
 msgid "渡口"
@@ -7999,11 +8418,6 @@ msgstr ""
 msgid "摆渡"
 msgstr ""
 
-#. cloud.npc.mother name
-#: data/cloud/npcs.json
-msgid "鸨母"
-msgstr ""
-
 #. cloud.npc.mother long
 #: data/cloud/npcs.json
 msgid ""
@@ -8019,11 +8433,6 @@ msgstr ""
 #. cloud.npc.mother inquiry.怡红院
 #: data/cloud/npcs.json
 msgid "哎呀！就是我们这里啊，您里面请"
-msgstr ""
-
-#. cloud.npc.judge name
-#: data/cloud/npcs.json
-msgid "宝官"
 msgstr ""
 
 #. cloud.npc.judge long
@@ -8053,11 +8462,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "赢了可是利滚利啊！\n"
-msgstr ""
-
-#. cloud.npc.thief name
-#: data/cloud/npcs.json
-msgid "飞贼"
 msgstr ""
 
 #. cloud.npc.thief long
@@ -8165,12 +8569,6 @@ msgstr ""
 msgid "你拿什么东西唬我？"
 msgstr ""
 
-#. cloud.npc.bfighter name
-#. cloud.npc.bfighter family.title
-#: data/cloud/npcs.json
-msgid "趟子手"
-msgstr ""
-
 #. cloud.npc.bfighter long
 #: data/cloud/npcs.json
 msgid ""
@@ -8238,11 +8636,6 @@ msgid ""
 "一位精明能干的大奸商\n"
 msgstr ""
 
-#. cloud.npc.jiading name
-#: data/cloud/npcs.json
-msgid "家丁"
-msgstr ""
-
 #. cloud.npc.jiading title
 #: data/cloud/npcs.json
 msgid "张府家丁"
@@ -8252,11 +8645,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "张府的家丁的俸禄极高，当然能在张府做事武功也不弱\n"
-msgstr ""
-
-#. cloud.npc.worker name
-#: data/cloud/npcs.json
-msgid "茶工"
 msgstr ""
 
 #. cloud.npc.worker long
@@ -8270,20 +8658,10 @@ msgstr ""
 msgid "这要到香茗坊去问。"
 msgstr ""
 
-#. cloud.npc.chess_player name
-#: data/cloud/npcs.json
-msgid "弈者"
-msgstr ""
-
 #. cloud.npc.chess_player long
 #: data/cloud/npcs.json
 msgid ""
 "一位十分文气的男子，装束象个雅儒。\n"
-msgstr ""
-
-#. cloud.npc.girl name
-#: data/cloud/npcs.json
-msgid "李师师"
 msgstr ""
 
 #. cloud.npc.girl title

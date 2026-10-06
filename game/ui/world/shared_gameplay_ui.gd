@@ -702,6 +702,12 @@ func _refresh_character() -> void:
 		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
 		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
 	})]
+	# TRANSLATORS: the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
+	lines.append(tr("杀气 {bellicosity} · 综合评价 {score}\n总共杀过 {kills} 个人。").format({
+		"bellicosity": attr.bellicosity, "score": state.progression.score, "kills": state.progression.kills,
+	}))
+	if state.quest.has_task():
+		lines.append("\n".join(QuestStatus.lines(state.quest)))
 	lines.append(tr("负重 {carried} / {capacity} · 体重 {weight}").format({
 		"carried": _session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)),
 		"capacity": _player.maximum_encumbrance, "weight": _player.body_facts.body_weight,

@@ -47,7 +47,7 @@ func _authored_and_restore(tree: SceneTree) -> void:
 	_check(p.recovery.inner_force.current == 0 and p.recovery.mana.current == 0 and p.recovery.atman.current == 0, "no internal-resource buff")
 	_check(p.equipment.primary_weapon().weapon_id == CombatSliceContentProfile.LONG_SWORD_ID, "unchanged starting sword")
 	_check(s.inventory_state().registered_item_ids().size() == 56, "unchanged 56 bootstrap items")
-	_check(s.combat_encounter_coordinator().action_infos().size() == 1 and s.combat_encounter_coordinator().action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID, "one real production Flee, no invented starter technique")
+	_check(s.combat_encounter_coordinator().action_infos().size() == 2 and s.combat_encounter_coordinator().action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID and s.combat_encounter_coordinator().action_infos()[1].action_id == CombatSurrenderTacticalPolicy.ACTION_ID, "production Flee and 投降 (surrender.c), no invented starter technique")
 	_check(s.encounter_opportunity_interval_seconds() == 1.0, "unchanged one-second opportunity configuration")
 	var exp_values: Array[int] = [600, 600, 600, 900, 500]
 	var sword_values: Array[int] = [10, 10, 10, 15, 20]

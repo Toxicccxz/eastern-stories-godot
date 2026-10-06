@@ -49,7 +49,7 @@ func _ready_and_multi(tree: SceneTree) -> void:
 			participant.binding.relationship.set_guarding(true)
 			values.append(participant.binding.state.vitality.current)
 		var info: CombatTacticalActionInfo = coordinator.action_infos()[0]
-		_check(coordinator.action_infos().size() == 1 and info.action_id == FLEE, "production set exactly Flee, not QA policy")
+		_check(coordinator.action_infos().size() == 2 and info.action_id == FLEE and coordinator.action_infos()[1].action_id == CombatSurrenderTacticalPolicy.ACTION_ID, "production set exactly Flee and 投降, not QA policy")
 		_check(info.category == CombatTacticalRequest.Category.FLEE and info.target_rule == CombatTacticalRequest.TargetRule.SELF and info.blocks_when_busy, "exact Flee metadata")
 		_check(not coordinator.complete(CombatEncounterResult.new(encounter.encounter_id, mode, CombatEncounterResultKind.Value.FLED)).succeeded(), "cannot inject FLED bypassing policy/result boundary")
 		_check(coordinator.submit_player_action(_request(session)).accepted(), "ready Flee receipt accepted")

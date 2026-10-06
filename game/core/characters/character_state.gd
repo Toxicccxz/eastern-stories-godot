@@ -64,6 +64,11 @@ var marks: Dictionary[String, int] = {}
 ## Applies a special added for a while (powerup): query_temp("apply/*") until its
 ## call_out() takes them back. Saved.
 var timed_applies := CharacterTimedApplies.new()
+## The task 朱鸿雪 gave (god.c quest, task_time, quest_factor, tfinished). Saved.
+var quest := CharacterQuestState.new()
+## LPC vendetta/<mark>: kills of NPCs with that vendetta_mark (combatd.c
+## killer_reward()); their kind attacks on sight (attack.c init()). Death clears it. Saved.
+var vendetta: Dictionary[String, int] = {}
 
 
 func _init(

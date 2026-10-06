@@ -112,6 +112,15 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.marks:
 			marks[key] = _i(value.marks[key])
 		result["marks"] = marks
+	# vendetta/<mark>: written only when there are some.
+	if not value.vendetta.is_empty():
+		var vendetta: Dictionary[String, Variant] = {}
+		for key: String in value.vendetta:
+			vendetta[key] = _i(value.vendetta[key])
+		result["vendetta"] = vendetta
+	# 朱鸿雪's task, quest_factor and tfinished: written only when one is set.
+	if not value.quest.is_default():
+		result["quest"] = _encode_quest(value.quest)
 	# CharacterTimedApplies: written only when one runs.
 	if not value.timed_applies.is_empty():
 		var timed: Array[Variant] = []
@@ -126,9 +135,23 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 
 func _encode_progression(value: Values.ProgressionSnapshot) -> Dictionary[String, Variant]:
 	var result: Dictionary[String, Variant] = {"combat_experience": _i(value.combat_experience), "potential": _i(value.potential), "potential_spent": _i(value.potential_spent)}
-	# score: written only when it is not 0.
+	# score and kills (MKS): written only when they are not 0.
 	if value.score != 0:
 		result["score"] = _i(value.score)
+	if value.kills != 0:
+		result["kills"] = _i(value.kills)
+	return result
+
+
+func _encode_quest(value: CharacterQuestState) -> Dictionary[String, Variant]:
+	var result: Dictionary[String, Variant] = {"factor": _i(value.factor), "finished": _i(value.finished)}
+	if value.has_task():
+		var task: QuestDefinition = value.current
+		result["task"] = {
+			"target": task.target, "type": task.type, "time": _i(task.time_seconds),
+			"exp_bonus": _i(task.exp_bonus), "pot_bonus": _i(task.pot_bonus), "score": _i(task.score),
+			"remaining_ms": _i(value.remaining_ms),
+		}
 	return result
 
 
@@ -272,6 +295,9 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
+	for optional: String in ["quest", "vendetta"]:
+		if value is Dictionary and value.has(optional):
+			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var a: Dictionary = _obj(object["attributes"], path + ".attributes", ["strength", "courage", "intelligence", "spirituality", "composure", "personality", "constitution", "karma", "force_factor", "bellicosity"])
@@ -280,8 +306,9 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var internal: Dictionary = _obj(object["internal_resources"], path + ".internal_resources", ["force", "max_force", "mana", "max_mana", "atman", "max_atman", "food", "water"])
 	var internal_resources := Values.InternalResourcesSnapshot.new(_int64(internal.get("force"), path + ".internal_resources.force"), _int64(internal.get("max_force"), path + ".internal_resources.max_force"), _int64(internal.get("mana"), path + ".internal_resources.mana"), _int64(internal.get("max_mana"), path + ".internal_resources.max_mana"), _int64(internal.get("atman"), path + ".internal_resources.atman"), _int64(internal.get("max_atman"), path + ".internal_resources.max_atman"), _int64(internal.get("food"), path + ".internal_resources.food"), _int64(internal.get("water"), path + ".internal_resources.water"))
 	var progression_fields: Array[String] = ["combat_experience", "potential", "potential_spent"]
-	if object["progression"] is Dictionary and (object["progression"] as Dictionary).has("score"):
-		progression_fields.append("score")
+	for optional: String in ["score", "kills"]:
+		if object["progression"] is Dictionary and (object["progression"] as Dictionary).has(optional):
+			progression_fields.append(optional)
 	var progression_object: Dictionary = _obj(object["progression"], path + ".progression", progression_fields)
 	var progression := Values.ProgressionSnapshot.new(_int64(progression_object.get("combat_experience"), path + ".progression.combat_experience"), _int64(progression_object.get("potential"), path + ".progression.potential"), _int64(progression_object.get("potential_spent"), path + ".progression.potential_spent"))
 	if progression_object.has("score"):
@@ -289,6 +316,10 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		# Written only when it is not 0, as marks only when there are some.
 		if not _error and progression.score == 0:
 			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.score", "0 is never written")
+	if progression_object.has("kills"):
+		progression.kills = _int64(progression_object.get("kills"), path + ".progression.kills")
+		if not _error and progression.kills <= 0:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.kills", "expected a count above 0")
 	var skills_object: Dictionary = _obj(object["skills"], path + ".skills", ["has_skills_mapping", "has_learned_mapping", "raw_levels", "learned_progress", "mappings"])
 	var raw: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("raw_levels"), path + ".skills.raw_levels")
 	var learned: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("learned_progress"), path + ".skills.learned_progress")
@@ -322,8 +353,55 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var timed: Array[CharacterTimedApplies.Entry] = []
 	if object.has("timed_applies"):
 		timed = _decode_timed_applies(object["timed_applies"], path + ".timed_applies")
+	var vendetta: Dictionary[String, int] = {}
+	if object.has("vendetta"):
+		vendetta = _decode_counts(object["vendetta"], path + ".vendetta")
+	var quest := CharacterQuestState.new()
+	if object.has("quest"):
+		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta)
+
+
+## A non-empty {name: count above 0} object (vendetta/<mark>).
+func _decode_counts(value: Variant, path: String) -> Dictionary[String, int]:
+	var result: Dictionary[String, int] = {}
+	if typeof(value) != TYPE_DICTIONARY or (value as Dictionary).is_empty():
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected a non-empty object")
+		return result
+	for key: Variant in value:
+		if typeof(key) != TYPE_STRING or (key as String).is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected names")
+			return result
+		result[key] = _int64(value[key], path + "." + String(key))
+		if not _error and result[key] <= 0:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + "." + String(key), "expected a count above 0")
+	return result
+
+
+## {factor, finished, task?: {target, type, time, exp_bonus, pot_bonus, score, remaining_ms}};
+## never all default (then it is not written).
+func _decode_quest(value: Variant, path: String) -> CharacterQuestState:
+	var quest := CharacterQuestState.new()
+	var fields: Array[String] = ["factor", "finished"]
+	if value is Dictionary and (value as Dictionary).has("task"):
+		fields.append("task")
+	var object: Dictionary = _obj(value, path, fields)
+	if _error: return quest
+	quest.factor = _int64(object["factor"], path + ".factor")
+	quest.finished = _int64(object["finished"], path + ".finished")
+	if object.has("task"):
+		var task: Dictionary = _obj(object["task"], path + ".task", ["target", "type", "time", "exp_bonus", "pot_bonus", "score", "remaining_ms"])
+		if _error: return quest
+		quest.current = QuestDefinition.new(
+			_string(task["target"], path + ".task.target"), _string(task["type"], path + ".task.type"),
+			_int64(task["time"], path + ".task.time"), _int64(task["exp_bonus"], path + ".task.exp_bonus"),
+			_int64(task["pot_bonus"], path + ".task.pot_bonus"), _int64(task["score"], path + ".task.score"),
+		)
+		quest.remaining_ms = _int64(task["remaining_ms"], path + ".task.remaining_ms")
+	if not _error and (quest.is_default() or not quest.is_valid()):
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "not a task 朱鸿雪 gives, or all default")
+	return quest
 
 
 ## A non-empty list of {effect_id, applies {key: int}, remaining_ms > 0}, IDs unique.

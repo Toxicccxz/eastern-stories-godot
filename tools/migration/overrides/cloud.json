@@ -140,7 +140,8 @@
 			"accept_fight": [
 				{ "say": "生命可贵！不要自寻死路！", "accept": false }
 			],
-			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)"
+			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)",
+			"quest_giver": true
 		},
 		"cloud.npc.boater": {
 			"inquiry": { "过江": ["交五两银子"], "摆渡": ["交五两银子"] }
@@ -179,7 +180,6 @@
 		},
 		"obj/npc/garrison.c": {
 			"set_temp apply/move": "move (轻功 travel) is not modelled",
-			"set vendetta_mark": "vendettas (attack.c init(): the authorities hunt wanted players) are not modelled; nothing marks the player",
 			"set pursuer": "following who flees is not modelled yet (as 安惜迩's and 金银花蛇's)"
 		},
 		"obj/toy/poison_dust.c": {
@@ -300,9 +300,9 @@
 		"u/cloud/npc/god.c": {
 			"set skill_public": "skill_public is read by no mudlib code",
 			"function accept_fight": "accept_fight (set cloud.npc.god)",
-			"function init": "the quest command: package 3C",
-			"function give_quest": "the quest command: package 3C",
-			"function time_period": "the quest command: package 3C"
+			"function init": "add_action quest: quest_giver (QuestService, QuestGiver)",
+			"function give_quest": "quest_giver (core/quests/quest_giver.gd)",
+			"function time_period": "QuestStatus.period()"
 		},
 		"u/cloud/npc/judge.c": {
 			"function init": "greeting (set cloud.npc.judge)",

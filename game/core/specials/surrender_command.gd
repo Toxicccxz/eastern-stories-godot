@@ -6,8 +6,10 @@ extends RefCounted
 ## message_vision("$N向$n求饶，但是$N大声说道：…", ob, me), which makes the opponent
 ## beg; it is shown as meant, the NPC begging (an obvious slip, fixed: DECISIONS).
 ## Otherwise remove_all_enemy(): every enemy that is not killing it stops
-## fighting it, it stops fighting them all (whom it kills stays), and it says it
-## gives up. The score it loses is not ported: NPC score is not tracked.
+## fighting it, it stops fighting them all (whom it kills stays), it loses 50
+## score (all of it below 50) and says it gives up. The player surrenders with it
+## too (CombatSurrenderTacticalPolicy); an NPC's score lives on its definition, so
+## its state's 0 stays 0.
 static func run(context: SpecialContext) -> bool:
 	var me: SpecialSide = context.me
 	if not context.is_fighting():
@@ -24,5 +26,7 @@ static func run(context: SpecialContext) -> bool:
 		if enemy != null and enemy.relationship != null:
 			enemy.relationship.remove_opponent(me.character_id)
 	me.relationship.clear_opponents_preserving_lethal_targets()
+	var progression: CharacterProgressionState = me.state.progression
+	progression.score = progression.score - 50 if progression.score >= 50 else 0
 	context.say("$N说道：「不打了，不打了，我投降....。」", &"", ColoredLine.HIW)
 	return true

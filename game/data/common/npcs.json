@@ -66,6 +66,7 @@
 			"long": "这是个正在执行公务的县城官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n",
 			"attributes": { "str": 27, "cor": 26, "cps": 25 },
 			"combat_exp": 100000,
+			"vendetta_mark": "authority",
 			"attitude": "heroism",
 			"skills": { "unarmed": 70, "sword": 70, "parry": 70, "dodge": 70, "move": 100 },
 			"carry": [

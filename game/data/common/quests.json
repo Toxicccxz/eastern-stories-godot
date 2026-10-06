@@ -1,0 +1,332 @@
+{
+	"quest_tiers": [
+		{
+			"min_exp": 1000, "legacy_source": "quest/qlist1000.c",
+			"quests": [
+				{"target": "乞丐", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 6},
+				{"target": "李师师", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 15, "score": 5},
+				{"target": "宝官", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 4},
+				{"target": "知客僧", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 5},
+				{"target": "裁缝", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 40, "score": 8},
+				{"target": "茶工", "quest_type": "杀", "time": 300, "exp_bonus": 28, "pot_bonus": 18, "score": 12},
+				{"target": "疯狗", "quest_type": "杀", "time": 40, "exp_bonus": 20, "pot_bonus": 20, "score": 5},
+				{"target": "野狗", "quest_type": "杀", "time": 40, "exp_bonus": 20, "pot_bonus": 20, "score": 5},
+				{"target": "杜宽", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 8},
+				{"target": "收破烂的", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 15, "score": 12},
+				{"target": "王铁匠", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 8},
+				{"target": "扫地僧", "quest_type": "杀", "time": 300, "exp_bonus": 35, "pot_bonus": 20, "score": 10},
+				{"target": "进香客", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 25, "score": 10},
+				{"target": "魏无极", "quest_type": "杀", "time": 40, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "武馆弟子", "quest_type": "杀", "time": 100, "exp_bonus": 40, "pot_bonus": 20, "score": 20},
+				{"target": "卖饼大叔", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 25, "score": 8},
+				{"target": "卖糖葫芦的", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 25, "score": 10},
+				{"target": "卖包子的", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 25, "score": 8},
+				{"target": "家丁", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "岩蛭", "quest_type": "杀", "time": 500, "exp_bonus": 50, "pot_bonus": 30, "score": 10},
+				{"target": "蜘蛛", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "金丝雀", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "药僧", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 10}
+			]
+		},
+		{
+			"min_exp": 1500, "legacy_source": "quest/qlist1500.c",
+			"quests": [
+				{"target": "乞丐", "quest_type": "杀", "time": 50, "exp_bonus": 25, "pot_bonus": 20, "score": 10},
+				{"target": "船夫", "quest_type": "杀", "time": 500, "exp_bonus": 45, "pot_bonus": 20, "score": 10},
+				{"target": "潘若秋", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 25, "score": 10},
+				{"target": "宝官", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "知客僧", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "鸨母", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 30, "score": 10},
+				{"target": "杂货贩", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 20, "score": 10},
+				{"target": "裁缝", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 30, "score": 18},
+				{"target": "茶工", "quest_type": "杀", "time": 100, "exp_bonus": 38, "pot_bonus": 30, "score": 12},
+				{"target": "李火狮", "quest_type": "杀", "time": 500, "exp_bonus": 45, "pot_bonus": 30, "score": 10},
+				{"target": "杜宽", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 30, "score": 12},
+				{"target": "收破烂的", "quest_type": "杀", "time": 50, "exp_bonus": 25, "pot_bonus": 15, "score": 12},
+				{"target": "王铁匠", "quest_type": "杀", "time": 50, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "武馆弟子", "quest_type": "杀", "time": 50, "exp_bonus": 30, "pot_bonus": 30, "score": 20},
+				{"target": "贵公子", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "玄真", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 25, "score": 10},
+				{"target": "岩蛭", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
+				{"target": "蜘蛛", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "蝴蝶", "quest_type": "杀", "time": 500, "exp_bonus": 45, "pot_bonus": 35, "score": 10},
+				{"target": "芳绫", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 20, "score": 10},
+				{"target": "金丝雀", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 20, "score": 10},
+				{"target": "药僧", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "进香客", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 20, "score": 10}
+			]
+		},
+		{
+			"min_exp": 2000, "legacy_source": "quest/qlist2000.c",
+			"quests": [
+				{"target": "船夫", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 10, "score": 10},
+				{"target": "潘若秋", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "弈者", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 24, "score": 10},
+				{"target": "宝官", "quest_type": "杀", "time": 100, "exp_bonus": 24, "pot_bonus": 16, "score": 10},
+				{"target": "化缘和尚", "quest_type": "杀", "time": 500, "exp_bonus": 38, "pot_bonus": 30, "score": 10},
+				{"target": "知客僧", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 10, "score": 15},
+				{"target": "鸨母", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 15, "score": 10},
+				{"target": "杂货贩", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 15, "score": 10},
+				{"target": "裁缝", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 18},
+				{"target": "农夫", "quest_type": "杀", "time": 600, "exp_bonus": 50, "pot_bonus": 30, "score": 12},
+				{"target": "李火狮", "quest_type": "杀", "time": 300, "exp_bonus": 28, "pot_bonus": 26, "score": 10},
+				{"target": "杜宽", "quest_type": "杀", "time": 50, "exp_bonus": 24, "pot_bonus": 20, "score": 12},
+				{"target": "旅客", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 40, "score": 10},
+				{"target": "樵夫", "quest_type": "杀", "time": 600, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "贵公子", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "岩蛭", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "玄真", "quest_type": "杀", "time": 300, "exp_bonus": 25, "pot_bonus": 15, "score": 10},
+				{"target": "蜘蛛", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 16, "score": 10},
+				{"target": "蝴蝶", "quest_type": "杀", "time": 300, "exp_bonus": 36, "pot_bonus": 25, "score": 10},
+				{"target": "芳绫", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "金丝雀", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 10},
+				{"target": "药僧", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 18, "score": 10}
+			]
+		},
+		{
+			"min_exp": 3000, "legacy_source": "quest/qlist3000.c",
+			"quests": [
+				{"target": "船夫", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 10, "score": 10},
+				{"target": "潘若秋", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 16, "score": 10},
+				{"target": "弈者", "quest_type": "杀", "time": 300, "exp_bonus": 35, "pot_bonus": 20, "score": 10},
+				{"target": "宝官", "quest_type": "杀", "time": 50, "exp_bonus": 20, "pot_bonus": 10, "score": 10},
+				{"target": "化缘和尚", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "护寺武僧", "quest_type": "杀", "time": 500, "exp_bonus": 50, "pot_bonus": 40, "score": 15},
+				{"target": "鸨母", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 15, "score": 10},
+				{"target": "杂货贩", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 15, "score": 10},
+				{"target": "农夫", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 12},
+				{"target": "李火狮", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 20, "score": 10},
+				{"target": "旅客", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "樵夫", "quest_type": "杀", "time": 500, "exp_bonus": 25, "pot_bonus": 25, "score": 10},
+				{"target": "贵公子", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 10},
+				{"target": "肥岩蛭", "quest_type": "杀", "time": 500, "exp_bonus": 45, "pot_bonus": 35, "score": 10},
+				{"target": "大岩蛭", "quest_type": "杀", "time": 500, "exp_bonus": 45, "pot_bonus": 35, "score": 10},
+				{"target": "蝴蝶", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 15, "score": 10},
+				{"target": "芳绫", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 10},
+				{"target": "昭仪", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 25, "score": 10},
+				{"target": "圆春", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 25, "score": 10},
+				{"target": "惜春", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "玄真", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 20, "score": 10},
+				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 35, "score": 10}
+			]
+		},
+		{
+			"min_exp": 5000, "legacy_source": "quest/qlist5000.c",
+			"quests": [
+				{"target": "郑屠夫", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "弈者", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 15, "score": 10},
+				{"target": "化缘和尚", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "护寺武僧", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 30, "score": 15},
+				{"target": "鸨母", "quest_type": "杀", "time": 50, "exp_bonus": 20, "pot_bonus": 15, "score": 10},
+				{"target": "农夫", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 12},
+				{"target": "旅客", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "樵夫", "quest_type": "杀", "time": 300, "exp_bonus": 25, "pot_bonus": 25, "score": 10},
+				{"target": "肥岩蛭", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 25, "score": 10},
+				{"target": "大岩蛭", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 25, "score": 10},
+				{"target": "昭仪", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "圆春", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "惜春", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 25, "score": 10},
+				{"target": "跛僧人", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "僵尸侍者", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 40, "score": 10},
+				{"target": "明心", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "清虚", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10}
+			]
+		},
+		{
+			"min_exp": 8000, "legacy_source": "quest/qlist8000.c",
+			"quests": [
+				{"target": "郑屠夫", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 30, "score": 10},
+				{"target": "卧龙岗强盗", "quest_type": "杀", "time": 500, "exp_bonus": 35, "pot_bonus": 35, "score": 10},
+				{"target": "彩衣少女", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
+				{"target": "护寺武僧", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 15},
+				{"target": "飞贼", "quest_type": "杀", "time": 600, "exp_bonus": 40, "pot_bonus": 35, "score": 10},
+				{"target": "农夫", "quest_type": "杀", "time": 120, "exp_bonus": 40, "pot_bonus": 20, "score": 12},
+				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 25, "pot_bonus": 25, "score": 10},
+				{"target": "樵夫", "quest_type": "杀", "time": 120, "exp_bonus": 15, "pot_bonus": 15, "score": 10},
+				{"target": "肥岩蛭", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "大岩蛭", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 25, "score": 10},
+				{"target": "巨岩蛭", "quest_type": "杀", "time": 500, "exp_bonus": 50, "pot_bonus": 35, "score": 10},
+				{"target": "土匪爪牙", "quest_type": "杀", "time": 500, "exp_bonus": 45, "pot_bonus": 35, "score": 10},
+				{"target": "昭仪", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 10, "score": 10},
+				{"target": "圆春", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 15, "score": 10},
+				{"target": "惜春", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 15, "score": 10},
+				{"target": "跛僧人", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 10, "score": 10},
+				{"target": "僵尸侍者", "quest_type": "杀", "time": 300, "exp_bonus": 35, "pot_bonus": 30, "score": 10},
+				{"target": "明心", "quest_type": "杀", "time": 100, "exp_bonus": 25, "pot_bonus": 20, "score": 10},
+				{"target": "清虚", "quest_type": "杀", "time": 300, "exp_bonus": 35, "pot_bonus": 20, "score": 10}
+			]
+		},
+		{
+			"min_exp": 10000, "legacy_source": "quest/qlist10000.c",
+			"quests": [
+				{"target": "卧龙岗强盗", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 10},
+				{"target": "郑屠夫", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 6},
+				{"target": "彩衣少女", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 4},
+				{"target": "飞贼", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "兵器贩子", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "刘安禄", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 15, "score": 8},
+				{"target": "旅客", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 30, "score": 8},
+				{"target": "土匪爪牙", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "巨岩蛭", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "袭人", "quest_type": "杀", "time": 300, "exp_bonus": 10, "pot_bonus": 10, "score": 9},
+				{"target": "圆春", "quest_type": "杀", "time": 500, "exp_bonus": 10, "pot_bonus": 10, "score": 8},
+				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "趟子手", "quest_type": "杀", "time": 540, "exp_bonus": 40, "pot_bonus": 30, "score": 8},
+				{"target": "后备兵", "quest_type": "杀", "time": 480, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "书生", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
+				{"target": "彩衣少女", "quest_type": "杀", "time": 400, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "船夫", "quest_type": "杀", "time": 150, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8},
+				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 8},
+				{"target": "仆役", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 3}
+			]
+		},
+		{
+			"min_exp": 13000, "legacy_source": "quest/qlist13000.c",
+			"quests": [
+				{"target": "卧龙岗强盗", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "土匪首领", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "彩衣少女", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "飞贼", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "兵器贩子", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "刘安禄", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 15, "score": 8},
+				{"target": "旅客", "quest_type": "杀", "time": 50, "exp_bonus": 30, "pot_bonus": 30, "score": 8},
+				{"target": "土匪爪牙", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "巨岩蛭", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "袭人", "quest_type": "杀", "time": 100, "exp_bonus": 10, "pot_bonus": 10, "score": 9},
+				{"target": "圆春", "quest_type": "杀", "time": 300, "exp_bonus": 10, "pot_bonus": 10, "score": 8},
+				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "趟子手", "quest_type": "杀", "time": 540, "exp_bonus": 40, "pot_bonus": 30, "score": 8},
+				{"target": "后备兵", "quest_type": "杀", "time": 480, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "书生", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
+				{"target": "彩衣少女", "quest_type": "杀", "time": 400, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "船夫", "quest_type": "杀", "time": 150, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8},
+				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 8},
+				{"target": "仆役", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 3}
+			]
+		},
+		{
+			"min_exp": 17000, "legacy_source": "quest/qlist17000.c",
+			"quests": [
+				{"target": "趟子手", "quest_type": "杀", "time": 600, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "土匪首领", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "老队长", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "飞贼", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "兵器贩子", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "刘安禄", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 15, "score": 8},
+				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 8},
+				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "巨岩蛭", "quest_type": "杀", "time": 100, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "圆春", "quest_type": "杀", "time": 100, "exp_bonus": 10, "pot_bonus": 10, "score": 8},
+				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "趟子手", "quest_type": "杀", "time": 540, "exp_bonus": 40, "pot_bonus": 30, "score": 8},
+				{"target": "后备兵", "quest_type": "杀", "time": 480, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
+				{"target": "书生", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
+				{"target": "彩衣少女", "quest_type": "杀", "time": 400, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
+				{"target": "船夫", "quest_type": "杀", "time": 150, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8},
+				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 8},
+				{"target": "仆役", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 3}
+			]
+		},
+		{
+			"min_exp": 22000, "legacy_source": "quest/qlist22000.c",
+			"quests": [
+				{"target": "趟子手", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "土匪首领", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "老队长", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "大队长", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "小队长", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "小兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 15, "score": 8},
+				{"target": "柳绘心", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 30, "score": 8},
+				{"target": "老兵", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "僵尸护法", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 15}
+			]
+		},
+		{
+			"min_exp": 40000, "legacy_source": "quest/qlist40000.c",
+			"quests": [
+				{"target": "趟子手", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "赫造基", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "老队长", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "大队长", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "小队长", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "小兵", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 15, "score": 8},
+				{"target": "柳绘心", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 30, "score": 8},
+				{"target": "老兵", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "僵尸护法", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "清云", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "清玄", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 15}
+			]
+		},
+		{
+			"min_exp": 50000, "legacy_source": "quest/qlist50000.c",
+			"quests": [
+				{"target": "趟子手", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "赫造基", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "独眼头陀", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "大队长", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "小队长", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "小兵", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 15, "score": 8},
+				{"target": "僵尸护法", "quest_type": "杀", "time": 100, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "清云", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "清玄", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 15}
+			]
+		},
+		{
+			"min_exp": 60000, "legacy_source": "quest/qlist60000.c",
+			"quests": [
+				{"target": "守城官兵", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "赫造基", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "独眼头陀", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "芙云", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "梦玉楼", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "清云", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "清玄", "quest_type": "杀", "time": 100, "exp_bonus": 40, "pot_bonus": 20, "score": 15}
+			]
+		},
+		{
+			"min_exp": 80000, "legacy_source": "quest/qlist80000.c",
+			"quests": [
+				{"target": "守城官兵", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "赫造基", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "独眼头陀", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "芙云", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "梦玉楼", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "安惜迩", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "武官", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "县城官兵", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8}
+			]
+		},
+		{
+			"min_exp": 100000, "legacy_source": "quest/qlist100000.c",
+			"quests": [
+				{"target": "李信", "quest_type": "杀", "time": 300, "exp_bonus": 60, "pot_bonus": 30, "score": 20},
+				{"target": "严廷殷", "quest_type": "杀", "time": 500, "exp_bonus": 100, "pot_bonus": 50, "score": 30},
+				{"target": "赫造基", "quest_type": "杀", "time": 200, "exp_bonus": 50, "pot_bonus": 20, "score": 15},
+				{"target": "狼狗", "quest_type": "杀", "time": 300, "exp_bonus": 80, "pot_bonus": 40, "score": 20},
+				{"target": "常老大", "quest_type": "杀", "time": 500, "exp_bonus": 100, "pot_bonus": 50, "score": 30},
+				{"target": "蓝雨梅", "quest_type": "杀", "time": 50, "exp_bonus": 40, "pot_bonus": 15, "score": 15},
+				{"target": "蓝筱薇", "quest_type": "杀", "time": 100, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "土匪首领", "quest_type": "杀", "time": 400, "exp_bonus": 60, "pot_bonus": 35, "score": 15},
+				{"target": "疯老头子", "quest_type": "杀", "time": 400, "exp_bonus": 70, "pot_bonus": 40, "score": 15},
+				{"target": "守城官兵", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 12, "score": 9},
+				{"target": "莫欣芳", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 9},
+				{"target": "邢千慧", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
+				{"target": "芙云", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 12, "score": 5},
+				{"target": "梦玉楼", "quest_type": "杀", "time": 100, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
+				{"target": "安惜迩", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
+				{"target": "武官", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
+				{"target": "县城官兵", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 8}
+			]
+		}
+	]
+}

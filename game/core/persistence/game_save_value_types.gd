@@ -141,15 +141,17 @@ class ProgressionSnapshot extends RefCounted:
 	var potential: int
 	var potential_spent: int
 	var score: int
+	var kills: int
 
-	func _init(p_combat_experience: int = 0, p_potential: int = 0, p_potential_spent: int = 0, p_score: int = 0) -> void:
+	func _init(p_combat_experience: int = 0, p_potential: int = 0, p_potential_spent: int = 0, p_score: int = 0, p_kills: int = 0) -> void:
 		combat_experience = p_combat_experience
 		potential = p_potential
 		potential_spent = p_potential_spent
 		score = p_score
+		kills = p_kills
 
 	func duplicate_snapshot() -> ProgressionSnapshot:
-		return ProgressionSnapshot.new(combat_experience, potential, potential_spent, score)
+		return ProgressionSnapshot.new(combat_experience, potential, potential_spent, score, kills)
 
 
 class SkillValueSnapshot extends RefCounted:
@@ -306,6 +308,10 @@ class CharacterStateSnapshot extends RefCounted:
 	var marks: Dictionary[String, int] = {}
 	## CharacterState.timed_applies (powerup): empty for most characters.
 	var timed_applies: Array[CharacterTimedApplies.Entry] = []
+	## CharacterState.quest (朱鸿雪's task); default for most characters.
+	var quest: CharacterQuestState = CharacterQuestState.new()
+	## LPC vendetta/<mark> (CharacterState.vendetta); empty for most characters.
+	var vendetta: Dictionary[String, int] = {}
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -331,10 +337,18 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta)
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()
+		return self
+
+	func with_quest(p_quest: CharacterQuestState) -> CharacterStateSnapshot:
+		quest = CharacterQuestState.new() if p_quest == null else p_quest.duplicate_state()
+		return self
+
+	func with_vendetta(p_vendetta: Dictionary[String, int]) -> CharacterStateSnapshot:
+		vendetta = p_vendetta.duplicate()
 		return self
 
 	func with_timed_applies(p_entries: Array[CharacterTimedApplies.Entry]) -> CharacterStateSnapshot:

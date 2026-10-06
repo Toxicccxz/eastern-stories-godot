@@ -14,7 +14,7 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
 | entrance, cross, the markets and streets | 县城官兵 ×2 (nwroad3) | outdoor map: the gate, the market street and the main street, one open road |
 | butchery | 郑屠夫, 苍蝇 ×6 | vendor: 生牛肉, 牛腿, 牛尾, 熟杂碎, 狗肉 |
 | tearoom, tea_corridor (木雕门), tearoom2 | 茶博士; 弈者 (upstairs) | 香茗坊; its second floor on the upstairs map |
-| woodboxy, god1 (木门), god2 | 林三爷, 伙计 ×8; 朱鸿雪 | 朱鸿雪 refuses spars; not fightable yet (her arts) |
+| woodboxy, god1 (木门), god2 | 林三爷, 伙计 ×8; 朱鸿雪 | 3C: 朱鸿雪 gives quests (任务, god.c give_quest()); she refuses spars and is not fightable yet (her arts) |
 | tailory, zaihuoy, drugstore, weapony, bookstore | 裁缝, 杂货贩, 药店伙计, 兵器贩子, 潘若秋 | vendors |
 | monky (斋院) | 化缘和尚, Snow's 乞丐 ×2, 包子 ×3 | the monk takes donations (keeper.c's formula); not fightable yet |
 | jiyuan, jiyuan2 | 鸨母; 李师师 (upstairs) | 李师师 teaches literate after a keepsake |
@@ -58,6 +58,14 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
   member gives him is 这不是你得到的吧. 柳绘心 (d/snow girl.c) is of 封山剑派北宗, not 封山剑派,
   so look.c names no relation between her and 柳淳风's disciples.
 
+- quest/qqqq.c is a fourth list no code reads (QUEST_D only names the 15 qlist files). god.c's
+  random tier shift (factor 15) is commented out, so quest_factor is always 10; its accept_object()
+  for 寻 tasks is commented out too (all 253 entries are 杀). tfinished never goes below 0 in
+  practice: only an expired task at -10 or less lowers it. The quest reward caps unspent potential
+  at 100, so a player above 100 loses some.
+- surrender.c reads last_opponent, set once blows are exchanged: before the first one a surrender
+  is accepted even against a killer, who fights on (the player has lost 50 score).
+
 ## Deferred
 
 - 牛腿 is a hammer only: food that is also a weapon is not supported yet. Eaten food leaves no
@@ -67,5 +75,4 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
 - The garrison's vendetta and pursuit, 趟子手's and the thief's wimpy.
 - 陈剑秋's letter (u/cloud/npc/obj/letter.c, master_id) for a 忘忧草 that is the giver's: with the
   lion of 乔阴县城 (#9), which gives the grass its master_id; 陈天星 takes the letter in 京师 (#12).
-- Killing one's own master (combatd.c killer_reward(): betrayer - 1, title 普通百姓, no family):
-  with 3C, which ports the player's side of killer_reward() for the quests.
+- The garrison's pursuit (garrison.c `pursuer`): following who flees. Its vendetta came with 3C.

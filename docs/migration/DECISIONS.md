@@ -1,5 +1,37 @@
 # Migration Decisions
 
+## 绮云镇 3C: 朱鸿雪's quests, killer_reward() for the player, surrender (2026-10-06)
+
+- **The quest command is 朱鸿雪's** (god.c init(): `quest_giver`): beside her, 任务 runs
+  give_quest(); when it returns 0 (combat_exp 1000 or less, a task still running) quest.c's lines
+  follow, as the command goes on to cmds/usr/quest.c. quest.c's lines also stand on the 角色 page.
+  The 15 levels and 253 qlist entries are `common/quests.json`; the player keeps a copy of the task.
+- **Owner: she draws only targets the game has.** The draw is among the tier's entries whose
+  target is an NPC placed somewhere that can be fought (by name, as killer_reward() compares
+  name(1)); a tier with none gives way to the next lower one. With all 87 names in the game it is
+  god.c's own draw. `tests/fixtures/quest_targets.json` lists the 41 available and 46 missing
+  names; a region package that places one re-records it (UPDATE_QUEST_TARGETS=1).
+- **Owner: the task's time runs on play time** (fights, map changes and lying unconscious
+  included); pause and a closed game stop it, and the save keeps the time left. In ES2 task_time
+  is time() + the quest's seconds, and time() also runs while the player is offline.
+- **killer_reward() for a player who kills an NPC**: MKS + 1; the task done when the victim's name
+  is its target and its time has not run out (the exp, potential and score rolls, quest_factor,
+  unspent potential capped at 100, a negative score's reward negated, tfinished); bellicosity + 1;
+  the victim's vendetta_mark marks the killer; killing one's own master (the generation above)
+  gives betrayer - 1 (below 0 too), title 普通百姓 and no family, master or rank (the class stays).
+- **vendetta**: an NPC with a vendetta_mark (garrison.c: authority) attacks a player who holds
+  vendetta/<mark> on sight (attack.c init(), start_vendetta()); a death with a killer clears it.
+  garrison.c's `pursuer` (following who flees) is not ported.
+- **Owner: score is shown**: the 角色 page shows score.c's 杀气, 综合评价 and 总共杀过 N 个人.
+  Deviation: its 其中有 N 个是其他玩家 is left out (there are no other players).
+- **Owner: surrender.c for the player**: 投降 on the battle panel beside 逃跑. A last opponent
+  that stands and is killing the player refuses (the 求饶 line); otherwise every enemy that is
+  not killing the player stops, the player stops fighting them all and loses 50 score (to 0).
+  It waits while the player is busy, as exert and perform (surrender.c has no busy check). In a
+  fight to the death whose killers all lie down, an accepted surrender ends the fight as 逃跑
+  does: ES2 would go on when a killer came to, which the port's fight cannot wait for. NPCs that
+  surrender lose score the same way (their score lives on the definition, so nothing changes).
+
 ## 绮云镇 3B: joining 振远镖局 (2026-10-05)
 
 - **Changing family is ported** (the Snow entry's deferred betrayal): an NPC master recruits
