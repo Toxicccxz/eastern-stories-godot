@@ -38,6 +38,14 @@ jobs:
       - name: Run canonical verification
         run: python tools/ci/verify.py --godot "${{ steps.godot.outputs.godot }}"
 
+      - name: Upload gameplay suite logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameplay-suite-logs
+          path: build/verify-suites/logs
+          if-no-files-found: ignore
+
   windows-release:
     name: Windows Release Build
     needs: godot-verify

@@ -83,7 +83,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var bought: VendorPurchaseResult = Water.purchase(session)
 	_check(bought.delivered, "source wineskin purchase fixture")
 	if bought.delivered:
-		await tree.process_frame
+		# The HUD shows itself in its own _process. One process_frame await resumes before
+		# that frame's _process runs, so wait two: the suite must not rely on a frame that a
+		# previous suite in the same process happened to leave half-done.
+		await _settle(tree, 2)
 		session.shared_ui().open_supplies()
 		var panel: HeldLiquidPanel = session.shared_ui()._liquid
 		panel._process(0)

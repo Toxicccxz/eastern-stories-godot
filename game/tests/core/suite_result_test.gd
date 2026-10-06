@@ -1,6 +1,6 @@
 extends RefCounted
 
-## run_tests.gd adds up every suite through SuiteResult.checked(); a crashed suite must
+## run_suite.gd adds up every suite through SuiteResult.checked(); a crashed suite must
 ## become a named failure, never an error in the runner.
 
 var _assertion_count: int = 0

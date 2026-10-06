@@ -93,8 +93,6 @@ Code:
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
   names although they now cover every map; pre-B2 Old Pine regression suites drive combat through
   a test-only manual cadence (`historical_world_combat_fixture.gd`).
-* `oldpine_lake_production_test.gd` fails its three Fill checks when run on its own (also on main);
-  it passes inside `run_tests.gd`.
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Only Simplified Chinese exists. English and other languages without measure words will need
@@ -114,7 +112,7 @@ Licensing: no root project license; ES2 rights are unresolved
 
 ## How to verify
 
-See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~13 min; fails on a
+See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~5 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
 -- <suite paths>`. A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).

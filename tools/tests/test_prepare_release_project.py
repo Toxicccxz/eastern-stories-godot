@@ -94,7 +94,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         (self.source / "scenes/world/oldpine/oldpine_world_session.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/runtime/oldpine_game_runtime_host.tscn").write_text("[gd_scene]\n", encoding="utf-8")
         (self.source / "scenes/mcp_test.tscn").write_text("[gd_scene]\n", encoding="utf-8")
-        (self.source / "tests/run_tests.gd").write_text("extends SceneTree\n", encoding="utf-8")
+        (self.source / "tests/run_suite.gd").write_text("extends SceneTree\n", encoding="utf-8")
         (self.source / "addons/godot_ai/runtime/game_helper.gd").write_text("extends Node\n", encoding="utf-8")
         (self.source / "godot-ai-LICENSE.txt").write_text("development license\n", encoding="utf-8")
         (self.source / ".godot/generated.txt").write_text("generated\n", encoding="utf-8")
@@ -227,7 +227,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         prepare_release_project(self.source, self.output)
         self.assertEqual(before, source_tree_digest(self.source))
         self.assertTrue((self.source / "addons/godot_ai/runtime/game_helper.gd").is_file())
-        self.assertTrue((self.source / "tests/run_tests.gd").is_file())
+        self.assertTrue((self.source / "tests/run_suite.gd").is_file())
 
     def test_removes_qa_startup_and_rejects_local_paths(self) -> None:
         config = self.source / "project.godot"

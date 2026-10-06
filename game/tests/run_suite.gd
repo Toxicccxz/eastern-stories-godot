@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Runs selected test suites instead of the full run_tests.gd registry.
+## Runs test suites. tools/ci/verify.py runs every *_test.gd this way, one per process.
 ## Usage: godot --headless --path game --script res://tests/run_suite.gd -- <path>...
 ## Each path is a *_test.gd script or a directory searched recursively for *_test.gd.
 ## A suite fails on any script error it logs: such an error ends only the helper it is
