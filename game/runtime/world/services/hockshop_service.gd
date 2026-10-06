@@ -8,7 +8,6 @@ var _title: Label
 var _rows: VBoxContainer
 var _goods: VBoxContainer
 var _actions: HBoxContainer
-var _confirm_actions: HBoxContainer
 var _pending: HockshopValuationResult
 var _pending_state: Array[int] = []
 var _pending_equipment: String = ""
@@ -21,6 +20,8 @@ var holdings: Label
 var selection: Label
 var value_button: Button
 var sell_button: Button
+## Asks before a sale (ConfirmPrompt); its confirm button is `confirm_button`.
+var sale_prompt: ConfirmPrompt
 var confirm_button: Button
 var last_valuation: HockshopValuationResult
 var last_sell: HockshopSellResult
@@ -51,11 +52,13 @@ func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: 
 	_rows.add_child(_actions)
 	value_button = _button(_actions, "Value", "估价", request_value)
 	sell_button = _button(_actions, "Sell", "卖断…", request_confirmation)
-	_confirm_actions = HBoxContainer.new()
-	_rows.add_child(_confirm_actions)
-	confirm_button = _button(_confirm_actions, "ConfirmSell", "确认卖断（不可撤销）", confirm_sale)
-	_button(_confirm_actions, "CancelSale", "取消", cancel_confirmation)
-	_confirm_actions.hide()
+	sale_prompt = ConfirmPrompt.new()
+	sale_prompt.name = "SaleConfirm"
+	sale_prompt.hide()
+	_rows.add_child(sale_prompt)
+	confirm_button = sale_prompt.confirm_button
+	sale_prompt.confirmed.connect(confirm_sale)
+	sale_prompt.cancelled.connect(cancel_confirmation)
 	feedback = _label("", "Feedback")
 	_button(_rows, "Close", "关闭", close_panel)
 	panel.visibility_changed.connect(_shared_visibility_changed)
@@ -246,20 +249,19 @@ func request_confirmation() -> void:
 	_pending = appraisal
 	_pending_state = _item_state(_selected_id)
 	_pending_equipment = equipment_label(_selected_id)
-	selection.text = tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
+	sale_prompt.ask(tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
 		"item": item_label(_selected_id), "price": appraisal.actual_payout,
-	})
-	_confirm_actions.show()
+	}), "确认卖断（不可撤销）")
 	_actions.hide()
 	refresh()
 	# Deliberate fresh activation: opening confirmation does not execute a sale.
-	(_confirm_actions.get_node("CancelSale") as Button).grab_focus()
+	sale_prompt.focus_default()
 
 
 func cancel_confirmation() -> void:
 	_pending = null
 	_pending_state.clear()
-	_confirm_actions.hide()
+	sale_prompt.dismiss()
 	_actions.show()
 	selection.text = "请选择随身物品。" if _selected_id == &"" else item_label(_selected_id)
 	refresh()
@@ -273,7 +275,7 @@ func confirm_sale() -> void:
 	var unchanged: bool = current.outcome == HockshopValuationResult.Outcome.SELLABLE and current.definition_id == confirmed.definition_id and current.source_value == confirmed.source_value and current.actual_payout == confirmed.actual_payout and _item_state(confirmed.item_id) == _pending_state and equipment_label(confirmed.item_id) == _pending_equipment
 	_pending = null # Consume once, including rejection; no callback replay/retry.
 	_pending_state.clear()
-	_confirm_actions.hide()
+	sale_prompt.dismiss()
 	_actions.show()
 	if not panel.visible or not in_reach() or not unchanged:
 		feedback.text = "位置或物品状态已变化，未执行卖断；请重新选择。"
@@ -320,7 +322,7 @@ func close_panel() -> void:
 	_pending = null
 	_pending_state.clear()
 	_selected_id = &""
-	_confirm_actions.hide()
+	sale_prompt.dismiss()
 	_actions.show()
 	panel.hide()
 	map.session.shared_ui().close_business(panel)

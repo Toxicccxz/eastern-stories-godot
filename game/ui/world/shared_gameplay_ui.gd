@@ -23,6 +23,16 @@ var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
 var loot_panel: OldPineLootPanel
 var inventory_panel: PlayerInventoryPanel
+## Asked in the shared frame before an important or deadly choice (ask_first()).
+var confirm_prompt: ConfirmPrompt
+var _confirmed_action: Callable = Callable()
+
+# TRANSLATORS: asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
+const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
+# TRANSLATORS: asked before 切磋 when the player or the NPC ({npc}) holds a weapon: an armed spar wounds as a real fight (combatd.c).
+const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切磋的每一下都是真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
+# TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
+const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
@@ -86,6 +96,8 @@ func _ready() -> void:
 	inventory_panel.play_requested.connect(_play_item)
 	inventory_panel.apply_requested.connect(_apply_item)
 	inventory_panel.dissolve_requested.connect(_dissolve_with)
+	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
+	confirm_prompt.cancelled.connect(_on_prompt_cancelled)
 	_presentation_layout.character.arts.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
@@ -790,7 +802,48 @@ func _apply_item(id: StringName) -> void:
 
 func _dissolve_with(id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
-	if map != null: map.dissolve_selected_corpse(id)
+	if map == null:
+		return
+	var count: int = map.dissolvable_corpse_contents()
+	if count == 0:
+		map.dissolve_selected_corpse(id)
+		return
+	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", func() -> void:
+		if map.dissolve_selected_corpse(id):
+			open_inventory()
+	)
+
+
+## Asks in the shared frame before an important or deadly choice (owner,
+## 2026-10-06): `action` runs on the choice; 取消, 关闭 or Back drop it. While
+## `still_valid` returns false the question closes, as any panel does.
+func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable()) -> void:
+	_confirmed_action = action
+	confirm_prompt.ask(text, choice)
+	_presentation_layout.open_panel(tr("请确认"), confirm_prompt, still_valid)
+	if _presentation_layout._content == confirm_prompt:
+		confirm_prompt.focus_default()
+	else:
+		confirm_prompt.cancel()
+
+
+## Whether the shared frame is asking (ask_first()).
+func is_asking() -> bool:
+	return confirm_prompt.is_asking() and _presentation_layout._content == confirm_prompt
+
+
+func _on_prompt_confirmed() -> void:
+	var action: Callable = _confirmed_action
+	_confirmed_action = Callable()
+	_presentation_layout.close_panel()
+	if action.is_valid():
+		action.call()
+
+
+func _on_prompt_cancelled() -> void:
+	_confirmed_action = Callable()
+	if _presentation_layout._content == confirm_prompt:
+		_presentation_layout.close_panel()
 
 
 func _wield_item(id: StringName) -> void:
@@ -820,14 +873,33 @@ func _inspect_context() -> void:
 	if map != null: map.inspect_selected()
 
 
+## 攻击; on the player's own master it asks first: the kill is a betrayal (3C).
 func _attack_context() -> void:
 	var map := _session.active_map() as WorldMapController
-	if map != null: map.attack_selected()
+	if map == null:
+		return
+	var npc: NpcRuntimeState = map.selected_npc()
+	if npc == null or not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
+		map.attack_selected()
+		return
+	var teaching: NpcTeaching = npc.definition().teaching()
+	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
+	ask_first(tr(MASTER_ATTACK_WARNING).format({
+		"master": tr(npc.definition().display_name), "family": tr(family.display_name) if family != null else "",
+		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
+	}), "确定攻击", map.attack_selected, attack_is_enabled)
 
 
+## 切磋; with a weapon in hand on either side it asks first: the blows wound.
 func _spar_context() -> void:
 	var map := _session.active_map() as WorldMapController
-	if map != null: map.spar_selected()
+	if map == null:
+		return
+	var npc: NpcRuntimeState = map.selected_npc()
+	if not map.spar_is_armed(npc):
+		map.spar_selected()
+		return
+	ask_first(tr(ARMED_SPAR_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定切磋", map.spar_selected, spar_is_enabled)
 
 
 func _ask_context() -> void:

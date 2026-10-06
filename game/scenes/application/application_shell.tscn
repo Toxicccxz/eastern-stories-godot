@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
 [ext_resource type="Script" path="res://presentation/layout/safe_area_presenter.gd" id="2_safe"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://runtime/application/mobile_touch_adapter.gd" id="4_touch"]
 [ext_resource type="Script" path="res://runtime/application/android_back_adapter.gd" id="5_back"]
 [ext_resource type="Script" path="res://runtime/application/mobile_lifecycle_adapter.gd" id="6_lifecycle"]
+[ext_resource type="Script" path="res://ui/common/confirm_prompt.gd" id="7_prompt"]
 
 [node name="ApplicationShell" type="Node"]
 process_mode = 3
@@ -517,34 +518,10 @@ theme_override_constants/margin_bottom = 28
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="ResultLabel" type="Label" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 76)
-layout_mode = 2
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="Actions" type="HFlowContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
-layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 12
-
-[node name="ConfirmButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
+[node name="ResultPrompt" type="VBoxContainer" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "开始新游戏"
-
-[node name="CancelButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "取消"
-
-[node name="AcknowledgeButton" type="Button" parent="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "确定"
+script = ExtResource("7_prompt")
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]
@@ -561,6 +538,3 @@ text = "确定"
 [connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/TempRecoveryButton" to="." method="_on_temp_recovery_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/RecoveryNewGameButton" to="." method="_on_recovery_new_game_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox/RecoveryCancelButton" to="." method="_on_recovery_cancel_button_pressed"]
-[connection signal="pressed" from="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions/ConfirmButton" to="." method="_on_confirm_button_pressed"]
-[connection signal="pressed" from="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions/CancelButton" to="." method="_on_cancel_button_pressed"]
-[connection signal="pressed" from="ShellCanvas/ResultOverlay/ResultCenter/Panel/Margin/VBox/Actions/AcknowledgeButton" to="." method="_on_acknowledge_button_pressed"]

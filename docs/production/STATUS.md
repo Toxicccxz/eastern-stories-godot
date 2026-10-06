@@ -4,12 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**绮云镇 3D** (`phase/cloud-3d`): the 宝官 in the 赌场 takes any money given to him as a bet on
-小 (judge.c: 20% pays double, in silver and coins; what the player cannot carry lands at their
-feet, and a pile too heavy as a whole is picked up in part). The 媒婆 offers no marriage: ES2's needs a second player (DECISIONS 3D). Pacing
-knobs, modern fixes and 3C are merged.
+**Confirmations** (`phase/confirm-prompt`): one reusable ConfirmPrompt asks before 攻击 on
+one's own master, an armed 切磋, 化尸粉 on a corpse with things in it and the first 拜师; the
+betrayal, the hockshop sale and the menu's two questions use it too (DECISIONS). 绮云镇 3D is
+merged.
 
-Next: 水烟阁 (region plan #4).
+Next: 水烟阁 (region plan #4), in three packages: A the mountain, the pavilion and their NPCs;
+B joining 天邪派 (萧辟尘's oath, 於兰天武's test) and learning; C 天邪神功 in the player's hands
+(powerup, powerfade, 天邪虎啸, 杀气's berserk with a warning).
 
 ## Playable now
 

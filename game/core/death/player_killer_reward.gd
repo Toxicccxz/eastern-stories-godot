@@ -25,6 +25,16 @@ class Result:
 	var left_family: bool = false
 
 
+## killer_reward()'s rebel test: the player's family/master_id is `npc`'s and their
+## generation the one below its own (killing it leaves the family).
+static func is_own_master(state: CharacterState, npc: NpcDefinition) -> bool:
+	if state == null or npc == null:
+		return false
+	var teaching: NpcTeaching = npc.teaching()
+	var generation: int = 0 if teaching == null else teaching.family_generation
+	return state.apprenticeship.master_teacher_id == npc.definition_id and state.family.generation == generation + 1
+
+
 ## `random` (n) -> MudOS random(n).
 static func apply(state: CharacterState, victim: NpcDefinition, random: Callable) -> Result:
 	var result := Result.new()
@@ -91,10 +101,9 @@ static func _complete_quest(state: CharacterState, victim: NpcDefinition, random
 ## betrayal at all: a free way to change families. Here it costs what betraying
 ## costs (recruit.c): betrayer + 1 and score 0, and the player is told (ES2 is silent).
 static func _rebel(state: CharacterState, victim: NpcDefinition, result: Result) -> void:
-	var teaching: NpcTeaching = victim.teaching()
-	var generation: int = 0 if teaching == null else teaching.family_generation
-	if state.apprenticeship.master_teacher_id != victim.definition_id or state.family.generation != generation + 1:
+	if not is_own_master(state, victim):
 		return
+	var teaching: NpcTeaching = victim.teaching()
 	state.apprenticeship.betrayer_count += 1
 	state.progression.score = 0
 	var family_name: String = "" if teaching == null else teaching.family_name

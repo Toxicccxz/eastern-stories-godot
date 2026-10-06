@@ -49,10 +49,12 @@ signal interaction_changed
 @onready var busy_overlay: Control = %BusyOverlay
 @onready var busy_label: Label = %BusyLabel
 @onready var result_overlay: Control = %ResultOverlay
-@onready var result_label: Label = %ResultLabel
-@onready var confirm_button: Button = %ConfirmButton
-@onready var cancel_button: Button = %CancelButton
-@onready var acknowledge_button: Button = %AcknowledgeButton
+## A result is told, or asked about, through the shared ConfirmPrompt: confirm_button
+## is its choice (or the notice's 确定), cancel_button its 取消.
+@onready var result_prompt: ConfirmPrompt = %ResultPrompt
+@onready var result_label: Label = result_prompt.message
+@onready var confirm_button: Button = result_prompt.confirm_button
+@onready var cancel_button: Button = result_prompt.cancel_button
 
 ## Development runs keep their saves in the development slot; the release sanitizer
 ## drops this setting, so a release reads the release slot.
@@ -183,6 +185,11 @@ func configure_before_start(
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	result_label.custom_minimum_size.y = 76
+	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	result_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	result_prompt.confirmed.connect(_on_result_confirmed)
+	result_prompt.cancelled.connect(_on_result_cancelled)
 	male_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_MALE))
 	female_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_FEMALE))
 	journey_start_button.pressed.connect(submit_new_game_setup)
@@ -1054,25 +1061,21 @@ func _busy_text() -> String:
 
 
 func _render_result() -> void:
-	result_label.text = (
+	var text: String = (
 		ApplicationMessageCatalog.text_for(_last_result.message_key())
 		if _last_result != null
 		else ApplicationMessageCatalog.text_for(&"operation.session_failure")
 	)
-	var confirmation: bool = (
-		_last_result != null
-		and _last_result.outcome() == ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED
-	)
-	confirm_button.visible = confirmation
-	cancel_button.visible = confirmation
-	acknowledge_button.visible = not confirmation
-	confirm_button.disabled = not confirmation
-	cancel_button.disabled = not confirmation
-	acknowledge_button.disabled = confirmation
-	if confirmation and _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
-		confirm_button.text = "返回主菜单"
+	if not _result_asks():
+		result_prompt.tell(text)
+	elif _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
+		result_prompt.ask(text, "返回主菜单")
 	else:
-		confirm_button.text = "开始新游戏"
+		result_prompt.ask(text, "开始新游戏")
+
+
+func _result_asks() -> bool:
+	return _last_result != null and _last_result.outcome() == ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED
 
 
 func _configure_window_mode_options() -> void:
@@ -1141,7 +1144,6 @@ func _all_shell_focus_controls() -> Array[Control]:
 		recovery_cancel_button,
 		confirm_button,
 		cancel_button,
-		acknowledge_button,
 	]
 
 
@@ -1183,10 +1185,9 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(recovery_new_game_button)
 			controls.append(recovery_cancel_button)
 		ApplicationShellState.Mode.RESULT:
-			if confirm_button.visible:
-				controls = [confirm_button, cancel_button]
-			else:
-				controls = [acknowledge_button]
+			controls.append(confirm_button)
+			if cancel_button.visible:
+				controls.append(cancel_button)
 	if controls.is_empty():
 		return
 	for index: int in range(controls.size()):
@@ -1263,10 +1264,7 @@ func _focus_result_button() -> void:
 		return
 	if _state.mode() != ApplicationShellState.Mode.RESULT:
 		return
-	if confirm_button.visible:
-		confirm_button.grab_focus()
-	else:
-		acknowledge_button.grab_focus()
+	result_prompt.focus_default()
 
 
 func _on_new_game_button_pressed() -> void:
@@ -1328,13 +1326,16 @@ func _on_recovery_cancel_button_pressed() -> void:
 	cancel_recovery_choice()
 
 
-func _on_confirm_button_pressed() -> void:
-	confirm_current_result()
+## The prompt's choice confirms a question; a notice's 确定 dismisses it.
+func _on_result_confirmed() -> void:
+	_rearm_result(confirm_current_result() if _result_asks() else dismiss_current_result())
 
 
-func _on_cancel_button_pressed() -> void:
-	dismiss_current_result()
+func _on_result_cancelled() -> void:
+	_rearm_result(dismiss_current_result())
 
 
-func _on_acknowledge_button_pressed() -> void:
-	dismiss_current_result()
+## An answer the shell could not take now (interaction not allowed) asks again.
+func _rearm_result(done: bool) -> void:
+	if not done and _state.mode() == ApplicationShellState.Mode.RESULT:
+		_render_result()

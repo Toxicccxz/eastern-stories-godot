@@ -1,5 +1,24 @@
 # Migration Decisions
 
+## Ask before an important or deadly choice (2026-10-06)
+
+Owner: every important or deadly choice is asked first, through one reusable component
+(`ConfirmPrompt`, `game/ui/common`) that the unified UI can restyle later. ES2 asks nothing;
+the rules themselves are unchanged.
+- **Asked**: 攻击 on one's own master (the kill is a betrayal, 3C); 切磋 while the player or the
+  NPC holds a weapon (an armed spar wounds and can kill; the log's 刀剑无眼 hint stays); 化尸粉
+  on a corpse that still holds things (dust.c destructs it whole); the first master's 拜师
+  (changing family later is a betrayal). 3B's betrayal, the hockshop's sale and the menu's 开始新游戏
+  and 返回主菜单 now use the same component.
+- 拜师 asks only when it will take place: the master's requirements hold and no request already
+  waits on him (apprentice.c then only says 对方还没有答应). 3B asked a member of another family
+  even when the master was going to refuse.
+- 取消 holds the focus, and closing the panel (关闭, Back) answers 取消; the menu's two questions
+  used to focus their choice.
+- **Not asked**: ordinary 攻击, 逃跑, 投降 and 运功 (the action is the intent), 老松岭's 藤蔓 and
+  埋骨 (a fall only lands elsewhere), the 宝官's bet.
+- With 水烟阁: 於兰天武's three-blow test, 天邪虎啸 and powerfade in a fight.
+
 ## 绮云镇 3D: the 赌场 and the 红娘庄 (2026-10-06)
 
 - **The 宝官 takes bets** (judge.c accept_object()): money given to him is a bet on 小, anything

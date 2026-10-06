@@ -1646,6 +1646,11 @@ func dissolvable_corpse_name() -> String:
 	return corpse.victim_display_name
 
 
+## How many things lie in the corpse 化尸粉 would dissolve (dust.c destructs it whole).
+func dissolvable_corpse_contents() -> int:
+	return 0 if dissolvable_corpse_name().is_empty() else _corpse_content_count(_selected_corpse())
+
+
 ## The 化尸粉 a character carries directly (present(), first found), or empty.
 func _carried_dissolver(holder: ContainmentEndpoint) -> StringName:
 	for item_id: StringName in _inventory.direct_children(holder):
@@ -2606,7 +2611,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
 	if not started:
 		lines.append(tr("看起来%s并不想跟你较量。") % name)
-	elif not consent.kill and (not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()):
+	elif not consent.kill and spar_is_armed(target):
 		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
 		# blade draws blood. Native hint; ES2 says nothing here.
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
@@ -2615,6 +2620,14 @@ func spar_selected() -> CombatSliceInitiationResult:
 	else:
 		_hud().append_log_lines(lines)
 	return result
+
+
+## Whether a spar with `target` is fought with a weapon in hand (the player's or
+## its): combatd.c then wounds as in a fight to the death.
+func spar_is_armed(target: NpcRuntimeState) -> bool:
+	return target != null and _player != null and (
+		not _player.state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()
+	)
 
 
 ## cmds/std/ask.c: the selected NPC can be asked when it speaks and is here
