@@ -286,6 +286,9 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var progression := Values.ProgressionSnapshot.new(_int64(progression_object.get("combat_experience"), path + ".progression.combat_experience"), _int64(progression_object.get("potential"), path + ".progression.potential"), _int64(progression_object.get("potential_spent"), path + ".progression.potential_spent"))
 	if progression_object.has("score"):
 		progression.score = _int64(progression_object.get("score"), path + ".progression.score")
+		# Written only when it is not 0, as marks only when there are some.
+		if not _error and progression.score == 0:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.score", "0 is never written")
 	var skills_object: Dictionary = _obj(object["skills"], path + ".skills", ["has_skills_mapping", "has_learned_mapping", "raw_levels", "learned_progress", "mappings"])
 	var raw: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("raw_levels"), path + ".skills.raw_levels")
 	var learned: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("learned_progress"), path + ".skills.learned_progress")

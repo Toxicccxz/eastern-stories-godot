@@ -99,7 +99,8 @@
 					"progression": {
 						"combat_experience": 600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -250,7 +251,8 @@
 					"progression": {
 						"combat_experience": 600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -401,7 +403,8 @@
 					"progression": {
 						"combat_experience": 600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -552,7 +555,8 @@
 					"progression": {
 						"combat_experience": 900.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -776,7 +780,8 @@
 					"progression": {
 						"combat_experience": 500.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -979,7 +984,8 @@
 					"progression": {
 						"combat_experience": 40000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -1112,7 +1118,8 @@
 					"progression": {
 						"combat_experience": 10000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -1259,7 +1266,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -1410,7 +1418,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -1561,7 +1570,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -1712,7 +1722,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -1863,7 +1874,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -2014,7 +2026,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -2238,7 +2251,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -2462,7 +2476,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -2686,7 +2701,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -2910,7 +2926,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -3210,7 +3227,8 @@
 					"progression": {
 						"combat_experience": 260000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -3362,7 +3380,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -3513,7 +3532,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -3664,7 +3684,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -3815,7 +3836,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -3966,7 +3988,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4095,7 +4118,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4220,7 +4244,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4345,7 +4370,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4470,7 +4496,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4595,7 +4622,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4720,7 +4748,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4845,7 +4874,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -4970,7 +5000,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5095,7 +5126,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5220,7 +5252,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5345,7 +5378,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5565,7 +5599,8 @@
 					"progression": {
 						"combat_experience": 6000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5696,7 +5731,8 @@
 					"progression": {
 						"combat_experience": 30000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5848,7 +5884,8 @@
 					"progression": {
 						"combat_experience": 600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -5999,7 +6036,8 @@
 					"progression": {
 						"combat_experience": 600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -6150,7 +6188,8 @@
 					"progression": {
 						"combat_experience": 600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -6301,7 +6340,8 @@
 					"progression": {
 						"combat_experience": 900.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -6525,7 +6565,8 @@
 					"progression": {
 						"combat_experience": 500.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -6728,7 +6769,8 @@
 					"progression": {
 						"combat_experience": 40000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -6861,7 +6903,8 @@
 					"progression": {
 						"combat_experience": 10000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7008,7 +7051,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7159,7 +7203,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7310,7 +7355,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7461,7 +7507,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7612,7 +7659,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7763,7 +7811,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -7987,7 +8036,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -8211,7 +8261,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -8435,7 +8486,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -8659,7 +8711,8 @@
 					"progression": {
 						"combat_experience": 50000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -8959,7 +9012,8 @@
 					"progression": {
 						"combat_experience": 260000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9111,7 +9165,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9262,7 +9317,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9413,7 +9469,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9564,7 +9621,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9715,7 +9773,8 @@
 					"progression": {
 						"combat_experience": 3600.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9844,7 +9903,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -9969,7 +10029,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10094,7 +10155,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10219,7 +10281,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10344,7 +10407,8 @@
 					"progression": {
 						"combat_experience": 250000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10469,7 +10533,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10594,7 +10659,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10719,7 +10785,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10844,7 +10911,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -10969,7 +11037,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -11094,7 +11163,8 @@
 					"progression": {
 						"combat_experience": 100.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -11314,7 +11384,8 @@
 					"progression": {
 						"combat_experience": 6000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {
@@ -11445,7 +11516,8 @@
 					"progression": {
 						"combat_experience": 30000.0,
 						"potential": 0.0,
-						"potential_spent": 0.0
+						"potential_spent": 0.0,
+						"score": 0.0
 					},
 					"recovery": {
 						"atman": {

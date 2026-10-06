@@ -5,7 +5,8 @@
 - **Changing family is ported** (the Snow entry's deferred betrayal): an NPC master recruits
   through recruit.c, so a member of another family who is taken says 你决定背叛师门, gets score 0
   and betrayer + 1, and the new family, master, title, class and entry time replace the old ones.
-  A member of the same family only changes master.
+  A member of the same family is recruited as anyone else (new master, generation, title,
+  class and entry time), without the betrayal's lines and penalties.
 - **The player's score** (综合评价) is kept and saved (only when it is not 0); betrayal sets it to
   0. Nothing shows it or adds to it before 3C's quests.
 - **look.c's relation** (他是你的师父, 同门师兄, 师叔 …) is the last line of 目标详情 for an NPC

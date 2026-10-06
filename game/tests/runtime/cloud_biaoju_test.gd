@@ -32,6 +32,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_practice()
 	_test_gifts()
 	_test_relations()
+	_test_loaders()
 	var session: OldPineWorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -57,7 +58,13 @@ func _test_data() -> void:
 	var placed: bool = false
 	for spawn: ItemSpawnDefinition in catalog.item_spawns():
 		placed = placed or spawn.item_definition_id == GRASS
-	_check(not placed, "no room places a 忘忧草 before 乔阴县城 (lion.c's die())")
+	for npc: NpcDefinition in catalog.npcs():
+		for entry: NpcLoadoutEntry in npc.loadout_entries():
+			placed = placed or entry.item_definition_id == GRASS
+	for vendor: VendorDefinition in catalog.vendors():
+		for key: String in vendor.goods_keys():
+			placed = placed or vendor.item_definition_id(key) == GRASS
+	_check(not placed, "nothing places, carries or sells a 忘忧草 before 乔阴县城 (lion.c's die())")
 
 
 ## attempt_apprentice(): query_cor() (effective) below 25 refuses; cps does not count.
@@ -195,9 +202,32 @@ func _test_gifts() -> void:
 	offer.giver_family = FAMILY
 	rule = NpcObjectRule.decide(rules, offer)
 	_check(rule.accept and rule.lines[0].sentence("陈剑秋", "") == "陈剑秋笑了笑说：“这不是你得到的吧？”。", "a member's 忘忧草 without master_id: 这不是你得到的吧")
-	offer.item_name = "十文钱"
+	offer.item_name = "钱"
 	offer.value = 10
 	_check(NpcObjectRule.decide(rules, offer).lines[0].text == "你拿什么东西唬我？", "money: the same anger")
+
+
+## The new record fields are checked when content loads.
+func _test_loaders() -> void:
+	var cases: Dictionary[String, Dictionary] = {
+		"not a skill_type enable.c knows": {"weapon": "spear", "weapon_fail": "x", "kee": 1},
+		"goes with weapon": {"weapon": "blade", "kee": 1},
+		"checks no weapon": {"refuses": true, "weapon_fail": "x"},
+	}
+	for message: String in cases:
+		var errors: Array[String] = []
+		SkillDefinition.from_record(ContentRecordReader.new({"id": "test-blade", "name": "测试刀法", "kind": "specialized", "type": "martial", "enable": ["blade"], "legacy_source": "daemon/skill/test.c", "practice": cases[message]}, "skills[0]", errors))
+		_check(errors.any(func(line: String) -> bool: return line.contains(message)), "practice %s: %s" % [cases[message], errors])
+	var orphan: Array[String] = []
+	SkillDefinition.from_record(ContentRecordReader.new({"id": "test-blade", "name": "测试刀法", "kind": "specialized", "type": "martial", "enable": ["blade"], "legacy_source": "daemon/skill/test.c", "practice": {"weapon_fail": "x", "kee": 1}}, "skills[0]", orphan))
+	_check(orphan.any(func(line: String) -> bool: return line.contains("goes with weapon")), "weapon_fail alone: " + str(orphan))
+	var builder := ContentCatalogBuilder.new()
+	builder.add_document({"npcs": [{"id": "test.npc", "legacy_source": "test.c", "name": "测试", "accept_object": [
+		{"giver_family": "family.nobody", "say": "x", "accept": true},
+		{"item_name": "无此物", "say": "y", "accept": true},
+	]}]}, "test.json")
+	builder.build()
+	_check(builder.errors().any(func(line: String) -> bool: return line.contains("unknown family 'family.nobody'")) and builder.errors().any(func(line: String) -> bool: return line.contains("no item named '无此物'")), "accept_object names a known family and item: " + str(builder.errors().slice(0, 6)))
 
 
 ## look.c's relation between members of one family.
@@ -230,8 +260,10 @@ func _test_in_the_biaoju(tree: SceneTree, session: OldPineWorldSessionController
 	await tree.physics_frame
 	var school: TeacherService = map.service(&"cloud.outdoor.biaoju.b_header") as TeacherService
 	_check(school != null and school.can_teach() and school.takes_apprentices(), "he takes apprentices")
-	_check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED and school.last_lines[1] == "陈剑秋说道：很好，小姑娘多加努力，本镖局不会亏待你的。", "拜师: " + str(school.last_lines))
-	_check(player.shown_title() == "振远镖局第二代弟子", "the title: " + player.shown_title())
+	Master.recruit(player.state, 1789420000) # TEST-ONLY: 柳淳风's disciple without the walk to Snow
+	_check(player.shown_title() == "封山剑派第十四代弟子", "封山剑派's disciple: " + player.shown_title())
+	_check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED and school.last_lines.slice(1, 3) == ["陈剑秋说道：很好，小姑娘多加努力，本镖局不会亏待你的。", "你决定背叛师门，改投入陈剑秋门下！！"], "拜师 betrays 封山剑派: " + str(school.last_lines))
+	_check(player.shown_title() == "振远镖局第二代弟子" and player.facts.title == "振远镖局第二代弟子" and player.state.apprenticeship.betrayer_count == 1, "the title kept and shown: " + player.shown_title())
 	var result: LearnResult = school.request_learn(&"blade")
 	_check(result.success and school.last_lines[0] == "你向陈剑秋请教有关「基本刀法」的疑问。", "请教 基本刀法: " + str(school.last_lines))
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -253,6 +285,18 @@ func _test_in_the_biaoju(tree: SceneTree, session: OldPineWorldSessionController
 	var work: RefCounted = Work.new()
 	await work.round_trip(tree, session, Work.capture(session), "a 振远镖局 apprentice with a score")
 	_check(work._failures.is_empty(), "Save/Continue: " + str(work._failures))
+	var root: Dictionary = JSON.parse_string(encoded)
+	var cases: Dictionary[String, Array] = {
+		"\"0\"": ["0", GameSaveResult.Outcome.INVALID_FIELD_TYPE], "a number": [5, GameSaveResult.Outcome.INVALID_FIELD_TYPE],
+		"\"05\"": ["05", GameSaveResult.Outcome.INVALID_INTEGER],
+	}
+	for label: String in cases:
+		var broken: Dictionary = root.duplicate(true)
+		broken["player"]["character"]["progression"]["score"] = cases[label][0]
+		_check(GameSaveJsonCodec.decode(JSON.stringify(broken)).outcome == cases[label][1], "a saved score of %s is refused" % label)
+	var typo: Dictionary = root.duplicate(true)
+	typo["player"]["character"]["progression"]["scores"] = "5"
+	_check(GameSaveJsonCodec.decode(JSON.stringify(typo)).outcome == GameSaveResult.Outcome.INVALID_ROOT, "an unknown progression field is still refused")
 	player.state.progression.score = 0
 	_check(not GameSaveJsonCodec.encode(Work.capture(session)).text.contains("\"score\""), "score 0 is not written")
 

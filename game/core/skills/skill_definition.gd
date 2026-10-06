@@ -146,6 +146,9 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		definition.practice_weapon_fail = practice.text("weapon_fail")
 		if practice.boolean("refuses", false):
 			definition._practice = UnpracticeablePracticePolicy.new(definition.skill_id)
+			# kee, force and weapon stay unread (finish() reports them); weapon_fail was read above.
+			if practice.has("weapon_fail"):
+				practice.fail("weapon_fail", "a skill that refuses practice checks no weapon")
 		else:
 			var kee: int = practice.integer("kee")
 			var force: int = practice.integer("force")
