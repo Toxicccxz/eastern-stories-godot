@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Recovery := preload("res://tests/runtime/player_recovery_cadence_test.gd")
 const Food := preload("res://tests/runtime/snow_dumpling_test.gd")
@@ -40,7 +41,7 @@ func definition_tests() -> void:
 		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
-	check(_portal_ids(&"snow.outdoor") == [SnowWorldDefinitions.INN_RETURN_PORTAL_ID, SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID, &"snow.crossroad.north", &"snow.sroad1.south", &"snow.weapon_storage.down"], "external portals: Old Pine, 野羊山 (crossroad north), 卧龙岗 (sroad1 south) and the weapon storage's way down (4C)")
+	check(_portal_ids(&"snow.outdoor") == WorldCounts.ids("snow_outdoor_portals"), "external portals: Old Pine, 野羊山 (crossroad north), 卧龙岗 (sroad1 south), 水烟阁 (sroad5 west) and the weapon storage's way down (world_counts.json)")
 
 
 func _portal_ids(map_id: StringName) -> Array[StringName]:

@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const OldPineWorld := preload("res://data/oldpine/oldpine_world_definitions.gd")
 const SnowWorld := preload("res://data/snow/snow_world_definitions.gd")
 
@@ -35,7 +36,7 @@ func _test_maps_have_scenes() -> void:
 		_assert_true(catalog.region(map.region_id) != null, "%s region resolves" % map.map_id)
 		_assert_true(ResourceLoader.exists(map.scene_path), "%s scene exists: %s" % [map.map_id, map.scene_path])
 		_assert_false(catalog.zones_for_map(map.map_id).is_empty(), "%s has zones" % map.map_id)
-	_assert_eq(ids, [SnowWorld.INN_MAP_ID, SnowWorld.OUTDOOR_MAP_ID, &"snow.inn_upstairs", &"snow.cellar", OldPineWorld.OUTDOOR_MAP_ID, OldPineWorld.CAVE_MAP_ID, OldPineWorld.GORGE_MAP_ID, OldPineWorld.TREE_MAP_ID, OldPineWorld.CLIFF_MAP_ID, &"oldpine.stone", &"oldpine.caves", &"oldpine.cliff2", &"goathill.mountain", &"goathill.caverns", &"cloud.outdoor", &"cloud.upstairs"], "maps with a scene")
+	_assert_eq(ids, WorldCounts.ids("maps"), "maps with a scene (world_counts.json)")
 	_assert_eq(catalog.region(OldPineWorld.REGION_ID).display_name, "老松岭", "Old Pine region name")
 	_assert_eq(catalog.region(SnowWorld.REGION_ID).display_name, "雪亭镇", "Snow region name")
 
@@ -57,7 +58,7 @@ func _test_zones_and_rooms() -> void:
 			_assert_false(rooms.has(room_id), "%s is in one zone" % room_id)
 			rooms[room_id] = true
 			_assert_true(catalog.room(room_id) != null, "%s resolves" % room_id)
-	_assert_eq(rooms.size(), 136, "37 Snow, 41 Old Pine, 15 野羊山 and 43 绮云镇 rooms are playable")
+	_assert_eq(rooms.size(), WorldCounts.number("rooms"), "the playable rooms (world_counts.json)")
 	_assert_eq(
 		catalog.zone(OldPineWorld.SLOPE_ZONE_ID).room_ids(),
 		[&"es2:d/oldpine/spath1", &"es2:d/oldpine/spath2", &"es2:d/oldpine/spath3", &"es2:d/oldpine/spath4"],
@@ -103,7 +104,7 @@ func _test_portals() -> void:
 	var south: PortalDefinition = catalog.portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	_assert_eq(south.source_map_id, SnowWorld.OUTDOOR_MAP_ID, "Snow south road starts in Snow")
 	_assert_eq(south.destination_map_id, OldPineWorld.OUTDOOR_MAP_ID, "and ends in Old Pine")
-	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 5, "Snow outdoor: Inn door, Old Pine road, 野羊山 north, 卧龙岗 south and the weapon storage's hidden way down")
+	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), WorldCounts.ids("snow_outdoor_portals").size(), "Snow outdoor: Inn door, Old Pine road, 野羊山 north, 卧龙岗 south, 水烟阁 west and the weapon storage's hidden way down")
 	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 5, "Old Pine forest: Snow road, pine, two vine branches, cliffdown")
 	# One map per height level (DECISIONS 3B5): every Old Pine move that is not a walk changes map.
 	for map: MapDefinition in catalog.maps():

@@ -33,6 +33,11 @@
 		"cloud/item_spawns.json",
 		"cloud/vendors.json",
 		"cloud/rooms.json",
-		"cloud/world.json"
+		"cloud/world.json",
+		"waterfog/items.json",
+		"waterfog/npcs.json",
+		"waterfog/spawns.json",
+		"waterfog/rooms.json",
+		"waterfog/world.json"
 	]
 }

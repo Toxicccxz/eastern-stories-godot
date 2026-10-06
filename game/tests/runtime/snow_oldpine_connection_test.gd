@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Entry := preload("res://tests/qa/nge4_source_entry.gd")
 const PriorRoute := preload("res://tests/runtime/snow_outdoor_route_test.gd")
 var _count: int = 0
@@ -30,9 +31,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var combat_rng: int = session.combat_random_source().capture_random_state().state
 	var world_rng: int = session.world_interaction_random_source().capture_random_state().state
 	_check(session.active_map_id() == &"snow.inn" and player.world_location().same_location(SnowWorldDefinitions.birth_location()), "inactive Old Pine initialization leaves authoritative Inn birth")
-	_check(npc_ids.size() == 23 and session.world_npcs().size() == 143 and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "36 Old Pine, thirty-six Snow, eighteen 野羊山 and fifty-three 绮云镇 NPCs initialized exactly once")
-	_check(session.resident_map_count() == 16, "source profile includes the eight Old Pine maps, Snow's Inn, outdoor, upstairs and cellar, 野羊山's two and 绮云镇's two")
-	_check(session.inventory_state().registered_item_ids().size() == 230, "source cloth plus Old Pine, forty-four Snow, fourteen 野羊山 and 110 绮云镇 NPC loadout items, and the items on the floor (the 斋院's three 包子 too)")
+	_check(npc_ids.size() == 23 and session.world_npcs().size() == WorldCounts.number("world_npcs") and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "every region's NPCs initialized exactly once (world_counts.json)")
+	_check(session.resident_map_count() == WorldCounts.number("resident_maps"), "source profile includes every region's maps (world_counts.json)")
+	_check(session.inventory_state().registered_item_ids().size() == WorldCounts.number("new_game_items"), "source cloth plus every NPC's loadout and the items on the floor (world_counts.json)")
 	_check(session.encounter_display_name(player.character_id) == "Snow Player", "presentation projects source name")
 	_check((session.active_map().runtime_player_body().get_node("NameLabel") as Label).text == "Snow Player", "body label projects source identity")
 	_continuity(session, identities, cloth)
@@ -45,7 +46,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).spawn_matches_zone(south.destination_spawn_point_id, south.destination_zone_id), "north marker physically inside North Approach")
 	var snow: WorldResidentMapController = session.resident_map(&"snow.outdoor")
 	_check(snow.spawn_matches_zone(north.destination_spawn_point_id, north.destination_zone_id), "return marker physically inside eroad3")
-	_check(snow._passages.size() == 5 and _passages_to(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 1, "Snow's outdoor passages: the Inn, Old Pine, 野羊山, 卧龙岗 and the hidden way down")
+	_check(snow._passages.size() == WorldCounts.number("snow_outdoor_passages") and _passages_to(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 1, "Snow's outdoor passages: the Inn, Old Pine, 野羊山, 卧龙岗, 水烟阁 and the hidden way down")
 	_check(not snow.is_passage_current(south), "inactive/remote passage rejected")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-11T00:00:00Z")
 	_check(capture.succeeded() and capture.snapshot.metadata.schema_version == 2, "source Session saves current schema2")
@@ -88,9 +89,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# (Old Pine B); then 野羊山's 32 and 绮云镇's 325 (3A). Old Pine's
 	# draws are a shared prefix.
 	var technical_draws: NpcInitializationRandomSource = technical.npc_random_source()
-	for draw: int in range(608):
+	for draw: int in range(WorldCounts.number("npc_draws_after_oldpine")):
 		technical_draws.next_below(10)
-	_check(technical_draws.capture_random_state().state == npc_rng, "source birth consumes zero NPC RNG; Old Pine draws first, then Snow's 251, 野羊山's 32 and 绮云镇's 325")
+	_check(technical_draws.capture_random_state().state == npc_rng, "source birth consumes zero NPC RNG; Old Pine draws first, then every other region's (world_counts.json)")
 	_check(OldPineWorldSaveCapture.new().capture(technical, &"development", "2026-09-11T00:00:00Z").succeeded(), "technical v1 capture preserved")
 	technical.free()
 	await tree.process_frame

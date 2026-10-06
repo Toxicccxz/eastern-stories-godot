@@ -4,7 +4,7 @@ extends RefCounted
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
-## `doors`, `landmarks`, `traps`, `skills`, `families`, `race_actions`, `weapon_actions`,
+## `doors`, `landmarks`, `traps`, `exit_rules`, `skills`, `families`, `race_actions`, `weapon_actions`,
 ## `quest_tiers` arrays, and at most one document has the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
@@ -22,6 +22,7 @@ var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
+var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
@@ -99,6 +100,10 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: RoomTrapDefinition = RoomTrapDefinition.from_record(record)
 		if _claim(definition.trap_id, record):
 			_traps[definition.trap_id] = definition
+	for record: ContentRecordReader in reader.children("exit_rules"):
+		var definition: ZoneExitRuleDefinition = ZoneExitRuleDefinition.from_record(record)
+		if _claim(definition.rule_id, record):
+			_exit_rules[definition.rule_id] = definition
 	for record: ContentRecordReader in reader.children("skills"):
 		var definition: SkillDefinition = SkillDefinition.from_record(record)
 		if _claim(definition.skill_id, record):
@@ -136,6 +141,7 @@ func build() -> ContentCatalog:
 	_resolve_doors()
 	_resolve_landmarks()
 	_check_traps()
+	_check_exit_rules()
 	_check_combat_data()
 	_check_quest_tiers()
 	if _pacing == null:
@@ -145,6 +151,7 @@ func build() -> ContentCatalog:
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
 	catalog.set_places(_services, _doors, _landmarks, _traps)
+	catalog.set_exit_rules(_exit_rules)
 	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
 	catalog.set_teaching(_skills, _families)
@@ -422,6 +429,22 @@ func _check_traps() -> void:
 			var spawn: NpcSpawnDefinition = _spawns.get(trap.summon_spawn_id)
 			if spawn == null or not spawn.summoned or spawn.zone_id != trap.from_zone_id:
 				_errors.append("%s.summon: '%s' must be a summoned spawn of %s" % [origin, trap.summon_spawn_id, trap.from_zone_id])
+
+
+## An exit rule refuses a way between two zones a room exit joins, in a room of the
+## first, while an NPC that exists is present.
+func _check_exit_rules() -> void:
+	for rule_id: StringName in _exit_rules.keys():
+		var rule: ZoneExitRuleDefinition = _exit_rules[rule_id]
+		var origin: String = _origins[rule_id]
+		for zone_id: StringName in [rule.from_zone_id, rule.to_zone_id]:
+			if not _zones.has(zone_id):
+				_errors.append("%s: unknown zone '%s'" % [origin, zone_id])
+		var from_zone: ZoneDefinition = _zones.get(rule.from_zone_id)
+		if from_zone != null and not from_zone.room_ids().has(rule.room_id):
+			_errors.append("%s.room: '%s' is not a room of %s" % [origin, rule.room_id, rule.from_zone_id])
+		if not _npcs.has(rule.present_npc_id):
+			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 
 
 ## A landmark's portals leave from its own zone; a hidden passage's second

@@ -1,0 +1,58 @@
+{
+	"regions": [
+		{ "id": "waterfog", "name": "水烟阁" }
+	],
+	"maps": [
+		{ "id": "waterfog.mountain", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_mountain.tscn", "entry": "waterfog.sroad1.snow_entry" },
+		{ "id": "waterfog.pavilion", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_pavilion.tscn", "entry": "waterfog.entrance.yard_arrival" },
+		{ "id": "waterfog.upstairs", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_upstairs.tscn", "entry": "waterfog.west_2f.stairs_arrival" }
+	],
+	"zones": [
+		{ "id": "waterfog.sroad1", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/sroad1"] },
+		{ "id": "waterfog.sroad2", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/sroad2"] },
+		{ "id": "waterfog.sroad3", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/sroad3"] },
+		{ "id": "waterfog.stair1", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/stair1"] },
+		{ "id": "waterfog.stair2", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/stair2"] },
+		{ "id": "waterfog.stair3", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/stair3"] },
+		{ "id": "waterfog.stair4", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/stair4"] },
+		{ "id": "waterfog.clifftop", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/clifftop"] },
+		{ "id": "waterfog.stair5", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/stair5"] },
+		{ "id": "waterfog.frontyard", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/frontyard"] },
+		{ "id": "waterfog.wpath1", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/wpath1"] },
+		{ "id": "waterfog.wpath2", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/wpath2"] },
+		{ "id": "waterfog.wpath3", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/wpath3"] },
+		{ "id": "waterfog.wpath4", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/wpath4"] },
+		{ "id": "waterfog.wpath5", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/wpath5"] },
+		{ "id": "waterfog.swordtomb", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/swordtomb"] },
+		{ "id": "waterfog.entrance", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/entrance"] },
+		{ "id": "waterfog.guildhall", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/guildhall", "es2:daemon/class/fighter/guildhall"] },
+		{ "id": "waterfog.westhall", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/westhall"] },
+		{ "id": "waterfog.easthall", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/easthall"] },
+		{ "id": "waterfog.weststair", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/weststair"] },
+		{ "id": "waterfog.eaststair", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/eaststair"] },
+		{ "id": "waterfog.storage", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/storage"] },
+		{ "id": "waterfog.servroom", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/servroom"] },
+		{ "id": "waterfog.kitchen", "map": "waterfog.pavilion", "rooms": ["es2:d/waterfog/kitchen"] },
+		{ "id": "waterfog.west_2f", "map": "waterfog.upstairs", "rooms": ["es2:d/waterfog/west_2f"] },
+		{ "id": "waterfog.forehall", "map": "waterfog.upstairs", "rooms": ["es2:d/waterfog/forehall"] },
+		{ "id": "waterfog.east_2f", "map": "waterfog.upstairs", "rooms": ["es2:d/waterfog/east_2f"] }
+	],
+	"portals": [
+		{ "id": "waterfog.sroad1.east", "from_zone": "waterfog.sroad1", "to_zone": "snow.sroad5", "to_spawn": "snow.sroad5.waterfog_return", "legacy_room": "es2:d/waterfog/sroad1", "legacy_command": "east" },
+		{ "id": "waterfog.frontyard.north", "from_zone": "waterfog.frontyard", "to_zone": "waterfog.entrance", "to_spawn": "waterfog.entrance.yard_arrival", "legacy_room": "es2:d/waterfog/frontyard", "legacy_command": "north" },
+		{ "id": "waterfog.entrance.south", "from_zone": "waterfog.entrance", "to_zone": "waterfog.frontyard", "to_spawn": "waterfog.frontyard.gate_return", "legacy_room": "es2:d/waterfog/entrance", "legacy_command": "south" },
+		{ "id": "waterfog.weststair.up", "from_zone": "waterfog.weststair", "to_zone": "waterfog.west_2f", "to_spawn": "waterfog.west_2f.stairs_arrival", "legacy_room": "es2:d/waterfog/weststair", "legacy_command": "up" },
+		{ "id": "waterfog.west_2f.down", "from_zone": "waterfog.west_2f", "to_zone": "waterfog.weststair", "to_spawn": "waterfog.weststair.stairs_return", "legacy_room": "es2:d/waterfog/west_2f", "legacy_command": "down" },
+		{ "id": "waterfog.eaststair.up", "from_zone": "waterfog.eaststair", "to_zone": "waterfog.east_2f", "to_spawn": "waterfog.east_2f.stairs_arrival", "legacy_room": "es2:d/waterfog/eaststair", "legacy_command": "up" },
+		{ "id": "waterfog.east_2f.down", "from_zone": "waterfog.east_2f", "to_zone": "waterfog.eaststair", "to_spawn": "waterfog.eaststair.stairs_return", "legacy_room": "es2:d/waterfog/east_2f", "legacy_command": "down" }
+	],
+	"doors": [],
+	"landmarks": [
+		{"id": "waterfog.guildhall.landmark.sign", "zone": "waterfog.guildhall", "name": "樟木匾", "policy": "look", "long": "要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n一份子，只要你加入(join)武者同盟，就可以向同盟中的各大门派拜师\n学艺。\n", "legacy_source": "d/waterfog/guildhall.c"},
+		{"id": "waterfog.wpath2.landmark.stone", "zone": "waterfog.wpath2", "name": "石碑", "policy": "look", "long": "石碑上面几个苍劲古朴的字写道：虹谷石台，乙丑年水烟阁第六代\n阁主关雨楼立。\n你仔细一看，这几个字迹丝毫没有斧凿痕迹，竟像是题字的人直接\n用手指在岩石上写出来一般。\n", "legacy_source": "d/waterfog/wpath2.c"},
+		{"id": "waterfog.swordtomb.landmark.monolith", "zone": "waterfog.swordtomb", "name": "石碑", "policy": "look", "long": "石碑上龙飞凤武地刻著几个大字：\n\n    风波剑神黎红药前辈葬剑于此，水烟阁第四代七长老比武\n    不胜，以奸计害人而自取其辱，武者皆不齿其小人行径，\n    合力击杀于此，甲辰年立此亭书铭其事以为后人殷鉴。\n\n                        第三代水烟阁主 于兰玫音\n                        第四代水烟阁主 聂    言   合立\n                        第五代水烟阁主 段 柏 山\n", "legacy_source": "d/waterfog/swordtomb.c"}
+	],
+	"exit_rules": [
+		{"id": "waterfog.entrance.weapons", "room": "es2:d/waterfog/entrance", "from_zone": "waterfog.entrance", "to_zone": "waterfog.guildhall", "when": "weapon_in_hand", "present": "waterfog.npc.guard", "lines": ["水烟阁武士喝道：慢著，进水烟阁，先放下你的兵刃！", "水烟阁武士挡住了你的去路。"], "legacy_source": "d/waterfog/entrance.c"}
+	]
+}

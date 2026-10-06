@@ -136,6 +136,54 @@
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",
 			"legacy_source": "daemon/skill/literate.c",
 			"improved_line": "由於你的勤学苦读，你的悟性提高了。", "improved_color": "HIW"
+		},
+		{
+			"id": "staff", "name": "基本杖法", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/staff.c"
+		},
+		{
+			"id": "throwing", "name": "基本暗器", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/throwing.c"
+		},
+		{
+			"id": "perception", "name": "听风辨器之术", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/perception.c"
+		},
+		{
+			"id": "celestrike", "name": "天邪神掌", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"legacy_source": "daemon/skill/celestrike.c",
+			"actions": [
+				{ "id": "da-tian-luo-shi-you", "action": "$N使出一招「大天罗式」，右掌穿出击向$n的$l", "force": 200, "damage_type": "瘀伤" },
+				{ "id": "da-tian-luo-shi-zuo", "action": "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l", "force": 170, "damage_type": "瘀伤" },
+				{ "id": "xiao-tian-luo-shi", "action": "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l", "force": 150, "damage_type": "瘀伤" },
+				{ "id": "xue-yang-san-lian-yue", "action": "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌", "force": 260, "damage_type": "瘀伤" },
+				{ "id": "ling-dong-wu-fang-gu", "action": "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l", "force": 240, "damage_type": "瘀伤" },
+				{ "id": "feng-lei-qi-xing-duan", "action": "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击", "force": 280, "damage_type": "瘀伤" },
+				{ "id": "qi-han-jiu-chong-tian", "action": "$N吐气扬声，一招「气撼九重天」双掌并力推出", "force": 320, "damage_type": "瘀伤" }
+			]
+		},
+		{
+			"id": "six-chaos-sword", "name": "六阴追魂剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"legacy_source": "daemon/skill/six-chaos-sword.c",
+			"actions": [
+				{ "id": "qun-mo-luan-wu", "action": "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑", "damage": 170, "damage_type": "刺伤" },
+				{ "id": "li-gui-chan-shen", "action": "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l", "damage": 60, "damage_type": "刺伤" },
+				{ "id": "bai-gui-ye-xing", "action": "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l", "damage_type": "刺伤" },
+				{ "id": "e-gui-lan-lu", "action": "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑", "damage": 40, "damage_type": "刺伤" },
+				{ "id": "gui-ying-chuang-chuang", "action": "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去", "damage": 120, "damage_type": "刺伤" },
+				{ "id": "qiu-fen-gui-chang", "action": "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去", "damage": 50, "damage_type": "刺伤" }
+			]
+		},
+		{
+			"id": "pyrobat-steps", "name": "火蝠身法", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"legacy_source": "daemon/skill/pyrobat-steps.c",
+			"dodge_messages": [
+				"可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。",
+				"$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。",
+				"$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。",
+				"却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。",
+				"只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+			]
 		}
 	]
 }

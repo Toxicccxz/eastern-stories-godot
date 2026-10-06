@@ -337,6 +337,7 @@ func refresh_live_state() -> void:
 	inventory_button.disabled = not player_available
 	portal_button.disabled = (
 		not landmark_available
+		or _selected_landmark.action_label.is_empty() # a sign is only looked at
 		or not _selected_landmark_source_available
 		or not player_available
 	)

@@ -10,12 +10,14 @@ extends RefCounted
 ## `open_seconds` (weapon_storage.c). `bury` buries the `buried` item lying in the
 ## zone and rolls the player's kar: the `reward` item falls, or the player falls
 ## through its portal (cave5.c do_bury()). A `portal` landmark may say its LPC
-## line (`use`, message_vision() to the mover) instead of the action's name.
+## line (`use`, message_vision() to the mover) instead of the action's name. A
+## `look` landmark is only looked at (a sign, a stone tablet): no action, no portal.
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
 	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"], "items": []},
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
+	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
 }
 
 var _landmark_id: StringName
@@ -111,7 +113,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		StringName(reader.required_text("zone")),
 		reader.required_text("name"),
 		reader.required_text("long"),
-		reader.required_text("action"),
+		reader.text("action") if reader.text("policy", "portal") == "look" else reader.required_text("action"),
 		StringName(reader.text("policy", "portal")),
 		portal_ids,
 		reader.boolean("contact", false),
@@ -129,6 +131,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("policy", "unsupported landmark policy '%s'" % definition.policy)
 		return definition
 	var rule: Dictionary = POLICIES[definition.policy]
+	if rule.get("no_action", false) and not definition.action_label.is_empty():
+		reader.fail("action", "a '%s' landmark is only looked at" % definition.policy)
 	if portal_ids.size() != int(rule["portals"]):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
@@ -190,8 +194,8 @@ func is_valid() -> bool:
 		and not _zone_id.is_empty()
 		and not _display_name.is_empty()
 		and not _description.is_empty()
-		and not _action_label.is_empty()
 		and POLICIES.has(_policy)
+		and _action_label.is_empty() == bool(POLICIES[_policy].get("no_action", false))
 		and _portal_ids.size() == int(POLICIES[_policy]["portals"])
 		and not _legacy_source_path.is_empty()
 	)

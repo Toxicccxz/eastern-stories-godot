@@ -37,7 +37,7 @@ func _test_rooms_and_text() -> void:
 	_check(catalog.room(&"es2:d/snow/hockshop2").long.begins_with("这里是丰登当铺的储藏室"), "room text verbatim")
 	# Exits out of Snow stay closed: d/canyon and d/waterfog are not migrated.
 	_check(catalog.room(&"es2:d/snow/sroad4").exits().get("southwest") == &"es2:d/canyon/road" and catalog.room(&"es2:d/canyon/road") == null, "sroad4 southwest leads nowhere yet")
-	_check(catalog.room(&"es2:d/snow/sroad5").exits().get("west") == &"es2:d/waterfog/sroad1" and catalog.portals_for_map(&"snow.outdoor").size() == 5, "sroad5 west leads nowhere yet; no portal but the Inn, Old Pine, (4C) the weapon storage's way down, 野羊山 and 卧龙岗")
+	_check(catalog.room(&"es2:d/snow/sroad5").exits().get("west") == &"es2:d/waterfog/sroad1" and catalog.portal(&"snow.sroad5.west") != null and catalog.portal(&"snow.sroad5.west").destination_zone_id == &"waterfog.sroad1", "sroad5 west leads to 水烟阁's 青石官道 (sroad1)")
 	# herbshop1.c (药铺密室) has no entrance anywhere in the mudlib.
 	_check(catalog.room(&"es2:d/snow/herbshop1") == null, "the herbshop's secret room is not migrated")
 

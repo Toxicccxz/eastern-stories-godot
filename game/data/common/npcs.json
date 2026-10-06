@@ -80,6 +80,154 @@
 			],
 			"chat_chance_combat": 15,
 			"chat_msg_combat": ["县城官兵喝道：还不快放下武器束手就缚？\n", "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"]
+		},
+		{
+			"id": "common.npc.fighter.champion",
+			"legacy_source": "daemon/class/fighter/champion.c",
+			"name": "於兰天武",
+			"aliases": ["master champion", "champion", "master"],
+			"nickname": "大天邪",
+			"title": "水烟阁传功使",
+			"gender": "男性",
+			"age": 54,
+			"long": "於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富\n以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论\n你有什麽武学上的疑难，他都能为你解答。\n",
+			"attributes": { "str": 30, "int": 30, "cor": 30, "cps": 30, "con": 30 },
+			"resources": { "force": 4000, "max_force": 2200 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 30,
+			"family": { "name": "天邪派", "generation": 15, "title": "弟子" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"sword": 80,
+				"blade": 80,
+				"parry": 100,
+				"dodge": 80,
+				"throwing": 50,
+				"celestial": 100,
+				"celestrike": 100,
+				"spring-blade": 80,
+				"pyrobat-steps": 90
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"blade": "spring-blade",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:daemon/class/fighter/houndbane", "source": "daemon/class/fighter/houndbane.c", "equip": "wield" }
+			],
+			"chat_chance_combat": 80,
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "powerup" },
+				{ "action": "exert", "function": "recover" }
+			],
+			"inquiry": {
+				"武学": ["武学之道....嗯....只可意会，不可言喻。\n"],
+				"水烟阁": ["水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"],
+				"拜师": ["哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试(accept test)？\n"]
+			}
+		},
+		{
+			"id": "common.npc.fighter.master",
+			"legacy_source": "daemon/class/fighter/master.c",
+			"name": "萧辟尘",
+			"aliases": ["master fighter", "master", "fighter"],
+			"nickname": "小天邪",
+			"gender": "男性",
+			"age": 24,
+			"long": "萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。\n",
+			"attributes": { "str": 26, "cor": 30, "int": 24, "cps": 30 },
+			"resources": { "force": 4000, "max_force": 2400 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 30,
+			"family": { "name": "天邪派", "generation": 16, "title": "弟子" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 100,
+				"sword": 60,
+				"blade": 40,
+				"throwing": 40,
+				"force": 100,
+				"parry": 60,
+				"dodge": 60,
+				"literate": 60,
+				"perception": 80,
+				"six-chaos-sword": 80,
+				"celestial": 100,
+				"celestrike": 100,
+				"stormdance": 50,
+				"pyrobat-steps": 50
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword",
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"dodge": "pyrobat-steps",
+				"move": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c" },
+				{ "item": "es2:daemon/class/fighter/icy_boot", "source": "daemon/class/fighter/icy_boot.c", "equip": "wear" },
+				{ "item": "es2:daemon/class/fighter/icy_girth", "source": "daemon/class/fighter/icy_girth.c", "equip": "wear" },
+				{ "item": "es2:daemon/class/fighter/icy_cloth", "source": "daemon/class/fighter/icy_cloth.c", "equip": "wear" },
+				{ "item": "es2:daemon/class/fighter/icy_ribbon", "source": "daemon/class/fighter/icy_ribbon.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 80,
+			"chat_msg_combat": [
+				{ "action": "match_weapon", "weapon": "sword", "armed": ["{respect}既然使兵刃，在下空手接招未免不敬。", "进招吧！"], "unarmed": ["既然{respect}不使兵刃，在下自然奉陪！"], "unarmed_many": ["嗯... 既然{count}位都是空手，在下理当奉陪！"] },
+				{ "action": "exert", "function": "powerup" },
+				{ "action": "exert", "function": "recover" }
+			]
+		},
+		{
+			"id": "common.npc.fighter.executioner",
+			"legacy_source": "daemon/class/fighter/executioner.c",
+			"name": "潘军禅",
+			"aliases": ["master executioner", "executioner", "master"],
+			"nickname": "书 剑 侠",
+			"title": "水烟阁执法使",
+			"gender": "男性",
+			"age": 28,
+			"long": "潘军禅是当今武林的一位传奇性人物，以他仅仅二十八岁的年龄竟能做到\n水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n出武林执法者的架子。\n",
+			"attributes": { "str": 30, "int": 30, "cor": 30, "cps": 30, "con": 30 },
+			"resources": { "force": 2000, "max_force": 2000 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 2,
+			"attitude": "friendly",
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"sword": 100,
+				"parry": 100,
+				"dodge": 100,
+				"celestial": 100,
+				"celestrike": 100,
+				"pyrobat-steps": 100,
+				"six-chaos-sword": 100
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"sword": "six-chaos-sword",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:daemon/class/fighter/soulimpaler", "source": "daemon/class/fighter/soulimpaler.c", "equip": "wield" }
+			],
+			"chat_chance_combat": 90,
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "powerup" },
+				{ "action": "exert", "function": "recover" }
+			]
 		}
 	]
 }
