@@ -3,7 +3,7 @@ extends RefCounted
 
 ## What a suite's run_all() returned, made safe to add up. A script error inside run_all()
 ## ends it early with no result; that becomes one failure naming the suite instead of an
-## error in the runner (which would stop run_tests.gd before it can quit).
+## error in the runner (which would stop run_suite.gd before it can quit).
 
 
 ## A fight that aborted on a failed attack chain or lifecycle is a failure too, unless

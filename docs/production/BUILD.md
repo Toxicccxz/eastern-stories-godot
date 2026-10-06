@@ -42,7 +42,8 @@ The stable order is:
 1. Python tooling unit tests;
 2. repository/static checks;
 3. development-project headless editor validation;
-4. canonical `game/tests/run_tests.gd` gameplay suite;
+4. every `game/tests/**/*_test.gd` suite, each in its own Godot process, several at once
+   (`--jobs N`, default the CPU count; logs in `build/verify-suites/logs/`);
 5. real sanitizer plus sanitized-project headless validation.
 
 Platform exports are intentionally separate from routine verification.
@@ -53,9 +54,10 @@ During development, run only the affected suites (a `*_test.gd` path or a direct
 <godot> --headless --path game --script res://tests/run_suite.gd -- tests/core tests/runtime/snow_inn_foundation_test.gd
 ```
 
-New suites must still be registered in `run_tests.gd`, which remains the canonical CI gate.
-Steps 3–5 also fail when Godot prints a `SCRIPT ERROR` line, even if every suite passed;
-`run_suite.gd` fails the suite that logged one.
+A new `*_test.gd` suite needs no registration: step 4 finds it. Each suite must pass on its own,
+not rely on what an earlier suite left behind. Steps 3–5 also fail when Godot prints a
+`SCRIPT ERROR` line, even if every suite passed; step 4 also fails a suite that times out, exits
+nonzero or returns no result.
 
 The Phase 10B4 QA bridge (F6 saves, F7 corrupts the development save) is opt-in:
 
