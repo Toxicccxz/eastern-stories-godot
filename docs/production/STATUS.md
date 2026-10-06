@@ -4,14 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Modern fixes** (`phase/modern-fixes`): ES2 behaviour that reads as a bug to today's players
-gets the reasonable behaviour, each a recorded deviation: a refused gift reads X没有收下。, 陈剑秋
-hands back what he refuses, shops list only what they sell, a theft is noticed, and a dose of 蛇药
-tells what poison is left. 3C (朱鸿雪's quests, killer_reward() for the player, 投降, the
-garrison's vendetta) is merged.
+**Pacing knobs** (`phase/pacing-knobs`): `common/pacing.json` gives the player ×3 combat exp and
+potential per gain, ×3 recovery per heal_up tick and 1.5 times 朱鸿雪's task time (a record
+without them is ES2's pace); 卧龙岗's robbers attack only a player still in their reach two
+seconds later, so a newcomer walks past. The nine maps the painter scripts drew are now generated
+from `tools/maps/layouts/` (`python -m tools.maps.paint`). Modern fixes and 3C are merged.
 
-Next: the pacing knobs (exp growth, exercise, the quests' deadlines, 卧龙岗's toll for new
-players), then 3D 赌场 betting and 红娘庄 marriage.
+Next: 3D 赌场 betting and 红娘庄 marriage.
 
 ## Playable now
 
@@ -47,7 +46,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
   巨岩蛭).
 * **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on two maps (the ridge and the
-  town; the three upper floors): 卧龙岗强盗 and their toll, six shops (书局, 肉铺, 药店, 杂货铺,
+  town; the three upper floors): 卧龙岗强盗 and their toll (walk straight past them; they attack
+whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
   the 木雕门 and 木门; joining 振远镖局 (陈剑秋, cor 25; betrayal from 封山剑派 and back), learning
@@ -84,9 +84,10 @@ Code:
   Wine makes nobody
   drunk yet (the drunk condition); the dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
-* At ES2's pace, exercise takes about 8–16 hours of play from max_force 0 to 50 (owner: a data
-  multiplier in the pacing knobs package); `tests/runtime/run_with_max_force.gd` gives a playtest
-  49. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions do not tick
+* With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30
+  (6.4 at ES2's pace); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
+  1001 (朱鸿雪's quests) still takes some 6–12 hours with a family's skills: past about 150 few
+  opponents are of the strength ES2 gives exp for. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions do not tick
   in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
@@ -116,5 +117,6 @@ Licensing: no root project license; ES2 rights are unresolved
 
 See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~3 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
--- <suite paths>`. A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
+-- <suite paths>`. The nine generated maps: edit `tools/maps/layouts/<region>.json`, then
+`python -m tools.maps.paint` (the tools tests fail on a hand-edited one). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).

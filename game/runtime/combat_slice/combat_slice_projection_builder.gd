@@ -201,6 +201,7 @@ static func build_progression_facts(
 	var attack_skill_id: StringName = (
 		primary.skill_type if primary != null else UNARMED_SKILL_ID
 	)
+	# The player's exp knob (pacing.json); NPCs grow at ES2's pace.
 	return CombatProgressionFacts.new(
 		binding.character_id,
 		binding.is_user,
@@ -208,6 +209,7 @@ static func build_progression_facts(
 		binding.state.attributes.spirituality,
 		attack_skill_id,
 		binding.content.has_attack_skill_definition(attack_skill_id),
+		GameContent.catalog().pacing().player_exp_gain if binding.is_user else 1,
 	)
 
 

@@ -13,6 +13,8 @@ const BASE_PULSE_SECONDS: float = 2.0
 var _random: RecoveryCadenceRandomSource
 var _conditions: ConditionSystem
 var _is_player_character: bool = true
+## Times what heal_up() restores (pacing.json player_recovery_gain for the player; 1 is ES2).
+var _recovery_gain: int = 1
 var _accumulator: float = 0.0
 var _source_tick: int = -1
 var _valid: bool = false
@@ -23,10 +25,11 @@ var source_tick: int:
 	get: return _source_tick
 
 
-func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true, conditions: ConditionSystem = null) -> void:
+func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true, conditions: ConditionSystem = null, recovery_gain: int = 1) -> void:
 	_random = random
 	_conditions = conditions if conditions != null else ConditionSystem.new()
 	_is_player_character = is_player_character
+	_recovery_gain = maxi(recovery_gain, 1)
 	if _random != null:
 		_source_tick = _random.draw_reset_tick()
 		_valid = _source_tick >= 5 and _source_tick <= 14
@@ -72,7 +75,7 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState) -> 
 			character.skills.raw_level(&"magic"), character.skills.raw_level(&"force"),
 			character.skills.raw_level(&"spells"),
 		)
-		result.last_update_count = CharacterRecovery.apply_tick(character, skills, _is_player_character, conditions.no_heal_up)
+		result.last_update_count = CharacterRecovery.apply_tick(character, skills, _is_player_character, conditions.no_heal_up, _recovery_gain)
 		result.opportunities += 1
 		# A condition that left the character below zero ends the advance here: the
 		# caller lets it fall (char.c heart_beat checks at the start of the next beat).

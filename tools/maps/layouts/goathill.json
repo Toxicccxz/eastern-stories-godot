@@ -1,0 +1,323 @@
+{
+  "maps": {
+    "mountain": {
+      "note": "野羊山: the road from Snow's crossroad climbs a gully between cliffs (mroad1), through knee-high weeds with the wooded slope to the west (mroad2), past the crack in the east wall that holds the small 土地庙 (temple1: a little house, its door on the road), up a steep pitch to the corner (mroad4), where the four bandits wait on a ledge inside the bend; east along the narrow road between big rocks and long grass (mroad5) to the rocky slope with its stone hut (slope1); north (mroad6) into the canyon, whose dry stream bed runs along the foot of the east wall (canyon1-3) to the black cave mouth.",
+      "file": "goathill_mountain.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [96, 160, 1552, 2336],
+        "zones": {
+          "goathill.mroad1": [288, 1872, 544, 2176, "rock"],
+          "goathill.mroad2": [240, 1568, 576, 1872, "grass"],
+          "goathill.mroad3": [448, 1344, 736, 1568, "grass"],
+          "goathill.temple1": [736, 1392, 960, 1584, "floor_wood"],
+          "goathill.mroad4": [560, 1120, 768, 1344, "rock"],
+          "goathill.mroad5": [768, 1152, 1024, 1296, "grass"],
+          "goathill.slope1": [1024, 1152, 1264, 1376, "rock"],
+          "goathill.mroad6": [928, 896, 1184, 1152, "rock"],
+          "goathill.canyon1": [928, 640, 1136, 896, "rock"],
+          "goathill.canyon2": [928, 384, 1136, 640, "rock"],
+          "goathill.canyon3": [1136, 288, 1408, 560, "rock"]
+        },
+        "lines": {
+          "roads": [
+            [
+              [416, 2208, 32, 32, 32, 0],
+              [416, 2096, 32, 44, 44, 6],
+              [404, 2000, 32, 56, 60, 12],
+              [376, 1912, 32, 64, 52, 12, "mroad1: a gully, cliffs both sides"],
+              [356, 1808, 32, 92, 64, 14],
+              [372, 1704, 32, 96, 76, 14, "mroad2: knee-high weeds, the wood to the west"],
+              [432, 1632, 32, 76, 64, 12],
+              [520, 1584, 32, 60, 52, 10],
+              [596, 1520, 32, 52, 44, 8, "mroad3: the temple's crack to the east"],
+              [632, 1456, 32, 44, 40, 4],
+              [640, 1392, 32, 34, 32, 0],
+              [640, 1344, 32, 32, 32, 0, "the steep pitch up to the corner: rock both sides"],
+              [640, 1216, 32, 52, 32, 6, "mroad4: the turn; the ledge inside it is drawn apart"],
+              [768, 1216, 32, 32, 32, 0],
+              [848, 1220, 32, 60, 64, 12, "mroad5: narrow, long grass, big rocks either side"],
+              [936, 1212, 32, 56, 52, 10],
+              [992, 1144, 32, 48, 48, 8],
+              [1036, 1056, 32, 60, 60, 12, "mroad6"],
+              [1044, 960, 32, 52, 52, 10],
+              [1032, 900, 28, 48, 36, 6, "the canyon's mouth under 飞火崖"],
+              [1060, 832, 20, 88, 20, 10, "canyon1-2: the dry bed along the foot of the east wall"],
+              [1088, 752, 20, 96, 20, 12],
+              [1084, 672, 20, 100, 20, 12],
+              [1064, 592, 20, 92, 20, 12],
+              [1072, 512, 20, 80, 24, 10],
+              [1104, 456, 20, 64, 40, 8],
+              [1160, 428, 20, 64, 56, 10, "canyon3: the floor widens under the steepest walls"],
+              [1248, 424, 22, 92, 76, 14],
+              [1336, 432, 24, 56, 56, 8],
+              [1408, 432, 24, 32, 32, 0]
+            ],
+            [[626, 1488, 22, 34, 34, 4], [700, 1488, 22, 30, 30, 4], [760, 1488, 22, 22, 22, 0]],
+            [[944, 1224, 0, 40, 40, 8, "back west to the road"], [1060, 1244, 0, 52, 52, 10]],
+            [[1124, 1196, 0, 44, 44, 8], [1088, 1120, 0, 44, 44, 8], [1040, 1084, 0, 40, 40, 6]]
+          ]
+        },
+        "steps": [
+          {
+            "op": "blobs",
+            "note": "the wooded lower slopes west of the road; bare mountain everywhere else",
+            "kind": "forest",
+            "amp": 0.18,
+            "seed": [0.013, 0.007],
+            "blobs": [
+              [232, 1660, 230, 330, "the wooded slope west of the road"],
+              [120, 1380, 140, 160],
+              [170, 1990, 90, 80],
+              [110, 2170, 110, 170],
+              [830, 2050, 230, 260, "below the temple's crag"],
+              [700, 1820, 120, 110],
+              [1060, 2200, 260, 160],
+              [1340, 1620, 200, 190, "below the rocky slope"],
+              [1200, 1820, 160, 140],
+              [1470, 2000, 140, 260],
+              [520, 640, 280, 300, "beyond the ridge"],
+              [300, 860, 200, 220],
+              [360, 330, 220, 170],
+              [700, 300, 140, 120]
+            ]
+          },
+          {"op": "freeze"},
+          {"op": "lines", "group": "roads"},
+          {
+            "op": "blobs",
+            "amp": 0.14,
+            "blobs": [[1132, 1256, 100, 92, 0.9, "岩石坡: loose rock on a slope, the stone hut against the east wall"]]
+          },
+          {
+            "op": "fill",
+            "fills": [
+              ["rock", 672, 1248, 768, 1344, "the ledge inside the corner where the bandits wait"],
+              ["cliff", 768, 1248, 800, 1296, "rock to its east and south: the only ways onto the corner are the road's"],
+              ["cliff", 672, 1344, 768, 1376],
+              ["chasm", 592, 1088, 608, 1136, "the crack high in the corner's north wall (mroad4's \"crack\")"]
+            ]
+          },
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "SnowEntry"},
+          {
+            "op": "fill",
+            "fills": [
+              ["cliff", 736, 1392, 960, 1584, "小土地庙: a small house in the crack of the east wall"],
+              ["wall_wood", 736, 1408, 960, 1568],
+              ["floor_wood", 768, 1424, 928, 1552],
+              ["floor_wood", 736, 1456, 768, 1520, "its door in the west front, on the road"],
+              ["blocked", 912, 1472, 928, 1504, "the shrine against its east wall"],
+              ["wall", 1184, 1216, 1248, 1296, "the stone hut (no room in d/goathill: not entered)"]
+            ]
+          },
+          {
+            "op": "blobs",
+            "note": "big rocks by the narrow road, rockfall in the canyons: only on the verges, never the path",
+            "kind": "cliff",
+            "only": ["grass", "rock"],
+            "amp": 0.2,
+            "seed": [0.01, 0],
+            "blobs": [
+              [808, 1170, 18, 18],
+              [874, 1166, 20, 20],
+              [800, 1272, 18, 18],
+              [870, 1280, 22, 22],
+              [946, 1270, 18, 18],
+              [1080, 1300, 16, 16],
+              [1172, 1180, 16, 16],
+              [1100, 1330, 14, 14],
+              [996, 1000, 16, 16],
+              [1092, 1004, 14, 14],
+              [990, 720, 18, 18],
+              [982, 560, 16, 16],
+              [1200, 340, 22, 22],
+              [1296, 360, 18, 18],
+              [1288, 508, 20, 20]
+            ]
+          },
+          {
+            "op": "blobs",
+            "note": "lone trees in the weeds",
+            "kind": "forest",
+            "only": ["grass"],
+            "amp": 0.2,
+            "seed": [0, 0.01],
+            "blobs": [[292, 1752, 18, 18], [452, 1716, 16, 16], [300, 1640, 14, 14], [520, 1456, 16, 16], [700, 1528, 12, 12]]
+          },
+          {"op": "fill", "fills": [["cave_floor", 1360, 400, 1408, 464, "the black cave mouth in the east wall"]]}
+        ],
+        "reach_from": "SnowEntry",
+        "caption_near": {
+          "goathill.mroad1": [470, 2000],
+          "goathill.mroad2": [300, 1800],
+          "goathill.mroad3": [520, 1440],
+          "goathill.temple1": [800, 1540],
+          "goathill.mroad4": [590, 1180],
+          "goathill.mroad5": [840, 1190],
+          "goathill.slope1": [1100, 1250],
+          "goathill.mroad6": [1100, 960],
+          "goathill.canyon1": [980, 800],
+          "goathill.canyon2": [980, 520],
+          "goathill.canyon3": [1200, 470]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "GoathillMountain",
+        "map": "goathill.mountain",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "SnowLabel", "at": [448, 2132], "text": "南 · 雪亭镇", "size": 14},
+          {
+            "node": "passage",
+            "name": "SnowPassage",
+            "id": "goathill.mroad1.south",
+            "at": [416, 2160],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "passage",
+            "name": "CavernPassage",
+            "id": "goathill.canyon3.east",
+            "at": [1392, 432],
+            "shape": "Rect_32_64"
+          }
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "SnowEntry", "at": [416, 2096], "id": "goathill.mroad1.snow_entry"},
+          {"name": "CavernReturn", "at": [1328, 432], "id": "goathill.canyon3.cavern_return"},
+          {"name": "Bandit01", "at": [689, 1265], "id": "goathill.mroad4.bandit.1"},
+          {"name": "Bandit02", "at": [737, 1265], "id": "goathill.mroad4.bandit.2"},
+          {"name": "Bandit03", "at": [703, 1313], "id": "goathill.mroad4.bandit.3"},
+          {"name": "BanditLeader01", "at": [751, 1313], "id": "goathill.mroad4.bandit_leader.1"},
+          {"name": "Hwang01", "at": [888, 1452], "id": "goathill.temple1.bandit_hwang.1"}
+        ]
+      }
+    },
+    "caverns": {
+      "note": "The caverns: four irregular chambers joined by narrow tunnels.",
+      "file": "goathill_caverns.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [-176, -176, 1328, 1008],
+        "zones": {
+          "goathill.cavern1": [0, 224, 384, 592, "cave_floor"],
+          "goathill.cavern2": [384, 0, 736, 336, "cave_floor"],
+          "goathill.cavern3": [736, 0, 1152, 400, "cave_floor"],
+          "goathill.cavern4": [384, 480, 704, 832, "cave_floor"]
+        },
+        "chambers": {
+          "goathill.cavern1": [[208, 400], [124, 108], 0.7],
+          "goathill.cavern2": [[560, 150], [116, 100], 2.1],
+          "goathill.cavern3": [[968, 200], [140, 128], 4.0],
+          "goathill.cavern4": [[548, 680], [110, 96], 5.3]
+        },
+        "lines": {
+          "tunnels": [
+            [[-24, 400, 0, 34, 34, 0, "out west to the canyon"], [80, 400, 0, 34, 34, 0], [132, 396, 0, 42, 42, 6]],
+            [[292, 336, 0, 38, 38, 6], [384, 290, 0, 36, 36, 2], [440, 250, 0, 38, 38, 4], [484, 218, 0, 40, 40, 6]],
+            [[656, 170, 0, 38, 38, 4], [736, 186, 0, 36, 36, 4], [800, 198, 0, 38, 38, 4], [852, 208, 0, 40, 40, 6]],
+            [[292, 464, 0, 38, 38, 6], [384, 520, 0, 36, 36, 2], [440, 560, 0, 38, 38, 4], [484, 602, 0, 40, 40, 6]]
+          ]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "chambers"},
+          {"op": "lines", "group": "tunnels"},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "CanyonEntry"},
+          {
+            "op": "blobs",
+            "note": "rock columns and fallen slabs, off the ways through",
+            "kind": "cliff",
+            "only": ["cave_floor"],
+            "amp": 0.2,
+            "seed": [0.01, 0],
+            "blobs": [
+              [176, 316, 14, 14],
+              [150, 484, 12, 12],
+              [600, 72, 14, 14],
+              [500, 86, 10, 10],
+              [1040, 110, 16, 16],
+              [1050, 300, 14, 14],
+              [930, 310, 12, 12],
+              [610, 750, 12, 12],
+              [480, 740, 10, 10]
+            ]
+          }
+        ],
+        "reach_from": "CanyonEntry",
+        "caption_near": {
+          "goathill.cavern1": [170.8, 464.8],
+          "goathill.cavern2": [525.2, 210.0],
+          "goathill.cavern3": [926.0, 276.8],
+          "goathill.cavern4": [515.0, 737.6]
+        },
+        "markers": {
+          "lanes": "tunnels",
+          "kinds": ["cave_floor"],
+          "rooms": {
+            "goathill.cavern1": {
+              "mouths": [[120, 400], [296, 334], [296, 466]],
+              "points": [["C1Worm01", "goathill.cavern1.worm.1"], ["C1Worm02", "goathill.cavern1.worm.2"]]
+            },
+            "goathill.cavern2": {
+              "mouths": [[476, 224], [664, 170]],
+              "points": [
+                ["C2FatWorm01", "goathill.cavern2.fat_worm.1"],
+                ["C2Worm01", "goathill.cavern2.worm.1"],
+                ["C2Worm02", "goathill.cavern2.worm.2"],
+                ["C2Worm03", "goathill.cavern2.worm.3"]
+              ]
+            },
+            "goathill.cavern3": {
+              "mouths": [[846, 208]],
+              "points": [
+                ["C3BigWorm01", "goathill.cavern3.big_worm.1"],
+                ["C3BigWorm02", "goathill.cavern3.big_worm.2"],
+                ["C3HugeWorm01", "goathill.cavern3.huge_worm.1"],
+                ["C3HugeWorm02", "goathill.cavern3.huge_worm.2"]
+              ]
+            },
+            "goathill.cavern4": {
+              "mouths": [[476, 598]],
+              "points": [
+                ["C4Worm01", "goathill.cavern4.worm.1"],
+                ["C4Worm02", "goathill.cavern4.worm.2"],
+                ["C4BigWorm01", "goathill.cavern4.big_worm.1"]
+              ]
+            }
+          }
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "GoathillCaverns",
+        "map": "goathill.caverns",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "CanyonLabel", "at": [-150, 348], "text": "西 · 峡谷", "size": 14},
+          {
+            "node": "passage",
+            "name": "CanyonPassage",
+            "id": "goathill.cavern1.west",
+            "at": [24, 400],
+            "shape": "Rect_32_64"
+          }
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"name": "CanyonEntry", "at": [88, 400], "id": "goathill.cavern1.canyon_entry"}, {"generated": "markers"}]
+      }
+    }
+  }
+}

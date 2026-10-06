@@ -50,6 +50,11 @@ var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
 ## Aggressive NPCs of a complete-set zone whose current contact already started
 ## an encounter; contact must break before it can start another.
 var _complete_set_consumed_contacts: Array[StringName] = []
+## Seconds each toll-taker (NpcDealings.toll_attack_delay_ms) has been touching the
+## player without a break; its greeting attacks once that reaches the delay.
+var _toll_contact_seconds: Dictionary[StringName, float] = {}
+## Toll-takers put back in the pair queue while their greeting waits.
+var _toll_waiting: Dictionary[StringName, bool] = {}
 var _loot: CorpseLootAdapter = CorpseLootAdapter.new()
 var _last_loot_transfer_result: CorpseLootTransferResult
 var _weapon_resolver: WorldWeaponContentResolver = WorldWeaponContentResolver.new()
@@ -338,6 +343,8 @@ func prepare_for_deactivation() -> void:
 	clear_passage_contacts()
 	_selected_target = null
 	_aggression.clear_all()
+	_toll_contact_seconds.clear()
+	_toll_waiting.clear()
 	if _hud() != null:
 		_hud().set_selected_target(null)
 		_hud().close_loot()
@@ -997,12 +1004,13 @@ func _character_bodies() -> Array[WorldCharacterBody2D]:
 
 # --- Aggression ------------------------------------------------------------------
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not _initialized or not _gameplay_open():
 		return
 	for npc: NpcRuntimeState in _npcs:
 		if _zone_entry(npc.world_location()) == &"complete_set" and not _complete_entry_contact(npc.character_id):
 			_complete_set_consumed_contacts.erase(npc.character_id)
+	_advance_toll_contacts(delta)
 	if _aggression.pending_count() > 0 or _zone_entry(_player.world_location()) == &"complete_set":
 		process_pending_aggression()
 	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
@@ -1043,6 +1051,7 @@ func _on_presence_exited(body: Node2D, character_id: StringName) -> void:
 		_complete_set_consumed_contacts.erase(character_id)
 	if _gameplay_open() and body == player_body:
 		_aggression.leave_player_presence(character_id)
+		_toll_waiting.erase(character_id)
 
 
 func aggression_adapter() -> NpcAggressionAdapter:
@@ -1074,11 +1083,36 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
 			continue
 		if not npc.definition().attacks_on_sight(npc.flags(), _player.state):
-			_go_berserk(npc)
+			# Paid while its greeting waited: attack.c init() rolled berserk on arrival, not now.
+			if not _toll_waiting.erase(npc.character_id):
+				_go_berserk(npc)
 			continue
+		if not _toll_due(npc):
+			# Its greeting has not come yet: wait while the player stays in reach.
+			_toll_waiting[npc.character_id] = true
+			_aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
+			continue
+		_toll_waiting.erase(npc.character_id)
 		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
 		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, []))
 	return _last_aggression_initiations.duplicate()
+
+
+## gangster.c init(): call_out("greeting", 1). The toll-taker's greeting attacks a
+## player still in reach when its delay has passed; one who walked on meets nobody.
+## Owner (pacing knobs): walking past makes no grudge either (ES2's greeting
+## kill_ob()s a passer-by who has left, and it attacks at once next time).
+func _advance_toll_contacts(delta: float) -> void:
+	for npc: NpcRuntimeState in _npcs:
+		if npc.definition().dealings().toll_attack_delay_ms > 0 and _complete_entry_contact(npc.character_id):
+			_toll_contact_seconds[npc.character_id] = _toll_contact_seconds.get(npc.character_id, 0.0) + delta
+		else:
+			_toll_contact_seconds.erase(npc.character_id)
+
+
+func _toll_due(npc: NpcRuntimeState) -> bool:
+	var delay_ms: int = npc.definition().toll_attack_delay_ms(npc.flags(), _player.state)
+	return delay_ms <= 0 or _toll_contact_seconds.get(npc.character_id, 0.0) * 1000.0 >= delay_ms
 
 
 ## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
@@ -1125,6 +1159,7 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		return []
 	var ids: Array[StringName] = []
 	var fresh_contact: bool = false
+	var waiting: Array[StringName] = []
 	for npc: NpcRuntimeState in _npcs:
 		if npc.exists_in_map:
 			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
@@ -1134,10 +1169,13 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		if not contact:
 			_complete_set_consumed_contacts.erase(npc.character_id)
 		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed(npc))
-		var aggressive: bool = (
+		var on_sight: bool = (
 			contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
 			and npc.definition().attacks_on_sight(npc.flags(), _player.state)
 		)
+		var aggressive: bool = on_sight and _toll_due(npc)
+		if on_sight and not aggressive:
+			waiting.append(npc.character_id)
 		if aggressive or (manual and npc.character_id == requested_target):
 			if ids.has(npc.character_id):
 				return []
@@ -1145,6 +1183,11 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 			fresh_contact = fresh_contact or (aggressive and not _complete_set_consumed_contacts.has(npc.character_id))
 	if ids.is_empty() or (not manual and not fresh_contact):
 		return []
+	# gangster.c: every robber's greeting comes from the same arrival (each init()), so the
+	# toll-takers still waiting in reach join the fight that starts here.
+	for id: StringName in waiting:
+		if not ids.has(id):
+			ids.append(id)
 	ids.sort_custom(func(first: StringName, second: StringName) -> bool: return String(first) < String(second))
 	ids.push_front(_player.character_id)
 	var available: Array[CombatSliceCharacterBinding] = _build_participants()

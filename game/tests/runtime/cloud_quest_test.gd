@@ -240,14 +240,15 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	player.state.progression.combat_experience = 1200 # TEST-ONLY
 	var world_random: WorldInteractionRandomSource = map.world_interaction_random_source()
 	map.replace_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([_available(0).find("宝官")])) # TEST-ONLY
-	_check(service.request_quest() == QuestGiver.Outcome.GIVEN and ColoredLine.texts(service.last_lines) == ["朱鸿雪沉思了一会儿，说道：\n请在八分二十秒内替我杀了『宝官』。"], "a task: kill 宝官 within 500 s: " + str(ColoredLine.texts(service.last_lines)))
+	# pacing.json quest_time_percent 150: god.c's 500 s for 宝官 becomes 750 s.
+	_check(GameContent.catalog().pacing().quest_time_percent == 150 and service.request_quest() == QuestGiver.Outcome.GIVEN and ColoredLine.texts(service.last_lines) == ["朱鸿雪沉思了一会儿，说道：\n请在十二分三十秒内替我杀了『宝官』。"], "a task: kill 宝官 within 500 s x 1.5: " + str(ColoredLine.texts(service.last_lines)))
 	map.replace_world_interaction_random_source(world_random)
-	_check(service.request_quest() == QuestGiver.Outcome.HAS_TASK and ColoredLine.texts(service.last_lines) == ["你现在的任务是杀『宝官』。", "你还有八分二十秒去完成它。"], "asking again shows quest.c")
+	_check(service.request_quest() == QuestGiver.Outcome.HAS_TASK and ColoredLine.texts(service.last_lines) == ["你现在的任务是杀『宝官』。", "你还有十二分三十秒去完成它。"], "asking again shows quest.c")
 	session.advance_quest_time(1.5)
-	_check(player.state.quest.remaining_ms == 498500, "play time runs the task's time: %d" % player.state.quest.remaining_ms)
+	_check(player.state.quest.remaining_ms == 748500, "play time runs the task's time: %d" % player.state.quest.remaining_ms)
 	hud.open_character()
 	var sheet: String = hud._presentation_layout.character.sheet.text
-	_check(sheet.contains("杀气 0 · 综合评价 0\n总共杀过 0 个人。") and sheet.contains("你现在的任务是杀『宝官』。\n你还有八分十九秒去完成它。"), "the character sheet: score.c's lines and quest.c: " + sheet)
+	_check(sheet.contains("杀气 0 · 综合评价 0\n总共杀过 0 个人。") and sheet.contains("你现在的任务是杀『宝官』。\n你还有十二分二十九秒去完成它。"), "the character sheet: score.c's lines and quest.c: " + sheet)
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	var left: int = player.state.quest.remaining_ms

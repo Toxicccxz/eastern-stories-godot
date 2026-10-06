@@ -16,12 +16,15 @@ class HighDraws extends CombatRandomSource:
 
 
 func run_all(tree: SceneTree) -> Dictionary:
+	# ES2's own numbers end to end: the pacing knobs at ES2's pace (Es2Pacing).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	definition_and_learn()
 	mapping_and_equipment()
 	action_execution()
 	reverse_execution()
 	await persistence_and_panel(tree)
 	await terminal_feedback(tree)
+	Es2Pacing.restore(pacing)
 	print("SMP2 focused: %d assertions; %d failures" % [assertions, failures.size()])
 	return {"assertions": assertions, "failures": failures}
 

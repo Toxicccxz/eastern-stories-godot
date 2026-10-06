@@ -380,6 +380,21 @@ func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: Character
 	return not mark.is_empty() and (npc_flags.get(FLAG_FOUGHT_PLAYER, false) or player.marks.get(mark, 0) == 0)
 
 
+## How long after the player comes into reach it attacks: a toll-taker's greeting
+## (gangster.c init(): call_out("greeting", 1)) waits `toll_attack_delay_ms`, and finds
+## nobody if the player has walked on (no grudge then: DECISIONS, pacing knobs). Every
+## other attack on sight starts at once (attack.c's hatred, aggressive, vendetta).
+func toll_attack_delay_ms(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> int:
+	if has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+		return 0
+	var vendetta_mark: String = dealings().vendetta_mark
+	if not vendetta_mark.is_empty() and player.vendetta.get(vendetta_mark, 0) != 0:
+		return 0
+	if npc_flags.get(FLAG_FOUGHT_PLAYER, false):
+		return 0
+	return dealings().toll_attack_delay_ms
+
+
 func is_valid() -> bool:
 	if (
 		_definition_id.is_empty()

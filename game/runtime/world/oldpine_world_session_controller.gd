@@ -123,7 +123,7 @@ func _initialize_player_recovery() -> bool:
 	if _player_recovery_cadence == null:
 		if _recovery_random == null:
 			_recovery_random = GodotRecoveryCadenceRandomSource.new()
-		_player_recovery_cadence = PlayerRecoveryCadence.new(_recovery_random)
+		_player_recovery_cadence = PlayerRecoveryCadence.new(_recovery_random, true, null, GameContent.catalog().pacing().player_recovery_gain)
 	return _player_recovery_cadence.is_valid()
 
 

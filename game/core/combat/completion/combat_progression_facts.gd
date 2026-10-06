@@ -7,6 +7,7 @@ var _base_intelligence: int
 var _base_spirituality: int
 var _attack_skill_definition_id: StringName
 var _attack_skill_definition_available: bool
+var _experience_gain: int
 
 var character_id: StringName:
 	get:
@@ -26,6 +27,11 @@ var attack_skill_definition_id: StringName:
 var attack_skill_definition_available: bool:
 	get:
 		return _attack_skill_definition_available
+## What this side gets where combatd.c gives 1 combat_exp and 1 potential: 1 (ES2),
+## or the player's pacing.json player_exp_gain.
+var experience_gain: int:
+	get:
+		return _experience_gain
 
 
 func _init(
@@ -35,6 +41,7 @@ func _init(
 	p_base_spirituality: int = 0,
 	p_attack_skill_definition_id: StringName = &"unarmed",
 	p_attack_skill_definition_available: bool = true,
+	p_experience_gain: int = 1,
 ) -> void:
 	_character_id = p_character_id
 	_is_user = p_is_user
@@ -42,12 +49,14 @@ func _init(
 	_base_spirituality = p_base_spirituality
 	_attack_skill_definition_id = p_attack_skill_definition_id
 	_attack_skill_definition_available = p_attack_skill_definition_available
+	_experience_gain = p_experience_gain
 
 
 func is_valid() -> bool:
 	return (
 		not _character_id.is_empty()
 		and not _attack_skill_definition_id.is_empty()
+		and _experience_gain >= 1
 	)
 
 
@@ -66,4 +75,5 @@ func duplicate_snapshot() -> CombatProgressionFacts:
 		_base_spirituality,
 		_attack_skill_definition_id,
 		_attack_skill_definition_available,
+		_experience_gain,
 	)

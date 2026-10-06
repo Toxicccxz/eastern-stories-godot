@@ -197,6 +197,6 @@ Write logs and scratch output under `build/`, never the repository root or `game
 ```text
 reference/es2/   original LPC (read-only, outside res://)
 docs/            production/ (status, roadmap, build, policies) and migration/ (decisions, notes)
-tools/           ci/, build/, migration/ (Python, standard library)
+tools/           ci/, build/, migration/, maps/ (Python, standard library)
 game/            Godot project: core/ runtime/ application/ data/ presentation/ ui/ scenes/ tests/
 ```

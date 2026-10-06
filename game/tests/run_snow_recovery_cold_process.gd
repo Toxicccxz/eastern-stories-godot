@@ -9,6 +9,7 @@ func _init() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
+	Es2Pacing.use() # player_recovery_cadence_test pins heal_up()'s ES2 amounts.
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	if args.size() != 2:
 		quit(2)

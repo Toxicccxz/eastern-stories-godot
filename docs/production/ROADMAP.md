@@ -63,11 +63,11 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   桃符纸 waits for the player's spells.
 * **Modern fixes** (2026-10-06, owner): ES2 behaviour that reads as a bug to today's players gets
   the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
-* **Pacing knobs** — next, before 3D: data-configured multipliers (default = original) decided
-  from measurements and owner playtests: exercise gain or kee recovery (max_force 0 → 50 takes
-  8–16 hours at ES2's pace), a new character's exp growth (quests need over 1000), the quests'
-  40-second deadlines, and whether 卧龙岗's toll (10 gold, robbers of 10000 exp) should keep new
-  players out of 绮云镇.
+* **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests; the slow stretch is a
+  new character's combat_exp from about 150 to 1001 (few opponents of the right strength).
+* **Maps**: a region's new maps are drawn as `tools/maps/layouts/` data; the seven older hand-made
+  maps (Snow's outdoor and Inn, Old Pine's outdoor, cave, cliff, gorge, tree) move there when a
+  package redraws them.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
 ## Later — release readiness

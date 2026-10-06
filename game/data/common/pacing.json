@@ -1,3 +1,9 @@
 {
-	"pacing": { "combat_round_ms": 1000, "room_reset_seconds": 1800 }
+	"pacing": {
+		"combat_round_ms": 1000,
+		"room_reset_seconds": 1800,
+		"player_exp_gain": 3,
+		"player_recovery_gain": 3,
+		"quest_time_percent": 150
+	}
 }

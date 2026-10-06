@@ -1,0 +1,127 @@
+{
+  "maps": {
+    "inn_upstairs": {
+      "note": "The inn upstairs: inn_2f (the corridor), n_room, e_room and w_room.",
+      "file": "snow_inn_upstairs.tscn",
+      "draw": {
+        "technique": "fills",
+        "fills": [
+          ["wall_wood", -576, -480, 576, 256],
+          ["void", -576, -480, -224, -128],
+          ["void", 224, -480, 576, -128],
+          ["floor_wood", -192, -448, 192, -128, "n_room"],
+          ["floor_wood", -192, -96, 192, 224, "inn_2f corridor"],
+          ["floor_wood", -544, -96, -224, 224, "w_room"],
+          ["floor_wood", 224, -96, 544, 224, "e_room"],
+          ["floor_wood", -32, -128, 32, -96, "doorways (房门)"],
+          ["floor_wood", -224, 32, -192, 96],
+          ["floor_wood", 192, 32, 224, 96],
+          ["wall_wood", -160, -432, -32, -368, "beds"],
+          ["wall_wood", 32, -432, 160, -368],
+          ["wall_wood", -528, -80, -400, -16],
+          ["wall_wood", 400, -80, 528, -16]
+        ]
+      },
+      "scene": {
+        "style": "flat",
+        "root": "SnowInnUpstairs",
+        "map": "snow.inn_upstairs",
+        "player_color": "Color(0.68, 0.73, 0.8, 1)",
+        "zoom": 0.9,
+        "shapes": {
+          "CorridorShape": [416, 368],
+          "RoomNorthShape": [448, 368],
+          "RoomSideShape": [368, 368],
+          "DoorHorizontalShape": [64, 32],
+          "DoorVerticalShape": [32, 64],
+          "StairsShape": [96, 48],
+          "PlayerShape": [34, 34]
+        },
+        "door_style": {"walls": "Walls", "shutters": "Ground", "color": "Color(0.45, 0.27, 0.14, 1)"},
+        "doors": [
+          {"name": "NorthDoor", "id": "snow.inn_2f.north_door", "at": [0, -112], "shape": "DoorHorizontalShape"},
+          {"name": "EastDoor", "id": "snow.inn_2f.east_door", "at": [208, 64], "shape": "DoorVerticalShape"},
+          {"name": "WestDoor", "id": "snow.inn_2f.west_door", "at": [-208, 64], "shape": "DoorVerticalShape"}
+        ],
+        "stairs": [
+          {
+            "name": "StairsDown",
+            "at": [0, 200],
+            "id": "snow.inn_2f.down",
+            "shape": "StairsShape",
+            "color": "Color(0.55, 0.38, 0.22, 1)",
+            "text": "楼梯 · 下楼",
+            "marker": {"name": "StairsArrival", "at": [0, 120], "id": "snow.inn_2f.stairs_arrival"}
+          }
+        ],
+        "nodes": [
+          {"node": "group", "name": "Walls", "type": "StaticBody2D"},
+          {"generated": "door_walls"},
+          {"node": "group", "name": "Ground"},
+          {"generated": "shutters"},
+          {"node": "label", "name": "FloorName", "at": [-80, -80], "text": "饮风客栈 · 二楼", "size": 20},
+          {"node": "label", "name": "RoomNorthName", "at": [-20, -300], "text": "客房"},
+          {"node": "label", "name": "RoomWestName", "at": [-400, 100], "text": "客房"},
+          {"node": "label", "name": "RoomEastName", "at": [360, 100], "text": "客房"},
+          {"generated": "stairs"},
+          {"generated": "doors"}
+        ],
+        "zones": [
+          {"name": "Corridor", "id": "snow.inn_2f", "at": [0, 72], "shape": "CorridorShape"},
+          {"name": "RoomNorth", "id": "snow.n_room", "at": [0, -296], "shape": "RoomNorthShape"},
+          {"name": "RoomEast", "id": "snow.e_room", "at": [392, 72], "shape": "RoomSideShape"},
+          {"name": "RoomWest", "id": "snow.w_room", "at": [-392, 72], "shape": "RoomSideShape"}
+        ],
+        "spawn_points": [
+          {"generated": "stair_markers"},
+          {"name": "Rat01", "at": [-150, -60], "id": "snow.inn_2f.rat.1"},
+          {"name": "Rat02", "at": [150, -60], "id": "snow.inn_2f.rat.2"},
+          {"name": "Rat03", "at": [-80, -10], "id": "snow.inn_2f.rat.3"},
+          {"name": "Rat04", "at": [80, -10], "id": "snow.inn_2f.rat.4"},
+          {"name": "Rat05", "at": [-130, 170], "id": "snow.inn_2f.rat.5"},
+          {"name": "Rat06", "at": [130, 170], "id": "snow.inn_2f.rat.6"}
+        ]
+      }
+    },
+    "cellar": {
+      "note": "The cellar under the weapon storage (secret_storage).",
+      "file": "snow_cellar.tscn",
+      "draw": {
+        "technique": "fills",
+        "fills": [
+          ["wall", -192, -160, 192, 160],
+          ["rock", -160, -128, 160, 128],
+          ["path", 32, 32, 128, 112, "乾草"],
+          ["wall_wood", 64, -112, 144, -48, "破旧的小床"]
+        ]
+      },
+      "scene": {
+        "style": "flat",
+        "root": "SnowCellar",
+        "map": "snow.cellar",
+        "player_color": "Color(0.68, 0.73, 0.8, 1)",
+        "zoom": 0.9,
+        "shapes": {"CellarShape": [320, 256], "StairsShape": [48, 48], "PlayerShape": [34, 34]},
+        "stairs": [
+          {
+            "name": "StairsUp",
+            "at": [-104, 104],
+            "id": "snow.secret_storage.up",
+            "shape": "StairsShape",
+            "color": "Color(0.4, 0.33, 0.25, 1)",
+            "text": "向上的阶梯",
+            "marker": {"name": "StairsArrival", "at": [-104, 16], "id": "snow.secret_storage.stairs_arrival"}
+          }
+        ],
+        "nodes": [
+          {"node": "group", "name": "Ground"},
+          {"node": "label", "name": "RoomName", "at": [-60, -150], "text": "地下密室", "size": 18},
+          {"node": "label", "name": "BedName", "at": [80, -40], "text": "小床"},
+          {"generated": "stairs"}
+        ],
+        "zones": [{"name": "SecretStorage", "id": "snow.secret_storage", "at": [0, 0], "shape": "CellarShape"}],
+        "spawn_points": [{"generated": "stair_markers"}, {"name": "Shield01", "at": [-24, 72], "id": "snow.secret_storage.shield.1"}]
+      }
+    }
+  }
+}
