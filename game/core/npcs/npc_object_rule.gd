@@ -9,9 +9,11 @@ extends RefCounted
 ## (marks/魏无极), the giver's gender and raw per (u/cloud girl.c), the item's name and
 ## the giver's family (u/cloud b_header.c: 忘忧草 from 振远镖局). The outcome: lines,
 ## accept or refuse, what it changes, and `kill`: a refusal that attacks the giver
-## (u/cloud gangster.c kill_passenger()).
+## (u/cloud gangster.c kill_passenger()). Effects: keeper.c's donation, and `wager`:
+## the money is a bet on the NPC's NpcWager (judge.c).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
-const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION]
+const EFFECT_WAGER: StringName = &"wager"
+const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION, EFFECT_WAGER]
 const NO_BOUND: int = -1
 
 var value_at_least: int = NO_BOUND
@@ -108,5 +110,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("accept", "a refusal changes nothing")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")
+	if rule.effect == EFFECT_WAGER and rule.value_at_least < 1:
+		reader.fail("value_at_least", "a bet is money: value_at_least must be at least 1")
 	reader.finish()
 	return rule

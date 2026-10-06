@@ -110,6 +110,16 @@
 					{ "line": "赢了可是利滚利啊！\n" }
 				],
 				"out_of": 4
+			},
+			"accept_object": [
+				{ "value_at_least": 1, "line": "什么？ 您押小？！好的。\n", "accept": true, "effect": "wager" }
+			],
+			"wager": {
+				"lose_below": 8,
+				"out_of": 10,
+				"payout": 2,
+				"lose": { "line": "宝官说道：开！押大的赢啦！这位$RESPECT，您下次一定好运！\n" },
+				"win": { "line": "宝官说道：开！押小的赢啦！这位$RESPECT真是好运道！这是您的赢头。\n" }
 			}
 		},
 		"cloud.npc.girl": {
@@ -233,8 +243,8 @@
 		},
 		"u/cloud/duchang2.c": {
 			"set item_desc": "look targets are not data yet",
-			"function init": "bet: do_bet is a TODO that does nothing (the betting is the judge's accept_object, package 3D)",
-			"function do_bet": "bet: do_bet is a TODO that does nothing (the betting is the judge's accept_object, package 3D)"
+			"function init": "bet: do_bet is a TODO that does nothing; not offered (DECISIONS 3D: the betting is the judge's accept_object)",
+			"function do_bet": "bet: do_bet is a TODO that does nothing; not offered (DECISIONS 3D: the betting is the judge's accept_object)"
 		},
 		"u/cloud/entrance.c": {
 			"set item_desc": "look targets are not data yet; no code takes the toll the notice names",
@@ -308,13 +318,13 @@
 		"u/cloud/npc/judge.c": {
 			"function init": "greeting (set cloud.npc.judge)",
 			"function greeting": "greeting one_of, out_of 4 (set cloud.npc.judge)",
-			"function pay_player": "betting: package 3D",
-			"function accept_object": "betting: package 3D; he takes nothing until then"
+			"function pay_player": "wager payout (set cloud.npc.judge; HockshopPayoutService)",
+			"function accept_object": "wager (set cloud.npc.judge); its 物品不能折价 notify_fail never shows (give.c's replaces it)"
 		},
 		"u/cloud/npc/mei_po.c": {
-			"function init": "marry/unmarry: package 3D",
-			"function do_marry": "marry/unmarry: package 3D",
-			"function do_unmarry": "marry/unmarry: package 3D"
+			"function init": "marry/unmarry: the partner must be another player (find_player); not offered (DECISIONS 3D)",
+			"function do_marry": "marry/unmarry: the partner must be another player (find_player); not offered (DECISIONS 3D)",
+			"function do_unmarry": "marry/unmarry: the partner must be another player (find_player); not offered (DECISIONS 3D)"
 		},
 		"u/cloud/npc/monk.c": {
 			"function accept_fight": "accept_fight (set cloud.npc.monk); the bonze branch needs 山烟寺's class (region plan #8)",

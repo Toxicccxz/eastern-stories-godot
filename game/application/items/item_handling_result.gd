@@ -23,6 +23,8 @@ var item_id: StringName = &""
 var destroyed: bool = false
 ## The NPC's accept_object() rule that decided a give (null: none matched).
 var rule: NpcObjectRule
+## Things that ended up on the floor at the player's feet (winnings too heavy to carry).
+var dropped_item_ids: Array[StringName] = []
 
 
 func done() -> bool:

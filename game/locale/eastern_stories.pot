@@ -923,6 +923,11 @@ msgstr ""
 msgid "{npc}没有收下。"
 msgstr ""
 
+#. winnings too heavy to carry ({item}: 两百两银子) land on the floor by the player.
+#: application/items/item_handling_service.gd
+msgid "{item}对你而言太重了，掉在你的脚边。"
+msgstr ""
+
 #: application/items/item_handling_service.gd runtime/world/world_map_controller.gd
 msgid "这里没有这个人。"
 msgstr ""
@@ -8473,6 +8478,24 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "赢了可是利滚利啊！\n"
+msgstr ""
+
+#. cloud.npc.judge accept_object.line
+#: data/cloud/npcs.json
+msgid ""
+"什么？ 您押小？！好的。\n"
+msgstr ""
+
+#. cloud.npc.judge wager.lose.line
+#: data/cloud/npcs.json
+msgid ""
+"宝官说道：开！押大的赢啦！这位$RESPECT，您下次一定好运！\n"
+msgstr ""
+
+#. cloud.npc.judge wager.win.line
+#: data/cloud/npcs.json
+msgid ""
+"宝官说道：开！押小的赢啦！这位$RESPECT真是好运道！这是您的赢头。\n"
 msgstr ""
 
 #. cloud.npc.thief long

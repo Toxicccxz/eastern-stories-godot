@@ -2718,9 +2718,13 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	var npc: NpcRuntimeState = selected_npc()
 	if not can_handle_items() or npc == null:
 		return ItemHandlingResult.new()
+	var location: WorldLocationState = _player.world_location()
 	var result: ItemHandlingResult = ItemHandlingService.give(
-		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random,
+		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random, _floor_endpoint(location),
 	)
+	for dropped: StringName in result.dropped_item_ids:
+		if not _add_dropped_item_view(dropped, location, _at_feet(location, player_body.global_position)):
+			push_error("winnings %s on the floor have no view" % dropped)
 	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
 	if not attacks:
 		_report_item_handling(result)

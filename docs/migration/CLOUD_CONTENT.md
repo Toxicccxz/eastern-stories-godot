@@ -3,7 +3,7 @@
 How 卧龙岗 and 绮云镇 come from `reference/es2/mudlib/u/cloud/` (and `u/cloud/dragonhill/`), and
 what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS.md). Package
 3A (streets and shops) places every room and every NPC the rooms name; 3B makes 振远镖局
-joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (region plan #8) come later.
+joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (region plan #8) comes later.
 
 ## Placed
 
@@ -18,8 +18,8 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
 | tailory, zaihuoy, drugstore, weapony, bookstore | 裁缝, 杂货贩, 药店伙计, 兵器贩子, 潘若秋 | vendors |
 | monky (斋院) | 化缘和尚, Snow's 乞丐 ×2, 包子 ×3 | the monk takes donations (keeper.c's formula); not fightable yet |
 | jiyuan, jiyuan2 | 鸨母; 李师师 (upstairs) | 李师师 teaches literate after a keepsake |
-| duchang, duchang2 | 宝官 | his betting is 3D |
-| marry_room | 媒婆 | marriage is 3D |
+| duchang, duchang2 | 宝官 | 3D: money given to him is a bet (押小: 20% pays double) |
+| marry_room | 媒婆 | 3D: no marriage (it needs a second player); she answers about 婚约 |
 | park (张家花园) | 飞贼 | steals silver from arrivals (thief.c, steal.c) |
 | biaoju | 陈剑秋, 趟子手 | 3B: 陈剑秋 takes apprentices with cor 25 (class guardman) and teaches his seven skills; 趟子手 teaches the family's members; 春风快意刀 is practised with a blade |
 | rich, m_house | 保镖 ×5; 张百万, 家丁 ×2 | |
@@ -33,7 +33,10 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
 - northriver.c's ferry code is dead: `replace_program(ROOM)` in create() discards its init(),
   and it checks the room's own `marks/船夫`. ES2's river is crossed by walking south.
 - boater.c's 过江 answer asks for five taels; its accept_object() takes anything worth 2 coins.
-- 宝官's betting is accept_object() (押小, 20% wins double); duchang2.c's `bet` is a TODO.
+- 宝官's betting is accept_object() (押小, 20% wins double); duchang2.c's `bet` is a TODO that does
+  nothing, though its sign promises one tael for two.
+- mei_po.c's do_unmarry() tests `if (have_marry = 0)` (an assignment, never true), so a partner
+  without a 婚约 is still asked to agree.
 - LPC `value()` exists only for money, so 李师师 refuses money and takes any other thing (from a
   man with per 25 or more) as the keepsake.
 - 说文解字 teaches literate, but study.c refuses anyone illiterate (literate 0).

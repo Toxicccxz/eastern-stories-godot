@@ -1,5 +1,25 @@
 # Migration Decisions
 
+## 绮云镇 3D: the 赌场 and the 红娘庄 (2026-10-06)
+
+- **The 宝官 takes bets** (judge.c accept_object()): money given to him is a bet on 小, anything
+  without a value() is refused (宝官没有收下。; his 物品不能折价… is a notify_fail that give.c's
+  replaces). He says 什么？ 您押小？！好的。, give.c destructs the stake, and random(10) < 8 loses
+  (world-interaction stream); else pay_player() pays twice the stake's value in silver and coins
+  (a gold tael pays 200 silver taels). Money leaves the game with every stake and is made anew
+  for every win: on average a bet returns 0.4 of itself. Data: an `effect: wager` rule and the
+  NPC's `wager` (NpcWager). The player reads 你拿出X给宝官。 before the outcome (ES2 printed it
+  last).
+- **Owner: winnings the player cannot carry land at their feet** with
+  X对你而言太重了，掉在你的脚边。; in ES2 pay_player()'s move() failed and they were lost unseen.
+- **Owner: the upper floor has no bet.** duchang2.c's `bet` is a TODO that does nothing (its sign
+  promises one tael for two); the 宝官 downstairs is ES2's only game.
+- **Owner: no marriage.** mei_po.c's marry needs the partner to be another player (find_player())
+  and the 婚约 (obj/marry_card.c) works only between two players (learn.c lets a spouse teach
+  across families, skills.c shows a spouse's skills, coupletalk). A single-player game has nobody
+  to marry, so the 媒婆 offers neither 结亲 nor 解约; she answers about 婚约 as in ES2. Marrying
+  NPCs would be a new design, and through learn.c a way into any family's arts.
+
 ## Pacing knobs and 卧龙岗's second (2026-10-06)
 
 Measured at ES2's pace on the native game (real session, combat scheduler and heal_up cadence; a

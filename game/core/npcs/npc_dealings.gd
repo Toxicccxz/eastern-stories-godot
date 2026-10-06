@@ -13,7 +13,8 @@ extends RefCounted
 ## 1)), what it
 ## steals from an arriving player (`steal`, NpcSteal), its `vendetta_mark` (a
 ## killer of its kind is marked, and it attacks whoever is: attack.c init()) and
-## whether it gives quests (`quest_giver`, u/cloud/npc/god.c give_quest()).
+## whether it gives quests (`quest_giver`, u/cloud/npc/god.c give_quest()) and the bets
+## it takes (`wager`, NpcWager: u/cloud/npc/judge.c, through an `effect: wager` rule).
 var vendor_id: StringName = &""
 var object_rules: Array[NpcObjectRule] = []
 var initial_flags: Array[StringName] = []
@@ -23,6 +24,7 @@ var toll_attack_delay_ms: int = 0
 var steal: NpcSteal
 var vendetta_mark: String = ""
 var quest_giver: bool = false
+var wager: NpcWager
 
 
 func is_fight_deferred() -> bool:
@@ -48,4 +50,10 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 	var steal: ContentRecordReader = reader.child("steal")
 	if steal != null:
 		dealings.steal = NpcSteal.from_record(steal)
+	var wager: ContentRecordReader = reader.child("wager")
+	if wager != null:
+		dealings.wager = NpcWager.from_record(wager)
+	var bets: bool = dealings.object_rules.any(func(rule: NpcObjectRule) -> bool: return rule.effect == NpcObjectRule.EFFECT_WAGER)
+	if bets != (dealings.wager != null):
+		reader.fail("wager", "an accept_object rule with effect wager and a wager record go together")
 	return dealings

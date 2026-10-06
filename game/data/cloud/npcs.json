@@ -433,7 +433,17 @@
 				{ "item": "es2:obj/example/dagger", "source": "obj/example/dagger.c", "equip": "wield" }
 			],
 			"inquiry": { "赌": ["客官您把钱给我就行了。\n"] },
-			"greeting": { "one_of": [{ "line": "快来赌，快来赌啦！\n" }, { "line": "赢了可是利滚利啊！\n" }], "out_of": 4 }
+			"greeting": { "one_of": [{ "line": "快来赌，快来赌啦！\n" }, { "line": "赢了可是利滚利啊！\n" }], "out_of": 4 },
+			"accept_object": [
+				{ "value_at_least": 1, "line": "什么？ 您押小？！好的。\n", "accept": true, "effect": "wager" }
+			],
+			"wager": {
+				"lose_below": 8,
+				"out_of": 10,
+				"payout": 2,
+				"lose": { "line": "宝官说道：开！押大的赢啦！这位$RESPECT，您下次一定好运！\n" },
+				"win": { "line": "宝官说道：开！押小的赢啦！这位$RESPECT真是好运道！这是您的赢头。\n" }
+			}
 		},
 		{
 			"id": "cloud.npc.thief",
