@@ -13,8 +13,9 @@ extends RefCounted
 # TRANSLATORS: give: the NPC ({npc}) did not take what the player offered (it stays with the player).
 const NOT_TAKEN: String = "{npc}没有收下。"
 ## judge.c pay_player(): a win the player cannot carry was lost (move() failed). Deviation
-## (owner, 3D): it lands at the player's feet, and they read so. The first part is move.c's.
-# TRANSLATORS: winnings too heavy to carry ({item}: 两百两银子) land on the floor by the player.
+## (owner, 3D): the player takes what they can carry and the rest lands at their feet, and
+## they read so. The first part is move.c's.
+# TRANSLATORS: winnings too heavy to carry ({item}: 二百两银子) land on the floor by the player.
 const WINNINGS_AT_FEET: String = "{item}对你而言太重了，掉在你的脚边。"
 
 
@@ -328,6 +329,7 @@ static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeSta
 
 ## judge.c accept_object() after the stake is gone: the house rolls (NpcWager); a win
 ## pays pay_player(val * 2) in silver and coins. False on an authority failure.
+@warning_ignore("integer_division")
 static func _settle_wager(
 	result: ItemHandlingResult,
 	player: WorldPlayerRuntimeState,
@@ -346,15 +348,58 @@ static func _settle_wager(
 		result.lines.append(line.sentence(npc.definition().display_name, respect))
 	if not won:
 		return true
-	var payout: HockshopPayoutResult = HockshopPayoutService.pay(authorities.context, authorities.allocator, player.maximum_encumbrance, wager.winnings(stake), floor)
-	if payout.outcome != HockshopPayoutResult.Outcome.COMPLETE:
+	var winnings: int = wager.winnings(stake)
+	var contents: int = authorities.context.checked_contents_weight()
+	if winnings < 1 or contents < 0:
 		return false
-	for dropped: StringName in payout.overflow_item_ids:
+	# pay_player(): silver, then coins. Of each, what still fits under max_encumbrance is the
+	# player's; the rest falls at their feet in one pile.
+	var room: int = player.maximum_encumbrance - contents
+	var carried: int = 0
+	var fallen: Dictionary[CurrencyDenomination.Value, int] = {}
+	for denomination: CurrencyDenomination.Value in [CurrencyDenomination.Value.SILVER, CurrencyDenomination.Value.COIN]:
+		var content: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
+		var quantity: int = winnings / 100 if denomination == CurrencyDenomination.Value.SILVER else winnings % 100
+		var fit: int = quantity if content.stack_base_weight <= 0 else clampi(room / content.stack_base_weight, 0, quantity)
+		room -= fit * content.stack_base_weight
+		carried += fit * content.currency_base_value
+		fallen[denomination] = quantity - fit
+	if carried > 0:
+		var payout: HockshopPayoutResult = HockshopPayoutService.pay(authorities.context, authorities.allocator, player.maximum_encumbrance, carried)
+		if payout.outcome != HockshopPayoutResult.Outcome.COMPLETE or payout.delivered_value != carried:
+			return false
+	for denomination: CurrencyDenomination.Value in fallen:
+		if fallen[denomination] == 0:
+			continue
+		var dropped: StringName = _mint_on_floor(authorities, denomination, fallen[denomination], floor)
+		if dropped.is_empty():
+			return false
 		result.dropped_item_ids.append(dropped)
 		result.lines.append(TranslationServer.translate(WINNINGS_AT_FEET).format({
 			"item": HeldItemFacts.short_name(dropped, _content(authorities, dropped), authorities.context.stacks),
 		}))
 	return true
+
+
+## new(SILVER_OB) with set_amount(`quantity`), straight onto `floor`. Empty on failure.
+static func _mint_on_floor(authorities: Authorities, denomination: CurrencyDenomination.Value, quantity: int, floor: ContainmentEndpoint) -> StringName:
+	var context: MoneyInventoryContext = authorities.context
+	var content: ItemContentDefinition = GameContent.catalog().currency_item(denomination)
+	if floor == null or floor.kind != ContainmentEndpoint.Kind.WORLD or content == null:
+		return &""
+	var allocation: SessionItemIdAllocationResult = authorities.allocator.allocate(context.inventory)
+	if not allocation.succeeded:
+		return &""
+	var item := ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
+	if (
+		not context.inventory.register_item(item, 0) or not context.index.register_snapshot(item)
+		or not CombinedStackService.register_stack(context.stacks, context.inventory, item, content.stack_definition(), quantity).accepted
+	):
+		return &""
+	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
+		context.inventory, item.item_instance_id, InventoryTransferDestination.new(floor, true, true, WorldMapController.WORLD_CAPACITY),
+	)
+	return item.item_instance_id if moved != null and moved.succeeded else &""
 
 
 static func _refused(result: ItemHandlingResult, outcome: ItemHandlingResult.Outcome, line: String) -> ItemHandlingResult:

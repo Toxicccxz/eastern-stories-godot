@@ -10,10 +10,20 @@
   for every win: on average a bet returns 0.4 of itself. Data: an `effect: wager` rule and the
   NPC's `wager` (NpcWager). The player reads 你拿出X给宝官。 before the outcome (ES2 printed it
   last).
-- **Owner: winnings the player cannot carry land at their feet** with
+- **Deviation (proposed, for the owner to confirm): a whole stack bet and won pays twice, like any
+  bet.** In ES2 the stake is still the player's stack while pay_player() runs, so combined.c's
+  move() merges it into the new silver (or coins) and destructs it; give.c then calls value() on
+  the destructed stake and stops: the player keeps the stake as well, three times in all, and
+  reads no 你拿出…. Part of a stack, or a gold tael (paid in silver), paid twice.
+- **Owner: winnings the player cannot carry land at their feet**: of each kind (silver, then
+  coins) the player takes what still fits and the rest lies at their feet in one pile, with
   X对你而言太重了，掉在你的脚边。; in ES2 pay_player()'s move() failed and they were lost unseen.
+- **Deviation (proposed, for the owner to confirm): picking up a stack too heavy as a whole
+  takes what fits** (你捡起X。 and the rest's X对你而言太重了。). get.c takes part of a stack only
+  when the player types the amount (`get 50 silver`); the HUD's 拾取 has none, so a pile bigger
+  than the player can carry (a win of many gold taels) could never be picked up.
 - **Owner: the upper floor has no bet.** duchang2.c's `bet` is a TODO that does nothing (its sign
-  promises one tael for two); the 宝官 downstairs is ES2's only game.
+  promises two taels for one); the 宝官 downstairs is ES2's only game.
 - **Owner: no marriage.** mei_po.c's marry needs the partner to be another player (find_player())
   and the 婚约 (obj/marry_card.c) works only between two players (learn.c lets a spouse teach
   across families, skills.c shows a spouse's skills, coupletalk). A single-player game has nobody

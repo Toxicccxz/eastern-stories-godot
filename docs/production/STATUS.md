@@ -5,8 +5,8 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 ## Current work
 
 **绮云镇 3D** (`phase/cloud-3d`): the 宝官 in the 赌场 takes any money given to him as a bet on
-小 (judge.c: 20% pays double, in silver and coins; winnings too heavy to carry land at the
-player's feet). The 媒婆 offers no marriage: ES2's needs a second player (DECISIONS 3D). Pacing
+小 (judge.c: 20% pays double, in silver and coins; what the player cannot carry lands at their
+feet, and a pile too heavy as a whole is picked up in part). The 媒婆 offers no marriage: ES2's needs a second player (DECISIONS 3D). Pacing
 knobs, modern fixes and 3C are merged.
 
 Next: 水烟阁 (region plan #4).

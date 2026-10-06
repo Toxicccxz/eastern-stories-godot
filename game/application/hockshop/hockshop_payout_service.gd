@@ -2,15 +2,11 @@ class_name HockshopPayoutService
 extends RefCounted
 
 
-## std/room/hockshop.c::pay_player, after validated sell arithmetic (u/cloud/npc/judge.c's
-## pay_player is the same: silver, then coins).
+## std/room/hockshop.c::pay_player, after validated sell arithmetic.
 ## Synchronous/non-atomic. No Bank conversion, preflight capacity or rollback.
-## A denomination the player cannot carry is destroyed (ES2: move() failed and it was
-## lost) unless `overflow` names a floor: then it lies there (the judge's winnings,
-## DECISIONS 3D) and `overflow_item_ids` lists it.
 @warning_ignore("integer_division")
 static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocator,
-	maximum_encumbrance: int, amount: int, overflow: ContainmentEndpoint = null) -> HockshopPayoutResult:
+	maximum_encumbrance: int, amount: int) -> HockshopPayoutResult:
 	var result: HockshopPayoutResult = HockshopPayoutResult.new()
 	result.requested_value = amount
 	if context == null or not context.is_valid() or allocator == null or amount < 1:
@@ -58,15 +54,6 @@ static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocato
 			attempt.capacity_rejected = attempt.transfer.inventory_transfer != null and attempt.transfer.inventory_transfer.outcome == InventoryTransferResult.Outcome.CAPACITY_EXCEEDED
 			if not attempt.capacity_rejected:
 				return result
-			if overflow != null:
-				var dropped: InventoryTransferResult = InventoryTransferService.new().transfer(
-					context.inventory, attempt.item_id, InventoryTransferDestination.new(overflow, true, true, WorldMapController.WORLD_CAPACITY),
-				)
-				if dropped == null or not dropped.succeeded:
-					return result
-				result.overflow_item_ids.append(attempt.item_id)
-				attempt.stage = HockshopPayoutAttempt.Stage.COMPLETE
-				continue
 			# H2 I ONLY: immediate cleanup before next denomination, no refund/reuse.
 			attempt.stage = HockshopPayoutAttempt.Stage.CLEANUP
 			attempt.cleanup = context.destroy_undelivered(attempt.item_id)

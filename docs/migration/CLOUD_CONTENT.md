@@ -34,7 +34,7 @@ joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (regi
   and it checks the room's own `marks/船夫`. ES2's river is crossed by walking south.
 - boater.c's 过江 answer asks for five taels; its accept_object() takes anything worth 2 coins.
 - 宝官's betting is accept_object() (押小, 20% wins double); duchang2.c's `bet` is a TODO that does
-  nothing, though its sign promises one tael for two.
+  nothing, though its sign promises two taels for one.
 - mei_po.c's do_unmarry() tests `if (have_marry = 0)` (an assignment, never true), so a partner
   without a 婚约 is still asked to agree.
 - LPC `value()` exists only for money, so 李师师 refuses money and takes any other thing (from a

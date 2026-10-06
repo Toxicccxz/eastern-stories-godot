@@ -923,7 +923,7 @@ msgstr ""
 msgid "{npc}没有收下。"
 msgstr ""
 
-#. winnings too heavy to carry ({item}: 两百两银子) land on the floor by the player.
+#. winnings too heavy to carry ({item}: 二百两银子) land on the floor by the player.
 #: application/items/item_handling_service.gd
 msgid "{item}对你而言太重了，掉在你的脚边。"
 msgstr ""
