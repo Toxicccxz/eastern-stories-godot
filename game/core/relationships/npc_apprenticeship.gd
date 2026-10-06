@@ -18,6 +18,11 @@ var lines: Array[String] = []
 func is_pending() -> bool:
 	return not _pending_master_id.is_empty()
 
+
+## The request waits on this master: asking again only hears 对方还没有答应 (apprentice.c).
+func is_pending_with(master_id: StringName) -> bool:
+	return _pending_master_id == master_id
+
 # TRANSLATORS: the title of a family's founder: {family} is the family (封山剑派).
 const FOUNDER_TITLE: String = "{family}开山祖师"
 # TRANSLATORS: a family member's title, e.g. 封山剑派第十四代弟子: {generation} in words, {title} the rank (弟子).
@@ -40,6 +45,24 @@ static func would_betray(student: CharacterState, master: NpcDefinition) -> bool
 		student != null and teaching != null and teaching.apprentice != null
 		and student.family.has_family() and student.family.family_id != teaching.family_id
 		and not is_master_of(student, master)
+	)
+
+
+## `master` would take `student`, who has no family yet, now: their first master.
+## Changing family later is a betrayal, so the panel asks first (owner, 2026-10-06).
+static func would_join_first(student: CharacterState, master: NpcDefinition) -> bool:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	return (
+		student != null and teaching != null and teaching.apprentice != null
+		and not student.family.has_family() and qualifies(student, teaching.apprentice)
+	)
+
+
+## The master's attempt_apprentice() requirements (cor, cps) hold for `student`.
+static func qualifies(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> bool:
+	return (
+		student.attributes.effective_courage() >= rule.requires.get(&"cor", 0)
+		and student.attributes.effective_composure() >= rule.requires.get(&"cps", 0)
 	)
 
 
@@ -91,10 +114,7 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 	_pending_master_id = master.definition_id
 	_pending_master_name = name
 	var rule: NpcTeaching.ApprenticeRule = teaching.apprentice
-	if (
-		student.attributes.effective_courage() < rule.requires.get(&"cor", 0)
-		or student.attributes.effective_composure() < rule.requires.get(&"cps", 0)
-	):
+	if not qualifies(student, rule):
 		lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(rule.refuse_say).replace("$RESPECT", _t(respect))}))
 		return Outcome.QUALIFICATION_REJECTED
 	lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(rule.accept_say).replace("$RESPECT", _t(respect))}))

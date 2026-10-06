@@ -145,6 +145,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	holding.add_child(ui.inventory_panel)
 	ui.loot_panel = load("res://scenes/ui/oldpine_loot_panel.tscn").instantiate() as OldPineLootPanel
 	holding.add_child(ui.loot_panel)
+	ui.confirm_prompt = ConfirmPrompt.new()
+	holding.add_child(ui.confirm_prompt)
 	_attach()
 
 

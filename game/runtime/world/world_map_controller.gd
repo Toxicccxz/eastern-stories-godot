@@ -1729,6 +1729,11 @@ func dissolvable_corpse_name() -> String:
 	return corpse.victim_display_name
 
 
+## How many things lie in the corpse 化尸粉 would dissolve (dust.c destructs it whole).
+func dissolvable_corpse_contents() -> int:
+	return 0 if dissolvable_corpse_name().is_empty() else _corpse_content_count(_selected_corpse())
+
+
 ## The 化尸粉 a character carries directly (present(), first found), or empty.
 func _carried_dissolver(holder: ContainmentEndpoint) -> StringName:
 	for item_id: StringName in _inventory.direct_children(holder):
@@ -2663,9 +2668,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 		"name": _player.facts.display_name,
 		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
 	})]
-	var consent: NpcSparConsent = NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
-		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
-	))
+	var consent: NpcSparConsent = spar_consent(target)
 	var result := CombatSliceInitiationResult.new()
 	if consent.accepted:
 		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
@@ -2689,7 +2692,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
 	if not started:
 		lines.append(tr("看起来%s并不想跟你较量。") % name)
-	elif not consent.kill and (not player_state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()):
+	elif not consent.kill and spar_is_armed(target):
 		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
 		# blade draws blood. Native hint; ES2 says nothing here.
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
@@ -2698,6 +2701,59 @@ func spar_selected() -> CombatSliceInitiationResult:
 	else:
 		_hud().append_log_lines(lines)
 	return result
+
+
+## fight.c's answer `target` gives the player now: NpcSparConsent.decide() draws
+## nothing, so the HUD can know it before asking.
+func spar_consent(target: NpcRuntimeState) -> NpcSparConsent:
+	var player_state: CharacterState = _player.state
+	return NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
+		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
+	))
+
+
+## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
+## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, NONE when
+## it is unarmed or will not take place (spar_selected()'s refusals, or the NPC's).
+enum SparRisk { NONE, ARMED, DEADLY }
+
+
+func selected_spar_risk() -> SparRisk:
+	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
+	if (
+		target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred()
+		or GameContent.catalog().zone_forbids_fighting(_player.world_location().zone_id)
+		or not target.world_location().shares_combat_location(_player.world_location())
+		or target.relationship.has_opponent(_player.character_id)
+		or target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+	):
+		return SparRisk.NONE
+	var consent: NpcSparConsent = spar_consent(target)
+	if not consent.accepted:
+		return SparRisk.NONE
+	if consent.kill:
+		return SparRisk.DEADLY
+	return SparRisk.ARMED if spar_is_armed(target) else SparRisk.NONE
+
+
+## attack_selected() would start a fight (none of kill.c's refusals).
+func selected_attack_starts() -> bool:
+	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
+	var catalog: ContentCatalog = GameContent.catalog()
+	return (
+		target != null and not target.definition().dealings().is_fight_deferred()
+		and not catalog.zone_forbids_fighting(_player.world_location().zone_id)
+		and not catalog.zone_forbids_fighting(target.world_location().zone_id)
+		and target.world_location().shares_combat_location(_player.world_location())
+	)
+
+
+## Whether a spar with `target` is fought with a weapon in hand (the player's or
+## its): combatd.c then wounds as in a fight to the death.
+func spar_is_armed(target: NpcRuntimeState) -> bool:
+	return target != null and _player != null and (
+		not _player.state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()
+	)
 
 
 ## cmds/std/ask.c: the selected NPC can be asked when it speaks and is here

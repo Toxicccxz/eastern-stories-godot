@@ -137,7 +137,7 @@ msgstr ""
 msgid "开始旅程"
 msgstr ""
 
-#: scenes/application/application_shell.tscn runtime/world/services/hockshop_service.gd
+#: scenes/application/application_shell.tscn ui/common/confirm_prompt.gd
 msgid "取消"
 msgstr ""
 
@@ -187,10 +187,6 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
 msgid "开始新游戏"
-msgstr ""
-
-#: scenes/application/application_shell.tscn
-msgid "确定"
 msgstr ""
 
 #: scenes/ui/oldpine_loot_panel.tscn
@@ -3357,10 +3353,6 @@ msgid "卖断…"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
-msgid "确认卖断（不可撤销）"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
 msgid "交易"
 msgstr ""
 
@@ -3405,6 +3397,10 @@ msgstr ""
 msgid ""
 "卖断 {item}\n"
 "报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。"
+msgstr ""
+
+#: runtime/world/services/hockshop_service.gd
+msgid "确认卖断（不可撤销）"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
@@ -3714,6 +3710,10 @@ msgstr ""
 msgid "兑换状态异常，请停止操作。"
 msgstr ""
 
+#: ui/common/confirm_prompt.gd
+msgid "确定"
+msgstr ""
+
 #: ui/food/held_food_panel.gd
 msgid "随身食物"
 msgstr ""
@@ -3827,20 +3827,21 @@ msgid ""
 "确定要改投吗？"
 msgstr ""
 
+#. asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n"
+"· 综合评价清零。\n"
+"· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n"
+"确定要拜师吗？"
+msgstr ""
+
 #: ui/teacher/teacher_panel.gd
 msgid "拜师 / 向师父请安"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
 msgid "取消拜师请求"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid "确定改投"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
-msgid "不改投了"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -3861,6 +3862,22 @@ msgstr ""
 
 #: ui/teacher/teacher_panel.gd
 msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "确定改投"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "不改投了"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "确定拜师"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "再想想"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -4311,6 +4328,37 @@ msgstr ""
 msgid "你的尸体已经不在了。"
 msgstr ""
 
+#. asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n"
+"· 被逐出{family}，门派、师父和称号都没有了。\n"
+"· 综合评价清零（现在是 {score}）。\n"
+"· 背叛师门的次数变成 {next} 次。\n"
+"确定要攻击吗？"
+msgstr ""
+
+#. asked before 切磋 when the player or the NPC ({npc}) holds a weapon: a blow from it wounds as in a real fight (combatd.c).
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n"
+"确定要和{npc}切磋吗？"
+msgstr ""
+
+#. asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n"
+"确定要和{npc}切磋吗？"
+msgstr ""
+
+#. asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n"
+"确定要化掉吗？"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid "{name}的尸体 · {count}件物品"
 msgstr ""
@@ -4405,7 +4453,23 @@ msgid "随身补给"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
+msgid "确定化掉"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "请确认"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
 msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定攻击"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定切磋"
 msgstr ""
 
 #. es2:obj/money/coin name

@@ -256,6 +256,8 @@ func physical_tests(tree: SceneTree) -> void:
 	await walk.walk(tree,session,"move_left",12)
 	check(map.player_body.position.distance_to(position) < 0.1,"panel movement quarantine")
 	school.ui.request_apprentice()
+	check(school.ui.is_confirming() and not NpcApprenticeship.is_master_of(session.player_runtime().state, Master.definition()), "the first master asks first")
+	school.ui.confirm_button.pressed.emit()
 	school.ui.learn_buttons[&"unarmed"].pressed.emit()
 	check(NpcApprenticeship.is_master_of(session.player_runtime().state, Master.definition()) and school.last_learn != null,"UI routing through services")
 	check(school.ui.feedback.text.contains("你向柳淳风请教有关「基本拳脚」的疑问。"), "learn.c lines in the panel: " + school.ui.feedback.text)

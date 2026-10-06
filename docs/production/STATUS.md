@@ -4,15 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**水烟阁 A** (`phase/waterfog-a`): the mountain west of Snow's 青石官道, the pavilion and its
-upper floor (all 28 rooms), its eighteen NPCs with their gear and arts (天邪神掌, 六阴追魂剑法,
-火蝠身法), 萧辟尘 taking up his sword against an armed enemy, the 正门's guards keeping weapons
-out of the 正厅, the signs and stone tablets to look at; old suites' world numbers now live in
-`tests/fixtures/world_counts.json` (one command re-records it). The confirmations (#64) wait for
-merging.
+**Confirmations** (`phase/confirm-prompt`): one reusable ConfirmPrompt asks before 攻击 on
+one's own master, a 切磋 to the death (安惜迩) or with a weapon in hand, 化尸粉 on a corpse with
+things in it and the first 拜师; the betrayal, the hockshop sale and the menu's two questions
+use it too (DECISIONS). 水烟阁 A (#65) is merged: the mountain, the pavilion and its upper floor
+with their eighteen NPCs; old suites' world numbers live in `tests/fixtures/world_counts.json`.
 
-Next: 水烟阁 B, joining 天邪派 (萧辟尘's oath, 於兰天武's three-blow test) and learning from them;
-then C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
+Next: 水烟阁 B, joining 天邪派 (萧辟尘's oath, 於兰天武's three-blow test, asked first) and learning
+from them; then C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
 
 ## Playable now
 

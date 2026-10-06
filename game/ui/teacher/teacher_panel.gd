@@ -13,8 +13,9 @@ var status: Label
 var feedback: Label
 var apprentice_button: Button
 var cancel_button: Button
-## Asked before 拜师 makes the player betray their family (owner, DECISIONS 3B).
-var confirm_box: VBoxContainer
+## Asked before 拜师 makes the player betray their family (owner, DECISIONS 3B) or
+## takes their first master (owner, 2026-10-06): the shared ConfirmPrompt.
+var confirm_box: ConfirmPrompt
 var confirm_text: Label
 var confirm_button: Button
 var keep_button: Button
@@ -23,6 +24,8 @@ var learn_buttons: Dictionary[StringName, Button] = {}
 
 # TRANSLATORS: asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family.
 const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n确定要改投吗？"
+# TRANSLATORS: asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family.
+const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n确定要拜师吗？"
 
 
 func configure(contact: TeacherService) -> void:
@@ -49,16 +52,15 @@ func _ready() -> void:
 	if _contact.takes_apprentices():
 		apprentice_button = _button("Apprentice", "拜师 / 向师父请安", request_apprentice)
 		cancel_button = _button("CancelApprentice", "取消拜师请求", cancel_apprentice)
-		confirm_box = VBoxContainer.new()
-		confirm_box.name = "BetrayalConfirm"
+		confirm_box = ConfirmPrompt.new()
+		confirm_box.name = "ApprenticeConfirm"
 		confirm_box.hide()
 		_rows.add_child(confirm_box)
-		confirm_text = Label.new()
-		confirm_text.name = "BetrayalWarning"
-		confirm_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		confirm_box.add_child(confirm_text)
-		confirm_button = _confirm_choice("ConfirmBetrayal", "确定改投", _confirm_betrayal)
-		keep_button = _confirm_choice("KeepFamily", "不改投了", _keep_family)
+		confirm_text = confirm_box.message
+		confirm_button = confirm_box.confirm_button
+		keep_button = confirm_box.cancel_button
+		confirm_box.confirmed.connect(_confirm_apprentice)
+		confirm_box.cancelled.connect(_keep_family)
 	for skill_id: StringName in _contact.teachable_skills():
 		learn_buttons[skill_id] = _button("Learn_" + String(skill_id), "", _learn.bind(skill_id))
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log, and
@@ -93,16 +95,6 @@ func _button(node_name: String, text: String, action: Callable) -> Button:
 	button.custom_minimum_size.y = 44
 	button.pressed.connect(action)
 	_rows.add_child(button)
-	return button
-
-
-func _confirm_choice(node_name: String, text: String, action: Callable) -> Button:
-	var button := Button.new()
-	button.name = node_name
-	button.text = text
-	button.custom_minimum_size.y = 44
-	button.pressed.connect(action)
-	confirm_box.add_child(button)
 	return button
 
 
@@ -167,33 +159,50 @@ func refresh() -> void:
 		cancel_button.visible = player.apprenticeship_request.is_pending() and not is_confirming()
 
 
-## 拜师: a member of another family is told what betraying it costs and asked first.
+## 拜师: a member of another family is told what betraying it costs, and one
+## without a family what changing it later would cost; both are asked first.
 func request_apprentice() -> void:
 	if not panel.visible:
 		return
 	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
-	if NpcApprenticeship.would_betray(player.state, _contact.npc.definition()):
-		var family: FamilyDefinition = GameContent.catalog().family(_contact.teaching().family_id)
-		confirm_text.text = tr(BETRAYAL_WARNING).format({
-			"title": player.shown_title(), "master": tr(_contact.npc.definition().display_name),
-			"family": tr(family.display_name) if family != null else "", "score": player.state.progression.score,
+	var master: NpcDefinition = _contact.npc.definition()
+	var family: FamilyDefinition = GameContent.catalog().family(_contact.teaching().family_id)
+	var family_name: String = tr(family.display_name) if family != null else ""
+	# Asked only when 拜师 will take place: the master takes the player and no
+	# request already waits on him (apprentice.c then only says he has not answered).
+	var takes: bool = (
+		_contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and _contact.teaching().apprentice != null and NpcApprenticeship.qualifies(player.state, _contact.teaching().apprentice)
+		and not player.apprenticeship_request.is_pending_with(master.definition_id)
+	)
+	if takes and NpcApprenticeship.would_betray(player.state, master):
+		_ask(tr(BETRAYAL_WARNING).format({
+			"title": player.shown_title(), "master": tr(master.display_name),
+			"family": family_name, "score": player.state.progression.score,
 			"next": player.state.apprenticeship.betrayer_count + 1,
-		})
-		_set_confirming(true)
-		keep_button.grab_focus()
+		}), "确定改投", "不改投了")
+		return
+	if takes and NpcApprenticeship.would_join_first(player.state, master):
+		_ask(tr(FIRST_MASTER_WARNING).format({"master": tr(master.display_name), "family": family_name}), "确定拜师", "再想想")
 		return
 	_contact.request_apprentice()
 	_show_last()
 
 
+func _ask(text: String, choice: String, cancel: String) -> void:
+	_set_confirming(true)
+	confirm_box.ask(text, choice, cancel)
+	confirm_box.focus_default()
+
+
 func is_confirming() -> bool:
-	return confirm_box != null and confirm_box.visible
+	return confirm_box != null and confirm_box.is_asking() and confirm_box.visible
 
 
-func _confirm_betrayal() -> void:
-	if not panel.visible or not is_confirming():
-		return
+func _confirm_apprentice() -> void:
 	_set_confirming(false)
+	if not panel.visible:
+		return
 	_contact.request_apprentice()
 	_show_last()
 	apprentice_button.grab_focus()
@@ -201,7 +210,8 @@ func _confirm_betrayal() -> void:
 
 func _keep_family() -> void:
 	_set_confirming(false)
-	apprentice_button.grab_focus()
+	if panel.visible:
+		apprentice_button.grab_focus()
 
 
 ## While asking, only the title and the question show.
@@ -210,7 +220,8 @@ func _set_confirming(on: bool) -> void:
 		return
 	for child: Node in _rows.get_children():
 		if child == confirm_box:
-			confirm_box.visible = on
+			if not on:
+				confirm_box.hide()
 		elif child != _title and child is CanvasItem:
 			(child as CanvasItem).visible = not on
 	refresh()
