@@ -112,7 +112,7 @@ Licensing: no root project license; ES2 rights are unresolved
 
 ## How to verify
 
-See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~5 min locally; fails on a
+See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~3 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
 -- <suite paths>`. A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).
