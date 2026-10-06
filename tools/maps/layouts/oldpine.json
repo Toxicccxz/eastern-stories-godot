@@ -1,0 +1,137 @@
+{
+  "maps": {
+    "stone": {
+      "note": "大青石上: the top of the big stone above path3.",
+      "file": "oldpine_stone.tscn",
+      "draw": {"technique": "fills", "fills": [["cliff", -192, -160, 192, 160], ["rock", -128, -96, 128, 96]]},
+      "scene": {
+        "style": "map",
+        "root": "OldPineStone",
+        "map": "oldpine.stone",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "limits": [-208, -176, 208, 176],
+        "shapes": {"Rect_256_192": [256, 192]},
+        "nodes": [
+          {"node": "rect", "name": "StoneEdge", "rect": [-128, 64, 128, 96], "color": "Color(0.36, 0.42, 0.33, 1)"},
+          {"node": "caption", "name": "StoneLabel", "at": [-50, -90], "text": "大青石上", "size": 16}
+        ],
+        "zones": [{"name": "StoneZone", "id": "oldpine.stone.top", "at": [0, 0], "shape": "Rect_256_192"}],
+        "spawn_points": [
+          {"name": "Landing", "at": [0, -20], "id": "oldpine.stone.top.landing"},
+          {"name": "Venomsnake01", "at": [70, 40], "id": "oldpine.stone.top.stone.venomsnake.1"}
+        ],
+        "interactions": [
+          {
+            "name": "ClimbDownInteraction",
+            "id": "oldpine.stone.landmark.climb_down",
+            "at": [0, 0],
+            "shape": "Rect_256_192"
+          }
+        ]
+      }
+    },
+    "caves": {
+      "note": "cave1-4, one fixed maze (DECISIONS, as the pine maze), and cave5, the mouth toward the waterfall.",
+      "file": "oldpine_caves.tscn",
+      "draw": {
+        "technique": "fills",
+        "fills": [
+          ["cliff", -32, -32, 1088, 800],
+          {
+            "maze": {
+              "note": "48 px cells; S the landing from the stone (cave1), E the way on to cave5. Forks, two loops, dead ends, one way through.",
+              "grid": [
+                "################",
+                "S...#.....#....#",
+                "#.#.#.###.#.##.#",
+                "#.#...#...#..#.#",
+                "#.#####.###.##.#",
+                "#...#...#...#..#",
+                "###.#.###.###.##",
+                "#...#...#...#..#",
+                "#.#####.#.#.##.E",
+                "#.....#...#....#",
+                "#####.#####.####",
+                "#.....#...#....#",
+                "#.###.#.#.#.##.#",
+                "#...#...#...#..#",
+                "###.#####.###..#",
+                "################"
+              ],
+              "cell": 48,
+              "kind": "cave_floor"
+            }
+          },
+          ["cave_floor", 768, 304, 1008, 512, "cave5"],
+          ["cave_floor", 1008, 384, 1056, 432, "eastdown, toward the waterfall"]
+        ]
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineCaves",
+        "map": "oldpine.caves",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "limits": [-48, -48, 1104, 816],
+        "shapes": {"Rect_768_768": [768, 768], "Rect_256_240": [256, 240], "Rect_32_48": [32, 48], "Rect_240_64": [240, 64]},
+        "nodes": [
+          {"node": "rect", "name": "WallLandmark", "rect": [800, 288, 976, 304], "color": "Color(0.45, 0.4, 0.33, 1)"},
+          {"node": "caption", "name": "CaveMouthLabel", "at": [800, 470], "text": "山洞", "size": 16},
+          {"node": "caption", "name": "EastDownLabel", "at": [968, 440], "text": "东下 · 瀑布前", "size": 14},
+          {
+            "node": "passage",
+            "name": "EastDown",
+            "id": "oldpine.caves.eastdown",
+            "at": [1040, 408],
+            "shape": "Rect_32_48"
+          }
+        ],
+        "zones": [
+          {"name": "MazeZone", "id": "oldpine.caves.maze", "at": [384, 384], "shape": "Rect_768_768"},
+          {"name": "MouthZone", "id": "oldpine.caves.mouth", "at": [896, 408], "shape": "Rect_256_240"}
+        ],
+        "spawn_points": [
+          {"name": "Cave1Landing", "at": [24, 72], "id": "oldpine.caves.maze.cave1_landing"},
+          {"name": "Skeleton", "at": [880, 470], "id": "oldpine.caves.mouth.cave5.skeleton.1"}
+        ],
+        "interactions": [{"name": "WallInteraction", "id": "oldpine.caves.landmark.wall", "at": [888, 336], "shape": "Rect_240_64"}]
+      }
+    },
+    "cliff2": {
+      "note": "The niche in the cliff between cliffdown and epath3.",
+      "file": "oldpine_cliff2.tscn",
+      "draw": {
+        "technique": "fills",
+        "fills": [["chasm", 0, 0, 480, 640], ["rock", 96, 160, 384, 480], ["path", 192, 96, 288, 544]]
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineCliff2",
+        "map": "oldpine.cliff2",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "limits": [-16, -16, 496, 656],
+        "shapes": {"Rect_288_448": [288, 448], "Rect_192_96": [192, 96]},
+        "nodes": [
+          {
+            "node": "rect",
+            "name": "UpLandmark",
+            "rect": [192, 96, 288, 160],
+            "color": "Color(0.50980395, 0.4392157, 0.35686275, 1)"
+          },
+          {
+            "node": "rect",
+            "name": "DownLandmark",
+            "rect": [192, 480, 288, 544],
+            "color": "Color(0.28627452, 0.24705882, 0.20784314, 1)"
+          },
+          {"node": "caption", "name": "NicheLabel", "at": [110, 170], "text": "山壁上的窄穴"}
+        ],
+        "zones": [{"name": "NicheZone", "id": "oldpine.cliff2.niche", "at": [240, 320], "shape": "Rect_288_448"}],
+        "spawn_points": [{"name": "Landing", "at": [240, 320], "id": "oldpine.cliff2.niche.landing"}],
+        "interactions": [
+          {"name": "UpInteraction", "id": "oldpine.cliff2.landmark.up", "at": [240, 144], "shape": "Rect_192_96"},
+          {"name": "DownInteraction", "id": "oldpine.cliff2.landmark.down", "at": [240, 496], "shape": "Rect_192_96"}
+        ]
+      }
+    }
+  }
+}
