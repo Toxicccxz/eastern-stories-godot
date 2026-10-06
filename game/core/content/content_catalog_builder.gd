@@ -239,6 +239,11 @@ func _resolve_npc_dealings() -> void:
 		var vendor_id: StringName = definition.dealings().vendor_id
 		if not vendor_id.is_empty() and not _vendors.has(vendor_id):
 			_errors.append("%s.vendor: unknown vendor '%s'" % [origin, vendor_id])
+		for rule: NpcObjectRule in definition.dealings().object_rules:
+			if not rule.giver_family.is_empty() and not _families.has(rule.giver_family):
+				_errors.append("%s.accept_object: unknown family '%s'" % [origin, rule.giver_family])
+			if not rule.item_name.is_empty() and not _items.values().any(func(item: ItemContentDefinition) -> bool: return item.display_name == rule.item_name):
+				_errors.append("%s.accept_object: no item named '%s'" % [origin, rule.item_name])
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue

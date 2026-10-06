@@ -63,7 +63,10 @@ func apprenticeship_tests() -> void:
 	check(Master.recruit(state, 4) == NpcApprenticeship.Outcome.RECRUITED, "effective source attributes, not base")
 	state = fresh()
 	state.family = FamilyState.new(&"other", 1)
-	check(Master.recruit(state, 5) == NpcApprenticeship.Outcome.OTHER_RELATIONSHIP_DEFERRED and state.family.family_id == &"other", "no family switching")
+	state.progression.score = 7
+	request = NpcApprenticeship.new()
+	check(Master.recruit(state, 5, request) == NpcApprenticeship.Outcome.RECRUITED and state.family.family_id == &"family.fonxan" and state.apprenticeship.betrayer_count == 1 and state.progression.score == 0, "a member of another family betrays it (recruit.c)")
+	check(request.lines[2] == "你决定背叛师门，改投入柳淳风门下！！", "recruit.c betrayal line: " + str(request.lines))
 	check(Master.definition().skill_levels().size() == 11 and NpcTeacher.teachable_skills(Master.definition(), GameContent.catalog()) == [&"unarmed", &"parry", &"dodge", &"sword", &"force", &"literate", &"fonxanforce", &"fonxansword", &"liuh-ken", &"chaos-steps"], "all source knowledge retained; teaches what skills.json defines (not spider-array)")
 
 

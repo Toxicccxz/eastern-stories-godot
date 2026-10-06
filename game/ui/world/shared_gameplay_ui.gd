@@ -191,7 +191,8 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 	refresh_live_state()
 
 
-func show_inspection(definition: NpcDefinition) -> void:
+## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none.
+func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"") -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	if definition == null:
 		inspection_text.text = ""
@@ -200,6 +201,9 @@ func show_inspection(definition: NpcDefinition) -> void:
 		definition.short_name(),
 		tr(definition.description).strip_edges(),
 	]
+	if not relation.is_empty():
+		# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
+		inspection_text.text += "\n" + tr("{pronoun}是你的{relation}。").format({"pronoun": tr(Es2CombatMessages.pronoun(gender)), "relation": tr(relation)})
 
 
 func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:

@@ -30,9 +30,11 @@ var dodge_messages: Array[String] = []
 var parry_messages_armed: Array[String] = []
 var parry_messages_unarmed: Array[String] = []
 ## practice_skill() (practice.c): what it writes when it lets the practice happen,
-## and its notify_fail() when it does not ("" when it sets none).
+## and its notify_fail() when it does not ("" when it sets none); the one for the
+## weapon in hand is apart (spring-blade.c checks the weapon before kee).
 var practice_done: String = ""
 var practice_fail: String = ""
+var practice_weapon_fail: String = ""
 ## skill_improved(): the line it prints when its effect applies, in its colour.
 var improved_line: String = ""
 var improved_color: StringName = ColoredLine.PLAIN
@@ -141,13 +143,19 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	if practice != null:
 		definition.practice_done = practice.text("done")
 		definition.practice_fail = practice.text("fail")
+		definition.practice_weapon_fail = practice.text("weapon_fail")
 		if practice.boolean("refuses", false):
 			definition._practice = UnpracticeablePracticePolicy.new(definition.skill_id)
 		else:
 			var kee: int = practice.integer("kee")
 			var force: int = practice.integer("force")
-			# practice_skill(): kee and force both at least the cost, then both spent.
-			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force)
+			var weapon: StringName = StringName(practice.text("weapon"))
+			if not weapon.is_empty() and not SkillUseIds.is_enable_command_use(weapon):
+				practice.fail("weapon", "not a skill_type enable.c knows")
+			if weapon.is_empty() != definition.practice_weapon_fail.is_empty():
+				practice.fail("weapon_fail", "goes with weapon")
+			# practice_skill(): the weapon, then kee and force both at least the cost, then both spent.
+			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force, weapon)
 		practice.finish()
 	definition._valid_learn_lines = reader.text_map("valid_learn")
 	for key: String in definition._valid_learn_lines:

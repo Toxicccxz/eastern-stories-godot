@@ -14,3 +14,9 @@ func _init(p_skill_id: StringName = &"") -> void:
 ## character before returning, matching the LPC hook contract.
 func practice(_character: CharacterStateType) -> bool:
 	return true
+
+
+## Whether practice_skill() refuses `character` for the weapon in its hand (its
+## own notify_fail(), spring-blade.c's 你必须先找一把刀). Pure: changes nothing.
+func refuses_weapon(_character: CharacterStateType) -> bool:
+	return false

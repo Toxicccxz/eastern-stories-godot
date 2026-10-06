@@ -2,8 +2,8 @@
 
 How 卧龙岗 and 绮云镇 come from `reference/es2/mudlib/u/cloud/` (and `u/cloud/dragonhill/`), and
 what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS.md). Package
-3A (streets and shops) places every room and every NPC the rooms name; joining 振远镖局 (3B),
-朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (region plan #8) come later.
+3A (streets and shops) places every room and every NPC the rooms name; 3B makes 振远镖局
+joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (region plan #8) come later.
 
 ## Placed
 
@@ -21,7 +21,7 @@ what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS
 | duchang, duchang2 | 宝官 | his betting is 3D |
 | marry_room | 媒婆 | marriage is 3D |
 | park (张家花园) | 飞贼 | steals silver from arrivals (thief.c, steal.c) |
-| biaoju | 陈剑秋, 趟子手 | 春风快意刀; joining is 3B |
+| biaoju | 陈剑秋, 趟子手 | 3B: 陈剑秋 takes apprentices with cor 25 (class guardman) and teaches his seven skills; 趟子手 teaches the family's members; 春风快意刀 is practised with a blade |
 | rich, m_house | 保镖 ×5; 张百万, 家丁 ×2 | |
 | eroad4 (茶场) | 茶工 ×6 | wander |
 | dukou (江北渡口) | 船夫 | the crossing waits for #8 |
@@ -50,6 +50,13 @@ what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS
   a lost glyph; lm_guard.c, monk_guard.c and monk_waiter.c are placed by 晚月庄's entrance
   and 山烟寺's front yard, not by any u/cloud room (26 of the 32 NPC files stand here).
 - spring-blade.c's □伤 is the case label combatd.c also has (割伤's branch).
+- apprentice.c's help says a betrayer's skills are halved; neither apprentice.c nor recruit.c
+  does it (only score 0 and betrayer + 1). An NPC master recruits through recruit.c.
+- b_header.c's accept_object() returns 1 in every branch, so give.c hands the thing over: 陈剑秋
+  keeps whatever he is given (money is destructed). His 淳风武馆 answer is 柳淳风's, word for word.
+- grass.c's 忘忧草 gets its master_id only in lion.c's die() (乔阴县城); until then every 忘忧草 a
+  member gives him is 这不是你得到的吧. 柳绘心 (d/snow girl.c) is of 封山剑派北宗, not 封山剑派,
+  so look.c names no relation between her and 柳淳风's disciples.
 
 ## Deferred
 
@@ -58,3 +65,7 @@ what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS
 - 弈者's 下棋 (a coin flip that hands over his 棋子). A carried 布袋 is not opened (put works on
   a container lying in reach).
 - The garrison's vendetta and pursuit, 趟子手's and the thief's wimpy.
+- 陈剑秋's letter (u/cloud/npc/obj/letter.c, master_id) for a 忘忧草 that is the giver's: with the
+  lion of 乔阴县城 (#9), which gives the grass its master_id; 陈天星 takes the letter in 京师 (#12).
+- Killing one's own master (combatd.c killer_reward(): betrayer - 1, title 普通百姓, no family):
+  with 3C, which ports the player's side of killer_reward() for the quests.

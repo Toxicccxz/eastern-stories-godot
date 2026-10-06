@@ -24,6 +24,8 @@ enum FailureReason {
 	LEARN_POLICY_NOT_AVAILABLE,
 	LEARN_POLICY_SKILL_MISMATCH,
 	VALID_LEARN_DEPENDENCY_UNAVAILABLE,
+	## practice_skill() refused for the weapon in hand (PracticePolicy.refuses_weapon()).
+	PRACTICE_WEAPON_REJECTED,
 }
 
 enum Completion {

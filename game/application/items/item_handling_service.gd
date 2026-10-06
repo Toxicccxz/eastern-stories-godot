@@ -57,6 +57,8 @@ static func give(
 	)
 	offer.giver_gender = player.state.gender
 	offer.giver_per = player.state.attributes.personality
+	offer.item_name = content.display_name
+	offer.giver_family = player.state.family.family_id
 	var liquid: LiquidState = authorities.liquids.state(id)
 	if liquid != null:
 		offer.liquid_type = LiquidState.legacy_type(liquid.content)

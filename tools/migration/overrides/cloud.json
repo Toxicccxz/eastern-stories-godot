@@ -7,6 +7,7 @@
 		"u/cloud/npc/tailor.c",
 		"u/cloud/npc/weaponor.c"
 	],
+	"items": ["d/choyin/obj/grass.c"],
 	"set": {
 		"cloud.outdoor.hummock.gangsters": { "presence_radius": 100 },
 		"cloud.npc.gangster": {
@@ -149,6 +150,19 @@
 			"accept_fight": [
 				{ "say": "好小子, 居然管起大爷的事来, 看招!", "accept": true, "kill": true }
 			]
+		},
+		"cloud.npc.b_header": {
+			"apprentice": {
+				"requires": { "cor": 25 },
+				"refuse_say": "走镖危险甚大，依我看$RESPECT似乎不宜冒这份险？",
+				"accept_say": "很好，$RESPECT多加努力，本镖局不会亏待你的。",
+				"class": "guardman"
+			},
+			"accept_object": [
+				{ "item_name": "忘忧草", "giver_family": "family.zhenyuan", "emote": "笑了笑说：“这不是你得到的吧？”。", "accept": true },
+				{ "item_name": "忘忧草", "say": "你是何人？为什么有我的忘忧草？", "accept": true },
+				{ "say": "你拿什么东西唬我？", "accept": true }
+			]
 		}
 	},
 	"review": {
@@ -241,9 +255,9 @@
 			"function look_sign": "look targets are not data yet"
 		},
 		"u/cloud/npc/b_header.c": {
-			"function attempt_apprentice": "joining 振远镖局: package 3B",
-			"function recruit_apprentice": "joining 振远镖局: package 3B",
-			"function accept_object": "忘忧草 for the letter to 陈天星: package 3B"
+			"function attempt_apprentice": "apprentice rule: cor 25 (set cloud.npc.b_header)",
+			"function recruit_apprentice": "apprentice rule: class guardman (set cloud.npc.b_header)",
+			"function accept_object": "accept_object item_name 忘忧草 and giver_family (set cloud.npc.b_header); every branch returns 1, so give.c hands the thing over. No 忘忧草 carries master_id before lion.c's die() (乔阴县城, region plan #9): the letter branch comes with it"
 		},
 		"u/cloud/npc/bfighter.c": {
 			"set pursuer": "following who flees is not modelled yet (as 安惜迩's and 金银花蛇's)",

@@ -1,5 +1,21 @@
 # Migration Decisions
 
+## 绮云镇 3B: joining 振远镖局 (2026-10-05)
+
+- **Changing family is ported** (the Snow entry's deferred betrayal): an NPC master recruits
+  through recruit.c, so a member of another family who is taken says 你决定背叛师门, gets score 0
+  and betrayer + 1, and the new family, master, title, class and entry time replace the old ones.
+  A member of the same family only changes master.
+- **The player's score** (综合评价) is kept and saved (only when it is not 0); betrayal sets it to
+  0. Nothing shows it or adds to it before 3C's quests.
+- **look.c's relation** (他是你的师父, 同门师兄, 师叔 …) is the last line of 目标详情 for an NPC
+  of the player's family; an NPC has no master and enter_time 0 (create_family()).
+- **practice_skill() may ask for a weapon in hand** (`practice.weapon`, spring-blade.c's blade),
+  checked before kee and with its own line.
+- **Owner: Q1 A.** The 忘忧草 is defined but not placed. 陈剑秋's three answers are rules
+  (`item_name`, `giver_family`); the letter waits for 乔阴县城's lion (CLOUD_CONTENT, Deferred).
+- **Owner: killing one's own master comes with 3C** (killer_reward()'s player side).
+
 ## 卧龙岗 + 绮云镇 3A: the streets and shops (2026-10-05)
 
 The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.md).

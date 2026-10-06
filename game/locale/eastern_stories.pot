@@ -1600,6 +1600,62 @@ msgstr ""
 msgid "既然$RESPECT赐教，$SELF只好奉陪。"
 msgstr ""
 
+#: core/relationships/family_relation.gd
+msgid "师兄"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师弟"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "同门师兄"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "同门师弟"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师姐"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师妹"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "同门师姐"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "同门师妹"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师父"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "同门长辈"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师伯"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师叔"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "同门晚辈"
+msgstr ""
+
+#: core/relationships/family_relation.gd
+msgid "师侄"
+msgstr ""
+
 #. the title of a family's founder: {family} is the family (封山剑派).
 #: core/relationships/npc_apprenticeship.gd
 msgid "{family}开山祖师"
@@ -1623,10 +1679,6 @@ msgid "你恭恭敬敬地向%s磕头请安，叫道：「师父！」"
 msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
-msgid "你已有师门，改投%s门下暂不开放。"
-msgstr ""
-
-#: core/relationships/npc_apprenticeship.gd
 msgid "你想拜%s为师，但是对方还没有答应。"
 msgstr ""
 
@@ -1635,11 +1687,15 @@ msgid "你想要拜%s为师。"
 msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
-msgid "%s决定收你为弟子。"
+msgid "你决定背叛师门，改投入%s门下！！"
 msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
 msgid "你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」"
+msgstr ""
+
+#: core/relationships/npc_apprenticeship.gd
+msgid "%s决定收你为弟子。"
 msgstr ""
 
 #. snow.npc.girl family.title
@@ -3977,6 +4033,11 @@ msgstr ""
 msgid "目标详情"
 msgstr ""
 
+#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
+#: ui/world/shared_gameplay_ui.gd
+msgid "{pronoun}是你的{relation}。"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
 "{name}的尸体\n"
@@ -4432,6 +4493,11 @@ msgstr ""
 msgid "由於你勤练武艺，你的膂力提高了。"
 msgstr ""
 
+#. blade name
+#: data/common/skills.json
+msgid "基本刀法"
+msgstr ""
+
 #. parry parry_messages.armed
 #: data/common/skills.json
 msgid "只听见「锵」一声，被$p格开了。"
@@ -4540,6 +4606,16 @@ msgstr ""
 #. spring-blade name
 #: data/common/skills.json
 msgid "春风快意刀"
+msgstr ""
+
+#. spring-blade practice.weapon_fail
+#: data/common/skills.json
+msgid "你必须先找一把刀，才能练刀法。"
+msgstr ""
+
+#. spring-blade practice.fail
+#: data/common/skills.json
+msgid "你的体力不够练这门刀法，还是先休息休息吧。"
 msgstr ""
 
 #. spring-blade actions.action
@@ -7200,6 +7276,23 @@ msgid ""
 "这是一把宝剑，隐含神秘力量。\n"
 msgstr ""
 
+#. es2:d/choyin/obj/grass name
+#. cloud.npc.b_header inquiry topic
+#: data/choyin/items.json data/cloud/npcs.json
+msgid "忘忧草"
+msgstr ""
+
+#. es2:d/choyin/obj/grass long
+#: data/choyin/items.json
+msgid ""
+"一棵翠绿色的小草，发着晶莹的光芒和醉人的香味。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/grass unit
+#: data/choyin/items.json
+msgid "棵"
+msgstr ""
+
 #. es2:u/cloud/obj/npc/gangster/blade long
 #: data/cloud/items.json
 msgid ""
@@ -8023,14 +8116,34 @@ msgstr ""
 msgid "他是我师叔，如果你帮我找到忘忧草并交给我，我就介绍你去那学艺。"
 msgstr ""
 
-#. cloud.npc.b_header inquiry topic
-#: data/cloud/npcs.json
-msgid "忘忧草"
-msgstr ""
-
 #. cloud.npc.b_header inquiry.忘忧草
 #: data/cloud/npcs.json
 msgid "我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"
+msgstr ""
+
+#. cloud.npc.b_header apprentice.refuse_say
+#: data/cloud/npcs.json
+msgid "走镖危险甚大，依我看$RESPECT似乎不宜冒这份险？"
+msgstr ""
+
+#. cloud.npc.b_header apprentice.accept_say
+#: data/cloud/npcs.json
+msgid "很好，$RESPECT多加努力，本镖局不会亏待你的。"
+msgstr ""
+
+#. cloud.npc.b_header accept_object.emote
+#: data/cloud/npcs.json
+msgid "笑了笑说：“这不是你得到的吧？”。"
+msgstr ""
+
+#. cloud.npc.b_header accept_object.say
+#: data/cloud/npcs.json
+msgid "你是何人？为什么有我的忘忧草？"
+msgstr ""
+
+#. cloud.npc.b_header accept_object.say
+#: data/cloud/npcs.json
+msgid "你拿什么东西唬我？"
 msgstr ""
 
 #. cloud.npc.bfighter name

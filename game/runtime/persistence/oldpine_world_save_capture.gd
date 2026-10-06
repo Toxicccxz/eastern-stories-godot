@@ -330,6 +330,7 @@ func _character_snapshot(
 			state.progression.combat_experience,
 			state.progression.potential,
 			state.progression.potential_spent,
+			state.progression.score,
 		),
 		Values.SkillStateSnapshot.new(
 			state.skills.has_skills_mapping(),
