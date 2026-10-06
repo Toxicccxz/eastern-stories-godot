@@ -74,6 +74,11 @@
 			"legacy_room": "es2:d/snow/sroad1", "legacy_command": "south"
 		},
 		{
+			"id": "snow.sroad5.west", "from_zone": "snow.sroad5",
+			"to_zone": "waterfog.sroad1", "to_spawn": "waterfog.sroad1.snow_entry",
+			"legacy_room": "es2:d/snow/sroad5", "legacy_command": "west"
+		},
+		{
 			"id": "snow.inn.up", "from_zone": "snow.inn.main_floor",
 			"to_zone": "snow.inn_2f", "to_spawn": "snow.inn_2f.stairs_arrival",
 			"legacy_room": "es2:d/snow/inn", "legacy_command": "up"

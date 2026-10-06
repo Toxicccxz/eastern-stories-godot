@@ -23,6 +23,7 @@ var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
+var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
@@ -79,6 +80,20 @@ func set_places(
 	_doors = p_doors.duplicate()
 	_landmarks = p_landmarks.duplicate()
 	_traps = p_traps.duplicate()
+
+
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_exit_rules(p_exit_rules: Dictionary[StringName, ZoneExitRuleDefinition]) -> void:
+	_exit_rules = p_exit_rules.duplicate()
+
+
+## The valid_leave() rules on the way from one zone into another.
+func exit_rules_between(from_zone_id: StringName, to_zone_id: StringName) -> Array[ZoneExitRuleDefinition]:
+	var result: Array[ZoneExitRuleDefinition] = []
+	for rule: ZoneExitRuleDefinition in _exit_rules.values():
+		if rule.from_zone_id == from_zone_id and rule.to_zone_id == to_zone_id:
+			result.append(rule)
+	return result
 
 
 ## Called once by ContentCatalogBuilder after cross-checking.

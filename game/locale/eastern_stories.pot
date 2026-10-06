@@ -58,6 +58,9 @@ msgid "性别"
 msgstr ""
 
 #. common.npc.swordsman.master gender
+#. common.npc.fighter.champion gender
+#. common.npc.fighter.master gender
+#. common.npc.fighter.executioner gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -107,7 +110,14 @@ msgstr ""
 #. cloud.npc.jiading gender
 #. cloud.npc.worker gender
 #. cloud.npc.chess_player gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json
+#. waterfog.npc.guard gender
+#. waterfog.npc.watcher gender
+#. waterfog.npc.servant gender
+#. waterfog.npc.elite_guard gender
+#. waterfog.npc.elder5 gender
+#. waterfog.npc.elder6 gender
+#. waterfog.npc.elder7 gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -410,7 +420,7 @@ msgstr ""
 msgid "怡红院二楼"
 msgstr ""
 
-#: scenes/world/cloud/cloud_upstairs.tscn scenes/world/snow/snow_inn_upstairs.tscn
+#: scenes/world/cloud/cloud_upstairs.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
 msgid "楼梯 · 下楼"
 msgstr ""
 
@@ -798,7 +808,10 @@ msgstr ""
 #. es2:d/snow/sroad3 short
 #. es2:d/snow/sroad4 short
 #. es2:d/snow/sroad5 short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#. es2:d/waterfog/sroad1 short
+#. es2:d/waterfog/sroad2 short
+#. es2:d/waterfog/sroad3 short
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/snow/rooms.json data/waterfog/rooms.json
 msgid "青石官道"
 msgstr ""
 
@@ -818,6 +831,118 @@ msgstr ""
 #. es2:d/snow/hockshop2 short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "储藏室"
+msgstr ""
+
+#. es2:d/waterfog/swordtomb short
+#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
+msgid "葬剑亭"
+msgstr ""
+
+#. es2:d/waterfog/stair1 short
+#. es2:d/waterfog/stair2 short
+#. es2:d/waterfog/stair3 short
+#. es2:d/waterfog/stair4 short
+#. es2:d/waterfog/stair5 short
+#. es2:d/waterfog/wpath3 short
+#. es2:d/waterfog/wpath4 short
+#. es2:d/waterfog/wpath5 short
+#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
+msgid "白石阶梯"
+msgstr ""
+
+#. es2:d/waterfog/wpath1 short
+#. es2:d/waterfog/wpath2 short
+#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
+msgid "山坡小径"
+msgstr ""
+
+#. es2:d/waterfog/frontyard short
+#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
+msgid "水烟阁前"
+msgstr ""
+
+#. es2:d/waterfog/clifftop short
+#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
+msgid "水烟阁半山亭"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_mountain.tscn
+msgid "东 · 雪亭镇"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry topic
+#. waterfog name
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/npcs.json data/waterfog/world.json
+msgid "水烟阁"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_mountain.tscn
+msgid "深谷"
+msgstr ""
+
+#. es2:d/waterfog/storage short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "柴房"
+msgstr ""
+
+#. es2:d/waterfog/servroom short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "仆役卧室"
+msgstr ""
+
+#. es2:d/waterfog/kitchen short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "厨房"
+msgstr ""
+
+#. es2:d/waterfog/weststair short
+#. es2:d/waterfog/west_2f short
+#: scenes/world/waterfog/waterfog_pavilion.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/waterfog/rooms.json
+msgid "西侧厅"
+msgstr ""
+
+#. es2:d/waterfog/guildhall short
+#. es2:daemon/class/fighter/guildhall short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "水烟阁正厅"
+msgstr ""
+
+#. es2:d/waterfog/eaststair short
+#. es2:d/waterfog/east_2f short
+#: scenes/world/waterfog/waterfog_pavilion.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/waterfog/rooms.json
+msgid "东侧厅"
+msgstr ""
+
+#. es2:d/waterfog/westhall short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "水烟阁西侧花厅"
+msgstr ""
+
+#. es2:d/waterfog/entrance short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "水烟阁正门"
+msgstr ""
+
+#. es2:d/waterfog/easthall short
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
+msgid "水烟阁东侧花厅"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_pavilion.tscn
+msgid "南 · 水烟阁前"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_pavilion.tscn
+msgid "白石梯 · 上楼"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_pavilion.tscn
+msgid "阶梯 · 上楼"
+msgstr ""
+
+#. es2:d/waterfog/forehall short
+#: scenes/world/waterfog/waterfog_upstairs.tscn data/waterfog/rooms.json
+msgid "聆啸厅"
 msgstr ""
 
 #: application/application_message_catalog.gd
@@ -984,7 +1109,8 @@ msgstr ""
 msgid "你没有那麽多的%s。"
 msgstr ""
 
-#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/world/world_map_controller.gd
+#. an NPC's say() in a fight: {npc} its name, {line} what it says.
+#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/world_map_controller.gd
 msgid "{npc}说道：{line}"
 msgstr ""
 
@@ -1815,8 +1941,10 @@ msgstr ""
 msgid "%s决定收你为弟子。"
 msgstr ""
 
+#. common.npc.fighter.champion family.title
+#. common.npc.fighter.master family.title
 #. snow.npc.girl family.title
-#: core/relationships/npc_apprenticeship.gd data/snow/npcs.json
+#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json
 msgid "弟子"
 msgstr ""
 
@@ -2283,6 +2411,7 @@ msgid "Ok."
 msgstr ""
 
 #. liuh-ken actions.damage_type
+#. celestrike actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "瘀伤"
@@ -2310,6 +2439,7 @@ msgid "$N用爪子往$n的$l一抓"
 msgstr ""
 
 #. fonxansword actions.damage_type
+#. six-chaos-sword actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "刺伤"
@@ -3101,7 +3231,8 @@ msgstr ""
 #. goathill.npc.big_worm limbs
 #. goathill.npc.huge_worm limbs
 #. cloud.npc.fly limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json
+#. waterfog.npc.celes_tiger limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -3736,7 +3867,8 @@ msgstr ""
 msgid "无法计算"
 msgstr ""
 
-#: ui/world/character_panel.gd
+#. common.npc.fighter.champion inquiry topic
+#: ui/world/character_panel.gd data/common/npcs.json
 msgid "武学"
 msgstr ""
 
@@ -4345,6 +4477,8 @@ msgstr ""
 
 #. es2:obj/cloth unit
 #. es2:daemon/class/swordsman/silk_cloth unit
+#. es2:daemon/class/fighter/icy_boot unit
+#. es2:daemon/class/fighter/icy_cloth unit
 #. es2:d/oldpine/obj/leather unit
 #. es2:d/oldpine/obj/robe unit
 #. es2:d/oldpine/obj/fur_coat unit
@@ -4358,7 +4492,10 @@ msgstr ""
 #. es2:u/cloud/obj/cloth/black_cloth unit
 #. es2:u/cloud/obj/npc/girl/pink_cloth unit
 #. es2:u/cloud/obj/cloth/cloth unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/cloud/items.json
+#. es2:d/waterfog/obj/guard_suit unit
+#. es2:d/waterfog/obj/watcher_suit unit
+#. es2:d/waterfog/obj/red_suit unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json
 msgid "件"
 msgstr ""
 
@@ -4446,6 +4583,8 @@ msgstr ""
 #. es2:obj/weapon/sixhammer unit
 #. es2:obj/weapon/thin_sword unit
 #. es2:obj/weapon/dagger unit
+#. es2:daemon/class/fighter/houndbane unit
+#. es2:daemon/class/fighter/soulimpaler unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
@@ -4463,7 +4602,8 @@ msgstr ""
 #. es2:u/cloud/obj/npc/b_header/moon_blade unit
 #. es2:u/cloud/obj/npc/worker/tea_leaf unit
 #. es2:u/cloud/obj/npc/chess_player/chess unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json
+#. es2:d/waterfog/obj/sorrowfire unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json
 msgid "把"
 msgstr ""
 
@@ -4607,9 +4747,12 @@ msgid "皮鞭"
 msgstr ""
 
 #. es2:obj/weapon/whip unit
+#. es2:daemon/class/fighter/icy_girth unit
+#. es2:daemon/class/fighter/icy_ribbon unit
 #. es2:u/cloud/obj/npc/butcher/skin_belt unit
 #. es2:u/cloud/obj/etc/rope unit
-#: data/common/items.json data/cloud/items.json
+#. es2:d/waterfog/obj/iron_staff unit
+#: data/common/items.json data/cloud/items.json data/waterfog/items.json
 msgid "条"
 msgstr ""
 
@@ -4647,6 +4790,48 @@ msgstr ""
 #: data/common/items.json data/snow/items.json
 msgid ""
 "这是一把又细又长的剑，轻飘飘的像是女孩子家的玩意。\n"
+msgstr ""
+
+#. es2:daemon/class/fighter/houndbane name
+#: data/common/items.json
+msgid "妖刀狗屠"
+msgstr ""
+
+#. es2:daemon/class/fighter/houndbane long
+#: data/common/items.json
+msgid ""
+"这是一把暗绿色的鬼头刀，拿在手中沈甸甸地。\n"
+msgstr ""
+
+#. es2:daemon/class/fighter/icy_boot name
+#: data/common/items.json
+msgid "吹雪残云靴"
+msgstr ""
+
+#. es2:daemon/class/fighter/icy_girth name
+#: data/common/items.json
+msgid "吹雪残云带"
+msgstr ""
+
+#. es2:daemon/class/fighter/icy_cloth name
+#: data/common/items.json
+msgid "吹雪残云衣"
+msgstr ""
+
+#. es2:daemon/class/fighter/icy_ribbon name
+#: data/common/items.json
+msgid "吹雪残云巾"
+msgstr ""
+
+#. es2:daemon/class/fighter/soulimpaler name
+#: data/common/items.json
+msgid "邪剑穿灵"
+msgstr ""
+
+#. es2:daemon/class/fighter/soulimpaler long
+#: data/common/items.json
+msgid ""
+"这是一把血红色的的长剑，份量大约有十来斤左右。\n"
 msgstr ""
 
 #. unarmed improved_line
@@ -4960,6 +5145,131 @@ msgstr ""
 msgid "由於你的勤学苦读，你的悟性提高了。"
 msgstr ""
 
+#. staff name
+#: data/common/skills.json
+msgid "基本杖法"
+msgstr ""
+
+#. throwing name
+#: data/common/skills.json
+msgid "基本暗器"
+msgstr ""
+
+#. perception name
+#: data/common/skills.json
+msgid "听风辨器之术"
+msgstr ""
+
+#. celestrike name
+#: data/common/skills.json
+msgid "天邪神掌"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N使出一招「大天罗式」，右掌穿出击向$n的$l"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击"
+msgstr ""
+
+#. celestrike actions.action
+#: data/common/skills.json
+msgid "$N吐气扬声，一招「气撼九重天」双掌并力推出"
+msgstr ""
+
+#. six-chaos-sword name
+#: data/common/skills.json
+msgid "六阴追魂剑法"
+msgstr ""
+
+#. six-chaos-sword improved_line
+#: data/common/skills.json
+msgid "你突然觉得一股恶气冲上心头，只觉得想杀人...."
+msgstr ""
+
+#. six-chaos-sword actions.action
+#: data/common/skills.json
+msgid "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑"
+msgstr ""
+
+#. six-chaos-sword actions.action
+#: data/common/skills.json
+msgid "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l"
+msgstr ""
+
+#. six-chaos-sword actions.action
+#: data/common/skills.json
+msgid "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l"
+msgstr ""
+
+#. six-chaos-sword actions.action
+#: data/common/skills.json
+msgid "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑"
+msgstr ""
+
+#. six-chaos-sword actions.action
+#: data/common/skills.json
+msgid "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去"
+msgstr ""
+
+#. six-chaos-sword actions.action
+#: data/common/skills.json
+msgid "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去"
+msgstr ""
+
+#. pyrobat-steps name
+#: data/common/skills.json
+msgid "火蝠身法"
+msgstr ""
+
+#. pyrobat-steps dodge_messages
+#: data/common/skills.json
+msgid "可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。"
+msgstr ""
+
+#. pyrobat-steps dodge_messages
+#: data/common/skills.json
+msgid "$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。"
+msgstr ""
+
+#. pyrobat-steps dodge_messages
+#: data/common/skills.json
+msgid "$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。"
+msgstr ""
+
+#. pyrobat-steps dodge_messages
+#: data/common/skills.json
+msgid "却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。"
+msgstr ""
+
+#. pyrobat-steps dodge_messages
+#: data/common/skills.json
+msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
@@ -5090,6 +5400,13 @@ msgstr ""
 msgid "东方神教"
 msgstr ""
 
+#. family.celestial name
+#. common.npc.fighter.champion family.name
+#. common.npc.fighter.master family.name
+#: data/common/families.json data/common/npcs.json
+msgid "天邪派"
+msgstr ""
+
 #. common.npc.swordsman.master name
 #: data/common/npcs.json
 msgid "柳淳风"
@@ -5196,6 +5513,112 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "县城官兵喝道：大胆刁民竟敢拒捕？反了！反了！\n"
+msgstr ""
+
+#. common.npc.fighter.champion name
+#: data/common/npcs.json
+msgid "於兰天武"
+msgstr ""
+
+#. common.npc.fighter.champion nickname
+#: data/common/npcs.json
+msgid "大天邪"
+msgstr ""
+
+#. common.npc.fighter.champion title
+#: data/common/npcs.json
+msgid "水烟阁传功使"
+msgstr ""
+
+#. common.npc.fighter.champion long
+#: data/common/npcs.json
+msgid ""
+"於兰天武是当今皇上的叔父，但是他毕生浸淫武学，甘愿抛弃荣华富\n"
+"以换取水烟阁传功使一职，以便阅读水烟阁中所藏的武学典籍，无论\n"
+"你有什麽武学上的疑难，他都能为你解答。\n"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry.武学
+#: data/common/npcs.json
+msgid ""
+"武学之道....嗯....只可意会，不可言喻。\n"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry.水烟阁
+#: data/common/npcs.json
+msgid ""
+"水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry topic
+#: data/common/npcs.json
+msgid "拜师"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry.拜师
+#: data/common/npcs.json
+msgid ""
+"哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试(accept test)？\n"
+msgstr ""
+
+#. common.npc.fighter.master name
+#: data/common/npcs.json
+msgid "萧辟尘"
+msgstr ""
+
+#. common.npc.fighter.master nickname
+#: data/common/npcs.json
+msgid "小天邪"
+msgstr ""
+
+#. common.npc.fighter.master long
+#: data/common/npcs.json
+msgid ""
+"萧辟尘自幼生长於岚城之中，看起来仙风道骨，不食人间烟火。\n"
+msgstr ""
+
+#. common.npc.fighter.master chat_msg_combat.armed
+#: data/common/npcs.json
+msgid "{respect}既然使兵刃，在下空手接招未免不敬。"
+msgstr ""
+
+#. common.npc.fighter.master chat_msg_combat.armed
+#: data/common/npcs.json
+msgid "进招吧！"
+msgstr ""
+
+#. common.npc.fighter.master chat_msg_combat.unarmed
+#: data/common/npcs.json
+msgid "既然{respect}不使兵刃，在下自然奉陪！"
+msgstr ""
+
+#. common.npc.fighter.master chat_msg_combat.unarmed_many
+#: data/common/npcs.json
+msgid "嗯... 既然{count}位都是空手，在下理当奉陪！"
+msgstr ""
+
+#. common.npc.fighter.executioner name
+#: data/common/npcs.json
+msgid "潘军禅"
+msgstr ""
+
+#. common.npc.fighter.executioner nickname
+#: data/common/npcs.json
+msgid "书 剑 侠"
+msgstr ""
+
+#. common.npc.fighter.executioner title
+#: data/common/npcs.json
+msgid "水烟阁执法使"
+msgstr ""
+
+#. common.npc.fighter.executioner long
+#: data/common/npcs.json
+msgid ""
+"潘军禅是当今武林的一位传奇性人物，以他仅仅二十八岁的年龄竟能做到\n"
+"水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n"
+"柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n"
+"出武林执法者的架子。\n"
 msgstr ""
 
 #. quests.target
@@ -5820,7 +6243,8 @@ msgstr ""
 #. oldpine.npc.venomsnake limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
-#: data/oldpine/npcs.json data/snow/npcs.json
+#. waterfog.npc.celes_tiger limbs
+#: data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
 msgid "尾巴"
 msgstr ""
 
@@ -5843,14 +6267,16 @@ msgstr ""
 #. snow.npc.crazy_dog limbs
 #. snow.npc.rat limbs
 #. cloud.npc.fly limbs
-#: data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json
+#. waterfog.npc.celes_tiger limbs
+#: data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json
 msgid "身体"
 msgstr ""
 
 #. oldpine.npc.wolf_dog limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
-#: data/oldpine/npcs.json data/snow/npcs.json
+#. waterfog.npc.celes_tiger limbs
+#: data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
 msgid "前脚"
 msgstr ""
 
@@ -5989,7 +6415,8 @@ msgstr ""
 #. es2:d/snow/obj/sandals unit
 #. es2:d/snow/obj/shoe unit
 #. es2:d/goathill/obj/boots unit
-#: data/snow/items.json data/goathill/items.json
+#. es2:d/waterfog/obj/leather_boot unit
+#: data/snow/items.json data/goathill/items.json data/waterfog/items.json
 msgid "双"
 msgstr ""
 
@@ -9079,4 +9506,478 @@ msgstr ""
 #. cloud.woodboxy.door name
 #: data/cloud/world.json
 msgid "木门"
+msgstr ""
+
+#. es2:d/waterfog/obj/guard_suit name
+#: data/waterfog/items.json
+msgid "水烟阁武士氅"
+msgstr ""
+
+#. es2:d/waterfog/obj/leather_boot name
+#: data/waterfog/items.json
+msgid "牛皮靴"
+msgstr ""
+
+#. es2:d/waterfog/obj/watcher_suit name
+#: data/waterfog/items.json
+msgid "水烟阁司事褂"
+msgstr ""
+
+#. es2:d/waterfog/obj/watcher_hat name
+#: data/waterfog/items.json
+msgid "水烟阁司事帽"
+msgstr ""
+
+#. es2:d/waterfog/obj/watcher_hat unit
+#. es2:d/waterfog/obj/red_hat unit
+#: data/waterfog/items.json
+msgid "顶"
+msgstr ""
+
+#. es2:d/waterfog/obj/red_suit name
+#: data/waterfog/items.json
+msgid "鲜红锦衣"
+msgstr ""
+
+#. es2:d/waterfog/obj/red_suit long
+#: data/waterfog/items.json
+msgid ""
+"一件鲜红色的锦衣，上面绣著水烟阁的金色乌鸦徽号。\n"
+msgstr ""
+
+#. es2:d/waterfog/obj/red_hat name
+#: data/waterfog/items.json
+msgid "鲜红金乌冠"
+msgstr ""
+
+#. es2:d/waterfog/obj/red_hat long
+#: data/waterfog/items.json
+msgid ""
+"这是水烟阁武士常戴的红色圆顶帽，帽缘镶著一圈金线。\n"
+msgstr ""
+
+#. es2:d/waterfog/obj/sorrowfire name
+#: data/waterfog/items.json
+msgid "焦殇剑"
+msgstr ""
+
+#. es2:d/waterfog/obj/sorrowfire long
+#: data/waterfog/items.json
+msgid ""
+"一把通体黝黑，又带著一丝焦味的铁剑。\n"
+msgstr ""
+
+#. es2:d/waterfog/obj/iron_staff name
+#: data/waterfog/items.json
+msgid "黑铁杖"
+msgstr ""
+
+#. es2:d/waterfog/obj/iron_staff long
+#: data/waterfog/items.json
+msgid ""
+"这条黑铁杖光看就知道非常沈重，拿在手里才知道比想像中更重。\n"
+msgstr ""
+
+#. waterfog.npc.guard name
+#: data/waterfog/npcs.json
+msgid "水烟阁武士"
+msgstr ""
+
+#. waterfog.npc.guard long
+#: data/waterfog/npcs.json
+msgid ""
+"这个人相貌十分魁梧。\n"
+msgstr ""
+
+#. waterfog.npc.watcher name
+#: data/waterfog/npcs.json
+msgid "水烟阁司事"
+msgstr ""
+
+#. waterfog.npc.watcher long
+#: data/waterfog/npcs.json
+msgid ""
+"这个人看起来十分和蔼可亲，一双眼睛炯炯有神。\n"
+msgstr ""
+
+#. waterfog.npc.celes_tiger name
+#: data/waterfog/npcs.json
+msgid "天邪虎"
+msgstr ""
+
+#. waterfog.npc.celes_tiger long
+#: data/waterfog/npcs.json
+msgid ""
+"这是一只天邪派的灵兽「天邪虎」，火红的毛皮上有著如白银般的\n"
+"白纹，湛蓝色的眼珠中散发出妖异的光芒。\n"
+msgstr ""
+
+#. waterfog.npc.celes_tiger limbs
+#: data/waterfog/npcs.json
+msgid "后腿"
+msgstr ""
+
+#. waterfog.npc.servant name
+#: data/waterfog/npcs.json
+msgid "仆役"
+msgstr ""
+
+#. waterfog.npc.servant long
+#: data/waterfog/npcs.json
+msgid ""
+"这个人看起来十分和蔼可亲，看起来不像是会武功的人。\n"
+msgstr ""
+
+#. waterfog.npc.elite_guard name
+#: data/waterfog/npcs.json
+msgid "水烟阁红衣武士"
+msgstr ""
+
+#. waterfog.npc.elite_guard long
+#: data/waterfog/npcs.json
+msgid ""
+"这个人身著红色水烟阁武士服色，眼神十分锐利。\n"
+msgstr ""
+
+#. waterfog.npc.elite_guard chat_msg_combat
+#: data/waterfog/npcs.json
+msgid ""
+"红衣武士喝道：这点玩意儿也敢上水烟阁撒野，真是不自量力！\n"
+msgstr ""
+
+#. waterfog.npc.elite_guard chat_msg_combat
+#: data/waterfog/npcs.json
+msgid ""
+"红衣武士说道：快快滚下山去，别在这里罗唆！\n"
+msgstr ""
+
+#. waterfog.npc.elite_guard accept_fight.say
+#: data/waterfog/npcs.json
+msgid "这位$RESPECT，在下正在执行勤务，恕不奉陪。"
+msgstr ""
+
+#. waterfog.npc.elder5 name
+#: data/waterfog/npcs.json
+msgid "南危水"
+msgstr ""
+
+#. waterfog.npc.elder5 title
+#: data/waterfog/npcs.json
+msgid "水烟阁五长老"
+msgstr ""
+
+#. waterfog.npc.elder5 long
+#: data/waterfog/npcs.json
+msgid ""
+"南危水是当世使剑的名家，也是槐阳王的弟弟，一身武学集天邪、封山\n"
+"两派之所长，在水烟阁七长老中武功仅次于二长老莫谦容。南危水手中\n"
+"的焦殇剑也是一把罕见的利器，传说这把剑是名铸剑师黄炎炎生平六把\n"
+"名剑中排名第一的杰作。\n"
+msgstr ""
+
+#. waterfog.npc.elder6 name
+#: data/waterfog/npcs.json
+msgid "陈坚石"
+msgstr ""
+
+#. waterfog.npc.elder6 title
+#: data/waterfog/npcs.json
+msgid "水烟阁六长老"
+msgstr ""
+
+#. waterfog.npc.elder6 long
+#: data/waterfog/npcs.json
+msgid ""
+"陈长老本来的名字已经没有人知道了，但是他的横练功夫「石猿功」成名\n"
+"数十年，加上个性有点....那个....顽固，因此水烟阁执法使潘军禅给他\n"
+"起了个绰号叫「坚石」，久而久之陈长老倒也挺喜欢这个名字，索性舍弃\n"
+"了原来的名字改名叫陈坚石。\n"
+msgstr ""
+
+#. waterfog.npc.elder7 name
+#: data/waterfog/npcs.json
+msgid "颜违"
+msgstr ""
+
+#. waterfog.npc.elder7 title
+#: data/waterfog/npcs.json
+msgid "水烟阁七长老"
+msgstr ""
+
+#. waterfog.npc.elder7 long
+#: data/waterfog/npcs.json
+msgid ""
+"颜违是水烟阁七位长老中最年轻的，虽然他的武功跟其他六位长老\n"
+"相比仍略逊一筹，但是他办事十分精明干练，因此七长老每年都派\n"
+"他出外办理武林大会事宜。\n"
+msgstr ""
+
+#. es2:d/waterfog/sroad1 long
+#: data/waterfog/rooms.json
+msgid ""
+"这是一条宽敞坚实的青石板大道，从这里已经可以望见北边山腰上\n"
+"水烟阁琉璃色的屋瓦，映著山上茂密的枫树林，显得十分诗情画意，由\n"
+"于这条路是禁兵统领亲自督造，因此造得格外平整，从这里开始已经进\n"
+"入由历代水烟阁主人所管辖的封地，即使是官府也不能过问这片土地上\n"
+"发生的事，因此你最好小心一点。\n"
+msgstr ""
+
+#. es2:d/waterfog/sroad2 long
+#: data/waterfog/rooms.json
+msgid ""
+"这是一条宽敞坚实的青石板大道，从这里沿著山势弯向西边与南边\n"
+"，往西不远处就是通往水烟阁的石阶。\n"
+msgstr ""
+
+#. es2:d/waterfog/sroad3 long
+#: data/waterfog/rooms.json
+msgid ""
+"这是一条宽敞坚实的青石大道，大道沿著山腰往东向山下延伸，一\n"
+"道长长的白石阶梯从这里往北边上山，从这里仰望阶梯的尽头有一座雄\n"
+"伟的楼阁，那就是著名的「水烟阁」。\n"
+msgstr ""
+
+#. es2:d/waterfog/stair1 long
+#. es2:d/waterfog/stair2 long
+#. es2:d/waterfog/stair3 long
+#. es2:d/waterfog/stair4 long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在正走在一条长长的白石阶梯上，这些建造阶梯的白石出产于\n"
+"东海滨的裂瓶山，距离此地有近千里之遥，而且虽然年代久远，仍然可\n"
+"以看得出所用的全部都是品质最好的「拟玉」石，可见这里的主人必定\n"
+"大有来头。\n"
+msgstr ""
+
+#. es2:d/waterfog/clifftop long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是一个用白石砌成的亭子，亭子的东面和北面都是深不见底的\n"
+"悬崖，从这里望出去只见一片云雾之中突出几座山峰，云雾之中隐隐可\n"
+"以看到好似水波的微光，使你一时之间彷佛以为这座亭子是建在一个湖\n"
+"中，往西北望去可以看到水烟阁漂浮在云雾之中。\n"
+msgstr ""
+
+#. es2:d/waterfog/stair5 long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在正走在一条长长的白石阶梯上，阶梯随著山峰蜿蜒盘旋，宛\n"
+"如一条白龙，水烟阁就矗立在北边的山峰顶上，即使是从这么近的距离\n"
+"你仍然感觉这座楼阁飘飘渺渺，难以捉摸。\n"
+msgstr ""
+
+#. es2:d/waterfog/frontyard long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在正站在一座高大的楼阁，水烟阁前，琉璃色的屋瓦和白玉般\n"
+"的白石砖使得水烟阁在崇山峻岭中显得十分抢眼，这座楼阁最早的主人\n"
+"据说是有「武术之神」称号的太阳神君「杞庸」，后来被当作历代武林\n"
+"盟主的居所，可说是学武之人的朝圣地，一条白石阶梯沿著山腰往南而\n"
+"下，水烟阁的大门就在你的北方。\n"
+msgstr ""
+
+#. es2:d/waterfog/wpath1 long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在正走在一条山坡上的小径，往南望去只见山下一条白色石阶\n"
+"蜿蜒上山，通往东边不远处的一个平台，平台的北边就是赫赫有名的武\n"
+"者圣地「水烟阁」，小径的北边整齐地种著一排枫树，往西上了山坡通\n"
+"往位于山巅的「虹台」。\n"
+msgstr ""
+
+#. es2:d/waterfog/wpath2 long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在正走在一条山坡小径上，东边不远处可以望见水烟阁琉璃色\n"
+"的屋瓦，小径东北是一道白石阶梯通往山巅的虹台，往西则是「水烟十\n"
+"景」之中最有名的虹谷断崖，小径旁立著一个七、八尺高的石碑(stone\n"
+")。\n"
+msgstr ""
+
+#. es2:d/waterfog/wpath3 long
+#: data/waterfog/rooms.json
+msgid ""
+"你正走在一道白石阶梯上，这道阶梯依著山壁而建，东边隔著一个\n"
+"深不见底的山谷可以望见对面傲立在山巅之上的水烟阁，每当清晨山谷\n"
+"中的晨雾慢慢飘起，从这里可以看见水烟阁彷佛飘在云间，这就是水烟\n"
+"十景中的「飞天楼阁」，石阶沿著山壁从这里转往北方。\n"
+msgstr ""
+
+#. es2:d/waterfog/wpath4 long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在正走在一道依著山壁而建的白石阶梯上，随著阶梯越爬越高\n"
+"，从这里已经可以望见西面山顶上竖立在虹台中央的「擎天柱」，阶梯\n"
+"从这里转向西北坡度较缓的山腰，你的东边是一个深不见底的深谷，隔\n"
+"著深谷可以望见对面不远处的水烟阁。\n"
+msgstr ""
+
+#. es2:d/waterfog/wpath5 long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在走在一道依著山壁而建的白石阶梯上，通过西边不远处的葬\n"
+"剑亭，就是虹台的入口，东边和北边都是深不见底的深谷，隔著深谷，\n"
+"东北边的野羊山连著隐樵山、图云岭、破魔山、虎啸坡、沙牢山一直到\n"
+"大漠都是数百丈的高山，虹台地势虽不甚高，但是在三面深谷的环绕下\n"
+"，却自有一股群山朝拜的威严气象。\n"
+msgstr ""
+
+#. es2:d/waterfog/swordtomb long
+#: data/waterfog/rooms.json
+msgid ""
+"你现在来到一个山腰靠近山顶的亭子，亭子前立著一个两丈多高的\n"
+"石碑(monolith)，从亭子里远眺北方连绵不尽的大山，使你不禁感到胸\n"
+"臆之间一股英雄情怀油然而生，葬剑亭据说每到夏日夜晚，野风吹过，\n"
+"会产生一阵阵呜呜的哭泣声，这也是水烟十景中的「孤亭剑泣」。出了\n"
+"亭子，往南便是直通虹台的石阶，一条黄土小路往西通往另一条下山的\n"
+"小路。\n"
+msgstr ""
+
+#. es2:d/waterfog/entrance long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁的正门，一股沁人心脾的檀香使你精神为之一振，正\n"
+"门共分三进，全部都是上等的檀木雕成，最里的门上悬著一块匾额，上\n"
+"面龙飞凤舞地写著几个大字，可是你全然看不出到底是什么字。\n"
+msgstr ""
+
+#. es2:d/waterfog/guildhall long
+#. es2:daemon/class/fighter/guildhall long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁的正厅，简单的陈设中透出一股尊贵不凡的气派，一\n"
+"张黝黑的太师椅端坐在大厅中央，这里同时也是「武者」们议事的所在\n"
+"，每年的正月十七都要在水烟阁外的「虹台」推选武林盟主，然後在这\n"
+"里举行登位大典。你可以看到北边的墙上挂著一樟木匾(sign)，似乎写\n"
+"著一些有关成为一名武者的事项。\n"
+msgstr ""
+
+#. es2:d/waterfog/westhall long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁入口西侧的花厅，东边是水烟阁的正门，南边和西边\n"
+"围著一圈白玉栏杆，栏杆外种著许多茶花，往北是水烟阁的侧门，从这\n"
+"里可以看到通往水烟阁二楼的阶梯。\n"
+msgstr ""
+
+#. es2:d/waterfog/easthall long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁正门东边的花厅，东边和南边围著一圈白石栏杆，栏\n"
+"杆外种著许多茶花，往西是水烟阁的正门，往北则是东侧的侧厅，从这\n"
+"里可以看见通往二楼的阶梯。\n"
+msgstr ""
+
+#. es2:d/waterfog/weststair long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁西侧的厅院，一道白石梯从这里通往二楼，往北是仆\n"
+"役的卧房跟柴房，南边是出水烟阁的侧门，往西则是一个可以眺望山谷\n"
+"的阳台。\n"
+msgstr ""
+
+#. es2:d/waterfog/eaststair long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁东边的侧厅，东边隔著栏杆就是深不见底的深谷，从\n"
+"这里向外眺望，更可以感受到水烟阁孤立于独峰之上，傲视群山的气魄\n"
+"，这里有一道阶梯通往二楼，往北是厨房与储存杂物的仓库。\n"
+msgstr ""
+
+#. es2:d/waterfog/storage long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是一间柴房，一捆一捆劈好的柴薪都整齐地堆放在柴房北侧，\n"
+"留下一条通道通往东边仆役的卧室。往南可以回到水烟阁的西侧厅。\n"
+msgstr ""
+
+#. es2:d/waterfog/servroom long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是在水烟阁从事杂役的仆佣所住的卧室，房间相当宽敞，东西\n"
+"向一张大通铺最少可以睡二、三十人，东首一张大炕(bed)是冬天才用\n"
+"的，因为有不少仆役回家过冬，所以比床铺稍小，北边开了几扇窗子，\n"
+"南边则是摆放仆役私物的橱柜。\n"
+msgstr ""
+
+#. es2:d/waterfog/kitchen long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁的厨房，东首一座大灶，灶边堆著许多瓦瓮，北边是\n"
+"一张方桌，桌上锅碗瓢盆一应俱全，西边则是一个橱柜，往南可以回到\n"
+"厅中。\n"
+msgstr ""
+
+#. es2:d/waterfog/west_2f long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁西侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n"
+"一条约七、八尺宽的走道连接楼梯与往东的门。\n"
+msgstr ""
+
+#. es2:d/waterfog/forehall long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁二楼的聆啸厅，南面是一个大露台，按著西、西南、\n"
+"南、东南、东等方向立著五块灰绿色的怪石(stone)，东西各有一个出\n"
+"口通往侧厅，往北则是水烟阁主所居的春秋水色斋。\n"
+msgstr ""
+
+#. es2:d/waterfog/east_2f long
+#: data/waterfog/rooms.json
+msgid ""
+"这里是水烟阁东侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n"
+"一条约七、八尺宽的走道连接楼梯与往西的门。\n"
+msgstr ""
+
+#. waterfog.guildhall.landmark.sign name
+#: data/waterfog/world.json
+msgid "樟木匾"
+msgstr ""
+
+#. waterfog.guildhall.landmark.sign long
+#: data/waterfog/world.json
+msgid ""
+"要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n"
+"一份子，只要你加入(join)武者同盟，就可以向同盟中的各大门派拜师\n"
+"学艺。\n"
+msgstr ""
+
+#. waterfog.wpath2.landmark.stone name
+#. waterfog.swordtomb.landmark.monolith name
+#: data/waterfog/world.json
+msgid "石碑"
+msgstr ""
+
+#. waterfog.wpath2.landmark.stone long
+#: data/waterfog/world.json
+msgid ""
+"石碑上面几个苍劲古朴的字写道：虹谷石台，乙丑年水烟阁第六代\n"
+"阁主关雨楼立。\n"
+"你仔细一看，这几个字迹丝毫没有斧凿痕迹，竟像是题字的人直接\n"
+"用手指在岩石上写出来一般。\n"
+msgstr ""
+
+#. waterfog.swordtomb.landmark.monolith long
+#: data/waterfog/world.json
+msgid ""
+"石碑上龙飞凤武地刻著几个大字：\n"
+"\n"
+"    风波剑神黎红药前辈葬剑于此，水烟阁第四代七长老比武\n"
+"    不胜，以奸计害人而自取其辱，武者皆不齿其小人行径，\n"
+"    合力击杀于此，甲辰年立此亭书铭其事以为后人殷鉴。\n"
+"\n"
+"                        第三代水烟阁主 于兰玫音\n"
+"                        第四代水烟阁主 聂    言   合立\n"
+"                        第五代水烟阁主 段 柏 山\n"
+msgstr ""
+
+#. waterfog.entrance.weapons lines
+#: data/waterfog/world.json
+msgid "水烟阁武士喝道：慢著，进水烟阁，先放下你的兵刃！"
+msgstr ""
+
+#. waterfog.entrance.weapons lines
+#: data/waterfog/world.json
+msgid "水烟阁武士挡住了你的去路。"
 msgstr ""

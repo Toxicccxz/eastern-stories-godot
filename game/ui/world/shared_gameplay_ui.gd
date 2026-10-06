@@ -50,6 +50,7 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIM: Color(1.0, 0.5, 1.0),
 	ColoredLine.HIG: Color(0.45, 1.0, 0.45),
 	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
+	ColoredLine.RED: Color(0.82, 0.24, 0.24),
 }
 var _presentation_layout: SharedGameplayLayout
 ## Names the player's shown conditions (蛇毒) on the HUD.
@@ -337,6 +338,7 @@ func refresh_live_state() -> void:
 	inventory_button.disabled = not player_available
 	portal_button.disabled = (
 		not landmark_available
+		or _selected_landmark.action_label.is_empty() # a sign is only looked at
 		or not _selected_landmark_source_available
 		or not player_available
 	)

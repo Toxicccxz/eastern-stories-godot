@@ -22,6 +22,10 @@ var _freeze_owner: StringName = &""
 var _zones: Array[WorldPhysicalZoneArea2D] = []
 var _present_zones: Array[WorldPhysicalZoneArea2D] = []
 var _zone_check_pending: bool = false
+## The last exit rule that refused the player and when (ms): its lines show once per attempt.
+var _last_exit_refusal: StringName = &""
+var _last_exit_refusal_ms: int = 0
+const EXIT_REFUSAL_REPEAT_MS: int = 2000
 var _services: Array[WorldService] = []
 var _doors: Dictionary[StringName, WorldDoor] = {}
 var _landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
@@ -389,9 +393,45 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 		return true
 	if not GameContent.catalog().zones_adjacent(current.zone_id, zone.zone_id):
 		return false
+	var refusal: ZoneExitRuleDefinition = _exit_refusal(current.zone_id, zone.zone_id)
+	if refusal != null:
+		_refuse_exit(refusal, current.zone_id)
+		return false
 	if session != null:
 		session.player_leaving_zone(current.zone_id, zone.zone_id)
 	return _player.set_world_location(location_for_zone(zone.zone_id))
+
+
+## The room's valid_leave() that refuses this way out now, or null.
+func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExitRuleDefinition:
+	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
+		var present: bool = false
+		for npc: NpcRuntimeState in _npcs:
+			present = present or (
+				npc.definition().definition_id == rule.present_npc_id and npc.exists_in_map
+				and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == from_zone_id
+			)
+		if rule.refuses(not _player.state.equipment.is_primary_hand_empty(), present):
+			return rule
+	return null
+
+
+## valid_leave() returned 0: the player stays in the room (back inside its edge) and
+## reads why, once per attempt (a held key tries every frame).
+func _refuse_exit(rule: ZoneExitRuleDefinition, from_zone_id: StringName) -> void:
+	var room: WorldPhysicalZoneArea2D = physical_zone(from_zone_id)
+	if room != null:
+		var inside: Rect2 = room.global_rect().grow(-20.0)
+		player_body.global_position = player_body.global_position.clamp(inside.position, inside.end)
+		player_body.velocity = Vector2.ZERO
+	var now: int = Time.get_ticks_msec()
+	if rule.rule_id != _last_exit_refusal or now - _last_exit_refusal_ms > EXIT_REFUSAL_REPEAT_MS:
+		var lines: Array[String] = []
+		for line: String in rule.lines:
+			lines.append(tr(line))
+		_hud().append_log_lines(lines)
+	_last_exit_refusal = rule.rule_id
+	_last_exit_refusal_ms = now
 
 
 func freeze_world_gameplay(id: StringName) -> bool:
@@ -988,6 +1028,34 @@ func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
 	return null
 
 
+## The combat content a binding of this NPC gets now (_npc_content(), with its race and
+## authored facts), or null when it is not here.
+func npc_combat_content(character_id: StringName) -> CombatSliceContentProfile:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	return null if npc == null else _npc_content(npc).for_npc_definition(npc.definition())
+
+
+## command("wield <type>") / command("unwield <type>") for an NPC: wield.c takes the
+## first carried weapon of that skill type into a free hand (present(), inventory
+## order); unwield.c puts the wielded one of that type away. False when nothing
+## changed (none carried, hands full, none held).
+func npc_wield_by_type(character_id: StringName, skill_type: StringName, on: bool) -> bool:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null:
+		return false
+	var equipment: EquipmentState = npc.character_state.equipment
+	if not on:
+		var held: EquippedWeaponRef = equipment.primary_weapon()
+		return held != null and held.skill_type == skill_type and equipment.unwield(held.instance_id).succeeded
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		var weapon: WeaponDefinition = null if content == null else content.weapon_definition()
+		if weapon != null and weapon.skill_type == skill_type and not equipment.has_weapon_instance(item_id):
+			return equipment.wield(EquippedWeaponRef.new(item_id, weapon), npc.armor.is_slot_occupied(OldPineEquipmentInteractionAdapter.SHIELD_SLOT)).succeeded
+	return false
+
+
 ## Where a save puts an NPC: its body, or the end of the walk it is on.
 func npc_rest_position(character_id: StringName) -> Vector2:
 	var body: WorldCharacterBody2D = runtime_body_for_character(character_id)
@@ -1326,7 +1394,7 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 	for npc: NpcRuntimeState in _npcs:
 		if not include_absent and not npc.exists_in_map:
 			continue
-		var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+		var content: CombatSliceContentProfile = _npc_content(npc)
 		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
 		if binding != null:
 			binding.post_actions = _post_actions
@@ -1448,6 +1516,21 @@ func _item_name(item_id: StringName) -> String:
 
 
 ## The weapon an NPC is authored to wield, as its verified combat weapon.
+## The NPC's combat content: its registered (loadout) profile, unless the weapon now in
+## its hand is another one (萧辟尘 takes up his carried sword mid-fight, consider()): then
+## that weapon's, so its blows are the sword's after the draw and after Continue.
+func _npc_content(npc: NpcRuntimeState) -> CombatSliceContentProfile:
+	var registered: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+	var held: EquippedWeaponRef = npc.character_state.equipment.primary_weapon()
+	if held == null or registered.is_verified_primary(held):
+		return registered
+	var item: ItemInstance = _item_index.resolve(held.instance_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	if content == null or content.weapon_definition() == null:
+		return registered
+	return CombatSliceContentProfile.new(content.item_definition_id, content.weapon_skill_type, content.weapon_damage)
+
+
 static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceContentProfile:
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
 		if entry.equipment_intent != NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY:
@@ -1524,7 +1607,7 @@ func _fall_below_zero() -> void:
 			continue
 		if npc.character_state.life_threshold() == CharacterState.LifeThreshold.ACTIVE:
 			continue
-		var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+		var content: CombatSliceContentProfile = _npc_content(npc)
 		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
 		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
 		if required != null:
@@ -1550,7 +1633,7 @@ func player_fall_below_zero() -> void:
 	var participants: Array[CombatSliceCharacterBinding] = [binding]
 	var from: NpcRuntimeState = find_resident_npc(_player.relationship.last_damage_from_id)
 	if from != null and from.exists_in_map and from.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
-		var killer: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(from, _registered_npc_content.get(from.character_id, _authored_weapon_profile(from.definition())))
+		var killer: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(from, _npc_content(from))
 		if killer != null:
 			participants.append(killer)
 	execute_encounter_lifecycle(binding, required, participants, _player.relationship.last_damage_from_id)
@@ -2137,7 +2220,7 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 ## a perform or a spell refuses; an exert runs. The player in the NPC's place sees
 ## what it shows.
 func _special(npc: NpcRuntimeState, action: NpcSpecialAction) -> void:
-	var content: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+	var content: CombatSliceContentProfile = _npc_content(npc)
 	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
 	if binding == null:
 		return

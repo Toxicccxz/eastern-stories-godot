@@ -38,6 +38,9 @@ var practice_weapon_fail: String = ""
 ## skill_improved(): the line it prints when its effect applies, in its colour.
 var improved_line: String = ""
 var improved_color: StringName = ColoredLine.PLAIN
+## The line shows only on levels divisible by this (six-chaos-sword.c: every tenth);
+## 0 shows it on every level skill_improved() runs.
+var improved_every: int = 0
 ## The exert functions its exert_function_file() reaches (ExertFunctions ids).
 var exert_functions: Array[StringName] = []
 ## The perform actions and spells its perform_action_file() and cast_spell_file()
@@ -115,7 +118,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
 ## parry_messages?: {armed, unarmed}, standard_force_hit?, hit_ob?,
 ## practice?: {kee?, force?, done?, fail?, refuses?}, valid_learn?: {key: line},
-## improved_line?, improved_color?, exert?: [function], perform?: [action], cast?: [spell]}.
+## improved_line?, improved_color?, improved_every?, exert?: [function], perform?: [action], cast?: [spell]}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	var kinds: Dictionary[String, int] = {"basic": Kind.BASIC, "specialized": Kind.SPECIALIZED}
 	var types: Dictionary[String, int] = {"martial": Type.MARTIAL, "knowledge": Type.KNOWLEDGE}
@@ -166,6 +169,9 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 			reader.fail("valid_learn", "unknown rule %s (expected %s)" % [key, ", ".join(VALID_LEARN_KEYS.keys())])
 	definition.improved_line = reader.text("improved_line")
 	definition.improved_color = StringName(reader.text("improved_color"))
+	definition.improved_every = reader.integer("improved_every")
+	if definition.improved_every < 0 or (definition.improved_every > 0 and definition.improved_line.is_empty()):
+		reader.fail("improved_every", "a period of 0 or more, for an improved_line")
 	if definition.improved_color != ColoredLine.PLAIN and not ColoredLine.COLORS.has(definition.improved_color):
 		reader.fail("improved_color", "expected one of %s" % ", ".join(ColoredLine.COLORS))
 	for function_id: String in reader.text_list("exert"):

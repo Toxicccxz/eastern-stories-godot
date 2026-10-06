@@ -272,6 +272,74 @@
 			"weight": 1000,
 			"value": 50,
 			"weapon": { "skill": "dagger", "damage": 4 }
+		},
+		{
+			"id": "es2:daemon/class/fighter/houndbane",
+			"legacy_sources": ["daemon/class/fighter/houndbane.c"],
+			"name": "妖刀狗屠",
+			"aliases": ["houndbane blade", "houndbane", "blade"],
+			"long": "这是一把暗绿色的鬼头刀，拿在手中沈甸甸地。\n",
+			"unit": "把",
+			"material": "crimsonsteel",
+			"weight": 17000,
+			"value": 42000,
+			"weapon": { "skill": "blade", "damage": 96, "apply": { "courage": 10 } }
+		},
+		{
+			"id": "es2:daemon/class/fighter/icy_boot",
+			"legacy_sources": ["daemon/class/fighter/icy_boot.c"],
+			"name": "吹雪残云靴",
+			"aliases": ["icy boots", "boots"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 8000,
+			"armor": { "type": "boots", "props": { "armor": 1, "dodge": 5 } }
+		},
+		{
+			"id": "es2:daemon/class/fighter/icy_girth",
+			"legacy_sources": ["daemon/class/fighter/icy_girth.c"],
+			"name": "吹雪残云带",
+			"aliases": ["icy girth", "girth"],
+			"unit": "条",
+			"material": "cloth",
+			"weight": 600,
+			"value": 7000,
+			"armor": { "type": "waist", "props": { "armor": 1, "dodge": 5 } }
+		},
+		{
+			"id": "es2:daemon/class/fighter/icy_cloth",
+			"legacy_sources": ["daemon/class/fighter/icy_cloth.c"],
+			"name": "吹雪残云衣",
+			"aliases": ["icy cloth", "cloth"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 40000,
+			"armor": { "type": "cloth", "props": { "armor": 10, "dodge": 5 } }
+		},
+		{
+			"id": "es2:daemon/class/fighter/icy_ribbon",
+			"legacy_sources": ["daemon/class/fighter/icy_ribbon.c"],
+			"name": "吹雪残云巾",
+			"aliases": ["icy ribbon", "ribbon"],
+			"unit": "条",
+			"material": "cloth",
+			"weight": 200,
+			"value": 4000,
+			"armor": { "type": "head", "props": { "armor": 1, "dodge": 5 } }
+		},
+		{
+			"id": "es2:daemon/class/fighter/soulimpaler",
+			"legacy_sources": ["daemon/class/fighter/soulimpaler.c"],
+			"name": "邪剑穿灵",
+			"aliases": ["soulimpaler", "sword"],
+			"long": "这是一把血红色的的长剑，份量大约有十来斤左右。\n",
+			"unit": "把",
+			"material": "crimsonsteel",
+			"weight": 7000,
+			"value": 4000000,
+			"weapon": { "skill": "sword", "damage": 80 }
 		}
 	]
 }

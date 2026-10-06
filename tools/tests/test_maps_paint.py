@@ -19,6 +19,7 @@ GENERATED = {
     'snow': ['snow_inn_upstairs.tscn', 'snow_cellar.tscn'],
     'cloud': ['cloud_outdoor.tscn', 'cloud_upstairs.tscn'],
     'goathill': ['goathill_mountain.tscn', 'goathill_caverns.tscn'],
+    'waterfog': ['waterfog_mountain.tscn', 'waterfog_pavilion.tscn', 'waterfog_upstairs.tscn'],
 }
 
 

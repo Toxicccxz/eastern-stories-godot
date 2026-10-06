@@ -177,6 +177,7 @@ static func improved(improvement: SkillImprovementResult, effect: SkillImproveme
 	if (
 		skill != null and not skill.improved_line.is_empty()
 		and effect != null and effect.status == SkillImprovementEffectResult.Status.APPLIED
+		and (skill.improved_every == 0 or improvement.current_level % skill.improved_every == 0)
 	):
 		out.append(ColoredLine.new(_t(skill.improved_line), skill.improved_color))
 	return out

@@ -36,7 +36,8 @@ class Region:
 
     def spawn_records(self) -> list:
         """NPC spawns, then item spawns, in file order (each has a zone and its points)."""
-        return self._read('spawns.json')['spawns'] + self._read('item_spawns.json')['item_spawns']
+        items = self._read('item_spawns.json')['item_spawns'] if (self.data / 'item_spawns.json').exists() else []
+        return self._read('spawns.json')['spawns'] + items
 
     def marker_name(self, point: str) -> str:
         """cloud.nroad1.waiter.1 -> Nroad1Waiter1."""
@@ -59,8 +60,10 @@ def fill_row(row: list) -> tuple:
 
 
 def explicit_markers(scene: dict) -> dict:
-    """Marker name -> position, for the spawn points the layout places itself."""
-    return {m['name']: tuple(m['at']) for m in scene.get('spawn_points', []) if 'generated' not in m}
+    """Marker name -> position, for the spawn points the layout places itself (its stairs' too)."""
+    markers = {s['marker']['name']: tuple(s['marker']['at']) for s in scene.get('stairs', [])}
+    markers.update({m['name']: tuple(m['at']) for m in scene.get('spawn_points', []) if 'generated' not in m})
+    return markers
 
 
 @dataclass
