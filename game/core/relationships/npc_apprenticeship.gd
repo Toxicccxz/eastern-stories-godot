@@ -4,9 +4,10 @@ extends RefCounted
 ## The player's side of cmds/std/apprentice.c with an NPC master: the request is
 ## pending (pending/apprentice) until the master's attempt_apprentice() rule
 ## (NpcTeaching.ApprenticeRule) recruits through cmds/std/recruit.c and
-## feature/apprentice.c recruit_apprentice(). Changing families (betrayal) is not
-## offered yet. The pending request is transient, as a query_temp() value.
-enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, OTHER_RELATIONSHIP_DEFERRED, AUTHORITY_FAILURE }
+## feature/apprentice.c recruit_apprentice(). A member of another family betrays
+## it (recruit.c: score 0, betrayer + 1); the new family, master, title and class
+## replace the old ones. The pending request is transient, as a query_temp() value.
+enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE }
 
 var _pending_master_id: StringName = &""
 var _pending_master_name: String = ""
@@ -28,6 +29,17 @@ static func is_master_of(student: CharacterState, master: NpcDefinition) -> bool
 		student != null and master != null and student.family.has_family()
 		and student.apprenticeship.master_teacher_id == master.definition_id
 		and student.apprenticeship.legacy_master_name == master.display_name
+	)
+
+
+## recruit.c's betrayal branch: `master` taking `student` now would make them leave
+## another family (score 0, betrayer + 1). The panel asks first (owner, DECISIONS 3B).
+static func would_betray(student: CharacterState, master: NpcDefinition) -> bool:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	return (
+		student != null and teaching != null and teaching.apprentice != null
+		and student.family.has_family() and student.family.family_id != teaching.family_id
+		and not is_master_of(student, master)
 	)
 
 
@@ -70,9 +82,6 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 	if is_master_of(student, master):
 		lines.append(_t("你恭恭敬敬地向%s磕头请安，叫道：「师父！」") % npc)
 		return Outcome.ACKNOWLEDGED
-	if student.family.has_family() or student.apprenticeship.has_master():
-		lines.append(_t("你已有师门，改投%s门下暂不开放。") % npc)
-		return Outcome.OTHER_RELATIONSHIP_DEFERRED
 	if _pending_master_id == master.definition_id:
 		lines.append(_t("你想拜%s为师，但是对方还没有答应。") % npc)
 		return Outcome.PENDING
@@ -89,9 +98,16 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(rule.refuse_say).replace("$RESPECT", _t(respect))}))
 		return Outcome.QUALIFICATION_REJECTED
 	lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(rule.accept_say).replace("$RESPECT", _t(respect))}))
-	# recruit.c: the student's pending/apprentice is this master.
-	lines.append(_t("%s决定收你为弟子。") % npc)
-	lines.append(_t("你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」") % npc)
+	# recruit.c: the student's pending/apprentice is this master. Its family is
+	# compared by name, as families.json keeps one ID per name.
+	if student.family.has_family() and student.family.family_id != family.family_id:
+		lines.append(_t("你决定背叛师门，改投入%s门下！！") % npc)
+		lines.append(_t("你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」") % npc)
+		student.progression.score = 0
+		student.apprenticeship.betrayer_count += 1
+	else:
+		lines.append(_t("%s决定收你为弟子。") % npc)
+		lines.append(_t("你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」") % npc)
 	var generation: int = teaching.family_generation + 1
 	student.family = FamilyState.new(family.family_id, generation)
 	student.apprenticeship.master_teacher_id = master.definition_id

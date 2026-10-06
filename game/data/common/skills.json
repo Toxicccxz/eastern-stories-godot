@@ -10,6 +10,10 @@
 			"legacy_source": "daemon/skill/sword.c"
 		},
 		{
+			"id": "blade", "name": "基本刀法", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/blade.c"
+		},
+		{
 			"id": "parry", "name": "基本招架", "kind": "basic", "type": "martial",
 			"legacy_source": "daemon/skill/parry.c",
 			"parry_messages": {
@@ -69,6 +73,7 @@
 		{
 			"id": "spring-blade", "name": "春风快意刀", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"],
 			"legacy_source": "daemon/skill/spring-blade.c",
+			"practice": { "weapon": "blade", "weapon_fail": "你必须先找一把刀，才能练刀法。", "kee": 40, "fail": "你的体力不够练这门刀法，还是先休息休息吧。" },
 			"actions": [
 				{ "id": "chun-feng-fu-ren-zui", "action": "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！", "damage": 200, "damage_type": "割伤" },
 				{ "id": "yuan-shan-ban-ren-chi", "action": "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l", "damage": 40, "damage_type": "割伤" },

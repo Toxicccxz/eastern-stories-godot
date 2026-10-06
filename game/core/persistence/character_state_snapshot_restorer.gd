@@ -115,6 +115,7 @@ static func restore(
 			snapshot.progression.combat_experience,
 			snapshot.progression.potential,
 			snapshot.progression.potential_spent,
+			snapshot.progression.score,
 		),
 		FamilyType.new(snapshot.family.family_id, snapshot.family.generation),
 		ApprenticeshipType.new(

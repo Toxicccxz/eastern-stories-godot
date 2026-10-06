@@ -92,7 +92,7 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 			"atman": _i(value.internal_resources.atman), "max_atman": _i(value.internal_resources.max_atman),
 			"food": _i(value.internal_resources.food), "water": _i(value.internal_resources.water),
 		},
-		"progression": {"combat_experience": _i(value.progression.combat_experience), "potential": _i(value.progression.potential), "potential_spent": _i(value.progression.potential_spent)},
+		"progression": _encode_progression(value.progression),
 		"skills": {"has_skills_mapping": value.skills.has_skills_mapping, "has_learned_mapping": value.skills.has_learned_mapping, "raw_levels": raw, "learned_progress": learned, "mappings": mappings},
 		"conditions": conditions,
 		"family": {"family_id": String(value.family.family_id), "generation": _i(value.family.generation)},
@@ -121,6 +121,14 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 				applies[String(key)] = _i(entry.applies[key])
 			timed.append({"effect_id": String(entry.effect_id), "applies": applies, "remaining_ms": _i(entry.remaining_ms)})
 		result["timed_applies"] = timed
+	return result
+
+
+func _encode_progression(value: Values.ProgressionSnapshot) -> Dictionary[String, Variant]:
+	var result: Dictionary[String, Variant] = {"combat_experience": _i(value.combat_experience), "potential": _i(value.potential), "potential_spent": _i(value.potential_spent)}
+	# score: written only when it is not 0.
+	if value.score != 0:
+		result["score"] = _i(value.score)
 	return result
 
 
@@ -271,8 +279,16 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var resources: Dictionary = _obj(object["resources"], path + ".resources", ["gin", "kee", "sen"])
 	var internal: Dictionary = _obj(object["internal_resources"], path + ".internal_resources", ["force", "max_force", "mana", "max_mana", "atman", "max_atman", "food", "water"])
 	var internal_resources := Values.InternalResourcesSnapshot.new(_int64(internal.get("force"), path + ".internal_resources.force"), _int64(internal.get("max_force"), path + ".internal_resources.max_force"), _int64(internal.get("mana"), path + ".internal_resources.mana"), _int64(internal.get("max_mana"), path + ".internal_resources.max_mana"), _int64(internal.get("atman"), path + ".internal_resources.atman"), _int64(internal.get("max_atman"), path + ".internal_resources.max_atman"), _int64(internal.get("food"), path + ".internal_resources.food"), _int64(internal.get("water"), path + ".internal_resources.water"))
-	var progression_object: Dictionary = _obj(object["progression"], path + ".progression", ["combat_experience", "potential", "potential_spent"])
+	var progression_fields: Array[String] = ["combat_experience", "potential", "potential_spent"]
+	if object["progression"] is Dictionary and (object["progression"] as Dictionary).has("score"):
+		progression_fields.append("score")
+	var progression_object: Dictionary = _obj(object["progression"], path + ".progression", progression_fields)
 	var progression := Values.ProgressionSnapshot.new(_int64(progression_object.get("combat_experience"), path + ".progression.combat_experience"), _int64(progression_object.get("potential"), path + ".progression.potential"), _int64(progression_object.get("potential_spent"), path + ".progression.potential_spent"))
+	if progression_object.has("score"):
+		progression.score = _int64(progression_object.get("score"), path + ".progression.score")
+		# Written only when it is not 0, as marks only when there are some.
+		if not _error and progression.score == 0:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.score", "0 is never written")
 	var skills_object: Dictionary = _obj(object["skills"], path + ".skills", ["has_skills_mapping", "has_learned_mapping", "raw_levels", "learned_progress", "mappings"])
 	var raw: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("raw_levels"), path + ".skills.raw_levels")
 	var learned: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("learned_progress"), path + ".skills.learned_progress")

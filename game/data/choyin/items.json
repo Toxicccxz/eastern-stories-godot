@@ -1,0 +1,15 @@
+{
+	"items": [
+		{
+			"id": "es2:d/choyin/obj/grass",
+			"legacy_sources": ["d/choyin/obj/grass.c"],
+			"name": "忘忧草",
+			"aliases": ["grass"],
+			"long": "一棵翠绿色的小草，发着晶莹的光芒和醉人的香味。\n",
+			"unit": "棵",
+			"material": "paper",
+			"weight": 200,
+			"value": 10000
+		}
+	]
+}

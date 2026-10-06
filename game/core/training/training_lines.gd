@@ -59,6 +59,10 @@ static func practice(result: PracticeResult, special: SkillDefinition) -> Array[
 		PracticeResult.FailureReason.VALID_LEARN_REJECTED:
 			var refusal: String = "" if special == null else special.valid_learn_line(result.skill_learn_policy_result)
 			return _plain([refusal if not refusal.is_empty() else "你现在不能练习这项技能。"])
+		PracticeResult.FailureReason.PRACTICE_WEAPON_REJECTED:
+			if special != null and not special.practice_weapon_fail.is_empty():
+				return _plain([special.practice_weapon_fail])
+			return [ColoredLine.new(_t("你试著练习%s，但是并没有任何进步。") % name)]
 		PracticeResult.FailureReason.PRACTICE_HOOK_REJECTED:
 			if special != null and not special.practice_fail.is_empty():
 				return _plain([special.practice_fail])

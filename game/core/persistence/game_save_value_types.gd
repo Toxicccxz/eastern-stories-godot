@@ -140,14 +140,16 @@ class ProgressionSnapshot extends RefCounted:
 	var combat_experience: int
 	var potential: int
 	var potential_spent: int
+	var score: int
 
-	func _init(p_combat_experience: int = 0, p_potential: int = 0, p_potential_spent: int = 0) -> void:
+	func _init(p_combat_experience: int = 0, p_potential: int = 0, p_potential_spent: int = 0, p_score: int = 0) -> void:
 		combat_experience = p_combat_experience
 		potential = p_potential
 		potential_spent = p_potential_spent
+		score = p_score
 
 	func duplicate_snapshot() -> ProgressionSnapshot:
-		return ProgressionSnapshot.new(combat_experience, potential, potential_spent)
+		return ProgressionSnapshot.new(combat_experience, potential, potential_spent, score)
 
 
 class SkillValueSnapshot extends RefCounted:

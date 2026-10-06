@@ -495,7 +495,18 @@
 				"霹雳刀": ["江湖上的弟兄看得起在下就这么叫开了，实在是惭愧。"],
 				"陈天星": ["他是我师叔，如果你帮我找到忘忧草并交给我，我就介绍你去那学艺。"],
 				"忘忧草": ["我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"]
-			}
+			},
+			"apprentice": {
+				"requires": { "cor": 25 },
+				"refuse_say": "走镖危险甚大，依我看$RESPECT似乎不宜冒这份险？",
+				"accept_say": "很好，$RESPECT多加努力，本镖局不会亏待你的。",
+				"class": "guardman"
+			},
+			"accept_object": [
+				{ "item_name": "忘忧草", "giver_family": "family.zhenyuan", "emote": "笑了笑说：“这不是你得到的吧？”。", "accept": true },
+				{ "item_name": "忘忧草", "say": "你是何人？为什么有我的忘忧草？", "accept": true },
+				{ "say": "你拿什么东西唬我？", "accept": true }
+			]
 		},
 		{
 			"id": "cloud.npc.bfighter",

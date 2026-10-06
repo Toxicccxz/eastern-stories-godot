@@ -99,10 +99,15 @@ static func practice(
 		)
 
 	var learned_before: int = character.skills.learned_progress(special_skill_id)
+	var weapon_refused: bool = practice_policy.refuses_weapon(character)
 	if not practice_policy.practice(character):
 		return PracticeResultType.new(
 			false,
-			PracticeResultType.FailureReason.PRACTICE_HOOK_REJECTED,
+			(
+				PracticeResultType.FailureReason.PRACTICE_WEAPON_REJECTED
+				if weapon_refused
+				else PracticeResultType.FailureReason.PRACTICE_HOOK_REJECTED
+			),
 			PracticeResultType.Completion.NO_PROGRESS,
 			basic_skill_id,
 			special_skill_id,

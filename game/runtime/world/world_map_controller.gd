@@ -2449,7 +2449,8 @@ func inspect_selected() -> bool:
 	var npc: NpcRuntimeState = selected_npc()
 	if npc == null or not npc.exists_in_map:
 		return false
-	_hud().show_inspection(npc.definition())
+	var gender: StringName = npc.character_state.gender
+	_hud().show_inspection(npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender)
 	return true
 
 

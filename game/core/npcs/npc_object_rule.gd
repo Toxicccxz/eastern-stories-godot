@@ -6,7 +6,8 @@ extends RefCounted
 ## whose conditions all hold decides; an NPC without rules has no accept_object()
 ## and takes nothing. Conditions: the item's value() range, its liquid type and how
 ## much is left, a flag of the NPC (drunk.c has_alcohol), a mark of the giver
-## (marks/魏无极), the giver's gender and raw per (u/cloud girl.c). The outcome: lines,
+## (marks/魏无极), the giver's gender and raw per (u/cloud girl.c), the item's name and
+## the giver's family (u/cloud b_header.c: 忘忧草 from 振远镖局). The outcome: lines,
 ## accept or refuse, what it changes, and `kill`: a refusal that attacks the giver
 ## (u/cloud gangster.c kill_passenger()).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
@@ -21,6 +22,10 @@ var npc_flag: StringName = &""
 var giver_mark: String = ""
 var giver_gender: StringName = &""
 var giver_per_below: int = NO_BOUND
+## obj->query("name") as authored.
+var item_name: String = ""
+## families.json ID of query("family/family_name").
+var giver_family: StringName = &""
 var lines: Array[NpcLine] = []
 var accept: bool = false
 var mark_giver: String = ""
@@ -41,6 +46,8 @@ class Offer:
 	var giver_gender: StringName = &""
 	## query("per"): the raw attribute.
 	var giver_per: int = 0
+	var item_name: String = ""
+	var giver_family: StringName = &""
 
 	func _init(p_value: int = 0, p_liquid_type: StringName = &"", p_liquid_remaining: int = 0, p_npc_flags: Dictionary[StringName, bool] = {}, p_giver_marks: Dictionary[String, int] = {}) -> void:
 		value = p_value
@@ -60,6 +67,8 @@ func matches(offer: Offer) -> bool:
 		and (giver_mark.is_empty() or offer.giver_marks.get(giver_mark, 0) != 0)
 		and (giver_gender.is_empty() or offer.giver_gender == giver_gender)
 		and (giver_per_below == NO_BOUND or offer.giver_per < giver_per_below)
+		and (item_name.is_empty() or offer.item_name == item_name)
+		and (giver_family.is_empty() or offer.giver_family == giver_family)
 	)
 
 
@@ -81,6 +90,8 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.giver_mark = reader.text("giver_mark")
 	rule.giver_gender = StringName(reader.text("giver_gender"))
 	rule.giver_per_below = reader.integer("giver_per_below", NO_BOUND)
+	rule.item_name = reader.text("item_name")
+	rule.giver_family = StringName(reader.text("giver_family"))
 	rule.kill = reader.boolean("kill", false)
 	rule.lines = NpcLine.optional_lines(reader)
 	rule.accept = reader.boolean("accept", false)
