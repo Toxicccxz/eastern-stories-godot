@@ -25,7 +25,7 @@ func request_quest() -> QuestGiver.Outcome:
 	var state: CharacterState = map.player_runtime().state
 	var result: QuestGiver.Result = QuestGiver.give(
 		state, catalog.quest_tiers(), catalog.quest_target_available,
-		map.world_interaction_random_source().legacy_random,
+		map.world_interaction_random_source().legacy_random, catalog.pacing().quest_time_percent,
 	)
 	last_outcome = result.outcome
 	last_lines = result.lines.duplicate()

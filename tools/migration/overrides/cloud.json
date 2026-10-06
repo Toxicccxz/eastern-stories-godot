@@ -12,6 +12,7 @@
 		"cloud.outdoor.hummock.gangsters": { "presence_radius": 100 },
 		"cloud.npc.gangster": {
 			"attack_unless_mark": "强盗",
+			"toll_attack_delay_ms": 2000,
 			"chat_chance": 1,
 			"chat_msg": [
 				"强盗喝道：呔！此山是我开，此树乃我栽。要想从此过，留下 买路财！\n",

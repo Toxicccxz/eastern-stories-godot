@@ -106,7 +106,7 @@ static func _apply_dodge(
 		result._defender_roll_succeeded = defender_draw > 50
 		result._reached_stage = CombatProgressionResult.ReachedStage.DEFENDER_RANDOM_EVALUATED
 		if result._defender_roll_succeeded:
-			defender.progression.combat_experience += 1
+			defender.progression.combat_experience += defender_facts.experience_gain
 			_improve_defender(
 				result,
 				defender,
@@ -132,7 +132,7 @@ static func _apply_dodge(
 		result._attacker_first_roll_succeeded = exp_draw > 15
 		result._reached_stage = CombatProgressionResult.ReachedStage.ATTACKER_FIRST_RANDOM_EVALUATED
 		if result._attacker_first_roll_succeeded:
-			attacker.progression.combat_experience += 1
+			attacker.progression.combat_experience += attacker_facts.experience_gain
 
 		var skill_draw: int = _draw(result, random_source, attacker_bound)
 		if not _valid_draw(skill_draw, attacker_bound):
@@ -186,7 +186,7 @@ static func _apply_parry(
 		result._defender_roll_succeeded = defender_draw > 50
 		result._reached_stage = CombatProgressionResult.ReachedStage.DEFENDER_RANDOM_EVALUATED
 		if result._defender_roll_succeeded:
-			defender.progression.combat_experience += 1
+			defender.progression.combat_experience += defender_facts.experience_gain
 			_improve_defender(
 				result,
 				defender,
@@ -236,9 +236,7 @@ static func _apply_hit(
 		result._attacker_first_roll_succeeded = attacker_draw > 30
 		result._reached_stage = CombatProgressionResult.ReachedStage.HIT_ATTACKER_RANDOM_EVALUATED
 		if result._attacker_first_roll_succeeded:
-			attacker.progression.combat_experience += 1
-			if attacker.progression.potential - attacker.progression.potential_spent < 100:
-				attacker.progression.potential += 1
+			_gain(attacker, attacker_facts.experience_gain)
 			if not _improve_attacker(
 				result,
 				attacker,
@@ -260,11 +258,19 @@ static func _apply_hit(
 	result._defender_roll_succeeded = defender_draw < calculation.requested_damage
 	result._reached_stage = CombatProgressionResult.ReachedStage.HIT_DEFENDER_RANDOM_EVALUATED
 	if result._defender_roll_succeeded:
-		defender.progression.combat_experience += 1
-		if defender.progression.potential - defender.progression.potential_spent < 100:
-			defender.progression.potential += 1
+		_gain(defender, defender_facts.experience_gain)
 		result._reached_stage = CombatProgressionResult.ReachedStage.HIT_DEFENDER_MUTATION_COMPLETED
 	_complete(result)
+
+
+## do_attack()'s "(7) Give experience": combat_exp += 1, and potential += 1 while
+## less than 100 of it is unspent. A pacing gain above 1 adds that much of each,
+## potential still only up to 100 unspent.
+static func _gain(character: CharacterState, gain: int) -> void:
+	character.progression.combat_experience += gain
+	var unspent: int = character.progression.potential - character.progression.potential_spent
+	if unspent < 100:
+		character.progression.potential += mini(gain, 100 - unspent)
 
 
 static func _health_intelligence_bound(

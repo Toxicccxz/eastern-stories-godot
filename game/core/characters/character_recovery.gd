@@ -21,11 +21,15 @@ const RecoverySkillLevelsType := preload(
 ## CND_NO_HEAL_UP decision made by std/char.c; it is not a condition system.
 ## Whether this calculation is invoked at all remains the caller's lifecycle
 ## and scheduling decision, matching the boundary around damage.c::heal_up().
+## gain (the player's pacing.json player_recovery_gain; 1 is ES2) times what the
+## tick restores: gin/kee/sen and their effective values, atman/force/mana. Food,
+## water and the update flags stay as ES2 counts them.
 static func apply_tick(
 	character: CharacterStateType,
 	skills: RecoverySkillLevelsType,
 	is_player_character: bool,
 	no_heal_up: bool = false,
+	gain: int = 1,
 ) -> int:
 	if no_heal_up:
 		return 0
@@ -45,27 +49,30 @@ static func apply_tick(
 	if _recover_primary_resource(
 		character.essence,
 		constitution_recovery + character.recovery.atman.current / 10,
+		gain,
 	):
 		update_count += 1
 	if _recover_primary_resource(
 		character.vitality,
 		constitution_recovery + character.recovery.inner_force.current / 10,
+		gain,
 	):
 		update_count += 1
 	if _recover_primary_resource(
 		character.spirit,
 		constitution_recovery + character.recovery.mana.current / 10,
+		gain,
 	):
 		update_count += 1
 
 	if character.recovery.food < 1 and is_player_character:
 		return update_count
 
-	if _recover_internal_resource(character.recovery.atman, skills.raw_magic):
+	if _recover_internal_resource(character.recovery.atman, skills.raw_magic, gain):
 		update_count += 1
-	if _recover_internal_resource(character.recovery.inner_force, skills.raw_force):
+	if _recover_internal_resource(character.recovery.inner_force, skills.raw_force, gain):
 		update_count += 1
-	if _recover_internal_resource(character.recovery.mana, skills.raw_spells):
+	if _recover_internal_resource(character.recovery.mana, skills.raw_spells, gain):
 		update_count += 1
 
 	return update_count
@@ -80,16 +87,18 @@ static func maximum_water_capacity(body_weight: int) -> int:
 
 
 ## feature/damage.c first heals current, caps it at effective, and then repairs
-## effective by exactly one when current reached the old effective value.
+## effective by exactly one (gain, up to maximum) when current reached the old
+## effective value.
 static func _recover_primary_resource(
 	resource: CharacterResourceStateType,
 	recovery_amount: int,
+	gain: int = 1,
 ) -> bool:
-	resource.current += recovery_amount
+	resource.current += recovery_amount * gain
 	if resource.current >= resource.effective:
 		resource.current = resource.effective
 		if resource.effective < resource.maximum:
-			resource.effective += 1
+			resource.effective = mini(resource.effective + gain, resource.maximum)
 			return true
 		return false
 	return true
@@ -100,10 +109,11 @@ static func _recover_primary_resource(
 static func _recover_internal_resource(
 	resource: CharacterInternalResourceStateType,
 	raw_skill: int,
+	gain: int = 1,
 ) -> bool:
 	if resource.maximum == 0 or resource.current >= resource.maximum:
 		return false
-	resource.current += raw_skill / 2
+	resource.current += raw_skill / 2 * gain
 	if resource.current > resource.maximum:
 		resource.current = resource.maximum
 	return true

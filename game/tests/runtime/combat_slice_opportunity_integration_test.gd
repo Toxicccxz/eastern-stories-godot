@@ -74,6 +74,8 @@ var _failures: Array[String] = []
 
 
 func run_all() -> Dictionary[String, Variant]:
+	# ES2's own numbers end to end: the pacing knobs at ES2's pace (Es2Pacing).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	_test_binding_identity_and_independence()
 	_test_shared_nested_authorities_and_duplicate_ids_rejected()
 	_test_content_profile_and_current_projections()
@@ -97,6 +99,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_partial_mutations_survive_later_failures()
 	_test_threshold_candidate_deferred_to_affected_opportunity()
 	_test_result_defensive_snapshots()
+	Es2Pacing.restore(pacing)
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),

@@ -34,8 +34,8 @@ class Result:
 
 
 ## `tiers` in god.c's order (min_exp rising); `available` (target name) -> bool;
-## `random` (n) -> MudOS random(n).
-static func give(state: CharacterState, tiers: Array[QuestTier], available: Callable, random: Callable) -> Result:
+## `random` (n) -> MudOS random(n); `time_percent` the pacing knob (100 is ES2's time).
+static func give(state: CharacterState, tiers: Array[QuestTier], available: Callable, random: Callable, time_percent: int = 100) -> Result:
 	var result := Result.new()
 	if state.progression.combat_experience <= MIN_EXP:
 		result.outcome = Outcome.TOO_WEAK
@@ -71,12 +71,20 @@ static func give(state: CharacterState, tiers: Array[QuestTier], available: Call
 		var kee: int = mini(state.vitality.current / 2 + 1, state.vitality.effective)
 		state.vitality.current = kee
 		quest.finished = tfinished
-	var chosen: QuestDefinition = picked[random.call(picked.size())]
+	var chosen: QuestDefinition = picked[random.call(picked.size())].duplicate_definition()
+	chosen.time_seconds = given_seconds(chosen.time_seconds, time_percent)
 	result.lines.append(ColoredLine.new(assign_line(chosen), ColoredLine.HIW))
 	quest.assign(chosen, factor)
 	result.quest = quest.current
 	result.outcome = Outcome.GIVEN
 	return result
+
+
+## The time she gives for a qlist time: time_percent of it in whole seconds, at
+## least one (pacing.json quest_time_percent; 100 gives god.c's own time).
+@warning_ignore("integer_division")
+static func given_seconds(qlist_seconds: int, time_percent: int) -> int:
+	return maxi(qlist_seconds * time_percent / 100, 1)
 
 
 ## time_period()'s 请在…内 and the task, one HIW line as the two tell_object()s print it.

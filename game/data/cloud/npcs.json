@@ -22,6 +22,7 @@
 			],
 			"inquiry": { "买路钱": ["看你也不象有钱的样子，大爷我只要十两金子意思一下。\n"] },
 			"attack_unless_mark": "强盗",
+			"toll_attack_delay_ms": 2000,
 			"chat_chance": 1,
 			"chat_msg": ["强盗喝道：呔！此山是我开，此树乃我栽。要想从此过，留下 买路财！\n", "强盗将你上上下下打量了一番，说道：识相的放下十两买路钱 走你的路。\n"],
 			"chat_chance_combat": 15,

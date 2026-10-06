@@ -23,7 +23,10 @@ var failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary:
+	# ES2's own numbers end to end: the pacing knobs at ES2's pace (Es2Pacing).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	await _story(tree)
+	Es2Pacing.restore(pacing)
 	print("SMP2 automated acceptance: %d assertions; %d failures" % [assertions, failures.size()])
 	return {"assertions": assertions, "failures": failures}
 

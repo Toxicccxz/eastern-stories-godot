@@ -36,6 +36,8 @@ static func create_session(tree: SceneTree, random: RecoveryCadenceRandomSource)
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# ES2's own numbers end to end: the pacing knobs at ES2's pace (Es2Pacing).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	trace_tests(tree)
 	resource_tests(tree)
 	freeze_tests(tree)
@@ -46,6 +48,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var output: Array = []
 		var code: int = OS.execute(OS.get_executable_path(), ["--headless", "--path", ProjectSettings.globalize_path("res://"), "--script", "res://tests/run_snow_recovery_cold_process.gd", "--", mode, profile], output, true)
 		check(code == 0 and str(output).contains("S5B cold PASS") and not str(output).contains("SCRIPT ERROR"), "cold " + mode + ": " + str(output))
+	Es2Pacing.restore(pacing)
 	return {"assertions": assertions, "failures": failures}
 
 

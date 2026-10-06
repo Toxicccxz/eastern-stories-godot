@@ -18,6 +18,8 @@ var failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# ES2's own numbers end to end: the pacing knobs at ES2's pace (Es2Pacing).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	await _who_spars(tree)
 	await _spar_runs_to_its_end(tree)
 	await _npc_heals_and_spars_again(tree)
@@ -25,6 +27,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _killed_after_knockout_still_saves(tree)
 	await _armed_spar_death_reincarnation_and_continue(tree)
 	await _failed_fight_ends_instead_of_freezing(tree)
+	Es2Pacing.restore(pacing)
 	return {"assertions": assertions, "failures": failures}
 
 
