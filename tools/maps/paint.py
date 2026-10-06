@@ -6,6 +6,7 @@ These maps are generated, never edited by hand:
     snow:    snow_inn_upstairs, snow_cellar
     cloud:   cloud_outdoor, cloud_upstairs
     goathill: goathill_mountain, goathill_caverns
+    waterfog: waterfog_mountain, waterfog_pavilion, waterfog_upstairs
 
 Each region has one layout file, tools/maps/layouts/<region>.json; to change a map, edit its
 layout and rerun the painter. tools/tests/test_maps_paint.py fails when a committed scene differs

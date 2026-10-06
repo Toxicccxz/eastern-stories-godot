@@ -23,6 +23,35 @@ the rules themselves are unchanged.
   埋骨 (a fall only lands elsewhere), the 宝官's bet.
 - With 水烟阁: 於兰天武's three-blow test, 天邪虎啸 and powerfade in a fight.
 
+## 水烟阁 A: the mountain, the pavilion and their NPCs (2026-10-06)
+
+Owner-approved plan (three packages; this one places the region, B joins 天邪派, C gives the
+player 天邪神功). What each room and NPC became is in [WATERFOG_CONTENT](WATERFOG_CONTENT.md).
+- **Owner: the 正厅's masters (an obvious slip)**: d/waterfog/guildhall.c places its
+  objects as `CLASS_D("fighter") + "champion"`, without the slash: the file does not exist,
+  make_inventory()'s new() errors and the room fails to load in ES2. daemon/class/fighter/
+  guildhall.c is the same room with the right paths; the 正厅 zone takes both files (the first
+  one's text, the second one's 於兰天武, 萧辟尘 and 潘军禅).
+- **entrance.c's valid_leave()** is data (world.json `exit_rules`): going north with a weapon in
+  hand while a 水烟阁武士 is in the 正门 (present(): one lying unconscious counts, a corpse does
+  not), the player stays in the room, back inside its edge, and reads the guard's shout and
+  水烟阁武士挡住了你的去路。, once per attempt.
+- **item_desc** (the 正厅's sign, 虹谷's stone tablet, 葬剑亭's monolith) are look-only
+  landmarks (policy `look`): selected and looked at, no action.
+- **萧辟尘's consider()** is the chat function `match_weapon` (NpcWeaponMatch): he says ES2's
+  lines and takes up or puts away his long sword. Weapons' wield and unwield lines are not shown
+  yet (as everywhere).
+- **As ES2, nothing**: the 红衣武士's accept_kill() (no mudlib code calls it) and its
+  `guard <dir>` in return_home() (the mudlib has no guard command); exert recover by 天邪神功's
+  NPCs (no recover file); 小天邪虎 (no room places it); the fighters' bulletin board.
+- **Maps (owner)**: the mountain, the pavilion's ground floor (its own map: the 正门 is a scene
+  change, as Snow's Inn) and its upper floor. 聆啸厅's 春秋水色斋, 葬剑亭's 虹台 and 西侧厅's 阳台 have no
+  rooms in ES2: no door is drawn to them.
+- **Owner: the world's pinned numbers** (maps, rooms, Snow's outdoor portals and passages, a New
+  Game's NPCs and items, NPC creation draws, the spawn order) live in
+  `tests/fixtures/world_counts.json`; `UPDATE_WORLD_COUNTS=1` on `tests/runtime/world_counts_test.gd`
+  re-records them. The saves' revision pins read `WorldContentRevision.CURRENT_PUBLIC`.
+
 ## 绮云镇 3D: the 赌场 and the 红娘庄 (2026-10-06)
 
 - **The 宝官 takes bets** (judge.c accept_object()): money given to him is a bet on 小, anything

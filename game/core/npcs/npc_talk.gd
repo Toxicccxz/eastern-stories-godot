@@ -144,7 +144,7 @@ func is_valid() -> bool:
 		):
 			return false
 	for entry: Variant in _combat_chat_entries:
-		if not _is_valid_said(entry):
+		if not (_is_valid_said(entry) or (entry is NpcWeaponMatch and (entry as NpcWeaponMatch).is_valid())):
 			return false
 	for topic: String in _inquiry:
 		if topic.is_empty():

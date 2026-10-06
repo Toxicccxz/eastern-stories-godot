@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 var _assertions: int = 0
 var _failures: Array[String] = []
 
@@ -31,33 +32,7 @@ func _test_shipped_content_loads() -> void:
 	var spawn_ids: Array[StringName] = []
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		spawn_ids.append(spawn.spawn_id)
-	_eq(spawn_ids, [
-		&"oldpine.outdoor.spath1.bandits", &"oldpine.outdoor.pine1.tall_bandit", &"oldpine.outdoor.pine1.fat_bandit", &"oldpine.gorge.lake.serpents",
-		&"oldpine.outdoor.epath3.maniac", &"oldpine.outdoor.pine7.wolf_dog", &"oldpine.tree.tree2.butterflys", &"oldpine.outdoor.keep1.bandit_guards",
-		&"oldpine.outdoor.keep2.bandit_guards", &"oldpine.outdoor.keep2.bandit_leader", &"oldpine.outdoor.keep3.bandit_leaders",
-		&"oldpine.outdoor.keep3.bandit_commander", &"oldpine.tree.tree1.spy", &"oldpine.stone.venomsnake",
-		&"snow.inn.travellers", &"snow.outdoor.eroad2.dogs", &"snow.outdoor.temple.keeper", &"snow.outdoor.mstreet2.drunk",
-		&"snow.outdoor.mstreet2.scavenger", &"snow.outdoor.school1.guard", &"snow.outdoor.school2.trainees", &"snow.outdoor.school2.fist_trainer",
-		&"snow.outdoor.sroad2.farmers", &"snow.outdoor.sroad4.crazy_dog", &"snow.outdoor.school.teacher",
-		&"snow.outdoor.herbshop.woodcutter", &"snow.outdoor.postoffice.post_officer", &"snow.inn_upstairs.inn_2f.rats",
-		&"snow.inn.waiter", &"snow.outdoor.bank.annihir", &"snow.outdoor.schoolhall.master", &"snow.outdoor.smithy.smith",
-		&"snow.outdoor.herbshop.herbalist", &"snow.outdoor.nyard.girl", &"snow.outdoor.square.trav_blades",
-		&"oldpine.outdoor.keep2.trap_guards",
-		&"goathill.mountain.temple1.bandit_hwang", &"goathill.mountain.mroad4.bandits", &"goathill.mountain.mroad4.bandit_leader",
-		&"goathill.caverns.cavern1.worms", &"goathill.caverns.cavern2.fat_worm", &"goathill.caverns.cavern2.worms",
-		&"goathill.caverns.cavern3.big_worms", &"goathill.caverns.cavern3.huge_worms", &"goathill.caverns.cavern4.worms",
-		&"goathill.caverns.cavern4.big_worm",
-		&"cloud.outdoor.hummock.gangsters", &"cloud.outdoor.butchery.butcher", &"cloud.outdoor.butchery.flys",
-		&"cloud.outdoor.tearoom.tea_waiter", &"cloud.outdoor.woodboxy.box_boss", &"cloud.outdoor.woodboxy.box_waiters",
-		&"cloud.outdoor.god2.god", &"cloud.outdoor.tailory.tailor", &"cloud.outdoor.nwroad3.garrisons",
-		&"cloud.outdoor.zaihuoy.seller", &"cloud.outdoor.drugstore.doctor", &"cloud.outdoor.weapony.weaponor",
-		&"cloud.outdoor.monky.monk", &"cloud.outdoor.monky.beggars", &"cloud.outdoor.bookstore.book_seller",
-		&"cloud.outdoor.marry_room.mei_po", &"cloud.outdoor.dukou.boater", &"cloud.outdoor.jiyuan.mother",
-		&"cloud.outdoor.duchang.judge", &"cloud.outdoor.park.thief", &"cloud.outdoor.biaoju.b_header",
-		&"cloud.outdoor.biaoju.bfighter", &"cloud.outdoor.rich.room_guas", &"cloud.outdoor.m_house.millinare",
-		&"cloud.outdoor.m_house.jiadings", &"cloud.outdoor.eroad4.workers", &"cloud.upstairs.tearoom2.chess_player",
-		&"cloud.upstairs.jiyuan2.girl",
-	], "spawn order is the authored order (manifest, then file)")
+	_eq(spawn_ids, WorldCounts.ids("spawn_order"), "spawn order is the authored order (manifest, then file; world_counts.json)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
 	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")
 	# Imported Snow facts (tools/migration/content_importer.py).

@@ -1,0 +1,121 @@
+{
+	"spawns": [
+		{
+			"id": "waterfog.mountain.sroad3.guards",
+			"npc": "waterfog.npc.guard",
+			"map": "waterfog.mountain",
+			"zone": "waterfog.sroad3",
+			"points": ["waterfog.sroad3.guard.1", "waterfog.sroad3.guard.2"],
+			"legacy_room": "d/waterfog/sroad3.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "waterfog.mountain.clifftop.watcher",
+			"npc": "waterfog.npc.watcher",
+			"map": "waterfog.mountain",
+			"zone": "waterfog.clifftop",
+			"points": ["waterfog.clifftop.watcher.1"],
+			"legacy_room": "d/waterfog/clifftop.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.mountain.clifftop.celes_tiger",
+			"npc": "waterfog.npc.celes_tiger",
+			"map": "waterfog.mountain",
+			"zone": "waterfog.clifftop",
+			"points": ["waterfog.clifftop.celes_tiger.1"],
+			"legacy_room": "d/waterfog/clifftop.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.pavilion.entrance.guards",
+			"npc": "waterfog.npc.guard",
+			"map": "waterfog.pavilion",
+			"zone": "waterfog.entrance",
+			"points": ["waterfog.entrance.guard.1", "waterfog.entrance.guard.2"],
+			"legacy_room": "d/waterfog/entrance.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "waterfog.pavilion.guildhall.champion",
+			"npc": "common.npc.fighter.champion",
+			"map": "waterfog.pavilion",
+			"zone": "waterfog.guildhall",
+			"points": ["waterfog.guildhall.champion.1"],
+			"legacy_room": "daemon/class/fighter/guildhall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.pavilion.guildhall.master",
+			"npc": "common.npc.fighter.master",
+			"map": "waterfog.pavilion",
+			"zone": "waterfog.guildhall",
+			"points": ["waterfog.guildhall.master.1"],
+			"legacy_room": "daemon/class/fighter/guildhall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.pavilion.guildhall.executioner",
+			"npc": "common.npc.fighter.executioner",
+			"map": "waterfog.pavilion",
+			"zone": "waterfog.guildhall",
+			"points": ["waterfog.guildhall.executioner.1"],
+			"legacy_room": "daemon/class/fighter/guildhall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.pavilion.storage.servants",
+			"npc": "waterfog.npc.servant",
+			"map": "waterfog.pavilion",
+			"zone": "waterfog.storage",
+			"points": ["waterfog.storage.servant.1", "waterfog.storage.servant.2"],
+			"legacy_room": "d/waterfog/storage.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "waterfog.upstairs.west_2f.elite_guards",
+			"npc": "waterfog.npc.elite_guard",
+			"map": "waterfog.upstairs",
+			"zone": "waterfog.west_2f",
+			"points": ["waterfog.west_2f.elite_guard.1", "waterfog.west_2f.elite_guard.2"],
+			"legacy_room": "d/waterfog/west_2f.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "waterfog.upstairs.forehall.elder5",
+			"npc": "waterfog.npc.elder5",
+			"map": "waterfog.upstairs",
+			"zone": "waterfog.forehall",
+			"points": ["waterfog.forehall.elder5.1"],
+			"legacy_room": "d/waterfog/forehall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.upstairs.forehall.elder6",
+			"npc": "waterfog.npc.elder6",
+			"map": "waterfog.upstairs",
+			"zone": "waterfog.forehall",
+			"points": ["waterfog.forehall.elder6.1"],
+			"legacy_room": "d/waterfog/forehall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.upstairs.forehall.elder7",
+			"npc": "waterfog.npc.elder7",
+			"map": "waterfog.upstairs",
+			"zone": "waterfog.forehall",
+			"points": ["waterfog.forehall.elder7.1"],
+			"legacy_room": "d/waterfog/forehall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "waterfog.upstairs.east_2f.elite_guards",
+			"npc": "waterfog.npc.elite_guard",
+			"map": "waterfog.upstairs",
+			"zone": "waterfog.east_2f",
+			"points": ["waterfog.east_2f.elite_guard.1", "waterfog.east_2f.elite_guard.2"],
+			"legacy_room": "d/waterfog/east_2f.c",
+			"legacy_quantity": 2
+		}
+	]
+}

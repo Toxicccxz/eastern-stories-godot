@@ -6,13 +6,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **Confirmations** (`phase/confirm-prompt`): one reusable ConfirmPrompt asks before 攻击 on
 one's own master, a 切磋 to the death (安惜迩) or with a weapon in hand, 化尸粉 on a corpse with
-things in it and the first 拜师; the
-betrayal, the hockshop sale and the menu's two questions use it too (DECISIONS). 绮云镇 3D is
-merged.
+things in it and the first 拜师; the betrayal, the hockshop sale and the menu's two questions
+use it too (DECISIONS). 水烟阁 A (#65) is merged: the mountain, the pavilion and its upper floor
+with their eighteen NPCs; old suites' world numbers live in `tests/fixtures/world_counts.json`.
 
-Next: 水烟阁 (region plan #4), in three packages: A the mountain, the pavilion and their NPCs;
-B joining 天邪派 (萧辟尘's oath, 於兰天武's test) and learning; C 天邪神功 in the player's hands
-(powerup, powerfade, 天邪虎啸, 杀气's berserk with a warning).
+Next: 水烟阁 B, joining 天邪派 (萧辟尘's oath, 於兰天武's three-blow test, asked first) and learning
+from them; then C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
 
 ## Playable now
 
@@ -56,6 +55,14 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   from 陈剑秋 and 趟子手, practising 春风快意刀 with a blade; 朱鸿雪's quests (41 of the 84
   targets stand in the game so far), betting with the 宝官. Not yet: the ferry, 陈剑秋's letter
   (乔阴县城's 忘忧草).
+* **水烟阁**: west of Snow's 青石官道 (sroad5), all 28 rooms on three maps: the road and the
+  white stone stairs up the mountain past the two 水烟阁武士 and 半山亭 (the 司事 and the 天邪虎),
+  the platform before the pavilion and the west path to 葬剑亭 (its monolith and 虹谷's stone
+  tablet to look at); inside, the 正门 (its guards stop anyone with a weapon in hand going north),
+  the 正厅 with 於兰天武, 萧辟尘 and 潘军禅 and its sign, the halls, kitchen, woodshed and servants'
+  room; upstairs the four 红衣武士 (on duty: no spar) and the three elders in 聆啸厅. They fight
+  with 天邪神掌, 六阴追魂剑法, 火蝠身法, powerup and 南危水's counterattack; 萧辟尘 wields his sword
+  against an armed enemy and puts it away against bare hands. Not yet: joining 天邪派 (B).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -63,14 +70,15 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
   recovery and conditions (蛇毒), shared HUD and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
-  封山剑法), dodges read the mapped dodge skill's lines (倒乱七星步法); armor, weapon and NPC
+  封山剑法, 天邪神掌, 六阴追魂剑法), dodges read the mapped dodge skill's lines (倒乱七星步法,
+  火蝠身法); armor, weapon and NPC
   `apply/*` bonuses and internal power count: force_factor on every landed blow, and a bare-handed
   blow against stronger force is thrown back (std/force.c, told in the battle log).
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 136/551 rooms, 67/286 NPC
-types, 2/10 joinable families, 8/35 special and 7/25 basic martial arts, 41/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 164/551 rooms, 78/286 NPC
+types, 2/10 joinable families, 11/35 special and 10/25 basic martial arts, 41/84 quest targets.
 
 ## Known issues
 

@@ -1,5 +1,6 @@
 extends "res://tests/runtime/combat_flee_test.gd"
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Memory := preload("res://tests/runtime/game_save_repository_test.gd")
 const Failing := preload("res://tests/support/failing_combat_relationship_state.gd")
 
@@ -31,7 +32,7 @@ func _save_boundary(tree: SceneTree) -> void:
 	var repo := SourceEntrySaveRepository.new(profile, files)
 	var snapshot: GameSaveSnapshot = captured.snapshot
 	_check(repo.save(snapshot).succeeded() and repo.load().succeeded(), "current public roundtrip")
-	_check(snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC and snapshot.npc_spawn_states.size() == 143, "current Lake marker and complete catalog")
+	_check(snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC and snapshot.npc_spawn_states.size() == WorldCounts.number("world_npcs"), "current Lake marker and complete catalog")
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
 	for revision: String in ["LEGACY_OLDPINE_V1", "SOURCE_ENTRY_V1", "SOURCE_ENTRY_SNOW_NPCS_V1", "NOT_KNOWN"]:
 		var changed: Dictionary = raw.duplicate(true)

@@ -481,7 +481,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
-	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc))
+	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of))
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -503,6 +503,26 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		trigger.trigger_id,
 		encounter_id,
 	)
+
+
+## command("wield <type>") / command("unwield <type>") for an NPC in the fight: its
+## combat content afterwards (null when nothing changed).
+func _npc_wield(character_id: StringName, weapon_type: StringName, on: bool) -> CombatSliceContentProfile:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	if map == null or not map.npc_wield_by_type(character_id, weapon_type, on):
+		return null
+	return map.npc_combat_content(character_id)
+
+
+## RANK_D->query_respect() of a participant, in the shown language.
+func _respect_of(character_id: StringName) -> String:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	if player != null and player.character_id == character_id:
+		return tr(RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id))
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	if npc == null:
+		return ""
+	return tr(RankWords.query_respect(npc.character_state.gender, npc.age, &"", npc.definition().rank_respect))
 
 
 ## The NPC a participant is (npc.c chat() in the fight), or null.

@@ -163,7 +163,7 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; random_move and
-## drink only outside a fight.
+## drink only outside a fight, match_weapon (萧辟尘's consider()) only in one.
 static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bool) -> Array:
 	var entries: Array = []
 	for entry: Variant in reader.strings_or_children(key):
@@ -185,9 +185,11 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcTalk.RANDOM_MOVE)
 		elif action == "drink" and not in_fight:
 			entries.append(NpcDrinkAction.from_record(record))
+		elif action == "match_weapon" and in_fight:
+			entries.append(NpcWeaponMatch.from_record(record))
 		else:
 			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
-				"perform, cast, exert, surrender" if in_fight else "random_move, drink, perform, cast, exert, surrender"])
+				"perform, cast, exert, surrender, match_weapon" if in_fight else "random_move, drink, perform, cast, exert, surrender"])
 		record.finish()
 	return entries
 

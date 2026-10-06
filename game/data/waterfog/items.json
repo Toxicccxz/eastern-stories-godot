@@ -1,0 +1,93 @@
+{
+	"items": [
+		{
+			"id": "es2:d/waterfog/obj/guard_suit",
+			"legacy_sources": ["d/waterfog/obj/guard_suit.c", "d/waterfog/npc/obj/guard_suit.c"],
+			"name": "水烟阁武士氅",
+			"aliases": ["guard suit", "suit"],
+			"unit": "件",
+			"weight": 7000,
+			"value": 1400,
+			"armor": { "type": "armor", "props": { "armor": 10 } }
+		},
+		{
+			"id": "es2:d/waterfog/obj/leather_boot",
+			"legacy_sources": ["d/waterfog/obj/leather_boot.c", "d/waterfog/npc/obj/leather_boot.c"],
+			"name": "牛皮靴",
+			"aliases": ["leather boots", "boots"],
+			"unit": "双",
+			"material": "leather",
+			"weight": 4000,
+			"value": 300,
+			"armor": { "type": "boots", "props": { "dodge": 1, "armor": 4 } }
+		},
+		{
+			"id": "es2:d/waterfog/obj/watcher_suit",
+			"legacy_sources": ["d/waterfog/obj/watcher_suit.c", "d/waterfog/npc/obj/watcher_suit.c"],
+			"name": "水烟阁司事褂",
+			"aliases": ["watcher suit", "suit"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 7000,
+			"value": 2000,
+			"armor": { "type": "cloth", "props": { "armor": 4 } }
+		},
+		{
+			"id": "es2:d/waterfog/obj/watcher_hat",
+			"legacy_sources": ["d/waterfog/obj/watcher_hat.c", "d/waterfog/npc/obj/watcher_hat.c"],
+			"name": "水烟阁司事帽",
+			"aliases": ["watcher hat", "hat"],
+			"unit": "顶",
+			"weight": 1000,
+			"value": 200,
+			"armor": { "type": "head", "props": { "attack": -2, "armor": 3 } }
+		},
+		{
+			"id": "es2:d/waterfog/obj/red_suit",
+			"legacy_sources": ["d/waterfog/obj/red_suit.c", "d/waterfog/npc/obj/red_suit.c"],
+			"name": "鲜红锦衣",
+			"aliases": ["crimson suit", "suit"],
+			"long": "一件鲜红色的锦衣，上面绣著水烟阁的金色乌鸦徽号。\n",
+			"unit": "件",
+			"material": "cloth",
+			"weight": 6500,
+			"value": 2000,
+			"armor": { "type": "cloth", "props": { "armor": 5, "attack": 5, "defense": -5 } }
+		},
+		{
+			"id": "es2:d/waterfog/obj/red_hat",
+			"legacy_sources": ["d/waterfog/obj/red_hat.c", "d/waterfog/npc/obj/red_hat.c"],
+			"name": "鲜红金乌冠",
+			"aliases": ["crimson hat", "hat"],
+			"long": "这是水烟阁武士常戴的红色圆顶帽，帽缘镶著一圈金线。\n",
+			"unit": "顶",
+			"weight": 1000,
+			"value": 800,
+			"armor": { "type": "head", "props": { "attack": 2, "defense": -2, "armor": 4 } }
+		},
+		{
+			"id": "es2:d/waterfog/obj/sorrowfire",
+			"legacy_sources": ["d/waterfog/obj/sorrowfire.c", "d/waterfog/npc/obj/sorrowfire.c"],
+			"name": "焦殇剑",
+			"aliases": ["sword of sorrowfire", "sword", "sorrowfire"],
+			"long": "一把通体黝黑，又带著一丝焦味的铁剑。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 15000,
+			"value": 7800,
+			"weapon": { "skill": "sword", "damage": 74 }
+		},
+		{
+			"id": "es2:d/waterfog/obj/iron_staff",
+			"legacy_sources": ["d/waterfog/obj/iron_staff.c", "d/waterfog/npc/obj/iron_staff.c"],
+			"name": "黑铁杖",
+			"aliases": ["iron staff", "staff"],
+			"long": "这条黑铁杖光看就知道非常沈重，拿在手里才知道比想像中更重。\n",
+			"unit": "条",
+			"material": "iron",
+			"weight": 70000,
+			"value": 2800,
+			"weapon": { "skill": "staff", "damage": 54 }
+		}
+	]
+}

@@ -181,7 +181,7 @@ func persistence_tests(tree: SceneTree) -> void:
 	await exact_roundtrip(tree,session,snapshot,"partial skill")
 	var encoded := GameSaveJsonCodec.encode(snapshot)
 	var raw: Dictionary = JSON.parse_string(encoded.text)
-	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == "SOURCE_ENTRY_CLOUD_V1", "root/item/content stable")
+	check(raw.metadata.schema_version == 2 and raw.items.schema_version == 3 and raw.world_content_revision == WorldContentRevision.serialized(WorldContentRevision.CURRENT_PUBLIC), "root/item/content stable")
 	raw.player.character.affiliation.schema_version = 2
 	check(not GameSaveJsonCodec.decode(JSON.stringify(raw)).succeeded(), "unknown affiliation version rejected")
 	raw.player.character.affiliation.schema_version = 1
