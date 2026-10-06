@@ -50,6 +50,7 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIM: Color(1.0, 0.5, 1.0),
 	ColoredLine.HIG: Color(0.45, 1.0, 0.45),
 	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
+	ColoredLine.RED: Color(0.82, 0.24, 0.24),
 }
 var _presentation_layout: SharedGameplayLayout
 ## Names the player's shown conditions (蛇毒) on the HUD.

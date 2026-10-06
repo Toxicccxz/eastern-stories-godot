@@ -4,7 +4,7 @@
 			"note": "水烟阁's mountain: the broad 青石官道 from Snow (east) bends west along the slope under the maple woods to the foot of the white stone stairs, where two guards stand (sroad3); the stairs climb north, turn east and north again to the white stone pavilion on the cliff's edge (clifftop: chasms east and north), then west and north up onto the platform before 水烟阁 (frontyard), whose gate leads into the pavilion. West of the platform the path passes a row of maples and the stone tablet of 虹谷, then climbs north against the cliff wall, the gorge to the east, to 葬剑亭 and its monolith.",
 			"file": "waterfog_mountain.tscn",
 			"draw": {
-				"technique": "canvas", "base": "cliff", "bounds": [0, 0, 1792, 2240],
+				"technique": "canvas", "base": "cliff", "bounds": [0, 0, 1856, 2240],
 				"zones": {
 					"waterfog.swordtomb": [96, 96, 352, 336, "rock"],
 					"waterfog.wpath5": [352, 96, 592, 336, "rock"],
@@ -25,7 +25,7 @@
 				},
 				"lines": {
 					"roads": [
-						[[1784, 2064, 36, 56, 56, 6, "sroad1: the broad 青石官道 from Snow"], [1640, 2056, 36, 72, 60, 10], [1520, 2024, 36, 64, 56, 10], [1400, 1984, 36, 60, 56, 8, "sroad2: the road bends west along the slope"], [1280, 1992, 36, 60, 60, 8], [1144, 2016, 36, 64, 64, 10, "sroad3: the foot of the stairs"], [1072, 1968, 28, 40, 40, 4], [1072, 1808, 28, 40, 40, 6, "stair1: white stone stairs up the mountainside"], [1072, 1600, 28, 40, 40, 6, "stair2"], [1104, 1552, 28, 40, 40, 6], [1328, 1552, 28, 40, 40, 6, "stair3"], [1328, 1328, 28, 40, 40, 6, "stair4"], [1328, 1200, 28, 48, 48, 6], [1248, 1104, 28, 64, 40, 8, "clifftop: the path passes the white stone pavilion"], [1120, 1088, 28, 40, 40, 6, "stair5 west"], [1056, 1040, 28, 40, 40, 6], [1040, 960, 32, 72, 72, 8, "stair5 north onto the platform"], [1024, 832, 40, 120, 120, 8, "frontyard"], [1024, 720, 40, 96, 96, 4, "the gate"]],
+						[[1776, 2064, 36, 56, 56, 6, "sroad1: the broad 青石官道 from Snow"], [1640, 2056, 36, 72, 60, 10], [1520, 2024, 36, 64, 56, 10], [1400, 1984, 36, 60, 56, 8, "sroad2: the road bends west along the slope"], [1280, 1992, 36, 60, 60, 8], [1144, 2016, 36, 96, 96, 10, "sroad3: the foot of the stairs, where the two guards stand"], [1072, 1968, 28, 80, 80, 4], [1072, 1808, 28, 64, 64, 6, "stair1: white stone stairs up the mountainside"], [1072, 1600, 28, 64, 64, 6, "stair2"], [1104, 1552, 28, 64, 64, 6], [1328, 1552, 28, 64, 64, 6, "stair3"], [1328, 1328, 28, 64, 64, 6, "stair4"], [1328, 1200, 28, 72, 72, 6], [1248, 1104, 28, 72, 56, 8, "clifftop: the path passes the white stone pavilion"], [1120, 1088, 28, 64, 64, 6, "stair5 west"], [1056, 1040, 28, 64, 64, 6], [1040, 960, 32, 72, 72, 8, "stair5 north onto the platform"], [1024, 832, 40, 120, 120, 8, "frontyard"], [1024, 720, 40, 96, 96, 4, "the gate"]],
 						[[912, 880, 28, 48, 48, 6, "west from the platform"], [800, 896, 28, 48, 56, 8, "wpath1: the maples to the north"], [672, 904, 28, 56, 56, 8], [560, 896, 28, 64, 56, 10, "wpath2: the stone tablet beside the path"], [480, 856, 28, 56, 56, 8], [480, 752, 24, 64, 56, 4, "wpath3: stairs against the cliff wall, the gorge east"], [480, 560, 24, 64, 56, 4], [480, 400, 24, 64, 56, 4, "wpath4"], [472, 240, 24, 48, 40, 6, "wpath5: deep valleys east and north"], [400, 216, 28, 48, 48, 6], [224, 216, 28, 72, 72, 8, "swordtomb"]]
 					]
 				},
@@ -37,8 +37,8 @@
 						["street", 896, 720, 1152, 960, "the platform before 水烟阁: white stone paving"],
 						["forest", 624, 800, 848, 816, "wpath1: a row of maples along the path's north side"],
 						["blocked", 528, 832, 544, 848, "wpath2: the stone tablet of 虹谷 (look: stone)"],
-						["floor_yard", 1328, 1008, 1440, 1104, "clifftop: the white stone pavilion"],
-						["blocked", 1328, 1008, 1344, 1024], ["blocked", 1424, 1008, 1440, 1024], ["blocked", 1328, 1088, 1344, 1104], ["blocked", 1424, 1088, 1440, 1104],
+						["floor_yard", 1280, 1008, 1440, 1120, "clifftop: the white stone pavilion, open to the path on its west"],
+						["blocked", 1424, 1008, 1440, 1024], ["blocked", 1424, 1104, 1440, 1120],
 						["floor_yard", 160, 160, 288, 288, "葬剑亭"],
 						["blocked", 160, 160, 176, 176], ["blocked", 272, 160, 288, 176], ["blocked", 160, 272, 176, 288], ["blocked", 272, 272, 288, 288],
 						["blocked", 208, 128, 240, 144, "the monolith before the pavilion (look: monolith)"]
@@ -83,8 +83,8 @@
 				"spawn_points": [
 					{"name": "SnowEntry", "at": [1712, 2064], "id": "waterfog.sroad1.snow_entry"},
 					{"name": "GateReturn", "at": [1024, 784], "id": "waterfog.frontyard.gate_return"},
-					{"name": "Sroad3Guard1", "at": [1000, 1984], "id": "waterfog.sroad3.guard.1"},
-					{"name": "Sroad3Guard2", "at": [1152, 1952], "id": "waterfog.sroad3.guard.2"},
+					{"name": "Sroad3Guard1", "at": [1016, 1992], "id": "waterfog.sroad3.guard.1"},
+					{"name": "Sroad3Guard2", "at": [1128, 1984], "id": "waterfog.sroad3.guard.2"},
 					{"name": "ClifftopWatcher1", "at": [1376, 1040], "id": "waterfog.clifftop.watcher.1"},
 					{"name": "ClifftopCelesTiger1", "at": [1392, 1080], "id": "waterfog.clifftop.celes_tiger.1"}
 				],
@@ -170,8 +170,8 @@
 				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
 				"shapes": {"StairsShape": [48, 48]},
 				"stairs": [
-					{"zone": "waterfog.west_2f", "name": "West2fStairsDown", "at": [128, 112], "id": "waterfog.west_2f.down", "shape": "StairsShape", "color": "Color(0.85, 0.85, 0.8, 1)", "text": "楼梯 · 下楼", "marker": {"name": "WestStairsArrival", "at": [184, 112], "id": "waterfog.west_2f.stairs_arrival"}},
-					{"zone": "waterfog.east_2f", "name": "East2fStairsDown", "at": [896, 112], "id": "waterfog.east_2f.down", "shape": "StairsShape", "color": "Color(0.85, 0.85, 0.8, 1)", "text": "楼梯 · 下楼", "marker": {"name": "EastStairsArrival", "at": [840, 112], "id": "waterfog.east_2f.stairs_arrival"}}
+					{"zone": "waterfog.west_2f", "name": "West2fStairsDown", "at": [128, 144], "id": "waterfog.west_2f.down", "shape": "StairsShape", "color": "Color(0.85, 0.85, 0.8, 1)", "text": "楼梯 · 下楼", "marker": {"name": "WestStairsArrival", "at": [184, 152], "id": "waterfog.west_2f.stairs_arrival"}},
+					{"zone": "waterfog.east_2f", "name": "East2fStairsDown", "at": [896, 144], "id": "waterfog.east_2f.down", "shape": "StairsShape", "color": "Color(0.85, 0.85, 0.8, 1)", "text": "楼梯 · 下楼", "marker": {"name": "EastStairsArrival", "at": [840, 152], "id": "waterfog.east_2f.stairs_arrival"}}
 				],
 				"nodes": [
 					{"generated": "captions"},

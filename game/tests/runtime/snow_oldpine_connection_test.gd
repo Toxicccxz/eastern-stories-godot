@@ -86,8 +86,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# scavenger 7, guard 4, trainees 48, trainer 6 (4A); farmers 16, crazy dog 4, teacher 7,
 	# woodcutter 7, post officer 8 (4B); rats 36 (4C); waiter 8, 安惜迩 0 (all eight attributes
 	# authored), 柳淳风 4, smith 8, herbalist 8 (4E); 柳绘心 3 (spi, con, kar); the 飞刀 travellers 33
-	# (Old Pine B); then 野羊山's 32 and 绮云镇's 325 (3A). Old Pine's
-	# draws are a shared prefix.
+	# (Old Pine B); then 野羊山's 32, 绮云镇's 325 (3A) and 水烟阁's 69 (A): the total is
+	# world_counts.json's npc_draws_after_oldpine. Old Pine's draws are a shared prefix.
 	var technical_draws: NpcInitializationRandomSource = technical.npc_random_source()
 	for draw: int in range(WorldCounts.number("npc_draws_after_oldpine")):
 		technical_draws.next_below(10)

@@ -441,8 +441,12 @@ func _check_exit_rules() -> void:
 			if not _zones.has(zone_id):
 				_errors.append("%s: unknown zone '%s'" % [origin, zone_id])
 		var from_zone: ZoneDefinition = _zones.get(rule.from_zone_id)
+		var to_zone: ZoneDefinition = _zones.get(rule.to_zone_id)
 		if from_zone != null and not from_zone.room_ids().has(rule.room_id):
 			_errors.append("%s.room: '%s' is not a room of %s" % [origin, rule.room_id, rule.from_zone_id])
+		# The rule is checked where the player walks from one zone into the next on a map.
+		if from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id:
+			_errors.append("%s: %s and %s are not on one map" % [origin, rule.from_zone_id, rule.to_zone_id])
 		if not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 

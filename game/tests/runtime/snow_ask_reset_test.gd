@@ -8,6 +8,8 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
 var _count: int = 0
 var _failures: Array[String] = []
+## Each room's first reset as scheduled, before any world time passes.
+var _scheduled: Dictionary[String, int] = {}
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
@@ -16,6 +18,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_random_move_rule()
 	_test_chat_rule()
 	var session: OldPineWorldSessionController = Work.create_session(tree)
+	for room: String in session.room_resets().rooms():
+		_scheduled[room] = session.room_resets().remaining_ms(room)
 	await tree.process_frame
 	await _to_square(tree, session)
 	await _test_wandering(tree, session)
@@ -227,8 +231,8 @@ func _test_reset(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	session.set_process(false)
 	var resets: WorldRoomResets = session.room_resets()
 	for room: String in resets.rooms():
-		var left: int = resets.remaining_ms(room)
-		_check(left >= 900_000 and left < 1_800_000, "%s resets in 15 to 30 minutes" % room)
+		var scheduled: int = _scheduled.get(room, -1)
+		_check(scheduled >= 900_000 and scheduled < 1_800_000 and resets.remaining_ms(room) <= scheduled, "%s resets in 15 to 30 minutes (scheduled %d ms)" % [room, scheduled])
 	# return_home(): the scavenger left mstreet2 in _test_wandering.
 	var scavenger: NpcRuntimeState = _npc(map, &"snow.mstreet2.scavenger.1")
 	_check(scavenger.world_location().zone_id == &"snow.mstreet3", "the scavenger is still next door")

@@ -210,6 +210,16 @@ func _test_consider(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	_check(drawn != null and _templates(drawn) == ["萧辟尘说道：%s既然使兵刃，在下空手接招未免不敬。" % respect, "萧辟尘说道：进招吧！"], "random(100) 0 < 80, entry 0: consider() speaks: %s" % [_templates(drawn)])
 	_check(master.character_state.equipment.primary_weapon_skill_type() == &"sword" and me.state.equipment.primary_weapon_skill_type() == &"sword", "and wields his long sword")
 	_check(chat.beat(me, [enemy], [enemy], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new()) == null, "both armed: nothing more")
+	# His blows are the sword's now: the fight goes on with it (no abort), its damage 25 counts.
+	CombatEncounterCoordinator.take_aborted_total()
+	var held: EquippedWeaponRef = master.character_state.equipment.primary_weapon()
+	var armed: CombatSliceCharacterBinding = _binding(session.encounter_combat_bindings(coordinator.active_encounter()), master.character_id)
+	_check(armed.content.is_verified_primary(held) and armed.content.projected_apply_damage(held) >= 25, "his binding verifies the long sword and counts its damage")
+	for round: int in 12:
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.advance_scheduler(1.0)
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0 and coordinator.has_active_encounter() and master.character_state.equipment.primary_weapon_skill_type() == &"sword", "twelve rounds with his sword drawn: the fight goes on")
 	player.state.equipment.unwield(sword) # TEST-ONLY: hands free in the fight
 	var bare: CombatNpcChatResult = chat.beat(me, [enemy], [enemy], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new())
 	_check(bare != null and _templates(bare) == ["萧辟尘说道：既然%s不使兵刃，在下自然奉陪！" % respect], "bare-handed: he says so: %s" % [_templates(bare)])

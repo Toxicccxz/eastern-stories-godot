@@ -5205,6 +5205,11 @@ msgstr ""
 msgid "六阴追魂剑法"
 msgstr ""
 
+#. six-chaos-sword improved_line
+#: data/common/skills.json
+msgid "你突然觉得一股恶气冲上心头，只觉得想杀人...."
+msgstr ""
+
 #. six-chaos-sword actions.action
 #: data/common/skills.json
 msgid "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑"
@@ -9965,4 +9970,14 @@ msgid ""
 "                        第三代水烟阁主 于兰玫音\n"
 "                        第四代水烟阁主 聂    言   合立\n"
 "                        第五代水烟阁主 段 柏 山\n"
+msgstr ""
+
+#. waterfog.entrance.weapons lines
+#: data/waterfog/world.json
+msgid "水烟阁武士喝道：慢著，进水烟阁，先放下你的兵刃！"
+msgstr ""
+
+#. waterfog.entrance.weapons lines
+#: data/waterfog/world.json
+msgid "水烟阁武士挡住了你的去路。"
 msgstr ""

@@ -165,6 +165,7 @@
 		{
 			"id": "six-chaos-sword", "name": "六阴追魂剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/six-chaos-sword.c",
+			"improved_line": "你突然觉得一股恶气冲上心头，只觉得想杀人....", "improved_color": "RED", "improved_every": 10,
 			"actions": [
 				{ "id": "qun-mo-luan-wu", "action": "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑", "damage": 170, "damage_type": "刺伤" },
 				{ "id": "li-gui-chan-shen", "action": "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l", "damage": 60, "damage_type": "刺伤" },
