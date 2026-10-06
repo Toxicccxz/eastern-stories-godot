@@ -999,7 +999,7 @@ msgstr ""
 msgid "雌性"
 msgstr ""
 
-#: core/characters/new_player_initialization_policy.gd
+#: core/characters/new_player_initialization_policy.gd core/death/player_killer_reward.gd
 msgid "普通百姓"
 msgstr ""
 
@@ -5477,14 +5477,10 @@ msgid "袭人"
 msgstr ""
 
 #. quests.target
-#. snow.npc.girl name
-#: data/common/quests.json data/snow/npcs.json
-msgid "柳绘心"
-msgstr ""
-
-#. quests.target
-#: data/common/quests.json
-msgid "老兵"
+#. oldpine.npc.bandit_leader name
+#. goathill.npc.bandit_leader name
+#: data/common/quests.json data/oldpine/npcs.json data/goathill/npcs.json
+msgid "土匪首领"
 msgstr ""
 
 #. quests.target
@@ -5496,29 +5492,18 @@ msgstr ""
 
 #. quests.target
 #: data/common/quests.json
-msgid "后备兵"
-msgstr ""
-
-#. quests.target
-#: data/common/quests.json
-msgid "书生"
-msgstr ""
-
-#. quests.target
-#: data/common/quests.json
-msgid "仆役"
-msgstr ""
-
-#. quests.target
-#. oldpine.npc.bandit_leader name
-#. goathill.npc.bandit_leader name
-#: data/common/quests.json data/oldpine/npcs.json data/goathill/npcs.json
-msgid "土匪首领"
-msgstr ""
-
-#. quests.target
-#: data/common/quests.json
 msgid "老队长"
+msgstr ""
+
+#. quests.target
+#. snow.npc.girl name
+#: data/common/quests.json data/snow/npcs.json
+msgid "柳绘心"
+msgstr ""
+
+#. quests.target
+#: data/common/quests.json
+msgid "老兵"
 msgstr ""
 
 #. quests.target

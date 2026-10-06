@@ -48,7 +48,11 @@ func _test_data() -> void:
 	for tier: QuestTier in tiers:
 		levels.append(tier.min_exp)
 		entries += tier.quests.size()
-	_check(levels == LEVELS and entries == 253, "god.c's 15 levels, 253 qlist entries: %s %d" % [levels, entries])
+	_check(levels == LEVELS and entries == 220, "god.c's 15 levels, 220 qlist entries (33 are commented out): %s %d" % [levels, entries])
+	var tier10000: Array[String] = []
+	for quest: QuestDefinition in tiers[6].quests:
+		tier10000.append(quest.target)
+	_check(tier10000 == ["卧龙岗强盗", "郑屠夫", "彩衣少女", "飞贼", "兵器贩子", "刘安禄", "旅客", "土匪爪牙", "巨岩蛭", "袭人", "圆春"], "qlist10000.c without its commented-out entries: " + str(tier10000))
 	var first: QuestDefinition = tiers[0].quests[0]
 	_check(tiers[0].legacy_source == "quest/qlist1000.c" and first.target == "乞丐" and first.type == "杀" and first.time_seconds == 200 and first.exp_bonus == 30 and first.pot_bonus == 20 and first.score == 6, "qlist1000.c's first: 乞丐, 杀, 200 s, 30/20/6")
 	_check(catalog.npc(GOD).dealings().quest_giver and catalog.npc(GARRISON).dealings().vendetta_mark == "authority", "朱鸿雪 gives quests; garrison.c's vendetta_mark")
@@ -202,7 +206,7 @@ func _test_master_killed() -> void:
 	_check(state.family.has_family() and state.apprenticeship.betrayer_count == 0, "the master two generations up: nothing")
 	state.family.generation = 14
 	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(state, Master.definition(), ScriptedWorldInteractionRandomSource.new([]).legacy_random)
-	_check(result.left_family and result.lines.is_empty() and state.apprenticeship.betrayer_count == -1, "柳淳风's killer: betrayer 0 - 1 = -1, without a word")
+	_check(result.left_family and result.lines.is_empty() and state.apprenticeship.betrayer_count == -1 and PlayerKillerReward.REBEL_TITLE == "普通百姓", "柳淳风's killer: betrayer 0 - 1 = -1, without a word; the title is to be 普通百姓")
 	_check(not state.family.has_family() and not state.apprenticeship.has_master() and state.apprenticeship.legacy_master_name.is_empty(), "family 0: no family, no master")
 	_check(not state.affiliation.has_family_rank and state.affiliation.family_title.is_empty() and state.affiliation.entry_time_status == CharacterAffiliationState.EntryTime.ABSENT and state.affiliation.class_id == &"swordsman" and state.affiliation.is_valid(), "no rank or entry time; the class stays")
 
@@ -236,8 +240,9 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	_check(sheet.contains("杀气 0 · 综合评价 0\n总共杀过 0 个人。") and sheet.contains("你现在的任务是杀『宝官』。\n你还有八分十九秒去完成它。"), "the character sheet: score.c's lines and quest.c: " + sheet)
 	hud.dismiss_current_panel()
 	await tree.physics_frame
+	var left: int = player.state.quest.remaining_ms
 	var encoded: String = GameSaveJsonCodec.encode(Work.capture(session)).text
-	_check(encoded.contains("\"remaining_ms\": \"498500\"") and encoded.contains("\"target\": \"宝官\""), "the task is saved with the time left")
+	_check(encoded.contains("\"remaining_ms\": \"%d\"" % left) and encoded.contains("\"target\": \"宝官\""), "the task is saved with the time left")
 	var work: RefCounted = Work.new()
 	await work.round_trip(tree, session, Work.capture(session), "a task from 朱鸿雪")
 	_check(work._failures.is_empty(), "Save/Continue: " + str(work._failures))
@@ -256,9 +261,17 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	_run(session)
 	_check(judge.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "宝官 is killed")
 	var gained: int = player.state.progression.combat_experience - exp_before
+	_check(hud.log_lines().slice(before).find("恭喜你！你又完成了一项任务！") < 0, "the reward waits for the fight's result")
+	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
+	ui.refresh_projection()
 	var lines: Array[String] = hud.log_lines().slice(before)
+	var won: int = -1
+	for index: int in lines.size():
+		if lines[index].begins_with("你赢了这场战斗。"):
+			won = index
 	var done: int = lines.find("恭喜你！你又完成了一项任务！")
-	_check(done >= 0 and done + 1 < lines.size() and lines[done + 1].begins_with("你被奖励了：\n%s点实战经验\n" % ChineseNumber.of(gained)), "the reward in the log: " + str(lines))
+	_check(won >= 0 and done == won + 1 and done + 2 == lines.size() and lines[done + 1].begins_with("你被奖励了：\n%s点实战经验\n" % ChineseNumber.of(gained)), "the reward in the log after the fight's result: " + str(lines))
+	_check(hud._presentation_layout.recent.text == lines.back().replace("\n", " "), "the HUD's last line shows the whole reward: " + hud._presentation_layout.recent.text)
 	_check(gained >= 20 and gained <= 39 and player.state.progression.score >= 2 and player.state.progression.score <= 3 and player.state.progression.potential == 100, "qlist1000.c's 宝官: 40/30/4 halved plus a draw: exp %d, score %d" % [gained, player.state.progression.score])
 	_check(not player.state.quest.has_task() and player.state.quest.finished == 1 and player.state.progression.kills == 1 and player.state.attributes.bellicosity == 1, "the task done, tfinished 1, MKS 1, bellicosity 1")
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight never aborts")
@@ -281,6 +294,14 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	player.state.quest.remaining_ms = -1
 	player.state.vitality = CharacterResourceState.new(80, 100, 100)
 	_check(service.request_quest() == QuestGiver.Outcome.GIVEN and service.last_lines[0].text == SCOLD and player.state.vitality.current == 41 and player.state.quest.finished == 0 and player.state.quest.remaining_ms > 0, "the time ran out: 真没用, kee halved, another task")
+	var header: NpcRuntimeState = _npc(map, &"cloud.biaoju.b_header.1")
+	_check(player.request_apprenticeship(header.definition(), GameContent.catalog().family(&"family.zhenyuan"), 1789420000) == NpcApprenticeship.Outcome.RECRUITED and player.shown_title() == "振远镖局第二代弟子", "TEST-ONLY: 陈剑秋's apprentice")
+	map._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
+	_check(not player.state.family.has_family() and player.state.apprenticeship.betrayer_count == -1 and player.facts.title == "普通百姓" and player.shown_title() == "普通百姓", "his killer leaves the family and is 普通百姓 again: " + player.shown_title())
+	player.state.vitality = CharacterResourceState.new(player.state.vitality.maximum, player.state.vitality.maximum, player.state.vitality.maximum)
+	work = Work.new()
+	await work.round_trip(tree, session, Work.capture(session), "a master's killer, betrayer -1")
+	_check(work._failures.is_empty(), "Save/Continue after leaving the family: " + str(work._failures))
 
 
 ## A saved task, vendetta and MKS that 朱鸿雪 could not have given are refused.

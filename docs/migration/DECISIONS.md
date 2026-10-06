@@ -5,11 +5,12 @@
 - **The quest command is 朱鸿雪's** (god.c init(): `quest_giver`): beside her, 任务 runs
   give_quest(); when it returns 0 (combat_exp 1000 or less, a task still running) quest.c's lines
   follow, as the command goes on to cmds/usr/quest.c. quest.c's lines also stand on the 角色 page.
-  The 15 levels and 253 qlist entries are `common/quests.json`; the player keeps a copy of the task.
+  The 15 levels and 220 qlist entries are `common/quests.json` (qlist10000, 13000 and 17000.c
+  comment out 11 entries each; they are left out); the player keeps a copy of the task.
 - **Owner: she draws only targets the game has.** The draw is among the tier's entries whose
   target is an NPC placed somewhere that can be fought (by name, as killer_reward() compares
-  name(1)); a tier with none gives way to the next lower one. With all 87 names in the game it is
-  god.c's own draw. `tests/fixtures/quest_targets.json` lists the 41 available and 46 missing
+  name(1)); a tier with none gives way to the next lower one. With all 84 names in the game it is
+  god.c's own draw. `tests/fixtures/quest_targets.json` lists the 41 available and 43 missing
   names; a region package that places one re-records it (UPDATE_QUEST_TARGETS=1).
 - **Owner: the task's time runs on play time** (fights, map changes and lying unconscious
   included); pause and a closed game stop it, and the save keeps the time left. In ES2 task_time

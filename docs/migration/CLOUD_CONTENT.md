@@ -58,9 +58,11 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
   member gives him is 这不是你得到的吧. 柳绘心 (d/snow girl.c) is of 封山剑派北宗, not 封山剑派,
   so look.c names no relation between her and 柳淳风's disciples.
 
+- qlist10000.c, qlist13000.c and qlist17000.c comment out 11 entries each (/* */): 220 entries
+  and 84 names are live (书生, 仆役 and 后备兵 appear only in the comments).
 - quest/qqqq.c is a fourth list no code reads (QUEST_D only names the 15 qlist files). god.c's
   random tier shift (factor 15) is commented out, so quest_factor is always 10; its accept_object()
-  for 寻 tasks is commented out too (all 253 entries are 杀). tfinished never goes below 0 in
+  for 寻 tasks is commented out too (all 220 entries are 杀). tfinished never goes below 0 in
   practice: only an expired task at -10 or less lowers it. The quest reward caps unspent potential
   at 100, so a player above 100 loses some.
 - surrender.c reads last_opponent, set once blows are exchanged: before the first one a surrender

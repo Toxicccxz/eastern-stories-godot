@@ -1504,11 +1504,13 @@ func player_fall_below_zero() -> void:
 # --- killed_enemy(), 化尸粉, apply -------------------------------------------------------
 
 ## combatd.c killer_reward() when the player killed an NPC (PlayerKillerReward): its
-## tell_object() lines go to the log.
+## tell_object() lines go to the log after the fight's result, so the HUD shows them last.
 func _player_killer_reward(victim: NpcRuntimeState) -> void:
 	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random)
-	if not result.lines.is_empty():
-		_hud().append_colored_lines(result.lines)
+	if result.left_family:
+		_player.take_title(PlayerKillerReward.REBEL_TITLE)
+	if not result.lines.is_empty() and _hud() != null:
+		_hud().append_after_fight(result.lines)
 
 
 ## combatd.c killer_reward(): the killer's killed_enemy() (spy.c: say, then

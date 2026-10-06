@@ -52,7 +52,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
   the 木雕门 and 木门; joining 振远镖局 (陈剑秋, cor 25; betrayal from 封山剑派 and back), learning
-  from 陈剑秋 and 趟子手, practising 春风快意刀 with a blade; 朱鸿雪's quests (41 of the 87
+  from 陈剑秋 and 趟子手, practising 春风快意刀 with a blade; 朱鸿雪's quests (41 of the 84
   targets stand in the game so far). Not yet: betting, marriage, the ferry, 陈剑秋's letter
   (乔阴县城's 忘忧草).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
@@ -69,7 +69,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 136/551 rooms, 67/286 NPC
-types, 2/10 joinable families, 8/35 special and 7/25 basic martial arts, 41/87 quest targets.
+types, 2/10 joinable families, 8/35 special and 7/25 basic martial arts, 41/84 quest targets.
 
 ## Known issues
 

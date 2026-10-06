@@ -37,6 +37,9 @@ var _log_lines: Array[String] = []
 ## The ES2 colour of each log line (ColoredLine; &"" plain), e.g. kill_ob()'s
 ## 看起来X想杀死你！ in HIR bright red.
 var _log_colors: Array[StringName] = []
+## Lines the world printed while a fight ran that read best after its result
+## (killer_reward()'s quest reward): shown with show_combat_result().
+var _after_fight_lines: Array[ColoredLine] = []
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
 ## How include/ansi.h's bright colours look in the log and on the HUD's last line.
 const ES2_COLORS: Dictionary[StringName, Color] = {
@@ -345,6 +348,18 @@ func show_combat_result(text: String) -> void:
 	# Existing always-visible heading, not a modal input blocker on compact HUDs.
 	_presentation_layout.recent.text = text.get_slice("\n", 0)
 	world_title.tooltip_text = text
+	if not _after_fight_lines.is_empty():
+		var lines: Array[ColoredLine] = _after_fight_lines.duplicate()
+		_after_fight_lines.clear()
+		append_colored_lines(lines)
+
+
+## Lines for the log once the running fight's result is shown (at once outside a fight).
+func append_after_fight(lines: Array[ColoredLine]) -> void:
+	if _session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter():
+		_after_fight_lines.append_array(lines)
+	else:
+		append_colored_lines(lines)
 
 
 ## `alert`: the lines are warnings ES2 prints in bright red (HIR).
@@ -371,7 +386,8 @@ func append_colored_lines(lines: Array[ColoredLine]) -> void:
 		shown.append("[color=#%s]%s[/color]" % [ES2_COLORS[color].to_html(false), plain] if ES2_COLORS.has(color) else plain)
 	combat_log.text = "\n".join(shown)
 	var recent: Label = _presentation_layout.recent
-	recent.text = "" if _log_lines.is_empty() else _log_lines.back().get_slice("\n", 0)
+	# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
+	recent.text = "" if _log_lines.is_empty() else _log_lines.back().replace("\n", " ")
 	if not _log_colors.is_empty() and ES2_COLORS.has(_log_colors.back()):
 		recent.add_theme_color_override("font_color", ES2_COLORS[_log_colors.back()])
 	else:

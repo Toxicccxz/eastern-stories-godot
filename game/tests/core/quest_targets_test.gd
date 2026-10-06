@@ -1,6 +1,6 @@
 extends RefCounted
 
-## Which of the 87 names in quest/qlist*.c 朱鸿雪 can give now (owner, 3C): a target
+## Which of the 84 names in quest/qlist*.c 朱鸿雪 can give now (owner, 3C): a target
 ## counts once an NPC of that name is placed and can be fought. The list is recorded
 ## in tests/fixtures/quest_targets.json; a region package that places a target (or
 ## renames one) sees it here and re-records the list deliberately with
@@ -25,7 +25,7 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 		for key: String in normalized:
 			_check(JSON.stringify(normalized[key]) == JSON.stringify(expected.get(key)), "%s match the recording (UPDATE_QUEST_TARGETS=1 re-records): %s" % [key, JSON.stringify(normalized[key])])
 	var names: Array = actual["available"] + actual["missing"]
-	_check(names.size() == 87, "87 names in the 15 lists: %d" % names.size())
+	_check(names.size() == 84, "84 names in the 15 lists (书生, 仆役, 后备兵 only in commented-out entries): %d" % names.size())
 	return {"assertions": _count, "failures": _failures}
 
 

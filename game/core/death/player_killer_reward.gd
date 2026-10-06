@@ -10,6 +10,10 @@ extends RefCounted
 ## Lines are tell_object()s to the player, in the shown language.
 
 
+## killer_reward()'s set("title") for one who killed their master.
+const REBEL_TITLE: String = "普通百姓"
+
+
 class Result:
 	extends RefCounted
 	var lines: Array[ColoredLine] = []
@@ -77,8 +81,9 @@ static func _complete_quest(state: CharacterState, victim: NpcDefinition, random
 
 
 ## killer_reward()'s rebel part (added June 25, 1996): the killer's family/master_id
-## is the victim's id and their generation the one below: betrayer - 1, title
-## 普通百姓, family 0 (master and rank with it).
+## is the victim's id and their generation the one below: betrayer - 1, family 0
+## (master and rank with it). The title (REBEL_TITLE) is the player's identity's:
+## the caller sets it when `left_family`.
 static func _rebel(state: CharacterState, victim: NpcDefinition, result: Result) -> void:
 	var teaching: NpcTeaching = victim.teaching()
 	var generation: int = 0 if teaching == null else teaching.family_generation

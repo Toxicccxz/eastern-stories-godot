@@ -65,8 +65,10 @@ static func give(state: CharacterState, tiers: Array[QuestTier], available: Call
 	if quest.has_task():
 		# TRANSLATORS: god.c: the player comes back after the time ran out; 朱鸿雪 then gives another task.
 		result.lines.append(ColoredLine.new(_t("朱鸿雪向你一甩袍袖，说道：\n真没用！不过看在你还回来见我的份上，就在给你一次机会．")))
+		# kee / 2 + 1, within effective kee (only a character at 0 effective kee, who cannot
+		# stand beside her, would go above it).
 		@warning_ignore("integer_division")
-		var kee: int = state.vitality.current / 2 + 1
+		var kee: int = mini(state.vitality.current / 2 + 1, state.vitality.effective)
 		state.vitality.current = kee
 		quest.finished = tfinished
 	var chosen: QuestDefinition = picked[random.call(picked.size())]

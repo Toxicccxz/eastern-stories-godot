@@ -170,18 +170,7 @@
 				{"target": "土匪爪牙", "quest_type": "杀", "time": 300, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
 				{"target": "巨岩蛭", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
 				{"target": "袭人", "quest_type": "杀", "time": 300, "exp_bonus": 10, "pot_bonus": 10, "score": 9},
-				{"target": "圆春", "quest_type": "杀", "time": 500, "exp_bonus": 10, "pot_bonus": 10, "score": 8},
-				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
-				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
-				{"target": "趟子手", "quest_type": "杀", "time": 540, "exp_bonus": 40, "pot_bonus": 30, "score": 8},
-				{"target": "后备兵", "quest_type": "杀", "time": 480, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
-				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
-				{"target": "书生", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
-				{"target": "彩衣少女", "quest_type": "杀", "time": 400, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
-				{"target": "船夫", "quest_type": "杀", "time": 150, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
-				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8},
-				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 8},
-				{"target": "仆役", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 3}
+				{"target": "圆春", "quest_type": "杀", "time": 500, "exp_bonus": 10, "pot_bonus": 10, "score": 8}
 			]
 		},
 		{
@@ -197,18 +186,7 @@
 				{"target": "土匪爪牙", "quest_type": "杀", "time": 100, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
 				{"target": "巨岩蛭", "quest_type": "杀", "time": 300, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
 				{"target": "袭人", "quest_type": "杀", "time": 100, "exp_bonus": 10, "pot_bonus": 10, "score": 9},
-				{"target": "圆春", "quest_type": "杀", "time": 300, "exp_bonus": 10, "pot_bonus": 10, "score": 8},
-				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
-				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
-				{"target": "趟子手", "quest_type": "杀", "time": 540, "exp_bonus": 40, "pot_bonus": 30, "score": 8},
-				{"target": "后备兵", "quest_type": "杀", "time": 480, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
-				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
-				{"target": "书生", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
-				{"target": "彩衣少女", "quest_type": "杀", "time": 400, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
-				{"target": "船夫", "quest_type": "杀", "time": 150, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
-				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8},
-				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 8},
-				{"target": "仆役", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 3}
+				{"target": "圆春", "quest_type": "杀", "time": 300, "exp_bonus": 10, "pot_bonus": 10, "score": 8}
 			]
 		},
 		{
@@ -223,18 +201,7 @@
 				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 30, "score": 8},
 				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 5},
 				{"target": "巨岩蛭", "quest_type": "杀", "time": 100, "exp_bonus": 40, "pot_bonus": 20, "score": 15},
-				{"target": "圆春", "quest_type": "杀", "time": 100, "exp_bonus": 10, "pot_bonus": 10, "score": 8},
-				{"target": "柳绘心", "quest_type": "杀", "time": 500, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
-				{"target": "老兵", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 20, "score": 8},
-				{"target": "趟子手", "quest_type": "杀", "time": 540, "exp_bonus": 40, "pot_bonus": 30, "score": 8},
-				{"target": "后备兵", "quest_type": "杀", "time": 480, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
-				{"target": "旅客", "quest_type": "杀", "time": 200, "exp_bonus": 30, "pot_bonus": 20, "score": 10},
-				{"target": "书生", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 30, "score": 10},
-				{"target": "彩衣少女", "quest_type": "杀", "time": 400, "exp_bonus": 40, "pot_bonus": 20, "score": 10},
-				{"target": "船夫", "quest_type": "杀", "time": 150, "exp_bonus": 20, "pot_bonus": 10, "score": 5},
-				{"target": "明心", "quest_type": "杀", "time": 500, "exp_bonus": 40, "pot_bonus": 20, "score": 8},
-				{"target": "跛僧人", "quest_type": "杀", "time": 500, "exp_bonus": 20, "pot_bonus": 10, "score": 8},
-				{"target": "仆役", "quest_type": "杀", "time": 300, "exp_bonus": 20, "pot_bonus": 10, "score": 3}
+				{"target": "圆春", "quest_type": "杀", "time": 100, "exp_bonus": 10, "pot_bonus": 10, "score": 8}
 			]
 		},
 		{

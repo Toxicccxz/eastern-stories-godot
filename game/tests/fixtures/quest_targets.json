@@ -44,15 +44,12 @@
 	],
 	"missing": [
 		"严廷殷",
-		"书生",
-		"仆役",
 		"僵尸侍者",
 		"僵尸护法",
 		"化缘和尚",
 		"卖包子的",
 		"卖糖葫芦的",
 		"卖饼大叔",
-		"后备兵",
 		"圆春",
 		"大队长",
 		"守城官兵",
@@ -123,18 +120,18 @@
 		},
 		{
 			"min_exp": 10000,
-			"available": 12,
-			"entries": 22
+			"available": 8,
+			"entries": 11
 		},
 		{
 			"min_exp": 13000,
-			"available": 12,
-			"entries": 22
+			"available": 8,
+			"entries": 11
 		},
 		{
 			"min_exp": 17000,
-			"available": 11,
-			"entries": 21
+			"available": 7,
+			"entries": 10
 		},
 		{
 			"min_exp": 22000,
