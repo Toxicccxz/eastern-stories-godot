@@ -2,9 +2,10 @@ class_name CombatSurrenderTacticalPolicy
 extends CombatTacticalActionPolicy
 
 ## cmds/std/surrender.c for the player: the battle panel's 投降 (SurrenderCommand).
-## A last opponent that stands and is killing the player refuses (求饶 line, the
-## fight goes on); otherwise every enemy not killing the player stops fighting, the
-## player stops fighting them all and loses 50 score (to 0). Owner decision, as for
+## A last opponent (before the first blow, any opponent) that stands and is killing
+## the player refuses (求饶 line, the fight goes on); otherwise every enemy not
+## killing the player stops fighting, the player stops fighting them all and loses
+## 50 score (to 0). Owner decision, as for
 ## exert and perform: it waits while the player is busy (surrender.c has no busy
 ## check). In a fight to the death whose enemies are all down and nobody fights any
 ## more, the player has disengaged: the fight ends as Flee ends it (ES2 would go on

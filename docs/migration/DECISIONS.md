@@ -25,6 +25,10 @@
   any family without a betrayal: killing the master was the cheapest way to change families.
   Here it costs what recruit.c's betrayal costs (betrayer + 1, score 0), and the player reads
   why (你亲手杀了自己的师父，被逐出了…！ and the cost; ES2 says nothing).
+- **Owner: no ES2 quirk that reads as a bug.** The quest reward's cap on unspent potential (100)
+  only stops the gain: ES2 lowered a player above 100. A surrender before the first blow (no
+  last_opponent yet) is refused when a standing enemy is killing the surrenderer: ES2 took it, and
+  the score, while the killer fought on.
 - **vendetta**: an NPC with a vendetta_mark (garrison.c: authority) attacks a player who holds
   vendetta/<mark> on sight (attack.c init(), start_vendetta()); a death with a killer clears it.
   garrison.c's `pursuer` (following who flees) is not ported.

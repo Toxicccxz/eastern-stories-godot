@@ -60,8 +60,10 @@ static func _complete_quest(state: CharacterState, victim: NpcDefinition, random
 	if progression.score < 0:
 		score = -score
 	progression.combat_experience += exp_points
-	# Potential not yet spent ends at 100 at most, even when it was above before.
-	var unspent: int = mini(progression.potential - progression.potential_spent + pot, 100)
+	# killer_reward() caps unspent potential at 100 and so lowered it for a player
+	# above 100. Deviation (owner, 3C): the cap only stops the gain.
+	var before: int = progression.potential - progression.potential_spent
+	var unspent: int = maxi(before, mini(before + pot, 100))
 	progression.potential = unspent + progression.potential_spent
 	progression.score += score
 	# TRANSLATORS: combatd.c: the quest reward, numbers in Chinese numerals: {exp} combat experience, {pot} potential, {score} 综合评价 (score).

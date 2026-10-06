@@ -64,9 +64,10 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
   random tier shift (factor 15) is commented out, so quest_factor is always 10; its accept_object()
   for 寻 tasks is commented out too (all 220 entries are 杀). tfinished never goes below 0 in
   practice: only an expired task at -10 or less lowers it. The quest reward caps unspent potential
-  at 100, so a player above 100 loses some.
+  at 100, so a player above 100 loses some (the port only stops the gain, DECISIONS 3C).
 - surrender.c reads last_opponent, set once blows are exchanged: before the first one a surrender
-  is accepted even against a killer, who fights on (the player has lost 50 score).
+  is accepted even against a killer, who fights on (the player has lost 50 score). The port
+  refuses it then (DECISIONS 3C).
 
 ## Deferred
 

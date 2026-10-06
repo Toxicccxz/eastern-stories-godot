@@ -174,7 +174,12 @@ func _test_reward() -> void:
 	state.progression.potential_spent = 100
 	state.quest.assign(catalog.quest_tiers()[0].quests[0], 10)
 	PlayerKillerReward.apply(state, catalog.npc(BEGGAR), ScriptedWorldInteractionRandomSource.new([0, 0, 0]).legacy_random)
-	_check(state.progression.potential == 200, "200 unspent potential: the reward leaves 100 (killer_reward() caps what is unspent)")
+	_check(state.progression.potential == 300, "200 unspent potential stays 200: the cap stops the gain only (deviation; killer_reward() would leave 100)")
+	state = _fresh()
+	state.progression.potential = 95
+	state.quest.assign(catalog.quest_tiers()[0].quests[0], 10)
+	PlayerKillerReward.apply(state, catalog.npc(BEGGAR), ScriptedWorldInteractionRandomSource.new([0, 0, 0]).legacy_random)
+	_check(state.progression.potential == 100, "95 + 10 ends at 100")
 
 
 func _test_vendetta_and_death() -> void:
@@ -363,7 +368,11 @@ func _test_surrender(tree: SceneTree) -> void:
 	player.state.progression.score = 30 # TEST-ONLY
 	map.select_npc(TRAINEE)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "now to the death")
-	coordinator.advance_scheduler(1.0) # a round: the trainee is the player's last_opponent
+	ui.refresh_projection()
+	_check(player.relationship.last_opponent_id.is_empty() and intent.submit(CombatSurrenderTacticalPolicy.ACTION_ID).accepted(), "投降 before any blow")
+	coordinator.advance_scheduler(1.0) # the surrender, then a round: the trainee is the player's last_opponent
+	ui.refresh_projection()
+	_check(coordinator.has_active_encounter() and player.state.progression.score == 30 and ui.log_panel._text.get_parsed_text().contains("你向武馆弟子求饶，但是武馆弟子大声说道："), "a standing killer refuses even before the first blow (deviation): " + ui.log_panel._text.get_parsed_text().right(200))
 	ui.refresh_projection()
 	_check(player.relationship.last_opponent_id == TRAINEE, "the 武馆弟子 is the last opponent")
 	_check(intent.submit(CombatSurrenderTacticalPolicy.ACTION_ID).accepted(), "投降 again")
