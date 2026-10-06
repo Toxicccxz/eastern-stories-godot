@@ -59,9 +59,13 @@ only they or nobody use; `d/npc` (wizard-saved characters).
 
 * **Combined items** (`std/item/combined.c`): built with Old Pine B (蛇药, 飞刀, 化尸粉); Snow's
   桃符纸 waits for the player's spells.
-* **Pacing knobs**: data-configured multipliers (default = original) decided from owner playtests;
-  first: exercise gain or kee recovery (owner chose this for max_force 0 → 50, 8–16 hours at ES2's
-  pace).
+* **Modern fixes** (2026-10-06, owner): ES2 behaviour that reads as a bug to today's players gets
+  the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
+* **Pacing knobs** — next, before 3D: data-configured multipliers (default = original) decided
+  from measurements and owner playtests: exercise gain or kee recovery (max_force 0 → 50 takes
+  8–16 hours at ES2's pace), a new character's exp growth (quests need over 1000), the quests'
+  40-second deadlines, and whether 卧龙岗's toll (10 gold, robbers of 10000 exp) should keep new
+  players out of 绮云镇.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
 ## Later — release readiness

@@ -159,9 +159,9 @@
 				"class": "guardman"
 			},
 			"accept_object": [
-				{ "item_name": "忘忧草", "giver_family": "family.zhenyuan", "emote": "笑了笑说：“这不是你得到的吧？”。", "accept": true },
+				{ "item_name": "忘忧草", "giver_family": "family.zhenyuan", "emote": "笑了笑说：“这不是你得到的吧？”。", "accept": false },
 				{ "item_name": "忘忧草", "say": "你是何人？为什么有我的忘忧草？", "accept": true },
-				{ "say": "你拿什么东西唬我？", "accept": true }
+				{ "say": "你拿什么东西唬我？", "accept": false }
 			]
 		}
 	},

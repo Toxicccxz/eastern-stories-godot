@@ -151,7 +151,7 @@ func _test_apply_rules() -> void:
 	_check(not none.accepted and none.lines == ["你没有中蛇毒。"] and not none.used_up, "not poisoned: 你没有中蛇毒。")
 	state.conditions.add_or_replace_duration(POISON, 2)
 	var dose: ItemApplyFunctions.Result = ItemApplyFunctions.apply(&"snake_drug", state, true)
-	_check(dose.accepted and dose.used_up and _remaining(state) == 1 and dose.lines == ["你服下蛇药，顿时感觉好多了。但是你中的蛇毒并没有完全清除。"], "one dose lowers it by one, also in a fight: " + str(dose.lines))
+	_check(dose.accepted and dose.used_up and _remaining(state) == 1 and dose.lines == ["你服下蛇药，顿时感觉好多了。但是你中的蛇毒并没有完全清除。", "体内的蛇毒还剩 1 分，每服一剂解去一分。"], "one dose lowers it by one, also in a fight; what is left is said (modern fixes): " + str(dose.lines))
 	dose = ItemApplyFunctions.apply(&"snake_drug", state, false)
 	_check(dose.accepted and _remaining(state) == 0 and state.conditions.has_condition(POISON) and dose.lines == ["你服下蛇药，顿时感觉好多了。你终于清除了体内所有的蛇毒！"], "the last one: cleared (the condition stays at 0)")
 	var hurt: CharacterState = _state()

@@ -45,6 +45,11 @@ static func _snake_drug(character: CharacterState) -> Result:
 	var after: String = "但是你中的蛇毒并没有完全清除。" if poison - 1 != 0 else "你终于清除了体内所有的蛇毒！"
 	# TRANSLATORS: snake_drug.c: 你服下蛇药，顿时感觉好多了。 and, on the same line, whether the poison is gone ({after}).
 	result.lines.append(TranslationServer.translate("你服下蛇药，顿时感觉好多了。{after}").format({"after": TranslationServer.translate(after)}))
+	if poison - 1 != 0:
+		# One dose lowers the poison by one against a bite's 20, so a dose seemed to do
+		# nothing. Deviation (owner, modern fixes): the player reads what is left.
+		# TRANSLATORS: after a dose of 蛇药: the snake poison left ({left}); each dose takes away one.
+		result.lines.append(TranslationServer.translate("体内的蛇毒还剩 {left} 分，每服一剂解去一分。").format({"left": poison - 1}))
 	result.accepted = true
 	result.used_up = true
 	return result

@@ -1967,8 +1967,9 @@ func _start_stealing(npc: NpcRuntimeState) -> void:
 	_ambience.start_call(npc.character_id, NpcSteal.COMPLETE_DELAY_SECONDS)
 
 
-## compelete_steal(): the player must still be there; taken or unnoticed, the player
-## reads nothing (the thief's lines are its own); caught, the two fight (fight_ob).
+## compelete_steal(): the player must still be there; caught, the two fight (fight_ob).
+## Taken, ES2 tells the player nothing; deviation (owner, modern fixes): a conscious
+## player notices what is gone, not who took it.
 func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
 	# A thief killed meanwhile is gone (destructed: no `me` to move anything to).
 	if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not _player_shares_zone(npc):
@@ -1985,6 +1986,9 @@ func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
 			if not ItemHandlingService.hand_over(npc, item_id, _item_authorities()):
 				return
 			NpcSteal.after_taken(pending["sp"], conscious, npc.character_state.attributes.intelligence, _ambience.random())
+			if conscious:
+				# TRANSLATORS: a thief took {item} from the player unseen; the player notices it is gone.
+				_hud().append_log_lines([tr("你忽然觉得身上一轻，{item}不见了！").format({"item": tr(_item_content(item_id).display_name)})], true)
 			if _hud().inventory_is_open():
 				_hud().show_inventory(session.player_inventory_rows())
 		NpcSteal.Outcome.CAUGHT:

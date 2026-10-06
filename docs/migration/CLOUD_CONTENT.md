@@ -42,7 +42,8 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
 - gangster.c's greeting() has no presence check; the chess player gives his whole stack of 棋子
   when he loses (`give chess`), saying it is two.
 - The seller gains a 飞镖 on half the arrivals (init()); not modelled. The weapon shop lists its
-  飞镖 at 0两黄金 (vendor.c price_string(0)), which buy.c then refuses to sell.
+  飞镖 at 0两黄金 (vendor.c price_string(0)), which buy.c then refuses to sell (the port does not
+  list it: DECISIONS, modern fixes).
 - entrance.c's notice asks a gold tael toll that no code takes; m_house.c says 常人可进不来 and
   lets anyone in. room_gua.c's 镇关西 answer speaks of 雪亭镇.
 - jiasha.c sets `male_only`, which wear.c does not read. sword_book.c does not compile (and is
@@ -53,7 +54,8 @@ joinable; 朱鸿雪's quests (3C), betting and marriage (3D) and the ferry (regi
 - apprentice.c's help says a betrayer's skills are halved; neither apprentice.c nor recruit.c
   does it (only score 0 and betrayer + 1). An NPC master recruits through recruit.c.
 - b_header.c's accept_object() returns 1 in every branch, so give.c hands the thing over: 陈剑秋
-  keeps whatever he is given (money is destructed). His 淳风武馆 answer is 柳淳风's, word for word.
+  keeps whatever he is given (money is destructed). The port hands back what he refuses
+  (DECISIONS, modern fixes). His 淳风武馆 answer is 柳淳风's, word for word.
 - grass.c's 忘忧草 gets its master_id only in lion.c's die() (乔阴县城); until then every 忘忧草 a
   member gives him is 这不是你得到的吧. 柳绘心 (d/snow girl.c) is of 封山剑派北宗, not 封山剑派,
   so look.c names no relation between her and 柳淳风's disciples.

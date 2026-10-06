@@ -55,6 +55,13 @@ removing a broken LPC feature, UI-driven change) needs owner agreement and one s
 Balance/pacing adaptations for single-player must not edit ported formulas. Put them in explicit,
 data-configured knobs whose default reproduces the original.
 
+The game is for today's players. When ES2 behaviour would read as a bug to them — a line that
+speaks of other players, a loss nobody tells the player about, a line that contradicts what happens
+(an NPC refuses a gift and keeps it), an offer that can never be taken, a loophole (killing one's
+master to change families for free) — the plan proposes the reasonable behaviour by default, with
+the ES2 behaviour beside it, and the agreed change is a recorded deviation. Everything else stays
+faithful.
+
 ## Technology
 
 * Godot 4.7.2, modern fully typed GDScript. Prefer Godot-native APIs and composition.
