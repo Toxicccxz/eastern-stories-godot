@@ -49,6 +49,7 @@ var _source_gender: StringName = &""
 var _recovery_random: RecoveryCadenceRandomSource
 var _player_recovery_cadence: PlayerRecoveryCadence
 var _player_timed_remainder_ms: float = 0.0
+var _quest_remainder_ms: float = 0.0
 ## Transient NPC streams (not in Save): heal ticks and revive delays.
 var _npc_recovery_random: RecoveryCadenceRandomSource
 var _npc_revive_random: CombatRandomSource
@@ -95,6 +96,7 @@ func _process(delta: float) -> void:
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	advance_player_recovery(delta)
 	advance_player_timed_applies(delta)
+	advance_quest_time(delta)
 	advance_npc_heartbeat(delta)
 	advance_hidden_passages(delta)
 	advance_room_resets(delta)
@@ -228,6 +230,27 @@ func advance_player_timed_applies(delta: float) -> void:
 	var whole: int = int(elapsed)
 	_player_timed_remainder_ms = elapsed - whole
 	timed.advance(whole)
+
+
+## The time left for 朱鸿雪's task (task_time - time()) runs while the game does,
+## fights, map changes and a lying player included; pause and a closed game stop it
+## (DECISIONS 3C).
+func advance_quest_time(delta: float) -> void:
+	if (
+		not _initialized or _world_content_revision != WorldContentRevision.CURRENT_PUBLIC
+		or not application_gameplay_allows_encounter_advance() or not can_process()
+		or _restore_candidate_staged or _session_swap_reparenting
+		or _player == null or not is_finite(delta) or delta < 0.0
+	):
+		return
+	var quest: CharacterQuestState = _player.state.quest
+	if not quest.has_task() or quest.remaining_ms < 0:
+		_quest_remainder_ms = 0.0
+		return
+	var elapsed: float = _quest_remainder_ms + delta * 1000.0
+	var whole: int = int(elapsed)
+	_quest_remainder_ms = elapsed - whole
+	quest.advance(whole)
 
 
 ## Hidden passages close on world time, which stops in a fight.

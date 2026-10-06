@@ -369,11 +369,15 @@ const FLAG_FOUGHT_PLAYER: StringName = &"fought_player"
 ## Whether it starts a fight when the player comes into contact: attitude
 ## "aggressive", or a toll-taker (`attack_unless_mark`) facing a player without the
 ## mark, or one it has already fought.
-func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player_marks: Dictionary[String, int]) -> bool:
+func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> bool:
 	if has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return true
+	# attack.c init(): start_vendetta() on whoever holds vendetta/<its mark>.
+	var vendetta_mark: String = dealings().vendetta_mark
+	if not vendetta_mark.is_empty() and player.vendetta.get(vendetta_mark, 0) != 0:
+		return true
 	var mark: String = dealings().attack_unless_mark
-	return not mark.is_empty() and (npc_flags.get(FLAG_FOUGHT_PLAYER, false) or player_marks.get(mark, 0) == 0)
+	return not mark.is_empty() and (npc_flags.get(FLAG_FOUGHT_PLAYER, false) or player.marks.get(mark, 0) == 0)
 
 
 func is_valid() -> bool:

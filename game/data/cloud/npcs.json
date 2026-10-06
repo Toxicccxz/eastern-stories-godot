@@ -172,7 +172,8 @@
 			"accept_fight": [
 				{ "say": "生命可贵！不要自寻死路！", "accept": false }
 			],
-			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)"
+			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)",
+			"quest_giver": true
 		},
 		{
 			"id": "cloud.npc.tailor",

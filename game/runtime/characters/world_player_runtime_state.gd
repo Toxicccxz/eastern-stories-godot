@@ -95,6 +95,11 @@ func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, ent
 	return outcome
 
 
+## combatd.c killer_reward(): set("title", ...) for one who killed their master.
+func take_title(title: String) -> void:
+	_facts = PlayerIdentityFacts.new(_facts.display_name, title, _facts.age)
+
+
 ## The title as the player reads it. A family member's is assign_apprentice()'s put
 ## together again in the shown language; the one kept (and saved) stays as ES2 wrote it.
 func shown_title() -> String:

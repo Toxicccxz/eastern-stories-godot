@@ -653,6 +653,8 @@ class Importer:
         take('combat_exp')
         take('score')
         take('bellicosity')
+        # attack.c init(): attacks whoever holds vendetta/<mark> (killer_reward() gives it).
+        take('vendetta_mark')
         take('force_factor')
         # rankd.c query_respect(): how others address this NPC.
         if isinstance(sets.get('rank_info/respect'), str):

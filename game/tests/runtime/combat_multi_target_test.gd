@@ -155,7 +155,7 @@ func _modes(tree: SceneTree) -> void:
 			var expected: bool = (cause == CombatTriggerCause.Value.SCRIPTED and mode == CombatEncounterMode.Value.SCRIPTED) or (cause == CombatTriggerCause.Value.PLAYER_SPAR and mode == CombatEncounterMode.Value.SPAR) or (cause in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY] and mode == CombatEncounterMode.Value.LETHAL)
 			var result: CombatEncounterStartResult = coordinator.start(trigger)
 			_check(result.succeeded() == expected, "cause/mode matrix %d/%d" % [cause, mode])
-			_check(coordinator.action_infos().size() == (0 if expected and mode == CombatEncounterMode.Value.SCRIPTED else 1), "Flee production registration respects supported mode")
+			_check(coordinator.action_infos().size() == (0 if expected and mode == CombatEncounterMode.Value.SCRIPTED else 2), "Flee and 投降 production registration respects supported mode")
 			if expected:
 				var encounter: CombatEncounter = coordinator.active_encounter()
 				_check(encounter.participant_for(player.character_id).binding.state == player.state and encounter.participant_for(a.character_id).binding.relationship == a.relationship, "mode exact authorities")

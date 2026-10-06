@@ -8,14 +8,18 @@ extends RefCounted
 ## cannot be fought yet (`fight_deferred`, the reason; DECISIONS 4E), the toll it
 ## takes (`attack_unless_mark`, u/cloud gangster.c: greeting() kills a passer-by
 ## without marks/<mark>; once it has fought the player it attacks on sight until it
-## is created anew, kill_passenger()'s attitude or attack.c's hatred) and what it
-## steals from an arriving player (`steal`, NpcSteal).
+## is created anew, kill_passenger()'s attitude or attack.c's hatred), what it
+## steals from an arriving player (`steal`, NpcSteal), its `vendetta_mark` (a
+## killer of its kind is marked, and it attacks whoever is: attack.c init()) and
+## whether it gives quests (`quest_giver`, u/cloud/npc/god.c give_quest()).
 var vendor_id: StringName = &""
 var object_rules: Array[NpcObjectRule] = []
 var initial_flags: Array[StringName] = []
 var fight_deferred: String = ""
 var attack_unless_mark: String = ""
 var steal: NpcSteal
+var vendetta_mark: String = ""
+var quest_giver: bool = false
 
 
 func is_fight_deferred() -> bool:
@@ -33,6 +37,8 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 		dealings.initial_flags.append(StringName(flag))
 	dealings.fight_deferred = reader.text("fight_deferred")
 	dealings.attack_unless_mark = reader.text("attack_unless_mark")
+	dealings.vendetta_mark = reader.text("vendetta_mark")
+	dealings.quest_giver = reader.boolean("quest_giver", false)
 	var steal: ContentRecordReader = reader.child("steal")
 	if steal != null:
 		dealings.steal = NpcSteal.from_record(steal)

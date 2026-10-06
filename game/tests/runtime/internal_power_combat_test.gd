@@ -102,13 +102,13 @@ func _test_battle(tree: SceneTree) -> void:
 	# TEST-ONLY: without an enabled force there is no 加力 row and no 运功.
 	_state.skills.unmap_skill(&"force")
 	_ui.refresh_projection()
-	_check(not _ui.action_panel.enforce_row.visible and _ui.current_projection().actions().size() == 1, "no enabled force: Flee alone, no 加力")
+	_check(not _ui.action_panel.enforce_row.visible and _ui.current_projection().actions().size() == 2, "no enabled force: Flee and 投降 alone, no 加力")
 	_state.skills.map_skill(&"force", &"fonxanforce")
 	_ui.refresh_projection()
 	var labels: Array[String] = []
 	for info: CombatTacticalActionInfo in _ui.current_projection().actions():
 		labels.append(_ui.action_catalog.label_for(info.action_id))
-	_check(labels == ["逃跑", "运功疗伤", "运功恢复气", "运功恢复神", "运功恢复精"], "the battle panel: Flee and the enabled force's functions " + str(labels))
+	_check(labels == ["逃跑", "投降", "运功疗伤", "运功恢复气", "运功恢复神", "运功恢复精"], "the battle panel: Flee, 投降 and the enabled force's functions " + str(labels))
 	var panel: BattleActionPanel = _ui.action_panel
 	_check(panel.enforce_row.visible and panel.enforce_text.text == "加力 +3" and panel.enforce_amount.max_value == 7, "加力 +3, up to 7")
 	panel.enforce_amount.value = 5
