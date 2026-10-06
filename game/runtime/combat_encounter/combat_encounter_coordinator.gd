@@ -282,6 +282,7 @@ func _init(
 	_session = p_session
 	_world_gate = p_world_gate
 	_tactical_registry.register_policy(CombatFleeTacticalPolicy.new())
+	_tactical_registry.register_policy(CombatSurrenderTacticalPolicy.new(_player_age))
 	for function_id: StringName in ExertFunctions.ORDER:
 		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
@@ -290,6 +291,11 @@ func _init(
 
 func is_valid() -> bool:
 	return _session != null and _world_gate != null
+
+
+func _player_age() -> int:
+	var player: WorldPlayerRuntimeState = null if _session == null else _session.player_runtime()
+	return 0 if player == null else player.facts.age
 
 
 func has_active_encounter() -> bool:

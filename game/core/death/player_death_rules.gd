@@ -31,12 +31,13 @@ static func reincarnate(state: CharacterState) -> void:
 		resource.effective = resource.maximum
 
 
-## killer_reward() for userp(victim). vendetta and thief are not modelled.
+## killer_reward() for userp(victim). thief is not modelled.
 @warning_ignore("integer_division")
 static func _apply_killer_reward_penalty(state: CharacterState, result: PlayerDeathResult) -> void:
 	result.penalized = true
 	result.bellicosity_lost = state.attributes.bellicosity
 	state.attributes.bellicosity = 0
+	state.vendetta.clear()
 	result.combat_experience_lost = state.progression.combat_experience / 10
 	state.progression.combat_experience -= result.combat_experience_lost
 	var progression: CharacterProgressionState = state.progression

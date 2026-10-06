@@ -4,8 +4,8 @@ extends RefCounted
 ## Collects parsed data documents and cross-checks them. A document is one
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
-## `doors`, `landmarks`, `traps`, `skills`, `families`, `race_actions`, `weapon_actions`
-## arrays, and at most one document has the `pacing` object.
+## `doors`, `landmarks`, `traps`, `skills`, `families`, `race_actions`, `weapon_actions`,
+## `quest_tiers` arrays, and at most one document has the `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -25,6 +25,7 @@ var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
+var _quest_tiers: Array[QuestTier] = []
 var _pacing: PacingDefinition
 var _origins: Dictionary[StringName, String] = {}
 
@@ -110,6 +111,8 @@ func add_document(document: Variant, origin: String) -> void:
 		_combat_actions.add_race(record)
 	for record: ContentRecordReader in reader.children("weapon_actions"):
 		_combat_actions.add_weapon_actions(record)
+	for record: ContentRecordReader in reader.children("quest_tiers"):
+		_quest_tiers.append(QuestTier.from_record(record))
 	var pacing: ContentRecordReader = reader.child("pacing")
 	if pacing != null:
 		if _pacing != null:
@@ -134,6 +137,7 @@ func build() -> ContentCatalog:
 	_resolve_landmarks()
 	_check_traps()
 	_check_combat_data()
+	_check_quest_tiers()
 	if _pacing == null:
 		_errors.append("pacing: no document defines it")
 	if not _errors.is_empty():
@@ -145,6 +149,7 @@ func build() -> ContentCatalog:
 	catalog.set_pacing(_pacing)
 	catalog.set_teaching(_skills, _families)
 	catalog.set_combat_actions(_combat_actions)
+	catalog.set_quest_tiers(_quest_tiers)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -176,6 +181,13 @@ func _check_combat_data() -> void:
 	var parry: SkillDefinition = _skills.get(&"parry")
 	if parry == null or parry.parry_messages_armed.is_empty() or parry.parry_messages_unarmed.is_empty():
 		_errors.append("skills: 'parry' needs parry_messages armed and unarmed")
+
+
+## god.c's levels rise; each is one qlist file.
+func _check_quest_tiers() -> void:
+	for index: int in range(1, _quest_tiers.size()):
+		if _quest_tiers[index].min_exp <= _quest_tiers[index - 1].min_exp:
+			_errors.append("quest_tiers: min_exp %d does not rise above %d" % [_quest_tiers[index].min_exp, _quest_tiers[index - 1].min_exp])
 
 
 ## IDs are unique across every kind, so one ID never means two things.

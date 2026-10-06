@@ -22,21 +22,21 @@ Re-estimate the schedule after each region.
 
 | # | Region (source) | Way in | Rooms | NPC types | Families | Martial arts | Quest targets | Build first |
 |---|---|---|---|---|---|---|---|---|
-| 0 | 雪亭镇 (`d/snow`) | start | 37/38 | 22/27 | 1/1 封山剑派 | 6/9 | 0/15 | Leftovers only: five NPCs no room places (乞丐 stands in 绮云镇's 斋院), 桃符纸 (with the player's spells); 柳淳风's spider-array, 安惜迩's celestrike and six-chaos-sword. |
-| 1 | 老松岭 (`d/oldpine`) | 山路 (Snow) south | 41/41 | 12/13 | — | 1/1 | 0/5 | Done: remainder A (keep and gate trap, caves, berserk, bury) and B (conditions on the heart beat, combined items, 金银花蛇, 黑衣人). 土匪老大 never comes in ES2 (fat_bandit.c's call never fires). |
-| 2 | 野羊山 (`d/goathill`) | 山坳 north | 15/16 | 7/8 | — | 1/1 | 0/5 | Done: two maps, the second hand, hammers' bash_weapon (broken weapons), 伏蛟功. cavern1.c.c is a stray copy and 银色岩蛭 is placed by nothing (owner: as LPC). |
-| 3 | 卧龙岗 + 绮云镇 (`u/cloud/dragonhill`, `u/cloud`) | Snow street south | 43/43 | 26/32 | 1/1 振远镖局 | 1/9 | 0/19 | 3A done: streets and shops, the ridge's toll, the thief's steal, 春风快意刀. 3B done: joining 振远镖局 (betrayal, 基本刀法, practice with a blade; the letter waits for #9). Next: 3C the quest system (朱鸿雪 hands out `quest/qlist*` by combat_exp), 3D 赌场 betting and 红娘庄 marriage; the 江北渡口 ferry crosses once #8 exists. |
-| 4 | 水烟阁 (`d/waterfog`) | 青石官道 (Snow) west | 0/28 | 0/12 | 0/1 天邪派 | 2/7 | 0/1 | Joining by oath (swear), NPC exert, master-level specials (萧辟尘, 於兰天武, the elders); blade arts' second consumer, so family and teacher data are generalized here. |
+| 0 | 雪亭镇 (`d/snow`) | start | 37/38 | 22/27 | 1/1 封山剑派 | 6/9 | 15/15 | Leftovers only: five NPCs no room places (乞丐 stands in 绮云镇's 斋院), 桃符纸 (with the player's spells); 柳淳风's spider-array, 安惜迩's celestrike and six-chaos-sword. |
+| 1 | 老松岭 (`d/oldpine`) | 山路 (Snow) south | 41/41 | 12/13 | — | 1/1 | 5/5 | Done: remainder A (keep and gate trap, caves, berserk, bury) and B (conditions on the heart beat, combined items, 金银花蛇, 黑衣人). 土匪老大 never comes in ES2 (fat_bandit.c's call never fires). |
+| 2 | 野羊山 (`d/goathill`) | 山坳 north | 15/16 | 7/8 | — | 1/1 | 5/5 | Done: two maps, the second hand, hammers' bash_weapon (broken weapons), 伏蛟功. cavern1.c.c is a stray copy and 银色岩蛭 is placed by nothing (owner: as LPC). |
+| 3 | 卧龙岗 + 绮云镇 (`u/cloud/dragonhill`, `u/cloud`) | Snow street south | 43/43 | 26/32 | 1/1 振远镖局 | 1/9 | 15/19 | 3A done: streets and shops, the ridge's toll, the thief's steal, 春风快意刀. 3B done: joining 振远镖局 (betrayal, 基本刀法, practice with a blade; the letter waits for #9). 3C done: 朱鸿雪's quests, killer_reward() for the player, 投降, the garrison's vendetta. Next: 3D 赌场 betting and 红娘庄 marriage; the 江北渡口 ferry crosses once #8 exists. |
+| 4 | 水烟阁 (`d/waterfog`) | 青石官道 (Snow) west | 0/28 | 0/12 | 0/1 天邪派 | 2/7 | 0/0 | Joining by oath (swear), NPC exert, master-level specials (萧辟尘, 於兰天武, the elders); blade arts' second consumer, so family and teacher data are generalized here. |
 | 5 | 青石村 (`d/green`) | 山坳 east | 0/39 | 0/18 | 0/1 绝尘派 | 0/5 | 0/1 | The player's spells (magic, spells, 法力; magic-array, tao-mystery), the 迷阵 maze, room verbs (push, search, hang, fillwater), staff arts. |
 | 6 | 茅山 灵心观 (`d/temple`) | 山路 (Snow) east | 0/27 | 0/15 | 0/1 茅山派 | 1/2 | 0/8 | Spells' second consumer (necromancy, gouyee, zombie helpers); a master who takes three apprentices a day. |
 | 7 | 晚月庄 (`d/latemoon`) | 绮云镇 west | 0/74 | 0/50 | 0/2 晚月庄, 东方神教 | 1/11 | 0/12 | Conditions' second consumer (rose_poison), a female-only family, doors in 27 rooms, room verbs (dancing, order, pray, pick). |
 | 8 | 泓水南岸 + 山烟寺 (`u/cloud/sunhill`, `d/sanyen`) | ferry from 绮云镇; tunnel from 晚月庄 | 0/26 | 0/9 | 0/1 山烟寺 | 0/3 | 0/4 | The ferry crossing; the monks' family (buddhism, chanting, lotusforce, cloudstaff, essencemagic). |
-| 9 | 乔阴县城 (`d/choyin`, `d/jail`) | 泓水南岸 east | 0/62 | 0/30 | 0/2 步玄派, 花紫会 | 1/10 | 0/7 | Recruiting gated by a mark (桃林) or by poverty (花紫会), stealing, music arts, the 县衙 (bribe, tie). |
-| 10 | 天驼关 (`d/canyon`) | 青石官道 (Snow) southwest | 0/27 | 0/10 | — | 2/6 | 0/9 | Climb and search verbs, the army camp (soldiers of 40k–900k exp), the 竹林道 and 梦幻迷境 side areas. |
+| 9 | 乔阴县城 (`d/choyin`, `d/jail`) | 泓水南岸 east | 0/62 | 0/30 | 0/2 步玄派, 花紫会 | 1/10 | 0/6 | Recruiting gated by a mark (桃林) or by poverty (花紫会), stealing, music arts, the 县衙 (bribe, tie). |
+| 10 | 天驼关 (`d/canyon`) | 青石官道 (Snow) southwest | 0/27 | 0/10 | — | 2/6 | 0/8 | Climb and search verbs, the army camp (soldiers of 40k–900k exp), the 竹林道 and 梦幻迷境 side areas. |
 | 11 | 玉螺湖村 (`d/village`) | 天驼关 south | 0/26 | 0/9 | — | 5/9 | 0/0 | Boats (paddle) and diving to the lake bottom. |
 | 12 | 京师 (`d/city`, `u/cp`) | 玉螺湖村 south | 0/55 | 0/27 | 振远镖局's head office | 5/18 | 0/0 | Doors in 16 rooms, seven shops, the second 振远镖局 master (陈天星). |
 | 13 | 鬼门关 (`d/death`) | dying | 0/12 | 0/3 | — | — | — | The ghost realm instead of today's direct revival at the Snow temple (owner decision when we get there). |
-| | **Total** | | **136/551** | **67/286** | **2/10** | **8/35** special, **7/25** basic | **0/87** | |
+| | **Total** | | **136/551** | **67/286** | **2/10** | **8/35** special, **7/25** basic | **41/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
 
@@ -46,9 +46,11 @@ How the columns count (`reference/es2/mudlib`, 2026-10-04):
 * **Martial arts**: non-basic skills the region's NPCs use or teach; an art used in several
   regions shows in each row and once in the total. Basic skills (unarmed, sword, blade, parry,
   dodge, force, literate, magic, spells, staff, throwing, …) are counted apart.
-* **Quest targets**: distinct names in `quest/qlist*.c` that live in the region (87 names, 253
-  entries over 15 combat_exp tiers). They count once the quest system exists (#3); before that a
-  region's targets are just its NPCs and items.
+* **Quest targets**: distinct names in `quest/qlist*.c` that live in the region (84 names, 220
+  live entries over 15 combat_exp tiers; 33 more are commented out); one counts once an NPC of that name is placed and can be
+  fought, so 朱鸿雪 can give it. `tests/fixtures/quest_targets.json` is the list (the total counts
+  县城官兵, obj/npc/garrison.c, placed in 绮云镇): a region package that places a target re-records
+  it with `UPDATE_QUEST_TARGETS=1`.
 
 Not planned (owner may revisit): `d/chuenyu` 黑松淳于 (37 rooms, 23 NPCs) — its only exit leads to
 the village, but no room or code leads in; `d/graveyard` (2 rooms, no way in); `d/wiz` (wizard

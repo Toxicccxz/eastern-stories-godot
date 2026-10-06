@@ -6,6 +6,7 @@
 		"common/combat_actions.json",
 		"common/families.json",
 		"common/npcs.json",
+		"common/quests.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",

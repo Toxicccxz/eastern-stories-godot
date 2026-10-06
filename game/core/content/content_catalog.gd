@@ -30,6 +30,8 @@ var _native_item_projections: NativeItemDefinitionProjections
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
+var _quest_tiers: Array[QuestTier] = []
+var _quest_targets: Dictionary[String, bool] = {}
 
 
 func _init(
@@ -93,6 +95,27 @@ func set_teaching(p_skills: Dictionary[StringName, SkillDefinition], p_families:
 ## Called once by ContentCatalogBuilder.
 func set_combat_actions(tables: CombatActionTables) -> void:
 	_combat_actions = tables
+
+
+## Called once by ContentCatalogBuilder.
+func set_quest_tiers(tiers: Array[QuestTier]) -> void:
+	_quest_tiers = tiers.duplicate()
+	_quest_targets.clear()
+	for spawn: NpcSpawnDefinition in _spawns.values():
+		var npc: NpcDefinition = _npcs.get(spawn.npc_definition_id)
+		if npc != null and not npc.dealings().is_fight_deferred():
+			_quest_targets[npc.display_name] = true
+
+
+## god.c's levels with their qlist quests (quests.json), min_exp rising.
+func quest_tiers() -> Array[QuestTier]:
+	return _quest_tiers.duplicate()
+
+
+## A quest target the game has: some NPC of that name is placed (a spawn) and can be
+## fought. killer_reward() compares victim->name(1), so any of them will do.
+func quest_target_available(target: String) -> bool:
+	return _quest_targets.has(target)
 
 
 ## Race and weapon attack actions (combat_actions.json).

@@ -866,11 +866,13 @@ func _add_npc_body(npc: NpcRuntimeState, position: Vector2, at: int = -1) -> boo
 	return true
 
 
-## What the NPC offers from its body: its goods (`vendor`) and its teaching.
+## What the NPC offers from its body: its goods (`vendor`), its teaching and its quests.
 func _bind_npc_services(npc: NpcRuntimeState) -> void:
 	var services: Array[NpcService] = []
 	if not npc.definition().dealings().vendor_id.is_empty():
 		services.append(VendorService.new())
+	if npc.definition().dealings().quest_giver:
+		services.append(QuestService.new())
 	if not NpcTeacher.teachable_skills(npc.definition(), GameContent.catalog()).is_empty():
 		services.append(TeacherService.new())
 	for service: NpcService in services:
@@ -1071,7 +1073,7 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 		var npc: NpcRuntimeState = find_resident_npc(decision.npc_id)
 		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
 			continue
-		if not npc.definition().attacks_on_sight(npc.flags(), _player.state.marks):
+		if not npc.definition().attacks_on_sight(npc.flags(), _player.state):
 			_go_berserk(npc)
 			continue
 		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
@@ -1134,7 +1136,7 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed(npc))
 		var aggressive: bool = (
 			contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
-			and npc.definition().attacks_on_sight(npc.flags(), _player.state.marks)
+			and npc.definition().attacks_on_sight(npc.flags(), _player.state)
 		)
 		if aggressive or (manual and npc.character_id == requested_target):
 			if ids.has(npc.character_id):
@@ -1421,10 +1423,13 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	# killed_enemy() speaks before the dying player's ghost is moved away (damage.c die()).
 	var killer_npc: NpcRuntimeState = null if killer == null else find_resident_npc(killer.character_id)
 	var killer_heard: bool = killer_npc != null and (_player_hears(killer_npc) or (is_player and _player_shares_zone(killer_npc)))
+	var victim_npc: NpcRuntimeState = null if is_player else find_resident_npc(victim.character_id)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_killed_enemy(killer_npc, killer_heard)
+		if killer.character_id == _player.character_id and victim_npc != null:
+			_player_killer_reward(victim_npc)
 	if not receipt.completed():
 		_lifecycle_failed = true
 	elif is_player and session != null:
@@ -1497,6 +1502,16 @@ func player_fall_below_zero() -> void:
 
 
 # --- killed_enemy(), 化尸粉, apply -------------------------------------------------------
+
+## combatd.c killer_reward() when the player killed an NPC (PlayerKillerReward): its
+## tell_object() lines go to the log after the fight's result, so the HUD shows them last.
+func _player_killer_reward(victim: NpcRuntimeState) -> void:
+	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random)
+	if result.left_family:
+		_player.take_title(PlayerKillerReward.REBEL_TITLE)
+	if not result.lines.is_empty() and _hud() != null:
+		_hud().append_after_fight(result.lines)
+
 
 ## combatd.c killer_reward(): the killer's killed_enemy() (spy.c: say, then
 ## call_out("dissolve", 1)). A dying player still hears it (`heard`): die() revives

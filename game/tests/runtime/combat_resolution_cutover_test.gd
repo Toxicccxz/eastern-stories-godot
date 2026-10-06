@@ -244,7 +244,7 @@ func _entry(tree: SceneTree) -> void:
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.LETHAL, "LETHAL encounter")
 	_check(encounter.accepted_trigger().cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, "player cause")
-	_check(encounter.participants().size() == 2 and coordinator.action_infos().size() == 1 and coordinator.action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID, "no proximity sweep / production Flee only")
+	_check(encounter.participants().size() == 2 and coordinator.action_infos().size() == 2 and coordinator.action_infos()[0].action_id == CombatFleeTacticalPolicy.ACTION_ID and coordinator.action_infos()[1].action_id == CombatSurrenderTacticalPolicy.ACTION_ID, "no proximity sweep / production Flee and 投降 only")
 	_check(not session.world_simulation_gate().is_open(), "frozen world")
 	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.ACTIVE_COMBAT_ENCOUNTER, "explicit active Save block")
 	player.relationship.clear_opponents_preserving_lethal_targets()
