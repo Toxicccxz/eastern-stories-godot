@@ -11375,9 +11375,19 @@ msgid ""
 "远方有一块大石动了一下,走近一看,似乎可以推一下。\n"
 msgstr ""
 
+#. green.closed.landmark.stone messages.weak
+#: data/green/world.json
+msgid "你出力不太够喔！"
+msgstr ""
+
 #. green.closed.landmark.stone messages.push
 #: data/green/world.json
 msgid "你用力推活动的大岩石,大岩石动了一下"
+msgstr ""
+
+#. green.closed.landmark.stone messages.rolled
+#: data/green/world.json
+msgid "大岩石滚开了,你从大岩石后面的小洞钻了出去"
 msgstr ""
 
 #. green.closed.landmark.fog action
@@ -11412,6 +11422,21 @@ msgid ""
 "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n"
 msgstr ""
 
+#. green.water.landmark.water messages.search
+#: data/green/world.json
+msgid "你跳入溪水之中，开始仔细寻找...."
+msgstr ""
+
+#. green.water.landmark.water messages.found
+#: data/green/world.json
+msgid "你竟从水中找出一把追风剑!"
+msgstr ""
+
+#. green.water.landmark.water messages.nothing
+#: data/green/world.json
+msgid "你在水中忙了半天，结果一无所获。"
+msgstr ""
+
 #. green.house3.landmark.web name
 #: data/green/world.json
 msgid "蜘蛛网"
@@ -11421,6 +11446,12 @@ msgstr ""
 #: data/green/world.json
 msgid ""
 "一个很大的蜘蛛网.\n"
+msgstr ""
+
+#. green.house3.landmark.web messages.spawn
+#: data/green/world.json
+msgid ""
+"突然你觉得头上有个阴影, 不自觉的抬起头来一看 ............好大的 ..... 蜘蛛..... \n"
 msgstr ""
 
 #. green.entrance.wind lines

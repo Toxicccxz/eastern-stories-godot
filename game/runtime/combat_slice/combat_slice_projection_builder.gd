@@ -271,7 +271,7 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 			_apply(defender, defender_armor, FORCE_SKILL_ID),
 			_apply(attacker, attacker_armor, &"attack"),
 			_apply(defender, defender_armor, &"defense"),
-			attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage") + _secondary_apply(attacker, &"damage"),
+			attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage") + _secondary_apply(attacker, &"damage") + attacker.state.applies.get("damage", 0),
 			_apply(defender, defender_armor, &"armor"),
 			_apply(defender, defender_armor, &"armor_vs_force"),
 		)

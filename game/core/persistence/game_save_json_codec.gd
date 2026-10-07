@@ -376,12 +376,26 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		vendetta = _decode_counts(object["vendetta"], path + ".vendetta")
 	var applies: Dictionary[String, int] = {}
 	if object.has("applies"):
-		applies = _decode_counts(object["applies"], path + ".applies")
+		applies = _decode_values(object["applies"], path + ".applies")
 	var quest := CharacterQuestState.new()
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
 	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies)
+
+
+## A non-empty {name: integer} object (create()'s drawn apply/<key>).
+func _decode_values(value: Variant, path: String) -> Dictionary[String, int]:
+	var result: Dictionary[String, int] = {}
+	if typeof(value) != TYPE_DICTIONARY or (value as Dictionary).is_empty():
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected a non-empty object")
+		return result
+	for key: Variant in value:
+		if typeof(key) != TYPE_STRING or (key as String).is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected names")
+			return result
+		result[key] = _int64(value[key], path + "." + String(key))
+	return result
 
 
 ## A non-empty {name: count above 0} object (vendetta/<mark>).

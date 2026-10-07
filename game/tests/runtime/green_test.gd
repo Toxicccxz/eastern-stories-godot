@@ -110,6 +110,11 @@ func _test_exit_rules() -> void:
 	var seal: ZoneExitRuleDefinition = catalog.exit_rules_between(&"green.outdoor", &"green.cavehall")[0]
 	_check(seal.refuses(ZoneExitRuleDefinition.Leaver.new(false, 0, &"common.npc.fighter.master"), false) and not seal.refuses(ZoneExitRuleDefinition.Leaver.new(false, 0, MASTER), false), "the hall is sealed but to 绝尘子's apprentices")
 	_check(catalog.exit_rules_between(&"green.cavehall", &"green.outdoor").is_empty(), "nothing keeps anyone in")
+	# cavehall.c places CLASS_D("juechen") + "/master": the importer names it common.npc.juechen.master.
+	_check(seal.npc_id == StringName("common.npc." + "daemon/class/juechen/master.c".trim_prefix("daemon/class/").trim_suffix(".c").replace("/", ".")), "the seal names the master cavehall.c places")
+	# REMINDER (fails once package C adds 绝尘子): then make ContentCatalogBuilder check that a
+	# not_apprentice_of rule's npc exists, and drop this line.
+	_check(catalog.npc(seal.npc_id) == null, "绝尘子 comes with package C: validate the seal's npc in the builder then")
 
 
 func _test_the_way_in(session: OldPineWorldSessionController) -> void:
@@ -172,11 +177,17 @@ func _test_web(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	map.inspect_selected()
 	_check(hud.inspection_text.text == "蜘蛛网\n一个很大的蜘蛛网.", "after the reset the three are still here: only the web")
 	hud.dismiss_current_panel()
-	spiders[0].character_state.vitality.apply_wound(spiders[0].character_state.vitality.effective + 1) # TEST-ONLY
-	spiders[0].set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
+	var dead: NpcRuntimeState = spiders[0]
+	dead.character_state.vitality.apply_wound(dead.character_state.vitality.effective + 1) # TEST-ONLY
+	dead.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
 	map.inspect_selected()
 	_check(hud.inspection_text.text.contains("好大的 ..... 蜘蛛"), "one dead: a new one drops")
 	hud.dismiss_current_panel()
+	var fresh: NpcRuntimeState = null
+	for npc: NpcRuntimeState in map.resident_npcs():
+		if npc.spawn_point_id == dead.spawn_point_id and npc != dead:
+			fresh = npc
+	_check(fresh != null and fresh.exists_in_map and fresh.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and fresh.character_id != dead.character_id, "a new spider (the next generation) stands on the dead one's point")
 
 
 ## rope.c: outdoors nowhere to hang it; indoors, asked first, then death.
@@ -226,6 +237,8 @@ func _test_maze(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	for step: Array in [["green.eight0.east", "green.eight1"], ["green.eight1.north", "green.eight2"], ["green.eight2.west", "green.eight3"], ["green.eight3.east", "green.eight4"], ["green.eight4.north", "green.eight5"], ["green.eight5.west", "green.eight6"], ["green.eight6.north", "green.eight7"]]:
 		_check(await MapPlaces.take_same_map_passage(tree, maze, StringName(step[0])), "%s" % step[0])
 		_check(player.world_location().zone_id == StringName(step[1]), "on to %s" % step[1])
+		var camera: Camera2D = maze.runtime_player_body().get_node("Camera2D") as Camera2D
+		_check(camera.get_screen_center_position().distance_to(_clamped(camera, camera.get_target_position())) < 64.0, "the camera is where it should be at once (no glide across the map): %s" % step[1])
 	hud.describe_arrival()
 	_check(hud.log_lines()[-1].begins_with("【迷阵】从这里向四周望去，只见长天一碧"), "乾's own words (a 迷阵 room is distinct): " + hud.log_lines()[-1])
 	_check(not player.state.marks.has("八卦阵"), "no mark yet")
@@ -302,6 +315,15 @@ func _test_closed(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	await tree.physics_frame
 	_check(session.active_map().map_id() == &"snow.inn" and player.world_location().zone_id == &"snow.inn.main_floor", "放弃: in the Inn, as ES2's quit and login")
 	_check(hud.log_lines().slice(-3).any(func(line: String) -> bool: return line.contains("醒来时，你已经躺在雪亭镇的饮风客栈里")), "told so: %s" % [hud.log_lines().slice(-3)])
+
+
+## Where a camera centred on `target` stands inside its limits.
+func _clamped(camera: Camera2D, target: Vector2) -> Vector2:
+	var half: Vector2 = camera.get_viewport_rect().size / camera.zoom / 2.0
+	return Vector2(
+		clampf(target.x, camera.limit_left + half.x, maxf(camera.limit_left + half.x, camera.limit_right - half.x)),
+		clampf(target.y, camera.limit_top + half.y, maxf(camera.limit_top + half.y, camera.limit_bottom - half.y)),
+	)
 
 
 func _carried(session: OldPineWorldSessionController, character_id: StringName, definition_id: StringName) -> StringName:

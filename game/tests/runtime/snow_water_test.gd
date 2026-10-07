@@ -159,8 +159,9 @@ func liquid_tests(tree: SceneTree) -> void:
 	check(Work.rng_state(session) == rng and session.item_id_allocator().next_dynamic_sequence == sequence, "Fill/Drink/time consume no gameplay RNG/item IDs")
 	check(player.state.conditions.size() == 0 and session.liquid_collection().state(second.item_id).content == LiquidState.Content.RED_WINE and session.liquid_collection().state(second.item_id).remaining == 15, "no drunk and other wine untouched")
 	var independent: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
-	# A new Session holds only its own liquids: the drunk's wineskin (4A).
-	check(independent.liquid_collection().instance_ids().size() == 1 and not independent.liquid_collection().instance_ids().has(second.item_id), "independent Session collection")
+	# A new Session holds only its own liquids: the drunk's wineskin (4A) and the 陶壶 two of
+	# 青石村's women carry.
+	check(independent.liquid_collection().instance_ids().size() == 3 and not independent.liquid_collection().instance_ids().has(second.item_id), "independent Session collection")
 	independent.free()
 	session.free()
 
@@ -217,9 +218,9 @@ func persistence_tests(tree: SceneTree) -> void:
 	# Legal old schemas without liquid content upgrade only their representation.
 	session = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	base = JSON.parse_string(GameSaveJsonCodec.encode(Work.capture(session)).text)
-	# Old item schemas predate liquids, schema 1 food too: leave the drunk's wineskin (4A) and
-	# the 斋院's three 包子 (绮云镇) out of the fixture.
-	var wineskins: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id in [String(TestContent.WINESKIN_ITEM_ID), String(TestContent.DUMPLING_ITEM_ID)]).map(func(item: Dictionary) -> String: return item.item_instance_id)
+	# Old item schemas predate liquids, schema 1 food too: leave the drunk's wineskin (4A),
+	# 青石村's 陶壶 and the 斋院's three 包子 (绮云镇) out of the fixture.
+	var wineskins: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id in [String(TestContent.WINESKIN_ITEM_ID), String(TestContent.DUMPLING_ITEM_ID), "es2:d/green/npc/obj/ricewine"]).map(func(item: Dictionary) -> String: return item.item_instance_id)
 	base.items.records = base.items.records.filter(func(item: Dictionary) -> bool: return not wineskins.has(item.item_instance_id))
 	base.items.food_consumables = base.items.food_consumables.filter(func(food: Dictionary) -> bool: return not wineskins.has(food.item_instance_id))
 	for npc: Dictionary in base.npc_spawn_states:

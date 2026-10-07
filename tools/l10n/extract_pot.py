@@ -51,6 +51,7 @@ TEXT_LIST_KEYS = frozenset({"limbs"})
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
+    "weak", "rolled", "search", "found", "nothing", "spawn",
 })
 HEADER = """\
 # Eastern Stories translation template.

@@ -37,6 +37,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -198,6 +199,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -359,6 +361,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -520,6 +523,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -754,6 +758,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -980,6 +985,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -1123,6 +1129,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -1267,6 +1274,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -1428,6 +1436,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -1589,6 +1598,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -1750,6 +1760,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -1911,6 +1922,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -2072,6 +2084,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -2306,6 +2319,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -2540,6 +2554,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -2774,6 +2789,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -3008,6 +3024,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -3318,6 +3335,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -3480,6 +3498,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -3641,6 +3660,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -3802,6 +3822,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -3963,6 +3984,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4124,6 +4146,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4276,6 +4299,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4411,6 +4435,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4546,6 +4571,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4681,6 +4707,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4816,6 +4843,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -4951,6 +4979,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5086,6 +5115,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5221,6 +5251,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5356,6 +5387,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5491,6 +5523,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5626,6 +5659,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5843,6 +5877,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -5997,6 +6032,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -6109,7 +6145,7 @@
 		]
 	},
 	"source_entry": {
-		"next_npc_draw": 869000.0,
+		"next_npc_draw": 745940.0,
 		"npcs": [
 			{
 				"age": 19.0,
@@ -6146,6 +6182,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -6307,6 +6344,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -6468,6 +6506,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -6629,6 +6668,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -6863,6 +6903,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -7089,6 +7130,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -7232,6 +7274,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -7376,6 +7419,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -7537,6 +7581,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -7698,6 +7743,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -7859,6 +7905,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -8020,6 +8067,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -8181,6 +8229,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -8415,6 +8464,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -8649,6 +8699,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -8883,6 +8934,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -9117,6 +9169,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -9427,6 +9480,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -9589,6 +9643,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -9750,6 +9805,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -9911,6 +9967,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10072,6 +10129,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10233,6 +10291,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10385,6 +10444,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10520,6 +10580,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10655,6 +10716,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10790,6 +10852,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -10925,6 +10988,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11060,6 +11124,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11195,6 +11260,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11330,6 +11396,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11465,6 +11532,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11600,6 +11668,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11735,6 +11804,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -11952,6 +12022,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
@@ -12106,6 +12177,7 @@
 						"family_title": "",
 						"has_family_rank": false
 					},
+					"applies": {},
 					"apprenticeship": {
 						"betrayer_count": 0.0,
 						"legacy_master_name": "",
