@@ -46,6 +46,55 @@ func accept_tactical(value: CombatTacticalExecutionResult) -> void:
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
 		CombatEncounterResultKind.Value.FLED, [], [], [_session.player_runtime().character_id])
 
+## roar.c's kill_ob()s: one already in the fight now kills the player; one in the
+## room but not in it comes in (initiate_directed_kill(): it kills, the player only
+## fights back) on the side against the player. A spar then goes on to the death.
+## Someone who cannot fight here (gone, not available) stays out.
+func admit(bindings: Array[CombatSliceCharacterBinding], tactical: CombatTacticalExecutionResult) -> void:
+	if _failure != Failure.NONE or _result != null or _encounter.phase != CombatEncounterLifecycle.Value.ACTIVE or tactical == null:
+		return
+	var player_id: StringName = _session.player_runtime().character_id
+	var player: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, player_id)
+	var player_participant: CombatParticipant = _encounter.participant_for(player_id)
+	if player == null or player_participant == null:
+		return
+	var enemy_side: StringName = &""
+	for side_id: StringName in _encounter.side_ids():
+		if side_id != player_participant.side_id:
+			enemy_side = side_id
+			break
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
+	var warnings: Array[String] = []
+	for joiner_id: StringName in tactical.joiners:
+		warnings.append(coordinator.kill_warning(joiner_id))
+	coordinator.note_warnings(warnings)
+	var killing: bool = false
+	for joiner_id: StringName in tactical.joiners:
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, joiner_id)
+		if binding != null:
+			binding.relationship.mark_lethal_target(player_id)
+			killing = true
+			continue
+		binding = null if map == null else map.combat_binding_for(joiner_id)
+		var authority: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(joiner_id)
+		if binding == null or authority == null or enemy_side.is_empty() or not _session.encounter_participant_is_available(joiner_id):
+			continue
+		var opponents: Array[StringName] = player.relationship.opponent_ids()
+		if CombatSliceOpportunityExecutor.initiate_directed_kill(binding, player).outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+			continue
+		if not _encounter.admit(CombatParticipant.new(joiner_id, enemy_side, authority)):
+			binding.relationship.remove_lethal_relation(player_id)
+			binding.relationship.clear_opponents_preserving_lethal_targets()
+			if not opponents.has(joiner_id):
+				player.relationship.remove_opponent(joiner_id)
+			continue
+		bindings.append(binding)
+		killing = true
+	if killing:
+		_encounter.escalate_to_lethal()
+
+
 func inspect(
 	bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null,
 	tactical: CombatTacticalExecutionResult = null,

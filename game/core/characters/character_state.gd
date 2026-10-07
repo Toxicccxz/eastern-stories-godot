@@ -125,6 +125,14 @@ func is_unconscious_threshold_reached() -> bool:
 	)
 
 
+## damage.c unconcious() called by a file (powerfade.c in a fight): sen drops below
+## zero, so the next life check (the fight's after the action, std/char.c's heart
+## beat outside one) makes the character fall, zeroing gin, kee and sen as
+## unconcious() does.
+func fall_unconscious() -> void:
+	spirit.current = CharacterResourceStateType.INCAPACITATED_FLOOR
+
+
 func is_death_threshold_reached() -> bool:
 	return (
 		essence.is_death_threshold_reached()

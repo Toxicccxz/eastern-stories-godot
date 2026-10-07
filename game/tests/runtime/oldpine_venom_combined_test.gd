@@ -67,7 +67,7 @@ func _test_data() -> void:
 	_check(snake.authored_combat_facts().apply_value(&"armor") == 60 and snake.authored_combat_facts().apply_value(&"damage") == 70 and snake.capability_ids() == [&"aggressive_on_player_presence"], "the snake: apply/damage 70, armor 60, aggressive")
 	var spy: NpcDefinition = catalog.npc(&"oldpine.npc.spy")
 	_check(spy.killed_enemy() != null and spy.killed_enemy().say == "哈哈哈哈哈哈。" and spy.killed_enemy().dissolve_after_ms == 1000 and spy.hit_condition() == null, "spy.c killed_enemy(): laughs, dissolves a second later")
-	_check(NpcBerserk.applies_to(spy) and spy.bellicosity() == 2000, "黑衣人 is not aggressive but goes berserk (bellicosity 2000 over score 400)")
+	_check(Berserk.applies_to(spy) and spy.bellicosity() == 2000, "黑衣人 is not aggressive but goes berserk (bellicosity 2000 over score 400)")
 	var carried: Array[String] = []
 	for entry: NpcLoadoutEntry in spy.loadout_entries():
 		carried.append("%s %d %d" % [entry.item_definition_id, entry.quantity, entry.equipment_intent])

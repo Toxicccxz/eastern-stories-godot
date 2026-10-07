@@ -95,7 +95,7 @@ func _evaluate(
 			NpcAggressionDecision.Outcome.INVALID_INPUT,
 			npc_id,
 		)
-	if not npc.definition().attacks_on_sight(npc.flags(), player.state) and not NpcBerserk.applies_to(npc.definition()):
+	if not npc.definition().attacks_on_sight(npc.flags(), player.state) and not Berserk.applies_to(npc.definition()):
 		return NpcAggressionDecision.new(
 			NpcAggressionDecision.Outcome.NOT_AUTHORED,
 			npc_id,

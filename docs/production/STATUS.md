@@ -4,16 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**The HUD** (`phase/hud-toasts`): the top left is a status card (name and place, 精/气/神 bars,
-the buttons, the selected thing under 目标); the scene's messages are toasts at the bottom left
-(two at most, the oldest fading up); a panel's or a fight's own lines are not toasted (DECISIONS).
+**水烟阁 C** (`phase/waterfog-c`): 天邪神功 in the player's hands — 提升战斗力, 压制杀气 (in a
+fight it can knock the player out; asked first, with the odds) and 天邪虎啸 (asked first: everyone
+here who does not withstand it comes in to kill, a spar turns deadly); 杀气 that boils over: the
+player stares and attacks (or challenges) someone by themselves on coming into a place, never their
+master, with a one-time warning; NPCs glare back when looked at; the 武学 page shows 杀气 and 定力
+(DECISIONS).
 
-**水烟阁 B** (#67, merged): joining 天邪派 — 萧辟尘 asks for an oath (the 发誓恪守门规
-button), 於兰天武 for his three-blow test (asked first: real blows), a master's recruit offers when
-the player has not asked; both masters teach (於兰天武 only his own), 七宝天岚舞, 天邪神功 by 杀气,
-the 正厅's sign joins the 武者; the character sheet shows score.c's rank (DECISIONS).
-
-Next: 水烟阁 C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
+Next: redraw the seven hand-made maps with the painter and split 绮云镇's upper floors into three
+maps (two PRs: 老松岭 + 绮云镇 upstairs, then 雪亭镇).
 
 ## Playable now
 
@@ -29,7 +28,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   (after five taels of tuition), then 封山剑法 and 倒乱七星步法 at max_force 50; the character
   panel's 武学 page: skills, enabled skills and effective levels, enable/disable anywhere outside a
   fight, 打坐 (exercise), 练习 (practice), 自学, 研读 (the scavenger's 旧书), 加力 (enforce) and
-  运功 (exert: 疗伤, 恢复气, 恢复神, 恢复精; in a fight from the battle panel); give, drop and put (the 功德箱 takes donations and gives them
+  运功 (exert: 疗伤, 恢复气, 恢复神, 恢复精, 天邪神功's three; in a fight from the battle panel),
+  杀气 and 定力; give, drop and put (the 功德箱 takes donations and gives them
   back); thirty-three NPCs (20 types) to look at, ask (打听), fight or spar (切磋) with their ES2
   gear and loot (the crazy dog on the west road attacks; a spar with 安惜迩 becomes his kill;
   柳绘心 refuses); in a fight 刘安禄, the farmer, 柳绘心, 柳淳风 and 安惜迩 talk and use their
@@ -68,7 +68,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   於兰天武 after his three blows (asked first; failing knocks the player out, a bad wound kills);
   learning from both (於兰天武 teaches only his apprentices), practising 天邪神掌, 六阴追魂剑法, 火蝠身法
   and 七宝天岚舞 (women, spi 20, costs sen); 天邪神功 is learnt with 杀气; the 正厅's sign makes the
-  player a 武者. Not yet: the player's own 天邪神功 (C).
+  player a 武者; the player's 天邪神功: 提升战斗力, 压制杀气 and 天邪虎啸, and 杀气 that boils over.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

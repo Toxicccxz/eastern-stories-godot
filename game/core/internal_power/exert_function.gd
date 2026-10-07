@@ -5,6 +5,9 @@ extends RefCounted
 ## notify_fail() and 0. The exerciser is always the target: the game offers no
 ## `exert <id> <target>`, so the files' "target != me" refusals never show.
 var id: StringName
+## The file refuses outside a fight whatever else holds (roar.c): the game offers it
+## only in one.
+var fight_only: bool = false
 
 
 func exert(_context: ExertContext) -> bool:

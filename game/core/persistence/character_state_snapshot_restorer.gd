@@ -117,6 +117,7 @@ static func restore(
 			snapshot.progression.potential_spent,
 			snapshot.progression.score,
 			snapshot.progression.kills,
+			snapshot.progression.berserk_warned,
 		),
 		FamilyType.new(snapshot.family.family_id, snapshot.family.generation),
 		ApprenticeshipType.new(

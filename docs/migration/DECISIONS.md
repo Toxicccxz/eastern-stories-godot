@@ -1,5 +1,42 @@
 # Migration Decisions
 
+## 水烟阁 C: the player's 天邪神功 and 杀气 (2026-10-06)
+
+Owner-approved plan ("按你的建议来"); what each LPC piece became is in
+[WATERFOG_CONTENT](WATERFOG_CONTENT.md).
+- **天邪神功's files for the player**: 运功 offers powerup (提升战斗力) and powerfade (压制杀气) on
+  the 武学 page and the battle panel, 天邪虎啸 (roar.c) only on the battle panel: outside a fight its
+  file refuses whatever the player has. exert.c's practice stays weak mode (progress, never a
+  level: 天邪神功 is learnt).
+- **powerfade in a fight**: random(skill) < cps × 3 knocks the user out (unconcious(); the fight's
+  life check right after the action makes them fall).
+- **天邪虎啸 pulls the room in**: everyone living in the player's zone (an NPC whose fight is not
+  ported aside) who does not withstand it (skill / 2 + random(skill / 2) < cps × 2) loses sen, a
+  wound too when its force is low, and kill_ob()s the player: one outside the fight comes in (the
+  player only fights back), and a spar goes on to the death. Their 看起来X想杀死你！ goes to the
+  battle log and is pinned. The struck one's 金星乱冒 line is told to it alone, as ES2.
+- **Owner: asked first** in the battle panel (ConfirmPrompt in place of its buttons; the fight goes
+  on meanwhile, so the question is no pause): 天邪虎啸 (its cost; everyone who does not withstand
+  it turns on the player, a spar becomes deadly) and powerfade in a fight, with its odds from the
+  rule (约有 N 成会昏倒). Only when the action would run now; powerfade outside a fight is not asked.
+- **The player's berserk** (attack.c init(), combatd.c start_berserk()): when the player comes
+  into a zone, and when an NPC comes into theirs (walking, summoned, respawned, going home), each
+  living NPC there gets random(bellicosity / 40) > cps; the first over gets start_berserk(): the
+  stare; force > (random(b) + b) / 2 calms it; else, bellicosity above score, 去死吧 and the
+  player attacks to kill (kill_ob(): the NPC only fights back), else 陪我玩两手吧 and a spar the
+  NPC is not asked about. Not in a no-fight zone, nor while fighting or unconscious; never asked
+  (the player did not choose it).
+  - **Owner: never at the player's own master** (ES2 would; killing him is a betrayal the player
+    did not choose). An NPC whose fight is not ported is left out too.
+  - **Owner: told once**: when bellicosity first reaches 40 × (cps + 2) (from there random(b / 40)
+    can beat cps), the log, and the 武学 page after a powerup, say so (Berserk.WARNING; saved as
+    progression.berserk_warned). The 武学 page shows 杀气 and 定力.
+- **look.c's glare**: 观察 a living NPC here: random(its bellicosity / 10) > the player's per →
+  X突然转过头来瞪你一眼。 and its start_berserk(). An NPC's spar branch (fight_ob(): bellicosity not
+  above its score) is ported (cause NPC_SPAR: a spar it starts); the loader no longer refuses
+  such an NPC.
+- As ES2: the berserk's spar asks nobody, a beast included; a berserk kill counts as any kill.
+
 ## The HUD: a status card and toasts (2026-10-06)
 
 Owner: the top left becomes a modern status card, and the scene's messages move to the bottom

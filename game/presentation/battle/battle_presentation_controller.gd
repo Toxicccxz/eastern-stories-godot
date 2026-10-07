@@ -3,6 +3,11 @@ extends Control
 
 ## Session-owned projection/intent adapter. Never executes or advances combat.
 signal intent_submitting
+
+# TRANSLATORS: asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
+const ROAR_QUESTION: String = "天邪虎啸要耗 150 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
+# TRANSLATORS: asked before 压制杀气 (powerfade.c) in a fight; {odds} is how likely the player is to fall unconscious (约有 6 成会昏倒).
+const POWERFADE_QUESTION: String = "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
 signal intent_received(result: CombatTacticalResult)
 signal target_submitting
 signal target_received(result: CombatTargetResult)
@@ -91,9 +96,8 @@ func refresh_projection() -> void:
 		_receipt.text = ""
 		if _projection.active:
 			log_panel.clear_entries()
-			var warnings: Array[String] = _session.combat_encounter_coordinator().opening_warnings(_projection.encounter_id)
-			_warning.text = "\n".join(PackedStringArray(warnings))
-			_warning.visible = not warnings.is_empty()
+			_warning.text = ""
+			_warning.visible = false
 			if _intent == null:
 				_intent = BattleIntentAdapter.new(_session.combat_encounter_coordinator(), _projection.player_id)
 			_yield_world_hud()
@@ -106,6 +110,12 @@ func refresh_projection() -> void:
 		entries = _reader.read_new(_session.combat_encounter_coordinator(), _projection)
 	if not _projection.active:
 		return
+	# The opening's warnings, and those of anyone who turns on the player later (roar.c).
+	var warnings: Array[String] = _session.combat_encounter_coordinator().opening_warnings(_projection.encounter_id)
+	var warning_text: String = "\n".join(PackedStringArray(warnings))
+	if warning_text != _warning.text:
+		_warning.text = warning_text
+		_warning.visible = not warnings.is_empty()
 	var heading: String = _mode_name(_projection.mode)
 	if not _receipt.text.is_empty():
 		heading += " · " + _receipt.text
@@ -209,6 +219,7 @@ func _build() -> void:
 	action_panel = BattleActionPanel.new()
 	action_panel.name = "QuickActions"
 	action_panel.catalog = action_catalog
+	action_panel.confirm_text = _question_for
 	action_panel.action_requested.connect(_submit_action)
 	action_panel.cancel_requested.connect(_cancel_action)
 	action_panel.enforce_requested.connect(_enforce)
@@ -319,6 +330,34 @@ func _change_target(id: StringName) -> void:
 	var result: CombatTargetResult = _intent.change_target(_projection.encounter_id, id)
 	_receipt.text = tr("换目标：%s") % BattleFeedbackReader.target_reason(result.code)
 	target_received.emit(result)
+
+
+## Owner (2026-10-06): 天邪虎啸 and powerfade in a fight are asked first, when they
+## would run now: [question, choice], or empty for an action asked nothing.
+func _question_for(id: StringName) -> PackedStringArray:
+	if _session == null or not _session.is_initialized() or _session.player_runtime() == null:
+		return PackedStringArray()
+	var state: CharacterState = _session.player_runtime().state
+	match CombatExertTacticalPolicy.function_for(id):
+		&"roar":
+			if RoarExertFunction.would_run(state, true):
+				return PackedStringArray([tr(ROAR_QUESTION), "发出虎啸"])
+		&"powerfade":
+			var chance: float = PowerfadeExertFunction.faint_chance(_session.martial_arts().force_level(), state.attributes.composure)
+			if PowerfadeExertFunction.would_run(state) and chance > 0.0:
+				return PackedStringArray([tr(POWERFADE_QUESTION).format({"odds": _faint_odds(chance)}), "压制杀气"])
+	return PackedStringArray()
+
+
+## powerfade.c's random(skill) < cps * 3, in words: 一定, 约 N 成, or 很小.
+func _faint_odds(chance: float) -> String:
+	if chance >= 1.0:
+		return tr("一定会昏倒")
+	var tenths: int = roundi(chance * 10.0)
+	if tenths <= 0:
+		return tr("昏倒的可能很小")
+	# TRANSLATORS: the chance that powerfade knocks the player out, in tenths (成): 约有 6 成会昏倒 is about 60%.
+	return tr("约有 {tenths} 成会昏倒").format({"tenths": tenths})
 
 
 func _submit_action(id: StringName) -> void:

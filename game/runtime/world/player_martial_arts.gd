@@ -82,7 +82,11 @@ func exert(function_id: StringName) -> ExertResult:
 	var result: ExertResult = ExertService.exert(
 		_state(), function_id, GameContent.catalog(), force_level(), false,
 		_session.player_runtime().busy, _session.world_interaction_random_source().legacy_random, _effects(),
+		_session.player_runtime().character_id,
 	)
+	# A powerup can raise bellicosity over the line: the warning reads on the page too.
+	if Berserk.take_warning(_state()):
+		result.lines.append(ColoredLine.new(tr(Berserk.WARNING), ColoredLine.HIR))
 	_say(result.lines)
 	return result
 

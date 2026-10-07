@@ -42,6 +42,7 @@ var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
 ## left] (transient).
 var _pending_dissolves: Array[Array] = []
 var _post_actions: CombatSlicePostActions
+var _last_player_berserk := CombatSliceInitiationResult.new()
 var _floor_items: Dictionary[StringName, WorldFloorItemView] = {}
 ## Items lying away from any spawn marker (dropped), with their place; saved.
 var _dropped: Dictionary[StringName, WorldLocationState] = {}
@@ -1205,24 +1206,150 @@ func _note_toll_fights() -> void:
 			npc.set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, true)
 
 
-## attack.c init()'s berserk case and combatd.c start_berserk() (NpcBerserk).
+## attack.c init()'s berserk case for an NPC (Berserk.roll()), then start_berserk().
 func _go_berserk(npc: NpcRuntimeState) -> void:
-	var outcome: NpcBerserk.Outcome = NpcBerserk.roll(npc.character_state, npc.definition().score, _world_interaction_random)
-	if outcome == NpcBerserk.Outcome.NONE:
-		return
+	var outcome: Berserk.Outcome = Berserk.roll(npc.character_state, npc.definition().score, _world_interaction_random)
+	if outcome != Berserk.Outcome.NONE:
+		_npc_berserk(npc, outcome, [])
+
+
+## combatd.c start_berserk(npc, player) once it decided (`outcome`); `lines` come
+## first (look.c's 瞪你一眼). It stares at everyone, then attacks to kill
+## (kill_ob()) or challenges the player to a spar (fight_ob()).
+func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[String]) -> void:
 	var name: String = tr(npc.definition().display_name)
-	var lines: Array[String] = [tr("%s用一种异样的眼神扫视著在场的每一个人。") % name]
-	if outcome == NpcBerserk.Outcome.STARE:
-		_hud().append_log_lines(lines)
-		return
-	# TRANSLATORS: combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
-	lines.append(tr("{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。").format({
-		"npc": name, "self": tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &"")),
-	}))
-	var started: CombatSliceInitiationResult = _initiate_lethal_combat(npc.character_id, _player.character_id, lines)
+	lines.append(tr("%s用一种异样的眼神扫视著在场的每一个人。") % name)
+	var started := CombatSliceInitiationResult.new()
+	match outcome:
+		Berserk.Outcome.KILL:
+			# TRANSLATORS: combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
+			lines.append(tr("{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。").format({
+				"npc": name, "self": tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &"")),
+			}))
+			started = _initiate_lethal_combat(npc.character_id, _player.character_id, lines)
+			if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+				_hud().append_log_lines(lines)
+		Berserk.Outcome.FIGHT:
+			# TRANSLATORS: combatd.c start_berserk(): {rude} is how the NPC insults the player (臭贼), {self} how it calls itself (老子).
+			lines.append(tr("{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！").format({
+				"npc": name,
+				"rude": tr(RankWords.query_rude(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)),
+				"self": tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &"")),
+			}))
+			var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+			started = session.combat_encounter_coordinator().start_production(
+				CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
+				CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
+				CombatTriggerCause.Value.NPC_SPAR,
+			)
+			_announce_berserk_spar(started, npc, lines)
+		_:
+			_hud().append_log_lines(lines)
+	_last_aggression_initiations.append(started)
+
+
+## A berserk's spar began (or could not): the lines, with the armed spar's hint.
+func _announce_berserk_spar(started: CombatSliceInitiationResult, npc: NpcRuntimeState, lines: Array[String]) -> void:
 	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
 		_hud().append_log_lines(lines)
-	_last_aggression_initiations.append(started)
+		return
+	if spar_is_armed(npc):
+		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
+	_announce_fight(lines)
+
+
+## The player's own feature/attack.c init() for each living NPC in `others` (who
+## came into the player's place, or into whose place the player came): its berserk
+## case, random(bellicosity / 40) > cps, drawn for each; the first that goes over
+## gets combatd.c start_berserk() (looking_for_trouble lets one through). Not while
+## the player fights or lies unconscious. Owner (水烟阁 C): never at the player's own
+## master; an NPC whose fight is not ported is not there for it either.
+func _player_init(others: Array[NpcRuntimeState]) -> void:
+	if (
+		not _gameplay_open() or session == null or _player == null or not _player.exists_in_world
+		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.relationship.is_fighting()
+		or session.combat_encounter_coordinator().has_active_encounter()
+	):
+		return
+	var chosen: NpcRuntimeState = null
+	for npc: NpcRuntimeState in others:
+		if (
+			not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc)
+			or npc.definition().dealings().is_fight_deferred() or PlayerKillerReward.is_own_master(_player.state, npc.definition())
+		):
+			continue
+		if Berserk.init_roll(_player.state, _world_interaction_random) and chosen == null:
+			chosen = npc
+	if chosen != null:
+		_player_berserk(chosen)
+
+
+## combatd.c start_berserk(player, npc): nothing in a room where fighting is
+## forbidden; the player stares at everyone, calms down when their force beats
+## (random(bellicosity) + bellicosity) / 2, else, with bellicosity above their
+## score, attacks the NPC to kill (kill_ob(): the NPC only fights back), or
+## challenges it to a spar (fight_ob(): it is not asked). Nobody asks the player
+## first: the player did not choose it.
+func _player_berserk(npc: NpcRuntimeState) -> void:
+	if not _combat_allowed(npc):
+		return
+	var outcome: Berserk.Outcome = Berserk.start(_player.state, _player.state.progression.score, _world_interaction_random)
+	var name: String = tr(npc.definition().display_name)
+	var lines: Array[String] = [tr("你用一种异样的眼神扫视著在场的每一个人。")]
+	var self_rude: String = tr(RankWords.query_self_rude(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id))
+	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
+	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
+	var started := CombatSliceInitiationResult.new()
+	match outcome:
+		Berserk.Outcome.KILL:
+			# TRANSLATORS: combatd.c start_berserk() for the player: {self} is how the player calls themself (老子).
+			lines.append(tr("你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。").format({"npc": name, "self": self_rude}))
+			started = (
+				session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, npc.character_id)
+				if _zone_entry(_player.world_location()) == &"complete_set"
+				else session.combat_encounter_coordinator().start_production(player_binding, npc_binding, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, true)
+			)
+			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+				_announce_fight(lines, npc.character_id)
+			else:
+				_hud().append_log_lines(lines)
+		Berserk.Outcome.FIGHT:
+			# TRANSLATORS: combatd.c start_berserk() for the player: {rude} is how the player insults the NPC (臭贼), {self} how they call themself (老子).
+			lines.append(tr("你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！").format({
+				"npc": name, "rude": tr(RankWords.query_rude(npc.character_state.gender, npc.age, &"")), "self": self_rude,
+			}))
+			started = session.combat_encounter_coordinator().start_production(player_binding, npc_binding, CombatTriggerCause.Value.PLAYER_SPAR)
+			_announce_berserk_spar(started, npc, lines)
+		_:
+			_hud().append_log_lines(lines)
+	_last_player_berserk = started
+
+
+## cmds/std/look.c on a living NPC here: when random(its bellicosity / 10) beats the
+## player's per, it turns to glare and goes berserk at them (auto_fight(),
+## start_berserk(): nothing more while it already fights them or fighting is
+## forbidden here).
+func _look_berserk(npc: NpcRuntimeState) -> void:
+	if (
+		npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player == null
+		or not npc.world_location().shares_combat_location(_player.world_location())
+		or not Berserk.look_roll(npc.character_state, _player.state.attributes.personality, _world_interaction_random)
+	):
+		return
+	var lines: Array[String] = [tr("%s突然转过头来瞪你一眼。") % tr(npc.definition().display_name)]
+	if (
+		npc.relationship.has_opponent(_player.character_id) or not _combat_allowed(npc)
+		or npc.definition().dealings().is_fight_deferred() or session.combat_encounter_coordinator().has_active_encounter()
+	):
+		_hud().append_log_lines(lines)
+		return
+	_npc_berserk(npc, Berserk.start(npc.character_state, npc.definition().score, _world_interaction_random), lines)
+
+
+## The fight the player's last berserk started (or tried to), for tests.
+func last_player_berserk() -> CombatSliceInitiationResult:
+	return _last_player_berserk
 
 
 ## Owner decision P2A-M: every eligible aggressive enemy in current physical
@@ -1351,6 +1478,41 @@ func _announce_fight(lines: Array[String], first_id: StringName = &"") -> void:
 
 
 # --- Combat participants and lifecycle publication ----------------------------------
+
+## all_inventory(environment(actor)) without the actor, as an exert file sees it
+## (roar.c): the NPCs in the actor's place, in the map's order, those in the fight
+## through their fight bindings. An NPC whose fight is not ported is not there.
+func exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> Array[SpecialSide]:
+	var room: Array[SpecialSide] = []
+	var location: WorldLocationState = _location_for_character(actor_id)
+	if location == null:
+		return room
+	for npc: NpcRuntimeState in _npcs:
+		if (
+			npc.character_id == actor_id or not npc.exists_in_map or not npc.world_location().shares_combat_location(location)
+			or npc.definition().dealings().is_fight_deferred()
+		):
+			continue
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, npc.character_id)
+		if binding == null:
+			binding = combat_binding_for(npc.character_id)
+		if binding != null:
+			room.append(CombatNpcChat.side_of(binding, npc))
+	return room
+
+
+## A fight binding for an NPC here that is not in the fight (one roar.c brings in).
+func combat_binding_for(character_id: StringName) -> CombatSliceCharacterBinding:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null or not npc.exists_in_map:
+		return null
+	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, _npc_content(npc))
+	if binding != null:
+		if _post_actions == null:
+			_post_actions = CombatSlicePostActions.new(_run_post_action)
+		binding.post_actions = _post_actions
+	return binding
+
 
 func encounter_combat_bindings(encounter: CombatEncounter) -> Array[CombatSliceCharacterBinding]:
 	var result: Array[CombatSliceCharacterBinding] = []
@@ -2014,6 +2176,7 @@ func _advance_ambience(delta: float) -> void:
 	if _ambience == null:
 		_ambience = NpcAmbience.new(session.npc_ambience_random_source())
 	_ambience.set_random(session.npc_ambience_random_source())
+	_note_bellicosity()
 	_note_player_arrival()
 	for character_id: StringName in _ambience.due_greetings(delta):
 		_greet(find_resident_npc(character_id))
@@ -2035,6 +2198,13 @@ func npc_walker() -> WorldNpcWalker:
 	return _walker
 
 
+## Owner (水烟阁 C): the first time the player's bellicosity can boil over (a kill, a
+## powerup, whatever raised it), they are told once (Berserk.WARNING).
+func _note_bellicosity() -> void:
+	if _player != null and Berserk.take_warning(_player.state):
+		_hud().append_log_lines([tr(Berserk.WARNING)], true)
+
+
 ## The NPCs' init() when the player comes into a place: a greeting call_out.
 func _note_player_arrival() -> void:
 	var zone_id: StringName = &"" if _player == null or not _player.exists_in_world else _player.world_location().zone_id
@@ -2049,9 +2219,12 @@ func _note_player_arrival() -> void:
 			and npc.definition().talk().has_greeting()
 		):
 			_ambience.start_greeting(npc.character_id)
+	var here: Array[NpcRuntimeState] = []
 	for npc: NpcRuntimeState in _npcs:
 		if npc.world_location().zone_id == zone_id:
 			_consider_stealing(npc)
+			here.append(npc)
+	_player_init(here)
 
 
 ## keeper.c and waiter.c greeting(): said only if the player is still there; the
@@ -2096,6 +2269,7 @@ func _npc_arrived(npc: NpcRuntimeState) -> void:
 		_ambience.start_greeting(npc.character_id)
 	if _ambience != null and _player_shares_zone(npc):
 		_consider_stealing(npc)
+		_player_init([npc])
 
 
 # --- Stealing (u/cloud thief.c, cmds/std/steal.c) -----------------------------------
@@ -2301,6 +2475,9 @@ func random_move(npc: NpcRuntimeState) -> bool:
 	npc.set_world_location(location_for_zone(move.to_zone_id))
 	if seen:
 		_hud().append_log_lines([move.leave_line(npc.definition().display_name)])
+	# The player's init() for one who walks in.
+	if _player_shares_zone(npc):
+		_player_init([npc])
 	return true
 
 
@@ -2646,6 +2823,7 @@ func inspect_selected() -> bool:
 		return false
 	var gender: StringName = npc.character_state.gender
 	_hud().show_inspection(npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender)
+	_look_berserk(npc)
 	return true
 
 

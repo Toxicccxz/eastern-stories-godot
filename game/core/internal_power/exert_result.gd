@@ -19,6 +19,11 @@ var lines: Array[ColoredLine] = []
 ## The skill exert.c practised (the enabled force or the basic one), when it did.
 var skill_improvement: SkillImprovementResult
 var authored_effect: SkillImprovementEffectResult
+## The function knocked its user out (powerfade.c in a fight): it falls at the next
+## life check.
+var fainted: bool = false
+## Those it had kill_ob() its user (roar.c), in the room's order.
+var killers: Array[StringName] = []
 
 
 func _init(p_function_id: StringName = &"") -> void:

@@ -1118,6 +1118,11 @@ msgstr ""
 msgid "{npc}丢下{item}。"
 msgstr ""
 
+#. told once, when the player's 杀气 (bellicosity) first gets high enough that entering a place with people may make them attack someone by themselves.
+#: core/characters/berserk.gd
+msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有人的地方时，你可能会控制不住，向人出手。"
+msgstr ""
+
 #: core/characters/character_state.gd core/npcs/npc_character_state_factory.gd
 msgid "雄性"
 msgstr ""
@@ -1452,8 +1457,12 @@ msgstr ""
 msgid "提升战斗力"
 msgstr ""
 
-#: core/internal_power/exert_functions.gd
+#: core/internal_power/exert_functions.gd presentation/battle/battle_presentation_controller.gd
 msgid "压制杀气"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "天邪虎啸"
 msgstr ""
 
 #: core/internal_power/exert_functions.gd
@@ -1508,7 +1517,7 @@ msgstr ""
 msgid "你全身放松，坐下来开始运功疗伤。"
 msgstr ""
 
-#: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd
+#: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd core/internal_power/roar_exert_function.gd
 msgid "你的内力不够。"
 msgstr ""
 
@@ -1526,6 +1535,14 @@ msgstr ""
 
 #: core/internal_power/powerup_exert_function.gd
 msgid "$N微一凝神，运起天邪神功，全身骨节发出一阵爆豆般的声响！"
+msgstr ""
+
+#: core/internal_power/roar_exert_function.gd
+msgid "天邪虎啸只能在战斗中使用。"
+msgstr ""
+
+#: core/internal_power/roar_exert_function.gd
+msgid "$N深深地吸一口气，开始发出有如猛虎般的啸声！"
 msgstr ""
 
 #: core/items/item_apply_functions.gd
@@ -2847,6 +2864,20 @@ msgstr ""
 msgid "昏迷"
 msgstr ""
 
+#. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
+#: presentation/battle/battle_presentation_controller.gd
+msgid ""
+"天邪虎啸要耗 150 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n"
+"确定要发出虎啸吗？"
+msgstr ""
+
+#. asked before 压制杀气 (powerfade.c) in a fight; {odds} is how likely the player is to fall unconscious (约有 6 成会昏倒).
+#: presentation/battle/battle_presentation_controller.gd
+msgid ""
+"在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n"
+"确定要压制杀气吗？"
+msgstr ""
+
 #: presentation/battle/battle_presentation_controller.gd
 msgid "目标：%s"
 msgstr ""
@@ -2877,6 +2908,23 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "换目标：%s"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd
+msgid "发出虎啸"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd
+msgid "一定会昏倒"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd
+msgid "昏倒的可能很小"
+msgstr ""
+
+#. the chance that powerfade knocks the player out, in tenths (成): 约有 6 成会昏倒 is about 60%.
+#: presentation/battle/battle_presentation_controller.gd
+msgid "约有 {tenths} 成会昏倒"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -3329,6 +3377,10 @@ msgid ""
 "一股阴冷的浓雾突然出现，很快地包围了你。"
 msgstr ""
 
+#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/world_map_controller.gd
+msgid "看起来%s想杀死你！"
+msgstr ""
+
 #. oldpine.npc.serpent limbs
 #. oldpine.npc.wolf_dog limbs
 #. oldpine.npc.butterfly limbs
@@ -3660,8 +3712,31 @@ msgstr ""
 msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
 msgstr ""
 
+#. combatd.c start_berserk(): {rude} is how the NPC insults the player (臭贼), {self} how it calls itself (老子).
 #: runtime/world/world_map_controller.gd
-msgid "看起来%s想杀死你！"
+msgid "{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "你用一种异样的眼神扫视著在场的每一个人。"
+msgstr ""
+
+#. combatd.c start_berserk() for the player: {self} is how the player calls themself (老子).
+#: runtime/world/world_map_controller.gd
+msgid "你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr ""
+
+#. combatd.c start_berserk() for the player: {rude} is how the player insults the NPC (臭贼), {self} how they call themself (老子).
+#: runtime/world/world_map_controller.gd
+msgid "你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "%s突然转过头来瞪你一眼。"
 msgstr ""
 
 #. weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
@@ -3750,10 +3825,6 @@ msgstr ""
 
 #: runtime/world/world_map_controller.gd
 msgid "看起来%s并不想跟你较量。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "刀剑无眼，持兵刃比试可能真的受伤。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -4192,6 +4263,11 @@ msgstr ""
 #. hp.c: internal power, its maximum and enforce.c's force_factor.
 #: ui/world/martial_arts_page.gd
 msgid "内力 {force} / {max_force} (+{factor})"
+msgstr ""
+
+#. the 武学 page: score.c's 杀气 (bellicosity) and 定力 (cps), which decide whether the player can lose control.
+#: ui/world/martial_arts_page.gd
+msgid "杀气 {bellicosity} · 定力 {cps}"
 msgstr ""
 
 #. skills.c: {mark} is □ for an enabled skill, {rank} its rank, {level}/{progress} level and learning progress.

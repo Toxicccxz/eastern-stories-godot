@@ -13,20 +13,17 @@ const SPECIAL_ROLL: int = 120
 const BASIC_ROLL_MULTIPLIER: int = 4
 
 
-## 天邪神功's own functions wait for 水烟阁 C (the player's 天邪神功: powerfade's faint in
-## a fight is not ported yet, nor its question). The player learns 天邪神功 from B on.
-const AWAITING_PLAYER: Array[StringName] = [&"powerup", &"powerfade"]
-
-
 ## The functions `exert` reaches with the enabled force, in ExertFunctions order;
 ## none without one. Only the player is offered functions (NPCs exert from their chat).
-static func offered(character: CharacterState, catalog: ContentCatalog) -> Array[StringName]:
+## Outside a fight a function that only works in one (roar) is not offered: its file
+## would refuse whatever the player had.
+static func offered(character: CharacterState, catalog: ContentCatalog, fighting: bool = false) -> Array[StringName]:
 	var out: Array[StringName] = []
 	var mapped: StringName = character.skills.mapped_skill(BASIC_FORCE)
 	if mapped.is_empty():
 		return out
 	for function_id: StringName in ExertFunctions.ORDER:
-		if function_id in AWAITING_PLAYER:
+		if not fighting and ExertFunctions.find(function_id).fight_only:
 			continue
 		if _has(catalog.skill(mapped), function_id) or _has(catalog.skill(BASIC_FORCE), function_id):
 			out.append(function_id)
@@ -34,7 +31,8 @@ static func offered(character: CharacterState, catalog: ContentCatalog) -> Array
 
 
 ## `force_level` is query_skill("force") with apply/force; `random` is MudOS
-## random(n) (n <= 0 gives 0 without a draw).
+## random(n) (n <= 0 gives 0 without a draw). `actor_id` is the character's ID and
+## `room` the others in its room (roar.c), with their fights.
 static func exert(
 	character: CharacterState,
 	function_id: StringName,
@@ -44,6 +42,8 @@ static func exert(
 	busy: ActionBusyState,
 	random: Callable,
 	effects: SkillImprovementEffectRegistry,
+	actor_id: StringName = &"",
+	room: Array[SpecialSide] = [],
 ) -> ExertResult:
 	var result := ExertResult.new(function_id)
 	if busy.is_busy():
@@ -51,16 +51,16 @@ static func exert(
 	var mapped: StringName = character.skills.mapped_skill(BASIC_FORCE)
 	if mapped.is_empty():
 		return _refused(result, ExertResult.Failure.FORCE_NOT_ENABLED, "你请先用 enable 指令选择你要使用的内功。")
-	var context := ExertContext.new(character, force_level, is_fighting, busy)
+	var context := ExertContext.new(character, force_level, is_fighting, busy, actor_id, random, room)
 	context.fail_line = _t("你所学的内功中没有这种功能。")
 	var function: ExertFunction = ExertFunctions.find(function_id)
 	if function != null and _has(catalog.skill(mapped), function_id) and function.exert(context):
-		result.lines = context.lines
+		_took_effect(result, context)
 		if random.call(SPECIAL_ROLL) < force_level:
 			_improve(result, character, mapped, true, catalog, effects)
 		return result
 	if function != null and _has(catalog.skill(BASIC_FORCE), function_id) and function.exert(context):
-		result.lines = context.lines
+		_took_effect(result, context)
 		var force: int = character.skills.raw_level(BASIC_FORCE)
 		if random.call(force * BASIC_ROLL_MULTIPLIER) < force:
 			_improve(result, character, BASIC_FORCE, false, catalog, effects)
@@ -68,6 +68,12 @@ static func exert(
 	result.failure = ExertResult.Failure.REFUSED
 	result.lines = [ColoredLine.new(context.fail_line)]
 	return result
+
+
+static func _took_effect(result: ExertResult, context: ExertContext) -> void:
+	result.lines = context.lines
+	result.fainted = context.fainted
+	result.killers = context.killers
 
 
 static func _improve(
