@@ -25,6 +25,8 @@ D the player's spells). What each room and NPC became is in [GREEN_CONTENT](GREE
   `push_stone`) and the item's `hang`. Native: the web calls a spider in only while one of its
   three points is free (ES2 made a new one every time, three a reset). Owner rule: 上吊 asks
   first; it kills as die() does, with no killer (an old last_damage_from is not counted).
+  A zone of rooms that disagree on `outdoors` (Old Pine's canopy: tree3 is outdoors) refuses
+  it in all its rooms.
   station0.c's well is a water service (liquid.c's fill to the container's capacity);
   fillwater's fixed 15 is not ported.
 - **woman1.c converse_one()** runs in her heart beat, where this_player() is herself, so ES2 only

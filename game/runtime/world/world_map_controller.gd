@@ -785,11 +785,22 @@ func play_item(item_id: StringName) -> bool:
 
 ## rope.c hang_self(): environment(this_player())->query("outdoors") refuses.
 func can_hang_here() -> bool:
-	if _player == null:
-		return false
-	var zone: ZoneDefinition = GameContent.catalog().zone(_player.world_location().zone_id)
-	var room: RoomDefinition = null if zone == null or zone.room_ids().is_empty() else GameContent.catalog().room(zone.room_ids()[0])
-	return room != null and not room.outdoors
+	return _player != null and not zone_outdoors(_player.world_location().zone_id)
+
+
+## Whether a zone counts as under the open sky for rope.c: any of its rooms set("outdoors").
+## A zone that merges rooms which disagree (the pine's canopy: tree1 and tree2 inside its
+## boughs, tree3 at the open top) does not know which one the player stands in, so a deadly
+## hang is refused in all of it rather than allowed where rope.c would refuse it.
+static func zone_outdoors(zone_id: StringName) -> bool:
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
+	if zone == null:
+		return true
+	for room_id: StringName in zone.room_ids():
+		var room: RoomDefinition = GameContent.catalog().room(room_id)
+		if room == null or room.outdoors:
+			return true
+	return false
 
 
 ## rope.c hang_self() with the carried rope: under the open sky the rope finds nothing

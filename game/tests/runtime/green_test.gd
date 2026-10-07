@@ -197,6 +197,7 @@ func _test_rope(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var rope: StringName = _give(session, ROPE)
 	_check(await MapPlaces.drive_to_zone(tree, map, &"green.field1"), "out in the yard (outdoors)")
 	_check(not map.can_hang_here() and not map.hang_with(rope), "nowhere to hang it")
+	_check(WorldMapController.zone_outdoors(&"oldpine.tree.canopy") and not WorldMapController.zone_outdoors(&"green.house3"), "a zone of rooms that disagree (the pine's canopy, tree3 outdoors) counts as outdoors")
 	_check(hud.log_lines()[-1] == "你四处看看, 实在找不到地方挂绳子说...", "rope.c's line: " + hud.log_lines()[-1])
 	_check(await MapPlaces.drive_to_zone(tree, map, &"green.house3"), "back indoors")
 	hud._hang_with(rope)
