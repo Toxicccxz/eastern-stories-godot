@@ -56,9 +56,11 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.resident_map_count() == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0), "every authored map resident, one active, only authored Snow NPCs")
 	var room: Rect2 = MapPlaces.zone_rect(snow, &"snow.hockshop")
 	var at_counter: Vector2 = MapPlaces.service_spot(snow, &"snow.hockshop.counter")
-	for position: Vector2 in [at_counter, MapPlaces.zone_spot(snow, &"snow.hockshop"), MapPlaces.spot(snow, &"snow.hockshop", Vector2(room.position.x + 48, room.end.y - 48))]:
+	var counter: Vector2 = MapPlaces.first_blocked(snow, ui.point.global_position, room.get_center())
+	check(counter.is_finite(), "the counter stands between its service point and the room")
+	for position: Vector2 in [room.get_center(), doorway + Vector2(56, 0), Vector2(room.position.x + 56, room.end.y - 56)]:
 		check(MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
-	for position: Vector2 in [Vector2(room.get_center().x, room.position.y + 10), Vector2(room.get_center().x, room.end.y - 10), MapPlaces.first_blocked(snow, ui.point.global_position, room.get_center()), Vector2(NAN,0)]:
+	for position: Vector2 in [Vector2(room.get_center().x, room.position.y + 10), Vector2(room.get_center().x, room.end.y - 10), counter, Vector2(NAN,0)]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))
 	# 4B: east through the curtain is the storage room (hockshop2.c), another zone.
 	var storage: Rect2 = MapPlaces.zone_rect(snow, &"snow.hockshop2")

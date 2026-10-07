@@ -1153,32 +1153,32 @@ script = ExtResource("marker")
 spawn_point_id = &"snow.school1.guard.1"
 
 [node name="School2Trainee1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(448, -512)
+position = Vector2(432, -512)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.trainee.1"
 
 [node name="School2Trainee2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(672, -512)
+position = Vector2(656, -512)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.trainee.2"
 
 [node name="School2Trainee3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(736, -512)
+position = Vector2(752, -512)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.trainee.3"
 
 [node name="School2Trainee4" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(448, -272)
+position = Vector2(432, -272)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.trainee.4"
 
 [node name="School2Trainee5" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(672, -272)
+position = Vector2(656, -272)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.trainee.5"
 
 [node name="School2Trainee6" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(736, -272)
+position = Vector2(752, -272)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.trainee.6"
 

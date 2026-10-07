@@ -77,7 +77,7 @@ func integration_test(tree: SceneTree) -> bool:
 	bank.map.player_body.position = MapPlaces.spot(bank.map, &"snow.bank", Vector2(room.end.x - 48, room.get_center().y))
 	check(bank.map.player_body.position.distance_to(bank.point.global_position) > bank.definition.reach and not bank.in_reach(), "far blocked")
 	bank.map.player_body.position = MapPlaces.first_blocked(bank.map, bank.point.global_position, room.get_center())
-	check(not bank.in_reach(), "inside counter collision blocked")
+	check(bank.map.player_body.position.is_finite() and not bank.in_reach(), "inside counter collision blocked")
 	bank.map.player_body.position = at_counter
 	var result: SnowBankInteractionResult = bank.request_conversion(SILVER, COIN, "1")
 	check(result.succeeded() and result.conversion.source_quantity == 1 and result.conversion.target_quantity == 100, "two Works -> exact source ratio")
@@ -182,9 +182,13 @@ func physical_test(tree: SceneTree) -> bool:
 	var room: Rect2 = MapPlaces.zone_rect(snow, &"snow.bank")
 	var door: Vector2 = MapPlaces.doorway(snow, &"snow.bank", &"snow.mstreet1")
 	var counter: Vector2 = MapPlaces.first_blocked(snow, bank.point.global_position, room.get_center())
+	check(counter.is_finite(), "the counter stands between its service point and the room")
 	for entry: Array in [[&"snow.bank", Vector2(room.position.x + 10, room.get_center().y)], [&"snow.bank", Vector2(room.get_center().x, room.position.y + 10)], [&"snow.bank", Vector2(room.get_center().x, room.end.y - 10)], [&"snow.bank", counter], [&"snow.mstreet1", door + Vector2(-20, -100)]]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "restore rejects walls " + str(entry))
-	check(MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet1", door + Vector2(24, 0)) and MapPlacementValidator.is_valid_character_position(snow, &"snow.bank", door - Vector2(24, 0)), "half-open east join")
+	check(MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet1", door + Vector2(24, 0)) and MapPlacementValidator.is_valid_character_position(snow, &"snow.bank", door - Vector2(24, 0)), "both sides of the bank's door")
+	var owner: StringName = MapPlaces.seam_owner(snow, &"snow.bank", &"snow.mstreet1")
+	var other: StringName = &"snow.bank" if owner == &"snow.mstreet1" else &"snow.mstreet1"
+	check(MapPlacementValidator.is_valid_character_position(snow, owner, door) and not MapPlacementValidator.is_valid_character_position(snow, other, door), "half-open east join: the line itself is %s's" % owner)
 	check(walk._failures.is_empty(), "all physical targets reached")
 	session.free()
 	await tree.process_frame

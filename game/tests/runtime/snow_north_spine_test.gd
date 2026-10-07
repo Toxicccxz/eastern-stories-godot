@@ -152,17 +152,20 @@ func solid(tree: SceneTree, session: OldPineWorldSessionController, snow: WorldM
 
 func geometry_tests(snow: WorldMapController) -> void:
 	for zone: StringName in [&"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]:
-		check(MapPlacementValidator.is_valid_character_position(snow, zone, MapPlaces.zone_spot(snow, zone)), "valid position " + String(zone))
+		check(MapPlacementValidator.is_valid_character_position(snow, zone, MapPlaces.zone_centre(snow, zone)), "valid position " + String(zone))
 	# Where two stretches of the street meet, each side of the line belongs to its own stretch.
 	for row: Array in [[&"snow.mstreet2", &"snow.mstreet3"], [&"snow.mstreet3", &"snow.mstreet4"]]:
 		var seam: Vector2 = MapPlaces.doorway(snow, row[0], row[1])
 		check(seam.is_finite(), "the street runs on " + str(row))
 		check(MapPlacementValidator.is_valid_character_position(snow, row[0], seam + Vector2(0, 24)) and MapPlacementValidator.is_valid_character_position(snow, row[1], seam - Vector2(0, 24)), "valid position/half-open join " + str(row))
 		check(not MapPlacementValidator.is_valid_character_position(snow, row[1], seam + Vector2(0, 24)), "the join's south side is not the north stretch " + str(row))
+		var owner: StringName = MapPlaces.seam_owner(snow, row[0], row[1])
+		var other: StringName = row[1] if owner == row[0] else row[0]
+		check(MapPlacementValidator.is_valid_character_position(snow, owner, seam) and not MapPlacementValidator.is_valid_character_position(snow, other, seam), "half-open join: the line itself is %s's" % owner)
 	var mstreet3: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet3")
 	var mstreet4: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet4")
 	var col: Rect2 = MapPlaces.zone_rect(snow, &"snow.crossroad")
-	for row: Array in [[&"snow.mstreet3", Vector2(mstreet3.end.x + 10, mstreet3.position.y + 40)], [&"snow.mstreet3", Vector2(mstreet3.position.x - 10, mstreet3.position.y + 40)], [&"snow.mstreet4", Vector2(mstreet4.end.x + 10, mstreet4.get_center().y)], [&"snow.crossroad", col.position + Vector2(40, 40)], [&"snow.crossroad", Vector2(col.get_center().x, col.position.y - 20)], [&"snow.mstreet3", mstreet4.get_center()], [&"green.path6", col.get_center() + Vector2(col.size.x, 0)], [&"snow.mstreet3", Vector2(INF,0)]]:
+	for row: Array in [[&"snow.mstreet3", Vector2(mstreet3.end.x - 10, mstreet3.position.y + 40)], [&"snow.mstreet3", Vector2(mstreet3.position.x + 10, mstreet3.position.y + 40)], [&"snow.mstreet4", Vector2(mstreet4.end.x - 10, mstreet4.get_center().y)], [&"snow.crossroad", col.position + Vector2(40, 40)], [&"snow.crossroad", Vector2(col.get_center().x, col.position.y - 20)], [&"snow.mstreet3", mstreet4.get_center()], [&"green.path6", col.get_center() + Vector2(col.size.x, 0)], [&"snow.mstreet3", Vector2(INF,0)]]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "reject collision/void/wrong zone " + str(row))
 	# Fault injection tests actual overlap rejection; restore fixture before physical path.
 	var mst4: Area2D = snow.physical_zone(&"snow.mstreet4")

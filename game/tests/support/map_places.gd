@@ -67,6 +67,14 @@ static func spot(map: WorldMapController, zone_id: StringName, near: Vector2, ra
 	return Vector2.INF
 
 
+## Which of two neighbouring zones owns the line they share: a zone's rectangle is half-open,
+## its top and left edges are its own.
+static func seam_owner(map: WorldMapController, zone_a: StringName, zone_b: StringName) -> StringName:
+	var a: Rect2 = zone_rect(map, zone_a)
+	var b: Rect2 = zone_rect(map, zone_b)
+	return zone_a if is_equal_approx(a.position.x, b.end.x) or is_equal_approx(a.position.y, b.end.y) else zone_b
+
+
 ## A free spot in the middle of a zone.
 static func zone_spot(map: WorldMapController, zone_id: StringName) -> Vector2:
 	return spot(map, zone_id, zone_centre(map, zone_id))
@@ -167,8 +175,9 @@ static func drive_through(tree: SceneTree, map: WorldMapController, zone_ids: Ar
 
 
 ## Walks onto a passage with the move actions until it takes the player off this map (the map
-## leaves the tree); false when that does not happen within `frames`.
-static func take_passage(tree: SceneTree, map: WorldMapController, portal_id: StringName, frames: int = 600) -> bool:
+## leaves the tree); false when that does not happen within `frames`. `each_frame` (no
+## arguments) runs after every physics frame of the walk, the crossing's included.
+static func take_passage(tree: SceneTree, map: WorldMapController, portal_id: StringName, frames: int = 600, each_frame: Callable = Callable()) -> bool:
 	var area: WorldPassageArea2D = passage(map, portal_id)
 	var body: CharacterBody2D = map.runtime_player_body()
 	if area == null:
@@ -189,6 +198,8 @@ static func take_passage(tree: SceneTree, map: WorldMapController, portal_id: St
 		_press(&"move_down", delta.y > 4.0)
 		_press(&"move_up", delta.y < -4.0)
 		await tree.physics_frame
+		if each_frame.is_valid():
+			each_frame.call()
 	release()
 	await tree.physics_frame
 	return left

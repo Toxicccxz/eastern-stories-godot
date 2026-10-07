@@ -112,6 +112,7 @@ class Town:
         w, h = (32, 64) if vertical else (64, 32)
         across = edge
         open_side = [z for z in between if self.zones[z][4] == OPEN]
+        assert len(open_side) < 2, ('a door between two open zones', between)
         if open_side:
             x0, y0, *_ = self.zones[next(z for z in between if z not in open_side)]
             across = edge + (16 if (x0 if vertical else y0) == edge else -16)

@@ -18,7 +18,7 @@ floor items, `no_fight`); in the scenes every position moved. Exits ES2 describe
 mountain road, the 书院's side room, the inner court's shrine and corridors, the Inn's red-wood
 door) are drawn only; the Inn's sign and red-wood door, like the other look-only texts, are not
 ported yet. Counters, the millstone and furniture are tiles, so no map keeps node collision
-besides doors. Owner: the path south to Old Pine loses its blocking wall (as on the Old Pine
+but its doors' walls. Owner: the path south to Old Pine loses its blocking wall (as on the Old Pine
 side), and the streets' camera follows the other towns (map bounds, no 0.9 zoom). Owner: none of
 Snow's same-name neighbours (雪亭镇街道, 黄土小径, 青石官道) is `distinct`: the drawn shops say
 what their texts say. World content revision `SOURCE_ENTRY_SNOW_PAINTED_V1`: older development

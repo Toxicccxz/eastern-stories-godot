@@ -141,10 +141,13 @@ func _continuity(entry: Entry, ids: Array[Object]) -> void:
 ## Walks onto the passage with the move keys; the location stays valid and one map stays active
 ## while the boundary is crossed.
 func _take(tree: SceneTree, entry: Entry, map: WorldMapController, portal_id: StringName) -> bool:
-	var taken: bool = await MapPlaces.take_passage(tree, map, portal_id)
-	if not entry._player.world_location().is_valid() or entry.active_map_child_count() != 1:
-		_failures.append("invalid location/map during physical boundary crossing")
-	await tree.physics_frame
+	var watch: Callable = func() -> void:
+		if not entry._player.world_location().is_valid() or entry.active_map_child_count() != 1:
+			_failures.append("invalid location/map during physical boundary crossing")
+	var taken: bool = await MapPlaces.take_passage(tree, map, portal_id, 600, watch)
+	for _frame: int in range(2):
+		await tree.physics_frame
+		watch.call()
 	return taken
 
 

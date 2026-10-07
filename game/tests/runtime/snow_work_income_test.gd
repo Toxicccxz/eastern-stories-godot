@@ -120,12 +120,16 @@ func physical_test(tree: SceneTree) -> void:
 	var npcs: int = session.world_npcs().size()
 	var street_join: Vector2 = MapPlaces.doorway(snow, &"snow.square", &"snow.mstreet1")
 	var mill_door: Vector2 = MapPlaces.doorway(snow, &"snow.mstreet2", &"snow.workplace")
-	for entry: Array in [[&"snow.mstreet1", MapPlaces.zone_spot(snow, &"snow.mstreet1")], [&"snow.mstreet2", MapPlaces.zone_spot(snow, &"snow.mstreet2")], [&"snow.workplace", MapPlaces.service_spot(snow, &"snow.workplace.mill")], [&"snow.square", street_join + Vector2(0, 24)], [&"snow.mstreet1", street_join - Vector2(0, 24)], [&"snow.workplace", mill_door + Vector2(24, 0)]]:
+	for entry: Array in [[&"snow.mstreet1", MapPlaces.zone_centre(snow, &"snow.mstreet1")], [&"snow.mstreet2", MapPlaces.zone_centre(snow, &"snow.mstreet2")], [&"snow.workplace", MapPlaces.zone_centre(snow, &"snow.workplace")], [&"snow.square", street_join + Vector2(0, 24)], [&"snow.mstreet1", street_join - Vector2(0, 24)], [&"snow.workplace", mill_door + Vector2(24, 0)]]:
 		_check(MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "save position and half-open joins " + str(entry))
+	for row: Array in [[&"snow.square", &"snow.mstreet1", street_join], [&"snow.mstreet2", &"snow.workplace", mill_door]]:
+		var owner: StringName = MapPlaces.seam_owner(snow, row[0], row[1])
+		var other: StringName = row[1] if owner == row[0] else row[0]
+		_check(MapPlacementValidator.is_valid_character_position(snow, owner, row[2]) and not MapPlacementValidator.is_valid_character_position(snow, other, row[2]), "half-open join: the line itself is %s's" % owner)
 	# S7B opens mstreet2 north; the Workplace north wall remains closed.
 	var mstreet1: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet1")
 	var mill: Rect2 = MapPlaces.zone_rect(snow, &"snow.workplace")
-	for entry: Array in [[&"snow.mstreet1", Vector2(mstreet1.end.x + 10, mstreet1.position.y + 40)], [&"snow.workplace", Vector2(mill.get_center().x, mill.position.y + 10)], [&"snow.workplace", Vector2(mill.end.x - 10, mill.get_center().y)], [&"snow.workplace", mill.position + Vector2(20, 30)], [&"snow.workplace", Vector2(mill.end.x + 10, mill.get_center().y)]]:
+	for entry: Array in [[&"snow.mstreet1", Vector2(mstreet1.end.x - 10, mstreet1.position.y + 40)], [&"snow.workplace", Vector2(mill.get_center().x, mill.position.y + 10)], [&"snow.workplace", Vector2(mill.end.x - 10, mill.get_center().y)], [&"snow.workplace", mill.position + Vector2(20, 30)], [&"snow.workplace", Vector2(mill.end.x + 10, mill.get_center().y)]]:
 		_check(not MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "reject new walls/void " + str(entry))
 	_check(work.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "inactive remote work rejected")
 	await tree.physics_frame
