@@ -4,7 +4,7 @@ These maps are generated, never edited by hand:
 
     oldpine: oldpine_outdoor, oldpine_cave, oldpine_gorge, oldpine_tree, oldpine_cliff, oldpine_stone,
              oldpine_caves, oldpine_cliff2
-    snow:    snow_inn_upstairs, snow_cellar
+    snow:    snow_outdoor, snow_inn, snow_inn_upstairs, snow_cellar
     cloud:   cloud_outdoor, cloud_tearoom_upstairs, cloud_jiyuan_upstairs, cloud_duchang_upstairs
     goathill: goathill_mountain, goathill_caverns
     waterfog: waterfog_mountain, waterfog_pavilion, waterfog_upstairs
@@ -32,7 +32,7 @@ A layout's `maps` entry names its scene `file` under game/scenes/world/<region>/
   door_walls, shutters, doors.
 * `scene.stairs`: passages drawn as steps, each with its arrival or return marker.
 * `scene.doors` and `scene.door_style`: a door is placed `at` with a `shape`, or `between` two
-  zones of a town (in their doorway).
+  zones of a town (in their doorway); a door's own `color` overrides the style's.
 
 Positions and boxes are pixels; boxes are [x0, y0, x1, y1]. A `note` field, and a trailing string
 in a fill, gap_at, line point or blob row, is a comment. Captions, neighbours and auto-placed
@@ -87,7 +87,8 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
             at, shape, extent = drawn.door_at(door['between'])
         else:
             at, shape, extent = door['at'], door['shape'], sizes[door['shape']]
-        parts = sc.door_parts(door['name'], door['id'], at, extent, shape, scene['door_style'])
+        look = dict(scene['door_style'], **({'color': door['color']} if 'color' in door else {}))
+        parts = sc.door_parts(door['name'], door['id'], at, extent, shape, look)
         walls, shutters, doors = walls + parts[0], shutters + parts[1], doors + parts[2]
     fragments.update(stairs=stairs, stair_markers=arrivals, door_walls=walls, shutters=shutters, doors=doors)
 

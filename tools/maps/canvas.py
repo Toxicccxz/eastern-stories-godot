@@ -119,8 +119,9 @@ def draw(region, entry: dict) -> Drawn:
 
 def within_reach(canvas, reached, scene, named, reach, contact, owners):
     """Everything the player uses stands where they can get to: each placed marker on open ground
-    a body fits and can walk to, a passage and a landmark used by touch (`contact`) over ground a
-    body can stand on (both act on the body's centre) and any other landmark within 64 px of it,
+    a body fits and can walk to, a passage (stairs too) and a landmark used by touch (`contact`)
+    over ground a body can stand on (both act on the body's centre) and any other landmark within
+    64 px of it,
     each service point within its reach of such ground, always ground of the zone that owns it
     (`owners`: the portal's, landmark's or service's zone in game/data); and nothing walkable at
     the canvas's edge."""
@@ -141,7 +142,7 @@ def within_reach(canvas, reached, scene, named, reach, contact, owners):
         (ax, ay), (w, h) = item['at'], sizes[item['shape']]
         near = 0 if item['id'] in contact else 64
         assert any(abs(px - ax) <= w / 2 + near and abs(py - ay) <= h / 2 + near for px, py in ground(item['id'])), ('cannot stand at', item['name'])
-    for item in scene.get('nodes', []):
+    for item in scene.get('nodes', []) + [dict(s, node='passage') for s in scene.get('stairs', [])]:
         if item.get('node') == 'passage':
             (ax, ay), (w, h) = item['at'], sizes[item['shape']]
             assert any(abs(px - ax) <= w / 2 and abs(py - ay) <= h / 2 for px, py in ground(item['id'])), ('cannot stand in', item['name'])
