@@ -74,6 +74,17 @@ static func would_join_first(student: CharacterState, master: NpcDefinition) -> 
 	return student != null and teaching != null and teaching.apprentice != null and not student.family.has_family()
 
 
+## `master` taking `student` would change their master inside their own family: no
+## betrayal, but their master now stops being it (learn.c, master.c prevent_learn()).
+static func would_change_master(student: CharacterState, master: NpcDefinition) -> bool:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	return (
+		student != null and teaching != null and teaching.apprentice != null
+		and student.family.has_family() and student.family.family_id == teaching.family_id
+		and student.apprenticeship.has_master() and not is_master_of(student, master)
+	)
+
+
 ## The master's attempt_apprentice() requirements (cor, cps) hold for `student`.
 static func qualifies(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> bool:
 	return (
@@ -211,6 +222,9 @@ func _npc_recruit(student: CharacterState, master: NpcDefinition, family: Family
 	if is_pending_with(master.definition_id):
 		_recruit(student, master, family, entry_time_utc, false)
 		return Outcome.RECRUITED
+	if is_offered(master.definition_id):
+		# recruit.c: 对方还没有答应 goes to the master; the student reads nothing more.
+		return Outcome.OFFERED
 	_offers[master.definition_id] = true
 	lines.append(_t("%s想要收你为弟子。") % npc)
 	# TRANSLATORS: recruit.c tells the student how to accept: ES2 names its apprentice command; here the 拜师 button.
@@ -224,7 +238,9 @@ func _recruit(student: CharacterState, master: NpcDefinition, family: FamilyDefi
 	var teaching: NpcTeaching = master.teaching()
 	var name: String = master.display_name
 	var npc: String = _t(name)
-	# Its family is compared by name, as families.json keeps one ID per name.
+	# Its family is compared by name, as families.json keeps one ID per name. apprentice.c's
+	# first branch compares without asking whether the student has a family, so one with
+	# none betrayed it; recruit.c fixed that on its side (owner: as recruit.c, DECISIONS 水烟阁 B).
 	if student.family.has_family() and student.family.family_id != family.family_id:
 		lines.append(_t("你决定背叛师门，改投入%s门下！！") % npc)
 		lines.append(_t("你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」") % npc)

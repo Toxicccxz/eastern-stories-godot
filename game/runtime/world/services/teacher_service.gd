@@ -63,22 +63,28 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 	return outcome
 
 
-## The master takes apprentices by an oath (萧辟尘) and asked the player for it.
+## The master takes apprentices by an oath (萧辟尘), asked the player for it and is
+## awake (an unconscious NPC's command() does nothing).
 func awaits_oath() -> bool:
 	return (
 		takes_apprentices() and teaching().apprentice.kind == NpcTeaching.Kind.OATH
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and map.player_runtime().apprenticeship_request.awaits_oath(npc.definition().definition_id)
 	)
 
 
 ## The master's accept test can be taken (champion.c's accept test): it takes
-## apprentices by a test, is awake, and the player is not its apprentice already (the
-## test would only end in 好徒儿; owner: not offered).
+## apprentices by a test, is awake and free to strike (not in a fight), and the test
+## would change something: the player is not its apprentice already (it would only end
+## in 好徒儿) and it has not offered already (拜师 takes them; owner: not offered).
 func offers_trial() -> bool:
+	var request: NpcApprenticeship = map.player_runtime().apprenticeship_request
 	return (
 		takes_apprentices() and teaching().apprentice.kind == NpcTeaching.Kind.TRIAL
 		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and npc.combat_available and not npc.relationship.is_fighting()
 		and not NpcApprenticeship.is_master_of(map.player_runtime().state, npc.definition())
+		and not request.is_offered(npc.definition().definition_id)
 	)
 
 
@@ -107,11 +113,11 @@ func take_trial() -> NpcApprenticeTrial.Result:
 	var family: FamilyDefinition = GameContent.catalog().family(teaching().family_id)
 	var cast: BattlePresentationProjection = BattleProjectionBuilder.cast_of(map.session, [npc.character_id])
 	var narrator := BattleNarrator.new()
-	var attack := func() -> Array[ColoredLine]:
+	var attack := func() -> Variant:
 		var seen: Array[ColoredLine] = []
 		var blow: CombatSliceOpportunityResult = map.attack_player_outside_fight(npc)
 		if blow == null:
-			return seen
+			return null
 		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):
 			seen.append(ColoredLine.new(line.text, line.color))
 		return seen

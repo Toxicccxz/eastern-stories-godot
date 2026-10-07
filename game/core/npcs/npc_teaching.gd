@@ -132,6 +132,9 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 		rule.kind = KINDS.get(kind_text, Kind.REQUIREMENTS)
 		rule.class_id = StringName(apprentice.text("class"))
 		if rule.kind == Kind.REQUIREMENTS:
+			# daemon/class/swordsman/master.c and the like always give their class.
+			if rule.class_id.is_empty():
+				apprentice.fail("class", "a requirements master gives its class")
 			var requires: Dictionary[String, int] = apprentice.integer_map("requires")
 			for key: String in requires:
 				if not REQUIREMENTS.has(StringName(key)):

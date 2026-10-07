@@ -24,14 +24,24 @@ Owner-approved plan ("按你的建议来"). What each LPC piece became is in
     speaker reads 於兰天武说道：.
   - The command hints (accept test), (swear), (join) are dropped from the lines, and recruit.c's
     用 apprentice 指令 reads 就向他拜师: the actions are buttons.
-  - The test is not offered to his own apprentice (it only ends in 好徒儿) nor while he is not
-    awake (champion.c would strike unconscious).
+  - The test is not offered to his own apprentice (it only ends in 好徒儿), while his offer
+    stands (拜师 takes the player), nor while he is not awake or in a fight (champion.c would
+    strike unconscious); a test whose first blow cannot be struck does not take place. The
+    oath button hides while 萧辟尘 is not awake (his command() would do nothing).
+  - **For the owner**: apprentice.c's first branch (taking an offer) compares families without
+    asking whether the player has one, so in ES2 a player with no family who takes 於兰天武's or
+    萧辟尘's offer reads 决定背叛师门 and loses score and a betrayal; recruit.c fixed the same
+    slip on its side ("fix a bug in 1st time recruit"). The port does as recruit.c: a first
+    master.
   - score.c's rank (rankd.c query_rank(): 【 武  者 】, 【 剑  士 】, 【 平  民 】) leads the
     character sheet's title line; the ghost's, 杀人魔 and 惯窃 do not apply yet.
   - The player's 天邪神功 powerup and powerfade wait for C (powerfade's faint in a fight and its
     question are not ported): 运功 does not offer them yet (ExertService.AWAITING_PLAYER).
-- **First master or betrayal is asked where it happens**: at 萧辟尘's oath and 於兰天武's test
-  (or the 拜师 after an offer), not at the 拜师 that only asks for them.
+- **First master, betrayal or a change of master is asked where it happens**: at 萧辟尘's oath
+  and 於兰天武's test (or the 拜师 after an offer), not at the 拜师 that only asks for them.
+  Changing master inside 天邪派 (no betrayal) names what the old master teaches afterwards:
+  萧辟尘 only what he knows three times as well (prevent_learn()), 於兰天武 nothing (privs 0).
+- recruit.c's offer is said once: offering again tells only the master (对方还没有答应).
 - **於兰天武's privs are 0** (assign_apprentice("弟子", 0)): learn.c lets only his own
   apprentices learn from him; another member hears his polite refusal (as ES2).
 - **Practice**: practice_skill() checks kee, force and sen, each with its line when it has its

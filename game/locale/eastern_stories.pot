@@ -3934,6 +3934,33 @@ msgid ""
 "确定要拜师吗？"
 msgstr ""
 
+#. asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n"
+"· 门派不变，辈分随{master}。\n"
+"{teach}确定要改拜{master}为师吗？"
+msgstr ""
+
+#. what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"· 以后{current}只教你他的等级超过你三倍的武功。\n"
+msgstr ""
+
+#. the old master teaches only his own apprentices (privs 0, learn.c): {current}.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"· {current}只教嫡传弟子，以后不再教你。\n"
+msgstr ""
+
+#. the accept test's last point when passing it makes the player change master inside their family: {current} the master now, {master} the new one, {teach} as above.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n"
+"{teach}"
+msgstr ""
+
 #. asked before 於兰天武's accept test (champion.c: three real blows; owner: asked first). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
 #: ui/teacher/teacher_panel.gd
 msgid ""

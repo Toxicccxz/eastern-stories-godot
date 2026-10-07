@@ -3,7 +3,8 @@ extends RefCounted
 
 ## daemon/class/fighter/champion.c do_accept("test"): before each blow the master's
 ## line; the blow is combatd.c do_attack(master, student, its weapon) outside any fight
-## (`attack`, which returns what the player saw); after it, a student whose kee went
+## (`attack`, which returns what the player saw, or null when no blow could be struck:
+## then the test did not take place and says nothing); after it, a student whose kee went
 ## below zero or who is no longer there (`stands` false) did not stand it: the blow's
 ## failure line ends the test. Past the last blow, `success` and the master's recruit
 ## (NpcApprenticeship.npc_recruit()). The student falls only on the heart beat after
@@ -21,7 +22,7 @@ class Result:
 	var lines: Array[ColoredLine] = []
 
 
-## `attack` () -> Array[ColoredLine]; `stands` () -> bool; `recruit` () -> Outcome
+## `attack` () -> Array[ColoredLine] or null; `stands` () -> bool; `recruit` () -> Outcome
 ## after it set `request.lines` (NpcApprenticeship.npc_recruit()).
 static func run(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, attack: Callable, stands: Callable, recruit: Callable) -> Result:
 	var result := Result.new()
@@ -29,7 +30,15 @@ static func run(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, at
 		return result
 	for blow: NpcTeaching.TrialBlow in rule.blows:
 		result.lines.append(ColoredLine.new(_t(blow.say)))
-		var seen: Array[ColoredLine] = attack.call()
+		var struck: Variant = attack.call()
+		if struck == null:
+			# Nothing said for a test that never began.
+			if result.blows == 0:
+				result.lines.clear()
+			result.outcome = Outcome.NOT_RUN
+			return result
+		var seen: Array[ColoredLine] = []
+		seen.assign(struck)
 		result.lines.append_array(seen)
 		result.blows += 1
 		if not bool(stands.call()):

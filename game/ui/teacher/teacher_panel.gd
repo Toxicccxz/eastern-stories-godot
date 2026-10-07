@@ -34,6 +34,14 @@ var _on_confirm: Callable = Callable()
 const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，就是背叛师门：\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n· 日后再改投别派，又算一次背叛。\n确定要改投吗？"
 # TRANSLATORS: asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family.
 const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n确定要拜师吗？"
+# TRANSLATORS: asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
+const CHANGE_MASTER_WARNING: String = "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
+# TRANSLATORS: what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}.
+const CHANGE_TEACHES_LESS: String = "· 以后{current}只教你他的等级超过你三倍的武功。\n"
+# TRANSLATORS: the old master teaches only his own apprentices (privs 0, learn.c): {current}.
+const CHANGE_TEACHES_NONE: String = "· {current}只教嫡传弟子，以后不再教你。\n"
+# TRANSLATORS: the accept test's last point when passing it makes the player change master inside their family: {current} the master now, {master} the new one, {teach} as above.
+const TRIAL_CHANGES_MASTER: String = "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
 # TRANSLATORS: asked before 於兰天武's accept test (champion.c: three real blows; owner: asked first). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
 const TRIAL_WARNING: String = "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
 # TRANSLATORS: the accept test's last point when passing it makes the player the master's apprentice at once: {master}, {family}.
@@ -223,7 +231,31 @@ func _ask_family_change(player: WorldPlayerRuntimeState, master: NpcDefinition, 
 	if NpcApprenticeship.would_join_first(player.state, master):
 		_ask(tr(FIRST_MASTER_WARNING).format({"master": tr(master.display_name), "family": family_name}), first_choice, "再想想", action)
 		return true
+	if NpcApprenticeship.would_change_master(player.state, master):
+		var current: String = _current_master_name(player)
+		_ask(tr(CHANGE_MASTER_WARNING).format({
+			"current": current, "master": tr(master.display_name), "teach": _old_master_teaches(player, current),
+		}), first_choice, "再想想", action)
+		return true
 	return false
+
+
+func _current_master_name(player: WorldPlayerRuntimeState) -> String:
+	return tr(player.state.apprenticeship.legacy_master_name)
+
+
+## What the master the player leaves teaches them afterwards: nothing (privs 0), or only
+## what he knows three times as well (an F_MASTER's prevent_learn()).
+func _old_master_teaches(player: WorldPlayerRuntimeState, current: String) -> String:
+	var old: NpcDefinition = GameContent.catalog().npc(player.state.apprenticeship.master_teacher_id)
+	var teaching: NpcTeaching = null if old == null else old.teaching()
+	if teaching == null:
+		return ""
+	if teaching.family_privileges != -1:
+		return tr(CHANGE_TEACHES_NONE).format({"current": current})
+	if teaching.f_master:
+		return tr(CHANGE_TEACHES_LESS).format({"current": current})
+	return ""
 
 
 func _request_apprentice_now() -> void:
@@ -255,19 +287,22 @@ func take_trial() -> void:
 		return
 	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
 	var master: NpcDefinition = _contact.npc.definition()
-	var name: String = tr(master.display_name)
-	var after: String = tr(TRIAL_OFFERS).format({"master": name})
+	var npc_name: String = tr(master.display_name)
+	var after: String = tr(TRIAL_OFFERS).format({"master": npc_name})
 	if player.apprenticeship_request.recruit_takes_at_once(player.state, master):
 		if NpcApprenticeship.would_betray(player.state, master):
 			after = tr(TRIAL_BETRAYS).format({
-				"title": player.shown_title(), "master": name, "family": _family_name(),
+				"title": player.shown_title(), "master": npc_name, "family": _family_name(),
 				"score": player.state.progression.score, "next": player.state.apprenticeship.betrayer_count + 1,
 			})
+		elif NpcApprenticeship.would_change_master(player.state, master):
+			var current: String = _current_master_name(player)
+			after = tr(TRIAL_CHANGES_MASTER).format({"current": current, "master": npc_name, "teach": _old_master_teaches(player, current)}).strip_edges()
 		else:
-			after = tr(TRIAL_RECRUITS).format({"master": name, "family": _family_name()})
+			after = tr(TRIAL_RECRUITS).format({"master": npc_name, "family": _family_name()})
 			if NpcApprenticeship.would_join_first(player.state, master):
 				after += "\n" + tr(TRIAL_FIRST_MASTER)
-	_ask(tr(TRIAL_WARNING).format({"master": name, "after": after}), "接受测试", "不试了", _take_trial_now)
+	_ask(tr(TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了", _take_trial_now)
 
 
 func _take_trial_now() -> void:

@@ -96,6 +96,11 @@ func _test_trial_rule() -> void:
 		expected.append(fails[failing])
 		_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED and result.blows == failing + 1 and ColoredLine.texts(result.lines) == expected, "not stood after blow %d: its line ends it: %s" % [failing + 1, ColoredLine.texts(result.lines)])
 	_check(not state.family.has_family() and request.is_pending_with(CHAMPION), "failing changes nothing")
+	var never: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(rule, request,
+		func() -> Variant: return null,
+		func() -> bool: return true,
+		func() -> NpcApprenticeship.Outcome: return request.npc_recruit(state, champion, family, 4))
+	_check(never.outcome == NpcApprenticeTrial.Outcome.NOT_RUN and never.lines.is_empty() and never.blows == 0 and not state.family.has_family(), "no blow could be struck: no test, nothing said, nobody taken")
 	var passed: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(rule, request,
 		func() -> Array[ColoredLine]:
 			var seen: Array[ColoredLine] = []
@@ -108,7 +113,9 @@ func _test_trial_rule() -> void:
 	var stranger: CharacterState = _fresh(CharacterState.GENDER_MALE)
 	var none := NpcApprenticeship.new()
 	_check(none.npc_recruit(stranger, champion, family, 7) == NpcApprenticeship.Outcome.OFFERED and none.lines == ["於兰天武想要收你为弟子。", "如果你愿意拜於兰天武为师父，就向他拜师。"] and none.is_offered(CHAMPION) and not stranger.family.has_family(), "passed without asking him: an offer")
-	_check(none.request(stranger, champion, family, 8, "壮士") == NpcApprenticeship.Outcome.RECRUITED and none.lines == ["你决定拜於兰天武为师。", "你跪了下来向於兰天武恭恭敬敬地磕了四个响头，叫道：「师父！」", "恭喜您成为天邪派的第十六代弟子。"], "then 拜师 takes him at once: %s" % [none.lines])
+	_check(none.npc_recruit(stranger, champion, family, 7) == NpcApprenticeship.Outcome.OFFERED and none.lines.is_empty(), "offered again: recruit.c tells only him (对方还没有答应)")
+	_check(none.request(stranger, champion, family, 8, "壮士") == NpcApprenticeship.Outcome.RECRUITED and none.lines == ["你决定拜於兰天武为师。", "你跪了下来向於兰天武恭恭敬敬地磕了四个响头，叫道：「师父！」", "恭喜您成为天邪派的第十六代弟子。"], "then 拜师 takes him at once (no family: no betrayal, as recruit.c; apprentice.c compared without asking): %s" % [none.lines])
+	_check(stranger.apprenticeship.betrayer_count == 0 and NpcApprenticeship.would_change_master(stranger, GameContent.catalog().npc(MASTER)) and not NpcApprenticeship.would_change_master(stranger, champion), "no betrayal counted; going to 萧辟尘 would change master inside the family")
 
 
 ## learn.c with the two masters: 於兰天武 (privs 0) teaches only his apprentices; 萧辟尘
@@ -271,7 +278,7 @@ func _test_hall(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	panel.apprentice_button.pressed.emit()
 	panel.trial_button.pressed.emit()
 	var asked: String = panel.confirm_text.text
-	_check(panel.is_confirming() and asked.begins_with("於兰天武的三招是真打") and asked.contains("伤得太重会死") and asked.contains("三招都接住，便拜入於兰天武门下，成为天邪派的弟子。") and panel.confirm_button.text == "接受测试", "asked first: real blows, a fall, death, and what passing does: %s" % asked)
+	_check(panel.is_confirming() and asked.begins_with("於兰天武的三招是真打") and asked.contains("伤得太重会死") and asked.contains("你现在是萧辟尘的嫡传弟子；三招都接住，便改拜於兰天武为师，萧辟尘就不再是你的师父。") and asked.contains("以后萧辟尘只教你他的等级超过你三倍的武功。") and panel.confirm_button.text == "接受测试", "asked first: real blows, a fall, death, and what passing does (a change of master): %s" % asked)
 	panel.keep_button.pressed.emit()
 	_check(not panel.is_confirming() and player.state.vitality.current == 100000, "不试了: nothing happens")
 	panel.trial_button.pressed.emit()
@@ -285,14 +292,29 @@ func _test_hall(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var learned: LearnResult = test.request_learn(&"celestrike")
 	_check(learned.failure_reason != LearnResult.FailureReason.RECOGNITION_REJECTED and learned.failure_reason != LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, "he teaches his apprentice")
 	panel.close_panel()
+	# Back to 萧辟尘 by the oath: a change of master, asked first.
+	_check(map.relocate_player(&"waterfog.guildhall", master.spawn_point_id), "beside 萧辟尘 again")
+	await tree.physics_frame
+	hall.ui.interact()
+	ui.apprentice_button.pressed.emit()
+	ui.oath_button.pressed.emit()
+	var change: String = ui.confirm_text.text
+	_check(ui.is_confirming() and change.begins_with("你现在是於兰天武的嫡传弟子。改拜萧辟尘为师，於兰天武就不再是你的师父") and change.contains("於兰天武只教嫡传弟子，以后不再教你。"), "the oath would change master: asked first: %s" % change)
+	ui.confirm_button.pressed.emit()
+	_check(NpcApprenticeship.is_master_of(player.state, master.definition()) and player.state.family.generation == 17, "萧辟尘's apprentice again")
+	ui.close_panel()
 	# A weak one: falls on the heart beat after the first blow.
-	var back := NpcApprenticeship.new() # TEST-ONLY: back to 萧辟尘's apprentice
-	back.request(player.state, master.definition(), GameContent.catalog().family(CELESTIAL), 1, "小姑娘")
-	back.swear(player.state, master.definition(), GameContent.catalog().family(CELESTIAL), 2, "小姑娘")
+	_check(map.relocate_player(&"waterfog.guildhall", champion.spawn_point_id), "beside 於兰天武 again")
+	await tree.physics_frame
 	player.state.vitality = CharacterResourceState.new(50, 100000, 100000) # TEST-ONLY: a wound does not kill
 	test.ui.interact()
 	panel.refresh()
 	_check(panel.trial_button.visible, "萧辟尘's apprentice may take it")
+	player.apprenticeship_request._offers[CHAMPION] = true # TEST-ONLY: as if he had offered
+	panel.refresh()
+	_check(not panel.trial_button.visible, "not offered while his offer stands (拜师 takes her)")
+	player.apprenticeship_request._offers.erase(CHAMPION)
+	panel.refresh()
 	panel.trial_button.pressed.emit()
 	_check(panel.confirm_text.text.contains("三招都接住，於兰天武便愿意收你为徒，再向他拜师即可。"), "not asked him first: passing would be an offer")
 	panel.confirm_button.pressed.emit()
