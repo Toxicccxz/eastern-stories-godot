@@ -12,6 +12,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_item_record_errors()
 	_test_npc_and_spawn_records()
 	_test_cross_reference_checks()
+	_test_summoned_and_seal_checks()
 	_test_missing_files_fail_closed()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
@@ -215,6 +216,24 @@ func _test_cross_reference_checks() -> void:
 	not_object.add_document([], "list.json")
 	not_object.add_document(null, "null.json")
 	_eq(not_object.errors(), ["list.json: expected a JSON object", "null.json: expected a JSON object"], "a document must be an object")
+
+
+## A drawn name is never saved, so only a summoned NPC may draw one; an exit rule's master exists.
+func _test_summoned_and_seal_checks() -> void:
+	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	builder.add_document({
+		"npcs": [{"id": "t.soldier", "legacy_source": "t/soldier.c", "name": "天甲神兵", "aliases": ["soldier"], "name_pick": ["天甲神兵", "天乙神兵"]}],
+		"spawns": [{"id": "t.spawn", "npc": "t.soldier", "map": "m", "zone": "z", "points": ["p"], "legacy_room": "t/r.c", "legacy_quantity": 1}],
+		"exit_rules": [{"id": "t.seal", "room": "t:r", "from_zone": "z", "to_zone": "z2", "when": "not_apprentice_of", "npc": "t.nobody", "lines": ["入口被魔法封住了！"], "legacy_source": "t/r.c"}],
+	}, "t")
+	_eq(builder.build(), null, "nothing is built")
+	_eq(builder.errors().has("t.spawns[0].npc: 't.soldier' draws its name and is only summoned"), true, "a room never places an NPC that draws its name")
+	_eq(builder.errors().has("t.exit_rules[0].npc: unknown NPC 't.nobody'"), true, "a seal names a master that exists")
+	var errors: Array[String] = []
+	NpcContentRecords.npc_from_record(ContentRecordReader.new({
+		"id": "t.soldier", "legacy_source": "t/soldier.c", "name": "天将", "aliases": ["soldier"], "name_pick": ["天甲神兵"],
+	}, "t.npcs[0]", errors))
+	_eq(errors.has("t.npcs[0].name_pick: names the NPC's own name among them"), true, "the name it is defined with is one it may draw")
 
 
 func _test_missing_files_fail_closed() -> void:

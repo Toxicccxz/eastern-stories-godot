@@ -537,6 +537,9 @@ class Importer:
                 self.import_region(region, world, override)
         for path in self.overrides.get('common', {}).get('items', []):
             self.item(path)
+        # NPCs that code makes anywhere (saveme.c's heaven_soldier).
+        for path in self.overrides.get('common', {}).get('npcs', []):
+            self.npc(path)
         self.apply_overrides()
 
     def import_region(self, region: str, world: dict, override: dict) -> None:
@@ -628,9 +631,16 @@ class Importer:
         lpc = self.corpus.get(path)
         sets = lpc.sets()
         name = lpc.first('set_name')
-        if name is None or len(name.args) != 2 or not is_plain(name.args):
+        if name is None or len(name.args) != 2 or not is_plain(name.args[1]):
             raise ImportError_(f'{path}: no plain set_name()')
-        record: dict = {'id': record_id, 'legacy_source': path, 'name': name.args[0], 'aliases': name.args[1]}
+        record: dict = {'id': record_id, 'legacy_source': path}
+        if is_plain(name.args[0]):
+            record['name'] = name.args[0]
+        else:
+            # A name drawn in create() (heaven_soldier.c's "天" + order[random(10)] + "神兵"):
+            # the override sets it.
+            self.note(path, 'set_name', describe(name.args[0]))
+        record['aliases'] = name.args[1]
         handled = set()
 
         def take(key: str, field: str | None = None) -> None:

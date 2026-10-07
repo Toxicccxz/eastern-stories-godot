@@ -351,6 +351,52 @@
 			"unit": "包",
 			"combined": { "base_unit": "份", "base_weight": 30, "amount": 1 },
 			"pour": { "condition": "slumber_drug", "dose": 100 }
+		},
+		{
+			"id": "es2:daemon/class/juechen/jingang_staff",
+			"legacy_sources": ["daemon/class/juechen/jingang_staff.c"],
+			"name": "金刚杖",
+			"aliases": ["jingang staff", "staff"],
+			"long": "这是一条紫铜杖，杖的两端似乎封这密文。\n",
+			"unit": "条",
+			"material": "brass",
+			"weight": 13000,
+			"value": 80000,
+			"weapon": { "skill": "staff", "damage": 78, "apply": { "spells": 10, "dodge": -5 } }
+		},
+		{
+			"id": "es2:daemon/class/juechen/hat",
+			"legacy_sources": ["daemon/class/juechen/hat.c"],
+			"name": "紫金冠",
+			"aliases": ["gold hat", "hat"],
+			"unit": "顶",
+			"material": "cloud",
+			"weight": 500,
+			"value": 12000,
+			"armor": { "type": "head", "props": { "spells": 5, "intelligence": 3 } }
+		},
+		{
+			"id": "es2:obj/npc/obj/golden_armor",
+			"legacy_sources": ["obj/npc/obj/golden_armor.c"],
+			"name": "天兵战甲",
+			"aliases": ["golden armor", "armor"],
+			"unit": "件",
+			"material": "gold",
+			"weight": 50000,
+			"value": 9000,
+			"armor": { "type": "armor", "props": { "armor": 50, "dodge": -20 } }
+		},
+		{
+			"id": "es2:obj/npc/obj/golden_sword",
+			"legacy_sources": ["obj/npc/obj/golden_sword.c"],
+			"name": "金锋剑",
+			"aliases": ["golden sword", "sword"],
+			"long": "一把闪闪发著金光的长剑。\n",
+			"unit": "把",
+			"material": "gold",
+			"weight": 20000,
+			"value": 3400,
+			"weapon": { "skill": "sword", "damage": 40 }
 		}
 	]
 }

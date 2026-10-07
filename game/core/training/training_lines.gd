@@ -117,6 +117,64 @@ static func exercise(result: CultivationResult) -> Array[ColoredLine]:
 	return out
 
 
+## meditate <sen>.
+static func meditate(result: CultivationResult) -> Array[ColoredLine]:
+	match result.failure_reason:
+		CultivationResult.FailureReason.NONE:
+			pass
+		CultivationResult.FailureReason.IN_COMBAT:
+			return _plain(["战斗中冥思——找死吗？"])
+		CultivationResult.FailureReason.COST_BELOW_MINIMUM:
+			return _plain(["你最少要花 10 点「神」才能冥思。"])
+		CultivationResult.FailureReason.INSUFFICIENT_SPIRIT:
+			return _plain(["你现在精神太差了，进行冥思将会迷失，永远醒不过来！"])
+		CultivationResult.FailureReason.VITALITY_BELOW_HEALTH_THRESHOLD:
+			return _plain(["你现在身体状况太差了，无法集中精神！"])
+		CultivationResult.FailureReason.ESSENCE_BELOW_HEALTH_THRESHOLD:
+			return _plain(["你现在身体状况太虚弱了，无法进入冥思的状态！"])
+		_:
+			# A zero maximum: meditate.c divides by it and the driver stops the command.
+			return _plain(["你现在无法冥思。"])
+	var out: Array[ColoredLine] = _plain(["你盘膝而坐，静坐冥思了一会儿。"])
+	match result.completion:
+		CultivationResult.Completion.NO_GAIN:
+			out.append(ColoredLine.new(_t("但是当你睁开眼睛，只觉得脑中一片空白。")))
+		CultivationResult.Completion.SKILL_CAP_REACHED:
+			out.append(ColoredLine.new(_t("当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎魔力的提升已经到了瓶颈。")))
+		CultivationResult.Completion.MAXIMUM_INCREASED:
+			out.append(ColoredLine.new(_t("你的魔力提高了！")))
+	return out
+
+
+## respirate <gin>.
+static func respirate(result: CultivationResult) -> Array[ColoredLine]:
+	match result.failure_reason:
+		CultivationResult.FailureReason.NONE:
+			pass
+		CultivationResult.FailureReason.IN_COMBAT:
+			return _plain(["战斗也是一种修行，但不能和灵力的修行同时进行。"])
+		CultivationResult.FailureReason.COST_BELOW_MINIMUM:
+			return _plain(["你最少要花 10 点精力才能进行修行。"])
+		CultivationResult.FailureReason.INSUFFICIENT_ESSENCE:
+			return _plain(["你现在精力不足，无法修行灵力！"])
+		CultivationResult.FailureReason.VITALITY_BELOW_HEALTH_THRESHOLD:
+			return _plain(["你现在身体状况太差了，无法集中精神！"])
+		CultivationResult.FailureReason.SPIRIT_BELOW_HEALTH_THRESHOLD:
+			return _plain(["你现在精神状况太差了，无法控制自己的心灵！"])
+		_:
+			# A zero maximum: respirate.c divides by it and the driver stops the command.
+			return _plain(["你现在无法修行。"])
+	var out: Array[ColoredLine] = _plain(["你闭上眼睛开始打坐。"])
+	match result.completion:
+		CultivationResult.Completion.NO_GAIN:
+			out.append(ColoredLine.new(_t("但是你一不小心却睡著了。")))
+		CultivationResult.Completion.SKILL_CAP_REACHED:
+			out.append(ColoredLine.new(_t("你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。")))
+		CultivationResult.Completion.MAXIMUM_INCREASED:
+			out.append(ColoredLine.new(_t("你的道行提高了！")))
+	return out
+
+
 ## selflearn <skill>.
 static func self_learn(result: SelfLearningResult, skill: SkillDefinition) -> Array[ColoredLine]:
 	var name: String = _t(skill.display_name) if skill != null else String(result.skill_id)

@@ -71,7 +71,8 @@ func _test_data() -> void:
 		&"green.npc.worker2": 5, &"green.npc.shen": 1, &"green.npc.woman1": 2, &"green.npc.woman2": 1,
 		&"green.npc.kid3": 2, &"green.npc.worker1": 1, &"green.npc.oldman": 1, &"green.npc.oldwoman": 1,
 		&"green.npc.oldman2": 1, &"green.npc.kid1": 1, &"green.npc.kid2": 2, &"green.npc.kid4": 2, &"green.npc.spider": 3,
-	}, "twenty villagers of twelve kinds, three spiders the web calls in; 绝尘子 waits for package C: %s" % spawns)
+		&"common.npc.juechen.master": 1,
+	}, "twenty villagers of twelve kinds, three spiders the web calls in, 绝尘子 in the hall: %s" % spawns)
 	_check(catalog.spawn(&"green.village.house3.spiders").summoned, "the spiders are summoned (house3.c call_spider())")
 	_check(catalog.item(ROPE).hang and catalog.item(ROPE).value == 5, "绳子: hang")
 	var sword: ItemContentDefinition = catalog.item(WINDSWORD)
@@ -112,9 +113,8 @@ func _test_exit_rules() -> void:
 	_check(catalog.exit_rules_between(&"green.cavehall", &"green.outdoor").is_empty(), "nothing keeps anyone in")
 	# cavehall.c places CLASS_D("juechen") + "/master": the importer names it common.npc.juechen.master.
 	_check(seal.npc_id == StringName("common.npc." + "daemon/class/juechen/master.c".trim_prefix("daemon/class/").trim_suffix(".c").replace("/", ".")), "the seal names the master cavehall.c places")
-	# REMINDER (fails once package C adds 绝尘子): then make ContentCatalogBuilder check that a
-	# not_apprentice_of rule's npc exists, and drop this line.
-	_check(catalog.npc(seal.npc_id) == null, "绝尘子 comes with package C: validate the seal's npc in the builder then")
+	# ContentCatalogBuilder checks that a not_apprentice_of rule's npc exists.
+	_check(catalog.npc(seal.npc_id) != null and catalog.npc(seal.npc_id).display_name == "绝尘子", "the seal names 绝尘子, who stands in the hall")
 
 
 func _test_the_way_in(session: OldPineWorldSessionController) -> void:

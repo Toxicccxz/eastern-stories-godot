@@ -125,6 +125,15 @@
 			"points": ["green.cave0.kid4.1", "green.cave0.kid4.2"],
 			"legacy_room": "d/green/cave0.c",
 			"legacy_quantity": 2
+		},
+		{
+			"id": "green.mountain.cavehall.master",
+			"npc": "common.npc.juechen.master",
+			"map": "green.mountain",
+			"zone": "green.cavehall",
+			"points": ["green.cavehall.master.1"],
+			"legacy_room": "d/green/cavehall.c",
+			"legacy_quantity": 1
 		}
 	]
 }

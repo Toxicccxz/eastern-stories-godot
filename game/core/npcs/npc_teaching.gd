@@ -41,8 +41,11 @@ class RecognizeRule:
 ## attempt_apprentice(ob) as one of three kinds of rule, and the class its
 ## recruit_apprentice() gives ("" keeps the student's: daemon/class/fighter's masters
 ## set none). Emotes print nothing (DECISIONS 4E).
-## - requirements (daemon/class/swordsman/master.c): the effective attributes it
-##   requires (query_cor(), query_cps()), what it says either way; taken at once.
+## - requirements (daemon/class/swordsman/master.c): its checks in order, each the
+##   minimums it requires and what it says when one is short (RequirementCheck), and what
+##   it says to one it takes, at once. daemon/class/juechen/master.c first takes anyone
+##   whose title is not 普通百姓 (a family's member) for a traitor (`commoners_only`: its
+##   chat line, then kill_ob()).
 ## - oath (daemon/class/fighter/master.c): it asks for an oath (ask_say; again_say
 ##   when one is already asked), and the player's swear of `oath` makes it say
 ##   accept_say and recruit.
@@ -52,8 +55,11 @@ class RecognizeRule:
 class ApprenticeRule:
 	extends RefCounted
 	var kind: Kind = Kind.REQUIREMENTS
+	## Every check's minimums together.
 	var requires: Dictionary[StringName, int] = {}
-	var refuse_say: String = ""
+	var checks: Array[RequirementCheck] = []
+	## The chat line ({title}{nickname}{name} of the student) before the kill; "" takes anyone.
+	var commoners_only: String = ""
 	var accept_say: String = ""
 	var class_id: StringName = &""
 	var ask_say: String = ""
@@ -62,6 +68,15 @@ class ApprenticeRule:
 	var ask_tell: String = ""
 	var blows: Array[TrialBlow] = []
 	var success: String = ""
+
+
+## One check of attempt_apprentice(): the minimums it requires, cor and cps as
+## query_cor() and query_cps() have them, spi as set (query("spi")) and combat_exp, and
+## what it says when one is short.
+class RequirementCheck:
+	extends RefCounted
+	var requires: Dictionary[StringName, int] = {}
+	var refuse_say: String = ""
 
 
 ## One blow of a trial: said before it, and said when the student did not stand it.
@@ -75,7 +90,7 @@ enum Kind { REQUIREMENTS, OATH, TRIAL }
 const KINDS: Dictionary[String, Kind] = {"requirements": Kind.REQUIREMENTS, "oath": Kind.OATH, "trial": Kind.TRIAL}
 
 
-const REQUIREMENTS: Array[StringName] = [&"cor", &"cps"]
+const REQUIREMENTS: Array[StringName] = [&"cor", &"cps", &"spi", &"combat_exp"]
 
 
 func has_family() -> bool:
@@ -135,13 +150,33 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			# daemon/class/swordsman/master.c and the like always give their class.
 			if rule.class_id.is_empty():
 				apprentice.fail("class", "a requirements master gives its class")
-			var requires: Dictionary[String, int] = apprentice.integer_map("requires")
-			for key: String in requires:
-				if not REQUIREMENTS.has(StringName(key)):
-					apprentice.fail("requires." + key, "unsupported requirement")
-				rule.requires[StringName(key)] = requires[key]
-			rule.refuse_say = apprentice.required_text("refuse_say")
+			if apprentice.has("requires") and not apprentice.is_object("requires"):
+				# [{<key>: minimum, ..., "refuse_say"}]: checked in turn, each with its say.
+				for record: ContentRecordReader in apprentice.children("requires"):
+					var check := RequirementCheck.new()
+					for key: String in record.keys():
+						if key == "refuse_say":
+							continue
+						if not REQUIREMENTS.has(StringName(key)):
+							record.fail(key, "unsupported requirement")
+						check.requires[StringName(key)] = record.required_integer(key)
+					check.refuse_say = record.required_text("refuse_say")
+					record.finish()
+					rule.checks.append(check)
+			else:
+				# {<key>: minimum} and one refuse_say: a single check.
+				var check := RequirementCheck.new()
+				var requires: Dictionary[String, int] = apprentice.integer_map("requires")
+				for key: String in requires:
+					if not REQUIREMENTS.has(StringName(key)):
+						apprentice.fail("requires." + key, "unsupported requirement")
+					check.requires[StringName(key)] = requires[key]
+				check.refuse_say = apprentice.required_text("refuse_say")
+				rule.checks.append(check)
+			for check: RequirementCheck in rule.checks:
+				rule.requires.merge(check.requires, true)
 			rule.accept_say = apprentice.required_text("accept_say")
+			rule.commoners_only = apprentice.text("commoners_only")
 		elif rule.kind == Kind.OATH:
 			rule.ask_say = apprentice.required_text("ask_say")
 			rule.again_say = apprentice.required_text("again_say")

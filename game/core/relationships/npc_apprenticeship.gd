@@ -11,8 +11,13 @@ extends RefCounted
 ## first branch). feature/apprentice.c recruit_apprentice(): a member of another family
 ## betrays it (score 0, betrayer + 1); the new family, master, title and class (unless
 ## the master gives none) replace the old ones. Requests, oaths and offers are
-## transient, as query_temp() values.
-enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE, ASKED, OFFERED, NOT_ASKED }
+## transient, as query_temp() values. A master that takes only commoners
+## (daemon/class/juechen/master.c) takes a family's member for a traitor: ATTACKED, its
+## chat line in `chat_line`, and the caller starts its kill_ob().
+enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE, ASKED, OFFERED, NOT_ASKED, ATTACKED }
+
+## logind.c's title for a new character, and killer_reward()'s for one who killed their master.
+const COMMONER_TITLE: String = "普通百姓"
 
 var _pending_master_id: StringName = &""
 var _pending_master_name: String = ""
@@ -22,6 +27,8 @@ var _oaths: Dictionary[StringName, bool] = {}
 var _offers: Dictionary[StringName, bool] = {}
 ## What the last request, oath, recruit or cancel printed, in order, as the player reads it.
 var lines: Array[String] = []
+## The master's channel line after `lines` when it took the player for a traitor, else "".
+var chat_line: String = ""
 
 
 func is_pending() -> bool:
@@ -85,17 +92,51 @@ static func would_change_master(student: CharacterState, master: NpcDefinition) 
 	)
 
 
-## The master's attempt_apprentice() requirements (cor, cps) hold for `student`.
+## The master's attempt_apprentice() requirements hold for `student`.
 static func qualifies(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> bool:
+	return refusal(student, rule) == null
+
+
+## The first of the master's checks `student` falls short of, or null.
+static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> NpcTeaching.RequirementCheck:
+	for check: NpcTeaching.RequirementCheck in rule.checks:
+		for key: StringName in check.requires:
+			if _requirement_value(student, key) < check.requires[key]:
+				return check
+	return null
+
+
+static func _requirement_value(student: CharacterState, key: StringName) -> int:
+	match key:
+		&"cor":
+			return student.attributes.effective_courage()
+		&"cps":
+			return student.attributes.effective_composure()
+		&"spi":
+			return student.attributes.spirituality
+		&"combat_exp":
+			return student.progression.combat_experience
+	return 0
+
+
+## juechen/master.c: `master` takes only commoners, and one with `student_title` is not one:
+## asking it makes it attack. Its own apprentice only bows (apprentice.c asks first); one
+## whose request waits on it hears only 对方还没有答应.
+func would_attack(student: CharacterState, master: NpcDefinition, student_title: String) -> bool:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
 	return (
-		student.attributes.effective_courage() >= rule.requires.get(&"cor", 0)
-		and student.attributes.effective_composure() >= rule.requires.get(&"cps", 0)
+		student != null and teaching != null and teaching.apprentice != null
+		and teaching.apprentice.kind == NpcTeaching.Kind.REQUIREMENTS
+		and not teaching.apprentice.commoners_only.is_empty() and student_title != COMMONER_TITLE
+		and not is_master_of(student, master) and not is_offered(master.definition_id)
+		and not is_pending_with(master.definition_id)
 	)
 
 
 ## 拜师 with `master` now takes `student` at once: the master has offered, or its
-## requirements hold and no request already waits on it (that only hears 对方还没有答应).
-func takes_at_once(student: CharacterState, master: NpcDefinition) -> bool:
+## requirements hold (and it does not take them for a traitor) and no request already
+## waits on it (that only hears 对方还没有答应).
+func takes_at_once(student: CharacterState, master: NpcDefinition, student_title: String = COMMONER_TITLE) -> bool:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or is_master_of(student, master):
 		return false
@@ -103,7 +144,7 @@ func takes_at_once(student: CharacterState, master: NpcDefinition) -> bool:
 		return true
 	return (
 		teaching.apprentice.kind == NpcTeaching.Kind.REQUIREMENTS and qualifies(student, teaching.apprentice)
-		and not is_pending_with(master.definition_id)
+		and not is_pending_with(master.definition_id) and not would_attack(student, master, student_title)
 	)
 
 
@@ -141,9 +182,12 @@ func cancel() -> Outcome:
 
 ## apprentice <master>: `respect` is how the master addresses the student
 ## (rankd.c query_respect()); `family` the master's family as defined. The lines are
-## in the shown language; the names kept on the student stay as authored.
-func request(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String) -> Outcome:
+## in the shown language; the names kept on the student stay as authored. `student_title`
+## is the title the student keeps (普通百姓 or a family's), `shown_title` and `student_name` as
+## they read in the master's chat line.
+func request(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, student_title: String = COMMONER_TITLE, shown_title: String = "", student_name: String = "") -> Outcome:
 	lines = []
+	chat_line = ""
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or family == null or entry_time_utc < 0:
 		return Outcome.AUTHORITY_FAILURE
@@ -179,8 +223,16 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		_say(npc, rule.ask_say, respect)
 		lines.append(_t(rule.ask_tell))
 		return Outcome.ASKED
-	if not qualifies(student, rule):
-		_say(npc, rule.refuse_say, respect)
+	if not rule.commoners_only.is_empty() and student_title != COMMONER_TITLE:
+		# command("chat " + title + nickname + name + "要叛师！！！"), grin, kill_ob(ob). The
+		# player has no nickname. The channel's line shows the master by name alone.
+		var said: String = _t(rule.commoners_only).format({"title": shown_title, "nickname": "", "name": student_name})
+		# TRANSLATORS: channeld.c's chat channel: {who} is who speaks (绝尘子), {line} what it says.
+		chat_line = _t("【闲聊】{who}：{line}").format({"who": npc, "line": said})
+		return Outcome.ATTACKED
+	var short: NpcTeaching.RequirementCheck = refusal(student, rule)
+	if short != null:
+		_say(npc, short.refuse_say, respect)
 		return Outcome.QUALIFICATION_REJECTED
 	_say(npc, rule.accept_say, respect)
 	# recruit.c: the student's pending/apprentice is this master.

@@ -210,6 +210,46 @@
 				"$n一式「天女散花」，自水袖中散出一片花雨，$N被花影迷蒙了双眼，与$n擦肩而过",
 				"$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 			]
+		},
+		{
+			"id": "magic", "name": "基本法术", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/magic.c"
+		},
+		{
+			"id": "spells", "name": "基本咒文", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/spells.c"
+		},
+		{
+			"id": "tao-mystery", "name": "小天魔道", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/tao-mystery.c"
+		},
+		{
+			"id": "magic-array", "name": "奇门遁甲", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
+			"legacy_source": "daemon/skill/magic-array.c",
+			"practice": { "refuses": true, "fail": "法术类技能必须用学的或是从实战中获取经验。" },
+			"valid_learn": { "effective_skill": "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。" },
+			"cast": ["dun", "saveme"]
+		},
+		{
+			"id": "juechen-force", "name": "绝尘心法", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/juechen-force.c",
+			"standard_force_hit": true,
+			"practice": { "refuses": true, "fail": "绝尘心法只能用学的或是从运用(exert)中增加熟练度。" }
+		},
+		{
+			"id": "jingang-staff", "name": "金刚杖法", "kind": "specialized", "type": "martial", "enable": ["staff", "parry"],
+			"legacy_source": "daemon/skill/jingang-staff.c",
+			"practice": {
+				"weapon": "staff", "weapon_fail": "你必须先找一根木杖或者是类似的武器，才能练杖法。",
+				"kee": 60, "fail": "你的体力不够练这门杖法，还是先休息休息吧。"
+			},
+			"valid_learn": { "strength": "你的膂力还不够，也许该练一练内力来增强力量。" },
+			"actions": [
+				{ "id": "tian-guang-zha-xian", "action": "$N使一招「天光乍现」，手中$w扫向$n下盘！", "damage": 40, "damage_type": "挫伤" },
+				{ "id": "yu-hou-chu-qing", "action": "$N挥起$w，一招「雨後初晴」攻向$n$l！", "damage": 40, "damage_type": "挫伤" },
+				{ "id": "fu-yun-xie-yi", "action": "$N横过手中$w，使出「浮云写意」击向$n$l！", "damage": 40, "damage_type": "挫伤" },
+				{ "id": "you-long-chuan-yun", "action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！", "damage": 40, "damage_type": "挫伤" }
+			]
 		}
 	]
 }

@@ -59,6 +59,11 @@ var _rank_respect: String = ""
 var _dealings: NpcDealings
 var _teaching: NpcTeaching
 var _internal_power: Dictionary[StringName, int] = {}
+## create()'s set_name() with a drawn name (heaven_soldier.c: "天" + order[random(10)] + "神兵"):
+## the names it may draw, in order; empty for a fixed name.
+var _name_pick: Array[String] = []
+## What a summoned NPC says as it comes and goes (NpcSummoning); null for one no spell calls.
+var _summoning: NpcSummoning
 
 var definition_id: StringName:
 	get:
@@ -290,6 +295,34 @@ func killed_enemy() -> NpcKilledEnemy:
 	return _killed_enemy
 
 
+## set_name()'s drawn name and the lines of a summoned NPC. Called once by the loader.
+func with_summoning(p_name_pick: Array[String], p_summoning: NpcSummoning) -> NpcDefinition:
+	_name_pick = p_name_pick.duplicate()
+	_summoning = p_summoning
+	return self
+
+
+## The names create() draws from (names[random(size)]); empty for a fixed name.
+func name_pick() -> Array[String]:
+	return _name_pick.duplicate()
+
+
+## null: no spell summons this NPC.
+func summoning() -> NpcSummoning:
+	return _summoning
+
+
+## The same definition under another name: the one an NPC drew (name_pick()). Shares
+## everything else, which is read-only once loaded.
+func renamed(p_display_name: String) -> NpcDefinition:
+	var copy := NpcDefinition.new()
+	for property: Dictionary in get_property_list():
+		if property.usage & PROPERTY_USAGE_SCRIPT_VARIABLE and String(property.name).begins_with("_"):
+			copy.set(property.name, get(property.name))
+	copy._display_name = p_display_name
+	return copy
+
+
 ## race/human.c sets can_speak; beast.c does not. fight.c only asks a
 ## speaking character to spar.
 func can_speak() -> bool:
@@ -425,6 +458,8 @@ func is_valid() -> bool:
 		or _attitude < Attitude.PEACEFUL
 		or _attitude > Attitude.HEROISM
 	):
+		return false
+	if not _name_pick.is_empty() and not _name_pick.has(_display_name):
 		return false
 	for roll: Variant in [_gender_roll, _age_roll, _combat_experience_roll, _score_roll, _attitude_roll] + _apply_rolls.values():
 		if roll != null and not roll.is_valid():

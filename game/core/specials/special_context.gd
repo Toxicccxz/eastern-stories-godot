@@ -23,6 +23,9 @@ var effects: SkillImprovementEffectRegistry
 var lines: Array[VisionLine] = []
 var fail_line: VisionLine
 var damaged: Array[StringName] = []
+## NPC definitions the file called into the room on `me`'s side, in order (saveme.c's
+## new("/obj/npc/heaven_soldier")): the fight brings each in.
+var summons: Array[StringName] = []
 ## Keeps the object `random` calls alive (a Callable does not).
 var _random_source: Object
 

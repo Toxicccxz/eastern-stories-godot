@@ -52,6 +52,8 @@ const TRIAL_FIRST_MASTER: String = "· 这是你第一次拜师；日后再改�
 const TRIAL_BETRAYS: String = "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
 # TRANSLATORS: the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}.
 const TRIAL_OFFERS: String = "· 三招都接住，{master}便愿意收你为徒，再向他拜师即可。"
+# TRANSLATORS: asked before 拜师 with 绝尘子, who takes only commoners (juechen/master.c): one with a family's title is taken for a traitor and killed. {master} the master, {title} the player's title now.
+const TRAITOR_WARNING: String = "{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n· 他会当你要背叛师门，在闲聊频道上喊出来。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向他拜师吗？"
 
 
 func configure(contact: TeacherService) -> void:
@@ -199,7 +201,8 @@ func refresh() -> void:
 
 
 ## 拜师: a member of another family is told what betraying it costs, and one
-## without a family what changing it later would cost; both are asked first.
+## without a family what changing it later would cost; both are asked first. A master
+## who would take the player for a traitor and attack them asks first too.
 func request_apprentice() -> void:
 	if not panel.visible:
 		return
@@ -210,10 +213,12 @@ func request_apprentice() -> void:
 	# Asked only when 拜师 will take place: the master takes the player (it has offered,
 	# or its requirements hold) and no request already waits on him (apprentice.c then
 	# only says he has not answered).
-	var takes: bool = (
-		_contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and player.apprenticeship_request.takes_at_once(player.state, master)
-	)
+	var awake: bool = _contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	# juechen/master.c: a family's member is attacked for it; asked first (owner).
+	if awake and player.would_be_attacked_by(master):
+		_ask(tr(TRAITOR_WARNING).format({"master": tr(master.display_name), "title": player.shown_title()}), "确定拜师", "不拜了", _request_apprentice_now)
+		return
+	var takes: bool = awake and player.would_be_taken_by(master)
 	if takes and _ask_family_change(player, master, family_name, "确定改投", "确定拜师", _request_apprentice_now):
 		return
 	_request_apprentice_now()

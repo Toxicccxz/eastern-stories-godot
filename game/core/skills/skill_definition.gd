@@ -68,6 +68,8 @@ const VALID_LEARN_KEYS: Dictionary[String, Array] = {
 	"raw_skill": [SkillLearnPolicyResult.Reason.RAW_SKILL_TOO_LOW],
 	"gender": [SkillLearnPolicyResult.Reason.GENDER_MISMATCH],
 	"spi": [SkillLearnPolicyResult.Reason.BASE_SPIRITUALITY_TOO_LOW],
+	"strength": [SkillLearnPolicyResult.Reason.STRENGTH_AND_INNER_FORCE_TOO_LOW],
+	"effective_skill": [SkillLearnPolicyResult.Reason.EFFECTIVE_SKILL_TOO_LOW],
 }
 
 

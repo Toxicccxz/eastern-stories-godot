@@ -147,6 +147,13 @@ func create_one(
 		return null
 
 	# Fresh creation only. No scheduler tick draw and no restore initialization.
+	# set_name() is create()'s first statement: a drawn name (heaven_soldier.c) comes first.
+	var names: Array[String] = definition.name_pick()
+	if not names.is_empty():
+		var drawn_name: int = random_source.legacy_random(names.size())
+		if drawn_name < 0 or drawn_name >= names.size():
+			return null
+		definition = definition.renamed(names[drawn_name])
 	var is_beast: bool = definition.race_id == BEAST_RACE_ID
 	# create() draws first (traveller.c: gender, age, combat_exp), then setup()
 	# runs the race's draws below.

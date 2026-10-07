@@ -35,6 +35,8 @@ var _landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
 var _map_characters: MapCharacterRuntimeState
 var _npcs: Array[NpcRuntimeState] = []
 var _npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
+## The spawn each summoned NPC here came by (SummonedNpc), by spawn ID: none is in the catalog.
+var _summon_spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
 var _npc_presence: Dictionary[StringName, Area2D] = {}
 var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
 var _corpse_states: Array[CorpseState] = []
@@ -504,6 +506,7 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if id.is_empty() or _freeze_owner != id or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = &""
+	_dismiss_summoned()
 	for body: WorldCharacterBody2D in _character_bodies():
 		body.quarantine_current_movement_input()
 	if _hud() != null:
@@ -1029,6 +1032,8 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 ## A body for `npc` at `position`; `at` keeps a respawned NPC in its spawn order.
 func _add_npc_body(npc: NpcRuntimeState, position: Vector2, at: int = -1) -> bool:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	if spawn == null:
+		spawn = _summon_spawns.get(npc.spawn_id)
 	if spawn == null or not _map_characters.register_npc(npc):
 		return false
 	var body: WorldNpcBody2D = NpcBodyScene.instantiate() as WorldNpcBody2D
@@ -1398,6 +1403,25 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 	return _berserk_fight(session.combat_encounter_coordinator().start_production(
 		npc_binding, player_binding, CombatTriggerCause.Value.NPC_SPAR,
 	), npc, lines, fight_line, true)
+
+
+## kill_ob(player) by `npc` outside a fight (juechen/master.c's answer to a traitor's
+## 拜师): it hunts the player, who only fights back. False when no fight could begin.
+func npc_kills_player(npc: NpcRuntimeState) -> bool:
+	if npc == null or _player == null or session == null:
+		return false
+	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
+	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
+	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
+	if npc_binding == null or player_binding == null:
+		return false
+	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
+		npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true,
+	)
+	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+		return false
+	_announce_fight([], npc.character_id)
+	return true
 
 
 ## A berserk's fight began: its shout and the opening (a spar with a blade has the
@@ -2357,6 +2381,72 @@ func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 		return false
 	_npc_arrived(fresh)
 	return true
+
+
+## new(<summoned NPC>)->move(environment(caster)) (saveme.c): one of `definition_id`
+## comes into the place of `caster_id` (an NPC here, or the player), on a free spot
+## beside them, drawn afresh from the NPC stream like any new NPC. Returns its character
+## ID, or "" when it could not come (no such summoned NPC, nobody to stand beside).
+func summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var definition: NpcDefinition = catalog.npc(definition_id)
+	var caster: NpcRuntimeState = find_resident_npc(caster_id)
+	var location: WorldLocationState = null
+	if caster != null:
+		location = caster.world_location()
+	elif _player != null and caster_id == _player.character_id:
+		location = _player.world_location()
+	var body: WorldCharacterBody2D = runtime_body_for_character(caster_id)
+	if not _initialized or definition == null or definition.summoning() == null or location == null or body == null or location.map_id != map:
+		return &""
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
+	if not allocation.succeeded:
+		return &""
+	var number: int = String(allocation.item_instance_id).get_slice(SessionItemIdAllocator.DYNAMIC_SEPARATOR, 1).to_int()
+	var point_id: StringName = SummonedNpc.point_id(number, definition_id)
+	var spawn: NpcSpawnDefinition = SummonedNpc.spawn(point_id, definition_id, map, location.zone_id)
+	var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
+		definition, NpcGeneration.character_id(point_id, 1), spawn.spawn_id, point_id,
+		location_for_zone(location.zone_id), _inventory, _stacks, _npc_random,
+		catalog.loadout_item_definitions(), _item_id_allocator.scope,
+	)
+	if npc == null or not _register_loadout(npc):
+		push_error("could not summon %s beside %s" % [definition_id, caster_id])
+		return &""
+	_summon_spawns[spawn.spawn_id] = spawn
+	if not _add_npc_body(npc, _at_feet(location, body.global_position)):
+		_summon_spawns.erase(spawn.spawn_id)
+		return &""
+	return npc.character_id
+
+
+## heaven_soldier.c heal_up() once it is not fighting: call_out("leave", 1), its leave
+## lines where the player is, then destruct() with all it carries. Here every summoned
+## NPC still standing leaves as the fight it came into ends (its lines after the fight's
+## result); a dead one is forgotten and its corpse stays.
+func _dismiss_summoned() -> void:
+	for npc: NpcRuntimeState in _npcs.duplicate():
+		if not SummonedNpc.is_summoned(npc.character_id):
+			continue
+		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			var summoning: NpcSummoning = npc.definition().summoning()
+			if summoning != null and _player_shares_zone(npc) and session != null:
+				var lines: Array[ColoredLine] = []
+				for text: String in summoning.leave:
+					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))
+				session.shared_ui().append_after_fight(lines)
+			var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+			for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)):
+				var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
+				if not (
+					removal.succeeded
+					and _foods.forget_removed(removal.removed_instance_ids, _inventory)
+					and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
+					and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
+				):
+					push_error("%s could not take %s away" % [npc.character_id, item_id])
+		_summon_spawns.erase(npc.spawn_id)
+		_drop_npc(npc)
 
 
 ## Forgets a dead NPC the room has replaced; its corpse stays.

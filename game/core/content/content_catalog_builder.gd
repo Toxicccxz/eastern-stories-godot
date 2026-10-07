@@ -294,6 +294,9 @@ func _check_spawns() -> void:
 		var origin: String = _origins[definition.spawn_id]
 		if not _npcs.has(definition.npc_definition_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, definition.npc_definition_id])
+		elif not _npcs[definition.npc_definition_id].name_pick().is_empty():
+			# A save keeps no drawn name: only a spell's summoned NPC, gone once its fight is, draws one.
+			_errors.append("%s.npc: '%s' draws its name and is only summoned" % [origin, definition.npc_definition_id])
 		for point_id: StringName in definition.spawn_point_ids():
 			if point_owners.has(point_id):
 				_errors.append("%s.points: '%s' is already used by %s" % [
@@ -441,7 +444,7 @@ func _check_traps() -> void:
 
 
 ## An exit rule refuses a way between two zones a room exit joins, in a room of the
-## first: a walk on one map, or a portal between them; `present` is an NPC that exists.
+## first: a walk on one map, or a portal between them; `present` and `npc` are NPCs that exist.
 func _check_exit_rules() -> void:
 	for rule_id: StringName in _exit_rules.keys():
 		var rule: ZoneExitRuleDefinition = _exit_rules[rule_id]
@@ -462,6 +465,8 @@ func _check_exit_rules() -> void:
 			_errors.append("%s: %s and %s are not on one map and no portal joins them" % [origin, rule.from_zone_id, rule.to_zone_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND and not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
+		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_APPRENTICE_OF and not _npcs.has(rule.npc_id):
+			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])
 
 
 ## A landmark's portals leave from its own zone; a hidden passage's second

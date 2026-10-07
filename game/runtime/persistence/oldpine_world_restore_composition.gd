@@ -319,6 +319,9 @@ static func _restore_corpses(
 		var path: String = "corpses.%s" % String(saved.corpse_item_instance_id)
 		var known: bool = character_facts.has(saved.victim_character_id)
 		var replaced: NpcDefinition = null if known else _replaced_npc_definition(snapshot, saved.victim_character_id)
+		if not known and replaced == null:
+			# A summoned NPC that fell (SummonedNpc): its ID names its definition.
+			replaced = GameContent.catalog().npc(SummonedNpc.definition_id_of(saved.victim_character_id))
 		if (
 			not item_records.has(saved.corpse_item_instance_id)
 			or (not known and replaced == null)
@@ -343,10 +346,10 @@ static func _restore_corpses(
 				path + ".item_cross_reference",
 			)
 		if not known:
-			# An NPC its room has since replaced (room.c reset()): its own record went
-			# with it, so the corpse keeps what its definition allows.
+			# An NPC its room has since replaced (room.c reset()), or a summoned one: its own
+			# record went with it, so the corpse keeps what its definition allows.
 			if (
-				saved.victim_display_name != replaced.display_name
+				(saved.victim_display_name != replaced.display_name and not replaced.name_pick().has(saved.victim_display_name))
 				or (replaced.age_roll() != null and not replaced.age_roll().admits(saved.victim_age))
 				or (replaced.age_roll() == null and replaced.has_authored_age and saved.victim_age != replaced.age)
 				or (replaced.gender_roll() != null and not replaced.gender_roll().admits(saved.victim_gender))

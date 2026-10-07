@@ -12,6 +12,7 @@ var _respect_for: Callable
 var _wield_item_for: Callable
 var _age_for: Callable
 var _partner_for: Callable
+var _summon_for: Callable
 
 
 ## `npc_for`: (character_id: StringName) -> NpcRuntimeState, null for the player.
@@ -33,6 +34,13 @@ func with_villagers(wield_item_for: Callable, age_for: Callable, partner_for: Ca
 	_wield_item_for = wield_item_for
 	_age_for = age_for
 	_partner_for = partner_for
+	return self
+
+
+## A spell's summons (saveme.c's heaven soldier). `summon_for`: (caster character ID, NPC
+## definition ID) -> the character ID of the NPC that came into the caster's place, or "".
+func with_summons(summon_for: Callable) -> CombatNpcChat:
+	_summon_for = summon_for
 	return self
 
 
@@ -82,9 +90,26 @@ func beat(
 		side_of(actor, npc), enemy_sides, random_source.legacy_random, GameContent.catalog(), effects, other_sides,
 	)
 	NpcSpecials.run(entry, context)
+	var joiners: Array[StringName] = _summon(actor, context)
 	if context.lines.is_empty() and context.damaged.is_empty():
 		return null
-	return CombatNpcChatResult.new(context.lines, context.damaged)
+	return CombatNpcChatResult.new(context.lines, context.damaged).with_joiners(joiners)
+
+
+## Each NPC the spell called comes into the caster's place with its invocation() lines;
+## the fight then admits it against the caster's enemies.
+func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Array[StringName]:
+	var joiners: Array[StringName] = []
+	for definition_id: StringName in context.summons:
+		var summoned_id: StringName = _summon_for.call(actor.character_id, definition_id) if _summon_for.is_valid() else &""
+		var summoned: NpcRuntimeState = _npc(summoned_id)
+		if summoned == null or summoned.definition().summoning() == null:
+			continue
+		var summoning: NpcSummoning = summoned.definition().summoning()
+		for text: String in summoning.arrive:
+			context.lines.append(VisionLine.new(text, summoned_id, &"", summoning.color))
+		joiners.append(summoned_id)
+	return joiners
 
 
 ## consider(): the says, then wield or unwield (command() runs as it is reached).
