@@ -26,6 +26,7 @@ var _map: WorldMapController
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _open(tree)
 	_test_page()
+	await _reopen(tree)
 	await _test_roar(tree)
 	await _reopen(tree)
 	await _test_roar_withstood(tree)
@@ -86,6 +87,10 @@ func _test_page() -> void:
 	_check(_state.attributes.bellicosity == 300 - 100 - 20 and _last()[0] == "你微一凝神，运起天邪神功，放慢呼吸，开始收敛自己的杀气 ....", "压制杀气 outside a fight: no question, no faint: " + str(_last()))
 	page.refresh()
 	_check(page.bellicosity_text.text == "杀气 180 · 定力 10", "the page follows")
+	# 100 sen out of 50: below zero, the player falls (std/char.c's next heart beat).
+	_state.spirit.current = 50 # TEST-ONLY
+	page.buttons["exert:powerfade"].pressed.emit()
+	_check(_player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "powerfade's 100 sen from 50: the player falls: %s" % CharacterRuntimeLifeStatus.Value.find_key(_player.life_status))
 	_hud.dismiss_current_panel()
 
 
@@ -303,6 +308,7 @@ func _test_look(tree: SceneTree) -> void:
 	_check(_hud.log_lines().has("武馆弟子突然转过头来瞪你一眼。") and _hud.log_lines().has("武馆弟子用一种异样的眼神扫视著在场的每一个人。"), "look.c's glare, then the stare")
 	var encounter: CombatEncounter = _session.combat_encounter_coordinator().active_encounter()
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.LETHAL and npc.relationship.has_lethal_target(_player.character_id), "it attacks to kill")
+	_check(not _player.relationship.has_lethal_target(npc.character_id) and _player.relationship.has_opponent(npc.character_id), "start_berserk()'s kill_ob() is one way: the player only fights back")
 	_end_fight()
 	_hud.dismiss_current_panel()
 	# The spar branch an NPC starts (combatd.c fight_ob()): another, standing.

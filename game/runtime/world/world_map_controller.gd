@@ -1220,8 +1220,9 @@ func _go_berserk(npc: NpcRuntimeState) -> void:
 
 ## combatd.c start_berserk(npc, player) once it decided (`outcome`); `lines` come
 ## first (look.c's 瞪你一眼). It stares at everyone, then attacks to kill
-## (kill_ob()) or challenges the player to a spar (fight_ob()). The fight is the
-## two of them, in a room where aggressive NPCs fight together too.
+## (kill_ob(): only it kills, the player fights back) or challenges the player to a
+## spar (fight_ob()). The fight is the two of them, in a room where aggressive NPCs
+## fight together too.
 func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[String]) -> CombatSliceInitiationResult:
 	var name: String = tr(npc.definition().display_name)
 	lines.append(tr("%s用一种异样的眼神扫视著在场的每一个人。") % name)
@@ -1236,7 +1237,7 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 		# TRANSLATORS: combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
 		var kill_line: String = tr("{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。").format({"npc": name, "self": self_rude})
 		return _berserk_fight(session.combat_encounter_coordinator().start_production(
-			npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION,
+			npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true,
 		), npc, lines, kill_line, false)
 	# TRANSLATORS: combatd.c start_berserk(): {rude} is how the NPC insults the player (臭贼), {self} how it calls itself (老子).
 	var fight_line: String = tr("{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！").format({

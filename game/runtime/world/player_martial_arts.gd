@@ -88,6 +88,11 @@ func exert(function_id: StringName) -> ExertResult:
 	if Berserk.take_warning(_state()):
 		result.lines.append(ColoredLine.new(tr(Berserk.WARNING), ColoredLine.HIR))
 	_say(result.lines)
+	# powerfade's 100 sen can take sen below zero: std/char.c's next heart beat makes
+	# the player fall (run at once, as after 於兰天武's blows).
+	var map := _session.active_map() as WorldMapController
+	if map != null and _state().life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+		map.player_fall_below_zero()
 	return result
 
 

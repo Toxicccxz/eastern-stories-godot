@@ -34,8 +34,11 @@ Owner-approved plan ("按你的建议来"); what each LPC piece became is in
 - **look.c's glare**: 观察 a living NPC here: random(its bellicosity / 10) > the player's per →
   X突然转过头来瞪你一眼。 and its start_berserk(). An NPC's spar branch (fight_ob(): bellicosity not
   above its score) is ported (cause NPC_SPAR: a spar it starts); the loader no longer refuses
-  such an NPC.
+  such an NPC. An NPC's berserk kill is one way, as start_berserk()'s kill_ob(): it kills, the
+  player only fights back (疯老头子's was mutual before, as the port's other aggression still is).
 - As ES2: the berserk's spar asks nobody, a beast included; a berserk kill counts as any kill.
+- powerfade's 100 sen outside a fight can take the player below zero: they fall at once (std/char.c's
+  next heart beat), as after 於兰天武's blows.
 - **Ours**: a berserk's (or glare's) fight is the two of them, also in a room where aggressive
   NPCs enter fights together; one that cannot begin shows the stare without its shout. The
   player's berserk comes on the world tick after the arrival (auto_fight()'s call_out()), after
