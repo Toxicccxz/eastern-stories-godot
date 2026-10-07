@@ -105,7 +105,7 @@ offset_top = -18.0
 offset_right = 18.0
 offset_bottom = 18.0
 mouse_filter = 2
-color = Color(0.831373, 0.741176, 0.380392, 1)
+color = Color(0.33333334, 0.6666667, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Characters/Player"]
 shape = SubResource("Rect_34_34")

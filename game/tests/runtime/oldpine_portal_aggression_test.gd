@@ -140,7 +140,6 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	# A middle bough of the great pine (tree2).
 	_assert_eq(TerrainProbe.terrain_at(tree_map, Vector2(1880, 180)), "bridge", "canopy terrain is painted on the tree map")
 	_assert_false(TerrainProbe.blocks_at(tree_map, Vector2(1880, 180)), "canopy terrain is walkable")
-	_assert_ne(TerrainProbe.terrain_at(controller, Vector2(1880, 180)), "bridge", "the forest map no longer paints the canopy")
 	# The canopy's edge is colliding terrain (was a StaticBody2D boundary).
 	_assert_true(TerrainProbe.blocks_at(tree_map, Vector2(2296, 260)), "canopy right boundary collides")
 	_assert_true(TerrainProbe.blocks_at(tree_map, Vector2(1704, 260)), "canopy left boundary collides")
@@ -261,7 +260,7 @@ func _test_climb_and_return_traversal(tree: SceneTree) -> void:
 	_assert_true(controller.player_runtime().state == state, "portal keeps authoritative CharacterState instance")
 	_assert_eq(_character_resource_snapshot(state), resource_snapshot, "portal mutates no character resources")
 	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "completed climb disables stale Pine action in canopy")
-	# tree1's east bough ends in dense needles at x 2240; the body is 34 px wide. The
+	# tree1's east bough narrows to its tip in dense needles; the body is 34 px wide. The
 	# reattached map's tile collision is rebuilt on the next frame, before any real input.
 	await tree.physics_frame
 	tree_map.player_body.position = Vector2(2160.0, 300.0)

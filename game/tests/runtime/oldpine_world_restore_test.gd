@@ -21,7 +21,7 @@ const INACTIVE_FROM_OUTDOOR: Array[StringName] = [
 const NORTH_APPROACH_FOREST: Vector2 = Vector2(-600.0, -180.0)
 ## The narrow way from the clearing into the pines (pine1): a 34x34 character fits, the
 ## wider 76x18 corpse footprint overlaps the trees either side.
-const PINE1_BESIDE_KEEP: Vector2 = Vector2(428.0, 624.0)
+const PINE1_NARROW_WAY: Vector2 = Vector2(428.0, 624.0)
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
@@ -581,7 +581,7 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 		corpse.victim_display_name, corpse.victim_gender, corpse.victim_age,
 		corpse.decay_stage, corpse.maximum_contents_encumbrance,
 		corpse.worn_items, corpse.world_location,
-		Values.MapPositionSnapshot.new(PINE1_BESIDE_KEEP.x, PINE1_BESIDE_KEEP.y),
+		Values.MapPositionSnapshot.new(PINE1_NARROW_WAY.x, PINE1_NARROW_WAY.y),
 	)
 	var invalid_corpse_position_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
@@ -599,7 +599,7 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 		MapPlacementValidator.is_valid_character_position(
 			overlap_map,
 			OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
-			PINE1_BESIDE_KEEP,
+			PINE1_NARROW_WAY,
 		),
 		"the rejected corpse point still fits a character footprint",
 	)

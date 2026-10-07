@@ -67,7 +67,7 @@
               [1430, 140, 18, 44, 44, 6]
             ],
             [[1430, 300, 18, 50, 50, 8], [1426, 380, 18, 46, 46, 6], [1430, 420, 16, 40, 40, 4]],
-            [[450, 540, 18, 36, 36, 4, "the path south out of the clearing, past the sign"], [444, 620, 12, 40, 40, 6]]
+            [[450, 540, 18, 36, 36, 4, "the path south out of the clearing into the pines"], [444, 620, 12, 40, 40, 6]]
           ],
           "trails": [
             [[444, 620, 0, 44, 44, 6, "pine1: no path, only gaps between the trees"], [440, 740, 0, 48, 48, 6]],
@@ -132,7 +132,7 @@
               ["water", 1200, -48, 1280, 64, "the waterfall, north of the bridge, falling from the cliff"],
               ["bridge", 1104, 272, 1376, 336, "小石桥: old, mossy, high over the gorge"],
               ["forest", 1328, 192, 1344, 272, "the vine hanging by the bridge"],
-              ["blocked", 480, 528, 496, 544, "the sign by the path south"],
+              ["blocked", 512, 48, 528, 64, "the sign by the path to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)"],
               ["wall_wood", 1488, 112, 1520, 128, "the broken plank road along the mountain (no exit in ES2)"],
               ["wall_wood", 1504, 80, 1536, 96],
               ["wall_wood", 1520, 48, 1552, 64],
@@ -233,8 +233,8 @@
         "zones": [{"generated": "zones"}],
         "spawn_points": [
           {"name": "PlayerStart", "at": [450, 300], "id": "oldpine.outdoor.central_clearing.player_start"},
-          {"name": "Spath1Bandit01", "at": [396, -120], "id": "oldpine.outdoor.slope.spath1.bandit.1"},
-          {"name": "Spath1Bandit02", "at": [520, -300], "id": "oldpine.outdoor.slope.spath1.bandit.2"},
+          {"name": "Spath1Bandit01", "at": [396, -160], "id": "oldpine.outdoor.slope.spath1.bandit.1"},
+          {"name": "Spath1Bandit02", "at": [522, -306], "id": "oldpine.outdoor.slope.spath1.bandit.2"},
           {"name": "Spath1Bandit03", "at": [404, -372], "id": "oldpine.outdoor.slope.spath1.bandit.3"},
           {"name": "ClearingPineLanding", "at": [725, 410], "id": "oldpine.outdoor.central_clearing.pine_landing"},
           {"name": "Pine1TallBanditSpawn", "at": [488, 884], "id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"},
@@ -408,14 +408,14 @@
         "style": "map",
         "root": "OldPineGorge",
         "map": "oldpine.gorge",
-        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {"Rect_160_200": [160, 200]},
         "nodes": [
           {"generated": "captions"},
           {"node": "rect", "name": "BridgeOverhead", "rect": [960, 1296, 1488, 1328], "color": "Color(0.45, 0.42, 0.36, 0.35)"},
           {"node": "rect", "name": "RiverbankCliffLandmark", "rect": [1456, 1872, 1480, 2008], "color": "Color(0.41568628, 0.3882353, 0.34509805, 1)"},
           {"node": "service", "name": "WaterfallWaterPoint", "id": "oldpine.gorge.waterfall.water", "at": [1200, 700], "text": "瀑布清水 · 靠近装水"},
-          {"node": "service", "name": "LakeWaterPoint", "id": "oldpine.gorge.lake.water", "at": [1300, 2330], "text": "岸边取水"}
+          {"node": "service", "name": "LakeWaterPoint", "id": "oldpine.gorge.lake.water", "at": [1250, 2250], "text": "岸边取水"}
         ],
         "zones": [{"generated": "zones"}],
         "spawn_points": [
@@ -475,7 +475,7 @@
         "style": "map",
         "root": "OldPineTree",
         "map": "oldpine.tree",
-        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {"Rect_150_150": [150, 150]},
         "nodes": [{"generated": "captions"}],
         "zones": [{"generated": "zones"}],
@@ -515,7 +515,7 @@
         "style": "map",
         "root": "OldPineCliff",
         "map": "oldpine.cliff",
-        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {"Rect_96_48": [96, 48], "Rect_160_32": [160, 32]},
         "nodes": [
           {"generated": "captions"},

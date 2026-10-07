@@ -290,7 +290,7 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1080), tree), "return fixture reaches the intended east bank")
 	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1940), tree), "return fixture physically walks into River Gorge")
 	await _settle(tree)
-	# The water tiles end at x 1376: a 34 px body stands on the bank from x 1393.
+	# The stream runs along the west wall; the bank east of it is where a body stands.
 	_assert_true(await _walk(gorge.player_body, Vector2(1400, 1940), tree), "return fixture reaches cliff interaction")
 	await _settle(tree)
 	player.busy.start_busy(7)

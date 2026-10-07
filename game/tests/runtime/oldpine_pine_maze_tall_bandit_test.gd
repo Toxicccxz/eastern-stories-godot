@@ -178,6 +178,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq(cliffside_rect.position.y, entrance_rect.end.y, "Cliffside meets Pine Entrance at its south edge")
 	_assert_eq([entrance_rect.position.y, deep_rect.position.y, cliff_rect.position.y], [600.0, 600.0, 600.0], "all Pine zones share the same north edge")
 	_assert_eq([entrance_rect.end.y, deep_rect.end.y, cliff_rect.end.y], [1100.0, 1100.0, 1100.0], "all Pine zones share the same south edge")
+	_assert_true(entrance_rect.position.y <= 640.0 and entrance_rect.end.y >= 1056.0, "all Pine zone interiors cover the traversable vertical span")
 
 	# Keep both pine1 bandits off the walked ways and out of presence range of them: in the
 	# cliffside's clearing, south of where the cliffside walk ends.

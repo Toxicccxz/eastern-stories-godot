@@ -40,6 +40,13 @@ class Region:
         """Service id -> how near (pixels) the player must stand to use it."""
         return {s['id']: s['reach'] for s in self._read('world.json').get('services', [])}
 
+    def owner_zones(self) -> dict:
+        """Portal, landmark and service id -> the zone the player must stand in to use it."""
+        world = self._read('world.json')
+        owners = {p['id']: p['from_zone'] for p in world.get('portals', [])}
+        owners.update({m['id']: m['zone'] for m in world.get('landmarks', []) + world.get('services', [])})
+        return owners
+
     def contact_landmarks(self) -> set:
         """Landmarks used only from inside their area (`contact`)."""
         return {m['id'] for m in self._read('world.json').get('landmarks', []) if m.get('contact')}
