@@ -5,7 +5,7 @@ extends RefCounted
 ## perform_action_file() and a spells skill's cast_spell_file() reach those
 ## skills.json lists under `perform` and `cast`; exert files are ExertFunctions.
 const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault"]
-const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt"]
+const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt", &"dun", &"saveme"]
 
 static var _performs: Dictionary[StringName, PerformFunction] = {}
 static var _casts: Dictionary[StringName, CastFunction] = {}
@@ -50,6 +50,6 @@ static func cast(function_id: StringName) -> CastFunction:
 		nether.flash_color = ColoredLine.HIC
 		nether.hit = "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
 		nether.miss = "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
-		for spell: CastFunction in [drainer, feeble, nether]:
+		for spell: CastFunction in [drainer, feeble, nether, DunSpell.new(), SavemeSpell.new()]:
 			_casts[spell.id] = spell
 	return _casts.get(function_id)

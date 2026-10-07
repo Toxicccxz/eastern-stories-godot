@@ -865,6 +865,11 @@ func _refresh_character() -> void:
 		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
 		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
 	})]
+	# TRANSLATORS: the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
+	lines.append(tr("灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}").format({
+		"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum,
+		"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum,
+	}))
 	# TRANSLATORS: the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
 	lines.append(tr("杀气 {bellicosity} · 综合评价 {score}\n总共杀过 {kills} 个人。").format({
 		"bellicosity": attr.bellicosity, "score": state.progression.score, "kills": state.progression.kills,

@@ -87,7 +87,19 @@ func world_location() -> WorldLocationState:
 ## identity title (feature/apprentice.c assign_apprentice()). Body, CharacterState
 ## and character ID retain their existing authorities.
 func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
-	return _after_recruit(apprenticeship_request.request(_state, master, family, entry_time_utc, _respect()), family)
+	return _after_recruit(apprenticeship_request.request(
+		_state, master, family, entry_time_utc, _respect(), _facts.title, shown_title(), _facts.display_name,
+	), family)
+
+
+## juechen/master.c would take the player for a traitor if they asked it now.
+func would_be_attacked_by(master: NpcDefinition) -> bool:
+	return apprenticeship_request.would_attack(_state, master, _facts.title)
+
+
+## 拜师 with `master` would take the player at once (NpcApprenticeship.takes_at_once()).
+func would_be_taken_by(master: NpcDefinition) -> bool:
+	return apprenticeship_request.takes_at_once(_state, master, _facts.title)
 
 
 ## swear to a master that asked for an oath (master.c do_swear()).

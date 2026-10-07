@@ -1,3 +1,28 @@
 {
-	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c"]
+	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c"],
+	"npcs": ["obj/npc/heaven_soldier.c"],
+	"set": {
+		"common.npc.heaven_soldier": {
+			"name": "天甲神兵",
+			"name_pick": ["天甲神兵", "天乙神兵", "天丙神兵", "天丁神兵", "天戊神兵", "天己神兵", "天庚神兵", "天辛神兵", "天壬神兵", "天癸神兵"],
+			"summoned": {
+				"arrive": ["一道金光由天而降，金光中走出一个身穿金色战袍的将官。", "$N说道：末将奉法主召唤，特来护法！"],
+				"leave": ["$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！", "$N化成一道金光，冲上天际消失不见了。"],
+				"color": "HIY"
+			}
+		}
+	},
+	"review": {
+		"obj/npc/heaven_soldier.c": {
+			"set_name": "name_pick in set: create()'s \"天\" + order[random(10)] + \"神兵\", drawn when it is made; only a summoned NPC may draw its name (none is saved alive)",
+			"statement in create()": "string *order: the ten stems of name_pick",
+			"function invocation": "summoned.arrive in set; it kills the caster's living enemies and each fights back (saveme.c: the fight admits it on the caster's side); set_leader() is not ported: it leaves when the fight ends",
+			"function heal_up": "a summoned NPC leaves once its fight is over (heal_up() when not fighting): it leaves when the fight it was called into ends",
+			"function leave": "summoned.leave in set, said when it leaves"
+		},
+		"obj/npc/obj/golden_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		}
+	}
 }

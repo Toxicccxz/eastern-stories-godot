@@ -80,7 +80,8 @@ func _test_created(session: OldPineWorldSessionController, village: WorldMapCont
 	_check(hammers + ropes == 5, "five quarry workers: %d hammers, %d ropes" % [hammers, ropes])
 	var kids: Array[NpcRuntimeState] = []
 	for npc: NpcRuntimeState in session.world_map_of(&"green.mountain").resident_npcs():
-		kids.append(npc)
+		if npc.definition().definition_id == &"green.npc.kid4":
+			kids.append(npc)
 	_check(kids.size() == 2 and kids[0].character_state.gender in [&"男性", &"女性"] and kids[0].character_state.applies.get("dodge", 0) in [4, 5], "the cave mouth's two children")
 	var worker: NpcRuntimeState = _first(village, &"green.npc.worker2")
 	var hand: CombatSliceContentProfile = village.npc_combat_content(worker.character_id)

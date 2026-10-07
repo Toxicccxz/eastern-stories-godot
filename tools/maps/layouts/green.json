@@ -506,6 +506,11 @@
 						"id": "green.cavehall.stoneroom_arrival"
 					},
 					{
+						"name": "CavehallMaster1",
+						"at": [704, 160],
+						"id": "green.cavehall.master.1"
+					},
+					{
 						"name": "MazeArrival",
 						"at": [1104, 128],
 						"id": "green.stoneroom.maze_arrival"

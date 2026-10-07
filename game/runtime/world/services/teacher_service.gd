@@ -56,10 +56,20 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 		_say([tr("你必须先把%s弄醒。") % tr(display_name())])
 		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var request: NpcApprenticeship = player.apprenticeship_request
 	var outcome: NpcApprenticeship.Outcome = player.request_apprenticeship(
 		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()),
 	)
-	_say(player.apprenticeship_request.lines)
+	var lines: Array[ColoredLine] = []
+	for line: String in request.lines:
+		lines.append(ColoredLine.new(line))
+	if outcome == NpcApprenticeship.Outcome.ATTACKED:
+		# juechen/master.c: the chat channel's line (HIC), grin (prints nothing), kill_ob(ob).
+		lines.append(ColoredLine.new(request.chat_line, ColoredLine.HIC))
+		_say_colored(lines)
+		map.npc_kills_player(npc)
+		return outcome
+	_say_colored(lines)
 	return outcome
 
 

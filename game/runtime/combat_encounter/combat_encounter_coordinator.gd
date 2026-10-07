@@ -505,7 +505,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
-	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of).with_villagers(_npc_wield_item, _age_of, _idle_partner))
+	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of).with_villagers(_npc_wield_item, _age_of, _idle_partner).with_summons(_summon_beside))
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -561,6 +561,12 @@ func _idle_partner(character_id: StringName, partner_definition_id: StringName) 
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var partner: NpcRuntimeState = null if map == null else map.idle_npc_beside(character_id, partner_definition_id)
 	return &"" if partner == null else partner.character_id
+
+
+## A spell's summoned NPC comes beside its caster (saveme.c): its character ID, or "".
+func _summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	return &"" if map == null else map.summon_beside(caster_id, definition_id)
 
 
 ## RANK_D->query_respect() of a participant, in the shown language.

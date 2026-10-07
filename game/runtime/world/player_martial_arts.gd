@@ -142,6 +142,24 @@ func exercise(kee: int) -> CultivationResult:
 	return result
 
 
+## meditate <sen>.
+func meditate(sen: int) -> CultivationResult:
+	if not available():
+		return null
+	var result: CultivationResult = CultivationService.meditate(_state(), sen, _fighting(), apply_modifier(&"spells"))
+	_say(TrainingLines.meditate(result))
+	return result
+
+
+## respirate <gin>.
+func respirate(gin: int) -> CultivationResult:
+	if not available():
+		return null
+	var result: CultivationResult = CultivationService.respirate(_state(), gin, _fighting(), apply_modifier(&"magic"))
+	_say(TrainingLines.respirate(result))
+	return result
+
+
 ## selflearn <skill>.
 func self_learn(skill_id: StringName) -> SelfLearningResult:
 	if not available():

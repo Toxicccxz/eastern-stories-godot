@@ -246,6 +246,97 @@
 				{ "action": "exert", "function": "powerup" },
 				{ "action": "exert", "function": "recover" }
 			]
+		},
+		{
+			"id": "common.npc.juechen.master",
+			"legacy_source": "daemon/class/juechen/master.c",
+			"name": "绝尘子",
+			"aliases": ["master outer", "master", "outer"],
+			"gender": "男性",
+			"age": 48,
+			"long": "绝尘子本为释家人，后得奇人指点，得悟道家真谛，佛道双修，\n皆入化境。后访遍名山大川，自号绝尘，创此绝尘一派。\n",
+			"attributes": { "str": 21, "cor": 24, "cps": 27, "int": 30, "per": 28, "con": 30, "kar": 30, "spi": 30 },
+			"resources": {
+				"max_force": 2000,
+				"force": 3000,
+				"max_atman": 1500,
+				"atman": 2000,
+				"max_mana": 2000,
+				"mana": 4000
+			},
+			"combat_exp": 2000000,
+			"score": 200000,
+			"force_factor": 3,
+			"family": { "name": "绝尘派", "generation": 1, "title": "祖师" },
+			"f_master": true,
+			"skills": {
+				"force": 120,
+				"dodge": 100,
+				"parry": 120,
+				"unarmed": 80,
+				"sword": 100,
+				"staff": 100,
+				"literate": 120,
+				"tao-mystery": 120,
+				"perception": 100,
+				"magic": 150,
+				"spells": 150,
+				"juechen-force": 120,
+				"magic-array": 120,
+				"jingang-staff": 100
+			},
+			"skill_map": { "staff": "jingang-staff", "spells": "magic-array", "force": "juechen-force" },
+			"carry": [
+				{ "item": "es2:daemon/class/juechen/jingang_staff", "source": "daemon/class/juechen/jingang_staff.c", "equip": "wield" },
+				{ "item": "es2:daemon/class/juechen/hat", "source": "daemon/class/juechen/hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 40,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "dun" },
+				{ "action": "cast", "function": "saveme" },
+				"绝尘子道：你为何无故滋事，误我清修！\n",
+				"绝尘子道：贫道向以遁世为乐，你何苦如此相逼？\n"
+			],
+			"inquiry": { "绝尘派": ["绝尘派是我所创，你有何指教？"], "拜师": ["入我派者，需有慧根。"], "name": ["我便是绝尘子。"] },
+			"apprentice": {
+				"commoners_only": "{title}{nickname}{name}要叛师！！！",
+				"requires": [
+					{ "spi": 24, "refuse_say": "入我派者，需有慧根。$RESPECT的资质不宜！" },
+					{ "combat_exp": 100000, "refuse_say": "$RESPECT似乎尚缺江湖历练，不宜投入绝尘门下。" }
+				],
+				"accept_say": "很好$RESPECT多加努力他日必定有成。",
+				"class": "taoist"
+			}
+		},
+		{
+			"id": "common.npc.heaven_soldier",
+			"legacy_source": "obj/npc/heaven_soldier.c",
+			"aliases": ["heaven soldier", "soldier"],
+			"long": "这是一位来自天界的守护神，专门担任护法之责。\n",
+			"attributes": { "str": 40, "cor": 30, "cps": 25 },
+			"resources": {
+				"max_gin": 1000,
+				"max_kee": 1000,
+				"max_sen": 1000,
+				"max_atman": 100,
+				"atman": 100,
+				"max_mana": 100,
+				"mana": 100
+			},
+			"combat_exp": 100000,
+			"attitude": "friendly",
+			"skills": { "sword": 70, "parry": 70, "dodge": 70 },
+			"carry": [
+				{ "item": "es2:obj/npc/obj/golden_armor", "source": "obj/npc/obj/golden_armor.c", "equip": "wear" },
+				{ "item": "es2:obj/npc/obj/golden_sword", "source": "obj/npc/obj/golden_sword.c", "equip": "wield" }
+			],
+			"name": "天甲神兵",
+			"name_pick": ["天甲神兵", "天乙神兵", "天丙神兵", "天丁神兵", "天戊神兵", "天己神兵", "天庚神兵", "天辛神兵", "天壬神兵", "天癸神兵"],
+			"summoned": {
+				"arrive": ["一道金光由天而降，金光中走出一个身穿金色战袍的将官。", "$N说道：末将奉法主召唤，特来护法！"],
+				"leave": ["$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！", "$N化成一道金光，冲上天际消失不见了。"],
+				"color": "HIY"
+			}
 		}
 	]
 }

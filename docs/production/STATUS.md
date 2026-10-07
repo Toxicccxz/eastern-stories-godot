@@ -4,14 +4,16 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**青石村 B** (`phase/green-b`): the 玉佩 and the 蒙汗药. Ask the 村长 about his 玉佩 and he marks
-you; the Snow drunk, given wine once he has none, whispers that he sold it to 沈老板, and the next
-time that 沈记商行 sells 蒙汗药; 沈万年 hands over the one jade (研读: force to 40) and whispers the
-drug's price, sells it for 10 taels (less is handed back) and nothing from his list; the drug and
-the 鸨母's 极乐逍遥散 pour into a drink (背包 · 倒进); wine makes drunk and the drug knocks out,
-the player and NPCs alike; 接话 必有妖孽 to the 村长.
+**青石村 C** (`phase/green-c`): 绝尘派. 绝尘子 stands in the 石室大厅 with his 金刚杖 and 紫金冠.
+拜师: a family's member is asked first, then hears him call 要叛师 on the chat channel and is
+attacked to the death; a commoner needs spi 24 and 100000 combat_exp and becomes his apprentice
+(the hall's seal opens), a 道士 or 女冠. He teaches all fourteen of his skills (小天魔道 before
+奇门遁甲, 金刚杖法 for the strong; 小天魔道 brings 杀气). In a fight he holds his enemy busy with
+遁 and calls a 天将 that fights for him and leaves when the fight is over (a fallen one leaves its
+corpse and gear). The 武学 page has 冥思 and 修行; the sheet shows 法力 and 灵力. Playtest launcher:
+`tests/runtime/run_with_experience.gd` (100000 combat_exp, spi 24).
 
-Next: 青石村 C (绝尘派), then D (the player's spells).
+Next: 青石村 D (the player's spells: 遁, 困, 召天将 on the player's side).
 
 ## Playable now
 
@@ -76,8 +78,9 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   the cliff road and 山路尽头; at 100000 combat_exp the cave east leads into the 迷阵, whose 路牌
   tell the way: wrong ways loop back, turn back or drop the player in 绝地 (push the stone with
   560 force, or 放弃 and wake in the Inn); 乾 south leads to the stone rooms behind, marked 八卦阵,
-  and the stream gives that mark a 追风剑. The rope's 上吊 kills (asked first). 绝尘子 and his
-  family come in package C.
+  and the stream gives that mark a 追风剑. The rope's 上吊 kills (asked first). 绝尘子 in the
+  hall: joining 绝尘派 (spi 24, 100000 combat_exp; a family's member is attacked for asking, asked
+  first), his fourteen skills, his 遁 and the 天将 he calls in a fight.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -92,8 +95,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 203/551 rooms, 91/286 NPC
-types, 3/10 joinable families, 12/35 special and 10/25 basic martial arts, 42/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 203/551 rooms, 92/286 NPC
+types, 4/10 joinable families, 16/35 special and 12/25 basic martial arts, 42/84 quest targets.
 
 ## Known issues
 

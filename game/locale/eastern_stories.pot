@@ -61,6 +61,7 @@ msgstr ""
 #. common.npc.fighter.champion gender
 #. common.npc.fighter.master gender
 #. common.npc.fighter.executioner gender
+#. common.npc.juechen.master gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -1354,7 +1355,7 @@ msgstr ""
 msgid "雌性"
 msgstr ""
 
-#: core/characters/new_player_initialization_policy.gd core/death/player_killer_reward.gd
+#: core/characters/new_player_initialization_policy.gd core/death/player_killer_reward.gd core/relationships/npc_apprenticeship.gd
 msgid "普通百姓"
 msgstr ""
 
@@ -2273,6 +2274,11 @@ msgstr ""
 msgid "你想要拜%s为师。"
 msgstr ""
 
+#. channeld.c's chat channel: {who} is who speaks (绝尘子), {line} what it says.
+#: core/relationships/npc_apprenticeship.gd
+msgid "【闲聊】{who}：{line}"
+msgstr ""
+
 #. master.c do_swear(): message_vision("$N发誓道：" + arg): {oath} is the oath (守门规).
 #: core/relationships/npc_apprenticeship.gd
 msgid "你发誓道：{oath}"
@@ -2374,15 +2380,15 @@ msgstr ""
 msgid "鞭法"
 msgstr ""
 
-#: core/specials/bolt_spell.gd
+#: core/specials/bolt_spell.gd core/specials/dun_spell.gd
 msgid "你要对谁施展这个法术？"
 msgstr ""
 
-#: core/specials/bolt_spell.gd
+#: core/specials/bolt_spell.gd core/specials/dun_spell.gd
 msgid "你的法力不够！"
 msgstr ""
 
-#: core/specials/bolt_spell.gd
+#: core/specials/bolt_spell.gd core/specials/dun_spell.gd
 msgid "你的精神没有办法有效集中！"
 msgstr ""
 
@@ -2408,6 +2414,42 @@ msgstr ""
 
 #: core/specials/counterattack_perform.gd
 msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "$N口中喃喃地念著咒文，忽然大喝一声“疾！”"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见一道黑气罩在$n身上！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见一道金光罩在$n身上！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见一团火焰罩在$n身上！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只听在一声海啸，海水将$n团团围住！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见空中落下无数大木，正把$n困在中央！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "但是$n纵身一跃，脱离了围困。"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "这个法术只能在战斗中使用！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "$n正自顾不暇，放胆进攻吧。"
 msgstr ""
 
 #: core/specials/fakefault_perform.gd
@@ -2448,6 +2490,26 @@ msgstr ""
 
 #: core/specials/perform_service.gd
 msgid "你所使用的外功中没有这种功能。"
+msgstr ""
+
+#: core/specials/saveme_spell.gd
+msgid "只有战斗中才能召唤天将！"
+msgstr ""
+
+#: core/specials/saveme_spell.gd
+msgid "你的法力不够了！"
+msgstr ""
+
+#: core/specials/saveme_spell.gd
+msgid "你的精神无法集中！"
+msgstr ""
+
+#: core/specials/saveme_spell.gd
+msgid "$N喃喃地念了几句咒语。"
+msgstr ""
+
+#: core/specials/saveme_spell.gd
+msgid "但是什麽也没有发生。"
 msgstr ""
 
 #: core/specials/special_functions.gd
@@ -2709,6 +2771,82 @@ msgstr ""
 
 #: core/training/training_lines.gd
 msgid "你的内力增强了！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "战斗中冥思——找死吗？"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你最少要花 10 点「神」才能冥思。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在精神太差了，进行冥思将会迷失，永远醒不过来！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在身体状况太差了，无法集中精神！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在身体状况太虚弱了，无法进入冥思的状态！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在无法冥思。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你盘膝而坐，静坐冥思了一会儿。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "但是当你睁开眼睛，只觉得脑中一片空白。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎魔力的提升已经到了瓶颈。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你的魔力提高了！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "战斗也是一种修行，但不能和灵力的修行同时进行。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你最少要花 10 点精力才能进行修行。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在精力不足，无法修行灵力！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在精神状况太差了，无法控制自己的心灵！"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你现在无法修行。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你闭上眼睛开始打坐。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "但是你一不小心却睡著了。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你忽然觉得一阵天旋地转，头涨得像要裂开一样，似乎灵力的修行已经遇到了瓶颈。"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你的道行提高了！"
 msgstr ""
 
 #: core/training/training_lines.gd
@@ -4364,6 +4502,15 @@ msgstr ""
 msgid "· 三招都接住，{master}便愿意收你为徒，再向他拜师即可。"
 msgstr ""
 
+#. asked before 拜师 with 绝尘子, who takes only commoners (juechen/master.c): one with a family's title is taken for a traitor and killed. {master} the master, {title} the player's title now.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n"
+"· 他会当你要背叛师门，在闲聊频道上喊出来。\n"
+"· 然后当场出手要杀你，这是一场生死之战。\n"
+"确定要向他拜师吗？"
+msgstr ""
+
 #: ui/teacher/teacher_panel.gd
 msgid "拜师 / 向师父请安"
 msgstr ""
@@ -4401,11 +4548,15 @@ msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} ·
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
-msgid "确定改投"
+msgid "确定拜师"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
-msgid "确定拜师"
+msgid "不拜了"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "确定改投"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -4534,6 +4685,22 @@ msgid "每次花费的气"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
+msgid "冥思"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "每次花费的神"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "修行"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "每次花费的精"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
 msgid "运功"
 msgstr ""
 
@@ -4548,6 +4715,16 @@ msgstr ""
 #. hp.c: internal power, its maximum and enforce.c's force_factor.
 #: ui/world/martial_arts_page.gd
 msgid "内力 {force} / {max_force} (+{factor})"
+msgstr ""
+
+#. score.c: mana (法力) and its maximum, what meditate (冥思) builds.
+#: ui/world/martial_arts_page.gd
+msgid "法力 {mana} / {max_mana}"
+msgstr ""
+
+#. score.c: atman (灵力) and its maximum, what respirate (修行) builds.
+#: ui/world/martial_arts_page.gd
+msgid "灵力 {atman} / {max_atman}"
 msgstr ""
 
 #. the 武学 page: score.c's 杀气 (bellicosity) and 定力 (cps), which decide whether the player can lose control.
@@ -4997,6 +5174,11 @@ msgid ""
 "定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n"
 msgstr ""
 
+#. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
+#: ui/world/shared_gameplay_ui.gd
+msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
+msgstr ""
+
 #. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
@@ -5107,6 +5289,7 @@ msgstr ""
 #. es2:daemon/class/swordsman/silk_cloth unit
 #. es2:daemon/class/fighter/icy_boot unit
 #. es2:daemon/class/fighter/icy_cloth unit
+#. es2:obj/npc/obj/golden_armor unit
 #. es2:d/oldpine/obj/leather unit
 #. es2:d/oldpine/obj/robe unit
 #. es2:d/oldpine/obj/fur_coat unit
@@ -5215,6 +5398,7 @@ msgstr ""
 #. es2:obj/weapon/dagger unit
 #. es2:daemon/class/fighter/houndbane unit
 #. es2:daemon/class/fighter/soulimpaler unit
+#. es2:obj/npc/obj/golden_sword unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
@@ -5384,6 +5568,7 @@ msgstr ""
 #. es2:obj/weapon/whip unit
 #. es2:daemon/class/fighter/icy_girth unit
 #. es2:daemon/class/fighter/icy_ribbon unit
+#. es2:daemon/class/juechen/jingang_staff unit
 #. es2:u/cloud/obj/npc/butcher/skin_belt unit
 #. es2:u/cloud/obj/etc/rope unit
 #. es2:d/waterfog/obj/iron_staff unit
@@ -5480,6 +5665,45 @@ msgstr ""
 msgid ""
 "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒(pour)在\n"
 "酒水之中使用。\n"
+msgstr ""
+
+#. es2:daemon/class/juechen/jingang_staff name
+#: data/common/items.json
+msgid "金刚杖"
+msgstr ""
+
+#. es2:daemon/class/juechen/jingang_staff long
+#: data/common/items.json
+msgid ""
+"这是一条紫铜杖，杖的两端似乎封这密文。\n"
+msgstr ""
+
+#. es2:daemon/class/juechen/hat name
+#: data/common/items.json
+msgid "紫金冠"
+msgstr ""
+
+#. es2:daemon/class/juechen/hat unit
+#. es2:d/waterfog/obj/watcher_hat unit
+#. es2:d/waterfog/obj/red_hat unit
+#: data/common/items.json data/waterfog/items.json
+msgid "顶"
+msgstr ""
+
+#. es2:obj/npc/obj/golden_armor name
+#: data/common/items.json
+msgid "天兵战甲"
+msgstr ""
+
+#. es2:obj/npc/obj/golden_sword name
+#: data/common/items.json
+msgid "金锋剑"
+msgstr ""
+
+#. es2:obj/npc/obj/golden_sword long
+#: data/common/items.json
+msgid ""
+"一把闪闪发著金光的长剑。\n"
 msgstr ""
 
 #. unarmed improved_line
@@ -6020,6 +6244,92 @@ msgstr ""
 msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 msgstr ""
 
+#. magic name
+#: data/common/skills.json
+msgid "基本法术"
+msgstr ""
+
+#. spells name
+#: data/common/skills.json
+msgid "基本咒文"
+msgstr ""
+
+#. tao-mystery name
+#: data/common/skills.json
+msgid "小天魔道"
+msgstr ""
+
+#. magic-array name
+#: data/common/skills.json
+msgid "奇门遁甲"
+msgstr ""
+
+#. magic-array practice.fail
+#: data/common/skills.json
+msgid "法术类技能必须用学的或是从实战中获取经验。"
+msgstr ""
+
+#. magic-array valid_learn.effective_skill
+#: data/common/skills.json
+msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。"
+msgstr ""
+
+#. juechen-force name
+#: data/common/skills.json
+msgid "绝尘心法"
+msgstr ""
+
+#. juechen-force practice.fail
+#: data/common/skills.json
+msgid "绝尘心法只能用学的或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. jingang-staff name
+#: data/common/skills.json
+msgid "金刚杖法"
+msgstr ""
+
+#. jingang-staff practice.weapon_fail
+#: data/common/skills.json
+msgid "你必须先找一根木杖或者是类似的武器，才能练杖法。"
+msgstr ""
+
+#. jingang-staff practice.fail
+#: data/common/skills.json
+msgid "你的体力不够练这门杖法，还是先休息休息吧。"
+msgstr ""
+
+#. jingang-staff valid_learn.strength
+#: data/common/skills.json
+msgid "你的膂力还不够，也许该练一练内力来增强力量。"
+msgstr ""
+
+#. jingang-staff actions.action
+#: data/common/skills.json
+msgid "$N使一招「天光乍现」，手中$w扫向$n下盘！"
+msgstr ""
+
+#. jingang-staff actions.damage_type
+#. actions.damage_type
+#: data/common/skills.json data/common/combat_actions.json
+msgid "挫伤"
+msgstr ""
+
+#. jingang-staff actions.action
+#: data/common/skills.json
+msgid "$N挥起$w，一招「雨後初晴」攻向$n$l！"
+msgstr ""
+
+#. jingang-staff actions.action
+#: data/common/skills.json
+msgid "$N横过手中$w，使出「浮云写意」击向$n$l！"
+msgstr ""
+
+#. jingang-staff actions.action
+#: data/common/skills.json
+msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
@@ -6110,11 +6420,6 @@ msgstr ""
 msgid "$N挥舞$w，往$n的$l用力一□"
 msgstr ""
 
-#. actions.damage_type
-#: data/common/combat_actions.json
-msgid "挫伤"
-msgstr ""
-
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N高高举起$w，往$n的$l当头砸下"
@@ -6155,6 +6460,13 @@ msgstr ""
 #. common.npc.fighter.master family.name
 #: data/common/families.json data/common/npcs.json
 msgid "天邪派"
+msgstr ""
+
+#. family.juechen name
+#. common.npc.juechen.master family.name
+#. common.npc.juechen.master inquiry topic
+#: data/common/families.json data/common/npcs.json
+msgid "绝尘派"
 msgstr ""
 
 #. common.npc.swordsman.master name
@@ -6301,6 +6613,7 @@ msgid ""
 msgstr ""
 
 #. common.npc.fighter.champion inquiry topic
+#. common.npc.juechen.master inquiry topic
 #: data/common/npcs.json
 msgid "拜师"
 msgstr ""
@@ -6434,6 +6747,147 @@ msgid ""
 "水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n"
 "柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n"
 "出武林执法者的架子。\n"
+msgstr ""
+
+#. common.npc.juechen.master name
+#: data/common/npcs.json
+msgid "绝尘子"
+msgstr ""
+
+#. common.npc.juechen.master long
+#: data/common/npcs.json
+msgid ""
+"绝尘子本为释家人，后得奇人指点，得悟道家真谛，佛道双修，\n"
+"皆入化境。后访遍名山大川，自号绝尘，创此绝尘一派。\n"
+msgstr ""
+
+#. common.npc.juechen.master family.title
+#: data/common/npcs.json
+msgid "祖师"
+msgstr ""
+
+#. common.npc.juechen.master chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"绝尘子道：你为何无故滋事，误我清修！\n"
+msgstr ""
+
+#. common.npc.juechen.master chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"绝尘子道：贫道向以遁世为乐，你何苦如此相逼？\n"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.绝尘派
+#: data/common/npcs.json
+msgid "绝尘派是我所创，你有何指教？"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.拜师
+#: data/common/npcs.json
+msgid "入我派者，需有慧根。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.name
+#: data/common/npcs.json
+msgid "我便是绝尘子。"
+msgstr ""
+
+#. common.npc.juechen.master apprentice.commoners_only
+#: data/common/npcs.json
+msgid "{title}{nickname}{name}要叛师！！！"
+msgstr ""
+
+#. common.npc.juechen.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "入我派者，需有慧根。$RESPECT的资质不宜！"
+msgstr ""
+
+#. common.npc.juechen.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "$RESPECT似乎尚缺江湖历练，不宜投入绝尘门下。"
+msgstr ""
+
+#. common.npc.juechen.master apprentice.accept_say
+#: data/common/npcs.json
+msgid "很好$RESPECT多加努力他日必定有成。"
+msgstr ""
+
+#. common.npc.heaven_soldier long
+#: data/common/npcs.json
+msgid ""
+"这是一位来自天界的守护神，专门担任护法之责。\n"
+msgstr ""
+
+#. common.npc.heaven_soldier name
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天甲神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天乙神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天丙神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天丁神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天戊神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天己神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天庚神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天辛神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天壬神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier name_pick
+#: data/common/npcs.json
+msgid "天癸神兵"
+msgstr ""
+
+#. common.npc.heaven_soldier summoned.arrive
+#: data/common/npcs.json
+msgid "一道金光由天而降，金光中走出一个身穿金色战袍的将官。"
+msgstr ""
+
+#. common.npc.heaven_soldier summoned.arrive
+#: data/common/npcs.json
+msgid "$N说道：末将奉法主召唤，特来护法！"
+msgstr ""
+
+#. common.npc.heaven_soldier summoned.leave
+#: data/common/npcs.json
+msgid "$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！"
+msgstr ""
+
+#. common.npc.heaven_soldier summoned.leave
+#: data/common/npcs.json
+msgid "$N化成一道金光，冲上天际消失不见了。"
 msgstr ""
 
 #. quests.target
@@ -10330,12 +10784,6 @@ msgstr ""
 #. es2:d/waterfog/obj/watcher_hat name
 #: data/waterfog/items.json
 msgid "水烟阁司事帽"
-msgstr ""
-
-#. es2:d/waterfog/obj/watcher_hat unit
-#. es2:d/waterfog/obj/red_hat unit
-#: data/waterfog/items.json
-msgid "顶"
 msgstr ""
 
 #. es2:d/waterfog/obj/red_suit name

@@ -95,6 +95,9 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var hit_condition: NpcHitCondition = NpcHitCondition.from_record(hit_reader) if hit_reader != null else null
 	var killed_reader: ContentRecordReader = reader.child("killed_enemy")
 	var killed_enemy: NpcKilledEnemy = NpcKilledEnemy.from_record(killed_reader) if killed_reader != null else null
+	var name_pick: Array[String] = reader.text_list("name_pick")
+	var summoned_reader: ContentRecordReader = reader.child("summoned")
+	var summoning: NpcSummoning = NpcSummoning.from_record(summoned_reader) if summoned_reader != null else null
 	reader.finish()
 	var definition: NpcDefinition = NpcDefinition.new(
 		StringName(definition_id),
@@ -116,7 +119,9 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning)
+	if not name_pick.is_empty() and not name_pick.has(display_name):
+		reader.fail("name_pick", "names the NPC's own name among them")
 	if bellicosity < 0:
 		reader.fail("bellicosity", "must not be negative")
 	if not definition.is_valid():

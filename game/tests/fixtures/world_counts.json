@@ -137,11 +137,12 @@
 		"green.village.station1.worker2s",
 		"green.village.path2.kid2s",
 		"green.mountain.cave0.kid4s",
+		"green.mountain.cavehall.master",
 		"green.village.house3.spiders"
 	],
-	"world_npcs": 184,
+	"world_npcs": 185,
 	"resident_maps": 24,
-	"new_game_items": 318,
+	"new_game_items": 320,
 	"snow_outdoor_passages": 7,
 	"npc_draws_after_oldpine": 890
 }

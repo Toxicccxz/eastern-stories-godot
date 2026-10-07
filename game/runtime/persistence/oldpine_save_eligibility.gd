@@ -68,6 +68,10 @@ static func inspect(
 	if not player_result.allowed():
 		return player_result
 	for npc: NpcRuntimeState in session.world_npcs():
+		# A summoned NPC lives only as long as the fight it came into (SummonedNpc): a save
+		# holds none.
+		if SummonedNpc.is_summoned(npc.character_id):
+			return Result.block(Result.Outcome.ACTIVE_COMBAT_ENCOUNTER, npc.character_id)
 		var npc_result: OldPineSaveEligibilityResult = _inspect_character(
 			npc.character_id,
 			npc.character_state,

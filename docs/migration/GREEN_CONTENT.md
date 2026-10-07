@@ -21,7 +21,7 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 | cave0 (洞口) | 小孩 ×2 (kid4) | mountain map: the hill's foot, the chained wooden door north |
 | cave1, cave2, mpath0–2 | — | the low, freezing cave; the road between the cliff and the chasm |
 | entrance (山路尽头) | — | the painting (look), the cave east into the 迷阵 (100000 combat_exp), the great stone door north |
-| outdoor, cavehall, stoneroom, water | 绝尘子 (cavehall, C) | the stone rooms (the hall sealed but to 绝尘子's apprentices), the stream and its search |
+| outdoor, cavehall, stoneroom, water | 绝尘子 (cavehall) | the stone rooms (the hall sealed but to 绝尘子's apprentices), the stream and its search |
 | eight0–7, closed | — | 迷阵 map: eight clearings drawn after their texts, each 路牌 looked at; 绝地's stone and 放弃 |
 
 ## The 玉佩 and the 蒙汗药 (B)
@@ -36,6 +36,18 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 | jade.c | 玉佩: `unique`, studied for force up to 40 |
 | obj/slumber_drug.c, obj/toy/poison_dust.c | `pour` (the 背包's 倒进): 100 slumber_drug a sip / the drink's slumber_effect, + 100 a pour |
 | daemon/condition/drunk.c, slumber_drug.c | the drunk and slumber_drug conditions, for the player and NPCs (the Snow drunk gets drunk on his wine) |
+
+## 绝尘派 (C)
+
+| LPC | Native |
+|---|---|
+| daemon/class/juechen/master.c | common.npc.juechen.master in the hall (cavehall.c): 金刚杖 wielded, 紫金冠 worn, mana 4000 of 2000, atman 2000 |
+| master.c chat_msg_combat | cast dun, cast saveme and his two lines at 40 |
+| master.c attempt_apprentice() | apprentice rule: `commoners_only` (the 【闲聊】 line and kill_ob(), asked first), then spi 24 and combat_exp 100000 with their says; class taoist |
+| magic-array/dun.c | DunSpell: at an enemy, busy mana / 200 − its max_mana / 100 + 2 (the self cast waits for D) |
+| magic-array/saveme.c, obj/npc/heaven_soldier.c | SavemeSpell and a summoned NPC (SummonedNpc): it comes beside its caster against the caster's enemies and leaves when the fight ends |
+| skills magic, spells, tao-mystery, magic-array, juechen-force, jingang-staff | skills.json (valid_learn: 小天魔道 above 奇门遁甲; str + max_force / 10 ≥ 50; tao-mystery's 100 bellicosity a level) |
+| cmds/std/meditate.c, respirate.c | 武学 page: 冥思 (sen → 法力), 修行 (gin → 灵力) |
 
 ## Source anomalies
 
@@ -52,6 +64,7 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 - shen.c's give_jade() and sell_drug() return 0, so ask.c also said a 没听说过 line after them.
 - drunk.c's receive_healing() calls reach no function (damage.c has receive_heal()).
 - shen.c's list text has 摆\著 (a Big5 artifact): 摆著.
+- jingang-staff.c is a copy of cloudstaff.c (its header says so) with the same four moves.
 - npc/master.c (龙若法王) does not compile (`map_skill("spells",magic-array)`); no room places
   him, kid5.c, s.c or shen1.c.
 - woman1.c's knife line has a stray backslash (菜刀神功\是吧, a Big5 artifact): dropped.
@@ -60,6 +73,5 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 
 ## Deferred
 
-- C: 绝尘子 in the hall (spawn_skip in tools/migration/overrides/green.json until then); his
-  arts, 遁/召天将 in a fight, joining, teaching, 冥思 and 修行.
-- D: the player's cast.
+- D: the player's cast (遁 at oneself to Snow's temple, 困 at an enemy, 召天将 on the player's
+  side).

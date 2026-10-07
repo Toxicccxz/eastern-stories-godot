@@ -2,8 +2,8 @@ class_name MartialArtsPage
 extends VBoxContainer
 
 ## The character panel's 武学 page: cmds/usr/skills.c's list, enable.c's uses with
-## their enable, disable and practice buttons, exercise, enforce, exert,
-## self-learning and study.
+## their enable, disable and practice buttons, exercise, enforce, meditate, respirate,
+## exert, self-learning and study.
 ## PlayerMartialArts owns the rules; the page shows the state and repeats the lines
 ## the log received last. Buttons are rebuilt only when the set of actions changes.
 
@@ -31,6 +31,12 @@ var exercise_amount: SpinBox
 var exercise_button: Button
 var enforce_amount: SpinBox
 var enforce_button: Button
+var mana_text: Label
+var meditate_amount: SpinBox
+var meditate_button: Button
+var atman_text: Label
+var respirate_amount: SpinBox
+var respirate_button: Button
 var exert_title: Label
 var exert_row: HFlowContainer
 var self_learn_title: Label
@@ -90,6 +96,18 @@ func _init() -> void:
 	enforce.add_child(enforce_amount)
 	enforce_button = _button(enforce, "EnforceButton", "加力")
 	enforce_button.pressed.connect(_enforce)
+	_title("冥思")
+	mana_text = _label("Mana")
+	_label("MeditateCost").text = "每次花费的神"
+	meditate_amount = _cost_box("Meditate")
+	meditate_button = _button(meditate_amount.get_parent(), "MeditateButton", "冥思")
+	meditate_button.pressed.connect(_meditate)
+	_title("修行")
+	atman_text = _label("Atman")
+	_label("RespirateCost").text = "每次花费的精"
+	respirate_amount = _cost_box("Respirate")
+	respirate_button = _button(respirate_amount.get_parent(), "RespirateButton", "修行")
+	respirate_button.pressed.connect(_respirate)
 	exert_title = _title("运功")
 	exert_row = _flow("Exert")
 	self_learn_title = _title("自学")
@@ -117,6 +135,14 @@ func refresh() -> void:
 	force_text.text = tr("内力 {force} / {max_force} (+{factor})").format({
 		"force": state.recovery.inner_force.current, "max_force": state.recovery.inner_force.maximum,
 		"factor": state.attributes.force_factor,
+	})
+	# TRANSLATORS: score.c: mana (法力) and its maximum, what meditate (冥思) builds.
+	mana_text.text = tr("法力 {mana} / {max_mana}").format({
+		"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum,
+	})
+	# TRANSLATORS: score.c: atman (灵力) and its maximum, what respirate (修行) builds.
+	atman_text.text = tr("灵力 {atman} / {max_atman}").format({
+		"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum,
 	})
 	# TRANSLATORS: the 武学 page: score.c's 杀气 (bellicosity) and 定力 (cps), which decide whether the player can lose control.
 	bellicosity_text.text = tr("杀气 {bellicosity} · 定力 {cps}").format({
@@ -337,6 +363,34 @@ func _enforce() -> void:
 	if _session != null:
 		_session.martial_arts().enforce(int(enforce_amount.value))
 		refresh()
+
+
+func _meditate() -> void:
+	if _session != null:
+		_session.martial_arts().meditate(int(meditate_amount.value))
+		refresh()
+
+
+func _respirate() -> void:
+	if _session != null:
+		_session.martial_arts().respirate(int(respirate_amount.value))
+		refresh()
+
+
+## A row with the amount meditate.c and respirate.c spend: at least 10, 30 as their help gives.
+func _cost_box(node_name: String) -> SpinBox:
+	var row := HBoxContainer.new()
+	row.name = node_name
+	row.add_theme_constant_override("separation", 8)
+	add_child(row)
+	var amount := SpinBox.new()
+	amount.name = node_name + "Amount"
+	amount.min_value = 10
+	amount.max_value = 100000
+	amount.step = 1
+	amount.value = 30
+	row.add_child(amount)
+	return amount
 
 
 func _title(text: String) -> Label:

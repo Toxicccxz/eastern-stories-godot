@@ -1,5 +1,39 @@
 # Migration Decisions
 
+## 青石村 C: 绝尘派 (2026-10-07)
+
+What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
+- **A family's member is attacked for asking (juechen/master.c), asked first** (owner's rule on
+  deadly choices): 拜师 with 绝尘子 by one whose title is not 普通百姓 opens the shared confirm
+  (he will call it betrayal and attack to kill); confirmed, apprentice.c's line, his chat line
+  and kill_ob(): he hunts the player, who only fights back. Asked again, apprentice.c only says
+  对方还没有答应 (the request stays pending), so he does not attack twice.
+- **His chat channel line** (command("chat ...")) shows in the log as channeld.c writes it,
+  【闲聊】绝尘子：… in HIC, without the English id; nobody else hears channels in single player.
+- **His checks, in order, each with its say**: spi as set (query("spi")), then combat_exp. The
+  apprentice rule's `requires` may now be a list of such checks; 柳淳风's and 陈剑秋's single
+  check is unchanged. Class taoist: 【 道  士 】 / 【 女  冠 】 on the sheet, 道长 / 仙姑 as respect.
+- **召天将's soldier** (obj/npc/heaven_soldier.c) comes into the fight against the caster's
+  living enemies (the player fights it back); a spar goes on to the death, as with 天邪虎啸.
+  set_leader() is not ported: it leaves, with its lines, as soon as the fight it came into ends
+  (heal_up() when not fighting), unconscious or not, and takes what it carries; a dead one leaves
+  its corpse. Its name is drawn on creation (`name_pick`, 天甲…天癸神兵) and never saved: no room
+  may place an NPC that draws its name, a save is refused while one stands, and its ID
+  (summoned.<n>.<definition>.character, n from the saved item allocator) lets Continue check its
+  corpse against its definition.
+- **遁 at an enemy only for now**: an NPC's cast_spell() names no target, so 绝尘子 holds his
+  enemy busy (mana / 200 less its max_mana / 100, plus 2: about 21 rounds at first). The cast at
+  oneself (to Snow's temple) comes with the player's spells (D). dun.c's `mana_facter` is a
+  misspelt key nothing sets: it adds nothing, as in ES2.
+- **冥思 and 修行** are on the 武学 page with an amount (at least 10, 30 to start: their help's
+  default; the commands themselves require one). The character sheet shows score.c's 灵力 and
+  法力 (内力 is on the 武学 page). With no 基本咒文 (基本法术), meditate.c (respirate.c) hits its
+  bottleneck at once and puts mana (atman) back to its maximum, as in ES2.
+- Names chinesed.c would give are authored: 基本法术 (magic), 基本咒文 (spells), 小天魔道,
+  奇门遁甲, 绝尘心法, 金刚杖法. combatd.c reads no `dodge`/`parry` of an action, so 金刚杖法's are
+  left out (as 春风快意刀's). Not ported, as planned: cavehall.c's valid_startroom (Continue starts
+  where the save was).
+
 ## 青石村 B: the 玉佩 and the 蒙汗药 (2026-10-07)
 
 What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).

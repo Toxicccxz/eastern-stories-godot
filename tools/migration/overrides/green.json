@@ -1,9 +1,4 @@
 {
-	"spawn_skip": {
-		"d/green/cavehall.c": {
-			"daemon/class/juechen/master.c": "绝尘子 comes with 绝尘派 (package C)"
-		}
-	},
 	"items": ["d/green/obj/windsword.c", "d/green/obj/rope.c", "d/green/obj/hammer.c", "d/green/obj/jade.c", "obj/slumber_drug.c"],
 	"npcs": ["d/green/npc/spider.c"],
 	"set": {
@@ -118,6 +113,17 @@
 		},
 		"es2:obj/slumber_drug": {
 			"pour": { "condition": "slumber_drug", "dose": 100 }
+		},
+		"common.npc.juechen.master": {
+			"apprentice": {
+				"commoners_only": "{title}{nickname}{name}要叛师！！！",
+				"requires": [
+					{ "spi": 24, "refuse_say": "入我派者，需有慧根。$RESPECT的资质不宜！" },
+					{ "combat_exp": 100000, "refuse_say": "$RESPECT似乎尚缺江湖历练，不宜投入绝尘门下。" }
+				],
+				"accept_say": "很好$RESPECT多加努力他日必定有成。",
+				"class": "taoist"
+			}
 		}
 	},
 	"review": {
@@ -246,6 +252,14 @@
 		"d/green/obj/rope.c": {
 			"function init": "hang: the item's hang (the 上吊 button, asked first)",
 			"function hang_self": "hang: refused outdoors (the room's outdoors), else the lines and die() (no killer: last_damage_from is not counted)"
+		},
+		"daemon/class/juechen/master.c": {
+			"function attempt_apprentice": "apprentice rule in set: one whose title is not 普通百姓 hears the chat line (【闲聊】, DECISIONS 青石村 C) and is killed (grin prints nothing); then spi (query(\"spi\")) and combat_exp, each with its say; smile prints nothing",
+			"function recruit_apprentice": "class taoist: apprentice.class in set"
+		},
+		"daemon/class/juechen/jingang_staff.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
 		}
 	}
 }

@@ -45,9 +45,9 @@ TEXT_KEYS = frozenset({
     "refuse_say", "dry_say", "respect", "unit", "base_unit", "action", "then", "else", "gender",
     "damage_type", "done", "weapon_fail", "improved_line", "message", "line",
     "target", "quest_type", "ask_say", "again_say", "oath", "ask_tell", "success", "force_fail",
-    "whisper",
+    "whisper", "commoners_only",
 })
-TEXT_LIST_KEYS = frozenset({"limbs"})
+TEXT_LIST_KEYS = frozenset({"limbs", "name_pick"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
@@ -353,7 +353,7 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
                 if has_chinese(topic):
                     catalog.add(topic, relative, note=f"{record_id} inquiry topic")
                 _walk_text(answer, relative, f"{record_id} inquiry.{topic}", catalog)
-        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "shop_front"):
+        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "shop_front", "summoned"):
             _walk_text(value, relative, note, catalog)
         elif key == "relay_say" and isinstance(value, dict):
             # What the player can say beside the NPC (the 接话 button), and its answers.

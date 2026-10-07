@@ -83,11 +83,13 @@ func _test_skill_data() -> void:
 	var records: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/common/skills.json"))
 	for record: Dictionary in records.skills:
 		var skill: SkillDefinition = _skill(StringName(record.id))
-		if effects.has_effect(skill.skill_id):
+		# tao-mystery.c's skill_improved() adds bellicosity and writes nothing.
+		if effects.has_effect(skill.skill_id) and skill.skill_id != &"tao-mystery":
 			_check(not skill.improved_line.is_empty() and skill.improved_color == (ColoredLine.RED if skill.skill_id == &"six-chaos-sword" else ColoredLine.HIW), "%s: skill_improved()'s line in skills.json, in its colour" % skill.skill_id)
 	_check(_skill(&"unarmed").improved_line == "由於你勤练武艺，你的膂力提高了。", "unarmed.c's line")
+	_check(_skill(&"tao-mystery").improved_line.is_empty(), "tao-mystery.c: 100 bellicosity a level, no line")
 	var errors: Array[String] = []
-	SkillDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "kind": "basic", "type": "martial", "legacy_source": "x.c", "valid_learn": {"strength": "x"}}, "x", errors))
+	SkillDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "kind": "basic", "type": "martial", "legacy_source": "x.c", "valid_learn": {"luck": "x"}}, "x", errors))
 	_check(errors.size() == 1 and errors[0].contains("unknown rule"), "an unknown valid_learn rule fails the load: %s" % [errors])
 	errors.clear()
 	SkillDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "kind": "basic", "type": "martial", "legacy_source": "x.c", "improved_line": "x", "improved_color": "BLUE"}, "x", errors))
