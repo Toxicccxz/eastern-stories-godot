@@ -4,15 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**水烟阁 C** (`phase/waterfog-c`): 天邪神功 in the player's hands — 提升战斗力, 压制杀气 (in a
-fight it can knock the player out; asked first, with the odds) and 天邪虎啸 (asked first: everyone
-here who does not withstand it comes in to kill, a spar turns deadly); 杀气 that boils over: the
-player stares and attacks (or challenges) someone by themselves on coming into a place, never their
-master, with a one-time warning; NPCs glare back when looked at; the 武学 page shows 杀气 and 定力
-(DECISIONS).
+**绮云镇's upper floors** (`phase/cloud-floors`): 香茗坊二楼, 怡红院二楼 and the 赌场's upper floor are
+each their own map, drawn over their building and furnished from their room text (DECISIONS).
+**水烟阁 C** (#68, merged): 天邪神功 in the player's hands — 提升战斗力, 压制杀气 and 天邪虎啸 (both
+asked first in a fight), 杀气 that boils over (never at the player's master, a one-time warning),
+NPCs' glare when looked at; the 武学 page shows 杀气 and 定力 (DECISIONS).
 
-Next: redraw the seven hand-made maps with the painter and split 绮云镇's upper floors into three
-maps (two PRs: 老松岭 + 绮云镇 upstairs, then 雪亭镇).
+Next: redraw the seven older hand-made maps with the painter (老松岭's five, then 雪亭镇's Inn and streets).
 
 ## Playable now
 
@@ -48,8 +46,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * **野羊山**: north of Snow's crossroad, all 15 rooms on two maps: the mountain road (土匪爪牙,
   土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
   巨岩蛭).
-* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on two maps (the ridge and the
-  town; the three upper floors): 卧龙岗强盗 and their toll (walk straight past them; they attack
+* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on four maps (the ridge and the town, and each upper floor on its own): 卧龙岗强盗 and their toll (walk straight past them; they attack
 whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,

@@ -57,7 +57,7 @@ func _test_data() -> void:
 		if catalog.room(StringName("es2:u/cloud/" + room)) == null or zone == null:
 			missing.append(room)
 	_check(missing.is_empty() and ROOMS.size() == 43, "forty-three rooms, a zone each: missing " + str(missing))
-	_check(catalog.zone(&"cloud.dragonhill.hummock").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.tearoom2").map_id == &"cloud.upstairs", "two maps: the ridge and the town's ground floor, and the upper floors")
+	_check(catalog.zone(&"cloud.dragonhill.hummock").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.tearoom2").map_id == &"cloud.tearoom_upstairs" and catalog.zone(&"cloud.jiyuan2").map_id == &"cloud.jiyuan_upstairs" and catalog.zone(&"cloud.duchang2").map_id == &"cloud.duchang_upstairs", "the ridge and the town's ground floor on one map; each upper floor its own (owner)")
 	_check(catalog.zones_adjacent(&"snow.sroad1", &"cloud.dragonhill.nroad"), "Snow's 雪亭镇街道 south to 黄土路")
 	_check(catalog.zones_adjacent(&"cloud.dragonhill.shillfoot", &"cloud.entrance") and catalog.zones_adjacent(&"cloud.dragonhill.sroad", &"cloud.entrance") and catalog.zones_adjacent(&"cloud.dragonhill.sroad", &"cloud.dragonhill.shillfoot"), "南坡, the second 黄土路 and the town's entrance all lead to each other")
 	_check(catalog.zone(&"cloud.dragonhill.hummock").combat_entry == &"complete_set", "the two robbers on the ridge attack together")
@@ -65,7 +65,7 @@ func _test_data() -> void:
 	for spawn_id: String in ["cloud.outdoor.hummock.gangsters", "cloud.outdoor.butchery.flys", "cloud.outdoor.woodboxy.box_waiters",
 			"cloud.outdoor.rich.room_guas", "cloud.outdoor.eroad4.workers", "cloud.outdoor.monky.beggars", "cloud.outdoor.nwroad3.garrisons",
 			"cloud.outdoor.biaoju.b_header", "cloud.outdoor.god2.god", "cloud.outdoor.duchang.judge", "cloud.outdoor.marry_room.mei_po",
-			"cloud.outdoor.dukou.boater", "cloud.upstairs.jiyuan2.girl"]:
+			"cloud.outdoor.dukou.boater", "cloud.jiyuan_upstairs.jiyuan2.girl"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(StringName(spawn_id))
 		counts.append(0 if spawn == null else spawn.quantity)
 	_check(counts == [2, 6, 8, 5, 6, 2, 2, 1, 1, 1, 1, 1, 1], "the rooms' objects, the later packages' masters and the boatman included: %s" % [counts])
@@ -109,7 +109,7 @@ func _test_steal_rolls() -> void:
 
 
 func _test_tiles(session: OldPineWorldSessionController) -> void:
-	for map_id: StringName in [&"cloud.outdoor", &"cloud.upstairs"]:
+	for map_id: StringName in [&"cloud.outdoor", &"cloud.tearoom_upstairs", &"cloud.jiyuan_upstairs", &"cloud.duchang_upstairs"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
 		var walkable: Dictionary[Vector2i, bool] = {}
@@ -144,7 +144,10 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 			if body == null or not walkable.has(layers[0].local_to_map(body.global_position)):
 				unplaced.append(String(npc.spawn_point_id))
 		_check(unplaced.is_empty(), "%s's NPCs stand on open ground: %s" % [map_id, unplaced])
-	_check(session.world_map_of(&"cloud.outdoor").npc_runtimes().size() == 51 and session.world_map_of(&"cloud.upstairs").npc_runtimes().size() == 2, "51 people in the town and on the ridge, 2 upstairs (the chess player and 李师师): %d, %d" % [session.world_map_of(&"cloud.outdoor").npc_runtimes().size(), session.world_map_of(&"cloud.upstairs").npc_runtimes().size()])
+	var upstairs: Array[int] = []
+	for map_id: StringName in [&"cloud.tearoom_upstairs", &"cloud.jiyuan_upstairs", &"cloud.duchang_upstairs"]:
+		upstairs.append(session.world_map_of(map_id).npc_runtimes().size())
+	_check(session.world_map_of(&"cloud.outdoor").npc_runtimes().size() == 51 and upstairs == [1, 1, 0], "51 people in the town and on the ridge; upstairs the chess player, 李师师 and nobody: %d, %s" % [session.world_map_of(&"cloud.outdoor").npc_runtimes().size(), upstairs])
 
 
 ## South from Snow, up the tea house's stairs and through its 木雕门, walked.
@@ -159,10 +162,20 @@ func _test_walks(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.sroad1", "north again: Snow's street")
 	_check(session.handoff_to(&"cloud.outdoor", &"cloud.tearoom", &"cloud.tearoom", &"cloud.tearoom.stairs_return").succeeded(), "in 香茗坊")
 	await tree.physics_frame
-	await _goathill._walk_until_map(tree, session, &"cloud.upstairs", "move_right")
-	_check(session.active_map_id() == &"cloud.upstairs" and player.world_location().zone_id == &"cloud.tearoom2", "its stairs: 香茗坊二楼")
+	await _goathill._walk_until_map(tree, session, &"cloud.tearoom_upstairs", "move_right")
+	_check(session.active_map_id() == &"cloud.tearoom_upstairs" and player.world_location().zone_id == &"cloud.tearoom2", "its stairs: 香茗坊二楼")
 	await _goathill._walk_until_map(tree, session, &"cloud.outdoor", "move_right")
 	_check(session.active_map_id() == &"cloud.outdoor" and player.world_location().zone_id == &"cloud.tearoom", "and down again")
+	# The other two upper floors, each its own map with its own stairs.
+	for floor: Array in [[&"cloud.jiyuan", &"cloud.jiyuan_upstairs", &"cloud.jiyuan2"], [&"cloud.duchang", &"cloud.duchang_upstairs", &"cloud.duchang2"]]:
+		_check(session.world_map_of(&"cloud.outdoor").relocate_player(floor[0], StringName(String(floor[0]) + ".stairs_return")), "in %s, by its stairs" % floor[0])
+		await tree.physics_frame
+		await _goathill._walk_until_map(tree, session, floor[1], "move_right")
+		_check(session.active_map_id() == floor[1] and player.world_location().zone_id == floor[2], "up its stairs: %s" % floor[2])
+		await _goathill._walk_until_map(tree, session, &"cloud.outdoor", "move_right")
+		_check(session.active_map_id() == &"cloud.outdoor" and player.world_location().zone_id == floor[0], "and down again into %s" % floor[0])
+	_check(session.world_map_of(&"cloud.outdoor").relocate_player(&"cloud.tearoom", &"cloud.tearoom.stairs_return"), "back in 香茗坊")
+	await tree.physics_frame
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var door_at: Vector2 = map.door(&"cloud.tearoom.door").wall_shape().global_position
 	map.runtime_player_body().global_position = door_at + Vector2(0, 56) # TEST-ONLY: by the 木雕门

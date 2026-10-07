@@ -205,6 +205,21 @@ msgstr ""
 msgid "背包"
 msgstr ""
 
+#. es2:u/cloud/duchang short
+#. es2:u/cloud/duchang2 short
+#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+msgid "赌场"
+msgstr ""
+
+#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
+msgid "楼梯 · 下楼"
+msgstr ""
+
+#. es2:u/cloud/jiyuan2 short
+#: scenes/world/cloud/cloud_jiyuan_upstairs.tscn data/cloud/rooms.json
+msgid "怡红院二楼"
+msgstr ""
+
 #. es2:u/cloud/dragonhill/nroad short
 #. es2:u/cloud/dragonhill/sroad short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
@@ -379,12 +394,6 @@ msgstr ""
 msgid "斋院"
 msgstr ""
 
-#. es2:u/cloud/duchang short
-#. es2:u/cloud/duchang2 short
-#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/cloud/cloud_upstairs.tscn data/cloud/rooms.json
-msgid "赌场"
-msgstr ""
-
 #. es2:u/cloud/biaoju short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
 msgid "镖局"
@@ -407,17 +416,8 @@ msgid "楼梯 · 上楼"
 msgstr ""
 
 #. es2:u/cloud/tearoom2 short
-#: scenes/world/cloud/cloud_upstairs.tscn data/cloud/rooms.json
+#: scenes/world/cloud/cloud_tearoom_upstairs.tscn data/cloud/rooms.json
 msgid "香茗坊二楼"
-msgstr ""
-
-#. es2:u/cloud/jiyuan2 short
-#: scenes/world/cloud/cloud_upstairs.tscn data/cloud/rooms.json
-msgid "怡红院二楼"
-msgstr ""
-
-#: scenes/world/cloud/cloud_upstairs.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
-msgid "楼梯 · 下楼"
 msgstr ""
 
 #. es2:d/goathill/cavern1 short

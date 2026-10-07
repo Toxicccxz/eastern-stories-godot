@@ -265,18 +265,18 @@
 			"legacy_quantity": 6
 		},
 		{
-			"id": "cloud.upstairs.tearoom2.chess_player",
+			"id": "cloud.tearoom_upstairs.tearoom2.chess_player",
 			"npc": "cloud.npc.chess_player",
-			"map": "cloud.upstairs",
+			"map": "cloud.tearoom_upstairs",
 			"zone": "cloud.tearoom2",
 			"points": ["cloud.tearoom2.chess_player.1"],
 			"legacy_room": "u/cloud/tearoom2.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "cloud.upstairs.jiyuan2.girl",
+			"id": "cloud.jiyuan_upstairs.jiyuan2.girl",
 			"npc": "cloud.npc.girl",
-			"map": "cloud.upstairs",
+			"map": "cloud.jiyuan_upstairs",
 			"zone": "cloud.jiyuan2",
 			"points": ["cloud.jiyuan2.girl.1"],
 			"legacy_room": "u/cloud/jiyuan2.c",
