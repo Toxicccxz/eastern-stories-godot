@@ -62,10 +62,11 @@ func _process(_delta: float) -> void:
 		panel.hide()
 
 
-## buy: the keeper's buy_item().
+## buy: the keeper's buy_item(). Its command()s do nothing while it lies unconscious
+## (damage.c unconcious() disables its commands); list's write() still shows.
 func request_buy() -> Array[String]:
 	last_lines = []
-	if not in_reach():
+	if not in_reach() or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		return last_lines
 	var state: CharacterState = map.player_runtime().state
 	var respect: String = RankWords.query_respect(state.gender, map.player_runtime().facts.age, state.affiliation.class_id)

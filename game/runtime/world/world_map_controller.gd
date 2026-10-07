@@ -3242,7 +3242,10 @@ static func _kee_percent(state: CharacterState) -> int:
 
 ## What the selected NPC can be asked about, in ES2's listing order (NpcInquiry).
 func ask_topics_selected() -> Array[String]:
-	return NpcInquiry.topics(selected_npc().definition()) if can_ask_selected() else []
+	var topics: Array[String] = []
+	if can_ask_selected():
+		topics = NpcInquiry.topics(selected_npc().definition())
+	return topics
 
 
 ## ask <npc> about <topic> on the selected NPC; its lines go to the log too. What
@@ -3263,9 +3266,13 @@ func ask_selected(topic: String) -> Array[String]:
 		_player.state.marks[mark] = 1
 	if not answer.gives.is_empty():
 		var content: ItemContentDefinition = GameContent.catalog().item(answer.gives)
-		if content != null and not give_new_item_to_player(answer.gives).is_empty():
+		var given: StringName = &"" if content == null else give_new_item_to_player(answer.gives)
+		if not given.is_empty():
 			# give.c to the receiver: "<npc>给你一<unit><name>。"
 			answer.say(tr("{npc}给你{item}。").format({"npc": tr(target.definition().display_name), "item": HeldItemFacts.one_unit(content)}))
+			_tell_if_at_feet(given, content)
+			if not answer.mark_on_give.is_empty():
+				_player.state.marks[answer.mark_on_give] = 1
 	_hud().append_colored_lines(answer.lines)
 	if _hud().inventory_is_open():
 		_hud().show_inventory(session.player_inventory_rows())
@@ -3275,7 +3282,10 @@ func ask_selected(topic: String) -> Array[String]:
 ## The lines the player can say beside the selected NPC that it answers (relay_say():
 ## oldman2.c's 必有妖孽); the UI offers them as 接话 instead of typing `say`.
 func relay_phrases_selected() -> Array[String]:
-	return selected_npc().definition().talk().relay_phrases() if can_ask_selected() else []
+	var phrases: Array[String] = []
+	if can_ask_selected():
+		phrases = selected_npc().definition().talk().relay_phrases()
+	return phrases
 
 
 ## cmds/std/say.c beside the selected NPC, then its relay_say(). Badly hurt (kee below
@@ -3290,13 +3300,21 @@ func say_beside_selected(phrase: String) -> Array[String]:
 	var vitality: CharacterResourceState = _player.state.vitality
 	if vitality.current < vitality.maximum / 5:
 		said = said.replace(" ", " ... ") + " ..."
-	var lines: Array[ColoredLine] = [ColoredLine.new(tr("你说道：%s") % said, ColoredLine.CYN)]
+	var lines: Array[ColoredLine] = [ColoredLine.new(tr("你说道：%s") % said)]
 	if said == tr(phrase) and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 		var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
 		for line: NpcLine in target.definition().talk().relay_answer(phrase):
 			lines.append(line.colored(target.definition().display_name, respect))
 	_hud().append_colored_lines(lines)
 	return ColoredLine.texts(lines)
+
+
+## A new item the player could not carry lies at their feet (give_new_item_to_player()):
+## say so (deviation: in ES2 the giver kept it, as give.c's move() failed).
+func _tell_if_at_feet(item_id: StringName, content: ItemContentDefinition) -> void:
+	if _inventory.is_direct_child(item_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
+		return
+	_hud().append_log_lines([tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(content)})])
 
 
 ## F_UNIQUE violate_unique(): the item is unique and one already exists somewhere in
@@ -3397,7 +3415,10 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
 	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line.
 	if result.done() and result.rule != null and not result.rule.gives.is_empty():
-		give_new_item_to_player(result.rule.gives)
+		var gift: StringName = give_new_item_to_player(result.rule.gives)
+		var gift_content: ItemContentDefinition = GameContent.catalog().item(result.rule.gives)
+		if not gift.is_empty() and gift_content != null and not _inventory.is_direct_child(gift, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
+			result.lines.append(tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(gift_content)}))
 	if not attacks:
 		_report_item_handling(result)
 		return result

@@ -94,7 +94,7 @@ func _test_elder(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(hud.relay_buttons_shown() == ["接话：必有妖孽"], "the 打听 panel offers the 接话")
 	var said: Array[String] = map.say_beside_selected("必有妖孽")
 	_check(said == ["你说道：必有妖孽", "村长说道：对呀.. 你就是妖孽..."], "relay_say(): 你就是妖孽: " + str(said))
-	_check(hud._log_colors.slice(-2) == [ColoredLine.CYN, ColoredLine.PLAIN], "say.c's CYN")
+	_check(hud._log_colors.slice(-2) == [ColoredLine.PLAIN, ColoredLine.PLAIN], "speech is plain (colour macros are presentation)")
 	var kee: int = player.state.vitality.current
 	player.state.vitality.current = player.state.vitality.maximum / 5 - 1 # TEST-ONLY
 	_check(map.say_beside_selected("必有妖孽") == ["你说道：必有妖孽 ..."], "kee below max_kee / 5: 必有妖孽 ..., which he lets pass")
@@ -146,7 +146,7 @@ func _test_shen(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var lines: Array[String] = map.ask_selected("玉佩")
 	_check(lines == ["你向沈万年打听有关『玉佩』的消息。", "沈万年给你一个玉佩。"] and player.state.marks.get("had_jade", 0) == 1, "the jade: " + str(lines))
 	var jade: StringName = _carried(session, JADE)
-	_check(not jade.is_empty() and map.violates_unique(JADE), "the jade is carried, and is the only one")
+	_check(not jade.is_empty() and map.violates_unique(JADE), "the jade is carried, and now one exists (violate_unique())")
 	var greedy: Array[String] = map.ask_selected("玉佩")
 	_check(greedy == ["你向沈万年打听有关『玉佩』的消息。", "沈万年说道：你真贪心耶..."], "asked again: greedy: " + str(greedy))
 	player.state.marks.erase("had_jade") # TEST-ONLY: as after a login in ES2
@@ -162,11 +162,17 @@ func _test_shen(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var bought: ItemHandlingResult = map.give_to_selected(&"test.silver", 10)
 	_check(bought.done() and bought.lines == ["老板塞了一包蒙汗药给你。", "你拿出十两银子给沈万年。"] and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 5, "ten taels: " + str(bought.lines))
 	_check(not _carried(session, DRUG).is_empty(), "a 包 of 蒙汗药 in hand")
-	# A stranger's question about the drug is ?: ask.c's own lines.
-	player.state.marks.erase("can_buy_drug") # TEST-ONLY
-	player.state.marks.erase("know_drug")
+	# 想骗我啊? took know_drug: asked again, sell_drug() says only ?, and ask.c its own line.
 	var plain: Array[String] = map.ask_selected("蒙汗药")
-	_check(plain.size() == 2 and NpcInquiry.DUNNO.any(func(line: String) -> bool: return line % "沈万年" == plain[1]), "without the drunk's word: a dunno line: " + str(plain))
+	_check(plain.size() == 2 and NpcInquiry.DUNNO.any(func(line: String) -> bool: return line % "沈万年" == plain[1]), "without know_drug: a dunno line: " + str(plain))
+	# Knocked out, his buy_item()'s command()s say nothing; list's write() still shows.
+	var front_again: ShopFrontService = front
+	shen.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	_check(front_again.request_buy().is_empty(), "an unconscious 沈万年 answers no 购买")
+	front_again.interact()
+	_check(front_again.last_lines.size() == 2, "but his list still shows")
+	session.shared_ui().dismiss_current_panel()
+	shen.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	await tree.process_frame
 
 
@@ -256,7 +262,7 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
 	var poured: Array = (raw.items.liquid_consumables as Array).filter(func(record: Dictionary) -> bool: return record.item_instance_id == String(wine))
 	_check(poured.size() == 1 and poured[0].drink_func == String(DUST) and poured[0].slumber_effect == "100", "the drink's powder is saved: %s" % [poured])
-	_check(raw.player.character.marks.has("elder_info") and raw.player.character.marks.has("had_jade") == false, "the chain's flags are saved with the marks")
+	_check(raw.player.character.marks.has("elder_info") and raw.player.character.marks.has("can_buy_drug"), "the chain's flags are saved with the marks: %s" % [raw.player.character.marks])
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, snapshot, "青石村 B")
 	_check(walker._failures.is_empty(), "Save/Continue restores it exactly: " + str(walker._failures))

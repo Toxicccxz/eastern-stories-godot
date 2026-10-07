@@ -44,12 +44,14 @@ class Asker:
 
 ## What asking did: the lines the player reads (in their colours: a whisper is GRN),
 ## the marks to set on the asker and the item the NPC hands over (`gives`: the caller
-## makes it and tells give.c's line).
+## makes it and tells give.c's line), with the mark set only once it was handed over
+## (`mark_on_give`: had_jade).
 class Answer:
 	extends RefCounted
 	var lines: Array[ColoredLine] = []
 	var marks: Array[String] = []
 	var gives: StringName = &""
+	var mark_on_give: String = ""
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -155,8 +157,10 @@ static func answer(
 		if taken:
 			return result
 		result.gives = rule.gives
-		if not rule.mark_asker.is_empty():
+		if rule.gives.is_empty() and not rule.mark_asker.is_empty():
 			result.marks.append(rule.mark_asker)
+		elif not rule.mark_asker.is_empty():
+			result.mark_on_give = rule.mark_asker
 		return result
 	if key == name or key == "name" or key == NAME:
 		match npc_definition.attitude:

@@ -15,7 +15,7 @@ What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
 - **The chain's set_temp() flags are saved** (elder_info, give_alcohol, know_drug, can_buy_drug,
   had_jade, in the character's marks). ES2 lost them at a relogin; a Continue would silently undo
   the clues. So a player gets the jade once (had_jade: 你真贪心耶).
-- **Owner (Q3): 必有妖孽** is the 打听 panel's 接话 button: say.c's 你说道 (in CYN), then
+- **Owner (Q3): 必有妖孽** is the 打听 panel's 接话 button: say.c's 你说道, then
   oldman2.c's relay_say(). With kee below max_kee / 5, say.c breaks the words up (必有妖孽 ...)
   and he lets them pass.
 - **Deviation (modern fixes): 想骗我啊? hands the gift back.** shen.c keeps whatever a buyer
@@ -32,7 +32,9 @@ What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
   there, and an NPC falling unconscious out of a fight shows combatd.c's 脚下一个不稳 line. The
   Snow drunk now gets drunk on his own wine (con 30: past 60 he passes out and comes to).
 - whisper.c lines are GRN. 陶壶's 米酒 shows its own name (it read 红酒). 沈万年 stands behind
-  his counter where the player at its front reaches him (layout `placed`).
+  his counter where the player at its front reaches him (layout `placed`). An item he hands over
+  that the player cannot carry lands at their feet, and they read so (in ES2 give.c failed and
+  he kept it); had_jade is set only once the jade was handed over.
 - **Save**: a liquid record's `drink_func` and `slumber_effect` are written only when something
   was poured in; no revision bump.
 
