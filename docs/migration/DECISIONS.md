@@ -18,6 +18,59 @@ left as toasts; talk with a character stays in its panel. Presentation only, no 
 - **Ours, for the owner to judge**: a toast also fades out by itself after 6–14 s (longer for
   longer text; oldest first), so the map's corner clears; `MessageToasts.LINGER_*` sets it.
 
+## 水烟阁 B: joining 天邪派, its masters' teaching, joining the 武者 (2026-10-06)
+
+Owner-approved plan ("按你的建议来"). What each LPC piece became is in
+[WATERFOG_CONTENT](WATERFOG_CONTENT.md).
+- **Taking apprentices is one of three rules** (NpcTeaching.ApprenticeRule `kind`, data):
+  `requirements` (柳淳风, 陈剑秋), `oath` (萧辟尘), `trial` (於兰天武). recruit.c run by the
+  master offers to take a student whose request does not wait on it (pending/recruit); their
+  next 拜师 takes them at once (apprentice.c's first branch). A finished 拜师 ends any other
+  request (apprentice.c's first branch left it standing). daemon/class/fighter's masters
+  give no class: one who comes from 封山剑派 keeps 剑士's class (and can then not join the 武者).
+- **Owner: 萧辟尘's oath is a fixed 发誓恪守门规 button** (no typing, every language): it
+  swears 守门规, the oath ES2 accepts (你发誓道：守门规); 你发的是什麽鬼誓 never comes. The button
+  shows while his request for an oath stands (pending/celestial_swear, transient).
+- **Owner: 於兰天武's test is asked first** (ConfirmPrompt: three real blows, a fall when one
+  is not stood, death from a bad wound, and what passing does — taken, a betrayal or an offer).
+  The rule is unchanged: three combatd.c do_attack() outside any fight (his 妖刀狗屠 wounds),
+  after each kee below zero (or the player gone) ends the test with that blow's line; the
+  player falls on the heart beat after (run at once), and he is the one who hit last.
+- **Modern fixes** (owner: as recommended, ES2 beside):
+  - MudOS say() skips this_player(), so in ES2 the challenger never read 於兰天武's lines (很好，
+    这是第一招, the three failure lines, 若真的有心…): the player reads them; the say() without a
+    speaker reads 於兰天武说道：.
+  - The command hints (accept test), (swear), (join) are dropped from the lines, and recruit.c's
+    用 apprentice 指令 reads 就向他拜师: the actions are buttons.
+  - The test is not offered to his own apprentice (it only ends in 好徒儿), while his offer
+    stands (拜师 takes the player), nor while he is not awake or in a fight (champion.c would
+    strike unconscious); a test whose first blow cannot be struck does not take place. The
+    oath button hides while 萧辟尘 is not awake (his command() would do nothing).
+  - **For the owner**: apprentice.c's first branch (taking an offer) compares families without
+    asking whether the player has one, so in ES2 a player with no family who takes 於兰天武's or
+    萧辟尘's offer reads 决定背叛师门 and loses score and a betrayal; recruit.c fixed the same
+    slip on its side ("fix a bug in 1st time recruit"). The port does as recruit.c: a first
+    master.
+  - score.c's rank (rankd.c query_rank(): 【 武  者 】, 【 剑  士 】, 【 平  民 】) leads the
+    character sheet's title line; the ghost's, 杀人魔 and 惯窃 do not apply yet.
+  - The player's 天邪神功 powerup and powerfade wait for C (powerfade's faint in a fight and its
+    question are not ported): 运功 does not offer them yet (ExertService.AWAITING_PLAYER).
+- **First master, betrayal or a change of master is asked where it happens**: at 萧辟尘's oath
+  and 於兰天武's test (or the 拜师 after an offer), not at the 拜师 that only asks for them.
+  Changing master inside 天邪派 (no betrayal) names what the old master teaches afterwards:
+  萧辟尘 only what he knows three times as well (prevent_learn()), 於兰天武 nothing (privs 0).
+- recruit.c's offer is said once: offering again tells only the master (对方还没有答应).
+- **於兰天武's privs are 0** (assign_apprentice("弟子", 0)): learn.c lets only his own
+  apprentices learn from him; another member hears his polite refusal (as ES2).
+- **Practice**: practice_skill() checks kee, force and sen, each with its line when it has its
+  own (celestrike.c's two, stormdance.c's sen); 天邪神功 is learnt (杀气 at least 50 for each point
+  of query_skill() without raw, half the level) and refuses practice.
+- **The 正厅's join** (std/room/class_guild.c) is the 樟木匾's action 加入武者同盟 (landmark
+  policy `join_class`): a player with no class becomes a 武者 (fighter); one with a class reads
+  你已经参加了其他公会。. Its startroom has no use: Continue starts where the player saved.
+- **Owner confirmed #64's two points**: a 切磋 that becomes a fight to the death is asked first;
+  the menu's two questions keep the focus on 取消.
+
 ## Ask before an important or deadly choice (2026-10-06)
 
 Owner: every important or deadly choice is asked first, through one reusable component
@@ -39,7 +92,7 @@ the rules themselves are unchanged.
   used to focus their choice.
 - **Not asked**: ordinary 攻击, 逃跑, 投降 and 运功 (the action is the intent), 老松岭's 藤蔓 and
   埋骨 (a fall only lands elsewhere), the 宝官's bet.
-- With 水烟阁: 於兰天武's three-blow test, 天邪虎啸 and powerfade in a fight.
+- With 水烟阁: 於兰天武's three-blow test (B), 天邪虎啸 and powerfade in a fight (C).
 
 ## 水烟阁 A: the mountain, the pavilion and their NPCs (2026-10-06)
 

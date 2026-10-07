@@ -63,6 +63,79 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 	return outcome
 
 
+## The master takes apprentices by an oath (萧辟尘), asked the player for it and is
+## awake (an unconscious NPC's command() does nothing).
+func awaits_oath() -> bool:
+	return (
+		takes_apprentices() and teaching().apprentice.kind == NpcTeaching.Kind.OATH
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and map.player_runtime().apprenticeship_request.awaits_oath(npc.definition().definition_id)
+	)
+
+
+## The master's accept test can be taken (champion.c's accept test): it takes
+## apprentices by a test, is awake and free to strike (not in a fight), and the test
+## would change something: the player is not its apprentice already (it would only end
+## in 好徒儿) and it has not offered already (拜师 takes them; owner: not offered).
+func offers_trial() -> bool:
+	var request: NpcApprenticeship = map.player_runtime().apprenticeship_request
+	return (
+		takes_apprentices() and teaching().apprentice.kind == NpcTeaching.Kind.TRIAL
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and npc.combat_available and not npc.relationship.is_fighting()
+		and not NpcApprenticeship.is_master_of(map.player_runtime().state, npc.definition())
+		and not request.is_offered(npc.definition().definition_id)
+	)
+
+
+## swear (master.c do_swear()): the oath ES2 accepts, from the owner's fixed button.
+func swear_oath() -> NpcApprenticeship.Outcome:
+	last_lines = []
+	if not can_teach() or not awaits_oath():
+		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var outcome: NpcApprenticeship.Outcome = player.swear_oath(
+		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()),
+	)
+	_say(player.apprenticeship_request.lines)
+	return outcome
+
+
+## accept test (champion.c do_accept()): the master's blows (NpcApprenticeTrial), each
+## a do_attack() outside any fight; a player whose kee went below zero falls on the
+## heart beat that follows (char.c), run here at once.
+func take_trial() -> NpcApprenticeTrial.Result:
+	last_lines = []
+	if not can_teach() or not offers_trial():
+		return NpcApprenticeTrial.Result.new()
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var master: NpcDefinition = npc.definition()
+	var family: FamilyDefinition = GameContent.catalog().family(teaching().family_id)
+	var cast: BattlePresentationProjection = BattleProjectionBuilder.cast_of(map.session, [npc.character_id])
+	var narrator := BattleNarrator.new()
+	var attack := func() -> Variant:
+		var seen: Array[ColoredLine] = []
+		var blow: CombatSliceOpportunityResult = map.attack_player_outside_fight(npc)
+		if blow == null:
+			return null
+		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):
+			seen.append(ColoredLine.new(line.text, line.color))
+		return seen
+	var stands := func() -> bool:
+		var location: WorldLocationState = player.world_location()
+		return (
+			player.state.vitality.current >= 0 and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+			and location != null and location.zone_id == npc.world_location().zone_id
+		)
+	var recruit := func() -> NpcApprenticeship.Outcome:
+		return player.recruited_by(master, family, int(Time.get_unix_time_from_system()))
+	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(teaching().apprentice, player.apprenticeship_request, attack, stands, recruit)
+	_say_colored(result.lines)
+	if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+		map.player_fall_below_zero()
+	return result
+
+
 func cancel_apprentice() -> NpcApprenticeship.Outcome:
 	last_lines = []
 	if not can_teach():

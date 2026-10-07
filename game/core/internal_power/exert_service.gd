@@ -13,14 +13,21 @@ const SPECIAL_ROLL: int = 120
 const BASIC_ROLL_MULTIPLIER: int = 4
 
 
+## 天邪神功's own functions wait for 水烟阁 C (the player's 天邪神功: powerfade's faint in
+## a fight is not ported yet, nor its question). The player learns 天邪神功 from B on.
+const AWAITING_PLAYER: Array[StringName] = [&"powerup", &"powerfade"]
+
+
 ## The functions `exert` reaches with the enabled force, in ExertFunctions order;
-## none without one.
+## none without one. Only the player is offered functions (NPCs exert from their chat).
 static func offered(character: CharacterState, catalog: ContentCatalog) -> Array[StringName]:
 	var out: Array[StringName] = []
 	var mapped: StringName = character.skills.mapped_skill(BASIC_FORCE)
 	if mapped.is_empty():
 		return out
 	for function_id: StringName in ExertFunctions.ORDER:
+		if function_id in AWAITING_PLAYER:
+			continue
 		if _has(catalog.skill(mapped), function_id) or _has(catalog.skill(BASIC_FORCE), function_id):
 			out.append(function_id)
 	return out

@@ -19,7 +19,8 @@ static func teachable_skills(definition: NpcDefinition, catalog: ContentCatalog)
 
 
 ## learn.c's facts about the teacher for one request: present and a character
-## (`here`), living(), query("int"), query("sen"), its raw skill level and family.
+## (`here`), living(), query("int"), query("sen"), its raw skill level and family
+## (with its privs: only -1 teaches every member).
 ## An NPC never pays sen (only userp(ob) does).
 static func context(npc: NpcRuntimeState, skill_id: StringName, here: bool, student_fighting: bool, random: WorldInteractionRandomSource) -> TeachingContext:
 	var teaching: NpcTeaching = npc.definition().teaching()
@@ -29,7 +30,7 @@ static func context(npc: NpcRuntimeState, skill_id: StringName, here: bool, stud
 		state.skills.raw_level(skill_id), state.attributes.intelligence, state.spirit.current,
 		&"" if teaching == null else teaching.family_id,
 		0 if teaching == null else teaching.family_generation,
-		-1 if teaching != null and teaching.has_family() else 0,
+		teaching.family_privileges if teaching != null and teaching.has_family() else 0,
 		npc.definition().display_name,
 		here and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD,
 		true,

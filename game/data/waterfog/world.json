@@ -48,7 +48,7 @@
 	],
 	"doors": [],
 	"landmarks": [
-		{"id": "waterfog.guildhall.landmark.sign", "zone": "waterfog.guildhall", "name": "樟木匾", "policy": "look", "long": "要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n一份子，只要你加入(join)武者同盟，就可以向同盟中的各大门派拜师\n学艺。\n", "legacy_source": "d/waterfog/guildhall.c"},
+		{"id": "waterfog.guildhall.landmark.sign", "zone": "waterfog.guildhall", "name": "樟木匾", "policy": "join_class", "action": "加入武者同盟", "class": "fighter", "messages": {"joined": "恭喜，从今天起您已经成为一名武者！", "refused": "你已经参加了其他公会。"}, "long": "要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n一份子，只要你加入武者同盟，就可以向同盟中的各大门派拜师\n学艺。\n", "legacy_source": "d/waterfog/guildhall.c"},
 		{"id": "waterfog.wpath2.landmark.stone", "zone": "waterfog.wpath2", "name": "石碑", "policy": "look", "long": "石碑上面几个苍劲古朴的字写道：虹谷石台，乙丑年水烟阁第六代\n阁主关雨楼立。\n你仔细一看，这几个字迹丝毫没有斧凿痕迹，竟像是题字的人直接\n用手指在岩石上写出来一般。\n", "legacy_source": "d/waterfog/wpath2.c"},
 		{"id": "waterfog.swordtomb.landmark.monolith", "zone": "waterfog.swordtomb", "name": "石碑", "policy": "look", "long": "石碑上龙飞凤武地刻著几个大字：\n\n    风波剑神黎红药前辈葬剑于此，水烟阁第四代七长老比武\n    不胜，以奸计害人而自取其辱，武者皆不齿其小人行径，\n    合力击杀于此，甲辰年立此亭书铭其事以为后人殷鉴。\n\n                        第三代水烟阁主 于兰玫音\n                        第四代水烟阁主 聂    言   合立\n                        第五代水烟阁主 段 柏 山\n", "legacy_source": "d/waterfog/swordtomb.c"}
 	],

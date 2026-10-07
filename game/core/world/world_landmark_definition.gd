@@ -12,12 +12,16 @@ extends RefCounted
 ## through its portal (cave5.c do_bury()). A `portal` landmark may say its LPC
 ## line (`use`, message_vision() to the mover) instead of the action's name. A
 ## `look` landmark is only looked at (a sign, a stone tablet): no action, no portal.
+## `join_class` is std/room/class_guild.c's join, on the thing that tells of it (the
+## 正厅's sign): a player with no class takes its `class` (`joined`); one with a class
+## is refused (`refused`).
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
 	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"], "items": []},
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
+	&"join_class": {"portals": 0, "messages": ["joined", "refused"], "settings": [], "items": [], "class": true},
 }
 
 var _landmark_id: StringName
@@ -32,6 +36,7 @@ var _requires_contact: bool
 var _messages: Dictionary[String, String] = {}
 var _settings: Dictionary[String, int] = {}
 var _items: Dictionary[String, StringName] = {}
+var _class_id: StringName = &""
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -66,6 +71,10 @@ var requires_contact: bool:
 var legacy_source_path: String:
 	get:
 		return _legacy_source_path
+## The class a `join_class` landmark gives (fighter).
+var class_id: StringName:
+	get:
+		return _class_id
 
 
 func _init(
@@ -121,6 +130,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.required_text("legacy_source"),
 	)
 	definition._settings = settings
+	definition._class_id = StringName(reader.text("class"))
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -133,6 +143,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	var rule: Dictionary = POLICIES[definition.policy]
 	if rule.get("no_action", false) and not definition.action_label.is_empty():
 		reader.fail("action", "a '%s' landmark is only looked at" % definition.policy)
+	if definition.class_id.is_empty() == bool(rule.get("class", false)):
+		reader.fail("class", "only a join_class landmark names a class, and it must")
 	if portal_ids.size() != int(rule["portals"]):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
@@ -166,6 +178,7 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	var copy: WorldLandmarkDefinition = WorldLandmarkDefinition.new(_landmark_id, _zone_id, _display_name, _description, _action_label, _policy, _portal_ids, _requires_contact, _messages, _legacy_source_path, map_id)
 	copy._items = _items.duplicate()
 	copy._settings = _settings.duplicate()
+	copy._class_id = _class_id
 	return copy
 
 

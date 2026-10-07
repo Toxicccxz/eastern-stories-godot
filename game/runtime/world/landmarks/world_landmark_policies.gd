@@ -7,6 +7,7 @@ const SCRIPTS: Dictionary[StringName, Script] = {
 	&"vine": preload("res://runtime/world/landmarks/vine_landmark_policy.gd"),
 	&"hidden_passage": preload("res://runtime/world/landmarks/hidden_passage_landmark_policy.gd"),
 	&"bury": preload("res://runtime/world/landmarks/bury_landmark_policy.gd"),
+	&"join_class": preload("res://runtime/world/landmarks/join_class_landmark_policy.gd"),
 }
 
 

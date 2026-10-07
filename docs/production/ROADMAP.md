@@ -26,7 +26,7 @@ Re-estimate the schedule after each region.
 | 1 | 老松岭 (`d/oldpine`) | 山路 (Snow) south | 41/41 | 12/13 | — | 1/1 | 5/5 | Done: remainder A (keep and gate trap, caves, berserk, bury) and B (conditions on the heart beat, combined items, 金银花蛇, 黑衣人). 土匪老大 never comes in ES2 (fat_bandit.c's call never fires). |
 | 2 | 野羊山 (`d/goathill`) | 山坳 north | 15/16 | 7/8 | — | 1/1 | 5/5 | Done: two maps, the second hand, hammers' bash_weapon (broken weapons), 伏蛟功. cavern1.c.c is a stray copy and 银色岩蛭 is placed by nothing (owner: as LPC). |
 | 3 | 卧龙岗 + 绮云镇 (`u/cloud/dragonhill`, `u/cloud`) | Snow street south | 43/43 | 26/32 | 1/1 振远镖局 | 1/9 | 15/19 | 3A done: streets and shops, the ridge's toll, the thief's steal, 春风快意刀. 3B done: joining 振远镖局 (betrayal, 基本刀法, practice with a blade; the letter waits for #9). 3C done: 朱鸿雪's quests, killer_reward() for the player, 投降, the garrison's vendetta. 3D done: the 宝官's betting; no marriage (it needs a second player). Left: the 江北渡口 ferry crosses once #8 exists. |
-| 4 | 水烟阁 (`d/waterfog`) | 青石官道 (Snow) west | 28/28 | 11/12 | 0/1 天邪派 | 6/7 | 0/0 | A done: three maps, the eighteen NPCs and their arts (celestrike, six-chaos-sword, pyrobat-steps), 萧辟尘's consider(), the 正门's weapon gate, look-only signs. B: joining 天邪派 (萧辟尘's oath, 於兰天武's test), teaching, stormdance. C: 天邪神功 for the player (powerup, powerfade, roar, 杀气's berserk). 小天邪虎 is placed by nothing (as LPC). |
+| 4 | 水烟阁 (`d/waterfog`) | 青石官道 (Snow) west | 28/28 | 11/12 | 1/1 天邪派 | 7/7 | 0/0 | A done: three maps, the eighteen NPCs and their arts (celestrike, six-chaos-sword, pyrobat-steps), 萧辟尘's consider(), the 正门's weapon gate, look-only signs. B done: joining 天邪派 (萧辟尘's oath button, 於兰天武's three-blow test asked first, recruit.c's offer), both masters' teaching (his privs 0), stormdance, the 武者's join. C: 天邪神功 for the player (powerup, powerfade, roar, 杀气's berserk). 小天邪虎 is placed by nothing (as LPC). |
 | 5 | 青石村 (`d/green`) | 山坳 east | 0/39 | 0/18 | 0/1 绝尘派 | 0/5 | 0/1 | The player's spells (magic, spells, 法力; magic-array, tao-mystery), the 迷阵 maze, room verbs (push, search, hang, fillwater), staff arts. |
 | 6 | 茅山 灵心观 (`d/temple`) | 山路 (Snow) east | 0/27 | 0/15 | 0/1 茅山派 | 1/2 | 0/8 | Spells' second consumer (necromancy, gouyee, zombie helpers); a master who takes three apprentices a day. |
 | 7 | 晚月庄 (`d/latemoon`) | 绮云镇 west | 0/74 | 0/50 | 0/2 晚月庄, 东方神教 | 1/11 | 0/12 | Conditions' second consumer (rose_poison), a female-only family, doors in 27 rooms, room verbs (dancing, order, pray, pick). |
@@ -36,7 +36,7 @@ Re-estimate the schedule after each region.
 | 11 | 玉螺湖村 (`d/village`) | 天驼关 south | 0/26 | 0/9 | — | 5/9 | 0/0 | Boats (paddle) and diving to the lake bottom. |
 | 12 | 京师 (`d/city`, `u/cp`) | 玉螺湖村 south | 0/55 | 0/27 | 振远镖局's head office | 5/18 | 0/0 | Doors in 16 rooms, seven shops, the second 振远镖局 master (陈天星). |
 | 13 | 鬼门关 (`d/death`) | dying | 0/12 | 0/3 | — | — | — | The ghost realm instead of today's direct revival at the Snow temple (owner decision when we get there). |
-| | **Total** | | **164/551** | **78/286** | **2/10** | **11/35** special, **10/25** basic | **41/84** | |
+| | **Total** | | **164/551** | **78/286** | **3/10** | **12/35** special, **10/25** basic | **41/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
 

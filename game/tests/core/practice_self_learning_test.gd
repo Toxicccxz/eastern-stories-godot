@@ -313,9 +313,10 @@ func _test_practice_resource_boundaries() -> void:
 		_learn_policy(SkillIdsScript.FALL_STEPS),
 		false,
 	)
+	# Refused for force: its own reason (celestrike.c says another line); fall-steps.c's line is its one fail line.
 	_assert_failure(
 		force_failure,
-		PracticeResultScript.FailureReason.PRACTICE_HOOK_REJECTED,
+		PracticeResultScript.FailureReason.PRACTICE_FORCE_REJECTED,
 		"fall-steps one below force requirement",
 	)
 	_assert_practice_resources(low_force, 30, 2, "low force no mutation")

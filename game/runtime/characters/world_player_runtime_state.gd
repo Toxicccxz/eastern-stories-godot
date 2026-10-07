@@ -87,8 +87,24 @@ func world_location() -> WorldLocationState:
 ## identity title (feature/apprentice.c assign_apprentice()). Body, CharacterState
 ## and character ID retain their existing authorities.
 func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
-	var respect: String = RankWords.query_respect(_state.gender, _facts.age, _state.affiliation.class_id)
-	var outcome := apprenticeship_request.request(_state, master, family, entry_time_utc, respect)
+	return _after_recruit(apprenticeship_request.request(_state, master, family, entry_time_utc, _respect()), family)
+
+
+## swear to a master that asked for an oath (master.c do_swear()).
+func swear_oath(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
+	return _after_recruit(apprenticeship_request.swear(_state, master, family, entry_time_utc, _respect()), family)
+
+
+## The master's own recruit after its test (champion.c command("recruit")).
+func recruited_by(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
+	return _after_recruit(apprenticeship_request.npc_recruit(_state, master, family, entry_time_utc), family)
+
+
+func _respect() -> String:
+	return RankWords.query_respect(_state.gender, _facts.age, _state.affiliation.class_id)
+
+
+func _after_recruit(outcome: NpcApprenticeship.Outcome, family: FamilyDefinition) -> NpcApprenticeship.Outcome:
 	if outcome == NpcApprenticeship.Outcome.RECRUITED:
 		var title: String = NpcApprenticeship.family_title(family.display_name, _state.family.generation, _state.affiliation.family_title)
 		_facts = PlayerIdentityFacts.new(_facts.display_name, title, _facts.age)

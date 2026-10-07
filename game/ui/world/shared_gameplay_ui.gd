@@ -786,9 +786,10 @@ func martial_arts_page() -> MartialArtsPage:
 func _refresh_character() -> void:
 	var state := _player.state
 	var attr := state.attributes
-	# TRANSLATORS: the character sheet (score): name, gender, age and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
-	var lines: Array[String] = [tr("{name} · {gender} · {age}岁\n{title}\n\n当前 / 有效 / 最大\n精 {gin}\n气 {kee}\n神 {sen}\n\n食物 {food} · 饮水 {water}\n实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n\n膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n").format({
+	# TRANSLATORS: the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
+	var lines: Array[String] = [tr("{name} · {gender} · {age}岁\n{rank}{title}\n\n当前 / 有效 / 最大\n精 {gin}\n气 {kee}\n神 {sen}\n\n食物 {food} · 饮水 {water}\n实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n\n膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n").format({
 		"name": _player.facts.display_name, "gender": tr(state.gender), "age": _player.facts.age, "title": _player.shown_title(),
+		"rank": tr(RankWords.query_rank(state.gender, state.affiliation.class_id)),
 		"gin": _resource_text(state.essence), "kee": _resource_text(state.vitality), "sen": _resource_text(state.spirit),
 		"food": state.recovery.food, "water": state.recovery.water, "exp": state.progression.combat_experience,
 		"potential": state.progression.potential, "spent": state.progression.potential_spent,
