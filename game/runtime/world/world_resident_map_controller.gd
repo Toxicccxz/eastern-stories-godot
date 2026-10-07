@@ -164,6 +164,13 @@ func clear_passage_contacts() -> void:
 		passage.clear_contact()
 
 
+## The room's valid_leave() for a passage the player stepped onto: false when it
+## refuses (the map tells why and keeps the player back); else it does what leaving
+## does (a portal's set_mark). The plain physical map has no rules.
+func leave_by_passage(_portal: PortalDefinition, _passage: WorldPassageArea2D) -> bool:
+	return true
+
+
 func is_passage_current(portal: PortalDefinition) -> bool:
 	for passage: WorldPassageArea2D in _passages:
 		if passage.is_current(portal):

@@ -7,7 +7,8 @@
 			"exits": {
 				"east": "es2:d/snow/sroad5",
 				"northwest": "es2:d/waterfog/sroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/sroad2",
@@ -16,7 +17,8 @@
 			"exits": {
 				"southeast": "es2:d/waterfog/sroad1",
 				"west": "es2:d/waterfog/sroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/sroad3",
@@ -25,7 +27,8 @@
 			"exits": {
 				"northup": "es2:d/waterfog/stair1",
 				"east": "es2:d/waterfog/sroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/stair1",
@@ -34,7 +37,8 @@
 			"exits": {
 				"northup": "es2:d/waterfog/stair2",
 				"southdown": "es2:d/waterfog/sroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/stair2",
@@ -43,7 +47,8 @@
 			"exits": {
 				"southdown": "es2:d/waterfog/stair1",
 				"eastup": "es2:d/waterfog/stair3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/stair3",
@@ -52,7 +57,8 @@
 			"exits": {
 				"northup": "es2:d/waterfog/stair4",
 				"westdown": "es2:d/waterfog/stair2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/stair4",
@@ -61,7 +67,8 @@
 			"exits": {
 				"northup": "es2:d/waterfog/clifftop",
 				"southdown": "es2:d/waterfog/stair3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/clifftop",
@@ -70,7 +77,8 @@
 			"exits": {
 				"westup": "es2:d/waterfog/stair5",
 				"southdown": "es2:d/waterfog/stair4"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/stair5",
@@ -79,7 +87,8 @@
 			"exits": {
 				"northup": "es2:d/waterfog/frontyard",
 				"eastdown": "es2:d/waterfog/clifftop"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/frontyard",
@@ -89,7 +98,8 @@
 				"west": "es2:d/waterfog/wpath1",
 				"north": "es2:d/waterfog/entrance",
 				"southdown": "es2:d/waterfog/stair5"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/wpath1",
@@ -98,7 +108,8 @@
 			"exits": {
 				"west": "es2:d/waterfog/wpath2",
 				"east": "es2:d/waterfog/frontyard"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/wpath2",
@@ -107,7 +118,8 @@
 			"exits": {
 				"north": "es2:d/waterfog/wpath3",
 				"east": "es2:d/waterfog/wpath1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/wpath3",
@@ -116,7 +128,8 @@
 			"exits": {
 				"north": "es2:d/waterfog/wpath4",
 				"south": "es2:d/waterfog/wpath2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/wpath4",
@@ -125,7 +138,8 @@
 			"exits": {
 				"south": "es2:d/waterfog/wpath3",
 				"north": "es2:d/waterfog/wpath5"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/wpath5",
@@ -134,7 +148,8 @@
 			"exits": {
 				"south": "es2:d/waterfog/wpath4",
 				"west": "es2:d/waterfog/swordtomb"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/waterfog/swordtomb",

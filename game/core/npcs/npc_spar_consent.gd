@@ -41,9 +41,12 @@ class Challenger:
 		family_id = p_family_id
 
 
-static func decide(npc: NpcRuntimeState, challenger: Challenger) -> NpcSparConsent:
+## `attitude`: query("attitude") as asked now, for an NPC whose attitude is a function
+## drawn each time (kid2.c); -1 takes the definition's.
+static func decide(npc: NpcRuntimeState, challenger: Challenger, attitude: int = -1) -> NpcSparConsent:
 	var result := NpcSparConsent.new()
 	var definition: NpcDefinition = npc.definition()
+	var att: int = definition.attitude if attitude < 0 else attitude
 	var state: CharacterState = npc.character_state
 	result.npc_self = RankWords.query_self(state.gender, npc.age, &"")
 	result.respect = RankWords.query_respect(challenger.gender, challenger.age, challenger.class_id)
@@ -63,13 +66,13 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger) -> NpcSparConse
 
 	var fighting: bool = npc.relationship.is_fighting()
 	if fighting:
-		if definition.attitude != NpcDefinition.Attitude.HEROISM:
+		if att != NpcDefinition.Attitude.HEROISM:
 			result.lines.append(Line.new(false, "想倚多为胜，这不是欺人太甚吗！"))
 			return result
 		result.lines.append(Line.new(false, "哼！出招吧！"))
 	if not (_healthy(state.essence) and _healthy(state.vitality) and _healthy(state.spirit)):
 		return result
-	match definition.attitude:
+	match att:
 		NpcDefinition.Attitude.FRIENDLY:
 			result.lines.append(Line.new(false, "$SELF怎麽可能是$RESPECT的对手？"))
 			return result

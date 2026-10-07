@@ -69,6 +69,11 @@
 			"legacy_room": "es2:d/snow/crossroad", "legacy_command": "north"
 		},
 		{
+			"id": "snow.crossroad.east", "from_zone": "snow.crossroad",
+			"to_zone": "green.path6", "to_spawn": "green.path6.snow_entry",
+			"legacy_room": "es2:d/snow/crossroad", "legacy_command": "east"
+		},
+		{
 			"id": "snow.sroad1.south", "from_zone": "snow.sroad1",
 			"to_zone": "cloud.dragonhill.nroad", "to_spawn": "cloud.dragonhill.nroad.snow_entry",
 			"legacy_room": "es2:d/snow/sroad1", "legacy_command": "south"

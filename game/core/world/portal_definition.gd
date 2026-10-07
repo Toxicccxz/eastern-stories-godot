@@ -2,7 +2,8 @@ class_name PortalDefinition
 extends RefCounted
 
 ## A way from one zone to a spawn marker in another zone, on the same map or a
-## different one. The maps follow from the zones.
+## different one. The maps follow from the zones. `set_mark` is a mark the room's
+## valid_leave() gives whoever goes this way (eight7.c: me->set("八卦阵", 1)).
 var _portal_id: StringName
 var _source_map_id: StringName
 var _source_zone_id: StringName
@@ -11,6 +12,7 @@ var _destination_zone_id: StringName
 var _destination_spawn_point_id: StringName
 var _legacy_room_id: StringName
 var _legacy_command: String
+var _set_mark: String = ""
 
 var portal_id: StringName:
 	get:
@@ -18,6 +20,10 @@ var portal_id: StringName:
 var source_map_id: StringName:
 	get:
 		return _source_map_id
+## The mark (CharacterState.marks) taking this way sets to 1; empty when none.
+var set_mark: String:
+	get:
+		return _set_mark
 var source_zone_id: StringName:
 	get:
 		return _source_zone_id
@@ -71,13 +77,14 @@ static func from_record(reader: ContentRecordReader) -> PortalDefinition:
 		StringName(reader.required_text("legacy_room")),
 		reader.required_text("legacy_command"),
 	)
+	definition._set_mark = reader.text("set_mark")
 	reader.finish()
 	return definition
 
 
 ## Copy with the maps of its source and destination zones filled in.
 func with_maps(source_map_id: StringName, destination_map_id: StringName) -> PortalDefinition:
-	return PortalDefinition.new(
+	var copy := PortalDefinition.new(
 		_portal_id,
 		source_map_id,
 		_source_zone_id,
@@ -87,6 +94,8 @@ func with_maps(source_map_id: StringName, destination_map_id: StringName) -> Por
 		_legacy_room_id,
 		_legacy_command,
 	)
+	copy._set_mark = _set_mark
+	return copy
 
 
 func is_valid() -> bool:

@@ -24,17 +24,25 @@ class Region:
         return {z['id']: rooms[z['rooms'][0]] for z in self._read('world.json')['zones']}
 
     def neighbours(self, zones) -> set:
-        """Sorted pairs of the given zones that a room exit or a zone's `links` join."""
+        """Sorted pairs of the given zones that a room exit or a zone's `links` join. An exit a
+        portal on this map stands for (the 迷阵's, a one-way way) is taken through its passage,
+        not walked: it joins nothing."""
         world = self._read('world.json')['zones']
         zone_of = {room: z['id'] for z in world for room in z['rooms']}
         pairs = {tuple(sorted((z['id'], other))) for z in world for other in z.get('links', [])
                  if z['id'] in zones and other in zones}
+        jumped = {(p['legacy_room'], p['legacy_command']) for p in self.portals().values()
+                  if p['from_zone'] in zones and p['to_zone'] in zones}
         for room in self._read('rooms.json')['rooms']:
-            for target in room.get('exits', {}).values():
+            for command, target in room.get('exits', {}).items():
                 a, b = zone_of.get(room['id']), zone_of.get(target)
-                if a in zones and b in zones and a != b:
+                if a in zones and b in zones and a != b and (room['id'], command) not in jumped:
                     pairs.add(tuple(sorted((a, b))))
         return pairs
+
+    def portals(self) -> dict:
+        """Portal id -> its record, from this region's world.json."""
+        return {p['id']: p for p in self._read('world.json').get('portals', [])}
 
     def service_reach(self) -> dict:
         """Service id -> how near (pixels) the player must stand to use it."""
@@ -52,9 +60,10 @@ class Region:
         return {m['id'] for m in self._read('world.json').get('landmarks', []) if m.get('contact')}
 
     def spawn_records(self) -> list:
-        """NPC spawns, then item spawns, in file order (each has a zone and its points)."""
+        """NPC spawns, then item spawns, in file order, then the spawns world.json authors
+        (summoned ones: house3.c's spiders); each has a zone and its points."""
         items = self._read('item_spawns.json')['item_spawns'] if (self.data / 'item_spawns.json').exists() else []
-        return self._read('spawns.json')['spawns'] + items
+        return self._read('spawns.json')['spawns'] + items + self._read('world.json').get('spawns', [])
 
     def marker_name(self, point: str) -> str:
         """cloud.nroad1.waiter.1 -> Nroad1Waiter1."""

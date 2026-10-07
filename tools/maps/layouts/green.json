@@ -1,0 +1,1041 @@
+{
+	"maps": {
+		"village": {
+			"note": "青石村: the stone-slab road from 山坳 (west) runs east past the work station at the village's mouth (well, carts, a hut, the slope up north-east) to the foot of the gravel street; the street runs north past 沈记商行 (east), a house (west), the crossroads with the lane east, another house, the crossroads by the 土地庙 (west) and the 工匠's house (east, its door on the lane), then fades into an overgrown path north to the cave. The lane leads east to the little square with its great banyan (houses north and south, the 村长's to the south) and on to the quarry's yard under the cut cliff (an empty house north, the station's huts, stable and hay to the south). Shrubs south of the road.",
+			"file": "green_village.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [0, 0, 1728, 1664],
+				"ground": [
+					["forest", 64, 1472, 1312, 1600, "the low shrubs south of the stone road"],
+					["forest", 64, 1120, 544, 1216, "trees north of the road"],
+					["forest", 416, 64, 544, 576, "weeds and small trees either side of the path north"],
+					["forest", 736, 64, 896, 576],
+					["cliff", 1632, 480, 1696, 1408, "the quarry's cliff, cut for years"]
+				],
+				"zones": {
+					"green.path0": [544, 64, 736, 320, "open", "grass", null],
+					"green.path1": [544, 320, 736, 576, "open", "grass", null],
+					"green.path2": [544, 576, 736, 768, "open", "path", null],
+					"green.path3": [544, 768, 736, 960, "open", "path", null],
+					"green.path4": [544, 960, 736, 1216, "open", "path", null],
+					"green.path5": [544, 1216, 736, 1472, "open", "street", null],
+					"green.path6": [64, 1216, 544, 1472, "open", "street", null],
+					"green.path8": [736, 800, 928, 928, "open", "path", null],
+					"green.field0": [928, 736, 1280, 1056, "open", "town_ground", null],
+					"green.field1": [1280, 736, 1632, 1056, "open", "path", null],
+					"green.station0": [736, 1280, 1280, 1536, "open", "town_ground", null],
+					"green.station1": [1280, 1056, 1632, 1376, "open", "town_ground", null],
+					"green.temple0": [320, 576, 544, 768, "enclosed", "floor_wood", "wall"],
+					"green.house0": [320, 768, 544, 992, "enclosed", "floor_wood", "wall_wood"],
+					"green.house1": [736, 576, 928, 800, "enclosed", "floor_shop", "wall"],
+					"green.house2": [960, 480, 1216, 736, "enclosed", "floor_wood", "wall_wood"],
+					"green.house3": [1312, 480, 1568, 736, "enclosed", "floor_yard", "wall"],
+					"green.house4": [960, 1056, 1216, 1280, "enclosed", "floor_wood", "wall_wood"],
+					"green.shop0": [736, 928, 928, 1216, "enclosed", "floor_shop", "wall_wood"]
+				},
+				"roads": [
+					["path", 624, 64, 656, 576, "a faint path through the weeds to the cave"],
+					["path", 64, 1312, 736, 1328, "two deep cart ruts along the stone road"],
+					["path", 64, 1360, 736, 1376],
+					["street", 1184, 1280, 1376, 1376, "the slab slope up to the quarry's station"]
+				],
+				"props": [
+					["forest", 1072, 848, 1136, 912, "the great banyan in the square's middle, like a pavilion"],
+					["blocked", 1328, 768, 1392, 800, "cut stone blocks piled about the yard"],
+					["blocked", 1520, 976, 1600, 1024, "rubble"],
+					["wall_wood", 1152, 1424, 1248, 1504, "the small wooden hut at the station"],
+					["blocked", 960, 1376, 992, 1408, "the well"],
+					["blocked", 800, 1456, 864, 1488, "carts loaded with stone"],
+					["blocked", 1024, 1456, 1088, 1488],
+					["wall_wood", 1344, 1312, 1488, 1376, "the stable against the south hillside"],
+					["blocked", 1504, 1312, 1600, 1360, "hay piled like a hill"],
+					["blocked", 1408, 1104, 1472, 1136, "carts"],
+					["wall_wood", 1584, 1088, 1632, 1280, "low huts along the cliff"],
+					["blocked", 352, 800, 384, 832, "house0: the stone stove, a pot steaming"],
+					["blocked", 352, 928, 416, 960, "the plank bed"],
+					["blocked", 768, 608, 896, 624, "house1: rows of stone slabs"],
+					["blocked", 864, 688, 896, 752, "stone tables, chairs and tombstones"],
+					["blocked", 992, 512, 1056, 544, "house2: firewood in the corner"],
+					["blocked", 1344, 512, 1440, 560, "house3: the stone bed"],
+					["blocked", 1072, 1136, 1104, 1168, "house4: the stone stove and its fire"],
+					["blocked", 992, 1232, 1056, 1248, "the bookshelf of old books"],
+					["blocked", 1120, 1184, 1152, 1216, "the fine stone chair"],
+					["blocked", 768, 960, 816, 992, "shop0: boxes everywhere"],
+					["blocked", 864, 1120, 912, 1168],
+					["blocked", 816, 1040, 896, 1056, "the counter"],
+					["blocked", 352, 640, 384, 704, "temple0: the offering table and the wooden 土地公"]
+				],
+				"reach_from": "SnowEntry",
+				"markers_in_middle": ["green.field0", "green.field1", "green.station0", "green.station1"]
+			},
+			"scene": {
+				"style": "map",
+				"root": "GreenVillage",
+				"map": "green.village",
+				"player_color": "Color(0.62, 0.74, 0.58, 1)",
+				"shapes": {
+					"Rect_32_96": [32, 96],
+					"Rect_96_32": [96, 32],
+					"WebShape": [48, 48]
+				},
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "SnowSign",
+						"at": [72, 1228],
+						"text": "西 · 雪亭镇",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "CaveSign",
+						"at": [672, 72],
+						"text": "北 · 山洞",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "QuarryLabel",
+						"at": [1600, 440],
+						"text": "采石场",
+						"size": 16
+					},
+					{
+						"node": "caption",
+						"name": "BanyanLabel",
+						"at": [1064, 820],
+						"text": "大榕树",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "StableLabel",
+						"at": [1384, 1384],
+						"text": "马房",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "HutLabel",
+						"at": [1168, 1508],
+						"text": "木屋",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "SignboardLabel",
+						"at": [744, 1176],
+						"text": "破木牌",
+						"size": 12
+					},
+					{
+						"node": "passage",
+						"name": "SnowPassage",
+						"id": "green.path6.west",
+						"at": [80, 1344],
+						"shape": "Rect_32_96"
+					},
+					{
+						"node": "passage",
+						"name": "CavePassage",
+						"id": "green.path0.north",
+						"at": [640, 80],
+						"shape": "Rect_96_32"
+					},
+					{
+						"node": "service",
+						"name": "Well",
+						"id": "green.station0.well",
+						"at": [976, 1440],
+						"text": "井 · 装水"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "SnowEntry",
+						"at": [176, 1344],
+						"id": "green.path6.snow_entry"
+					},
+					{
+						"name": "CaveReturn",
+						"at": [640, 176],
+						"id": "green.path0.cave_return"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": [
+					{
+						"name": "WebInteraction",
+						"id": "green.house3.landmark.web",
+						"at": [1528, 520],
+						"shape": "WebShape"
+					}
+				]
+			}
+		},
+		"mountain": {
+			"note": "North of 青石村: the gravel path ends at the hill's foot before a thick wooden door chained across the cave mouth; the low, freezing cave runs north through the hill and comes out on a desolate mountain road, cliff wall east and a bottomless chasm west, that winds north to its end: rock walls, a cave opening east (the 迷阵) with a painting above it, a mossy great stone door north. Behind it the stone room, the 大厅 north of it (only 绝尘子's apprentices pass), the east stone room with its prayer mats (from it one way west into the hall) and its secret door south to the stream, whose hidden path west through the bushes leads one way back into the stone room.",
+			"file": "green_mountain.tscn",
+			"draw": {
+				"technique": "canvas",
+				"base": "cliff",
+				"bounds": [0, 0, 1472, 2560],
+				"zones": {
+					"green.cave0": [512, 2208, 896, 2496, "grass"],
+					"green.cave1": [576, 1920, 832, 2208, "cave_floor"],
+					"green.cave2": [576, 1632, 832, 1920, "cave_floor"],
+					"green.mpath0": [576, 1344, 832, 1632, "rock"],
+					"green.mpath1": [576, 1056, 832, 1344, "rock"],
+					"green.mpath2": [576, 800, 832, 1056, "rock"],
+					"green.entrance": [512, 544, 896, 800, "rock"],
+					"green.outdoor": [544, 288, 864, 544, "floor_yard"],
+					"green.cavehall": [448, 32, 960, 288, "floor_yard"],
+					"green.stoneroom": [960, 32, 1248, 288, "floor_yard"],
+					"green.water": [960, 288, 1408, 672, "grass"]
+				},
+				"lines": {
+					"tunnel": [
+						[
+							[704, 2272, 32, 32, 32, 0, "the cave mouth behind the wooden door"],
+							[704, 2144, 32, 32, 32, 0],
+							[680, 2040, 40, 40, 40, 0, "cave1: low, freezing"],
+							[720, 1880, 40, 40, 40, 0],
+							[696, 1760, 40, 40, 40, 0, "cave2: light ahead to the north"],
+							[704, 1600, 36, 36, 36, 0]
+						]
+					],
+					"road": [
+						[
+							[704, 1632, 24, 44, 60, 8, "mpath0: the cave behind, the road winds north"],
+							[720, 1480, 24, 44, 60, 8],
+							[688, 1320, 24, 44, 60, 8, "mpath1"],
+							[712, 1160, 24, 44, 60, 8],
+							[696, 1000, 24, 44, 60, 8, "mpath2"],
+							[704, 800, 24, 44, 60, 4, "the road's end"]
+						]
+					]
+				},
+				"steps": [
+					{
+						"op": "fill",
+						"fills": [
+							["grass", 576, 2240, 832, 2496, "the hill's foot: weeds either side of the gravel path"],
+							["path", 672, 2240, 736, 2496, "the small gravel path from the village"]
+						]
+					},
+					{
+						"op": "lines",
+						"group": "tunnel",
+						"kind": "cave_floor"
+					},
+					{
+						"op": "lines",
+						"group": "road"
+					},
+					{
+						"op": "fill",
+						"fills": [
+							["rock", 560, 576, 848, 784, "山路尽头: stone walls on three sides"],
+							["cave_floor", 848, 624, 896, 720, "the cave opening east: wind and thunder within"],
+							["rock", 672, 528, 736, 576, "the doorway of the great stone door"],
+							["floor_yard", 576, 320, 832, 528, "the stone room"],
+							["floor_yard", 672, 272, 736, 320, "the way north to the hall: 非我弟子，莫入此门"],
+							["blocked", 592, 384, 624, 416, "two stone chairs on the west side"],
+							["blocked", 592, 448, 624, 480],
+							["floor_yard", 480, 64, 928, 272, "石室大厅: old and spotless"],
+							["blocked", 672, 64, 736, 112, "the Buddha, a night pearl on its head"],
+							["floor_yard", 992, 64, 1216, 272, "the east stone room"],
+							["floor_yard", 1072, 272, 1136, 304, "the secret door's doorway"],
+							["grass", 992, 304, 1376, 640, "the stream's bank"],
+							["water", 1216, 304, 1280, 640, "the clear stream, flowing slowly south"],
+							["forest", 992, 336, 1056, 432, "bushes west, a faint path through them"],
+							["forest", 992, 528, 1056, 640]
+						]
+					},
+					{
+						"op": "clip"
+					},
+					{
+						"op": "separate"
+					},
+					{
+						"op": "fill",
+						"fills": [
+							["chasm", 576, 800, 624, 1632, "the bottomless chasm west of the road, water far below"]
+						]
+					}
+				],
+				"reach_from": ["PathArrival", "MazeArrival"],
+				"caption_near": {
+					"green.cave0": [520, 2440],
+					"green.cave1": [760, 2000],
+					"green.cave2": [760, 1700],
+					"green.mpath0": [760, 1400],
+					"green.mpath1": [760, 1100],
+					"green.mpath2": [760, 880],
+					"green.entrance": [530, 760],
+					"green.outdoor": [650, 500],
+					"green.cavehall": [470, 240],
+					"green.stoneroom": [1100, 70],
+					"green.water": [1300, 620]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "GreenMountain",
+				"map": "green.mountain",
+				"player_color": "Color(0.62, 0.74, 0.58, 1)",
+				"shapes": {
+					"Rect_32_64": [32, 64],
+					"Rect_32_96": [32, 96],
+					"Rect_64_32": [64, 32],
+					"Rect_96_32": [96, 32],
+					"Rect_48_48": [48, 48],
+					"Rect_48_96": [48, 96]
+				},
+				"door_style": {
+					"walls": "Terrain/DoorWalls",
+					"wall_suffix": "Wall",
+					"shutters": "Terrain",
+					"color": "Color(0.42, 0.3, 0.18, 1)"
+				},
+				"doors": [
+					{
+						"name": "CaveDoor",
+						"id": "green.cave.door",
+						"at": [704, 2208],
+						"shape": "Rect_64_32",
+						"note": "木门, an iron chain as thick as an arm"
+					},
+					{
+						"name": "StoneDoor",
+						"id": "green.entrance.door",
+						"at": [704, 544],
+						"shape": "Rect_64_32",
+						"color": "Color(0.4, 0.46, 0.38, 1)",
+						"note": "大石门, mossy"
+					},
+					{
+						"name": "SecretDoor",
+						"id": "green.stoneroom.door",
+						"at": [1104, 288],
+						"shape": "Rect_64_32",
+						"color": "Color(0.5, 0.5, 0.46, 1)",
+						"note": "密门"
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "VillageSign",
+						"at": [720, 2504],
+						"text": "南 · 青石村",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "ChasmLabel",
+						"at": [500, 1200],
+						"text": "悬崖",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "MazeLabel",
+						"at": [900, 600],
+						"text": "石洞",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "BuddhaLabel",
+						"at": [680, 118],
+						"text": "佛像",
+						"size": 12
+					},
+					{
+						"node": "rect",
+						"name": "NightPearl",
+						"rect": [696, 72, 712, 88],
+						"color": "Color(0.85, 0.95, 1, 1)"
+					},
+					{
+						"node": "caption",
+						"name": "ChairsLabel",
+						"at": [628, 420],
+						"text": "石椅",
+						"size": 12
+					},
+					{
+						"node": "rect",
+						"name": "WoodenSword",
+						"rect": [820, 368, 828, 448],
+						"color": "Color(0.6, 0.45, 0.25, 1)"
+					},
+					{
+						"node": "caption",
+						"name": "SwordLabel",
+						"at": [764, 452],
+						"text": "木剑",
+						"size": 12
+					},
+					{
+						"node": "rect",
+						"name": "MatWest",
+						"rect": [1056, 216, 1088, 248],
+						"color": "Color(0.7, 0.6, 0.35, 1)"
+					},
+					{
+						"node": "rect",
+						"name": "MatEast",
+						"rect": [1120, 216, 1152, 248],
+						"color": "Color(0.7, 0.6, 0.35, 1)"
+					},
+					{
+						"node": "caption",
+						"name": "MatsLabel",
+						"at": [1080, 250],
+						"text": "蒲团",
+						"size": 12
+					},
+					{
+						"node": "rect",
+						"name": "HallLight",
+						"rect": [944, 128, 960, 192],
+						"color": "Color(0.95, 0.9, 0.6, 0.6)"
+					},
+					{
+						"node": "group",
+						"name": "DoorWalls",
+						"type": "StaticBody2D",
+						"parent": "Terrain"
+					},
+					{
+						"generated": "door_walls"
+					},
+					{
+						"generated": "shutters"
+					},
+					{
+						"node": "passage",
+						"name": "PathPassage",
+						"id": "green.cave0.south",
+						"at": [704, 2480],
+						"shape": "Rect_96_32"
+					},
+					{
+						"node": "passage",
+						"name": "MazePassage",
+						"id": "green.entrance.east",
+						"at": [880, 672],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "StoneroomPassage",
+						"id": "green.stoneroom.west",
+						"at": [1008, 160],
+						"shape": "Rect_32_96"
+					},
+					{
+						"node": "passage",
+						"name": "WaterPassage",
+						"id": "green.water.west",
+						"at": [1008, 480],
+						"shape": "Rect_32_96"
+					},
+					{
+						"generated": "doors"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "PathArrival",
+						"at": [704, 2400],
+						"id": "green.cave0.path_arrival"
+					},
+					{
+						"name": "Cave0Kid41",
+						"at": [624, 2304],
+						"id": "green.cave0.kid4.1"
+					},
+					{
+						"name": "Cave0Kid42",
+						"at": [784, 2304],
+						"id": "green.cave0.kid4.2"
+					},
+					{
+						"name": "MazeReturn",
+						"at": [800, 672],
+						"id": "green.entrance.maze_return"
+					},
+					{
+						"name": "HoleArrival",
+						"at": [624, 720],
+						"id": "green.entrance.hole_arrival"
+					},
+					{
+						"name": "WaterArrival",
+						"at": [784, 416],
+						"id": "green.outdoor.water_arrival"
+					},
+					{
+						"name": "StoneroomArrival",
+						"at": [880, 176],
+						"id": "green.cavehall.stoneroom_arrival"
+					},
+					{
+						"name": "MazeArrival",
+						"at": [1104, 128],
+						"id": "green.stoneroom.maze_arrival"
+					}
+				],
+				"interactions": [
+					{
+						"name": "PaintingInteraction",
+						"id": "green.entrance.landmark.painting",
+						"at": [840, 600],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "WaterInteraction",
+						"id": "green.water.landmark.water",
+						"at": [1248, 480],
+						"shape": "Rect_48_96"
+					}
+				]
+			}
+		},
+		"maze": {
+			"note": "迷阵 (eight0-7, closed): each 卦's room is a clearing in the mist, drawn after its text, with a way off each side; walking off a side takes the LPC exit (a passage on this map): back into the same clearing from the far side (困), back the way one came (涉), on (生) or into 绝地 (死). Clearings lie far apart so the camera shows one at a time. The 路牌 in each reads its 卦.",
+			"file": "green_maze.tscn",
+			"draw": {
+				"technique": "canvas",
+				"base": "boundary",
+				"bounds": [0, 0, 3072, 2304],
+				"zones": {
+					"green.eight0": [288, 192, 736, 576, "grass"],
+					"green.eight1": [1312, 192, 1760, 576, "rock"],
+					"green.eight2": [2336, 192, 2784, 576, "grass"],
+					"green.eight3": [288, 960, 736, 1344, "cave_floor"],
+					"green.eight4": [1312, 960, 1760, 1344, "rock"],
+					"green.eight5": [2336, 960, 2784, 1344, "floor_yard"],
+					"green.eight6": [288, 1728, 736, 2112, "grass"],
+					"green.eight7": [1312, 1728, 1760, 2112, "grass"],
+					"green.closed": [2336, 1728, 2784, 2112, "rock"]
+				},
+				"steps": [
+					{
+						"op": "fill",
+						"fills": [
+							["grass", 352, 256, 672, 512, "坤: endless green fields under a thin mist"],
+							["grass", 464, 192, 560, 256],
+							["grass", 464, 512, 560, 576],
+							["grass", 288, 336, 352, 432],
+							["grass", 672, 336, 736, 432],
+							["blocked", 560, 304, 576, 320, "the sign (路牌)"],
+							["rock", 1376, 256, 1696, 512, "艮: mountains all round"],
+							["cliff", 1376, 256, 1440, 320, "crags"],
+							["cliff", 1632, 448, 1696, 512],
+							["rock", 1488, 192, 1584, 256],
+							["rock", 1488, 512, 1584, 576],
+							["rock", 1312, 336, 1376, 432],
+							["rock", 1696, 336, 1760, 432],
+							["blocked", 1584, 304, 1600, 320, "the sign (路牌)"],
+							["water", 2400, 256, 2720, 512, "坎: water on every side, a little land underfoot"],
+							["grass", 2464, 304, 2656, 464],
+							["bridge", 2512, 192, 2608, 304],
+							["bridge", 2512, 464, 2608, 576],
+							["bridge", 2336, 336, 2464, 432],
+							["bridge", 2656, 336, 2784, 432],
+							["blocked", 2592, 320, 2608, 336, "the sign (路牌)"],
+							["cave_floor", 352, 1024, 672, 1280, "巽: a freezing wind that blows the mist about"],
+							["cave_floor", 464, 960, 560, 1024],
+							["cave_floor", 464, 1280, 560, 1344],
+							["cave_floor", 288, 1104, 352, 1200],
+							["cave_floor", 672, 1104, 736, 1200],
+							["blocked", 560, 1072, 576, 1088, "the sign (路牌)"],
+							["rock", 1376, 1024, 1696, 1280, "震: lead-grey clouds, lightning and thunder"],
+							["rock", 1488, 960, 1584, 1024],
+							["rock", 1488, 1280, 1584, 1344],
+							["rock", 1312, 1104, 1376, 1200],
+							["rock", 1696, 1104, 1760, 1200],
+							["blocked", 1584, 1072, 1600, 1088, "the sign (路牌)"],
+							["floor_yard", 2400, 1024, 2720, 1280, "离: fire to the sky, scorching"],
+							["blocked", 2416, 1216, 2464, 1264, "flames"],
+							["blocked", 2656, 1040, 2704, 1088],
+							["floor_yard", 2512, 960, 2608, 1024],
+							["floor_yard", 2512, 1280, 2608, 1344],
+							["floor_yard", 2336, 1104, 2400, 1200],
+							["floor_yard", 2720, 1104, 2784, 1200],
+							["blocked", 2608, 1072, 2624, 1088, "the sign (路牌)"],
+							["deep_water", 352, 1792, 672, 2048, "兑: a great lake, four feet of land"],
+							["grass", 464, 1872, 560, 1968],
+							["bridge", 464, 1728, 560, 1872],
+							["bridge", 464, 1968, 560, 2112],
+							["bridge", 288, 1872, 464, 1968],
+							["bridge", 560, 1872, 736, 1968],
+							["blocked", 544, 1856, 560, 1872, "the sign (路牌)"],
+							["grass", 1376, 1792, 1696, 2048, "乾: a clear sky over wide fields"],
+							["grass", 1488, 1728, 1584, 1792],
+							["grass", 1488, 2048, 1584, 2112],
+							["grass", 1312, 1872, 1376, 1968],
+							["grass", 1696, 1872, 1760, 1968],
+							["blocked", 1584, 1840, 1600, 1856, "the sign (路牌)"],
+							["rock", 2400, 1792, 2720, 2048, "绝地: no way out; a great stone that moves"],
+							["blocked", 2624, 1888, 2688, 1952, "the great stone"]
+						]
+					},
+					{
+						"op": "clip"
+					},
+					{
+						"op": "separate"
+					}
+				],
+				"reach_from": "Eight0WestArrival",
+				"caption_near": {
+					"green.eight0": [312, 204],
+					"green.eight1": [1336, 204],
+					"green.eight2": [2360, 204],
+					"green.eight3": [312, 972],
+					"green.eight4": [1336, 972],
+					"green.eight5": [2360, 972],
+					"green.eight6": [312, 1740],
+					"green.eight7": [1336, 1740],
+					"green.closed": [2360, 1740]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "GreenMaze",
+				"map": "green.maze",
+				"player_color": "Color(0.62, 0.74, 0.58, 1)",
+				"shapes": {
+					"Rect_64_32": [64, 32],
+					"Rect_32_64": [32, 64],
+					"Rect_48_48": [48, 48],
+					"Rect_64_64": [64, 64]
+				},
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "passage",
+						"name": "Eight0NorthPassage",
+						"id": "green.eight0.north",
+						"at": [512, 208],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight0SouthPassage",
+						"id": "green.eight0.south",
+						"at": [512, 560],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight0WestPassage",
+						"id": "green.eight0.west",
+						"at": [304, 384],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight0EastPassage",
+						"id": "green.eight0.east",
+						"at": [720, 384],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight1NorthPassage",
+						"id": "green.eight1.north",
+						"at": [1536, 208],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight1SouthPassage",
+						"id": "green.eight1.south",
+						"at": [1536, 560],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight1WestPassage",
+						"id": "green.eight1.west",
+						"at": [1328, 384],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight1EastPassage",
+						"id": "green.eight1.east",
+						"at": [1744, 384],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight2NorthPassage",
+						"id": "green.eight2.north",
+						"at": [2560, 208],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight2SouthPassage",
+						"id": "green.eight2.south",
+						"at": [2560, 560],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight2WestPassage",
+						"id": "green.eight2.west",
+						"at": [2352, 384],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight2EastPassage",
+						"id": "green.eight2.east",
+						"at": [2768, 384],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight3NorthPassage",
+						"id": "green.eight3.north",
+						"at": [512, 976],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight3SouthPassage",
+						"id": "green.eight3.south",
+						"at": [512, 1328],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight3WestPassage",
+						"id": "green.eight3.west",
+						"at": [304, 1152],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight3EastPassage",
+						"id": "green.eight3.east",
+						"at": [720, 1152],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight4NorthPassage",
+						"id": "green.eight4.north",
+						"at": [1536, 976],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight4SouthPassage",
+						"id": "green.eight4.south",
+						"at": [1536, 1328],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight4WestPassage",
+						"id": "green.eight4.west",
+						"at": [1328, 1152],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight4EastPassage",
+						"id": "green.eight4.east",
+						"at": [1744, 1152],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight5NorthPassage",
+						"id": "green.eight5.north",
+						"at": [2560, 976],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight5SouthPassage",
+						"id": "green.eight5.south",
+						"at": [2560, 1328],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight5WestPassage",
+						"id": "green.eight5.west",
+						"at": [2352, 1152],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight5EastPassage",
+						"id": "green.eight5.east",
+						"at": [2768, 1152],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight6NorthPassage",
+						"id": "green.eight6.north",
+						"at": [512, 1744],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight6SouthPassage",
+						"id": "green.eight6.south",
+						"at": [512, 2096],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight6WestPassage",
+						"id": "green.eight6.west",
+						"at": [304, 1920],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight6EastPassage",
+						"id": "green.eight6.east",
+						"at": [720, 1920],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight7NorthPassage",
+						"id": "green.eight7.north",
+						"at": [1536, 1744],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight7SouthPassage",
+						"id": "green.eight7.south",
+						"at": [1536, 2096],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Eight7WestPassage",
+						"id": "green.eight7.west",
+						"at": [1328, 1920],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Eight7EastPassage",
+						"id": "green.eight7.east",
+						"at": [1744, 1920],
+						"shape": "Rect_32_64"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "Eight0WestArrival",
+						"at": [400, 384],
+						"id": "green.eight0.west_arrival"
+					},
+					{
+						"name": "Eight0EastArrival",
+						"at": [624, 384],
+						"id": "green.eight0.east_arrival"
+					},
+					{
+						"name": "Eight1NorthArrival",
+						"at": [1536, 288],
+						"id": "green.eight1.north_arrival"
+					},
+					{
+						"name": "Eight1SouthArrival",
+						"at": [1536, 480],
+						"id": "green.eight1.south_arrival"
+					},
+					{
+						"name": "Eight1WestArrival",
+						"at": [1424, 384],
+						"id": "green.eight1.west_arrival"
+					},
+					{
+						"name": "Eight2NorthArrival",
+						"at": [2560, 288],
+						"id": "green.eight2.north_arrival"
+					},
+					{
+						"name": "Eight2SouthArrival",
+						"at": [2560, 480],
+						"id": "green.eight2.south_arrival"
+					},
+					{
+						"name": "Eight2EastArrival",
+						"at": [2672, 384],
+						"id": "green.eight2.east_arrival"
+					},
+					{
+						"name": "Eight3NorthArrival",
+						"at": [512, 1056],
+						"id": "green.eight3.north_arrival"
+					},
+					{
+						"name": "Eight3WestArrival",
+						"at": [400, 1152],
+						"id": "green.eight3.west_arrival"
+					},
+					{
+						"name": "Eight3EastArrival",
+						"at": [624, 1152],
+						"id": "green.eight3.east_arrival"
+					},
+					{
+						"name": "Eight4SouthArrival",
+						"at": [1536, 1248],
+						"id": "green.eight4.south_arrival"
+					},
+					{
+						"name": "Eight4WestArrival",
+						"at": [1424, 1152],
+						"id": "green.eight4.west_arrival"
+					},
+					{
+						"name": "Eight4EastArrival",
+						"at": [1648, 1152],
+						"id": "green.eight4.east_arrival"
+					},
+					{
+						"name": "Eight5NorthArrival",
+						"at": [2560, 1056],
+						"id": "green.eight5.north_arrival"
+					},
+					{
+						"name": "Eight5SouthArrival",
+						"at": [2560, 1248],
+						"id": "green.eight5.south_arrival"
+					},
+					{
+						"name": "Eight6WestArrival",
+						"at": [400, 1920],
+						"id": "green.eight6.west_arrival"
+					},
+					{
+						"name": "Eight6EastArrival",
+						"at": [624, 1920],
+						"id": "green.eight6.east_arrival"
+					},
+					{
+						"name": "Eight7SouthArrival",
+						"at": [1536, 2016],
+						"id": "green.eight7.south_arrival"
+					},
+					{
+						"name": "ClosedArrival",
+						"at": [2528, 1984],
+						"id": "green.closed.arrival"
+					}
+				],
+				"interactions": [
+					{
+						"name": "Eight0Sign",
+						"id": "green.eight0.landmark.sign",
+						"at": [568, 312],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight1Sign",
+						"id": "green.eight1.landmark.sign",
+						"at": [1592, 312],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight2Sign",
+						"id": "green.eight2.landmark.sign",
+						"at": [2600, 328],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight3Sign",
+						"id": "green.eight3.landmark.sign",
+						"at": [568, 1080],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight4Sign",
+						"id": "green.eight4.landmark.sign",
+						"at": [1592, 1080],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight5Sign",
+						"id": "green.eight5.landmark.sign",
+						"at": [2616, 1080],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight6Sign",
+						"id": "green.eight6.landmark.sign",
+						"at": [552, 1864],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "Eight7Sign",
+						"id": "green.eight7.landmark.sign",
+						"at": [1592, 1848],
+						"shape": "Rect_48_48"
+					},
+					{
+						"name": "StoneInteraction",
+						"id": "green.closed.landmark.stone",
+						"at": [2656, 1920],
+						"shape": "Rect_64_64"
+					},
+					{
+						"name": "FogInteraction",
+						"id": "green.closed.landmark.fog",
+						"at": [2448, 1856],
+						"shape": "Rect_64_64"
+					}
+				]
+			}
+		}
+	}
+}

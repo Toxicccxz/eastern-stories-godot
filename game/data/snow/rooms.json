@@ -19,7 +19,8 @@
 				"west": "es2:d/snow/inn",
 				"south": "es2:d/snow/sroad1",
 				"east": "es2:d/snow/temple"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/sroad1",
@@ -30,7 +31,8 @@
 				"north": "es2:d/snow/square",
 				"south": "es2:u/cloud/dragonhill/nroad",
 				"east": "es2:d/snow/eroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/eroad1",
@@ -40,7 +42,8 @@
 				"east": "es2:d/snow/eroad2",
 				"north": "es2:d/snow/temple",
 				"west": "es2:d/snow/sroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/eroad2",
@@ -49,7 +52,8 @@
 			"exits": {
 				"east": "es2:d/snow/eroad3",
 				"west": "es2:d/snow/eroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/eroad3",
@@ -59,7 +63,8 @@
 				"south": "es2:d/oldpine/npath1",
 				"east": "es2:d/temple/sroad",
 				"west": "es2:d/snow/eroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/temple",
@@ -80,7 +85,8 @@
 				"south": "es2:d/snow/square",
 				"north": "es2:d/snow/mstreet2",
 				"east": "es2:d/snow/school1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/mstreet2",
@@ -91,7 +97,8 @@
 				"south": "es2:d/snow/mstreet1",
 				"west": "es2:d/snow/smithy",
 				"east": "es2:d/snow/workplace"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/mstreet3",
@@ -102,7 +109,8 @@
 				"north": "es2:d/snow/mstreet4",
 				"east": "es2:d/snow/hockshop",
 				"west": "es2:d/snow/herbshop"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/mstreet4",
@@ -122,7 +130,8 @@
 				"north": "es2:d/goathill/mroad1",
 				"east": "es2:d/green/path6",
 				"south": "es2:d/snow/mstreet4"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/workplace",
@@ -157,7 +166,8 @@
 			"exits": {
 				"west": "es2:d/snow/mstreet1",
 				"east": "es2:d/snow/school2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/school2",
@@ -167,7 +177,8 @@
 				"north": "es2:d/snow/weapon_storage",
 				"west": "es2:d/snow/school1",
 				"east": "es2:d/snow/schoolhall"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/schoolhall",
@@ -186,7 +197,8 @@
 				"west": "es2:d/snow/sroad3",
 				"south": "es2:d/snow/school",
 				"east": "es2:d/snow/sroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/sroad3",
@@ -195,7 +207,8 @@
 			"exits": {
 				"west": "es2:d/snow/sroad4",
 				"east": "es2:d/snow/sroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/sroad4",
@@ -205,7 +218,8 @@
 				"north": "es2:d/snow/sroad5",
 				"east": "es2:d/snow/sroad3",
 				"southwest": "es2:d/canyon/road"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/sroad5",
@@ -214,7 +228,8 @@
 			"exits": {
 				"west": "es2:d/waterfog/sroad1",
 				"south": "es2:d/snow/sroad4"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/school",
@@ -300,7 +315,8 @@
 				"north": "es2:d/snow/nyard",
 				"west": "es2:d/snow/schoolhall",
 				"east": "es2:d/snow/innerhall"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/snow/innerhall",

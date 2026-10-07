@@ -62,7 +62,7 @@ RANDOM_INTEGER_KEYS = {'set age', 'set combat_exp', 'set score'}
 RANDOM_TEXT_KEYS = {'set gender'}
 # Bookkeeping calls with no game meaning.
 SILENT_CALLS = {'setup', 'seteuid', 'set_default_object', 'replace_program'}
-SILENT_ROOM_KEYS = {'no_clean_up', 'outdoors', 'valid_startroom'}
+SILENT_ROOM_KEYS = {'no_clean_up', 'valid_startroom'}
 
 
 class ImportError_(Exception):
@@ -564,6 +564,9 @@ class Importer:
             self.vendor(region, vendor, override.get('vendor_skip', {}).get(vendor, {}), hand_read.get(vendor))
         for path in override.get('items', []):
             self.item(path)
+        # NPCs that code makes instead of a room (house3.c call_spider()).
+        for path in override.get('npcs', []):
+            self.npc(path)
 
     # Rooms.
     def room(self, path: str) -> dict:
@@ -579,10 +582,13 @@ class Importer:
         # cmds/std/kill.c, fight.c: "这里不准战斗。"
         if sets.get('no_fight', 0) != 0:
             record['no_fight'] = True
+        # rope.c hang_self(): set("outdoors") (any area name) means under the open sky.
+        if sets.get('outdoors', 0) not in (0, None):
+            record['outdoors'] = True
         for key, value in sets.items():
             if key == 'item_desc':
                 self.note(path, 'set item_desc', ', '.join(map(str, value)) if isinstance(value, dict) else describe(value))
-            elif key not in ('short', 'long', 'exits', 'objects', 'no_fight') and key not in SILENT_ROOM_KEYS:
+            elif key not in ('short', 'long', 'exits', 'objects', 'no_fight', 'outdoors') and key not in SILENT_ROOM_KEYS:
                 self.note(path, f'set {key}', describe(value))
         for call in lpc.calls:
             if call.name != 'set':

@@ -8,6 +8,7 @@ These maps are generated, never edited by hand:
     cloud:   cloud_outdoor, cloud_tearoom_upstairs, cloud_jiyuan_upstairs, cloud_duchang_upstairs
     goathill: goathill_mountain, goathill_caverns
     waterfog: waterfog_mountain, waterfog_pavilion, waterfog_upstairs
+    green:   green_village, green_mountain, green_maze
 
 Each region has one layout file, tools/maps/layouts/<region>.json; to change a map, edit its
 layout and rerun the painter. tools/tests/test_maps_paint.py fails when a committed scene differs

@@ -462,7 +462,7 @@ offset_right = 121
 offset_bottom = -1697
 mouse_filter = 2
 theme_override_font_sizes/font_size = 14
-text = "东 · 邻村"
+text = "东 · 青石村"
 
 [node name="CloudSign" type="Label" parent="Terrain"]
 offset_left = 24
@@ -693,6 +693,16 @@ portal_id = &"snow.crossroad.north"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoathillPassage"]
 shape = SubResource("Rect_96_32")
+
+[node name="GreenPassage" type="Area2D" parent="."]
+position = Vector2(208, -1680)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"snow.crossroad.east"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GreenPassage"]
+shape = SubResource("Rect_32_96")
 
 [node name="CloudPassage" type="Area2D" parent="."]
 position = Vector2(0, 656)
@@ -1111,6 +1121,11 @@ spawn_point_id = &"snow.eroad3.oldpine_return"
 position = Vector2(0, -1768)
 script = ExtResource("marker")
 spawn_point_id = &"snow.crossroad.goathill_return"
+
+[node name="GreenReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(144, -1680)
+script = ExtResource("marker")
+spawn_point_id = &"snow.crossroad.green_return"
 
 [node name="CloudReturn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(0, 576)

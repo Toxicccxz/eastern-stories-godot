@@ -21,6 +21,7 @@ GENERATED = {
     'cloud': ['cloud_outdoor.tscn', 'cloud_tearoom_upstairs.tscn', 'cloud_jiyuan_upstairs.tscn', 'cloud_duchang_upstairs.tscn'],
     'goathill': ['goathill_mountain.tscn', 'goathill_caverns.tscn'],
     'waterfog': ['waterfog_mountain.tscn', 'waterfog_pavilion.tscn', 'waterfog_upstairs.tscn'],
+    'green': ['green_village.tscn', 'green_mountain.tscn', 'green_maze.tscn'],
 }
 
 

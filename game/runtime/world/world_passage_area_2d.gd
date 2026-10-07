@@ -14,6 +14,8 @@ var _pending: bool = false
 var _open: bool = true
 ## Opened under the player: they have not taken the exit until they step off and on again.
 var _wait_for_exit: bool = false
+## The room's valid_leave() refused this passage; cleared once the player is off it.
+var _refused: bool = false
 
 
 func configure(portal: PortalDefinition, map: WorldResidentMapController) -> bool:
@@ -72,11 +74,27 @@ func _physics_process(_delta: float) -> void:
 	# Area enter can replay a cached contact after resident reattachment. Require
 	# the current body center, and recheck again at the deferred coordinator boundary.
 	if _contact and not _pending and is_current(_portal):
+		# A refusal holds until the player's centre has left the passage (it was pushed back,
+		# or walks away): stepping on again is trying again.
+		if _refused:
+			return
+		if not _map.leave_by_passage(_portal, self):
+			_refused = true
+			return
 		_pending = true
 		if _portal.destination_map_id == _portal.source_map_id:
 			_map.call_deferred(&"traverse_same_map_passage", _portal)
 		else:
 			_map.passage_requested.emit(_portal)
+	elif _refused and not is_current(_portal):
+		_refused = false
+
+
+## The passage's rectangle in the world (the player is kept out of a refused one).
+func global_rect() -> Rect2:
+	var collision: CollisionShape2D = get_node("CollisionShape2D") as CollisionShape2D
+	var rectangle: RectangleShape2D = collision.shape as RectangleShape2D
+	return Rect2(collision.global_position - rectangle.size / 2.0, rectangle.size)
 
 
 func clear_contact() -> void:

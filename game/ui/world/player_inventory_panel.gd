@@ -14,6 +14,7 @@ signal play_requested(item_instance_id: StringName)
 ## apply <item> (snake_drug.c, hurt_drug.c) and dissolve <corpse> with 化尸粉 (dust.c).
 signal apply_requested(item_instance_id: StringName)
 signal dissolve_requested(item_instance_id: StringName)
+signal hang_requested(item_instance_id: StringName)
 
 ## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
 const CATEGORY_WORDS: Dictionary[StringName, String] = {
@@ -175,6 +176,13 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		apply_button.text = "使用"
 		apply_button.pressed.connect(func() -> void: apply_requested.emit(row.item_instance_id))
 		container.add_child(apply_button)
+	# rope.c add_action("hang_self", "hang").
+	if content != null and content.hang:
+		var hang_button: Button = Button.new()
+		hang_button.name = "Hang"
+		hang_button.text = "上吊"
+		hang_button.pressed.connect(func() -> void: hang_requested.emit(row.item_instance_id))
+		container.add_child(hang_button)
 	if content != null and content.dissolves and not _corpse.is_empty():
 		var dissolve_button: Button = Button.new()
 		dissolve_button.name = "Dissolve"

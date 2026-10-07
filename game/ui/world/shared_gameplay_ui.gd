@@ -44,6 +44,8 @@ const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切�
 const DEADLY_SPAR_WARNING: String = "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n确定要和{npc}切磋吗？"
 # TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
 const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
+# TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
+const HANG_WARNING: String = "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
 
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
@@ -108,6 +110,7 @@ func _ready() -> void:
 	inventory_panel.play_requested.connect(_play_item)
 	inventory_panel.apply_requested.connect(_apply_item)
 	inventory_panel.dissolve_requested.connect(_dissolve_with)
+	inventory_panel.hang_requested.connect(_hang_with)
 	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(_on_prompt_cancelled)
 	_presentation_layout.character.arts.configure(_session)
@@ -233,14 +236,15 @@ func show_inspection(definition: NpcDefinition, relation: String = "", gender: S
 		inspection_text.text += "\n" + tr("{pronoun}是你的{relation}。").format({"pronoun": tr(Es2CombatMessages.pronoun(gender)), "relation": tr(relation)})
 
 
-func show_landmark_inspection(definition: WorldLandmarkDefinition) -> void:
+## `text`: what looking at it shows now (the landmark policy's look()), as authored.
+func show_landmark_inspection(definition: WorldLandmarkDefinition, text: String = "") -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	if definition == null:
 		inspection_text.text = ""
 		return
 	inspection_text.text = "%s\n%s" % [
 		tr(definition.display_name),
-		tr(definition.description).strip_edges(),
+		tr(definition.description if text.is_empty() else text).strip_edges(),
 	]
 
 
@@ -729,6 +733,13 @@ func describe_arrival() -> void:
 	_describe_new_zone()
 
 
+## The player came into the room they left (a 迷阵 exit back to itself): ES2 shows
+## the room again, as on any move.
+func describe_again() -> void:
+	_described_zone_id = &""
+	_describe_new_zone()
+
+
 func _describe_new_zone() -> void:
 	var zone: ZoneDefinition = current_zone()
 	if zone == null or zone.zone_id == _described_zone_id:
@@ -893,6 +904,20 @@ func _dissolve_with(id: StringName) -> void:
 			open_inventory()
 	# 取消 goes back to the 背包 the question came from.
 	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
+
+
+## rope.c hang: deadly, so asked first (owner); 取消 goes back to the 背包. Outdoors
+## the rope finds nothing to hang from, so there is nothing to ask.
+func _hang_with(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	if not map.can_hang_here():
+		map.hang_with(id)
+		return
+	var hang: Callable = func() -> void:
+		map.hang_with(id)
+	ask_first(tr(HANG_WARNING), "确定上吊", hang, Callable(), open_inventory)
 
 
 ## Asks in the shared frame before an important or deadly choice (owner,

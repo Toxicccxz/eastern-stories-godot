@@ -232,7 +232,9 @@ func _check_money() -> void:
 func _check_npc_loadouts() -> void:
 	for definition: NpcDefinition in _npcs.values():
 		var origin: String = _origins[definition.definition_id]
-		var entries: Array[NpcLoadoutEntry] = definition.loadout_entries()
+		var entries: Array[NpcLoadoutEntry] = []
+		for authored: NpcLoadoutEntry in definition.loadout_entries():
+			entries.append_array(authored.possible_entries())
 		for index: int in range(entries.size()):
 			var entry: NpcLoadoutEntry = entries[index]
 			var path: String = "%s.carry[%d]" % [origin, index]
@@ -432,7 +434,7 @@ func _check_traps() -> void:
 
 
 ## An exit rule refuses a way between two zones a room exit joins, in a room of the
-## first, while an NPC that exists is present.
+## first: a walk on one map, or a portal between them; `present` is an NPC that exists.
 func _check_exit_rules() -> void:
 	for rule_id: StringName in _exit_rules.keys():
 		var rule: ZoneExitRuleDefinition = _exit_rules[rule_id]
@@ -444,10 +446,14 @@ func _check_exit_rules() -> void:
 		var to_zone: ZoneDefinition = _zones.get(rule.to_zone_id)
 		if from_zone != null and not from_zone.room_ids().has(rule.room_id):
 			_errors.append("%s.room: '%s' is not a room of %s" % [origin, rule.room_id, rule.from_zone_id])
-		# The rule is checked where the player walks from one zone into the next on a map.
-		if from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id:
-			_errors.append("%s: %s and %s are not on one map" % [origin, rule.from_zone_id, rule.to_zone_id])
-		if not _npcs.has(rule.present_npc_id):
+		# The rule is checked where the player walks from one zone into the next on a map,
+		# or takes a passage between them.
+		var portal_between: bool = false
+		for portal: PortalDefinition in _portals.values():
+			portal_between = portal_between or (portal.source_zone_id == rule.from_zone_id and portal.destination_zone_id == rule.to_zone_id)
+		if from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id and not portal_between:
+			_errors.append("%s: %s and %s are not on one map and no portal joins them" % [origin, rule.from_zone_id, rule.to_zone_id])
+		if rule.condition == ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND and not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 
 
@@ -485,4 +491,8 @@ func _resolve_landmarks() -> void:
 		for role: String in ["buried", "reward"]:
 			if not definition.item(role).is_empty() and not _items.has(definition.item(role)):
 				_errors.append("%s.items: unknown item '%s'" % [origin, definition.item(role)])
+		if not definition.spawn_id.is_empty():
+			var spawn: NpcSpawnDefinition = _spawns.get(definition.spawn_id)
+			if spawn == null or not spawn.summoned or spawn.zone_id != definition.zone_id:
+				_errors.append("%s.spawn: '%s' must be a summoned spawn of %s" % [origin, definition.spawn_id, definition.zone_id])
 		_landmarks[landmark_id] = definition.with_map(zone.map_id)

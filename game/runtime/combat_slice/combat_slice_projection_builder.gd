@@ -139,7 +139,7 @@ static func build_attack_input(
 			attack_skill_modifier,
 		),
 		_apply(attacker, attacker_armor, &"attack"),
-		attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage") + _secondary_apply(attacker, &"damage"),
+		attacker.content.projected_apply_damage(primary) + attacker.state.timed_applies.value(&"damage") + _secondary_apply(attacker, &"damage") + attacker.state.applies.get("damage", 0),
 		CombatStrengthProjection.new(
 			attacker.state.attributes.strength,
 			attacker.state.attributes.force_factor,
@@ -298,6 +298,7 @@ static func _apply(binding: CombatSliceCharacterBinding, armor: ArmorNumericModi
 	return (
 		armor.value(key) + binding.content.apply_value(key, binding.state.equipment.primary_weapon())
 		+ binding.state.timed_applies.value(key) + _secondary_apply(binding, key)
+		+ binding.state.applies.get(String(key), 0)
 	)
 
 

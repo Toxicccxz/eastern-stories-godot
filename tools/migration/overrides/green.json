@@ -1,0 +1,200 @@
+{
+	"spawn_skip": {
+		"d/green/cavehall.c": {
+			"daemon/class/juechen/master.c": "绝尘子 comes with 绝尘派 (package C)"
+		}
+	},
+	"items": ["d/green/obj/windsword.c", "d/green/obj/rope.c", "d/green/obj/hammer.c"],
+	"npcs": ["d/green/npc/spider.c"],
+	"set": {
+		"green.npc.kid2": {
+			"attitude": { "random": 50, "below": 25, "then": "peaceful", "else": "friendly" },
+			"apply": { "dodge": { "base": 3, "plus_random": 2 } },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": { "base": 5, "plus_random": 10 } }
+			],
+			"chat_chance": 10,
+			"chat_msg": [{ "action": "random_move" }]
+		},
+		"green.npc.kid3": {
+			"apply": { "dodge": { "base": 3, "plus_random": 3 } },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": { "base": 10, "plus_random": 10 } }
+			],
+			"chat_chance": 5,
+			"chat_msg": [{ "action": "random_move" }]
+		},
+		"green.npc.kid4": {
+			"gender": { "random": 50, "below": 21, "then": "女性", "else": "男性" },
+			"apply": { "dodge": { "base": 4, "plus_random": 2 } },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": { "base": 10, "plus_random": 10 } }
+			]
+		},
+		"green.npc.woman1": {
+			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "wield", "item": "es2:d/green/npc/obj/knife", "say": "没见识过我的菜刀神功是吧, 接招!", "chat_chance_combat": 10 },
+				{ "action": "say_by_age", "younger": ["死小孩, 专们欺负老人家!"], "otherwise": ["以大欺小啊你..."] }
+			]
+		},
+		"green.npc.worker2": {
+			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{
+					"random": 50, "below": 41,
+					"then": { "item": "es2:d/green/obj/rope", "source": "d/green/obj/rope.c" },
+					"else": { "item": "es2:d/green/obj/hammer", "source": "d/green/obj/hammer.c", "equip": "wield" }
+				}
+			]
+		},
+		"green.npc.oldman": {
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "call_partner", "partner": "green.npc.oldwoman", "emote": "喊道: 老公我来帮你了!" },
+				{ "action": "wield", "item": "es2:obj/example/dagger" }
+			]
+		},
+		"green.npc.oldwoman": {
+			"chat_chance_combat": 55,
+			"chat_msg_combat": [
+				{ "action": "call_partner", "partner": "green.npc.oldman", "emote": "叫道: 好啊,敢砍我老婆, 去死吧!" }
+			]
+		},
+		"es2:d/green/obj/rope": {
+			"hang": true
+		},
+		"green.npc.oldman2": {
+			"chat_chance": 10,
+			"chat_msg": [{ "action": "emote", "verb": "sigh" }, "村长说道：国之将亡.....\n"]
+		}
+	},
+	"review": {
+		"d/green/station0.c": {
+			"set resource/water": "world.json services: green.station0.well (kind water)",
+			"function init": "fillwater: the well's water service (liquid.c fill) (DECISIONS 青石村 A)",
+			"function do_fillwater": "the well's water service fills to the container's max_liquid, as liquid.c's fill; fillwater's fixed 15 is not ported (DECISIONS 青石村 A)"
+		},
+		"d/green/npc/worker2.c": {
+			"set_temp apply/dodge": "apply.dodge rule in set (drawn at creation, saved)",
+			"condition in create()": "carry rule in set: random(50) > 40 wields a hammer, else a rope (drawn after setup())"
+		},
+		"d/green/npc/shen.c": {
+			"inquiry 玉佩": "give_jade(): with the 玉佩 chain (package B)",
+			"inquiry 蒙汗药": "sell_drug(): with the 玉佩 chain (package B)",
+			"function init": "list and buy: with the 玉佩 chain (package B)",
+			"function list_item": "with the 玉佩 chain (package B)",
+			"function buy_item": "with the 玉佩 chain (package B)",
+			"function give_jade": "with the 玉佩 chain (package B)",
+			"function sell_drug": "with the 玉佩 chain (package B)",
+			"function accept_object": "with the 玉佩 chain (package B)"
+		},
+		"d/green/npc/woman1.c": {
+			"set_temp apply/dodge": "apply.dodge rule in set",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: wield_weapon() is the wield action, converse_one() say_by_age",
+			"function wield_weapon": "the wield action: say, wield the 菜刀, chat_chance_combat 10 (on this NPC until it is made anew)",
+			"function converse_one": "say_by_age against the enemy (heart_beat's this_player() is herself in ES2, so only 以大欺小 came; DECISIONS 青石村 A); slap prints nothing"
+		},
+		"d/green/npc/kid3.c": {
+			"add_money": "carry amount rule in set (drawn after setup())",
+			"set_temp apply/dodge": "apply.dodge rule in set",
+			"set chat_chance": "in set",
+			"set chat_msg": "(: this_object(), \"random_move\" :) is npc.c random_move(): the random_move action, in set"
+		},
+		"d/green/npc/oldman.c": {
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: ask_for_help() is call_partner, wield_something() the wield action",
+			"statement in create()": "int has_game: an unused local",
+			"function wield_something": "the wield action (the dagger, no line)",
+			"function ask_for_help": "call_partner: the old woman, here and not fighting, shouts and kills whoever this NPC fights to the death (query_temp(\"killer\")); in a spar there is none",
+			"function kill_ob": "query_temp(\"killer\"): the enemy this NPC fights to the death (call_partner)"
+		},
+		"d/green/npc/oldwoman.c": {
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: ask_for_help() is call_partner",
+			"statement in create()": "int has_game: an unused local",
+			"function ask_for_help": "call_partner: the old man, here and not fighting, shouts and kills her killer",
+			"function kill_ob": "query_temp(\"killer\"): the enemy this NPC fights to the death (call_partner)"
+		},
+		"d/green/npc/oldman2.c": {
+			"inquiry 玉佩": "ask.c says the strings and skips the functions (shrug prints nothing); set_flag() comes with the 玉佩 chain (package B, DECISIONS)",
+			"set chat_chance": "in set",
+			"set chat_msg": "in set: cancel_give() is the sigh emote (prints nothing), start_give() says 国之将亡.....",
+			"function relay_say": "必有妖孽: with the 玉佩 chain (package B, owner: a 接话 button)",
+			"function start_give": "the say chat entry",
+			"function cancel_give": "the sigh emote: prints nothing",
+			"function set_flag": "with the 玉佩 chain (package B)"
+		},
+		"d/green/house3.c": {
+			"set item_desc": "the web: a look_spawn landmark in world.json (green.house3.landmark.web)",
+			"reset": "the web's count of three: the landmark's limit, renewed by the room's reset",
+			"function reset": "the web's count of three: the landmark's limit, renewed by the room's reset",
+			"function call_spider": "look_spawn: the spawn line and a spider of the summoned spawn green.village.house3.spiders"
+		},
+		"d/green/npc/kid2.c": {
+			"set attitude": "attitude rule in set: drawn each time a spar asks (query() evaluates the function)",
+			"add_money": "carry amount rule in set (drawn after setup())",
+			"set_temp apply/dodge": "apply.dodge rule in set",
+			"set chat_chance": "in set",
+			"set chat_msg": "(: this_object(), \"random_move\" :) is npc.c random_move(): the random_move action, in set"
+		},
+		"d/green/cave0.c": {
+			"create_door": "world.json doors: green.cave.door (木门)"
+		},
+		"d/green/npc/kid4.c": {
+			"set gender": "gender rule in set: drawn at creation (ES2's query() would draw again each time)",
+			"add_money": "carry amount rule in set (drawn after setup())",
+			"set_temp apply/dodge": "apply.dodge rule in set"
+		},
+		"d/green/cave1.c": {
+			"create_door": "world.json doors: green.cave.door (木门)"
+		},
+		"d/green/entrance.c": {
+			"set item_desc": "a look-only landmark (图) in world.json",
+			"create_door": "world.json doors: green.entrance.door (大石门)",
+			"function valid_leave": "world.json exit_rules: green.entrance.wind (combat_exp below 100000); the room's tell_room() goes to others only"
+		},
+		"d/green/outdoor.c": {
+			"create_door": "world.json doors: green.entrance.door (大石门)",
+			"function valid_leave": "world.json exit_rules: green.outdoor.seal (only 绝尘子's apprentices)"
+		},
+		"d/green/stoneroom.c": {
+			"create_door": "world.json doors: green.stoneroom.door (密门)"
+		},
+		"d/green/water.c": {
+			"create_door": "world.json doors: green.stoneroom.door (密门)",
+			"function init": "search water: the search landmark green.water.landmark.water",
+			"function do_search": "the search landmark: with the mark 八卦阵 random(2) finds a 追风剑 (the mark stays), else the mark goes"
+		},
+		"d/green/eight0.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight1.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight2.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight3.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight4.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight5.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight6.c": { "set item_desc": "a look-only landmark (路牌) in world.json" },
+		"d/green/eight7.c": {
+			"set item_desc": "a look-only landmark (路牌) in world.json",
+			"function valid_leave": "the portal green.eight7.south sets the mark 八卦阵 (set_mark)"
+		},
+		"d/green/closed.c": {
+			"function init": "push stone: the push_stone landmark green.closed.landmark.stone",
+			"function do_push": "push_stone: force, max_force 560 and force_factor 40, then gin 20, kee 60, sen 20 and one in three through the hole; the lines others would see are not shown (single player)"
+		},
+		"d/green/obj/windsword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/green/obj/rope.c": {
+			"function init": "hang: the item's hang (the 上吊 button, asked first)",
+			"function hang_self": "hang: refused outdoors (the room's outdoors), else the lines and die() (no killer: last_damage_from is not counted)"
+		}
+	}
+}

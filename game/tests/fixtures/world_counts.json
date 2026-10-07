@@ -20,13 +20,17 @@
 		"cloud.duchang_upstairs",
 		"waterfog.mountain",
 		"waterfog.pavilion",
-		"waterfog.upstairs"
+		"waterfog.upstairs",
+		"green.village",
+		"green.mountain",
+		"green.maze"
 	],
-	"rooms": 165,
+	"rooms": 204,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
 		"snow.crossroad.north",
+		"snow.crossroad.east",
 		"snow.sroad1.south",
 		"snow.sroad5.west",
 		"snow.weapon_storage.down"
@@ -118,11 +122,26 @@
 		"waterfog.upstairs.forehall.elder5",
 		"waterfog.upstairs.forehall.elder6",
 		"waterfog.upstairs.forehall.elder7",
-		"waterfog.upstairs.east_2f.elite_guards"
+		"waterfog.upstairs.east_2f.elite_guards",
+		"green.village.station0.worker2s",
+		"green.village.shop0.shen",
+		"green.village.shop0.woman1",
+		"green.village.house0.woman1",
+		"green.village.house0.woman2",
+		"green.village.path8.kid3s",
+		"green.village.house1.worker1",
+		"green.village.house2.oldman",
+		"green.village.house2.oldwoman",
+		"green.village.house4.oldman2",
+		"green.village.field1.kid1",
+		"green.village.station1.worker2s",
+		"green.village.path2.kid2s",
+		"green.mountain.cave0.kid4s",
+		"green.village.house3.spiders"
 	],
-	"world_npcs": 161,
-	"resident_maps": 21,
-	"new_game_items": 268,
-	"snow_outdoor_passages": 6,
-	"npc_draws_after_oldpine": 677
+	"world_npcs": 184,
+	"resident_maps": 24,
+	"new_game_items": 318,
+	"snow_outdoor_passages": 7,
+	"npc_draws_after_oldpine": 890
 }

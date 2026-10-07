@@ -1,0 +1,60 @@
+{
+	"items": [
+		{
+			"id": "es2:d/green/npc/obj/ricewine",
+			"legacy_sources": ["d/green/npc/obj/ricewine.c"],
+			"name": "陶壶",
+			"aliases": ["pottery"],
+			"long": "一个手工制造的陶壶, 看起来年代久远.\n",
+			"unit": "个",
+			"weight": 1000,
+			"value": 0,
+			"liquid": { "max_liquid": 10, "type": "alcohol", "name": "米酒", "remaining": 7, "drunk_apply": 7 }
+		},
+		{
+			"id": "es2:d/green/npc/obj/knife",
+			"legacy_sources": ["d/green/npc/obj/knife.c"],
+			"name": "菜刀",
+			"aliases": ["kitchen knife", "knife"],
+			"long": "一把旧旧的菜刀, 刀口几乎被磨平了, 不过还颇具有杀伤力.\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 2000,
+			"weapon": { "skill": "blade", "damage": 7 }
+		},
+		{
+			"id": "es2:d/green/obj/hammer",
+			"legacy_sources": ["d/green/obj/hammer.c"],
+			"name": "铁锤",
+			"aliases": ["hammer"],
+			"unit": "把",
+			"material": "iron",
+			"weight": 8000,
+			"weapon": { "skill": "hammer", "damage": 10 }
+		},
+		{
+			"id": "es2:d/green/obj/windsword",
+			"legacy_sources": ["d/green/obj/windsword.c"],
+			"name": "追风剑",
+			"aliases": ["windsword", "sword"],
+			"long": "这是一把淡青色的的长剑，看上去锋利异常。\n",
+			"unit": "把",
+			"material": "crimsonsteel",
+			"weight": 7000,
+			"value": 1000000,
+			"weapon": { "skill": "sword", "damage": 70, "apply": { "attack": 5, "courage": 10 } }
+		},
+		{
+			"id": "es2:d/green/obj/rope",
+			"legacy_sources": ["d/green/obj/rope.c"],
+			"name": "绳子",
+			"aliases": ["rope"],
+			"long": "这是一捆粗麻绳. 你可以用它来上吊(hang).\n\n",
+			"unit": "捆",
+			"material": "linen",
+			"weight": 3000,
+			"value": 5,
+			"hang": true
+		}
+	]
+}

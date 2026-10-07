@@ -50,6 +50,8 @@ var _gender_roll: NpcRandomText
 var _age_roll: NpcRandomInteger
 var _combat_experience_roll: NpcRandomInteger
 var _score_roll: NpcRandomInteger
+var _apply_rolls: Dictionary[StringName, NpcRandomInteger] = {}
+var _attitude_roll: NpcRandomText
 var _fight_rules: Array[NpcFightRule] = []
 var _talk: NpcTalk
 var _nickname: String = ""
@@ -165,6 +167,23 @@ func _init(
 
 ## Facts create() authors on top of the constructor's: the title, map_skill()
 ## and the values it draws (`600+random(400)`). Called once by the loader.
+## set_temp("apply/<key>", b + random(n)) in create(), drawn after combat_exp (green's
+## children, women and quarry workers), and set("attitude", (: ... :)), a function
+## query() evaluates afresh each time it is asked (kid2.c).
+func with_rolls(p_apply_rolls: Dictionary[StringName, NpcRandomInteger], p_attitude_roll: NpcRandomText) -> NpcDefinition:
+	_apply_rolls = p_apply_rolls.duplicate()
+	_attitude_roll = p_attitude_roll
+	return self
+
+
+func apply_rolls() -> Dictionary[StringName, NpcRandomInteger]:
+	return _apply_rolls.duplicate()
+
+
+func attitude_roll() -> NpcRandomText:
+	return _attitude_roll
+
+
 func with_creation_facts(
 	p_title: String,
 	p_skill_map: Dictionary[StringName, StringName],
@@ -407,7 +426,7 @@ func is_valid() -> bool:
 		or _attitude > Attitude.HEROISM
 	):
 		return false
-	for roll: Variant in [_gender_roll, _age_roll, _combat_experience_roll, _score_roll]:
+	for roll: Variant in [_gender_roll, _age_roll, _combat_experience_roll, _score_roll, _attitude_roll] + _apply_rolls.values():
 		if roll != null and not roll.is_valid():
 			return false
 	if not _unique_non_empty_ids(_aliases) or not _unique_non_empty_ids(_capability_ids):

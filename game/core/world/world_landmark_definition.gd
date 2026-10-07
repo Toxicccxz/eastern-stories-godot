@@ -14,7 +14,14 @@ extends RefCounted
 ## `look` landmark is only looked at (a sign, a stone tablet): no action, no portal.
 ## `join_class` is std/room/class_guild.c's join, on the thing that tells of it (the
 ## 正厅's sign): a player with no class takes its `class` (`joined`); one with a class
-## is refused (`refused`).
+## is refused (`refused`). `push_stone` (closed.c do_push()): below `force`, `max_force`
+## or `force_factor` the push is `weak`; else it costs gin, kee and sen (`push`) and
+## when random(`random`) is 0 the stone rolls away (`rolled`) and the player goes
+## through its portal. `search` (water.c do_search()): `search`; with the `mark`,
+## random(`random`) other than 0 gives the `reward` item (`found`, the mark stays),
+## else the mark goes (`nothing` either way without it). `look_spawn` (house3.c
+## call_spider()) is looked at: while fewer than `limit` came since the room's reset
+## and its summoned `spawn` has a free point, a look calls one in (`spawn`).
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
@@ -22,7 +29,12 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
 	&"join_class": {"portals": 0, "messages": ["joined", "refused"], "settings": [], "items": [], "class": true},
+	&"push_stone": {"portals": 1, "messages": ["weak", "push", "rolled"], "settings": ["force", "max_force", "force_factor", "gin", "kee", "sen", "random"], "items": []},
+	&"search": {"portals": 0, "messages": ["search", "found", "nothing"], "settings": ["random"], "items": ["reward"], "mark": true},
+	&"look_spawn": {"portals": 0, "messages": ["spawn"], "settings": ["limit"], "items": [], "no_action": true, "spawn": true},
 }
+## Every setting some policy names (an integer field of the record).
+const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit"]
 
 var _landmark_id: StringName
 var _map_id: StringName
@@ -37,6 +49,8 @@ var _messages: Dictionary[String, String] = {}
 var _settings: Dictionary[String, int] = {}
 var _items: Dictionary[String, StringName] = {}
 var _class_id: StringName = &""
+var _mark: String = ""
+var _spawn_id: StringName = &""
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -75,6 +89,14 @@ var legacy_source_path: String:
 var class_id: StringName:
 	get:
 		return _class_id
+## The mark a `search` landmark needs (CharacterState.marks).
+var mark: String:
+	get:
+		return _mark
+## The summoned spawn a `look_spawn` landmark calls in.
+var spawn_id: StringName:
+	get:
+		return _spawn_id
 
 
 func _init(
@@ -114,7 +136,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 			messages[key] = message_reader.required_text(key)
 		message_reader.finish()
 	var settings: Dictionary[String, int] = {}
-	for key: String in ["pushes", "open_seconds"]:
+	for key: String in SETTINGS:
 		if reader.has(key):
 			settings[key] = reader.required_integer(key)
 	var definition: WorldLandmarkDefinition = WorldLandmarkDefinition.new(
@@ -122,7 +144,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		StringName(reader.required_text("zone")),
 		reader.required_text("name"),
 		reader.required_text("long"),
-		reader.text("action") if reader.text("policy", "portal") == "look" else reader.required_text("action"),
+		reader.text("action") if POLICIES.get(StringName(reader.text("policy", "portal")), {}).get("no_action", false) else reader.required_text("action"),
 		StringName(reader.text("policy", "portal")),
 		portal_ids,
 		reader.boolean("contact", false),
@@ -131,6 +153,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	)
 	definition._settings = settings
 	definition._class_id = StringName(reader.text("class"))
+	definition._mark = reader.text("mark")
+	definition._spawn_id = StringName(reader.text("spawn"))
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -145,6 +169,10 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("action", "a '%s' landmark is only looked at" % definition.policy)
 	if definition.class_id.is_empty() == bool(rule.get("class", false)):
 		reader.fail("class", "only a join_class landmark names a class, and it must")
+	if definition.mark.is_empty() == bool(rule.get("mark", false)):
+		reader.fail("mark", "only a search landmark names a mark, and it must")
+	if definition.spawn_id.is_empty() == bool(rule.get("spawn", false)):
+		reader.fail("spawn", "only a look_spawn landmark names a spawn, and it must")
 	if portal_ids.size() != int(rule["portals"]):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
@@ -179,6 +207,8 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._items = _items.duplicate()
 	copy._settings = _settings.duplicate()
 	copy._class_id = _class_id
+	copy._mark = _mark
+	copy._spawn_id = _spawn_id
 	return copy
 
 

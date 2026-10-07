@@ -117,7 +117,15 @@ msgstr ""
 #. waterfog.npc.elder5 gender
 #. waterfog.npc.elder6 gender
 #. waterfog.npc.elder7 gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json
+#. green.npc.worker2 gender
+#. green.npc.shen gender
+#. green.npc.worker1 gender
+#. green.npc.oldman gender
+#. green.npc.oldman2 gender
+#. green.npc.kid1 gender
+#. green.npc.kid2 gender
+#. green.npc.kid4 gender.else
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -129,7 +137,12 @@ msgstr ""
 #. cloud.npc.mei_po gender
 #. cloud.npc.mother gender
 #. cloud.npc.girl gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json data/cloud/npcs.json
+#. green.npc.woman1 gender
+#. green.npc.woman2 gender
+#. green.npc.kid3 gender
+#. green.npc.oldwoman gender
+#. green.npc.kid4 gender.then
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -442,7 +455,10 @@ msgstr ""
 #. es2:d/goathill/mroad3 short
 #. es2:d/goathill/mroad5 short
 #. es2:d/goathill/mroad6 short
-#: scenes/world/goathill/goathill_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json
+#. es2:d/green/mpath0 short
+#. es2:d/green/mpath1 short
+#. es2:d/green/mpath2 short
+#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json
 msgid "山路"
 msgstr ""
 
@@ -470,6 +486,188 @@ msgstr ""
 
 #: scenes/world/goathill/goathill_mountain.tscn
 msgid "南 · 雪亭镇"
+msgstr ""
+
+#. es2:d/green/eight0 short
+#. es2:d/green/eight1 short
+#. es2:d/green/eight2 short
+#. es2:d/green/eight3 short
+#. es2:d/green/eight4 short
+#. es2:d/green/eight5 short
+#. es2:d/green/eight6 short
+#. es2:d/green/eight7 short
+#: scenes/world/green/green_maze.tscn data/green/rooms.json
+msgid "迷阵"
+msgstr ""
+
+#. es2:d/green/closed short
+#. green.closed.landmark.fog name
+#: scenes/world/green/green_maze.tscn data/green/rooms.json data/green/world.json
+msgid "绝地"
+msgstr ""
+
+#. es2:d/green/cave0 short
+#: scenes/world/green/green_mountain.tscn data/green/rooms.json
+msgid "洞口"
+msgstr ""
+
+#. es2:d/green/cave1 short
+#. es2:d/green/cave2 short
+#: scenes/world/green/green_mountain.tscn data/green/rooms.json
+msgid "黑暗山洞"
+msgstr ""
+
+#. es2:d/green/entrance short
+#: scenes/world/green/green_mountain.tscn data/green/rooms.json
+msgid "山路尽头"
+msgstr ""
+
+#. es2:d/green/outdoor short
+#. es2:d/green/stoneroom short
+#: scenes/world/green/green_mountain.tscn data/green/rooms.json
+msgid "石室"
+msgstr ""
+
+#. es2:d/green/cavehall short
+#: scenes/world/green/green_mountain.tscn data/green/rooms.json
+msgid "石室大厅"
+msgstr ""
+
+#. es2:d/green/water short
+#: scenes/world/green/green_mountain.tscn data/green/rooms.json
+msgid "溪水边"
+msgstr ""
+
+#: scenes/world/green/green_mountain.tscn
+msgid "南 · 青石村"
+msgstr ""
+
+#. oldpine.outdoor.landmark.cliffdown_cliff name
+#: scenes/world/green/green_mountain.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
+msgid "悬崖"
+msgstr ""
+
+#: scenes/world/green/green_mountain.tscn
+msgid "石洞"
+msgstr ""
+
+#: scenes/world/green/green_mountain.tscn
+msgid "佛像"
+msgstr ""
+
+#: scenes/world/green/green_mountain.tscn
+msgid "石椅"
+msgstr ""
+
+#: scenes/world/green/green_mountain.tscn
+msgid "木剑"
+msgstr ""
+
+#: scenes/world/green/green_mountain.tscn
+msgid "蒲团"
+msgstr ""
+
+#. es2:d/green/path0 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "小路的尽头"
+msgstr ""
+
+#. es2:d/green/path4 short
+#. es2:d/green/path1 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "小路"
+msgstr ""
+
+#. es2:d/green/path3 short
+#. es2:d/green/path2 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "三叉路口"
+msgstr ""
+
+#. es2:d/green/path6 short
+#. es2:d/green/path5 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "石板路"
+msgstr ""
+
+#. es2:d/green/path8 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "小巷子"
+msgstr ""
+
+#. es2:d/green/field0 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "小广场"
+msgstr ""
+
+#. es2:d/green/field1 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "采石场的空地"
+msgstr ""
+
+#. es2:d/green/station0 short
+#. es2:d/green/station1 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "工作站"
+msgstr ""
+
+#. es2:d/green/temple0 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "土地庙"
+msgstr ""
+
+#. es2:d/green/house0 short
+#. es2:d/green/house2 short
+#. es2:d/green/house3 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "民宅"
+msgstr ""
+
+#. es2:d/green/house1 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "工匠的家"
+msgstr ""
+
+#. es2:d/green/house4 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "村长的家"
+msgstr ""
+
+#. es2:d/green/shop0 short
+#: scenes/world/green/green_village.tscn data/green/rooms.json
+msgid "沈记商行"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "西 · 雪亭镇"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "北 · 山洞"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "采石场"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "大榕树"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "马房"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "木屋"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "破木牌"
+msgstr ""
+
+#: scenes/world/green/green_village.tscn
+msgid "井 · 装水"
 msgstr ""
 
 #. es2:d/oldpine/passage short
@@ -586,11 +784,6 @@ msgstr ""
 #. oldpine.outdoor.landmark.epath2_vine name
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
 msgid "藤蔓"
-msgstr ""
-
-#. oldpine.outdoor.landmark.cliffdown_cliff name
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
-msgid "悬崖"
 msgstr ""
 
 #. es2:d/oldpine/stone short
@@ -782,7 +975,7 @@ msgid "北 · 野羊山"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
-msgid "东 · 邻村"
+msgid "东 · 青石村"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
@@ -3423,7 +3616,8 @@ msgstr ""
 #. goathill.npc.huge_worm limbs
 #. cloud.npc.fly limbs
 #. waterfog.npc.celes_tiger limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json
+#. green.npc.spider limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -3722,6 +3916,14 @@ msgstr ""
 #. bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
 #: runtime/world/world_map_controller.gd
 msgid "你拿起一根%s呜嘟嘟地吹了起来。"
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "你四处看看, 实在找不到地方挂绳子说..."
+msgstr ""
+
+#: runtime/world/world_map_controller.gd
+msgid "你把绳子一端挂好, 另一端往脖子上一套....."
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -4495,6 +4697,10 @@ msgstr ""
 msgid "使用"
 msgstr ""
 
+#: ui/world/player_inventory_panel.gd
+msgid "上吊"
+msgstr ""
+
 #. dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
 #: ui/world/player_inventory_panel.gd
 msgid "化去{corpse}"
@@ -4652,6 +4858,13 @@ msgid ""
 "确定要化掉吗？"
 msgstr ""
 
+#. asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n"
+"确定要上吊吗？"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid "{name}的尸体 · {count}件物品"
 msgstr ""
@@ -4737,6 +4950,10 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "确定化掉"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定上吊"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -4860,7 +5077,8 @@ msgstr ""
 #. es2:obj/example/dumpling unit
 #. es2:obj/example/wineskin unit
 #. es2:d/snow/obj/denotation unit
-#: data/common/items.json data/snow/items.json
+#. es2:d/green/npc/obj/ricewine unit
+#: data/common/items.json data/snow/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -4950,7 +5168,10 @@ msgstr ""
 #. es2:u/cloud/obj/npc/worker/tea_leaf unit
 #. es2:u/cloud/obj/npc/chess_player/chess unit
 #. es2:d/waterfog/obj/sorrowfire unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json
+#. es2:d/green/npc/obj/knife unit
+#. es2:d/green/obj/hammer unit
+#. es2:d/green/obj/windsword unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json
 msgid "把"
 msgstr ""
 
@@ -6250,7 +6471,8 @@ msgid "岩蛭"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. green.npc.spider name
+#: data/common/quests.json data/green/npcs.json
 msgid "蜘蛛"
 msgstr ""
 
@@ -6782,7 +7004,8 @@ msgstr ""
 #. snow.npc.rat limbs
 #. cloud.npc.fly limbs
 #. waterfog.npc.celes_tiger limbs
-#: data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json
+#. green.npc.spider limbs
+#: data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
 msgid "身体"
 msgstr ""
 
@@ -6947,7 +7170,8 @@ msgstr ""
 
 #. es2:d/snow/obj/hammer name
 #. snow.npc.smith inquiry topic
-#: data/snow/items.json data/snow/npcs.json
+#. es2:d/green/obj/hammer name
+#: data/snow/items.json data/snow/npcs.json data/green/items.json
 msgid "铁锤"
 msgstr ""
 
@@ -9991,7 +10215,8 @@ msgid ""
 msgstr ""
 
 #. cloud.woodboxy.door name
-#: data/cloud/world.json
+#. green.cave.door name
+#: data/cloud/world.json data/green/world.json
 msgid "木门"
 msgstr ""
 
@@ -10482,4 +10707,728 @@ msgstr ""
 #. waterfog.entrance.weapons lines
 #: data/waterfog/world.json
 msgid "水烟阁武士挡住了你的去路。"
+msgstr ""
+
+#. es2:d/green/npc/obj/ricewine name
+#: data/green/items.json
+msgid "陶壶"
+msgstr ""
+
+#. es2:d/green/npc/obj/ricewine long
+#: data/green/items.json
+msgid ""
+"一个手工制造的陶壶, 看起来年代久远.\n"
+msgstr ""
+
+#. es2:d/green/npc/obj/ricewine liquid.name
+#: data/green/items.json
+msgid "米酒"
+msgstr ""
+
+#. es2:d/green/npc/obj/knife name
+#: data/green/items.json
+msgid "菜刀"
+msgstr ""
+
+#. es2:d/green/npc/obj/knife long
+#: data/green/items.json
+msgid ""
+"一把旧旧的菜刀, 刀口几乎被磨平了, 不过还颇具有杀伤力.\n"
+msgstr ""
+
+#. es2:d/green/obj/windsword name
+#: data/green/items.json
+msgid "追风剑"
+msgstr ""
+
+#. es2:d/green/obj/windsword long
+#: data/green/items.json
+msgid ""
+"这是一把淡青色的的长剑，看上去锋利异常。\n"
+msgstr ""
+
+#. es2:d/green/obj/rope name
+#: data/green/items.json
+msgid "绳子"
+msgstr ""
+
+#. es2:d/green/obj/rope long
+#: data/green/items.json
+msgid ""
+"这是一捆粗麻绳. 你可以用它来上吊(hang).\n"
+"\n"
+msgstr ""
+
+#. es2:d/green/obj/rope unit
+#: data/green/items.json
+msgid "捆"
+msgstr ""
+
+#. green.npc.worker2 name
+#: data/green/npcs.json
+msgid "采石工"
+msgstr ""
+
+#. green.npc.shen name
+#: data/green/npcs.json
+msgid "沈万年"
+msgstr ""
+
+#. green.npc.shen title
+#: data/green/npcs.json
+msgid "沈记商行掌柜"
+msgstr ""
+
+#. green.npc.woman1 name
+#. green.npc.woman2 name
+#: data/green/npcs.json
+msgid "妇人"
+msgstr ""
+
+#. green.npc.woman1 chat_msg_combat.say
+#: data/green/npcs.json
+msgid "没见识过我的菜刀神功是吧, 接招!"
+msgstr ""
+
+#. green.npc.woman1 chat_msg_combat.younger
+#: data/green/npcs.json
+msgid "死小孩, 专们欺负老人家!"
+msgstr ""
+
+#. green.npc.woman1 chat_msg_combat.otherwise
+#: data/green/npcs.json
+msgid "以大欺小啊你..."
+msgstr ""
+
+#. green.npc.woman2 chat_msg
+#: data/green/npcs.json
+msgid ""
+"妇人说道：我说啊, 管管你们家那小鬼啊.\n"
+msgstr ""
+
+#. green.npc.woman2 chat_msg
+#: data/green/npcs.json
+msgid ""
+"妇人说道：明知山洞那边闹鬼, 没事带著我们家那两个跑过去.\n"
+msgstr ""
+
+#. green.npc.woman2 chat_msg
+#: data/green/npcs.json
+msgid ""
+"妇人打开锅盖闻了一下.\n"
+msgstr ""
+
+#. green.npc.woman2 chat_msg
+#: data/green/npcs.json
+msgid ""
+"妇人朝门外看了看.\n"
+msgstr ""
+
+#. green.npc.kid3 name
+#. green.npc.kid2 name
+#. green.npc.kid4 name
+#: data/green/npcs.json
+msgid "小孩"
+msgstr ""
+
+#. green.npc.worker1 name
+#: data/green/npcs.json
+msgid "工匠"
+msgstr ""
+
+#. green.npc.oldman name
+#: data/green/npcs.json
+msgid "老公公"
+msgstr ""
+
+#. green.npc.oldman chat_msg_combat.emote
+#: data/green/npcs.json
+msgid "喊道: 老公我来帮你了!"
+msgstr ""
+
+#. green.npc.oldwoman name
+#: data/green/npcs.json
+msgid "老婆婆"
+msgstr ""
+
+#. green.npc.oldwoman chat_msg_combat.emote
+#: data/green/npcs.json
+msgid "叫道: 好啊,敢砍我老婆, 去死吧!"
+msgstr ""
+
+#. green.npc.oldman2 name
+#: data/green/npcs.json
+msgid "村长"
+msgstr ""
+
+#. green.npc.oldman2 inquiry topic
+#: data/green/npcs.json
+msgid "玉佩"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.玉佩
+#: data/green/npcs.json
+msgid ""
+"嗯...... 你是说那个从古墓盗出来的玉佩?\n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.玉佩
+#: data/green/npcs.json
+msgid ""
+"应该蛮珍贵的, 可是有点来路不明...\n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.玉佩
+#: data/green/npcs.json
+msgid ""
+"我送给一个年轻人了, 不过听说他得此玉佩后性情大变.\n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.玉佩
+#: data/green/npcs.json
+msgid ""
+"看来此物不祥... \n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.玉佩
+#: data/green/npcs.json
+msgid ""
+"你要找他吗? 有人说他现在以酒度日, 我也不知他的下落.\n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.玉佩
+#: data/green/npcs.json
+msgid ""
+"造孽啊........\n"
+msgstr ""
+
+#. green.npc.oldman2 chat_msg
+#: data/green/npcs.json
+msgid ""
+"村长说道：国之将亡.....\n"
+msgstr ""
+
+#. green.npc.kid1 name
+#: data/green/npcs.json
+msgid "工匠的小孩"
+msgstr ""
+
+#. green.npc.kid2 attitude.then
+#: data/green/npcs.json
+msgid "peaceful"
+msgstr ""
+
+#. green.npc.kid2 attitude.else
+#: data/green/npcs.json
+msgid "friendly"
+msgstr ""
+
+#. green.npc.kid4 chat_msg
+#: data/green/npcs.json
+msgid ""
+"小孩很好奇地往门缝里看去。\n"
+msgstr ""
+
+#. green.npc.kid4 chat_msg
+#: data/green/npcs.json
+msgid ""
+"小孩说道：村长说这道门绝对不可以打开喔!\n"
+msgstr ""
+
+#. green.npc.kid4 chat_msg
+#: data/green/npcs.json
+msgid ""
+"小孩说道：不知道里面是什么...\n"
+msgstr ""
+
+#. green.npc.spider long
+#: data/green/npcs.json
+msgid ""
+"这是一只体型相当大的蜘蛛, 看来有点吓人.\n"
+"\n"
+msgstr ""
+
+#. es2:d/green/path6 long
+#: data/green/rooms.json
+msgid ""
+"这是一条平整的石板路, 上面隐约可以看见两道很深的车轮, 看来\n"
+"是用来作运输用途的道路. 往西是通往山下的路, 往东你可以看到一些\n"
+"建筑物, 像是村庄之类的. 南边看去是一片矮树丛.\n"
+msgstr ""
+
+#. es2:d/green/path5 long
+#: data/green/rooms.json
+msgid ""
+"这是一条平整的石板路, 上面隐约可以看见两道很深的车轮, 看来\n"
+"是用来作运输用途的道路. 往北是一条较小的碎石路通往村内. 东边有\n"
+"一栋石屋, 旁边的空地堆了一些石料. 南边看去是一片矮树丛. 石板路\n"
+"往西边延伸.\n"
+msgstr ""
+
+#. es2:d/green/station0 long
+#: data/green/rooms.json
+msgid ""
+"这里是采石场在村口的工作站，一栋小小的木屋立在东边，旁边是一\n"
+"条上山的斜坡。路旁有一口井。空地上停著几辆载满石料的车。往西是一\n"
+"条铺著大石板的路，一路往山下延伸过去。\n"
+msgstr ""
+
+#. es2:d/green/path4 long
+#: data/green/rooms.json
+msgid ""
+"你走在一条不算宽的碎石路上, 往北是一个交叉路口. 东边有一栋\n"
+"木造建筑, 看来相当的破旧, 一片快要散掉似的木牌悬挂在门口, 上面\n"
+"的字迹已经不是很清楚了. 往南过去是一条铺著石板的大路.\n"
+msgstr ""
+
+#. es2:d/green/shop0 long
+#: data/green/rooms.json
+msgid ""
+"这里是青石村唯一的商店 -- 沈记商行, 在这里村民可以购买\n"
+"日常生活用品, 工具, 甚至于棺材. 真可以说是一间「杂」货店.\n"
+"屋内相当的拥挤, 到处都是箱子和杂物.\n"
+msgstr ""
+
+#. es2:d/green/path3 long
+#: data/green/rooms.json
+msgid ""
+"你来到一条三叉路口, 往东看去是另一条更小更窄的黄土路, 主要\n"
+"道路是南北向的, 西边有一栋民宅.\n"
+msgstr ""
+
+#. es2:d/green/house0 long
+#: data/green/rooms.json
+msgid ""
+"这是一间简陋的民宅，阴暗窄小的屋内散著一地的柴火和各式工具。\n"
+"屋角的石炉上闪著微弱的火光，一锅不知是什么的东西正冒出阵阵香味。\n"
+"另一角放著一张简陋的木床和几张椅子。\n"
+msgstr ""
+
+#. es2:d/green/path8 long
+#: data/green/rooms.json
+msgid ""
+"这是一条小小的巷子，地上铺著碎石和黄土。南北各有一栋建筑，不\n"
+"过南方的屋子出口不在这边。往东可以看到一个小小的广场，往西则是一\n"
+"个三岔路口。\n"
+msgstr ""
+
+#. es2:d/green/house1 long
+#: data/green/rooms.json
+msgid ""
+"这是一间普通的民宅，矮小的屋内整齐地堆著一排排的石板，墙上则\n"
+"挂著各式各样的雕刻，切割的工具。屋角放著各式的成品及半成品如石桌\n"
+"、石椅、墓碑等。\n"
+msgstr ""
+
+#. es2:d/green/field0 long
+#: data/green/rooms.json
+msgid ""
+"这是一个小小的广场，地上铺著切割整齐的大石块。广场周围有几间\n"
+"屋子，其中以正南边那栋木屋最为特别。往西是一条窄窄的小巷子，往东\n"
+"则是连接著采石场的空地。中央有一棵大榕树，像一座凉亭般地立在广场\n"
+"上。\n"
+msgstr ""
+
+#. es2:d/green/house2 long
+#: data/green/rooms.json
+msgid ""
+"这是一间简陋的民宅, 屋顶隐约还可以看到一些破洞. 墙角堆\n"
+"著些柴火, 墙壁上还可以看到烟熏的痕迹. 除了一些简陋的家具外\n"
+"屋内空空荡荡的.\n"
+msgstr ""
+
+#. es2:d/green/house4 long
+#: data/green/rooms.json
+msgid ""
+"这是一间看起来有点不一样的民宅，屋子的中央有一个石制的炉子，\n"
+"上面生著一堆火，熊熊的火光把屋内照得像白天似的光亮。墙上挂著几幅\n"
+"字画，一边还放了一个木制的书架，上面整齐地排著一些旧得不能再旧的\n"
+"书。炉子的旁边摆了一张手工精美的石椅，看来像个很重要的位置。\n"
+msgstr ""
+
+#. es2:d/green/field1 long
+#: data/green/rooms.json
+msgid ""
+"这是一片黄土空地，四周堆著一些切割整齐的大石块和碎石。往东看\n"
+"去就是采石场，高耸的石璧经过多年的采挖已经看不出原来的模样了。往\n"
+"南看去是一些矮小的房舍和储存工具的地方，往西是村内的广场，往北靠\n"
+"近广场的地方有一栋简陋的民宅。\n"
+msgstr ""
+
+#. es2:d/green/house3 long
+#: data/green/rooms.json
+msgid ""
+"这是一间民宅, 屋内除了一张石床外其他一无所有. 昏暗的屋\n"
+"内看来死气沉沉的, 似乎这屋子的主人很久没回来了. 屋角有一个\n"
+"形状很奇怪的蜘蛛网(web).\n"
+msgstr ""
+
+#. es2:d/green/station1 long
+#: data/green/rooms.json
+msgid ""
+"这里是采石场的工作站，几间矮小的房舍延著山壁建造。靠南的山边\n"
+"有一间马房，旁边还堆著山一般的乾草饲料，几辆运输用的车子停在旁边\n"
+"。往北看去是采石场的空地往南是一条由石板铺成的小斜坡，通往村前的\n"
+"工作站。西边不远处有一栋看来相当特别的房舍。\n"
+msgstr ""
+
+#. es2:d/green/path2 long
+#: data/green/rooms.json
+msgid ""
+"小路到了这里往北就算是出了村子. 西边有一间小小的土地庙, 东\n"
+"边是一栋民宅似的建筑, 不过入口不在这边. 往南是一个交叉路口.\n"
+msgstr ""
+
+#. es2:d/green/temple0 long
+#: data/green/rooms.json
+msgid ""
+"这是一间小小的土地庙, 庙内相当的暗, 一股湿气混上焚烧冥\n"
+"纸的味道使得屋内的的气味显得很奇特. 供桌上零星地放个一些水\n"
+"果, 一尊木刻的土地公像孤独地立在前面. 庙外的小空地边有一个\n"
+"简陋的金纸亭.\n"
+msgstr ""
+
+#. es2:d/green/path1 long
+#: data/green/rooms.json
+msgid ""
+"一条看来相当荒凉的小路, 两旁杂草丛生, 好像很久都没有人来过\n"
+"的样子. 往南很远的地方可以看到村子的入口, 往北的路似乎不是很明\n"
+"显.\n"
+msgstr ""
+
+#. es2:d/green/path0 long
+#: data/green/rooms.json
+msgid ""
+"小路到了这里以后往北变得很不明显, 往南还可以依稀看到村子的\n"
+"入口, 路的四周长满了杂草和小树之类的, 看来相当的荒凉. \n"
+msgstr ""
+
+#. es2:d/green/cave0 long
+#: data/green/rooms.json
+msgid ""
+"这里是山洞的入口, 往南看去是一条小小的碎石路, 两旁长满\n"
+"杂草, 看来很不明显. 往北是一道厚厚的木门, 上面用一条手臂粗\n"
+"的铁链拴著. 虽然如此, 你仍可以感到一股寒气从里面透出来.\n"
+msgstr ""
+
+#. es2:d/green/cave1 long
+#: data/green/rooms.json
+msgid ""
+"山洞很矮，几乎站不直身子，脚下偶尔踩到石头或是些莫名其妙的东西，\n"
+"洞内奇寒澈骨，南面是一扇木门，北面隐隐地有些亮光。\n"
+msgstr ""
+
+#. es2:d/green/cave2 long
+#: data/green/rooms.json
+msgid ""
+"山洞很矮，几乎站不直身子，脚下偶尔踩到石头或是些莫名其妙的东西，\n"
+"洞内奇寒澈骨，南面似乎可以前行，北面是一出口。\n"
+msgstr ""
+
+#. es2:d/green/mpath0 long
+#: data/green/rooms.json
+msgid ""
+"这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n"
+"山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n"
+"仔细一听，仿佛下面有潺潺的流水声。山路的南边有一个山洞\n"
+"黑乎乎的看不清里面的景色，山路一直向北蜿蜒。\n"
+msgstr ""
+
+#. es2:d/green/mpath1 long
+#: data/green/rooms.json
+msgid ""
+"这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n"
+"山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n"
+"仔细一听，仿佛下面有潺潺的流水声。山路一直向北蜿蜒。\n"
+msgstr ""
+
+#. es2:d/green/mpath2 long
+#: data/green/rooms.json
+msgid ""
+"这是一段荒芜的山路，显然很少有人走过，东面是陡峭的\n"
+"山壁，山壁上零星的长着几棵小树，西面是深不见底的悬崖，\n"
+"仔细一听，仿佛下面有潺潺的流水声。山路的北边似乎到了\n"
+"尽头。\n"
+msgstr ""
+
+#. es2:d/green/entrance long
+#: data/green/rooms.json
+msgid ""
+"你走到了山路的尽头，发现三面都是石壁，东面石壁上有一个洞口，洞内隐隐\n"
+"发出风雷之声，洞口上方似乎刻着一副图(painting)，北面是一扇大石门，\n"
+"门上苔迹斑斑，显然已经很久没人打开过了。\n"
+msgstr ""
+
+#. es2:d/green/outdoor long
+#: data/green/rooms.json
+msgid ""
+"这是一间石室，室内透着一种说不清的神秘力量，西边有两张石椅\n"
+"东首墙上挂这一把木剑。北边通往大厅，但墙上写了两行字，走近仔细\n"
+"辨认，是：非我弟子，莫入此门。\n"
+msgstr ""
+
+#. es2:d/green/cavehall long
+#: data/green/rooms.json
+msgid ""
+"这就是传说中的绝尘子的修行之所，北面是一座佛像，佛像顶部\n"
+"有一颗夜明珠发出莹莹的光芒。室内设施古朴，但却一尘不染。\n"
+msgstr ""
+
+#. es2:d/green/stoneroom long
+#: data/green/rooms.json
+msgid ""
+"这是一间石室，西边有一个大厅，大厅中有光线透出来，因此可以看清\n"
+"石室中的东西，南边有两个蒲团，似是用来打坐的，此外别无他物。\n"
+msgstr ""
+
+#. es2:d/green/water long
+#: data/green/rooms.json
+msgid ""
+"你来到了一条小溪的旁边，溪水很清澈，缓缓地向南流去，西面\n"
+"灌木丛中隐隐的有条小路。\n"
+"忽然水(water)中有一道亮光闪过，不过看不清是什么，你是否要下去\n"
+"找一找(search)?\n"
+msgstr ""
+
+#. es2:d/green/eight0 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见一片无垠的绿野，然而地面上似乎\n"
+"罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n"
+"自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)\n"
+"树在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight1 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见群山环绕，不知所处，地面上似乎\n"
+"罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n"
+"自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)树\n"
+"在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight2 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见四面环水，只有脚下一点陆地，水面上\n"
+"似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，你觉得\n"
+"自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)树\n"
+"在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight3 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见寒风阵阵，奇寒澈骨，如入北极风洞，四周\n"
+"似乎罩着一层神密的薄雾，风吹不散，渐渐地远处的景色模糊起来，你\n"
+"觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)树\n"
+"在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight4 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见铅云低沉，忽然一道闪电，跟着一阵巨雷，\n"
+"远山为之回响，身旁似乎罩着一层神密的薄雾，渐渐地远处的景色\n"
+"模糊起来，你觉得自己正深处一个飘忽的所在。你一回身，看见有\n"
+"一个路牌(sign)树在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight5 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见火光冲天，炽热难当，身旁似乎罩着一层\n"
+"神密的薄雾，渐渐地远处的景色模糊起来，你觉得自己正深处一个\n"
+"飘忽的所在。你一回身，看见有一个路牌(sign)树在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight6 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见身处一个大湖泊之中，脚下只有四尺见方的\n"
+"一块陆地，湖上似乎罩着一层神密的薄雾，渐渐地远处的景色模糊起来，\n"
+"你觉得自己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)\n"
+"树在那里。\n"
+msgstr ""
+
+#. es2:d/green/eight7 long
+#: data/green/rooms.json
+msgid ""
+"从这里向四周望去，只见长天一碧，沃野千里，正自心旷神怡，\n"
+"那层神密的薄雾又起，渐渐地远处的景色模糊起来，你觉得自\n"
+"己正深处一个飘忽的所在。你一回身，看见有一个路牌(sign)\n"
+"树在那里。\n"
+msgstr ""
+
+#. es2:d/green/closed long
+#: data/green/rooms.json
+msgid ""
+"这是一块绝地,四周没有任何出口,你不禁急得要哭了出来,忽然,你发现\n"
+"远方有一块大石(stone)动了一下,走近一看,似乎可以推(push)一下。\n"
+msgstr ""
+
+#. green name
+#: data/green/world.json
+msgid "青石村"
+msgstr ""
+
+#. green.entrance.door name
+#: data/green/world.json
+msgid "大石门"
+msgstr ""
+
+#. green.stoneroom.door name
+#: data/green/world.json
+msgid "密门"
+msgstr ""
+
+#. green.station0.well name
+#: data/green/world.json
+msgid "井"
+msgstr ""
+
+#. green.entrance.landmark.painting name
+#: data/green/world.json
+msgid "图"
+msgstr ""
+
+#. green.entrance.landmark.painting long
+#: data/green/world.json
+msgid ""
+"这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n"
+msgstr ""
+
+#. green.eight0.landmark.sign name
+#. green.eight1.landmark.sign name
+#. green.eight2.landmark.sign name
+#. green.eight3.landmark.sign name
+#. green.eight4.landmark.sign name
+#. green.eight5.landmark.sign name
+#. green.eight6.landmark.sign name
+#. green.eight7.landmark.sign name
+#: data/green/world.json
+msgid "路牌"
+msgstr ""
+
+#. green.eight0.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  坤--坤为地，遇青龙而生，遇玄武而死，遇白虎而困，遇朱雀而涉。\n"
+msgstr ""
+
+#. green.eight1.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  艮--艮为山，遇青龙而涉，遇玄武而生，遇白虎而死，遇朱雀而困。\n"
+msgstr ""
+
+#. green.eight2.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  坎--坎为水，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n"
+msgstr ""
+
+#. green.eight3.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  巽--巽为风，遇青龙而生，遇玄武而死，遇白虎而涉，遇朱雀而困。\n"
+msgstr ""
+
+#. green.eight4.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  震--震为雷，遇青龙而涉，遇玄武而生，遇白虎而困，遇朱雀而死。\n"
+msgstr ""
+
+#. green.eight5.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  离--离为火，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n"
+msgstr ""
+
+#. green.eight6.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  兑--兑为泽，遇青龙而困，遇玄武而生，遇白虎而死，遇朱雀而涉。\n"
+msgstr ""
+
+#. green.eight7.landmark.sign long
+#: data/green/world.json
+msgid ""
+"路牌上写着：  乾--乾为天，遇青龙而死，遇玄武而困，遇白虎而涉，遇朱雀而生。\n"
+msgstr ""
+
+#. green.closed.landmark.stone name
+#: data/green/world.json
+msgid "大石"
+msgstr ""
+
+#. green.closed.landmark.stone action
+#: data/green/world.json
+msgid "推"
+msgstr ""
+
+#. green.closed.landmark.stone long
+#: data/green/world.json
+msgid ""
+"远方有一块大石动了一下,走近一看,似乎可以推一下。\n"
+msgstr ""
+
+#. green.closed.landmark.stone messages.push
+#: data/green/world.json
+msgid "你用力推活动的大岩石,大岩石动了一下"
+msgstr ""
+
+#. green.closed.landmark.fog action
+#: data/green/world.json
+msgid "放弃"
+msgstr ""
+
+#. green.closed.landmark.fog long
+#: data/green/world.json
+msgid ""
+"四周没有任何出口。推不动那块大石的话，就只能在这里等下去了。\n"
+msgstr ""
+
+#. green.closed.landmark.fog messages.use
+#: data/green/world.json
+msgid "你在绝地里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
+msgstr ""
+
+#. green.water.landmark.water name
+#: data/green/world.json
+msgid "水"
+msgstr ""
+
+#. green.water.landmark.water action
+#: data/green/world.json
+msgid "下水寻找"
+msgstr ""
+
+#. green.water.landmark.water long
+#: data/green/world.json
+msgid ""
+"溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n"
+msgstr ""
+
+#. green.house3.landmark.web name
+#: data/green/world.json
+msgid "蜘蛛网"
+msgstr ""
+
+#. green.house3.landmark.web long
+#: data/green/world.json
+msgid ""
+"一个很大的蜘蛛网.\n"
+msgstr ""
+
+#. green.entrance.wind lines
+#: data/green/world.json
+msgid "你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"
+msgstr ""
+
+#. green.outdoor.seal lines
+#: data/green/world.json
+msgid "入口被魔法封住了！"
 msgstr ""

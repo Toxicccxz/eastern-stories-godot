@@ -7,7 +7,8 @@
 			"exits": {
 				"north": "es2:d/snow/sroad1",
 				"southeast": "es2:u/cloud/dragonhill/nhillfoot"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/dragonhill/nhillfoot",
@@ -16,7 +17,8 @@
 			"exits": {
 				"northwest": "es2:u/cloud/dragonhill/nroad",
 				"southup": "es2:u/cloud/dragonhill/hummock"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/dragonhill/hummock",
@@ -25,7 +27,8 @@
 			"exits": {
 				"northdown": "es2:u/cloud/dragonhill/nhillfoot",
 				"southdown": "es2:u/cloud/dragonhill/shillfoot"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/dragonhill/shillfoot",
@@ -34,7 +37,8 @@
 			"exits": {
 				"northup": "es2:u/cloud/dragonhill/hummock",
 				"southeast": "es2:u/cloud/entrance"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/dragonhill/sroad",
@@ -43,7 +47,8 @@
 			"exits": {
 				"northwest": "es2:u/cloud/dragonhill/shillfoot",
 				"southeast": "es2:u/cloud/entrance"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/entrance",
@@ -63,7 +68,8 @@
 				"north": "es2:u/cloud/entrance",
 				"south": "es2:u/cloud/nwroad2",
 				"east": "es2:u/cloud/tearoom"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/butchery",
@@ -101,7 +107,8 @@
 				"north": "es2:u/cloud/nwroad1",
 				"south": "es2:u/cloud/tailory",
 				"east": "es2:u/cloud/nwroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/woodboxy",
@@ -146,7 +153,8 @@
 				"north": "es2:u/cloud/tearoom",
 				"south": "es2:u/cloud/zaihuoy",
 				"east": "es2:u/cloud/nroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/zaihuoy",
@@ -166,7 +174,8 @@
 				"north": "es2:u/cloud/drugstore",
 				"south": "es2:u/cloud/nroad2",
 				"east": "es2:u/cloud/weapony"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/drugstore",
@@ -193,7 +202,8 @@
 				"west": "es2:u/cloud/zaihuoy",
 				"north": "es2:u/cloud/nroad1",
 				"south": "es2:u/cloud/cross"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/cross",
@@ -204,7 +214,8 @@
 				"north": "es2:u/cloud/nroad2",
 				"south": "es2:u/cloud/sroad1",
 				"east": "es2:u/cloud/eroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/wroad2",
@@ -214,7 +225,8 @@
 				"west": "es2:u/cloud/wroad1",
 				"south": "es2:u/cloud/monky",
 				"east": "es2:u/cloud/cross"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/monky",
@@ -232,7 +244,8 @@
 				"south": "es2:u/cloud/bookstore",
 				"west": "es2:u/cloud/wroad0",
 				"east": "es2:u/cloud/wroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/bookstore",
@@ -250,7 +263,8 @@
 				"west": "es2:d/latemoon/entrance",
 				"east": "es2:u/cloud/wroad1",
 				"north": "es2:u/cloud/marry_room"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/marry_room",
@@ -267,7 +281,8 @@
 			"exits": {
 				"north": "es2:u/cloud/cross",
 				"south": "es2:u/cloud/dukou"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/dukou",
@@ -276,7 +291,8 @@
 			"exits": {
 				"north": "es2:u/cloud/sroad1",
 				"south": "es2:u/cloud/sunhill/northriver"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/eroad1",
@@ -287,7 +303,8 @@
 				"north": "es2:u/cloud/jiyuan",
 				"south": "es2:u/cloud/duchang",
 				"east": "es2:u/cloud/eroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/jiyuan",
@@ -316,7 +333,8 @@
 				"north": "es2:u/cloud/park",
 				"south": "es2:u/cloud/biaoju",
 				"northeast": "es2:u/cloud/eroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/park",
@@ -342,7 +360,8 @@
 				"north": "es2:u/cloud/rich",
 				"southwest": "es2:u/cloud/eroad2",
 				"southeast": "es2:u/cloud/eroad4"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/rich",
@@ -367,7 +386,8 @@
 			"long": "这里是绮云镇的茶场，绮云盛产茶叶，因此这里有不少茶工在忙着\n采茶。\n",
 			"exits": {
 				"northwest": "es2:u/cloud/eroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:u/cloud/tearoom2",

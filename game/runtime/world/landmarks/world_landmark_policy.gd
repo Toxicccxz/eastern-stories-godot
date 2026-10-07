@@ -10,6 +10,12 @@ func use(_map: WorldMapController, _landmark: WorldLandmarkDefinition) -> RefCou
 	return null
 
 
+## What looking at the landmark shows (look.c: item_desc, which a function may make):
+## its authored text unless the policy says otherwise.
+func look(_map: WorldMapController, landmark: WorldLandmarkDefinition) -> String:
+	return landmark.description
+
+
 ## Whether the landmark stays selected after it moved the player.
 func keeps_selection() -> bool:
 	return true

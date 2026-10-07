@@ -7,7 +7,8 @@
 			"exits": {
 				"south": "es2:d/oldpine/npath2",
 				"north": "es2:d/snow/eroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/npath2",
@@ -16,7 +17,8 @@
 			"exits": {
 				"southeast": "es2:d/oldpine/npath3",
 				"north": "es2:d/oldpine/npath1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/npath3",
@@ -25,7 +27,8 @@
 			"exits": {
 				"east": "es2:d/oldpine/clearing",
 				"northwest": "es2:d/oldpine/npath2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/clearing",
@@ -44,7 +47,8 @@
 			"exits": {
 				"south": "es2:d/oldpine/clearing",
 				"north": "es2:d/oldpine/spath2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/spath2",
@@ -53,7 +57,8 @@
 			"exits": {
 				"south": "es2:d/oldpine/spath1",
 				"north": "es2:d/oldpine/spath3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/spath3",
@@ -62,7 +67,8 @@
 			"exits": {
 				"north": "es2:d/oldpine/spath4",
 				"south": "es2:d/oldpine/spath2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/spath4",
@@ -70,7 +76,8 @@
 			"long": "这是一条笔直的坡道，北高南低，道路两旁长满了许多松树，从松\n林间隐约可以听到东边传来流水的声音。\n",
 			"exits": {
 				"south": "es2:d/oldpine/spath3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/epath1",
@@ -79,7 +86,8 @@
 			"exits": {
 				"west": "es2:d/oldpine/clearing",
 				"east": "es2:d/oldpine/epath2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/epath2",
@@ -88,7 +96,8 @@
 			"exits": {
 				"west": "es2:d/oldpine/epath1",
 				"east": "es2:d/oldpine/epath3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/epath3",
@@ -96,7 +105,8 @@
 			"long": "你现在正走在一条松树林间的小路，西边有一座小石桥横跨在一条\n山涧上，往东不远处似乎是林子的出口，一条破旧的栈道沿著山壁通往\n山上，你发现地上有一些湿漉漉的脚印(footprints)，但是因为脚印太\n多，分不出是往哪里去。\n",
 			"exits": {
 				"west": "es2:d/oldpine/epath2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/waterfall",
@@ -121,7 +131,8 @@
 			"exits": {
 				"north": "es2:d/oldpine/riverbank2",
 				"south": "es2:d/oldpine/lake"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/riverbank2",
@@ -130,42 +141,50 @@
 			"exits": {
 				"north": "es2:d/oldpine/waterfall",
 				"south": "es2:d/oldpine/riverbank1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine1",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine2",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine3",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine4",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine5",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine6",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/pine7",
 			"short": "松树林",
-			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n"
+			"long": "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n天黑之前赶紧找道路径出去吧。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/cliffdown",
@@ -173,7 +192,8 @@
 			"long": "你现在正站在一个松树林间的小空地上，你的北边、东边、南边都\n是茂密的松树，唯独西边是个悬崖(cliff)，当你探头一看，立刻不由\n自主地倒抽一口凉气，在这里可得千万小心，一不小心跌了下去肯定是\n粉身碎骨。\n",
 			"exits": {
 				"northeast": "es2:d/oldpine/pine7"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/cliffside",
@@ -181,12 +201,14 @@
 			"long": "你现在正站在一个松树林间的小空地上，你的北边、东边、南边都\n是茂密的松树，唯独西边是个悬崖(cliff)，当你探头一看，立刻不由\n自主地倒抽一口凉气，在这里可得千万小心，一不小心跌了下去肯定是\n粉身碎骨。\n",
 			"exits": {
 				"north": "es2:d/oldpine/pine1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/cliff1",
 			"short": "山壁上的窄穴",
-			"long": "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n这里无论是要往上爬或往下爬都有一段不算短的距离，最好先歇一歇，\n喘口气再走。\n"
+			"long": "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n这里无论是要往上爬或往下爬都有一段不算短的距离，最好先歇一歇，\n喘口气再走。\n",
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/tree1",
@@ -212,7 +234,8 @@
 			"long": "哇....你终于爬上这株松树的树顶了，一阵阵凉风从四面八方吹来\n，使你觉得心旷神怡，虽然你的经验告诉你在这种地方往下看是十分不\n智的，但是你还是忍不住看了一眼，这里离地面至少也有十五、六丈高\n，一阵晕眩警告你最好在跌下去以前离开这个地方。\n",
 			"exits": {
 				"down": "es2:d/oldpine/tree2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/oldpine/passage",
@@ -302,7 +325,8 @@
 		{
 			"id": "es2:d/oldpine/cliff2",
 			"short": "山壁上的窄穴",
-			"long": "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n这里无论是要往上爬或往下爬都有一段不算短的距离，最好先歇一歇，\n喘口气再走。\n"
+			"long": "你现在正栖身在一个山壁上勉强足以容纳一个人休息的岩穴中，从\n这里无论是要往上爬或往下爬都有一段不算短的距离，最好先歇一歇，\n喘口气再走。\n",
+			"outdoors": true
 		}
 	]
 }

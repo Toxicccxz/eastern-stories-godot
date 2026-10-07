@@ -24,6 +24,9 @@ Steps, in order:
     {"op": "fill", "fills": [fill rows]}
     {"op": "clip"}, {"op": "separate"}, {"op": "drop_pockets", "from": "<marker name>"}
 
+`reach_from` may list several markers (a map entered at more than one place). A passage whose
+portal stays on this map is a jump: reaching its rectangle reaches its arrival marker too.
+
 A line point's verges are to the left and right of the direction of travel; a verge no wider than
 the road means bare rock. A body must reach every zone from the reach marker, crossing only between
 neighbours (room exits and zone `links` in game/data), and every neighbour pair must be joined; what
@@ -86,8 +89,9 @@ def draw(region, entry: dict) -> Drawn:
         else:
             raise ValueError(f'unknown canvas step {op!r}')
 
-    reached = c.reach(named[d['reach_from']], pairs)
-    assert {c.zone_at(x * T + 8, y * T + 8) for x, y in reached} == set(zones), ('cut off', zones)
+    starts = d['reach_from'] if isinstance(d['reach_from'], list) else [d['reach_from']]
+    reached = c.reach([named[s] for s in starts], pairs, jumps(region, scene, named, zones))
+    assert {c.zone_at(x * T + 8, y * T + 8) for x, y in reached} == set(zones), ('cut off', set(zones) - {c.zone_at(x * T + 8, y * T + 8) for x, y in reached})
     for a, b in pairs:
         assert c.seam(a, b), ('neighbours not joined', a, b)
     within_reach(c, reached, scene, named, region.service_reach(), region.contact_landmarks(), region.owner_zones())
@@ -115,6 +119,20 @@ def draw(region, entry: dict) -> Drawn:
         spot = caption_spot(c, zone_id, shorts[zone_id], d['caption_near'][zone_id], bodies)
         captions += sc.caption(name + 'Label' if name else zone_node_name(zone_id, 'Label'), spot, shorts[zone_id], 14)
     return Drawn(c.tiles(), {'zones': zone_nodes, 'captions': captions, 'markers': markers}, shapes, tuple(d['bounds']))
+
+
+def jumps(region, scene, named, zones):
+    """(passage box, arrival point) for each passage whose portal stays among `zones`."""
+    portals = region.portals()
+    by_id = {m['id']: tuple(m['at']) for m in scene.get('spawn_points', []) if 'generated' not in m}
+    sizes = scene['shapes']
+    out = []
+    for item in scene.get('nodes', []):
+        portal = portals.get(item.get('id')) if item.get('node') == 'passage' else None
+        if portal and portal['from_zone'] in zones and portal['to_zone'] in zones:
+            (ax, ay), (w, h) = item['at'], sizes[item['shape']]
+            out.append(((ax - w / 2, ay - h / 2, ax + w / 2, ay + h / 2), by_id[portal['to_spawn']]))
+    return out
 
 
 def within_reach(canvas, reached, scene, named, reach, contact, owners):
@@ -279,12 +297,32 @@ class Canvas:
         """A body (34 px) can stand centred on this cell: the 3x3 block around it is open."""
         return all(self.walkable((cell[0] + dx, cell[1] + dy)) for dx in (-1, 0, 1) for dy in (-1, 0, 1))
 
-    def reach(self, start, pairs):
-        """Cells a body can reach from `start` (point), never crossing between non-neighbours."""
-        first = (start[0] // T, start[1] // T)
-        assert self.roomy(first), ('no room at the entry', start)
-        seen = {first}
-        queue = deque([first])
+    def reach(self, start, pairs, jumps=()):
+        """Cells a body can reach from `start` (a point, or a list of them), never crossing
+        between non-neighbours; a jump's arrival is reached once its box is."""
+        starts = start if isinstance(start, list) else [start]
+        seen = set()
+        queue = deque()
+
+        def enter(point):
+            cell = (int(point[0]) // T, int(point[1]) // T)
+            assert self.roomy(cell), ('no room at the entry', point)
+            if cell not in seen:
+                seen.add(cell)
+                queue.append(cell)
+        for point in starts:
+            enter(point)
+        pending = list(jumps)
+        while queue:
+            self._flood(queue, seen, pairs)
+            for jump in list(pending):
+                (x0, y0, x1, y1), arrival = jump
+                if any(x0 <= cx * T + 8 <= x1 and y0 <= cy * T + 8 <= y1 for cx, cy in seen):
+                    pending.remove(jump)
+                    enter(arrival)
+        return seen
+
+    def _flood(self, queue, seen, pairs):
         while queue:
             cx, cy = queue.popleft()
             here = self.zone_at(cx * T + 8, cy * T + 8)
@@ -297,7 +335,6 @@ class Canvas:
                 assert here == there or tuple(sorted((here, there))) in pairs, ('seam', here, there)
                 seen.add(nxt)
                 queue.append(nxt)
-        return seen
 
     def drop_pockets(self, start):
         """Walkable cells no one can get to (cut off by the clip) turn back into rock."""

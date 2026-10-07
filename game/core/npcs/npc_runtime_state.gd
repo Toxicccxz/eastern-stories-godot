@@ -34,6 +34,9 @@ var _revive_in_ms: int = 0
 ## Object variables its create() sets (drunk.c has_alcohol). Not saved: Continue
 ## starts them as create() does (DECISIONS 4E).
 var _flags: Dictionary[StringName, bool] = {}
+## set("chat_chance_combat") a chat function changed (woman1.c wield_weapon(): 10);
+## -1 while the definition's holds. Not saved, as flags are not.
+var combat_chat_chance: int = -1
 
 var character_id: StringName:
 	get:

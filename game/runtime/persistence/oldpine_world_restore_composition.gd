@@ -502,16 +502,18 @@ static func _loadout_matches(
 	snapshot_scope: StringName,
 ) -> bool:
 	var expected_counts: Dictionary[StringName, int] = {}
-	for entry: NpcLoadoutEntry in definition.loadout_entries():
-		var content: ItemContentDefinition = (
-			GameContent.catalog().item(entry.item_definition_id)
-		)
-		if content == null:
-			return false
-		var instance_count: int = 1 if content.stack_definition() != null else entry.quantity
-		expected_counts[entry.item_definition_id] = (
-			expected_counts.get(entry.item_definition_id, 0) + instance_count
-		)
+	# Either side of a carry choice may have been drawn (worker2.c's hammer or rope).
+	for authored: NpcLoadoutEntry in definition.loadout_entries():
+		for entry: NpcLoadoutEntry in authored.possible_entries():
+			var content: ItemContentDefinition = (
+				GameContent.catalog().item(entry.item_definition_id)
+			)
+			if content == null:
+				return false
+			var instance_count: int = 1 if content.stack_definition() != null else entry.quantity
+			expected_counts[entry.item_definition_id] = (
+				expected_counts.get(entry.item_definition_id, 0) + instance_count
+			)
 	var resolved_ids: Array[StringName] = []
 	for item_id: StringName in saved.live_loadout_item_ids:
 		if global_ids.has(item_id):

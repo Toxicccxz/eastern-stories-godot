@@ -130,6 +130,11 @@ func set_last_damage_from(character_id: StringName) -> void:
 		_last_damage_from_id = character_id
 
 
+## No one hurt the character last (a death of their own doing: rope.c's hang).
+func clear_last_damage_from() -> void:
+	_last_damage_from_id = &""
+
+
 func clear_last_opponent() -> void:
 	_last_opponent_id = &""
 
