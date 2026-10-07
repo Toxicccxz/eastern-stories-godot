@@ -6,7 +6,10 @@ Owner: ES2 shows a room's text on every move, and our HUD on every zone the play
 of one name next to each other (the two 黄土小径, 雪亭镇街道's four, 青石官道, 山路, 白石阶梯, the pine
 maze's 松树林) read as one place: walking on from one into the next on the same map shows no
 arrival text. A room of another name, or one of the name reached any other way (a map change, a
-teleport), is described as before; 观察 shows the current room's own text.
+teleport), is described as before; 观察 shows the current room's own text. Owner: a room whose
+text says something new under the shared name is flagged `distinct` in world.json and is always
+described: 老松寨's hall (keep3), path3 (the snake on the stone), cave5 (the writing on the wall),
+张百万家's inner room (rich), 野羊山's cavern2 and cavern4.
 
 ## 老松岭's maps drawn by the painter (2026-10-07)
 
