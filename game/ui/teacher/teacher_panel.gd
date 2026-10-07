@@ -11,7 +11,7 @@ var _title: Label
 var panel: PanelContainer
 var status: Label
 var feedback: Label
-## The last 拜师, oath or test's lines, under their buttons (the test's blows read at once).
+## The last 拜师, oath or test's lines, right above their buttons (the test's blows read at once).
 var apprentice_feedback: Label
 var apprentice_button: Button
 var cancel_button: Button
@@ -76,14 +76,15 @@ func _ready() -> void:
 	_title = _label("", "Title")
 	status = _label("", "Status")
 	if _contact.takes_apprentices():
+		# Above their buttons: the focus stays on the button, so the lines just above show.
+		# Not "Feedback" either (see below).
+		apprentice_feedback = _label("", "ApprenticeLines")
 		apprentice_button = _button("Apprentice", "拜师 / 向师父请安", request_apprentice)
 		if _contact.teaching().apprentice.kind == NpcTeaching.Kind.OATH:
 			oath_button = _button("Swear", "发誓恪守门规", swear_oath)
 		if _contact.teaching().apprentice.kind == NpcTeaching.Kind.TRIAL:
 			trial_button = _button("AcceptTest", "接受测试", take_trial)
 		cancel_button = _button("CancelApprentice", "取消拜师请求", cancel_apprentice)
-		# Not "Feedback" either (see below).
-		apprentice_feedback = _label("", "ApprenticeLines")
 		confirm_box = ConfirmPrompt.new()
 		confirm_box.name = "ApprenticeConfirm"
 		confirm_box.hide()
