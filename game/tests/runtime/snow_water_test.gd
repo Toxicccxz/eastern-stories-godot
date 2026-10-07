@@ -249,12 +249,13 @@ func physical_tests(tree: SceneTree) -> void:
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
 	check(session.handoff_to(OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "fixture waterfall handoff")
 	await tree.physics_frame
-	map.player_body.global_position = Vector2(1200,900)
+	var falls: Vector2 = (map.get_node("WaterfallWaterPoint") as Node2D).global_position
+	map.player_body.global_position = falls + Vector2(0, 60)
 	map.player_runtime().set_world_location(map.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))
 	check(map.water_available() and session.fill_water_available(), "valid physical source")
-	map.player_body.global_position = Vector2(1200,780)
+	map.player_body.global_position = falls + Vector2(0, 120)
 	check(not map.water_available(), "same zone but120 distance >96")
-	map.player_body.global_position = Vector2(1200,900)
+	map.player_body.global_position = falls + Vector2(0, 60)
 	map.player_runtime().set_world_location(map.location_for_zone(OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID))
 	check(not map.water_available(), "wrongzone even ifcoordinatesnear")
 	tree.paused = true

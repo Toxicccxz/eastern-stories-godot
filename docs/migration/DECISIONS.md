@@ -1,5 +1,36 @@
 # Migration Decisions
 
+## Neighbouring rooms of one name are one place (2026-10-07)
+
+Owner: ES2 shows a room's text on every move, and our HUD on every zone the player enters. Rooms
+of one name next to each other (the two 黄土小径, 雪亭镇街道's four, 青石官道, 山路, 白石阶梯, the pine
+maze's 松树林) read as one place: walking on from one into the next on the same map shows no
+arrival text. A room of another name, or one of the name reached any other way (a map change, a
+teleport), is described as before; 观察 shows the current room's own text. Owner: a room whose
+text says something new under the shared name is flagged `distinct` in world.json and is always
+described: 老松寨's hall (keep3), path3 (the snake on the stone), cave5 (the writing on the wall),
+张百万家's inner room (rich), 野羊山's cavern2 and cavern4.
+
+## 老松岭's maps drawn by the painter (2026-10-07)
+
+Owner-approved plan: the five hand-made Old Pine maps (forest, cave, gorge, tree, cliff1) and the
+box-drawn stone and cliff2 are painter maps (`tools/maps/layouts/oldpine.json`) drawn from their
+room text: the winding path from Snow, the round clearing round the great pine, the straight
+slope, the gorge under the mossy bridge with the waterfall north of it, the stockade; the pool
+under the falls, the stream along the gorge's west wall with rocks to stand on, the bottomless
+pool ringed by grass; the candlelit passage behind the curtain; the pine seen from the side, its
+trunk and three levels of boughs; the niches as hollows in the cliff over a drop. The pine maze
+keeps its fixed maze (a loop, two dead ends, the way on to cliffdown) as gaps between the trees.
+`game/data` is unchanged (zones, doors, the gate trap, landmarks, portals, spawns, water services,
+the Lake's `complete_set`); in the scenes the landmark areas, the water points, the cliff niches'
+zones and some spawn points moved or changed size to fit the drawing (the keep's guards, the
+serpents and the arrival points stay put; the Lake's water point stands where the stream falls
+in, where it can be fetched out of the serpents' reach as before). Owner: the path north to Snow loses its blocking wall (the
+map's edge is closed ground, as on 野羊山); epath3's broken plank road (no exit in ES2) and the sign
+by the path to the bandits' slope are drawn only — the sign's and the footprints' `item_desc`
+texts (clearing.c, epath3.c) are not ported yet. World content revision
+`SOURCE_ENTRY_OLDPINE_PAINTED_V1`: older development saves need a New Game.
+
 ## 绮云镇's upper floors: three maps (2026-10-06)
 
 Owner: the three upper floors were three separate boxes on one map; each is now its own map

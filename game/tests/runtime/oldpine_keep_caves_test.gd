@@ -335,7 +335,7 @@ func _test_climbs(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	await tree.physics_frame
 	_check(session.active_map_id() == &"oldpine.cliff2" and player.world_location().zone_id == &"oldpine.cliff2.niche", "down to the narrow niche (cliff2)")
 	var niche: WorldMapController = session.active_map() as WorldMapController
-	niche.player_body.global_position = Vector2(240, 480)
+	niche.player_body.global_position = (niche.get_node("Interactions/DownInteraction") as Node2D).global_position
 	await tree.physics_frame
 	_check(niche.select_landmark(&"oldpine.cliff2.landmark.down"), "the niche: 往下爬")
 	niche.traverse_selected_portal()

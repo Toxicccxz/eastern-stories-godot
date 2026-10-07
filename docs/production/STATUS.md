@@ -4,13 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**绮云镇's upper floors** (`phase/cloud-floors`): 香茗坊二楼, 怡红院二楼 and the 赌场's upper floor are
-each their own map, drawn over their building and furnished from their room text (DECISIONS).
-**水烟阁 C** (#68, merged): 天邪神功 in the player's hands — 提升战斗力, 压制杀气 and 天邪虎啸 (both
-asked first in a fight), 杀气 that boils over (never at the player's master, a one-time warning),
-NPCs' glare when looked at; the 武学 page shows 杀气 and 定力 (DECISIONS).
+**老松岭's maps redrawn** (`phase/oldpine-maps`): the forest, cave, gorge, tree and cliff1 (and the
+stone and cliff2) are painter maps drawn from their room text: the winding path from Snow, the
+round clearing round the great pine, the straight slope, the bridge over the gorge, the pine maze
+as gaps between the trees, the stockade; the pool under the falls and the stream to the
+bottomless pool; the candlelit passage behind the curtain; the pine seen from the side; the
+niches in the cliff (DECISIONS).
 
-Next: redraw the seven older hand-made maps with the painter (老松岭's five, then 雪亭镇's Inn and streets).
+Next: redraw 雪亭镇's two hand-made maps (the Inn and the streets) with the painter.
 
 ## Playable now
 
@@ -130,6 +131,6 @@ Licensing: no root project license; ES2 rights are unresolved
 
 See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~3 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
--- <suite paths>`. The nine generated maps: edit `tools/maps/layouts/<region>.json`, then
+-- <suite paths>`. The generated maps (all but Snow's Inn and streets): edit `tools/maps/layouts/<region>.json`, then
 `python -m tools.maps.paint` (the tools tests fail on a hand-edited one). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).

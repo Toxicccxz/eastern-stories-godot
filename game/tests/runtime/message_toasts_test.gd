@@ -130,6 +130,25 @@ func _test_hud(tree: SceneTree) -> void:
 	await tree.process_frame
 	hud.show_combat_result("你赢了这场战斗。\n一行战斗描写")
 	_check(hud.toasts().latest_text() == "你赢了这场战斗。" and hud.log_lines().back() == "你赢了这场战斗。\n一行战斗描写", "a fight's result: its first line as a toast, all of it in 消息")
+	# Owner: neighbouring rooms of one name are one place, walking on into the next says
+	# nothing new; any other room, and one of the name further off, is described.
+	var outdoor: WorldMapController = session.world_map_of(&"snow.outdoor")
+	for step: Array in [[&"snow.eroad1", true], [&"snow.eroad2", false], [&"snow.eroad3", true], [&"snow.eroad2", true], [&"snow.mstreet1", true], [&"snow.mstreet3", true], [&"snow.mstreet2", false]]:
+		var before: String = hud.log_lines().back()
+		_check(player.set_world_location(outdoor.location_for_zone(step[0])), "fixture: the player in %s" % step[0])
+		hud.describe_arrival()
+		var title: String = "【%s】" % GameContent.catalog().zone(step[0]).display_name
+		if step[1]:
+			_check(hud.log_lines().back() != before and hud.log_lines().back().begins_with(title), "%s is described" % step[0])
+		else:
+			_check(hud.log_lines().back() == before, "on into %s says nothing new" % step[0])
+	# A distinct room of the name (the hall of 老松寨) is described both ways.
+	var forest: WorldMapController = session.world_map_of(&"oldpine.outdoor")
+	for zone_id: StringName in [&"oldpine.outdoor.keep_yard", &"oldpine.outdoor.keep_hall", &"oldpine.outdoor.keep_yard"]:
+		var before: String = hud.log_lines().back()
+		_check(player.set_world_location(forest.location_for_zone(zone_id)), "fixture: the player in %s" % zone_id)
+		hud.describe_arrival()
+		_check(hud.log_lines().back() != before and hud.log_lines().back().begins_with("【老松寨】"), "%s is described" % zone_id)
 	session.free()
 	await tree.process_frame
 

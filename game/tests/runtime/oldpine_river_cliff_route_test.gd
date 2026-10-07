@@ -167,20 +167,20 @@ func _test_complete_physical_route_and_authority_preservation(
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "the gorge map is active below the bridge")
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "arrival remains Waterfall through process and physics frames")
 	_assert_eq(gorge.player_body.global_position, gorge.resolve_spawn_marker(OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).global_position, "Waterfall landing does not auto-fall south")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1080), tree), "player physically reaches the Waterfall-side bank threshold")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1080), tree), "player physically reaches the Waterfall-side bank threshold")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "Waterfall side of the threshold remains stable")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1140), tree), "intentional bank walk reaches riverbank2")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1140), tree), "intentional bank walk reaches riverbank2")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "riverbank2 enters River Gorge combat location")
 	for _frame: int in range(3):
 		await tree.physics_frame
 		_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "River side of the threshold remains stable")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1350), tree), "player follows the intended east-bank route")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1350), tree), "player follows the intended east-bank route")
 	var water_collision: KinematicCollision2D = gorge.player_body.move_and_collide(Vector2(-400, 0))
 	_assert_true(water_collision != null, "actual CharacterBody cannot cross the river water")
-	_assert_true(gorge.player_body.global_position.x >= 1387.0, "water collision stays aligned inside the visible stream edge")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1940), tree), "continuous bank walk reaches riverbank1 cliff without an invisible blocker")
+	_assert_eq(TerrainProbe.terrain_at(gorge, gorge.player_body.global_position - Vector2(25, 0)), "water", "water collision stays aligned with the visible stream edge")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1940), tree), "continuous bank walk reaches riverbank1 cliff without an invisible blocker")
 	await _settle(tree)
 	_select_area(gorge.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, gorge)
 	_press_portal_action(gorge)
@@ -188,7 +188,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.CLIFF_HOLE_ZONE_ID, "climb reaches the cliff1 niche location")
 	_assert_eq(cliff.player_body.global_position, cliff.resolve_spawn_marker(OldPineWorldDefinitions.CLIFF1_LANDING_SPAWN_POINT_ID).global_position, "climb reaches exact cliff1 landing")
 	await _settle(tree)
-	_assert_true(await _walk(cliff.player_body, Vector2(680, 1650), tree), "player physically crosses cliff1 to the up route")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "Interactions/Cliff1UpInteraction"), tree), "player physically crosses cliff1 to the up route")
 	await _settle(tree)
 	_select_area(cliff.get_node("Interactions/Cliff1UpInteraction") as WorldLandmarkArea2D, cliff)
 	_press_portal_action(cliff)
@@ -247,9 +247,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	var pending_initiations: Array[CombatSliceInitiationResult] = outdoor.process_pending_aggression()
 	_assert_true(player.relationship.is_fighting() or not pending_initiations.is_empty() or not outdoor.last_aggression_initiations().is_empty(), "only physical entry into existing Presence starts authored aggression")
 	HistoricalCombat.set_running(outdoor, false)
-	_assert_true(await _walk(outdoor.player_body, Vector2(360, 1000), tree), "player steps west around the Tall bandit body")
-	_assert_true(await _walk(outdoor.player_body, Vector2(360, 864), tree), "player follows the pine floor north")
-	_assert_true(await _walk(outdoor.player_body, Vector2(-150, 864), tree), "complete route reaches Pine Deep without teleport")
+	_assert_true(await _walk(outdoor.player_body, Vector2(-150, 690), tree), "complete route reaches Pine Deep without teleport, round the bandits' bodies")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "complete Waterfall-to-Pine route ends in Pine Deep")
 	var old_maps: Array[WeakRef] = [weakref(outdoor), weakref(gorge), weakref(cliff)]
@@ -267,7 +265,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	_assert_eq(fresh_session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "reset returns to Central Clearing")
 	_assert_true(fresh_session.npc_random_source() != old_rngs[0] and fresh_session.combat_random_source() != old_rngs[1] and fresh_session.world_interaction_random_source() != old_rngs[2], "reset owns three fresh RNG authorities")
 	var fresh_gorge: WorldMapController = fresh_session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
-	_assert_true(fresh != null and TerrainProbe.blocks_at(fresh_gorge, Vector2(1200, 1300)) and TerrainProbe.terrain_at(fresh_gorge, Vector2(1200, 1300)) == "water", "reset reloads authored River collision unchanged")
+	_assert_true(fresh != null and TerrainProbe.blocks_at(fresh_gorge, Vector2(1150, 1300)) and TerrainProbe.terrain_at(fresh_gorge, Vector2(1150, 1300)) == "water", "reset reloads authored River collision unchanged")
 	await _free_session(fresh_session, tree)
 
 
@@ -288,11 +286,11 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID,
 	).succeeded(), "return fixture starts at the vine's Waterfall landing")
 	await _settle(tree)
-	_assert_true(await _walk(gorge.player_body, Vector2(1200, 1000), tree), "return fixture reaches Waterfall south opening")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1080), tree), "return fixture reaches the intended east bank")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1940), tree), "return fixture physically walks into River Gorge")
+	_assert_true(await _walk(gorge.player_body, Vector2(1300, 1000), tree), "return fixture reaches Waterfall south opening")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1080), tree), "return fixture reaches the intended east bank")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1940), tree), "return fixture physically walks into River Gorge")
 	await _settle(tree)
-	# The water tiles end at x 1376: a 34 px body stands on the bank from x 1393.
+	# The stream runs along the west wall; the bank east of it is where a body stands.
 	_assert_true(await _walk(gorge.player_body, Vector2(1400, 1940), tree), "return fixture reaches cliff interaction")
 	await _settle(tree)
 	player.busy.start_busy(7)
@@ -316,17 +314,17 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	_assert_false(player.relationship.has_opponent(opponent.character_id), "next availability opportunity keeps the separated ordinary opponent cleared")
 	_assert_true(player.relationship.has_lethal_target(opponent.character_id), "separation cleanup retains lethal marker")
 	_assert_eq(combat_random.calls, 0, "separated cleanup draws zero Combat RNG")
-	_assert_true(await _walk(cliff.player_body, Vector2(200, 1940), tree), "player reaches Cliff1 Down landmark")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "Interactions/Cliff1DownInteraction"), tree), "player reaches Cliff1 Down landmark")
 	await _settle(tree)
 	_select_area(cliff.get_node("Interactions/Cliff1DownInteraction") as WorldLandmarkArea2D, cliff)
-	_assert_true(await _walk(cliff.player_body, Vector2(435, 1900), tree), "player leaves stale Cliff1 Down while staying in the cliff niche")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "SpawnPoints/Cliff1Landing"), tree), "player leaves stale Cliff1 Down while staying in the cliff niche")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.CLIFF_HOLE_ZONE_ID, "the stale fixture stays in the cliff niche zone")
 	var before: Vector2 = cliff.player_body.global_position
 	_assert_false(_completed(cliff.traverse_selected_portal()), "the niche rejects stale Cliff1 Down despite shared zone")
 	_assert_eq(cliff.player_body.global_position, before, "stale Cliff1 Down performs no movement")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.CLIFF_MAP_ID, "stale Cliff1 Down starts no handoff")
-	_assert_true(await _walk(cliff.player_body, Vector2(200, 1940), tree), "player physically reaches climb-down landmark")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "Interactions/Cliff1DownInteraction"), tree), "player physically reaches climb-down landmark")
 	await _settle(tree)
 	_select_area(cliff.get_node("Interactions/Cliff1DownInteraction") as WorldLandmarkArea2D, cliff)
 	_press_portal_action(cliff)
@@ -334,20 +332,20 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "climb down restores River Gorge")
 	_assert_eq(gorge.player_body.global_position, gorge.resolve_spawn_marker(OldPineWorldDefinitions.RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID).global_position, "climb down exact riverbank1 landing")
 	await _settle(tree)
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1140), tree), "reverse route physically reaches Riverbank2")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1140), tree), "reverse route physically reaches Riverbank2")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "Riverbank1 and Riverbank2 share River Gorge combat location")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1080), tree), "reverse route physically re-enters Waterfall")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1080), tree), "reverse route physically re-enters Waterfall")
 	await _settle(tree)
 	for _frame: int in range(3):
 		await tree.physics_frame
 		_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, "reverse Waterfall boundary remains stable")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1940), tree), "stale fixture returns along the east bank")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1940), tree), "stale fixture returns along the east bank")
 	await _settle(tree)
 	_assert_true(await _walk(gorge.player_body, Vector2(1400, 1940), tree), "stale fixture re-enters cliff interaction")
 	await _settle(tree)
 	_select_area(gorge.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, gorge)
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1600), tree), "player physically leaves selected landmark while staying in River Gorge")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1600), tree), "player physically leaves selected landmark while staying in River Gorge")
 	await _settle(tree)
 	before = gorge.player_body.global_position
 	_assert_false(_completed(gorge.traverse_selected_portal()), "stale landmark execution rechecks physical source")
@@ -359,10 +357,10 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	_select_area(gorge.get_node("Interactions/RiverbankCliffInteraction") as WorldLandmarkArea2D, gorge)
 	_press_portal_action(gorge)
 	await _settle(tree)
-	_assert_true(await _walk(cliff.player_body, Vector2(680, 1650), tree), "Cliff1 Up stale fixture reaches authored landmark")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "Interactions/Cliff1UpInteraction"), tree), "Cliff1 Up stale fixture reaches authored landmark")
 	await _settle(tree)
 	_select_area(cliff.get_node("Interactions/Cliff1UpInteraction") as WorldLandmarkArea2D, cliff)
-	_assert_true(await _walk(cliff.player_body, Vector2(435, 1900), tree), "player leaves stale Cliff1 Up while staying in the cliff niche")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "SpawnPoints/Cliff1Landing"), tree), "player leaves stale Cliff1 Up while staying in the cliff niche")
 	await _settle(tree)
 	before = cliff.player_body.global_position
 	_assert_false(_completed(cliff.traverse_selected_portal()), "the niche rejects stale Cliff1 Up despite shared zone")
@@ -373,7 +371,7 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 	# The bandit's own side was never reconciled while the forest map was inactive.
 	opponent.relationship.mark_lethal_target(player.character_id)
 	_assert_true(opponent.relationship.has_opponent(player.character_id) and opponent.relationship.has_lethal_target(player.character_id), "fixture re-establishes reciprocal same-Cliff relationship")
-	_assert_true(await _walk(cliff.player_body, Vector2(680, 1650), tree), "continuity fixture returns to Cliff1 Up")
+	_assert_true(await _walk(cliff.player_body, _node_at(cliff, "Interactions/Cliff1UpInteraction"), tree), "continuity fixture returns to Cliff1 Up")
 	await _settle(tree)
 	_select_area(cliff.get_node("Interactions/Cliff1UpInteraction") as WorldLandmarkArea2D, cliff)
 	_press_portal_action(cliff)
@@ -412,13 +410,13 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	# Old Pine terrain collides through its tiles (DECISIONS 3B5); the gorge has
 	# no staging block left, and its east bank opens from the pool to the river.
 	_assert_true(gorge.find_children("*", "StaticBody2D", true, false).is_empty(), "the gorge keeps no staging block body")
-	_assert_eq(TerrainProbe.terrain_at(gorge, Vector2(1450, 1100)), "riverbank", "the Waterfall south bank is painted bank")
-	_assert_false(TerrainProbe.blocks_at(gorge, Vector2(1450, 1100)), "only the Waterfall south bank seam is open")
+	_assert_eq(TerrainProbe.terrain_at(gorge, Vector2(1380, 1100)), "riverbank", "the Waterfall south bank is painted bank")
+	_assert_false(TerrainProbe.blocks_at(gorge, Vector2(1380, 1100)), "only the Waterfall south bank seam is open")
 	# The stream is water tiles: what is drawn is what collides.
-	for point: Vector2 in [Vector2(1028, 1150), Vector2(1200, 1150), Vector2(1372, 1150), Vector2(1028, 2190), Vector2(1200, 2190), Vector2(1372, 2190)]:
+	for point: Vector2 in [Vector2(1130, 1150), Vector2(1160, 1150), Vector2(1196, 1150), Vector2(1110, 2190), Vector2(1150, 2190), Vector2(1190, 2190)]:
 		_assert_eq(TerrainProbe.terrain_at(gorge, point), "water", "visible RiverStream covers %s" % point)
 		_assert_true(TerrainProbe.blocks_at(gorge, point), "visible RiverStream collides at %s" % point)
-	for point: Vector2 in [Vector2(1020, 1500), Vector2(1380, 1500)]:
+	for point: Vector2 in [Vector2(1260, 1500), Vector2(1380, 1500)]:
 		_assert_false(TerrainProbe.blocks_at(gorge, point), "water collision ends at the visible stream edge, bank open at %s" % point)
 	_assert_true(gorge.physical_zone(OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID) != null, "River Gorge zone persists")
 	_assert_true(cliff.physical_zone(OldPineWorldDefinitions.CLIFF_HOLE_ZONE_ID) != null, "the cliff niche zone persists on its own map")
@@ -431,7 +429,8 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 			_assert_ne(GameContent.catalog().portal(passage.portal_id).source_zone_id, OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID, "no forest passage leaves the cliffside")
 	_assert_true((gorge.get_node("Characters/Player/Camera2D") as Camera2D).limit_bottom >= 3000, "camera covers full River/Lake route")
 	var cliff_camera: Camera2D = cliff.get_node("Characters/Player/Camera2D") as Camera2D
-	_assert_true(cliff_camera.limit_top <= 1424 and cliff_camera.limit_bottom >= 2184, "camera covers the cliff niche")
+	var niche: Rect2 = _zone_rect(cliff, OldPineWorldDefinitions.CLIFF_HOLE_ZONE_ID)
+	_assert_true(cliff_camera.limit_top <= niche.position.y and cliff_camera.limit_bottom >= niche.end.y, "camera covers the cliff niche")
 	_assert_true((outdoor.get_node("Characters/Player/Camera2D") as Camera2D).limit_bottom >= 1392, "camera covers the cliffside")
 	# The clearing's native link into the pines (B2) is on its south side now.
 	_assert_true(await _walk(outdoor.player_body, Vector2(450, 700), tree), "direct Outdoor to Pine shortcut remains physical")
@@ -451,14 +450,14 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID,
 	).succeeded(), "collision fixture reaches the vine's Waterfall landing")
 	await _settle(tree)
-	_assert_true(await _walk(gorge.player_body, Vector2(1200, 1000), tree), "player returns through the Waterfall south opening")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 1080), tree), "player can step onto the intended River bank without invisible collision")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 2140), tree), "Lake southern boundary is physically reachable along the bank")
+	_assert_true(await _walk(gorge.player_body, Vector2(1300, 1000), tree), "player returns through the Waterfall south opening")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 1080), tree), "player can step onto the intended River bank without invisible collision")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 2140), tree), "Lake southern boundary is physically reachable along the bank")
 	await _settle(tree)
 	var lake_collision: KinematicCollision2D = gorge.player_body.move_and_collide(Vector2(0, 160))
 	_assert_true(lake_collision == null, "Lake north connection is physically open")
 	_assert_eq(gorge.player_runtime().world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "direct displacement awaits zone observation")
-	_assert_true(await _walk(gorge.player_body, Vector2(1420, 2000), tree), "player can return north from Lake")
+	_assert_true(await _walk(gorge.player_body, Vector2(1380, 2000), tree), "player can return north from Lake")
 	_assert_eq(TerrainProbe.terrain_at(outdoor, Vector2(-1480, 850)), "cliff", "Pine cliffdown edge is painted cliff")
 	_assert_true(TerrainProbe.blocks_at(outdoor, Vector2(-1480, 850)), "Pine cliffdown boundary remains closed")
 	await _free_session(session, tree)
@@ -502,17 +501,25 @@ func _npc_item_ids(npc: NpcRuntimeState) -> Array[StringName]:
 func _walk(
 	body: CharacterBody2D,
 	target: Vector2,
-	tree: SceneTree,
+	_tree: SceneTree,
 ) -> bool:
-	for _step: int in range(1000):
-		var remaining: Vector2 = target - body.global_position
-		if remaining.length() <= 0.5:
-			return true
-		if body.move_and_collide(remaining.limit_length(10.0)) != null:
-			return false
-		if _step % 5 == 4:
-			await tree.physics_frame
-	return false
+	var map: WorldMapController = body.get_parent().get_parent() as WorldMapController
+	var avoid: Array[Node2D] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		var npc_body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+		if npc_body != null and npc_body.is_inside_tree():
+			avoid.append(npc_body)
+	return await MapRoute.walk(body, map, target, avoid)
+
+
+func _node_at(map: Node2D, path: String) -> Vector2:
+	return (map.get_node(path) as Node2D).global_position
+
+
+func _zone_rect(map: WorldMapController, zone_id: StringName) -> Rect2:
+	var zone: Area2D = map.physical_zone(zone_id)
+	var shape: RectangleShape2D = (zone.get_node("CollisionShape2D") as CollisionShape2D).shape as RectangleShape2D
+	return Rect2(zone.global_position - shape.size / 2.0, shape.size)
 
 
 func _resources(state: CharacterState) -> Array[int]:

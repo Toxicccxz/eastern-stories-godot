@@ -5,6 +5,8 @@ extends RefCounted
 ## the zone's primary room: its short and long text are what the player sees.
 ## How aggressive NPCs start a fight here: `pair` (one at a time) or
 ## `complete_set` (every aggressive NPC in contact joins one encounter).
+## `distinct`: a room of its own that shares its name with a neighbour (the hall of
+## 老松寨, cave5): its text is shown on arrival even from that neighbour.
 const COMBAT_ENTRIES: Array[StringName] = [&"pair", &"complete_set"]
 
 var _zone_id: StringName
@@ -13,6 +15,7 @@ var _room_ids: Array[StringName] = []
 var _primary_room: RoomDefinition
 var _combat_entry: StringName = &"pair"
 var _link_ids: Array[StringName] = []
+var _distinct: bool = false
 
 var zone_id: StringName:
 	get:
@@ -34,6 +37,9 @@ var description: String:
 var combat_entry: StringName:
 	get:
 		return _combat_entry
+var distinct: bool:
+	get:
+		return _distinct
 
 
 func _init(
@@ -43,6 +49,7 @@ func _init(
 	p_primary_room: RoomDefinition = null,
 	p_combat_entry: StringName = &"pair",
 	p_link_ids: Array[StringName] = [],
+	p_distinct: bool = false,
 ) -> void:
 	_zone_id = p_zone_id
 	_map_id = p_map_id
@@ -50,6 +57,7 @@ func _init(
 	_primary_room = p_primary_room
 	_combat_entry = p_combat_entry
 	_link_ids = p_link_ids.duplicate()
+	_distinct = p_distinct
 
 
 static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
@@ -68,6 +76,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 		null,
 		StringName(reader.text("combat_entry", "pair")),
 		link_ids,
+		reader.boolean("distinct", false),
 	)
 	reader.finish()
 	if not COMBAT_ENTRIES.has(definition.combat_entry):
@@ -77,7 +86,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 
 ## Copy whose text comes from the resolved primary room.
 func with_primary_room(room: RoomDefinition) -> ZoneDefinition:
-	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry, _link_ids)
+	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry, _link_ids, _distinct)
 
 
 func room_ids() -> Array[StringName]:

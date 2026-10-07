@@ -81,7 +81,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	tree.root.add_child(technical)
 	_check(technical.resident_map_count() == 8 and technical.resident_map(&"snow.inn") == null and technical.resident_map(&"snow.outdoor") == null and technical.active_map_id() == &"oldpine.outdoor", "technical map set is the eight Old Pine maps")
 	_check(technical.player_runtime().facts.age == 20 and technical.player_runtime().state.progression.combat_experience == 600 and technical.player_runtime().state.equipment.primary_weapon_skill_type() == &"sword" and technical.inventory_state().registered_item_ids().size() == 56, "technical age/experience/sword/items unchanged")
-	_check((technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_node("Terrain/Boundaries/WorldBounds/SnowBlocker") as CollisionShape2D).disabled == false and _passages_to(technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 0, "technical north exit remains physically closed")
+	# The path north ends at the map's edge, closed ground beyond its (unconfigured) passage.
+	var technical_outdoor: WorldMapController = technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var north_exit: Vector2 = (technical_outdoor.get_node("SnowPassage") as Node2D).global_position
+	_check(technical_outdoor.player_body.test_move(Transform2D(0.0, north_exit + Vector2(0, 24)), Vector2(0, -96)) and _passages_to(technical_outdoor, &"snow.outdoor") == 0, "technical north exit remains physically closed")
 	# Snow's NPCs draw after Old Pine's: travellers 22, dogs 8, keeper 8, drunk 6,
 	# scavenger 7, guard 4, trainees 48, trainer 6 (4A); farmers 16, crazy dog 4, teacher 7,
 	# woodcutter 7, post officer 8 (4B); rats 36 (4C); waiter 8, 安惜迩 0 (all eight attributes
@@ -108,10 +111,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(binding != null and binding.state == player.state and binding.state.equipment.primary_weapon() == null, "source exp0/unarmed binds existing combat")
 	_continuity(session, identities, cloth)
 	# npath1-3: down the path from the Snow gap, then east into the clearing's west edge.
-	await _walk_axis(tree, session, 150.0, "move_down")
-	await _walk_axis(tree, session, 100.0, "move_right")
+	var forest: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	var clearing: Vector2 = (forest.get_node("SpawnPoints/PlayerStart") as Node2D).global_position
+	_check(await MapRoute.drive(tree, forest, forest.player_body, clearing), "down the path into the clearing")
 	_check(player.world_location().zone_id == OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID and session.active_map_id() == &"oldpine.outdoor", "clearing reached by same-map physical movement")
-	await _walk_axis(tree, session, -352.0, "move_left")
+	_check(await MapRoute.drive(tree, forest, forest.player_body, (forest.get_node("SpawnPoints/SnowEntry") as Node2D).global_position), "back up the path")
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_up")
 	_check(player.world_location().zone_id == &"snow.eroad3" and session.last_map_handoff_result().destination_spawn_point_id == north.destination_spawn_point_id, "reverse passage returns eroad3, not Square")
 	_continuity(session, identities, cloth)

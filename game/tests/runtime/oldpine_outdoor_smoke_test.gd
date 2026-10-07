@@ -274,10 +274,10 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID,
 	))
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "typed logical location changes slope to central")
-	# West along the north-approach path (y 96..192) until the forest edge stops the walk.
-	var before_bounds: Vector2 = Vector2(100.0, 144.0)
-	controller.player_body.position = before_bounds
+	# West out of the clearing along the path from Snow, then off it until the pines stop the walk.
+	controller.player_body.position = Vector2(100.0, 262.0)
 	await tree.physics_frame
+	_assert_true(await MapRoute.drive(tree, controller, controller.player_body, Vector2(-250.0, 0.0)), "the path leads west out of the clearing")
 	Input.action_press("move_left")
 	var last_x: float = INF
 	for _step: int in range(1200):
@@ -287,8 +287,11 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 		last_x = controller.player_body.position.x
 	Input.action_release("move_left")
 	_assert_true(controller.player_body.position.x < 0.0, "player walks west out of the clearing through the continuous map")
-	# npath's grass ends at x -480; the forest beyond it holds the body.
-	_assert_true(absf(controller.player_body.position.x - (-480.0 + 17.0)) < 2.0, "the forest edge west of npath stops the walk (x=%s)" % controller.player_body.position.x)
+	# The path turns north there; the pines beside it hold the body.
+	var west_side: Array[String] = []
+	for dy: float in [-16.0, 0.0, 16.0]:
+		west_side.append(TerrainProbe.terrain_at(controller, controller.player_body.position + Vector2(-25.0, dy)))
+	_assert_true(west_side.has("forest"), "the forest edge west of npath stops the walk (x=%s, %s)" % [controller.player_body.position.x, west_side])
 	_assert_true(controller.player_body.test_move(controller.player_body.global_transform, Vector2(-32, 0)), "the forest edge keeps holding")
 	controller.queue_free()
 	await tree.process_frame
@@ -529,7 +532,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	var expected_body_weight: int = victim.body_weight
 	var expected_capacity: int = victim.maximum_encumbrance
 	var victim_body: CharacterBodyType = OldPineTestMap.body(controller, "Bandit02")
-	victim_body.global_position += Vector2(24.0, -18.0)
+	victim_body.global_position += Vector2(-24.0, -18.0)
 	var death_position: Vector2 = victim_body.global_position
 	var sword: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SHORT_SWORD_ITEM_ID)
 	var silver: ItemInstance = _item_with_definition(victim.loadout_items(), TestContent.SILVER_ITEM_ID)

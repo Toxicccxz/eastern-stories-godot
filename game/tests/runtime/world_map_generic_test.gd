@@ -23,7 +23,10 @@ func _test_corpse_beside_a_wall(tree: SceneTree) -> void:
 	var session: OldPineWorldSessionController = await _session(tree)
 	var forest: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var slope: WorldLocationState = forest.location_for_zone(OldPineWorldDefinitions.SLOPE_ZONE_ID)
-	var fell_at: Vector2 = Vector2(209, -150)
+	# Walk west from the slope's path at y -150 to the last spot a body still fits.
+	var fell_at: Vector2 = Vector2(450, -150)
+	while MapPlacementValidator.is_valid_character_position(forest, slope.zone_id, fell_at - Vector2(1, 0)) and fell_at.x > 0:
+		fell_at.x -= 1.0
 	_assert_true(MapPlacementValidator.is_valid_character_position(forest, slope.zone_id, fell_at), "a body can stand against the slope's west forest")
 	_assert_false(MapPlacementValidator.is_valid_corpse_position(forest, slope.zone_id, fell_at), "the wider corpse would overlap that forest")
 	var corpse_at: Vector2 = forest._corpse_position(fell_at, slope)
@@ -96,11 +99,12 @@ func _test_water_sources(tree: SceneTree) -> void:
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	_assert_true(session.handoff_to(map.map_id(), OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "public world reaches the Waterfall landing")
 	var waterfall: WorldServicePoint = map.get_node("WaterfallWaterPoint") as WorldServicePoint
-	map.player_body.global_position = waterfall.global_position + Vector2(0, -60)
+	# The point stands at the foot of the falls; the pool is south of it.
+	map.player_body.global_position = waterfall.global_position + Vector2(0, 60)
 	_assert_true(map.water_available(), "resource/water at the waterfall pool")
 	_assert_true(session.fill_water_available(), "the supplies panel may fill here")
 	_assert_eq(map.interaction_title(), "", "water adds no context button of its own")
-	map.player_body.global_position = waterfall.global_position + Vector2(0, -150)
+	map.player_body.global_position = waterfall.global_position + Vector2(0, 150)
 	_assert_false(map.water_available(), "out of reach of the waterfall pool")
 	var lake: WorldServicePoint = map.get_node("LakeWaterPoint") as WorldServicePoint
 	map.player_body.global_position = lake.global_position

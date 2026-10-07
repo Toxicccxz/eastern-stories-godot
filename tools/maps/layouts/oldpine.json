@@ -1,33 +1,567 @@
 {
   "maps": {
+    "outdoor": {
+      "note": "老松林: the forest path from Snow (npath1-3) winds south and east to the round clearing with the great pine in its middle (clearing); north of it the straight slope (spath1-4, a dead end); east the path to the mossy stone bridge over the gorge, the waterfall pouring into it north of the bridge, and the forest's edge beyond (epath1-3, the broken plank road along the mountain). South the pines close in: pine1-7 and cliffdown are one fixed maze of gaps between the trees (DECISIONS) with a loop, two dead ends and the way on to the cliff's edge in the west; from pine1 one way south to the cliffside, one east to the keep's hidden gate (keep1) and the stockade (keep2: sandbags and stone piles, the stakes; keep3: the bear skin and three chairs, braziers, locked chests, the pit).",
+      "file": "oldpine_outdoor.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "forest",
+        "bounds": [-1536, -544, 2080, 1440],
+        "names": {
+          "oldpine.outdoor.north_approach": "NorthApproach",
+          "oldpine.outdoor.central_clearing": "CentralClearing",
+          "oldpine.outdoor.slope": "Slope",
+          "oldpine.outdoor.east_bridge": "EastBridge",
+          "oldpine.outdoor.pine_entrance": "PineEntrance",
+          "oldpine.outdoor.pine_deep": "PineDeep",
+          "oldpine.outdoor.pine_cliff_edge": "PineCliffEdge",
+          "oldpine.outdoor.cliffside": "Cliffside",
+          "oldpine.outdoor.keep_gate": "KeepGate",
+          "oldpine.outdoor.keep_yard": "KeepYard",
+          "oldpine.outdoor.keep_hall": "KeepHall"
+        },
+        "zones": {
+          "oldpine.outdoor.north_approach": [-700, -500, 0, 300, "forest_floor"],
+          "oldpine.outdoor.slope": [0, -500, 900, 0, "forest_floor"],
+          "oldpine.outdoor.central_clearing": [0, 0, 900, 600, "grass"],
+          "oldpine.outdoor.east_bridge": [900, 0, 1500, 600, "forest_floor"],
+          "oldpine.outdoor.pine_entrance": [0, 600, 900, 1100, "forest_floor"],
+          "oldpine.outdoor.pine_deep": [-900, 600, 0, 1100, "forest_floor"],
+          "oldpine.outdoor.pine_cliff_edge": [-1500, 600, -900, 1100, "forest_floor"],
+          "oldpine.outdoor.cliffside": [300, 1100, 600, 1400, "grass"],
+          "oldpine.outdoor.keep_gate": [900, 704, 1264, 1024, "forest_floor"],
+          "oldpine.outdoor.keep_yard": [1264, 704, 1664, 1024, "floor_yard"],
+          "oldpine.outdoor.keep_hall": [1664, 704, 2032, 1024, "floor_wood"]
+        },
+        "lines": {
+          "roads": [
+            [
+              [-352, -520, 22, 58, 58, 6, "npath1: from Snow's road into the tall pines"],
+              [-352, -380, 22, 62, 56, 10],
+              [-340, -240, 22, 70, 60, 12],
+              [-312, -110, 22, 64, 64, 12, "npath2: birdsong in the pines"],
+              [-250, 0, 22, 60, 60, 10],
+              [-160, 110, 22, 56, 60, 10, "npath3: the pines grow short and thin"],
+              [-40, 196, 22, 60, 56, 8],
+              [100, 262, 22, 56, 56, 6],
+              [270, 300, 20, 40, 40, 2, "into the clearing"]
+            ],
+            [
+              [480, 80, 20, 40, 40, 2, "spath1: many footprints"],
+              [470, -20, 22, 96, 96, 8],
+              [454, -130, 24, 112, 112, 8],
+              [450, -260, 24, 112, 112, 8, "spath2-4: a straight slope, high in the north"],
+              [450, -360, 24, 100, 100, 8],
+              [450, -420, 20, 56, 56, 6, "spath4: the end of the way"]
+            ],
+            [
+              [850, 300, 20, 40, 40, 2, "out of the clearing east"],
+              [960, 304, 22, 56, 56, 8, "epath1: knife marks on the pines"],
+              [1060, 304, 24, 48, 48, 6],
+              [1112, 304, 24, 32, 32, 0, "the bridge's west end"]
+            ],
+            [
+              [1368, 304, 24, 32, 32, 0, "the bridge's east end"],
+              [1430, 300, 22, 56, 56, 8, "epath3: wet footprints, the forest's edge east"],
+              [1424, 200, 18, 50, 50, 8],
+              [1430, 140, 18, 44, 44, 6]
+            ],
+            [[1430, 300, 18, 50, 50, 8], [1426, 380, 18, 46, 46, 6], [1430, 420, 16, 40, 40, 4]],
+            [[450, 540, 18, 36, 36, 4, "the path south out of the clearing into the pines"], [444, 620, 12, 40, 40, 6]]
+          ],
+          "trails": [
+            [[444, 620, 0, 44, 44, 6, "pine1: no path, only gaps between the trees"], [440, 740, 0, 48, 48, 6]],
+            [[440, 740, 0, 44, 44, 6], [580, 790, 0, 44, 44, 6], [720, 850, 0, 48, 48, 6], [830, 864, 0, 48, 48, 6], [960, 864, 0, 52, 52, 6, "pine2 east: the keep's gate"], [1100, 864, 0, 52, 52, 6], [1256, 864, 0, 40, 40, 0]],
+            [[440, 740, 0, 44, 44, 6], [400, 860, 0, 44, 44, 6], [430, 980, 0, 44, 44, 6], [450, 1090, 0, 44, 44, 6], [450, 1170, 0, 44, 44, 6, "south to the cliffside"]],
+            [[440, 740, 0, 44, 44, 6], [300, 700, 0, 44, 44, 6], [150, 690, 0, 44, 44, 6], [0, 700, 0, 44, 44, 6], [-150, 690, 0, 44, 44, 6], [-300, 720, 0, 48, 48, 6, "the northern way west"]],
+            [[420, 970, 0, 44, 44, 6], [250, 1010, 0, 44, 44, 6], [100, 985, 0, 44, 44, 6], [-20, 1000, 0, 44, 44, 6], [-160, 1010, 0, 44, 44, 6], [-320, 990, 0, 48, 48, 6, "the southern way west"]],
+            [[-300, 720, 0, 44, 44, 6], [-420, 800, 0, 44, 44, 6], [-430, 900, 0, 44, 44, 6], [-320, 990, 0, 44, 44, 6, "joins the two: the loop round the thicket"]],
+            [[-300, 720, 0, 44, 44, 6], [-450, 664, 0, 44, 44, 6], [-596, 652, 0, 48, 48, 6, "a dead end"]],
+            [[-320, 990, 0, 44, 44, 6], [-500, 1030, 0, 44, 44, 6], [-650, 960, 0, 48, 48, 6]],
+            [[-650, 960, 0, 44, 44, 6], [-800, 1036, 0, 44, 44, 6], [-856, 1050, 0, 40, 40, 4, "another dead end"]],
+            [[-650, 960, 0, 44, 44, 6], [-700, 840, 0, 44, 44, 6], [-800, 760, 0, 44, 44, 6], [-920, 730, 0, 44, 44, 6, "pine7"], [-1040, 776, 0, 44, 44, 6], [-1180, 844, 0, 48, 48, 6], [-1300, 866, 0, 52, 52, 6, "cliffdown"]]
+          ],
+          "gorge_rim": [
+            [[1240, 60, 124, 124, 124, 0], [1240, 180, 132, 132, 132, 0], [1240, 300, 140, 140, 140, 0], [1244, 420, 132, 132, 132, 0], [1290, 520, 120, 120, 120, 0], [1400, 576, 110, 110, 110, 0], [1560, 600, 100, 100, 100, 0], [1800, 610, 90, 90, 90, 0], [2100, 610, 90, 90, 90, 0]]
+          ],
+          "gorge": [
+            [[1240, 60, 100, 100, 100, 0], [1240, 180, 110, 110, 110, 0], [1240, 300, 120, 120, 120, 0], [1244, 420, 110, 110, 110, 0], [1290, 520, 100, 100, 100, 0], [1400, 576, 90, 90, 90, 0], [1560, 600, 80, 80, 80, 0], [1800, 610, 70, 70, 70, 0], [2100, 610, 70, 70, 70, 0]]
+          ]
+        },
+        "steps": [
+          {
+            "op": "blobs",
+            "note": "the mountain north and east of the gorge",
+            "kind": "cliff",
+            "amp": 0.16,
+            "seed": [0.011, 0.007],
+            "blobs": [[1780, -260, 420, 330], [1840, 220, 300, 260], [1240, -330, 330, 250], [1640, 120, 160, 160]]
+          },
+          {"op": "freeze"},
+          {
+            "op": "blobs",
+            "note": "the round clearing, as if trimmed; glades by the cliffs, the keep's gate and epath3",
+            "amp": 0.05,
+            "blobs": [[560, 300, 300, 250, 1.0, "clearing"]]
+          },
+          {
+            "op": "blobs",
+            "amp": 0.15,
+            "seed": [0.013, 0.009],
+            "blobs": [
+              [450, 1260, 120, 110, "cliffside"],
+              [-1350, 866, 130, 110, "cliffdown"],
+              [1090, 864, 150, 140, "before keep1's gate"],
+              [1440, 300, 56, 200, "epath3"],
+              [-604, 650, 50, 40, "the first dead end's hollow"],
+              [-1060, 700, 50, 40, "pine7's hollow"],
+              [540, 900, 104, 58, "a hollow by the way south"]
+            ]
+          },
+          {"op": "lines", "group": "roads"},
+          {"op": "lines", "group": "trails"},
+          {"op": "blobs", "kind": "forest_floor", "only": ["grass"], "amp": 0.12, "blobs": [[600, 240, 124, 112, 2.0, "needles under the great pine"]]},
+          {"op": "blobs", "kind": "wall_wood", "amp": 0.08, "blobs": [[600, 232, 34, 34, 0.5, "the great pine's trunk"]]},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "lines", "group": "gorge_rim", "kind": "cliff"},
+          {"op": "lines", "group": "gorge", "kind": "chasm"},
+          {
+            "op": "fill",
+            "fills": [
+              ["water", 1200, -48, 1280, 64, "the waterfall, north of the bridge, falling from the cliff"],
+              ["bridge", 1104, 272, 1376, 336, "小石桥: old, mossy, high over the gorge"],
+              ["forest", 1328, 192, 1344, 272, "the vine hanging by the bridge"],
+              ["blocked", 512, 48, 528, 64, "the sign by the path to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)"],
+              ["wall_wood", 1488, 112, 1520, 128, "the broken plank road along the mountain (no exit in ES2)"],
+              ["wall_wood", 1504, 80, 1536, 96],
+              ["wall_wood", 1520, 48, 1552, 64],
+              ["wall_wood", 1552, 0, 1584, 16],
+              ["wall_wood", 1568, -32, 1600, -16]
+            ]
+          },
+          {
+            "op": "blobs",
+            "note": "the drops west of the cliffside and of cliffdown",
+            "kind": "cliff",
+            "amp": 0.1,
+            "seed": [0, 0.01],
+            "blobs": [[236, 1280, 96, 220], [-1560, 860, 104, 260]]
+          },
+          {
+            "op": "blobs",
+            "kind": "chasm",
+            "amp": 0.1,
+            "seed": [0, 0.01],
+            "blobs": [[196, 1280, 72, 210], [-1580, 860, 80, 250]]
+          },
+          {
+            "op": "fill",
+            "fills": [
+              ["wall_wood", 1264, 688, 2048, 1040, "老松寨: a stockade of logs"],
+              ["floor_yard", 1296, 720, 1648, 1008, "keep2"],
+              ["floor_wood", 1664, 720, 2016, 1008, "keep3, the hall"],
+              ["floor_yard", 1264, 832, 1296, 896, "the gate in the west wall"],
+              ["floor_wood", 1648, 832, 1664, 896, "past the row of stakes"],
+              ["blocked", 1312, 736, 1360, 768, "sandbags and stone piles at the wall's strong points"],
+              ["blocked", 1568, 736, 1616, 768],
+              ["blocked", 1312, 960, 1360, 992],
+              ["blocked", 1568, 960, 1616, 992],
+              ["wall_wood", 1632, 736, 1648, 752, "the stakes"],
+              ["wall_wood", 1632, 784, 1648, 800],
+              ["wall_wood", 1632, 928, 1648, 944],
+              ["wall_wood", 1632, 976, 1648, 992],
+              ["path", 1776, 736, 1920, 784, "the bear skin on the north floor"],
+              ["wall_wood", 1808, 736, 1824, 752, "three chairs on it"],
+              ["wall_wood", 1840, 736, 1856, 752],
+              ["wall_wood", 1872, 736, 1888, 752],
+              ["water", 1808, 832, 1872, 896, "the pit of stinking yellow water and skulls"],
+              ["blocked", 1696, 736, 1712, 752, "braziers"],
+              ["blocked", 1984, 736, 2000, 752],
+              ["blocked", 1696, 976, 1712, 992],
+              ["blocked", 1984, 976, 2000, 992],
+              ["wall_wood", 1792, 976, 1824, 992, "locked chests"],
+              ["wall_wood", 1888, 976, 1920, 992]
+            ]
+          },
+          {
+            "op": "blobs",
+            "note": "lone pines in the verges of the paths",
+            "kind": "forest",
+            "only": ["forest_floor"],
+            "amp": 0.2,
+            "seed": [0.01, 0.003],
+            "blobs": [[-430, -300, 16, 16], [-260, -190, 14, 14], [-420, -40, 14, 14], [-200, 190, 12, 12], [360, -60, 14, 14], [560, -320, 14, 14], [350, -400, 14, 14], [1000, 250, 14, 14], [1010, 360, 12, 12]]
+          },
+          {"op": "drop_pockets", "from": "SnowEntry"}
+        ],
+        "reach_from": "SnowEntry",
+        "caption_near": {
+          "oldpine.outdoor.north_approach": [-250, -300],
+          "oldpine.outdoor.slope": [540, -440],
+          "oldpine.outdoor.central_clearing": [300, 120],
+          "oldpine.outdoor.east_bridge": [940, 200],
+          "oldpine.outdoor.pine_entrance": [600, 660],
+          "oldpine.outdoor.pine_deep": [-500, 760],
+          "oldpine.outdoor.pine_cliff_edge": [-1300, 760],
+          "oldpine.outdoor.cliffside": [380, 1170],
+          "oldpine.outdoor.keep_gate": [960, 730],
+          "oldpine.outdoor.keep_yard": [1420, 976],
+          "oldpine.outdoor.keep_hall": [1740, 976]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineOutdoor",
+        "map": "oldpine.outdoor",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
+        "shapes": {"Rect_96_32": [96, 32], "Rect_160_160": [160, 160], "Rect_96_128": [96, 128], "Rect_96_160": [96, 160], "Rect_32_64": [32, 64]},
+        "door_style": {"walls": "Terrain/GateWalls", "wall_suffix": "Wall", "shutters": "Terrain", "color": "Color(0.42, 0.42, 0.4, 1)"},
+        "doors": [{"name": "KeepGate", "id": "oldpine.keep.gate", "at": [1280, 864], "shape": "Rect_32_64"}],
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "SnowRoadLabel", "at": [-420, -470], "text": "北 · 雪亭镇", "size": 14},
+          {"node": "caption", "name": "PineLabel", "at": [576, 276], "text": "大松树", "size": 14},
+          {"node": "caption", "name": "VineLabel", "at": [1352, 200], "text": "藤蔓", "size": 14},
+          {"node": "caption", "name": "CliffdownLabel", "at": [-1470, 760], "text": "悬崖", "size": 14},
+          {"node": "group", "name": "GateWalls", "type": "StaticBody2D", "parent": "Terrain"},
+          {"generated": "door_walls"},
+          {"generated": "shutters"},
+          {"node": "passage", "name": "SnowPassage", "id": "oldpine.npath1.north", "at": [-352, -480], "shape": "Rect_96_32"},
+          {"generated": "doors"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "PlayerStart", "at": [450, 300], "id": "oldpine.outdoor.central_clearing.player_start"},
+          {"name": "Spath1Bandit01", "at": [396, -160], "id": "oldpine.outdoor.slope.spath1.bandit.1"},
+          {"name": "Spath1Bandit02", "at": [522, -306], "id": "oldpine.outdoor.slope.spath1.bandit.2"},
+          {"name": "Spath1Bandit03", "at": [404, -372], "id": "oldpine.outdoor.slope.spath1.bandit.3"},
+          {"name": "ClearingPineLanding", "at": [725, 410], "id": "oldpine.outdoor.central_clearing.pine_landing"},
+          {"name": "Pine1TallBanditSpawn", "at": [488, 884], "id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"},
+          {"name": "Pine1FatBanditSpawn", "at": [598, 900], "id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"},
+          {"name": "CliffsideLanding", "at": [435, 1300], "id": "oldpine.outdoor.cliffside.landing"},
+          {"name": "SnowEntry", "at": [-352, -380], "id": "oldpine.outdoor.north_approach.snow_entry"},
+          {"name": "Keep1Guard01", "at": [1040, 800], "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"},
+          {"name": "Keep1Guard02", "at": [1120, 800], "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.2"},
+          {"name": "Keep1Guard03", "at": [1040, 928], "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.3"},
+          {"name": "Keep1Guard04", "at": [1120, 928], "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.4"},
+          {"name": "Keep2Guard01", "at": [1520, 800], "id": "oldpine.outdoor.keep_yard.keep2.bandit_guard.1"},
+          {"name": "Keep2Guard02", "at": [1520, 928], "id": "oldpine.outdoor.keep_yard.keep2.bandit_guard.2"},
+          {"name": "Keep2Leader", "at": [1600, 864], "id": "oldpine.outdoor.keep_yard.keep2.bandit_leader.1"},
+          {"name": "Keep2TrapGuard01", "at": [1328, 816], "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.1"},
+          {"name": "Keep2TrapGuard02", "at": [1328, 912], "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.2"},
+          {"name": "Keep2TrapGuard03", "at": [1392, 800], "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.3"},
+          {"name": "Keep2TrapGuard04", "at": [1392, 928], "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.4"},
+          {"name": "Keep2TrapGuard05", "at": [1392, 864], "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.5"},
+          {"name": "Keep3Leader01", "at": [1744, 800], "id": "oldpine.outdoor.keep_hall.keep3.bandit_leader.1"},
+          {"name": "Keep3Leader02", "at": [1744, 928], "id": "oldpine.outdoor.keep_hall.keep3.bandit_leader.2"},
+          {"name": "Keep3Leader03", "at": [1952, 928], "id": "oldpine.outdoor.keep_hall.keep3.bandit_leader.3"},
+          {"name": "Keep3Commander", "at": [1952, 784], "id": "oldpine.outdoor.keep_hall.keep3.bandit_commander.1"},
+          {"name": "Epath3Maniac", "at": [1424, 160], "id": "oldpine.outdoor.east_bridge.epath3.maniac.1"},
+          {"name": "Cliff2EastLanding", "at": [1428, 404], "id": "oldpine.outdoor.east_bridge.cliff2_landing"},
+          {"name": "Pine7WolfDog", "at": [-1060, 700], "id": "oldpine.outdoor.pine_cliff_edge.pine7.wolf_dog.1"},
+          {"name": "Cliff2Return", "at": [-1376, 864], "id": "oldpine.outdoor.pine_cliff_edge.cliff2_return"}
+        ],
+        "interactions": [
+          {"name": "PineInteraction", "id": "oldpine.outdoor.landmark.ancient_pine", "at": [600, 232], "shape": "Rect_160_160"},
+          {"name": "VineInteraction", "id": "oldpine.outdoor.landmark.epath2_vine", "at": [1336, 248], "shape": "Rect_96_128"},
+          {"name": "CliffdownInteraction", "id": "oldpine.outdoor.landmark.cliffdown_cliff", "at": [-1424, 864], "shape": "Rect_96_160"}
+        ]
+      }
+    },
+    "cave": {
+      "note": "Behind the waterfall: the passage's south end is the shimmering curtain of falling water, bronze candlesticks along its walls (passage); a mossy rock tunnel winds north, the stink of some beast ahead (secrectpath1); it opens into a gloomy cave where a big mossy stone juts out (path3; the snake waits on top, on the stone's own map).",
+      "file": "oldpine_cave.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [-256, -528, 256, 448],
+        "names": {"oldpine.cave.waterfall_passage": "Passage", "oldpine.cave.secret_path": "SecretPath", "oldpine.cave.inner_path": "InnerPath"},
+        "zones": {
+          "oldpine.cave.waterfall_passage": [-224, 96, 224, 416, "cave_floor"],
+          "oldpine.cave.secret_path": [-224, -192, 224, 96, "cave_floor"],
+          "oldpine.cave.inner_path": [-224, -496, 224, -192, "cave_floor"]
+        },
+        "lines": {
+          "tunnel": [
+            [
+              [0, 300, 0, 72, 72, 4, "passage: the candlelit way from the curtain"],
+              [-6, 180, 0, 66, 66, 6],
+              [-24, 60, 0, 44, 44, 6, "secrectpath1: a narrow mossy tunnel"],
+              [18, -50, 0, 42, 42, 6],
+              [-12, -150, 0, 44, 44, 6],
+              [0, -250, 0, 60, 60, 6, "into path3's cave"]
+            ]
+          ]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "blobs", "amp": 0.16, "blobs": [[0, 250, 172, 124, 0.4, "passage"], [0, -360, 158, 118, 1.9, "path3's gloomy cave"]]},
+          {"op": "lines", "group": "tunnel"},
+          {"op": "fill", "fills": [["shallow_water", -64, 368, 64, 416, "spray at the foot of the curtain"]]},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "VineLanding"},
+          {"op": "blobs", "kind": "blocked", "amp": 0.1, "blobs": [[0, -428, 52, 36, 0.8, "the big mossy stone"]]},
+          {
+            "op": "fill",
+            "fills": [
+              ["water", -64, 416, 64, 448, "the curtain: the waterfall seen from behind"],
+              ["blocked", -128, 224, -112, 240, "bronze candlesticks along the walls"],
+              ["blocked", 112, 224, 128, 240],
+              ["blocked", -112, 336, -96, 352],
+              ["blocked", 96, 336, 112, 352]
+            ]
+          }
+        ],
+        "reach_from": "VineLanding",
+        "caption_near": {"oldpine.cave.waterfall_passage": [-200, 120], "oldpine.cave.secret_path": [40, 20], "oldpine.cave.inner_path": [-210, -480]}
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineCavePassage",
+        "map": "oldpine.cave",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_128_32": [128, 32], "Rect_160_160": [160, 160]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "rect", "name": "StoneLandmark", "rect": [-48, -456, 48, -400], "color": "Color(0.36, 0.42, 0.33, 1)"},
+          {"node": "caption", "name": "SouthExitLabel", "at": [-45, 344], "text": "南 · 瀑布前", "size": 14},
+          {"node": "passage", "name": "SouthExit", "id": "oldpine.cave.passage_to_waterfall", "at": [0, 392], "shape": "Rect_128_32"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"name": "VineLanding", "at": [0, 200], "id": "oldpine.cave.waterfall_passage.vine_landing"}],
+        "interactions": [{"name": "StoneInteraction", "id": "oldpine.cave.landmark.stone", "at": [0, -400], "shape": "Rect_160_160"}]
+      }
+    },
+    "gorge": {
+      "note": "The gorge below the bridge: the waterfall pours from the cliff into a chest-deep pool walled in on three sides (waterfall); the stream runs south along the west wall between steep cliffs, the old bridge high overhead (riverbank2), rocks jutting into the water from the east bank where one can stand, and the cliff one can climb (riverbank1); south through the gap where the stream falls in, the bottomless pool ringed by strange grass under sheer walls (lake).",
+      "file": "oldpine_gorge.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [864, 560, 1536, 3040],
+        "names": {"oldpine.gorge.waterfall": "Waterfall", "oldpine.gorge.river": "River", "oldpine.gorge.lake": "Lake"},
+        "zones": {
+          "oldpine.gorge.waterfall": [900, 600, 1500, 1100, "riverbank"],
+          "oldpine.gorge.river": [900, 1100, 1500, 2200, "riverbank"],
+          "oldpine.gorge.lake": [900, 2200, 1500, 3000, "grass"]
+        },
+        "lines": {
+          "floor": [
+            [
+              [1220, 960, 0, 210, 170, 10, "the pool's outlet"],
+              [1240, 1200, 0, 220, 130, 12, "riverbank2: the bridge high overhead"],
+              [1250, 1500, 0, 214, 120, 12],
+              [1250, 1800, 0, 220, 120, 12, "riverbank1"],
+              [1240, 2060, 0, 216, 130, 12],
+              [1230, 2250, 0, 210, 150, 10, "the gap where the stream falls into the pool"]
+            ]
+          ],
+          "stream": [
+            [[1190, 960, 44, 44, 44, 0], [1160, 1120, 56, 56, 56, 0], [1140, 1400, 60, 60, 60, 0], [1150, 1700, 60, 60, 60, 0], [1140, 2000, 58, 58, 58, 0], [1150, 2300, 56, 56, 56, 0], [1130, 2440, 56, 56, 56, 0]]
+          ]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "blobs", "amp": 0.14, "blobs": [[1200, 830, 236, 196, 1.3, "the basin below the falls"], [1190, 2610, 270, 330, 2.2, "the grass round the bottomless pool"]]},
+          {"op": "lines", "group": "floor"},
+          {"op": "blobs", "kind": "shallow_water", "only": ["riverbank"], "amp": 0.12, "blobs": [[1200, 820, 196, 156, 0.6, "the pool, deep to the chest"]]},
+          {"op": "lines", "group": "stream", "kind": "water"},
+          {"op": "blobs", "kind": "deep_water", "amp": 0.12, "blobs": [[1104, 2624, 176, 236, 3.1, "the bottomless pool"]]},
+          {
+            "op": "blobs",
+            "note": "rocks jutting into the stream from the east bank: stand on them with the water at your feet",
+            "kind": "rock",
+            "only": ["water"],
+            "amp": 0.2,
+            "seed": [0.01, 0.002],
+            "blobs": [[1196, 1260, 30, 24], [1186, 1560, 32, 26], [1192, 1880, 28, 24], [1180, 2120, 30, 24]]
+          },
+          {
+            "op": "blobs",
+            "note": "boulders in the water",
+            "kind": "cliff",
+            "only": ["water"],
+            "amp": 0.2,
+            "seed": [0.01, 0.002],
+            "blobs": [[1120, 1180, 14, 14], [1150, 1480, 16, 14], [1124, 1760, 14, 14], [1160, 2040, 14, 12]]
+          },
+          {
+            "op": "blobs",
+            "note": "loose stones on the east bank",
+            "kind": "rock",
+            "only": ["riverbank"],
+            "amp": 0.25,
+            "seed": [0.007, 0.011],
+            "blobs": [[1330, 1180, 40, 30], [1400, 1420, 34, 46], [1300, 1700, 44, 34], [1390, 2080, 40, 30], [1330, 980, 36, 26]]
+          },
+          {"op": "fill", "fills": [["water", 1152, 608, 1248, 672, "the waterfall, a white sheet down the cliff"]]},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "WaterfallLanding"}
+        ],
+        "reach_from": "WaterfallLanding",
+        "caption_near": {"oldpine.gorge.waterfall": [940, 700], "oldpine.gorge.river": [1330, 1130], "oldpine.gorge.lake": [940, 2280]}
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineGorge",
+        "map": "oldpine.gorge",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
+        "shapes": {"Rect_160_200": [160, 200]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "rect", "name": "BridgeOverhead", "rect": [960, 1296, 1488, 1328], "color": "Color(0.45, 0.42, 0.36, 0.35)"},
+          {"node": "rect", "name": "RiverbankCliffLandmark", "rect": [1456, 1872, 1480, 2008], "color": "Color(0.41568628, 0.3882353, 0.34509805, 1)"},
+          {"node": "service", "name": "WaterfallWaterPoint", "id": "oldpine.gorge.waterfall.water", "at": [1200, 700], "text": "瀑布清水 · 靠近装水"},
+          {"node": "service", "name": "LakeWaterPoint", "id": "oldpine.gorge.lake.water", "at": [1250, 2250], "text": "岸边取水"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "WaterfallLanding", "at": [1200, 780], "id": "oldpine.gorge.waterfall.landing"},
+          {"name": "Riverbank1CliffLanding", "at": [1420, 1940], "id": "oldpine.gorge.river.riverbank1_cliff_landing"},
+          {"name": "LakeSerpent01", "at": [1340, 2470], "id": "oldpine.gorge.lake.serpent.1"},
+          {"name": "LakeSerpent02", "at": [1430, 2505], "id": "oldpine.gorge.lake.serpent.2"},
+          {"name": "LakeSerpent03", "at": [1340, 2545], "id": "oldpine.gorge.lake.serpent.3"},
+          {"name": "LakeSerpent04", "at": [1440, 2590], "id": "oldpine.gorge.lake.serpent.4"},
+          {"name": "LakeSerpent05", "at": [1350, 2640], "id": "oldpine.gorge.lake.serpent.5"}
+        ],
+        "interactions": [
+          {"name": "RiverbankCliffInteraction", "id": "oldpine.gorge.landmark.riverbank1_cliff", "at": [1400, 1940], "shape": "Rect_160_200"}
+        ]
+      }
+    },
+    "tree": {
+      "note": "The great pine, seen from the side: its trunk rises from the clearing (the bottom edge) past the lowest boughs, a good hiding place over everything below (tree1), through the middle boughs seven or eight zhang up, pine cones far out of reach at their tips (tree2), to the windy top (tree3). Needle mats along the boughs; empty air all round.",
+      "file": "oldpine_tree.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "chasm",
+        "bounds": [1664, -128, 2336, 528],
+        "names": {"oldpine.tree.canopy": "Canopy"},
+        "zones": {"oldpine.tree.canopy": [1700, -100, 2300, 500, "forest_floor"]},
+        "lines": {
+          "trunk": [[[2000, 520, 30, 30, 30, 0, "down to the clearing"], [2000, 200, 28, 28, 28, 0], [2000, -40, 20, 20, 20, 0, "tree3: the top"]]],
+          "boughs": [
+            [[1990, 380, 14, 40, 40, 6, "tree1: the lowest boughs"], [1880, 352, 12, 40, 36, 6], [1790, 340, 10, 32, 30, 4]],
+            [[2010, 340, 14, 40, 40, 6], [2110, 306, 12, 42, 40, 6], [2200, 290, 10, 34, 30, 4]],
+            [[1990, 200, 12, 40, 40, 6, "tree2: the middle boughs, cones at their tips"], [1880, 176, 10, 40, 36, 6], [1780, 160, 8, 34, 30, 4]],
+            [[2010, 170, 12, 40, 40, 6], [2120, 140, 10, 40, 36, 6], [2220, 124, 8, 32, 30, 4]],
+            [[1990, 60, 10, 38, 38, 6], [1890, 36, 10, 36, 34, 6], [1810, 20, 8, 30, 28, 4]],
+            [[2010, 40, 10, 38, 38, 6], [2110, 14, 10, 36, 34, 6], [2190, 0, 8, 30, 28, 4]],
+            [[2000, -30, 0, 48, 48, 4, "tree3: a perch at the top in the wind"], [2000, -60, 0, 44, 44, 4]]
+          ]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "lines", "group": "boughs", "kind": "bridge"},
+          {"op": "lines", "group": "trunk", "kind": "bridge"},
+          {
+            "op": "blobs",
+            "note": "dense needles at the boughs' tips",
+            "kind": "forest",
+            "amp": 0.25,
+            "seed": [0.01, 0.02],
+            "blobs": [[1746, 336, 30, 24], [2246, 284, 30, 24], [1736, 154, 30, 24], [2262, 118, 30, 24], [1770, 14, 26, 22], [2232, -6, 26, 22]]
+          },
+          {"op": "clip"},
+          {"op": "drop_pockets", "from": "Tree1Landing"}
+        ],
+        "reach_from": "Tree1Landing",
+        "caption_near": {"oldpine.tree.canopy": [1730, -80]}
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineTree",
+        "map": "oldpine.tree",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
+        "shapes": {"Rect_150_150": [150, 150]},
+        "nodes": [{"generated": "captions"}],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "Tree1Landing", "at": [2000, 400], "id": "oldpine.tree.canopy.tree1_landing"},
+          {"name": "Tree1Spy01", "at": [2120, 310], "id": "oldpine.tree.canopy.tree1.spy.1"},
+          {"name": "Tree2Butterfly01", "at": [1820, 168], "id": "oldpine.tree.canopy.tree2.butterfly.1"},
+          {"name": "Tree2Butterfly02", "at": [1900, 40], "id": "oldpine.tree.canopy.tree2.butterfly.2"},
+          {"name": "Tree2Butterfly03", "at": [2110, 20], "id": "oldpine.tree.canopy.tree2.butterfly.3"},
+          {"name": "Tree2Butterfly04", "at": [2190, 130], "id": "oldpine.tree.canopy.tree2.butterfly.4"},
+          {"name": "Tree2Butterfly05", "at": [1880, 186], "id": "oldpine.tree.canopy.tree2.butterfly.5"},
+          {"name": "Tree2Butterfly06", "at": [2100, 150], "id": "oldpine.tree.canopy.tree2.butterfly.6"}
+        ],
+        "interactions": [{"name": "Tree1DescentInteraction", "id": "oldpine.tree.landmark.tree1_descent", "at": [2000, 440], "shape": "Rect_150_150"}]
+      }
+    },
+    "cliff": {
+      "note": "cliff1: a hollow in the gorge wall above riverbank1, just big enough for one to rest; climb the crack at its back up to the cliffside, or over its lip down to the stream.",
+      "file": "oldpine_cliff.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [272, 1724, 592, 2188],
+        "names": {"oldpine.cliff.hole": "Hole"},
+        "zones": {"oldpine.cliff.hole": [304, 1756, 560, 1964, "rock"]},
+        "steps": [
+          {"op": "freeze"},
+          {"op": "blobs", "amp": 0.18, "blobs": [[432, 1872, 132, 76, 0.9, "the hollow, room for one to rest"], [432, 1806, 50, 36, 2.4, "a crack in its back wall: the way up"]]},
+          {"op": "blobs", "kind": "chasm", "amp": 0.08, "blobs": [[432, 2064, 270, 124, 0.3, "the drop below its lip: the way down"]]},
+          {"op": "clip"},
+          {"op": "drop_pockets", "from": "Cliff1Landing"}
+        ],
+        "reach_from": "Cliff1Landing",
+        "caption_near": {"oldpine.cliff.hole": [312, 1764]}
+      },
+      "scene": {
+        "style": "map",
+        "root": "OldPineCliff",
+        "map": "oldpine.cliff",
+        "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
+        "shapes": {"Rect_96_48": [96, 48], "Rect_160_32": [160, 32]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "rect", "name": "Cliff1UpLandmark", "rect": [408, 1776, 456, 1784], "color": "Color(0.50980395, 0.4392157, 0.35686275, 1)"},
+          {"node": "rect", "name": "Cliff1DownLandmark", "rect": [368, 1940, 496, 1948], "color": "Color(0.28627452, 0.24705882, 0.20784314, 1)"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"name": "Cliff1Landing", "at": [432, 1868], "id": "oldpine.cliff.hole.cliff1_landing"}],
+        "interactions": [
+          {"name": "Cliff1UpInteraction", "id": "oldpine.cliff.landmark.cliff1_up", "at": [432, 1810], "shape": "Rect_96_48"},
+          {"name": "Cliff1DownInteraction", "id": "oldpine.cliff.landmark.cliff1_down", "at": [432, 1914], "shape": "Rect_160_32"}
+        ]
+      }
+    },
     "stone": {
-      "note": "大青石上: the top of the big stone above path3.",
+      "note": "大青石上: the top of the big stone jutting from path3's wall, slippery with moss; mossy rock walls all round and no way on.",
       "file": "oldpine_stone.tscn",
-      "draw": {"technique": "fills", "fills": [["cliff", -192, -160, 192, 160], ["rock", -128, -96, 128, 96]]},
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [-192, -160, 192, 160],
+        "names": {"oldpine.stone.top": "Stone"},
+        "zones": {"oldpine.stone.top": [-128, -96, 128, 96, "rock"]},
+        "steps": [
+          {"op": "freeze"},
+          {"op": "blobs", "amp": 0.15, "blobs": [[0, 0, 118, 82, 1.7, "the stone's top"]]},
+          {"op": "blobs", "kind": "grass", "only": ["rock"], "amp": 0.3, "seed": [0.02, 0.01], "blobs": [[-70, 34, 34, 22, "moss"], [56, -52, 30, 18], [84, 44, 30, 24], [-30, -60, 22, 14]]},
+          {"op": "clip"},
+          {"op": "drop_pockets", "from": "Landing"}
+        ],
+        "reach_from": "Landing",
+        "caption_near": {"oldpine.stone.top": [-60, -90]}
+      },
       "scene": {
         "style": "map",
         "root": "OldPineStone",
         "map": "oldpine.stone",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
-        "limits": [-208, -176, 208, 176],
         "shapes": {"Rect_256_192": [256, 192]},
-        "nodes": [
-          {"node": "rect", "name": "StoneEdge", "rect": [-128, 64, 128, 96], "color": "Color(0.36, 0.42, 0.33, 1)"},
-          {"node": "caption", "name": "StoneLabel", "at": [-50, -90], "text": "大青石上", "size": 16}
-        ],
-        "zones": [{"name": "StoneZone", "id": "oldpine.stone.top", "at": [0, 0], "shape": "Rect_256_192"}],
+        "nodes": [{"generated": "captions"}],
+        "zones": [{"generated": "zones"}],
         "spawn_points": [
           {"name": "Landing", "at": [0, -20], "id": "oldpine.stone.top.landing"},
-          {"name": "Venomsnake01", "at": [70, 40], "id": "oldpine.stone.top.stone.venomsnake.1"}
+          {"name": "Venomsnake01", "at": [60, 28], "id": "oldpine.stone.top.stone.venomsnake.1"}
         ],
-        "interactions": [
-          {
-            "name": "ClimbDownInteraction",
-            "id": "oldpine.stone.landmark.climb_down",
-            "at": [0, 0],
-            "shape": "Rect_256_192"
-          }
-        ]
+        "interactions": [{"name": "ClimbDownInteraction", "id": "oldpine.stone.landmark.climb_down", "at": [0, 0], "shape": "Rect_256_192"}]
       }
     },
     "caves": {
@@ -97,39 +631,40 @@
       }
     },
     "cliff2": {
-      "note": "The niche in the cliff between cliffdown and epath3.",
+      "note": "cliff2: the same kind of hollow in the cliff below cliffdown; the crack at its back leads up to cliffdown, its lip down to epath3.",
       "file": "oldpine_cliff2.tscn",
       "draw": {
-        "technique": "fills",
-        "fills": [["chasm", 0, 0, 480, 640], ["rock", 96, 160, 384, 480], ["path", 192, 96, 288, 544]]
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [80, 176, 400, 640],
+        "names": {"oldpine.cliff2.niche": "Niche"},
+        "zones": {"oldpine.cliff2.niche": [112, 208, 368, 416, "rock"]},
+        "steps": [
+          {"op": "freeze"},
+          {"op": "blobs", "amp": 0.18, "blobs": [[240, 324, 132, 76, 0.9, "the hollow, room for one to rest"], [240, 258, 50, 36, 2.4, "a crack in its back wall: the way up"]]},
+          {"op": "blobs", "kind": "chasm", "amp": 0.08, "blobs": [[240, 516, 270, 124, 0.3, "the drop below its lip: the way down"]]},
+          {"op": "clip"},
+          {"op": "drop_pockets", "from": "Landing"}
+        ],
+        "reach_from": "Landing",
+        "caption_near": {"oldpine.cliff2.niche": [120, 216]}
       },
       "scene": {
         "style": "map",
         "root": "OldPineCliff2",
         "map": "oldpine.cliff2",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
-        "limits": [-16, -16, 496, 656],
-        "shapes": {"Rect_288_448": [288, 448], "Rect_192_96": [192, 96]},
+        "shapes": {"Rect_96_48": [96, 48], "Rect_160_32": [160, 32]},
         "nodes": [
-          {
-            "node": "rect",
-            "name": "UpLandmark",
-            "rect": [192, 96, 288, 160],
-            "color": "Color(0.50980395, 0.4392157, 0.35686275, 1)"
-          },
-          {
-            "node": "rect",
-            "name": "DownLandmark",
-            "rect": [192, 480, 288, 544],
-            "color": "Color(0.28627452, 0.24705882, 0.20784314, 1)"
-          },
-          {"node": "caption", "name": "NicheLabel", "at": [110, 170], "text": "山壁上的窄穴"}
+          {"generated": "captions"},
+          {"node": "rect", "name": "UpLandmark", "rect": [216, 228, 264, 236], "color": "Color(0.50980395, 0.4392157, 0.35686275, 1)"},
+          {"node": "rect", "name": "DownLandmark", "rect": [176, 392, 304, 400], "color": "Color(0.28627452, 0.24705882, 0.20784314, 1)"}
         ],
-        "zones": [{"name": "NicheZone", "id": "oldpine.cliff2.niche", "at": [240, 320], "shape": "Rect_288_448"}],
+        "zones": [{"generated": "zones"}],
         "spawn_points": [{"name": "Landing", "at": [240, 320], "id": "oldpine.cliff2.niche.landing"}],
         "interactions": [
-          {"name": "UpInteraction", "id": "oldpine.cliff2.landmark.up", "at": [240, 144], "shape": "Rect_192_96"},
-          {"name": "DownInteraction", "id": "oldpine.cliff2.landmark.down", "at": [240, 496], "shape": "Rect_192_96"}
+          {"name": "UpInteraction", "id": "oldpine.cliff2.landmark.up", "at": [240, 262], "shape": "Rect_96_48"},
+          {"name": "DownInteraction", "id": "oldpine.cliff2.landmark.down", "at": [240, 366], "shape": "Rect_160_32"}
         ]
       }
     }

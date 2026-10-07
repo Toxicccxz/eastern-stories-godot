@@ -46,7 +46,7 @@
 		{ "id": "cloud.park", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/park"] },
 		{ "id": "cloud.biaoju", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/biaoju"] },
 		{ "id": "cloud.eroad3", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/eroad3"] },
-		{ "id": "cloud.rich", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/rich"] },
+		{ "id": "cloud.rich", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/rich"], "distinct": true },
 		{ "id": "cloud.m_house", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/m_house"] },
 		{ "id": "cloud.eroad4", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/eroad4"] },
 		{ "id": "cloud.tearoom2", "map": "cloud.tearoom_upstairs", "rooms": ["es2:u/cloud/tearoom2"] },

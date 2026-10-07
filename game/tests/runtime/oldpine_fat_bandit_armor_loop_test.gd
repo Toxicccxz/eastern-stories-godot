@@ -58,7 +58,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	)
 	_assert_false(
 		_rect_clear_of_blocking_terrain(controller, Vector2(736, 752), fat_shape.size),
-		"the same probe detects the Pine Entrance north-east obstacle",
+		"the same probe detects the pines between pine1's gaps",
 	)
 	var tall_presence: Area2D = OldPineTestMap.body(controller, "TallBandit").get_node("AggressionPresence") as Area2D
 	var fat_presence: Area2D = OldPineTestMap.body(controller, "FatBandit").get_node("AggressionPresence") as Area2D

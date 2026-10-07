@@ -733,7 +733,14 @@ func _describe_new_zone() -> void:
 	var zone: ZoneDefinition = current_zone()
 	if zone == null or zone.zone_id == _described_zone_id:
 		return
+	var previous: ZoneDefinition = GameContent.catalog().zone(_described_zone_id)
 	_described_zone_id = zone.zone_id
+	# Owner: neighbouring rooms of one name (黄土小径, 雪亭镇街道) are one place; walking on
+	# into the next tells nothing new (观察 still reads its text). A `distinct` room (the
+	# hall of 老松寨, cave5) has its own say.
+	if (previous != null and previous.map_id == zone.map_id and previous.display_name == zone.display_name
+			and not previous.distinct and not zone.distinct and GameContent.catalog().zones_adjacent(previous.zone_id, zone.zone_id)):
+		return
 	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
 	append_log_lines([tr("【{title}】{description}").format({"title": tr(zone.display_name), "description": room_prose(tr(zone.description))})])
 

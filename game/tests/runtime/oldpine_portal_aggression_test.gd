@@ -137,9 +137,9 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	) as WorldSpawnMarker2D
 	_assert_eq(tree_landing.spawn_point_id, OldPineWorldDefinitions.TREE1_LANDING_SPAWN_POINT_ID, "tree1 marker has exact portal ID")
 	_assert_eq(clearing_landing.spawn_point_id, OldPineWorldDefinitions.CLEARING_PINE_LANDING_SPAWN_POINT_ID, "return marker has exact portal ID")
-	_assert_ne(TerrainProbe.terrain_at(tree_map, Vector2(1800, 200)), "", "canopy terrain is painted on the tree map")
-	_assert_false(TerrainProbe.blocks_at(tree_map, Vector2(1800, 200)), "canopy terrain is walkable")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(1800, 200)), "", "the forest map no longer paints the canopy")
+	# A middle bough of the great pine (tree2).
+	_assert_eq(TerrainProbe.terrain_at(tree_map, Vector2(1880, 180)), "bridge", "canopy terrain is painted on the tree map")
+	_assert_false(TerrainProbe.blocks_at(tree_map, Vector2(1880, 180)), "canopy terrain is walkable")
 	# The canopy's edge is colliding terrain (was a StaticBody2D boundary).
 	_assert_true(TerrainProbe.blocks_at(tree_map, Vector2(2296, 260)), "canopy right boundary collides")
 	_assert_true(TerrainProbe.blocks_at(tree_map, Vector2(1704, 260)), "canopy left boundary collides")
@@ -260,16 +260,16 @@ func _test_climb_and_return_traversal(tree: SceneTree) -> void:
 	_assert_true(controller.player_runtime().state == state, "portal keeps authoritative CharacterState instance")
 	_assert_eq(_character_resource_snapshot(state), resource_snapshot, "portal mutates no character resources")
 	_assert_false(controller.session.shared_ui().portal_action_is_enabled(), "completed climb disables stale Pine action in canopy")
-	# Walkable canopy ends at x 2288; the body is 34 px wide. The reattached
-	# map's tile collision is rebuilt on the next frame, before any real input.
+	# tree1's east bough narrows to its tip in dense needles; the body is 34 px wide. The
+	# reattached map's tile collision is rebuilt on the next frame, before any real input.
 	await tree.physics_frame
-	tree_map.player_body.position = Vector2(2262.0, 260.0)
+	tree_map.player_body.position = Vector2(2160.0, 300.0)
 	Input.action_press("move_right")
 	for _step: int in range(30):
 		tree_map.player_body._physics_process(1.0 / 60.0)
 	Input.action_release("move_right")
-	_assert_true(tree_map.player_body.global_position.x <= 2271.1, "canopy right boundary blocks movement")
-	_assert_true(tree_map.player_body.global_position.x > 2262.0, "the body moved up to the canopy edge")
+	_assert_true(tree_map.player_body.global_position.x <= 2240.0 - 17.0 + 0.1, "the bough's end blocks movement")
+	_assert_true(tree_map.player_body.global_position.x > 2160.0, "the body moved out along the bough")
 	_assert_true(tree_map.select_landmark(&"oldpine.tree.landmark.tree1_descent"), "tree1 descent target selects")
 	_assert_true(controller.session.shared_ui().portal_action_is_enabled(), "tree1 source enables explicit Descend")
 	var descent: OldPineMapHandoffResult = tree_map.traverse_selected_portal() as OldPineMapHandoffResult

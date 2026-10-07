@@ -24,15 +24,32 @@ class Region:
         return {z['id']: rooms[z['rooms'][0]] for z in self._read('world.json')['zones']}
 
     def neighbours(self, zones) -> set:
-        """Sorted pairs of the given zones that a room exit joins."""
-        zone_of = {room: z['id'] for z in self._read('world.json')['zones'] for room in z['rooms']}
-        pairs = set()
+        """Sorted pairs of the given zones that a room exit or a zone's `links` join."""
+        world = self._read('world.json')['zones']
+        zone_of = {room: z['id'] for z in world for room in z['rooms']}
+        pairs = {tuple(sorted((z['id'], other))) for z in world for other in z.get('links', [])
+                 if z['id'] in zones and other in zones}
         for room in self._read('rooms.json')['rooms']:
             for target in room.get('exits', {}).values():
                 a, b = zone_of.get(room['id']), zone_of.get(target)
                 if a in zones and b in zones and a != b:
                     pairs.add(tuple(sorted((a, b))))
         return pairs
+
+    def service_reach(self) -> dict:
+        """Service id -> how near (pixels) the player must stand to use it."""
+        return {s['id']: s['reach'] for s in self._read('world.json').get('services', [])}
+
+    def owner_zones(self) -> dict:
+        """Portal, landmark and service id -> the zone the player must stand in to use it."""
+        world = self._read('world.json')
+        owners = {p['id']: p['from_zone'] for p in world.get('portals', [])}
+        owners.update({m['id']: m['zone'] for m in world.get('landmarks', []) + world.get('services', [])})
+        return owners
+
+    def contact_landmarks(self) -> set:
+        """Landmarks used only from inside their area (`contact`)."""
+        return {m['id'] for m in self._read('world.json').get('landmarks', []) if m.get('contact')}
 
     def spawn_records(self) -> list:
         """NPC spawns, then item spawns, in file order (each has a zone and its points)."""

@@ -19,9 +19,9 @@
 		{ "id": "goathill.canyon2", "map": "goathill.mountain", "rooms": ["es2:d/goathill/canyon2"] },
 		{ "id": "goathill.canyon3", "map": "goathill.mountain", "rooms": ["es2:d/goathill/canyon3"] },
 		{ "id": "goathill.cavern1", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern1"] },
-		{ "id": "goathill.cavern2", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern2"] },
+		{ "id": "goathill.cavern2", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern2"], "distinct": true },
 		{ "id": "goathill.cavern3", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern3"] },
-		{ "id": "goathill.cavern4", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern4"] }
+		{ "id": "goathill.cavern4", "map": "goathill.caverns", "rooms": ["es2:d/goathill/cavern4"], "distinct": true }
 	],
 	"portals": [
 		{

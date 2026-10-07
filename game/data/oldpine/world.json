@@ -59,17 +59,17 @@
 			"rooms": ["es2:d/oldpine/passage"]
 		},
 		{ "id": "oldpine.cave.secret_path", "map": "oldpine.cave", "rooms": ["es2:d/oldpine/secrectpath1"] },
-		{ "id": "oldpine.cave.inner_path", "map": "oldpine.cave", "rooms": ["es2:d/oldpine/path3"] },
+		{ "id": "oldpine.cave.inner_path", "map": "oldpine.cave", "rooms": ["es2:d/oldpine/path3"], "distinct": true },
 		{ "id": "oldpine.stone.top", "map": "oldpine.stone", "rooms": ["es2:d/oldpine/stone"] },
 		{
 			"id": "oldpine.caves.maze", "map": "oldpine.caves",
 			"rooms": ["es2:d/oldpine/cave1", "es2:d/oldpine/cave2", "es2:d/oldpine/cave3", "es2:d/oldpine/cave4"],
 			"links": ["oldpine.caves.mouth"]
 		},
-		{ "id": "oldpine.caves.mouth", "map": "oldpine.caves", "rooms": ["es2:d/oldpine/cave5"] },
+		{ "id": "oldpine.caves.mouth", "map": "oldpine.caves", "rooms": ["es2:d/oldpine/cave5"], "distinct": true },
 		{ "id": "oldpine.outdoor.keep_gate", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep1"], "combat_entry": "complete_set" },
 		{ "id": "oldpine.outdoor.keep_yard", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep2"], "combat_entry": "complete_set" },
-		{ "id": "oldpine.outdoor.keep_hall", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep3"], "combat_entry": "complete_set" },
+		{ "id": "oldpine.outdoor.keep_hall", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep3"], "combat_entry": "complete_set", "distinct": true },
 		{ "id": "oldpine.cliff2.niche", "map": "oldpine.cliff2", "rooms": ["es2:d/oldpine/cliff2"] }
 	],
 	"portals": [

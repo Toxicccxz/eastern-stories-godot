@@ -65,9 +65,8 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
 * **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests; the slow stretch is a
   new character's combat_exp from about 150 to 1001 (few opponents of the right strength).
-* **Maps**: a region's new maps are drawn as `tools/maps/layouts/` data; the seven older hand-made
-  maps (Snow's outdoor and Inn, Old Pine's outdoor, cave, cliff, gorge, tree) move there when a
-  package redraws them.
+* **Maps**: a region's new maps are drawn as `tools/maps/layouts/` data; the two older hand-made
+  maps left (Snow's outdoor and Inn) move there next.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
 ## Later — release readiness
