@@ -4,6 +4,7 @@
 		"room_reset_seconds": 1800,
 		"player_exp_gain": 3,
 		"player_recovery_gain": 3,
-		"quest_time_percent": 150
+		"quest_time_percent": 150,
+		"npc_thirst": 10
 	}
 }

@@ -362,6 +362,10 @@ from 朱鸿雪, 14-25 s on foot plus the fight.
     ES2's. NPCs are unchanged.
   - `quest_time_percent` 150: 朱鸿雪 gives one and a half times god.c's time (40 s becomes 60 s)
     and says so; the save keeps the time she gave.
+  - `npc_thirst` 10 (owner, after 青石村 B): heal_up() uses up 10 of an NPC's water a tick
+    instead of 1. Only the Snow drunk cares: sated at 380 water he drank again about every 9.5
+    minutes, so the 玉佩 chain's second whisper waited 61–157 minutes; now about 5 minutes after
+    New Game to his first plea, and 6–14 after a gift. The player's water is ES2's.
   - Suites that pin ES2's own numbers end to end run with the knobs at ES2's pace
     (`tests/support/es2_pacing.gd`); `tests/core/pacing_knobs_test.gd` shows a gain of 1 is ES2.
 - **Owner: 卧龙岗 lets a newcomer walk through.** gangster.c's greeting comes a second after the
