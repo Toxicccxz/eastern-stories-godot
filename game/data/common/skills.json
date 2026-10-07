@@ -125,6 +125,8 @@
 			"legacy_source": "daemon/skill/celestial.c",
 			"standard_force_hit": true,
 			"exert": ["powerup", "powerfade"],
+			"practice": { "refuses": true, "fail": "天邪神功只能用学的，或是从运用(exert)中增加熟练度。" },
+			"valid_learn": { "bellicosity": "你的杀气不够，无法领悟更高深的天邪神功。" },
 			"improved_line": "由於你苦练天邪神功，你的定力提高了", "improved_color": "HIW"
 		},
 		{
@@ -152,6 +154,12 @@
 		{
 			"id": "celestrike", "name": "天邪神掌", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
 			"legacy_source": "daemon/skill/celestrike.c",
+			"practice": { "kee": 30, "force": 5, "fail": "你的体力不够了，休息一下再练吧。", "force_fail": "你的内力不够了，休息一下再练吧。" },
+			"valid_learn": {
+				"empty_hands": "练天邪神掌必须空手。",
+				"raw_skill": "你的天邪神功火候不足，无法练天邪掌法。",
+				"max_force": "你的内力太弱，无法练天邪掌法。"
+			},
 			"actions": [
 				{ "id": "da-tian-luo-shi-you", "action": "$N使出一招「大天罗式」，右掌穿出击向$n的$l", "force": 200, "damage_type": "瘀伤" },
 				{ "id": "da-tian-luo-shi-zuo", "action": "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l", "force": 170, "damage_type": "瘀伤" },
@@ -165,6 +173,8 @@
 		{
 			"id": "six-chaos-sword", "name": "六阴追魂剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/six-chaos-sword.c",
+			"practice": { "kee": 30, "force": 5, "done": "你按著所学练了一遍六阴追魂剑法。", "fail": "你的内力或气不够，没有办法练习六阴追魂剑。" },
+			"valid_learn": { "max_force": "你的内力不够，没有办法练六阴追魂剑。", "weapon": "你必须先找一把剑才能练剑法。" },
 			"improved_line": "你突然觉得一股恶气冲上心头，只觉得想杀人....", "improved_color": "RED", "improved_every": 10,
 			"actions": [
 				{ "id": "qun-mo-luan-wu", "action": "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑", "damage": 170, "damage_type": "刺伤" },
@@ -178,12 +188,27 @@
 		{
 			"id": "pyrobat-steps", "name": "火蝠身法", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
 			"legacy_source": "daemon/skill/pyrobat-steps.c",
+			"practice": { "kee": 30, "fail": "你的体力太差了，不能练火蝠身法。" },
 			"dodge_messages": [
 				"可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。",
 				"$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。",
 				"$p身随意转，一式「轻蝠点梢」，倏地往一旁挪开了三尺，避过了这一招。",
 				"却见$p足不点地，一招「夜蝠旋身」，往旁窜开数尺，躲了开去。",
 				"只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+			]
+		},
+		{
+			"id": "stormdance", "name": "七宝天岚舞", "kind": "specialized", "type": "martial", "enable": ["dodge"],
+			"legacy_source": "daemon/skill/stormdance.c",
+			"practice": { "sen": 30, "fail": "你的精神太差了，不能练七宝天岚舞。" },
+			"valid_learn": { "gender": "七宝天岚舞只有女性才能练。", "spi": "你的灵性不够，没有办法练七宝天岚舞。" },
+			"improved_line": "由於你勤练舞技，你的容貌提高了", "improved_color": "HIW",
+			"dodge_messages": [
+				"但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！",
+				"$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！",
+				"$n使出「织女于归」，突然幻化成一双倩影，$N从其中一人透体而过！",
+				"$n一式「天女散花」，自水袖中散出一片花雨，$N被花影迷蒙了双眼，与$n擦肩而过",
+				"$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 			]
 		}
 	]

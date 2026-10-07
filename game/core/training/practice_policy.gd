@@ -20,3 +20,9 @@ func practice(_character: CharacterStateType) -> bool:
 ## own notify_fail(), spring-blade.c's 你必须先找一把刀). Pure: changes nothing.
 func refuses_weapon(_character: CharacterStateType) -> bool:
 	return false
+
+
+## Which of practice_skill()'s checks refuses `character` now (&"weapon", &"kee",
+## &"force", &"sen"), or &"" when none does. Pure: changes nothing.
+func refusal(_character: CharacterStateType) -> StringName:
+	return &""

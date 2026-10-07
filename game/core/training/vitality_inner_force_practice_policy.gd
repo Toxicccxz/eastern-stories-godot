@@ -3,12 +3,15 @@ extends "res://core/training/practice_policy.gd"
 
 ## Covers the practice_skill() shape represented by fall-steps.c: kee/force
 ## requirements and costs, after spring-blade.c's weapon check (query_temp("weapon")
-## of that skill_type; "" asks for none). valid_learn() is owned by SkillLearnPolicy.
+## of that skill_type; "" asks for none), and stormdance.c's sen. valid_learn() is
+## owned by SkillLearnPolicy.
 var required_vitality: int
 var vitality_cost: int
 var required_inner_force: int
 var inner_force_cost: int
 var required_weapon_skill_type: StringName
+var required_spirit: int = 0
+var spirit_cost: int = 0
 
 
 func _init(
@@ -34,13 +37,29 @@ func refuses_weapon(character: CharacterStateType) -> bool:
 	)
 
 
-func practice(character: CharacterStateType) -> bool:
+## stormdance.c: sen at least `required`, then `cost` of it spent.
+func with_spirit(required: int, cost: int) -> VitalityInnerForcePracticePolicy:
+	required_spirit = required
+	spirit_cost = cost
+	return self
+
+
+func refusal(character: CharacterStateType) -> StringName:
 	if refuses_weapon(character):
-		return false
+		return &"weapon"
 	if character.vitality.current < required_vitality:
-		return false
+		return &"kee"
 	if character.recovery.inner_force.current < required_inner_force:
+		return &"force"
+	if character.spirit.current < required_spirit:
+		return &"sen"
+	return &""
+
+
+func practice(character: CharacterStateType) -> bool:
+	if not refusal(character).is_empty():
 		return false
 	character.vitality.apply_damage(vitality_cost)
 	character.recovery.inner_force.current -= inner_force_cost
+	character.spirit.apply_damage(spirit_cost)
 	return true

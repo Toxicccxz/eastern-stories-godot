@@ -35,6 +35,8 @@ var parry_messages_unarmed: Array[String] = []
 var practice_done: String = ""
 var practice_fail: String = ""
 var practice_weapon_fail: String = ""
+## celestrike.c says another line when inner force is short ("" uses practice_fail).
+var practice_force_fail: String = ""
 ## skill_improved(): the line it prints when its effect applies, in its colour.
 var improved_line: String = ""
 var improved_color: StringName = ColoredLine.PLAIN
@@ -62,6 +64,10 @@ const VALID_LEARN_KEYS: Dictionary[String, Array] = {
 		SkillLearnPolicyResult.Reason.PRIMARY_WEAPON_SKILL_TYPE_MISMATCH,
 	],
 	"empty_hands": [SkillLearnPolicyResult.Reason.WEAPON_REFERENCES_NOT_EMPTY],
+	"bellicosity": [SkillLearnPolicyResult.Reason.BELLICOSITY_TOO_LOW],
+	"raw_skill": [SkillLearnPolicyResult.Reason.RAW_SKILL_TOO_LOW],
+	"gender": [SkillLearnPolicyResult.Reason.GENDER_MISMATCH],
+	"spi": [SkillLearnPolicyResult.Reason.BASE_SPIRITUALITY_TOO_LOW],
 }
 
 
@@ -117,7 +123,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 ## A skills.json record: {id, name, kind basic|specialized, type martial|knowledge,
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
 ## parry_messages?: {armed, unarmed}, standard_force_hit?, hit_ob?,
-## practice?: {kee?, force?, done?, fail?, refuses?}, valid_learn?: {key: line},
+## practice?: {kee?, force?, sen?, weapon?, done?, fail?, force_fail?, weapon_fail?, refuses?}, valid_learn?: {key: line},
 ## improved_line?, improved_color?, improved_every?, exert?: [function], perform?: [action], cast?: [spell]}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	var kinds: Dictionary[String, int] = {"basic": Kind.BASIC, "specialized": Kind.SPECIALIZED}
@@ -147,6 +153,7 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		definition.practice_done = practice.text("done")
 		definition.practice_fail = practice.text("fail")
 		definition.practice_weapon_fail = practice.text("weapon_fail")
+		definition.practice_force_fail = practice.text("force_fail")
 		if practice.boolean("refuses", false):
 			definition._practice = UnpracticeablePracticePolicy.new(definition.skill_id)
 			# kee, force and weapon stay unread (finish() reports them); weapon_fail was read above.
@@ -155,13 +162,16 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		else:
 			var kee: int = practice.integer("kee")
 			var force: int = practice.integer("force")
+			var sen: int = practice.integer("sen")
 			var weapon: StringName = StringName(practice.text("weapon"))
 			if not weapon.is_empty() and not SkillUseIds.is_enable_command_use(weapon):
 				practice.fail("weapon", "not a skill_type enable.c knows")
 			if weapon.is_empty() != definition.practice_weapon_fail.is_empty():
 				practice.fail("weapon_fail", "goes with weapon")
-			# practice_skill(): the weapon, then kee and force both at least the cost, then both spent.
-			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force, weapon)
+			if not definition.practice_force_fail.is_empty() and force <= 0:
+				practice.fail("force_fail", "goes with force")
+			# practice_skill(): the weapon, then kee, force and sen each at least the cost, then all spent.
+			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force, weapon).with_spirit(sen, sen)
 		practice.finish()
 	definition._valid_learn_lines = reader.text_map("valid_learn")
 	for key: String in definition._valid_learn_lines:

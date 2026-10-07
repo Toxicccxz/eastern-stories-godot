@@ -83,7 +83,8 @@ func _test_data() -> void:
 	_check(ExertService.offered(character, _catalog()) == [&"heal", &"recover", &"refresh", &"regenerate"], "with fonxanforce enabled: its heal and /d/force's three")
 	character.skills.set_raw_level(&"celestial", 1)
 	character.skills.map_skill(&"force", &"celestial")
-	_check(ExertService.offered(character, _catalog()) == [&"recover", &"refresh", &"regenerate", &"powerup", &"powerfade"], "天邪神功: /d/force's three, then its powerup and powerfade: " + str(ExertService.offered(character, _catalog())))
+	# 水烟阁 C gives the player 天邪神功's own powerup and powerfade: then this list grows.
+	_check(ExertService.offered(character, _catalog()) == [&"recover", &"refresh", &"regenerate"] and ExertService.AWAITING_PLAYER == [&"powerup", &"powerfade"], "天邪神功: /d/force's three; its powerup and powerfade wait for 水烟阁 C: " + str(ExertService.offered(character, _catalog())))
 	_check(ExertService.offered(CharacterState.new(), _catalog()).is_empty(), "nothing without an enabled force")
 	var errors: Array[String] = []
 	SkillDefinition.from_record(ContentRecordReader.new({

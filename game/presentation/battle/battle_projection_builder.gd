@@ -61,9 +61,16 @@ static func completed_cast(session: OldPineWorldSessionController, encounter_id:
 			ids.append_array([event.actor_id, event.target_id])
 		for ordered: CombatOrderedTargetEvent in feedback.targets_after(0):
 			ids.append_array([ordered.event.actor_id, ordered.event.current_target_id])
+	return cast_of(session, ids, encounter_id)
+
+
+## The names, genders and dodge skills the narrator needs for `ids` (the player
+## first), with no fight behind them: a do_attack() outside one, as champion.c's test.
+static func cast_of(session: OldPineWorldSessionController, ids: Array[StringName], encounter_id: StringName = &"") -> BattlePresentationProjection:
+	var player_id: StringName = session.player_runtime().character_id
 	var participants: Array[BattleParticipantProjection] = []
 	var seen: Array[StringName] = []
-	for id: StringName in ids:
+	for id: StringName in [player_id] + ids:
 		if id.is_empty() or id in seen:
 			continue
 		seen.append(id)

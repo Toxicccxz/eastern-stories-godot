@@ -1402,6 +1402,35 @@ func _build_participants(include_absent: bool = false) -> Array[CombatSliceChara
 	return result
 
 
+## combatd.c do_attack(npc, player, the npc's weapon) called straight outside any fight
+## (champion.c's accept test): TYPE_REGULAR, as a special file's direct attack, with
+## the encounter random source and skill_improved() effects. A kee below zero falls
+## only on the heart beat after (player_fall_below_zero()). Null when either cannot
+## take part (not here, not conscious, already fighting).
+func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunityResult:
+	if (
+		npc == null or _player == null or not npc.exists_in_map or not _player.exists_in_world
+		or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+		or npc.relationship.is_fighting() or _player.relationship.is_fighting()
+	):
+		return null
+	_last_player_content_resolution = _weapon_resolver.resolve(_player, _inventory, _item_index)
+	var player_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
+		_player,
+		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
+	)
+	var npc_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, _npc_content(npc))
+	if player_binding == null or npc_binding == null:
+		return null
+	if _post_actions == null:
+		_post_actions = CombatSlicePostActions.new(_run_post_action)
+	player_binding.post_actions = _post_actions
+	npc_binding.post_actions = _post_actions
+	var participants: Array[CombatSliceCharacterBinding] = [player_binding, npc_binding]
+	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(npc_binding, player_binding, participants, _combat_random, _effects)
+	return null if result.forward_result == null else result
+
+
 ## weapond.c's post_actions for one attack; what the player sees of it.
 func _run_post_action(binding: CombatSliceCharacterBinding, policy_id: StringName, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
 	match policy_id:

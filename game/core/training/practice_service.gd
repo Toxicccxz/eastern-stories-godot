@@ -99,15 +99,16 @@ static func practice(
 		)
 
 	var learned_before: int = character.skills.learned_progress(special_skill_id)
-	var weapon_refused: bool = practice_policy.refuses_weapon(character)
+	var refusal: StringName = practice_policy.refusal(character)
 	if not practice_policy.practice(character):
+		var reason: int = PracticeResultType.FailureReason.PRACTICE_HOOK_REJECTED
+		if refusal == &"weapon":
+			reason = PracticeResultType.FailureReason.PRACTICE_WEAPON_REJECTED
+		elif refusal == &"force":
+			reason = PracticeResultType.FailureReason.PRACTICE_FORCE_REJECTED
 		return PracticeResultType.new(
 			false,
-			(
-				PracticeResultType.FailureReason.PRACTICE_WEAPON_REJECTED
-				if weapon_refused
-				else PracticeResultType.FailureReason.PRACTICE_HOOK_REJECTED
-			),
+			reason,
 			PracticeResultType.Completion.NO_PROGRESS,
 			basic_skill_id,
 			special_skill_id,
