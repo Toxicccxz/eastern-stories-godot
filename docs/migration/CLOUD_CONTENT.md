@@ -77,7 +77,7 @@ joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (regi
 ## Deferred
 
 - 牛腿 is a hammer only: food that is also a weapon is not supported yet. Eaten food leaves no
-  bones (finish_eat). 极乐逍遥散's pour (slumber_drug) is not modelled; the mother carries it.
+  bones (finish_eat). The mother's 极乐逍遥散 pours into a drink since 青石村 B.
 - 弈者's 下棋 (a coin flip that hands over his 棋子). A carried 布袋 is not opened (put works on
   a container lying in reach).
 - The garrison's vendetta and pursuit, 趟子手's and the thief's wimpy.

@@ -15,6 +15,8 @@ signal play_requested(item_instance_id: StringName)
 signal apply_requested(item_instance_id: StringName)
 signal dissolve_requested(item_instance_id: StringName)
 signal hang_requested(item_instance_id: StringName)
+## pour <powder> in <container> (std/medicine/powder.c do_pour()).
+signal pour_requested(item_instance_id: StringName, container_id: StringName)
 
 ## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
 const CATEGORY_WORDS: Dictionary[StringName, String] = {
@@ -40,6 +42,8 @@ var _give_target: String = ""
 var _container: String = ""
 ## The selected corpse lying here (its victim's name), which 化尸粉 can dissolve.
 var _corpse: String = ""
+## The carried liquid containers a powder can be poured into: [id, shown name] pairs.
+var _pour_targets: Array = []
 
 
 func set_handling_targets(give_target: String, container: String) -> void:
@@ -49,6 +53,11 @@ func set_handling_targets(give_target: String, container: String) -> void:
 
 func set_dissolvable_corpse(victim_name: String) -> void:
 	_corpse = victim_name
+
+
+## `targets`: [item id, container name] pairs, in carried order.
+func set_pour_targets(targets: Array) -> void:
+	_pour_targets = targets.duplicate()
 
 
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
@@ -190,6 +199,21 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		dissolve_button.text = tr("化去{corpse}").format({"corpse": tr("%s的尸体") % tr(_corpse)})
 		dissolve_button.pressed.connect(func() -> void: dissolve_requested.emit(row.item_instance_id))
 		container.add_child(dissolve_button)
+	if content != null and content.pour != null:
+		var names: Array[String] = []
+		for target: Array in _pour_targets:
+			names.append(tr(target[1]))
+		for index: int in range(_pour_targets.size()):
+			var target: Array = _pour_targets[index]
+			var pour_button: Button = Button.new()
+			pour_button.name = "Pour"
+			# TRANSLATORS: pour the powder into a carried drink ({container}: 牛皮酒袋).
+			pour_button.text = tr("倒进{container}").format({"container": names[index]})
+			if names.count(names[index]) > 1:
+				pour_button.text += " #%d" % (index + 1)
+			var container_id: StringName = target[0]
+			pour_button.pressed.connect(func() -> void: pour_requested.emit(row.item_instance_id, container_id))
+			container.add_child(pour_button)
 	# A stack can be handed over in part (give 5 silver to ..., drop 10 throwing knives).
 	var amount: SpinBox = null
 	if content != null and content.is_stack and row.amount > 1:

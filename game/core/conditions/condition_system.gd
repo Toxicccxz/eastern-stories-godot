@@ -16,6 +16,12 @@ const SnakePoisonConditionEffectType := preload(
 const BandagedConditionEffectType := preload(
 	"res://core/conditions/effects/bandaged_condition_effect.gd"
 )
+const DrunkConditionEffectType := preload(
+	"res://core/conditions/effects/drunk_condition_effect.gd"
+)
+const SlumberDrugConditionEffectType := preload(
+	"res://core/conditions/effects/slumber_drug_condition_effect.gd"
+)
 
 var _effects: Dictionary[StringName, ConditionEffectType] = {}
 
@@ -23,6 +29,8 @@ var _effects: Dictionary[StringName, ConditionEffectType] = {}
 func _init() -> void:
 	register_effect(SnakePoisonConditionEffectType.new())
 	register_effect(BandagedConditionEffectType.new())
+	register_effect(DrunkConditionEffectType.new())
+	register_effect(SlumberDrugConditionEffectType.new())
 
 
 ## Explicit registration replaces LPC file-path/call_other dispatch. It is also
@@ -42,10 +50,12 @@ func shown_names(character: CharacterStateType) -> Array[String]:
 
 
 ## Performs exactly one update over a stable snapshot. It does not schedule,
-## wait, inspect heartbeat state, or call CharacterRecovery.
-func update_once(character: CharacterStateType) -> ConditionUpdateResultType:
+## wait, inspect heartbeat state, or call CharacterRecovery. `conscious` is
+## living(me) for the daemons that ask it.
+func update_once(character: CharacterStateType, conscious: bool = true) -> ConditionUpdateResultType:
 	var result: ConditionUpdateResultType = ConditionUpdateResultType.new()
 	var condition_ids: Array[StringName] = character.conditions.sorted_condition_ids()
+	var living: bool = conscious
 	for condition_id: StringName in condition_ids:
 		var payload: ConditionPayloadType = character.conditions.get_condition(condition_id)
 		if payload == null:
@@ -53,11 +63,15 @@ func update_once(character: CharacterStateType) -> ConditionUpdateResultType:
 		var effect: ConditionEffectType = _effects.get(condition_id) as ConditionEffectType
 		if effect == null:
 			continue
-		var flags: int = effect.update(character, payload)
+		var report := ConditionReport.new(living)
+		var flags: int = effect.tick(character, payload, report)
+		living = report.conscious
+		result.knocked_out = result.knocked_out or report.knocked_out
 		result.updated += 1
 		result.include_flags(flags)
-		if not effect.message().is_empty():
-			result.lines.append(ColoredLine.new(TranslationServer.translate(effect.message()), effect.message_color()))
+		for line: ColoredLine in report.lines:
+			result.lines.append(ColoredLine.new(TranslationServer.translate(line.text), line.color))
+		result.room_lines.append_array(report.room_lines)
 		if (flags & ConditionUpdateFlagsType.CONTINUE) == 0:
 			character.conditions.remove_condition(condition_id)
 	return result

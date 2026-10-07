@@ -93,7 +93,7 @@ static func restore(
 			return _reconstruction_failure(record.item_instance_id)
 	var liquids: LiquidCollection = LiquidCollection.new()
 	for record: NativeLiquidConsumableRecord in snapshot.liquid_consumable_records:
-		if not liquids.register_state(record.item_instance_id, LiquidState.new(record.content, record.remaining)):
+		if not liquids.register_state(record.item_instance_id, LiquidState.new(record.content, record.remaining, record.drink_func, record.slumber_effect)):
 			return _reconstruction_failure(record.item_instance_id)
 	var reconstructed: NativeItemDomainState = NativeItemDomainState.new(
 		items,

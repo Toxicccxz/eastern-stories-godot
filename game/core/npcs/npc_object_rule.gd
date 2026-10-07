@@ -10,7 +10,10 @@ extends RefCounted
 ## the giver's family (u/cloud b_header.c: 忘忧草 from 振远镖局). The outcome: lines,
 ## accept or refuse, what it changes, and `kill`: a refusal that attacks the giver
 ## (u/cloud gangster.c kill_passenger()). Effects: keeper.c's donation, and `wager`:
-## the money is a bet on the NPC's NpcWager (judge.c).
+## the money is a bet on the NPC's NpcWager (judge.c). The giver's marks also hold the
+## set_temp() flags of d/green's 玉佩 chain (DECISIONS 青石村 B): `mark_giver` sets one,
+## `unmark_giver` deletes some (shen.c's 想骗我啊?, also on a refusal), and `gives` is
+## an item the NPC makes and hands to the giver (shen.c's 蒙汗药).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION, EFFECT_WAGER]
@@ -31,6 +34,9 @@ var giver_family: StringName = &""
 var lines: Array[NpcLine] = []
 var accept: bool = false
 var mark_giver: String = ""
+var unmark_giver: Array[String] = []
+## The item definition new()'d and moved to the giver; empty for most rules.
+var gives: StringName = &""
 var set_npc_flag: StringName = &""
 var effect: StringName = &""
 var kill: bool = false
@@ -98,6 +104,8 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.lines = NpcLine.optional_lines(reader)
 	rule.accept = reader.boolean("accept", false)
 	rule.mark_giver = reader.text("mark_giver")
+	rule.unmark_giver = reader.text_list("unmark_giver")
+	rule.gives = StringName(reader.text("gives"))
 	rule.set_npc_flag = StringName(reader.text("set_npc_flag"))
 	rule.effect = StringName(reader.text("effect"))
 	if not reader.has("accept"):
@@ -106,8 +114,8 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("effect", "unsupported effect '%s'" % rule.effect)
 	if not rule.liquid_type.is_empty() and not LiquidState.LEGACY_TYPES.has(rule.liquid_type):
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
-	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty()):
-		reader.fail("accept", "a refusal changes nothing")
+	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty()):
+		reader.fail("accept", "a refusal changes nothing but the giver's flags it deletes")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")
 	if rule.effect == EFFECT_WAGER and rule.value_at_least < 1:

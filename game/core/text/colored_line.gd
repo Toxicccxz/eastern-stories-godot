@@ -3,7 +3,7 @@ extends RefCounted
 
 ## A line a command prints, with the ES2 colour it prints in (include/ansi.h):
 ## &"" plain, HIR bright red, HIY bright yellow, HIC bright cyan, HIW bright white,
-## HIM bright magenta, HIG bright green, CYN cyan, RED red.
+## HIM bright magenta, HIG bright green, CYN cyan, RED red, GRN green (whisper.c).
 ## The text is in the shown language; presentation picks the colour's look.
 const PLAIN: StringName = &""
 const HIR: StringName = &"HIR"
@@ -14,8 +14,9 @@ const HIM: StringName = &"HIM"
 const HIG: StringName = &"HIG"
 const CYN: StringName = &"CYN"
 const RED: StringName = &"RED"
+const GRN: StringName = &"GRN"
 ## Every colour above but PLAIN, for checking authored ones.
-const COLORS: Array[StringName] = [HIR, HIY, HIC, HIW, HIM, HIG, CYN, RED]
+const COLORS: Array[StringName] = [HIR, HIY, HIC, HIW, HIM, HIG, CYN, RED, GRN]
 
 var text: String
 var color: StringName

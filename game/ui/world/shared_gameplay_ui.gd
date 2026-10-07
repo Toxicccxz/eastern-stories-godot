@@ -74,6 +74,7 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIG: Color(0.45, 1.0, 0.45),
 	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
 	ColoredLine.RED: Color(0.82, 0.24, 0.24),
+	ColoredLine.GRN: Color(0.35, 0.78, 0.35),
 }
 var _presentation_layout: SharedGameplayLayout
 ## Names the player's shown conditions (蛇毒) on the HUD.
@@ -111,6 +112,7 @@ func _ready() -> void:
 	inventory_panel.apply_requested.connect(_apply_item)
 	inventory_panel.dissolve_requested.connect(_dissolve_with)
 	inventory_panel.hang_requested.connect(_hang_with)
+	inventory_panel.pour_requested.connect(_pour_item)
 	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(_on_prompt_cancelled)
 	_presentation_layout.character.arts.configure(_session)
@@ -294,6 +296,14 @@ func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 			container = map.floor_item_view(container_id).display_name
 	inventory_panel.set_handling_targets(give_target, container)
 	inventory_panel.set_dissolvable_corpse(map.dissolvable_corpse_name() if map != null and map.can_handle_items() else "")
+	var pour_targets: Array = []
+	if map != null and map.can_handle_items():
+		for id: StringName in map.pour_targets():
+			var held: ItemInstance = map.item_instance_index().resolve(id)
+			var content: ItemContentDefinition = null if held == null else GameContent.catalog().item(held.item_definition_id)
+			if content != null:
+				pour_targets.append([id, content.display_name])
+	inventory_panel.set_pour_targets(pour_targets)
 	inventory_panel.show_inventory(rows)
 	_presentation_layout.open_panel("背包", inventory_panel)
 	_presentation_layout.refresh_rows()
@@ -498,6 +508,12 @@ func open_ask() -> void:
 		_ask_topics.add_theme_constant_override("h_separation", 8)
 		_ask_topics.add_theme_constant_override("v_separation", 8)
 		_ask_panel.add_child(_ask_topics)
+		# say.c beside the NPC for what its relay_say() answers (owner: a 接话 button).
+		_ask_relay = HFlowContainer.new()
+		_ask_relay.name = "Relay"
+		_ask_relay.add_theme_constant_override("h_separation", 8)
+		_ask_relay.add_theme_constant_override("v_separation", 8)
+		_ask_panel.add_child(_ask_relay)
 		_ask_answer = Label.new()
 		_ask_answer.name = "Answer"
 		_ask_answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -513,6 +529,17 @@ func open_ask() -> void:
 		button.custom_minimum_size = Vector2(80, 40)
 		button.pressed.connect(_ask_topic.bind(topic))
 		_ask_topics.add_child(button)
+	for child: Node in _ask_relay.get_children():
+		child.queue_free()
+	for phrase: String in map.relay_phrases_selected():
+		var say := Button.new()
+		say.name = "Relay"
+		# TRANSLATORS: say a line beside the NPC that it answers ({line}: 必有妖孽).
+		say.text = tr("接话：{line}").format({"line": tr(phrase)})
+		say.custom_minimum_size = Vector2(80, 40)
+		say.pressed.connect(_say_beside.bind(phrase))
+		_ask_relay.add_child(say)
+	_ask_relay.visible = not map.relay_phrases_selected().is_empty()
 	_ask_answer.text = ""
 	_open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
 	_presentation_layout.refresh_rows()
@@ -535,6 +562,22 @@ func _ask_topic(topic: String) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null:
 		_ask_answer.text = "\n".join(map.ask_selected(topic))
+
+
+func _say_beside(phrase: String) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null:
+		_ask_answer.text = "\n".join(map.say_beside_selected(phrase))
+
+
+## The 接话 lines the open 打听 panel offers (as shown).
+func relay_buttons_shown() -> Array[String]:
+	var result: Array[String] = []
+	if _ask_relay != null and _presentation_layout._content == _ask_panel:
+		for child: Node in _ask_relay.get_children():
+			if not child.is_queued_for_deletion():
+				result.append((child as Button).text)
+	return result
 
 
 func portal_action_is_enabled() -> bool:
@@ -604,6 +647,7 @@ var _business_feedback: String = ""
 var _panel_shows_lines: bool = false
 var _ask_panel: VBoxContainer
 var _ask_topics: HFlowContainer
+var _ask_relay: HFlowContainer
 var _ask_answer: Label
 
 
@@ -889,6 +933,11 @@ func _play_item(id: StringName) -> void:
 func _apply_item(id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.apply_item(id)
+
+
+func _pour_item(id: StringName, container_id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.pour_into(id, container_id)
 
 
 func _dissolve_with(id: StringName) -> void:

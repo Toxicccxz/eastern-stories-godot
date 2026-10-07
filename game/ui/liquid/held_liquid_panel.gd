@@ -70,12 +70,14 @@ func _process(_delta: float) -> void:
 		var state: LiquidState = _session.liquid_collection().state(_ids[i])
 		# TRANSLATORS: one container the player carries: its name, which one, what it holds and the portions left of the most it holds.
 		_select.set_item_text(i, tr("{item} #{index} · {liquid} · {portions}/{maximum}份").format({
-			"item": tr(_item_name(_ids[i])), "index": i + 1, "liquid": tr(LiquidState.content_name(state.content)),
+			"item": tr(_item_name(_ids[i])), "index": i + 1, "liquid": tr(_liquid_name(_ids[i], state.content)),
 			"portions": state.remaining, "maximum": _maximum_portions(_ids[i]),
 		}))
 	_drink.disabled = _ids.is_empty()
 	if not _ids.is_empty():
-		_drink.text = "饮用（酒精暂未开放）" if _session.liquid_collection().state(_selected_id()).content == LiquidState.Content.RED_WINE else "喝一份清水"
+		var selected: LiquidState = _session.liquid_collection().state(_selected_id())
+		# TRANSLATORS: drink one portion of what the selected container holds ({liquid}: 红酒, 清水).
+		_drink.text = tr("喝一份{liquid}").format({"liquid": tr(_liquid_name(_selected_id(), selected.content))})
 	_fill.visible = _session.fill_water_available()
 	_fill.disabled = _ids.is_empty()
 
@@ -106,7 +108,7 @@ func _use(fill: bool) -> LiquidUseResult:
 	var encounter: bool = _session.combat_encounter_coordinator().has_active_encounter()
 	var vessel: String = tr(_item_name(_selected_id()))
 	var held: LiquidState = _session.liquid_collection().state(_selected_id())
-	var liquid_name: String = "" if held == null else tr(LiquidState.content_name(held.content))
+	var liquid_name: String = "" if held == null else tr(_liquid_name(_selected_id(), held.content))
 	var words: Dictionary = {"container": vessel, "liquid": liquid_name}
 	last_result = HeldLiquidUseService.fill(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), _session.fill_water_available(), encounter) if fill else HeldLiquidUseService.drink(player, context, _session.liquid_collection(), definitions, _selected_id(), _session.liquid_interaction_available(), encounter)
 	# feature/liquid.c do_drink() and do_fill(), in their words.
@@ -119,8 +121,6 @@ func _use(fill: bool) -> LiquidUseResult:
 			_feedback.text = tr("你拿起{container}咕噜噜地喝了几口{liquid}。").format(words)
 			if last_result.remaining_after == 0:
 				_feedback.text = "\n".join([_feedback.text, tr("你已经将{container}里的{liquid}喝得一滴也不剩了。").format(words)])
-		LiquidUseResult.Outcome.ALCOHOL_DEFERRED:
-			_feedback.text = "酒精饮用暂未开放；请到瀑布或水潭取水点换装清水。"
 		LiquidUseResult.Outcome.TOO_FULL:
 			_feedback.text = "你已经喝太多了，再也灌不下一滴水了。"
 		LiquidUseResult.Outcome.EMPTY:
@@ -137,6 +137,12 @@ func _use(fill: bool) -> LiquidUseResult:
 		_:
 			_feedback.text = "现在不能使用这个酒袋。"
 	return last_result
+
+
+func _liquid_name(id: StringName, content: LiquidState.Content) -> String:
+	var item: ItemInstance = _session.item_instance_index().resolve(id)
+	var definition: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	return LiquidState.content_name(content) if definition == null else definition.liquid_name(content)
 
 
 func _item_name(id: StringName) -> String:

@@ -15,6 +15,13 @@ const SILENT_EMOTE: StringName = &"emote"
 
 var _inquiry: Dictionary[String, PackedStringArray] = {}
 var _kee_answers: Dictionary[String, Array] = {}
+## The marks an answer's functions set on the asker (oldman2.c's set_flag() among the
+## lines: ask.c skipped it; as the code means, it runs).
+var _answer_marks: Dictionary[String, Array] = {}
+## Topics answered by a function that acts (NpcInquiryRule lists).
+var _inquiry_rules: Dictionary[String, Array] = {}
+## relay_say(): what the NPC answers when the player says a line beside it.
+var _relay_say: Dictionary[String, Array] = {}
 var _chat_chance: int = 0
 ## Each entry is a String (said as written), a ColoredLine (said in its colour, the
 ## text as authored), RANDOM_MOVE, an NpcDrinkAction or an NpcSpecialAction.
@@ -73,11 +80,50 @@ func inquiry_topics() -> Array[String]:
 	for topic: String in _kee_answers:
 		if not result.has(topic):
 			result.append(topic)
+	for topic: String in _inquiry_rules:
+		if not result.has(topic):
+			result.append(topic)
 	return result
 
 
 func has_answer(topic: String) -> bool:
 	return _inquiry.has(topic) or _kee_answers.has(topic)
+
+
+## The marks the answer to `topic` sets on the asker.
+func answer_marks(topic: String) -> Array[String]:
+	var marks: Array[String] = []
+	marks.assign(_answer_marks.get(topic, []))
+	return marks
+
+
+## The rules of a topic answered by a function that acts; empty for the others.
+func inquiry_rules(topic: String) -> Array[NpcInquiryRule]:
+	var rules: Array[NpcInquiryRule] = []
+	rules.assign(_inquiry_rules.get(topic, []))
+	return rules
+
+
+## The lines the player can say beside the NPC that it answers (relay_say()), in authored order.
+func relay_phrases() -> Array[String]:
+	var phrases: Array[String] = []
+	phrases.assign(_relay_say.keys())
+	return phrases
+
+
+## What the NPC answers to `phrase`; empty when it lets it pass.
+func relay_answer(phrase: String) -> Array[NpcLine]:
+	var lines: Array[NpcLine] = []
+	lines.assign(_relay_say.get(phrase, []))
+	return lines
+
+
+## Answer marks, inquiry rules and relay_say. Called once by the loader.
+func with_actions(answer_marks: Dictionary[String, Array], rules: Dictionary[String, Array], relay_say: Dictionary[String, Array]) -> NpcTalk:
+	_answer_marks = answer_marks.duplicate()
+	_inquiry_rules = rules.duplicate()
+	_relay_say = relay_say.duplicate()
+	return self
 
 
 ## The lines said, in turn, for `topic` (empty when the NPC has none). A topic
@@ -158,6 +204,15 @@ func is_valid() -> bool:
 			return false
 	for topic: String in _kee_answers:
 		if topic.is_empty() or _inquiry.has(topic) or _kee_answers[topic].is_empty():
+			return false
+	for topic: String in _inquiry_rules:
+		if topic.is_empty() or _inquiry.has(topic) or _kee_answers.has(topic) or _inquiry_rules[topic].is_empty():
+			return false
+	for topic: String in _answer_marks:
+		if not _inquiry.has(topic):
+			return false
+	for phrase: String in _relay_say:
+		if phrase.strip_edges().is_empty():
 			return false
 	for greeting: NpcLine in _greeting:
 		if greeting == null or line(greeting.text).is_empty():

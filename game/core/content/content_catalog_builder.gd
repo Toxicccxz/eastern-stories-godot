@@ -265,6 +265,13 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object: unknown family '%s'" % [origin, rule.giver_family])
 			if not rule.item_name.is_empty() and not _items.values().any(func(item: ItemContentDefinition) -> bool: return item.display_name == rule.item_name):
 				_errors.append("%s.accept_object: no item named '%s'" % [origin, rule.item_name])
+			if not rule.gives.is_empty() and not _items.has(rule.gives):
+				_errors.append("%s.accept_object.gives: unknown item '%s'" % [origin, rule.gives])
+		var talk: NpcTalk = definition.talk()
+		for topic: String in talk.inquiry_topics():
+			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
+				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
+					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue

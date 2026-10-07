@@ -74,7 +74,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	var liquid_consumable_records: Array[NativeLiquidConsumableRecord] = items.liquid_consumable_records
 	for index: int in range(liquid_consumable_records.size()):
 		var liquid: NativeLiquidConsumableRecord = liquid_consumable_records[index]
-		if liquid == null or not item_ids.has(liquid.item_instance_id) or liquid.remaining < 0 or liquid.content not in [LiquidState.Content.RED_WINE, LiquidState.Content.CLEAR_WATER]:
+		if liquid == null or not item_ids.has(liquid.item_instance_id) or liquid.remaining < 0 or liquid.slumber_effect < 0 or liquid.content not in [LiquidState.Content.RED_WINE, LiquidState.Content.CLEAR_WATER]:
 			return _invalid("items.liquid_consumables[%d]" % index, "invalid live liquid association")
 		if liquid_ids.has(liquid.item_instance_id):
 			return _duplicate("items.liquid_consumables[%d].item_instance_id" % index)

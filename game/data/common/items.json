@@ -168,7 +168,8 @@
 			"aliases": ["poison dust", "dust"],
 			"long": "这是一种毒性猛烈的春药，你可以把它倒(pour)在酒水之中使用。\n",
 			"unit": "包",
-			"combined": { "base_unit": "份", "base_weight": 30, "amount": 1 }
+			"combined": { "base_unit": "份", "base_weight": 30, "amount": 1 },
+			"pour": { "condition": "slumber_drug", "adds_to_liquid": 100 }
 		},
 		{
 			"id": "es2:obj/example/dagger",
@@ -340,6 +341,16 @@
 			"weight": 7000,
 			"value": 4000000,
 			"weapon": { "skill": "sword", "damage": 80 }
+		},
+		{
+			"id": "es2:obj/slumber_drug",
+			"legacy_sources": ["obj/slumber_drug.c"],
+			"name": "蒙汗药",
+			"aliases": ["slumber drug", "drug"],
+			"long": "这是寻常的绿林盗贼用来作案的蒙汗药，你可以把它倒(pour)在\n酒水之中使用。\n",
+			"unit": "包",
+			"combined": { "base_unit": "份", "base_weight": 30, "amount": 1 },
+			"pour": { "condition": "slumber_drug", "dose": 100 }
 		}
 	]
 }

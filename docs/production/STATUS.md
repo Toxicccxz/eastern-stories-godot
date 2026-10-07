@@ -4,16 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**青石村 A** (`phase/green-a`): 山坳's way east leads to 青石村, all 39 rooms on three painter maps:
-the village (the stone road, the gravel street, the lane to the banyan square and the quarry yard,
-its houses, shop and 土地庙), the mountain north of it (the chained cave door, the cliff road, the
-road's end with its painting and the great stone door, the stone rooms and the stream) and the
-迷阵 (eight clearings in the mist and 绝地). Twenty villagers of twelve kinds with what create()
-draws for them; the 迷阵's exits as the LPC has them, the 八卦阵 mark, the 100000 combat_exp wind
-and the hall's seal; the stream's 追风剑, the web's spiders, the stone in 绝地 (and 放弃, owner),
-the rope's 上吊 (asked first), the well (DECISIONS).
+**青石村 B** (`phase/green-b`): the 玉佩 and the 蒙汗药. Ask the 村长 about his 玉佩 and he marks
+you; the Snow drunk, given wine once he has none, whispers that he sold it to 沈老板, and the next
+time that 沈记商行 sells 蒙汗药; 沈万年 hands over the one jade (研读: force to 40) and whispers the
+drug's price, sells it for 10 taels (less is handed back) and nothing from his list; the drug and
+the 鸨母's 极乐逍遥散 pour into a drink (背包 · 倒进); wine makes drunk and the drug knocks out,
+the player and NPCs alike; 接话 必有妖孽 to the 村长.
 
-Next: 青石村 B (玉佩 and 蒙汗药), then C (绝尘派) and D (the player's spells).
+Next: 青石村 C (绝尘派), then D (the player's spells).
 
 ## Playable now
 
@@ -73,7 +71,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   well, the quarry yard, the square's banyan, 沈记商行, the 土地庙), its 采石工 (a hammer or a
   rope), 工匠, the women (one draws her 菜刀 in a fight), the children (two wander, two peer at the
   cave door), 老公公 and 老婆婆 (attack one and the other comes to kill you), 村长 and his 玉佩
-  story; looking at the empty house's web brings a spider down (three a reset). North: the cave,
+  story (he marks who asks; 接话 必有妖孽), 沈万年 (his list, the jade for the drunk's word, 蒙汗药
+  for 10 taels); looking at the empty house's web brings a spider down (three a reset). North: the cave,
   the cliff road and 山路尽头; at 100000 combat_exp the cave east leads into the 迷阵, whose 路牌
   tell the way: wrong ways loop back, turn back or drop the player in 绝地 (push the stone with
   560 force, or 放弃 and wake in the Inn); 乾 south leads to the stone rooms behind, marked 八卦阵,
@@ -84,7 +83,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
-  recovery and conditions (蛇毒), the status card, toasts and panels, manual Save/Continue.
+  recovery and conditions (蛇毒, 醉酒, 蒙汗药; a drug poured into a drink), the status card, toasts and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
   封山剑法, 天邪神掌, 六阴追魂剑法), dodges read the mapped dodge skill's lines (倒乱七星步法,
   火蝠身法); armor, weapon and NPC
@@ -107,8 +106,7 @@ Code:
   the Inn (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
   corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it needs the player's
   spells. NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
-  Wine makes nobody
-  drunk yet (the drunk condition); the dog takes no bone (no
+  The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30
   (6.4 at ES2's pace); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
@@ -117,7 +115,7 @@ Code:
   in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
-  no bones, 弈者's 下棋 and 鸨母's 极乐逍遥散 (pour) are not ported, a carried 布袋 is not opened.
+  no bones, 弈者's 下棋 is not ported, a carried 布袋 is not opened.
   朱鸿雪 and 化缘和尚 cannot be fought until their arts are ported (#7, #8).
 * The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
   names although they now cover every map; pre-B2 Old Pine regression suites drive combat through

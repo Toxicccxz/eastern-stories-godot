@@ -9,3 +9,4 @@ const POISON: StringName = &"poison"
 const ROSE_POISON: StringName = &"rose_poison"
 const SLUMBER_DRUG: StringName = &"slumber_drug"
 const SNAKE_POISON: StringName = &"snake_poison"
+const ALL: Array[StringName] = [BANDAGED, DRUNK, ICE_SHOCK, POISON, ROSE_POISON, SLUMBER_DRUG, SNAKE_POISON]

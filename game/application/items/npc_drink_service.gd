@@ -57,8 +57,10 @@ static func drink(
 		recovery.water += content.liquid_definition().hydration
 		result.lines.append(TranslationServer.translate("{npc}拿起{container}咕噜噜地喝了几口{liquid}。").format({
 			"npc": name, "container": TranslationServer.translate(content.display_name),
-			"liquid": TranslationServer.translate(LiquidState.content_name(liquid.content)),
+			"liquid": TranslationServer.translate(content.liquid_name(liquid.content)),
 		}))
+		# liquid.c: the powder poured in (陶壶 with 蒙汗药), then alcohol's drunk_apply.
+		LiquidDrinkEffects.apply(npc.character_state, liquid, content.liquid_definition(), GameContent.catalog())
 		result.outcome = Outcome.DRANK
 	if liquid.remaining == 0:
 		var dropped: InventoryTransferResult = InventoryTransferService.new().transfer(

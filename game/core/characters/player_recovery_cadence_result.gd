@@ -11,3 +11,5 @@ var last_update_count: int = 0
 ## Conditions updated on this advance's ticks and the lines they told the character.
 var conditions_updated: int = 0
 var lines: Array[ColoredLine] = []
+## What the character's room saw (ConditionUpdateResult.room_lines): templates naming it as {name}.
+var room_lines: Array[String] = []

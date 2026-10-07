@@ -221,7 +221,13 @@ func _encode_items(value: NativeItemStateSnapshot) -> Dictionary[String, Variant
 		foods.append({"item_instance_id": String(record.item_instance_id), "remaining_portions": _i(record.remaining_portions), "current_value": _i(record.current_value)})
 	var liquids: Array[Variant] = []
 	for record: NativeLiquidConsumableRecord in value.liquid_consumable_records:
-		liquids.append({"item_instance_id": String(record.item_instance_id), "content": "RED_WINE" if record.content == LiquidState.Content.RED_WINE else "CLEAR_WATER", "remaining": _i(record.remaining)})
+		var liquid: Dictionary[String, Variant] = {"item_instance_id": String(record.item_instance_id), "content": "RED_WINE" if record.content == LiquidState.Content.RED_WINE else "CLEAR_WATER", "remaining": _i(record.remaining)}
+		# A powder poured in (liquid/drink_func, slumber_effect): written only when there is one.
+		if not record.drink_func.is_empty():
+			liquid["drink_func"] = String(record.drink_func)
+		if record.slumber_effect != 0:
+			liquid["slumber_effect"] = _i(record.slumber_effect)
+		liquids.append(liquid)
 	return {"schema_version": NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, "records": records, "combined_stacks": stacks, "equipment": equipment, "armor": armor, "food_consumables": foods, "liquid_consumables": liquids}
 
 
@@ -643,8 +649,18 @@ func _decode_items(value: Variant, path: String) -> NativeItemStateSnapshot:
 		var liquid_values: Array = _array(object["liquid_consumables"], path + ".liquid_consumables")
 		for index: int in range(liquid_values.size()):
 			var record_path: String = path + ".liquid_consumables[%d]" % index
-			var record: Dictionary = _obj(liquid_values[index], record_path, ["item_instance_id", "content", "remaining"])
-			liquids.append(NativeLiquidConsumableRecord.new(StringName(_string(record.get("item_instance_id"), record_path + ".item_instance_id")), _liquid_content_value(_string(record.get("content"), record_path + ".content"), record_path + ".content"), _int64(record.get("remaining"), record_path + ".remaining")))
+			var liquid_keys: Array[String] = ["item_instance_id", "content", "remaining"]
+			for optional: String in ["drink_func", "slumber_effect"]:
+				if liquid_values[index] is Dictionary and (liquid_values[index] as Dictionary).has(optional):
+					liquid_keys.append(optional)
+			var record: Dictionary = _obj(liquid_values[index], record_path, liquid_keys)
+			liquids.append(NativeLiquidConsumableRecord.new(
+				StringName(_string(record.get("item_instance_id"), record_path + ".item_instance_id")),
+				_liquid_content_value(_string(record.get("content"), record_path + ".content"), record_path + ".content"),
+				_int64(record.get("remaining"), record_path + ".remaining"),
+				StringName(_string(record.get("drink_func"), record_path + ".drink_func")) if record.has("drink_func") else &"",
+				_int64(record.get("slumber_effect"), record_path + ".slumber_effect") if record.has("slumber_effect") else 0,
+			))
 	# v1: no food/liquid; v2: no liquid. Definition validation rejects a live
 	# consumable missing its record. Never synthesize/refill on legacy decode.
 	return NativeItemStateSnapshot.new(NativeItemStateSnapshot.CURRENT_SCHEMA_VERSION, records, stacks, equipment, armor, foods, liquids)

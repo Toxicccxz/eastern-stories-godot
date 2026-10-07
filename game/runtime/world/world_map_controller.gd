@@ -869,10 +869,13 @@ func place_new_floor_item(item_definition_id: StringName) -> StringName:
 		return &""
 	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
 	if (
-		not _inventory.register_item(item, content.own_weight)
+		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
 		or not _item_index.register_snapshot(item)
 		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
 	):
+		return &""
+	# combined.c: a new one comes with create()'s set_amount() (蒙汗药: one 包).
+	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
 		return &""
 	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
 		_inventory,
@@ -885,15 +888,22 @@ func place_new_floor_item(item_definition_id: StringName) -> StringName:
 
 
 ## new(item)->move(me): a new item in the player's hands (water.c's 追风剑); when
-## they cannot carry it, it lies at their feet. Empty when nothing was made.
+## they cannot carry it, it lies at their feet. A combined item merges into the
+## player's own stack (combined.c). Empty when nothing was made.
 func give_new_item_to_player(item_definition_id: StringName) -> StringName:
 	var item_id: StringName = place_new_floor_item(item_definition_id)
 	if item_id.is_empty():
 		return &""
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	var taken: InventoryTransferResult = InventoryTransferService.new().transfer(
-		_inventory, item_id, InventoryTransferDestination.new(carried, true, true, _player.maximum_encumbrance),
-	)
+	var destination := InventoryTransferDestination.new(carried, true, true, _player.maximum_encumbrance)
+	if _stacks.has_stack(item_id):
+		var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
+		var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(_stacks, _inventory, item_id, destination, null, null, owner)
+		if merged.inventory_transfer != null and merged.inventory_transfer.succeeded:
+			_forget_floor_item(item_id)
+			_item_index.forget_destroyed_snapshots(merged.absorbed_instance_ids, _inventory)
+		return item_id
+	var taken: InventoryTransferResult = InventoryTransferService.new().transfer(_inventory, item_id, destination)
 	if taken.succeeded:
 		_forget_floor_item(item_id)
 	return item_id
@@ -1046,6 +1056,8 @@ func _bind_npc_services(npc: NpcRuntimeState) -> void:
 		services.append(VendorService.new())
 	if npc.definition().dealings().quest_giver:
 		services.append(QuestService.new())
+	if npc.definition().dealings().shop_front != null:
+		services.append(ShopFrontService.new())
 	if not NpcTeacher.teachable_skills(npc.definition(), GameContent.catalog()).is_empty():
 		services.append(TeacherService.new())
 	for service: NpcService in services:
@@ -1941,6 +1953,15 @@ func advance_npc_heartbeat(delta: float) -> void:
 		# combatd.c announce("revive"), heard in the same room.
 		if _player_hears(npc):
 			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
+	# What the NPCs' conditions show their room (drunk.c, slumber_drug.c).
+	for character_id: StringName in _npc_heartbeat.room_lines:
+		var seen: NpcRuntimeState = find_resident_npc(character_id)
+		if seen == null or not _player_hears(seen):
+			continue
+		var lines: Array[String] = []
+		for template: String in _npc_heartbeat.room_lines[character_id]:
+			lines.append(tr(template).format({"name": tr(seen.definition().display_name)}))
+		_hud().append_log_lines(lines)
 	_advance_ambience(delta)
 
 
@@ -1956,8 +1977,12 @@ func _fall_below_zero() -> void:
 		var content: CombatSliceContentProfile = _npc_content(npc)
 		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
 		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
-		if required != null:
-			execute_encounter_lifecycle(binding, required, [binding])
+		if required == null:
+			continue
+		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, [binding])
+		# combatd.c announce("unconcious"), heard in the same room (a drunk passing out).
+		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and _player_hears(npc):
+			_hud().append_log_lines([tr("%s脚下一个不稳，跌在地上一动也不动了。") % tr(npc.definition().display_name)])
 
 
 ## The same for the player outside a fight, after a condition's tick (snake_poison.c
@@ -2166,6 +2191,44 @@ func apply_item(item_id: StringName) -> bool:
 	if _hud().inventory_is_open():
 		_hud().show_inventory(session.player_inventory_rows())
 	return result.accepted
+
+
+## The containers a powder can be poured into: the liquid containers the player
+## carries directly (do_pour()'s present(what, this_player())), in carried order.
+func pour_targets() -> Array[StringName]:
+	var targets: Array[StringName] = []
+	if _player == null:
+		return targets
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	for id: StringName in _inventory.direct_children(carried):
+		if _liquids.state(id) != null:
+			targets.append(id)
+	return targets
+
+
+## pour <powder> in <container> (std/medicine/powder.c, obj/toy/poison_dust.c
+## do_pour()): an empty container refuses; else the drink now carries the powder's
+## effect (LiquidDrinkEffects) and one of the powder is used up. Both are carried.
+func pour_into(powder_id: StringName, container_id: StringName) -> bool:
+	if not can_handle_items():
+		return false
+	var item: ItemInstance = _item_index.resolve(powder_id)
+	var powder: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	if powder == null or powder.pour == null or not _inventory.is_direct_child(powder_id, carried) or not pour_targets().has(container_id):
+		return false
+	var liquid: LiquidState = _liquids.state(container_id)
+	var vessel: String = _item_name(container_id)
+	if liquid.remaining <= 0:
+		_hud().append_log_lines([tr("{container}里什麽也没有，先装些水酒才能溶化药粉。").format({"container": vessel})])
+		return false
+	LiquidDrinkEffects.pour(liquid, powder)
+	_hud().append_log_lines([tr("你将一些{powder}倒进{container}，摇晃了几下。").format({"powder": tr(powder.display_name), "container": vessel})])
+	if not use_up_one(powder_id, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
+		push_error("using up %s failed: the item state is inconsistent" % powder_id)
+	if _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return true
 
 
 # --- Room reset ----------------------------------------------------------------------
@@ -3179,23 +3242,95 @@ static func _kee_percent(state: CharacterState) -> int:
 
 ## What the selected NPC can be asked about, in ES2's listing order (NpcInquiry).
 func ask_topics_selected() -> Array[String]:
-	return NpcInquiry.topics(selected_npc().definition()) if can_ask_selected() else []
+	var topics: Array[String] = []
+	if can_ask_selected():
+		topics = NpcInquiry.topics(selected_npc().definition())
+	return topics
 
 
-## ask <npc> about <topic> on the selected NPC; its lines go to the log too.
+## ask <npc> about <topic> on the selected NPC; its lines go to the log too. What
+## the answer does happens here: marks on the player (d/green's set_temp() flags) and
+## an item the NPC hands over (give.c; one the player cannot carry lands at their feet).
 func ask_selected(topic: String) -> Array[String]:
 	if not ask_topics_selected().has(topic):
 		return []
 	var target: NpcRuntimeState = selected_npc()
 	var zone: ZoneDefinition = GameContent.catalog().zone(target.world_location().zone_id)
-	var lines: Array[String] = NpcInquiry.ask(
+	var answer: NpcInquiry.Answer = NpcInquiry.answer(
 		target.definition(), target.character_state.gender, target.age,
 		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
-		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state)),
-		topic, "" if zone == null else zone.display_name, _world_interaction_random,
+		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks),
+		topic, "" if zone == null else zone.display_name, _world_interaction_random, violates_unique,
 	)
-	_hud().append_log_lines(lines)
-	return lines
+	for mark: String in answer.marks:
+		_player.state.marks[mark] = 1
+	if not answer.gives.is_empty():
+		var content: ItemContentDefinition = GameContent.catalog().item(answer.gives)
+		var given: StringName = &"" if content == null else give_new_item_to_player(answer.gives)
+		if not given.is_empty():
+			# give.c to the receiver: "<npc>给你一<unit><name>。"
+			answer.say(tr("{npc}给你{item}。").format({"npc": tr(target.definition().display_name), "item": HeldItemFacts.one_unit(content)}))
+			var at_feet: String = _at_feet_line(given, content)
+			if not at_feet.is_empty():
+				answer.say(at_feet)
+			if not answer.mark_on_give.is_empty():
+				_player.state.marks[answer.mark_on_give] = 1
+	_hud().append_colored_lines(answer.lines)
+	if _hud().inventory_is_open():
+		_hud().show_inventory(session.player_inventory_rows())
+	return answer.texts()
+
+
+## The lines the player can say beside the selected NPC that it answers (relay_say():
+## oldman2.c's 必有妖孽); the UI offers them as 接话 instead of typing `say`.
+func relay_phrases_selected() -> Array[String]:
+	var phrases: Array[String] = []
+	if can_ask_selected():
+		phrases = selected_npc().definition().talk().relay_phrases()
+	return phrases
+
+
+## cmds/std/say.c beside the selected NPC, then its relay_say(). Badly hurt (kee below
+## max_kee / 5) the player's words come out broken up ("必有妖孽 ..."), which the NPC
+## does not take for its phrase. An unconscious NPC answers nothing.
+@warning_ignore("integer_division")
+func say_beside_selected(phrase: String) -> Array[String]:
+	if not relay_phrases_selected().has(phrase):
+		return []
+	var target: NpcRuntimeState = selected_npc()
+	var said: String = tr(phrase)
+	var vitality: CharacterResourceState = _player.state.vitality
+	if vitality.current < vitality.maximum / 5:
+		said = said.replace(" ", " ... ") + " ..."
+	var lines: Array[ColoredLine] = [ColoredLine.new(tr("你说道：%s") % said)]
+	if said == tr(phrase) and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
+		for line: NpcLine in target.definition().talk().relay_answer(phrase):
+			lines.append(line.colored(target.definition().display_name, respect))
+	_hud().append_colored_lines(lines)
+	return ColoredLine.texts(lines)
+
+
+## A new item the player could not carry lies at their feet (give_new_item_to_player()):
+## the line that says so, in its place among the giver's lines (deviation: in ES2 the
+## giver kept it, as give.c's move() failed); "" when it is in their hands.
+func _at_feet_line(item_id: StringName, content: ItemContentDefinition) -> String:
+	if _inventory.is_direct_child(item_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
+		return ""
+	return tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(content)})
+
+
+## F_UNIQUE violate_unique(): the item is unique and one already exists somewhere in
+## the world (carried, lying about, held by an NPC, in a corpse or the pawnshop).
+func violates_unique(item_definition_id: StringName) -> bool:
+	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
+	if content == null or not content.unique:
+		return false
+	for id: StringName in _item_index.snapshot_ids():
+		var item: ItemInstance = _item_index.resolve(id)
+		if item != null and item.item_definition_id == item_definition_id and _inventory.is_registered(id):
+			return true
+	return false
 
 
 func open_selected_loot() -> bool:
@@ -3281,6 +3416,13 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		if not _add_dropped_item_view(dropped, location, _at_feet(location, player_body.global_position, true)):
 			push_error("winnings %s on the floor have no view" % dropped)
 	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
+	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line.
+	if result.done() and result.rule != null and not result.rule.gives.is_empty():
+		var gift: StringName = give_new_item_to_player(result.rule.gives)
+		var gift_content: ItemContentDefinition = GameContent.catalog().item(result.rule.gives)
+		var at_feet: String = "" if gift.is_empty() or gift_content == null else _at_feet_line(gift, gift_content)
+		if not at_feet.is_empty():
+			result.lines.append(at_feet)
 	if not attacks:
 		_report_item_handling(result)
 		return result
@@ -3376,7 +3518,7 @@ func _report_item_handling(result: ItemHandlingResult) -> void:
 	if result.outcome == ItemHandlingResult.Outcome.AUTHORITY_FAILURE:
 		push_error("item handling failed: the item state is inconsistent")
 	if not result.lines.is_empty():
-		_hud().append_log_lines(result.lines)
+		_hud().append_colored_lines(result.colored_lines())
 	if _hud().inventory_is_open():
 		_hud().show_inventory(session.player_inventory_rows())
 

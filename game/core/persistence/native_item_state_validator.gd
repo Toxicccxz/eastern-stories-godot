@@ -136,6 +136,9 @@ static func validate(
 		var definition: LiquidDefinition = definitions.liquid_definition(item.item_definition_id)
 		if definition == null or not definition.accepts_live_state(record.content, record.remaining) or item.own_weight != definition.own_weight:
 			return _failure(ResultType.Outcome.INVALID_LIQUID_RECORD, record.item_instance_id)
+		# A powder poured in must still be one (fail closed on an unknown drink_func).
+		if not record.drink_func.is_empty() and not definitions.is_powder(record.drink_func):
+			return _failure(ResultType.Outcome.INVALID_LIQUID_RECORD, record.item_instance_id)
 		liquid_ids[record.item_instance_id] = true
 	for id: StringName in items:
 		if definitions.liquid_definition(items[id].item_definition_id) != null and not liquid_ids.has(id):

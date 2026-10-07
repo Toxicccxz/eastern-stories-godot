@@ -7,14 +7,17 @@ extends RefCounted
 ## NPC's call_out comes due. Fighting or busy NPCs heal as the player does (S5B C-D;
 ## busy wears down on the beat, continue_action()); conditions update on the tick
 ## before heal_up() (their lines are told to the NPC: nobody hears them); an unconscious
-## NPC heals too (char.c keeps calling heal_up()). Timed applies (powerup) count
-## down on world time, as call_out() does.
+## NPC heals too (char.c keeps calling heal_up()). What a condition shows the room
+## (drunk.c's 脸上已经略显酒意了) is kept per NPC for the map to show whoever is there.
+## Timed applies (powerup) count down on world time, as call_out() does.
 ## Cadences are not saved; the revive countdown and timed applies are.
 var _random: RecoveryCadenceRandomSource
 var _cadences: Dictionary[StringName, PlayerRecoveryCadence] = {}
 var _conditions: ConditionSystem = ConditionSystem.new()
 var _revive_remainder_ms: Dictionary[StringName, float] = {}
 var _timed_remainder_ms: Dictionary[StringName, float] = {}
+## The last advance's room lines of each NPC's conditions ({name} templates).
+var room_lines: Dictionary[StringName, Array] = {}
 
 
 func _init(random: RecoveryCadenceRandomSource) -> void:
@@ -24,6 +27,7 @@ func _init(random: RecoveryCadenceRandomSource) -> void:
 ## Advances one step of world time and returns the NPCs that came to.
 func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeState]:
 	var woke: Array[NpcRuntimeState] = []
+	room_lines.clear()
 	if _random == null or not is_finite(delta) or delta < 0.0:
 		return woke
 	for npc: NpcRuntimeState in npcs:
@@ -38,7 +42,11 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 				cadence = PlayerRecoveryCadence.new(_random, false, _conditions)
 				_cadences[npc.character_id] = cadence
 			if cadence.is_valid():
-				cadence.advance(delta, npc.character_state, npc.busy)
+				var beat: PlayerRecoveryCadenceResult = cadence.advance(
+					delta, npc.character_state, npc.busy, npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
+				)
+				if not beat.room_lines.is_empty():
+					room_lines[npc.character_id] = beat.room_lines
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and _count_down(npc, delta):
 			npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 			woke.append(npc)
