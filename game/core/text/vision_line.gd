@@ -13,6 +13,9 @@ var target_id: StringName
 var color: StringName
 var slots: Dictionary[String, String] = {}
 var status_ratio: int = -1
+## $N's name as authored, when the actor may be gone before the line is read (a summoned
+## NPC that came and left in the fight's last beat); "" names it from the fight.
+var actor_name: String = ""
 
 
 func _init(

@@ -322,6 +322,8 @@ static func _restore_corpses(
 		if not known and replaced == null:
 			# A summoned NPC that fell (SummonedNpc): its ID names its definition.
 			replaced = GameContent.catalog().npc(SummonedNpc.definition_id_of(saved.victim_character_id))
+			if replaced != null and replaced.summoning() == null:
+				replaced = null
 		if (
 			not item_records.has(saved.corpse_item_instance_id)
 			or (not known and replaced == null)

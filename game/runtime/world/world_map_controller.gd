@@ -506,7 +506,7 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if id.is_empty() or _freeze_owner != id or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = &""
-	_dismiss_summoned()
+	dismiss_summoned()
 	for body: WorldCharacterBody2D in _character_bodies():
 		body.quarantine_current_movement_input()
 	if _hud() != null:
@@ -2410,43 +2410,56 @@ func summon_beside(caster_id: StringName, definition_id: StringName) -> StringNa
 		location_for_zone(location.zone_id), _inventory, _stacks, _npc_random,
 		catalog.loadout_item_definitions(), _item_id_allocator.scope,
 	)
-	if npc == null or not _register_loadout(npc):
+	if npc == null:
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])
+		return &""
+	if not _register_loadout(npc):
+		push_error("could not summon %s beside %s" % [definition_id, caster_id])
+		_take_away(npc)
 		return &""
 	_summon_spawns[spawn.spawn_id] = spawn
 	if not _add_npc_body(npc, _at_feet(location, body.global_position)):
+		push_error("could not summon %s beside %s" % [definition_id, caster_id])
+		_take_away(npc)
 		_summon_spawns.erase(spawn.spawn_id)
+		if _npcs.has(npc):
+			_drop_npc(npc)
 		return &""
 	return npc.character_id
 
 
 ## heaven_soldier.c heal_up() once it is not fighting: call_out("leave", 1), its leave
-## lines where the player is, then destruct() with all it carries. Here every summoned
-## NPC still standing leaves as the fight it came into ends (its lines after the fight's
-## result); a dead one is forgotten and its corpse stays.
-func _dismiss_summoned() -> void:
+## lines where the player is (and can read them), then destruct() with all it carries.
+## Here every summoned NPC still standing leaves as the fight it came into ends (its
+## lines after the fight's result); a dead one is forgotten and its corpse stays.
+func dismiss_summoned() -> void:
 	for npc: NpcRuntimeState in _npcs.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
 			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()
-			if summoning != null and _player_shares_zone(npc) and session != null:
+			if summoning != null and _player_hears(npc) and session != null:
 				var lines: Array[ColoredLine] = []
 				for text: String in summoning.leave:
 					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))
 				session.shared_ui().append_after_fight(lines)
-			var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
-			for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)):
-				var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
-				if not (
-					removal.succeeded
-					and _foods.forget_removed(removal.removed_instance_ids, _inventory)
-					and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
-					and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
-				):
-					push_error("%s could not take %s away" % [npc.character_id, item_id])
+			_take_away(npc)
 		_summon_spawns.erase(npc.spawn_id)
 		_drop_npc(npc)
+
+
+## destruct(): what a summoned NPC carries goes with it.
+func _take_away(npc: NpcRuntimeState) -> void:
+	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)):
+		var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
+		if not (
+			removal.succeeded
+			and _foods.forget_removed(removal.removed_instance_ids, _inventory)
+			and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
+			and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
+		):
+			push_error("%s could not take %s away" % [npc.character_id, item_id])
 
 
 ## Forgets a dead NPC the room has replaced; its corpse stays.

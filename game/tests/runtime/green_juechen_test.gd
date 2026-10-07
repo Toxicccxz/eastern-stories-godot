@@ -176,7 +176,7 @@ func _test_apprentice_rule() -> void:
 	student.progression.combat_experience = 99999
 	request = NpcApprenticeship.new()
 	_check(request.request(student, master, family, 1, "姑娘") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines[1] == "绝尘子说道：姑娘似乎尚缺江湖历练，不宜投入绝尘门下。", "99999 combat_exp: 尚缺江湖历练")
-	_check(not request.takes_at_once(student, master), "the panel would not take her at once")
+	_check(not NpcApprenticeship.new().takes_at_once(student, master), "99999: the panel would not take her at once")
 	student.progression.combat_experience = 100000
 	request = NpcApprenticeship.new()
 	_check(request.takes_at_once(student, master) and not request.would_attack(student, master, NpcApprenticeship.COMMONER_TITLE), "a commoner with spi 24 and 100000 combat_exp is taken at once")
@@ -308,6 +308,10 @@ func _test_soldier_leaves(tree: SceneTree, session: OldPineWorldSessionControlle
 	var battle: String = _battle_log(session)
 	var name: String = soldier.definition().display_name
 	_check(battle.contains("绝尘子喃喃地念了几句咒语。") and battle.contains("一道金光由天而降，金光中走出一个身穿金色战袍的将官。") and battle.contains("%s说道：末将奉法主召唤，特来护法！" % name), "the incantation and its coming, in the battle log: %s" % battle.right(200))
+	# Its name is in its lines, as it may be gone before they are read.
+	var arrive := VisionLine.new("$N说道：末将奉法主召唤，特来护法！", &"gone")
+	arrive.actor_name = name
+	_check(BattleNarrator.seen([arrive], _ui(session).current_projection())[0].text == "%s说道：末将奉法主召唤，特来护法！" % name, "named without the fight's list")
 	# 遁 at the player: his chat fires again (random(100) 0) and takes dun (random(4) 0).
 	var forced := Forced.new()
 	forced.queues[100] = [0]
@@ -330,6 +334,12 @@ func _test_soldier_leaves(tree: SceneTree, session: OldPineWorldSessionControlle
 	_check(map.find_resident_npc(soldier_id) == null and _count_items(session, ARMOR) == 0 and _count_items(session, SWORD) == 0, "it left with all it carried")
 	var log: Array[String] = session.shared_ui().log_lines()
 	_check(log.has("%s说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！" % name) and log.has("%s化成一道金光，冲上天际消失不见了。" % name), "its going: %s" % [log.slice(-3)])
+	# Outside a fight a summoned NPC still blocks a save (it is never saved alive).
+	var lone: StringName = map.summon_beside(master.character_id, SOLDIER) # TEST-ONLY
+	save = OldPineSaveEligibility.inspect(session)
+	_check(not lone.is_empty() and not save.allowed() and save.subject_id == lone, "a soldier standing outside a fight blocks the save: %s" % save.subject_id)
+	map.dismiss_summoned()
+	_check(map.find_resident_npc(lone) == null and _count_items(session, ARMOR) == 0, "dismissed, with its gear")
 
 
 ## The soldier falls: its corpse stays with its gear, and Save/Continue keeps it.

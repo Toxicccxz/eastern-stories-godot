@@ -302,6 +302,8 @@ func _check_spawns() -> void:
 				_errors.append("%s.points: '%s' is already used by %s" % [
 					origin, point_id, point_owners[point_id],
 				])
+			if String(point_id).begins_with(SummonedNpc.PREFIX):
+				_errors.append("%s.points: '%s' is named as a summoned NPC's" % [origin, point_id])
 			point_owners[point_id] = definition.spawn_id
 	for definition: ItemSpawnDefinition in _item_spawns.values():
 		var origin: String = _origins[definition.spawn_id]

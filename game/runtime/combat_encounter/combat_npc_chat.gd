@@ -97,7 +97,8 @@ func beat(
 
 
 ## Each NPC the spell called comes into the caster's place with its invocation() lines;
-## the fight then admits it against the caster's enemies.
+## the fight then admits it against the caster's enemies, when one of them is living()
+## (invocation() kill_ob()s only those).
 func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Array[StringName]:
 	var joiners: Array[StringName] = []
 	for definition_id: StringName in context.summons:
@@ -107,8 +108,11 @@ func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Arr
 			continue
 		var summoning: NpcSummoning = summoned.definition().summoning()
 		for text: String in summoning.arrive:
-			context.lines.append(VisionLine.new(text, summoned_id, &"", summoning.color))
-		joiners.append(summoned_id)
+			var line := VisionLine.new(text, summoned_id, &"", summoning.color)
+			line.actor_name = summoned.definition().display_name
+			context.lines.append(line)
+		if context.enemies.any(func(side: SpecialSide) -> bool: return side.living):
+			joiners.append(summoned_id)
 	return joiners
 
 
