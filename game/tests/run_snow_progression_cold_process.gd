@@ -20,10 +20,10 @@ func _run() -> void:
 		var map := session.active_map() as WorldMapController
 		var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 		# Serializer fixture only; physical/live routes have separate real-input proof.
-		map.player_body.position = Vector2(340,-400)
+		map.player_body.position = MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.school1"))
 		check(map.open_door(&"snow.school.gate"),"writer opens transient door")
-		map.player_body.position = Vector2(1000,-400)
+		map.player_body.position = MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", &"snow.schoolhall")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.schoolhall"))
 		check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED,"writer recruits")
 		check(school.request_learn(&"unarmed").success,"writer world RNG Learn")
@@ -51,9 +51,9 @@ func _run() -> void:
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text,"whole snapshot exact")
 			var map := session.active_map() as WorldMapController
 			var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
-			check(not map.door(&"snow.school.gate").is_open() and not (map.get_node("Walls/SchoolDoor") as CollisionShape2D).disabled,"cold-closed gate")
+			check(not map.door(&"snow.school.gate").is_open() and not MapPlaces.door_wall(map, &"snow.school.gate").disabled,"cold-closed gate")
 			check(not session.player_runtime().apprenticeship_request.is_pending() and not school.ui.panel.visible,"pending/UI not restored")
-			check(map.player_body.position == Vector2(1000,-400),"exact school position")
+			check(map.player_body.position == MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", &"snow.schoolhall"),"exact school position")
 			check(session.player_runtime().facts.title == "封山剑派第十四代弟子" and session.player_runtime().state.affiliation.class_id == &"swordsman","title/class")
 			var reference_rng := GodotWorldInteractionRandomSource.new()
 			check(reference_rng.restore_random_state(loaded.snapshot.world_interaction_rng),"RNG restore reference")

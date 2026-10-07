@@ -83,11 +83,8 @@ func _test_temple_forbids_fighting(tree: SceneTree, session: OldPineWorldSession
 	var square_log: int = session.shared_ui().log_lines().size()
 	outdoor.attack_selected()
 	_check(not session.combat_encounter_coordinator().has_active_encounter() and session.shared_ui().log_lines().slice(square_log) == ["这里不准战斗。"], "no fight with someone standing in the temple either")
-	var walker: RefCounted = Work.new()
-	await walker.walk_to(tree, session, "move_down", 205, 1)
-	await walker.walk_to(tree, session, "move_right", 420, 0)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(walker._failures.is_empty() and player.world_location().zone_id == &"snow.temple", "walked from the Inn through the square into the temple")
+	_check(await MapPlaces.drive_to_zone(tree, outdoor, &"snow.temple") and player.world_location().zone_id == &"snow.temple", "walked from the Inn through the square into the temple")
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(map.select_npc(&"snow.temple.keeper.1.character"), "the keeper can be selected")
 	var before: int = session.shared_ui().log_lines().size()
@@ -112,11 +109,8 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 			break
 	Input.action_release("move_right")
 	await tree.physics_frame
-	var walker: RefCounted = Work.new()
-	await walker.walk_to(tree, session, "move_right", 0, 0)
-	await walker.walk_to(tree, session, "move_down", 550, 1)
-	await walker.walk_to(tree, session, "move_right", 600, 0)
-	_check(walker._failures.is_empty() and session.player_runtime().world_location().zone_id == &"snow.eroad2", "walked to the dogs on the east road")
+	var road: WorldMapController = session.active_map() as WorldMapController
+	_check(await MapPlaces.drive_through(tree, road, [&"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2"]) and session.player_runtime().world_location().zone_id == &"snow.eroad2", "walked to the dogs on the east road")
 	session.set_process(false)
 	var map: WorldMapController = session.active_map() as WorldMapController
 	map.select_npc(&"snow.eroad2.dog.1.character")

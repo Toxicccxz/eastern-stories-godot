@@ -76,7 +76,7 @@ func _story(tree: SceneTree) -> void:
 	# Declared contact placement fixture; no claim of keyboard/door traversal.
 	check(session.handoff_to(&"snow.outdoor",&"snow.square",&"snow.square",SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID).succeeded(), "test contact map handoff")
 	var map := session.active_map() as WorldMapController
-	map.player_body.position = Vector2(1015,-400)
+	map.player_body.position = MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)
 	check(player.set_world_location(WorldLocationState.new(SnowWorldDefinitions.REGION_ID,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall")), "test Liu contact placement")
 	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 	check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED, "production Liu apprenticeship")

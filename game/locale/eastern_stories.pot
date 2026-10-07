@@ -442,7 +442,7 @@ msgstr ""
 #. es2:d/goathill/mroad3 short
 #. es2:d/goathill/mroad5 short
 #. es2:d/goathill/mroad6 short
-#: scenes/world/goathill/goathill_mountain.tscn data/snow/rooms.json data/goathill/rooms.json
+#: scenes/world/goathill/goathill_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json
 msgid "山路"
 msgstr ""
 
@@ -618,8 +618,21 @@ msgstr ""
 msgid "向上的阶梯"
 msgstr ""
 
+#. es2:d/snow/inn short
+#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "饮风客栈"
+msgstr ""
+
 #: scenes/world/snow/snow_inn.tscn
-msgid "雪亭镇 · 饮风客栈"
+msgid "红木门"
+msgstr ""
+
+#: scenes/world/snow/snow_inn.tscn
+msgid "招牌"
+msgstr ""
+
+#: scenes/world/snow/snow_inn.tscn
+msgid "柜台"
 msgstr ""
 
 #: scenes/world/snow/snow_inn_upstairs.tscn
@@ -649,52 +662,35 @@ msgstr ""
 msgid "雪亭镇街道"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "黄土小径 · 1"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "黄土小径 · 2"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "山路 · 老松林方向"
-msgstr ""
-
-#. es2:d/snow/temple short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "城隍庙"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "南 · 卧龙岗"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "向下的阶梯"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "雪亭镇大街"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "谷物加工厂 · 靠近磨盘工作"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid ""
-"安记钱庄 · 靠近柜台兑换\n"
-"东 → 雪亭镇街道"
-msgstr ""
-
 #. es2:d/snow/crossroad short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "山坳"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "丰登当铺 · 估价 / 卖断"
+#. es2:d/snow/sroad3 short
+#. es2:d/snow/sroad4 short
+#. es2:d/snow/sroad5 short
+#. es2:d/waterfog/sroad1 short
+#. es2:d/waterfog/sroad2 short
+#. es2:d/waterfog/sroad3 short
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/snow/rooms.json data/waterfog/rooms.json
+msgid "青石官道"
+msgstr ""
+
+#. es2:d/snow/eroad1 short
+#. es2:d/snow/eroad2 short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "黄土小径"
+msgstr ""
+
+#. es2:d/snow/bank short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "安记钱庄"
+msgstr ""
+
+#. es2:d/snow/smithy short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "打铁铺子"
 msgstr ""
 
 #. snow.npc.herbalist title
@@ -708,16 +704,20 @@ msgstr ""
 msgid "雪亭驿"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "北 · 野羊山"
+#. es2:d/snow/workplace short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "谷物加工厂"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "东 · 邻村"
+#. es2:d/snow/hockshop short
+#. snow.hockshop.counter name
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/world.json
+msgid "丰登当铺"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "布帘"
+#. es2:d/snow/hockshop2 short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "储藏室"
 msgstr ""
 
 #. es2:d/snow/school1 short
@@ -730,14 +730,14 @@ msgstr ""
 msgid "淳风武馆教练场"
 msgstr ""
 
+#. es2:d/snow/weapon_storage short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "兵器储藏室"
+msgstr ""
+
 #. es2:d/snow/schoolhall short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "淳风武馆大厅"
-msgstr ""
-
-#. snow.school.gate name
-#: scenes/world/snow/snow_outdoor.tscn data/snow/world.json
-msgid "红漆大门"
 msgstr ""
 
 #. es2:d/snow/inneryard short
@@ -745,17 +745,9 @@ msgstr ""
 msgid "天井"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "石柱"
-msgstr ""
-
 #. es2:d/snow/nyard short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "书房"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "仕女图"
 msgstr ""
 
 #. es2:d/snow/innerhall short
@@ -763,14 +755,9 @@ msgstr ""
 msgid "武馆内院"
 msgstr ""
 
-#. es2:d/snow/weapon_storage short
+#. es2:d/snow/temple short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "兵器储藏室"
-msgstr ""
-
-#. snow.weapon_storage.landmark.shelf name
-#: scenes/world/snow/snow_outdoor.tscn data/snow/world.json
-msgid "架子"
+msgid "城隍庙"
 msgstr ""
 
 #. es2:d/snow/school short
@@ -778,14 +765,40 @@ msgstr ""
 msgid "书院"
 msgstr ""
 
-#. es2:d/snow/sroad3 short
-#. es2:d/snow/sroad4 short
-#. es2:d/snow/sroad5 short
-#. es2:d/waterfog/sroad1 short
-#. es2:d/waterfog/sroad2 short
-#. es2:d/waterfog/sroad3 short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/snow/rooms.json data/waterfog/rooms.json
-msgid "青石官道"
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "木架子"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "牌坊"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "告示牌"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "北 · 野羊山"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "东 · 邻村"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "南 · 卧龙岗"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "南 · 老松岭"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "石阶"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "西 · 水烟阁"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
@@ -793,17 +806,56 @@ msgid "西南 · 黄石隘口"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
-msgid "西 · 水烟阁"
+msgid "石狮"
 msgstr ""
 
-#. es2:d/snow/smithy short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "打铁铺子"
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "神桌"
 msgstr ""
 
-#. es2:d/snow/hockshop2 short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "储藏室"
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "太师椅"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "石柱"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "书架"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "仕女图"
+msgstr ""
+
+#. snow.weapon_storage.landmark.shelf name
+#: scenes/world/snow/snow_outdoor.tscn data/snow/world.json
+msgid "架子"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "药柜"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "布帘"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "磨盘 · 靠近做工"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "柜台 · 靠近兑换"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "柜台 · 估价 / 卖断"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "向下的阶梯"
 msgstr ""
 
 #. es2:d/waterfog/swordtomb short
@@ -7562,11 +7614,6 @@ msgstr ""
 msgid "多谢这位$RESPECT，您好心一定会有好报的！"
 msgstr ""
 
-#. es2:d/snow/inn short
-#: data/snow/rooms.json
-msgid "饮风客栈"
-msgstr ""
-
 #. es2:d/snow/inn long
 #: data/snow/rooms.json
 msgid ""
@@ -7593,12 +7640,6 @@ msgid ""
 "这里是雪亭镇的街道，往北是一个热闹的广场，南边是条小路通往\n"
 "一座林子，东边则有一条小径沿著山腰通往山上，往西是一条比较窄的\n"
 "街道，参差不齐的瓦屋之间传来几声犬吠。\n"
-msgstr ""
-
-#. es2:d/snow/eroad1 short
-#. es2:d/snow/eroad2 short
-#: data/snow/rooms.json
-msgid "黄土小径"
 msgstr ""
 
 #. es2:d/snow/eroad1 long
@@ -7674,11 +7715,6 @@ msgid ""
 "土匪出没的警告标志。\n"
 msgstr ""
 
-#. es2:d/snow/workplace short
-#: data/snow/rooms.json
-msgid "谷物加工厂"
-msgstr ""
-
 #. es2:d/snow/workplace long
 #: data/snow/rooms.json
 msgid ""
@@ -7688,11 +7724,6 @@ msgid ""
 "雪亭镇大街的大门。\n"
 msgstr ""
 
-#. es2:d/snow/bank short
-#: data/snow/rooms.json
-msgid "安记钱庄"
-msgstr ""
-
 #. es2:d/snow/bank long
 #: data/snow/rooms.json
 msgid ""
@@ -7700,12 +7731,6 @@ msgid ""
 "举人的读书人，你可以看到钱庄里里外外都打扫得乾乾净净，一个胖胖\n"
 "的中年人坐在柜台后面，柜台上放著一块牌子(sign)，往东是通往雪亭\n"
 "镇大街的大门。\n"
-msgstr ""
-
-#. es2:d/snow/hockshop short
-#. snow.hockshop.counter name
-#: data/snow/rooms.json data/snow/world.json
-msgid "丰登当铺"
 msgstr ""
 
 #. es2:d/snow/hockshop long
@@ -7896,6 +7921,11 @@ msgstr ""
 #. snow.bank.counter name
 #: data/snow/world.json
 msgid "钱庄"
+msgstr ""
+
+#. snow.school.gate name
+#: data/snow/world.json
+msgid "红漆大门"
 msgstr ""
 
 #. snow.hockshop.door name

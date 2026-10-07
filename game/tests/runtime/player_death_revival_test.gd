@@ -171,13 +171,9 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	check(Work.capture(session) != null, "a save captures the living player with their Old Pine corpse")
 	check(map.corpse_states().size() == 1 and session.inventory_state().direct_children(corpse_owner) == carried, "the corpse still waits in Old Pine")
 	# d/snow/temple.c exits: west to the square, south to the first east road.
-	var walker: RefCounted = Work.new()
-	await walker.walk_to(tree, session, "move_up", 205, 1)
-	await walker.walk_to(tree, session, "move_left", 250, 0)
-	check(walker._failures.is_empty() and player.world_location().zone_id == &"snow.square", "the temple's west door leads to the square")
-	await walker.walk_to(tree, session, "move_right", 420, 0)
-	await walker.walk_to(tree, session, "move_down", 520, 1)
-	check(walker._failures.is_empty() and player.world_location().zone_id == &"snow.eroad1", "the temple's south door leads to the east road")
+	var snow: WorldMapController = session.active_map() as WorldMapController
+	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.square") and player.world_location().zone_id == &"snow.square", "the temple's west door leads to the square")
+	check(await MapPlaces.drive_through(tree, snow, [&"snow.temple", &"snow.eroad1"]) and player.world_location().zone_id == &"snow.eroad1", "the temple's south door leads to the east road")
 	session.free()
 	await tree.process_frame
 

@@ -35,34 +35,39 @@ func physical_tests(tree: SceneTree) -> void:
 	check(GameContent.catalog().zone(&"snow.hockshop2") != null and GameContent.catalog().portal(&"snow.hockshop2") == null and GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.hockshop2"), "4B: the storage room is walked into, no portal")
 	check(not snow.door(&"snow.hockshop.door").is_open() and not snow.open_door(&"snow.hockshop.door") and not ui.in_reach(), "fresh closed / no remote interaction in Inn")
 	await tree.physics_frame
-	await walk.walk(tree, session, "move_right", 125)
-	await walk.walk_to(tree, session, "move_right", 0, 0)
-	await walk.walk_to(tree, session, "move_up", -1000, 1)
-	await walk.walk(tree, session, "move_right", 40)
-	check(snow.player_body.position.x < 72 and session.player_runtime().world_location().zone_id == &"snow.mstreet3", "closed collision stops physical input")
+	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
+	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1", &"snow.mstreet2", &"snow.mstreet3"]), "up the street to the Hockshop")
+	check(await MapPlaces.drive(tree, snow, MapPlaces.door_spot(snow, &"snow.hockshop.door", &"snow.mstreet3")), "up to its door")
+	var door_wall: CollisionShape2D = MapPlaces.door_wall(snow, &"snow.hockshop.door")
+	await MapPlaces.push(tree, &"move_right", 40)
+	check(snow.player_body.position.x < door_wall.global_position.x - 16.0 and session.player_runtime().world_location().zone_id == &"snow.mstreet3", "closed collision stops physical input")
 	check(snow.can_operate_door(&"snow.hockshop.door") and not ui.in_reach(), "street offers door, never trade")
 	var before: Vector2 = snow.player_body.position
 	check(snow.open_door(&"snow.hockshop.door") and snow.player_body.position == before, "open-only no teleport")
 	await tree.physics_frame
 	await tree.physics_frame
-	check((snow.get_node("Walls/HockshopDoor") as CollisionShape2D).disabled, "only door collision disabled")
-	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", Vector2(110,-1000)), "open threshold still save-invalid for closed cold restore")
-	await walk.walk_to(tree, session, "move_right", 190, 0)
+	check(door_wall.disabled, "only door collision disabled")
+	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", door_wall.global_position), "open threshold still save-invalid for closed cold restore")
+	var doorway: Vector2 = MapPlaces.doorway(snow, &"snow.mstreet3", &"snow.hockshop")
+	check(await MapPlaces.drive(tree, snow, MapPlaces.spot(snow, &"snow.hockshop", doorway + Vector2(48, 0))), "in through the open door")
 	check(session.player_runtime().world_location().zone_id == &"snow.hockshop" and not ui.in_reach(), "ordinary Area crossing, doorway not counter")
-	await walk.walk_to(tree, session, "move_right", 330, 0)
+	check(await MapPlaces.drive(tree, snow, MapPlaces.service_spot(snow, &"snow.hockshop.counter")), "up to the counter")
 	check(ui.in_reach() and session.active_map() == snow, "counter physical reach")
 	check(session.resident_map_count() == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0), "every authored map resident, one active, only authored Snow NPCs")
-	for position: Vector2 in [Vector2(330,-1000),Vector2(170,-900),Vector2(470,-1100)]:
+	var room: Rect2 = MapPlaces.zone_rect(snow, &"snow.hockshop")
+	var at_counter: Vector2 = MapPlaces.service_spot(snow, &"snow.hockshop.counter")
+	for position: Vector2 in [at_counter, MapPlaces.zone_spot(snow, &"snow.hockshop"), MapPlaces.spot(snow, &"snow.hockshop", Vector2(room.position.x + 48, room.end.y - 48))]:
 		check(MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "valid interior " + str(position))
-	for position: Vector2 in [Vector2(330,-1140),Vector2(330,-860),Vector2(410,-1000),Vector2(NAN,0)]:
+	for position: Vector2 in [Vector2(room.get_center().x, room.position.y + 10), Vector2(room.get_center().x, room.end.y - 10), MapPlaces.first_blocked(snow, ui.point.global_position, room.get_center()), Vector2(NAN,0)]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))
 	# 4B: east through the curtain is the storage room (hockshop2.c), another zone.
-	for position: Vector2 in [Vector2(540,-1000),Vector2(580,-1000)]:
+	var storage: Rect2 = MapPlaces.zone_rect(snow, &"snow.hockshop2")
+	for position: Vector2 in [MapPlaces.zone_spot(snow, &"snow.hockshop2"), MapPlaces.spot(snow, &"snow.hockshop2", Vector2(storage.end.x - 48, storage.get_center().y))]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", position) and MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop2", position), "storage room, not the shop " + str(position))
-	var mst3: Area2D = snow.get_node("Zones/MainStreet3") as Area2D
+	var mst3: Area2D = snow.physical_zone(&"snow.mstreet3")
 	var original: Vector2 = mst3.position
-	mst3.position = Vector2(330,-1000)
-	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", Vector2(330,-1000)), "ambiguous zones reject")
+	mst3.position = snow.physical_zone(&"snow.hockshop").position
+	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.hockshop", at_counter), "ambiguous zones reject")
 	mst3.position = original
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	check(snapshot != null, "capture actual entered Hockshop")
@@ -79,21 +84,22 @@ func physical_tests(tree: SceneTree) -> void:
 			check(not new_snow.door(&"snow.hockshop.door").is_open() and new_snow.player_body.position == snow.player_body.position and (new_snow.service(&"snow.hockshop.counter") as HockshopService).in_reach(), "exact restore closed door and service")
 			check(GameSaveJsonCodec.encode(Work.capture(fresh)).text == encoded.text, "whole snapshot equality / no rewrite")
 			snow.player_body.player_controlled = false # isolate two simultaneously loaded test bodies
+			(snow.player_body.get_node("CollisionShape2D") as CollisionShape2D).disabled = true # the restored body starts where it stands
 			await tree.physics_frame
-			await walk.walk_to(tree, fresh, "move_left", 155, 0)
+			check(await MapPlaces.drive(tree, new_snow, MapPlaces.door_spot(new_snow, &"snow.hockshop.door", &"snow.hockshop")), "back to the door inside")
 			check(new_snow.open_door(&"snow.hockshop.door"), "reopen from inside after restore")
 			await tree.physics_frame
-			await walk.walk_to(tree, fresh, "move_left", 0, 0)
+			check(await MapPlaces.drive_to_zone(tree, new_snow, &"snow.mstreet3"), "out onto the street")
 			check(fresh.player_runtime().world_location().zone_id == &"snow.mstreet3", "restored inside not trapped")
 			fresh.free()
+			(snow.player_body.get_node("CollisionShape2D") as CollisionShape2D).disabled = false
 			snow.player_body.player_controlled = true
 	check(authorities == [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence()], "all nine authority identities exact")
 	check(Work.rng_state(session) == rng and sequence == session.item_id_allocator().next_dynamic_sequence and random.calls == 1, "walk/door zero RNG / allocation / redraw")
-	await walk.walk_to(tree, session, "move_left", 0, 0)
-	await walk.walk_to(tree, session, "move_down", 0, 1)
-	await walk.walk(tree, session, "move_left", 110)
+	check(await MapPlaces.drive_through(tree, snow, [&"snow.mstreet3", &"snow.mstreet2", &"snow.mstreet1", &"snow.square"]), "back down the street")
+	check(await MapPlaces.take_passage(tree, snow, &"snow.square.west"), "into the Inn's door")
 	check(session.active_map_id() == &"snow.inn", "return physically to Inn")
-	await walk.walk(tree, session, "move_right", 125)
+	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out again")
 	check(session.active_map_id() == &"snow.outdoor" and snow.door(&"snow.hockshop.door").is_open(), "resident reattach retains local open state")
 	assertions += walk._count
 	failures.append_array(walk._failures)
@@ -161,8 +167,8 @@ func panel_tests(tree: SceneTree) -> void:
 func panel_fixture(tree: SceneTree, session: OldPineWorldSessionController) -> HockshopService:
 	# Existing serializer/boundary setup; NEVER claimed as physical reachability.
 	var snow: WorldMapController = session.resident_map(&"snow.outdoor") as WorldMapController
-	await Work.new().walk(tree, session, "move_right", 125)
-	snow.player_body.position = Vector2(330,-1000)
+	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+	snow.player_body.position = MapPlaces.service_spot(snow, &"snow.hockshop.counter")
 	session.player_runtime().set_world_location(snow.location_for_zone(&"snow.hockshop"))
 	await tree.physics_frame
 	return snow.service(&"snow.hockshop.counter") as HockshopService
@@ -214,13 +220,15 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	ui.confirm_sale()
 	check(sequence == session.item_id_allocator().next_dynamic_sequence, "no automatic or replay retry")
 	ui.close_panel(); ui.interact(); ui.select_item(&"h3.weapon2"); ui.request_confirmation()
-	(session.active_map() as WorldMapController).player_body.position = Vector2(180,-1000)
+	var snow: WorldMapController = session.active_map() as WorldMapController
+	var at_counter: Vector2 = snow.player_body.position
+	snow.player_body.position = MapPlaces.spot(snow, &"snow.hockshop", MapPlaces.doorway(snow, &"snow.mstreet3", &"snow.hockshop") + Vector2(48, 0))
 	ui.confirm_sale()
 	check(sequence == session.item_id_allocator().next_dynamic_sequence and ui.feedback.text.contains("未执行"), "counter distance revalidated before sale")
 	await tree.process_frame
 	await tree.process_frame
 	check(not ui.panel.visible and not ui.in_reach(), "walk-away panel inactive")
-	(session.active_map() as WorldMapController).player_body.position = Vector2(330,-1000)
+	snow.player_body.position = at_counter
 	player.busy.start_busy(2)
 	check(not ui.in_reach(), "busy blocks ordinary commerce")
 	player.busy.advance(); player.busy.advance(); player.busy.advance()

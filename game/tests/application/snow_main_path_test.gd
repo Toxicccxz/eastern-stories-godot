@@ -158,12 +158,11 @@ func _story(tree: SceneTree) -> void:
 
 ## Out of the Inn and up the streets on foot to the mill; 工作 twice on its panel.
 func _work(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bool:
-	await _walker.walk(tree, _session, "move_right", 125)
+	await MapPlaces.take_passage(tree, _map(), SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 	check(_session.active_map_id() == &"snow.outdoor", "out through the Inn's east door")
-	await _walker.walk_to(tree, _session, "move_right", 0, 0)
-	await _walker.walk_to(tree, _session, "move_up", -750, 1)
-	await _walker.walk_to(tree, _session, "move_right", 325, 0)
 	var map: WorldMapController = _map()
+	check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.mstreet2"]), "up the street")
+	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.workplace.mill")), "east into the mill, up to the millstone")
 	var mill: WorkService = map.service(&"snow.workplace.mill") as WorkService
 	if not check(_zone() == &"snow.workplace" and mill.in_reach(), "walked to the workplace's mill"):
 		return false
@@ -180,10 +179,8 @@ func _work(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> boo
 
 ## Up the street on foot to the bank and 兑换 one of the two silvers.
 func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
-	await _to_main_street(tree)
-	await _walker.walk_to(tree, _session, "move_up", -400, 1)
-	await _walker.walk_to(tree, _session, "move_left", -300, 0)
 	var map: WorldMapController = _map()
+	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.bank.counter")), "down the street and west into the bank, up to its counter")
 	var bank: BankService = map.service(&"snow.bank.counter") as BankService
 	if not check(_zone() == &"snow.bank" and bank.in_reach(), "walked into the bank: %s at %s" % [_zone(), map.runtime_player_body().global_position]):
 		return false
@@ -200,9 +197,9 @@ func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 ## coins alone: feature/finance.c can_afford() wants coins for price % 100 and a silver
 ## object for the rest (kept as ES2 has it), and buy.c says so.
 func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
-	await _to_main_street(tree)
-	await _walker.walk_to(tree, _session, "move_down", 0, 1)
-	await _walk_until_map(tree, "move_left", &"snow.inn")
+	check(await MapPlaces.drive_to_zone(tree, _map(), &"snow.square"), "down to the square")
+	await MapPlaces.take_passage(tree, _map(), &"snow.square.west")
+	await _settle(tree)
 	if not check(_session.active_map_id() == &"snow.inn", "back into the Inn through the square's west door"):
 		return false
 	var inn: WorldMapController = _map()
@@ -233,7 +230,8 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 		check(not shop.last_purchase.delivered and _money_value() == before and _plain(shop.feedback.text) == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
 	hud.dismiss_current_panel()
 	await _settle(tree)
-	await _walk_until_map(tree, "move_right", &"snow.outdoor")
+	await MapPlaces.take_passage(tree, inn, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+	await _settle(tree)
 	return check(_session.active_map_id() == &"snow.outdoor", "out again")
 
 
@@ -365,12 +363,13 @@ func _die_and_return(tree: SceneTree, player: WorldPlayerRuntimeState) -> bool:
 ## South on foot from the temple to Old Pine; the slope bandits attack and are beaten;
 ## the short sword taken from a corpse. Returns its item id.
 func _old_pine_loot(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerRuntimeState) -> StringName:
-	await _walker.walk_to(tree, _session, "move_right", 420, 0)
-	await _walker.walk_to(tree, _session, "move_down", 550, 1)
+	var snow: WorldMapController = _map()
+	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.eroad1"), "out of the temple onto the path")
 	check(_zone() == &"snow.eroad1", "out of the temple's south door")
-	await _walker.walk_to(tree, _session, "move_right", 1100, 0)
+	check(await MapPlaces.drive_through(tree, snow, [&"snow.eroad2", &"snow.eroad3"]), "up the path east")
 	check(_zone() == &"snow.eroad3", "along the east road")
-	await _walk_until_map(tree, "move_down", OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	await MapPlaces.take_passage(tree, snow, &"snow.eroad3.south")
+	await _settle(tree)
 	if not check(_session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID, "eroad3 south into Old Pine"):
 		return &""
 	var forest: WorldMapController = _map()
@@ -490,12 +489,6 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 
 
 # --- Helpers -----------------------------------------------------------------------
-
-## Along the street to the main street's line (x = 0).
-func _to_main_street(tree: SceneTree) -> void:
-	var x: float = _map().runtime_player_body().global_position.x
-	await _walker.walk_to(tree, _session, "move_left" if x > 0.0 else "move_right", 0, 0)
-
 
 ## Passes world time as _process does each frame (one-second steps).
 func _pass(seconds: float) -> void:

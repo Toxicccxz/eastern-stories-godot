@@ -100,11 +100,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	# Production bodies/Input/Areas only from this point. No location or position writes.
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_right")
-	await _walk_axis(tree, session, 0.0, "move_right")
-	await _walk_axis(tree, session, 550.0, "move_down")
-	await _walk_axis(tree, session, 1100.0, "move_right")
+	var snow_map: WorldMapController = session.world_map_of(&"snow.outdoor")
+	_check(await MapPlaces.drive_through(tree, snow_map, [&"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3"]), "through the middle of each room east")
 	_check(player.world_location().zone_id == &"snow.eroad3", "physical Snow route")
-	await _walk_until_map(tree, session, &"oldpine.outdoor", "move_down")
+	_check(await MapPlaces.take_passage(tree, snow_map, &"snow.eroad3.south"), "down the mountain road onto the way south")
+	_check(session.active_map_id() == &"oldpine.outdoor", "physical passage reaches oldpine.outdoor")
 	_check(player.world_location().zone_id == &"oldpine.outdoor.north_approach", "first Old Pine location is North Approach")
 	_check(session.last_map_handoff_result().destination_spawn_point_id == south.destination_spawn_point_id and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position.distance_to(Vector2(-352, -380)) < 25.0, "first physical spawn at north-west entry")
 	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._build_participants(), player.character_id)
@@ -123,10 +123,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _walk_until_map(tree, session, &"oldpine.outdoor", "move_down")
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes() == npc_ids and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.npc_random_source().capture_random_state().state == npc_rng, "same five NPC objects/no reroll on re-entry")
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_up")
-	await _walk_axis(tree, session, 550.0, "move_up")
-	await _walk_axis(tree, session, 0.0, "move_left")
-	await _walk_axis(tree, session, 0.0, "move_up")
-	await _walk_until_map(tree, session, &"snow.inn", "move_left")
+	_check(await MapPlaces.drive_through(tree, snow_map, [&"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square"]), "back through each room to the square")
+	_check(await MapPlaces.take_passage(tree, snow_map, &"snow.square.west"), "into the Inn's door")
+	_check(session.active_map_id() == &"snow.inn", "physical passage reaches snow.inn")
 	_check(session.last_map_handoff_result().destination_spawn_point_id == SnowWorldDefinitions.INN_RETURN_SPAWN_ID, "Inn returns via east marker, not birth")
 	_check(entry.zone_history == [&"snow.inn.main_floor", &"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3", &"oldpine.outdoor.north_approach", &"oldpine.outdoor.central_clearing", &"oldpine.outdoor.north_approach", &"snow.eroad3", &"oldpine.outdoor.north_approach", &"snow.eroad3", &"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square", &"snow.inn.main_floor"], "exact physical zone sequence: " + str(entry.zone_history))
 	_continuity(session, identities, cloth)
@@ -175,23 +174,6 @@ func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, ta
 	await tree.physics_frame
 	await tree.process_frame
 	_check(session.active_map_id() == target, "physical passage reaches " + String(target))
-
-
-func _walk_axis(tree: SceneTree, session: OldPineWorldSessionController, target: float, action: String) -> void:
-	var horizontal: bool = action in ["move_left", "move_right"]
-	var direction: float = 1.0 if action in ["move_down", "move_right"] else -1.0
-	Input.action_press(action)
-	var reached: bool = false
-	for _step: int in range(500):
-		await tree.physics_frame
-		var position: Vector2 = session.active_map().runtime_player_body().position
-		if ((position.x if horizontal else position.y) - target) * direction >= 0:
-			reached = true
-			break
-	Input.action_release(action)
-	await tree.physics_frame
-	await tree.process_frame
-	_check(reached, "physical axis target " + str(target))
 
 
 func _check(value: bool, label: String) -> void:

@@ -304,10 +304,9 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	var before := Work.rng_state(session)
 	check(not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
 	check(Work.rng_state(session) == before,"rejected contact draws zero")
-	var walker := Work.new()
-	await walker.walk(tree,session,"move_right",125)
+	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 	# Automated UI boundary fixture only; not claimed as natural/live journey.
-	map.player_body.position = Vector2(1015,-400)
+	map.player_body.position = MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)
 	player.set_world_location(WorldLocationState.new(player.world_location().region_id,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall"))
 	check(school.can_teach(),"contact fixture valid")
 	# enable.c is the player's own: the character panel's 武学 page, anywhere outside a fight.

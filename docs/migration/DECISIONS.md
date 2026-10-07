@@ -1,5 +1,29 @@
 # Migration Decisions
 
+## 雪亭镇's maps drawn by the painter (2026-10-07)
+
+Owner-approved plan: the last two hand-made maps, Snow's streets (`snow.outdoor`) and the Inn's
+ground floor (`snow.inn`), are painter maps (`tools/maps/layouts/snow.json`, technique `town`)
+drawn from their room text: the paved square with its old wooden frame, the Inn's front on its
+west side (sroad2 hears it to the north), the main street north past the shops to the memorial
+arch and the col with its notice board; 淳风武馆 as one walled compound (the gate court with its
+stone lions, the sand yard, the weapon hall with its shelf, the hall's five 太师椅, the 天井 with
+its pillar and flowers, the long corridor to the inner court); the old 城隍庙 at the square's
+corner with its altar; the 黄土小径 winding up east to the mossy mountain road under its cliff;
+the 青石官道 with its cart ruts and rows of flowering trees. Inside the Inn: the counter and the
+waiter, the travellers' tables, the stairs, the ebony sign by the door and the glowing red-wood
+door in the north-west wall. `game/data` is unchanged (zones, doors, portals, services, spawns,
+floor items, `no_fight`); in the scenes every position moved. Exits ES2 describes without a room
+(the alley east of mstreet4, the way to the next village, 黄石隘口, the steps up from the
+mountain road, the 书院's side room, the inner court's shrine and corridors, the Inn's red-wood
+door) are drawn only; the Inn's sign and red-wood door, like the other look-only texts, are not
+ported yet. Counters, the millstone and furniture are tiles, so no map keeps node collision
+besides doors. Owner: the path south to Old Pine loses its blocking wall (as on the Old Pine
+side), and the streets' camera follows the other towns (map bounds, no 0.9 zoom). Owner: none of
+Snow's same-name neighbours (雪亭镇街道, 黄土小径, 青石官道) is `distinct`: the drawn shops say
+what their texts say. World content revision `SOURCE_ENTRY_SNOW_PAINTED_V1`: older development
+saves need a New Game.
+
 ## Neighbouring rooms of one name are one place (2026-10-07)
 
 Owner: ES2 shows a room's text on every move, and our HUD on every zone the player enters. Rooms

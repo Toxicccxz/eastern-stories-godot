@@ -13,7 +13,6 @@ func _run() -> void:
 		quit(2)
 		return
 	var zone: StringName = StringName("snow." + args[1])
-	var position: Vector2 = Vector2(0,-1000) if args[1] == "mstreet3" else Vector2(100,-1650)
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test(args[2])
 	var repository: SourceEntrySaveRepository = SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
@@ -22,7 +21,7 @@ func _run() -> void:
 		var portal: PortalDefinition = GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "source map binding")
 		# Serializer fixture only. Physical reachability is separately proven by input tests/live.
-		session.active_map().runtime_player_body().position = position
+		session.active_map().runtime_player_body().position = MapPlaces.zone_spot(session.active_map() as WorldMapController, zone)
 		session.player_runtime().set_world_location(session.active_map().location_for_zone(zone))
 		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "file Save")
 		session.free()
@@ -47,6 +46,7 @@ func _run() -> void:
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL saved facts exact including location/items/allocator/RNG")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no save rewrite")
 			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3, "root2/item3")
+			var position: Vector2 = MapPlaces.zone_spot(session.active_map() as WorldMapController, zone)
 			check(session.player_runtime().world_location().zone_id == zone and session.active_map().runtime_player_body().position == position, "exact new zone and position")
 			paused = false
 			session.set_process(false)

@@ -39,7 +39,7 @@ static func at_bank(session: OldPineWorldSessionController) -> BankService:
 	session.handoff_to(SnowWorldDefinitions.OUTDOOR_MAP_ID, &"snow.square", &"snow.square", SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID)
 	var bank: BankService = (session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController).service(&"snow.bank.counter") as BankService
 	bank.map.player_body.player_controlled = true
-	bank.map.player_body.position = Vector2(-340, -400)
+	bank.map.player_body.position = MapPlaces.service_spot(bank.map, &"snow.bank.counter")
 	session.player_runtime().set_world_location(WorldLocationState.new(&"snow", &"snow.outdoor", &"snow.bank", &"snow.bank"))
 	return bank
 
@@ -72,11 +72,13 @@ func integration_test(tree: SceneTree) -> bool:
 	session.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	check(not bank.in_reach(), "unconscious blocked")
 	session.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
-	bank.map.player_body.position = Vector2(-170,-400)
-	check(not bank.in_reach(), "far blocked")
-	bank.map.player_body.position = Vector2(-425,-400)
+	var at_counter: Vector2 = bank.map.player_body.position
+	var room: Rect2 = MapPlaces.zone_rect(bank.map, &"snow.bank")
+	bank.map.player_body.position = MapPlaces.spot(bank.map, &"snow.bank", Vector2(room.end.x - 48, room.get_center().y))
+	check(bank.map.player_body.position.distance_to(bank.point.global_position) > bank.definition.reach and not bank.in_reach(), "far blocked")
+	bank.map.player_body.position = MapPlaces.first_blocked(bank.map, bank.point.global_position, room.get_center())
 	check(not bank.in_reach(), "inside counter collision blocked")
-	bank.map.player_body.position = Vector2(-340,-400)
+	bank.map.player_body.position = at_counter
 	var result: SnowBankInteractionResult = bank.request_conversion(SILVER, COIN, "1")
 	check(result.succeeded() and result.conversion.source_quantity == 1 and result.conversion.target_quantity == 100, "two Works -> exact source ratio")
 	check(context.select(SILVER).amount == 1 and context.select(COIN).amount == 100, "silver1 coin100")
@@ -149,13 +151,12 @@ func physical_test(tree: SceneTree) -> bool:
 	var residents: int = session.resident_map_count()
 	var npcs: int = session.world_npcs().size()
 	await tree.physics_frame
-	await walk.walk(tree, session, "move_right", 125)
-	await walk.walk_to(tree, session, "move_right", 0, 0)
-	await walk.walk_to(tree, session, "move_up", -400, 1)
-	await walk.walk(tree, session, "move_right", 60)
-	check(session.active_map().runtime_player_body().position.x > 100 and session.active_map().runtime_player_body().position.x < 372, "P2 school entrance opens east; inner closed gate still bounds travel")
-	await walk.walk_to(tree, session, "move_left", -340, 0)
-	var bank: BankService = (session.active_map() as WorldMapController).service(&"snow.bank.counter") as BankService
+	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
+	var snow: WorldMapController = session.active_map() as WorldMapController
+	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1", &"snow.school1"]), "up the street and in at the school entrance")
+	check(session.player_runtime().world_location().zone_id == &"snow.school1" and MapRoute.path(snow, snow.player_body.global_position, MapPlaces.zone_spot(snow, &"snow.school2"), MapPlaces.npc_bodies(snow)).is_empty(), "P2 school entrance opens east; inner closed gate still bounds travel")
+	check(await MapPlaces.drive(tree, snow, MapPlaces.service_spot(snow, &"snow.bank.counter")), "back out and west into the bank, up to its counter")
+	var bank: BankService = snow.service(&"snow.bank.counter") as BankService
 	check(bank != null and bank.in_reach(), "physical west entry/proximity")
 	if bank == null:
 		session.free()
@@ -175,12 +176,15 @@ func physical_test(tree: SceneTree) -> bool:
 	session.shared_ui()._presentation_layout.close_panel()
 	await tree.physics_frame
 	await tree.physics_frame
-	await walk.walk_to(tree, session, "move_right", 0, 0)
+	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.mstreet1"), "out of the bank's door")
 	check(session.player_runtime().world_location().zone_id == &"snow.mstreet1" and not bank.in_reach(), "east exit clears availability")
 	check(bank.map.resident_npcs().size() == GameContent.catalog().spawns_for_map(bank.map.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0) and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no NPC/map added")
-	for entry: Array in [[&"snow.bank",Vector2(-490,-400)], [&"snow.bank",Vector2(-300,-545)], [&"snow.bank",Vector2(-300,-255)], [&"snow.bank",Vector2(-425,-400)], [&"snow.mstreet1",Vector2(-100,-500)]]:
-		check(not MapPlacementValidator.is_valid_character_position(bank.map, entry[0], entry[1]), "restore rejects walls " + str(entry))
-	check(MapPlacementValidator.is_valid_character_position(bank.map, &"snow.mstreet1",Vector2(-100,-400)), "half-open east join")
+	var room: Rect2 = MapPlaces.zone_rect(snow, &"snow.bank")
+	var door: Vector2 = MapPlaces.doorway(snow, &"snow.bank", &"snow.mstreet1")
+	var counter: Vector2 = MapPlaces.first_blocked(snow, bank.point.global_position, room.get_center())
+	for entry: Array in [[&"snow.bank", Vector2(room.position.x + 10, room.get_center().y)], [&"snow.bank", Vector2(room.get_center().x, room.position.y + 10)], [&"snow.bank", Vector2(room.get_center().x, room.end.y - 10)], [&"snow.bank", counter], [&"snow.mstreet1", door + Vector2(-20, -100)]]:
+		check(not MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "restore rejects walls " + str(entry))
+	check(MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet1", door + Vector2(24, 0)) and MapPlacementValidator.is_valid_character_position(snow, &"snow.bank", door - Vector2(24, 0)), "half-open east join")
 	check(walk._failures.is_empty(), "all physical targets reached")
 	session.free()
 	await tree.process_frame

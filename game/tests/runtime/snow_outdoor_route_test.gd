@@ -82,14 +82,14 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(_to_square(entry).succeeded(), "shared explicit boundary Inn to Square")
 	_check(not entry.inn.is_inside_tree() and not entry.inn.player_body.player_controlled and not (entry.inn.player_body.get_node("Camera2D") as Camera2D).enabled, "inactive Inn detached/input/camera off")
 	_check(entry.outdoor.player_body.position == entry.outdoor.resolve_spawn_marker(SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID).position, "Square authored entry marker")
-	_check(not entry.outdoor.accept_zone_presence(entry.outdoor.get_node("Zones/EastRoad3")), "remote nonadjacent zone cannot be selected")
+	_check(not entry.outdoor.accept_zone_presence(entry.outdoor.physical_zone(&"snow.eroad3")), "remote nonadjacent zone cannot be selected")
 	_continuity(entry, identities)
 	# A return must preserve deliberately changed state, not merely match defaults.
 	player.state.recovery.food = 123
 	player.state.recovery.water = 234
 	player.state.progression.combat_experience = 7
 	_check(entry.handoff_to(SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, SnowWorldDefinitions.INN_RETURN_SPAWN_ID).succeeded(), "Square to Inn boundary")
-	_check(entry.inn.player_body.position == Vector2(350, 0), "return east marker, not origin")
+	_check(entry.inn.player_body.position == entry.inn.resolve_spawn_marker(SnowWorldDefinitions.INN_RETURN_SPAWN_ID).position and entry.inn.player_body.position != Vector2.ZERO, "return east marker, not origin")
 	_check(player.state.recovery.food == 123 and player.state.recovery.water == 234 and player.state.progression.combat_experience == 7 and entry.allocator.next_dynamic_sequence == 1, "return never rebirth/refill/reallocate")
 	_continuity(entry, identities)
 	entry.free()
@@ -98,21 +98,19 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	entry = (load("res://tests/qa/nge3_snow_route.tscn") as PackedScene).instantiate()
 	tree.root.add_child(entry)
 	await tree.physics_frame
-	await _walk(tree, entry, "move_right", 125)
-	_check(entry.active_map_id() == &"snow.outdoor", "real physics east doorway triggers handoff")
-	# Stop at square center before turning south. No position/zone setters in this route.
-	await _walk_to_x(tree, entry, 0.0, "move_right")
-	await _walk_to_y(tree, entry, 550.0, "move_down")
+	_check(await _take(tree, entry, entry.inn, &"snow.inn.east"), "real physics east doorway triggers handoff")
+	_check(entry.active_map_id() == &"snow.outdoor", "the doorway leads onto the square")
+	# Through the middle of each room in turn, with the move keys. No position/zone setters in this route.
+	_check(await MapPlaces.drive_through(tree, entry.outdoor, [&"snow.square", &"snow.sroad1"]), "walk south off the square")
 	_check(entry._player.world_location().zone_id == &"snow.sroad1", "physical south turn")
-	await _walk_to_x(tree, entry, 1100.0, "move_right")
+	_check(await MapPlaces.drive_through(tree, entry.outdoor, [&"snow.eroad1", &"snow.eroad2", &"snow.eroad3"]), "walk up the path east")
 	_check(entry._player.world_location().zone_id == &"snow.eroad3", "all east road Areas traversed")
-	await _walk(tree, entry, "move_down", 120)
-	_check(entry._player.world_location().zone_id == &"snow.eroad3" and entry.outdoor.player_body.position.y < 850.0, "Old Pine south boundary collides, no transition")
-	await _walk_to_y(tree, entry, 550.0, "move_up")
-	await _walk_to_x(tree, entry, 0.0, "move_left")
-	await _walk_to_y(tree, entry, 0.0, "move_up")
-	await _walk(tree, entry, "move_left", 85)
-	_check(entry.active_map_id() == &"snow.inn", "real west trigger returns to Inn")
+	# This fixture has no Old Pine: its way south is a passage that leads nowhere.
+	_check(await MapPlaces.drive(tree, entry.outdoor, MapPlaces.passage_spot(entry.outdoor, &"snow.eroad3.south")), "walk onto the way south")
+	_check(entry._player.world_location().zone_id == &"snow.eroad3" and entry.active_map_id() == &"snow.outdoor", "Old Pine's unconfigured passage: no transition")
+	_check(await MapPlaces.drive_through(tree, entry.outdoor, [&"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square"]), "walk back to the square")
+	_check(await _take(tree, entry, entry.outdoor, &"snow.square.west"), "real west trigger returns to Inn")
+	_check(entry.active_map_id() == &"snow.inn", "back in the Inn")
 	await tree.process_frame
 	_check(entry.zone_history == [&"snow.inn.main_floor", &"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3", &"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square", &"snow.inn.main_floor"], "complete physical zone order, no extra map load: " + str(entry.zone_history))
 	_check(entry._player.state.recovery.food == 400 and entry._player.state.recovery.water == 400 and entry._player.state.progression.combat_experience == 0, "walking consumes no invented food/RNG/progression")
@@ -140,43 +138,14 @@ func _continuity(entry: Entry, ids: Array[Object]) -> void:
 	_check(entry.active_map_child_count() == 1 and entry.resident_map_count() == 2, "two residents / one active")
 
 
-func _walk(tree: SceneTree, entry: Entry, action: String, frames: int) -> void:
-	Input.action_press(action)
-	for _frame: int in range(frames):
-		await tree.physics_frame
-		if not entry._player.world_location().is_valid() or entry.active_map_child_count() != 1:
-			_failures.append("invalid location/map during physical boundary crossing")
-	Input.action_release(action)
+## Walks onto the passage with the move keys; the location stays valid and one map stays active
+## while the boundary is crossed.
+func _take(tree: SceneTree, entry: Entry, map: WorldMapController, portal_id: StringName) -> bool:
+	var taken: bool = await MapPlaces.take_passage(tree, map, portal_id)
+	if not entry._player.world_location().is_valid() or entry.active_map_child_count() != 1:
+		_failures.append("invalid location/map during physical boundary crossing")
 	await tree.physics_frame
-	await tree.physics_frame
-
-
-func _walk_to_x(tree: SceneTree, entry: Entry, target: float, action: String) -> void:
-	var direction: float = 1.0 if action == "move_right" else -1.0
-	Input.action_press(action)
-	for _step: int in range(400):
-		if (entry.active_map().runtime_player_body().position.x - target) * direction >= 0:
-			Input.action_release(action)
-			await tree.physics_frame
-			await tree.physics_frame
-			return
-		await tree.physics_frame
-	Input.action_release(action)
-	_failures.append("x target unreachable")
-
-
-func _walk_to_y(tree: SceneTree, entry: Entry, target: float, action: String) -> void:
-	var direction: float = 1.0 if action == "move_down" else -1.0
-	Input.action_press(action)
-	for _step: int in range(400):
-		if (entry.active_map().runtime_player_body().position.y - target) * direction >= 0:
-			Input.action_release(action)
-			await tree.physics_frame
-			await tree.physics_frame
-			return
-		await tree.physics_frame
-	Input.action_release(action)
-	_failures.append("y target unreachable")
+	return taken
 
 
 func _check(value: bool, label: String) -> void:

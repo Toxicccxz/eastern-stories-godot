@@ -113,7 +113,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# Runtime Snow zones own their lower edge (half-open Rect2), including exact
 	# street joins. Continue must accept the same physical position/zone pair.
 	var boundary_ids: Array[StringName] = [&"snow.sroad1", &"snow.eroad2", &"snow.eroad3"]
-	var boundary_points: Array[Vector2] = [Vector2(0, 250), Vector2(500, 550), Vector2(900, 550)]
+	var streets: WorldMapController = snow as WorldMapController
+	var boundary_points: Array[Vector2] = [MapPlaces.doorway(streets, &"snow.square", &"snow.sroad1"), MapPlaces.doorway(streets, &"snow.eroad1", &"snow.eroad2"), MapPlaces.doorway(streets, &"snow.eroad2", &"snow.eroad3")]
 	for index: int in range(boundary_ids.size()):
 		var id: StringName = boundary_ids[index]
 		var point: Vector2 = boundary_points[index]
