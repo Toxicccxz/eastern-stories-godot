@@ -2,13 +2,14 @@ class_name RoomDefinition
 extends RefCounted
 
 ## One ES2 room as authored: `set("short")`, `set("long")`, its static
-## `set("exits")` and `set("no_fight")`. Exit targets are room IDs that may not
-## be migrated yet.
+## `set("exits")`, `set("no_fight")` and whether it is `set("outdoors")`. Exit
+## targets are room IDs that may not be migrated yet.
 var _room_id: StringName
 var _short: String
 var _long: String
 var _exits: Dictionary[String, StringName] = {}
 var _no_fight: bool
+var _outdoors: bool
 
 var room_id: StringName:
 	get:
@@ -24,6 +25,10 @@ var long: String:
 var no_fight: bool:
 	get:
 		return _no_fight
+## Under the open sky (set("outdoors"), any area name): rope.c finds nowhere to hang a rope.
+var outdoors: bool:
+	get:
+		return _outdoors
 
 
 func _init(
@@ -56,6 +61,7 @@ static func from_record(reader: ContentRecordReader) -> RoomDefinition:
 		exits,
 		reader.boolean("no_fight", false),
 	)
+	definition._outdoors = reader.boolean("outdoors", false)
 	reader.finish()
 	return definition
 

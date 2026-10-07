@@ -115,7 +115,9 @@ func _test_weapon_match() -> void:
 
 func _test_exit_rule() -> void:
 	var rule: ZoneExitRuleDefinition = GameContent.catalog().exit_rules_between(&"waterfog.entrance", &"waterfog.guildhall")[0]
-	_check(rule.refuses(true, true) and not rule.refuses(false, true) and not rule.refuses(true, false), "a weapon in hand and a guard present, both needed")
+	var armed := ZoneExitRuleDefinition.Leaver.new(true)
+	var bare := ZoneExitRuleDefinition.Leaver.new(false)
+	_check(rule.refuses(armed, true) and not rule.refuses(bare, true) and not rule.refuses(armed, false), "a weapon in hand and a guard present, both needed")
 
 
 func _test_the_way_in(session: OldPineWorldSessionController) -> void:

@@ -25,9 +25,25 @@ func first_choice() -> String:
 	return _then
 
 
+func other_choice() -> String:
+	return _else
+
+
 ## A value this rule can have drawn.
 func admits(value: String) -> bool:
 	return value == _then or value == _else
+
+
+## The fact for a draw already made (random(bound) == `draw`), or null out of range.
+func pick(draw: int) -> Variant:
+	if draw < 0 or draw >= _bound:
+		return null
+	return _then if draw < _below else _else
+
+
+## The bound random() is asked for.
+var bound: int:
+	get: return _bound
 
 
 ## Null-safe draw; returns null when the source answers out of range.

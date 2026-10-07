@@ -4,14 +4,16 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**雪亭镇's maps redrawn** (`phase/snow-maps`): the streets and the Inn's ground floor are painter
-maps drawn from their room text, like the other towns: the paved square with its old frame and the
-Inn's front, the main street with its shops each opening on it, 淳风武馆 as one walled compound,
-the temple at the square's corner, the path winding up to the mountain road, the tree-lined
-highway; the Inn's counter, tables and stairs (DECISIONS). Every map is painter-drawn now; Snow's
-walking suites find their way by id (`tests/support/map_places.gd`) instead of coordinates.
+**青石村 A** (`phase/green-a`): 山坳's way east leads to 青石村, all 39 rooms on three painter maps:
+the village (the stone road, the gravel street, the lane to the banyan square and the quarry yard,
+its houses, shop and 土地庙), the mountain north of it (the chained cave door, the cliff road, the
+road's end with its painting and the great stone door, the stone rooms and the stream) and the
+迷阵 (eight clearings in the mist and 绝地). Twenty villagers of twelve kinds with what create()
+draws for them; the 迷阵's exits as the LPC has them, the 八卦阵 mark, the 100000 combat_exp wind
+and the hall's seal; the stream's 追风剑, the web's spiders, the stone in 绝地 (and 放弃, owner),
+the rope's 上吊 (asked first), the well (DECISIONS).
 
-Next: 青石村 (region #5, ROADMAP).
+Next: 青石村 B (玉佩 and 蒙汗药), then C (绝尘派) and D (the player's spells).
 
 ## Playable now
 
@@ -67,6 +69,16 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   learning from both (於兰天武 teaches only his apprentices), practising 天邪神掌, 六阴追魂剑法, 火蝠身法
   and 七宝天岚舞 (women, spi 20, costs sen); 天邪神功 is learnt with 杀气; the 正厅's sign makes the
   player a 武者; the player's 天邪神功: 提升战斗力, 压制杀气 and 天邪虎啸, and 杀气 that boils over.
+* **青石村**: east of Snow's 山坳, all 39 rooms on three maps: the village (the work station's
+  well, the quarry yard, the square's banyan, 沈记商行, the 土地庙), its 采石工 (a hammer or a
+  rope), 工匠, the women (one draws her 菜刀 in a fight), the children (two wander, two peer at the
+  cave door), 老公公 and 老婆婆 (attack one and the other comes to kill you), 村长 and his 玉佩
+  story; looking at the empty house's web brings a spider down (three a reset). North: the cave,
+  the cliff road and 山路尽头; at 100000 combat_exp the cave east leads into the 迷阵, whose 路牌
+  tell the way: wrong ways loop back, turn back or drop the player in 绝地 (push the stone with
+  560 force, or 放弃 and wake in the Inn); 乾 south leads to the stone rooms behind, marked 八卦阵,
+  and the stream gives that mark a 追风剑. The rope's 上吊 kills (asked first). 绝尘子 and his
+  family come in package C.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -81,8 +93,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 164/551 rooms, 78/286 NPC
-types, 3/10 joinable families, 12/35 special and 10/25 basic martial arts, 41/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 203/551 rooms, 91/286 NPC
+types, 3/10 joinable families, 12/35 special and 10/25 basic martial arts, 42/84 quest targets.
 
 ## Known issues
 

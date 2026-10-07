@@ -37,10 +37,13 @@ func definition_tests() -> void:
 	# 4B opened the herbshop, post office and smithy (west) and the Hockshop storage room.
 	for row: Array in [[&"snow.mstreet2", &"snow.smithy"], [&"snow.mstreet3", &"snow.herbshop"], [&"snow.mstreet4", &"snow.postoffice"], [&"snow.hockshop", &"snow.hockshop2"]]:
 		check(GameContent.catalog().zones_adjacent(row[0], row[1]), "4B shop neighbour " + str(row))
-	for deferred: StringName in [&"snow.alley", &"green.path6"]:
+	for deferred: StringName in [&"snow.alley"]:
 		check(GameContent.catalog().zone(deferred) == null and GameContent.catalog().portal(deferred) == null, "no executable deferred identity " + String(deferred))
 		for id: StringName in spine:
 			check(not GameContent.catalog().zones_adjacent(id, deferred), "no deferred neighbor")
+	# 青石村 A opened the col's way east: a passage to green.path6, on another map.
+	var east: PortalDefinition = GameContent.catalog().portal(&"snow.crossroad.east")
+	check(east != null and east.destination_zone_id == &"green.path6" and east.destination_map_id == &"green.village", "the col's east is 青石村's passage")
 	check(_portal_ids(&"snow.outdoor") == WorldCounts.ids("snow_outdoor_portals"), "external portals: Old Pine, 野羊山 (crossroad north), 卧龙岗 (sroad1 south), 水烟阁 (sroad5 west) and the weapon storage's way down (world_counts.json)")
 
 
@@ -91,7 +94,11 @@ func physical_tests(tree: SceneTree) -> void:
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_down")
 	check(session.player_runtime().world_location().zone_id == &"snow.crossroad" and session.active_map() == snow, "and back south to the crossroad")
 	var col: Rect2 = MapPlaces.zone_rect(snow, &"snow.crossroad")
-	await solid(tree, session, snow, &"snow.crossroad", MapPlaces.spot(snow, &"snow.crossroad", Vector2(col.end.x, col.get_center().y)), "move_right", "Green east")
+	# 青石村: the col's east is a passage, there and back.
+	check(await MapPlaces.take_passage(tree, snow, &"snow.crossroad.east"), "east off the col")
+	check(session.active_map_id() == &"green.village" and session.player_runtime().world_location().zone_id == &"green.path6", "east out of the crossroad: 青石村's stone road")
+	await _walk_until_map(tree, session, &"snow.outdoor", "move_left")
+	check(session.player_runtime().world_location().zone_id == &"snow.crossroad" and session.active_map() == snow, "and back west to the crossroad")
 	check(session.player_runtime() == ids[0] and session.inventory_state() == ids[1] and session.stack_collection() == ids[2] and session.item_instance_index() == ids[3] and session.item_id_allocator() == ids[4] and session.world_simulation_gate() == ids[5], "all authority identities unchanged")
 	check(Work.rng_state(session) == rng and session.item_id_allocator().next_dynamic_sequence == sequence, "entire route zero gameplay RNG/allocation")
 	check(session.resident_map_count() == residents and residents == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0), "same residents (every authored map), one active, only the authored Snow NPCs")

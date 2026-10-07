@@ -168,6 +168,14 @@ func create_one(
 		if drawn_experience == null:
 			return null
 		combat_experience = drawn_experience
+	# set_temp("apply/<key>", b + random(n)) comes later in create() (green's NPCs).
+	var applies: Dictionary[String, int] = {}
+	var apply_rolls: Dictionary[StringName, NpcRandomInteger] = definition.apply_rolls()
+	for key: StringName in apply_rolls:
+		var drawn_apply: Variant = apply_rolls[key].resolve(random_source)
+		if drawn_apply == null:
+			return null
+		applies[String(key)] = drawn_apply
 	if not definition.has_authored_age:
 		age = _draw_with_offset(random_source, 40 if is_beast else 30, 5 if is_beast else 15)
 		if age == INVALID_RANDOM_DRAW:
@@ -231,6 +239,7 @@ func create_one(
 	state.recovery.mana = CharacterInternalResourceState.new(definition.internal_power(&"mana"), definition.internal_power(&"max_mana"))
 	state.attributes.force_factor = definition.internal_power(&"force_factor")
 	state.attributes.bellicosity = definition.bellicosity()
+	state.applies = applies
 	var resource_overrides: ResourceOverridesType = definition.resource_overrides()
 	state.essence = _create_resource_track(
 		resource_overrides.essence(),
@@ -275,8 +284,13 @@ func create_one(
 	var body_weight: int = body.body_weight
 	var maximum_encumbrance: int = body.maximum_encumbrance
 	var armor_state: ArmorStateType = ArmorStateType.new()
+	# carry_object() and add_money() after setup() draw their own (worker2.c's hammer or
+	# rope, the children's coins), in entry order.
+	var entries: Array[NpcLoadoutEntry] = _resolve_loadout(definition, random_source)
+	if entries.size() != definition.loadout_entries().size():
+		return null
 	var loadout_items: Array[ItemInstance] = _apply_loadout(
-		definition,
+		entries,
 		character_id,
 		state,
 		armor_state,
@@ -286,7 +300,7 @@ func create_one(
 		loadout_content,
 		item_instance_scope,
 	)
-	if loadout_items.size() != _expected_live_item_count(definition, loadout_content):
+	if loadout_items.size() != _expected_live_item_count(entries, loadout_content):
 		return null
 
 	return NpcRuntimeStateType.new(
@@ -346,8 +360,27 @@ static func _draw_with_offset(
 	return draw + offset
 
 
+## The definition's carry entries as this NPC gets them: a choice drawn to one side,
+## a drawn amount set. Fewer entries than authored when a draw is out of range.
+static func _resolve_loadout(definition: NpcDefinitionType, random_source: RandomSourceType) -> Array[NpcLoadoutEntry]:
+	var result: Array[NpcLoadoutEntry] = []
+	for entry: NpcLoadoutEntry in definition.loadout_entries():
+		var chosen: NpcLoadoutEntry = entry
+		if entry.is_choice():
+			chosen = entry.chosen(random_source.legacy_random(entry.choice_bound))
+			if chosen == null:
+				return result
+		if chosen.amount_roll() != null:
+			var amount: Variant = chosen.amount_roll().resolve(random_source)
+			if amount == null or int(amount) <= 0:
+				return result
+			chosen = NpcLoadoutEntry.new(chosen.item_definition_id, int(amount), chosen.equipment_intent, chosen.legacy_source_path)
+		result.append(chosen)
+	return result
+
+
 func _apply_loadout(
-	definition: NpcDefinitionType,
+	entries: Array[NpcLoadoutEntry],
 	character_id: StringName,
 	state: CharacterStateType,
 	armor_state: ArmorStateType,
@@ -358,7 +391,6 @@ func _apply_loadout(
 	item_instance_scope: StringName,
 ) -> Array[ItemInstance]:
 	var created: Array[ItemInstance] = []
-	var entries: Array[NpcLoadoutEntry] = definition.loadout_entries()
 	var owner_endpoint: ContainmentEndpointType = ContainmentEndpointType.new(
 		ContainmentEndpointType.Kind.CHARACTER,
 		character_id,
@@ -478,17 +510,18 @@ static func _loadout_content_resolves(
 	if definition == null:
 		return false
 	for entry: LoadoutEntryType in definition.loadout_entries():
-		if _find_content(entry.item_definition_id, loadout_content) == null:
-			return false
+		for possible: NpcLoadoutEntry in entry.possible_entries():
+			if _find_content(possible.item_definition_id, loadout_content) == null:
+				return false
 	return true
 
 
 static func _expected_live_item_count(
-	definition: NpcDefinitionType,
+	entries: Array[NpcLoadoutEntry],
 	loadout_content: Array[NpcLoadoutItemDefinition],
 ) -> int:
 	var result: int = 0
-	for entry: LoadoutEntryType in definition.loadout_entries():
+	for entry: LoadoutEntryType in entries:
 		var content: LoadoutItemDefinitionType = _find_content(
 			entry.item_definition_id,
 			loadout_content,

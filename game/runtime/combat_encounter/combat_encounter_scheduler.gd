@@ -235,6 +235,12 @@ func advance(
 			_events.append(chat)
 			emitted.append(chat)
 			_next_event_sequence += 1
+			# ask_for_help(): the partner's kill_ob() brings it in before anyone acts on.
+			var said: CombatNpcChatResult = chat.chat
+			if boundary != null and said != null and not said.joiners().is_empty():
+				boundary.admit(bindings, CombatTacticalExecutionResult.new(
+					CombatTacticalExecutionResult.Outcome.APPLIED, &"", [], null, said.joiners(),
+				))
 			if boundary != null and not boundary.inspect(bindings, chat):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,

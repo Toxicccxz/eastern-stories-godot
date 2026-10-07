@@ -131,6 +131,7 @@ static func restore(
 	state.gender = snapshot.gender
 	state.marks = snapshot.marks.duplicate()
 	state.vendetta = snapshot.vendetta.duplicate()
+	state.applies = snapshot.applies.duplicate()
 	if not snapshot.quest.is_valid():
 		return null
 	state.quest = snapshot.quest.duplicate_state()

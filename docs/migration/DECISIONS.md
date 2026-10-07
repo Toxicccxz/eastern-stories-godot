@@ -1,5 +1,47 @@
 # Migration Decisions
 
+## 青石村 A: the village, the mountain road, the 迷阵 (2026-10-07)
+
+Owner-approved plan (four packages: A places the region, B the 玉佩 and 蒙汗药, C 绝尘派,
+D the player's spells). What each room and NPC became is in [GREEN_CONTENT](GREEN_CONTENT.md).
+- **Maps**: three painter maps (`tools/maps/layouts/green.json`): the village (`town`), the
+  mountain north of it (`canvas`: the cave, the cliff road, 山路尽头, the stone rooms and the
+  stream) and the 迷阵 (`canvas`: eight clearings in the mist and 绝地, drawn far apart so the
+  camera shows one at a time). 山坳's way east is open. An exit a portal on the same map stands
+  for (the 迷阵's, the two one-way ways) is a passage, not a walk: the painter neither joins its
+  rooms nor counts them neighbours, and its reach follows the passage to its arrival marker.
+- **The 迷阵**: each exit is the LPC's: walking off a clearing's side arrives on the far side of
+  where it leads — the same clearing (困, shown again as ES2 shows a room on any move), back
+  (涉), on (生) or 绝地 (死). The rooms are all named 迷阵 and `distinct`. eight7.c's
+  valid_leave() is the portal's `set_mark` (八卦阵, saved in `marks`).
+- **entrance.c, outdoor.c valid_leave()** are `exit_rules` (`combat_exp_below` 100000 on the
+  passage east, `not_apprentice_of` 绝尘子 into the hall). A refused passage keeps the player out
+  of it. tell_room() lines only others would see are not shown.
+- **Owner (Q1): 放弃 in 绝地.** closed.c's only way out is the push (force and max_force 560,
+  force_factor 40); in ES2 a weaker player quit and logged in again at their start room (the Inn
+  by default), but Continue restores the exact place. 绝地 offers 放弃: the player falls asleep
+  and wakes in the Inn (饮风客栈), as that relogin did.
+- **water.c, house3.c, closed.c, rope.c** are landmark policies (`search`, `look_spawn`,
+  `push_stone`) and the item's `hang`. Native: the web calls a spider in only while one of its
+  three points is free (ES2 made a new one every time, three a reset). Owner rule: 上吊 asks
+  first; it kills as die() does, with no killer (an old last_damage_from is not counted).
+  A zone of rooms that disagree on `outdoors` (Old Pine's canopy: tree3 is outdoors) refuses
+  it in all its rooms.
+  station0.c's well is a water service (liquid.c's fill to the container's capacity);
+  fillwater's fixed 15 is not ported.
+- **woman1.c converse_one()** runs in her heart beat, where this_player() is herself, so ES2 only
+  ever said 以大欺小啊你...: her line now measures the enemy's age (as the code means). The old
+  couple's ask_for_help() kill_ob()s query_temp("killer"), which only a fight to the death sets:
+  in a spar nobody comes. kid2's attitude function is drawn each time a spar asks; kid4's gender
+  function once, at creation (as other drawn facts).
+- **As LPC, not placed**: kid5.c (a wizard's test NPC), npc/master.c (龙若法王: map_skill() lacks
+  its quotes and the file does not compile; no room places it), s.c and shen1.c (copies no room
+  places; shen1's jade1 does not exist), stone_____stoneroom.c (empty). cavehall.c's
+  valid_startroom has no use (Continue starts where the player saved).
+- **Save**: world content revision `SOURCE_ENTRY_GREEN_V1` (new maps, 山坳's way east); older
+  development saves need a New Game. CharacterState `applies` (create()'s drawn apply/*) is
+  written only when there are some.
+
 ## 雪亭镇's maps drawn by the painter (2026-10-07)
 
 Owner-approved plan: the last two hand-made maps, Snow's streets (`snow.outdoor`) and the Inn's

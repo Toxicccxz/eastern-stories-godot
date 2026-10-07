@@ -26,6 +26,8 @@ var _zone_check_pending: bool = false
 var _last_exit_refusal: StringName = &""
 var _last_exit_refusal_ms: int = 0
 const EXIT_REFUSAL_REPEAT_MS: int = 2000
+## Half a 34 px character body.
+const BODY_HALF_EXTENT: float = 17.0
 var _services: Array[WorldService] = []
 var _doors: Dictionary[StringName, WorldDoor] = {}
 var _landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
@@ -80,6 +82,7 @@ var _walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var _arrival_zone_id: StringName = &""
 var _last_landmark_use: RefCounted
+var _landmark_uses: Dictionary[StringName, int] = {}
 var _last_passage_traversal: RefCounted
 
 
@@ -409,6 +412,7 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 
 ## The room's valid_leave() that refuses this way out now, or null.
 func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExitRuleDefinition:
+	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state)
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
 		var present: bool = false
 		for npc: NpcRuntimeState in _npcs:
@@ -416,9 +420,42 @@ func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExit
 				npc.definition().definition_id == rule.present_npc_id and npc.exists_in_map
 				and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == from_zone_id
 			)
-		if rule.refuses(not _player.state.equipment.is_primary_hand_empty(), present):
+		if rule.refuses(leaver, present):
 			return rule
 	return null
+
+
+## valid_leave() for a passage (d/green/entrance.c east into the 迷阵): a refusal keeps
+## the player out of the passage, back in the room, and says why; a way that marks
+## whoever takes it (eight7.c set("八卦阵")) marks the player as they go.
+func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> bool:
+	if portal == null or _player == null:
+		return false
+	var refusal: ZoneExitRuleDefinition = _exit_refusal(portal.source_zone_id, portal.destination_zone_id)
+	if refusal != null:
+		_refuse_passage(refusal, portal.source_zone_id, passage)
+		return false
+	if not portal.set_mark.is_empty():
+		_player.state.marks[portal.set_mark] = 1
+	return true
+
+
+## The refused passage pushes the player back out of it, toward the room's middle.
+func _refuse_passage(rule: ZoneExitRuleDefinition, from_zone_id: StringName, passage: WorldPassageArea2D) -> void:
+	var room: WorldPhysicalZoneArea2D = physical_zone(from_zone_id)
+	if room != null and passage != null:
+		var area: Rect2 = passage.global_rect().grow(BODY_HALF_EXTENT + 2.0)
+		var middle: Vector2 = room.global_rect().get_center()
+		var at: Vector2 = player_body.global_position
+		var toward: Vector2 = middle - at
+		# Step out of the passage along the axis that leads back into the room.
+		if absf(toward.x) * area.size.y > absf(toward.y) * area.size.x:
+			at.x = area.position.x if toward.x < 0.0 else area.end.x
+		else:
+			at.y = area.position.y if toward.y < 0.0 else area.end.y
+		player_body.global_position = at
+		player_body.velocity = Vector2.ZERO
+	_tell_refusal(rule)
 
 
 ## valid_leave() returned 0: the player stays in the room (back inside its edge) and
@@ -429,6 +466,10 @@ func _refuse_exit(rule: ZoneExitRuleDefinition, from_zone_id: StringName) -> voi
 		var inside: Rect2 = room.global_rect().grow(-20.0)
 		player_body.global_position = player_body.global_position.clamp(inside.position, inside.end)
 		player_body.velocity = Vector2.ZERO
+	_tell_refusal(rule)
+
+
+func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
 	var now: int = Time.get_ticks_msec()
 	if rule.rule_id != _last_exit_refusal or now - _last_exit_refusal_ms > EXIT_REFUSAL_REPEAT_MS:
 		var lines: Array[String] = []
@@ -742,6 +783,48 @@ func play_item(item_id: StringName) -> bool:
 	return true
 
 
+## rope.c hang_self(): environment(this_player())->query("outdoors") refuses.
+func can_hang_here() -> bool:
+	return _player != null and not zone_outdoors(_player.world_location().zone_id)
+
+
+## Whether a zone counts as under the open sky for rope.c: any of its rooms set("outdoors").
+## A zone that merges rooms which disagree (the pine's canopy: tree1 and tree2 inside its
+## boughs, tree3 at the open top) does not know which one the player stands in, so a deadly
+## hang is refused in all of it rather than allowed where rope.c would refuse it.
+static func zone_outdoors(zone_id: StringName) -> bool:
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
+	if zone == null:
+		return true
+	for room_id: StringName in zone.room_ids():
+		var room: RoomDefinition = GameContent.catalog().room(room_id)
+		if room == null or room.outdoors:
+			return true
+	return false
+
+
+## rope.c hang_self() with the carried rope: under the open sky the rope finds nothing
+## to hang from; indoors the player's line, then die(). Nobody hurt the player: an old
+## last_damage_from is not a killer here (DECISIONS 青石村 A).
+func hang_with(item_id: StringName) -> bool:
+	if _player == null or not can_act(false):
+		return false
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	var carried: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	if content == null or not content.hang or not _inventory.is_descendant_of(item_id, carried):
+		return false
+	if not can_hang_here():
+		_hud().append_log_lines([tr("你四处看看, 实在找不到地方挂绳子说...")])
+		return false
+	_hud().close_inventory()
+	_hud().append_log_lines([tr("你把绳子一端挂好, 另一端往脖子上一套.....")])
+	_player.relationship.clear_last_damage_from()
+	_player.state.vitality.apply_wound(_player.state.vitality.effective + 1)
+	player_fall_below_zero()
+	return true
+
+
 ## The item of `item_definition_id` lying in `zone_id` (present(id, room)), or empty.
 func floor_item_of(item_definition_id: StringName, zone_id: StringName) -> StringName:
 	var location: WorldLocationState = location_for_zone(zone_id)
@@ -799,6 +882,31 @@ func place_new_floor_item(item_definition_id: StringName) -> StringName:
 	if not placed.succeeded or not _add_dropped_item_view(item.item_instance_id, location, _at_feet(location, player_body.global_position)):
 		return &""
 	return item.item_instance_id
+
+
+## new(item)->move(me): a new item in the player's hands (water.c's 追风剑); when
+## they cannot carry it, it lies at their feet. Empty when nothing was made.
+func give_new_item_to_player(item_definition_id: StringName) -> StringName:
+	var item_id: StringName = place_new_floor_item(item_definition_id)
+	if item_id.is_empty():
+		return &""
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	var taken: InventoryTransferResult = InventoryTransferService.new().transfer(
+		_inventory, item_id, InventoryTransferDestination.new(carried, true, true, _player.maximum_encumbrance),
+	)
+	if taken.succeeded:
+		_forget_floor_item(item_id)
+	return item_id
+
+
+## How many times a `look_spawn` landmark called something in since its room's reset
+## (house3.c num_of_spider). Not saved, as doors are not.
+func landmark_uses(landmark_id: StringName) -> int:
+	return _landmark_uses.get(landmark_id, 0)
+
+
+func count_landmark_use(landmark_id: StringName) -> void:
+	_landmark_uses[landmark_id] = landmark_uses(landmark_id) + 1
 
 
 ## Items dropped on this map's floor (not on a spawn marker), for the save.
@@ -1060,6 +1168,37 @@ func npc_wield_by_type(character_id: StringName, skill_type: StringName, on: boo
 		if weapon != null and weapon.skill_type == skill_type and not equipment.has_weapon_instance(item_id):
 			return equipment.wield(EquippedWeaponRef.new(item_id, weapon), npc.armor.is_slot_occupied(OldPineEquipmentInteractionAdapter.SHIELD_SLOT)).succeeded
 	return false
+
+
+## command("wield <id>") for an NPC: a carried, not yet wielded item of that kind.
+func npc_wield_item(character_id: StringName, item_definition_id: StringName) -> bool:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null:
+		return false
+	var equipment: EquipmentState = npc.character_state.equipment
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null or item.item_definition_id != item_definition_id else GameContent.catalog().item(item.item_definition_id)
+		var weapon: WeaponDefinition = null if content == null else content.weapon_definition()
+		if weapon != null and not equipment.has_weapon_instance(item_id):
+			return equipment.wield(EquippedWeaponRef.new(item_id, weapon), npc.armor.is_slot_occupied(OldPineEquipmentInteractionAdapter.SHIELD_SLOT)).succeeded
+	return false
+
+
+## present(<partner>, environment(npc)): an NPC of `definition_id` in the same room,
+## standing (living()) and not fighting; null when there is none.
+func idle_npc_beside(character_id: StringName, definition_id: StringName) -> NpcRuntimeState:
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null:
+		return null
+	for other: NpcRuntimeState in _npcs:
+		if (
+			other != npc and other.definition().definition_id == definition_id and other.exists_in_map
+			and other.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not other.relationship.is_fighting()
+			and other.world_location().zone_id == npc.world_location().zone_id
+		):
+			return other
+	return null
 
 
 ## Where a save puts an NPC: its body, or the end of the walk it is on.
@@ -1739,7 +1878,8 @@ func _npc_content(npc: NpcRuntimeState) -> CombatSliceContentProfile:
 
 static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceContentProfile:
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
-		if entry.equipment_intent != NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY:
+		# A drawn weapon (worker2.c's hammer) is the weapon in hand, if it was drawn.
+		if entry.is_choice() or entry.equipment_intent != NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY:
 			continue
 		var content: ItemContentDefinition = GameContent.catalog().item(entry.item_definition_id)
 		if content != null and content.weapon_definition() != null:
@@ -2038,6 +2178,10 @@ func reset_room(legacy_room: String) -> void:
 	if not _initialized or session == null:
 		return
 	var catalog: ContentCatalog = GameContent.catalog()
+	# house3.c reset(): num_of_spider = 3.
+	for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map):
+		if landmark.legacy_source_path == legacy_room:
+			_landmark_uses.erase(landmark.landmark_id)
 	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
 		if spawn.legacy_source_room_path != legacy_room or spawn.summoned:
 			continue
@@ -2056,6 +2200,33 @@ func reset_room(legacy_room: String) -> void:
 			if not _inventory.is_registered(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)):
 				if not _place_floor_item(spawn, point_id):
 					push_error("room reset could not lay %s on %s" % [spawn.item_definition_id, point_id])
+
+
+## One NPC of a summoned spawn comes in (house3.c call_spider(): new(...)->move(room)):
+## the first whose point is free, absent or dead (made anew). Null when every one
+## stands here already.
+func summon_one(spawn_id: StringName) -> NpcRuntimeState:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
+	if not _initialized or spawn == null or not spawn.summoned or spawn.map_id != map:
+		return null
+	for point_id: StringName in spawn.spawn_point_ids():
+		var npc: NpcRuntimeState = _npc_at_point(point_id)
+		if npc == null:
+			continue
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			return _npc_at_point(point_id) if _respawn_npc(spawn, npc) else null
+		if not npc.exists_in_map:
+			var marker: WorldSpawnMarker2D = resolve_spawn_marker(point_id)
+			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+			if marker == null or body == null:
+				return null
+			body.global_position = marker.global_position
+			npc.set_world_location(location_for_zone(spawn.zone_id))
+			npc.set_exists_in_map(true)
+			body.refresh_runtime_state()
+			_npc_arrived(npc)
+			return npc
+	return null
 
 
 ## A summoned spawn's NPCs come in on their markers (keep2.c valid_leave()'s
@@ -2833,9 +3004,11 @@ func inspect_selected() -> bool:
 			return true
 		WorldInteractionTarget.Kind.LANDMARK:
 			var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
-			if landmark == null:
+			var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
+			if policy == null:
 				return false
-			_hud().show_landmark_inspection(landmark)
+			# look <item>: item_desc may be a function (house3.c's web calls a spider in).
+			_hud().show_landmark_inspection(landmark, policy.look(self, landmark))
 			return true
 	var npc: NpcRuntimeState = selected_npc()
 	if npc == null or not npc.exists_in_map:
@@ -2894,7 +3067,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 		"name": _player.facts.display_name,
 		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
 	})]
-	var consent: NpcSparConsent = spar_consent(target)
+	var consent: NpcSparConsent = spar_consent(target, true)
 	var result := CombatSliceInitiationResult.new()
 	if consent.accepted:
 		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
@@ -2930,12 +3103,17 @@ func spar_selected() -> CombatSliceInitiationResult:
 
 
 ## fight.c's answer `target` gives the player now: NpcSparConsent.decide() draws
-## nothing, so the HUD can know it before asking.
-func spar_consent(target: NpcRuntimeState) -> NpcSparConsent:
+## nothing, so the HUD can know it before asking. `asked`: the spar itself, where an
+## attitude that is a function (kid2.c) is drawn from the world-interaction stream.
+func spar_consent(target: NpcRuntimeState, asked: bool = false) -> NpcSparConsent:
 	var player_state: CharacterState = _player.state
+	var attitude: int = -1
+	var roll: NpcRandomText = target.definition().attitude_roll()
+	if asked and roll != null:
+		attitude = NpcContentRecords.attitude_of(String(roll.pick(_world_interaction_random.legacy_random(roll.bound))))
 	return NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
 		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
-	))
+	), attitude)
 
 
 ## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
@@ -3259,8 +3437,8 @@ func last_landmark_use() -> RefCounted:
 	return _last_landmark_use
 
 
-## WorldPassageArea2D calls this (deferred) for a portal that stays on this map.
-## No current content has one: Old Pine's height changes all cross maps (DECISIONS 3B5).
+## WorldPassageArea2D calls this (deferred) for a portal that stays on this map: the
+## 迷阵's exits and 青石村's one-way ways (stoneroom.c west, water.c west).
 func traverse_same_map_passage(portal: PortalDefinition) -> void:
 	if not _gameplay_open() or portal == null or not is_passage_current(portal):
 		return
@@ -3270,6 +3448,8 @@ func traverse_same_map_passage(portal: PortalDefinition) -> void:
 		_selected_target = null
 		_hud().set_selected_target(null)
 		_hud().append_log_lines([tr("你来到%s。") % tr(GameContent.catalog().zone(portal.destination_zone_id).display_name)])
+		if portal.destination_zone_id == portal.source_zone_id:
+			_hud().describe_again()
 
 
 func last_passage_traversal() -> RefCounted:

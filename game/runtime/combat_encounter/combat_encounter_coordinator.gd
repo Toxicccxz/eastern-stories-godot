@@ -505,7 +505,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
-	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of))
+	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of).with_villagers(_npc_wield_item, _age_of, _idle_partner))
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -536,6 +536,31 @@ func _npc_wield(character_id: StringName, weapon_type: StringName, on: bool) -> 
 	if map == null or not map.npc_wield_by_type(character_id, weapon_type, on):
 		return null
 	return map.npc_combat_content(character_id)
+
+
+## command("wield <id>") for an NPC in the fight (青石村's 菜刀, dagger): its combat
+## content afterwards, null when it carries none.
+func _npc_wield_item(character_id: StringName, item_definition_id: StringName) -> CombatSliceContentProfile:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	if map == null or not map.npc_wield_item(character_id, item_definition_id):
+		return null
+	return map.npc_combat_content(character_id)
+
+
+## query("age") of a participant.
+func _age_of(character_id: StringName) -> int:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	if player != null and player.character_id == character_id:
+		return player.facts.age
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	return 0 if npc == null else npc.age
+
+
+## present("<partner>", environment()) and not is_fighting(): its character ID, or "".
+func _idle_partner(character_id: StringName, partner_definition_id: StringName) -> StringName:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var partner: NpcRuntimeState = null if map == null else map.idle_npc_beside(character_id, partner_definition_id)
+	return &"" if partner == null else partner.character_id
 
 
 ## RANK_D->query_respect() of a participant, in the shown language.

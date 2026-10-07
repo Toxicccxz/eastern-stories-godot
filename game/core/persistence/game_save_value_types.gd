@@ -314,6 +314,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var quest: CharacterQuestState = CharacterQuestState.new()
 	## LPC vendetta/<mark> (CharacterState.vendetta); empty for most characters.
 	var vendetta: Dictionary[String, int] = {}
+	## CharacterState.applies (create()'s drawn set_temp apply/*); empty for most characters.
+	var applies: Dictionary[String, int] = {}
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -339,7 +341,7 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies)
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()
@@ -351,6 +353,10 @@ class CharacterStateSnapshot extends RefCounted:
 
 	func with_vendetta(p_vendetta: Dictionary[String, int]) -> CharacterStateSnapshot:
 		vendetta = p_vendetta.duplicate()
+		return self
+
+	func with_applies(p_applies: Dictionary[String, int]) -> CharacterStateSnapshot:
+		applies = p_applies.duplicate()
 		return self
 
 	func with_timed_applies(p_entries: Array[CharacterTimedApplies.Entry]) -> CharacterStateSnapshot:

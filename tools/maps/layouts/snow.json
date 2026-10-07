@@ -63,7 +63,7 @@
         },
         "roads": [
           ["path", -32, -1856, 32, -1504, "山坳: the track north to 野羊山"],
-          ["path", 32, -1696, 224, -1664, "and the winding track east to the next village (not open)"],
+          ["path", 32, -1696, 224, -1664, "and the winding track east to 青石村"],
           ["path", 80, 512, 576, 560, "黄土小径, winding east up the hill"],
           ["path", 416, 416, 480, 512, "to the temple's south door"],
           ["path", 576, 512, 720, 560],
@@ -222,7 +222,7 @@
           {"node": "caption", "name": "ArchLabel", "at": [-16, -1528], "text": "牌坊", "size": 12},
           {"node": "caption", "name": "NoticeLabel", "at": [56, -1640], "text": "告示牌", "size": 12},
           {"node": "caption", "name": "GoathillSign", "at": [40, -1852], "text": "北 · 野羊山", "size": 14},
-          {"node": "caption", "name": "GreenSign", "at": [120, -1720], "text": "东 · 邻村", "size": 14},
+          {"node": "caption", "name": "GreenSign", "at": [120, -1720], "text": "东 · 青石村", "size": 14},
           {"node": "caption", "name": "CloudSign", "at": [24, 680], "text": "南 · 卧龙岗", "size": 14},
           {"node": "caption", "name": "OldPineSign", "at": [1192, 940], "text": "南 · 老松岭", "size": 14},
           {"node": "caption", "name": "StepsLabel", "at": [1192, 168], "text": "石阶", "size": 12},
@@ -252,6 +252,7 @@
           {"node": "passage", "name": "InnPassage", "id": "snow.square.west", "at": [-304, 0], "shape": "Rect_32_96"},
           {"node": "passage", "name": "OldPinePassage", "id": "snow.eroad3.south", "at": [1160, 912], "shape": "Rect_96_32"},
           {"node": "passage", "name": "GoathillPassage", "id": "snow.crossroad.north", "at": [0, -1840], "shape": "Rect_96_32"},
+          {"node": "passage", "name": "GreenPassage", "id": "snow.crossroad.east", "at": [208, -1680], "shape": "Rect_32_96"},
           {"node": "passage", "name": "CloudPassage", "id": "snow.sroad1.south", "at": [0, 656], "shape": "Rect_96_32"},
           {"node": "passage", "name": "WaterfogPassage", "id": "snow.sroad5.west", "at": [-1424, 288], "shape": "Rect_32_96"},
           {"node": "service", "name": "WorkplaceWork", "id": "snow.workplace.mill", "at": [344, -744], "text": "磨盘 · 靠近做工"},
@@ -267,6 +268,7 @@
           {"name": "TempleRevive", "at": [400, 256], "id": "snow.temple.revive"},
           {"name": "OldPineReturn", "at": [1160, 840], "id": "snow.eroad3.oldpine_return"},
           {"name": "GoathillReturn", "at": [0, -1768], "id": "snow.crossroad.goathill_return"},
+          {"name": "GreenReturn", "at": [144, -1680], "id": "snow.crossroad.green_return"},
           {"name": "CloudReturn", "at": [0, 576], "id": "snow.sroad1.cloud_return"},
           {"name": "WaterfogReturn", "at": [-1344, 288], "id": "snow.sroad5.waterfog_return"},
           {"generated": "markers"}

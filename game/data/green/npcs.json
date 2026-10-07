@@ -1,0 +1,244 @@
+{
+	"npcs": [
+		{
+			"id": "green.npc.worker2",
+			"legacy_source": "d/green/npc/worker2.c",
+			"name": "采石工",
+			"aliases": ["worker"],
+			"gender": "男性",
+			"age": { "base": 32, "plus_random": 10 },
+			"attributes": { "str": 30, "con": 20 },
+			"combat_exp": { "base": 100, "plus_random": 40 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "random": 50, "below": 41, "then": { "item": "es2:d/green/obj/rope", "source": "d/green/obj/rope.c" }, "else": { "item": "es2:d/green/obj/hammer", "source": "d/green/obj/hammer.c", "equip": "wield" } }
+			],
+			"apply": { "dodge": { "base": 10, "plus_random": 5 } }
+		},
+		{
+			"id": "green.npc.shen",
+			"legacy_source": "d/green/npc/shen.c",
+			"name": "沈万年",
+			"aliases": ["shen wen-nien", "shen"],
+			"title": "沈记商行掌柜",
+			"gender": "男性",
+			"age": 45,
+			"combat_exp": 30,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 1 }
+			],
+			"apply": { "dodge": 5, "attack": 3 }
+		},
+		{
+			"id": "green.npc.woman1",
+			"legacy_source": "d/green/npc/woman1.c",
+			"name": "妇人",
+			"aliases": ["woman"],
+			"gender": "女性",
+			"age": { "base": 12, "plus_random": 30 },
+			"combat_exp": { "base": 20, "plus_random": 40 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 90 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/green/npc/obj/ricewine", "source": "d/green/npc/obj/ricewine.c" },
+				{ "item": "es2:d/green/npc/obj/knife", "source": "d/green/npc/obj/knife.c" }
+			],
+			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "wield", "item": "es2:d/green/npc/obj/knife", "say": "没见识过我的菜刀神功是吧, 接招!", "chat_chance_combat": 10 },
+				{ "action": "say_by_age", "younger": ["死小孩, 专们欺负老人家!"], "otherwise": ["以大欺小啊你..."] }
+			]
+		},
+		{
+			"id": "green.npc.woman2",
+			"legacy_source": "d/green/npc/woman2.c",
+			"name": "妇人",
+			"aliases": ["woman"],
+			"gender": "女性",
+			"age": 40,
+			"combat_exp": 50,
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"apply": { "dodge": 3 },
+			"chat_chance": 7,
+			"chat_msg": ["妇人说道：我说啊, 管管你们家那小鬼啊.\n", "妇人说道：明知山洞那边闹鬼, 没事带著我们家那两个跑过去.\n", "妇人打开锅盖闻了一下.\n", "妇人朝门外看了看.\n"]
+		},
+		{
+			"id": "green.npc.kid3",
+			"legacy_source": "d/green/npc/kid3.c",
+			"name": "小孩",
+			"aliases": ["kid", "child"],
+			"gender": "女性",
+			"age": { "base": 8, "plus_random": 8 },
+			"combat_exp": { "base": 6, "plus_random": 5 },
+			"score": { "base": 20, "plus_random": 50 },
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": { "base": 10, "plus_random": 10 } }
+			],
+			"apply": { "dodge": { "base": 3, "plus_random": 3 } },
+			"chat_chance": 5,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		{
+			"id": "green.npc.worker1",
+			"legacy_source": "d/green/npc/worker1.c",
+			"name": "工匠",
+			"aliases": ["stone worker", "worker"],
+			"gender": "男性",
+			"age": 47,
+			"attributes": { "str": 30, "con": 20 },
+			"combat_exp": 100,
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/green/obj/hammer", "source": "d/green/obj/hammer.c", "equip": "wield" }
+			],
+			"apply": { "dodge": 10 }
+		},
+		{
+			"id": "green.npc.oldman",
+			"legacy_source": "d/green/npc/oldman.c",
+			"name": "老公公",
+			"aliases": ["old man", "oldman", "man"],
+			"gender": "男性",
+			"age": 77,
+			"long": "",
+			"resources": { "max_gin": 100, "max_kee": 200, "max_sen": 70 },
+			"combat_exp": 70,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/example/dagger", "source": "obj/example/dagger.c" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "call_partner", "partner": "green.npc.oldwoman", "emote": "喊道: 老公我来帮你了!" },
+				{ "action": "wield", "item": "es2:obj/example/dagger" }
+			]
+		},
+		{
+			"id": "green.npc.oldwoman",
+			"legacy_source": "d/green/npc/oldwoman.c",
+			"name": "老婆婆",
+			"aliases": ["old woman", "oldwoman", "woman"],
+			"gender": "女性",
+			"age": 74,
+			"long": "",
+			"resources": { "max_gin": 70, "max_kee": 120, "max_sen": 50 },
+			"combat_exp": 55,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 100 }
+			],
+			"chat_chance_combat": 55,
+			"chat_msg_combat": [
+				{ "action": "call_partner", "partner": "green.npc.oldman", "emote": "叫道: 好啊,敢砍我老婆, 去死吧!" }
+			]
+		},
+		{
+			"id": "green.npc.oldman2",
+			"legacy_source": "d/green/npc/oldman2.c",
+			"name": "村长",
+			"aliases": ["elder", "oldman", "man"],
+			"gender": "男性",
+			"age": 95,
+			"long": "",
+			"resources": { "max_gin": 100, "max_kee": 200, "max_sen": 100 },
+			"combat_exp": 500,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"玉佩": [
+					"嗯...... 你是说那个从古墓盗出来的玉佩?\n",
+					"应该蛮珍贵的, 可是有点来路不明...\n",
+					"我送给一个年轻人了, 不过听说他得此玉佩后性情大变.\n",
+					"看来此物不祥... \n",
+					"你要找他吗? 有人说他现在以酒度日, 我也不知他的下落.\n",
+					"造孽啊........\n"
+				]
+			},
+			"chat_chance": 10,
+			"chat_msg": [{ "action": "emote", "verb": "sigh" }, "村长说道：国之将亡.....\n"]
+		},
+		{
+			"id": "green.npc.kid1",
+			"legacy_source": "d/green/npc/kid1.c",
+			"name": "工匠的小孩",
+			"aliases": ["kid", "child"],
+			"gender": "男性",
+			"age": 7,
+			"attributes": { "str": 25, "con": 20 },
+			"combat_exp": 10,
+			"score": 50,
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 5 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"apply": { "dodge": 5 }
+		},
+		{
+			"id": "green.npc.kid2",
+			"legacy_source": "d/green/npc/kid2.c",
+			"name": "小孩",
+			"aliases": ["kid", "child"],
+			"gender": "男性",
+			"age": { "base": 7, "plus_random": 8 },
+			"combat_exp": { "base": 5, "plus_random": 10 },
+			"score": { "base": 10, "plus_random": 50 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": { "base": 5, "plus_random": 10 } }
+			],
+			"attitude": { "random": 50, "below": 25, "then": "peaceful", "else": "friendly" },
+			"apply": { "dodge": { "base": 3, "plus_random": 2 } },
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		{
+			"id": "green.npc.kid4",
+			"legacy_source": "d/green/npc/kid4.c",
+			"name": "小孩",
+			"aliases": ["kid", "child"],
+			"age": { "base": 6, "plus_random": 3 },
+			"combat_exp": { "base": 10, "plus_random": 10 },
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": { "base": 10, "plus_random": 10 } }
+			],
+			"chat_chance": 10,
+			"chat_msg": ["小孩很好奇地往门缝里看去。\n", "小孩说道：村长说这道门绝对不可以打开喔!\n", "小孩说道：不知道里面是什么...\n"],
+			"gender": { "random": 50, "below": 21, "then": "女性", "else": "男性" },
+			"apply": { "dodge": { "base": 4, "plus_random": 2 } }
+		},
+		{
+			"id": "green.npc.spider",
+			"legacy_source": "d/green/npc/spider.c",
+			"name": "蜘蛛",
+			"aliases": ["spider"],
+			"race": "beast",
+			"age": 1,
+			"long": "这是一只体型相当大的蜘蛛, 看来有点吓人.\n\n",
+			"attributes": { "str": 20 },
+			"limbs": ["头部", "身体"],
+			"verbs": ["bite"],
+			"apply": { "attack": 15, "armor": 5, "dodge": 10 }
+		}
+	]
+}

@@ -55,6 +55,7 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"], apply?}`; `apply` is `weapon_prop/*` other than damage (attack, defense, dodge, courage, intelligence, karma, personality, spells, spirituality), added to the wielder's `apply/*` (equip.c) |
 | `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
+| `hang` | rope.c `add_action("hang_self", "hang")` | `true`: the 上吊 button (asked first): refused in an `outdoors` room, else die() |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
 | `study` | `set("skill", ([...]))` | `{skill, exp_required, sen_cost, difficulty, max_skill}`: study.c teaches the skill from it (the LPC `name` key is `skill`) |
 | `money` | `money_id`, `base_value`, `base_unit`, `base_weight` | makes the item a stack and a currency; merge key is `/<first legacy source without .c>`; `coin`, `silver` and `gold` must all exist |
@@ -77,15 +78,15 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `resources` | `set("max_kee")` … | keys `gin kee sen` with `eff_` / `max_` variants; `force atman mana` with `max_` (race/human.c adds a quarter of `max_atman`/`max_force`/`max_mana` to `max_gin`/`max_kee`/`max_sen`) |
 | `force_factor` | `set("force_factor")` | 加力: adds to strength (query_str) and drives the force hit of a mapped force skill |
 | `combat_exp`, `score` | `set(...)` | |
-| `attitude` | `set("attitude")` | `peaceful` (default), `friendly`, `heroism` or `aggressive`; decides spars (`npc.c accept_fight`) and aggression |
+| `attitude` | `set("attitude")` | `peaceful` (default), `friendly`, `heroism` or `aggressive`; decides spars (`npc.c accept_fight`) and aggression. A function (kid2.c) is `{"random", "below", "then", "else"}`, drawn from the world-interaction stream each time a spar asks |
 | `skills` | `set_skill(id, level)` | object, authored order kept |
 | `skill_map` | `map_skill(use, skill)` | `{use: skill}`; the skill must be in `skills` |
-| `carry` | `carry_object(path)->wield()/wear()`, `add_money(id, n)` | `{item, source, amount?, equip?: "wield"\|"wear"}`; `source` is the path the NPC file names |
-| `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge defense parry`, for any race |
+| `carry` | `carry_object(path)->wield()/wear()`, `add_money(id, n)` | `{item, source, amount?, equip?: "wield"\|"wear"}`; `source` is the path the NPC file names. A stack's `amount` may be a rule (`{"base", "plus_random"}`); an entry may be `{"random": n, "below": k, "then": entry, "else": entry}` (worker2.c). These draw after setup(), in entry order |
+| `limbs`, `verbs`, `apply` | `set("limbs")`, `set("verbs")`, `set_temp("apply/…")` | `apply` keys `attack damage armor dodge defense parry`, for any race; a value may be a rule create() draws (`{"base", "plus_random"}`, after combat_exp), kept per NPC in CharacterState `applies` and saved |
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
 | `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept, kill?}`; the first matching rule decides; `kill` (with `accept`): the NPC answers with `kill_ob()` (annihir.c) and fights to kill, the challenger only fights back; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
 | `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>`. A topic may instead be `{eff_kee_percent: [{at_least, say}]}` (herbalist.c heal_me(), judged on the asker; none matching leaves ask.c's own answer) |
-| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}` or `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()). Generated only when every entry is a line or random_move; otherwise both stay findings |
+| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}`, `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()) or `{"action": "emote", "verb"}` (an emote: prints nothing). Generated only when every entry is a line or random_move; otherwise both stay findings. `chat_msg_combat` also takes `{"action": "wield", "item", "say"?, "chat_chance_combat"?}`, `{"action": "call_partner", "partner", "emote"\|"say"\|"line"}` (ask_for_help()) and `{"action": "say_by_age", "younger", "otherwise"}` |
 | `greeting` | the NPC's init()/greeting() | `{say}` (said as `<name>说道：<say>`) or `{one_of: [{say} \| {emote}]}`, one drawn when it is said (waiter.c `random(3)`; an `emote` follows the name), one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
 | `vendor` | the override's `vendors` | a vendors[] ID: the NPC sells these goods from its body (buy.c finds it with `present()`) |
 | `accept_object` | the NPC's own `accept_object()` | ordered rules, first match decides; conditions `value_at_least`, `value_at_most`, `liquid` (`alcohol`/`water`), `liquid_remaining_at_most`, `npc_flag`, `giver_mark`; outcome `say`/`emote`, `accept`, `mark_giver` (marks/<name>), `set_npc_flag`, `effect` (`temple_donation`: keeper.c). No rule matching, or no rules, refuses (give.c). Hand-written in `set` |
@@ -108,8 +109,10 @@ An NPC teaches every skill it has that `skills.json` defines when its `family` o
 
 ## spawns
 
-`{id, npc, map, zone, points, legacy_room, legacy_quantity, presence_radius?}` — one entry per
-`set("objects")` line of a room. `points` names the scene's spawn markers and must have
+`{id, npc, map, zone, points, legacy_room, legacy_quantity, presence_radius?, summoned?}` — one entry per
+`set("objects")` line of a room; world.json may author more (a `summoned` spawn: keep2.c's guards,
+house3.c's spiders), whose NPCs wait absent until a room rule calls them in. The override's
+`npcs` lists NPC files no room places that such a spawn needs. `points` names the scene's spawn markers and must have
 `legacy_quantity` entries. `zone` is the NPC's home: it wanders only there and in the zones next
 to it, and `legacy_room`'s reset brings it home or makes a new one when it died. `presence_radius` (pixels, default 120) is how close the player must be
 for an aggressive NPC to notice them — the native stand-in for "in the same room".
@@ -134,10 +137,11 @@ worth 3). A price below 1 is not sold (`cmds/std/buy.c`); an authored `price` be
 
 ## rooms
 
-`{id, short, long, exits?, no_fight?}` — one ES2 room, copied verbatim from `set("short")`, the
+`{id, short, long, exits?, no_fight?, outdoors?}` — one ES2 room, copied verbatim from `set("short")`, the
 `@LONG` block of `set("long")` (hard line breaks kept; the UI rewraps) and the static
 `set("exits")`. `no_fight: true` (`set("no_fight")`) refuses attacks from or into every zone
-holding the room ("这里不准战斗。", kill.c) and stops NPC aggression there (combatd.c). `id` is
+holding the room ("这里不准战斗。", kill.c) and stops NPC aggression there (combatd.c).
+`outdoors: true` is `set("outdoors")` with any area name (rope.c finds nowhere to hang a rope). `id` is
 `es2:<path without .c>`; exit targets use the same form and may name rooms that are not migrated.
 `tools/tests/test_room_data.py` checks the text against `reference/es2/`.
 
@@ -169,8 +173,10 @@ aggressive NPC in contact joins one encounter; Lake, owner decision P2A-M).
 
 ## portals
 
-`{id, from_zone, to_zone, to_spawn, legacy_room, legacy_command}` — a way from a zone to a spawn
-marker in another zone, same map or not; the maps follow from the zones. `legacy_command` is the
+`{id, from_zone, to_zone, to_spawn, legacy_room, legacy_command, set_mark?}` — a way from a zone to a spawn
+marker in another zone (or back into the same one: the 迷阵), same map or not; the maps follow from
+the zones. `set_mark` names a mark (CharacterState `marks`) the room's valid_leave() gives whoever
+takes it (eight7.c's 八卦阵). `legacy_command` is the
 ES2 command it stands for (`"east"`, `"climb pine"`). Cross-region portals live in their source
 region's file.
 
@@ -202,6 +208,20 @@ one portal); `vine` (epath2.c) rolls dodge between two portals `[waterfall, pass
 `pushes`-th opens its portals `[down, up]` for `open_seconds` of world time (`open`, `close`).
 `up` leads from where `down` arrives back to `zone`; both stay shut (their scene passages off)
 until the landmark opens them, and no other landmark may use them.
+`push_stone` (closed.c): below the record's `force`, `max_force` or `force_factor` the push is
+`weak`; else it costs `gin`, `kee` and `sen` (`push`) and random(`random`) 0 rolls the stone away
+(`rolled`) through its one portal. `search` (water.c): with the record's `mark`, random(`random`)
+other than 0 gives the `reward` item (`found`, the mark stays), else the mark goes (`search`,
+`nothing`). `look_spawn` (house3.c) has no action: looking calls one NPC of its summoned `spawn`
+in (`spawn`) while fewer than `limit` came since its room's reset and a point is free; else the
+look reads `long`.
+
+## exit_rules
+
+`{id, room, from_zone, to_zone, when, lines, legacy_source}` — a room's valid_leave() refusing a
+walk into the next zone or a passage between the two: `when` `weapon_in_hand` (with `present`, an
+NPC that must stand in the room), `combat_exp_below` (with `value`) or `not_apprentice_of` (with
+`npc`, the master's definition). The player stays and reads `lines`.
 
 ## pacing
 

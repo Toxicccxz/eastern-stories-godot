@@ -205,6 +205,38 @@ static func take_passage(tree: SceneTree, map: WorldMapController, portal_id: St
 	return left
 
 
+## Walks onto a passage that stays on this map (the 迷阵's exits, a one-way way) until it
+## moves the player (WorldMapController.last_passage_traversal() completes anew); false
+## when that does not happen within `frames`.
+static func take_same_map_passage(tree: SceneTree, map: WorldMapController, portal_id: StringName, frames: int = 600) -> bool:
+	var area: WorldPassageArea2D = passage(map, portal_id)
+	var body: CharacterBody2D = map.runtime_player_body()
+	if area == null:
+		return false
+	var before: RefCounted = map.last_passage_traversal()
+	var points: PackedVector2Array = MapRoute.path(map, body.global_position, area.global_position, npc_bodies(map))
+	points.append(area.global_position)
+	var index: int = 0
+	var moved: bool = false
+	for _frame: int in range(frames):
+		var traversal: WorldPortalTraversalResult = map.last_passage_traversal() as WorldPortalTraversalResult
+		if traversal != null and traversal != before and traversal.completed():
+			moved = true
+			break
+		while index < points.size() - 1 and body.global_position.distance_to(points[index]) <= 8.0:
+			index += 1
+		var delta: Vector2 = points[index] - body.global_position
+		_press(&"move_right", delta.x > 4.0)
+		_press(&"move_left", delta.x < -4.0)
+		_press(&"move_down", delta.y > 4.0)
+		_press(&"move_up", delta.y < -4.0)
+		await tree.physics_frame
+	release()
+	await tree.physics_frame
+	await tree.physics_frame
+	return moved
+
+
 ## Holds one move action for `frames` physics frames (a push against a wall or a shut door).
 static func push(tree: SceneTree, action: StringName, frames: int) -> void:
 	Input.action_press(action)

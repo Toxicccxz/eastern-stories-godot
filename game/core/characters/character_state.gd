@@ -69,6 +69,9 @@ var quest := CharacterQuestState.new()
 ## LPC vendetta/<mark>: kills of NPCs with that vendetta_mark (combatd.c
 ## killer_reward()); their kind attacks on sight (attack.c init()). Death clears it. Saved.
 var vendetta: Dictionary[String, int] = {}
+## set_temp("apply/<key>") an NPC's create() draws (d/green/npc/kid2.c: 3 + random(2)
+## dodge) and nothing takes back; empty for most characters. Saved.
+var applies: Dictionary[String, int] = {}
 
 
 func _init(

@@ -38,6 +38,11 @@
 		"waterfog/npcs.json",
 		"waterfog/spawns.json",
 		"waterfog/rooms.json",
-		"waterfog/world.json"
+		"waterfog/world.json",
+		"green/items.json",
+		"green/npcs.json",
+		"green/spawns.json",
+		"green/rooms.json",
+		"green/world.json"
 	]
 }

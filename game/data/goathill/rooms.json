@@ -7,7 +7,8 @@
 			"exits": {
 				"north": "es2:d/goathill/mroad2",
 				"south": "es2:d/snow/crossroad"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/mroad2",
@@ -16,7 +17,8 @@
 			"exits": {
 				"northeast": "es2:d/goathill/mroad3",
 				"south": "es2:d/goathill/mroad1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/mroad3",
@@ -26,7 +28,8 @@
 				"northup": "es2:d/goathill/mroad4",
 				"east": "es2:d/goathill/temple1",
 				"southwest": "es2:d/goathill/mroad2"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/temple1",
@@ -43,7 +46,8 @@
 			"exits": {
 				"east": "es2:d/goathill/mroad5",
 				"southdown": "es2:d/goathill/mroad3"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/mroad5",
@@ -53,7 +57,8 @@
 				"northeast": "es2:d/goathill/mroad6",
 				"east": "es2:d/goathill/slope1",
 				"west": "es2:d/goathill/mroad4"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/slope1",
@@ -62,7 +67,8 @@
 			"exits": {
 				"north": "es2:d/goathill/mroad6",
 				"west": "es2:d/goathill/mroad5"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/mroad6",
@@ -72,7 +78,8 @@
 				"north": "es2:d/goathill/canyon1",
 				"southwest": "es2:d/goathill/mroad5",
 				"south": "es2:d/goathill/slope1"
-			}
+			},
+			"outdoors": true
 		},
 		{
 			"id": "es2:d/goathill/canyon1",

@@ -10,6 +10,12 @@ func use(_map: WorldMapController, _landmark: WorldLandmarkDefinition) -> RefCou
 	return null
 
 
+## What looking at the landmark shows (look.c: item_desc, which a function may make):
+## its authored text unless the policy says otherwise.
+func look(_map: WorldMapController, landmark: WorldLandmarkDefinition) -> String:
+	return landmark.description
+
+
 ## Whether the landmark stays selected after it moved the player.
 func keeps_selection() -> bool:
 	return true
@@ -28,10 +34,15 @@ static func move_through(map: WorldMapController, portal: PortalDefinition) -> R
 			refused._outcome = OldPineMapHandoffResult.Outcome.SOURCE_LOCATION_INVALID
 			return refused
 		return map.session.handoff_to(portal.destination_map_id, zone.zone_id, zone.combat_location_id, portal.destination_spawn_point_id)
-	return WorldPortalTraversalAdapter.new().traverse(
+	var moved: WorldPortalTraversalResult = WorldPortalTraversalAdapter.new().traverse(
 		map.player_runtime(),
 		map.player_body,
 		portal,
 		null if portal == null else map.resolve_spawn_marker(portal.destination_spawn_point_id),
 		null if portal == null else map.location_for_zone(portal.destination_zone_id),
 	)
+	# A jump on one map (the 迷阵's exits): the camera is there at once, not gliding across the map.
+	var camera: Camera2D = null if map.player_body == null else map.player_body.get_node_or_null("Camera2D") as Camera2D
+	if moved.completed() and camera != null:
+		camera.reset_smoothing()
+	return moved

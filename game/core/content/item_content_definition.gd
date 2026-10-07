@@ -58,6 +58,7 @@ var _liquid_initial_remaining: int
 var _liquid_initial_name: String
 var _study: StudyMaterial
 var _play: StringName = &""
+var _hang: bool = false
 var _default_amount: int = 1
 var _apply: StringName = &""
 var _dissolves: bool = false
@@ -124,6 +125,9 @@ var study: StudyMaterial:
 ## (`pipe` for environment()->pipe_notify()); empty for most items.
 var play: StringName:
 	get: return _play
+## rope.c add_action("hang_self", "hang"): one can hang oneself with it.
+var hang: bool:
+	get: return _hang
 ## combined.c: the amount create() gives a new one (set_amount); 1 for anything else.
 var default_amount: int:
 	get: return _default_amount
@@ -165,6 +169,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._no_get = reader.boolean("no_get", false)
 	definition._female_only = reader.boolean("female_only", false)
 	definition._play = StringName(reader.text("play"))
+	definition._hang = reader.boolean("hang", false)
 	definition._apply = StringName(reader.text("apply"))
 	if not definition._apply.is_empty() and not ItemApplyFunctions.has(definition._apply):
 		reader.fail("apply", "unknown apply '%s'" % definition._apply)

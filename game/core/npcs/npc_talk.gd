@@ -9,6 +9,9 @@ extends RefCounted
 
 ## npc.c random_move(), one chat function that is data; NpcDrinkAction is another.
 const RANDOM_MOVE: StringName = &"random_move"
+## An emote command() among the chat functions (oldman2.c's sigh): data/emoted.o is
+## not in the mudlib, so it shows nothing, but it is one of the entries drawn.
+const SILENT_EMOTE: StringName = &"emote"
 
 var _inquiry: Dictionary[String, PackedStringArray] = {}
 var _kee_answers: Dictionary[String, Array] = {}
@@ -139,12 +142,16 @@ func is_valid() -> bool:
 	for entry: Variant in _chat_entries:
 		if not (
 			_is_valid_said(entry)
-			or (entry is StringName and entry == RANDOM_MOVE)
+			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE))
 			or (entry is NpcDrinkAction and (entry as NpcDrinkAction).is_valid())
 		):
 			return false
 	for entry: Variant in _combat_chat_entries:
-		if not (_is_valid_said(entry) or (entry is NpcWeaponMatch and (entry as NpcWeaponMatch).is_valid())):
+		if not (
+			_is_valid_said(entry) or (entry is NpcWeaponMatch and (entry as NpcWeaponMatch).is_valid())
+			or (entry is NpcFightChat.Wield and entry.is_valid()) or (entry is NpcFightChat.CallPartner and entry.is_valid())
+			or (entry is NpcFightChat.SayByAge and entry.is_valid())
+		):
 			return false
 	for topic: String in _inquiry:
 		if topic.is_empty():

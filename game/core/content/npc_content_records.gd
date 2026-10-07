@@ -44,7 +44,10 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	)
 	var score_roll: NpcRandomInteger = _random_integer(reader, "score")
 	var score: int = score_roll.base if score_roll != null else reader.integer("score")
-	var attitude: int = _attitude(reader)
+	var attitude_roll: NpcRandomText = _random_text(reader, "attitude")
+	var attitude: int = _attitude_named(attitude_roll.first_choice(), reader) if attitude_roll != null else _attitude(reader)
+	if attitude_roll != null and not (_attitude_known(attitude_roll.first_choice()) and _attitude_known(attitude_roll.other_choice())):
+		reader.fail("attitude", "unsupported attitude in the rule")
 	var skills: Array[NpcSkillLevelDefinition] = []
 	var skill_levels: Dictionary[String, int] = reader.integer_map("skills")
 	for skill_id: String in skill_levels:
@@ -55,7 +58,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		skill_map[StringName(use_id)] = StringName(authored_map[use_id])
 	var loadout: Array[NpcLoadoutEntry] = []
 	for carry: ContentRecordReader in reader.children("carry"):
-		loadout.append(_loadout_entry(carry))
+		loadout.append(_carry_entry(carry))
 	var capabilities: Array[StringName] = _string_names(reader.text_list("capabilities"))
 	var attributes: NpcBaseAttributeOverrides = _attribute_overrides(reader)
 	var resources: NpcResourceOverrides = _resource_overrides(reader)
@@ -66,7 +69,21 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 			internal_power[StringName(key)] = authored_resources[key]
 	if reader.has("force_factor"):
 		internal_power[&"force_factor"] = reader.integer("force_factor")
-	var combat_facts: NpcAuthoredCombatFacts = _combat_facts(reader)
+	# apply/<key>: a value, or a rule create() draws (set_temp("apply/dodge", 3 + random(2))).
+	var apply: Dictionary[StringName, int] = {}
+	var apply_rolls: Dictionary[StringName, NpcRandomInteger] = {}
+	var apply_reader: ContentRecordReader = reader.child("apply")
+	if apply_reader != null:
+		for key: String in apply_reader.keys():
+			if not NpcAuthoredCombatFacts.APPLY_KEYS.has(StringName(key)):
+				apply_reader.fail(key, "unsupported apply value")
+				apply_reader.integer(key) # consumed: reported once, as unsupported
+			elif apply_reader.is_object(key):
+				apply_rolls[StringName(key)] = _random_integer(apply_reader, key)
+			else:
+				apply[StringName(key)] = apply_reader.required_integer(key)
+		apply_reader.finish()
+	var combat_facts: NpcAuthoredCombatFacts = _combat_facts(reader, apply)
 	var fight_rules: Array[NpcFightRule] = []
 	for rule: ContentRecordReader in reader.children("accept_fight"):
 		fight_rules.append(_fight_rule(rule))
@@ -99,7 +116,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll)
 	if bellicosity < 0:
 		reader.fail("bellicosity", "must not be negative")
 	if not definition.is_valid():
@@ -167,7 +184,7 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(entry)
 			continue
 		var record: ContentRecordReader = entry
-		if record.has("say"):
+		if record.has("say") and not record.has("action"):
 			var color := StringName(record.required_text("color"))
 			if not ColoredLine.COLORS.has(color):
 				record.fail("color", "expected one of %s" % ", ".join(ColoredLine.COLORS))
@@ -183,9 +200,15 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcDrinkAction.from_record(record))
 		elif action == "match_weapon" and in_fight:
 			entries.append(NpcWeaponMatch.from_record(record))
+		elif NpcFightChat.is_action(action) and in_fight:
+			entries.append(NpcFightChat.from_record(record, action))
+		elif action == "emote" and not in_fight:
+			# An emote command(): data/emoted.o is not in the mudlib, so it prints nothing.
+			record.required_text("verb")
+			entries.append(NpcTalk.SILENT_EMOTE)
 		else:
 			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
-				"perform, cast, exert, surrender, match_weapon" if in_fight else "random_move, drink, perform, cast, exert, surrender"])
+				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age" if in_fight else "random_move, drink, emote, perform, cast, exert, surrender"])
 		record.finish()
 	return entries
 
@@ -226,8 +249,27 @@ static func _fight_rule(reader: ContentRecordReader) -> NpcFightRule:
 	return rule
 
 
+## NpcDefinition.Attitude of an LPC attitude name (peaceful for an unknown one).
+static func attitude_of(attitude: String) -> int:
+	match attitude:
+		"aggressive":
+			return NpcDefinition.Attitude.AGGRESSIVE
+		"friendly":
+			return NpcDefinition.Attitude.FRIENDLY
+		"heroism":
+			return NpcDefinition.Attitude.HEROISM
+	return NpcDefinition.Attitude.PEACEFUL
+
+
+static func _attitude_known(attitude: String) -> bool:
+	return attitude in ["peaceful", "aggressive", "friendly", "heroism"]
+
+
 static func _attitude(reader: ContentRecordReader) -> int:
-	var attitude: String = reader.text("attitude", "peaceful")
+	return _attitude_named(reader.text("attitude", "peaceful"), reader)
+
+
+static func _attitude_named(attitude: String, reader: ContentRecordReader) -> int:
 	match attitude:
 		"peaceful":
 			return NpcDefinition.Attitude.PEACEFUL
@@ -279,11 +321,33 @@ static func _random_text(reader: ContentRecordReader, key: String) -> NpcRandomT
 	return result
 
 
-## carry_object(path) with optional ->wield()/->wear(); add_money(id, amount).
+## A carry entry, or `{"random": n, "below": k, "then": entry, "else": entry}`: the
+## first when random(n) < k (worker2.c: random(50) > 40 wields a hammer, else a rope).
+static func _carry_entry(carry: ContentRecordReader) -> NpcLoadoutEntry:
+	if not carry.has("random"):
+		return _loadout_entry(carry)
+	var bound: int = carry.required_integer("random")
+	var below: int = carry.required_integer("below")
+	var first: ContentRecordReader = carry.child("then")
+	var second: ContentRecordReader = carry.child("else")
+	if first == null or second == null:
+		carry.fail("", "a choice needs then and else")
+		carry.finish()
+		return NpcLoadoutEntry.new()
+	var entry: NpcLoadoutEntry = _loadout_entry(first).with_choice(bound, below, _loadout_entry(second))
+	carry.finish()
+	if bound <= 0:
+		carry.fail("random", "must be positive")
+	return entry
+
+
+## carry_object(path) with optional ->wield()/->wear(); add_money(id, amount), whose
+## amount may be a rule create() draws ({"base", "plus_random"}).
 static func _loadout_entry(carry: ContentRecordReader) -> NpcLoadoutEntry:
 	var item_id: String = carry.required_text("item")
 	var source: String = carry.required_text("source")
-	var amount: int = carry.integer("amount", 1)
+	var amount_roll: NpcRandomInteger = _random_integer(carry, "amount")
+	var amount: int = 1 if amount_roll != null else carry.integer("amount", 1)
 	var intent: int = NpcLoadoutEntry.EquipmentIntent.NONE
 	match carry.text("equip"):
 		"":
@@ -295,7 +359,7 @@ static func _loadout_entry(carry: ContentRecordReader) -> NpcLoadoutEntry:
 		_:
 			carry.fail("equip", "expected 'wield' or 'wear'")
 	carry.finish()
-	return NpcLoadoutEntry.new(StringName(item_id), amount, intent, source)
+	return NpcLoadoutEntry.new(StringName(item_id), amount, intent, source).with_amount_roll(amount_roll)
 
 
 static func _attribute_overrides(reader: ContentRecordReader) -> NpcBaseAttributeOverrides:
@@ -334,16 +398,11 @@ static func _resource_overrides(reader: ContentRecordReader) -> NpcResourceOverr
 
 
 ## limbs/verbs and set_temp("apply/...") intrinsics authored on the NPC itself.
-static func _combat_facts(reader: ContentRecordReader) -> NpcAuthoredCombatFacts:
-	var has_facts: bool = reader.has("limbs") or reader.has("verbs") or reader.has("apply")
+## limbs, verbs and the fixed apply/<key> values (`apply`, read with its rules).
+static func _combat_facts(reader: ContentRecordReader, apply: Dictionary[StringName, int]) -> NpcAuthoredCombatFacts:
+	var has_facts: bool = reader.has("limbs") or reader.has("verbs") or not apply.is_empty()
 	var limbs: Array[String] = reader.text_list("limbs")
 	var verbs: Array[StringName] = _string_names(reader.text_list("verbs"))
-	var apply: Dictionary[StringName, int] = {}
-	var authored: Dictionary[String, int] = reader.integer_map("apply")
-	for key: String in authored:
-		if not NpcAuthoredCombatFacts.APPLY_KEYS.has(StringName(key)):
-			reader.fail("apply." + key, "unsupported apply value")
-		apply[StringName(key)] = authored[key]
 	if not has_facts:
 		return null
 	return NpcAuthoredCombatFacts.new(limbs, verbs, apply)
