@@ -19,8 +19,10 @@ const RISE: float = 18.0
 const EASE: float = 14.0
 ## Messages that come together still come in one after another.
 const SPACING_SECONDS: float = 0.3
+## A shown toast is read at least this long before a newer one pushes it out.
+const MIN_SHOWN_SECONDS: float = 1.2
 ## Waiting messages beyond this are dropped, oldest first (消息 keeps them).
-const MAX_WAITING: int = 3
+const MAX_WAITING: int = 4
 ## How long a toast stays: a short line LINGER_MIN, longer by length up to LINGER_MAX.
 const LINGER_MIN: float = 6.0
 const LINGER_MAX: float = 14.0
@@ -88,6 +90,8 @@ func _init() -> void:
 		toast.label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		toast.label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		toast.label.add_theme_font_size_override("font_size", 15)
+		# The lines come in the shown language already.
+		toast.label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		toast.panel.add_child(toast.label)
 		toast.panel.hide()
 		add_child(toast.panel)
@@ -167,14 +171,33 @@ func _process(delta: float) -> void:
 	if _suppressed:
 		return
 	_cooldown = maxf(0.0, _cooldown - delta)
-	if not _waiting.is_empty() and _cooldown <= 0.0:
-		_show(_waiting.pop_front())
-		_cooldown = SPACING_SECONDS
 	for toast: Toast in _shown:
 		toast.age += delta
-		if not toast.leaving and toast.age >= toast.linger:
-			toast.leaving = true
+	if not _waiting.is_empty() and _cooldown <= 0.0 and _room_for_next():
+		_show(_waiting.pop_front())
+		_cooldown = SPACING_SECONDS
+	# They go in order: only the oldest standing one fades out by time.
+	var oldest: Toast = _oldest_standing()
+	if oldest != null and oldest.age >= oldest.linger:
+		oldest.leaving = true
 	_layout(delta, false)
+
+
+## A new toast may come in: fewer than SHOWN stand, or the oldest has been read long enough.
+func _room_for_next() -> bool:
+	var standing: int = 0
+	for toast: Toast in _shown:
+		if not toast.leaving:
+			standing += 1
+	var oldest: Toast = _oldest_standing()
+	return standing < SHOWN or oldest == null or oldest.age >= MIN_SHOWN_SECONDS
+
+
+func _oldest_standing() -> Toast:
+	for toast: Toast in _shown:
+		if not toast.leaving:
+			return toast
+	return null
 
 
 func _show(entry: Entry) -> void:

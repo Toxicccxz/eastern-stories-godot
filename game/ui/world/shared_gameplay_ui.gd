@@ -402,15 +402,15 @@ func append_colored_lines(lines: Array[ColoredLine]) -> void:
 
 
 func _append(lines: Array[ColoredLine], toast: bool) -> void:
-	var toasts: MessageToasts = _presentation_layout.toasts
-	toasts.set_suppressed(_toasts_suppressed())
+	var stack: MessageToasts = _presentation_layout.toasts
+	stack.set_suppressed(_toasts_suppressed())
 	for line: ColoredLine in lines:
 		if not line.text.is_empty():
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
 			if toast:
 				# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
-				toasts.push(line.text.replace("\n", " "), ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), ES2_COLORS.has(line.color))
+				stack.push(line.text.replace("\n", " "), ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), ES2_COLORS.has(line.color))
 	while _log_lines.size() > MAX_LOG_LINES:
 		_log_lines.pop_front()
 		_log_colors.pop_front()
@@ -428,12 +428,21 @@ func toasts() -> MessageToasts:
 
 
 func refresh_toasts() -> void:
+	if not _presentation_layout.frame.visible:
+		_panel_shows_lines = false
 	_presentation_layout.toasts.set_suppressed(_toasts_suppressed())
 
 
-## A panel or a fight shows its own lines then (dialogue stays in its panel).
+## SharedGameplayLayout opened a panel: one that shows its own lines says so after.
+func panel_opened() -> void:
+	_panel_shows_lines = false
+	refresh_toasts()
+
+
+## A panel that shows its own lines (打听, a teacher, a shop: dialogue stays in its
+## panel) or a fight shows them then. Other panels (背包, 拾取, 角色) let toasts through.
 func _toasts_suppressed() -> bool:
-	return _presentation_layout.frame.visible or (
+	return (_presentation_layout.frame.visible and _panel_shows_lines) or (
 		_session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter()
 	)
 
@@ -501,7 +510,7 @@ func open_ask() -> void:
 		button.pressed.connect(_ask_topic.bind(topic))
 		_ask_topics.add_child(button)
 	_ask_answer.text = ""
-	_presentation_layout.open_panel(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
+	_open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
 	_presentation_layout.refresh_rows()
 
 
@@ -587,6 +596,8 @@ var _elapsed: float = 0.0
 ## writes the new one, as ES2 printed a room on arrival.
 var _described_zone_id: StringName = &""
 var _business_feedback: String = ""
+## The open panel shows its own lines (an NPC's panel, 打听): no toasts while it is open.
+var _panel_shows_lines: bool = false
 var _ask_panel: VBoxContainer
 var _ask_topics: HFlowContainer
 var _ask_answer: Label
@@ -642,6 +653,8 @@ func _process(delta: float) -> void:
 	visible = available and not fighting
 	if not visible:
 		_presentation_layout.close_panel()
+		# A fight clears the toasts from before it.
+		refresh_toasts()
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
@@ -743,7 +756,14 @@ func open_current_context() -> void:
 func open_business(title: String, form: Control, validate: Callable) -> void:
 	if not _session.portable_inventory_available(): return
 	_business_feedback = ""
-	_presentation_layout.open_panel(title, form, validate)
+	_open_panel_with_lines(title, form, validate)
+
+
+## Opens a panel that shows its own lines: toasts stay off while it is open.
+func _open_panel_with_lines(title: String, content: Control, validate: Callable = Callable()) -> void:
+	_presentation_layout.open_panel(title, content, validate)
+	_panel_shows_lines = _presentation_layout._content == content
+	refresh_toasts()
 
 
 func open_character() -> void:

@@ -77,6 +77,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_name.clip_text = true
 	ui.player_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	ui.player_name.add_theme_font_size_override("font_size", 19)
+	ui.player_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	ui.player_name.add_theme_color_override("font_color", NAME_COLOR)
 	header.add_child(ui.player_name)
 	var place := PanelContainer.new()
@@ -87,6 +88,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.world_title = Label.new()
 	ui.world_title.name = "Location"
 	ui.world_title.add_theme_font_size_override("font_size", 13)
+	# Already in the shown language (tr()).
+	ui.world_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	ui.world_title.add_theme_color_override("font_color", MUTED_COLOR)
 	place.add_child(ui.world_title)
 	var vitals := HBoxContainer.new()
@@ -164,8 +167,6 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	contexts.hide()
 	for button: Node in contexts.get_children():
 		(button as Control).hide()
-	toasts = MessageToasts.new()
-	overlay.add_child(toasts)
 	barrier = Control.new()
 	barrier.name = "PanelInputBarrier"
 	barrier.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -220,6 +221,9 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	holding.add_child(ui.loot_panel)
 	ui.confirm_prompt = ConfirmPrompt.new()
 	holding.add_child(ui.confirm_prompt)
+	# Last, so they draw above the card and the frame (they take no input).
+	toasts = MessageToasts.new()
+	overlay.add_child(toasts)
 	_attach()
 
 
@@ -248,6 +252,11 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	_bar_area = area
 	bar.position = area.position
 	bar.size = Vector2(minf(CARD_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
+	# Touch rows keep five 64 px buttons on one line at 480 px, with room for a scrollbar.
+	var card: StyleBoxFlat = bar.get_theme_stylebox("panel") as StyleBoxFlat
+	if card != null:
+		card.content_margin_left = 10.0 if metrics.touch_sized() else 16.0
+		card.content_margin_right = 10.0 if metrics.touch_sized() else 16.0
 	# Touch-sized buttons stay 64 px square so five fit one row on 480 px.
 	var gap: int = 4 if metrics.touch_sized() else 8
 	for flow: HFlowContainer in [navigation, contexts]:
@@ -255,8 +264,13 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 		flow.add_theme_constant_override("v_separation", gap)
 	for button: Node in navigation.get_children() + contexts.get_children():
 		(button as Control).custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
-	# Touch screens keep the world visible: shorter toasts, the full text in Messages/Look.
-	toasts.place(area, minf(TOAST_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 2 if metrics.touch_sized() else 3)
+	# Touch screens keep the world visible: shorter toasts, the full text in Messages/Look,
+	# right of the movement pad's corner.
+	var toast_area: Rect2 = area
+	if metrics.touch_sized():
+		var pad: Rect2 = metrics.future_movement_rect()
+		toast_area = Rect2(Vector2(pad.end.x + 8.0, area.position.y), Vector2(maxf(1.0, area.end.x - pad.end.x - 8.0), area.size.y))
+	toasts.place(toast_area, minf(TOAST_WIDTH, maxf(1, toast_area.size.x - (72 if metrics.touch_sized() else 0))), 2 if metrics.touch_sized() else 3)
 	fit_bar()
 	var panel_area := area
 	if metrics.touch_sized():
@@ -269,7 +283,8 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 func fit_bar() -> void:
 	if _bar_area.size.y <= 0:
 		return
-	var margins: float = 24.0
+	# The card's own top and bottom margins.
+	var margins: float = bar.get_theme_stylebox("panel").get_minimum_size().y
 	var wanted: float = _bar_rows.get_combined_minimum_size().y
 	_bar_scroll.custom_minimum_size.y = minf(wanted, maxf(1, _bar_area.size.y - margins))
 	bar.size.y = 0
@@ -293,8 +308,7 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	frame_title.text = title
 	frame.show()
 	barrier.show()
-	# The panel shows its own lines: no toasts while it is open.
-	toasts.set_suppressed(true)
+	ui.panel_opened()
 	ui.quarantine_movement()
 	_frame_layout.restyle_dynamic_content()
 	close_button.grab_focus()
@@ -366,6 +380,7 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	value.clip_text = true
 	value.add_theme_font_size_override("font_size", 13)
 	value.add_theme_color_override("font_color", NAME_COLOR)
+	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	line.add_child(value)
 	var bar_control := ProgressBar.new()
 	bar_control.name = "Bar"

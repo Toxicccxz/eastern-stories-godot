@@ -1,10 +1,11 @@
 extends RefCounted
 
 ## The HUD's toasts at the bottom left (owner, 2026-10-06): a new message rises from
-## below and pushes the older one up; past two, the oldest fades out upward; each fades
-## after a while. Lines that come while a panel or a fight shows its own are not
-## toasted, and 消息 keeps every line. Then the status card's bars and the toasts in a
-## Snow session.
+## below and pushes the older one up; past two, the oldest fades out upward (each read
+## at least MIN_SHOWN_SECONDS first); they fade in order after a while. Lines that come
+## while a panel that shows its own lines (打听, an NPC's panel) or a fight is open are
+## not toasted; 背包 and the like let them through; 消息 keeps every line. Then the
+## status card's bars and the toasts in a Snow session.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 
@@ -37,8 +38,12 @@ func _test_component(tree: SceneTree) -> void:
 	_check(toasts.shown_texts() == ["第一条"], "one comes in at a time")
 	var first: PanelContainer = _panel_of(toasts, "第一条")
 	_check(first != null and first.modulate.a < 0.5, "it fades in")
-	_frames(toasts, 0.05, 20) # 1 s: the others follow, SPACING_SECONDS apart
-	_check(toasts.shown_texts() == ["第二条", "第三条"], "two show; the third pushed the first out: %s" % str(toasts.shown_texts()))
+	_frames(toasts, 0.05, 10) # 0.5 s: the second follows SPACING_SECONDS later
+	_check(toasts.shown_texts() == ["第一条", "第二条"], "two show; the third waits: %s" % str(toasts.shown_texts()))
+	_frames(toasts, 0.05, 10) # 1.0 s: the first not yet read long enough
+	_check(toasts.shown_texts() == ["第一条", "第二条"], "the first stays MIN_SHOWN_SECONDS before it is pushed out")
+	_frames(toasts, 0.05, 20) # 2.0 s
+	_check(toasts.shown_texts() == ["第二条", "第三条"], "then the third pushes the first out: %s" % str(toasts.shown_texts()))
 	var second: PanelContainer = _panel_of(toasts, "第二条")
 	var third: PanelContainer = _panel_of(toasts, "第三条")
 	_check(second != null and third != null and second.position.y + second.size.y <= third.position.y, "the older one stands above the newer")
@@ -50,6 +55,10 @@ func _test_component(tree: SceneTree) -> void:
 	for panel: Node in toasts.get_children():
 		if (panel as Control).visible:
 			_check(Rect2(Vector2.ZERO, area.size).grow(0.5).encloses(Rect2((panel as Control).position, (panel as Control).size)), "every toast stays inside the area")
+	toasts.push("一条很长的消息，" + "停留得也更久一些，".repeat(8))
+	_frames(toasts, 0.25, 8) # the long one comes in
+	_frames(toasts, 0.25, 20) # 7 s: 第二条 and 第三条 past their LINGER, oldest first
+	_check(toasts.shown_texts().size() == 1 and toasts.shown_texts()[0].begins_with("一条很长的消息"), "they fade in order; the long one stays longer: %s" % str(toasts.shown_texts()))
 	_frames(toasts, 0.25, 80) # 20 s: past LINGER_MAX
 	_check(toasts.shown_texts().is_empty(), "read messages fade out after a while")
 	toasts.push("在面板里说的话")
@@ -62,7 +71,7 @@ func _test_component(tree: SceneTree) -> void:
 	for index: int in 6:
 		toasts.push("第%d行" % index)
 	_frames(toasts, 0.05, 40)
-	_check(toasts.shown_texts() == ["第4行", "第5行"], "a burst shows its last lines: %s" % str(toasts.shown_texts()))
+	_check(toasts.shown_texts() == ["第4行", "第5行"], "a burst keeps its last MAX_WAITING and ends on its last two: %s" % str(toasts.shown_texts()))
 	_check(toasts.get_child_count() == nodes, "messages never add or free nodes")
 	host.free()
 	await tree.process_frame
@@ -87,16 +96,31 @@ func _test_hud(tree: SceneTree) -> void:
 	_check(arrival.begins_with("【") and hud.toasts().latest_text() == arrival.replace("\n", " "), "the room's text on arrival is a toast")
 	hud.append_log_lines(["一句场景里的话"])
 	_check(hud.toasts().latest_text() == "一句场景里的话", "a scene line is a toast")
-	hud.open_look()
+	hud.open_inventory()
 	await tree.process_frame
-	_check(hud.toasts().is_suppressed() and not hud.toasts().visible, "a panel open: no toasts")
+	_check(hud.inventory_is_open() and not hud.toasts().is_suppressed(), "背包 open: toasts still come (it shows no lines of its own)")
+	hud.append_log_lines(["背包打开时的一句"])
+	_check(hud.toasts().latest_text() == "背包打开时的一句", "a give's answer reads at once")
+	hud.dismiss_current_panel()
+	await tree.process_frame
+	var form := VBoxContainer.new() # TEST-ONLY: an NPC's panel
+	form.add_child(Label.new())
+	hud._presentation_layout.holding.add_child(form)
+	hud.open_business("测试", form, Callable())
+	await tree.process_frame
+	_check(hud.toasts().is_suppressed() and not hud.toasts().visible, "an NPC's panel open: no toasts")
 	hud.append_log_lines(["对话框里的一句"])
-	_check(hud.toasts().latest() == null and hud.log_lines().back() == "对话框里的一句", "a line while the panel shows stays in 消息 only")
+	_check(hud.toasts().latest() == null and hud.log_lines().back() == "对话框里的一句", "a line while it shows stays in 消息 only")
 	hud.dismiss_current_panel()
 	for frame: int in range(3):
 		await tree.process_frame
 	hud.refresh_exploration()
 	_check(not hud.toasts().is_suppressed(), "the panel closed: toasts again")
+	hud.open_look()
+	await tree.process_frame
+	_check(not hud.toasts().is_suppressed(), "观察 lets toasts through too")
+	hud.dismiss_current_panel()
+	await tree.process_frame
 	hud.show_combat_result("你赢了这场战斗。\n一行战斗描写")
 	_check(hud.toasts().latest_text() == "你赢了这场战斗。" and hud.log_lines().back() == "你赢了这场战斗。\n一行战斗描写", "a fight's result: its first line as a toast, all of it in 消息")
 	session.free()
