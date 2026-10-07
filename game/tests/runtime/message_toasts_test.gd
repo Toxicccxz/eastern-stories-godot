@@ -59,6 +59,10 @@ func _test_component(tree: SceneTree) -> void:
 	_frames(toasts, 0.25, 8) # the long one comes in
 	_frames(toasts, 0.25, 20) # 7 s: 第二条 and 第三条 past their LINGER, oldest first
 	_check(toasts.shown_texts().size() == 1 and toasts.shown_texts()[0].begins_with("一条很长的消息"), "they fade in order; the long one stays longer: %s" % str(toasts.shown_texts()))
+	host.hide() # the HUD put away (paused)
+	_frames(toasts, 0.25, 80)
+	_check(toasts.shown_texts().size() == 1, "hidden, no time passes for them")
+	host.show()
 	_frames(toasts, 0.25, 80) # 20 s: past LINGER_MAX
 	_check(toasts.shown_texts().is_empty(), "read messages fade out after a while")
 	toasts.push("在面板里说的话")
@@ -94,6 +98,9 @@ func _test_hud(tree: SceneTree) -> void:
 	_check(not hud.player_vitality_text.visible, "no conditions line without a condition")
 	var arrival: String = hud.log_lines().back()
 	_check(arrival.begins_with("【") and hud.toasts().latest_text() == arrival.replace("\n", " "), "the room's text on arrival is a toast")
+	hud.visible = false # TEST-ONLY: as a pause hides the HUD
+	_check(not hud.toasts().is_visible_in_tree(), "the HUD hidden: the toasts count as hidden (their time stops)")
+	hud.visible = true
 	hud.append_log_lines(["一句场景里的话"])
 	_check(hud.toasts().latest_text() == "一句场景里的话", "a scene line is a toast")
 	hud.open_inventory()

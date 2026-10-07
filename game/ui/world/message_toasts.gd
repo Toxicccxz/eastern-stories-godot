@@ -168,7 +168,9 @@ func shown_texts() -> Array[String]:
 
 
 func _process(delta: float) -> void:
-	if _suppressed:
+	# Hidden (the pause menu, the HUD put away): no time passes for them, so each is
+	# still read for its full time once they show again.
+	if _suppressed or not is_visible_in_tree():
 		return
 	_cooldown = maxf(0.0, _cooldown - delta)
 	for toast: Toast in _shown:
