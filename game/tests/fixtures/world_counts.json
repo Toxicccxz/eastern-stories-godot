@@ -15,7 +15,9 @@
 		"goathill.mountain",
 		"goathill.caverns",
 		"cloud.outdoor",
-		"cloud.upstairs",
+		"cloud.tearoom_upstairs",
+		"cloud.jiyuan_upstairs",
+		"cloud.duchang_upstairs",
 		"waterfog.mountain",
 		"waterfog.pavilion",
 		"waterfog.upstairs"
@@ -102,8 +104,8 @@
 		"cloud.outdoor.m_house.millinare",
 		"cloud.outdoor.m_house.jiadings",
 		"cloud.outdoor.eroad4.workers",
-		"cloud.upstairs.tearoom2.chess_player",
-		"cloud.upstairs.jiyuan2.girl",
+		"cloud.tearoom_upstairs.tearoom2.chess_player",
+		"cloud.jiyuan_upstairs.jiyuan2.girl",
 		"waterfog.mountain.sroad3.guards",
 		"waterfog.mountain.clifftop.watcher",
 		"waterfog.mountain.clifftop.celes_tiger",
@@ -119,7 +121,7 @@
 		"waterfog.upstairs.east_2f.elite_guards"
 	],
 	"world_npcs": 161,
-	"resident_maps": 19,
+	"resident_maps": 21,
 	"new_game_items": 268,
 	"snow_outdoor_passages": 6,
 	"npc_draws_after_oldpine": 677

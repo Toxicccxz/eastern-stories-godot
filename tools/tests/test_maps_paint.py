@@ -17,7 +17,7 @@ from tools.maps import paint  # noqa: E402
 GENERATED = {
     'oldpine': ['oldpine_stone.tscn', 'oldpine_caves.tscn', 'oldpine_cliff2.tscn'],
     'snow': ['snow_inn_upstairs.tscn', 'snow_cellar.tscn'],
-    'cloud': ['cloud_outdoor.tscn', 'cloud_upstairs.tscn'],
+    'cloud': ['cloud_outdoor.tscn', 'cloud_tearoom_upstairs.tscn', 'cloud_jiyuan_upstairs.tscn', 'cloud_duchang_upstairs.tscn'],
     'goathill': ['goathill_mountain.tscn', 'goathill_caverns.tscn'],
     'waterfog': ['waterfog_mountain.tscn', 'waterfog_pavilion.tscn', 'waterfog_upstairs.tscn'],
 }

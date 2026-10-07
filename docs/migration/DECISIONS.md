@@ -1,5 +1,15 @@
 # Migration Decisions
 
+## 绮云镇's upper floors: three maps (2026-10-06)
+
+Owner: the three upper floors were three separate boxes on one map; each is now its own map
+(`cloud.tearoom_upstairs`, `cloud.jiyuan_upstairs`, `cloud.duchang_upstairs`), drawn over its building
+(the ground floor's size, the stairs down where the ground floor's go up) and furnished from its
+room text: 香茗坊二楼's tea tables and the chess board at its far end (里首), 怡红院二楼's wine table,
+zither table and screen, the 赌场's gaming tables. 赌场二楼's sign stays undrawn (its `bet` is an
+empty TODO in ES2). World content revision `SOURCE_ENTRY_CLOUD_FLOORS_V1`: older development
+saves need a New Game.
+
 ## The HUD: a status card and toasts (2026-10-06)
 
 Owner: the top left becomes a modern status card, and the scene's messages move to the bottom

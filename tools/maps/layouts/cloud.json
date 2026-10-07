@@ -175,66 +175,210 @@
         ]
       }
     },
-    "upstairs": {
-      "note": "The upper floors of 香茗坊, 怡红院 and the 赌场: three separate rooms on one map.",
-      "file": "cloud_upstairs.tscn",
+    "tearoom_upstairs": {
+      "note": "香茗坊二楼, over the tea house (352 x 288 as below): its stairs where the ground floor's go up; tea tables in two rows for the scholars, the chess board at the far end (里首) with its player.",
+      "file": "cloud_tearoom_upstairs.tscn",
       "draw": {
-        "technique": "cells",
-        "cell": 256,
+        "technique": "town",
         "base": "boundary",
-        "bounds": [-64, -64, 1344, 320],
-        "rooms": {
-          "cloud.tearoom2": [0, 0, 1, "floor_wood", "wall_wood"],
-          "cloud.jiyuan2": [2, 0, 1, "floor_wood", "wall_wood"],
-          "cloud.duchang2": [4, 0, 1, "floor_wood", "wall_wood"]
+        "bounds": [-32, -32, 384, 320],
+        "ground": [],
+        "zones": {
+          "cloud.tearoom2": [0, 0, 352, 288, "enclosed", "floor_wood", "wall_wood"]
         },
-        "reserved": {
-          "cloud.tearoom2": [[204, 204], [166, 204]],
-          "cloud.jiyuan2": [[204, 204], [166, 204]],
-          "cloud.duchang2": [[204, 204], [166, 204]]
+        "roads": [],
+        "props": [
+          ["blocked", 64, 112, 96, 144, "tea table, back row"],
+          ["blocked", 144, 112, 176, 144, "tea table, back row"],
+          ["blocked", 64, 176, 96, 208, "tea table, front row"],
+          ["blocked", 144, 176, 176, 208, "tea table, front row"],
+          ["blocked", 256, 192, 288, 224, "the chess board (里首摆着个棋盘)"]
+        ],
+        "reach_from": "Tearoom2StairsArrival",
+        "markers_in_middle": [],
+        "placed": {
+          "cloud.tearoom2.chess_player.1": [232, 208]
         }
       },
       "scene": {
         "style": "map",
-        "root": "CloudUpstairs",
-        "map": "cloud.upstairs",
+        "root": "CloudTearoomUpstairs",
+        "map": "cloud.tearoom_upstairs",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
-        "shapes": {"Rect_256_256": [256, 256], "StairsShape": [48, 48]},
+        "shapes": {
+          "StairsShape": [48, 48]
+        },
         "stairs": [
           {
             "zone": "cloud.tearoom2",
             "name": "Tearoom2StairsDown",
-            "at": [200, 200],
+            "at": [288, 64],
             "id": "cloud.tearoom2.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "楼梯 · 下楼",
-            "marker": {"name": "Tearoom2StairsArrival", "at": [140, 200], "id": "cloud.tearoom2.stairs_arrival"}
+            "marker": {
+              "name": "Tearoom2StairsArrival",
+              "at": [228, 72],
+              "id": "cloud.tearoom2.stairs_arrival"
+            }
+          }
+        ],
+        "nodes": [
+          {
+            "generated": "captions"
           },
+          {
+            "generated": "stairs"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "stair_markers"
+          },
+          {
+            "generated": "markers"
+          }
+        ]
+      }
+    },
+    "jiyuan_upstairs": {
+      "note": "怡红院二楼, over its hall (256 x 256): stairs as below; a low wine table, a zither table and a painted screen, the middle left free.",
+      "file": "cloud_jiyuan_upstairs.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 288, 288],
+        "ground": [],
+        "zones": {
+          "cloud.jiyuan2": [0, 0, 256, 256, "enclosed", "floor_wood", "wall_wood"]
+        },
+        "roads": [],
+        "props": [
+          ["blocked", 48, 48, 96, 80, "the low wine table"],
+          ["blocked", 176, 144, 208, 192, "the zither table"],
+          ["blocked", 48, 176, 112, 192, "a painted screen"]
+        ],
+        "reach_from": "Jiyuan2StairsArrival",
+        "markers_in_middle": []
+      },
+      "scene": {
+        "style": "map",
+        "root": "CloudJiyuanUpstairs",
+        "map": "cloud.jiyuan_upstairs",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "StairsShape": [48, 48]
+        },
+        "stairs": [
           {
             "zone": "cloud.jiyuan2",
             "name": "Jiyuan2StairsDown",
-            "at": [712, 200],
+            "at": [192, 64],
             "id": "cloud.jiyuan2.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "楼梯 · 下楼",
-            "marker": {"name": "Jiyuan2StairsArrival", "at": [652, 200], "id": "cloud.jiyuan2.stairs_arrival"}
+            "marker": {
+              "name": "Jiyuan2StairsArrival",
+              "at": [136, 72],
+              "id": "cloud.jiyuan2.stairs_arrival"
+            }
+          }
+        ],
+        "nodes": [
+          {
+            "generated": "captions"
           },
+          {
+            "generated": "stairs"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "stair_markers"
+          },
+          {
+            "generated": "markers"
+          }
+        ]
+      }
+    },
+    "duchang_upstairs": {
+      "note": "赌场二楼, over the gaming hall (256 x 256): stairs as below (by the door, where its sign hangs: its bet is an empty TODO in ES2, so no sign is drawn); three gaming tables (几张桌子).",
+      "file": "cloud_duchang_upstairs.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 288, 288],
+        "ground": [],
+        "zones": {
+          "cloud.duchang2": [0, 0, 256, 256, "enclosed", "floor_wood", "wall_wood"]
+        },
+        "roads": [],
+        "props": [
+          ["blocked", 48, 48, 96, 80, "a gaming table"],
+          ["blocked", 144, 48, 192, 80, "a gaming table"],
+          ["blocked", 64, 128, 112, 160, "a gaming table"]
+        ],
+        "reach_from": "Duchang2StairsArrival",
+        "markers_in_middle": []
+      },
+      "scene": {
+        "style": "map",
+        "root": "CloudDuchangUpstairs",
+        "map": "cloud.duchang_upstairs",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "StairsShape": [48, 48]
+        },
+        "stairs": [
           {
             "zone": "cloud.duchang2",
             "name": "Duchang2StairsDown",
-            "at": [1224, 200],
+            "at": [192, 192],
             "id": "cloud.duchang2.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "楼梯 · 下楼",
-            "marker": {"name": "Duchang2StairsArrival", "at": [1164, 200], "id": "cloud.duchang2.stairs_arrival"}
+            "marker": {
+              "name": "Duchang2StairsArrival",
+              "at": [136, 184],
+              "id": "cloud.duchang2.stairs_arrival"
+            }
           }
         ],
-        "nodes": [{"generated": "captions"}, {"generated": "stairs"}],
-        "zones": [{"generated": "zones"}],
-        "spawn_points": [{"generated": "stair_markers"}, {"generated": "markers"}]
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "generated": "stairs"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "stair_markers"
+          },
+          {
+            "generated": "markers"
+          }
+        ]
       }
     }
   }

@@ -4,7 +4,7 @@ These maps are generated, never edited by hand:
 
     oldpine: oldpine_stone, oldpine_caves, oldpine_cliff2
     snow:    snow_inn_upstairs, snow_cellar
-    cloud:   cloud_outdoor, cloud_upstairs
+    cloud:   cloud_outdoor, cloud_tearoom_upstairs, cloud_jiyuan_upstairs, cloud_duchang_upstairs
     goathill: goathill_mountain, goathill_caverns
     waterfog: waterfog_mountain, waterfog_pavilion, waterfog_upstairs
 

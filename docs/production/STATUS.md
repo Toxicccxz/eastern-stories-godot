@@ -4,16 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**The HUD** (`phase/hud-toasts`): the top left is a status card (name and place, 精/气/神 bars,
-the buttons, the selected thing under 目标); the scene's messages are toasts at the bottom left
-(two at most, the oldest fading up); a panel's or a fight's own lines are not toasted (DECISIONS).
+**绮云镇's upper floors** (`phase/maps-redraw`): 香茗坊二楼, 怡红院二楼 and the 赌场's upper floor are
+each their own map, drawn over their building and furnished from their room text (DECISIONS).
+**水烟阁 C** is PR #68.
 
-**水烟阁 B** (#67, merged): joining 天邪派 — 萧辟尘 asks for an oath (the 发誓恪守门规
-button), 於兰天武 for his three-blow test (asked first: real blows), a master's recruit offers when
-the player has not asked; both masters teach (於兰天武 only his own), 七宝天岚舞, 天邪神功 by 杀气,
-the 正厅's sign joins the 武者; the character sheet shows score.c's rank (DECISIONS).
-
-Next: 水烟阁 C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
+Next: redraw the seven older hand-made maps with the painter (老松岭's five, then 雪亭镇's Inn and streets).
 
 ## Playable now
 
@@ -48,8 +43,7 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
 * **野羊山**: north of Snow's crossroad, all 15 rooms on two maps: the mountain road (土匪爪牙,
   土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
   巨岩蛭).
-* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on two maps (the ridge and the
-  town; the three upper floors): 卧龙岗强盗 and their toll (walk straight past them; they attack
+* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on four maps (the ridge and the town, and each upper floor on its own): 卧龙岗强盗 and their toll (walk straight past them; they attack
 whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
