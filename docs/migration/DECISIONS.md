@@ -1,5 +1,13 @@
 # Migration Decisions
 
+## Neighbouring rooms of one name are one place (2026-10-07)
+
+Owner: ES2 shows a room's text on every move, and our HUD on every zone the player enters. Rooms
+of one name next to each other (the two 黄土小径, 雪亭镇街道's four, 青石官道, 山路, 白石阶梯, the pine
+maze's 松树林) read as one place: walking on from one into the next on the same map shows no
+arrival text. A room of another name, or one of the name reached any other way (a map change, a
+teleport), is described as before; 观察 shows the current room's own text.
+
 ## 老松岭's maps drawn by the painter (2026-10-07)
 
 Owner-approved plan: the five hand-made Old Pine maps (forest, cave, gorge, tree, cliff1) and the
