@@ -263,6 +263,13 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var poured: Array = (raw.items.liquid_consumables as Array).filter(func(record: Dictionary) -> bool: return record.item_instance_id == String(wine))
 	_check(poured.size() == 1 and poured[0].drink_func == String(DUST) and poured[0].slumber_effect == "100", "the drink's powder is saved: %s" % [poured])
 	_check(raw.player.character.marks.has("elder_info") and raw.player.character.marks.has("can_buy_drug"), "the chain's flags are saved with the marks: %s" % [raw.player.character.marks])
+	# Fail closed: a drink_func that names no powder (here the 布衣) is not restored.
+	var definitions: NativeItemDefinitionProjections = GameContent.catalog().native_item_projections()
+	_check(NativeItemStateValidator.validate(snapshot.items, definitions).succeeded, "the real save validates")
+	var original: String = GameSaveJsonCodec.encode(snapshot).text
+	var tampered: String = original.replace("\"drink_func\": \"%s\"" % DUST, "\"drink_func\": \"es2:obj/cloth\"")
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(tampered)
+	_check(tampered != original and decoded.succeeded() and not NativeItemStateValidator.validate(decoded.snapshot.items, definitions).succeeded, "a save whose poured powder is no powder is refused")
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, snapshot, "青石村 B")
 	_check(walker._failures.is_empty(), "Save/Continue restores it exactly: " + str(walker._failures))

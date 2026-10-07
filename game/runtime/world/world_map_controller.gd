@@ -3270,7 +3270,9 @@ func ask_selected(topic: String) -> Array[String]:
 		if not given.is_empty():
 			# give.c to the receiver: "<npc>给你一<unit><name>。"
 			answer.say(tr("{npc}给你{item}。").format({"npc": tr(target.definition().display_name), "item": HeldItemFacts.one_unit(content)}))
-			_tell_if_at_feet(given, content)
+			var at_feet: String = _at_feet_line(given, content)
+			if not at_feet.is_empty():
+				answer.say(at_feet)
 			if not answer.mark_on_give.is_empty():
 				_player.state.marks[answer.mark_on_give] = 1
 	_hud().append_colored_lines(answer.lines)
@@ -3310,11 +3312,12 @@ func say_beside_selected(phrase: String) -> Array[String]:
 
 
 ## A new item the player could not carry lies at their feet (give_new_item_to_player()):
-## say so (deviation: in ES2 the giver kept it, as give.c's move() failed).
-func _tell_if_at_feet(item_id: StringName, content: ItemContentDefinition) -> void:
+## the line that says so, in its place among the giver's lines (deviation: in ES2 the
+## giver kept it, as give.c's move() failed); "" when it is in their hands.
+func _at_feet_line(item_id: StringName, content: ItemContentDefinition) -> String:
 	if _inventory.is_direct_child(item_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
-		return
-	_hud().append_log_lines([tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(content)})])
+		return ""
+	return tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(content)})
 
 
 ## F_UNIQUE violate_unique(): the item is unique and one already exists somewhere in
@@ -3417,8 +3420,9 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	if result.done() and result.rule != null and not result.rule.gives.is_empty():
 		var gift: StringName = give_new_item_to_player(result.rule.gives)
 		var gift_content: ItemContentDefinition = GameContent.catalog().item(result.rule.gives)
-		if not gift.is_empty() and gift_content != null and not _inventory.is_direct_child(gift, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
-			result.lines.append(tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(gift_content)}))
+		var at_feet: String = "" if gift.is_empty() or gift_content == null else _at_feet_line(gift, gift_content)
+		if not at_feet.is_empty():
+			result.lines.append(at_feet)
 	if not attacks:
 		_report_item_handling(result)
 		return result

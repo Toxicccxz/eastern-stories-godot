@@ -10,6 +10,8 @@ var _armor: Dictionary[StringName, ArmorDefinition] = {}
 var _stacks: Dictionary[StringName, CombinedStackDefinition] = {}
 var _foods: Dictionary[StringName, FoodDefinition] = {}
 var _liquids: Dictionary[StringName, LiquidDefinition] = {}
+## Items that can be poured into a drink (a saved liquid's drink_func names one).
+var _powders: Dictionary[StringName, bool] = {}
 
 var is_valid: bool:
 	get:
@@ -23,6 +25,7 @@ func _init(
 	p_stacks: Array[CombinedStackDefinition] = [],
 	p_foods: Array[FoodDefinition] = [],
 	p_liquids: Array[LiquidDefinition] = [],
+	p_powders: Array[StringName] = [],
 ) -> void:
 	for definition: ItemDefinition in p_items:
 		if (
@@ -79,6 +82,16 @@ func _init(
 			_is_valid = false
 			continue
 		_liquids[definition.item_definition_id] = definition.duplicate_definition()
+	for powder: StringName in p_powders:
+		if not _items.has(powder) or _powders.has(powder):
+			_is_valid = false
+			continue
+		_powders[powder] = true
+
+
+## The item can be poured into a drink (PourDefinition).
+func is_powder(item_definition_id: StringName) -> bool:
+	return _powders.has(item_definition_id)
 
 
 func liquid_definition(id: StringName) -> LiquidDefinition:

@@ -414,6 +414,7 @@ func _build_native_item_projections() -> NativeItemDefinitionProjections:
 	var stacks: Array[CombinedStackDefinition] = []
 	var foods: Array[FoodDefinition] = []
 	var liquids: Array[LiquidDefinition] = []
+	var powders: Array[StringName] = []
 	for definition: ItemContentDefinition in _items.values():
 		item_definitions.append(definition.item_definition())
 		if definition.weapon_definition() != null:
@@ -426,9 +427,11 @@ func _build_native_item_projections() -> NativeItemDefinitionProjections:
 			foods.append(definition.food_definition())
 		if definition.liquid_definition() != null:
 			liquids.append(definition.liquid_definition())
+		if definition.pour != null:
+			powders.append(definition.item_definition_id)
 	item_definitions.append(
 		ItemDefinition.new(CorpseState.ITEM_DEFINITION_ID, CorpseState.LEGACY_SOURCE_PATH)
 	)
 	return NativeItemDefinitionProjections.new(
-		item_definitions, weapons, armor, stacks, foods, liquids,
+		item_definitions, weapons, armor, stacks, foods, liquids, powders,
 	)
