@@ -438,6 +438,6 @@ func _player_terminal(tree: SceneTree) -> void:
 		_check(lifecycles == ([CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE] if mortal else [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE]), "unconscious then killed, or killed outright")
 		_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "technical fixture keeps the terminal death; no respawn")
 		_check(map.corpse_states().size() == 1, "death leaves one corpse")
-		_check(map.session.shared_ui().player_vitality_text.text.begins_with("%d / %d" % [player.state.vitality.current, player.state.vitality.effective]), "returned world HUD refreshes authoritative post-lifecycle resources")
+		_check(map.session.shared_ui().player_vitality_value.text == "%d/%d" % [player.state.vitality.current, player.state.vitality.effective], "returned world HUD refreshes authoritative post-lifecycle resources")
 		session.free()
 		await _settle(tree, 2)

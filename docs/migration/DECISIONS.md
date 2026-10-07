@@ -1,5 +1,23 @@
 # Migration Decisions
 
+## The HUD: a status card and toasts (2026-10-06)
+
+Owner: the top left becomes a modern status card, and the scene's messages move to the bottom
+left as toasts; talk with a character stays in its panel. Presentation only, no rule changes.
+- **The card**: the player's name and the place, 精/气/神 as bars with their numbers (气 current /
+  effective; the tooltip has current / effective / maximum), the conditions (蛇毒) when there
+  are some, then the buttons; a selected thing shows under a 目标 tag with its actions.
+- **Toasts** (owner): a new message rises from below and pushes the older one up; with more than
+  two, the oldest drifts up and fades out, once it has shown for at least 1.2 s. Lines that come
+  together come in one after another (0.3 s apart); more than four waiting drop the oldest. A
+  fight's result shows its first line. On touch screens they sit right of the movement pad.
+- **Not toasted**: lines that come while a panel that shows its own lines is open (打听, an NPC's
+  panel: 请教, a shop, the bank) or while a fight runs (the battle panel shows them); opening
+  either clears the toasts. 背包, 拾取, 角色 and 观察 let them through (a gift's answer reads at
+  once). 消息 keeps every line, as before.
+- **Ours, for the owner to judge**: a toast also fades out by itself after 6–14 s (longer for
+  longer text; oldest first), so the map's corner clears; `MessageToasts.LINGER_*` sets it.
+
 ## 水烟阁 B: joining 天邪派, its masters' teaching, joining the 武者 (2026-10-06)
 
 Owner-approved plan ("按你的建议来"). What each LPC piece became is in

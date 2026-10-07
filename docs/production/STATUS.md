@@ -4,7 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**水烟阁 B** (`phase/waterfog-b`): joining 天邪派 — 萧辟尘 asks for an oath (the 发誓恪守门规
+**The HUD** (`phase/hud-toasts`): the top left is a status card (name and place, 精/气/神 bars,
+the buttons, the selected thing under 目标); the scene's messages are toasts at the bottom left
+(two at most, the oldest fading up); a panel's or a fight's own lines are not toasted (DECISIONS).
+
+**水烟阁 B** (#67, merged): joining 天邪派 — 萧辟尘 asks for an oath (the 发誓恪守门规
 button), 於兰天武 for his three-blow test (asked first: real blows), a master's recruit offers when
 the player has not asked; both masters teach (於兰天武 only his own), 七宝天岚舞, 天邪神功 by 杀气,
 the 正厅's sign joins the 武者; the character sheet shows score.c's rank (DECISIONS).
@@ -70,7 +74,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
-  recovery and conditions (蛇毒), shared HUD and panels, manual Save/Continue.
+  recovery and conditions (蛇毒), the status card, toasts and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
   封山剑法, 天邪神掌, 六阴追魂剑法), dodges read the mapped dodge skill's lines (倒乱七星步法,
   火蝠身法); armor, weapon and NPC

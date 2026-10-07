@@ -6,8 +6,16 @@ const WorldPlayerRuntimeType := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
 
-var player_vitality: ProgressBar
+## The status card: the player's name, the place (world_title), 精/气/神 as bars with
+## their numbers, and the conditions line (player_vitality_text, 蛇毒).
+var player_name: Label
 var world_title: Label
+var player_essence: ProgressBar
+var player_essence_text: Label
+var player_vitality: ProgressBar
+var player_vitality_value: Label
+var player_spirit: ProgressBar
+var player_spirit_text: Label
 var player_vitality_text: Label
 var selected_target_label: Label
 var target_vitality: ProgressBar
@@ -54,7 +62,7 @@ var _log_colors: Array[StringName] = []
 ## (killer_reward()'s quest reward): shown with show_combat_result().
 var _after_fight_lines: Array[ColoredLine] = []
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
-## How include/ansi.h's bright colours look in the log and on the HUD's last line.
+## How include/ansi.h's bright colours look in the log and in the HUD's toasts.
 const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIR: ALERT_COLOR,
 	ColoredLine.HIY: Color(1.0, 0.9, 0.35),
@@ -309,11 +317,7 @@ func refresh_live_state() -> void:
 	target_vitality.visible = _selected_target != null
 	target_vitality_text.visible = _selected_target != null
 	if _player != null:
-		_update_vitality(
-			_player.state.vitality,
-			player_vitality,
-			player_vitality_text,
-		)
+		_update_player_vitals(_player.state)
 	if _selected_target == null:
 		target_vitality.value = 0.0
 		target_vitality_text.text = "-"
@@ -361,9 +365,9 @@ func refresh_live_state() -> void:
 
 
 func show_combat_result(text: String) -> void:
-	append_log_lines([text])
-	# Existing always-visible heading, not a modal input blocker on compact HUDs.
-	_presentation_layout.recent.text = text.get_slice("\n", 0)
+	_append(_colored([text]), false)
+	# The result's first line as a toast, not a modal input blocker on compact HUDs.
+	_presentation_layout.toasts.push(text.get_slice("\n", 0))
 	world_title.tooltip_text = text
 	if not _after_fight_lines.is_empty():
 		var lines: Array[ColoredLine] = _after_fight_lines.duplicate()
@@ -381,18 +385,32 @@ func append_after_fight(lines: Array[ColoredLine]) -> void:
 
 ## `alert`: the lines are warnings ES2 prints in bright red (HIR).
 func append_log_lines(lines: Array[String], alert: bool = false) -> void:
+	append_colored_lines(_colored(lines, alert))
+
+
+static func _colored(lines: Array[String], alert: bool = false) -> Array[ColoredLine]:
 	var colored: Array[ColoredLine] = []
 	for line: String in lines:
 		colored.append(ColoredLine.new(line, ColoredLine.HIR if alert else ColoredLine.PLAIN))
-	append_colored_lines(colored)
+	return colored
 
 
-## Lines in the colours ES2 prints them in.
+## Lines in the colours ES2 prints them in: in 消息, and as toasts while no panel or
+## fight shows its own lines.
 func append_colored_lines(lines: Array[ColoredLine]) -> void:
+	_append(lines, true)
+
+
+func _append(lines: Array[ColoredLine], toast: bool) -> void:
+	var stack: MessageToasts = _presentation_layout.toasts
+	stack.set_suppressed(_toasts_suppressed())
 	for line: ColoredLine in lines:
 		if not line.text.is_empty():
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
+			if toast:
+				# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
+				stack.push(line.text.replace("\n", " "), ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), ES2_COLORS.has(line.color))
 	while _log_lines.size() > MAX_LOG_LINES:
 		_log_lines.pop_front()
 		_log_colors.pop_front()
@@ -402,13 +420,31 @@ func append_colored_lines(lines: Array[ColoredLine]) -> void:
 		var color: StringName = _log_colors[index]
 		shown.append("[color=#%s]%s[/color]" % [ES2_COLORS[color].to_html(false), plain] if ES2_COLORS.has(color) else plain)
 	combat_log.text = "\n".join(shown)
-	var recent: Label = _presentation_layout.recent
-	# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
-	recent.text = "" if _log_lines.is_empty() else _log_lines.back().replace("\n", " ")
-	if not _log_colors.is_empty() and ES2_COLORS.has(_log_colors.back()):
-		recent.add_theme_color_override("font_color", ES2_COLORS[_log_colors.back()])
-	else:
-		recent.remove_theme_color_override("font_color")
+
+
+## The bottom left's toasts (MessageToasts).
+func toasts() -> MessageToasts:
+	return _presentation_layout.toasts
+
+
+func refresh_toasts() -> void:
+	if not _presentation_layout.frame.visible:
+		_panel_shows_lines = false
+	_presentation_layout.toasts.set_suppressed(_toasts_suppressed())
+
+
+## SharedGameplayLayout opened a panel: one that shows its own lines says so after.
+func panel_opened() -> void:
+	_panel_shows_lines = false
+	refresh_toasts()
+
+
+## A panel that shows its own lines (打听, a teacher, a shop: dialogue stays in its
+## panel) or a fight shows them then. Other panels (背包, 拾取, 角色) let toasts through.
+func _toasts_suppressed() -> bool:
+	return (_presentation_layout.frame.visible and _panel_shows_lines) or (
+		_session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter()
+	)
 
 
 func log_lines() -> Array[String]:
@@ -474,7 +510,7 @@ func open_ask() -> void:
 		button.pressed.connect(_ask_topic.bind(topic))
 		_ask_topics.add_child(button)
 	_ask_answer.text = ""
-	_presentation_layout.open_panel(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
+	_open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
 	_presentation_layout.refresh_rows()
 
 
@@ -521,14 +557,33 @@ func _update_vitality(
 	bar: ProgressBar,
 	text_label: Label,
 ) -> void:
-	bar.min_value = 0.0
-	bar.max_value = float(maxi(resource.maximum, 1))
-	bar.value = float(clampi(resource.current, 0, maxi(resource.maximum, 1)))
+	_update_bar(resource, bar)
 	text_label.text = "%d / %d / %d" % [
 		resource.current,
 		resource.effective,
 		resource.maximum,
 	]
+
+
+## The card's 精/气/神: bars, and 精 and 神 current, 气 current/effective.
+func _update_player_vitals(state: CharacterState) -> void:
+	_update_bar(state.essence, player_essence)
+	_update_bar(state.vitality, player_vitality)
+	_update_bar(state.spirit, player_spirit)
+	player_essence_text.text = str(state.essence.current)
+	player_vitality_value.text = "%d/%d" % [state.vitality.current, state.vitality.effective]
+	player_spirit_text.text = str(state.spirit.current)
+
+
+## A resource's bar: current out of maximum; the tooltip has all three.
+func _update_bar(resource: CharacterResourceState, bar: ProgressBar) -> void:
+	bar.min_value = 0.0
+	bar.max_value = float(maxi(resource.maximum, 1))
+	bar.value = float(clampi(resource.current, 0, maxi(resource.maximum, 1)))
+	# TRANSLATORS: a resource bar's tooltip: current / effective / maximum.
+	bar.tooltip_text = tr("当前 {current} / 有效 {effective} / 最大 {maximum}").format({
+		"current": resource.current, "effective": resource.effective, "maximum": resource.maximum,
+	})
 
 
 var _session: OldPineWorldSessionController
@@ -541,6 +596,8 @@ var _elapsed: float = 0.0
 ## writes the new one, as ES2 printed a room on arrival.
 var _described_zone_id: StringName = &""
 var _business_feedback: String = ""
+## The open panel shows its own lines (an NPC's panel, 打听): no toasts while it is open.
+var _panel_shows_lines: bool = false
 var _ask_panel: VBoxContainer
 var _ask_topics: HFlowContainer
 var _ask_answer: Label
@@ -596,6 +653,8 @@ func _process(delta: float) -> void:
 	visible = available and not fighting
 	if not visible:
 		_presentation_layout.close_panel()
+		# A fight clears the toasts from before it.
+		refresh_toasts()
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
@@ -621,19 +680,12 @@ func quarantine_movement() -> void:
 
 func refresh_exploration() -> void:
 	var state: CharacterState = _player.state
-	# TRANSLATORS: the HUD's heading: the player's name and the place's.
-	world_title.text = tr("{name} · {place}").format({"name": _player.facts.display_name, "place": tr(location_name())})
-	# TRANSLATORS: the HUD's 精 (gin), 气 (kee, current/effective) and 神 (sen).
-	player_vitality_text.text = tr("精 {gin}  ·  气 {kee}/{effective_kee}  ·  神 {sen}").format({
-		"gin": state.essence.current, "kee": state.vitality.current, "effective_kee": state.vitality.effective, "sen": state.spirit.current,
-	})
-	var conditions: Array[String] = _conditions.shown_names(state)
-	if not conditions.is_empty():
-		# TRANSLATORS: the HUD's 精/气/神 line ({vitals}) and the conditions the player has (蛇毒).
-		player_vitality_text.text = tr("{vitals}  ·  {conditions}").format({
-			# TRANSLATORS: between two conditions on the HUD.
-			"vitals": player_vitality_text.text, "conditions": tr("、").join(conditions),
-		})
+	player_name.text = _player.facts.display_name
+	world_title.text = tr(location_name())
+	_update_player_vitals(state)
+	# TRANSLATORS: between two conditions on the HUD (蛇毒).
+	player_vitality_text.text = tr("、").join(_conditions.shown_names(state))
+	player_vitality_text.visible = not player_vitality_text.text.is_empty()
 	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
 	inspect_button.visible = local_target and not inspect_button.disabled
 	attack_button.visible = local_target and not attack_button.disabled
@@ -642,6 +694,7 @@ func refresh_exploration() -> void:
 	portal_button.visible = local_target and not portal_button.disabled
 	open_loot_button.visible = local_target and not open_loot_button.disabled
 	selected_target_label.visible = local_target
+	_presentation_layout.target_section.visible = local_target
 	var context: String = context_title()
 	_presentation_layout.context_button.text = context
 	_presentation_layout.context_button.visible = not context.is_empty()
@@ -650,7 +703,7 @@ func refresh_exploration() -> void:
 		_refresh_character()
 	_collect_feedback()
 	_describe_new_zone()
-	_presentation_layout.recent.visible = not _presentation_layout.recent.text.is_empty()
+	refresh_toasts()
 	_presentation_layout.fit_bar()
 
 
@@ -703,7 +756,14 @@ func open_current_context() -> void:
 func open_business(title: String, form: Control, validate: Callable) -> void:
 	if not _session.portable_inventory_available(): return
 	_business_feedback = ""
-	_presentation_layout.open_panel(title, form, validate)
+	_open_panel_with_lines(title, form, validate)
+
+
+## Opens a panel that shows its own lines: toasts stay off while it is open.
+func _open_panel_with_lines(title: String, content: Control, validate: Callable = Callable()) -> void:
+	_presentation_layout.open_panel(title, content, validate)
+	_panel_shows_lines = _presentation_layout._content == content
+	refresh_toasts()
 
 
 func open_character() -> void:

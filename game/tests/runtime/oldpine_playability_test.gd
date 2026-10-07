@@ -118,7 +118,7 @@ func _authored_encounter(tree: SceneTree, seed_value: int, npc_index: int, exper
 	ui.refresh_projection()
 	_check(map.session.shared_ui().log_lines() == lines, "result shown exactly once")
 	_check(not lines.is_empty() and (lines[-1].begins_with("你赢了") or lines[-1].begins_with("你输了")), "result visible in world HUD")
-	_check(not map.session.shared_ui()._presentation_layout.recent.text.is_empty(), "result remains visible even when compact Details is closed")
+	_check(not map.session.shared_ui().toasts().latest_text().is_empty(), "result remains visible (a toast) even when compact Details is closed")
 	_check(not map.session.shared_ui()._presentation_layout.frame.visible, "result does not open a movement-blocking Details overlay")
 	_check(p.state.vitality.current == hp_before and p.state.progression.combat_experience == exp_before, "presentation cannot mutate resources/progression")
 	_check(s.combat_random_source().capture_random_state().state == rng_before.state, "presentation consumes zero RNG")
