@@ -24,6 +24,7 @@ const UNMAPPED_MARK: String = "  "
 
 var skills_text: Label
 var force_text: Label
+var bellicosity_text: Label
 var no_uses: Label
 var uses_box: VBoxContainer
 var exercise_amount: SpinBox
@@ -60,6 +61,7 @@ func _init() -> void:
 	add_child(uses_box)
 	_title("打坐")
 	force_text = _label("Force")
+	bellicosity_text = _label("Bellicosity")
 	_label("ExerciseCost").text = "每次花费的气"
 	var exercise := HBoxContainer.new()
 	exercise.name = "Exercise"
@@ -115,6 +117,10 @@ func refresh() -> void:
 	force_text.text = tr("内力 {force} / {max_force} (+{factor})").format({
 		"force": state.recovery.inner_force.current, "max_force": state.recovery.inner_force.maximum,
 		"factor": state.attributes.force_factor,
+	})
+	# TRANSLATORS: the 武学 page: score.c's 杀气 (bellicosity) and 定力 (cps), which decide whether the player can lose control.
+	bellicosity_text.text = tr("杀气 {bellicosity} · 定力 {cps}").format({
+		"bellicosity": state.attributes.bellicosity, "cps": state.attributes.composure,
 	})
 	enforce_amount.max_value = arts.enforce_limit()
 	# The amount follows the factor whenever the factor changes.

@@ -82,8 +82,17 @@ func exert(function_id: StringName) -> ExertResult:
 	var result: ExertResult = ExertService.exert(
 		_state(), function_id, GameContent.catalog(), force_level(), false,
 		_session.player_runtime().busy, _session.world_interaction_random_source().legacy_random, _effects(),
+		_session.player_runtime().character_id,
 	)
+	# A powerup can raise bellicosity over the line: the warning reads on the page too.
+	if Berserk.take_warning(_state()):
+		result.lines.append(ColoredLine.new(tr(Berserk.WARNING), ColoredLine.HIR))
 	_say(result.lines)
+	# powerfade's 100 sen can take sen below zero: std/char.c's next heart beat makes
+	# the player fall (run at once, as after 於兰天武's blows).
+	var map := _session.active_map() as WorldMapController
+	if map != null and _state().life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+		map.player_fall_below_zero()
 	return result
 
 

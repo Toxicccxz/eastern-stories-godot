@@ -332,6 +332,7 @@ func _character_snapshot(
 			state.progression.potential_spent,
 			state.progression.score,
 			state.progression.kills,
+			state.progression.berserk_warned,
 		),
 		Values.SkillStateSnapshot.new(
 			state.skills.has_skills_mapping(),

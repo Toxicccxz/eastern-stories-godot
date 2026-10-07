@@ -93,8 +93,8 @@ func _test_data() -> void:
 	_check(boss.authored_combat_facts().apply_value(&"defense") == 60 and boss.authored_combat_facts().apply_value(&"attack") == 100, "常老大: apply/attack 100, apply/defense 60")
 	_check(boss.short_name() == "老松寨寨主「泼风刀王」常老大" and boss.bellicosity() == 6000, "常老大's title, nickname and bellicosity: " + boss.short_name())
 	var maniac: NpcDefinition = catalog.npc(&"oldpine.npc.maniac")
-	_check(maniac.bellicosity() == 10000 and maniac.score == 8000 and NpcBerserk.applies_to(maniac), "疯老头子: not aggressive, bellicosity 10000 over score 8000")
-	_check(not NpcBerserk.applies_to(catalog.npc(&"oldpine.npc.bandit_guard")) and not NpcBerserk.applies_to(catalog.npc(&"oldpine.npc.butterfly")), "aggressive guards and peaceful butterflies never go berserk")
+	_check(maniac.bellicosity() == 10000 and maniac.score == 8000 and Berserk.applies_to(maniac), "疯老头子: not aggressive, bellicosity 10000 over score 8000")
+	_check(not Berserk.applies_to(catalog.npc(&"oldpine.npc.bandit_guard")) and not Berserk.applies_to(catalog.npc(&"oldpine.npc.butterfly")), "aggressive guards and peaceful butterflies never go berserk")
 	_check(maniac.talk().combat_chat_chance == 60 and maniac.talk().combat_chat_entries().size() == 3, "疯老头子 casts in 60% of his fight beats")
 	_check(catalog.skill(&"necromancy").cast_functions == [&"drainerbolt", &"feeblebolt", &"netherbolt"] and SpecialFunctions.cast(&"netherbolt") != null, "necromancy casts netherbolt too")
 	var skeleton: ItemContentDefinition = catalog.item(SKELETON)
@@ -142,7 +142,7 @@ func _test_record_rules() -> void:
 	errors.clear()
 	var npc: Dictionary = {"id": "n", "legacy_source": "s", "name": "某人", "aliases": ["someone"], "gender": "男性", "age": 30, "combat_exp": 10, "score": 100, "bellicosity": 100}
 	NpcContentRecords.npc_from_record(ContentRecordReader.new(npc, "test", errors))
-	_check(not errors.is_empty(), "a berserk NPC whose bellicosity is not above its score would spar: refused")
+	_check(errors.is_empty(), "a berserk NPC whose bellicosity is not above its score reads (it spars, 水烟阁 C): " + str(errors))
 	errors.clear()
 	npc["bellicosity"] = 101
 	NpcContentRecords.npc_from_record(ContentRecordReader.new(npc, "test", errors))
@@ -167,14 +167,17 @@ func _test_berserk_roll() -> void:
 	state.recovery.inner_force = CharacterInternalResourceState.new(600, 600)
 	var calm: Array[int] = [20]
 	var source: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new(calm)
-	_check(NpcBerserk.roll(state, 8000, source) == NpcBerserk.Outcome.NONE and source.requested_bounds() == [250], "random(250) not above cps 20: nothing")
+	_check(Berserk.roll(state, 8000, source) == Berserk.Outcome.NONE and source.requested_bounds() == [250], "random(250) not above cps 20: nothing")
 	var wild: Array[int] = [21, 0]
 	source = ScriptedWorldInteractionRandomSource.new(wild)
-	_check(NpcBerserk.roll(state, 8000, source) == NpcBerserk.Outcome.KILL and source.requested_bounds() == [250, 10000], "above cps; force 600 under 5000: bellicosity 10000 over score 8000 kills")
+	_check(Berserk.roll(state, 8000, source) == Berserk.Outcome.KILL and source.requested_bounds() == [250, 10000], "above cps; force 600 under 5000: bellicosity 10000 over score 8000 kills")
 	state.recovery.inner_force = CharacterInternalResourceState.new(6000, 6000)
 	var strong: Array[int] = [100, 0]
 	source = ScriptedWorldInteractionRandomSource.new(strong)
-	_check(NpcBerserk.roll(state, 8000, source) == NpcBerserk.Outcome.STARE, "force above (random(b) + b) / 2: he only stares")
+	_check(Berserk.roll(state, 8000, source) == Berserk.Outcome.STARE, "force above (random(b) + b) / 2: he only stares")
+	state.recovery.inner_force = CharacterInternalResourceState.new(600, 600)
+	source = ScriptedWorldInteractionRandomSource.new(wild.duplicate())
+	_check(Berserk.roll(state, 10000, source) == Berserk.Outcome.FIGHT, "bellicosity not above score: he only fights (fight_ob)")
 
 
 func _test_netherbolt() -> void:

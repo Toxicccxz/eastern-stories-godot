@@ -124,7 +124,7 @@
 			"id": "celestial", "name": "天邪神功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/celestial.c",
 			"standard_force_hit": true,
-			"exert": ["powerup", "powerfade"],
+			"exert": ["powerup", "powerfade", "roar"],
 			"practice": { "refuses": true, "fail": "天邪神功只能用学的，或是从运用(exert)中增加熟练度。" },
 			"valid_learn": { "bellicosity": "你的杀气不够，无法领悟更高深的天邪神功。" },
 			"improved_line": "由於你苦练天邪神功，你的定力提高了", "improved_color": "HIW"

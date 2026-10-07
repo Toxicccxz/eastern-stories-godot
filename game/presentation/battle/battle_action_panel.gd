@@ -19,6 +19,12 @@ var enforce_amount: SpinBox
 var enforce_button: Button
 var _shown_factor: int = -1
 var _shown_encounter: StringName = &""
+## (action_id) -> PackedStringArray: [question, choice] when the action is asked
+## first (owner: 天邪虎啸, powerfade), empty otherwise.
+var confirm_text: Callable
+## The question in place of the action buttons; the fight goes on meanwhile.
+var prompt: ConfirmPrompt
+var _asking_id: StringName = &""
 
 
 func _ready() -> void:
@@ -38,6 +44,12 @@ func _ready() -> void:
 	_actions.add_theme_constant_override("h_separation", 8)
 	_actions.add_theme_constant_override("v_separation", 8)
 	action_column.add_child(_actions)
+	prompt = ConfirmPrompt.new()
+	prompt.name = "ActionQuestion"
+	prompt.hide()
+	prompt.confirmed.connect(_on_prompt_answered.bind(true))
+	prompt.cancelled.connect(_on_prompt_answered.bind(false))
+	action_column.add_child(prompt)
 	enforce_row = HBoxContainer.new()
 	enforce_row.name = "Enforce"
 	enforce_row.add_theme_constant_override("separation", 8)
@@ -77,8 +89,11 @@ func present(projection: BattlePresentationProjection) -> void:
 	for info: CombatTacticalActionInfo in infos:
 		ids.append(info.action_id)
 	_present_enforce(projection)
-	_empty.visible = ids.is_empty() and not enforce_row.visible
-	_actions.visible = not ids.is_empty()
+	if is_asking() and not ids.has(_asking_id):
+		# The action went away (the force it needs was disabled): the question goes too.
+		prompt.cancel()
+	_empty.visible = ids.is_empty() and not enforce_row.visible and not is_asking()
+	_actions.visible = not ids.is_empty() and not is_asking()
 	if ids != _shown_ids:
 		_shown_ids = ids
 		for child: Node in _actions.get_children():
@@ -136,7 +151,29 @@ func first_action_button() -> Button:
 
 
 func _action_pressed(id: StringName) -> void:
-	action_requested.emit(id)
+	var question: PackedStringArray = confirm_text.call(id) if confirm_text.is_valid() else PackedStringArray()
+	if question.size() < 2:
+		action_requested.emit(id)
+		return
+	_asking_id = id
+	_actions.hide()
+	prompt.show()
+	prompt.ask(question[0], question[1])
+	prompt.focus_default()
+
+
+## Whether the panel asks about an action now.
+func is_asking() -> bool:
+	return not _asking_id.is_empty()
+
+
+func _on_prompt_answered(yes: bool) -> void:
+	var id: StringName = _asking_id
+	_asking_id = &""
+	prompt.hide()
+	_actions.visible = not _shown_ids.is_empty()
+	if yes and not id.is_empty():
+		action_requested.emit(id)
 
 
 func _cancel_pressed() -> void:

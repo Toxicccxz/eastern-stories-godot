@@ -305,6 +305,43 @@ func fail_to_establish(result: CombatEncounterResult) -> bool:
 	return true
 
 
+## roar.c's kill_ob() from someone in the room: it comes into the running fight on
+## `participant.side_id`, a side already in it. The trigger gains its candidate, as
+## if it had been there from the start. False (nothing changed) when it cannot.
+func admit(participant: CombatParticipant) -> bool:
+	if (
+		_phase != CombatEncounterLifecycle.Value.ACTIVE or participant == null or not participant.is_valid()
+		or _participant_internal(participant.participant_id) != null or not side_ids().has(participant.side_id)
+	):
+		return false
+	var previous: CombatTrigger = _trigger
+	var candidates: Array[CombatTriggerCandidate] = _trigger.candidates()
+	candidates.append(CombatTriggerCandidate.new(participant.participant_id, participant.side_id))
+	_trigger = _retriggered(candidates, _trigger.requested_mode)
+	_participants.append(participant.duplicate_reference())
+	if not is_valid():
+		_participants.pop_back()
+		_trigger = previous
+		return false
+	return true
+
+
+## A spar that someone turned into a fight to the death (roar.c's kill_ob() on a
+## sparring partner): it goes on as LETHAL.
+func escalate_to_lethal() -> bool:
+	if _phase != CombatEncounterLifecycle.Value.ACTIVE or mode != CombatEncounterMode.Value.SPAR:
+		return false
+	_trigger = _retriggered(_trigger.candidates(), CombatEncounterMode.Value.LETHAL)
+	return true
+
+
+func _retriggered(candidates: Array[CombatTriggerCandidate], requested_mode: int) -> CombatTrigger:
+	return CombatTrigger.new(
+		_trigger.trigger_id, _trigger.cause, requested_mode, _trigger.initiator_id, candidates,
+		_trigger.source_location, _trigger.authored_policy_id,
+	)
+
+
 func _base_inputs_are_valid() -> bool:
 	if _encounter_id.is_empty() or _trigger == null or not _trigger.is_valid():
 		return false

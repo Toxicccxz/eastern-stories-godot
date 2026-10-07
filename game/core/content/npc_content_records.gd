@@ -102,10 +102,6 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy)
 	if bellicosity < 0:
 		reader.fail("bellicosity", "must not be negative")
-	# combatd.c start_berserk() fights (fight_ob, a spar) when bellicosity is not above
-	# score; only its kill_ob() branch is ported.
-	if bellicosity > 0 and attitude != NpcDefinition.Attitude.AGGRESSIVE and bellicosity <= score:
-		reader.fail("bellicosity", "a berserk NPC whose bellicosity is not above its score would spar; not supported yet")
 	if not definition.is_valid():
 		reader.fail("", "is not a valid NPC definition (aliases, gender, skills, skill_map, carry, random values or talk)")
 	return definition

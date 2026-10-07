@@ -6,7 +6,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **绮云镇's upper floors** (`phase/cloud-floors`): 香茗坊二楼, 怡红院二楼 and the 赌场's upper floor are
 each their own map, drawn over their building and furnished from their room text (DECISIONS).
-**水烟阁 C** is PR #68.
+**水烟阁 C** (#68, merged): 天邪神功 in the player's hands — 提升战斗力, 压制杀气 and 天邪虎啸 (both
+asked first in a fight), 杀气 that boils over (never at the player's master, a one-time warning),
+NPCs' glare when looked at; the 武学 page shows 杀气 and 定力 (DECISIONS).
 
 Next: redraw the seven older hand-made maps with the painter (老松岭's five, then 雪亭镇's Inn and streets).
 
@@ -24,7 +26,8 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   (after five taels of tuition), then 封山剑法 and 倒乱七星步法 at max_force 50; the character
   panel's 武学 page: skills, enabled skills and effective levels, enable/disable anywhere outside a
   fight, 打坐 (exercise), 练习 (practice), 自学, 研读 (the scavenger's 旧书), 加力 (enforce) and
-  运功 (exert: 疗伤, 恢复气, 恢复神, 恢复精; in a fight from the battle panel); give, drop and put (the 功德箱 takes donations and gives them
+  运功 (exert: 疗伤, 恢复气, 恢复神, 恢复精, 天邪神功's three; in a fight from the battle panel),
+  杀气 and 定力; give, drop and put (the 功德箱 takes donations and gives them
   back); thirty-three NPCs (20 types) to look at, ask (打听), fight or spar (切磋) with their ES2
   gear and loot (the crazy dog on the west road attacks; a spar with 安惜迩 becomes his kill;
   柳绘心 refuses); in a fight 刘安禄, the farmer, 柳绘心, 柳淳风 and 安惜迩 talk and use their
@@ -62,7 +65,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   於兰天武 after his three blows (asked first; failing knocks the player out, a bad wound kills);
   learning from both (於兰天武 teaches only his apprentices), practising 天邪神掌, 六阴追魂剑法, 火蝠身法
   and 七宝天岚舞 (women, spi 20, costs sen); 天邪神功 is learnt with 杀气; the 正厅's sign makes the
-  player a 武者. Not yet: the player's own 天邪神功 (C).
+  player a 武者; the player's 天邪神功: 提升战斗力, 压制杀气 and 天邪虎啸, and 杀气 that boils over.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

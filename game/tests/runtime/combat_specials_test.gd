@@ -108,7 +108,7 @@ func _test_content() -> void:
 	_check(_catalog.npc(&"snow.npc.girl").talk().combat_chat_chance == 25 and _catalog.npc(&"common.npc.swordsman.master").talk().combat_chat_chance == 60, "柳绘心 25, 柳淳风 60")
 	_check(not _catalog.npc(&"snow.npc.crazy_dog").talk().has_combat_chat(), "the crazy dog has lines but no chance: it never talks in a fight")
 	_check(_catalog.skill(&"fonxansword").perform_functions == [&"counterattack", &"swordjab", &"fakefault"], "封山剑法 performs counterattack, swordjab and fakefault")
-	_check(_catalog.skill(&"celestial").exert_functions == [&"powerup", &"powerfade"], "天邪神功 exerts powerup and powerfade (no recover file)")
+	_check(_catalog.skill(&"celestial").exert_functions == [&"powerup", &"powerfade", &"roar"], "天邪神功 exerts powerup, powerfade and roar (no recover file)")
 	_check(_catalog.skill(&"necromancy").cast_functions == [&"drainerbolt", &"feeblebolt", &"netherbolt"], "茅山道术 casts the three bolts")
 
 

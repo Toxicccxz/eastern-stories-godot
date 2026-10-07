@@ -55,6 +55,13 @@ func note_opening(lines: Array[String], warnings: Array[String]) -> void:
 	_opening_warnings = warnings.duplicate()
 
 
+## kill_ob()'s warnings from those who turn on the player in the running fight
+## (roar.c): pinned with the opening ones.
+func note_warnings(warnings: Array[String]) -> void:
+	if _active_encounter != null and _is_opening_of(_active_encounter.encounter_id):
+		_opening_warnings.append_array(warnings)
+
+
 func opening_lines(encounter_id: StringName) -> Array[String]:
 	var lines: Array[String] = []
 	if _is_opening_of(encounter_id):
@@ -74,17 +81,19 @@ func _is_opening_of(encounter_id: StringName) -> bool:
 
 ## One synchronous production-entry transaction. Reuses the audited playable
 ## relationship establishment; rollback restores order and preexisting facts.
-## `directed_kill`: an NPC_AGGRESSION where only the initiator kills (a spar it
-## turned into kill_ob); the target only fights back.
+## `directed_kill`: only the initiator kills (kill_ob()), the target only fights
+## back: an NPC's answer to a spar (NPC_AGGRESSION) or the player's berserk
+## (PLAYER_LETHAL_ATTACK, combatd.c start_berserk()). NPC_SPAR is an NPC's berserk
+## fight_ob(): a spar it starts.
 func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int, directed_kill: bool = false) -> CombatSliceInitiationResult:
 	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open():
 		return CombatSliceInitiationResult.new()
 	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id):
 		return CombatSliceInitiationResult.new()
-	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR] or _entry_sequence == 9223372036854775807:
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR] or _entry_sequence == 9223372036854775807:
 		return CombatSliceInitiationResult.new()
-	var spar: bool = cause == CombatTriggerCause.Value.PLAYER_SPAR
-	if directed_kill and cause != CombatTriggerCause.Value.NPC_AGGRESSION:
+	var spar: bool = cause in [CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR]
+	if directed_kill and cause not in [CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK]:
 		return CombatSliceInitiationResult.new()
 	for binding: CombatSliceCharacterBinding in [initiator, target]:
 		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
@@ -284,13 +293,28 @@ func _init(
 	_tactical_registry.register_policy(CombatFleeTacticalPolicy.new())
 	_tactical_registry.register_policy(CombatSurrenderTacticalPolicy.new(_player_age))
 	for function_id: StringName in ExertFunctions.ORDER:
-		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id))
+		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		_tactical_registry.register_policy(CombatPerformTacticalPolicy.new(function_id))
 
 
 func is_valid() -> bool:
 	return _session != null and _world_gate != null
+
+
+## all_inventory(environment(actor)) without the actor, for an exert file in the fight.
+func _exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> Array[SpecialSide]:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var room: Array[SpecialSide] = []
+	if map != null:
+		room = map.exert_room(actor_id, bindings)
+	return room
+
+
+## feature/attack.c kill_ob()'s line to its victim, in the shown language.
+func kill_warning(character_id: StringName) -> String:
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	return tr("看起来%s想杀死你！") % (String(character_id) if npc == null else tr(npc.definition().display_name))
 
 
 func _player_age() -> int:

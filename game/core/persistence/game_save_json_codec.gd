@@ -140,6 +140,9 @@ func _encode_progression(value: Values.ProgressionSnapshot) -> Dictionary[String
 		result["score"] = _i(value.score)
 	if value.kills != 0:
 		result["kills"] = _i(value.kills)
+	# The one-time berserk warning: written only once it was given.
+	if value.berserk_warned:
+		result["berserk_warned"] = true
 	return result
 
 
@@ -308,7 +311,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var internal: Dictionary = _obj(object["internal_resources"], path + ".internal_resources", ["force", "max_force", "mana", "max_mana", "atman", "max_atman", "food", "water"])
 	var internal_resources := Values.InternalResourcesSnapshot.new(_int64(internal.get("force"), path + ".internal_resources.force"), _int64(internal.get("max_force"), path + ".internal_resources.max_force"), _int64(internal.get("mana"), path + ".internal_resources.mana"), _int64(internal.get("max_mana"), path + ".internal_resources.max_mana"), _int64(internal.get("atman"), path + ".internal_resources.atman"), _int64(internal.get("max_atman"), path + ".internal_resources.max_atman"), _int64(internal.get("food"), path + ".internal_resources.food"), _int64(internal.get("water"), path + ".internal_resources.water"))
 	var progression_fields: Array[String] = ["combat_experience", "potential", "potential_spent"]
-	for optional: String in ["score", "kills"]:
+	for optional: String in ["score", "kills", "berserk_warned"]:
 		if object["progression"] is Dictionary and (object["progression"] as Dictionary).has(optional):
 			progression_fields.append(optional)
 	var progression_object: Dictionary = _obj(object["progression"], path + ".progression", progression_fields)
@@ -322,6 +325,10 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		progression.kills = _int64(progression_object.get("kills"), path + ".progression.kills")
 		if not _error and progression.kills <= 0:
 			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.kills", "expected a count above 0")
+	if progression_object.has("berserk_warned"):
+		progression.berserk_warned = _bool(progression_object.get("berserk_warned"), path + ".progression.berserk_warned")
+		if not _error and not progression.berserk_warned:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.berserk_warned", "false is never written")
 	var skills_object: Dictionary = _obj(object["skills"], path + ".skills", ["has_skills_mapping", "has_learned_mapping", "raw_levels", "learned_progress", "mappings"])
 	var raw: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("raw_levels"), path + ".skills.raw_levels")
 	var learned: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("learned_progress"), path + ".skills.learned_progress")
