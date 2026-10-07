@@ -63,6 +63,12 @@ static func practice(result: PracticeResult, special: SkillDefinition) -> Array[
 			if special != null and not special.practice_weapon_fail.is_empty():
 				return _plain([special.practice_weapon_fail])
 			return [ColoredLine.new(_t("你试著练习%s，但是并没有任何进步。") % name)]
+		PracticeResult.FailureReason.PRACTICE_FORCE_REJECTED:
+			if special != null and not special.practice_force_fail.is_empty():
+				return _plain([special.practice_force_fail])
+			if special != null and not special.practice_fail.is_empty():
+				return _plain([special.practice_fail])
+			return [ColoredLine.new(_t("你试著练习%s，但是并没有任何进步。") % name)]
 		PracticeResult.FailureReason.PRACTICE_HOOK_REJECTED:
 			if special != null and not special.practice_fail.is_empty():
 				return _plain([special.practice_fail])

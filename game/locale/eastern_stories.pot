@@ -1168,6 +1168,82 @@ msgid "老头子"
 msgstr ""
 
 #: core/characters/rank_words.gd
+msgid "【 尼  姑 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 僧  人 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 女  冠 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 道  士 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 女飞贼 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 盗  贼 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 舞  妓 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 平  民 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 才  女 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 书  生 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 女  官 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 官  差 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 女武者 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 武  者 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 女剑士 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 剑  士 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 方  士 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 巫  医 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
+msgid "【 叫化子 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
 msgid "小师太"
 msgstr ""
 
@@ -1925,12 +2001,34 @@ msgstr ""
 msgid "你想要拜%s为师。"
 msgstr ""
 
+#. master.c do_swear(): message_vision("$N发誓道：" + arg): {oath} is the oath (守门规).
+#: core/relationships/npc_apprenticeship.gd
+msgid "你发誓道：{oath}"
+msgstr ""
+
+#: core/relationships/npc_apprenticeship.gd
+msgid "%s拍拍你的头，说道：「好徒儿！」"
+msgstr ""
+
+#: core/relationships/npc_apprenticeship.gd
+msgid "%s想要收你为弟子。"
+msgstr ""
+
+#. recruit.c tells the student how to accept: ES2 names its apprentice command; here the 拜师 button.
+#: core/relationships/npc_apprenticeship.gd
+msgid "如果你愿意拜%s为师父，就向他拜师。"
+msgstr ""
+
 #: core/relationships/npc_apprenticeship.gd
 msgid "你决定背叛师门，改投入%s门下！！"
 msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
 msgid "你跪了下来向%s恭恭敬敬地磕了四个响头，叫道：「师父！」"
+msgstr ""
+
+#: core/relationships/npc_apprenticeship.gd
+msgid "你决定拜%s为师。"
 msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
@@ -3836,8 +3934,47 @@ msgid ""
 "确定要拜师吗？"
 msgstr ""
 
+#. asked before 於兰天武's accept test (champion.c: three real blows; owner: asked first). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"{master}的三招是真打：\n"
+"· 每一招都实打实地落在你身上，挨中了会受伤。\n"
+"· 哪一招接不住，测试就算失败，你随后会昏倒。\n"
+"· 伤得太重会死。\n"
+"{after}\n"
+"确定接受测试吗？"
+msgstr ""
+
+#. the accept test's last point when passing it makes the player the master's apprentice at once: {master}, {family}.
+#: ui/teacher/teacher_panel.gd
+msgid "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"
+msgstr ""
+
+#. added when that would be the player's first master: changing family later is a betrayal.
+#: ui/teacher/teacher_panel.gd
+msgid "· 这是你第一次拜师；日后再改投别派，就是背叛师门。"
+msgstr ""
+
+#. the accept test's last point when passing it makes a member of another family betray it (recruit.c): {title} the player's title now, {master}, {family} the new family, {score} the player's 综合评价 now, {next} the betrayals counted after it.
+#: ui/teacher/teacher_panel.gd
+msgid "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
+msgstr ""
+
+#. the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}.
+#: ui/teacher/teacher_panel.gd
+msgid "· 三招都接住，{master}便愿意收你为徒，再向他拜师即可。"
+msgstr ""
+
 #: ui/teacher/teacher_panel.gd
 msgid "拜师 / 向师父请安"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "发誓恪守门规"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "接受测试"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -3869,15 +4006,23 @@ msgid "确定改投"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
-msgid "不改投了"
-msgstr ""
-
-#: ui/teacher/teacher_panel.gd
 msgid "确定拜师"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
+msgid "不改投了"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
 msgid "再想想"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "确定发誓"
+msgstr ""
+
+#: ui/teacher/teacher_panel.gd
+msgid "不试了"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -4419,11 +4564,11 @@ msgstr ""
 msgid "【{title}】{description}"
 msgstr ""
 
-#. the character sheet (score): name, gender, age and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
+#. the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
 "{name} · {gender} · {age}岁\n"
-"{title}\n"
+"{rank}{title}\n"
 "\n"
 "当前 / 有效 / 最大\n"
 "精 {gin}\n"
@@ -4969,6 +5114,7 @@ msgid "由於你的内功修炼有成，你的体质改善了。"
 msgstr ""
 
 #. liuh-ken practice.fail
+#. celestrike practice.fail
 #: data/common/skills.json
 msgid "你的体力不够了，休息一下再练吧。"
 msgstr ""
@@ -5089,6 +5235,7 @@ msgid "封山剑法必须配合封山派内功才能练。"
 msgstr ""
 
 #. fonxansword valid_learn.weapon
+#. six-chaos-sword valid_learn.weapon
 #: data/common/skills.json
 msgid "你必须先找一把剑才能练剑法。"
 msgstr ""
@@ -5188,6 +5335,16 @@ msgstr ""
 msgid "天邪神功"
 msgstr ""
 
+#. celestial practice.fail
+#: data/common/skills.json
+msgid "天邪神功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. celestial valid_learn.bellicosity
+#: data/common/skills.json
+msgid "你的杀气不够，无法领悟更高深的天邪神功。"
+msgstr ""
+
 #. celestial improved_line
 #: data/common/skills.json
 msgid "由於你苦练天邪神功，你的定力提高了"
@@ -5227,6 +5384,26 @@ msgstr ""
 #. celestrike name
 #: data/common/skills.json
 msgid "天邪神掌"
+msgstr ""
+
+#. celestrike practice.force_fail
+#: data/common/skills.json
+msgid "你的内力不够了，休息一下再练吧。"
+msgstr ""
+
+#. celestrike valid_learn.empty_hands
+#: data/common/skills.json
+msgid "练天邪神掌必须空手。"
+msgstr ""
+
+#. celestrike valid_learn.raw_skill
+#: data/common/skills.json
+msgid "你的天邪神功火候不足，无法练天邪掌法。"
+msgstr ""
+
+#. celestrike valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力太弱，无法练天邪掌法。"
 msgstr ""
 
 #. celestrike actions.action
@@ -5269,6 +5446,21 @@ msgstr ""
 msgid "六阴追魂剑法"
 msgstr ""
 
+#. six-chaos-sword practice.done
+#: data/common/skills.json
+msgid "你按著所学练了一遍六阴追魂剑法。"
+msgstr ""
+
+#. six-chaos-sword practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习六阴追魂剑。"
+msgstr ""
+
+#. six-chaos-sword valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练六阴追魂剑。"
+msgstr ""
+
 #. six-chaos-sword improved_line
 #: data/common/skills.json
 msgid "你突然觉得一股恶气冲上心头，只觉得想杀人...."
@@ -5309,6 +5501,11 @@ msgstr ""
 msgid "火蝠身法"
 msgstr ""
 
+#. pyrobat-steps practice.fail
+#: data/common/skills.json
+msgid "你的体力太差了，不能练火蝠身法。"
+msgstr ""
+
 #. pyrobat-steps dodge_messages
 #: data/common/skills.json
 msgid "可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。"
@@ -5332,6 +5529,56 @@ msgstr ""
 #. pyrobat-steps dodge_messages
 #: data/common/skills.json
 msgid "只见$p一招「火蝠曳空」，身形向上拔起数尺高，闪了过去。"
+msgstr ""
+
+#. stormdance name
+#: data/common/skills.json
+msgid "七宝天岚舞"
+msgstr ""
+
+#. stormdance practice.fail
+#: data/common/skills.json
+msgid "你的精神太差了，不能练七宝天岚舞。"
+msgstr ""
+
+#. stormdance valid_learn.gender
+#: data/common/skills.json
+msgid "七宝天岚舞只有女性才能练。"
+msgstr ""
+
+#. stormdance valid_learn.spi
+#: data/common/skills.json
+msgid "你的灵性不够，没有办法练七宝天岚舞。"
+msgstr ""
+
+#. stormdance improved_line
+#: data/common/skills.json
+msgid "由於你勤练舞技，你的容貌提高了"
+msgstr ""
+
+#. stormdance dodge_messages
+#: data/common/skills.json
+msgid "但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！"
+msgstr ""
+
+#. stormdance dodge_messages
+#: data/common/skills.json
+msgid "$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！"
+msgstr ""
+
+#. stormdance dodge_messages
+#: data/common/skills.json
+msgid "$n使出「织女于归」，突然幻化成一双倩影，$N从其中一人透体而过！"
+msgstr ""
+
+#. stormdance dodge_messages
+#: data/common/skills.json
+msgid "$n一式「天女散花」，自水袖中散出一片花雨，$N被花影迷蒙了双眼，与$n擦肩而过"
+msgstr ""
+
+#. stormdance dodge_messages
+#: data/common/skills.json
+msgid "$n一招「嫦娥奔月」，轻轻一纵优雅的自$N头顶越过！"
 msgstr ""
 
 #. actions.action
@@ -5622,7 +5869,52 @@ msgstr ""
 #. common.npc.fighter.champion inquiry.拜师
 #: data/common/npcs.json
 msgid ""
-"哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试(accept test)？\n"
+"哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.ask_say
+#: data/common/npcs.json
+msgid "$RESPECT若真的有心，不妨让我看看你的所学"
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.ask_tell
+#: data/common/npcs.json
+msgid "如果想拜师的话，就请接受测试"
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.blows.say
+#: data/common/npcs.json
+msgid "於兰天武点了点头，说道：很好，这是第一招...."
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.blows.fail
+#: data/common/npcs.json
+msgid "於兰天武叹了口气，说道：连第一招都撑不过，真是自不量力...."
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.blows.say
+#: data/common/npcs.json
+msgid "於兰天武说道：这是第二招...."
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.blows.fail
+#: data/common/npcs.json
+msgid "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙...."
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.blows.say
+#: data/common/npcs.json
+msgid "於兰天武说道：第三招来了...."
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.blows.fail
+#: data/common/npcs.json
+msgid "於兰天武叹道：可惜，难道老夫一身武功竟无传人...."
+msgstr ""
+
+#. common.npc.fighter.champion apprentice.success
+#: data/common/npcs.json
+msgid "於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！"
 msgstr ""
 
 #. common.npc.fighter.master name
@@ -5659,6 +5951,26 @@ msgstr ""
 #. common.npc.fighter.master chat_msg_combat.unarmed_many
 #: data/common/npcs.json
 msgid "嗯... 既然{count}位都是空手，在下理当奉陪！"
+msgstr ""
+
+#. common.npc.fighter.master apprentice.ask_say
+#: data/common/npcs.json
+msgid "我天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr ""
+
+#. common.npc.fighter.master apprentice.again_say
+#: data/common/npcs.json
+msgid "多说无益，若不发誓恪守门规，便是跪著求我也没用。"
+msgstr ""
+
+#. common.npc.fighter.master apprentice.oath
+#: data/common/npcs.json
+msgid "守门规"
+msgstr ""
+
+#. common.npc.fighter.master apprentice.accept_say
+#: data/common/npcs.json
+msgid "这就是了。"
 msgstr ""
 
 #. common.npc.fighter.executioner name
@@ -9999,11 +10311,16 @@ msgstr ""
 msgid "樟木匾"
 msgstr ""
 
+#. waterfog.guildhall.landmark.sign action
+#: data/waterfog/world.json
+msgid "加入武者同盟"
+msgstr ""
+
 #. waterfog.guildhall.landmark.sign long
 #: data/waterfog/world.json
 msgid ""
 "要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n"
-"一份子，只要你加入(join)武者同盟，就可以向同盟中的各大门派拜师\n"
+"一份子，只要你加入武者同盟，就可以向同盟中的各大门派拜师\n"
 "学艺。\n"
 msgstr ""
 

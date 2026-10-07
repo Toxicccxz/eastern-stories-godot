@@ -26,6 +26,8 @@ enum FailureReason {
 	VALID_LEARN_DEPENDENCY_UNAVAILABLE,
 	## practice_skill() refused for the weapon in hand (PracticePolicy.refuses_weapon()).
 	PRACTICE_WEAPON_REJECTED,
+	## practice_skill() refused for inner force, with its own line (celestrike.c).
+	PRACTICE_FORCE_REJECTED,
 }
 
 enum Completion {

@@ -90,7 +90,7 @@ func _test_data() -> void:
 	for basic: StringName in [&"staff", &"throwing", &"perception"]:
 		_check(catalog.skill(basic) != null and catalog.skill(basic).kind == SkillDefinition.Kind.BASIC, "basic %s" % basic)
 	var sign: WorldLandmarkDefinition = catalog.landmark(&"waterfog.guildhall.landmark.sign")
-	_check(sign != null and sign.is_valid() and sign.policy == &"look" and sign.action_label.is_empty() and sign.portal_ids().is_empty() and sign.description.begins_with("要成为一名武者并不难"), "the 正厅's sign: looked at, nothing to do")
+	_check(sign != null and sign.is_valid() and sign.policy == &"join_class" and sign.action_label == "加入武者同盟" and sign.class_id == &"fighter" and sign.portal_ids().is_empty() and sign.description.begins_with("要成为一名武者并不难"), "the 正厅's sign: looked at, and joining is its action (水烟阁 B)")
 	_check(catalog.landmark(&"waterfog.swordtomb.landmark.monolith").description.contains("风波剑神黎红药前辈葬剑于此"), "葬剑亭's monolith")
 	var rules: Array[ZoneExitRuleDefinition] = catalog.exit_rules_between(&"waterfog.entrance", &"waterfog.guildhall")
 	_check(rules.size() == 1 and rules[0].present_npc_id == &"waterfog.npc.guard" and rules[0].lines == ["水烟阁武士喝道：慢著，进水烟阁，先放下你的兵刃！", "水烟阁武士挡住了你的去路。"], "entrance.c's valid_leave(), north only")
@@ -183,7 +183,7 @@ func _test_gate(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	_check(master.character_state.equipment.is_primary_hand_empty(), "萧辟尘 carries his long sword, not wielded")
 	_check(map.select_landmark(&"waterfog.guildhall.landmark.sign"), "the 樟木匾")
 	map.inspect_selected()
-	_check(hud.inspection_text.text.contains("只要你加入(join)武者同盟"), "its text")
+	_check(hud.inspection_text.text.contains("只要你加入武者同盟") and not hud.inspection_text.text.contains("(join)"), "its text, without the command (owner)")
 	hud.dismiss_current_panel()
 
 

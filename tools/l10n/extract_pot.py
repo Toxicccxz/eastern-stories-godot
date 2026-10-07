@@ -44,7 +44,7 @@ TEXT_KEYS = frozenset({
     "name", "short", "long", "title", "nickname", "say", "emote", "fail", "accept_say",
     "refuse_say", "dry_say", "respect", "unit", "base_unit", "action", "then", "else", "gender",
     "damage_type", "done", "weapon_fail", "improved_line", "message", "line",
-    "target", "quest_type",
+    "target", "quest_type", "ask_say", "again_say", "oath", "ask_tell", "success", "force_fail",
 })
 TEXT_LIST_KEYS = frozenset({"limbs"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.

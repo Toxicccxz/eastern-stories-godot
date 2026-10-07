@@ -20,6 +20,37 @@ static func query_self(gender: StringName, age: int, class_id: StringName) -> St
 	return "在下" if age < 50 else "老头子"
 
 
+## rankd.c query_rank() for a player (score.c's first line): by class and gender.
+## Not here: the ghost's (a dead player reincarnates at once), 杀人魔 (other players
+## killed: none in single player) and 惯窃 (the player does not steal yet).
+static func query_rank(gender: StringName, class_id: StringName) -> String:
+	var female: bool = gender == CharacterState.GENDER_FEMALE
+	match class_id:
+		&"bonze":
+			return "【 尼  姑 】" if female else "【 僧  人 】"
+		&"taoist":
+			return "【 女  冠 】" if female else "【 道  士 】"
+		&"bandit":
+			return "【 女飞贼 】" if female else "【 盗  贼 】"
+		&"dancer":
+			return "【 舞  妓 】" if female else "【 平  民 】"
+		&"scholar":
+			return "【 才  女 】" if female else "【 书  生 】"
+		&"officer":
+			return "【 女  官 】" if female else "【 官  差 】"
+		&"fighter":
+			return "【 女武者 】" if female else "【 武  者 】"
+		&"swordsman":
+			return "【 女剑士 】" if female else "【 剑  士 】"
+		&"alchemist":
+			return "【 方  士 】"
+		&"shaman":
+			return "【 巫  医 】"
+		&"beggar":
+			return "【 叫化子 】"
+	return "【 平  民 】"
+
+
 ## `rank_info` is the addressed character's rank_info/respect, which rankd.c returns first.
 static func query_respect(gender: StringName, age: int, class_id: StringName, rank_info: String = "") -> String:
 	if not rank_info.is_empty():

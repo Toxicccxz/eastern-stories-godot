@@ -14,7 +14,7 @@ three-blow test) and teaches its arts; C gives the player 天邪神功.
 | frontyard (水烟阁前) | — | the platform; the gate north into the pavilion map |
 | wpath1-5, swordtomb (葬剑亭) | — | the west path along the gorge; 虹谷's stone tablet (wpath2) and the monolith (葬剑亭) are looked at |
 | entrance (正门) | 水烟阁武士 ×2 | pavilion map; its valid_leave() keeps weapons out of the 正厅 (`exit_rules`) |
-| guildhall (正厅) + daemon/class/fighter/guildhall.c | 於兰天武, 萧辟尘, 潘军禅 | the sign is looked at; join (武者) comes with B |
+| guildhall (正厅) + daemon/class/fighter/guildhall.c | 於兰天武, 萧辟尘, 潘军禅 | the sign: looked at, and its action joins the 武者 (B) |
 | westhall, easthall, weststair, eaststair, kitchen, storage, servroom | 仆役 ×2 (storage) | the halls; the stairs up from both 侧厅 |
 | west_2f, east_2f, forehall (聆啸厅) | 红衣武士 ×2 each; 南危水, 陈坚石, 颜违 | upstairs map; the five stones on the terrace are props |
 
@@ -34,10 +34,24 @@ three-blow test) and teaches its arts; C gives the player 天邪神功.
 - Room texts name places without rooms: 春秋水色斋 (聆啸厅 north), 虹台 (葬剑亭 south, wpath1/2),
   西侧厅's 阳台 (west).
 
+## Joining and teaching (B)
+
+| LPC | Native |
+|---|---|
+| master.c attempt_apprentice(), do_swear() | apprentice rule `oath`; the 发誓恪守门规 button (TeacherPanel) swears 守门规 |
+| champion.c attempt_apprentice(), do_accept("test") | apprentice rule `trial` (three blows with their lines); TeacherService.take_trial(), each blow WorldMapController.attack_player_outside_fight() |
+| recruit.c run by an NPC | NpcApprenticeship.npc_recruit(): taken at once when the request waits on it, else an offer |
+| champion.c assign_apprentice("弟子", 0) | family `privileges` 0: learn.c teaches only his own |
+| std/char/master.c prevent_learn() | `f_master` (as 柳淳风) |
+| daemon/skill celestial, celestrike, six-chaos-sword, pyrobat-steps, stormdance | skills.json `practice` (kee, force, sen and their lines) and `valid_learn` lines; the rules were already in SkillLearnPolicyRegistry |
+| std/room/class_guild.c do_join() | the 樟木匾's `join_class` action (class fighter) |
+
+- 七宝天岚舞's practice costs sen; its level line raises per (skill_improved()).
+- 萧辟尘 does not map 七宝天岚舞, so he never dodges with it.
+
 ## Deferred
 
-- B: 萧辟尘's attempt_apprentice() and swear (owner: a fixed 发誓恪守门规 button), 於兰天武's
-  accept test (owner: asked first), teaching both masters' skills, celestial learned by
-  bellicosity, stormdance (practice costs sen), join (武者, class fighter).
 - C: the player's 天邪神功 (powerup, powerfade and its faint in a fight, 天邪虎啸), 杀气's
   berserk for the player (owner: with a warning when it first becomes possible).
+  `ExertService.AWAITING_PLAYER` (and its pin in internal_power_test) holds powerup and
+  powerfade back from 运功 until then.

@@ -2,19 +2,84 @@
 	"set": {
 		"waterfog.npc.elite_guard": {
 			"accept_fight": [
-				{"say": "这位$RESPECT，在下正在执行勤务，恕不奉陪。", "accept": false}
+				{
+					"say": "这位$RESPECT，在下正在执行勤务，恕不奉陪。",
+					"accept": false
+				}
 			]
 		},
 		"common.npc.fighter.master": {
 			"chat_chance_combat": 80,
 			"chat_msg_combat": [
-				{"action": "match_weapon", "weapon": "sword",
-					"armed": ["{respect}既然使兵刃，在下空手接招未免不敬。", "进招吧！"],
-					"unarmed": ["既然{respect}不使兵刃，在下自然奉陪！"],
-					"unarmed_many": ["嗯... 既然{count}位都是空手，在下理当奉陪！"]},
-				{"action": "exert", "function": "powerup"},
-				{"action": "exert", "function": "recover"}
-			]
+				{
+					"action": "match_weapon",
+					"weapon": "sword",
+					"armed": [
+						"{respect}既然使兵刃，在下空手接招未免不敬。",
+						"进招吧！"
+					],
+					"unarmed": [
+						"既然{respect}不使兵刃，在下自然奉陪！"
+					],
+					"unarmed_many": [
+						"嗯... 既然{count}位都是空手，在下理当奉陪！"
+					]
+				},
+				{
+					"action": "exert",
+					"function": "powerup"
+				},
+				{
+					"action": "exert",
+					"function": "recover"
+				}
+			],
+			"apprentice": {
+				"kind": "oath",
+				"ask_say": "我天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。",
+				"again_say": "多说无益，若不发誓恪守门规，便是跪著求我也没用。",
+				"oath": "守门规",
+				"accept_say": "这就是了。"
+			}
+		},
+		"common.npc.fighter.champion": {
+			"family": {
+				"name": "天邪派",
+				"generation": 15,
+				"title": "弟子",
+				"privileges": 0
+			},
+			"inquiry": {
+				"武学": [
+					"武学之道....嗯....只可意会，不可言喻。\n"
+				],
+				"水烟阁": [
+					"水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"
+				],
+				"拜师": [
+					"哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
+				]
+			},
+			"apprentice": {
+				"kind": "trial",
+				"ask_say": "$RESPECT若真的有心，不妨让我看看你的所学",
+				"ask_tell": "如果想拜师的话，就请接受测试",
+				"blows": [
+					{
+						"say": "於兰天武点了点头，说道：很好，这是第一招....",
+						"fail": "於兰天武叹了口气，说道：连第一招都撑不过，真是自不量力...."
+					},
+					{
+						"say": "於兰天武说道：这是第二招....",
+						"fail": "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙...."
+					},
+					{
+						"say": "於兰天武说道：第三招来了....",
+						"fail": "於兰天武叹道：可惜，难道老夫一身武功竟无传人...."
+					}
+				],
+				"success": "於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！"
+			}
 		}
 	},
 	"review": {
@@ -25,14 +90,14 @@
 			"set item_desc": "a look-only landmark (石碑) in world.json"
 		},
 		"d/waterfog/guildhall.c": {
-			"set item_desc": "a look-only landmark (樟木匾) in world.json",
+			"set item_desc": "the 樟木匾 landmark in world.json; its (join) dropped, joining is its action (join_class)",
 			"call_other": "the fighters' bulletin board is for players' posts: not ported (single player)",
 			"objects daemon/class/fighterchampion.c": "CLASS_D(\"fighter\") + \"champion\" lacks its slash, so the room fails to load in ES2; the zone also takes daemon/class/fighter/guildhall.c, the same room with the right paths (DECISIONS 水烟阁 A)",
 			"objects daemon/class/fightermaster.c": "as champion: the zone takes daemon/class/fighter/guildhall.c's",
 			"objects daemon/class/fighterexecutioner.c": "as champion: the zone takes daemon/class/fighter/guildhall.c's"
 		},
 		"daemon/class/fighter/guildhall.c": {
-			"set item_desc": "a look-only landmark (樟木匾) in world.json",
+			"set item_desc": "the 樟木匾 landmark in world.json; its (join) dropped, joining is its action (join_class)",
 			"call_other": "the fighters' bulletin board is for players' posts: not ported (single player)"
 		},
 		"d/waterfog/entrance.c": {
@@ -66,19 +131,19 @@
 			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
 		"daemon/class/fighter/champion.c": {
-			"assign_apprentice": "after create_family(\"天邪派\", 15, \"弟子\") it changes nothing shown: an NPC with a title keeps it (水烟阁传功使); privs are not modelled",
-			"function init": "accept test: the three-blow test comes with 水烟阁 B",
-			"function do_accept": "the three-blow test comes with 水烟阁 B",
-			"function attempt_apprentice": "taking apprentices comes with 水烟阁 B"
+			"assign_apprentice": "assign_apprentice(\"弟子\", 0) after create_family(): his title stays (水烟阁传功使) and his privs are 0, so learn.c lets only his own apprentices learn from him (family.privileges in set)",
+			"function init": "accept test: the apprentice rule's trial (TeacherService.take_trial(); owner: asked first)",
+			"function do_accept": "the apprentice rule's trial: three do_attack() outside a fight, kee < 0 or gone after each ends it with that blow's line, then recruit (DECISIONS 水烟阁 B)",
+			"function attempt_apprentice": "the apprentice rule's trial: ask_say (say(), shown to the player too) and ask_tell"
 		},
 		"daemon/class/fighter/master.c": {
 			"set chat_chance_combat": "in set, with consider() as the match_weapon action",
 			"set chat_msg_combat": "in set: consider() is the match_weapon action (NpcWeaponMatch), then powerup and recover (天邪神功 has no recover file: nothing, as ES2)",
 			"function consider": "the match_weapon action (NpcWeaponMatch)",
-			"function init": "swear: the oath comes with 水烟阁 B",
-			"function attempt_apprentice": "taking apprentices comes with 水烟阁 B",
-			"function do_swear": "the oath comes with 水烟阁 B (owner: a fixed 发誓恪守门规 button)",
-			"function recruit_apprentice": "::recruit_apprentice() and add(\"apprentice_availavble\", -1), a misspelt key nothing reads: comes with 水烟阁 B as the plain recruit"
+			"function init": "swear: the apprentice rule's oath, the owner's fixed 发誓恪守门规 button",
+			"function attempt_apprentice": "the apprentice rule's oath: ask_say once (its (swear) dropped), again_say when asked again",
+			"function do_swear": "the oath button swears 守门规, the oath ES2 accepts: 这就是了 and recruit; 你发的是什麽鬼誓 never comes (owner, DECISIONS 水烟阁 B)",
+			"function recruit_apprentice": "::recruit_apprentice() as it is (no class); add(\"apprentice_availavble\", -1) is a misspelt key nothing reads"
 		}
 	}
 }

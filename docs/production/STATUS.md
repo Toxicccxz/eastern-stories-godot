@@ -4,14 +4,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Confirmations** (`phase/confirm-prompt`): one reusable ConfirmPrompt asks before 攻击 on
-one's own master, a 切磋 to the death (安惜迩) or with a weapon in hand, 化尸粉 on a corpse with
-things in it and the first 拜师; the betrayal, the hockshop sale and the menu's two questions
-use it too (DECISIONS). 水烟阁 A (#65) is merged: the mountain, the pavilion and its upper floor
-with their eighteen NPCs; old suites' world numbers live in `tests/fixtures/world_counts.json`.
+**水烟阁 B** (`phase/waterfog-b`): joining 天邪派 — 萧辟尘 asks for an oath (the 发誓恪守门规
+button), 於兰天武 for his three-blow test (asked first: real blows), a master's recruit offers when
+the player has not asked; both masters teach (於兰天武 only his own), 七宝天岚舞, 天邪神功 by 杀气,
+the 正厅's sign joins the 武者; the character sheet shows score.c's rank (DECISIONS).
 
-Next: 水烟阁 B, joining 天邪派 (萧辟尘's oath, 於兰天武's three-blow test, asked first) and learning
-from them; then C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
+Next: 水烟阁 C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
 
 ## Playable now
 
@@ -62,7 +60,11 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   the 正厅 with 於兰天武, 萧辟尘 and 潘军禅 and its sign, the halls, kitchen, woodshed and servants'
   room; upstairs the four 红衣武士 (on duty: no spar) and the three elders in 聆啸厅. They fight
   with 天邪神掌, 六阴追魂剑法, 火蝠身法, powerup and 南危水's counterattack; 萧辟尘 wields his sword
-  against an armed enemy and puts it away against bare hands. Not yet: joining 天邪派 (B).
+  against an armed enemy and puts it away against bare hands. Joining 天邪派: 萧辟尘 after an oath,
+  於兰天武 after his three blows (asked first; failing knocks the player out, a bad wound kills);
+  learning from both (於兰天武 teaches only his apprentices), practising 天邪神掌, 六阴追魂剑法, 火蝠身法
+  and 七宝天岚舞 (women, spi 20, costs sen); 天邪神功 is learnt with 杀气; the 正厅's sign makes the
+  player a 武者. Not yet: the player's own 天邪神功 (C).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -78,7 +80,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 164/551 rooms, 78/286 NPC
-types, 2/10 joinable families, 11/35 special and 10/25 basic martial arts, 41/84 quest targets.
+types, 3/10 joinable families, 12/35 special and 10/25 basic martial arts, 41/84 quest targets.
 
 ## Known issues
 
