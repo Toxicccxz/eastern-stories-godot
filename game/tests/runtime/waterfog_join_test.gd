@@ -224,6 +224,12 @@ func _test_data() -> void:
 	_check(NpcTeacher.teachable_skills(catalog.npc(MASTER), catalog).has(&"stormdance"), "萧辟尘 teaches it")
 	var npcs: String = FileAccess.get_file_as_string("res://data/common/npcs.json")
 	_check(npcs.contains("得接我三招不死，你想试试？") and not npcs.contains("(accept test)") and not npcs.contains("(swear)"), "the command hints are gone from the lines (owner)")
+	var joiner: CharacterState = _fresh(CharacterState.GENDER_MALE)
+	_check(ClassGuild.join(joiner, &"fighter") == ClassGuild.Outcome.JOINED and joiner.affiliation.class_id == &"fighter", "class_guild.c do_join(): no class, a 武者")
+	_check(ClassGuild.join(joiner, &"fighter") == ClassGuild.Outcome.REFUSED and ClassGuild.join(_member(CharacterState.GENDER_MALE), &"") == ClassGuild.Outcome.INVALID, "a class already: refused; no class to give: nothing")
+	var swordsman: CharacterState = _fresh(CharacterState.GENDER_MALE)
+	Master.recruit(swordsman, 1)
+	_check(ClassGuild.join(swordsman, &"fighter") == ClassGuild.Outcome.REFUSED and swordsman.affiliation.class_id == &"swordsman", "柳淳风's disciple (剑士) is refused")
 	_check(RankWords.query_rank(CharacterState.GENDER_FEMALE, &"fighter") == "【 女武者 】" and RankWords.query_rank(CharacterState.GENDER_MALE, &"fighter") == "【 武  者 】" and RankWords.query_rank(CharacterState.GENDER_MALE, &"") == "【 平  民 】" and RankWords.query_rank(CharacterState.GENDER_MALE, &"dancer") == "【 平  民 】", "rankd.c query_rank()")
 
 
