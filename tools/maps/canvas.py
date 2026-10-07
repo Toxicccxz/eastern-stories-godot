@@ -63,7 +63,7 @@ def draw(region, entry: dict) -> Drawn:
         elif op == 'freeze':
             c.freeze_base()
         elif op == 'lines':
-            c.lines(lines[step['group']])
+            c.lines(lines[step['group']], step.get('kind', 'path'))
         elif op == 'chambers':
             for (x, y), (rx, ry), seed in chambers.values():
                 c.blob(x, y, rx, ry, seed=seed, amp=0.2)
@@ -85,6 +85,7 @@ def draw(region, entry: dict) -> Drawn:
     assert {c.zone_at(x * T + 8, y * T + 8) for x, y in reached} == set(zones), ('cut off', zones)
     for a, b in pairs:
         assert c.seam(a, b), ('neighbours not joined', a, b)
+    within_reach(c, reached, scene, named, region.service_reach(), region.contact_landmarks())
 
     markers, bodies = '', list(named.values())
     spec = d.get('markers')
@@ -100,13 +101,43 @@ def draw(region, entry: dict) -> Drawn:
 
     shorts = region.shorts()
     shapes, zone_nodes, captions = {}, '', ''
+    names = d.get('names', {})
     for zone_id, (x0, y0, x1, y1) in zones.items():
         shapes[f'Rect_{x1 - x0}_{y1 - y0}'] = (x1 - x0, y1 - y0)
-        zone_nodes += sc.build('zone', style, name=zone_node_name(zone_id, 'Zone'), id=zone_id,
+        name = names.get(zone_id)
+        zone_nodes += sc.build('zone', style, name=name + 'Zone' if name else zone_node_name(zone_id, 'Zone'), id=zone_id,
                                at=((x0 + x1) // 2, (y0 + y1) // 2), shape=f'Rect_{x1 - x0}_{y1 - y0}')
         spot = caption_spot(c, zone_id, shorts[zone_id], d['caption_near'][zone_id], bodies)
-        captions += sc.caption(zone_node_name(zone_id, 'Label'), spot, shorts[zone_id], 14)
+        captions += sc.caption(name + 'Label' if name else zone_node_name(zone_id, 'Label'), spot, shorts[zone_id], 14)
     return Drawn(c.tiles(), {'zones': zone_nodes, 'captions': captions, 'markers': markers}, shapes, tuple(d['bounds']))
+
+
+def within_reach(canvas, reached, scene, named, reach, contact):
+    """Everything the player uses stands where they can get to: each placed marker on open ground
+    a body fits and can walk to, a passage and a landmark used by touch (`contact`) over ground a
+    body can stand on (both act on the body's centre) and any other landmark within 64 px of it,
+    each service point within its reach of such ground; and nothing walkable at the canvas's edge."""
+    x0, y0, x1, y1 = canvas.bounds
+    edge = [c for c in canvas.kind if canvas.walkable(c) and (c[0] in (x0 // T, x1 // T - 1) or c[1] in (y0 // T, y1 // T - 1))]
+    assert not edge, ('walkable at the edge of the canvas', edge[:4])
+    for name, (x, y) in named.items():
+        body = [(cx, cy) for cx in range(math.floor((x - BODY) / T), math.ceil((x + BODY) / T))
+                for cy in range(math.floor((y - BODY) / T), math.ceil((y + BODY) / T))]
+        assert all(canvas.walkable(cell) for cell in body), ('no room for a body at', name)
+        assert (int(x // T), int(y // T)) in reached, ('cannot walk to', name)
+    centres = [(cx * T + 8, cy * T + 8) for cx, cy in reached]
+    sizes = scene['shapes']
+    for item in scene.get('interactions', []):
+        (ax, ay), (w, h) = item['at'], sizes[item['shape']]
+        near = 0 if item['id'] in contact else 64
+        assert any(abs(px - ax) <= w / 2 + near and abs(py - ay) <= h / 2 + near for px, py in centres), ('cannot stand at', item['name'])
+    for item in scene.get('nodes', []):
+        if item.get('node') == 'passage':
+            (ax, ay), (w, h) = item['at'], sizes[item['shape']]
+            assert any(abs(px - ax) <= w / 2 and abs(py - ay) <= h / 2 for px, py in centres), ('cannot stand in', item['name'])
+        if item.get('node') == 'service':
+            (ax, ay), r = item['at'], reach[item['id']]
+            assert any(math.hypot(px - ax, py - ay) <= r for px, py in centres), ('out of reach', item['name'])
 
 
 def wob(s, seed):

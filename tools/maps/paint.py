@@ -96,8 +96,9 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     has_doors = bool(scene.get('doors'))
     if style == 'map':
         interactions = sc.render(scene.get('interactions', []), 'landmark', style, fragments)
+        has_services = any(n.get('node') == 'service' for n in scene.get('nodes', []))
         text = sc.map_scene(scene['root'], scene['map'], sizes, nodes, zones, points, interactions,
-                            scene.get('limits', drawn.bounds), scene['player_color'], has_doors)
+                            scene.get('limits', drawn.bounds), scene['player_color'], has_doors, has_services)
     else:
         text = sc.flat_scene(scene['root'], scene['map'], sizes, nodes, zones, points,
                              scene['player_color'], scene['zoom'], has_doors)

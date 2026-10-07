@@ -13,6 +13,7 @@ WORLD = 'res://runtime/world/'
 TILESET = ('[ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" '
            'id="terrain_tiles"]\n\n')
 DOOR_SCRIPT = ('world_door.gd', 'door')
+SERVICE_SCRIPT = ('world_service_point.gd', 'service')
 
 STYLES = {
     'map': {
@@ -58,6 +59,16 @@ def passage(name, id, at, shape, script='passage'):
     return (f'[node name="{name}" type="Area2D" parent="."]\nposition = Vector2({at[0]}, {at[1]})\n'
             f'collision_layer = 0\ninput_pickable = false\nscript = ExtResource("{script}")\nportal_id = &"{id}"\n\n'
             f'[node name="CollisionShape2D" type="CollisionShape2D" parent="{name}"]\nshape = SubResource("{shape}")\n\n')
+
+
+def service(name, id, at, text='', script='service'):
+    """A service point (services[] in world.json): a blue diamond, its label below."""
+    label = (f'[node name="Label" type="Label" parent="{name}"]\noffset_left = -100.0\noffset_top = 26.0\n'
+             f'offset_right = 100.0\nmouse_filter = 2\ntext = "{text}"\nhorizontal_alignment = 1\n\n') if text else ''
+    return (f'[node name="{name}" type="Marker2D" parent="."]\nposition = Vector2({at[0]}, {at[1]})\n'
+            f'script = ExtResource("{script}")\nservice_id = &"{id}"\n\n'
+            f'[node name="Visual" type="Polygon2D" parent="{name}"]\n'
+            'polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)\ncolor = Color(0.5, 0.85, 1, 1)\n\n' + label)
 
 
 def rect(name, rect, color, parent='Terrain'):
@@ -119,7 +130,7 @@ def shapes(sizes: dict) -> str:
     return ''.join(f'[sub_resource type="RectangleShape2D" id="{k}"]\nsize = Vector2({w}, {h})\n\n' for k, (w, h) in sizes.items())
 
 
-BUILDERS = {f.__name__: f for f in (group, marker, zone, landmark, passage, rect, caption, label, stairs)}
+BUILDERS = {f.__name__: f for f in (group, marker, zone, landmark, passage, service, rect, caption, label, stairs)}
 
 
 def render(items: list, default: str, style: str, fragments: dict) -> str:
@@ -144,17 +155,18 @@ def build(kind: str, style: str, **fields) -> str:
 
 # --- Skeletons ------------------------------------------------------------------------------
 
-def header(style: str, doors: bool) -> str:
-    scripts = STYLES[style]['scripts'] + ([DOOR_SCRIPT] if doors else [])
+def header(style: str, doors: bool, services: bool = False) -> str:
+    scripts = STYLES[style]['scripts'] + ([DOOR_SCRIPT] if doors else []) + ([SERVICE_SCRIPT] if services else [])
     return ('[gd_scene format=3]\n\n'
             + ''.join(f'[ext_resource type="Script" path="{WORLD}{path}" id="{rid}"]\n' for path, rid in scripts)
             + TILESET)
 
 
-def map_scene(root, map_id, sizes, nodes, zones, spawn_points, interactions, limits, player_color, doors=False):
+def map_scene(root, map_id, sizes, nodes, zones, spawn_points, interactions, limits, player_color, doors=False,
+              services=False):
     sizes = dict(sizes)
     sizes['Rect_34_34'] = (34, 34)
-    return (header('map', doors) + shapes(sizes) +
+    return (header('map', doors, services) + shapes(sizes) +
             f'[node name="{root}" type="Node2D"]\nscript = ExtResource("map")\nmap = &"{map_id}"\n\n'
             '[node name="Terrain" type="Node2D" parent="."]\n\n'
             '[node name="TerrainGround" type="TileMapLayer" parent="Terrain"]\ntile_map_data = PackedByteArray()\ntile_set = ExtResource("terrain_tiles")\n\n'
