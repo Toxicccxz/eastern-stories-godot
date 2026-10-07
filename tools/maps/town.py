@@ -12,7 +12,10 @@ each zone a room exit joins them to.
              "placed": {"<spawn point>": [x, y], ...}}       spawn points not packed into slots
 
 Rooms that share an edge must be neighbours (room exits in game/data) and every walkable step
-from the reach marker stays between neighbours. Doors `between` two zones sit in their doorway.
+from the reach marker stays between neighbours; a body must reach every room and what the player
+uses must be within reach (canvas.within_reach, with every marker the map places). Doors `between`
+two zones sit in their doorway: across the shared edge between two buildings, in the building's
+wall when one side is a street.
 Generated: `zones`, `captions` (top left of open zones, bottom left inside enclosed ones) and
 `markers` (game/data spawns and item spawns, packed in reading order onto open ground clear of
 doorways, stairs, the lanes from each doorway to the room's middle and the middle of streets).
@@ -23,8 +26,9 @@ from __future__ import annotations
 from collections import deque
 
 from . import scene as sc
+from .canvas import Canvas, within_reach
 from .region import Drawn, explicit_markers, fill_row, zone_node_name
-from .tiles import Tiles
+from .tiles import ATLAS, T, Tiles
 
 OPEN, ENCLOSED = 'open', 'enclosed'
 
@@ -47,6 +51,13 @@ def draw(region, entry: dict) -> Drawn:
     shorts = region.shorts()
     captions = ''.join(sc.caption(zone_node_name(z, 'Label'), town.caption_spot(z), shorts[z], 14) for z in town.zones)
     fragments = {'zones': zones, 'captions': captions, 'markers': town.markers(tiles, gaps)}
+    named = explicit_markers(scene)
+    body = town.canvas(tiles)
+    seen = body.reach(named[d['reach_from']], town.pairs)
+    missing = set(town.zones) - {body.zone_at(x * T + 8, y * T + 8) for x, y in seen}
+    assert not missing, ('no way for a body into', missing)
+    within_reach(body, seen, scene, {**named, **town.spots}, region.service_reach(), region.contact_landmarks(),
+                 region.owner_zones())
     return Drawn(tiles, fragments, shapes, tuple(d['bounds']), town.door_at,
                  [f'{len(town.zones)} rooms, {len(gaps)} doorway bands'])
 
@@ -60,6 +71,7 @@ class Town:
         self.stairs = scene.get('stairs', [])
         self.style = scene['style']
         self.pairs = region.neighbours(self.zones)
+        self.spots = {}
         self.check()
 
     def check(self) -> None:
@@ -94,10 +106,26 @@ class Town:
         return vertical, edge, centre
 
     def door_at(self, between):
-        """A door across the doorway between two zones: (centre, shape, extent)."""
+        """A door across the doorway between two zones: (centre, shape, extent). Between two
+        buildings it straddles the shared edge; from a street it fills the building's wall."""
         vertical, edge, centre = self.gap(*between)
         w, h = (32, 64) if vertical else (64, 32)
-        return ((edge, centre) if vertical else (centre, edge)), f'Rect_{w}_{h}', (w, h)
+        across = edge
+        open_side = [z for z in between if self.zones[z][4] == OPEN]
+        assert len(open_side) < 2, ('a door between two open zones', between)
+        if open_side:
+            x0, y0, *_ = self.zones[next(z for z in between if z not in open_side)]
+            across = edge + (16 if (x0 if vertical else y0) == edge else -16)
+        return ((across, centre) if vertical else (centre, across)), f'Rect_{w}_{h}', (w, h)
+
+    def canvas(self, tiles: Tiles) -> Canvas:
+        """The painted town as a canvas, for the body-size checks the canvas maps get."""
+        body = Canvas({z: v[:4] for z, v in self.zones.items()}, {}, tuple(self.d['bounds']), self.d['base'])
+        kinds = {v: k for k, v in ATLAS.items()}
+        for layer in (tiles.ground, tiles.structures):
+            for cell, (_, ax, ay, _) in layer.items():
+                body.kind[cell] = kinds[(ax, ay)]
+        return body
 
     def paint(self, tiles: Tiles) -> list:
         tiles.fill(self.d['base'], *self.d['bounds'])
@@ -210,6 +238,7 @@ class Town:
                     # Packed in reading order, 38 px apart (a body is 34).
                     pos = free[0]
                     taken.append(pos)
+                self.spots[self.region.marker_name(point)] = pos
                 text += sc.build('marker', self.style, name=self.region.marker_name(point), at=pos, id=point)
         return text
 

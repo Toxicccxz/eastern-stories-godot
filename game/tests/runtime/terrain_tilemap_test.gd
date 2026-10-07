@@ -1,14 +1,10 @@
 extends RefCounted
 
 ## Map terrain is painted on TileMapLayers with one placeholder TileSet (3B4), and the tiles carry
-## the collision: Old Pine since 3B5, Snow since 3B6. Zones, portals, spawns and the other
-## components stay separate nodes.
+## the collision: Old Pine since 3B5, Snow since 3B6, counters and furniture too since every map is
+## painted. Zones, portals, spawns and the other components stay separate nodes.
 const BLOCKING_TERRAIN: Array[String] = ["shop_front", "shutter", "wall", "wall_wood", "boundary", "forest",
 	"water", "deep_water", "blocked", "cliff", "chasm"]
-## Node collision a map keeps besides door walls and closed-passage walls: objects that block.
-const OBJECT_BLOCKS: Dictionary[StringName, Array] = {
-	&"snow.outdoor": ["BankExchange/Counter/CollisionShape2D", "Walls/HockshopCounter"],
-}
 const TILE := 16.0
 
 var _assertion_count: int = 0
@@ -79,13 +75,9 @@ func _test_tile_collision_map(map: MapDefinition, scene: Node2D, layers: Array[T
 			_test_door_fits_opening(map, scene, node as WorldDoor)
 		elif node is WorldPassageArea2D and not (node as WorldPassageArea2D).closed_wall_path.is_empty():
 			switchable.append(node.get_node((node as WorldPassageArea2D).closed_wall_path))
-	var objects: Array = OBJECT_BLOCKS.get(map.map_id, [])
-	for path: String in objects:
-		_assert_true(scene.get_node_or_null(path) is CollisionShape2D, "%s object block %s exists" % [map.map_id, path])
 	for node: Node in scene.find_children("*", "", true, false):
 		if (node is CollisionShape2D or node is CollisionPolygon2D) and node.get_parent() is StaticBody2D:
-			var kept: bool = switchable.has(node) or objects.has(String(scene.get_path_to(node)))
-			_assert_true(kept, "%s keeps no node collision but %s" % [map.map_id, scene.get_path_to(node)])
+			_assert_true(switchable.has(node), "%s keeps no node collision but %s" % [map.map_id, scene.get_path_to(node)])
 	var painted: Dictionary[Vector2i, bool] = {}
 	var walkable: Array[Vector2i] = []
 	for layer: TileMapLayer in layers:
@@ -157,24 +149,24 @@ func _test_terrain_spot_checks() -> void:
 	cave.free()
 	var snow: Node2D = _scene("res://scenes/world/snow/snow_outdoor.tscn")
 	for row: Array in [
-		[Vector2(300, -40), "wall", true], [Vector2(100, -1300), "boundary", true], [Vector2(1200, -400), "wall_wood", true],
 		[Vector2(0, 0), "town_ground", false], [Vector2(0, -1000), "street", false],
-		# the Inn door alcove west of the square, and the road south to Old Pine beyond the SouthBlocker
-		[Vector2(-310, 0), "town_ground", false], [Vector2(-330, 0), "wall", true],
-		[Vector2(1096, 848), "town_ground", false], [Vector2(1096, 880), "boundary", true],
-		# the crossroad's east boundary runs its full height (it used to collide over 190 px only)
-		[Vector2(300, -1800), "boundary", true], [Vector2(300, -1500), "boundary", true],
+		# the square's old wooden frame, the inn's front on its west side with the door's step
+		[Vector2(0, -88), "blocked", true], [Vector2(-312, 0), "town_ground", false], [Vector2(-328, 0), "wall_wood", true],
+		# the counters and the millstone are tiles, not node collision
+		[Vector2(-312, -384), "blocked", true], [Vector2(248, -1080), "blocked", true], [Vector2(344, -744), "blocked", true],
+		# the mountain wall east of the 山路; the road south to Old Pine runs to the map's closed edge
+		[Vector2(1296, 500), "cliff", true], [Vector2(1160, 920), "path", false], [Vector2(1160, 944), "boundary", true],
+		# beyond the col east of the track to the next village
+		[Vector2(300, -1680), "boundary", true],
 	]:
 		_spot(snow, "Snow", row)
-	var blocker: CollisionShape2D = snow.get_node("Walls/SouthBlocker") as CollisionShape2D
-	_assert_eq(Rect2(_map_position(snow, blocker) - (blocker.shape as RectangleShape2D).size / 2.0, (blocker.shape as RectangleShape2D).size),
-		Rect2(1024, 832, 144, 32), "Snow SouthBlocker closes exactly the gap in the south wall")
 	snow.free()
 	var inn: Node2D = _scene("res://scenes/world/snow/snow_inn.tscn")
-	_spot(inn, "Inn", [Vector2(0, -316), "wall_wood", true])
-	_spot(inn, "Inn", [Vector2(496, 0), "floor_wood", false])
-	_spot(inn, "Inn", [Vector2(528, 0), "wall_wood", true])
-	_spot(inn, "Inn", [Vector2(496, 100), "wall_wood", true])
+	_spot(inn, "Inn", [Vector2(0, -304), "wall_wood", true])
+	_spot(inn, "Inn", [Vector2(0, -200), "blocked", true])
+	_spot(inn, "Inn", [Vector2(432, 0), "floor_wood", false])
+	_spot(inn, "Inn", [Vector2(464, 0), "boundary", true])
+	_spot(inn, "Inn", [Vector2(432, 100), "wall_wood", true])
 	inn.free()
 
 

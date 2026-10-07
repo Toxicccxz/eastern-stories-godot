@@ -147,7 +147,9 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 func _test_upstairs(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	await walker.walk_to(tree, session, "move_right", 336, 0)
+	var inn: WorldMapController = session.active_map() as WorldMapController
+	var stairs: WorldPassageArea2D = MapPlaces.passage(inn, &"snow.inn.up")
+	_check(await MapPlaces.drive(tree, inn, MapPlaces.spot(inn, &"snow.inn.main_floor", stairs.global_position + Vector2(0, 80))), "across to the foot of the stairs")
 	await _walk_until_map(tree, session, "move_up", &"snow.inn_upstairs")
 	_check(session.active_map_id() == &"snow.inn_upstairs" and player.world_location().zone_id == &"snow.inn_2f", "up the Inn's stairs to 饮风客栈二楼")
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -181,36 +183,20 @@ func _test_upstairs(tree: SceneTree, session: OldPineWorldSessionController) -> 
 func _test_inner_school(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	await walker.walk(tree, session, "move_right", 125)
-	await walker.walk_to(tree, session, "move_right", 0, 0)
-	await walker.walk_to(tree, session, "move_up", -400, 1)
-	await walker.walk_to(tree, session, "move_right", 330, 0)
+	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	var map: WorldMapController = session.active_map() as WorldMapController
+	_check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.school1"]) and await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "up the street to the school's red gate")
 	_check(map.open_door(&"snow.school.gate"), "the school gate opens")
-	await walker.walk_to(tree, session, "move_right", 960, 0)
-	await walker.walk_to(tree, session, "move_down", -320, 1)
-	await walker.walk_to(tree, session, "move_right", 1300, 0)
+	_check(await MapPlaces.drive_through(tree, map, [&"snow.school2", &"snow.schoolhall", &"snow.inneryard"]), "across the yard, through the hall")
 	_check(player.world_location().zone_id == &"snow.inneryard", "east of the hall is the inner yard (天井)")
-	await walker.walk_to(tree, session, "move_right", 1408, 0)
-	await walker.walk_to(tree, session, "move_down", -100, 1)
+	_check(await MapPlaces.drive_to_zone(tree, map, &"snow.guestroom"), "south into the guest room")
 	_check(player.world_location().zone_id == &"snow.guestroom", "south of the yard is the guest room")
 	# Around the pillar (石柱) in the middle of the yard.
-	await walker.walk_to(tree, session, "move_up", -320, 1)
-	await walker.walk_to(tree, session, "move_right", 1500, 0)
-	await walker.walk_to(tree, session, "move_up", -470, 1)
-	await walker.walk_to(tree, session, "move_left", 1408, 0)
-	await walker.walk_to(tree, session, "move_up", -650, 1)
+	_check(await MapPlaces.drive_through(tree, map, [&"snow.inneryard", &"snow.nyard"]), "round the pillar to the study")
 	_check(player.world_location().zone_id == &"snow.nyard", "north of the yard is the study (书房), empty for now")
-	await walker.walk_to(tree, session, "move_down", -470, 1)
-	await walker.walk_to(tree, session, "move_right", 1500, 0)
-	await walker.walk_to(tree, session, "move_down", -400, 1)
-	await walker.walk_to(tree, session, "move_right", 1800, 0)
+	_check(await MapPlaces.drive_through(tree, map, [&"snow.inneryard", &"snow.innerhall"]), "down the long corridor east")
 	_check(player.world_location().zone_id == &"snow.innerhall", "east of the yard is the inner hall")
-	await walker.walk_to(tree, session, "move_left", 1500, 0)
-	await walker.walk_to(tree, session, "move_down", -320, 1)
-	await walker.walk_to(tree, session, "move_left", 960, 0)
-	await walker.walk_to(tree, session, "move_up", -400, 1)
-	await walker.walk_to(tree, session, "move_left", 760, 0)
+	_check(await MapPlaces.drive_through(tree, map, [&"snow.inneryard", &"snow.schoolhall", &"snow.school2"]), "back through the yard and the hall")
 	_check(player.world_location().zone_id == &"snow.school2", "back in the practice yard")
 	_check(walker._failures.is_empty(), "walked: " + str(walker._failures))
 
@@ -224,10 +210,10 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	await walker.walk_to(tree, session, "move_up", -620, 1)
+	_check(await MapPlaces.drive_to_zone(tree, map, &"snow.weapon_storage"), "north into the weapon storage")
 	_check(player.world_location().zone_id == &"snow.weapon_storage", "north of the practice yard is the weapon storage")
-	await walker.walk_to(tree, session, "move_left", 680, 0)
-	await walker.walk_to(tree, session, "move_up", -758, 1)
+	var hole: WorldPassageArea2D = MapPlaces.passage(map, DOWN)
+	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.weapon_storage", hole.global_position)), "onto the shut floor by the shelf")
 	var scope: StringName = session.item_id_allocator().scope
 	var sword: StringName = ItemSpawnDefinition.item_instance_id(scope, &"snow.weapon_storage.bamboo_sword.1")
 	_check(map.floor_item_ids().has(sword) and map.select_floor_item(sword) and hud.open_loot_is_enabled(), "the 竹剑 lies on the floor, in reach")
@@ -249,7 +235,7 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 	for _frame: int in range(10):
 		await tree.physics_frame
 	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.weapon_storage", "the floor opening under the player does not drop them: the exit is there to take")
-	await walker.walk_to(tree, session, "move_down", -680, 1)
+	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.weapon_storage", hole.global_position + Vector2(0, 80))), "off the opening")
 	await _walk_until_map(tree, session, "move_up", &"snow.cellar")
 	_check(session.active_map_id() == &"snow.cellar" and player.world_location().zone_id == &"snow.secret_storage", "down the steps into the secret storage, and still there with the key held")
 	session.advance_hidden_passages(30.0)
@@ -285,7 +271,8 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 	hud.dismiss_current_panel()
 	for _frame: int in range(3):
 		await tree.physics_frame
-	await walker.walk_to(tree, session, "move_down", 400, 1)
+	var temple: Rect2 = MapPlaces.zone_rect(map, &"snow.temple")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.temple", Vector2(temple.position.x + 40, temple.end.y - 40))), "across the temple")
 	_check(player.world_location().zone_id == &"snow.temple" and map.select_floor_item(box) and not hud.open_loot_is_enabled() and map.inspect_selected(), "the box is out of reach but in the room")
 	for _frame: int in range(10):
 		await tree.process_frame

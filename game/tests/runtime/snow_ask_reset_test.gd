@@ -124,10 +124,9 @@ func _test_chat_rule() -> void:
 
 
 func _to_square(tree: SceneTree, session: OldPineWorldSessionController) -> void:
-	var walker: RefCounted = Work.new()
-	await walker.walk(tree, session, "move_right", 125)
-	await walker.walk_to(tree, session, "move_right", 0, 0)
-	_check(session.player_runtime().world_location().zone_id == &"snow.square", "out of the Inn")
+	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+	var square: bool = await MapPlaces.drive_to_zone(tree, session.active_map() as WorldMapController, &"snow.square")
+	_check(square and session.player_runtime().world_location().zone_id == &"snow.square", "out of the Inn")
 
 
 ## The scavenger beside the player: a line, then random_move north and the walk.

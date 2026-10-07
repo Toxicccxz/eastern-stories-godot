@@ -63,37 +63,35 @@ func physical_tests(tree: SceneTree) -> void:
 	# Exact-delta fixture: automatic Session process is disabled, physics/input remains real.
 	session.advance_player_recovery(3.0)
 	await tree.physics_frame
-	await walk.walk(tree, session, "move_right", 125)
+	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	check(session.active_map_id() == &"snow.outdoor", "physical Inn doorway")
 	geometry_tests(snow)
-	await walk.walk_to(tree, session, "move_right", 0, 0)
-	await walk.walk_to(tree, session, "move_up", -400, 1)
-	await wall_test(tree, session, walk, "move_right", 0, 400, "School closed gate", &"snow.school1")
-	await walk.walk_to(tree, session, "move_left", 0, 0)
-	await walk.walk_to(tree, session, "move_up", -700, 1)
-	await wall_test(tree, session, walk, "move_left", 0, -100, "mstreet2 west beside the smithy doorway", &"snow.mstreet2")
-	await walk.walk_to(tree, session, "move_right", 0, 0)
-	for row: Array in [[&"snow.mstreet3", -1000.0], [&"snow.mstreet4", -1300.0], [&"snow.crossroad", -1650.0]]:
-		await walk.walk_to(tree, session, "move_up", row[1], 1)
-		check(session.player_runtime().world_location().zone_id == row[0] and session.active_map() == snow, "real forward Area entry " + String(row[0]))
+	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1"]), "north into the street")
+	await solid(tree, session, snow, &"snow.school1", MapPlaces.door_spot(snow, &"snow.school.gate", &"snow.school1"), "move_right", "School closed gate")
+	var mstreet2: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet2")
+	await solid(tree, session, snow, &"snow.mstreet2", MapPlaces.spot(snow, &"snow.mstreet2", Vector2(mstreet2.position.x, mstreet2.position.y + 48)), "move_left", "mstreet2 west beside the smithy doorway")
+	for zone: StringName in [&"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]:
+		check(await MapPlaces.drive_to_zone(tree, snow, zone), "walk on north to " + String(zone))
+		check(session.player_runtime().world_location().zone_id == zone and session.active_map() == snow, "real forward Area entry " + String(zone))
 		check(not session.fill_water_available(), "no Fill outside waterfall")
 		check(session.player_recovery_cadence() == ids[6] and session.player_recovery_cadence().source_tick == 4 and session.player_recovery_cadence().accumulated_seconds == 1.0 and random.calls == 1, "zone entry does not reset cadence or draw")
-		await walk.round_trip(tree, session, Work.capture(session), String(row[0]))
-		if row[0] != &"snow.crossroad":
-			await wall_test(tree, session, walk, "move_right", 0, 100, "Hockshop or absent mst4 east", row[0])
-			# 4B: the west fronts are doorways now (herbshop.c, postoffice.c).
-			await walk.walk_to(tree, session, "move_left", -200, 0)
-			check(session.player_runtime().world_location().zone_id == (&"snow.herbshop" if row[0] == &"snow.mstreet3" else &"snow.postoffice"), "west doorway enters the shop from " + String(row[0]))
-			await walk.walk_to(tree, session, "move_right", 0, 0)
-			check(session.player_runtime().world_location().zone_id == row[0], "back out to " + String(row[0]))
-	# 野羊山: the crossroad's north is a passage now, there and back.
-	await _walk_until_map(tree, session, &"goathill.mountain", "move_up")
-	check(session.player_runtime().world_location().zone_id == &"goathill.mroad1", "north out of the crossroad: 野羊山's mroad1")
+		await walk.round_trip(tree, session, Work.capture(session), String(zone))
+		if zone != &"snow.crossroad":
+			var street: Rect2 = MapPlaces.zone_rect(snow, zone)
+			await solid(tree, session, snow, zone, MapPlaces.spot(snow, zone, Vector2(street.end.x, street.get_center().y)), "move_right", "Hockshop's shut door or mst4's houses east")
+			# 4B: the west fronts are doorways (herbshop.c, postoffice.c).
+			var shop: StringName = &"snow.herbshop" if zone == &"snow.mstreet3" else &"snow.postoffice"
+			check(await MapPlaces.drive_to_zone(tree, snow, shop), "into the shop west of " + String(zone))
+			check(session.player_runtime().world_location().zone_id == shop, "west doorway enters the shop from " + String(zone))
+			check(await MapPlaces.drive_to_zone(tree, snow, zone), "back out of " + String(shop))
+			check(session.player_runtime().world_location().zone_id == zone, "back out to " + String(zone))
+	# 野羊山: the crossroad's north is a passage, there and back.
+	check(await MapPlaces.take_passage(tree, snow, &"snow.crossroad.north"), "north off the col")
+	check(session.active_map_id() == &"goathill.mountain" and session.player_runtime().world_location().zone_id == &"goathill.mroad1", "north out of the crossroad: 野羊山's mroad1")
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_down")
 	check(session.player_runtime().world_location().zone_id == &"snow.crossroad" and session.active_map() == snow, "and back south to the crossroad")
-	await walk.walk_to(tree, session, "move_down", -1650, 1)
-	await wall_test(tree, session, walk, "move_right", 0, 300, "Green east", &"snow.crossroad")
-	await walk.walk_to(tree, session, "move_left", 0, 0)
+	var col: Rect2 = MapPlaces.zone_rect(snow, &"snow.crossroad")
+	await solid(tree, session, snow, &"snow.crossroad", MapPlaces.spot(snow, &"snow.crossroad", Vector2(col.end.x, col.get_center().y)), "move_right", "Green east")
 	check(session.player_runtime() == ids[0] and session.inventory_state() == ids[1] and session.stack_collection() == ids[2] and session.item_instance_index() == ids[3] and session.item_id_allocator() == ids[4] and session.world_simulation_gate() == ids[5], "all authority identities unchanged")
 	check(Work.rng_state(session) == rng and session.item_id_allocator().next_dynamic_sequence == sequence, "entire route zero gameplay RNG/allocation")
 	check(session.resident_map_count() == residents and residents == GameContent.catalog().maps().size() and session.active_map_child_count() == 1 and snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0), "same residents (every authored map), one active, only the authored Snow NPCs")
@@ -104,26 +102,26 @@ func physical_tests(tree: SceneTree) -> void:
 	var wineskin: VendorPurchaseResult = Water.purchase(session)
 	check(dumpling.delivered and wineskin.delivered, "existing paid held consumables")
 	check(Water.fill(session, wineskin.item_id).succeeded(), "typed test setup clear water before use")
-	for row: Array in [[&"snow.mstreet4", -1300.0], [&"snow.mstreet3", -1000.0], [&"snow.mstreet2", -700.0], [&"snow.mstreet1", -400.0], [&"snow.square", 0.0]]:
-		await walk.walk_to(tree, session, "move_down", row[1], 1)
-		check(session.player_runtime().world_location().zone_id == row[0] and session.active_map() == snow, "physical reverse " + String(row[0]))
-		if row[0] == &"snow.mstreet3":
+	for zone: StringName in [&"snow.mstreet4", &"snow.mstreet3", &"snow.mstreet2", &"snow.mstreet1", &"snow.square"]:
+		check(await MapPlaces.drive_to_zone(tree, snow, zone), "walk back south to " + String(zone))
+		check(session.player_runtime().world_location().zone_id == zone and session.active_map() == snow, "physical reverse " + String(zone))
+		if zone == &"snow.mstreet3":
 			session.player_runtime().state.recovery.food = 399
 			session.player_runtime().state.recovery.water = 399
 			check(Food.eat(session, dumpling.item_id).outcome == FoodUseResult.Outcome.ATE and session.player_runtime().state.recovery.food == 459, "held food unchanged in new zone")
 			check(Water.drink(session, wineskin.item_id).succeeded() and session.player_runtime().state.recovery.water == 429, "held water unchanged in new zone")
 			check(not Water.fill(session, wineskin.item_id, session.fill_water_available()).succeeded(), "cannot fill in new zone")
-	await wall_test(tree, session, walk, "move_right", 0, 300, "Temple east", &"snow.square")
-	await walk.walk_to(tree, session, "move_left", 0, 0)
-	await walk.walk_to(tree, session, "move_down", 450, 1)
-	await wall_test(tree, session, walk, "move_left", 0, -100, "sroad1 west above the sroad2 road", &"snow.sroad1")
-	await walk.walk_to(tree, session, "move_right", 0, 0)
-	# 卧龙岗 (绮云镇 3A): sroad1's south is a passage now, there and back.
-	await _walk_until_map(tree, session, &"cloud.outdoor", "move_down")
-	check(session.player_runtime().world_location().zone_id == &"cloud.dragonhill.nroad", "south out of sroad1: 卧龙岗's 黄土路")
+	var square: Rect2 = MapPlaces.zone_rect(snow, &"snow.square")
+	await solid(tree, session, snow, &"snow.square", MapPlaces.spot(snow, &"snow.square", Vector2(square.end.x, square.get_center().y)), "move_right", "Temple wall east, beside its door")
+	var sroad1: Rect2 = MapPlaces.zone_rect(snow, &"snow.sroad1")
+	var sroad2: Rect2 = MapPlaces.zone_rect(snow, &"snow.sroad2")
+	await solid(tree, session, snow, &"snow.sroad1", MapPlaces.spot(snow, &"snow.sroad1", Vector2(sroad1.position.x, sroad2.position.y - 32)), "move_left", "sroad1 west above the sroad2 road")
+	# 卧龙岗 (绮云镇 3A): sroad1's south is a passage, there and back.
+	check(await MapPlaces.take_passage(tree, snow, &"snow.sroad1.south"), "south down the street")
+	check(session.active_map_id() == &"cloud.outdoor" and session.player_runtime().world_location().zone_id == &"cloud.dragonhill.nroad", "south out of sroad1: 卧龙岗's 黄土路")
 	await _walk_until_map(tree, session, &"snow.outdoor", "move_up")
 	check(session.player_runtime().world_location().zone_id == &"snow.sroad1" and session.active_map() == snow, "and back north to sroad1")
-	await walk.walk_to(tree, session, "move_up", 0, 1)
+	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.square"), "up the street to the square")
 	check(session.player_runtime().world_location().zone_id == &"snow.square", "physical final Square return")
 	assertions += walk._count
 	failures.append_array(walk._failures)
@@ -142,27 +140,43 @@ func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, ta
 		await tree.physics_frame
 
 
-func wall_test(tree: SceneTree, session: OldPineWorldSessionController, walk: Work, action: String, axis: int, boundary: float, label: String, zone: StringName) -> void:
-	await walk.walk(tree, session, action, 140)
-	var coordinate: float = session.active_map().runtime_player_body().position[axis]
-	check(coordinate > boundary if action in ["move_left", "move_up"] else coordinate < boundary, "physical solid " + label)
+## Walks to `from` in `zone` and pushes on with `action`: a wall or a shut door holds the player
+## there, in the zone and on the map.
+func solid(tree: SceneTree, session: OldPineWorldSessionController, snow: WorldMapController, zone: StringName, from: Vector2, action: StringName, label: String) -> void:
+	check(await MapPlaces.drive(tree, snow, from), "walk up to " + label)
+	var before: Vector2 = snow.runtime_player_body().global_position
+	await MapPlaces.push(tree, action, 60)
+	check(snow.runtime_player_body().global_position.distance_to(before) < 48.0, "physical solid " + label)
 	check(session.player_runtime().world_location().zone_id == zone and session.active_map_id() == &"snow.outdoor", "no hidden transition " + label)
 
 
 func geometry_tests(snow: WorldMapController) -> void:
-	for row: Array in [[&"snow.mstreet3", Vector2(0,-1000)], [&"snow.mstreet4", Vector2(0,-1300)], [&"snow.crossroad", Vector2(100,-1650)], [&"snow.mstreet2", Vector2(0,-840)], [&"snow.mstreet2", Vector2(0,-850)], [&"snow.mstreet3", Vector2(0,-1150)], [&"snow.mstreet4", Vector2(0,-1450)]]:
-		check(MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "valid position/half-open join " + str(row))
-	for row: Array in [[&"snow.mstreet3", Vector2(90,-1000)], [&"snow.mstreet3", Vector2(-90,-900)], [&"snow.mstreet4", Vector2(90,-1300)], [&"snow.crossroad", Vector2(290,-1650)], [&"snow.crossroad", Vector2(100,-1840)], [&"snow.crossroad", Vector2(200,-1460)], [&"snow.mstreet3", Vector2(0,-1300)], [&"snow.mstreet4", Vector2(200,-1300)], [&"green.path6", Vector2(400,-1650)], [&"snow.mstreet3", Vector2(INF,0)]]:
+	for zone: StringName in [&"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]:
+		check(MapPlacementValidator.is_valid_character_position(snow, zone, MapPlaces.zone_centre(snow, zone)), "valid position " + String(zone))
+	# Where two stretches of the street meet, each side of the line belongs to its own stretch.
+	for row: Array in [[&"snow.mstreet2", &"snow.mstreet3"], [&"snow.mstreet3", &"snow.mstreet4"]]:
+		var seam: Vector2 = MapPlaces.doorway(snow, row[0], row[1])
+		check(seam.is_finite(), "the street runs on " + str(row))
+		check(MapPlacementValidator.is_valid_character_position(snow, row[0], seam + Vector2(0, 24)) and MapPlacementValidator.is_valid_character_position(snow, row[1], seam - Vector2(0, 24)), "valid position/half-open join " + str(row))
+		check(not MapPlacementValidator.is_valid_character_position(snow, row[1], seam + Vector2(0, 24)), "the join's south side is not the north stretch " + str(row))
+		var owner: StringName = MapPlaces.seam_owner(snow, row[0], row[1])
+		var other: StringName = row[1] if owner == row[0] else row[0]
+		check(MapPlacementValidator.is_valid_character_position(snow, owner, seam) and not MapPlacementValidator.is_valid_character_position(snow, other, seam), "half-open join: the line itself is %s's" % owner)
+	var mstreet3: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet3")
+	var mstreet4: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet4")
+	var col: Rect2 = MapPlaces.zone_rect(snow, &"snow.crossroad")
+	for row: Array in [[&"snow.mstreet3", Vector2(mstreet3.end.x - 10, mstreet3.position.y + 40)], [&"snow.mstreet3", Vector2(mstreet3.position.x + 10, mstreet3.position.y + 40)], [&"snow.mstreet4", Vector2(mstreet4.end.x - 10, mstreet4.get_center().y)], [&"snow.crossroad", col.position + Vector2(40, 40)], [&"snow.crossroad", Vector2(col.get_center().x, col.position.y - 20)], [&"snow.mstreet3", mstreet4.get_center()], [&"green.path6", col.get_center() + Vector2(col.size.x, 0)], [&"snow.mstreet3", Vector2(INF,0)]]:
 		check(not MapPlacementValidator.is_valid_character_position(snow, row[0], row[1]), "reject collision/void/wrong zone " + str(row))
 	# Fault injection tests actual overlap rejection; restore fixture before physical path.
-	var mst4: Area2D = snow.get_node("Zones/MainStreet4") as Area2D
+	var mst4: Area2D = snow.physical_zone(&"snow.mstreet4")
 	var original: Vector2 = mst4.position
-	mst4.position = Vector2(0,-1000)
-	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", Vector2(0,-1000)), "ambiguous overlapping zones fail closed")
+	mst4.position = snow.physical_zone(&"snow.mstreet3").position
+	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", MapPlaces.zone_spot(snow, &"snow.mstreet3")), "ambiguous overlapping zones fail closed")
 	mst4.position = original
-	check(TerrainProbe.terrain_at(snow, Vector2(320,-1000)) == "floor_shop" and snow.get_node("Ground/HockshopShutter") is Polygon2D and snow.get_node("Ground/HockshopSign") is Label, "visible shuttered frontage Hockshop")
-	for row: Array in [["Herbshop", -1008.0, "floor_shop"], ["Postoffice", -1296.0, "floor_wood"]]:
-		check(TerrainProbe.terrain_at(snow, Vector2(-96,row[1])) == row[2] and snow.get_node("Ground/" + row[0] + "Sign") is Label, "open doorway and sign " + row[0])
+	check(TerrainProbe.terrain_at(snow, MapPlaces.zone_centre(snow, &"snow.hockshop")) == "floor_shop" and MapPlaces.door_wall(snow, &"snow.hockshop.door") != null and MapPlaces.doorway(snow, &"snow.mstreet3", &"snow.hockshop").is_finite() and snow.get_node("Terrain/HockshopLabel") is Label, "the Hockshop's front: its door on the street and its name")
+	for row: Array in [[&"snow.mstreet3", &"snow.herbshop", "floor_shop", "HerbshopLabel"], [&"snow.mstreet4", &"snow.postoffice", "floor_wood", "PostofficeLabel"]]:
+		var way: Vector2 = MapPlaces.doorway(snow, row[0], row[1])
+		check(way.is_finite() and TerrainProbe.terrain_at(snow, way - Vector2(16, 0)) == row[2] and snow.get_node("Terrain/" + row[3]) is Label, "open doorway and name " + String(row[1]))
 
 
 func check(ok: bool, label: String) -> void:

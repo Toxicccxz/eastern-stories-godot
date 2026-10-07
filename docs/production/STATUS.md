@@ -4,14 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**老松岭's maps redrawn** (`phase/oldpine-maps`): the forest, cave, gorge, tree and cliff1 (and the
-stone and cliff2) are painter maps drawn from their room text: the winding path from Snow, the
-round clearing round the great pine, the straight slope, the bridge over the gorge, the pine maze
-as gaps between the trees, the stockade; the pool under the falls and the stream to the
-bottomless pool; the candlelit passage behind the curtain; the pine seen from the side; the
-niches in the cliff (DECISIONS).
+**雪亭镇's maps redrawn** (`phase/snow-maps`): the streets and the Inn's ground floor are painter
+maps drawn from their room text, like the other towns: the paved square with its old frame and the
+Inn's front, the main street with its shops each opening on it, 淳风武馆 as one walled compound,
+the temple at the square's corner, the path winding up to the mountain road, the tree-lined
+highway; the Inn's counter, tables and stairs (DECISIONS). Every map is painter-drawn now; Snow's
+walking suites find their way by id (`tests/support/map_places.gd`) instead of coordinates.
 
-Next: redraw 雪亭镇's two hand-made maps (the Inn and the streets) with the painter.
+Next: 青石村 (region #5, ROADMAP).
 
 ## Playable now
 

@@ -9,15 +9,20 @@ extends RefCounted
 ## Cell centres from `from` to `to` over the whole map, empty when there is no way.
 ## The bodies in `avoid` (NPCs) count as obstacles.
 static func path(map: Node2D, from: Vector2, to: Vector2, avoid: Array[Node2D] = []) -> PackedVector2Array:
-	var grid: WorldNpcWalker.Grid = WorldNpcWalker.Grid.new(map, painted_rect(map))
+	return grid(map, avoid).path(from, to)
+
+
+## The runtime's A* grid over the whole map, the bodies in `avoid` solid.
+static func grid(map: Node2D, avoid: Array[Node2D] = []) -> WorldNpcWalker.Grid:
+	var result: WorldNpcWalker.Grid = WorldNpcWalker.Grid.new(map, painted_rect(map))
 	for body: Node2D in avoid:
-		var centre: Vector2i = grid.cell_of(body.global_position)
+		var centre: Vector2i = result.cell_of(body.global_position)
 		for dy: int in range(-2, 3):
 			for dx: int in range(-2, 3):
 				var cell: Vector2i = centre + Vector2i(dx, dy)
-				if grid._astar.is_in_boundsv(cell):
-					grid._astar.set_point_solid(cell, true)
-	return grid.path(from, to)
+				if result._astar.is_in_boundsv(cell):
+					result._astar.set_point_solid(cell, true)
+	return result
 
 
 ## The map's painted tiles, in map coordinates.

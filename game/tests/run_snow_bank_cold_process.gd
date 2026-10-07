@@ -20,11 +20,12 @@ func _run() -> void:
 		Work.work(session)
 		Work.work(session)
 		await physics_frame
-		await walk.walk(self, session, "move_right", 125)
-		await walk.walk_to(self, session, "move_right", 0, 0)
-		await walk.walk_to(self, session, "move_up", -400, 1)
-		await walk.walk_to(self, session, "move_left", -340, 0)
-		check(walk._failures.is_empty(), "bank physically reached")
+		var inn: WorldMapController = session.active_map() as WorldMapController
+		var reached: bool = await MapPlaces.take_passage(self, inn, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+		var snow: WorldMapController = session.active_map() as WorldMapController
+		reached = reached and await MapPlaces.drive_through(self, snow, [&"snow.square", &"snow.mstreet1"])
+		reached = reached and await MapPlaces.drive(self, snow, MapPlaces.service_spot(snow, &"snow.bank.counter"))
+		check(reached and walk._failures.is_empty(), "bank physically reached")
 		var bank: BankService = (session.active_map() as WorldMapController).service(&"snow.bank.counter") as BankService
 		check(bank.request_conversion(CurrencyDenomination.Value.SILVER, CurrencyDenomination.Value.COIN, "1").succeeded(), "exchange before Save")
 		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "production bank Save")
