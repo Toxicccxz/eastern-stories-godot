@@ -18,6 +18,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_recovery_cadence_carries_gain()
 	_test_quest_time()
 	_test_toll_delay()
+	_test_npc_thirst()
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
@@ -26,19 +27,19 @@ func run_all() -> Dictionary[String, Variant]:
 
 func _test_defaults_are_es2() -> void:
 	var bare := PacingDefinition.new(1000)
-	_assert_eq([bare.player_exp_gain, bare.player_recovery_gain, bare.quest_time_percent, bare.room_reset_seconds], [1, 1, 100, 1800], "constructed without knobs: ES2")
+	_assert_eq([bare.player_exp_gain, bare.player_recovery_gain, bare.quest_time_percent, bare.room_reset_seconds, bare.npc_thirst], [1, 1, 100, 1800, 1], "constructed without knobs: ES2")
 	var errors: Array[String] = []
 	var reader := ContentRecordReader.new({"combat_round_ms": 1000}, "pacing", errors)
 	var read: PacingDefinition = PacingDefinition.from_record(reader)
-	_assert_eq([read.player_exp_gain, read.player_recovery_gain, read.quest_time_percent, errors], [1, 1, 100, []], "a record that leaves them out: ES2")
+	_assert_eq([read.player_exp_gain, read.player_recovery_gain, read.quest_time_percent, read.npc_thirst, errors], [1, 1, 100, 1, []], "a record that leaves them out: ES2")
 	var broken: Array[String] = []
-	PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "player_exp_gain": 0, "player_recovery_gain": -1, "quest_time_percent": 0}, "p", broken))
-	_assert_eq(broken.size(), 3, "gains below 1 and a zero percent are refused: %s" % [broken])
+	PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "player_exp_gain": 0, "player_recovery_gain": -1, "quest_time_percent": 0, "npc_thirst": 0}, "p", broken))
+	_assert_eq(broken.size(), 4, "gains below 1, a zero percent and no thirst are refused: %s" % [broken])
 
 
 func _test_production_values() -> void:
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
-	_assert_eq([pacing.player_exp_gain, pacing.player_recovery_gain, pacing.quest_time_percent], [3, 3, 150], "pacing.json: owner's ×3 exp, ×3 recovery, ×1.5 task time")
+	_assert_eq([pacing.player_exp_gain, pacing.player_recovery_gain, pacing.quest_time_percent, pacing.npc_thirst], [3, 3, 150, 10], "pacing.json: owner's ×3 exp, ×3 recovery, ×1.5 task time, NPCs ×10 thirsty")
 
 
 ## combatd.c "(7) Give experience" for a player hit by an NPC, then the player hitting.
@@ -111,6 +112,25 @@ func _test_recovery_gain() -> void:
 		_assert_eq(character.recovery.inner_force.current, 20 + 5 * gain, "force + raw force/2 x %d" % gain)
 		_assert_eq([character.recovery.food, character.recovery.water], [9, 9], "food and water: one each, as ES2 (gain %d)" % gain)
 	_assert_eq(counts[0], counts[1], "the update flags count the same")
+
+
+## npc_thirst: the water heal_up() uses up (1 in damage.c), never below 0; the rest of
+## the tick is the same.
+func _test_npc_thirst() -> void:
+	for use: int in [1, 10]:
+		var character: CharacterState = _character()
+		character.vitality = CharacterResourceState.new(50, 100, 100)
+		character.recovery.water = 385
+		character.recovery.food = 10
+		var count: int = CharacterRecovery.apply_tick(character, RecoverySkillLevels.new(0, 0, 0), false, false, 1, use)
+		_assert_eq([character.recovery.water, character.recovery.food, count > 0], [385 - use, 9, true], "water -%d, food -1" % use)
+	var dry: CharacterState = _character()
+	dry.recovery.water = 4
+	CharacterRecovery.apply_tick(dry, RecoverySkillLevels.new(0, 0, 0), false, false, 1, 10)
+	_assert_eq(dry.recovery.water, 0, "never below 0")
+	var es2: PacingDefinition = Es2Pacing.use()
+	_assert_eq(GameContent.catalog().pacing().npc_thirst, 1, "Es2Pacing: damage.c's 1")
+	Es2Pacing.restore(es2)
 
 
 func _test_recovery_cadence_carries_gain() -> void:

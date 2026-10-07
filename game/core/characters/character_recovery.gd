@@ -22,21 +22,23 @@ const RecoverySkillLevelsType := preload(
 ## Whether this calculation is invoked at all remains the caller's lifecycle
 ## and scheduling decision, matching the boundary around damage.c::heal_up().
 ## gain (the player's pacing.json player_recovery_gain; 1 is ES2) times what the
-## tick restores: gin/kee/sen and their effective values, atman/force/mana. Food,
-## water and the update flags stay as ES2 counts them.
+## tick restores: gin/kee/sen and their effective values, atman/force/mana. Food and
+## the update flags stay as ES2 counts them; `water_use` is the water used up (an
+## NPC's pacing.json npc_thirst; 1 is ES2), never below 0.
 static func apply_tick(
 	character: CharacterStateType,
 	skills: RecoverySkillLevelsType,
 	is_player_character: bool,
 	no_heal_up: bool = false,
 	gain: int = 1,
+	water_use: int = 1,
 ) -> int:
 	if no_heal_up:
 		return 0
 
 	var update_count: int = 0
 	if character.recovery.water > 0:
-		character.recovery.water -= 1
+		character.recovery.water -= mini(maxi(water_use, 1), character.recovery.water)
 		update_count += 1
 	if character.recovery.food > 0:
 		character.recovery.food -= 1

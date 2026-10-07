@@ -39,7 +39,7 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 		if not npc.relationship.is_fighting():
 			var cadence: PlayerRecoveryCadence = _cadences.get(npc.character_id)
 			if cadence == null:
-				cadence = PlayerRecoveryCadence.new(_random, false, _conditions)
+				cadence = PlayerRecoveryCadence.new(_random, false, _conditions, 1, GameContent.catalog().pacing().npc_thirst)
 				_cadences[npc.character_id] = cadence
 			if cadence.is_valid():
 				var beat: PlayerRecoveryCadenceResult = cadence.advance(
