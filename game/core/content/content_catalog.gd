@@ -286,6 +286,18 @@ func zone_forbids_fighting(zone_id: StringName) -> bool:
 	return false
 
 
+## True when any room of the zone is a no_magic room (cast.c).
+func zone_forbids_magic(zone_id: StringName) -> bool:
+	var definition: ZoneDefinition = zone(zone_id)
+	if definition == null:
+		return false
+	for room_id: StringName in definition.room_ids():
+		var room_definition: RoomDefinition = room(room_id)
+		if room_definition != null and room_definition.no_magic:
+			return true
+	return false
+
+
 func region(region_id: StringName) -> RegionDefinition:
 	return _regions.get(region_id)
 

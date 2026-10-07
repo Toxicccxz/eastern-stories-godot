@@ -16,6 +16,7 @@ var _failure: Failure = Failure.NONE
 var _result: CombatEncounterResult
 var _lifecycles: Array[CombatSliceLifecycleResult] = []
 var _failed_special: SpecialReport
+var _departure: StringName
 
 var failure: Failure:
 	get: return _failure
@@ -24,6 +25,9 @@ var result: CombatEncounterResult:
 ## The special whose attack did not finish, when that failed the fight.
 var failed_special: SpecialReport:
 	get: return _failed_special
+## The room a spell took the player to as they left the fight (dun.c), or empty.
+var departure: StringName:
+	get: return _departure
 
 func _init(session: OldPineWorldSessionController, encounter: CombatEncounter) -> void:
 	_session = session
@@ -43,6 +47,7 @@ func accept_tactical(value: CombatTacticalExecutionResult) -> void:
 		return
 	if _encounter.mode not in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
 		return
+	_departure = value.departure
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
 		CombatEncounterResultKind.Value.FLED, [], [], [_session.player_runtime().character_id])
 
@@ -90,8 +95,51 @@ func admit(bindings: Array[CombatSliceCharacterBinding], tactical: CombatTactica
 		bindings.append(binding)
 		warnings.append(coordinator.kill_warning(joiner_id))
 	coordinator.note_warnings(warnings)
-	if not warnings.is_empty():
+	var allied: bool = false
+	for ally_id: StringName in tactical.allies:
+		allied = _admit_ally(bindings, ally_id, player, player_participant.side_id, map) or allied
+	if not warnings.is_empty() or allied:
 		_encounter.escalate_to_lethal()
+
+
+## heaven_soldier.c invocation() for the player: the soldier kill_ob()s each of the
+## player's enemies that is living() (from the last, `while(i--)`), each of them an NPC
+## that kill_ob()s it back, and it comes in on the player's side. False (nothing
+## changed) when it cannot fight here or nobody of theirs stands.
+func _admit_ally(
+	bindings: Array[CombatSliceCharacterBinding], ally_id: StringName, player: CombatSliceCharacterBinding,
+	side_id: StringName, map: WorldMapController,
+) -> bool:
+	if CombatSliceProjectionBuilder.find_binding(bindings, ally_id) != null:
+		return false
+	var binding: CombatSliceCharacterBinding = null if map == null else map.combat_binding_for(ally_id)
+	var authority: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(ally_id)
+	if binding == null or authority == null or not _session.encounter_participant_is_available(ally_id):
+		return false
+	var enemies: Array[CombatSliceCharacterBinding] = []
+	for enemy_id: StringName in player.relationship.opponent_ids():
+		var enemy: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, enemy_id)
+		if (
+			enemy != null and enemy.exists_in_encounter and enemy.combat_available
+			and enemy.life_status == CombatSliceLifeStatus.Value.ACTIVE and _encounter.is_hostile(player.character_id, enemy_id)
+		):
+			enemies.append(enemy)
+	enemies.reverse()
+	if enemies.is_empty():
+		return false
+	var saved: Array[Array] = [[binding.relationship.opponent_ids(), binding.relationship.lethal_target_ids()]]
+	for enemy: CombatSliceCharacterBinding in enemies:
+		saved.append([enemy.relationship.opponent_ids(), enemy.relationship.lethal_target_ids()])
+	var engaged: bool = true
+	for enemy: CombatSliceCharacterBinding in enemies:
+		engaged = engaged and CombatSliceOpportunityExecutor.initiate_lethal_combat(binding, enemy).outcome == CombatSliceInitiationResult.Outcome.COMPLETED
+	if not engaged or not _encounter.admit(CombatParticipant.new(ally_id, side_id, authority)):
+		_restore(binding.relationship, saved[0][0], saved[0][1])
+		for index: int in enemies.size():
+			_restore(enemies[index].relationship, saved[index + 1][0], saved[index + 1][1])
+		return false
+	bindings.append(binding)
+	return true
 
 
 ## A relationship back as it was (an admission that could not be completed).
@@ -202,7 +250,7 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		var hostile_present: bool = active or (
 			_encounter.mode == CombatEncounterMode.Value.LETHAL and binding.exists_in_encounter
 			and binding.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS
-			and player.binding.relationship.has_lethal_target(binding.character_id)
+			and _side_kills(bindings, player, binding.character_id)
 		)
 		if hostile_present and (_encounter.is_hostile(player_id, binding.character_id) or _encounter.is_hostile(binding.character_id, player_id)):
 			any_hostile_active = true
@@ -244,6 +292,22 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
 		CombatEncounterResultKind.Value.VICTORY if player_active else CombatEncounterResultKind.Value.DEFEAT,
 		winners, losers, subjects)
+
+## The player kills `victim_id`, or one standing on the player's side does (the soldier
+## they called finishes an enemy that fell, as a killer does).
+func _side_kills(bindings: Array[CombatSliceCharacterBinding], player: CombatParticipant, victim_id: StringName) -> bool:
+	if player.binding.relationship.has_lethal_target(victim_id):
+		return true
+	for ally: CombatSliceCharacterBinding in bindings:
+		var participant: CombatParticipant = _encounter.participant_for(ally.character_id)
+		if (
+			participant != null and participant.side_id == player.side_id and ally.character_id != player.participant_id
+			and ally.exists_in_encounter and ally.combat_available and ally.life_status == CombatSliceLifeStatus.Value.ACTIVE
+			and ally.relationship.has_lethal_target(victim_id)
+		):
+			return true
+	return false
+
 
 ## Someone standing fights someone the scheduler could give it: a standing one, or
 ## an unconscious one it kills.

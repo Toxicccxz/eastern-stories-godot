@@ -56,6 +56,9 @@ var _npc_revive_random: CombatRandomSource
 var _npc_ambience_random: WorldInteractionRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
+var _last_temple_handoff: OldPineMapHandoffResult
+## The room a spell took the player to as they left a fight, until they are moved there.
+var _pending_departure: StringName = &""
 var _hidden_passages: WorldHiddenPassages
 var _room_traps: WorldRoomTraps
 var _room_resets: WorldRoomResets
@@ -102,6 +105,7 @@ func _process(delta: float) -> void:
 	advance_room_resets(delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
+		advance_departure()
 	_advance_life_flow(delta)
 
 
@@ -1217,6 +1221,40 @@ func _revive_from_unconscious() -> void:
 	_life_flow.finish()
 
 
+## /d/snow/temple (REVIVE_ROOM, and where dun.c sends its caster): on its own map (Snow's
+## streets) no scene change, just the move; else a handoff there. Whether the player is
+## there now.
+func _move_player_to_temple() -> bool:
+	if active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID:
+		var snow: WorldMapController = active_map() as WorldMapController
+		return snow != null and not _transitioning and snow.relocate_player(SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
+	_last_temple_handoff = handoff_to(
+		SnowWorldDefinitions.OUTDOOR_MAP_ID,
+		SnowWorldDefinitions.TEMPLE_ZONE_ID,
+		SnowWorldDefinitions.TEMPLE_ZONE_ID,
+		SnowWorldDefinitions.REVIVE_SPAWN_ID,
+	)
+	return _last_temple_handoff.succeeded()
+
+
+## dun.c's me->move() after the fight let the player go: once the world is free, the
+## player is taken to the room the spell named (retried each frame until the move can
+## happen). Only Snow's temple is such a room.
+func advance_departure() -> void:
+	if _combat_encounter_coordinator == null:
+		return
+	if _pending_departure.is_empty():
+		_pending_departure = _combat_encounter_coordinator.take_departure()
+	if _pending_departure.is_empty() or _transitioning or _combat_encounter_coordinator.has_active_encounter():
+		return
+	if _pending_departure != DunSpell.DESTINATION:
+		push_error("no way to %s" % _pending_departure)
+		_pending_departure = &""
+		return
+	if _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _move_player_to_temple():
+		_pending_departure = &""
+
+
 ## d/death/npc/wgargoyle.c death_stage(): reincarnate() and move to
 ## REVIVE_ROOM (/d/snow/temple).
 ## If the move cannot happen now the player stays a ghost and it is retried
@@ -1226,19 +1264,10 @@ func _reincarnate_at_revive_room() -> void:
 	var previous_exists: bool = _player.exists_in_world
 	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	_player.set_exists_in_world(true)
-	var moved: bool
-	if active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID:
-		# Died on the temple's own map (Snow's streets): no scene change, just the move.
-		var snow: WorldMapController = active_map() as WorldMapController
-		moved = snow != null and not _transitioning and snow.relocate_player(SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
-	else:
-		_last_revival_handoff = handoff_to(
-			SnowWorldDefinitions.OUTDOOR_MAP_ID,
-			SnowWorldDefinitions.TEMPLE_ZONE_ID,
-			SnowWorldDefinitions.TEMPLE_ZONE_ID,
-			SnowWorldDefinitions.REVIVE_SPAWN_ID,
-		)
-		moved = _last_revival_handoff.succeeded()
+	var on_snow: bool = active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID
+	var moved: bool = _move_player_to_temple()
+	if not on_snow:
+		_last_revival_handoff = _last_temple_handoff
 	if not moved:
 		_player.set_life_status(previous_life)
 		_player.set_exists_in_world(previous_exists)

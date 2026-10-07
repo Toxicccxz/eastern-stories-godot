@@ -1,5 +1,31 @@
 # Migration Decisions
 
+## 青石村 D: the player's spells (2026-10-07)
+
+What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
+- **cast.c on the battle panel**: 施法「遁」 (dun at oneself), 施法「困」 (dun at the current
+  target, or offensive_target() with none) and 施法「召天将」 (saveme), offered while the enabled
+  spells skill has the file. Like exert and perform (owner's rule) a cast waits while the player
+  is busy, where cast.c refuses; cast.c's other refusals (no spells enabled, a spell the skill
+  has not, a no_magic room) and the files' own go to the battle log. Both files refuse outside a
+  fight, so there is no 施法 elsewhere. Casting improves nothing and magic-array.c refuses practice:
+  spells are learnt only, as in ES2.
+- **no_magic rooms** are imported (这里不准念咒文); no room placed so far has one (Snow's bank
+  comments it out).
+- **遁 at oneself ends the fight for the player as a flight does**, after the chant and one of
+  the five lights; whoever they called leaves unheard, and the player stands in Snow's 城隍庙
+  (/d/snow/temple, also REVIVE_ROOM) as soon as the world is free. The result reads
+  你借遁术脱离了战斗。 dun.c's write("你失败了。") now reaches a player caster.
+- **The player's 天将** (heaven_soldier.c invocation()): it kill_ob()s each living enemy of the
+  player (from the last), each kill_ob()s it back, it comes in on the player's side and the fight
+  goes on to the death; the player and a sparring partner still only spar. It finishes an enemy
+  that falls, as any killer does, and its kill gives the player nothing (killer_reward() is the
+  soldier's). It leaves when the fight ends (C). Owner's rule on deadly choices: in a spar the
+  battle panel asks first, as the partner may die.
+- **An NPC with several enemies** (the player and the soldier) picks one each attack as
+  feature/attack.c select_opponent() does: random(4), else the first. An NPC with one enemy still
+  keeps its target and draws nothing.
+
 ## 青石村 C: 绝尘派 (2026-10-07)
 
 What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).

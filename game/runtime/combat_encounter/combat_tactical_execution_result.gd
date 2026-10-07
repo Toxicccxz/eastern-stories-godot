@@ -9,6 +9,8 @@ var _effect_id: StringName
 var _lines: Array[ColoredLine] = []
 var _special: SpecialReport
 var _joiners: Array[StringName] = []
+var _allies: Array[StringName] = []
+var _departure: StringName
 var outcome: int:
 	get: return _outcome
 var effect_id: StringName:
@@ -20,6 +22,14 @@ var special: SpecialReport:
 ## the ones not yet in it and goes on to the death.
 var joiners: Array[StringName]:
 	get: return _joiners.duplicate()
+## Those the action called in on the player's side (saveme.c's soldier): each kills
+## the player's living enemies, who kill it back, and the fight goes on to the death.
+var allies: Array[StringName]:
+	get: return _allies.duplicate()
+## The room the action took the player to (dun.c at oneself), or empty: DISENGAGED,
+## and the world moves the player there once the fight has let them go.
+var departure: StringName:
+	get: return _departure
 
 
 ## `lines`: what the action printed (exert.c's), in the shown language.
@@ -34,9 +44,19 @@ func _init(
 	_joiners = p_joiners.duplicate()
 
 
+func with_allies(p_allies: Array[StringName]) -> CombatTacticalExecutionResult:
+	_allies = p_allies.duplicate()
+	return self
+
+
+func with_departure(room_id: StringName) -> CombatTacticalExecutionResult:
+	_departure = room_id
+	return self
+
+
 func lines() -> Array[ColoredLine]:
 	return _lines.duplicate()
 
 
 func duplicate_snapshot() -> CombatTacticalExecutionResult:
-	return CombatTacticalExecutionResult.new(_outcome, _effect_id, _lines, _special, _joiners)
+	return CombatTacticalExecutionResult.new(_outcome, _effect_id, _lines, _special, _joiners).with_allies(_allies).with_departure(_departure)

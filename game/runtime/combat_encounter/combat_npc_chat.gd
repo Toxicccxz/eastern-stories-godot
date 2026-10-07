@@ -96,14 +96,19 @@ func beat(
 	return CombatNpcChatResult.new(context.lines, context.damaged).with_joiners(joiners)
 
 
+func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Array[StringName]:
+	return bring_summons(actor.character_id, context, _summon_for, _npc_for)
+
+
 ## Each NPC the spell called comes into the caster's place with its invocation() lines;
 ## the fight then admits it against the caster's enemies, when one of them is living()
-## (invocation() kill_ob()s only those).
-func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Array[StringName]:
+## (invocation() kill_ob()s only those): those are returned. `summon_for` as in
+## with_summons(), `npc_for` as in _init().
+static func bring_summons(caster_id: StringName, context: SpecialContext, summon_for: Callable, npc_for: Callable) -> Array[StringName]:
 	var joiners: Array[StringName] = []
 	for definition_id: StringName in context.summons:
-		var summoned_id: StringName = _summon_for.call(actor.character_id, definition_id) if _summon_for.is_valid() else &""
-		var summoned: NpcRuntimeState = _npc(summoned_id)
+		var summoned_id: StringName = summon_for.call(caster_id, definition_id) if summon_for.is_valid() else &""
+		var summoned: NpcRuntimeState = npc_for.call(summoned_id) if npc_for.is_valid() and not summoned_id.is_empty() else null
 		if summoned == null or summoned.definition().summoning() == null:
 			continue
 		var summoning: NpcSummoning = summoned.definition().summoning()

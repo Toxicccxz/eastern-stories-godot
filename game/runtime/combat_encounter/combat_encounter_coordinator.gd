@@ -17,6 +17,10 @@ var _last_abort_detail: String = ""
 var _opening_encounter_id: StringName = &""
 var _opening_lines: Array[String] = []
 var _opening_warnings: Array[String] = []
+## Where a spell took the player as they left the last fight (dun.c), until the world
+## moves them there; and which fight they left so.
+var _departure: StringName = &""
+var _departed_encounter_id: StringName = &""
 
 ## Fights aborted by a failure (see _abort_failed_resolution) since the last take.
 ## SuiteResult turns any untaken abort into a test failure.
@@ -36,6 +40,24 @@ func last_completion() -> CombatEncounterCompletionResult:
 
 func completed_feedback() -> CombatCompletedFeedback:
 	return _completed_feedback
+
+
+## The room a spell took the player to as they left the last fight (dun.c), once:
+## the session moves them there. Empty when there is none (or it was taken).
+func take_departure() -> StringName:
+	var room: StringName = _departure
+	_departure = &""
+	return room
+
+
+## Whether the player left `encounter_id` by a spell that took them away.
+func departed(encounter_id: StringName) -> bool:
+	return not encounter_id.is_empty() and encounter_id == _departed_encounter_id
+
+
+## The active fight ends with the player gone (dun.c): those left behind are not heard.
+func player_departing() -> bool:
+	return _active_encounter != null and _resolution != null and not _resolution.departure.is_empty()
 
 
 ## Why the last aborted fight failed (empty when none did).
@@ -296,6 +318,10 @@ func _init(
 		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		_tactical_registry.register_policy(CombatPerformTacticalPolicy.new(function_id))
+	for function_id: StringName in SpecialFunctions.CASTS:
+		if not SpecialFunctions.cast(function_id).self_label.is_empty():
+			_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, true, _no_magic, _summon_beside, _resident_npc))
+		_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, false, _no_magic, _summon_beside, _resident_npc))
 
 
 func is_valid() -> bool:
@@ -563,6 +589,12 @@ func _idle_partner(character_id: StringName, partner_definition_id: StringName) 
 	return &"" if partner == null else partner.character_id
 
 
+## cast.c: environment(me)->query("no_magic") for a participant.
+func _no_magic(character_id: StringName) -> bool:
+	var location: WorldLocationState = _session.resolve_encounter_location(character_id)
+	return location != null and GameContent.catalog().zone_forbids_magic(location.zone_id)
+
+
 ## A spell's summoned NPC comes beside its caster (saveme.c): its character ID, or "".
 func _summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
 	var map: WorldMapController = _session.active_map() as WorldMapController
@@ -662,6 +694,9 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 		result,
 	)
 	_completed_feedback = CombatCompletedFeedback.new(encounter_id, _active_scheduler)
+	if _resolution != null and not _resolution.departure.is_empty():
+		_departure = _resolution.departure
+		_departed_encounter_id = encounter_id
 	_active_scheduler = null
 	_active_encounter = null
 	return _last_completion

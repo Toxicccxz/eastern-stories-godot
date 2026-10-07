@@ -18,4 +18,9 @@ func label_for(action_id: StringName) -> String:
 	if perform != null:
 		# TRANSLATORS: a battle button: perform.c with one of its actions ({action}, e.g. 「封」字诀).
 		return tr("使出{action}").format({"action": tr(perform.label)})
+	var spell: CastFunction = SpecialFunctions.cast(CombatCastTacticalPolicy.function_for(action_id))
+	if spell != null:
+		var name: String = spell.self_label if CombatCastTacticalPolicy.is_self(action_id) else spell.label
+		# TRANSLATORS: a battle button: cast.c with one of the player's spells ({spell}, e.g. 遁 or 召天将).
+		return tr("施法「{spell}」").format({"spell": tr(String(spell.id) if name.is_empty() else name)})
 	return String(action_id) # Honest semantic-ID fallback for a registered action.

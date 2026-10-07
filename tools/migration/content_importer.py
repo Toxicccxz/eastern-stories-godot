@@ -585,13 +585,16 @@ class Importer:
         # cmds/std/kill.c, fight.c: "这里不准战斗。"
         if sets.get('no_fight', 0) != 0:
             record['no_fight'] = True
+        # cmds/std/cast.c: "这里不准念咒文。"
+        if sets.get('no_magic', 0) != 0:
+            record['no_magic'] = True
         # rope.c hang_self(): set("outdoors") (any area name) means under the open sky.
         if sets.get('outdoors', 0) not in (0, None):
             record['outdoors'] = True
         for key, value in sets.items():
             if key == 'item_desc':
                 self.note(path, 'set item_desc', ', '.join(map(str, value)) if isinstance(value, dict) else describe(value))
-            elif key not in ('short', 'long', 'exits', 'objects', 'no_fight', 'outdoors') and key not in SILENT_ROOM_KEYS:
+            elif key not in ('short', 'long', 'exits', 'objects', 'no_fight', 'no_magic', 'outdoors') and key not in SILENT_ROOM_KEYS:
                 self.note(path, f'set {key}', describe(value))
         for call in lpc.calls:
             if call.name != 'set':

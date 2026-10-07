@@ -182,7 +182,7 @@ func advance(
 			# Never accumulate delta or execute an ordinary opportunity after escape,
 			# even if a standalone scheduler has no completion adapter installed.
 			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
-	if boundary != null and tactical_result != null and not tactical_result.joiners.is_empty():
+	if boundary != null and tactical_result != null and not (tactical_result.joiners.is_empty() and tactical_result.allies.is_empty()):
 		boundary.admit(bindings, tactical_result)
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not boundary.inspect(bindings, null, tactical_result):
@@ -293,6 +293,8 @@ func _process_participant(
 				target_id,
 			),
 		)
+	if not actor.is_user and _eligible_targets(actor, bindings) > 1:
+		return _select_opponent(actor, bindings, random_source, effect_registry)
 	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
 		target_id = _first_initial_target(actor, bindings)
 		if target_id.is_empty():
@@ -400,6 +402,36 @@ func _chat_after(
 		_progression_order.take(),
 		result,
 	)
+
+
+## feature/attack.c attack() for an NPC with several enemies here (the player and the
+## soldier they called): select_opponent() takes one of them, random(MAX_OPPONENT) or
+## else the first; that one becomes its target. An NPC with one enemy keeps its target
+## and draws nothing, as before.
+func _select_opponent(
+	actor: CombatSliceCharacterBinding,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+) -> CombatSchedulerEvent:
+	var resolution: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_opportunity(
+		actor, bindings, random_source, effect_registry,
+	)
+	var selection: CombatOpponentSelectionResult = resolution.opponent_selection_result
+	var target_id: StringName = _encounter.current_target_for(actor.character_id)
+	if selection != null and selection.outcome == CombatOpponentSelectionResult.Outcome.SELECTED:
+		target_id = selection.selected_opponent_id
+		if _encounter.is_hostile(actor.character_id, target_id) and _encounter.set_current_target(actor.character_id, target_id):
+			record_target_change()
+	return _resolved_event(actor.character_id, target_id, resolution)
+
+
+func _eligible_targets(actor: CombatSliceCharacterBinding, bindings: Array[CombatSliceCharacterBinding]) -> int:
+	var count: int = 0
+	for candidate: CombatParticipant in _encounter.participants():
+		if _target_is_currently_eligible(actor, candidate.participant_id, bindings):
+			count += 1
+	return count
 
 
 func _first_initial_target(

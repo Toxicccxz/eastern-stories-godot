@@ -2431,14 +2431,16 @@ func summon_beside(caster_id: StringName, definition_id: StringName) -> StringNa
 ## heaven_soldier.c heal_up() once it is not fighting: call_out("leave", 1), its leave
 ## lines where the player is (and can read them), then destruct() with all it carries.
 ## Here every summoned NPC still standing leaves as the fight it came into ends (its
-## lines after the fight's result); a dead one is forgotten and its corpse stays.
+## lines after the fight's result, unless the player left it by a spell: gone before
+## it says them); a dead one is forgotten and its corpse stays.
 func dismiss_summoned() -> void:
+	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
 	for npc: NpcRuntimeState in _npcs.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
 			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()
-			if summoning != null and _player_hears(npc) and session != null:
+			if summoning != null and _player_hears(npc) and session != null and not departing:
 				var lines: Array[ColoredLine] = []
 				for text: String in summoning.leave:
 					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))

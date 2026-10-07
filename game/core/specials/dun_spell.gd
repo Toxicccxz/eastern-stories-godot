@@ -9,11 +9,16 @@ extends CastFunction
 ## * sen / 100 after the cost, dp the target's combat_exp), the target is busy
 ## mana / 200 (after the cost; the misspelt mana_facter adds nothing) less its own
 ## max_mana / 100, at least 0, plus 2; else it leaps free and the caster is busy 1.
-## At oneself (the player's own cast) it takes the caster away to Snow's temple: not
-## here yet, as nobody casts it at themselves before the player's spells come.
+## At oneself: 80 mana and 30 sen, random(spells) < 30 fails, else the caster turns into
+## one of five lights and is gone to Snow's temple (me->move("/d/snow/temple")).
 const MANA_COST: int = 200
 const SEN_COST: int = 80
 const FAIL_BELOW: int = 40
+const SELF_MANA_COST: int = 80
+const SELF_SEN_COST: int = 30
+const SELF_FAIL_BELOW: int = 30
+## /d/snow/temple, where the caster goes.
+const DESTINATION: StringName = &"es2:d/snow/temple"
 const CHANT: String = "$N口中喃喃地念著咒文，忽然大喝一声“疾！”"
 const SPELLS: Array[String] = [
 	"只见一道黑气罩在$n身上！",
@@ -22,11 +27,20 @@ const SPELLS: Array[String] = [
 	"只听在一声海啸，海水将$n团团围住！",
 	"只见空中落下无数大木，正把$n困在中央！",
 ]
+const VANISHINGS: Array[String] = [
+	"只见$N化作一道黑气，然后消失得无影无踪！",
+	"只见$N化作一道金光，然后消失得无影无踪！",
+	"只见$N化作一团火焰，然后消失得无影无踪！",
+	"只见$N化作一道长虹，然后消失得无影无踪！",
+	"只见$N化作一团大雾，然后消失得无影无踪！",
+]
 const ESCAPED: String = "但是$n纵身一跃，脱离了围困。"
 
 
 func _init() -> void:
 	id = &"dun"
+	label = "困"
+	self_label = "遁"
 
 
 func cast(context: SpecialContext) -> bool:
@@ -37,7 +51,7 @@ func cast(context: SpecialContext) -> bool:
 	if not context.is_fighting():
 		return context.refuse("这个法术只能在战斗中使用！")
 	if target.character_id == me.character_id:
-		return context.refuse("你要对谁施展这个法术？")
+		return _vanish(context)
 	if target.busy != null and target.busy.is_busy():
 		return context.refuse("$n正自顾不暇，放胆进攻吧。", target.character_id)
 	var mana: CharacterInternalResourceState = me.state.recovery.mana
@@ -49,7 +63,8 @@ func cast(context: SpecialContext) -> bool:
 	me.state.spirit.apply_damage(SEN_COST)
 	var spells: int = me.query_skill(&"spells")
 	if context.random.call(spells) < FAIL_BELOW:
-		return true # write("你失败了。"): the caster alone reads it.
+		context.write("你失败了。")
+		return true
 	var spell: String = SPELLS[clampi(context.random.call(SPELLS.size()), 0, SPELLS.size() - 1)]
 	@warning_ignore("integer_division")
 	var ap: int = (spells * spells * spells / 10) * me.state.spirit.current / 100
@@ -63,4 +78,24 @@ func cast(context: SpecialContext) -> bool:
 	else:
 		context.say(ESCAPED, target.character_id)
 		me.busy.start_busy(1)
+	return true
+
+
+## The cast at oneself: away to Snow's temple, or 你失败了 with the cost spent.
+func _vanish(context: SpecialContext) -> bool:
+	var me: SpecialSide = context.me
+	var mana: CharacterInternalResourceState = me.state.recovery.mana
+	if mana.current < SELF_MANA_COST:
+		return context.refuse("你的法力不够！")
+	if me.state.spirit.current < SELF_SEN_COST:
+		return context.refuse("你的精神没有办法有效集中！")
+	mana.current -= SELF_MANA_COST
+	me.state.spirit.apply_damage(SELF_SEN_COST)
+	if context.random.call(me.query_skill(&"spells")) < SELF_FAIL_BELOW:
+		context.write("你失败了。")
+		return true
+	var vanishing: String = VANISHINGS[clampi(context.random.call(VANISHINGS.size()), 0, VANISHINGS.size() - 1)]
+	context.say(CHANT, &"", ColoredLine.HIW)
+	context.say(vanishing, &"", ColoredLine.HIW)
+	context.departure = DESTINATION
 	return true

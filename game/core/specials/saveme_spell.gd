@@ -13,6 +13,7 @@ const SOLDIER: StringName = &"common.npc.heaven_soldier"
 
 func _init() -> void:
 	id = &"saveme"
+	label = "召天将"
 
 
 func cast(context: SpecialContext) -> bool:
