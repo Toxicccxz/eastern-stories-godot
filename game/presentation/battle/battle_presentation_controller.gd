@@ -353,7 +353,7 @@ func _question_for(id: StringName) -> PackedStringArray:
 func _faint_odds(chance: float) -> String:
 	if chance >= 1.0:
 		return tr("一定会昏倒")
-	var tenths: int = roundi(chance * 10.0)
+	var tenths: int = mini(roundi(chance * 10.0), 9)
 	if tenths <= 0:
 		return tr("昏倒的可能很小")
 	# TRANSLATORS: the chance that powerfade knocks the player out, in tenths (成): 约有 6 成会昏倒 is about 60%.
@@ -401,6 +401,10 @@ func _open_log() -> void:
 
 func _focus_battle() -> void:
 	if not is_inside_tree() or not is_visible_in_tree() or get_tree().paused or log_panel.visible:
+		return
+	# A question stands in for the buttons: the focus goes back to its 取消.
+	if action_panel.is_asking():
+		action_panel.prompt.focus_default()
 		return
 	var first: Button = action_panel.first_action_button()
 	(first if first != null else log_button).grab_focus()

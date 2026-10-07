@@ -722,6 +722,13 @@ static func room_prose(text: String) -> String:
 	return text.strip_edges().replace("\n", "")
 
 
+## The room's text now, if the player came into it since it was last described: what
+## happens there on arrival (the player's berserk) reads after it, as ES2's move()
+## looks before init()'s call_out()s.
+func describe_arrival() -> void:
+	_describe_new_zone()
+
+
 func _describe_new_zone() -> void:
 	var zone: ZoneDefinition = current_zone()
 	if zone == null or zone.zone_id == _described_zone_id:

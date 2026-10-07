@@ -36,6 +36,11 @@ Owner-approved plan ("按你的建议来"); what each LPC piece became is in
   above its score) is ported (cause NPC_SPAR: a spar it starts); the loader no longer refuses
   such an NPC.
 - As ES2: the berserk's spar asks nobody, a beast included; a berserk kill counts as any kill.
+- **Ours**: a berserk's (or glare's) fight is the two of them, also in a room where aggressive
+  NPCs enter fights together; one that cannot begin shows the stare without its shout. The
+  player's berserk comes on the world tick after the arrival (auto_fight()'s call_out()), after
+  the room's text. A fight to the death in which nobody standing fights anyone any more ends
+  (roar.c's sparring partner who withstood it stops after the first blow, as in any spar).
 
 ## The HUD: a status card and toasts (2026-10-06)
 

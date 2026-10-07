@@ -28,6 +28,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_page()
 	await _test_roar(tree)
 	await _reopen(tree)
+	await _test_roar_withstood(tree)
+	await _reopen(tree)
 	await _test_powerfade(tree)
 	await _reopen(tree)
 	await _test_berserk(tree)
@@ -113,7 +115,11 @@ func _test_roar(tree: SceneTree) -> void:
 	_check(not panel.is_asking() and coordinator.active_encounter().queued_player_action() == null and panel._actions.visible, "取消: nothing queued, the buttons back")
 	_press(panel, "运功压制杀气")
 	_check(panel.is_asking() and panel.prompt.message.text.contains("约有 5 成会昏倒"), "压制杀气 in a fight: asked, with the odds (cps 10 * 3 / 60): " + panel.prompt.message.text)
+	_ui.log_button.grab_focus()
+	_ui._focus_battle()
+	_check(panel.prompt.cancel_button.has_focus(), "the battle's focus fallback goes back to the question's 取消")
 	panel.prompt.cancel_button.pressed.emit()
+	_check(_ui._faint_odds(0.96) == "约有 9 成会昏倒" and _ui._faint_odds(1.0) == "一定会昏倒" and _ui._faint_odds(0.04) == "昏倒的可能很小", "the odds in words: never 10 成 short of certain")
 	_press(panel, "运功天邪虎啸")
 	panel.prompt.confirm_button.pressed.emit()
 	_check(coordinator.active_encounter().queued_player_action() != null, "发出虎啸: queued")
@@ -136,6 +142,7 @@ func _test_roar(tree: SceneTree) -> void:
 			joined += 1
 	_check(joined == struck.size() and encounter.participants().size() == struck.size() + 1, "everyone struck kills the player now: %d of %d, %d in the fight" % [joined, struck.size(), encounter.participants().size()])
 	_check(encounter.participant_for(withstood[0].character_id) == null and withstood[0].character_state.spirit.current == withstood[0].character_state.spirit.maximum, "who withstood is untouched and stays out")
+	_check(_ui._warning.text.count("想杀死你") == struck.size(), "a warning for each who turned on the player, none for who withstood")
 	_check(_player.relationship.has_opponent(first.character_id) and not _player.relationship.has_lethal_target(here[1].character_id), "the player only fights back")
 	_check(_log().contains("你深深地吸一口气，开始发出有如猛虎般的啸声！") and _log().contains("看起来武馆弟子想杀死你！"), "roar's line and kill_ob()'s warnings in the battle log")
 	_check(_ui._warning.visible and _ui._warning.text.contains("看起来武馆弟子想杀死你！"), "and pinned: " + _ui._warning.text)
@@ -148,6 +155,45 @@ func _test_roar(tree: SceneTree) -> void:
 		_advance()
 	_check(coordinator.has_active_encounter() and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "the fight goes on with them")
 	_end_fight()
+	await tree.process_frame
+
+
+## A spar partner who withstands the roar only spars on; once that pair stops (the
+## first blow, as any spar) and those who came in lie unconscious, nobody fights
+## anyone any more: the fight ends (it did not before, review of 水烟阁 C).
+func _test_roar_withstood(tree: SceneTree) -> void:
+	_heal()
+	_state.progression.combat_experience = 20000000 # TEST-ONLY
+	var first: NpcRuntimeState = _npc(&"snow.school2.trainee.1")
+	first.character_state.attributes.composure = 40 # TEST-ONLY: 30 + 29 < 80: withstands
+	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
+	await tree.physics_frame
+	_map.select_npc(first.character_id)
+	_check(_map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
+	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
+	_session.configure_combat_random_source(Specials.Pattern.new([])) # TEST-ONLY: every roll its highest
+	_ui.refresh_projection()
+	_press(_ui.action_panel, "运功天邪虎啸")
+	_ui.action_panel.prompt.confirm_button.pressed.emit()
+	_advance()
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.LETHAL and encounter.participants().size() > 2, "others came in: the fight is to the death")
+	if encounter == null:
+		return
+	_check(not first.relationship.has_lethal_target(_player.character_id) and encounter.participant_for(first.character_id) != null, "the partner withstood: it does not kill, it only spars on (or stopped already)")
+	# TEST-ONLY: the spar pair stops (combatd.c's friendly stop), those who came in fall.
+	first.relationship.remove_opponent(_player.character_id)
+	_player.relationship.remove_opponent(first.character_id)
+	for participant: CombatParticipant in encounter.participants():
+		if participant.participant_id not in [_player.character_id, first.character_id]:
+			participant.binding.state.vitality.current = -1
+	for _second: int in range(5):
+		if not coordinator.has_active_encounter():
+			break
+		_advance()
+	_check(not coordinator.has_active_encounter(), "nobody fights anyone: the fight ends")
+	var completion: CombatEncounterCompletionResult = coordinator.last_completion()
+	_check(completion != null and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and first.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "both still standing")
 	await tree.process_frame
 
 
@@ -189,6 +235,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "into the 武馆")
 	await tree.physics_frame
 	_map._note_player_arrival()
+	_map.run_pending_player_berserk()
 	var bounds: Array[int] = source.requested_bounds()
 	_check(bounds.slice(0, here.size()) == _repeat(50, here.size()), "random(2000 / 40) for each one here: %s" % [bounds])
 	var encounter: CombatEncounter = _session.combat_encounter_coordinator().active_encounter()
@@ -205,6 +252,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	_session.configure_world_interaction_random_source(source)
 	_heal()
 	_map._note_player_arrival()
+	_map.run_pending_player_berserk()
 	encounter = _session.combat_encounter_coordinator().active_encounter()
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.SPAR, "bellicosity 2000 not above score 5000: a spar")
 	_check(_hud.log_lines().back().begins_with("你对著武馆弟子喝道：喂！") and _hud.log_lines().back().ends_with("正想找人打架，陪我玩两手吧！"), "fight_ob()'s line: " + _hud.log_lines().back())
@@ -215,6 +263,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	source = ScriptedWorldInteractionRandomSource.new([49, 0])
 	_session.configure_world_interaction_random_source(source)
 	_map._note_player_arrival()
+	_map.run_pending_player_berserk()
 	_check(not _session.combat_encounter_coordinator().has_active_encounter() and _hud.log_lines().back() == "你用一种异样的眼神扫视著在场的每一个人。", "calmed: the stare alone")
 	# The master: never the one.
 	# TEST-ONLY: 柳淳风's apprentice (his generation + 1).
@@ -229,6 +278,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	_session.configure_world_interaction_random_source(source)
 	_map._arrival_zone_id = &""
 	_map._note_player_arrival()
+	_map.run_pending_player_berserk()
 	_check(source.call_count() == 0 and not _session.combat_encounter_coordinator().has_active_encounter(), "no roll at one's own master: %s" % [source.requested_bounds()])
 	_session.configure_world_interaction_random_source(original)
 	await tree.process_frame
