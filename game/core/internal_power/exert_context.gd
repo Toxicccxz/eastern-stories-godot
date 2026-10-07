@@ -15,14 +15,28 @@ var actor_id: StringName
 var lines: Array[ColoredLine] = []
 var vision_lines: Array[VisionLine] = []
 var fail_line: String = ""
+## MudOS random(n) (n <= 0 gives 0 without a draw); none draws 0.
+var random: Callable
+## all_inventory(environment(me)) without me: the others in the room, the fight's
+## and the bystanders' (roar.c), each with its fight and whether it is living().
+var room: Array[SpecialSide] = []
+## me->unconcious() (powerfade.c in a fight): set when the file knocked its user out.
+var fainted: bool = false
+## Those the file had kill_ob() me (roar.c), in the room's order.
+var killers: Array[StringName] = []
 
 
-func _init(p_character: CharacterState, p_force_level: int, p_is_fighting: bool, p_busy: ActionBusyState, p_actor_id: StringName = &"") -> void:
+func _init(
+	p_character: CharacterState, p_force_level: int, p_is_fighting: bool, p_busy: ActionBusyState,
+	p_actor_id: StringName = &"", p_random: Callable = Callable(), p_room: Array[SpecialSide] = [],
+) -> void:
 	character = p_character
 	force_level = p_force_level
 	is_fighting = p_is_fighting
 	busy = p_busy
 	actor_id = p_actor_id
+	random = p_random
+	room = p_room
 
 
 ## message_vision(template, me): the line as the character reads it ($N is 你) and
@@ -30,3 +44,8 @@ func _init(p_character: CharacterState, p_force_level: int, p_is_fighting: bool,
 func vision(template: String, color: StringName = ColoredLine.PLAIN) -> void:
 	lines.append(ColoredLine.new(ExertFunction._as_actor(template), color))
 	vision_lines.append(VisionLine.new(template, actor_id, &"", color))
+
+
+## random(n) as the file draws it.
+func legacy_random(n: int) -> int:
+	return random.call(n) if random.is_valid() and n > 0 else 0

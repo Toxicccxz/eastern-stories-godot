@@ -49,9 +49,13 @@ three-blow test) and teaches its arts; C gives the player 天邪神功.
 - 七宝天岚舞's practice costs sen; its level line raises per (skill_improved()).
 - 萧辟尘 does not map 七宝天岚舞, so he never dodges with it.
 
-## Deferred
+## C: the player's 天邪神功 and 杀气
 
-- C: the player's 天邪神功 (powerup, powerfade and its faint in a fight, 天邪虎啸), 杀气's
-  berserk for the player (owner: with a warning when it first becomes possible).
-  `ExertService.AWAITING_PLAYER` (and its pin in internal_power_test) holds powerup and
-  powerfade back from 运功 until then.
+| LPC | Port |
+|---|---|
+| daemon/class/fighter/celestial/powerup.c, powerfade.c | PowerupExertFunction, PowerfadeExertFunction (the faint in a fight: CharacterState.fall_unconscious()) |
+| daemon/class/fighter/celestial/roar.c | RoarExertFunction over ExertContext.room (WorldMapController.exert_room()); its kill_ob()s are CombatTacticalExecutionResult.joiners, taken in by CombatEncounterResolution.admit() (CombatEncounter.admit(), escalate_to_lethal()) |
+| cmds/std/exert.c | ExertService (weak-mode practice, as since #47); roar only offered in a fight |
+| feature/attack.c init(), combatd.c start_berserk(), cmds/std/look.c | Berserk (core); WorldMapController._player_init(), _player_berserk(), _look_berserk(), _npc_berserk() (its fight_ob(): cause NPC_SPAR) |
+
+- Nothing deferred: the region's three packages are done.

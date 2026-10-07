@@ -182,6 +182,8 @@ func advance(
 			# Never accumulate delta or execute an ordinary opportunity after escape,
 			# even if a standalone scheduler has no completion adapter installed.
 			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
+	if boundary != null and tactical_result != null and not tactical_result.joiners.is_empty():
+		boundary.admit(bindings, tactical_result)
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not boundary.inspect(bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()

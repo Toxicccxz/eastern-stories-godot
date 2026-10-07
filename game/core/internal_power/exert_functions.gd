@@ -5,7 +5,7 @@ extends RefCounted
 ## skill's exert_function_file() reaches those skills.json lists under `exert`.
 ## Labels follow doc/help/force (regenerate 恢复自己的精 …) and doc/skill/celestial.
 
-const ORDER: Array[StringName] = [&"heal", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade"]
+const ORDER: Array[StringName] = [&"heal", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade", &"roar"]
 # TRANSLATORS: doc/help/force, doc/skill/celestial: what an exert function does, as a button (运功 X).
 const LABELS: Dictionary[StringName, String] = {
 	&"heal": "疗伤",
@@ -14,6 +14,7 @@ const LABELS: Dictionary[StringName, String] = {
 	&"regenerate": "恢复精",
 	&"powerup": "提升战斗力",
 	&"powerfade": "压制杀气",
+	&"roar": "天邪虎啸",
 }
 
 static var _functions: Dictionary[StringName, ExertFunction] = {}
@@ -31,6 +32,7 @@ static func find(function_id: StringName) -> ExertFunction:
 				"你的精力已经恢复到上限了。", "$N深深地吸了口气，手脚活动了几下，看起来有活力多了。"),
 			PowerupExertFunction.new(),
 			PowerfadeExertFunction.new(),
+			RoarExertFunction.new(),
 		]
 		for function: ExertFunction in all:
 			_functions[function.id] = function
