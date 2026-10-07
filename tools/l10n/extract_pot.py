@@ -50,7 +50,7 @@ TEXT_LIST_KEYS = frozenset({"limbs"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
-    "use", "bury", "book", "paper", "shout", "shut",
+    "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
 })
 HEADER = """\
 # Eastern Stories translation template.

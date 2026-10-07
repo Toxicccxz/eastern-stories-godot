@@ -10316,6 +10316,16 @@ msgstr ""
 msgid "加入武者同盟"
 msgstr ""
 
+#. waterfog.guildhall.landmark.sign messages.joined
+#: data/waterfog/world.json
+msgid "恭喜，从今天起您已经成为一名武者！"
+msgstr ""
+
+#. waterfog.guildhall.landmark.sign messages.refused
+#: data/waterfog/world.json
+msgid "你已经参加了其他公会。"
+msgstr ""
+
 #. waterfog.guildhall.landmark.sign long
 #: data/waterfog/world.json
 msgid ""

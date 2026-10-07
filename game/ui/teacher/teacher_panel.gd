@@ -11,6 +11,8 @@ var _title: Label
 var panel: PanelContainer
 var status: Label
 var feedback: Label
+## The last 拜师, oath or test's lines, under their buttons (the test's blows read at once).
+var apprentice_feedback: Label
 var apprentice_button: Button
 var cancel_button: Button
 ## 萧辟尘's oath (owner: a fixed button, no typing) while he waits for it.
@@ -72,6 +74,8 @@ func _ready() -> void:
 		if _contact.teaching().apprentice.kind == NpcTeaching.Kind.TRIAL:
 			trial_button = _button("AcceptTest", "接受测试", take_trial)
 		cancel_button = _button("CancelApprentice", "取消拜师请求", cancel_apprentice)
+		# Not "Feedback" either (see below).
+		apprentice_feedback = _label("", "ApprenticeLines")
 		confirm_box = ConfirmPrompt.new()
 		confirm_box.name = "ApprenticeConfirm"
 		confirm_box.hide()
@@ -123,6 +127,8 @@ func interact() -> void:
 		return
 	_set_confirming(false)
 	feedback.text = ""
+	if apprentice_feedback != null:
+		apprentice_feedback.text = ""
 	_present()
 	_contact.open_panel(_contact.context_title(), panel)
 	refresh()
@@ -222,7 +228,7 @@ func _ask_family_change(player: WorldPlayerRuntimeState, master: NpcDefinition, 
 
 func _request_apprentice_now() -> void:
 	_contact.request_apprentice()
-	_show_last()
+	_show_apprentice_last()
 
 
 ## The oath: asked first when it will make the player his apprentice and that
@@ -239,7 +245,7 @@ func swear_oath() -> void:
 
 func _swear_now() -> void:
 	_contact.swear_oath()
-	_show_last()
+	_show_apprentice_last()
 
 
 ## The accept test: always asked first (owner): three real blows, a fall, maybe death,
@@ -266,7 +272,7 @@ func take_trial() -> void:
 
 func _take_trial_now() -> void:
 	_contact.take_trial()
-	_show_last()
+	_show_apprentice_last()
 
 
 func _family_name() -> String:
@@ -319,7 +325,7 @@ func _set_confirming(on: bool) -> void:
 func cancel_apprentice() -> void:
 	if panel.visible:
 		_contact.cancel_apprentice()
-		_show_last()
+		_show_apprentice_last()
 
 
 func _learn(skill_id: StringName) -> void:
@@ -330,6 +336,11 @@ func _learn(skill_id: StringName) -> void:
 
 func _show_last() -> void:
 	feedback.text = "\n".join(_contact.last_lines)
+	refresh()
+
+
+func _show_apprentice_last() -> void:
+	apprentice_feedback.text = "\n".join(_contact.last_lines)
 	refresh()
 
 
