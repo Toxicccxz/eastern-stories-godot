@@ -4,7 +4,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**绮云镇's upper floors** (`phase/maps-redraw`): 香茗坊二楼, 怡红院二楼 and the 赌场's upper floor are
+**绮云镇's upper floors** (`phase/cloud-floors`): 香茗坊二楼, 怡红院二楼 and the 赌场's upper floor are
 each their own map, drawn over their building and furnished from their room text (DECISIONS).
 **水烟阁 C** is PR #68.
 
