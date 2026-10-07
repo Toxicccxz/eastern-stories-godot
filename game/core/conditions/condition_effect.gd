@@ -30,3 +30,13 @@ func shown_name() -> String:
 func update(_character: CharacterStateType, _payload: ConditionPayloadType) -> int:
 	assert(false, "ConditionEffect.update() must be implemented.")
 	return 0
+
+
+## One update as ConditionSystem runs it: update() and its fixed message(). A daemon
+## whose lines depend on the update (drunk.c's tiers, a vision line for the room,
+## living(me)) overrides this instead and says them through `report`.
+func tick(character: CharacterStateType, payload: ConditionPayloadType, report: ConditionReport) -> int:
+	var flags: int = update(character, payload)
+	if not message().is_empty():
+		report.tell(message(), message_color())
+	return flags

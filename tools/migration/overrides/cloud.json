@@ -9,6 +9,7 @@
 	],
 	"items": ["d/choyin/obj/grass.c"],
 	"set": {
+		"es2:obj/toy/poison_dust": { "pour": { "condition": "slumber_drug", "adds_to_liquid": 100 } },
 		"cloud.outdoor.hummock.gangsters": { "presence_radius": 100 },
 		"cloud.npc.gangster": {
 			"attack_unless_mark": "强盗",
@@ -194,9 +195,9 @@
 			"set pursuer": "following who flees is not modelled yet (as 安惜迩's and 金银花蛇's)"
 		},
 		"obj/toy/poison_dust.c": {
-			"function init": "pour (into a drink, slumber_drug) waits for the slumber_drug condition: the mother carries it as loot",
-			"function do_pour": "pour (into a drink, slumber_drug) waits for the slumber_drug condition: the mother carries it as loot",
-			"function drink_drug": "pour (into a drink, slumber_drug) waits for the slumber_drug condition: the mother carries it as loot"
+			"function init": "pour: the item's pour in set (the inventory's 倒进 button)",
+			"function do_pour": "pour: drink_func and liquid/slumber_effect + 100 (LiquidDrinkEffects)",
+			"function drink_drug": "pour.adds_to_liquid: each sip adds the liquid's slumber_effect to slumber_drug"
 		},
 		"obj/weapon/blade.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",

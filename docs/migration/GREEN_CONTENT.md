@@ -24,6 +24,19 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 | outdoor, cavehall, stoneroom, water | 绝尘子 (cavehall, C) | the stone rooms (the hall sealed but to 绝尘子's apprentices), the stream and its search |
 | eight0–7, closed | — | 迷阵 map: eight clearings drawn after their texts, each 路牌 looked at; 绝地's stone and 放弃 |
 
+## The 玉佩 and the 蒙汗药 (B)
+
+| LPC | Native |
+|---|---|
+| oldman2.c 玉佩, set_flag() | the answer's `mark_asker` (elder_info); relay_say 必有妖孽: the 打听 panel's 接话 |
+| d/snow/npc/drunk.c accept_object() | accept_object rules: elder_info → the 玉佩 whisper (give_alcohol), give_alcohol → the 蒙汗药 whisper (know_drug); `whisper` lines in GRN |
+| shen.c give_jade(), sell_drug() | inquiry `rules`: give_alcohol gives the unique jade (had_jade; 你真贪心耶; 刚刚有人来要过了 while one exists), know_drug whispers the price (can_buy_drug) |
+| shen.c accept_object() | 10 taels give a 蒙汗药 (`gives`); 想骗我啊? deletes give_alcohol and know_drug and hands the gift back; a stranger's money is kept |
+| shen.c list_item(), buy_item() | `shop_front`: 看货 (list) and 购买 (他不卖) |
+| jade.c | 玉佩: `unique`, studied for force up to 40 |
+| obj/slumber_drug.c, obj/toy/poison_dust.c | `pour` (the 背包's 倒进): 100 slumber_drug a sip / the drink's slumber_effect, + 100 a pour |
+| daemon/condition/drunk.c, slumber_drug.c | the drunk and slumber_drug conditions, for the player and NPCs (the Snow drunk gets drunk on his wine) |
+
 ## Source anomalies
 
 - The 迷阵's room files make one maze with eight7 south → stoneroom → (west) the hall: the only
@@ -31,8 +44,14 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
   are one-way exits (passages here).
 - station0.c sets `outdoors` "snow"; field0.c, the mountain road, entrance and the stone rooms
   set none, so rope.c lets one hang oneself there.
-- oldman2.c's 玉佩 answer has functions in its array, which ask.c skips; jade.c inherits
-  F_UNIQUE, which the mudlib does not define; liquid.c never calls a drink_func (蒙汗药). B.
+- The 玉佩 chain did not work in ES2 (B, made to work as the code means, DECISIONS): oldman2.c's
+  set_flag() sits in its answer array, which ask.c skips, and nothing sets `last_asker`; jade.c
+  inherits F_UNIQUE, which the mudlib does not define, so it does not compile; powder.c's pour
+  makes the drink call effect_in_liquid(), which slumber_drug.c lacks (it has drink_drug()).
+  liquid.c does call a drink_func (dbase.c query() evaluates it), so 极乐逍遥散 worked.
+- shen.c's give_jade() and sell_drug() return 0, so ask.c also said a 没听说过 line after them.
+- drunk.c's receive_healing() calls reach no function (damage.c has receive_heal()).
+- shen.c's list text has 摆\著 (a Big5 artifact): 摆著.
 - npc/master.c (龙若法王) does not compile (`map_skill("spells",magic-array)`); no room places
   him, kid5.c, s.c or shen1.c.
 - woman1.c's knife line has a stray backslash (菜刀神功\是吧, a Big5 artifact): dropped.
@@ -41,8 +60,6 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 
 ## Deferred
 
-- B: 沈万年's list/buy, 玉佩 and 蒙汗药, 村长's 玉佩 mark and 必有妖孽 (a 接话 button, owner),
-  醉汉's two whispers, pour, the drunk and slumber_drug conditions.
 - C: 绝尘子 in the hall (spawn_skip in tools/migration/overrides/green.json until then); his
   arts, 遁/召天将 in a fight, joining, teaching, 冥思 and 修行.
 - D: the player's cast.

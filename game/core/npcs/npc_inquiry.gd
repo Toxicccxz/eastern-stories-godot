@@ -23,20 +23,39 @@ const DUNNO: Array[String] = [
 ]
 
 
-## The asking player's rankd.c facts, and eff_kee * 100 / max_kee for an answer
-## judged on how hurt they are (NpcTalk.KeeAnswer).
+## The asking player's rankd.c facts, eff_kee * 100 / max_kee for an answer
+## judged on how hurt they are (NpcTalk.KeeAnswer) and their marks, which hold the
+## set_temp() flags an answer function asks (NpcInquiryRule).
 class Asker:
 	extends RefCounted
 	var gender: StringName
 	var age: int
 	var class_id: StringName
 	var kee_percent: int
+	var marks: Dictionary[String, int] = {}
 
-	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_kee_percent: int = 100) -> void:
+	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_kee_percent: int = 100, p_marks: Dictionary[String, int] = {}) -> void:
 		gender = p_gender
 		age = p_age
 		class_id = p_class_id
 		kee_percent = p_kee_percent
+		marks = p_marks
+
+
+## What asking did: the lines the player reads (in their colours: a whisper is GRN),
+## the marks to set on the asker and the item the NPC hands over (`gives`: the caller
+## makes it and tells give.c's line).
+class Answer:
+	extends RefCounted
+	var lines: Array[ColoredLine] = []
+	var marks: Array[String] = []
+	var gives: StringName = &""
+
+	func texts() -> Array[String]:
+		return ColoredLine.texts(lines)
+
+	func say(text: String) -> void:
+		lines.append(ColoredLine.new(text))
 
 
 ## What the player can ask `definition` about, in ES2's listing order.
@@ -70,9 +89,27 @@ static func ask(
 	room_short: String,
 	random: WorldInteractionRandomSource,
 ) -> Array[String]:
+	return answer(npc_definition, npc_gender, npc_age, conscious, asker, topic, room_short, random).texts()
+
+
+## ask() with what the answer does. `violates_unique` tells whether an item definition
+## is F_UNIQUE and one already exists somewhere in the world (violate_unique());
+## without it none does.
+static func answer(
+	npc_definition: NpcDefinition,
+	npc_gender: StringName,
+	npc_age: int,
+	conscious: bool,
+	asker: Asker,
+	topic: String,
+	room_short: String,
+	random: WorldInteractionRandomSource,
+	violates_unique: Callable = Callable(),
+) -> Answer:
+	var result := Answer.new()
 	var lines: Array[String] = []
 	if npc_definition == null or not npc_definition.can_speak() or asker == null or topic.is_empty() or random == null:
-		return lines
+		return result
 	var name: String = npc_definition.display_name
 	var key: String = asked_key(npc_definition, topic)
 	# Lines are put together in the shown language; `name`, `key` and `topic` stay as
@@ -93,15 +130,34 @@ static func ask(
 			lines.append(_t("你向{npc}打听有关『{topic}』的消息。").format({"npc": npc, "topic": _t(topic)}))
 	if not conscious:
 		lines.append(_t("但是很显然的，%s现在的状况没有办法给你任何答覆。") % npc)
-		return lines
+		return _with(result, lines)
 	var talk: NpcTalk = npc_definition.talk()
-	var answer: PackedStringArray = talk.answer(key, asker.kee_percent)
+	var said: PackedStringArray = talk.answer(key, asker.kee_percent)
 	# An answer function that returns 0 leaves ask.c to its own lines.
-	if talk.has_answer(key) and not (answer.is_empty() and talk.answers_by_kee(key)):
+	if talk.has_answer(key) and not (said.is_empty() and talk.answers_by_kee(key)):
 		var asker_respect: String = _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id))
-		for text: String in answer:
+		for text: String in said:
 			lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(text).replace("$RESPECT", asker_respect)}))
-		return lines
+		# The functions among the lines run (oldman2.c set_flag(); ask.c skipped them).
+		result.marks.append_array(talk.answer_marks(key))
+		return _with(result, lines)
+	# A function that acts (shen.c give_jade()): the first rule the asker's marks meet.
+	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
+	# followed its 0 does not follow; a function that does nothing (command("?")) still
+	# leaves ask.c to its own lines.
+	var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks)
+	if rule != null:
+		_with(result, lines)
+		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
+		var taken: bool = not rule.gives.is_empty() and violates_unique.is_valid() and violates_unique.call(rule.gives)
+		for line: NpcLine in (rule.taken_lines if taken else rule.lines):
+			result.lines.append(line.colored(name, asker_respect))
+		if taken:
+			return result
+		result.gives = rule.gives
+		if not rule.mark_asker.is_empty():
+			result.marks.append(rule.mark_asker)
+		return result
 	if key == name or key == "name" or key == NAME:
 		match npc_definition.attitude:
 			NpcDefinition.Attitude.AGGRESSIVE:
@@ -119,16 +175,23 @@ static func ask(
 					"npc": npc, "respect": _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id)),
 					"self": _t(RankWords.query_self(npc_gender, npc_age, &"")),
 				}))
-		return lines
+		return _with(result, lines)
 	if key == "here" or key == HERE:
 		lines.append(_t("{npc}对你说道：这里是{place}，至于其它的，{self}不便多说。").format({
 			"npc": npc, "place": _t(room_short), "self": _t(RankWords.query_self(npc_gender, npc_age, &"")),
 		}))
-		return lines
+		return _with(result, lines)
 	var drawn: int = random.legacy_random(DUNNO.size())
 	if drawn >= 0 and drawn < DUNNO.size():
 		lines.append(_t(DUNNO[drawn]) % npc)
-	return lines
+	return _with(result, lines)
+
+
+static func _with(result: Answer, lines: Array[String]) -> Answer:
+	for line: String in lines:
+		result.say(line)
+	lines.clear()
+	return result
 
 
 static func _t(text: String) -> String:

@@ -55,6 +55,19 @@
 			"weight": 3000,
 			"value": 5,
 			"hang": true
+		},
+		{
+			"id": "es2:d/green/obj/jade",
+			"legacy_sources": ["d/green/obj/jade.c"],
+			"name": "玉佩",
+			"aliases": ["jade"],
+			"long": "上面刻著一些字:\n行气, 深则蓄, 蓄则伸, 伸则下, 下则定, 定则固, 固则萌, 萌则长, 长则退,\n退则天. 天几舂在上, 地几舂在下, 顺则生, 逆则死.\n",
+			"unit": "个",
+			"material": "jade",
+			"study": { "skill": "force", "exp_required": 100, "sen_cost": 20, "difficulty": 25, "max_skill": 40 },
+			"weight": 500,
+			"value": 1000,
+			"unique": true
 		}
 	]
 }

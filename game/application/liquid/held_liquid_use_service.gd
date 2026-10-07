@@ -10,10 +10,6 @@ static func drink(player: WorldPlayerRuntimeState, context: MoneyInventoryContex
 	if result.outcome != LiquidUseResult.Outcome.ADMITTED:
 		return result
 	var state: LiquidState = liquids.state(id)
-	# Deliberate staged omission: no hydration, portion or condition mutation.
-	if state.content == LiquidState.Content.RED_WINE:
-		result.outcome = LiquidUseResult.Outcome.ALCOHOL_DEFERRED
-		return result
 	if state.remaining == 0:
 		result.outcome = LiquidUseResult.Outcome.EMPTY
 		return result
@@ -21,7 +17,10 @@ static func drink(player: WorldPlayerRuntimeState, context: MoneyInventoryContex
 		result.outcome = LiquidUseResult.Outcome.TOO_FULL
 		return result
 	state.remaining -= 1
-	player.state.recovery.water += _definition(context, definitions, id).hydration
+	var definition: LiquidDefinition = _definition(context, definitions, id)
+	player.state.recovery.water += definition.hydration
+	# liquid.c: the powder poured in, then alcohol's drunk_apply.
+	LiquidDrinkEffects.apply(player.state, state, definition, GameContent.catalog())
 	result.remaining_after = state.remaining
 	result.water_after = player.state.recovery.water
 	result.outcome = LiquidUseResult.Outcome.DRANK
@@ -40,6 +39,8 @@ static func fill(player: WorldPlayerRuntimeState, context: MoneyInventoryContext
 	result.discarded_wine = state.content == LiquidState.Content.RED_WINE and state.remaining > 0
 	state.content = LiquidState.Content.CLEAR_WATER
 	state.remaining = _definition(context, definitions, id).maximum_portions
+	# do_fill(): set("liquid/drink_func", 0); liquid/slumber_effect stays.
+	state.drink_func = &""
 	result.remaining_after = state.remaining
 	result.outcome = LiquidUseResult.Outcome.FILLED
 	return result

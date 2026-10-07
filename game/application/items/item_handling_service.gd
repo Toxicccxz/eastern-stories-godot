@@ -77,7 +77,12 @@ static func give(
 	var respect: String = RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id)
 	if result.rule != null:
 		for line: NpcLine in result.rule.lines:
+			if line.whisper:
+				result.line_colors[result.lines.size()] = line.color()
 			result.lines.append(line.sentence(name, respect))
+		# delete_temp(): shen.c's 想骗我啊? deletes the giver's flags even as it refuses.
+		for mark: String in result.rule.unmark_giver:
+			player.state.marks.erase(mark)
 	if result.rule == null or not result.rule.accept:
 		result.lines.append(TranslationServer.translate(NOT_TAKEN).format({"npc": TranslationServer.translate(name)}))
 		result.outcome = ItemHandlingResult.Outcome.REFUSED

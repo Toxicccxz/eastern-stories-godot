@@ -45,14 +45,17 @@ TEXT_KEYS = frozenset({
     "refuse_say", "dry_say", "respect", "unit", "base_unit", "action", "then", "else", "gender",
     "damage_type", "done", "weapon_fail", "improved_line", "message", "line",
     "target", "quest_type", "ask_say", "again_say", "oath", "ask_tell", "success", "force_fail",
+    "whisper",
 })
 TEXT_LIST_KEYS = frozenset({"limbs"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
-    "weak", "rolled", "search", "found", "nothing", "spawn",
+    "weak", "rolled", "search", "found", "nothing", "spawn", "list",
 })
+# Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
+ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})
 HEADER = """\
 # Eastern Stories translation template.
 # Source language: Simplified Chinese (zh_CN); each message ID is the source text.
@@ -350,8 +353,14 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
                 if has_chinese(topic):
                     catalog.add(topic, relative, note=f"{record_id} inquiry topic")
                 _walk_text(answer, relative, f"{record_id} inquiry.{topic}", catalog)
-        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines"):
+        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "shop_front"):
             _walk_text(value, relative, note, catalog)
+        elif key == "relay_say" and isinstance(value, dict):
+            # What the player can say beside the NPC (the 接话 button), and its answers.
+            for phrase, answer in value.items():
+                if has_chinese(phrase):
+                    catalog.add(phrase, relative, note=f"{record_id} relay_say phrase")
+                _walk_text(answer, relative, f"{record_id} relay_say.{phrase}", catalog)
         elif key == "valid_learn" and isinstance(value, dict):
             # A skill's valid_learn() lines, keyed by the rule that refuses.
             for rule, line in value.items():
@@ -370,6 +379,8 @@ def _walk_text(node: object, relative: str, note: str, catalog: Catalog) -> None
             _walk_text(item, relative, note, catalog)
     elif isinstance(node, dict):
         for key, value in node.items():
+            if key in ID_LIST_KEYS:
+                continue
             if isinstance(value, str) and key in LINE_KEYS:
                 catalog.add(value, relative, note=f"{note}.{key}")
             elif isinstance(value, (dict, list)):

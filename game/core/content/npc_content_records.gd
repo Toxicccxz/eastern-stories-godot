@@ -124,7 +124,8 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	return definition
 
 
-## `inquiry` {topic: [lines] | {"eff_kee_percent": [{"at_least", "say"}]}}, `chat_chance`
+## `inquiry` {topic: [line | {"mark_asker"}] | {"eff_kee_percent": [{"at_least", "say"}]} |
+## {"rules": [NpcInquiryRule]}}, `relay_say` {phrase: [{"say" | "emote" | "line" | "whisper"}]}, `chat_chance`
 ## with `chat_msg` [line | {"say", "color"} | {"action": "random_move"} | {"action": "drink",
 ## ...} | a special], `chat_chance_combat` with `chat_msg_combat` [line | {"say", "color"} |
 ## a special] (NpcSpecialAction: perform, cast, exert, surrender) and `greeting` {"say"} or
@@ -133,20 +134,53 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	var inquiry: Dictionary[String, PackedStringArray] = {}
 	var kee_answers: Dictionary[String, Array] = {}
+	var answer_marks: Dictionary[String, Array] = {}
+	var rules: Dictionary[String, Array] = {}
 	var topics: ContentRecordReader = reader.child("inquiry")
 	if topics != null:
 		for topic: String in topics.keys():
 			if not topics.is_object(topic):
-				inquiry[topic] = PackedStringArray(topics.text_list(topic))
+				var said := PackedStringArray()
+				var marks: Array[String] = []
+				for entry: Variant in topics.strings_or_children(topic):
+					if entry is String:
+						said.append(entry)
+						continue
+					# A function among the lines (oldman2.c set_flag()): it marks the asker.
+					var action: ContentRecordReader = entry
+					marks.append(action.required_text("mark_asker"))
+					action.finish()
+				inquiry[topic] = said
+				if not marks.is_empty():
+					answer_marks[topic] = marks
 				continue
-			var by_kee: ContentRecordReader = topics.child(topic)
+			var answer: ContentRecordReader = topics.child(topic)
+			if answer.has("rules"):
+				var branches: Array[NpcInquiryRule] = []
+				for rule: ContentRecordReader in answer.children("rules"):
+					branches.append(NpcInquiryRule.from_record(rule))
+				rules[topic] = branches
+				answer.finish()
+				continue
 			var cases: Array[NpcTalk.KeeAnswer] = []
-			for case: ContentRecordReader in by_kee.children("eff_kee_percent"):
+			for case: ContentRecordReader in answer.children("eff_kee_percent"):
 				cases.append(NpcTalk.KeeAnswer.new(case.required_integer("at_least"), case.required_text("say")))
 				case.finish()
-			by_kee.finish()
+			answer.finish()
 			kee_answers[topic] = cases
 		topics.finish()
+	var relay_say: Dictionary[String, Array] = {}
+	var heard: ContentRecordReader = reader.child("relay_say")
+	if heard != null:
+		for phrase: String in heard.keys():
+			var lines: Array[NpcLine] = []
+			for said: ContentRecordReader in heard.children(phrase):
+				var line: NpcLine = NpcLine.from_record(said)
+				said.finish()
+				if line != null:
+					lines.append(line)
+			relay_say[phrase] = lines
+		heard.finish()
 	var entries: Array = _chat_entries(reader, "chat_msg", false)
 	var chance: int = reader.integer("chat_chance")
 	if reader.has("chat_chance") != reader.has("chat_msg"):
@@ -172,7 +206,7 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 		greet.finish()
 		if greet.has("out_of") and (not greet.has("one_of") or greeting_out_of <= greeting.size()):
 			greet.fail("out_of", "needs one_of and more draws than lines")
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of).with_actions(answer_marks, rules, relay_say)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; random_move and

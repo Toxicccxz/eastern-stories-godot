@@ -30,7 +30,32 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 1 }
 			],
-			"apply": { "dodge": 5, "attack": 3 }
+			"apply": { "dodge": 5, "attack": 3 },
+			"inquiry": {
+				"玉佩": {
+					"rules": [
+						{ "asker_marks": ["give_alcohol", "had_jade"], "say": "你真贪心耶... " },
+						{ "asker_marks": ["give_alcohol"], "gives": "es2:d/green/obj/jade", "mark_asker": "had_jade", "taken": { "say": "这样东西... 刚刚有人来要过了." } }
+					]
+				},
+				"蒙汗药": {
+					"rules": [
+						{ "asker_marks": ["know_drug"], "whisper": "一份只要 10 两银子, 保证有效喔.\n", "mark_asker": "can_buy_drug" }
+					]
+				}
+			},
+			"accept_object": [
+				{ "giver_mark": "can_buy_drug", "value_at_least": 1000, "line": "老板塞了一包蒙汗药给你。\n", "gives": "es2:obj/slumber_drug", "accept": true },
+				{ "giver_mark": "can_buy_drug", "say": "想骗我啊?\n", "unmark_giver": ["give_alcohol", "know_drug"], "accept": false },
+				{ "value_at_most": 0, "accept": false },
+				{ "say": "我不知道你给我钱干嘛, 不过谢啦!", "accept": true }
+			],
+			"shop_front": {
+				"list": "柜子上一堆冥纸和香烛等, 标价 10 文钱. 墙上挂著几把竹扫帚,\n每把 50 文钱. 柜台上摆著一块木牌, 上面写著:\n棺材: 时价. 没看到的东西问一下掌柜的, 我们应该都有.\n",
+				"buy": [
+					{ "say": "我不卖东西给陌生人!" }
+				]
+			}
 		},
 		{
 			"id": "green.npc.woman1",
@@ -168,11 +193,13 @@
 					"我送给一个年轻人了, 不过听说他得此玉佩后性情大变.\n",
 					"看来此物不祥... \n",
 					"你要找他吗? 有人说他现在以酒度日, 我也不知他的下落.\n",
+					{ "mark_asker": "elder_info" },
 					"造孽啊........\n"
 				]
 			},
 			"chat_chance": 10,
-			"chat_msg": [{ "action": "emote", "verb": "sigh" }, "村长说道：国之将亡.....\n"]
+			"chat_msg": [{ "action": "emote", "verb": "sigh" }, "村长说道：国之将亡.....\n"],
+			"relay_say": { "必有妖孽": [{ "say": "对呀.. 你就是妖孽... " }] }
 		},
 		{
 			"id": "green.npc.kid1",

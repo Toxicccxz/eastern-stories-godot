@@ -45,7 +45,7 @@ ANSI_MACROS = {
 PATH_MACROS = {'CLASS_D': '/daemon/class/'}
 WEAPON_KINDS = {'AXE', 'BLADE', 'DAGGER', 'FORK', 'HAMMER', 'SWORD', 'STAFF', 'THROWING', 'WHIP'}
 # std/item/combined.c and what inherits it besides money (std/weapon/throwing.c).
-COMBINED_KINDS = {'COMBINED_ITEM', 'THROWING'}
+COMBINED_KINDS = {'COMBINED_ITEM', 'THROWING', 'POWDER'}
 ARMOR_KINDS = {'ARMOR', 'BOOTS', 'CLOTH', 'FINGER', 'HANDS', 'HEAD', 'NECK', 'SHIELD',
                'SURCOAT', 'WAIST', 'WRISTS'}
 # include/weapon.h; only the flags the game models.

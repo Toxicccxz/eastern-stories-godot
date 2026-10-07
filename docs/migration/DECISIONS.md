@@ -1,5 +1,41 @@
 # Migration Decisions
 
+## 青石村 B: the 玉佩 and the 蒙汗药 (2026-10-07)
+
+What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
+- **Owner (Q2): the chain works as the code means.** In ES2 it broke in three places, each made
+  to work: ask.c skips the functions in an answer array (and nothing sets `last_asker`), so
+  oldman2.c's set_flag() now runs where it stands and marks the asker; jade.c inherits F_UNIQUE,
+  which the mudlib does not define, so the jade is an item flagged `unique` and shen.c's
+  violate_unique() asks the whole world (carried, lying about, held by an NPC, in a corpse);
+  powder.c's pour makes the drink call effect_in_liquid(), which slumber_drug.c lacks, so the
+  poured 蒙汗药 runs its drink_drug() (100 slumber_drug a sip). Correction to the plan: liquid.c
+  does call a drink_func (dbase.c query() evaluates a function value), so 极乐逍遥散 worked and
+  is ported as it was (the drink's slumber_effect, + 100 a pour; alcohol still adds drunk_apply).
+- **The chain's set_temp() flags are saved** (elder_info, give_alcohol, know_drug, can_buy_drug,
+  had_jade, in the character's marks). ES2 lost them at a relogin; a Continue would silently undo
+  the clues. So a player gets the jade once (had_jade: 你真贪心耶).
+- **Owner (Q3): 必有妖孽** is the 打听 panel's 接话 button: say.c's 你说道 (in CYN), then
+  oldman2.c's relay_say(). With kee below max_kee / 5, say.c breaks the words up (必有妖孽 ...)
+  and he lets them pass.
+- **Deviation (modern fixes): 想骗我啊? hands the gift back.** shen.c keeps whatever a buyer
+  gives below 10 taels (anything but money is worth 0); here he refuses it. The give_alcohol and
+  know_drug flags it deletes stay deleted; can_buy_drug stays, as in the LPC.
+- **Deviation: an answer that acted ends the asking.** shen.c's give_jade() and sell_drug()
+  return 0, so ask.c went on to a 没听说过 line even after handing over the jade; once such a
+  function said or gave something, nothing follows. One that only emotes (command("?"), prints
+  nothing) still leaves ask.c to its own lines.
+- **Conditions**: drunk.c and slumber_drug.c for the player and NPCs (con + max_force / 50,
+  doubled). drunk.c's receive_healing() reaches no function (damage.c has receive_heal()):
+  it heals nothing, as in ES2. A daemon's unconcious() takes effect at the next life check, so
+  that beat's heal_up() is skipped. What the room sees of an NPC's condition is shown to a player
+  there, and an NPC falling unconscious out of a fight shows combatd.c's 脚下一个不稳 line. The
+  Snow drunk now gets drunk on his own wine (con 30: past 60 he passes out and comes to).
+- whisper.c lines are GRN. 陶壶's 米酒 shows its own name (it read 红酒). 沈万年 stands behind
+  his counter where the player at its front reaches him (layout `placed`).
+- **Save**: a liquid record's `drink_func` and `slumber_effect` are written only when something
+  was poured in; no revision bump.
+
 ## 青石村 A: the village, the mountain road, the 迷阵 (2026-10-07)
 
 Owner-approved plan (four packages: A places the region, B the 玉佩 and 蒙汗药, C 绝尘派,

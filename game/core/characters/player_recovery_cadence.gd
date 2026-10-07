@@ -39,7 +39,9 @@ func is_valid() -> bool:
 	return _valid
 
 
-func advance(delta: float, character: CharacterState, busy: ActionBusyState) -> PlayerRecoveryCadenceResult:
+## `conscious` is living(me) for the conditions that ask it (an NPC's heart beat runs
+## on while it lies unconscious; the player's conditions wait, owner).
+func advance(delta: float, character: CharacterState, busy: ActionBusyState, conscious: bool = true) -> PlayerRecoveryCadenceResult:
 	var result: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
 	if not _valid or character == null or busy == null or not is_finite(delta) or delta < 0.0:
 		result.outcome = PlayerRecoveryCadenceResult.Outcome.INVALID_INPUT
@@ -68,9 +70,15 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState) -> 
 			_valid = false
 			result.outcome = PlayerRecoveryCadenceResult.Outcome.INVALID_RANDOM
 			return result
-		var conditions: ConditionUpdateResult = _conditions.update_once(character)
+		var conditions: ConditionUpdateResult = _conditions.update_once(character, conscious)
 		result.conditions_updated += conditions.updated
 		result.lines.append_array(conditions.lines)
+		result.room_lines.append_array(conditions.room_lines)
+		if conditions.knocked_out:
+			# A daemon's unconcious() (drunk.c): the fall happens at the caller's life
+			# check, so this beat's heal_up() must not lift sen back above zero first.
+			result.opportunities += 1
+			break
 		var skills: RecoverySkillLevels = RecoverySkillLevels.new(
 			character.skills.raw_level(&"magic"), character.skills.raw_level(&"force"),
 			character.skills.raw_level(&"spells"),

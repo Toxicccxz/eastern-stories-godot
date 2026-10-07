@@ -68,7 +68,7 @@ static func capture(
 	if liquids != null:
 		for id: StringName in liquids.instance_ids():
 			var liquid: LiquidState = liquids.state(id)
-			liquid_records.append(NativeLiquidConsumableRecord.new(id, liquid.content, liquid.remaining))
+			liquid_records.append(NativeLiquidConsumableRecord.new(id, liquid.content, liquid.remaining, liquid.drink_func, liquid.slumber_effect))
 	var item_records: Array[NativeItemRecord] = []
 	var stack_records: Array[NativeCombinedStackRecord] = []
 	var sorted_item_ids: Array[StringName] = []

@@ -543,12 +543,12 @@ script = ExtResource("marker")
 spawn_point_id = &"green.station0.worker2.3"
 
 [node name="Shop0Shen1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(840, 984)
+position = Vector2(856, 1008)
 script = ExtResource("marker")
 spawn_point_id = &"green.shop0.shen.1"
 
 [node name="Shop0Woman11" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(792, 1016)
+position = Vector2(840, 984)
 script = ExtResource("marker")
 spawn_point_id = &"green.shop0.woman1.1"
 

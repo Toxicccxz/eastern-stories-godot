@@ -120,7 +120,7 @@ func liquid_tests(tree: SceneTree) -> void:
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
 	check(state.content == LiquidState.Content.RED_WINE and state.remaining == 15, "fresh wine not empty/water")
-	check(drink(session, first.item_id).outcome == LiquidUseResult.Outcome.ALCOHOL_DEFERRED and state.remaining == 15 and player.state.recovery.water == 400, "alcohol mutation-free refusal")
+	check(drink(session, first.item_id).outcome == LiquidUseResult.Outcome.TOO_FULL and state.remaining == 15 and player.state.recovery.water == 400 and not player.state.conditions.has_condition(ConditionIds.DRUNK), "wine is drunk as any liquid: 400 water refuses it first")
 	check(fill(session, first.item_id, false).outcome == LiquidUseResult.Outcome.NO_WATER_SOURCE and state.content == LiquidState.Content.RED_WINE, "no source no discard")
 	check(fill(session, first.item_id).discarded_wine and state.content == LiquidState.Content.CLEAR_WATER and state.remaining == 15 and player.state.recovery.water == 400, "source fill overrides wine without hydrating Player")
 	check(drink(session, first.item_id).outcome == LiquidUseResult.Outcome.TOO_FULL and state.remaining == 15, "400 precheck refuses")
@@ -245,7 +245,7 @@ func physical_tests(tree: SceneTree) -> void:
 	session.shared_ui().open_supplies()
 	await tree.process_frame
 	var panel: HeldLiquidPanel = session.shared_ui()._liquid as HeldLiquidPanel
-	check(panel._panel.visible and panel._drink.text.contains("酒精暂未开放"), "fresh wine UI truthful")
+	check(panel._panel.visible and panel._drink.text == "喝一份红酒", "fresh wine UI names the wine")
 	var map: WorldMapController = session.resident_map(OldPineWorldDefinitions.GORGE_MAP_ID) as WorldMapController
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
 	check(session.handoff_to(OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "fixture waterfall handoff")

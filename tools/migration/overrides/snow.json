@@ -55,6 +55,8 @@
 				{ "liquid": "alcohol", "liquid_remaining_at_most": 0, "say": "去去去去去.. 我又不是收破烂的...", "accept": false },
 				{ "liquid": "alcohol", "liquid_remaining_at_most": 5, "say": "真没诚意, 剩么一点... ", "accept": false },
 				{ "liquid": "alcohol", "npc_flag": "has_alcohol", "say": "多谢, 不过我还有酒... ", "accept": false },
+				{ "liquid": "alcohol", "giver_mark": "give_alcohol", "set_npc_flag": "has_alcohol", "mark_giver": "know_drug", "whisper": "听说沈记商行有在卖蒙汗药...\n", "accept": true },
+				{ "liquid": "alcohol", "giver_mark": "elder_info", "set_npc_flag": "has_alcohol", "mark_giver": "give_alcohol", "whisper": "嗯.. 你是想问我玉佩的事吧? 我卖给沈老板了, 那东西不吉祥...\n", "accept": true },
 				{ "liquid": "alcohol", "set_npc_flag": "has_alcohol", "say": "多谢啦.....", "accept": true }
 			]
 		},
@@ -153,10 +155,10 @@
 		},
 		"d/snow/npc/drunk.c": {
 			"set chat_chance": "do_drink as the chat action drink (set snow.npc.drunk)",
-			"set chat_msg": "do_drink as the chat action drink (set snow.npc.drunk); sing and sigh print nothing (data/emoted.o is not in the mudlib); the drunk condition waits for conditions",
+			"set chat_msg": "do_drink as the chat action drink (set snow.npc.drunk); sing and sigh print nothing (data/emoted.o is not in the mudlib); his wine makes him drunk (the drunk condition)",
 			"statement in create()": "has_alcohol = 1: flags (set snow.npc.drunk), not saved",
 			"function do_drink": "the chat action drink (set snow.npc.drunk)",
-			"function accept_object": "accept_object rules (set snow.npc.drunk); the 玉佩/蒙汗药 whispers need d/green's temp flags: with d/green"
+			"function accept_object": "accept_object rules (set snow.npc.drunk): the 玉佩 and 蒙汗药 whispers go by the giver's elder_info and give_alcohol marks (d/green's set_temp() flags, saved: DECISIONS 青石村 B); grin and sing print nothing"
 		},
 		"d/snow/npc/beggar.c": {
 			"function accept_object": "accept_object rules (set snow.npc.beggar); smile prints nothing",

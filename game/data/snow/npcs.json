@@ -82,6 +82,8 @@
 				{ "liquid": "alcohol", "liquid_remaining_at_most": 0, "say": "去去去去去.. 我又不是收破烂的...", "accept": false },
 				{ "liquid": "alcohol", "liquid_remaining_at_most": 5, "say": "真没诚意, 剩么一点... ", "accept": false },
 				{ "liquid": "alcohol", "npc_flag": "has_alcohol", "say": "多谢, 不过我还有酒... ", "accept": false },
+				{ "liquid": "alcohol", "giver_mark": "give_alcohol", "set_npc_flag": "has_alcohol", "mark_giver": "know_drug", "whisper": "听说沈记商行有在卖蒙汗药...\n", "accept": true },
+				{ "liquid": "alcohol", "giver_mark": "elder_info", "set_npc_flag": "has_alcohol", "mark_giver": "give_alcohol", "whisper": "嗯.. 你是想问我玉佩的事吧? 我卖给沈老板了, 那东西不吉祥...\n", "accept": true },
 				{ "liquid": "alcohol", "set_npc_flag": "has_alcohol", "say": "多谢啦.....", "accept": true }
 			]
 		},

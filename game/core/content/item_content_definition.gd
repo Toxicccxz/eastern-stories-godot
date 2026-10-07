@@ -62,6 +62,8 @@ var _hang: bool = false
 var _default_amount: int = 1
 var _apply: StringName = &""
 var _dissolves: bool = false
+var _pour: PourDefinition
+var _unique: bool = false
 ## A weapon weapond.c bash_weapon() broke: the original's name (shown as 断掉的<name>).
 var _broken_from_name: String = ""
 
@@ -138,6 +140,13 @@ var apply: StringName:
 ## obj/dust.c: the item dissolves a corpse (do_dissolve).
 var dissolves: bool:
 	get: return _dissolves
+## A powder one can pour into a drink (std/medicine/powder.c, poison_dust.c do_pour());
+## null for most items.
+var pour: PourDefinition:
+	get: return _pour
+## F_UNIQUE: only one of it may exist in the world (violate_unique()).
+var unique: bool:
+	get: return _unique
 var category: StringName:
 	get:
 		if _currency_definition != null:
@@ -174,6 +183,12 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if not definition._apply.is_empty() and not ItemApplyFunctions.has(definition._apply):
 		reader.fail("apply", "unknown apply '%s'" % definition._apply)
 	definition._dissolves = reader.boolean("dissolve", false)
+	definition._unique = reader.boolean("unique", false)
+	var pour: ContentRecordReader = reader.child("pour")
+	if pour != null:
+		definition._pour = PourDefinition.from_record(pour)
+		if not ConditionIds.ALL.has(definition._pour.condition):
+			reader.fail("pour", "unknown condition '%s'" % definition._pour.condition)
 	definition._max_encumbrance = reader.integer("max_encumbrance")
 	if definition._max_encumbrance < 0:
 		reader.fail("max_encumbrance", "must not be negative")
@@ -322,6 +337,14 @@ func food_definition() -> FoodDefinition:
 
 func liquid_definition() -> LiquidDefinition:
 	return null if _liquid_definition == null else _liquid_definition.duplicate_definition()
+
+
+## The LPC liquid/name of what the container holds: its own alcohol keeps its authored
+## name (陶壶's 米酒, the wineskin's 红酒); do_fill() makes it 清水.
+func liquid_name(content: LiquidState.Content) -> String:
+	if content == LiquidState.Content.RED_WINE and _liquid_initial_content == LiquidState.Content.RED_WINE and not _liquid_initial_name.is_empty():
+		return _liquid_initial_name
+	return LiquidState.content_name(content)
 
 
 ## The state a freshly created container starts with (LPC `set("liquid", ...)`).

@@ -100,8 +100,6 @@ func request_purchase(goods_key: String) -> VendorPurchaseResult:
 	var goods_name: String = goods_key if content == null else tr(content.display_name)
 	if last_purchase.delivered:
 		feedback.text = tr("已付款，%s已放入你的随身物品。") % goods_name
-		if content.liquid_definition() != null and content.fresh_liquid_state().content == LiquidState.Content.RED_WINE:
-			feedback.text += tr("酒精饮用暂未开放；可到瀑布换装清水。")
 	elif last_purchase.paid:
 		feedback.text = tr("已付款，但未收到%s。") % goods_name + (tr("负重过高。") if last_purchase.outcome == VendorPurchaseResult.Outcome.DELIVERY_FAILED else tr("物品状态异常，请停止操作。"))
 	# buy.c: can_afford() 0 and 2.

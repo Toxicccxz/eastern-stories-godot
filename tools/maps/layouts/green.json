@@ -68,7 +68,8 @@
 					["blocked", 352, 640, 384, 704, "temple0: the offering table and the wooden 土地公"]
 				],
 				"reach_from": "SnowEntry",
-				"markers_in_middle": ["green.field0", "green.field1", "green.station0", "green.station1"]
+				"markers_in_middle": ["green.field0", "green.field1", "green.station0", "green.station1"],
+				"placed": {"green.shop0.shen.1": [856, 1008]}
 			},
 			"scene": {
 				"style": "map",

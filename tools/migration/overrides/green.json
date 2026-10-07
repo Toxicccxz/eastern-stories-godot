@@ -4,7 +4,7 @@
 			"daemon/class/juechen/master.c": "绝尘子 comes with 绝尘派 (package C)"
 		}
 	},
-	"items": ["d/green/obj/windsword.c", "d/green/obj/rope.c", "d/green/obj/hammer.c"],
+	"items": ["d/green/obj/windsword.c", "d/green/obj/rope.c", "d/green/obj/hammer.c", "d/green/obj/jade.c", "obj/slumber_drug.c"],
 	"npcs": ["d/green/npc/spider.c"],
 	"set": {
 		"green.npc.kid2": {
@@ -72,10 +72,61 @@
 		},
 		"green.npc.oldman2": {
 			"chat_chance": 10,
-			"chat_msg": [{ "action": "emote", "verb": "sigh" }, "村长说道：国之将亡.....\n"]
+			"chat_msg": [{ "action": "emote", "verb": "sigh" }, "村长说道：国之将亡.....\n"],
+			"inquiry": {
+				"玉佩": [
+					"嗯...... 你是说那个从古墓盗出来的玉佩?\n",
+					"应该蛮珍贵的, 可是有点来路不明...\n",
+					"我送给一个年轻人了, 不过听说他得此玉佩后性情大变.\n",
+					"看来此物不祥... \n",
+					"你要找他吗? 有人说他现在以酒度日, 我也不知他的下落.\n",
+					{ "mark_asker": "elder_info" },
+					"造孽啊........\n"
+				]
+			},
+			"relay_say": {
+				"必有妖孽": [{ "say": "对呀.. 你就是妖孽... " }]
+			}
+		},
+		"green.npc.shen": {
+			"inquiry": {
+				"玉佩": {
+					"rules": [
+						{ "asker_marks": ["give_alcohol", "had_jade"], "say": "你真贪心耶... " },
+						{ "asker_marks": ["give_alcohol"], "gives": "es2:d/green/obj/jade", "mark_asker": "had_jade", "taken": { "say": "这样东西... 刚刚有人来要过了." } }
+					]
+				},
+				"蒙汗药": {
+					"rules": [
+						{ "asker_marks": ["know_drug"], "whisper": "一份只要 10 两银子, 保证有效喔.\n", "mark_asker": "can_buy_drug" }
+					]
+				}
+			},
+			"accept_object": [
+				{ "giver_mark": "can_buy_drug", "value_at_least": 1000, "line": "老板塞了一包蒙汗药给你。\n", "gives": "es2:obj/slumber_drug", "accept": true },
+				{ "giver_mark": "can_buy_drug", "say": "想骗我啊?\n", "unmark_giver": ["give_alcohol", "know_drug"], "accept": false },
+				{ "value_at_most": 0, "accept": false },
+				{ "say": "我不知道你给我钱干嘛, 不过谢啦!", "accept": true }
+			],
+			"shop_front": {
+				"list": "柜子上一堆冥纸和香烛等, 标价 10 文钱. 墙上挂著几把竹扫帚,\n每把 50 文钱. 柜台上摆著一块木牌, 上面写著:\n棺材: 时价. 没看到的东西问一下掌柜的, 我们应该都有.\n",
+				"buy": [{ "say": "我不卖东西给陌生人!" }]
+			}
+		},
+		"es2:d/green/obj/jade": {
+			"unique": true
+		},
+		"es2:obj/slumber_drug": {
+			"pour": { "condition": "slumber_drug", "dose": 100 }
 		}
 	},
 	"review": {
+		"d/green/obj/jade.c": {
+			"inherit F_UNIQUE": "unique in set: F_UNIQUE is not in the mudlib, so jade.c did not compile in ES2; as the code means (owner, DECISIONS 青石村 B) only one exists at a time: shen.c's violate_unique() asks the whole world"
+		},
+		"obj/slumber_drug.c": {
+			"function drink_drug": "pour in set (dose 100): powder.c's do_pour() makes the drink call effect_in_liquid(), which slumber_drug.c lacks, so ES2's 蒙汗药 did nothing; as the code means drink_drug() is the effect (owner, DECISIONS 青石村 B)"
+		},
 		"d/green/station0.c": {
 			"set resource/water": "world.json services: green.station0.well (kind water)",
 			"function init": "fillwater: the well's water service (liquid.c fill) (DECISIONS 青石村 A)",
@@ -86,14 +137,14 @@
 			"condition in create()": "carry rule in set: random(50) > 40 wields a hammer, else a rope (drawn after setup())"
 		},
 		"d/green/npc/shen.c": {
-			"inquiry 玉佩": "give_jade(): with the 玉佩 chain (package B)",
-			"inquiry 蒙汗药": "sell_drug(): with the 玉佩 chain (package B)",
-			"function init": "list and buy: with the 玉佩 chain (package B)",
-			"function list_item": "with the 玉佩 chain (package B)",
-			"function buy_item": "with the 玉佩 chain (package B)",
-			"function give_jade": "with the 玉佩 chain (package B)",
-			"function sell_drug": "with the 玉佩 chain (package B)",
-			"function accept_object": "with the 玉佩 chain (package B)"
+			"inquiry 玉佩": "give_jade(): inquiry rules in set (the asker's give_alcohol and had_jade marks; the unique jade, or 刚刚有人来要过了); hmm, shrug and ? print nothing; ask.c's dunno line that followed the 0 is not said once the function answered (DECISIONS 青石村 B)",
+			"inquiry 蒙汗药": "sell_drug(): an inquiry rule in set (know_drug: the whisper, can_buy_drug); grin and ? print nothing",
+			"function init": "list and buy: shop_front in set (the 看货 service)",
+			"function list_item": "shop_front.list",
+			"function buy_item": "shop_front.buy (shake prints nothing)",
+			"function give_jade": "the 玉佩 inquiry rules",
+			"function sell_drug": "the 蒙汗药 inquiry rule",
+			"function accept_object": "accept_object rules in set: 10 taels buy a 蒙汗药 (gives); 想骗我啊? deletes give_alcohol and know_drug and hands the gift back (owner: deviation, DECISIONS 青石村 B); money from a stranger is kept"
 		},
 		"d/green/npc/woman1.c": {
 			"set_temp apply/dodge": "apply.dodge rule in set",
@@ -124,13 +175,13 @@
 			"function kill_ob": "query_temp(\"killer\"): the enemy this NPC fights to the death (call_partner)"
 		},
 		"d/green/npc/oldman2.c": {
-			"inquiry 玉佩": "ask.c says the strings and skips the functions (shrug prints nothing); set_flag() comes with the 玉佩 chain (package B, DECISIONS)",
+			"inquiry 玉佩": "in set: set_flag() runs where it stands (ask.c skipped functions; owner: as the code means, DECISIONS 青石村 B) and marks the asker elder_info; shrug prints nothing",
 			"set chat_chance": "in set",
 			"set chat_msg": "in set: cancel_give() is the sigh emote (prints nothing), start_give() says 国之将亡.....",
-			"function relay_say": "必有妖孽: with the 玉佩 chain (package B, owner: a 接话 button)",
+			"function relay_say": "relay_say in set: 必有妖孽 (owner: the 打听 panel's 接话 button); hehe and laugh print nothing",
 			"function start_give": "the say chat entry",
 			"function cancel_give": "the sigh emote: prints nothing",
-			"function set_flag": "with the 玉佩 chain (package B)"
+			"function set_flag": "the inquiry's mark_asker (last_asker: the player who asked)"
 		},
 		"d/green/house3.c": {
 			"set item_desc": "the web: a look_spawn landmark in world.json (green.house3.landmark.web)",
