@@ -1,5 +1,21 @@
 # Migration Decisions
 
+## The HUD: a status card and toasts (2026-10-06)
+
+Owner: the top left becomes a modern status card, and the scene's messages move to the bottom
+left as toasts; talk with a character stays in its panel. Presentation only, no rule changes.
+- **The card**: the player's name and the place, 精/气/神 as bars with their numbers (气 current /
+  effective; the tooltip has current / effective / maximum), the conditions (蛇毒) when there
+  are some, then the buttons; a selected thing shows under a 目标 tag with its actions.
+- **Toasts** (owner): a new message rises from below and pushes the older one up; with more than
+  two, the oldest drifts up and fades out. Lines that come together come in one after another
+  (0.3 s apart); more than three waiting drop the oldest. A fight's result shows its first line.
+- **Not toasted**: lines that come while a panel is open (the dialog's own lines: 打听, 请教, a
+  shop) or while a fight runs (the battle panel shows them); opening either clears the toasts.
+  消息 keeps every line, as before.
+- **Ours, for the owner to judge**: a toast also fades out by itself after 6–14 s (longer for
+  longer text), so the map's corner clears; `MessageToasts.LINGER_*` sets it.
+
 ## Ask before an important or deadly choice (2026-10-06)
 
 Owner: every important or deadly choice is asked first, through one reusable component

@@ -3097,6 +3097,18 @@ msgstr ""
 msgid "窗口模式由这个平台管理。"
 msgstr ""
 
+#: presentation/layout/shared_gameplay_layout.gd
+msgid "精"
+msgstr ""
+
+#: presentation/layout/shared_gameplay_layout.gd
+msgid "气"
+msgstr ""
+
+#: presentation/layout/shared_gameplay_layout.gd
+msgid "神"
+msgstr ""
+
 #: presentation/layout/shared_gameplay_layout.gd ui/world/player_inventory_panel.gd
 msgid "观察"
 msgstr ""
@@ -3111,6 +3123,10 @@ msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
 msgid "消息"
+msgstr ""
+
+#: presentation/layout/shared_gameplay_layout.gd
+msgid "目标"
 msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd
@@ -4390,26 +4406,16 @@ msgstr ""
 msgid "打听 · %s"
 msgstr ""
 
+#. a resource bar's tooltip: current / effective / maximum.
+#: ui/world/shared_gameplay_ui.gd
+msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
 msgstr ""
 
-#. the HUD's heading: the player's name and the place's.
-#: ui/world/shared_gameplay_ui.gd
-msgid "{name} · {place}"
-msgstr ""
-
-#. the HUD's 精 (gin), 气 (kee, current/effective) and 神 (sen).
-#: ui/world/shared_gameplay_ui.gd
-msgid "精 {gin}  ·  气 {kee}/{effective_kee}  ·  神 {sen}"
-msgstr ""
-
-#. the HUD's 精/气/神 line ({vitals}) and the conditions the player has (蛇毒).
-#: ui/world/shared_gameplay_ui.gd
-msgid "{vitals}  ·  {conditions}"
-msgstr ""
-
-#. between two conditions on the HUD.
+#. between two conditions on the HUD (蛇毒).
 #: ui/world/shared_gameplay_ui.gd
 msgid "、"
 msgstr ""

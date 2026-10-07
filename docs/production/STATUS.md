@@ -4,11 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Confirmations** (`phase/confirm-prompt`): one reusable ConfirmPrompt asks before 攻击 on
-one's own master, a 切磋 to the death (安惜迩) or with a weapon in hand, 化尸粉 on a corpse with
-things in it and the first 拜师; the betrayal, the hockshop sale and the menu's two questions
-use it too (DECISIONS). 水烟阁 A (#65) is merged: the mountain, the pavilion and its upper floor
-with their eighteen NPCs; old suites' world numbers live in `tests/fixtures/world_counts.json`.
+**The HUD** (`phase/hud-toasts`): the top left is a status card (name and place, 精/气/神 bars,
+the buttons, the selected thing under 目标); the scene's messages are toasts at the bottom left
+(two at most, the oldest fading up); a panel's or a fight's own lines are not toasted (DECISIONS).
+Confirmations (#64) and 水烟阁 A (#65) are merged.
 
 Next: 水烟阁 B, joining 天邪派 (萧辟尘's oath, 於兰天武's three-blow test, asked first) and learning
 from them; then C, 天邪神功 in the player's hands (powerup, powerfade, 天邪虎啸, 杀气's berserk).
@@ -68,7 +67,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,
   inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
-  recovery and conditions (蛇毒), shared HUD and panels, manual Save/Continue.
+  recovery and conditions (蛇毒), the status card, toasts and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
   封山剑法, 天邪神掌, 六阴追魂剑法), dodges read the mapped dodge skill's lines (倒乱七星步法,
   火蝠身法); armor, weapon and NPC

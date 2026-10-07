@@ -282,7 +282,7 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 			won = index
 	var done: int = lines.find("恭喜你！你又完成了一项任务！")
 	_check(won >= 0 and done == won + 1 and done + 2 == lines.size() and lines[done + 1].begins_with("你被奖励了：\n%s点实战经验\n" % ChineseNumber.of(gained)), "the reward in the log after the fight's result: " + str(lines))
-	_check(hud._presentation_layout.recent.text == lines.back().replace("\n", " "), "the HUD's last line shows the whole reward: " + hud._presentation_layout.recent.text)
+	_check(hud.toasts().latest_text() == lines.back().replace("\n", " "), "the HUD's last toast shows the whole reward: " + hud.toasts().latest_text())
 	_check(gained >= 20 and gained <= 39 and player.state.progression.score >= 2 and player.state.progression.score <= 3 and player.state.progression.potential == 100, "qlist1000.c's 宝官: 40/30/4 halved plus a draw: exp %d, score %d" % [gained, player.state.progression.score])
 	_check(not player.state.quest.has_task() and player.state.quest.finished == 1 and player.state.progression.kills == 1 and player.state.attributes.bellicosity == 1, "the task done, tfinished 1, MKS 1, bellicosity 1")
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight never aborts")
