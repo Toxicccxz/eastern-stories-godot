@@ -138,8 +138,8 @@ func _test_terrain_spot_checks() -> void:
 	var forest: Node2D = _scene("res://scenes/world/oldpine/oldpine_outdoor.tscn")
 	for row: Array in [
 		[Vector2(450, -250), "path", false], [Vector2(1200, 100), "chasm", true], [Vector2(1200, 300), "bridge", false],
-		[Vector2(-410, 856), "forest", true], [Vector2(-820, 700), "forest", true], [Vector2(-1480, 850), "cliff", true],
-		[Vector2(880, 860), "forest_floor", false], [Vector2(325, 1250), "cliff", true], [Vector2(450, 616), "forest_floor", false],
+		[Vector2(150, 845), "forest", true], [Vector2(-820, 700), "forest", true], [Vector2(-1480, 850), "cliff", true],
+		[Vector2(880, 860), "forest_floor", false], [Vector2(325, 1250), "cliff", true], [Vector2(450, 616), "path", false],
 	]:
 		_spot(forest, "Old Pine forest", row)
 	forest.free()

@@ -511,20 +511,10 @@ msgstr ""
 msgid "瀑布前"
 msgstr ""
 
-#: scenes/world/oldpine/oldpine_gorge.tscn
-msgid "南 · 山涧"
-msgstr ""
-
-#: scenes/world/oldpine/oldpine_gorge.tscn
-msgid "山涧之中 · 北"
-msgstr ""
-
-#: scenes/world/oldpine/oldpine_gorge.tscn
-msgid "山涧之中 · 南"
-msgstr ""
-
-#: scenes/world/oldpine/oldpine_gorge.tscn
-msgid "南 · 水潭"
+#. es2:d/oldpine/riverbank1 short
+#. es2:d/oldpine/riverbank2 short
+#: scenes/world/oldpine/oldpine_gorge.tscn data/oldpine/rooms.json
+msgid "山涧之中"
 msgstr ""
 
 #. es2:d/oldpine/lake short
@@ -540,18 +530,6 @@ msgstr ""
 msgid "岸边取水"
 msgstr ""
 
-#. es2:d/oldpine/clearing short
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
-msgid "林间空地"
-msgstr ""
-
-#. es2:d/oldpine/spath2 short
-#. es2:d/oldpine/spath3 short
-#. es2:d/oldpine/spath4 short
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
-msgid "下坡道"
-msgstr ""
-
 #. es2:d/oldpine/npath1 short
 #. es2:d/oldpine/npath2 short
 #. es2:d/oldpine/npath3 short
@@ -562,14 +540,14 @@ msgstr ""
 msgid "林间小路"
 msgstr ""
 
+#. es2:d/oldpine/clearing short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+msgid "林间空地"
+msgstr ""
+
 #. es2:d/oldpine/epath2 short
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
 msgid "小石桥"
-msgstr ""
-
-#. oldpine.outdoor.landmark.ancient_pine name
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
-msgid "大松树"
 msgstr ""
 
 #. es2:d/oldpine/pine1 short
@@ -583,17 +561,10 @@ msgstr ""
 msgid "松树林"
 msgstr ""
 
-#: scenes/world/oldpine/oldpine_outdoor.tscn
-msgid "松树林深处"
-msgstr ""
-
-#: scenes/world/oldpine/oldpine_outdoor.tscn
-msgid "悬崖边"
-msgstr ""
-
-#. oldpine.outdoor.landmark.epath2_vine name
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
-msgid "藤蔓"
+#. es2:d/oldpine/cliffdown short
+#. es2:d/oldpine/cliffside short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+msgid "林间....不....悬崖边"
 msgstr ""
 
 #. es2:d/oldpine/keep1 short
@@ -607,8 +578,14 @@ msgstr ""
 msgid "老松寨"
 msgstr ""
 
-#: scenes/world/oldpine/oldpine_outdoor.tscn
-msgid "老松寨 · 大厅"
+#. oldpine.outdoor.landmark.ancient_pine name
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
+msgid "大松树"
+msgstr ""
+
+#. oldpine.outdoor.landmark.epath2_vine name
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
+msgid "藤蔓"
 msgstr ""
 
 #. oldpine.outdoor.landmark.cliffdown_cliff name
@@ -8000,6 +7977,13 @@ msgid ""
 "条路上足迹很多，显然常有人经过。\n"
 msgstr ""
 
+#. es2:d/oldpine/spath2 short
+#. es2:d/oldpine/spath3 short
+#. es2:d/oldpine/spath4 short
+#: data/oldpine/rooms.json
+msgid "下坡道"
+msgstr ""
+
 #. es2:d/oldpine/spath2 long
 #. es2:d/oldpine/spath3 long
 #. es2:d/oldpine/spath4 long
@@ -8053,12 +8037,6 @@ msgid ""
 "山泉流入水潭的缺口。\n"
 msgstr ""
 
-#. es2:d/oldpine/riverbank1 short
-#. es2:d/oldpine/riverbank2 short
-#: data/oldpine/rooms.json
-msgid "山涧之中"
-msgstr ""
-
 #. es2:d/oldpine/riverbank1 long
 #: data/oldpine/rooms.json
 msgid ""
@@ -8089,12 +8067,6 @@ msgid ""
 "你现在正站在一个松树林里，嗯....这是一个松树林....你所知就\n"
 "这么多，茂密的松树遮蔽了整个天空，使你连方向都弄不清楚，最好在\n"
 "天黑之前赶紧找道路径出去吧。\n"
-msgstr ""
-
-#. es2:d/oldpine/cliffdown short
-#. es2:d/oldpine/cliffside short
-#: data/oldpine/rooms.json
-msgid "林间....不....悬崖边"
 msgstr ""
 
 #. es2:d/oldpine/cliffdown long

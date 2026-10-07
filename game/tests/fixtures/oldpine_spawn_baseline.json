@@ -24,8 +24,8 @@
 				"maximum_encumbrance": 125000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.1",
 				"position": [
-					300.0,
-					-200.0
+					396.0,
+					-120.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -185,8 +185,8 @@
 				"maximum_encumbrance": 100000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.2",
 				"position": [
-					450.0,
-					-280.0
+					520.0,
+					-300.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -346,8 +346,8 @@
 				"maximum_encumbrance": 135000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.3",
 				"position": [
-					600.0,
-					-200.0
+					404.0,
+					-372.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -507,8 +507,8 @@
 				"maximum_encumbrance": 65000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 				"position": [
-					450.0,
-					880.0
+					488.0,
+					884.0
 				],
 				"spawn": "oldpine.outdoor.pine1.tall_bandit",
 				"state": {
@@ -741,7 +741,7 @@
 				"maximum_encumbrance": 60000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
 				"position": [
-					560.0,
+					598.0,
 					900.0
 				],
 				"spawn": "oldpine.outdoor.pine1.fat_bandit",
@@ -1110,8 +1110,8 @@
 				"maximum_encumbrance": 130000.0,
 				"point": "oldpine.outdoor.pine_cliff_edge.pine7.wolf_dog.1",
 				"position": [
-					-1040.0,
-					720.0
+					-1060.0,
+					700.0
 				],
 				"spawn": "oldpine.outdoor.pine7.wolf_dog",
 				"state": {
@@ -4939,7 +4939,7 @@
 				"point": "oldpine.tree.canopy.tree2.butterfly.1",
 				"position": [
 					1820.0,
-					-40.0
+					168.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -5074,7 +5074,7 @@
 				"point": "oldpine.tree.canopy.tree2.butterfly.2",
 				"position": [
 					1900.0,
-					20.0
+					40.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -5208,8 +5208,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.3",
 				"position": [
-					2100.0,
-					-60.0
+					2110.0,
+					20.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -5343,8 +5343,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.4",
 				"position": [
-					2180.0,
-					40.0
+					2190.0,
+					130.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -5478,8 +5478,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.5",
 				"position": [
-					1860.0,
-					400.0
+					1880.0,
+					186.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -5613,8 +5613,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.6",
 				"position": [
-					2140.0,
-					420.0
+					2100.0,
+					150.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -5831,7 +5831,7 @@
 				"point": "oldpine.tree.canopy.tree1.spy.1",
 				"position": [
 					2120.0,
-					300.0
+					310.0
 				],
 				"spawn": "oldpine.tree.tree1.spy",
 				"state": {
@@ -5984,8 +5984,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.stone.top.stone.venomsnake.1",
 				"position": [
-					70.0,
-					40.0
+					60.0,
+					28.0
 				],
 				"spawn": "oldpine.stone.venomsnake",
 				"state": {
@@ -6133,8 +6133,8 @@
 				"maximum_encumbrance": 125000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.1",
 				"position": [
-					300.0,
-					-200.0
+					396.0,
+					-120.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -6294,8 +6294,8 @@
 				"maximum_encumbrance": 100000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.2",
 				"position": [
-					450.0,
-					-280.0
+					520.0,
+					-300.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -6455,8 +6455,8 @@
 				"maximum_encumbrance": 135000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.3",
 				"position": [
-					600.0,
-					-200.0
+					404.0,
+					-372.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -6616,8 +6616,8 @@
 				"maximum_encumbrance": 65000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 				"position": [
-					450.0,
-					880.0
+					488.0,
+					884.0
 				],
 				"spawn": "oldpine.outdoor.pine1.tall_bandit",
 				"state": {
@@ -6850,7 +6850,7 @@
 				"maximum_encumbrance": 60000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
 				"position": [
-					560.0,
+					598.0,
 					900.0
 				],
 				"spawn": "oldpine.outdoor.pine1.fat_bandit",
@@ -7219,8 +7219,8 @@
 				"maximum_encumbrance": 130000.0,
 				"point": "oldpine.outdoor.pine_cliff_edge.pine7.wolf_dog.1",
 				"position": [
-					-1040.0,
-					720.0
+					-1060.0,
+					700.0
 				],
 				"spawn": "oldpine.outdoor.pine7.wolf_dog",
 				"state": {
@@ -11048,7 +11048,7 @@
 				"point": "oldpine.tree.canopy.tree2.butterfly.1",
 				"position": [
 					1820.0,
-					-40.0
+					168.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -11183,7 +11183,7 @@
 				"point": "oldpine.tree.canopy.tree2.butterfly.2",
 				"position": [
 					1900.0,
-					20.0
+					40.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -11317,8 +11317,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.3",
 				"position": [
-					2100.0,
-					-60.0
+					2110.0,
+					20.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -11452,8 +11452,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.4",
 				"position": [
-					2180.0,
-					40.0
+					2190.0,
+					130.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -11587,8 +11587,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.5",
 				"position": [
-					1860.0,
-					400.0
+					1880.0,
+					186.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -11722,8 +11722,8 @@
 				"maximum_encumbrance": 30000.0,
 				"point": "oldpine.tree.canopy.tree2.butterfly.6",
 				"position": [
-					2140.0,
-					420.0
+					2100.0,
+					150.0
 				],
 				"spawn": "oldpine.tree.tree2.butterflys",
 				"state": {
@@ -11940,7 +11940,7 @@
 				"point": "oldpine.tree.canopy.tree1.spy.1",
 				"position": [
 					2120.0,
-					300.0
+					310.0
 				],
 				"spawn": "oldpine.tree.tree1.spy",
 				"state": {
@@ -12093,8 +12093,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.stone.top.stone.venomsnake.1",
 				"position": [
-					70.0,
-					40.0
+					60.0,
+					28.0
 				],
 				"spawn": "oldpine.stone.venomsnake",
 				"state": {

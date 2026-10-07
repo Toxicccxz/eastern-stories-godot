@@ -2,7 +2,8 @@
 
 These maps are generated, never edited by hand:
 
-    oldpine: oldpine_stone, oldpine_caves, oldpine_cliff2
+    oldpine: oldpine_outdoor, oldpine_cave, oldpine_gorge, oldpine_tree, oldpine_cliff, oldpine_stone,
+             oldpine_caves, oldpine_cliff2
     snow:    snow_inn_upstairs, snow_cellar
     cloud:   cloud_outdoor, cloud_tearoom_upstairs, cloud_jiyuan_upstairs, cloud_duchang_upstairs
     goathill: goathill_mountain, goathill_caverns

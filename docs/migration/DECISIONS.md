@@ -1,5 +1,22 @@
 # Migration Decisions
 
+## 老松岭's maps drawn by the painter (2026-10-07)
+
+Owner-approved plan: the five hand-made Old Pine maps (forest, cave, gorge, tree, cliff1) and the
+box-drawn stone and cliff2 are painter maps (`tools/maps/layouts/oldpine.json`) drawn from their
+room text: the winding path from Snow, the round clearing with the great pine in its middle, the
+straight slope, the gorge under the mossy bridge with the waterfall north of it, the stockade; the
+pool under the falls, the stream along the gorge's west wall with rocks to stand on, the bottomless
+pool ringed by grass; the candlelit passage behind the curtain; the pine seen from the side, its
+trunk and three levels of boughs; the niches as hollows in the cliff over a drop. The pine maze
+keeps its fixed maze (a loop, two dead ends, the way on to cliffdown) as gaps between the trees.
+Zones, doors, the gate trap, landmarks, portals, spawns, the water services and the Lake's
+`complete_set` are unchanged; spawn points moved only to stand beside the new paths. Owner: the
+path north to Snow loses its blocking wall (the map's edge is closed ground, as on 野羊山), and two
+things are drawn but not usable since ES2 has neither: epath3's broken plank road and the sign by
+the clearing's south path. World content revision `SOURCE_ENTRY_OLDPINE_PAINTED_V1`: older
+development saves need a New Game.
+
 ## 绮云镇's upper floors: three maps (2026-10-06)
 
 Owner: the three upper floors were three separate boxes on one map; each is now its own map

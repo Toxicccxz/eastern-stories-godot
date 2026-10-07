@@ -36,11 +36,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.npc_random_source().capture_random_state().state == initial_rng, "handoff consumes no NPC draws")
 	for y: float in [2199.0, 2200.0, 2201.0]:
 		var expected: StringName = OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID if y < 2200 else OldPineWorldDefinitions.LAKE_ZONE_ID
-		_check(_zone_owning(map, Vector2(1440, y)) == expected, "half-open river/Lake center ownership " + str(y))
-		_check(MapPlacementValidator.is_valid_character_position(map, expected, Vector2(1440, y)), "seam is walkable and save-valid " + str(y))
+		_check(_zone_owning(map, Vector2(1400, y)) == expected, "half-open river/Lake center ownership " + str(y))
+		_check(MapPlacementValidator.is_valid_character_position(map, expected, Vector2(1400, y)), "seam is walkable and save-valid " + str(y))
 	for position: Vector2 in [Vector2(1090,2625), Vector2(1510,2600), Vector2(1200,3020)]:
 		_check(not MapPlacementValidator.is_valid_character_position(map, OldPineWorldDefinitions.LAKE_ZONE_ID, position), "water/perimeter rejected " + str(position))
-	_place(session, Vector2(1440,2199))
+	_place(session, Vector2(1400,2199))
 	_check(map.process_pending_aggression().is_empty(), "river never pulls Lake enemies")
 	_place(session, Vector2(1390,2520))
 	var starts: Array[CombatSliceInitiationResult] = map.process_pending_aggression()
@@ -53,7 +53,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(coordinator.change_player_target(CombatTargetRequest.new(encounter.encounter_id, session.player_runtime().character_id, ids[4])).code == CombatTargetResult.Code.CHANGED, "fifth production target accepted")
 		_flee(session)
 		_check(map.process_pending_aggression().is_empty(), "thaw cannot replay consumed contacts")
-	_place(session, Vector2(1440,2199))
+	_place(session, Vector2(1400,2199))
 	map._process(0) # World-owned observation of actual separation.
 	_place(session, Vector2(1390,2520))
 	_check(map.select_npc(ids[4]), "manual fifth selection")
@@ -75,7 +75,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			npc.busy.advance()
 	map.npc_runtimes()[0].character_state.vitality.current = 1000
 	map.npc_runtimes()[0].character_state.vitality.effective = 1500
-	_place(session, Vector2(1100,2325))
+	_place(session, (map.get_node("LakeWaterPoint") as Node2D).global_position)
 	_roundtrip(tree, session, "wounded/dead/corpse")
 	# Supply fixture uses the existing source purchase service, no new liquid engine.
 	var ctx: MoneyInventoryContext = Water.Food.context(session)
@@ -94,7 +94,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		_check(session.fill_water_available(), "bounded Lake source available")
 		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.FILLED, "existing Fill UI path at Lake")
 		_check(session.liquid_collection().state(bought.item_id).remaining == 15, "same container filled15")
-		_place(session, Vector2(1440,2220))
+		_place(session, Vector2(1400,2220))
 		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.NO_WATER_SOURCE, "remote Lake Fill refused")
 		map.player_body.global_position = map.get_node("WaterfallWaterPoint").global_position
 		map.player_body.set_world_location(map.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))
