@@ -69,6 +69,8 @@ static func inspect(
 	if not player_result.allowed():
 		return player_result
 	for npc: NpcRuntimeState in session.world_npcs():
+		if left_out(npc):
+			continue
 		# A summoned NPC lives only as long as the fight it came into (SummonedNpc): a save
 		# holds none.
 		if SummonedNpc.is_summoned(npc.character_id):
@@ -85,6 +87,16 @@ static func inspect(
 		if not npc_result.allowed():
 			return npc_result
 	return Result.allow()
+
+
+## A conjured NPC still standing (the 观想虫 of a practice: NpcConjuring) does not stop
+## a save; the save leaves it out, and Continue starts without it and without the
+## player's set_temp("mind_bug"), as ES2's relogin (DECISIONS 茅山 C). It carries nothing.
+static func left_out(npc: NpcRuntimeState) -> bool:
+	return (
+		SummonedNpc.is_summoned(npc.character_id) and npc.definition().conjuring() != null
+		and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+	)
 
 
 static func _summoned(npc: NpcRuntimeState) -> bool:

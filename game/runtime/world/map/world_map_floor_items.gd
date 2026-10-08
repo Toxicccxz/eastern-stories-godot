@@ -134,9 +134,12 @@ func add_dropped_item_view(item_id: StringName, location: WorldLocationState, po
 ## Where something dropped by a body standing at `origin` lies: just in front of its feet,
 ## where the body does not hide it, on the nearest spot a save accepts (Continue checks
 ## it); where it stands only when no spot nearby is one (a doorway footprint is not).
-## `apart` passes over spots where something already lies (the casino's piles).
-func at_feet(location: WorldLocationState, origin: Vector2, apart: bool = false) -> Vector2:
+## `apart` passes over spots where something already lies (the casino's piles); `nearest`
+## over spots closer than that (a body coming in beside one).
+func at_feet(location: WorldLocationState, origin: Vector2, apart: bool = false, nearest: int = 0) -> Vector2:
 	for distance: int in [28, 44, 64, 96]:
+		if distance < nearest:
+			continue
 		for direction: Vector2 in [Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)]:
 			var spot: Vector2 = origin + direction.normalized() * distance
 			if apart and item_views.values().any(func(view: WorldFloorItemView) -> bool: return view.global_position.distance_to(spot) < 16.0):

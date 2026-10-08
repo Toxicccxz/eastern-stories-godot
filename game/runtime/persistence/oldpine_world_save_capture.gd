@@ -53,6 +53,8 @@ func capture(
 		NativeCharacterArmorSource.new(player.character_id, player.armor),
 	]
 	for npc: NpcRuntimeState in session.world_npcs():
+		if OldPineSaveEligibility.left_out(npc):
+			continue
 		equipment_sources.append(
 			NativeCharacterEquipmentSource.new(
 				npc.character_id,
@@ -114,6 +116,8 @@ func capture(
 
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: NpcRuntimeState in session.world_npcs():
+		if OldPineSaveEligibility.left_out(npc):
+			continue
 		var character: Values.CharacterStateSnapshot = _character_snapshot(
 			npc.character_state,
 			"npc_spawn_states[%s].character" % String(npc.character_id),

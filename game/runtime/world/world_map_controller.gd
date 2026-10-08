@@ -1112,6 +1112,10 @@ func summon_beside(caster_id: StringName, definition_id: StringName) -> StringNa
 	return npcs.summon_beside(caster_id, definition_id)
 
 
+func conjure_beside_player(definition_id: StringName) -> NpcRuntimeState:
+	return npcs.conjure_beside_player(definition_id)
+
+
 func summoner_of(character_id: StringName) -> StringName:
 	return npcs.summoner_of(character_id)
 
@@ -1158,8 +1162,8 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	return hostilities.process_pending_aggression()
 
 
-func npc_kills_player(npc: NpcRuntimeState) -> bool:
-	return hostilities.npc_kills_player(npc)
+func npc_kills_player(npc: NpcRuntimeState, lines: Array[String] = []) -> bool:
+	return hostilities.npc_kills_player(npc, lines)
 
 
 func run_pending_player_berserk() -> void:

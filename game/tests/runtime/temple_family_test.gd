@@ -4,8 +4,9 @@ extends RefCounted
 ## attempt_apprentice()'s call_out("do_recruit", 2); 慢著，一个一个来 while that answer is
 ## due; class taoist); 僵尸侍者 and 僵尸护法 (privs -1) teach any member and nobody else;
 ## 谷衣心法 (max_mana five times its level; 灵神诀 and 疗伤), 天师正道 (杀气 100 at most),
-## 茅山道术 (天师正道 half of it), 天师剑法 (max_force 80, practised with a sword); then the
-## real session in the 大殿: a woman refused after the wait, an answer nobody is there to
+## 茅山道术 (天师正道 half of it; its practice and the 观想虫, 茅山 C), 天师剑法 (max_force 80,
+## practised with a sword); then the real session in the 大殿: a woman refused after the
+## wait, an answer nobody is there to
 ## hear, one lying there, an unconscious 林忌, the answer dropped when the player leaves the
 ## map, a man taken (asked first as a first master), learning, the 藏经楼 open to him,
 ## 灵神诀 on the 武学 page and in a fight (where the answer waits), 紫光 cast at 僵尸护法,
@@ -48,6 +49,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_apprentice_rule()
 	_test_learn()
 	_test_practice()
+	_test_necromancy_practice()
+	_test_conjured_npcs()
 	_test_concentrate()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
@@ -92,9 +95,6 @@ func _test_data() -> void:
 	var action: StringName = CombatExertTacticalPolicy.action_id_for(&"concentrate")
 	_check(catalog.label_for(action) == "运功灵神诀" and catalog.tooltip_for(action) == "运功灵神诀：用 30 点内力和 10 点神恢复法力", "the battle button and its hover: %s" % catalog.tooltip_for(action))
 	_check(_catalog.skill(&"taoism").kind == SkillDefinition.Kind.BASIC and _catalog.skill(&"taoism").skill_type == SkillDefinition.Type.KNOWLEDGE, "天师正道: a basic knowledge")
-	# Reminder: necromancy.c's practice_skill() (10 mana, 30 sen, the 观想虫) is 茅山 C's; until
-	# then practice.c's own line answers 练习. C replaces this check with its own.
-	_check(_catalog.skill(&"necromancy").practice_policy() is UnpracticeablePracticePolicy, "茅山道术's practice waits for 茅山 C (update this check there)")
 
 
 # --- Joining ------------------------------------------------------------------------
@@ -211,6 +211,63 @@ func _test_practice() -> void:
 	mind.skills.map_skill(&"force", &"gouyee")
 	mind.recovery.mana = CharacterInternalResourceState.new(0, 5)
 	_check(_practice(mind, &"force", registry) == ["谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"], "谷衣心法 refuses practice")
+
+
+## necromancy.c practice_skill() (茅山 C): the 观想虫 still standing refuses first, then
+## mana 10 and sen 30 (each its line); paid, random(sen) < 5 conjures instead of improving:
+## random(query_skill("spells", 1)) < 10 a 观想虫, else a 观想兽. sen 0 always conjures.
+func _test_necromancy_practice() -> void:
+	var registry := SkillLearnPolicyRegistry.new()
+	registry.register_known_legacy_policies()
+	var policy: PracticePolicy = _catalog.skill(&"necromancy").practice_policy()
+	_check(policy is VitalityInnerForcePracticePolicy and (policy as VitalityInnerForcePracticePolicy).mana_cost == 10 and (policy as VitalityInnerForcePracticePolicy).spirit_cost == 30, "10 mana and 30 sen a practice")
+	_check(policy.conjuring != null and policy.conjuring.chance_below == 5 and policy.conjuring.skill_id == &"spells" and policy.conjuring.npc_ids == [&"common.npc.mind_bug", &"common.npc.mind_beast"] and policy.conjuring.below == [10], "random(sen) < 5 conjures; random(spells) < 10 the 观想虫, else the 观想兽")
+	var mind: CharacterState = _member()
+	mind.skills.set_raw_level(&"taoism", 20) # TEST-ONLY
+	mind.skills.set_raw_level(&"spells", 10)
+	mind.skills.set_raw_level(&"necromancy", 10)
+	mind.skills.map_skill(&"spells", &"necromancy")
+	mind.recovery.mana = CharacterInternalResourceState.new(100, 100)
+	mind.spirit = CharacterResourceState.new(100, 100, 100)
+	var draws := Forced.new()
+	_check(_practice_with(mind, registry, draws, "观想虫") == ["你的魂魄还没有全部收回，赶快杀死你的观想虫吧！"] and mind.recovery.mana.current == 100 and mind.spirit.current == 100, "its 观想虫 still stands: refused first, nothing paid")
+	mind.recovery.mana.current = 9
+	_check(_practice_with(mind, registry, draws) == ["你的法力不够。"] and mind.spirit.current == 100, "mana 9: 你的法力不够")
+	mind.recovery.mana.current = 100
+	mind.spirit.current = 29
+	_check(_practice_with(mind, registry, draws) == ["你的精神无法集中。"] and mind.recovery.mana.current == 100, "sen 29: 你的精神无法集中")
+	mind.spirit.current = 100
+	draws.queues[70] = [5]
+	var learned: int = mind.skills.learned_progress(&"necromancy")
+	var done: Array[String] = _practice_with(mind, registry, draws)
+	_check(done == ["你闭目凝神，神游物外，开始修习茅山道术中的法术....", "你的茅山道术进步了！"] and mind.recovery.mana.current == 90 and mind.spirit.current == 70, "random(70) 5: practised for 10 mana and 30 sen: %s" % [done])
+	_check(mind.skills.learned_progress(&"necromancy") == learned + 3, "practice.c: spells 10 / 5 + 1")
+	draws.queues[40] = [4]
+	draws.queues[10] = [9]
+	var result: PracticeResult = PracticeService.practice(mind, &"spells", policy, registry.policy_for(&"necromancy"), false, true, null, draws.legacy_random)
+	var lines: Array[String] = ColoredLine.texts(TrainingLines.practice(result, _catalog.skill(&"necromancy"), "观想虫"))
+	_check(result.failure_reason == PracticeResult.FailureReason.PRACTICE_CONJURED and result.conjured_npc_id == &"common.npc.mind_bug" and mind.skills.learned_progress(&"necromancy") == learned + 3, "random(40) 4, random(10) 9: a 观想虫 and no progress")
+	_check(lines == ["你闭目凝神，神游物外，开始修习茅山道术中的法术....", "可是你心思一乱，变出了一只面目狰狞的观想虫！", "你的魂魄正被观想虫缠住，快把它除掉吧！"] and mind.recovery.mana.current == 80 and mind.spirit.current == 40, "paid all the same: %s" % [lines])
+	mind.skills.set_raw_level(&"spells", 20) # TEST-ONLY
+	mind.spirit.current = 30
+	draws.queues[20] = [10]
+	result = PracticeService.practice(mind, &"spells", policy, registry.policy_for(&"necromancy"), false, true, null, draws.legacy_random)
+	_check(result.conjured_npc_id == &"common.npc.mind_beast" and mind.spirit.current == 0, "sen 30 leaves 0: random(0) is 0 and conjures; random(20) 10: a 观想兽")
+
+
+## obj/npc/mind_bug.c and mind_beast.c: combat_exp from the owner's raw spells (500 and
+## 2000 a level), die()'s random(spi / 2) + 1 and random(spi) + 1, and their lines.
+func _test_conjured_npcs() -> void:
+	var bug: NpcConjuring = _catalog.npc(&"common.npc.mind_bug").conjuring()
+	var beast: NpcConjuring = _catalog.npc(&"common.npc.mind_beast").conjuring()
+	_check(bug != null and bug.skill_id == &"spells" and bug.combat_experience(10) == 5000 and beast.combat_experience(10) == 20000, "combat_exp: spells 10 makes a 5000 观想虫, a 20000 观想兽")
+	var bounds: Array[int] = []
+	var record := func(n: int) -> int:
+		bounds.append(n)
+		return n - 1
+	_check(bug.improvement(25, record) == 12 and beast.improvement(25, record) == 25 and bounds == [12, 25], "spi 25: random(12) + 1 and random(25) + 1: %s" % [bounds])
+	_check(bug.killed_by_owner == ["你杀死了你的观想虫，并且从中悟到了一些咒术的道理。"] and bug.killed_by_other == ["你的观想虫被人杀死了！", "你觉得一阵天旋地转...."], "its die() lines")
+	_check(_catalog.npc(&"common.npc.mind_bug").race_id == NpcCharacterStateFactory.BEAST_RACE_ID and _catalog.npc(&"common.npc.mind_beast").loadout_entries().is_empty(), "beasts that carry nothing")
 
 
 # --- 灵神诀 -------------------------------------------------------------------------
@@ -575,6 +632,13 @@ func _practice(state: CharacterState, use_id: StringName, registry: SkillLearnPo
 	var special: StringName = state.skills.mapped_skill(use_id)
 	var skill: SkillDefinition = _catalog.skill(special)
 	var result: PracticeResult = PracticeService.practice(state, use_id, skill.practice_policy(), registry.policy_for(special), false)
+	return ColoredLine.texts(TrainingLines.practice(result, skill))
+
+
+## practice spells with `draws` (legacy_random) and the name of a 观想虫 still standing.
+func _practice_with(state: CharacterState, registry: SkillLearnPolicyRegistry, draws: CombatRandomSource, standing: String = "") -> Array[String]:
+	var skill: SkillDefinition = _catalog.skill(&"necromancy")
+	var result: PracticeResult = PracticeService.practice(state, &"spells", skill.practice_policy(), registry.policy_for(&"necromancy"), false, true, null, draws.legacy_random, standing)
 	return ColoredLine.texts(TrainingLines.practice(result, skill))
 
 

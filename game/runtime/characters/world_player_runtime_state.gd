@@ -13,6 +13,10 @@ var _combat_available: bool
 var _body_facts: PlayerBodyFacts
 var _facts: PlayerIdentityFacts
 var apprenticeship_request: NpcApprenticeship = NpcApprenticeship.new()
+## set_temp("mind_bug", bug) (necromancy.c practice_skill()): the character ID of the NPC
+## the player's practice conjured, until it dies. A temp: Continue forgets it, as a
+## save keeps no conjured NPC.
+var conjured_npc_id: StringName = &""
 
 var facts: PlayerIdentityFacts:
 	get: return _facts

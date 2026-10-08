@@ -197,6 +197,19 @@ func _check_combat_data() -> void:
 	var parry: SkillDefinition = _skills.get(&"parry")
 	if parry == null or parry.parry_messages_armed.is_empty() or parry.parry_messages_unarmed.is_empty():
 		_errors.append("skills: 'parry' needs parry_messages armed and unarmed")
+	# What a practice conjures is a conjured NPC, and its draw reads a skill (PracticeConjuring).
+	for skill: SkillDefinition in _skills.values():
+		var conjuring: PracticeConjuring = skill.practice_policy().conjuring
+		if conjuring == null:
+			continue
+		if not _skills.has(conjuring.skill_id):
+			_errors.append("skills: '%s' conjures by an unknown skill '%s'" % [skill.skill_id, conjuring.skill_id])
+		for npc_id: StringName in conjuring.npc_ids:
+			if not _npcs.has(npc_id) or _npcs[npc_id].conjuring() == null:
+				_errors.append("skills: '%s' conjures '%s', which is no conjured NPC" % [skill.skill_id, npc_id])
+			elif not _npcs[npc_id].loadout_entries().is_empty():
+				# A save leaves a standing conjured NPC out: it must hold no item.
+				_errors.append("skills: '%s' conjures '%s', which carries something" % [skill.skill_id, npc_id])
 
 
 ## god.c's levels rise; each is one qlist file.
@@ -322,6 +335,9 @@ func _check_spawns() -> void:
 		elif not _npcs[definition.npc_definition_id].name_pick().is_empty():
 			# A save keeps no drawn name: only a spell's summoned NPC, gone once its fight is, draws one.
 			_errors.append("%s.npc: '%s' draws its name and is only summoned" % [origin, definition.npc_definition_id])
+		elif _npcs[definition.npc_definition_id].conjuring() != null:
+			# Its create() reads who practised, and a save keeps none standing (NpcConjuring).
+			_errors.append("%s.npc: '%s' is only conjured by a practice" % [origin, definition.npc_definition_id])
 		for point_id: StringName in definition.spawn_point_ids():
 			if point_owners.has(point_id):
 				_errors.append("%s.points: '%s' is already used by %s" % [

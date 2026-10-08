@@ -117,20 +117,74 @@ func disable(use_id: StringName) -> bool:
 	return true
 
 
-## practice <use>.
+## practice <use>. necromancy.c's may conjure an NPC instead (PracticeConjuring): it comes
+## beside the player and kill_ob()s them, who fight back (me->fight(bug)).
 func practice(use_id: StringName) -> PracticeResult:
 	if not available():
 		return null
 	var state: CharacterState = _state()
 	var special: SkillDefinition = GameContent.catalog().skill(state.skills.mapped_skill(use_id))
+	var standing: NpcRuntimeState = standing_conjured()
 	var result: PracticeResult = PracticeService.practice(
 		state, use_id,
 		null if special == null else special.practice_policy(),
 		null if special == null else _learn_policies.policy_for(special.skill_id),
-		_fighting(), true, _effects(),
+		_fighting(), true, _effects(), _session.world_interaction_random_source().legacy_random,
+		"" if standing == null else standing.definition().display_name,
 	)
-	_say(TrainingLines.practice(result, special))
+	if result.failure_reason == PracticeResult.FailureReason.PRACTICE_CONJURED:
+		_conjure(result, special)
+	else:
+		_say(TrainingLines.practice(result, special))
 	return result
+
+
+## query_temp("mind_bug"): the NPC the player's practice conjured, while it is not dead
+## (on any map), or null.
+func standing_conjured() -> NpcRuntimeState:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	if player == null or player.conjured_npc_id.is_empty():
+		return null
+	for npc: NpcRuntimeState in _session.world_npcs():
+		if npc.character_id == player.conjured_npc_id and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			return npc
+	return null
+
+
+## bug->move(environment(me)); bug->kill_ob(me); me->fight(bug); set_temp("mind_bug", bug):
+## the practice's lines open the fight.
+func _conjure(result: PracticeResult, special: SkillDefinition) -> void:
+	var definition: NpcDefinition = GameContent.catalog().npc(result.conjured_npc_id)
+	var lines: Array[ColoredLine] = TrainingLines.practice(result, special, definition.display_name)
+	var map := _session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = null if map == null else map.conjure_beside_player(result.conjured_npc_id)
+	if npc == null:
+		push_error("practice could not conjure %s" % result.conjured_npc_id)
+		_say(lines)
+		return
+	_session.player_runtime().conjured_npc_id = npc.character_id
+	last_lines = lines
+	if not map.npc_kills_player(npc, ColoredLine.texts(lines)):
+		_say(lines)
+
+
+## The 练习 button's hover for `use_id` when its skill's practice may conjure (owner,
+## 茅山 A: practising 茅山道术 asks nothing, its hover tells of the 观想虫); "" otherwise.
+func practice_hint(use_id: StringName) -> String:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var special: SkillDefinition = catalog.skill(_state().skills.mapped_skill(use_id))
+	var policy: PracticePolicy = null if special == null else special.practice_policy()
+	if policy == null or policy.conjuring == null or not policy is VitalityInnerForcePracticePolicy:
+		return ""
+	var paid := policy as VitalityInnerForcePracticePolicy
+	var names: Array[String] = []
+	for npc_id: StringName in policy.conjuring.npc_ids:
+		names.append(tr(catalog.npc(npc_id).display_name))
+	var improved: SkillDefinition = catalog.skill(catalog.npc(policy.conjuring.npc_ids[0]).conjuring().skill_id)
+	# TRANSLATORS: hover of 练习 for 茅山道术 (necromancy.c practice_skill()): {mana} mana and {sen} sen each time; {npcs} 观想虫或观想兽 may come and attack at once; while it lives no more practice; killed by the player's own hand {skill} (基本咒文) improves, killed by anyone else the player faints.
+	return tr("每次练习耗 {mana} 点法力、{sen} 点神。心神一乱会变出{npcs}，它会立刻攻击你，活着时不能再练。亲手杀了它，{skill}会有长进；被别人杀了，你会昏倒。").format({
+		"mana": paid.mana_cost, "sen": paid.spirit_cost, "npcs": tr("或").join(names), "skill": tr(improved.display_name),
+	})
 
 
 ## exercise <kee>.

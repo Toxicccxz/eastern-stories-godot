@@ -65,6 +65,8 @@ var _internal_power: Dictionary[StringName, int] = {}
 var _name_pick: Array[String] = []
 ## What a summoned NPC says as it comes and goes (NpcSummoning); null for one no spell calls.
 var _summoning: NpcSummoning
+## What a practice conjures up against its owner (NpcConjuring); null for any other NPC.
+var _conjuring: NpcConjuring
 
 var definition_id: StringName:
 	get:
@@ -318,6 +320,17 @@ func summoning() -> NpcSummoning:
 	return _summoning
 
 
+## A conjured NPC's create() and die() facts. Called once by the loader.
+func with_conjuring(p_conjuring: NpcConjuring) -> NpcDefinition:
+	_conjuring = p_conjuring
+	return self
+
+
+## null: no practice conjures this NPC.
+func conjuring() -> NpcConjuring:
+	return _conjuring
+
+
 ## The same definition under another name: the one an NPC drew (name_pick()). Shares
 ## everything else, which is read-only once loaded.
 func renamed(p_display_name: String) -> NpcDefinition:
@@ -426,13 +439,17 @@ const FLAG_FOUGHT_PLAYER: StringName = &"fought_player"
 ## from room to room on its map (owner, polish, A11). An object variable, as ES2's
 ## leader is: Continue forgets it.
 const FLAG_FOLLOWS_PLAYER: StringName = &"follows_player"
+## kill_ob(player) kept past the fight (attack.c is_killing(): the 观想虫 conjured against
+## the player): attack.c init()'s hatred attacks the player on sight until the player
+## dies before it (damage.c die(): remove_killer()). An object variable.
+const FLAG_HUNTS_PLAYER: StringName = &"hunts_player"
 
 
-## Whether it starts a fight when the player comes into contact: attitude
+## Whether it starts a fight when the player comes into contact: its hatred, attitude
 ## "aggressive", or a toll-taker (`attack_unless_mark`) facing a player without the
 ## mark, or one it has already fought.
 func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> bool:
-	if has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return true
 	# attack.c init(): start_vendetta() on whoever holds vendetta/<its mark>.
 	var vendetta_mark: String = dealings().vendetta_mark
@@ -447,7 +464,7 @@ func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: Character
 ## nobody if the player has walked on (no grudge then: DECISIONS, pacing knobs). Every
 ## other attack on sight starts at once (attack.c's hatred, aggressive, vendetta).
 func toll_attack_delay_ms(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> int:
-	if has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return 0
 	var vendetta_mark: String = dealings().vendetta_mark
 	if not vendetta_mark.is_empty() and player.vendetta.get(vendetta_mark, 0) != 0:

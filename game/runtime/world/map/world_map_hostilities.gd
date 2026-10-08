@@ -187,8 +187,9 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 
 
 ## kill_ob(player) by `npc` outside a fight (juechen/master.c's answer to a traitor's
-## 拜师): it hunts the player, who only fights back. False when no fight could begin.
-func npc_kills_player(npc: NpcRuntimeState) -> bool:
+## 拜师, the 观想虫 a practice conjured): it hunts the player, who only fights back.
+## `lines` open the fight. False when no fight could begin.
+func npc_kills_player(npc: NpcRuntimeState, lines: Array[String] = []) -> bool:
 	if npc == null or _player == null or session == null:
 		return false
 	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
@@ -201,7 +202,7 @@ func npc_kills_player(npc: NpcRuntimeState) -> bool:
 	)
 	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
 		return false
-	announce_fight([], npc.character_id)
+	announce_fight(lines, npc.character_id)
 	return true
 
 
@@ -372,7 +373,8 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 	var result: Array[CombatSliceCharacterBinding] = []
 	for id: StringName in ids:
 		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(available, id)
-		if binding == null or not session.encounter_participant_is_available(id):
+		# kill.c: the one the player's 攻击 names may lie unconscious.
+		if binding == null or not session.encounter_participant_is_available(id, manual and id == requested_target):
 			return []
 		result.append(binding)
 	return result

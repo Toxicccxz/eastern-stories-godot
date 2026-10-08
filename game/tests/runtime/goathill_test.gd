@@ -181,6 +181,22 @@ func _test_corner(tree: SceneTree, session: WorldSessionController) -> void:
 				if not coordinator.has_active_encounter():
 					break
 		_check(not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "fled from the corner")
+	# kill.c at one lying unconscious (茅山 C): 攻击 brings the corner's set in, it among them.
+	var downed: NpcRuntimeState = _find(map, &"goathill.npc.bandit")
+	downed.character_state.vitality.current = -1 # TEST-ONLY: knocked out outside a fight
+	map.combat_lifecycle.fall_below_zero()
+	_check(downed.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "TEST-ONLY: a bandit lies unconscious")
+	map.select_npc(downed.character_id)
+	var started: CombatSliceInitiationResult = map.attack_selected()
+	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED and coordinator.has_active_encounter() and coordinator.active_encounter().participant_for(downed.character_id) != null and player.relationship.has_lethal_target(downed.character_id), "攻击 at the one lying there starts the fight: %s" % CombatSliceInitiationResult.Outcome.find_key(started.outcome))
+	if coordinator.has_active_encounter():
+		coordinator.submit_player_action(CombatTacticalRequest.new(&"flee:downed", coordinator.active_encounter().encounter_id, player.character_id,
+			CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE))
+		for tick: int in range(40):
+			coordinator.advance_scheduler(0.0 if tick == 0 else 1.0)
+			if not coordinator.has_active_encounter():
+				break
+	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0, "that fight ends too: " + coordinator.last_abort_detail())
 	session.handoff_to(&"goathill.mountain", &"goathill.canyon3", &"goathill.canyon3", &"goathill.canyon3.cavern_return")
 	await tree.physics_frame
 

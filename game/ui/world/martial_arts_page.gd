@@ -182,6 +182,10 @@ func refresh() -> void:
 	# enable.c with nothing enabled.
 	no_uses.visible = state.skills.enabled_use_ids().is_empty()
 	_label_buttons(rows, learnable, books, catalog)
+	for row: Dictionary in rows:
+		var practice: String = "practice:%s" % row.use
+		if buttons.has(practice):
+			buttons[practice].tooltip_text = arts.practice_hint(row.use)
 	feedback.text = "\n".join(ColoredLine.texts(arts.last_lines))
 
 
