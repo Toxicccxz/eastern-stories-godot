@@ -132,7 +132,39 @@
 		{
 			"id": "necromancy", "name": "茅山道术", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
 			"legacy_source": "daemon/skill/necromancy.c",
-			"cast": ["drainerbolt", "feeblebolt", "netherbolt"]
+			"valid_learn": { "effective_skill": "你的天师正道修为不够，无法领悟更高深的茅山道术。" },
+			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation"]
+		},
+		{
+			"id": "taoism", "name": "天师正道", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/taoism.c",
+			"practice": { "refuses": true, "fail": "法术类技能必须用学的或是从实战中获取经验。" },
+			"valid_learn": { "max_bellicosity": "你的杀气太重，无法修炼天师正道。" }
+		},
+		{
+			"id": "gouyee", "name": "谷衣心法", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/gouyee.c",
+			"standard_force_hit": true,
+			"exert": ["heal"],
+			"practice": { "refuses": true, "fail": "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。" },
+			"valid_learn": { "max_mana": "你的魔力不够，无法提升谷衣心法的造诣。" }
+		},
+		{
+			"id": "scratching", "name": "天师剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"legacy_source": "daemon/skill/scratching.c",
+			"practice": {
+				"weapon": "sword", "weapon_fail": "你必须先找一把剑才能练剑法。",
+				"kee": 30, "force": 5, "done": "你按著所学练了一遍天师剑法。", "fail": "你的内力或气不够，没有办法练习天师剑法。"
+			},
+			"valid_learn": { "max_force": "你的内力不够，没有办法练天师剑法。" },
+			"actions": [
+				{ "id": "san-qing-gui-zhen", "action": "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l", "damage": 40, "damage_type": "刺伤" },
+				{ "id": "zhong-shi-hu-you", "action": "$N身形一变，一招「众士护佑」，$w罩向$n的$l", "damage": 30, "damage_type": "刺伤" },
+				{ "id": "tian-ren-he-yi", "action": "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l", "damage": 50, "damage_type": "刺伤" },
+				{ "id": "qun-mo-pi-yi", "action": "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去", "damage": 40, "damage_type": "刺伤" },
+				{ "id": "xi-chu-zi-guan", "action": "$N一招「西出紫关」，$w一带，轻轻划向$n$l", "damage": 20, "damage_type": "刺伤" },
+				{ "id": "qian-kun-yi-zhi", "action": "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n", "damage": 150, "damage_type": "刺伤" }
+			]
 		},
 		{
 			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",

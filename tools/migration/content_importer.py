@@ -686,6 +686,8 @@ class Importer:
 
         take('nickname')
         take('title')
+        # rankd.c: how it calls itself (query_self()) follows its class (贫道 for a taoist).
+        take('class')
         if 'race' in sets:
             handled.add('race')
             if sets['race'] not in RACES:

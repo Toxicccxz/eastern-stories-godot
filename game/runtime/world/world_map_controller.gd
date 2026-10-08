@@ -372,6 +372,7 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 	if refusal != null:
 		_refuse_exit(refusal, current.zone_id)
 		return false
+	_tell_passing(current.zone_id, zone.zone_id)
 	if session != null:
 		session.player_leaving_zone(current.zone_id, zone.zone_id)
 	if not _player.set_world_location(location_for_zone(zone.zone_id)):
@@ -407,7 +408,7 @@ func _drop_selection_left_behind() -> void:
 
 ## The room's valid_leave() that refuses this way out now, or null.
 func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExitRuleDefinition:
-	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state)
+	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state, _world_interaction_random.legacy_random)
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
 		var present: bool = false
 		for npc: NpcRuntimeState in npcs.residents:
@@ -430,6 +431,7 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 	if refusal != null:
 		_refuse_passage(refusal, portal.source_zone_id, passage)
 		return false
+	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
 	if not portal.set_mark.is_empty():
 		_player.state.marks[portal.set_mark] = 1
 	return true
@@ -466,13 +468,27 @@ func _refuse_exit(rule: ZoneExitRuleDefinition, from_zone_id: StringName) -> voi
 
 func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
 	var now: int = Time.get_ticks_msec()
-	if rule.rule_id != _last_exit_refusal or now - _last_exit_refusal_ms > EXIT_REFUSAL_REPEAT_MS:
+	if rule.knocks_out or rule.rule_id != _last_exit_refusal or now - _last_exit_refusal_ms > EXIT_REFUSAL_REPEAT_MS:
 		var lines: Array[String] = []
 		for line: String in rule.lines:
 			lines.append(tr(line))
 		hud().append_log_lines(lines)
 	_last_exit_refusal = rule.rule_id
 	_last_exit_refusal_ms = now
+	# road1.c: unconcious() after the slip; the next life check lays the player down.
+	if rule.knocks_out:
+		_player.state.fall_unconscious()
+
+
+## What the room's valid_leave() tells one who goes through (book_room1.c's
+## message_vision()), before the next room's text.
+func _tell_passing(from_zone_id: StringName, to_zone_id: StringName) -> void:
+	var lines: Array[String] = []
+	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
+		for line: String in rule.pass_lines:
+			lines.append(tr(line))
+	if not lines.is_empty() and hud() != null:
+		hud().append_log_lines(lines)
 
 
 func freeze_world_gameplay(id: StringName) -> bool:

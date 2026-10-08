@@ -129,8 +129,8 @@ func _test_labels() -> void:
 	_check(CombatCastTacticalPolicy.function_for(VANISH) == &"dun" and CombatCastTacticalPolicy.is_self(VANISH) and not CombatCastTacticalPolicy.is_self(TRAP), "cast.dun.self is dun at oneself")
 
 
-## Every spell of a skill some NPC teaches has a name on the battle panel (the NPCs'
-## bolts have none: no teacher gives necromancy yet; 茅山's will need them).
+## Every spell of a skill some NPC teaches has a name on the battle panel (林忌 and
+## his disciples teach 茅山道术: its bolts and 召护法).
 func _test_labels_of_taught_spells() -> void:
 	var unnamed: Array[String] = []
 	for npc: NpcDefinition in _catalog.npcs():

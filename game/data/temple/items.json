@@ -1,0 +1,119 @@
+{
+	"items": [
+		{
+			"id": "es2:d/temple/obj/broom",
+			"legacy_sources": ["d/temple/obj/broom.c", "d/temple/npc/obj/broom.c"],
+			"name": "竹扫把",
+			"aliases": ["bamboo broom", "broom"],
+			"long": "一把快秃了头的竹扫把。\n",
+			"unit": "把",
+			"material": "bamboo",
+			"weight": 1000,
+			"value": 50,
+			"weapon": { "skill": "staff", "damage": 3 }
+		},
+		{
+			"id": "es2:d/temple/obj/robe",
+			"legacy_sources": ["d/temple/obj/robe.c", "d/temple/npc/obj/robe.c"],
+			"name": "青布道袍",
+			"aliases": ["robe", "cloth"],
+			"long": "一件式样简单的青布道袍\n",
+			"unit": "件",
+			"weight": 900,
+			"value": 100,
+			"armor": { "type": "cloth", "props": { "spells": 1 } }
+		},
+		{
+			"id": "es2:d/temple/obj/boots",
+			"legacy_sources": ["d/temple/obj/boots.c", "d/temple/npc/obj/boots.c"],
+			"name": "黑布鞋",
+			"aliases": ["black boots", "boots"],
+			"unit": "双",
+			"material": "cloth",
+			"weight": 400,
+			"value": 100,
+			"armor": { "type": "boots", "props": { "armor": 1, "move": 1 } }
+		},
+		{
+			"id": "es2:d/temple/obj/magic_book",
+			"legacy_sources": ["d/temple/obj/magic_book.c", "d/temple/npc/obj/magic_book.c"],
+			"name": "魔法入门",
+			"aliases": ["magicbook"],
+			"long": "这似乎是一本魔法的入门书，里面说了一些稀奇古怪的和一般的武学不同的东西\n",
+			"unit": "本",
+			"material": "paper",
+			"study": { "skill": "magic", "exp_required": 100, "sen_cost": 30, "difficulty": 10, "max_skill": 20 },
+			"weight": 300,
+			"value": 260
+		},
+		{
+			"id": "es2:d/temple/obj/spells_book",
+			"legacy_sources": ["d/temple/obj/spells_book.c", "d/temple/npc/obj/spells_book.c"],
+			"name": "符咒简介",
+			"aliases": ["spellsbook"],
+			"long": "这似乎是一本符咒的简介，里面画着一些稀奇古怪的符号\n",
+			"unit": "本",
+			"material": "paper",
+			"study": { "skill": "spells", "exp_required": 100, "sen_cost": 30, "difficulty": 10, "max_skill": 20 },
+			"weight": 300,
+			"value": 260
+		},
+		{
+			"id": "es2:d/temple/obj/whip",
+			"legacy_sources": ["d/temple/obj/whip.c", "d/temple/npc/obj/whip.c"],
+			"name": "拂尘",
+			"aliases": ["whip"],
+			"long": "一柄以藤木为柄, 马尾为丝的拂尘\n",
+			"unit": "柄",
+			"weight": 1000,
+			"value": 100,
+			"weapon": { "skill": "whip", "damage": 10 }
+		},
+		{
+			"id": "es2:d/temple/obj/old_robe",
+			"legacy_sources": ["d/temple/obj/old_robe.c", "d/temple/npc/obj/old_robe.c"],
+			"name": "旧道袍",
+			"aliases": ["old robe", "robe"],
+			"long": "一件补了又补, 洗到泛白的旧道袍\n",
+			"unit": "件",
+			"weight": 900,
+			"armor": { "type": "cloth", "props": { "armor": 1, "dodge": -1 } }
+		},
+		{
+			"id": "es2:d/temple/obj/hat",
+			"legacy_sources": ["d/temple/obj/hat.c", "d/temple/npc/obj/hat.c"],
+			"name": "青铜道冠",
+			"aliases": ["copper hat", "hat"],
+			"long": "一顶青铜道冠\n",
+			"unit": "顶",
+			"material": "copper",
+			"weight": 1500,
+			"value": 500,
+			"armor": { "type": "head", "props": { "armor": 1, "magic": 1 } }
+		},
+		{
+			"id": "es2:d/temple/npc/obj/robe1",
+			"legacy_sources": ["d/temple/npc/obj/robe1.c"],
+			"name": "八卦道袍",
+			"aliases": ["robe"],
+			"long": "一件胸前绣有八卦的黄色道袍。\n",
+			"unit": "件",
+			"material": "cloth",
+			"weight": 3000,
+			"value": 8000,
+			"armor": { "type": "cloth", "props": { "armor": 1, "spells": 5 } }
+		},
+		{
+			"id": "es2:d/temple/npc/obj/jade_hat",
+			"legacy_sources": ["d/temple/npc/obj/jade_hat.c"],
+			"name": "碧玉冠",
+			"aliases": ["jade hat", "hat"],
+			"long": "一顶镶著一块碧玉的道冠。\n",
+			"unit": "顶",
+			"material": "cloth",
+			"weight": 700,
+			"value": 2000,
+			"armor": { "type": "head", "props": { "armor": 1, "spells": 3 } }
+		}
+	]
+}

@@ -56,6 +56,7 @@ var _fight_rules: Array[NpcFightRule] = []
 var _talk: NpcTalk
 var _nickname: String = ""
 var _rank_respect: String = ""
+var _class_id: StringName = &""
 var _dealings: NpcDealings
 var _teaching: NpcTeaching
 var _internal_power: Dictionary[StringName, int] = {}
@@ -113,6 +114,10 @@ var nickname: String:
 var rank_respect: String:
 	get:
 		return _rank_respect
+## LPC set("class"), e.g. taoist: rankd.c's words for it (query_self() 贫道).
+var class_id: StringName:
+	get:
+		return _class_id
 
 
 func _init(
@@ -229,9 +234,10 @@ func talk() -> NpcTalk:
 
 
 ## nickname and rank_info/respect. Called once by the loader.
-func with_naming(p_nickname: String, p_rank_respect: String) -> NpcDefinition:
+func with_naming(p_nickname: String, p_rank_respect: String, p_class_id: StringName = &"") -> NpcDefinition:
 	_nickname = p_nickname
 	_rank_respect = p_rank_respect
+	_class_id = p_class_id
 	return self
 
 

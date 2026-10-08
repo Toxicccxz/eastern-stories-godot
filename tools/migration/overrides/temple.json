@@ -1,0 +1,124 @@
+{
+	"npcs": [
+		"d/temple/npc/guard_taoist1.c", "d/temple/npc/guard_taoist2.c", "d/temple/npc/guard_taoist3.c",
+		"d/temple/npc/taoist_guard1.c", "d/temple/npc/taoist_guard2.c", "d/temple/npc/taoist_guard3.c"
+	],
+	"set": {
+		"temple.npc.trainer": {
+			"chat_chance_combat": 100,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "invocation" },
+				{ "action": "cast", "function": "manimate" },
+				{ "action": "cast", "function": "animate" }
+			],
+			"accept_fight": [
+				{ "family": "family.maoshan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
+				{ "say": "茅山派不和别派的人过招。", "accept": false }
+			]
+		},
+		"temple.npc.tfighter": {
+			"accept_fight": [
+				{ "family": "family.maoshan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
+				{ "say": "茅山派不和别派的人过招。", "accept": false }
+			]
+		},
+		"temple.npc.old_taoist": {
+			"accept_fight": [
+				{ "say": "无量寿佛 ! 贫道年迈力衰, 怎是施主的对手。", "accept": false }
+			]
+		}
+	},
+	"review": {
+		"d/temple/obj/broom.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/temple/obj/whip.c": {
+			"set martial": "a misspelt material (martial): nothing reads it",
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"daemon/class/taoist/sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet",
+			"function hit_ob": "only against a ghost (is_ghost()): no ghost stands in the game yet (乔阴, 鬼门关); a reminder test fails once one does"
+		},
+		"d/temple/square.c": {
+			"set item_desc": "the door's look_door(): world.json doors temple.square.door",
+			"create_door": "world.json doors: temple.square.door (红漆木门, open as create_door() leaves it)"
+		},
+		"d/temple/temple1.c": {
+			"set item_desc": "the door's look_door(): world.json doors temple.square.door",
+			"create_door": "world.json doors: temple.square.door",
+			"call_other": "the taoists' bulletin board is for players' posts: not ported (single player)"
+		},
+		"d/temple/corridor7.c": {
+			"create_door": "world.json doors: temple.corridor7.door (木门, open)"
+		},
+		"d/temple/restroom1.c": {
+			"create_door": "world.json doors: temple.corridor7.door"
+		},
+		"d/temple/corridor3.c": {
+			"create_door": "world.json doors: temple.corridor3.door (木门, open)"
+		},
+		"d/temple/restroom2.c": {
+			"create_door": "world.json doors: temple.corridor3.door"
+		},
+		"d/temple/corridor4.c": {
+			"create_door": "world.json doors: temple.corridor4.door (木门, open)"
+		},
+		"d/temple/trainroom.c": {
+			"create_door": "world.json doors: temple.corridor4.door"
+		},
+		"d/temple/corridor5.c": {
+			"set item_desc": "the door's look_door(): world.json doors temple.corridor5.door",
+			"create_door": "world.json doors: temple.corridor5.door (红漆木门, DOOR_CLOSED)"
+		},
+		"d/temple/temple2.c": {
+			"set item_desc": "the door's look_door(): world.json doors temple.corridor5.door",
+			"create_door": "world.json doors: temple.corridor5.door"
+		},
+		"d/temple/road1.c": {
+			"function valid_leave": "world.json exit_rules temple.road1.moss.*: south or northwest, random(kar) < 3 falls unconscious and stays (the wizard's exemption has no player)"
+		},
+		"d/temple/road2.c": {
+			"set item_desc": "a look-only landmark (石碑) in world.json",
+			"reset": "the guards on duty: world.json spawns with `draw` (one of guard_taoist1-3 and one of taoist_guard1-3 a reset; DECISIONS 茅山 A)",
+			"function reset": "the guards on duty: world.json spawns with `draw` (DECISIONS 茅山 A)",
+			"function valid_leave": "world.json exit_rules temple.road2.wall: enter only for 茅山派 (the invisible wall), pass_lines for one who may; the tell_room() goes to others only"
+		},
+		"d/temple/book_room1.c": {
+			"function valid_leave": "world.json exit_rules temple.book_room1.out: its pass_lines (the tell_room() goes to others only)"
+		},
+		"daemon/class/taoist/taolord.c": {
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
+			"set apprentice_available": "茅山 B: never runs out (recruit_apprentice() lowers the misspelt apprentice_availavble)",
+			"function attempt_apprentice": "茅山 B: the apprentice rule",
+			"function do_recruit": "茅山 B: the apprentice rule (men only)",
+			"function recruit_apprentice": "茅山 B: the apprentice rule's class taoist"
+		},
+		"d/temple/npc/trainer.c": {
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: the four spells; command(\"cast manimate on corpse\") names no spell of 茅山道术 and command(\"cast animate on corpse\") is refused in a fight (animate.c): each draw does nothing",
+			"function accept_fight": "accept_fight rules in set: 茅山派 only (nod is 点了点头。, DECISIONS 4A)"
+		},
+		"d/temple/npc/tfighter.c": {
+			"set pursuer": "following who flees is not modelled yet (as 县城官兵's, 黄霸's and 安惜迩's); a reminder test lists the four",
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
+			"function accept_fight": "accept_fight rules in set: 茅山派 only"
+		},
+		"d/temple/npc/old_taoist.c": {
+			"function accept_fight": "accept_fight rule in set: always refuses"
+		},
+		"d/temple/npc/guard_taoist1.c": { "set com": "nothing in the mudlib reads com" },
+		"d/temple/npc/guard_taoist2.c": { "set com": "nothing in the mudlib reads com" },
+		"d/temple/npc/guard_taoist3.c": { "set com": "nothing in the mudlib reads com" },
+		"d/temple/npc/taoist_guard1.c": { "set com": "nothing in the mudlib reads com" },
+		"d/temple/npc/taoist_guard2.c": { "set com": "nothing in the mudlib reads com" },
+		"d/temple/npc/taoist_guard3.c": { "set com": "nothing in the mudlib reads com" }
+	}
+}

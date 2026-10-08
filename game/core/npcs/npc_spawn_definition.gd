@@ -9,6 +9,11 @@ enum InitialSpawnPolicy {
 	## Made with the world but absent until a room rule calls them in (keep2.c
 	## valid_leave() new()s its guards); a room reset does not remake them.
 	SUMMONED,
+	## One of a `draw` group (d/temple/road2.c's guards on duty): made with the world
+	## but absent; at the world's start and at each reset of its room one spawn of the
+	## group is drawn and comes, or is made anew, or is called home. The others stay as
+	## they are (an earlier draw stays on duty; a dead one waits until it is drawn).
+	DRAWN,
 }
 
 var _spawn_id: StringName
@@ -21,6 +26,7 @@ var _legacy_source_room_path: String
 var _legacy_quantity: int
 var _initial_spawn_policy: int
 var _presence_radius: int
+var _draw_group: StringName = &""
 
 var spawn_id: StringName:
 	get:
@@ -53,6 +59,17 @@ var presence_radius: int:
 var summoned: bool:
 	get:
 		return _initial_spawn_policy == InitialSpawnPolicy.SUMMONED
+## The group a DRAWN spawn is one of; "" for the others.
+var draw_group: StringName:
+	get:
+		return _draw_group
+var drawn: bool:
+	get:
+		return _initial_spawn_policy == InitialSpawnPolicy.DRAWN
+## Absent when the world is made (SUMMONED or DRAWN).
+var starts_absent: bool:
+	get:
+		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY
 
 
 func _init(
@@ -83,6 +100,15 @@ func spawn_point_ids() -> Array[StringName]:
 	return _spawn_point_ids.duplicate()
 
 
+## d/temple/road2.c reset()'s set("objects", ([ ... + (random(3)+1) : 1 ])): one of the
+## group's spawns.
+func with_draw_group(group: StringName) -> NpcSpawnDefinition:
+	_draw_group = group
+	if not group.is_empty():
+		_initial_spawn_policy = InitialSpawnPolicy.DRAWN
+	return self
+
+
 func is_valid() -> bool:
 	if (
 		_spawn_id.is_empty()
@@ -94,7 +120,8 @@ func is_valid() -> bool:
 		or _quantity != _legacy_quantity
 		or _spawn_point_ids.size() != _quantity
 		or _legacy_source_room_path.is_empty()
-		or _initial_spawn_policy not in [InitialSpawnPolicy.INITIAL_ONLY, InitialSpawnPolicy.SUMMONED]
+		or _initial_spawn_policy not in [InitialSpawnPolicy.INITIAL_ONLY, InitialSpawnPolicy.SUMMONED, InitialSpawnPolicy.DRAWN]
+		or (_initial_spawn_policy == InitialSpawnPolicy.DRAWN) == _draw_group.is_empty()
 	):
 		return false
 	var seen: Dictionary[StringName, bool] = {}

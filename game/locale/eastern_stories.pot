@@ -62,6 +62,7 @@ msgstr ""
 #. common.npc.fighter.master gender
 #. common.npc.fighter.executioner gender
 #. common.npc.juechen.master gender
+#. common.npc.taoist.taolord gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -126,7 +127,21 @@ msgstr ""
 #. green.npc.kid1 gender
 #. green.npc.kid2 gender
 #. green.npc.kid4 gender.else
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
+#. temple.npc.guest gender
+#. temple.npc.little_taoist1 gender
+#. temple.npc.trainer gender
+#. temple.npc.tfighter gender
+#. temple.npc.little_taoist2 gender
+#. temple.npc.old_taoist gender
+#. temple.npc.taoist gender
+#. temple.npc.taoist2 gender
+#. temple.npc.guard_taoist1 gender
+#. temple.npc.guard_taoist2 gender
+#. temple.npc.guard_taoist3 gender
+#. temple.npc.taoist_guard1 gender
+#. temple.npc.taoist_guard2 gender
+#. temple.npc.taoist_guard3 gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -640,7 +655,7 @@ msgstr ""
 msgid "沈记商行"
 msgstr ""
 
-#: scenes/world/green/green_village.tscn
+#: scenes/world/green/green_village.tscn scenes/world/temple/temple_mountain.tscn
 msgid "西 · 雪亭镇"
 msgstr ""
 
@@ -868,7 +883,8 @@ msgstr ""
 #. es2:d/waterfog/sroad1 short
 #. es2:d/waterfog/sroad2 short
 #. es2:d/waterfog/sroad3 short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/snow/rooms.json data/waterfog/rooms.json
+#. es2:d/temple/sroad short
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/temple/temple_mountain.tscn scenes/world/waterfog/waterfog_mountain.tscn data/snow/rooms.json data/waterfog/rooms.json data/temple/rooms.json
 msgid "青石官道"
 msgstr ""
 
@@ -936,7 +952,8 @@ msgid "淳风武馆大厅"
 msgstr ""
 
 #. es2:d/snow/inneryard short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#. es2:d/temple/inneryard short
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/temple/temple_grounds.tscn data/snow/rooms.json data/temple/rooms.json
 msgid "天井"
 msgstr ""
 
@@ -989,7 +1006,7 @@ msgid "南 · 老松岭"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
-msgid "石阶"
+msgid "石阶 · 茅山"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
@@ -1051,6 +1068,89 @@ msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
 msgid "向下的阶梯"
+msgstr ""
+
+#. es2:d/temple/book_room1 short
+#. es2:d/temple/book_room2 short
+#: scenes/world/temple/temple_grounds.tscn scenes/world/temple/temple_library.tscn data/temple/rooms.json
+msgid "经楼"
+msgstr ""
+
+#. es2:d/temple/road1 short
+#. es2:d/temple/road2 short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "青石小径"
+msgstr ""
+
+#. es2:d/temple/trainroom short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "练功房"
+msgstr ""
+
+#. es2:d/temple/temple2 short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "后殿"
+msgstr ""
+
+#. es2:d/temple/restroom1 short
+#. es2:d/temple/restroom2 short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "厢房"
+msgstr ""
+
+#. es2:d/temple/corridor1 short
+#. es2:d/temple/corridor2 short
+#. es2:d/temple/corridor7 short
+#. es2:d/temple/corridor6 short
+#. es2:d/temple/corridor3 short
+#. es2:d/temple/corridor5 short
+#. es2:d/temple/corridor4 short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "回廊"
+msgstr ""
+
+#. es2:d/temple/temple1 short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "灵心观大殿"
+msgstr ""
+
+#. es2:d/temple/square short
+#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
+msgid "灵心观广场"
+msgstr ""
+
+#: scenes/world/temple/temple_grounds.tscn
+msgid "南 · 山门"
+msgstr ""
+
+#: scenes/world/temple/temple_grounds.tscn
+msgid "藏经楼"
+msgstr ""
+
+#: scenes/world/temple/temple_grounds.tscn
+msgid "木梯 · 上楼"
+msgstr ""
+
+#: scenes/world/temple/temple_library.tscn
+msgid "木梯 · 下楼"
+msgstr ""
+
+#. es2:d/temple/ladder5 short
+#. es2:d/temple/ladder4 short
+#. es2:d/temple/ladder3 short
+#. es2:d/temple/ladder2 short
+#. es2:d/temple/ladder1 short
+#: scenes/world/temple/temple_mountain.tscn data/temple/rooms.json
+msgid "石英岩石阶"
+msgstr ""
+
+#. es2:d/temple/entrance short
+#: scenes/world/temple/temple_mountain.tscn data/temple/rooms.json
+msgid "灵心观前"
+msgstr ""
+
+#: scenes/world/temple/temple_mountain.tscn
+msgid "灵心观"
 msgstr ""
 
 #. es2:d/waterfog/swordtomb short
@@ -2336,7 +2436,9 @@ msgstr ""
 #. common.npc.fighter.champion family.title
 #. common.npc.fighter.master family.title
 #. snow.npc.girl family.title
-#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json
+#. temple.npc.trainer family.title
+#. temple.npc.tfighter family.title
+#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json data/temple/npcs.json
 msgid "弟子"
 msgstr ""
 
@@ -2398,6 +2500,10 @@ msgstr ""
 
 #: core/skills/skill_use_ids.gd
 msgid "鞭法"
+msgstr ""
+
+#: core/specials/bolt_spell.gd core/specials/dun_spell.gd
+msgid "你失败了。"
 msgstr ""
 
 #: core/specials/bolt_spell.gd core/specials/dun_spell.gd
@@ -2516,10 +2622,6 @@ msgstr ""
 msgid "$n正自顾不暇，放胆进攻吧。"
 msgstr ""
 
-#: core/specials/dun_spell.gd
-msgid "你失败了。"
-msgstr ""
-
 #: core/specials/fakefault_perform.gd
 msgid "「缺」字诀"
 msgstr ""
@@ -2548,6 +2650,30 @@ msgstr ""
 msgid "$N突然对$n发出奋力一击！"
 msgstr ""
 
+#: core/specials/invocation_spell.gd
+msgid "召护法"
+msgstr ""
+
+#: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
+msgid "只有战斗中才能召唤天将！"
+msgstr ""
+
+#: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
+msgid "你的法力不够了！"
+msgstr ""
+
+#: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
+msgid "你的精神无法集中！"
+msgstr ""
+
+#: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
+msgid "$N喃喃地念了几句咒语。"
+msgstr ""
+
+#: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
+msgid "但是什麽也没有发生。"
+msgstr ""
+
 #: core/specials/perform_service.gd
 msgid "( 你上一个动作还没有完成，不能施用外功。)"
 msgstr ""
@@ -2564,24 +2690,8 @@ msgstr ""
 msgid "召天将"
 msgstr ""
 
-#: core/specials/saveme_spell.gd
-msgid "只有战斗中才能召唤天将！"
-msgstr ""
-
-#: core/specials/saveme_spell.gd
-msgid "你的法力不够了！"
-msgstr ""
-
-#: core/specials/saveme_spell.gd
-msgid "你的精神无法集中！"
-msgstr ""
-
-#: core/specials/saveme_spell.gd
-msgid "$N喃喃地念了几句咒语。"
-msgstr ""
-
-#: core/specials/saveme_spell.gd
-msgid "但是什麽也没有发生。"
+#: core/specials/special_functions.gd
+msgid "紫光"
 msgstr ""
 
 #: core/specials/special_functions.gd
@@ -2597,6 +2707,10 @@ msgid "结果「嗤」地一声，紫光从$p身上透体而过，无声无息�
 msgstr ""
 
 #: core/specials/special_functions.gd
+msgid "白光"
+msgstr ""
+
+#: core/specials/special_functions.gd
 msgid "$N口中喃喃地念著咒文，左手一挥，手中聚起一团白光射向$n！"
 msgstr ""
 
@@ -2606,6 +2720,14 @@ msgstr ""
 
 #: core/specials/special_functions.gd
 msgid "结果「嗤」地一声，白光从$p身上透体而过，无声无息地钻入地下！"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "青光"
+msgstr ""
+
+#: core/specials/special_functions.gd
+msgid "你失败了！"
 msgstr ""
 
 #: core/specials/special_functions.gd
@@ -3015,6 +3137,7 @@ msgid "$N用爪子往$n的$l一抓"
 msgstr ""
 
 #. fonxansword actions.damage_type
+#. scratching actions.damage_type
 #. six-chaos-sword actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
@@ -3134,6 +3257,28 @@ msgstr ""
 #. hover of 施法「召天将」 (saveme.c): a heavenly soldier comes to fight on the player's side; {mana} mana; it can fail.
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "召来一名天将相助（{mana} 法力，可能失败）"
+msgstr ""
+
+#. hover of 施法「召护法」 (invocation.c): a heavenly soldier or a ghost guard comes to fight on the player's side; {mana} mana and {sen} sen; it can fail.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能失败）"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "吸取对方的精"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "伤对方的神"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "伤对方的气"
+msgstr ""
+
+#. hover of 施法「紫光」「白光」「青光」 (the bolts of 茅山道术): {hurts} what a hit does (吸取对方的精); {mana} mana and {sen} sen; it can fail.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "{hurts}（{mana} 法力、{sen} 神，可能失败）"
 msgstr ""
 
 #. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
@@ -5487,6 +5632,8 @@ msgstr ""
 #. es2:daemon/class/fighter/icy_boot unit
 #. es2:daemon/class/fighter/icy_cloth unit
 #. es2:obj/npc/obj/golden_armor unit
+#. es2:daemon/class/taoist/robe unit
+#. es2:obj/npc/obj/steel_armor unit
 #. es2:d/oldpine/obj/leather unit
 #. es2:d/oldpine/obj/robe unit
 #. es2:d/oldpine/obj/fur_coat unit
@@ -5503,7 +5650,10 @@ msgstr ""
 #. es2:d/waterfog/obj/guard_suit unit
 #. es2:d/waterfog/obj/watcher_suit unit
 #. es2:d/waterfog/obj/red_suit unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json
+#. es2:d/temple/obj/robe unit
+#. es2:d/temple/obj/old_robe unit
+#. es2:d/temple/npc/obj/robe1 unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
@@ -5552,7 +5702,9 @@ msgstr ""
 
 #. es2:obj/old_book unit
 #. es2:u/cloud/obj/literate_book unit
-#: data/common/items.json data/cloud/items.json
+#. es2:d/temple/obj/magic_book unit
+#. es2:d/temple/obj/spells_book unit
+#: data/common/items.json data/cloud/items.json data/temple/items.json
 msgid "本"
 msgstr ""
 
@@ -5596,6 +5748,8 @@ msgstr ""
 #. es2:daemon/class/fighter/houndbane unit
 #. es2:daemon/class/fighter/soulimpaler unit
 #. es2:obj/npc/obj/golden_sword unit
+#. es2:daemon/class/taoist/sword unit
+#. es2:obj/npc/obj/steel_fork unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
@@ -5617,7 +5771,8 @@ msgstr ""
 #. es2:d/green/npc/obj/knife unit
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json
+#. es2:d/temple/obj/broom unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -5737,7 +5892,8 @@ msgstr ""
 #. es2:d/goathill/obj/steel_blade unit
 #. es2:d/goathill/obj/hand_axe unit
 #. es2:u/cloud/obj/npc/gangster/blade unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/cloud/items.json
+#. es2:d/temple/obj/whip unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/cloud/items.json data/temple/items.json
 msgid "柄"
 msgstr ""
 
@@ -5881,9 +6037,12 @@ msgid "紫金冠"
 msgstr ""
 
 #. es2:daemon/class/juechen/hat unit
+#. es2:daemon/class/taoist/hat unit
 #. es2:d/waterfog/obj/watcher_hat unit
 #. es2:d/waterfog/obj/red_hat unit
-#: data/common/items.json data/waterfog/items.json
+#. es2:d/temple/obj/hat unit
+#. es2:d/temple/npc/obj/jade_hat unit
+#: data/common/items.json data/waterfog/items.json data/temple/items.json
 msgid "顶"
 msgstr ""
 
@@ -5901,6 +6060,53 @@ msgstr ""
 #: data/common/items.json
 msgid ""
 "一把闪闪发著金光的长剑。\n"
+msgstr ""
+
+#. es2:daemon/class/taoist/sword name
+#: data/common/items.json
+msgid "咒剑王禅"
+msgstr ""
+
+#. es2:daemon/class/taoist/sword long
+#: data/common/items.json
+msgid ""
+"这是一把桃木雕成的古剑，闻起来有一股香味，剑身刻著许多你从未见过的咒\n"
+"文，只有剑柄部份有两个依稀可以辨认的篆字：「 王 禅 」\n"
+msgstr ""
+
+#. es2:daemon/class/taoist/robe name
+#: data/common/items.json
+msgid "天师道袍"
+msgstr ""
+
+#. es2:daemon/class/taoist/hat name
+#: data/common/items.json
+msgid "三清神冠"
+msgstr ""
+
+#. es2:daemon/class/taoist/shoe name
+#: data/common/items.json
+msgid "七星翻云靴"
+msgstr ""
+
+#. es2:daemon/class/taoist/shoe unit
+#. es2:d/snow/obj/sandals unit
+#. es2:d/snow/obj/shoe unit
+#. es2:d/goathill/obj/boots unit
+#. es2:d/waterfog/obj/leather_boot unit
+#. es2:d/temple/obj/boots unit
+#: data/common/items.json data/snow/items.json data/goathill/items.json data/waterfog/items.json data/temple/items.json
+msgid "双"
+msgstr ""
+
+#. es2:obj/npc/obj/steel_armor name
+#: data/common/items.json
+msgid "重钢战甲"
+msgstr ""
+
+#. es2:obj/npc/obj/steel_fork name
+#: data/common/items.json
+msgid "五股钢叉"
 msgstr ""
 
 #. unarmed improved_line
@@ -6095,6 +6301,7 @@ msgid "封山剑法必须配合封山派内功才能练。"
 msgstr ""
 
 #. fonxansword valid_learn.weapon
+#. scratching practice.weapon_fail
 #. six-chaos-sword valid_learn.weapon
 #: data/common/skills.json
 msgid "你必须先找一把剑才能练剑法。"
@@ -6213,6 +6420,95 @@ msgstr ""
 #. necromancy name
 #: data/common/skills.json
 msgid "茅山道术"
+msgstr ""
+
+#. necromancy valid_learn.effective_skill
+#: data/common/skills.json
+msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
+msgstr ""
+
+#. taoism name
+#: data/common/skills.json
+msgid "天师正道"
+msgstr ""
+
+#. taoism practice.fail
+#. magic-array practice.fail
+#: data/common/skills.json
+msgid "法术类技能必须用学的或是从实战中获取经验。"
+msgstr ""
+
+#. taoism valid_learn.max_bellicosity
+#: data/common/skills.json
+msgid "你的杀气太重，无法修炼天师正道。"
+msgstr ""
+
+#. gouyee name
+#. common.npc.taoist.taolord inquiry topic
+#. temple.npc.trainer inquiry topic
+#. temple.npc.tfighter inquiry topic
+#: data/common/skills.json data/common/npcs.json data/temple/npcs.json
+msgid "谷衣心法"
+msgstr ""
+
+#. gouyee practice.fail
+#: data/common/skills.json
+msgid "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. gouyee valid_learn.max_mana
+#: data/common/skills.json
+msgid "你的魔力不够，无法提升谷衣心法的造诣。"
+msgstr ""
+
+#. scratching name
+#: data/common/skills.json
+msgid "天师剑法"
+msgstr ""
+
+#. scratching practice.done
+#: data/common/skills.json
+msgid "你按著所学练了一遍天师剑法。"
+msgstr ""
+
+#. scratching practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习天师剑法。"
+msgstr ""
+
+#. scratching valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练天师剑法。"
+msgstr ""
+
+#. scratching actions.action
+#: data/common/skills.json
+msgid "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l"
+msgstr ""
+
+#. scratching actions.action
+#: data/common/skills.json
+msgid "$N身形一变，一招「众士护佑」，$w罩向$n的$l"
+msgstr ""
+
+#. scratching actions.action
+#: data/common/skills.json
+msgid "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l"
+msgstr ""
+
+#. scratching actions.action
+#: data/common/skills.json
+msgid "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去"
+msgstr ""
+
+#. scratching actions.action
+#: data/common/skills.json
+msgid "$N一招「西出紫关」，$w一带，轻轻划向$n$l"
+msgstr ""
+
+#. scratching actions.action
+#: data/common/skills.json
+msgid "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n"
 msgstr ""
 
 #. literate name
@@ -6461,11 +6757,6 @@ msgstr ""
 msgid "奇门遁甲"
 msgstr ""
 
-#. magic-array practice.fail
-#: data/common/skills.json
-msgid "法术类技能必须用学的或是从实战中获取经验。"
-msgstr ""
-
 #. magic-array valid_learn.effective_skill
 #: data/common/skills.json
 msgid "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。"
@@ -6664,6 +6955,17 @@ msgstr ""
 #. common.npc.juechen.master inquiry topic
 #: data/common/families.json data/common/npcs.json
 msgid "绝尘派"
+msgstr ""
+
+#. family.maoshan name
+#. common.npc.taoist.taolord family.name
+#. common.npc.taoist.taolord inquiry topic
+#. temple.npc.trainer family.name
+#. temple.npc.trainer inquiry topic
+#. temple.npc.tfighter family.name
+#. temple.npc.tfighter inquiry topic
+#: data/common/families.json data/common/npcs.json data/temple/npcs.json
+msgid "茅山派"
 msgstr ""
 
 #. common.npc.swordsman.master name
@@ -7073,11 +7375,13 @@ msgid "一道金光由天而降，金光中走出一个身穿金色战袍的将�
 msgstr ""
 
 #. common.npc.heaven_soldier summoned.arrive
+#. common.npc.hell_guard summoned.arrive
 #: data/common/npcs.json
 msgid "$N说道：末将奉法主召唤，特来护法！"
 msgstr ""
 
 #. common.npc.heaven_soldier summoned.leave
+#. common.npc.hell_guard summoned.leave
 #: data/common/npcs.json
 msgid "$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！"
 msgstr ""
@@ -7085,6 +7389,121 @@ msgstr ""
 #. common.npc.heaven_soldier summoned.leave
 #: data/common/npcs.json
 msgid "$N化成一道金光，冲上天际消失不见了。"
+msgstr ""
+
+#. common.npc.taoist.taolord name
+#: data/common/npcs.json
+msgid "林忌"
+msgstr ""
+
+#. common.npc.taoist.taolord nickname
+#: data/common/npcs.json
+msgid "六指真人"
+msgstr ""
+
+#. common.npc.taoist.taolord long
+#: data/common/npcs.json
+msgid ""
+"林忌是一位道行十分高深的修道者，你发现他的眼珠一个是黑色的，一\n"
+"个是金色的，这正是「谷衣心法」修炼到极高境界的徵兆。\n"
+msgstr ""
+
+#. common.npc.taoist.taolord family.title
+#: data/common/npcs.json
+msgid "天师"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.谷衣心法
+#. temple.npc.trainer inquiry.谷衣心法
+#. temple.npc.tfighter inquiry.谷衣心法
+#: data/common/npcs.json data/temple/npcs.json
+msgid ""
+"谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.茅山派
+#. temple.npc.trainer inquiry.茅山派
+#. temple.npc.tfighter inquiry.茅山派
+#: data/common/npcs.json data/temple/npcs.json
+msgid ""
+"我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"
+msgstr ""
+
+#. common.npc.hell_guard long
+#: data/common/npcs.json
+msgid ""
+"这是一位来自阴界的守护神，专门担任护法之责。\n"
+msgstr ""
+
+#. common.npc.hell_guard name
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "子阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "丑阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "寅阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "卯阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "辰阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "巳阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "午阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "未阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "申阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "酉阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "戌阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard name_pick
+#: data/common/npcs.json
+msgid "亥阴鬼卒"
+msgstr ""
+
+#. common.npc.hell_guard summoned.arrive
+#: data/common/npcs.json
+msgid "一道蓝光从地底升起，蓝光中出现一个手执钢叉、面目狰狞的鬼卒。"
+msgstr ""
+
+#. common.npc.hell_guard summoned.leave
+#: data/common/npcs.json
+msgid "$N的身形发出幽暗的蓝光，沈入地下不见了。"
 msgstr ""
 
 #. quests.target
@@ -7158,7 +7577,8 @@ msgid "扫地僧"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.guest name
+#: data/common/quests.json data/temple/npcs.json
 msgid "进香客"
 msgstr ""
 
@@ -7253,7 +7673,8 @@ msgid "贵公子"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.little_taoist1 name
+#: data/common/quests.json data/temple/npcs.json
 msgid "玄真"
 msgstr ""
 
@@ -7337,7 +7758,8 @@ msgid "跛僧人"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.taoist2 name
+#: data/common/quests.json data/temple/npcs.json
 msgid "明心"
 msgstr ""
 
@@ -7348,12 +7770,15 @@ msgid "郑屠夫"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.trainer name
+#. temple.npc.trainer nickname
+#: data/common/quests.json data/temple/npcs.json
 msgid "僵尸侍者"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.taoist name
+#: data/common/quests.json data/temple/npcs.json
 msgid "清虚"
 msgstr ""
 
@@ -7443,7 +7868,8 @@ msgid "小兵"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.tfighter name
+#: data/common/quests.json data/temple/npcs.json
 msgid "僵尸护法"
 msgstr ""
 
@@ -7453,12 +7879,14 @@ msgid "赫造基"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.taoist_guard3 name
+#: data/common/quests.json data/temple/npcs.json
 msgid "清云"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. temple.npc.guard_taoist3 name
+#: data/common/quests.json data/temple/npcs.json
 msgid "清玄"
 msgstr ""
 
@@ -7881,14 +8309,6 @@ msgstr ""
 msgid "草鞋"
 msgstr ""
 
-#. es2:d/snow/obj/sandals unit
-#. es2:d/snow/obj/shoe unit
-#. es2:d/goathill/obj/boots unit
-#. es2:d/waterfog/obj/leather_boot unit
-#: data/snow/items.json data/goathill/items.json data/waterfog/items.json
-msgid "双"
-msgstr ""
-
 #. es2:d/snow/obj/lumber_axe name
 #: data/snow/items.json
 msgid "铁斧"
@@ -8178,12 +8598,16 @@ msgid ""
 msgstr ""
 
 #. snow.npc.fist_trainer accept_fight.emote
-#: data/snow/npcs.json
+#. temple.npc.trainer accept_fight.emote
+#. temple.npc.tfighter accept_fight.emote
+#: data/snow/npcs.json data/temple/npcs.json
 msgid "点了点头。"
 msgstr ""
 
 #. snow.npc.fist_trainer accept_fight.say
-#: data/snow/npcs.json
+#. temple.npc.trainer accept_fight.say
+#. temple.npc.tfighter accept_fight.say
+#: data/snow/npcs.json data/temple/npcs.json
 msgid "进招吧。"
 msgstr ""
 
@@ -11102,7 +11526,10 @@ msgstr ""
 
 #. cloud.woodboxy.door name
 #. green.cave.door name
-#: data/cloud/world.json data/green/world.json
+#. temple.corridor7.door name
+#. temple.corridor3.door name
+#. temple.corridor4.door name
+#: data/cloud/world.json data/green/world.json data/temple/world.json
 msgid "木门"
 msgstr ""
 
@@ -11552,7 +11979,8 @@ msgstr ""
 
 #. waterfog.wpath2.landmark.stone name
 #. waterfog.swordtomb.landmark.monolith name
-#: data/waterfog/world.json
+#. temple.road2.landmark.slab name
+#: data/waterfog/world.json data/temple/world.json
 msgid "石碑"
 msgstr ""
 
@@ -12408,4 +12836,472 @@ msgstr ""
 #. green.outdoor.seal lines
 #: data/green/world.json
 msgid "入口被魔法封住了！"
+msgstr ""
+
+#. es2:d/temple/obj/broom name
+#: data/temple/items.json
+msgid "竹扫把"
+msgstr ""
+
+#. es2:d/temple/obj/broom long
+#: data/temple/items.json
+msgid ""
+"一把快秃了头的竹扫把。\n"
+msgstr ""
+
+#. es2:d/temple/obj/robe name
+#: data/temple/items.json
+msgid "青布道袍"
+msgstr ""
+
+#. es2:d/temple/obj/robe long
+#: data/temple/items.json
+msgid ""
+"一件式样简单的青布道袍\n"
+msgstr ""
+
+#. es2:d/temple/obj/boots name
+#: data/temple/items.json
+msgid "黑布鞋"
+msgstr ""
+
+#. es2:d/temple/obj/magic_book name
+#: data/temple/items.json
+msgid "魔法入门"
+msgstr ""
+
+#. es2:d/temple/obj/magic_book long
+#: data/temple/items.json
+msgid ""
+"这似乎是一本魔法的入门书，里面说了一些稀奇古怪的和一般的武学不同的东西\n"
+msgstr ""
+
+#. es2:d/temple/obj/spells_book name
+#: data/temple/items.json
+msgid "符咒简介"
+msgstr ""
+
+#. es2:d/temple/obj/spells_book long
+#: data/temple/items.json
+msgid ""
+"这似乎是一本符咒的简介，里面画着一些稀奇古怪的符号\n"
+msgstr ""
+
+#. es2:d/temple/obj/whip name
+#: data/temple/items.json
+msgid "拂尘"
+msgstr ""
+
+#. es2:d/temple/obj/whip long
+#: data/temple/items.json
+msgid ""
+"一柄以藤木为柄, 马尾为丝的拂尘\n"
+msgstr ""
+
+#. es2:d/temple/obj/old_robe name
+#: data/temple/items.json
+msgid "旧道袍"
+msgstr ""
+
+#. es2:d/temple/obj/old_robe long
+#: data/temple/items.json
+msgid ""
+"一件补了又补, 洗到泛白的旧道袍\n"
+msgstr ""
+
+#. es2:d/temple/obj/hat name
+#: data/temple/items.json
+msgid "青铜道冠"
+msgstr ""
+
+#. es2:d/temple/obj/hat long
+#: data/temple/items.json
+msgid ""
+"一顶青铜道冠\n"
+msgstr ""
+
+#. es2:d/temple/npc/obj/robe1 name
+#: data/temple/items.json
+msgid "八卦道袍"
+msgstr ""
+
+#. es2:d/temple/npc/obj/robe1 long
+#: data/temple/items.json
+msgid ""
+"一件胸前绣有八卦的黄色道袍。\n"
+msgstr ""
+
+#. es2:d/temple/npc/obj/jade_hat name
+#: data/temple/items.json
+msgid "碧玉冠"
+msgstr ""
+
+#. es2:d/temple/npc/obj/jade_hat long
+#: data/temple/items.json
+msgid ""
+"一顶镶著一块碧玉的道冠。\n"
+msgstr ""
+
+#. temple.npc.guest long
+#: data/temple/npcs.json
+msgid ""
+"一个福福泰泰的中年人, 他正气喘嘘嘘地走著石梯道\n"
+msgstr ""
+
+#. temple.npc.little_taoist1 title
+#. temple.npc.little_taoist2 title
+#: data/temple/npcs.json
+msgid "茅山派第八代弟子"
+msgstr ""
+
+#. temple.npc.little_taoist1 long
+#: data/temple/npcs.json
+msgid ""
+"一个长得眉清目秀的小男孩, 正努力地在打扫石阶\n"
+msgstr ""
+
+#. temple.npc.trainer long
+#: data/temple/npcs.json
+msgid ""
+"僵尸侍者是林忌的弟子，着一身黑色的道袍\n"
+msgstr ""
+
+#. temple.npc.trainer chat_msg
+#: data/temple/npcs.json
+msgid ""
+"僵尸侍者说道：我们茅山派实力最强！谁敢欺负我们？\n"
+msgstr ""
+
+#. temple.npc.trainer chat_msg
+#: data/temple/npcs.json
+msgid ""
+"僵尸侍者说道：大家快加入茅山派吧! \n"
+msgstr ""
+
+#. temple.npc.trainer accept_fight.say
+#. temple.npc.tfighter accept_fight.say
+#: data/temple/npcs.json
+msgid "茅山派不和别派的人过招。"
+msgstr ""
+
+#. temple.npc.tfighter long
+#: data/temple/npcs.json
+msgid ""
+"僵尸护法是茅山派的护法，着一身黑色的道袍\n"
+msgstr ""
+
+#. temple.npc.little_taoist2 name
+#: data/temple/npcs.json
+msgid "玄和"
+msgstr ""
+
+#. temple.npc.little_taoist2 long
+#: data/temple/npcs.json
+msgid ""
+"一个长得眉清目秀的小男孩, 正忙著浇花除草\n"
+msgstr ""
+
+#. temple.npc.old_taoist name
+#: data/temple/npcs.json
+msgid "老道士"
+msgstr ""
+
+#. temple.npc.old_taoist long
+#: data/temple/npcs.json
+msgid ""
+"一位四处云游的老道士, 他正在观心观挂单中。\n"
+"看他饱经沧桑的脸孔, 似乎他也是经历过无数的大风大浪。\n"
+msgstr ""
+
+#. temple.npc.old_taoist accept_fight.say
+#: data/temple/npcs.json
+msgid "无量寿佛 ! 贫道年迈力衰, 怎是施主的对手。"
+msgstr ""
+
+#. temple.npc.taoist title
+#. temple.npc.guard_taoist1 title
+#. temple.npc.guard_taoist2 title
+#. temple.npc.guard_taoist3 title
+#. temple.npc.taoist_guard1 title
+#. temple.npc.taoist_guard2 title
+#. temple.npc.taoist_guard3 title
+#: data/temple/npcs.json
+msgid "茅山派第六代弟子"
+msgstr ""
+
+#. temple.npc.taoist long
+#: data/temple/npcs.json
+msgid ""
+"一位神色和平的中年道士, 他正在教授他的徒弟如何运功导气\n"
+msgstr ""
+
+#. temple.npc.taoist2 title
+#: data/temple/npcs.json
+msgid "茅山派第七代弟子"
+msgstr ""
+
+#. temple.npc.taoist2 long
+#: data/temple/npcs.json
+msgid ""
+"一位身材魁武的年轻道士, 他正在练拳, 你看他舞得虎虎生风\n"
+msgstr ""
+
+#. temple.npc.guard_taoist1 name
+#: data/temple/npcs.json
+msgid "清灵"
+msgstr ""
+
+#. temple.npc.guard_taoist1 long
+#. temple.npc.guard_taoist2 long
+#. temple.npc.guard_taoist3 long
+#. temple.npc.taoist_guard1 long
+#. temple.npc.taoist_guard2 long
+#. temple.npc.taoist_guard3 long
+#: data/temple/npcs.json
+msgid ""
+"一位神情专注的道士, 他正轮值到看守藏经楼。\n"
+msgstr ""
+
+#. temple.npc.guard_taoist2 name
+#: data/temple/npcs.json
+msgid "清平"
+msgstr ""
+
+#. temple.npc.taoist_guard1 name
+#: data/temple/npcs.json
+msgid "清风"
+msgstr ""
+
+#. temple.npc.taoist_guard2 name
+#: data/temple/npcs.json
+msgid "清音"
+msgstr ""
+
+#. es2:d/temple/sroad long
+#: data/temple/rooms.json
+msgid ""
+"这是一条宽敞坚实的青石大道, 大道沿著山腰往南向山下延伸, 东\n"
+"边是一条石英岩石阶蜿蜒往山上而去。在石阶的尽头, 是一座颇为雄伟\n"
+"的道观, 在江湖跑过的人都知道, 那是茅山派的所在地。\n"
+msgstr ""
+
+#. es2:d/temple/ladder5 long
+#: data/temple/rooms.json
+msgid ""
+"你正站在这阶梯的起点, 纯白色宽敞的石英岩阶梯蜿蜒而上, 在青\n"
+"翠的山色中形成一条纯白色的巨龙。抬头仰望石阶尽头的那座庙宇, 虽\n"
+"然无情的岁月已经在它身上留下痕迹, 但仍不失其庄严神圣的气息。\n"
+msgstr ""
+
+#. es2:d/temple/ladder4 long
+#: data/temple/rooms.json
+msgid ""
+"你正走在一道长长的石英岩阶梯上, 阶梯的两侧种植著一排高耸\n"
+"的松树。雪亭镇就在西边不远的山下, 你隐约还能听到从镇上传来的\n"
+"话语声。\n"
+msgstr ""
+
+#. es2:d/temple/ladder3 long
+#: data/temple/rooms.json
+msgid ""
+"你正走在一道长长的石英岩阶梯上, 阶梯的两侧种植著一排高耸\n"
+"的松树。雪亭镇就在西边不远的山下, 你隐约还能听到从镇上传来的\n"
+"话语声。阶梯从这里弯向北边。\n"
+msgstr ""
+
+#. es2:d/temple/ladder2 long
+#: data/temple/rooms.json
+msgid ""
+"你正走在一道长长的石英岩阶梯上, 阶梯的两侧种植著一排高耸\n"
+"的松树。抬头望望东北边那座高耸挺拔的山峰, 在云雾飘渺的山顶上\n"
+", 矗立著一座雄伟的白色楼阁。\n"
+msgstr ""
+
+#. es2:d/temple/ladder1 long
+#: data/temple/rooms.json
+msgid ""
+"长长的阶梯也终将到了尽头, 阶梯的尽头矗立著一座山门, 山门\n"
+"上龙飞凤舞地写了三个字, 笔力苍劲有力显得气势非凡。山风吹来带\n"
+"著丝丝的寒意, 令你有股高处不胜寒的感觉。\n"
+msgstr ""
+
+#. es2:d/temple/entrance long
+#: data/temple/rooms.json
+msgid ""
+"在你眼前是一座古色古香的山门, 上面以龙飞凤舞的笔迹书写著\n"
+"「灵心观」三字, 据说是当年太阳神君「杞庸」亲笔所题。往北方看\n"
+"过去是一个颇大的广场。门前则是一条石英岩铺设的阶梯沿著山腰往\n"
+"东而下。\n"
+msgstr ""
+
+#. es2:d/temple/square long
+#: data/temple/rooms.json
+msgid ""
+"你正站在灵心观前的广场前, 一片用石英岩铺成的广场。一对雄\n"
+"伟的石狮子站在庙门的两侧, 狮子的两侧立著两根雕著龙纹的石柱。\n"
+"广场的中央还有一个大香炉, 香炉里正冒著袅袅的香烟。\n"
+msgstr ""
+
+#. es2:d/temple/temple1 long
+#: data/temple/rooms.json
+msgid ""
+"你现在来到灵心观的大殿, 在你的眼前是一尊真武大帝的金身。\n"
+"在金身的下方是一张朱红色的大供桌, 上面排满了鲜花素果。在桌子\n"
+"的前方则摆放著三四个蒲团。东西两侧的圆形拱门通往连接后殿的回\n"
+"廊。走过南边的红漆木门就是广场。\n"
+msgstr ""
+
+#. es2:d/temple/corridor1 long
+#: data/temple/rooms.json
+msgid ""
+"你现在正走在一条回廊上, 西北方是一座花木扶苏的天井, 穿过\n"
+"西边的圆形拱门就可以回到大殿。\n"
+msgstr ""
+
+#. es2:d/temple/corridor2 long
+#: data/temple/rooms.json
+msgid ""
+"你现在正走在一条回廊上, 东北方是一座花木扶苏的天井, 穿过\n"
+"东边的圆形拱门就可以回到大殿。\n"
+msgstr ""
+
+#. es2:d/temple/corridor7 long
+#: data/temple/rooms.json
+msgid ""
+"你正走在一条回廊之上, 回廊往南北延伸, 两端分别连接著大殿\n"
+"及后殿。西边是一座花草扶苏的天井, 东边则是一排厢房。\n"
+msgstr ""
+
+#. es2:d/temple/corridor6 long
+#: data/temple/rooms.json
+msgid ""
+"你正走在一条回廊之上, 回廊往南北延伸, 两端分别连接著大殿\n"
+"及后殿。东边是一座花草扶苏的天井, 西边是一间上了锁的房间。\n"
+msgstr ""
+
+#. es2:d/temple/inneryard long
+#: data/temple/rooms.json
+msgid ""
+"你正站在灵心观的天井里, 这里种植著一些花草树木, 在西北角\n"
+"落里有著一口水井。北边就是供俸茅山派历代掌门人的地方, 南边则\n"
+"是一面墙, 墙的另一侧就是大殿。\n"
+msgstr ""
+
+#. es2:d/temple/restroom1 long
+#: data/temple/rooms.json
+msgid ""
+"这是一间供香客或其他江湖同道休息挂单的客房, 屋子里只是简\n"
+"单地摆放著几件家俱。从西边的天井中, 传来了阵阵的花香。\n"
+msgstr ""
+
+#. es2:d/temple/corridor3 long
+#: data/temple/rooms.json
+msgid ""
+"你正站在回廊转角的地方, 回廊从这往西及南边而去。在走廊\n"
+"的东侧是一排厢房。北方是一条铺著青石板的小径。\n"
+msgstr ""
+
+#. es2:d/temple/corridor5 long
+#: data/temple/rooms.json
+msgid ""
+"你现在走在围绕著天井的回廊上, 回廊往东西两侧延伸, 南边就\n"
+"是天井, 你也许可以走过去赏赏花, 散散心。在你的北方, 走过那扇\n"
+"红漆木门就是后殿, 也是茅山派供奉历代掌门人灵位的地方。\n"
+msgstr ""
+
+#. es2:d/temple/corridor4 long
+#: data/temple/rooms.json
+msgid ""
+"你正站在回廊转角的地方, 回廊从这往东边及南边而去。在北边\n"
+"是一间大房子, 里面传来阵阵叱喝的声音。\n"
+msgstr ""
+
+#. es2:d/temple/restroom2 long
+#: data/temple/rooms.json
+msgid ""
+"这是一间供香客或其他江湖同道休息挂单的客房, 屋子里只是简\n"
+"单地摆放著几件家俱。你闻到天井中传来淡淡的花香。\n"
+msgstr ""
+
+#. es2:d/temple/temple2 long
+#: data/temple/rooms.json
+msgid ""
+"你正站在灵心观的后殿, 正中央供奉著茅山派开山祖师张天师的\n"
+"画像, 在画像的下方摆放著当年张天师收妖伏魔时所用的宝剑。剑的\n"
+"两旁陪祀著历代掌门人的牌位。走出南边的红漆木门可以看到天井。\n"
+msgstr ""
+
+#. es2:d/temple/trainroom long
+#: data/temple/rooms.json
+msgid ""
+"你正站在一间宽阔的大房间里, 这里是茅山派弟子打坐练功的地\n"
+"方, 空气中弥漫著一股股汗臭味。四周的墙壁上画著一幅幅经脉穴道\n"
+"图。靠近墙壁的地上则摆著一个个练功用的木人。\n"
+msgstr ""
+
+#. es2:d/temple/road1 long
+#: data/temple/rooms.json
+msgid ""
+"一条铺著青石板的小径, 两侧高大的松树, 偶有松针缓缓飘落。\n"
+"树干上布满了青苔, 甚至还有些蔓延到石板上。南边通往回廊, 西侧\n"
+"则是后殿。\n"
+msgstr ""
+
+#. es2:d/temple/road2 long
+#: data/temple/rooms.json
+msgid ""
+"绕过了后殿, 出现在眼前的是一栋木造两层高的屋子。屋子四周\n"
+"的门窗都紧紧的关著, 门口上方挂著一方蓝色琉璃匾额, 上书『藏经\n"
+"楼』三个金字。门旁立著一个石碑(slab)。\n"
+msgstr ""
+
+#. es2:d/temple/book_room1 long
+#: data/temple/rooms.json
+msgid ""
+"这里是灵心观中收藏书籍的地方, 四周的书架上堆了满满的书。\n"
+"有些书已经旧的纸张都泛黄了, 摸一摸可能就会散掉甚至变成飞灰。\n"
+"你再仔细的看了看, 发现这里都只是些寻常的修道的书籍, 似乎没有\n"
+"什么特别的。角落里有一座小小的木梯通往二楼。\n"
+msgstr ""
+
+#. es2:d/temple/book_room2 long
+#: data/temple/rooms.json
+msgid ""
+"上了楼来, 首先你看到一幅张天师的画像挂在对面的墙上, 画像\n"
+"的下方摆著一张覆著红布的桌子, 桌上整齐地放著茅山的镇教秘籍。\n"
+msgstr ""
+
+#. temple name
+#: data/temple/world.json
+msgid "茅山"
+msgstr ""
+
+#. temple.square.door name
+#. temple.corridor5.door name
+#: data/temple/world.json
+msgid "红漆木门"
+msgstr ""
+
+#. temple.road2.landmark.slab long
+#: data/temple/world.json
+msgid ""
+"石碑上写著 : \n"
+"\n"
+"    非\n"
+"    茅  不\n"
+"    山  得\n"
+"    弟  进\n"
+"    子  入\n"
+"\n"
+msgstr ""
+
+#. temple.road2.wall lines
+#: data/temple/world.json
+msgid "一道无形的墙挡住了门口, 差点把你的鼻子给撞扁了。"
+msgstr ""
+
+#. temple.road1.moss.south lines
+#. temple.road1.moss.northwest lines
+#: data/temple/world.json
+msgid "你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"
 msgstr ""

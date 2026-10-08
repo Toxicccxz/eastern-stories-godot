@@ -488,8 +488,8 @@ offset_top = 168
 offset_right = 1193
 offset_bottom = 191
 mouse_filter = 2
-theme_override_font_sizes/font_size = 12
-text = "石阶"
+theme_override_font_sizes/font_size = 14
+text = "石阶 · 茅山"
 
 [node name="WaterfogSign" type="Label" parent="Terrain"]
 offset_left = -1436
@@ -723,6 +723,16 @@ portal_id = &"snow.sroad5.west"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WaterfogPassage"]
 shape = SubResource("Rect_32_96")
+
+[node name="TemplePassage" type="Area2D" parent="."]
+position = Vector2(1160, 176)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"snow.eroad3.east"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TemplePassage"]
+shape = SubResource("Rect_96_32")
 
 [node name="WorkplaceWork" type="Marker2D" parent="."]
 position = Vector2(344, -744)
@@ -1136,6 +1146,11 @@ spawn_point_id = &"snow.sroad1.cloud_return"
 position = Vector2(-1344, 288)
 script = ExtResource("marker")
 spawn_point_id = &"snow.sroad5.waterfog_return"
+
+[node name="TempleReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1160, 248)
+script = ExtResource("marker")
+spawn_point_id = &"snow.eroad3.temple_return"
 
 [node name="Eroad2Dog1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(672, 464)

@@ -104,7 +104,7 @@ func _test_portals() -> void:
 	var south: PortalDefinition = catalog.portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
 	_assert_eq(south.source_map_id, SnowWorld.OUTDOOR_MAP_ID, "Snow south road starts in Snow")
 	_assert_eq(south.destination_map_id, OldPineWorld.OUTDOOR_MAP_ID, "and ends in Old Pine")
-	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), WorldCounts.ids("snow_outdoor_portals").size(), "Snow outdoor: Inn door, Old Pine road, 野羊山 north, 卧龙岗 south, 水烟阁 west and the weapon storage's hidden way down")
+	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), WorldCounts.ids("snow_outdoor_portals").size(), "Snow outdoor: Inn door, Old Pine road, 野羊山 north, 卧龙岗 south, 水烟阁 west, 茅山's steps and the weapon storage's hidden way down")
 	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 5, "Old Pine forest: Snow road, pine, two vine branches, cliffdown")
 	# One map per height level (DECISIONS 3B5): every Old Pine move that is not a walk changes map.
 	for map: MapDefinition in catalog.maps():

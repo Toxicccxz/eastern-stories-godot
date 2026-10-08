@@ -104,6 +104,54 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 茅山 A: the climb, the temple and its people (2026-10-08)
+
+Owner-approved plan (同意, 2026-10-08): four packages — A places the region, B 茅山派, C the
+player's 茅山道术 in a fight and its practice, D the zombies and the sheets. The plan's three
+questions, answered with their recommendations: a raised zombie follows the player across
+maps and is not saved (Continue starts without it, as ES2's relogin); practising 茅山道术
+asks nothing (its hover tells of the 观想虫); a 僵尸追魂符 names someone in the room, and one
+gone by the time it is put on the zombie is not stuck (the sheet stays). Defaults of the plan
+(owner may veto): the three-apprentice count is not ported (it never ran out, see
+[TEMPLE_CONTENT](TEMPLE_CONTENT.md)); 林忌 takes men only; a raised corpse's contents fall to
+the floor (ES2 destructs them with it); 符 are drawn only on 桃符纸, one at a time;
+astral_vision and earth-warp are not offered (nothing reads the one; the other never attached
+and leads to 鬼门关). What each room and NPC became is in TEMPLE_CONTENT.
+- **Maps**: three painter maps (`tools/maps/layouts/temple.json`): the climb (`canvas`), the
+  grounds inside the 山门 with the square, the hall, the walkways round the courtyard, the
+  halls behind and the 藏经楼's ground floor (`town`), and the 藏经楼's upper floor. Snow's
+  mountain road opens its drawn steps north (eroad3.c's exit east; its text: 往北则是通往山上
+  的石阶). 25 of the 27 room files are placed (broom1/2: copies no exit leads into).
+- **Doors as create_door() leaves them**: four open at the start (square, two guest rooms,
+  the training hall), the rear hall's red door shut (DOOR_CLOSED); world.json `open`.
+- **road2.c's guards on duty** (`draw` spawns): when the world is made and at each reset of
+  road2 one of 清灵/清平/清玄 and one of 清风/清音/清云 is drawn and comes (made anew if dead,
+  called home if away); the others stay, as std/room.c leaves an earlier draw standing, so up
+  to six stand there in time. ES2 put on duty the draw of the reset before (road2.c sets the
+  objects after ::reset()): the same odds, one reset apart. The draws are on the world's
+  interaction stream, as room resets.
+- **road1.c's moss**: each walk off the path south or north-west draws random(kar) (query("kar"),
+  as set); below 3 the player reads the slip, falls unconscious (A9's short wake) and stays
+  on the path. Coming onto the path never slips.
+- **road2.c's invisible wall** stops all but 茅山派 at the 藏经楼's door; a member, and anyone
+  coming out, reads book_room1.c's door line (`pass_lines`); tell_room() lines only others
+  would see are not shown.
+- **An NPC's class** (`set("class")`) is data: rankd.c's words follow it, so the taoists call
+  themselves 贫道 in npc.c's spar answer and ask.c's lines.
+- **召护法 (invocation.c) for NPCs**: 林忌, 僵尸侍者 and 僵尸护法 call a 天将 (one in three) or
+  a 阴鬼卒 (obj/npc/hell_guard.c, a summoned NPC like the 天将, its lines in HIB, a new colour)
+  to their side. The bolts and 召护法 have their 施法 names now (紫光, 白光, 青光, 召护法): 林忌
+  teaches 茅山道术, so the player reaches them with B; a player's bolt that fails says 你失败了
+  (netherbolt.c 你失败了！). 僵尸侍者's command("cast (m)animate on corpse") draws do nothing.
+- **Not ported, as planned**: 僵尸护法's `pursuer` (as 县城官兵's, 黄霸's and 安惜迩's: 逃跑 keeps
+  no killer to follow; each such NPC is a review entry of the importer); temple1.c's bulletin
+  board and valid_startroom. sword.c's hit_ob() waits for the first ghost (a tools test fails
+  once a ghost NPC is placed).
+- **□**: daemon/class/taoist/sword.c's 王□ is 王禅 (**默认**; text_replacements.json).
+- The importer's lexer accepts a lost character inside a comment (npc/obj/magic_book.c).
+- **Save**: world content revision `SOURCE_ENTRY_TEMPLE_V1`; older development saves need a
+  New Game.
+
 ## 青石村 D: the player's spells (2026-10-07)
 
 What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).

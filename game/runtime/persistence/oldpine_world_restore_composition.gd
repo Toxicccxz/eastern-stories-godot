@@ -204,8 +204,8 @@ static func _restore_npc_ledger(
 				or NpcGeneration.of(saved.character_id, point_id) == 0
 				or not _location_is_current(saved.world_location)
 				or saved.world_location.map_id != spawn.map_id
-				# Alive and not in the world: only a summoned spawn's NPC waiting for its room.
-				or (not saved.exists_in_world and saved.life_status != &"dead" and not spawn.summoned)
+				# Alive and not in the world: only a summoned or drawn spawn's NPC waiting for its room.
+				or (not saved.exists_in_world and saved.life_status != &"dead" and not spawn.starts_absent)
 			):
 				return Result.failure(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,

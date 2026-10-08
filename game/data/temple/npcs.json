@@ -1,0 +1,563 @@
+{
+	"npcs": [
+		{
+			"id": "temple.npc.guest",
+			"legacy_source": "d/temple/npc/guest.c",
+			"name": "进香客",
+			"aliases": ["guest"],
+			"gender": "男性",
+			"age": 31,
+			"long": "一个福福泰泰的中年人, 他正气喘嘘嘘地走著石梯道\n",
+			"combat_exp": 600,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
+			]
+		},
+		{
+			"id": "temple.npc.little_taoist1",
+			"legacy_source": "d/temple/npc/little_taoist1.c",
+			"name": "玄真",
+			"aliases": ["xuan jen", "xuan", "jen"],
+			"title": "茅山派第八代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 14,
+			"long": "一个长得眉清目秀的小男孩, 正努力地在打扫石阶\n",
+			"attributes": { "str": 25 },
+			"resources": {
+				"max_kee": 350,
+				"max_force": 200,
+				"force": 200,
+				"mana": 100,
+				"max_mana": 100,
+				"sen": 150,
+				"max_sen": 150
+			},
+			"combat_exp": 1500,
+			"force_factor": 2,
+			"attitude": "heroism",
+			"skills": { "force": 20, "spells": 15, "staff": 20, "dodge": 15, "parry": 18 },
+			"carry": [
+				{ "item": "es2:d/temple/obj/broom", "source": "d/temple/npc/obj/broom.c", "equip": "wield" },
+				{ "item": "es2:d/temple/obj/robe", "source": "d/temple/npc/obj/robe.c", "equip": "wear" },
+				{ "item": "es2:d/temple/obj/boots", "source": "d/temple/npc/obj/boots.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "temple.npc.trainer",
+			"legacy_source": "d/temple/npc/trainer.c",
+			"name": "僵尸侍者",
+			"aliases": ["trainer"],
+			"nickname": "僵尸侍者",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 27,
+			"long": "僵尸侍者是林忌的弟子，着一身黑色的道袍\n",
+			"attributes": { "str": 20, "int": 30, "cor": 20, "cps": 30, "spi": 30 },
+			"resources": {
+				"force": 500,
+				"max_force": 500,
+				"atman": 300,
+				"max_atman": 300,
+				"mana": 400,
+				"max_mana": 400
+			},
+			"combat_exp": 14000,
+			"score": -10,
+			"force_factor": 20,
+			"family": { "name": "茅山派", "generation": 6, "title": "弟子" },
+			"skills": {
+				"literate": 10,
+				"magic": 60,
+				"force": 50,
+				"spells": 60,
+				"scratching": 20,
+				"unarmed": 100,
+				"sword": 100,
+				"parry": 80,
+				"dodge": 80,
+				"gouyee": 60,
+				"taoism": 60,
+				"necromancy": 60
+			},
+			"skill_map": { "spells": "necromancy" },
+			"carry": [
+				{ "item": "es2:obj/weapon/longsword", "source": "obj/weapon/longsword.c", "equip": "wield" },
+				{ "item": "es2:d/temple/obj/magic_book", "source": "d/temple/npc/obj/magic_book.c" },
+				{ "item": "es2:d/temple/obj/spells_book", "source": "d/temple/npc/obj/spells_book.c" }
+			],
+			"apply": { "dodge": 40, "armor": 40 },
+			"chat_chance": 25,
+			"chat_msg": ["僵尸侍者说道：我们茅山派实力最强！谁敢欺负我们？\n", "僵尸侍者说道：大家快加入茅山派吧! \n", { "action": "random_move" }],
+			"inquiry": { "谷衣心法": ["谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"], "茅山派": ["我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"] },
+			"chat_chance_combat": 100,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "invocation" },
+				{ "action": "cast", "function": "manimate" },
+				{ "action": "cast", "function": "animate" }
+			],
+			"accept_fight": [
+				{ "family": "family.maoshan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
+				{ "say": "茅山派不和别派的人过招。", "accept": false }
+			]
+		},
+		{
+			"id": "temple.npc.tfighter",
+			"legacy_source": "d/temple/npc/tfighter.c",
+			"name": "僵尸护法",
+			"aliases": ["taoist tfighter", "tfighter"],
+			"class": "taoist",
+			"gender": "男性",
+			"age": 32,
+			"long": "僵尸护法是茅山派的护法，着一身黑色的道袍\n",
+			"attributes": { "int": 30, "cps": 30, "spi": 30 },
+			"resources": {
+				"force": 150,
+				"max_force": 150,
+				"atman": 150,
+				"max_atman": 150,
+				"mana": 300,
+				"max_mana": 300
+			},
+			"combat_exp": 50000,
+			"score": 20,
+			"force_factor": 5,
+			"family": { "name": "茅山派", "generation": 6, "title": "弟子" },
+			"skills": {
+				"literate": 50,
+				"magic": 30,
+				"force": 30,
+				"spells": 60,
+				"unarmed": 50,
+				"sword": 100,
+				"parry": 100,
+				"dodge": 100,
+				"gouyee": 60,
+				"taoism": 70,
+				"necromancy": 60
+			},
+			"skill_map": { "force": "gouyee", "spells": "necromancy" },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 3 },
+				{ "item": "es2:obj/weapon/longsword", "source": "obj/weapon/longsword.c", "equip": "wield" }
+			],
+			"apply": { "dodge": 30, "armor": 30 },
+			"chat_chance_combat": 40,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "invocation" }
+			],
+			"inquiry": { "谷衣心法": ["谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"], "茅山派": ["我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"] },
+			"accept_fight": [
+				{ "family": "family.maoshan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
+				{ "say": "茅山派不和别派的人过招。", "accept": false }
+			]
+		},
+		{
+			"id": "temple.npc.little_taoist2",
+			"legacy_source": "d/temple/npc/little_taoist2.c",
+			"name": "玄和",
+			"aliases": ["shyuan-her", "shyuan", "her"],
+			"title": "茅山派第八代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 14,
+			"long": "一个长得眉清目秀的小男孩, 正忙著浇花除草\n",
+			"attributes": { "str": 25 },
+			"resources": {
+				"max_kee": 350,
+				"max_force": 200,
+				"force": 200,
+				"mana": 100,
+				"max_mana": 100,
+				"sen": 150,
+				"max_sen": 150
+			},
+			"combat_exp": 1000,
+			"force_factor": 2,
+			"attitude": "heroism",
+			"skills": { "force": 20, "spells": 15, "unarmed": 20, "dodge": 15, "parry": 18 },
+			"carry": [
+				{ "item": "es2:d/temple/obj/robe", "source": "d/temple/npc/obj/robe.c", "equip": "wear" },
+				{ "item": "es2:d/temple/obj/boots", "source": "d/temple/npc/obj/boots.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "temple.npc.old_taoist",
+			"legacy_source": "d/temple/npc/old_taoist.c",
+			"name": "老道士",
+			"aliases": ["old taoist", "taoist"],
+			"class": "taoist",
+			"gender": "男性",
+			"age": 46,
+			"long": "一位四处云游的老道士, 他正在观心观挂单中。\n看他饱经沧桑的脸孔, 似乎他也是经历过无数的大风大浪。\n",
+			"combat_exp": 2500,
+			"attitude": "peaceful",
+			"skills": { "dodge": 10, "parry": 15, "whip": 25 },
+			"carry": [
+				{ "item": "es2:d/temple/obj/whip", "source": "d/temple/npc/obj/whip.c", "equip": "wield" },
+				{ "item": "es2:d/temple/obj/old_robe", "source": "d/temple/npc/obj/old_robe.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
+			],
+			"accept_fight": [
+				{ "say": "无量寿佛 ! 贫道年迈力衰, 怎是施主的对手。", "accept": false }
+			]
+		},
+		{
+			"id": "temple.npc.taoist",
+			"legacy_source": "d/temple/npc/taoist.c",
+			"name": "清虚",
+			"aliases": ["ching-shiu", "ching", "shiu"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 36,
+			"long": "一位神色和平的中年道士, 他正在教授他的徒弟如何运功导气\n",
+			"attributes": { "spi": 28, "cor": 22 },
+			"resources": {
+				"force": 400,
+				"max_force": 400,
+				"mana": 500,
+				"max_mana": 500,
+				"atman": 300,
+				"max_atman": 300
+			},
+			"combat_exp": 10000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 30,
+				"force": 30,
+				"gouyee": 40,
+				"parry": 25,
+				"spells": 35,
+				"necromancy": 30,
+				"magic": 35,
+				"taoism": 40
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/obj/robe", "source": "d/temple/npc/obj/robe.c", "equip": "wear" },
+				{ "item": "es2:d/temple/obj/hat", "source": "d/temple/npc/obj/hat.c", "equip": "wear" },
+				{ "item": "es2:d/temple/obj/boots", "source": "d/temple/npc/obj/boots.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "temple.npc.taoist2",
+			"legacy_source": "d/temple/npc/taoist2.c",
+			"name": "明心",
+			"aliases": ["ming-shin", "ming", "shin"],
+			"title": "茅山派第七代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 24,
+			"long": "一位身材魁武的年轻道士, 他正在练拳, 你看他舞得虎虎生风\n",
+			"attributes": { "str": 30, "con": 30 },
+			"resources": {
+				"max_force": 300,
+				"force": 300,
+				"max_mana": 450,
+				"mana": 450,
+				"max_atman": 250,
+				"atman": 250
+			},
+			"combat_exp": 5000,
+			"force_factor": 4,
+			"attitude": "heroism",
+			"skills": {
+				"unarmed": 20,
+				"dodge": 20,
+				"force": 25,
+				"parry": 20,
+				"gouyee": 30,
+				"spells": 25,
+				"necromancy": 28,
+				"magic": 27,
+				"taoism": 30
+			},
+			"skill_map": { "force": "gouyee", "spells": "necromancy", "magic": "taoism" },
+			"carry": [
+				{ "item": "es2:d/temple/obj/robe", "source": "d/temple/npc/obj/robe.c", "equip": "wear" },
+				{ "item": "es2:d/temple/obj/hat", "source": "d/temple/npc/obj/hat.c", "equip": "wear" },
+				{ "item": "es2:d/temple/obj/boots", "source": "d/temple/npc/obj/boots.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "temple.npc.guard_taoist1",
+			"legacy_source": "d/temple/npc/guard_taoist1.c",
+			"name": "清灵",
+			"aliases": ["ching-lin", "ching", "lin"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位神情专注的道士, 他正轮值到看守藏经楼。\n",
+			"attributes": { "spi": 28, "cor": 25, "con": 26 },
+			"resources": {
+				"force": 700,
+				"max_force": 700,
+				"mana": 1800,
+				"max_mana": 1800,
+				"atman": 900,
+				"max_atman": 900
+			},
+			"combat_exp": 50000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 35,
+				"force": 30,
+				"gouyee": 50,
+				"parry": 35,
+				"spells": 75,
+				"necromancy": 80,
+				"magic": 35,
+				"taoism": 90
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/npc/obj/robe1", "source": "d/temple/npc/obj/robe1.c", "equip": "wear" },
+				{ "item": "es2:d/temple/npc/obj/jade_hat", "source": "d/temple/npc/obj/jade_hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 55,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" }
+			]
+		},
+		{
+			"id": "temple.npc.guard_taoist2",
+			"legacy_source": "d/temple/npc/guard_taoist2.c",
+			"name": "清平",
+			"aliases": ["ching-pin", "ching", "pin"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位神情专注的道士, 他正轮值到看守藏经楼。\n",
+			"attributes": { "spi": 28, "cor": 25, "con": 26 },
+			"resources": {
+				"force": 700,
+				"max_force": 700,
+				"mana": 1800,
+				"max_mana": 1800,
+				"atman": 900,
+				"max_atman": 900
+			},
+			"combat_exp": 49000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 35,
+				"force": 30,
+				"gouyee": 50,
+				"parry": 35,
+				"spells": 75,
+				"necromancy": 80,
+				"magic": 35,
+				"taoism": 90
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/npc/obj/robe1", "source": "d/temple/npc/obj/robe1.c", "equip": "wear" },
+				{ "item": "es2:d/temple/npc/obj/jade_hat", "source": "d/temple/npc/obj/jade_hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" }
+			]
+		},
+		{
+			"id": "temple.npc.guard_taoist3",
+			"legacy_source": "d/temple/npc/guard_taoist3.c",
+			"name": "清玄",
+			"aliases": ["ching-shyuan", "ching", "shyuan"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位神情专注的道士, 他正轮值到看守藏经楼。\n",
+			"attributes": { "spi": 28, "cor": 25, "con": 26 },
+			"resources": {
+				"force": 700,
+				"max_force": 700,
+				"mana": 1800,
+				"max_mana": 1800,
+				"atman": 900,
+				"max_atman": 900
+			},
+			"combat_exp": 50000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 35,
+				"force": 30,
+				"gouyee": 50,
+				"parry": 35,
+				"spells": 75,
+				"necromancy": 80,
+				"magic": 35,
+				"taoism": 90
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/npc/obj/robe1", "source": "d/temple/npc/obj/robe1.c", "equip": "wear" },
+				{ "item": "es2:d/temple/npc/obj/jade_hat", "source": "d/temple/npc/obj/jade_hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" }
+			]
+		},
+		{
+			"id": "temple.npc.taoist_guard1",
+			"legacy_source": "d/temple/npc/taoist_guard1.c",
+			"name": "清风",
+			"aliases": ["ching-fong", "ching", "fong"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位神情专注的道士, 他正轮值到看守藏经楼。\n",
+			"attributes": { "spi": 28, "cor": 25, "con": 26 },
+			"resources": {
+				"force": 700,
+				"max_force": 700,
+				"mana": 1800,
+				"max_mana": 1800,
+				"atman": 900,
+				"max_atman": 900
+			},
+			"combat_exp": 48000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 35,
+				"force": 30,
+				"gouyee": 50,
+				"parry": 35,
+				"spells": 75,
+				"necromancy": 80,
+				"magic": 35,
+				"taoism": 90
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/npc/obj/robe1", "source": "d/temple/npc/obj/robe1.c", "equip": "wear" },
+				{ "item": "es2:d/temple/npc/obj/jade_hat", "source": "d/temple/npc/obj/jade_hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" }
+			]
+		},
+		{
+			"id": "temple.npc.taoist_guard2",
+			"legacy_source": "d/temple/npc/taoist_guard2.c",
+			"name": "清音",
+			"aliases": ["ching-in", "ching", "in"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位神情专注的道士, 他正轮值到看守藏经楼。\n",
+			"attributes": { "spi": 28, "cor": 25, "con": 26 },
+			"resources": {
+				"force": 700,
+				"max_force": 700,
+				"mana": 1800,
+				"max_mana": 1800,
+				"atman": 900,
+				"max_atman": 900
+			},
+			"combat_exp": 52000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 35,
+				"force": 30,
+				"gouyee": 50,
+				"parry": 35,
+				"spells": 75,
+				"necromancy": 80,
+				"magic": 35,
+				"taoism": 90
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/npc/obj/robe1", "source": "d/temple/npc/obj/robe1.c", "equip": "wear" },
+				{ "item": "es2:d/temple/npc/obj/jade_hat", "source": "d/temple/npc/obj/jade_hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" }
+			]
+		},
+		{
+			"id": "temple.npc.taoist_guard3",
+			"legacy_source": "d/temple/npc/taoist_guard3.c",
+			"name": "清云",
+			"aliases": ["ching-yun", "ching", "yun"],
+			"title": "茅山派第六代弟子",
+			"class": "taoist",
+			"gender": "男性",
+			"age": 43,
+			"long": "一位神情专注的道士, 他正轮值到看守藏经楼。\n",
+			"attributes": { "spi": 28, "cor": 25, "con": 26 },
+			"resources": {
+				"force": 700,
+				"max_force": 700,
+				"mana": 1800,
+				"max_mana": 1800,
+				"atman": 900,
+				"max_atman": 900
+			},
+			"combat_exp": 51000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 35,
+				"force": 30,
+				"gouyee": 50,
+				"parry": 35,
+				"spells": 75,
+				"necromancy": 80,
+				"magic": 35,
+				"taoism": 90
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/temple/npc/obj/robe1", "source": "d/temple/npc/obj/robe1.c", "equip": "wear" },
+				{ "item": "es2:d/temple/npc/obj/jade_hat", "source": "d/temple/npc/obj/jade_hat.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" }
+			]
+		}
+	]
+}

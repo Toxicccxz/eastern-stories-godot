@@ -74,16 +74,18 @@ def lex(source: Source) -> list[Token]:
     offsets = [0]
     for char in text:
         offsets.append(offsets[-1] + len(char.encode('utf-8')))
-    for bad in ('\x00', '\ufffd'):
-        i = text.find(bad)
-        if i >= 0:
-            raise SourceError('NUL or replacement character in source', offsets[i], offsets[i + 1], encoding=True)
     tokens: list[Token] = []
     i, length = 0, len(text)
     line_prefix_is_trivia = True
 
     def emit(kind: str, start: int, end: int) -> None:
         nonlocal line_prefix_is_trivia
+        # A character lost before the files reached us is refused where it would mean
+        # something; in a comment (d/temple/npc/obj/magic_book.c) it is only trivia.
+        for bad in ('\x00', '\ufffd'):
+            at = text.find(bad, start, end)
+            if at >= 0:
+                raise SourceError('NUL or replacement character in source', offsets[at], offsets[at + 1], encoding=True)
         tokens.append(Token(kind, text[start:end], offsets[start], offsets[end]))
         # Strings/heredocs end with non-trivia on their final physical line.
         # A directive consumes its final newline, when present, unlike other tokens.

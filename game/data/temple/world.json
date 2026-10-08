@@ -1,0 +1,68 @@
+{
+	"regions": [
+		{ "id": "temple", "name": "茅山" }
+	],
+	"maps": [
+		{ "id": "temple.mountain", "region": "temple", "scene": "res://scenes/world/temple/temple_mountain.tscn", "entry": "temple.sroad.snow_entry" },
+		{ "id": "temple.grounds", "region": "temple", "scene": "res://scenes/world/temple/temple_grounds.tscn", "entry": "temple.square.gate_arrival" },
+		{ "id": "temple.library", "region": "temple", "scene": "res://scenes/world/temple/temple_library.tscn", "entry": "temple.book_room2.stairs_arrival" }
+	],
+	"zones": [
+		{ "id": "temple.sroad", "map": "temple.mountain", "rooms": ["es2:d/temple/sroad"] },
+		{ "id": "temple.ladder5", "map": "temple.mountain", "rooms": ["es2:d/temple/ladder5"] },
+		{ "id": "temple.ladder4", "map": "temple.mountain", "rooms": ["es2:d/temple/ladder4"] },
+		{ "id": "temple.ladder3", "map": "temple.mountain", "rooms": ["es2:d/temple/ladder3"] },
+		{ "id": "temple.ladder2", "map": "temple.mountain", "rooms": ["es2:d/temple/ladder2"] },
+		{ "id": "temple.ladder1", "map": "temple.mountain", "rooms": ["es2:d/temple/ladder1"] },
+		{ "id": "temple.entrance", "map": "temple.mountain", "rooms": ["es2:d/temple/entrance"] },
+		{ "id": "temple.square", "map": "temple.grounds", "rooms": ["es2:d/temple/square"] },
+		{ "id": "temple.temple1", "map": "temple.grounds", "rooms": ["es2:d/temple/temple1"] },
+		{ "id": "temple.corridor1", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor1"] },
+		{ "id": "temple.corridor2", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor2"] },
+		{ "id": "temple.corridor7", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor7"] },
+		{ "id": "temple.corridor6", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor6"] },
+		{ "id": "temple.inneryard", "map": "temple.grounds", "rooms": ["es2:d/temple/inneryard"] },
+		{ "id": "temple.restroom1", "map": "temple.grounds", "rooms": ["es2:d/temple/restroom1"] },
+		{ "id": "temple.corridor3", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor3"] },
+		{ "id": "temple.corridor5", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor5"] },
+		{ "id": "temple.corridor4", "map": "temple.grounds", "rooms": ["es2:d/temple/corridor4"] },
+		{ "id": "temple.restroom2", "map": "temple.grounds", "rooms": ["es2:d/temple/restroom2"] },
+		{ "id": "temple.temple2", "map": "temple.grounds", "rooms": ["es2:d/temple/temple2"] },
+		{ "id": "temple.trainroom", "map": "temple.grounds", "rooms": ["es2:d/temple/trainroom"] },
+		{ "id": "temple.road1", "map": "temple.grounds", "rooms": ["es2:d/temple/road1"] },
+		{ "id": "temple.road2", "map": "temple.grounds", "rooms": ["es2:d/temple/road2"] },
+		{ "id": "temple.book_room1", "map": "temple.grounds", "rooms": ["es2:d/temple/book_room1"] },
+		{ "id": "temple.book_room2", "map": "temple.library", "rooms": ["es2:d/temple/book_room2"] }
+	],
+	"portals": [
+		{ "id": "temple.sroad.west", "from_zone": "temple.sroad", "to_zone": "snow.eroad3", "to_spawn": "snow.eroad3.temple_return", "legacy_room": "es2:d/temple/sroad", "legacy_command": "west" },
+		{ "id": "temple.entrance.north", "from_zone": "temple.entrance", "to_zone": "temple.square", "to_spawn": "temple.square.gate_arrival", "legacy_room": "es2:d/temple/entrance", "legacy_command": "north" },
+		{ "id": "temple.square.south", "from_zone": "temple.square", "to_zone": "temple.entrance", "to_spawn": "temple.entrance.gate_return", "legacy_room": "es2:d/temple/square", "legacy_command": "south" },
+		{ "id": "temple.book_room1.up", "from_zone": "temple.book_room1", "to_zone": "temple.book_room2", "to_spawn": "temple.book_room2.stairs_arrival", "legacy_room": "es2:d/temple/book_room1", "legacy_command": "up" },
+		{ "id": "temple.book_room2.down", "from_zone": "temple.book_room2", "to_zone": "temple.book_room1", "to_spawn": "temple.book_room1.stairs_return", "legacy_room": "es2:d/temple/book_room2", "legacy_command": "down" }
+	],
+	"doors": [
+		{ "id": "temple.square.door", "name": "红漆木门", "zones": ["temple.square", "temple.temple1"], "reach": 90, "open": true, "legacy_room": "es2:d/temple/square" },
+		{ "id": "temple.corridor7.door", "name": "木门", "zones": ["temple.corridor7", "temple.restroom1"], "reach": 90, "open": true, "legacy_room": "es2:d/temple/corridor7" },
+		{ "id": "temple.corridor3.door", "name": "木门", "zones": ["temple.corridor3", "temple.restroom2"], "reach": 90, "open": true, "legacy_room": "es2:d/temple/corridor3" },
+		{ "id": "temple.corridor4.door", "name": "木门", "zones": ["temple.corridor4", "temple.trainroom"], "reach": 90, "open": true, "legacy_room": "es2:d/temple/corridor4" },
+		{ "id": "temple.corridor5.door", "name": "红漆木门", "zones": ["temple.corridor5", "temple.temple2"], "reach": 90, "legacy_room": "es2:d/temple/corridor5" }
+	],
+	"spawns": [
+		{ "id": "temple.grounds.road2.guard_taoist1", "npc": "temple.npc.guard_taoist1", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.guard_taoist1.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.guard_taoist" },
+		{ "id": "temple.grounds.road2.guard_taoist2", "npc": "temple.npc.guard_taoist2", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.guard_taoist2.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.guard_taoist" },
+		{ "id": "temple.grounds.road2.guard_taoist3", "npc": "temple.npc.guard_taoist3", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.guard_taoist3.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.guard_taoist" },
+		{ "id": "temple.grounds.road2.taoist_guard1", "npc": "temple.npc.taoist_guard1", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.taoist_guard1.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.taoist_guard" },
+		{ "id": "temple.grounds.road2.taoist_guard2", "npc": "temple.npc.taoist_guard2", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.taoist_guard2.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.taoist_guard" },
+		{ "id": "temple.grounds.road2.taoist_guard3", "npc": "temple.npc.taoist_guard3", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.taoist_guard3.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.taoist_guard" }
+	],
+	"landmarks": [
+		{ "id": "temple.road2.landmark.slab", "zone": "temple.road2", "name": "石碑", "policy": "look", "long": "石碑上写著 : \n\n    非\n    茅  不\n    山  得\n    弟  进\n    子  入\n\n", "legacy_source": "d/temple/road2.c" }
+	],
+	"exit_rules": [
+		{ "id": "temple.road2.wall", "room": "es2:d/temple/road2", "from_zone": "temple.road2", "to_zone": "temple.book_room1", "when": "not_family", "family": "family.maoshan", "lines": ["一道无形的墙挡住了门口, 差点把你的鼻子给撞扁了。"], "pass_lines": ["你推开门走了进去, 顺手把门关了起来。"], "legacy_source": "d/temple/road2.c" },
+		{ "id": "temple.book_room1.out", "room": "es2:d/temple/book_room1", "from_zone": "temple.book_room1", "to_zone": "temple.road2", "when": "never", "pass_lines": ["你拉开门大步走了出去, 随手把门带上。"], "legacy_source": "d/temple/book_room1.c" },
+		{ "id": "temple.road1.moss.south", "room": "es2:d/temple/road1", "from_zone": "temple.road1", "to_zone": "temple.corridor3", "when": "kar_slip", "value": 3, "lines": ["你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"], "legacy_source": "d/temple/road1.c" },
+		{ "id": "temple.road1.moss.northwest", "room": "es2:d/temple/road1", "from_zone": "temple.road1", "to_zone": "temple.road2", "when": "kar_slip", "value": 3, "lines": ["你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"], "legacy_source": "d/temple/road1.c" }
+	]
+}

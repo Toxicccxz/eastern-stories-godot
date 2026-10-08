@@ -92,7 +92,7 @@ func _test_record_rules() -> void:
 	NpcHitCondition.from_record(ContentRecordReader.new({"condition": "snake_poison", "duration": 0, "below": 10, "message": "x"}, "t", errors))
 	_check(not errors.is_empty(), "a hit_ob needs a positive duration")
 	errors.clear()
-	NpcHitCondition.from_record(ContentRecordReader.new({"condition": "snake_poison", "duration": 20, "below": 10, "message": "x", "color": "HIB"}, "t", errors))
+	NpcHitCondition.from_record(ContentRecordReader.new({"condition": "snake_poison", "duration": 20, "below": 10, "message": "x", "color": "BLU"}, "t", errors))
 	_check(not errors.is_empty(), "a hit_ob's color is one ColoredLine knows")
 	errors.clear()
 	NpcKilledEnemy.from_record(ContentRecordReader.new({}, "t", errors))

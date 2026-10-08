@@ -28,6 +28,8 @@ var flash: String
 var flash_color: StringName
 var hit: String
 var miss: String
+## write() when random(max_mana) < 50: 你失败了。 (netherbolt.c: 你失败了！).
+var fail_line: String = "你失败了。"
 
 
 func _init(p_id: StringName, p_track: Track) -> void:
@@ -48,7 +50,8 @@ func cast(context: SpecialContext) -> bool:
 	mana.current -= MANA_COST
 	me.state.spirit.apply_damage(sen_cost)
 	if context.random.call(mana.maximum) < FAIL_BELOW:
-		return true # write("你失败了。"): the caster alone reads it.
+		context.write(fail_line)
+		return true
 	context.say(flash, target.character_id, flash_color)
 	var ap: int = me.query_skill(&"spells")
 	@warning_ignore("integer_division")

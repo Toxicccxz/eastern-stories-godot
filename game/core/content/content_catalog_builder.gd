@@ -301,6 +301,20 @@ func _resolve_npc_dealings() -> void:
 
 func _check_spawns() -> void:
 	var point_owners: Dictionary[StringName, StringName] = {}
+	# A draw group is the spawns one room's reset() draws from: one zone, one room, two or more.
+	var group_first: Dictionary[StringName, NpcSpawnDefinition] = {}
+	var group_size: Dictionary[StringName, int] = {}
+	for definition: NpcSpawnDefinition in _spawns.values():
+		if not definition.drawn:
+			continue
+		var first: NpcSpawnDefinition = group_first.get(definition.draw_group, definition)
+		group_first[definition.draw_group] = first
+		group_size[definition.draw_group] = group_size.get(definition.draw_group, 0) + 1
+		if first.zone_id != definition.zone_id or first.legacy_source_room_path != definition.legacy_source_room_path:
+			_errors.append("%s.draw: '%s' spans more than one zone or room" % [_origins[definition.spawn_id], definition.draw_group])
+	for group: StringName in group_size:
+		if group_size[group] < 2:
+			_errors.append("%s.draw: '%s' has nothing to draw from" % [_origins[group_first[group].spawn_id], group])
 	for definition: NpcSpawnDefinition in _spawns.values():
 		var origin: String = _origins[definition.spawn_id]
 		if not _npcs.has(definition.npc_definition_id):
@@ -480,6 +494,8 @@ func _check_exit_rules() -> void:
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_APPRENTICE_OF and not _npcs.has(rule.npc_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])
+		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_FAMILY and not _families.has(rule.family_id):
+			_errors.append("%s.family: unknown family '%s'" % [origin, rule.family_id])
 
 
 ## A landmark's portals leave from its own zone; a hidden passage's second

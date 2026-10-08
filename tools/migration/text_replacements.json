@@ -6,6 +6,8 @@
 		{"find": "用力一□", "replace": "用力一砸", "where": "bash_weapon's action (weapond.c)", "why": "owner: a hammer's blow"},
 		{"find": "□伤", "replace": "擦伤", "where": "d/skill/spring-blade.c damage_type; combatd.c damage_msg case", "why": "uncertain: not 砍伤 or 劈伤 (weapond.c's own types, which fall to the default lines); the case shares 割伤's lines (划破皮肉), and 擦伤 is used nowhere else; the word itself is never shown"},
 		{"find": "血肉□糊", "replace": "血肉模糊", "where": "combatd.c damage_msg 刺伤", "why": "the set phrase"},
-		{"find": "全身□麻", "replace": "全身酸麻", "where": "cmds/std/exercise.c (no gain)", "why": "痠 in the source; training_lines.gd already reads 酸麻"}
+		{"find": "全身□麻", "replace": "全身酸麻", "where": "cmds/std/exercise.c (no gain)", "why": "痠 in the source; training_lines.gd already reads 酸麻"},
+		{"find": "王□", "replace": "王禅", "where": "daemon/class/taoist/sword.c (林忌's 咒剑: its name, the hilt's seal characters, its hit_ob() line)", "why": "uncertain: a character outside GB2312, unrecoverable; 王禅 (鬼谷子's name) suits a Taoist peach-wood sword (owner, 茅山 plan)"},
+		{"find": "王 □", "replace": "王 禅", "where": "daemon/class/taoist/sword.c (the hilt's 「 王 □ 」)", "why": "the same character, spaced as the seal"}
 	]
 }

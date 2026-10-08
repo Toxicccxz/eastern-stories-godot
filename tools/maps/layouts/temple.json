@@ -1,0 +1,204 @@
+{
+	"maps": {
+		"mountain": {
+			"note": "茅山's climb: the broad 青石官道 from Snow's mountain road (west) runs along the slope and on south down the hill; the white quartz stairs start east of it (ladder5) and zigzag up the mountain between rows of tall pines: north, east (ladder3, where the steps bend north and Snow lies below to the west), north (ladder2, the peak and its white pavilion away to the north-east), east (ladder1, where the stairs end), then north onto the paving before the 山门 inscribed 「灵心观」 (entrance); through the gate lies the square (its own map).",
+			"file": "temple_mountain.tscn",
+			"draw": {
+				"technique": "canvas", "base": "cliff", "bounds": [0, 384, 1344, 1728],
+				"zones": {
+					"temple.sroad": [64, 1344, 448, 1664, "grass"],
+					"temple.ladder5": [448, 1344, 704, 1600, "grass"],
+					"temple.ladder4": [448, 1088, 704, 1344, "grass"],
+					"temple.ladder3": [704, 1088, 960, 1344, "grass"],
+					"temple.ladder2": [704, 832, 960, 1088, "grass"],
+					"temple.ladder1": [960, 832, 1216, 1088, "grass"],
+					"temple.entrance": [960, 512, 1216, 832, "rock"]
+				},
+				"lines": {
+					"roads": [
+						[[80, 1488, 40, 64, 64, 6, "sroad: the broad 青石官道 from Snow's mountain road"], [240, 1488, 40, 72, 72, 8], [400, 1472, 36, 72, 64, 6, "the stairs begin east of the road"], [576, 1472, 24, 64, 64, 4, "ladder5: white quartz steps, pines either side"], [576, 1344, 24, 64, 64, 4], [576, 1216, 24, 64, 64, 4, "ladder4"], [704, 1216, 24, 64, 64, 4], [832, 1216, 24, 64, 64, 4, "ladder3: the steps bend north"], [832, 1088, 24, 64, 64, 4], [832, 960, 24, 64, 64, 4, "ladder2"], [960, 960, 24, 64, 64, 4], [1088, 960, 24, 64, 64, 4, "ladder1: the end of the stairs"], [1088, 832, 32, 80, 80, 4], [1088, 672, 40, 96, 96, 4, "entrance: the paving before the 山门"], [1088, 560, 40, 80, 80, 2, "the gate"]],
+						[[240, 1488, 36, 56, 56, 8, "the 官道 runs on south down the hill"], [224, 1584, 36, 56, 56, 8], [216, 1648, 36, 56, 56, 8]]
+					]
+				},
+				"steps": [
+					{"op": "blobs", "note": "the tall pines lining the stairs (ladder2-5: 阶梯的两侧种植著一排高耸的松树) and the wooded slope under the road", "kind": "forest", "amp": 0.2, "seed": [0.011, 0.017], "blobs": [[480, 1260, 40, 90, "west of ladder4"], [680, 1420, 40, 100, "east of ladder5"], [700, 1100, 50, 50, "the bend between ladder4 and ladder3"], [900, 1300, 60, 40, "below ladder3"], [740, 900, 40, 70, "west of ladder2"], [930, 1060, 40, 40, "the bend below ladder1"], [1180, 1040, 40, 50, "east of ladder1"], [120, 1400, 60, 40, "the slope north of the road"], [380, 1630, 60, 40, "below the road"]]},
+					{"op": "freeze"},
+					{"op": "lines", "group": "roads", "kind": "street"},
+					{"op": "fill", "fills": [
+						["street", 992, 576, 1184, 800, "entrance: the quartz paving before the gate"]
+					]},
+					{"op": "clip"},
+					{"op": "separate"},
+					{"op": "drop_pockets", "from": "SnowEntry"},
+					{"op": "fill", "fills": [
+						["wall", 896, 448, 1040, 512, "the 山门 and the wall of 灵心观 (the square and the temple are their own map)"],
+						["wall", 1136, 448, 1280, 512],
+						["shutter", 1040, 448, 1136, 464, "the gate's lintel: 「灵心观」"]
+					]}
+				],
+				"reach_from": "SnowEntry",
+				"caption_near": {
+					"temple.sroad": [96, 1360], "temple.ladder5": [600, 1560], "temple.ladder4": [460, 1100],
+					"temple.ladder3": [860, 1290], "temple.ladder2": [720, 850], "temple.ladder1": [1120, 1050],
+					"temple.entrance": [970, 530]
+				}
+			},
+			"scene": {
+				"style": "map", "root": "TempleMountain", "map": "temple.mountain",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {"Rect_32_64": [32, 64], "Rect_96_32": [96, 32]},
+				"nodes": [
+					{"generated": "captions"},
+					{"node": "caption", "name": "SnowLabel", "at": [16, 1424], "text": "西 · 雪亭镇", "size": 14},
+					{"node": "caption", "name": "GateLabel", "at": [1040, 404], "text": "灵心观", "size": 20},
+					{"node": "passage", "name": "SnowPassage", "id": "temple.sroad.west", "at": [80, 1488], "shape": "Rect_32_64"},
+					{"node": "passage", "name": "GatePassage", "id": "temple.entrance.north", "at": [1088, 528], "shape": "Rect_96_32"}
+				],
+				"zones": [{"generated": "zones"}],
+				"spawn_points": [
+					{"name": "SnowEntry", "at": [144, 1488], "id": "temple.sroad.snow_entry"},
+					{"name": "GateReturn", "at": [1088, 608], "id": "temple.entrance.gate_return"},
+					{"name": "Ladder2Guest1", "at": [872, 1024], "id": "temple.ladder2.guest.1"},
+					{"name": "Ladder1LittleTaoist11", "at": [1024, 1000], "id": "temple.ladder1.little_taoist1.1"}
+				]
+			}
+		},
+		"grounds": {
+			"note": "灵心观 inside its 山门: the quartz square (stone lions and dragon pillars either side of the red door, the great censer in the middle); the main hall with 真武大帝's golden statue over the red altar table and the cushions before it; round arches east and west into the covered walkways that go round the courtyard (its flowers and trees, the well in the north-west corner; a wall on its south side, the hall behind it); the north walkway before the closed red door of the rear hall (张天师's portrait and sword, the masters' tablets), the training hall (wooden dummies, meridian charts) behind a door in the north-west, two guest rooms behind doors on the east side, the locked room west of the west walkway (drawn only); north-east, the mossy path of blue stones under tall pines leads round behind the rear hall to the two-storey 藏经楼 and its stone tablet.",
+			"file": "temple_grounds.tscn",
+			"draw": {
+				"technique": "town", "base": "boundary", "bounds": [64, 0, 1344, 2048],
+				"ground": [],
+				"zones": {
+					"temple.book_room1": [512, 64, 832, 320, "enclosed", "floor_wood", "wall_wood"],
+					"temple.road2": [448, 320, 1024, 448, "open", "grass", null],
+					"temple.trainroom": [256, 448, 448, 704, "enclosed", "floor_wood", "wall_wood"],
+					"temple.temple2": [448, 448, 832, 704, "enclosed", "floor_wood", "wall"],
+					"temple.road1": [832, 448, 1024, 704, "open", "grass", null],
+					"temple.restroom2": [1024, 640, 1280, 896, "enclosed", "floor_wood", "wall_wood"],
+					"temple.corridor4": [256, 704, 448, 896, "open", "floor_wood", null],
+					"temple.corridor5": [448, 704, 832, 896, "open", "floor_wood", null],
+					"temple.corridor3": [832, 704, 1024, 896, "open", "floor_wood", null],
+					"temple.corridor6": [256, 896, 448, 1280, "open", "floor_wood", null],
+					"temple.inneryard": [448, 896, 832, 1280, "open", "grass", null],
+					"temple.corridor7": [832, 896, 1024, 1280, "open", "floor_wood", null],
+					"temple.restroom1": [1024, 896, 1280, 1152, "enclosed", "floor_wood", "wall_wood"],
+					"temple.corridor2": [256, 1280, 448, 1536, "open", "floor_wood", null],
+					"temple.temple1": [448, 1280, 832, 1600, "enclosed", "floor_wood", "wall"],
+					"temple.corridor1": [832, 1280, 1024, 1536, "open", "floor_wood", null],
+					"temple.square": [384, 1600, 896, 1984, "open", "street", null]
+				},
+				"roads": [
+					["path", 912, 448, 944, 704, "road1: blue stone slabs, moss creeping over them"],
+					["path", 704, 384, 944, 416, "road2: round behind the rear hall"],
+					["path", 912, 400, 944, 448],
+					["path", 656, 320, 688, 400, "to the 藏经楼's door"]
+				],
+				"props": [
+					["wall", 128, 960, 240, 1216, "the locked room west of the west walkway (drawn only)"],
+					["shutter", 240, 1056, 256, 1120, "its locked door"],
+					["forest", 848, 464, 880, 528, "road1: tall pines either side"],
+					["forest", 976, 560, 1008, 624],
+					["forest", 848, 640, 880, 688],
+					["forest", 464, 336, 496, 368, "road2: pines"],
+					["forest", 976, 336, 1008, 368],
+					["blocked", 720, 336, 752, 368, "the stone tablet by the door (look: slab)"],
+					["blocked", 560, 96, 800, 112, "bookshelves along the walls, piled with old books"],
+					["blocked", 784, 128, 800, 272],
+					["blocked", 592, 480, 688, 512, "张天师's portrait and the sword beneath it"],
+					["blocked", 528, 480, 560, 512, "the masters' tablets either side"],
+					["blocked", 720, 480, 752, 512],
+					["blocked", 288, 480, 320, 512, "wooden dummies against the training hall's walls"],
+					["blocked", 384, 480, 416, 512],
+					["blocked", 288, 640, 320, 672],
+					["blocked", 464, 912, 512, 960, "the well in the courtyard's north-west corner"],
+					["forest", 768, 1200, 816, 1264, "flowers and trees"],
+					["forest", 560, 1200, 592, 1232],
+					["forest", 768, 912, 800, 944],
+					["blocked", 592, 1312, 688, 1344, "真武大帝's golden statue"],
+					["blocked", 576, 1344, 704, 1376, "the vermilion altar table, flowers and fruit"],
+					["blocked", 1056, 928, 1104, 976, "the guest rooms' few pieces of furniture"],
+					["blocked", 1056, 672, 1104, 720],
+					["blocked", 528, 1632, 560, 1664, "the stone lions either side of the temple door"],
+					["blocked", 720, 1632, 752, 1664],
+					["blocked", 448, 1632, 480, 1664, "the dragon pillars beside them"],
+					["blocked", 800, 1632, 832, 1664],
+					["blocked", 608, 1760, 672, 1824, "the great censer, incense smoke curling up"]
+				],
+				"reach_from": "GateArrival",
+				"markers_in_middle": ["temple.inneryard", "temple.square", "temple.road2"]
+			},
+			"scene": {
+				"style": "map", "root": "TempleGrounds", "map": "temple.grounds",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {"Rect_96_32": [96, 32], "Rect_32_32": [32, 32], "Rect_64_32": [64, 32], "Rect_32_64": [32, 64], "StairsShape": [48, 48]},
+				"door_style": {"walls": "Terrain/DoorWalls", "wall_suffix": "Wall", "shutters": "Terrain", "color": "Color(0.42, 0.3, 0.18, 1)"},
+				"doors": [
+					{"name": "HallDoor", "id": "temple.square.door", "between": ["temple.square", "temple.temple1"], "color": "Color(0.62, 0.16, 0.12, 1)"},
+					{"name": "RearHallDoor", "id": "temple.corridor5.door", "between": ["temple.corridor5", "temple.temple2"], "color": "Color(0.62, 0.16, 0.12, 1)"},
+					{"name": "GuestRoom1Door", "id": "temple.corridor7.door", "between": ["temple.corridor7", "temple.restroom1"]},
+					{"name": "GuestRoom2Door", "id": "temple.corridor3.door", "between": ["temple.corridor3", "temple.restroom2"]},
+					{"name": "TrainingDoor", "id": "temple.corridor4.door", "between": ["temple.corridor4", "temple.trainroom"]}
+				],
+				"stairs": [
+					{"zone": "temple.book_room1", "name": "BookRoom1StairsUp", "at": [576, 144], "id": "temple.book_room1.up", "shape": "StairsShape", "color": "Color(0.55, 0.38, 0.22, 1)", "text": "木梯 · 上楼", "marker": {"name": "BookRoom1StairsReturn", "at": [632, 144], "id": "temple.book_room1.stairs_return"}}
+				],
+				"nodes": [
+					{"generated": "captions"},
+					{"node": "caption", "name": "GateLabel", "at": [560, 2000], "text": "南 · 山门", "size": 14},
+					{"node": "caption", "name": "LibraryLabel", "at": [600, 24], "text": "藏经楼", "size": 20},
+					{"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
+					{"generated": "door_walls"},
+					{"generated": "shutters"},
+					{"node": "passage", "name": "GatePassage", "id": "temple.square.south", "at": [640, 1968], "shape": "Rect_96_32"},
+					{"generated": "stairs"},
+					{"generated": "doors"}
+				],
+				"zones": [{"generated": "zones"}],
+				"spawn_points": [
+					{"generated": "stair_markers"},
+					{"name": "GateArrival", "at": [640, 1904], "id": "temple.square.gate_arrival"},
+					{"generated": "markers"}
+				],
+				"interactions": [
+					{"name": "SlabInteraction", "id": "temple.road2.landmark.slab", "at": [736, 352], "shape": "Rect_32_32"}
+				]
+			}
+		},
+		"library": {
+			"note": "藏经楼's upper floor: up the small wooden ladder, 张天师's portrait on the far wall and beneath it the table under its red cloth, where 茅山's sacred books lie in order.",
+			"file": "temple_library.tscn",
+			"draw": {
+				"technique": "town", "base": "boundary", "bounds": [0, 0, 448, 352],
+				"ground": [],
+				"zones": {
+					"temple.book_room2": [32, 32, 416, 320, "enclosed", "floor_wood", "wall_wood"]
+				},
+				"roads": [],
+				"props": [
+					["blocked", 192, 64, 256, 80, "张天师's portrait on the far wall"],
+					["blocked", 176, 96, 272, 128, "the table under its red cloth, the sacred books on it"]
+				],
+				"reach_from": "BookRoom2StairsArrival",
+				"markers_in_middle": []
+			},
+			"scene": {
+				"style": "map", "root": "TempleLibrary", "map": "temple.library",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {"StairsShape": [48, 48]},
+				"stairs": [
+					{"zone": "temple.book_room2", "name": "BookRoom2StairsDown", "at": [96, 256], "id": "temple.book_room2.down", "shape": "StairsShape", "color": "Color(0.55, 0.38, 0.22, 1)", "text": "木梯 · 下楼", "marker": {"name": "BookRoom2StairsArrival", "at": [152, 256], "id": "temple.book_room2.stairs_arrival"}}
+				],
+				"nodes": [
+					{"generated": "captions"},
+					{"generated": "stairs"}
+				],
+				"zones": [{"generated": "zones"}],
+				"spawn_points": [
+					{"generated": "stair_markers"},
+					{"generated": "markers"}
+				]
+			}
+		}
+	}
+}

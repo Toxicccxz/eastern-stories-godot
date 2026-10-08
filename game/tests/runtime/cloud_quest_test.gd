@@ -114,11 +114,13 @@ func _test_tiers() -> void:
 		var draws := ScriptedWorldInteractionRandomSource.new([0])
 		var result: QuestGiver.Result = _give(state, draws)
 		_check(result.outcome == QuestGiver.Outcome.GIVEN and draws.requested_bounds() == [_available(case[2]).size()] and state.quest.current.target == _available(case[2])[0], "exp %d, tfinished %d: tier %d (%s)" % [case[0], case[1], LEVELS[case[2]], draws.requested_bounds()])
-	_check(_available(12).is_empty() and _available(11) == ["趟子手"], "nothing of qlist60000.c is in the game yet; qlist50000.c has 趟子手")
+	_check(_available(12) == ["清云", "清玄"] and _available(11).has("趟子手"), "qlist60000.c: 茅山's 清云 and 清玄; qlist50000.c has 趟子手")
 	var state := _fresh()
 	state.progression.combat_experience = 60000
 	var draws := ScriptedWorldInteractionRandomSource.new([0])
-	_check(_give(state, draws).outcome == QuestGiver.Outcome.GIVEN and draws.requested_bounds() == [1] and state.quest.current.target == "趟子手" and state.quest.current.time_seconds == 100 and state.quest.factor == 10, "60000 falls back to qlist50000.c's entry (deviation)")
+	var only := func(target: String) -> bool: return target == "趟子手" # TEST-ONLY: nothing of qlist60000.c in the game
+	var fallback: QuestGiver.Result = QuestGiver.give(state, GameContent.catalog().quest_tiers(), only, draws.legacy_random)
+	_check(fallback.outcome == QuestGiver.Outcome.GIVEN and draws.requested_bounds() == [1] and state.quest.current.target == "趟子手" and state.quest.current.time_seconds == 100 and state.quest.factor == 10, "60000 with none of its tier in the game falls back to qlist50000.c's entry (deviation)")
 
 
 func _test_status() -> void:
