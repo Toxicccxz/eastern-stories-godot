@@ -4,18 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**现代化修正 II** (`phase/modern-fixes-2`, DECISIONS「积压问题的处理」): max kee follows max_force
-at once (A7); a knocked-out player lies three seconds in the dark while the world lives damage.c's
-delay (A9, `player_wake_seconds`); 目标详情 says how strong an NPC looks and a spar with one clearly
-stronger is asked first (A10); giving away what one has equipped or a gold tael and more is asked
-first; no □ left in the game (`tools/migration/text_replacements.json`); 绝尘子 shouts instead of a
-chat channel; the oath, landmark and meditate lines; on the battle panel 运功疗伤 greyed with why,
-hover hints for exerts and spells, damage numbers right after the line, plain text a light grey.
-The map controller is split into seven components under `game/runtime/world/map/` (#78): new code
-for one of those areas goes into its component.
+**润色 1** (`phase/polish-1`, DECISIONS「积压问题的处理」): the 弈者's 下棋 (A3); Old Pine's eight
+look-only item_desc as landmarks (A4); wanderers rest off doorways and street mouths and step aside
+when the player keeps pushing into them (A5); 狗肉 leaves a 狗骨头 that the Snow dog takes and then
+follows the player on its map (A11); an NPC the player walks away from is no longer selected; the
+battle log tells who falls or dies (announce()). The map controller is split into seven components
+under `game/runtime/world/map/` (#78): new code for one of those areas goes into its component.
 
-Next: the 润色 PR (A3, A4, A5, A11), then the equipment weight dodge (A1, its own PR), then 茅山
-(region #6).
+Next: the equipment weight dodge (A1, its own PR), then 茅山 (region #6).
 
 ## 待决定
 
@@ -131,8 +127,8 @@ Code:
   opponents are of the strength ES2 gives exp for. Conditions do not tick
   in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
-* 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
-  no bones, 弈者's 下棋 is not ported, a carried 布袋 is not opened.
+* 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
+  牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
   朱鸿雪 and 化缘和尚 cannot be fought until their arts are ported (#7, #8).
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
@@ -145,9 +141,9 @@ Code:
   their own count phrases and number words, and ES2's combat lines person and pronoun rules
   (你 punches / he punches); see [LOCALIZATION](LOCALIZATION.md). Log lines written before a
   language switch stay in the old language.
-* The HUD keeps an NPC selected after the player leaves its room (its actions are refused, kill.c
-  `present()`); room labels and NPC names overlap in places (grey-box layout).
-* The battle log has no 昏倒/死亡 line yet (`announce()`).
+* Room labels and NPC names overlap in places (grey-box layout). An NPC that walks away from the
+  player stays selected (its actions are refused, kill.c `present()`); one the player walks away
+  from does not.
 
 Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
 qualification for Lake and Shared UI is deferred. The provisional app ID
