@@ -65,6 +65,8 @@ const VALID_LEARN_KEYS: Dictionary[String, Array] = {
 	],
 	"empty_hands": [SkillLearnPolicyResult.Reason.WEAPON_REFERENCES_NOT_EMPTY],
 	"bellicosity": [SkillLearnPolicyResult.Reason.BELLICOSITY_TOO_LOW],
+	"max_bellicosity": [SkillLearnPolicyResult.Reason.BELLICOSITY_TOO_HIGH],
+	"max_mana": [SkillLearnPolicyResult.Reason.MAXIMUM_MANA_TOO_LOW],
 	"raw_skill": [SkillLearnPolicyResult.Reason.RAW_SKILL_TOO_LOW],
 	"gender": [SkillLearnPolicyResult.Reason.GENDER_MISMATCH],
 	"spi": [SkillLearnPolicyResult.Reason.BASE_SPIRITUALITY_TOO_LOW],

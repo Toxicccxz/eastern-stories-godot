@@ -5,7 +5,7 @@ extends RefCounted
 ## after its effect, or notify_fail() and 0.
 var id: StringName
 ## Its name on the player's battle panel when cast at an enemy (or at nobody), e.g. 困;
-## empty for a spell no player can reach yet (the NPCs' bolts).
+## empty for a spell no player can reach.
 var label: String
 ## Its name when the player casts it at themselves (dun.c's 遁 to Snow's temple);
 ## empty for a file that does nothing different at its caster.

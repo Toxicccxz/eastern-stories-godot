@@ -4,14 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**润色 1** (`phase/polish-1`, DECISIONS「积压问题的处理」): the 弈者's 下棋 (A3); Old Pine's eight
-look-only item_desc as landmarks (A4); wanderers rest off doorways and street mouths, and a standing NPC
-steps aside when the player keeps pushing into it, unless it offers a service (A5); 狗肉 leaves a 狗骨头 that the Snow dog takes and then
-follows the player on its map (A11); an NPC the player walks away from is no longer selected; the
-battle log tells who falls or dies (announce()). The map controller is split into seven components
-under `game/runtime/world/map/` (#78): new code for one of those areas goes into its component.
+**茅山 A** (`phase/maoshan-plan`, region #6, plan approved 2026-10-08: A places the region, B
+茅山派, C the player's 茅山道术 in a fight and its practice, D zombies and 桃符纸): three maps up
+from Snow's mountain road, the fifteen kinds of people, road2's guards drawn at each reset, the
+moss, the 藏经楼's invisible wall, 召护法 and its 阴鬼卒. The map controller is split into seven
+components under `game/runtime/world/map/` (#78): new code for one of those areas goes into its
+component.
 
-Next: the equipment weight dodge (A1, its own PR), then 茅山 (region #6).
+Next: 茅山 B (茅山派); the equipment weight dodge (A1) is its own PR, independent of 茅山.
 
 ## 待决定
 
@@ -20,7 +20,8 @@ Next: the equipment weight dodge (A1, its own PR), then 茅山 (region #6).
 也在那里（「积压问题的处理」）。
 
 * **A2 经验节奏**（#62）：×3 经验下 combat_exp 150→1001 仍要 6–12 小时；目标是 1–2 小时接到第一个
-  任务。试玩时同时核验 60 秒的任务限时在要走路的地图上是否来得及。
+  任务。试玩时同时核验 60 秒的任务限时在要走路的地图上是否来得及。茅山 A 加了四个 600–2500 exp 的
+  对手（进香客、玄和、玄真、老道士）；它的 8 个任务目标离朱鸿雪最远（绮云镇→雪亭→山路→石阶→观内）。
 * **A6 「进门一起上」是否扩大到所有房间**（#68）：ES2 同房间的凶徒全部出手；现在只有 6 个区域用
   `complete_set`（老松寨三间、水潭、野羊山转角、卧龙岗）。
 
@@ -91,6 +92,15 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   hall: joining 绝尘派 (spi 24, 100000 combat_exp; a family's member is attacked for asking, asked
   first), his fourteen skills, his 遁 and the 天将 he calls in a fight; his apprentices cast 遁
   (to Snow's 城隍庙), 困 and 召天将 (a 天将 on their side) from the battle panel.
+* **茅山**: east of Snow's mountain road (its steps north), 25 of 27 rooms on three maps: the
+  青石官道 and the white quartz stairs up between the pines (进香客, 玄真 sweeping) to the 山门;
+  inside, the square, the hall with 林忌, 僵尸侍者 and 僵尸护法, the walkways round the courtyard
+  (玄和), the guest rooms (老道士), the training hall (清虚, 明心), the rear hall behind its shut
+  red door, the mossy path (random(kar) below 3 slips and knocks the player out) to the 藏经楼,
+  where two of 清灵/清平/清玄/清风/清音/清云 stand guard (drawn at each reset) by its slab, and only
+  茅山派 passes the invisible wall; its upper floor. The taoists call themselves 贫道; 老道士
+  never spars, 僵尸侍者 and 僵尸护法 only with 茅山派; in a fight they cast 紫光, 白光, 青光 and
+  召护法 (a 天将 or a 阴鬼卒 comes to their side). Joining 茅山派 comes with B.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -105,8 +115,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 203/551 rooms, 92/286 NPC
-types, 4/10 joinable families, 16/35 special and 12/25 basic martial arts, 42/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 228/551 rooms, 107/286 NPC
+types, 4/10 joinable families, 17/36 special and 12/25 basic martial arts, 50/84 quest targets.
 
 ## Known issues
 

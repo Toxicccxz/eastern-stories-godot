@@ -116,7 +116,7 @@ func attack_selected() -> CombatSliceInitiationResult:
 	# obj->kill_ob(me) warns the player (_map.hostilities.announce_fight()).
 	return _map.hostilities.initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
 		"npc": tr(target.definition().display_name),
-		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, &"")),
+		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, target.definition().class_id)),
 	})])
 
 
@@ -145,7 +145,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 	var lines: Array[String] = [tr("你对著{npc}说道：{self}{name}，领教{respect}的高招！").format({
 		"npc": name, "self": tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
 		"name": _player.facts.display_name,
-		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
+		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, target.definition().class_id, target.definition().rank_respect)),
 	})]
 	var consent: NpcSparConsent = spar_consent(target, true)
 	var result := CombatSliceInitiationResult.new()

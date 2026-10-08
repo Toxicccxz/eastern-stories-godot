@@ -23,15 +23,19 @@
 		"waterfog.upstairs",
 		"green.village",
 		"green.mountain",
-		"green.maze"
+		"green.maze",
+		"temple.mountain",
+		"temple.grounds",
+		"temple.library"
 	],
-	"rooms": 204,
+	"rooms": 229,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
 		"snow.crossroad.north",
 		"snow.crossroad.east",
 		"snow.sroad1.south",
+		"snow.eroad3.east",
 		"snow.sroad5.west",
 		"snow.weapon_storage.down"
 	],
@@ -138,11 +142,26 @@
 		"green.village.path2.kid2s",
 		"green.mountain.cave0.kid4s",
 		"green.mountain.cavehall.master",
-		"green.village.house3.spiders"
+		"green.village.house3.spiders",
+		"temple.mountain.ladder2.guest",
+		"temple.mountain.ladder1.little_taoist1",
+		"temple.grounds.temple1.taolord",
+		"temple.grounds.temple1.trainer",
+		"temple.grounds.temple1.tfighter",
+		"temple.grounds.inneryard.little_taoist2",
+		"temple.grounds.restroom1.old_taoist",
+		"temple.grounds.trainroom.taoist",
+		"temple.grounds.trainroom.taoist2",
+		"temple.grounds.road2.guard_taoist1",
+		"temple.grounds.road2.guard_taoist2",
+		"temple.grounds.road2.guard_taoist3",
+		"temple.grounds.road2.taoist_guard1",
+		"temple.grounds.road2.taoist_guard2",
+		"temple.grounds.road2.taoist_guard3"
 	],
-	"world_npcs": 185,
-	"resident_maps": 24,
-	"new_game_items": 320,
-	"snow_outdoor_passages": 7,
-	"npc_draws_after_oldpine": 890
+	"world_npcs": 200,
+	"resident_maps": 27,
+	"new_game_items": 356,
+	"snow_outdoor_passages": 8,
+	"npc_draws_after_oldpine": 973
 }

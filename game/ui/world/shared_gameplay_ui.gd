@@ -79,6 +79,7 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIW: Color(1.0, 1.0, 1.0),
 	ColoredLine.HIM: Color(1.0, 0.5, 1.0),
 	ColoredLine.HIG: Color(0.45, 1.0, 0.45),
+	ColoredLine.HIB: Color(0.5, 0.62, 1.0),
 	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
 	ColoredLine.RED: Color(0.82, 0.24, 0.24),
 	ColoredLine.GRN: Color(0.35, 0.78, 0.35),

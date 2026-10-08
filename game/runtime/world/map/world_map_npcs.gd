@@ -74,9 +74,12 @@ func spawn_actors() -> bool:
 			var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
 			if marker == null or not _add_npc_body(npc, marker.global_position):
 				return false
-			if spawn.summoned:
+			if spawn.starts_absent:
 				npc.set_exists_in_map(false)
 				_npc_bodies[npc.character_id].refresh_runtime_state()
+	# road2.c: create() → setup() → reset() puts the first draw on duty.
+	for group: StringName in _draw_groups(""):
+		_draw_on_duty(group, false)
 	return _map.floor_items.spawn_floor_items()
 
 
@@ -368,7 +371,7 @@ func reset_room(legacy_room: String) -> void:
 		if landmark.legacy_source_path == legacy_room:
 			_map.floor_items.landmark_use_counts.erase(landmark.landmark_id)
 	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
-		if spawn.legacy_source_room_path != legacy_room or spawn.summoned:
+		if spawn.legacy_source_room_path != legacy_room or spawn.starts_absent:
 			continue
 		for point_id: StringName in spawn.spawn_point_ids():
 			var npc: NpcRuntimeState = _npc_at_point(point_id)
@@ -385,6 +388,59 @@ func reset_room(legacy_room: String) -> void:
 			if not _inventory.is_registered(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)):
 				if not _map.floor_items.place_floor_item(spawn, point_id):
 					push_error("room reset could not lay %s on %s" % [spawn.item_definition_id, point_id])
+	for group: StringName in _draw_groups(legacy_room):
+		_draw_on_duty(group, true)
+
+
+## The draw groups of this map's spawns, in authored order; of one room's, unless "".
+func _draw_groups(legacy_room: String) -> Array[StringName]:
+	var groups: Array[StringName] = []
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
+		if spawn.drawn and not groups.has(spawn.draw_group) and (legacy_room.is_empty() or spawn.legacy_source_room_path == legacy_room):
+			groups.append(spawn.draw_group)
+	return groups
+
+
+## d/temple/road2.c reset(): one spawn of `group` is drawn ("guard_taoist" +
+## (random(3)+1), on the world's interaction stream as room resets draw) and
+## std/room.c's reset() makes its NPC anew where it died, brings an absent one in or
+## calls one away home; the group's others stay as they are. road2.c sets the objects
+## after ::reset(), so ES2 put on duty the draw of the reset before: the same odds, one
+## reset apart. `arrive`: the room sees it come (not while the world is being made).
+func _draw_on_duty(group: StringName, arrive: bool) -> void:
+	var spawns: Array[NpcSpawnDefinition] = []
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
+		if spawn.draw_group == group:
+			spawns.append(spawn)
+	if spawns.is_empty():
+		return
+	var drawn: NpcSpawnDefinition = spawns[clampi(_map.world_interaction_random_source().legacy_random(spawns.size()), 0, spawns.size() - 1)]
+	for point_id: StringName in drawn.spawn_point_ids():
+		var npc: NpcRuntimeState = _npc_at_point(point_id)
+		if npc == null:
+			continue
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			_respawn_npc(drawn, npc)
+		elif not npc.exists_in_map:
+			_appear(npc, drawn, arrive)
+		elif npc.world_location().zone_id != drawn.zone_id:
+			return_home(npc)
+
+
+## An absent NPC of a summoned or drawn spawn appears on its marker; `arrive`: as one
+## that comes into the room (its init() for whoever is there).
+func _appear(npc: NpcRuntimeState, spawn: NpcSpawnDefinition, arrive: bool = true) -> bool:
+	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	if marker == null or body == null:
+		return false
+	body.global_position = marker.global_position
+	npc.set_world_location(_map.location_for_zone(spawn.zone_id))
+	npc.set_exists_in_map(true)
+	body.refresh_runtime_state()
+	if arrive:
+		_map.npc_life.npc_arrived(npc)
+	return true
 
 
 ## One NPC of a summoned spawn comes in (house3.c call_spider(): new(...)->move(room)):
@@ -401,16 +457,7 @@ func summon_one(spawn_id: StringName) -> NpcRuntimeState:
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			return _npc_at_point(point_id) if _respawn_npc(spawn, npc) else null
 		if not npc.exists_in_map:
-			var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(point_id)
-			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-			if marker == null or body == null:
-				return null
-			body.global_position = marker.global_position
-			npc.set_world_location(_map.location_for_zone(spawn.zone_id))
-			npc.set_exists_in_map(true)
-			body.refresh_runtime_state()
-			_map.npc_life.npc_arrived(npc)
-			return npc
+			return npc if _appear(npc, spawn) else null
 	return null
 
 
@@ -429,16 +476,7 @@ func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			if _respawn_npc(spawn, npc):
 				came.append(_npc_at_point(point_id))
-		elif not npc.exists_in_map:
-			var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(point_id)
-			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-			if marker == null or body == null:
-				continue
-			body.global_position = marker.global_position
-			npc.set_world_location(_map.location_for_zone(spawn.zone_id))
-			npc.set_exists_in_map(true)
-			body.refresh_runtime_state()
-			_map.npc_life.npc_arrived(npc)
+		elif not npc.exists_in_map and _appear(npc, spawn):
 			came.append(npc)
 	return came
 

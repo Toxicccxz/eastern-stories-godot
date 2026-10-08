@@ -72,6 +72,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `title` | `set("title")` | shown before the name, as `short()` does |
 | `nickname` | `set("nickname")` | e.g. 风雨双侠 |
 | `rank_info` | `set("rank_info/respect")` | `{respect}`: how others address it (rankd.c), e.g. 小二哥 |
+| `class` | `set("class")` | e.g. `taoist`: rankd.c's words for it (query_self() 贫道, query_respect()) |
 | `race` | `set("race")` | `human` (default) or `beast` (`野兽`) |
 | `gender`, `age` | `set(...)` | absent = not authored |
 | `attributes` | `set("str")` … | keys `str cor int spi cps per con kar` |
@@ -109,9 +110,11 @@ An NPC teaches every skill it has that `skills.json` defines when its `family` o
 
 ## spawns
 
-`{id, npc, map, zone, points, legacy_room, legacy_quantity, presence_radius?, summoned?}` — one entry per
+`{id, npc, map, zone, points, legacy_room, legacy_quantity, presence_radius?, summoned?, draw?}` — one entry per
 `set("objects")` line of a room; world.json may author more (a `summoned` spawn: keep2.c's guards,
-house3.c's spiders), whose NPCs wait absent until a room rule calls them in. The override's
+house3.c's spiders), whose NPCs wait absent until a room rule calls them in. Spawns sharing a
+`draw` group (road2.c's guards on duty) are absent too: when the world is made and at each reset
+of their room one of the group is drawn and comes; the others stay as they are. The override's
 `npcs` lists NPC files no room places that such a spawn needs. `points` names the scene's spawn markers and must have
 `legacy_quantity` entries. `zone` is the NPC's home: it wanders only there and in the zones next
 to it, and `legacy_room`'s reset brings it home or makes a new one when it died. `presence_radius` (pixels, default 120) is how close the player must be
@@ -192,8 +195,9 @@ can be filled here from the supplies panel). The context button reads `name · v
 
 ## doors
 
-`{id, name, zones, reach, closable?, legacy_room}` — an ES2 `create_door()` between two zones of one
-map; it starts closed and its state is not saved (a closed doorway is never a valid saved position).
+`{id, name, zones, reach, closable?, open?, legacy_room}` — an ES2 `create_door()` between two zones of one
+map; it starts closed (`open: true`: create_door() without DOOR_CLOSED) and its state is not saved
+(a closed doorway is never a valid saved position).
 `closable: false` marks the approved open-only pawn-shop door.
 
 ## landmarks
@@ -218,10 +222,12 @@ look reads `long`.
 
 ## exit_rules
 
-`{id, room, from_zone, to_zone, when, lines, legacy_source}` — a room's valid_leave() refusing a
+`{id, room, from_zone, to_zone, when, lines, pass_lines?, legacy_source}` — a room's valid_leave() refusing a
 walk into the next zone or a passage between the two: `when` `weapon_in_hand` (with `present`, an
-NPC that must stand in the room), `combat_exp_below` (with `value`) or `not_apprentice_of` (with
-`npc`, the master's definition). The player stays and reads `lines`.
+NPC that must stand in the room), `combat_exp_below` (with `value`), `not_apprentice_of` (with
+`npc`, the master's definition), `not_family` (with `family`), `kar_slip` (random(kar) below
+`value`: the leaver also falls unconscious) or `never` (refuses nobody, only says `pass_lines`).
+The player stays and reads `lines`; one who goes through reads `pass_lines`.
 
 ## pacing
 

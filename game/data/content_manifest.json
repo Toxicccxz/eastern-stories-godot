@@ -43,6 +43,11 @@
 		"green/npcs.json",
 		"green/spawns.json",
 		"green/rooms.json",
-		"green/world.json"
+		"green/world.json",
+		"temple/items.json",
+		"temple/npcs.json",
+		"temple/spawns.json",
+		"temple/rooms.json",
+		"temple/world.json"
 	]
 }

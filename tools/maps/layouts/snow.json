@@ -71,7 +71,7 @@
           ["path", 752, 464, 880, 512],
           ["path", 864, 416, 912, 512],
           ["path", 896, 416, 1008, 464],
-          ["path", 1008, 416, 1184, 464, "山路 of mossy stones: south to 老松岭, north the steps up the mountain (not open)"],
+          ["path", 1008, 416, 1184, 464, "山路 of mossy stones: south to 老松岭, north the steps up to 茅山 (eroad3.c's exit east)"],
           ["path", 1136, 160, 1184, 928],
           ["path", -1056, 528, -560, 544, "the ruts the carts have worn into the highway"],
           ["path", -1056, 576, -560, 592]
@@ -225,7 +225,7 @@
           {"node": "caption", "name": "GreenSign", "at": [120, -1720], "text": "东 · 青石村", "size": 14},
           {"node": "caption", "name": "CloudSign", "at": [24, 680], "text": "南 · 卧龙岗", "size": 14},
           {"node": "caption", "name": "OldPineSign", "at": [1192, 940], "text": "南 · 老松岭", "size": 14},
-          {"node": "caption", "name": "StepsLabel", "at": [1192, 168], "text": "石阶", "size": 12},
+          {"node": "caption", "name": "StepsLabel", "at": [1192, 168], "text": "石阶 · 茅山", "size": 14},
           {"node": "caption", "name": "WaterfogSign", "at": [-1436, 204], "text": "西 · 水烟阁", "size": 14},
           {"node": "caption", "name": "CanyonSign", "at": [-1436, 744], "text": "西南 · 黄石隘口", "size": 14},
           {"node": "caption", "name": "LionLabel", "at": [148, -468], "text": "石狮", "size": 12},
@@ -255,6 +255,7 @@
           {"node": "passage", "name": "GreenPassage", "id": "snow.crossroad.east", "at": [208, -1680], "shape": "Rect_32_96"},
           {"node": "passage", "name": "CloudPassage", "id": "snow.sroad1.south", "at": [0, 656], "shape": "Rect_96_32"},
           {"node": "passage", "name": "WaterfogPassage", "id": "snow.sroad5.west", "at": [-1424, 288], "shape": "Rect_32_96"},
+          {"node": "passage", "name": "TemplePassage", "id": "snow.eroad3.east", "at": [1160, 176], "shape": "Rect_96_32"},
           {"node": "service", "name": "WorkplaceWork", "id": "snow.workplace.mill", "at": [344, -744], "text": "磨盘 · 靠近做工"},
           {"node": "service", "name": "BankExchange", "id": "snow.bank.counter", "at": [-336, -384], "text": "柜台 · 靠近兑换"},
           {"node": "service", "name": "HockshopCounter", "id": "snow.hockshop.counter", "at": [248, -1104], "text": "柜台 · 估价 / 卖断"},
@@ -271,6 +272,7 @@
           {"name": "GreenReturn", "at": [144, -1680], "id": "snow.crossroad.green_return"},
           {"name": "CloudReturn", "at": [0, 576], "id": "snow.sroad1.cloud_return"},
           {"name": "WaterfogReturn", "at": [-1344, 288], "id": "snow.sroad5.waterfog_return"},
+          {"name": "TempleReturn", "at": [1160, 248], "id": "snow.eroad3.temple_return"},
           {"generated": "markers"}
         ],
         "interactions": [

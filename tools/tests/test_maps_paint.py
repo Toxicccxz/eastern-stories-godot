@@ -22,6 +22,7 @@ GENERATED = {
     'goathill': ['goathill_mountain.tscn', 'goathill_caverns.tscn'],
     'waterfog': ['waterfog_mountain.tscn', 'waterfog_pavilion.tscn', 'waterfog_upstairs.tscn'],
     'green': ['green_village.tscn', 'green_mountain.tscn', 'green_maze.tscn'],
+    'temple': ['temple_mountain.tscn', 'temple_grounds.tscn', 'temple_library.tscn'],
 }
 
 

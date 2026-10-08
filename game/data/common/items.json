@@ -397,6 +397,73 @@
 			"weight": 20000,
 			"value": 3400,
 			"weapon": { "skill": "sword", "damage": 40 }
+		},
+		{
+			"id": "es2:daemon/class/taoist/sword",
+			"legacy_sources": ["daemon/class/taoist/sword.c"],
+			"name": "咒剑王禅",
+			"aliases": ["sword"],
+			"long": "这是一把桃木雕成的古剑，闻起来有一股香味，剑身刻著许多你从未见过的咒\n文，只有剑柄部份有两个依稀可以辨认的篆字：「 王 禅 」\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 7000,
+			"value": 18000,
+			"weapon": { "skill": "sword", "damage": 44, "apply": { "spirituality": 30 } }
+		},
+		{
+			"id": "es2:daemon/class/taoist/robe",
+			"legacy_sources": ["daemon/class/taoist/robe.c"],
+			"name": "天师道袍",
+			"aliases": ["taolord robe", "robe"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 3000,
+			"value": 10000,
+			"armor": { "type": "cloth", "props": { "armor": 2, "spells": 10 } }
+		},
+		{
+			"id": "es2:daemon/class/taoist/hat",
+			"legacy_sources": ["daemon/class/taoist/hat.c"],
+			"name": "三清神冠",
+			"aliases": ["trimystic hat", "hat"],
+			"unit": "顶",
+			"material": "cloth",
+			"weight": 700,
+			"value": 7000,
+			"armor": { "type": "head", "props": { "armor": 1, "spells": 6 } }
+		},
+		{
+			"id": "es2:daemon/class/taoist/shoe",
+			"legacy_sources": ["daemon/class/taoist/shoe.c"],
+			"name": "七星翻云靴",
+			"aliases": ["cloudy shoes", "shoes"],
+			"unit": "双",
+			"material": "cloth",
+			"weight": 700,
+			"value": 6000,
+			"armor": { "type": "feet", "props": { "armor": 2, "dodge": 4 } }
+		},
+		{
+			"id": "es2:obj/npc/obj/steel_armor",
+			"legacy_sources": ["obj/npc/obj/steel_armor.c"],
+			"name": "重钢战甲",
+			"aliases": ["steel armor", "armor"],
+			"unit": "件",
+			"material": "steel",
+			"weight": 70000,
+			"value": 9000,
+			"armor": { "type": "armor", "props": { "armor": 70, "dodge": -30 } }
+		},
+		{
+			"id": "es2:obj/npc/obj/steel_fork",
+			"legacy_sources": ["obj/npc/obj/steel_fork.c"],
+			"name": "五股钢叉",
+			"aliases": ["steel fork", "fork"],
+			"unit": "把",
+			"material": "steel",
+			"weight": 30000,
+			"value": 3400,
+			"weapon": { "skill": "fork", "damage": 50 }
 		}
 	]
 }

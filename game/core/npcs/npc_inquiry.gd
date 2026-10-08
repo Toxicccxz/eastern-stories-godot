@@ -123,7 +123,7 @@ static func answer(
 	# Lines are put together in the shown language; `name`, `key` and `topic` stay as
 	# authored for the matching below.
 	var npc: String = _t(name)
-	var npc_respect: String = _t(RankWords.query_respect(npc_gender, npc_age, &"", npc_definition.rank_respect))
+	var npc_respect: String = _t(RankWords.query_respect(npc_gender, npc_age, npc_definition.class_id, npc_definition.rank_respect))
 	# inquiryd.c parse_inquiry(), else ask.c's own line.
 	match key:
 		"name", NAME:
@@ -178,23 +178,23 @@ static func answer(
 		match npc_definition.attitude:
 			NpcDefinition.Attitude.AGGRESSIVE:
 				lines.append(_t("{npc}对你把眼一瞪：{self}的名字是可以随便提的吗？！我看你这{rude}是活腻了！").format({
-					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, &"")),
+					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, npc_definition.class_id)),
 					"rude": _t(RankWords.query_rude(asker.gender, asker.age, asker.class_id)),
 				}))
 			NpcDefinition.Attitude.HEROISM:
 				lines.append(_t("{npc}对你哈哈一笑：{npc}便是{self}！").format({
-					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, &"")),
+					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, npc_definition.class_id)),
 				}))
 			_:
 				# The EMOTE_D "sigh" that follows prints nothing: data/emoted.o is not in the mudlib.
 				lines.append(_t("{npc}对你作了一揖：这位{respect}可真会开玩笑，怎么会突然问起{self}的名字？").format({
 					"npc": npc, "respect": _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id)),
-					"self": _t(RankWords.query_self(npc_gender, npc_age, &"")),
+					"self": _t(RankWords.query_self(npc_gender, npc_age, npc_definition.class_id)),
 				}))
 		return _with(result, lines)
 	if key == "here" or key == HERE:
 		lines.append(_t("{npc}对你说道：这里是{place}，至于其它的，{self}不便多说。").format({
-			"npc": npc, "place": _t(room_short), "self": _t(RankWords.query_self(npc_gender, npc_age, &"")),
+			"npc": npc, "place": _t(room_short), "self": _t(RankWords.query_self(npc_gender, npc_age, npc_definition.class_id)),
 		}))
 		return _with(result, lines)
 	var drawn: int = random.legacy_random(DUNNO.size())

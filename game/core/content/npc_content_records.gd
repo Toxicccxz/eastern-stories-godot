@@ -26,6 +26,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		reader.fail("race", "unsupported race '%s'" % race_id)
 	var title: String = reader.text("title")
 	var nickname: String = reader.text("nickname")
+	var class_id: StringName = StringName(reader.text("class"))
 	var rank_respect: String = ""
 	var rank_info: ContentRecordReader = reader.child("rank_info")
 	if rank_info != null:
@@ -119,7 +120,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning)
 	if not name_pick.is_empty() and not name_pick.has(display_name):
 		reader.fail("name_pick", "names the NPC's own name among them")
 	if bellicosity < 0:
@@ -266,6 +267,10 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 		NpcSpawnDefinition.InitialSpawnPolicy.SUMMONED if reader.boolean("summoned", false) else NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY,
 		reader.integer("presence_radius", NpcSpawnDefinition.DEFAULT_PRESENCE_RADIUS),
 	)
+	if reader.has("draw"):
+		if reader.boolean("summoned", false):
+			reader.fail("draw", "a drawn spawn is not also summoned")
+		definition.with_draw_group(StringName(reader.required_text("draw")))
 	reader.finish()
 	if definition.presence_radius <= 0:
 		reader.fail("presence_radius", "must be positive")

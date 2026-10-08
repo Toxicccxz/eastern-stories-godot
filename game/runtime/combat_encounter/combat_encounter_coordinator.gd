@@ -323,7 +323,7 @@ func _init(
 		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		_tactical_registry.register_policy(CombatPerformTacticalPolicy.new(function_id))
-	# Only spells a player can reach have a name on the panel (the NPCs' bolts have none yet).
+	# A spell with a name is a 施法 button (offered while the enabled spells skill has its file).
 	for function_id: StringName in SpecialFunctions.CASTS:
 		var spell: CastFunction = SpecialFunctions.cast(function_id)
 		if not spell.self_label.is_empty():
@@ -617,7 +617,7 @@ func _respect_of(character_id: StringName) -> String:
 	var npc: NpcRuntimeState = _resident_npc(character_id)
 	if npc == null:
 		return ""
-	return tr(RankWords.query_respect(npc.character_state.gender, npc.age, &"", npc.definition().rank_respect))
+	return tr(RankWords.query_respect(npc.character_state.gender, npc.age, npc.definition().class_id, npc.definition().rank_respect))
 
 
 ## The NPC a participant is (npc.c chat() in the fight), or null.

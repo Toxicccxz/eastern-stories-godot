@@ -29,7 +29,10 @@ class RoomDataTest(unittest.TestCase):
             with self.subTest(room=room["id"]):
                 self.assertTrue(room["id"].startswith("es2:"))
                 source = (MUDLIB / (room["id"].removeprefix("es2:") + ".c")).read_text(encoding="utf-8")
-                self.assertRegex(source, r'set\s*\(\s*"short"\s*,\s*"' + re.escape(room["short"]) + '"')
+                # A backslash before a Chinese character (a Big5 artifact, d/temple/trainroom.c's
+                # 练功\房) is an unknown escape: MudOS keeps the character alone.
+                short = re.sub(r'\\(?=[^\x00-\x7f])', '', source)
+                self.assertRegex(short, r'set\s*\(\s*"short"\s*,\s*"' + re.escape(room["short"]) + '"')
                 # The long text is a @LONG ... LONG block: every line verbatim, in order.
                 block = re.search(r"@(\w+)\n(.*?)\n\1\b", source, re.DOTALL)
                 self.assertIsNotNone(block, "no @LONG block")

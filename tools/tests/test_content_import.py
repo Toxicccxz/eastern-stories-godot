@@ -50,6 +50,18 @@ class GeneratedDataTest(unittest.TestCase):
                     found.append(f'{path.relative_to(REPOSITORY).as_posix()}:{number}')
         self.assertEqual(found, [], 'decide the character in tools/migration/text_replacements.json')
 
+    def test_ghosts_wait_for_the_taoist_sword(self) -> None:
+        # Reminder (茅山 A): daemon/class/taoist/sword.c's hit_ob() (林忌's 咒剑王禅) acts
+        # only on a victim whose is_ghost() is true, and no NPC in the game is one yet.
+        # The region that places a ghost (乔阴's ghost.c and shadow.c, 鬼门关) ports it.
+        ghosts = []
+        for path in sorted(ci.DATA.rglob('npcs.json')):
+            for record in json.loads(path.read_text(encoding='utf-8')).get('npcs', []):
+                source = ci.MUDLIB / record['legacy_source']
+                if 'is_ghost' in source.read_text(encoding='utf-8', errors='replace'):
+                    ghosts.append(record['id'])
+        self.assertEqual(ghosts, [], 'port daemon/class/taoist/sword.c hit_ob() with these ghosts')
+
     def test_generated_files_are_loaded(self) -> None:
         manifest = json.loads((ci.DATA / 'content_manifest.json').read_text(encoding='utf-8'))['files']
         self.assertEqual(sorted(set(self.files) - set(manifest)), [])
