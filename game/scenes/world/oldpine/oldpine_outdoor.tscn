@@ -24,6 +24,12 @@ size = Vector2(96, 160)
 [sub_resource type="RectangleShape2D" id="Rect_32_64"]
 size = Vector2(32, 64)
 
+[sub_resource type="RectangleShape2D" id="Rect_48_48"]
+size = Vector2(48, 48)
+
+[sub_resource type="RectangleShape2D" id="Rect_48_96"]
+size = Vector2(48, 96)
+
 [sub_resource type="RectangleShape2D" id="Rect_700_800"]
 size = Vector2(700, 800)
 
@@ -540,4 +546,40 @@ landmark_id = &"oldpine.outdoor.landmark.cliffdown_cliff"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/CliffdownInteraction"]
 shape = SubResource("Rect_96_160")
+
+[node name="ClearingSignInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(520, 56)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.outdoor.landmark.clearing_sign"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/ClearingSignInteraction"]
+shape = SubResource("Rect_48_48")
+
+[node name="Epath3FootprintsInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(1424, 368)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.outdoor.landmark.epath3_footprints"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Epath3FootprintsInteraction"]
+shape = SubResource("Rect_48_48")
+
+[node name="Epath2WaterfallInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(1232, 256)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.outdoor.landmark.epath2_waterfall"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Epath2WaterfallInteraction"]
+shape = SubResource("Rect_96_32")
+
+[node name="CliffsideCliffInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(320, 1280)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.outdoor.landmark.cliffside_cliff"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/CliffsideCliffInteraction"]
+shape = SubResource("Rect_48_96")
 

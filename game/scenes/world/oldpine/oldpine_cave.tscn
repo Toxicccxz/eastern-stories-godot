@@ -176,3 +176,12 @@ landmark_id = &"oldpine.cave.landmark.stone"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/StoneInteraction"]
 shape = SubResource("Rect_160_160")
 
+[node name="PassageCurtainInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(0, 432)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.cave.landmark.passage_curtain"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/PassageCurtainInteraction"]
+shape = SubResource("Rect_128_32")
+
