@@ -122,7 +122,7 @@ func _test_two_hands(session: OldPineWorldSessionController) -> void:
 		held.append("%s %s" % ["" if primary == null else primary.weapon_id, "" if secondary == null else secondary.weapon_id])
 	_check(held == ["%s %s" % [HAMMER, HAMMER], "%s %s" % [AXE, AXE]], "黄霸 holds a 大金槌 in each hand, the leader a 短斧 in each: " + str(held))
 	var binding: CombatSliceCharacterBinding = null
-	for candidate: CombatSliceCharacterBinding in mountain._build_participants(true):
+	for candidate: CombatSliceCharacterBinding in mountain.combat_lifecycle.build_participants(true):
 		if candidate.character_id == hwang.character_id:
 			binding = candidate
 	_check(binding != null and CombatSliceProjectionBuilder.apply_of(binding, &"attack") == 100 - 4 - 4 and CombatSliceProjectionBuilder.apply_of(binding, &"defense") == 90 + 5 + 5 + 1, "apply/attack 100 - 4 - 4, apply/defense 90 + 5 + 5 and the boots' 1: both hammers' weapon_prop")
@@ -204,23 +204,23 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var me: CombatSliceCharacterBinding = _binding(map, player.character_id)
 	var first: CombatSliceCharacterBinding = _binding(map, bandits[0].character_id)
 	var blade: StringName = bandits[0].character_state.equipment.primary_weapon().instance_id
-	var lines: Array[ColoredLine] = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, false, ScriptedCombatRandomSource.new([170]))
+	var lines: Array[ColoredLine] = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, false, ScriptedCombatRandomSource.new([170]))
 	_check(lines.is_empty() and bandits[0].character_state.equipment.primary_weapon() != null, "not parried: nothing")
 	var random := ScriptedCombatRandomSource.new([10, 50, 30])
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
 	_check(_texts(lines) == ["你的大金槌和土匪爪牙的钢刀相击，冒出点点的火星。"] and random.call_count() == 1, "10 of random(180): sparks; one draw: " + str(_texts(lines)))
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
 	_check(_texts(lines) == ["土匪爪牙只觉得手中钢刀一震，险些脱手！"] and bandits[0].character_state.equipment.primary_weapon() != null, "50 > wdp 38: nearly")
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
 	var shown: ItemInstance = session.item_instance_index().resolve(blade)
 	_check(_texts(lines) == ["只听见「啪」地一声，土匪爪牙手中的钢刀已经断为两截！"] and lines[0].color == ColoredLine.HIW, "30 > wdp / 2 = 19: broken, in HIW")
 	_check(bandits[0].character_state.equipment.primary_weapon() == null and shown != null and shown.item_definition_id == ItemContentDefinition.broken_id(BLADE) and map.floor_item_view(blade) != null, "unwielded, at his feet, 断掉的钢刀 from now on")
 	_check(map.floor_item_view(blade).display_name == "断掉的钢刀", "the floor shows its new name: " + map.floor_item_view(blade).display_name)
 	var second: CombatSliceCharacterBinding = _binding(map, bandits[1].character_id)
 	var second_blade: StringName = bandits[1].character_state.equipment.primary_weapon().instance_id
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, second, true, ScriptedCombatRandomSource.new([100]))
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, second, true, ScriptedCombatRandomSource.new([100]))
 	_check(_texts(lines) == ["土匪爪牙只觉得手中钢刀把持不定，脱手飞出！"] and bandits[1].character_state.equipment.primary_weapon() == null and session.item_instance_index().resolve(second_blade).item_definition_id == BLADE and map.floor_item_view(second_blade) != null, "100 > 2 x wdp: knocked away whole, onto the floor")
-	_check(map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, ScriptedCombatRandomSource.new([100])).is_empty(), "a victim without a weapon: nothing")
+	_check(map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, ScriptedCombatRandomSource.new([100])).is_empty(), "a victim without a weapon: nothing")
 	# The broken blade picked up: no longer wieldable, worth a tenth.
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	_check(InventoryTransferService.new().transfer(context.inventory, blade, InventoryTransferDestination.new(context.endpoint(), true, true, 1000000)).succeeded, "picked up") # TEST-ONLY
@@ -235,7 +235,7 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	me = _binding(map, player.character_id)
 	@warning_ignore("integer_division")
 	var wdp: int = session.inventory_state().own_weight(knives) / 500 + player.state.attributes.strength
-	lines = map._run_post_action(hwang, CombatPostActionIds.BASH_WEAPON, me, true, ScriptedCombatRandomSource.new([wdp]))
+	lines = map.combat_lifecycle.run_post_action(hwang, CombatPostActionIds.BASH_WEAPON, me, true, ScriptedCombatRandomSource.new([wdp]))
 	var stacks: CombinedStackCollection = session.stack_collection()
 	_check(_texts(lines) == ["只听见「啪」地一声，你手中的飞刀已经断为两截！"], "黄霸 breaks the player's 飞刀: " + str(_texts(lines)))
 	_check(player.state.equipment.primary_weapon() == null or player.state.equipment.primary_weapon().instance_id != knives, "unwielded")
@@ -319,7 +319,7 @@ func _give_stack(session: OldPineWorldSessionController, definition_id: StringNa
 
 
 func _binding(map: WorldMapController, character_id: StringName) -> CombatSliceCharacterBinding:
-	for binding: CombatSliceCharacterBinding in map._build_participants(true):
+	for binding: CombatSliceCharacterBinding in map.combat_lifecycle.build_participants(true):
 		if binding.character_id == character_id:
 			return binding
 	return null

@@ -42,12 +42,12 @@ static func tick(map: WorldMapController) -> Array[CombatSliceOpportunityResult]
 		return results
 	var order: Array[StringName] = []
 	map.set_meta(ORDER, order)
-	map._last_lifecycle_results.clear()
+	map.combat_lifecycle._last_lifecycle_results.clear()
 	if map.lifecycle_is_pending():
 		return results
 	var presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 	var hud: SharedGameplayUI = map.session.shared_ui()
-	var participants: Array[CombatSliceCharacterBinding] = map._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
 	for actor: CombatSliceCharacterBinding in participants:
 		if not actor.exists_in_encounter or not actor.relationship.is_fighting():
 			continue

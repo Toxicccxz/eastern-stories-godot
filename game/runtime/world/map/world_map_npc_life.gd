@@ -40,7 +40,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 		return
 	if npc_heartbeat == null:
 		npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
-	_map._fall_below_zero()
+	_map.combat_lifecycle.fall_below_zero()
 	_map.corpses.advance_pending_dissolves(delta)
 	for npc: NpcRuntimeState in npc_heartbeat.advance(delta, _map.npcs.npc_runtimes()):
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
@@ -79,7 +79,7 @@ func _advance_ambience(delta: float) -> void:
 	for beat: int in ambience.due_beats(delta):
 		if beat > 0:
 			# char.c heart_beat() falls before it chats, on each of several beats too.
-			_map._fall_below_zero()
+			_map.combat_lifecycle.fall_below_zero()
 		for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
 			if _chats(npc):
 				_act(npc, ambience.chat(npc.definition().talk()))
@@ -256,7 +256,7 @@ func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
 				tr("你喝道：「干什麽！」"),
 			]
 			_times_caught[npc.character_id] = _times_caught.get(npc.character_id, 0) + 1
-			var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+			var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
 				CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
 				CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),

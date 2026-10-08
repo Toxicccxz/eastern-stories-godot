@@ -107,7 +107,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.active_map_id() == &"oldpine.outdoor", "physical passage reaches oldpine.outdoor")
 	_check(player.world_location().zone_id == &"oldpine.outdoor.north_approach", "first Old Pine location is North Approach")
 	_check(session.last_map_handoff_result().destination_spawn_point_id == south.destination_spawn_point_id and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position.distance_to(Vector2(-352, -380)) < 25.0, "first physical spawn at north-west entry")
-	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._build_participants(), player.character_id)
+	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle.build_participants(), player.character_id)
 	_check(binding != null and binding.state == player.state and binding.state.equipment.primary_weapon() == null, "source exp0/unarmed binds existing combat")
 	_continuity(session, identities, cloth)
 	# npath1-3: down the path from the Snow gap, then east into the clearing's west edge.

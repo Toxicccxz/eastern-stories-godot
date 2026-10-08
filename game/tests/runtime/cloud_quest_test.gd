@@ -307,7 +307,7 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	_check(service.request_quest() == QuestGiver.Outcome.GIVEN and service.last_lines[0].text == SCOLD and player.state.vitality.current == 41 and player.state.quest.finished == 0 and player.state.quest.remaining_ms > 0, "the time ran out: 真没用, kee halved, another task")
 	var header: NpcRuntimeState = _npc(map, &"cloud.biaoju.b_header.1")
 	_check(player.request_apprenticeship(header.definition(), GameContent.catalog().family(&"family.zhenyuan"), 1789420000) == NpcApprenticeship.Outcome.RECRUITED and player.shown_title() == "振远镖局第二代弟子", "TEST-ONLY: 陈剑秋's apprentice")
-	map._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
+	map.combat_lifecycle._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
 	_check(not player.state.family.has_family() and player.state.apprenticeship.betrayer_count == 1 and player.state.progression.score == 0 and player.facts.title == "普通百姓" and player.shown_title() == "普通百姓", "his killer betrays the family, leaves it and is 普通百姓 again: " + player.shown_title())
 	player.state.vitality = CharacterResourceState.new(player.state.vitality.maximum, player.state.vitality.maximum, player.state.vitality.maximum)
 	work = Work.new()

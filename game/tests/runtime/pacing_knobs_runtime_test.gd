@@ -44,7 +44,7 @@ func _player_side_of_a_blow_carries_the_gain(tree: SceneTree) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player_gain: int = 0
 	var npc_gains: Array[int] = []
-	for binding: CombatSliceCharacterBinding in map._build_participants():
+	for binding: CombatSliceCharacterBinding in map.combat_lifecycle.build_participants():
 		var facts: CombatProgressionFacts = CombatSliceProjectionBuilder.build_progression_facts(binding)
 		if binding.is_user:
 			player_gain = facts.experience_gain

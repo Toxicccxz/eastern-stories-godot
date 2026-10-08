@@ -166,7 +166,7 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 	if outcome == Berserk.Outcome.STARE:
 		_map.hud().append_log_lines(lines)
 		return CombatSliceInitiationResult.new()
-	var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
 	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
 	var self_rude: String = tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &""))
@@ -191,7 +191,7 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 func npc_kills_player(npc: NpcRuntimeState) -> bool:
 	if npc == null or _player == null or session == null:
 		return false
-	var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
 	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
 	if npc_binding == null or player_binding == null:
@@ -277,7 +277,7 @@ func _player_berserk(npc: NpcRuntimeState) -> void:
 		_last_player_berserk = CombatSliceInitiationResult.new()
 		return
 	var self_rude: String = tr(RankWords.query_self_rude(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id))
-	var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
 	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
 	if outcome == Berserk.Outcome.KILL:
@@ -368,7 +368,7 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 			ids.append(id)
 	ids.sort_custom(func(first: StringName, second: StringName) -> bool: return String(first) < String(second))
 	ids.push_front(_player.character_id)
-	var available: Array[CombatSliceCharacterBinding] = _map._build_participants()
+	var available: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var result: Array[CombatSliceCharacterBinding] = []
 	for id: StringName in ids:
 		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(available, id)
@@ -410,7 +410,7 @@ func initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lin
 	if zone_entry(_player.world_location()) == &"complete_set":
 		result = session.combat_encounter_coordinator().start_complete_production(cause, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else &"")
 	else:
-		var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+		var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 		result = session.combat_encounter_coordinator().start_production(
 			CombatSliceProjectionBuilder.find_binding(participants, initiator_id),
 			CombatSliceProjectionBuilder.find_binding(participants, target_id),
@@ -460,18 +460,18 @@ func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunity
 		or npc.relationship.is_fighting() or _player.relationship.is_fighting()
 	):
 		return null
-	_map._last_player_content_resolution = _map._weapon_resolver.resolve(_player, _inventory, _item_index)
+	_map.combat_lifecycle.player_content_resolution = _map.combat_lifecycle.weapon_resolver.resolve(_player, _inventory, _item_index)
 	var player_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
 		_player,
-		_map._last_player_content_resolution.content_profile if _map._last_player_content_resolution.succeeded else null,
+		_map.combat_lifecycle.player_content_resolution.content_profile if _map.combat_lifecycle.player_content_resolution.succeeded else null,
 	)
 	var npc_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, _map.npcs.npc_content(npc))
 	if player_binding == null or npc_binding == null:
 		return null
-	if _map._post_actions == null:
-		_map._post_actions = CombatSlicePostActions.new(_map._run_post_action)
-	player_binding.post_actions = _map._post_actions
-	npc_binding.post_actions = _map._post_actions
+	if _map.combat_lifecycle.post_actions == null:
+		_map.combat_lifecycle.post_actions = CombatSlicePostActions.new(_map.combat_lifecycle.run_post_action)
+	player_binding.post_actions = _map.combat_lifecycle.post_actions
+	npc_binding.post_actions = _map.combat_lifecycle.post_actions
 	var participants: Array[CombatSliceCharacterBinding] = [player_binding, npc_binding]
-	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(npc_binding, player_binding, participants, _combat_random, _map._effects)
+	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(npc_binding, player_binding, participants, _combat_random, _map.combat_lifecycle.effects)
 	return null if result.forward_result == null else result

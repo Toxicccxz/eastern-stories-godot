@@ -147,7 +147,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 	var consent: NpcSparConsent = spar_consent(target, true)
 	var result := CombatSliceInitiationResult.new()
 	if consent.accepted:
-		var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+		var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 		var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
 		var target_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, target.character_id)
 		result = (

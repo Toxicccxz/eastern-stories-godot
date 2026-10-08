@@ -104,7 +104,7 @@ func _test_npc_internal_power(session: OldPineWorldSessionController) -> void:
 
 func _test_master_projection(session: OldPineWorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
-	var bindings: Array[CombatSliceCharacterBinding] = map._build_participants()
+	var bindings: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
 	var master := CombatSliceProjectionBuilder.find_binding(bindings, _npc(map, &"snow.schoolhall.master.1").character_id)
 	var annihir := CombatSliceProjectionBuilder.find_binding(bindings, _npc(map, &"snow.bank.annihir.1").character_id)
 	var player := CombatSliceProjectionBuilder.find_binding(bindings, session.player_runtime().character_id)

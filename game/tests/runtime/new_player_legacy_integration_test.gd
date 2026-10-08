@@ -39,7 +39,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(context.killer_was_present, "death killer fact preserved")
 	# Exercise the production outdoor delegation, not just its extracted helper.
 	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(player, CombatSliceContentProfile.new())
-	var outdoor_context: DeathContext = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._death_context_for(binding, null, destination)
+	var outdoor_context: DeathContext = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle._death_context_for(binding, null, destination)
 	_check(outdoor_context.victim_age == 20 and outdoor_context.victim_display_name == "Player", "real outdoor death delegation retains technical facts")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-10T12:00:00Z")
 	_check(capture.succeeded(), "production capture succeeds: " + capture.path + capture.detail)
@@ -56,7 +56,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			restored.candidate.free()
 	# QA-only identity injection must not silently change the legacy world profile.
 	player._facts = PlayerIdentityFacts.new("初雪", "普通百姓", 14)
-	var source_context: DeathContext = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._death_context_for(binding, null, destination)
+	var source_context: DeathContext = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle._death_context_for(binding, null, destination)
 	_check(source_context.victim_age == 14 and source_context.victim_display_name == "初雪", "same outdoor production delegation reads source facts")
 	var blocked: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-10T12:00:00Z")
 	_check(blocked.outcome == OldPineWorldCaptureResult.Outcome.INVALID_CAPTURED_SNAPSHOT and blocked.path == "player.identity", "legacy profile fails closed for source identity")

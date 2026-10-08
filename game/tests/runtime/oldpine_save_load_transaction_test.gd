@@ -109,9 +109,9 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	session._passage_request_pending = true
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.PASSAGE_PENDING, "pending passage handoff blocks")
 	session._passage_request_pending = false
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._lifecycle_failed = true
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle._lifecycle_failed = true
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, "incomplete lifecycle blocks")
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._lifecycle_failed = false
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle._lifecycle_failed = false
 	var partial := OldPineMapHandoffResult.new()
 	partial._location_committed = true
 	partial._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_ACTIVATION_FAILED

@@ -202,7 +202,7 @@ func hang_with(item_id: StringName) -> bool:
 	_map.hud().append_log_lines([tr("你把绳子一端挂好, 另一端往脖子上一套.....")])
 	_player.relationship.clear_last_damage_from()
 	_player.state.vitality.apply_wound(_player.state.vitality.effective + 1)
-	_map.player_fall_below_zero()
+	_map.combat_lifecycle.player_fall_below_zero()
 	return true
 
 
@@ -463,7 +463,7 @@ func pour_into(powder_id: StringName, container_id: StringName) -> bool:
 	if powder == null or powder.pour == null or not _inventory.is_direct_child(powder_id, carried) or not pour_targets().has(container_id):
 		return false
 	var liquid: LiquidState = _liquids.state(container_id)
-	var vessel: String = _map._item_name(container_id)
+	var vessel: String = _map.combat_lifecycle.item_name(container_id)
 	if liquid.remaining <= 0:
 		_map.hud().append_log_lines([tr("{container}里什麽也没有，先装些水酒才能溶化药粉。").format({"container": vessel})])
 		return false
@@ -547,7 +547,7 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	# warning come first; the refusal (X没有收下。) prints last.
 	var refusal: String = result.lines.pop_back()
 	_report_item_handling(result)
-	var participants: Array[CombatSliceCharacterBinding] = _map._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
 		CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
 		CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),

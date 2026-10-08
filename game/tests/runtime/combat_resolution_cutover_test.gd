@@ -269,7 +269,7 @@ func _entry(tree: SceneTree) -> void:
 	npc.set_world_location(player.world_location())
 	player.relationship.add_opponent(npc.character_id)
 	var before: Array[StringName] = player.relationship.opponent_ids()
-	var bindings: Array[CombatSliceCharacterBinding] = map._build_participants()
+	var bindings: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
 	var receipt: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(bindings[0], bindings[1], CombatTriggerCause.Value.NPC_AGGRESSION)
 	_check(receipt.outcome == CombatSliceInitiationResult.Outcome.ENCOUNTER_START_FAILED, "mode/cause failure after attempted establishment")
 	_check(player.relationship.opponent_ids() == before and player.relationship.lethal_target_ids().is_empty() and not npc.relationship.is_fighting(), "rollback exact prior ordered facts")

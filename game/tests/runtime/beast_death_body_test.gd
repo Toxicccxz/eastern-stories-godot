@@ -22,13 +22,13 @@ func run_all() -> Dictionary[String, Variant]:
 	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(f.npc, CombatSliceContentProfile.new())
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"test.location"), true, true, 1000000)
-	var context: DeathContext = controller._death_context_for(binding, null, destination)
+	var context: DeathContext = controller.combat_lifecycle._death_context_for(binding, null, destination)
 	_eq(context.is_valid(), true, "actual NPC death adapter yields valid context")
 	_eq([context.victim_display_name, context.victim_gender, context.victim_age, context.victim_body_own_weight, context.victim_maximum_encumbrance], ["黑冠巨蟒", &"雄性", 400, 62000, 200000], "source chard corpse copies established NPC facts")
 	_eq(context.victim_owner.equipment_state == f.npc.character_state.equipment, true, "death owner exact Equipment")
 	_eq(context.victim_owner.armor_state == f.npc.armor, true, "death owner exact Armor")
 	f.npc.character_state.attributes.strength = 99
-	var after_strength_change: DeathContext = controller._death_context_for(binding, null, destination)
+	var after_strength_change: DeathContext = controller.combat_lifecycle._death_context_for(binding, null, destination)
 	_eq([after_strength_change.victim_body_own_weight, after_strength_change.victim_maximum_encumbrance], [62000, 200000], "death copies runtime body, never recalculates from current strength")
 	var corpse_item: ItemInstance = ItemInstance.new(&"test.corpse", &"es2:obj/corpse")
 	var result: DeathInventoryResult = DeathInventoryService.process(context, f.inventory, f.stacks, [], DeathItemPolicyRegistry.new(), DeathRewearPolicyRegistry.new(), corpse_item, ItemDefinition.new(&"es2:obj/corpse", "obj/corpse.c"))
@@ -47,7 +47,7 @@ func run_all() -> Dictionary[String, Variant]:
 	var state: CharacterState = CharacterState.new(CharacterBaseAttributes.new(20))
 	state.gender = CharacterState.GENDER_MALE
 	var player: CombatSliceCharacterBinding = CombatSliceCharacterBinding.new(&"test.player", state, CombatRelationshipState.new(&"test.player"), ActionBusyState.new(), ArmorState.new(), CombatSliceContentProfile.new(), &"test.location", true, CombatSliceLifeStatus.Value.ACTIVE, true)
-	var player_context: DeathContext = controller._death_context_for(player, null, destination)
+	var player_context: DeathContext = controller.combat_lifecycle._death_context_for(player, null, destination)
 	_eq([player_context.victim_display_name, player_context.victim_gender, player_context.victim_age, player_context.victim_body_own_weight, player_context.victim_maximum_encumbrance], ["Player", &"男性", 20, 60000, 100000], "player body policy unchanged")
 	controller.free()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
