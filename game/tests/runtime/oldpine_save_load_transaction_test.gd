@@ -128,11 +128,11 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.ROTTEN)
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.SKELETON)
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.FINAL)
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._corpse_states.append(final_corpse)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpses._corpse_states.append(final_corpse)
 	var final_result := OldPineSaveEligibility.inspect(session)
 	_assert_eq(final_result.outcome, OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, "live FINAL corpse blocks as incomplete final destruction")
 	_assert_eq(final_result.subject_id, final_corpse.corpse_item_instance_id, "FINAL corpse blocker identifies corpse")
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._corpse_states.erase(final_corpse)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpses._corpse_states.erase(final_corpse)
 	session.process_mode = Node.PROCESS_MODE_DISABLED
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.SESSION_NOT_READY, "disabled non-playable Session blocks")
 	session.process_mode = Node.PROCESS_MODE_INHERIT

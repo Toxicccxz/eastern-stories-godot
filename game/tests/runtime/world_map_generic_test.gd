@@ -29,10 +29,10 @@ func _test_corpse_beside_a_wall(tree: SceneTree) -> void:
 		fell_at.x -= 1.0
 	_assert_true(MapPlacementValidator.is_valid_character_position(forest, slope.zone_id, fell_at), "a body can stand against the slope's west forest")
 	_assert_false(MapPlacementValidator.is_valid_corpse_position(forest, slope.zone_id, fell_at), "the wider corpse would overlap that forest")
-	var corpse_at: Vector2 = forest._corpse_position(fell_at, slope)
+	var corpse_at: Vector2 = forest.corpses.corpse_position(fell_at, slope)
 	_assert_true(MapPlacementValidator.is_valid_corpse_position(forest, slope.zone_id, corpse_at), "the corpse is shifted to where Continue accepts it")
 	_assert_true(corpse_at.distance_to(fell_at) <= 40.0, "but stays where the body fell")
-	_assert_eq(forest._corpse_position(Vector2(450, -150), slope), Vector2(450, -150), "a corpse in the open lies exactly where the body fell")
+	_assert_eq(forest.corpses.corpse_position(Vector2(450, -150), slope), Vector2(450, -150), "a corpse in the open lies exactly where the body fell")
 	await _free(session, tree)
 
 

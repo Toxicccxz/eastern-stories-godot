@@ -48,7 +48,7 @@ static func presence_exited(map: WorldMapController, index: int, other: Node2D) 
 ## What queueing NPC `index`'s presence decides, as the retired
 ## _queue_bandit_presence() returned it.
 static func queue_presence(map: WorldMapController, index: int, other: Node2D) -> NpcAggressionDecision:
-	if not map._gameplay_open() or other != map.player_body or index < 0 or index >= map.npc_runtimes().size():
+	if not map.gameplay_open() or other != map.player_body or index < 0 or index >= map.npc_runtimes().size():
 		return NpcAggressionDecision.new()
 	return map.aggression_adapter().enter_player_presence(map.npc_runtimes()[index], map.player_runtime(), map._combat_allowed())
 
@@ -58,7 +58,7 @@ static func queue_presence(map: WorldMapController, index: int, other: Node2D) -
 static func enter_zone(map: WorldMapController, zone_id: StringName, other: Node2D) -> void:
 	var character: WorldCharacterBody2D = other as WorldCharacterBody2D
 	var zone: WorldPhysicalZoneArea2D = map.physical_zone(zone_id)
-	if character != null and zone != null and map._gameplay_open() and zone.contains_center(character.global_position):
+	if character != null and zone != null and map.gameplay_open() and zone.contains_center(character.global_position):
 		character.set_world_location(map.location_for_zone(zone_id))
 
 
@@ -66,7 +66,7 @@ static func enter_zone(map: WorldMapController, zone_id: StringName, other: Node
 static func open_inventory(map: WorldMapController) -> bool:
 	var hud: SharedGameplayUI = map.session.shared_ui()
 	var player: WorldPlayerRuntimeState = map.player_runtime()
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return false
 	if player == null or not player.is_valid() or not player.exists_in_world or player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		hud.close_inventory()
@@ -76,7 +76,7 @@ static func open_inventory(map: WorldMapController) -> bool:
 
 
 static func inspect_item(map: WorldMapController, item_instance_id: StringName) -> bool:
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return false
 	var row: PlayerInventoryRowProjection = PlayerInventoryProjection.new().project_item(
 		map.player_runtime(), map.inventory_state(), map.stack_collection(), map.item_instance_index(), item_instance_id,
@@ -89,25 +89,25 @@ static func inspect_item(map: WorldMapController, item_instance_id: StringName) 
 
 ## ES2 wield/unwield/wear/remove have no fighting gate; the adapters apply the rules.
 static func wield(map: WorldMapController, id: StringName) -> OldPineEquipmentInteractionResult:
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return OldPineEquipmentInteractionResult.new()
 	return _refreshed(map, OldPineEquipmentInteractionAdapter.new().wield(map.player_runtime(), id, map.inventory_state(), map.item_instance_index()))
 
 
 static func unwield(map: WorldMapController, id: StringName) -> OldPineEquipmentInteractionResult:
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return OldPineEquipmentInteractionResult.new()
 	return _refreshed(map, OldPineEquipmentInteractionAdapter.new().unwield(map.player_runtime(), id, map.inventory_state()))
 
 
 static func wear(map: WorldMapController, id: StringName) -> OldPineArmorInteractionResult:
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return OldPineArmorInteractionResult.new()
 	return _refreshed(map, OldPineArmorInteractionAdapter.new().wear(map.player_runtime(), id, map.inventory_state(), map.item_instance_index()))
 
 
 static func remove(map: WorldMapController, id: StringName) -> OldPineArmorInteractionResult:
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return OldPineArmorInteractionResult.new()
 	return _refreshed(map, OldPineArmorInteractionAdapter.new().remove(map.player_runtime(), id, map.inventory_state(), map.item_instance_index()))
 

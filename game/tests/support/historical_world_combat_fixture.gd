@@ -38,7 +38,7 @@ static func last_tick_order(map: WorldMapController) -> Array[StringName]:
 ## One manual round: every fighting participant in stable order acts once.
 static func tick(map: WorldMapController) -> Array[CombatSliceOpportunityResult]:
 	var results: Array[CombatSliceOpportunityResult] = []
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return results
 	var order: Array[StringName] = []
 	map.set_meta(ORDER, order)
