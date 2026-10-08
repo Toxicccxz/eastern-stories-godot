@@ -194,6 +194,11 @@ func resume_after_relationship_reconciliation() -> void:
 	pass
 
 
+## The player left this map for another one: the handoff completed.
+func player_departed() -> void:
+	pass
+
+
 func encounter_combat_bindings(
 	_encounter: CombatEncounter,
 ) -> Array[CombatSliceCharacterBinding]:

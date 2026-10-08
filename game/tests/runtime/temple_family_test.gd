@@ -305,7 +305,8 @@ func _test_nobody_hears(tree: SceneTree, session: WorldSessionController) -> voi
 ## His answer to one lying before him: the request waiting on him takes nobody (recruit.c's
 ## !living(ob)); one withdrawn meanwhile is offered all the same; nothing is read. An
 ## unconscious 林忌 says nothing (unconcious() disables his commands). Leaving the map drops
-## the answer: it would come while the player is away and find nobody.
+## the answer: it would come while the player is away and find nobody; a deactivation that
+## is rolled back (a failed Continue) keeps it.
 func _test_answer_cases(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -336,6 +337,8 @@ func _test_answer_cases(tree: SceneTree, session: WorldSessionController) -> voi
 	master.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	request.cancel()
 	service.request_apprentice()
+	_check(map.suspend_for_session_swap() and map.resume_after_session_swap_rollback() and map.npc_life.apprentice_answer_due(master), "a Continue that is rolled back keeps his answer due")
+	await tree.physics_frame
 	_check(session.handoff_to(&"temple.mountain", &"temple.entrance", &"temple.entrance", &"temple.entrance.gate_return").succeeded(), "TEST-ONLY: out of the gate at once")
 	await tree.physics_frame
 	await tree.physics_frame

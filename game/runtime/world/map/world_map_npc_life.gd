@@ -110,9 +110,10 @@ func npc_ambience() -> NpcAmbience:
 	return ambience
 
 
-## The player left this map: its NPCs' call_outs (a theft, a master's answer) would come due
-## while they are away and find nobody (steal_it(), recruit.c's present()), so they go now:
-## the map's time stands still until the player is back.
+## The player went to another map (a completed handoff): its NPCs' call_outs (a theft, a
+## master's answer) would come due while they are away and find nobody (steal_it(),
+## recruit.c's present()), so they go now: the map's time stands still until the player is
+## back. A deactivation that is rolled back (a failed handoff or Continue) keeps them.
 func player_left() -> void:
 	if ambience != null:
 		ambience.clear_calls()

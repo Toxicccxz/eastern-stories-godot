@@ -316,7 +316,6 @@ func prepare_for_deactivation() -> void:
 	# Nobody watches a map the player left: its NPCs stand where they were going.
 	if npc_life.walker != null:
 		npc_life.walker.finish_all()
-	npc_life.player_left()
 	npc_life.arrival_zone_id = &""
 	_present_zones.clear()
 	_zone_check_pending = false
@@ -523,6 +522,12 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if hud() != null:
 		hud().refresh_live_state()
 	return true
+
+
+## The player went to another map (a handoff that completed): its NPCs' call_outs go.
+## Not on deactivation, which a failed handoff or session swap rolls back.
+func player_departed() -> void:
+	npc_life.player_left()
 
 
 func suspend_for_session_swap() -> bool:
