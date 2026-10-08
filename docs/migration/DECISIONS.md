@@ -14,7 +14,8 @@ What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
   comments it out).
 - **遁 at oneself ends the fight for the player as a flight does**, after the chant and one of
   the five lights; whoever they called leaves unheard, and the player stands in Snow's 城隍庙
-  (/d/snow/temple, also REVIVE_ROOM) as soon as the world is free. The result reads
+  (/d/snow/temple, also REVIVE_ROOM) a frame later, once the world is free (no fight starts and
+  no save is taken meanwhile). The result reads
   你借遁术脱离了战斗。 dun.c's write("你失败了。") now reaches a player caster.
 - **The player's 天将** (heaven_soldier.c invocation()): it kill_ob()s each living enemy of the
   player (from the last), each kill_ob()s it back, it comes in on the player's side and the fight

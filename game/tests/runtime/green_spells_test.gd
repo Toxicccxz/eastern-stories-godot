@@ -427,6 +427,7 @@ func _test_vanish(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	_check(session.active_map_id() == &"green.village" and coordinator.pending_departure() == DunSpell.DESTINATION, "the move waits a frame: the fight's end is told first")
 	map.select_npc(_first(map, QUARRYMAN).character_id)
 	_check(map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not coordinator.has_active_encounter(), "no fight starts before the move")
+	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.MAP_HANDOFF_ACTIVE, "nor a save: the move is still to come")
 	session.advance_departure()
 	await tree.physics_frame
 	await tree.physics_frame

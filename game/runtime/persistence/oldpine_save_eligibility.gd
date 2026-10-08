@@ -25,7 +25,8 @@ static func inspect(
 		return Result.block(Result.Outcome.ACTIVE_COMBAT_ENCOUNTER)
 	if session.is_session_swap_suspended():
 		return Result.block(Result.Outcome.SESSION_SWAP_ACTIVE)
-	if session.is_transitioning():
+	# dun.c took the player away; the move to its room comes a frame after the fight.
+	if session.is_transitioning() or not session.combat_encounter_coordinator().pending_departure().is_empty():
 		return Result.block(Result.Outcome.MAP_HANDOFF_ACTIVE)
 	var handoff: OldPineMapHandoffResult = session.last_map_handoff_result()
 	if handoff != null and handoff.has_committed_partial_transition():
