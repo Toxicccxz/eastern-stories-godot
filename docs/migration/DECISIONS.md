@@ -113,7 +113,7 @@ maps and is not saved (Continue starts without it, as ES2's relogin); practising
 asks nothing (its hover tells of the 观想虫); a 僵尸追魂符 names someone in the room, and one
 gone by the time it is put on the zombie is not stuck (the sheet stays). Defaults of the plan
 (owner may veto): the three-apprentice count is not ported (it never ran out, see
-[TEMPLE_CONTENT](TEMPLE_CONTENT.md)); 林忌 takes men only; a raised corpse's contents fall to
+[TEMPLE_CONTENT](TEMPLE_CONTENT.md)); a raised corpse's contents fall to
 the floor (ES2 destructs them with it); 符 are drawn only on 桃符纸, one at a time;
 astral_vision and earth-warp are not offered (nothing reads the one; the other never attached
 and leads to 鬼门关). What each room and NPC became is in TEMPLE_CONTENT.
@@ -133,11 +133,14 @@ and leads to 鬼门关). What each room and NPC became is in TEMPLE_CONTENT.
 - **road1.c's moss**: each walk off the path south or north-west draws random(kar) (query("kar"),
   as set); below 3 the player reads the slip, falls unconscious (A9's short wake) and stays
   on the path. Coming onto the path never slips.
-- **road2.c's invisible wall** stops all but 茅山派 at the 藏经楼's door; a member, and anyone
-  coming out, reads book_room1.c's door line (`pass_lines`); tell_room() lines only others
-  would see are not shown.
-- **An NPC's class** (`set("class")`) is data: rankd.c's words follow it, so the taoists call
-  themselves 贫道 in npc.c's spar answer and ask.c's lines.
+- **road2.c's invisible wall** stops all but 茅山派 at the 藏经楼's door; a member going in
+  reads road2.c's door line, anyone coming out book_room1.c's (`pass_lines`); tell_room() lines
+  only others would see are not shown.
+- **An NPC's class** (`set("class")`) is data: rankd.c's words follow it wherever they name the
+  NPC, so the taoists call themselves 贫道 (npc.c's spar answer, ask.c), the player asks 清虚
+  for 道长's 高招 (fight.c) and calls a guard 死牛鼻子 (kill.c).
+- **谷衣心法's 灵神诀** (gouyee/concentrate.c) comes with B, where the player can learn the skill;
+  its 疗伤 is fonxanforce's heal.c word for word.
 - **召护法 (invocation.c) for NPCs**: 林忌, 僵尸侍者 and 僵尸护法 call a 天将 (one in three) or
   a 阴鬼卒 (obj/npc/hell_guard.c, a summoned NPC like the 天将, its lines in HIB, a new colour)
   to their side. The bolts and 召护法 have their 施法 names now (紫光, 白光, 青光, 召护法): 林忌

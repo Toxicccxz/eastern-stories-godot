@@ -187,7 +187,7 @@
 				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
 				"shapes": {"StairsShape": [48, 48]},
 				"stairs": [
-					{"zone": "temple.book_room2", "name": "BookRoom2StairsDown", "at": [96, 256], "id": "temple.book_room2.down", "shape": "StairsShape", "color": "Color(0.55, 0.38, 0.22, 1)", "text": "木梯 · 下楼", "marker": {"name": "BookRoom2StairsArrival", "at": [152, 256], "id": "temple.book_room2.stairs_arrival"}}
+					{"zone": "temple.book_room2", "name": "BookRoom2StairsDown", "at": [352, 256], "id": "temple.book_room2.down", "shape": "StairsShape", "color": "Color(0.55, 0.38, 0.22, 1)", "text": "木梯 · 下楼", "marker": {"name": "BookRoom2StairsArrival", "at": [296, 256], "id": "temple.book_room2.stairs_arrival"}}
 				],
 				"nodes": [
 					{"generated": "captions"},

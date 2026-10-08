@@ -475,9 +475,10 @@ func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
 		hud().append_log_lines(lines)
 	_last_exit_refusal = rule.rule_id
 	_last_exit_refusal_ms = now
-	# road1.c: unconcious() after the slip; the next life check lays the player down.
+	# road1.c: unconcious() right after the slip, where the player now is.
 	if rule.knocks_out:
 		_player.state.fall_unconscious()
+		player_fall_below_zero()
 
 
 ## What the room's valid_leave() tells one who goes through (book_room1.c's

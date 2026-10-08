@@ -183,6 +183,12 @@ func _test_words(session: WorldSessionController) -> void:
 	_check(not guest.accepted and guest.npc_self == "在下" and guest.lines[0].text == "$SELF怎麽可能是$RESPECT的对手？", "the pilgrim: 在下怎麽可能是…的对手")
 	var old: NpcSparConsent = NpcSparConsent.decide(_npc(grounds, &"temple.npc.old_taoist"), asker)
 	_check(not old.accepted and old.lines[0].text == "无量寿佛 ! 贫道年迈力衰, 怎是施主的对手。", "老道士 never spars")
+	var respect: Callable = func(id: StringName) -> String:
+		var npc: NpcRuntimeState = _npc(grounds if id != &"temple.npc.little_taoist1" else mountain, id)
+		return RankWords.query_respect(npc.character_state.gender, npc.age, npc.definition().class_id, npc.definition().rank_respect)
+	_check(respect.call(&"temple.npc.taoist") == "道长" and respect.call(&"temple.npc.little_taoist1") == "道兄", "fight.c's 领教…的高招: 道长 for 清虚, 道兄 for the boy 玄真")
+	var guard: NpcRuntimeState = _npc(grounds, _on_duty(grounds, ON_DUTY)[0])
+	_check(RankWords.query_rude(guard.character_state.gender, guard.age, guard.definition().class_id) == "死牛鼻子", "kill.c's rude word for a taoist: 死牛鼻子")
 	for id: StringName in [&"temple.npc.trainer", &"temple.npc.tfighter"]:
 		var outsider: NpcSparConsent = NpcSparConsent.decide(_npc(grounds, id), asker)
 		_check(not outsider.accepted and outsider.lines[0].text == "茅山派不和别派的人过招。", "%s: not with another family's" % id)
@@ -266,8 +272,12 @@ func _test_moss(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not map.accept_zone_presence(corridor) and player.world_location().zone_id == &"temple.road1", "slipped: still on the path")
 	_check(hud.log_lines()[-1] == MOSS, "road1.c's line")
 	_check(observed._requested_bounds == [20], "random(kar), kar 20: %s" % [observed._requested_bounds])
-	_check(player.state.spirit.current < 0, "unconcious(): down at the next life check")
-	player.state.spirit.current = player.state.spirit.effective # TEST-ONLY: up again
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and session.player_life_flow().phase == PlayerLifeFlow.Phase.UNCONSCIOUS, "unconcious(): down at once")
+	for _second: int in range(300):
+		if player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			break
+		session._process(1.0)
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.world_location().zone_id == &"temple.road1", "and wakes where the moss threw them")
 	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([3])) # TEST-ONLY
 	map.runtime_player_body().global_position = Vector2(map.physical_zone(&"temple.road1").global_rect().get_center().x, edge + 8)
 	_check(map.accept_zone_presence(corridor) and player.world_location().zone_id == &"temple.corridor3", "3: down to the walkway")

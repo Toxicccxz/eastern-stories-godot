@@ -13300,6 +13300,16 @@ msgstr ""
 msgid "一道无形的墙挡住了门口, 差点把你的鼻子给撞扁了。"
 msgstr ""
 
+#. temple.road2.wall pass_lines
+#: data/temple/world.json
+msgid "你推开门走了进去, 顺手把门关了起来。"
+msgstr ""
+
+#. temple.book_room1.out pass_lines
+#: data/temple/world.json
+msgid "你拉开门大步走了出去, 随手把门带上。"
+msgstr ""
+
 #. temple.road1.moss.south lines
 #. temple.road1.moss.northwest lines
 #: data/temple/world.json

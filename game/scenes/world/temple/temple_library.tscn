@@ -41,7 +41,7 @@ theme_override_font_sizes/font_size = 14
 text = "经楼"
 
 [node name="BookRoom2StairsDown" type="Area2D" parent="."]
-position = Vector2(96, 256)
+position = Vector2(352, 256)
 collision_layer = 0
 input_pickable = false
 script = ExtResource("passage")
@@ -81,7 +81,7 @@ shape = SubResource("Rect_384_288")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="BookRoom2StairsArrival" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(152, 256)
+position = Vector2(296, 256)
 script = ExtResource("marker")
 spawn_point_id = &"temple.book_room2.stairs_arrival"
 

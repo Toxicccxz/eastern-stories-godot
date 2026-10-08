@@ -169,7 +169,7 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
 	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
-	var self_rude: String = tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &""))
+	var self_rude: String = tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, npc.definition().class_id))
 	if outcome == Berserk.Outcome.KILL:
 		# TRANSLATORS: combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
 		var kill_line: String = tr("{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。").format({"npc": name, "self": self_rude})
@@ -290,7 +290,7 @@ func _player_berserk(npc: NpcRuntimeState) -> void:
 		return
 	# TRANSLATORS: combatd.c start_berserk() for the player: {rude} is how the player insults the NPC (臭贼), {self} how they call themself (老子).
 	var fight_line: String = tr("你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！").format({
-		"npc": name, "rude": tr(RankWords.query_rude(npc.character_state.gender, npc.age, &"")), "self": self_rude,
+		"npc": name, "rude": tr(RankWords.query_rude(npc.character_state.gender, npc.age, npc.definition().class_id)), "self": self_rude,
 	})
 	_last_player_berserk = _berserk_fight(session.combat_encounter_coordinator().start_production(
 		player_binding, npc_binding, CombatTriggerCause.Value.PLAYER_SPAR,

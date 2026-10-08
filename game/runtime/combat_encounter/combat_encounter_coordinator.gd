@@ -617,7 +617,7 @@ func _respect_of(character_id: StringName) -> String:
 	var npc: NpcRuntimeState = _resident_npc(character_id)
 	if npc == null:
 		return ""
-	return tr(RankWords.query_respect(npc.character_state.gender, npc.age, &"", npc.definition().rank_respect))
+	return tr(RankWords.query_respect(npc.character_state.gender, npc.age, npc.definition().class_id, npc.definition().rank_respect))
 
 
 ## The NPC a participant is (npc.c chat() in the fight), or null.
