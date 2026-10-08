@@ -1006,8 +1006,8 @@ func _kill_bandit(
 
 
 func _instantiate_scene(tree: SceneTree) -> WorldMapController:
-	var session: OldPineWorldSessionController = (
-		SceneType.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		SceneType.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null

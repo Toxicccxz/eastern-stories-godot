@@ -3,7 +3,7 @@ extends PanelContainer
 
 ## One Session-owned view across all resident maps. IDs are selection only;
 ## the collection, Player resources and Inventory remain authoritative.
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _panel: PanelContainer
 var _select: OptionButton
 var _eat: Button
@@ -12,7 +12,7 @@ var _ids: Array[StringName] = []
 var last_result: FoodUseResult
 
 
-func configure(session: OldPineWorldSessionController) -> void:
+func configure(session: WorldSessionController) -> void:
 	_session = session
 
 

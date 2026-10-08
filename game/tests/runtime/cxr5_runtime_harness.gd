@@ -10,7 +10,7 @@ class ZeroRandom extends CombatRandomSource:
 		calls += 1
 		return 0 if bound > 0 else -1
 
-@onready var session: OldPineWorldSessionController = $OldPineWorldSession
+@onready var session: WorldSessionController = $OldPineWorldSession
 @onready var label: Label = $ProofOverlay/Panel/Margin/Status
 var _random := ZeroRandom.new()
 var _input_sequence: int = 0

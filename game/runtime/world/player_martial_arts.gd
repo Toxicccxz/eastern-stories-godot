@@ -10,11 +10,11 @@ extends RefCounted
 ## fight is the battle panel's queued action (CombatExertTacticalPolicy).
 
 var last_lines: Array[ColoredLine] = []
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _learn_policies: SkillLearnPolicyRegistry
 
 
-func _init(session: OldPineWorldSessionController) -> void:
+func _init(session: WorldSessionController) -> void:
 	_session = session
 	_learn_policies = SkillLearnPolicyRegistry.new()
 	_learn_policies.register_known_legacy_policies()

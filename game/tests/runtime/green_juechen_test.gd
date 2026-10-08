@@ -44,7 +44,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_dun()
 	_test_saveme()
 	_test_apprentice_rule()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	_original_random = session.combat_random_source()
@@ -196,7 +196,7 @@ func _test_apprentice_rule() -> void:
 
 # --- The session --------------------------------------------------------------------
 
-func _test_master_in_the_hall(_tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_master_in_the_hall(_tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var master: NpcRuntimeState = _master(map)
 	_check(master != null and master.world_location().zone_id == &"green.cavehall", "绝尘子 stands in the hall")
@@ -211,7 +211,7 @@ func _test_master_in_the_hall(_tree: SceneTree, session: OldPineWorldSessionCont
 
 
 ## A family's member asks: asked first (owner), then 要叛师 on the chat channel and his kill.
-func _test_traitor(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_traitor(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _master(map)
@@ -244,7 +244,7 @@ func _test_traitor(tree: SceneTree, session: OldPineWorldSessionController) -> v
 
 
 ## A commoner with spi 24 and 100000 combat_exp: his apprentice, a 道士; the seal lets them through.
-func _test_join(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_join(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _master(map)
@@ -289,7 +289,7 @@ func _test_join(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## His fight: 召天将 brings a soldier against the player; it leaves when the fight is over.
-func _test_soldier_leaves(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_soldier_leaves(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _master(map)
@@ -343,7 +343,7 @@ func _test_soldier_leaves(tree: SceneTree, session: OldPineWorldSessionControlle
 
 
 ## The soldier falls: its corpse stays with its gear, and Save/Continue keeps it.
-func _test_soldier_falls(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_soldier_falls(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var master: NpcRuntimeState = _master(map)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -383,7 +383,7 @@ func _test_soldier_falls(tree: SceneTree, session: OldPineWorldSessionController
 
 
 ## 冥思 and 修行 on the 武学 page; 法力 and 灵力 on the sheet.
-func _test_cultivation(_tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_cultivation(_tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var state: CharacterState = player.state
 	# TEST-ONLY: whole, spi 30, no spells or magic.
@@ -424,7 +424,7 @@ func _test_cultivation(_tree: SceneTree, session: OldPineWorldSessionController)
 
 ## The player attacks him; his chat fires (random(100) 0) and takes saveme (random(4) 1),
 ## which succeeds (random(spells) at its highest). Returns the soldier's ID.
-func _fight_until_summoned(tree: SceneTree, session: OldPineWorldSessionController, master: NpcRuntimeState) -> StringName:
+func _fight_until_summoned(tree: SceneTree, session: WorldSessionController, master: NpcRuntimeState) -> StringName:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	# TEST-ONLY: whole again, kee to outlast him, his mana and sen back.
@@ -454,7 +454,7 @@ func _fight_until_summoned(tree: SceneTree, session: OldPineWorldSessionControll
 	return &""
 
 
-func _flee(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _flee(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	session.configure_combat_random_source(Forced.new()) # TEST-ONLY: no more chat
@@ -470,11 +470,11 @@ func _flee(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	await tree.process_frame
 
 
-func _ui(session: OldPineWorldSessionController) -> BattlePresentationController:
+func _ui(session: WorldSessionController) -> BattlePresentationController:
 	return session.get_node("BattlePresentationLayer/BattleSurface")
 
 
-func _battle_log(session: OldPineWorldSessionController) -> String:
+func _battle_log(session: WorldSessionController) -> String:
 	return _ui(session).log_panel._text.get_parsed_text()
 
 
@@ -486,14 +486,14 @@ func _master(map: WorldMapController) -> NpcRuntimeState:
 
 
 ## TEST-ONLY: the player beside him, where his teaching reaches.
-func _beside(_tree: SceneTree, map: WorldMapController, session: OldPineWorldSessionController, npc: NpcRuntimeState) -> void:
+func _beside(_tree: SceneTree, map: WorldMapController, session: WorldSessionController, npc: NpcRuntimeState) -> void:
 	var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 	var at: Vector2 = MapPlaces.spot(map, &"green.cavehall", body.global_position + Vector2(0, 56), 60.0)
 	map.runtime_player_body().global_position = at
 	_check(at != Vector2.INF and session.player_runtime().set_world_location(map.location_for_zone(&"green.cavehall")), "TEST-ONLY: beside 绝尘子")
 
 
-func _carried_by(session: OldPineWorldSessionController, character_id: StringName) -> Array[StringName]:
+func _carried_by(session: WorldSessionController, character_id: StringName) -> Array[StringName]:
 	var result: Array[StringName] = []
 	for id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
 		var item: ItemInstance = session.item_instance_index().resolve(id)
@@ -502,7 +502,7 @@ func _carried_by(session: OldPineWorldSessionController, character_id: StringNam
 	return result
 
 
-func _count_items(session: OldPineWorldSessionController, definition_id: StringName) -> int:
+func _count_items(session: WorldSessionController, definition_id: StringName) -> int:
 	var count: int = 0
 	for id: StringName in session.item_instance_index().snapshot_ids():
 		var item: ItemInstance = session.item_instance_index().resolve(id)

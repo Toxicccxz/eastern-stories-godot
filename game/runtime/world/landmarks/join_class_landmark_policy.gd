@@ -11,7 +11,7 @@ class Result:
 func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCounted:
 	var result: Result = Result.new()
 	var player: WorldPlayerRuntimeState = map.player_runtime()
-	var session: OldPineWorldSessionController = map.session
+	var session: WorldSessionController = map.session
 	if player == null or session == null or landmark == null:
 		return result
 	if player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or session.is_transitioning() or session.active_map_id() != map.map_id():

@@ -27,7 +27,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": assertions, "failures": failures}
 
 
-static func purchase(session: OldPineWorldSessionController) -> VendorPurchaseResult:
+static func purchase(session: WorldSessionController) -> VendorPurchaseResult:
 	return Food.purchase(session, "wineskin")
 
 
@@ -35,11 +35,11 @@ static func buy_wineskin(money: MoneyInventoryContext, liquids: LiquidCollection
 	return VendorPurchaseService.buy(TestContent.waiter(), "wineskin", GameContent.catalog(), money, FoodCollection.new(), liquids, allocator, capacity)
 
 
-static func drink(session: OldPineWorldSessionController, id: StringName, available: bool = true, encounter: bool = false) -> LiquidUseResult:
+static func drink(session: WorldSessionController, id: StringName, available: bool = true, encounter: bool = false) -> LiquidUseResult:
 	return HeldLiquidUseService.drink(session.player_runtime(), Food.context(session), session.liquid_collection(), Food.definitions(), id, available, encounter)
 
 
-static func fill(session: OldPineWorldSessionController, id: StringName, source: bool = true, encounter: bool = false) -> LiquidUseResult:
+static func fill(session: WorldSessionController, id: StringName, source: bool = true, encounter: bool = false) -> LiquidUseResult:
 	return HeldLiquidUseService.fill(session.player_runtime(), Food.context(session), session.liquid_collection(), Food.definitions(), id, true, source, encounter)
 
 
@@ -109,7 +109,7 @@ func purchase_tests() -> void:
 
 
 func liquid_tests(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
+	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	check(Food.earn_and_exchange(session), "two Work and exchange without injected money")
 	var first: VendorPurchaseResult = purchase(session)
 	check(first.delivered and Food.context(session).select(Food.SILVER).amount == 1 and Food.context(session).select(Food.COIN).amount == 80, "natural mixed denominations price20")
@@ -158,7 +158,7 @@ func liquid_tests(tree: SceneTree) -> void:
 	check(fill(session, first.item_id).succeeded(), "direct ownership restored, same item usable")
 	check(Work.rng_state(session) == rng and session.item_id_allocator().next_dynamic_sequence == sequence, "Fill/Drink/time consume no gameplay RNG/item IDs")
 	check(player.state.conditions.size() == 0 and session.liquid_collection().state(second.item_id).content == LiquidState.Content.RED_WINE and session.liquid_collection().state(second.item_id).remaining == 15, "no drunk and other wine untouched")
-	var independent: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
+	var independent: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	# A new Session holds only its own liquids: the drunk's wineskin (4A) and the 陶壶 two of
 	# 青石村's women carry.
 	check(independent.liquid_collection().instance_ids().size() == 3 and not independent.liquid_collection().instance_ids().has(second.item_id), "independent Session collection")
@@ -167,7 +167,7 @@ func liquid_tests(tree: SceneTree) -> void:
 
 
 func persistence_tests(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
+	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	Food.earn_and_exchange(session)
 	var ids: Array[StringName] = []
 	for i: int in range(4): ids.append(purchase(session).item_id)
@@ -236,7 +236,7 @@ func persistence_tests(tree: SceneTree) -> void:
 
 
 func physical_tests(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
+	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	check(session.shared_ui()._liquid != null and not session.fill_water_available(), "Session UI, Inn no water source")
 	Food.earn_and_exchange(session)
 	purchase(session)

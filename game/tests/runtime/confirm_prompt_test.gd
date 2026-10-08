@@ -22,7 +22,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_component(tree)
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -76,7 +76,7 @@ func _test_component(tree: SceneTree) -> void:
 ## 切磋: unarmed at once; with 刘安禄's blade, asked first (取消, 关闭, 确定切磋); with
 ## 安惜迩, who answers with kill_ob(), asked as a fight to the death; 柳绘心's refusal is
 ## not asked although she holds a sword.
-func _test_spar(session: OldPineWorldSessionController, map: WorldMapController) -> void:
+func _test_spar(session: WorldSessionController, map: WorldMapController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
@@ -128,7 +128,7 @@ func _test_spar(session: OldPineWorldSessionController, map: WorldMapController)
 
 
 ## 化尸粉: 刘安禄's corpse holds his things (asked); the dog's is empty (at once).
-func _test_dissolve(session: OldPineWorldSessionController, map: WorldMapController) -> void:
+func _test_dissolve(session: WorldSessionController, map: WorldMapController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -162,7 +162,7 @@ func _test_dissolve(session: OldPineWorldSessionController, map: WorldMapControl
 
 
 ## 拜师 柳淳风 without a family: asked only when he will take the player.
-func _test_first_master(session: OldPineWorldSessionController, map: WorldMapController) -> void:
+func _test_first_master(session: WorldSessionController, map: WorldMapController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _master(map)
 	session.shared_ui().dismiss_current_panel() # the 背包 from the dissolve
@@ -194,7 +194,7 @@ func _test_first_master(session: OldPineWorldSessionController, map: WorldMapCon
 
 
 ## 攻击 柳淳风 as his disciple: asked first with what the kill would cost.
-func _test_master_attack(session: OldPineWorldSessionController, map: WorldMapController) -> void:
+func _test_master_attack(session: WorldSessionController, map: WorldMapController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -238,7 +238,7 @@ func _corpse_of(map: WorldMapController, character_id: StringName) -> CorpseStat
 
 
 ## Advances the encounter one combat round at a time until it is gone.
-func _run(session: OldPineWorldSessionController) -> void:
+func _run(session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 300:
@@ -251,7 +251,7 @@ func _run(session: OldPineWorldSessionController) -> void:
 
 
 ## TEST-ONLY: a carried stack of `definition_id`.
-func _give(session: OldPineWorldSessionController, definition_id: StringName, amount: int) -> StringName:
+func _give(session: WorldSessionController, definition_id: StringName, amount: int) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)

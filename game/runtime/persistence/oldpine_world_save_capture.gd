@@ -11,7 +11,7 @@ var _failure_detail: String = ""
 
 
 func capture(
-	session: OldPineWorldSessionController,
+	session: WorldSessionController,
 	storage_profile: StringName,
 	saved_at_utc: String,
 	build_commit: Values.OptionalText = null,

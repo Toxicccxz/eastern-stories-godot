@@ -16,7 +16,7 @@ class CountFiles extends Previous.MemoryFiles:
 
 class CountCoordinator extends OldPineSessionLoadCoordinator:
 	var saves: int = 0
-	func save_current(session: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
+	func save_current(session: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
 		saves += 1
 		return super.save_current(session)
 
@@ -141,7 +141,7 @@ func _test_pending_start(tree: SceneTree, operation: String, foreground_first: b
 	probe.get_parent().remove_child(probe)
 	var slot: Node = shell.runtime_host().session_slot
 	slot.child_entered_tree.connect(func(child: Node) -> void:
-		if child is OldPineWorldSessionController: child.add_child(probe)
+		if child is WorldSessionController: child.add_child(probe)
 	)
 	var accepted: bool
 	match operation:
@@ -159,7 +159,7 @@ func _test_pending_start(tree: SceneTree, operation: String, foreground_first: b
 		shell._finish_mobile_reactivation(shell.activity().presentation_revision())
 		_check(shell.interaction_allowed() and tree.paused and shell.runtime_host().request_pending(), "foreground precedes actual completion, gate keeps tree paused")
 	await _settle(tree, 8)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	_check(session != null and shell.runtime_host().session_invariant_holds(), operation + " one validated commit/staging empty")
 	_check(probe.ticks == 0 and not session.can_process(), "zero gameplay tick across commit")
 	_check(shell.pause_visible() and tree.paused, "successful interrupted start is PAUSED")
@@ -201,7 +201,7 @@ func _test_pending_save(tree: SceneTree, foreground_first: bool, outcome: String
 	var shell: ApplicationShellController = await _shell(tree)
 	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	shell.request_pause()
 	# Existing canonical baseline proves rollback, not merely absence of a new file.
 	shell.request_save_from_pause()
@@ -323,7 +323,7 @@ func _test_failed_new_and_pending_guard(tree: SceneTree) -> void:
 	shell.dismiss_current_result()
 	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	_check(shell.runtime_host().request_save() and not shell.request_pause(), "normal user Pause still rejects pending Host")
 	_loss(shell)
 	_check(tree.paused and not session.can_process(), "lifecycle bypass freezes pending committed Session immediately")
@@ -333,7 +333,7 @@ func _test_failed_new_and_pending_guard(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 
-func _freeze_facts(session: OldPineWorldSessionController, timer: Timer) -> Array:
+func _freeze_facts(session: WorldSessionController, timer: Timer) -> Array:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var facts: Array = [session.get_instance_id(), session.active_map_id(), session.get_viewport().get_camera_2d(), session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.velocity, player.life_status, player.exists_in_world, player.relationship.opponent_ids(), player.relationship.lethal_target_ids(), player.relationship.guarding, session.item_id_allocator().next_dynamic_sequence, session.inventory_state().registered_item_ids(), player.state.equipment.primary_weapon().instance_id, player.armor.occupied_slots(), timer.time_left, player.state.equipment.get_instance_id(), player.armor.get_instance_id(), player.busy.busy_value, player.busy.interrupt_threshold]
 	for rng: RandomStreamSnapshot in [session.combat_random_source().capture_random_state(), session.npc_random_source().capture_random_state(), session.world_interaction_random_source().capture_random_state()]:
@@ -356,7 +356,7 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 	tree.root.size = Vector2i(960, 540)
 	# Armed/cadence freeze subject is an explicit technical save fixture, not public birth.
 	# This regression deliberately freezes armed Old Pine combat state, not public birth.
-	var technical: OldPineWorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	var technical: WorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	tree.root.add_child(technical)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(technical, &"test", "2026-09-11T00:00:00Z").snapshot
 	var bytes: PackedByteArray = GameSaveJsonCodec.encode(snapshot).text.to_utf8_buffer()
@@ -370,7 +370,7 @@ func _test_freeze_and_input(tree: SceneTree) -> void:
 	var emulation_before: bool = Input.is_emulating_mouse_from_touch()
 	shell.request_continue_from_menu()
 	await _settle(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var timer: Timer = Timer.new()
 	timer.wait_time = 10.0
 	session.add_child(timer)
@@ -424,7 +424,7 @@ func _test_cave(tree: SceneTree) -> void:
 	var shell: ApplicationShellController = await _shell(tree)
 	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	# Boundary-only test. Real Android route is separate and must use physical entry.
 	_check(session.handoff_to(OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, &"oldpine.cave.waterfall_passage.vine_landing").succeeded(), "Cave lifecycle fixture enters resident map")
 	await _settle(tree)

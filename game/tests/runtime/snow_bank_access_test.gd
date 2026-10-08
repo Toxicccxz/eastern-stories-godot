@@ -35,7 +35,7 @@ func input_test() -> bool:
 
 
 ## Typed/position setup ONLY for controller integration tests, never live route evidence.
-static func at_bank(session: OldPineWorldSessionController) -> BankService:
+static func at_bank(session: WorldSessionController) -> BankService:
 	session.handoff_to(SnowWorldDefinitions.OUTDOOR_MAP_ID, &"snow.square", &"snow.square", SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID)
 	var bank: BankService = (session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController).service(&"snow.bank.counter") as BankService
 	bank.map.player_body.player_controlled = true
@@ -45,7 +45,7 @@ static func at_bank(session: OldPineWorldSessionController) -> BankService:
 
 
 func integration_test(tree: SceneTree) -> bool:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	var bank: BankService = (session.resident_map(&"snow.outdoor") as WorldMapController).service(&"snow.bank.counter") as BankService
 	check(bank.request_conversion(SILVER, COIN, "1").outcome == SnowBankInteractionResult.Outcome.BLOCKED, "inactive map blocked")
 	Work.work(session)
@@ -112,7 +112,7 @@ func integration_test(tree: SceneTree) -> bool:
 
 
 func capacity_test(tree: SceneTree, existing: bool) -> bool:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	Work.work(session)
 	var bank: BankService = at_bank(session)
 	if not bank.in_reach():
@@ -146,7 +146,7 @@ func capacity_test(tree: SceneTree, existing: bool) -> bool:
 
 
 func physical_test(tree: SceneTree) -> bool:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	var walk: RefCounted = Work.new()
 	var residents: int = session.resident_map_count()
 	var npcs: int = session.world_npcs().size()

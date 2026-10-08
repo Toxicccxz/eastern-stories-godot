@@ -5,7 +5,7 @@ const Water := preload("res://tests/runtime/snow_water_test.gd")
 const Memory := preload("res://tests/runtime/game_save_repository_test.gd")
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	session.configure_source_entry("Lake", CharacterState.GENDER_FEMALE)
 	session.deterministic_npc_seed = true
 	session.deterministic_combat_seed = true
@@ -103,7 +103,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _settle(tree, 2)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
-func _place(session: OldPineWorldSessionController, position: Vector2) -> void:
+func _place(session: WorldSessionController, position: Vector2) -> void:
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	map.player_body.global_position = position
 	map.player_body.set_world_location(map.location_for_zone(_zone_owning(map, position)))
@@ -117,14 +117,14 @@ func _zone_owning(map: WorldMapController, position: Vector2) -> StringName:
 			owners.append(zone.zone_id)
 	return owners[0] if owners.size() == 1 else &""
 
-func _flee(session: OldPineWorldSessionController) -> void:
+func _flee(session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.submit_player_action(_request(session)).accepted(), "production Flee queued")
 	coordinator.advance_scheduler(0)
 	_check(not coordinator.has_active_encounter(), "production Flee completes")
 	_check(session.world_simulation_gate().is_open(), "production world control restored")
 
-func _roundtrip(tree: SceneTree, session: OldPineWorldSessionController, label: String) -> void:
+func _roundtrip(tree: SceneTree, session: WorldSessionController, label: String) -> void:
 	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-26T00:00:00Z")
 	_check(captured.succeeded(), label + " current capture")
 	if not captured.succeeded(): return

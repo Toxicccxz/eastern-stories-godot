@@ -17,7 +17,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_inquiry_rule()
 	_test_random_move_rule()
 	_test_chat_rule()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	for room: String in session.room_resets().rooms():
 		_scheduled[room] = session.room_resets().remaining_ms(room)
 	await tree.process_frame
@@ -123,14 +123,14 @@ func _test_chat_rule() -> void:
 	_check(NpcGeneration.of(&"p.character.1", &"p") == 0 and NpcGeneration.of(&"p.character.03", &"p") == 0 and NpcGeneration.of(&"q.character", &"p") == 0, "nothing else is a generation")
 
 
-func _to_square(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _to_square(tree: SceneTree, session: WorldSessionController) -> void:
 	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 	var square: bool = await MapPlaces.drive_to_zone(tree, session.active_map() as WorldMapController, &"snow.square")
 	_check(square and session.player_runtime().world_location().zone_id == &"snow.square", "out of the Inn")
 
 
 ## The scavenger beside the player: a line, then random_move north and the walk.
-func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_wandering(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var street: Vector2 = map.physical_zone(&"snow.mstreet2").global_rect().get_center()
@@ -174,7 +174,7 @@ func _test_wandering(tree: SceneTree, session: OldPineWorldSessionController) ->
 
 
 ## keeper.c init()/greeting(): one second after the player comes in, if still there.
-func _test_greeting(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_greeting(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(map.relocate_player(&"snow.temple", &"snow.temple.keeper.1"), "into the temple")
@@ -194,7 +194,7 @@ func _test_greeting(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## 打听 on the selected NPC: the topic list, then the answer under it and in the log.
-func _test_ask_panel(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_ask_panel(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(map.relocate_player(&"snow.eroad2", &"snow.eroad2.dog.1"), "beside the dogs")
@@ -223,7 +223,7 @@ func _test_ask_panel(tree: SceneTree, session: OldPineWorldSessionController) ->
 ## std/room.c reset(): the wandered scavenger hurries home, a killed trainee is
 ## made anew beside its corpse, the 竹剑 lies there again only once it is gone,
 ## the shelf forgets its pushes. Save/Continue keeps all of it.
-func _test_reset(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_reset(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()

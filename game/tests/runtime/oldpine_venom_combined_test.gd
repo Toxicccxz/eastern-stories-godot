@@ -33,7 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_record_rules()
 	_test_condition_tick()
 	_test_apply_rules()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_square_travellers(session)
 	_test_shop_and_hockshop(session)
@@ -168,7 +168,7 @@ func _test_apply_rules() -> void:
 
 
 ## square.c: three travellers with a hundred 飞刀 each, wielded.
-func _test_square_travellers(session: OldPineWorldSessionController) -> void:
+func _test_square_travellers(session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"snow.outdoor")
 	var amounts: Array[int] = []
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
@@ -182,7 +182,7 @@ func _test_square_travellers(session: OldPineWorldSessionController) -> void:
 ## buy.c of a combined item merges into the buyer's stack; hockshop.c values a stack by
 ## query("value") whatever its amount, and 飞刀 has none; drop.c destructs what is
 ## worth nothing, a split part too.
-func _test_shop_and_hockshop(session: OldPineWorldSessionController) -> void:
+func _test_shop_and_hockshop(session: WorldSessionController) -> void:
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 30, &"test.venom.silver") # TEST-ONLY
 	var vendor: VendorDefinition = GameContent.catalog().vendor(&"snow.vendor.herbalist")
@@ -217,7 +217,7 @@ func _test_shop_and_hockshop(session: OldPineWorldSessionController) -> void:
 
 ## The snake bites: hit_ob() poisons; outside the fight it strikes on the beat; 蛇药
 ## lowers it; Save keeps it; 化尸粉 dissolves the snake's corpse.
-func _test_snake(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_snake(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"oldpine.stone", &"oldpine.stone.top", &"oldpine.stone.top", &"oldpine.stone.top.landing").succeeded(), "up on the stone")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -309,7 +309,7 @@ func _test_snake(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 
 ## The player throws 飞刀 at 黑衣人: one per attack; the last is unwielded with
 ## weapond.c's line, then the player fights bare-handed.
-func _test_player_throws(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_player_throws(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"oldpine.tree", &"oldpine.tree.canopy", &"oldpine.tree.canopy", &"oldpine.tree.canopy.tree1_landing").succeeded(), "up the pine")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -334,7 +334,7 @@ func _test_player_throws(tree: SceneTree, session: OldPineWorldSessionController
 
 ## 黑衣人 throws his thirty, one by one; with none left he fights bare-handed. When he
 ## kills the player he laughs and a second later dissolves the body with 化尸粉.
-func _test_spy(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_spy(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"oldpine.tree", &"oldpine.tree.canopy", &"oldpine.tree.canopy", &"oldpine.tree.canopy.tree1_landing").succeeded(), "up the pine")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -408,7 +408,7 @@ func _remaining(state: CharacterState) -> int:
 
 
 ## TEST-ONLY: a new item of `definition_id` (a stack of `amount`) in the player's hands, merged.
-func _give(session: OldPineWorldSessionController, definition_id: StringName, amount: int) -> StringName:
+func _give(session: WorldSessionController, definition_id: StringName, amount: int) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
@@ -425,7 +425,7 @@ func _give(session: OldPineWorldSessionController, definition_id: StringName, am
 	return merged.surviving_instance_id
 
 
-func _carried(session: OldPineWorldSessionController, character_id: StringName, definition_id: StringName) -> Array[StringName]:
+func _carried(session: WorldSessionController, character_id: StringName, definition_id: StringName) -> Array[StringName]:
 	var found: Array[StringName] = []
 	for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
 		var item: ItemInstance = session.item_instance_index().resolve(item_id)

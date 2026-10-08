@@ -83,7 +83,7 @@ var life_overlay: PlayerLifeOverlay
 
 
 func _ready() -> void:
-	_session = get_parent() as OldPineWorldSessionController
+	_session = get_parent() as WorldSessionController
 	layer = 8
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
@@ -633,7 +633,7 @@ func _update_bar(resource: CharacterResourceState, bar: ProgressBar) -> void:
 	})
 
 
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _bound_map: WorldResidentMapController
 var _food: HeldFoodPanel
 var _liquid: HeldLiquidPanel

@@ -6,12 +6,12 @@ extends RefCounted
 ## time, and the scene passages of both maps kept in step with it. ES2 opens the
 ## way up only when the room below is loaded (find_object); every native room
 ## always is, so both open together.
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _states: Dictionary[StringName, HiddenPassageState] = {}
 var _carried_ms: float = 0.0
 
 
-func _init(session: OldPineWorldSessionController) -> void:
+func _init(session: WorldSessionController) -> void:
 	_session = session
 	for landmark: WorldLandmarkDefinition in GameContent.catalog().hidden_passages():
 		_states[landmark.landmark_id] = HiddenPassageState.new()

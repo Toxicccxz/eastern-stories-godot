@@ -10,7 +10,7 @@ const SKILL_NAMES: Dictionary[StringName, String] = {
 	&"dodge": "基本轻功", &"force": "基本内功", &"liuh-ken": "柳家拳",
 }
 
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _dim: ColorRect
 var _text: Label
 var _continue: Button
@@ -19,7 +19,7 @@ var _notice: String = ""
 var _notice_remaining: float = 0.0
 
 
-func configure(session: OldPineWorldSessionController) -> void:
+func configure(session: WorldSessionController) -> void:
 	_session = session
 
 

@@ -2,7 +2,7 @@ class_name HeldLiquidPanel
 extends PanelContainer
 
 ## Session view, stable selected ID. Never owns content, water or source facts.
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _panel: PanelContainer
 var _select: OptionButton
 var _drink: Button
@@ -12,7 +12,7 @@ var _ids: Array[StringName] = []
 var last_result: LiquidUseResult
 
 
-func configure(session: OldPineWorldSessionController) -> void:
+func configure(session: WorldSessionController) -> void:
 	_session = session
 
 

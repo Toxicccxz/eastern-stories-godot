@@ -10,7 +10,7 @@ class MaximumRandom extends CombatRandomSource:
 
 ## Test-only failures at the existing typed world-return boundaries. No runtime
 ## fault flags, replacement gate owner, or fake terminal result in production.
-class CompletionSession extends OldPineWorldSessionController:
+class CompletionSession extends WorldSessionController:
 	var reject_thaw: bool = false
 	var thaw_calls: int = 0
 	var resolving_at_thaw: bool = false
@@ -52,7 +52,7 @@ func _completion_return(tree: SceneTree) -> void:
 	# Same actual LETHAL ordinary-attack -> death/corpse -> completion route for
 	# thaw failure, release failure and success. Only failure boundaries differ.
 	for fault: int in 3:
-		var session: OldPineWorldSessionController = SessionScene.instantiate()
+		var session: WorldSessionController = SessionScene.instantiate()
 		session.set_script(CompletionSession)
 		tree.root.add_child(session)
 		session.set_process(false)
@@ -150,7 +150,7 @@ func _completion_return(tree: SceneTree) -> void:
 			var late_log: String = ui.log_panel._text.get_parsed_text()
 			_check(late_log.contains("结果"), "completion before first UI projection still delivers terminal event")
 			_check(late_log.contains("你") and not late_log.contains(String(player.character_id)) and not late_log.contains(String(npc.character_id)), "and tells it with names and 你, never ids: %s" % late_log)
-			var independent: OldPineWorldSessionController = _new_session(tree)
+			var independent: WorldSessionController = _new_session(tree)
 			_check(independent.combat_encounter_coordinator().completed_feedback() == null, "completed feedback is not shared across Sessions")
 			independent.free()
 		for index: int in 3:
@@ -204,7 +204,7 @@ func _reverse_chain_boundary() -> void:
 	_check(random.call_count() == 15, "exact shared forward/reverse RNG count; no post-boundary draw")
 
 func _spar_mortal_wound(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new_session(tree)
+	var session: WorldSessionController = _new_session(tree)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.start(Multi.trigger(session, CombatEncounterMode.Value.SPAR, CombatTriggerCause.Value.PLAYER_SPAR, &"mortal-spar")).succeeded(), "mortal SPAR setup")
 	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
@@ -221,15 +221,15 @@ func _spar_mortal_wound(tree: SceneTree) -> void:
 	session.free()
 	await _settle(tree, 2)
 
-func _new_session(tree: SceneTree) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+func _new_session(tree: SceneTree) -> WorldSessionController:
+	var session: WorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
 	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	return session
 
 func _entry(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new_session(tree)
+	var session: WorldSessionController = _new_session(tree)
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = map.npc_runtimes()[0]
@@ -283,7 +283,7 @@ func _entry(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 func _multi_death(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new_session(tree)
+	var session: WorldSessionController = _new_session(tree)
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var a: NpcRuntimeState = map.npc_runtimes()[0]
@@ -346,7 +346,7 @@ func _multi_death(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 func _failure(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new_session(tree)
+	var session: WorldSessionController = _new_session(tree)
 	Multi.register_probes(session) # Synthetic queue only; never production catalog.
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var npc: NpcRuntimeState = map.npc_runtimes()[0]
@@ -382,7 +382,7 @@ func _failure(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 func _spar(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new_session(tree)
+	var session: WorldSessionController = _new_session(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
 	Multi._unarm(player.state.equipment)
@@ -417,7 +417,7 @@ func _spar(tree: SceneTree) -> void:
 
 func _player_terminal(tree: SceneTree) -> void:
 	for mortal: bool in [false, true]:
-		var session: OldPineWorldSessionController = _new_session(tree)
+		var session: WorldSessionController = _new_session(tree)
 		var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 		var player: WorldPlayerRuntimeState = session.player_runtime()
 		var npc: NpcRuntimeState = map.npc_runtimes()[0]

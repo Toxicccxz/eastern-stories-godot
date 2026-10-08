@@ -17,7 +17,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_validation()
 	_test_attack_tables()
 	_test_apply_values()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	await _to_snow(tree, session)
 	_test_npc_internal_power(session)
@@ -90,7 +90,7 @@ func _test_apply_values() -> void:
 	_check(silk.armor_definition().numeric_modifiers.value(&"dodge") == 6, "silk_cloth.c armor_prop/dodge 6")
 
 
-func _test_npc_internal_power(session: OldPineWorldSessionController) -> void:
+func _test_npc_internal_power(session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var master: NpcRuntimeState = _npc(map, &"snow.schoolhall.master.1")
 	var state: CharacterState = master.character_state
@@ -102,7 +102,7 @@ func _test_npc_internal_power(session: OldPineWorldSessionController) -> void:
 	_check(girl.vitality.maximum == 120 + 200 / 4 and girl.gender == CharacterState.GENDER_FEMALE, "柳绘心: age 15, max_force 200")
 
 
-func _test_master_projection(session: OldPineWorldSessionController) -> void:
+func _test_master_projection(session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var bindings: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
 	var master := CombatSliceProjectionBuilder.find_binding(bindings, _npc(map, &"snow.schoolhall.master.1").character_id)
@@ -120,7 +120,7 @@ func _test_master_projection(session: OldPineWorldSessionController) -> void:
 	_check(force != null and force.attacker.force_hit_policy_status == CombatHitPolicyStatus.Value.STANDARD_FORCE, "安惜迩's celestial: combatd.c's standard force hit")
 
 
-func _test_girl(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_girl(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -145,7 +145,7 @@ func _test_girl(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	await tree.process_frame
 
 
-func _test_master_spar(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_master_spar(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(_beside(map, player, &"snow.schoolhall", &"snow.schoolhall.master.1"), "in the hall")
@@ -160,7 +160,7 @@ func _test_master_spar(tree: SceneTree, session: OldPineWorldSessionController) 
 	await tree.process_frame
 
 
-func _test_annihir_kill(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_annihir_kill(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -184,7 +184,7 @@ func _test_annihir_kill(tree: SceneTree, session: OldPineWorldSessionController)
 	await tree.process_frame
 
 
-func _run_fight(session: OldPineWorldSessionController) -> Dictionary[String, int]:
+func _run_fight(session: WorldSessionController) -> Dictionary[String, int]:
 	var seen: Dictionary[String, int] = {}
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	for _second: int in range(600):
@@ -218,7 +218,7 @@ func _heal(state: CharacterState) -> void:
 		resource.current = resource.maximum
 
 
-func _to_snow(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _to_snow(tree: SceneTree, session: WorldSessionController) -> void:
 	Input.action_press("move_right")
 	for _step: int in range(400):
 		await tree.physics_frame

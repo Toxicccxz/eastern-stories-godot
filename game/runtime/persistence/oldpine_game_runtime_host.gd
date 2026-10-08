@@ -29,7 +29,7 @@ var _profile: GameSaveStorageProfile = GameSaveStorageProfile.release()
 var _files: SaveFileOperations
 var _startup_mode: int = StartupMode.NEW_GAME
 var _coordinator: OldPineSessionLoadCoordinator
-var _current_session: OldPineWorldSessionController
+var _current_session: WorldSessionController
 var _request_pending: bool = false
 var _last_save: OldPineRuntimeSaveLoadResult
 var _last_load: OldPineRuntimeSaveLoadResult
@@ -98,7 +98,7 @@ func _ready() -> void:
 	startup_completed.emit(result)
 
 
-func current_session() -> OldPineWorldSessionController:
+func current_session() -> WorldSessionController:
 	return _current_session
 
 
@@ -243,7 +243,7 @@ func _execute_recovery(source: int) -> void:
 
 
 func _execute_end_session() -> void:
-	var session: OldPineWorldSessionController = _current_session
+	var session: WorldSessionController = _current_session
 	if session == null or not session_invariant_holds():
 		_last_end_session = OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
@@ -276,7 +276,7 @@ func _execute_load() -> void:
 
 
 func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntimeSaveLoadResult:
-	var session: OldPineWorldSessionController = _instantiate_new_game_session()
+	var session: WorldSessionController = _instantiate_new_game_session()
 	if session == null:
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
 	if not session.configure_source_entry(display_name, gender):
@@ -285,7 +285,7 @@ func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntim
 	return _attach_new_game_session(session)
 
 
-func _attach_new_game_session(session: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
+func _attach_new_game_session(session: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if _current_session != null or session_slot.get_child_count() != 0 or staging_slot.get_child_count() != 0:
 		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(
@@ -313,17 +313,17 @@ func _attach_new_game_session(session: OldPineWorldSessionController) -> OldPine
 	return OldPineRuntimeSaveLoadResult.success(session)
 
 
-func _instantiate_new_game_session() -> OldPineWorldSessionController:
-	return SESSION_SCENE.instantiate() as OldPineWorldSessionController
+func _instantiate_new_game_session() -> WorldSessionController:
+	return SESSION_SCENE.instantiate() as WorldSessionController
 
 
 func _discard_current_session() -> void:
-	var session: OldPineWorldSessionController = _current_session
+	var session: WorldSessionController = _current_session
 	_current_session = null
 	_discard_session(session)
 
 
-func _discard_session(session: OldPineWorldSessionController) -> void:
+func _discard_session(session: WorldSessionController) -> void:
 	if session == null:
 		return
 	if session.get_parent() != null:

@@ -9,7 +9,7 @@ var selected_target: WorldInteractionTarget
 var selected_landmark_available: bool = false
 
 # The map's authorities, read as the controller reads them.
-var session: OldPineWorldSessionController:
+var session: WorldSessionController:
 	get: return _map.session
 var player_body: WorldCharacterBody2D:
 	get: return _map.player_body

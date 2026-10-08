@@ -19,7 +19,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_definitions()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -53,7 +53,7 @@ func _test_definitions() -> void:
 	_check(catalog.npc(&"green.npc.kid4").talk().chat_entries().size() == 3, "kid4 peers at the door and talks")
 
 
-func _test_created(session: OldPineWorldSessionController, village: WorldMapController) -> void:
+func _test_created(session: WorldSessionController, village: WorldMapController) -> void:
 	var hammers: int = 0
 	var ropes: int = 0
 	for npc: NpcRuntimeState in village.resident_npcs():
@@ -90,7 +90,7 @@ func _test_created(session: OldPineWorldSessionController, village: WorldMapCont
 
 
 ## kid2.c: query("attitude") draws again each time a spar asks.
-func _test_attitude(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_attitude(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"green.village")
 	_check(session.handoff_to(&"green.village", &"green.path6", &"green.path6", &"green.path6.snow_entry").succeeded(), "TEST-ONLY: into the village")
 	await tree.physics_frame
@@ -110,7 +110,7 @@ func _test_attitude(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## woman1.c in a fight: wield_weapon() once (then chat_chance_combat 10), converse_one().
-func _test_woman(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_woman(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var woman: NpcRuntimeState = null
@@ -140,7 +140,7 @@ func _test_woman(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 
 ## ask_for_help(): attacked to the death, the old man calls; the old woman shouts and
 ## comes in to kill the player; in a spar nobody comes.
-func _test_old_couple(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var man: NpcRuntimeState = _first(map, &"green.npc.oldman")
@@ -171,7 +171,7 @@ func _beside(tree: SceneTree, map: WorldMapController, npc: NpcRuntimeState) -> 
 	await tree.physics_frame
 
 
-func _carries(session: OldPineWorldSessionController, npc: NpcRuntimeState, definition_id: StringName) -> bool:
+func _carries(session: WorldSessionController, npc: NpcRuntimeState, definition_id: StringName) -> bool:
 	for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)):
 		var item: ItemInstance = session.item_instance_index().resolve(item_id)
 		if item != null and item.item_definition_id == definition_id:
@@ -179,7 +179,7 @@ func _carries(session: OldPineWorldSessionController, npc: NpcRuntimeState, defi
 	return false
 
 
-func _coins(session: OldPineWorldSessionController, npc: NpcRuntimeState) -> int:
+func _coins(session: WorldSessionController, npc: NpcRuntimeState) -> int:
 	for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)):
 		var item: ItemInstance = session.item_instance_index().resolve(item_id)
 		if item != null and item.item_definition_id == COIN:
@@ -187,7 +187,7 @@ func _coins(session: OldPineWorldSessionController, npc: NpcRuntimeState) -> int
 	return 0
 
 
-func _end_fight(session: OldPineWorldSessionController) -> void:
+func _end_fight(session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 600:

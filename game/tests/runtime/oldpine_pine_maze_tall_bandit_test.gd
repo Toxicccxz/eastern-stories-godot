@@ -487,7 +487,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(silver_take.resulting_item_instance_id, silver.item_instance_id, "incoming Tall silver is closed-semantics survivor")
 	var player_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.CHARACTER,
-		OldPineWorldSessionController.PLAYER_ID,
+		WorldSessionController.PLAYER_ID,
 	)
 	_assert_true(controller.inventory_state().is_direct_child(long_sword.item_instance_id, player_endpoint), "looted long sword becomes player direct inventory")
 	_assert_true(controller.inventory_state().is_direct_child(silver.item_instance_id, player_endpoint), "looted silver becomes player direct inventory")
@@ -571,8 +571,8 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 
 
 func _instantiate_scene(tree: SceneTree) -> WorldMapController:
-	var session: OldPineWorldSessionController = (
-		SceneType.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		SceneType.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null
@@ -666,7 +666,7 @@ func _add_player_silver(
 		InventoryTransferDestination.new(
 			ContainmentEndpoint.new(
 				ContainmentEndpoint.Kind.CHARACTER,
-				OldPineWorldSessionController.PLAYER_ID,
+				WorldSessionController.PLAYER_ID,
 			),
 			true,
 			true,

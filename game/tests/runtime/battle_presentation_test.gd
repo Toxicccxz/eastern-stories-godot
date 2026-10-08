@@ -15,7 +15,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_projection_and_intent(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false) # Deterministic unit boundary, not live proof.
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
@@ -156,7 +156,7 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.NEW_GAME_SETUP, "real New Game opens character setup")
 	preload("res://tests/support/technical_shell_fixture.gd").start(shell)
 	await _settle(tree, 25)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	_check(session != null and session.is_initialized(), "explicit technical Battle fixture initialized")
 	if session == null:
 		shell.free()
@@ -305,7 +305,7 @@ func _test_restored_session_battle(tree: SceneTree) -> void:
 	await _settle(tree)
 	await _tap(tree, shell.continue_button)
 	await _settle(tree, 25)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	_check(session != null and session.is_initialized(), "real Continue restores and commits Session through staging reparent")
 	if session == null:
 		shell.free()

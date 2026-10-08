@@ -88,7 +88,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func evidence() -> Dictionary[String, Variant]:
 	var current_host: OldPineGameRuntimeHost = host if is_instance_valid(host) else null
 	var current_shell: ApplicationShellController = shell if is_instance_valid(shell) else null
-	var session: OldPineWorldSessionController = (
+	var session: WorldSessionController = (
 		null if current_host == null else current_host.current_session()
 	)
 	if session == null:

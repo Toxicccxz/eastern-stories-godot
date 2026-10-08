@@ -13,7 +13,7 @@ const WORLD_CAPACITY: int = 1_000_000
 
 ## Services, the HUD, restore entries and combat talk to the Session; optional
 ## for isolated map compositions without one.
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 var player_body: WorldCharacterBody2D
 # --- components ---
 var corpses: WorldMapCorpses = WorldMapCorpses.new(self)
@@ -58,7 +58,7 @@ func map_id() -> StringName:
 	return map
 
 
-func configure_session(value: OldPineWorldSessionController) -> bool:
+func configure_session(value: WorldSessionController) -> bool:
 	if _initialized or value == null or session != null:
 		return false
 	session = value
@@ -83,7 +83,7 @@ func initialize_map() -> bool:
 	npcs.map_characters = MapCharacterRuntimeState.new(map)
 	combat_lifecycle.effects = SkillImprovementEffectRegistry.new()
 	combat_lifecycle.effects.register_legacy_defaults()
-	var restoring: bool = session != null and session.bootstrap_mode() == OldPineWorldSessionController.BootstrapMode.RESTORE
+	var restoring: bool = session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE
 	if not (npcs.restore_actors() if restoring else npcs.spawn_actors()):
 		return false
 	prepare_for_deactivation()

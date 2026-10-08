@@ -11,5 +11,5 @@ static func start(shell: ApplicationShellController) -> void:
 	var host: OldPineGameRuntimeHost = shell.runtime_host()
 	host._coordinator = OldPineSessionLoadCoordinator.new(GameSaveRepository.new(host._profile, host._files))
 	shell._set_state(ApplicationShellState.starting(ApplicationShellState.Operation.NEW_GAME))
-	var session: OldPineWorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	var session: WorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	shell._on_new_game_completed(shell.runtime_host()._attach_new_game_session(session))

@@ -16,7 +16,7 @@ var walker: WorldNpcWalker
 var arrival_zone_id: StringName = &""
 
 # The map's authorities, read as the controller reads them.
-var session: OldPineWorldSessionController:
+var session: WorldSessionController:
 	get: return _map.session
 var _initialized: bool:
 	get: return _map.is_map_initialized()

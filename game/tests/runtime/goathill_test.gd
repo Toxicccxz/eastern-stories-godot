@@ -20,7 +20,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_tiles(session)
 	_test_two_hands(session)
@@ -69,7 +69,7 @@ func _test_data() -> void:
 	_check(catalog.combat_actions().weapon_action_set(&"staff").actions().size() == 3, "staff.c's verbs are the same three")
 
 
-func _test_tiles(session: OldPineWorldSessionController) -> void:
+func _test_tiles(session: WorldSessionController) -> void:
 	for map_id: StringName in [&"goathill.mountain", &"goathill.caverns"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
@@ -111,7 +111,7 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 
 ## equip.c wield(): the second SECONDARY weapon goes to the other hand and its
 ## weapon_prop counts too (damage included); only the first attacks.
-func _test_two_hands(session: OldPineWorldSessionController) -> void:
+func _test_two_hands(session: WorldSessionController) -> void:
 	var mountain: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var hwang: NpcRuntimeState = _find(mountain, &"goathill.npc.bandit_hwang")
 	var leader: NpcRuntimeState = _find(mountain, &"goathill.npc.bandit_leader")
@@ -130,7 +130,7 @@ func _test_two_hands(session: OldPineWorldSessionController) -> void:
 
 
 ## The way in from Snow's crossroad and down into the caverns, walked.
-func _test_portals(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_portals(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(session.handoff_to(&"snow.outdoor", &"snow.crossroad", &"snow.crossroad", &"snow.crossroad.goathill_return").succeeded(), "on Snow's crossroad")
 	await tree.physics_frame
@@ -150,7 +150,7 @@ func _test_portals(tree: SceneTree, session: OldPineWorldSessionController) -> v
 ## The corner's four come on together (complete_set: everyone whose presence reaches the
 ## player as they step onto the corner), walked up the steep road from mroad3 and along the
 ## narrow one from mroad5. Each fight is fled at once.
-func _test_corner(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_corner(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -187,7 +187,7 @@ func _test_corner(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 
 ## weapond.c bash_weapon() with scripted rolls: the player's 大金槌 against a bandit's
 ## parrying 钢刀. TEST-ONLY: strength 100 (wap 80 + 100), the bandits' 20 (wdp 18 + 20).
-func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_bash(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hammer: StringName = _give(session, HAMMER)
@@ -251,7 +251,7 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 ## 黄霸 fought: his 大金槌 bash, crush and slam, and 伏蛟功's force hit lands without
 ## aborting the fight. TEST-ONLY: a strong player who only parries with a weapon.
-func _test_hwang_fight(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_hwang_fight(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hwang: NpcRuntimeState = _find(map, &"goathill.npc.bandit_hwang")
@@ -280,7 +280,7 @@ func _test_hwang_fight(tree: SceneTree, session: OldPineWorldSessionController) 
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "伏蛟功's force hit and both hands: the fight never aborts")
 
 
-func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, target: StringName, action: String) -> void:
+func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
 	Input.action_press(action)
 	for _step: int in range(400):
 		await tree.physics_frame
@@ -292,7 +292,7 @@ func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, ta
 
 
 ## TEST-ONLY: a new item in the player's hands.
-func _give(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _give(session: WorldSessionController, definition_id: StringName) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
@@ -304,7 +304,7 @@ func _give(session: OldPineWorldSessionController, definition_id: StringName) ->
 
 
 ## TEST-ONLY: a new stack in the player's hands, merged.
-func _give_stack(session: OldPineWorldSessionController, definition_id: StringName, amount: int) -> StringName:
+func _give_stack(session: WorldSessionController, definition_id: StringName, amount: int) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)

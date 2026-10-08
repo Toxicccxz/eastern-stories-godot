@@ -10,7 +10,7 @@ const RUNNING: StringName = &"historical_cadence_running"
 const ORDER: StringName = &"historical_tick_order"
 
 
-static func install(session: OldPineWorldSessionController) -> void:
+static func install(session: WorldSessionController) -> void:
 	session._combat_encounter_coordinator = load("res://tests/support/historical_world_combat_fixture.gd").new(session, session.world_simulation_gate())
 
 

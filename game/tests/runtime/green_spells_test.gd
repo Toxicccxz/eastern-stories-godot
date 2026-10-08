@@ -34,7 +34,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_cast_rules()
 	_test_labels()
 	_test_labels_of_taught_spells()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	_original_random = session.combat_random_source()
@@ -176,7 +176,7 @@ static func _learn(state: CharacterState) -> void:
 # --- In the village -------------------------------------------------------------------
 
 ## enable spells 奇门遁甲 (mana starts again from 0); practice refuses, as magic-array.c.
-func _test_enable(session: OldPineWorldSessionController) -> void:
+func _test_enable(session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(not _offered(coordinator).has(SUMMON), "no 施法 before any spells")
@@ -198,7 +198,7 @@ func _test_enable(session: OldPineWorldSessionController) -> void:
 
 
 ## 困 on 工匠 in a spar: busy (mana / 200 less his max_mana / 100, plus 2); 你失败了; 正自顾不暇.
-func _test_trap(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var worker: NpcRuntimeState = _first(map, WORKER)
@@ -232,7 +232,7 @@ func _test_trap(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 ## 召天将 in a spar: asked first; the soldier comes on the player's side and kills 工匠, who
 ## kills it back, picks between the two (random(4)), and is finished once he falls.
-func _test_summon_in_spar(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_summon_in_spar(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var worker: NpcRuntimeState = _first(map, WORKER)
@@ -311,7 +311,7 @@ func _test_summon_in_spar(tree: SceneTree, session: OldPineWorldSessionControlle
 
 ## 老公公 kill_ob()s the player's soldier as it comes: ask_for_help() then sends 老婆婆 at
 ## the soldier (query_temp("killer"), his last kill_ob()), not at the player.
-func _test_old_couple(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var man: NpcRuntimeState = _first(map, &"green.npc.oldman")
@@ -347,7 +347,7 @@ func _test_old_couple(tree: SceneTree, session: OldPineWorldSessionController) -
 
 
 ## A no_magic room (cast.c): the spell is refused and costs nothing.
-func _test_no_magic(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_no_magic(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var forbidden: Array[StringName] = []
@@ -371,7 +371,7 @@ func _test_no_magic(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 ## 遁 at oneself in a fight: 你失败了 once, then away to Snow's temple; the fight is over
 ## for the player, the soldier they had called is left behind unheard.
-func _test_vanish(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_vanish(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -460,7 +460,7 @@ func _offered(coordinator: CombatEncounterCoordinator) -> Array[StringName]:
 	return ids
 
 
-func _submit(session: OldPineWorldSessionController, action_id: StringName) -> void:
+func _submit(session: WorldSessionController, action_id: StringName) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_requests += 1
 	var result: CombatTacticalResult = coordinator.submit_player_action(CombatTacticalRequest.new(
@@ -470,7 +470,7 @@ func _submit(session: OldPineWorldSessionController, action_id: StringName) -> v
 	_check(result.code == CombatTacticalResult.Code.ACCEPTED, "%s queued: %s" % [action_id, BattleFeedbackReader.reason(result.code)])
 
 
-func _flee(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _flee(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	session.configure_combat_random_source(Juechen.Forced.new()) # TEST-ONLY: no more chat
@@ -485,15 +485,15 @@ func _flee(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 	await tree.process_frame
 
 
-func _refresh(session: OldPineWorldSessionController) -> void:
+func _refresh(session: WorldSessionController) -> void:
 	_ui(session).refresh_projection()
 
 
-func _ui(session: OldPineWorldSessionController) -> BattlePresentationController:
+func _ui(session: WorldSessionController) -> BattlePresentationController:
 	return session.get_node("BattlePresentationLayer/BattleSurface")
 
 
-func _battle_log(session: OldPineWorldSessionController) -> String:
+func _battle_log(session: WorldSessionController) -> String:
 	return _ui(session).log_panel._text.get_parsed_text().strip_edges()
 
 
@@ -525,7 +525,7 @@ static func _whole(state: CharacterState) -> void:
 
 
 ## TEST-ONLY: the player beside an NPC, on a free spot of its zone.
-func _beside(tree: SceneTree, map: WorldMapController, session: OldPineWorldSessionController, npc: NpcRuntimeState) -> void:
+func _beside(tree: SceneTree, map: WorldMapController, session: WorldSessionController, npc: NpcRuntimeState) -> void:
 	var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 	var zone_id: StringName = npc.world_location().zone_id
 	var at: Vector2 = MapPlaces.spot(map, zone_id, body.global_position + Vector2(0, 56), 80.0)

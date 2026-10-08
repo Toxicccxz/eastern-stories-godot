@@ -23,7 +23,7 @@ var toll_contact_seconds: Dictionary[StringName, float] = {}
 var toll_waiting: Dictionary[StringName, bool] = {}
 
 # The map's authorities, read as the controller reads them.
-var session: OldPineWorldSessionController:
+var session: WorldSessionController:
 	get: return _map.session
 var player_body: WorldCharacterBody2D:
 	get: return _map.player_body

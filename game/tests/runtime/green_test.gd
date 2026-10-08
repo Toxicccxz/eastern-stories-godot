@@ -28,7 +28,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_maze_exits()
 	_test_exit_rules()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -117,7 +117,7 @@ func _test_exit_rules() -> void:
 	_check(catalog.npc(seal.npc_id) != null and catalog.npc(seal.npc_id).display_name == "绝尘子", "the seal names 绝尘子, who stands in the hall")
 
 
-func _test_the_way_in(session: OldPineWorldSessionController) -> void:
+func _test_the_way_in(session: WorldSessionController) -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var east: PortalDefinition = catalog.portal(&"snow.crossroad.east")
 	var west: PortalDefinition = catalog.portal(&"green.path6.west")
@@ -128,7 +128,7 @@ func _test_the_way_in(session: OldPineWorldSessionController) -> void:
 
 
 ## In from 山坳, down the stone road to the square and the quarry yard; the well.
-func _test_village(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_village(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"snow.outdoor", &"snow.crossroad", &"snow.crossroad", &"snow.crossroad.green_return").succeeded(), "on the col")
 	await tree.physics_frame
 	await tree.physics_frame
@@ -148,7 +148,7 @@ func _test_village(tree: SceneTree, session: OldPineWorldSessionController) -> v
 
 
 ## house3.c's web: three spiders a reset, then only the web.
-func _test_web(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_web(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(await MapPlaces.drive_to_zone(tree, map, &"green.house3"), "into the empty house")
@@ -191,7 +191,7 @@ func _test_web(tree: SceneTree, session: OldPineWorldSessionController) -> void:
 
 
 ## rope.c: outdoors nowhere to hang it; indoors, asked first, then death.
-func _test_rope(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_rope(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var rope: StringName = _give(session, ROPE)
@@ -213,7 +213,7 @@ func _test_rope(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 ## The 迷阵 through its passages: the wind first; then 坤 west back into itself, the way on
 ## to 乾 and south out of it, marked.
-func _test_maze(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_maze(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(session.handoff_to(&"green.mountain", &"green.entrance", &"green.entrance", &"green.entrance.maze_return").succeeded(), "at the mountain road's end")
@@ -249,7 +249,7 @@ func _test_maze(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## The stream's search, the secret door, the one-way ways and the hall's seal.
-func _test_stone_rooms(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_stone_rooms(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -281,7 +281,7 @@ func _test_stone_rooms(tree: SceneTree, session: OldPineWorldSessionController) 
 
 
 ## 绝地: too weak to move the stone; the push and its roll; 放弃 wakes the player in the Inn.
-func _test_closed(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_closed(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(session.handoff_to(&"green.maze", &"green.eight0", &"green.eight0", &"green.eight0.west_arrival").succeeded(), "in 坤 again")
@@ -327,7 +327,7 @@ func _clamped(camera: Camera2D, target: Vector2) -> Vector2:
 	)
 
 
-func _carried(session: OldPineWorldSessionController, character_id: StringName, definition_id: StringName) -> StringName:
+func _carried(session: WorldSessionController, character_id: StringName, definition_id: StringName) -> StringName:
 	for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
 		var item: ItemInstance = session.item_instance_index().resolve(item_id)
 		if item != null and item.item_definition_id == definition_id:
@@ -336,7 +336,7 @@ func _carried(session: OldPineWorldSessionController, character_id: StringName, 
 
 
 ## TEST-ONLY: a carried item.
-func _give(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _give(session: WorldSessionController, definition_id: StringName) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)

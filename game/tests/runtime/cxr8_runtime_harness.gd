@@ -7,7 +7,7 @@ var shell: ApplicationShellController
 var files := Files.MemoryFiles.new()
 
 func evidence() -> Dictionary[String, Variant]:
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var result: Dictionary[String, Variant] = {"paused": get_tree().paused, "files": files.files.size()}
 	if session == null:
 		return result
@@ -36,7 +36,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
 	if key == null or not key.pressed or key.echo or key.keycode not in [KEY_1, KEY_2, KEY_3]:
 		return
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	if session == null or session.combat_encounter_coordinator().has_active_encounter():
 		return
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)

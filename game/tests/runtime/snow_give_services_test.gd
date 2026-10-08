@@ -14,7 +14,7 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_object_rules()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	await _test_waiter(tree, session)
 	await _to_square(tree, session)
@@ -72,7 +72,7 @@ func _test_object_rules() -> void:
 
 
 ## The waiter in the Inn: his body, his goods, his greeting and how one addresses him.
-func _test_waiter(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_waiter(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var waiter: NpcRuntimeState = _npc(map, &"snow.inn.main_floor.inn.waiter.1")
@@ -93,13 +93,13 @@ func _test_waiter(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	await tree.physics_frame
 
 
-func _to_square(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _to_square(tree: SceneTree, session: WorldSessionController) -> void:
 	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 	var square: bool = await MapPlaces.drive_to_zone(tree, session.active_map() as WorldMapController, &"snow.square")
 	_check(square and session.player_runtime().world_location().zone_id == &"snow.square", "out of the Inn")
 
 
-func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -154,7 +154,7 @@ func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	await tree.process_frame
 
 
-func _test_drop_put(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_drop_put(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
@@ -188,7 +188,7 @@ func _test_drop_put(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## drunk.c do_drink(): drinks, drops the emptied wineskin, asks for wine; and gives.
-func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_drunk(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -225,7 +225,7 @@ func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	await tree.process_frame
 
 
-func _test_shops(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_shops(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -266,7 +266,7 @@ func _test_shops(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	await tree.process_frame
 
 
-func _test_teachers(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_teachers(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -298,7 +298,7 @@ func _test_teachers(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	await tree.process_frame
 
 
-func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_save(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var street: Vector2 = map.physical_zone(&"snow.mstreet1").global_rect().get_center()
@@ -322,15 +322,15 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## The player's coin stack now (a merge keeps the moved stack's identity).
-func _coins(session: OldPineWorldSessionController) -> StringName:
+func _coins(session: WorldSessionController) -> StringName:
 	return Finance.session_context(session).select(CurrencyDenomination.Value.COIN).item_id
 
 
-func _authorities(session: OldPineWorldSessionController) -> ItemHandlingService.Authorities:
+func _authorities(session: WorldSessionController) -> ItemHandlingService.Authorities:
 	return ItemHandlingService.Authorities.new(Finance.session_context(session), session.food_collection(), session.liquid_collection(), session.item_id_allocator())
 
 
-func _add_item(session: OldPineWorldSessionController, id: StringName, definition_id: StringName) -> void:
+func _add_item(session: WorldSessionController, id: StringName, definition_id: StringName) -> void:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var item: ItemInstance = ItemInstance.new(id, definition_id)

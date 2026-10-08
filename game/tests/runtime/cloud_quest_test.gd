@@ -30,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_reward()
 	_test_vendetta_and_death()
 	_test_master_killed()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_in_town(tree, session)
@@ -223,7 +223,7 @@ func _test_master_killed() -> void:
 
 ## 朱鸿雪 in god2: her 任务 beside her body, the task on the character sheet, the
 ## time running in play, the kill in a real fight, Save/Continue.
-func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -339,7 +339,7 @@ func _test_codec(root: Dictionary) -> void:
 ## surrender.c from the battle panel: a spar ends and costs 50 score; a killer
 ## refuses; with every killer down the player disengages.
 func _test_surrender(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "out on the square")
@@ -410,7 +410,7 @@ static func _fresh() -> CharacterState:
 	return NewPlayerInitializationPolicy.create(CharacterState.GENDER_MALE, "杀手").state
 
 
-func _run(session: OldPineWorldSessionController) -> int:
+func _run(session: WorldSessionController) -> int:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 300:

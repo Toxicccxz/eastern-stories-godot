@@ -358,7 +358,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 
 func terminal_feedback(tree: SceneTree) -> void:
 	var setup: Script = load("res://tests/support/cxr6_session_fixture.gd")
-	var session: OldPineWorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	var session: WorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
 	var player := session.player_runtime()

@@ -133,7 +133,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	await _cycle_surface(tree, shell, shell.new_game_setup_panel, capability, presenter)
 	TechnicalShellFixture.start(shell) # Existing Old Pine HUD/cave geometry subject.
 	await _settle(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var hud: SharedGameplayUI = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()
 	var live_connections: int = presenter.metrics_changed.get_connections().size()
 	var battle: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
@@ -201,7 +201,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 
 func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface: Control, capability: FakeSafe, presenter: SafeAreaPresenter) -> void:
 	var state: ApplicationShellState = shell.shell_state()
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var focus: Control = tree.root.gui_get_focus_owner()
 	var scroll_count: int = shell.find_children("*", "ScrollContainer", true, false).size()
 	var node_count: int = shell.find_children("*", "", true, false).size()

@@ -41,7 +41,7 @@ func _test_world_simulation_gate_ownership() -> void:
 
 
 func _test_rejected_establishment_is_transactional(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _instantiate_session(tree, 13_001, 13_002)
+	var session: WorldSessionController = _instantiate_session(tree, 13_001, 13_002)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var gate: WorldSimulationGate = session.world_simulation_gate()
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
@@ -108,7 +108,7 @@ func _test_rejected_establishment_is_transactional(tree: SceneTree) -> void:
 
 
 func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _instantiate_session(tree, 13_011, 13_012)
+	var session: WorldSessionController = _instantiate_session(tree, 13_011, 13_012)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
@@ -206,7 +206,7 @@ func _test_session_owned_encounter_freezes_and_thaws_same_world(tree: SceneTree)
 
 
 func _test_pause_is_independent_and_movement_requires_fresh_input(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _instantiate_session(tree, 13_021, 13_022)
+	var session: WorldSessionController = _instantiate_session(tree, 13_021, 13_022)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = outdoor.npc_runtimes()[0]
@@ -253,7 +253,7 @@ func _test_pause_is_independent_and_movement_requires_fresh_input(tree: SceneTre
 
 
 func _trigger(
-	session: OldPineWorldSessionController,
+	session: WorldSessionController,
 	npc: NpcRuntimeState,
 	cause: int,
 	trigger_id: StringName = &"cxr3.scripted",
@@ -294,8 +294,8 @@ func _instantiate_session(
 	tree: SceneTree,
 	npc_seed: int,
 	combat_seed: int,
-) -> OldPineWorldSessionController:
-	var session := SessionScene.instantiate() as OldPineWorldSessionController
+) -> WorldSessionController:
+	var session := SessionScene.instantiate() as WorldSessionController
 	session.deterministic_npc_seed = true
 	session.npc_seed = npc_seed
 	session.deterministic_combat_seed = true

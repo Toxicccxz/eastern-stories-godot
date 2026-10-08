@@ -3,7 +3,7 @@ extends RefCounted
 
 const ENCOUNTER_ID_PREFIX: String = "encounter:"
 
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _world_gate: WorldSimulationGate
 var _active_encounter: CombatEncounter
 var _active_scheduler: CombatEncounterScheduler
@@ -310,7 +310,7 @@ func cancel_player_action(expected_request_id: StringName) -> CombatTacticalResu
 
 
 func _init(
-	p_session: OldPineWorldSessionController = null,
+	p_session: WorldSessionController = null,
 	p_world_gate: WorldSimulationGate = null,
 ) -> void:
 	_session = p_session

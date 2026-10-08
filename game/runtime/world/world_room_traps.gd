@@ -5,11 +5,11 @@ extends RefCounted
 ## the player leaves the trap's room its way, open again on the room's reset or
 ## when an item the trap listens for is played there. Not saved, as doors are not:
 ## a new world and a Continue both start with every trap open.
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _shut: Dictionary[StringName, bool] = {}
 
 
-func _init(session: OldPineWorldSessionController) -> void:
+func _init(session: WorldSessionController) -> void:
 	_session = session
 
 

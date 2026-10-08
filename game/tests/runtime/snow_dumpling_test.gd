@@ -35,13 +35,13 @@ static func definitions() -> NativeItemDefinitionProjections:
 	return TestContent.projections()
 
 
-static func context(session: OldPineWorldSessionController) -> MoneyInventoryContext:
+static func context(session: WorldSessionController) -> MoneyInventoryContext:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	return MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor), session.inventory_state(), session.stack_collection(), session.item_instance_index())
 
 
 ## The food the player carries: the 斋院's three 包子 (绮云镇) lie on a floor of their own.
-static func held_food_ids(session: OldPineWorldSessionController) -> Array[StringName]:
+static func held_food_ids(session: WorldSessionController) -> Array[StringName]:
 	var held: Array[StringName] = []
 	for id: StringName in session.food_collection().instance_ids():
 		if session.inventory_state().is_direct_child(id, context(session).endpoint()):
@@ -49,7 +49,7 @@ static func held_food_ids(session: OldPineWorldSessionController) -> Array[Strin
 	return held
 
 
-static func purchase(session: OldPineWorldSessionController, goods_key: String = "dumpling") -> VendorPurchaseResult:
+static func purchase(session: WorldSessionController, goods_key: String = "dumpling") -> VendorPurchaseResult:
 	return VendorPurchaseService.buy(TestContent.waiter(), goods_key, GameContent.catalog(), context(session), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), session.player_runtime().maximum_encumbrance)
 
 
@@ -77,11 +77,11 @@ static func refused_offers(goods_key: String) -> Array[Array]:
 	]
 
 
-static func eat(session: OldPineWorldSessionController, id: StringName) -> FoodUseResult:
+static func eat(session: WorldSessionController, id: StringName) -> FoodUseResult:
 	return HeldFoodUseService.eat(session.player_runtime(), context(session), session.food_collection(), definitions(), id, true)
 
 
-static func earn_and_exchange(session: OldPineWorldSessionController) -> bool:
+static func earn_and_exchange(session: WorldSessionController) -> bool:
 	return Work.work(session).outcome == SnowWorkResult.Outcome.SUCCESS and Work.work(session).outcome == SnowWorkResult.Outcome.SUCCESS and BankConversionService.convert(context(session), session.item_id_allocator(), session.player_runtime().maximum_encumbrance, SILVER, COIN, 1).succeeded()
 
 
@@ -154,7 +154,7 @@ func purchase_failures() -> void:
 
 
 func consumption_and_save(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	check(earn_and_exchange(session), "real work rewards + source Bank composition")
 	var rng: Array[int] = Work.rng_state(session)
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
@@ -221,7 +221,7 @@ func consumption_and_save(tree: SceneTree) -> void:
 	check(failed_foods.state(doomed.item_id).remaining_portions == 0 and failed_foods.state(doomed.item_id).current_value == 0 and failed_context.index.has_snapshot(doomed.item_id), "no rollback or prematurely forgotten food")
 	var invalid: NativeItemStateSnapshot = NativeItemStateSnapshot.new(3, [NativeItemRecord.new(doomed.item_id, TestContent.DUMPLING_ITEM_ID, 80, failed_context.endpoint())], [], [], [], [NativeFoodConsumableRecord.new(doomed.item_id, 0, 0)])
 	check(NativeItemStateValidator.validate(invalid, definitions()).outcome == NativeItemStateValidationResult.Outcome.INVALID_FOOD_RECORD, "reached live zero-portions state cannot Save")
-	var independent: OldPineWorldSessionController = Work.create_session(tree)
+	var independent: WorldSessionController = Work.create_session(tree)
 	check(independent.food_collection() != session.food_collection() and held_food_ids(independent).is_empty(), "independent Session collections")
 	independent.free()
 	session.free()
@@ -260,7 +260,7 @@ func strict_save_tests(snapshot: GameSaveSnapshot) -> void:
 
 
 func physical_availability(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	var inn: VendorService = (session.active_map() as WorldMapController).service(&"snow.inn.waiter") as VendorService
 	check(not inn.in_reach(), "birth does not overlap waiter")
 	var map: WorldMapController = session.active_map() as WorldMapController

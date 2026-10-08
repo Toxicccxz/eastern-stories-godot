@@ -3,7 +3,7 @@ extends Node
 ## Isolated source launcher. Save uses the production coordinator/repository.
 ## A subsequent fresh process uses the unchanged Application Continue button.
 const PROFILE_ID: String = "nge5a-live-source"
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 var last_save: OldPineRuntimeSaveLoadResult
 
 func _ready() -> void:

@@ -265,7 +265,7 @@ func _test_paused_settings_freeze_and_cancel(tree: SceneTree) -> void:
 	_assert_true(PublicNewGameTestFixture.request(shell), "fixture starts New Game")
 	await _wait_frames(tree, 3)
 	_assert_true(shell.request_pause(), "fixture pauses gameplay")
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var player: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var before: Vector2 = player.position
 	var captured: String = GameSaveJsonCodec.encode(OldPineWorldSaveCapture.new().capture(
@@ -474,7 +474,7 @@ func _test_settings_and_game_save_separation(tree: SceneTree) -> void:
 
 
 func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = preload(
+	var source: WorldSessionController = preload(
 		"res://scenes/world/oldpine/oldpine_world_session.tscn"
 	).instantiate()
 	source.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE)

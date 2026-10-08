@@ -424,8 +424,8 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 
 
 func _instantiate_scene(tree: SceneTree) -> WorldMapController:
-	var session: OldPineWorldSessionController = (
-		SceneType.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		SceneType.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null
@@ -562,7 +562,7 @@ func _count_tree_nodes(root: Node) -> int:
 
 
 func _player_endpoint() -> ContainmentEndpoint:
-	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, OldPineWorldSessionController.PLAYER_ID)
+	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, WorldSessionController.PLAYER_ID)
 
 
 func _assert_true(value: bool, label: String) -> void:

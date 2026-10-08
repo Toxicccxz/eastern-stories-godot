@@ -409,14 +409,14 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 
 
 func _test_source_player_cloth_death(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = (load(SCENE_PATH) as PackedScene).instantiate()
+	var session: WorldSessionController = (load(SCENE_PATH) as PackedScene).instantiate()
 	_assert_true(session.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE), "death regression selects real source entry composition")
 	session.deterministic_npc_seed = true
 	session.deterministic_combat_seed = true
 	session.deterministic_world_interaction_seed = true
 	tree.root.add_child(session)
 	session.set_process(false) # Integration fixture drives scheduler synchronously.
-	_assert_eq(session.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.SOURCE_ENTRY, "death regression uses SOURCE_ENTRY, not technical inventory")
+	_assert_eq(session.bootstrap_mode(), WorldSessionController.BootstrapMode.SOURCE_ENTRY, "death regression uses SOURCE_ENTRY, not technical inventory")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var inventory: InventoryState = session.inventory_state()
 	var index: WorldItemInstanceIndex = session.item_instance_index()
@@ -651,8 +651,8 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	var packed: PackedScene = load(SCENE_PATH) as PackedScene
 	if packed == null:
 		return null
-	var session: OldPineWorldSessionController = (
-		packed.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		packed.instantiate() as WorldSessionController
 	)
 	session.deterministic_npc_seed = true
 	session.npc_seed = 77

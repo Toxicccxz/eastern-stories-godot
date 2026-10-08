@@ -191,7 +191,7 @@ func persistence_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func exact_roundtrip(tree: SceneTree, session: OldPineWorldSessionController, snapshot: GameSaveSnapshot, label: String) -> void:
+func exact_roundtrip(tree: SceneTree, session: WorldSessionController, snapshot: GameSaveSnapshot, label: String) -> void:
 	var probe := Work.new()
 	await probe.round_trip(tree,session,snapshot,label)
 	check(probe._failures.is_empty(),label + " all-state restore: " + str(probe._failures))

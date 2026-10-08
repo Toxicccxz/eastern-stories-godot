@@ -112,7 +112,7 @@ func _test_authored_route_definitions() -> void:
 func _test_complete_physical_route_and_authority_preservation(
 	tree: SceneTree,
 ) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 93_331)
+	var session: WorldSessionController = await _session(tree, 93_331)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	var cliff: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CLIFF_MAP_ID)
@@ -253,7 +253,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	var old_maps: Array[WeakRef] = [weakref(outdoor), weakref(gorge), weakref(cliff)]
 	var old_rngs: Array[Variant] = [session.npc_random_source(), session.combat_random_source(), session.world_interaction_random_source()]
 	await _free_session(session, tree)
-	var fresh_session: OldPineWorldSessionController = await _session(tree, 93_334)
+	var fresh_session: WorldSessionController = await _session(tree, 93_334)
 	var fresh: WorldMapController = fresh_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	for old_map: WeakRef in old_maps:
 		_assert_true(old_map.get_ref() == null, "whole Session reset frees every traversed map node")
@@ -270,7 +270,7 @@ func _test_complete_physical_route_and_authority_preservation(
 
 
 func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 93_332)
+	var session: WorldSessionController = await _session(tree, 93_332)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	var cliff: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CLIFF_MAP_ID)
@@ -402,7 +402,7 @@ func _test_cliff_return_stale_and_inactive_boundaries(tree: SceneTree) -> void:
 
 
 func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 93_333)
+	var session: WorldSessionController = await _session(tree, 93_333)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	var cliff: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CLIFF_MAP_ID)
@@ -484,7 +484,7 @@ func _completed(result: RefCounted) -> bool:
 	return false
 
 
-func _corpse_count(session: OldPineWorldSessionController) -> int:
+func _corpse_count(session: WorldSessionController) -> int:
 	var count: int = 0
 	for map: WorldMapController in session.world_maps():
 		count += map.corpse_states().size()
@@ -548,9 +548,9 @@ func _settle(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func _session(tree: SceneTree, seed: int) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = (
-		SessionScene.instantiate() as OldPineWorldSessionController
+func _session(tree: SceneTree, seed: int) -> WorldSessionController:
+	var session: WorldSessionController = (
+		SessionScene.instantiate() as WorldSessionController
 	)
 	session.deterministic_npc_seed = true
 	session.npc_seed = seed
@@ -566,7 +566,7 @@ func _session(tree: SceneTree, seed: int) -> OldPineWorldSessionController:
 
 
 func _free_session(
-	session: OldPineWorldSessionController,
+	session: WorldSessionController,
 	tree: SceneTree,
 ) -> void:
 	session.queue_free()

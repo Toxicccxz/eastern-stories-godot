@@ -22,7 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func physical_tests(tree: SceneTree) -> void:
 	var random: Recovery.RandomSequence = Recovery.RandomSequence.new([5])
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, random)
+	var session: WorldSessionController = Recovery.create_session(tree, random)
 	var snow: WorldMapController = session.resident_map(&"snow.outdoor") as WorldMapController
 	var ui: HockshopService = snow.service(&"snow.hockshop.counter") as HockshopService
 	var walk: Work = Work.new()
@@ -79,7 +79,7 @@ func physical_tests(tree: SceneTree) -> void:
 		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
 		check(restored.succeeded(), "restore Hockshop")
 		if restored.succeeded():
-			var fresh: OldPineWorldSessionController = restored.candidate
+			var fresh: WorldSessionController = restored.candidate
 			check(fresh.activate_restore_candidate(), "activate Hockshop restore")
 			fresh.set_process(false)
 			var new_snow: WorldMapController = fresh.active_map() as WorldMapController
@@ -112,7 +112,7 @@ func physical_tests(tree: SceneTree) -> void:
 func panel_tests(tree: SceneTree) -> void:
 	# Fixtures below isolate the scoped UI/core boundary, not physical/live journey evidence.
 	for free_capacity: int in [114,50,90,20]:
-		var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
+		var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 		var ui: HockshopService = await panel_fixture(tree, session)
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), H2.SHORT, &"h3.sword")
 		session.player_runtime()._body_facts = PlayerBodyFacts.new(80000, ui.context().checked_contents_weight() + free_capacity) # explicit test-only capacity fixture
@@ -133,7 +133,7 @@ func panel_tests(tree: SceneTree) -> void:
 		check(session.item_id_allocator().next_dynamic_sequence == after, "confirmation consumed exactly once")
 		session.free()
 		await tree.process_frame
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
+	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 	var ui: HockshopService = await panel_fixture(tree, session)
 	for row: Array in [[H2.SHORT,&"h3.a",300,240],[H2.SHORT,&"h3.b",300,240],[H2.LONG,&"h3.long",700,560],[H2.LEATHER,&"h3.leather",200,160],[TestContent.DUMPLING_ITEM_ID,&"h3.food",15,12],[TestContent.WINESKIN_ITEM_ID,&"h3.liquid",20,16]]:
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), row[0], row[1])
@@ -166,7 +166,7 @@ func panel_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func panel_fixture(tree: SceneTree, session: OldPineWorldSessionController) -> HockshopService:
+func panel_fixture(tree: SceneTree, session: WorldSessionController) -> HockshopService:
 	# Existing serializer/boundary setup; NEVER claimed as physical reachability.
 	var snow: WorldMapController = session.resident_map(&"snow.outdoor") as WorldMapController
 	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
@@ -177,7 +177,7 @@ func panel_fixture(tree: SceneTree, session: OldPineWorldSessionController) -> H
 
 
 func equipment_and_error_tests(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
+	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 	var ui: HockshopService = await panel_fixture(tree, session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var definitions: NativeItemDefinitionProjections = TestContent.projections()

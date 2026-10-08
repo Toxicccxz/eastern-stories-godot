@@ -56,7 +56,7 @@ func _portal_ids(map_id: StringName) -> Array[StringName]:
 
 func physical_tests(tree: SceneTree) -> void:
 	var random: Recovery.RandomSequence = Recovery.RandomSequence.new([5])
-	var session: OldPineWorldSessionController = Recovery.create_session(tree, random)
+	var session: WorldSessionController = Recovery.create_session(tree, random)
 	var walk: Work = Work.new()
 	var snow: WorldMapController = session.resident_map(&"snow.outdoor") as WorldMapController
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.player_recovery_cadence(), snow]
@@ -136,7 +136,7 @@ func physical_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, target: StringName, action: String) -> void:
+func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
 	Input.action_press(action)
 	for _step: int in range(400):
 		await tree.physics_frame
@@ -149,7 +149,7 @@ func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, ta
 
 ## Walks to `from` in `zone` and pushes on with `action`: a wall or a shut door holds the player
 ## there, in the zone and on the map.
-func solid(tree: SceneTree, session: OldPineWorldSessionController, snow: WorldMapController, zone: StringName, from: Vector2, action: StringName, label: String) -> void:
+func solid(tree: SceneTree, session: WorldSessionController, snow: WorldMapController, zone: StringName, from: Vector2, action: StringName, label: String) -> void:
 	check(await MapPlaces.drive(tree, snow, from), "walk up to " + label)
 	var before: Vector2 = snow.runtime_player_body().global_position
 	await MapPlaces.push(tree, action, 60)

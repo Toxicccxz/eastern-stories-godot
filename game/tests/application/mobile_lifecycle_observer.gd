@@ -40,7 +40,7 @@ func _input(event: InputEvent) -> void:
 		if event.keycode == KEY_F9:
 			_report("F9")
 		elif event.keycode == KEY_F8 and is_instance_valid(_shell):
-			var session: OldPineWorldSessionController = _shell.runtime_host().current_session()
+			var session: WorldSessionController = _shell.runtime_host().current_session()
 			if session != null and session.active_map_id() == OldPineWorldDefinitions.OUTDOOR_MAP_ID:
 				session.player_runtime().state.skills.set_raw_level(&"dodge", 100)
 				var vine: Node2D = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_node("Interactions/VineInteraction")
@@ -74,7 +74,7 @@ func _report(reason: String) -> void:
 	for suffix: String in ["", ".bak", ".tmp"]:
 		var path: String = profile.canonical_path() + suffix
 		data["file" + suffix] = FileAccess.get_sha256(path) if FileAccess.file_exists(path) else "ABSENT"
-	var session: OldPineWorldSessionController = host.current_session()
+	var session: WorldSessionController = host.current_session()
 	if session != null:
 		data["session"] = str(session.get_instance_id())
 		data["map"] = session.active_map_id()

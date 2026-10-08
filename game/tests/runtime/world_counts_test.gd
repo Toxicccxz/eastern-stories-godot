@@ -45,7 +45,7 @@ func _measure(tree: SceneTree) -> Dictionary:
 	var spawns: Array[String] = []
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		spawns.append(String(spawn.spawn_id))
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	var npc_state: int = session.npc_random_source().capture_random_state().state
@@ -61,7 +61,7 @@ func _measure(tree: SceneTree) -> Dictionary:
 	}
 	session.free()
 	await tree.process_frame
-	var technical: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	var technical: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	technical.deterministic_npc_seed = true
 	technical.deterministic_combat_seed = true
 	technical.deterministic_world_interaction_seed = true

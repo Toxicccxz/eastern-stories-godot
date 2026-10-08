@@ -13,7 +13,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _disconnected_candidates(tree: SceneTree) -> void:
 	for mode: int in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
-		var session: OldPineWorldSessionController = SessionScene.instantiate()
+		var session: WorldSessionController = SessionScene.instantiate()
 		tree.root.add_child(session)
 		session.set_process(false)
 		var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -45,7 +45,7 @@ func _disconnected_candidates(tree: SceneTree) -> void:
 
 
 func _targets(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
 	var random := Setup.CountingRandom.new()
@@ -141,7 +141,7 @@ func _targets(tree: SceneTree) -> void:
 func _modes(tree: SceneTree) -> void:
 	for cause: int in CombatTriggerCause.Value.values():
 		for mode: int in CombatEncounterMode.Value.values():
-			var session: OldPineWorldSessionController = SessionScene.instantiate()
+			var session: WorldSessionController = SessionScene.instantiate()
 			tree.root.add_child(session)
 			session.set_process(false)
 			var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -172,7 +172,7 @@ func _modes(tree: SceneTree) -> void:
 			session.free()
 			await _settle(tree, 1)
 	# Mixed fight/kill and missing/asymmetric facts are not magically repaired.
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -218,7 +218,7 @@ func _target_ui(tree: SceneTree) -> void:
 	_check(shell.new_game_setup_panel.visible, "public tap opens setup; remaining subject uses technical fixture")
 	TechnicalShellFixture.start(shell)
 	await _settle(tree, 25)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	session.set_process(false)
 	Multi.register_probes(session)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()

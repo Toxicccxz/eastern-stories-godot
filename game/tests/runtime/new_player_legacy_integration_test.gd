@@ -7,7 +7,7 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	session.deterministic_npc_seed = true
 	session.npc_seed = 2031
 	session.deterministic_combat_seed = true

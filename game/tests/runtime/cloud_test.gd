@@ -29,7 +29,7 @@ var _goathill: RefCounted = Goathill.new()
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_steal_rolls()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	_test_tiles(session)
@@ -108,7 +108,7 @@ func _test_steal_rolls() -> void:
 	_check(NpcSteal.resolve(215, 202, false, asleep) == NpcSteal.Outcome.TAKEN and asleep.call_count() == 0, "from someone not conscious: taken, no roll")
 
 
-func _test_tiles(session: OldPineWorldSessionController) -> void:
+func _test_tiles(session: WorldSessionController) -> void:
 	for map_id: StringName in [&"cloud.outdoor", &"cloud.tearoom_upstairs", &"cloud.jiyuan_upstairs", &"cloud.duchang_upstairs"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
@@ -151,7 +151,7 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 
 
 ## South from Snow, up the tea house's stairs and through its 木雕门, walked.
-func _test_walks(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_walks(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(session.handoff_to(&"snow.outdoor", &"snow.sroad1", &"snow.sroad1", &"snow.sroad1.cloud_return").succeeded(), "on Snow's 雪亭镇街道")
 	await tree.physics_frame
@@ -187,7 +187,7 @@ func _test_walks(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(player.world_location().zone_id == &"cloud.tea_corridor", "through it: 香茗坊茶窖")
 
 
-func _test_shops_and_study(session: OldPineWorldSessionController) -> void:
+func _test_shops_and_study(session: WorldSessionController) -> void:
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 50, &"test.cloud.silver") # TEST-ONLY
@@ -215,7 +215,7 @@ func _test_shops_and_study(session: OldPineWorldSessionController) -> void:
 ## when the time to leave it has passed (2 s in its reach here, toll_attack_delay_ms; the
 ## ridge takes 1.2-1.5 s to cross). One who walked on meets nobody, and (owner, pacing knobs)
 ## the robber holds no grudge for it: the way back has the same time.
-func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_toll_window(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var robbers: Array[NpcRuntimeState] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():
@@ -283,7 +283,7 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 
 ## gangster.c: no marks/强盗 and they attack on sight; ten taels of gold set it and let
 ## the player pass; too little and they attack.
-func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var robbers: Array[NpcRuntimeState] = []
@@ -339,7 +339,7 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 ## thief.c in 张家花园: an arrival rolls random(kar) < 2; a second later steal.c picks the
 ## silver, and three seconds after it rolls. Taken: the silver is his, and the player
 ## reads that it is gone (modern fixes; ES2 says nothing).
-func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_thief(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var thief: NpcRuntimeState = null
@@ -387,7 +387,7 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 
 ## girl.c: money is refused; a keepsake from a man with per >= 25 sets marks/李师师,
 ## after which she teaches (recognize_apprentice).
-func _test_keepsake(session: OldPineWorldSessionController) -> void:
+func _test_keepsake(session: WorldSessionController) -> void:
 	var rules: Array[NpcObjectRule] = GameContent.catalog().npc(&"cloud.npc.girl").dealings().object_rules
 	var offer := NpcObjectRule.Offer.new(0, &"", 0, {}, {})
 	offer.giver_gender = CharacterState.GENDER_MALE
@@ -407,7 +407,7 @@ func _test_keepsake(session: OldPineWorldSessionController) -> void:
 
 ## 家丁 fight with 春风快意刀: its moves land and the fight never aborts. TEST-ONLY: a
 ## player who survives.
-func _test_spring_blade(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_spring_blade(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var guard: NpcRuntimeState = null
@@ -443,14 +443,14 @@ func _test_spring_blade(tree: SceneTree, session: OldPineWorldSessionController)
 	await tree.physics_frame
 
 
-func _carried(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _carried(session: WorldSessionController, definition_id: StringName) -> StringName:
 	for id: StringName in _carried_ids(session):
 		if session.item_instance_index().resolve(id).item_definition_id == definition_id:
 			return id
 	return &""
 
 
-func _carried_ids(session: OldPineWorldSessionController) -> Array[StringName]:
+func _carried_ids(session: WorldSessionController) -> Array[StringName]:
 	return session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))
 
 

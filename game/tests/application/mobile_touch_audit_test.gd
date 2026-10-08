@@ -52,7 +52,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _tap(tree, shell.new_game_button)
 	_check(menu_clicks[0] == 1 and shell.new_game_setup_panel.visible, "New Game raw touch opens setup once")
 	TechnicalShellFixture.start(shell)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	if session != null:
 		await _edges(tree, touch, ledger)
 		await _source_collision(tree, touch)
@@ -135,7 +135,7 @@ func _edges(tree: SceneTree, touch: MobileTouchAdapter, ledger: EventLedger) -> 
 		_check(ledger.edges.size() == expected_edges * 2 and Input.get_vector("move_left", "move_right", "move_up", "move_down") == Vector2.ZERO, "cancel releases only emitted axes %s" % direction)
 
 
-func _world_cancel(tree: SceneTree, _shell: ApplicationShellController, session: OldPineWorldSessionController) -> void:
+func _world_cancel(tree: SceneTree, _shell: ApplicationShellController, session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var landmark: WorldLandmarkArea2D = outdoor.get_node("Interactions/VineInteraction")
 	# Before-route proximity/camera fixture. Stimulus is actual touch and physics picking.
@@ -282,7 +282,7 @@ func _scroll_adversarial(tree: SceneTree, shell: ApplicationShellController, pre
 
 
 func _reflow_and_blocker(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, presenter: SafeAreaPresenter, safe: SafeAreaCapability) -> void:
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var hud: SharedGameplayUI = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()
 	for extent: Vector2 in [Vector2(960, 540), Vector2(1280, 720)]:
 		tree.root.size = Vector2i(extent)
@@ -326,7 +326,7 @@ func _reflow_and_blocker(tree: SceneTree, shell: ApplicationShellController, tou
 func _session_cycles(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, ledger: EventLedger, menu_clicks: Array[int]) -> void:
 	var touch_id: int = touch.get_instance_id()
 	await _tap(tree, touch.pause_button())
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var saves: Array[int] = [0]
 	shell.runtime_host().save_completed.connect(func(_result: OldPineRuntimeSaveLoadResult) -> void: saves[0] += 1)
 	var point: Vector2 = shell.save_button.get_global_rect().get_center()
@@ -339,7 +339,7 @@ func _session_cycles(tree: SceneTree, shell: ApplicationShellController, touch: 
 	await _repeat_sessions(tree, shell, touch, ledger, menu_clicks, touch_id, session)
 
 
-func _repeat_sessions(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, ledger: EventLedger, menu_clicks: Array[int], touch_id: int, session: OldPineWorldSessionController) -> void:
+func _repeat_sessions(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, ledger: EventLedger, menu_clicks: Array[int], touch_id: int, session: WorldSessionController) -> void:
 	for cycle: int in 2:
 		await _tap(tree, shell.return_button)
 		var confirms: Array[int] = [0]
@@ -369,7 +369,7 @@ func _repeat_sessions(tree: SceneTree, shell: ApplicationShellController, touch:
 
 
 func _multi_owner_handoff(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter) -> void:
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var identity: int = touch.get_instance_id()
 	for to_cave: bool in [true, false]:
 		var right: Vector2 = touch.pad_rect().position + Vector2(160, 96)

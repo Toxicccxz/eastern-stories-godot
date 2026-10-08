@@ -110,7 +110,7 @@ func _journey(tree: SceneTree, gender: StringName, display_name: String) -> void
 	shell.select_new_game_gender(gender)
 	_check(shell.submit_new_game_setup() and not shell.submit_new_game_setup(), "valid submit queues exactly once")
 	await _frames(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	_check(session != null and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "public Session committed")
 	if session == null:
 		shell.free()
@@ -191,7 +191,7 @@ func _confirmation(tree: SceneTree) -> void:
 
 
 func _technical_profile_rejected(tree: SceneTree) -> void:
-	var technical: OldPineWorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	var technical: WorldSessionController = preload("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	tree.root.add_child(technical)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(technical, &"test", "2026-09-11T00:00:00Z").snapshot
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)

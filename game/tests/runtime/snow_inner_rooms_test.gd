@@ -26,7 +26,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_passage_rule()
 	_test_record_rules()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_tiles(session)
 	await _test_upstairs(tree, session)
@@ -114,7 +114,7 @@ func _test_record_rules() -> void:
 
 
 ## Painted walkable tiles join every zone of each map to its entry (doors are floor too).
-func _test_tiles(session: OldPineWorldSessionController) -> void:
+func _test_tiles(session: WorldSessionController) -> void:
 	for map_id: StringName in [&"snow.outdoor", &"snow.inn_upstairs", &"snow.cellar"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
@@ -144,7 +144,7 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 
 
 ## Inn → up the stairs → the three rooms behind their doors → down again.
-func _test_upstairs(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_upstairs(tree: SceneTree, session: WorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var inn: WorldMapController = session.active_map() as WorldMapController
@@ -180,7 +180,7 @@ func _test_upstairs(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## Inn → square → the school → the inner yard and its four neighbours.
-func _test_inner_school(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_inner_school(tree: SceneTree, session: WorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
@@ -205,7 +205,7 @@ func _test_inner_school(tree: SceneTree, session: OldPineWorldSessionController)
 ## the shut floor, step off and go down for the 牛皮盾 (too heavy first) and back
 ## up; the passage then closes. Save/Continue keeps the floor and the way back.
 ## Holding the key after a passage never carries the player straight back.
-func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_storage_and_cellar(tree: SceneTree, session: WorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -285,13 +285,13 @@ func _test_storage_and_cellar(tree: SceneTree, session: OldPineWorldSessionContr
 
 
 ## Continue in the secret storage finds the way up open (DECISIONS 4C).
-func _test_continue_below(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_continue_below(tree: SceneTree, session: WorldSessionController) -> void:
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(Work.capture(session))
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(encoded.text).snapshot, tree.root)
 	_check(restored.succeeded(), "restore below: " + restored.path)
 	if not restored.succeeded():
 		return
-	var fresh: OldPineWorldSessionController = restored.candidate
+	var fresh: WorldSessionController = restored.candidate
 	_check(fresh.activate_restore_candidate(), "activation below")
 	await tree.physics_frame
 	await tree.physics_frame
@@ -306,7 +306,7 @@ func _test_continue_below(tree: SceneTree, session: OldPineWorldSessionControlle
 
 ## Walks until a passage has handed the player to `map_id`, then keeps the key
 ## held for a moment, as a player does: arrival must not lead straight back.
-func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, action: String, map_id: StringName) -> void:
+func _walk_until_map(tree: SceneTree, session: WorldSessionController, action: String, map_id: StringName) -> void:
 	Input.action_press(action)
 	for _frame: int in range(400):
 		await tree.physics_frame

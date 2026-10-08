@@ -1,4 +1,4 @@
-class_name OldPineWorldSessionController
+class_name WorldSessionController
 extends WorldResidentMapCoordinator
 
 const PLAYER_ID: StringName = &"oldpine.player"

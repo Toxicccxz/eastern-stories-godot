@@ -241,7 +241,7 @@ func _test_climb_and_return_traversal(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var state: CharacterState = controller.player_runtime().state
 	var resource_snapshot: Array[int] = _character_resource_snapshot(state)
-	var session: OldPineWorldSessionController = controller.session
+	var session: WorldSessionController = controller.session
 	var tree_map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID)
 	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "pine target selects")
 	# Climbing is a map handoff: the canopy is the tree map's (DECISIONS 3B5).
@@ -1014,8 +1014,8 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	var packed: PackedScene = load(SCENE_PATH) as PackedScene
 	if packed == null:
 		return null
-	var session: OldPineWorldSessionController = (
-		packed.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		packed.instantiate() as WorldSessionController
 	)
 	session.deterministic_npc_seed = true
 	session.npc_seed = 77
