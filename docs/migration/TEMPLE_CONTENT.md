@@ -66,6 +66,9 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 | die(): last_damage_from is the owner: improve_skill("spells", random(spi / 2) + 1) (the beast random(spi) + 1) and its line | the killer the lifecycle finds (last_damage_from); the lines after the fight's result, before killer_reward()'s; 你的「基本咒文」进步了！ on a level |
 | die(): anyone else: its two lines and owner->unconcious() | the player falls at once, in the fight too (the 天将 or 阴鬼卒 of 召护法); an unconscious player reads nothing (block_msg) |
 | kill.c at an NPC lying unconscious | 攻击 starts the fight; the first wound kills it (char.c). The HUD offered 攻击 there before and nothing happened |
+| combatd.c start_hatred(): catch_hunt_msg, kill_ob() | met again (the player came back into its reach), one of the seven lines (world's interaction stream) and a fight in which it alone kills |
+
+## Source anomalies
 
 
 

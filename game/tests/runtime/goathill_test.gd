@@ -181,7 +181,7 @@ func _test_corner(tree: SceneTree, session: WorldSessionController) -> void:
 				if not coordinator.has_active_encounter():
 					break
 		_check(not coordinator.has_active_encounter() and session.world_simulation_gate().is_open(), "fled from the corner")
-	# kill.c at one lying unconscious (茅山 C): 攻击 brings the corner's set in, it among them.
+	# kill.c at one lying unconscious (茅山 C): 攻击 at it starts a fight it is part of.
 	var downed: NpcRuntimeState = _find(map, &"goathill.npc.bandit")
 	downed.character_state.vitality.current = -1 # TEST-ONLY: knocked out outside a fight
 	map.combat_lifecycle.fall_below_zero()

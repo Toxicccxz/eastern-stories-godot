@@ -6,6 +6,16 @@ extends RefCounted
 
 var _map: WorldMapController
 var _last_player_berserk := CombatSliceInitiationResult.new()
+## combatd.c catch_hunt_msg: start_hatred()'s message_vision(), $N the hunter, $n its prey.
+const CATCH_HUNT: Array[String] = [
+	"$N和$n仇人相见分外眼红，立刻打了起来！",
+	"$N对著$n大喝：「可恶，又是你！」",
+	"$N和$n一碰面，二话不说就打了起来！",
+	"$N一眼瞥见$n，「哼」的一声冲了过来！",
+	"$N一见到$n，愣了一愣，大叫：「我宰了你！」",
+	"$N喝道：「$n，我们的帐还没算完，看招！」",
+	"$N喝道：「$n，看招！」",
+]
 ## The NPC whose arrival made the player's init() roll go over: combatd.c
 ## auto_fight() call_out()s start_berserk(), run on the next world tick (after the
 ## room's description). Empty when none waits (looking_for_trouble).
@@ -116,6 +126,11 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 			aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
 			continue
 		toll_waiting.erase(npc.character_id)
+		if npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER):
+			# combatd.c start_hatred(): one of catch_hunt_msg, then kill_ob(): the player fights back.
+			var line: String = CATCH_HUNT[clampi(_world_interaction_random.legacy_random(CATCH_HUNT.size()), 0, CATCH_HUNT.size() - 1)]
+			_last_aggression_initiations.append(npc_kills(npc, [tr(line).replace("$N", tr(npc.definition().display_name)).replace("$n", tr("你"))]))
+			continue
 		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
 		_last_aggression_initiations.append(initiate_lethal_combat(npc.character_id, _player.character_id, []))
 	return _last_aggression_initiations.duplicate()
@@ -190,20 +205,23 @@ func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[S
 ## 拜师, the 观想虫 a practice conjured): it hunts the player, who only fights back.
 ## `lines` open the fight. False when no fight could begin.
 func npc_kills_player(npc: NpcRuntimeState, lines: Array[String] = []) -> bool:
+	return npc_kills(npc, lines).outcome == CombatSliceInitiationResult.Outcome.COMPLETED
+
+
+func npc_kills(npc: NpcRuntimeState, lines: Array[String]) -> CombatSliceInitiationResult:
 	if npc == null or _player == null or session == null:
-		return false
+		return CombatSliceInitiationResult.new()
 	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
 	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
 	if npc_binding == null or player_binding == null:
-		return false
+		return CombatSliceInitiationResult.new()
 	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
 		npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true,
 	)
-	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
-		return false
-	announce_fight(lines, npc.character_id)
-	return true
+	if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		announce_fight(lines, npc.character_id)
+	return started
 
 
 ## A berserk's fight began: its shout and the opening (a spar with a blade has the

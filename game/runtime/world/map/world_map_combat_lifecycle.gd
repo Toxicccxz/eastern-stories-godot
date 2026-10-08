@@ -300,7 +300,20 @@ func fall_below_zero() -> void:
 		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
 		if required == null:
 			continue
-		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, [binding])
+		# The killer is last_damage_from (the player's poisoned blow too), while it stands here.
+		var participants: Array[CombatSliceCharacterBinding] = [binding]
+		var from_id: StringName = npc.relationship.last_damage_from_id
+		var from: CombatSliceCharacterBinding = null
+		if _player != null and from_id == _player.character_id and _player.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			player_content_resolution = weapon_resolver.resolve(_player, _inventory, _item_index)
+			from = WorldCombatBindingAdapter.from_player(_player, player_content_resolution.content_profile if player_content_resolution.succeeded else null)
+		else:
+			var hitter: NpcRuntimeState = _map.npcs.find_resident_npc(from_id)
+			if hitter != null and hitter != npc and hitter.exists_in_map and hitter.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+				from = WorldCombatBindingAdapter.from_npc(hitter, _map.npcs.npc_content(hitter))
+		if from != null:
+			participants.append(from)
+		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, participants, from_id)
 		# combatd.c announce("unconcious"), heard in the same room (a drunk passing out).
 		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and _map.npc_life.player_hears(npc):
 			_map.hud().append_log_lines([tr("%s脚下一个不稳，跌在地上一动也不动了。") % tr(npc.definition().display_name)])
@@ -345,14 +358,14 @@ func _player_killer_reward(victim: NpcRuntimeState) -> void:
 ## (last_damage_from), improve_skill() by NpcConjuring.improvement() and its line; by
 ## anyone else (the 天将 they called), its lines and unconcious(), at once, in the fight
 ## too. tell_object() reaches a player who is conscious (an unconscious one's
-## block_msg/all, and unconcious() returns at once). query_temp("mind_bug") is gone.
+## block_msg/all, and unconcious() returns at once); improve_skill() runs all the same.
+## query_temp("mind_bug") is gone.
 func _conjured_died(victim: NpcRuntimeState, killer: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding]) -> void:
 	var conjuring: NpcConjuring = victim.definition().conjuring()
 	if conjuring == null or _player == null or _player.conjured_npc_id != victim.character_id:
 		return
 	_player.conjured_npc_id = &""
-	if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		return
+	var awake: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	var lines: Array[ColoredLine] = []
 	if killer != null and killer.character_id == _player.character_id:
 		for text: String in conjuring.killed_by_owner:
@@ -363,7 +376,7 @@ func _conjured_died(victim: NpcRuntimeState, killer: CombatSliceCharacterBinding
 		var registry: SkillImprovementEffectRegistry = session.encounter_skill_effect_registry() if session != null else null
 		var effect: SkillImprovementEffectResult = null if registry == null else registry.apply(state, improvement)
 		lines.append_array(TrainingLines.improved(improvement, effect, GameContent.catalog().skill(conjuring.skill_id)))
-	else:
+	elif awake:
 		for text: String in conjuring.killed_by_other:
 			lines.append(ColoredLine.new(tr(text)))
 		_player.state.fall_unconscious()
@@ -376,7 +389,7 @@ func _conjured_died(victim: NpcRuntimeState, killer: CombatSliceCharacterBinding
 			execute_encounter_lifecycle(binding, required, participants)
 		else:
 			player_fall_below_zero()
-	if _map.hud() != null:
+	if awake and _map.hud() != null:
 		_map.hud().append_after_fight(lines)
 
 

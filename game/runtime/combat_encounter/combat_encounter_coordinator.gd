@@ -416,7 +416,7 @@ func _abort_failed_resolution() -> void:
 		for victim: CombatSliceCharacterBinding in bindings:
 			var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
 			if required != null and victim.exists_in_encounter:
-				map.execute_encounter_lifecycle(victim, required, bindings)
+				map.execute_encounter_lifecycle(victim, required, bindings, victim.relationship.last_damage_from_id)
 	_resolution.disengage_all()
 	_return_world(CombatEncounterResult.new(_active_encounter.encounter_id, _active_encounter.mode,
 		CombatEncounterResultKind.Value.ABORTED, [], [], []))
@@ -496,7 +496,8 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 				CombatEncounterStartResult.Outcome.PARTICIPANT_NOT_FOUND,
 				trigger,
 			)
-		# kill.c: the player's 攻击 may be at one lying unconscious.
+		# kill.c: the player's 攻击 may be at one lying unconscious (the production entries
+		# admit only the one it names).
 		var downed: bool = trigger.cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK and candidate.participant_id != trigger.initiator_id
 		if not _session.encounter_participant_is_available(candidate.participant_id, downed):
 			return _start_failure(

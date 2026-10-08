@@ -1817,7 +1817,7 @@ msgstr ""
 
 #. message_vision(): the actor of an exert line, for its $N.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd
+#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd
 msgid "你"
 msgstr ""
 
@@ -4245,6 +4245,34 @@ msgstr ""
 
 #: runtime/world/map/world_map_floor_items.gd
 msgid "你将一些{powder}倒进{container}，摇晃了几下。"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N和$n仇人相见分外眼红，立刻打了起来！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N对著$n大喝：「可恶，又是你！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N和$n一碰面，二话不说就打了起来！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N一眼瞥见$n，「哼」的一声冲了过来！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N一见到$n，愣了一愣，大叫：「我宰了你！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N喝道：「$n，我们的帐还没算完，看招！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N喝道：「$n，看招！」"
 msgstr ""
 
 #: runtime/world/map/world_map_hostilities.gd

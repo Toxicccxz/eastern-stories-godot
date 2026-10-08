@@ -118,8 +118,12 @@ except:
 - **攻击 at an NPC lying unconscious** (global rule, kill.c): the player's lethal attack may start
   a fight with one; the first wound kills it. Before, the HUD offered 攻击 and nothing happened,
   so a beaten 观想虫 could not be finished.
-- **Its hatred** (attack.c is_killing()) is kept for the conjured NPC alone; other NPCs that
-  kill_ob() the player (绝尘子) still forget the player when their fight ends, as before.
+- **Its hatred** (attack.c is_killing(), combatd.c start_hatred()'s catch_hunt_msg) is kept
+  for the conjured NPC alone; other NPCs that kill_ob() the player (绝尘子) still forget the
+  player when their fight ends, as before.
+- **An NPC that falls outside a fight** (a condition's tick) is killed by its last_damage_from,
+  as the player already was (the global rule "The killer is last_damage_from"); a fight that
+  aborts settles its falls the same way.
 - The lines of the practice open the fight: the notify_fail() (你的魂魄正被…缠住) comes before
   kill_ob()'s 看起来…想杀死你, which ES2 prints between them.
 

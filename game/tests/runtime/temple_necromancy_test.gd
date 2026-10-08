@@ -70,6 +70,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var bug: NpcRuntimeState = await _test_conjure(tree, session)
 	if bug != null:
 		await _test_bug_stays(tree, session, bug)
+		await _test_hatred(tree, session, bug)
 		await _test_kill_it(tree, session, bug)
 	await _test_beast_killed_by_guard(tree, session)
 	await _test_spar_question(tree, session)
@@ -159,6 +160,37 @@ func _test_bug_stays(tree: SceneTree, session: WorldSessionController, bug: NpcR
 	var mana: int = player.state.recovery.mana.current
 	var result: PracticeResult = session.martial_arts().practice(&"spells")
 	_check(result.failure_reason == PracticeResult.FailureReason.PRACTICE_CONJURED_STANDING and session.shared_ui().log_lines().back() == "你的魂魄还没有全部收回，赶快杀死你的观想虫吧！" and player.state.recovery.mana.current == mana, "practice refuses while it stands, nothing paid")
+
+
+## Come to, it meets the player again (the player in its reach anew): combatd.c
+## start_hatred()'s catch_hunt_msg (random(7) 1) and kill_ob(): it alone kills, so knocked
+## out again it lies there, as before.
+func _test_hatred(tree: SceneTree, session: WorldSessionController, bug: NpcRuntimeState) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	session.advance_npc_heartbeat(200.0) # TEST-ONLY: past random(100 - con) + 30 s
+	_check(bug.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "it comes to")
+	var forced := ForcedWorld.new()
+	forced.queues[7] = [1]
+	session.configure_world_interaction_random_source(forced) # TEST-ONLY
+	session.configure_combat_random_source(Forced.new()) # TEST-ONLY: no chat
+	map.hostilities.aggression.enter_player_presence(bug, player, true) # TEST-ONLY: the player comes into its reach
+	map.hostilities.process_pending_aggression()
+	session.configure_world_interaction_random_source(_original_world)
+	_check(coordinator.has_active_encounter() and bug.relationship.has_lethal_target(player.character_id) and not player.relationship.has_lethal_target(bug.character_id), "its hatred attacks; the player only fights back")
+	_check(session.shared_ui().log_lines().slice(-2) == ["观想虫对著你大喝：「可恶，又是你！」", "看起来观想虫想杀死你！"], "catch_hunt_msg, then kill_ob()'s warning: %s" % [session.shared_ui().log_lines().slice(-2)])
+	bug.character_state.vitality.current = -1 # TEST-ONLY: knocked out
+	coordinator.advance_scheduler(0.0)
+	for _round: int in range(50):
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.advance_scheduler(1.0)
+	_refresh(session)
+	await tree.process_frame
+	_settle(player)
+	session.configure_combat_random_source(_original_combat)
+	_check(not coordinator.has_active_encounter() and bug.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "knocked out again, it lies there")
 
 
 ## 攻击 the 观想虫 lying there: it dies by the player's hand, who learns spells

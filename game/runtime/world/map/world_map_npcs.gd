@@ -10,8 +10,9 @@ var residents: Array[NpcRuntimeState] = []
 var _npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
 ## The spawn each summoned NPC here came by (SummonedNpc), by spawn ID: none is in the catalog.
 var _summon_spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
-## How far from its caller a summoned NPC comes in: clear of both bodies, diagonals too.
-const BESIDE: int = 48
+## How far from its caller a summoned NPC comes in: clear of both 34 px bodies first
+## (diagonals too), nearer only where nothing else fits.
+const BESIDE: Array[int] = [48, 64, 96, 44, 28]
 ## Who called each summoned NPC still here (set("possessed", who)): its character ID.
 var summoners: Dictionary[StringName, StringName] = {}
 var npc_presence: Dictionary[StringName, Area2D] = {}
