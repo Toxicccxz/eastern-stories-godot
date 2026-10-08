@@ -12,6 +12,12 @@
 [sub_resource type="RectangleShape2D" id="Rect_160_200"]
 size = Vector2(160, 200)
 
+[sub_resource type="RectangleShape2D" id="Rect_96_64"]
+size = Vector2(96, 64)
+
+[sub_resource type="RectangleShape2D" id="Rect_32_96"]
+size = Vector2(32, 96)
+
 [sub_resource type="RectangleShape2D" id="Rect_600_500"]
 size = Vector2(600, 500)
 
@@ -226,4 +232,31 @@ landmark_id = &"oldpine.gorge.landmark.riverbank1_cliff"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/RiverbankCliffInteraction"]
 shape = SubResource("Rect_160_200")
+
+[node name="WaterfallFallInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(1200, 640)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.gorge.landmark.waterfall_fall"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/WaterfallFallInteraction"]
+shape = SubResource("Rect_96_64")
+
+[node name="WaterfallCliffInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(1484, 800)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.gorge.landmark.waterfall_cliff"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/WaterfallCliffInteraction"]
+shape = SubResource("Rect_32_96")
+
+[node name="Riverbank2CliffInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(1484, 1400)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"oldpine.gorge.landmark.riverbank2_cliff"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Riverbank2CliffInteraction"]
+shape = SubResource("Rect_32_96")
 

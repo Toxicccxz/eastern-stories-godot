@@ -544,6 +544,7 @@ msgid "南 · 青石村"
 msgstr ""
 
 #. oldpine.outdoor.landmark.cliffdown_cliff name
+#. oldpine.outdoor.landmark.cliffside_cliff name
 #: scenes/world/green/green_mountain.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
 msgid "悬崖"
 msgstr ""
@@ -3268,6 +3269,16 @@ msgstr ""
 msgid "战斗结束。"
 msgstr ""
 
+#. combatd.c announce("unconcious"): {name} falls unconscious in the fight.
+#: presentation/battle/battle_feedback_reader.gd
+msgid "{name}脚下一个不稳，跌在地上一动也不动了。"
+msgstr ""
+
+#. combatd.c announce("dead"): {name} dies in the fight.
+#: presentation/battle/battle_feedback_reader.gd
+msgid "{name}死了。"
+msgstr ""
+
 #: presentation/battle/battle_feedback_reader.gd
 msgid "未知结果"
 msgstr ""
@@ -4097,6 +4108,11 @@ msgstr ""
 msgid "%s慢慢睁开眼睛，清醒了过来。"
 msgstr ""
 
+#. go.c: someone ({name}) comes into the player's room.
+#: runtime/world/map/world_map_npc_life.gd
+msgid "{name}走了过来。"
+msgstr ""
+
 #. a thief took {item} from the player unseen; the player notices it is gone.
 #: runtime/world/map/world_map_npc_life.gd
 msgid "你忽然觉得身上一轻，{item}不见了！"
@@ -4153,6 +4169,11 @@ msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
 msgid "{npc}给你{item}。"
+msgstr ""
+
+#. two of a stack (两枚棋子): {unit} its measure word, {item} its name.
+#: runtime/world/map/world_map_selection.gd
+msgid "两{unit}{item}"
 msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
@@ -7593,6 +7614,7 @@ msgstr ""
 
 #. es2:d/oldpine/obj/bamboo_pipe unit
 #. es2:u/cloud/obj/meat/tail unit
+#. es2:u/cloud/obj/meat/dog_m food.leaves.unit
 #: data/oldpine/items.json data/cloud/items.json
 msgid "根"
 msgstr ""
@@ -7967,6 +7989,11 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "野狗用后腿抓了抓自己的耳朵。\n"
+msgstr ""
+
+#. snow.npc.dog accept_object.emote
+#: data/snow/npcs.json
+msgid "高兴地汪汪叫了起来。"
 msgstr ""
 
 #. snow.npc.keeper name
@@ -9402,6 +9429,7 @@ msgid "你听得「轰」的一声响，已经从这摔了下去"
 msgstr ""
 
 #. oldpine.outdoor.landmark.cliffdown_cliff long
+#. oldpine.outdoor.landmark.cliffside_cliff long
 #: data/oldpine/world.json
 msgid ""
 "你定下心神一看，其实这个悬崖没有想像中那么恐怖，也许还\n"
@@ -9412,6 +9440,79 @@ msgstr ""
 #. oldpine.outdoor.landmark.cliffdown_cliff messages.use
 #: data/oldpine/world.json
 msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去。"
+msgstr ""
+
+#. oldpine.outdoor.landmark.clearing_sign name
+#: data/oldpine/world.json
+msgid "告示"
+msgstr ""
+
+#. oldpine.outdoor.landmark.clearing_sign long
+#: data/oldpine/world.json
+msgid ""
+"「官府告示：此处常有歹人出没。」\n"
+msgstr ""
+
+#. oldpine.outdoor.landmark.epath3_footprints name
+#: data/oldpine/world.json
+msgid "脚印"
+msgstr ""
+
+#. oldpine.outdoor.landmark.epath3_footprints long
+#: data/oldpine/world.json
+msgid ""
+"一些杂乱的脚印，不但有人的脚印，看起来还有不少马蹄印。\n"
+msgstr ""
+
+#. oldpine.outdoor.landmark.epath2_waterfall name
+#. oldpine.gorge.landmark.waterfall_fall name
+#: data/oldpine/world.json
+msgid "瀑布"
+msgstr ""
+
+#. oldpine.outdoor.landmark.epath2_waterfall long
+#: data/oldpine/world.json
+msgid ""
+"这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n"
+"，水潭两边的石壁垂下许多的藤蔓(vine)，你注意到瀑布后面似乎\n"
+"有什么东西在发著光。\n"
+msgstr ""
+
+#. oldpine.gorge.landmark.waterfall_fall long
+#: data/oldpine/world.json
+msgid ""
+"这个瀑布水势并不是很大，但是高度却极高，水珠溅在你的脸上\n"
+"打得隐隐生疼。你注意到瀑布后面似乎有什么东西在发著光。\n"
+msgstr ""
+
+#. oldpine.gorge.landmark.waterfall_cliff name
+#. oldpine.gorge.landmark.riverbank2_cliff name
+#: data/oldpine/world.json
+msgid "山壁"
+msgstr ""
+
+#. oldpine.gorge.landmark.waterfall_cliff long
+#: data/oldpine/world.json
+msgid ""
+"水潭四周的山壁都有数百丈高，想要爬上去「肯定」是休想。\n"
+msgstr ""
+
+#. oldpine.gorge.landmark.riverbank2_cliff long
+#: data/oldpine/world.json
+msgid ""
+"这里的山壁比北边高度稍低了点，但是对凡人而言想要爬上去仍然\n"
+"还有一段差距。\n"
+msgstr ""
+
+#. oldpine.cave.landmark.passage_curtain name
+#: data/oldpine/world.json
+msgid "帘幕"
+msgstr ""
+
+#. oldpine.cave.landmark.passage_curtain long
+#: data/oldpine/world.json
+msgid ""
+"这片帘幕似乎是用一种极薄的丝绸织成的，后面还传来阵阵水声。\n"
 msgstr ""
 
 #. es2:d/goathill/obj/sledge_hammer name
@@ -9854,6 +9955,17 @@ msgstr ""
 #: data/cloud/items.json
 msgid ""
 "哇! 好香的狗肉! 不吃还等什么?\n"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/dog_m food.leaves.name
+#: data/cloud/items.json
+msgid "狗骨头"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/dog_m food.leaves.long
+#: data/cloud/items.json
+msgid ""
+"啃得精光的狗骨头。\n"
 msgstr ""
 
 #. es2:u/cloud/obj/etc/rope name
@@ -10573,6 +10685,41 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "一位十分文气的男子，装束象个雅儒。\n"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry topic
+#: data/cloud/npcs.json
+msgid "下棋"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry.下棋.rules.lines.say
+#: data/cloud/npcs.json
+msgid "要比试一盘？好啊！"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry.下棋.rules.lines.line
+#: data/cloud/npcs.json
+msgid "你赢了。"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry.下棋.rules.after.say
+#: data/cloud/npcs.json
+msgid "好棋技！佩服。无以为报，就给您两枚棋子防身吧！"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry.下棋.rules.after_empty.say
+#: data/cloud/npcs.json
+msgid "好棋技！佩服。"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry.下棋.rules.lines.line
+#: data/cloud/npcs.json
+msgid "你输了。"
+msgstr ""
+
+#. cloud.npc.chess_player inquiry.下棋.rules.lines.say
+#: data/cloud/npcs.json
+msgid "承让承让！"
 msgstr ""
 
 #. cloud.npc.girl title

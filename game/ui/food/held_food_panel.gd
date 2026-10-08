@@ -87,7 +87,8 @@ func request_eat() -> FoodUseResult:
 	# feature/food.c do_eat(), in its words.
 	match last_result.outcome:
 		FoodUseResult.Outcome.ATE:
-			_feedback.text = (tr("你将剩下的%s吃得乾乾净净。") if last_result.cleanup != null else tr("你拿起%s咬了几口。")) % food_name
+			var finished: bool = last_result.cleanup != null or not last_result.leftover_id.is_empty()
+			_feedback.text = (tr("你将剩下的%s吃得乾乾净净。") if finished else tr("你拿起%s咬了几口。")) % food_name
 		FoodUseResult.Outcome.TOO_FULL:
 			_feedback.text = "你已经吃太饱了，再也塞不下任何东西了。"
 		FoodUseResult.Outcome.NOT_DIRECT_HELD:

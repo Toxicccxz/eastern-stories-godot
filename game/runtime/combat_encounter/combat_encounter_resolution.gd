@@ -15,6 +15,7 @@ var _encounter: CombatEncounter
 var _failure: Failure = Failure.NONE
 var _result: CombatEncounterResult
 var _lifecycles: Array[CombatSliceLifecycleResult] = []
+var _announcements: Array[CombatLifecycleAnnouncement] = []
 var _failed_special: SpecialReport
 var _departure: StringName
 
@@ -186,6 +187,12 @@ static func _restore(state: CombatRelationshipState, opponents: Array, lethal: A
 			state.remove_opponent(target_id)
 
 
+func take_announcements() -> Array[CombatLifecycleAnnouncement]:
+	var taken: Array[CombatLifecycleAnnouncement] = _announcements.duplicate()
+	_announcements.clear()
+	return taken
+
+
 func inspect(
 	bindings: Array[CombatSliceCharacterBinding], event: CombatSchedulerEvent = null,
 	tactical: CombatTacticalExecutionResult = null,
@@ -219,6 +226,11 @@ func inspect(
 		if receipt == null or not receipt.completed():
 			fail(Failure.LIFECYCLE_FAILED)
 			return false
+		# damage.c unconcious() and die(): announce() tells the room.
+		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE:
+			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.UNCONSCIOUS))
+		elif receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.DEAD))
 	_derive_result(bindings)
 	return _result == null
 

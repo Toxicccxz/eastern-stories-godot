@@ -416,6 +416,10 @@ func has_capability(capability_id: StringName) -> bool:
 
 ## The runtime flag a toll-taker carries once it has fought the player (NpcDealings).
 const FLAG_FOUGHT_PLAYER: StringName = &"fought_player"
+## team.c set_leader(player) (d/snow/npc/dog.c, given a bone): it follows the player
+## from room to room on its map (owner, polish, A11). An object variable, as ES2's
+## leader is: Continue forgets it.
+const FLAG_FOLLOWS_PLAYER: StringName = &"follows_player"
 
 
 ## Whether it starts a fight when the player comes into contact: attitude

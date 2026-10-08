@@ -215,7 +215,7 @@
         "root": "OldPineOutdoor",
         "map": "oldpine.outdoor",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
-        "shapes": {"Rect_96_32": [96, 32], "Rect_160_160": [160, 160], "Rect_96_128": [96, 128], "Rect_96_160": [96, 160], "Rect_32_64": [32, 64]},
+        "shapes": {"Rect_96_32": [96, 32], "Rect_160_160": [160, 160], "Rect_96_128": [96, 128], "Rect_96_160": [96, 160], "Rect_32_64": [32, 64], "Rect_48_48": [48, 48], "Rect_48_96": [48, 96]},
         "door_style": {"walls": "Terrain/GateWalls", "wall_suffix": "Wall", "shutters": "Terrain", "color": "Color(0.42, 0.42, 0.4, 1)"},
         "doors": [{"name": "KeepGate", "id": "oldpine.keep.gate", "at": [1280, 864], "shape": "Rect_32_64"}],
         "nodes": [
@@ -265,7 +265,11 @@
         "interactions": [
           {"name": "PineInteraction", "id": "oldpine.outdoor.landmark.ancient_pine", "at": [600, 232], "shape": "Rect_160_160"},
           {"name": "VineInteraction", "id": "oldpine.outdoor.landmark.epath2_vine", "at": [1336, 248], "shape": "Rect_96_128"},
-          {"name": "CliffdownInteraction", "id": "oldpine.outdoor.landmark.cliffdown_cliff", "at": [-1424, 864], "shape": "Rect_96_160"}
+          {"name": "CliffdownInteraction", "id": "oldpine.outdoor.landmark.cliffdown_cliff", "at": [-1424, 864], "shape": "Rect_96_160"},
+          {"name": "ClearingSignInteraction", "id": "oldpine.outdoor.landmark.clearing_sign", "at": [520, 56], "shape": "Rect_48_48"},
+          {"name": "Epath3FootprintsInteraction", "id": "oldpine.outdoor.landmark.epath3_footprints", "at": [1424, 368], "shape": "Rect_48_48"},
+          {"name": "Epath2WaterfallInteraction", "id": "oldpine.outdoor.landmark.epath2_waterfall", "at": [1232, 256], "shape": "Rect_96_32"},
+          {"name": "CliffsideCliffInteraction", "id": "oldpine.outdoor.landmark.cliffside_cliff", "at": [320, 1280], "shape": "Rect_48_96"}
         ]
       }
     },
@@ -331,7 +335,10 @@
         ],
         "zones": [{"generated": "zones"}],
         "spawn_points": [{"name": "VineLanding", "at": [0, 200], "id": "oldpine.cave.waterfall_passage.vine_landing"}],
-        "interactions": [{"name": "StoneInteraction", "id": "oldpine.cave.landmark.stone", "at": [0, -400], "shape": "Rect_160_160"}]
+        "interactions": [
+          {"name": "StoneInteraction", "id": "oldpine.cave.landmark.stone", "at": [0, -400], "shape": "Rect_160_160"},
+          {"name": "PassageCurtainInteraction", "id": "oldpine.cave.landmark.passage_curtain", "at": [0, 432], "shape": "Rect_128_32"}
+        ]
       }
     },
     "gorge": {
@@ -409,7 +416,7 @@
         "root": "OldPineGorge",
         "map": "oldpine.gorge",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
-        "shapes": {"Rect_160_200": [160, 200]},
+        "shapes": {"Rect_160_200": [160, 200], "Rect_96_64": [96, 64], "Rect_32_96": [32, 96]},
         "nodes": [
           {"generated": "captions"},
           {"node": "rect", "name": "BridgeOverhead", "rect": [960, 1296, 1488, 1328], "color": "Color(0.45, 0.42, 0.36, 0.35)"},
@@ -428,7 +435,10 @@
           {"name": "LakeSerpent05", "at": [1350, 2640], "id": "oldpine.gorge.lake.serpent.5"}
         ],
         "interactions": [
-          {"name": "RiverbankCliffInteraction", "id": "oldpine.gorge.landmark.riverbank1_cliff", "at": [1400, 1940], "shape": "Rect_160_200"}
+          {"name": "RiverbankCliffInteraction", "id": "oldpine.gorge.landmark.riverbank1_cliff", "at": [1400, 1940], "shape": "Rect_160_200"},
+          {"name": "WaterfallFallInteraction", "id": "oldpine.gorge.landmark.waterfall_fall", "at": [1200, 640], "shape": "Rect_96_64"},
+          {"name": "WaterfallCliffInteraction", "id": "oldpine.gorge.landmark.waterfall_cliff", "at": [1484, 800], "shape": "Rect_32_96"},
+          {"name": "Riverbank2CliffInteraction", "id": "oldpine.gorge.landmark.riverbank2_cliff", "at": [1484, 1400], "shape": "Rect_32_96"}
         ]
       }
     },

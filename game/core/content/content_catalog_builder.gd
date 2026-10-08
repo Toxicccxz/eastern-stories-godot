@@ -128,6 +128,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 func build() -> ContentCatalog:
 	_add_broken_weapons()
+	_add_leftovers()
 	_check_money()
 	_check_npc_loadouts()
 	_resolve_npc_dealings()
@@ -163,6 +164,14 @@ func build() -> ContentCatalog:
 		_errors.append("items: item roles are inconsistent (NativeItemDefinitionProjections)")
 		return null
 	return catalog
+
+
+## What each food leaves once eaten up (finish_eat()): a plain item of its own.
+func _add_leftovers() -> void:
+	for item: ItemContentDefinition in _items.values().duplicate():
+		if not item.leftover_id().is_empty():
+			var left: ItemContentDefinition = ItemContentDefinition.leftover(item)
+			_items[left.item_definition_id] = left
 
 
 ## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
@@ -272,6 +281,8 @@ func _resolve_npc_dealings() -> void:
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
+				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
+					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue

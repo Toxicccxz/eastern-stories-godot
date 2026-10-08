@@ -12,6 +12,11 @@
 		}
 	},
 	"set": {
+		"snow.npc.dog": {
+			"accept_object": [
+				{ "item_alias": "bone", "emote": "高兴地汪汪叫了起来。", "accept": true, "set_npc_flag": "follows_player" }
+			]
+		},
 		"snow.npc.scavenger": {
 			"accept_fight": [
 				{ "say": "$RESPECT饶命！小的这就离开！", "accept": false }
@@ -146,7 +151,7 @@
 			"statement in create()": "bulletin board: multiplayer feature, omitted"
 		},
 		"d/snow/npc/dog.c": {
-			"function accept_object": "a bone makes it follow the giver: no bone exists yet (the chicken leg is a deferred waiter good) and following is not ported, so it takes nothing (give.c's refusal)"
+			"function accept_object": "set snow.npc.dog accept_object: id(\"bone\") (item_alias), its line, and it follows the giver on the map (follows_player; owner, polish A11)"
 		},
 		"d/snow/npc/keeper.c": {
 			"function init": "greeting (set snow.npc.keeper)",

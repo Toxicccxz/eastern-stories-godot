@@ -298,6 +298,54 @@
 			"long": "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n",
 			"messages": { "use": "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。" },
 			"legacy_source": "d/oldpine/cliff2.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.clearing_sign", "zone": "oldpine.outdoor.central_clearing",
+			"name": "告示", "policy": "look",
+			"long": "「官府告示：此处常有歹人出没。」\n",
+			"legacy_source": "d/oldpine/clearing.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.epath3_footprints", "zone": "oldpine.outdoor.east_bridge",
+			"name": "脚印", "policy": "look",
+			"long": "一些杂乱的脚印，不但有人的脚印，看起来还有不少马蹄印。\n",
+			"legacy_source": "d/oldpine/epath3.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.epath2_waterfall", "zone": "oldpine.outdoor.east_bridge",
+			"name": "瀑布", "policy": "look",
+			"long": "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n，水潭两边的石壁垂下许多的藤蔓(vine)，你注意到瀑布后面似乎\n有什么东西在发著光。\n",
+			"legacy_source": "d/oldpine/epath2.c"
+		},
+		{
+			"id": "oldpine.outdoor.landmark.cliffside_cliff", "zone": "oldpine.outdoor.cliffside",
+			"name": "悬崖", "policy": "look",
+			"long": "你定下心神一看，其实这个悬崖没有想像中那么恐怖，也许还\n可以从这里爬下山涧，只是这世界上大概没有这种白痴愿意干\n这种傻事吧。\n",
+			"legacy_source": "d/oldpine/cliffside.c"
+		},
+		{
+			"id": "oldpine.gorge.landmark.waterfall_fall", "zone": "oldpine.gorge.waterfall",
+			"name": "瀑布", "policy": "look",
+			"long": "这个瀑布水势并不是很大，但是高度却极高，水珠溅在你的脸上\n打得隐隐生疼。你注意到瀑布后面似乎有什么东西在发著光。\n",
+			"legacy_source": "d/oldpine/waterfall.c"
+		},
+		{
+			"id": "oldpine.gorge.landmark.waterfall_cliff", "zone": "oldpine.gorge.waterfall",
+			"name": "山壁", "policy": "look",
+			"long": "水潭四周的山壁都有数百丈高，想要爬上去「肯定」是休想。\n",
+			"legacy_source": "d/oldpine/waterfall.c"
+		},
+		{
+			"id": "oldpine.gorge.landmark.riverbank2_cliff", "zone": "oldpine.gorge.river",
+			"name": "山壁", "policy": "look",
+			"long": "这里的山壁比北边高度稍低了点，但是对凡人而言想要爬上去仍然\n还有一段差距。\n",
+			"legacy_source": "d/oldpine/riverbank2.c"
+		},
+		{
+			"id": "oldpine.cave.landmark.passage_curtain", "zone": "oldpine.cave.waterfall_passage",
+			"name": "帘幕", "policy": "look",
+			"long": "这片帘幕似乎是用一种极薄的丝绸织成的，后面还传来阵阵水声。\n",
+			"legacy_source": "d/oldpine/passage.c"
 		}
 	]
 }

@@ -285,6 +285,8 @@ func ask_selected(topic: String) -> Array[String]:
 	)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
+	if not answer.hands_over.is_empty():
+		_hand_over(target, answer)
 	if not answer.gives.is_empty():
 		var content: ItemContentDefinition = GameContent.catalog().item(answer.gives)
 		var given: StringName = &"" if content == null else _map.floor_items.give_new_item_to_player(answer.gives)
@@ -300,6 +302,45 @@ func ask_selected(topic: String) -> Array[String]:
 	if _map.hud().inventory_is_open():
 		_map.hud().show_inventory(session.player_inventory_rows())
 	return answer.texts()
+
+
+## command("give <it> to <player>") within an answer: the NPC's own carried item of that
+## kind, give.c's line to the receiver, then what it says after (or, with none left,
+## what it says instead).
+func _hand_over(npc: NpcRuntimeState, answer: NpcInquiry.Answer) -> void:
+	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)
+	var carried: StringName = &""
+	for item_id: StringName in _map.inventory_state().direct_children(holder):
+		var item: ItemInstance = _map.item_instance_index().resolve(item_id)
+		if item != null and item.item_definition_id == answer.hands_over:
+			carried = item_id
+			break
+	var content: ItemContentDefinition = GameContent.catalog().item(answer.hands_over)
+	var npc_owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+	var authorities := ItemHandlingService.Authorities.new(
+		MoneyInventoryContext.new(npc_owner, _map.inventory_state(), _map.stack_collection(), _map.item_instance_index()),
+		_map.food_collection(), _map.liquid_collection(), _map.item_id_allocator(),
+	)
+	var player_owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
+	var held: int = 0 if carried.is_empty() else (_map.stack_collection().stack_state(carried).amount if _map.stack_collection().has_stack(carried) else 1)
+	var moved: StringName = &"" if carried.is_empty() else ItemHandlingService.npc_hands_over(
+		carried, answer.hands_over_amount, player_owner, _player.maximum_encumbrance, authorities,
+	)
+	if moved.is_empty() or content == null:
+		answer.lines.append_array(answer.after_empty)
+		return
+	# What went: `amount` of them, or all he had when that was fewer (0: the whole
+	# object, give.c's 一<unit><name>).
+	var amount: int = 0 if answer.hands_over_amount <= 0 else mini(answer.hands_over_amount, held)
+	var item_text: String = HeldItemFacts.one_unit(content)
+	if amount == 2:
+		# TRANSLATORS: two of a stack (两枚棋子): {unit} its measure word, {item} its name.
+		item_text = tr("两{unit}{item}").format({"unit": tr(content.base_unit), "item": tr(content.display_name)})
+	elif amount > 0:
+		item_text = HeldItemFacts.counted(content, amount)
+	# give.c to the receiver: "<npc>给你<amount><unit><name>。"
+	answer.say(tr("{npc}给你{item}。").format({"npc": tr(npc.definition().display_name), "item": item_text}))
+	answer.lines.append_array(answer.after)
 
 
 ## The lines the player can say beside the selected NPC that it answers (relay_say():

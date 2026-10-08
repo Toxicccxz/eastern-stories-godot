@@ -206,7 +206,7 @@ func _test_landmarks_water_and_pacing() -> void:
 			_assert_true(landmark.is_valid(), "%s is valid" % landmark.landmark_id)
 			for portal_id: StringName in landmark.portal_ids():
 				_assert_eq(catalog.portal(portal_id).source_zone_id, landmark.zone_id, "%s leaves from its zone" % portal_id)
-	_assert_eq(counts, [3, 1, 1, 2], "pine, vine and cliffdown; tree descent; riverbank cliff; cliff1 up and down")
+	_assert_eq(counts, [7, 1, 4, 2], "pine, vine, cliffdown and the look-only sign, footprints, waterfall and cliffside; tree descent; riverbank cliff and the look-only waterfall, its cliff and riverbank2's cliff; cliff1 up and down")
 	var vine: WorldLandmarkDefinition = catalog.landmark(&"oldpine.outdoor.landmark.epath2_vine")
 	_assert_eq([vine.policy, vine.portal_ids()], [&"vine", [&"oldpine.outdoor.vine_to_waterfall", &"oldpine.outdoor.vine_to_passage"]], "the vine rolls between waterfall and passage")
 	_assert_eq(vine.message("hold"), "你爬上石桥的护栏，伸手往不远处的一根藤蔓抓去....", "epath2.c message_vision text")

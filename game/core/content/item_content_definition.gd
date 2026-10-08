@@ -52,6 +52,9 @@ var _currency_definition: CurrencyDefinition
 var _money_id: StringName
 var _base_unit: String
 var _food_definition: FoodDefinition
+## feature/food.c finish_eat() returning 1: what the food becomes once eaten up (the
+## bones of u/cloud's meats), as a record read with the food; empty for most foods.
+var _leaves: Dictionary = {}
 var _liquid_definition: LiquidDefinition
 var _liquid_initial_content: LiquidState.Content
 var _liquid_initial_remaining: int
@@ -229,6 +232,33 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")
 	reader.finish()
 	return definition
+
+
+## The ID the catalog gives what a food leaves once eaten (LEFTOVER_SUFFIX after its own).
+const LEFTOVER_SUFFIX: String = "#eaten"
+
+
+## The ID of what this food leaves once eaten up, or empty when it leaves nothing.
+func leftover_id() -> StringName:
+	return &"" if _leaves.is_empty() else StringName(String(_item_definition_id) + LEFTOVER_SUFFIX)
+
+
+## finish_eat(): set_name(<bone>, ({ <ids> })), set_weight(), set("long"); food.c set
+## value 0 on the first bite. What is left is no food: a plain thing (a dog takes a bone).
+## Owner (polish, A11): its aliases add "bone" to finish_eat()'s "rib" (dog.c asks for
+## id("bone")), and it counts in 根, where ES2 kept the meat's 斤.
+static func leftover(source: ItemContentDefinition) -> ItemContentDefinition:
+	var left := ItemContentDefinition.new()
+	left._item_definition_id = source.leftover_id()
+	left._legacy_source_paths = source._legacy_source_paths.duplicate()
+	left._display_name = source._leaves["name"]
+	left._aliases.assign(source._leaves["aliases"])
+	left._description = source._leaves["long"]
+	left._unit = source._unit if String(source._leaves["unit"]).is_empty() else source._leaves["unit"]
+	left._material = source._material
+	left._own_weight = source._leaves["weight"]
+	left._value = 0
+	return left
 
 
 ## The ID the catalog gives a weapon's broken form (BROKEN_SUFFIX after the weapon's).
@@ -509,6 +539,14 @@ func _read_food(food: ContentRecordReader) -> void:
 		_value,
 		_own_weight,
 	)
+	var leaves: ContentRecordReader = food.child("leaves")
+	if leaves != null:
+		_leaves = {
+			"name": leaves.required_text("name"), "aliases": leaves.text_list("aliases"),
+			"weight": leaves.required_integer("weight"), "long": leaves.required_text("long"),
+			"unit": leaves.text("unit"),
+		}
+		leaves.finish()
 	food.finish()
 	if not _food_definition.is_valid():
 		food.fail("", "remaining and supply must be positive")

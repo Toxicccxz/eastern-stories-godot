@@ -14,6 +14,14 @@ const SPEED: float = 90.0
 const DESTINATION_TRIES: int = 8
 ## A walk does not end this close to another character.
 const KEEP_CLEAR: float = 48.0
+## Owner (polish, A5): a wanderer does not stop this close to where its zone joins
+## another (a doorway, a street's mouth) or to a passage or a door, where a body
+## stands in everyone's way; a zone too small for it is walked as before.
+const SEAM_CLEAR: float = 48.0
+## A step aside (step_aside()) goes this far at most, and at least this far across the
+## player's push (a body's width), so the way opens.
+const STEP_ASIDE_REACH: float = 112.0
+const STEP_ASIDE_ACROSS: float = 36.0
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}
@@ -44,6 +52,7 @@ func walk_into(character_id: StringName, body: Node2D, from_zone: WorldPhysicalZ
 	for cell: Vector2i in grid.free_cells_in(to_zone.global_rect()):
 		if others.all(func(other: Vector2) -> bool: return other.distance_to(grid.center_of(cell)) >= KEEP_CLEAR):
 			candidates.append(cell)
+	candidates = _off_seams(grid, to_zone, candidates)
 	for attempt: int in range(mini(DESTINATION_TRIES, candidates.size())):
 		var index: int = random.legacy_random(candidates.size())
 		if index < 0 or index >= candidates.size():
@@ -53,6 +62,63 @@ func walk_into(character_id: StringName, body: Node2D, from_zone: WorldPhysicalZ
 		if MapPlacementValidator.is_valid_character_position(_map, to_zone.zone_id, spot) and _start(grid, character_id, body, spot):
 			return true
 	return false
+
+
+## A standing NPC the player keeps pushing into steps aside (owner, polish, A5): to the
+## nearest free spot of its own zone across the player's way, off the zone's seams, drawn
+## from no random stream. Its place does not change; false when there is no such spot.
+func step_aside(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2D, pusher: Vector2) -> bool:
+	if body == null or zone == null or is_walking(character_id):
+		return false
+	var area: Rect2 = zone.global_rect()
+	var grid: Grid = Grid.new(_map, area)
+	var others: Array[Vector2] = _occupied(character_id)
+	var push: Vector2 = (body.global_position - pusher).normalized()
+	if push == Vector2.ZERO:
+		push = Vector2.RIGHT
+	var scored: Array[Array] = []
+	var near: Array[Vector2i] = []
+	for cell: Vector2i in grid.free_cells_in(area):
+		var offset: Vector2 = grid.center_of(cell) - body.global_position
+		if offset.length() < CELL * 2.0 or offset.length() > STEP_ASIDE_REACH or offset.dot(push) < -CELL:
+			continue
+		if others.all(func(other: Vector2) -> bool: return other.distance_to(grid.center_of(cell)) >= KEEP_CLEAR):
+			near.append(cell)
+	for cell: Vector2i in _off_seams(grid, zone, near):
+		var offset: Vector2 = grid.center_of(cell) - body.global_position
+		# Out of the way (a body's width across the push), then the shortest step.
+		if absf(offset.cross(push)) < STEP_ASIDE_ACROSS:
+			continue
+		scored.append([offset.length() + maxf(offset.dot(push), 0.0) * 0.5, cell])
+	scored.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0] or (a[0] == b[0] and (a[1] as Vector2i) < (b[1] as Vector2i)))
+	for entry: Array in scored.slice(0, DESTINATION_TRIES):
+		var spot: Vector2 = grid.center_of(entry[1])
+		if MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot) and _start(grid, character_id, body, spot):
+			return true
+	return false
+
+
+## The cells of `candidates` farther than SEAM_CLEAR from where `zone` joins its map's
+## other zones, its passages and its doors; all of them when none is.
+func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vector2i]) -> Array[Vector2i]:
+	var seams: Array[Rect2] = []
+	for other: WorldPhysicalZoneArea2D in _map.physical_zones():
+		if other != zone and other.global_rect().grow(1.0).intersects(zone.global_rect()):
+			seams.append(other.global_rect().grow(SEAM_CLEAR))
+	for node: Node in _map.find_children("*", "Area2D", true, false):
+		if node is WorldPassageArea2D:
+			seams.append((node as WorldPassageArea2D).global_rect().grow(SEAM_CLEAR))
+	for door: WorldDoor in _map.doors():
+		var wall: CollisionShape2D = door.wall_shape()
+		var rectangle: RectangleShape2D = null if wall == null else wall.shape as RectangleShape2D
+		if rectangle != null:
+			seams.append(Rect2(wall.global_position - rectangle.size / 2.0, rectangle.size).grow(SEAM_CLEAR))
+	var clear: Array[Vector2i] = []
+	for cell: Vector2i in candidates:
+		var point: Vector2 = grid.center_of(cell)
+		if seams.all(func(seam: Rect2) -> bool: return not seam.has_point(point)):
+			clear.append(cell)
+	return candidates if clear.is_empty() else clear
 
 
 ## A walk to a known spot (an NPC's spawn marker); false when no path reaches it.

@@ -52,6 +52,12 @@ class Answer:
 	var marks: Array[String] = []
 	var gives: StringName = &""
 	var mark_on_give: String = ""
+	## Something the NPC carries that it hands over (NpcInquiryRule.hands_over), how
+	## many, and what it says once it did (`after`) or when it had none (`after_empty`).
+	var hands_over: StringName = &""
+	var hands_over_amount: int = 0
+	var after: Array[ColoredLine] = []
+	var after_empty: Array[ColoredLine] = []
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -147,7 +153,7 @@ static func answer(
 	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
 	# followed its 0 does not follow; a function that does nothing (command("?")) still
 	# leaves ask.c to its own lines.
-	var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks)
+	var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random)
 	if rule != null:
 		_with(result, lines)
 		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
@@ -156,6 +162,12 @@ static func answer(
 			result.lines.append(line.colored(name, asker_respect))
 		if taken:
 			return result
+		result.hands_over = rule.hands_over
+		result.hands_over_amount = rule.amount
+		for line: NpcLine in rule.after:
+			result.after.append(line.colored(name, asker_respect))
+		for line: NpcLine in rule.after_empty:
+			result.after_empty.append(line.colored(name, asker_respect))
 		result.gives = rule.gives
 		if rule.gives.is_empty() and not rule.mark_asker.is_empty():
 			result.marks.append(rule.mark_asker)

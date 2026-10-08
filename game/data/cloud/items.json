@@ -210,7 +210,17 @@
 			"material": "rib",
 			"weight": 400,
 			"value": 60,
-			"food": { "remaining": 3, "supply": 60 }
+			"food": {
+				"remaining": 3,
+				"supply": 60,
+				"leaves": {
+					"name": "狗骨头",
+					"aliases": ["rib", "bone"],
+					"weight": 250,
+					"long": "啃得精光的狗骨头。\n",
+					"unit": "根"
+				}
+			}
 		},
 		{
 			"id": "es2:u/cloud/obj/etc/rope",

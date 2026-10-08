@@ -68,6 +68,7 @@ static func give(
 	offer.giver_gender = player.state.gender
 	offer.giver_per = player.state.attributes.personality
 	offer.item_name = content.display_name
+	offer.item_aliases = content.aliases()
 	offer.giver_family = player.state.family.family_id
 	var liquid: LiquidState = authorities.liquids.state(id)
 	if liquid != null:
@@ -126,6 +127,31 @@ static func hand_over(npc: NpcRuntimeState, id: StringName, authorities: Authori
 	var npc_owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
 	var moved: InventoryTransferResult = _move(authorities, id, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance), npc_owner)
 	return moved != null and moved.succeeded
+
+
+## command("give <id> to <player>") by an NPC (chess_player.c play_chess()): `amount` of
+## the stack `id` it carries (all of it for 0) goes to `receiver`, merged into what they
+## hold. `authorities` are the NPC's (its owner context). Empty when it could not be
+## moved (too heavy: it stays with the NPC); else the id the receiver now holds.
+static func npc_hands_over(id: StringName, amount: int, receiver: ItemLifecycleOwnerContext, capacity: int, authorities: Authorities) -> StringName:
+	if authorities == null or not authorities.is_valid() or receiver == null:
+		return &""
+	var item: ItemInstance = authorities.context.index.resolve(id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	if content == null:
+		return &""
+	var result := ItemHandlingResult.new()
+	var portion: StringName = _split_portion(result, authorities, id, content, amount)
+	if portion.is_empty():
+		return &""
+	var destination := InventoryTransferDestination.new(
+		ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, receiver.character_id), true, true, capacity,
+	)
+	var moved: InventoryTransferResult = _move(authorities, portion, destination, receiver)
+	if moved == null or not moved.succeeded:
+		_return_portion(authorities, id, portion)
+		return &""
+	return portion
 
 
 ## drop.c: onto the floor of the player's place (`floor`); something worth
