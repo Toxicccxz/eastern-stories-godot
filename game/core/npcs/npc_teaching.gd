@@ -45,7 +45,9 @@ class RecognizeRule:
 ##   minimums it requires and what it says when one is short (RequirementCheck), and what
 ##   it says to one it takes, at once. daemon/class/juechen/master.c first takes anyone
 ##   whose title is not 普通百姓 (a family's member) for a traitor (`commoners_only`: its
-##   chat line, then kill_ob()).
+##   chat line, then kill_ob()). daemon/class/taoist/taolord.c answers `answer_after`
+##   seconds later (call_out("do_recruit", 2)): its checks, its say and its recruit come
+##   then, and one asking while that answer is due hears `busy_say` (find_call_out()).
 ## - oath (daemon/class/fighter/master.c): it asks for an oath (ask_say; again_say
 ##   when one is already asked), and the player's swear of `oath` makes it say
 ##   accept_say and recruit.
@@ -61,6 +63,9 @@ class ApprenticeRule:
 	## The chat line ({title}{nickname}{name} of the student) before the kill; "" takes anyone.
 	var commoners_only: String = ""
 	var accept_say: String = ""
+	## Seconds before a requirements master answers (its call_out()); 0 answers at once.
+	var answer_after: float = 0.0
+	var busy_say: String = ""
 	var class_id: StringName = &""
 	var ask_say: String = ""
 	var again_say: String = ""
@@ -71,11 +76,13 @@ class ApprenticeRule:
 
 
 ## One check of attempt_apprentice(): the minimums it requires, cor and cps as
-## query_cor() and query_cps() have them, spi as set (query("spi")) and combat_exp, and
-## what it says when one is short.
+## query_cor() and query_cps() have them, spi as set (query("spi")) and combat_exp, the
+## gender it takes ("" any; query("gender") != "男性" in taolord.c), and what it says when
+## one is short.
 class RequirementCheck:
 	extends RefCounted
 	var requires: Dictionary[StringName, int] = {}
+	var gender: String = ""
 	var refuse_say: String = ""
 
 
@@ -157,6 +164,9 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 					for key: String in record.keys():
 						if key == "refuse_say":
 							continue
+						if key == "gender":
+							check.gender = record.required_text("gender")
+							continue
 						if not REQUIREMENTS.has(StringName(key)):
 							record.fail(key, "unsupported requirement")
 						check.requires[StringName(key)] = record.required_integer(key)
@@ -177,6 +187,12 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 				rule.requires.merge(check.requires, true)
 			rule.accept_say = apprentice.required_text("accept_say")
 			rule.commoners_only = apprentice.text("commoners_only")
+			rule.answer_after = float(apprentice.integer("answer_after", 0))
+			if rule.answer_after < 0.0:
+				apprentice.fail("answer_after", "must not be negative")
+			rule.busy_say = apprentice.text("busy_say")
+			if rule.answer_after > 0.0 and rule.busy_say.is_empty():
+				apprentice.fail("busy_say", "a master who answers later says something to one asking meanwhile")
 		elif rule.kind == Kind.OATH:
 			rule.ask_say = apprentice.required_text("ask_say")
 			rule.again_say = apprentice.required_text("again_say")

@@ -17,10 +17,11 @@ func exert(_context: ExertContext) -> bool:
 	return false
 
 
-## message_vision() as its actor sees it: $N is 你.
+## message_vision() as its actor sees it: $N is 你, and $P (its pronoun) too.
 static func _as_actor(template: String) -> String:
 	# TRANSLATORS: message_vision(): the actor of an exert line, for its $N.
-	return _t(template).replace("$N", _t("你"))
+	var you: String = _t("你")
+	return _t(template).replace("$N", you).replace("$P", you)
 
 
 static func _t(text: String) -> String:

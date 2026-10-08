@@ -85,11 +85,17 @@ func world_location() -> WorldLocationState:
 
 ## apprentice <master>. Only successful recruitment may replace the read-only
 ## identity title (feature/apprentice.c assign_apprentice()). Body, CharacterState
-## and character ID retain their existing authorities.
-func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
+## and character ID retain their existing authorities. `answer_due`: the master's answer
+## to an earlier request is still to come (NpcApprenticeship.request()).
+func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, answer_due: bool = false) -> NpcApprenticeship.Outcome:
 	return _after_recruit(apprenticeship_request.request(
-		_state, master, family, entry_time_utc, _respect(), _facts.title, shown_title(), _facts.display_name,
+		_state, master, family, entry_time_utc, _respect(), _facts.title, shown_title(), _facts.display_name, answer_due,
 	), family)
+
+
+## The master's answer when it is due (taolord.c do_recruit()), with the player before it.
+func apprenticeship_answer(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
+	return _after_recruit(apprenticeship_request.answer(_state, master, family, entry_time_utc, _respect()), family)
 
 
 ## juechen/master.c would take the player for a traitor if they asked it now.

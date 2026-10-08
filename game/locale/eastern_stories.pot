@@ -63,6 +63,7 @@ msgstr ""
 #. common.npc.fighter.executioner gender
 #. common.npc.juechen.master gender
 #. common.npc.taoist.taolord gender
+#. common.npc.taoist.taolord apprentice.requires.gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -1794,6 +1795,18 @@ msgstr ""
 msgid "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。"
 msgstr ""
 
+#: core/internal_power/concentrate_exert_function.gd core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd core/internal_power/roar_exert_function.gd
+msgid "你的内力不够。"
+msgstr ""
+
+#: core/internal_power/concentrate_exert_function.gd
+msgid "$N闭目凝神，用谷衣心法的内力运转了一次「灵神诀」..."
+msgstr ""
+
+#: core/internal_power/concentrate_exert_function.gd
+msgid "一股青气从$N身上散出，汇聚在$P的顶心，然後缓缓淡去。"
+msgstr ""
+
 #: core/internal_power/enforce_service.gd
 msgid "你必须先 enable 一种内功。"
 msgstr ""
@@ -1811,6 +1824,10 @@ msgstr ""
 #. snow.npc.herbalist inquiry topic
 #: core/internal_power/exert_functions.gd data/snow/npcs.json
 msgid "疗伤"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "灵神诀"
 msgstr ""
 
 #: core/internal_power/exert_functions.gd
@@ -1887,10 +1904,6 @@ msgstr ""
 
 #: core/internal_power/heal_exert_function.gd
 msgid "你全身放松，坐下来开始运功疗伤。"
-msgstr ""
-
-#: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd core/internal_power/roar_exert_function.gd
-msgid "你的内力不够。"
 msgstr ""
 
 #: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd
@@ -3227,6 +3240,11 @@ msgstr ""
 
 #: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
 msgid "精"
+msgstr ""
+
+#. hover of 运功灵神诀 (谷衣心法's concentrate.c): {force} internal power and {sen} sen bring mana back.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力和 {sen} 点神恢复法力"
 msgstr ""
 
 #. hover of 运功提升战斗力 (powerup.c): {force} internal power; attack and dodge rise for a while, and bellicosity.
@@ -7427,6 +7445,21 @@ msgstr ""
 #: data/common/npcs.json data/temple/npcs.json
 msgid ""
 "我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"
+msgstr ""
+
+#. common.npc.taoist.taolord apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "贫道是出家人，不便收女徒，得罪了。"
+msgstr ""
+
+#. common.npc.taoist.taolord apprentice.accept_say
+#: data/common/npcs.json
+msgid "嗯... 想入我茅山派？也好...."
+msgstr ""
+
+#. common.npc.taoist.taolord apprentice.busy_say
+#: data/common/npcs.json
+msgid "慢著，一个一个来。"
 msgstr ""
 
 #. common.npc.hell_guard long

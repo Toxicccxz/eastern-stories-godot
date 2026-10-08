@@ -1,8 +1,8 @@
 class_name WorldMapNpcLife
 extends RefCounted
 ## What NPCs do on their own: the heart beat (heal_up, waking), chat and act lines,
-## greetings, drinking, wandering (random_move) and stealing. Code moved from
-## WorldMapController as it was; the map is `_map`.
+## greetings, drinking, wandering (random_move), stealing and a master's later answer to
+## 拜师. Code moved from WorldMapController as it was; the map is `_map`.
 
 var _map: WorldMapController
 var npc_heartbeat: NpcHeartbeat
@@ -63,9 +63,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 
 ## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
 func _advance_ambience(delta: float) -> void:
-	if ambience == null:
-		ambience = NpcAmbience.new(session.npc_ambience_random_source())
-	ambience.set_random(session.npc_ambience_random_source())
+	npc_ambience().set_random(session.npc_ambience_random_source())
 	_note_bellicosity()
 	_map.hostilities.run_pending_player_berserk()
 	# A fight began: the world stands still from here.
@@ -76,6 +74,8 @@ func _advance_ambience(delta: float) -> void:
 		_greet(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta):
 		_steal_step(_map.npcs.find_resident_npc(character_id))
+	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.RECRUIT):
+		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
 	for beat: int in ambience.due_beats(delta):
 		if beat > 0:
 			# char.c heart_beat() falls before it chats, on each of several beats too.
@@ -100,6 +100,37 @@ func step_aside(body: WorldCharacterBody2D) -> bool:
 		if service is NpcService and (service as NpcService).npc == npc:
 			return false
 	return npc_walker().step_aside(npc.character_id, body, _map.physical_zone(npc.world_location().zone_id), _map.player_body.global_position)
+
+
+## The NPCs' chat, greetings and call_outs, made on first use (a request may come
+## before the first beat).
+func npc_ambience() -> NpcAmbience:
+	if ambience == null:
+		ambience = NpcAmbience.new(session.npc_ambience_random_source())
+	return ambience
+
+
+## A master that answers 拜师 later (taolord.c): call_out("do_recruit", seconds).
+func start_apprentice_answer(npc: NpcRuntimeState, seconds: float) -> void:
+	npc_ambience().start_call(npc.character_id, seconds, NpcAmbience.RECRUIT)
+
+
+## Its answer is still to come (find_call_out("do_recruit") != -1).
+func apprentice_answer_due(npc: NpcRuntimeState) -> bool:
+	return ambience != null and ambience.has_call(npc.character_id, NpcAmbience.RECRUIT)
+
+
+## do_recruit() when its call_out is due: what the master says and its recruit reach the
+## player only before it and awake (recruit.c's present(); nobody hears a say), so
+## nothing changes otherwise. An unconscious master's command() does nothing; a dead
+## one's call_out went with it.
+func _answer_apprentice(npc: NpcRuntimeState) -> void:
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_hears(npc):
+		return
+	for service: WorldService in _map.service_nodes:
+		if service is TeacherService and (service as TeacherService).npc == npc:
+			(service as TeacherService).answer_apprentice()
+			return
 
 
 func npc_walker() -> WorldNpcWalker:

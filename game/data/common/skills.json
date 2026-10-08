@@ -145,7 +145,7 @@
 			"id": "gouyee", "name": "谷衣心法", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/gouyee.c",
 			"standard_force_hit": true,
-			"exert": ["heal"],
+			"exert": ["concentrate", "heal"],
 			"practice": { "refuses": true, "fail": "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。" },
 			"valid_learn": { "max_mana": "你的魔力不够，无法提升谷衣心法的造诣。" }
 		},

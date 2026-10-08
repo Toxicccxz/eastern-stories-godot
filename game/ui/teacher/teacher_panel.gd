@@ -385,6 +385,12 @@ func _show_apprentice_last() -> void:
 	refresh()
 
 
+## The master's later answer to 拜师 (taolord.c), shown where 拜师's lines are if the panel is open.
+func show_answer() -> void:
+	if is_instance_valid(panel) and panel.visible and apprentice_feedback != null:
+		_show_apprentice_last()
+
+
 func close_panel() -> void:
 	if not is_instance_valid(panel):
 		return

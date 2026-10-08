@@ -4,6 +4,17 @@
 		"d/temple/npc/taoist_guard1.c", "d/temple/npc/taoist_guard2.c", "d/temple/npc/taoist_guard3.c"
 	],
 	"set": {
+		"common.npc.taoist.taolord": {
+			"apprentice": {
+				"requires": [
+					{ "gender": "男性", "refuse_say": "贫道是出家人，不便收女徒，得罪了。" }
+				],
+				"accept_say": "嗯... 想入我茅山派？也好....",
+				"answer_after": 2,
+				"busy_say": "慢著，一个一个来。",
+				"class": "taoist"
+			}
+		},
 		"temple.npc.trainer": {
 			"chat_chance_combat": 100,
 			"chat_msg_combat": [
@@ -95,10 +106,10 @@
 		},
 		"daemon/class/taoist/taolord.c": {
 			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
-			"set apprentice_available": "茅山 B: never runs out (recruit_apprentice() lowers the misspelt apprentice_availavble)",
-			"function attempt_apprentice": "茅山 B: the apprentice rule",
-			"function do_recruit": "茅山 B: the apprentice rule (men only)",
-			"function recruit_apprentice": "茅山 B: the apprentice rule's class taoist"
+			"set apprentice_available": "never runs out: recruit_apprentice() lowers the misspelt apprentice_availavble, so 贫道今天已经收了三个弟子 is never said (DECISIONS 茅山 A/B)",
+			"function attempt_apprentice": "apprentice rule in set: answer_after 2 (call_out(\"do_recruit\", 2)), busy_say while that answer is due (find_call_out())",
+			"function do_recruit": "apprentice rule in set: the gender check with its say, then accept_say and the master's recruit (recruit.c from his side)",
+			"function recruit_apprentice": "class taoist: apprentice.class in set"
 		},
 		"d/temple/npc/trainer.c": {
 			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",

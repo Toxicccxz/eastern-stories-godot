@@ -39,6 +39,9 @@ func tooltip_for(action_id: StringName) -> String:
 				"force": RestoreExertFunction.COST,
 				"track": tr({&"recover": "气", &"refresh": "神", &"regenerate": "精"}[CombatExertTacticalPolicy.function_for(action_id)]),
 			})
+		&"concentrate":
+			# TRANSLATORS: hover of 运功灵神诀 (谷衣心法's concentrate.c): {force} internal power and {sen} sen bring mana back.
+			what = tr("用 {force} 点内力和 {sen} 点神恢复法力").format({"force": ConcentrateExertFunction.COST, "sen": ConcentrateExertFunction.SEN_COST})
 		&"powerup":
 			# TRANSLATORS: hover of 运功提升战斗力 (powerup.c): {force} internal power; attack and dodge rise for a while, and bellicosity.
 			what = tr("用 {force} 点内力，一段时间内攻击和闪避提升，杀气也随之上升").format({"force": PowerupExertFunction.COST})

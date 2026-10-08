@@ -9,12 +9,15 @@ extends RefCounted
 ## Beats and greeting countdowns are not saved, as heal cadences are not.
 
 const GREETING_DELAY_SECONDS: float = 1.0
+## The kinds of other call_outs: thief.c steal_it and steal.c compelete_steal; taolord.c do_recruit.
+const STEAL: StringName = &"steal"
+const RECRUIT: StringName = &"recruit"
 
 var _random: WorldInteractionRandomSource
 var _remainder: float = 0.0
 var _greetings: Dictionary[StringName, float] = {}
-## Other call_outs an NPC starts (thief.c steal_it, steal.c compelete_steal), by NPC.
-var _calls: Dictionary[StringName, float] = {}
+## Other call_outs an NPC starts, by kind, then by NPC: seconds left.
+var _calls: Dictionary[StringName, Dictionary] = {}
 
 
 func _init(random: WorldInteractionRandomSource) -> void:
@@ -61,27 +64,32 @@ func cancel_greeting(character_id: StringName) -> void:
 	_greetings.erase(character_id)
 
 
-func start_call(character_id: StringName, seconds: float) -> void:
-	_calls[character_id] = seconds
+func start_call(character_id: StringName, seconds: float, kind: StringName = STEAL) -> void:
+	if not _calls.has(kind):
+		_calls[kind] = {}
+	_calls[kind][character_id] = seconds
 
 
+## Every call_out of the NPC (it is gone).
 func cancel_call(character_id: StringName) -> void:
-	_calls.erase(character_id)
+	for kind: StringName in _calls:
+		_calls[kind].erase(character_id)
 
 
-func has_call(character_id: StringName) -> bool:
-	return _calls.has(character_id)
+func has_call(character_id: StringName, kind: StringName = STEAL) -> bool:
+	return _calls.has(kind) and _calls[kind].has(character_id)
 
 
-## The NPCs whose other call_out runs in these `delta` seconds, in start order.
-func due_calls(delta: float) -> Array[StringName]:
+## The NPCs whose call_out of `kind` runs in these `delta` seconds, in start order.
+func due_calls(delta: float, kind: StringName = STEAL) -> Array[StringName]:
 	var due: Array[StringName] = []
-	if not is_finite(delta) or delta < 0.0:
+	if not is_finite(delta) or delta < 0.0 or not _calls.has(kind):
 		return due
-	for character_id: StringName in _calls.keys():
-		_calls[character_id] -= delta
-		if _calls[character_id] <= 0.0:
-			_calls.erase(character_id)
+	var calls: Dictionary = _calls[kind]
+	for character_id: StringName in calls.keys():
+		calls[character_id] -= delta
+		if calls[character_id] <= 0.0:
+			calls.erase(character_id)
 			due.append(character_id)
 	return due
 
