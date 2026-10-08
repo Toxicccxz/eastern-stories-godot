@@ -104,6 +104,18 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 茅山 B: 茅山派 (2026-10-08)
+
+What each LPC function became (林忌's two-second answer, the women's refusal, 灵神诀) is in
+[TEMPLE_CONTENT](TEMPLE_CONTENT.md); it follows the LPC except:
+- **NPC call_outs and the player's absence** (global rule): an NPC's call_out (林忌's answer,
+  the thief's steal) runs on its map's world time, which stands still in a fight and while the
+  player is on another map. One that comes due in a fight waits for its end; leaving the map
+  drops them all, since ES2's would come while the player is away and find nobody (recruit.c's
+  present(), steal_it()).
+- **The question before 拜师** (first master, betrayal) is asked at the 拜师, as with 柳淳风 and
+  绝尘子, though with 林忌 the change itself comes with his answer two seconds later.
+
 ## 茅山 A: the climb, the temple and its people (2026-10-08)
 
 Owner-approved plan (同意, 2026-10-08): four packages — A places the region, B 茅山派, C the

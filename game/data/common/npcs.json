@@ -391,7 +391,16 @@
 				{ "action": "cast", "function": "feeblebolt" },
 				{ "action": "cast", "function": "invocation" }
 			],
-			"inquiry": { "谷衣心法": ["谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"], "茅山派": ["我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"] }
+			"inquiry": { "谷衣心法": ["谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"], "茅山派": ["我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"] },
+			"apprentice": {
+				"requires": [
+					{ "gender": "男性", "refuse_say": "贫道是出家人，不便收女徒，得罪了。" }
+				],
+				"accept_say": "嗯... 想入我茅山派？也好....",
+				"answer_after": 2,
+				"busy_say": "慢著，一个一个来。",
+				"class": "taoist"
+			}
 		},
 		{
 			"id": "common.npc.hell_guard",

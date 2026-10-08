@@ -47,7 +47,8 @@ func takes_apprentices() -> bool:
 	return teaching() != null and teaching().apprentice != null
 
 
-## apprentice <npc>; living(ob) first ("你必须先把…弄醒。").
+## apprentice <npc>; living(ob) first ("你必须先把…弄醒。"). A master that answers later
+## starts its call_out (NpcApprenticeship.Outcome.ANSWER_DUE); answer_apprentice() follows.
 func request_apprentice() -> NpcApprenticeship.Outcome:
 	last_lines = []
 	if not can_teach() or not takes_apprentices():
@@ -59,7 +60,10 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 	var request: NpcApprenticeship = player.apprenticeship_request
 	var outcome: NpcApprenticeship.Outcome = player.request_apprenticeship(
 		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()),
+		map.npc_life.apprentice_answer_due(npc),
 	)
+	if outcome == NpcApprenticeship.Outcome.ANSWER_DUE:
+		map.npc_life.start_apprentice_answer(npc, teaching().apprentice.answer_after)
 	var lines: Array[ColoredLine] = []
 	for line: String in request.lines:
 		lines.append(ColoredLine.new(line))
@@ -71,6 +75,23 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 		map.npc_kills_player(npc)
 		return outcome
 	_say_colored(lines)
+	return outcome
+
+
+## taolord.c do_recruit(), when its call_out is due with the player before it
+## (WorldMapNpcLife): its say, and its recruit or refusal. An open panel shows the lines.
+## A player lying unconscious reads nothing (NpcApprenticeship.answer()).
+func answer_apprentice(awake: bool = true) -> NpcApprenticeship.Outcome:
+	last_lines = []
+	if not takes_apprentices():
+		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var outcome: NpcApprenticeship.Outcome = player.apprenticeship_answer(
+		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()), awake,
+	)
+	_say(player.apprenticeship_request.lines)
+	if awake:
+		ui.show_answer()
 	return outcome
 
 

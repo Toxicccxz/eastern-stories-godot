@@ -524,6 +524,12 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	return true
 
 
+## The player went to another map (a handoff that completed): its NPCs' call_outs go.
+## Not on deactivation, which a failed handoff or session swap rolls back.
+func player_departed() -> void:
+	npc_life.player_left()
+
+
 func suspend_for_session_swap() -> bool:
 	if not _initialized:
 		return false

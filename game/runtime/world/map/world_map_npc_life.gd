@@ -1,8 +1,8 @@
 class_name WorldMapNpcLife
 extends RefCounted
 ## What NPCs do on their own: the heart beat (heal_up, waking), chat and act lines,
-## greetings, drinking, wandering (random_move) and stealing. Code moved from
-## WorldMapController as it was; the map is `_map`.
+## greetings, drinking, wandering (random_move), stealing and a master's later answer to
+## 拜师. Code moved from WorldMapController as it was; the map is `_map`.
 
 var _map: WorldMapController
 var npc_heartbeat: NpcHeartbeat
@@ -63,9 +63,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 
 ## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
 func _advance_ambience(delta: float) -> void:
-	if ambience == null:
-		ambience = NpcAmbience.new(session.npc_ambience_random_source())
-	ambience.set_random(session.npc_ambience_random_source())
+	npc_ambience().set_random(session.npc_ambience_random_source())
 	_note_bellicosity()
 	_map.hostilities.run_pending_player_berserk()
 	# A fight began: the world stands still from here.
@@ -74,8 +72,10 @@ func _advance_ambience(delta: float) -> void:
 	_note_player_arrival()
 	for character_id: StringName in ambience.due_greetings(delta):
 		_greet(_map.npcs.find_resident_npc(character_id))
-	for character_id: StringName in ambience.due_calls(delta):
+	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.STEAL):
 		_steal_step(_map.npcs.find_resident_npc(character_id))
+	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.RECRUIT):
+		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
 	for beat: int in ambience.due_beats(delta):
 		if beat > 0:
 			# char.c heart_beat() falls before it chats, on each of several beats too.
@@ -100,6 +100,49 @@ func step_aside(body: WorldCharacterBody2D) -> bool:
 		if service is NpcService and (service as NpcService).npc == npc:
 			return false
 	return npc_walker().step_aside(npc.character_id, body, _map.physical_zone(npc.world_location().zone_id), _map.player_body.global_position)
+
+
+## The NPCs' chat, greetings and call_outs, made on first use (a request may come
+## before the first beat).
+func npc_ambience() -> NpcAmbience:
+	if ambience == null:
+		ambience = NpcAmbience.new(session.npc_ambience_random_source())
+	return ambience
+
+
+## The player went to another map (a completed handoff): its NPCs' call_outs (a theft, a
+## master's answer) would come due while they are away and find nobody (steal_it(),
+## recruit.c's present()), so they go now: the map's time stands still until the player is
+## back. A deactivation that is rolled back (a failed handoff or Continue) keeps them.
+func player_left() -> void:
+	if ambience != null:
+		ambience.clear_calls()
+	pending_steals.clear()
+
+
+## A master that answers 拜师 later (taolord.c): call_out("do_recruit", seconds).
+func start_apprentice_answer(npc: NpcRuntimeState, seconds: float) -> void:
+	npc_ambience().start_call(npc.character_id, seconds, NpcAmbience.RECRUIT)
+
+
+## Its answer is still to come (find_call_out("do_recruit") != -1).
+func apprentice_answer_due(npc: NpcRuntimeState) -> bool:
+	return ambience != null and ambience.has_call(npc.character_id, NpcAmbience.RECRUIT)
+
+
+## do_recruit() when its call_out is due: what the master says and its recruit reach the
+## player only before it (recruit.c's present(); nobody hears a say), so nothing changes
+## otherwise; one lying there unconscious reads nothing. An unconscious master's command()
+## does nothing; a dead one's call_out went with it.
+func _answer_apprentice(npc: NpcRuntimeState) -> void:
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_shares_zone(npc):
+		return
+	if _player.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return
+	for service: WorldService in _map.service_nodes:
+		if service is TeacherService and (service as TeacherService).npc == npc:
+			(service as TeacherService).answer_apprentice(_player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE)
+			return
 
 
 func npc_walker() -> WorldNpcWalker:
@@ -225,12 +268,12 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 func _consider_stealing(npc: NpcRuntimeState) -> void:
 	var steal: NpcSteal = npc.definition().dealings().steal
 	if (
-		steal == null or ambience == null or ambience.has_call(npc.character_id) or pending_steals.has(npc.character_id)
+		steal == null or ambience == null or ambience.has_call(npc.character_id, NpcAmbience.STEAL) or pending_steals.has(npc.character_id)
 		or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
 	):
 		return
 	if npc.relationship.is_fighting() or steal.starts(_player.state.attributes.karma, ambience.random()):
-		ambience.start_call(npc.character_id, NpcSteal.START_DELAY_SECONDS)
+		ambience.start_call(npc.character_id, NpcSteal.START_DELAY_SECONDS, NpcAmbience.STEAL)
 
 
 ## steal_it() and steal.c main() one second on; compelete_steal() three seconds after.
@@ -271,7 +314,7 @@ func _start_stealing(npc: NpcRuntimeState) -> void:
 		_player.state.equipment.has_weapon_instance(item_id) or _player.armor.is_worn(item_id),
 	)
 	pending_steals[npc.character_id] = {"item": item_id, "sp": sp, "dp": dp}
-	ambience.start_call(npc.character_id, NpcSteal.COMPLETE_DELAY_SECONDS)
+	ambience.start_call(npc.character_id, NpcSteal.COMPLETE_DELAY_SECONDS, NpcAmbience.STEAL)
 
 
 ## compelete_steal(): the player must still be there; caught, the two fight (fight_ob).

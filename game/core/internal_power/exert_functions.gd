@@ -3,12 +3,14 @@ extends RefCounted
 
 ## The exert function files the game has, by the name exert.c is given. A force
 ## skill's exert_function_file() reaches those skills.json lists under `exert`.
-## Labels follow doc/help/force (regenerate 恢复自己的精 …) and doc/skill/celestial.
+## Labels follow doc/help/force (regenerate 恢复自己的精 …), doc/skill/celestial and
+## doc/skill/gouyee (concentrate 灵神诀).
 
-const ORDER: Array[StringName] = [&"heal", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade", &"roar"]
-# TRANSLATORS: doc/help/force, doc/skill/celestial: what an exert function does, as a button (运功 X).
+const ORDER: Array[StringName] = [&"heal", &"concentrate", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade", &"roar"]
+# TRANSLATORS: doc/help/force, doc/skill/celestial, doc/skill/gouyee: what an exert function does, as a button (运功 X).
 const LABELS: Dictionary[StringName, String] = {
 	&"heal": "疗伤",
+	&"concentrate": "灵神诀",
 	&"recover": "恢复气",
 	&"refresh": "恢复神",
 	&"regenerate": "恢复精",
@@ -24,6 +26,7 @@ static func find(function_id: StringName) -> ExertFunction:
 	if _functions.is_empty():
 		var all: Array[ExertFunction] = [
 			HealExertFunction.new(),
+			ConcentrateExertFunction.new(),
 			RestoreExertFunction.new(&"recover", RestoreExertFunction.Track.KEE,
 				"你的气已经恢复到上限了。", "$N深深吸了几口气，脸色看起来好多了。"),
 			RestoreExertFunction.new(&"refresh", RestoreExertFunction.Track.SEN,

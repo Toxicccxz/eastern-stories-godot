@@ -4,14 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**茅山 A** (`phase/maoshan-plan`, region #6, plan approved 2026-10-08: A places the region, B
-茅山派, C the player's 茅山道术 in a fight and its practice, D zombies and 桃符纸): three maps up
-from Snow's mountain road, the fifteen kinds of people, road2's guards drawn at each reset, the
-moss, the 藏经楼's invisible wall, 召护法 and its 阴鬼卒. The map controller is split into seven
+**茅山 B** (`phase/maoshan-b`, region #6, plan approved 2026-10-08: A places the region (#81),
+B 茅山派, C the player's 茅山道术 in a fight and its practice, D zombies and 桃符纸): joining
+茅山派 (林忌 takes men only and answers two seconds after 拜师), 僵尸侍者 and 僵尸护法 teaching
+its members, 谷衣心法 with 运功灵神诀, 天师正道, 天师剑法. The map controller is split into seven
 components under `game/runtime/world/map/` (#78): new code for one of those areas goes into its
 component.
 
-Next: 茅山 B (茅山派); the equipment weight dodge (A1) is its own PR, independent of 茅山.
+Next: 茅山 C (the rest of the player's 茅山道术: 召护法 asked first in a spar, practice and the
+观想虫); the equipment weight dodge (A1) is its own PR, independent of 茅山.
 
 ## 待决定
 
@@ -100,7 +101,12 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   where two of 清灵/清平/清玄/清风/清音/清云 stand guard (drawn at each reset) by its slab, and only
   茅山派 passes the invisible wall; its upper floor. The taoists call themselves 贫道; 老道士
   never spars, 僵尸侍者 and 僵尸护法 only with 茅山派; in a fight they cast 紫光, 白光, 青光 and
-  召护法 (a 天将 or a 阴鬼卒 comes to their side). Joining 茅山派 comes with B.
+  召护法 (a 天将 or a 阴鬼卒 comes to their side). Joining 茅山派: 林忌 takes men only, answering
+  two seconds after 拜师 (不便收女徒 for a woman; 慢著，一个一个来 to one who withdrew and asked
+  again before it), as a 道士; he teaches his twelve skills, 僵尸侍者 and 僵尸护法 teach any
+  member; 谷衣心法 (max_mana five times its level; 运功灵神诀 turns force into mana, 疗伤),
+  天师正道 (杀气 100 at most), 天师剑法 (practised with a sword) and 茅山道术, whose 紫光, 白光,
+  青光 and 召护法 the player casts from the battle panel.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -116,7 +122,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 228/551 rooms, 107/286 NPC
-types, 4/10 joinable families, 17/36 special and 12/25 basic martial arts, 50/84 quest targets.
+types, 5/10 joinable families, 18/36 special and 13/25 basic martial arts, 50/84 quest targets.
 
 ## Known issues
 
@@ -128,7 +134,8 @@ Code:
 * 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The Inn's travellers stay in
   the Inn (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
   corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it needs the player's
-  spells. NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
+  spells. Practising 茅山道术 does nothing yet (练习 says practice.c's own line): its 观想虫
+  come with 茅山 C. NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30

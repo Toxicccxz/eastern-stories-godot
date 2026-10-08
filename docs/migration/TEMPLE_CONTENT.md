@@ -2,7 +2,7 @@
 
 How 茅山 comes from `reference/es2/mudlib/d/temple/` and `daemon/class/taoist/`, and what the
 LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS.md). Package A places
-the rooms and the people; B 茅山派 (林忌's apprentices, 谷衣心法, 天师剑法, 天师正道); C the
+the rooms and the people; B 茅山派 (林忌's apprentices, 谷衣心法, 天师剑法, 天师正道; done); C the
 player's 茅山道术 in a fight and its practice (观想虫); D the zombies and the sheets (驱尸,
 桃符纸, 僵尸追魂符).
 
@@ -35,6 +35,22 @@ player's 茅山道术 in a fight and its practice (观想虫); D the zombies and
 | necromancy/invocation.c | InvocationSpell (召护法): 100 mana, 60 sen, random(max_mana) < 200 nothing, then !random(3) a 天将, else a 阴鬼卒 |
 | obj/npc/hell_guard.c | common.npc.hell_guard: a summoned NPC (name_pick 子–亥阴鬼卒, its lines in HIB), 重钢战甲 and 五股钢叉 |
 | skills gouyee, taoism, scratching | skills.json (valid_learn lines of the policies already in code); 谷衣心法 hits with std/force.c |
+
+## LPC → native (B: 茅山派)
+
+| LPC | Native |
+|---|---|
+| taolord.c attempt_apprentice(): call_out("do_recruit", 2), 慢著，一个一个来 while find_call_out() finds it | apprentice rule `answer_after` 2 and `busy_say` (NpcApprenticeship ANSWER_DUE / MASTER_BUSY); the call_out is an NPC call on world time (NpcAmbience RECRUIT), not saved. 慢著 is heard only after 取消拜师请求 and a new 拜师 within the two seconds (a request still open hears 对方还没有答应) |
+| do_recruit(): query("gender") != "男性" says 不便收女徒; else 也好 and command("recruit") | `requires` [{gender, refuse_say}], `accept_say`; NpcApprenticeship.answer() runs recruit.c from his side (the request waiting on him is taken; one withdrawn meanwhile is offered). A woman is not asked first and her request stays after the refusal. Only a player before him reads the answer; one lying there is not taken (!living(ob)), but is offered if they had withdrawn; one who walked off finds the request still waiting. An unconscious 林忌 says nothing (unconcious() disables his commands) |
+| attempt_apprentice()'s apprentice_available (3) | not ported: the count never ran out (see the anomalies) |
+| recruit_apprentice(): ob->set("class", "taoist") | apprentice `class` taoist (道士; rankd.c) |
+| trainer.c, tfighter.c create_family("茅山派", 6, "弟子") | privs -1: learn.c lets every 茅山派 member learn from them, anyone else hears reject_msg |
+| gouyee.c valid_learn(), practice_skill(), exert_function_file() | max_mana ≥ query_skill("gouyee") × 5 (ScaledMaximumManaSkillLearnPolicy); practice refuses; exert concentrate and heal |
+| gouyee/concentrate.c | ConcentrateExertFunction: 运功灵神诀 on the 武学 page and the battle panel (busy 1 in a fight) |
+| gouyee/heal.c | fonxanforce/heal.c is the same file: the one HealExertFunction |
+| taoism.c | valid_learn 杀气 ≤ 100; practice refuses; a basic knowledge, never enabled |
+| scratching.c | valid_learn max_force 80; practice with a sword in hand, 30 kee and 5 force |
+| necromancy.c valid_learn() | learnt from 林忌 (or the two 弟子) with 天师正道 at least half of it; practice_skill() (观想虫) is C's |
 
 ## Source anomalies
 

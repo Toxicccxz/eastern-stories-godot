@@ -13,8 +13,11 @@ extends RefCounted
 ## the master gives none) replace the old ones. Requests, oaths and offers are
 ## transient, as query_temp() values. A master that takes only commoners
 ## (daemon/class/juechen/master.c) takes a family's member for a traitor: ATTACKED, its
-## chat line in `chat_line`, and the caller starts its kill_ob().
-enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE, ASKED, OFFERED, NOT_ASKED, ATTACKED }
+## chat line in `chat_line`, and the caller starts its kill_ob(). A master that answers
+## later (daemon/class/taoist/taolord.c) leaves the request ANSWER_DUE: the caller starts
+## its call_out and runs answer() when it is due; asked again meanwhile it says its
+## busy_say (MASTER_BUSY) and starts nothing.
+enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE, ASKED, OFFERED, NOT_ASKED, ATTACKED, ANSWER_DUE, MASTER_BUSY }
 
 ## logind.c's title for a new character, and killer_reward()'s for one who killed their master.
 const COMMONER_TITLE: String = "普通百姓"
@@ -100,6 +103,8 @@ static func qualifies(student: CharacterState, rule: NpcTeaching.ApprenticeRule)
 ## The first of the master's checks `student` falls short of, or null.
 static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> NpcTeaching.RequirementCheck:
 	for check: NpcTeaching.RequirementCheck in rule.checks:
+		if not check.gender.is_empty() and String(student.gender) != check.gender:
+			return check
 		for key: StringName in check.requires:
 			if _requirement_value(student, key) < check.requires[key]:
 				return check
@@ -135,7 +140,8 @@ func would_attack(student: CharacterState, master: NpcDefinition, student_title:
 
 ## 拜师 with `master` now takes `student` at once: the master has offered, or its
 ## requirements hold (and it does not take them for a traitor) and no request already
-## waits on it (that only hears 对方还没有答应).
+## waits on it (that only hears 对方还没有答应). A master that answers later takes them
+## with its answer, if they still stand before it then.
 func takes_at_once(student: CharacterState, master: NpcDefinition, student_title: String = COMMONER_TITLE) -> bool:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or is_master_of(student, master):
@@ -184,8 +190,9 @@ func cancel() -> Outcome:
 ## (rankd.c query_respect()); `family` the master's family as defined. The lines are
 ## in the shown language; the names kept on the student stay as authored. `student_title`
 ## is the title the student keeps (普通百姓 or a family's), `shown_title` and `student_name` as
-## they read in the master's chat line.
-func request(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, student_title: String = COMMONER_TITLE, shown_title: String = "", student_name: String = "") -> Outcome:
+## they read in the master's chat line. `answer_due`: the master's answer to an earlier
+## request is still to come (find_call_out("do_recruit") != -1).
+func request(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, student_title: String = COMMONER_TITLE, shown_title: String = "", student_name: String = "", answer_due: bool = false) -> Outcome:
 	lines = []
 	chat_line = ""
 	var teaching: NpcTeaching = null if master == null else master.teaching()
@@ -223,6 +230,12 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		_say(npc, rule.ask_say, respect)
 		lines.append(_t(rule.ask_tell))
 		return Outcome.ASKED
+	if rule.answer_after > 0.0:
+		# taolord.c attempt_apprentice(): 慢著 while an answer is due, else call_out("do_recruit", 2).
+		if answer_due:
+			_say(npc, rule.busy_say, respect)
+			return Outcome.MASTER_BUSY
+		return Outcome.ANSWER_DUE
 	if not rule.commoners_only.is_empty() and student_title != COMMONER_TITLE:
 		# command("chat " + title + nickname + name + "要叛师！！！"), grin, kill_ob(ob). The
 		# player has no nickname. Deviation (owner, modern fixes II): nobody else is on the
@@ -239,6 +252,33 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 	# recruit.c: the student's pending/apprentice is this master.
 	_recruit(student, master, family, entry_time_utc, false)
 	return Outcome.RECRUITED
+
+
+## taolord.c do_recruit(), the answer `answer_after` seconds after a request: one short of
+## its checks (a woman) hears its say; anyone else its accept_say, then its recruit
+## (recruit.c from its side: the request waiting on it is taken, one withdrawn meanwhile is
+## offered). The caller runs it only with the student before it: recruit.c's present()
+## finds no one else, and a say nobody hears changes nothing. A student lying there
+## (`awake` false) reads nothing; recruit.c's !living(ob) takes nobody (没有办法行拜师之礼),
+## but one who had withdrawn is offered all the same.
+func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, awake: bool = true) -> Outcome:
+	lines = []
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0 or family == null or entry_time_utc < 0:
+		return Outcome.AUTHORITY_FAILURE
+	var npc: String = _t(master.display_name)
+	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice)
+	if short != null:
+		if awake:
+			_say(npc, short.refuse_say, respect)
+		return Outcome.QUALIFICATION_REJECTED
+	if not awake:
+		if is_master_of(student, master) or is_pending_with(master.definition_id):
+			return Outcome.PENDING
+		_offers[master.definition_id] = true
+		return Outcome.OFFERED
+	_say(npc, teaching.apprentice.accept_say, respect)
+	return _npc_recruit(student, master, family, entry_time_utc)
 
 
 ## swear <oath> to a master that asked for one (master.c do_swear()): the oath ES2

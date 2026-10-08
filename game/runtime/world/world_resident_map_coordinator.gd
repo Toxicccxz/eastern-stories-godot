@@ -219,6 +219,7 @@ func _handoff_to_impl(
 		return result
 	result._relationship_reconciled = true
 	destination.resume_after_relationship_reconciliation()
+	source.player_departed()
 	result._outcome = OldPineMapHandoffResult.Outcome.COMPLETED
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.NONE
 	_transitioning = false
