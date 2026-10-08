@@ -91,7 +91,10 @@ func inspect_selected() -> bool:
 	if npc == null or not npc.exists_in_map:
 		return false
 	var gender: StringName = npc.character_state.gender
-	_map.hud().show_inspection(npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender)
+	_map.hud().show_inspection(
+		npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender,
+		RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience),
+	)
 	_map.hostilities.look_berserk(npc)
 	return true
 
@@ -208,7 +211,17 @@ func selected_spar_risk() -> WorldMapController.SparRisk:
 		return WorldMapController.SparRisk.NONE
 	if consent.kill:
 		return WorldMapController.SparRisk.DEADLY
-	return WorldMapController.SparRisk.ARMED if spar_is_armed(target) else WorldMapController.SparRisk.NONE
+	if spar_is_armed(target):
+		return WorldMapController.SparRisk.ARMED
+	return WorldMapController.SparRisk.STRONGER if selected_spar_stronger() else WorldMapController.SparRisk.NONE
+
+
+## The selected NPC is clearly stronger than the player (RelativeStrength).
+func selected_spar_stronger() -> bool:
+	var target: NpcRuntimeState = selected_npc()
+	return target != null and _player != null and RelativeStrength.clearly_stronger(
+		_player.state.progression.combat_experience, target.character_state.progression.combat_experience,
+	)
 
 
 ## attack_selected() would start a fight (none of kill.c's refusals).

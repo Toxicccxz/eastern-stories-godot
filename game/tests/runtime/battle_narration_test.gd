@@ -42,9 +42,9 @@ func _tables() -> void:
 	check(damage.call(9, "割伤") == "结果只是轻轻地划破$p的皮肉。" and damage.call(10, "割伤") == "结果在$p$l划出一道细长的血痕。", "割伤 10")
 	check(damage.call(159, "割伤") == "结果「嗤」地一声划出一道又长又深的伤口，溅得$N满脸鲜血！", "割伤 159")
 	check(damage.call(160, "割伤") == "结果只听见$n一声惨嚎，$w已在$p$l划出一道深及见骨的可怕伤口！！", "割伤 160")
-	check(damage.call(30, "□伤") == damage.call(30, "割伤"), "the source's □伤 case shares 割伤")
+	check(damage.call(30, "擦伤") == damage.call(30, "割伤"), "the source's □伤 case (擦伤, text_replacements.json) shares 割伤")
 	check(damage.call(79, "刺伤") == "结果「噗」地一声刺进$n的$l，使$p不由自主地退了几步！", "刺伤 79")
-	check(damage.call(80, "刺伤") == "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉□糊的血窟窿！", "刺伤 80 keeps the source's □")
+	check(damage.call(80, "刺伤") == "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉模糊的血窟窿！", "刺伤 80: the source's 血肉□糊 reads 血肉模糊")
 	check(damage.call(119, "瘀伤") == "结果「砰」地一声，$n退了两步！" and damage.call(120, "瘀伤") == "结果这一下「砰」地一声打得$n连退了好几步，差一点摔倒！", "瘀伤 120")
 	check(damage.call(239, "瘀伤") == "结果重重地击中，$n「哇」地一声吐出一口鲜血！" and damage.call(240, "瘀伤") == "结果只听见「砰」地一声巨响，$n像一捆稻草般飞了出去！！", "瘀伤 240")
 	# The other types: a degree line whose {type} the narrator fills (damage_type_word()).

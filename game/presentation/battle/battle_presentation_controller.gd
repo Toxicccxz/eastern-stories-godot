@@ -239,22 +239,24 @@ func _build() -> void:
 	_recent.custom_minimum_size.y = 60
 	_content.add_child(_recent)
 	for index: int in BattleFeedbackReader.RECENT_LINES:
-		# One row per line: the words, cut short with an ellipsis, and the damage
-		# small and grey at the end of the row.
+		# One row per line, written as the battle log writes it (BattleNarrationLine
+		# rich_text()): the damage small and grey right after the words (owner, modern
+		# fixes II), a long line cut at the row's edge.
 		var row := HBoxContainer.new()
 		_recent.add_child(row)
-		var line := Label.new()
+		var line := RichTextLabel.new()
 		line.name = "Text"
+		line.bbcode_enabled = true
+		# One line high, as wide as the row gives it (fit_content would make a long line
+		# as wide as its words); _fitted() cuts a long line before its damage.
+		line.fit_content = false
+		line.custom_minimum_size.y = 22
+		line.scroll_active = false
+		line.autowrap_mode = TextServer.AUTOWRAP_OFF
+		line.clip_contents = true
 		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		line.add_theme_font_size_override("font_size", 16)
-		line.clip_text = true
-		line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		line.add_theme_font_size_override("normal_font_size", 16)
 		row.add_child(line)
-		var damage := Label.new()
-		damage.name = "Damage"
-		damage.add_theme_font_size_override("font_size", 12)
-		damage.add_theme_color_override("font_color", Color("8b959e"))
-		row.add_child(damage)
 	log_panel = BattleLogPanel.new()
 	log_panel.name = "CombatLog"
 	log_panel.closed.connect(_focus_battle)
@@ -314,15 +316,27 @@ func _present_recent(lines: Array[BattleNarrationLine]) -> void:
 	for index: int in _recent.get_child_count():
 		var row: Node = _recent.get_child(index)
 		var line: BattleNarrationLine = lines[index] if index < lines.size() else null
-		var text: Label = row.get_node("Text")
-		text.text = "" if line == null else line.text
-		text.tooltip_text = text.text
-		if line != null and SharedGameplayUI.ES2_COLORS.has(line.color):
-			text.add_theme_color_override("font_color", SharedGameplayUI.ES2_COLORS[line.color])
-		else:
-			text.remove_theme_color_override("font_color")
-		var damage: Label = row.get_node("Damage")
-		damage.text = tr("（-%d）") % line.damage if line != null and line.has_damage else ""
+		var text: RichTextLabel = row.get_node("Text")
+		text.text = "" if line == null else _fitted(line, text, text.size.x).rich_text()
+		text.tooltip_text = "" if line == null else line.text
+
+
+## The line cut short with an ellipsis so that it and its damage fit `width` (the row's
+## label; 0 before the first layout: the line as it is).
+func _fitted(line: BattleNarrationLine, label: RichTextLabel, width: float) -> BattleNarrationLine:
+	var font: Font = label.get_theme_font("normal_font")
+	if font == null or width <= 0.0:
+		return line
+	var size: int = label.get_theme_font_size("normal_font_size")
+	# TRANSLATORS: the damage behind a battle line, as BattleNarrationLine.rich_text() shows it.
+	var damage: String = (" " + tr("（-%d）") % line.damage) if line.has_damage else ""
+	var budget: float = width - font.get_string_size(damage, HORIZONTAL_ALIGNMENT_LEFT, -1, maxi(size - 4, 1)).x - 4.0
+	if font.get_string_size(line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x <= budget:
+		return line
+	var words: String = line.text
+	while words.length() > 1 and font.get_string_size(words + "…", HORIZONTAL_ALIGNMENT_LEFT, -1, size).x > budget:
+		words = words.left(words.length() - 1)
+	return BattleNarrationLine.new(words + "…", line.damage, line.color)
 
 
 func _mode_name(mode: int) -> String:

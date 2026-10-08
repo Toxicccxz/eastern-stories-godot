@@ -64,7 +64,8 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 	for line: String in request.lines:
 		lines.append(ColoredLine.new(line))
 	if outcome == NpcApprenticeship.Outcome.ATTACKED:
-		# juechen/master.c: the chat channel's line (HIC), grin (prints nothing), kill_ob(ob).
+		# juechen/master.c: its chat line, shouted in the room (HIC, modern fixes II), grin
+		# (prints nothing), kill_ob(ob).
 		lines.append(ColoredLine.new(request.chat_line, ColoredLine.HIC))
 		_say_colored(lines)
 		map.npc_kills_player(npc)

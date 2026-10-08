@@ -53,6 +53,12 @@ func offered_to(_state: CharacterState) -> bool:
 	return true
 
 
+## Why an offered action cannot run now, for the panel to grey it with (owner, modern
+## fixes II); "" when it can. Advisory: request and execution still validate.
+func unavailable_reason(_state: CharacterState) -> String:
+	return ""
+
+
 ## A CURRENT_HOSTILE action that may run with no current target (the player picked
 ## none yet): it then goes without one and chooses for itself.
 func accepts_no_target() -> bool:

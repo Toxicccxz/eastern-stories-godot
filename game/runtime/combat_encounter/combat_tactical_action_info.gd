@@ -14,6 +14,10 @@ var target_rule: int:
 var _blocks_when_busy: bool
 var blocks_when_busy: bool:
 	get: return _blocks_when_busy
+## Why the offered action cannot run now (the panel greys it with this), or "".
+var _unavailable_reason: String
+var unavailable_reason: String:
+	get: return _unavailable_reason
 
 
 func _init(
@@ -21,8 +25,10 @@ func _init(
 	p_category: int = -1,
 	p_target_rule: int = -1,
 	p_blocks_when_busy: bool = true,
+	p_unavailable_reason: String = "",
 ) -> void:
 	_action_id = p_action_id
 	_category = p_category
 	_target_rule = p_target_rule
 	_blocks_when_busy = p_blocks_when_busy
+	_unavailable_reason = p_unavailable_reason

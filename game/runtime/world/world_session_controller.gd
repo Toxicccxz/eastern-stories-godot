@@ -97,16 +97,30 @@ func liquid_collection() -> LiquidCollection:
 
 func _process(delta: float) -> void:
 	# Inspect before combat advances: a combat-ending frame is not world time.
+	var world_delta: float = _world_delta(delta)
 	advance_player_recovery(delta)
-	advance_player_timed_applies(delta)
-	advance_quest_time(delta)
-	advance_npc_heartbeat(delta)
-	advance_hidden_passages(delta)
-	advance_room_resets(delta)
+	advance_player_timed_applies(world_delta)
+	advance_quest_time(world_delta)
+	advance_npc_heartbeat(world_delta)
+	advance_hidden_passages(world_delta)
+	advance_room_resets(world_delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
 		advance_departure()
-	_advance_life_flow(delta)
+	_advance_life_flow(world_delta)
+
+
+## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies
+## unconscious with a quick wake and no fight runs, the world (NPC heart beats and their
+## waking, room resets, call_outs, 朱鸿雪's task time) lives damage.c's whole revive delay
+## in pacing.json's player_wake_seconds; never past the moment the player comes to.
+func _world_delta(delta: float) -> float:
+	var scale: float = _life_flow.world_time_scale()
+	if scale <= 1.0 or not is_finite(delta) or delta <= 0.0:
+		return delta
+	if _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter():
+		return delta
+	return minf(delta * scale, maxf(_life_flow.revive_remaining_seconds, delta))
 
 
 ## One transient authority across every resident. Injection is pre-initialization only.
@@ -1155,7 +1169,10 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 		return
 	match lifecycle.outcome:
 		CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE:
-			_life_flow.begin_unconscious(UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random))
+			_life_flow.begin_unconscious(
+				UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random),
+				GameContent.catalog().pacing().player_wake_seconds,
+			)
 		CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
 			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place_name(location), lifecycle.corpse_item_instance_id)
 
@@ -1187,7 +1204,10 @@ func _resume_restored_life_flow() -> void:
 		return
 	match _player.life_status:
 		CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
-			_life_flow.begin_unconscious(UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random))
+			_life_flow.begin_unconscious(
+				UnconsciousReviveDelay.seconds(_player.state.attributes.constitution, _combat_random),
+				GameContent.catalog().pacing().player_wake_seconds,
+			)
 		CharacterRuntimeLifeStatus.Value.DEAD:
 			_life_flow.begin_death(PlayerDeathResult.new(), "")
 

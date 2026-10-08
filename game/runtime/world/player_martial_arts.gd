@@ -138,6 +138,7 @@ func exercise(kee: int) -> CultivationResult:
 	if not available():
 		return null
 	var result: CultivationResult = CultivationService.exercise(_state(), kee, _fighting(), apply_modifier(&"force"))
+	_refresh_maxima(result)
 	_say(TrainingLines.exercise(result))
 	return result
 
@@ -147,7 +148,11 @@ func meditate(sen: int) -> CultivationResult:
 	if not available():
 		return null
 	var result: CultivationResult = CultivationService.meditate(_state(), sen, _fighting(), apply_modifier(&"spells"))
-	_say(TrainingLines.meditate(result))
+	_refresh_maxima(result)
+	var lines: Array[ColoredLine] = TrainingLines.meditate(result)
+	if result.success and _state().skills.raw_level(SkillIds.SPELLS) <= 0:
+		lines.append(ColoredLine.new(tr(MEDITATE_NEEDS_SPELLS)))
+	_say(lines)
 	return result
 
 
@@ -156,8 +161,27 @@ func respirate(gin: int) -> CultivationResult:
 	if not available():
 		return null
 	var result: CultivationResult = CultivationService.respirate(_state(), gin, _fighting(), apply_modifier(&"magic"))
-	_say(TrainingLines.respirate(result))
+	_refresh_maxima(result)
+	var lines: Array[ColoredLine] = TrainingLines.respirate(result)
+	if result.success and _state().skills.raw_level(SkillIds.MAGIC) <= 0:
+		lines.append(ColoredLine.new(tr(RESPIRATE_NEEDS_MAGIC)))
+	_say(lines)
 	return result
+
+
+## Native hints (owner, modern fixes II): with no 基本咒文 (基本法术) meditate.c
+## (respirate.c) hits its bottleneck at once and says nothing of why.
+## TRANSLATORS: after 冥思 (meditate) with no 基本咒文 (spells): mana cannot grow without it.
+const MEDITATE_NEEDS_SPELLS: String = "需要先学会基本咒文，法力才能增长。"
+## TRANSLATORS: after 修行 (respirate) with no 基本法术 (magic): atman cannot grow without it.
+const RESPIRATE_NEEDS_MAGIC: String = "需要先学会基本法术，灵力才能增长。"
+
+
+## Whether 冥思 / 修行 can grow anything: the hint the 武学 page shows on their buttons.
+func cultivation_hint(skill_id: StringName) -> String:
+	if _session == null or _session.player_runtime() == null or _state().skills.raw_level(skill_id) > 0:
+		return ""
+	return tr(MEDITATE_NEEDS_SPELLS if skill_id == SkillIds.SPELLS else RESPIRATE_NEEDS_MAGIC)
 
 
 ## selflearn <skill>.
@@ -198,6 +222,14 @@ func study_items() -> Array[PlayerInventoryRowProjection]:
 
 func _state() -> CharacterState:
 	return _session.player_runtime().state
+
+
+## Deviation (owner, modern fixes II, A7): ES2 recomputes max gin, kee and sen
+## (race/human.c, a quarter of max atman, force and mana) only at login; here they
+## follow at once when exercise, meditate or respirate raised a maximum.
+func _refresh_maxima(result: CultivationResult) -> void:
+	if result != null and result.completion == CultivationResult.Completion.MAXIMUM_INCREASED:
+		CharacterDerivedValues.refresh_human_player_maxima(_state(), _session.player_runtime().facts.age)
 
 
 func _fighting() -> bool:

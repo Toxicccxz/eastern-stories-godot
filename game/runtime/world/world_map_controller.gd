@@ -45,9 +45,10 @@ var _last_passage_traversal: RefCounted
 
 
 ## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
-## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, NONE when
-## it is unarmed or will not take place (spar_selected()'s refusals, or the NPC's).
-enum SparRisk { NONE, ARMED, DEADLY }
+## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, STRONGER
+## when it is clearly stronger than the player (RelativeStrength, owner A10), NONE when
+## none of these or it will not take place (spar_selected()'s refusals, or the NPC's).
+enum SparRisk { NONE, ARMED, DEADLY, STRONGER }
 
 
 func _ready() -> void:
@@ -953,6 +954,10 @@ func selected_attack_starts() -> bool:
 
 func spar_is_armed(target: NpcRuntimeState) -> bool:
 	return selection.spar_is_armed(target)
+
+
+func selected_spar_stronger() -> bool:
+	return selection.selected_spar_stronger()
 
 
 func can_ask_selected() -> bool:

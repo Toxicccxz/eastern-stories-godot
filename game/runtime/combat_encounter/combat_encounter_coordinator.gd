@@ -243,7 +243,9 @@ func action_infos() -> Array[CombatTacticalActionInfo]:
 			continue
 		if not policy.offered_to(player):
 			continue
-		infos.append(info)
+		infos.append(CombatTacticalActionInfo.new(
+			info.action_id, info.category, info.target_rule, info.blocks_when_busy, policy.unavailable_reason(player),
+		))
 	return infos
 
 

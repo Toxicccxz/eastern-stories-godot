@@ -78,10 +78,10 @@
 				{ "id": "chun-feng-fu-ren-zui", "action": "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！", "damage": 200, "damage_type": "割伤" },
 				{ "id": "yuan-shan-ban-ren-chi", "action": "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l", "damage": 40, "damage_type": "割伤" },
 				{ "id": "fei-hua-zhu-ren-xiang", "action": "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l", "damage": 20, "damage_type": "割伤" },
-				{ "id": "liu-ye-sui-ren-xiao", "action": "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l", "damage_type": "□伤" },
-				{ "id": "qian-ying-re-ren-lian", "action": "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀", "damage": 40, "damage_type": "□伤" },
-				{ "id": "lu-xue-sui-ren-ying", "action": "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l", "damage": 40, "damage_type": "□伤" },
-				{ "id": "cai-die-zhuo-ren-yi", "action": "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l", "damage": 40, "damage_type": "□伤" }
+				{ "id": "liu-ye-sui-ren-xiao", "action": "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l", "damage_type": "擦伤" },
+				{ "id": "qian-ying-re-ren-lian", "action": "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀", "damage": 40, "damage_type": "擦伤" },
+				{ "id": "lu-xue-sui-ren-ying", "action": "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l", "damage": 40, "damage_type": "擦伤" },
+				{ "id": "cai-die-zhuo-ren-yi", "action": "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l", "damage": 40, "damage_type": "擦伤" }
 			]
 		},
 		{

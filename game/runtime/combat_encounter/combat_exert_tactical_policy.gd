@@ -55,6 +55,12 @@ func offered_to(state: CharacterState) -> bool:
 	return state != null and ExertService.offered(state, GameContent.catalog(), true).has(_function_id)
 
 
+## heal.c refuses in every fight: shown greyed with its line, not hidden, never failing.
+func unavailable_reason(_state: CharacterState) -> String:
+	var function: ExertFunction = ExertFunctions.find(_function_id)
+	return "" if function == null or function.fight_refusal.is_empty() else TranslationServer.translate(function.fight_refusal)
+
+
 func execute(context: CombatTacticalContext, random_source: CombatRandomSource) -> CombatTacticalExecutionResult:
 	var actor: CombatEncounterAuthorityBinding = context.actor
 	var force_level: int = actor.state.skills.effective_level(

@@ -74,7 +74,7 @@ func _test_data() -> void:
 	var types: Array[String] = []
 	for action: CombatActionDefinition in spring.action_set().actions():
 		types.append(String(action.damage_type))
-	_check(spring.display_name == "春风快意刀" and types == ["割伤", "割伤", "割伤", "□伤", "□伤", "□伤", "□伤"], "春风快意刀's seven moves, the source's □伤 as written: " + str(types))
+	_check(spring.display_name == "春风快意刀" and types == ["割伤", "割伤", "割伤", "擦伤", "擦伤", "擦伤", "擦伤"], "春风快意刀's seven moves, the source's □伤 as 擦伤: " + str(types))
 	var goods: Dictionary[String, Array] = {}
 	for vendor_id: String in ["book_seller", "butcher", "doctor", "seller", "tailor", "weaponor"]:
 		var vendor: VendorDefinition = catalog.vendor(StringName("cloud.vendor." + vendor_id))

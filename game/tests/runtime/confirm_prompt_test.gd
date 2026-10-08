@@ -90,7 +90,7 @@ func _test_spar(session: WorldSessionController, map: WorldMapController) -> voi
 	_check(map.spar_is_armed(guard), "刘安禄's blade arms the spar")
 	hud.spar_button.pressed.emit()
 	var text: String = hud.confirm_prompt.message.text
-	_check(hud.is_asking() and not coordinator.has_active_encounter() and text.begins_with("刀剑无眼：") and text.ends_with("确定要和刘安禄切磋吗？"), "asked first: " + text)
+	_check(hud.is_asking() and not coordinator.has_active_encounter() and text.begins_with("刘安禄看起来比你强得多，而且有人手持兵刃：") and text.ends_with("确定要和刘安禄切磋吗？"), "asked first (his blade, and much stronger): " + text)
 	_check(hud.confirm_prompt.confirm_button.text == "确定切磋" and hud.confirm_prompt.cancel_button.has_focus(), "确定切磋 / 取消, 取消 focused")
 	hud.confirm_prompt.cancel_button.pressed.emit()
 	_check(not hud.is_asking() and not hud._presentation_layout.frame.visible and not coordinator.has_active_encounter(), "取消: no spar, the frame closed")

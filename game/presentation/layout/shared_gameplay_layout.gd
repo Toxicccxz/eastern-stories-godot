@@ -214,6 +214,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.combat_log.scroll_following = true
 	# Alert lines are coloured (SharedGameplayUI escapes the rest).
 	ui.combat_log.bbcode_enabled = true
+	ui.combat_log.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
 	messages.add_child(ui.combat_log)
 	ui.inventory_panel = load("res://scenes/ui/player_inventory_panel.tscn").instantiate() as PlayerInventoryPanel
 	holding.add_child(ui.inventory_panel)
