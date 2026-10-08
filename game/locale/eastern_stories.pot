@@ -3088,11 +3088,6 @@ msgstr ""
 msgid "施法「{spell}」"
 msgstr ""
 
-#. hover of 运功疗伤 (heal.c): {force} internal power cures wounds; never in a fight.
-#: presentation/battle/battle_action_presentation_catalog.gd
-msgid "用 {force} 点内力治疗伤势，战斗中不能用"
-msgstr ""
-
 #. hover of 运功恢复气/神/精 (recover.c …): {force} internal power brings {track} back.
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "用 {force} 点内力恢复{track}"
@@ -3425,6 +3420,11 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "战斗描写会显示在这里。"
+msgstr ""
+
+#. the damage behind a battle line, as BattleNarrationLine.rich_text() shows it.
+#: presentation/battle/battle_presentation_controller.gd
+msgid "（-%d）"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd presentation/layout/shared_gameplay_layout.gd
@@ -4650,7 +4650,7 @@ msgstr ""
 #: ui/teacher/teacher_panel.gd
 msgid ""
 "{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n"
-"· 他会当你要背叛师门，在闲聊频道上喊出来。\n"
+"· 他会当你要背叛师门，当众大声喝破。\n"
 "· 然后当场出手要杀你，这是一场生死之战。\n"
 "确定要向他拜师吗？"
 msgstr ""

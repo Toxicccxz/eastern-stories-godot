@@ -27,14 +27,12 @@ func label_for(action_id: StringName) -> String:
 
 
 ## What an exert or a spell does and costs, for its button's hover (owner, modern fixes
-## II); "" for the others. The numbers are the files' own.
+## II); "" for the others. The numbers are the files' own. 运功疗伤 has none: it is greyed
+## in every fight with heal.c's own line.
 func tooltip_for(action_id: StringName) -> String:
 	var label: String = label_for(action_id)
 	var what: String = ""
 	match CombatExertTacticalPolicy.function_for(action_id):
-		&"heal":
-			# TRANSLATORS: hover of 运功疗伤 (heal.c): {force} internal power cures wounds; never in a fight.
-			what = tr("用 {force} 点内力治疗伤势，战斗中不能用").format({"force": HealExertFunction.COST})
 		&"recover", &"refresh", &"regenerate":
 			# TRANSLATORS: hover of 运功恢复气/神/精 (recover.c …): {force} internal power brings {track} back.
 			what = tr("用 {force} 点内力恢复{track}").format({

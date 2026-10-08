@@ -561,8 +561,8 @@ class Importer:
                     value = value.replace(rule['find'], rule['replace'])
                 if LOST in value:
                     at = value.index(LOST)
-                    self.note(record.get('legacy_source', record['id']), 'lost character',
-                              value[max(0, at - 8):at + 9])
+                    snippet = value[max(0, at - 8):at + 9]
+                    self.note(record.get('legacy_source', record['id']), f'lost character {snippet}')
                 return value
             if isinstance(value, list):
                 return [fix(item, record) for item in value]

@@ -72,7 +72,8 @@ func _process(delta: float) -> void:
 	_last_phase = flow.phase
 	match flow.phase:
 		PlayerLifeFlow.Phase.UNCONSCIOUS:
-			if flow.wakes_quickly() and flow.revive_remaining_seconds > 0.0:
+			var fighting: bool = _session.combat_encounter_coordinator() != null and _session.combat_encounter_coordinator().has_active_encounter()
+			if flow.wakes_quickly() and not fighting and flow.revive_remaining_seconds > 0.0:
 				# A quick wake (A9): the screen fades to black while the world lives the delay.
 				_show(tr("你的眼前一黑，接著什麽也不知道了...."), false, true)
 				_dim.color.a = lerpf(0.72, 1.0, flow.revive_progress())

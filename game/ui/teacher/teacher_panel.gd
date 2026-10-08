@@ -53,7 +53,7 @@ const TRIAL_BETRAYS: String = "· 你现在是{title}；三招都接住，就改
 # TRANSLATORS: the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}.
 const TRIAL_OFFERS: String = "· 三招都接住，{master}便愿意收你为徒，再向他拜师即可。"
 # TRANSLATORS: asked before 拜师 with 绝尘子, who takes only commoners (juechen/master.c): one with a family's title is taken for a traitor and killed. {master} the master, {title} the player's title now.
-const TRAITOR_WARNING: String = "{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n· 他会当你要背叛师门，在闲聊频道上喊出来。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向他拜师吗？"
+const TRAITOR_WARNING: String = "{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n· 他会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向他拜师吗？"
 
 
 func configure(contact: TeacherService) -> void:

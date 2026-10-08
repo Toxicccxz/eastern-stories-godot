@@ -173,6 +173,12 @@ func _test_battle_actions(session: WorldSessionController, map: WorldMapControll
 	_check(catalog.tooltip_for(&"flee").is_empty(), "逃跑 has none")
 	var log: String = ui.log_panel._text.get_parsed_text()
 	_check(not log.contains("你的目标是"), "no first-target line in the battle log")
+	# The recent strip: a line too long for its row is cut before its damage.
+	var label: RichTextLabel = ui._recent.get_child(0).get_node("Text")
+	var long := BattleNarrationLine.new("结果「嗤」地一声划出一道又长又深的伤口，溅得武馆弟子满脸鲜血！结果只听见武馆弟子一声惨嚎，已在他的右腿划出一道深及见骨的可怕伤口！！", 123)
+	var fitted: BattleNarrationLine = ui._fitted(long, label, 300.0)
+	_check(fitted.text.ends_with("…") and fitted.text.length() < long.text.length() and fitted.rich_text().contains("（-123）"), "a long line is cut before its damage: " + fitted.text)
+	_check(ui._fitted(BattleNarrationLine.new("结果没有造成任何伤害。", 5), label, 300.0).text == "结果没有造成任何伤害。", "a short line stays whole")
 	_run(session)
 	ui.refresh_projection()
 
