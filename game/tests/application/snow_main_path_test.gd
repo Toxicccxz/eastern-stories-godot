@@ -20,7 +20,7 @@ const COMBAT_SEED: int = 4242
 var assertions: int = 0
 var failures: Array[String] = []
 var _shell: ApplicationShellController
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _walker: RefCounted
 var _finished: bool = false
 var pseudo: bool = false

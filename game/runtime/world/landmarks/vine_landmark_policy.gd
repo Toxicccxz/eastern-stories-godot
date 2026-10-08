@@ -15,7 +15,7 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	var result: VineTraversalResult = VineTraversalResult.new()
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var body: WorldCharacterBody2D = map.player_body
-	var session: OldPineWorldSessionController = map.session
+	var session: WorldSessionController = map.session
 	var random_source: WorldInteractionRandomSource = map.world_interaction_random_source()
 	if player != null:
 		result._player_id = player.character_id

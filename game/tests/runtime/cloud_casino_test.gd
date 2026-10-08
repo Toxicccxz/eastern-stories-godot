@@ -22,7 +22,7 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_wager_rules()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_bets(tree, session)
@@ -85,7 +85,7 @@ func _test_wager_rules() -> void:
 
 ## give <money> to judge in the 赌场: lost, won in silver, won in coins, won on gold
 ## (paid in silver), and something worth nothing (no roll).
-func _test_bets(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_bets(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var judge: NpcRuntimeState = _npc(map, &"cloud.npc.judge")
@@ -156,7 +156,7 @@ func _test_bets(tree: SceneTree, session: OldPineWorldSessionController) -> void
 ## Winnings too heavy to carry: the player takes what fits, the rest of each kind lies at
 ## their feet (a gold tael's 200 taels with room for 10; 99 coins' 1 tael and 98 coins with
 ## room for the tael and 67 coins), the two piles apart. They stay through Save/Continue.
-func _test_winnings_at_feet(tree: SceneTree, session: OldPineWorldSessionController) -> Array[StringName]:
+func _test_winnings_at_feet(tree: SceneTree, session: WorldSessionController) -> Array[StringName]:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
@@ -198,7 +198,7 @@ func _test_winnings_at_feet(tree: SceneTree, session: OldPineWorldSessionControl
 
 
 ## get.c on the piles: with room for 50 taels the 190 give 50 and 140 stay; then the rest.
-func _test_pick_up(tree: SceneTree, session: OldPineWorldSessionController, piles: Array[StringName]) -> void:
+func _test_pick_up(tree: SceneTree, session: WorldSessionController, piles: Array[StringName]) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
@@ -235,21 +235,21 @@ func _npc(map: WorldMapController, definition_id: StringName) -> NpcRuntimeState
 	return null
 
 
-func _add_item(session: OldPineWorldSessionController, id: StringName, definition_id: StringName) -> void:
+func _add_item(session: WorldSessionController, id: StringName, definition_id: StringName) -> void:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var item: ItemInstance = ItemInstance.new(id, definition_id)
 	_check(context.inventory.register_item(item, content.own_weight) and context.index.register_snapshot(item) and context.inventory._apply_reparent(id, context.endpoint()), "test item %s" % id)
 
 
-func _carried(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _carried(session: WorldSessionController, definition_id: StringName) -> StringName:
 	for id: StringName in _carried_ids(session):
 		if session.item_instance_index().resolve(id).item_definition_id == definition_id:
 			return id
 	return &""
 
 
-func _carried_ids(session: OldPineWorldSessionController) -> Array[StringName]:
+func _carried_ids(session: WorldSessionController) -> Array[StringName]:
 	return session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))
 
 

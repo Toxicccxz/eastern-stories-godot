@@ -12,7 +12,7 @@ class CountingRandom extends CombatRandomSource:
 		return 0 if bound > 0 else -1
 
 
-static func register_probes(session: OldPineWorldSessionController) -> void:
+static func register_probes(session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	coordinator.register_tactical_policy(Probe.new())
 	coordinator.register_tactical_policy(Probe.new(&"qa.second"))
@@ -22,7 +22,7 @@ static func register_probes(session: OldPineWorldSessionController) -> void:
 	ui.action_catalog.labels = ["QA Probe", "QA Alternate"]
 
 
-static func start(session: OldPineWorldSessionController, id: StringName, third: bool = false) -> CombatEncounterStartResult:
+static func start(session: WorldSessionController, id: StringName, third: bool = false) -> CombatEncounterStartResult:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var candidates: Array[CombatTriggerCandidate] = [CombatTriggerCandidate.new(player.character_id, &"player")]
 	for index: int in (2 if third else 1):
@@ -38,7 +38,7 @@ static func start(session: OldPineWorldSessionController, id: StringName, third:
 	))
 
 
-static func complete(session: OldPineWorldSessionController) -> bool:
+static func complete(session: WorldSessionController) -> bool:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	if not coordinator.has_active_encounter():
 		return false

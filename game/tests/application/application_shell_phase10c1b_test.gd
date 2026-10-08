@@ -269,7 +269,7 @@ func _test_pause_freeze_and_stable_save(tree: SceneTree) -> void:
 	var profile := GameSaveStorageProfile.isolated_test("phase10c1b-pause-save")
 	var files := MemoryFiles.new()
 	var shell: ApplicationShellController = await _playing_shell(tree, profile, files)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var player_body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var timer := Timer.new()
 	timer.wait_time = 1.0
@@ -375,7 +375,7 @@ func _test_paused_blocked_save_preserves_blocker(tree: SceneTree) -> void:
 	var profile := GameSaveStorageProfile.isolated_test("phase10c1b-blocked-save")
 	var files := MemoryFiles.new()
 	var shell: ApplicationShellController = await _playing_shell(tree, profile, files)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var relationship: CombatRelationshipState = session.player_runtime().relationship
 	_assert_true(relationship.add_opponent(&"phase10c1b.real-opponent"), "real relationship fixture enters unstable gameplay")
 	var combat_rng: int = session.combat_random_source().capture_random_state().state
@@ -435,7 +435,7 @@ func _test_failed_end_request_preserves_paused_session(tree: SceneTree) -> void:
 	var profile := GameSaveStorageProfile.isolated_test("phase10c1b-end-failure")
 	var shell: ApplicationShellController = await _playing_shell(tree, profile, MemoryFiles.new())
 	var host: OldPineGameRuntimeHost = shell.runtime_host()
-	var session: OldPineWorldSessionController = host.current_session()
+	var session: WorldSessionController = host.current_session()
 	_assert_true(shell.request_pause(), "end-failure fixture pauses coherently")
 	var orphan := Node.new()
 	host.staging_slot.add_child(orphan)
@@ -539,7 +539,7 @@ func _valid_save_bytes(tree: SceneTree) -> PackedByteArray:
 
 
 func _valid_save_bytes_at(tree: SceneTree, position: Vector2) -> PackedByteArray:
-	var source: OldPineWorldSessionController = SESSION_SCENE.instantiate()
+	var source: WorldSessionController = SESSION_SCENE.instantiate()
 	source.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE)
 	tree.root.add_child(source)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(source, &"test", "2026-09-11T00:00:00Z").snapshot

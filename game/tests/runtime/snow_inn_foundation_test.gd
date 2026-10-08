@@ -103,7 +103,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	player.state.recovery.food = 13
 	_check(map.prepare_for_activation(marker.spawn_point_id) and map.complete_activation(), "valid reactivation")
 	_check(player.state.recovery.food == 13 and entry.allocator.next_dynamic_sequence == 1, "activation never rebirth/refill/allocate")
-	var old: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	var old: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	old.deterministic_npc_seed = true
 	old.deterministic_combat_seed = true
 	old.deterministic_world_interaction_seed = true

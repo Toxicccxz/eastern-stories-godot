@@ -106,7 +106,7 @@ func _test_character_reconstruction_exact() -> void:
 
 
 func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1001, 1002, 1003)
+	var source: WorldSessionController = _new_game(tree, 1001, 1002, 1003)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
 	_assert_true(snapshot != null, "fixture captures a complete New Game graph")
 	var source_scope: StringName = snapshot.item_id_allocator.scope
@@ -124,12 +124,12 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 		OldPineWorldRestoreResult.Outcome.SUCCESS,
 		"Outdoor snapshot constructs a staged candidate (%s: %s)" % [result.path, result.detail],
 	)
-	var candidate: OldPineWorldSessionController = result.candidate
+	var candidate: WorldSessionController = result.candidate
 	_assert_true(candidate != null and candidate.is_restore_candidate_staged(), "RESTORE candidate remains staged")
 	_assert_false(candidate.shared_ui().visible, "staged candidate UI stays invisible")
 	_assert_false(candidate.shared_ui()._presentation_layout.frame.visible, "staged candidate has no interactive panel")
 	_assert_eq(candidate.process_mode, Node.PROCESS_MODE_DISABLED, "staged Session processing is disabled")
-	_assert_eq(candidate.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.RESTORE, "bootstrap mode was chosen before ready")
+	_assert_eq(candidate.bootstrap_mode(), WorldSessionController.BootstrapMode.RESTORE, "bootstrap mode was chosen before ready")
 	_assert_eq(candidate.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "active map derives from Player location")
 	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_parent() == candidate.active_map_slot, "Outdoor alone is attached")
 	for map_id: StringName in INACTIVE_FROM_OUTDOOR:
@@ -179,7 +179,7 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 
 
 func _test_unconscious_lifecycle_restores_independently(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1051, 1052, 1053)
+	var source: WorldSessionController = _new_game(tree, 1051, 1052, 1053)
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
 	var npc_states: Array[Values.NpcSpawnStateSnapshot] = base.npc_spawn_states
 	var saved: Values.NpcSpawnStateSnapshot = npc_states[0]
@@ -198,7 +198,7 @@ func _test_unconscious_lifecycle_restores_independently(tree: SceneTree) -> void
 	await tree.process_frame
 	var result := OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "committed unconscious NPC restores")
-	var candidate: OldPineWorldSessionController = result.candidate
+	var candidate: WorldSessionController = result.candidate
 	var runtime: NpcRuntimeState = candidate.world_map_of(saved.world_location.map_id).find_resident_npc(saved.character_id)
 	_assert_eq(runtime.life_status, CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "committed lifecycle is not re-derived")
 	_assert_false(runtime.character_state.is_unconscious_threshold_reached(), "resource thresholds remain an independent fact")
@@ -209,14 +209,14 @@ func _test_unconscious_lifecycle_restores_independently(tree: SceneTree) -> void
 
 
 func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1101, 1102, 1103)
+	var source: WorldSessionController = _new_game(tree, 1101, 1102, 1103)
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveFixture.with_fat_bandit_corpse(base)
 	_free_node(source)
 	await tree.process_frame
 	var result: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead NPC/corpse snapshot restores")
-	var candidate: OldPineWorldSessionController = result.candidate
+	var candidate: WorldSessionController = result.candidate
 	var fat_snapshot: Values.NpcSpawnStateSnapshot = _npc_by_definition(snapshot, TestContent.FAT_BANDIT_NPC_ID)
 	var fat: NpcRuntimeState = candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).find_resident_npc(fat_snapshot.character_id)
 	_assert_true(fat != null, "dead authored slot remains a ledger tombstone")
@@ -248,7 +248,7 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 		tree.root,
 	)
 	_assert_eq(second_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "same semantic save reconstructs an independent second graph")
-	var second_candidate: OldPineWorldSessionController = second_result.candidate
+	var second_candidate: WorldSessionController = second_result.candidate
 	_assert_true(second_candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_instance_id() != candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.get_instance_id(), "independent restores do not share Player body objects")
 	_assert_true(second_candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id).get_instance_id() != candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_view_for(corpse.corpse_item_instance_id).get_instance_id(), "independent restores do not share CorpseView objects")
 	_assert_eq(second_candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states()[0].corpse_item_instance_id, corpse.corpse_item_instance_id, "fresh corpse objects retain the same semantic ItemInstanceId")
@@ -258,7 +258,7 @@ func _test_dead_tombstone_and_corpse_graph(tree: SceneTree) -> void:
 
 
 func _test_player_death_corpse_graph(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1151, 1152, 1153)
+	var source: WorldSessionController = _new_game(tree, 1151, 1152, 1153)
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveFixture.with_player_corpse(base)
 	_assert_true(snapshot != null, "Player corpse fixture represents current death facts")
@@ -269,7 +269,7 @@ func _test_player_death_corpse_graph(tree: SceneTree) -> void:
 		tree.root,
 	)
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead Player/corpse snapshot restores")
-	var candidate: OldPineWorldSessionController = result.candidate
+	var candidate: WorldSessionController = result.candidate
 	var player: WorldPlayerRuntimeState = candidate.player_runtime()
 	_assert_eq(player.life_status, CharacterRuntimeLifeStatus.Value.DEAD, "Player committed DEAD status restores")
 	_assert_false(player.exists_in_world, "dead Player remains absent from the world")
@@ -312,7 +312,7 @@ func _test_player_death_corpse_graph(tree: SceneTree) -> void:
 
 
 func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1171, 1172, 1173)
+	var source: WorldSessionController = _new_game(tree, 1171, 1172, 1173)
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
 	var corpse_base: GameSaveSnapshot = OldPineWorldSaveFixture.with_fat_bandit_corpse(base)
 	_free_node(source)
@@ -441,7 +441,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 
 
 func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1201, 1202, 1203)
+	var source: WorldSessionController = _new_game(tree, 1201, 1202, 1203)
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(source)
 	var corpse_snapshot: GameSaveSnapshot = OldPineWorldSaveFixture.with_fat_bandit_corpse(base)
 	_free_node(source)
@@ -591,7 +591,7 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 	)
 	_assert_eq(invalid_corpse_position_result.outcome, OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION, "corpse uses its own footprint for collision validation")
 
-	var overlap_session: OldPineWorldSessionController = _new_game(
+	var overlap_session: WorldSessionController = _new_game(
 		tree, 1211, 1212, 1213,
 	)
 	var overlap_map: WorldMapController = overlap_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
@@ -618,7 +618,7 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 
 
 func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
-	var current: OldPineWorldSessionController = _new_game(tree, 1251, 1252, 1253)
+	var current: WorldSessionController = _new_game(tree, 1251, 1252, 1253)
 	var base: GameSaveSnapshot = OldPineWorldSaveFixture.from_new_game(current)
 	var current_player: WorldPlayerRuntimeState = current.player_runtime()
 	var current_inventory: InventoryState = current.inventory_state()
@@ -729,7 +729,7 @@ func _test_all_or_nothing_failure_matrix(tree: SceneTree) -> void:
 
 
 func _test_cave_restore_and_candidate_activation(tree: SceneTree) -> void:
-	var source: OldPineWorldSessionController = _new_game(tree, 1301, 1302, 1303)
+	var source: WorldSessionController = _new_game(tree, 1301, 1302, 1303)
 	var cave_location: Values.WorldLocationSnapshot = Values.WorldLocationSnapshot.new(
 		OldPineWorldDefinitions.REGION_ID,
 		OldPineWorldDefinitions.CAVE_MAP_ID,
@@ -747,7 +747,7 @@ func _test_cave_restore_and_candidate_activation(tree: SceneTree) -> void:
 	await tree.process_frame
 	var result: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
 	_assert_eq(result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "Cave save constructs a candidate")
-	var candidate: OldPineWorldSessionController = result.candidate
+	var candidate: WorldSessionController = result.candidate
 	_assert_eq(candidate.active_map_id(), OldPineWorldDefinitions.CAVE_MAP_ID, "Cave activity derives solely from Player map")
 	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_parent() == candidate.active_map_slot, "Cave alone is attached")
 	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_parent() == null, "restored Outdoor remains detached/frozen")
@@ -781,8 +781,8 @@ func _test_cave_restore_and_candidate_activation(tree: SceneTree) -> void:
 
 
 func _test_new_game_regression(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new_game(tree, 1401, 1402, 1403)
-	_assert_eq(session.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.NEW_GAME, "default Session remains NEW_GAME")
+	var session: WorldSessionController = _new_game(tree, 1401, 1402, 1403)
+	_assert_eq(session.bootstrap_mode(), WorldSessionController.BootstrapMode.NEW_GAME, "default Session remains NEW_GAME")
 	_assert_eq(session.inventory_state().registered_item_ids().size(), 56, "NEW_GAME still creates 56 bootstrap items")
 	_assert_eq(session.world_npcs().size(), 36, "NEW_GAME still creates 36 authored NPCs")
 	_assert_eq(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "NEW_GAME creates no corpse")
@@ -798,8 +798,8 @@ func _new_game(
 	npc_seed: int,
 	combat_seed: int,
 	world_seed: int,
-) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+) -> WorldSessionController:
+	var session: WorldSessionController = SessionScene.instantiate()
 	session.deterministic_npc_seed = true
 	session.npc_seed = npc_seed
 	session.deterministic_combat_seed = true

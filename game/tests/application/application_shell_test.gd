@@ -55,7 +55,7 @@ class MemoryFiles extends SaveFileOperations:
 
 
 class FailingNewGameHost extends OldPineGameRuntimeHost:
-	func _instantiate_new_game_session() -> OldPineWorldSessionController:
+	func _instantiate_new_game_session() -> WorldSessionController:
 		return null
 
 
@@ -63,9 +63,9 @@ class PartiallyFailingNewGameHost extends OldPineGameRuntimeHost:
 	var created_session_ref: WeakRef
 	var created_session_once: bool = false
 
-	func _instantiate_new_game_session() -> OldPineWorldSessionController:
-		var session: OldPineWorldSessionController = (
-			SESSION_SCENE.instantiate() as OldPineWorldSessionController
+	func _instantiate_new_game_session() -> WorldSessionController:
+		var session: WorldSessionController = (
+			SESSION_SCENE.instantiate() as WorldSessionController
 		)
 		created_session_once = true
 		created_session_ref = weakref(session)
@@ -256,7 +256,7 @@ func _test_manual_host_lifecycle_and_serialization(tree: SceneTree) -> void:
 	_assert_true(host.request_new_game("凌雪", CharacterState.GENDER_FEMALE), "explicit New Game request queues")
 	await tree.process_frame
 	_assert_false(host.request_pending(), "New Game completion releases request gate")
-	var session: OldPineWorldSessionController = host.current_session()
+	var session: WorldSessionController = host.current_session()
 	_assert_true(session != null and session.is_initialized(), "New Game commits initialized Session")
 	# Twelve bootstrap items plus what Snow's NPCs carry (sixteen in 4A, nine more in 4B, three on 柳绘心).
 	_assert_eq(session.inventory_state().registered_item_ids().size(), WorldCounts.number("new_game_items"), "New Game retains the bootstrap items, the NPC loadout items and the items on the floor (world_counts.json)")
@@ -478,7 +478,7 @@ func _test_valid_continue_and_confirmation(tree: SceneTree) -> void:
 
 
 func _test_reset_path_absent(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = SESSION_SCENE.instantiate()
+	var session: WorldSessionController = SESSION_SCENE.instantiate()
 	tree.root.add_child(session)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_false(outdoor.has_signal("reset_requested"), "Outdoor exposes no reset signal")
@@ -494,7 +494,7 @@ func _write_valid_save(
 	profile: GameSaveStorageProfile,
 	files: MemoryFiles,
 ) -> void:
-	var source: OldPineWorldSessionController = SESSION_SCENE.instantiate()
+	var source: WorldSessionController = SESSION_SCENE.instantiate()
 	source.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE)
 	tree.root.add_child(source)
 	var snapshot: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(source, &"test", "2026-09-11T00:00:00Z").snapshot

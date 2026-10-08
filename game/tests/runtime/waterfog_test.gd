@@ -36,7 +36,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_weapon_match()
 	_test_exit_rule()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -120,7 +120,7 @@ func _test_exit_rule() -> void:
 	_check(rule.refuses(armed, true) and not rule.refuses(bare, true) and not rule.refuses(armed, false), "a weapon in hand and a guard present, both needed")
 
 
-func _test_the_way_in(session: OldPineWorldSessionController) -> void:
+func _test_the_way_in(session: WorldSessionController) -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var west: PortalDefinition = catalog.portal(&"snow.sroad5.west")
 	var east: PortalDefinition = catalog.portal(&"waterfog.sroad1.east")
@@ -133,7 +133,7 @@ func _test_the_way_in(session: OldPineWorldSessionController) -> void:
 
 
 ## The mountain: the stone tablet beside wpath2 is only looked at.
-func _test_mountain(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_mountain(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"waterfog.mountain", &"waterfog.sroad1", &"waterfog.sroad1", &"waterfog.sroad1.snow_entry").succeeded(), "on the 青石官道")
 	await tree.physics_frame
 	await tree.physics_frame
@@ -149,7 +149,7 @@ func _test_mountain(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## entrance.c valid_leave(): north with a weapon in hand while a 水烟阁武士 stands there.
-func _test_gate(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_gate(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"waterfog.pavilion", &"waterfog.entrance", &"waterfog.entrance", &"waterfog.entrance.yard_arrival").succeeded(), "in the 正门")
 	await tree.physics_frame
 	await tree.physics_frame
@@ -190,7 +190,7 @@ func _test_gate(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## consider() in a fight: the player's sword brings his out; bare hands put it away.
-func _test_consider(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_consider(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _first(map, MASTER)
@@ -240,7 +240,7 @@ func _test_consider(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## The 红衣武士 refuses a spar (accept_fight()).
-func _test_elite_guard(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_elite_guard(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"waterfog.upstairs", &"waterfog.west_2f", &"waterfog.west_2f", &"waterfog.west_2f.stairs_arrival").succeeded(), "upstairs, west")
 	await tree.physics_frame
 	await tree.physics_frame
@@ -259,7 +259,7 @@ func _test_elite_guard(tree: SceneTree, session: OldPineWorldSessionController) 
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "no spar")
 
 
-func _end_fight(session: OldPineWorldSessionController) -> bool:
+func _end_fight(session: WorldSessionController) -> bool:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 600:
@@ -293,7 +293,7 @@ func _binding(bindings: Array[CombatSliceCharacterBinding], character_id: String
 	return null
 
 
-func _carried(session: OldPineWorldSessionController, character_id: StringName, definition_id: StringName) -> StringName:
+func _carried(session: WorldSessionController, character_id: StringName, definition_id: StringName) -> StringName:
 	for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
 		var item: ItemInstance = session.item_instance_index().resolve(item_id)
 		if item != null and item.item_definition_id == definition_id:
@@ -302,7 +302,7 @@ func _carried(session: OldPineWorldSessionController, character_id: StringName, 
 
 
 ## TEST-ONLY: a carried item.
-func _give(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _give(session: WorldSessionController, definition_id: StringName) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)

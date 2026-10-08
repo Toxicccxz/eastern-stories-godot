@@ -284,7 +284,7 @@ func persistence_tests(tree: SceneTree) -> void:
 	# Full production capture/JSON/restore, not a new item save model.
 	for row: Array in [[SHORT,114,240],[SHORT,50,40],[SHORT,20,0],[LEATHER,1000,160],[TestContent.DUMPLING_ITEM_ID,1000,12],[TestContent.WINESKIN_ITEM_ID,1000,16]]:
 		var random: Recovery.RandomSequence = Recovery.RandomSequence.new()
-		var session: OldPineWorldSessionController = Recovery.create_session(tree, random)
+		var session: WorldSessionController = Recovery.create_session(tree, random)
 		var context: MoneyInventoryContext = Food.context(session)
 		add_item(context, session.food_collection(), session.liquid_collection(), row[0])
 		if row[0] == SHORT:

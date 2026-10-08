@@ -16,7 +16,7 @@ signal target_received(result: CombatTargetResult)
 
 @export var action_catalog: BattleActionPresentationCatalog
 @export var visual_theme: Theme
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _intent: BattleIntentAdapter
 var _reader := BattleFeedbackReader.new()
 var _projection := BattlePresentationProjection.new()
@@ -46,7 +46,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	_session = get_parent().get_parent() as OldPineWorldSessionController
+	_session = get_parent().get_parent() as WorldSessionController
 	theme = visual_theme if visual_theme != null else BattleVisualTheme.new()
 	if action_catalog == null:
 		action_catalog = BattleActionPresentationCatalog.new()

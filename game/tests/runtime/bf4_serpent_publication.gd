@@ -26,7 +26,7 @@ class WoundedProofRandom extends CombatRandomSource:
 		draws.append(draw)
 		return draw
 
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 var npc: NpcRuntimeState
 var body: WorldCharacterBody2D
 var observed_scheduler: CombatEncounterScheduler
@@ -36,7 +36,7 @@ var proof_random: WoundedProofRandom
 var player_precondition: Dictionary[String, Variant] = {}
 
 
-func publish(value: OldPineWorldSessionController, wounded: bool = false) -> bool:
+func publish(value: WorldSessionController, wounded: bool = false) -> bool:
 	if session != null or value == null or not value.is_initialized():
 		return false
 	var map: WorldMapController = value.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)

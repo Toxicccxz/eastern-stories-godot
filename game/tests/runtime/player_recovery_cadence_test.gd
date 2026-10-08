@@ -22,8 +22,8 @@ class RandomSequence extends RecoveryCadenceRandomSource:
 		return value
 
 
-static func create_session(tree: SceneTree, random: RecoveryCadenceRandomSource) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SESSION.instantiate()
+static func create_session(tree: SceneTree, random: RecoveryCadenceRandomSource) -> WorldSessionController:
+	var session: WorldSessionController = SESSION.instantiate()
 	session.configure_source_entry("雪息", CharacterState.GENDER_FEMALE)
 	session.configure_recovery_random_source(random)
 	session.deterministic_combat_seed = true
@@ -56,7 +56,7 @@ func trace_tests(tree: SceneTree) -> void:
 	check(PlayerRecoveryCadence.BASE_PULSE_SECONDS == 2.0, "owner Type B 2s, not proven source period")
 	for initial: int in [5, 6, 14]:
 		var random: RandomSequence = RandomSequence.new([initial, 6, 14])
-		var session: OldPineWorldSessionController = create_session(tree, random)
+		var session: WorldSessionController = create_session(tree, random)
 		var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
 		var state: CharacterState = session.player_runtime().state
 		random.observed_character = state
@@ -73,7 +73,7 @@ func trace_tests(tree: SceneTree) -> void:
 		check(session.advance_player_recovery(14.0).opportunities == 1 and cadence.source_tick == 14 and random.calls == 3, "next reset6 takes7 pulses")
 		session.free()
 	var random: RandomSequence = RandomSequence.new()
-	var session: OldPineWorldSessionController = create_session(tree, random)
+	var session: WorldSessionController = create_session(tree, random)
 	var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
 	for delta: float in [1.0, 0.75]: check(session.advance_player_recovery(delta).pulses == 0, "partial no pulse")
 	check(session.advance_player_recovery(0.25).pulses == 1 and cadence.accumulated_seconds == 0.0 and cadence.source_tick == 4, "exact2s pulse")
@@ -81,7 +81,7 @@ func trace_tests(tree: SceneTree) -> void:
 	for delta: float in [-1.0, INF, NAN, 1.0e300]:
 		check(session.advance_player_recovery(delta).outcome == PlayerRecoveryCadenceResult.Outcome.INVALID_INPUT and cadence.accumulated_seconds == 1.0 and cadence.source_tick == 2, "invalid/unrepresentable time rejected")
 	check(session.advance_player_recovery(5.0).opportunities == 1 and random.calls == 2, "remaining3 pulses reach due")
-	var other: OldPineWorldSessionController = create_session(tree, RandomSequence.new())
+	var other: WorldSessionController = create_session(tree, RandomSequence.new())
 	check(other.player_recovery_cadence() != cadence and other.player_runtime().state.recovery.food == 400, "independent states/RNG")
 	check(other.advance_player_recovery(12.0).opportunities == 1, "large delta processes all6 pulses")
 	other.free()
@@ -97,7 +97,7 @@ func trace_tests(tree: SceneTree) -> void:
 
 func resource_tests(tree: SceneTree) -> void:
 	for works: int in [1, 2, 3]:
-		var session: OldPineWorldSessionController = create_session(tree, RandomSequence.new())
+		var session: WorldSessionController = create_session(tree, RandomSequence.new())
 		var state: CharacterState = session.player_runtime().state
 		for i: int in range(works): check(Work.work(session).succeeded(), "actual Work service")
 		var rng: Array[int] = Work.rng_state(session)
@@ -111,7 +111,7 @@ func resource_tests(tree: SceneTree) -> void:
 			check(Work.work(session).succeeded() and state.essence.current == 0 and state.spirit.current == 0, "Work allowed exactly30")
 		check(Work.rng_state(session) == rng, "three persisted RNG streams unchanged")
 		session.free()
-	var session: OldPineWorldSessionController = create_session(tree, RandomSequence.new())
+	var session: WorldSessionController = create_session(tree, RandomSequence.new())
 	check(Food.earn_and_exchange(session), "Work twice + Bank")
 	var product: VendorPurchaseResult = Food.purchase(session)
 	var state: CharacterState = session.player_runtime().state
@@ -158,7 +158,7 @@ func resource_tests(tree: SceneTree) -> void:
 	session.free()
 
 
-func frozen(session: OldPineWorldSessionController, random: RandomSequence, label: String) -> void:
+func frozen(session: WorldSessionController, random: RandomSequence, label: String) -> void:
 	var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
 	var remainder: float = cadence.accumulated_seconds
 	var tick: int = cadence.source_tick
@@ -170,7 +170,7 @@ func frozen(session: OldPineWorldSessionController, random: RandomSequence, labe
 
 func freeze_tests(tree: SceneTree) -> void:
 	var random: RandomSequence = RandomSequence.new()
-	var session: OldPineWorldSessionController = create_session(tree, random)
+	var session: WorldSessionController = create_session(tree, random)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	session.advance_player_recovery(1.0)
 	tree.paused = true
@@ -213,7 +213,7 @@ func freeze_tests(tree: SceneTree) -> void:
 	session._last_map_handoff = null
 	check(session.advance_player_recovery(2.0).pulses == 1 and random.calls == 1, "all freezes retain source phase")
 	session.free()
-	var technical: OldPineWorldSessionController = SESSION.instantiate()
+	var technical: WorldSessionController = SESSION.instantiate()
 	tree.root.add_child(technical)
 	check(technical.player_recovery_cadence() == null and technical.advance_player_recovery(1000.0).outcome == PlayerRecoveryCadenceResult.Outcome.FROZEN, "technical profile has no cadence")
 	technical.free()
@@ -221,7 +221,7 @@ func freeze_tests(tree: SceneTree) -> void:
 
 func map_combat_tests(tree: SceneTree) -> void:
 	var random: RandomSequence = RandomSequence.new()
-	var session: OldPineWorldSessionController = create_session(tree, random)
+	var session: WorldSessionController = create_session(tree, random)
 	session.advance_player_recovery(3.0)
 	var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
 	var rejected: Route.RejectPreparation = Route.RejectPreparation.new()
@@ -257,7 +257,7 @@ func map_combat_tests(tree: SceneTree) -> void:
 
 func restore_tests(tree: SceneTree) -> void:
 	var random: RandomSequence = RandomSequence.new()
-	var session: OldPineWorldSessionController = create_session(tree, random)
+	var session: WorldSessionController = create_session(tree, random)
 	Work.work(session)
 	session.advance_player_recovery(15.0)
 	var snapshot: GameSaveSnapshot = Work.capture(session)
@@ -270,7 +270,7 @@ func restore_tests(tree: SceneTree) -> void:
 	check(session.player_recovery_cadence().source_tick == 4 and session.player_recovery_cadence().accumulated_seconds == 1.0 and random.calls == 2, "capture preserves phase")
 	var preparation: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
 	check(preparation.preparation != null, "valid reconstruction")
-	var restored: OldPineWorldSessionController = SESSION.instantiate()
+	var restored: WorldSessionController = SESSION.instantiate()
 	var fresh_random: RandomSequence = RandomSequence.new([14])
 	check(restored.configure_restore(preparation.preparation) and restored.configure_recovery_random_source(fresh_random), "fresh restore injection before stage")
 	tree.root.add_child(restored)

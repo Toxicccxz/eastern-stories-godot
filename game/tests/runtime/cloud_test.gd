@@ -29,7 +29,7 @@ var _goathill: RefCounted = Goathill.new()
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_steal_rolls()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	_test_tiles(session)
@@ -108,7 +108,7 @@ func _test_steal_rolls() -> void:
 	_check(NpcSteal.resolve(215, 202, false, asleep) == NpcSteal.Outcome.TAKEN and asleep.call_count() == 0, "from someone not conscious: taken, no roll")
 
 
-func _test_tiles(session: OldPineWorldSessionController) -> void:
+func _test_tiles(session: WorldSessionController) -> void:
 	for map_id: StringName in [&"cloud.outdoor", &"cloud.tearoom_upstairs", &"cloud.jiyuan_upstairs", &"cloud.duchang_upstairs"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
@@ -151,7 +151,7 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 
 
 ## South from Snow, up the tea house's stairs and through its 木雕门, walked.
-func _test_walks(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_walks(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(session.handoff_to(&"snow.outdoor", &"snow.sroad1", &"snow.sroad1", &"snow.sroad1.cloud_return").succeeded(), "on Snow's 雪亭镇街道")
 	await tree.physics_frame
@@ -187,7 +187,7 @@ func _test_walks(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	_check(player.world_location().zone_id == &"cloud.tea_corridor", "through it: 香茗坊茶窖")
 
 
-func _test_shops_and_study(session: OldPineWorldSessionController) -> void:
+func _test_shops_and_study(session: WorldSessionController) -> void:
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 50, &"test.cloud.silver") # TEST-ONLY
@@ -215,7 +215,7 @@ func _test_shops_and_study(session: OldPineWorldSessionController) -> void:
 ## when the time to leave it has passed (2 s in its reach here, toll_attack_delay_ms; the
 ## ridge takes 1.2-1.5 s to cross). One who walked on meets nobody, and (owner, pacing knobs)
 ## the robber holds no grudge for it: the way back has the same time.
-func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_toll_window(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var robbers: Array[NpcRuntimeState] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():
@@ -234,21 +234,21 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.hummock"))
 	await tree.physics_frame
 	await tree.physics_frame
-	map._toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY: the frames so far
+	map.hostilities.toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY: the frames so far
 	map._process(delay * 0.5)
-	_check(map._complete_entry_contact(robbers[0].character_id) and not session.combat_encounter_coordinator().has_active_encounter(), "half the time in his reach: no attack yet")
+	_check(map.hostilities.complete_entry_contact(robbers[0].character_id) and not session.combat_encounter_coordinator().has_active_encounter(), "half the time in his reach: no attack yet")
 	# Walk on: out of reach before the time is up.
 	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12)
 	await tree.physics_frame
 	await tree.physics_frame
 	map._process(delay)
-	_check(not session.combat_encounter_coordinator().has_active_encounter() and not map._toll_contact_seconds.has(robbers[0].character_id), "walked on: his greeting finds nobody")
+	_check(not session.combat_encounter_coordinator().has_active_encounter() and not map.hostilities.toll_contact_seconds.has(robbers[0].character_id), "walked on: his greeting finds nobody")
 	_check(not robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER) and robbers[0].definition().toll_attack_delay_ms(robbers[0].flags(), player.state) == 2000, "no grudge for it (owner): the way back has the same time")
 	# Stay: the whole time in his reach and he attacks.
 	body.global_position = robber_at + Vector2(0, 60)
 	await tree.physics_frame
 	await tree.physics_frame
-	map._toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY
+	map.hostilities.toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY
 	map._process(delay * 0.5)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "still waiting at half the time")
 	var said: int = session.shared_ui().log_lines().size()
@@ -269,8 +269,8 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 	body.global_position = (robber_at + map.runtime_body_for_character(robbers[1].character_id).global_position) / 2.0
 	await tree.physics_frame
 	await tree.physics_frame
-	map._toll_contact_seconds[robbers[0].character_id] = delay * 0.6 # TEST-ONLY
-	map._toll_contact_seconds[robbers[1].character_id] = delay * 0.3 # TEST-ONLY
+	map.hostilities.toll_contact_seconds[robbers[0].character_id] = delay * 0.6 # TEST-ONLY
+	map.hostilities.toll_contact_seconds[robbers[1].character_id] = delay * 0.3 # TEST-ONLY
 	map._process(delay * 0.45)
 	_check(session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id) and robbers[1].relationship.has_lethal_target(player.character_id), "in both reaches: the second robber joins the first's attack")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
@@ -283,7 +283,7 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 
 ## gangster.c: no marks/强盗 and they attack on sight; ten taels of gold set it and let
 ## the player pass; too little and they attack.
-func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var robbers: Array[NpcRuntimeState] = []
@@ -339,7 +339,7 @@ func _test_toll(tree: SceneTree, session: OldPineWorldSessionController) -> void
 ## thief.c in 张家花园: an arrival rolls random(kar) < 2; a second later steal.c picks the
 ## silver, and three seconds after it rolls. Taken: the silver is his, and the player
 ## reads that it is gone (modern fixes; ES2 says nothing).
-func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_thief(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var thief: NpcRuntimeState = null
@@ -354,20 +354,20 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	var silver: StringName = _carried(session, &"es2:obj/money/silver")
 	var amount: int = session.stack_collection().stack_state(silver).amount
 	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([0, 0])) # TEST-ONLY
-	map._advance_ambience(0.0)
-	map._ambience.cancel_call(thief.character_id)
-	map._pending_steals.erase(thief.character_id)
-	map._consider_stealing(thief)
-	_check(map._ambience.has_call(thief.character_id), "random(kar) 0 < 2: steal_it in a second")
-	map._ambience.cancel_call(thief.character_id)
-	map._steal_step(thief)
-	_check(map._pending_steals.has(thief.character_id) and map._pending_steals[thief.character_id]["item"] == silver, "steal.c picks present(\"silver\")")
-	map._ambience.cancel_call(thief.character_id)
+	map.npc_life._advance_ambience(0.0)
+	map.npc_life.ambience.cancel_call(thief.character_id)
+	map.npc_life.pending_steals.erase(thief.character_id)
+	map.npc_life._consider_stealing(thief)
+	_check(map.npc_life.ambience.has_call(thief.character_id), "random(kar) 0 < 2: steal_it in a second")
+	map.npc_life.ambience.cancel_call(thief.character_id)
+	map.npc_life._steal_step(thief)
+	_check(map.npc_life.pending_steals.has(thief.character_id) and map.npc_life.pending_steals[thief.character_id]["item"] == silver, "steal.c picks present(\"silver\")")
+	map.npc_life.ambience.cancel_call(thief.character_id)
 	var random := ScriptedWorldInteractionRandomSource.new([999999, 0, 0]) # TEST-ONLY: random(sp+dp) > dp
 	session.configure_npc_ambience_random_source(random)
-	map._advance_ambience(0.0)
+	map.npc_life._advance_ambience(0.0)
 	var lines: int = session.shared_ui().log_lines().size()
-	map._steal_step(thief)
+	map.npc_life._steal_step(thief)
 	_check(not _carried_ids(session).has(silver) and session.stack_collection().stack_state(silver) != null, "taken: the player's %d silver is gone" % amount)
 	_check(random.call_count() == 3 and session.inventory_state().is_direct_child(silver, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, thief.character_id)), "the thief has it")
 	_check(session.shared_ui().log_lines().slice(lines) == ["你忽然觉得身上一轻，银子不见了！"], "the player notices what is gone, not who took it (modern fixes; ES2 says nothing): " + str(session.shared_ui().log_lines().slice(lines)))
@@ -375,11 +375,11 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	var more: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(more, CurrencyDenomination.Value.SILVER, 3, &"test.cloud.silver3") # TEST-ONLY
 	var kept: StringName = _carried(session, &"es2:obj/money/silver")
-	map._pending_steals[thief.character_id] = {"item": kept, "sp": 1, "dp": 0}
+	map.npc_life.pending_steals[thief.character_id] = {"item": kept, "sp": 1, "dp": 0}
 	thief.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY
 	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([999999, 0, 0]))
-	map._advance_ambience(0.0)
-	map._steal_step(thief)
+	map.npc_life._advance_ambience(0.0)
+	map.npc_life._steal_step(thief)
 	_check(_carried_ids(session).has(kept), "a dead thief finishes no theft")
 	thief.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -387,7 +387,7 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 
 ## girl.c: money is refused; a keepsake from a man with per >= 25 sets marks/李师师,
 ## after which she teaches (recognize_apprentice).
-func _test_keepsake(session: OldPineWorldSessionController) -> void:
+func _test_keepsake(session: WorldSessionController) -> void:
 	var rules: Array[NpcObjectRule] = GameContent.catalog().npc(&"cloud.npc.girl").dealings().object_rules
 	var offer := NpcObjectRule.Offer.new(0, &"", 0, {}, {})
 	offer.giver_gender = CharacterState.GENDER_MALE
@@ -407,7 +407,7 @@ func _test_keepsake(session: OldPineWorldSessionController) -> void:
 
 ## 家丁 fight with 春风快意刀: its moves land and the fight never aborts. TEST-ONLY: a
 ## player who survives.
-func _test_spring_blade(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_spring_blade(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var guard: NpcRuntimeState = null
@@ -443,14 +443,14 @@ func _test_spring_blade(tree: SceneTree, session: OldPineWorldSessionController)
 	await tree.physics_frame
 
 
-func _carried(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _carried(session: WorldSessionController, definition_id: StringName) -> StringName:
 	for id: StringName in _carried_ids(session):
 		if session.item_instance_index().resolve(id).item_definition_id == definition_id:
 			return id
 	return &""
 
 
-func _carried_ids(session: OldPineWorldSessionController) -> Array[StringName]:
+func _carried_ids(session: WorldSessionController) -> Array[StringName]:
 	return session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))
 
 

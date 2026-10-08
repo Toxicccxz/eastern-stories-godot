@@ -12,15 +12,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _flee_input(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
-func _new(tree: SceneTree) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+func _new(tree: SceneTree) -> WorldSessionController:
+	var session: WorldSessionController = SessionScene.instantiate()
 	tree.root.add_child(session)
 	session.set_process(false)
 	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	session.configure_combat_random_source(Setup.CountingRandom.new())
 	return session
 
-func _start(session: OldPineWorldSessionController, mode: int = CombatEncounterMode.Value.LETHAL) -> CombatEncounter:
+func _start(session: WorldSessionController, mode: int = CombatEncounterMode.Value.LETHAL) -> CombatEncounter:
 	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if mode == CombatEncounterMode.Value.LETHAL else CombatTriggerCause.Value.PLAYER_SPAR
 	var trigger: CombatTrigger = Multi.trigger(session, mode, cause)
 	if mode == CombatEncounterMode.Value.LETHAL:
@@ -31,13 +31,13 @@ func _start(session: OldPineWorldSessionController, mode: int = CombatEncounterM
 	_check(coordinator.start(trigger).succeeded(), "Flee fixture exact three-participant establishment")
 	return coordinator.active_encounter()
 
-func _request(session: OldPineWorldSessionController, id: StringName = &"flee") -> CombatTacticalRequest:
+func _request(session: WorldSessionController, id: StringName = &"flee") -> CombatTacticalRequest:
 	return CombatTacticalRequest.new(id, session.combat_encounter_coordinator().active_encounter().encounter_id,
 		session.player_runtime().character_id, FLEE, CombatTacticalRequest.Category.FLEE)
 
 func _ready_and_multi(tree: SceneTree) -> void:
 	for mode: int in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
-		var session: OldPineWorldSessionController = _new(tree)
+		var session: WorldSessionController = _new(tree)
 		var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 		var encounter: CombatEncounter = _start(session, mode)
 		var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
@@ -80,7 +80,7 @@ func _ready_and_multi(tree: SceneTree) -> void:
 		await _settle(tree, 2)
 
 func _waiting_replace_cancel(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new(tree)
+	var session: WorldSessionController = _new(tree)
 	var encounter: CombatEncounter = _start(session)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
@@ -113,7 +113,7 @@ func _waiting_replace_cancel(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 func _validation(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new(tree)
+	var session: WorldSessionController = _new(tree)
 	var encounter: CombatEncounter = _start(session)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var valid: CombatTacticalRequest = _request(session)
@@ -150,7 +150,7 @@ func _validation(tree: SceneTree) -> void:
 
 func _invalidated(tree: SceneTree) -> void:
 	for mortal: bool in [false, true]:
-		var session: OldPineWorldSessionController = _new(tree)
+		var session: WorldSessionController = _new(tree)
 		var encounter: CombatEncounter = _start(session)
 		var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 		var tactics: CombatTacticalRuntime = coordinator.active_scheduler().player_tactics()
@@ -176,7 +176,7 @@ func _invalidated(tree: SceneTree) -> void:
 
 func _armed_spar(tree: SceneTree) -> void:
 	for armed_index: int in [0, 1, 2]:
-		var session: OldPineWorldSessionController = _new(tree)
+		var session: WorldSessionController = _new(tree)
 		var player: WorldPlayerRuntimeState = session.player_runtime()
 		var actors: Array[CharacterState] = [player.state, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_state, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_state]
 		# Capture current production weapon; establish truthful friendly facts without auto-unwield.
@@ -210,7 +210,7 @@ func _flee_input(tree: SceneTree) -> void:
 	_check(shell.new_game_setup_panel.visible, "public tap opens setup; remaining subject uses technical fixture")
 	TechnicalShellFixture.start(shell)
 	await _settle(tree, 25)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	session.set_process(false)
 	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).set_process(false)
 	session.configure_combat_random_source(Setup.CountingRandom.new())

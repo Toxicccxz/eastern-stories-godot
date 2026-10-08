@@ -20,7 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 ## A body that falls against the forest edge leaves a corpse Continue accepts.
 func _test_corpse_beside_a_wall(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree)
+	var session: WorldSessionController = await _session(tree)
 	var forest: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var slope: WorldLocationState = forest.location_for_zone(OldPineWorldDefinitions.SLOPE_ZONE_ID)
 	# Walk west from the slope's path at y -150 to the last spot a body still fits.
@@ -29,16 +29,16 @@ func _test_corpse_beside_a_wall(tree: SceneTree) -> void:
 		fell_at.x -= 1.0
 	_assert_true(MapPlacementValidator.is_valid_character_position(forest, slope.zone_id, fell_at), "a body can stand against the slope's west forest")
 	_assert_false(MapPlacementValidator.is_valid_corpse_position(forest, slope.zone_id, fell_at), "the wider corpse would overlap that forest")
-	var corpse_at: Vector2 = forest._corpse_position(fell_at, slope)
+	var corpse_at: Vector2 = forest.corpses.corpse_position(fell_at, slope)
 	_assert_true(MapPlacementValidator.is_valid_corpse_position(forest, slope.zone_id, corpse_at), "the corpse is shifted to where Continue accepts it")
 	_assert_true(corpse_at.distance_to(fell_at) <= 40.0, "but stays where the body fell")
-	_assert_eq(forest._corpse_position(Vector2(450, -150), slope), Vector2(450, -150), "a corpse in the open lies exactly where the body fell")
+	_assert_eq(forest.corpses.corpse_position(Vector2(450, -150), slope), Vector2(450, -150), "a corpse in the open lies exactly where the body fell")
 	await _free(session, tree)
 
 
 ## Tile collision is built when a map becomes active, not one frame later.
 func _test_arrival_has_terrain_walls(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree)
+	var session: WorldSessionController = await _session(tree)
 	var handoff: OldPineMapHandoffResult = session.handoff_to(OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, OldPineWorldDefinitions.RIVERBANK1_CLIFF_LANDING_SPAWN_POINT_ID)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	_assert_true(handoff.succeeded(), "the player arrives on the river bank")
@@ -46,8 +46,8 @@ func _test_arrival_has_terrain_walls(tree: SceneTree) -> void:
 	await _free(session, tree)
 
 
-func _session(tree: SceneTree, source_entry: bool = false) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SessionScene.instantiate() as OldPineWorldSessionController
+func _session(tree: SceneTree, source_entry: bool = false) -> WorldSessionController:
+	var session: WorldSessionController = SessionScene.instantiate() as WorldSessionController
 	session.deterministic_npc_seed = true
 	session.deterministic_combat_seed = true
 	session.deterministic_world_interaction_seed = true
@@ -58,13 +58,13 @@ func _session(tree: SceneTree, source_entry: bool = false) -> OldPineWorldSessio
 	return session
 
 
-func _free(session: OldPineWorldSessionController, tree: SceneTree) -> void:
+func _free(session: WorldSessionController, tree: SceneTree) -> void:
 	session.queue_free()
 	await tree.process_frame
 
 
 func _test_spawned_bodies(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree)
+	var session: WorldSessionController = await _session(tree)
 	_assert_eq(session.world_npcs().size(), 36, "every spawns.json point has one NPC")
 	# Each map spawns its own points: the forest the five bandits, the gorge the five serpents.
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
@@ -94,7 +94,7 @@ func _assert_spawned_bodies(map: WorldMapController) -> void:
 
 
 func _test_water_sources(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, true)
+	var session: WorldSessionController = await _session(tree, true)
 	# Both water sources belong to the gorge map, which owns their zones.
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	_assert_true(session.handoff_to(map.map_id(), OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "public world reaches the Waterfall landing")
@@ -121,7 +121,7 @@ func _test_water_sources(tree: SceneTree) -> void:
 
 
 func _test_landmark_policies(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree)
+	var session: WorldSessionController = await _session(tree)
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_true(map.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "the clearing pine is selectable")
 	# The tree top is its own map: the portal policy climbs by map handoff.
@@ -155,7 +155,7 @@ func _test_zone_links_and_waterfall_cliff(tree: SceneTree) -> void:
 	_assert_eq(catalog.zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID).map_id, OldPineWorldDefinitions.GORGE_MAP_ID, "the waterfall pool is a gorge zone")
 	for zone: ZoneDefinition in catalog.zones_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
 		_assert_false(catalog.zones_adjacent(zone.zone_id, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID), "no walk from %s down to the pool" % zone.zone_id)
-	var session: OldPineWorldSessionController = await _session(tree)
+	var session: WorldSessionController = await _session(tree)
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_true(map.physical_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID) == null, "the forest map holds no waterfall zone")
 	_assert_true(map.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID) == null, "the forest map cannot place the player at the pool")
@@ -179,7 +179,7 @@ func _test_zone_links_and_waterfall_cliff(tree: SceneTree) -> void:
 
 
 func _test_every_map_can_fight(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, true)
+	var session: WorldSessionController = await _session(tree, true)
 	_assert_eq(session.active_map_id(), SnowWorldDefinitions.INN_MAP_ID, "public New Game starts in the Inn")
 	_assert_eq(session.encounter_opportunity_interval_seconds(), 1.0, "Snow has the same one-second combat round")
 	_assert_eq(session.encounter_opportunity_interval_seconds(), GameContent.catalog().pacing().combat_round_seconds, "the round comes from pacing.json")

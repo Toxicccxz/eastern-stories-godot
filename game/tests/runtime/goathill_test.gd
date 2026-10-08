@@ -20,7 +20,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_tiles(session)
 	_test_two_hands(session)
@@ -69,7 +69,7 @@ func _test_data() -> void:
 	_check(catalog.combat_actions().weapon_action_set(&"staff").actions().size() == 3, "staff.c's verbs are the same three")
 
 
-func _test_tiles(session: OldPineWorldSessionController) -> void:
+func _test_tiles(session: WorldSessionController) -> void:
 	for map_id: StringName in [&"goathill.mountain", &"goathill.caverns"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
@@ -111,7 +111,7 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 
 ## equip.c wield(): the second SECONDARY weapon goes to the other hand and its
 ## weapon_prop counts too (damage included); only the first attacks.
-func _test_two_hands(session: OldPineWorldSessionController) -> void:
+func _test_two_hands(session: WorldSessionController) -> void:
 	var mountain: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var hwang: NpcRuntimeState = _find(mountain, &"goathill.npc.bandit_hwang")
 	var leader: NpcRuntimeState = _find(mountain, &"goathill.npc.bandit_leader")
@@ -122,7 +122,7 @@ func _test_two_hands(session: OldPineWorldSessionController) -> void:
 		held.append("%s %s" % ["" if primary == null else primary.weapon_id, "" if secondary == null else secondary.weapon_id])
 	_check(held == ["%s %s" % [HAMMER, HAMMER], "%s %s" % [AXE, AXE]], "黄霸 holds a 大金槌 in each hand, the leader a 短斧 in each: " + str(held))
 	var binding: CombatSliceCharacterBinding = null
-	for candidate: CombatSliceCharacterBinding in mountain._build_participants(true):
+	for candidate: CombatSliceCharacterBinding in mountain.combat_lifecycle.build_participants(true):
 		if candidate.character_id == hwang.character_id:
 			binding = candidate
 	_check(binding != null and CombatSliceProjectionBuilder.apply_of(binding, &"attack") == 100 - 4 - 4 and CombatSliceProjectionBuilder.apply_of(binding, &"defense") == 90 + 5 + 5 + 1, "apply/attack 100 - 4 - 4, apply/defense 90 + 5 + 5 and the boots' 1: both hammers' weapon_prop")
@@ -130,7 +130,7 @@ func _test_two_hands(session: OldPineWorldSessionController) -> void:
 
 
 ## The way in from Snow's crossroad and down into the caverns, walked.
-func _test_portals(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_portals(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(session.handoff_to(&"snow.outdoor", &"snow.crossroad", &"snow.crossroad", &"snow.crossroad.goathill_return").succeeded(), "on Snow's crossroad")
 	await tree.physics_frame
@@ -150,7 +150,7 @@ func _test_portals(tree: SceneTree, session: OldPineWorldSessionController) -> v
 ## The corner's four come on together (complete_set: everyone whose presence reaches the
 ## player as they step onto the corner), walked up the steep road from mroad3 and along the
 ## narrow one from mroad5. Each fight is fled at once.
-func _test_corner(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_corner(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -187,7 +187,7 @@ func _test_corner(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 
 ## weapond.c bash_weapon() with scripted rolls: the player's 大金槌 against a bandit's
 ## parrying 钢刀. TEST-ONLY: strength 100 (wap 80 + 100), the bandits' 20 (wdp 18 + 20).
-func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_bash(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hammer: StringName = _give(session, HAMMER)
@@ -204,27 +204,27 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var me: CombatSliceCharacterBinding = _binding(map, player.character_id)
 	var first: CombatSliceCharacterBinding = _binding(map, bandits[0].character_id)
 	var blade: StringName = bandits[0].character_state.equipment.primary_weapon().instance_id
-	var lines: Array[ColoredLine] = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, false, ScriptedCombatRandomSource.new([170]))
+	var lines: Array[ColoredLine] = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, false, ScriptedCombatRandomSource.new([170]))
 	_check(lines.is_empty() and bandits[0].character_state.equipment.primary_weapon() != null, "not parried: nothing")
 	var random := ScriptedCombatRandomSource.new([10, 50, 30])
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
 	_check(_texts(lines) == ["你的大金槌和土匪爪牙的钢刀相击，冒出点点的火星。"] and random.call_count() == 1, "10 of random(180): sparks; one draw: " + str(_texts(lines)))
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
 	_check(_texts(lines) == ["土匪爪牙只觉得手中钢刀一震，险些脱手！"] and bandits[0].character_state.equipment.primary_weapon() != null, "50 > wdp 38: nearly")
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, random)
 	var shown: ItemInstance = session.item_instance_index().resolve(blade)
 	_check(_texts(lines) == ["只听见「啪」地一声，土匪爪牙手中的钢刀已经断为两截！"] and lines[0].color == ColoredLine.HIW, "30 > wdp / 2 = 19: broken, in HIW")
 	_check(bandits[0].character_state.equipment.primary_weapon() == null and shown != null and shown.item_definition_id == ItemContentDefinition.broken_id(BLADE) and map.floor_item_view(blade) != null, "unwielded, at his feet, 断掉的钢刀 from now on")
 	_check(map.floor_item_view(blade).display_name == "断掉的钢刀", "the floor shows its new name: " + map.floor_item_view(blade).display_name)
 	var second: CombatSliceCharacterBinding = _binding(map, bandits[1].character_id)
 	var second_blade: StringName = bandits[1].character_state.equipment.primary_weapon().instance_id
-	lines = map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, second, true, ScriptedCombatRandomSource.new([100]))
+	lines = map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, second, true, ScriptedCombatRandomSource.new([100]))
 	_check(_texts(lines) == ["土匪爪牙只觉得手中钢刀把持不定，脱手飞出！"] and bandits[1].character_state.equipment.primary_weapon() == null and session.item_instance_index().resolve(second_blade).item_definition_id == BLADE and map.floor_item_view(second_blade) != null, "100 > 2 x wdp: knocked away whole, onto the floor")
-	_check(map._run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, ScriptedCombatRandomSource.new([100])).is_empty(), "a victim without a weapon: nothing")
+	_check(map.combat_lifecycle.run_post_action(me, CombatPostActionIds.BASH_WEAPON, first, true, ScriptedCombatRandomSource.new([100])).is_empty(), "a victim without a weapon: nothing")
 	# The broken blade picked up: no longer wieldable, worth a tenth.
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	_check(InventoryTransferService.new().transfer(context.inventory, blade, InventoryTransferDestination.new(context.endpoint(), true, true, 1000000)).succeeded, "picked up") # TEST-ONLY
-	map._forget_floor_item(blade)
+	map.floor_items._forget_floor_item(blade)
 	_check(not session.wield_player_item(blade).succeeded, "断掉的钢刀 cannot be wielded (weapon_prop 0)")
 	var quote: HockshopValuationResult = HockshopValuation.appraise(context, session.food_collection(), session.liquid_collection(), blade)
 	_check(quote.source_value == 70, "worth 70 now (700 / 10): %d" % quote.source_value)
@@ -235,7 +235,7 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	me = _binding(map, player.character_id)
 	@warning_ignore("integer_division")
 	var wdp: int = session.inventory_state().own_weight(knives) / 500 + player.state.attributes.strength
-	lines = map._run_post_action(hwang, CombatPostActionIds.BASH_WEAPON, me, true, ScriptedCombatRandomSource.new([wdp]))
+	lines = map.combat_lifecycle.run_post_action(hwang, CombatPostActionIds.BASH_WEAPON, me, true, ScriptedCombatRandomSource.new([wdp]))
 	var stacks: CombinedStackCollection = session.stack_collection()
 	_check(_texts(lines) == ["只听见「啪」地一声，你手中的飞刀已经断为两截！"], "黄霸 breaks the player's 飞刀: " + str(_texts(lines)))
 	_check(player.state.equipment.primary_weapon() == null or player.state.equipment.primary_weapon().instance_id != knives, "unwielded")
@@ -251,7 +251,7 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 ## 黄霸 fought: his 大金槌 bash, crush and slam, and 伏蛟功's force hit lands without
 ## aborting the fight. TEST-ONLY: a strong player who only parries with a weapon.
-func _test_hwang_fight(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_hwang_fight(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hwang: NpcRuntimeState = _find(map, &"goathill.npc.bandit_hwang")
@@ -280,7 +280,7 @@ func _test_hwang_fight(tree: SceneTree, session: OldPineWorldSessionController) 
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "伏蛟功's force hit and both hands: the fight never aborts")
 
 
-func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, target: StringName, action: String) -> void:
+func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
 	Input.action_press(action)
 	for _step: int in range(400):
 		await tree.physics_frame
@@ -292,7 +292,7 @@ func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, ta
 
 
 ## TEST-ONLY: a new item in the player's hands.
-func _give(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _give(session: WorldSessionController, definition_id: StringName) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
@@ -304,7 +304,7 @@ func _give(session: OldPineWorldSessionController, definition_id: StringName) ->
 
 
 ## TEST-ONLY: a new stack in the player's hands, merged.
-func _give_stack(session: OldPineWorldSessionController, definition_id: StringName, amount: int) -> StringName:
+func _give_stack(session: WorldSessionController, definition_id: StringName, amount: int) -> StringName:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
@@ -319,7 +319,7 @@ func _give_stack(session: OldPineWorldSessionController, definition_id: StringNa
 
 
 func _binding(map: WorldMapController, character_id: StringName) -> CombatSliceCharacterBinding:
-	for binding: CombatSliceCharacterBinding in map._build_participants(true):
+	for binding: CombatSliceCharacterBinding in map.combat_lifecycle.build_participants(true):
 		if binding.character_id == character_id:
 			return binding
 	return null

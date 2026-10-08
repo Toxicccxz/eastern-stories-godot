@@ -20,7 +20,7 @@ enum Outcome {
 var outcome: int
 var path: String
 var detail: String
-var candidate: OldPineWorldSessionController
+var candidate: WorldSessionController
 var preparation: OldPineWorldRestorePreparation
 
 
@@ -28,7 +28,7 @@ func _init(
 	p_outcome: int = Outcome.INVALID_SNAPSHOT,
 	p_path: String = "",
 	p_detail: String = "",
-	p_candidate: OldPineWorldSessionController = null,
+	p_candidate: WorldSessionController = null,
 	p_preparation: OldPineWorldRestorePreparation = null,
 ) -> void:
 	outcome = p_outcome

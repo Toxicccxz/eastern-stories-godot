@@ -13,7 +13,7 @@ func available() -> bool:
 		and map.is_map_initialized()
 		and not map.get_tree().paused
 		and map.player_body.player_controlled
-		and map._gameplay_open()
+		and map.gameplay_open()
 		and map.player_runtime().world_location().map_id == map.map_id()
 		and map.player_near([definition.zone_id], point.global_position, definition.reach)
 	)

@@ -12,7 +12,7 @@ func _run() -> void:
 	if args.size() != 1:
 		quit(2)
 		return
-	var session: OldPineWorldSessionController = Fixture.create_session(self)
+	var session: WorldSessionController = Fixture.create_session(self)
 	var work: SnowWorkResult = Fixture.work(session)
 	var repository: SourceEntrySaveRepository = SourceEntrySaveRepository.new(GameSaveStorageProfile.isolated_test(args[0]))
 	var saved: OldPineRuntimeSaveLoadResult = OldPineSessionLoadCoordinator.new(repository).save_current(session)

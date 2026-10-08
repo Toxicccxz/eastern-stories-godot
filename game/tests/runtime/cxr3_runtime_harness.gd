@@ -1,6 +1,6 @@
 extends Node
 
-@onready var session: OldPineWorldSessionController = $OldPineWorldSession
+@onready var session: WorldSessionController = $OldPineWorldSession
 @onready var status_label: Label = $ProofOverlay/Panel/Margin/Status
 
 var _proof_state: String = "READY"

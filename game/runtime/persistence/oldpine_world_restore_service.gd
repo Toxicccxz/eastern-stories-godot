@@ -29,8 +29,8 @@ static func build_candidate(
 	# Continue is ES2's login: setup() runs race/human.c again for the player.
 	var player: WorldPlayerRuntimeState = prepared.preparation.player
 	CharacterDerivedValues.refresh_human_player_maxima(player.state, player.facts.age)
-	var candidate: OldPineWorldSessionController = (
-		SESSION_SCENE.instantiate() as OldPineWorldSessionController
+	var candidate: WorldSessionController = (
+		SESSION_SCENE.instantiate() as WorldSessionController
 	)
 	if candidate == null or not candidate.configure_restore(prepared.preparation):
 		if candidate != null:

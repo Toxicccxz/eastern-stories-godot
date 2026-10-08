@@ -12,7 +12,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
 var _count: int = 0
 var _failures: Array[String] = []
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _player: WorldPlayerRuntimeState
 var _state: CharacterState
 var _hud: SharedGameplayUI

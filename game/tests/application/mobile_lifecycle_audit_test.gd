@@ -56,7 +56,7 @@ func _test_inactive_hardware_actions(tree: SceneTree) -> void:
 	touch.set_capability(EnabledTouch.new())
 	PublicNewGameTestFixture.request(shell)
 	await _settle(tree)
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	await tree.physics_frame
 	await tree.physics_frame

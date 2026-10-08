@@ -381,7 +381,7 @@ func _test_additional_boundary_safety() -> void:
 
 
 func _test_real_session(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Fixtures.SessionScene.instantiate()
+	var session: WorldSessionController = Fixtures.SessionScene.instantiate()
 	tree.root.add_child(session)
 	await tree.process_frame
 	session.set_process(false)

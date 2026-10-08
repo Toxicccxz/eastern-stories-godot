@@ -337,7 +337,7 @@ func _test_completed_encounter_is_inert() -> void:
 
 
 func _test_real_session_scheduler_world_freeze(tree: SceneTree) -> void:
-	var session := SessionScene.instantiate() as OldPineWorldSessionController
+	var session := SessionScene.instantiate() as WorldSessionController
 	session.deterministic_npc_seed = true
 	session.npc_seed = 14_001
 	session.deterministic_combat_seed = true
@@ -482,7 +482,7 @@ func _third_binding() -> CombatSliceCharacterBinding:
 
 
 func _session_trigger(
-	session: OldPineWorldSessionController,
+	session: WorldSessionController,
 	npc: NpcRuntimeState,
 ) -> CombatTrigger:
 	return CombatTrigger.new(

@@ -5,7 +5,7 @@ const Values := preload("res://core/persistence/game_save_value_types.gd")
 
 
 static func from_new_game(
-	session: OldPineWorldSessionController,
+	session: WorldSessionController,
 	player_location_override: Values.WorldLocationSnapshot = null,
 	player_position_override: Values.MapPositionSnapshot = null,
 ) -> GameSaveSnapshot:

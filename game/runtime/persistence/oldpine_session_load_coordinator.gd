@@ -25,7 +25,7 @@ func inspect_slot() -> GameSaveSlotInspectionResult:
 	return result
 
 
-func save_current(session: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
+func save_current(session: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if not _begin_operation():
 		return Result.failure(Result.Outcome.REQUEST_REJECTED)
 	var result := Result.failure(Result.Outcome.NO_CURRENT_SESSION)
@@ -57,7 +57,7 @@ func save_current(session: OldPineWorldSessionController) -> OldPineRuntimeSaveL
 
 
 func load_replacing(
-	current: OldPineWorldSessionController,
+	current: WorldSessionController,
 	session_slot: Node,
 	staging_slot: Node,
 ) -> OldPineRuntimeSaveLoadResult:
@@ -70,7 +70,7 @@ func load_replacing(
 
 func load_recovery_replacing(
 	source: int,
-	current: OldPineWorldSessionController,
+	current: WorldSessionController,
 	session_slot: Node,
 	staging_slot: Node,
 ) -> OldPineRuntimeSaveLoadResult:
@@ -88,7 +88,7 @@ func load_recovery_replacing(
 
 
 func _load_replacing_impl(
-	current: OldPineWorldSessionController,
+	current: WorldSessionController,
 	session_slot: Node,
 	staging_slot: Node,
 ) -> OldPineRuntimeSaveLoadResult:
@@ -98,7 +98,7 @@ func _load_replacing_impl(
 
 func _restore_loaded(
 	loaded: GameSaveResult,
-	current: OldPineWorldSessionController,
+	current: WorldSessionController,
 	session_slot: Node,
 	staging_slot: Node,
 ) -> OldPineRuntimeSaveLoadResult:
@@ -118,7 +118,7 @@ func _restore_loaded(
 		restore_failure.repository = loaded
 		restore_failure.restore = restored
 		return restore_failure
-	var candidate: OldPineWorldSessionController = restored.candidate
+	var candidate: WorldSessionController = restored.candidate
 	if current != null and not current.suspend_for_session_swap():
 		_discard_candidate(candidate)
 		return Result.failure(Result.Outcome.SESSION_SUSPEND_FAILED)
@@ -151,12 +151,12 @@ func _restore_loaded(
 	return success
 
 
-func _activate_candidate(candidate: OldPineWorldSessionController) -> bool:
+func _activate_candidate(candidate: WorldSessionController) -> bool:
 	return candidate != null and candidate.activate_restore_candidate()
 
 
 func _reparent_candidate(
-	candidate: OldPineWorldSessionController,
+	candidate: WorldSessionController,
 	session_slot: Node,
 ) -> bool:
 	if candidate == null or session_slot == null or candidate.get_parent() == null:
@@ -165,7 +165,7 @@ func _reparent_candidate(
 	return candidate.get_parent() == session_slot
 
 
-static func _candidate_transients_are_fresh(session: OldPineWorldSessionController) -> bool:
+static func _candidate_transients_are_fresh(session: WorldSessionController) -> bool:
 	if session == null or not session.is_restore_candidate_staged():
 		return false
 	for map: WorldMapController in session.world_maps():
@@ -196,7 +196,7 @@ static func _runtime_transients_are_fresh(
 	)
 
 
-static func _discard_candidate(candidate: OldPineWorldSessionController) -> void:
+static func _discard_candidate(candidate: WorldSessionController) -> void:
 	if candidate == null:
 		return
 	if candidate.get_parent() != null:

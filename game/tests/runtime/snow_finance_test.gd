@@ -255,7 +255,7 @@ static func amount(context: MoneyInventoryContext, denomination: CurrencyDenomin
 	return context.select(denomination).amount
 
 
-static func session_context(session: OldPineWorldSessionController) -> MoneyInventoryContext:
+static func session_context(session: WorldSessionController) -> MoneyInventoryContext:
 	var p: WorldPlayerRuntimeState = session.player_runtime()
 	return MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(p.character_id, p.state.equipment, p.armor),
 		session.inventory_state(), session.stack_collection(), session.item_instance_index())

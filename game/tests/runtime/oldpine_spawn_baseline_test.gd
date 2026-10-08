@@ -39,7 +39,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _capture(tree: SceneTree, source_entry: bool) -> Dictionary:
-	var session: OldPineWorldSessionController = SessionScene.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = SessionScene.instantiate() as WorldSessionController
 	session.deterministic_npc_seed = true
 	session.npc_seed = 7_021
 	session.deterministic_combat_seed = true

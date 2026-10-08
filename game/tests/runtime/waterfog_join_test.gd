@@ -26,7 +26,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_learn()
 	_test_practice()
 	_test_data()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -236,7 +236,7 @@ func _test_data() -> void:
 ## In the 正厅: 萧辟尘's panel (拜师, the oath asked first as a first master), the sign's
 ## join, 於兰天武's test asked first, passed by a strong player, failed by a weak one
 ## (who falls on the heart beat after).
-func _test_hall(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"waterfog.pavilion", &"waterfog.guildhall", &"waterfog.guildhall", &"waterfog.entrance.yard_arrival").succeeded() or session.handoff_to(&"waterfog.pavilion", &"waterfog.entrance", &"waterfog.entrance", &"waterfog.entrance.yard_arrival").succeeded(), "in the pavilion")
 	await tree.physics_frame
 	await tree.physics_frame

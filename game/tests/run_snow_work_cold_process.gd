@@ -15,7 +15,7 @@ func _run() -> void:
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test(args[1])
 	var repository: SourceEntrySaveRepository = SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
-		var session: OldPineWorldSessionController = Fixture.create_session(self)
+		var session: WorldSessionController = Fixture.create_session(self)
 		var p: WorldPlayerRuntimeState = session.player_runtime()
 		var cloth: StringName = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, p.character_id))[0]
 		session.inventory_state().update_own_weight(cloth, p.maximum_encumbrance - 20)
@@ -36,7 +36,7 @@ func _run() -> void:
 		check(host.current_session() == null and host.request_continue(), "empty fresh Host accepts Continue")
 		await process_frame
 		await process_frame
-		var session: OldPineWorldSessionController = host.current_session()
+		var session: WorldSessionController = host.current_session()
 		check(session != null, "cold Continue succeeds")
 		if session != null:
 			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, saved.snapshot.metadata.storage_profile, saved.snapshot.metadata.saved_at_utc)

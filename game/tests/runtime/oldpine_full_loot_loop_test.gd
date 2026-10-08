@@ -67,7 +67,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	var long_id: StringName = fresh_rows[0].item_instance_id
 	_assert_eq(fresh_rows[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "fresh direct item is prototype long sword")
 	_assert_eq(fresh_rows[0].equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.PRIMARY, "fresh long sword is PRIMARY")
-	var long_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
+	var long_binding: CombatSliceCharacterBinding = controller.combat_lifecycle.build_participants()[0]
 	_assert_eq(long_binding.content.projected_apply_damage(long_binding.state.equipment.primary_weapon()), 25, "fresh world participant resolves long-sword damage 25")
 
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
@@ -148,7 +148,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	panel.unwield_requested.emit(long_id)
 	_assert_true(controller.player_runtime().state.equipment.primary_weapon() == null, "Unwield long leaves primary empty")
 	_assert_eq(controller.player_runtime().state.equipment.secondary_weapon().instance_id, short_id, "secondary short is not promoted")
-	var secondary_only_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
+	var secondary_only_binding: CombatSliceCharacterBinding = controller.combat_lifecycle.build_participants()[0]
 	_assert_eq(controller.last_player_content_resolution().outcome, WorldWeaponContentResolution.Outcome.UNARMED, "secondary-only world participant resolves unarmed")
 	_assert_eq(secondary_only_binding.content.projected_apply_damage(null), 0, "secondary-only participant has zero weapon apply damage")
 	panel.unwield_requested.emit(short_id)
@@ -161,7 +161,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller.inventory_state().is_direct_child(short_id, _player_endpoint()), "Wield/Unwield never change item parent")
 	_assert_eq(operation_random.calls, 0, "Wield/Unwield/projection refresh consume zero Combat RNG")
 
-	var short_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
+	var short_binding: CombatSliceCharacterBinding = controller.combat_lifecycle.build_participants()[0]
 	_assert_eq(controller.last_player_content_resolution().outcome, WorldWeaponContentResolution.Outcome.WEAPON, "fresh participant projection resolves current short primary")
 	_assert_eq(short_binding.content.projected_apply_damage(short_primary), 15, "fresh participant projects current short damage 15")
 	_assert_eq(long_binding.content.projected_apply_damage(long_binding.state.equipment.primary_weapon()), 0, "old binding does not become a mutable short profile")
@@ -438,7 +438,7 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_eq(rows.size(), 1, "fresh/reset boundary removes acquired short and silver")
 	_assert_eq(rows[0].item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "fresh/reset boundary restores only prototype long")
 	_assert_eq(rows[0].equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.PRIMARY, "fresh/reset boundary restores long PRIMARY")
-	var binding: CombatSliceCharacterBinding = fresh._build_participants()[0]
+	var binding: CombatSliceCharacterBinding = fresh.combat_lifecycle.build_participants()[0]
 	_assert_eq(fresh.last_player_content_resolution().outcome, WorldWeaponContentResolution.Outcome.WEAPON, "fresh/reset resolver returns long profile")
 	_assert_eq(binding.content.projected_apply_damage(binding.state.equipment.primary_weapon()), 25, "fresh/reset combat returns long damage 25")
 	fresh.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
@@ -481,8 +481,8 @@ func _kill_bandit(
 
 
 func _instantiate_scene(tree: SceneTree) -> WorldMapController:
-	var session: OldPineWorldSessionController = (
-		SceneType.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		SceneType.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null
@@ -498,7 +498,7 @@ func _instantiate_scene(tree: SceneTree) -> WorldMapController:
 func _player_endpoint() -> ContainmentEndpoint:
 	return ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.CHARACTER,
-		OldPineWorldSessionController.PLAYER_ID,
+		WorldSessionController.PLAYER_ID,
 	)
 
 

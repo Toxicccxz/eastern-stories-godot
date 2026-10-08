@@ -336,12 +336,12 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(tall.character_state.equipment.primary_weapon().instance_id, long_sword.item_instance_id, "tall long sword starts in primary hand")
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 6, "tall silver stack amount is six")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 222, "six silver weighs 6 * 37")
-	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
 	_assert_eq(participants.size(), 19, "combat projection includes player and the forest map's 18 present NPCs")
 	_assert_eq(participants[4].content.projected_apply_damage(participants[4].state.equipment.primary_weapon()), 25, "tall combat projection uses long-sword damage 25")
 	var tall_primary: EquippedWeaponRef = tall.character_state.equipment.primary_weapon()
 	_assert_true(tall.character_state.equipment.unwield(tall_primary.instance_id).succeeded, "audit can remove Tall current primary through Equipment authority")
-	var unequipped_binding: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), tall.character_id)
+	var unequipped_binding: CombatSliceCharacterBinding = _binding_for(controller.combat_lifecycle.build_participants(), tall.character_id)
 	_assert_eq(unequipped_binding.content.projected_apply_damage(unequipped_binding.state.equipment.primary_weapon()), 0, "authored Tall profile does not override live unequipped state")
 	_assert_true(tall.character_state.equipment.wield(tall_primary, false).succeeded, "audit restores Tall primary before combat")
 
@@ -426,11 +426,11 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "player live authority reaches Pine Deep before Tall death")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Tall live authority reaches Pine Deep before death")
-	var current_participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
+	var current_participants: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
 	var tall_binding: CombatSliceCharacterBinding = _binding_for(current_participants, tall.character_id)
 	var killer_binding: CombatSliceCharacterBinding = _binding_for(current_participants, controller.player_runtime().character_id)
-	var death_destination: InventoryTransferDestination = controller._world_destination_for(tall.character_id)
-	var death_context: DeathContext = controller._death_context_for(tall_binding, killer_binding, death_destination)
+	var death_destination: InventoryTransferDestination = controller.combat_lifecycle._world_destination_for(tall.character_id)
+	var death_context: DeathContext = controller.combat_lifecycle._death_context_for(tall_binding, killer_binding, death_destination)
 	_assert_eq(death_context.victim_display_name, "土匪", "Tall death context uses authored display name")
 	_assert_eq(death_context.victim_gender, CharacterState.GENDER_MALE, "Tall death context uses current gender")
 	_assert_eq(death_context.victim_age, 27, "Tall death context uses authored age")
@@ -487,7 +487,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(silver_take.resulting_item_instance_id, silver.item_instance_id, "incoming Tall silver is closed-semantics survivor")
 	var player_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.CHARACTER,
-		OldPineWorldSessionController.PLAYER_ID,
+		WorldSessionController.PLAYER_ID,
 	)
 	_assert_true(controller.inventory_state().is_direct_child(long_sword.item_instance_id, player_endpoint), "looted long sword becomes player direct inventory")
 	_assert_true(controller.inventory_state().is_direct_child(silver.item_instance_id, player_endpoint), "looted silver becomes player direct inventory")
@@ -501,7 +501,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_true(OldPineTestMap.unwield(controller, original_primary.instance_id).succeeded, "existing equipment action unwields original long sword")
 	_assert_true(OldPineTestMap.wield(controller, long_sword.item_instance_id).succeeded, "existing equipment action wields looted long sword")
 	_assert_eq(controller.player_runtime().state.equipment.primary_weapon().instance_id, long_sword.item_instance_id, "looted instance is current primary authority")
-	var player_binding: CombatSliceCharacterBinding = controller._build_participants()[0]
+	var player_binding: CombatSliceCharacterBinding = controller.combat_lifecycle.build_participants()[0]
 	_assert_eq(player_binding.content.projected_apply_damage(player_binding.state.equipment.primary_weapon()), 25, "looted long sword preserves combat content projection")
 	var old_tall_state: CharacterState = tall.character_state
 	var old_long_id: StringName = long_sword.item_instance_id
@@ -571,8 +571,8 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 
 
 func _instantiate_scene(tree: SceneTree) -> WorldMapController:
-	var session: OldPineWorldSessionController = (
-		SceneType.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		SceneType.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null
@@ -666,7 +666,7 @@ func _add_player_silver(
 		InventoryTransferDestination.new(
 			ContainmentEndpoint.new(
 				ContainmentEndpoint.Kind.CHARACTER,
-				OldPineWorldSessionController.PLAYER_ID,
+				WorldSessionController.PLAYER_ID,
 			),
 			true,
 			true,

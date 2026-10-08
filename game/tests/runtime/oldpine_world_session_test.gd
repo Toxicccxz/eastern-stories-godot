@@ -80,7 +80,7 @@ func _test_unconfigured_maps_remain_inert(tree: SceneTree) -> void:
 
 
 func _test_handoff_failure_boundaries(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _instantiate_session(tree, 9201, 9202)
+	var session: WorldSessionController = _instantiate_session(tree, 9201, 9202)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var location_before: WorldLocationState = session.player_runtime().world_location()
@@ -147,7 +147,7 @@ func _test_handoff_failure_boundaries(tree: SceneTree) -> void:
 	session.queue_free()
 	await tree.process_frame
 
-	var partial_session: OldPineWorldSessionController = _instantiate_session(tree, 9211, 9212)
+	var partial_session: WorldSessionController = _instantiate_session(tree, 9211, 9212)
 	var partial_outdoor: WorldMapController = partial_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var partial_cave: WorldMapController = partial_session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	partial_outdoor.tree_exiting.connect(
@@ -176,7 +176,7 @@ func _test_handoff_failure_boundaries(tree: SceneTree) -> void:
 
 
 func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
+	var session: WorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_true(session != null, "Old Pine session scene instantiates")
 	if session == null:
 		return
@@ -526,7 +526,7 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	_assert_true(old_cave_camera_ref.get_ref() == null, "old detached Cave Camera cannot survive session destruction")
 	_assert_true(old_npc_body_ref.get_ref() == null, "spawned NPC bodies are destroyed with the old session")
 	_assert_true(old_corpse_view_ref.get_ref() == null, "old corpse view and signals cannot survive session destruction")
-	var control: OldPineWorldSessionController = _instantiate_session(tree, 9301, 9302)
+	var control: WorldSessionController = _instantiate_session(tree, 9301, 9302)
 	_assert_eq(control.npc_random_source().next_below(1000), npc_random_after_roundtrip, "Cave activation and return consume zero NPC-init RNG draws")
 	_assert_eq(control.world_npcs().size(), 36, "fresh whole-session boundary restores all 36 authored NPCs")
 	_assert_eq(control.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh whole-session boundary clears prior corpse state")
@@ -538,12 +538,12 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 
 
 func _test_fresh_session_identity_scope(tree: SceneTree) -> void:
-	var first: OldPineWorldSessionController = _instantiate_session(tree, 9401, 9402)
+	var first: WorldSessionController = _instantiate_session(tree, 9401, 9402)
 	var first_scope: StringName = first.item_instance_scope()
 	var first_item_id: StringName = first.player_runtime().state.equipment.primary_weapon().instance_id
 	first.queue_free()
 	await tree.process_frame
-	var second: OldPineWorldSessionController = _instantiate_session(tree, 9401, 9402)
+	var second: WorldSessionController = _instantiate_session(tree, 9401, 9402)
 	_assert_ne(second.item_instance_scope(), first_scope, "whole-session reset creates a fresh item ID scope")
 	_assert_ne(second.player_runtime().state.equipment.primary_weapon().instance_id, first_item_id, "fresh session creates a fresh player item instance")
 	_assert_eq(second.active_map_child_count(), 1, "fresh session still has one active map child")
@@ -555,9 +555,9 @@ func _instantiate_session(
 	tree: SceneTree,
 	npc_seed: int,
 	combat_seed: int,
-) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = (
-		SessionScene.instantiate() as OldPineWorldSessionController
+) -> WorldSessionController:
+	var session: WorldSessionController = (
+		SessionScene.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null

@@ -82,7 +82,7 @@ func _test_component(tree: SceneTree) -> void:
 
 
 func _test_hud(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	for frame: int in range(5):

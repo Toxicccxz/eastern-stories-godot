@@ -13,8 +13,16 @@ const WORLD_CAPACITY: int = 1_000_000
 
 ## Services, the HUD, restore entries and combat talk to the Session; optional
 ## for isolated map compositions without one.
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 var player_body: WorldCharacterBody2D
+# --- components ---
+var corpses: WorldMapCorpses = WorldMapCorpses.new(self)
+var floor_items: WorldMapFloorItems = WorldMapFloorItems.new(self)
+var selection: WorldMapSelection = WorldMapSelection.new(self)
+var npcs: WorldMapNpcs = WorldMapNpcs.new(self)
+var npc_life: WorldMapNpcLife = WorldMapNpcLife.new(self)
+var hostilities: WorldMapHostilities = WorldMapHostilities.new(self)
+var combat_lifecycle: WorldMapCombatLifecycle = WorldMapCombatLifecycle.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -28,66 +36,18 @@ var _last_exit_refusal_ms: int = 0
 const EXIT_REFUSAL_REPEAT_MS: int = 2000
 ## Half a 34 px character body.
 const BODY_HALF_EXTENT: float = 17.0
-var _services: Array[WorldService] = []
-var _doors: Dictionary[StringName, WorldDoor] = {}
-var _landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
+var service_nodes: Array[WorldService] = []
+var doors_by_id: Dictionary[StringName, WorldDoor] = {}
+var landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
 
-var _map_characters: MapCharacterRuntimeState
-var _npcs: Array[NpcRuntimeState] = []
-var _npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
-## The spawn each summoned NPC here came by (SummonedNpc), by spawn ID: none is in the catalog.
-var _summon_spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
-## Who called each summoned NPC still here (set("possessed", who)): its character ID.
-var _summoners: Dictionary[StringName, StringName] = {}
-var _npc_presence: Dictionary[StringName, Area2D] = {}
-var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
-var _corpse_states: Array[CorpseState] = []
-var _corpse_views: Dictionary[StringName, CombatSliceCorpseView] = {}
-var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
-## killed_enemy()'s call_out("dissolve", 1), one per kill: [NPC id, ms of world time
-## left] (transient).
-var _pending_dissolves: Array[Array] = []
-var _post_actions: CombatSlicePostActions
-var _last_player_berserk := CombatSliceInitiationResult.new()
-## The NPC whose arrival made the player's init() roll go over: combatd.c
-## auto_fight() call_out()s start_berserk(), run on the next world tick (after the
-## room's description). Empty when none waits (looking_for_trouble).
-var _pending_player_berserk: StringName = &""
-var _floor_items: Dictionary[StringName, WorldFloorItemView] = {}
-## Items lying away from any spawn marker (dropped), with their place; saved.
-var _dropped: Dictionary[StringName, WorldLocationState] = {}
-var _effects: SkillImprovementEffectRegistry
-var _selected_target: WorldInteractionTarget
-var _selected_landmark_available: bool = false
-var _aggression: NpcAggressionAdapter = NpcAggressionAdapter.new()
-var _last_aggression_decisions: Array[NpcAggressionDecision] = []
-var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
-## Aggressive NPCs of a complete-set zone whose current contact already started
-## an encounter; contact must break before it can start another.
-var _complete_set_consumed_contacts: Array[StringName] = []
-## Seconds each toll-taker (NpcDealings.toll_attack_delay_ms) has been touching the
-## player without a break; its greeting attacks once that reaches the delay.
-var _toll_contact_seconds: Dictionary[StringName, float] = {}
-## Toll-takers put back in the pair queue while their greeting waits.
-var _toll_waiting: Dictionary[StringName, bool] = {}
-var _loot: CorpseLootAdapter = CorpseLootAdapter.new()
-var _last_loot_transfer_result: CorpseLootTransferResult
-var _weapon_resolver: WorldWeaponContentResolver = WorldWeaponContentResolver.new()
-var _last_player_content_resolution: WorldWeaponContentResolution
-var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
-var _lifecycle_failed: bool = false
-var _npc_heartbeat: NpcHeartbeat
-var _ambience: NpcAmbience
-## steal.c between main() and compelete_steal(): {item, sp, dp} by thief.
-var _pending_steals: Dictionary[StringName, Dictionary] = {}
-## query("thief") of each thief: how often it was caught (not saved, as NPCs are made anew).
-var _times_caught: Dictionary[StringName, int] = {}
-var _walker: WorldNpcWalker
-## The player's place as the NPCs' init() last saw it; another one is an arrival.
-var _arrival_zone_id: StringName = &""
 var _last_landmark_use: RefCounted
-var _landmark_uses: Dictionary[StringName, int] = {}
 var _last_passage_traversal: RefCounted
+
+
+## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
+## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, NONE when
+## it is unarmed or will not take place (spar_selected()'s refusals, or the NPC's).
+enum SparRisk { NONE, ARMED, DEADLY }
 
 
 func _ready() -> void:
@@ -98,7 +58,7 @@ func map_id() -> StringName:
 	return map
 
 
-func configure_session(value: OldPineWorldSessionController) -> bool:
+func configure_session(value: WorldSessionController) -> bool:
 	if _initialized or value == null or session != null:
 		return false
 	session = value
@@ -120,11 +80,11 @@ func initialize_map() -> bool:
 	if not player_body.bind_player(_player) or not player_body.bind_world_simulation_gate(_world_simulation_gate):
 		return false
 	player_body.global_position = entry.global_position
-	_map_characters = MapCharacterRuntimeState.new(map)
-	_effects = SkillImprovementEffectRegistry.new()
-	_effects.register_legacy_defaults()
-	var restoring: bool = session != null and session.bootstrap_mode() == OldPineWorldSessionController.BootstrapMode.RESTORE
-	if not (_restore_actors() if restoring else _spawn_actors()):
+	npcs.map_characters = MapCharacterRuntimeState.new(map)
+	combat_lifecycle.effects = SkillImprovementEffectRegistry.new()
+	combat_lifecycle.effects.register_legacy_defaults()
+	var restoring: bool = session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE
+	if not (npcs.restore_actors() if restoring else npcs.spawn_actors()):
 		return false
 	prepare_for_deactivation()
 	_initialized = true
@@ -194,7 +154,7 @@ func _bind_services() -> bool:
 			return false
 		service.setup(self, definition, point)
 		add_child(service)
-		_services.append(service)
+		service_nodes.append(service)
 	return expected.is_empty()
 
 
@@ -205,7 +165,7 @@ func _bind_doors() -> bool:
 	for door: WorldDoor in doors():
 		if door.wall_shape() == null or not expected.erase(door.door_id):
 			return false
-		_doors[door.door_id] = door
+		doors_by_id[door.door_id] = door
 		door.set_open(GameContent.catalog().door(door.door_id).starts_open)
 	return expected.is_empty()
 
@@ -220,8 +180,8 @@ func _bind_landmarks() -> bool:
 			continue
 		if not expected.erase(area.landmark_id):
 			return false
-		_landmark_areas[area.landmark_id] = area
-		area.selection_requested.connect(select_landmark)
+		landmark_areas[area.landmark_id] = area
+		area.selection_requested.connect(selection.select_landmark)
 	return expected.is_empty()
 
 
@@ -307,9 +267,9 @@ func relocate_player(zone_id: StringName, spawn_point_id: StringName) -> bool:
 	if not _player.set_world_location(location):
 		return false
 	player_body.refresh_runtime_state()
-	_selected_target = null
-	if _hud() != null:
-		_hud().set_selected_target(null)
+	selection.selected_target = null
+	if hud() != null:
+		hud().set_selected_target(null)
 	return true
 
 
@@ -339,8 +299,8 @@ func complete_activation() -> bool:
 	player_body.refresh_runtime_state()
 	(player_body.get_node("Camera2D") as Camera2D).enabled = true
 	clear_passage_contacts()
-	if _hud() != null:
-		_hud().refresh_live_state()
+	if hud() != null:
+		hud().refresh_live_state()
 	return true
 
 
@@ -351,20 +311,20 @@ func prepare_for_deactivation() -> void:
 	player_body.velocity = Vector2.ZERO
 	(player_body.get_node("Camera2D") as Camera2D).enabled = false
 	# Nobody watches a map the player left: its NPCs stand where they were going.
-	if _walker != null:
-		_walker.finish_all()
-	_arrival_zone_id = &""
+	if npc_life.walker != null:
+		npc_life.walker.finish_all()
+	npc_life.arrival_zone_id = &""
 	_present_zones.clear()
 	_zone_check_pending = false
 	clear_passage_contacts()
-	_selected_target = null
-	_aggression.clear_all()
-	_toll_contact_seconds.clear()
-	_toll_waiting.clear()
-	if _hud() != null:
-		_hud().set_selected_target(null)
-		_hud().close_loot()
-		_hud().close_inventory()
+	selection.selected_target = null
+	hostilities.aggression.clear_all()
+	hostilities.toll_contact_seconds.clear()
+	hostilities.toll_waiting.clear()
+	if hud() != null:
+		hud().set_selected_target(null)
+		hud().close_loot()
+		hud().close_inventory()
 
 
 func _zone_entered(body: Node2D, zone: WorldPhysicalZoneArea2D) -> void:
@@ -419,7 +379,7 @@ func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExit
 	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state)
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
 		var present: bool = false
-		for npc: NpcRuntimeState in _npcs:
+		for npc: NpcRuntimeState in npcs.residents:
 			present = present or (
 				npc.definition().definition_id == rule.present_npc_id and npc.exists_in_map
 				and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == from_zone_id
@@ -479,7 +439,7 @@ func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
 		var lines: Array[String] = []
 		for line: String in rule.lines:
 			lines.append(tr(line))
-		_hud().append_log_lines(lines)
+		hud().append_log_lines(lines)
 	_last_exit_refusal = rule.rule_id
 	_last_exit_refusal_ms = now
 
@@ -490,16 +450,16 @@ func freeze_world_gameplay(id: StringName) -> bool:
 	_freeze_owner = id
 	# A fight or a transition takes NPCs where their move was going (their place
 	# already is), so a body never dies or is saved between two zones.
-	if _walker != null:
-		_walker.finish_all()
-	_aggression.clear_all()
-	_pending_player_berserk = &""
-	_selected_target = null
-	if _hud() != null:
-		_hud().set_selected_target(null)
-		_hud().close_loot()
-		_hud().close_inventory()
-	for body: WorldCharacterBody2D in _character_bodies():
+	if npc_life.walker != null:
+		npc_life.walker.finish_all()
+	hostilities.aggression.clear_all()
+	hostilities.pending_player_berserk = &""
+	selection.selected_target = null
+	if hud() != null:
+		hud().set_selected_target(null)
+		hud().close_loot()
+		hud().close_inventory()
+	for body: WorldCharacterBody2D in npcs.character_bodies():
 		body.quarantine_current_movement_input()
 	return true
 
@@ -508,11 +468,11 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if id.is_empty() or _freeze_owner != id or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = &""
-	dismiss_summoned()
-	for body: WorldCharacterBody2D in _character_bodies():
+	npcs.dismiss_summoned()
+	for body: WorldCharacterBody2D in npcs.character_bodies():
 		body.quarantine_current_movement_input()
-	if _hud() != null:
-		_hud().refresh_live_state()
+	if hud() != null:
+		hud().refresh_live_state()
 	return true
 
 
@@ -540,8 +500,6 @@ func replace_world_interaction_random_source(value: WorldInteractionRandomSource
 	_world_interaction_random = value
 	return true
 
-
-# --- Authorities ---------------------------------------------------------------
 
 func player_runtime() -> WorldPlayerRuntimeState:
 	return _player
@@ -584,3074 +542,48 @@ func world_interaction_random_source() -> WorldInteractionRandomSource:
 
 
 func map_character_state() -> MapCharacterRuntimeState:
-	return _map_characters
+	return npcs.map_characters
 
 
-func _hud() -> SharedGameplayUI:
+func hud() -> SharedGameplayUI:
 	return null if session == null else session.shared_ui()
 
 
-func _gameplay_open() -> bool:
+func world_simulation_gate() -> WorldSimulationGate:
+	return _world_simulation_gate
+
+
+func gameplay_open() -> bool:
 	return _world_simulation_gate == null or _world_simulation_gate.is_open()
 
 
-# --- NPC bodies ----------------------------------------------------------------
-
-## Spawns are created in authored order: it fixes each NPC's random draws and
-## loadout item identities.
-func _spawn_actors() -> bool:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var loadout_content: Array[NpcLoadoutItemDefinition] = catalog.loadout_item_definitions()
-	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
-		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
-			spawn,
-			catalog.npc(spawn.npc_definition_id),
-			location_for_zone(spawn.zone_id),
-			_inventory,
-			_stacks,
-			_npc_random,
-			loadout_content,
-			_item_id_allocator.scope,
-		)
-		if created.size() != spawn.quantity:
-			push_error("spawn %s could not be created; check its npc, map and zone" % spawn.spawn_id)
-			return false
-		for npc: NpcRuntimeState in created:
-			if not _register_loadout(npc):
-				return false
-		for npc: NpcRuntimeState in created:
-			var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
-			if marker == null or not _add_npc_body(npc, marker.global_position):
-				return false
-			if spawn.summoned:
-				npc.set_exists_in_map(false)
-				_npc_bodies[npc.character_id].refresh_runtime_state()
-	return _spawn_floor_items()
-
-
-func _register_loadout(npc: NpcRuntimeState) -> bool:
-	for item: ItemInstance in npc.loadout_items():
-		if not _item_index.register_snapshot(item):
-			return false
-		# The drunk's wineskin starts full, as a bought one does.
-		var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
-		if content != null and not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids):
-			return false
-	return true
-
-
-## Restore places the saved NPCs and corpses of this map, exactly where they were.
-func _restore_actors() -> bool:
-	for entry: OldPineRestoredNpcEntry in session.restored_npc_entries():
-		var npc: NpcRuntimeState = entry.runtime
-		if npc.world_location().map_id != map:
-			continue
-		# register_npc() is a live-spawn API and marks existence true. Restore
-		# immediately reapplies the persisted tombstone fact before any frame.
-		var saved_exists: bool = npc.exists_in_map
-		if not _add_npc_body(npc, entry.map_position):
-			return false
-		npc.set_exists_in_map(saved_exists)
-		_npc_bodies[npc.character_id].refresh_runtime_state()
-	for entry: OldPineRestoredCorpseEntry in session.restored_corpse_entries():
-		if entry.world_location.map_id == map and not _publish_corpse_view(entry.state, entry.map_position, entry.world_location):
-			return false
-	var authored_npc_count: int = 0
-	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
-		authored_npc_count += spawn.quantity
-	return _npcs.size() == authored_npc_count and _restore_floor_items()
-
-
-# --- Items on the floor ------------------------------------------------------------
-
-## A new world lays each item spawn's item on its marker (room.c reset() ->
-## make_inventory()). Its identity follows from the spawn point, so nothing
-## draws from a random source or the dynamic ID sequence.
-func _spawn_floor_items() -> bool:
-	for spawn: ItemSpawnDefinition in GameContent.catalog().item_spawns_for_map(map):
-		for point_id: StringName in spawn.spawn_point_ids():
-			if not _place_floor_item(spawn, point_id):
-				return false
-	return true
-
-
-func _place_floor_item(spawn: ItemSpawnDefinition, point_id: StringName) -> bool:
-	var content: ItemContentDefinition = GameContent.catalog().item(spawn.item_definition_id)
-	var location: WorldLocationState = location_for_zone(spawn.zone_id)
-	if content == null or location == null:
-		return false
-	var item: ItemInstance = ItemInstance.new(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id), content.item_definition_id)
-	if (
-		not _inventory.register_item(item, content.own_weight)
-		or not _item_index.register_snapshot(item)
-		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
-	):
-		return false
-	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
-		_inventory,
-		item.item_instance_id,
-		InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
-	)
-	return placed.succeeded and _add_floor_item_view(item.item_instance_id, content, point_id)
-
-
-## Continue: a dropped item lies where the save says; an item still in its spawn's
-## zone and not dropped lies on its marker; one taken away is wherever its record
-## says (OldPineWorldRestoreComposition checks that every floor item has a place).
-func _restore_floor_items() -> bool:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var dropped_anywhere: Dictionary[StringName, bool] = {}
-	for record: GameSaveValueTypes.FloorItemSnapshot in session.restored_floor_items():
-		dropped_anywhere[record.item_instance_id] = true
-		if record.world_location.map_id != map:
-			continue
-		var location: WorldLocationState = location_for_zone(record.world_location.zone_id)
-		if location == null or not _add_dropped_item_view(record.item_instance_id, location, Vector2(record.map_position.x, record.map_position.y)):
-			return false
-	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
-		var content: ItemContentDefinition = catalog.item(spawn.item_definition_id)
-		var location: WorldLocationState = location_for_zone(spawn.zone_id)
-		if content == null or location == null:
-			return false
-		for point_id: StringName in spawn.spawn_point_ids():
-			var id: StringName = ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)
-			var parent: ContainmentEndpoint = _inventory.direct_parent(id) if _inventory.is_registered(id) else null
-			# A dropped one lies where its record says, maybe on another map.
-			if parent == null or parent.kind != ContainmentEndpoint.Kind.WORLD or dropped_anywhere.has(id):
-				continue
-			if parent.endpoint_id != location.combat_location_id or not _add_floor_item_view(id, content, point_id):
-				return false
-	return true
-
-
-func _add_floor_item_view(item_id: StringName, content: ItemContentDefinition, point_id: StringName) -> bool:
-	var marker: WorldSpawnMarker2D = resolve_spawn_marker(point_id)
-	var view: WorldFloorItemView = WorldFloorItemView.new()
-	if marker == null or not view.configure(item_id, content.display_name):
-		view.free()
-		return false
-	view.position = marker.position
-	marker.get_parent().add_child(view)
-	_floor_items[item_id] = view
-	view.selection_requested.connect(select_floor_item)
-	return true
-
-
-## A view for an item lying in `location` at `position` (dropped there), kept in
-## the save (dropped_item_ids()).
-func _add_dropped_item_view(item_id: StringName, location: WorldLocationState, position: Vector2) -> bool:
-	var item: ItemInstance = _item_index.resolve(item_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	var view: WorldFloorItemView = WorldFloorItemView.new()
-	if content == null or location == null or _floor_items.has(item_id) or not view.configure(item_id, content.display_name):
-		view.free()
-		return false
-	var parent: Node = get_node_or_null("SpawnPoints")
-	(self if parent == null else parent).add_child(view)
-	view.global_position = position
-	_floor_items[item_id] = view
-	_dropped[item_id] = location.duplicate_snapshot()
-	view.selection_requested.connect(select_floor_item)
-	return true
-
-
-## Where something dropped by a body standing at `origin` lies: just in front of its feet,
-## where the body does not hide it, on the nearest spot a save accepts (Continue checks
-## it); where it stands only when no spot nearby is one (a doorway footprint is not).
-## `apart` passes over spots where something already lies (the casino's piles).
-func _at_feet(location: WorldLocationState, origin: Vector2, apart: bool = false) -> Vector2:
-	for distance: int in [28, 44, 64, 96]:
-		for direction: Vector2 in [Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)]:
-			var spot: Vector2 = origin + direction.normalized() * distance
-			if apart and _floor_items.values().any(func(view: WorldFloorItemView) -> bool: return view.global_position.distance_to(spot) < 16.0):
-				continue
-			if MapPlacementValidator.is_valid_character_position(self, location.zone_id, spot):
-				return spot.round()
-	push_warning("no free spot near %s in %s to drop on" % [origin, location.zone_id])
-	return origin
-
-
-## bamboo_pipe.c do_play(): the player plays a carried item; the room's trap
-## listening for its sound hears it (environment()->pipe_notify()).
-func play_item(item_id: StringName) -> bool:
-	if _player == null or not can_act(false):
-		return false
-	var item: ItemInstance = _item_index.resolve(item_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	var carried: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	if content == null or content.play.is_empty() or not _inventory.is_descendant_of(item_id, carried):
-		return false
-	# TRANSLATORS: bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
-	_hud().append_log_lines([tr("你拿起一根%s呜嘟嘟地吹了起来。") % tr(content.display_name)])
-	if session != null:
-		session.room_traps().hear(content.play, _player.world_location().zone_id)
-	return true
-
-
-## rope.c hang_self(): environment(this_player())->query("outdoors") refuses.
-func can_hang_here() -> bool:
-	return _player != null and not zone_outdoors(_player.world_location().zone_id)
-
-
-## Whether a zone counts as under the open sky for rope.c: any of its rooms set("outdoors").
-## A zone that merges rooms which disagree (the pine's canopy: tree1 and tree2 inside its
-## boughs, tree3 at the open top) does not know which one the player stands in, so a deadly
-## hang is refused in all of it rather than allowed where rope.c would refuse it.
-static func zone_outdoors(zone_id: StringName) -> bool:
-	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
-	if zone == null:
-		return true
-	for room_id: StringName in zone.room_ids():
-		var room: RoomDefinition = GameContent.catalog().room(room_id)
-		if room == null or room.outdoors:
-			return true
-	return false
-
-
-## rope.c hang_self() with the carried rope: under the open sky the rope finds nothing
-## to hang from; indoors the player's line, then die(). Nobody hurt the player: an old
-## last_damage_from is not a killer here (DECISIONS 青石村 A).
-func hang_with(item_id: StringName) -> bool:
-	if _player == null or not can_act(false):
-		return false
-	var item: ItemInstance = _item_index.resolve(item_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	var carried: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	if content == null or not content.hang or not _inventory.is_descendant_of(item_id, carried):
-		return false
-	if not can_hang_here():
-		_hud().append_log_lines([tr("你四处看看, 实在找不到地方挂绳子说...")])
-		return false
-	_hud().close_inventory()
-	_hud().append_log_lines([tr("你把绳子一端挂好, 另一端往脖子上一套.....")])
-	_player.relationship.clear_last_damage_from()
-	_player.state.vitality.apply_wound(_player.state.vitality.effective + 1)
-	player_fall_below_zero()
-	return true
-
-
-## The item of `item_definition_id` lying in `zone_id` (present(id, room)), or empty.
-func floor_item_of(item_definition_id: StringName, zone_id: StringName) -> StringName:
-	var location: WorldLocationState = location_for_zone(zone_id)
-	if location == null:
-		return &""
-	for item_id: StringName in _floor_items:
-		var item: ItemInstance = _item_index.resolve(item_id)
-		if item != null and item.item_definition_id == item_definition_id and _inventory.is_direct_child(item_id, _floor_endpoint(location)):
-			return item_id
-	return &""
-
-
-## destruct() of something on the floor (cave5.c moves the buried skeleton to
-## /obj/void); a spawn's item comes back with its room's reset.
-func destroy_floor_item(item_id: StringName) -> bool:
-	if not _floor_items.has(item_id):
-		return false
-	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF)
-	if not (
-		removal.succeeded
-		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
-		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
-		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
-	):
-		return false
-	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM and _selected_target.target_id == item_id:
-		_selected_target = null
-		_hud().set_selected_target(null)
-	_forget_floor_item(item_id)
-	return true
-
-
-## new(item)->move(room): a new item lying at the player's feet in their zone
-## (cave5.c's book falling from the roof); kept in the save as a dropped one.
-func place_new_floor_item(item_definition_id: StringName) -> StringName:
-	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
-	var location: WorldLocationState = null if _player == null else _player.world_location()
-	if content == null or location == null or location.map_id != map:
-		return &""
-	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
-	if not allocation.succeeded:
-		return &""
-	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
-	if (
-		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
-		or not _item_index.register_snapshot(item)
-		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
-	):
-		return &""
-	# combined.c: a new one comes with create()'s set_amount() (蒙汗药: one 包).
-	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
-		return &""
-	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
-		_inventory,
-		item.item_instance_id,
-		InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
-	)
-	if not placed.succeeded or not _add_dropped_item_view(item.item_instance_id, location, _at_feet(location, player_body.global_position)):
-		return &""
-	return item.item_instance_id
-
-
-## new(item)->move(me): a new item in the player's hands (water.c's 追风剑); when
-## they cannot carry it, it lies at their feet. A combined item merges into the
-## player's own stack (combined.c). Empty when nothing was made.
-func give_new_item_to_player(item_definition_id: StringName) -> StringName:
-	var item_id: StringName = place_new_floor_item(item_definition_id)
-	if item_id.is_empty():
-		return &""
-	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	var destination := InventoryTransferDestination.new(carried, true, true, _player.maximum_encumbrance)
-	if _stacks.has_stack(item_id):
-		var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
-		var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(_stacks, _inventory, item_id, destination, null, null, owner)
-		if merged.inventory_transfer != null and merged.inventory_transfer.succeeded:
-			_forget_floor_item(item_id)
-			_item_index.forget_destroyed_snapshots(merged.absorbed_instance_ids, _inventory)
-		return item_id
-	var taken: InventoryTransferResult = InventoryTransferService.new().transfer(_inventory, item_id, destination)
-	if taken.succeeded:
-		_forget_floor_item(item_id)
-	return item_id
-
-
-## How many times a `look_spawn` landmark called something in since its room's reset
-## (house3.c num_of_spider). Not saved, as doors are not.
-func landmark_uses(landmark_id: StringName) -> int:
-	return _landmark_uses.get(landmark_id, 0)
-
-
-func count_landmark_use(landmark_id: StringName) -> void:
-	_landmark_uses[landmark_id] = landmark_uses(landmark_id) + 1
-
-
-## Items dropped on this map's floor (not on a spawn marker), for the save.
-func dropped_item_ids() -> Array[StringName]:
-	var result: Array[StringName] = []
-	result.assign(_dropped.keys())
-	return result
-
-
-func dropped_item_location(item_id: StringName) -> WorldLocationState:
-	var location: WorldLocationState = _dropped.get(item_id)
-	return null if location == null else location.duplicate_snapshot()
-
-
-func _forget_floor_item(item_id: StringName) -> void:
-	var view: WorldFloorItemView = _floor_items.get(item_id)
-	_floor_items.erase(item_id)
-	_dropped.erase(item_id)
-	if view != null:
-		view.queue_free()
-
-
-static func _floor_endpoint(location: WorldLocationState) -> ContainmentEndpoint:
-	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, location.combat_location_id)
-
-
-## Item IDs lying on this map's floor, in spawn order.
-func floor_item_ids() -> Array[StringName]:
-	var result: Array[StringName] = []
-	result.assign(_floor_items.keys())
-	return result
-
-
-func floor_item_view(item_id: StringName) -> WorldFloorItemView:
-	return _floor_items.get(item_id)
-
-
-func _selected_floor_item() -> WorldFloorItemView:
-	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.ITEM:
-		return null
-	return _floor_items.get(_selected_target.target_id)
-
-
-func _floor_item_content(view: WorldFloorItemView) -> ItemContentDefinition:
-	var item: ItemInstance = null if view == null else _item_index.resolve(view.item_instance_id)
-	return null if item == null else GameContent.catalog().item(item.item_definition_id)
-
-
-## look.c sees what lies in the player's own room.
-func _floor_item_in_player_zone(view: WorldFloorItemView) -> bool:
-	var location: WorldLocationState = null if _player == null else _player.world_location()
-	return view != null and location != null and _inventory.is_direct_child(view.item_instance_id, _floor_endpoint(location))
-
-
-func _refresh_selected_floor_item() -> void:
-	var view: WorldFloorItemView = _selected_floor_item()
-	if view != null:
-		_hud().set_selected_floor_item(view.display_name, view.is_body_in_reach(player_body), false)
-
-
-func select_floor_item(item_id: StringName) -> bool:
-	if not _gameplay_open() or session == null:
-		return false
-	var view: WorldFloorItemView = _floor_items.get(item_id)
-	if view == null:
-		return false
-	_selected_target = WorldInteractionTarget.item(item_id)
-	_hud().set_selected_floor_item(view.display_name, view.is_body_in_reach(player_body))
-	return true
-
-
-## get.c on the selected floor item, with its lines in the log.
-func take_selected_floor_item() -> FloorItemPickup.Outcome:
-	var view: WorldFloorItemView = _selected_floor_item() if _gameplay_open() and session != null else null
-	var content: ItemContentDefinition = _floor_item_content(view)
-	var location: WorldLocationState = null if _player == null else _player.world_location()
-	if view == null or content == null or location == null:
-		return FloorItemPickup.Outcome.INVALID_REQUEST
-	var taken: Array[int] = []
-	var outcome: FloorItemPickup.Outcome = FloorItemPickup.take(
-		_player, view.item_instance_id, _floor_endpoint(location), view.is_body_in_reach(player_body), _inventory, _item_index, _stacks,
-		_item_id_allocator, taken,
-	)
-	match outcome:
-		FloorItemPickup.Outcome.TAKEN_PART:
-			_hud().append_log_lines([
-				tr("你捡起%s。") % HeldItemFacts.counted(content, taken[0]),
-				tr("%s对你而言太重了。") % HeldItemFacts.short_name(view.item_instance_id, content, _stacks),
-			])
-			if _hud().inventory_is_open():
-				_hud().show_inventory(session.player_inventory_rows())
-		FloorItemPickup.Outcome.TAKEN:
-			_forget_floor_item(view.item_instance_id)
-			_selected_target = null
-			_hud().set_selected_target(null)
-			_hud().append_log_lines([tr("你捡起%s。") % HeldItemFacts.one_unit(content)])
-			if _hud().inventory_is_open():
-				_hud().show_inventory(session.player_inventory_rows())
-		FloorItemPickup.Outcome.BUSY:
-			_hud().append_log_lines([tr("你上一个动作还没有完成！")])
-		FloorItemPickup.Outcome.NOT_HERE:
-			_hud().append_log_lines([tr("你附近没有这样东西。")])
-		FloorItemPickup.Outcome.NO_GET:
-			_hud().append_log_lines([tr("这个东西拿不起来。")])
-		FloorItemPickup.Outcome.TOO_HEAVY:
-			_hud().append_log_lines([tr("%s对你而言太重了。") % tr(content.display_name)])
-	return outcome
-
-
-## A body for `npc` at `position`; `at` keeps a respawned NPC in its spawn order.
-func _add_npc_body(npc: NpcRuntimeState, position: Vector2, at: int = -1) -> bool:
-	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	if spawn == null:
-		spawn = _summon_spawns.get(npc.spawn_id)
-	if spawn == null or not _map_characters.register_npc(npc):
-		return false
-	var body: WorldNpcBody2D = NpcBodyScene.instantiate() as WorldNpcBody2D
-	body.name = String(npc.spawn_point_id).replace(".", "_")
-	body.configure_npc(spawn, npc.definition())
-	# Enter the physics space already at the spawn point, never at the origin.
-	var parent: Node = _characters_node()
-	body.position = (parent as Node2D).to_local(position) if parent is Node2D else position
-	parent.add_child(body)
-	if at < 0 or at > _npcs.size():
-		_npcs.append(npc)
-	else:
-		_npcs.insert(at, npc)
-	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
-		return false
-	_connect_npc_body(npc.character_id, body, body.presence())
-	_bind_npc_services(npc)
-	return true
-
-
-## What the NPC offers from its body: its goods (`vendor`), its teaching and its quests.
-func _bind_npc_services(npc: NpcRuntimeState) -> void:
-	var services: Array[NpcService] = []
-	if not npc.definition().dealings().vendor_id.is_empty():
-		services.append(VendorService.new())
-	if npc.definition().dealings().quest_giver:
-		services.append(QuestService.new())
-	if npc.definition().dealings().shop_front != null:
-		services.append(ShopFrontService.new())
-	if not NpcTeacher.teachable_skills(npc.definition(), GameContent.catalog()).is_empty():
-		services.append(TeacherService.new())
-	for service: NpcService in services:
-		service.bind_npc(self, npc)
-		add_child(service)
-		_services.append(service)
-
-
-func _unbind_npc_services(character_id: StringName) -> void:
-	for service: WorldService in _services.duplicate():
-		if service is NpcService and (service as NpcService).npc.character_id == character_id:
-			_services.erase(service)
-			service.name = "%s_replaced" % service.name
-			service.queue_free()
-
-
-func _characters_node() -> Node:
-	var node: Node = get_node_or_null("Characters")
-	return self if node == null else node
-
-
-func _connect_npc_body(character_id: StringName, body: WorldCharacterBody2D, presence: Area2D) -> void:
-	_npc_bodies[character_id] = body
-	_npc_presence[character_id] = presence
-	body.selection_requested.connect(_on_npc_selection_requested)
-	presence.body_entered.connect(_on_presence_entered.bind(character_id))
-	presence.body_exited.connect(_on_presence_exited.bind(character_id))
-
-
-## Binds an already-created NPC to a caller-owned physical body. This does not
-## author a spawn, initialize a character, or establish combat relationships.
-func register_npc_body(npc: NpcRuntimeState, body: WorldCharacterBody2D, presence: Area2D, content: CombatSliceContentProfile) -> bool:
-	if (
-		not _initialized or not _gameplay_open()
-		or npc == null or not npc.is_valid() or not npc.exists_in_map
-		or npc.character_id == _player.character_id or find_resident_npc(npc.character_id) != null
-		or not is_instance_valid(body) or not is_ancestor_of(body)
-		or not body.character_id.is_empty() or body.player_controlled
-		or not body.get_node_or_null("CollisionShape2D") is CollisionShape2D
-		or not is_instance_valid(presence) or not body.is_ancestor_of(presence)
-		or npc.world_location().map_id != map
-		or _map_characters.has_character(npc.character_id)
-		or WorldCombatBindingAdapter.from_npc(npc, content) == null
-	):
-		return false
-	if not _map_characters.register_npc(npc):
-		return false
-	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
-		_map_characters.remove_character(npc.character_id)
-		return false
-	_registered_npc_content[npc.character_id] = content
-	_npcs.append(npc)
-	_connect_npc_body(npc.character_id, body, presence)
-	return true
-
-
-## Caller owns physical-node removal. Never detach a live Encounter participant.
-func unregister_npc_body(character_id: StringName) -> bool:
-	if not _gameplay_open() or not _registered_npc_content.has(character_id):
-		return false
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null or npc.relationship.is_fighting():
-		return false
-	var body: WorldCharacterBody2D = _npc_bodies[character_id]
-	if is_instance_valid(body):
-		body.selection_requested.disconnect(_on_npc_selection_requested)
-	var area: Area2D = _npc_presence[character_id]
-	if is_instance_valid(area):
-		area.body_entered.disconnect(_on_presence_entered.bind(character_id))
-		area.body_exited.disconnect(_on_presence_exited.bind(character_id))
-	_npc_bodies.erase(character_id)
-	_npc_presence.erase(character_id)
-	_registered_npc_content.erase(character_id)
-	_npcs.erase(npc)
-	_map_characters.remove_character(character_id)
-	_aggression.clear_npc(character_id)
-	if selected_character_id() == character_id:
-		_selected_target = null
-	return true
-
-
-func npc_runtimes() -> Array[NpcRuntimeState]:
-	return _npcs.duplicate()
-
-
-func resident_npcs() -> Array[NpcRuntimeState]:
-	return _npcs.duplicate()
-
-
-func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in _npcs:
-		if npc.character_id == character_id:
-			return npc
-	return null
-
-
-## The combat content a binding of this NPC gets now (_npc_content(), with its race and
-## authored facts), or null when it is not here.
-func npc_combat_content(character_id: StringName) -> CombatSliceContentProfile:
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	return null if npc == null else _npc_content(npc).for_npc_definition(npc.definition())
-
-
-## command("wield <type>") / command("unwield <type>") for an NPC: wield.c takes the
-## first carried weapon of that skill type into a free hand (present(), inventory
-## order); unwield.c puts the wielded one of that type away. False when nothing
-## changed (none carried, hands full, none held).
-func npc_wield_by_type(character_id: StringName, skill_type: StringName, on: bool) -> bool:
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null:
-		return false
-	var equipment: EquipmentState = npc.character_state.equipment
-	if not on:
-		var held: EquippedWeaponRef = equipment.primary_weapon()
-		return held != null and held.skill_type == skill_type and equipment.unwield(held.instance_id).succeeded
-	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
-		var item: ItemInstance = _item_index.resolve(item_id)
-		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-		var weapon: WeaponDefinition = null if content == null else content.weapon_definition()
-		if weapon != null and weapon.skill_type == skill_type and not equipment.has_weapon_instance(item_id):
-			return equipment.wield(EquippedWeaponRef.new(item_id, weapon), npc.armor.is_slot_occupied(OldPineEquipmentInteractionAdapter.SHIELD_SLOT)).succeeded
-	return false
-
-
-## command("wield <id>") for an NPC: a carried, not yet wielded item of that kind.
-func npc_wield_item(character_id: StringName, item_definition_id: StringName) -> bool:
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null:
-		return false
-	var equipment: EquipmentState = npc.character_state.equipment
-	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
-		var item: ItemInstance = _item_index.resolve(item_id)
-		var content: ItemContentDefinition = null if item == null or item.item_definition_id != item_definition_id else GameContent.catalog().item(item.item_definition_id)
-		var weapon: WeaponDefinition = null if content == null else content.weapon_definition()
-		if weapon != null and not equipment.has_weapon_instance(item_id):
-			return equipment.wield(EquippedWeaponRef.new(item_id, weapon), npc.armor.is_slot_occupied(OldPineEquipmentInteractionAdapter.SHIELD_SLOT)).succeeded
-	return false
-
-
-## present(<partner>, environment(npc)): an NPC of `definition_id` in the same room,
-## standing (living()) and not fighting; null when there is none.
-func idle_npc_beside(character_id: StringName, definition_id: StringName) -> NpcRuntimeState:
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null:
-		return null
-	for other: NpcRuntimeState in _npcs:
-		if (
-			other != npc and other.definition().definition_id == definition_id and other.exists_in_map
-			and other.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not other.relationship.is_fighting()
-			and other.world_location().zone_id == npc.world_location().zone_id
-		):
-			return other
-	return null
-
-
-## Where a save puts an NPC: its body, or the end of the walk it is on.
-func npc_rest_position(character_id: StringName) -> Vector2:
-	var body: WorldCharacterBody2D = runtime_body_for_character(character_id)
-	return Vector2.INF if body == null else npc_walker().rest_position(character_id, body)
-
-
-func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:
-	if _player != null and character_id == _player.character_id:
-		return player_body
-	return _npc_bodies.get(character_id)
-
-
-## The body of the NPC spawned at `spawn_point_id` (a spawns[] point).
-func runtime_body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBody2D:
-	for npc: NpcRuntimeState in _npcs:
-		if npc.spawn_point_id == spawn_point_id:
-			return _npc_bodies.get(npc.character_id)
-	return null
-
-
-func _character_bodies() -> Array[WorldCharacterBody2D]:
-	var result: Array[WorldCharacterBody2D] = [player_body]
-	result.append_array(_npc_bodies.values())
-	return result
-
-
-# --- Aggression ------------------------------------------------------------------
-
 func _process(delta: float) -> void:
-	if not _initialized or not _gameplay_open():
+	if not _initialized or not gameplay_open():
 		return
-	for npc: NpcRuntimeState in _npcs:
-		if _zone_entry(npc.world_location()) == &"complete_set" and not _complete_entry_contact(npc.character_id):
-			_complete_set_consumed_contacts.erase(npc.character_id)
-	_advance_toll_contacts(delta)
-	if _aggression.pending_count() > 0 or _zone_entry(_player.world_location()) == &"complete_set":
-		process_pending_aggression()
-	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
-		if _floor_items.has(_selected_target.target_id):
-			_refresh_selected_floor_item()
+	for npc: NpcRuntimeState in npcs.residents:
+		if WorldMapHostilities.zone_entry(npc.world_location()) == &"complete_set" and not hostilities.complete_entry_contact(npc.character_id):
+			hostilities.complete_set_consumed_contacts.erase(npc.character_id)
+	hostilities.advance_toll_contacts(delta)
+	if hostilities.aggression.pending_count() > 0 or WorldMapHostilities.zone_entry(_player.world_location()) == &"complete_set":
+		hostilities.process_pending_aggression()
+	if selection.selected_target != null and selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM:
+		if floor_items.item_views.has(selection.selected_target.target_id):
+			floor_items.refresh_selected_floor_item()
 		else:
-			_refresh_selected_corpse()
-	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK:
+			corpses.refresh_selected_corpse()
+	if selection.selected_target != null and selection.selected_target.kind == WorldInteractionTarget.Kind.LANDMARK:
 		_refresh_selected_landmark_source()
 
 
-static func _zone_entry(location: WorldLocationState) -> StringName:
-	var zone: ZoneDefinition = null if location == null else GameContent.catalog().zone(location.zone_id)
-	return &"" if zone == null else zone.combat_entry
-
-
-## combatd.c start_aggressive/hatred/vendetta return in a no_fight room; an
-## NPC's own zone counts too, since presence can reach across a zone edge.
-func _combat_allowed(npc: NpcRuntimeState = null) -> bool:
-	var location: WorldLocationState = _player.world_location()
-	if location == null or location.map_id != map:
-		return false
-	var catalog: ContentCatalog = GameContent.catalog()
-	if catalog.zone_forbids_fighting(location.zone_id):
-		return false
-	return npc == null or not catalog.zone_forbids_fighting(npc.world_location().zone_id)
-
-
-## A complete-set zone polls exact contact instead of queueing pair entries.
-func _on_presence_entered(body: Node2D, character_id: StringName) -> void:
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if _gameplay_open() and body == player_body and npc != null and _zone_entry(npc.world_location()) != &"complete_set":
-		_aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
-
-
-func _on_presence_exited(body: Node2D, character_id: StringName) -> void:
-	if body == player_body and not _complete_entry_contact(character_id):
-		_complete_set_consumed_contacts.erase(character_id)
-	if _gameplay_open() and body == player_body:
-		_aggression.leave_player_presence(character_id)
-		_toll_waiting.erase(character_id)
-
-
-func aggression_adapter() -> NpcAggressionAdapter:
-	return _aggression
-
-
-func last_aggression_decisions() -> Array[NpcAggressionDecision]:
-	return _last_aggression_decisions.duplicate()
-
-
-func last_aggression_initiations() -> Array[CombatSliceInitiationResult]:
-	return _last_aggression_initiations.duplicate()
-
-
-func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
-	if not _gameplay_open() or session == null:
-		return []
-	_last_aggression_initiations.clear()
-	if _zone_entry(_player.world_location()) == &"complete_set":
-		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
-			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
-			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-				_announce_fight([])
-			_last_aggression_initiations.append(started)
-		return _last_aggression_initiations.duplicate()
-	_last_aggression_decisions = _aggression.resolve_pending(_npcs, _player, _combat_allowed())
-	for decision: NpcAggressionDecision in _last_aggression_decisions:
-		var npc: NpcRuntimeState = find_resident_npc(decision.npc_id)
-		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
-			continue
-		if not npc.definition().attacks_on_sight(npc.flags(), _player.state):
-			# Paid while its greeting waited: attack.c init() rolled berserk on arrival, not now.
-			if not _toll_waiting.erase(npc.character_id):
-				_go_berserk(npc)
-			continue
-		if not _toll_due(npc):
-			# Its greeting has not come yet: wait while the player stays in reach.
-			_toll_waiting[npc.character_id] = true
-			_aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
-			continue
-		_toll_waiting.erase(npc.character_id)
-		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
-		_last_aggression_initiations.append(_initiate_lethal_combat(npc.character_id, _player.character_id, []))
-	return _last_aggression_initiations.duplicate()
-
-
-## gangster.c init(): call_out("greeting", 1). The toll-taker's greeting attacks a
-## player still in reach when its delay has passed; one who walked on meets nobody.
-## Owner (pacing knobs): walking past makes no grudge either (ES2's greeting
-## kill_ob()s a passer-by who has left, and it attacks at once next time).
-func _advance_toll_contacts(delta: float) -> void:
-	for npc: NpcRuntimeState in _npcs:
-		if npc.definition().dealings().toll_attack_delay_ms > 0 and _complete_entry_contact(npc.character_id):
-			_toll_contact_seconds[npc.character_id] = _toll_contact_seconds.get(npc.character_id, 0.0) + delta
-		else:
-			_toll_contact_seconds.erase(npc.character_id)
-
-
-func _toll_due(npc: NpcRuntimeState) -> bool:
-	var delay_ms: int = npc.definition().toll_attack_delay_ms(npc.flags(), _player.state)
-	return delay_ms <= 0 or _toll_contact_seconds.get(npc.character_id, 0.0) * 1000.0 >= delay_ms
-
-
-## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
-## follows whoever it fights: a toll-taker that fights the player (its aggression, a
-## refused toll, the player's 攻击 or 切磋) attacks on sight from then on, mark or not,
-## until a reset makes it anew. An object variable: Continue forgets it.
-func _note_toll_fights() -> void:
-	for npc: NpcRuntimeState in _npcs:
-		if not npc.definition().dealings().attack_unless_mark.is_empty() and npc.relationship.is_fighting():
-			npc.set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, true)
-
-
-## attack.c init()'s berserk case for an NPC (Berserk.roll()), then start_berserk().
-func _go_berserk(npc: NpcRuntimeState) -> void:
-	var outcome: Berserk.Outcome = Berserk.roll(npc.character_state, npc.definition().score, _world_interaction_random)
-	if outcome != Berserk.Outcome.NONE:
-		_last_aggression_initiations.append(_npc_berserk(npc, outcome, []))
-
-
-## combatd.c start_berserk(npc, player) once it decided (`outcome`); `lines` come
-## first (look.c's 瞪你一眼). It stares at everyone, then attacks to kill
-## (kill_ob(): only it kills, the player fights back) or challenges the player to a
-## spar (fight_ob()). The fight is the two of them, in a room where aggressive NPCs
-## fight together too.
-func _npc_berserk(npc: NpcRuntimeState, outcome: Berserk.Outcome, lines: Array[String]) -> CombatSliceInitiationResult:
-	var name: String = tr(npc.definition().display_name)
-	lines.append(tr("%s用一种异样的眼神扫视著在场的每一个人。") % name)
-	if outcome == Berserk.Outcome.STARE:
-		_hud().append_log_lines(lines)
-		return CombatSliceInitiationResult.new()
-	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
-	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
-	var self_rude: String = tr(RankWords.query_self_rude(npc.character_state.gender, npc.age, &""))
-	if outcome == Berserk.Outcome.KILL:
-		# TRANSLATORS: combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
-		var kill_line: String = tr("{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。").format({"npc": name, "self": self_rude})
-		return _berserk_fight(session.combat_encounter_coordinator().start_production(
-			npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true,
-		), npc, lines, kill_line, false)
-	# TRANSLATORS: combatd.c start_berserk(): {rude} is how the NPC insults the player (臭贼), {self} how it calls itself (老子).
-	var fight_line: String = tr("{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！").format({
-		"npc": name, "self": self_rude,
-		"rude": tr(RankWords.query_rude(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)),
-	})
-	return _berserk_fight(session.combat_encounter_coordinator().start_production(
-		npc_binding, player_binding, CombatTriggerCause.Value.NPC_SPAR,
-	), npc, lines, fight_line, true)
-
-
-## kill_ob(player) by `npc` outside a fight (juechen/master.c's answer to a traitor's
-## 拜师): it hunts the player, who only fights back. False when no fight could begin.
-func npc_kills_player(npc: NpcRuntimeState) -> bool:
-	if npc == null or _player == null or session == null:
-		return false
-	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
-	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
-	if npc_binding == null or player_binding == null:
-		return false
-	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
-		npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true,
-	)
-	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
-		return false
-	_announce_fight([], npc.character_id)
-	return true
-
-
-## A berserk's fight began: its shout and the opening (a spar with a blade has the
-## armed spar's hint). One that could not begin says no shout: nothing happens.
-func _berserk_fight(started: CombatSliceInitiationResult, npc: NpcRuntimeState, lines: Array[String], shout: String, spar: bool) -> CombatSliceInitiationResult:
-	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
-		_hud().append_log_lines(lines)
-		return started
-	lines.append(shout)
-	if spar and spar_is_armed(npc):
-		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
-	_announce_fight(lines, npc.character_id)
-	return started
-
-
-## The player's own feature/attack.c init() for each living NPC in `others` (who
-## came into the player's place, or into whose place the player came): its berserk
-## case, random(bellicosity / 40) > cps, drawn for each; the first that goes over
-## gets combatd.c start_berserk() on the next world tick (auto_fight()'s call_out();
-## looking_for_trouble lets one through). Not while
-## the player fights or lies unconscious. Owner (水烟阁 C): never at the player's own
-## master; an NPC whose fight is not ported is not there for it either.
-func _player_init(others: Array[NpcRuntimeState]) -> void:
-	if (
-		not _gameplay_open() or session == null or _player == null or not _player.exists_in_world
-		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.relationship.is_fighting()
-		or session.combat_encounter_coordinator().has_active_encounter()
-	):
-		return
-	var chosen: NpcRuntimeState = null
-	for npc: NpcRuntimeState in others:
-		if (
-			not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc)
-			or npc.definition().dealings().is_fight_deferred() or PlayerKillerReward.is_own_master(_player.state, npc.definition())
-		):
-			continue
-		if Berserk.init_roll(_player.state, _world_interaction_random) and chosen == null:
-			chosen = npc
-	if chosen != null and _pending_player_berserk.is_empty():
-		_pending_player_berserk = chosen.character_id
-
-
-## auto_fight()'s call_out(start_berserk): the player's berserk whose roll went over,
-## if the player and that NPC are still both here and free (start_berserk()'s checks).
-func run_pending_player_berserk() -> void:
-	var npc: NpcRuntimeState = find_resident_npc(_pending_player_berserk)
-	_pending_player_berserk = &""
-	if (
-		npc == null or not _gameplay_open() or session == null or _player == null or not npc.exists_in_map
-		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc)
-		or _player.relationship.is_fighting() or session.combat_encounter_coordinator().has_active_encounter()
-	):
-		return
-	_player_berserk(npc)
-
-
-## combatd.c start_berserk(player, npc): nothing in a room where fighting is
-## forbidden; the player stares at everyone, calms down when their force beats
-## (random(bellicosity) + bellicosity) / 2, else, with bellicosity above their
-## score, attacks the NPC to kill (kill_ob(): the NPC only fights back), or
-## challenges it to a spar (fight_ob(): it is not asked). Nobody asks the player
-## first: the player did not choose it.
-func _player_berserk(npc: NpcRuntimeState) -> void:
-	if not _combat_allowed(npc):
-		return
-	_hud().describe_arrival()
-	var outcome: Berserk.Outcome = Berserk.start(_player.state, _player.state.progression.score, _world_interaction_random)
-	var name: String = tr(npc.definition().display_name)
-	var lines: Array[String] = [tr("你用一种异样的眼神扫视著在场的每一个人。")]
-	if outcome == Berserk.Outcome.STARE:
-		_hud().append_log_lines(lines)
-		_last_player_berserk = CombatSliceInitiationResult.new()
-		return
-	var self_rude: String = tr(RankWords.query_self_rude(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id))
-	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
-	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)
-	if outcome == Berserk.Outcome.KILL:
-		# The two of them, in any room: the player kills, the NPC only fights back.
-		# TRANSLATORS: combatd.c start_berserk() for the player: {self} is how the player calls themself (老子).
-		var kill_line: String = tr("你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。").format({"npc": name, "self": self_rude})
-		_last_player_berserk = _berserk_fight(session.combat_encounter_coordinator().start_production(
-			player_binding, npc_binding, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, true,
-		), npc, lines, kill_line, false)
-		return
-	# TRANSLATORS: combatd.c start_berserk() for the player: {rude} is how the player insults the NPC (臭贼), {self} how they call themself (老子).
-	var fight_line: String = tr("你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！").format({
-		"npc": name, "rude": tr(RankWords.query_rude(npc.character_state.gender, npc.age, &"")), "self": self_rude,
-	})
-	_last_player_berserk = _berserk_fight(session.combat_encounter_coordinator().start_production(
-		player_binding, npc_binding, CombatTriggerCause.Value.PLAYER_SPAR,
-	), npc, lines, fight_line, true)
-
-
-## cmds/std/look.c on a living NPC here: when random(its bellicosity / 10) beats the
-## player's per, it turns to glare and goes berserk at them (auto_fight(),
-## start_berserk(): nothing more while it already fights them or fighting is
-## forbidden here).
-func _look_berserk(npc: NpcRuntimeState) -> void:
-	if (
-		npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player == null
-		or not npc.world_location().shares_combat_location(_player.world_location())
-		or not Berserk.look_roll(npc.character_state, _player.state.attributes.personality, _world_interaction_random)
-	):
-		return
-	var lines: Array[String] = [tr("%s突然转过头来瞪你一眼。") % tr(npc.definition().display_name)]
-	if (
-		npc.relationship.has_opponent(_player.character_id) or not _combat_allowed(npc)
-		or npc.definition().dealings().is_fight_deferred() or session.combat_encounter_coordinator().has_active_encounter()
-	):
-		_hud().append_log_lines(lines)
-		return
-	_npc_berserk(npc, Berserk.start(npc.character_state, npc.definition().score, _world_interaction_random), lines)
-
-
-## The fight the player's last berserk started (or tried to), for tests.
-func last_player_berserk() -> CombatSliceInitiationResult:
-	return _last_player_berserk
-
-
-## Owner decision P2A-M: every eligible aggressive enemy in current physical
-## contact, plus a manual target, enters one encounter in stable ID order.
-func collect_complete_combat_entry(cause: int, requested_target: StringName = &"") -> Array[CombatSliceCharacterBinding]:
-	if not _gameplay_open() or session == null or session.active_map() != self:
-		return []
-	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION]:
-		return []
-	var manual: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
-	if (manual and find_resident_npc(requested_target) == null) or (not manual and not requested_target.is_empty()):
-		return []
-	if player_body._player != _player:
-		return []
-	var ids: Array[StringName] = []
-	var fresh_contact: bool = false
-	var waiting: Array[StringName] = []
-	for npc: NpcRuntimeState in _npcs:
-		if npc.exists_in_map:
-			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-			if not is_instance_valid(body) or body._npc != npc or _map_characters.find_npc(npc.character_id) != npc:
-				return []
-		var contact: bool = _complete_entry_contact(npc.character_id)
-		if not contact:
-			_complete_set_consumed_contacts.erase(npc.character_id)
-		var decision: NpcAggressionDecision = _aggression._evaluate(npc, _player, _combat_allowed(npc))
-		var on_sight: bool = (
-			contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
-			and npc.definition().attacks_on_sight(npc.flags(), _player.state)
-		)
-		var aggressive: bool = on_sight and _toll_due(npc)
-		if on_sight and not aggressive:
-			waiting.append(npc.character_id)
-		if aggressive or (manual and npc.character_id == requested_target):
-			if ids.has(npc.character_id):
-				return []
-			ids.append(npc.character_id)
-			fresh_contact = fresh_contact or (aggressive and not _complete_set_consumed_contacts.has(npc.character_id))
-	if ids.is_empty() or (not manual and not fresh_contact):
-		return []
-	# gangster.c: every robber's greeting comes from the same arrival (each init()), so the
-	# toll-takers still waiting in reach join the fight that starts here.
-	for id: StringName in waiting:
-		if not ids.has(id):
-			ids.append(id)
-	ids.sort_custom(func(first: StringName, second: StringName) -> bool: return String(first) < String(second))
-	ids.push_front(_player.character_id)
-	var available: Array[CombatSliceCharacterBinding] = _build_participants()
-	var result: Array[CombatSliceCharacterBinding] = []
-	for id: StringName in ids:
-		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(available, id)
-		if binding == null or not session.encounter_participant_is_available(id):
-			return []
-		result.append(binding)
-	return result
-
-
-## Exact current shapes, not cached Area overlap lists or deferred signal order.
-func _complete_entry_contact(id: StringName) -> bool:
-	var body: WorldCharacterBody2D = runtime_body_for_character(id)
-	if not is_instance_valid(body) or not body.is_inside_tree():
-		return false
-	var area: Area2D = _npc_presence.get(id)
-	if not is_instance_valid(area) or not area.monitoring or not area.is_inside_tree():
-		return false
-	var player_shape: CollisionShape2D = player_body.get_node_or_null("CollisionShape2D")
-	if player_shape == null or player_shape.disabled or player_shape.shape == null:
-		return false
-	for child: Node in area.get_children():
-		if child is CollisionShape2D and not child.disabled and child.shape != null:
-			if child.shape.collide(child.global_transform, player_shape.shape, player_shape.global_transform):
-				return true
-	return false
-
-
-func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
-	for id: StringName in ids:
-		if _complete_entry_contact(id) and not _complete_set_consumed_contacts.has(id):
-			_complete_set_consumed_contacts.append(id)
-
-
-func _initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lines: Array[String]) -> CombatSliceInitiationResult:
-	if not _gameplay_open() or session == null:
-		return CombatSliceInitiationResult.new()
-	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if initiator_id == _player.character_id else CombatTriggerCause.Value.NPC_AGGRESSION
-	var result: CombatSliceInitiationResult
-	if _zone_entry(_player.world_location()) == &"complete_set":
-		result = session.combat_encounter_coordinator().start_complete_production(cause, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else &"")
-	else:
-		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-		result = session.combat_encounter_coordinator().start_production(
-			CombatSliceProjectionBuilder.find_binding(participants, initiator_id),
-			CombatSliceProjectionBuilder.find_binding(participants, target_id),
-			cause,
-		)
-	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		_announce_fight(lines, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else initiator_id)
-	return result
-
-
-## A fight the player is in has just begun: `lines` (what was said) go to the log,
-## then feature/attack.c kill_ob()'s warning, in HIR bright red, from every NPC
-## that now fights the player to the death (kill.c's obj->kill_ob(me),
-## combatd.c start_aggressive(), annihir.c accept_fight()). The battle log opens
-## with the same lines and keeps the warnings pinned while the panel covers the log.
-## `first_id`: the NPC whose kill_ob() came first (kill.c's target), when one did.
-func _announce_fight(lines: Array[String], first_id: StringName = &"") -> void:
-	_note_toll_fights()
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var encounter: CombatEncounter = coordinator.active_encounter()
-	var warnings: Array[String] = []
-	if encounter != null:
-		for participant: CombatParticipant in encounter.participants():
-			var npc: NpcRuntimeState = find_resident_npc(participant.participant_id)
-			if npc != null and participant.binding.relationship.has_lethal_target(_player.character_id):
-				var warning: String = tr("看起来%s想杀死你！") % tr(npc.definition().display_name)
-				if participant.participant_id == first_id:
-					warnings.push_front(warning)
-				else:
-					warnings.append(warning)
-	if not lines.is_empty():
-		_hud().append_log_lines(lines)
-	if not warnings.is_empty():
-		_hud().append_log_lines(warnings, true)
-	coordinator.note_opening(lines, warnings)
-
-
-# --- Combat participants and lifecycle publication ----------------------------------
-
-## all_inventory(environment(actor)) without the actor, as an exert file sees it
-## (roar.c): the NPCs in the actor's place, in the map's order, those in the fight
-## through their fight bindings. An NPC whose fight is not ported is not there.
-func exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> Array[SpecialSide]:
-	var room: Array[SpecialSide] = []
-	var location: WorldLocationState = _location_for_character(actor_id)
-	if location == null:
-		return room
-	for npc: NpcRuntimeState in _npcs:
-		if (
-			npc.character_id == actor_id or not npc.exists_in_map or not npc.world_location().shares_combat_location(location)
-			or npc.definition().dealings().is_fight_deferred()
-		):
-			continue
-		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, npc.character_id)
-		if binding == null and npc.combat_available:
-			binding = combat_binding_for(npc.character_id)
-		if binding != null:
-			room.append(CombatNpcChat.side_of(binding, npc))
-	return room
-
-
-## A fight binding for an NPC here that is not in the fight (one roar.c brings in).
-func combat_binding_for(character_id: StringName) -> CombatSliceCharacterBinding:
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null or not npc.exists_in_map:
-		return null
-	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, _npc_content(npc))
-	if binding != null:
-		if _post_actions == null:
-			_post_actions = CombatSlicePostActions.new(_run_post_action)
-		binding.post_actions = _post_actions
-	return binding
-
-
-func encounter_combat_bindings(encounter: CombatEncounter) -> Array[CombatSliceCharacterBinding]:
-	var result: Array[CombatSliceCharacterBinding] = []
-	if not _initialized or encounter == null or not encounter.is_valid():
-		return result
-	var current: Array[CombatSliceCharacterBinding] = _build_participants(true)
-	for participant: CombatParticipant in encounter.participants():
-		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(current, participant.participant_id)
-		if (
-			binding == null
-			or binding.state != participant.binding.state
-			or binding.relationship != participant.binding.relationship
-			or binding.busy != participant.binding.busy
-			or binding.armor != participant.binding.armor
-		):
-			return []
-		result.append(binding)
-	return result
-
-
-func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
-	return _effects
-
-
-func last_player_content_resolution() -> WorldWeaponContentResolution:
-	return _last_player_content_resolution
-
-
-func _build_participants(include_absent: bool = false) -> Array[CombatSliceCharacterBinding]:
-	var result: Array[CombatSliceCharacterBinding] = []
-	_last_player_content_resolution = _weapon_resolver.resolve(_player, _inventory, _item_index)
-	var player_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
-		_player,
-		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
-	)
-	if _post_actions == null:
-		_post_actions = CombatSlicePostActions.new(_run_post_action)
-	if player_binding != null:
-		player_binding.post_actions = _post_actions
-		result.append(player_binding)
-	for npc: NpcRuntimeState in _npcs:
-		if not include_absent and not npc.exists_in_map:
-			continue
-		var content: CombatSliceContentProfile = _npc_content(npc)
-		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
-		if binding != null:
-			binding.post_actions = _post_actions
-			result.append(binding)
-	return result
-
-
-## combatd.c do_attack(npc, player, the npc's weapon) called straight outside any fight
-## (champion.c's accept test): TYPE_REGULAR, as a special file's direct attack, with
-## the encounter random source and skill_improved() effects. A kee below zero falls
-## only on the heart beat after (player_fall_below_zero()). Null when either cannot
-## take part (not here, not conscious, already fighting).
-func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunityResult:
-	if (
-		npc == null or _player == null or not npc.exists_in_map or not _player.exists_in_world
-		or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
-		or npc.relationship.is_fighting() or _player.relationship.is_fighting()
-	):
-		return null
-	_last_player_content_resolution = _weapon_resolver.resolve(_player, _inventory, _item_index)
-	var player_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
-		_player,
-		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
-	)
-	var npc_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, _npc_content(npc))
-	if player_binding == null or npc_binding == null:
-		return null
-	if _post_actions == null:
-		_post_actions = CombatSlicePostActions.new(_run_post_action)
-	player_binding.post_actions = _post_actions
-	npc_binding.post_actions = _post_actions
-	var participants: Array[CombatSliceCharacterBinding] = [player_binding, npc_binding]
-	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(npc_binding, player_binding, participants, _combat_random, _effects)
-	return null if result.forward_result == null else result
-
-
-## weapond.c's post_actions for one attack; what the player sees of it.
-func _run_post_action(binding: CombatSliceCharacterBinding, policy_id: StringName, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
-	match policy_id:
-		CombatPostActionIds.THROW_WEAPON:
-			return _throw_weapon(binding)
-		CombatPostActionIds.BASH_WEAPON:
-			return _bash_weapon(binding, victim, parried, random)
-	return []
-
-
-## throw_weapon(): the weapon of the attack loses one of its amount; the last one is
-## unequipped first and its thrower told (你的飞刀用完了！, tell_object()). At 0 it is
-## gone (combined.c destructs it).
-func _throw_weapon(binding: CombatSliceCharacterBinding) -> Array[ColoredLine]:
-	var told: Array[ColoredLine] = []
-	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
-	if weapon == null or not _stacks.has_stack(weapon.instance_id):
-		return told
-	if _stacks.stack_state(weapon.instance_id).amount == 1:
-		binding.state.equipment.unwield(weapon.instance_id)
-		if binding.is_user:
-			# TRANSLATORS: weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
-			told.append(ColoredLine.new(tr("你的%s用完了！") % _item_name(weapon.instance_id)))
-	if not use_up_one(weapon.instance_id, ItemLifecycleOwnerContext.new(binding.character_id, binding.state.equipment, binding.armor)):
-		push_error("throwing %s failed: the item state is inconsistent" % weapon.instance_id)
-	return told
-
-
-## bash_weapon() (hammers, staffs): a blow the victim parried with a weapon pits the two
-## weapons, weight / 500 + rigidity + str each; random(wap) over 2 x wdp knocks the
-## victim's weapon away, over wdp nearly, over wdp / 2 breaks it, else sparks.
-## message_vision(): the room sees it. No ported item sets rigidity yet (0).
-func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
-	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
-	var parrying: EquippedWeaponRef = null if victim == null else victim.state.equipment.primary_weapon()
-	if weapon == null or parrying == null or not parried:
-		return []
-	@warning_ignore("integer_division")
-	var wap: int = _inventory.own_weight(weapon.instance_id) / 500 + binding.state.attributes.strength
-	@warning_ignore("integer_division")
-	var wdp: int = _inventory.own_weight(parrying.instance_id) / 500 + victim.state.attributes.strength
-	var roll: int = random.legacy_random(wap) if wap > 0 else 0
-	var who: String = _vision_name(victim)
-	var held: String = _item_name(parrying.instance_id)
-	if roll > 2 * wdp:
-		# TRANSLATORS: weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
-		var line := ColoredLine.new(tr("{who}只觉得手中{weapon}把持不定，脱手飞出！").format({"who": who, "weapon": held}), ColoredLine.HIW)
-		var knocked: Array[ColoredLine] = []
-		if _knock_away(victim, parrying.instance_id, false):
-			knocked.append(line)
-		return knocked
-	if roll > wdp:
-		# TRANSLATORS: weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
-		return [ColoredLine.new(tr("{who}只觉得手中{weapon}一震，险些脱手！").format({"who": who, "weapon": held}))]
-	@warning_ignore("integer_division")
-	if roll > wdp / 2:
-		# TRANSLATORS: weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
-		var broken := ColoredLine.new(tr("只听见「啪」地一声，{who}手中的{weapon}已经断为两截！").format({"who": who, "weapon": held}), ColoredLine.HIW)
-		var shown: Array[ColoredLine] = []
-		if _knock_away(victim, parrying.instance_id, true):
-			shown.append(broken)
-		return shown
-	# TRANSLATORS: weapond.c bash_weapon(): the two weapons meet; {me} and {who} are 你 or names.
-	return [ColoredLine.new(tr("{me}的{weapon}和{who}的{other}相击，冒出点点的火星。").format({
-		"me": _vision_name(binding), "weapon": _item_name(weapon.instance_id), "who": who, "other": held,
-	}))]
-
-
-## unequip() and move(environment(victim)): the weapon falls at the victim's feet; a broken
-## one is 断掉的 from then on (set("name"), set("value"), set("weapon_prop", 0)). False when
-## the victim has no place to drop it in (nothing happens).
-func _knock_away(victim: CombatSliceCharacterBinding, item_id: StringName, broken: bool) -> bool:
-	var npc: NpcRuntimeState = null if victim.is_user else find_resident_npc(victim.character_id)
-	var location: WorldLocationState = _player.world_location() if victim.is_user else (null if npc == null else npc.world_location())
-	var body: Node2D = player_body if victim.is_user else runtime_body_for_character(victim.character_id)
-	if location == null or body == null:
-		return false
-	victim.state.equipment.unwield(item_id)
-	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
-		_inventory, item_id, InventoryTransferDestination.new(_floor_endpoint(location), true, true, WORLD_CAPACITY),
-		victim.state.equipment, victim.armor,
-	)
-	if not moved.succeeded:
-		push_error("knocking %s away failed: the item state is inconsistent" % item_id)
-		return false
-	if broken:
-		var item: ItemInstance = _item_index.resolve(item_id)
-		var broken_id: StringName = &"" if item == null else ItemContentDefinition.broken_id(item.item_definition_id)
-		var form: ItemContentDefinition = GameContent.catalog().item(broken_id)
-		if form == null or not _item_index.transmute(item_id, broken_id) or (_stacks.has_stack(item_id) and not _stacks.redefine(item_id, form.stack_definition())):
-			push_error("breaking %s failed" % item_id)
-	if not _add_dropped_item_view(item_id, location, _at_feet(location, body.global_position)):
-		push_error("knocked-away %s has no view" % item_id)
-	if victim.is_user and _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-	return true
-
-
-## $N/$n as the player reads message_vision(): 你, or the character's name.
-func _vision_name(binding: CombatSliceCharacterBinding) -> String:
-	if binding.is_user:
-		return tr("你")
-	var npc: NpcRuntimeState = find_resident_npc(binding.character_id)
-	return "" if npc == null else tr(npc.definition().display_name)
-
-
-## name() of a held item, in the shown language (断掉的 for a broken one).
-func _item_name(item_id: StringName) -> String:
-	var item: ItemInstance = _item_index.resolve(item_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	return "" if content == null else tr(content.display_name)
-
-
-## The weapon an NPC is authored to wield, as its verified combat weapon.
-## The NPC's combat content: its registered (loadout) profile, unless the weapon now in
-## its hand is another one (萧辟尘 takes up his carried sword mid-fight, consider()): then
-## that weapon's, so its blows are the sword's after the draw and after Continue.
-func _npc_content(npc: NpcRuntimeState) -> CombatSliceContentProfile:
-	var registered: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
-	var held: EquippedWeaponRef = npc.character_state.equipment.primary_weapon()
-	if held == null or registered.is_verified_primary(held):
-		return registered
-	var item: ItemInstance = _item_index.resolve(held.instance_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	if content == null or content.weapon_definition() == null:
-		return registered
-	return CombatSliceContentProfile.new(content.item_definition_id, content.weapon_skill_type, content.weapon_damage)
-
-
-static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceContentProfile:
-	for entry: NpcLoadoutEntry in definition.loadout_entries():
-		# A drawn weapon (worker2.c's hammer) is the weapon in hand, if it was drawn.
-		if entry.is_choice() or entry.equipment_intent != NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY:
-			continue
-		var content: ItemContentDefinition = GameContent.catalog().item(entry.item_definition_id)
-		if content != null and content.weapon_definition() != null:
-			return CombatSliceContentProfile.new(content.item_definition_id, content.weapon_skill_type, content.weapon_damage)
-	return CombatSliceContentProfile.new(&"", &"", 0)
-
-
-func last_lifecycle_results() -> Array[CombatSliceLifecycleResult]:
-	return _last_lifecycle_results.duplicate()
-
-
-func lifecycle_is_pending() -> bool:
-	return _lifecycle_failed
-
-
-## Map-owned physical publication; rules remain in the existing lifecycle/death
-## services. Encounter calls this only at its synchronous outer boundary.
-func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], last_hitter_id: StringName = &"") -> CombatSliceLifecycleResult:
-	if _lifecycle_failed:
-		return CombatSliceLifecycleResult.new()
-	# Read before the lifecycle clears lethal relations and moves the body.
-	var is_player: bool = _player != null and victim.character_id == _player.character_id
-	var killer: CombatSliceCharacterBinding = _find_killer(victim, participants, last_hitter_id)
-	var location: WorldLocationState = _location_for_character(victim.character_id)
-	# killed_enemy() speaks before the dying player's ghost is moved away (damage.c die()).
-	var killer_npc: NpcRuntimeState = null if killer == null else find_resident_npc(killer.character_id)
-	var killer_heard: bool = killer_npc != null and (_player_hears(killer_npc) or (is_player and _player_shares_zone(killer_npc)))
-	var victim_npc: NpcRuntimeState = null if is_player else find_resident_npc(victim.character_id)
-	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
-	_last_lifecycle_results.append(receipt)
-	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
-		_killed_enemy(killer_npc, killer_heard)
-		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
-		# !is_living() test always holds: nothing defines is_living()).
-		var rewarded: StringName = _summoners.get(killer.character_id, killer.character_id)
-		if rewarded == _player.character_id and victim_npc != null:
-			_player_killer_reward(victim_npc)
-	if not receipt.completed():
-		_lifecycle_failed = true
-	elif is_player and session != null:
-		session.on_player_lifecycle(receipt, killer != null, location)
-	elif receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and session != null:
-		# damage.c unconcious(): call_out("revive", random(100 - con) + 30).
-		var npc: NpcRuntimeState = find_resident_npc(victim.character_id)
-		if npc != null:
-			npc.set_revive_in_ms(1000 * UnconsciousReviveDelay.seconds(npc.character_state.attributes.constitution, session.npc_revive_random_source()))
-	return receipt
-
-
-## One step of NPC heart_beat time (NpcHeartbeat); the session decides when it flows.
-func advance_npc_heartbeat(delta: float) -> void:
-	if not _initialized or session == null:
-		return
-	if _npc_heartbeat == null:
-		_npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
-	_fall_below_zero()
-	_advance_pending_dissolves(delta)
-	for npc: NpcRuntimeState in _npc_heartbeat.advance(delta, npc_runtimes()):
-		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-		if body != null:
-			body.refresh_runtime_state()
-		# combatd.c announce("revive"), heard in the same room.
-		if _player_hears(npc):
-			_hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
-	# What the NPCs' conditions show their room (drunk.c, slumber_drug.c).
-	for character_id: StringName in _npc_heartbeat.room_lines:
-		var seen: NpcRuntimeState = find_resident_npc(character_id)
-		if seen == null or not _player_hears(seen):
-			continue
-		var lines: Array[String] = []
-		for template: String in _npc_heartbeat.room_lines[character_id]:
-			lines.append(tr(template).format({"name": tr(seen.definition().display_name)}))
-		_hud().append_log_lines(lines)
-	_advance_ambience(delta)
-
-
-## std/char.c heart_beat(): an NPC whose gin, kee or sen went below zero outside a
-## fight (安惜迩's powerfade costs 100 sen) falls unconscious, or dies below zero
-## effective, on its next beat. In a fight the encounter does it.
-func _fall_below_zero() -> void:
-	for npc: NpcRuntimeState in npc_runtimes():
-		if not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting():
-			continue
-		if npc.character_state.life_threshold() == CharacterState.LifeThreshold.ACTIVE:
-			continue
-		var content: CombatSliceContentProfile = _npc_content(npc)
-		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
-		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
-		if required == null:
-			continue
-		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, [binding])
-		# combatd.c announce("unconcious"), heard in the same room (a drunk passing out).
-		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and _player_hears(npc):
-			_hud().append_log_lines([tr("%s脚下一个不稳，跌在地上一动也不动了。") % tr(npc.definition().display_name)])
-
-
-## The same for the player outside a fight, after a condition's tick (snake_poison.c
-## wounds kee without a `who`): the killer is whoever hurt the player last
-## (last_damage_from), while that NPC still stands on this map.
-func player_fall_below_zero() -> void:
-	if _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.relationship.is_fighting():
-		return
-	if _player.state.life_threshold() == CharacterState.LifeThreshold.ACTIVE:
-		return
-	_last_player_content_resolution = _weapon_resolver.resolve(_player, _inventory, _item_index)
-	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
-		_player,
-		_last_player_content_resolution.content_profile if _last_player_content_resolution.succeeded else null,
-	)
-	var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
-	if required == null:
-		return
-	var participants: Array[CombatSliceCharacterBinding] = [binding]
-	var from: NpcRuntimeState = find_resident_npc(_player.relationship.last_damage_from_id)
-	if from != null and from.exists_in_map and from.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
-		var killer: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(from, _npc_content(from))
-		if killer != null:
-			participants.append(killer)
-	execute_encounter_lifecycle(binding, required, participants, _player.relationship.last_damage_from_id)
-
-
-# --- killed_enemy(), 化尸粉, apply -------------------------------------------------------
-
-## combatd.c killer_reward() when the player killed an NPC (PlayerKillerReward): its
-## tell_object() lines go to the log after the fight's result, so the HUD shows them last.
-func _player_killer_reward(victim: NpcRuntimeState) -> void:
-	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random)
-	if result.left_family:
-		_player.take_title(PlayerKillerReward.REBEL_TITLE)
-	if not result.lines.is_empty() and _hud() != null:
-		_hud().append_after_fight(result.lines)
-
-
-## combatd.c killer_reward(): the killer's killed_enemy() (spy.c: say, then
-## call_out("dissolve", 1)). A dying player still hears it (`heard`): die() revives
-## the body first and moves the ghost away only after killer_reward().
-func _killed_enemy(killer: NpcRuntimeState, heard: bool) -> void:
-	var hook: NpcKilledEnemy = null if killer == null else killer.definition().killed_enemy()
-	if hook == null:
-		return
-	if not hook.say.is_empty() and heard:
-		_hud().append_log_lines([NpcLine.new(false, hook.say).sentence(killer.definition().display_name, "")])
-	if hook.dissolve_after_ms > 0:
-		_pending_dissolves.append([killer.character_id, float(hook.dissolve_after_ms)])
-
-
-func _advance_pending_dissolves(delta: float) -> void:
-	var due: Array[StringName] = []
-	for index: int in range(_pending_dissolves.size() - 1, -1, -1):
-		_pending_dissolves[index][1] -= delta * 1000.0
-		if _pending_dissolves[index][1] <= 0.0:
-			due.push_front(_pending_dissolves[index][0])
-			_pending_dissolves.remove_at(index)
-	for character_id: StringName in due:
-		_npc_dissolves_corpse(find_resident_npc(character_id))
-
-
-## command("dissolve corpse"): obj/dust.c's add_action works only while the NPC carries
-## 化尸粉 and stands (living()); present("corpse") finds the corpse that came into its
-## room last.
-func _npc_dissolves_corpse(npc: NpcRuntimeState) -> void:
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		return
-	var dust: StringName = _carried_dissolver(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id))
-	var corpse: CorpseState = _newest_corpse_in(npc.world_location())
-	if dust.is_empty() or corpse == null:
-		return
-	var heard: bool = _player_hears(npc)
-	var victim_name: String = corpse.victim_display_name
-	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
-	if not _dissolve_corpse(corpse, dust, owner):
-		push_error("dissolving %s failed: the item state is inconsistent" % corpse.corpse_item_instance_id)
-		return
-	if heard:
-		_hud().append_log_lines([_dissolve_line(tr(npc.definition().display_name), victim_name)])
-
-
-## dissolve <corpse> by the player with the 化尸粉 `dust_id` they carry, on the selected
-## corpse lying in their place (present(arg, environment(me))).
-func dissolve_selected_corpse(dust_id: StringName) -> bool:
-	if not can_handle_items():
-		return false
-	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	var item: ItemInstance = _item_index.resolve(dust_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	if content == null or not content.dissolves or not _inventory.is_direct_child(dust_id, carried):
-		return false
-	var corpse: CorpseState = _selected_corpse()
-	if corpse == null or not _corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
-		_hud().append_log_lines([tr("这里没有这样东西。")])
-		return false
-	var victim_name: String = corpse.victim_display_name
-	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
-	if not _dissolve_corpse(corpse, dust_id, owner):
-		push_error("dissolving %s failed: the item state is inconsistent" % corpse.corpse_item_instance_id)
-		return false
-	_hud().append_log_lines([_dissolve_line(tr("你"), victim_name)])
-	if _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-	return true
-
-
-## The selected corpse's name when it lies in the player's place, else "" (what the
-## 化尸粉 row offers to dissolve).
-func dissolvable_corpse_name() -> String:
-	var corpse: CorpseState = _selected_corpse()
-	if _player == null or corpse == null or not _corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
-		return ""
-	return corpse.victim_display_name
-
-
-## How many things lie in the corpse 化尸粉 would dissolve (dust.c destructs it whole).
-func dissolvable_corpse_contents() -> int:
-	return 0 if dissolvable_corpse_name().is_empty() else _corpse_content_count(_selected_corpse())
-
-
-## The 化尸粉 a character carries directly (present(), first found), or empty.
-func _carried_dissolver(holder: ContainmentEndpoint) -> StringName:
-	for item_id: StringName in _inventory.direct_children(holder):
-		var item: ItemInstance = _item_index.resolve(item_id)
-		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-		if content != null and content.dissolves:
-			return item_id
-	return &""
-
-
-## The corpse made last among those lying in `location`'s room.
-func _newest_corpse_in(location: WorldLocationState) -> CorpseState:
-	for index: int in range(_corpse_states.size() - 1, -1, -1):
-		var corpse: CorpseState = _corpse_states[index]
-		if _corpse_is_live_in_world(corpse) and _corpse_in_location(corpse, location):
-			return corpse
-	return null
-
-
-func _corpse_in_location(corpse: CorpseState, location: WorldLocationState) -> bool:
-	var at: WorldLocationState = _corpse_locations.get(corpse.corpse_item_instance_id)
-	return at != null and location != null and at.shares_combat_location(location)
-
-
-## obj/dust.c: $N用指甲挑了一点化尸粉在$n上……$n只剩下一滩黄水。
-func _dissolve_line(who: String, victim_name: String) -> String:
-	# TRANSLATORS: dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
-	return tr("{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。").format({
-		"who": who, "corpse": tr("%s的尸体") % tr(victim_name),
-	})
-
-
-## destruct(corpse) with all it holds, then add_amount(-1) on the 化尸粉.
-func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: ItemLifecycleOwnerContext) -> bool:
-	var corpse_id: StringName = corpse.corpse_item_instance_id
-	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, corpse_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE)
-	if not (
-		removal.succeeded
-		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
-		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
-		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
-	):
-		return false
-	_corpse_states.erase(corpse)
-	_corpse_locations.erase(corpse_id)
-	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
-	_corpse_views.erase(corpse_id)
-	if view != null:
-		view.queue_free()
-	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM and _selected_target.target_id == corpse_id:
-		_selected_target = null
-		_hud().set_selected_corpse("", 0, false, true)
-		if _hud().loot_is_open():
-			_hud().close_loot()
-	return use_up_one(dust_id, dust_owner)
-
-
-## combined.c add_amount(-1) (a stack at 0 is destructed) or destruct() of a carried item.
-func use_up_one(item_id: StringName, owner: ItemLifecycleOwnerContext) -> bool:
-	if _stacks.has_stack(item_id) and _stacks.stack_state(item_id).amount > 1:
-		return CombinedStackService.set_amount(_stacks, _inventory, item_id, _stacks.stack_state(item_id).amount - 1).accepted
-	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF, owner)
-	return (
-		removal.succeeded
-		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
-		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
-		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
-	)
-
-
-## apply <item>: the item's own do_apply() (ItemApplyFunctions), on the player.
-func apply_item(item_id: StringName) -> bool:
-	if not can_handle_items():
-		return false
-	var item: ItemInstance = _item_index.resolve(item_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	if content == null or content.apply.is_empty() or not _inventory.is_direct_child(item_id, carried):
-		return false
-	var result: ItemApplyFunctions.Result = ItemApplyFunctions.apply(content.apply, _player.state, _player.relationship.is_fighting())
-	_hud().append_log_lines(result.lines)
-	if result.used_up and not use_up_one(item_id, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
-		push_error("using up %s failed: the item state is inconsistent" % item_id)
-	if _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-	return result.accepted
-
-
-## The containers a powder can be poured into: the liquid containers the player
-## carries directly (do_pour()'s present(what, this_player())), in carried order.
-func pour_targets() -> Array[StringName]:
-	var targets: Array[StringName] = []
-	if _player == null:
-		return targets
-	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	for id: StringName in _inventory.direct_children(carried):
-		if _liquids.state(id) != null:
-			targets.append(id)
-	return targets
-
-
-## pour <powder> in <container> (std/medicine/powder.c, obj/toy/poison_dust.c
-## do_pour()): an empty container refuses; else the drink now carries the powder's
-## effect (LiquidDrinkEffects) and one of the powder is used up. Both are carried.
-func pour_into(powder_id: StringName, container_id: StringName) -> bool:
-	if not can_handle_items():
-		return false
-	var item: ItemInstance = _item_index.resolve(powder_id)
-	var powder: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
-	if powder == null or powder.pour == null or not _inventory.is_direct_child(powder_id, carried) or not pour_targets().has(container_id):
-		return false
-	var liquid: LiquidState = _liquids.state(container_id)
-	var vessel: String = _item_name(container_id)
-	if liquid.remaining <= 0:
-		_hud().append_log_lines([tr("{container}里什麽也没有，先装些水酒才能溶化药粉。").format({"container": vessel})])
-		return false
-	LiquidDrinkEffects.pour(liquid, powder)
-	_hud().append_log_lines([tr("你将一些{powder}倒进{container}，摇晃了几下。").format({"powder": tr(powder.display_name), "container": vessel})])
-	if not use_up_one(powder_id, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
-		push_error("using up %s failed: the item state is inconsistent" % powder_id)
-	if _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-	return true
-
-
-# --- Room reset ----------------------------------------------------------------------
-
-## std/room.c reset() for one ES2 room's set("objects") on this map: a new NPC
-## where one died (make_inventory() for a destructed object), the others called
-## home (npc.c return_home()), and an item laid down again once the one it put
-## there is gone from the world (owner, DECISIONS 4D).
-func reset_room(legacy_room: String) -> void:
-	if not _initialized or session == null:
-		return
-	var catalog: ContentCatalog = GameContent.catalog()
-	# house3.c reset(): num_of_spider = 3.
-	for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map):
-		if landmark.legacy_source_path == legacy_room:
-			_landmark_uses.erase(landmark.landmark_id)
-	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
-		if spawn.legacy_source_room_path != legacy_room or spawn.summoned:
-			continue
-		for point_id: StringName in spawn.spawn_point_ids():
-			var npc: NpcRuntimeState = _npc_at_point(point_id)
-			if npc == null:
-				continue
-			if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-				_respawn_npc(spawn, npc)
-			elif npc.world_location().zone_id != spawn.zone_id:
-				return_home(npc)
-	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
-		if spawn.legacy_source_room_path != legacy_room:
-			continue
-		for point_id: StringName in spawn.spawn_point_ids():
-			if not _inventory.is_registered(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)):
-				if not _place_floor_item(spawn, point_id):
-					push_error("room reset could not lay %s on %s" % [spawn.item_definition_id, point_id])
-
-
-## One NPC of a summoned spawn comes in (house3.c call_spider(): new(...)->move(room)):
-## the first whose point is free, absent or dead (made anew). Null when every one
-## stands here already.
-func summon_one(spawn_id: StringName) -> NpcRuntimeState:
-	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
-	if not _initialized or spawn == null or not spawn.summoned or spawn.map_id != map:
-		return null
-	for point_id: StringName in spawn.spawn_point_ids():
-		var npc: NpcRuntimeState = _npc_at_point(point_id)
-		if npc == null:
-			continue
-		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			return _npc_at_point(point_id) if _respawn_npc(spawn, npc) else null
-		if not npc.exists_in_map:
-			var marker: WorldSpawnMarker2D = resolve_spawn_marker(point_id)
-			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-			if marker == null or body == null:
-				return null
-			body.global_position = marker.global_position
-			npc.set_world_location(location_for_zone(spawn.zone_id))
-			npc.set_exists_in_map(true)
-			body.refresh_runtime_state()
-			_npc_arrived(npc)
-			return npc
-	return null
-
-
-## A summoned spawn's NPCs come in on their markers (keep2.c valid_leave()'s
-## new(...)->move(this_object())): an absent one appears, a dead one is made anew
-## as a room reset would; one already here stays. Returns those that came.
-func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
-	var came: Array[NpcRuntimeState] = []
-	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
-	if not _initialized or spawn == null or not spawn.summoned or spawn.map_id != map:
-		return came
-	for point_id: StringName in spawn.spawn_point_ids():
-		var npc: NpcRuntimeState = _npc_at_point(point_id)
-		if npc == null:
-			continue
-		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			if _respawn_npc(spawn, npc):
-				came.append(_npc_at_point(point_id))
-		elif not npc.exists_in_map:
-			var marker: WorldSpawnMarker2D = resolve_spawn_marker(point_id)
-			var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-			if marker == null or body == null:
-				continue
-			body.global_position = marker.global_position
-			npc.set_world_location(location_for_zone(spawn.zone_id))
-			npc.set_exists_in_map(true)
-			body.refresh_runtime_state()
-			_npc_arrived(npc)
-			came.append(npc)
-	return came
-
-
-func _npc_at_point(point_id: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in _npcs:
-		if npc.spawn_point_id == point_id:
-			return npc
-	return null
-
-
-## make_inventory() where an NPC died: a new one, its create() drawn afresh from
-## the NPC stream, on its marker and in its old place in spawn order.
-func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var marker: WorldSpawnMarker2D = resolve_spawn_marker(dead.spawn_point_id)
-	if marker == null or catalog.npc(spawn.npc_definition_id) == null:
-		push_error("room reset has no marker or NPC for %s" % dead.spawn_point_id)
-		return false
-	var fresh: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		catalog.npc(spawn.npc_definition_id),
-		NpcGeneration.next(dead.character_id, dead.spawn_point_id),
-		spawn.spawn_id,
-		dead.spawn_point_id,
-		location_for_zone(spawn.zone_id),
-		_inventory,
-		_stacks,
-		_npc_random,
-		catalog.loadout_item_definitions(),
-		_item_id_allocator.scope,
-	)
-	if fresh == null or not _register_loadout(fresh):
-		push_error("room reset could not make a new NPC at %s" % dead.spawn_point_id)
-		return false
-	var at: int = _npcs.find(dead)
-	_drop_npc(dead)
-	if not _add_npc_body(fresh, marker.global_position, at):
-		return false
-	_npc_arrived(fresh)
-	return true
-
-
-## new(<summoned NPC>)->move(environment(caster)) (saveme.c): one of `definition_id`
-## comes into the place of `caster_id` (an NPC here, or the player), on a free spot
-## beside them, drawn afresh from the NPC stream like any new NPC. Returns its character
-## ID, or "" when it could not come (no such summoned NPC, nobody to stand beside).
-func summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var definition: NpcDefinition = catalog.npc(definition_id)
-	var caster: NpcRuntimeState = find_resident_npc(caster_id)
-	var location: WorldLocationState = null
-	if caster != null:
-		location = caster.world_location()
-	elif _player != null and caster_id == _player.character_id:
-		location = _player.world_location()
-	var body: WorldCharacterBody2D = runtime_body_for_character(caster_id)
-	if not _initialized or definition == null or definition.summoning() == null or location == null or body == null or location.map_id != map:
-		return &""
-	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
-	if not allocation.succeeded:
-		return &""
-	var number: int = String(allocation.item_instance_id).get_slice(SessionItemIdAllocator.DYNAMIC_SEPARATOR, 1).to_int()
-	var point_id: StringName = SummonedNpc.point_id(number, definition_id)
-	var spawn: NpcSpawnDefinition = SummonedNpc.spawn(point_id, definition_id, map, location.zone_id)
-	var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
-		definition, NpcGeneration.character_id(point_id, 1), spawn.spawn_id, point_id,
-		location_for_zone(location.zone_id), _inventory, _stacks, _npc_random,
-		catalog.loadout_item_definitions(), _item_id_allocator.scope,
-	)
-	if npc == null:
-		push_error("could not summon %s beside %s" % [definition_id, caster_id])
-		return &""
-	if not _register_loadout(npc):
-		push_error("could not summon %s beside %s" % [definition_id, caster_id])
-		_take_away(npc)
-		return &""
-	_summon_spawns[spawn.spawn_id] = spawn
-	_summoners[npc.character_id] = caster_id
-	if not _add_npc_body(npc, _at_feet(location, body.global_position)):
-		push_error("could not summon %s beside %s" % [definition_id, caster_id])
-		_take_away(npc)
-		_summon_spawns.erase(spawn.spawn_id)
-		_summoners.erase(npc.character_id)
-		if _npcs.has(npc):
-			_drop_npc(npc)
-		return &""
-	return npc.character_id
-
-
-## Who called the summoned NPC `character_id` (set("possessed", who)), or "".
-func summoner_of(character_id: StringName) -> StringName:
-	return _summoners.get(character_id, &"")
-
-
-## heaven_soldier.c heal_up() once it is not fighting: call_out("leave", 1), its leave
-## lines where the player is (and can read them), then destruct() with all it carries.
-## Here every summoned NPC still standing leaves as the fight it came into ends (its
-## lines after the fight's result, unless the player left it by a spell: gone before
-## it says them); a dead one is forgotten and its corpse stays.
-func dismiss_summoned() -> void:
-	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
-	for npc: NpcRuntimeState in _npcs.duplicate():
-		if not SummonedNpc.is_summoned(npc.character_id):
-			continue
-		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
-			var summoning: NpcSummoning = npc.definition().summoning()
-			if summoning != null and _player_hears(npc) and session != null and not departing:
-				var lines: Array[ColoredLine] = []
-				for text: String in summoning.leave:
-					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))
-				session.shared_ui().append_after_fight(lines)
-			_take_away(npc)
-		_summon_spawns.erase(npc.spawn_id)
-		_summoners.erase(npc.character_id)
-		_drop_npc(npc)
-
-
-## destruct(): what a summoned NPC carries goes with it.
-func _take_away(npc: NpcRuntimeState) -> void:
-	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
-	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)):
-		var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
-		if not (
-			removal.succeeded
-			and _foods.forget_removed(removal.removed_instance_ids, _inventory)
-			and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
-			and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
-		):
-			push_error("%s could not take %s away" % [npc.character_id, item_id])
-
-
-## Forgets a dead NPC the room has replaced; its corpse stays.
-func _drop_npc(npc: NpcRuntimeState) -> void:
-	var character_id: StringName = npc.character_id
-	var body: WorldCharacterBody2D = _npc_bodies.get(character_id)
-	if is_instance_valid(body):
-		body.selection_requested.disconnect(_on_npc_selection_requested)
-		body.name = "%s_replaced" % body.name
-		body.queue_free()
-	_npc_bodies.erase(character_id)
-	_npc_presence.erase(character_id)
-	_npcs.erase(npc)
-	_map_characters.remove_character(character_id)
-	_aggression.clear_npc(character_id)
-	_unbind_npc_services(character_id)
-	if _ambience != null:
-		_ambience.cancel_greeting(character_id)
-		_ambience.cancel_call(character_id)
-	_pending_steals.erase(character_id)
-	if _walker != null:
-		_walker.cancel(character_id)
-	if _npc_heartbeat != null:
-		_npc_heartbeat.forget(character_id)
-	if selected_character_id() == character_id:
-		_selected_target = null
-		if _hud() != null:
-			_hud().set_selected_target(null)
-
-
-## npc.c return_home(): a conscious NPC that is not fighting leaves for home
-## (急急忙忙地离开了。 where it was); move() says nothing where it arrives. The body
-## walks home on the map the player is on and is simply there elsewhere.
-func return_home(npc: NpcRuntimeState) -> bool:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var spawn: NpcSpawnDefinition = catalog.spawn(npc.spawn_id)
-	var from_zone_id: StringName = npc.world_location().zone_id
-	if spawn == null or from_zone_id == spawn.zone_id:
-		return true
-	var zone: ZoneDefinition = catalog.zone(from_zone_id)
-	if (
-		npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting()
-		or zone == null or catalog.room(zone.room_ids()[0]).exits().is_empty()
-	):
-		return false
-	var seen: bool = _player_hears(npc)
-	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-	var marker: WorldSpawnMarker2D = resolve_spawn_marker(npc.spawn_point_id)
-	if body == null or marker == null:
-		return false
-	npc_walker().cancel(npc.character_id)
-	var watched: bool = session != null and session.active_map() == self
-	if not watched or not npc_walker().walk_to(npc.character_id, body, physical_zone(from_zone_id), physical_zone(spawn.zone_id), marker.global_position):
-		body.global_position = marker.global_position
-	npc.set_world_location(location_for_zone(spawn.zone_id))
-	if seen:
-		_hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
-	_npc_arrived(npc)
-	return true
-
-
-# --- Talk, greetings and wandering ---------------------------------------------------
-
-## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
-func _advance_ambience(delta: float) -> void:
-	if _ambience == null:
-		_ambience = NpcAmbience.new(session.npc_ambience_random_source())
-	_ambience.set_random(session.npc_ambience_random_source())
-	_note_bellicosity()
-	run_pending_player_berserk()
-	# A fight began: the world stands still from here.
-	if not _gameplay_open():
-		return
-	_note_player_arrival()
-	for character_id: StringName in _ambience.due_greetings(delta):
-		_greet(find_resident_npc(character_id))
-	for character_id: StringName in _ambience.due_calls(delta):
-		_steal_step(find_resident_npc(character_id))
-	for beat: int in _ambience.due_beats(delta):
-		if beat > 0:
-			# char.c heart_beat() falls before it chats, on each of several beats too.
-			_fall_below_zero()
-		for npc: NpcRuntimeState in _npcs.duplicate():
-			if _chats(npc):
-				_act(npc, _ambience.chat(npc.definition().talk()))
-	npc_walker().advance(delta)
-
-
-func npc_walker() -> WorldNpcWalker:
-	if _walker == null:
-		_walker = WorldNpcWalker.new(self)
-	return _walker
-
-
-## Owner (水烟阁 C): the first time the player's bellicosity can boil over (a kill, a
-## powerup, whatever raised it), they are told once (Berserk.WARNING).
-func _note_bellicosity() -> void:
-	if _player != null and Berserk.take_warning(_player.state):
-		_hud().append_log_lines([tr(Berserk.WARNING)], true)
-
-
-## The NPCs' init() when the player comes into a place: a greeting call_out.
-func _note_player_arrival() -> void:
-	var zone_id: StringName = &"" if _player == null or not _player.exists_in_world else _player.world_location().zone_id
-	if zone_id == _arrival_zone_id:
-		return
-	_arrival_zone_id = zone_id
-	for npc: NpcRuntimeState in _npcs:
-		if (
-			npc.world_location().zone_id == zone_id and npc.exists_in_map
-			and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-			and not npc.relationship.is_fighting()
-			and npc.definition().talk().has_greeting()
-		):
-			_ambience.start_greeting(npc.character_id)
-	var here: Array[NpcRuntimeState] = []
-	for npc: NpcRuntimeState in _npcs:
-		if npc.world_location().zone_id == zone_id:
-			_consider_stealing(npc)
-			here.append(npc)
-	_player_init(here)
-
-
-## keeper.c and waiter.c greeting(): said only if the player is still there; the
-## waiter picks one of its lines then (switch(random(3))); a draw past the lines
-## (switch(random(4)) with fewer cases) says nothing.
-func _greet(npc: NpcRuntimeState) -> void:
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_hears(npc):
-		return
-	var choices: Array[NpcLine] = npc.definition().talk().greeting_choices()
-	if choices.is_empty():
-		return
-	var draws: int = npc.definition().talk().greeting_draws()
-	var drawn: int = 0 if draws == 1 else _ambience.random().legacy_random(draws)
-	if drawn >= choices.size():
-		return
-	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-	_hud().append_log_lines([choices[clampi(drawn, 0, choices.size() - 1)].sentence(npc.definition().display_name, respect)])
-
-
-## interactive(ob) in the NPC's room: an unconscious player still counts.
-func _player_shares_zone(npc: NpcRuntimeState) -> bool:
-	return (
-		_player != null and _player.exists_in_world
-		and npc.world_location().map_id == _player.world_location().map_id
-		and npc.world_location().zone_id == _player.world_location().zone_id
-	)
-
-
-## What the player reads of an NPC: only in its place, and not while unconscious
-## (damage.c unconcious() sets block_msg/all).
-func _player_hears(npc: NpcRuntimeState) -> bool:
-	return _player_shares_zone(npc) and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-
-
-## init() of an NPC that comes into the player's place (make_inventory(), move()).
-func _npc_arrived(npc: NpcRuntimeState) -> void:
-	if (
-		_ambience != null and _player_shares_zone(npc)
-		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and npc.definition().talk().has_greeting()
-	):
-		_ambience.start_greeting(npc.character_id)
-	if _ambience != null and _player_shares_zone(npc):
-		_consider_stealing(npc)
-		_player_init([npc])
-
-
-# --- Stealing (u/cloud thief.c, cmds/std/steal.c) -----------------------------------
-
-## thief.c init(): a player coming into its place (or it into theirs) is robbed one
-## second later when random(kar) < chance_below; a fighting thief always tries.
-func _consider_stealing(npc: NpcRuntimeState) -> void:
-	var steal: NpcSteal = npc.definition().dealings().steal
-	if (
-		steal == null or _ambience == null or _ambience.has_call(npc.character_id) or _pending_steals.has(npc.character_id)
-		or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
-	):
-		return
-	if npc.relationship.is_fighting() or steal.starts(_player.state.attributes.karma, _ambience.random()):
-		_ambience.start_call(npc.character_id, NpcSteal.START_DELAY_SECONDS)
-
-
-## steal_it() and steal.c main() one second on; compelete_steal() three seconds after.
-func _steal_step(npc: NpcRuntimeState) -> void:
-	if npc == null:
-		return
-	var pending: Dictionary = _pending_steals.get(npc.character_id, {})
-	_pending_steals.erase(npc.character_id)
-	if pending.is_empty():
-		_start_stealing(npc)
-	else:
-		_complete_stealing(npc, pending)
-
-
-## steal_it(): only if the player is still there; steal.c main() picks present(what)
-## or a random thing the player carries and fixes the odds.
-func _start_stealing(npc: NpcRuntimeState) -> void:
-	if not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc):
-		return
-	if GameContent.catalog().zone_forbids_fighting(npc.world_location().zone_id):
-		return
-	var steal: NpcSteal = npc.definition().dealings().steal
-	var item_id: StringName = _player_item_with_alias(steal.what)
-	if item_id.is_empty():
-		var carried: Array[StringName] = _player_carried_item_ids()
-		if carried.is_empty():
-			return
-		item_id = carried[_ambience.random().legacy_random(carried.size())]
-	var thief_fighting: bool = npc.relationship.is_fighting()
-	var sp: int = NpcSteal.thief_odds(
-		npc.character_state.skills.effective_level(&"stealing"), npc.character_state.attributes.karma,
-		_times_caught.get(npc.character_id, 0), thief_fighting,
-	)
-	if thief_fighting:
-		npc.busy.start_busy(3)
-	var dp: int = NpcSteal.victim_odds(
-		_player.state.spirit.current, _inventory.subtree_weight(item_id), _player.relationship.is_fighting(),
-		_player.state.equipment.has_weapon_instance(item_id) or _player.armor.is_worn(item_id),
-	)
-	_pending_steals[npc.character_id] = {"item": item_id, "sp": sp, "dp": dp}
-	_ambience.start_call(npc.character_id, NpcSteal.COMPLETE_DELAY_SECONDS)
-
-
-## compelete_steal(): the player must still be there; caught, the two fight (fight_ob).
-## Taken, ES2 tells the player nothing; deviation (owner, modern fixes): the player
-## reads what is gone, not who took it (one knocked out reads it on waking).
-func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
-	# A thief killed meanwhile is gone (destructed: no `me` to move anything to).
-	if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not _player_shares_zone(npc):
-		return
-	var item_id: StringName = pending["item"]
-	if not _player_carried_item_ids().has(item_id):
-		return
-	var conscious: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-	var outcome: NpcSteal.Outcome = NpcSteal.resolve(pending["sp"], pending["dp"], conscious, _ambience.random())
-	match outcome:
-		NpcSteal.Outcome.TAKEN:
-			# ob->move(me); a thing too heavy for the thief stays (its own notice only)
-			# and steal.c returns before its last two draws.
-			var item_name: String = tr(_item_content(item_id).display_name)
-			if not ItemHandlingService.hand_over(npc, item_id, _item_authorities()):
-				return
-			NpcSteal.after_taken(pending["sp"], conscious, npc.character_state.attributes.intelligence, _ambience.random())
-			# TRANSLATORS: a thief took {item} from the player unseen; the player notices it is gone.
-			var noticed: String = tr("你忽然觉得身上一轻，{item}不见了！")
-			if not conscious:
-				# TRANSLATORS: a thief took {item} from the player lying unconscious; read on waking.
-				noticed = tr("你昏迷不醒的时候，身上的{item}被人拿走了！")
-			_hud().append_log_lines([noticed.format({"item": item_name})], true)
-			if _hud().inventory_is_open():
-				_hud().show_inventory(session.player_inventory_rows())
-		NpcSteal.Outcome.CAUGHT:
-			var lines: Array[String] = [
-				tr("你一回头，正好发现{npc}的手正抓著你身上的{item}！").format({
-					"npc": tr(npc.definition().display_name), "item": tr(_item_content(item_id).display_name),
-				}),
-				tr("你喝道：「干什麽！」"),
-			]
-			_times_caught[npc.character_id] = _times_caught.get(npc.character_id, 0) + 1
-			var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
-				CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
-				CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
-				CombatTriggerCause.Value.PLAYER_SPAR,
-			)
-			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-				npc.busy.start_busy(5)
-				_announce_fight(lines)
-			else:
-				_hud().append_log_lines(lines)
-
-
-## The player's own things (all_inventory(me)), in inventory order.
-func _player_carried_item_ids() -> Array[StringName]:
-	return _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id))
-
-
-## present(alias, me): the first of the player's own things answering to `alias`.
-func _player_item_with_alias(alias: StringName) -> StringName:
-	for item_id: StringName in _player_carried_item_ids():
-		var content: ItemContentDefinition = _item_content(item_id)
-		if content != null and content.aliases().has(String(alias)):
-			return item_id
-	return &""
-
-
-func _item_content(item_id: StringName) -> ItemContentDefinition:
-	var item: ItemInstance = _item_index.resolve(item_id)
-	return null if item == null else GameContent.catalog().item(item.item_definition_id)
-
-
-## char.c heart_beat() reaches chat() for a conscious NPC that is neither busy nor
-## fighting, and beats while the player is in its place. A walking NPC is still
-## making its last move. Deviation: an unconscious NPC says nothing (DECISIONS 4D).
-## The player need not be conscious; only what they read is (`_player_hears`).
-func _chats(npc: NpcRuntimeState) -> bool:
-	return (
-		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
-		and npc.definition().talk().has_chat() and _player_shares_zone(npc)
-		and not npc_walker().is_walking(npc.character_id)
-	)
-
-
-func _act(npc: NpcRuntimeState, entry: Variant) -> void:
-	if entry is String:
-		if _player_hears(npc):
-			_hud().append_log_lines([NpcTalk.line(entry)])
-	elif entry is ColoredLine:
-		if _player_hears(npc):
-			_hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
-	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
-		random_move(npc)
-	elif entry is NpcDrinkAction:
-		_drink(npc, entry)
-	elif entry is NpcSpecialAction:
-		_special(npc, entry)
-
-
-## npc.c's chat functions outside a fight (安惜迩's exert powerfade): with no enemy
-## a perform or a spell refuses; an exert runs. The player in the NPC's place sees
-## what it shows.
-func _special(npc: NpcRuntimeState, action: NpcSpecialAction) -> void:
-	var content: CombatSliceContentProfile = _npc_content(npc)
-	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
-	if binding == null:
-		return
-	var context := SpecialContext.new(
-		CombatNpcChat.side_of(binding, npc), [], _ambience.random().legacy_random, GameContent.catalog(), null,
-	)
-	if not NpcSpecials.run(action, context) or not _player_hears(npc):
-		return
-	var lines: Array[ColoredLine] = []
-	for line: VisionLine in context.lines:
-		# Out of a fight only exert lines show: $N is the NPC.
-		lines.append(ColoredLine.new(tr(line.template).strip_edges().replace("$N", tr(npc.definition().display_name)), line.color))
-	_hud().append_colored_lines(lines)
-
-
-## drunk.c do_drink(): it drinks, drops the emptied container where it stands,
-## or asks for more.
-func _drink(npc: NpcRuntimeState, action: NpcDrinkAction) -> void:
-	var location: WorldLocationState = npc.world_location()
-	var drank: NpcDrinkService.Result = NpcDrinkService.drink(npc, action, _floor_endpoint(location), _inventory, _item_index, _liquids)
-	if drank.outcome == NpcDrinkService.Outcome.AUTHORITY_FAILURE:
-		push_error("%s could not drink: its carried liquid is inconsistent" % npc.character_id)
-		return
-	if not drank.dropped_item_id.is_empty():
-		var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
-		_add_dropped_item_view(drank.dropped_item_id, location, _at_feet(location, Vector2.ZERO if body == null else body.global_position))
-	if _player_hears(npc):
-		_hud().append_log_lines(drank.lines)
-
-
-## npc.c random_move() through go.c, within the NPC's range (NpcRandomMove). The
-## body walks; its place changes now. False when nothing moved.
-func random_move(npc: NpcRuntimeState) -> bool:
-	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	var from_zone_id: StringName = npc.world_location().zone_id
-	if spawn == null or _ambience == null:
-		return false
-	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, _ambience.random(), _door_closed_between)
-	if move == null:
-		return false
-	var seen: bool = _player_hears(npc)
-	if not npc_walker().walk_into(npc.character_id, runtime_body_for_character(npc.character_id), physical_zone(from_zone_id), physical_zone(move.to_zone_id), _ambience.random()):
-		return false
-	npc.set_world_location(location_for_zone(move.to_zone_id))
-	if seen:
-		_hud().append_log_lines([move.leave_line(npc.definition().display_name)])
-	# The player's init() for one who walks in.
-	if _player_shares_zone(npc):
-		_player_init([npc])
-	return true
-
-
-## room.c valid_leave(): a closed door between the two zones stops the move.
-func _door_closed_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
-	for door: WorldDoor in doors():
-		var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
-		if definition != null and definition.zone_ids().has(from_zone_id) and definition.zone_ids().has(to_zone_id) and not door.is_open():
-			return true
-	return false
-
-
-## A corpse lies where its body fell. It is wider than the body, so beside a wall it is
-## shifted (sideways first, at most 40 px, same zone) until it fits; Continue validates it.
-func _corpse_position(death_position: Vector2, death_location: WorldLocationState) -> Vector2:
-	if death_location == null or MapPlacementValidator.is_valid_corpse_position(self, death_location.zone_id, death_position):
-		return death_position
-	for distance: int in range(8, 41, 8):
-		for offset: Vector2 in [Vector2(distance, 0), Vector2(-distance, 0), Vector2(0, distance), Vector2(0, -distance)]:
-			if MapPlacementValidator.is_valid_corpse_position(self, death_location.zone_id, death_position + offset):
-				return death_position + offset
-	return death_position
-
-
-func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], killer: CombatSliceCharacterBinding) -> CombatSliceLifecycleResult:
-	var body: WorldCharacterBody2D = runtime_body_for_character(victim.character_id)
-	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
-	var death_location: WorldLocationState = _location_for_character(victim.character_id)
-	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
-	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
-	if not allocation.succeeded:
-		return CombatSliceLifecycleResult.new()
-	var lifecycle: CombatSliceLifecycleResult = CombatSliceLifecycleAdapter.new().execute(
-		opportunity,
-		victim,
-		participants,
-		killer,
-		_inventory,
-		_stacks,
-		allocation.item_instance_id,
-		destination,
-		_death_item_facts_for(victim.character_id),
-		DeathItemPolicyRegistry.new(),
-		DeathRewearPolicyRegistry.new(),
-		_death_context_for(victim, killer, destination),
-	)
-	if lifecycle.completed():
-		_sync_binding(victim)
-		if body != null:
-			body.refresh_runtime_state()
-	var corpse: CorpseState = null if lifecycle.death_inventory_result == null else lifecycle.death_inventory_result.corpse_state
-	if corpse == null:
-		return lifecycle
-	var view: CombatSliceCorpseView = _add_corpse_view(corpse, _corpse_position(death_position, death_location), death_location)
-	if view == null:
-		lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
-		return lifecycle
-	# Phase 6B3 keeps a partial corpse mutation and its view even when death
-	# cannot complete; only a completed, indexed death becomes a loot interaction.
-	if lifecycle.outcome != CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
-		return lifecycle
-	if not _item_index.register_snapshot(ItemInstance.new(corpse.corpse_item_instance_id, CombatSliceDeathAdapter.CORPSE_DEFINITION_ID)):
-		lifecycle._outcome = CombatSliceLifecycleResult.Outcome.WORLD_PUBLICATION_FAILED
-		return lifecycle
-	_make_corpse_interactive(view)
-	return lifecycle
-
-
-## A restored corpse is already indexed and interactive.
-func _publish_corpse_view(corpse: CorpseState, position: Vector2, location: WorldLocationState) -> bool:
-	var view: CombatSliceCorpseView = _add_corpse_view(corpse, position, location)
-	if view == null:
-		return false
-	_make_corpse_interactive(view)
-	return true
-
-
-func _add_corpse_view(corpse: CorpseState, position: Vector2, location: WorldLocationState) -> CombatSliceCorpseView:
-	_corpse_states.append(corpse)
-	if location != null:
-		_corpse_locations[corpse.corpse_item_instance_id] = location.duplicate_snapshot()
-	var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
-	if not view.configure(corpse):
-		view.free()
-		return null
-	view.global_position = position
-	_corpse_layer().add_child(view)
-	return view
-
-
-func _make_corpse_interactive(view: CombatSliceCorpseView) -> void:
-	_corpse_views[view.corpse_item_instance_id] = view
-	view.selection_requested.connect(select_corpse)
-	view.loot_range_changed.connect(_on_corpse_loot_range_changed)
-
-
-func _corpse_layer() -> Node2D:
-	var layer: Node2D = get_node_or_null("CorpseLayer") as Node2D
-	if layer == null:
-		layer = Node2D.new()
-		layer.name = "CorpseLayer"
-		add_child(layer)
-	return layer
-
-
-func _death_context_for(victim: CombatSliceCharacterBinding, killer: CombatSliceCharacterBinding, destination: InventoryTransferDestination) -> DeathContext:
-	if _player != null and victim.character_id == _player.character_id:
-		return _player.death_context(destination, killer != null)
-	var fallback: PlayerIdentityFacts = PlayerIdentityFacts.legacy_technical()
-	var display_name: String = fallback.display_name
-	var age: int = fallback.age
-	var strength: int = victim.state.attributes.strength
-	var body_weight: int = CharacterDerivedValues.human_weight(strength)
-	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)
-	var npc: NpcRuntimeState = find_resident_npc(victim.character_id)
-	if npc != null:
-		display_name = npc.definition().display_name
-		age = npc.age
-		# chard.c copies query_weight/query_max_encumbrance, not a fresh race setup.
-		body_weight = npc.body_weight
-		maximum_encumbrance = npc.maximum_encumbrance
-	return DeathContext.new(
-		victim.character_id,
-		false,
-		false,
-		destination,
-		ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor),
-		display_name,
-		victim.state.gender,
-		age,
-		body_weight,
-		maximum_encumbrance,
-		false,
-		destination.endpoint if killer != null else null,
-		victim.state.gender,
-		killer != null,
-	)
-
-
-func _death_item_facts_for(character_id: StringName) -> Array[DeathItemFacts]:
-	var facts: Array[DeathItemFacts] = []
-	var endpoint: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)
-	# Current direct inventory, not the original bootstrap loadout or only sword.
-	for item_id: StringName in _inventory.direct_children(endpoint):
-		var item: ItemInstance = _item_index.resolve(item_id)
-		if item == null:
-			continue # Existing death validator fails closed on incomplete facts.
-		var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
-		facts.append(DeathItemFacts.new(item, null if content == null else content.armor_definition()))
-	return facts
-
-
-func _sync_binding(binding: CombatSliceCharacterBinding) -> void:
-	if binding.character_id == _player.character_id:
-		WorldCombatBindingAdapter.sync_player(binding, _player)
-		return
-	var npc: NpcRuntimeState = find_resident_npc(binding.character_id)
-	if npc != null:
-		WorldCombatBindingAdapter.sync_npc(binding, npc)
-
-
-func _location_for_character(character_id: StringName) -> WorldLocationState:
-	if _player != null and character_id == _player.character_id:
-		return _player.world_location()
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	return null if npc == null else npc.world_location()
-
-
-func _world_destination_for(character_id: StringName) -> InventoryTransferDestination:
-	var location: WorldLocationState = _location_for_character(character_id)
-	return InventoryTransferDestination.new(
-		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, location.combat_location_id),
-		true,
-		true,
-		WORLD_CAPACITY,
-	)
-
-
-## damage.c die(): the killer is last_damage_from, whoever hit the victim last,
-## fight or kill. Without a hit in hand (a fall settled later) a participant
-## holding a kill mark on either side stands in.
-static func _find_killer(victim: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding], last_hitter_id: StringName = &"") -> CombatSliceCharacterBinding:
-	for candidate: CombatSliceCharacterBinding in participants:
-		if candidate != victim and not last_hitter_id.is_empty() and candidate.character_id == last_hitter_id:
-			return candidate
-	for candidate: CombatSliceCharacterBinding in participants:
-		if candidate != victim and (candidate.relationship.has_lethal_target(victim.character_id) or victim.relationship.has_lethal_target(candidate.character_id)):
-			return candidate
-	return null
-
-
-# --- Corpses -----------------------------------------------------------------------
-
-func corpse_states() -> Array[CorpseState]:
-	return _corpse_states.duplicate()
-
-
-func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
-	return _corpse_views.get(corpse_id)
-
-
-func corpse_world_location(corpse_id: StringName) -> WorldLocationState:
-	var location: WorldLocationState = _corpse_locations.get(corpse_id)
-	return null if location == null else location.duplicate_snapshot()
-
-
-func last_loot_transfer_result() -> CorpseLootTransferResult:
-	return _last_loot_transfer_result
-
-
-func _find_corpse(corpse_id: StringName) -> CorpseState:
-	for corpse: CorpseState in _corpse_states:
-		if corpse.corpse_item_instance_id == corpse_id:
-			return corpse
-	return null
-
-
-func _selected_corpse() -> CorpseState:
-	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.ITEM:
-		return null
-	return _find_corpse(_selected_target.target_id)
-
-
-func _corpse_is_live_in_world(corpse: CorpseState) -> bool:
-	if (
-		corpse == null
-		or not _inventory.is_registered(corpse.corpse_item_instance_id)
-		or not _item_index.has_snapshot(corpse.corpse_item_instance_id)
-		or not _corpse_views.has(corpse.corpse_item_instance_id)
-	):
-		return false
-	var parent: ContainmentEndpoint = _inventory.direct_parent(corpse.corpse_item_instance_id)
-	return parent != null and parent.kind == ContainmentEndpoint.Kind.WORLD
-
-
-func _corpse_content_count(corpse: CorpseState) -> int:
-	if corpse == null:
-		return 0
-	return _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)).size()
-
-
-func _player_is_in_corpse_loot_range(corpse_id: StringName) -> bool:
-	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
-	return view != null and view.is_body_in_loot_range(player_body)
-
-
-func _refresh_selected_corpse() -> void:
-	var corpse: CorpseState = _selected_corpse()
-	if corpse == null or not _corpse_is_live_in_world(corpse):
-		if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
-			_selected_target = null
-		_hud().set_selected_corpse("", 0, false, true)
-		return
-	_hud().set_selected_corpse(corpse.victim_display_name, _corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), false)
-
-
-func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_inside: bool) -> void:
-	if _gameplay_open() and body == player_body and _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM and _selected_target.target_id == corpse_id:
-		_refresh_selected_corpse()
-
-
-func _refresh_loot_panel(corpse: CorpseState) -> void:
-	_hud().show_loot(tr("%s的尸体") % tr(corpse.victim_display_name), _loot.project_rows(corpse, _inventory, _stacks, _item_index))
-
-
-# --- Selection: NPCs, landmarks, corpses --------------------------------------------
-
-func selected_interaction_target() -> WorldInteractionTarget:
-	return _selected_target
-
-
-func selected_character_id() -> StringName:
-	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.CHARACTER:
-		return &""
-	return _selected_target.target_id
-
-
-func selected_npc() -> NpcRuntimeState:
-	return find_resident_npc(selected_character_id())
-
-
-func _on_npc_selection_requested(character_id: StringName) -> void:
-	select_npc(character_id)
-
-
-func select_npc(character_id: StringName) -> bool:
-	if not _gameplay_open() or session == null:
-		return false
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-		return false
-	_selected_target = WorldInteractionTarget.character(character_id)
-	_hud().set_selected_target(npc)
-	return true
-
-
-func select_landmark(landmark_id: StringName) -> bool:
-	if not _gameplay_open() or session == null or not _landmark_areas.has(landmark_id):
-		return false
-	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
-	_selected_target = WorldInteractionTarget.landmark(landmark_id)
-	_selected_landmark_available = landmark_available(landmark)
-	_hud().set_selected_landmark(landmark, _selected_landmark_available)
-	return true
-
-
-func select_corpse(corpse_id: StringName) -> bool:
-	if not _gameplay_open() or session == null:
-		return false
-	var corpse: CorpseState = _find_corpse(corpse_id)
-	if corpse == null or not _corpse_is_live_in_world(corpse):
-		return false
-	_selected_target = WorldInteractionTarget.item(corpse_id)
-	_hud().set_selected_corpse(corpse.victim_display_name, _corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse_id))
-	return true
-
-
-func inspect_selected() -> bool:
-	if not _gameplay_open() or session == null or _selected_target == null:
-		return false
-	match _selected_target.kind:
-		WorldInteractionTarget.Kind.ITEM:
-			var floor_view: WorldFloorItemView = _selected_floor_item()
-			if floor_view != null:
-				var floor_content: ItemContentDefinition = _floor_item_content(floor_view)
-				if floor_content == null or not _floor_item_in_player_zone(floor_view):
-					return false
-				_hud().show_item_inspection(floor_content.display_name, floor_content.shown_description())
-				return true
-			var corpse: CorpseState = _find_corpse(_selected_target.target_id)
-			if corpse == null or not _corpse_is_live_in_world(corpse):
-				return false
-			_hud().show_corpse_inspection(corpse.victim_display_name, _corpse_content_count(corpse))
-			return true
-		WorldInteractionTarget.Kind.LANDMARK:
-			var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
-			var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
-			if policy == null:
-				return false
-			# look <item>: item_desc may be a function (house3.c's web calls a spider in).
-			_hud().show_landmark_inspection(landmark, policy.look(self, landmark))
-			return true
-	var npc: NpcRuntimeState = selected_npc()
-	if npc == null or not npc.exists_in_map:
-		return false
-	var gender: StringName = npc.character_state.gender
-	_hud().show_inspection(npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender)
-	_look_berserk(npc)
-	return true
-
-
-func attack_selected() -> CombatSliceInitiationResult:
-	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	if target == null or target.definition().dealings().is_fight_deferred():
-		return CombatSliceInitiationResult.new()
-	# kill.c checks the attacker's room, which in ES2 is also the target's.
-	var catalog: ContentCatalog = GameContent.catalog()
-	if catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(target.world_location().zone_id):
-		_hud().append_log_lines([tr("这里不准战斗。")])
-		return CombatSliceInitiationResult.new()
-	# present(arg, environment(me)): an NPC selected before it walked away is not here.
-	if not target.world_location().shares_combat_location(_player.world_location()):
-		_hud().append_log_lines([tr("这里没有这个人。")])
-		return CombatSliceInitiationResult.new()
-	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
-	# obj->kill_ob(me) warns the player (_announce_fight()).
-	return _initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
-		"npc": tr(target.definition().display_name),
-		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, &"")),
-	})])
-
-
-## cmds/std/fight.c for the selected NPC: ask a speaking character to spar; it
-## accepts or refuses (NpcSparConsent). Beasts are not asked (no button).
-func spar_selected() -> CombatSliceInitiationResult:
-	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	if target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
-		return CombatSliceInitiationResult.new()
-	var catalog: ContentCatalog = GameContent.catalog()
-	var name: String = tr(target.definition().display_name)
-	if catalog.zone_forbids_fighting(_player.world_location().zone_id):
-		_hud().append_log_lines([tr("这里禁止战斗。")])
-		return CombatSliceInitiationResult.new()
-	# present(arg, environment(me)): only someone in the same place can be asked.
-	if not target.world_location().shares_combat_location(_player.world_location()):
-		_hud().append_log_lines([tr("你想攻击谁？")])
-		return CombatSliceInitiationResult.new()
-	if target.relationship.has_opponent(_player.character_id):
-		_hud().append_log_lines([tr("加油！加油！加油！")])
-		return CombatSliceInitiationResult.new()
-	if target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		_hud().append_log_lines([tr("%s已经无法战斗了。") % name])
-		return CombatSliceInitiationResult.new()
-	var player_state: CharacterState = _player.state
-	var lines: Array[String] = [tr("你对著{npc}说道：{self}{name}，领教{respect}的高招！").format({
-		"npc": name, "self": tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
-		"name": _player.facts.display_name,
-		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
-	})]
-	var consent: NpcSparConsent = spar_consent(target, true)
-	var result := CombatSliceInitiationResult.new()
-	if consent.accepted:
-		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-		var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
-		var target_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, target.character_id)
-		result = (
-			# accept_fight() answered with kill_ob(): the NPC hunts the challenger.
-			session.combat_encounter_coordinator().start_production(target_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true)
-			if consent.kill
-			else session.combat_encounter_coordinator().start_production(player_binding, target_binding, CombatTriggerCause.Value.PLAYER_SPAR)
-		)
-	var started: bool = result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED
-	if consent.accepted and not started:
-		# Accepted, yet this encounter model cannot hold the fight (e.g. someone
-		# else's fight marks): say no rather than accept into nothing.
-		if OS.is_debug_build():
-			push_warning("Spar with %s accepted but not started: %s" % [target.character_id, CombatSliceInitiationResult.Outcome.find_key(result.outcome)])
-	else:
-		for line: NpcSparConsent.Line in consent.lines:
-			var text: String = tr(line.text).replace("$RESPECT", tr(consent.respect)).replace("$SELF", tr(consent.npc_self))
-			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
-	if not started:
-		lines.append(tr("看起来%s并不想跟你较量。") % name)
-	elif not consent.kill and spar_is_armed(target):
-		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
-		# blade draws blood. Native hint; ES2 says nothing here.
-		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
-	if started:
-		_announce_fight(lines)
-	else:
-		_hud().append_log_lines(lines)
-	return result
-
-
-## fight.c's answer `target` gives the player now: NpcSparConsent.decide() draws
-## nothing, so the HUD can know it before asking. `asked`: the spar itself, where an
-## attitude that is a function (kid2.c) is drawn from the world-interaction stream.
-func spar_consent(target: NpcRuntimeState, asked: bool = false) -> NpcSparConsent:
-	var player_state: CharacterState = _player.state
-	var attitude: int = -1
-	var roll: NpcRandomText = target.definition().attitude_roll()
-	if asked and roll != null:
-		attitude = NpcContentRecords.attitude_of(String(roll.pick(_world_interaction_random.legacy_random(roll.bound))))
-	return NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
-		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
-	), attitude)
-
-
-## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
-## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, NONE when
-## it is unarmed or will not take place (spar_selected()'s refusals, or the NPC's).
-enum SparRisk { NONE, ARMED, DEADLY }
-
-
-func selected_spar_risk() -> SparRisk:
-	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	if (
-		target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred()
-		or GameContent.catalog().zone_forbids_fighting(_player.world_location().zone_id)
-		or not target.world_location().shares_combat_location(_player.world_location())
-		or target.relationship.has_opponent(_player.character_id)
-		or target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
-	):
-		return SparRisk.NONE
-	var consent: NpcSparConsent = spar_consent(target)
-	if not consent.accepted:
-		return SparRisk.NONE
-	if consent.kill:
-		return SparRisk.DEADLY
-	return SparRisk.ARMED if spar_is_armed(target) else SparRisk.NONE
-
-
-## attack_selected() would start a fight (none of kill.c's refusals).
-func selected_attack_starts() -> bool:
-	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	var catalog: ContentCatalog = GameContent.catalog()
-	return (
-		target != null and not target.definition().dealings().is_fight_deferred()
-		and not catalog.zone_forbids_fighting(_player.world_location().zone_id)
-		and not catalog.zone_forbids_fighting(target.world_location().zone_id)
-		and target.world_location().shares_combat_location(_player.world_location())
-	)
-
-
-## Whether a spar with `target` is fought with a weapon in hand (the player's or
-## its): combatd.c then wounds as in a fight to the death.
-func spar_is_armed(target: NpcRuntimeState) -> bool:
-	return target != null and _player != null and (
-		not _player.state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()
-	)
-
-
-## cmds/std/ask.c: the selected NPC can be asked when it speaks and is here
-## (present()); a beast gets no 打听, as it gets no 切磋.
-func can_ask_selected() -> bool:
-	var target: NpcRuntimeState = selected_npc() if _gameplay_open() else null
-	return (
-		target != null and target.definition().can_speak() and target.exists_in_map
-		and target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
-		and _player != null and target.world_location().shares_combat_location(_player.world_location())
-	)
-
-
-## eff_kee * 100 / max_kee (herbalist.c heal_me()).
-@warning_ignore("integer_division")
-static func _kee_percent(state: CharacterState) -> int:
-	return 0 if state.vitality.maximum <= 0 else state.vitality.effective * 100 / state.vitality.maximum
-
-
-## What the selected NPC can be asked about, in ES2's listing order (NpcInquiry).
-func ask_topics_selected() -> Array[String]:
-	var topics: Array[String] = []
-	if can_ask_selected():
-		topics = NpcInquiry.topics(selected_npc().definition())
-	return topics
-
-
-## ask <npc> about <topic> on the selected NPC; its lines go to the log too. What
-## the answer does happens here: marks on the player (d/green's set_temp() flags) and
-## an item the NPC hands over (give.c; one the player cannot carry lands at their feet).
-func ask_selected(topic: String) -> Array[String]:
-	if not ask_topics_selected().has(topic):
-		return []
-	var target: NpcRuntimeState = selected_npc()
-	var zone: ZoneDefinition = GameContent.catalog().zone(target.world_location().zone_id)
-	var answer: NpcInquiry.Answer = NpcInquiry.answer(
-		target.definition(), target.character_state.gender, target.age,
-		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
-		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks),
-		topic, "" if zone == null else zone.display_name, _world_interaction_random, violates_unique,
-	)
-	for mark: String in answer.marks:
-		_player.state.marks[mark] = 1
-	if not answer.gives.is_empty():
-		var content: ItemContentDefinition = GameContent.catalog().item(answer.gives)
-		var given: StringName = &"" if content == null else give_new_item_to_player(answer.gives)
-		if not given.is_empty():
-			# give.c to the receiver: "<npc>给你一<unit><name>。"
-			answer.say(tr("{npc}给你{item}。").format({"npc": tr(target.definition().display_name), "item": HeldItemFacts.one_unit(content)}))
-			var at_feet: String = _at_feet_line(given, content)
-			if not at_feet.is_empty():
-				answer.say(at_feet)
-			if not answer.mark_on_give.is_empty():
-				_player.state.marks[answer.mark_on_give] = 1
-	_hud().append_colored_lines(answer.lines)
-	if _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-	return answer.texts()
-
-
-## The lines the player can say beside the selected NPC that it answers (relay_say():
-## oldman2.c's 必有妖孽); the UI offers them as 接话 instead of typing `say`.
-func relay_phrases_selected() -> Array[String]:
-	var phrases: Array[String] = []
-	if can_ask_selected():
-		phrases = selected_npc().definition().talk().relay_phrases()
-	return phrases
-
-
-## cmds/std/say.c beside the selected NPC, then its relay_say(). Badly hurt (kee below
-## max_kee / 5) the player's words come out broken up ("必有妖孽 ..."), which the NPC
-## does not take for its phrase. An unconscious NPC answers nothing.
-@warning_ignore("integer_division")
-func say_beside_selected(phrase: String) -> Array[String]:
-	if not relay_phrases_selected().has(phrase):
-		return []
-	var target: NpcRuntimeState = selected_npc()
-	var said: String = tr(phrase)
-	var vitality: CharacterResourceState = _player.state.vitality
-	if vitality.current < vitality.maximum / 5:
-		said = said.replace(" ", " ... ") + " ..."
-	var lines: Array[ColoredLine] = [ColoredLine.new(tr("你说道：%s") % said)]
-	if said == tr(phrase) and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-		var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-		for line: NpcLine in target.definition().talk().relay_answer(phrase):
-			lines.append(line.colored(target.definition().display_name, respect))
-	_hud().append_colored_lines(lines)
-	return ColoredLine.texts(lines)
-
-
-## A new item the player could not carry lies at their feet (give_new_item_to_player()):
-## the line that says so, in its place among the giver's lines (deviation: in ES2 the
-## giver kept it, as give.c's move() failed); "" when it is in their hands.
-func _at_feet_line(item_id: StringName, content: ItemContentDefinition) -> String:
-	if _inventory.is_direct_child(item_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)):
-		return ""
-	return tr(ItemHandlingService.WINNINGS_AT_FEET).format({"item": HeldItemFacts.one_unit(content)})
-
-
-## F_UNIQUE violate_unique(): the item is unique and one already exists somewhere in
-## the world (carried, lying about, held by an NPC, in a corpse or the pawnshop).
-func violates_unique(item_definition_id: StringName) -> bool:
-	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
-	if content == null or not content.unique:
-		return false
-	for id: StringName in _item_index.snapshot_ids():
-		var item: ItemInstance = _item_index.resolve(id)
-		if item != null and item.item_definition_id == item_definition_id and _inventory.is_registered(id):
-			return true
-	return false
-
-
-func open_selected_loot() -> bool:
-	if not _gameplay_open() or session == null:
-		return false
-	_hud().close_inventory()
-	var floor_view: WorldFloorItemView = _selected_floor_item()
-	if floor_view != null and _is_container(floor_view.item_instance_id):
-		return _show_container(floor_view)
-	if floor_view != null:
-		_hud().close_loot()
-		return take_selected_floor_item() in [FloorItemPickup.Outcome.TAKEN, FloorItemPickup.Outcome.TAKEN_PART]
-	var corpse: CorpseState = _selected_corpse()
-	if corpse == null:
-		_hud().close_loot()
-		return false
-	var validation: int = _loot.validate_open(_player, corpse, _inventory, _item_index, _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id))
-	if validation != CorpseLootAdapter.OpenValidation.READY:
-		_hud().close_loot()
-		_refresh_selected_corpse()
-		return false
-	_refresh_loot_panel(corpse)
-	return true
-
-
-func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransferResult:
-	var floor_view: WorldFloorItemView = _selected_floor_item() if _gameplay_open() and session != null else null
-	if floor_view != null and _is_container(floor_view.item_instance_id):
-		take_from_selected_container(item_instance_id)
-		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, _player.character_id, &"", item_instance_id)
-	if not _gameplay_open() or session == null:
-		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, &"" if _player == null else _player.character_id, &"", item_instance_id)
-	var corpse: CorpseState = _selected_corpse()
-	if corpse == null:
-		_last_loot_transfer_result = CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.CORPSE_NOT_AVAILABLE, false, _player.character_id, &"", item_instance_id)
-		_hud().close_loot()
-		return _last_loot_transfer_result
-	_last_loot_transfer_result = _loot.take(_player, corpse, item_instance_id, _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), _inventory, _stacks, _item_index)
-	_refresh_selected_corpse()
-	if _hud().loot_is_open():
-		if _corpse_is_live_in_world(corpse):
-			_refresh_loot_panel(corpse)
-		else:
-			_hud().close_loot()
-	if _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-	return _last_loot_transfer_result
-
-
-# --- Give, drop, put and get from (4E) ------------------------------------------------
-
-func _item_authorities() -> ItemHandlingService.Authorities:
-	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
-	return ItemHandlingService.Authorities.new(
-		MoneyInventoryContext.new(owner, _inventory, _stacks, _item_index), _foods, _liquids, _item_id_allocator,
-	)
-
-
-## give.c, drop.c and put.c are typed by an active player outside a fight.
-func can_handle_items() -> bool:
-	return _gameplay_open() and session != null and _player != null and can_act(false)
-
-
-## The selected NPC can be given things: present() and living(who).
-func selected_npc_takes_gifts() -> bool:
-	var npc: NpcRuntimeState = selected_npc()
-	return (
-		npc != null and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and npc.world_location().shares_combat_location(_player.world_location())
-	)
-
-
-## give <item> to <selected npc>; `amount` 0 gives the whole object.
-func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
-	var npc: NpcRuntimeState = selected_npc()
-	if not can_handle_items() or npc == null:
-		return ItemHandlingResult.new()
-	var location: WorldLocationState = _player.world_location()
-	var result: ItemHandlingResult = ItemHandlingService.give(
-		_player, npc, selected_npc_takes_gifts(), item_id, amount, _item_authorities(), _world_interaction_random, _floor_endpoint(location),
-	)
-	for dropped: StringName in result.dropped_item_ids:
-		if not _add_dropped_item_view(dropped, location, _at_feet(location, player_body.global_position, true)):
-			push_error("winnings %s on the floor have no view" % dropped)
-	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
-	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line.
-	if result.done() and result.rule != null and not result.rule.gives.is_empty():
-		var gift: StringName = give_new_item_to_player(result.rule.gives)
-		var gift_content: ItemContentDefinition = GameContent.catalog().item(result.rule.gives)
-		var at_feet: String = "" if gift.is_empty() or gift_content == null else _at_feet_line(gift, gift_content)
-		if not at_feet.is_empty():
-			result.lines.append(at_feet)
-	if not attacks:
-		_report_item_handling(result)
-		return result
-	# gangster.c accept_object(): too little, and kill_passenger() kill_ob()s the giver,
-	# this one NPC, wherever in the room the player stands. Its say() and kill_ob()'s
-	# warning come first; the refusal (X没有收下。) prints last.
-	var refusal: String = result.lines.pop_back()
-	_report_item_handling(result)
-	var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
-		CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
-		CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
-		CombatTriggerCause.Value.NPC_AGGRESSION,
-	)
-	if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		_announce_fight([])
-	_hud().append_log_lines([refusal])
-	return result
-
-
-## drop <item>: it lies at the player's feet.
-func drop_item(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
-	if not can_handle_items():
-		return ItemHandlingResult.new()
-	var location: WorldLocationState = _player.world_location()
-	var result: ItemHandlingResult = ItemHandlingService.drop(_player, item_id, amount, _floor_endpoint(location), _item_authorities())
-	if result.done() and not result.destroyed and not _add_dropped_item_view(result.item_id, location, _at_feet(location, player_body.global_position)):
-		push_error("dropped %s has no view" % result.item_id)
-	_report_item_handling(result)
-	return result
-
-
-## A container lying in the player's place within reach (feature/move.c
-## max_encumbrance), the selected one first; empty when none is.
-func container_in_reach() -> StringName:
-	var selected: WorldFloorItemView = _selected_floor_item()
-	if selected != null and _is_container(selected.item_instance_id) and _floor_item_in_player_zone(selected) and selected.is_body_in_reach(player_body):
-		return selected.item_instance_id
-	for item_id: StringName in _floor_items:
-		var view: WorldFloorItemView = _floor_items[item_id]
-		if _is_container(item_id) and _floor_item_in_player_zone(view) and view.is_body_in_reach(player_body):
-			return item_id
-	return &""
-
-
-## put <item> in <container in reach>.
-func put_in_container(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
-	var container_id: StringName = container_in_reach()
-	if not can_handle_items() or container_id.is_empty():
-		return ItemHandlingResult.new()
-	var result: ItemHandlingResult = ItemHandlingService.put(_player, item_id, amount, container_id, _item_authorities())
-	_report_item_handling(result)
-	if result.done() and _hud().loot_is_open():
-		_show_container(_floor_items[container_id])
-	return result
-
-
-## get <item> from <selected container>.
-func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
-	var view: WorldFloorItemView = _selected_floor_item()
-	if not can_handle_items() or view == null or not _is_container(view.item_instance_id) or not _floor_item_in_player_zone(view) or not view.is_body_in_reach(player_body):
-		return ItemHandlingResult.new()
-	var result: ItemHandlingResult = ItemHandlingService.take_from(_player, view.item_instance_id, item_id, _item_authorities())
-	_report_item_handling(result)
-	_show_container(view)
-	return result
-
-
-func _is_container(item_id: StringName) -> bool:
-	var item: ItemInstance = _item_index.resolve(item_id)
-	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-	return content != null and content.max_encumbrance > 0
-
-
-## The container's contents as loot rows; get.c takes them one by one.
-func _show_container(view: WorldFloorItemView) -> bool:
-	if not _floor_item_in_player_zone(view) or not view.is_body_in_reach(player_body):
-		_hud().close_loot()
-		return false
-	var rows: Array[WorldItemRowProjection] = []
-	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, view.item_instance_id)):
-		var item: ItemInstance = _item_index.resolve(item_id)
-		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-		if content == null:
-			continue
-		var amount: int = _stacks.stack_state(item_id).amount if _stacks.has_stack(item_id) else 1
-		rows.append(WorldItemRowProjection.new(item_id, item.item_definition_id, content.display_name, content.shown_description(), amount, content.category, true, false, false))
-	_hud().show_loot(tr(view.display_name), rows)
-	return true
-
-
-func _report_item_handling(result: ItemHandlingResult) -> void:
-	if result.outcome == ItemHandlingResult.Outcome.AUTHORITY_FAILURE:
-		push_error("item handling failed: the item state is inconsistent")
-	if not result.lines.is_empty():
-		_hud().append_colored_lines(result.colored_lines())
-	if _hud().inventory_is_open():
-		_hud().show_inventory(session.player_inventory_rows())
-
-
-# --- Landmarks and same-map passages ------------------------------------------------
-
 ## The player stands in the landmark's zone and, when it needs contact, inside its area.
 func landmark_available(landmark: WorldLandmarkDefinition) -> bool:
-	if landmark == null or _player == null or not _landmark_areas.has(landmark.landmark_id):
+	if landmark == null or _player == null or not landmark_areas.has(landmark.landmark_id):
 		return false
 	var location: WorldLocationState = _player.world_location()
 	var zone: ZoneDefinition = GameContent.catalog().zone(landmark.zone_id)
 	if location == null or zone == null or location.map_id != map or location.zone_id != zone.zone_id or location.combat_location_id != zone.combat_location_id:
 		return false
-	return not landmark.requires_contact or _inside_area(_landmark_areas[landmark.landmark_id], player_body.global_position)
+	return not landmark.requires_contact or _inside_area(landmark_areas[landmark.landmark_id], player_body.global_position)
 
 
 static func _inside_area(area: Area2D, point: Vector2) -> bool:
@@ -3664,31 +596,31 @@ static func _inside_area(area: Area2D, point: Vector2) -> bool:
 
 
 func _refresh_selected_landmark_source() -> void:
-	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
+	if selection.selected_target == null or selection.selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
 		return
-	var available: bool = landmark_available(GameContent.catalog().landmark(_selected_target.target_id))
-	if available != _selected_landmark_available:
-		_selected_landmark_available = available
-		_hud().set_selected_landmark_source_available(available)
+	var available: bool = landmark_available(GameContent.catalog().landmark(selection.selected_target.target_id))
+	if available != selection.selected_landmark_available:
+		selection.selected_landmark_available = available
+		hud().set_selected_landmark_source_available(available)
 
 
 ## The selected landmark's action (the HUD's portal button).
 func traverse_selected_portal() -> RefCounted:
-	if not _gameplay_open() or session == null or _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
+	if not gameplay_open() or session == null or selection.selected_target == null or selection.selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
 		return WorldPortalTraversalResult.new()
-	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
+	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(selection.selected_target.target_id)
 	var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
 	if policy == null:
 		return WorldPortalTraversalResult.new()
 	# The policy reports a wrong source zone itself; only the physical reach is checked here.
-	if landmark.requires_contact and not _inside_area(_landmark_areas[landmark.landmark_id], player_body.global_position):
+	if landmark.requires_contact and not _inside_area(landmark_areas[landmark.landmark_id], player_body.global_position):
 		_refresh_selected_landmark_source()
 		return WorldPortalTraversalResult.new()
 	var before: WorldLocationState = _player.world_location()
 	_last_landmark_use = policy.use(self, landmark)
 	if not _player.world_location().same_location(before) and not policy.keeps_selection():
-		_selected_target = null
-		_hud().set_selected_target(null)
+		selection.selected_target = null
+		hud().set_selected_target(null)
 	_refresh_selected_landmark_source()
 	return _last_landmark_use
 
@@ -3700,23 +632,21 @@ func last_landmark_use() -> RefCounted:
 ## WorldPassageArea2D calls this (deferred) for a portal that stays on this map: the
 ## 迷阵's exits and 青石村's one-way ways (stoneroom.c west, water.c west).
 func traverse_same_map_passage(portal: PortalDefinition) -> void:
-	if not _gameplay_open() or portal == null or not is_passage_current(portal):
+	if not gameplay_open() or portal == null or not is_passage_current(portal):
 		return
 	_last_passage_traversal = WorldLandmarkPolicy.move_through(self, portal)
 	var traversal: WorldPortalTraversalResult = _last_passage_traversal as WorldPortalTraversalResult
 	if traversal != null and traversal.completed() and session != null:
-		_selected_target = null
-		_hud().set_selected_target(null)
-		_hud().append_log_lines([tr("你来到%s。") % tr(GameContent.catalog().zone(portal.destination_zone_id).display_name)])
+		selection.selected_target = null
+		hud().set_selected_target(null)
+		hud().append_log_lines([tr("你来到%s。") % tr(GameContent.catalog().zone(portal.destination_zone_id).display_name)])
 		if portal.destination_zone_id == portal.source_zone_id:
-			_hud().describe_again()
+			hud().describe_again()
 
 
 func last_passage_traversal() -> RefCounted:
 	return _last_passage_traversal
 
-
-# --- Interactions: services, water and doors ----------------------------------------
 
 ## Whether the player may use something on this map right now. `idle` adds
 ## ES2's busy/fight gate and needs a Session.
@@ -3749,25 +679,25 @@ func player_near(zone_ids: Array[StringName], point: Vector2, reach: int) -> boo
 
 ## A water source (resource/water) is within reach.
 func water_available() -> bool:
-	for candidate: WorldService in _services:
+	for candidate: WorldService in service_nodes:
 		if candidate is WaterService and (candidate as WaterService).available():
 			return true
 	return false
 
 
 func services() -> Array[WorldService]:
-	return _services.duplicate()
+	return service_nodes.duplicate()
 
 
 func service(service_id: StringName) -> WorldService:
-	for candidate: WorldService in _services:
+	for candidate: WorldService in service_nodes:
 		if candidate.service_id() == service_id:
 			return candidate
 	return null
 
 
 func door(door_id: StringName) -> WorldDoor:
-	return _doors.get(door_id)
+	return doors_by_id.get(door_id)
 
 
 ## Read from the scene, so it also works before initialize_map().
@@ -3780,7 +710,7 @@ func doors() -> Array[WorldDoor]:
 
 
 func can_operate_door(door_id: StringName) -> bool:
-	var node: WorldDoor = _doors.get(door_id)
+	var node: WorldDoor = doors_by_id.get(door_id)
 	var definition: DoorDefinition = GameContent.catalog().door(door_id)
 	return (
 		node != null
@@ -3792,15 +722,15 @@ func can_operate_door(door_id: StringName) -> bool:
 
 
 func open_door(door_id: StringName) -> bool:
-	if not can_operate_door(door_id) or _doors[door_id].is_open():
+	if not can_operate_door(door_id) or doors_by_id[door_id].is_open():
 		return false
-	_doors[door_id].set_open(true)
+	doors_by_id[door_id].set_open(true)
 	return true
 
 
 ## A room rule's door (DoorDefinition.operable false): no reach, no player.
 func set_door_open(door_id: StringName, open: bool) -> bool:
-	var node: WorldDoor = _doors.get(door_id)
+	var node: WorldDoor = doors_by_id.get(door_id)
 	if node == null:
 		return false
 	node.set_open(open)
@@ -3810,56 +740,424 @@ func set_door_open(door_id: StringName, open: bool) -> bool:
 ## The closed footprint is never a valid position (see the placement
 ## validator), so closing cannot trap the player in the doorway.
 func close_door(door_id: StringName) -> bool:
-	if not can_operate_door(door_id) or not _doors[door_id].is_open():
+	if not can_operate_door(door_id) or not doors_by_id[door_id].is_open():
 		return false
-	_doors[door_id].set_open(false)
+	doors_by_id[door_id].set_open(false)
 	return true
 
 
-## What the context button offers here: the nearest door or service in reach (a door
-## when equally near), so beside 李火狮 by the school gate it is his lessons.
+# --- forwarded to WorldMapCorpses (corpses) ---
+
+
+func dissolve_selected_corpse(dust_id: StringName) -> bool:
+	return corpses.dissolve_selected_corpse(dust_id)
+
+
+func dissolvable_corpse_name() -> String:
+	return corpses.dissolvable_corpse_name()
+
+
+func dissolvable_corpse_contents() -> int:
+	return corpses.dissolvable_corpse_contents()
+
+
+func corpse_states() -> Array[CorpseState]:
+	return corpses.corpse_states()
+
+
+func corpse_view_for(corpse_id: StringName) -> CombatSliceCorpseView:
+	return corpses.corpse_view_for(corpse_id)
+
+
+func corpse_world_location(corpse_id: StringName) -> WorldLocationState:
+	return corpses.corpse_world_location(corpse_id)
+
+
+func last_loot_transfer_result() -> CorpseLootTransferResult:
+	return corpses.last_loot_transfer_result()
+
+
+func select_corpse(corpse_id: StringName) -> bool:
+	return corpses.select_corpse(corpse_id)
+
+
+func open_selected_loot() -> bool:
+	return corpses.open_selected_loot()
+
+
+func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransferResult:
+	return corpses.take_selected_loot_item(item_instance_id)
+
+
+# --- forwarded to WorldMapFloorItems (floor_items) ---
+
+
+func play_item(item_id: StringName) -> bool:
+	return floor_items.play_item(item_id)
+
+
+func can_hang_here() -> bool:
+	return floor_items.can_hang_here()
+
+
+static func zone_outdoors(zone_id: StringName) -> bool:
+	return WorldMapFloorItems.zone_outdoors(zone_id)
+
+
+func hang_with(item_id: StringName) -> bool:
+	return floor_items.hang_with(item_id)
+
+
+func floor_item_of(item_definition_id: StringName, zone_id: StringName) -> StringName:
+	return floor_items.floor_item_of(item_definition_id, zone_id)
+
+
+func destroy_floor_item(item_id: StringName) -> bool:
+	return floor_items.destroy_floor_item(item_id)
+
+
+func place_new_floor_item(item_definition_id: StringName) -> StringName:
+	return floor_items.place_new_floor_item(item_definition_id)
+
+
+func give_new_item_to_player(item_definition_id: StringName) -> StringName:
+	return floor_items.give_new_item_to_player(item_definition_id)
+
+
+func landmark_uses(landmark_id: StringName) -> int:
+	return floor_items.landmark_uses(landmark_id)
+
+
+func count_landmark_use(landmark_id: StringName) -> void:
+	floor_items.count_landmark_use(landmark_id)
+
+
+func dropped_item_ids() -> Array[StringName]:
+	return floor_items.dropped_item_ids()
+
+
+func dropped_item_location(item_id: StringName) -> WorldLocationState:
+	return floor_items.dropped_item_location(item_id)
+
+
+func floor_item_ids() -> Array[StringName]:
+	return floor_items.floor_item_ids()
+
+
+func floor_item_view(item_id: StringName) -> WorldFloorItemView:
+	return floor_items.floor_item_view(item_id)
+
+
+func select_floor_item(item_id: StringName) -> bool:
+	return floor_items.select_floor_item(item_id)
+
+
+func take_selected_floor_item() -> FloorItemPickup.Outcome:
+	return floor_items.take_selected_floor_item()
+
+
+func use_up_one(item_id: StringName, owner: ItemLifecycleOwnerContext) -> bool:
+	return floor_items.use_up_one(item_id, owner)
+
+
+func apply_item(item_id: StringName) -> bool:
+	return floor_items.apply_item(item_id)
+
+
+func pour_targets() -> Array[StringName]:
+	return floor_items.pour_targets()
+
+
+func pour_into(powder_id: StringName, container_id: StringName) -> bool:
+	return floor_items.pour_into(powder_id, container_id)
+
+
+func violates_unique(item_definition_id: StringName) -> bool:
+	return floor_items.violates_unique(item_definition_id)
+
+
+func can_handle_items() -> bool:
+	return floor_items.can_handle_items()
+
+
+func selected_npc_takes_gifts() -> bool:
+	return floor_items.selected_npc_takes_gifts()
+
+
+func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
+	return floor_items.give_to_selected(item_id, amount)
+
+
+func drop_item(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
+	return floor_items.drop_item(item_id, amount)
+
+
+func container_in_reach() -> StringName:
+	return floor_items.container_in_reach()
+
+
+func put_in_container(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
+	return floor_items.put_in_container(item_id, amount)
+
+
+func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
+	return floor_items.take_from_selected_container(item_id)
+
+
+# --- forwarded to WorldMapSelection (selection) ---
+
+
+func selected_interaction_target() -> WorldInteractionTarget:
+	return selection.selected_interaction_target()
+
+
+func selected_character_id() -> StringName:
+	return selection.selected_character_id()
+
+
+func selected_npc() -> NpcRuntimeState:
+	return selection.selected_npc()
+
+
+func select_npc(character_id: StringName) -> bool:
+	return selection.select_npc(character_id)
+
+
+func select_landmark(landmark_id: StringName) -> bool:
+	return selection.select_landmark(landmark_id)
+
+
+func inspect_selected() -> bool:
+	return selection.inspect_selected()
+
+
+func attack_selected() -> CombatSliceInitiationResult:
+	return selection.attack_selected()
+
+
+func spar_selected() -> CombatSliceInitiationResult:
+	return selection.spar_selected()
+
+
+func spar_consent(target: NpcRuntimeState, asked: bool = false) -> NpcSparConsent:
+	return selection.spar_consent(target, asked)
+
+
+func selected_spar_risk() -> SparRisk:
+	return selection.selected_spar_risk()
+
+
+func selected_attack_starts() -> bool:
+	return selection.selected_attack_starts()
+
+
+func spar_is_armed(target: NpcRuntimeState) -> bool:
+	return selection.spar_is_armed(target)
+
+
+func can_ask_selected() -> bool:
+	return selection.can_ask_selected()
+
+
+func ask_topics_selected() -> Array[String]:
+	return selection.ask_topics_selected()
+
+
+func ask_selected(topic: String) -> Array[String]:
+	return selection.ask_selected(topic)
+
+
+func relay_phrases_selected() -> Array[String]:
+	return selection.relay_phrases_selected()
+
+
+func say_beside_selected(phrase: String) -> Array[String]:
+	return selection.say_beside_selected(phrase)
+
+
 func interaction_title() -> String:
-	var target: Variant = _context_target()
-	if target is WorldService:
-		return (target as WorldService).context_title()
-	if target is StringName:
-		var name_text: String = tr(GameContent.catalog().door(target).display_name)
-		return (tr("关闭%s") if _doors[target].is_open() else tr("打开%s")) % name_text
-	return ""
+	return selection.interaction_title()
 
 
 func interact() -> void:
-	if ExplorationPresentationBlocker.is_blocked(get_tree()):
-		return
-	var target: Variant = _context_target()
-	if target is WorldService:
-		(target as WorldService).interact()
-	elif target is StringName:
-		if _doors[target].is_open():
-			close_door(target)
-		else:
-			open_door(target)
+	selection.interact()
 
 
-## A door's id or a WorldService, or null.
-func _context_target() -> Variant:
-	var best: Variant = null
-	var nearest: float = INF
-	var at: Vector2 = player_body.global_position
-	for door_id: StringName in _doors:
-		if can_operate_door(door_id) and at.distance_to(_doors[door_id].wall_shape().global_position) < nearest:
-			best = door_id
-			nearest = at.distance_to(_doors[door_id].wall_shape().global_position)
-	for candidate: WorldService in _services:
-		if not candidate.context_title().is_empty() and at.distance_to(candidate.anchor()) < nearest:
-			best = candidate
-			nearest = at.distance_to(candidate.anchor())
-	return best
-
-
-## Back/Escape on a service panel. False when no service claims `content`.
 func dismiss_panel(content: Control) -> bool:
-	for candidate: WorldService in _services:
-		if candidate.dismiss(content):
-			return true
-	return false
+	return selection.dismiss_panel(content)
+
+
+# --- forwarded to WorldMapNpcs (npcs) ---
+
+
+func register_npc_body(npc: NpcRuntimeState, body: WorldCharacterBody2D, presence: Area2D, content: CombatSliceContentProfile) -> bool:
+	return npcs.register_npc_body(npc, body, presence, content)
+
+
+func unregister_npc_body(character_id: StringName) -> bool:
+	return npcs.unregister_npc_body(character_id)
+
+
+func npc_runtimes() -> Array[NpcRuntimeState]:
+	return npcs.npc_runtimes()
+
+
+func resident_npcs() -> Array[NpcRuntimeState]:
+	return npcs.resident_npcs()
+
+
+func find_resident_npc(character_id: StringName) -> NpcRuntimeState:
+	return npcs.find_resident_npc(character_id)
+
+
+func npc_combat_content(character_id: StringName) -> CombatSliceContentProfile:
+	return npcs.npc_combat_content(character_id)
+
+
+func npc_wield_by_type(character_id: StringName, skill_type: StringName, on: bool) -> bool:
+	return npcs.npc_wield_by_type(character_id, skill_type, on)
+
+
+func npc_wield_item(character_id: StringName, item_definition_id: StringName) -> bool:
+	return npcs.npc_wield_item(character_id, item_definition_id)
+
+
+func idle_npc_beside(character_id: StringName, definition_id: StringName) -> NpcRuntimeState:
+	return npcs.idle_npc_beside(character_id, definition_id)
+
+
+func npc_rest_position(character_id: StringName) -> Vector2:
+	return npcs.npc_rest_position(character_id)
+
+
+func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:
+	return npcs.runtime_body_for_character(character_id)
+
+
+func runtime_body_for_spawn_point(spawn_point_id: StringName) -> WorldCharacterBody2D:
+	return npcs.runtime_body_for_spawn_point(spawn_point_id)
+
+
+func reset_room(legacy_room: String) -> void:
+	npcs.reset_room(legacy_room)
+
+
+func summon_one(spawn_id: StringName) -> NpcRuntimeState:
+	return npcs.summon_one(spawn_id)
+
+
+func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
+	return npcs.summon(spawn_id)
+
+
+func summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
+	return npcs.summon_beside(caster_id, definition_id)
+
+
+func summoner_of(character_id: StringName) -> StringName:
+	return npcs.summoner_of(character_id)
+
+
+func dismiss_summoned() -> void:
+	npcs.dismiss_summoned()
+
+
+func return_home(npc: NpcRuntimeState) -> bool:
+	return npcs.return_home(npc)
+
+
+# --- forwarded to WorldMapNpcLife (npc_life) ---
+
+
+func advance_npc_heartbeat(delta: float) -> void:
+	npc_life.advance_npc_heartbeat(delta)
+
+
+func npc_walker() -> WorldNpcWalker:
+	return npc_life.npc_walker()
+
+
+func random_move(npc: NpcRuntimeState) -> bool:
+	return npc_life.random_move(npc)
+
+
+# --- forwarded to WorldMapHostilities (hostilities) ---
+
+
+func aggression_adapter() -> NpcAggressionAdapter:
+	return hostilities.aggression_adapter()
+
+
+func last_aggression_decisions() -> Array[NpcAggressionDecision]:
+	return hostilities.last_aggression_decisions()
+
+
+func last_aggression_initiations() -> Array[CombatSliceInitiationResult]:
+	return hostilities.last_aggression_initiations()
+
+
+func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
+	return hostilities.process_pending_aggression()
+
+
+func npc_kills_player(npc: NpcRuntimeState) -> bool:
+	return hostilities.npc_kills_player(npc)
+
+
+func run_pending_player_berserk() -> void:
+	hostilities.run_pending_player_berserk()
+
+
+func last_player_berserk() -> CombatSliceInitiationResult:
+	return hostilities.last_player_berserk()
+
+
+func collect_complete_combat_entry(cause: int, requested_target: StringName = &"") -> Array[CombatSliceCharacterBinding]:
+	return hostilities.collect_complete_combat_entry(cause, requested_target)
+
+
+func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
+	hostilities.consume_complete_entry_contacts(ids)
+
+
+func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunityResult:
+	return hostilities.attack_player_outside_fight(npc)
+
+
+# --- forwarded to WorldMapCombatLifecycle (combat_lifecycle) ---
+
+
+func exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> Array[SpecialSide]:
+	return combat_lifecycle.exert_room(actor_id, bindings)
+
+
+func combat_binding_for(character_id: StringName) -> CombatSliceCharacterBinding:
+	return combat_lifecycle.combat_binding_for(character_id)
+
+
+func encounter_combat_bindings(encounter: CombatEncounter) -> Array[CombatSliceCharacterBinding]:
+	return combat_lifecycle.encounter_combat_bindings(encounter)
+
+
+func encounter_skill_effect_registry() -> SkillImprovementEffectRegistry:
+	return combat_lifecycle.encounter_skill_effect_registry()
+
+
+func last_player_content_resolution() -> WorldWeaponContentResolution:
+	return combat_lifecycle.last_player_content_resolution()
+
+
+func last_lifecycle_results() -> Array[CombatSliceLifecycleResult]:
+	return combat_lifecycle.last_lifecycle_results()
+
+
+func lifecycle_is_pending() -> bool:
+	return combat_lifecycle.lifecycle_is_pending()
+
+
+func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], last_hitter_id: StringName = &"") -> CombatSliceLifecycleResult:
+	return combat_lifecycle.execute_encounter_lifecycle(victim, opportunity, participants, last_hitter_id)
+
+
+func player_fall_below_zero() -> void:
+	combat_lifecycle.player_fall_below_zero()

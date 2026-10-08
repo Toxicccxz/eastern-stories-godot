@@ -15,7 +15,7 @@ func _run() -> void:
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test(args[1])
 	var repository: SourceEntrySaveRepository = SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
-		var session: OldPineWorldSessionController = Recovery.create_session(self, Recovery.RandomSequence.new())
+		var session: WorldSessionController = Recovery.create_session(self, Recovery.RandomSequence.new())
 		check(Work.work(session).succeeded(), "nondefault work resource/money/allocator")
 		var portal: PortalDefinition = GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "serializer resident setup")
@@ -41,7 +41,7 @@ func _run() -> void:
 		check(host.request_continue(), "fresh-process Continue")
 		await process_frame
 		await process_frame
-		var session: OldPineWorldSessionController = host.current_session()
+		var session: WorldSessionController = host.current_session()
 		check(session != null, "published Session")
 		if session != null:
 			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)

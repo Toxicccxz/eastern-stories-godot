@@ -211,7 +211,7 @@ func _test_viewport(tree: SceneTree) -> void:
 	_check(shell.new_game_setup_panel.visible, "public tap opens setup; remaining subject uses technical fixture")
 	TechnicalShellFixture.start(shell)
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "touch New Game normal viewport path")
-	var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+	var session: WorldSessionController = shell.runtime_host().current_session()
 	if session == null:
 		shell.free()
 		return
@@ -327,7 +327,7 @@ func _mouse_click(tree: SceneTree, position: Vector2) -> void:
 		await tree.physics_frame
 
 
-func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, session: OldPineWorldSessionController) -> void:
+func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var original_rng: CombatRandomSource = outdoor.combat_random_source()
 	# Corpse/proximity are pre-route fixtures, not a claim that touch killed the NPC.

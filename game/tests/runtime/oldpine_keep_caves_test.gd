@@ -37,7 +37,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_bury_roll()
 	_test_berserk_roll()
 	_test_netherbolt()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_tiles(session)
 	_test_new_world(session)
@@ -190,7 +190,7 @@ func _test_netherbolt() -> void:
 
 ## Painted walkable tiles join every zone of each new map to its entry; the keep is
 ## reached from the forest.
-func _test_tiles(session: OldPineWorldSessionController) -> void:
+func _test_tiles(session: WorldSessionController) -> void:
 	for map_id: StringName in [&"oldpine.outdoor", &"oldpine.cave", &"oldpine.stone", &"oldpine.caves", &"oldpine.cliff2"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
@@ -223,7 +223,7 @@ func _test_tiles(session: OldPineWorldSessionController) -> void:
 
 ## A new world: the keep's NPCs stand in place, the trap's guards are not there yet,
 ## the gate is open and the bones lie in cave5.
-func _test_new_world(session: OldPineWorldSessionController) -> void:
+func _test_new_world(session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"oldpine.outdoor")
 	var present: Dictionary[StringName, int] = {}
 	var absent: int = 0
@@ -247,7 +247,7 @@ func _test_new_world(session: OldPineWorldSessionController) -> void:
 ## keep2.c valid_leave(): leaving east while the gate is open shuts it with a shout and
 ## calls in five guards; the pipe in keep2 opens it (pipe_notify), as does keep2's reset.
 ## The guards that came stay through a Save.
-func _test_trap(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"oldpine.outdoor")
 	var clearing: StringName = &"oldpine.outdoor.central_clearing"
 	var moved: OldPineMapHandoffResult = session.handoff_to(&"oldpine.outdoor", clearing, clearing, &"oldpine.outdoor.central_clearing.player_start")
@@ -306,7 +306,7 @@ func _test_trap(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## path3's stone up and down into the caves; cliffdown down to cliff2, and down to epath3.
-func _test_climbs(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_climbs(tree: SceneTree, session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var inner: ZoneDefinition = GameContent.catalog().zone(&"oldpine.cave.inner_path")
@@ -345,7 +345,7 @@ func _test_climbs(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 
 ## cave5.c do_bury(): the bones are gone either way; the book falls (the player stays), or
 ## the floor gives way (after the paper, or without it); the room's reset lays new bones.
-func _test_bury(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_bury(tree: SceneTree, session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var caves: WorldMapController = session.world_map_of(&"oldpine.caves")
@@ -391,7 +391,7 @@ func _test_bury(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 ## attack.c's berserk: 疯老头子 stares and attacks a player who comes near (bellicosity
 ## 10000 over score 8000), with combatd.c start_berserk()'s lines.
-func _test_maniac(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_maniac(tree: SceneTree, session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"oldpine.outdoor")
 	_check(session.handoff_to(&"oldpine.outdoor", &"oldpine.outdoor.east_bridge", &"oldpine.outdoor.east_bridge", &"oldpine.outdoor.east_bridge.cliff2_landing").succeeded(), "to epath3")
 	await tree.physics_frame

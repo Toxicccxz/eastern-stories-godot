@@ -11,7 +11,7 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_population(session)
 	_test_authored_facts(session)
@@ -22,7 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures}
 
 
-func _test_population(session: OldPineWorldSessionController) -> void:
+func _test_population(session: WorldSessionController) -> void:
 	var placed: int = 0
 	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
 		if GameContent.catalog().map(spawn.map_id).region_id != &"snow":
@@ -38,7 +38,7 @@ func _test_population(session: OldPineWorldSessionController) -> void:
 	_check(placed == 36, "thirty-six Snow NPCs: travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E); 柳绘心 (offense/defense routes); 飞刀 travellers 3 (Old Pine B)")
 
 
-func _test_authored_facts(session: OldPineWorldSessionController) -> void:
+func _test_authored_facts(session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"snow.outdoor")
 	var guard: NpcRuntimeState = outdoor.find_resident_npc(&"snow.school1.guard.1.character")
 	_check(guard.definition().short_name() == "门房 刘安禄" and guard.definition().attitude == NpcDefinition.Attitude.HEROISM, "guard.c title and heroism")
@@ -68,7 +68,7 @@ func _test_authored_facts(session: OldPineWorldSessionController) -> void:
 		)
 
 
-func _test_temple_forbids_fighting(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_temple_forbids_fighting(tree: SceneTree, session: WorldSessionController) -> void:
 	# Inn east door to the square, then the temple's west door (d/snow/temple.c).
 	Input.action_press("move_right")
 	for _step: int in range(400):
@@ -97,7 +97,7 @@ func _test_temple_forbids_fighting(tree: SceneTree, session: OldPineWorldSession
 ## d/snow/npc/dog.c bites and claws (beast.c query_action draws one verb per
 ## attack, forward or riposte). A claw must not stall the encounter.
 func _test_dog_fight_ends(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	# TEST-ONLY: no chat beat fires, so the dogs stay on the east road; every map's NPCs
 	# draw from the one ambience stream, and a new region shifts when they wander.
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
@@ -170,7 +170,7 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(text).snapshot, tree.root)
 	_check(restored.succeeded(), "Continue accepts the reincarnated player's corpse: " + restored.path)
 	if restored.succeeded():
-		var fresh: OldPineWorldSessionController = restored.candidate
+		var fresh: WorldSessionController = restored.candidate
 		_check(fresh.activate_restore_candidate(), "the restored session activates")
 		var again: GameSaveSnapshot = Work.capture(fresh)
 		_check(again != null and GameSaveJsonCodec.encode(again).text == text, "the restored world saves exactly as it was")

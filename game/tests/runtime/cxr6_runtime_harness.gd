@@ -8,7 +8,7 @@ const Files := preload("res://tests/application/application_shell_phase10c1c_tes
 const Mobile := preload("res://tests/application/mobile_touch_test.gd")
 const Setup := preload("res://tests/support/cxr6_session_fixture.gd")
 var shell: ApplicationShellController
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 var random := Setup.CountingRandom.new()
 var receipt_force: int = 0
 var receipt_rng: int = 0

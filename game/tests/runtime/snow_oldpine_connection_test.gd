@@ -10,7 +10,7 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var entry: Entry = (load("res://tests/qa/nge4_source_entry.tscn") as PackedScene).instantiate()
 	tree.root.add_child(entry)
-	var session: OldPineWorldSessionController = entry.session
+	var session: WorldSessionController = entry.session
 	# This fixture proves portal/authority continuity, not elapsed recovery time.
 	# S5B tests cadence separately, including preserving its phase across handoffs.
 	# Keep physics/input active; freeze only Session's process-owned schedulers so
@@ -20,7 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if not session.is_initialized():
 		entry.free()
 		return {"assertions": _count, "failures": _failures}
-	_check(session.bootstrap_mode() == OldPineWorldSessionController.BootstrapMode.SOURCE_ENTRY, "explicit third profile")
+	_check(session.bootstrap_mode() == WorldSessionController.BootstrapMode.SOURCE_ENTRY, "explicit third profile")
 	_check(not session.configure_source_entry("Again", CharacterState.GENDER_MALE), "late profile configuration rejected")
 	var identities: Array[Object] = _identities(session)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -74,7 +74,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.active_map_child_count() == 1 and session.active_map().is_inside_tree() and player.world_location().same_location(source), "all failures preserve source location and active map")
 	_continuity(session, identities, cloth)
 	# Technical profile uses identical NPC RNG path but only the five Old Pine maps.
-	var technical: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	var technical: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	technical.deterministic_npc_seed = true
 	technical.deterministic_combat_seed = true
 	technical.deterministic_world_interaction_seed = true
@@ -107,7 +107,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.active_map_id() == &"oldpine.outdoor", "physical passage reaches oldpine.outdoor")
 	_check(player.world_location().zone_id == &"oldpine.outdoor.north_approach", "first Old Pine location is North Approach")
 	_check(session.last_map_handoff_result().destination_spawn_point_id == south.destination_spawn_point_id and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).player_body.position.distance_to(Vector2(-352, -380)) < 25.0, "first physical spawn at north-west entry")
-	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._build_participants(), player.character_id)
+	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle.build_participants(), player.character_id)
 	_check(binding != null and binding.state == player.state and binding.state.equipment.primary_weapon() == null, "source exp0/unarmed binds existing combat")
 	_continuity(session, identities, cloth)
 	# npath1-3: down the path from the Snow gap, then east into the clearing's west edge.
@@ -141,12 +141,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures}
 
 
-func _identities(session: OldPineWorldSessionController) -> Array[Object]:
+func _identities(session: WorldSessionController) -> Array[Object]:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	return [player, player.state, player.state.equipment, player.armor, player.facts, player.body_facts, session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.npc_random_source(), session.combat_random_source(), session.world_interaction_random_source(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
 
 
-func _continuity(session: OldPineWorldSessionController, identities: Array[Object], cloth: StringName) -> void:
+func _continuity(session: WorldSessionController, identities: Array[Object], cloth: StringName) -> void:
 	_check(_identities(session) == identities, "all fifteen Session authority identities including Player body unchanged")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(player.body_facts.body_weight == 80000 and player.body_facts.maximum_encumbrance == 150000, "same established body across Inn/Snow/Old Pine/return handoffs")
@@ -160,11 +160,11 @@ func _continuity(session: OldPineWorldSessionController, identities: Array[Objec
 		_check(map == session.active_map() or (not map.is_inside_tree() and not map.runtime_player_body().player_controlled and not (map.runtime_player_body().get_node("Camera2D") as Camera2D).enabled), "inactive maps detached/input/camera off")
 
 
-func _handoff(session: OldPineWorldSessionController, portal: PortalDefinition) -> OldPineMapHandoffResult:
+func _handoff(session: WorldSessionController, portal: PortalDefinition) -> OldPineMapHandoffResult:
 	return session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id)
 
 
-func _walk_until_map(tree: SceneTree, session: OldPineWorldSessionController, target: StringName, action: String) -> void:
+func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
 	Input.action_press(action)
 	for _step: int in range(400):
 		await tree.physics_frame

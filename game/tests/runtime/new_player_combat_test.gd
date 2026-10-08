@@ -33,7 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _who_spars(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var hud: SharedGameplayUI = session.shared_ui()
 	var lines: Array[String] = _spar(map, SCAVENGER, &"snow.mstreet2", &"snow.mstreet2.drunk.1")
@@ -76,7 +76,7 @@ func _who_spars(tree: SceneTree) -> void:
 
 func _spar_runs_to_its_end(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
@@ -100,7 +100,7 @@ func _spar_runs_to_its_end(tree: SceneTree) -> void:
 
 func _npc_heals_and_spars_again(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
 	var kee: CharacterResourceState = trainee.character_state.vitality
@@ -125,7 +125,7 @@ func _npc_heals_and_spars_again(tree: SceneTree) -> void:
 
 func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
 	_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
@@ -148,7 +148,7 @@ func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
 	check(restored.succeeded(), "Continue rebuilds the world")
 	if not restored.succeeded():
 		return
-	var fresh: OldPineWorldSessionController = restored.candidate
+	var fresh: WorldSessionController = restored.candidate
 	check(fresh.activate_restore_candidate(), "Continue activates")
 	fresh.set_process(false)
 	var again: NpcRuntimeState = (fresh.active_map() as WorldMapController).find_resident_npc(TRAINEE)
@@ -172,7 +172,7 @@ func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
 ## (die() destructs the object and its call_out), so Save still works.
 func _killed_after_knockout_still_saves(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
 	map.relocate_player(&"snow.school2", &"snow.school2.trainee.6")
@@ -194,7 +194,7 @@ func _killed_after_knockout_still_saves(tree: SceneTree) -> void:
 ## Save and Continue.
 func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var guard: NpcRuntimeState = map.find_resident_npc(GUARD)
@@ -229,7 +229,7 @@ func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
 	check(restored.succeeded() and restored.candidate.activate_restore_candidate(), "Continue")
 	if not restored.succeeded():
 		return
-	var fresh: OldPineWorldSessionController = restored.candidate
+	var fresh: WorldSessionController = restored.candidate
 	fresh.set_process(false)
 	var back: WorldPlayerRuntimeState = fresh.player_runtime()
 	check(back.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and back.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and back.state.progression.combat_experience == experience, "the reincarnated player continues at the temple")
@@ -241,7 +241,7 @@ func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
 
 func _failed_fight_ends_instead_of_freezing(tree: SceneTree) -> void:
 	var fixture: Array = await _snow(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
@@ -271,7 +271,7 @@ func _failed_fight_ends_instead_of_freezing(tree: SceneTree) -> void:
 
 ## [session, Snow outdoor map]; the session is driven by hand.
 func _snow(tree: SceneTree) -> Array:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "fixture walks out to the square")
@@ -291,7 +291,7 @@ func _spar(map: WorldMapController, npc_id: StringName, zone_id: StringName, spa
 
 
 ## Advances the encounter one combat round at a time until it is gone.
-func _run(session: OldPineWorldSessionController) -> int:
+func _run(session: WorldSessionController) -> int:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 300:
@@ -303,7 +303,7 @@ func _run(session: OldPineWorldSessionController) -> int:
 	return rounds
 
 
-func _close(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _close(tree: SceneTree, session: WorldSessionController) -> void:
 	session.free()
 	await tree.process_frame
 

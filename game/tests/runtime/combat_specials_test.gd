@@ -54,7 +54,7 @@ class Still extends WorldInteractionRandomSource:
 var _count: int = 0
 var _failures: Array[String] = []
 var _catalog: ContentCatalog
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _player: WorldPlayerRuntimeState
 var _hud: SharedGameplayUI
 var _ui: BattlePresentationController

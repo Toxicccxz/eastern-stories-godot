@@ -30,7 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_reward()
 	_test_vendetta_and_death()
 	_test_master_killed()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_in_town(tree, session)
@@ -223,7 +223,7 @@ func _test_master_killed() -> void:
 
 ## 朱鸿雪 in god2: her 任务 beside her body, the task on the character sheet, the
 ## time running in play, the kill in a real fight, Save/Continue.
-func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -307,7 +307,7 @@ func _test_in_town(tree: SceneTree, session: OldPineWorldSessionController) -> v
 	_check(service.request_quest() == QuestGiver.Outcome.GIVEN and service.last_lines[0].text == SCOLD and player.state.vitality.current == 41 and player.state.quest.finished == 0 and player.state.quest.remaining_ms > 0, "the time ran out: 真没用, kee halved, another task")
 	var header: NpcRuntimeState = _npc(map, &"cloud.biaoju.b_header.1")
 	_check(player.request_apprenticeship(header.definition(), GameContent.catalog().family(&"family.zhenyuan"), 1789420000) == NpcApprenticeship.Outcome.RECRUITED and player.shown_title() == "振远镖局第二代弟子", "TEST-ONLY: 陈剑秋's apprentice")
-	map._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
+	map.combat_lifecycle._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
 	_check(not player.state.family.has_family() and player.state.apprenticeship.betrayer_count == 1 and player.state.progression.score == 0 and player.facts.title == "普通百姓" and player.shown_title() == "普通百姓", "his killer betrays the family, leaves it and is 普通百姓 again: " + player.shown_title())
 	player.state.vitality = CharacterResourceState.new(player.state.vitality.maximum, player.state.vitality.maximum, player.state.vitality.maximum)
 	work = Work.new()
@@ -339,7 +339,7 @@ func _test_codec(root: Dictionary) -> void:
 ## surrender.c from the battle panel: a spar ends and costs 50 score; a killer
 ## refuses; with every killer down the player disengages.
 func _test_surrender(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "out on the square")
@@ -410,7 +410,7 @@ static func _fresh() -> CharacterState:
 	return NewPlayerInitializationPolicy.create(CharacterState.GENDER_MALE, "杀手").state
 
 
-func _run(session: OldPineWorldSessionController) -> int:
+func _run(session: WorldSessionController) -> int:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 300:

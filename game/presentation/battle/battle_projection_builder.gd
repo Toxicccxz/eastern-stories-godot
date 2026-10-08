@@ -2,7 +2,7 @@ class_name BattleProjectionBuilder
 extends RefCounted
 
 ## Sole read adapter. UI descendants receive values, never Session/Core references.
-static func build(session: OldPineWorldSessionController) -> BattlePresentationProjection:
+static func build(session: WorldSessionController) -> BattlePresentationProjection:
 	if session == null or not session.is_initialized():
 		return BattlePresentationProjection.new()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -52,7 +52,7 @@ static func build(session: OldPineWorldSessionController) -> BattlePresentationP
 
 ## A finished encounter the panel never projected: who the player is, and the
 ## names and genders of everyone its retained events mention, for its log.
-static func completed_cast(session: OldPineWorldSessionController, encounter_id: StringName) -> BattlePresentationProjection:
+static func completed_cast(session: WorldSessionController, encounter_id: StringName) -> BattlePresentationProjection:
 	var player_id: StringName = session.player_runtime().character_id
 	var ids: Array[StringName] = [player_id]
 	var feedback: CombatCompletedFeedback = session.combat_encounter_coordinator().completed_feedback()
@@ -66,7 +66,7 @@ static func completed_cast(session: OldPineWorldSessionController, encounter_id:
 
 ## The names, genders and dodge skills the narrator needs for `ids` (the player
 ## first), with no fight behind them: a do_attack() outside one, as champion.c's test.
-static func cast_of(session: OldPineWorldSessionController, ids: Array[StringName], encounter_id: StringName = &"") -> BattlePresentationProjection:
+static func cast_of(session: WorldSessionController, ids: Array[StringName], encounter_id: StringName = &"") -> BattlePresentationProjection:
 	var player_id: StringName = session.player_runtime().character_id
 	var participants: Array[BattleParticipantProjection] = []
 	var seen: Array[StringName] = []

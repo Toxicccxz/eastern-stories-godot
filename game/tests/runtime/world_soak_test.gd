@@ -62,7 +62,7 @@ class LoggedErrors extends Logger:
 var assertions: int = 0
 var failures: Array[String] = []
 var _tree: SceneTree
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _now: int = 0
 ## World seconds when the room schedules last started afresh (New Game, Continue).
 var _schedules_since: int = 0
@@ -337,7 +337,7 @@ func _restore(snapshot: GameSaveSnapshot, swap: bool, room: StringName) -> bool:
 		if is_instance_valid(restored.candidate):
 			restored.candidate.free()
 		return false
-	var fresh: OldPineWorldSessionController = restored.candidate
+	var fresh: WorldSessionController = restored.candidate
 	check(fresh.activate_restore_candidate(), "activate the restore after %s" % room)
 	fresh.set_process(false)
 	var again: GameSaveSnapshot = Work.capture(fresh)

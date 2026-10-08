@@ -21,7 +21,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
@@ -67,7 +67,7 @@ func _test_data() -> void:
 
 
 ## Without the 村长's story the drunk only thanks; the wine goes to him (no value()).
-func _test_stranger_wine(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_stranger_wine(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var drunk: NpcRuntimeState = _beside_npc(map, session, &"snow.mstreet2.drunk.1")
 	drunk.set_flag(&"has_alcohol", false) # TEST-ONLY: as if he had drunk his own
@@ -78,7 +78,7 @@ func _test_stranger_wine(tree: SceneTree, session: OldPineWorldSessionController
 	await tree.process_frame
 
 
-func _test_elder(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_elder(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"green.village", &"green.path6", &"green.path6", &"green.path6.snow_entry").succeeded(), "TEST-ONLY: into the village")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -103,7 +103,7 @@ func _test_elder(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	await tree.process_frame
 
 
-func _test_whispers(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_whispers(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "TEST-ONLY: back to Snow")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -124,7 +124,7 @@ func _test_whispers(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	await tree.process_frame
 
 
-func _test_shen(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_shen(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"green.village", &"green.path6", &"green.path6", &"green.path6.snow_entry").succeeded(), "TEST-ONLY: to the village")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -176,7 +176,7 @@ func _test_shen(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	await tree.process_frame
 
 
-func _test_pour_and_drink(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_pour_and_drink(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -210,7 +210,7 @@ func _test_pour_and_drink(tree: SceneTree, session: OldPineWorldSessionControlle
 
 
 ## The drunk drinks a drugged 陶壶 the player gives him (worth nothing, so he keeps it) and passes out.
-func _test_drunk_drugged(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_drunk_drugged(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "TEST-ONLY: back to Snow")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -231,7 +231,7 @@ func _test_drunk_drugged(tree: SceneTree, session: OldPineWorldSessionController
 	var action: NpcDrinkAction = drunk.definition().talk().chat_entries()[0]
 	# drunk.c: an empty wineskin he comes to first is dropped (drop.c), then the 陶壶.
 	for beat: int in range(6):
-		map._act(drunk, action)
+		map.npc_life._act(drunk, action)
 		if hud.log_lines().back() == "醉汉拿起陶壶咕噜噜地喝了几口米酒。":
 			break
 	_check(hud.log_lines().back() == "醉汉拿起陶壶咕噜噜地喝了几口米酒。", "he drinks the 米酒: " + hud.log_lines().back())
@@ -248,7 +248,7 @@ func _test_drunk_drugged(tree: SceneTree, session: OldPineWorldSessionController
 	await tree.process_frame
 
 
-func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_save(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var wine: StringName = _new_item(session, WINESKIN)
@@ -275,7 +275,7 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	_check(walker._failures.is_empty(), "Save/Continue restores it exactly: " + str(walker._failures))
 
 
-func _beside_npc(map: WorldMapController, session: OldPineWorldSessionController, point: StringName) -> NpcRuntimeState:
+func _beside_npc(map: WorldMapController, session: WorldSessionController, point: StringName) -> NpcRuntimeState:
 	var npc: NpcRuntimeState = null
 	for candidate: NpcRuntimeState in map.npc_runtimes():
 		if candidate.spawn_point_id == point:
@@ -292,13 +292,13 @@ func _place(map: WorldMapController, player: WorldPlayerRuntimeState, zone_id: S
 
 
 ## TEST-ONLY: a new item in the player's hands, as an NPC's give would make it.
-func _new_item(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _new_item(session: WorldSessionController, definition_id: StringName) -> StringName:
 	var id: StringName = (session.active_map() as WorldMapController).give_new_item_to_player(definition_id)
 	_check(not id.is_empty(), "TEST-ONLY: a new %s" % definition_id)
 	return id if session.inventory_state().is_registered(id) else _carried(session, definition_id)
 
 
-func _carried(session: OldPineWorldSessionController, definition_id: StringName) -> StringName:
+func _carried(session: WorldSessionController, definition_id: StringName) -> StringName:
 	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id)
 	for id: StringName in session.inventory_state().direct_children(holder):
 		var item: ItemInstance = session.item_instance_index().resolve(id)
@@ -307,7 +307,7 @@ func _carried(session: OldPineWorldSessionController, definition_id: StringName)
 	return &""
 
 
-func _count_items(session: OldPineWorldSessionController, definition_id: StringName) -> int:
+func _count_items(session: WorldSessionController, definition_id: StringName) -> int:
 	var count: int = 0
 	for id: StringName in session.item_instance_index().snapshot_ids():
 		var item: ItemInstance = session.item_instance_index().resolve(id)

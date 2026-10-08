@@ -14,7 +14,7 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_object_rules()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	await _test_waiter(tree, session)
 	await _to_square(tree, session)
@@ -72,7 +72,7 @@ func _test_object_rules() -> void:
 
 
 ## The waiter in the Inn: his body, his goods, his greeting and how one addresses him.
-func _test_waiter(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_waiter(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var waiter: NpcRuntimeState = _npc(map, &"snow.inn.main_floor.inn.waiter.1")
@@ -93,13 +93,13 @@ func _test_waiter(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	await tree.physics_frame
 
 
-func _to_square(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _to_square(tree: SceneTree, session: WorldSessionController) -> void:
 	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 	var square: bool = await MapPlaces.drive_to_zone(tree, session.active_map() as WorldMapController, &"snow.square")
 	_check(square and session.player_runtime().world_location().zone_id == &"snow.square", "out of the Inn")
 
 
-func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -154,7 +154,7 @@ func _test_give(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	await tree.process_frame
 
 
-func _test_drop_put(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_drop_put(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
@@ -188,7 +188,7 @@ func _test_drop_put(tree: SceneTree, session: OldPineWorldSessionController) -> 
 
 
 ## drunk.c do_drink(): drinks, drops the emptied wineskin, asks for wine; and gives.
-func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_drunk(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -201,10 +201,10 @@ func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 		if session.liquid_collection().state(id) != null:
 			skin = id
 	session.liquid_collection().state(skin).remaining = 1
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().slice(-2) == ["醉汉拿起牛皮酒袋咕噜噜地喝了几口红酒。", "醉汉丢下一个牛皮酒袋。"], "the last sip, then drop wineskin: " + str(hud.log_lines().slice(-2)))
 	_check(drunk.character_state.recovery.water == 30 and map.dropped_item_ids().has(skin) and session.inventory_state().direct_parent(skin).kind == ContainmentEndpoint.Kind.WORLD, "liquid.c water+30; the empty skin lies where he stands")
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().back() == "醉汉说道：酒..... 给我酒...." and not drunk.has_flag(&"has_alcohol"), "no alcohol: has_alcohol = 0, and he asks")
 	# A full wineskin from the player: accepted and moved to him (only money has a
 	# value(), std/money.c); he drinks from it next.
@@ -215,17 +215,17 @@ func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	map.select_npc(drunk.character_id)
 	var given: ItemHandlingResult = map.give_to_selected(bought.item_id)
 	_check(not given.destroyed and given.lines == ["醉汉说道：多谢啦.....", "你给醉汉一个牛皮酒袋。"] and drunk.has_flag(&"has_alcohol") and session.inventory_state().is_direct_child(bought.item_id, holder), "give wineskin to drunk: " + str(given.lines))
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().back() == "醉汉拿起牛皮酒袋咕噜噜地喝了几口红酒。" and session.liquid_collection().state(bought.item_id).remaining == 14, "he drinks the gift")
 	drunk.character_state.recovery.water = 380
 	var lines: int = hud.log_lines().size()
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().size() == lines, "sated at 380: he only sings, which prints nothing")
 	drunk.character_state.recovery.water = 0
 	await tree.process_frame
 
 
-func _test_shops(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_shops(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -266,7 +266,7 @@ func _test_shops(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	await tree.process_frame
 
 
-func _test_teachers(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_teachers(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -298,7 +298,7 @@ func _test_teachers(tree: SceneTree, session: OldPineWorldSessionController) -> 
 	await tree.process_frame
 
 
-func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_save(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var street: Vector2 = map.physical_zone(&"snow.mstreet1").global_rect().get_center()
@@ -310,7 +310,7 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var cellar: WorldMapController = session.world_map_of(&"snow.cellar")
 	var below: WorldLocationState = cellar.location_for_zone(&"snow.secret_storage")
 	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(session.inventory_state(), sword, InventoryTransferDestination.new(ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, below.combat_location_id), true, true, WorldMapController.WORLD_CAPACITY), player.state.equipment, player.armor)
-	_check(moved.succeeded and cellar._add_dropped_item_view(sword, below, cellar._at_feet(below, cellar.physical_zone(&"snow.secret_storage").global_rect().get_center())), "test-only: the 竹剑 dropped below")
+	_check(moved.succeeded and cellar.floor_items.add_dropped_item_view(sword, below, cellar.floor_items.at_feet(below, cellar.physical_zone(&"snow.secret_storage").global_rect().get_center())), "test-only: the 竹剑 dropped below")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	_check(snapshot != null and snapshot.floor_items.size() == 3, "the save keeps the dropped coins, the drunk's wineskin and the 竹剑 below: %s" % [dropped.lines])
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
@@ -322,15 +322,15 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 
 
 ## The player's coin stack now (a merge keeps the moved stack's identity).
-func _coins(session: OldPineWorldSessionController) -> StringName:
+func _coins(session: WorldSessionController) -> StringName:
 	return Finance.session_context(session).select(CurrencyDenomination.Value.COIN).item_id
 
 
-func _authorities(session: OldPineWorldSessionController) -> ItemHandlingService.Authorities:
+func _authorities(session: WorldSessionController) -> ItemHandlingService.Authorities:
 	return ItemHandlingService.Authorities.new(Finance.session_context(session), session.food_collection(), session.liquid_collection(), session.item_id_allocator())
 
 
-func _add_item(session: OldPineWorldSessionController, id: StringName, definition_id: StringName) -> void:
+func _add_item(session: WorldSessionController, id: StringName, definition_id: StringName) -> void:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var item: ItemInstance = ItemInstance.new(id, definition_id)

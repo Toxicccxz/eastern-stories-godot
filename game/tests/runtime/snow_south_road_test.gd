@@ -15,7 +15,7 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_rooms_and_text()
 	_test_every_zone_is_reachable_on_tiles(session)
@@ -44,7 +44,7 @@ func _test_rooms_and_text() -> void:
 
 ## Painted walkable tiles join the square to every zone of the map (doors are tiles
 ## too: their bodies open and close).
-func _test_every_zone_is_reachable_on_tiles(session: OldPineWorldSessionController) -> void:
+func _test_every_zone_is_reachable_on_tiles(session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"snow.outdoor")
 	var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
 	var walkable: Dictionary[Vector2i, bool] = {}
@@ -70,7 +70,7 @@ func _test_every_zone_is_reachable_on_tiles(session: OldPineWorldSessionControll
 		_check(reached.has(layers[0].local_to_map(center)), "%s is joined to the square on the tiles" % zone.zone_id)
 
 
-func _test_authored_facts(session: OldPineWorldSessionController) -> void:
+func _test_authored_facts(session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"snow.outdoor")
 	# The dog's presence circle (the native "same room") reaches no player standing in sroad3 or sroad5.
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(&"snow.outdoor.sroad4.crazy_dog")
@@ -106,7 +106,7 @@ class Still extends WorldInteractionRandomSource:
 
 ## Inn → square → sroad1 → sroad2 (farmers) → the school and back → sroad3 → sroad4,
 ## where the crazy dog attacks (set("attitude", "aggressive")).
-func _test_walk_the_south_road(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_walk_the_south_road(tree: SceneTree, session: WorldSessionController) -> void:
 	# Nobody chats or wanders on the way (npc.c chat()); the crazy dog stays in sroad4.
 	session.configure_npc_ambience_random_source(Still.new())
 	await _leave_inn(tree, session)
@@ -135,7 +135,7 @@ func _test_walk_the_south_road(tree: SceneTree, session: OldPineWorldSessionCont
 ## Buy once in each shop, sell both at the Hockshop, walk into the post office and
 ## the storage room, and Save/Continue keeps it all exactly.
 func _test_shops(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 25, &"test.4b.silver")
@@ -193,7 +193,7 @@ func _zone_rect(map: WorldMapController, zone_id: StringName) -> Rect2:
 	return Rect2()
 
 
-func _leave_inn(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _leave_inn(tree: SceneTree, session: WorldSessionController) -> void:
 	Input.action_press("move_right")
 	for _step: int in range(400):
 		await tree.physics_frame

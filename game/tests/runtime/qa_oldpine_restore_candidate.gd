@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func _run_qa() -> void:
-	var source: OldPineWorldSessionController = SessionScene.instantiate()
+	var source: WorldSessionController = SessionScene.instantiate()
 	source.deterministic_npc_seed = true
 	source.npc_seed = 10_031
 	source.deterministic_combat_seed = true
@@ -47,7 +47,7 @@ func _run_qa() -> void:
 			% [restored.path, restored.detail]
 		)
 		return
-	var candidate: OldPineWorldSessionController = restored.candidate
+	var candidate: WorldSessionController = restored.candidate
 	candidate.name = "RestoredOldPineWorldSession"
 	var rng_unchanged: bool = (
 		_same_random(candidate.combat_random_source().capture_random_state(), snapshot.combat_rng)

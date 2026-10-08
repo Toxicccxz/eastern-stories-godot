@@ -47,13 +47,13 @@ class MemoryFiles extends SaveFileOperations:
 
 
 class FailingActivationCoordinator extends OldPineSessionLoadCoordinator:
-	func _activate_candidate(_candidate: OldPineWorldSessionController) -> bool:
+	func _activate_candidate(_candidate: WorldSessionController) -> bool:
 		return false
 
 
 class FailingReparentCoordinator extends OldPineSessionLoadCoordinator:
 	func _reparent_candidate(
-		_candidate: OldPineWorldSessionController,
+		_candidate: WorldSessionController,
 		_session_slot: Node,
 	) -> bool:
 		return false
@@ -69,7 +69,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_eligibility_matrix(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = preload(
+	var session: WorldSessionController = preload(
 		"res://scenes/world/oldpine/oldpine_world_session.tscn"
 	).instantiate()
 	tree.root.add_child(session)
@@ -109,9 +109,9 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	session._passage_request_pending = true
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.PASSAGE_PENDING, "pending passage handoff blocks")
 	session._passage_request_pending = false
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._lifecycle_failed = true
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle._lifecycle_failed = true
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, "incomplete lifecycle blocks")
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._lifecycle_failed = false
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).combat_lifecycle._lifecycle_failed = false
 	var partial := OldPineMapHandoffResult.new()
 	partial._location_committed = true
 	partial._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_ACTIVATION_FAILED
@@ -128,11 +128,11 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.ROTTEN)
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.SKELETON)
 	final_corpse._apply_next_decay_stage(CorpseState.Stage.FINAL)
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._corpse_states.append(final_corpse)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpses._corpse_states.append(final_corpse)
 	var final_result := OldPineSaveEligibility.inspect(session)
 	_assert_eq(final_result.outcome, OldPineSaveEligibilityResult.Outcome.INCOMPLETE_LIFECYCLE, "live FINAL corpse blocks as incomplete final destruction")
 	_assert_eq(final_result.subject_id, final_corpse.corpse_item_instance_id, "FINAL corpse blocker identifies corpse")
-	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)._corpse_states.erase(final_corpse)
+	session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpses._corpse_states.erase(final_corpse)
 	session.process_mode = Node.PROCESS_MODE_DISABLED
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.SESSION_NOT_READY, "disabled non-playable Session blocks")
 	session.process_mode = Node.PROCESS_MODE_INHERIT
@@ -141,11 +141,11 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func _assert_allowed(session: OldPineWorldSessionController, message: String) -> void:
+func _assert_allowed(session: WorldSessionController, message: String) -> void:
 	_assert_true(OldPineSaveEligibility.inspect(session).allowed(), message)
 
 
-func _assert_blocked(session: OldPineWorldSessionController, expected: int, message: String) -> void:
+func _assert_blocked(session: WorldSessionController, expected: int, message: String) -> void:
 	var result: OldPineSaveEligibilityResult = OldPineSaveEligibility.inspect(session)
 	_assert_eq(result.outcome, expected, message)
 
@@ -159,7 +159,7 @@ func _test_live_capture_and_transactional_replace(tree: SceneTree) -> void:
 	_assert_true(host.configure_before_start(profile, files), "test profile configures before Host ready")
 	tree.root.add_child(host)
 	await tree.process_frame
-	var source: OldPineWorldSessionController = host.current_session()
+	var source: WorldSessionController = host.current_session()
 	_assert_true(source != null and source.is_initialized(), "Host owns initialized Session A")
 	var source_id: int = source.get_instance_id()
 	var player_id: int = source.player_runtime().get_instance_id()
@@ -175,7 +175,7 @@ func _test_live_capture_and_transactional_replace(tree: SceneTree) -> void:
 	_assert_true(host.request_load(), "transactional load request accepts")
 	await tree.process_frame
 	await tree.process_frame
-	var restored: OldPineWorldSessionController = host.current_session()
+	var restored: WorldSessionController = host.current_session()
 	_assert_true(host.last_load_result().succeeded(), "candidate B activates and commits")
 	_assert_true(restored.get_instance_id() != source_id, "Session B has fresh runtime identity")
 	_assert_true(restored.player_runtime().get_instance_id() != player_id, "Player B has fresh runtime identity")
@@ -241,7 +241,7 @@ func _test_restored_inactive_map_becomes_playable_on_handoff(
 	)
 	tree.root.add_child(host)
 	await tree.process_frame
-	var source: OldPineWorldSessionController = host.current_session()
+	var source: WorldSessionController = host.current_session()
 	var passage: PortalDefinition = GameContent.catalog().portal(
 		OldPineWorldDefinitions.VINE_PASSAGE_PORTAL_ID
 	)
@@ -262,7 +262,7 @@ func _test_restored_inactive_map_becomes_playable_on_handoff(
 	_assert_true(host.request_load(), "saved Cave load request accepts")
 	await tree.process_frame
 	await tree.process_frame
-	var restored: OldPineWorldSessionController = host.current_session()
+	var restored: WorldSessionController = host.current_session()
 	_assert_true(host.last_load_result().succeeded(), "Cave Session B restores")
 	_assert_eq(
 		restored.active_map_id(),
@@ -312,7 +312,7 @@ func _test_blocked_save_and_failed_load_preserve_current(tree: SceneTree) -> voi
 	host.configure_before_start(profile, MemoryFiles.new())
 	tree.root.add_child(host)
 	await tree.process_frame
-	var current: OldPineWorldSessionController = host.current_session()
+	var current: WorldSessionController = host.current_session()
 	var allocator_sequence: int = current.item_id_allocator().next_dynamic_sequence
 	var rng_state: int = current.combat_random_source().capture_random_state().state
 	current.player_runtime().busy.start_busy(1, 0)
@@ -354,7 +354,7 @@ func _test_decode_and_candidate_failures_preserve_current(tree: SceneTree) -> vo
 	_assert_true(host.last_save_result().succeeded(), "adversarial fixture has valid canonical")
 	var canonical: String = profile.canonical_path()
 	var valid_bytes: PackedByteArray = files.files[canonical].duplicate()
-	var current: OldPineWorldSessionController = host.current_session()
+	var current: WorldSessionController = host.current_session()
 	var evidence: Dictionary[String, Variant] = _session_evidence(current)
 
 	files.files[canonical] = "{\"metadata\":".to_utf8_buffer()
@@ -445,7 +445,7 @@ func _test_decode_and_candidate_failures_preserve_current(tree: SceneTree) -> vo
 func _assert_failed_request_preserves(
 	tree: SceneTree,
 	host: OldPineGameRuntimeHost,
-	current: OldPineWorldSessionController,
+	current: WorldSessionController,
 	evidence: Dictionary[String, Variant],
 	expected_outcome: int,
 	label: String,
@@ -461,7 +461,7 @@ func _assert_failed_request_preserves(
 	_assert_eq(host.staging_slot.get_child_count(), 0, "%s leaks no candidate" % label)
 
 
-func _session_evidence(session: OldPineWorldSessionController) -> Dictionary[String, Variant]:
+func _session_evidence(session: WorldSessionController) -> Dictionary[String, Variant]:
 	return {
 		"session_object_id": session.get_instance_id(),
 		"player_object_id": session.player_runtime().get_instance_id(),

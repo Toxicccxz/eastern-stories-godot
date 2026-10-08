@@ -99,7 +99,7 @@ func _life_flow_timeline() -> void:
 ## Returns [session, outdoor map] with the player in an encounter against the
 ## three spath1 bandits, who attack on sight.
 func _bandits_attack(tree: SceneTree) -> Array:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
@@ -115,7 +115,7 @@ func _bandits_attack(tree: SceneTree) -> Array:
 	return [session, map]
 
 
-func _run_encounter(session: OldPineWorldSessionController) -> void:
+func _run_encounter(session: WorldSessionController) -> void:
 	for step: int in range(400):
 		if not session.combat_encounter_coordinator().has_active_encounter():
 			return
@@ -124,7 +124,7 @@ func _run_encounter(session: OldPineWorldSessionController) -> void:
 
 func _killers_finish_unconscious_player(tree: SceneTree) -> void:
 	var fixture: Array = await _bandits_attack(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	# Knocked out but not mortally wounded: kee < 0, eff_kee >= 0.
@@ -142,7 +142,7 @@ func _killers_finish_unconscious_player(tree: SceneTree) -> void:
 
 func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	var fixture: Array = await _bandits_attack(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var map: WorldMapController = fixture[1]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.progression.combat_experience = 1000
@@ -179,7 +179,7 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 
 
 func _unconscious_without_killer_wakes_up(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -202,7 +202,7 @@ func _unconscious_without_killer_wakes_up(tree: SceneTree) -> void:
 
 func _restored_dead_player_continues(tree: SceneTree) -> void:
 	var fixture: Array = await _bandits_attack(tree)
-	var session: OldPineWorldSessionController = fixture[0]
+	var session: WorldSessionController = fixture[0]
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.vitality.effective = -1
 	_run_encounter(session)
@@ -212,7 +212,7 @@ func _restored_dead_player_continues(tree: SceneTree) -> void:
 	check(snapshot != null, "capture of a dead player")
 	session.free()
 	var preparation: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
-	var restored: OldPineWorldSessionController = SESSION.instantiate()
+	var restored: WorldSessionController = SESSION.instantiate()
 	check(restored.configure_restore(preparation.preparation), "restore configured")
 	tree.root.add_child(restored)
 	check(restored.activate_restore_candidate(), "restore activated")

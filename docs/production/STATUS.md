@@ -4,6 +4,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
+**Map controller split** (`phase/split-map-controller`, no behaviour change): `WorldMapController`
+keeps zones, portals, position, activation and the public facade (every method forwards); its
+NPCs, NPC life, floor items, corpses, selection, hostilities and combat lifecycle live in seven
+`RefCounted` components under `game/runtime/world/map/`. New code for one of those areas goes into
+its component; the controller only gets a forwarder when an outside caller needs it.
+
 **青石村 D** (`phase/green-d`): the player's spells. With 奇门遁甲 enabled for spells the battle
 panel offers 施法「遁」 (away to Snow's 城隍庙 in a light; the fight is over for the player),
 施法「困」 (the enemy busy) and 施法「召天将」 (a 天将 comes in on the player's side, kills their
@@ -131,9 +137,11 @@ Code:
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
   no bones, 弈者's 下棋 is not ported, a carried 布袋 is not opened.
   朱鸿雪 and 化缘和尚 cannot be fought until their arts are ported (#7, #8).
-* The Session is still `OldPineWorldSessionController` and persistence classes keep `oldpine_*`
-  names although they now cover every map; pre-B2 Old Pine regression suites drive combat through
-  a test-only manual cadence (`historical_world_combat_fixture.gd`).
+* Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
+  scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
+  (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine
+  regression suites drive combat through a test-only manual cadence
+  (`historical_world_combat_fixture.gd`).
 * The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
   copy of the long sword's facts.
 * Only Simplified Chinese exists. English and other languages without measure words will need

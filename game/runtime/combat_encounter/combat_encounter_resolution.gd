@@ -10,7 +10,7 @@ const FAILED_OPPORTUNITIES: Array[int] = [
 	CombatSliceOpportunityResult.Outcome.FIGHT_DECISION_FAILED,
 ]
 
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _encounter: CombatEncounter
 var _failure: Failure = Failure.NONE
 var _result: CombatEncounterResult
@@ -29,7 +29,7 @@ var failed_special: SpecialReport:
 var departure: StringName:
 	get: return _departure
 
-func _init(session: OldPineWorldSessionController, encounter: CombatEncounter) -> void:
+func _init(session: WorldSessionController, encounter: CombatEncounter) -> void:
 	_session = session
 	_encounter = encounter
 

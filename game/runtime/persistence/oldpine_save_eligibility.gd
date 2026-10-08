@@ -7,7 +7,7 @@ const Result := preload(
 
 
 static func inspect(
-	session: OldPineWorldSessionController,
+	session: WorldSessionController,
 ) -> OldPineSaveEligibilityResult:
 	if (
 		session == null

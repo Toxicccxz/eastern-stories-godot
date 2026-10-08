@@ -143,7 +143,7 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
-	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
 	_assert_eq(participants.size(), 19, "current projection contains player plus the forest map's 18 live NPCs")
 	var player_binding: CombatSliceCharacterBinding = participants[0]
 	var player: WorldPlayerRuntimeState = controller.player_runtime()
@@ -164,7 +164,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	var unequipped_npc: NpcRuntimeState = controller.npc_runtimes()[2]
 	var removed_primary: EquippedWeaponRef = unequipped_npc.character_state.equipment.primary_weapon()
 	_assert_true(unequipped_npc.character_state.equipment.unwield(removed_primary.instance_id).succeeded, "fixture unwields current bandit short sword")
-	var unequipped_projection: Array[CombatSliceCharacterBinding] = controller._build_participants()
+	var unequipped_projection: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
 	var unequipped_binding: CombatSliceCharacterBinding = unequipped_projection[3]
 	_assert_true(unequipped_npc.character_state.equipment.primary_weapon() == null, "live EquipmentState owns the unwield result")
 	_assert_false(unequipped_binding.content.is_verified_primary(unequipped_npc.character_state.equipment.primary_weapon()), "authored definition cannot override missing live primary equipment")
@@ -173,7 +173,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
-	var refreshed: Array[CombatSliceCharacterBinding] = controller._build_participants()
+	var refreshed: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
 	_assert_eq(player_binding.location_id, original_player_location, "old projection is an ephemeral snapshot")
 	_assert_eq(refreshed[0].location_id, OldPineWorldDefinitions.SLOPE_ZONE_ID, "fresh projection reads current world location")
 	player.state.vitality.current = -1
@@ -199,10 +199,10 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	OldPineTestMap.body(controller, "Bandit01").set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID, OldPineWorldDefinitions.NORTH_APPROACH_ZONE_ID,
 	))
-	participants = controller._build_participants()
+	participants = controller.combat_lifecycle.build_participants()
 	var victim_binding: CombatSliceCharacterBinding = participants[1]
-	var destination: InventoryTransferDestination = controller._world_destination_for(victim.character_id)
-	var context: DeathContext = controller._death_context_for(victim_binding, player_binding, destination)
+	var destination: InventoryTransferDestination = controller.combat_lifecycle._world_destination_for(victim.character_id)
+	var context: DeathContext = controller.combat_lifecycle._death_context_for(victim_binding, player_binding, destination)
 	_assert_eq(context.victim_display_name, "土匪探哨", "death context uses authored bandit display name")
 	_assert_eq(context.victim_gender, CharacterState.GENDER_MALE, "death context uses current gender")
 	_assert_eq(context.victim_age, 19, "death context uses authored age")
@@ -409,14 +409,14 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 
 
 func _test_source_player_cloth_death(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = (load(SCENE_PATH) as PackedScene).instantiate()
+	var session: WorldSessionController = (load(SCENE_PATH) as PackedScene).instantiate()
 	_assert_true(session.configure_source_entry("凌雪", CharacterState.GENDER_FEMALE), "death regression selects real source entry composition")
 	session.deterministic_npc_seed = true
 	session.deterministic_combat_seed = true
 	session.deterministic_world_interaction_seed = true
 	tree.root.add_child(session)
 	session.set_process(false) # Integration fixture drives scheduler synchronously.
-	_assert_eq(session.bootstrap_mode(), OldPineWorldSessionController.BootstrapMode.SOURCE_ENTRY, "death regression uses SOURCE_ENTRY, not technical inventory")
+	_assert_eq(session.bootstrap_mode(), WorldSessionController.BootstrapMode.SOURCE_ENTRY, "death regression uses SOURCE_ENTRY, not technical inventory")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var inventory: InventoryState = session.inventory_state()
 	var index: WorldItemInstanceIndex = session.item_instance_index()
@@ -431,7 +431,7 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 	_assert_eq(player.armor.item_instance_id_in_slot(&"cloth"), cloth_id, "source cloth is live worn before death")
 	_assert_true(TestContent.item(TestContent.CLOTH_ITEM_ID).armor_definition() != null, "source cloth armor comes from the shared catalog")
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
-	var facts: Array[DeathItemFacts] = map._death_item_facts_for(player.character_id)
+	var facts: Array[DeathItemFacts] = map.combat_lifecycle._death_item_facts_for(player.character_id)
 	_assert_eq(facts.size(), 1, "production death projection covers exact source inventory")
 	if facts.size() != 1:
 		session.free()
@@ -506,7 +506,7 @@ func _test_source_player_cloth_death(tree: SceneTree) -> void:
 func _test_existing_oldpine_death_facts(map: WorldMapController, index: WorldItemInstanceIndex) -> void:
 	var seen: Array[StringName] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():
-		for fact: DeathItemFacts in map._death_item_facts_for(npc.character_id):
+		for fact: DeathItemFacts in map.combat_lifecycle._death_item_facts_for(npc.character_id):
 			_assert_eq(fact.item_definition_id, index.resolve(fact.item_instance_id).item_definition_id, "Old Pine death facts retain exact instance/definition pairing")
 			if seen.has(fact.item_definition_id):
 				continue
@@ -651,8 +651,8 @@ func _instantiate_scene(tree: SceneTree) -> ControllerType:
 	var packed: PackedScene = load(SCENE_PATH) as PackedScene
 	if packed == null:
 		return null
-	var session: OldPineWorldSessionController = (
-		packed.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		packed.instantiate() as WorldSessionController
 	)
 	session.deterministic_npc_seed = true
 	session.npc_seed = 77

@@ -22,7 +22,7 @@ class StillAmbience extends WorldInteractionRandomSource:
 		return bound - 1
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var session: OldPineWorldSessionController = create_session(tree)
+	var session: WorldSessionController = create_session(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var state: CharacterState = player.state
 	var index: WorldItemInstanceIndex = session.item_instance_index()
@@ -64,7 +64,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(rng_state(session) == rng, "three gameplay RNG streams unchanged")
 	await round_trip(tree, session, capture(session), "three silver save")
 	# Exact resource threshold: use independent character/graph.
-	var edge: OldPineWorldSessionController = create_session(tree)
+	var edge: WorldSessionController = create_session(tree)
 	edge.player_runtime().state.essence.current = 30
 	edge.player_runtime().state.spirit.current = 30
 	_check(work(edge).succeeded() and edge.player_runtime().state.life_threshold() == CharacterState.LifeThreshold.ACTIVE, "30/30 succeeds to zero without unconsciousness")
@@ -84,7 +84,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func capacity_test(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = create_session(tree)
+	var session: WorldSessionController = create_session(tree)
 	var inv: InventoryState = session.inventory_state()
 	var owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id)
 	var cloth: StringName = inv.direct_children(owner)[0]
@@ -109,7 +109,7 @@ func capacity_test(tree: SceneTree) -> void:
 
 
 func physical_test(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = create_session(tree)
+	var session: WorldSessionController = create_session(tree)
 	# TEST-ONLY: no chat beat fires, so the square's wanderers (the 飞刀 travellers) do not
 	# step into the walk down to the square; every map's NPCs share the ambience stream.
 	session.configure_npc_ambience_random_source(StillAmbience.new())
@@ -159,7 +159,7 @@ func physical_test(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func round_trip(tree: SceneTree, source: OldPineWorldSessionController, snapshot: GameSaveSnapshot, label: String) -> void:
+func round_trip(tree: SceneTree, source: WorldSessionController, snapshot: GameSaveSnapshot, label: String) -> void:
 	_check(snapshot != null, label + " capture")
 	if snapshot == null: return
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
@@ -169,7 +169,7 @@ func round_trip(tree: SceneTree, source: OldPineWorldSessionController, snapshot
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 	_check(restored.succeeded(), label + " restore " + restored.path)
 	if not restored.succeeded(): return
-	var fresh: OldPineWorldSessionController = restored.candidate
+	var fresh: WorldSessionController = restored.candidate
 	_check(fresh.activate_restore_candidate(), label + " activation")
 	_check(fresh.player_runtime() != source.player_runtime() and fresh.inventory_state() != source.inventory_state(), label + " fresh authorities")
 	var after: GameSaveSnapshot = capture(fresh)
@@ -179,8 +179,8 @@ func round_trip(tree: SceneTree, source: OldPineWorldSessionController, snapshot
 	await tree.process_frame
 
 
-static func create_session(tree: SceneTree) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+static func create_session(tree: SceneTree) -> WorldSessionController:
+	var session: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	session.configure_source_entry("雪工", CharacterState.GENDER_FEMALE)
 	session.deterministic_combat_seed = true
 	session.deterministic_npc_seed = true
@@ -189,22 +189,22 @@ static func create_session(tree: SceneTree) -> OldPineWorldSessionController:
 	return session
 
 
-static func work(session: OldPineWorldSessionController) -> SnowWorkResult:
+static func work(session: WorldSessionController) -> SnowWorkResult:
 	var p: WorldPlayerRuntimeState = session.player_runtime()
 	return SnowWorkService.work(p.state, p.character_id, p.maximum_encumbrance, p.armor, session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator())
 
 
-static func capture(session: OldPineWorldSessionController) -> GameSaveSnapshot:
+static func capture(session: WorldSessionController) -> GameSaveSnapshot:
 	var result: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-11T00:00:00Z")
 	if result.snapshot == null: print("S2 capture rejected: ", result.path, " ", result.detail)
 	return result.snapshot
 
 
-static func rng_state(session: OldPineWorldSessionController) -> Array[int]:
+static func rng_state(session: WorldSessionController) -> Array[int]:
 	return [session.combat_random_source().capture_random_state().state, session.npc_random_source().capture_random_state().state, session.world_interaction_random_source().capture_random_state().state]
 
 
-func walk(tree: SceneTree, _session: OldPineWorldSessionController, action: String, frames: int) -> void:
+func walk(tree: SceneTree, _session: WorldSessionController, action: String, frames: int) -> void:
 	Input.action_press(action)
 	for i: int in range(frames): await tree.physics_frame
 	Input.action_release(action)
@@ -212,7 +212,7 @@ func walk(tree: SceneTree, _session: OldPineWorldSessionController, action: Stri
 	await tree.physics_frame
 
 
-func walk_to(tree: SceneTree, session: OldPineWorldSessionController, action: String, target: float, axis: int) -> void:
+func walk_to(tree: SceneTree, session: WorldSessionController, action: String, target: float, axis: int) -> void:
 	var sign_value: float = -1.0 if action in ["move_left", "move_up"] else 1.0
 	Input.action_press(action)
 	var arrived: bool = false

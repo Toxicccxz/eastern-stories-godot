@@ -15,7 +15,7 @@ func _run() -> void:
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test(args[1])
 	var repository: SourceEntrySaveRepository = SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
-		var session: OldPineWorldSessionController = Work.create_session(self)
+		var session: WorldSessionController = Work.create_session(self)
 		var walk: RefCounted = Work.new()
 		Work.work(session)
 		Work.work(session)
@@ -42,7 +42,7 @@ func _run() -> void:
 		check(host.request_continue(), "fresh Host Continue")
 		await process_frame
 		await process_frame
-		var session: OldPineWorldSessionController = host.current_session()
+		var session: WorldSessionController = host.current_session()
 		check(session != null, "restored")
 		if session != null:
 			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)

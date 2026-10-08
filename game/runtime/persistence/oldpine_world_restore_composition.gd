@@ -16,7 +16,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			root_validation.path,
 			root_validation.detail,
 		)
-	if snapshot.player.character_id != OldPineWorldSessionController.PLAYER_ID:
+	if snapshot.player.character_id != WorldSessionController.PLAYER_ID:
 		return Result.failure(
 			Result.Outcome.UNKNOWN_CONTENT_ID,
 			"player.character_id",
@@ -559,9 +559,9 @@ static func _character_aggregate_ids_match(
 
 
 ## The spawns of the saved world: the technical fixture world has Old Pine's
-## maps only (OldPineWorldSessionController.world_map_ids_for).
+## maps only (WorldSessionController.world_map_ids_for).
 static func _world_spawns(revision: WorldContentRevision.Value) -> Array[NpcSpawnDefinition]:
-	var map_ids: Array[StringName] = OldPineWorldSessionController.world_map_ids_for(revision)
+	var map_ids: Array[StringName] = WorldSessionController.world_map_ids_for(revision)
 	var result: Array[NpcSpawnDefinition] = []
 	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
 		if map_ids.has(spawn.map_id):

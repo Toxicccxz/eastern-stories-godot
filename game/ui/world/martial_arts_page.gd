@@ -47,7 +47,7 @@ var feedback: Label
 ## Action -> its button: enable:<use>:<skill>, disable:<use>, practice:<use>,
 ## exert:<function>, self_learn:<skill>, study:<item instance>.
 var buttons: Dictionary[String, Button] = {}
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _layout_key: String = "-"
 var _use_texts: Dictionary[StringName, RichTextLabel] = {}
 var _shown_factor: int = -1
@@ -119,7 +119,7 @@ func _init() -> void:
 	feedback = _label("LastLines")
 
 
-func configure(session: OldPineWorldSessionController) -> void:
+func configure(session: WorldSessionController) -> void:
 	_session = session
 
 

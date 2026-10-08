@@ -17,8 +17,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_failures.append_array(closure["failures"])
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
-func _session(tree: SceneTree, seed_value: int) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+func _session(tree: SceneTree, seed_value: int) -> WorldSessionController:
+	var session: WorldSessionController = SessionScene.instantiate()
 	# Production initialization/RNG adapters; ONLY the seeds are fixed here.
 	session.deterministic_npc_seed = true
 	session.npc_seed = 7021
@@ -31,7 +31,7 @@ func _session(tree: SceneTree, seed_value: int) -> OldPineWorldSessionController
 	return session
 
 func _authored_and_restore(tree: SceneTree) -> void:
-	var s: OldPineWorldSessionController = _session(tree, 103)
+	var s: WorldSessionController = _session(tree, 103)
 	var p: CharacterState = s.player_runtime().state
 	_check(p.progression.combat_experience == 600, "Old Pine product bootstrap is exactly 600")
 	_check(CombatSliceDemoFactory.create_player().state.progression.combat_experience == 10, "generic symmetric Phase 6 fixture stays 10")
@@ -85,7 +85,7 @@ func _feedback_failures() -> void:
 	_check(BattleFeedbackReader.completion_text(spar, 0).begins_with("切磋结束"), "SPAR text never implies kill/loot")
 
 func _authored_encounter(tree: SceneTree, seed_value: int, npc_index: int, experience: int) -> void:
-	var s: OldPineWorldSessionController = _session(tree, seed_value)
+	var s: WorldSessionController = _session(tree, seed_value)
 	var map: WorldMapController = s.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var p: WorldPlayerRuntimeState = s.player_runtime()
 	var npc: NpcRuntimeState = map.npc_runtimes()[npc_index]

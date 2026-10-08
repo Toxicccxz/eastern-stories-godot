@@ -31,7 +31,7 @@ class Recorder extends SpecialAttackSource:
 var _count: int = 0
 var _failures: Array[String] = []
 var _catalog: ContentCatalog
-var _session: OldPineWorldSessionController
+var _session: WorldSessionController
 var _player: WorldPlayerRuntimeState
 var _ui: BattlePresentationController
 var _coordinator: CombatEncounterCoordinator

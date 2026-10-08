@@ -1,7 +1,7 @@
 extends "res://tests/support/cxr6_session_fixture.gd"
 
 
-static func trigger(session: OldPineWorldSessionController, mode: int, cause: int, id: StringName = &"cxr7", npc_initiator: bool = false) -> CombatTrigger:
+static func trigger(session: WorldSessionController, mode: int, cause: int, id: StringName = &"cxr7", npc_initiator: bool = false) -> CombatTrigger:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	# Supported V1 SPAR fixture explicitly unwields; production never auto-unwields.
 	if mode == CombatEncounterMode.Value.SPAR:
@@ -19,7 +19,7 @@ static func trigger(session: OldPineWorldSessionController, mode: int, cause: in
 	return CombatTrigger.new(id, cause, mode, initiator, candidates, player.world_location(), &"cxr7.qa")
 
 
-static func finish(session: OldPineWorldSessionController) -> bool:
+static func finish(session: WorldSessionController) -> bool:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	if encounter == null or encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:

@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 ## damage.c heal_up(): con 30 / 3 = 10 gin and sen a tick in ES2, 30 with the knob.
 func _player_heals_three_times_as_much(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = RecoveryTest.create_session(tree, RecoveryTest.RandomSequence.new())
+	var session: WorldSessionController = RecoveryTest.create_session(tree, RecoveryTest.RandomSequence.new())
 	await tree.process_frame
 	var state: CharacterState = session.player_runtime().state
 	check(GameContent.catalog().pacing().player_recovery_gain == 3, "pacing.json: player_recovery_gain 3")
@@ -36,7 +36,7 @@ func _player_heals_three_times_as_much(tree: SceneTree) -> void:
 
 
 func _player_side_of_a_blow_carries_the_gain(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = RecoveryTest.create_session(tree, RecoveryTest.RandomSequence.new())
+	var session: WorldSessionController = RecoveryTest.create_session(tree, RecoveryTest.RandomSequence.new())
 	await tree.process_frame
 	session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry")
 	for frame: int in 4:
@@ -44,7 +44,7 @@ func _player_side_of_a_blow_carries_the_gain(tree: SceneTree) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player_gain: int = 0
 	var npc_gains: Array[int] = []
-	for binding: CombatSliceCharacterBinding in map._build_participants():
+	for binding: CombatSliceCharacterBinding in map.combat_lifecycle.build_participants():
 		var facts: CombatProgressionFacts = CombatSliceProjectionBuilder.build_progression_facts(binding)
 		if binding.is_user:
 			player_gain = facts.experience_gain

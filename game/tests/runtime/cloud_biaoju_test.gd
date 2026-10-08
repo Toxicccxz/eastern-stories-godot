@@ -33,7 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_gifts()
 	_test_relations()
 	_test_loaders()
-	var session: OldPineWorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_in_the_biaoju(tree, session)
@@ -254,7 +254,7 @@ func _test_relations() -> void:
 
 ## The same rules from the biaoju: 拜师 and 请教 through his TeacherService, gifts by
 ## give.c, the relation in 目标详情, and a score that survives Save/Continue.
-func _test_in_the_biaoju(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+func _test_in_the_biaoju(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(session.handoff_to(&"cloud.outdoor", &"cloud.duchang", &"cloud.duchang", &"cloud.duchang.stairs_return").succeeded(), "in the town (TEST-ONLY: by the 赌场's stairs)")
@@ -354,7 +354,7 @@ func _learn(student: CharacterState, npc_id: StringName, skill_id: StringName, r
 	return [result, LearnLines.lines(result, definition.display_name, skill, student, context, respect)]
 
 
-func _add_item(session: OldPineWorldSessionController, id: StringName, definition_id: StringName) -> void:
+func _add_item(session: WorldSessionController, id: StringName, definition_id: StringName) -> void:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
 	var item: ItemInstance = ItemInstance.new(id, definition_id)

@@ -1,14 +1,14 @@
 extends Node
 
 ## Bounded launcher only: all gameplay authorities belong to the production Session.
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 var zone_history: Array[StringName] = []
 var first_oldpine_position: Vector2
 var first_oldpine_spawn: StringName = &""
 
 
 func _ready() -> void:
-	session = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate() as OldPineWorldSessionController
+	session = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate() as WorldSessionController
 	session.deterministic_npc_seed = true
 	session.deterministic_combat_seed = true
 	session.deterministic_world_interaction_seed = true

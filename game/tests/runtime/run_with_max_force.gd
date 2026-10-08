@@ -20,7 +20,7 @@ class Booster extends Node:
 		var shell := get_tree().current_scene as ApplicationShellController
 		if shell == null or shell.runtime_host() == null:
 			return
-		var session: OldPineWorldSessionController = shell.runtime_host().current_session()
+		var session: WorldSessionController = shell.runtime_host().current_session()
 		if session == null or not session.is_initialized() or session.player_runtime() == null:
 			return
 		if _done.has(session.get_instance_id()):

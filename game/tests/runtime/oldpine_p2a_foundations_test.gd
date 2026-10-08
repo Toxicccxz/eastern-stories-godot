@@ -4,7 +4,7 @@ const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Memory := preload("res://tests/runtime/game_save_repository_test.gd")
 const Failing := preload("res://tests/support/failing_combat_relationship_state.gd")
 
-class RejectFreezeSession extends OldPineWorldSessionController:
+class RejectFreezeSession extends WorldSessionController:
 	func freeze_world_for_encounter(_id: StringName) -> bool:
 		return false
 
@@ -19,7 +19,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _save_boundary(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	session.configure_source_entry("LakeTester", CharacterState.GENDER_FEMALE)
 	tree.root.add_child(session)
 	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-26T00:00:00Z")
@@ -86,7 +86,7 @@ func _save_boundary(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 # Isolated source-derived test bodies, not a production catalog or Lake geometry.
-func _snakes(session: OldPineWorldSessionController, count: int) -> Array[NpcRuntimeState]:
+func _snakes(session: WorldSessionController, count: int) -> Array[NpcRuntimeState]:
 	var result: Array[NpcRuntimeState] = []
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	for index: int in count:
@@ -120,7 +120,7 @@ func _snakes(session: OldPineWorldSessionController, count: int) -> Array[NpcRun
 	return result
 
 func _group(tree: SceneTree, count: int, manual: bool) -> void:
-	var session: OldPineWorldSessionController = _new(tree)
+	var session: WorldSessionController = _new(tree)
 	var snakes: Array[NpcRuntimeState] = _snakes(session, count)
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -172,7 +172,7 @@ func _group(tree: SceneTree, count: int, manual: bool) -> void:
 	await _settle(tree, 2)
 
 func _refusals(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new(tree)
+	var session: WorldSessionController = _new(tree)
 	var snakes: Array[NpcRuntimeState] = _snakes(session, 5)
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cause: int = CombatTriggerCause.Value.NPC_AGGRESSION
@@ -188,7 +188,7 @@ func _refusals(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 func _rollback(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = _new(tree)
+	var session: WorldSessionController = _new(tree)
 	var snakes: Array[NpcRuntimeState] = _snakes(session, 5)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -211,7 +211,7 @@ func _rollback(tree: SceneTree) -> void:
 	await _settle(tree, 2)
 
 func _late_failure_and_death(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = SessionScene.instantiate()
+	var session: WorldSessionController = SessionScene.instantiate()
 	session.set_script(RejectFreezeSession)
 	tree.root.add_child(session)
 	session.set_process(false)

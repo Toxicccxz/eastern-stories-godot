@@ -10,7 +10,7 @@ const RUNNING: StringName = &"historical_cadence_running"
 const ORDER: StringName = &"historical_tick_order"
 
 
-static func install(session: OldPineWorldSessionController) -> void:
+static func install(session: WorldSessionController) -> void:
 	session._combat_encounter_coordinator = load("res://tests/support/historical_world_combat_fixture.gd").new(session, session.world_simulation_gate())
 
 
@@ -38,16 +38,16 @@ static func last_tick_order(map: WorldMapController) -> Array[StringName]:
 ## One manual round: every fighting participant in stable order acts once.
 static func tick(map: WorldMapController) -> Array[CombatSliceOpportunityResult]:
 	var results: Array[CombatSliceOpportunityResult] = []
-	if not map._gameplay_open():
+	if not map.gameplay_open():
 		return results
 	var order: Array[StringName] = []
 	map.set_meta(ORDER, order)
-	map._last_lifecycle_results.clear()
+	map.combat_lifecycle._last_lifecycle_results.clear()
 	if map.lifecycle_is_pending():
 		return results
 	var presenter: CombatSlicePresenter = CombatSlicePresenter.new()
 	var hud: SharedGameplayUI = map.session.shared_ui()
-	var participants: Array[CombatSliceCharacterBinding] = map._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
 	for actor: CombatSliceCharacterBinding in participants:
 		if not actor.exists_in_encounter or not actor.relationship.is_fighting():
 			continue

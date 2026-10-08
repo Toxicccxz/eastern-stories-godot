@@ -21,7 +21,7 @@ func keeps_selection() -> bool:
 func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCounted:
 	var result: Result = Result.new()
 	var player: WorldPlayerRuntimeState = map.player_runtime()
-	var session: OldPineWorldSessionController = map.session
+	var session: WorldSessionController = map.session
 	var random_source: WorldInteractionRandomSource = map.world_interaction_random_source()
 	if player == null or session == null or random_source == null or landmark == null:
 		return result

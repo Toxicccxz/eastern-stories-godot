@@ -6,7 +6,7 @@ var _count: int = 0
 var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
-	var source: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	var source: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	_check(source.configure_source_entry("续雪", CharacterState.GENDER_FEMALE), "configure source")
 	source.deterministic_combat_seed = true
 	source.deterministic_npc_seed = true
@@ -85,7 +85,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(placed, tree.root)
 		_check(restored.succeeded(), "restore " + String(locations[index].zone_id) + " " + restored.path)
 		if not restored.succeeded(): continue
-		var candidate: OldPineWorldSessionController = restored.candidate
+		var candidate: WorldSessionController = restored.candidate
 		_check(candidate.resident_map_count() == WorldCounts.number("resident_maps") and candidate.active_map().map_id() == locations[index].map_id, "exact resident maps (world_counts.json), only saved map active")
 		_check(candidate.active_map().runtime_player_body().global_position == positions[index], "exact non-spawn position")
 		var fresh: WorldPlayerRuntimeState = candidate.player_runtime()
@@ -135,7 +135,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var corpse_restore: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(corpse_save, tree.root)
 	_check(corpse_restore.succeeded(), "off-map corpse restores while Player stays Snow: " + corpse_restore.path)
 	if corpse_restore.succeeded():
-		var cold: OldPineWorldSessionController = corpse_restore.candidate
+		var cold: WorldSessionController = corpse_restore.candidate
 		_check(cold.active_map().map_id() == SnowWorldDefinitions.INN_MAP_ID and cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 1, "Snow active, detached outdoor corpse retained")
 		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 23 and cold.world_npcs().size() == WorldCounts.number("world_npcs"), "dead NPC remains tombstone, no replacement")
 		_check(cold.inventory_state().registered_item_ids().size() == corpse_save.items.item_records.size(), "corpse nested graph exact")
@@ -151,7 +151,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
 
-func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController, snapshot: GameSaveSnapshot) -> void:
+func _repository_and_host(tree: SceneTree, source: WorldSessionController, snapshot: GameSaveSnapshot) -> void:
 	var files: SaveFileOperations = load("res://tests/runtime/game_save_repository_test.gd").MemoryFiles.new()
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("nge5a-memory")
 	var repository := GameSaveRepository.new(profile, files)
@@ -164,7 +164,7 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	_check(host.request_continue(), "normal Host Continue accepts source slot")
 	await tree.process_frame
 	_check(host.last_load_result() != null and host.last_load_result().succeeded(), "normal Host Continue restores source")
-	var current: OldPineWorldSessionController = host.current_session()
+	var current: WorldSessionController = host.current_session()
 	if current != null:
 		_check(current.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC and current.player_runtime().facts.display_name == "续雪", "Host adopts exact source identity/profile")
 	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "Continue does not rewrite source file")
@@ -196,7 +196,7 @@ func _repository_and_host(tree: SceneTree, source: OldPineWorldSessionController
 	await tree.process_frame
 	_check(host.last_load_result().succeeded() and host.current_session() != current, "cold Continue creates new graph")
 	host.free()
-	var technical: OldPineWorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	var technical: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
 	tree.root.add_child(technical)
 	var legacy: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(technical, &"test", "2026-09-11T00:00:00Z").snapshot
 	_check(repository.save(legacy).succeeded(), "current technical v2 file")

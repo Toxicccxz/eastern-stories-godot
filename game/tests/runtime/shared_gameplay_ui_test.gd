@@ -8,7 +8,7 @@ func check(value: bool, message: String) -> void:
 	if not value: failures.append(message)
 
 func run_all(tree: SceneTree) -> Dictionary:
-	var session: OldPineWorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	var session: WorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	check(session.configure_source_entry("Shared UI", CharacterState.GENDER_FEMALE), "source setup")
 	tree.root.add_child(session)
 	await tree.process_frame

@@ -80,7 +80,7 @@ func _test_authored_definitions() -> void:
 
 
 func _test_default_waterfall_branch(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_001)
+	var session: WorldSessionController = await _session(tree, 10_001)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var vine_definition: WorldLandmarkDefinition = (
 		GameContent.catalog().landmark(&"oldpine.outdoor.landmark.epath2_vine")
@@ -164,7 +164,7 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 
 
 func _test_live_dodge_and_armor(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_101)
+	var session: WorldSessionController = await _session(tree, 10_101)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var world_random: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([4, 2, 4, 5])
@@ -189,7 +189,7 @@ func _test_live_dodge_and_armor(tree: SceneTree) -> void:
 
 
 func _test_passage_roundtrip(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_201)
+	var session: WorldSessionController = await _session(tree, 10_201)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -340,7 +340,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_true(old_outdoor_ref.get_ref() == null, "whole-session boundary frees the old active Outdoor Node")
 	_assert_true(old_cave_ref.get_ref() == null, "whole-session boundary explicitly frees the detached Cave Node")
 	_assert_true(old_gorge_ref.get_ref() == null, "whole-session boundary frees the Gorge Node")
-	var fresh: OldPineWorldSessionController = await _session(tree, 10_202)
+	var fresh: WorldSessionController = await _session(tree, 10_202)
 	_assert_true(fresh.world_interaction_random_source() != world_rng_identity, "fresh whole-session boundary owns a fresh World RNG object")
 	_assert_ne(fresh.item_instance_scope(), old_scope, "fresh whole-session boundary owns a fresh item-ID scope")
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_instance_id(), old_outdoor_id, "fresh session owns a new Outdoor resident Node")
@@ -361,7 +361,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 	# The Cave now returns to the gorge, so the forest is reactivated where the
 	# route really comes back up: cliff1 climb up lands on the cliffside.
 	for from_slope: bool in [true, false]:
-		var session: OldPineWorldSessionController = await _session(tree, 10_251)
+		var session: WorldSessionController = await _session(tree, 10_251)
 		var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 		var source_zone: StringName = (
 			OldPineWorldDefinitions.SLOPE_ZONE_ID if from_slope
@@ -432,7 +432,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 
 
 func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_301)
+	var session: WorldSessionController = await _session(tree, 10_301)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var world_random: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([4])
 	session.configure_world_interaction_random_source(world_random)
@@ -473,7 +473,7 @@ func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
 	marker.spawn_point_id = OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
 	await _free_session(session, tree)
 
-	var handoff_session: OldPineWorldSessionController = await _session(tree, 10_302)
+	var handoff_session: WorldSessionController = await _session(tree, 10_302)
 	var handoff_outdoor: WorldMapController = handoff_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var handoff_cave: WorldMapController = handoff_session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	handoff_session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
@@ -492,7 +492,7 @@ func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
 
 
 func _test_committed_partial_after_vine_draw(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_351)
+	var session: WorldSessionController = await _session(tree, 10_351)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var random: ScriptedWorldInteractionRandomSource = (
@@ -522,7 +522,7 @@ func _test_committed_partial_after_vine_draw(tree: SceneTree) -> void:
 
 
 func _test_south_exit_failure_recovery(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_361)
+	var session: WorldSessionController = await _session(tree, 10_361)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var random: ScriptedWorldInteractionRandomSource = (
@@ -562,7 +562,7 @@ func _test_south_exit_failure_recovery(tree: SceneTree) -> void:
 
 
 func _test_physical_interaction_and_exit_deduplication(tree: SceneTree) -> void:
-	var session: OldPineWorldSessionController = await _session(tree, 10_401)
+	var session: WorldSessionController = await _session(tree, 10_401)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var vine_area: WorldLandmarkArea2D = outdoor.get_node("Interactions/VineInteraction") as WorldLandmarkArea2D
 	var selected_ids: Array[StringName] = []
@@ -598,7 +598,7 @@ func _physically_enter_south_exit(
 	cave: WorldMapController,
 	tree: SceneTree,
 ) -> void:
-	var session: OldPineWorldSessionController = cave.session
+	var session: WorldSessionController = cave.session
 	var exit_area: Area2D = cave.get_node("SouthExit")
 	# A repeated contact report while the request waits must not queue a second handoff.
 	exit_area.body_entered.connect(
@@ -635,7 +635,7 @@ func _attempt_from_east(outdoor: WorldMapController) -> VineTraversalResult:
 ## A fall or a Cave exit leaves the player on the gorge map. The forest has no
 ## marker on the bridge, so the fixture hands off to its entry in the clearing.
 func _return_to_forest(outdoor: WorldMapController) -> void:
-	var session: OldPineWorldSessionController = outdoor.session
+	var session: WorldSessionController = outdoor.session
 	if session.active_map_id() == outdoor.map_id():
 		return
 	var handoff: OldPineMapHandoffResult = session.handoff_to(
@@ -738,8 +738,8 @@ func _kill_bandit(
 	return null if controller.corpse_states().is_empty() else controller.corpse_states()[0]
 
 
-func _session(tree: SceneTree, seed: int) -> OldPineWorldSessionController:
-	var session: OldPineWorldSessionController = SessionScene.instantiate() as OldPineWorldSessionController
+func _session(tree: SceneTree, seed: int) -> WorldSessionController:
+	var session: WorldSessionController = SessionScene.instantiate() as WorldSessionController
 	session.deterministic_npc_seed = true
 	session.npc_seed = seed
 	session.deterministic_combat_seed = true
@@ -753,7 +753,7 @@ func _session(tree: SceneTree, seed: int) -> OldPineWorldSessionController:
 	return session
 
 
-func _free_session(session: OldPineWorldSessionController, tree: SceneTree) -> void:
+func _free_session(session: WorldSessionController, tree: SceneTree) -> void:
 	session.queue_free()
 	await tree.process_frame
 	await tree.process_frame

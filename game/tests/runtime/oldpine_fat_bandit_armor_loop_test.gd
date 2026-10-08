@@ -88,7 +88,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 5, "Fat has one silver amount-five stack")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 185, "Fat silver weight is 185")
 
-	var participants: Array[CombatSliceCharacterBinding] = controller._build_participants()
+	var participants: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
 	var player_binding: CombatSliceCharacterBinding = _binding_for(participants, controller.player_runtime().character_id)
 	var fat_binding: CombatSliceCharacterBinding = _binding_for(participants, fat.character_id)
 	var fat_as_defender: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(
@@ -105,9 +105,9 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	_assert_eq(fat_as_defender.defender.effective_dodge_skill_level, 3, "current Combat input preserves effective raw-half 5 plus dodge -2")
 	_assert_eq(fat_as_attacker.attacker.projected_apply_damage, 15, "Fat ordinary attack input uses short-sword damage 15")
 	_assert_true(fat.armor.remove(leather.item_instance_id).succeeded, "test removes Fat leather through current ArmorState")
-	var next_fat: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), fat.character_id)
+	var next_fat: CombatSliceCharacterBinding = _binding_for(controller.combat_lifecycle.build_participants(), fat.character_id)
 	var next_without_armor: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(
-		_binding_for(controller._build_participants(), controller.player_runtime().character_id),
+		_binding_for(controller.combat_lifecycle.build_participants(), controller.player_runtime().character_id),
 		next_fat,
 		player_binding.content.attack_template_for(player_binding.state.equipment.primary_weapon()),
 	)
@@ -158,7 +158,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 		starts = controller.process_pending_aggression()
 	HistoricalCombat.set_running(controller, false)
 	var live_fat_binding: CombatSliceCharacterBinding = _binding_for(
-		controller._build_participants(),
+		controller.combat_lifecycle.build_participants(),
 		fat.character_id,
 	)
 	_assert_eq(
@@ -311,8 +311,8 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(row.can_remove and not row.can_wear, "post-Wear row offers Remove only")
 	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel)
 
-	var player_binding: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), controller.player_runtime().character_id)
-	var surviving_binding: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), surviving.character_id)
+	var player_binding: CombatSliceCharacterBinding = _binding_for(controller.combat_lifecycle.build_participants(), controller.player_runtime().character_id)
+	var surviving_binding: CombatSliceCharacterBinding = _binding_for(controller.combat_lifecycle.build_participants(), surviving.character_id)
 	var worn_input: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(
 		surviving_binding,
 		player_binding,
@@ -346,9 +346,9 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_eq(controller.player_runtime().busy.busy_value, remove_busy_before, "Remove does not mutate existing busy")
 	_assert_eq(remove_random.calls, 0, "Remove and projection consume zero Combat RNG")
 	_assert_true(controller.inventory_state().is_direct_child(leather.item_instance_id, _player_endpoint()), "Remove leaves leather player-owned")
-	var next_player: CombatSliceCharacterBinding = _binding_for(controller._build_participants(), controller.player_runtime().character_id)
+	var next_player: CombatSliceCharacterBinding = _binding_for(controller.combat_lifecycle.build_participants(), controller.player_runtime().character_id)
 	var removed_input: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(
-		_binding_for(controller._build_participants(), surviving.character_id),
+		_binding_for(controller.combat_lifecycle.build_participants(), surviving.character_id),
 		next_player,
 		surviving_binding.content.attack_template_for(surviving_binding.state.equipment.primary_weapon()),
 	)
@@ -424,8 +424,8 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 
 
 func _instantiate_scene(tree: SceneTree) -> WorldMapController:
-	var session: OldPineWorldSessionController = (
-		SceneType.instantiate() as OldPineWorldSessionController
+	var session: WorldSessionController = (
+		SceneType.instantiate() as WorldSessionController
 	)
 	if session == null:
 		return null
@@ -562,7 +562,7 @@ func _count_tree_nodes(root: Node) -> int:
 
 
 func _player_endpoint() -> ContainmentEndpoint:
-	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, OldPineWorldSessionController.PLAYER_ID)
+	return ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, WorldSessionController.PLAYER_ID)
 
 
 func _assert_true(value: bool, label: String) -> void:

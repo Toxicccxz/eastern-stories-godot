@@ -18,7 +18,7 @@ func _run() -> void:
 	var repository: SourceEntrySaveRepository = SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
 		var random: RecoveryTest.RandomSequence = RecoveryTest.RandomSequence.new()
-		var session: OldPineWorldSessionController = RecoveryTest.create_session(self, random)
+		var session: WorldSessionController = RecoveryTest.create_session(self, random)
 		check(Food.earn_and_exchange(session), "Work + Bank")
 		var product: VendorPurchaseResult = Food.purchase(session)
 		check(product.delivered and session.advance_player_recovery(12.0).opportunities == 1, "purchase + natural food399")
@@ -41,7 +41,7 @@ func _run() -> void:
 		check(host.request_continue(), "cold manual Continue")
 		await process_frame
 		await process_frame
-		var session: OldPineWorldSessionController = host.current_session()
+		var session: WorldSessionController = host.current_session()
 		check(session != null, "fresh published Session")
 		if session != null:
 			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)

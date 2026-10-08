@@ -21,7 +21,7 @@ var eligibility: OldPineSaveEligibilityResult
 var capture: OldPineWorldCaptureResult
 var repository: GameSaveResult
 var restore: OldPineWorldRestoreResult
-var session: OldPineWorldSessionController
+var session: WorldSessionController
 
 
 func _init(p_outcome: int = Outcome.REQUEST_REJECTED) -> void:
@@ -32,7 +32,7 @@ func succeeded() -> bool:
 	return outcome == Outcome.SUCCESS
 
 
-static func success(value: OldPineWorldSessionController) -> OldPineRuntimeSaveLoadResult:
+static func success(value: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	var result := OldPineRuntimeSaveLoadResult.new(Outcome.SUCCESS)
 	result.session = value
 	return result
