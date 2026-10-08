@@ -225,10 +225,11 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		return Outcome.ASKED
 	if not rule.commoners_only.is_empty() and student_title != COMMONER_TITLE:
 		# command("chat " + title + nickname + name + "要叛师！！！"), grin, kill_ob(ob). The
-		# player has no nickname. The channel's line shows the master by name alone.
+		# player has no nickname. Deviation (owner, modern fixes II): nobody else is on the
+		# chat channel in single player, so the master shouts it in the room instead.
 		var said: String = _t(rule.commoners_only).format({"title": shown_title, "nickname": "", "name": student_name})
-		# TRANSLATORS: channeld.c's chat channel: {who} is who speaks (绝尘子), {line} what it says.
-		chat_line = _t("【闲聊】{who}：{line}").format({"who": npc, "line": said})
+		# TRANSLATORS: what ES2 put on its chat channel, shouted in the room: {who} is who shouts (绝尘子), {line} what.
+		chat_line = _t("{who}大声喝道：{line}").format({"who": npc, "line": said})
 		return Outcome.ATTACKED
 	var short: NpcTeaching.RequirementCheck = refusal(student, rule)
 	if short != null:
@@ -251,8 +252,9 @@ func swear(student: CharacterState, master: NpcDefinition, family: FamilyDefinit
 	if not awaits_oath(master.definition_id):
 		return Outcome.NOT_ASKED
 	_oaths.erase(master.definition_id)
-	# TRANSLATORS: master.c do_swear(): message_vision("$N发誓道：" + arg): {oath} is the oath (守门规).
-	lines.append(_t("你发誓道：{oath}").format({"oath": _t(teaching.apprentice.oath)}))
+	# master.c do_swear(): message_vision("$N发誓道：" + arg) with the oath it accepts (守门规).
+	# Owner (modern fixes II): the log reads as the button does, 发誓恪守门规.
+	lines.append(_t("你发誓恪守门规。"))
 	_say(_t(master.display_name), teaching.apprentice.accept_say, respect)
 	return _npc_recruit(student, master, family, entry_time_utc)
 

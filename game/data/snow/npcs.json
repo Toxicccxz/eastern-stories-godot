@@ -49,7 +49,7 @@
 			"aliases": ["keeper"],
 			"gender": "男性",
 			"age": 74,
-			"long": "这个老人看起来七十多岁了，看著他□偻的身影，你忽然觉得心情沈重了下来。\n",
+			"long": "这个老人看起来七十多岁了，看著他佝偻的身影，你忽然觉得心情沈重了下来。\n",
 			"combat_exp": 1,
 			"attitude": "friendly",
 			"greeting": { "say": "这位$RESPECT，捐点香火钱积点阴德吧。" },

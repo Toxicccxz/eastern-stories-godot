@@ -65,7 +65,7 @@ func _test_data() -> void:
 	var verbs: Array[String] = []
 	for action: CombatActionDefinition in catalog.combat_actions().weapon_action_set(&"hammer").actions():
 		verbs.append("%s %s" % [action.legacy_action_text, action.post_action_policy_id])
-	_check(verbs == ["$N挥舞$w，往$n的$l用力一□ bash_weapon", "$N高高举起$w，往$n的$l当头砸下 bash_weapon", "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去 bash_weapon"], "hammer.c's verbs, the source's □ as written: " + str(verbs))
+	_check(verbs == ["$N挥舞$w，往$n的$l用力一砸 bash_weapon", "$N高高举起$w，往$n的$l当头砸下 bash_weapon", "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去 bash_weapon"], "hammer.c's verbs, the source's 用力一□ as 用力一砸: " + str(verbs))
 	_check(catalog.combat_actions().weapon_action_set(&"staff").actions().size() == 3, "staff.c's verbs are the same three")
 
 

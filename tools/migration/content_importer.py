@@ -32,6 +32,9 @@ REPOSITORY = Path(__file__).resolve().parents[2]
 MUDLIB = REPOSITORY / 'reference/es2/mudlib'
 DATA = REPOSITORY / 'game/data'
 OVERRIDES = Path(__file__).resolve().parent / 'overrides'
+# Characters lost in the Big5 conversion, decided by hand (owner, modern fixes II).
+REPLACEMENTS = Path(__file__).resolve().parent / 'text_replacements.json'
+LOST = '\u25a1'  # □
 REPORT = REPOSITORY / 'build/import/review.md'
 
 # include/ansi.h colour macros. Colour is presentation; the text is kept.
@@ -504,9 +507,16 @@ class Finding:
 
 
 class Importer:
-    def __init__(self, corpus: Corpus, data: Path = DATA, overrides: Path = OVERRIDES):
+    def __init__(self, corpus: Corpus, data: Path = DATA, overrides: Path = OVERRIDES,
+                 replacements: Path = REPLACEMENTS):
         self.corpus = corpus
         self.data = data
+        self.replacements = []
+        if replacements.is_file():
+            self.replacements = json.loads(replacements.read_text(encoding='utf-8'))['replacements']
+        for rule in self.replacements:
+            if LOST not in rule['find'] or LOST in rule['replace']:
+                raise ImportError_(f'text_replacements.json: {rule["find"]!r} must replace a lost character')
         self.overrides = {p.stem: json.loads(p.read_text(encoding='utf-8'))
                           for p in sorted(overrides.glob('*.json'))}
         # An NPC a region names as a vendor sells from its body (`vendor` on its record).
@@ -540,7 +550,28 @@ class Importer:
         # NPCs that code makes anywhere (saveme.c's heaven_soldier).
         for path in self.overrides.get('common', {}).get('npcs', []):
             self.npc(path)
+        self.apply_replacements()
         self.apply_overrides()
+
+    # Lost characters: every rule on every imported string; one still lost is a finding.
+    def apply_replacements(self) -> None:
+        def fix(value, record):
+            if isinstance(value, str):
+                for rule in self.replacements:
+                    value = value.replace(rule['find'], rule['replace'])
+                if LOST in value:
+                    at = value.index(LOST)
+                    self.note(record.get('legacy_source', record['id']), 'lost character',
+                              value[max(0, at - 8):at + 9])
+                return value
+            if isinstance(value, list):
+                return [fix(item, record) for item in value]
+            if isinstance(value, dict):
+                return {key: fix(item, record) for key, item in value.items()}
+            return value
+        for bucket in self.records.values():
+            for rid, record in bucket.items():
+                bucket[rid] = fix(record, record)
 
     def import_region(self, region: str, world: dict, override: dict) -> None:
         skips = {(source_path(room), source_path(target))

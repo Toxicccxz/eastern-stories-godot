@@ -1,0 +1,11 @@
+{
+	"about": "Characters lost in ES2's Big5 conversion (□ in the mudlib), decided one by one (owner, modern fixes II). The importer applies every rule to every imported string before the region overrides; a □ left after them is an open finding. Hand-ported text (skills.json, combat_actions.json, es2_combat_messages.gd) follows the same table.",
+	"replacements": [
+		{"find": "柳□主", "replace": "柳馆主", "where": "daemon/class/swordsman/master.c (柳淳风's 名字 answer)", "why": "he is 淳风武馆's master"},
+		{"find": "□偻", "replace": "佝偻", "where": "d/snow/npc/keeper.c (庙祝's long)", "why": "the set phrase for a bent old man"},
+		{"find": "用力一□", "replace": "用力一砸", "where": "bash_weapon's action (weapond.c)", "why": "owner: a hammer's blow"},
+		{"find": "□伤", "replace": "擦伤", "where": "d/skill/spring-blade.c damage_type; combatd.c damage_msg case", "why": "uncertain: not 砍伤 or 劈伤 (weapond.c's own types, which fall to the default lines); the case shares 割伤's lines (划破皮肉), and 擦伤 is used nowhere else; the word itself is never shown"},
+		{"find": "血肉□糊", "replace": "血肉模糊", "where": "combatd.c damage_msg 刺伤", "why": "the set phrase"},
+		{"find": "全身□麻", "replace": "全身酸麻", "where": "cmds/std/exercise.c (no gain)", "why": "痠 in the source; training_lines.gd already reads 酸麻"}
+	]
+}

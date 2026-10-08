@@ -189,7 +189,7 @@ func _test_apprentice_rule() -> void:
 	request = NpcApprenticeship.new()
 	_check(request.would_attack(member, master, "封山剑派第十四代弟子") and not request.takes_at_once(member, master, "封山剑派第十四代弟子"), "a family's member would be attacked, not taken")
 	var outcome: NpcApprenticeship.Outcome = request.request(member, master, family, 1, "壮士", "封山剑派第十四代弟子", "封山剑派第十四代弟子", "阿青")
-	_check(outcome == NpcApprenticeship.Outcome.ATTACKED and request.lines == ["你想要拜绝尘子为师。"] and request.chat_line == "【闲聊】绝尘子：封山剑派第十四代弟子阿青要叛师！！！", "a traitor: the chat line: %s" % request.chat_line)
+	_check(outcome == NpcApprenticeship.Outcome.ATTACKED and request.lines == ["你想要拜绝尘子为师。"] and request.chat_line == "绝尘子大声喝道：封山剑派第十四代弟子阿青要叛师！！！", "a traitor: the chat line: %s" % request.chat_line)
 	_check(member.family.family_id == &"family.fonxan" and member.progression.score == 0 and member.apprenticeship.betrayer_count == 0, "nothing else changes")
 	_check(request.request(member, master, family, 1, "壮士", "封山剑派第十四代弟子") == NpcApprenticeship.Outcome.PENDING and not request.would_attack(member, master, "封山剑派第十四代弟子"), "asked again: 对方还没有答应 (apprentice.c), no second attack")
 
@@ -239,7 +239,7 @@ func _test_traitor(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.has_active_encounter() and master.relationship.has_lethal_target(player.character_id) and not player.relationship.has_lethal_target(master.character_id), "he attacks to kill; the player only fights back")
 	var log: Array[String] = session.shared_ui().log_lines()
-	_check(log.has("你想要拜绝尘子为师。") and log.has("【闲聊】绝尘子：封山剑派第十四代弟子%s要叛师！！！" % player.facts.display_name) and log.has("看起来绝尘子想杀死你！"), "the request, the chat line and kill_ob()'s warning: %s" % [log.slice(-4)])
+	_check(log.has("你想要拜绝尘子为师。") and log.has("绝尘子大声喝道：封山剑派第十四代弟子%s要叛师！！！" % player.facts.display_name) and log.has("看起来绝尘子想杀死你！"), "the request, the chat line and kill_ob()'s warning: %s" % [log.slice(-4)])
 	await _flee(tree, session)
 
 

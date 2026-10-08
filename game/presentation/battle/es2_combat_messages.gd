@@ -66,13 +66,13 @@ static func parry_messages(attacker_armed: bool) -> Array[String]:
 	return (parry.parry_messages_armed if attacker_armed else parry.parry_messages_unarmed).duplicate()
 
 
-## combatd.c damage_msg(damage, type). "□伤" is the source's own case label
-## (a character lost in the Big5 conversion) and is kept as written.
+## combatd.c damage_msg(damage, type). Its "□伤" case (a character lost in the Big5
+## conversion) reads 擦伤, as tools/migration/text_replacements.json decides.
 static func damage_message(damage: int, type: String) -> String:
 	if damage == 0:
 		return "结果没有造成任何伤害。"
 	match type:
-		"□伤", "割伤":
+		"擦伤", "割伤":
 			if damage < 10: return "结果只是轻轻地划破$p的皮肉。"
 			if damage < 20: return "结果在$p$l划出一道细长的血痕。"
 			if damage < 40: return "结果「嗤」地一声划出一道伤口！"
@@ -84,7 +84,7 @@ static func damage_message(damage: int, type: String) -> String:
 			if damage < 20: return "结果在$p$l刺出一个创口。"
 			if damage < 40: return "结果「噗」地一声刺入了$n$l寸许！"
 			if damage < 80: return "结果「噗」地一声刺进$n的$l，使$p不由自主地退了几步！"
-			if damage < 160: return "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉□糊的血窟窿！"
+			if damage < 160: return "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉模糊的血窟窿！"
 			return "结果只听见$n一声惨嚎，$w已在$p的$l对穿而出，鲜血溅得满地！！"
 		"瘀伤":
 			if damage < 10: return "结果只是轻轻地碰到，比拍苍蝇稍微重了点。"

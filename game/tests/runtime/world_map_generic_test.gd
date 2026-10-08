@@ -129,7 +129,7 @@ func _test_landmark_policies(tree: SceneTree) -> void:
 	_assert_true(climb != null and climb.succeeded(), "portal policy climbs the pine")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.TREE_MAP_ID, "climb pine activates the tree map")
 	_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.TREE_CANOPY_ZONE_ID, "climb pine lands in the canopy")
-	_assert_true(session.shared_ui().log_lines().has("爬树：大松树"), "the action is logged as before")
+	_assert_true(session.shared_ui().log_lines().has("你手脚并用，敏捷地爬上了空地中央的大松树。"), "the climb is told as clearing.c tells it (modern fixes II)")
 	_assert_false(session.world_map_of(OldPineWorldDefinitions.TREE_MAP_ID).select_landmark(&"oldpine.outdoor.landmark.nope"), "unknown landmarks are not selectable")
 	# Contact landmarks refuse without standing in their area, whatever the zone.
 	# The river cliff belongs to the gorge map.

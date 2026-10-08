@@ -32,6 +32,24 @@ class GeneratedDataTest(unittest.TestCase):
         self.assertEqual([(f.source, f.key) for f in ci.open_findings(self.importer)], [])
         self.assertEqual(ci.stale_decisions(self.importer), [])
 
+    def test_no_lost_character_reaches_the_game(self) -> None:
+        # □ marks a character lost in ES2's Big5 conversion; text_replacements.json
+        # decides each (owner, modern fixes II). Only skills.c's own enabled-skill
+        # mark (martial_arts_page.gd MAPPED_MARK) may show one.
+        lost = '□'
+        found = []
+        for path in sorted(ci.DATA.rglob('*.json')):
+            for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+                if lost in line:
+                    found.append(f'{path.relative_to(REPOSITORY).as_posix()}:{number}')
+        for path in sorted((REPOSITORY / 'game').rglob('*.gd')):
+            if '.godot' in path.parts or 'tests' in path.parts or path.name == 'martial_arts_page.gd':
+                continue
+            for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+                if lost in line and not line.lstrip().startswith('#'):
+                    found.append(f'{path.relative_to(REPOSITORY).as_posix()}:{number}')
+        self.assertEqual(found, [], 'decide the character in tools/migration/text_replacements.json')
+
     def test_generated_files_are_loaded(self) -> None:
         manifest = json.loads((ci.DATA / 'content_manifest.json').read_text(encoding='utf-8'))['files']
         self.assertEqual(sorted(set(self.files) - set(manifest)), [])
