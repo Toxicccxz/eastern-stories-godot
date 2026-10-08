@@ -213,6 +213,14 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(lpc.findings, ['condition in create(): clonep() branch does more than set_default_object'])
 
 
+class RoomTest(unittest.TestCase):
+    def test_no_fight_and_no_magic(self) -> None:
+        record = ci.Importer(ci.Corpus(), ci.DATA).room('d/city/bank.c')
+        self.assertEqual((record.get('no_fight'), record.get('no_magic')), (True, True))
+        record = ci.Importer(ci.Corpus(), ci.DATA).room('d/snow/bank.c')
+        self.assertEqual((record.get('no_fight'), record.get('no_magic')), (None, None))
+
+
 class TalkTest(unittest.TestCase):
     """npc.c chat() and ask.c answers become data only when every part of them is data."""
 

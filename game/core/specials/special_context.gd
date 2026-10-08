@@ -26,6 +26,9 @@ var damaged: Array[StringName] = []
 ## NPC definitions the file called into the room on `me`'s side, in order (saveme.c's
 ## new("/obj/npc/heaven_soldier")): the fight brings each in.
 var summons: Array[StringName] = []
+## The room the file moved `me` to (dun.c's me->move("/d/snow/temple")), or empty: the
+## fight lets `me` go and the world takes them there.
+var departure: StringName
 ## Keeps the object `random` calls alive (a Callable does not).
 var _random_source: Object
 
@@ -73,6 +76,12 @@ func say(template: String, target_id: StringName = &"", color: StringName = Colo
 	var line := VisionLine.new(template, me.character_id, target_id, color)
 	lines.append(line)
 	return line
+
+
+## write(template): only `me` reads it, so it is shown only when `me` is the player.
+func write(template: String) -> void:
+	if me.is_user:
+		lines.append(VisionLine.new(template, me.character_id))
 
 
 ## combatd.c do_attack(attacker, victim, attacker's weapon), after the lines said so

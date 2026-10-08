@@ -8,6 +8,8 @@ signal intent_submitting
 const ROAR_QUESTION: String = "天邪虎啸要耗 150 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
 # TRANSLATORS: asked before 压制杀气 (powerfade.c) in a fight; {odds} is how likely the player is to fall unconscious (约有 6 成会昏倒).
 const POWERFADE_QUESTION: String = "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
+# TRANSLATORS: asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()).
+const SAVEME_QUESTION: String = "召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
 signal intent_received(result: CombatTacticalResult)
 signal target_submitting
 signal target_received(result: CombatTargetResult)
@@ -144,7 +146,9 @@ func _present_completed_result() -> void:
 	var receipt: CombatEncounterCompletionResult = _session.combat_encounter_coordinator().last_completion()
 	if receipt == null or receipt.encounter_id == _reported_completion_id:
 		return
-	var text: String = BattleFeedbackReader.completion_text(receipt, _session.player_runtime().life_status)
+	var text: String = BattleFeedbackReader.completion_text(
+		receipt, _session.player_runtime().life_status, _session.combat_encounter_coordinator().departed(receipt.encounter_id),
+	)
 	if text.is_empty():
 		return
 	var hud: SharedGameplayUI = _session.shared_ui()
@@ -276,8 +280,15 @@ func _refit_content() -> void:
 		_content.size = metrics.content_rect().size
 
 
+## The player's card first, then those on the player's side (the soldier they called),
+## then the others, each group in the fight's order.
 func _present_participants() -> void:
-	var values: Array[BattleParticipantProjection] = _projection.participants()
+	var values: Array[BattleParticipantProjection] = []
+	for group: int in 3:
+		for value: BattleParticipantProjection in _projection.participants():
+			var rank: int = 0 if value.participant_id == _projection.player_id else 2 if value.hostile_to_player else 1
+			if rank == group:
+				values.append(value)
 	var ids: Array[StringName] = []
 	for value: BattleParticipantProjection in values:
 		ids.append(value.participant_id)
@@ -338,6 +349,12 @@ func _question_for(id: StringName) -> PackedStringArray:
 	if _session == null or not _session.is_initialized() or _session.player_runtime() == null:
 		return PackedStringArray()
 	var state: CharacterState = _session.player_runtime().state
+	# saveme.c's soldier kills the sparring partner: the spar goes on to the death.
+	if (
+		CombatCastTacticalPolicy.function_for(id) == &"saveme" and _projection.mode == CombatEncounterMode.Value.SPAR
+		and state.recovery.mana.current >= SavemeSpell.MANA_COST and state.spirit.current >= SavemeSpell.SEN_COST
+	):
+		return PackedStringArray([tr(SAVEME_QUESTION), "召唤天将"])
 	match CombatExertTacticalPolicy.function_for(id):
 		&"roar":
 			if RoarExertFunction.would_run(state, true):

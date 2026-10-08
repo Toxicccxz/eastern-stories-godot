@@ -4,16 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**青石村 C** (`phase/green-c`): 绝尘派. 绝尘子 stands in the 石室大厅 with his 金刚杖 and 紫金冠.
-拜师: a family's member is asked first, then hears him call 要叛师 on the chat channel and is
-attacked to the death; a commoner needs spi 24 and 100000 combat_exp and becomes his apprentice
-(the hall's seal opens), a 道士 or 女冠. He teaches all fourteen of his skills (小天魔道 before
-奇门遁甲, 金刚杖法 for the strong; 小天魔道 brings 杀气). In a fight he holds his enemy busy with
-遁 and calls a 天将 that fights for him and leaves when the fight is over (a fallen one leaves its
-corpse and gear). The 武学 page has 冥思 and 修行; the sheet shows 法力 and 灵力. Playtest launcher:
-`tests/runtime/run_with_experience.gd` (100000 combat_exp, spi 24).
+**青石村 D** (`phase/green-d`): the player's spells. With 奇门遁甲 enabled for spells the battle
+panel offers 施法「遁」 (away to Snow's 城隍庙 in a light; the fight is over for the player),
+施法「困」 (the enemy busy) and 施法「召天将」 (a 天将 comes in on the player's side, kills their
+enemies and is killed back; in a spar it is asked first, as the partner may die). An enemy now
+picks between the player and the soldier as ES2 does. no_magic rooms refuse a cast (none is
+placed yet). Playtest launcher: `tests/runtime/run_with_experience.gd`, then join 绝尘子 and learn.
 
-Next: 青石村 D (the player's spells: 遁, 困, 召天将 on the player's side).
+Next: 茅山 (region #6) plan. Open from #75: the equipment weight dodge (its own PR).
 
 ## Playable now
 
@@ -80,7 +78,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   560 force, or 放弃 and wake in the Inn); 乾 south leads to the stone rooms behind, marked 八卦阵,
   and the stream gives that mark a 追风剑. The rope's 上吊 kills (asked first). 绝尘子 in the
   hall: joining 绝尘派 (spi 24, 100000 combat_exp; a family's member is attacked for asking, asked
-  first), his fourteen skills, his 遁 and the 天将 he calls in a fight.
+  first), his fourteen skills, his 遁 and the 天将 he calls in a fight; his apprentices cast 遁
+  (to Snow's 城隍庙), 困 and 召天将 (a 天将 on their side) from the battle panel.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

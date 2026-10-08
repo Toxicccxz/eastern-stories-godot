@@ -2,13 +2,14 @@ class_name RoomDefinition
 extends RefCounted
 
 ## One ES2 room as authored: `set("short")`, `set("long")`, its static
-## `set("exits")`, `set("no_fight")` and whether it is `set("outdoors")`. Exit
+## `set("exits")`, `set("no_fight")`, `set("no_magic")` and whether it is `set("outdoors")`. Exit
 ## targets are room IDs that may not be migrated yet.
 var _room_id: StringName
 var _short: String
 var _long: String
 var _exits: Dictionary[String, StringName] = {}
 var _no_fight: bool
+var _no_magic: bool
 var _outdoors: bool
 
 var room_id: StringName:
@@ -25,6 +26,10 @@ var long: String:
 var no_fight: bool:
 	get:
 		return _no_fight
+## cmds/std/cast.c refuses here: "这里不准念咒文。"
+var no_magic: bool:
+	get:
+		return _no_magic
 ## Under the open sky (set("outdoors"), any area name): rope.c finds nowhere to hang a rope.
 var outdoors: bool:
 	get:
@@ -62,6 +67,7 @@ static func from_record(reader: ContentRecordReader) -> RoomDefinition:
 		reader.boolean("no_fight", false),
 	)
 	definition._outdoors = reader.boolean("outdoors", false)
+	definition._no_magic = reader.boolean("no_magic", false)
 	reader.finish()
 	return definition
 

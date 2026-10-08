@@ -2396,6 +2396,22 @@ msgstr ""
 msgid "但是被$n躲开了。"
 msgstr ""
 
+#: core/specials/cast_service.gd
+msgid "( 你上一个动作还没有完成，不能念咒文。)"
+msgstr ""
+
+#: core/specials/cast_service.gd
+msgid "这里不准念咒文。"
+msgstr ""
+
+#: core/specials/cast_service.gd
+msgid "你请先用 enable 指令选择你要使用的咒文系。"
+msgstr ""
+
+#: core/specials/cast_service.gd
+msgid "你所选用的咒文系中没有这种咒文。"
+msgstr ""
+
 #: core/specials/counterattack_perform.gd
 msgid "「封」字诀"
 msgstr ""
@@ -2441,7 +2457,35 @@ msgid "只见空中落下无数大木，正把$n困在中央！"
 msgstr ""
 
 #: core/specials/dun_spell.gd
+msgid "只见$N化作一道黑气，然后消失得无影无踪！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见$N化作一道金光，然后消失得无影无踪！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见$N化作一团火焰，然后消失得无影无踪！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见$N化作一道长虹，然后消失得无影无踪！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "只见$N化作一团大雾，然后消失得无影无踪！"
+msgstr ""
+
+#: core/specials/dun_spell.gd
 msgid "但是$n纵身一跃，脱离了围困。"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "困"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "遁"
 msgstr ""
 
 #: core/specials/dun_spell.gd
@@ -2450,6 +2494,10 @@ msgstr ""
 
 #: core/specials/dun_spell.gd
 msgid "$n正自顾不暇，放胆进攻吧。"
+msgstr ""
+
+#: core/specials/dun_spell.gd
+msgid "你失败了。"
 msgstr ""
 
 #: core/specials/fakefault_perform.gd
@@ -2490,6 +2538,10 @@ msgstr ""
 
 #: core/specials/perform_service.gd
 msgid "你所使用的外功中没有这种功能。"
+msgstr ""
+
+#: core/specials/saveme_spell.gd
+msgid "召天将"
 msgstr ""
 
 #: core/specials/saveme_spell.gd
@@ -3012,6 +3064,11 @@ msgstr ""
 msgid "使出{action}"
 msgstr ""
 
+#. a battle button: cast.c with one of the player's spells ({spell}, e.g. 遁 or 召天将).
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "施法「{spell}」"
+msgstr ""
+
 #: presentation/battle/battle_feedback_reader.gd
 msgid "已接受"
 msgstr ""
@@ -3102,6 +3159,14 @@ msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
 msgid "已更换目标"
+msgstr ""
+
+#: presentation/battle/battle_feedback_reader.gd
+msgid "你借遁术脱离了战斗。"
+msgstr ""
+
+#: presentation/battle/battle_feedback_reader.gd
+msgid "双方都停了手，战斗结束。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
@@ -3271,6 +3336,13 @@ msgid ""
 "确定要压制杀气吗？"
 msgstr ""
 
+#. asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()).
+#: presentation/battle/battle_presentation_controller.gd
+msgid ""
+"召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n"
+"确定要召唤天将吗？"
+msgstr ""
+
 #: presentation/battle/battle_presentation_controller.gd
 msgid "目标：%s"
 msgstr ""
@@ -3301,6 +3373,10 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "换目标：%s"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd
+msgid "召唤天将"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -3860,6 +3936,10 @@ msgstr ""
 #. a landmark used to move on: {action} (爬树) and the landmark (大松树).
 #: runtime/world/landmarks/portal_landmark_policy.gd
 msgid "{action}：{landmark}"
+msgstr ""
+
+#: runtime/world/oldpine_world_session_controller.gd
+msgid "遁 could not reach %s from %s"
 msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd

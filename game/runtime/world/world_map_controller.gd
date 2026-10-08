@@ -37,6 +37,8 @@ var _npcs: Array[NpcRuntimeState] = []
 var _npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
 ## The spawn each summoned NPC here came by (SummonedNpc), by spawn ID: none is in the catalog.
 var _summon_spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
+## Who called each summoned NPC still here (set("possessed", who)): its character ID.
+var _summoners: Dictionary[StringName, StringName] = {}
 var _npc_presence: Dictionary[StringName, Area2D] = {}
 var _registered_npc_content: Dictionary[StringName, CombatSliceContentProfile] = {}
 var _corpse_states: Array[CorpseState] = []
@@ -1948,7 +1950,10 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	_last_lifecycle_results.append(receipt)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_killed_enemy(killer_npc, killer_heard)
-		if killer.character_id == _player.character_id and victim_npc != null:
+		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
+		# !is_living() test always holds: nothing defines is_living()).
+		var rewarded: StringName = _summoners.get(killer.character_id, killer.character_id)
+		if rewarded == _player.character_id and victim_npc != null:
 			_player_killer_reward(victim_npc)
 	if not receipt.completed():
 		_lifecycle_failed = true
@@ -2418,33 +2423,43 @@ func summon_beside(caster_id: StringName, definition_id: StringName) -> StringNa
 		_take_away(npc)
 		return &""
 	_summon_spawns[spawn.spawn_id] = spawn
+	_summoners[npc.character_id] = caster_id
 	if not _add_npc_body(npc, _at_feet(location, body.global_position)):
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])
 		_take_away(npc)
 		_summon_spawns.erase(spawn.spawn_id)
+		_summoners.erase(npc.character_id)
 		if _npcs.has(npc):
 			_drop_npc(npc)
 		return &""
 	return npc.character_id
 
 
+## Who called the summoned NPC `character_id` (set("possessed", who)), or "".
+func summoner_of(character_id: StringName) -> StringName:
+	return _summoners.get(character_id, &"")
+
+
 ## heaven_soldier.c heal_up() once it is not fighting: call_out("leave", 1), its leave
 ## lines where the player is (and can read them), then destruct() with all it carries.
 ## Here every summoned NPC still standing leaves as the fight it came into ends (its
-## lines after the fight's result); a dead one is forgotten and its corpse stays.
+## lines after the fight's result, unless the player left it by a spell: gone before
+## it says them); a dead one is forgotten and its corpse stays.
 func dismiss_summoned() -> void:
+	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
 	for npc: NpcRuntimeState in _npcs.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
 			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()
-			if summoning != null and _player_hears(npc) and session != null:
+			if summoning != null and _player_hears(npc) and session != null and not departing:
 				var lines: Array[ColoredLine] = []
 				for text: String in summoning.leave:
 					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))
 				session.shared_ui().append_after_fight(lines)
 			_take_away(npc)
 		_summon_spawns.erase(npc.spawn_id)
+		_summoners.erase(npc.character_id)
 		_drop_npc(npc)
 
 

@@ -80,11 +80,18 @@ func note(lines: Array[BattleNarrationLine]) -> Array[BattleNarrationLine]:
 
 ## Only successful authoritative completion may become a world result message.
 ## No rewards, lifecycle, thaw, or completion decision belongs to this projection.
-static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int) -> String:
+## `departed`: the player left the fight by a spell that took them away (dun.c).
+static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int, departed: bool = false) -> String:
 	if receipt == null or not receipt.succeeded() or receipt.terminal_result == null:
 		return ""
+	if departed and receipt.terminal_result.kind == CombatEncounterResultKind.Value.FLED:
+		return TranslationServer.translate("你借遁术脱离了战斗。")
 	match receipt.terminal_result.kind:
 		CombatEncounterResultKind.Value.VICTORY:
+			# Nobody fights anyone any more, but someone of the other side still stands
+			# (a sparring partner who withstood 天邪虎啸, or who outlasted the 天将).
+			if receipt.terminal_result.losing_side_ids().is_empty():
+				return TranslationServer.translate("双方都停了手，战斗结束。")
 			return TranslationServer.translate("你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。")
 		CombatEncounterResultKind.Value.DEFEAT:
 			if player_life == CharacterRuntimeLifeStatus.Value.DEAD:
