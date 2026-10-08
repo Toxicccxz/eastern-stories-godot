@@ -935,8 +935,23 @@ func _give_item(id: StringName, amount: int) -> void:
 		return
 	var give: Callable = func() -> void:
 		map.give_to_selected(id, amount)
+	# The question closes once the gift can no longer be made: the NPC walked away or is
+	# no longer selected, the thing is gone, or the player cannot handle items now.
+	var npc_id: StringName = map.selected_character_id()
+	var still_valid: Callable = func() -> bool:
+		return (
+			_session.active_map() == map and map.selected_character_id() == npc_id
+			and map.can_handle_items() and map.selected_npc_takes_gifts() and _carries(id)
+		)
 	# 取消 goes back to the 背包 the question came from.
-	ask_first(warning, "确定送出", give, Callable(), open_inventory)
+	ask_first(warning, "确定送出", give, still_valid, open_inventory)
+
+
+func _carries(id: StringName) -> bool:
+	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
+		if row.item_instance_id == id:
+			return true
+	return false
 
 
 ## Owner (modern fixes II): giving away what the player has equipped, or a large sum

@@ -140,6 +140,13 @@ func _test_give(session: WorldSessionController, map: WorldMapController) -> voi
 	_check(hud.is_asking() and text.begins_with("确定把") and text.contains("黄金") and text.contains("武馆弟子"), "a gold tael is asked: " + text)
 	hud.confirm_prompt.cancel_button.pressed.emit()
 	hud._presentation_layout.close_panel()
+	# The question closes once the gift cannot be made: the trainee walked off.
+	hud._give_item(gold, 1)
+	_check(hud.is_asking(), "asked again")
+	trainee.set_world_location(map.location_for_zone(&"snow.school1")) # TEST-ONLY: he wandered off
+	hud._presentation_layout.validate_open_panel()
+	_check(not hud.confirm_prompt.is_asking() and not hud._presentation_layout.frame.visible, "the recipient gone: the question closes")
+	trainee.set_world_location(map.location_for_zone(&"snow.school2"))
 	hud._give_item(silver, 1)
 	_check(not hud.is_asking(), "one silver tael is not asked")
 	var keeper: NpcRuntimeState = map.find_resident_npc(KEEPER)
