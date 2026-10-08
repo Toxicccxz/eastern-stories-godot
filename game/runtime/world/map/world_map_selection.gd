@@ -34,7 +34,7 @@ func selected_character_id() -> StringName:
 
 
 func selected_npc() -> NpcRuntimeState:
-	return _map.find_resident_npc(selected_character_id())
+	return _map.npcs.find_resident_npc(selected_character_id())
 
 
 func on_npc_selection_requested(character_id: StringName) -> void:
@@ -44,7 +44,7 @@ func on_npc_selection_requested(character_id: StringName) -> void:
 func select_npc(character_id: StringName) -> bool:
 	if not _map.gameplay_open() or session == null:
 		return false
-	var npc: NpcRuntimeState = _map.find_resident_npc(character_id)
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
 	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 		return false
 	selected_target = WorldInteractionTarget.character(character_id)

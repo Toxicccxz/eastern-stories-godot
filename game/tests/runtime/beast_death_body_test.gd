@@ -18,7 +18,7 @@ func run_all() -> Dictionary[String, Variant]:
 	var controller: WorldMapController = WorldMapController.new()
 	# Detached controller only: exercise the actual typed adapter, no QA scene,
 	# spawn ledger, input/cadence or player-visible validation claim.
-	controller._npcs.append(f.npc)
+	controller.npcs.residents.append(f.npc)
 	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(f.npc, CombatSliceContentProfile.new())
 	var destination: InventoryTransferDestination = InventoryTransferDestination.new(
 		ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"test.location"), true, true, 1000000)

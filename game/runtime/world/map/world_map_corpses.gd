@@ -58,7 +58,7 @@ func advance_pending_dissolves(delta: float) -> void:
 			due.push_front(_pending_dissolves[index][0])
 			_pending_dissolves.remove_at(index)
 	for character_id: StringName in due:
-		_npc_dissolves_corpse(_map.find_resident_npc(character_id))
+		_npc_dissolves_corpse(_map.npcs.find_resident_npc(character_id))
 
 
 ## command("dissolve corpse"): obj/dust.c's add_action works only while the NPC carries
