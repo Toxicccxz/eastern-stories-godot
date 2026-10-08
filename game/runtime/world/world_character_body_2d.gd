@@ -94,7 +94,14 @@ func refresh_runtime_state() -> void:
 		_collision_suppressed = false
 
 
-func _physics_process(_delta: float) -> void:
+## The player kept pushing into this standing body for PUSH_SECONDS (owner, polish, A5).
+signal pushed_against(other: WorldCharacterBody2D)
+const PUSH_SECONDS: float = 1.0
+var _push_target: WorldCharacterBody2D
+var _push_seconds: float = 0.0
+
+
+func _physics_process(delta: float) -> void:
 	if (
 		not player_controlled
 		or not _exists()
@@ -118,6 +125,28 @@ func _physics_process(_delta: float) -> void:
 	)
 	velocity = direction * movement_speed
 	move_and_slide()
+	_track_push(direction, delta)
+
+
+## Counts how long the player has pushed into the same standing NPC body; any frame
+## without that push starts over.
+func _track_push(direction: Vector2, delta: float) -> void:
+	var against: WorldCharacterBody2D = null
+	if direction != Vector2.ZERO:
+		for index: int in get_slide_collision_count():
+			var collision: KinematicCollision2D = get_slide_collision(index)
+			var other: WorldCharacterBody2D = collision.get_collider() as WorldCharacterBody2D
+			if other != null and not other.player_controlled and direction.normalized().dot(-collision.get_normal()) > 0.3:
+				against = other
+				break
+	if against == null or against != _push_target:
+		_push_target = against
+		_push_seconds = 0.0
+		return
+	_push_seconds += delta
+	if _push_seconds >= PUSH_SECONDS:
+		_push_seconds = 0.0
+		pushed_against.emit(against)
 
 
 func _input_event(
