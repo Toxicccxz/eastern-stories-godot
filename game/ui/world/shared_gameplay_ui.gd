@@ -42,6 +42,10 @@ const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生
 const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
 # TRANSLATORS: asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
 const DEADLY_SPAR_WARNING: String = "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n确定要和{npc}切磋吗？"
+# TRANSLATORS: asked before a bare-handed 切磋 with an NPC ({npc}) clearly stronger than the player (native, owner A10): one blow can knock the player out.
+const STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多：即使只是切磋，一招就可能把你打昏。\n确定要和{npc}切磋吗？"
+# TRANSLATORS: asked before 切磋 with a weapon in hand on either side and an NPC ({npc}) clearly stronger than the player (native, owner A10).
+const ARMED_STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多，而且有人手持兵刃：切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
 # TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
 const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 # TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
@@ -64,6 +68,9 @@ var _log_colors: Array[StringName] = []
 ## (killer_reward()'s quest reward): shown with show_combat_result().
 var _after_fight_lines: Array[ColoredLine] = []
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
+## Plain log text is a light grey, so ES2's HIW (bright white) stands out from it
+## (owner, modern fixes II); the log, the toasts and the battle log share it.
+const PLAIN_LOG_COLOR: Color = Color(0.78, 0.79, 0.76)
 ## How include/ansi.h's bright colours look in the log and in the HUD's toasts.
 const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIR: ALERT_COLOR,
@@ -223,8 +230,9 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 	refresh_live_state()
 
 
-## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none.
-func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"") -> void:
+## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none;
+## `strength` the native line on how strong it looks (RelativeStrength.line()), "" for none.
+func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	if definition == null:
 		inspection_text.text = ""
@@ -236,6 +244,8 @@ func show_inspection(definition: NpcDefinition, relation: String = "", gender: S
 	if not relation.is_empty():
 		# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
 		inspection_text.text += "\n" + tr("{pronoun}是你的{relation}。").format({"pronoun": tr(Es2CombatMessages.pronoun(gender)), "relation": tr(relation)})
+	if not strength.is_empty():
+		inspection_text.text += "\n" + tr(strength).format({"pronoun": tr(Es2CombatMessages.pronoun(gender))})
 
 
 ## `text`: what looking at it shows now (the landmark policy's look()), as authored.
@@ -917,7 +927,49 @@ func _inspect_item(id: StringName) -> void:
 
 func _give_item(id: StringName, amount: int) -> void:
 	var map := _session.active_map() as WorldMapController
-	if map != null: map.give_to_selected(id, amount)
+	if map == null:
+		return
+	var warning: String = _give_warning(map, id, amount)
+	if warning.is_empty():
+		map.give_to_selected(id, amount)
+		return
+	var give: Callable = func() -> void:
+		map.give_to_selected(id, amount)
+	# 取消 goes back to the 背包 the question came from.
+	ask_first(warning, "确定送出", give, Callable(), open_inventory)
+
+
+## Owner (modern fixes II): giving away what the player has equipped, or a large sum
+## (GIVE_MONEY_ASK_AT 文 or more), is asked first; give.c asks nothing. An NPC that
+## takes bets or donations (the 宝官, the 功德箱's keeper) is not asked about money.
+const GIVE_MONEY_ASK_AT: int = 10000
+# TRANSLATORS: asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
+const GIVE_EQUIPPED_WARNING: String = "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
+# TRANSLATORS: asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
+const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
+
+
+func _give_warning(map: WorldMapController, id: StringName, amount: int) -> String:
+	var npc: NpcRuntimeState = map.selected_npc()
+	if npc == null:
+		return ""
+	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
+		if row.item_instance_id != id:
+			continue
+		var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
+		if content == null:
+			return ""
+		var npc_name: String = tr(npc.definition().display_name)
+		if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
+			return tr(GIVE_EQUIPPED_WARNING).format({"item": tr(content.display_name), "npc": npc_name})
+		var given: int = amount if amount > 0 else row.amount
+		var takes_money: bool = npc.definition().dealings().object_rules.any(
+			func(rule: NpcObjectRule) -> bool: return rule.effect in NpcObjectRule.EFFECTS
+		)
+		if content.currency_base_value > 0 and not takes_money and given * content.currency_base_value >= GIVE_MONEY_ASK_AT:
+			return tr(GIVE_MONEY_WARNING).format({"money": HeldItemFacts.counted(content, given), "npc": npc_name})
+		return ""
+	return ""
 
 
 func _drop_item(id: StringName, amount: int) -> void:
@@ -1061,8 +1113,9 @@ func _attack_context() -> void:
 	}), "确定攻击", map.attack_selected, attack_is_enabled)
 
 
-## 切磋; asked first when it will be fought to the death (accept_fight()'s kill_ob())
-## or with a weapon in hand on either side (its blows wound).
+## 切磋; asked first when it will be fought to the death (accept_fight()'s kill_ob()),
+## with a weapon in hand on either side (its blows wound), or against an NPC clearly
+## stronger than the player (one blow can knock them out; owner A10).
 func _spar_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
@@ -1071,7 +1124,12 @@ func _spar_context() -> void:
 	if risk == WorldMapController.SparRisk.NONE:
 		map.spar_selected()
 		return
-	var warning: String = DEADLY_SPAR_WARNING if risk == WorldMapController.SparRisk.DEADLY else ARMED_SPAR_WARNING
+	var warning: String = DEADLY_SPAR_WARNING
+	match risk:
+		WorldMapController.SparRisk.ARMED:
+			warning = ARMED_STRONGER_SPAR_WARNING if map.selected_spar_stronger() else ARMED_SPAR_WARNING
+		WorldMapController.SparRisk.STRONGER:
+			warning = STRONGER_SPAR_WARNING
 	ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, spar_is_enabled)
 
 

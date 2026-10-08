@@ -72,9 +72,14 @@ func _process(delta: float) -> void:
 	_last_phase = flow.phase
 	match flow.phase:
 		PlayerLifeFlow.Phase.UNCONSCIOUS:
-			var wake: String = tr("（约 %d 秒后醒来）") % ceili(flow.revive_remaining_seconds) if flow.revive_remaining_seconds > 0.0 else tr("（仍然昏迷不醒……）")
-			# TRANSLATORS: unconsciousness; {wake} says when the player comes to.
-			_show(tr("你的眼前一黑，接著什麽也不知道了....\n\n{wake}").format({"wake": wake}), false, true)
+			if flow.wakes_quickly() and flow.revive_remaining_seconds > 0.0:
+				# A quick wake (A9): the screen fades to black while the world lives the delay.
+				_show(tr("你的眼前一黑，接著什麽也不知道了...."), false, true)
+				_dim.color.a = lerpf(0.72, 1.0, flow.revive_progress())
+			else:
+				var wake: String = tr("（约 %d 秒后醒来）") % ceili(flow.revive_remaining_seconds) if flow.revive_remaining_seconds > 0.0 else tr("（仍然昏迷不醒……）")
+				# TRANSLATORS: unconsciousness; {wake} says when the player comes to.
+				_show(tr("你的眼前一黑，接著什麽也不知道了....\n\n{wake}").format({"wake": wake}), false, true)
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
 			_show(_death_text(flow), true, true)
 		_:

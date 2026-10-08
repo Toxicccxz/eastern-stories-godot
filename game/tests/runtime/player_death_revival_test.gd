@@ -179,6 +179,8 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 
 
 func _unconscious_without_killer_wakes_up(tree: SceneTree) -> void:
+	# ES2's pace (player_wake_seconds 0): the player waits damage.c's delay itself.
+	var previous: PacingDefinition = Es2Pacing.use()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -196,6 +198,16 @@ func _unconscious_without_killer_wakes_up(tree: SceneTree) -> void:
 	session._process(1.0)
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not flow.is_active(), "wakes up where they fell")
 	check(player.world_location().map_id == SnowWorldDefinitions.INN_MAP_ID, "no relocation on waking")
+	# The production pace (owner, modern fixes II, A9): three real seconds in the dark.
+	Es2Pacing.restore(previous)
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
+	session.on_player_lifecycle(receipt, false, player.world_location())
+	check(flow.wakes_quickly() and flow.revive_remaining_seconds >= 30.0, "a quick wake: the same delay in world time")
+	session._process(1.0)
+	session._process(1.0)
+	check(player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "two seconds: still out")
+	session._process(1.0)
+	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not flow.is_active(), "three seconds: awake")
 	session.free()
 	await tree.process_frame
 

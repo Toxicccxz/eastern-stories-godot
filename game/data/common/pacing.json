@@ -5,6 +5,7 @@
 		"player_exp_gain": 3,
 		"player_recovery_gain": 3,
 		"quest_time_percent": 150,
-		"npc_thirst": 10
+		"npc_thirst": 10,
+		"player_wake_seconds": 3
 	}
 }

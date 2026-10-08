@@ -148,6 +148,9 @@ func refresh() -> void:
 	bellicosity_text.text = tr("杀气 {bellicosity} · 定力 {cps}").format({
 		"bellicosity": state.attributes.bellicosity, "cps": state.attributes.composure,
 	})
+	# Native hint (owner, modern fixes II): what 冥思 and 修行 need before they grow anything.
+	meditate_button.tooltip_text = arts.cultivation_hint(SkillIds.SPELLS)
+	respirate_button.tooltip_text = arts.cultivation_hint(SkillIds.MAGIC)
 	enforce_amount.max_value = arts.enforce_limit()
 	# The amount follows the factor whenever the factor changes.
 	if state.attributes.force_factor != _shown_factor:

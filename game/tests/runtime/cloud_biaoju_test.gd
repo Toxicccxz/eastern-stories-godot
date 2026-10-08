@@ -287,7 +287,9 @@ func _test_in_the_biaoju(tree: SceneTree, session: WorldSessionController) -> vo
 	_check(result.success and school.last_lines[0] == "你向陈剑秋请教有关「基本刀法」的疑问。", "请教 基本刀法: " + str(school.last_lines))
 	var hud: SharedGameplayUI = session.shared_ui()
 	map.select_npc(header.character_id)
-	_check(map.inspect_selected() and hud.inspection_text.text.ends_with("他是你的师父。"), "目标详情: " + hud.inspection_text.text)
+	_check(map.inspect_selected() and hud.inspection_text.text.contains("
+他是你的师父。
+他看起来"), "目标详情: the relation, then how strong he looks: " + hud.inspection_text.text)
 	hud.dismiss_current_panel()
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.COIN, 30, &"test.coins") # TEST-ONLY

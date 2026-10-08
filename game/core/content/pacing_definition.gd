@@ -14,9 +14,14 @@ extends RefCounted
 ## - quest_time_percent: the time 朱鸿雪 (u/cloud/npc/god.c) gives for a task.
 ## - npc_thirst: the water an NPC uses up on one heal_up() tick (ES2: 1). Only a
 ##   drinking NPC cares (d/snow/npc/drunk.c drinks again once below 380 water).
+## - player_wake_seconds: how long an unconscious player's screen stays dark, in real
+##   seconds, while world time runs damage.c's whole revive delay (random(100 - con)
+##   + 30) that much faster (owner, modern fixes II, A9). 0 (ES2): the player waits
+##   the delay itself.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
+const ES2_WAKE_SECONDS: int = 0
 
 var _combat_round_ms: int
 var _room_reset_seconds: int
@@ -24,6 +29,7 @@ var _player_exp_gain: int
 var _player_recovery_gain: int
 var _quest_time_percent: int
 var _npc_thirst: int
+var _player_wake_seconds: int
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -49,6 +55,10 @@ var quest_time_percent: int:
 var npc_thirst: int:
 	get:
 		return _npc_thirst
+## Real seconds an unconscious player lies in the dark (0: the whole revive delay).
+var player_wake_seconds: int:
+	get:
+		return _player_wake_seconds
 
 
 func _init(
@@ -58,6 +68,7 @@ func _init(
 	p_player_recovery_gain: int = ES2_GAIN,
 	p_quest_time_percent: int = ES2_QUEST_TIME_PERCENT,
 	p_npc_thirst: int = ES2_GAIN,
+	p_player_wake_seconds: int = ES2_WAKE_SECONDS,
 ) -> void:
 	_combat_round_ms = p_combat_round_ms
 	_room_reset_seconds = p_room_reset_seconds
@@ -65,6 +76,7 @@ func _init(
 	_player_recovery_gain = p_player_recovery_gain
 	_quest_time_percent = p_quest_time_percent
 	_npc_thirst = p_npc_thirst
+	_player_wake_seconds = p_player_wake_seconds
 
 
 static func from_record(reader: ContentRecordReader) -> PacingDefinition:
@@ -75,6 +87,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("player_recovery_gain", ES2_GAIN),
 		reader.integer("quest_time_percent", ES2_QUEST_TIME_PERCENT),
 		reader.integer("npc_thirst", ES2_GAIN),
+		reader.integer("player_wake_seconds", ES2_WAKE_SECONDS),
 	)
 	reader.finish()
 	if definition._combat_round_ms <= 0:
@@ -89,4 +102,6 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("quest_time_percent", "must be at least 1")
 	if definition._npc_thirst < 1:
 		reader.fail("npc_thirst", "must be at least 1")
+	if definition._player_wake_seconds < 0:
+		reader.fail("player_wake_seconds", "must not be negative")
 	return definition

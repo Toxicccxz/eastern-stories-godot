@@ -19,6 +19,8 @@ const DEATH_MESSAGES: Array[String] = [
 
 var _phase: Phase = Phase.NONE
 var _revive_remaining: float = 0.0
+var _revive_total: float = 0.0
+var _world_scale: float = 1.0
 var _stage_elapsed: float = 0.0
 var _messages_shown: int = 0
 var _death_result: PlayerDeathResult
@@ -43,9 +45,30 @@ func is_active() -> bool:
 	return _phase != Phase.NONE
 
 
-func begin_unconscious(delay_seconds: int) -> void:
+## `delay_seconds` is damage.c's call_out("revive"), in world seconds. With
+## `wake_seconds` > 0 (pacing knob player_wake_seconds) the player lies that long in
+## real time while world time runs the whole delay (owner, A9).
+func begin_unconscious(delay_seconds: int, wake_seconds: float = 0.0) -> void:
 	_phase = Phase.UNCONSCIOUS
 	_revive_remaining = float(delay_seconds)
+	_revive_total = float(delay_seconds)
+	_world_scale = maxf(1.0, float(delay_seconds) / wake_seconds) if wake_seconds > 0.0 else 1.0
+
+
+## World seconds per real second now: above 1 only while the player lies unconscious
+## with a quick wake.
+func world_time_scale() -> float:
+	return _world_scale if _phase == Phase.UNCONSCIOUS else 1.0
+
+
+## The player lies in the dark for a few seconds, not the delay itself.
+func wakes_quickly() -> bool:
+	return _phase == Phase.UNCONSCIOUS and _world_scale > 1.0
+
+
+## How much of the revive delay has passed, 0 to 1.
+func revive_progress() -> float:
+	return 1.0 if _revive_total <= 0.0 else clampf(1.0 - _revive_remaining / _revive_total, 0.0, 1.0)
 
 
 ## A death replaces a pending revive, as die() calls revive(1) first.
@@ -92,6 +115,8 @@ func retry_reincarnation() -> void:
 func finish() -> void:
 	_phase = Phase.NONE
 	_revive_remaining = 0.0
+	_revive_total = 0.0
+	_world_scale = 1.0
 	_stage_elapsed = 0.0
 
 
