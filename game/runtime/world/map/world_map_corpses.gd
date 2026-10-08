@@ -71,7 +71,7 @@ func _npc_dissolves_corpse(npc: NpcRuntimeState) -> void:
 	var corpse: CorpseState = _newest_corpse_in(npc.world_location())
 	if dust.is_empty() or corpse == null:
 		return
-	var heard: bool = _map._player_hears(npc)
+	var heard: bool = _map.npc_life.player_hears(npc)
 	var victim_name: String = corpse.victim_display_name
 	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
 	if not _dissolve_corpse(corpse, dust, owner):

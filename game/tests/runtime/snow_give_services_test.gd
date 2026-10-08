@@ -201,10 +201,10 @@ func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 		if session.liquid_collection().state(id) != null:
 			skin = id
 	session.liquid_collection().state(skin).remaining = 1
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().slice(-2) == ["醉汉拿起牛皮酒袋咕噜噜地喝了几口红酒。", "醉汉丢下一个牛皮酒袋。"], "the last sip, then drop wineskin: " + str(hud.log_lines().slice(-2)))
 	_check(drunk.character_state.recovery.water == 30 and map.dropped_item_ids().has(skin) and session.inventory_state().direct_parent(skin).kind == ContainmentEndpoint.Kind.WORLD, "liquid.c water+30; the empty skin lies where he stands")
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().back() == "醉汉说道：酒..... 给我酒...." and not drunk.has_flag(&"has_alcohol"), "no alcohol: has_alcohol = 0, and he asks")
 	# A full wineskin from the player: accepted and moved to him (only money has a
 	# value(), std/money.c); he drinks from it next.
@@ -215,11 +215,11 @@ func _test_drunk(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	map.select_npc(drunk.character_id)
 	var given: ItemHandlingResult = map.give_to_selected(bought.item_id)
 	_check(not given.destroyed and given.lines == ["醉汉说道：多谢啦.....", "你给醉汉一个牛皮酒袋。"] and drunk.has_flag(&"has_alcohol") and session.inventory_state().is_direct_child(bought.item_id, holder), "give wineskin to drunk: " + str(given.lines))
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().back() == "醉汉拿起牛皮酒袋咕噜噜地喝了几口红酒。" and session.liquid_collection().state(bought.item_id).remaining == 14, "he drinks the gift")
 	drunk.character_state.recovery.water = 380
 	var lines: int = hud.log_lines().size()
-	map._act(drunk, action)
+	map.npc_life._act(drunk, action)
 	_check(hud.log_lines().size() == lines, "sated at 380: he only sings, which prints nothing")
 	drunk.character_state.recovery.water = 0
 	await tree.process_frame

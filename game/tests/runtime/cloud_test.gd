@@ -354,20 +354,20 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	var silver: StringName = _carried(session, &"es2:obj/money/silver")
 	var amount: int = session.stack_collection().stack_state(silver).amount
 	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([0, 0])) # TEST-ONLY
-	map._advance_ambience(0.0)
-	map._ambience.cancel_call(thief.character_id)
-	map._pending_steals.erase(thief.character_id)
-	map._consider_stealing(thief)
-	_check(map._ambience.has_call(thief.character_id), "random(kar) 0 < 2: steal_it in a second")
-	map._ambience.cancel_call(thief.character_id)
-	map._steal_step(thief)
-	_check(map._pending_steals.has(thief.character_id) and map._pending_steals[thief.character_id]["item"] == silver, "steal.c picks present(\"silver\")")
-	map._ambience.cancel_call(thief.character_id)
+	map.npc_life._advance_ambience(0.0)
+	map.npc_life.ambience.cancel_call(thief.character_id)
+	map.npc_life.pending_steals.erase(thief.character_id)
+	map.npc_life._consider_stealing(thief)
+	_check(map.npc_life.ambience.has_call(thief.character_id), "random(kar) 0 < 2: steal_it in a second")
+	map.npc_life.ambience.cancel_call(thief.character_id)
+	map.npc_life._steal_step(thief)
+	_check(map.npc_life.pending_steals.has(thief.character_id) and map.npc_life.pending_steals[thief.character_id]["item"] == silver, "steal.c picks present(\"silver\")")
+	map.npc_life.ambience.cancel_call(thief.character_id)
 	var random := ScriptedWorldInteractionRandomSource.new([999999, 0, 0]) # TEST-ONLY: random(sp+dp) > dp
 	session.configure_npc_ambience_random_source(random)
-	map._advance_ambience(0.0)
+	map.npc_life._advance_ambience(0.0)
 	var lines: int = session.shared_ui().log_lines().size()
-	map._steal_step(thief)
+	map.npc_life._steal_step(thief)
 	_check(not _carried_ids(session).has(silver) and session.stack_collection().stack_state(silver) != null, "taken: the player's %d silver is gone" % amount)
 	_check(random.call_count() == 3 and session.inventory_state().is_direct_child(silver, ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, thief.character_id)), "the thief has it")
 	_check(session.shared_ui().log_lines().slice(lines) == ["你忽然觉得身上一轻，银子不见了！"], "the player notices what is gone, not who took it (modern fixes; ES2 says nothing): " + str(session.shared_ui().log_lines().slice(lines)))
@@ -375,11 +375,11 @@ func _test_thief(tree: SceneTree, session: OldPineWorldSessionController) -> voi
 	var more: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(more, CurrencyDenomination.Value.SILVER, 3, &"test.cloud.silver3") # TEST-ONLY
 	var kept: StringName = _carried(session, &"es2:obj/money/silver")
-	map._pending_steals[thief.character_id] = {"item": kept, "sp": 1, "dp": 0}
+	map.npc_life.pending_steals[thief.character_id] = {"item": kept, "sp": 1, "dp": 0}
 	thief.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY
 	session.configure_npc_ambience_random_source(ScriptedWorldInteractionRandomSource.new([999999, 0, 0]))
-	map._advance_ambience(0.0)
-	map._steal_step(thief)
+	map.npc_life._advance_ambience(0.0)
+	map.npc_life._steal_step(thief)
 	_check(_carried_ids(session).has(kept), "a dead thief finishes no theft")
 	thief.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders

@@ -20,6 +20,7 @@ var corpses: WorldMapCorpses = WorldMapCorpses.new(self)
 var floor_items: WorldMapFloorItems = WorldMapFloorItems.new(self)
 var selection: WorldMapSelection = WorldMapSelection.new(self)
 var npcs: WorldMapNpcs = WorldMapNpcs.new(self)
+var npc_life: WorldMapNpcLife = WorldMapNpcLife.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -59,15 +60,6 @@ var _weapon_resolver: WorldWeaponContentResolver = WorldWeaponContentResolver.ne
 var _last_player_content_resolution: WorldWeaponContentResolution
 var _last_lifecycle_results: Array[CombatSliceLifecycleResult] = []
 var _lifecycle_failed: bool = false
-var _npc_heartbeat: NpcHeartbeat
-var _ambience: NpcAmbience
-## steal.c between main() and compelete_steal(): {item, sp, dp} by thief.
-var _pending_steals: Dictionary[StringName, Dictionary] = {}
-## query("thief") of each thief: how often it was caught (not saved, as NPCs are made anew).
-var _times_caught: Dictionary[StringName, int] = {}
-var _walker: WorldNpcWalker
-## The player's place as the NPCs' init() last saw it; another one is an arrival.
-var _arrival_zone_id: StringName = &""
 var _last_landmark_use: RefCounted
 var _last_passage_traversal: RefCounted
 
@@ -339,9 +331,9 @@ func prepare_for_deactivation() -> void:
 	player_body.velocity = Vector2.ZERO
 	(player_body.get_node("Camera2D") as Camera2D).enabled = false
 	# Nobody watches a map the player left: its NPCs stand where they were going.
-	if _walker != null:
-		_walker.finish_all()
-	_arrival_zone_id = &""
+	if npc_life.walker != null:
+		npc_life.walker.finish_all()
+	npc_life.arrival_zone_id = &""
 	_present_zones.clear()
 	_zone_check_pending = false
 	clear_passage_contacts()
@@ -478,8 +470,8 @@ func freeze_world_gameplay(id: StringName) -> bool:
 	_freeze_owner = id
 	# A fight or a transition takes NPCs where their move was going (their place
 	# already is), so a body never dies or is saved between two zones.
-	if _walker != null:
-		_walker.finish_all()
+	if npc_life.walker != null:
+		npc_life.walker.finish_all()
 	_aggression.clear_all()
 	_pending_player_berserk = &""
 	selection.selected_target = null
@@ -793,7 +785,7 @@ func _player_init(others: Array[NpcRuntimeState]) -> void:
 	var chosen: NpcRuntimeState = null
 	for npc: NpcRuntimeState in others:
 		if (
-			not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc)
+			not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not npc_life.player_shares_zone(npc)
 			or npc.definition().dealings().is_fight_deferred() or PlayerKillerReward.is_own_master(_player.state, npc.definition())
 		):
 			continue
@@ -810,7 +802,7 @@ func run_pending_player_berserk() -> void:
 	_pending_player_berserk = &""
 	if (
 		npc == null or not gameplay_open() or session == null or _player == null or not npc.exists_in_map
-		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc)
+		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not npc_life.player_shares_zone(npc)
 		or _player.relationship.is_fighting() or session.combat_encounter_coordinator().has_active_encounter()
 	):
 		return
@@ -1252,7 +1244,7 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var location: WorldLocationState = _location_for_character(victim.character_id)
 	# killed_enemy() speaks before the dying player's ghost is moved away (damage.c die()).
 	var killer_npc: NpcRuntimeState = null if killer == null else npcs.find_resident_npc(killer.character_id)
-	var killer_heard: bool = killer_npc != null and (_player_hears(killer_npc) or (is_player and _player_shares_zone(killer_npc)))
+	var killer_heard: bool = killer_npc != null and (npc_life.player_hears(killer_npc) or (is_player and npc_life.player_shares_zone(killer_npc)))
 	var victim_npc: NpcRuntimeState = null if is_player else npcs.find_resident_npc(victim.character_id)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
@@ -1275,33 +1267,6 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	return receipt
 
 
-## One step of NPC heart_beat time (NpcHeartbeat); the session decides when it flows.
-func advance_npc_heartbeat(delta: float) -> void:
-	if not _initialized or session == null:
-		return
-	if _npc_heartbeat == null:
-		_npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
-	_fall_below_zero()
-	corpses.advance_pending_dissolves(delta)
-	for npc: NpcRuntimeState in _npc_heartbeat.advance(delta, npcs.npc_runtimes()):
-		var body: WorldCharacterBody2D = npcs.runtime_body_for_character(npc.character_id)
-		if body != null:
-			body.refresh_runtime_state()
-		# combatd.c announce("revive"), heard in the same room.
-		if _player_hears(npc):
-			hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
-	# What the NPCs' conditions show their room (drunk.c, slumber_drug.c).
-	for character_id: StringName in _npc_heartbeat.room_lines:
-		var seen: NpcRuntimeState = npcs.find_resident_npc(character_id)
-		if seen == null or not _player_hears(seen):
-			continue
-		var lines: Array[String] = []
-		for template: String in _npc_heartbeat.room_lines[character_id]:
-			lines.append(tr(template).format({"name": tr(seen.definition().display_name)}))
-		hud().append_log_lines(lines)
-	_advance_ambience(delta)
-
-
 ## std/char.c heart_beat(): an NPC whose gin, kee or sen went below zero outside a
 ## fight (安惜迩's powerfade costs 100 sen) falls unconscious, or dies below zero
 ## effective, on its next beat. In a fight the encounter does it.
@@ -1318,7 +1283,7 @@ func _fall_below_zero() -> void:
 			continue
 		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, [binding])
 		# combatd.c announce("unconcious"), heard in the same room (a drunk passing out).
-		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and _player_hears(npc):
+		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and npc_life.player_hears(npc):
 			hud().append_log_lines([tr("%s脚下一个不稳，跌在地上一动也不动了。") % tr(npc.definition().display_name)])
 
 
@@ -1355,327 +1320,6 @@ func _player_killer_reward(victim: NpcRuntimeState) -> void:
 		_player.take_title(PlayerKillerReward.REBEL_TITLE)
 	if not result.lines.is_empty() and hud() != null:
 		hud().append_after_fight(result.lines)
-
-
-## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
-func _advance_ambience(delta: float) -> void:
-	if _ambience == null:
-		_ambience = NpcAmbience.new(session.npc_ambience_random_source())
-	_ambience.set_random(session.npc_ambience_random_source())
-	_note_bellicosity()
-	run_pending_player_berserk()
-	# A fight began: the world stands still from here.
-	if not gameplay_open():
-		return
-	_note_player_arrival()
-	for character_id: StringName in _ambience.due_greetings(delta):
-		_greet(npcs.find_resident_npc(character_id))
-	for character_id: StringName in _ambience.due_calls(delta):
-		_steal_step(npcs.find_resident_npc(character_id))
-	for beat: int in _ambience.due_beats(delta):
-		if beat > 0:
-			# char.c heart_beat() falls before it chats, on each of several beats too.
-			_fall_below_zero()
-		for npc: NpcRuntimeState in npcs.residents.duplicate():
-			if _chats(npc):
-				_act(npc, _ambience.chat(npc.definition().talk()))
-	npc_walker().advance(delta)
-
-
-func npc_walker() -> WorldNpcWalker:
-	if _walker == null:
-		_walker = WorldNpcWalker.new(self)
-	return _walker
-
-
-## Owner (水烟阁 C): the first time the player's bellicosity can boil over (a kill, a
-## powerup, whatever raised it), they are told once (Berserk.WARNING).
-func _note_bellicosity() -> void:
-	if _player != null and Berserk.take_warning(_player.state):
-		hud().append_log_lines([tr(Berserk.WARNING)], true)
-
-
-## The NPCs' init() when the player comes into a place: a greeting call_out.
-func _note_player_arrival() -> void:
-	var zone_id: StringName = &"" if _player == null or not _player.exists_in_world else _player.world_location().zone_id
-	if zone_id == _arrival_zone_id:
-		return
-	_arrival_zone_id = zone_id
-	for npc: NpcRuntimeState in npcs.residents:
-		if (
-			npc.world_location().zone_id == zone_id and npc.exists_in_map
-			and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-			and not npc.relationship.is_fighting()
-			and npc.definition().talk().has_greeting()
-		):
-			_ambience.start_greeting(npc.character_id)
-	var here: Array[NpcRuntimeState] = []
-	for npc: NpcRuntimeState in npcs.residents:
-		if npc.world_location().zone_id == zone_id:
-			_consider_stealing(npc)
-			here.append(npc)
-	_player_init(here)
-
-
-## keeper.c and waiter.c greeting(): said only if the player is still there; the
-## waiter picks one of its lines then (switch(random(3))); a draw past the lines
-## (switch(random(4)) with fewer cases) says nothing.
-func _greet(npc: NpcRuntimeState) -> void:
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_hears(npc):
-		return
-	var choices: Array[NpcLine] = npc.definition().talk().greeting_choices()
-	if choices.is_empty():
-		return
-	var draws: int = npc.definition().talk().greeting_draws()
-	var drawn: int = 0 if draws == 1 else _ambience.random().legacy_random(draws)
-	if drawn >= choices.size():
-		return
-	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-	hud().append_log_lines([choices[clampi(drawn, 0, choices.size() - 1)].sentence(npc.definition().display_name, respect)])
-
-
-## interactive(ob) in the NPC's room: an unconscious player still counts.
-func _player_shares_zone(npc: NpcRuntimeState) -> bool:
-	return (
-		_player != null and _player.exists_in_world
-		and npc.world_location().map_id == _player.world_location().map_id
-		and npc.world_location().zone_id == _player.world_location().zone_id
-	)
-
-
-## What the player reads of an NPC: only in its place, and not while unconscious
-## (damage.c unconcious() sets block_msg/all).
-func _player_hears(npc: NpcRuntimeState) -> bool:
-	return _player_shares_zone(npc) and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-
-
-## init() of an NPC that comes into the player's place (make_inventory(), move()).
-func _npc_arrived(npc: NpcRuntimeState) -> void:
-	if (
-		_ambience != null and _player_shares_zone(npc)
-		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and npc.definition().talk().has_greeting()
-	):
-		_ambience.start_greeting(npc.character_id)
-	if _ambience != null and _player_shares_zone(npc):
-		_consider_stealing(npc)
-		_player_init([npc])
-
-
-## thief.c init(): a player coming into its place (or it into theirs) is robbed one
-## second later when random(kar) < chance_below; a fighting thief always tries.
-func _consider_stealing(npc: NpcRuntimeState) -> void:
-	var steal: NpcSteal = npc.definition().dealings().steal
-	if (
-		steal == null or _ambience == null or _ambience.has_call(npc.character_id) or _pending_steals.has(npc.character_id)
-		or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
-	):
-		return
-	if npc.relationship.is_fighting() or steal.starts(_player.state.attributes.karma, _ambience.random()):
-		_ambience.start_call(npc.character_id, NpcSteal.START_DELAY_SECONDS)
-
-
-## steal_it() and steal.c main() one second on; compelete_steal() three seconds after.
-func _steal_step(npc: NpcRuntimeState) -> void:
-	if npc == null:
-		return
-	var pending: Dictionary = _pending_steals.get(npc.character_id, {})
-	_pending_steals.erase(npc.character_id)
-	if pending.is_empty():
-		_start_stealing(npc)
-	else:
-		_complete_stealing(npc, pending)
-
-
-## steal_it(): only if the player is still there; steal.c main() picks present(what)
-## or a random thing the player carries and fixes the odds.
-func _start_stealing(npc: NpcRuntimeState) -> void:
-	if not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _player_shares_zone(npc):
-		return
-	if GameContent.catalog().zone_forbids_fighting(npc.world_location().zone_id):
-		return
-	var steal: NpcSteal = npc.definition().dealings().steal
-	var item_id: StringName = _player_item_with_alias(steal.what)
-	if item_id.is_empty():
-		var carried: Array[StringName] = _player_carried_item_ids()
-		if carried.is_empty():
-			return
-		item_id = carried[_ambience.random().legacy_random(carried.size())]
-	var thief_fighting: bool = npc.relationship.is_fighting()
-	var sp: int = NpcSteal.thief_odds(
-		npc.character_state.skills.effective_level(&"stealing"), npc.character_state.attributes.karma,
-		_times_caught.get(npc.character_id, 0), thief_fighting,
-	)
-	if thief_fighting:
-		npc.busy.start_busy(3)
-	var dp: int = NpcSteal.victim_odds(
-		_player.state.spirit.current, _inventory.subtree_weight(item_id), _player.relationship.is_fighting(),
-		_player.state.equipment.has_weapon_instance(item_id) or _player.armor.is_worn(item_id),
-	)
-	_pending_steals[npc.character_id] = {"item": item_id, "sp": sp, "dp": dp}
-	_ambience.start_call(npc.character_id, NpcSteal.COMPLETE_DELAY_SECONDS)
-
-
-## compelete_steal(): the player must still be there; caught, the two fight (fight_ob).
-## Taken, ES2 tells the player nothing; deviation (owner, modern fixes): the player
-## reads what is gone, not who took it (one knocked out reads it on waking).
-func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
-	# A thief killed meanwhile is gone (destructed: no `me` to move anything to).
-	if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not _player_shares_zone(npc):
-		return
-	var item_id: StringName = pending["item"]
-	if not _player_carried_item_ids().has(item_id):
-		return
-	var conscious: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-	var outcome: NpcSteal.Outcome = NpcSteal.resolve(pending["sp"], pending["dp"], conscious, _ambience.random())
-	match outcome:
-		NpcSteal.Outcome.TAKEN:
-			# ob->move(me); a thing too heavy for the thief stays (its own notice only)
-			# and steal.c returns before its last two draws.
-			var item_name: String = tr(_item_content(item_id).display_name)
-			if not ItemHandlingService.hand_over(npc, item_id, floor_items.item_authorities()):
-				return
-			NpcSteal.after_taken(pending["sp"], conscious, npc.character_state.attributes.intelligence, _ambience.random())
-			# TRANSLATORS: a thief took {item} from the player unseen; the player notices it is gone.
-			var noticed: String = tr("你忽然觉得身上一轻，{item}不见了！")
-			if not conscious:
-				# TRANSLATORS: a thief took {item} from the player lying unconscious; read on waking.
-				noticed = tr("你昏迷不醒的时候，身上的{item}被人拿走了！")
-			hud().append_log_lines([noticed.format({"item": item_name})], true)
-			if hud().inventory_is_open():
-				hud().show_inventory(session.player_inventory_rows())
-		NpcSteal.Outcome.CAUGHT:
-			var lines: Array[String] = [
-				tr("你一回头，正好发现{npc}的手正抓著你身上的{item}！").format({
-					"npc": tr(npc.definition().display_name), "item": tr(_item_content(item_id).display_name),
-				}),
-				tr("你喝道：「干什麽！」"),
-			]
-			_times_caught[npc.character_id] = _times_caught.get(npc.character_id, 0) + 1
-			var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
-				CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),
-				CombatSliceProjectionBuilder.find_binding(participants, npc.character_id),
-				CombatTriggerCause.Value.PLAYER_SPAR,
-			)
-			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-				npc.busy.start_busy(5)
-				_announce_fight(lines)
-			else:
-				hud().append_log_lines(lines)
-
-
-## The player's own things (all_inventory(me)), in inventory order.
-func _player_carried_item_ids() -> Array[StringName]:
-	return _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id))
-
-
-## present(alias, me): the first of the player's own things answering to `alias`.
-func _player_item_with_alias(alias: StringName) -> StringName:
-	for item_id: StringName in _player_carried_item_ids():
-		var content: ItemContentDefinition = _item_content(item_id)
-		if content != null and content.aliases().has(String(alias)):
-			return item_id
-	return &""
-
-
-func _item_content(item_id: StringName) -> ItemContentDefinition:
-	var item: ItemInstance = _item_index.resolve(item_id)
-	return null if item == null else GameContent.catalog().item(item.item_definition_id)
-
-
-## char.c heart_beat() reaches chat() for a conscious NPC that is neither busy nor
-## fighting, and beats while the player is in its place. A walking NPC is still
-## making its last move. Deviation: an unconscious NPC says nothing (DECISIONS 4D).
-## The player need not be conscious; only what they read is (`_player_hears`).
-func _chats(npc: NpcRuntimeState) -> bool:
-	return (
-		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
-		and npc.definition().talk().has_chat() and _player_shares_zone(npc)
-		and not npc_walker().is_walking(npc.character_id)
-	)
-
-
-func _act(npc: NpcRuntimeState, entry: Variant) -> void:
-	if entry is String:
-		if _player_hears(npc):
-			hud().append_log_lines([NpcTalk.line(entry)])
-	elif entry is ColoredLine:
-		if _player_hears(npc):
-			hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
-	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
-		random_move(npc)
-	elif entry is NpcDrinkAction:
-		_drink(npc, entry)
-	elif entry is NpcSpecialAction:
-		_special(npc, entry)
-
-
-## npc.c's chat functions outside a fight (安惜迩's exert powerfade): with no enemy
-## a perform or a spell refuses; an exert runs. The player in the NPC's place sees
-## what it shows.
-func _special(npc: NpcRuntimeState, action: NpcSpecialAction) -> void:
-	var content: CombatSliceContentProfile = npcs.npc_content(npc)
-	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
-	if binding == null:
-		return
-	var context := SpecialContext.new(
-		CombatNpcChat.side_of(binding, npc), [], _ambience.random().legacy_random, GameContent.catalog(), null,
-	)
-	if not NpcSpecials.run(action, context) or not _player_hears(npc):
-		return
-	var lines: Array[ColoredLine] = []
-	for line: VisionLine in context.lines:
-		# Out of a fight only exert lines show: $N is the NPC.
-		lines.append(ColoredLine.new(tr(line.template).strip_edges().replace("$N", tr(npc.definition().display_name)), line.color))
-	hud().append_colored_lines(lines)
-
-
-## drunk.c do_drink(): it drinks, drops the emptied container where it stands,
-## or asks for more.
-func _drink(npc: NpcRuntimeState, action: NpcDrinkAction) -> void:
-	var location: WorldLocationState = npc.world_location()
-	var drank: NpcDrinkService.Result = NpcDrinkService.drink(npc, action, WorldMapFloorItems.floor_endpoint(location), _inventory, _item_index, _liquids)
-	if drank.outcome == NpcDrinkService.Outcome.AUTHORITY_FAILURE:
-		push_error("%s could not drink: its carried liquid is inconsistent" % npc.character_id)
-		return
-	if not drank.dropped_item_id.is_empty():
-		var body: WorldCharacterBody2D = npcs.runtime_body_for_character(npc.character_id)
-		floor_items.add_dropped_item_view(drank.dropped_item_id, location, floor_items.at_feet(location, Vector2.ZERO if body == null else body.global_position))
-	if _player_hears(npc):
-		hud().append_log_lines(drank.lines)
-
-
-## npc.c random_move() through go.c, within the NPC's range (NpcRandomMove). The
-## body walks; its place changes now. False when nothing moved.
-func random_move(npc: NpcRuntimeState) -> bool:
-	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	var from_zone_id: StringName = npc.world_location().zone_id
-	if spawn == null or _ambience == null:
-		return false
-	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, _ambience.random(), _door_closed_between)
-	if move == null:
-		return false
-	var seen: bool = _player_hears(npc)
-	if not npc_walker().walk_into(npc.character_id, npcs.runtime_body_for_character(npc.character_id), physical_zone(from_zone_id), physical_zone(move.to_zone_id), _ambience.random()):
-		return false
-	npc.set_world_location(location_for_zone(move.to_zone_id))
-	if seen:
-		hud().append_log_lines([move.leave_line(npc.definition().display_name)])
-	# The player's init() for one who walks in.
-	if _player_shares_zone(npc):
-		_player_init([npc])
-	return true
-
-
-## room.c valid_leave(): a closed door between the two zones stops the move.
-func _door_closed_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
-	for door: WorldDoor in doors():
-		var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
-		if definition != null and definition.zone_ids().has(from_zone_id) and definition.zone_ids().has(to_zone_id) and not door.is_open():
-			return true
-	return false
 
 
 func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], killer: CombatSliceCharacterBinding) -> CombatSliceLifecycleResult:
@@ -2297,3 +1941,18 @@ func dismiss_summoned() -> void:
 
 func return_home(npc: NpcRuntimeState) -> bool:
 	return npcs.return_home(npc)
+
+
+# --- forwarded to WorldMapNpcLife (npc_life) ---
+
+
+func advance_npc_heartbeat(delta: float) -> void:
+	npc_life.advance_npc_heartbeat(delta)
+
+
+func npc_walker() -> WorldNpcWalker:
+	return npc_life.npc_walker()
+
+
+func random_move(npc: NpcRuntimeState) -> bool:
+	return npc_life.random_move(npc)

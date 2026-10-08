@@ -305,7 +305,7 @@ func idle_npc_beside(character_id: StringName, definition_id: StringName) -> Npc
 ## Where a save puts an NPC: its body, or the end of the walk it is on.
 func npc_rest_position(character_id: StringName) -> Vector2:
 	var body: WorldCharacterBody2D = runtime_body_for_character(character_id)
-	return Vector2.INF if body == null else _map.npc_walker().rest_position(character_id, body)
+	return Vector2.INF if body == null else _map.npc_life.npc_walker().rest_position(character_id, body)
 
 
 func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:
@@ -409,7 +409,7 @@ func summon_one(spawn_id: StringName) -> NpcRuntimeState:
 			npc.set_world_location(_map.location_for_zone(spawn.zone_id))
 			npc.set_exists_in_map(true)
 			body.refresh_runtime_state()
-			_map._npc_arrived(npc)
+			_map.npc_life.npc_arrived(npc)
 			return npc
 	return null
 
@@ -438,7 +438,7 @@ func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
 			npc.set_world_location(_map.location_for_zone(spawn.zone_id))
 			npc.set_exists_in_map(true)
 			body.refresh_runtime_state()
-			_map._npc_arrived(npc)
+			_map.npc_life.npc_arrived(npc)
 			came.append(npc)
 	return came
 
@@ -477,7 +477,7 @@ func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 	_drop_npc(dead)
 	if not _add_npc_body(fresh, marker.global_position, at):
 		return false
-	_map._npc_arrived(fresh)
+	_map.npc_life.npc_arrived(fresh)
 	return true
 
 
@@ -545,7 +545,7 @@ func dismiss_summoned() -> void:
 			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()
-			if summoning != null and _map._player_hears(npc) and session != null and not departing:
+			if summoning != null and _map.npc_life.player_hears(npc) and session != null and not departing:
 				var lines: Array[ColoredLine] = []
 				for text: String in summoning.leave:
 					lines.append(ColoredLine.new(tr(text).replace("$N", tr(npc.definition().display_name)), summoning.color))
@@ -584,14 +584,14 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 	map_characters.remove_character(character_id)
 	_map._aggression.clear_npc(character_id)
 	_unbind_npc_services(character_id)
-	if _map._ambience != null:
-		_map._ambience.cancel_greeting(character_id)
-		_map._ambience.cancel_call(character_id)
-	_map._pending_steals.erase(character_id)
-	if _map._walker != null:
-		_map._walker.cancel(character_id)
-	if _map._npc_heartbeat != null:
-		_map._npc_heartbeat.forget(character_id)
+	if _map.npc_life.ambience != null:
+		_map.npc_life.ambience.cancel_greeting(character_id)
+		_map.npc_life.ambience.cancel_call(character_id)
+	_map.npc_life.pending_steals.erase(character_id)
+	if _map.npc_life.walker != null:
+		_map.npc_life.walker.cancel(character_id)
+	if _map.npc_life.npc_heartbeat != null:
+		_map.npc_life.npc_heartbeat.forget(character_id)
 	if _map.selection.selected_character_id() == character_id:
 		_map.selection.selected_target = null
 		if _map.hud() != null:
@@ -613,17 +613,17 @@ func return_home(npc: NpcRuntimeState) -> bool:
 		or zone == null or catalog.room(zone.room_ids()[0]).exits().is_empty()
 	):
 		return false
-	var seen: bool = _map._player_hears(npc)
+	var seen: bool = _map.npc_life.player_hears(npc)
 	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
 	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
 	if body == null or marker == null:
 		return false
-	_map.npc_walker().cancel(npc.character_id)
+	_map.npc_life.npc_walker().cancel(npc.character_id)
 	var watched: bool = session != null and session.active_map() == _map
-	if not watched or not _map.npc_walker().walk_to(npc.character_id, body, _map.physical_zone(from_zone_id), _map.physical_zone(spawn.zone_id), marker.global_position):
+	if not watched or not _map.npc_life.npc_walker().walk_to(npc.character_id, body, _map.physical_zone(from_zone_id), _map.physical_zone(spawn.zone_id), marker.global_position):
 		body.global_position = marker.global_position
 	npc.set_world_location(_map.location_for_zone(spawn.zone_id))
 	if seen:
 		_map.hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
-	_map._npc_arrived(npc)
+	_map.npc_life.npc_arrived(npc)
 	return true

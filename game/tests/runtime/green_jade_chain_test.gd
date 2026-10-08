@@ -231,7 +231,7 @@ func _test_drunk_drugged(tree: SceneTree, session: OldPineWorldSessionController
 	var action: NpcDrinkAction = drunk.definition().talk().chat_entries()[0]
 	# drunk.c: an empty wineskin he comes to first is dropped (drop.c), then the 陶壶.
 	for beat: int in range(6):
-		map._act(drunk, action)
+		map.npc_life._act(drunk, action)
 		if hud.log_lines().back() == "醉汉拿起陶壶咕噜噜地喝了几口米酒。":
 			break
 	_check(hud.log_lines().back() == "醉汉拿起陶壶咕噜噜地喝了几口米酒。", "he drinks the 米酒: " + hud.log_lines().back())

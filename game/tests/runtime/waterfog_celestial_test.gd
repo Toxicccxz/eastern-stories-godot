@@ -239,7 +239,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	_session.configure_world_interaction_random_source(source)
 	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "into the 武馆")
 	await tree.physics_frame
-	_map._note_player_arrival()
+	_map.npc_life._note_player_arrival()
 	_map.run_pending_player_berserk()
 	var bounds: Array[int] = source.requested_bounds()
 	_check(bounds.slice(0, here.size()) == _repeat(50, here.size()), "random(2000 / 40) for each one here: %s" % [bounds])
@@ -252,11 +252,11 @@ func _test_berserk(tree: SceneTree) -> void:
 	_end_fight()
 	# Not above score: a spar the NPC is not asked about.
 	_state.progression.score = 5000 # TEST-ONLY
-	_map._arrival_zone_id = &""
+	_map.npc_life.arrival_zone_id = &""
 	source = ScriptedWorldInteractionRandomSource.new([49, 0])
 	_session.configure_world_interaction_random_source(source)
 	_heal()
-	_map._note_player_arrival()
+	_map.npc_life._note_player_arrival()
 	_map.run_pending_player_berserk()
 	encounter = _session.combat_encounter_coordinator().active_encounter()
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.SPAR, "bellicosity 2000 not above score 5000: a spar")
@@ -264,10 +264,10 @@ func _test_berserk(tree: SceneTree) -> void:
 	_end_fight()
 	# Force above (random(b) + b) / 2: only the stare.
 	_state.recovery.inner_force.current = 2000 # TEST-ONLY
-	_map._arrival_zone_id = &""
+	_map.npc_life.arrival_zone_id = &""
 	source = ScriptedWorldInteractionRandomSource.new([49, 0])
 	_session.configure_world_interaction_random_source(source)
-	_map._note_player_arrival()
+	_map.npc_life._note_player_arrival()
 	_map.run_pending_player_berserk()
 	_check(not _session.combat_encounter_coordinator().has_active_encounter() and _hud.log_lines().back() == "你用一种异样的眼神扫视著在场的每一个人。", "calmed: the stare alone")
 	# The master: never the one.
@@ -281,8 +281,8 @@ func _test_berserk(tree: SceneTree) -> void:
 	await tree.physics_frame
 	source = ScriptedWorldInteractionRandomSource.new([49, 0])
 	_session.configure_world_interaction_random_source(source)
-	_map._arrival_zone_id = &""
-	_map._note_player_arrival()
+	_map.npc_life.arrival_zone_id = &""
+	_map.npc_life._note_player_arrival()
 	_map.run_pending_player_berserk()
 	_check(source.call_count() == 0 and not _session.combat_encounter_coordinator().has_active_encounter(), "no roll at one's own master: %s" % [source.requested_bounds()])
 	_session.configure_world_interaction_random_source(original)
@@ -328,7 +328,7 @@ func _test_look(tree: SceneTree) -> void:
 ## the log and on the 武学 page when powerup takes it there; saved.
 func _test_warning(tree: SceneTree) -> void:
 	_state.attributes.bellicosity = 479 # TEST-ONLY: cps 10: the line is 480
-	_map._note_bellicosity()
+	_map.npc_life._note_bellicosity()
 	_check(not _state.progression.berserk_warned and not _hud.log_lines().has(Berserk.WARNING), "479: not yet")
 	var page: MartialArtsPage = _hud.martial_arts_page()
 	_hud.open_martial_arts()
@@ -337,7 +337,7 @@ func _test_warning(tree: SceneTree) -> void:
 	_check(_state.attributes.bellicosity == 479 + 130 and _last().back() == Berserk.WARNING and _state.progression.berserk_warned, "powerup takes it over: the warning on the page: " + str(_last()))
 	_check(_hud.log_lines().count(Berserk.WARNING) == 1, "and once in the log")
 	_hud.dismiss_current_panel()
-	_map._note_bellicosity()
+	_map.npc_life._note_bellicosity()
 	_check(_hud.log_lines().count(Berserk.WARNING) == 1, "not again")
 	var snapshot: GameSaveSnapshot = Work.capture(_session)
 	var text: String = GameSaveJsonCodec.encode(snapshot).text
