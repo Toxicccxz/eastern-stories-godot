@@ -231,8 +231,8 @@ func destroy_floor_item(item_id: StringName) -> bool:
 		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
 	):
 		return false
-	if _map._selected_target != null and _map._selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map._selected_target.target_id == item_id:
-		_map._selected_target = null
+	if _map.selection.selected_target != null and _map.selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map.selection.selected_target.target_id == item_id:
+		_map.selection.selected_target = null
 		_map.hud().set_selected_target(null)
 	_forget_floor_item(item_id)
 	return true
@@ -336,9 +336,9 @@ func floor_item_view(item_id: StringName) -> WorldFloorItemView:
 
 
 func selected_floor_item() -> WorldFloorItemView:
-	if _map._selected_target == null or _map._selected_target.kind != WorldInteractionTarget.Kind.ITEM:
+	if _map.selection.selected_target == null or _map.selection.selected_target.kind != WorldInteractionTarget.Kind.ITEM:
 		return null
-	return item_views.get(_map._selected_target.target_id)
+	return item_views.get(_map.selection.selected_target.target_id)
 
 
 func floor_item_content(view: WorldFloorItemView) -> ItemContentDefinition:
@@ -364,7 +364,7 @@ func select_floor_item(item_id: StringName) -> bool:
 	var view: WorldFloorItemView = item_views.get(item_id)
 	if view == null:
 		return false
-	_map._selected_target = WorldInteractionTarget.item(item_id)
+	_map.selection.selected_target = WorldInteractionTarget.item(item_id)
 	_map.hud().set_selected_floor_item(view.display_name, view.is_body_in_reach(player_body))
 	return true
 
@@ -391,7 +391,7 @@ func take_selected_floor_item() -> FloorItemPickup.Outcome:
 				_map.hud().show_inventory(session.player_inventory_rows())
 		FloorItemPickup.Outcome.TAKEN:
 			_forget_floor_item(view.item_instance_id)
-			_map._selected_target = null
+			_map.selection.selected_target = null
 			_map.hud().set_selected_target(null)
 			_map.hud().append_log_lines([tr("你捡起%s。") % HeldItemFacts.one_unit(content)])
 			if _map.hud().inventory_is_open():
@@ -512,7 +512,7 @@ func can_handle_items() -> bool:
 
 ## The selected NPC can be given things: present() and living(who).
 func selected_npc_takes_gifts() -> bool:
-	var npc: NpcRuntimeState = _map.selected_npc()
+	var npc: NpcRuntimeState = _map.selection.selected_npc()
 	return (
 		npc != null and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and npc.world_location().shares_combat_location(_player.world_location())
@@ -521,7 +521,7 @@ func selected_npc_takes_gifts() -> bool:
 
 ## give <item> to <selected npc>; `amount` 0 gives the whole object.
 func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
-	var npc: NpcRuntimeState = _map.selected_npc()
+	var npc: NpcRuntimeState = _map.selection.selected_npc()
 	if not can_handle_items() or npc == null:
 		return ItemHandlingResult.new()
 	var location: WorldLocationState = _player.world_location()

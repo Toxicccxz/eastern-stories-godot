@@ -169,8 +169,8 @@ func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: Item
 	_corpse_views.erase(corpse_id)
 	if view != null:
 		view.queue_free()
-	if _map._selected_target != null and _map._selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map._selected_target.target_id == corpse_id:
-		_map._selected_target = null
+	if _map.selection.selected_target != null and _map.selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map.selection.selected_target.target_id == corpse_id:
+		_map.selection.selected_target = null
 		_map.hud().set_selected_corpse("", 0, false, true)
 		if _map.hud().loot_is_open():
 			_map.hud().close_loot()
@@ -251,9 +251,9 @@ func find_corpse(corpse_id: StringName) -> CorpseState:
 
 
 func _selected_corpse() -> CorpseState:
-	if _map._selected_target == null or _map._selected_target.kind != WorldInteractionTarget.Kind.ITEM:
+	if _map.selection.selected_target == null or _map.selection.selected_target.kind != WorldInteractionTarget.Kind.ITEM:
 		return null
-	return find_corpse(_map._selected_target.target_id)
+	return find_corpse(_map.selection.selected_target.target_id)
 
 
 func corpse_is_live_in_world(corpse: CorpseState) -> bool:
@@ -282,15 +282,15 @@ func _player_is_in_corpse_loot_range(corpse_id: StringName) -> bool:
 func refresh_selected_corpse() -> void:
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null or not corpse_is_live_in_world(corpse):
-		if _map._selected_target != null and _map._selected_target.kind == WorldInteractionTarget.Kind.ITEM:
-			_map._selected_target = null
+		if _map.selection.selected_target != null and _map.selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM:
+			_map.selection.selected_target = null
 		_map.hud().set_selected_corpse("", 0, false, true)
 		return
 	_map.hud().set_selected_corpse(corpse.victim_display_name, corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), false)
 
 
 func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_inside: bool) -> void:
-	if _map.gameplay_open() and body == player_body and _map._selected_target != null and _map._selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map._selected_target.target_id == corpse_id:
+	if _map.gameplay_open() and body == player_body and _map.selection.selected_target != null and _map.selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map.selection.selected_target.target_id == corpse_id:
 		refresh_selected_corpse()
 
 
@@ -304,7 +304,7 @@ func select_corpse(corpse_id: StringName) -> bool:
 	var corpse: CorpseState = find_corpse(corpse_id)
 	if corpse == null or not corpse_is_live_in_world(corpse):
 		return false
-	_map._selected_target = WorldInteractionTarget.item(corpse_id)
+	_map.selection.selected_target = WorldInteractionTarget.item(corpse_id)
 	_map.hud().set_selected_corpse(corpse.victim_display_name, corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse_id))
 	return true
 

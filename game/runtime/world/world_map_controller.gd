@@ -18,6 +18,7 @@ var player_body: WorldCharacterBody2D
 # --- components ---
 var corpses: WorldMapCorpses = WorldMapCorpses.new(self)
 var floor_items: WorldMapFloorItems = WorldMapFloorItems.new(self)
+var selection: WorldMapSelection = WorldMapSelection.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -51,8 +52,6 @@ var _last_player_berserk := CombatSliceInitiationResult.new()
 ## room's description). Empty when none waits (looking_for_trouble).
 var _pending_player_berserk: StringName = &""
 var _effects: SkillImprovementEffectRegistry
-var _selected_target: WorldInteractionTarget
-var _selected_landmark_available: bool = false
 var _aggression: NpcAggressionAdapter = NpcAggressionAdapter.new()
 var _last_aggression_decisions: Array[NpcAggressionDecision] = []
 var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
@@ -79,6 +78,12 @@ var _walker: WorldNpcWalker
 var _arrival_zone_id: StringName = &""
 var _last_landmark_use: RefCounted
 var _last_passage_traversal: RefCounted
+
+
+## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
+## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, NONE when
+## it is unarmed or will not take place (spar_selected()'s refusals, or the NPC's).
+enum SparRisk { NONE, ARMED, DEADLY }
 
 
 func _ready() -> void:
@@ -212,7 +217,7 @@ func _bind_landmarks() -> bool:
 		if not expected.erase(area.landmark_id):
 			return false
 		landmark_areas[area.landmark_id] = area
-		area.selection_requested.connect(select_landmark)
+		area.selection_requested.connect(selection.select_landmark)
 	return expected.is_empty()
 
 
@@ -298,7 +303,7 @@ func relocate_player(zone_id: StringName, spawn_point_id: StringName) -> bool:
 	if not _player.set_world_location(location):
 		return false
 	player_body.refresh_runtime_state()
-	_selected_target = null
+	selection.selected_target = null
 	if hud() != null:
 		hud().set_selected_target(null)
 	return true
@@ -348,7 +353,7 @@ func prepare_for_deactivation() -> void:
 	_present_zones.clear()
 	_zone_check_pending = false
 	clear_passage_contacts()
-	_selected_target = null
+	selection.selected_target = null
 	_aggression.clear_all()
 	_toll_contact_seconds.clear()
 	_toll_waiting.clear()
@@ -485,7 +490,7 @@ func freeze_world_gameplay(id: StringName) -> bool:
 		_walker.finish_all()
 	_aggression.clear_all()
 	_pending_player_berserk = &""
-	_selected_target = null
+	selection.selected_target = null
 	if hud() != null:
 		hud().set_selected_target(null)
 		hud().close_loot()
@@ -711,7 +716,7 @@ func _characters_node() -> Node:
 func _connect_npc_body(character_id: StringName, body: WorldCharacterBody2D, presence: Area2D) -> void:
 	_npc_bodies[character_id] = body
 	_npc_presence[character_id] = presence
-	body.selection_requested.connect(_on_npc_selection_requested)
+	body.selection_requested.connect(selection.on_npc_selection_requested)
 	presence.body_entered.connect(_on_presence_entered.bind(character_id))
 	presence.body_exited.connect(_on_presence_exited.bind(character_id))
 
@@ -752,7 +757,7 @@ func unregister_npc_body(character_id: StringName) -> bool:
 		return false
 	var body: WorldCharacterBody2D = _npc_bodies[character_id]
 	if is_instance_valid(body):
-		body.selection_requested.disconnect(_on_npc_selection_requested)
+		body.selection_requested.disconnect(selection.on_npc_selection_requested)
 	var area: Area2D = _npc_presence[character_id]
 	if is_instance_valid(area):
 		area.body_entered.disconnect(_on_presence_entered.bind(character_id))
@@ -763,8 +768,8 @@ func unregister_npc_body(character_id: StringName) -> bool:
 	_npcs.erase(npc)
 	_map_characters.remove_character(character_id)
 	_aggression.clear_npc(character_id)
-	if selected_character_id() == character_id:
-		_selected_target = null
+	if selection.selected_character_id() == character_id:
+		selection.selected_target = null
 	return true
 
 
@@ -877,12 +882,12 @@ func _process(delta: float) -> void:
 	_advance_toll_contacts(delta)
 	if _aggression.pending_count() > 0 or _zone_entry(_player.world_location()) == &"complete_set":
 		process_pending_aggression()
-	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.ITEM:
-		if floor_items.item_views.has(_selected_target.target_id):
+	if selection.selected_target != null and selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM:
+		if floor_items.item_views.has(selection.selected_target.target_id):
 			floor_items.refresh_selected_floor_item()
 		else:
 			corpses.refresh_selected_corpse()
-	if _selected_target != null and _selected_target.kind == WorldInteractionTarget.Kind.LANDMARK:
+	if selection.selected_target != null and selection.selected_target.kind == WorldInteractionTarget.Kind.LANDMARK:
 		_refresh_selected_landmark_source()
 
 
@@ -1053,7 +1058,7 @@ func _berserk_fight(started: CombatSliceInitiationResult, npc: NpcRuntimeState, 
 		hud().append_log_lines(lines)
 		return started
 	lines.append(shout)
-	if spar and spar_is_armed(npc):
+	if spar and selection.spar_is_armed(npc):
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
 	_announce_fight(lines, npc.character_id)
 	return started
@@ -1887,7 +1892,7 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 	var character_id: StringName = npc.character_id
 	var body: WorldCharacterBody2D = _npc_bodies.get(character_id)
 	if is_instance_valid(body):
-		body.selection_requested.disconnect(_on_npc_selection_requested)
+		body.selection_requested.disconnect(selection.on_npc_selection_requested)
 		body.name = "%s_replaced" % body.name
 		body.queue_free()
 	_npc_bodies.erase(character_id)
@@ -1904,8 +1909,8 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 		_walker.cancel(character_id)
 	if _npc_heartbeat != null:
 		_npc_heartbeat.forget(character_id)
-	if selected_character_id() == character_id:
-		_selected_target = null
+	if selection.selected_character_id() == character_id:
+		selection.selected_target = null
 		if hud() != null:
 			hud().set_selected_target(null)
 
@@ -2392,312 +2397,6 @@ static func _find_killer(victim: CombatSliceCharacterBinding, participants: Arra
 	return null
 
 
-func selected_interaction_target() -> WorldInteractionTarget:
-	return _selected_target
-
-
-func selected_character_id() -> StringName:
-	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.CHARACTER:
-		return &""
-	return _selected_target.target_id
-
-
-func selected_npc() -> NpcRuntimeState:
-	return find_resident_npc(selected_character_id())
-
-
-func _on_npc_selection_requested(character_id: StringName) -> void:
-	select_npc(character_id)
-
-
-func select_npc(character_id: StringName) -> bool:
-	if not gameplay_open() or session == null:
-		return false
-	var npc: NpcRuntimeState = find_resident_npc(character_id)
-	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-		return false
-	_selected_target = WorldInteractionTarget.character(character_id)
-	hud().set_selected_target(npc)
-	return true
-
-
-func select_landmark(landmark_id: StringName) -> bool:
-	if not gameplay_open() or session == null or not landmark_areas.has(landmark_id):
-		return false
-	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
-	_selected_target = WorldInteractionTarget.landmark(landmark_id)
-	_selected_landmark_available = landmark_available(landmark)
-	hud().set_selected_landmark(landmark, _selected_landmark_available)
-	return true
-
-
-func inspect_selected() -> bool:
-	if not gameplay_open() or session == null or _selected_target == null:
-		return false
-	match _selected_target.kind:
-		WorldInteractionTarget.Kind.ITEM:
-			var floor_view: WorldFloorItemView = floor_items.selected_floor_item()
-			if floor_view != null:
-				var floor_content: ItemContentDefinition = floor_items.floor_item_content(floor_view)
-				if floor_content == null or not floor_items.floor_item_in_player_zone(floor_view):
-					return false
-				hud().show_item_inspection(floor_content.display_name, floor_content.shown_description())
-				return true
-			var corpse: CorpseState = corpses.find_corpse(_selected_target.target_id)
-			if corpse == null or not corpses.corpse_is_live_in_world(corpse):
-				return false
-			hud().show_corpse_inspection(corpse.victim_display_name, corpses.corpse_content_count(corpse))
-			return true
-		WorldInteractionTarget.Kind.LANDMARK:
-			var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
-			var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
-			if policy == null:
-				return false
-			# look <item>: item_desc may be a function (house3.c's web calls a spider in).
-			hud().show_landmark_inspection(landmark, policy.look(self, landmark))
-			return true
-	var npc: NpcRuntimeState = selected_npc()
-	if npc == null or not npc.exists_in_map:
-		return false
-	var gender: StringName = npc.character_state.gender
-	hud().show_inspection(npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender)
-	_look_berserk(npc)
-	return true
-
-
-func attack_selected() -> CombatSliceInitiationResult:
-	var target: NpcRuntimeState = selected_npc() if gameplay_open() else null
-	if target == null or target.definition().dealings().is_fight_deferred():
-		return CombatSliceInitiationResult.new()
-	# kill.c checks the attacker's room, which in ES2 is also the target's.
-	var catalog: ContentCatalog = GameContent.catalog()
-	if catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(target.world_location().zone_id):
-		hud().append_log_lines([tr("这里不准战斗。")])
-		return CombatSliceInitiationResult.new()
-	# present(arg, environment(me)): an NPC selected before it walked away is not here.
-	if not target.world_location().shares_combat_location(_player.world_location()):
-		hud().append_log_lines([tr("这里没有这个人。")])
-		return CombatSliceInitiationResult.new()
-	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
-	# obj->kill_ob(me) warns the player (_announce_fight()).
-	return _initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
-		"npc": tr(target.definition().display_name),
-		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, &"")),
-	})])
-
-
-## cmds/std/fight.c for the selected NPC: ask a speaking character to spar; it
-## accepts or refuses (NpcSparConsent). Beasts are not asked (no button).
-func spar_selected() -> CombatSliceInitiationResult:
-	var target: NpcRuntimeState = selected_npc() if gameplay_open() else null
-	if target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
-		return CombatSliceInitiationResult.new()
-	var catalog: ContentCatalog = GameContent.catalog()
-	var name: String = tr(target.definition().display_name)
-	if catalog.zone_forbids_fighting(_player.world_location().zone_id):
-		hud().append_log_lines([tr("这里禁止战斗。")])
-		return CombatSliceInitiationResult.new()
-	# present(arg, environment(me)): only someone in the same place can be asked.
-	if not target.world_location().shares_combat_location(_player.world_location()):
-		hud().append_log_lines([tr("你想攻击谁？")])
-		return CombatSliceInitiationResult.new()
-	if target.relationship.has_opponent(_player.character_id):
-		hud().append_log_lines([tr("加油！加油！加油！")])
-		return CombatSliceInitiationResult.new()
-	if target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		hud().append_log_lines([tr("%s已经无法战斗了。") % name])
-		return CombatSliceInitiationResult.new()
-	var player_state: CharacterState = _player.state
-	var lines: Array[String] = [tr("你对著{npc}说道：{self}{name}，领教{respect}的高招！").format({
-		"npc": name, "self": tr(RankWords.query_self(player_state.gender, _player.facts.age, player_state.affiliation.class_id)),
-		"name": _player.facts.display_name,
-		"respect": tr(RankWords.query_respect(target.character_state.gender, target.age, &"", target.definition().rank_respect)),
-	})]
-	var consent: NpcSparConsent = spar_consent(target, true)
-	var result := CombatSliceInitiationResult.new()
-	if consent.accepted:
-		var participants: Array[CombatSliceCharacterBinding] = _build_participants()
-		var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
-		var target_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, target.character_id)
-		result = (
-			# accept_fight() answered with kill_ob(): the NPC hunts the challenger.
-			session.combat_encounter_coordinator().start_production(target_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true)
-			if consent.kill
-			else session.combat_encounter_coordinator().start_production(player_binding, target_binding, CombatTriggerCause.Value.PLAYER_SPAR)
-		)
-	var started: bool = result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED
-	if consent.accepted and not started:
-		# Accepted, yet this encounter model cannot hold the fight (e.g. someone
-		# else's fight marks): say no rather than accept into nothing.
-		if OS.is_debug_build():
-			push_warning("Spar with %s accepted but not started: %s" % [target.character_id, CombatSliceInitiationResult.Outcome.find_key(result.outcome)])
-	else:
-		for line: NpcSparConsent.Line in consent.lines:
-			var text: String = tr(line.text).replace("$RESPECT", tr(consent.respect)).replace("$SELF", tr(consent.npc_self))
-			lines.append(tr("{npc}{action}").format({"npc": name, "action": text}) if line.emote else tr("{npc}说道：{line}").format({"npc": name, "line": text}))
-	if not started:
-		lines.append(tr("看起来%s并不想跟你较量。") % name)
-	elif not consent.kill and spar_is_armed(target):
-		# combatd.c wounds on `is_killing || weapon`: unlike a bare-handed spar, a
-		# blade draws blood. Native hint; ES2 says nothing here.
-		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
-	if started:
-		_announce_fight(lines)
-	else:
-		hud().append_log_lines(lines)
-	return result
-
-
-## fight.c's answer `target` gives the player now: NpcSparConsent.decide() draws
-## nothing, so the HUD can know it before asking. `asked`: the spar itself, where an
-## attitude that is a function (kid2.c) is drawn from the world-interaction stream.
-func spar_consent(target: NpcRuntimeState, asked: bool = false) -> NpcSparConsent:
-	var player_state: CharacterState = _player.state
-	var attitude: int = -1
-	var roll: NpcRandomText = target.definition().attitude_roll()
-	if asked and roll != null:
-		attitude = NpcContentRecords.attitude_of(String(roll.pick(_world_interaction_random.legacy_random(roll.bound))))
-	return NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
-		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
-	), attitude)
-
-
-## What 切磋 with the selected NPC would be, for the HUD to ask first: DEADLY when its
-## accept_fight() answers with kill_ob(), ARMED when a weapon in hand wounds, NONE when
-## it is unarmed or will not take place (spar_selected()'s refusals, or the NPC's).
-enum SparRisk { NONE, ARMED, DEADLY }
-
-
-func selected_spar_risk() -> SparRisk:
-	var target: NpcRuntimeState = selected_npc() if gameplay_open() else null
-	if (
-		target == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred()
-		or GameContent.catalog().zone_forbids_fighting(_player.world_location().zone_id)
-		or not target.world_location().shares_combat_location(_player.world_location())
-		or target.relationship.has_opponent(_player.character_id)
-		or target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
-	):
-		return SparRisk.NONE
-	var consent: NpcSparConsent = spar_consent(target)
-	if not consent.accepted:
-		return SparRisk.NONE
-	if consent.kill:
-		return SparRisk.DEADLY
-	return SparRisk.ARMED if spar_is_armed(target) else SparRisk.NONE
-
-
-## attack_selected() would start a fight (none of kill.c's refusals).
-func selected_attack_starts() -> bool:
-	var target: NpcRuntimeState = selected_npc() if gameplay_open() else null
-	var catalog: ContentCatalog = GameContent.catalog()
-	return (
-		target != null and not target.definition().dealings().is_fight_deferred()
-		and not catalog.zone_forbids_fighting(_player.world_location().zone_id)
-		and not catalog.zone_forbids_fighting(target.world_location().zone_id)
-		and target.world_location().shares_combat_location(_player.world_location())
-	)
-
-
-## Whether a spar with `target` is fought with a weapon in hand (the player's or
-## its): combatd.c then wounds as in a fight to the death.
-func spar_is_armed(target: NpcRuntimeState) -> bool:
-	return target != null and _player != null and (
-		not _player.state.equipment.is_primary_hand_empty() or not target.character_state.equipment.is_primary_hand_empty()
-	)
-
-
-## cmds/std/ask.c: the selected NPC can be asked when it speaks and is here
-## (present()); a beast gets no 打听, as it gets no 切磋.
-func can_ask_selected() -> bool:
-	var target: NpcRuntimeState = selected_npc() if gameplay_open() else null
-	return (
-		target != null and target.definition().can_speak() and target.exists_in_map
-		and target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
-		and _player != null and target.world_location().shares_combat_location(_player.world_location())
-	)
-
-
-## eff_kee * 100 / max_kee (herbalist.c heal_me()).
-@warning_ignore("integer_division")
-
-
-static func _kee_percent(state: CharacterState) -> int:
-	return 0 if state.vitality.maximum <= 0 else state.vitality.effective * 100 / state.vitality.maximum
-
-
-## What the selected NPC can be asked about, in ES2's listing order (NpcInquiry).
-func ask_topics_selected() -> Array[String]:
-	var topics: Array[String] = []
-	if can_ask_selected():
-		topics = NpcInquiry.topics(selected_npc().definition())
-	return topics
-
-
-## ask <npc> about <topic> on the selected NPC; its lines go to the log too. What
-## the answer does happens here: marks on the player (d/green's set_temp() flags) and
-## an item the NPC hands over (give.c; one the player cannot carry lands at their feet).
-func ask_selected(topic: String) -> Array[String]:
-	if not ask_topics_selected().has(topic):
-		return []
-	var target: NpcRuntimeState = selected_npc()
-	var zone: ZoneDefinition = GameContent.catalog().zone(target.world_location().zone_id)
-	var answer: NpcInquiry.Answer = NpcInquiry.answer(
-		target.definition(), target.character_state.gender, target.age,
-		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
-		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks),
-		topic, "" if zone == null else zone.display_name, _world_interaction_random, floor_items.violates_unique,
-	)
-	for mark: String in answer.marks:
-		_player.state.marks[mark] = 1
-	if not answer.gives.is_empty():
-		var content: ItemContentDefinition = GameContent.catalog().item(answer.gives)
-		var given: StringName = &"" if content == null else floor_items.give_new_item_to_player(answer.gives)
-		if not given.is_empty():
-			# give.c to the receiver: "<npc>给你一<unit><name>。"
-			answer.say(tr("{npc}给你{item}。").format({"npc": tr(target.definition().display_name), "item": HeldItemFacts.one_unit(content)}))
-			var at_feet: String = floor_items.at_feet_line(given, content)
-			if not at_feet.is_empty():
-				answer.say(at_feet)
-			if not answer.mark_on_give.is_empty():
-				_player.state.marks[answer.mark_on_give] = 1
-	hud().append_colored_lines(answer.lines)
-	if hud().inventory_is_open():
-		hud().show_inventory(session.player_inventory_rows())
-	return answer.texts()
-
-
-## The lines the player can say beside the selected NPC that it answers (relay_say():
-## oldman2.c's 必有妖孽); the UI offers them as 接话 instead of typing `say`.
-func relay_phrases_selected() -> Array[String]:
-	var phrases: Array[String] = []
-	if can_ask_selected():
-		phrases = selected_npc().definition().talk().relay_phrases()
-	return phrases
-
-
-## cmds/std/say.c beside the selected NPC, then its relay_say(). Badly hurt (kee below
-## max_kee / 5) the player's words come out broken up ("必有妖孽 ..."), which the NPC
-## does not take for its phrase. An unconscious NPC answers nothing.
-@warning_ignore("integer_division")
-
-
-func say_beside_selected(phrase: String) -> Array[String]:
-	if not relay_phrases_selected().has(phrase):
-		return []
-	var target: NpcRuntimeState = selected_npc()
-	var said: String = tr(phrase)
-	var vitality: CharacterResourceState = _player.state.vitality
-	if vitality.current < vitality.maximum / 5:
-		said = said.replace(" ", " ... ") + " ..."
-	var lines: Array[ColoredLine] = [ColoredLine.new(tr("你说道：%s") % said)]
-	if said == tr(phrase) and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-		var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-		for line: NpcLine in target.definition().talk().relay_answer(phrase):
-			lines.append(line.colored(target.definition().display_name, respect))
-	hud().append_colored_lines(lines)
-	return ColoredLine.texts(lines)
-
-
 ## The player stands in the landmark's zone and, when it needs contact, inside its area.
 func landmark_available(landmark: WorldLandmarkDefinition) -> bool:
 	if landmark == null or _player == null or not landmark_areas.has(landmark.landmark_id):
@@ -2719,19 +2418,19 @@ static func _inside_area(area: Area2D, point: Vector2) -> bool:
 
 
 func _refresh_selected_landmark_source() -> void:
-	if _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
+	if selection.selected_target == null or selection.selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
 		return
-	var available: bool = landmark_available(GameContent.catalog().landmark(_selected_target.target_id))
-	if available != _selected_landmark_available:
-		_selected_landmark_available = available
+	var available: bool = landmark_available(GameContent.catalog().landmark(selection.selected_target.target_id))
+	if available != selection.selected_landmark_available:
+		selection.selected_landmark_available = available
 		hud().set_selected_landmark_source_available(available)
 
 
 ## The selected landmark's action (the HUD's portal button).
 func traverse_selected_portal() -> RefCounted:
-	if not gameplay_open() or session == null or _selected_target == null or _selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
+	if not gameplay_open() or session == null or selection.selected_target == null or selection.selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
 		return WorldPortalTraversalResult.new()
-	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(_selected_target.target_id)
+	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(selection.selected_target.target_id)
 	var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
 	if policy == null:
 		return WorldPortalTraversalResult.new()
@@ -2742,7 +2441,7 @@ func traverse_selected_portal() -> RefCounted:
 	var before: WorldLocationState = _player.world_location()
 	_last_landmark_use = policy.use(self, landmark)
 	if not _player.world_location().same_location(before) and not policy.keeps_selection():
-		_selected_target = null
+		selection.selected_target = null
 		hud().set_selected_target(null)
 	_refresh_selected_landmark_source()
 	return _last_landmark_use
@@ -2760,7 +2459,7 @@ func traverse_same_map_passage(portal: PortalDefinition) -> void:
 	_last_passage_traversal = WorldLandmarkPolicy.move_through(self, portal)
 	var traversal: WorldPortalTraversalResult = _last_passage_traversal as WorldPortalTraversalResult
 	if traversal != null and traversal.completed() and session != null:
-		_selected_target = null
+		selection.selected_target = null
 		hud().set_selected_target(null)
 		hud().append_log_lines([tr("你来到%s。") % tr(GameContent.catalog().zone(portal.destination_zone_id).display_name)])
 		if portal.destination_zone_id == portal.source_zone_id:
@@ -2867,55 +2566,6 @@ func close_door(door_id: StringName) -> bool:
 		return false
 	doors_by_id[door_id].set_open(false)
 	return true
-
-
-## What the context button offers here: the nearest door or service in reach (a door
-## when equally near), so beside 李火狮 by the school gate it is his lessons.
-func interaction_title() -> String:
-	var target: Variant = _context_target()
-	if target is WorldService:
-		return (target as WorldService).context_title()
-	if target is StringName:
-		var name_text: String = tr(GameContent.catalog().door(target).display_name)
-		return (tr("关闭%s") if doors_by_id[target].is_open() else tr("打开%s")) % name_text
-	return ""
-
-
-func interact() -> void:
-	if ExplorationPresentationBlocker.is_blocked(get_tree()):
-		return
-	var target: Variant = _context_target()
-	if target is WorldService:
-		(target as WorldService).interact()
-	elif target is StringName:
-		if doors_by_id[target].is_open():
-			close_door(target)
-		else:
-			open_door(target)
-
-
-## A door's id or a WorldService, or null.
-func _context_target() -> Variant:
-	var best: Variant = null
-	var nearest: float = INF
-	var at: Vector2 = player_body.global_position
-	for door_id: StringName in doors_by_id:
-		if can_operate_door(door_id) and at.distance_to(doors_by_id[door_id].wall_shape().global_position) < nearest:
-			best = door_id
-			nearest = at.distance_to(doors_by_id[door_id].wall_shape().global_position)
-	for candidate: WorldService in service_nodes:
-		if not candidate.context_title().is_empty() and at.distance_to(candidate.anchor()) < nearest:
-			best = candidate
-			nearest = at.distance_to(candidate.anchor())
-	return best
-
-
-## Back/Escape on a service panel. False when no service claims `content`.
-func dismiss_panel(content: Control) -> bool:
-	for candidate: WorldService in service_nodes:
-		if candidate.dismiss(content):
-			return true
-	return false
 
 
 # --- forwarded to WorldMapCorpses (corpses) ---
@@ -3074,3 +2724,86 @@ func put_in_container(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 
 func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
 	return floor_items.take_from_selected_container(item_id)
+
+
+# --- forwarded to WorldMapSelection (selection) ---
+
+
+func selected_interaction_target() -> WorldInteractionTarget:
+	return selection.selected_interaction_target()
+
+
+func selected_character_id() -> StringName:
+	return selection.selected_character_id()
+
+
+func selected_npc() -> NpcRuntimeState:
+	return selection.selected_npc()
+
+
+func select_npc(character_id: StringName) -> bool:
+	return selection.select_npc(character_id)
+
+
+func select_landmark(landmark_id: StringName) -> bool:
+	return selection.select_landmark(landmark_id)
+
+
+func inspect_selected() -> bool:
+	return selection.inspect_selected()
+
+
+func attack_selected() -> CombatSliceInitiationResult:
+	return selection.attack_selected()
+
+
+func spar_selected() -> CombatSliceInitiationResult:
+	return selection.spar_selected()
+
+
+func spar_consent(target: NpcRuntimeState, asked: bool = false) -> NpcSparConsent:
+	return selection.spar_consent(target, asked)
+
+
+func selected_spar_risk() -> SparRisk:
+	return selection.selected_spar_risk()
+
+
+func selected_attack_starts() -> bool:
+	return selection.selected_attack_starts()
+
+
+func spar_is_armed(target: NpcRuntimeState) -> bool:
+	return selection.spar_is_armed(target)
+
+
+func can_ask_selected() -> bool:
+	return selection.can_ask_selected()
+
+
+func ask_topics_selected() -> Array[String]:
+	return selection.ask_topics_selected()
+
+
+func ask_selected(topic: String) -> Array[String]:
+	return selection.ask_selected(topic)
+
+
+func relay_phrases_selected() -> Array[String]:
+	return selection.relay_phrases_selected()
+
+
+func say_beside_selected(phrase: String) -> Array[String]:
+	return selection.say_beside_selected(phrase)
+
+
+func interaction_title() -> String:
+	return selection.interaction_title()
+
+
+func interact() -> void:
+	selection.interact()
+
+
+func dismiss_panel(content: Control) -> bool:
+	return selection.dismiss_panel(content)
