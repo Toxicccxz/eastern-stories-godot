@@ -31,6 +31,8 @@ var _events: Array[CombatSchedulerEvent] = []
 var _progression_order := CombatProgressionOrder.new()
 var _tactical: CombatTacticalRuntime
 var _target_events: Array[CombatOrderedTargetEvent] = []
+## Falls and deaths the boundary saw (combatd.c announce()), in progression order.
+var _announcements: Array[CombatLifecycleAnnouncement] = []
 var _npc_chat: CombatNpcChat
 
 var logical_cycle: int:
@@ -91,6 +93,25 @@ func target_events_after(order: int) -> Array[CombatOrderedTargetEvent]:
 		result.append(value) # Read-only wrapper, defensive Core event getter.
 	result.reverse()
 	return result
+
+
+func announcements_after(order: int) -> Array[CombatLifecycleAnnouncement]:
+	var result: Array[CombatLifecycleAnnouncement] = []
+	for value: CombatLifecycleAnnouncement in _announcements:
+		if value.progression_order > order:
+			result.append(value)
+	return result
+
+
+## The boundary's inspect(), then who fell or died there, each in its place.
+func _inspect(
+	boundary: CombatOpportunityBoundary, bindings: Array[CombatSliceCharacterBinding],
+	event: CombatSchedulerEvent = null, tactical: CombatTacticalExecutionResult = null,
+) -> bool:
+	var ok: bool = boundary.inspect(bindings, event, tactical)
+	for announcement: CombatLifecycleAnnouncement in boundary.take_announcements():
+		_announcements.append(announcement.ordered(_progression_order.take()))
+	return ok
 
 
 ## Called only after a successful Core target transition. Does not advance time.
@@ -171,7 +192,7 @@ func advance(
 		return CombatSchedulerAdvanceResult.new(
 			CombatSchedulerAdvanceResult.Outcome.AUTHORITY_INVALID
 		)
-	if boundary != null and not boundary.inspect(bindings):
+	if boundary != null and not _inspect(boundary, bindings):
 		return CombatSchedulerAdvanceResult.new()
 	var tactical_result: CombatTacticalExecutionResult = null
 	if _tactical != null:
@@ -185,7 +206,7 @@ func advance(
 	if boundary != null and tactical_result != null and not (tactical_result.joiners.is_empty() and tactical_result.allies.is_empty() and tactical_result.joins.is_empty()):
 		boundary.admit(bindings, tactical_result)
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
-	if boundary != null and not boundary.inspect(bindings, null, tactical_result):
+	if boundary != null and not _inspect(boundary, bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(
@@ -210,7 +231,7 @@ func advance(
 			_events.append(effect)
 			emitted.append(effect)
 			_next_event_sequence += 1
-			if boundary != null and not boundary.inspect(bindings, effect):
+			if boundary != null and not _inspect(boundary, bindings, effect):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
@@ -225,7 +246,7 @@ func advance(
 				_events.append(event)
 				emitted.append(event)
 				_next_event_sequence += 1
-			if boundary != null and not boundary.inspect(bindings, event):
+			if boundary != null and not _inspect(boundary, bindings, event):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
@@ -239,7 +260,7 @@ func advance(
 			var said: CombatNpcChatResult = chat.chat
 			if boundary != null and said != null and not said.joins().is_empty():
 				boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
-			if boundary != null and not boundary.inspect(bindings, chat):
+			if boundary != null and not _inspect(boundary, bindings, chat):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)

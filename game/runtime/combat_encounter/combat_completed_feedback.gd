@@ -7,6 +7,7 @@ var _encounter_id: StringName
 var _ordinary: Array[CombatSchedulerEvent]
 var _targets: Array[CombatOrderedTargetEvent]
 var _tactical: Array[CombatTacticalEvent]
+var _announcements: Array[CombatLifecycleAnnouncement]
 var encounter_id: StringName:
 	get: return _encounter_id
 
@@ -15,6 +16,7 @@ func _init(id: StringName, scheduler: CombatEncounterScheduler) -> void:
 	_ordinary = scheduler.events()
 	_targets = scheduler.target_events_after(0)
 	_tactical = [] if scheduler.player_tactics() == null else scheduler.player_tactics().events_after(0)
+	_announcements = scheduler.announcements_after(0)
 
 func ordinary_after(order: int) -> Array[CombatSchedulerEvent]:
 	var result: Array[CombatSchedulerEvent] = []
@@ -28,6 +30,13 @@ func targets_after(order: int) -> Array[CombatOrderedTargetEvent]:
 	for event: CombatOrderedTargetEvent in _targets:
 		if event.progression_order > order:
 			result.append(CombatOrderedTargetEvent.new(event.event, event.progression_order))
+	return result
+
+func announcements_after(order: int) -> Array[CombatLifecycleAnnouncement]:
+	var result: Array[CombatLifecycleAnnouncement] = []
+	for value: CombatLifecycleAnnouncement in _announcements:
+		if value.progression_order > order:
+			result.append(value)
 	return result
 
 func tactical_after(order: int) -> Array[CombatTacticalEvent]:

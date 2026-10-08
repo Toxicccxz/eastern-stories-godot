@@ -10,6 +10,10 @@ func inspect(
 ) -> bool:
 	return false
 
+## Who fell or died at the last inspect() (combatd.c announce()), taken once.
+func take_announcements() -> Array[CombatLifecycleAnnouncement]:
+	return []
+
 ## Typed command result before any accumulated ordinary opportunity.
 func accept_tactical(_result: CombatTacticalExecutionResult) -> void:
 	pass

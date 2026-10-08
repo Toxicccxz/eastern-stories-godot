@@ -143,19 +143,21 @@ func _read_new_events(
 		var completed: CombatCompletedFeedback = coordinator.completed_feedback()
 		if completed == null or completed.encounter_id != projection.encounter_id:
 			return []
-		return _read_events(completed.targets_after(_last_order), completed.ordinary_after(_last_order), completed.tactical_after(_last_order), projection)
+		return _read_events(completed.targets_after(_last_order), completed.ordinary_after(_last_order), completed.tactical_after(_last_order), projection, completed.announcements_after(_last_order))
 	if coordinator.active_encounter().encounter_id != projection.encounter_id:
 		return []
 	var tactical: CombatTacticalRuntime = scheduler.player_tactics()
 	var tactics: Array[CombatTacticalEvent] = []
 	if tactical != null: # NPC-only encounters have no player tactics.
 		tactics = tactical.events_after(_last_order)
-	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), tactics, projection)
+	return _read_events(scheduler.target_events_after(_last_order), scheduler.events_after(_last_order), tactics, projection, scheduler.announcements_after(_last_order))
 
 
 ## Every event read moves the cursor; only those that print something become entries.
-func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[CombatSchedulerEvent], tactics: Array[CombatTacticalEvent], projection: BattlePresentationProjection) -> Array[BattleFeedbackProjection]:
+func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[CombatSchedulerEvent], tactics: Array[CombatTacticalEvent], projection: BattlePresentationProjection, announcements: Array[CombatLifecycleAnnouncement] = []) -> Array[BattleFeedbackProjection]:
 	var read: Array[BattleFeedbackProjection] = []
+	for announcement: CombatLifecycleAnnouncement in announcements:
+		read.append(BattleFeedbackProjection.new(announcement.progression_order, _announce(announcement, projection)))
 	for ordered: CombatOrderedTargetEvent in targets:
 		read.append(BattleFeedbackProjection.new(ordered.progression_order, _target(ordered.event, projection)))
 	for event: CombatSchedulerEvent in ordinary:
@@ -173,6 +175,23 @@ func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[Comb
 	if _recent.size() > RECENT_LINES:
 		_recent = _recent.slice(_recent.size() - RECENT_LINES)
 	return next
+
+
+## combatd.c announce() as the player reads it (message_vision()): someone else's fall
+## or death. The player's own is not told here: unconcious() blocks their messages and
+## the life screen says it.
+static func _announce(announcement: CombatLifecycleAnnouncement, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	if announcement.victim_id == projection.player_id:
+		return lines
+	var name: String = TranslationServer.translate(projection.display_name(announcement.victim_id))
+	if announcement.event == CombatLifecycleAnnouncement.UNCONSCIOUS:
+		# TRANSLATORS: combatd.c announce("unconcious"): {name} falls unconscious in the fight.
+		lines.append(BattleNarrationLine.new(TranslationServer.translate("{name}脚下一个不稳，跌在地上一动也不动了。").format({"name": name})))
+	elif announcement.event == CombatLifecycleAnnouncement.DEAD:
+		# TRANSLATORS: combatd.c announce("dead"): {name} dies in the fight.
+		lines.append(BattleNarrationLine.new(TranslationServer.translate("{name}死了。").format({"name": name})))
+	return lines
 
 
 static func _earlier(a: BattleFeedbackProjection, b: BattleFeedbackProjection) -> bool:
