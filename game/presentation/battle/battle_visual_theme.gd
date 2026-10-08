@@ -5,7 +5,8 @@ extends Theme
 func _init() -> void:
 	default_font_size = 18
 	set_color("font_color", "Label", Color("eee4cb"))
-	set_color("default_color", "RichTextLabel", Color("e1d7c2"))
+	# Plain battle text a light grey, so HIW lines stand out (SharedGameplayUI.PLAIN_LOG_COLOR).
+	set_color("default_color", "RichTextLabel", SharedGameplayUI.PLAIN_LOG_COLOR)
 	set_constant("separation", "VBoxContainer", 8)
 	set_constant("separation", "HBoxContainer", 8)
 	var panel := StyleBoxFlat.new()

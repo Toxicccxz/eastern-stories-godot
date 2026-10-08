@@ -107,8 +107,9 @@ func _targets(tree: SceneTree) -> void:
 	_check(not projection.participants()[0].targetable and projection.participants()[1].targetable and projection.participants()[2].targetable, "availability is narrow projection")
 	var reader := BattleFeedbackReader.new()
 	var feedback: Array[BattleFeedbackProjection] = reader.read_new(coordinator, projection)
-	_check(feedback.size() == 3 and feedback.front().text.contains("目标") and feedback[1].text.begins_with("你准备") and feedback.back().text.contains("目标"), "target A / QUEUED / target B ordered together %s" % str(feedback.map(func(entry: BattleFeedbackProjection) -> String: return entry.text)))
-	_check(feedback[0].progression_order < feedback[1].progression_order and feedback[1].progression_order < feedback[2].progression_order, "shared semantic order")
+	# The first target is not told (modern fixes II): QUEUED, then the change to B.
+	_check(feedback.size() == 2 and feedback.front().text.begins_with("你准备") and feedback.back().text.contains("目标"), "QUEUED / target B ordered together %s" % str(feedback.map(func(entry: BattleFeedbackProjection) -> String: return entry.text)))
+	_check(feedback.size() == 2 and feedback[0].progression_order < feedback[1].progression_order, "shared semantic order")
 	_check(reader.read_new(coordinator, projection).is_empty(), "incremental no duplicates")
 	var atman_a: int = a.character_state.recovery.atman.current
 	var atman_b: int = b.character_state.recovery.atman.current

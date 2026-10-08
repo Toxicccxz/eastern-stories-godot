@@ -8,6 +8,9 @@ var id: StringName
 ## The file refuses outside a fight whatever else holds (roar.c): the game offers it
 ## only in one.
 var fight_only: bool = false
+## The file refuses in any fight with this line (heal.c): the battle panel shows the
+## action greyed with it instead of letting it fail (owner, modern fixes II).
+var fight_refusal: String = ""
 
 
 func exert(_context: ExertContext) -> bool:

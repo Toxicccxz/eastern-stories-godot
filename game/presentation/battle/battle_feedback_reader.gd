@@ -187,13 +187,13 @@ static func target_reason(code: int) -> String:
 	return TranslationServer.translate(TARGET_REASONS.get(code, "未知结果"))
 
 
-## Only the player's own target changes are told; ES2 prints none.
+## Only the player's own target changes are told; ES2 prints none. The first target is
+## not (owner, modern fixes II): the opening lines already say who the player fights.
 static func _target(event: CombatEncounterEvent, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
-	if event.actor_id == projection.player_id and not event.current_target_id.is_empty():
-		var template: String = "你的目标是%s。" if event.previous_target_id.is_empty() else "你把目标转向%s。"
+	if event.actor_id == projection.player_id and not event.current_target_id.is_empty() and not event.previous_target_id.is_empty():
 		lines.append(BattleNarrationLine.new(
-			TranslationServer.translate(template) % TranslationServer.translate(projection.display_name(event.current_target_id))
+			TranslationServer.translate("你把目标转向%s。") % TranslationServer.translate(projection.display_name(event.current_target_id))
 		))
 	return lines
 

@@ -239,22 +239,21 @@ func _build() -> void:
 	_recent.custom_minimum_size.y = 60
 	_content.add_child(_recent)
 	for index: int in BattleFeedbackReader.RECENT_LINES:
-		# One row per line: the words, cut short with an ellipsis, and the damage
-		# small and grey at the end of the row.
+		# One row per line, written as the battle log writes it (BattleNarrationLine
+		# rich_text()): the damage small and grey right after the words (owner, modern
+		# fixes II), a long line cut at the row's edge.
 		var row := HBoxContainer.new()
 		_recent.add_child(row)
-		var line := Label.new()
+		var line := RichTextLabel.new()
 		line.name = "Text"
+		line.bbcode_enabled = true
+		line.fit_content = true
+		line.scroll_active = false
+		line.autowrap_mode = TextServer.AUTOWRAP_OFF
+		line.clip_contents = true
 		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		line.add_theme_font_size_override("font_size", 16)
-		line.clip_text = true
-		line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		line.add_theme_font_size_override("normal_font_size", 16)
 		row.add_child(line)
-		var damage := Label.new()
-		damage.name = "Damage"
-		damage.add_theme_font_size_override("font_size", 12)
-		damage.add_theme_color_override("font_color", Color("8b959e"))
-		row.add_child(damage)
 	log_panel = BattleLogPanel.new()
 	log_panel.name = "CombatLog"
 	log_panel.closed.connect(_focus_battle)
@@ -314,15 +313,9 @@ func _present_recent(lines: Array[BattleNarrationLine]) -> void:
 	for index: int in _recent.get_child_count():
 		var row: Node = _recent.get_child(index)
 		var line: BattleNarrationLine = lines[index] if index < lines.size() else null
-		var text: Label = row.get_node("Text")
-		text.text = "" if line == null else line.text
-		text.tooltip_text = text.text
-		if line != null and SharedGameplayUI.ES2_COLORS.has(line.color):
-			text.add_theme_color_override("font_color", SharedGameplayUI.ES2_COLORS[line.color])
-		else:
-			text.remove_theme_color_override("font_color")
-		var damage: Label = row.get_node("Damage")
-		damage.text = tr("（-%d）") % line.damage if line != null and line.has_damage else ""
+		var text: RichTextLabel = row.get_node("Text")
+		text.text = "" if line == null else line.rich_text()
+		text.tooltip_text = "" if line == null else line.text
 
 
 func _mode_name(mode: int) -> String:

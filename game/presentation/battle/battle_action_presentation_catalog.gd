@@ -24,3 +24,58 @@ func label_for(action_id: StringName) -> String:
 		# TRANSLATORS: a battle button: cast.c with one of the player's spells ({spell}, e.g. 遁 or 召天将).
 		return tr("施法「{spell}」").format({"spell": tr(String(spell.id) if name.is_empty() else name)})
 	return String(action_id) # Honest semantic-ID fallback for a registered action.
+
+
+## What an exert or a spell does and costs, for its button's hover (owner, modern fixes
+## II); "" for the others. The numbers are the files' own.
+func tooltip_for(action_id: StringName) -> String:
+	var label: String = label_for(action_id)
+	var what: String = ""
+	match CombatExertTacticalPolicy.function_for(action_id):
+		&"heal":
+			# TRANSLATORS: hover of 运功疗伤 (heal.c): {force} internal power cures wounds; never in a fight.
+			what = tr("用 {force} 点内力治疗伤势，战斗中不能用").format({"force": HealExertFunction.COST})
+		&"recover", &"refresh", &"regenerate":
+			# TRANSLATORS: hover of 运功恢复气/神/精 (recover.c …): {force} internal power brings {track} back.
+			what = tr("用 {force} 点内力恢复{track}").format({
+				"force": RestoreExertFunction.COST,
+				"track": tr({&"recover": "气", &"refresh": "神", &"regenerate": "精"}[CombatExertTacticalPolicy.function_for(action_id)]),
+			})
+		&"powerup":
+			# TRANSLATORS: hover of 运功提升战斗力 (powerup.c): {force} internal power; attack and dodge rise for a while, and bellicosity.
+			what = tr("用 {force} 点内力，一段时间内攻击和闪避提升，杀气也随之上升").format({"force": PowerupExertFunction.COST})
+		&"powerfade":
+			# TRANSLATORS: hover of 运功压制杀气 (powerfade.c): {force} internal power and {sen} sen lower bellicosity; in a fight one may faint.
+			what = tr("用 {force} 点内力和 {sen} 点神压下杀气，战斗中可能昏倒").format({"force": PowerfadeExertFunction.COST, "sen": PowerfadeExertFunction.COST})
+		&"roar":
+			# TRANSLATORS: hover of 运功天邪虎啸 (roar.c): {force} internal power and {kee} kee; the roar hurts everyone else in the room who cannot withstand it.
+			what = tr("用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤").format({"force": RoarExertFunction.COST, "kee": RoarExertFunction.KEE_COST})
+	var spell_id: StringName = CombatCastTacticalPolicy.function_for(action_id)
+	if spell_id == &"dun" and CombatCastTacticalPolicy.is_self(action_id):
+		# TRANSLATORS: hover of 施法「遁」 (dun.c at oneself): out of the fight to {region}{room} (雪亭镇城隍庙); {mana} mana; it can fail.
+		what = tr("脱离战斗，回到{region}{room}（{mana} 法力，可能失败）").format({
+			"region": _region_of(DunSpell.DESTINATION), "room": _room_title(DunSpell.DESTINATION), "mana": DunSpell.SELF_MANA_COST,
+		})
+	elif spell_id == &"dun":
+		# TRANSLATORS: hover of 施法「困」 (dun.c at an enemy): the enemy is held for a while; {mana} mana; it can fail.
+		what = tr("困住对手，让对方一段时间无法出手（{mana} 法力，可能失败）").format({"mana": DunSpell.MANA_COST})
+	elif spell_id == &"saveme":
+		# TRANSLATORS: hover of 施法「召天将」 (saveme.c): a heavenly soldier comes to fight on the player's side; {mana} mana; it can fail.
+		what = tr("召来一名天将相助（{mana} 法力，可能失败）").format({"mana": SavemeSpell.MANA_COST})
+	if what.is_empty():
+		return ""
+	# TRANSLATORS: a battle button's hover: {action} its label (施法「遁」), {what} what it does.
+	return tr("{action}：{what}").format({"action": label, "what": what})
+
+
+static func _room_title(room_id: StringName) -> String:
+	var room: RoomDefinition = GameContent.catalog().room(room_id)
+	return "" if room == null else TranslationServer.translate(room.short)
+
+
+static func _region_of(room_id: StringName) -> String:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var zone: ZoneDefinition = catalog.zone_of_room(room_id)
+	var map: MapDefinition = null if zone == null else catalog.map(zone.map_id)
+	var region: RegionDefinition = null if map == null else catalog.region(map.region_id)
+	return "" if region == null else TranslationServer.translate(region.display_name)

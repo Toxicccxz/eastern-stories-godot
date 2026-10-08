@@ -12,6 +12,8 @@ var _empty: Label
 var _queue: Label
 var _cancel: Button
 var _shown_ids: Array[StringName] = []
+## The actions that cannot run now (CombatTacticalActionInfo.unavailable_reason).
+var _unavailable: Dictionary[StringName, String] = {}
 var _displayed_request_id: StringName = &""
 var enforce_row: HBoxContainer
 var enforce_text: Label
@@ -106,6 +108,16 @@ func present(projection: BattlePresentationProjection) -> void:
 			button.custom_minimum_size = Vector2(64, 64)
 			button.pressed.connect(_action_pressed.bind(id))
 			_actions.add_child(button)
+	# Every refresh (an action can become unavailable without the list changing): an
+	# action that cannot run now is greyed with why; the others say what they do.
+	_unavailable.clear()
+	for index: int in mini(infos.size(), _actions.get_child_count()):
+		var shown: Button = _actions.get_child(index) as Button
+		var reason: String = infos[index].unavailable_reason
+		if not reason.is_empty():
+			_unavailable[infos[index].action_id] = reason
+		shown.disabled = not reason.is_empty()
+		shown.tooltip_text = reason if not reason.is_empty() else catalog.tooltip_for(infos[index].action_id)
 	var queued: CombatQueuedAction = projection.queued_action()
 	_displayed_request_id = &"" if queued == null else queued.request.request_id
 	_queue.text = tr("排定：%s") % _queue_status(projection.queue_status)
@@ -151,6 +163,8 @@ func first_action_button() -> Button:
 
 
 func _action_pressed(id: StringName) -> void:
+	if _unavailable.has(id):
+		return # Greyed: it cannot run now (its hover says why).
 	var question: PackedStringArray = confirm_text.call(id) if confirm_text.is_valid() else PackedStringArray()
 	if question.size() < 2:
 		action_requested.emit(id)

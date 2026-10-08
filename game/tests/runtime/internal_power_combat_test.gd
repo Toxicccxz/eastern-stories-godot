@@ -126,9 +126,12 @@ func _test_battle(tree: SceneTree) -> void:
 		if event.actor_id == _player.character_id and event.resolution != null and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED:
 			busy_turn = true
 	_check(busy_turn and _state.vitality.current == 65, "busy 1: the player's next turn goes by; kee + 15")
+	# heal.c refuses in every fight: greyed with its line, and a press does nothing (modern fixes II).
+	var heal: Button = _button(panel, "运功疗伤")
+	_check(heal != null and heal.disabled and heal.tooltip_text == "战斗中运功疗伤？找死吗？", "运功疗伤 greyed with heal.c's line")
 	_press(panel, "运功疗伤")
-	_advance()
-	_check(_log().contains("战斗中运功疗伤？找死吗？"), "heal.c refuses in a fight")
+	_ui.refresh_projection()
+	_check(_ui.current_projection().queued_action() == null, "a press on it queues nothing")
 	for _second: int in range(300):
 		if not _session.combat_encounter_coordinator().has_active_encounter():
 			break
@@ -197,6 +200,13 @@ func _player_hit(event: CombatSchedulerEvent) -> CombatAttackResult:
 	if ordinary == null or not ordinary.has_base_result or ordinary.base_result.outcome != CombatAttackResult.Outcome.HIT:
 		return null
 	return ordinary.base_result
+
+
+func _button(panel: BattleActionPanel, label: String) -> Button:
+	for button: Node in panel._actions.get_children():
+		if (button as Button).text == label:
+			return button as Button
+	return null
 
 
 func _press(panel: BattleActionPanel, label: String) -> void:

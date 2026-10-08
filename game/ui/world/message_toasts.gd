@@ -27,7 +27,7 @@ const MAX_WAITING: int = 4
 const LINGER_MIN: float = 6.0
 const LINGER_MAX: float = 14.0
 const LINGER_PER_CHARACTER: float = 0.08
-const PLAIN_TEXT: Color = Color(0.93, 0.94, 0.9)
+const PLAIN_TEXT: Color = SharedGameplayUI.PLAIN_LOG_COLOR
 const ACCENT: Color = Color(0.86, 0.72, 0.42)
 
 

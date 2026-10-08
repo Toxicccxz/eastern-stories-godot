@@ -184,15 +184,15 @@ func _log() -> String:
 func _strip() -> Array[String]:
 	var texts: Array[String] = []
 	for row: Node in _ui._recent.get_children():
-		var text: String = (row.get_node("Text") as Label).text
+		var text: String = (row.get_node("Text") as RichTextLabel).get_parsed_text()
 		if not text.is_empty():
 			texts.append(text)
 	return texts
 
 
 func _strip_red(row: int) -> bool:
-	var label: Label = _ui._recent.get_child(row).get_node("Text")
-	return label.has_theme_color_override("font_color") and label.get_theme_color("font_color") == SharedGameplayUI.ALERT_COLOR
+	var label: RichTextLabel = _ui._recent.get_child(row).get_node("Text")
+	return label.text.begins_with("[color=#%s]" % SharedGameplayUI.ALERT_COLOR.to_html(false))
 
 
 func _warning() -> Label:

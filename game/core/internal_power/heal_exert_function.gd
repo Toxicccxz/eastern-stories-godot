@@ -9,11 +9,12 @@ const COST: int = 50
 
 func _init() -> void:
 	id = &"heal"
+	fight_refusal = "战斗中运功疗伤？找死吗？"
 
 
 func exert(context: ExertContext) -> bool:
 	if context.is_fighting:
-		context.fail_line = _t("战斗中运功疗伤？找死吗？")
+		context.fail_line = _t(fight_refusal)
 		return false
 	var force: CharacterInternalResourceState = context.character.recovery.inner_force
 	if force.current - force.maximum < COST:
