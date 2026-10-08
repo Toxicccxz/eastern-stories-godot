@@ -38,11 +38,11 @@ static func presence(map: WorldMapController, name: String) -> Area2D:
 
 ## The presence Area of spawned NPC `index` (spawn order) reports `other`.
 static func presence_entered(map: WorldMapController, index: int, other: Node2D) -> void:
-	map._on_presence_entered(other, map.npc_runtimes()[index].character_id)
+	map.hostilities.on_presence_entered(other, map.npc_runtimes()[index].character_id)
 
 
 static func presence_exited(map: WorldMapController, index: int, other: Node2D) -> void:
-	map._on_presence_exited(other, map.npc_runtimes()[index].character_id)
+	map.hostilities.on_presence_exited(other, map.npc_runtimes()[index].character_id)
 
 
 ## What queueing NPC `index`'s presence decides, as the retired
@@ -50,7 +50,7 @@ static func presence_exited(map: WorldMapController, index: int, other: Node2D) 
 static func queue_presence(map: WorldMapController, index: int, other: Node2D) -> NpcAggressionDecision:
 	if not map.gameplay_open() or other != map.player_body or index < 0 or index >= map.npc_runtimes().size():
 		return NpcAggressionDecision.new()
-	return map.aggression_adapter().enter_player_presence(map.npc_runtimes()[index], map.player_runtime(), map._combat_allowed())
+	return map.aggression_adapter().enter_player_presence(map.npc_runtimes()[index], map.player_runtime(), map.hostilities._combat_allowed())
 
 
 ## A body arriving in a zone the way the retired per-zone callbacks moved it:

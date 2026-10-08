@@ -554,7 +554,7 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		CombatTriggerCause.Value.NPC_AGGRESSION,
 	)
 	if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		_map._announce_fight([])
+		_map.hostilities.announce_fight([])
 	_map.hud().append_log_lines([refusal])
 	return result
 

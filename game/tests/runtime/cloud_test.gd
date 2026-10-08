@@ -234,21 +234,21 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.hummock"))
 	await tree.physics_frame
 	await tree.physics_frame
-	map._toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY: the frames so far
+	map.hostilities.toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY: the frames so far
 	map._process(delay * 0.5)
-	_check(map._complete_entry_contact(robbers[0].character_id) and not session.combat_encounter_coordinator().has_active_encounter(), "half the time in his reach: no attack yet")
+	_check(map.hostilities.complete_entry_contact(robbers[0].character_id) and not session.combat_encounter_coordinator().has_active_encounter(), "half the time in his reach: no attack yet")
 	# Walk on: out of reach before the time is up.
 	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12)
 	await tree.physics_frame
 	await tree.physics_frame
 	map._process(delay)
-	_check(not session.combat_encounter_coordinator().has_active_encounter() and not map._toll_contact_seconds.has(robbers[0].character_id), "walked on: his greeting finds nobody")
+	_check(not session.combat_encounter_coordinator().has_active_encounter() and not map.hostilities.toll_contact_seconds.has(robbers[0].character_id), "walked on: his greeting finds nobody")
 	_check(not robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER) and robbers[0].definition().toll_attack_delay_ms(robbers[0].flags(), player.state) == 2000, "no grudge for it (owner): the way back has the same time")
 	# Stay: the whole time in his reach and he attacks.
 	body.global_position = robber_at + Vector2(0, 60)
 	await tree.physics_frame
 	await tree.physics_frame
-	map._toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY
+	map.hostilities.toll_contact_seconds[robbers[0].character_id] = 0.0 # TEST-ONLY
 	map._process(delay * 0.5)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "still waiting at half the time")
 	var said: int = session.shared_ui().log_lines().size()
@@ -269,8 +269,8 @@ func _test_toll_window(tree: SceneTree, session: OldPineWorldSessionController) 
 	body.global_position = (robber_at + map.runtime_body_for_character(robbers[1].character_id).global_position) / 2.0
 	await tree.physics_frame
 	await tree.physics_frame
-	map._toll_contact_seconds[robbers[0].character_id] = delay * 0.6 # TEST-ONLY
-	map._toll_contact_seconds[robbers[1].character_id] = delay * 0.3 # TEST-ONLY
+	map.hostilities.toll_contact_seconds[robbers[0].character_id] = delay * 0.6 # TEST-ONLY
+	map.hostilities.toll_contact_seconds[robbers[1].character_id] = delay * 0.3 # TEST-ONLY
 	map._process(delay * 0.45)
 	_check(session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id) and robbers[1].relationship.has_lethal_target(player.character_id), "in both reaches: the second robber joins the first's attack")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY

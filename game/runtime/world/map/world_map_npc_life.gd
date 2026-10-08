@@ -67,7 +67,7 @@ func _advance_ambience(delta: float) -> void:
 		ambience = NpcAmbience.new(session.npc_ambience_random_source())
 	ambience.set_random(session.npc_ambience_random_source())
 	_note_bellicosity()
-	_map.run_pending_player_berserk()
+	_map.hostilities.run_pending_player_berserk()
 	# A fight began: the world stands still from here.
 	if not _map.gameplay_open():
 		return
@@ -118,7 +118,7 @@ func _note_player_arrival() -> void:
 		if npc.world_location().zone_id == zone_id:
 			_consider_stealing(npc)
 			here.append(npc)
-	_map._player_init(here)
+	_map.hostilities.player_init(here)
 
 
 ## keeper.c and waiter.c greeting(): said only if the player is still there; the
@@ -163,7 +163,7 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 		ambience.start_greeting(npc.character_id)
 	if ambience != null and player_shares_zone(npc):
 		_consider_stealing(npc)
-		_map._player_init([npc])
+		_map.hostilities.player_init([npc])
 
 
 ## thief.c init(): a player coming into its place (or it into theirs) is robbed one
@@ -264,7 +264,7 @@ func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
 			)
 			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
 				npc.busy.start_busy(5)
-				_map._announce_fight(lines)
+				_map.hostilities.announce_fight(lines)
 			else:
 				_map.hud().append_log_lines(lines)
 
@@ -369,7 +369,7 @@ func random_move(npc: NpcRuntimeState) -> bool:
 		_map.hud().append_log_lines([move.leave_line(npc.definition().display_name)])
 	# The player's init() for one who walks in.
 	if player_shares_zone(npc):
-		_map._player_init([npc])
+		_map.hostilities.player_init([npc])
 	return true
 
 

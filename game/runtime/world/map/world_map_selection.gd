@@ -92,7 +92,7 @@ func inspect_selected() -> bool:
 		return false
 	var gender: StringName = npc.character_state.gender
 	_map.hud().show_inspection(npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender)
-	_map._look_berserk(npc)
+	_map.hostilities.look_berserk(npc)
 	return true
 
 
@@ -110,8 +110,8 @@ func attack_selected() -> CombatSliceInitiationResult:
 		_map.hud().append_log_lines([tr("这里没有这个人。")])
 		return CombatSliceInitiationResult.new()
 	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
-	# obj->kill_ob(me) warns the player (_map._announce_fight()).
-	return _map._initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
+	# obj->kill_ob(me) warns the player (_map.hostilities.announce_fight()).
+	return _map.hostilities.initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
 		"npc": tr(target.definition().display_name),
 		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, &"")),
 	})])
@@ -173,7 +173,7 @@ func spar_selected() -> CombatSliceInitiationResult:
 		# blade draws blood. Native hint; ES2 says nothing here.
 		lines.append(tr("刀剑无眼，持兵刃比试可能真的受伤。"))
 	if started:
-		_map._announce_fight(lines)
+		_map.hostilities.announce_fight(lines)
 	else:
 		_map.hud().append_log_lines(lines)
 	return result

@@ -315,7 +315,7 @@ func _test_look(tree: SceneTree) -> void:
 	_heal()
 	npc = _npc(&"snow.school2.trainee.2")
 	var lines: Array[String] = []
-	_map._npc_berserk(npc, Berserk.Outcome.FIGHT, lines)
+	_map.hostilities._npc_berserk(npc, Berserk.Outcome.FIGHT, lines)
 	encounter = _session.combat_encounter_coordinator().active_encounter()
 	_check(encounter != null and encounter.mode == CombatEncounterMode.Value.SPAR and encounter.accepted_trigger().initiator_id == npc.character_id, "a spar it starts: %s" % [null if encounter == null else encounter.accepted_trigger().initiator_id])
 	_check(_hud.log_lines().back().begins_with("武馆弟子对著你喝道：喂！") and _hud.log_lines().back().ends_with("正想找人打架，陪我玩两手吧！"), "its line: " + _hud.log_lines().back())

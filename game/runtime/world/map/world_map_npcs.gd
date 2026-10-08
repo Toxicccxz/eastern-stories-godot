@@ -172,8 +172,8 @@ func _connect_npc_body(character_id: StringName, body: WorldCharacterBody2D, pre
 	_npc_bodies[character_id] = body
 	npc_presence[character_id] = presence
 	body.selection_requested.connect(_map.selection.on_npc_selection_requested)
-	presence.body_entered.connect(_map._on_presence_entered.bind(character_id))
-	presence.body_exited.connect(_map._on_presence_exited.bind(character_id))
+	presence.body_entered.connect(_map.hostilities.on_presence_entered.bind(character_id))
+	presence.body_exited.connect(_map.hostilities.on_presence_exited.bind(character_id))
 
 
 ## Binds an already-created NPC to a caller-owned physical body. This does not
@@ -215,14 +215,14 @@ func unregister_npc_body(character_id: StringName) -> bool:
 		body.selection_requested.disconnect(_map.selection.on_npc_selection_requested)
 	var area: Area2D = npc_presence[character_id]
 	if is_instance_valid(area):
-		area.body_entered.disconnect(_map._on_presence_entered.bind(character_id))
-		area.body_exited.disconnect(_map._on_presence_exited.bind(character_id))
+		area.body_entered.disconnect(_map.hostilities.on_presence_entered.bind(character_id))
+		area.body_exited.disconnect(_map.hostilities.on_presence_exited.bind(character_id))
 	_npc_bodies.erase(character_id)
 	npc_presence.erase(character_id)
 	_registered_npc_content.erase(character_id)
 	residents.erase(npc)
 	map_characters.remove_character(character_id)
-	_map._aggression.clear_npc(character_id)
+	_map.hostilities.aggression.clear_npc(character_id)
 	if _map.selection.selected_character_id() == character_id:
 		_map.selection.selected_target = null
 	return true
@@ -582,7 +582,7 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 	npc_presence.erase(character_id)
 	residents.erase(npc)
 	map_characters.remove_character(character_id)
-	_map._aggression.clear_npc(character_id)
+	_map.hostilities.aggression.clear_npc(character_id)
 	_unbind_npc_services(character_id)
 	if _map.npc_life.ambience != null:
 		_map.npc_life.ambience.cancel_greeting(character_id)
