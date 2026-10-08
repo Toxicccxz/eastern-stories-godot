@@ -387,12 +387,17 @@ func _on_pushed_against(other: WorldCharacterBody2D) -> void:
 
 ## An NPC the player walked away from is no longer selected (kill.c's present():
 ## its actions would only be refused). One in the room the player walked into stays, and
-## so does a dead one (it offers nothing; picking its corpse replaces it).
+## so does a dead one (it offers nothing; picking its corpse replaces it) and one that
+## follows the player and is about to walk after them (WorldMapNpcLife._followers_follow()).
 func _drop_selection_left_behind() -> void:
 	var npc: NpcRuntimeState = selection.selected_npc()
 	if (
 		npc == null or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD
 		or npc.world_location().shares_combat_location(_player.world_location())
+		or (
+			npc.flags().get(NpcDefinition.FLAG_FOLLOWS_PLAYER, false)
+			and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
+		)
 	):
 		return
 	selection.selected_target = null

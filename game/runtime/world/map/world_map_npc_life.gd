@@ -163,8 +163,10 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 			continue
 		var spot: Vector2 = _map.floor_items.at_feet(location, _map.player_body.global_position)
 		npc_walker().cancel(npc.character_id)
+		# No way through (a door shut behind the player): it stays behind, as go.c's
+		# valid_leave() would keep it.
 		if not npc_walker().walk_to(npc.character_id, body, _map.physical_zone(left_zone_id), _map.physical_zone(zone_id), spot):
-			body.global_position = spot
+			continue
 		npc.set_world_location(location)
 		if player_hears(npc):
 			# TRANSLATORS: go.c: someone ({name}) comes into the player's room.
