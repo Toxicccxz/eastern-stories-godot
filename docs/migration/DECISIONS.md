@@ -19,12 +19,21 @@ What each LPC function became is in [GREEN_CONTENT](GREEN_CONTENT.md).
 - **The player's 天将** (heaven_soldier.c invocation()): it kill_ob()s each living enemy of the
   player (from the last), each kill_ob()s it back, it comes in on the player's side and the fight
   goes on to the death; the player and a sparring partner still only spar. It finishes an enemy
-  that falls, as any killer does, and its kill gives the player nothing (killer_reward() is the
-  soldier's). It leaves when the fight ends (C). Owner's rule on deadly choices: in a spar the
-  battle panel asks first, as the partner may die.
+  that falls, as any killer does, and fights on while the player lies unconscious. **Its kill is
+  the player's**: combatd.c killer_reward() hands a `possessed` killer's reward to who called it
+  (its `!is_living()` test always holds, as nothing defines is_living()), so MKS, a 朱鸿雪 target,
+  bellicosity, a vendetta and killing one's own master all count. It leaves when the fight ends
+  (C). Owner's rule on deadly choices: in a spar the battle panel asks first (the partner may
+  die, and a dead master is 弑师).
+- **Who turns on the player's side kills whom the LPC says**: an NPC's own soldier kill_ob()s its
+  caster's living enemies (the player's soldier too, which kills it back; the player only fights
+  back); 老公公/老婆婆's ask_for_help() sends the partner at query_temp("killer"), the last one
+  the caller kill_ob()ed (the soldier, once it came).
 - **An NPC with several enemies** (the player and the soldier) picks one each attack as
   feature/attack.c select_opponent() does: random(4), else the first. An NPC with one enemy still
   keeps its target and draws nothing.
+- A fight to the death that stops with both sides standing (nobody fights anyone: a spar partner
+  who withstood 天邪虎啸 or outlasted the 天将) ends with 双方都停了手，战斗结束。, not 你赢了.
 
 ## 青石村 C: 绝尘派 (2026-10-07)
 

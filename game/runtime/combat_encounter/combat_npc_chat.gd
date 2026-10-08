@@ -90,14 +90,23 @@ func beat(
 		side_of(actor, npc), enemy_sides, random_source.legacy_random, GameContent.catalog(), effects, other_sides,
 	)
 	NpcSpecials.run(entry, context)
-	var joiners: Array[StringName] = _summon(actor, context)
+	var joins: Array[CombatJoin] = _summon(actor, context)
 	if context.lines.is_empty() and context.damaged.is_empty():
 		return null
-	return CombatNpcChatResult.new(context.lines, context.damaged).with_joiners(joiners)
+	return CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins)
 
 
-func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Array[StringName]:
-	return bring_summons(actor.character_id, context, _summon_for, _npc_for)
+## heaven_soldier.c invocation(caster): each soldier kill_ob()s the caster's living
+## enemies, from the last (while(i--)), and the NPCs among them kill it back.
+func _summon(actor: CombatSliceCharacterBinding, context: SpecialContext) -> Array[CombatJoin]:
+	var targets: Array[StringName] = []
+	for side: SpecialSide in context.enemies:
+		if side.living:
+			targets.push_front(side.character_id)
+	var joins: Array[CombatJoin] = []
+	for summoned_id: StringName in bring_summons(actor.character_id, context, _summon_for, _npc_for):
+		joins.append(CombatJoin.new(summoned_id, targets, true))
+	return joins
 
 
 ## Each NPC the spell called comes into the caster's place with its invocation() lines;
@@ -170,9 +179,11 @@ func _say_by_age(rule: NpcFightChat.SayByAge, actor: CombatSliceCharacterBinding
 
 
 ## ask_for_help(): the partner here and not fighting does its line and comes in to kill
-## the one this NPC fights to the death; in a spar there is none, and nothing happens.
+## query_temp("killer"), the last one this NPC kill_ob()ed (its kill_ob() keeps it); in
+## a spar there is none, and nothing happens.
 func _call_partner(rule: NpcFightChat.CallPartner, actor: CombatSliceCharacterBinding) -> CombatNpcChatResult:
-	if actor.relationship.lethal_target_ids().is_empty() or not _partner_for.is_valid():
+	var killing: Array[StringName] = actor.relationship.lethal_target_ids()
+	if killing.is_empty() or not _partner_for.is_valid():
 		return null
 	var partner_id: StringName = _partner_for.call(actor.character_id, rule.partner_id)
 	var partner: NpcRuntimeState = _npc(partner_id)
@@ -180,7 +191,7 @@ func _call_partner(rule: NpcFightChat.CallPartner, actor: CombatSliceCharacterBi
 		return null
 	var name: String = TranslationServer.translate(partner.definition().display_name)
 	var line := VisionLine.new(rule.line.sentence(name, ""), partner_id)
-	return CombatNpcChatResult.new([line]).with_joiners([partner_id])
+	return CombatNpcChatResult.new([line]).with_joins([CombatJoin.new(partner_id, [killing.back()])])
 
 
 ## say(): "<name>说道：<line>", in the shown language.

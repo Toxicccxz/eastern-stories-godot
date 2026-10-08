@@ -57,8 +57,8 @@ var _npc_ambience_random: WorldInteractionRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
 var _last_temple_handoff: OldPineMapHandoffResult
-## The room a spell took the player to as they left a fight, until they are moved there.
-var _pending_departure: StringName = &""
+## The room a spell took the player to was seen a frame ago: the move may be made now.
+var _departure_due: bool = false
 var _hidden_passages: WorldHiddenPassages
 var _room_traps: WorldRoomTraps
 var _room_resets: WorldRoomResets
@@ -1237,22 +1237,32 @@ func _move_player_to_temple() -> bool:
 	return _last_temple_handoff.succeeded()
 
 
-## dun.c's me->move() after the fight let the player go: once the world is free, the
-## player is taken to the room the spell named (retried each frame until the move can
-## happen). Only Snow's temple is such a room.
+## dun.c's me->move() after the fight let the player go: from the next frame on (the
+## fight's result and the spell's lines are told first) the player is taken to the room
+## the spell named, once the world is free; meanwhile no fight starts. A move refused for
+## good (anything but a frozen or busy world) is dropped with an error. Only Snow's temple
+## is such a room.
 func advance_departure() -> void:
-	if _combat_encounter_coordinator == null:
+	var coordinator: CombatEncounterCoordinator = _combat_encounter_coordinator
+	var room: StringName = &"" if coordinator == null else coordinator.pending_departure()
+	if room.is_empty():
+		_departure_due = false
 		return
-	if _pending_departure.is_empty():
-		_pending_departure = _combat_encounter_coordinator.take_departure()
-	if _pending_departure.is_empty() or _transitioning or _combat_encounter_coordinator.has_active_encounter():
+	if not _departure_due:
+		_departure_due = true
 		return
-	if _pending_departure != DunSpell.DESTINATION:
-		push_error("no way to %s" % _pending_departure)
-		_pending_departure = &""
+	if _transitioning or _restore_candidate_staged or coordinator.has_active_encounter() or not application_gameplay_allows_encounter_advance():
 		return
-	if _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _move_player_to_temple():
-		_pending_departure = &""
+	var on_snow: bool = active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID
+	if room == DunSpell.DESTINATION and _player != null and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		if not _move_player_to_temple():
+			if not on_snow and _last_temple_handoff.outcome in [OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN, OldPineMapHandoffResult.Outcome.SESSION_NOT_READY]:
+				return
+			push_error("遁 could not reach %s from %s" % [room, active_map_id()])
+	elif room != DunSpell.DESTINATION:
+		push_error("no way to %s" % room)
+	coordinator.finish_departure()
+	_departure_due = false
 
 
 ## d/death/npc/wgargoyle.c death_stage(): reincarnate() and move to

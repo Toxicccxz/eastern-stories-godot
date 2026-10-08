@@ -55,11 +55,17 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 |---|---|
 | cmds/std/cast.c | CastService (busy, no_magic, the enabled spells skill, std/skill.c's 你所选用的咒文系中没有这种咒文); CombatCastTacticalPolicy, one per file, plus one at oneself for dun |
 | magic-array/dun.c, `target == me` | DunSpell: 80 mana, 30 sen, random(spells) < 30 fails, five lights; the fight ends for the player (DISENGAGED) and the session moves them to /d/snow/temple |
-| magic-array/saveme.c, heaven_soldier.c invocation(who) | the soldier admitted on the player's side (CombatEncounterResolution): lethal both ways with each living enemy, from the last |
+| magic-array/saveme.c, heaven_soldier.c invocation(who) | the soldier admitted on the player's side (CombatEncounterResolution): lethal both ways with each living enemy, from the last; an NPC's soldier: CombatJoin with its caster's enemies |
+| combatd.c killer_reward(), `possessed` | WorldMapController keeps each summoned NPC's caster: the player's soldier's kill is the player's |
+| oldman.c kill_ob() / ask_for_help() | the partner's CombatJoin targets the caller's last kill_ob() |
 | feature/attack.c select_opponent() | an NPC with several enemies draws random(4) each attack (CombatEncounterScheduler) |
 | set("no_magic") | rooms.json `no_magic`, ContentCatalog.zone_forbids_magic() |
 
 ## Source anomalies
+
+- combatd.c killer_reward() tests `!killer->is_living()` before handing a possessed killer's
+  reward to its caller; is_living() is defined nowhere, so the test always holds (whoever calls
+  a heaven_soldier, hell_guard or zombie gets its kills).
 
 - The 迷阵's room files make one maze with eight7 south → stoneroom → (west) the hall: the only
   way in for one who is not yet 绝尘子's apprentice. stoneroom → cavehall and water → outdoor

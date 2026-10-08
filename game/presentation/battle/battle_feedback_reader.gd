@@ -88,6 +88,10 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 		return TranslationServer.translate("你借遁术脱离了战斗。")
 	match receipt.terminal_result.kind:
 		CombatEncounterResultKind.Value.VICTORY:
+			# Nobody fights anyone any more, but someone of the other side still stands
+			# (a sparring partner who withstood 天邪虎啸, or who outlasted the 天将).
+			if receipt.terminal_result.losing_side_ids().is_empty():
+				return TranslationServer.translate("双方都停了手，战斗结束。")
 			return TranslationServer.translate("你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。")
 		CombatEncounterResultKind.Value.DEFEAT:
 			if player_life == CharacterRuntimeLifeStatus.Value.DEAD:

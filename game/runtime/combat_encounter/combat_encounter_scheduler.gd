@@ -182,7 +182,7 @@ func advance(
 			# Never accumulate delta or execute an ordinary opportunity after escape,
 			# even if a standalone scheduler has no completion adapter installed.
 			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
-	if boundary != null and tactical_result != null and not (tactical_result.joiners.is_empty() and tactical_result.allies.is_empty()):
+	if boundary != null and tactical_result != null and not (tactical_result.joiners.is_empty() and tactical_result.allies.is_empty() and tactical_result.joins.is_empty()):
 		boundary.admit(bindings, tactical_result)
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not boundary.inspect(bindings, null, tactical_result):
@@ -237,10 +237,8 @@ func advance(
 			_next_event_sequence += 1
 			# ask_for_help(): the partner's kill_ob() brings it in before anyone acts on.
 			var said: CombatNpcChatResult = chat.chat
-			if boundary != null and said != null and not said.joiners().is_empty():
-				boundary.admit(bindings, CombatTacticalExecutionResult.new(
-					CombatTacticalExecutionResult.Outcome.APPLIED, &"", [], null, said.joiners(),
-				))
+			if boundary != null and said != null and not said.joins().is_empty():
+				boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
 			if boundary != null and not boundary.inspect(bindings, chat):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,

@@ -3166,6 +3166,10 @@ msgid "你借遁术脱离了战斗。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
+msgid "双方都停了手，战斗结束。"
+msgstr ""
+
+#: presentation/battle/battle_feedback_reader.gd
 msgid "你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。"
 msgstr ""
 
@@ -3332,10 +3336,10 @@ msgid ""
 "确定要压制杀气吗？"
 msgstr ""
 
-#. asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back.
+#. asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()).
 #: presentation/battle/battle_presentation_controller.gd
 msgid ""
-"召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。\n"
+"召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n"
 "确定要召唤天将吗？"
 msgstr ""
 
@@ -3932,6 +3936,10 @@ msgstr ""
 #. a landmark used to move on: {action} (爬树) and the landmark (大松树).
 #: runtime/world/landmarks/portal_landmark_policy.gd
 msgid "{action}：{landmark}"
+msgstr ""
+
+#: runtime/world/oldpine_world_session_controller.gd
+msgid "遁 could not reach %s from %s"
 msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd

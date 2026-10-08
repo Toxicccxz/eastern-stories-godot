@@ -51,10 +51,12 @@ func accept_tactical(value: CombatTacticalExecutionResult) -> void:
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
 		CombatEncounterResultKind.Value.FLED, [], [], [_session.player_runtime().character_id])
 
-## roar.c's kill_ob()s: one already in the fight now kills the player; one in the
-## room but not in it comes in (initiate_directed_kill(): it kills, the player only
-## fights back) on the side against the player. A spar then goes on to the death.
-## Someone who cannot fight here (gone, not available) stays out.
+## Those who turn on the player's side: roar.c's kill_ob()s (the player), an NPC's
+## ask_for_help() and its soldier's invocation() (CombatJoin). One already in the fight
+## now kills its targets; one in the room but not in it comes in on the side against the
+## player, killing its targets, each fighting it back (an NPC killed back by a soldier
+## kills it back). Then the soldiers the player called come in on the player's side. A
+## spar goes on to the death. Someone who cannot fight here (gone, not available) stays out.
 func admit(bindings: Array[CombatSliceCharacterBinding], tactical: CombatTacticalExecutionResult) -> void:
 	if _failure != Failure.NONE or _result != null or _encounter.phase != CombatEncounterLifecycle.Value.ACTIVE or tactical == null:
 		return
@@ -70,36 +72,68 @@ func admit(bindings: Array[CombatSliceCharacterBinding], tactical: CombatTactica
 			break
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
-	var warnings: Array[String] = []
+	var joins: Array[CombatJoin] = []
 	for joiner_id: StringName in tactical.joiners:
-		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, joiner_id)
-		if binding != null:
-			binding.relationship.mark_lethal_target(player_id)
-			warnings.append(coordinator.kill_warning(joiner_id))
-			continue
-		binding = null if map == null else map.combat_binding_for(joiner_id)
-		var authority: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(joiner_id)
-		if binding == null or authority == null or enemy_side.is_empty() or not _session.encounter_participant_is_available(joiner_id):
-			continue
-		var saved: Array[Array] = [
-			binding.relationship.opponent_ids(), binding.relationship.lethal_target_ids(),
-			player.relationship.opponent_ids(), player.relationship.lethal_target_ids(),
-		]
-		if (
-			CombatSliceOpportunityExecutor.initiate_directed_kill(binding, player).outcome != CombatSliceInitiationResult.Outcome.COMPLETED
-			or not _encounter.admit(CombatParticipant.new(joiner_id, enemy_side, authority))
-		):
-			_restore(binding.relationship, saved[0], saved[1])
-			_restore(player.relationship, saved[2], saved[3])
-			continue
-		bindings.append(binding)
-		warnings.append(coordinator.kill_warning(joiner_id))
+		joins.append(CombatJoin.new(joiner_id, [player_id]))
+	joins.append_array(tactical.joins)
+	var warnings: Array[String] = []
+	var turned: bool = false
+	for join: CombatJoin in joins:
+		if _admit_join(bindings, join, player_id, enemy_side, map):
+			turned = true
+			if join.target_ids.has(player_id):
+				warnings.append(coordinator.kill_warning(join.joiner_id))
 	coordinator.note_warnings(warnings)
 	var allied: bool = false
 	for ally_id: StringName in tactical.allies:
 		allied = _admit_ally(bindings, ally_id, player, player_participant.side_id, map) or allied
-	if not warnings.is_empty() or allied:
+	if turned or allied:
 		_encounter.escalate_to_lethal()
+
+
+## One join: whether its kill_ob()s were made (and it is in the fight now).
+func _admit_join(
+	bindings: Array[CombatSliceCharacterBinding], join: CombatJoin, player_id: StringName, enemy_side: StringName,
+	map: WorldMapController,
+) -> bool:
+	var targets: Array[CombatSliceCharacterBinding] = []
+	for target_id: StringName in join.target_ids:
+		var target: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, target_id)
+		if target != null:
+			targets.append(target)
+	if targets.is_empty():
+		return false
+	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, join.joiner_id)
+	if binding != null:
+		for target: CombatSliceCharacterBinding in targets:
+			binding.relationship.mark_lethal_target(target.character_id)
+			if join.killed_back and target.character_id != player_id:
+				target.relationship.mark_lethal_target(binding.character_id)
+		return true
+	binding = null if map == null else map.combat_binding_for(join.joiner_id)
+	var authority: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(join.joiner_id)
+	if binding == null or authority == null or enemy_side.is_empty() or not _session.encounter_participant_is_available(join.joiner_id):
+		return false
+	var saved: Array[Array] = [[binding.relationship.opponent_ids(), binding.relationship.lethal_target_ids()]]
+	for target: CombatSliceCharacterBinding in targets:
+		saved.append([target.relationship.opponent_ids(), target.relationship.lethal_target_ids()])
+	var engaged: bool = true
+	for target: CombatSliceCharacterBinding in targets:
+		# The player only fights back (fight_ob()); an NPC kills back when the joiner's
+		# invocation() says so.
+		var mutual: bool = join.killed_back and target.character_id != player_id
+		var receipt: CombatSliceInitiationResult = (
+			CombatSliceOpportunityExecutor.initiate_lethal_combat(binding, target) if mutual
+			else CombatSliceOpportunityExecutor.initiate_directed_kill(binding, target)
+		)
+		engaged = engaged and receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED
+	if not engaged or not _encounter.admit(CombatParticipant.new(join.joiner_id, enemy_side, authority)):
+		_restore(binding.relationship, saved[0][0], saved[0][1])
+		for index: int in targets.size():
+			_restore(targets[index].relationship, saved[index + 1][0], saved[index + 1][1])
+		return false
+	bindings.append(binding)
+	return true
 
 
 ## heaven_soldier.c invocation() for the player: the soldier kill_ob()s each of the
@@ -280,6 +314,8 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	# withstood it stops after the first blow, as any spar): the fight is over.
 	if (player_active and any_hostile_active and _anyone_engaged(bindings)) or player_being_finished:
 		return
+	if player_unconscious and _ally_engaged(bindings, player):
+		return
 	for side: StringName in _encounter.side_ids():
 		var side_active: bool = false
 		for binding: CombatSliceCharacterBinding in bindings:
@@ -307,6 +343,30 @@ func _side_kills(bindings: Array[CombatSliceCharacterBinding], player: CombatPar
 		):
 			return true
 	return false
+
+
+## One standing on the player's side (the soldier they called) still fights someone of
+## the other side, or is fought by one standing: the fight goes on while the player lies
+## there, as it does in ES2 around anyone who fell.
+func _ally_engaged(bindings: Array[CombatSliceCharacterBinding], player: CombatParticipant) -> bool:
+	for ally: CombatSliceCharacterBinding in bindings:
+		var side: CombatParticipant = _encounter.participant_for(ally.character_id)
+		if side == null or side.side_id != player.side_id or ally.character_id == player.participant_id or not _standing(ally):
+			continue
+		for other: CombatSliceCharacterBinding in bindings:
+			var other_side: CombatParticipant = _encounter.participant_for(other.character_id)
+			if other_side == null or other_side.side_id == player.side_id or not other.exists_in_encounter:
+				continue
+			var downed_victim: bool = other.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS and ally.relationship.has_lethal_target(other.character_id)
+			if ally.relationship.has_opponent(other.character_id) and (_standing(other) or downed_victim):
+				return true
+			if _standing(other) and other.relationship.has_opponent(ally.character_id):
+				return true
+	return false
+
+
+static func _standing(binding: CombatSliceCharacterBinding) -> bool:
+	return binding.exists_in_encounter and binding.combat_available and binding.life_status == CombatSliceLifeStatus.Value.ACTIVE
 
 
 ## Someone standing fights someone the scheduler could give it: a standing one, or

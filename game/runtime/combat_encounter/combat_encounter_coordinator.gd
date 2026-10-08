@@ -17,8 +17,8 @@ var _last_abort_detail: String = ""
 var _opening_encounter_id: StringName = &""
 var _opening_lines: Array[String] = []
 var _opening_warnings: Array[String] = []
-## Where a spell took the player as they left the last fight (dun.c), until the world
-## moves them there; and which fight they left so.
+## Where a spell took the player as they left the last fight (dun.c), until the session
+## has moved them there (no new fight starts meanwhile); and which fight they left so.
 var _departure: StringName = &""
 var _departed_encounter_id: StringName = &""
 
@@ -42,12 +42,15 @@ func completed_feedback() -> CombatCompletedFeedback:
 	return _completed_feedback
 
 
-## The room a spell took the player to as they left the last fight (dun.c), once:
-## the session moves them there. Empty when there is none (or it was taken).
-func take_departure() -> StringName:
-	var room: StringName = _departure
+## The room a spell took the player to as they left the last fight (dun.c), until the
+## session moved them there (finish_departure()); empty when there is none.
+func pending_departure() -> StringName:
+	return _departure
+
+
+## The session moved the player (or gave up for good): fights may start again.
+func finish_departure() -> void:
 	_departure = &""
-	return room
 
 
 ## Whether the player left `encounter_id` by a spell that took them away.
@@ -108,7 +111,7 @@ func _is_opening_of(encounter_id: StringName) -> bool:
 ## (PLAYER_LETHAL_ATTACK, combatd.c start_berserk()). NPC_SPAR is an NPC's berserk
 ## fight_ob(): a spar it starts.
 func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int, directed_kill: bool = false) -> CombatSliceInitiationResult:
-	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open():
+	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or not _departure.is_empty():
 		return CombatSliceInitiationResult.new()
 	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id):
 		return CombatSliceInitiationResult.new()
@@ -157,7 +160,7 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 ## Player first, enemies in stable lexical CharacterId order; one existing engine.
 func start_complete_production(cause: int, requested_target: StringName = &"") -> CombatSliceInitiationResult:
 	var failed := CombatSliceInitiationResult.new()
-	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or _entry_sequence == 9223372036854775807:
+	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or _entry_sequence == 9223372036854775807 or not _departure.is_empty():
 		return failed
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	if map == null:
@@ -318,10 +321,13 @@ func _init(
 		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		_tactical_registry.register_policy(CombatPerformTacticalPolicy.new(function_id))
+	# Only spells a player can reach have a name on the panel (the NPCs' bolts have none yet).
 	for function_id: StringName in SpecialFunctions.CASTS:
-		if not SpecialFunctions.cast(function_id).self_label.is_empty():
+		var spell: CastFunction = SpecialFunctions.cast(function_id)
+		if not spell.self_label.is_empty():
 			_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, true, _no_magic, _summon_beside, _resident_npc))
-		_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, false, _no_magic, _summon_beside, _resident_npc))
+		if not spell.label.is_empty():
+			_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, false, _no_magic, _summon_beside, _resident_npc))
 
 
 func is_valid() -> bool:
@@ -465,7 +471,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		return _start_failure(CombatEncounterStartResult.Outcome.SESSION_NOT_READY, trigger)
 	if trigger.source_location.map_id != _session.active_map_id():
 		return _start_failure(CombatEncounterStartResult.Outcome.LOCATION_MISMATCH, trigger)
-	if has_active_encounter() or not _world_gate.is_open():
+	if has_active_encounter() or not _world_gate.is_open() or not _departure.is_empty():
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.ENCOUNTER_ALREADY_ACTIVE,
 			trigger,

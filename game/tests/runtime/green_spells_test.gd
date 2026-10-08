@@ -6,8 +6,10 @@ extends RefCounted
 ## battle panel's 施法 buttons; then the real session: enable and practice, 困 holding
 ## 工匠, 召天将 in a spar (asked first; the soldier on the player's side kills 工匠, who
 ## kills it back and picks between the two, and finishes him once he falls; the player
-## gets nothing for the kill), a no_magic room, and 遁 ending a fight in Snow's temple
-## with the soldier left behind unheard. TEST-ONLY fixtures are marked.
+## is credited with its kill: killer_reward() follows `possessed`), the old couple's helper
+## and an NPC's own soldier turning on the player's soldier, a no_magic room, and 遁 ending
+## a fight in Snow's temple with the soldiers left behind unheard. TEST-ONLY fixtures are
+## marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Specials := preload("res://tests/runtime/combat_specials_test.gd")
@@ -31,6 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_vanish_rules()
 	_test_cast_rules()
 	_test_labels()
+	_test_labels_of_taught_spells()
 	var session: OldPineWorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -42,6 +45,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_enable(session)
 	await _test_trap(tree, session)
 	await _test_summon_in_spar(tree, session)
+	await _test_old_couple(tree, session)
 	await _test_no_magic(tree, session)
 	await _test_vanish(tree, session)
 	session.free()
@@ -123,6 +127,20 @@ func _test_labels() -> void:
 	var catalog := BattleActionPresentationCatalog.new()
 	_check(catalog.label_for(VANISH) == "施法「遁」" and catalog.label_for(TRAP) == "施法「困」" and catalog.label_for(SUMMON) == "施法「召天将」", "施法「遁」, 施法「困」, 施法「召天将」")
 	_check(CombatCastTacticalPolicy.function_for(VANISH) == &"dun" and CombatCastTacticalPolicy.is_self(VANISH) and not CombatCastTacticalPolicy.is_self(TRAP), "cast.dun.self is dun at oneself")
+
+
+## Every spell of a skill some NPC teaches has a name on the battle panel (the NPCs'
+## bolts have none: no teacher gives necromancy yet; 茅山's will need them).
+func _test_labels_of_taught_spells() -> void:
+	var unnamed: Array[String] = []
+	for npc: NpcDefinition in _catalog.npcs():
+		if npc.teaching() == null:
+			continue
+		for skill_id: StringName in NpcTeacher.teachable_skills(npc, _catalog):
+			for function_id: StringName in _catalog.skill(skill_id).cast_functions:
+				if SpecialFunctions.cast(function_id).label.is_empty():
+					unnamed.append("%s/%s" % [skill_id, function_id])
+	_check(unnamed.is_empty(), "every spell a teacher gives has a 施法 name: %s" % [unnamed])
 
 
 ## TEST-ONLY: a player with spells 100 and 奇门遁甲 80 enabled, 1000 mana, 300 sen,
@@ -270,8 +288,12 @@ func _test_summon_in_spar(tree: SceneTree, session: OldPineWorldSessionControlle
 			at_soldier = at_soldier or (event.actor_id == worker.character_id and event.target_id == soldier_id and event.resolution != null)
 			soldier_hits = soldier_hits or (event.actor_id == soldier_id and event.target_id == worker.character_id and event.resolution != null)
 	_check(at_soldier and soldier_hits, "工匠 turns on the soldier (random(4) 1) and the soldier strikes him")
-	# Then as it falls out: the soldier finishes him.
+	# He falls (TEST-ONLY: knocked out); the fight goes on and the soldier finishes him.
 	session.configure_combat_random_source(_original_random)
+	if worker.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		worker.character_state.vitality.current = -1
+	coordinator.advance_scheduler(0.0) # the lifecycle check alone: char.c heart_beat()
+	var fell: bool = worker.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and coordinator.has_active_encounter()
 	for _round: int in range(400):
 		if not coordinator.has_active_encounter():
 			break
@@ -279,12 +301,49 @@ func _test_summon_in_spar(tree: SceneTree, session: OldPineWorldSessionControlle
 	_refresh(session)
 	await tree.process_frame
 	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0, "the fight ends: " + coordinator.last_abort_detail())
-	_check(worker.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.corpse_states().any(func(corpse: CorpseState) -> bool: return corpse.victim_character_id == worker.character_id), "the soldier killed 工匠: his corpse lies here")
-	_check(player.state.progression.kills == kills, "a kill that is not the player's gives them nothing")
+	_check(fell and worker.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.corpse_states().any(func(corpse: CorpseState) -> bool: return corpse.victim_character_id == worker.character_id), "工匠 fell, the fight went on and the soldier killed him (the player only spars): his corpse lies here")
+	_check(player.state.progression.kills == kills + 1, "the soldier's kill is the player's (killer_reward() passes to `possessed`): MKS %d" % player.state.progression.kills)
 	_check(map.find_resident_npc(soldier_id) == null, "the soldier left")
 	var hud_log: Array[String] = session.shared_ui().log_lines()
 	_check(hud_log.has("%s说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！" % name), "with its lines: %s" % [hud_log.slice(-3)])
 	_check(OldPineSaveEligibility.inspect(session).allowed(), "Save is open again")
+
+
+## 老公公 kill_ob()s the player's soldier as it comes: ask_for_help() then sends 老婆婆 at
+## the soldier (query_temp("killer"), his last kill_ob()), not at the player.
+func _test_old_couple(tree: SceneTree, session: OldPineWorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var man: NpcRuntimeState = _first(map, &"green.npc.oldman")
+	var wife: NpcRuntimeState = _first(map, &"green.npc.oldwoman")
+	await _beside(tree, map, session, man)
+	player.state.recovery.mana.current = 1000
+	session.configure_combat_random_source(Juechen.Forced.new()) # TEST-ONLY
+	map.select_npc(man.character_id)
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks 老公公")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var before: Array[StringName] = _npc_ids(map)
+	_submit(session, SUMMON)
+	coordinator.advance_scheduler(0.0)
+	var soldier_id: StringName = &""
+	for id: StringName in _npc_ids(map):
+		if not before.has(id):
+			soldier_id = id
+	_check(not soldier_id.is_empty() and man.relationship.lethal_target_ids().back() == soldier_id, "a soldier came; he kills it back, last")
+	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(coordinator.active_encounter())
+	var me: CombatSliceCharacterBinding = _binding(bindings, man.character_id)
+	var chat := CombatNpcChat.new(coordinator._resident_npc, coordinator._npc_wield, coordinator._respect_of).with_villagers(coordinator._npc_wield_item, coordinator._age_of, coordinator._idle_partner)
+	var called: CombatNpcChatResult = chat.beat(me, [], [], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new())
+	_check(called != null and called.joins().size() == 1 and called.joins()[0].joiner_id == wife.character_id and called.joins()[0].target_ids == [soldier_id], "ask_for_help(): 老婆婆 comes for the soldier")
+	if called == null:
+		await _flee(tree, session)
+		return
+	coordinator.resolution().admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(called.joins()))
+	var soldier: NpcRuntimeState = map.find_resident_npc(soldier_id)
+	_check(coordinator.active_encounter().participant_for(wife.character_id) != null and wife.relationship.has_lethal_target(soldier_id) and not wife.relationship.has_opponent(player.character_id), "she is in the fight, killing the soldier, not the player")
+	_check(soldier.relationship.has_opponent(wife.character_id) and not soldier.relationship.has_lethal_target(wife.character_id), "it only fights her back (kill_ob() asks nothing of it)")
+	await _flee(tree, session)
+	_check(map.find_resident_npc(soldier_id) == null and man.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "after the flight the soldier is gone")
 
 
 ## A no_magic room (cast.c): the spell is refused and costs nothing.
@@ -326,6 +385,26 @@ func _test_vanish(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 		if not before.has(id):
 			soldier_id = id
 	_check(not soldier_id.is_empty(), "a soldier came")
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
+	var quarryman: NpcRuntimeState = null
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.definition().definition_id == QUARRYMAN and encounter.participant_for(npc.character_id) != null:
+			quarryman = npc
+	var context: SpecialContext = CombatSpecialAttackSource.context_for(_binding(bindings, quarryman.character_id), bindings, Juechen.Forced.new(), SkillImprovementEffectRegistry.new())
+	context.summons.append(SOLDIER) # TEST-ONLY: as if the 采石工 had cast saveme
+	var chat := CombatNpcChat.new(coordinator._resident_npc).with_summons(coordinator._summon_beside)
+	var joins: Array[CombatJoin] = chat._summon(_binding(bindings, quarryman.character_id), context)
+	_check(joins.size() == 1 and joins[0].target_ids == [soldier_id, player.character_id] and joins[0].killed_back, "his soldier's invocation(): his living enemies from the last, the player's soldier first")
+	if joins.size() == 1:
+		var theirs: StringName = joins[0].joiner_id
+		coordinator.resolution().admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(joins))
+		var their_soldier: NpcRuntimeState = map.find_resident_npc(theirs)
+		var mine: NpcRuntimeState = map.find_resident_npc(soldier_id)
+		_check(encounter.participant_for(theirs) != null and encounter.participant_for(theirs).side_id == encounter.participant_for(quarryman.character_id).side_id, "his soldier fights on his side")
+		_check(their_soldier.relationship.has_lethal_target(soldier_id) and their_soldier.relationship.has_lethal_target(player.character_id) and mine.relationship.has_lethal_target(theirs), "it kills both; the player's soldier kills it back")
+		_check(player.relationship.has_opponent(theirs) and not player.relationship.has_lethal_target(theirs), "the player only fights it back")
+		_check(coordinator.opening_warnings(encounter.encounter_id).has("看起来%s想杀死你！" % their_soldier.definition().display_name), "看起来…想杀死你！")
 	var forced := Juechen.Forced.new()
 	forced.queues[130] = [29]
 	session.configure_combat_random_source(forced) # TEST-ONLY
@@ -339,7 +418,15 @@ func _test_vanish(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	coordinator.advance_scheduler(0.0)
 	var receipt: CombatEncounterCompletionResult = coordinator.last_completion()
 	_check(not coordinator.has_active_encounter() and receipt != null and receipt.terminal_result.kind == CombatEncounterResultKind.Value.FLED and coordinator.departed(receipt.encounter_id), "遁 ends the fight for the player")
-	_check(map.find_resident_npc(soldier_id) == null, "the soldier is gone")
+	var left_behind: int = 0
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if SummonedNpc.is_summoned(npc.character_id):
+			left_behind += 1
+	_check(left_behind == 0, "both soldiers are gone")
+	session.advance_departure()
+	_check(session.active_map_id() == &"green.village" and coordinator.pending_departure() == DunSpell.DESTINATION, "the move waits a frame: the fight's end is told first")
+	map.select_npc(_first(map, QUARRYMAN).character_id)
+	_check(map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not coordinator.has_active_encounter(), "no fight starts before the move")
 	session.advance_departure()
 	await tree.physics_frame
 	await tree.physics_frame
@@ -356,7 +443,9 @@ func _test_vanish(tree: SceneTree, session: OldPineWorldSessionController) -> vo
 	_check(all.contains("你口中喃喃地念著咒文，忽然大喝一声“疾！”") and all.contains("只见你化作一团大雾，然后消失得无影无踪！") and all.contains("你借遁术脱离了战斗。"), "the chant, the fog and the fight's end: %s" % [hud_log.slice(-4)])
 	_check(not all.contains("现在已经完成护法任务"), "the soldier's going is not heard: %s" % [hud_log])
 	_check(BattleFeedbackReader.completion_text(receipt, CharacterRuntimeLifeStatus.Value.ACTIVE, false) == "你逃离了战斗。走远一些才能摆脱危险。", "a plain flight still says so")
-	_check(coordinator.take_departure().is_empty(), "the move was made once")
+	session.advance_departure()
+	session.advance_departure()
+	_check(coordinator.pending_departure().is_empty() and session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "the move was made once")
 	_check(OldPineSaveEligibility.inspect(session).allowed(), "Save is open in the temple")
 
 
@@ -418,6 +507,13 @@ func _first(map: WorldMapController, definition_id: StringName) -> NpcRuntimeSta
 	for npc: NpcRuntimeState in map.resident_npcs():
 		if npc.definition().definition_id == definition_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 			return npc
+	return null
+
+
+func _binding(bindings: Array[CombatSliceCharacterBinding], character_id: StringName) -> CombatSliceCharacterBinding:
+	for binding: CombatSliceCharacterBinding in bindings:
+		if binding.character_id == character_id:
+			return binding
 	return null
 
 
