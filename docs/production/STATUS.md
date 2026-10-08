@@ -11,7 +11,19 @@ enemies and is killed back; in a spar it is asked first, as the partner may die)
 picks between the player and the soldier as ES2 does. no_magic rooms refuse a cast (none is
 placed yet). Playtest launcher: `tests/runtime/run_with_experience.gd`, then join 绝尘子 and learn.
 
-Next: 茅山 (region #6) plan. Open from #75: the equipment weight dodge (its own PR).
+Next: 茅山 (region #6) plan. Then the backlog PRs DECISIONS「积压问题的处理」names: the equipment weight
+dodge (A1, its own PR), the 润色 PR, 现代化修正 II.
+
+## 待决定
+
+两项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
+方案生效，在 [DECISIONS](../migration/DECISIONS.md) 里标「默认」，owner 随时可以否决；已批准的积压决定
+也在那里（「积压问题的处理」）。
+
+* **A2 经验节奏**（#62）：×3 经验下 combat_exp 150→1001 仍要 6–12 小时；目标是 1–2 小时接到第一个
+  任务。试玩时同时核验 60 秒的任务限时在要走路的地图上是否来得及。
+* **A6 「进门一起上」是否扩大到所有房间**（#68）：ES2 同房间的凶徒全部出手；现在只有 6 个区域用
+  `complete_set`（老松寨三间、水潭、野羊山转角、卧龙岗）。
 
 ## Playable now
 
