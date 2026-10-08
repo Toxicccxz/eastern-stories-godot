@@ -97,8 +97,10 @@ func _test_step_aside(tree: SceneTree, session: WorldSessionController, map: Wor
 	session.set_process(false)
 	var rest: Vector2 = map.npc_walker().rest_position(TRAINEE, body)
 	_check(stepped, "pushed into for a second, the trainee steps aside")
-	_check(rest.distance_to(before) >= 32.0 and trainee.world_location().zone_id == &"snow.school2" and MapPlacementValidator.is_valid_character_position(map, &"snow.school2", rest), "to a valid spot of his own yard: %s -> %s" % [before, rest])
+	_check(absf(rest.x - before.x) >= WorldNpcWalker.STEP_ASIDE_ACROSS and rest.distance_to(before) <= 64.0 and trainee.world_location().zone_id == &"snow.school2" and MapPlacementValidator.is_valid_character_position(map, &"snow.school2", rest), "a short step across the way, in his own yard: %s -> %s" % [before, rest])
 	map.npc_walker().finish_all()
+	var teacher: WorldCharacterBody2D = map.runtime_body_for_character(&"snow.school2.fist_trainer.1.character")
+	_check(teacher != null and not map.npc_life.step_aside(teacher) and not map.npc_walker().is_walking(&"snow.school2.fist_trainer.1.character"), "李火狮 teaches: he keeps his place")
 
 
 ## A11: 狗肉 eaten up leaves 狗骨头 (finish_eat()); the Snow dog takes the bone (dog.c
@@ -182,6 +184,7 @@ func _test_chess(tree: SceneTree, session: WorldSessionController) -> void:
 	var won: Array[String] = map.ask_selected("下棋")
 	_check(won == ["你向弈者打听有关『下棋』的消息。", "弈者说道：要比试一盘？好啊！", "你赢了。", "弈者给你两枚棋子。", "弈者说道：好棋技！佩服。无以为报，就给您两枚棋子防身吧！"], "a win: %s" % [won])
 	_check(_amount_of(session, session.player_runtime().character_id, CHESS) == 2 and _amount_of(session, CHESS_PLAYER, CHESS) == 98, "two of his hundred 棋子 are the player's")
+	_check(player_npc.character_state.equipment.primary_weapon() != null, "he still wields the rest")
 	var lost: Array[String] = map.ask_selected("下棋")
 	_check(lost == ["你向弈者打听有关『下棋』的消息。", "弈者说道：要比试一盘？好啊！", "你输了。", "弈者说道：承让承让！"], "a loss: %s" % [lost])
 	# TEST-ONLY: he has none left.

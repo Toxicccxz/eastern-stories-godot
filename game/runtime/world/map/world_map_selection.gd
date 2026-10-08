@@ -322,13 +322,16 @@ func _hand_over(npc: NpcRuntimeState, answer: NpcInquiry.Answer) -> void:
 		_map.food_collection(), _map.liquid_collection(), _map.item_id_allocator(),
 	)
 	var player_owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
+	var held: int = 0 if carried.is_empty() else (_map.stack_collection().stack_state(carried).amount if _map.stack_collection().has_stack(carried) else 1)
 	var moved: StringName = &"" if carried.is_empty() else ItemHandlingService.npc_hands_over(
 		carried, answer.hands_over_amount, player_owner, _player.maximum_encumbrance, authorities,
 	)
 	if moved.is_empty() or content == null:
 		answer.lines.append_array(answer.after_empty)
 		return
-	var amount: int = answer.hands_over_amount
+	# What went: `amount` of them, or all he had when that was fewer (0: the whole
+	# object, give.c's 一<unit><name>).
+	var amount: int = 0 if answer.hands_over_amount <= 0 else mini(answer.hands_over_amount, held)
 	var item_text: String = HeldItemFacts.one_unit(content)
 	if amount == 2:
 		# TRANSLATORS: two of a stack (两枚棋子): {unit} its measure word, {item} its name.

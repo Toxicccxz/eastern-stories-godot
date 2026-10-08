@@ -87,7 +87,8 @@ func _advance_ambience(delta: float) -> void:
 
 
 ## The player kept pushing into a standing NPC (owner, polish, A5): a conscious one that
-## is not fighting or walking steps aside within its own zone.
+## is not fighting or walking steps aside within its own zone. One that offers something
+## from its body (goods, teaching, quests) keeps its place, so it stays within reach.
 func step_aside(body: WorldCharacterBody2D) -> bool:
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(body.character_id)
 	if (
@@ -95,6 +96,9 @@ func step_aside(body: WorldCharacterBody2D) -> bool:
 		or npc.relationship.is_fighting() or npc_walker().is_walking(npc.character_id)
 	):
 		return false
+	for service: WorldService in _map.service_nodes:
+		if service is NpcService and (service as NpcService).npc == npc:
+			return false
 	return npc_walker().step_aside(npc.character_id, body, _map.physical_zone(npc.world_location().zone_id), _map.player_body.global_position)
 
 
@@ -141,8 +145,10 @@ func _note_player_arrival() -> void:
 ## go.c's all_inventory(env)->follow_me(me, dir), on this map (owner, polish, A11): who
 ## follows the player (team.c set_leader()) and stood, conscious, in the room the
 ## player left walks after them; the player sees go.c's 走了过来。 where it arrives.
-## follow_me() waits a second only when random(the leader's move skill) beats its own,
-## which no one's skill set makes happen yet: it goes at once, drawing nothing.
+## follow_me() waits a second when random(the leader's move skill) beats its own; it goes
+## at once here, drawing nothing (a player with move enabled, 火蝠身法, would sometimes be
+## followed a second later in ES2). It follows into a neighbouring room however the player
+## got there (go.c also runs valid_leave() for it; no follower has a room that refuses it).
 func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
 		if (
@@ -163,7 +169,8 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 		if player_hears(npc):
 			# TRANSLATORS: go.c: someone ({name}) comes into the player's room.
 			_map.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
-		npc_arrived(npc)
+		# Its init() for the player and the player's for it come with the others of this
+		# room (_note_player_arrival() goes on with it there), once.
 
 
 ## keeper.c and waiter.c greeting(): said only if the player is still there; the

@@ -5,8 +5,8 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 ## Current work
 
 **润色 1** (`phase/polish-1`, DECISIONS「积压问题的处理」): the 弈者's 下棋 (A3); Old Pine's eight
-look-only item_desc as landmarks (A4); wanderers rest off doorways and street mouths and step aside
-when the player keeps pushing into them (A5); 狗肉 leaves a 狗骨头 that the Snow dog takes and then
+look-only item_desc as landmarks (A4); wanderers rest off doorways and street mouths, and a standing NPC
+steps aside when the player keeps pushing into it, unless it offers a service (A5); 狗肉 leaves a 狗骨头 that the Snow dog takes and then
 follows the player on its map (A11); an NPC the player walks away from is no longer selected; the
 battle log tells who falls or dies (announce()). The map controller is split into seven components
 under `game/runtime/world/map/` (#78): new code for one of those areas goes into its component.

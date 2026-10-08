@@ -111,6 +111,8 @@ func _physics_process(delta: float) -> void:
 		if _world_simulation_gate != null and _world_simulation_gate.is_frozen():
 			_movement_input_quarantined = true
 		velocity = Vector2.ZERO
+		_push_target = null
+		_push_seconds = 0.0
 		return
 	if _movement_input_quarantined:
 		velocity = Vector2.ZERO

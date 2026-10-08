@@ -18,8 +18,10 @@ const KEEP_CLEAR: float = 48.0
 ## another (a doorway, a street's mouth) or to a passage or a door, where a body
 ## stands in everyone's way; a zone too small for it is walked as before.
 const SEAM_CLEAR: float = 48.0
-## A step aside (step_aside()) goes this far at most.
+## A step aside (step_aside()) goes this far at most, and at least this far across the
+## player's push (a body's width), so the way opens.
 const STEP_ASIDE_REACH: float = 112.0
+const STEP_ASIDE_ACROSS: float = 36.0
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}
@@ -84,9 +86,11 @@ func step_aside(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneA
 			near.append(cell)
 	for cell: Vector2i in _off_seams(grid, zone, near):
 		var offset: Vector2 = grid.center_of(cell) - body.global_position
-		# Across the way first, then the shortest step.
-		scored.append([absf(offset.cross(push)) - offset.dot(push) * 0.5 - offset.length() * 0.25, cell])
-	scored.sort_custom(func(a: Array, b: Array) -> bool: return a[0] > b[0] or (a[0] == b[0] and (a[1] as Vector2i) < (b[1] as Vector2i)))
+		# Out of the way (a body's width across the push), then the shortest step.
+		if absf(offset.cross(push)) < STEP_ASIDE_ACROSS:
+			continue
+		scored.append([offset.length() + maxf(offset.dot(push), 0.0) * 0.5, cell])
+	scored.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0] or (a[0] == b[0] and (a[1] as Vector2i) < (b[1] as Vector2i)))
 	for entry: Array in scored.slice(0, DESTINATION_TRIES):
 		var spot: Vector2 = grid.center_of(entry[1])
 		if MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot) and _start(grid, character_id, body, spot):

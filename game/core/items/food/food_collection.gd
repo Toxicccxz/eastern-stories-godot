@@ -23,12 +23,12 @@ func instance_ids() -> Array[StringName]:
 	return ids
 
 
-## Caller has already completed authoritative item removal.
 ## The food state of something that stays but is no food any more (finish_eat()).
 func forget_eaten(id: StringName) -> bool:
 	return _states.erase(id)
 
 
+## Caller has already completed authoritative item removal.
 func forget_removed(ids: Array[StringName], inventory: InventoryState) -> bool:
 	if inventory == null:
 		return false

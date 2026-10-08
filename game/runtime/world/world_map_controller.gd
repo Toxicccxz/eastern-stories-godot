@@ -81,7 +81,6 @@ func initialize_map() -> bool:
 	if not player_body.bind_player(_player) or not player_body.bind_world_simulation_gate(_world_simulation_gate):
 		return false
 	player_body.global_position = entry.global_position
-	player_body.pushed_against.connect(_on_pushed_against)
 	npcs.map_characters = MapCharacterRuntimeState.new(map)
 	combat_lifecycle.effects = SkillImprovementEffectRegistry.new()
 	combat_lifecycle.effects.register_legacy_defaults()
@@ -89,6 +88,8 @@ func initialize_map() -> bool:
 	if not (npcs.restore_actors() if restoring else npcs.spawn_actors()):
 		return false
 	prepare_for_deactivation()
+	if not player_body.pushed_against.is_connected(_on_pushed_against):
+		player_body.pushed_against.connect(_on_pushed_against)
 	_initialized = true
 	_initialization_count += 1
 	return true

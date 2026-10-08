@@ -166,7 +166,7 @@ func build() -> ContentCatalog:
 	return catalog
 
 
-## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
+## What each food leaves once eaten up (finish_eat()): a plain item of its own.
 func _add_leftovers() -> void:
 	for item: ItemContentDefinition in _items.values().duplicate():
 		if not item.leftover_id().is_empty():
@@ -174,6 +174,7 @@ func _add_leftovers() -> void:
 			_items[left.item_definition_id] = left
 
 
+## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
 func _add_broken_weapons() -> void:
 	for item: ItemContentDefinition in _items.values().duplicate():
 		if item.weapon_definition() != null:
@@ -280,6 +281,8 @@ func _resolve_npc_dealings() -> void:
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
+				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
+					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue
