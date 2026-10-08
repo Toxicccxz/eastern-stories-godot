@@ -310,7 +310,7 @@ func _test_save(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	var cellar: WorldMapController = session.world_map_of(&"snow.cellar")
 	var below: WorldLocationState = cellar.location_for_zone(&"snow.secret_storage")
 	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(session.inventory_state(), sword, InventoryTransferDestination.new(ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, below.combat_location_id), true, true, WorldMapController.WORLD_CAPACITY), player.state.equipment, player.armor)
-	_check(moved.succeeded and cellar._add_dropped_item_view(sword, below, cellar._at_feet(below, cellar.physical_zone(&"snow.secret_storage").global_rect().get_center())), "test-only: the 竹剑 dropped below")
+	_check(moved.succeeded and cellar.floor_items.add_dropped_item_view(sword, below, cellar.floor_items.at_feet(below, cellar.physical_zone(&"snow.secret_storage").global_rect().get_center())), "test-only: the 竹剑 dropped below")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	_check(snapshot != null and snapshot.floor_items.size() == 3, "the save keeps the dropped coins, the drunk's wineskin and the 竹剑 below: %s" % [dropped.lines])
 	var raw: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)

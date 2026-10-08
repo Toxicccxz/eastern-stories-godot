@@ -84,7 +84,7 @@ func _npc_dissolves_corpse(npc: NpcRuntimeState) -> void:
 ## dissolve <corpse> by the player with the 化尸粉 `dust_id` they carry, on the selected
 ## corpse lying in their place (present(arg, environment(me))).
 func dissolve_selected_corpse(dust_id: StringName) -> bool:
-	if not _map.can_handle_items():
+	if not _map.floor_items.can_handle_items():
 		return false
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
 	var item: ItemInstance = _item_index.resolve(dust_id)
@@ -174,7 +174,7 @@ func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: Item
 		_map.hud().set_selected_corpse("", 0, false, true)
 		if _map.hud().loot_is_open():
 			_map.hud().close_loot()
-	return _map.use_up_one(dust_id, dust_owner)
+	return _map.floor_items.use_up_one(dust_id, dust_owner)
 
 
 ## A corpse lies where its body fell. It is wider than the body, so beside a wall it is
@@ -313,12 +313,12 @@ func open_selected_loot() -> bool:
 	if not _map.gameplay_open() or session == null:
 		return false
 	_map.hud().close_inventory()
-	var floor_view: WorldFloorItemView = _map._selected_floor_item()
-	if floor_view != null and _map._is_container(floor_view.item_instance_id):
-		return _map._show_container(floor_view)
+	var floor_view: WorldFloorItemView = _map.floor_items.selected_floor_item()
+	if floor_view != null and _map.floor_items.is_container(floor_view.item_instance_id):
+		return _map.floor_items.show_container(floor_view)
 	if floor_view != null:
 		_map.hud().close_loot()
-		return _map.take_selected_floor_item() in [FloorItemPickup.Outcome.TAKEN, FloorItemPickup.Outcome.TAKEN_PART]
+		return _map.floor_items.take_selected_floor_item() in [FloorItemPickup.Outcome.TAKEN, FloorItemPickup.Outcome.TAKEN_PART]
 	var corpse: CorpseState = _selected_corpse()
 	if corpse == null:
 		_map.hud().close_loot()
@@ -333,9 +333,9 @@ func open_selected_loot() -> bool:
 
 
 func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransferResult:
-	var floor_view: WorldFloorItemView = _map._selected_floor_item() if _map.gameplay_open() and session != null else null
-	if floor_view != null and _map._is_container(floor_view.item_instance_id):
-		_map.take_from_selected_container(item_instance_id)
+	var floor_view: WorldFloorItemView = _map.floor_items.selected_floor_item() if _map.gameplay_open() and session != null else null
+	if floor_view != null and _map.floor_items.is_container(floor_view.item_instance_id):
+		_map.floor_items.take_from_selected_container(item_instance_id)
 		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, _player.character_id, &"", item_instance_id)
 	if not _map.gameplay_open() or session == null:
 		return CorpseLootTransferResult.new(CorpseLootTransferResult.Outcome.INVALID_REQUEST, false, &"" if _player == null else _player.character_id, &"", item_instance_id)

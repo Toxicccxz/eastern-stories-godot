@@ -224,7 +224,7 @@ func _test_bash(tree: SceneTree, session: OldPineWorldSessionController) -> void
 	# The broken blade picked up: no longer wieldable, worth a tenth.
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	_check(InventoryTransferService.new().transfer(context.inventory, blade, InventoryTransferDestination.new(context.endpoint(), true, true, 1000000)).succeeded, "picked up") # TEST-ONLY
-	map._forget_floor_item(blade)
+	map.floor_items._forget_floor_item(blade)
 	_check(not session.wield_player_item(blade).succeeded, "断掉的钢刀 cannot be wielded (weapon_prop 0)")
 	var quote: HockshopValuationResult = HockshopValuation.appraise(context, session.food_collection(), session.liquid_collection(), blade)
 	_check(quote.source_value == 70, "worth 70 now (700 / 10): %d" % quote.source_value)
