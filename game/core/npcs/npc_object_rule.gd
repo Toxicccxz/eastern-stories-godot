@@ -29,6 +29,8 @@ var giver_gender: StringName = &""
 var giver_per_below: int = NO_BOUND
 ## obj->query("name") as authored.
 var item_name: String = ""
+## obj->id(<alias>) (d/snow/npc/dog.c: id("bone")).
+var item_alias: String = ""
 ## families.json ID of query("family/family_name").
 var giver_family: StringName = &""
 var lines: Array[NpcLine] = []
@@ -55,6 +57,8 @@ class Offer:
 	## query("per"): the raw attribute.
 	var giver_per: int = 0
 	var item_name: String = ""
+	## obj->id(): what the gift answers to.
+	var item_aliases: Array[String] = []
 	var giver_family: StringName = &""
 
 	func _init(p_value: int = 0, p_liquid_type: StringName = &"", p_liquid_remaining: int = 0, p_npc_flags: Dictionary[StringName, bool] = {}, p_giver_marks: Dictionary[String, int] = {}) -> void:
@@ -76,6 +80,7 @@ func matches(offer: Offer) -> bool:
 		and (giver_gender.is_empty() or offer.giver_gender == giver_gender)
 		and (giver_per_below == NO_BOUND or offer.giver_per < giver_per_below)
 		and (item_name.is_empty() or offer.item_name == item_name)
+		and (item_alias.is_empty() or offer.item_aliases.has(item_alias))
 		and (giver_family.is_empty() or offer.giver_family == giver_family)
 	)
 
@@ -99,6 +104,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.giver_gender = StringName(reader.text("giver_gender"))
 	rule.giver_per_below = reader.integer("giver_per_below", NO_BOUND)
 	rule.item_name = reader.text("item_name")
+	rule.item_alias = reader.text("item_alias")
 	rule.giver_family = StringName(reader.text("giver_family"))
 	rule.kill = reader.boolean("kill", false)
 	rule.lines = NpcLine.optional_lines(reader)

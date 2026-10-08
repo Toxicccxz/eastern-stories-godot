@@ -81,6 +81,7 @@ func initialize_map() -> bool:
 	if not player_body.bind_player(_player) or not player_body.bind_world_simulation_gate(_world_simulation_gate):
 		return false
 	player_body.global_position = entry.global_position
+	player_body.pushed_against.connect(_on_pushed_against)
 	npcs.map_characters = MapCharacterRuntimeState.new(map)
 	combat_lifecycle.effects = SkillImprovementEffectRegistry.new()
 	combat_lifecycle.effects.register_legacy_defaults()
@@ -372,7 +373,30 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 		return false
 	if session != null:
 		session.player_leaving_zone(current.zone_id, zone.zone_id)
-	return _player.set_world_location(location_for_zone(zone.zone_id))
+	if not _player.set_world_location(location_for_zone(zone.zone_id)):
+		return false
+	_drop_selection_left_behind()
+	return true
+
+
+func _on_pushed_against(other: WorldCharacterBody2D) -> void:
+	if gameplay_open() and other != null:
+		npc_life.step_aside(other)
+
+
+## An NPC the player walked away from is no longer selected (kill.c's present():
+## its actions would only be refused). One in the room the player walked into stays, and
+## so does a dead one (it offers nothing; picking its corpse replaces it).
+func _drop_selection_left_behind() -> void:
+	var npc: NpcRuntimeState = selection.selected_npc()
+	if (
+		npc == null or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD
+		or npc.world_location().shares_combat_location(_player.world_location())
+	):
+		return
+	selection.selected_target = null
+	if hud() != null:
+		hud().set_selected_target(null)
 
 
 ## The room's valid_leave() that refuses this way out now, or null.

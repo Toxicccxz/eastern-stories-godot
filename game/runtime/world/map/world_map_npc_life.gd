@@ -86,6 +86,18 @@ func _advance_ambience(delta: float) -> void:
 	npc_walker().advance(delta)
 
 
+## The player kept pushing into a standing NPC (owner, polish, A5): a conscious one that
+## is not fighting or walking steps aside within its own zone.
+func step_aside(body: WorldCharacterBody2D) -> bool:
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(body.character_id)
+	if (
+		npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+		or npc.relationship.is_fighting() or npc_walker().is_walking(npc.character_id)
+	):
+		return false
+	return npc_walker().step_aside(npc.character_id, body, _map.physical_zone(npc.world_location().zone_id), _map.player_body.global_position)
+
+
 func npc_walker() -> WorldNpcWalker:
 	if walker == null:
 		walker = WorldNpcWalker.new(_map)
@@ -104,7 +116,12 @@ func _note_player_arrival() -> void:
 	var zone_id: StringName = &"" if _player == null or not _player.exists_in_world else _player.world_location().zone_id
 	if zone_id == arrival_zone_id:
 		return
+	var left: StringName = arrival_zone_id
 	arrival_zone_id = zone_id
+	# go.c calls follow_me() when the player walks out by an exit: into a neighbouring
+	# room. Being moved (reincarnation, a relocation) takes nobody along.
+	if not left.is_empty() and not zone_id.is_empty() and GameContent.catalog().zones_adjacent(left, zone_id):
+		_followers_follow(left, zone_id)
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		if (
 			npc.world_location().zone_id == zone_id and npc.exists_in_map
@@ -119,6 +136,34 @@ func _note_player_arrival() -> void:
 			_consider_stealing(npc)
 			here.append(npc)
 	_map.hostilities.player_init(here)
+
+
+## go.c's all_inventory(env)->follow_me(me, dir), on this map (owner, polish, A11): who
+## follows the player (team.c set_leader()) and stood, conscious, in the room the
+## player left walks after them; the player sees go.c's 走了过来。 where it arrives.
+## follow_me() waits a second only when random(the leader's move skill) beats its own,
+## which no one's skill set makes happen yet: it goes at once, drawing nothing.
+func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
+	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+		if (
+			not npc.flags().get(NpcDefinition.FLAG_FOLLOWS_PLAYER, false) or not npc.exists_in_map
+			or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting()
+			or npc.world_location().zone_id != left_zone_id
+		):
+			continue
+		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+		var location: WorldLocationState = _map.location_for_zone(zone_id)
+		if body == null or location == null:
+			continue
+		var spot: Vector2 = _map.floor_items.at_feet(location, _map.player_body.global_position)
+		npc_walker().cancel(npc.character_id)
+		if not npc_walker().walk_to(npc.character_id, body, _map.physical_zone(left_zone_id), _map.physical_zone(zone_id), spot):
+			body.global_position = spot
+		npc.set_world_location(location)
+		if player_hears(npc):
+			# TRANSLATORS: go.c: someone ({name}) comes into the player's room.
+			_map.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
+		npc_arrived(npc)
 
 
 ## keeper.c and waiter.c greeting(): said only if the player is still there; the

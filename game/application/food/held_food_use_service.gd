@@ -42,8 +42,15 @@ static func eat(player: WorldPlayerRuntimeState, context: MoneyInventoryContext,
 	state.consume_portion()
 	result.accepted_bite = true
 	if state.remaining_portions == 0:
-		result.cleanup = FoodItemLifecycle.remove(context, foods, id)
-		if not result.cleanup.succeeded():
-			return result
+		var content: ItemContentDefinition = GameContent.catalog().item(item.item_definition_id)
+		var leftover: ItemContentDefinition = null if content == null else GameContent.catalog().item(content.leftover_id())
+		if leftover != null:
+			if not FoodItemLifecycle.leave(context, foods, id, leftover):
+				return result
+			result.leftover_id = leftover.item_definition_id
+		else:
+			result.cleanup = FoodItemLifecycle.remove(context, foods, id)
+			if not result.cleanup.succeeded():
+				return result
 	result.outcome = FoodUseResult.Outcome.ATE
 	return result

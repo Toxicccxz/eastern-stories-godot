@@ -40,6 +40,9 @@
 				"野狗在你的脚边挨挨擦擦的，想讨东西吃。\n",
 				"野狗对著你摇了摇尾巴。\n",
 				"野狗用后腿抓了抓自己的耳朵。\n"
+			],
+			"accept_object": [
+				{ "item_alias": "bone", "emote": "高兴地汪汪叫了起来。", "accept": true, "set_npc_flag": "follows_player" }
 			]
 		},
 		{

@@ -8,3 +8,5 @@ var food_before: int = 0
 var food_after: int = 0
 var accepted_bite: bool = false
 var cleanup: FoodItemRemovalResult
+## What the eaten food became (finish_eat()): its new definition, or empty.
+var leftover_id: StringName = &""

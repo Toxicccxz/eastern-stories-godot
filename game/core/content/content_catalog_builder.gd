@@ -128,6 +128,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 func build() -> ContentCatalog:
 	_add_broken_weapons()
+	_add_leftovers()
 	_check_money()
 	_check_npc_loadouts()
 	_resolve_npc_dealings()
@@ -166,6 +167,13 @@ func build() -> ContentCatalog:
 
 
 ## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
+func _add_leftovers() -> void:
+	for item: ItemContentDefinition in _items.values().duplicate():
+		if not item.leftover_id().is_empty():
+			var left: ItemContentDefinition = ItemContentDefinition.leftover(item)
+			_items[left.item_definition_id] = left
+
+
 func _add_broken_weapons() -> void:
 	for item: ItemContentDefinition in _items.values().duplicate():
 		if item.weapon_definition() != null:

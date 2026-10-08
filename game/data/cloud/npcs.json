@@ -643,7 +643,15 @@
 				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
 				{ "item": "es2:u/cloud/obj/npc/chess_player/chess", "source": "u/cloud/obj/npc/chess_player/chess.c", "equip": "wield", "amount": 100 }
-			]
+			],
+			"inquiry": {
+				"下棋": {
+					"rules": [
+						{ "chance": { "below": 50, "of": 100 }, "lines": [{ "say": "要比试一盘？好啊！" }, { "line": "你赢了。" }], "hands_over": "es2:u/cloud/obj/npc/chess_player/chess", "amount": 2, "after": [{ "say": "好棋技！佩服。无以为报，就给您两枚棋子防身吧！" }], "after_empty": [{ "say": "好棋技！佩服。" }] },
+						{ "lines": [{ "say": "要比试一盘？好啊！" }, { "line": "你输了。" }, { "say": "承让承让！" }] }
+					]
+				}
+			}
 		},
 		{
 			"id": "cloud.npc.girl",

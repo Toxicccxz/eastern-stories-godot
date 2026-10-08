@@ -43,6 +43,28 @@
 				"out_of": 4
 			}
 		},
+		"es2:u/cloud/obj/meat/dog_m": {
+			"food": {
+				"remaining": 3, "supply": 60,
+				"leaves": { "name": "狗骨头", "aliases": ["rib", "bone"], "weight": 250, "long": "啃得精光的狗骨头。\n", "unit": "根" }
+			}
+		},
+		"cloud.npc.chess_player": {
+			"inquiry": {
+				"下棋": {
+					"rules": [
+						{
+							"chance": { "below": 50, "of": 100 },
+							"lines": [ { "say": "要比试一盘？好啊！" }, { "line": "你赢了。" } ],
+							"hands_over": "es2:u/cloud/obj/npc/chess_player/chess", "amount": 2,
+							"after": [ { "say": "好棋技！佩服。无以为报，就给您两枚棋子防身吧！" } ],
+							"after_empty": [ { "say": "好棋技！佩服。" } ]
+						},
+						{ "lines": [ { "say": "要比试一盘？好啊！" }, { "line": "你输了。" }, { "say": "承让承让！" } ] }
+					]
+				}
+			}
+		},
 		"cloud.npc.butcher": {
 			"greeting": {
 				"one_of": [
@@ -290,8 +312,8 @@
 			"function greeting": "greeting one_of (set cloud.npc.butcher)"
 		},
 		"u/cloud/npc/chess_player.c": {
-			"inquiry 下棋": "play_chess() (a coin flip that hands over his 棋子) is not data yet",
-			"function play_chess": "play_chess() (a coin flip that hands over his 棋子) is not data yet"
+			"inquiry 下棋": "play_chess(): set cloud.npc.chess_player inquiry 下棋 (rules with a chance and hands_over)",
+			"function play_chess": "set cloud.npc.chess_player inquiry 下棋: random(100) < 50 wins two of his 棋子 (owner, polish: the line says 两枚; ES2 gives the whole stack)"
 		},
 		"u/cloud/npc/doctor.c": {
 			"function init": "greeting (set cloud.npc.doctor) and `list`: the vendor's goods panel",
@@ -361,13 +383,13 @@
 			"set unwield_msg": "wield/unwield messages are not shown yet"
 		},
 		"u/cloud/obj/meat/dog_m.c": {
-			"function finish_eat": "what is left once eaten (狗骨头) is not modelled: an eaten food is gone"
+			"function finish_eat": "set es2:u/cloud/obj/meat/dog_m food.leaves: 狗骨头 (rib, and bone for dog.c: owner, polish A11)"
 		},
 		"u/cloud/obj/meat/hind.c": {
 			"set food_remaining": "a hammer that is also food is not supported yet: 牛腿 is a hammer for now",
 			"set food_supply": "a hammer that is also food is not supported yet: 牛腿 is a hammer for now",
 			"set wield_msg": "wield/unwield messages are not shown yet",
-			"function finish_eat": "what is left once eaten (牛腿骨) is not modelled"
+			"function finish_eat": "牛腿骨 waits with food that is also a weapon (hind.c is a hammer here): DECISIONS 积压 A11"
 		},
 		"u/cloud/obj/meat/tail.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet"
