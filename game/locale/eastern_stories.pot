@@ -1272,7 +1272,7 @@ msgstr ""
 msgid "{item}对你而言太重了，掉在你的脚边。"
 msgstr ""
 
-#: application/items/item_handling_service.gd runtime/world/world_map_controller.gd
+#: application/items/item_handling_service.gd runtime/world/map/world_map_selection.gd
 msgid "这里没有这个人。"
 msgstr ""
 
@@ -1296,7 +1296,7 @@ msgstr ""
 msgid "因为这样东西并不值钱，所以人们并不会注意到它的存在。"
 msgstr ""
 
-#: application/items/item_handling_service.gd runtime/world/landmarks/bury_landmark_policy.gd runtime/world/world_map_controller.gd
+#: application/items/item_handling_service.gd runtime/world/landmarks/bury_landmark_policy.gd runtime/world/map/world_map_corpses.gd
 msgid "这里没有这样东西。"
 msgstr ""
 
@@ -1304,15 +1304,15 @@ msgstr ""
 msgid "你将{item}放进{container}。"
 msgstr ""
 
-#: application/items/item_handling_service.gd runtime/world/world_map_controller.gd
+#: application/items/item_handling_service.gd runtime/world/map/world_map_floor_items.gd
 msgid "你上一个动作还没有完成！"
 msgstr ""
 
-#: application/items/item_handling_service.gd runtime/world/world_map_controller.gd
+#: application/items/item_handling_service.gd runtime/world/map/world_map_floor_items.gd
 msgid "这个东西拿不起来。"
 msgstr ""
 
-#: application/items/item_handling_service.gd runtime/world/world_map_controller.gd
+#: application/items/item_handling_service.gd runtime/world/map/world_map_floor_items.gd
 msgid "%s对你而言太重了。"
 msgstr ""
 
@@ -1329,7 +1329,7 @@ msgid "你没有那麽多的%s。"
 msgstr ""
 
 #. an NPC's say() in a fight: {npc} its name, {line} what it says.
-#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/world_map_controller.gd
+#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_selection.gd
 msgid "{npc}说道：{line}"
 msgstr ""
 
@@ -1683,7 +1683,7 @@ msgstr ""
 
 #. message_vision(): the actor of an exert line, for its $N.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/world_map_controller.gd
+#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd
 msgid "你"
 msgstr ""
 
@@ -2017,7 +2017,7 @@ msgid "{npc}在你的耳边悄声说道：{line}"
 msgstr ""
 
 #. what an NPC does, after its name: {npc}笑咪咪地说道：……
-#: core/npcs/npc_line.gd runtime/world/world_map_controller.gd
+#: core/npcs/npc_line.gd runtime/world/map/world_map_selection.gd
 msgid "{npc}{action}"
 msgstr ""
 
@@ -3846,7 +3846,7 @@ msgid ""
 "一股阴冷的浓雾突然出现，很快地包围了你。"
 msgstr ""
 
-#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/world_map_controller.gd
+#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
 msgid "看起来%s想杀死你！"
 msgstr ""
 
@@ -3929,7 +3929,7 @@ msgid "右脚"
 msgstr ""
 
 #. dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
-#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/world_map_controller.gd ui/world/player_inventory_panel.gd
+#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/map/world_map_corpses.gd ui/world/player_inventory_panel.gd
 msgid "%s的尸体"
 msgstr ""
 
@@ -3938,8 +3938,177 @@ msgstr ""
 msgid "{action}：{landmark}"
 msgstr ""
 
-#: runtime/world/oldpine_world_session_controller.gd
-msgid "遁 could not reach %s from %s"
+#. weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "你的%s用完了！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "只听见「啪」地一声，{who}手中的{weapon}已经断为两截！"
+msgstr ""
+
+#. weapond.c bash_weapon(): the two weapons meet; {me} and {who} are 你 or names.
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "{me}的{weapon}和{who}的{other}相击，冒出点点的火星。"
+msgstr ""
+
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "%s脚下一个不稳，跌在地上一动也不动了。"
+msgstr ""
+
+#. dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
+#: runtime/world/map/world_map_corpses.gd
+msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
+msgstr ""
+
+#. bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
+#: runtime/world/map/world_map_floor_items.gd
+msgid "你拿起一根%s呜嘟嘟地吹了起来。"
+msgstr ""
+
+#: runtime/world/map/world_map_floor_items.gd
+msgid "你四处看看, 实在找不到地方挂绳子说..."
+msgstr ""
+
+#: runtime/world/map/world_map_floor_items.gd
+msgid "你把绳子一端挂好, 另一端往脖子上一套....."
+msgstr ""
+
+#: runtime/world/map/world_map_floor_items.gd
+msgid "你捡起%s。"
+msgstr ""
+
+#: runtime/world/map/world_map_floor_items.gd
+msgid "你附近没有这样东西。"
+msgstr ""
+
+#: runtime/world/map/world_map_floor_items.gd
+msgid "{container}里什麽也没有，先装些水酒才能溶化药粉。"
+msgstr ""
+
+#: runtime/world/map/world_map_floor_items.gd
+msgid "你将一些{powder}倒进{container}，摇晃了几下。"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "%s用一种异样的眼神扫视著在场的每一个人。"
+msgstr ""
+
+#. combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
+#: runtime/world/map/world_map_hostilities.gd
+msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr ""
+
+#. combatd.c start_berserk(): {rude} is how the NPC insults the player (臭贼), {self} how it calls itself (老子).
+#: runtime/world/map/world_map_hostilities.gd
+msgid "{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_selection.gd
+msgid "刀剑无眼，持兵刃比试可能真的受伤。"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "你用一种异样的眼神扫视著在场的每一个人。"
+msgstr ""
+
+#. combatd.c start_berserk() for the player: {self} is how the player calls themself (老子).
+#: runtime/world/map/world_map_hostilities.gd
+msgid "你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。"
+msgstr ""
+
+#. combatd.c start_berserk() for the player: {rude} is how the player insults the NPC (臭贼), {self} how they call themself (老子).
+#: runtime/world/map/world_map_hostilities.gd
+msgid "你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "%s突然转过头来瞪你一眼。"
+msgstr ""
+
+#: runtime/world/map/world_map_npc_life.gd
+msgid "%s慢慢睁开眼睛，清醒了过来。"
+msgstr ""
+
+#. a thief took {item} from the player unseen; the player notices it is gone.
+#: runtime/world/map/world_map_npc_life.gd
+msgid "你忽然觉得身上一轻，{item}不见了！"
+msgstr ""
+
+#. a thief took {item} from the player lying unconscious; read on waking.
+#: runtime/world/map/world_map_npc_life.gd
+msgid "你昏迷不醒的时候，身上的{item}被人拿走了！"
+msgstr ""
+
+#: runtime/world/map/world_map_npc_life.gd
+msgid "你一回头，正好发现{npc}的手正抓著你身上的{item}！"
+msgstr ""
+
+#: runtime/world/map/world_map_npc_life.gd
+msgid "你喝道：「干什麽！」"
+msgstr ""
+
+#: runtime/world/map/world_map_npcs.gd
+msgid "%s急急忙忙地离开了。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "这里不准战斗。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "这里禁止战斗。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "你想攻击谁？"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "加油！加油！加油！"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "%s已经无法战斗了。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "你对著{npc}说道：{self}{name}，领教{respect}的高招！"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "看起来%s并不想跟你较量。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "{npc}给你{item}。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "你说道：%s"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "关闭%s"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "打开%s"
 msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd
@@ -4168,181 +4337,12 @@ msgstr ""
 msgid "工作状态异常，请停止操作。"
 msgstr ""
 
-#. bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
-#: runtime/world/world_map_controller.gd
-msgid "你拿起一根%s呜嘟嘟地吹了起来。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你四处看看, 实在找不到地方挂绳子说..."
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你把绳子一端挂好, 另一端往脖子上一套....."
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你捡起%s。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你附近没有这样东西。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "%s用一种异样的眼神扫视著在场的每一个人。"
-msgstr ""
-
-#. combatd.c start_berserk(): {self} is how the NPC calls itself (老子).
-#: runtime/world/world_map_controller.gd
-msgid "{npc}对著你喝道：{self}看你实在很不顺眼，去死吧。"
-msgstr ""
-
-#. combatd.c start_berserk(): {rude} is how the NPC insults the player (臭贼), {self} how it calls itself (老子).
-#: runtime/world/world_map_controller.gd
-msgid "{npc}对著你喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "刀剑无眼，持兵刃比试可能真的受伤。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你用一种异样的眼神扫视著在场的每一个人。"
-msgstr ""
-
-#. combatd.c start_berserk() for the player: {self} is how the player calls themself (老子).
-#: runtime/world/world_map_controller.gd
-msgid "你对著{npc}喝道：{self}看你实在很不顺眼，去死吧。"
-msgstr ""
-
-#. combatd.c start_berserk() for the player: {rude} is how the player insults the NPC (臭贼), {self} how they call themself (老子).
-#: runtime/world/world_map_controller.gd
-msgid "你对著{npc}喝道：喂！{rude}，{self}正想找人打架，陪我玩两手吧！"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "%s突然转过头来瞪你一眼。"
-msgstr ""
-
-#. weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
-#: runtime/world/world_map_controller.gd
-msgid "你的%s用完了！"
-msgstr ""
-
-#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
-#: runtime/world/world_map_controller.gd
-msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
-msgstr ""
-
-#. weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
-#: runtime/world/world_map_controller.gd
-msgid "{who}只觉得手中{weapon}一震，险些脱手！"
-msgstr ""
-
-#. weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
-#: runtime/world/world_map_controller.gd
-msgid "只听见「啪」地一声，{who}手中的{weapon}已经断为两截！"
-msgstr ""
-
-#. weapond.c bash_weapon(): the two weapons meet; {me} and {who} are 你 or names.
-#: runtime/world/world_map_controller.gd
-msgid "{me}的{weapon}和{who}的{other}相击，冒出点点的火星。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "%s慢慢睁开眼睛，清醒了过来。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "%s脚下一个不稳，跌在地上一动也不动了。"
-msgstr ""
-
-#. dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
-#: runtime/world/world_map_controller.gd
-msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "{container}里什麽也没有，先装些水酒才能溶化药粉。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你将一些{powder}倒进{container}，摇晃了几下。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "%s急急忙忙地离开了。"
-msgstr ""
-
-#. a thief took {item} from the player unseen; the player notices it is gone.
-#: runtime/world/world_map_controller.gd
-msgid "你忽然觉得身上一轻，{item}不见了！"
-msgstr ""
-
-#. a thief took {item} from the player lying unconscious; read on waking.
-#: runtime/world/world_map_controller.gd
-msgid "你昏迷不醒的时候，身上的{item}被人拿走了！"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你一回头，正好发现{npc}的手正抓著你身上的{item}！"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你喝道：「干什麽！」"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "这里不准战斗。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "这里禁止战斗。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你想攻击谁？"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "加油！加油！加油！"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "%s已经无法战斗了。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你对著{npc}说道：{self}{name}，领教{respect}的高招！"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "看起来%s并不想跟你较量。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "{npc}给你{item}。"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "你说道：%s"
-msgstr ""
-
 #: runtime/world/world_map_controller.gd
 msgid "你来到%s。"
 msgstr ""
 
-#: runtime/world/world_map_controller.gd
-msgid "关闭%s"
-msgstr ""
-
-#: runtime/world/world_map_controller.gd
-msgid "打开%s"
+#: runtime/world/world_session_controller.gd
+msgid "遁 could not reach %s from %s"
 msgstr ""
 
 #: ui/bank/bank_exchange_panel.gd

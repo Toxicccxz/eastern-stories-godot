@@ -137,7 +137,7 @@ Code:
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
   no bones, 弈者's 下棋 is not ported, a carried 布袋 is not opened.
   朱鸿雪 and 化缘和尚 cannot be fought until their arts are ported (#7, #8).
-* Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, 123 files) and the session
+* Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine
   regression suites drive combat through a test-only manual cadence

@@ -30,8 +30,8 @@ var _item_index: WorldItemInstanceIndex:
 	get: return _map.item_instance_index()
 
 
-func _init(map: WorldMapController) -> void:
-	_map = map
+func _init(controller: WorldMapController) -> void:
+	_map = controller
 
 
 ## One step of NPC heart_beat time (NpcHeartbeat); the session decides when it flows.

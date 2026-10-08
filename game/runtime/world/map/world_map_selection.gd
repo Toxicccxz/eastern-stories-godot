@@ -19,8 +19,8 @@ var _world_interaction_random: WorldInteractionRandomSource:
 	get: return _map.world_interaction_random_source()
 
 
-func _init(map: WorldMapController) -> void:
-	_map = map
+func _init(controller: WorldMapController) -> void:
+	_map = controller
 
 
 func selected_interaction_target() -> WorldInteractionTarget:

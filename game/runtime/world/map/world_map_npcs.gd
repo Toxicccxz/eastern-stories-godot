@@ -44,8 +44,8 @@ var _world_simulation_gate: WorldSimulationGate:
 	get: return _map.world_simulation_gate()
 
 
-func _init(map: WorldMapController) -> void:
-	_map = map
+func _init(controller: WorldMapController) -> void:
+	_map = controller
 
 
 ## Spawns are created in authored order: it fixes each NPC's random draws and

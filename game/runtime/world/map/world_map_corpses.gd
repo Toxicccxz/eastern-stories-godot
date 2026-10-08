@@ -33,8 +33,8 @@ var _item_index: WorldItemInstanceIndex:
 	get: return _map.item_instance_index()
 
 
-func _init(map: WorldMapController) -> void:
-	_map = map
+func _init(controller: WorldMapController) -> void:
+	_map = controller
 
 
 ## combatd.c killer_reward(): the killer's killed_enemy() (spy.c: say, then
