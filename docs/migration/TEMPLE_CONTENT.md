@@ -40,8 +40,9 @@ player's 茅山道术 in a fight and its practice (观想虫); D the zombies and
 
 | LPC | Native |
 |---|---|
-| taolord.c attempt_apprentice(): call_out("do_recruit", 2), 慢著，一个一个来 while find_call_out() finds it | apprentice rule `answer_after` 2 and `busy_say` (NpcApprenticeship ANSWER_DUE / MASTER_BUSY); the call_out is an NPC call on world time (NpcAmbience RECRUIT), not saved |
-| do_recruit(): query("gender") != "男性" says 不便收女徒; else 也好 and command("recruit") | `requires` [{gender, refuse_say}], `accept_say`; NpcApprenticeship.answer() runs recruit.c from his side (the request waiting on him is taken; one withdrawn meanwhile is offered) |
+| taolord.c attempt_apprentice(): call_out("do_recruit", 2), 慢著，一个一个来 while find_call_out() finds it | apprentice rule `answer_after` 2 and `busy_say` (NpcApprenticeship ANSWER_DUE / MASTER_BUSY); the call_out is an NPC call on world time (NpcAmbience RECRUIT), not saved. 慢著 is heard only after 取消拜师请求 and a new 拜师 within the two seconds (a request still open hears 对方还没有答应) |
+| do_recruit(): query("gender") != "男性" says 不便收女徒; else 也好 and command("recruit") | `requires` [{gender, refuse_say}], `accept_say`; NpcApprenticeship.answer() runs recruit.c from his side (the request waiting on him is taken; one withdrawn meanwhile is offered). A woman is not asked first and her request stays after the refusal. Only a player before him reads the answer; one lying there is not taken (!living(ob)), but is offered if they had withdrawn; one who walked off finds the request still waiting. An unconscious 林忌 says nothing (unconcious() disables his commands) |
+| attempt_apprentice()'s apprentice_available (3) | not ported: the count never ran out (see the anomalies) |
 | recruit_apprentice(): ob->set("class", "taoist") | apprentice `class` taoist (道士; rankd.c) |
 | trainer.c, tfighter.c create_family("茅山派", 6, "弟子") | privs -1: learn.c lets every 茅山派 member learn from them, anyone else hears reject_msg |
 | gouyee.c valid_learn(), practice_skill(), exert_function_file() | max_mana ≥ query_skill("gouyee") × 5 (ScaledMaximumManaSkillLearnPolicy); practice refuses; exert concentrate and heal |

@@ -316,6 +316,7 @@ func prepare_for_deactivation() -> void:
 	# Nobody watches a map the player left: its NPCs stand where they were going.
 	if npc_life.walker != null:
 		npc_life.walker.finish_all()
+	npc_life.player_left()
 	npc_life.arrival_zone_id = &""
 	_present_zones.clear()
 	_zone_check_pending = false

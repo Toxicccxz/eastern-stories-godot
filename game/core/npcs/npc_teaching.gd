@@ -98,6 +98,8 @@ const KINDS: Dictionary[String, Kind] = {"requirements": Kind.REQUIREMENTS, "oat
 
 
 const REQUIREMENTS: Array[StringName] = [&"cor", &"cps", &"spi", &"combat_exp"]
+## The genders a check may require (query("gender")).
+const GENDERS: Array[StringName] = [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]
 
 
 func has_family() -> bool:
@@ -166,6 +168,8 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 							continue
 						if key == "gender":
 							check.gender = record.required_text("gender")
+							if not GENDERS.has(StringName(check.gender)):
+								record.fail("gender", "expected one of %s" % [GENDERS])
 							continue
 						if not REQUIREMENTS.has(StringName(key)):
 							record.fail(key, "unsupported requirement")
@@ -193,6 +197,8 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			rule.busy_say = apprentice.text("busy_say")
 			if rule.answer_after > 0.0 and rule.busy_say.is_empty():
 				apprentice.fail("busy_say", "a master who answers later says something to one asking meanwhile")
+			if rule.answer_after > 0.0 and not rule.commoners_only.is_empty():
+				apprentice.fail("answer_after", "a master who takes only commoners answers at once")
 		elif rule.kind == Kind.OATH:
 			rule.ask_say = apprentice.required_text("ask_say")
 			rule.again_say = apprentice.required_text("again_say")

@@ -11,8 +11,8 @@ its members, 谷衣心法 with 运功灵神诀, 天师正道, 天师剑法. The 
 components under `game/runtime/world/map/` (#78): new code for one of those areas goes into its
 component.
 
-Next: 茅山 C (the player's 茅山道术: 召护法 in a fight, practice and the 观想虫); the equipment
-weight dodge (A1) is its own PR, independent of 茅山.
+Next: 茅山 C (the rest of the player's 茅山道术: 召护法 asked first in a spar, practice and the
+观想虫); the equipment weight dodge (A1) is its own PR, independent of 茅山.
 
 ## 待决定
 
@@ -102,10 +102,11 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   茅山派 passes the invisible wall; its upper floor. The taoists call themselves 贫道; 老道士
   never spars, 僵尸侍者 and 僵尸护法 only with 茅山派; in a fight they cast 紫光, 白光, 青光 and
   召护法 (a 天将 or a 阴鬼卒 comes to their side). Joining 茅山派: 林忌 takes men only, answering
-  two seconds after 拜师 (不便收女徒 for a woman; 慢著，一个一个来 when asked again meanwhile), as a
-  道士; he teaches his twelve skills, 僵尸侍者 and 僵尸护法 teach any member; 谷衣心法 (max_mana
-  five times its level; 运功灵神诀 turns force into mana, 疗伤), 天师正道 (杀气 100 at most),
-  茅山道术 and 天师剑法 (practised with a sword).
+  two seconds after 拜师 (不便收女徒 for a woman; 慢著，一个一个来 to one who withdrew and asked
+  again before it), as a 道士; he teaches his twelve skills, 僵尸侍者 and 僵尸护法 teach any
+  member; 谷衣心法 (max_mana five times its level; 运功灵神诀 turns force into mana, 疗伤),
+  天师正道 (杀气 100 at most), 天师剑法 (practised with a sword) and 茅山道术, whose 紫光, 白光,
+  青光 and 召护法 the player casts from the battle panel.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

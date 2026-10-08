@@ -6,8 +6,10 @@ extends RefCounted
 ## 谷衣心法 (max_mana five times its level; 灵神诀 and 疗伤), 天师正道 (杀气 100 at most),
 ## 茅山道术 (天师正道 half of it), 天师剑法 (max_force 80, practised with a sword); then the
 ## real session in the 大殿: a woman refused after the wait, an answer nobody is there to
-## hear, a man taken (asked first as a first master), learning, the 藏经楼 open to him,
-## 灵神诀 on the 武学 page and in a fight, Save/Continue. TEST-ONLY fixtures are marked.
+## hear, one lying there, an unconscious 林忌, the answer dropped when the player leaves the
+## map, a man taken (asked first as a first master), learning, the 藏经楼 open to him,
+## 灵神诀 on the 武学 page and in a fight (where the answer waits), 紫光 cast at 僵尸护法,
+## Save/Continue. TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Master := preload("res://tests/support/snow_master.gd")
@@ -57,6 +59,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.physics_frame
 	await _test_refused(tree, session)
 	await _test_nobody_hears(tree, session)
+	await _test_answer_cases(tree, session)
 	await _test_join(tree, session)
 	_test_library(session)
 	_test_concentrate_page(session)
@@ -89,6 +92,9 @@ func _test_data() -> void:
 	var action: StringName = CombatExertTacticalPolicy.action_id_for(&"concentrate")
 	_check(catalog.label_for(action) == "运功灵神诀" and catalog.tooltip_for(action) == "运功灵神诀：用 30 点内力和 10 点神恢复法力", "the battle button and its hover: %s" % catalog.tooltip_for(action))
 	_check(_catalog.skill(&"taoism").kind == SkillDefinition.Kind.BASIC and _catalog.skill(&"taoism").skill_type == SkillDefinition.Type.KNOWLEDGE, "天师正道: a basic knowledge")
+	# Reminder: necromancy.c's practice_skill() (10 mana, 30 sen, the 观想虫) is 茅山 C's; until
+	# then practice.c's own line answers 练习. C replaces this check with its own.
+	_check(_catalog.skill(&"necromancy").practice_policy() is UnpracticeablePracticePolicy, "茅山道术's practice waits for 茅山 C (update this check there)")
 
 
 # --- Joining ------------------------------------------------------------------------
@@ -145,7 +151,7 @@ func _test_learn() -> void:
 	var stranger: CharacterState = _student(CharacterState.GENDER_MALE)
 	for id: StringName in [TRAINER, TFIGHTER]:
 		var refused: Array = _learn(stranger, id, &"sword", [0])
-		_check(not (refused[0] as LearnResult).success and refused[1].size() == 1 and String(refused[1][0]).begins_with(_catalog.npc(id).display_name + "说道："), "%s politely refuses one not of 茅山派: %s" % [id, refused[1]])
+		_check((refused[0] as LearnResult).failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT and refused[1].size() == 1 and _reject_lines(_catalog.npc(id).display_name).has(refused[1][0]), "%s politely refuses one not of 茅山派 (no recognize_apprentice()): %s" % [id, refused[1]])
 	var disciple: CharacterState = _member()
 	for id: StringName in [TRAINER, TFIGHTER, MASTER]:
 		_check((_learn(disciple, id, &"sword", [0])[0] as LearnResult).success, "%s teaches 林忌's apprentice" % id)
@@ -274,7 +280,7 @@ func _test_refused(tree: SceneTree, session: WorldSessionController) -> void:
 	var trainer: TeacherService = map.service(&"temple.grounds.temple1.trainer") as TeacherService
 	player.state.progression.potential = 1000 # TEST-ONLY
 	var refused: LearnResult = trainer.request_learn(&"sword")
-	_check(not refused.success and trainer.last_lines.size() == 1 and trainer.last_lines[0].begins_with("僵尸侍者说道："), "僵尸侍者 will not teach one not of 茅山派: %s" % [trainer.last_lines])
+	_check(refused.failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT and trainer.last_lines.size() == 1 and _reject_lines("僵尸侍者").has(trainer.last_lines[0]), "僵尸侍者 will not teach one not of 茅山派: %s" % [trainer.last_lines])
 	player.state.gender = CharacterState.GENDER_MALE # TEST-ONLY
 
 
@@ -294,6 +300,53 @@ func _test_nobody_hears(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().size() == lines and not player.state.family.has_family(), "his answer came and went unheard; no recruit (recruit.c finds nobody)")
 	_check(player.apprenticeship_request.is_pending_with(MASTER), "the request still waits on him")
 	player.apprenticeship_request.cancel()
+
+
+## His answer to one lying before him: the request waiting on him takes nobody (recruit.c's
+## !living(ob)); one withdrawn meanwhile is offered all the same; nothing is read. An
+## unconscious 林忌 says nothing (unconcious() disables his commands). Leaving the map drops
+## the answer: it would come while the player is away and find nobody.
+func _test_answer_cases(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var request: NpcApprenticeship = player.apprenticeship_request
+	var master: NpcRuntimeState = _first(map, MASTER)
+	await _beside(tree, session, map, master)
+	var service: TeacherService = map.service(&"temple.grounds.temple1.taolord") as TeacherService
+	service.request_apprentice()
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: lying there
+	var lines: int = session.shared_ui().log_lines().size()
+	map.advance_npc_heartbeat(2.0)
+	_check(not map.npc_life.apprentice_answer_due(master) and not player.state.family.has_family() and request.is_pending_with(MASTER) and session.shared_ui().log_lines().size() == lines, "lying there: no recruit, nothing read, the request still waits")
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	request.cancel()
+	service.request_apprentice()
+	request.cancel()
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	lines = session.shared_ui().log_lines().size()
+	map.advance_npc_heartbeat(2.0)
+	_check(request.is_offered(MASTER) and not player.state.family.has_family() and session.shared_ui().log_lines().size() == lines, "withdrawn and lying there: offered all the same, unread")
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	request._offers.erase(MASTER) # TEST-ONLY
+	service.request_apprentice()
+	master.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	lines = session.shared_ui().log_lines().size()
+	map.npc_life._advance_ambience(2.0) # TEST-ONLY: the call_outs alone (the heart beat would wake him)
+	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().size() == lines and not player.state.family.has_family() and request.is_pending_with(MASTER), "an unconscious 林忌: his answer does nothing")
+	master.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	request.cancel()
+	service.request_apprentice()
+	_check(session.handoff_to(&"temple.mountain", &"temple.entrance", &"temple.entrance", &"temple.entrance.gate_return").succeeded(), "TEST-ONLY: out of the gate at once")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(not map.npc_life.apprentice_answer_due(master), "the player left the map: his answer is dropped")
+	_check(session.handoff_to(&"temple.grounds", &"temple.square", &"temple.square", &"temple.square.gate_arrival").succeeded(), "TEST-ONLY: back inside")
+	await tree.physics_frame
+	await tree.physics_frame
+	await _beside(tree, session, map, master)
+	map.advance_npc_heartbeat(3.0)
+	_check(not player.state.family.has_family() and request.is_pending_with(MASTER), "back before him: no answer comes, the request still waits")
+	request.cancel()
 
 
 ## A man's 拜师: asked first (a first master); withdrawn and asked again before the answer:
@@ -363,7 +416,8 @@ func _test_concentrate_page(session: WorldSessionController) -> void:
 	hud.dismiss_current_panel()
 
 
-## In a spar with 僵尸护法 (茅山派 only): 运功灵神诀 on the battle panel, then busy 1.
+## In a spar with 僵尸护法 (茅山派 only): 运功灵神诀 on the battle panel, then busy 1; a due
+## answer of 林忌 waits while the fight stands the world still; 施法「紫光」 at 僵尸护法.
 func _test_concentrate_fight(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -389,7 +443,31 @@ func _test_concentrate_fight(tree: SceneTree, session: WorldSessionController) -
 	var log: String = ui.log_panel._text.get_parsed_text()
 	_check(player.state.recovery.mana.current == 17 and player.busy.busy_value == 1, "17 mana, busy 1")
 	_check(log.contains(CONCENTRATE[0]) and log.contains(CONCENTRATE[1]), "its lines in the battle log")
+	var master: NpcRuntimeState = _first(map, MASTER)
+	map.npc_life.start_apprentice_answer(master, 2.0) # TEST-ONLY: an answer due
+	session.advance_npc_heartbeat(3.0)
+	_check(map.npc_life.apprentice_answer_due(master), "in a fight the world stands still: the answer waits")
+	# 茅山道术 enabled: 紫光 at him (every roll its highest: no failure, a hit).
+	player.state.skills.set_raw_level(&"spells", 20) # TEST-ONLY
+	player.state.skills.set_raw_level(&"necromancy", 20)
+	player.state.skills.map_skill(&"spells", &"necromancy")
+	while player.busy.is_busy():
+		player.busy.advance() # TEST-ONLY: 灵神诀's busy over
+	ui.refresh_projection()
+	labels.clear()
+	for info: CombatTacticalActionInfo in ui.current_projection().actions():
+		labels.append(ui.action_catalog.label_for(info.action_id))
+	_check(labels.has("施法「紫光」") and labels.has("施法「白光」") and labels.has("施法「青光」") and labels.has("施法「召护法」"), "茅山道术 enabled: the three bolts and 召护法 on the battle panel: %s" % [labels])
+	player.state.recovery.mana.current = 50
+	coordinator.submit_player_action(CombatTacticalRequest.new(&"drainer:1", coordinator.active_encounter().encounter_id, player.character_id, CombatCastTacticalPolicy.action_id_for(&"drainerbolt"), CombatTacticalRequest.Category.SPELL))
+	coordinator.advance_scheduler(0.0)
+	ui.refresh_projection()
+	log = ui.log_panel._text.get_parsed_text()
+	_check(player.state.recovery.mana.current == 25 and player.busy.busy_value == 2 and log.contains("你口中喃喃地念著咒文，左手一挥，手中聚起一团紫光射向僵尸护法！"), "紫光: 25 mana, busy 2, the bolt flies: %s" % log.right(160))
 	await _flee(tree, session)
+	await _beside(tree, session, map, master)
+	session.advance_npc_heartbeat(2.0)
+	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().has("林忌拍拍你的头，说道：「好徒儿！」"), "after the fight it comes: 好徒儿 for his apprentice")
 
 
 ## Save/Continue keeps the family, the master, the class and 谷衣心法.
@@ -410,6 +488,14 @@ func _test_continue(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 # --- Helpers ------------------------------------------------------------------------
+
+## learn.c's reject_msg lines as `npc` says them.
+static func _reject_lines(npc: String) -> Array[String]:
+	var out: Array[String] = []
+	for line: String in NpcRecognitionPolicy.REJECT_LINES:
+		out.append(line % npc)
+	return out
+
 
 ## The teacher admitted the student (learn.c went past recognize_apprentice()).
 static func _taught(result: LearnResult) -> bool:

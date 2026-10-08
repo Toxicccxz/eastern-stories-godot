@@ -78,18 +78,20 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 	return outcome
 
 
-## taolord.c do_recruit(), when its call_out is due with the player before it and awake
+## taolord.c do_recruit(), when its call_out is due with the player before it
 ## (WorldMapNpcLife): its say, and its recruit or refusal. An open panel shows the lines.
-func answer_apprentice() -> NpcApprenticeship.Outcome:
+## A player lying unconscious reads nothing (NpcApprenticeship.answer()).
+func answer_apprentice(awake: bool = true) -> NpcApprenticeship.Outcome:
 	last_lines = []
 	if not takes_apprentices():
 		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var outcome: NpcApprenticeship.Outcome = player.apprenticeship_answer(
-		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()),
+		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()), awake,
 	)
 	_say(player.apprenticeship_request.lines)
-	ui.show_answer()
+	if awake:
+		ui.show_answer()
 	return outcome
 
 

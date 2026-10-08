@@ -358,7 +358,7 @@ func _test_thief(tree: SceneTree, session: WorldSessionController) -> void:
 	map.npc_life.ambience.cancel_call(thief.character_id)
 	map.npc_life.pending_steals.erase(thief.character_id)
 	map.npc_life._consider_stealing(thief)
-	_check(map.npc_life.ambience.has_call(thief.character_id), "random(kar) 0 < 2: steal_it in a second")
+	_check(map.npc_life.ambience.has_call(thief.character_id, NpcAmbience.STEAL), "random(kar) 0 < 2: steal_it in a second")
 	map.npc_life.ambience.cancel_call(thief.character_id)
 	map.npc_life._steal_step(thief)
 	_check(map.npc_life.pending_steals.has(thief.character_id) and map.npc_life.pending_steals[thief.character_id]["item"] == silver, "steal.c picks present(\"silver\")")

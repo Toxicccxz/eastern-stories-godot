@@ -106,23 +106,15 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 
 ## 茅山 B: 茅山派 (2026-10-08)
 
-What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md).
-- **林忌 answers two seconds on** (taolord.c call_out("do_recruit", 2)): 拜师 prints only the
-  request; his say and his recruit come two seconds of world time later, an NPC call_out like
-  the thief's (not saved; it waits while a fight stands the world still). Only a player before
-  him and awake reads it or is taken (recruit.c's present(); unconcious() disables an NPC's
-  commands). One who walked off finds the request still waiting (对方还没有答应) until 取消拜师请求,
-  as apprentice.c. Withdrawn and asked again before the answer: 慢著，一个一个来, and the one
-  answer serves.
-- **Women**: no question before 拜师 (he will not take her); 不便收女徒 comes after the wait and
-  the request stays, as with the other masters' refusals.
+What each LPC function became (林忌's two-second answer, the women's refusal, 灵神诀) is in
+[TEMPLE_CONTENT](TEMPLE_CONTENT.md); it follows the LPC except:
+- **NPC call_outs and the player's absence** (global rule): an NPC's call_out (林忌's answer,
+  the thief's steal) runs on its map's world time, which stands still in a fight and while the
+  player is on another map. One that comes due in a fight waits for its end; leaving the map
+  drops them all, since ES2's would come while the player is away and find nobody (recruit.c's
+  present(), steal_it()).
 - **The question before 拜师** (first master, betrayal) is asked at the 拜师, as with 柳淳风 and
-  绝尘子; the change itself comes with his answer.
-- **The three-a-day count** is not ported (默认 of 茅山 A): 贫道今天已经收了三个弟子 is never said.
-- **灵神诀** as concentrate.c: a rise past max_mana sets mana to it (also mana above it), and the
-  10 sen may take sen below 0: the player falls.
-- 僵尸侍者 and 僵尸护法 (privs -1) teach every member; 清虚, 明心 and the guards have no family
-  and teach nobody.
+  绝尘子, though with 林忌 the change itself comes with his answer two seconds later.
 
 ## 茅山 A: the climb, the temple and its people (2026-10-08)
 

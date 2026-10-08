@@ -93,9 +93,10 @@ func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, ent
 	), family)
 
 
-## The master's answer when it is due (taolord.c do_recruit()), with the player before it.
-func apprenticeship_answer(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int) -> NpcApprenticeship.Outcome:
-	return _after_recruit(apprenticeship_request.answer(_state, master, family, entry_time_utc, _respect()), family)
+## The master's answer when it is due (taolord.c do_recruit()), with the player before it
+## (`awake` false: lying unconscious).
+func apprenticeship_answer(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, awake: bool = true) -> NpcApprenticeship.Outcome:
+	return _after_recruit(apprenticeship_request.answer(_state, master, family, entry_time_utc, _respect(), awake), family)
 
 
 ## juechen/master.c would take the player for a traitor if they asked it now.

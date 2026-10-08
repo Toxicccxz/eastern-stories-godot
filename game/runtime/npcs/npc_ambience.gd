@@ -64,7 +64,7 @@ func cancel_greeting(character_id: StringName) -> void:
 	_greetings.erase(character_id)
 
 
-func start_call(character_id: StringName, seconds: float, kind: StringName = STEAL) -> void:
+func start_call(character_id: StringName, seconds: float, kind: StringName) -> void:
 	if not _calls.has(kind):
 		_calls[kind] = {}
 	_calls[kind][character_id] = seconds
@@ -76,12 +76,18 @@ func cancel_call(character_id: StringName) -> void:
 		_calls[kind].erase(character_id)
 
 
-func has_call(character_id: StringName, kind: StringName = STEAL) -> bool:
+func has_call(character_id: StringName, kind: StringName) -> bool:
 	return _calls.has(kind) and _calls[kind].has(character_id)
 
 
+## Every NPC call_out: the player left the map, and each would find nobody (its time
+## does not flow while the map is not active).
+func clear_calls() -> void:
+	_calls.clear()
+
+
 ## The NPCs whose call_out of `kind` runs in these `delta` seconds, in start order.
-func due_calls(delta: float, kind: StringName = STEAL) -> Array[StringName]:
+func due_calls(delta: float, kind: StringName) -> Array[StringName]:
 	var due: Array[StringName] = []
 	if not is_finite(delta) or delta < 0.0 or not _calls.has(kind):
 		return due

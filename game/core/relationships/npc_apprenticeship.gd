@@ -257,9 +257,11 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 ## taolord.c do_recruit(), the answer `answer_after` seconds after a request: one short of
 ## its checks (a woman) hears its say; anyone else its accept_say, then its recruit
 ## (recruit.c from its side: the request waiting on it is taken, one withdrawn meanwhile is
-## offered). The caller runs it only with the student before it and awake: recruit.c's
-## present() finds no one else, and a say nobody hears changes nothing.
-func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String) -> Outcome:
+## offered). The caller runs it only with the student before it: recruit.c's present()
+## finds no one else, and a say nobody hears changes nothing. A student lying there
+## (`awake` false) reads nothing; recruit.c's !living(ob) takes nobody (没有办法行拜师之礼),
+## but one who had withdrawn is offered all the same.
+func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, awake: bool = true) -> Outcome:
 	lines = []
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0 or family == null or entry_time_utc < 0:
@@ -267,8 +269,14 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 	var npc: String = _t(master.display_name)
 	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice)
 	if short != null:
-		_say(npc, short.refuse_say, respect)
+		if awake:
+			_say(npc, short.refuse_say, respect)
 		return Outcome.QUALIFICATION_REJECTED
+	if not awake:
+		if is_master_of(student, master) or is_pending_with(master.definition_id):
+			return Outcome.PENDING
+		_offers[master.definition_id] = true
+		return Outcome.OFFERED
 	_say(npc, teaching.apprentice.accept_say, respect)
 	return _npc_recruit(student, master, family, entry_time_utc)
 
