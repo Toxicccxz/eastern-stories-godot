@@ -1603,6 +1603,26 @@ msgstr ""
 msgid "老子"
 msgstr ""
 
+#: core/characters/relative_strength.gd
+msgid "{pronoun}看起来远不如你。"
+msgstr ""
+
+#: core/characters/relative_strength.gd
+msgid "{pronoun}看起来不如你。"
+msgstr ""
+
+#: core/characters/relative_strength.gd
+msgid "{pronoun}看起来和你不相上下。"
+msgstr ""
+
+#: core/characters/relative_strength.gd
+msgid "{pronoun}看起来比你强。"
+msgstr ""
+
+#: core/characters/relative_strength.gd
+msgid "{pronoun}看起来比你强得多。"
+msgstr ""
+
 #: core/conditions/effects/drunk_condition_effect.gd
 msgid "{name}打了个隔，不过依然烂醉如泥。"
 msgstr ""
@@ -2274,14 +2294,13 @@ msgstr ""
 msgid "你想要拜%s为师。"
 msgstr ""
 
-#. channeld.c's chat channel: {who} is who speaks (绝尘子), {line} what it says.
+#. what ES2 put on its chat channel, shouted in the room: {who} is who shouts (绝尘子), {line} what.
 #: core/relationships/npc_apprenticeship.gd
-msgid "【闲聊】{who}：{line}"
+msgid "{who}大声喝道：{line}"
 msgstr ""
 
-#. master.c do_swear(): message_vision("$N发誓道：" + arg): {oath} is the oath (守门规).
 #: core/relationships/npc_apprenticeship.gd
-msgid "你发誓道：{oath}"
+msgid "你发誓恪守门规。"
 msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
@@ -3069,6 +3088,63 @@ msgstr ""
 msgid "施法「{spell}」"
 msgstr ""
 
+#. hover of 运功疗伤 (heal.c): {force} internal power cures wounds; never in a fight.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力治疗伤势，战斗中不能用"
+msgstr ""
+
+#. hover of 运功恢复气/神/精 (recover.c …): {force} internal power brings {track} back.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力恢复{track}"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+msgid "气"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+msgid "神"
+msgstr ""
+
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+msgid "精"
+msgstr ""
+
+#. hover of 运功提升战斗力 (powerup.c): {force} internal power; attack and dodge rise for a while, and bellicosity.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力，一段时间内攻击和闪避提升，杀气也随之上升"
+msgstr ""
+
+#. hover of 运功压制杀气 (powerfade.c): {force} internal power and {sen} sen lower bellicosity; in a fight one may faint.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力和 {sen} 点神压下杀气，战斗中可能昏倒"
+msgstr ""
+
+#. hover of 运功天邪虎啸 (roar.c): {force} internal power and {kee} kee; the roar hurts everyone else in the room who cannot withstand it.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤"
+msgstr ""
+
+#. hover of 施法「遁」 (dun.c at oneself): out of the fight to {region}{room} (雪亭镇城隍庙); {mana} mana; it can fail.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "脱离战斗，回到{region}{room}（{mana} 法力，可能失败）"
+msgstr ""
+
+#. hover of 施法「困」 (dun.c at an enemy): the enemy is held for a while; {mana} mana; it can fail.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "困住对手，让对方一段时间无法出手（{mana} 法力，可能失败）"
+msgstr ""
+
+#. hover of 施法「召天将」 (saveme.c): a heavenly soldier comes to fight on the player's side; {mana} mana; it can fail.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "召来一名天将相助（{mana} 法力，可能失败）"
+msgstr ""
+
+#. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "{action}：{what}"
+msgstr ""
+
 #: presentation/battle/battle_feedback_reader.gd
 msgid "已接受"
 msgstr ""
@@ -3199,10 +3275,6 @@ msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
 msgid "未知结果"
-msgstr ""
-
-#: presentation/battle/battle_feedback_reader.gd
-msgid "你的目标是%s。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
@@ -3355,10 +3427,6 @@ msgstr ""
 msgid "战斗描写会显示在这里。"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd
-msgid "（-%d）"
-msgstr ""
-
 #: presentation/battle/battle_presentation_controller.gd presentation/layout/shared_gameplay_layout.gd
 msgid "切磋"
 msgstr ""
@@ -3478,7 +3546,7 @@ msgstr ""
 
 #. spring-blade actions.damage_type
 #: presentation/battle/es2_combat_messages.gd data/common/skills.json
-msgid "□伤"
+msgid "擦伤"
 msgstr ""
 
 #. spring-blade actions.damage_type
@@ -3529,7 +3597,7 @@ msgid "结果「噗」地一声刺进$n的$l，使$p不由自主地退了几步�
 msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd
-msgid "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉□糊的血窟窿！"
+msgid "结果「噗嗤」地一声，$w已在$p$l刺出一个血肉模糊的血窟窿！"
 msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd
@@ -3710,18 +3778,6 @@ msgstr ""
 
 #: presentation/layout/application_shell_layout.gd runtime/application/application_shell_controller.gd
 msgid "窗口模式由这个平台管理。"
-msgstr ""
-
-#: presentation/layout/shared_gameplay_layout.gd
-msgid "精"
-msgstr ""
-
-#: presentation/layout/shared_gameplay_layout.gd
-msgid "气"
-msgstr ""
-
-#: presentation/layout/shared_gameplay_layout.gd
-msgid "神"
 msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd ui/world/player_inventory_panel.gd
@@ -4121,6 +4177,14 @@ msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd runtime/world/services/hockshop_service.gd
 msgid "已穿戴"
+msgstr ""
+
+#: runtime/world/player_martial_arts.gd
+msgid "需要先学会基本咒文，法力才能增长。"
+msgstr ""
+
+#: runtime/world/player_martial_arts.gd
+msgid "需要先学会基本法术，灵力才能增长。"
 msgstr ""
 
 #: runtime/world/services/bank_service.gd ui/bank/bank_exchange_panel.gd
@@ -5078,6 +5142,10 @@ msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
+msgid "你的眼前一黑，接著什麽也不知道了...."
+msgstr ""
+
+#: ui/world/player_life_overlay.gd
 msgid "（约 %d 秒后醒来）"
 msgstr ""
 
@@ -5164,6 +5232,20 @@ msgstr ""
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
 "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n"
+"确定要和{npc}切磋吗？"
+msgstr ""
+
+#. asked before a bare-handed 切磋 with an NPC ({npc}) clearly stronger than the player (native, owner A10): one blow can knock the player out.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{npc}看起来比你强得多：即使只是切磋，一招就可能把你打昏。\n"
+"确定要和{npc}切磋吗？"
+msgstr ""
+
+#. asked before 切磋 with a weapon in hand on either side and an NPC ({npc}) clearly stronger than the player (native, owner A10).
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{npc}看起来比你强得多，而且有人手持兵刃：切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n"
 "确定要和{npc}切磋吗？"
 msgstr ""
 
@@ -5272,6 +5354,20 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "随身补给"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定送出"
+msgstr ""
+
+#. asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
+#: ui/world/shared_gameplay_ui.gd
+msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
+msgstr ""
+
+#. asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -6497,7 +6593,7 @@ msgstr ""
 
 #. actions.action
 #: data/common/combat_actions.json
-msgid "$N挥舞$w，往$n的$l用力一□"
+msgid "$N挥舞$w，往$n的$l用力一砸"
 msgstr ""
 
 #. actions.action
@@ -6613,7 +6709,7 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry.name
 #: data/common/npcs.json
-msgid "你既然知道我是柳□主，怎麽不知道我是柳淳风？"
+msgid "你既然知道我是柳馆主，怎麽不知道我是柳淳风？"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.here
@@ -7881,7 +7977,7 @@ msgstr ""
 #. snow.npc.keeper long
 #: data/snow/npcs.json
 msgid ""
-"这个老人看起来七十多岁了，看著他□偻的身影，你忽然觉得心情沈重了下来。\n"
+"这个老人看起来七十多岁了，看著他佝偻的身影，你忽然觉得心情沈重了下来。\n"
 msgstr ""
 
 #. snow.npc.keeper greeting.say
@@ -9120,6 +9216,11 @@ msgid ""
 "在树梢之间移动，不过也许是风吹动所造成的错觉。\n"
 msgstr ""
 
+#. oldpine.outdoor.landmark.ancient_pine messages.use
+#: data/oldpine/world.json
+msgid "你手脚并用，敏捷地爬上了空地中央的大松树。"
+msgstr ""
+
 #. oldpine.tree.landmark.tree1_descent action
 #. oldpine.cliff.landmark.cliff1_down action
 #. oldpine.stone.landmark.climb_down action
@@ -9127,6 +9228,11 @@ msgstr ""
 #. oldpine.cliff2.landmark.down action
 #: data/oldpine/world.json
 msgid "往下爬"
+msgstr ""
+
+#. oldpine.tree.landmark.tree1_descent messages.use
+#: data/oldpine/world.json
+msgid "你顺著粗大的树干，慢慢地爬了下来。"
 msgstr ""
 
 #. oldpine.outdoor.landmark.epath2_vine action
@@ -9183,6 +9289,11 @@ msgid ""
 "两边的山壁看起来又高又陡，看来要爬上岸边实在很不容易。\n"
 msgstr ""
 
+#. oldpine.gorge.landmark.riverbank1_cliff messages.use
+#: data/oldpine/world.json
+msgid "你一付不信邪的表情，开始小心翼翼地攀著石壁爬了上去。"
+msgstr ""
+
 #. oldpine.cliff.landmark.cliff1_down name
 #. oldpine.cliff2.landmark.down name
 #: data/oldpine/world.json
@@ -9194,6 +9305,12 @@ msgstr ""
 #: data/oldpine/world.json
 msgid ""
 "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n"
+msgstr ""
+
+#. oldpine.cliff.landmark.cliff1_down messages.use
+#. oldpine.cliff2.landmark.down messages.use
+#: data/oldpine/world.json
+msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。"
 msgstr ""
 
 #. oldpine.cliff.landmark.cliff1_up name
@@ -9214,6 +9331,12 @@ msgstr ""
 #: data/oldpine/world.json
 msgid ""
 "从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n"
+msgstr ""
+
+#. oldpine.cliff.landmark.cliff1_up messages.use
+#. oldpine.cliff2.landmark.up messages.use
+#: data/oldpine/world.json
+msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬。"
 msgstr ""
 
 #. oldpine.cave.landmark.stone name
@@ -9289,16 +9412,6 @@ msgstr ""
 #. oldpine.outdoor.landmark.cliffdown_cliff messages.use
 #: data/oldpine/world.json
 msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去。"
-msgstr ""
-
-#. oldpine.cliff2.landmark.up messages.use
-#: data/oldpine/world.json
-msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬。"
-msgstr ""
-
-#. oldpine.cliff2.landmark.down messages.use
-#: data/oldpine/world.json
-msgid "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。"
 msgstr ""
 
 #. es2:d/goathill/obj/sledge_hammer name

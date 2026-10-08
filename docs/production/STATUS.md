@@ -4,21 +4,18 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Map controller split** (`phase/split-map-controller`, no behaviour change): `WorldMapController`
-keeps zones, portals, position, activation and the public facade (every method forwards); its
-NPCs, NPC life, floor items, corpses, selection, hostilities and combat lifecycle live in seven
-`RefCounted` components under `game/runtime/world/map/`. New code for one of those areas goes into
-its component; the controller only gets a forwarder when an outside caller needs it.
+**现代化修正 II** (`phase/modern-fixes-2`, DECISIONS「积压问题的处理」): max kee follows max_force
+at once (A7); a knocked-out player lies three seconds in the dark while the world lives damage.c's
+delay (A9, `player_wake_seconds`); 目标详情 says how strong an NPC looks and a spar with one clearly
+stronger is asked first (A10); giving away what one has equipped or a gold tael and more is asked
+first; no □ left in the game (`tools/migration/text_replacements.json`); 绝尘子 shouts instead of a
+chat channel; the oath, landmark and meditate lines; on the battle panel 运功疗伤 greyed with why,
+hover hints for exerts and spells, damage numbers right after the line, plain text a light grey.
+The map controller is split into seven components under `game/runtime/world/map/` (#78): new code
+for one of those areas goes into its component.
 
-**青石村 D** (`phase/green-d`): the player's spells. With 奇门遁甲 enabled for spells the battle
-panel offers 施法「遁」 (away to Snow's 城隍庙 in a light; the fight is over for the player),
-施法「困」 (the enemy busy) and 施法「召天将」 (a 天将 comes in on the player's side, kills their
-enemies and is killed back; in a spar it is asked first, as the partner may die). An enemy now
-picks between the player and the soldier as ES2 does. no_magic rooms refuse a cast (none is
-placed yet). Playtest launcher: `tests/runtime/run_with_experience.gd`, then join 绝尘子 and learn.
-
-Next: 茅山 (region #6) plan. Then the backlog PRs DECISIONS「积压问题的处理」names: the equipment weight
-dodge (A1, its own PR), the 润色 PR, 现代化修正 II.
+Next: the 润色 PR (A3, A4, A5, A11), then the equipment weight dodge (A1, its own PR), then 茅山
+(region #6).
 
 ## 待决定
 
@@ -131,7 +128,7 @@ Code:
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30
   (6.4 at ES2's pace); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
   1001 (朱鸿雪's quests) still takes some 6–12 hours with a family's skills: past about 150 few
-  opponents are of the strength ES2 gives exp for. max_force/4 reaches max kee only at the next Continue (ES2's login). Conditions do not tick
+  opponents are of the strength ES2 gives exp for. Conditions do not tick
   in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), eaten food leaves
