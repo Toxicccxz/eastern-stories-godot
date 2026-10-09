@@ -4491,7 +4491,7 @@ msgstr ""
 msgid "中性神"
 msgstr ""
 
-#. a woman named in the third person (gender.c).
+#. a man named in the third person (gender.c).
 #: presentation/battle/es2_combat_messages.gd ui/teacher/teacher_panel.gd
 msgid "他"
 msgstr ""

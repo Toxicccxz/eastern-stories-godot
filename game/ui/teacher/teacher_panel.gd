@@ -318,8 +318,11 @@ func _take_trial_now() -> void:
 
 ## gender.c gender_pronoun() for the master.
 func _pronoun(master: NpcDefinition) -> String:
-	# TRANSLATORS: a woman named in the third person (gender.c).
-	return tr("她") if master.gender == CharacterState.GENDER_FEMALE else tr("他")
+	if master.gender == CharacterState.GENDER_FEMALE:
+		# TRANSLATORS: a woman named in the third person (gender.c).
+		return tr("她")
+	# TRANSLATORS: a man named in the third person (gender.c).
+	return tr("他")
 
 
 func _family_name() -> String:

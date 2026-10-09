@@ -145,8 +145,8 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
   her (默认: the title comes with her taking them); a later 拜师 renamed her first generation
   晚月庄开山祖师.
 - elon.c's do_accept() checks gender and combat_exp again but not the title: a member of a
-  family can take her test and be offered (then 拜师 takes the offer, as recruit.c's first
-  branch comes before attempt_apprentice()).
+  family can take her test and be offered (then 拜师 takes the offer: apprentice.c's first
+  branch, pending/recruit, comes before attempt_apprentice()).
 - annihi.c is 东方神教's 教主 but refuses every apprentice and is no F_MASTER; u/cloud's 朱鸿雪 is
   its other member: 东方神教 has no master who takes apprentices.
 - elon.c (瑷伦) is generation 0 of 晚月庄 (its founder).

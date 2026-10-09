@@ -65,6 +65,12 @@ func accepts_no_target() -> bool:
 	return _aims
 
 
+## chillgaze.c asks only is_fighting(): a killer still stares at its unconscious victim
+## (offensive_target() keeps it among the enemies), as the 字诀 do.
+func reaches_downed_target() -> bool:
+	return _aims
+
+
 ## Shown only when the player's enabled force reaches the function.
 func offered_to(state: CharacterState) -> bool:
 	return state != null and ExertService.offered(state, GameContent.catalog(), true).has(_function_id)

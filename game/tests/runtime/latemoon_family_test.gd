@@ -64,6 +64,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_old_force(tree, session)
 	await _test_elon_traitor(tree, session)
 	await _test_elon_lashes(tree, session)
+	await _test_annihi_in_wing(tree, session)
 	await _test_chillgaze_fight(tree, session)
 	await _test_continue(tree, session)
 	session.free()
@@ -99,6 +100,9 @@ func _test_data() -> void:
 		_check(taught.has(&"tenderzhi") and taught.has(&"snowwhip") and taught.has(&"iceforce") and taught.has(&"stormdance") and taught.has(&"whip"), "%s teaches the family's arts: %s" % [id, taught])
 	var practice: PracticePolicy = _catalog.skill(&"tenderzhi").practice_policy()
 	_check(practice is VitalityInnerForcePracticePolicy and (practice as VitalityInnerForcePracticePolicy).spirit_first, "柔虹指 checks sen first")
+	var errors: Array[String] = []
+	SkillDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "kind": "basic", "type": "martial", "legacy_source": "x.c", "practice": {"force": 10, "sen_first": true}}, "x", errors))
+	_check(errors.size() == 1 and errors[0].contains("sen_first"), "sen_first without sen fails the load: %s" % [errors])
 	var catalog := BattleActionPresentationCatalog.new()
 	var action: StringName = CombatExertTacticalPolicy.action_id_for(&"chillgaze")
 	_check(catalog.label_for(action) == "运功意寒睨" and catalog.tooltip_for(action) == "运功意寒睨：用 50 点内力和 20 点神以目光摄住对手，伤其精（对手可能避开）", "the battle button and its hover: %s" % catalog.tooltip_for(action))
@@ -433,6 +437,26 @@ func _test_elon_lashes(tree: SceneTree, session: WorldSessionController) -> void
 	ui.close_panel()
 
 
+## 安妮儿's 拜师: no question, her say; the request waits until withdrawn.
+func _test_annihi_in_wing(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var annihi: NpcRuntimeState = await _beside(tree, map, session, ANNIHI)
+	var service: TeacherService = _teacher(map, annihi)
+	_check(service != null and service.takes_apprentices() and not service.offers_trial(), "安妮儿's panel has 拜师, no test")
+	if service == null:
+		return
+	service.ui.interact()
+	var ui: TeacherPanel = service.ui
+	ui.apprentice_button.pressed.emit()
+	_check(not ui.is_confirming() and service.last_lines == ["你想要拜安妮儿为师。", "安妮儿说道：" + GO_TO_LAN] and session.shared_ui().log_lines()[-1] == "安妮儿说道：" + GO_TO_LAN, "no question; her say: %s" % [service.last_lines])
+	ui.refresh()
+	_check(ui.cancel_button.visible and player.apprenticeship_request.is_pending_with(ANNIHI) and NpcApprenticeship.is_master_of(player.state, _catalog.npc(ELON)), "the request waits (取消拜师请求); still 瑷伦's")
+	ui.cancel_button.pressed.emit()
+	_check(not player.apprenticeship_request.is_pending(), "withdrawn")
+	ui.close_panel()
+
+
 ## In a fight with a 婢女: 运功意寒睨 at her, named in the battle log; the player's blows
 ## with 意寒功 enabled carry its cold (iceforce.c hit_ob(): iceshock).
 func _test_chillgaze_fight(tree: SceneTree, session: WorldSessionController) -> void:
@@ -477,6 +501,26 @@ func _test_chillgaze_fight(tree: SceneTree, session: WorldSessionController) -> 
 		ui.refresh_projection()
 		log = ui.log_panel._text.get_parsed_text()
 	_check(log.contains(cold) and servant.character_state.conditions.has_condition(ConditionIds.ICE_SHOCK), "a blow carries 意寒功's cold, and iceshock: %s" % log.right(300))
+	# With no current target the file's own offensive_target() finds her (the only enemy).
+	while player.busy.is_busy():
+		player.busy.advance() # TEST-ONLY
+	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(coordinator.active_encounter())
+	var policy := CombatExertTacticalPolicy.new(&"chillgaze", Callable(), Callable(), func(id: StringName) -> String: return session.encounter_display_name(id))
+	var context := CombatTacticalContext.new(session.resolve_encounter_binding(player.character_id), null, CombatEncounterMode.Value.LETHAL, null, bindings)
+	_check(policy.validate_execution(context) == CombatTacticalResult.Code.ACCEPTED, "no current target: accepted")
+	var untargeted: CombatTacticalExecutionResult = policy.execute(context, Forced.new())
+	_check(ColoredLine.texts(untargeted.lines()).slice(0, 1) == ["你眼神忽然发出异光，双瞳犹如两把利刃般盯著婢女！"], "no current target: offensive_target() is the 婢女: %s" % [ColoredLine.texts(untargeted.lines())])
+	# Her unconscious in the fight to the death: the gaze still reaches her (a 字诀 would too).
+	while player.busy.is_busy():
+		player.busy.advance() # TEST-ONLY
+	servant.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	var force: int = state.recovery.inner_force.current
+	session.configure_combat_random_source(Forced.new()) # TEST-ONLY: she does not look away
+	var queued: CombatTacticalResult = coordinator.submit_player_action(CombatTacticalRequest.new(&"gaze:2", coordinator.active_encounter().encounter_id, player.character_id, CombatExertTacticalPolicy.action_id_for(&"chillgaze"), CombatTacticalRequest.Category.INTERNAL_FORCE))
+	coordinator.advance_scheduler(0.0)
+	session.configure_combat_random_source(original)
+	_check(queued.code == CombatTacticalResult.Code.ACCEPTED and state.recovery.inner_force.current == force - 50, "her lying there: the queued gaze still stares at her (50 force)")
+	servant.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
 	await _flee(tree, session)
 
 
