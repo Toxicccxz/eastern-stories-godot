@@ -314,7 +314,13 @@ static func resolve(
 						attacker.mapped_force_skill_id,
 						standard_force_result,
 					)
-				if standard_force_result.has_numeric_contribution():
+				var wound_result: CombatAttackResult = _force_hit_wound(
+					attacker, defender, action, calculation, mutation, standard_force_result,
+					defender_vitality, defender_conditions, random_source,
+				)
+				if wound_result != null:
+					return wound_result
+				if standard_force_result.has_numeric_contribution() and calculation._force_wound == 0:
 					calculation._final_strength_bonus += standard_force_result.numeric_contribution
 			else:
 				var force_policy_result: CombatAttackResult = _policy_gate_result(
@@ -572,6 +578,45 @@ static func _draw(
 
 static func _is_valid_draw(draw: int, exclusive_upper_bound: int) -> bool:
 	return exclusive_upper_bound <= 0 or (draw >= 0 and draw < exclusive_upper_bound)
+
+
+## iceforce.c hit_ob() after ::hit_ob(): when std/force.c returned a number (not its
+## reflection line) and damage_bonus plus it is above 0, random(query_skill("iceforce"))
+## over that sum wounds the victim's kee by it and sets iceshock to factor / 3; the hook
+## then returns its line, so the number is not added. Null unless a draw went wrong.
+static func _force_hit_wound(
+	attacker: CombatAttackerSnapshot,
+	defender: CombatDefenderSnapshot,
+	action: CombatActionDefinition,
+	calculation: CombatAttackCalculation,
+	mutation: CombatResourceMutationResult,
+	standard_force_result: StandardForceHitResult,
+	defender_vitality: CharacterResourceState,
+	defender_conditions: CharacterConditionState,
+	random_source: CombatRandomSource,
+) -> CombatAttackResult:
+	var wound: ForceHitWound = attacker.force_hit_wound
+	if wound == null or standard_force_result.outcome == StandardForceHitResult.Outcome.REFLECTION:
+		return null
+	var foo: int = standard_force_result.numeric_contribution if standard_force_result.has_numeric_contribution() else 0
+	var total: int = calculation._final_strength_bonus + foo
+	if total <= 0:
+		return null
+	var level: int = attacker.mapped_force_skill_level
+	var roll: int = _draw(random_source, level, calculation)
+	if not _is_valid_draw(roll, level):
+		return _invalid_draw_result(
+			CombatAttackResult.FailureStage.FORCE_HIT_POLICY, attacker, defender, action, calculation, mutation,
+			standard_force_result,
+		)
+	if roll > total:
+		defender_vitality.apply_wound(total)
+		if defender_conditions != null:
+			@warning_ignore("integer_division")
+			defender_conditions.add_or_replace_duration(wound.condition_id, standard_force_result.factor / wound.factor_divisor)
+		calculation._force_wound = total
+		calculation._force_hit_wound = wound
+	return null
 
 
 static func _observe_threshold(

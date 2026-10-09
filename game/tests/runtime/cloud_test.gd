@@ -82,7 +82,7 @@ func _test_data() -> void:
 	_check(goods["weaponor"] == ["whip", "sword", "blade", "dart", "leather shield", "sixhammer", "thin sword", "dagger"] and goods["book_seller"] == ["literate book"] and goods["seller"] == ["rope", "bag", "dust"], "six shops with their goods: " + str(goods))
 	var book: ItemContentDefinition = catalog.item(BOOK)
 	_check(book.display_name == "说文解字" and book.value == 2000 and book.study.skill_id == &"literate" and book.study.max_skill == 30, "说文解字: 20 silver, study literate up to 30")
-	_check(catalog.npc(&"cloud.npc.monk").dealings().is_fight_deferred() and catalog.npc(&"cloud.npc.god").dealings().is_fight_deferred() and not catalog.npc(&"cloud.npc.jiading").dealings().is_fight_deferred(), "the monk and 朱鸿雪 wait for their arts; the 家丁 fight with 春风快意刀")
+	_check(catalog.npc(&"cloud.npc.monk").dealings().is_fight_deferred() and not catalog.npc(&"cloud.npc.god").dealings().is_fight_deferred() and not catalog.npc(&"cloud.npc.jiading").dealings().is_fight_deferred(), "the monk waits for his arts; 朱鸿雪 (雪影剑法 since 晚月庄 A) and the 家丁 (春风快意刀) can be fought")
 	_check(catalog.npc(&"cloud.npc.bfighter").talk().has_chat(), "趟子手 shouts and wanders ((:random_move :) without a space)")
 	var greet: NpcTalk = catalog.npc(&"cloud.npc.book_seller").talk()
 	_check(greet.greeting_choices().size() == 3 and greet.greeting_draws() == 4 and greet.greeting_choices()[1].as_written, "潘若秋 greets with one of three lines out of random(4), as written")

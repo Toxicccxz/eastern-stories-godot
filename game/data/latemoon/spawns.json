@@ -1,0 +1,360 @@
+{
+	"spawns": [
+		{
+			"id": "latemoon.manor.entrance.lm_guards",
+			"npc": "cloud.npc.lm_guard",
+			"map": "latemoon.manor",
+			"zone": "latemoon.entrance",
+			"points": ["latemoon.entrance.lm_guard.1", "latemoon.entrance.lm_guard.2"],
+			"legacy_room": "d/latemoon/entrance.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "latemoon.manor.latemoon1.servants",
+			"npc": "latemoon.npc.servant",
+			"map": "latemoon.manor",
+			"zone": "latemoon.latemoon1",
+			"points": ["latemoon.latemoon1.servant.1", "latemoon.latemoon1.servant.2"],
+			"legacy_room": "d/latemoon/latemoon1.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "latemoon.manor.latemoon1.master",
+			"npc": "common.npc.dancer.master",
+			"map": "latemoon.manor",
+			"zone": "latemoon.latemoon1",
+			"points": ["latemoon.latemoon1.master.1"],
+			"legacy_room": "d/latemoon/latemoon1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.latemoon3.yumay",
+			"npc": "latemoon.npc.yumay",
+			"map": "latemoon.manor",
+			"zone": "latemoon.latemoon3",
+			"points": ["latemoon.latemoon3.yumay.1"],
+			"legacy_room": "d/latemoon/latemoon3.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.latemoon6.funlin",
+			"npc": "latemoon.npc.funlin",
+			"map": "latemoon.manor",
+			"zone": "latemoon.latemoon6",
+			"points": ["latemoon.latemoon6.funlin.1"],
+			"legacy_room": "d/latemoon/latemoon6.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.latebook.girl",
+			"npc": "latemoon.npc.girl",
+			"map": "latemoon.manor",
+			"zone": "latemoon.latebook",
+			"points": ["latemoon.latebook.girl.1"],
+			"legacy_room": "d/latemoon/latebook.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.latemoon2.zauron",
+			"npc": "latemoon.npc.zauron",
+			"map": "latemoon.manor",
+			"zone": "latemoon.latemoon2",
+			"points": ["latemoon.latemoon2.zauron.1"],
+			"legacy_room": "d/latemoon/latemoon2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.guest1.guest",
+			"npc": "latemoon.npc.room.guest",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.guest1",
+			"points": ["latemoon.room.guest1.guest.1"],
+			"legacy_room": "d/latemoon/room/guest1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.guest2.tguest",
+			"npc": "latemoon.npc.room.tguest",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.guest2",
+			"points": ["latemoon.room.guest2.tguest.1"],
+			"legacy_room": "d/latemoon/room/guest2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.kitchen.fochin",
+			"npc": "latemoon.npc.room.fochin",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.kitchen",
+			"points": ["latemoon.room.kitchen.fochin.1"],
+			"legacy_room": "d/latemoon/room/kitchen.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.lcenter.spring2",
+			"npc": "latemoon.npc.room.spring2",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.lcenter",
+			"points": ["latemoon.room.lcenter.spring2.1"],
+			"legacy_room": "d/latemoon/room/lcenter.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.lcenter.yushou",
+			"npc": "latemoon.npc.room.yushou",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.lcenter",
+			"points": ["latemoon.room.lcenter.yushou.1"],
+			"legacy_room": "d/latemoon/room/lcenter.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.lstudio.old",
+			"npc": "latemoon.npc.room.old",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.lstudio",
+			"points": ["latemoon.room.lstudio.old.1"],
+			"legacy_room": "d/latemoon/room/lstudio.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.lstudio.killer",
+			"npc": "latemoon.npc.room.killer",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.lstudio",
+			"points": ["latemoon.room.lstudio.killer.1"],
+			"legacy_room": "d/latemoon/room/lstudio.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.room4.servant2",
+			"npc": "latemoon.npc.servant2",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.room4",
+			"points": ["latemoon.room.room4.servant2.1"],
+			"legacy_room": "d/latemoon/room/room4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.room4.spring1",
+			"npc": "latemoon.npc.room.spring1",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.room4",
+			"points": ["latemoon.room.room4.spring1.1"],
+			"legacy_room": "d/latemoon/room/room4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.eastroom.servant",
+			"npc": "latemoon.npc.room.servant",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.eastroom",
+			"points": ["latemoon.room.eastroom.servant.1"],
+			"legacy_room": "d/latemoon/room/eastroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.eastroom.elon",
+			"npc": "latemoon.npc.room.elon",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.eastroom",
+			"points": ["latemoon.room.eastroom.elon.1"],
+			"legacy_room": "d/latemoon/room/eastroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.westroom.servant",
+			"npc": "latemoon.npc.room.servant",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.westroom",
+			"points": ["latemoon.room.westroom.servant.1"],
+			"legacy_room": "d/latemoon/room/westroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.westroom.annihi",
+			"npc": "latemoon.npc.room.annihi",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.westroom",
+			"points": ["latemoon.room.westroom.annihi.1"],
+			"legacy_room": "d/latemoon/room/westroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.corridor7.yuchoun",
+			"npc": "latemoon.npc.room.yuchoun",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.corridor7",
+			"points": ["latemoon.room.corridor7.yuchoun.1"],
+			"legacy_room": "d/latemoon/room/corridor7.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.flower1.shaoin",
+			"npc": "latemoon.npc.room.shaoin",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.flower1",
+			"points": ["latemoon.room.flower1.shaoin.1"],
+			"legacy_room": "d/latemoon/room/flower1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.bathroom1.shinyu",
+			"npc": "latemoon.npc.room.shinyu",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.bathroom1",
+			"points": ["latemoon.room.bathroom1.shinyu.1"],
+			"legacy_room": "d/latemoon/room/bathroom1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.bathroom.fireangel",
+			"npc": "latemoon.npc.room.fireangel",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.bathroom",
+			"points": ["latemoon.room.bathroom.fireangel.1"],
+			"legacy_room": "d/latemoon/room/bathroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.bathroom.eton",
+			"npc": "latemoon.npc.room.eton",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.bathroom",
+			"points": ["latemoon.room.bathroom.eton.1"],
+			"legacy_room": "d/latemoon/room/bathroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.secret.miroom2.shaowei",
+			"npc": "latemoon.npc.shaowei",
+			"map": "latemoon.secret",
+			"zone": "latemoon.miroom2",
+			"points": ["latemoon.miroom2.shaowei.1"],
+			"legacy_room": "d/latemoon/miroom2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.garden.moon5.flwgirls",
+			"npc": "latemoon.npc.park.flwgirl",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.moon5",
+			"points": [
+				"latemoon.park.moon5.flwgirl.1",
+				"latemoon.park.moon5.flwgirl.2",
+				"latemoon.park.moon5.flwgirl.3",
+				"latemoon.park.moon5.flwgirl.4"
+			],
+			"legacy_room": "d/latemoon/park/moon5.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "latemoon.garden.moroom.girl_yu",
+			"npc": "latemoon.npc.park.girl_yu",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.moroom",
+			"points": ["latemoon.park.moroom.girl_yu.1"],
+			"legacy_room": "d/latemoon/park/moroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.garden.moroom.dodo1",
+			"npc": "latemoon.npc.park.dodo1",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.moroom",
+			"points": ["latemoon.park.moroom.dodo1.1"],
+			"legacy_room": "d/latemoon/park/moroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.garden.pavilion1.shiren",
+			"npc": "latemoon.npc.park.shiren",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.pavilion1",
+			"points": ["latemoon.park.pavilion1.shiren.1"],
+			"legacy_room": "d/latemoon/park/pavilion1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.garden.moon4.birds",
+			"npc": "latemoon.npc.park.bird",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.moon4",
+			"points": ["latemoon.park.moon4.bird.1", "latemoon.park.moon4.bird.2"],
+			"legacy_room": "d/latemoon/park/moon4.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "latemoon.garden.moon4.maysan",
+			"npc": "latemoon.npc.park.maysan",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.moon4",
+			"points": ["latemoon.park.moon4.maysan.1"],
+			"legacy_room": "d/latemoon/park/moon4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.garden.paroad2.rabbits",
+			"npc": "latemoon.npc.park.rabbit",
+			"map": "latemoon.garden",
+			"zone": "latemoon.park.paroad2",
+			"points": ["latemoon.park.paroad2.rabbit.1", "latemoon.park.paroad2.rabbit.2"],
+			"legacy_room": "d/latemoon/park/paroad2.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "latemoon.upper.uproom2.shinfun",
+			"npc": "latemoon.npc.upstar.shinfun",
+			"map": "latemoon.upper",
+			"zone": "latemoon.upstar.uproom2",
+			"points": ["latemoon.upstar.uproom2.shinfun.1"],
+			"legacy_room": "d/latemoon/upstar/uproom2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.upper.uproom.statue",
+			"npc": "latemoon.npc.upstar.statue",
+			"map": "latemoon.upper",
+			"zone": "latemoon.upstar.uproom",
+			"points": ["latemoon.upstar.uproom.statue.1"],
+			"legacy_room": "d/latemoon/upstar/uproom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.upper.uplook.birds",
+			"npc": "latemoon.npc.upstar.bird",
+			"map": "latemoon.upper",
+			"zone": "latemoon.upstar.uplook",
+			"points": ["latemoon.upstar.uplook.bird.1", "latemoon.upstar.uplook.bird.2"],
+			"legacy_room": "d/latemoon/upstar/uplook.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "latemoon.upper.uproom3.huei",
+			"npc": "latemoon.npc.upstar.huei",
+			"map": "latemoon.upper",
+			"zone": "latemoon.upstar.uproom3",
+			"points": ["latemoon.upstar.uproom3.huei.1"],
+			"legacy_room": "d/latemoon/upstar/uproom3.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.hills.sroad4.butterfly",
+			"npc": "latemoon.npc.butterfly",
+			"map": "latemoon.hills",
+			"zone": "latemoon.sroad4",
+			"points": ["latemoon.sroad4.butterfly.1"],
+			"legacy_room": "d/latemoon/sroad4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.hills.sroad5.butterfly",
+			"npc": "latemoon.npc.butterfly",
+			"map": "latemoon.hills",
+			"zone": "latemoon.sroad5",
+			"points": ["latemoon.sroad5.butterfly.1"],
+			"legacy_room": "d/latemoon/sroad5.c",
+			"legacy_quantity": 1
+		}
+	]
+}

@@ -215,6 +215,30 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(ci.npc_id('daemon/class/swordsman/master.c'), 'common.npc.swordsman.master')
         self.assertEqual(ci.npc_id('d/snow/npc/dog.c'), 'snow.npc.dog')
 
+    def test_npc_ids_keep_a_subdirectory_apart(self) -> None:
+        self.assertEqual(ci.npc_id('d/latemoon/npc/servant.c'), 'latemoon.npc.servant')
+        self.assertEqual(ci.npc_id('d/latemoon/room/npc/servant.c'), 'latemoon.npc.room.servant')
+        self.assertEqual(ci.npc_id('d/latemoon/park/npc/bird.c'), 'latemoon.npc.park.bird')
+
+    def test_a_lost_character_in_a_string_is_a_box(self) -> None:
+        lpc = parse('void create() { set("long", @LONG\n放开一切\ufffd 所有\nLONG\n); }', 'd/test/room.c')
+        self.assertEqual(lpc.sets(), {'long': '放开一切\u25a1 所有\n'})
+        with self.assertRaises(ci.ImportError_):
+            parse('void create() { set\ufffd("long", "x"); }', 'd/test/room.c')
+
+    def test_a_source_fix_repairs_a_file_once(self) -> None:
+        corpus = ci.Corpus(REPOSITORY / 'reference/es2/mudlib')
+        with self.assertRaises(ci.ImportError_):
+            corpus.get('d/latemoon/sroad1.c')
+        corpus = ci.Corpus(REPOSITORY / 'reference/es2/mudlib')
+        corpus.fixes['d/latemoon/sroad1.c'] = [{'find': '"north: __DIR__"park/moondoor",', 'replace': '"north" : __DIR__"park/moondoor",'}]
+        self.assertEqual(corpus.get('d/latemoon/sroad1.c').sets()['exits'],
+                         {'north': '/d/latemoon/park/moondoor', 'southeast': '/d/latemoon/sroad2'})
+        corpus = ci.Corpus(REPOSITORY / 'reference/es2/mudlib')
+        corpus.fixes['d/latemoon/sroad2.c'] = [{'find': 'no such text', 'replace': 'x'}]
+        with self.assertRaises(ci.ImportError_):
+            corpus.get('d/latemoon/sroad2.c')
+
     def test_mudos_escapes_and_colour_macros(self) -> None:
         lpc = parse('void create() { set("msg", CYN "小人不会武功\\，" NOR); set("tab", "a\\tb"); }')
         self.assertEqual(lpc.sets(), {'msg': '小人不会武功，', 'tab': 'a\tb'})

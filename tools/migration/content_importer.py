@@ -469,10 +469,14 @@ def region_of(path: str) -> str:
 
 
 def npc_id(path: str) -> str:
-    """`snow.npc.dog`; a class daemon's NPC keeps its class: `common.npc.swordsman.master`."""
+    """`snow.npc.dog`; a class daemon's NPC keeps its class: `common.npc.swordsman.master`; one
+    under a region's subdirectory keeps it too (d/latemoon/room/npc/servant.c:
+    `latemoon.npc.room.servant`, apart from d/latemoon/npc/servant.c's `latemoon.npc.servant`)."""
     parts = source_path(path).split('/')
     if parts[:2] == ['daemon', 'class'] and len(parts) == 4:
         return f'common.npc.{parts[2]}.{basename(path)}'
+    if parts[0] == 'd' and len(parts) > 4 and parts[-2] == 'npc':
+        return f'{region_of(path)}.npc.{".".join(parts[2:-2])}.{basename(path)}'
     return f'{region_of(path)}.npc.{basename(path)}'
 
 
@@ -482,6 +486,9 @@ class Corpus:
     def __init__(self, mudlib: Path = MUDLIB):
         self.mudlib = mudlib
         self.cache: dict[str, LpcObject] = {}
+        # path -> [{find, replace, why}]: a file the driver could not compile, repaired as an
+        # owner-approved deviation (an override's `source_fixes`); each find occurs exactly once.
+        self.fixes: dict[str, list[dict]] = {}
 
     def exists(self, path: str) -> bool:
         return (self.mudlib / source_path(path)).is_file()
@@ -492,7 +499,13 @@ class Corpus:
             file = self.mudlib / path
             if not file.is_file():
                 raise ImportError_(f'missing LPC file {path}')
-            self.cache[path] = Parser(path, file.read_bytes()).parse()
+            data = file.read_bytes()
+            for fix in self.fixes.get(path, []):
+                find = fix['find'].encode('utf-8')
+                if data.count(find) != 1:
+                    raise ImportError_(f'source_fixes {path}: {fix["find"]!r} occurs {data.count(find)} times')
+                data = data.replace(find, fix['replace'].encode('utf-8'))
+            self.cache[path] = Parser(path, data).parse()
         return self.cache[path]
 
     def same_bytes(self, left: str, right: str) -> bool:
@@ -524,6 +537,9 @@ class Importer:
                 raise ImportError_(f'text_replacements.json: {rule["find"]!r} must replace a lost character')
         self.overrides = {p.stem: json.loads(p.read_text(encoding='utf-8'))
                           for p in sorted(overrides.glob('*.json'))}
+        for override in self.overrides.values():
+            for path, fixes in override.get('source_fixes', {}).items():
+                corpus.fixes.setdefault(source_path(path), []).extend(fixes)
         # An NPC a region names as a vendor sells from its body (`vendor` on its record).
         self.vendor_paths = {source_path(v) for o in self.overrides.values() for v in o.get('vendors', [])}
         self.records: dict[str, dict[str, dict]] = {}   # file -> id -> record
@@ -666,6 +682,8 @@ class Importer:
         record_id = npc_id(path)
         file = f'{region_of(path)}/npcs.json'
         if record_id in self.records.get(file, {}):
+            if self.records[file][record_id]['legacy_source'] != source_path(path):
+                raise ImportError_(f'{path}: NPC id {record_id} is taken by {self.records[file][record_id]["legacy_source"]}')
             return record_id
         lpc = self.corpus.get(path)
         sets = lpc.sets()
@@ -899,6 +917,10 @@ class Importer:
                 record[key] = sets[key]
         if sets.get('no_get', 0) != 0:
             record['no_get'] = True
+        # cmds/std/drop.c, give.c, put.c refuse it (drop.c says a string no_drop itself).
+        if sets.get('no_drop', 0) != 0:
+            handled.add('no_drop')
+            record['no_drop'] = sets['no_drop'] if isinstance(sets['no_drop'], str) else True
         # cmds/std/wear.c: only a 女性 character wears it.
         if sets.get('female_only', 0) != 0:
             handled.add('female_only')
@@ -957,6 +979,10 @@ class Importer:
                         self.note(canonical, 'weapon flag', describe(flag))
                 if names:
                     weapon['flags'] = names
+                # weapond.c bash_weapon(): weight / 500 + rigidity + str on each side.
+                if 'rigidity' in sets:
+                    handled.add('rigidity')
+                    weapon['rigidity'] = sets['rigidity']
                 if base_setup and (inherits & EQUIP_WEAPON_KINDS or 'EQUIP' in inherits):
                     weapon['weight_dodge'] = 'equip'
                 record['weapon'] = weapon

@@ -247,6 +247,17 @@
 			"weight": 3000,
 			"value": 10,
 			"armor": { "type": "cloth", "props": { "armor": 1 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:u/cloud/obj/npc/lm_guard/whip",
+			"legacy_sources": ["u/cloud/obj/npc/lm_guard/whip.c"],
+			"name": "拂柳鞭",
+			"aliases": ["whip"],
+			"unit": "条",
+			"material": "leather",
+			"weight": 7000,
+			"value": 3000,
+			"weapon": { "skill": "whip", "damage": 23, "rigidity": 30, "weight_dodge": "equip" }
 		}
 	]
 }

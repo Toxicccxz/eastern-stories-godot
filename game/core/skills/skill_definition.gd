@@ -24,6 +24,8 @@ var standard_force_hit: bool = false
 ## The skill defines its own hit_ob() (iceforce, spicyclaw, ts-fist), which is not
 ## ported: a fight that would call it stops instead of skipping it.
 var has_own_hit_ob: bool = false
+## What its hit_ob() adds after std/force.c's (iceforce.c's wound and iceshock), or null.
+var force_hit_wound: ForceHitWound
 ## query_dodge_msg(): what a dodge with this skill looks like ($n dodges $N).
 var dodge_messages: Array[String] = []
 ## parry.c query_parry_msg(weapon): against an armed and an unarmed attacker.
@@ -130,7 +132,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 
 ## A skills.json record: {id, name, kind basic|specialized, type martial|knowledge,
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
-## parry_messages?: {armed, unarmed}, standard_force_hit?, hit_ob?,
+## parry_messages?: {armed, unarmed}, standard_force_hit?, force_hit_wound?: ForceHitWound, hit_ob?,
 ## practice?: {kee?, force?, mana?, sen?, weapon?, done?, fail?, force_fail?, mana_fail?, sen_fail?, weapon_fail?,
 ## refuses?, conjure?: PracticeConjuring}, valid_learn?: {key: line},
 ## improved_line?, improved_color?, improved_every?, exert?: [function], perform?: [action], cast?: [spell]}.
@@ -151,6 +153,11 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	definition.has_own_hit_ob = reader.boolean("hit_ob", false)
 	if definition.standard_force_hit and definition.has_own_hit_ob:
 		reader.fail("hit_ob", "a skill with its own hit_ob() is not std/force.c's")
+	var wound: ContentRecordReader = reader.child("force_hit_wound")
+	if wound != null:
+		definition.force_hit_wound = ForceHitWound.from_record(wound)
+		if not definition.standard_force_hit:
+			reader.fail("force_hit_wound", "goes after std/force.c's hit_ob(): needs standard_force_hit")
 	definition.dodge_messages = reader.text_list("dodge_messages")
 	var parry: ContentRecordReader = reader.child("parry_messages")
 	if parry != null:

@@ -2,10 +2,10 @@ class_name ServiceDefinition
 extends RefCounted
 
 ## Something the player can use at one spot of a zone: an ES2 room's own command
-## (bank convert, work, pawn shop, water source). The kind picks the rules; the
-## scene places it with a WorldServicePoint of the same ID. What an NPC offers
+## (bank convert, work, pawn shop, water source, a dance floor). The kind picks the rules;
+## the scene places it with a WorldServicePoint of the same ID. What an NPC offers
 ## (goods, teaching) is on its NPC record and goes with its body (NpcService).
-const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water"]
+const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance"]
 
 var _service_id: StringName
 var _kind: StringName
@@ -14,6 +14,7 @@ var _zone_id: StringName
 var _display_name: String
 var _reach: int
 var _legacy_source: String
+var _dance: DanceDefinition
 
 var service_id: StringName:
 	get:
@@ -37,6 +38,10 @@ var reach: int:
 var legacy_source: String:
 	get:
 		return _legacy_source
+## The `dance` kind's do_dancing() (DanceDefinition); null for any other kind.
+var dance: DanceDefinition:
+	get:
+		return _dance
 
 
 func _init(
@@ -67,7 +72,12 @@ static func from_record(reader: ContentRecordReader) -> ServiceDefinition:
 		reader.required_integer("reach"),
 		reader.required_text("legacy_source"),
 	)
+	var dance: ContentRecordReader = reader.child("dance")
+	if dance != null:
+		definition._dance = DanceDefinition.from_record(dance)
 	reader.finish()
+	if (definition.kind == &"dance") != (definition._dance != null):
+		reader.fail("dance", "a dance service and only one has its dance")
 	if not KINDS.has(definition.kind):
 		reader.fail("kind", "unsupported service kind '%s'" % definition.kind)
 	if definition.reach <= 0:
@@ -77,4 +87,6 @@ static func from_record(reader: ContentRecordReader) -> ServiceDefinition:
 
 ## Copy placed on the map of its zone.
 func with_map(map_id: StringName) -> ServiceDefinition:
-	return ServiceDefinition.new(_service_id, _kind, map_id, _zone_id, _display_name, _reach, _legacy_source)
+	var copy := ServiceDefinition.new(_service_id, _kind, map_id, _zone_id, _display_name, _reach, _legacy_source)
+	copy._dance = _dance
+	return copy

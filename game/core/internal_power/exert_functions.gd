@@ -4,9 +4,9 @@ extends RefCounted
 ## The exert function files the game has, by the name exert.c is given. A force
 ## skill's exert_function_file() reaches those skills.json lists under `exert`.
 ## Labels follow doc/help/force (regenerate 恢复自己的精 …), doc/skill/celestial and
-## doc/skill/gouyee (concentrate 灵神诀).
+## doc/skill/gouyee (concentrate 灵神诀); chillgaze.c names itself 「意寒睨」.
 
-const ORDER: Array[StringName] = [&"heal", &"concentrate", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade", &"roar"]
+const ORDER: Array[StringName] = [&"heal", &"concentrate", &"recover", &"refresh", &"regenerate", &"powerup", &"powerfade", &"roar", &"chillgaze"]
 # TRANSLATORS: doc/help/force, doc/skill/celestial, doc/skill/gouyee: what an exert function does, as a button (运功 X).
 const LABELS: Dictionary[StringName, String] = {
 	&"heal": "疗伤",
@@ -17,6 +17,7 @@ const LABELS: Dictionary[StringName, String] = {
 	&"powerup": "提升战斗力",
 	&"powerfade": "压制杀气",
 	&"roar": "天邪虎啸",
+	&"chillgaze": "意寒睨",
 }
 
 static var _functions: Dictionary[StringName, ExertFunction] = {}
@@ -36,6 +37,7 @@ static func find(function_id: StringName) -> ExertFunction:
 			PowerupExertFunction.new(),
 			PowerfadeExertFunction.new(),
 			RoarExertFunction.new(),
+			ChillgazeExertFunction.new(),
 		]
 		for function: ExertFunction in all:
 			_functions[function.id] = function

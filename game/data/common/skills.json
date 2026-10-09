@@ -294,6 +294,66 @@
 				{ "id": "fu-yun-xie-yi", "action": "$N横过手中$w，使出「浮云写意」击向$n$l！", "damage": 40, "damage_type": "挫伤" },
 				{ "id": "you-long-chuan-yun", "action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！", "damage": 40, "damage_type": "挫伤" }
 			]
+		},
+		{
+			"id": "whip", "name": "基本鞭法", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/whip.c"
+		},
+		{
+			"id": "tenderzhi", "name": "柔虹指", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"legacy_source": "daemon/skill/tenderzhi.c",
+			"practice": { "force": 10, "sen": 30, "force_fail": "你的内力不够了。", "sen_fail": "你的精神无法集中了，休息一下再练吧。" },
+			"valid_learn": { "gender": "柔虹指是只有女子才能练的武功。", "empty_hands": "练柔虹指必须空手。" },
+			"actions": [
+				{ "id": "ju-lou-cai-yue", "action": "$N左手一挥，一招「菊楼采月」右手点向$n$l", "force": 80, "damage_type": "刺伤", "weapon": "右手食指" },
+				{ "id": "xue-qiao-jian-mei", "action": "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去", "force": 90, "damage_type": "刺伤", "weapon": "左手中指" },
+				{ "id": "liu-ting-zan-hua", "action": "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去", "force": 140, "damage_type": "刺伤", "weapon": "左手中指" },
+				{ "id": "tao-fen-pu-die", "action": "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去", "force": 90, "damage_type": "刺伤", "weapon": "右手食指" }
+			]
+		},
+		{
+			"id": "snowwhip", "name": "寒雪鞭法", "kind": "specialized", "type": "martial", "enable": ["whip"],
+			"legacy_source": "daemon/skill/snowwhip.c",
+			"practice": { "kee": 30, "force": 5, "done": "你按著所学练了一遍寒雪鞭法。", "fail": "你的内力或气不够，没有办法练习寒雪鞭法。" },
+			"valid_learn": { "max_force": "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。", "weapon": "你必须先找一条鞭子才能练鞭法。" },
+			"actions": [
+				{ "id": "han-feng-qi-xi", "action": "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭", "damage": 30, "damage_type": "刺伤" },
+				{ "id": "man-tian-fei-xue", "action": "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l", "damage": 20, "damage_type": "瘀伤" },
+				{ "id": "xue-hua-pian-pian", "action": "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l", "damage": 25, "damage_type": "刺伤" },
+				{ "id": "ji-xue-san-chi", "action": "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去", "damage": 30, "damage_type": "瘀伤" },
+				{ "id": "kuang-feng-zhou-xue", "action": "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l", "damage": 100, "damage_type": "鞭伤" },
+				{ "id": "feng-xue-jiao-jia", "action": "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身", "damage": 150, "damage_type": "瘀伤" }
+			]
+		},
+		{
+			"id": "iceforce", "name": "意寒功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/iceforce.c", "standard_force_hit": true,
+			"force_hit_wound": { "condition": "iceshock", "factor_divisor": 3, "message": "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。" },
+			"exert": ["chillgaze"],
+			"practice": { "refuses": true, "fail": "意寒功只能用学的，或是从运用(exert)中增加熟练度。" }
+		},
+		{
+			"id": "snowshade-force", "name": "雪影心法", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/snowshade-force.c", "standard_force_hit": true,
+			"practice": { "refuses": true, "fail": "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。" }
+		},
+		{
+			"id": "snowshade-sword", "name": "雪影剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"legacy_source": "daemon/skill/snowshade-sword.c",
+			"practice": { "kee": 30, "force": 3, "done": "你按著所学练了一遍雪影剑法。", "fail": "你的内力或气不够，没有办法练习雪影剑法。" },
+			"valid_learn": {
+				"max_force": "你的内力不够，没有办法练雪影剑法。",
+				"mapped": "雪影剑法必须配合天山魔教的独门雪影心法才能练。",
+				"weapon": "你必须先找一把剑才能练剑法。"
+			},
+			"actions": [
+				{ "id": "hui-guang-huan-dian", "action": "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l", "damage": 30, "damage_type": "刺伤" },
+				{ "id": "feng-shuang-sui-ying", "action": "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l", "damage": 30, "damage_type": "割伤" },
+				{ "id": "can-yang-zhao-xue", "action": "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l", "damage": 20, "damage_type": "割伤" },
+				{ "id": "bing-gu-chu-hong", "action": "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑", "damage_type": "刺伤" },
+				{ "id": "chang-kong-lei-yin", "action": "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑", "damage_type": "刺伤" },
+				{ "id": "duan-shi-lang-yan", "action": "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l", "damage": 40, "damage_type": "刺伤" }
+			]
 		}
 	]
 }

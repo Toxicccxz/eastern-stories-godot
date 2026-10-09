@@ -81,12 +81,16 @@ def lex(source: Source) -> list[Token]:
     def emit(kind: str, start: int, end: int) -> None:
         nonlocal line_prefix_is_trivia
         # A character lost before the files reached us is refused where it would mean
-        # something; in a comment (d/temple/npc/obj/magic_book.c) it is only trivia.
+        # something; in a comment (d/temple/npc/obj/magic_book.c) it is only trivia, and in a
+        # string (d/latemoon/upstar/upcenter.c's long) it is text: the \u25a1 the mudlib uses for one.
+        piece = text[start:end]
+        if kind in ('string', 'heredoc', 'heredoc_array'):
+            piece = piece.replace('\ufffd', '\u25a1')
         for bad in ('\x00', '\ufffd'):
-            at = text.find(bad, start, end)
+            at = piece.find(bad)
             if at >= 0:
-                raise SourceError('NUL or replacement character in source', offsets[at], offsets[at + 1], encoding=True)
-        tokens.append(Token(kind, text[start:end], offsets[start], offsets[end]))
+                raise SourceError('NUL or replacement character in source', offsets[start + at], offsets[start + at + 1], encoding=True)
+        tokens.append(Token(kind, piece, offsets[start], offsets[end]))
         # Strings/heredocs end with non-trivia on their final physical line.
         # A directive consumes its final newline, when present, unlike other tokens.
         line_prefix_is_trivia = kind == 'directive' and text[end - 1:end] == '\n'

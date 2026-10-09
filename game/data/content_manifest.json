@@ -48,6 +48,11 @@
 		"temple/npcs.json",
 		"temple/spawns.json",
 		"temple/rooms.json",
-		"temple/world.json"
+		"temple/world.json",
+		"latemoon/npcs.json",
+		"latemoon/spawns.json",
+		"latemoon/item_spawns.json",
+		"latemoon/rooms.json",
+		"latemoon/world.json"
 	]
 }

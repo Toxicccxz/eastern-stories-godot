@@ -196,7 +196,7 @@ func is_valid() -> bool:
 		if not (
 			_is_valid_said(entry) or (entry is NpcWeaponMatch and (entry as NpcWeaponMatch).is_valid())
 			or (entry is NpcFightChat.Wield and entry.is_valid()) or (entry is NpcFightChat.CallPartner and entry.is_valid())
-			or (entry is NpcFightChat.SayByAge and entry.is_valid())
+			or (entry is NpcFightChat.SayByAge and entry.is_valid()) or (entry is NpcFightChat.Poison and entry.is_valid())
 		):
 			return false
 	for topic: String in _inquiry:

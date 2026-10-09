@@ -76,6 +76,8 @@ func beat(
 		return _say_by_age(entry, actor, npc, enemies)
 	if entry is NpcFightChat.CallPartner:
 		return _call_partner(entry, actor)
+	if entry is NpcFightChat.Poison:
+		return _poison(entry, actor, enemies, random_source)
 	if not (entry is NpcSpecialAction):
 		return null
 	var other_sides: Array[SpecialSide] = []
@@ -192,6 +194,23 @@ func _call_partner(rule: NpcFightChat.CallPartner, actor: CombatSliceCharacterBi
 	var name: String = TranslationServer.translate(partner.definition().display_name)
 	var line := VisionLine.new(rule.line.sentence(name, ""), partner_id)
 	return CombatNpcChatResult.new([line]).with_joins([CombatJoin.new(partner_id, [killing.back()])])
+
+
+## use_poison(): enemy[random(sizeof(enemy))]; none of the condition yet: tell_object() it
+## (only the player reads it), then random(my combat_exp) over its combat_exp poisons it.
+func _poison(rule: NpcFightChat.Poison, actor: CombatSliceCharacterBinding, enemies: Array[CombatSliceCharacterBinding], random_source: CombatRandomSource) -> CombatNpcChatResult:
+	if enemies.is_empty():
+		return null
+	var ob: CombatSliceCharacterBinding = enemies[clampi(random_source.legacy_random(enemies.size()), 0, enemies.size() - 1)]
+	var current: DurationConditionPayload = ob.state.conditions.get_condition(rule.condition_id) as DurationConditionPayload
+	if current != null and current.remaining != 0:
+		return null
+	var lines: Array[VisionLine] = []
+	if _npc(ob.character_id) == null:
+		lines.append(VisionLine.new(rule.tell, ob.character_id))
+	if random_source.legacy_random(actor.state.progression.combat_experience) > ob.state.progression.combat_experience:
+		ob.state.conditions.add_or_replace_duration(rule.condition_id, rule.duration)
+	return null if lines.is_empty() else CombatNpcChatResult.new(lines)
 
 
 ## say(): "<name>说道：<line>", in the shown language.

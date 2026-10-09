@@ -21,6 +21,8 @@ var _weapon_profile: WeaponCombatProfile
 var _projected_force_skill_type: StringName
 var _effective_force_skill_level: int
 var _hit_condition: NpcHitCondition
+var _force_hit_wound: ForceHitWound
+var _mapped_force_skill_level: int
 
 var character_id: StringName:
 	get:
@@ -71,6 +73,14 @@ var martial_hit_policy_status: int:
 var hit_condition: NpcHitCondition:
 	get:
 		return _hit_condition
+## The mapped force's hit_ob() after std/force.c's (iceforce.c), or null.
+var force_hit_wound: ForceHitWound:
+	get:
+		return _force_hit_wound
+## query_skill() of the mapped force skill itself (iceforce.c's random(query_skill("iceforce"))).
+var mapped_force_skill_level: int:
+	get:
+		return _mapped_force_skill_level
 var attacker_hit_policy_status: int:
 	get:
 		return _attacker_hit_policy_status
@@ -109,6 +119,8 @@ func _init(
 	p_projected_force_skill_type: StringName = &"force",
 	p_effective_force_skill_level: int = 0,
 	p_hit_condition: NpcHitCondition = null,
+	p_force_hit_wound: ForceHitWound = null,
+	p_mapped_force_skill_level: int = 0,
 ) -> void:
 	_character_id = p_character_id
 	_living = p_living
@@ -136,6 +148,8 @@ func _init(
 	_projected_force_skill_type = p_projected_force_skill_type
 	_effective_force_skill_level = p_effective_force_skill_level
 	_hit_condition = p_hit_condition
+	_force_hit_wound = p_force_hit_wound
+	_mapped_force_skill_level = p_mapped_force_skill_level
 
 
 func is_valid() -> bool:
@@ -156,6 +170,7 @@ func is_valid() -> bool:
 		)
 		and (_weapon_profile == null or _weapon_profile.is_valid())
 		and (_attacker_hit_policy_status == CombatHitPolicyStatus.Value.CONDITION_ON_HIT) == (_hit_condition != null)
+		and (_force_hit_wound == null or _force_hit_policy_status == CombatHitPolicyStatus.Value.STANDARD_FORCE)
 	)
 
 
@@ -181,4 +196,6 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 		_projected_force_skill_type,
 		_effective_force_skill_level,
 		_hit_condition,
+		_force_hit_wound,
+		_mapped_force_skill_level,
 	)

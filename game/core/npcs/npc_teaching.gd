@@ -133,8 +133,9 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 		teaching.family_title = family.required_text("title")
 		teaching.family_privileges = family.integer("privileges", -1)
 		family.finish()
-		if teaching.family_generation < 1:
-			family.fail("generation", "must be positive")
+		# 0 is a founder's (d/latemoon/room/npc/elon.c, 晚月庄开山祖师).
+		if teaching.family_generation < 0:
+			family.fail("generation", "must not be negative")
 	teaching.f_master = reader.boolean("f_master", false)
 	for record: ContentRecordReader in reader.children("recognize_apprentice"):
 		var rule := RecognizeRule.new()

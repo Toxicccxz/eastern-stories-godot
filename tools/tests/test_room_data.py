@@ -11,6 +11,22 @@ from pathlib import Path
 REPOSITORY = Path(__file__).resolve().parents[2]
 DATA = REPOSITORY / "game/data"
 MUDLIB = REPOSITORY / "reference/es2/mudlib"
+MIGRATION = REPOSITORY / "tools/migration"
+
+
+def _source(room_id: str) -> str:
+    """The room's LPC as the importer reads it: an override's source_fixes (a file ES2 could not
+    compile, repaired as a deviation), a replacement character in it as the □ it stands for, and
+    text_replacements.json's decisions on each □."""
+    path = room_id.removeprefix("es2:") + ".c"
+    source = (MUDLIB / path).read_text(encoding="utf-8")
+    for override in sorted((MIGRATION / "overrides").glob("*.json")):
+        for fix in json.loads(override.read_text(encoding="utf-8")).get("source_fixes", {}).get(path, []):
+            source = source.replace(fix["find"], fix["replace"])
+    source = source.replace("\ufffd", "\u25a1")
+    for rule in json.loads((MIGRATION / "text_replacements.json").read_text(encoding="utf-8"))["replacements"]:
+        source = source.replace(rule["find"], rule["replace"])
+    return source
 
 
 def _rooms() -> list[dict]:
@@ -28,11 +44,12 @@ class RoomDataTest(unittest.TestCase):
         for room in _rooms():
             with self.subTest(room=room["id"]):
                 self.assertTrue(room["id"].startswith("es2:"))
-                source = (MUDLIB / (room["id"].removeprefix("es2:") + ".c")).read_text(encoding="utf-8")
+                source = _source(room["id"])
                 # A backslash before a Chinese character (a Big5 artifact, d/temple/trainroom.c's
                 # 练功\房) is an unknown escape: MudOS keeps the character alone.
                 short = re.sub(r'\\(?=[^\x00-\x7f])', '', source)
-                self.assertRegex(short, r'set\s*\(\s*"short"\s*,\s*"' + re.escape(room["short"]) + '"')
+                # A colour macro may come before it (d/latemoon/miroom.c's HIY "密室" NOR).
+                self.assertRegex(short, r'set\s*\(\s*"short"\s*,\s*(?:[A-Z]+\s+)?"' + re.escape(room["short"]) + '"')
                 # The long text is a @LONG ... LONG block: every line verbatim, in order.
                 block = re.search(r"@(\w+)\n(.*?)\n\1\b", source, re.DOTALL)
                 self.assertIsNotNone(block, "no @LONG block")
