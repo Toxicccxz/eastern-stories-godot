@@ -61,7 +61,7 @@ func _test_real_armor_and_weapon_composition() -> void:
 	f.inventory.register_item(weapon_item, sword.own_weight)
 	InventoryTransferService.new().transfer(f.inventory, weapon_item.item_instance_id, InventoryTransferDestination.new(owner, true, true, 200000))
 	_eq(f.serpent.state.equipment.wield(EquippedWeaponRef.new(weapon_item.item_instance_id, sword.weapon_definition()), false).succeeded, true, "real equipment authority wield")
-	_assert_projection(f, 63, 45, 97, 84, "verified long25 plus intrinsic20, both directions")
+	_assert_projection(f, 63, 45, 97, 82, "verified long25 (7000 weight: equip.c dodge -2) plus intrinsic20, both directions")
 	_eq(f.project(f.serpent, f.human).attacker.effective_attack_skill_level, 0, "armor unarmed does not modify sword")
 	_eq(f.project(f.serpent, f.human).selected_action.action_id, CombatSliceContentProfile.SLASH_ACTION_ID, "feature/attack.c weapon precedes race default")
 	var rng: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([0])

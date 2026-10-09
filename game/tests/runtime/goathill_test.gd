@@ -58,7 +58,7 @@ func _test_data() -> void:
 	_check(hwang.attitude == NpcDefinition.Attitude.FRIENDLY and catalog.npc(&"goathill.npc.bandit").attitude == NpcDefinition.Attitude.AGGRESSIVE and catalog.npc(&"goathill.npc.worm").attitude == NpcDefinition.Attitude.PEACEFUL, "黄霸 friendly, the bandits aggressive, the leeches peaceful")
 	_check(catalog.zone(&"goathill.mroad4").combat_entry == &"complete_set", "the corner's four join one fight together")
 	var hammer: ItemContentDefinition = catalog.item(HAMMER)
-	_check(hammer.weapon_skill_type == &"hammer" and hammer.weapon_damage == 45 and hammer.can_wield_secondary and hammer.weapon_apply == {&"attack": -4, &"defense": 5}, "大金槌: hammer 45, SECONDARY, attack -4, defense 5")
+	_check(hammer.weapon_skill_type == &"hammer" and hammer.weapon_damage == 45 and hammer.can_wield_secondary and hammer.weapon_apply == {&"attack": -4, &"defense": 5, &"dodge": -13}, "大金槌: hammer 45, SECONDARY, attack -4, defense 5, dodge -40000/3000 (equip.c)")
 	_check(catalog.item(AXE).can_wield_secondary and catalog.item(AXE).weapon_skill_type == &"axe", "短斧: SECONDARY")
 	var broken: ItemContentDefinition = catalog.item(ItemContentDefinition.broken_id(BLADE))
 	_check(broken != null and broken.display_name == "断掉的钢刀" and broken.value == 70 and broken.weapon_definition() == null and broken.own_weight == 9000 and broken.is_broken(), "every weapon has its broken form: 断掉的钢刀, value 70, no longer a weapon")

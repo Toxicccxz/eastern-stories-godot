@@ -113,7 +113,7 @@ func _test_master_projection(session: WorldSessionController) -> void:
 	_check(input != null and String(input.selected_action.action_id).begins_with(FONXANSWORD_PREFIX), "柳淳风 attacks with 封山剑法")
 	_check(input != null and input.attacker.effective_attack_skill_level == 150 / 2 + 150, "sword 150/2 + fonxansword 150")
 	var defending: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(player, master, player.content.unarmed_action())
-	_check(defending != null and defending.defender.effective_dodge_skill_level == 6 + 80 / 2 + 100, "dodge: silk_cloth 6 + 80/2 + chaos-steps 100")
+	_check(defending != null and defending.defender.effective_dodge_skill_level == 6 + 80 / 2 + 100 - 5, "dodge: silk_cloth 6 + 80/2 + chaos-steps 100 - 玄苏剑 15000/3000 (equip.c)")
 	_check(defending != null and defending.defender.effective_parry_skill_level == 120 / 2 + 150, "parry: 120/2 + fonxansword 150")
 	var force: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(annihir, player, annihir.content.approved_action_set(
 		annihir.state.equipment.primary_weapon(), &"sword", &"fonxansword").action_at(1))

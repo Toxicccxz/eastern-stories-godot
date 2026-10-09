@@ -76,7 +76,7 @@ func _test_data() -> void:
 	_check(catalog.spawn(&"green.village.house3.spiders").summoned, "the spiders are summoned (house3.c call_spider())")
 	_check(catalog.item(ROPE).hang and catalog.item(ROPE).value == 5, "绳子: hang")
 	var sword: ItemContentDefinition = catalog.item(WINDSWORD)
-	_check(sword != null and sword.weapon_damage == 70 and sword.weapon_apply == {&"attack": 5, &"courage": 10} and sword.value == 1000000, "追风剑: sword 70, attack 5, courage 10")
+	_check(sword != null and sword.weapon_damage == 70 and sword.weapon_apply == {&"attack": 5, &"courage": 10, &"dodge": -2} and sword.value == 1000000, "追风剑: sword 70, attack 5, courage 10, dodge -7000/3000 (equip.c)")
 	_check(catalog.item(&"es2:d/green/npc/obj/knife").weapon_skill_type == &"blade" and catalog.item(&"es2:d/green/obj/hammer").weapon_damage == 10, "菜刀 and 铁锤")
 	var well: ServiceDefinition = catalog.service(&"green.station0.well")
 	_check(well != null and well.zone_id == &"green.station0", "the station's well: a water service (resource/water)")

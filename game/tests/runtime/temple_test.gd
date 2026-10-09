@@ -81,7 +81,7 @@ func _test_data() -> void:
 	var master: NpcDefinition = catalog.npc(MASTER)
 	_check(master.display_name == "林忌" and master.nickname == "六指真人" and master.teaching().family_name == "茅山派" and master.teaching().family_generation == 5 and master.teaching().f_master, "林忌 六指真人, 茅山派's fifth 天师, an F_MASTER")
 	var sword: ItemContentDefinition = catalog.item(&"es2:daemon/class/taoist/sword")
-	_check(sword.display_name == "咒剑王禅" and sword.weapon_damage == 44 and sword.weapon_apply == {&"spirituality": 30} and sword.description.contains("「 王 禅 」"), "咒剑王禅 (□ decided): sword 44, spirituality 30")
+	_check(sword.display_name == "咒剑王禅" and sword.weapon_damage == 44 and sword.weapon_apply == {&"spirituality": 30, &"dodge": -2} and sword.description.contains("「 王 禅 」"), "咒剑王禅 (□ decided): sword 44, spirituality 30, dodge -7000/3000 (equip.c)")
 	var talk: NpcTalk = catalog.npc(&"temple.npc.trainer").talk()
 	var casts: Array[StringName] = []
 	for entry: Variant in talk.combat_chat_entries():
