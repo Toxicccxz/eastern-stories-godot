@@ -100,6 +100,7 @@ func _test_way_in(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"latemoon.gate"), "the arch is shut")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"latemoon.entrance.door", &"latemoon.entrance")) and map.open_door(&"latemoon.entrance.door"), "the arch opens")
 	_check(await MapPlaces.drive_through(tree, map, [&"latemoon.gate", &"latemoon.front_yard", &"latemoon.latemoon1"]), "past the lanterns, through the front garden into the hall")
+	_check(Work.capture(session) != null, "Save in the hall")
 	map.select_landmark(&"latemoon.gate.landmark.lantern")
 
 
@@ -160,9 +161,11 @@ func _test_paths(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.player_runtime().world_location().zone_id == &"latemoon.bamboo2", "bamboo.c west is bamboo2")
 	_check(await MapPlaces.take_same_map_passage(tree, map, &"latemoon.bamboo2.north"), "north")
 	_check(session.player_runtime().world_location().zone_id == &"latemoon.bamboo3", "bamboo2.c north is bamboo3, by the path")
+	_check(Work.capture(session) != null, "Save in the bamboo grove")
 	_check(await MapPlaces.drive_through(tree, map, [&"latemoon.sroad5", &"latemoon.sroad4", &"latemoon.sroad3", &"latemoon.sroad2", &"latemoon.sroad1"]), "up the path to the back gate")
 	_check(await MapPlaces.take_passage(tree, map, &"latemoon.sroad1.north"), "through the back gate")
 	_check(session.active_map_id() == &"latemoon.garden" and session.player_runtime().world_location().zone_id == &"latemoon.park.moondoor", "into the 湘园")
+	_check(Work.capture(session) != null, "Save in the 湘园")
 
 
 func _test_garden(tree: SceneTree, session: WorldSessionController) -> void:
@@ -183,6 +186,7 @@ func _test_tower(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.take_passage(tree, map, &"latemoon.room.lroad3.northup"), "up the stairs")
 	var upper: WorldMapController = session.active_map() as WorldMapController
 	_check(upper.map_id() == &"latemoon.upper", "the front tower's upper floor")
+	_check(Work.capture(session) != null, "Save upstairs")
 	_check(await MapPlaces.drive_through(tree, upper, [&"latemoon.upstar.upstar4", &"latemoon.upstar.upstarc"]), "along the gallery to the 前堂楼")
 	_check(await MapPlaces.drive(tree, upper, MapPlaces.door_spot(upper, &"latemoon.upstar.upstarc.door", &"latemoon.upstar.upstarc")) and upper.open_door(&"latemoon.upstar.upstarc.door"), "the tower door opens")
 	_check(await MapPlaces.drive_to_zone(tree, upper, &"latemoon.upstar.uplook"), "onto the 观景台")
@@ -203,6 +207,7 @@ func _test_secret_rooms(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(MapPlaces.passage(secret, &"latemoon.miroom2.north") == null, "no way back north")
 	_check(await MapPlaces.drive(tree, secret, MapPlaces.door_spot(secret, &"latemoon.miroom2.door", &"latemoon.miroom2")) and secret.open_door(&"latemoon.miroom2.door"), "the 垂花门 opens")
 	_check(await MapPlaces.drive_to_zone(tree, secret, &"latemoon.miroom"), "into the second 密室")
+	_check(Work.capture(session) != null, "Save in the secret rooms")
 
 
 ## drop.c, give.c, put.c: set("no_drop") refuses each.

@@ -62,6 +62,16 @@ class GeneratedDataTest(unittest.TestCase):
                     ghosts.append(record['id'])
         self.assertEqual(ghosts, [], 'port daemon/class/taoist/sword.c hit_ob() with these ghosts')
 
+    def test_pursuers_wait_for_following(self) -> None:
+        # set("pursuer", 1): an NPC that follows who flees from it. Not modelled yet; each one
+        # is a review decision until it is, and this list changes with it.
+        decisions = self.importer.decisions()
+        pursuers = sorted(source for source, key in decisions if key == 'set pursuer')
+        self.assertEqual(pursuers, [
+            'd/goathill/npc/bandit_hwang.c', 'd/latemoon/room/npc/killer.c', 'd/oldpine/npc/venomsnake.c',
+            'd/snow/npc/annihir.c', 'd/temple/npc/tfighter.c', 'obj/npc/garrison.c', 'u/cloud/npc/bfighter.c',
+        ])
+
     def test_generated_files_are_loaded(self) -> None:
         manifest = json.loads((ci.DATA / 'content_manifest.json').read_text(encoding='utf-8'))['files']
         self.assertEqual(sorted(set(self.files) - set(manifest)), [])

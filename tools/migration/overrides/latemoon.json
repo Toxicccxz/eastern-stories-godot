@@ -276,7 +276,7 @@
 			"function accept_object": "C: the 杀手令牌 for max_force (a 晚月庄 member below 160) or the 寒雪鞭法 book"
 		},
 		"d/latemoon/room/npc/killer.c": {
-			"set pursuer": "following who flees is not modelled yet (as 县城官兵's, 黄霸's, 安惜迩's and 僵尸护法's); a reminder test lists the five"
+			"set pursuer": "following who flees is not modelled yet (as 县城官兵's, 黄霸's, 安惜迩's and 僵尸护法's); test_pursuers_wait_for_following lists every one"
 		},
 		"d/latemoon/room/npc/obj/letter.c": {
 			"function init": "C (fire letter)",
