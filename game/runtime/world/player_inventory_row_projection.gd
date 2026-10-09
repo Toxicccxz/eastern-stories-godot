@@ -24,6 +24,8 @@ var _armor_type: StringName
 var _armor_modifiers: ArmorNumericModifiers
 var _can_wear: bool
 var _can_remove: bool
+## equip.c wield(): the weapon's weapon_prop/dodge (a heavy one's -weight/3000).
+var _weapon_dodge: int
 
 var item_instance_id: StringName:
 	get: return _item_instance_id
@@ -57,6 +59,8 @@ var can_wear: bool:
 	get: return _can_wear
 var can_remove: bool:
 	get: return _can_remove
+var weapon_dodge: int:
+	get: return _weapon_dodge
 
 
 func _init(
@@ -76,6 +80,7 @@ func _init(
 	p_armor_modifiers: ArmorNumericModifiers = null,
 	p_can_wear: bool = false,
 	p_can_remove: bool = false,
+	p_weapon_dodge: int = 0,
 ) -> void:
 	_item_instance_id = p_item_instance_id
 	_item_definition_id = p_item_definition_id
@@ -97,6 +102,7 @@ func _init(
 	)
 	_can_wear = p_can_wear
 	_can_remove = p_can_remove
+	_weapon_dodge = p_weapon_dodge
 
 
 func duplicate_snapshot() -> PlayerInventoryRowProjection:
@@ -117,6 +123,7 @@ func duplicate_snapshot() -> PlayerInventoryRowProjection:
 		_armor_modifiers,
 		_can_wear,
 		_can_remove,
+		_weapon_dodge,
 	)
 
 

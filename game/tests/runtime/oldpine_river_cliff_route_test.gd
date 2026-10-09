@@ -117,8 +117,9 @@ func _test_complete_physical_route_and_authority_preservation(
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	var cliff: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CLIFF_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	# random(3): dodge 10/2 and the technical long sword's -2 (equip.c); every draw falls.
 	var random: ScriptedWorldInteractionRandomSource = (
-		ScriptedWorldInteractionRandomSource.new([4])
+		ScriptedWorldInteractionRandomSource.new([2])
 	)
 	var combat_random: CountingCombatRandomSource = CountingCombatRandomSource.new()
 	_assert_true(session.configure_world_interaction_random_source(random), "route test installs one deterministic Vine draw")

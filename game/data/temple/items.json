@@ -10,7 +10,7 @@
 			"material": "bamboo",
 			"weight": 1000,
 			"value": 50,
-			"weapon": { "skill": "staff", "damage": 3 }
+			"weapon": { "skill": "staff", "damage": 3, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/temple/obj/robe",
@@ -21,7 +21,7 @@
 			"unit": "件",
 			"weight": 900,
 			"value": 100,
-			"armor": { "type": "cloth", "props": { "spells": 1 } }
+			"armor": { "type": "cloth", "props": { "spells": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/temple/obj/boots",
@@ -32,7 +32,7 @@
 			"material": "cloth",
 			"weight": 400,
 			"value": 100,
-			"armor": { "type": "boots", "props": { "armor": 1, "move": 1 } }
+			"armor": { "type": "boots", "props": { "armor": 1, "move": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/temple/obj/magic_book",
@@ -67,7 +67,7 @@
 			"unit": "柄",
 			"weight": 1000,
 			"value": 100,
-			"weapon": { "skill": "whip", "damage": 10 }
+			"weapon": { "skill": "whip", "damage": 10, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/temple/obj/old_robe",
@@ -77,7 +77,7 @@
 			"long": "一件补了又补, 洗到泛白的旧道袍\n",
 			"unit": "件",
 			"weight": 900,
-			"armor": { "type": "cloth", "props": { "armor": 1, "dodge": -1 } }
+			"armor": { "type": "cloth", "props": { "armor": 1, "dodge": -1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/temple/obj/hat",
@@ -89,7 +89,7 @@
 			"material": "copper",
 			"weight": 1500,
 			"value": 500,
-			"armor": { "type": "head", "props": { "armor": 1, "magic": 1 } }
+			"armor": { "type": "head", "props": { "armor": 1, "magic": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/temple/npc/obj/robe1",

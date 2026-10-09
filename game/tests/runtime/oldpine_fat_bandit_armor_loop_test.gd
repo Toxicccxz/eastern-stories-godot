@@ -102,7 +102,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		fat_binding.content.attack_template_for(fat_binding.state.equipment.primary_weapon()),
 	)
 	_assert_eq(fat_as_defender.defender.armor, 5, "current Combat defender input sees leather armor +5")
-	_assert_eq(fat_as_defender.defender.effective_dodge_skill_level, 3, "current Combat input preserves effective raw-half 5 plus dodge -2")
+	_assert_eq(fat_as_defender.defender.effective_dodge_skill_level, 2, "current Combat input preserves effective raw-half 5 plus dodge -2 and the short sword's -1 (3000 weight, equip.c)")
 	_assert_eq(fat_as_attacker.attacker.projected_apply_damage, 15, "Fat ordinary attack input uses short-sword damage 15")
 	_assert_true(fat.armor.remove(leather.item_instance_id).succeeded, "test removes Fat leather through current ArmorState")
 	var next_fat: CombatSliceCharacterBinding = _binding_for(controller.combat_lifecycle.build_participants(), fat.character_id)
@@ -112,7 +112,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		player_binding.content.attack_template_for(player_binding.state.equipment.primary_weapon()),
 	)
 	_assert_eq(next_without_armor.defender.armor, 0, "next Combat input drops removed armor")
-	_assert_eq(next_without_armor.defender.effective_dodge_skill_level, 5, "next Combat input returns to effective raw-half dodge 5")
+	_assert_eq(next_without_armor.defender.effective_dodge_skill_level, 4, "next Combat input returns to effective raw-half dodge 5 and the short sword's -1")
 	_assert_true(ArmorService.wear(fat.armor, controller.inventory_state(), fat_owner, leather, TestContent.item(leather.item_definition_id).armor_definition()).succeeded, "test restores Fat leather through ArmorService")
 
 	controller.player_body.set_world_location(controller.resolve_location(
@@ -290,7 +290,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(row.can_wear and not row.can_remove, "looted leather offers Wear only")
 	_assert_true(OldPineTestMap.inspect_item(controller, leather.item_instance_id), "leather Inspect resolves exact live row")
 	var inspection: String = controller.session.shared_ui().inventory_panel.inspection_display()
-	for expected: String in ["皮衣", "皮衣(Leather)", "部位：衣服", "防护：+5", "闪避：-2", "装备：未装备"]:
+	for expected: String in ["皮衣", "皮衣(Leather)", "部位：衣服", "防护：+5", "轻功：-2", "装备：未装备"]:
 		_assert_true(inspection.contains(expected), "Inspect contains %s" % expected)
 	var surviving: NpcRuntimeState = controller.npc_runtimes()[3]
 	_assert_true(controller.select_npc(surviving.character_id), "same live world selects Tall for post-loot combat")
@@ -319,7 +319,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 		surviving_binding.content.attack_template_for(surviving_binding.state.equipment.primary_weapon()),
 	)
 	_assert_eq(worn_input.defender.armor, 5, "next world Combat input sees player leather armor +5")
-	_assert_eq(worn_input.defender.effective_dodge_skill_level, 3, "player effective raw-half dodge five plus leather -2 remains exact")
+	_assert_eq(worn_input.defender.effective_dodge_skill_level, 1, "player effective raw-half dodge five plus leather -2 and the long sword's -2 (equip.c) remains exact")
 	var worn_attack_random: CountingMaximumCombatRandomSource = (
 		CountingMaximumCombatRandomSource.new()
 	)
@@ -353,7 +353,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 		surviving_binding.content.attack_template_for(surviving_binding.state.equipment.primary_weapon()),
 	)
 	_assert_eq(removed_input.defender.armor, 0, "next world Combat input drops removed player armor")
-	_assert_eq(removed_input.defender.effective_dodge_skill_level, 5, "next world Combat input returns to effective raw-half dodge five")
+	_assert_eq(removed_input.defender.effective_dodge_skill_level, 3, "next world Combat input returns to effective raw-half dodge five and the long sword's -2")
 	var removed_attack_random: CountingMaximumCombatRandomSource = (
 		CountingMaximumCombatRandomSource.new()
 	)

@@ -88,6 +88,20 @@ class GeneratedDataTest(unittest.TestCase):
         # THROWING is a combined weapon: init_throwing(20), set_amount(100).
         self.assertEqual([knives['combined']['amount'], knives['weapon']], [100, {'skill': 'throwing', 'damage': 20}])
 
+    def test_heavy_equipment_names_the_setup_it_runs(self) -> None:
+        # create()'s setup(): std/equip.c (std/weapon/<kind>.c) or std/armor/<type>.c, each
+        # costing a heavy one dodge (ItemContentDefinition's rule, DECISIONS A1).
+        snow = {r['id']: r for r in json.loads(self.files['snow/items.json'])['items']}
+        self.assertEqual(snow['es2:d/snow/obj/lumber_axe']['weapon']['weight_dodge'], 'equip')
+        self.assertEqual(snow['es2:d/snow/obj/shield']['armor']['weight_dodge'], 'armor')
+        # throwing.c has a setup() of its own; 天师道袍 inherits EQUIP and never calls setup().
+        self.assertNotIn('weight_dodge', snow['es2:d/snow/npc/obj/throwing_knife']['weapon'])
+        common = {r['id']: r for r in json.loads(self.files['common/items.json'])['items']}
+        self.assertNotIn('weight_dodge', common['es2:daemon/class/taoist/robe']['armor'])
+        lpc = parse('inherit EQUIP;\nvoid create() { set_name("冠", ({ "hat" })); set("armor_type", "head"); setup(); }')
+        self.assertTrue(lpc.calls_setup)
+        self.assertEqual(lpc.calls, [ci.Call('set_name', ['冠', ['hat']], []), ci.Call('set', ['armor_type', 'head'], [])])
+
     def test_vendor_goods_from_lpc_or_hand_read_buy_object(self) -> None:
         vendors = {r['id']: r for r in json.loads(self.files['snow/vendors.json'])['vendors']}
         # herbalist.c sets vendor_goods (the value is the price).

@@ -77,14 +77,29 @@ func _test_record_reader_reports_problems() -> void:
 
 func _test_item_derived_facts() -> void:
 	var errors: Array[String] = []
-	var leather: ItemContentDefinition = _item({"id": "t:leather", "legacy_sources": ["t/leather.c"], "name": "皮衣", "aliases": ["leather"], "weight": 6000, "armor": {"type": "cloth", "props": {"armor": 5, "dodge": 9}}}, errors)
+	var leather: ItemContentDefinition = _item({"id": "t:leather", "legacy_sources": ["t/leather.c"], "name": "皮衣", "aliases": ["leather"], "weight": 6000, "armor": {"type": "cloth", "props": {"armor": 5, "dodge": 9}, "weight_dodge": "armor"}}, errors)
 	_eq(leather.description, "皮衣(Leather)。\n", "feature/name.c default long")
 	_eq(leather.armor_definition().numeric_modifiers.dodge, -2, "cloth.c setup overrides dodge with -weight/3000")
 	_eq(leather.category, ItemContentDefinition.CATEGORY_ARMOR, "armor category")
-	var light: ItemContentDefinition = _item({"id": "t:cloth", "legacy_sources": ["t/cloth.c"], "name": "布衣", "aliases": ["cloth"], "weight": 3000, "armor": {"type": "cloth", "props": {"armor": 1}}}, errors)
+	var light: ItemContentDefinition = _item({"id": "t:cloth", "legacy_sources": ["t/cloth.c"], "name": "布衣", "aliases": ["cloth"], "weight": 3000, "armor": {"type": "cloth", "props": {"armor": 1}, "weight_dodge": "armor"}}, errors)
 	_eq(light.armor_definition().numeric_modifiers.dodge, 0, "cloth at exactly 3000 has no dodge penalty")
-	var shield: ItemContentDefinition = _item({"id": "t:shield", "legacy_sources": ["t/shield.c"], "name": "盾", "aliases": ["shield"], "weight": 7000, "armor": {"type": "shield", "props": {"armor": 5, "defense": 3}}}, errors)
-	_eq([shield.armor_definition().numeric_modifiers.dodge, shield.armor_definition().numeric_modifiers.defense], [0, 3], "the cloth rule applies to cloth only")
+	var shield: ItemContentDefinition = _item({"id": "t:shield", "legacy_sources": ["t/shield.c"], "name": "盾", "aliases": ["shield"], "weight": 7000, "armor": {"type": "shield", "props": {"armor": 5, "defense": 3}, "weight_dodge": "armor"}}, errors)
+	_eq([shield.armor_definition().numeric_modifiers.dodge, shield.armor_definition().numeric_modifiers.defense], [-2, 3], "every std/armor/<type>.c costs dodge, a shield too")
+	var no_setup: ItemContentDefinition = _item({"id": "t:robe", "legacy_sources": ["t/robe.c"], "name": "道袍", "aliases": ["robe"], "weight": 9000, "armor": {"type": "cloth", "props": {"armor": 2}}}, errors)
+	_eq(no_setup.armor_definition().numeric_modifiers.dodge, 0, "no setup() in create(), no dodge cost")
+	var equip_armor: Array[int] = []
+	for record: Dictionary in [{"weight": 3000, "props": {}}, {"weight": 9000, "props": {"dodge": 6}}, {"weight": 2999, "props": {}}]:
+		equip_armor.append(_item({"id": "t:hat", "legacy_sources": ["t/hat.c"], "name": "冠", "aliases": ["hat"], "weight": record["weight"], "armor": {"type": "head", "props": record["props"], "weight_dodge": "equip"}}, errors).armor_definition().numeric_modifiers.dodge)
+	_eq(equip_armor, [-1, 6, 0], "an EQUIP armor: equip.c's rule from 3000, its own dodge kept")
+	var weapons: Array[int] = []
+	for record: Dictionary in [{"weight": 7000}, {"weight": 3000}, {"weight": 2999}, {"weight": 13000, "apply": {"dodge": -5}}, {"weight": 9000, "apply": {"dodge": 0}}, {"weight": 9000, "no_setup": true}]:
+		var weapon: Dictionary = {"skill": "staff", "damage": 10}
+		if record.has("apply"):
+			weapon["apply"] = record["apply"]
+		if not record.has("no_setup"):
+			weapon["weight_dodge"] = "equip"
+		weapons.append(_item({"id": "t:staff", "legacy_sources": ["t/staff.c"], "name": "杖", "aliases": ["staff"], "weight": record["weight"], "weapon": weapon}, errors).weapon_apply.get(&"dodge", 0))
+	_eq(weapons, [-2, -1, 0, -5, -3, 0], "equip.c: weapon_prop/dodge -weight/3000 from 3000 when it sets none (0 is none)")
 	var money: ItemContentDefinition = _item({"id": "t:silver", "legacy_sources": ["obj/money/silver.c"], "name": "银子", "aliases": ["silver"], "money": {"money_id": "silver", "base_value": 100, "base_unit": "两", "base_weight": 37}}, errors)
 	_eq([money.own_weight, money.is_stack, money.category, money.stack_definition().stack_compatibility_id], [37, true, ItemContentDefinition.CATEGORY_CURRENCY, &"/obj/money/silver"], "money derives weight and merge key")
 	var sword: ItemContentDefinition = _item({"id": "t:sword", "legacy_sources": ["t/sword.c"], "name": "剑", "aliases": ["sword"], "weight": 1, "weapon": {"skill": "sword", "damage": 15, "flags": ["secondary"]}}, errors)
@@ -96,20 +111,21 @@ func _test_item_derived_facts() -> void:
 
 func _test_item_record_errors() -> void:
 	var errors: Array[String] = []
-	_item({"id": "t:bad", "legacy_sources": [], "name": "坏", "weight": -1, "value": -5, "weapon": {"skill": "sword", "damage": 1, "flags": ["flying"]}, "liquid": {"max_liquid": 5, "type": "oil", "name": "油", "remaining": 9}, "food": {"remaining": 0, "supply": 10}}, errors)
+	_item({"id": "t:bad", "legacy_sources": [], "name": "坏", "weight": -1, "value": -5, "weapon": {"skill": "sword", "damage": 1, "flags": ["flying"], "weight_dodge": "armor"}, "liquid": {"max_liquid": 5, "type": "oil", "name": "油", "remaining": 9}, "food": {"remaining": 0, "supply": 10}}, errors)
 	for expected: String in [
 		"t.items[0].legacy_sources: needs at least one LPC source path",
 		"t.items[0].value: must not be negative",
 		"t.items[0].weight: must not be negative",
 		"t.items[0].long: needs either long or an alias for the default description",
 		"t.items[0].weapon.flags: unsupported weapon flag 'flying'",
+		"t.items[0].weapon.weight_dodge: a weapon's setup() is std/equip.c's ('equip')",
 		"t.items[0].food: remaining and supply must be positive",
 		"t.items[0].liquid.type: unsupported liquid type 'oil'",
 		"t.items[0].liquid: max_liquid must be positive and remaining within it",
 		"t.items[0].food: food that is also a weapon, armor or money is not supported yet",
 	]:
 		_eq(errors.has(expected), true, "reports: " + expected)
-	_eq(errors.size(), 9, "and nothing else: %s" % str(errors))
+	_eq(errors.size(), 10, "and nothing else: %s" % str(errors))
 
 
 func _test_npc_and_spawn_records() -> void:

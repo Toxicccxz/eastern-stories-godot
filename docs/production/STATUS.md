@@ -4,15 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**茅山 D** (`phase/maoshan-d`, region #6, plan approved 2026-10-08: A places the region (#81),
-B 茅山派 (#82), C the player's 茅山道术 in a fight and its practice (#83), D zombies and 桃符纸):
-驱尸 on a corpse raises the victim's zombie, which follows the player (onto other maps too),
-lives on their 灵力 and is left out of a save; 桃符纸 (two in Snow's 城隍庙) take a 僵尸追魂符
-with the selected NPC's name, and put on the zombie it goes after them while the player stands
-by in the fight. With D, region #6 is done. The map controller's components live under
-`game/runtime/world/map/` (#78); the player's spells outside a fight are `world_map_spells.gd`.
+**Equipment weight dodge** (`phase/equip-weight-dodge`, DECISIONS A1): a heavy weapon or armor
+costs 轻功 as ES2's setup() does (std/equip.c: weapons from 3000 weight without a dodge of their
+own; the eleven std/armor/<type>.c: armor above 3000, over its own), for the player and every
+NPC; the item details show 轻功：−N and the 武学 page's effective level follows. 茅山 (region #6)
+is done.
 
-Next: the equipment weight dodge (A1, its own PR), then region #7 晚月庄 (`d/latemoon`).
+Next: region #7 晚月庄 (`d/latemoon`).
 
 ## 待决定
 
@@ -127,7 +125,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
   封山剑法, 天邪神掌, 六阴追魂剑法), dodges read the mapped dodge skill's lines (倒乱七星步法,
   火蝠身法); armor, weapon and NPC
-  `apply/*` bonuses and internal power count: force_factor on every landed blow, and a bare-handed
+  `apply/*` bonuses (a heavy weapon or armor's 轻功 cost too) and internal power count: force_factor on every landed blow, and a bare-handed
   blow against stronger force is thrown back (std/force.c, told in the battle log).
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.

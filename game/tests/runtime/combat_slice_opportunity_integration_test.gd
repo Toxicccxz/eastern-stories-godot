@@ -284,7 +284,7 @@ func _test_current_armor_projection() -> void:
 	)
 	_assert_eq(after.attacker.attack_usage_bonus, 3, "later projection observes current attacker armor attack")
 	_assert_eq(after.defender.defense_usage_bonus, 4, "later projection observes current defender armor defense")
-	_assert_eq(after.defender.effective_dodge_skill_level, 10, "later projection combines current dodge modifier through SkillState")
+	_assert_eq(after.defender.effective_dodge_skill_level, 8, "later projection combines current dodge modifier through SkillState (and the long sword's -2, equip.c)")
 	_assert_eq(after.defender.armor, 10, "later projection observes current armor value")
 	_assert_eq(after.defender.armor_vs_force, 2, "later projection observes current armor-vs-force")
 

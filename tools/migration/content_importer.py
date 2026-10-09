@@ -51,6 +51,8 @@ WEAPON_KINDS = {'AXE', 'BLADE', 'DAGGER', 'FORK', 'HAMMER', 'SWORD', 'STAFF', 'T
 COMBINED_KINDS = {'COMBINED_ITEM', 'THROWING', 'POWDER'}
 ARMOR_KINDS = {'ARMOR', 'BOOTS', 'CLOTH', 'FINGER', 'HANDS', 'HEAD', 'NECK', 'SHIELD',
                'SURCOAT', 'WAIST', 'WRISTS'}
+# std/weapon/<kind>.c inherit EQUIP (std/equip.c); throwing.c and the F_<kind> features do not.
+EQUIP_WEAPON_KINDS = WEAPON_KINDS - {'THROWING'}
 # include/weapon.h; only the flags the game models.
 WEAPON_FLAGS = {'TWO_HANDED': 'two_handed', 'SECONDARY': 'secondary'}
 RACES = {'人类': 'human', '野兽': 'beast'}
@@ -171,6 +173,7 @@ class LpcObject:
     calls: list[Call] = field(default_factory=list)
     functions: list[str] = field(default_factory=list)
     findings: list[str] = field(default_factory=list)
+    calls_setup: bool = False      # create() calls setup() (the base class's, unless it has its own)
 
     @property
     def directory(self) -> str:
@@ -264,6 +267,8 @@ class Parser:
             self.object.findings.append('statement in create(): ' + self.text(i, stop))
         elif call.name not in SILENT_CALLS or getattr(self, 'keep_silent', False):
             self.object.calls.append(call)
+        elif call.name == 'setup':
+            self.object.calls_setup = True
         return stop + 1
 
     def statement_end(self, i: int, end: int) -> int:
@@ -905,6 +910,9 @@ class Importer:
             record['study'] = {'skill': study['name'], **{k: study[k] for k in (
                 'exp_required', 'sen_cost', 'difficulty', 'max_skill') if k in study}}
         inherits = set(lpc.inherits)
+        # create()'s setup() is the base class's unless the file defines its own: std/equip.c
+        # and std/armor/<kind>.c give a heavy weapon or armor its dodge (`weight_dodge`).
+        base_setup = lpc.calls_setup and 'setup' not in lpc.functions
         weapon_kinds = sorted({k.removeprefix('F_') for k in inherits} & WEAPON_KINDS)
         armor_kinds = sorted(inherits & ARMOR_KINDS)
         weight = lpc.first('set_weight')
@@ -949,6 +957,8 @@ class Importer:
                         self.note(canonical, 'weapon flag', describe(flag))
                 if names:
                     weapon['flags'] = names
+                if base_setup and (inherits & EQUIP_WEAPON_KINDS or 'EQUIP' in inherits):
+                    weapon['weight_dodge'] = 'equip'
                 record['weapon'] = weapon
         elif armor_kinds or ('EQUIP' in inherits and isinstance(sets.get('armor_type'), str)):
             # std/armor/<kind>.c sets armor_type; an EQUIP sets it itself (armor.h TYPE_*).
@@ -956,6 +966,8 @@ class Importer:
             handled.update('armor_prop/' + k for k in props)
             handled.add('armor_type')
             record['armor'] = {'type': armor_kinds[0].lower() if armor_kinds else sets['armor_type'], 'props': props}
+            if base_setup:
+                record['armor']['weight_dodge'] = 'armor' if armor_kinds else 'equip'
         elif 'MONEY' in inherits:
             keys = ('money_id', 'base_value', 'base_unit', 'base_weight')
             handled.update(keys)

@@ -36,7 +36,7 @@
 			"unit": "件",
 			"material": "cloth",
 			"weight": 3000,
-			"armor": { "type": "cloth", "props": { "armor": 1 } }
+			"armor": { "type": "cloth", "props": { "armor": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:obj/example/dumpling",
@@ -93,7 +93,7 @@
 			"material": "steel",
 			"weight": 7000,
 			"value": 400,
-			"weapon": { "skill": "sword", "damage": 25 }
+			"weapon": { "skill": "sword", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:daemon/class/swordsman/blackthorn",
@@ -105,7 +105,7 @@
 			"material": "blacksteel",
 			"weight": 15000,
 			"value": 2400,
-			"weapon": { "skill": "sword", "damage": 58 }
+			"weapon": { "skill": "sword", "damage": 58, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:daemon/class/swordsman/silk_cloth",
@@ -159,7 +159,7 @@
 			"material": "steel",
 			"weight": 7000,
 			"value": 400,
-			"weapon": { "skill": "sword", "damage": 25 }
+			"weapon": { "skill": "sword", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/toy/poison_dust",
@@ -181,7 +181,7 @@
 			"material": "steel",
 			"weight": 1000,
 			"value": 50,
-			"weapon": { "skill": "dagger", "damage": 4 }
+			"weapon": { "skill": "dagger", "damage": 4, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/weapon/blade",
@@ -193,7 +193,7 @@
 			"material": "iron",
 			"weight": 4000,
 			"value": 500,
-			"weapon": { "skill": "blade", "damage": 25 }
+			"weapon": { "skill": "blade", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/example/bag",
@@ -215,7 +215,7 @@
 			"material": "skin",
 			"weight": 500,
 			"value": 500,
-			"weapon": { "skill": "whip", "damage": 1 }
+			"weapon": { "skill": "whip", "damage": 1, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/weapon/dart",
@@ -236,7 +236,7 @@
 			"material": "leather",
 			"weight": 7000,
 			"value": 340,
-			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 } }
+			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:obj/weapon/sixhammer",
@@ -248,7 +248,7 @@
 			"material": "iron",
 			"weight": 12000,
 			"value": 400,
-			"weapon": { "skill": "hammer", "damage": 25 }
+			"weapon": { "skill": "hammer", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/weapon/thin_sword",
@@ -260,7 +260,7 @@
 			"material": "steel",
 			"weight": 1400,
 			"value": 700,
-			"weapon": { "skill": "sword", "damage": 16, "apply": { "courage": -4 } }
+			"weapon": { "skill": "sword", "damage": 16, "apply": { "courage": -4 }, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/weapon/dagger",
@@ -272,7 +272,7 @@
 			"material": "steel",
 			"weight": 1000,
 			"value": 50,
-			"weapon": { "skill": "dagger", "damage": 4 }
+			"weapon": { "skill": "dagger", "damage": 4, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:daemon/class/fighter/houndbane",
@@ -284,7 +284,7 @@
 			"material": "crimsonsteel",
 			"weight": 17000,
 			"value": 42000,
-			"weapon": { "skill": "blade", "damage": 96, "apply": { "courage": 10 } }
+			"weapon": { "skill": "blade", "damage": 96, "apply": { "courage": 10 }, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:daemon/class/fighter/icy_boot",
@@ -295,7 +295,7 @@
 			"material": "cloth",
 			"weight": 1000,
 			"value": 8000,
-			"armor": { "type": "boots", "props": { "armor": 1, "dodge": 5 } }
+			"armor": { "type": "boots", "props": { "armor": 1, "dodge": 5 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:daemon/class/fighter/icy_girth",
@@ -306,7 +306,7 @@
 			"material": "cloth",
 			"weight": 600,
 			"value": 7000,
-			"armor": { "type": "waist", "props": { "armor": 1, "dodge": 5 } }
+			"armor": { "type": "waist", "props": { "armor": 1, "dodge": 5 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:daemon/class/fighter/icy_cloth",
@@ -317,7 +317,7 @@
 			"material": "cloth",
 			"weight": 1000,
 			"value": 40000,
-			"armor": { "type": "cloth", "props": { "armor": 10, "dodge": 5 } }
+			"armor": { "type": "cloth", "props": { "armor": 10, "dodge": 5 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:daemon/class/fighter/icy_ribbon",
@@ -328,7 +328,7 @@
 			"material": "cloth",
 			"weight": 200,
 			"value": 4000,
-			"armor": { "type": "head", "props": { "armor": 1, "dodge": 5 } }
+			"armor": { "type": "head", "props": { "armor": 1, "dodge": 5 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:daemon/class/fighter/soulimpaler",
@@ -340,7 +340,7 @@
 			"material": "crimsonsteel",
 			"weight": 7000,
 			"value": 4000000,
-			"weapon": { "skill": "sword", "damage": 80 }
+			"weapon": { "skill": "sword", "damage": 80, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/slumber_drug",
@@ -362,7 +362,12 @@
 			"material": "brass",
 			"weight": 13000,
 			"value": 80000,
-			"weapon": { "skill": "staff", "damage": 78, "apply": { "spells": 10, "dodge": -5 } }
+			"weapon": {
+				"skill": "staff",
+				"damage": 78,
+				"apply": { "spells": 10, "dodge": -5 },
+				"weight_dodge": "equip"
+			}
 		},
 		{
 			"id": "es2:daemon/class/juechen/hat",
@@ -384,7 +389,7 @@
 			"material": "gold",
 			"weight": 50000,
 			"value": 9000,
-			"armor": { "type": "armor", "props": { "armor": 50, "dodge": -20 } }
+			"armor": { "type": "armor", "props": { "armor": 50, "dodge": -20 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:obj/npc/obj/golden_sword",
@@ -396,7 +401,7 @@
 			"material": "gold",
 			"weight": 20000,
 			"value": 3400,
-			"weapon": { "skill": "sword", "damage": 40 }
+			"weapon": { "skill": "sword", "damage": 40, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:daemon/class/taoist/sword",
@@ -408,7 +413,7 @@
 			"material": "steel",
 			"weight": 7000,
 			"value": 18000,
-			"weapon": { "skill": "sword", "damage": 44, "apply": { "spirituality": 30 } }
+			"weapon": { "skill": "sword", "damage": 44, "apply": { "spirituality": 30 }, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:daemon/class/taoist/robe",
@@ -452,7 +457,7 @@
 			"material": "steel",
 			"weight": 70000,
 			"value": 9000,
-			"armor": { "type": "armor", "props": { "armor": 70, "dodge": -30 } }
+			"armor": { "type": "armor", "props": { "armor": 70, "dodge": -30 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:obj/npc/obj/steel_fork",
@@ -463,7 +468,7 @@
 			"material": "steel",
 			"weight": 30000,
 			"value": 3400,
-			"weapon": { "skill": "fork", "damage": 50 }
+			"weapon": { "skill": "fork", "damage": 50, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:obj/paper_seal",

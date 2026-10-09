@@ -8,7 +8,7 @@
 			"unit": "件",
 			"weight": 700,
 			"value": 2000,
-			"armor": { "type": "boots", "props": { "armor": 2, "dodge": 1 } }
+			"armor": { "type": "boots", "props": { "armor": 2, "dodge": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/latemoon/obj/sword",
@@ -20,7 +20,7 @@
 			"material": "bamboo",
 			"weight": 1000,
 			"value": 100,
-			"weapon": { "skill": "sword", "damage": 27 }
+			"weapon": { "skill": "sword", "damage": 27, "weight_dodge": "equip" }
 		}
 	]
 }
