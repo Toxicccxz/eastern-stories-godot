@@ -531,6 +531,10 @@ func _check_exit_rules() -> void:
 			portal_between = portal_between or (portal.source_zone_id == rule.from_zone_id and portal.destination_zone_id == rule.to_zone_id)
 		if from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id and not portal_between:
 			_errors.append("%s: %s and %s are not on one map and no portal joins them" % [origin, rule.from_zone_id, rule.to_zone_id])
+		# The question puts the player inside by a move, which a passage's own bookkeeping
+		# (its mark, its arrival) would miss: it guards a walk on one map only.
+		if rule.asks and (portal_between or (from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id)):
+			_errors.append("%s: an ask rule guards a walk between two zones of one map, not a passage" % origin)
 		if rule.condition == ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND and not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_APPRENTICE_OF and not _npcs.has(rule.npc_id):

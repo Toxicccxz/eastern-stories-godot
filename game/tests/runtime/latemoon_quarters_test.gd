@@ -92,6 +92,10 @@ func _test_data() -> void:
 	_check(bath.kind == &"act" and bath.act.act_for(CharacterState.GENDER_MALE, &"").ask.contains(ASKED) and bath.act.act_for(CharacterState.GENDER_FEMALE, &"").ask.is_empty(), "the bath asks a man first")
 	var ask: Array[ZoneExitRuleDefinition] = catalog.exit_rules_between(&"latemoon.room.flower1", &"latemoon.room.bathroom1")
 	_check(ask.size() == 1 and ask[0].asks and ask[0].ask.contains(ASKED), "a man walking into the changing room is asked")
+	for rule: ZoneExitRuleDefinition in catalog.exit_rules():
+		if rule.asks:
+			var joined_by_passage: bool = catalog.portals_for_map(catalog.zone(rule.from_zone_id).map_id).any(func(portal: PortalDefinition) -> bool: return portal.source_zone_id == rule.from_zone_id and portal.destination_zone_id == rule.to_zone_id)
+			_check(not joined_by_passage and catalog.zone(rule.from_zone_id).map_id == catalog.zone(rule.to_zone_id).map_id, "%s guards a walk on one map, not a passage" % rule.rule_id)
 	_check(catalog.exit_rules_between(&"latemoon.room.bathroom1", &"latemoon.room.flower1").is_empty(), "no powder on leaving: bathroom1.c's valid_leave() was dropped by replace_program (owner)")
 	var tea: Array[ZoneExitRuleDefinition] = catalog.exit_rules_between(&"latemoon.latemoon3", &"latemoon.latemoon1")
 	_check(tea.size() == 1 and tea[0].condition == ZoneExitRuleDefinition.Condition.TAKES_BACK and tea[0].item_id == TEACUP, "latemoon3.c valid_leave(): the cup goes back")

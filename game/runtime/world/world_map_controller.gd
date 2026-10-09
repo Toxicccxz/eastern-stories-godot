@@ -437,8 +437,6 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 	var refusal: ZoneExitRuleDefinition = _exit_refusal(portal.source_zone_id, portal.destination_zone_id)
 	if refusal != null:
 		_refuse_passage(refusal, portal.source_zone_id, passage)
-		if refusal.asks:
-			_ask_way_in(refusal, _pass_after_asking.bind(refusal, portal))
 		return false
 	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
 	if not portal.set_mark.is_empty():
@@ -528,13 +526,6 @@ func _enter_after_asking(rule: ZoneExitRuleDefinition) -> void:
 		session.player_leaving_zone(rule.from_zone_id, rule.to_zone_id)
 	if relocate_player(rule.to_zone_id, rule.point_id):
 		_drop_selection_left_behind()
-
-
-func _pass_after_asking(rule: ZoneExitRuleDefinition, portal: PortalDefinition) -> void:
-	if _player == null or _player.world_location().zone_id != rule.from_zone_id or door_shut_between(rule.from_zone_id, rule.to_zone_id):
-		return
-	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
-	WorldLandmarkPolicy.move_through(self, portal)
 
 
 ## What the room's valid_leave() tells one who goes through (book_room1.c's

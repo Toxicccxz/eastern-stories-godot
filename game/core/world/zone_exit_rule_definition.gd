@@ -15,7 +15,9 @@ extends RefCounted
 ## 出去); a rule `never` refuses nobody and only says them.
 ## `ask` is no valid_leave(): the owner's question before a way in that can kill (晚月庄
 ## plan Q2: a man walking into the changing room). Anyone not of `unless_gender` is
-## stopped and asked (`ask`, `choice`); one who chooses to go is put at `point` inside.
+## stopped and asked (`ask`, `choice`); one who chooses to go is put at `point` inside. It
+## guards a walk between two zones of one map, never a passage (the catalog checks): a
+## passage's own bookkeeping (its mark, its arrival) would be skipped by that move.
 ## `takes_back` (d/latemoon/latemoon3.c) refuses nobody: one who carries the `item` and
 ## the set_temp() flag `temp` hands it back (`taken`, the flag deleted); one who carries
 ## none reads `without`; one who carries it without the flag keeps it, without a word.

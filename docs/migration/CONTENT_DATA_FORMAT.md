@@ -245,7 +245,8 @@ NPC that must stand in the room), `combat_exp_below` (with `value`), `not_appren
 `value`: the leaver also falls unconscious) or `never` (refuses nobody, only says `pass_lines`).
 The player stays and reads `lines`; one who goes through reads `pass_lines`. Two are not refusals:
 `ask` (with `unless_gender`, `ask`, `choice`, `point`; no `lines`) stops anyone else and asks
-(owner's rule on choices that can kill); one who goes on is put at `point` in `to_zone`.
+(owner's rule on choices that can kill); one who goes on is put at `point` in `to_zone`. It
+guards a walk between two zones of one map, never a passage.
 `takes_back` (latemoon3.c, with `item`, `temp`, `taken`, `without`) lets everyone through: one
 carrying the item with the temp flag hands it back (`taken`), one carrying none reads `without`.
 
