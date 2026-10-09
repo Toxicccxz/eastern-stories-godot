@@ -10,7 +10,7 @@
 			"material": "iron",
 			"weight": 7000,
 			"value": 700,
-			"weapon": { "skill": "sword", "damage": 25 }
+			"weapon": { "skill": "sword", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/oldpine/obj/short_sword",
@@ -22,7 +22,7 @@
 			"material": "iron",
 			"weight": 3000,
 			"value": 300,
-			"weapon": { "skill": "sword", "damage": 15, "flags": ["secondary"] }
+			"weapon": { "skill": "sword", "damage": 15, "flags": ["secondary"], "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/oldpine/obj/leather",
@@ -33,7 +33,7 @@
 			"material": "leather",
 			"weight": 6000,
 			"value": 200,
-			"armor": { "type": "cloth", "props": { "armor": 5 } }
+			"armor": { "type": "cloth", "props": { "armor": 5 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/oldpine/obj/robe",
@@ -44,7 +44,7 @@
 			"material": "cloth",
 			"weight": 3000,
 			"value": 10000,
-			"armor": { "type": "cloth", "props": { "armor": 2, "spells": 3 } }
+			"armor": { "type": "cloth", "props": { "armor": 2, "spells": 3 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/oldpine/npc/skeleton",
@@ -66,7 +66,7 @@
 			"material": "iron",
 			"weight": 4000,
 			"value": 500,
-			"weapon": { "skill": "blade", "damage": 25 }
+			"weapon": { "skill": "blade", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/oldpine/obj/glaive",
@@ -78,7 +78,7 @@
 			"material": "steel",
 			"weight": 20000,
 			"value": 1500,
-			"weapon": { "skill": "blade", "damage": 45 }
+			"weapon": { "skill": "blade", "damage": 45, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/oldpine/obj/fur_coat",
@@ -89,7 +89,7 @@
 			"material": "fur",
 			"weight": 9000,
 			"value": 1200,
-			"armor": { "type": "surcoat", "props": { "armor": 8, "attack": 1 } }
+			"armor": { "type": "surcoat", "props": { "armor": 8, "attack": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/oldpine/obj/bamboo_pipe",
@@ -124,7 +124,11 @@
 			"material": "cloth",
 			"weight": 1000,
 			"value": 800,
-			"armor": { "type": "cloth", "props": { "armor": 1, "dodge": 1, "personality": -1 } }
+			"armor": {
+				"type": "cloth",
+				"props": { "armor": 1, "dodge": 1, "personality": -1 },
+				"weight_dodge": "armor"
+			}
 		},
 		{
 			"id": "es2:d/oldpine/obj/throwing_knife",

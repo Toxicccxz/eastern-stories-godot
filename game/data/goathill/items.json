@@ -14,7 +14,8 @@
 				"skill": "hammer",
 				"damage": 45,
 				"apply": { "attack": -4, "defense": 5 },
-				"flags": ["secondary"]
+				"flags": ["secondary"],
+				"weight_dodge": "equip"
 			}
 		},
 		{
@@ -26,7 +27,7 @@
 			"material": "fur",
 			"weight": 1000,
 			"value": 400,
-			"armor": { "type": "boots", "props": { "armor": 7, "defense": 1 } }
+			"armor": { "type": "boots", "props": { "armor": 7, "defense": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/goathill/obj/steel_blade",
@@ -38,7 +39,7 @@
 			"material": "steel",
 			"weight": 9000,
 			"value": 700,
-			"weapon": { "skill": "blade", "damage": 30, "apply": { "karma": -4 } }
+			"weapon": { "skill": "blade", "damage": 30, "apply": { "karma": -4 }, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/goathill/obj/hand_axe",
@@ -50,7 +51,13 @@
 			"material": "steel",
 			"weight": 5000,
 			"value": 500,
-			"weapon": { "skill": "axe", "damage": 22, "apply": { "attack": 3, "defense": -2 }, "flags": ["secondary"] }
+			"weapon": {
+				"skill": "axe",
+				"damage": 22,
+				"apply": { "attack": 3, "defense": -2 },
+				"flags": ["secondary"],
+				"weight_dodge": "equip"
+			}
 		}
 	]
 }

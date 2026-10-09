@@ -5341,8 +5341,9 @@ msgstr ""
 msgid "防护：%+d"
 msgstr ""
 
+#. an item's apply/dodge, e.g. 轻功：-2 (the 武学 page's 轻功 use).
 #: ui/world/player_inventory_panel.gd
-msgid "闪避：%+d"
+msgid "轻功：%+d"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd

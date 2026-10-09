@@ -111,6 +111,7 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 	if row.category == ItemContentDefinition.CATEGORY_WEAPON:
 		lines.append(tr("兵器：%s") % _word(WEAPON_WORDS, row.weapon_skill_type))
 		lines.append(tr("伤害：%d") % row.weapon_damage)
+		_append_dodge(lines, row.weapon_dodge)
 		if row.amount != 1:
 			lines.append(tr("数量：%d") % row.amount)
 	elif row.category == ItemContentDefinition.CATEGORY_CURRENCY:
@@ -119,7 +120,7 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 	elif row.category == ItemContentDefinition.CATEGORY_ARMOR:
 		lines.append(tr("部位：%s") % _word(ARMOR_WORDS, row.armor_type))
 		lines.append(tr("防护：%+d") % row.armor_modifiers.armor)
-		lines.append(tr("闪避：%+d") % row.armor_modifiers.dodge)
+		_append_dodge(lines, row.armor_modifiers.dodge)
 	elif row.amount != 1:
 		lines.append(tr("数量：%d") % row.amount)
 	inspect_text.text = "\n".join(lines)
@@ -128,6 +129,14 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 
 func inspection_display() -> String:
 	return inspect_text.text
+
+
+## What the item adds to apply/dodge (the 武学 page's 轻功), when it adds anything: a heavy
+## weapon or armor costs -weight/3000 (std/equip.c, std/armor/*.c setup()).
+func _append_dodge(lines: Array[String], dodge: int) -> void:
+	if dodge != 0:
+		# TRANSLATORS: an item's apply/dodge, e.g. 轻功：-2 (the 武学 page's 轻功 use).
+		lines.append(tr("轻功：%+d") % dodge)
 
 
 ## A kind's word, or the ES2 id when there is none.

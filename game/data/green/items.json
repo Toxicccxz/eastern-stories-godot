@@ -20,7 +20,7 @@
 			"unit": "把",
 			"material": "iron",
 			"weight": 2000,
-			"weapon": { "skill": "blade", "damage": 7 }
+			"weapon": { "skill": "blade", "damage": 7, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/green/obj/hammer",
@@ -30,7 +30,7 @@
 			"unit": "把",
 			"material": "iron",
 			"weight": 8000,
-			"weapon": { "skill": "hammer", "damage": 10 }
+			"weapon": { "skill": "hammer", "damage": 10, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/green/obj/windsword",
@@ -42,7 +42,12 @@
 			"material": "crimsonsteel",
 			"weight": 7000,
 			"value": 1000000,
-			"weapon": { "skill": "sword", "damage": 70, "apply": { "attack": 5, "courage": 10 } }
+			"weapon": {
+				"skill": "sword",
+				"damage": 70,
+				"apply": { "attack": 5, "courage": 10 },
+				"weight_dodge": "equip"
+			}
 		},
 		{
 			"id": "es2:d/green/obj/rope",

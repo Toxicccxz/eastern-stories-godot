@@ -8,7 +8,7 @@
 			"unit": "件",
 			"weight": 7000,
 			"value": 1400,
-			"armor": { "type": "armor", "props": { "armor": 10 } }
+			"armor": { "type": "armor", "props": { "armor": 10 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/leather_boot",
@@ -19,7 +19,7 @@
 			"material": "leather",
 			"weight": 4000,
 			"value": 300,
-			"armor": { "type": "boots", "props": { "dodge": 1, "armor": 4 } }
+			"armor": { "type": "boots", "props": { "dodge": 1, "armor": 4 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/watcher_suit",
@@ -30,7 +30,7 @@
 			"material": "cloth",
 			"weight": 7000,
 			"value": 2000,
-			"armor": { "type": "cloth", "props": { "armor": 4 } }
+			"armor": { "type": "cloth", "props": { "armor": 4 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/watcher_hat",
@@ -40,7 +40,7 @@
 			"unit": "顶",
 			"weight": 1000,
 			"value": 200,
-			"armor": { "type": "head", "props": { "attack": -2, "armor": 3 } }
+			"armor": { "type": "head", "props": { "attack": -2, "armor": 3 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/red_suit",
@@ -52,7 +52,7 @@
 			"material": "cloth",
 			"weight": 6500,
 			"value": 2000,
-			"armor": { "type": "cloth", "props": { "armor": 5, "attack": 5, "defense": -5 } }
+			"armor": { "type": "cloth", "props": { "armor": 5, "attack": 5, "defense": -5 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/red_hat",
@@ -63,7 +63,7 @@
 			"unit": "顶",
 			"weight": 1000,
 			"value": 800,
-			"armor": { "type": "head", "props": { "attack": 2, "defense": -2, "armor": 4 } }
+			"armor": { "type": "head", "props": { "attack": 2, "defense": -2, "armor": 4 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/sorrowfire",
@@ -75,7 +75,7 @@
 			"material": "iron",
 			"weight": 15000,
 			"value": 7800,
-			"weapon": { "skill": "sword", "damage": 74 }
+			"weapon": { "skill": "sword", "damage": 74, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/waterfog/obj/iron_staff",
@@ -87,7 +87,7 @@
 			"material": "iron",
 			"weight": 70000,
 			"value": 2800,
-			"weapon": { "skill": "staff", "damage": 54 }
+			"weapon": { "skill": "staff", "damage": 54, "weight_dodge": "equip" }
 		}
 	]
 }

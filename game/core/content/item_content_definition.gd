@@ -15,9 +15,15 @@ const CATEGORY_MISC: StringName = &"misc"
 
 const WEAPON_FLAG_SECONDARY: String = "secondary"
 const WEAPON_FLAG_TWO_HANDED: String = "two_handed"
-const ARMOR_TYPE_CLOTH: StringName = &"cloth"
-## std/armor/cloth.c setup(): cloth heavier than this gets dodge -weight/3000.
-const CLOTH_DODGE_WEIGHT_STEP: int = 3000
+## `weight_dodge`: the setup() the item's create() runs, which costs a heavy one dodge
+## (set("..._prop/dodge", - weight() / 3000)). std/equip.c (every std/weapon/<kind>.c but
+## throwing.c, and an armor that inherits EQUIP): from 3000 weight, unless the item sets a
+## dodge of its own.
+const WEIGHT_DODGE_EQUIP: String = "equip"
+## std/armor/<type>.c: above 3000 weight, over the armor's own dodge (it tests
+## armor_apply/dodge, which nothing sets).
+const WEIGHT_DODGE_ARMOR: String = "armor"
+const WEIGHT_PER_DODGE: int = 3000
 # TRANSLATORS: an item with no description of its own: its name and its ES2 id, e.g. 草鞋(Sandals)。
 const DEFAULT_LONG: String = "{name}({id})。\n"
 const ARMOR_PROPERTY_KEYS: Array[String] = [
@@ -555,6 +561,14 @@ func _read_weapon(weapon: ContentRecordReader) -> void:
 		if not WEAPON_APPLY_KEYS.has(key):
 			weapon.fail("apply." + key, "unsupported weapon_prop (damage is the weapon's damage)")
 		_weapon_apply[StringName(key)] = apply[key]
+	var weight_dodge: String = weapon.text("weight_dodge")
+	if weight_dodge == WEIGHT_DODGE_EQUIP:
+		# equip.c: if( !query("weapon_prop/dodge") && (weight() >= 3000) ). Its armor_prop/dodge
+		# for the same weapon (which let wear.c put a heavy weapon on) is not ported.
+		if _weapon_apply.get(&"dodge", 0) == 0 and _own_weight >= WEIGHT_PER_DODGE:
+			_weapon_apply[&"dodge"] = _weight_dodge()
+	elif not weight_dodge.is_empty():
+		weapon.fail("weight_dodge", "a weapon's setup() is std/equip.c's ('%s')" % WEIGHT_DODGE_EQUIP)
 	weapon.finish()
 	_weapon_definition = WeaponDefinition.new(
 		_item_definition_id, StringName(skill), secondary, two_handed, _primary_source(),
@@ -567,10 +581,18 @@ func _read_armor(armor: ContentRecordReader) -> void:
 	for key: String in props:
 		if not ARMOR_PROPERTY_KEYS.has(key):
 			armor.fail("props." + key, "unsupported armor_prop")
+	match armor.text("weight_dodge"):
+		"":
+			pass
+		WEIGHT_DODGE_EQUIP:
+			if props.get("dodge", 0) == 0 and _own_weight >= WEIGHT_PER_DODGE:
+				props["dodge"] = _weight_dodge()
+		WEIGHT_DODGE_ARMOR:
+			if _own_weight > WEIGHT_PER_DODGE:
+				props["dodge"] = _weight_dodge()
+		var other:
+			armor.fail("weight_dodge", "unknown setup() '%s'" % other)
 	armor.finish()
-	if armor_type == ARMOR_TYPE_CLOTH and _own_weight > CLOTH_DODGE_WEIGHT_STEP:
-		@warning_ignore("integer_division")
-		props["dodge"] = -(_own_weight / CLOTH_DODGE_WEIGHT_STEP)
 	var values: Array[int] = []
 	for key: String in ARMOR_PROPERTY_KEYS:
 		values.append(props.get(key, 0))
@@ -582,6 +604,12 @@ func _read_armor(armor: ContentRecordReader) -> void:
 			values[7], values[8], values[9], values[10], values[11], values[12], values[13],
 		),
 	)
+
+
+## - weight() / 3000.
+func _weight_dodge() -> int:
+	@warning_ignore("integer_division")
+	return -(_own_weight / WEIGHT_PER_DODGE)
 
 
 func _read_food(food: ContentRecordReader) -> void:

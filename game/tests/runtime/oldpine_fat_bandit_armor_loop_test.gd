@@ -290,7 +290,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(row.can_wear and not row.can_remove, "looted leather offers Wear only")
 	_assert_true(OldPineTestMap.inspect_item(controller, leather.item_instance_id), "leather Inspect resolves exact live row")
 	var inspection: String = controller.session.shared_ui().inventory_panel.inspection_display()
-	for expected: String in ["皮衣", "皮衣(Leather)", "部位：衣服", "防护：+5", "闪避：-2", "装备：未装备"]:
+	for expected: String in ["皮衣", "皮衣(Leather)", "部位：衣服", "防护：+5", "轻功：-2", "装备：未装备"]:
 		_assert_true(inspection.contains(expected), "Inspect contains %s" % expected)
 	var surviving: NpcRuntimeState = controller.npc_runtimes()[3]
 	_assert_true(controller.select_npc(surviving.character_id), "same live world selects Tall for post-loot combat")

@@ -79,6 +79,7 @@ func project_rows(
 				player_active
 				and is_armor
 				and slot == PlayerInventoryRowProjection.EquipmentSlot.WORN,
+				content.weapon_apply.get(&"dodge", 0),
 			)
 		)
 	return rows

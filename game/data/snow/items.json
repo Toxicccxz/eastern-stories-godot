@@ -10,7 +10,7 @@
 			"material": "iron",
 			"weight": 4000,
 			"value": 500,
-			"weapon": { "skill": "blade", "damage": 25 }
+			"weapon": { "skill": "blade", "damage": 25, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/snow/obj/linen",
@@ -21,7 +21,7 @@
 			"material": "cloth",
 			"weight": 5000,
 			"value": 40,
-			"armor": { "type": "cloth", "props": { "armor": 2 } }
+			"armor": { "type": "cloth", "props": { "armor": 2 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/snow/obj/raincoat",
@@ -32,7 +32,7 @@
 			"material": "plant",
 			"weight": 7000,
 			"value": 30,
-			"armor": { "type": "surcoat", "props": { "armor": 2, "personality": -1 } }
+			"armor": { "type": "surcoat", "props": { "armor": 2, "personality": -1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/snow/obj/sandals",
@@ -43,7 +43,7 @@
 			"material": "wood",
 			"weight": 900,
 			"value": 10,
-			"armor": { "type": "boots", "props": { "dodge": 0 } }
+			"armor": { "type": "boots", "props": { "dodge": 0 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/snow/obj/lumber_axe",
@@ -54,7 +54,7 @@
 			"unit": "把",
 			"weight": 22000,
 			"value": 11,
-			"weapon": { "skill": "axe", "damage": 11, "flags": ["two_handed"] }
+			"weapon": { "skill": "axe", "damage": 11, "flags": ["two_handed"], "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/snow/obj/hammer",
@@ -66,7 +66,7 @@
 			"material": "iron",
 			"weight": 8000,
 			"value": 3,
-			"weapon": { "skill": "hammer", "damage": 15 }
+			"weapon": { "skill": "hammer", "damage": 15, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/snow/obj/denotation",
@@ -90,7 +90,7 @@
 			"material": "bamboo",
 			"weight": 1000,
 			"value": 100,
-			"weapon": { "skill": "sword", "damage": 10 }
+			"weapon": { "skill": "sword", "damage": 10, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/snow/obj/shield",
@@ -101,7 +101,7 @@
 			"material": "leather",
 			"weight": 7000,
 			"value": 340,
-			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 } }
+			"armor": { "type": "shield", "props": { "armor": 5, "defense": 3 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/snow/obj/thin_sword",
@@ -113,7 +113,7 @@
 			"material": "steel",
 			"weight": 1400,
 			"value": 700,
-			"weapon": { "skill": "sword", "damage": 16, "apply": { "courage": -4 } }
+			"weapon": { "skill": "sword", "damage": 16, "apply": { "courage": -4 }, "weight_dodge": "equip" }
 		},
 		{
 			"id": "es2:d/snow/obj/pink_cloth",
@@ -126,7 +126,7 @@
 			"female_only": true,
 			"weight": 1000,
 			"value": 600,
-			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 3 } }
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 3 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/snow/obj/shoe",
@@ -138,7 +138,7 @@
 			"female_only": true,
 			"weight": 900,
 			"value": 300,
-			"armor": { "type": "boots", "props": { "armor": 1 } }
+			"armor": { "type": "boots", "props": { "armor": 1 }, "weight_dodge": "armor" }
 		},
 		{
 			"id": "es2:d/snow/npc/obj/throwing_knife",
