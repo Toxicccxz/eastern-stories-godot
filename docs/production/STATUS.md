@@ -167,7 +167,8 @@ Code:
 * Only Simplified Chinese exists. English and other languages without measure words will need
   their own count phrases and number words, and ES2's combat lines person and pronoun rules
   (你 punches / he punches); see [LOCALIZATION](LOCALIZATION.md). Log lines written before a
-  language switch stay in the old language.
+  language switch stay in the old language, and so does a dead zombie's name on its corpse
+  (saved as shown) and the name labels made before the switch.
 * Room labels and NPC names overlap in places (grey-box layout). An NPC that walks away from the
   player stays selected (its actions are refused, kill.c `present()`); one the player walks away
   from does not.

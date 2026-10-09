@@ -218,7 +218,7 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		definition.cast_functions.append(StringName(function_id))
 	for function_id: String in reader.text_list("scribe"):
 		if not SpecialFunctions.SCRIBES.has(StringName(function_id)):
-			reader.fail("scribe", "no 符 %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.SCRIBES)])
+			reader.fail("scribe", "no scribe file %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.SCRIBES)])
 		definition.scribe_functions.append(StringName(function_id))
 	var id_prefix: String = "es2:%s/" % definition.legacy_source_path.trim_suffix(".c")
 	for action: ContentRecordReader in reader.children("actions"):

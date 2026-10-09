@@ -867,6 +867,10 @@ func scribe_knocks_out() -> bool:
 	return spells.scribe_knocks_out()
 
 
+func scribe_kills() -> bool:
+	return spells.scribe_kills()
+
+
 func scribe_on(paper_id: StringName) -> bool:
 	return spells.scribe_on(paper_id)
 

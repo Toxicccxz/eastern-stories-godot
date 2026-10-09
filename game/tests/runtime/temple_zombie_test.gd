@@ -189,6 +189,13 @@ func _test_scribe(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.process_frame
 	_check(map.stack_collection().stack_state(paper_id).amount == 2 and player.state.spirit.current == 35, "取消: nothing drawn")
 	_full(player.state)
+	player.state.vitality = CharacterResourceState.new(0, 0, player.state.vitality.maximum) # TEST-ONLY: wounded to 0 effective kee
+	_check(map.scribe_kills() and not map.scribe_knocks_out(), "0 effective kee: the drop of blood would kill (eff_kee -1), sen is enough")
+	hud._scribe_on(paper_id)
+	_check(hud.is_asking() and hud.confirm_prompt.message.text.begins_with("你伤得太重了"), "asked first, as a death: %s" % hud.confirm_prompt.message.text)
+	hud.confirm_prompt.cancel()
+	await tree.process_frame
+	_full(player.state)
 	var sen: int = player.state.spirit.current
 	var kee: int = player.state.vitality.effective
 	_check(map.scribe_on(paper_id), "画追魂符")
@@ -284,6 +291,15 @@ func _test_drain(tree: SceneTree, session: WorldSessionController) -> NpcRuntime
 	var told: Array[String] = hud.log_lines().slice(lines)
 	_check(told.count("老道士的僵尸告诉你：我...需...要...你...的...力...量...") == beats, "its tell each time: %s" % [told])
 	_check(map.find_resident_npc(zombie.character_id) == zombie, "it stays while fed")
+	# Deviation (默认): nothing taken from a master lying unconscious (ES2's 1 gin kills them).
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	player.state.essence.current = 0
+	atman = player.state.recovery.atman.current
+	lines = hud.log_lines().size()
+	map.npc_life.advance_npc_heartbeat(40.0)
+	_check(player.state.essence.current == 0 and player.state.recovery.atman.current == atman and hud.log_lines().size() == lines and map.find_resident_npc(zombie.character_id) == zombie, "the player lies unconscious: it takes nothing, says nothing, stays")
+	player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	_full(player.state)
 	await tree.process_frame
 	return zombie
 
@@ -355,6 +371,9 @@ func _test_save_leaves_it_out(tree: SceneTree, session: WorldSessionController) 
 		if not before.has(id):
 			raised.append(id)
 	_check(raised.size() == 1, "进香客的僵尸 stands")
+	if raised.size() != 1:
+		return
+	await _test_flee(tree, session, map.find_resident_npc(raised[0]))
 	_check(OldPineSaveEligibility.inspect(session).allowed(), "Save is open while it stands")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	_check(snapshot != null, "the save captures")
@@ -374,6 +393,35 @@ func _test_save_leaves_it_out(tree: SceneTree, session: WorldSessionController) 
 	_check(GameSaveJsonCodec.encode(Work.capture(fresh)).text == GameSaveJsonCodec.encode(snapshot).text, "Save/Continue is exact without it")
 	fresh.free()
 	await tree.process_frame
+
+
+## A sheet for 玄真 on the stairs above: the fight begins and the player flees it: it ends
+## for all (FLED), 玄真 lives, the zombie is done (end_tag) and stands there unfollowing.
+func _test_flee(tree: SceneTree, session: WorldSessionController, zombie: NpcRuntimeState) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var xuanzhen: NpcRuntimeState = _first(map, &"temple.npc.little_taoist1")
+	_check(xuanzhen != null, "玄真 sweeps the stairs")
+	if xuanzhen == null:
+		return
+	await _place(tree, session, map, xuanzhen.world_location().zone_id)
+	_move(map, zombie, xuanzhen.world_location().zone_id) # TEST-ONLY
+	map.give_new_item_to_player(ItemContentDefinition.haunting_sheet_id(PAPER, &"temple.npc.little_taoist1")) # TEST-ONLY
+	_check(map.attach_sheet(_carried(session, ItemContentDefinition.haunting_sheet_id(PAPER, &"temple.npc.little_taoist1"))) and coordinator.has_active_encounter(), "it goes after 玄真")
+	if not coordinator.has_active_encounter():
+		return
+	var result: CombatTacticalResult = coordinator.submit_player_action(CombatTacticalRequest.new(&"flee:1", coordinator.active_encounter().encounter_id, player.character_id, CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE))
+	_check(result.code == CombatTacticalResult.Code.ACCEPTED, "逃跑 is offered to one who fights nobody")
+	for _round: int in range(20):
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.advance_scheduler(1.0)
+	_refresh(session)
+	await tree.process_frame
+	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0 and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.FLED, "fled: the fight is over for all")
+	_check(xuanzhen.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not xuanzhen.relationship.is_fighting() and not zombie.relationship.is_fighting(), "玄真 lives; nobody fights on")
+	_check(zombie.has_flag(NpcDefinition.FLAG_SENT) and not zombie.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and map.find_resident_npc(zombie.character_id) == zombie, "it is done with, and stands there until its next heal_up")
 
 
 # --- Helpers ------------------------------------------------------------------------

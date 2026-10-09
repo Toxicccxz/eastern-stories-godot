@@ -36,9 +36,14 @@ func animatable_corpse() -> CorpseState:
 
 
 ## Whether 驱尸 now would leave the player below zero sen (animate.c takes 30 sen and
-## asks only for mana): they would fall unconscious (owner's rule: asked first).
+## asks only for mana): they would fall unconscious (owner's rule: asked first). Not when
+## cast.c or animate.c would refuse anyway (busy, a no_magic room, too little mana).
 func animate_knocks_out() -> bool:
-	return _player != null and _player.state.recovery.mana.current >= AnimateSpell.MANA_COST and _player.state.spirit.current < AnimateSpell.SEN_COST
+	return (
+		_player != null and not _player.busy.is_busy()
+		and not GameContent.catalog().zone_forbids_magic(_player.world_location().zone_id)
+		and _player.state.recovery.mana.current >= AnimateSpell.MANA_COST and _player.state.spirit.current < AnimateSpell.SEN_COST
+	)
 
 
 ## cast animate on the selected corpse (cmds/std/cast.c): the spell's line or refusal, and
@@ -91,9 +96,10 @@ func _clear_of_player(location: WorldLocationState, origin: Vector2) -> Vector2:
 
 ## zombie.c heal_up(), `count` times on this beat, for a raised NPC: one its sheet sent
 ## (end_tag) dispells a second later once it is not fighting; else it tells its master
-## (message("tell"): the player reads it wherever they are, when conscious) and takes
-## their atman and gin while they have more than raising.drain_above atman, and otherwise
-## dispells a second later.
+## (message("tell"): the player reads it wherever they are) and takes their atman and gin
+## while they have more than raising.drain_above atman, and otherwise dispells a second
+## later. Deviation (默认, DECISIONS 茅山 D): it takes nothing from a master lying
+## unconscious, whose gin unconcious() set to 0 (ES2's drain then kills them, char.c).
 func raised_heal_up(npc: NpcRuntimeState, count: int) -> void:
 	var raising: NpcRaising = npc.definition().raising()
 	if raising == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
@@ -107,8 +113,9 @@ func raised_heal_up(npc: NpcRuntimeState, count: int) -> void:
 		if not master or not raising.feeds_on(_player.state.recovery.atman.current):
 			ambience.start_call(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
 			return
-		if _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-			_map.hud().append_colored_lines([ColoredLine.new(tr(raising.tell).replace("$N", tr(npc.definition().display_name)), raising.color)])
+		if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+			continue
+		_map.hud().append_colored_lines([ColoredLine.new(tr(raising.tell).replace("$N", tr(npc.definition().display_name)), raising.color)])
 		raising.drain(_player.state)
 	# receive_damage("gin", 1) can leave the master below zero: char.c's next beat.
 	_map.combat_lifecycle.player_fall_below_zero()
@@ -169,12 +176,21 @@ func scribable_npc() -> NpcRuntimeState:
 	return npc
 
 
-## Whether drawing the 符 now would leave the player below zero sen or kee (scribe.c asks
-## for 30 sen and takes 40 with haunt.c's, and 1 kee): they would fall unconscious.
+## Whether drawing the 符 now would leave the player below zero sen (scribe.c asks for 30
+## sen and takes 40 with haunt.c's): they would fall unconscious. Not when it would be
+## refused anyway.
 func scribe_knocks_out() -> bool:
-	if _player == null or _player.state.recovery.mana.current < HauntScribe.MANA_COST or _player.state.spirit.current < ScribeService.MIN_SEN:
-		return false
-	return _player.state.spirit.current < ScribeService.SEN_COST + HauntScribe.SEN_COST or _player.state.vitality.current < ScribeService.KEE_WOUND
+	return _scribe_goes_ahead() and _player.state.spirit.current < ScribeService.SEN_COST + HauntScribe.SEN_COST
+
+
+## Whether the 1 kee wound of drawing the 符 would leave the player's effective kee below
+## zero: they would die (char.c's eff_kee < 0).
+func scribe_kills() -> bool:
+	return _scribe_goes_ahead() and _player.state.vitality.effective < ScribeService.KEE_WOUND
+
+
+func _scribe_goes_ahead() -> bool:
+	return _player != null and _player.state.recovery.mana.current >= HauntScribe.MANA_COST and _player.state.spirit.current >= ScribeService.MIN_SEN
 
 
 ## scribe haunt on <paper_id> for <the selected NPC>: its refusal, or the paper becomes a
@@ -273,24 +289,22 @@ func attach_sheet(sheet_id: StringName) -> bool:
 		# TRANSLATORS: cast.c's 这里没有…: the one ({name}) a 僵尸追魂符 names is not here; the sheet stays.
 		_map.hud().append_log_lines([tr("这里没有{name}。").format({"name": "" if named == null else tr(named.display_name)})])
 		return false
-	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
-	if not _map.floor_items.use_up_one(sheet_id, owner):
-		push_error("putting %s on %s failed: the item state is inconsistent" % [sheet_id, carrier.character_id])
-		return false
-	_refresh_inventory()
-	carrier.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, false)
-	carrier.set_flag(NpcDefinition.FLAG_SENT, true)
-	var line: String = tr(HauntScribe.KILL_LINE).replace("$N", tr(carrier.definition().display_name)).replace("$n", tr(target.definition().display_name))
 	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_servant_kill(
 		CombatSliceProjectionBuilder.find_binding(participants, carrier.character_id),
 		CombatSliceProjectionBuilder.find_binding(participants, target.character_id),
 	)
-	_map.hud().append_colored_lines([ColoredLine.new(line, ColoredLine.RED)])
-	if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		session.combat_encounter_coordinator().note_opening([line], [])
-	else:
+	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
 		push_warning("the fight of %s against %s did not start: %s" % [carrier.character_id, target.character_id, started.outcome])
+		return false
+	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
+	if not _map.floor_items.use_up_one(sheet_id, owner):
+		push_error("putting %s on %s failed: the item state is inconsistent" % [sheet_id, carrier.character_id])
+	carrier.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, false)
+	carrier.set_flag(NpcDefinition.FLAG_SENT, true)
+	var line: String = tr(HauntScribe.KILL_LINE).replace("$N", tr(carrier.definition().display_name)).replace("$n", tr(target.definition().display_name))
+	_map.hud().append_colored_lines([ColoredLine.new(line, ColoredLine.RED)])
+	session.combat_encounter_coordinator().note_opening([line], [])
 	return true
 
 

@@ -2464,10 +2464,6 @@ msgstr ""
 msgid "恭喜您成为{family}的第{generation}代弟子。"
 msgstr ""
 
-#: core/skills/skill_definition.gd
-msgid "no 符 %s (expected %s)"
-msgstr ""
-
 #: core/skills/skill_use_ids.gd
 msgid "拳脚"
 msgstr ""
@@ -5565,11 +5561,25 @@ msgid ""
 "确定要上吊吗？"
 msgstr ""
 
-#. asked before 驱尸 (animate.c) or 画符 (scribe.c) when its cost in 神 ({sen}) or 气 would leave the player below zero: they faint.
+#. asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
-"这一下要耗去你 {sen} 点神（画符还要咬破手指流 1 点气），你撑不住，会当场昏过去。\n"
-"确定要这样做吗？"
+"施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
+"确定要施法吗？"
+msgstr ""
+
+#. asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
+"确定要画吗？"
+msgstr ""
+
+#. asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n"
+"确定要画吗？"
 msgstr ""
 
 #. asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.

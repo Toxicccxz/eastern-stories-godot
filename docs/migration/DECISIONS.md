@@ -112,6 +112,9 @@ What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carr
   neighbouring room on any map (go.c's follow_me(), however they got there, as the dog), its
   dispell call_out going along, and Continue starts without it. NPC heart beats run only on
   the player's map and outside fights, so its feeding does too (ES2: wherever it stands).
+- **It takes nothing from a master lying unconscious** (**默认**): ES2's zombie.c heal_up()
+  takes 1 gin from them all the same, and unconcious() has set gin to 0, so char.c's next beat
+  kills them. Its atman ≤ 10 dispell still comes.
 - **Its corpse's things fall where it lay** and **符 go only on 桃符纸, one at a time** (茅山 A,
   默认): ES2 destructs them with the corpse, draws on any carried thing and renames a whole stack.
 - **The name on a sheet is someone in the room** (茅山 A): the selected NPC (not a raised one,
@@ -121,10 +124,12 @@ What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carr
 - **The sheet's fight has the player in it, standing by** on the zombie's side: the world stands
   still as in any fight and the battle panel shows it; fleeing ends it for all; the zombie's kill
   is the player's (killer_reward()). In ES2 it is fought beside a player free to walk away.
-  set_leader(dest) only ends its following the player: it falls apart once the fight is over.
-- **Asked first** (owner's rule on choices that knock out or betray): 驱尸 when its 30 sen, and
-  画符 when its 40 sen or 1 kee, would knock the player out (animate.c checks only mana, scribe.c
-  asks for 30 sen); 贴符 sending the zombie after the player's own master (弑师, as 攻击 asks).
+  set_leader(dest) only ends its following the player: it falls apart at its first heal_up
+  out of the fight on the player's map (a few seconds; left on another map, it waits there).
+- **Asked first** (owner's rule on choices that knock out, kill or betray): 驱尸 when its 30
+  sen, and 画符 when its 40 sen, would knock the player out (animate.c checks only mana,
+  scribe.c asks for 30 sen); 画符 when its drop of blood (1 kee off effective) would kill a
+  player wounded to 0; 贴符 sending the zombie after the player's own master (弑师, as 攻击).
 - **Native lines**: a drawn sheet says 你咬破手指，用鲜血在桃符纸上画了一道僵尸追魂符，写上了…的名字。
   (scribe.c prints nothing; its help tells of the blood); 驱尸's button tells its cost and that
   the zombie lives on 灵力.

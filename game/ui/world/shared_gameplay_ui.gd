@@ -52,8 +52,12 @@ const ARMED_STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多，而
 const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 # TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
 const HANG_WARNING: String = "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
-# TRANSLATORS: asked before 驱尸 (animate.c) or 画符 (scribe.c) when its cost in 神 ({sen}) or 气 would leave the player below zero: they faint.
-const SPELL_FAINT_WARNING: String = "这一下要耗去你 {sen} 点神（画符还要咬破手指流 1 点气），你撑不住，会当场昏过去。\n确定要这样做吗？"
+# TRANSLATORS: asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
+const ANIMATE_FAINT_WARNING: String = "施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要施法吗？"
+# TRANSLATORS: asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
+const SCRIBE_FAINT_WARNING: String = "画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要画吗？"
+# TRANSLATORS: asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
+const SCRIBE_DEATH_WARNING: String = "你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n确定要画吗？"
 # TRANSLATORS: asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
 const HAUNT_MASTER_WARNING: String = "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
 # TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
@@ -1055,21 +1059,26 @@ func _animate_context() -> void:
 	if not map.animate_knocks_out():
 		map.animate_selected_corpse()
 		return
-	ask_first(tr(SPELL_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
+	ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
 
 
-## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would knock the player
-## out. 取消 goes back to the 背包.
+## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or
+## knock them out. 取消 goes back to the 背包.
 func _scribe_on(id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
 		return
-	if not map.scribe_knocks_out():
+	var warning: String = ""
+	if map.scribe_kills():
+		warning = tr(SCRIBE_DEATH_WARNING)
+	elif map.scribe_knocks_out():
+		warning = tr(SCRIBE_FAINT_WARNING).format({"sen": ScribeService.SEN_COST + HauntScribe.SEN_COST})
+	if warning.is_empty():
 		map.scribe_on(id)
 		return
 	var scribe: Callable = func() -> void:
 		map.scribe_on(id)
-	ask_first(tr(SPELL_FAINT_WARNING).format({"sen": ScribeService.SEN_COST + HauntScribe.SEN_COST}), "确定画符", scribe, Callable(), open_inventory)
+	ask_first(warning, "确定画符", scribe, Callable(), open_inventory)
 
 
 ## 贴符 on the zombie here; asked first when it would go after the player's own master
