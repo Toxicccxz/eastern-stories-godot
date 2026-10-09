@@ -141,6 +141,19 @@
 		{ "id": "latemoon.room.bathroom.pool", "kind": "water", "zone": "latemoon.room.bathroom", "name": "小花池", "reach": 120, "legacy_source": "d/latemoon/room/bathroom.c" },
 		{ "id": "latemoon.latemoon8.dance", "kind": "dance", "zone": "latemoon.latemoon8", "name": "八卦图", "reach": 120, "legacy_source": "d/latemoon/latemoon8.c", "dance": {"costs": [{"gender": "男性", "at_least": 100, "sen": 50}, {"gender": "女性", "at_least": 50, "sen": 30}], "tired": "你现在的神太少了，无法专注跳出舞步！", "clumsy": "你在卦象中跳起舞来。但似乎不得要领！", "steps": [{"name": "有凤来仪", "mark": "dance_yu_fong", "sen": 50, "portal": "latemoon.latemoon8.dance_yu_fong", "line": "$N在卦象中跳起舞来..一曲「 有凤来仪 」突然..."}, {"name": "西出阳关", "mark": "dance_out", "portal": "latemoon.latemoon8.dance_out", "line": "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."}]} },
 		{ "id": "latemoon.miroom.dance", "kind": "dance", "zone": "latemoon.miroom", "name": "八卦图", "reach": 120, "legacy_source": "d/latemoon/miroom.c", "dance": {"costs": [{"gender": "男性", "at_least": 100, "sen": 80}, {"gender": "女性", "at_least": 50, "sen": 50}], "tired": "你现在的神太少了，无法专注跳出舞步！", "clumsy": "你在卦象中跳起舞来。但似乎不得要领！", "steps": [{"name": "西出阳关", "mark": "dance_out", "always": true, "portal": "latemoon.miroom.dance_out", "line": "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."}]} },
+		{ "id": "latemoon.latemoon2.search", "kind": "act", "zone": "latemoon.latemoon2", "name": "碧纱橱", "reach": 120, "legacy_source": "d/latemoon/latemoon2.c", "act": { "verb": "翻找", "acts": [
+			{ "not_temp": "moon/问题二", "steps": [ { "line": "你盲目的找著，但无发现什么!\n" } ] },
+			{ "temp": "latemoon/手镯", "steps": [ { "line": "你翻箱倒柜想找出手镯，但似乎毫无所获。\n" } ] },
+			{ "steps": [ { "give": "es2:d/latemoon/obj/bracelet", "unless_temp": "latemoon/手镯", "lines": [ { "line": "你从橱子内取出玛瑙手镯。" } ] } ] }
+		] } },
+		{ "id": "latemoon.latemoon8.bed", "kind": "act", "zone": "latemoon.latemoon8", "name": "石床", "reach": 120, "legacy_source": "d/latemoon/latemoon8.c", "act": { "verb": "翻找", "acts": [
+			{ "mark": "dance-book", "steps": [
+				{ "line": "你在石床后面找到了一本舞曲谱！\n" },
+				{ "give": "es2:d/latemoon/obj/book" },
+				{ "unmark": "dance-book" }
+			] },
+			{ "steps": [ { "line": "你在石床附近找了很久，结果一无所获。\n" } ] }
+		] } },
 		{ "id": "latemoon.room.bathroom.bath", "kind": "act", "zone": "latemoon.room.bathroom", "name": "小花池", "reach": 120, "legacy_source": "d/latemoon/room/bathroom.c", "act": { "verb": "沐浴", "acts": [
 			{ "not_gender": "女性", "ask": "此处是禁止男性进入！男人下池沐浴会中火玫瑰毒：毒发时不断伤神，伤得重了会丧命。\n确定要下池沐浴吗？", "choice": "确定沐浴", "steps": [
 				{ "condition": "rose_poison", "duration": 15 },

@@ -132,7 +132,14 @@
 			"aliases": ["secret letter", "letter"],
 			"long": "这是一封用蜡密封起来的信件，上面有一奇怪的图案。\n",
 			"unit": "封",
-			"weight": 50
+			"weight": 50,
+			"act": {
+				"verb": "用火烧",
+				"acts": [
+					{ "carries": "fire", "steps": [{ "line": "你看见密函上出现几行字 : \n", "color": "HIY" }, { "line": "师父: \n      展信愉悦 \n    徒儿在晚月庄作客已有一阵子了!\n在这徒儿无意中发现晚月庄的秘密。\n一、原来晚月庄主是同性恋，她似乎在对男人失望之馀，\n    对比自己年轻的姑娘由恨转而成一种变相畸型的爱。\n二、在密室之中藏有一秘笈。以及庄内有一处有神奇宝物\n    玛瑙手镯。在另一神秘的地方有通往庄主秘密情人的\n    密室入口。\n三、在庄内小花池中有火神族的神像。小花池似乎有神奇\n    的力量在里头。\n", "color": "HIM" }] },
+					{ "steps": [{ "line": "你身上没有火没法烧。\n" }] }
+				]
+			}
 		},
 		{
 			"id": "es2:d/latemoon/room/npc/obj/token",
@@ -400,6 +407,64 @@
 			"weight": 1000,
 			"value": 20,
 			"liquid": { "max_liquid": 5, "name": "金轩茶", "remaining": 5, "type": "water" }
+		},
+		{
+			"id": "es2:d/latemoon/obj/dragonfly",
+			"legacy_sources": ["d/latemoon/obj/dragonfly.c", "d/latemoon/npc/obj/dragonfly.c"],
+			"name": "竹蜻蜓",
+			"aliases": ["dragonfly"],
+			"long": "这是一个竹蜻蜓，手工相当细腻。\n",
+			"unit": "个",
+			"weight": 300
+		},
+		{
+			"id": "es2:d/latemoon/obj/bracelet",
+			"legacy_sources": ["d/latemoon/obj/bracelet.c", "d/latemoon/npc/obj/bracelet.c"],
+			"name": "玛瑙手镯",
+			"aliases": ["bracelet onyx", "bracelet"],
+			"long": "一个由玛瑙作成的美丽手镯。\n再仔细玩看，似乎有其它作用 (info bracelet)。\n",
+			"unit": "串",
+			"no_drop": true,
+			"weight": 50,
+			"value": 5000,
+			"armor": { "type": "wrists", "props": { "armor": 2, "dodge": 2, "spells": 2 }, "weight_dodge": "armor" },
+			"act": {
+				"verb": "祈祷",
+				"acts": [
+					{ "steps": [{ "line": "你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突然一阵烟雾.... \n" }, { "damage": { "sen": 50 } }, { "move": "snow.temple", "point": "snow.temple.revive" }] }
+				]
+			}
+		},
+		{
+			"id": "es2:d/latemoon/obj/book",
+			"legacy_sources": ["d/latemoon/obj/book.c"],
+			"name": "舞曲谱",
+			"aliases": ["dance book", "book"],
+			"long": "这是一卷由上等丝绸编成，以湘绣作成的舞曲图。上有记载一些舞曲 \n每一曲都有它独特的风格与内涵。一幅幅玄天玉女翩然起舞，十分壮观。\n\n  曲目： \n \n  广陵散 \n  春宫怨 \n \n对你而言基本舞步你可以参悟，至于较高深步法似乎需人指导了。 \n",
+			"unit": "卷",
+			"material": "silk",
+			"no_drop": true,
+			"study": { "skill": "music", "exp_required": 5000, "sen_cost": 30, "difficulty": 20, "max_skill": 60 },
+			"weight": 600,
+			"value": 1000,
+			"act": {
+				"verb": "跳「春宫怨」",
+				"acts": [
+					{ "steps": [{ "line": "你双手合掌，脚步轻盈。一曲『 春宫怨 』......\n" }, { "damage": { "sen": 50 } }, { "move": "latemoon.latemoon1", "point": "latemoon.latemoon1.dance_arrival" }] }
+				]
+			}
+		},
+		{
+			"id": "es2:d/latemoon/room/npc/obj/whip_book",
+			"legacy_sources": ["d/latemoon/room/npc/obj/whip_book.c"],
+			"name": "寒雪鞭法",
+			"aliases": ["whipbook"],
+			"long": "这似乎是一本寒雪鞭法的前几页，虽然并没有关於招式的详细解说，可是\n前面有关鞭法的总纲与精义倒是不少。\n",
+			"unit": "本",
+			"material": "paper",
+			"study": { "skill": "snowwhip", "exp_required": 1000, "sen_cost": 30, "difficulty": 20, "max_skill": 20 },
+			"weight": 600,
+			"value": 260
 		}
 	]
 }

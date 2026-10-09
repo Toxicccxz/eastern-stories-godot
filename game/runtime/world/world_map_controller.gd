@@ -1044,6 +1044,10 @@ func apply_item(item_id: StringName) -> bool:
 	return floor_items.apply_item(item_id)
 
 
+func act_with_item(item_id: StringName) -> bool:
+	return floor_items.act_with_item(item_id)
+
+
 func pour_targets() -> Array[StringName]:
 	return floor_items.pour_targets()
 

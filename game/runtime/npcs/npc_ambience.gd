@@ -9,9 +9,11 @@ extends RefCounted
 ## Beats and greeting countdowns are not saved, as heal cadences are not.
 
 const GREETING_DELAY_SECONDS: float = 1.0
-## The kinds of other call_outs: thief.c steal_it and steal.c compelete_steal; taolord.c do_recruit.
+## The kinds of other call_outs: thief.c steal_it and steal.c compelete_steal; taolord.c
+## do_recruit; shaowei.c make_stage.
 const STEAL: StringName = &"steal"
 const RECRUIT: StringName = &"recruit"
+const MAKE: StringName = &"make"
 
 var _random: WorldInteractionRandomSource
 var _remainder: float = 0.0

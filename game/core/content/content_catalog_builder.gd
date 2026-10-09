@@ -140,6 +140,7 @@ func build() -> ContentCatalog:
 	_resolve_portals()
 	_check_spawn_locations()
 	_resolve_services()
+	_check_item_acts()
 	_resolve_doors()
 	_resolve_landmarks()
 	_check_traps()
@@ -303,6 +304,10 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object: no item named '%s'" % [origin, rule.item_name])
 			if not rule.gives.is_empty() and not _items.has(rule.gives):
 				_errors.append("%s.accept_object.gives: unknown item '%s'" % [origin, rule.gives])
+			if rule.make != null and not _items.has(rule.make.gives):
+				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
+			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
+				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
@@ -311,7 +316,7 @@ func _resolve_npc_dealings() -> void:
 				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		for act: ScriptedAct in talk.greeting_choices():
-			_check_act(act, "%s.greeting" % origin)
+			_check_act(act, "%s.greeting" % origin, true)
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue
@@ -470,6 +475,24 @@ func _resolve_services() -> void:
 				_errors.append("%s.dance: portal '%s' does not leave %s" % [origin, step.portal_id, definition.zone_id])
 
 
+## A carried item's own command (bracelet.c pray) names what exists; what study.c teaches
+## from an item is a skill the game has.
+func _check_item_acts() -> void:
+	for item: ItemContentDefinition in _items.values():
+		var origin: String = _origins.get(item.item_definition_id, String(item.item_definition_id))
+		if item.act != null:
+			for act: ScriptedAct in item.act.acts:
+				_check_act(act, "%s.act" % origin)
+		# A catalog built without skills (a test's partial one) has none to check against.
+		if item.study != null and not _skills.is_empty() and not _skills.has(item.study.skill_id):
+			_errors.append("%s.study: unknown skill '%s'" % [origin, item.study.skill_id])
+
+
+## Some item answers to `alias` (id()).
+func _answers_to(alias: String) -> bool:
+	return _items.values().any(func(item: ItemContentDefinition) -> bool: return item.aliases().has(alias))
+
+
 func _resolve_doors() -> void:
 	for door_id: StringName in _doors.keys():
 		var definition: DoorDefinition = _doors[door_id]
@@ -546,9 +569,20 @@ func _check_exit_rules() -> void:
 
 
 ## What a ScriptedAct names exists: the item it gives, the zone it moves the player to,
-## the condition it applies. (Spawn points are the scene's: the map checks them.)
-func _check_act(act: ScriptedAct, origin: String) -> void:
-	for step: ScriptedAct.Step in act.steps:
+## the condition it applies, an item that answers to what it `carries`. Only an NPC's
+## greeting (`by_npc`) closes doors, attacks or gains force; a move to another map ends an
+## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
+func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
+	if not act.carries.is_empty() and not _answers_to(act.carries):
+		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
+	for index: int in act.steps.size():
+		var step: ScriptedAct.Step = act.steps[index]
+		if not by_npc and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE]:
+			_errors.append("%s: step %d needs the NPC of a greeting" % [origin, index])
+		if step.kind == ScriptedAct.Kind.MOVE and index != act.steps.size() - 1 and _zones.has(step.zone_id) and not by_npc:
+			# A greeting's move stays on its NPC's map (WorldMapActs); a room's or an item's may
+			# leave it, and nothing after it would happen there.
+			_errors.append("%s: a move is the act's last step" % origin)
 		match step.kind:
 			ScriptedAct.Kind.GIVE:
 				if not _items.has(step.item_id):

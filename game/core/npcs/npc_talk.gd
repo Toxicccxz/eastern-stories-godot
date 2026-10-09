@@ -183,17 +183,17 @@ func greeting_by_rule() -> bool:
 	return _greeting_by_rule
 
 
-## What greeting() does for a player of this gender and class: the first branch that
-## is for them, or the one `draw` (MudOS random(n)) picks; null when it does nothing.
-## One way to draw draws nothing.
-func choose_greeting(gender: StringName, class_id: StringName, draw: Callable) -> ScriptedAct:
+## What greeting() does for a player of this gender and class (and these `facts`: marks,
+## temps, what they carry): the first branch that is for them, or the one `draw` (MudOS
+## random(n)) picks; null when it does nothing. One way to draw draws nothing.
+func choose_greeting(gender: StringName, class_id: StringName, draw: Callable, facts: ScriptedAct.Facts = null) -> ScriptedAct:
 	if _greeting.is_empty():
 		return null
 	if _greeting_by_rule:
-		return ScriptedAct.first_for(_greeting, gender, class_id)
+		return ScriptedAct.first_for(_greeting, gender, class_id, facts)
 	var draws: int = greeting_draws()
 	var drawn: int = 0 if draws == 1 else int(draw.call(draws))
-	if drawn >= _greeting.size() or not _greeting[drawn].applies_to(gender, class_id):
+	if drawn >= _greeting.size() or not _greeting[drawn].applies_to(gender, class_id, facts):
 		return null
 	return _greeting[drawn]
 

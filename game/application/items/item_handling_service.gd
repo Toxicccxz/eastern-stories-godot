@@ -72,6 +72,8 @@ static func give(
 	offer.item_name = content.display_name
 	offer.item_aliases = content.aliases()
 	offer.giver_family = player.state.family.family_id
+	offer.giver_temps = player.temp_marks
+	offer.giver_max_force = player.state.recovery.inner_force.maximum
 	var liquid: LiquidState = authorities.liquids.state(id)
 	if liquid != null:
 		offer.liquid_type = LiquidState.legacy_type(liquid.content)
@@ -80,7 +82,7 @@ static func give(
 	var respect: String = RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id)
 	if result.rule != null:
 		for line: NpcLine in result.rule.lines:
-			if line.whisper:
+			if line.color() != ColoredLine.PLAIN:
 				result.line_colors[result.lines.size()] = line.color()
 			result.lines.append(line.sentence(name, respect))
 		# delete_temp(): shen.c's 想骗我啊? deletes the giver's flags even as it refuses.
@@ -352,12 +354,22 @@ static func _destroy(authorities: Authorities, id: StringName) -> bool:
 	)
 
 
-## What an accepted gift changes: marks/<name> on the giver, an object variable of
-## the NPC, and keeper.c's donation, which may lower the giver's bellicosity.
+## What an accepted gift changes: marks/<name> and set_temp() flags on the giver, an
+## object variable of the NPC, keeper.c's donation, which may lower the giver's
+## bellicosity, and old.c's max_force passed to the giver (force 0 after).
 @warning_ignore("integer_division")
 static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeState, npc: NpcRuntimeState, value: int, random: WorldInteractionRandomSource) -> void:
 	if not rule.mark_giver.is_empty():
 		player.state.marks[rule.mark_giver] = 1
+	for temp: String in rule.set_temps:
+		player.temp_marks[temp] = 1
+	if rule.effect == NpcObjectRule.EFFECT_PASS_FORCE:
+		var force: CharacterInternalResourceState = player.state.recovery.inner_force
+		force.maximum += NpcObjectRule.passed_force(force.maximum, player.state.attributes.effective_karma(), random.legacy_random)
+		force.current = 0
+		# Deviation (owner, modern fixes II, A7): max gin, kee and sen follow a raised
+		# max_force at once, as after exercise.
+		CharacterDerivedValues.refresh_human_player_maxima(player.state, player.facts.age)
 	if not rule.set_npc_flag.is_empty():
 		npc.set_flag(rule.set_npc_flag, true)
 	if rule.effect == NpcObjectRule.EFFECT_TEMPLE_DONATION and value > 100:

@@ -11,6 +11,9 @@ var ambience: NpcAmbience
 var pending_steals: Dictionary[StringName, Dictionary] = {}
 ## query("thief") of each thief: how often it was caught (not saved, as NPCs are made anew).
 var _times_caught: Dictionary[StringName, int] = {}
+## make_stage() between its call_outs: {making: NpcMaking, stage: int} by maker. Not saved,
+## as call_outs are not.
+var makings: Dictionary[StringName, Dictionary] = {}
 var walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
@@ -83,6 +86,8 @@ func _advance_ambience(delta: float) -> void:
 		_steal_step(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.RECRUIT):
 		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
+	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.MAKE):
+		_make_stage(character_id)
 	for character_id: StringName in ambience.due_calls(delta, WorldMapSpells.DISPELL):
 		_map.spells.dispell(_map.npcs.find_resident_npc(character_id))
 	for beat: int in ambience.due_beats(delta):
@@ -124,9 +129,56 @@ func npc_ambience() -> NpcAmbience:
 ## recruit.c's present()), so they go now: the map's time stands still until the player is
 ## back. A deactivation that is rolled back (a failed handoff or Continue) keeps them.
 func player_left() -> void:
+	# make_stage() tells and hands to the giver wherever they are (tell_object(), move(who)):
+	# leaving, the player hears the rest at once and gets the thing (DECISIONS 晚月庄 C).
+	for character_id: StringName in makings.keys():
+		while makings.has(character_id):
+			_make_stage(character_id)
 	if ambience != null:
 		ambience.clear_calls()
 	pending_steals.clear()
+
+
+## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
+func start_making(npc: NpcRuntimeState, making: NpcMaking) -> void:
+	if npc == null or making == null:
+		return
+	makings[npc.character_id] = {"making": making, "stage": 0}
+	npc_ambience().start_call(npc.character_id, making.every, NpcAmbience.MAKE)
+
+
+## make_stage(who, stage): the stage's line to the player (read only while conscious,
+## damage.c block_msg), then the next call_out, or with the last line the thing made,
+## given to the player where they are. A maker killed meanwhile took its call_out along
+## (destruct); one lying unconscious still makes it.
+func _make_stage(character_id: StringName) -> void:
+	var pending: Dictionary = makings.get(character_id, {})
+	if pending.is_empty():
+		return
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		makings.erase(character_id)
+		return
+	var making: NpcMaking = pending["making"]
+	var stage: int = pending["stage"]
+	var here: WorldMapController = session.active_map() as WorldMapController
+	var hud: SharedGameplayUI = _map.hud()
+	if _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and hud != null:
+		hud.append_colored_lines([making.lines[stage].colored(npc.definition().display_name, "")])
+	stage += 1
+	if stage < making.lines.size():
+		pending["stage"] = stage
+		npc_ambience().start_call(character_id, making.every, NpcAmbience.MAKE)
+		return
+	makings.erase(character_id)
+	var giver: WorldMapController = here if here != null else _map
+	var gift: StringName = giver.give_new_item_to_player(making.gives)
+	var content: ItemContentDefinition = GameContent.catalog().item(making.gives)
+	var at_feet: String = "" if gift.is_empty() or content == null else giver.floor_items.at_feet_line(gift, content)
+	if not at_feet.is_empty() and hud != null:
+		hud.append_log_lines([at_feet])
+	if hud != null and hud.inventory_is_open():
+		hud.show_inventory(session.player_inventory_rows())
 
 
 ## A master that answers 拜师 later (taolord.c): call_out("do_recruit", seconds).
@@ -236,7 +288,7 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 func _greet(npc: NpcRuntimeState) -> void:
 	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_shares_zone(npc):
 		return
-	var act: ScriptedAct = npc.definition().talk().choose_greeting(_player.state.gender, _player.state.affiliation.class_id, ambience.random().legacy_random)
+	var act: ScriptedAct = npc.definition().talk().choose_greeting(_player.state.gender, _player.state.affiliation.class_id, ambience.random().legacy_random, _map.acts.facts())
 	if act != null:
 		_map.acts.run(act, npc, ambience.random().legacy_random)
 

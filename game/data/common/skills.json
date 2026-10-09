@@ -184,6 +184,15 @@
 			"improved_line": "由於你的勤学苦读，你的悟性提高了。", "improved_color": "HIW"
 		},
 		{
+			"id": "music", "name": "音律", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/music.c",
+			"improved_line": "由於你学习音律之学有成，你的灵性提高了", "improved_color": "HIW"
+		},
+		{
+			"id": "move", "name": "基本行动", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/move.c"
+		},
+		{
 			"id": "staff", "name": "基本杖法", "kind": "basic", "type": "martial",
 			"legacy_source": "daemon/skill/staff.c"
 		},

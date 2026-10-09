@@ -13,11 +13,19 @@ extends RefCounted
 ## the money is a bet on the NPC's NpcWager (judge.c). The giver's marks also hold the
 ## set_temp() flags of d/green's 玉佩 chain (DECISIONS 青石村 B): `mark_giver` sets one,
 ## `unmark_giver` deletes some (shen.c's 想骗我啊?, also on a refusal), and `gives` is
-## an item the NPC makes and hands to the giver (shen.c's 蒙汗药).
+## an item the NPC makes and hands to the giver (shen.c's 蒙汗药). d/latemoon's chain keeps
+## its set_temp() flags as temps (not saved, DECISIONS 晚月庄 A): `giver_temp` asks one,
+## `set_temps` sets them. `make` is what the NPC makes over the next seconds and hands over
+## (NpcMaking: shaowei.c's 竹蜻蜓). `lines` are said in order, each in its colour, after
+## the `line`/`emote`/`say`/`whisper` shorthands. Effect `pass_force` is old.c's: a
+## giver below `giver_max_force_below` max_force gets some of it (pass_force()).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
-const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION, EFFECT_WAGER]
+const EFFECT_PASS_FORCE: StringName = &"pass_force"
+const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION, EFFECT_WAGER, EFFECT_PASS_FORCE]
 const NO_BOUND: int = -1
+## old.c accept_object(): the max_force its gift fills up to.
+const PASS_FORCE_UP_TO: int = 160
 
 var value_at_least: int = NO_BOUND
 var value_at_most: int = NO_BOUND
@@ -33,12 +41,18 @@ var item_name: String = ""
 var item_alias: String = ""
 ## families.json ID of query("family/family_name").
 var giver_family: StringName = &""
+## query_temp(<flag>) of the giver (shaowei.c moon/竹子).
+var giver_temp: String = ""
+## query("max_force") of the giver below this (old.c's 160).
+var giver_max_force_below: int = NO_BOUND
 var lines: Array[NpcLine] = []
 var accept: bool = false
 var mark_giver: String = ""
 var unmark_giver: Array[String] = []
 ## The item definition new()'d and moved to the giver; empty for most rules.
 var gives: StringName = &""
+var set_temps: Array[String] = []
+var make: NpcMaking
 var set_npc_flag: StringName = &""
 var effect: StringName = &""
 var kill: bool = false
@@ -60,6 +74,8 @@ class Offer:
 	## obj->id(): what the gift answers to.
 	var item_aliases: Array[String] = []
 	var giver_family: StringName = &""
+	var giver_temps: Dictionary[String, int] = {}
+	var giver_max_force: int = 0
 
 	func _init(p_value: int = 0, p_liquid_type: StringName = &"", p_liquid_remaining: int = 0, p_npc_flags: Dictionary[StringName, bool] = {}, p_giver_marks: Dictionary[String, int] = {}) -> void:
 		value = p_value
@@ -82,7 +98,20 @@ func matches(offer: Offer) -> bool:
 		and (item_name.is_empty() or offer.item_name == item_name)
 		and (item_alias.is_empty() or offer.item_aliases.has(item_alias))
 		and (giver_family.is_empty() or offer.giver_family == giver_family)
+		and (giver_temp.is_empty() or offer.giver_temps.get(giver_temp, 0) != 0)
+		and (giver_max_force_below == NO_BOUND or offer.giver_max_force < giver_max_force_below)
 	)
+
+
+## old.c accept_object() for a giver of `max_force` and `karma` (query_kar()) below
+## PASS_FORCE_UP_TO: random(50) when more than 50 short, else random(what is short), at
+## most 20, times kar / 30 (C division). `draw` is MudOS random(n).
+static func passed_force(max_force: int, karma: int, draw: Callable) -> int:
+	var short: int = PASS_FORCE_UP_TO - max_force
+	var amount: int = int(draw.call(50)) if short > 50 else int(draw.call(short))
+	amount = mini(amount, 20)
+	@warning_ignore("integer_division")
+	return amount * karma / 30
 
 
 ## The first matching rule, or null: accept_object() returned 0.
@@ -106,12 +135,23 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.item_name = reader.text("item_name")
 	rule.item_alias = reader.text("item_alias")
 	rule.giver_family = StringName(reader.text("giver_family"))
+	rule.giver_temp = reader.text("giver_temp")
+	rule.giver_max_force_below = reader.integer("giver_max_force_below", NO_BOUND)
 	rule.kill = reader.boolean("kill", false)
 	rule.lines = NpcLine.optional_lines(reader)
+	for record: ContentRecordReader in reader.children("lines"):
+		var said: NpcLine = NpcLine.from_record(record, true)
+		record.finish()
+		if said != null:
+			rule.lines.append(said)
 	rule.accept = reader.boolean("accept", false)
 	rule.mark_giver = reader.text("mark_giver")
 	rule.unmark_giver = reader.text_list("unmark_giver")
 	rule.gives = StringName(reader.text("gives"))
+	rule.set_temps = reader.text_list("set_temps")
+	var make: ContentRecordReader = reader.child("make")
+	if make != null:
+		rule.make = NpcMaking.from_record(make)
 	rule.set_npc_flag = StringName(reader.text("set_npc_flag"))
 	rule.effect = StringName(reader.text("effect"))
 	if not reader.has("accept"):
@@ -120,11 +160,13 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("effect", "unsupported effect '%s'" % rule.effect)
 	if not rule.liquid_type.is_empty() and not LiquidState.LEGACY_TYPES.has(rule.liquid_type):
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
-	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty()):
+	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or not rule.set_temps.is_empty() or rule.make != null):
 		reader.fail("accept", "a refusal changes nothing but the giver's flags it deletes")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")
 	if rule.effect == EFFECT_WAGER and rule.value_at_least < 1:
 		reader.fail("value_at_least", "a bet is money: value_at_least must be at least 1")
+	if rule.effect == EFFECT_PASS_FORCE and rule.giver_max_force_below != PASS_FORCE_UP_TO:
+		reader.fail("giver_max_force_below", "old.c passes force only below %d max_force" % PASS_FORCE_UP_TO)
 	reader.finish()
 	return rule

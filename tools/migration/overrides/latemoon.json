@@ -9,7 +9,11 @@
 		"d/latemoon/room/npc/obj/needle.c",
 		"d/latemoon/park/npc/obj/guihua.c",
 		"d/latemoon/park/npc/obj/flower.c",
-		"d/latemoon/obj/teacup.c"
+		"d/latemoon/obj/teacup.c",
+		"d/latemoon/obj/dragonfly.c",
+		"d/latemoon/obj/bracelet.c",
+		"d/latemoon/obj/book.c",
+		"d/latemoon/room/npc/obj/whip_book.c"
 	],
 	"set": {
 		"es2:d/latemoon/obj/wine": {
@@ -154,7 +158,73 @@
 					{ "line": "筱薇对你微笑，和善的对你点点头。" },
 					{ "line": "筱薇对你微笑，以纤细轻柔的声音 \n 说道：这位$RESPECT，你好！欢迎来到晚月庄。" }
 				]
+			},
+			"accept_object": [
+				{ "item_name": "竹子", "giver_temp": "moon/竹子", "lines": [ { "say": "我已经帮你做一个竹蜻蜓了呀! ", "color": "HIY" } ], "accept": false },
+				{ "item_name": "竹子", "set_temps": ["moon/竹子"], "accept": true, "make": { "every": 2, "gives": "es2:d/latemoon/obj/dragonfly", "lines": [
+					{ "line": "筱薇微笑的看著你说：你要作竹蜻蜓呀!\n", "color": "HIY" },
+					{ "line": "筱薇将你给她的竹子仔细的看了一下。说道：不错是根玉竹! \n", "color": "HIY" },
+					{ "line": "筱薇将竹子周围的叶子弄掉，灵巧的削凿著。\n", "color": "HIY" },
+					{ "line": "经过不久，筱薇把竹蜻蜓做好了。\n", "color": "HIY" },
+					{ "line": "筱薇将做好的竹蜻蜓递给你，微笑说道：嗯! 做好了! \n", "color": "HIY" }
+				] } },
+				{ "lines": [ { "say": "这要送给我啊?! 怎么好意思!谢谢你。", "color": "HIY" } ], "accept": true }
+			]
+		},
+		"latemoon.npc.funlin": {
+			"accept_object": [
+				{ "item_name": "竹蜻蜓", "giver_temp": "moon/竹蜻蜓", "say": "谢谢!我已经告诉你秘密了呀!去找呀! ", "accept": true },
+				{ "item_name": "竹蜻蜓", "set_temps": ["moon/问题二", "moon/竹蜻蜓"], "accept": true, "lines": [
+					{ "line": "芳绫很开心的拿起竹蜻蜓把玩!\n" },
+					{ "line": "满怀感激的谢谢你! 她小声的在你耳边说：\n" },
+					{ "line": "『 庄内前厅某处藏有一宝物手镯哦!』\n" },
+					{ "line": "你可以找找看! (search bracelet) \n" }
+				] },
+				{ "say": "这要送给我啊?! 怎么好意思!谢谢你。", "accept": true }
+			]
+		},
+		"latemoon.npc.room.old": {
+			"inquiry": {
+				"here": ["这里是书房，有些鞭法教材存放在这儿。"],
+				"心事": ["实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..."],
+				"令牌": ["就在我儿身上 ...你拿到了就给我。"]
+			},
+			"accept_object": [
+				{ "item_alias": "###token###", "giver_family": "family.latemoon", "giver_max_force_below": 160, "effect": "pass_force", "accept": true, "lines": [
+					{ "say": "作为感谢，我传你一些内力。" },
+					{ "line": "无名老妇手抵在你的后心，头上冒出丝丝白气。\n" },
+					{ "line": "你感觉到一股热气传了过来。\n" }
+				] },
+				{ "item_alias": "###token###", "say": "作为感谢，我给你一本寒雪鞭法密笈。", "gives": "es2:d/latemoon/room/npc/obj/whip_book", "accept": true }
+			]
+		},
+		"latemoon.npc.upstar.shinfun": {
+			"inquiry": {
+				"舞曲谱": ["舞曲谱啊，师姐她们练习舞步的时候才用的着，\n你也想学吗？ 嘻嘻...\n", { "mark_asker": "dance-book" }]
 			}
+		},
+		"es2:d/latemoon/obj/bracelet": {
+			"act": { "verb": "祈祷", "acts": [ { "steps": [
+				{ "line": "你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突然一阵烟雾.... \n" },
+				{ "damage": { "sen": 50 } },
+				{ "move": "snow.temple", "point": "snow.temple.revive" }
+			] } ] }
+		},
+		"es2:d/latemoon/obj/book": {
+			"act": { "verb": "跳「春宫怨」", "acts": [ { "steps": [
+				{ "line": "你双手合掌，脚步轻盈。一曲『 春宫怨 』......\n" },
+				{ "damage": { "sen": 50 } },
+				{ "move": "latemoon.latemoon1", "point": "latemoon.latemoon1.dance_arrival" }
+			] } ] }
+		},
+		"es2:d/latemoon/room/npc/obj/letter": {
+			"act": { "verb": "用火烧", "acts": [
+				{ "carries": "fire", "steps": [
+					{ "line": "你看见密函上出现几行字 : \n", "color": "HIY" },
+					{ "line": "师父: \n      展信愉悦 \n    徒儿在晚月庄作客已有一阵子了!\n在这徒儿无意中发现晚月庄的秘密。\n一、原来晚月庄主是同性恋，她似乎在对男人失望之馀，\n    对比自己年轻的姑娘由恨转而成一种变相畸型的爱。\n二、在密室之中藏有一秘笈。以及庄内有一处有神奇宝物\n    玛瑙手镯。在另一神秘的地方有通往庄主秘密情人的\n    密室入口。\n三、在庄内小花池中有火神族的神像。小花池似乎有神奇\n    的力量在里头。\n", "color": "HIM" }
+				] },
+				{ "steps": [ { "line": "你身上没有火没法烧。\n" } ] }
+			] }
 		},
 		"latemoon.npc.room.servant": {
 			"carry": [
@@ -202,10 +272,10 @@
 		"d/latemoon/latemoon2.c": {
 			"set item_desc": "a landmark (碧纱橱) in world.json, policy take: its 取出衣服 gives a 布裙",
 			"create_door": "world.json doors: latemoon.latemoon4.door (仪门, DOOR_CLOSED)",
-			"function init": "take cloth: the landmark latemoon.latemoon2.landmark.closet (policy take); search bracelet: C",
+			"function init": "take cloth: the landmark latemoon.latemoon2.landmark.closet (policy take); search bracelet: world.json services latemoon.latemoon2.search (kind act, 碧纱橱 · 翻找)",
 			"function reset": "take_available 2: the landmark's limit, counted since the room's reset (make_cockroach: see do_take)",
 			"function do_take": "take cloth: a 布裙 while take_available lasts, then 橱子内的衣服好像被拿光了。; any other word made a 大蟑螂, which nothing in the game types (owner: not placed)",
-			"function do_search": "C: search bracelet after 芳绫's secret (moon/问题二)"
+			"function do_search": "world.json services latemoon.latemoon2.search: without moon/问题二 你盲目的找著; with latemoon/手镯 你翻箱倒柜…; else the 玛瑙手镯 (and latemoon/手镯). Any other word searched blind: the button always searches for the bracelet"
 		},
 		"d/latemoon/latemoon3.c": {
 			"set resource/water": "world.json services: latemoon.latemoon3.tea (kind water: the teapot on the table)",
@@ -220,9 +290,9 @@
 		"d/latemoon/latemoon7.c": { "create_door": "world.json doors: latemoon.latemoon7.door (石门, DOOR_CLOSED)" },
 		"d/latemoon/latemoon8.c": {
 			"create_door": "world.json doors: latemoon.latemoon7.door",
-			"function init": "dancing: world.json services latemoon.latemoon8.dance; search bed: C",
+			"function init": "dancing: world.json services latemoon.latemoon8.dance; search bed: world.json services latemoon.latemoon8.bed (kind act, 石床 · 翻找)",
 			"function do_dancing": "world.json services latemoon.latemoon8.dance (kind dance): the gender's sen check and cost, then yu-fong (50 sen more) to the 密室 or out to the bamboo grove; another dance 不得要领",
-			"function do_search": "C: search bed gives the 舞曲谱 to whoever 莫欣芳 told (mark/dance-book)"
+			"function do_search": "world.json services latemoon.latemoon8.bed: with marks dance-book (莫欣芳's answer, saved) the 舞曲谱 and the mark deleted; else 你在石床附近找了很久. search without `bed` (你要找什么？) is not a button"
 		},
 		"d/latemoon/miroom.c": {
 			"create_door": "world.json doors: latemoon.miroom2.door (垂花门, DOOR_CLOSED)",
@@ -246,11 +316,11 @@
 		"d/latemoon/npc/shaowei.c": {
 			"function init": "greeting (set latemoon.npc.shaowei)",
 			"function greeting": "greeting (set latemoon.npc.shaowei): random(2)'s two lines",
-			"function accept_object": "C: a 竹子 becomes a 竹蜻蜓 (make_stage); anything else is thanked for and kept",
-			"function make_stage": "C: the five lines two seconds apart, then the 竹蜻蜓"
+			"function accept_object": "accept_object (set latemoon.npc.shaowei): a 竹子 sets moon/竹子 and starts the making (make); a second goes back (默认: ES2 kept it saying 我已经帮你做一个竹蜻蜓了呀!); anything else is thanked for in HIY and kept. command(\"smile\"), command(\"blush\") print nothing (emotes); say() reads 蓝筱薇说道：",
+			"function make_stage": "the rule's make (NpcMaking): the five HIY lines two seconds apart, the 竹蜻蜓 with the last, wherever the player is on the map; leaving the map, the rest at once (DECISIONS 晚月庄 C)"
 		},
 		"d/latemoon/npc/funlin.c": {
-			"function accept_object": "C: the 竹蜻蜓 buys her secret (moon/问题二); anything else is thanked for and kept"
+			"function accept_object": "accept_object (set latemoon.npc.funlin): the 竹蜻蜓 tells her four lines and sets moon/问题二 and moon/竹蜻蜓; a second one 谢谢!我已经告诉你秘密了呀!去找呀!; anything else is thanked for and kept (emotes print nothing)"
 		},
 		"d/latemoon/npc/girl.c": {
 			"inquiry 寒谷龙舞": "inquiry rules (set latemoon.npc.girl): show_dance()'s tell_object() lines, then ask.c says its return",
@@ -350,14 +420,24 @@
 			"statement in create()": "ob = carry_object(needle); ob->set_amount(30): carry (set latemoon.npc.room.servant)"
 		},
 		"d/latemoon/room/npc/old.c": {
-			"function accept_object": "C: the 杀手令牌 for max_force (a 晚月庄 member below 160) or the 寒雪鞭法 book"
+			"function accept_object": "accept_object (set latemoon.npc.room.old): only id ###token### (killer.c's and tguest.c's 杀手令牌, every time); a 晚月庄 member below 160 max_force gets pass_force (NpcObjectRule.passed_force(), force 0), anyone else the 寒雪鞭法 book; command(\"sigh\") prints nothing"
 		},
 		"d/latemoon/room/npc/killer.c": {
 			"set pursuer": "following who flees is not modelled yet (as 县城官兵's, 黄霸's, 安惜迩's and 僵尸护法's); test_pursuers_wait_for_following lists every one"
 		},
 		"d/latemoon/room/npc/obj/letter.c": {
-			"function init": "C (fire letter)",
-			"function do_fire": "C: with a 火摺, the letter's hidden lines"
+			"function init": "fire: the item's act (set es2:d/latemoon/room/npc/obj/letter), the 用火烧 button; anyone in its room got the command too: here only whoever carries it",
+			"function do_fire": "the act: with something that answers to fire (the 火摺, carries) the HIY line and the HIM letter word for word; else 你身上没有火没法烧。"
+		},
+		"d/latemoon/obj/bracelet.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"function init": "pray: the item's act (set es2:d/latemoon/obj/bracelet), the 祈祷 button (do_pray was added for anyone in its room; here whoever carries it); info: the button stands for it",
+			"function do_info": "its line names the command (pray start): the 祈祷 button stands for it",
+			"function do_pray": "the act: the line, 50 sen (asked first when it would knock the player out), then Snow's temple (ob->move(\"/d/snow/temple\")); tell_room() to /d/snow/inn is for others"
+		},
+		"d/latemoon/obj/book.c": {
+			"function init": "dancing home: the item's act (set es2:d/latemoon/obj/book), the 跳「春宫怨」 button",
+			"function do_dance": "the act: the line (HIM 『 春宫怨 』 plain), 50 sen (asked first when it would knock the player out), then the hall (latemoon1); any other dance did nothing; tell_room() lines are for others"
 		},
 		"d/latemoon/room/npc/elon.c": {
 			"function init": "D (accept test)",
@@ -410,8 +490,8 @@
 			"set chat_msg": "in set: (: this_object(), \"random_move\" :) is random_move"
 		},
 		"d/latemoon/upstar/npc/shinfun.c": {
-			"inquiry 舞曲谱": "C: do_reply() marks the asker (mark/dance-book) and answers",
-			"function do_reply": "C"
+			"inquiry 舞曲谱": "inquiry (set latemoon.npc.upstar.shinfun): do_reply()'s answer with mark_asker dance-book (a saved mark, owner: kept over Continue)",
+			"function do_reply": "inquiry 舞曲谱: set(\"mark/dance-book\") and its return"
 		},
 		"d/latemoon/upstar/npc/statue.c": {
 			"function init": "greeting (set latemoon.npc.upstar.statue)",

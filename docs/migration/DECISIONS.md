@@ -111,6 +111,32 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 晚月庄 C: the manor's secrets (2026-10-09)
+
+What each LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md); it carries out the
+plan's defaults (晚月庄 A) and follows the LPC except:
+- **筱薇 hands a second 竹子 back** (plan default): 我已经帮你做一个竹蜻蜓了呀!, then 蓝筱薇没有收下。
+  (ES2 kept it). She finishes the 竹蜻蜓 wherever the player goes on the map (tell_object(),
+  move(who)); **leaving the map, the rest is told at once and the 竹蜻蜓 given** where they
+  arrive, since the map's time stops while they are away (茅山 B's rule drops other call_outs).
+- **The temps** moon/竹子, moon/竹蜻蜓, moon/问题二 and latemoon/手镯 go with Continue; marks
+  dance-book (莫欣芳's answer) is saved (plan).
+- **A carried item's own command is a button** (祈祷, 跳「春宫怨」, 用火烧) for what the player
+  carries, outside fights as the inventory is (A8); ES2 let one pray out of a fight. Pray and
+  春宫怨 are **asked first** when their 50 sen would knock the player out (owner's rule); 取消
+  goes back to the 背包. The bracelet's info (使用 (pray start)…) is the button itself.
+- **Global rule: a move to another map ends an act** (the steps after it would act on the map
+  left behind; the catalog makes it the last step), and an NPC's greeting moves the player only
+  on its own map.
+- **Searching is a button** on the 碧纱橱 and the 石床, offered before the player knows (ES2 let
+  anyone type search; without the secret it finds nothing). Command hints in lines stay ((search
+  bracelet)), as A kept them.
+- **默认: 无名老妇's `trouble` is asked as 心事**: an English word among the topics read as a bug;
+  the answer is hers word for word.
+- **默认: the skills' names** (to_chinese()'s dictionary is not in the mudlib): music is 音律
+  (mysterrier.c's 音律之学), move 基本行动 (enable.c calls the use 行动).
+- Her force (a 晚月庄 member below 160 max_force) raises max gin, kee and sen at once (A7).
+
 ## 晚月庄 B: the women's quarters and the rooms' own commands (2026-10-09)
 
 What each LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md); it follows the

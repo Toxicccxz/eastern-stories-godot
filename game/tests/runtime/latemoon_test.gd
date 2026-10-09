@@ -73,14 +73,11 @@ func _test_data() -> void:
 	_check(catalog.service(&"latemoon.latemoon3.tea").kind == &"water" and catalog.service(&"latemoon.room.bathroom.pool").kind == &"water", "resource/water: the teapot, the pool")
 
 
-## Reminders: what 晚月庄 C and D port is not there yet (B is latemoon_quarters_test). Each
-## check fails once its package lands, which must replace it with the real one.
+## Reminders: what 晚月庄 D ports is not there yet (B is latemoon_quarters_test, C
+## latemoon_secrets_test). Each check fails once D lands, which must replace it with the
+## real one.
 func _test_waiting() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	# C: the secrets.
-	for id: StringName in [&"latemoon.npc.funlin", &"latemoon.npc.shaowei", &"latemoon.npc.room.old"]:
-		_check(catalog.npc(id).dealings().object_rules.is_empty(), "C waits: %s's accept_object()" % id)
-	_check(not catalog.npc(&"latemoon.npc.upstar.shinfun").talk().inquiry_topics().has("舞曲谱"), "C waits: 莫欣芳's 舞曲谱")
 	# D: 晚月庄.
 	_check(catalog.npc(&"common.npc.dancer.master").teaching().apprentice == null and catalog.npc(&"latemoon.npc.room.elon").teaching().apprentice == null, "D waits: 蓝止萍's and 瑷伦's attempt_apprentice(). With them, the player's 意寒睨 needs its offensive target and the target's name (ExertService sets no ExertContext.offensive) and 柔虹指's practice must check sen before force (tenderzhi.c)")
 

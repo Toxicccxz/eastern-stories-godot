@@ -601,6 +601,40 @@ mouse_filter = 2
 text = "八卦图 · 跳舞"
 horizontal_alignment = 1
 
+[node name="MarbleBed" type="Marker2D" parent="."]
+position = Vector2(296, 704)
+script = ExtResource("service")
+service_id = &"latemoon.latemoon8.bed"
+
+[node name="Visual" type="Polygon2D" parent="MarbleBed"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="MarbleBed"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "石床 · 翻找"
+horizontal_alignment = 1
+
+[node name="ClosetSearch" type="Marker2D" parent="."]
+position = Vector2(1104, 696)
+script = ExtResource("service")
+service_id = &"latemoon.latemoon2.search"
+
+[node name="Visual" type="Polygon2D" parent="ClosetSearch"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="ClosetSearch"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "碧纱橱 · 翻找"
+horizontal_alignment = 1
+
 [node name="Lroad3StairsUp" type="Area2D" parent="."]
 position = Vector2(352, 1392)
 collision_layer = 0
@@ -1066,6 +1100,11 @@ spawn_point_id = &"latemoon.room.flower1.kicked_out"
 position = Vector2(960, 2224)
 script = ExtResource("marker")
 spawn_point_id = &"latemoon.room.bathroom1.curtain_arrival"
+
+[node name="Latemoon1DanceArrival" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(960, 400)
+script = ExtResource("marker")
+spawn_point_id = &"latemoon.latemoon1.dance_arrival"
 
 [node name="EntranceLmGuard1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1744, 344)

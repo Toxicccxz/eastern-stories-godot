@@ -74,6 +74,7 @@ var _play: StringName = &""
 var _hang: bool = false
 var _default_amount: int = 1
 var _apply: StringName = &""
+var _act: RoomActDefinition
 var _dissolves: bool = false
 var _pour: PourDefinition
 var _unique: bool = false
@@ -178,6 +179,10 @@ var default_amount: int:
 ## empty for most items.
 var apply: StringName:
 	get: return _apply
+## The item's own command that acts on whoever carries it (RoomActDefinition: bracelet.c
+## pray, book.c dancing home, letter.c fire); null for most items.
+var act: RoomActDefinition:
+	get: return _act
 ## obj/dust.c: the item dissolves a corpse (do_dissolve).
 var dissolves: bool:
 	get: return _dissolves
@@ -232,6 +237,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._apply = StringName(reader.text("apply"))
 	if not definition._apply.is_empty() and not ItemApplyFunctions.has(definition._apply):
 		reader.fail("apply", "unknown apply '%s'" % definition._apply)
+	var act: ContentRecordReader = reader.child("act")
+	if act != null:
+		definition._act = RoomActDefinition.from_record(act)
 	definition._dissolves = reader.boolean("dissolve", false)
 	definition._scribe = reader.boolean("scribe", false)
 	definition._unique = reader.boolean("unique", false)

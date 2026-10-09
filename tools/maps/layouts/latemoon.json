@@ -141,6 +141,8 @@
 					{"node": "service", "name": "Pool", "id": "latemoon.room.bathroom.pool", "at": [1328, 2320], "text": "小花池 · 装水"},
 					{"node": "service", "name": "Bath", "id": "latemoon.room.bathroom.bath", "at": [1256, 2240], "text": "小花池 · 沐浴"},
 					{"node": "service", "name": "BaguaFloor", "id": "latemoon.latemoon8.dance", "at": [416, 720], "text": "八卦图 · 跳舞"},
+					{"node": "service", "name": "MarbleBed", "id": "latemoon.latemoon8.bed", "at": [296, 704], "text": "石床 · 翻找"},
+					{"node": "service", "name": "ClosetSearch", "id": "latemoon.latemoon2.search", "at": [1104, 696], "text": "碧纱橱 · 翻找"},
 					{"generated": "stairs"},
 					{"generated": "doors"}
 				],
@@ -151,6 +153,7 @@
 					{"name": "FrontYardGardenReturn", "at": [1344, 464], "id": "latemoon.front_yard.garden_return"},
 					{"name": "Flower1KickedOut", "at": [832, 2240], "id": "latemoon.room.flower1.kicked_out"},
 					{"name": "Bathroom1CurtainArrival", "at": [960, 2224], "id": "latemoon.room.bathroom1.curtain_arrival"},
+					{"name": "Latemoon1DanceArrival", "at": [960, 400], "id": "latemoon.latemoon1.dance_arrival"},
 					{"generated": "markers"}
 				],
 				"interactions": [
