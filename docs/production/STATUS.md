@@ -116,8 +116,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   (我...需...要...你...的...力...量...) until they are down to 10, when it falls apart into blood.
   On a 桃符纸 (two lie in Snow's 城隍庙) the player draws a 僵尸追魂符 with the selected NPC's
   name (20 mana, 40 sen and a drop of blood); put on the zombie, it goes after that one while the
-  player stands by (its kill is theirs), then falls apart. Asked first: when the cost would knock
-  the player out, and against their own master.
+  player stands by or joins in with the battle panel's 攻击 (its kill is theirs), then falls
+  apart. Asked first: when the cost would knock the player out, and against their own master.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

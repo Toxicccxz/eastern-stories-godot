@@ -3251,6 +3251,10 @@ msgstr ""
 msgid "投降"
 msgstr ""
 
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+msgid "攻击"
+msgstr ""
+
 #. a battle button: exert.c with one of its functions ({function}, e.g. 恢复气).
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "运功{function}"
@@ -3338,6 +3342,11 @@ msgstr ""
 #. hover of 施法「紫光」「白光」「青光」 (the bolts of 茅山道术): {hurts} what a hit does (吸取对方的精); {mana} mana and {sen} sen; it can fail.
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "{hurts}（{mana} 法力、{sen} 神，可能失败）"
+msgstr ""
+
+#. hover of 攻击 (kill.c) for a player standing by in a fight they are not in (their zombie's): they join it, and the one they attack kills back.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "你也上去和对手性命相搏，对手会反过来对你下杀手"
 msgstr ""
 
 #. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
@@ -3674,6 +3683,10 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "召唤天将"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd ui/world/shared_gameplay_ui.gd
+msgid "确定攻击"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -4038,10 +4051,6 @@ msgid "查看"
 msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd
-msgid "攻击"
-msgstr ""
-
-#: presentation/layout/shared_gameplay_layout.gd
 msgid "打听"
 msgstr ""
 
@@ -4133,6 +4142,14 @@ msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
 msgid "看起来%s想杀死你！"
+msgstr ""
+
+#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd
+msgid "这里不准战斗。"
+msgstr ""
+
+#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd
+msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
 msgstr ""
 
 #. common.npc.mind_bug limbs
@@ -4381,14 +4398,6 @@ msgstr ""
 
 #: runtime/world/map/world_map_npcs.gd
 msgid "%s急急忙忙地离开了。"
-msgstr ""
-
-#: runtime/world/map/world_map_selection.gd
-msgid "这里不准战斗。"
-msgstr ""
-
-#: runtime/world/map/world_map_selection.gd
-msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
 msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
@@ -5730,10 +5739,6 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定攻击"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
