@@ -32,7 +32,8 @@ static func offered(character: CharacterState, catalog: ContentCatalog, fighting
 
 ## `force_level` is query_skill("force") with apply/force; `random` is MudOS
 ## random(n) (n <= 0 gives 0 without a draw). `actor_id` is the character's ID and
-## `room` the others in its room (roar.c), with their fights.
+## `room` the others in its room (roar.c), with their fights. `offensive` gives the one a
+## file that aims works on (ExertContext.offensive), `name_of` names others in its lines.
 static func exert(
 	character: CharacterState,
 	function_id: StringName,
@@ -44,6 +45,8 @@ static func exert(
 	effects: SkillImprovementEffectRegistry,
 	actor_id: StringName = &"",
 	room: Array[SpecialSide] = [],
+	offensive: Callable = Callable(),
+	name_of: Callable = Callable(),
 ) -> ExertResult:
 	var result := ExertResult.new(function_id)
 	if busy.is_busy():
@@ -52,6 +55,8 @@ static func exert(
 	if mapped.is_empty():
 		return _refused(result, ExertResult.Failure.FORCE_NOT_ENABLED, "你请先用 enable 指令选择你要使用的内功。")
 	var context := ExertContext.new(character, force_level, is_fighting, busy, actor_id, random, room)
+	context.offensive = offensive
+	context.name_of = name_of
 	context.fail_line = _t("你所学的内功中没有这种功能。")
 	var function: ExertFunction = ExertFunctions.find(function_id)
 	if function != null and _has(catalog.skill(mapped), function_id) and function.exert(context):

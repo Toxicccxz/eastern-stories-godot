@@ -4,9 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**晚月庄 C** (`phase/latemoon-c`, region #7, DECISIONS「晚月庄 C」): the manor's secrets — 筱薇's
-竹蜻蜓, 芳绫's secret and the 玛瑙手镯, 莫欣芳's 舞曲谱 and the 密室's bed, the 丝罗巾, the 杀手令牌
-for 无名老妇, 芙云's 密函. Next: 晚月庄 D (晚月庄 the family).
+**晚月庄 D** (`phase/latemoon-d`, region #7, DECISIONS「晚月庄 D」): 晚月庄 the family — 蓝止萍's
+two-second answer (women only, class dancer), 瑷伦's three lashes (100000 combat_exp, women,
+commoners only; 晚月庄第一代弟子), the members teaching, the player's 柔虹指, 寒雪鞭法 and 意寒功 with
+意寒睨 on the battle panel. With it 晚月庄 is complete. Next: region #8 泓水南岸 + 山烟寺 (plan first).
 
 ## 待决定
 
@@ -141,7 +142,18 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   to 60; 跳「春宫怨」: 50 sen, to the hall from anywhere); the 丝罗巾 teaches 基本行动 to 50; the
   杀手令牌 (the 蒙面杀手's or 梦玉楼's) buys 无名老妇's 寒雪鞭法 (a 晚月庄 member below 160 max_force
   gets force instead); with a 火摺 (the kitchen, 曲馥琪) 芙云's 密函 shows its lines. Asked first
-  when 祈祷 or 春宫怨 would knock the player out. Not yet: joining 晚月庄 (D).
+  when 祈祷 or 春宫怨 would knock the player out. 晚月庄 the family: 蓝止萍 answers a 拜师 two
+  seconds later (慢著，一个一个来 meanwhile): a man is sent off (男人都不是好东西，滚开！), a woman
+  taken as 晚月庄第二代弟子 and a dancer (a young beauty's face stroked first); 瑷伦 in the east
+  wing sends anyone short of 100000 combat_exp to 芷萍, refuses men, takes a family's member for a
+  traitor (要叛师！！！ and a fight to the death, asked first), and tests a commoner with three real
+  lashes (asked first): stood, she takes the player as 晚月庄第一代弟子 (or offers, when not asked
+  first); 安妮儿 refuses everyone. Every member of the manor teaches a member; 蓝止萍 and 瑷伦
+  teach one not their own only what they know three times as well. The player's 柔虹指 (women,
+  empty hands; 30 sen then 10 force a practice), 寒雪鞭法 (max_force 150 and a whip), 七宝天岚舞,
+  and 意寒功 (learnt or used only): 运功意寒睨 on the battle panel stares at the current target
+  (else a random enemy) for 50 force and 20 sen, and the player's blows carry its cold
+  (iceshock).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

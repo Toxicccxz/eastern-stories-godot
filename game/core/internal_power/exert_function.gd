@@ -2,12 +2,16 @@ class_name ExertFunction
 extends RefCounted
 
 ## One exert function file (exert <id>): exert() returns 1 after its effect, or
-## notify_fail() and 0. The exerciser is always the target: the game offers no
-## `exert <id> <target>`, so the files' "target != me" refusals never show.
+## notify_fail() and 0. The exerciser is the target of the files that work on oneself:
+## the game offers no `exert <id> <target>` for them, so their "target != me" refusals
+## never show. A file that aims at an enemy (`aims`, chillgaze.c) takes the player's
+## current target as its <target>, else its own offensive_target(me).
 var id: StringName
 ## The file refuses outside a fight whatever else holds (roar.c): the game offers it
 ## only in one.
 var fight_only: bool = false
+## The file works on another: `if( !target || target==me ) target = offensive_target(me)`.
+var aims: bool = false
 ## The file refuses in any fight with this line (heal.c): the battle panel shows the
 ## action greyed with it instead of letting it fail (owner, modern fixes II).
 var fight_refusal: String = ""

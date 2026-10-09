@@ -4,7 +4,9 @@ extends CombatTacticalActionPolicy
 ## exert.c in a fight: the battle panel's 运功 buttons, one policy per exert
 ## function. Owner decision: like Flee it waits while the player is busy, where
 ## ES2 refuses with exert.c's line. ExertService then runs with the encounter's
-## random source; its lines go to the battle log with the execution result.
+## random source; its lines go to the battle log with the execution result. A function
+## that aims (chillgaze.c) works on the current target, as `exert chillgaze <target>`,
+## or with none on the file's offensive_target(me), as perform does (DECISIONS 晚月庄 D).
 const PREFIX: String = "exert."
 
 var _function_id: StringName
@@ -15,15 +17,23 @@ var _effects: SkillImprovementEffectRegistry
 var _room: Callable
 ## (character_id) -> String: kill_ob()'s warning from that character.
 var _warning_of: Callable
+## (character_id) -> String: that character's name as the player reads it.
+var _name_of: Callable
+var _aims: bool = false
 var function_id: StringName:
 	get: return _function_id
 
 
-func _init(p_function_id: StringName, p_room: Callable = Callable(), p_warning_of: Callable = Callable()) -> void:
-	super(action_id_for(p_function_id), CombatTacticalRequest.Category.INTERNAL_FORCE, CombatTacticalRequest.TargetRule.SELF)
+func _init(p_function_id: StringName, p_room: Callable = Callable(), p_warning_of: Callable = Callable(), p_name_of: Callable = Callable()) -> void:
+	var function: ExertFunction = ExertFunctions.find(p_function_id)
+	var aims: bool = function != null and function.aims
+	super(action_id_for(p_function_id), CombatTacticalRequest.Category.INTERNAL_FORCE,
+		CombatTacticalRequest.TargetRule.CURRENT_HOSTILE if aims else CombatTacticalRequest.TargetRule.SELF)
 	_function_id = p_function_id
+	_aims = aims
 	_room = p_room
 	_warning_of = p_warning_of
+	_name_of = p_name_of
 	_effects = SkillImprovementEffectRegistry.new()
 	_effects.register_legacy_defaults()
 
@@ -50,6 +60,11 @@ func supports_mode(mode: int) -> bool:
 	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]
 
 
+## A file that aims runs with no current target too (its offensive_target()).
+func accepts_no_target() -> bool:
+	return _aims
+
+
 ## Shown only when the player's enabled force reaches the function.
 func offered_to(state: CharacterState) -> bool:
 	return state != null and ExertService.offered(state, GameContent.catalog(), true).has(_function_id)
@@ -66,10 +81,19 @@ func execute(context: CombatTacticalContext, random_source: CombatRandomSource) 
 	var force_level: int = actor.state.skills.effective_level(
 		ExertService.BASIC_FORCE, PlayerMartialArts.apply_of(actor.state, actor.armor, ExertService.BASIC_FORCE),
 	)
+	var offensive: Callable = Callable()
+	# Held for the call: a Callable does not keep its object alive.
+	var special: SpecialContext = null
+	if _aims:
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(context.bindings, actor.participant_id)
+		if binding != null:
+			special = CombatSpecialAttackSource.context_for(binding, context.bindings, random_source, _effects)
+			special.target = null if context.target == null else special.other(context.target.participant_id)
+			offensive = special.target_or_offensive
 	var result: ExertResult = ExertService.exert(
 		actor.state, _function_id, GameContent.catalog(), force_level, true, actor.busy,
 		random_source.legacy_random, context.effect_registry if context.effect_registry != null else _effects,
-		actor.participant_id, _room_of(actor.participant_id, context.bindings),
+		actor.participant_id, _room_of(actor.participant_id, context.bindings), offensive, _name_of,
 	)
 	var lines: Array[ColoredLine] = result.lines
 	# feature/attack.c kill_ob() tells its victim: 看起来X想杀死你！
@@ -94,9 +118,12 @@ func _room_of(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]
 
 
 func _validate(context: CombatTacticalContext) -> int:
-	if context == null or context.actor == null or context.target == null:
+	if context == null or context.actor == null:
 		return CombatTacticalResult.Code.TARGET_INVALID
-	if context.target.participant_id != context.actor.participant_id or context.target.state != context.actor.state:
+	if _aims:
+		if context.target != null and context.target.participant_id == context.actor.participant_id:
+			return CombatTacticalResult.Code.TARGET_INVALID
+	elif context.target == null or context.target.participant_id != context.actor.participant_id or context.target.state != context.actor.state:
 		return CombatTacticalResult.Code.TARGET_INVALID
 	if not supports_mode(context.mode):
 		return CombatTacticalResult.Code.POLICY_UNSUPPORTED

@@ -96,14 +96,14 @@ func world_location() -> WorldLocationState:
 ## to an earlier request is still to come (NpcApprenticeship.request()).
 func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, answer_due: bool = false) -> NpcApprenticeship.Outcome:
 	return _after_recruit(apprenticeship_request.request(
-		_state, master, family, entry_time_utc, _respect(), _facts.title, shown_title(), _facts.display_name, answer_due,
+		_state, master, family, entry_time_utc, _respect(), _facts.title, shown_title(), _facts.display_name, answer_due, _facts.age,
 	), family)
 
 
 ## The master's answer when it is due (taolord.c do_recruit()), with the player before it
 ## (`awake` false: lying unconscious).
 func apprenticeship_answer(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, awake: bool = true) -> NpcApprenticeship.Outcome:
-	return _after_recruit(apprenticeship_request.answer(_state, master, family, entry_time_utc, _respect(), awake), family)
+	return _after_recruit(apprenticeship_request.answer(_state, master, family, entry_time_utc, _respect(), awake, _facts.age), family)
 
 
 ## juechen/master.c would take the player for a traitor if they asked it now.
@@ -132,7 +132,7 @@ func _respect() -> String:
 
 func _after_recruit(outcome: NpcApprenticeship.Outcome, family: FamilyDefinition) -> NpcApprenticeship.Outcome:
 	if outcome == NpcApprenticeship.Outcome.RECRUITED:
-		var title: String = NpcApprenticeship.family_title(family.display_name, _state.family.generation, _state.affiliation.family_title)
+		var title: String = NpcApprenticeship.member_title(family.display_name, _state.family.generation, _state.affiliation.family_title, _master())
 		_facts = PlayerIdentityFacts.new(_facts.display_name, title, _facts.age)
 	return outcome
 
@@ -148,8 +148,14 @@ func shown_title() -> String:
 	if _state.family.has_family() and _state.affiliation.has_family_rank:
 		var family: FamilyDefinition = GameContent.catalog().family(_state.family.family_id)
 		if family != null:
-			return NpcApprenticeship.shown_family_title(family.display_name, _state.family.generation, _state.affiliation.family_title)
+			return NpcApprenticeship.shown_member_title(family.display_name, _state.family.generation, _state.affiliation.family_title, _master())
 	return TranslationServer.translate(_facts.title)
+
+
+## The player's master as defined, or null.
+func _master() -> NpcDefinition:
+	var id: StringName = _state.apprenticeship.master_teacher_id
+	return null if id.is_empty() else GameContent.catalog().npc(id)
 
 
 func set_world_location(value: WorldLocationState) -> bool:

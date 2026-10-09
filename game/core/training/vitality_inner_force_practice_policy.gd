@@ -14,6 +14,8 @@ var required_spirit: int = 0
 var spirit_cost: int = 0
 var required_mana: int = 0
 var mana_cost: int = 0
+## tenderzhi.c checks sen before force (and kee).
+var spirit_first: bool = false
 
 
 func _init(
@@ -46,6 +48,12 @@ func with_spirit(required: int, cost: int) -> VitalityInnerForcePracticePolicy:
 	return self
 
 
+## tenderzhi.c: sen is checked right after the weapon, before kee and force.
+func with_spirit_first(first: bool) -> VitalityInnerForcePracticePolicy:
+	spirit_first = first
+	return self
+
+
 ## necromancy.c: mana at least `required`, then `cost` of it spent (checked before sen).
 func with_mana(required: int, cost: int) -> VitalityInnerForcePracticePolicy:
 	required_mana = required
@@ -56,6 +64,8 @@ func with_mana(required: int, cost: int) -> VitalityInnerForcePracticePolicy:
 func refusal(character: CharacterStateType) -> StringName:
 	if refuses_weapon(character):
 		return &"weapon"
+	if spirit_first and character.spirit.current < required_spirit:
+		return &"sen"
 	if character.vitality.current < required_vitality:
 		return &"kee"
 	if character.recovery.inner_force.current < required_inner_force:

@@ -29,7 +29,6 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	_test_waiting()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -71,15 +70,6 @@ func _test_data() -> void:
 	var floor_mi: DanceDefinition = catalog.service(&"latemoon.miroom.dance").dance
 	_check(floor_mi.steps.size() == 1 and floor_mi.cost_for("男性").sen == 80 and floor_mi.cost_for("女性").sen == 50, "miroom.c: only 西出阳关; 男 100/80, 女 50/50")
 	_check(catalog.service(&"latemoon.latemoon3.tea").kind == &"water" and catalog.service(&"latemoon.room.bathroom.pool").kind == &"water", "resource/water: the teapot, the pool")
-
-
-## Reminders: what 晚月庄 D ports is not there yet (B is latemoon_quarters_test, C
-## latemoon_secrets_test). Each check fails once D lands, which must replace it with the
-## real one.
-func _test_waiting() -> void:
-	var catalog: ContentCatalog = GameContent.catalog()
-	# D: 晚月庄.
-	_check(catalog.npc(&"common.npc.dancer.master").teaching().apprentice == null and catalog.npc(&"latemoon.npc.room.elon").teaching().apprentice == null, "D waits: 蓝止萍's and 瑷伦's attempt_apprentice(). With them, the player's 意寒睨 needs its offensive target and the target's name (ExertService sets no ExertContext.offensive) and 柔虹指's practice must check sen before force (tenderzhi.c)")
 
 
 func _test_way_in(tree: SceneTree, session: WorldSessionController) -> void:

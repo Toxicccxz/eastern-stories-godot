@@ -431,7 +431,24 @@
 				{ "item": "es2:d/latemoon/obj/blue_dress", "source": "d/latemoon/obj/blue_dress.c", "equip": "wear" },
 				{ "item": "es2:obj/weapon/whip", "source": "obj/weapon/whip.c", "equip": "wield" }
 			],
-			"inquiry": { "拜师": ["哦....想拜老身为师，好...\n不过得先接受测试(accept test)，接下我三鞭。"] }
+			"inquiry": { "拜师": ["哦....想拜老身为师，好...\n不过得先接受测试(accept test)，接下我三鞭。"] },
+			"apprentice": {
+				"kind": "trial",
+				"requires": [
+					{ "combat_exp": 100000, "refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?" },
+					{ "gender": "女性", "refuse_say": "老身不收男徒!" }
+				],
+				"commoners_only": "{title}{nickname}{name}要叛师！！！",
+				"ask_say": "$RESPECT若真的有心，不妨让我看看你的所学",
+				"ask_tell": "如果想拜师的话，就请接受测试",
+				"blows": [
+					{ "say": "瑷伦说道：小心了，这是第一鞭..." },
+					{ "say": "瑷伦面露微笑：好！第二鞭来了...", "fail": "瑷伦叹了口气道：看来还是不行啊..." },
+					{ "say": "瑷伦鼓励道：很不错，看这最后一鞭...", "fail": "瑷伦叹了口气道：太可惜了！" }
+				],
+				"success": "瑷伦露出慈祥的面容：看来我没看错人。",
+				"title": "晚月庄第一代弟子"
+			}
 		},
 		{
 			"id": "latemoon.npc.room.annihi",
@@ -468,7 +485,8 @@
 				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
 				{ "item": "es2:d/latemoon/obj/redbelt", "source": "d/latemoon/obj/redbelt.c", "equip": "wear" },
 				{ "item": "es2:d/latemoon/obj/sword", "source": "d/latemoon/obj/sword.c", "equip": "wield" }
-			]
+			],
+			"apprentice": { "kind": "refuses", "refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?" }
 		},
 		{
 			"id": "latemoon.npc.room.yuchoun",

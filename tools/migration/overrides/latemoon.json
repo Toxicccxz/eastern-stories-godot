@@ -96,7 +96,39 @@
 				"蓝止萍笑嘻嘻地拾起地上一片从魔鞭翩珑上落下的花瓣。\n",
 				{ "action": "poison", "condition": "rose_poison", "duration": 20, "tell": "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。" },
 				{ "action": "exert", "function": "chillgaze" }
-			]
+			],
+			"apprentice": {
+				"requires": [
+					{ "gender": "女性", "refuse_say": "男人都不是好东西，滚开！" }
+				],
+				"accept_say": "很好，只要你对本庄主忠心耿耿，好处是少不了的。",
+				"accept_vision": { "line": "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ....", "per_above": 25, "age_below": 20 },
+				"answer_after": 2,
+				"busy_say": "慢著，一个一个来。",
+				"class": "dancer"
+			}
+		},
+		"latemoon.npc.room.elon": {
+			"apprentice": {
+				"kind": "trial",
+				"requires": [
+					{ "combat_exp": 100000, "refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?" },
+					{ "gender": "女性", "refuse_say": "老身不收男徒!" }
+				],
+				"commoners_only": "{title}{nickname}{name}要叛师！！！",
+				"ask_say": "$RESPECT若真的有心，不妨让我看看你的所学",
+				"ask_tell": "如果想拜师的话，就请接受测试",
+				"blows": [
+					{ "say": "瑷伦说道：小心了，这是第一鞭..." },
+					{ "say": "瑷伦面露微笑：好！第二鞭来了...", "fail": "瑷伦叹了口气道：看来还是不行啊..." },
+					{ "say": "瑷伦鼓励道：很不错，看这最后一鞭...", "fail": "瑷伦叹了口气道：太可惜了！" }
+				],
+				"success": "瑷伦露出慈祥的面容：看来我没看错人。",
+				"title": "晚月庄第一代弟子"
+			}
+		},
+		"latemoon.npc.room.annihi": {
+			"apprentice": { "kind": "refuses", "refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?" }
 		},
 		"latemoon.npc.yumay": {
 			"carry": [
@@ -390,13 +422,13 @@
 			"set unwield_msg": "wield/unwield messages are not shown yet"
 		},
 		"daemon/class/dancer/master.c": {
-			"set apprentice_available": "D: never runs out (recruit_apprentice() lowers the misspelt apprentice_availavble, as 林忌's)",
+			"set apprentice_available": "never runs out: recruit_apprentice() lowers the misspelt apprentice_availavble, so 本庄主今天已经收了十个弟子 is never said (as 林忌's)",
 			"set chat_chance_combat": "in set",
 			"set chat_msg_combat": "in set: the four lines, use_poison() (poison) and exert chillgaze (意寒睨, iceforce's file)",
-			"function reset": "D: delete_temp(\"learned\") and apprentice_available 10 (which never runs out)",
-			"function attempt_apprentice": "D: the apprentice rule's two-second answer (as 林忌's), 慢著，一个一个来 while it is due",
-			"function do_recruit": "D: 男人都不是好东西，滚开！ to a man; the accept say, the 暧昧 line for per > 25 under 20, recruit",
-			"function recruit_apprentice": "D: class dancer",
+			"function reset": "nothing: temp learned is read by nothing, and apprentice_available never runs out",
+			"function attempt_apprentice": "apprentice rule in set: answer_after 2 (call_out(\"do_recruit\", 2)), busy_say while that answer is due (find_call_out())",
+			"function do_recruit": "apprentice rule in set: the gender check with its say, then accept_say, accept_vision (per above 25, under 20) and the master's recruit",
+			"function recruit_apprentice": "class dancer: apprentice.class in set",
 			"function use_poison": "chat_msg_combat poison (NpcFightChat.Poison): one enemy at random, told, random(1000000) over its combat_exp for rose_poison 20"
 		},
 		"d/latemoon/room/twoc.c": { "create_door": "world.json doors: latemoon.room.twoc.door (后厅大门, DOOR_CLOSED)" },
@@ -440,12 +472,12 @@
 			"function do_dance": "the act: the line (HIM 『 春宫怨 』 plain), 50 sen (asked first when it would knock the player out), then the hall (latemoon1); any other dance did nothing; tell_room() lines are for others"
 		},
 		"d/latemoon/room/npc/elon.c": {
-			"function init": "D (accept test)",
-			"function do_accept": "D: women of 100000 combat_exp, her three lashes (the apprentice rule's trial, asked first)",
-			"function attempt_apprentice": "D: 100000 combat_exp, women, commoners only (要叛师！！！ and kill_ob(), asked first)"
+			"function init": "accept test: the panel's 接受测试 (the trial in set)",
+			"function do_accept": "apprentice rule in set (kind trial): offered to those its checks pass (a man heard 老身不收男徒!, one short of 100000 combat_exp nothing), asked first; the first lash's sigh and shake print nothing; set(\"title\") is the rule's title, given when she takes the player (DECISIONS 晚月庄 D)",
+			"function attempt_apprentice": "apprentice rule in set: 100000 combat_exp, then women, each with its say; then commoners only (要叛师！！！ shouted in the room, angry prints nothing, kill_ob(); asked first)"
 		},
 		"d/latemoon/room/npc/annihi.c": {
-			"function attempt_apprentice": "D: she refuses everyone (拜师! 不敢当…): 东方神教 has no master who takes apprentices"
+			"function attempt_apprentice": "apprentice rule in set (kind refuses): 拜师! 不敢当… to everyone; 东方神教 has no master who takes apprentices"
 		},
 		"d/latemoon/room/npc/yushou.c": {
 			"function init": "greeting (set latemoon.npc.room.yushou): one second after the player arrives",

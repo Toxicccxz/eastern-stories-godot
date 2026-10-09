@@ -16,7 +16,9 @@ extends RefCounted
 ## chat line in `chat_line`, and the caller starts its kill_ob(). A master that answers
 ## later (daemon/class/taoist/taolord.c) leaves the request ANSWER_DUE: the caller starts
 ## its call_out and runs answer() when it is due; asked again meanwhile it says its
-## busy_say (MASTER_BUSY) and starts nothing.
+## busy_say (MASTER_BUSY) and starts nothing. A trial master with checks (elon.c) says the
+## first one short, then takes a family's member for a traitor, then asks for its test; one
+## that refuses (annihi.c) only says so.
 enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE, ASKED, OFFERED, NOT_ASKED, ATTACKED, ANSWER_DUE, MASTER_BUSY }
 
 ## logind.c's title for a new character, and killer_reward()'s for one who killed their master.
@@ -126,13 +128,16 @@ static func _requirement_value(student: CharacterState, key: StringName) -> int:
 
 ## juechen/master.c: `master` takes only commoners, and one with `student_title` is not one:
 ## asking it makes it attack. Its own apprentice only bows (apprentice.c asks first); one
-## whose request waits on it hears only 对方还没有答应.
+## whose request waits on it hears only 对方还没有答应. elon.c checks first: one its checks
+## refuse hears their say instead.
 func would_attack(student: CharacterState, master: NpcDefinition, student_title: String) -> bool:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
+	if student == null or teaching == null or teaching.apprentice == null:
+		return false
+	var rule: NpcTeaching.ApprenticeRule = teaching.apprentice
 	return (
-		student != null and teaching != null and teaching.apprentice != null
-		and teaching.apprentice.kind == NpcTeaching.Kind.REQUIREMENTS
-		and not teaching.apprentice.commoners_only.is_empty() and student_title != COMMONER_TITLE
+		(rule.kind == NpcTeaching.Kind.REQUIREMENTS or (rule.kind == NpcTeaching.Kind.TRIAL and qualifies(student, rule)))
+		and not rule.commoners_only.is_empty() and student_title != COMMONER_TITLE
 		and not is_master_of(student, master) and not is_offered(master.definition_id)
 		and not is_pending_with(master.definition_id)
 	)
@@ -175,6 +180,26 @@ static func shown_family_title(family_name: String, generation: int, title: Stri
 	return _t(MEMBER_TITLE).format({"family": _t(family_name), "generation": ChineseNumber.of(generation), "title": _t(title)})
 
 
+## The title a member of `family` keeps under `master`: the one the master sets on whom it
+## takes (elon.c's 晚月庄第一代弟子), else assign_apprentice()'s. Deviation (DECISIONS 晚月庄
+## D): elon.c set it after its test even when the recruit was only an offer, and a later
+## 拜师 renamed its first generation 开山祖师; here it comes with her taking them, either way.
+static func member_title(family_name: String, generation: int, title: String, master: NpcDefinition) -> String:
+	var own: String = _own_title(master)
+	return own if not own.is_empty() else family_title(family_name, generation, title)
+
+
+## member_title() in the shown language.
+static func shown_member_title(family_name: String, generation: int, title: String, master: NpcDefinition) -> String:
+	var own: String = _own_title(master)
+	return _t(own) if not own.is_empty() else shown_family_title(family_name, generation, title)
+
+
+static func _own_title(master: NpcDefinition) -> String:
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	return "" if teaching == null or teaching.apprentice == null else teaching.apprentice.title
+
+
 func cancel() -> Outcome:
 	lines = []
 	if not is_pending():
@@ -191,8 +216,9 @@ func cancel() -> Outcome:
 ## in the shown language; the names kept on the student stay as authored. `student_title`
 ## is the title the student keeps (普通百姓 or a family's), `shown_title` and `student_name` as
 ## they read in the master's chat line. `answer_due`: the master's answer to an earlier
-## request is still to come (find_call_out("do_recruit") != -1).
-func request(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, student_title: String = COMMONER_TITLE, shown_title: String = "", student_name: String = "", answer_due: bool = false) -> Outcome:
+## request is still to come (find_call_out("do_recruit") != -1). `student_age` is
+## query("age") (master.c's accept_vision).
+func request(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, student_title: String = COMMONER_TITLE, shown_title: String = "", student_name: String = "", answer_due: bool = false, student_age: int = 0) -> Outcome:
 	lines = []
 	chat_line = ""
 	var teaching: NpcTeaching = null if master == null else master.teaching()
@@ -224,7 +250,18 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 			_say(npc, rule.ask_say, respect)
 			_oaths[master.definition_id] = true
 		return Outcome.ASKED
+	if rule.kind == NpcTeaching.Kind.REFUSES:
+		# annihi.c attempt_apprentice(): its say, and nothing more.
+		_say(npc, rule.refuse_say, respect)
+		return Outcome.QUALIFICATION_REJECTED
 	if rule.kind == NpcTeaching.Kind.TRIAL:
+		# elon.c attempt_apprentice(): its checks, then a family's member is a traitor.
+		var refused: NpcTeaching.RequirementCheck = refusal(student, rule)
+		if refused != null:
+			_say(npc, refused.refuse_say, respect)
+			return Outcome.QUALIFICATION_REJECTED
+		if _traitor(rule, student_title, shown_title, student_name, npc):
+			return Outcome.ATTACKED
 		# champion.c attempt_apprentice(): say() to the room (the player reads it too,
 		# owner: DECISIONS 水烟阁 B), then tell_object() to the student.
 		_say(npc, rule.ask_say, respect)
@@ -236,22 +273,38 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 			_say(npc, rule.busy_say, respect)
 			return Outcome.MASTER_BUSY
 		return Outcome.ANSWER_DUE
-	if not rule.commoners_only.is_empty() and student_title != COMMONER_TITLE:
-		# command("chat " + title + nickname + name + "要叛师！！！"), grin, kill_ob(ob). The
-		# player has no nickname. Deviation (owner, modern fixes II): nobody else is on the
-		# chat channel in single player, so the master shouts it in the room instead.
-		var said: String = _t(rule.commoners_only).format({"title": shown_title, "nickname": "", "name": student_name})
-		# TRANSLATORS: what ES2 put on its chat channel, shouted in the room: {who} is who shouts (绝尘子), {line} what.
-		chat_line = _t("{who}大声喝道：{line}").format({"who": npc, "line": said})
+	if _traitor(rule, student_title, shown_title, student_name, npc):
 		return Outcome.ATTACKED
 	var short: NpcTeaching.RequirementCheck = refusal(student, rule)
 	if short != null:
 		_say(npc, short.refuse_say, respect)
 		return Outcome.QUALIFICATION_REJECTED
-	_say(npc, rule.accept_say, respect)
+	_accept(npc, rule, respect, student, student_age)
 	# recruit.c: the student's pending/apprentice is this master.
 	_recruit(student, master, family, entry_time_utc, false)
 	return Outcome.RECRUITED
+
+
+## A master that takes only commoners and a student titled otherwise: its chat line in
+## `chat_line`, true (the caller starts the kill).
+func _traitor(rule: NpcTeaching.ApprenticeRule, student_title: String, shown_title: String, student_name: String, npc: String) -> bool:
+	if rule.commoners_only.is_empty() or student_title == COMMONER_TITLE:
+		return false
+	# command("chat " + title + nickname + name + "要叛师！！！"), grin, kill_ob(ob). The
+	# player has no nickname. Deviation (owner, modern fixes II): nobody else is on the
+	# chat channel in single player, so the master shouts it in the room instead.
+	var said: String = _t(rule.commoners_only).format({"title": shown_title, "nickname": "", "name": student_name})
+	# TRANSLATORS: what ES2 put on its chat channel, shouted in the room: {who} is who shouts (绝尘子), {line} what.
+	chat_line = _t("{who}大声喝道：{line}").format({"who": npc, "line": said})
+	return true
+
+
+## The master's accept_say, then master.c's message_vision() for a young beauty.
+func _accept(npc: String, rule: NpcTeaching.ApprenticeRule, respect: String, student: CharacterState, age: int) -> void:
+	_say(npc, rule.accept_say, respect)
+	if rule.accept_vision != null and rule.accept_vision.applies(student.attributes.personality, age):
+		# TRANSLATORS: message_vision() in ES2 lines: $N the actor, $n the one who reads it (你).
+		lines.append(_t(rule.accept_vision.line).replace("$N", npc).replace("$n", _t("你")))
 
 
 ## taolord.c do_recruit(), the answer `answer_after` seconds after a request: one short of
@@ -261,7 +314,7 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 ## finds no one else, and a say nobody hears changes nothing. A student lying there
 ## (`awake` false) reads nothing; recruit.c's !living(ob) takes nobody (没有办法行拜师之礼),
 ## but one who had withdrawn is offered all the same.
-func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, awake: bool = true) -> Outcome:
+func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, respect: String, awake: bool = true, student_age: int = 0) -> Outcome:
 	lines = []
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0 or family == null or entry_time_utc < 0:
@@ -277,7 +330,7 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 			return Outcome.PENDING
 		_offers[master.definition_id] = true
 		return Outcome.OFFERED
-	_say(npc, teaching.apprentice.accept_say, respect)
+	_accept(npc, teaching.apprentice, respect, student, student_age)
 	return _npc_recruit(student, master, family, entry_time_utc)
 
 
@@ -321,8 +374,12 @@ func _npc_recruit(student: CharacterState, master: NpcDefinition, family: Family
 		return Outcome.OFFERED
 	_offers[master.definition_id] = true
 	lines.append(_t("%s想要收你为弟子。") % npc)
-	# TRANSLATORS: recruit.c tells the student how to accept: ES2 names its apprentice command; here the 拜师 button.
-	lines.append(_t("如果你愿意拜%s为师父，就向他拜师。") % npc)
+	if master.gender == CharacterState.GENDER_FEMALE:
+		# TRANSLATORS: recruit.c tells the student how to accept, from a woman (瑷伦): ES2 names its apprentice command; here the 拜师 button.
+		lines.append(_t("如果你愿意拜%s为师父，就向她拜师。") % npc)
+	else:
+		# TRANSLATORS: recruit.c tells the student how to accept: ES2 names its apprentice command; here the 拜师 button.
+		lines.append(_t("如果你愿意拜%s为师父，就向他拜师。") % npc)
 	return Outcome.OFFERED
 
 

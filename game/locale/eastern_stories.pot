@@ -153,6 +153,7 @@ msgid "男性"
 msgstr ""
 
 #. common.npc.dancer.master gender
+#. common.npc.dancer.master apprentice.requires.gender
 #. snow.npc.traveller gender.else
 #. snow.npc.girl gender
 #. snow.npc.girl accept_fight.gender
@@ -183,6 +184,7 @@ msgstr ""
 #. latemoon.npc.room.spring1 gender
 #. latemoon.npc.room.servant gender
 #. latemoon.npc.room.elon gender
+#. latemoon.npc.room.elon apprentice.requires.gender
 #. latemoon.npc.room.annihi gender
 #. latemoon.npc.room.yuchoun gender
 #. latemoon.npc.room.shaoin gender
@@ -2252,9 +2254,10 @@ msgstr ""
 
 #. message_vision(): the character an exert line names as its $n.
 #. message_vision(): the actor of an exert line, for its $N.
+#. message_vision() in ES2 lines: $N the actor, $n the one who reads it (你).
 #. message_vision(): the dancer ($N) as they read it.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_spells.gd
+#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_spells.gd
 msgid "你"
 msgstr ""
 
@@ -2881,6 +2884,11 @@ msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
 msgid "%s想要收你为弟子。"
+msgstr ""
+
+#. recruit.c tells the student how to accept, from a woman (瑷伦): ES2 names its apprentice command; here the 拜师 button.
+#: core/relationships/npc_apprenticeship.gd
+msgid "如果你愿意拜%s为师父，就向她拜师。"
 msgstr ""
 
 #. recruit.c tells the student how to accept: ES2 names its apprentice command; here the 拜师 button.
@@ -3778,6 +3786,11 @@ msgstr ""
 msgid "用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤"
 msgstr ""
 
+#. hover of 运功意寒睨 (chillgaze.c): {force} internal power and {sen} sen; the gaze hurts the target's gin, unless they look away.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "用 {force} 点内力和 {sen} 点神以目光摄住对手，伤其精（对手可能避开）"
+msgstr ""
+
 #. hover of 施法「遁」 (dun.c at oneself): out of the fight to {region}{room} (雪亭镇城隍庙); {mana} mana; it can fail.
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "脱离战斗，回到{region}{room}（{mana} 法力，可能失败）"
@@ -4478,11 +4491,13 @@ msgstr ""
 msgid "中性神"
 msgstr ""
 
-#: presentation/battle/es2_combat_messages.gd
+#. a woman named in the third person (gender.c).
+#: presentation/battle/es2_combat_messages.gd ui/teacher/teacher_panel.gd
 msgid "他"
 msgstr ""
 
-#: presentation/battle/es2_combat_messages.gd
+#. a woman named in the third person (gender.c).
+#: presentation/battle/es2_combat_messages.gd ui/teacher/teacher_panel.gd
 msgid "她"
 msgstr ""
 
@@ -5421,10 +5436,10 @@ msgid ""
 "{teach}确定要改拜{master}为师吗？"
 msgstr ""
 
-#. what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}.
+#. what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}, {pronoun} 他 or 她 for them.
 #: ui/teacher/teacher_panel.gd
 msgid ""
-"· 以后{current}只教你他的等级超过你三倍的武功。\n"
+"· 以后{current}只教你{pronoun}的等级超过你三倍的武功。\n"
 msgstr ""
 
 #. the old master teaches only his own apprentices (privs 0, learn.c): {current}.
@@ -5466,18 +5481,18 @@ msgstr ""
 msgid "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
 msgstr ""
 
-#. the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}.
+#. the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}, {pronoun} 他 or 她 for the master.
 #: ui/teacher/teacher_panel.gd
-msgid "· 三招都接住，{master}便愿意收你为徒，再向他拜师即可。"
+msgid "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
 msgstr ""
 
-#. asked before 拜师 with 绝尘子, who takes only commoners (juechen/master.c): one with a family's title is taken for a traitor and killed. {master} the master, {title} the player's title now.
+#. asked before 拜师 with 绝尘子 or 瑷伦, who take only commoners (juechen/master.c, elon.c): one with a family's title is taken for a traitor and killed. {master} the master, {pronoun} 他 or 她 for the master, {title} the player's title now.
 #: ui/teacher/teacher_panel.gd
 msgid ""
-"{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n"
-"· 他会当你要背叛师门，当众大声喝破。\n"
+"{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n"
+"· {pronoun}会当你要背叛师门，当众大声喝破。\n"
 "· 然后当场出手要杀你，这是一场生死之战。\n"
-"确定要向他拜师吗？"
+"确定要向{pronoun}拜师吗？"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -8179,12 +8194,14 @@ msgid ""
 msgstr ""
 
 #. common.npc.fighter.champion apprentice.ask_say
-#: data/common/npcs.json
+#. latemoon.npc.room.elon apprentice.ask_say
+#: data/common/npcs.json data/latemoon/npcs.json
 msgid "$RESPECT若真的有心，不妨让我看看你的所学"
 msgstr ""
 
 #. common.npc.fighter.champion apprentice.ask_tell
-#: data/common/npcs.json
+#. latemoon.npc.room.elon apprentice.ask_tell
+#: data/common/npcs.json data/latemoon/npcs.json
 msgid "如果想拜师的话，就请接受测试"
 msgstr ""
 
@@ -8348,7 +8365,8 @@ msgid "我便是绝尘子。"
 msgstr ""
 
 #. common.npc.juechen.master apprentice.commoners_only
-#: data/common/npcs.json
+#. latemoon.npc.room.elon apprentice.commoners_only
+#: data/common/npcs.json data/latemoon/npcs.json
 msgid "{title}{nickname}{name}要叛师！！！"
 msgstr ""
 
@@ -8495,6 +8513,7 @@ msgid "嗯... 想入我茅山派？也好...."
 msgstr ""
 
 #. common.npc.taoist.taolord apprentice.busy_say
+#. common.npc.dancer.master apprentice.busy_say
 #: data/common/npcs.json
 msgid "慢著，一个一个来。"
 msgstr ""
@@ -8756,6 +8775,21 @@ msgstr ""
 #. common.npc.dancer.master chat_msg_combat.tell
 #: data/common/npcs.json
 msgid "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。"
+msgstr ""
+
+#. common.npc.dancer.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "男人都不是好东西，滚开！"
+msgstr ""
+
+#. common.npc.dancer.master apprentice.accept_say
+#: data/common/npcs.json
+msgid "很好，只要你对本庄主忠心耿耿，好处是少不了的。"
+msgstr ""
+
+#. common.npc.dancer.master apprentice.accept_vision.line
+#: data/common/npcs.json
+msgid "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ...."
 msgstr ""
 
 #. quests.target
@@ -15625,6 +15659,52 @@ msgstr ""
 msgid ""
 "哦....想拜老身为师，好...\n"
 "不过得先接受测试(accept test)，接下我三鞭。"
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.requires.refuse_say
+#. latemoon.npc.room.annihi apprentice.refuse_say
+#: data/latemoon/npcs.json
+msgid "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?"
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.requires.refuse_say
+#: data/latemoon/npcs.json
+msgid "老身不收男徒!"
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.blows.say
+#: data/latemoon/npcs.json
+msgid "瑷伦说道：小心了，这是第一鞭..."
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.blows.say
+#: data/latemoon/npcs.json
+msgid "瑷伦面露微笑：好！第二鞭来了..."
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.blows.fail
+#: data/latemoon/npcs.json
+msgid "瑷伦叹了口气道：看来还是不行啊..."
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.blows.say
+#: data/latemoon/npcs.json
+msgid "瑷伦鼓励道：很不错，看这最后一鞭..."
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.blows.fail
+#: data/latemoon/npcs.json
+msgid "瑷伦叹了口气道：太可惜了！"
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.success
+#: data/latemoon/npcs.json
+msgid "瑷伦露出慈祥的面容：看来我没看错人。"
+msgstr ""
+
+#. latemoon.npc.room.elon apprentice.title
+#: data/latemoon/npcs.json
+msgid "晚月庄第一代弟子"
 msgstr ""
 
 #. latemoon.npc.room.annihi name

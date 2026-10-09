@@ -51,6 +51,9 @@ func tooltip_for(action_id: StringName) -> String:
 		&"roar":
 			# TRANSLATORS: hover of 运功天邪虎啸 (roar.c): {force} internal power and {kee} kee; the roar hurts everyone else in the room who cannot withstand it.
 			what = tr("用 {force} 点内力和 {kee} 点气长啸，在场受不住的人都会受伤").format({"force": RoarExertFunction.COST, "kee": RoarExertFunction.KEE_COST})
+		&"chillgaze":
+			# TRANSLATORS: hover of 运功意寒睨 (chillgaze.c): {force} internal power and {sen} sen; the gaze hurts the target's gin, unless they look away.
+			what = tr("用 {force} 点内力和 {sen} 点神以目光摄住对手，伤其精（对手可能避开）").format({"force": ChillgazeExertFunction.COST, "sen": ChillgazeExertFunction.SEN_COST})
 	var spell_id: StringName = CombatCastTacticalPolicy.function_for(action_id)
 	if spell_id == &"dun" and CombatCastTacticalPolicy.is_self(action_id):
 		# TRANSLATORS: hover of 施法「遁」 (dun.c at oneself): out of the fight to {region}{room} (雪亭镇城隍庙); {mana} mana; it can fail.

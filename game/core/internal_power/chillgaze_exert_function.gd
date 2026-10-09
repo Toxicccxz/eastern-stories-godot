@@ -15,6 +15,7 @@ const CPS_MULTIPLIER: int = 2
 func _init() -> void:
 	id = &"chillgaze"
 	fight_only = true
+	aims = true
 
 
 func exert(context: ExertContext) -> bool:

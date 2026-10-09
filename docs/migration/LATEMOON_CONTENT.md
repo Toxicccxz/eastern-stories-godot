@@ -5,7 +5,7 @@ How 晚月庄 comes from `reference/es2/mudlib/d/latemoon/`, `daemon/class/dance
 [DECISIONS](DECISIONS.md). Package A places the rooms and the people with the arts they fight
 with, and the dances in the two 密室 (the only way out of the second one); B the women's
 quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙手镯, 舞曲谱, 杀手令牌,
-芙云's 密函; done); D 晚月庄 (蓝止萍 and 瑷伦, the teachers, the player's arts).
+芙云's 密函; done); D 晚月庄 (蓝止萍 and 瑷伦, the teachers, the player's arts; done).
 
 ## Placed (A)
 
@@ -87,6 +87,20 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 | room/npc/obj/letter.c do_fire() | items.json `act` (用火烧): `carries` fire (the 火摺) for the HIY and HIM lines, else 你身上没有火没法烧。 |
 | daemon/skill/music.c, move.c | skills.json `music` (音律, knowledge; skill_improved(): spi +2, as the registry already had) and `move` (基本行动) |
 
+## LPC → native (D)
+
+| LPC | Native |
+|---|---|
+| master.c attempt_apprentice(), do_recruit(), recruit_apprentice() | npcs.json `apprentice` (set common.npc.dancer.master): `answer_after` 2 with `busy_say` (as 林忌's), the 女性 check with its say, `accept_say`, `accept_vision` (message_vision() for per above 25 under 20), class dancer |
+| master.c reset() | nothing: temp learned is read by nothing, and apprentice_available never runs out |
+| elon.c attempt_apprentice() | `apprentice` kind trial (set latemoon.npc.room.elon): `requires` 100000 combat_exp, then 女性, each with its say; then `commoners_only` (要叛师！！！ shouted, kill_ob(); the panel asks first); then `ask_say`, `ask_tell` |
+| elon.c do_accept(), init() | the panel's 接受测试 for whom the checks pass (asked first): three `blows` (the first's `fail` empty), `success`, the recruit; `title` 晚月庄第一代弟子 (NpcApprenticeship.member_title(), 默认) |
+| annihi.c attempt_apprentice() | `apprentice` kind refuses: its say |
+| std/char/master.c prevent_learn() | FMasterTeacherPreventionPolicy (already): both masters are F_MASTERs; the fourteen other members (privs -1) teach any member |
+| tenderzhi.c practice_skill() | skills.json practice `sen_first` (VitalityInnerForcePracticePolicy: sen right after the weapon) |
+| chillgaze.c for the player | ExertFunction `aims`: CombatExertTacticalPolicy takes the current target (CURRENT_HOSTILE, none accepted: offensive_target()); ExertContext `name_of` names it in the player's lines |
+| iceforce.c hit_ob() for the player | the player's attacks carry the mapped force's `force_hit_wound` as an NPC's do |
+
 ## Source anomalies
 
 
@@ -125,7 +139,14 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
   latemoon2.c's $n, the HIM 『 春宫怨 』 in book.c.
 - old.c's inquiry key `trouble` is English: asked as 心事 (默认).
 - master.c's recruit_apprentice() lowers `apprentice_availavble` (misspelt): her ten a day
-  never run out (D, as 林忌's).
+  never run out (as 林忌's).
+- elon.c and annihi.c send whom they refuse to 「芷萍」 (蓝止萍 misspelt): word for word.
+- elon.c sets its title after command("recruit"), which only offers to one who had not asked
+  her (默认: the title comes with her taking them); a later 拜师 renamed her first generation
+  晚月庄开山祖师.
+- elon.c's do_accept() checks gender and combat_exp again but not the title: a member of a
+  family can take her test and be offered (then 拜师 takes the offer, as recruit.c's first
+  branch comes before attempt_apprentice()).
 - annihi.c is 东方神教's 教主 but refuses every apprentice and is no F_MASTER; u/cloud's 朱鸿雪 is
   its other member: 东方神教 has no master who takes apprentices.
 - elon.c (瑷伦) is generation 0 of 晚月庄 (its founder).
@@ -141,11 +162,3 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
   greeted by 龙韶吟 after is left with 2.
 - skirt.c's wear() reads this_player(): an NPC that wears one at its creation in a room a man
   loaded would have gone without it. The wearer is the one who wears it here.
-
-## Waits for D
-
-`tests/runtime/latemoon_test.gd` `_test_waiting()` fails once 蓝止萍's and 瑷伦's apprentices
-are ported. With D: the player's 意寒睨 needs its target (ExertService sets no
-ExertContext.offensive, nor the target's name for its lines) and 柔虹指's practice checks sen
-before force (tenderzhi.c; VitalityInnerForcePracticePolicy checks force first). Then 无名老妇's
-force for a member (old.c, pass_force) becomes reachable in play; C tests it with the family set.

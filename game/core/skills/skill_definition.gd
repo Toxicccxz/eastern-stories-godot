@@ -133,7 +133,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 ## A skills.json record: {id, name, kind basic|specialized, type martial|knowledge,
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
 ## parry_messages?: {armed, unarmed}, standard_force_hit?, force_hit_wound?: ForceHitWound, hit_ob?,
-## practice?: {kee?, force?, mana?, sen?, weapon?, done?, fail?, force_fail?, mana_fail?, sen_fail?, weapon_fail?,
+## practice?: {kee?, force?, mana?, sen?, sen_first?, weapon?, done?, fail?, force_fail?, mana_fail?, sen_fail?, weapon_fail?,
 ## refuses?, conjure?: PracticeConjuring}, valid_learn?: {key: line},
 ## improved_line?, improved_color?, improved_every?, exert?: [function], perform?: [action], cast?: [spell]}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
@@ -194,8 +194,12 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 				practice.fail("weapon_fail", "goes with weapon")
 			if not definition.practice_force_fail.is_empty() and force <= 0:
 				practice.fail("force_fail", "goes with force")
-			# practice_skill(): the weapon, then kee, force and sen each at least the cost, then all spent.
-			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force, weapon).with_mana(mana, mana).with_spirit(sen, sen)
+			# practice_skill(): the weapon, then kee, force and sen each at least the cost (sen
+			# first for tenderzhi.c), then all spent.
+			var sen_first: bool = practice.boolean("sen_first", false)
+			if sen_first and sen <= 0:
+				practice.fail("sen_first", "goes with sen")
+			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force, weapon).with_mana(mana, mana).with_spirit(sen, sen).with_spirit_first(sen_first)
 			var conjure: ContentRecordReader = practice.child("conjure")
 			if conjure != null:
 				definition._practice.conjuring = PracticeConjuring.from_record(conjure)
