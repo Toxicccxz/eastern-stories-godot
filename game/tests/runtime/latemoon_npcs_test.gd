@@ -106,7 +106,7 @@ func _test_people() -> void:
 	_check(master.display_name == "蓝止萍" and master.teaching().family_name == "晚月庄" and master.teaching().family_generation == 1 and master.class_id == &"dancer", "蓝止萍, 晚月庄主, a dancer")
 	var founder: NpcDefinition = catalog.npc(&"latemoon.npc.room.elon")
 	_check(founder.teaching().family_generation == 0 and founder.teaching().f_master, "瑷伦, the founder: generation 0, an F_MASTER")
-	_check(catalog.npc(&"latemoon.npc.room.annihi").teaching().family_name == "东方神教" and catalog.npc(&"latemoon.npc.room.annihi").teaching().apprentice == null, "安妮儿 of 东方神教 takes no apprentice")
+	_check(catalog.npc(&"latemoon.npc.room.annihi").teaching().family_name == "东方神教" and catalog.npc(&"latemoon.npc.room.annihi").teaching().apprentice.kind == NpcTeaching.Kind.REFUSES, "安妮儿 of 东方神教 refuses every apprentice (晚月庄 D)")
 	_check(not catalog.npc(&"cloud.npc.god").dealings().is_fight_deferred(), "朱鸿雪 can be fought now (雪影剑法, 雪影心法)")
 	_check(_carries(catalog.npc(&"latemoon.npc.yumay"), &"es2:d/latemoon/obj/needle", 30, true), "雨梅 wields thirty 绣花针 (ob->set_amount(30); ob->wield())")
 	_check(_carries(catalog.npc(&"latemoon.npc.room.servant"), &"es2:d/latemoon/room/npc/obj/needle", 30, false), "the rear 婢女 carries thirty 花针")

@@ -111,6 +111,27 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 晚月庄 D: 晚月庄 the family (2026-10-09)
+
+What each LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md); it carries out the
+plan's defaults (晚月庄 A: 蓝止萍's ten a day never run out, her 暧昧 line word for word, 瑷伦's
+traitor and her lashes asked first) and follows the LPC except:
+- **默认: 瑷伦's title comes with her taking the player.** elon.c sets 晚月庄第一代弟子 right after
+  the recruit command, which only offers when the player had not asked her first: they carried
+  the title outside the family, and the 拜师 that took the offer renamed them 晚月庄开山祖师
+  (assign_apprentice() gives generation 1 that title). Here whoever she takes, either way, is
+  晚月庄第一代弟子, and an offer changes no title.
+- **Her test is offered only to whom it tests** (a woman of 100000 combat_exp; asked first, as
+  於兰天武's): do_accept() said 老身不收男徒! to a man and nothing at all to one short of 100000;
+  their 拜师 tells them why.
+- **默认: 运功意寒睨 aims at the current target**, else at offensive_target() (one of the first
+  four enemies at random): ES2's `exert chillgaze <target>` named one, the button names none,
+  as 字诀 do. Its lines name the target.
+- The first lash not stood says nothing (sigh and shake are emotes, 4E): the lash, then the fall.
+  瑷伦 gives no class (elon.c keeps recruit_apprentice()): her apprentice keeps theirs.
+- The questions about a master say 她 for a woman (蓝止萍, 瑷伦), and so does recruit.c's offer
+  (就向她拜师); they said 他 for everyone.
+
 ## 晚月庄 C: the manor's secrets (2026-10-09)
 
 What each LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md); it carries out the

@@ -42,7 +42,9 @@ static func run(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, at
 		result.lines.append_array(seen)
 		result.blows += 1
 		if not bool(stands.call()):
-			result.lines.append(ColoredLine.new(_t(blow.fail)))
+			# elon.c's first: command("sigh"), command("shake"): emotes print nothing.
+			if not blow.fail.is_empty():
+				result.lines.append(ColoredLine.new(_t(blow.fail)))
 			result.outcome = Outcome.FAILED
 			return result
 	result.lines.append(ColoredLine.new(_t(rule.success)))

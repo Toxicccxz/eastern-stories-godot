@@ -108,7 +108,9 @@ func awaits_oath() -> bool:
 ## The master's accept test can be taken (champion.c's accept test): it takes
 ## apprentices by a test, is awake and free to strike (not in a fight), and the test
 ## would change something: the player is not its apprentice already (it would only end
-## in 好徒儿) and it has not offered already (拜师 takes them; owner: not offered).
+## in 好徒儿) and it has not offered already (拜师 takes them; owner: not offered). A
+## master with checks tests only those they pass (elon.c's do_accept() says 老身不收男徒!
+## to a man and nothing to one short of 100000 combat_exp; DECISIONS 晚月庄 D).
 func offers_trial() -> bool:
 	var request: NpcApprenticeship = map.player_runtime().apprenticeship_request
 	return (
@@ -117,6 +119,7 @@ func offers_trial() -> bool:
 		and npc.combat_available and not npc.relationship.is_fighting()
 		and not NpcApprenticeship.is_master_of(map.player_runtime().state, npc.definition())
 		and not request.is_offered(npc.definition().definition_id)
+		and NpcApprenticeship.qualifies(map.player_runtime().state, teaching().apprentice)
 	)
 
 

@@ -563,7 +563,17 @@
 				"蓝止萍笑嘻嘻地拾起地上一片从魔鞭翩珑上落下的花瓣。\n",
 				{ "action": "poison", "condition": "rose_poison", "duration": 20, "tell": "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。" },
 				{ "action": "exert", "function": "chillgaze" }
-			]
+			],
+			"apprentice": {
+				"requires": [
+					{ "gender": "女性", "refuse_say": "男人都不是好东西，滚开！" }
+				],
+				"accept_say": "很好，只要你对本庄主忠心耿耿，好处是少不了的。",
+				"accept_vision": { "line": "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ....", "per_above": 25, "age_below": 20 },
+				"answer_after": 2,
+				"busy_say": "慢著，一个一个来。",
+				"class": "dancer"
+			}
 		}
 	]
 }

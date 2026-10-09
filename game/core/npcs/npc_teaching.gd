@@ -38,7 +38,7 @@ class RecognizeRule:
 		)
 
 
-## attempt_apprentice(ob) as one of three kinds of rule, and the class its
+## attempt_apprentice(ob) as one of four kinds of rule, and the class its
 ## recruit_apprentice() gives ("" keeps the student's: daemon/class/fighter's masters
 ## set none). Emotes print nothing (DECISIONS 4E).
 ## - requirements (daemon/class/swordsman/master.c): its checks in order, each the
@@ -48,12 +48,18 @@ class RecognizeRule:
 ##   chat line, then kill_ob()). daemon/class/taoist/taolord.c answers `answer_after`
 ##   seconds later (call_out("do_recruit", 2)): its checks, its say and its recruit come
 ##   then, and one asking while that answer is due hears `busy_say` (find_call_out()).
+##   daemon/class/dancer/master.c adds a message_vision() after its say for a young beauty
+##   (`accept_vision`).
 ## - oath (daemon/class/fighter/master.c): it asks for an oath (ask_say; again_say
 ##   when one is already asked), and the player's swear of `oath` makes it say
 ##   accept_say and recruit.
 ## - trial (daemon/class/fighter/champion.c): it says ask_say and tells ask_tell; the
 ##   accept test is its blows (each a line said before the blow and the line said when
-##   the student did not stand it), then `success` and recruit.
+##   the student did not stand it), then `success` and recruit. d/latemoon/room/npc/elon.c
+##   checks first (its checks, each with its say), then takes a family's member for a
+##   traitor (`commoners_only`); its test is taken only by those its checks pass, and whom it
+##   takes is titled `title` (its set("title") after the recruit).
+## - refuses (d/latemoon/room/npc/annihi.c): it only says refuse_say.
 class ApprenticeRule:
 	extends RefCounted
 	var kind: Kind = Kind.REQUIREMENTS
@@ -63,6 +69,11 @@ class ApprenticeRule:
 	## The chat line ({title}{nickname}{name} of the student) before the kill; "" takes anyone.
 	var commoners_only: String = ""
 	var accept_say: String = ""
+	## message_vision($N the master, $n the student) after accept_say, or null.
+	var accept_vision: AcceptVision
+	## The title the master sets on whom it takes, "" for assign_apprentice()'s.
+	var title: String = ""
+	var refuse_say: String = ""
 	## Seconds before a requirements master answers (its call_out()); 0 answers at once.
 	var answer_after: float = 0.0
 	var busy_say: String = ""
@@ -86,15 +97,28 @@ class RequirementCheck:
 	var refuse_say: String = ""
 
 
-## One blow of a trial: said before it, and said when the student did not stand it.
+## One blow of a trial: said before it, and said when the student did not stand it ("":
+## only emotes, elon.c's sigh and shake).
 class TrialBlow:
 	extends RefCounted
 	var say: String = ""
 	var fail: String = ""
 
 
-enum Kind { REQUIREMENTS, OATH, TRIAL }
-const KINDS: Dictionary[String, Kind] = {"requirements": Kind.REQUIREMENTS, "oath": Kind.OATH, "trial": Kind.TRIAL}
+## master.c do_recruit(): `line` when the student's query("per") is above `per_above` and
+## their age below `age_below`.
+class AcceptVision:
+	extends RefCounted
+	var line: String = ""
+	var per_above: int = 0
+	var age_below: int = 0
+
+	func applies(personality: int, age: int) -> bool:
+		return personality > per_above and age < age_below
+
+
+enum Kind { REQUIREMENTS, OATH, TRIAL, REFUSES }
+const KINDS: Dictionary[String, Kind] = {"requirements": Kind.REQUIREMENTS, "oath": Kind.OATH, "trial": Kind.TRIAL, "refuses": Kind.REFUSES}
 
 
 const REQUIREMENTS: Array[StringName] = [&"cor", &"cps", &"spi", &"combat_exp"]
@@ -156,28 +180,13 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			apprentice.fail("kind", "expected one of %s" % ", ".join(KINDS.keys()))
 		rule.kind = KINDS.get(kind_text, Kind.REQUIREMENTS)
 		rule.class_id = StringName(apprentice.text("class"))
+		rule.title = apprentice.text("title")
 		if rule.kind == Kind.REQUIREMENTS:
 			# daemon/class/swordsman/master.c and the like always give their class.
 			if rule.class_id.is_empty():
 				apprentice.fail("class", "a requirements master gives its class")
 			if apprentice.has("requires") and not apprentice.is_object("requires"):
-				# [{<key>: minimum, ..., "refuse_say"}]: checked in turn, each with its say.
-				for record: ContentRecordReader in apprentice.children("requires"):
-					var check := RequirementCheck.new()
-					for key: String in record.keys():
-						if key == "refuse_say":
-							continue
-						if key == "gender":
-							check.gender = record.required_text("gender")
-							if not GENDERS.has(StringName(check.gender)):
-								record.fail("gender", "expected one of %s" % [GENDERS])
-							continue
-						if not REQUIREMENTS.has(StringName(key)):
-							record.fail(key, "unsupported requirement")
-						check.requires[StringName(key)] = record.required_integer(key)
-					check.refuse_say = record.required_text("refuse_say")
-					record.finish()
-					rule.checks.append(check)
+				_read_checks(apprentice, rule)
 			else:
 				# {<key>: minimum} and one refuse_say: a single check.
 				var check := RequirementCheck.new()
@@ -188,9 +197,14 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 					check.requires[StringName(key)] = requires[key]
 				check.refuse_say = apprentice.required_text("refuse_say")
 				rule.checks.append(check)
-			for check: RequirementCheck in rule.checks:
-				rule.requires.merge(check.requires, true)
 			rule.accept_say = apprentice.required_text("accept_say")
+			var vision: ContentRecordReader = apprentice.child("accept_vision")
+			if vision != null:
+				rule.accept_vision = AcceptVision.new()
+				rule.accept_vision.line = vision.required_text("line")
+				rule.accept_vision.per_above = vision.required_integer("per_above")
+				rule.accept_vision.age_below = vision.required_integer("age_below")
+				vision.finish()
 			rule.commoners_only = apprentice.text("commoners_only")
 			rule.answer_after = float(apprentice.integer("answer_after", 0))
 			if rule.answer_after < 0.0:
@@ -205,20 +219,48 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			rule.again_say = apprentice.required_text("again_say")
 			rule.oath = apprentice.required_text("oath")
 			rule.accept_say = apprentice.required_text("accept_say")
-		else:
+		elif rule.kind == Kind.TRIAL:
+			if apprentice.has("requires"):
+				_read_checks(apprentice, rule)
+			rule.commoners_only = apprentice.text("commoners_only")
 			rule.ask_say = apprentice.required_text("ask_say")
 			rule.ask_tell = apprentice.required_text("ask_tell")
 			for record: ContentRecordReader in apprentice.children("blows"):
 				var blow := TrialBlow.new()
 				blow.say = record.required_text("say")
-				blow.fail = record.required_text("fail")
+				blow.fail = record.text("fail")
 				record.finish()
 				rule.blows.append(blow)
 			if rule.blows.is_empty():
 				apprentice.fail("blows", "a trial needs at least one blow")
 			rule.success = apprentice.required_text("success")
+		else:
+			rule.refuse_say = apprentice.required_text("refuse_say")
+		for check: RequirementCheck in rule.checks:
+			rule.requires.merge(check.requires, true)
 		apprentice.finish()
 		if family == null:
 			apprentice.fail("", "an NPC takes apprentices into its family: it needs one")
 		teaching.apprentice = rule
 	return teaching
+
+
+## `requires` as [{<key>: minimum, ..., "gender"?, "refuse_say"}]: checked in turn, each
+## with its say.
+static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) -> void:
+	for record: ContentRecordReader in apprentice.children("requires"):
+		var check := RequirementCheck.new()
+		for key: String in record.keys():
+			if key == "refuse_say":
+				continue
+			if key == "gender":
+				check.gender = record.required_text("gender")
+				if not GENDERS.has(StringName(check.gender)):
+					record.fail("gender", "expected one of %s" % [GENDERS])
+				continue
+			if not REQUIREMENTS.has(StringName(key)):
+				record.fail(key, "unsupported requirement")
+			check.requires[StringName(key)] = record.required_integer(key)
+		check.refuse_say = record.required_text("refuse_say")
+		record.finish()
+		rule.checks.append(check)

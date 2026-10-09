@@ -24,9 +24,14 @@ var room: Array[SpecialSide] = []
 var fainted: bool = false
 ## Those the file had kill_ob() me (roar.c), in the room's order.
 var killers: Array[StringName] = []
-## std/sserver.c offensive_target(me) for the files that aim at an enemy (chillgaze.c):
-## returns a SpecialSide (SpecialContext.offensive_target()); none: no target.
+## std/sserver.c offensive_target(me) for the files that aim at an enemy (chillgaze.c),
+## or the target the command named: returns a SpecialSide (SpecialContext.offensive_target()
+## or target_or_offensive()); none: no target.
 var offensive: Callable
+## (character_id) -> String: another's name as the character reads it, for the lines it
+## reads ($n of vision_at(), $N of vision_by()); none leaves it out (an NPC's lines are
+## seen through `vision_lines`).
+var name_of: Callable
 
 
 func _init(
@@ -62,12 +67,18 @@ func pick_offensive_target() -> SpecialSide:
 ## message_vision(template, me, target): $N the character, $n `target`. As the character
 ## reads it, $N is 你 and $n `target_name` (its short() as shown).
 func vision_at(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
-	lines.append(ColoredLine.new(ExertFunction._as_actor(template).replace("$n", target_name), color))
+	lines.append(ColoredLine.new(ExertFunction._as_actor(template).replace("$n", _name(target, target_name)), color))
 	vision_lines.append(VisionLine.new(template, actor_id, target.character_id, color))
 
 
 ## message_vision(template, target, me): $N is `target`, $n the character (你 as it reads it).
 func vision_by(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
 	# TRANSLATORS: message_vision(): the character an exert line names as its $n.
-	lines.append(ColoredLine.new(ExertFunction._t(template).replace("$N", target_name).replace("$n", ExertFunction._t("你")), color))
+	lines.append(ColoredLine.new(ExertFunction._t(template).replace("$N", _name(target, target_name)).replace("$n", ExertFunction._t("你")), color))
 	vision_lines.append(VisionLine.new(template, target.character_id, actor_id, color))
+
+
+func _name(target: SpecialSide, target_name: String) -> String:
+	if not target_name.is_empty() or not name_of.is_valid() or target == null:
+		return target_name
+	return String(name_of.call(target.character_id))

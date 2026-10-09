@@ -311,7 +311,7 @@
 		{
 			"id": "tenderzhi", "name": "柔虹指", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
 			"legacy_source": "daemon/skill/tenderzhi.c",
-			"practice": { "force": 10, "sen": 30, "force_fail": "你的内力不够了。", "sen_fail": "你的精神无法集中了，休息一下再练吧。" },
+			"practice": { "force": 10, "sen": 30, "sen_first": true, "force_fail": "你的内力不够了。", "sen_fail": "你的精神无法集中了，休息一下再练吧。" },
 			"valid_learn": { "gender": "柔虹指是只有女子才能练的武功。", "empty_hands": "练柔虹指必须空手。" },
 			"actions": [
 				{ "id": "ju-lou-cai-yue", "action": "$N左手一挥，一招「菊楼采月」右手点向$n$l", "force": 80, "damage_type": "刺伤", "weapon": "右手食指" },

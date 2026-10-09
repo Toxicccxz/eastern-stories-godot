@@ -36,8 +36,8 @@ const BETRAYAL_WARNING: String = "你现在是{title}。改投{master}门下，�
 const FIRST_MASTER_WARNING: String = "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n· 综合评价清零。\n· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n确定要拜师吗？"
 # TRANSLATORS: asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
 const CHANGE_MASTER_WARNING: String = "你现在是{current}的嫡传弟子。改拜{master}为师，{current}就不再是你的师父：\n· 门派不变，辈分随{master}。\n{teach}确定要改拜{master}为师吗？"
-# TRANSLATORS: what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}.
-const CHANGE_TEACHES_LESS: String = "· 以后{current}只教你他的等级超过你三倍的武功。\n"
+# TRANSLATORS: what the old master teaches a member of the family who is not their apprentice (master.c prevent_learn()): {current}, {pronoun} 他 or 她 for them.
+const CHANGE_TEACHES_LESS: String = "· 以后{current}只教你{pronoun}的等级超过你三倍的武功。\n"
 # TRANSLATORS: the old master teaches only his own apprentices (privs 0, learn.c): {current}.
 const CHANGE_TEACHES_NONE: String = "· {current}只教嫡传弟子，以后不再教你。\n"
 # TRANSLATORS: the accept test's last point when passing it makes the player change master inside their family: {current} the master now, {master} the new one, {teach} as above.
@@ -50,10 +50,10 @@ const TRIAL_RECRUITS: String = "· 三招都接住，便拜入{master}门下，�
 const TRIAL_FIRST_MASTER: String = "· 这是你第一次拜师；日后再改投别派，就是背叛师门。"
 # TRANSLATORS: the accept test's last point when passing it makes a member of another family betray it (recruit.c): {title} the player's title now, {master}, {family} the new family, {score} the player's 综合评价 now, {next} the betrayals counted after it.
 const TRIAL_BETRAYS: String = "· 你现在是{title}；三招都接住，就改投{master}门下，等于背叛师门：综合评价清零（现在是 {score}），背叛师门的次数变成 {next} 次；门派、师父和称号都换成{family}的，已经学会的武功保留。"
-# TRANSLATORS: the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}.
-const TRIAL_OFFERS: String = "· 三招都接住，{master}便愿意收你为徒，再向他拜师即可。"
-# TRANSLATORS: asked before 拜师 with 绝尘子, who takes only commoners (juechen/master.c): one with a family's title is taken for a traitor and killed. {master} the master, {title} the player's title now.
-const TRAITOR_WARNING: String = "{master}只收没有门派的普通百姓为徒。你现在是{title}，向他拜师：\n· 他会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向他拜师吗？"
+# TRANSLATORS: the accept test's last point when the player has not asked the master to take them (recruit.c then only offers): {master}, {pronoun} 他 or 她 for the master.
+const TRIAL_OFFERS: String = "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
+# TRANSLATORS: asked before 拜师 with 绝尘子 or 瑷伦, who take only commoners (juechen/master.c, elon.c): one with a family's title is taken for a traitor and killed. {master} the master, {pronoun} 他 or 她 for the master, {title} the player's title now.
+const TRAITOR_WARNING: String = "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
 
 
 func configure(contact: TeacherService) -> void:
@@ -216,7 +216,7 @@ func request_apprentice() -> void:
 	var awake: bool = _contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	# juechen/master.c: a family's member is attacked for it; asked first (owner).
 	if awake and player.would_be_attacked_by(master):
-		_ask(tr(TRAITOR_WARNING).format({"master": tr(master.display_name), "title": player.shown_title()}), "确定拜师", "不拜了", _request_apprentice_now)
+		_ask(tr(TRAITOR_WARNING).format({"master": tr(master.display_name), "pronoun": _pronoun(master), "title": player.shown_title()}), "确定拜师", "不拜了", _request_apprentice_now)
 		return
 	var takes: bool = awake and player.would_be_taken_by(master)
 	if takes and _ask_family_change(player, master, family_name, "确定改投", "确定拜师", _request_apprentice_now):
@@ -260,7 +260,7 @@ func _old_master_teaches(player: WorldPlayerRuntimeState, current: String) -> St
 	if teaching.family_privileges != -1:
 		return tr(CHANGE_TEACHES_NONE).format({"current": current})
 	if teaching.f_master:
-		return tr(CHANGE_TEACHES_LESS).format({"current": current})
+		return tr(CHANGE_TEACHES_LESS).format({"current": current, "pronoun": _pronoun(old)})
 	return ""
 
 
@@ -294,7 +294,7 @@ func take_trial() -> void:
 	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
 	var master: NpcDefinition = _contact.npc.definition()
 	var npc_name: String = tr(master.display_name)
-	var after: String = tr(TRIAL_OFFERS).format({"master": npc_name})
+	var after: String = tr(TRIAL_OFFERS).format({"master": npc_name, "pronoun": _pronoun(master)})
 	if player.apprenticeship_request.recruit_takes_at_once(player.state, master):
 		if NpcApprenticeship.would_betray(player.state, master):
 			after = tr(TRIAL_BETRAYS).format({
@@ -314,6 +314,15 @@ func take_trial() -> void:
 func _take_trial_now() -> void:
 	_contact.take_trial()
 	_show_apprentice_last()
+
+
+## gender.c gender_pronoun() for the master.
+func _pronoun(master: NpcDefinition) -> String:
+	if master.gender == CharacterState.GENDER_FEMALE:
+		# TRANSLATORS: a woman named in the third person (gender.c).
+		return tr("她")
+	# TRANSLATORS: a man named in the third person (gender.c).
+	return tr("他")
 
 
 func _family_name() -> String:

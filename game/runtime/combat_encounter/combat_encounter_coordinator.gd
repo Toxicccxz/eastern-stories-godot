@@ -369,7 +369,7 @@ func _init(
 	_tactical_registry.register_policy(CombatSurrenderTacticalPolicy.new(_player_age))
 	_tactical_registry.register_policy(CombatKillTacticalPolicy.new(kill_target, _kill_refusal, _kill_words, kill_warning))
 	for function_id: StringName in ExertFunctions.ORDER:
-		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning))
+		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning, _shown_name))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		_tactical_registry.register_policy(CombatPerformTacticalPolicy.new(function_id))
 	# A spell with a name is a 施法 button (offered while the enabled spells skill has its file).
@@ -392,6 +392,11 @@ func _exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBindi
 	if map != null:
 		room = map.exert_room(actor_id, bindings)
 	return room
+
+
+## A character in the fight named as the player reads it.
+func _shown_name(character_id: StringName) -> String:
+	return String(character_id) if _session == null else tr(_session.encounter_display_name(character_id))
 
 
 ## feature/attack.c kill_ob()'s line to its victim, in the shown language.
