@@ -123,8 +123,11 @@ plan's defaults (晚月庄 A) and follows the LPC except:
   dance-book (莫欣芳's answer) is saved (plan).
 - **A carried item's own command is a button** (祈祷, 跳「春宫怨」, 用火烧) for what the player
   carries, outside fights as the inventory is (A8); ES2 let one pray out of a fight. Pray and
-  春宫怨 are **asked first** when their 50 sen would knock the player out (owner's rule). The
-  bracelet's info (使用 (pray start)…) is the button itself.
+  春宫怨 are **asked first** when their 50 sen would knock the player out (owner's rule); 取消
+  goes back to the 背包. The bracelet's info (使用 (pray start)…) is the button itself.
+- **Global rule: a move to another map ends an act** (the steps after it would act on the map
+  left behind; the catalog makes it the last step), and an NPC's greeting moves the player only
+  on its own map.
 - **Searching is a button** on the 碧纱橱 and the 石床, offered before the player knows (ES2 let
   anyone type search; without the secret it finds nothing). Command hints in lines stay ((search
   bracelet)), as A kept them.

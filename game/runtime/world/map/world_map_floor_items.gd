@@ -457,14 +457,16 @@ func act_with_item(item_id: StringName) -> bool:
 	if act == null:
 		return false
 	var still_carried: Callable = func() -> bool: return can_handle_items() and _inventory.is_direct_child(item_id, carried)
-	ActService.ask_first_or_run(_map, act, tr(content.act.verb), _run_item_act.bind(act, still_carried), still_carried)
+	# 取消 goes back to the 背包 the button was in.
+	var back: Callable = Callable() if _map.hud() == null else _map.hud().open_inventory
+	ActService.ask_first_or_run(_map, act, tr(content.act.verb), _run_item_act.bind(act, still_carried), still_carried, back)
 	return true
 
 
 func _run_item_act(act: ScriptedAct, still_carried: Callable) -> void:
 	if not still_carried.call():
 		return
-	if act.moves_player():
+	if act.moves_player() and _map.hud() != null:
 		_map.hud().close_inventory()
 	_map.acts.run(act, null, _world_interaction_random.legacy_random)
 
@@ -563,8 +565,9 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		if not add_dropped_item_view(dropped, location, at_feet(location, player_body.global_position, true)):
 			push_error("winnings %s on the floor have no view" % dropped)
 	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
-	# shaowei.c accept_object(): call_out("make_stage", 2, who, 0).
-	if result.done() and result.rule != null and result.rule.make != null:
+	# shaowei.c accept_object(): call_out("make_stage", 2, who, 0), before give.c moves the
+	# gift; a gift too heavy for her stays with the player and the making goes on.
+	if result.rule != null and result.rule.accept and result.rule.make != null:
 		_map.npc_life.start_making(npc, result.rule.make)
 	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line.
 	if result.done() and result.rule != null and not result.rule.gives.is_empty():

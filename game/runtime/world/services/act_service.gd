@@ -32,10 +32,10 @@ func interact() -> void:
 
 
 ## `run` at once, or after the player's yes when `act` asks (its `ask`) or what it costs
-## would knock them out; `still_valid` is checked again before the question is shown.
-static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text: String, run: Callable, still_valid: Callable) -> void:
+## would knock them out; `still_valid` keeps the question open, `on_cancel` follows 取消.
+static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text: String, run: Callable, still_valid: Callable, on_cancel: Callable = Callable()) -> void:
 	if not act.ask.is_empty():
-		on.session.shared_ui().ask_first(TranslationServer.translate(act.ask), TranslationServer.translate(act.choice), run, still_valid)
+		on.session.shared_ui().ask_first(TranslationServer.translate(act.ask), TranslationServer.translate(act.choice), run, still_valid, on_cancel)
 		return
 	var costs: Dictionary[String, int] = act.fainting_costs(on.player_runtime().state)
 	if not costs.is_empty():
@@ -44,7 +44,7 @@ static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text
 			parts.append(TranslationServer.translate(COST).format({"amount": costs[key], "resource": TranslationServer.translate(RESOURCE_NAMES[key])}))
 		# TRANSLATORS: the button that goes ahead with a command ({verb}: 静修).
 		var go: String = TranslationServer.translate("确定{verb}").format({"verb": verb_text})
-		on.session.shared_ui().ask_first(TranslationServer.translate(FAINT_WARNING).format({"verb": verb_text, "cost": TranslationServer.translate("和").join(parts)}), go, run, still_valid)
+		on.session.shared_ui().ask_first(TranslationServer.translate(FAINT_WARNING).format({"verb": verb_text, "cost": TranslationServer.translate("和").join(parts)}), go, run, still_valid, on_cancel)
 		return
 	run.call()
 

@@ -87,6 +87,8 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 | room/npc/obj/letter.c do_fire() | items.json `act` (用火烧): `carries` fire (the 火摺) for the HIY and HIM lines, else 你身上没有火没法烧。 |
 | daemon/skill/music.c, move.c | skills.json `music` (音律, knowledge; skill_improved(): spi +2, as the registry already had) and `move` (基本行动) |
 
+## Source anomalies
+
 
 - sroad1.c does not compile (a missing quote): ES2's back gate and the path's north-west led
   nowhere, and the paths and the grove were reached only by dancing out (repaired, plan Q1).
@@ -115,6 +117,12 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
   reads 音律 from it. Its 『 春宫怨 』 takes the reader home to the hall; npc/obj/book.c's (not
   placed) to the 密室.
 - miroom.c's do_get() costs 50 sen only for `get dance-book`, which names nothing there.
+- book.c's init() adds `dancing` for anyone in its room too, and its do_dance() swallows every
+  word but `home`: right after the bed gave the book, latemoon8.c's `dancing out`/`yu-fong` did
+  nothing (MudOS runs the newest add_action first). Here the floor's dances and the book's
+  「春宫怨」 are separate buttons.
+- Inline colours are printed plain (one colour a line, 晚月庄 A): the HIC 玛瑙手镯 in
+  latemoon2.c's $n, the HIM 『 春宫怨 』 in book.c.
 - old.c's inquiry key `trouble` is English: asked as 心事 (默认).
 - master.c's recruit_apprentice() lowers `apprentice_availavble` (misspelt): her ten a day
   never run out (D, as 林忌's).

@@ -35,8 +35,9 @@ func facts() -> ScriptedAct.Facts:
 ## item's command). `draw` is MudOS random(n). The player reads the lines only while
 ## conscious (damage.c block_msg); what is done to them is done either way. Lines go to
 ## the log before a door, a move or a fight, which say their own; the fight's opening
-## says the lines before it. A move to another map is a handoff: what follows happens
-## where the player arrived.
+## says the lines before it. A move to another map is a handoff and ends the act (the
+## steps after it would act on the map left behind); a greeting's NPC moves the player
+## only on its own map.
 func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 	if act == null or _player == null:
 		return
@@ -45,7 +46,10 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 	var npc_name: String = "" if npc == null else npc.definition().display_name
 	var respect: String = RankWords.query_respect(state.gender, _player.facts.age, state.affiliation.class_id)
 	var said: Array[ColoredLine] = []
+	var moved_away: bool = false
 	for step: ScriptedAct.Step in act.steps:
+		if moved_away:
+			break
 		match step.kind:
 			ScriptedAct.Kind.LINE:
 				said.append(step.line.colored(npc_name, respect))
@@ -73,8 +77,13 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 					_close_door(npc, hears)
 			ScriptedAct.Kind.MOVE:
 				_show(said, hears)
-				if not _move_player(step.zone_id, step.point_id):
+				var zone: ZoneDefinition = GameContent.catalog().zone(step.zone_id)
+				if zone != null and zone.map_id != _map.map_id() and npc != null:
+					push_error("%s's greeting cannot move the player off its map to %s" % [npc_name, step.zone_id])
+				elif not _move_player(step.zone_id, step.point_id):
 					push_error("%s could not move the player to %s at %s" % [npc_name, step.zone_id, step.point_id])
+				else:
+					moved_away = zone.map_id != _map.map_id()
 			ScriptedAct.Kind.KILL:
 				if npc == null:
 					continue

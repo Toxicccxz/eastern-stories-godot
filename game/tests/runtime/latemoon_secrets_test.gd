@@ -88,6 +88,8 @@ func _test_data() -> void:
 	_check(catalog.npc(&"latemoon.npc.room.guest").loadout_entries().any(func(entry: NpcLoadoutEntry) -> bool: return entry.item_definition_id == LETTER), "芙云 carries the 密函")
 	var old: NpcTalk = catalog.npc(&"latemoon.npc.room.old").talk()
 	_check(old.inquiry_topics().has("心事") and not old.inquiry_topics().has("trouble") and old.inquiry_topics().has("令牌"), "无名老妇's trouble is asked as 心事 (默认)")
+	var making: NpcMaking = catalog.npc(&"latemoon.npc.shaowei").dealings().object_rules[1].make
+	_check(making != null and making.every == 2.0 and making.lines.size() == 5 and making.lines.all(func(line: NpcLine) -> bool: return line.color() == ColoredLine.HIY) and making.gives == DRAGONFLY, "make_stage(): five HIY lines two seconds apart, then the 竹蜻蜓")
 	var search: RoomActDefinition = catalog.service(&"latemoon.latemoon2.search").act
 	var facts := ScriptedAct.Facts.new()
 	_check(search.act_for(CharacterState.GENDER_FEMALE, &"", facts).steps[0].line.text.begins_with("你盲目的找著"), "without 芳绫's secret: nothing")
@@ -136,14 +138,24 @@ func _test_bamboo(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not second.done() and second.lines == ["蓝筱薇说道：我已经帮你做一个竹蜻蜓了呀!", "蓝筱薇没有收下。"] and not _carried(session, BAMBOO).is_empty(), "a second 竹子 goes back (默认; ES2 kept it): %s" % [second.lines])
 	map.npc_life._advance_ambience(10.0)
 	_check(_count_carried(session, DRAGONFLY) == 1, "no second 竹蜻蜓")
-	# The player leaves the map while she is at it: the rest at once (DECISIONS 晚月庄 C).
+	# Killed while she is at it, she takes her call_out along (destruct).
 	player.temp_marks.erase("moon/竹子") # TEST-ONLY: a Continue forgets the temp
+	_check(map.give_to_selected(_new_item(session, BAMBOO)).done(), "a 竹子 again")
+	map.npc_life._advance_ambience(2.0)
+	wei.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY: as a fight would leave her
+	var lines_before: int = hud.log_lines().size()
+	map.npc_life._advance_ambience(10.0)
+	_check(hud.log_lines().size() == lines_before and _count_carried(session, DRAGONFLY) == 1 and not map.npc_life.makings.has(wei.character_id), "dead, she makes nothing more")
+	wei.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
+	# The player leaves the map while she is at it: the rest at once (DECISIONS 晚月庄 C).
+	player.temp_marks.erase("moon/竹子") # TEST-ONLY
 	_check(map.give_to_selected(_carried(session, BAMBOO)).done(), "another 竹子")
 	map.npc_life._advance_ambience(2.0)
 	_check(hud.log_lines()[-1] == MAKING[0], "one stage told")
+	var before_leaving: int = hud.log_lines().size()
 	_check(session.handoff_to(&"latemoon.hills", &"latemoon.bamboo", &"latemoon.bamboo", &"latemoon.bamboo.dance_arrival").succeeded(), "out to the bamboo grove")
-	var told: Array[String] = hud.log_lines()
-	_check(told.find(MAKING[1]) >= 0 and told.find(MAKING[4]) > told.find(MAKING[1]) and _count_carried(session, DRAGONFLY) == 2, "the rest told at once and the 竹蜻蜓 given there")
+	var told: Array[String] = hud.log_lines().slice(before_leaving)
+	_check(told.find(MAKING[1]) >= 0 and told.find(MAKING[4]) > told.find(MAKING[1]) and _count_carried(session, DRAGONFLY) == 2, "the rest told at once and the 竹蜻蜓 given there: %s" % [told])
 	var dropped: ItemHandlingResult = (session.active_map() as WorldMapController).drop_item(_carried(session, DRAGONFLY))
 	_check(dropped.done(), "TEST-ONLY: one 竹蜻蜓 is enough")
 
@@ -167,6 +179,8 @@ func _test_bracelet(tree: SceneTree, session: WorldSessionController) -> void:
 	var traded: ItemHandlingResult = map.give_to_selected(_carried(session, DRAGONFLY))
 	_check(traded.done() and traded.lines == ["芳绫很开心的拿起竹蜻蜓把玩!", "满怀感激的谢谢你! 她小声的在你耳边说：", "『 庄内前厅某处藏有一宝物手镯哦!』", "你可以找找看! (search bracelet)", "你给芳绫一个竹蜻蜓。"], "her four lines: %s" % [traded.lines])
 	_check(player.temp_marks.get("moon/问题二", 0) == 1 and player.temp_marks.get("moon/竹蜻蜓", 0) == 1, "moon/问题二 and moon/竹蜻蜓")
+	var again: ItemHandlingResult = map.give_to_selected(_new_item(session, DRAGONFLY))
+	_check(again.done() and again.lines == ["芳绫说道：谢谢!我已经告诉你秘密了呀!去找呀!", "你给芳绫一个竹蜻蜓。"], "a second one: she says so and keeps it: %s" % [again.lines])
 	_place(map, player, &"latemoon.latemoon2", MapPlaces.service_spot(map, &"latemoon.latemoon2.search"))
 	map.npc_life._advance_ambience(1.0)
 	search.interact()
@@ -180,12 +194,20 @@ func _test_bracelet(tree: SceneTree, session: WorldSessionController) -> void:
 	state.spirit = CharacterResourceState.new(40, 500, 500) # TEST-ONLY
 	_check(map.act_with_item(bracelet) and hud.is_asking() and hud.confirm_prompt.message.text.contains("50 点神") and hud.confirm_prompt.message.text.contains("祈祷"), "40 sen: asked first: %s" % hud.confirm_prompt.message.text)
 	hud.confirm_prompt.cancel_button.pressed.emit()
-	_check(state.spirit.current == 40 and session.active_map_id() == &"latemoon.manor", "取消: nothing spent, still here")
+	_check(state.spirit.current == 40 and session.active_map_id() == &"latemoon.manor" and not hud.is_asking(), "取消: nothing spent, still here (back in the 背包: the windowed walk)")
+	hud.dismiss_current_panel()
 	state.spirit = CharacterResourceState.new(300, 500, 500) # TEST-ONLY
 	_check(map.act_with_item(bracelet) and not hud.is_asking(), "pray start")
 	var location: WorldLocationState = player.world_location()
 	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and location.zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and state.spirit.current == 250, "in Snow's temple, 50 sen spent")
 	_check(hud.log_lines().has("你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突然一阵烟雾...."), "its line")
+	# From another map with too little sen: 确定, and the player falls where they arrive.
+	_check(session.handoff_to(&"latemoon.manor", &"latemoon.entrance", &"latemoon.entrance", &"latemoon.entrance.cloud_entry").succeeded(), "TEST-ONLY: back at the manor")
+	state.spirit = CharacterResourceState.new(30, 500, 500) # TEST-ONLY
+	_check((session.active_map() as WorldMapController).act_with_item(bracelet) and hud.is_asking(), "30 sen: asked")
+	hud.confirm_prompt.confirm_button.pressed.emit()
+	_check(player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "确定: prayed, and fallen in the temple")
+	await _wake(tree, session)
 
 
 ## shinfun.c's 舞曲谱 marks the asker; latemoon8.c's bed gives the book once (the mark goes);
