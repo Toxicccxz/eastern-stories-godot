@@ -2,10 +2,13 @@ class_name ScriptedAct
 extends RefCounted
 
 ## One branch of an ES2 function that acts on the player where they stand: an NPC's
-## greeting() (d/latemoon/room/npc/shinyu.c: a man is shouted at, powdered, kicked out)
-## or a room's own command (d/latemoon/room/bathroom.c take bath, upstar/uproom3.c
-## ponder). `gender`, `not_gender` and `not_class` say whom the branch is for (the
-## player's query("gender") and query("class")); the first branch that is for the player
+## greeting() (d/latemoon/room/npc/shinyu.c: a man is shouted at, powdered, kicked out),
+## a room's own command (d/latemoon/room/bathroom.c take bath, upstar/uproom3.c ponder,
+## latemoon2.c search bracelet) or a carried item's (bracelet.c pray, letter.c fire).
+## `gender`, `not_gender` and `not_class` say whom the branch is for (the player's
+## query("gender") and query("class")); `temp` and `not_temp` a set_temp() flag the player
+## has or lacks, `mark` a saved mark they have and `carries` an id something they carry
+## answers to (present(id, me): letter.c's 火摺). The first branch that is for the player
 ## acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
@@ -16,11 +19,13 @@ extends RefCounted
 ## - `calm` n: a bellicosity above 0 goes down random(kar) + n (uproom3.c);
 ## - `npc_force` n: the NPC's own force grows by n (this_object()->add("force", n));
 ## - `close_door`: the NPC's command("close door"), on the door the player came by;
-## - `move` (a zone) to `point`: ob->move(), the player taken there;
+## - `move` (a zone, on any map) to `point`: ob->move(), the player taken there;
 ## - `kill`: kill_ob(player) and the player's fight_ob(): a fight to the death;
 ## - `give` (an item) `unless_temp`: the item new()'d to the player, unless they carry the
-##   set_temp() flag already (which the gift sets), then its `lines`.
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE }
+##   set_temp() flag already (which the gift sets), then its `lines`;
+## - `set_temp` a flag: set_temp(flag, 1) on the player (not saved);
+## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book).
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, UNMARK }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -28,9 +33,22 @@ const RESOURCES: Array[String] = ["gin", "kee", "sen"]
 var gender: StringName = &""
 var not_gender: StringName = &""
 var not_class: StringName = &""
+var temp: String = ""
+var not_temp: String = ""
+var mark: String = ""
+var carries: String = ""
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
+
+
+## What a branch may ask of the player besides gender and class: their saved marks, their
+## set_temp() flags and the ids of what they carry directly (present(id, me)).
+class Facts:
+	extends RefCounted
+	var marks: Dictionary[String, int] = {}
+	var temps: Dictionary[String, int] = {}
+	var carried: Array[String] = []
 
 
 class Step:
@@ -55,23 +73,36 @@ class Step:
 	var item_id: StringName = &""
 	var unless_temp: String = ""
 	var lines: Array[NpcLine] = []
+	## set_temp, unmark: the flag or mark.
+	var flag: String = ""
 
 
-## Whether the branch is for a player of this gender and class.
-func applies_to(player_gender: StringName, class_id: StringName) -> bool:
+## Whether the branch is for a player of this gender and class, with these `facts` (none:
+## no marks, flags or things carried).
+func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = null) -> bool:
+	var known: Facts = facts if facts != null else Facts.new()
 	return (
 		(gender.is_empty() or gender == player_gender)
 		and (not_gender.is_empty() or not_gender != player_gender)
 		and (not_class.is_empty() or not_class != class_id)
+		and (temp.is_empty() or known.temps.get(temp, 0) != 0)
+		and (not_temp.is_empty() or known.temps.get(not_temp, 0) == 0)
+		and (mark.is_empty() or known.marks.get(mark, 0) != 0)
+		and (carries.is_empty() or known.carried.has(carries))
 	)
 
 
 ## The first branch of `acts` that is for the player; null when none is.
-static func first_for(acts: Array[ScriptedAct], player_gender: StringName, class_id: StringName) -> ScriptedAct:
+static func first_for(acts: Array[ScriptedAct], player_gender: StringName, class_id: StringName, facts: Facts = null) -> ScriptedAct:
 	for act: ScriptedAct in acts:
-		if act.applies_to(player_gender, class_id):
+		if act.applies_to(player_gender, class_id, facts):
 			return act
 	return null
+
+
+## Whether a step takes the player elsewhere (the caller closes what they had open).
+func moves_player() -> bool:
+	return steps.any(func(step: Step) -> bool: return step.kind == Kind.MOVE)
 
 
 ## What the steps' receive_damage() takes from each resource it would take below zero
@@ -99,12 +130,16 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 	return state.spirit
 
 
-## {gender?, not_gender?, not_class?, ask?, choice?, steps: [step]}.
+## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, carries?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	var act := ScriptedAct.new()
 	act.gender = StringName(reader.text("gender"))
 	act.not_gender = StringName(reader.text("not_gender"))
 	act.not_class = StringName(reader.text("not_class"))
+	act.temp = reader.text("temp")
+	act.not_temp = reader.text("not_temp")
+	act.mark = reader.text("mark")
+	act.carries = reader.text("carries")
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
@@ -136,7 +171,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give"]:
+	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "set_temp", "unmark"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -199,4 +234,10 @@ static func _step(reader: ContentRecordReader) -> Step:
 				record.finish()
 				if said != null:
 					step.lines.append(said)
+		"set_temp":
+			step.kind = Kind.SET_TEMP
+			step.flag = reader.required_text("set_temp")
+		"unmark":
+			step.kind = Kind.UNMARK
+			step.flag = reader.required_text("unmark")
 	return step

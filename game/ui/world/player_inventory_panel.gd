@@ -13,6 +13,8 @@ signal put_requested(item_instance_id: StringName, amount: int)
 signal play_requested(item_instance_id: StringName)
 ## apply <item> (snake_drug.c, hurt_drug.c) and dissolve <corpse> with 化尸粉 (dust.c).
 signal apply_requested(item_instance_id: StringName)
+## The item's own command (ItemContentDefinition.act: bracelet.c pray).
+signal act_requested(item_instance_id: StringName)
 signal dissolve_requested(item_instance_id: StringName)
 signal hang_requested(item_instance_id: StringName)
 ## pour <powder> in <container> (std/medicine/powder.c do_pour()).
@@ -206,6 +208,13 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		apply_button.text = ItemApplyFunctions.verb(content.apply)
 		apply_button.pressed.connect(func() -> void: apply_requested.emit(row.item_instance_id))
 		container.add_child(apply_button)
+	# The item's own add_action() (bracelet.c pray, book.c dancing, letter.c fire).
+	if content != null and content.act != null:
+		var act_button: Button = Button.new()
+		act_button.name = "Act"
+		act_button.text = content.act.verb
+		act_button.pressed.connect(func() -> void: act_requested.emit(row.item_instance_id))
+		container.add_child(act_button)
 	# rope.c add_action("hang_self", "hang").
 	if content != null and content.hang:
 		var hang_button: Button = Button.new()

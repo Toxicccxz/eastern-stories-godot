@@ -132,6 +132,7 @@ func _ready() -> void:
 	inventory_panel.put_requested.connect(_put_item)
 	inventory_panel.play_requested.connect(_play_item)
 	inventory_panel.apply_requested.connect(_apply_item)
+	inventory_panel.act_requested.connect(_act_with_item)
 	inventory_panel.dissolve_requested.connect(_dissolve_with)
 	inventory_panel.hang_requested.connect(_hang_with)
 	inventory_panel.pour_requested.connect(_pour_item)
@@ -1029,6 +1030,11 @@ func _play_item(id: StringName) -> void:
 func _apply_item(id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.apply_item(id)
+
+
+func _act_with_item(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.act_with_item(id)
 
 
 func _pour_item(id: StringName, container_id: StringName) -> void:

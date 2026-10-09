@@ -4,10 +4,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**晚月庄 B** (`phase/latemoon-b`, region #7, DECISIONS「晚月庄 B」): the women's quarters' greetings
-by gender and class, a man asked before the changing room and the bath, the bath, the 海棠's
-pistils, 缀芳阁's ponder, the closet's skirts, 雨梅's tea cup. Next: 晚月庄 C (the secrets),
-then D (晚月庄 the family).
+**晚月庄 C** (`phase/latemoon-c`, region #7, DECISIONS「晚月庄 C」): the manor's secrets — 筱薇's
+竹蜻蜓, 芳绫's secret and the 玛瑙手镯, 莫欣芳's 舞曲谱 and the 密室's bed, the 丝罗巾, the 杀手令牌
+for 无名老妇, 芙云's 密函. Next: 晚月庄 D (晚月庄 the family).
 
 ## 待决定
 
@@ -135,7 +134,14 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   attacked to the death by 凤凰 at the pool; a woman bathes (sen back). 区冥 in the 佛堂 stares
   at whoever is no dancer; 缀芳阁's 静修 calms bellicosity for 50 sen; the 碧纱橱 gives two 布裙
   and the 西府海棠 two 小花蕊 (the cure for 火玫瑰毒) a reset; 雨梅 serves tea in a cup she
-  takes back; the skirts refuse a man. Not yet: the secrets (C), joining 晚月庄 (D).
+  takes back; the skirts refuse a man. The secrets: 筱薇 (in the first secret room) makes a
+  竹子 from the grove into a 竹蜻蜓 in ten seconds (a second 竹子 goes back); 芳绫 trades it for
+  the secret, and the 碧纱橱's 翻找 then gives the 玛瑙手镯 (no_drop, worn on the wrist; 祈祷: 50
+  sen, to Snow's 城隍庙); 莫欣芳 asked about 舞曲谱 lets the 密室's 石床 give the 舞曲谱 (研读 音律
+  to 60; 跳「春宫怨」: 50 sen, to the hall from anywhere); the 丝罗巾 teaches 基本行动 to 50; the
+  杀手令牌 (the 蒙面杀手's or 梦玉楼's) buys 无名老妇's 寒雪鞭法 (a 晚月庄 member below 160 max_force
+  gets force instead); with a 火摺 (the kitchen, 曲馥琪) 芙云's 密函 shows its lines. Asked first
+  when 祈祷 or 春宫怨 would knock the player out. Not yet: joining 晚月庄 (D).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -151,7 +157,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 302/551 rooms, 144/286 NPC
-types, 5/9 joinable families, 23/36 special and 14/25 basic martial arts, 63/84 quest targets.
+types, 5/9 joinable families, 23/36 special and 16/25 basic martial arts, 63/84 quest targets.
 
 ## Known issues
 

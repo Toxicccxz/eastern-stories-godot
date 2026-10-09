@@ -5,7 +5,7 @@ How 晚月庄 comes from `reference/es2/mudlib/d/latemoon/`, `daemon/class/dance
 [DECISIONS](DECISIONS.md). Package A places the rooms and the people with the arts they fight
 with, and the dances in the two 密室 (the only way out of the second one); B the women's
 quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙手镯, 舞曲谱, 杀手令牌,
-芙云's 密函); D 晚月庄 (蓝止萍 and 瑷伦, the teachers, the player's arts).
+芙云's 密函; done); D 晚月庄 (蓝止萍 and 瑷伦, the teachers, the player's arts).
 
 ## Placed (A)
 
@@ -71,7 +71,22 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 | skirt.c, skirt4.c, skirt5.c wear() | items.json `female_only` with `wear_refusal` (只有女生才可穿哦!你变态呀!) |
 | a man walking into bathroom1 (owner, plan Q2) | world.json `exit_rules` `ask`: stopped in 内厅穿堂, asked with 此处是禁止男性进入, put at `latemoon.room.bathroom1.curtain_arrival` on 确定进去 |
 
-## Source anomalies
+## LPC → native (C)
+
+| LPC | Native |
+|---|---|
+| shaowei.c accept_object() and make_stage() | npcs.json `accept_object` (set latemoon.npc.shaowei): a 竹子 sets the temp moon/竹子 and starts the rule's `make` (NpcMaking: five HIY lines two seconds apart, the 竹蜻蜓 with the last; WorldMapNpcLife call_out kind `make`); a second 竹子 goes back; anything else is thanked for and kept |
+| funlin.c accept_object() | `accept_object` (set latemoon.npc.funlin): the 竹蜻蜓 for her four lines and the temps moon/问题二, moon/竹蜻蜓 (`set_temps`) |
+| latemoon2.c do_search("bracelet") | world.json service `latemoon.latemoon2.search` (kind act, 碧纱橱 · 翻找): branches `not_temp` moon/问题二, `temp` latemoon/手镯, then `give` the 玛瑙手镯 `unless_temp` latemoon/手镯 |
+| bracelet.c do_pray("start") | items.json `act` (祈祷): the line, 50 sen, `move` to Snow's temple (a handoff from another map) |
+| shinfun.c do_reply() | `inquiry` 舞曲谱 with `mark_asker` dance-book (a saved mark) |
+| latemoon8.c do_search("bed") | world.json service `latemoon.latemoon8.bed` (kind act, 石床 · 翻找): with the mark the 舞曲谱 and `unmark` dance-book |
+| obj/book.c set("skill"), do_dance("home") | items.json `study` (music, 音律, to 60) and `act` (跳「春宫怨」): the line, 50 sen, `move` to the hall (latemoon.latemoon1.dance_arrival) |
+| obj/hankie.c set("skill") | `study` (move, 基本行动, to 50) |
+| old.c accept_object() | `accept_object` (set latemoon.npc.room.old): `item_alias` ###token###; a 晚月庄 member below 160 max_force gets `effect: pass_force` (NpcObjectRule.passed_force(): random(50) or random(what is short), at most 20, times kar / 30; force 0), anyone else the 寒雪鞭法 (`gives`) |
+| room/npc/obj/letter.c do_fire() | items.json `act` (用火烧): `carries` fire (the 火摺) for the HIY and HIM lines, else 你身上没有火没法烧。 |
+| daemon/skill/music.c, move.c | skills.json `music` (音律, knowledge; skill_improved(): spi +2, as the registry already had) and `move` (基本行动) |
+
 
 - sroad1.c does not compile (a missing quote): ES2's back gate and the path's north-west led
   nowhere, and the paths and the grove were reached only by dancing out (repaired, plan Q1).
@@ -90,7 +105,17 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 - skirt2.c sets `rmor_prop/dodge` (misspelt): the 青绫绸裙 gives no dodge. obj/wine.c sets
   `drunk_bonus`, which liquid.c does not read (it reads drunk_apply): the 女儿红 makes nobody
   drunk. girl.c sets `san`, fireangel.c `nick`: nothing reads either.
-- tguest.c wears the 杀手令牌 (an ITEM: wear() is not there and nothing happens): carried.
+- tguest.c wears the 杀手令牌 (an ITEM: wear() is not there and nothing happens): carried. It is
+  the same token.c as the 杀手's, so 无名老妇 takes 梦玉楼's too; she takes every token, each time
+  force or another 寒雪鞭法 (old.c deletes nothing: the delete_temp lines are comments).
+- bracelet.c's init() adds do_pray (and letter.c's do_fire) without checking that the player
+  carries it (the braces are missing): anyone in a room where one lay could pray with it. Here
+  only its carrier has the button.
+- obj/book.c's skill sets `class` dancer, which study.c does not read: anyone with 5000 combat_exp
+  reads 音律 from it. Its 『 春宫怨 』 takes the reader home to the hall; npc/obj/book.c's (not
+  placed) to the 密室.
+- miroom.c's do_get() costs 50 sen only for `get dance-book`, which names nothing there.
+- old.c's inquiry key `trouble` is English: asked as 心事 (默认).
 - master.c's recruit_apprentice() lowers `apprentice_availavble` (misspelt): her ten a day
   never run out (D, as 林忌's).
 - annihi.c is 东方神教's 教主 but refuses every apprentice and is no F_MASTER; u/cloud's 朱鸿雪 is
@@ -109,10 +134,10 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 - skirt.c's wear() reads this_player(): an NPC that wears one at its creation in a room a man
   loaded would have gone without it. The wearer is the one who wears it here.
 
-## Waits for C and D
+## Waits for D
 
-`tests/runtime/latemoon_test.gd` `_test_waiting()` fails once each of these is ported:
-芳绫's, 筱薇's and 无名老妇's accept_object() and 莫欣芳's 舞曲谱 (C); 蓝止萍's and 瑷伦's
-apprentices (D). With D: the player's 意寒睨 needs its target (ExertService sets no
+`tests/runtime/latemoon_test.gd` `_test_waiting()` fails once 蓝止萍's and 瑷伦's apprentices
+are ported. With D: the player's 意寒睨 needs its target (ExertService sets no
 ExertContext.offensive, nor the target's name for its lines) and 柔虹指's practice checks sen
-before force (tenderzhi.c; VitalityInnerForcePracticePolicy checks force first).
+before force (tenderzhi.c; VitalityInnerForcePracticePolicy checks force first). Then 无名老妇's
+force for a member (old.c, pass_force) becomes reachable in play; C tests it with the family set.

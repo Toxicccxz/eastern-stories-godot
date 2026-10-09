@@ -442,6 +442,33 @@ func apply_item(item_id: StringName) -> bool:
 	return result.accepted
 
 
+## A carried item's own command (bracelet.c pray, book.c dancing home, letter.c fire):
+## the branch for the player, asked first as a room's command is (ActService). False
+## when the item has none or cannot be used now.
+func act_with_item(item_id: StringName) -> bool:
+	if not can_handle_items():
+		return false
+	var item: ItemInstance = _item_index.resolve(item_id)
+	var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	if content == null or content.act == null or not _inventory.is_direct_child(item_id, carried):
+		return false
+	var act: ScriptedAct = content.act.act_for(_player.state.gender, _player.state.affiliation.class_id, _map.acts.facts())
+	if act == null:
+		return false
+	var still_carried: Callable = func() -> bool: return can_handle_items() and _inventory.is_direct_child(item_id, carried)
+	ActService.ask_first_or_run(_map, act, tr(content.act.verb), _run_item_act.bind(act, still_carried), still_carried)
+	return true
+
+
+func _run_item_act(act: ScriptedAct, still_carried: Callable) -> void:
+	if not still_carried.call():
+		return
+	if act.moves_player():
+		_map.hud().close_inventory()
+	_map.acts.run(act, null, _world_interaction_random.legacy_random)
+
+
 ## The containers a powder can be poured into: the liquid containers the player
 ## carries directly (do_pour()'s present(what, this_player())), in carried order.
 func pour_targets() -> Array[StringName]:
@@ -536,6 +563,9 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		if not add_dropped_item_view(dropped, location, at_feet(location, player_body.global_position, true)):
 			push_error("winnings %s on the floor have no view" % dropped)
 	var attacks: bool = result.rule != null and result.rule.kill and not npc.relationship.is_fighting()
+	# shaowei.c accept_object(): call_out("make_stage", 2, who, 0).
+	if result.done() and result.rule != null and result.rule.make != null:
+		_map.npc_life.start_making(npc, result.rule.make)
 	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line.
 	if result.done() and result.rule != null and not result.rule.gives.is_empty():
 		var gift: StringName = give_new_item_to_player(result.rule.gives)

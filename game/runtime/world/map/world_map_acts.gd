@@ -1,8 +1,8 @@
 class_name WorldMapActs
 extends RefCounted
-## ScriptedAct steps on this map, in order: what an NPC's greeting() or a room's own
-## command does to the player who is there. The game rule is the act's data; this does
-## it to the player, the NPC, the doors and the log.
+## ScriptedAct steps on this map, in order: what an NPC's greeting(), a room's own
+## command or a carried item's does to the player who is there. The game rule is the
+## act's data; this does it to the player, the NPC, the doors and the log.
 
 var _map: WorldMapController
 
@@ -14,11 +14,29 @@ func _init(controller: WorldMapController) -> void:
 	_map = controller
 
 
-## Runs `act` on the player; `npc` is the one acting (a greeting) or null (a room's
-## command). `draw` is MudOS random(n). The player reads the lines only while conscious
-## (damage.c block_msg); what is done to them is done either way. Lines go to the log
-## before a door, a move or a fight, which say their own; the fight's opening says the
-## lines before it.
+## What a branch may ask of the player (ScriptedAct.Facts): their marks, set_temp()
+## flags and the ids of what they carry directly (present(id, me)).
+func facts() -> ScriptedAct.Facts:
+	var known := ScriptedAct.Facts.new()
+	if _player == null:
+		return known
+	known.marks = _player.state.marks
+	known.temps = _player.temp_marks
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	for item_id: StringName in _map.inventory_state().direct_children(carried):
+		var item: ItemInstance = _map.item_instance_index().resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content != null:
+			known.carried.append_array(content.aliases())
+	return known
+
+
+## Runs `act` on the player; `npc` is the one acting (a greeting) or null (a room's or an
+## item's command). `draw` is MudOS random(n). The player reads the lines only while
+## conscious (damage.c block_msg); what is done to them is done either way. Lines go to
+## the log before a door, a move or a fight, which say their own; the fight's opening
+## says the lines before it. A move to another map is a handoff: what follows happens
+## where the player arrived.
 func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 	if act == null or _player == null:
 		return
@@ -55,7 +73,7 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 					_close_door(npc, hears)
 			ScriptedAct.Kind.MOVE:
 				_show(said, hears)
-				if not _map.relocate_player(step.zone_id, step.point_id, true):
+				if not _move_player(step.zone_id, step.point_id):
 					push_error("%s could not move the player to %s at %s" % [npc_name, step.zone_id, step.point_id])
 			ScriptedAct.Kind.KILL:
 				if npc == null:
@@ -75,14 +93,32 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 					_player.temp_marks[step.unless_temp] = 1
 				for line: NpcLine in step.lines:
 					said.append(line.colored(npc_name, respect))
+			ScriptedAct.Kind.SET_TEMP:
+				_player.temp_marks[step.flag] = 1
+			ScriptedAct.Kind.UNMARK:
+				state.marks.erase(step.flag)
 	_show(said, hears)
 	var hud: SharedGameplayUI = _map.hud()
 	if hud != null and hud.inventory_is_open():
 		hud.show_inventory(_map.session.player_inventory_rows())
 	# std/char.c heart_beat(): gone below zero, the player falls where they now are; one
 	# already lying unconscious dies (!living() → die()).
+	var here: WorldMapController = _map.session.active_map() as WorldMapController if _map.session != null else null
 	if state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
-		_map.player_fall_below_zero(true)
+		(here if here != null else _map).player_fall_below_zero(true)
+
+
+## ob->move(room): within this map the player is put at `point_id`; another map's room is
+## a handoff there. Whether the player is there now.
+func _move_player(zone_id: StringName, point_id: StringName) -> bool:
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
+	if zone == null:
+		return false
+	if zone.map_id == _map.map_id():
+		return _map.relocate_player(zone_id, point_id, true)
+	if _map.session == null:
+		return false
+	return _map.session.handoff_to(zone.map_id, zone.zone_id, zone.combat_location_id, point_id).succeeded()
 
 
 func _show(said: Array[ColoredLine], hears: bool) -> void:

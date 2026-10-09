@@ -140,6 +140,7 @@ func build() -> ContentCatalog:
 	_resolve_portals()
 	_check_spawn_locations()
 	_resolve_services()
+	_check_item_acts()
 	_resolve_doors()
 	_resolve_landmarks()
 	_check_traps()
@@ -303,6 +304,8 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object: no item named '%s'" % [origin, rule.item_name])
 			if not rule.gives.is_empty() and not _items.has(rule.gives):
 				_errors.append("%s.accept_object.gives: unknown item '%s'" % [origin, rule.gives])
+			if rule.make != null and not _items.has(rule.make.gives):
+				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
@@ -468,6 +471,14 @@ func _resolve_services() -> void:
 				_errors.append("%s.dance: unknown portal '%s'" % [origin, step.portal_id])
 			elif portal.source_zone_id != definition.zone_id:
 				_errors.append("%s.dance: portal '%s' does not leave %s" % [origin, step.portal_id, definition.zone_id])
+
+
+## A carried item's own command (bracelet.c pray) names what exists.
+func _check_item_acts() -> void:
+	for item: ItemContentDefinition in _items.values():
+		if item.act != null:
+			for act: ScriptedAct in item.act.acts:
+				_check_act(act, "%s.act" % _origins.get(item.item_definition_id, String(item.item_definition_id)))
 
 
 func _resolve_doors() -> void:
