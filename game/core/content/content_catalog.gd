@@ -88,6 +88,13 @@ func set_exit_rules(p_exit_rules: Dictionary[StringName, ZoneExitRuleDefinition]
 
 
 ## The valid_leave() rules on the way from one zone into another.
+## Every exit rule, in catalog order.
+func exit_rules() -> Array[ZoneExitRuleDefinition]:
+	var result: Array[ZoneExitRuleDefinition] = []
+	result.assign(_exit_rules.values())
+	return result
+
+
 func exit_rules_between(from_zone_id: StringName, to_zone_id: StringName) -> Array[ZoneExitRuleDefinition]:
 	var result: Array[ZoneExitRuleDefinition] = []
 	for rule: ZoneExitRuleDefinition in _exit_rules.values():

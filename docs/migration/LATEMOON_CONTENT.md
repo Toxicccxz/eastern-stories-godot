@@ -66,7 +66,7 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 | yumay.c's teacup and set_temp("latemoon/茶") | step `give` with `unless_temp`; the player's `temp_marks` (not saved) |
 | latemoon3.c valid_leave() | world.json `exit_rules` `takes_back` (the cup and the flag; 你起身往南离开! without a cup) |
 | bathroom.c do_takebath(), upstar/uproom3.c do_ponder() | world.json services of kind `act` (RoomActDefinition, ActService): the branch for the player; a man asked before bathing; a cost that would knock the player out asked first |
-| moonc.c do_pick(), latemoon2.c do_take("cloth") with reset()'s counts | landmarks of policy `take` (`limit` 2 since the room's reset, `reward`, `take`, `empty`) |
+| moonc.c do_pick(), latemoon2.c do_take("cloth") with reset()'s counts | landmarks of policy `take` (`limit` 2 since the room's reset, `reward`, `take`, `empty`); a room with such a landmark is on the reset schedule (moonc.c has no objects) |
 | flower.c do_eat() | items.json `apply: rose_pistil` (ItemApplyFunctions, the 吃 button) |
 | skirt.c, skirt4.c, skirt5.c wear() | items.json `female_only` with `wear_refusal` (只有女生才可穿哦!你变态呀!) |
 | a man walking into bathroom1 (owner, plan Q2) | world.json `exit_rules` `ask`: stopped in 内厅穿堂, asked with 此处是禁止男性进入, put at `latemoon.room.bathroom1.curtain_arrival` on 确定进去 |

@@ -55,17 +55,18 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 					_close_door(npc, hears)
 			ScriptedAct.Kind.MOVE:
 				_show(said, hears)
-				_map.relocate_player(step.zone_id, step.point_id)
+				if not _map.relocate_player(step.zone_id, step.point_id, true):
+					push_error("%s could not move the player to %s at %s" % [npc_name, step.zone_id, step.point_id])
 			ScriptedAct.Kind.KILL:
 				if npc == null:
 					continue
-				var texts: Array[String] = []
+				var opening: Array[ColoredLine] = []
 				if hears:
-					texts = ColoredLine.texts(said)
+					opening = said.duplicate()
 				said.clear()
-				var started: CombatSliceInitiationResult = _map.hostilities.npc_kills(npc, texts)
-				if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and hears:
-					_map.hud().append_log_lines(texts)
+				var started: CombatSliceInitiationResult = _map.hostilities.npc_kills(npc, ColoredLine.texts(opening), opening)
+				if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not opening.is_empty() and _map.hud() != null:
+					_map.hud().append_colored_lines(opening)
 			ScriptedAct.Kind.GIVE:
 				if not step.unless_temp.is_empty() and _player.temp_marks.get(step.unless_temp, 0) != 0:
 					continue
@@ -78,9 +79,10 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 	var hud: SharedGameplayUI = _map.hud()
 	if hud != null and hud.inventory_is_open():
 		hud.show_inventory(_map.session.player_inventory_rows())
-	# std/char.c heart_beat(): gone below zero, the player falls where they now are.
-	if state.life_threshold() != CharacterState.LifeThreshold.ACTIVE and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-		_map.player_fall_below_zero()
+	# std/char.c heart_beat(): gone below zero, the player falls where they now are; one
+	# already lying unconscious dies (!living() → die()).
+	if state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+		_map.player_fall_below_zero(true)
 
 
 func _show(said: Array[ColoredLine], hears: bool) -> void:
@@ -108,7 +110,7 @@ func _close_door(npc: NpcRuntimeState, hears: bool) -> void:
 	if chosen == null or _map.door(chosen.door_id) == null or not _map.door(chosen.door_id).is_open():
 		return
 	_map.set_door_open(chosen.door_id, false)
-	if hears:
+	if hears and _map.hud() != null:
 		# TRANSLATORS: close.c: an NPC ({npc}) shuts a door ({door}) in the player's room.
 		_map.hud().append_log_lines([TranslationServer.translate("{npc}将{door}关上。").format({
 			"npc": TranslationServer.translate(npc.definition().display_name),

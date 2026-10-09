@@ -48,9 +48,10 @@ func colored(npc_name: String, respect: String) -> ColoredLine:
 	return ColoredLine.new(sentence(npc_name, respect), color())
 
 
-## A record with exactly one of `say`, `emote`, `line` and `whisper`, and an optional
+## A record with exactly one of `say`, `emote`, `line` and `whisper`, and where the line
+## is shown in colour (`colored`: ScriptedAct steps, an exit rule's hand-back) an optional
 ## `color` (not for a whisper); null (and a reported failure) otherwise.
-static func from_record(reader: ContentRecordReader) -> NpcLine:
+static func from_record(reader: ContentRecordReader, colored: bool = false) -> NpcLine:
 	var kinds: int = int(reader.has("say")) + int(reader.has("emote")) + int(reader.has("line")) + int(reader.has("whisper"))
 	if kinds != 1:
 		reader.fail("", "needs exactly one of say, emote, line and whisper")
@@ -62,7 +63,7 @@ static func from_record(reader: ContentRecordReader) -> NpcLine:
 		parsed = NpcLine.new(false, reader.required_text("whisper"), false, true)
 	else:
 		parsed = NpcLine.new(reader.has("emote"), reader.required_text("emote" if reader.has("emote") else "say"))
-	if reader.has("color"):
+	if colored and reader.has("color"):
 		parsed.authored_color = StringName(reader.required_text("color"))
 		if not ColoredLine.COLORS.has(parsed.authored_color) or parsed.whisper:
 			reader.fail("color", "expected one of %s, and no colour on a whisper" % [ColoredLine.COLORS])

@@ -156,7 +156,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.item_id = StringName(reader.required_text("item"))
 			rule.temp = reader.required_text("temp")
 			for record: ContentRecordReader in reader.children("taken"):
-				var line: NpcLine = NpcLine.from_record(record)
+				var line: NpcLine = NpcLine.from_record(record, true)
 				record.finish()
 				if line != null:
 					rule.taken.append(line)

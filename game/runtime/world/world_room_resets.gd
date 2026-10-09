@@ -5,8 +5,9 @@ extends RefCounted
 ## TIME_TO_RESET / 2 + random(TIME_TO_RESET / 2) seconds after the last one
 ## (adm/etc/config.ES2 `time to reset : 1800`; pacing.json room_reset_seconds).
 ## Only rooms whose reset() does something are scheduled: rooms with
-## set("objects") (NPC and item spawns) and rooms with a hidden passage
-## (weapon_storage.c reset()). Schedules are ES2 room state, not saved: Continue
+## set("objects") (NPC and item spawns), rooms with a hidden passage
+## (weapon_storage.c reset()), a trap, or a landmark that counts its uses since the
+## reset (`limit`: house3.c's spiders, moonc.c's pistils, latemoon2.c's skirts). Schedules are ES2 room state, not saved: Continue
 ## starts them afresh, as a rebooted MUD did.
 var _rooms: Array[String] = []
 var _remaining_ms: Dictionary[String, int] = {}
@@ -40,6 +41,10 @@ static func resetting_rooms() -> Array[String]:
 	for trap: RoomTrapDefinition in catalog.traps():
 		if not rooms.has(trap.legacy_source_path):
 			rooms.append(trap.legacy_source_path)
+	for map: MapDefinition in catalog.maps():
+		for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map.map_id):
+			if landmark.setting("limit") > 0 and not rooms.has(landmark.legacy_source_path):
+				rooms.append(landmark.legacy_source_path)
 	return rooms
 
 

@@ -327,8 +327,12 @@ func fall_below_zero() -> void:
 ## The same for the player outside a fight, after a condition's tick (snake_poison.c
 ## wounds kee without a `who`): the killer is whoever hurt the player last
 ## (last_damage_from), while that NPC still stands on this map.
-func player_fall_below_zero() -> void:
-	if _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.relationship.is_fighting():
+## std/char.c heart_beat() below zero: a conscious player falls unconscious (or dies of
+## a mortal wound). `even_unconscious`: one already lying there is taken below zero again
+## (a greeting's blow, WorldMapActs) and dies, as heart_beat()'s !living() → die().
+func player_fall_below_zero(even_unconscious: bool = false) -> void:
+	var lying: bool = even_unconscious and _player != null and _player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
+	if _player == null or (_player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE and not lying) or _player.relationship.is_fighting():
 		return
 	if _player.state.life_threshold() == CharacterState.LifeThreshold.ACTIVE:
 		return

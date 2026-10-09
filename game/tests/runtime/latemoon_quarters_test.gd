@@ -37,6 +37,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_quarters_for_a_man(tree, man)
 	man.free()
 	await tree.process_frame
+	var weak: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
+	await _test_kicked_unconscious(tree, weak)
+	weak.free()
+	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -91,6 +95,8 @@ func _test_data() -> void:
 	_check(catalog.exit_rules_between(&"latemoon.room.bathroom1", &"latemoon.room.flower1").is_empty(), "no powder on leaving: bathroom1.c's valid_leave() was dropped by replace_program (owner)")
 	var tea: Array[ZoneExitRuleDefinition] = catalog.exit_rules_between(&"latemoon.latemoon3", &"latemoon.latemoon1")
 	_check(tea.size() == 1 and tea[0].condition == ZoneExitRuleDefinition.Condition.TAKES_BACK and tea[0].item_id == TEACUP, "latemoon3.c valid_leave(): the cup goes back")
+	var resetting: Array[String] = WorldRoomResets.resetting_rooms()
+	_check(resetting.has("d/latemoon/park/moonc.c") and resetting.has("d/latemoon/latemoon2.c"), "moonc.c's reset() (no objects) is scheduled: its pistils come back")
 
 
 ## flower.c do_eat(): sen back 50; rose_poison 10 less, 0 below 10; nothing for one not poisoned.
@@ -221,6 +227,7 @@ func _test_quarters_for_a_woman(tree: SceneTree, session: WorldSessionController
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "凤凰 leaves a woman be")
 	var bath: ActService = map.service(&"latemoon.room.bathroom.bath") as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"latemoon.room.bathroom.bath")) and bath.in_reach(), "by the pool")
+	_check(map.interaction_title().contains("沐浴"), "the context button bathes there, not 金仪彤's 请教: %s" % map.interaction_title())
 	state.spirit = CharacterResourceState.new(100, 500, 500) # TEST-ONLY: room to heal
 	var gin: int = state.essence.current
 	bath.interact()
@@ -274,6 +281,12 @@ func _test_tower(tree: SceneTree, session: WorldSessionController) -> void:
 	state.attributes.bellicosity = 0
 	ponder.interact()
 	_check(state.attributes.bellicosity == 0 and state.spirit.current == 100, "no bellicosity: only the sen")
+	state.attributes.bellicosity = 3
+	state.attributes.karma = 0 # TEST-ONLY: random(0) is 0, drawing nothing
+	ponder.interact()
+	_check(state.attributes.bellicosity == -4 and state.spirit.current == 50, "kar 0: 3 - (0 + 7) = -4, below 0 as uproom3.c lets it")
+	state.attributes.bellicosity = 0
+	state.spirit = CharacterResourceState.new(200, 200, 200) # TEST-ONLY
 	state.spirit = CharacterResourceState.new(30, 200, 200) # TEST-ONLY
 	ponder.interact()
 	_check(hud.is_asking() and hud.confirm_prompt.message.text.contains("50 点神"), "it would knock her out: asked first: %s" % hud.confirm_prompt.message.text)
@@ -287,6 +300,7 @@ func _test_tower(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_quarters_for_a_man(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"latemoon.manor", &"latemoon.room.flower1", &"latemoon.room.flower1", KICKED_OUT).succeeded(), "a man in the women's passage")
 	var map: WorldMapController = session.active_map() as WorldMapController
+	_check_points(session)
 	var hud: SharedGameplayUI = session.shared_ui()
 	var state: CharacterState = session.player_runtime().state
 	var shaoin: NpcRuntimeState = _npc(map, &"latemoon.npc.room.shaoin")
@@ -312,6 +326,17 @@ func _test_quarters_for_a_man(tree: SceneTree, session: WorldSessionController) 
 	await tree.physics_frame
 	await MapPlaces.drive_to_zone(tree, map, &"latemoon.room.bathroom1")
 	_check(hud.is_asking(), "asked again")
+	map.set_door_open(&"latemoon.room.flower1.door", false) # TEST-ONLY: 龙韶吟 shuts the curtain meanwhile
+	await tree.process_frame
+	await tree.process_frame
+	if hud.is_asking():
+		hud.confirm_prompt.confirm_button.pressed.emit()
+	_check(not hud.is_asking() and session.player_runtime().world_location().zone_id == &"latemoon.room.flower1", "the curtain shut while asked: the question goes, he stays out")
+	map.set_door_open(&"latemoon.room.flower1.door", true)
+	await tree.physics_frame
+	await tree.physics_frame
+	await MapPlaces.drive_to_zone(tree, map, &"latemoon.room.bathroom1")
+	_check(hud.is_asking(), "asked once more")
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	_check(session.player_runtime().world_location().zone_id == &"latemoon.room.bathroom1", "确定进去: in the changing room")
 	await tree.physics_frame
@@ -353,6 +378,47 @@ func _test_quarters_for_a_man(tree: SceneTree, session: WorldSessionController) 
 
 
 ## Out and back in, the NPCs' init() noting each arrival (no greeting comes due).
+## A weak man kicked out falls unconscious in 内厅穿堂; 龙韶吟's greeting then takes him below
+## zero again, and std/char.c heart_beat() kills one who is not living().
+func _test_kicked_unconscious(tree: SceneTree, session: WorldSessionController) -> void:
+	_check(session.handoff_to(&"latemoon.manor", &"latemoon.room.flower1", &"latemoon.room.flower1", KICKED_OUT).succeeded(), "a weak man in the women's passage")
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var hud: SharedGameplayUI = session.shared_ui()
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	map.npc_life._advance_ambience(1.0)
+	_check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"latemoon.room.flower1.door", &"latemoon.room.flower1")) and map.open_door(&"latemoon.room.flower1.door"), "the curtain opens")
+	await MapPlaces.drive_to_zone(tree, map, &"latemoon.room.bathroom1")
+	_check(hud.is_asking(), "asked")
+	hud.confirm_prompt.confirm_button.pressed.emit()
+	player.state.vitality = CharacterResourceState.new(50, 500, 500) # TEST-ONLY: her 100 kee knocks him out
+	map.npc_life._advance_ambience(1.0)
+	_check(player.world_location().zone_id == &"latemoon.room.flower1" and player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "kicked out, he falls in 内厅穿堂")
+	_check(player.state.spirit.current == 0 and player.state.vitality.current == 0, "unconcious(): gin, kee, sen 0")
+	var lines: int = hud.log_lines().size()
+	map.npc_life._advance_ambience(1.0)
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "龙韶吟's 20 sen on one lying there: he dies (%s)" % player.life_status)
+	_check(not hud.log_lines().slice(lines).has("韶吟惊慌生气的怒斥： 喂! 兄台不要乱闯!"), "her lines go unread")
+
+
+## Every point a greeting moves the player to, and every asked way's point, lies in its zone.
+func _check_points(session: WorldSessionController) -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var checked: int = 0
+	for npc: NpcDefinition in catalog.npcs():
+		for act: ScriptedAct in npc.talk().greeting_choices():
+			for step: ScriptedAct.Step in act.steps:
+				if step.kind == ScriptedAct.Kind.MOVE:
+					var map: WorldMapController = session.world_map_of(catalog.zone(step.zone_id).map_id)
+					_check(map != null and map.spawn_matches_zone(step.point_id, step.zone_id), "%s moves the player to %s in %s" % [npc.definition_id, step.point_id, step.zone_id])
+					checked += 1
+	for rule: ZoneExitRuleDefinition in catalog.exit_rules():
+		if rule.asks:
+			var map: WorldMapController = session.world_map_of(catalog.zone(rule.to_zone_id).map_id)
+			_check(map != null and map.spawn_matches_zone(rule.point_id, rule.to_zone_id), "%s puts the player at %s in %s" % [rule.rule_id, rule.point_id, rule.to_zone_id])
+			checked += 1
+	_check(checked >= 2, "the kick and the changing room's question checked (%d)" % checked)
+
+
 func _drive_out_and_in(tree: SceneTree, map: WorldMapController, out: StringName, back: StringName) -> void:
 	_check(await MapPlaces.drive_to_zone(tree, map, out), "out to %s" % out)
 	map.npc_life._advance_ambience(0.0)

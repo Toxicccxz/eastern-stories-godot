@@ -127,7 +127,10 @@ LPC except:
   for anyone below 10, and rose_poison.c makes a 0 flare once (20 sen of wound) right after
   the cure; one poisoned below 10 still has that last bout.
 - **A greeting acts on a player lying unconscious** (present() finds them), its lines unread;
-  before, nobody greeted an unconscious player.
+  before, nobody greeted an unconscious player. One it takes below zero there dies (std/char.c
+  heart_beat(): !living() → die()), and 阮欣郁's kick moves a body too (ob->move()). Her kick
+  comes a second after a man walks in, before he can cross the room: a man reaches the pool only
+  while she is down.
 - 雨梅's latemoon/茶 is a temp: not saved, so after a Continue she gives another cup and a cup
   carried out without the flag is kept (the plan's temps).
 

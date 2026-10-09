@@ -261,8 +261,11 @@ func resolve_location(zone_id: StringName, combat_id: StringName) -> WorldLocati
 ## Moves the living player to a spawn marker of this map without a scene
 ## change, as ES2's move_object() does within one place: reincarnating at the
 ## temple after dying on the temple's own map. False if marker and zone differ.
-func relocate_player(zone_id: StringName, spawn_point_id: StringName) -> bool:
-	if not _initialized or _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+## Puts the player at a spawn point of a zone on this map; `even_unconscious` moves one
+## lying unconscious too (ob->move(): d/latemoon shinyu.c's kick).
+func relocate_player(zone_id: StringName, spawn_point_id: StringName, even_unconscious: bool = false) -> bool:
+	var lying: bool = even_unconscious and _player != null and _player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
+	if not _initialized or _player == null or (_player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE and not lying):
 		return false
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
 	var location: WorldLocationState = location_for_zone(zone_id)
@@ -496,14 +499,29 @@ func _ask_way_in(rule: ZoneExitRuleDefinition, go: Callable) -> void:
 	if hud() == null or hud().is_asking():
 		return
 	var still_here: Callable = func() -> bool:
-		return _player != null and _player.world_location().zone_id == rule.from_zone_id and can_act(false)
+		return (
+			_player != null and _player.world_location().zone_id == rule.from_zone_id and can_act(false)
+			and not door_shut_between(rule.from_zone_id, rule.to_zone_id)
+		)
 	hud().ask_first(tr(rule.ask), tr(rule.choice), go, still_here)
+
+
+## A door between the two zones stands shut (room.c valid_leave(): 你必须先把…打开！).
+func door_shut_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	for node: WorldDoor in doors_by_id.values():
+		var definition: DoorDefinition = GameContent.catalog().door(node.door_id)
+		if definition != null and definition.zone_ids().has(from_zone_id) and definition.zone_ids().has(to_zone_id) and not node.is_open():
+			return true
+	return false
 
 
 ## The player chose to walk in: they are put inside, as a walk would (the way's
 ## valid_leave() lines, the room traps).
 func _enter_after_asking(rule: ZoneExitRuleDefinition) -> void:
-	if _player == null or _player.world_location().zone_id != rule.from_zone_id:
+	if _player == null or _player.world_location().zone_id != rule.from_zone_id or door_shut_between(rule.from_zone_id, rule.to_zone_id):
+		return
+	if not spawn_matches_zone(rule.point_id, rule.to_zone_id):
+		push_error("exit rule %s: no point %s in %s" % [rule.rule_id, rule.point_id, rule.to_zone_id])
 		return
 	_tell_passing(rule.from_zone_id, rule.to_zone_id)
 	if session != null:
@@ -513,7 +531,7 @@ func _enter_after_asking(rule: ZoneExitRuleDefinition) -> void:
 
 
 func _pass_after_asking(rule: ZoneExitRuleDefinition, portal: PortalDefinition) -> void:
-	if _player == null or _player.world_location().zone_id != rule.from_zone_id:
+	if _player == null or _player.world_location().zone_id != rule.from_zone_id or door_shut_between(rule.from_zone_id, rule.to_zone_id):
 		return
 	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
 	WorldLandmarkPolicy.move_through(self, portal)
@@ -1338,5 +1356,5 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	return combat_lifecycle.execute_encounter_lifecycle(victim, opportunity, participants, last_hitter_id)
 
 
-func player_fall_below_zero() -> void:
-	combat_lifecycle.player_fall_below_zero()
+func player_fall_below_zero(even_unconscious: bool = false) -> void:
+	combat_lifecycle.player_fall_below_zero(even_unconscious)

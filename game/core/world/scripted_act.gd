@@ -145,12 +145,15 @@ static func _step(reader: ContentRecordReader) -> Step:
 	match kinds[0]:
 		"line":
 			step.kind = Kind.LINE
-			step.line = NpcLine.from_record(reader)
+			step.line = NpcLine.from_record(reader, true)
 			if step.line == null:
 				return null
 		"damage":
 			step.kind = Kind.DAMAGE
 			var amounts: ContentRecordReader = reader.child("damage")
+			if amounts == null:
+				reader.fail("damage", "expected {gin, kee, sen}")
+				return null
 			for key: String in amounts.keys():
 				if not RESOURCES.has(key):
 					amounts.fail(key, "expected one of %s" % [RESOURCES])
@@ -192,7 +195,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 			step.item_id = StringName(reader.required_text("give"))
 			step.unless_temp = reader.text("unless_temp")
 			for record: ContentRecordReader in reader.children("lines"):
-				var said: NpcLine = NpcLine.from_record(record)
+				var said: NpcLine = NpcLine.from_record(record, true)
 				record.finish()
 				if said != null:
 					step.lines.append(said)

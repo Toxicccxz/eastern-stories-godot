@@ -139,7 +139,7 @@
 					{"node": "passage", "name": "SecretPassage", "id": "latemoon.room.flower1.south", "at": [704, 2352], "shape": "Rect_64_32"},
 					{"node": "service", "name": "TeaPot", "id": "latemoon.latemoon3.tea", "at": [1040, 112], "text": "茶壶 · 装水"},
 					{"node": "service", "name": "Pool", "id": "latemoon.room.bathroom.pool", "at": [1328, 2320], "text": "小花池 · 装水"},
-					{"node": "service", "name": "Bath", "id": "latemoon.room.bathroom.bath", "at": [1264, 2320], "text": "小花池 · 沐浴"},
+					{"node": "service", "name": "Bath", "id": "latemoon.room.bathroom.bath", "at": [1256, 2240], "text": "小花池 · 沐浴"},
 					{"node": "service", "name": "BaguaFloor", "id": "latemoon.latemoon8.dance", "at": [416, 720], "text": "八卦图 · 跳舞"},
 					{"generated": "stairs"},
 					{"generated": "doors"}
