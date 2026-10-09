@@ -9,7 +9,10 @@ extends RefCounted
 ## fighting does its line (tell_room() to everyone else) and kill_ob()s whoever this
 ## NPC fights to the death (query_temp("killer")). `SayByAge` (woman1.c converse_one()):
 ## younger than the NPC, the `younger` says, else `otherwise` (DECISIONS 青石村 A: the
-## enemy's age, not heart_beat()'s this_player(), who is herself).
+## enemy's age, not heart_beat()'s this_player(), who is herself). `Poison`
+## (daemon/class/dancer/master.c use_poison()): one enemy at random; when it has none of
+## the condition, it is told `tell`, and random(the NPC's combat_exp) over its own sets
+## the condition to `duration`.
 
 
 class Wield:
@@ -45,14 +48,33 @@ class SayByAge:
 		return younger if enemy_age < own_age else otherwise
 
 
+class Poison:
+	extends RefCounted
+	var condition_id: StringName
+	var duration: int
+	var tell: String
+
+	func is_valid() -> bool:
+		return ConditionIds.ALL.has(condition_id) and duration > 0 and not tell.strip_edges().is_empty()
+
+
 static func is_action(action: String) -> bool:
-	return action in ["wield", "call_partner", "say_by_age"]
+	return action in ["wield", "call_partner", "say_by_age", "poison"]
 
 
 ## {"action": "wield", "item", "say"?, "chat_chance_combat"?} | {"action": "call_partner",
-## "partner", "emote" | "say" | "line"} | {"action": "say_by_age", "younger", "otherwise"}.
+## "partner", "emote" | "say" | "line"} | {"action": "say_by_age", "younger", "otherwise"} |
+## {"action": "poison", "condition", "duration", "tell"}.
 static func from_record(reader: ContentRecordReader, action: String) -> RefCounted:
 	match action:
+		"poison":
+			var poison := Poison.new()
+			poison.condition_id = StringName(reader.required_text("condition"))
+			poison.duration = reader.required_integer("duration")
+			poison.tell = reader.required_text("tell")
+			if not poison.is_valid():
+				reader.fail("", "needs a known condition, a positive duration and its tell")
+			return poison
 		"wield":
 			var wield := Wield.new()
 			wield.item_id = StringName(reader.required_text("item"))

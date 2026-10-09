@@ -21,7 +21,9 @@ extends RefCounted
 ## random(`random`) other than 0 gives the `reward` item (`found`, the mark stays),
 ## else the mark goes (`nothing` either way without it). `look_spawn` (house3.c
 ## call_spider()) is looked at: while fewer than `limit` came since the room's reset
-## and its summoned `spawn` has a free point, a look calls one in (`spawn`).
+## and its summoned `spawn` has a free point, a look calls one in (`spawn`). A `look`
+## landmark may `teach` marks: what it tells the player now know (d/latemoon/latebook.c's
+## picture names two dances).
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
@@ -51,6 +53,7 @@ var _items: Dictionary[String, StringName] = {}
 var _class_id: StringName = &""
 var _mark: String = ""
 var _spawn_id: StringName = &""
+var _teaches: Array[String] = []
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -97,6 +100,10 @@ var mark: String:
 var spawn_id: StringName:
 	get:
 		return _spawn_id
+## The marks a `look` landmark gives whoever looks at it.
+var teaches: Array[String]:
+	get:
+		return _teaches.duplicate()
 
 
 func _init(
@@ -155,6 +162,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	definition._class_id = StringName(reader.text("class"))
 	definition._mark = reader.text("mark")
 	definition._spawn_id = StringName(reader.text("spawn"))
+	definition._teaches = reader.text_list("teaches")
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -173,6 +181,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("mark", "only a search landmark names a mark, and it must")
 	if definition.spawn_id.is_empty() == bool(rule.get("spawn", false)):
 		reader.fail("spawn", "only a look_spawn landmark names a spawn, and it must")
+	if not definition._teaches.is_empty() and definition.policy != &"look":
+		reader.fail("teaches", "only a look landmark teaches marks")
 	if portal_ids.size() != int(rule["portals"]):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
@@ -209,6 +219,7 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._class_id = _class_id
 	copy._mark = _mark
 	copy._spawn_id = _spawn_id
+	copy._teaches = _teaches.duplicate()
 	return copy
 
 

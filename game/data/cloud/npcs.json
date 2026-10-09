@@ -173,7 +173,6 @@
 			"accept_fight": [
 				{ "say": "生命可贵！不要自寻死路！", "accept": false }
 			],
-			"fight_deferred": "snowshade-sword, snowshade-force and pyrobat-steps are not ported yet (东方神教, region plan #7)",
 			"quest_giver": true
 		},
 		{
@@ -685,6 +684,32 @@
 			"accept_fight": [
 				{ "say": "小女子哪里是您的对手？", "accept": false }
 			]
+		},
+		{
+			"id": "cloud.npc.lm_guard",
+			"legacy_source": "u/cloud/npc/lm_guard.c",
+			"name": "彩衣少女",
+			"aliases": ["girl"],
+			"gender": "女性",
+			"age": 16,
+			"long": "    小姑娘是晚月庄的女弟子，虽说身形单薄，可眼神里透出的傲气让\n人感到并不好欺负。\n",
+			"attributes": { "str": 18, "cor": 18, "cps": 21, "int": 25, "per": 27 },
+			"combat_exp": 1000,
+			"attitude": "heroism",
+			"skills": { "whip": 40, "parry": 20, "dodge": 40, "stormdance": 40, "snowwhip": 30 },
+			"skill_map": { "dodge": "stormdance", "whip": "snowwhip" },
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/lm_guard/whip", "source": "u/cloud/obj/npc/lm_guard/whip.c", "equip": "wield" },
+				{ "item": "es2:u/cloud/obj/npc/lm_guard/color_cloth", "source": "u/cloud/obj/npc/lm_guard/color_cloth.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				"少女说道：你当这里是什么地方，敢来这里骚扰？\n",
+				"少女说道：你要是再无理取闹，当心庄主的鞭子！\n",
+				"少女手中的鞭子越舞越快，让你应接不暇。\n",
+				"少女说道：你当晚月庄的女子好欺负么？！\n"
+			],
+			"inquiry": { "蓝止萍": ["庄主的名字也是你这等人随便叫的么？"], "晚月庄": ["庄主吩咐过，不许乱讲。"] }
 		}
 	]
 }

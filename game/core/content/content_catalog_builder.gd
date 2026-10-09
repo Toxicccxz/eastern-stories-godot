@@ -454,6 +454,15 @@ func _resolve_services() -> void:
 			_errors.append("%s.zone: unknown zone '%s'" % [origin, definition.zone_id])
 			continue
 		_services[service_id] = definition.with_map(zone.map_id)
+		if definition.dance == null:
+			continue
+		# A dance moves the dancer through a portal leaving the dance floor's room.
+		for step: DanceDefinition.Step in definition.dance.steps:
+			var portal: PortalDefinition = _portals.get(step.portal_id)
+			if portal == null:
+				_errors.append("%s.dance: unknown portal '%s'" % [origin, step.portal_id])
+			elif portal.source_zone_id != definition.zone_id:
+				_errors.append("%s.dance: portal '%s' does not leave %s" % [origin, step.portal_id, definition.zone_id])
 
 
 func _resolve_doors() -> void:

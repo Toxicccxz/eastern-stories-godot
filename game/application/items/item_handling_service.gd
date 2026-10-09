@@ -61,6 +61,8 @@ static func give(
 	var content: ItemContentDefinition = _carried(result, authorities, id, amount)
 	if content == null:
 		return result
+	if content.no_drop:
+		return _refused(result, ItemHandlingResult.Outcome.REFUSED, TranslationServer.translate("这样东西不能随便给人。"))
 	var name: String = npc.definition().display_name
 	var offer := NpcObjectRule.Offer.new(
 		_portion_money(authorities, id, content, amount), &"", 0, npc.flags(), player.state.marks,
@@ -156,6 +158,7 @@ static func npc_hands_over(id: StringName, amount: int, receiver: ItemLifecycleO
 
 ## drop.c: onto the floor of the player's place (`floor`); something worth
 ## nothing is destructed at once, as nobody would notice it.
+## drop.c: set("no_drop") refuses (its own line when it is a string).
 static func drop(player: WorldPlayerRuntimeState, id: StringName, amount: int, floor: ContainmentEndpoint, authorities: Authorities) -> ItemHandlingResult:
 	var result := ItemHandlingResult.new()
 	if player == null or floor == null or floor.kind != ContainmentEndpoint.Kind.WORLD or authorities == null or not authorities.is_valid():
@@ -163,6 +166,9 @@ static func drop(player: WorldPlayerRuntimeState, id: StringName, amount: int, f
 	var content: ItemContentDefinition = _carried(result, authorities, id, amount)
 	if content == null:
 		return result
+	if content.no_drop:
+		var line: String = TranslationServer.translate("这样东西不能随意丢弃。") if content.no_drop_line.is_empty() else TranslationServer.translate(content.no_drop_line)
+		return _refused(result, ItemHandlingResult.Outcome.REFUSED, line)
 	var portion: StringName = _split_portion(result, authorities, id, content, amount)
 	if portion.is_empty():
 		return result
@@ -195,6 +201,8 @@ static func put(player: WorldPlayerRuntimeState, id: StringName, amount: int, co
 	var content: ItemContentDefinition = _carried(result, authorities, id, amount)
 	if content == null:
 		return result
+	if content.no_drop:
+		return _refused(result, ItemHandlingResult.Outcome.REFUSED, TranslationServer.translate("这个东西还是小心保管的好，不必放在别处。"))
 	var inside := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, container_id)
 	var weight: int = _portion_weight(authorities, id, content, amount)
 	if authorities.context.inventory.contents_weight(inside) + weight > container.max_encumbrance:

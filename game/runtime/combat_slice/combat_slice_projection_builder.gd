@@ -169,6 +169,8 @@ static func build_attack_input(
 		FORCE_SKILL_ID,
 		attacker.state.skills.effective_level(FORCE_SKILL_ID, _apply(attacker, attacker_armor, FORCE_SKILL_ID)),
 		attacker.content.hit_condition() if primary == null else null,
+		_force_hit_wound(mapped_force_id),
+		0 if mapped_force_id.is_empty() else attacker.state.skills.effective_level(mapped_force_id, _apply(attacker, attacker_armor, mapped_force_id)),
 	)
 	var defender_snapshot: CombatDefenderSnapshot = CombatDefenderSnapshot.new(
 		defender.character_id,
@@ -324,6 +326,12 @@ static func _force_hit_policy(mapped_force_id: StringName) -> CombatHitPolicySta
 	if skill != null and skill.standard_force_hit:
 		return CombatHitPolicyStatus.Value.STANDARD_FORCE
 	return CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
+
+
+## What the mapped force's hit_ob() adds after std/force.c's (iceforce.c), or null.
+static func _force_hit_wound(mapped_force_id: StringName) -> ForceHitWound:
+	var skill: SkillDefinition = null if mapped_force_id.is_empty() else GameContent.catalog().skill(mapped_force_id)
+	return null if skill == null or not skill.standard_force_hit else skill.force_hit_wound
 
 
 ## combatd.c calls the mapped martial art's hit_ob(): proven absent for a skill whose

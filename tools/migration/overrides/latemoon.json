@@ -1,0 +1,356 @@
+{
+	"source_fixes": {
+		"d/latemoon/sroad1.c": [
+			{ "find": "\"north: __DIR__\"park/moondoor\",", "replace": "\"north\" : __DIR__\"park/moondoor\",", "why": "a missing quote: ES2 never compiled the room, so the garden's back gate and the path's north-west led nowhere (owner, 晚月庄 plan Q1: fixed as a deviation)" }
+		]
+	},
+	"items": [
+		"d/latemoon/obj/needle.c",
+		"d/latemoon/room/npc/obj/needle.c",
+		"d/latemoon/park/npc/obj/guihua.c"
+	],
+	"set": {
+		"es2:d/latemoon/obj/wine": {
+			"liquid": { "max_liquid": 30, "name": "红酒", "remaining": 30, "type": "alcohol" }
+		},
+		"common.npc.dancer.master": {
+			"chat_chance_combat": 60,
+			"chat_msg_combat": [
+				"蓝止萍嫣然一笑，一个转身迳自舞了起来，对眼前这场恶斗似乎全不放在心上。\n",
+				"蓝止萍脚步轻移，翩翩地转了几个圈，回眸一笑。\n",
+				"蓝止萍用手扶了扶自己的发簪，像是怕被对手碰歪似地。\n",
+				"蓝止萍笑嘻嘻地拾起地上一片从魔鞭翩珑上落下的花瓣。\n",
+				{ "action": "poison", "condition": "rose_poison", "duration": 20, "tell": "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。" },
+				{ "action": "exert", "function": "chillgaze" }
+			]
+		},
+		"latemoon.npc.yumay": {
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/needle", "source": "d/latemoon/npc/obj/needle.c", "amount": 30, "equip": "wield" },
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/npc/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/skirt3", "source": "d/latemoon/npc/obj/skirt3.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"西出阳关": ["『西出阳关』是一种幻影式舞步。可以移形换影。\n"],
+				"学舞": ["来!我教你...『西出阳关』(dancing out)是 ..... \n经过雨梅指导后你渐渐懂了! \n", { "mark_asker": "dance_out" }],
+				"舞": ["我会的舞是属于「幻影式舞步」。\n"],
+				"芳绫": ["她是个可爱的女孩。不过有点任性，听说她贪玩被关在 \n禁闭室。听说她爱玩竹蜻蜓哦。\n"],
+				"竹蜻蜓": ["庄内有人会用竹子作成不同物品。\n"],
+				"沧海龙吟": ["是一种失传以久的「寒谷龙舞」\n"]
+			},
+			"greeting": {
+				"one_of": [
+					{ "line": "雨梅对你微笑，和善的对你说：\n  这位$RESPECT，你好！欢迎来到晚月庄。请坐！" },
+					{ "line": "雨梅对你微笑，纤细的双手捧著茶，\n 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！" }
+				]
+			}
+		},
+		"latemoon.npc.girl": {
+			"inquiry": {
+				"图": ["这是一张非常真贵的湘绣舞曲图，我也在研究中。\n"],
+				"沧海龙吟": ["嗯 ...为这舞曲名。似乎雨梅姊知道。\n"],
+				"有凤来仪": ["嗯 ...为这舞曲名。(dancing yu-fong)很有名！ \n", { "mark_asker": "dance_yu_fong" }],
+				"西出阳关": ["「幻影式舞步」步法与地点都很重要。\n"],
+				"芳绫": ["她聪明伶俐，会跳一些自创的舞步。\n"],
+				"画": ["沧海龙吟是一幅湘绣舞曲图，记载一些珍贵舞步。\n"],
+				"寒谷龙舞": { "rules": [ { "lines": [
+					{ "line": "昭仪很奇怪的望著你，说道:嘻!你对舞有兴趣呀! " },
+					{ "line": "只见两眼溜来溜去，一种很神秘的表情，嘟著嘴。" },
+					{ "line": "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。(dragon-dance) " },
+					{ "say": "...." }
+				] } ] },
+				"舞": { "rules": [ { "lines": [
+					{ "line": "昭仪很高兴的看著你，说道:嘻!你对舞有兴趣呀!" },
+					{ "line": "这有一幅图画，我从那悟到好多新舞步哦! " },
+					{ "line": "『 沧海龙吟』是一首失传以久的舞曲。传说...." },
+					{ "say": "......" }
+				] } ] }
+			}
+		},
+		"latemoon.npc.zauron": {
+			"greeting": {
+				"one_of": [
+					{ "line": "昭蓉对你微笑，和善的对你点点头。" },
+					{ "line": "昭蓉对你微笑，以纤细轻柔的声音 \n 说道：这位$RESPECT，你好！欢迎来到晚月庄。" }
+				]
+			}
+		},
+		"latemoon.npc.shaowei": {
+			"greeting": {
+				"one_of": [
+					{ "line": "筱薇对你微笑，和善的对你点点头。" },
+					{ "line": "筱薇对你微笑，以纤细轻柔的声音 \n 说道：这位$RESPECT，你好！欢迎来到晚月庄。" }
+				]
+			}
+		},
+		"latemoon.npc.room.servant": {
+			"carry": [
+				{ "item": "es2:d/latemoon/room/npc/obj/needle", "source": "d/latemoon/room/npc/obj/needle.c", "amount": 30 },
+				{ "item": "es2:d/latemoon/obj/skirt", "source": "d/latemoon/obj/skirt.c", "equip": "wear" }
+			]
+		},
+		"latemoon.npc.room.tguest": {
+			"carry": [
+				{ "item": "es2:d/latemoon/room/npc/obj/token", "source": "d/latemoon/room/npc/obj/token.c" },
+				{ "item": "es2:d/latemoon/room/npc/obj/longsword", "source": "d/latemoon/room/npc/obj/longsword.c", "equip": "wield" }
+			]
+		},
+		"latemoon.npc.room.shaoin": {
+			"hit_ob": { "condition": "rose_poison", "duration": 10, "below": 20, "message": "你觉得被打中的地方一阵麻痒！", "color": "HIG" }
+		},
+		"latemoon.npc.park.dodo1": {
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "action": "random_move" },
+				"小金鼠摇摇尾巴!全身晃呀晃! \n",
+				"小金鼠眼睛眨呀眨!好像快睡著了! \n",
+				"嘟嘟玩太累了!睡著了! \n",
+				"小金鼠「嘟嘟」它跳啊跳的! \n",
+				"小金鼠「嘟嘟」眼睛眨呀眨看著你 \n",
+				"小金鼠发出「  叽! 叽!」」的叫声! \n"
+			]
+		},
+		"latemoon.npc.park.flwgirl": {
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/girl/pink_cloth", "source": "u/cloud/obj/npc/girl/pink_cloth.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/park/npc/obj/guihua", "source": "d/latemoon/park/npc/obj/guihua.c", "amount": 20, "equip": "wield" }
+			]
+		}
+	},
+	"review": {
+		"d/latemoon/entrance.c": {
+			"set item_desc": "the door's look_door(): world.json doors latemoon.entrance.door",
+			"create_door": "world.json doors: latemoon.entrance.door (拱门, DOOR_CLOSED)"
+		},
+		"d/latemoon/gate.c": {
+			"set item_desc": "a look-only landmark (灯笼) in world.json; the inscription's BRED HIW is shown plain",
+			"create_door": "world.json doors: latemoon.entrance.door"
+		},
+		"d/latemoon/latemoon1.c": {
+			"call_other": "the dancers' bulletin board is for players' posts: not ported (single player)"
+		},
+		"d/latemoon/latemoon2.c": {
+			"set item_desc": "a look-only landmark (碧纱橱) in world.json; taking a 布裙 from it comes with 晚月庄 B",
+			"create_door": "world.json doors: latemoon.latemoon4.door (仪门, DOOR_CLOSED)",
+			"function init": "B (take cloth) and C (search bracelet)",
+			"function reset": "B: take_available 2 a reset (make_cockroach: see do_take)",
+			"function do_take": "B: take cloth gives a 布裙 while take_available lasts; any other word made a 大蟑螂, which nothing in the game types (owner: not placed)",
+			"function do_search": "C: search bracelet after 芳绫's secret (moon/问题二)"
+		},
+		"d/latemoon/latemoon3.c": {
+			"set resource/water": "world.json services: latemoon.latemoon3.tea (kind water: the teapot on the table)",
+			"function valid_leave": "B: the tea cup goes back to 雨梅 on leaving south"
+		},
+		"d/latemoon/latemoon4.c": { "create_door": "world.json doors: latemoon.latemoon4.door" },
+		"d/latemoon/latemoon5.c": { "create_door": "world.json doors: latemoon.latemoon5.door (铜门, DOOR_CLOSED)" },
+		"d/latemoon/latemoon6.c": {
+			"set item_desc": "a look-only landmark (墙) in world.json",
+			"create_door": "world.json doors: latemoon.latemoon5.door"
+		},
+		"d/latemoon/latemoon7.c": { "create_door": "world.json doors: latemoon.latemoon7.door (石门, DOOR_CLOSED)" },
+		"d/latemoon/latemoon8.c": {
+			"create_door": "world.json doors: latemoon.latemoon7.door",
+			"function init": "dancing: world.json services latemoon.latemoon8.dance; search bed: C",
+			"function do_dancing": "world.json services latemoon.latemoon8.dance (kind dance): the gender's sen check and cost, then yu-fong (50 sen more) to the 密室 or out to the bamboo grove; another dance 不得要领",
+			"function do_search": "C: search bed gives the 舞曲谱 to whoever 莫欣芳 told (mark/dance-book)"
+		},
+		"d/latemoon/miroom.c": {
+			"create_door": "world.json doors: latemoon.miroom2.door (垂花门, DOOR_CLOSED)",
+			"function init": "dancing: world.json services latemoon.miroom.dance",
+			"function do_dancing": "world.json services latemoon.miroom.dance: out to the bamboo grove",
+			"function do_get": "only `get dance-book` (no such thing lies here) costs 50 sen: nothing in the game types it"
+		},
+		"d/latemoon/miroom2.c": { "create_door": "world.json doors: latemoon.miroom2.door" },
+		"d/latemoon/latebook.c": {
+			"set item_desc": "a look-only landmark (湘绣舞曲图) in world.json; looking at it teaches both dances' names (marks dance_out, dance_yu_fong)"
+		},
+		"d/latemoon/npc/yumay.c": {
+			"statement in create()": "ob = carry_object(needle); ob->set_amount(30); ob->wield(): carry (set latemoon.npc.yumay)",
+			"function init": "greeting (set latemoon.npc.yumay): one second after the player arrives",
+			"function greeting": "greeting (set latemoon.npc.yumay): random(2)'s two lines; the tea cup of the second comes with B"
+		},
+		"d/latemoon/npc/zauron.c": {
+			"function init": "greeting (set latemoon.npc.zauron)",
+			"function greeting": "greeting (set latemoon.npc.zauron): random(2)'s two lines"
+		},
+		"d/latemoon/npc/shaowei.c": {
+			"function init": "greeting (set latemoon.npc.shaowei)",
+			"function greeting": "greeting (set latemoon.npc.shaowei): random(2)'s two lines",
+			"function accept_object": "C: a 竹子 becomes a 竹蜻蜓 (make_stage); anything else is thanked for and kept",
+			"function make_stage": "C: the five lines two seconds apart, then the 竹蜻蜓"
+		},
+		"d/latemoon/npc/funlin.c": {
+			"function accept_object": "C: the 竹蜻蜓 buys her secret (moon/问题二); anything else is thanked for and kept"
+		},
+		"d/latemoon/npc/girl.c": {
+			"inquiry 寒谷龙舞": "inquiry rules (set latemoon.npc.girl): show_dance()'s tell_object() lines, then ask.c says its return",
+			"inquiry 舞": "inquiry rules (set latemoon.npc.girl): show_dragon()'s lines, then its return",
+			"set san": "a misspelt sen: nothing reads san",
+			"function show_dance": "inquiry rules (set latemoon.npc.girl)",
+			"function show_dragon": "inquiry rules (set latemoon.npc.girl)"
+		},
+		"d/latemoon/obj/skirt.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"function wear": "B: only a 女性 wears it (只有女生才可穿哦!你变态呀!)"
+		},
+		"d/latemoon/obj/skirt2.c": {
+			"set rmor_prop/dodge": "a misspelt armor_prop/dodge: nothing reads it, the skirt gives no dodge (as LPC)",
+			"set wear_msg": "wear messages are not shown yet"
+		},
+		"d/latemoon/obj/skirt3.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/obj/skirt4.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"function wear": "B: only a 女性 wears it"
+		},
+		"d/latemoon/obj/skirt5.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"function wear": "B: only a 女性 wears it"
+		},
+		"d/latemoon/obj/belt.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/obj/clasp.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/obj/necklace.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/obj/redbelt.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/room/npc/obj/earring.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/room/npc/obj/brooch.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/park/npc/obj/ring.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/park/npc/obj/amulet.c": { "set wear_msg": "wear messages are not shown yet" },
+		"d/latemoon/obj/bamboo_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/latemoon/obj/whip.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/latemoon/obj/yu_blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/latemoon/room/npc/obj/longsword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/example/sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/lm_guard/whip.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"daemon/class/dancer/echowhip.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"daemon/class/dancer/master.c": {
+			"set apprentice_available": "D: never runs out (recruit_apprentice() lowers the misspelt apprentice_availavble, as 林忌's)",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: the four lines, use_poison() (poison) and exert chillgaze (意寒睨, iceforce's file)",
+			"function reset": "D: delete_temp(\"learned\") and apprentice_available 10 (which never runs out)",
+			"function attempt_apprentice": "D: the apprentice rule's two-second answer (as 林忌's), 慢著，一个一个来 while it is due",
+			"function do_recruit": "D: 男人都不是好东西，滚开！ to a man; the accept say, the 暧昧 line for per > 25 under 20, recruit",
+			"function recruit_apprentice": "D: class dancer",
+			"function use_poison": "chat_msg_combat poison (NpcFightChat.Poison): one enemy at random, told, random(1000000) over its combat_exp for rose_poison 20"
+		},
+		"d/latemoon/room/twoc.c": { "create_door": "world.json doors: latemoon.room.twoc.door (后厅大门, DOOR_CLOSED)" },
+		"d/latemoon/room/lcenter.c": { "create_door": "world.json doors: latemoon.room.twoc.door" },
+		"d/latemoon/room/eroad1.c": { "create_door": "world.json doors: latemoon.room.eroad1.door (雕饰厢门, DOOR_CLOSED)" },
+		"d/latemoon/room/eastroom.c": { "create_door": "world.json doors: latemoon.room.eroad1.door, named after the corridor's side (the room's side calls it 雕饰房门)" },
+		"d/latemoon/room/wroad2.c": { "create_door": "world.json doors: latemoon.room.wroad2.door (雕饰厢门, DOOR_CLOSED)" },
+		"d/latemoon/room/westroom.c": { "create_door": "world.json doors: latemoon.room.wroad2.door, named after the corridor's side (the room's side calls it 雕饰房门)" },
+		"d/latemoon/room/corridor7.c": { "create_door": "world.json doors: latemoon.room.corridor7.door (垂花门, DOOR_CLOSED)" },
+		"d/latemoon/room/flower1.c": { "create_door": "world.json doors: latemoon.room.corridor7.door and latemoon.room.flower1.door (小帘门)" },
+		"d/latemoon/room/bathroom1.c": {
+			"create_door": "world.json doors: latemoon.room.flower1.door (小帘门, DOOR_CLOSED)",
+			"function valid_leave": "B: whoever is not a 女性 is sprinkled with rose_poison 5 on leaving"
+		},
+		"d/latemoon/room/bathroom.c": {
+			"set resource/water": "world.json services: latemoon.room.bathroom.pool (kind water)",
+			"function init": "B (take bath)",
+			"function do_takebath": "B: a 女性 bathes (gin 10, sen back random(5)+5), anyone else gets rose_poison 15 (owner: asked first)"
+		},
+		"d/latemoon/room/npc/servant.c": {
+			"statement in create()": "ob = carry_object(needle); ob->set_amount(30): carry (set latemoon.npc.room.servant)"
+		},
+		"d/latemoon/room/npc/old.c": {
+			"function accept_object": "C: the 杀手令牌 for max_force (a 晚月庄 member below 160) or the 寒雪鞭法 book"
+		},
+		"d/latemoon/room/npc/killer.c": {
+			"set pursuer": "following who flees is not modelled yet (as 县城官兵's, 黄霸's, 安惜迩's and 僵尸护法's); test_pursuers_wait_for_following lists every one"
+		},
+		"d/latemoon/room/npc/obj/letter.c": {
+			"function init": "C (fire letter)",
+			"function do_fire": "C: with a 火摺, the letter's hidden lines"
+		},
+		"d/latemoon/room/npc/elon.c": {
+			"function init": "D (accept test)",
+			"function do_accept": "D: women of 100000 combat_exp, her three lashes (the apprentice rule's trial, asked first)",
+			"function attempt_apprentice": "D: 100000 combat_exp, women, commoners only (要叛师！！！ and kill_ob(), asked first)"
+		},
+		"d/latemoon/room/npc/annihi.c": {
+			"function attempt_apprentice": "D: she refuses everyone (拜师! 不敢当…): 东方神教 has no master who takes apprentices"
+		},
+		"d/latemoon/room/npc/yushou.c": {
+			"function init": "B",
+			"function greeting": "B: closes her room's door and asks guests to keep quiet"
+		},
+		"d/latemoon/room/npc/yuchoun.c": {
+			"function init": "B",
+			"function greeting": "B: a man loses 10 sen, she 50 force more; she closes the door"
+		},
+		"d/latemoon/room/npc/shaoin.c": {
+			"function init": "B",
+			"function greeting": "B: a man loses 20 sen and gets rose_poison 2, she 50 force more; she closes the door",
+			"function hit_ob": "hit_ob (set latemoon.npc.room.shaoin): random(damage_bonus) over apply/armor and rose_poison below 20 set it to 10 (NpcHitCondition)"
+		},
+		"d/latemoon/room/npc/shinyu.c": {
+			"function init": "B",
+			"function greeting": "B: kicks a man out to 内厅穿堂 (gin 50, kee 100, sen 50, rose_poison 10; owner: walking in is asked first); she closes the door"
+		},
+		"d/latemoon/room/npc/fireangel.c": {
+			"set nick": "a misspelt nickname: nothing reads nick",
+			"function init": "B",
+			"function greeting": "B: kill_ob() on a man"
+		},
+		"d/latemoon/park/moonc.c": {
+			"set item_desc": "a look-only landmark (西府海棠) in world.json; picking its pistils comes with B",
+			"function init": "B (pick flower)",
+			"function reset": "B: pick_available 2 a reset",
+			"function do_pick": "B: a 小花蕊 while pick_available lasts"
+		},
+		"d/latemoon/park/paroad2.c": {
+			"set item_desc": "a look-only landmark (石牌) in world.json",
+			"function look_sign": "the landmark's long: the player's text (the wizard's 任务提示 has no wizard to read it); HIM shown plain"
+		},
+		"d/latemoon/park/npc/flwgirl.c": {
+			"set per": "an NPC's per is read by nothing ported (look.c's looks are not shown)",
+			"for in create()": "two handfuls of ten 红桂花 merge into one wielded stack of 20 (combined.c move()): carry (set latemoon.npc.park.flwgirl)"
+		},
+		"d/latemoon/park/npc/dodo1.c": {
+			"set_temp armor": "set_temp(\"armor\"), not apply/armor: nothing reads it",
+			"set dodge": "a dodge property, not a skill: nothing reads it",
+			"set chat_chance": "in set",
+			"set chat_msg": "in set: (: this_object(), \"random_move\" :) is random_move"
+		},
+		"d/latemoon/upstar/npc/shinfun.c": {
+			"inquiry 舞曲谱": "C: do_reply() marks the asker (mark/dance-book) and answers",
+			"function do_reply": "C"
+		},
+		"d/latemoon/upstar/npc/statue.c": {
+			"function init": "B",
+			"function greeting": "B: one not of the dancers' class loses 20 sen"
+		},
+		"d/latemoon/upstar/upcenter.c": { "create_door": "world.json doors: latemoon.upstar.upcenter.door (檀香木门, DOOR_CLOSED)" },
+		"d/latemoon/upstar/uproom.c": { "create_door": "world.json doors: latemoon.upstar.upcenter.door" },
+		"d/latemoon/upstar/upstar4.c": { "create_door": "world.json doors: latemoon.upstar.upstar4.door (木门, DOOR_CLOSED)" },
+		"d/latemoon/upstar/uproom2.c": { "create_door": "world.json doors: latemoon.upstar.upstar4.door" },
+		"d/latemoon/upstar/upstar3.c": { "create_door": "world.json doors: latemoon.upstar.upstar3.door (木门, DOOR_CLOSED)" },
+		"d/latemoon/upstar/uproom3.c": {
+			"create_door": "world.json doors: latemoon.upstar.upstar3.door",
+			"function init": "B (ponder)",
+			"function do_ponder": "B: 50 sen; bellicosity above 0 goes down random(kar) + 7"
+		},
+		"d/latemoon/upstar/upstarc.c": { "create_door": "world.json doors: latemoon.upstar.upstarc.door (楼门, DOOR_CLOSED)" },
+		"d/latemoon/upstar/uplook.c": { "create_door": "world.json doors: latemoon.upstar.upstarc.door" }
+	}
+}

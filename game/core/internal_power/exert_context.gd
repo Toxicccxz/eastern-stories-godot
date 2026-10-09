@@ -24,6 +24,9 @@ var room: Array[SpecialSide] = []
 var fainted: bool = false
 ## Those the file had kill_ob() me (roar.c), in the room's order.
 var killers: Array[StringName] = []
+## std/sserver.c offensive_target(me) for the files that aim at an enemy (chillgaze.c):
+## returns a SpecialSide (SpecialContext.offensive_target()); none: no target.
+var offensive: Callable
 
 
 func _init(
@@ -49,3 +52,22 @@ func vision(template: String, color: StringName = ColoredLine.PLAIN) -> void:
 ## random(n) as the file draws it.
 func legacy_random(n: int) -> int:
 	return random.call(n) if random.is_valid() and n > 0 else 0
+
+
+## offensive_target(me), or null.
+func pick_offensive_target() -> SpecialSide:
+	return offensive.call() as SpecialSide if offensive.is_valid() else null
+
+
+## message_vision(template, me, target): $N the character, $n `target`. As the character
+## reads it, $N is 你 and $n `target_name` (its short() as shown).
+func vision_at(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
+	lines.append(ColoredLine.new(ExertFunction._as_actor(template).replace("$n", target_name), color))
+	vision_lines.append(VisionLine.new(template, actor_id, target.character_id, color))
+
+
+## message_vision(template, target, me): $N is `target`, $n the character (你 as it reads it).
+func vision_by(target: SpecialSide, template: String, color: StringName = ColoredLine.PLAIN, target_name: String = "") -> void:
+	# TRANSLATORS: message_vision(): the character an exert line names as its $n.
+	lines.append(ColoredLine.new(ExertFunction._t(template).replace("$N", target_name).replace("$n", ExertFunction._t("你")), color))
+	vision_lines.append(VisionLine.new(template, target.character_id, actor_id, color))

@@ -43,6 +43,8 @@ var _wound_roll_performed: bool
 var _wound_amount: int
 var _hit_condition_applied: bool = false
 var _hit_condition: NpcHitCondition
+var _force_wound: int = 0
+var _force_hit_wound: ForceHitWound
 var _random_upper_bounds: Array[int] = []
 var _random_draws: Array[int] = []
 
@@ -102,6 +104,14 @@ var hit_condition_applied: bool:
 var hit_condition: NpcHitCondition:
 	get:
 		return _hit_condition
+## The kee the mapped force's hit_ob() wounded the victim by (iceforce.c), 0 when it did not.
+var force_wound: int:
+	get:
+		return _force_wound
+## The ForceHitWound that did it (its message joins the blow's lines), or null.
+var force_hit_wound: ForceHitWound:
+	get:
+		return _force_hit_wound
 var reached_stage: int:
 	get:
 		return _reached_stage
@@ -142,6 +152,8 @@ func duplicate_snapshot() -> CombatAttackCalculation:
 	copy._wound_amount = _wound_amount
 	copy._hit_condition_applied = _hit_condition_applied
 	copy._hit_condition = _hit_condition
+	copy._force_wound = _force_wound
+	copy._force_hit_wound = _force_hit_wound
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()
 	copy._random_draws = _random_draws.duplicate()
 	return copy

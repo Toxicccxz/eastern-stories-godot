@@ -512,6 +512,58 @@
 				"color": "HIR",
 				"dissolve": "$N缓缓地倒了下来，化为一滩血水。"
 			}
+		},
+		{
+			"id": "common.npc.dancer.master",
+			"legacy_source": "daemon/class/dancer/master.c",
+			"name": "蓝止萍",
+			"aliases": ["master dancer", "master", "dancer"],
+			"nickname": "回音仙子",
+			"title": "晚月庄主",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 22,
+			"long": "蓝止萍是一个十分出色的美女，她弹的一手琵琶更是闻名千里，许多\n王侯子弟，富商豪客都为她天下无双的美貌与琴艺倾倒。\n",
+			"attributes": { "str": 21, "int": 28, "spi": 26, "per": 30, "cps": 30 },
+			"resources": { "force": 1200, "max_force": 1200 },
+			"combat_exp": 1000000,
+			"score": 90000,
+			"force_factor": 18,
+			"family": { "name": "晚月庄", "generation": 1, "title": "庄主" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 40,
+				"sword": 70,
+				"throwing": 100,
+				"force": 30,
+				"parry": 70,
+				"dodge": 100,
+				"literate": 100,
+				"perception": 100,
+				"whip": 100,
+				"stormdance": 100,
+				"tenderzhi": 100,
+				"iceforce": 100,
+				"snowwhip": 90
+			},
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi", "force": "iceforce", "whip": "snowwhip" },
+			"carry": [
+				{ "item": "es2:daemon/class/dancer/echowhip", "source": "daemon/class/dancer/echowhip.c", "equip": "wield" },
+				{ "item": "es2:daemon/class/dancer/snake_sandal", "source": "daemon/class/dancer/snake_sandal.c", "equip": "wear" },
+				{ "item": "es2:daemon/class/dancer/gold_belt", "source": "daemon/class/dancer/gold_belt.c", "equip": "wear" },
+				{ "item": "es2:daemon/class/dancer/bloody_dress", "source": "daemon/class/dancer/bloody_dress.c", "equip": "wear" }
+			],
+			"apply": { "defense": 100 },
+			"chat_chance_combat": 60,
+			"chat_msg_combat": [
+				"蓝止萍嫣然一笑，一个转身迳自舞了起来，对眼前这场恶斗似乎全不放在心上。\n",
+				"蓝止萍脚步轻移，翩翩地转了几个圈，回眸一笑。\n",
+				"蓝止萍用手扶了扶自己的发簪，像是怕被对手碰歪似地。\n",
+				"蓝止萍笑嘻嘻地拾起地上一片从魔鞭翩珑上落下的花瓣。\n",
+				{ "action": "poison", "condition": "rose_poison", "duration": 20, "tell": "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。" },
+				{ "action": "exert", "function": "chillgaze" }
+			]
 		}
 	]
 }

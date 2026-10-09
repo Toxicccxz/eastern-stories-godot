@@ -1,0 +1,847 @@
+{
+	"npcs": [
+		{
+			"id": "latemoon.npc.servant",
+			"legacy_source": "d/latemoon/npc/servant.c",
+			"name": "婢女",
+			"aliases": ["girl", "servant"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "",
+			"resources": { "force": 50, "max_force": 50 },
+			"combat_exp": 100,
+			"skills": { "unarmed": 5, "dodge": 10, "force": 50 },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/skirt", "source": "d/latemoon/obj/skirt.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.yumay",
+			"legacy_source": "d/latemoon/npc/yumay.c",
+			"name": "蓝雨梅",
+			"aliases": ["yu-may", "yumay", "may"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "蓝雨梅是晚月庄主蓝止萍的养女，由于庄主不信任男子，因此\n晚月庄接待外宾的工作向来由她负责。\n",
+			"attributes": { "per": 30 },
+			"resources": { "force": 2000, "max_force": 500 },
+			"combat_exp": 60000,
+			"force_factor": 2,
+			"family": { "name": "晚月庄", "generation": 3, "title": "大弟子" },
+			"skills": { "unarmed": 60, "throwing": 90, "dodge": 70, "stormdance": 30, "force": 50 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/needle", "source": "d/latemoon/npc/obj/needle.c", "amount": 30, "equip": "wield" },
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/npc/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/skirt3", "source": "d/latemoon/npc/obj/skirt3.c", "equip": "wear" }
+			],
+			"chat_chance": 7,
+			"chat_msg": [
+				"蓝雨梅微笑著说道：我们晚月庄是『 以舞会友，以神换技 』\n",
+				"蓝雨梅看你一脸疑惑！笑著说：我教你跳一曲『西出阳关』好吗?\n",
+				"蓝雨梅微笑著说道：我跳支舞给您看好不好？\n",
+				"蓝雨梅微笑著说道：我的舞跳得不好，待会儿我请芳绫跳舞给您看，别走远喔。\n"
+			],
+			"inquiry": {
+				"西出阳关": ["『西出阳关』是一种幻影式舞步。可以移形换影。\n"],
+				"学舞": ["来!我教你...『西出阳关』(dancing out)是 ..... \n经过雨梅指导后你渐渐懂了! \n", { "mark_asker": "dance_out" }],
+				"舞": ["我会的舞是属于「幻影式舞步」。\n"],
+				"芳绫": ["她是个可爱的女孩。不过有点任性，听说她贪玩被关在 \n禁闭室。听说她爱玩竹蜻蜓哦。\n"],
+				"竹蜻蜓": ["庄内有人会用竹子作成不同物品。\n"],
+				"沧海龙吟": ["是一种失传以久的「寒谷龙舞」\n"]
+			},
+			"greeting": {
+				"one_of": [
+					{ "line": "雨梅对你微笑，和善的对你说：\n  这位$RESPECT，你好！欢迎来到晚月庄。请坐！" },
+					{ "line": "雨梅对你微笑，纤细的双手捧著茶，\n 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！" }
+				]
+			}
+		},
+		{
+			"id": "latemoon.npc.funlin",
+			"legacy_source": "d/latemoon/npc/funlin.c",
+			"name": "芳绫",
+			"aliases": ["funlin", "fun", "lin"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "她看起来像个小灵精，头上梳两个小包包头。\n她坐在地上，看到你看她便向你作了个鬼脸!\n你想她一定是调皮才会在这受罚!\n",
+			"resources": { "force": 500, "max_force": 300 },
+			"combat_exp": 2000,
+			"force_factor": 2,
+			"family": { "name": "晚月庄", "generation": 5, "title": "弟子" },
+			"skills": { "unarmed": 20, "whip": 20, "dodge": 30, "move": 30, "stormdance": 20, "force": 15 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/whip", "source": "d/latemoon/npc/obj/whip.c", "equip": "wield" },
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/npc/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/skirt5", "source": "d/latemoon/npc/obj/skirt5.c", "equip": "wear" }
+			],
+			"apply": { "armor": 30 },
+			"chat_chance": 7,
+			"chat_msg": [
+				"顽皮的芳绫向你扮个鬼脸。  *^G^* \n",
+				"芳绫走到中央，一个姿势(Pose)。哇!你没想到她跳舞时竟有此深造诣。\n",
+				"芳绫说：好不好看！这可是我花好久练成的哦! \n",
+				"芳绫缓缓的移动著，手上的动作变化万千，有一种说不出的美妙。\n",
+				"芳绫说：你好烦哦! 快走开! \n",
+				"芳绫说：你想学可以去问昭仪姐，她会的比我多。嘻! \n",
+				"芳绫说：丑八怪! 不要烦我。走开啦! \n",
+				"她嘟著嘴。有点生气的翻过头去，不理你！\n"
+			]
+		},
+		{
+			"id": "latemoon.npc.girl",
+			"legacy_source": "d/latemoon/npc/girl.c",
+			"name": "昭仪",
+			"aliases": ["zauyi", "joe"],
+			"title": "晚月庄第三代弟子",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 17,
+			"long": "她看起来非常可爱。身材玲珑有致，曲线苗条。\n第一眼印象，你觉的她舞蹈一定跳的不错，看她的一举一动\n有一种说不出的流畅优雅！\n",
+			"resources": { "kee": 270, "force": 450, "max_force": 450 },
+			"combat_exp": 4000,
+			"force_factor": 2,
+			"skills": { "unarmed": 30, "dodge": 30, "blade": 10, "spring-blade": 7, "force": 50 },
+			"skill_map": { "blade": "spring-blade" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/yu_blade", "source": "d/latemoon/npc/obj/yu_blade.c", "equip": "wield" },
+				{ "item": "es2:d/latemoon/obj/flower_boot", "source": "d/latemoon/npc/obj/flower_boot.c", "equip": "wear" }
+			],
+			"apply": { "armor": 30 },
+			"chat_chance": 8,
+			"chat_msg": ["昭仪以轻妙的舞步，在房内跳了起来!你看的入神。\n", "昭仪抬头望著那幅图画，略有所思... \n"],
+			"inquiry": {
+				"图": ["这是一张非常真贵的湘绣舞曲图，我也在研究中。\n"],
+				"沧海龙吟": ["嗯 ...为这舞曲名。似乎雨梅姊知道。\n"],
+				"有凤来仪": ["嗯 ...为这舞曲名。(dancing yu-fong)很有名！ \n", { "mark_asker": "dance_yu_fong" }],
+				"西出阳关": ["「幻影式舞步」步法与地点都很重要。\n"],
+				"芳绫": ["她聪明伶俐，会跳一些自创的舞步。\n"],
+				"画": ["沧海龙吟是一幅湘绣舞曲图，记载一些珍贵舞步。\n"],
+				"寒谷龙舞": {
+					"rules": [
+						{ "lines": [{ "line": "昭仪很奇怪的望著你，说道:嘻!你对舞有兴趣呀! " }, { "line": "只见两眼溜来溜去，一种很神秘的表情，嘟著嘴。" }, { "line": "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。(dragon-dance) " }, { "say": "...." }] }
+					]
+				},
+				"舞": {
+					"rules": [
+						{ "lines": [{ "line": "昭仪很高兴的看著你，说道:嘻!你对舞有兴趣呀!" }, { "line": "这有一幅图画，我从那悟到好多新舞步哦! " }, { "line": "『 沧海龙吟』是一首失传以久的舞曲。传说...." }, { "say": "......" }] }
+					]
+				}
+			}
+		},
+		{
+			"id": "latemoon.npc.zauron",
+			"legacy_source": "d/latemoon/npc/zauron.c",
+			"name": "昭蓉",
+			"aliases": ["zauron", "zau", "ron"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "她长得十分漂亮！让你忍不住多瞧她几眼，从她身上\n你闻到淡淡的香气。她很有礼貌的向你点头，优雅的\n动作，轻盈的步伐，好美哦!\n",
+			"resources": { "force": 3000, "max_force": 600 },
+			"combat_exp": 200000,
+			"force_factor": 10,
+			"family": { "name": "晚月庄", "generation": 2, "title": "弟子" },
+			"skills": { "unarmed": 70, "dodge": 80, "force": 70, "sword": 70, "stormdance": 50 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/clasp", "source": "d/latemoon/obj/clasp.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/skirt2", "source": "d/latemoon/obj/skirt2.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/bamboo_sword", "source": "d/latemoon/obj/bamboo_sword.c", "equip": "wield" }
+			],
+			"inquiry": { "舞": ["我舞跳的不好!我比较喜欢静态的活动。\n"], "芳绫": ["听说她贪玩被关在禁闭室。她最爱玩竹蜻蜓了! \n"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "昭蓉对你微笑，和善的对你点点头。" },
+					{ "line": "昭蓉对你微笑，以纤细轻柔的声音 \n 说道：这位$RESPECT，你好！欢迎来到晚月庄。" }
+				]
+			}
+		},
+		{
+			"id": "latemoon.npc.room.guest",
+			"legacy_source": "d/latemoon/room/npc/guest.c",
+			"name": "芙云",
+			"aliases": ["fuyun"],
+			"gender": "女性",
+			"age": 17,
+			"long": "",
+			"resources": { "force": 1600, "max_force": 800 },
+			"combat_exp": 50000,
+			"force_factor": 10,
+			"family": { "name": "逍遥派", "generation": 7, "title": "弟子" },
+			"attitude": "peaceful",
+			"skills": { "unarmed": 50, "dodge": 70, "sword": 100, "stormdance": 30, "force": 100 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 },
+				{ "item": "es2:obj/example/sword", "source": "obj/example/sword.c", "equip": "wield" },
+				{ "item": "es2:obj/example/dumpling", "source": "obj/example/dumpling.c" },
+				{ "item": "es2:d/latemoon/room/npc/obj/letter", "source": "d/latemoon/room/npc/obj/letter.c" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.tguest",
+			"legacy_source": "d/latemoon/room/npc/tguest.c",
+			"name": "梦玉楼",
+			"aliases": ["yu lou", "yulou", "lou"],
+			"gender": "女性",
+			"age": 17,
+			"long": "",
+			"resources": { "force": 2000, "max_force": 1000 },
+			"combat_exp": 70000,
+			"force_factor": 15,
+			"family": { "name": "天山派", "generation": 11, "title": "弟子" },
+			"attitude": "peaceful",
+			"skills": { "unarmed": 50, "dodge": 70, "sword": 70, "snowshade-sword": 30, "stormdance": 10, "force": 100 },
+			"skill_map": { "sword": "snowshade-sword" },
+			"carry": [
+				{ "item": "es2:d/latemoon/room/npc/obj/token", "source": "d/latemoon/room/npc/obj/token.c" },
+				{ "item": "es2:d/latemoon/room/npc/obj/longsword", "source": "d/latemoon/room/npc/obj/longsword.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.fochin",
+			"legacy_source": "d/latemoon/room/npc/fochin.c",
+			"name": "曲馥琪",
+			"aliases": ["fochin", "chin"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 27,
+			"long": "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n她姿容绝美，世所罕见。从她身旁你闻道一寒谷\n幽香。\n",
+			"resources": { "force": 1000, "max_force": 500 },
+			"combat_exp": 99000,
+			"family": { "name": "晚月庄", "generation": 2, "title": "弟子" },
+			"skills": { "unarmed": 50, "dodge": 70, "stormdance": 50, "tenderzhi": 70, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/belt", "source": "d/latemoon/obj/belt.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/clasp", "source": "d/latemoon/obj/clasp.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/room/npc/obj/fire", "source": "d/latemoon/room/npc/obj/fire.c" }
+			],
+			"apply": { "armor": 70 }
+		},
+		{
+			"id": "latemoon.npc.room.spring2",
+			"legacy_source": "d/latemoon/room/npc/spring2.c",
+			"name": "圆春",
+			"aliases": ["yuan chung", "yuan", "chung"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "她是惜春的妹妹，跟姐姐从小就在晚月庄\n长大。因为与双亲失散，被庄主收留。平\n常帮忙庄内琐碎事务。\n",
+			"resources": { "force": 300, "max_force": 300 },
+			"combat_exp": 5000,
+			"family": { "name": "晚月庄", "generation": 4, "title": "弟子" },
+			"skills": { "unarmed": 25, "dodge": 25, "stormdance": 5, "tenderzhi": 5, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/skirt5", "source": "d/latemoon/obj/skirt5.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.yushou",
+			"legacy_source": "d/latemoon/room/npc/yushou.c",
+			"name": "苗郁淑",
+			"aliases": ["yushou", "yu", "shou"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "她看起来很有活力，两眼明亮有神。给你\n一种巾帼不让须眉的气势，但刚毅之中似\n又隐含著女孩子有的娇柔。\n",
+			"resources": { "force": 400, "max_force": 400 },
+			"combat_exp": 15000,
+			"family": { "name": "晚月庄", "generation": 3, "title": "弟子" },
+			"skills": { "unarmed": 40, "dodge": 40, "stormdance": 50, "tenderzhi": 60, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/room/npc/obj/earring", "source": "d/latemoon/room/npc/obj/earring.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/room/npc/obj/brooch", "source": "d/latemoon/room/npc/obj/brooch.c", "equip": "wear" }
+			],
+			"apply": { "armor": 100 }
+		},
+		{
+			"id": "latemoon.npc.room.old",
+			"legacy_source": "d/latemoon/room/npc/old.c",
+			"name": "无名老妇",
+			"aliases": ["old"],
+			"title": "看管人",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 62,
+			"long": "这个老妇人不知姓甚名谁, 她在晚月很久了, 一直看管\n书房, 连庄主都对她很尊敬。\n",
+			"attributes": { "str": 20, "cor": 26, "cps": 26, "per": 29 },
+			"resources": { "force": 1000, "max_force": 800 },
+			"combat_exp": 500000,
+			"score": 1000,
+			"force_factor": 10,
+			"family": { "name": "晚月庄", "generation": 1, "title": "前辈" },
+			"attitude": "peaceful",
+			"skills": { "dodge": 70, "stormdance": 70, "tenderzhi": 70, "snowwhip": 60 },
+			"skill_map": { "dodge": "stormdance", "whip": "snowwhip", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/blue_dress", "source": "d/latemoon/obj/blue_dress.c", "equip": "wear" },
+				{ "item": "es2:u/cloud/obj/npc/lm_guard/whip", "source": "u/cloud/obj/npc/lm_guard/whip.c", "equip": "wield" }
+			],
+			"inquiry": {
+				"here": ["这里是书房，有些鞭法教材存放在这儿。"],
+				"trouble": ["实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..."],
+				"令牌": ["就在我儿身上 ...你拿到了就给我。"]
+			}
+		},
+		{
+			"id": "latemoon.npc.room.killer",
+			"legacy_source": "d/latemoon/room/npc/killer.c",
+			"name": "杀手",
+			"aliases": ["killer"],
+			"title": "蒙面杀手",
+			"gender": "女性",
+			"age": 23,
+			"long": "这是个蒙面杀手，眉眼看起来有些面熟。\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 15, "per": 28 },
+			"combat_exp": 12000,
+			"skills": {
+				"unarmed": 40,
+				"sword": 40,
+				"parry": 40,
+				"dodge": 20,
+				"move": 30,
+				"six-chaos-sword": 27,
+				"pyrobat-steps": 20
+			},
+			"skill_map": { "dodge": "pyrobat-steps", "sword": "six-chaos-sword" },
+			"carry": [
+				{ "item": "es2:d/snow/obj/pink_cloth", "source": "d/snow/npc/obj/pink_cloth.c", "equip": "wear" },
+				{ "item": "es2:d/snow/obj/thin_sword", "source": "d/snow/npc/obj/thin_sword.c", "equip": "wield" },
+				{ "item": "es2:d/latemoon/room/npc/obj/token", "source": "d/latemoon/room/npc/obj/token.c" }
+			],
+			"apply": { "attack": 20 },
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "random_move" }
+			],
+			"chat_chance_combat": 10,
+			"chat_msg_combat": ["蒙面杀手喝道：为什么杀我？\n", "蒙面杀手叹道：你知道我心里有多痛苦吗？！\n"]
+		},
+		{
+			"id": "latemoon.npc.servant2",
+			"legacy_source": "d/latemoon/npc/servant2.c",
+			"name": "婢女",
+			"aliases": ["girl", "servant"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 20,
+			"long": "",
+			"resources": { "force": 50, "max_force": 50 },
+			"combat_exp": 1000,
+			"skills": { "unarmed": 5, "dodge": 20, "force": 50 },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/skirt", "source": "d/latemoon/obj/skirt.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/whip", "source": "d/latemoon/obj/whip.c" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.spring1",
+			"legacy_source": "d/latemoon/room/npc/spring1.c",
+			"name": "惜春",
+			"aliases": ["shi-chung", "shi", "chung"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "她看起来成熟中带有一些稚气。飘逸的长发\n十分迷人。她是个孤儿，从小与妹妹圆春被\n庄主收留，她很聪明，在第四代弟子中算是\n武功很出色的一个。\n",
+			"resources": { "force": 300, "max_force": 300 },
+			"combat_exp": 5000,
+			"family": { "name": "晚月庄", "generation": 4, "title": "弟子" },
+			"skills": { "unarmed": 40, "dodge": 40, "stormdance": 5, "tenderzhi": 10, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/flower_boot", "source": "d/latemoon/obj/flower_boot.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.servant",
+			"legacy_source": "d/latemoon/room/npc/servant.c",
+			"name": "婢女",
+			"aliases": ["girl", "servant"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 30,
+			"long": "",
+			"resources": { "force": 50, "max_force": 50 },
+			"combat_exp": 10000,
+			"skills": { "unarmed": 40, "dodge": 50, "force": 50 },
+			"carry": [
+				{ "item": "es2:d/latemoon/room/npc/obj/needle", "source": "d/latemoon/room/npc/obj/needle.c", "amount": 30 },
+				{ "item": "es2:d/latemoon/obj/skirt", "source": "d/latemoon/obj/skirt.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.elon",
+			"legacy_source": "d/latemoon/room/npc/elon.c",
+			"name": "瑷伦",
+			"aliases": ["eelon"],
+			"title": "晚月庄开山祖师",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 37,
+			"long": "",
+			"attributes": { "str": 21, "int": 28 },
+			"resources": { "force": 4000, "max_force": 3000 },
+			"combat_exp": 3000000,
+			"score": 1000,
+			"force_factor": 5,
+			"family": { "name": "晚月庄", "generation": 0, "title": "弟子" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 150,
+				"dodge": 150,
+				"sword": 120,
+				"force": 150,
+				"parry": 120,
+				"whip": 150,
+				"iceforce": 130,
+				"throwing": 150,
+				"stormdance": 130,
+				"tenderzhi": 130,
+				"snowwhip": 130
+			},
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi", "force": "iceforce", "whip": "snowwhip" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/blue_dress", "source": "d/latemoon/obj/blue_dress.c", "equip": "wear" },
+				{ "item": "es2:obj/weapon/whip", "source": "obj/weapon/whip.c", "equip": "wield" }
+			],
+			"inquiry": { "拜师": ["哦....想拜老身为师，好...\n不过得先接受测试(accept test)，接下我三鞭。"] }
+		},
+		{
+			"id": "latemoon.npc.room.annihi",
+			"legacy_source": "d/latemoon/room/npc/annihi.c",
+			"name": "安妮儿",
+			"aliases": ["annihier"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 37,
+			"long": "",
+			"resources": { "force": 5000, "max_force": 5000 },
+			"combat_exp": 5000000,
+			"score": 7000,
+			"force_factor": 10,
+			"family": { "name": "东方神教", "generation": 1, "title": "教主" },
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"force": 100,
+				"parry": 100,
+				"pyrobat-steps": 100,
+				"snowshade-force": 100,
+				"snowshade-sword": 100,
+				"sword": 100
+			},
+			"skill_map": {
+				"sword": "snowshade-sword",
+				"parry": "snowshade-sword",
+				"force": "snowshade-force",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/redbelt", "source": "d/latemoon/obj/redbelt.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/sword", "source": "d/latemoon/obj/sword.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "latemoon.npc.room.yuchoun",
+			"legacy_source": "d/latemoon/room/npc/yuchoun.c",
+			"name": "虞琼衣",
+			"aliases": ["chungyu", "chung", "yu"],
+			"title": "晚月庄弟子",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 17,
+			"long": "",
+			"resources": { "force": 900, "max_force": 450 },
+			"combat_exp": 40000,
+			"force_factor": 5,
+			"skills": { "unarmed": 70, "dodge": 70, "stormdance": 50, "tenderzhi": 70, "force": 100 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/skirt3", "source": "d/latemoon/obj/skirt3.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 1 }
+			],
+			"apply": { "armor": 70 }
+		},
+		{
+			"id": "latemoon.npc.room.shaoin",
+			"legacy_source": "d/latemoon/room/npc/shaoin.c",
+			"name": "龙韶吟",
+			"aliases": ["shaoin", "shao"],
+			"title": "晚月庄第三代弟子",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 17,
+			"long": "",
+			"resources": { "force": 900, "max_force": 450 },
+			"combat_exp": 20000,
+			"force_factor": 5,
+			"skills": { "unarmed": 70, "dodge": 50, "stormdance": 50, "tenderzhi": 50, "force": 100 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"apply": { "armor": 70 },
+			"hit_ob": {
+				"condition": "rose_poison",
+				"duration": 10,
+				"below": 20,
+				"message": "你觉得被打中的地方一阵麻痒！",
+				"color": "HIG"
+			}
+		},
+		{
+			"id": "latemoon.npc.room.shinyu",
+			"legacy_source": "d/latemoon/room/npc/shinyu.c",
+			"name": "阮欣郁",
+			"aliases": ["shinyu", "shin"],
+			"title": "晚月庄第三代弟子",
+			"class": "dancer",
+			"gender": "女性",
+			"age": 17,
+			"long": "",
+			"resources": { "force": 4500, "max_force": 4500 },
+			"combat_exp": 5000000,
+			"force_factor": 20,
+			"attitude": "friendly",
+			"skills": { "unarmed": 20, "dodge": 100, "spring-blade": 100, "blade": 100, "force": 100 },
+			"skill_map": { "blade": "spring-blade" }
+		},
+		{
+			"id": "latemoon.npc.room.fireangel",
+			"legacy_source": "d/latemoon/room/npc/fireangel.c",
+			"name": "凤凰",
+			"aliases": ["phoenix", "fire"],
+			"title": "护庄神像",
+			"gender": "女性",
+			"age": 27,
+			"long": "火神「凤凰」乃勇士寒于的魂魄所化成的十三个精灵之一。\n由于其奇异神迹，被晚月庄供奉为护庄神兽。\n",
+			"resources": { "force": 7000, "max_force": 7000 },
+			"combat_exp": 50000000,
+			"force_factor": 30,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"tenderzhi": 100,
+				"iceforce": 100,
+				"stormdance": 100,
+				"force": 100
+			},
+			"skill_map": { "force": "iceforce", "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"apply": { "armor": 100 }
+		},
+		{
+			"id": "latemoon.npc.room.eton",
+			"legacy_source": "d/latemoon/room/npc/eton.c",
+			"name": "金仪彤",
+			"aliases": ["eton", "zhin"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 27,
+			"long": "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n可惜眉心上有一道地煞纹干犯紫斗，恐要玉手\n染血，浩劫武林。\n",
+			"resources": { "force": 1000, "max_force": 500 },
+			"combat_exp": 70000,
+			"family": { "name": "晚月庄", "generation": 3, "title": "弟子" },
+			"skills": { "unarmed": 50, "dodge": 40, "stormdance": 50, "tenderzhi": 50, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/necklace", "source": "d/latemoon/obj/necklace.c" }
+			]
+		},
+		{
+			"id": "latemoon.npc.shaowei",
+			"legacy_source": "d/latemoon/npc/shaowei.c",
+			"name": "蓝筱薇",
+			"aliases": ["shao-wei", "shaowei", "wei"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 18,
+			"long": "她长得十分漂亮！让你忍不住多瞧她几眼，从她身上\n你闻到淡淡的香气。她很有礼貌的向你点头，优雅的\n动作，轻盈的步伐，好美哦!\n她是晚月庄主蓝止萍的养女。\n",
+			"resources": { "force": 3000, "max_force": 600 },
+			"combat_exp": 200000,
+			"force_factor": 10,
+			"family": { "name": "晚月庄", "generation": 2, "title": "大弟子" },
+			"skills": { "unarmed": 70, "dodge": 80, "force": 70, "sword": 70, "stormdance": 50 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/clasp", "source": "d/latemoon/obj/clasp.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/skirt2", "source": "d/latemoon/obj/skirt2.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/bamboo_sword", "source": "d/latemoon/obj/bamboo_sword.c", "equip": "wield" }
+			],
+			"inquiry": {
+				"舞": ["我舞跳的不好!我比较喜欢静态的活动。\n"],
+				"竹蜻蜓": ["咦..!你也喜欢玩啊! 我会做哦! \n不过我需要一根竹子! 你找来我帮你做! \n"],
+				"芳绫": ["听说她贪玩被关在禁闭室。她最爱玩竹蜻蜓了! \n"]
+			},
+			"greeting": {
+				"one_of": [
+					{ "line": "筱薇对你微笑，和善的对你点点头。" },
+					{ "line": "筱薇对你微笑，以纤细轻柔的声音 \n 说道：这位$RESPECT，你好！欢迎来到晚月庄。" }
+				]
+			}
+		},
+		{
+			"id": "latemoon.npc.park.flwgirl",
+			"legacy_source": "d/latemoon/park/npc/flwgirl.c",
+			"name": "采花少女",
+			"aliases": ["girl"],
+			"gender": "女性",
+			"age": 15,
+			"long": "采花少女是绮云镇居民的小孩，从小就到晚月庄来摘桂花，蓝止\n萍很喜欢她们，也教给她们了些基本的武功，时间久了，这些少\n女的功夫还都不错。\n",
+			"resources": { "force": 500, "max_force": 500 },
+			"combat_exp": 20000,
+			"force_factor": 0,
+			"attitude": "friendly",
+			"skills": { "parry": 30, "dodge": 70, "unarmed": 120, "throwing": 150, "stormdance": 45, "force": 15 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:u/cloud/obj/npc/girl/pink_cloth", "source": "u/cloud/obj/npc/girl/pink_cloth.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/park/npc/obj/guihua", "source": "d/latemoon/park/npc/obj/guihua.c", "amount": 20, "equip": "wield" }
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"顽皮的采花少女向你扮个鬼脸。  *^G^* \n",
+				"采花少女说道：华中理工大学的桂花树比晚月庄多多了，你知道吗？\n",
+				"采花少女望着天边的晚霞，双手托着香腮，说道：我好想去华工大摘桂花。\n",
+				"采花少女嘀咕着：听说华工的桂花有好几种呢。\n"
+			],
+			"chat_chance_combat": 10,
+			"chat_msg_combat": ["采花少女秀眉微蹙，说道：你欺负我年纪小是吗？\n", "采花少女说道：你要是再无理取闹，让火玫瑰毒死你！\n", "采花少女骂道：你这无赖，别死缠着我！\n"],
+			"inquiry": { "桂花": ["华中理工大学的桂花树比晚月庄多多了，你知道吗？"] }
+		},
+		{
+			"id": "latemoon.npc.park.girl_yu",
+			"legacy_source": "d/latemoon/park/npc/girl_yu.c",
+			"name": "上官钰翎",
+			"aliases": ["yulin", "yu-girl"],
+			"nickname": "玉涵湘",
+			"gender": "女性",
+			"age": 20,
+			"long": "",
+			"resources": { "force": 4500, "max_force": 500 },
+			"combat_exp": 80000,
+			"force_factor": 20,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 90, "stormdance": 50, "force": 100 },
+			"carry": [
+				{ "item": "es2:d/latemoon/park/npc/obj/ring", "source": "d/latemoon/park/npc/obj/ring.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.park.dodo1",
+			"legacy_source": "d/latemoon/park/npc/dodo1.c",
+			"name": "小金鼠",
+			"aliases": ["dodo"],
+			"race": "beast",
+			"age": 1,
+			"long": "一只可爱的长尾巴的小金鼠。 \n",
+			"attributes": { "str": 20, "cor": 17 },
+			"combat_exp": 1000,
+			"score": 10,
+			"attitude": "friendly",
+			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "action": "random_move" },
+				"小金鼠摇摇尾巴!全身晃呀晃! \n",
+				"小金鼠眼睛眨呀眨!好像快睡著了! \n",
+				"嘟嘟玩太累了!睡著了! \n",
+				"小金鼠「嘟嘟」它跳啊跳的! \n",
+				"小金鼠「嘟嘟」眼睛眨呀眨看著你 \n",
+				"小金鼠发出「  叽! 叽!」」的叫声! \n"
+			]
+		},
+		{
+			"id": "latemoon.npc.park.shiren",
+			"legacy_source": "d/latemoon/park/npc/shiren.c",
+			"name": "袭人",
+			"aliases": ["Shi Ren", "shi ren", "shi"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 28,
+			"long": "",
+			"resources": { "force": 400, "max_force": 400 },
+			"combat_exp": 7000,
+			"force_factor": 2,
+			"family": { "name": "晚月庄", "generation": 4, "title": "弟子" },
+			"skills": { "unarmed": 40, "tenderzhi": 10, "dodge": 40, "force": 40 },
+			"skill_map": { "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/skirt4", "source": "d/latemoon/obj/skirt4.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/park/npc/obj/amulet", "source": "d/latemoon/park/npc/obj/amulet.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.park.bird",
+			"legacy_source": "d/latemoon/park/npc/bird.c",
+			"name": "金丝雀",
+			"aliases": ["sparrow"],
+			"race": "beast",
+			"gender": "雌性",
+			"age": 1,
+			"long": "一只羽毛鲜艳的小金丝雀。\n",
+			"attributes": { "str": 20 },
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"limbs": ["头部", "身体", "翅膀"],
+			"verbs": ["bite", "claw"],
+			"apply": { "dodge": 40 },
+			"chat_chance": 7,
+			"chat_msg": [{ "action": "random_move" }, "小金丝雀叽叽的叫! \n", "金丝雀用嘴整理羽毛。 \n"]
+		},
+		{
+			"id": "latemoon.npc.park.maysan",
+			"legacy_source": "d/latemoon/park/npc/maysan.c",
+			"name": "美珊",
+			"aliases": ["maysan", "may"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 20,
+			"long": "她看起来成熟中带有一些韵味。飘逸的长发\n十分迷人。\n",
+			"resources": { "force": 300, "max_force": 300 },
+			"combat_exp": 5000,
+			"family": { "name": "晚月庄", "generation": 4, "title": "弟子" },
+			"skills": { "unarmed": 40, "dodge": 40, "stormdance": 5, "tenderzhi": 10, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/flower_boot", "source": "d/latemoon/obj/flower_boot.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "latemoon.npc.park.rabbit",
+			"legacy_source": "d/latemoon/park/npc/rabbit.c",
+			"name": "小白兔",
+			"aliases": ["rabbit"],
+			"race": "beast",
+			"gender": "雌性",
+			"age": 1,
+			"long": "一只红眼睛的小白兔。\n",
+			"attributes": { "str": 20 },
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"limbs": ["头部", "身体", "前脚", "后腿"],
+			"verbs": ["bite", "claw"],
+			"apply": { "dodge": 30 },
+			"chat_chance": 7,
+			"chat_msg": [{ "action": "random_move" }, "小白兔蹦蹦跳跳的。\n", "小白兔用嘴舔前肢。 \n"]
+		},
+		{
+			"id": "latemoon.npc.upstar.shinfun",
+			"legacy_source": "d/latemoon/upstar/npc/shinfun.c",
+			"name": "莫欣芳",
+			"aliases": ["shinfun", "fun", "girl"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 27,
+			"long": "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n她姿容绝美，世所罕见。从她身旁你闻道一寒谷\n幽香。\n",
+			"resources": { "force": 1000, "max_force": 500 },
+			"combat_exp": 200000,
+			"family": { "name": "晚月庄", "generation": 2, "title": "弟子" },
+			"skills": { "unarmed": 50, "dodge": 70, "stormdance": 50, "tenderzhi": 70, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/belt", "source": "d/latemoon/obj/belt.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/clasp", "source": "d/latemoon/obj/clasp.c", "equip": "wear" }
+			],
+			"apply": { "armor": 70, "attack": 50 }
+		},
+		{
+			"id": "latemoon.npc.upstar.statue",
+			"legacy_source": "d/latemoon/upstar/npc/statue.c",
+			"name": "人灵「区冥」",
+			"aliases": ["statue"],
+			"title": "神像",
+			"gender": "女性",
+			"age": 27,
+			"long": "人灵「区冥」乃勇士寒于的魂魄所化成的十三个精灵之一。\n晚月庄的开山先辈，传说是其后裔子孙。故其为\n晚月庄的祖先神位。\n",
+			"resources": { "force": 7000, "max_force": 7000 },
+			"combat_exp": 50000000,
+			"force_factor": 30,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"tenderzhi": 100,
+				"iceforce": 100,
+				"stormdance": 100,
+				"force": 100
+			},
+			"skill_map": { "force": "iceforce", "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"apply": { "armor": 100 }
+		},
+		{
+			"id": "latemoon.npc.upstar.bird",
+			"legacy_source": "d/latemoon/upstar/npc/bird.c",
+			"name": "金丝雀",
+			"aliases": ["sparrow"],
+			"race": "beast",
+			"gender": "雌性",
+			"age": 1,
+			"long": "一只羽毛鲜艳的小金丝雀。\n",
+			"attributes": { "str": 20 },
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"limbs": ["头部", "身体", "翅膀"],
+			"verbs": ["bite", "claw"],
+			"apply": { "dodge": 40 },
+			"chat_chance": 7,
+			"chat_msg": [{ "action": "random_move" }, "小金丝雀叽叽的叫! \n", "金丝雀用嘴整理羽毛。 \n"]
+		},
+		{
+			"id": "latemoon.npc.upstar.huei",
+			"legacy_source": "d/latemoon/upstar/npc/huei.c",
+			"name": "邢千慧",
+			"aliases": ["huei", "girl"],
+			"class": "dancer",
+			"gender": "女性",
+			"age": 27,
+			"long": "她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n她姿容绝美，世所罕见。从她身旁你闻道一寒谷\n幽香。\n",
+			"resources": { "force": 1000, "max_force": 500 },
+			"combat_exp": 250000,
+			"family": { "name": "晚月庄", "generation": 2, "title": "弟子" },
+			"skills": { "unarmed": 50, "dodge": 70, "stormdance": 50, "tenderzhi": 70, "force": 50 },
+			"skill_map": { "dodge": "stormdance", "unarmed": "tenderzhi" },
+			"carry": [
+				{ "item": "es2:d/latemoon/obj/deer_boot", "source": "d/latemoon/obj/deer_boot.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/redbelt", "source": "d/latemoon/obj/redbelt.c", "equip": "wear" },
+				{ "item": "es2:d/latemoon/obj/clasp", "source": "d/latemoon/obj/clasp.c", "equip": "wear" }
+			],
+			"apply": { "armor": 70, "attack": 50 }
+		},
+		{
+			"id": "latemoon.npc.butterfly",
+			"legacy_source": "d/latemoon/npc/butterfly.c",
+			"name": "蝴蝶",
+			"aliases": ["butterfly"],
+			"race": "beast",
+			"gender": "雌性",
+			"age": 1,
+			"long": "一只翩翩起舞的小蝴蝶哦! \n",
+			"attributes": { "str": 6, "cor": 8, "per": 33 },
+			"combat_exp": 100,
+			"score": 10,
+			"attitude": "peaceful",
+			"limbs": ["头部", "身体", "翅膀"],
+			"verbs": ["bite"],
+			"apply": { "dodge": 50 },
+			"chat_chance": 15,
+			"chat_msg": [{ "action": "random_move" }, "蝴蝶拍动著翅膀! \n", "蝴蝶停在花上吸花蜜。 \n"]
+		}
+	]
+}

@@ -142,10 +142,13 @@ msgstr ""
 #. temple.npc.taoist_guard1 gender
 #. temple.npc.taoist_guard2 gender
 #. temple.npc.taoist_guard3 gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json
+#. latemoon.latemoon8.dance dance.costs.gender
+#. latemoon.miroom.dance dance.costs.gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/world.json
 msgid "男性"
 msgstr ""
 
+#. common.npc.dancer.master gender
 #. snow.npc.traveller gender.else
 #. snow.npc.girl gender
 #. snow.npc.girl accept_fight.gender
@@ -154,12 +157,45 @@ msgstr ""
 #. cloud.npc.mei_po gender
 #. cloud.npc.mother gender
 #. cloud.npc.girl gender
+#. cloud.npc.lm_guard gender
 #. green.npc.woman1 gender
 #. green.npc.woman2 gender
 #. green.npc.kid3 gender
 #. green.npc.oldwoman gender
 #. green.npc.kid4 gender.then
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json
+#. latemoon.npc.servant gender
+#. latemoon.npc.yumay gender
+#. latemoon.npc.funlin gender
+#. latemoon.npc.girl gender
+#. latemoon.npc.zauron gender
+#. latemoon.npc.room.guest gender
+#. latemoon.npc.room.tguest gender
+#. latemoon.npc.room.fochin gender
+#. latemoon.npc.room.spring2 gender
+#. latemoon.npc.room.yushou gender
+#. latemoon.npc.room.old gender
+#. latemoon.npc.room.killer gender
+#. latemoon.npc.servant2 gender
+#. latemoon.npc.room.spring1 gender
+#. latemoon.npc.room.servant gender
+#. latemoon.npc.room.elon gender
+#. latemoon.npc.room.annihi gender
+#. latemoon.npc.room.yuchoun gender
+#. latemoon.npc.room.shaoin gender
+#. latemoon.npc.room.shinyu gender
+#. latemoon.npc.room.fireangel gender
+#. latemoon.npc.room.eton gender
+#. latemoon.npc.shaowei gender
+#. latemoon.npc.park.flwgirl gender
+#. latemoon.npc.park.girl_yu gender
+#. latemoon.npc.park.shiren gender
+#. latemoon.npc.park.maysan gender
+#. latemoon.npc.upstar.shinfun gender
+#. latemoon.npc.upstar.statue gender
+#. latemoon.npc.upstar.huei gender
+#. latemoon.latemoon8.dance dance.costs.gender
+#. latemoon.miroom.dance dance.costs.gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json
 msgid "女性"
 msgstr ""
 
@@ -241,7 +277,7 @@ msgstr ""
 msgid "赌场"
 msgstr ""
 
-#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
+#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
 msgid "楼梯 · 下楼"
 msgstr ""
 
@@ -441,7 +477,7 @@ msgstr ""
 msgid "北 · 雪亭镇"
 msgstr ""
 
-#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/snow/snow_inn.tscn
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
 msgid "楼梯 · 上楼"
 msgstr ""
 
@@ -475,7 +511,8 @@ msgstr ""
 #. es2:d/green/mpath0 short
 #. es2:d/green/mpath1 short
 #. es2:d/green/mpath2 short
-#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json
+#. es2:d/latemoon/sroad1 short
+#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/latemoon/latemoon_hills.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json data/latemoon/rooms.json
 msgid "山路"
 msgstr ""
 
@@ -688,6 +725,334 @@ msgstr ""
 msgid "井 · 装水"
 msgstr ""
 
+#. es2:d/latemoon/park/yard1 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "前院"
+msgstr ""
+
+#. es2:d/latemoon/park/flower2 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "月洞门"
+msgstr ""
+
+#. es2:d/latemoon/park/moon2 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "湘园小径"
+msgstr ""
+
+#. es2:d/latemoon/park/moonc short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "翠嶂"
+msgstr ""
+
+#. es2:d/latemoon/park/moon1 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "长廊曲洞"
+msgstr ""
+
+#. es2:d/latemoon/park/moon5 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "桂花园"
+msgstr ""
+
+#. es2:d/latemoon/park/bridge1 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "沁芳桥"
+msgstr ""
+
+#. es2:d/latemoon/park/bridge3 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "朱栏板桥"
+msgstr ""
+
+#. es2:d/latemoon/park/moroom short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "紫翎小轩"
+msgstr ""
+
+#. es2:d/latemoon/park/moon3 short
+#. es2:d/latemoon/park/paroad1 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "甬路"
+msgstr ""
+
+#. es2:d/latemoon/park/pavilion1 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "沁芳亭"
+msgstr ""
+
+#. es2:d/latemoon/park/moon4 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "暖香榭"
+msgstr ""
+
+#. es2:d/latemoon/park/paroad2 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "稻香榭"
+msgstr ""
+
+#. es2:d/latemoon/park/bridge2 short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "翠嫣桥"
+msgstr ""
+
+#. es2:d/latemoon/park/moondoor short
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+msgid "晚月庄后门"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_garden.tscn
+msgid "北 · 前庭"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_garden.tscn
+msgid "南 · 山路"
+msgstr ""
+
+#. es2:d/latemoon/sroad2 short
+#. es2:d/latemoon/sroad4 short
+#: scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json
+msgid "蜿蜒小径"
+msgstr ""
+
+#. es2:d/latemoon/sroad3 short
+#. es2:d/latemoon/sroad5 short
+#: scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json
+msgid "小径"
+msgstr ""
+
+#. es2:d/latemoon/bamboo3 short
+#. es2:d/latemoon/bamboo short
+#. es2:d/latemoon/bamboo1 short
+#. es2:d/latemoon/bamboo2 short
+#. es2:d/latemoon/bamboo4 short
+#: scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json
+msgid "竹林"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_hills.tscn
+msgid "北 · 晚月庄后门"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_hills.tscn
+msgid "东 · 山烟寺"
+msgstr ""
+
+#. es2:d/latemoon/latemoon6 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "禁闭房"
+msgstr ""
+
+#. es2:d/latemoon/latemoon5 short
+#. es2:d/latemoon/latemoon7 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "后院走道"
+msgstr ""
+
+#. es2:d/latemoon/latemoon3 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "傍厅"
+msgstr ""
+
+#. es2:d/latemoon/latebook short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "后院书房"
+msgstr ""
+
+#. es2:d/latemoon/latemoonc short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "大厅后院"
+msgstr ""
+
+#. es2:d/latemoon/latemoon1 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "晚月庄大厅"
+msgstr ""
+
+#. es2:d/latemoon/front_yard short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "晚月庄前庭"
+msgstr ""
+
+#. es2:d/latemoon/gate short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "晚月庄大门"
+msgstr ""
+
+#. es2:d/latemoon/entrance short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "碎石小径"
+msgstr ""
+
+#. es2:d/latemoon/latemoon8 short
+#. es2:d/latemoon/miroom short
+#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn data/latemoon/rooms.json
+msgid "密室"
+msgstr ""
+
+#. es2:d/latemoon/latemoon4 short
+#. es2:d/latemoon/room/flower1 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "内厅穿堂"
+msgstr ""
+
+#. es2:d/latemoon/latemoon2 short
+#. es2:d/latemoon/room/corridor7 short
+#. es2:d/latemoon/miroom2 short
+#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn data/latemoon/rooms.json
+msgid "内厅"
+msgstr ""
+
+#. es2:d/latemoon/room/two1 short
+#. es2:d/latemoon/room/two2 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "夹道"
+msgstr ""
+
+#. es2:d/latemoon/room/twoc short
+#. latemoon.latemoon4.door name
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json data/latemoon/world.json
+msgid "仪门"
+msgstr ""
+
+#. es2:d/latemoon/room/eat1 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "大饭厅"
+msgstr ""
+
+#. es2:d/latemoon/room/eat2 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "膳房"
+msgstr ""
+
+#. es2:d/waterfog/kitchen short
+#. es2:d/latemoon/room/kitchen short
+#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json
+msgid "厨房"
+msgstr ""
+
+#. es2:d/latemoon/room/guest2 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "上等厢房"
+msgstr ""
+
+#. es2:d/snow/n_room short
+#. es2:d/snow/e_room short
+#. es2:d/snow/w_room short
+#. es2:d/snow/guestroom short
+#. es2:d/latemoon/room/guest1 short
+#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/latemoon/rooms.json
+msgid "客房"
+msgstr ""
+
+#. es2:d/latemoon/room/lcenter short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "后厅"
+msgstr ""
+
+#. es2:d/latemoon/room/lroad1 short
+#. es2:d/latemoon/room/lroad3 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "后厅走道"
+msgstr ""
+
+#. es2:d/latemoon/room/lstudio short
+#. es2:d/latemoon/room/room4 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "内书房"
+msgstr ""
+
+#. es2:d/latemoon/room/wroad1 short
+#. es2:d/latemoon/room/wroad2 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "西厢房走道"
+msgstr ""
+
+#. es2:d/latemoon/room/eroad2 short
+#. es2:d/latemoon/room/eroad1 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "东厢房走道"
+msgstr ""
+
+#. es2:d/latemoon/room/westroom short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "西厢房"
+msgstr ""
+
+#. es2:d/latemoon/room/eastroom short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "东厢房"
+msgstr ""
+
+#. es2:d/latemoon/room/bathroom1 short
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
+msgid "沐浴更衣室"
+msgstr ""
+
+#. es2:d/latemoon/room/bathroom short
+#. latemoon.room.bathroom.pool name
+#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json data/latemoon/world.json
+msgid "小花池"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_manor.tscn
+msgid "东 · 绮云镇"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_manor.tscn
+msgid "南 · 湘园"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_manor.tscn
+msgid "茶壶 · 装水"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_manor.tscn
+msgid "小花池 · 装水"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn
+msgid "八卦图 · 跳舞"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uproom2 short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "翠湘阁"
+msgstr ""
+
+#. es2:d/latemoon/upstar/upstar1 short
+#. es2:d/latemoon/upstar/upstar4 short
+#. es2:d/latemoon/upstar/upstar2 short
+#. es2:d/latemoon/upstar/upstar3 short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "二楼走廊"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uproom short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "佛堂"
+msgstr ""
+
+#. es2:d/latemoon/upstar/upcenter short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "佛堂门前"
+msgstr ""
+
+#. es2:d/latemoon/upstar/upstarc short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "前堂楼"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uplook short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "观景台"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uproom3 short
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+msgid "缀芳阁"
+msgstr ""
+
 #. es2:d/oldpine/passage short
 #: scenes/world/oldpine/oldpine_cave.tscn data/oldpine/rooms.json
 msgid "秘密通道入口"
@@ -848,14 +1213,6 @@ msgstr ""
 
 #: scenes/world/snow/snow_inn_upstairs.tscn
 msgid "饮风客栈 · 二楼"
-msgstr ""
-
-#. es2:d/snow/n_room short
-#. es2:d/snow/e_room short
-#. es2:d/snow/w_room short
-#. es2:d/snow/guestroom short
-#: scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "客房"
 msgstr ""
 
 #. es2:d/snow/square short
@@ -1211,11 +1568,6 @@ msgstr ""
 msgid "仆役卧室"
 msgstr ""
 
-#. es2:d/waterfog/kitchen short
-#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json
-msgid "厨房"
-msgstr ""
-
 #. es2:d/waterfog/weststair short
 #. es2:d/waterfog/west_2f short
 #: scenes/world/waterfog/waterfog_pavilion.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/waterfog/rooms.json
@@ -1379,6 +1731,10 @@ msgid "这里没有这个人。"
 msgstr ""
 
 #: application/items/item_handling_service.gd
+msgid "这样东西不能随便给人。"
+msgstr ""
+
+#: application/items/item_handling_service.gd
 msgid "你拿出{item}给{npc}。"
 msgstr ""
 
@@ -1391,6 +1747,10 @@ msgid "你给{npc}{item}。"
 msgstr ""
 
 #: application/items/item_handling_service.gd
+msgid "这样东西不能随意丢弃。"
+msgstr ""
+
+#: application/items/item_handling_service.gd
 msgid "你丢下%s。"
 msgstr ""
 
@@ -1400,6 +1760,10 @@ msgstr ""
 
 #: application/items/item_handling_service.gd runtime/world/landmarks/bury_landmark_policy.gd runtime/world/map/world_map_corpses.gd
 msgid "这里没有这样东西。"
+msgstr ""
+
+#: application/items/item_handling_service.gd
+msgid "这个东西还是小心保管的好，不必放在别处。"
 msgstr ""
 
 #: application/items/item_handling_service.gd
@@ -1453,7 +1817,11 @@ msgid "雄性"
 msgstr ""
 
 #. oldpine.npc.butterfly gender
-#: core/characters/character_state.gd data/oldpine/npcs.json
+#. latemoon.npc.park.bird gender
+#. latemoon.npc.park.rabbit gender
+#. latemoon.npc.upstar.bird gender
+#. latemoon.npc.butterfly gender
+#: core/characters/character_state.gd data/oldpine/npcs.json data/latemoon/npcs.json
 msgid "雌性"
 msgstr ""
 
@@ -1745,6 +2113,22 @@ msgstr ""
 msgid "{name}脸上已经略显酒意了。"
 msgstr ""
 
+#: core/conditions/effects/ice_shock_condition_effect.gd
+msgid "你中的意寒掌毒发作了！"
+msgstr ""
+
+#: core/conditions/effects/ice_shock_condition_effect.gd
+msgid "意寒掌毒"
+msgstr ""
+
+#: core/conditions/effects/rose_poison_condition_effect.gd
+msgid "你中的火玫瑰毒发作了！"
+msgstr ""
+
+#: core/conditions/effects/rose_poison_condition_effect.gd
+msgid "火玫瑰毒"
+msgstr ""
+
 #: core/conditions/effects/slumber_drug_condition_effect.gd
 msgid "你觉得脑中昏昏沉沉，心中空荡荡的，直想躺下来睡一觉。"
 msgstr ""
@@ -1800,8 +2184,32 @@ msgstr ""
 msgid "弑师等同背叛师门：综合评价清零，背叛师门的次数变成 {count} 次。"
 msgstr ""
 
-#: core/internal_power/concentrate_exert_function.gd core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd core/internal_power/roar_exert_function.gd
+#: core/internal_power/chillgaze_exert_function.gd
+msgid "「意寒睨」之术只能在战斗中使用。"
+msgstr ""
+
+#: core/internal_power/chillgaze_exert_function.gd core/internal_power/concentrate_exert_function.gd core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd core/internal_power/restore_exert_function.gd core/internal_power/roar_exert_function.gd
 msgid "你的内力不够。"
+msgstr ""
+
+#: core/internal_power/chillgaze_exert_function.gd
+msgid "你要对谁施展「意寒睨」之术？"
+msgstr ""
+
+#: core/internal_power/chillgaze_exert_function.gd
+msgid "$N眼神忽然发出异光，双瞳犹如两把利刃般盯著$n！"
+msgstr ""
+
+#: core/internal_power/chillgaze_exert_function.gd
+msgid "$N很快地转过头去，避开了$n的目光。"
+msgstr ""
+
+#: core/internal_power/chillgaze_exert_function.gd
+msgid "但是$N对$n的注视视若无睹....。"
+msgstr ""
+
+#: core/internal_power/chillgaze_exert_function.gd
+msgid "$N被$n的目光所摄，不自禁地打了个寒噤。"
 msgstr ""
 
 #: core/internal_power/concentrate_exert_function.gd
@@ -1820,9 +2228,11 @@ msgstr ""
 msgid "你只能用 none 表示不运内力，或数字表示每一击用几点内力。"
 msgstr ""
 
+#. message_vision(): the character an exert line names as its $n.
 #. message_vision(): the actor of an exert line, for its $N.
+#. message_vision(): the dancer ($N) as they read it.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_spells.gd
+#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_spells.gd
 msgid "你"
 msgstr ""
 
@@ -1857,6 +2267,10 @@ msgstr ""
 
 #: core/internal_power/exert_functions.gd
 msgid "天邪虎啸"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "意寒睨"
 msgstr ""
 
 #: core/internal_power/exert_functions.gd
@@ -1970,7 +2384,8 @@ msgid "你敷上金疮药 ."
 msgstr ""
 
 #. es2:obj/example/wineskin liquid.name
-#: core/items/liquid/liquid_state.gd data/common/items.json
+#. es2:d/latemoon/obj/wine liquid.name
+#: core/items/liquid/liquid_state.gd data/common/items.json data/latemoon/items.json
 msgid "红酒"
 msgstr ""
 
@@ -2456,7 +2871,21 @@ msgstr ""
 #. snow.npc.girl family.title
 #. temple.npc.trainer family.title
 #. temple.npc.tfighter family.title
-#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json data/temple/npcs.json
+#. latemoon.npc.funlin family.title
+#. latemoon.npc.zauron family.title
+#. latemoon.npc.room.guest family.title
+#. latemoon.npc.room.tguest family.title
+#. latemoon.npc.room.fochin family.title
+#. latemoon.npc.room.spring2 family.title
+#. latemoon.npc.room.yushou family.title
+#. latemoon.npc.room.spring1 family.title
+#. latemoon.npc.room.elon family.title
+#. latemoon.npc.room.eton family.title
+#. latemoon.npc.park.shiren family.title
+#. latemoon.npc.park.maysan family.title
+#. latemoon.npc.upstar.shinfun family.title
+#. latemoon.npc.upstar.huei family.title
+#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json
 msgid "弟子"
 msgstr ""
 
@@ -3164,6 +3593,7 @@ msgstr ""
 
 #. liuh-ken actions.damage_type
 #. celestrike actions.damage_type
+#. snowwhip actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "瘀伤"
@@ -3193,6 +3623,9 @@ msgstr ""
 #. fonxansword actions.damage_type
 #. scratching actions.damage_type
 #. six-chaos-sword actions.damage_type
+#. tenderzhi actions.damage_type
+#. snowwhip actions.damage_type
+#. snowshade-sword actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "刺伤"
@@ -3793,6 +4226,7 @@ msgstr ""
 
 #. spring-blade actions.damage_type
 #. fonxansword actions.damage_type
+#. snowshade-sword actions.damage_type
 #. actions.damage_type
 #: presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "割伤"
@@ -4168,7 +4602,12 @@ msgstr ""
 #. cloud.npc.fly limbs
 #. waterfog.npc.celes_tiger limbs
 #. green.npc.spider limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
+#. latemoon.npc.park.dodo1 limbs
+#. latemoon.npc.park.bird limbs
+#. latemoon.npc.park.rabbit limbs
+#. latemoon.npc.upstar.bird limbs
+#. latemoon.npc.butterfly limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -4508,6 +4947,33 @@ msgstr ""
 
 #: runtime/world/services/bank_service.gd
 msgid "请输入范围内的正整数，不支持小数或自动取整。"
+msgstr ""
+
+#: runtime/world/services/dance_service.gd
+msgid ""
+"这一曲要耗去 {sen} 点神，你现在撑不住，跳完就会昏过去。\n"
+"确定要跳吗？"
+msgstr ""
+
+#: runtime/world/services/dance_service.gd
+msgid "你想跳哪一曲？"
+msgstr ""
+
+#: runtime/world/services/dance_service.gd
+msgid "跳舞"
+msgstr ""
+
+#. a dance the player may dance on the floor ({name}: 西出阳关).
+#: runtime/world/services/dance_service.gd
+msgid "跳「{name}」"
+msgstr ""
+
+#: runtime/world/services/dance_service.gd
+msgid "随意起舞"
+msgstr ""
+
+#: runtime/world/services/dance_service.gd
+msgid "确定起舞"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
@@ -5764,7 +6230,9 @@ msgstr ""
 #. es2:obj/weapon/dart unit
 #. es2:d/oldpine/obj/throwing_knife unit
 #. es2:d/snow/npc/obj/throwing_knife unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json
+#. es2:d/latemoon/obj/needle unit
+#. es2:d/latemoon/room/npc/obj/needle unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json
 msgid "些"
 msgstr ""
 
@@ -5820,6 +6288,8 @@ msgstr ""
 #. es2:obj/npc/obj/golden_armor unit
 #. es2:daemon/class/taoist/robe unit
 #. es2:obj/npc/obj/steel_armor unit
+#. es2:daemon/class/dancer/snake_sandal unit
+#. es2:daemon/class/dancer/bloody_dress unit
 #. es2:d/oldpine/obj/leather unit
 #. es2:d/oldpine/obj/robe unit
 #. es2:d/oldpine/obj/fur_coat unit
@@ -5828,6 +6298,13 @@ msgstr ""
 #. es2:d/snow/obj/raincoat unit
 #. es2:d/snow/obj/pink_cloth unit
 #. es2:d/latemoon/obj/deer_boot unit
+#. es2:d/latemoon/obj/skirt unit
+#. es2:d/latemoon/obj/skirt3 unit
+#. es2:d/latemoon/obj/skirt5 unit
+#. es2:d/latemoon/obj/flower_boot unit
+#. es2:d/latemoon/obj/skirt2 unit
+#. es2:d/latemoon/obj/blue_dress unit
+#. es2:d/latemoon/obj/skirt4 unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -5857,9 +6334,15 @@ msgstr ""
 #. es2:obj/example/dumpling unit
 #. es2:obj/example/wineskin unit
 #. es2:d/snow/obj/denotation unit
+#. es2:d/latemoon/room/npc/obj/token unit
+#. es2:d/latemoon/obj/food3 unit
+#. es2:d/latemoon/room/npc/obj/fire unit
+#. es2:d/latemoon/room/npc/obj/brooch unit
+#. es2:d/latemoon/park/npc/obj/ring unit
+#. es2:d/latemoon/park/npc/obj/amulet unit
 #. es2:d/green/npc/obj/ricewine unit
 #. es2:d/green/obj/jade unit
-#: data/common/items.json data/snow/items.json data/green/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -5912,14 +6395,18 @@ msgstr ""
 
 #. es2:obj/longsword name
 #. es2:obj/weapon/longsword name
+#. es2:obj/example/sword name
 #. es2:d/oldpine/obj/long_sword name
-#: data/common/items.json data/oldpine/items.json
+#. es2:d/latemoon/room/npc/obj/longsword name
+#: data/common/items.json data/oldpine/items.json data/latemoon/items.json
 msgid "长剑"
 msgstr ""
 
 #. es2:obj/longsword long
 #. es2:obj/weapon/longsword long
-#: data/common/items.json
+#. es2:obj/example/sword long
+#. es2:d/latemoon/room/npc/obj/longsword long
+#: data/common/items.json data/latemoon/items.json
 msgid ""
 "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
 msgstr ""
@@ -5936,6 +6423,7 @@ msgstr ""
 #. es2:obj/npc/obj/golden_sword unit
 #. es2:daemon/class/taoist/sword unit
 #. es2:obj/npc/obj/steel_fork unit
+#. es2:obj/example/sword unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
@@ -5947,6 +6435,9 @@ msgstr ""
 #. es2:d/snow/npc/obj/throwing_knife combined.base_unit
 #. es2:d/goathill/obj/sledge_hammer unit
 #. es2:d/latemoon/obj/sword unit
+#. es2:d/latemoon/obj/bamboo_sword unit
+#. es2:d/latemoon/room/npc/obj/longsword unit
+#. es2:d/latemoon/park/npc/obj/guihua unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -6077,9 +6568,10 @@ msgstr ""
 #. es2:d/snow/obj/blade unit
 #. es2:d/goathill/obj/steel_blade unit
 #. es2:d/goathill/obj/hand_axe unit
+#. es2:d/latemoon/obj/yu_blade unit
 #. es2:u/cloud/obj/npc/gangster/blade unit
 #. es2:d/temple/obj/whip unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/temple/items.json
 msgid "柄"
 msgstr ""
 
@@ -6108,10 +6600,16 @@ msgstr ""
 #. es2:daemon/class/fighter/icy_girth unit
 #. es2:daemon/class/fighter/icy_ribbon unit
 #. es2:daemon/class/juechen/jingang_staff unit
+#. es2:daemon/class/dancer/echowhip unit
+#. es2:daemon/class/dancer/gold_belt unit
+#. es2:d/latemoon/obj/whip unit
+#. es2:d/latemoon/obj/belt unit
+#. es2:d/latemoon/obj/redbelt unit
 #. es2:u/cloud/obj/npc/butcher/skin_belt unit
 #. es2:u/cloud/obj/etc/rope unit
+#. es2:u/cloud/obj/npc/lm_guard/whip unit
 #. es2:d/waterfog/obj/iron_staff unit
-#: data/common/items.json data/cloud/items.json data/waterfog/items.json
+#: data/common/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json
 msgid "条"
 msgstr ""
 
@@ -6316,6 +6814,26 @@ msgstr ""
 msgid "张"
 msgstr ""
 
+#. es2:daemon/class/dancer/echowhip name
+#: data/common/items.json
+msgid "魔鞭翩珑"
+msgstr ""
+
+#. es2:daemon/class/dancer/snake_sandal name
+#: data/common/items.json
+msgid "穿花蛇影鞋"
+msgstr ""
+
+#. es2:daemon/class/dancer/gold_belt name
+#: data/common/items.json
+msgid "软金束带"
+msgstr ""
+
+#. es2:daemon/class/dancer/bloody_dress name
+#: data/common/items.json
+msgid "紫霜血蝉衣"
+msgstr ""
+
 #. unarmed improved_line
 #: data/common/skills.json
 msgid "由於你勤练武艺，你的膂力提高了。"
@@ -6510,6 +7028,7 @@ msgstr ""
 #. fonxansword valid_learn.weapon
 #. scratching practice.weapon_fail
 #. six-chaos-sword valid_learn.weapon
+#. snowshade-sword valid_learn.weapon
 #: data/common/skills.json
 msgid "你必须先找一把剑才能练剑法。"
 msgstr ""
@@ -7055,6 +7574,197 @@ msgstr ""
 msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
 msgstr ""
 
+#. whip name
+#: data/common/skills.json
+msgid "基本鞭法"
+msgstr ""
+
+#. tenderzhi name
+#: data/common/skills.json
+msgid "柔虹指"
+msgstr ""
+
+#. tenderzhi practice.force_fail
+#: data/common/skills.json
+msgid "你的内力不够了。"
+msgstr ""
+
+#. tenderzhi practice.sen_fail
+#: data/common/skills.json
+msgid "你的精神无法集中了，休息一下再练吧。"
+msgstr ""
+
+#. tenderzhi valid_learn.gender
+#: data/common/skills.json
+msgid "柔虹指是只有女子才能练的武功。"
+msgstr ""
+
+#. tenderzhi valid_learn.empty_hands
+#: data/common/skills.json
+msgid "练柔虹指必须空手。"
+msgstr ""
+
+#. tenderzhi actions.action
+#: data/common/skills.json
+msgid "$N左手一挥，一招「菊楼采月」右手点向$n$l"
+msgstr ""
+
+#. tenderzhi actions.action
+#: data/common/skills.json
+msgid "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去"
+msgstr ""
+
+#. tenderzhi actions.action
+#: data/common/skills.json
+msgid "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去"
+msgstr ""
+
+#. tenderzhi actions.action
+#: data/common/skills.json
+msgid "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去"
+msgstr ""
+
+#. snowwhip name
+#: data/common/skills.json
+msgid "寒雪鞭法"
+msgstr ""
+
+#. snowwhip practice.done
+#: data/common/skills.json
+msgid "你按著所学练了一遍寒雪鞭法。"
+msgstr ""
+
+#. snowwhip practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习寒雪鞭法。"
+msgstr ""
+
+#. snowwhip valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。"
+msgstr ""
+
+#. snowwhip valid_learn.weapon
+#: data/common/skills.json
+msgid "你必须先找一条鞭子才能练鞭法。"
+msgstr ""
+
+#. snowwhip actions.action
+#: data/common/skills.json
+msgid "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭"
+msgstr ""
+
+#. snowwhip actions.action
+#: data/common/skills.json
+msgid "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l"
+msgstr ""
+
+#. snowwhip actions.action
+#: data/common/skills.json
+msgid "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l"
+msgstr ""
+
+#. snowwhip actions.action
+#: data/common/skills.json
+msgid "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去"
+msgstr ""
+
+#. snowwhip actions.action
+#: data/common/skills.json
+msgid "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l"
+msgstr ""
+
+#. snowwhip actions.damage_type
+#. actions.damage_type
+#: data/common/skills.json data/common/combat_actions.json
+msgid "鞭伤"
+msgstr ""
+
+#. snowwhip actions.action
+#: data/common/skills.json
+msgid "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身"
+msgstr ""
+
+#. iceforce name
+#: data/common/skills.json
+msgid "意寒功"
+msgstr ""
+
+#. iceforce force_hit_wound.message
+#: data/common/skills.json
+msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
+msgstr ""
+
+#. iceforce practice.fail
+#: data/common/skills.json
+msgid "意寒功只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. snowshade-force name
+#: data/common/skills.json
+msgid "雪影心法"
+msgstr ""
+
+#. snowshade-force practice.fail
+#: data/common/skills.json
+msgid "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. snowshade-sword name
+#: data/common/skills.json
+msgid "雪影剑法"
+msgstr ""
+
+#. snowshade-sword practice.done
+#: data/common/skills.json
+msgid "你按著所学练了一遍雪影剑法。"
+msgstr ""
+
+#. snowshade-sword practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习雪影剑法。"
+msgstr ""
+
+#. snowshade-sword valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练雪影剑法。"
+msgstr ""
+
+#. snowshade-sword valid_learn.mapped
+#: data/common/skills.json
+msgid "雪影剑法必须配合天山魔教的独门雪影心法才能练。"
+msgstr ""
+
+#. snowshade-sword actions.action
+#: data/common/skills.json
+msgid "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l"
+msgstr ""
+
+#. snowshade-sword actions.action
+#: data/common/skills.json
+msgid "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l"
+msgstr ""
+
+#. snowshade-sword actions.action
+#: data/common/skills.json
+msgid "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l"
+msgstr ""
+
+#. snowshade-sword actions.action
+#: data/common/skills.json
+msgid "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑"
+msgstr ""
+
+#. snowshade-sword actions.action
+#: data/common/skills.json
+msgid "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑"
+msgstr ""
+
+#. snowshade-sword actions.action
+#: data/common/skills.json
+msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
@@ -7125,11 +7835,6 @@ msgstr ""
 msgid "$N将$w一扬，往$n的$l抽去"
 msgstr ""
 
-#. actions.damage_type
-#: data/common/combat_actions.json
-msgid "鞭伤"
-msgstr ""
-
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N用$w往$n的$l直戳过去"
@@ -7176,7 +7881,8 @@ msgstr ""
 
 #. family.dongfang name
 #. cloud.npc.god family.name
-#: data/common/families.json data/cloud/npcs.json
+#. latemoon.npc.room.annihi family.name
+#: data/common/families.json data/cloud/npcs.json data/latemoon/npcs.json
 msgid "东方神教"
 msgstr ""
 
@@ -7203,6 +7909,41 @@ msgstr ""
 #. temple.npc.tfighter inquiry topic
 #: data/common/families.json data/common/npcs.json data/temple/npcs.json
 msgid "茅山派"
+msgstr ""
+
+#. family.latemoon name
+#. common.npc.dancer.master family.name
+#. cloud.npc.lm_guard inquiry topic
+#. latemoon.npc.yumay family.name
+#. latemoon.npc.funlin family.name
+#. latemoon.npc.zauron family.name
+#. latemoon.npc.room.fochin family.name
+#. latemoon.npc.room.spring2 family.name
+#. latemoon.npc.room.yushou family.name
+#. latemoon.npc.room.old family.name
+#. latemoon.npc.room.spring1 family.name
+#. latemoon.npc.room.elon family.name
+#. latemoon.npc.room.eton family.name
+#. latemoon.npc.shaowei family.name
+#. latemoon.npc.park.shiren family.name
+#. latemoon.npc.park.maysan family.name
+#. latemoon.npc.upstar.shinfun family.name
+#. latemoon.npc.upstar.huei family.name
+#. latemoon name
+#: data/common/families.json data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json
+msgid "晚月庄"
+msgstr ""
+
+#. family.xiaoyao name
+#. latemoon.npc.room.guest family.name
+#: data/common/families.json data/latemoon/npcs.json
+msgid "逍遥派"
+msgstr ""
+
+#. family.tianshan name
+#. latemoon.npc.room.tguest family.name
+#: data/common/families.json data/latemoon/npcs.json
+msgid "天山派"
 msgstr ""
 
 #. common.npc.swordsman.master name
@@ -7350,7 +8091,8 @@ msgstr ""
 
 #. common.npc.fighter.champion inquiry topic
 #. common.npc.juechen.master inquiry topic
-#: data/common/npcs.json
+#. latemoon.npc.room.elon inquiry topic
+#: data/common/npcs.json data/latemoon/npcs.json
 msgid "拜师"
 msgstr ""
 
@@ -7780,7 +8522,12 @@ msgstr ""
 #. cloud.npc.fly limbs
 #. waterfog.npc.celes_tiger limbs
 #. green.npc.spider limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
+#. latemoon.npc.park.dodo1 limbs
+#. latemoon.npc.park.bird limbs
+#. latemoon.npc.park.rabbit limbs
+#. latemoon.npc.upstar.bird limbs
+#. latemoon.npc.butterfly limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json
 msgid "身体"
 msgstr ""
 
@@ -7790,7 +8537,9 @@ msgstr ""
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. waterfog.npc.celes_tiger limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
+#. latemoon.npc.park.dodo1 limbs
+#. latemoon.npc.park.rabbit limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json
 msgid "前脚"
 msgstr ""
 
@@ -7808,7 +8557,8 @@ msgstr ""
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
 #. waterfog.npc.celes_tiger limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
+#. latemoon.npc.park.dodo1 limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json
 msgid "尾巴"
 msgstr ""
 
@@ -7873,6 +8623,63 @@ msgstr ""
 #. common.npc.zombie raised.dissolve
 #: data/common/npcs.json
 msgid "$N缓缓地倒了下来，化为一滩血水。"
+msgstr ""
+
+#. common.npc.dancer.master name
+#. cloud.npc.lm_guard inquiry topic
+#: data/common/npcs.json data/cloud/npcs.json
+msgid "蓝止萍"
+msgstr ""
+
+#. common.npc.dancer.master nickname
+#: data/common/npcs.json
+msgid "回音仙子"
+msgstr ""
+
+#. common.npc.dancer.master title
+#: data/common/npcs.json
+msgid "晚月庄主"
+msgstr ""
+
+#. common.npc.dancer.master long
+#: data/common/npcs.json
+msgid ""
+"蓝止萍是一个十分出色的美女，她弹的一手琵琶更是闻名千里，许多\n"
+"王侯子弟，富商豪客都为她天下无双的美貌与琴艺倾倒。\n"
+msgstr ""
+
+#. common.npc.dancer.master family.title
+#: data/common/npcs.json
+msgid "庄主"
+msgstr ""
+
+#. common.npc.dancer.master chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"蓝止萍嫣然一笑，一个转身迳自舞了起来，对眼前这场恶斗似乎全不放在心上。\n"
+msgstr ""
+
+#. common.npc.dancer.master chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"蓝止萍脚步轻移，翩翩地转了几个圈，回眸一笑。\n"
+msgstr ""
+
+#. common.npc.dancer.master chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"蓝止萍用手扶了扶自己的发簪，像是怕被对手碰歪似地。\n"
+msgstr ""
+
+#. common.npc.dancer.master chat_msg_combat
+#: data/common/npcs.json
+msgid ""
+"蓝止萍笑嘻嘻地拾起地上一片从魔鞭翩珑上落下的花瓣。\n"
+msgstr ""
+
+#. common.npc.dancer.master chat_msg_combat.tell
+#: data/common/npcs.json
+msgid "你觉得脸上似乎沾上了什麽东西，伸手一摸却什麽也没有。"
 msgstr ""
 
 #. quests.target
@@ -7997,7 +8804,9 @@ msgid "蜘蛛"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.park.bird name
+#. latemoon.npc.upstar.bird name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "金丝雀"
 msgstr ""
 
@@ -8049,12 +8858,18 @@ msgstr ""
 
 #. quests.target
 #. oldpine.npc.butterfly name
-#: data/common/quests.json data/oldpine/npcs.json
+#. latemoon.npc.butterfly name
+#: data/common/quests.json data/oldpine/npcs.json data/latemoon/npcs.json
 msgid "蝴蝶"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.yumay inquiry topic
+#. latemoon.npc.funlin name
+#. latemoon.npc.girl inquiry topic
+#. latemoon.npc.zauron inquiry topic
+#. latemoon.npc.shaowei inquiry topic
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "芳绫"
 msgstr ""
 
@@ -8107,17 +8922,20 @@ msgid "大岩蛭"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.girl name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "昭仪"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.room.spring2 name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "圆春"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.room.spring1 name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "惜春"
 msgstr ""
 
@@ -8158,7 +8976,8 @@ msgid "卧龙岗强盗"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. cloud.npc.lm_guard name
+#: data/common/quests.json data/cloud/npcs.json
 msgid "彩衣少女"
 msgstr ""
 
@@ -8187,7 +9006,8 @@ msgid "兵器贩子"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.park.shiren name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "袭人"
 msgstr ""
 
@@ -8270,12 +9090,14 @@ msgid "守城官兵"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.room.guest name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "芙云"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.room.tguest name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "梦玉楼"
 msgstr ""
 
@@ -8313,12 +9135,14 @@ msgid "常老大"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.yumay name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "蓝雨梅"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.shaowei name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "蓝筱薇"
 msgstr ""
 
@@ -8329,12 +9153,14 @@ msgid "疯老头子"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.upstar.shinfun name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "莫欣芳"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. latemoon.npc.upstar.huei name
+#: data/common/quests.json data/latemoon/npcs.json
 msgid "邢千慧"
 msgstr ""
 
@@ -8410,9 +9236,12 @@ msgid ""
 msgstr ""
 
 #. es2:d/oldpine/obj/bamboo_pipe unit
+#. es2:d/latemoon/obj/bamboo unit
+#. es2:d/latemoon/obj/needle combined.base_unit
+#. es2:d/latemoon/room/npc/obj/needle combined.base_unit
 #. es2:u/cloud/obj/meat/tail unit
 #. es2:u/cloud/obj/meat/dog_m food.leaves.unit
-#: data/oldpine/items.json data/cloud/items.json
+#: data/oldpine/items.json data/latemoon/items.json data/cloud/items.json
 msgid "根"
 msgstr ""
 
@@ -8518,7 +9347,8 @@ msgstr ""
 #. oldpine.npc.wolf_dog limbs
 #. snow.npc.dog limbs
 #. snow.npc.crazy_dog limbs
-#: data/oldpine/npcs.json data/snow/npcs.json
+#. latemoon.npc.park.dodo1 limbs
+#: data/oldpine/npcs.json data/snow/npcs.json data/latemoon/npcs.json
 msgid "后脚"
 msgstr ""
 
@@ -8529,25 +9359,31 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.butterfly long
-#: data/oldpine/npcs.json
+#. latemoon.npc.butterfly long
+#: data/oldpine/npcs.json data/latemoon/npcs.json
 msgid ""
 "一只翩翩起舞的小蝴蝶哦! \n"
 msgstr ""
 
 #. oldpine.npc.butterfly limbs
 #. cloud.npc.fly limbs
-#: data/oldpine/npcs.json data/cloud/npcs.json
+#. latemoon.npc.park.bird limbs
+#. latemoon.npc.upstar.bird limbs
+#. latemoon.npc.butterfly limbs
+#: data/oldpine/npcs.json data/cloud/npcs.json data/latemoon/npcs.json
 msgid "翅膀"
 msgstr ""
 
 #. oldpine.npc.butterfly chat_msg
-#: data/oldpine/npcs.json
+#. latemoon.npc.butterfly chat_msg
+#: data/oldpine/npcs.json data/latemoon/npcs.json
 msgid ""
 "蝴蝶拍动著翅膀! \n"
 msgstr ""
 
 #. oldpine.npc.butterfly chat_msg
-#: data/oldpine/npcs.json
+#. latemoon.npc.butterfly chat_msg
+#: data/oldpine/npcs.json data/latemoon/npcs.json
 msgid ""
 "蝴蝶停在花上吸花蜜。 \n"
 msgstr ""
@@ -10510,6 +11346,313 @@ msgid ""
 "这是一把宝剑，隐含神秘力量。\n"
 msgstr ""
 
+#. es2:d/latemoon/obj/skirt name
+#: data/latemoon/items.json
+msgid "布裙"
+msgstr ""
+
+#. es2:d/latemoon/obj/skirt3 name
+#: data/latemoon/items.json
+msgid "绿罗裙"
+msgstr ""
+
+#. es2:d/latemoon/obj/whip name
+#: data/latemoon/items.json
+msgid "长鞭"
+msgstr ""
+
+#. es2:d/latemoon/obj/skirt5 name
+#: data/latemoon/items.json
+msgid "绵裙"
+msgstr ""
+
+#. es2:d/latemoon/obj/yu_blade name
+#: data/latemoon/items.json
+msgid "柳玉刀"
+msgstr ""
+
+#. es2:d/latemoon/obj/yu_blade long
+#: data/latemoon/items.json
+msgid ""
+"这是一柄纤细的柳玉刀，轻薄短小。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/flower_boot name
+#: data/latemoon/items.json
+msgid "绣花鞋"
+msgstr ""
+
+#. es2:d/latemoon/obj/clasp name
+#: data/latemoon/items.json
+msgid "银翅金簪"
+msgstr ""
+
+#. es2:d/latemoon/obj/clasp unit
+#: data/latemoon/items.json
+msgid "支"
+msgstr ""
+
+#. es2:d/latemoon/obj/skirt2 name
+#: data/latemoon/items.json
+msgid "青绫绸裙"
+msgstr ""
+
+#. es2:d/latemoon/obj/bamboo_sword name
+#: data/latemoon/items.json
+msgid "玉竹剑"
+msgstr ""
+
+#. es2:d/latemoon/obj/bamboo_sword long
+#: data/latemoon/items.json
+msgid ""
+"这是一把用竹子作成的玉竹剑，手工细腻别致。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/letter name
+#: data/latemoon/items.json
+msgid "密函"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/letter long
+#: data/latemoon/items.json
+msgid ""
+"这是一封用蜡密封起来的信件，上面有一奇怪的图案。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/letter unit
+#: data/latemoon/items.json
+msgid "封"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/token name
+#: data/latemoon/items.json
+msgid "杀手令牌"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/token long
+#: data/latemoon/items.json
+msgid ""
+"一个黑木作的杀手令牌，上面刻著火焰的图腾标志。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/food2 name
+#: data/latemoon/items.json
+msgid "宫保鸡丁"
+msgstr ""
+
+#. es2:d/latemoon/obj/food2 long
+#: data/latemoon/items.json
+msgid ""
+"这是一道香辣可口的佳肴。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/food2 unit
+#. es2:d/latemoon/obj/food unit
+#. es2:u/cloud/obj/meat/hind unit
+#: data/latemoon/items.json data/cloud/items.json
+msgid "只"
+msgstr ""
+
+#. es2:d/latemoon/obj/food3 name
+#: data/latemoon/items.json
+msgid "水饺"
+msgstr ""
+
+#. es2:d/latemoon/obj/food3 long
+#: data/latemoon/items.json
+msgid ""
+"这是一个手工细腻的水饺，看起来很好吃。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/wine name
+#: data/latemoon/items.json
+msgid "女儿红"
+msgstr ""
+
+#. es2:d/latemoon/obj/wine long
+#: data/latemoon/items.json
+msgid ""
+"这是一坛香味浓郁的陈年老酒，是存给待嫁女儿喝的酒。\n"
+"你闻了闻，好香好香哦!你有点想喝它 (drink)\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/wine unit
+#: data/latemoon/items.json
+msgid "坛"
+msgstr ""
+
+#. es2:d/latemoon/obj/food name
+#: data/latemoon/items.json
+msgid "脆皮烤鸭"
+msgstr ""
+
+#. es2:d/latemoon/obj/food long
+#: data/latemoon/items.json
+msgid ""
+"这是一只看了都会流口水的、香喷喷的烤鸭。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/fire name
+#: data/latemoon/items.json
+msgid "火摺"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/fire long
+#: data/latemoon/items.json
+msgid "这是一个可以生火的火摺"
+msgstr ""
+
+#. es2:d/latemoon/obj/belt name
+#: data/latemoon/items.json
+msgid "腰带"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/earring name
+#: data/latemoon/items.json
+msgid "耳环"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/earring long
+#: data/latemoon/items.json
+msgid ""
+"这是一串用宝石镶串成的闪亮耳环。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/earring unit
+#. es2:d/latemoon/obj/necklace unit
+#: data/latemoon/items.json
+msgid "串"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/brooch name
+#: data/latemoon/items.json
+msgid "钻石胸针"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/brooch long
+#: data/latemoon/items.json
+msgid ""
+"这是一个用钻石镶成的美丽胸饰。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/blue_dress name
+#: data/latemoon/items.json
+msgid "宝蓝缎衫"
+msgstr ""
+
+#. es2:d/latemoon/obj/redbelt name
+#: data/latemoon/items.json
+msgid "碧玉红裎带"
+msgstr ""
+
+#. es2:d/latemoon/obj/redbelt long
+#: data/latemoon/items.json
+msgid ""
+"这是一条丝绸制的彩带，质感佳，上绣有彩霞江水纹。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/necklace name
+#: data/latemoon/items.json
+msgid "珍珠项链"
+msgstr ""
+
+#. es2:d/latemoon/obj/hankie name
+#: data/latemoon/items.json
+msgid "丝罗巾"
+msgstr ""
+
+#. es2:d/latemoon/obj/hankie long
+#: data/latemoon/items.json
+msgid ""
+"这卷罗巾由上等丝绸编成，绣了一幅幅美女图。个个体态轻盈，翩然\n"
+"起舞。每一曲舞步姿态美妙迷人，旁题著舞曲名称与步法。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/hankie unit
+#: data/latemoon/items.json
+msgid "卷"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/ring name
+#: data/latemoon/items.json
+msgid "冰玉戒指"
+msgstr ""
+
+#. es2:d/latemoon/obj/skirt4 name
+#: data/latemoon/items.json
+msgid "青纱裙"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/amulet name
+#: data/latemoon/items.json
+msgid "护身符"
+msgstr ""
+
+#. es2:d/latemoon/obj/cake name
+#: data/latemoon/items.json
+msgid "雪花糕"
+msgstr ""
+
+#. es2:d/latemoon/obj/cake long
+#: data/latemoon/items.json
+msgid ""
+"这是一块精致可口的小点心，似雪花般柔软。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/cake unit
+#: data/latemoon/items.json
+msgid "块"
+msgstr ""
+
+#. es2:d/latemoon/obj/bamboo name
+#: data/latemoon/items.json
+msgid "竹子"
+msgstr ""
+
+#. es2:d/latemoon/obj/bamboo long
+#: data/latemoon/items.json
+msgid ""
+"这是一根玉竹，还有一些竹叶在上面。\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/needle name
+#: data/latemoon/items.json
+msgid "绣花针"
+msgstr ""
+
+#. es2:d/latemoon/obj/needle long
+#: data/latemoon/items.json
+msgid ""
+"一种上等铁做成的绣花针\n"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/needle name
+#: data/latemoon/items.json
+msgid "花针"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/needle long
+#: data/latemoon/items.json
+msgid ""
+"一种铁做成的绣花针\n"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/guihua name
+#: data/latemoon/items.json
+msgid "红桂花"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/guihua long
+#: data/latemoon/items.json
+msgid ""
+"才摘的桂花，发出阵阵淡淡的幽香。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/guihua combined.base_unit
+#: data/latemoon/items.json
+msgid "粒"
+msgstr ""
+
 #. es2:d/choyin/obj/grass name
 #. cloud.npc.b_header inquiry topic
 #: data/choyin/items.json data/cloud/npcs.json
@@ -10675,11 +11818,6 @@ msgid ""
 "哇! 好香的牛腿! 不吃还等什么?\n"
 msgstr ""
 
-#. es2:u/cloud/obj/meat/hind unit
-#: data/cloud/items.json
-msgid "只"
-msgstr ""
-
 #. es2:u/cloud/obj/meat/tail name
 #: data/cloud/items.json
 msgid "牛尾"
@@ -10733,6 +11871,11 @@ msgstr ""
 #. es2:u/cloud/obj/etc/rope name
 #: data/cloud/items.json
 msgid "麻绳"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/lm_guard/whip name
+#: data/cloud/items.json
+msgid "拂柳鞭"
 msgstr ""
 
 #. cloud.npc.gangster long
@@ -10964,7 +12107,8 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.god family.title
-#: data/cloud/npcs.json
+#. latemoon.npc.room.annihi family.title
+#: data/cloud/npcs.json data/latemoon/npcs.json
 msgid "教主"
 msgstr ""
 
@@ -11554,6 +12698,47 @@ msgstr ""
 msgid "小女子哪里是您的对手？"
 msgstr ""
 
+#. cloud.npc.lm_guard long
+#: data/cloud/npcs.json
+msgid ""
+"    小姑娘是晚月庄的女弟子，虽说身形单薄，可眼神里透出的傲气让\n"
+"人感到并不好欺负。\n"
+msgstr ""
+
+#. cloud.npc.lm_guard chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"少女说道：你当这里是什么地方，敢来这里骚扰？\n"
+msgstr ""
+
+#. cloud.npc.lm_guard chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"少女说道：你要是再无理取闹，当心庄主的鞭子！\n"
+msgstr ""
+
+#. cloud.npc.lm_guard chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"少女手中的鞭子越舞越快，让你应接不暇。\n"
+msgstr ""
+
+#. cloud.npc.lm_guard chat_msg_combat
+#: data/cloud/npcs.json
+msgid ""
+"少女说道：你当晚月庄的女子好欺负么？！\n"
+msgstr ""
+
+#. cloud.npc.lm_guard inquiry.蓝止萍
+#: data/cloud/npcs.json
+msgid "庄主的名字也是你这等人随便叫的么？"
+msgstr ""
+
+#. cloud.npc.lm_guard inquiry.晚月庄
+#: data/cloud/npcs.json
+msgid "庄主吩咐过，不许乱讲。"
+msgstr ""
+
 #. es2:u/cloud/dragonhill/nroad long
 #: data/cloud/rooms.json
 msgid ""
@@ -11867,7 +13052,9 @@ msgstr ""
 #. temple.corridor7.door name
 #. temple.corridor3.door name
 #. temple.corridor4.door name
-#: data/cloud/world.json data/green/world.json data/temple/world.json
+#. latemoon.upstar.upstar4.door name
+#. latemoon.upstar.upstar3.door name
+#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json
 msgid "木门"
 msgstr ""
 
@@ -11970,7 +13157,8 @@ msgid ""
 msgstr ""
 
 #. waterfog.npc.celes_tiger limbs
-#: data/waterfog/npcs.json
+#. latemoon.npc.park.rabbit limbs
+#: data/waterfog/npcs.json data/latemoon/npcs.json
 msgid "后腿"
 msgstr ""
 
@@ -13001,7 +14189,8 @@ msgid "井"
 msgstr ""
 
 #. green.entrance.landmark.painting name
-#: data/green/world.json
+#. latemoon.npc.girl inquiry topic
+#: data/green/world.json data/latemoon/npcs.json
 msgid "图"
 msgstr ""
 
@@ -13652,4 +14841,1468 @@ msgstr ""
 #. temple.road1.moss.northwest lines
 #: data/temple/world.json
 msgid "你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"
+msgstr ""
+
+#. latemoon.npc.servant name
+#. latemoon.npc.servant2 name
+#. latemoon.npc.room.servant name
+#: data/latemoon/npcs.json
+msgid "婢女"
+msgstr ""
+
+#. latemoon.npc.yumay long
+#: data/latemoon/npcs.json
+msgid ""
+"蓝雨梅是晚月庄主蓝止萍的养女，由于庄主不信任男子，因此\n"
+"晚月庄接待外宾的工作向来由她负责。\n"
+msgstr ""
+
+#. latemoon.npc.yumay family.title
+#. latemoon.npc.shaowei family.title
+#: data/latemoon/npcs.json
+msgid "大弟子"
+msgstr ""
+
+#. latemoon.npc.yumay chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"蓝雨梅微笑著说道：我们晚月庄是『 以舞会友，以神换技 』\n"
+msgstr ""
+
+#. latemoon.npc.yumay chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"蓝雨梅看你一脸疑惑！笑著说：我教你跳一曲『西出阳关』好吗?\n"
+msgstr ""
+
+#. latemoon.npc.yumay chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"蓝雨梅微笑著说道：我跳支舞给您看好不好？\n"
+msgstr ""
+
+#. latemoon.npc.yumay chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"蓝雨梅微笑著说道：我的舞跳得不好，待会儿我请芳绫跳舞给您看，别走远喔。\n"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry topic
+#. latemoon.npc.girl inquiry topic
+#. latemoon.latemoon8.dance dance.steps.name
+#. latemoon.miroom.dance dance.steps.name
+#: data/latemoon/npcs.json data/latemoon/world.json
+msgid "西出阳关"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry.西出阳关
+#: data/latemoon/npcs.json
+msgid ""
+"『西出阳关』是一种幻影式舞步。可以移形换影。\n"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry topic
+#: data/latemoon/npcs.json
+msgid "学舞"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry.学舞
+#: data/latemoon/npcs.json
+msgid ""
+"来!我教你...『西出阳关』(dancing out)是 ..... \n"
+"经过雨梅指导后你渐渐懂了! \n"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry topic
+#. latemoon.npc.girl inquiry topic
+#. latemoon.npc.zauron inquiry topic
+#. latemoon.npc.shaowei inquiry topic
+#: data/latemoon/npcs.json
+msgid "舞"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry.舞
+#: data/latemoon/npcs.json
+msgid ""
+"我会的舞是属于「幻影式舞步」。\n"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry.芳绫
+#: data/latemoon/npcs.json
+msgid ""
+"她是个可爱的女孩。不过有点任性，听说她贪玩被关在 \n"
+"禁闭室。听说她爱玩竹蜻蜓哦。\n"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry topic
+#. latemoon.npc.shaowei inquiry topic
+#: data/latemoon/npcs.json
+msgid "竹蜻蜓"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry.竹蜻蜓
+#: data/latemoon/npcs.json
+msgid ""
+"庄内有人会用竹子作成不同物品。\n"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry topic
+#. latemoon.npc.girl inquiry topic
+#: data/latemoon/npcs.json
+msgid "沧海龙吟"
+msgstr ""
+
+#. latemoon.npc.yumay inquiry.沧海龙吟
+#: data/latemoon/npcs.json
+msgid ""
+"是一种失传以久的「寒谷龙舞」\n"
+msgstr ""
+
+#. latemoon.npc.yumay greeting.one_of.line
+#: data/latemoon/npcs.json
+msgid ""
+"雨梅对你微笑，和善的对你说：\n"
+"  这位$RESPECT，你好！欢迎来到晚月庄。请坐！"
+msgstr ""
+
+#. latemoon.npc.yumay greeting.one_of.line
+#: data/latemoon/npcs.json
+msgid ""
+"雨梅对你微笑，纤细的双手捧著茶，\n"
+" 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！"
+msgstr ""
+
+#. latemoon.npc.funlin long
+#: data/latemoon/npcs.json
+msgid ""
+"她看起来像个小灵精，头上梳两个小包包头。\n"
+"她坐在地上，看到你看她便向你作了个鬼脸!\n"
+"你想她一定是调皮才会在这受罚!\n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"顽皮的芳绫向你扮个鬼脸。  *^G^* \n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"芳绫走到中央，一个姿势(Pose)。哇!你没想到她跳舞时竟有此深造诣。\n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"芳绫说：好不好看！这可是我花好久练成的哦! \n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"芳绫缓缓的移动著，手上的动作变化万千，有一种说不出的美妙。\n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"芳绫说：你好烦哦! 快走开! \n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"芳绫说：你想学可以去问昭仪姐，她会的比我多。嘻! \n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"芳绫说：丑八怪! 不要烦我。走开啦! \n"
+msgstr ""
+
+#. latemoon.npc.funlin chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"她嘟著嘴。有点生气的翻过头去，不理你！\n"
+msgstr ""
+
+#. latemoon.npc.girl title
+#. latemoon.npc.room.shaoin title
+#. latemoon.npc.room.shinyu title
+#: data/latemoon/npcs.json
+msgid "晚月庄第三代弟子"
+msgstr ""
+
+#. latemoon.npc.girl long
+#: data/latemoon/npcs.json
+msgid ""
+"她看起来非常可爱。身材玲珑有致，曲线苗条。\n"
+"第一眼印象，你觉的她舞蹈一定跳的不错，看她的一举一动\n"
+"有一种说不出的流畅优雅！\n"
+msgstr ""
+
+#. latemoon.npc.girl chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"昭仪以轻妙的舞步，在房内跳了起来!你看的入神。\n"
+msgstr ""
+
+#. latemoon.npc.girl chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"昭仪抬头望著那幅图画，略有所思... \n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.图
+#: data/latemoon/npcs.json
+msgid ""
+"这是一张非常真贵的湘绣舞曲图，我也在研究中。\n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.沧海龙吟
+#: data/latemoon/npcs.json
+msgid ""
+"嗯 ...为这舞曲名。似乎雨梅姊知道。\n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry topic
+#. latemoon.latemoon8.dance dance.steps.name
+#: data/latemoon/npcs.json data/latemoon/world.json
+msgid "有凤来仪"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.有凤来仪
+#: data/latemoon/npcs.json
+msgid ""
+"嗯 ...为这舞曲名。(dancing yu-fong)很有名！ \n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.西出阳关
+#: data/latemoon/npcs.json
+msgid ""
+"「幻影式舞步」步法与地点都很重要。\n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.芳绫
+#: data/latemoon/npcs.json
+msgid ""
+"她聪明伶俐，会跳一些自创的舞步。\n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry topic
+#: data/latemoon/npcs.json
+msgid "画"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.画
+#: data/latemoon/npcs.json
+msgid ""
+"沧海龙吟是一幅湘绣舞曲图，记载一些珍贵舞步。\n"
+msgstr ""
+
+#. latemoon.npc.girl inquiry topic
+#: data/latemoon/npcs.json
+msgid "寒谷龙舞"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.寒谷龙舞.rules.lines.line
+#: data/latemoon/npcs.json
+msgid "昭仪很奇怪的望著你，说道:嘻!你对舞有兴趣呀! "
+msgstr ""
+
+#. latemoon.npc.girl inquiry.寒谷龙舞.rules.lines.line
+#: data/latemoon/npcs.json
+msgid "只见两眼溜来溜去，一种很神秘的表情，嘟著嘴。"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.寒谷龙舞.rules.lines.line
+#: data/latemoon/npcs.json
+msgid "过了一会说：好吧!偷偷跟你说，你可以查看墙上的图。(dragon-dance) "
+msgstr ""
+
+#. latemoon.npc.girl inquiry.寒谷龙舞.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "...."
+msgstr ""
+
+#. latemoon.npc.girl inquiry.舞.rules.lines.line
+#: data/latemoon/npcs.json
+msgid "昭仪很高兴的看著你，说道:嘻!你对舞有兴趣呀!"
+msgstr ""
+
+#. latemoon.npc.girl inquiry.舞.rules.lines.line
+#: data/latemoon/npcs.json
+msgid "这有一幅图画，我从那悟到好多新舞步哦! "
+msgstr ""
+
+#. latemoon.npc.girl inquiry.舞.rules.lines.line
+#: data/latemoon/npcs.json
+msgid "『 沧海龙吟』是一首失传以久的舞曲。传说...."
+msgstr ""
+
+#. latemoon.npc.girl inquiry.舞.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "......"
+msgstr ""
+
+#. latemoon.npc.zauron name
+#: data/latemoon/npcs.json
+msgid "昭蓉"
+msgstr ""
+
+#. latemoon.npc.zauron long
+#: data/latemoon/npcs.json
+msgid ""
+"她长得十分漂亮！让你忍不住多瞧她几眼，从她身上\n"
+"你闻到淡淡的香气。她很有礼貌的向你点头，优雅的\n"
+"动作，轻盈的步伐，好美哦!\n"
+msgstr ""
+
+#. latemoon.npc.zauron inquiry.舞
+#. latemoon.npc.shaowei inquiry.舞
+#: data/latemoon/npcs.json
+msgid ""
+"我舞跳的不好!我比较喜欢静态的活动。\n"
+msgstr ""
+
+#. latemoon.npc.zauron inquiry.芳绫
+#. latemoon.npc.shaowei inquiry.芳绫
+#: data/latemoon/npcs.json
+msgid ""
+"听说她贪玩被关在禁闭室。她最爱玩竹蜻蜓了! \n"
+msgstr ""
+
+#. latemoon.npc.zauron greeting.one_of.line
+#: data/latemoon/npcs.json
+msgid "昭蓉对你微笑，和善的对你点点头。"
+msgstr ""
+
+#. latemoon.npc.zauron greeting.one_of.line
+#: data/latemoon/npcs.json
+msgid ""
+"昭蓉对你微笑，以纤细轻柔的声音 \n"
+" 说道：这位$RESPECT，你好！欢迎来到晚月庄。"
+msgstr ""
+
+#. latemoon.npc.room.fochin name
+#: data/latemoon/npcs.json
+msgid "曲馥琪"
+msgstr ""
+
+#. latemoon.npc.room.fochin long
+#. latemoon.npc.upstar.shinfun long
+#. latemoon.npc.upstar.huei long
+#: data/latemoon/npcs.json
+msgid ""
+"她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n"
+"她姿容绝美，世所罕见。从她身旁你闻道一寒谷\n"
+"幽香。\n"
+msgstr ""
+
+#. latemoon.npc.room.spring2 long
+#: data/latemoon/npcs.json
+msgid ""
+"她是惜春的妹妹，跟姐姐从小就在晚月庄\n"
+"长大。因为与双亲失散，被庄主收留。平\n"
+"常帮忙庄内琐碎事务。\n"
+msgstr ""
+
+#. latemoon.npc.room.yushou name
+#: data/latemoon/npcs.json
+msgid "苗郁淑"
+msgstr ""
+
+#. latemoon.npc.room.yushou long
+#: data/latemoon/npcs.json
+msgid ""
+"她看起来很有活力，两眼明亮有神。给你\n"
+"一种巾帼不让须眉的气势，但刚毅之中似\n"
+"又隐含著女孩子有的娇柔。\n"
+msgstr ""
+
+#. latemoon.npc.room.old name
+#: data/latemoon/npcs.json
+msgid "无名老妇"
+msgstr ""
+
+#. latemoon.npc.room.old title
+#: data/latemoon/npcs.json
+msgid "看管人"
+msgstr ""
+
+#. latemoon.npc.room.old long
+#: data/latemoon/npcs.json
+msgid ""
+"这个老妇人不知姓甚名谁, 她在晚月很久了, 一直看管\n"
+"书房, 连庄主都对她很尊敬。\n"
+msgstr ""
+
+#. latemoon.npc.room.old family.title
+#: data/latemoon/npcs.json
+msgid "前辈"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.here
+#: data/latemoon/npcs.json
+msgid "这里是书房，有些鞭法教材存放在这儿。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.trouble
+#: data/latemoon/npcs.json
+msgid ""
+"实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n"
+"我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n"
+"只是要以令牌为证，唉 ..."
+msgstr ""
+
+#. latemoon.npc.room.old inquiry topic
+#: data/latemoon/npcs.json
+msgid "令牌"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.令牌
+#: data/latemoon/npcs.json
+msgid "就在我儿身上 ...你拿到了就给我。"
+msgstr ""
+
+#. latemoon.npc.room.killer name
+#: data/latemoon/npcs.json
+msgid "杀手"
+msgstr ""
+
+#. latemoon.npc.room.killer title
+#: data/latemoon/npcs.json
+msgid "蒙面杀手"
+msgstr ""
+
+#. latemoon.npc.room.killer long
+#: data/latemoon/npcs.json
+msgid ""
+"这是个蒙面杀手，眉眼看起来有些面熟。\n"
+msgstr ""
+
+#. latemoon.npc.room.killer chat_msg_combat
+#: data/latemoon/npcs.json
+msgid ""
+"蒙面杀手喝道：为什么杀我？\n"
+msgstr ""
+
+#. latemoon.npc.room.killer chat_msg_combat
+#: data/latemoon/npcs.json
+msgid ""
+"蒙面杀手叹道：你知道我心里有多痛苦吗？！\n"
+msgstr ""
+
+#. latemoon.npc.room.spring1 long
+#: data/latemoon/npcs.json
+msgid ""
+"她看起来成熟中带有一些稚气。飘逸的长发\n"
+"十分迷人。她是个孤儿，从小与妹妹圆春被\n"
+"庄主收留，她很聪明，在第四代弟子中算是\n"
+"武功很出色的一个。\n"
+msgstr ""
+
+#. latemoon.npc.room.elon name
+#: data/latemoon/npcs.json
+msgid "瑷伦"
+msgstr ""
+
+#. latemoon.npc.room.elon title
+#: data/latemoon/npcs.json
+msgid "晚月庄开山祖师"
+msgstr ""
+
+#. latemoon.npc.room.elon inquiry.拜师
+#: data/latemoon/npcs.json
+msgid ""
+"哦....想拜老身为师，好...\n"
+"不过得先接受测试(accept test)，接下我三鞭。"
+msgstr ""
+
+#. latemoon.npc.room.annihi name
+#: data/latemoon/npcs.json
+msgid "安妮儿"
+msgstr ""
+
+#. latemoon.npc.room.yuchoun name
+#: data/latemoon/npcs.json
+msgid "虞琼衣"
+msgstr ""
+
+#. latemoon.npc.room.yuchoun title
+#: data/latemoon/npcs.json
+msgid "晚月庄弟子"
+msgstr ""
+
+#. latemoon.npc.room.shaoin name
+#: data/latemoon/npcs.json
+msgid "龙韶吟"
+msgstr ""
+
+#. latemoon.npc.room.shaoin hit_ob.message
+#: data/latemoon/npcs.json
+msgid "你觉得被打中的地方一阵麻痒！"
+msgstr ""
+
+#. latemoon.npc.room.shinyu name
+#: data/latemoon/npcs.json
+msgid "阮欣郁"
+msgstr ""
+
+#. latemoon.npc.room.fireangel name
+#: data/latemoon/npcs.json
+msgid "凤凰"
+msgstr ""
+
+#. latemoon.npc.room.fireangel title
+#: data/latemoon/npcs.json
+msgid "护庄神像"
+msgstr ""
+
+#. latemoon.npc.room.fireangel long
+#: data/latemoon/npcs.json
+msgid ""
+"火神「凤凰」乃勇士寒于的魂魄所化成的十三个精灵之一。\n"
+"由于其奇异神迹，被晚月庄供奉为护庄神兽。\n"
+msgstr ""
+
+#. latemoon.npc.room.eton name
+#: data/latemoon/npcs.json
+msgid "金仪彤"
+msgstr ""
+
+#. latemoon.npc.room.eton long
+#: data/latemoon/npcs.json
+msgid ""
+"她国色天香，娇丽无伦；温柔娴静，秀绝人寰。\n"
+"可惜眉心上有一道地煞纹干犯紫斗，恐要玉手\n"
+"染血，浩劫武林。\n"
+msgstr ""
+
+#. latemoon.npc.shaowei long
+#: data/latemoon/npcs.json
+msgid ""
+"她长得十分漂亮！让你忍不住多瞧她几眼，从她身上\n"
+"你闻到淡淡的香气。她很有礼貌的向你点头，优雅的\n"
+"动作，轻盈的步伐，好美哦!\n"
+"她是晚月庄主蓝止萍的养女。\n"
+msgstr ""
+
+#. latemoon.npc.shaowei inquiry.竹蜻蜓
+#: data/latemoon/npcs.json
+msgid ""
+"咦..!你也喜欢玩啊! 我会做哦! \n"
+"不过我需要一根竹子! 你找来我帮你做! \n"
+msgstr ""
+
+#. latemoon.npc.shaowei greeting.one_of.line
+#: data/latemoon/npcs.json
+msgid "筱薇对你微笑，和善的对你点点头。"
+msgstr ""
+
+#. latemoon.npc.shaowei greeting.one_of.line
+#: data/latemoon/npcs.json
+msgid ""
+"筱薇对你微笑，以纤细轻柔的声音 \n"
+" 说道：这位$RESPECT，你好！欢迎来到晚月庄。"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl name
+#: data/latemoon/npcs.json
+msgid "采花少女"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl long
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女是绮云镇居民的小孩，从小就到晚月庄来摘桂花，蓝止\n"
+"萍很喜欢她们，也教给她们了些基本的武功，时间久了，这些少\n"
+"女的功夫还都不错。\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"顽皮的采花少女向你扮个鬼脸。  *^G^* \n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女说道：华中理工大学的桂花树比晚月庄多多了，你知道吗？\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女望着天边的晚霞，双手托着香腮，说道：我好想去华工大摘桂花。\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女嘀咕着：听说华工的桂花有好几种呢。\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg_combat
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女秀眉微蹙，说道：你欺负我年纪小是吗？\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg_combat
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女说道：你要是再无理取闹，让火玫瑰毒死你！\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl chat_msg_combat
+#: data/latemoon/npcs.json
+msgid ""
+"采花少女骂道：你这无赖，别死缠着我！\n"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl inquiry topic
+#: data/latemoon/npcs.json
+msgid "桂花"
+msgstr ""
+
+#. latemoon.npc.park.flwgirl inquiry.桂花
+#: data/latemoon/npcs.json
+msgid "华中理工大学的桂花树比晚月庄多多了，你知道吗？"
+msgstr ""
+
+#. latemoon.npc.park.girl_yu name
+#: data/latemoon/npcs.json
+msgid "上官钰翎"
+msgstr ""
+
+#. latemoon.npc.park.girl_yu nickname
+#: data/latemoon/npcs.json
+msgid "玉涵湘"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 name
+#: data/latemoon/npcs.json
+msgid "小金鼠"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 long
+#: data/latemoon/npcs.json
+msgid ""
+"一只可爱的长尾巴的小金鼠。 \n"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小金鼠摇摇尾巴!全身晃呀晃! \n"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小金鼠眼睛眨呀眨!好像快睡著了! \n"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"嘟嘟玩太累了!睡著了! \n"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小金鼠「嘟嘟」它跳啊跳的! \n"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小金鼠「嘟嘟」眼睛眨呀眨看著你 \n"
+msgstr ""
+
+#. latemoon.npc.park.dodo1 chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小金鼠发出「  叽! 叽!」」的叫声! \n"
+msgstr ""
+
+#. latemoon.npc.park.bird long
+#. latemoon.npc.upstar.bird long
+#: data/latemoon/npcs.json
+msgid ""
+"一只羽毛鲜艳的小金丝雀。\n"
+msgstr ""
+
+#. latemoon.npc.park.bird chat_msg
+#. latemoon.npc.upstar.bird chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小金丝雀叽叽的叫! \n"
+msgstr ""
+
+#. latemoon.npc.park.bird chat_msg
+#. latemoon.npc.upstar.bird chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"金丝雀用嘴整理羽毛。 \n"
+msgstr ""
+
+#. latemoon.npc.park.maysan name
+#: data/latemoon/npcs.json
+msgid "美珊"
+msgstr ""
+
+#. latemoon.npc.park.maysan long
+#: data/latemoon/npcs.json
+msgid ""
+"她看起来成熟中带有一些韵味。飘逸的长发\n"
+"十分迷人。\n"
+msgstr ""
+
+#. latemoon.npc.park.rabbit name
+#: data/latemoon/npcs.json
+msgid "小白兔"
+msgstr ""
+
+#. latemoon.npc.park.rabbit long
+#: data/latemoon/npcs.json
+msgid ""
+"一只红眼睛的小白兔。\n"
+msgstr ""
+
+#. latemoon.npc.park.rabbit chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小白兔蹦蹦跳跳的。\n"
+msgstr ""
+
+#. latemoon.npc.park.rabbit chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"小白兔用嘴舔前肢。 \n"
+msgstr ""
+
+#. latemoon.npc.upstar.statue name
+#: data/latemoon/npcs.json
+msgid "人灵「区冥」"
+msgstr ""
+
+#. latemoon.npc.upstar.statue title
+#: data/latemoon/npcs.json
+msgid "神像"
+msgstr ""
+
+#. latemoon.npc.upstar.statue long
+#: data/latemoon/npcs.json
+msgid ""
+"人灵「区冥」乃勇士寒于的魂魄所化成的十三个精灵之一。\n"
+"晚月庄的开山先辈，传说是其后裔子孙。故其为\n"
+"晚月庄的祖先神位。\n"
+msgstr ""
+
+#. es2:d/latemoon/entrance long
+#: data/latemoon/rooms.json
+msgid ""
+"这是条用鹅卵石铺成的小路，往西可以看到一座用淡青色围墙围住\n"
+"的庭院，有两个身着彩衣的女子笑盈盈的站在那里说笑着，她们身后的\n"
+"一扇拱门(door)，檐顶下面写着「晚月庄」。院墙那边飘出的阵阵曲声勾\n"
+"人魂魄，隐约还可闻到一股香气。\n"
+msgstr ""
+
+#. es2:d/latemoon/gate long
+#: data/latemoon/rooms.json
+msgid ""
+"你来到了这个小径的尽头，一个有著朱红漆大门大宅\n"
+"院矗立在你的面前，门口挂著两串灯笼(lantern),上面写\n"
+"得有字，像这样一间豪华的大宅院出现在这样的乡间野外\n"
+"，使你觉得有些突兀，大宅的南边、东边都是茂密的林子\n"
+"，看来也没有其他的路。\n"
+msgstr ""
+
+#. es2:d/latemoon/front_yard long
+#: data/latemoon/rooms.json
+msgid ""
+"一走入这个庭园，扑鼻而来的便是一股若有似无，但是又沁人心\n"
+"脾的花香，庭园甚是宽敞，许多奇花异石错落其间，显是经过高手匠\n"
+"人的精心布置，西边花丛间可看到主屋的屋角，一条石板小径沿著假\n"
+"山通往主屋。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon1 long
+#: data/latemoon/rooms.json
+msgid ""
+"走进大厅，抬头迎面看见的是一面紫红绣金挂幔，一面屏风将宽敞的\n"
+"大厅隔成两半，东西两面各设著七张紫檀雕案，案上一色白玉羊脂花瓶，\n"
+"瓶中插著粉红的处子牡丹，紫檀雕案中间又都挂著七尺来长的画轴，各式\n"
+"鸟兽虫鱼，翎毛丹青，栩栩如生，宛如要从画纸上飞出，嬉戏于大厅之中\n"
+"，这大厅中的富贵气派之中透著一股秀气，但是却也无一般富豪人家或酒\n"
+"店的庸脂俗粉之气。\n"
+"    屏风两旁的白石嵌云柱上工整地刻著一幅对联写道：\n"
+"\n"
+"    「座上珠玑照日月，却掩珠帘，难为芳心;\n"
+"      堂前飘香焕云霞，不知岁月，但晓清音。」\n"
+"\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon3 long
+#: data/latemoon/rooms.json
+msgid ""
+"这里是晚月庄接待宾客的傍厅，厅中摆了一张桌几，上面摆著\n"
+"一块大红镶金桌巾，靠东壁面西设著半旧青缎靠背引枕，两张太师\n"
+"椅座。桌几上有一精致的茶壶，旁有盛好的上等茗茶。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoonc long
+#: data/latemoon/rooms.json
+msgid ""
+"这是晚月庄后的小小庭院，面积似乎不大，但花木扶疏，举目四望，\n"
+"竟种满了无数梅花，婉约娟秀，别有一番滋味。清风徐来，梅花特有的\n"
+"清香弥漫在风中.....\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon5 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在一条长廊上，两旁都是庭台堂庑，廊上弥漫著一股\n"
+"香郁的气息，廊下是由青石砖铺成，一边接后厅内院，一边的\n"
+"尽头则是一幅大石壁画，西侧似有一铜门(door)。\n"
+"有一间书房。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon6 long
+#: data/latemoon/rooms.json
+msgid ""
+"这里四面都是单调的墙壁(wall)。通常庄内弟子犯错就是\n"
+"关在这儿！反省思过。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon7 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在一条长廊上，两旁都是庭台堂庑，廊上弥漫著一股\n"
+"香郁的气息，长廊向东西方延伸而去。东边是后厅院子，西边\n"
+"有一间书房。\n"
+msgstr ""
+
+#. es2:d/latemoon/latebook long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间小小的书房，窗明几净，朴素典雅，一张古意盎然的红木书桌，\n"
+"吸引了你的目光，上面摆著一座小小的香炉，几本善本书整齐的堆放在桌上\n"
+"，可见主人相当的爱惜书本。一幅「沧海龙吟」的舞曲图画挂在墙上，似乎\n"
+"有一些秘密在里头。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon8 long
+#. es2:d/latemoon/miroom long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间密室。地上铺著可以合地打坐的大理石床。四周挂了一\n"
+"些兵器，正面墙上写了偌大的 『 舞 』字！ 地板上隐约看到一幅先\n"
+"天八卦图。中央画著两仪，八个角落分别是：乾坤兑离震巽坎艮、等\n"
+"卦相。墙上画著几幅玄天玉女翩然起舞的美妙步法。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon4 long
+#: data/latemoon/rooms.json
+msgid ""
+"你从后廊往西出了内厅进入穿堂。往北是内院，一条宽过道，西  \n"
+"面立著一个粉油大影壁，后有一大半门，小小的一所庭宇。\n"
+msgstr ""
+
+#. es2:d/latemoon/latemoon2 long
+#: data/latemoon/rooms.json
+msgid ""
+"走入内厅，你看到袭地铺满红毯。四面相对十二张雕漆椅上，都\n"
+"是一色灰鼠椅搭小褥，厅中摆了小屏风，四周挂满山水墨画。一个木\n"
+"隔架，旁边还有一碧纱橱(closet)。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/twoc long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在后厅内院的仪门，是晚月庄后厅内院长廊走道的相接路\n"
+"口。东北方是往膳房的夹道，西面是长廊夹道，南面是到后厅，往北\n"
+"则可走出大门前往前院。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/two1 long
+#. es2:d/latemoon/room/two2 long
+#. es2:d/latemoon/room/lroad1 long
+#. es2:d/latemoon/room/lroad3 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在后厅内院的夹道上，庄内像这样的走廊很多，你若没有地\n"
+"理概念很容易迷路。长长的走道中, 纯金铸成的长灯架上挂了一排饰\n"
+"丽的宫灯! 入夜之后灯火辉煌! 十分美丽!\n"
+msgstr ""
+
+#. es2:d/latemoon/room/guest1 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间客房，两边摆了一对小茶几。上面的彩绘瓶中插了一束\n"
+"琼花，茶几旁两张雕漆椅。整个房间简朴幽静，为晚月庄供外客留宿\n"
+"的一间厢房。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/guest2 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间上等厢房，光线适中。近窗边有一张桌子，旁有书橱!\n"
+"还有一个古琴放在平台上! 墙上除了美丽的饰物外，还挂了一些书画\n"
+"有一浓郁清新的书香气息! 通常是给远道而来的贵客休憩夜宿的一间\n"
+"上等厢房。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/eat1 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走进一间装饰华丽的大饭厅，有一种说不出的气派，一张杉木  \n"
+"雕饰的大圆桌子在厅子中央，铺著丝绸彩桌巾，上等南湖紫玉盘，湘\n"
+"陵的瓷玉碗，银匙金筷。十分奢华。这是晚月庄宴请宾客的地方，平\n"
+"常也是庄主及庄内辈份高的前辈用膳的地方。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/eat2 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间膳房，中央摆了二张大圆桌。周围三十二张雕饰木藤椅。\n"
+"平常庄内上下用膳的地方，东边是厨房，西边则是大饭厅，这虽然不\n"
+"及饭厅华丽，但所有锅盘匙碗，也都是上等珍品。有大户人家的气派\n"
+"与富贵。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/kitchen long
+#: data/latemoon/rooms.json
+msgid ""
+"你走进厨房，看到有好多的烹饪用品与设备，小蒸笼、大锅、平  \n"
+"炊灶、烧饭炉等，五花八门，式样齐全。旁边的大仓储中，更放满各\n"
+"式各样山珍美味，各种材料，调味物品应有尽有。里头的掌厨师姐们\n"
+"忙里忙外，在为准备一道道佳肴辛苦著! 闻到那阵阵美味的菜香，你\n"
+"的肚子咕噜咕噜叫了起来!\n"
+msgstr ""
+
+#. es2:d/latemoon/room/lcenter long
+#: data/latemoon/rooms.json
+msgid ""
+"你进了后厅，这是后院上房五间中，最大的一间厅房。四面墙            \n"
+"壁，玲珑剔透，琴剑书画，挂在墙上。锦笼纱罩，金彩珠光，连地上                  \n"
+"踏的砖，皆是碧绿凿花，是雕空的紫檀板壁。厅上摆了二十六张桧木\n"
+"交椅，庄内对外展示舞步表演，都是在这举行。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/lstudio long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间安静的书房, 光线适中, 近窗边有一张桌子, 旁有书橱\n"
+"还有一个古琴放在平台上! 墙上除了美丽的饰物外, 还挂了一些书画                  \n"
+"有一股浓郁清新的书香气息!\n"
+msgstr ""
+
+#. es2:d/latemoon/room/room4 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间安静的书房, 光线适中。近窗边有一张桌子，旁有书橱! \n"
+"还有一个古琴放在平台上! 墙上除了美丽的饰物外，还挂了一些书画 \n"
+"有一股浓郁清新的书香气息! \n"
+msgstr ""
+
+#. es2:d/latemoon/room/eroad2 long
+#: data/latemoon/rooms.json
+msgid ""
+"通过后厅走道，接著你走进东厢房走道。除了长长的走道中，\n"
+"一排饰丽的宫灯! 走道两旁摆设了许多奇花异草，各有各的特色与\n"
+"形态，空气中弥漫一种淡淡的香气。往南通往东厢房。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/eroad1 long
+#: data/latemoon/rooms.json
+msgid ""
+"通过后厅走道，接著你走进东厢房走道。除了长长的走道中，\n"
+"一排饰丽的宫灯! 走道两旁摆设了许多奇花异草，各有各的特色与\n"
+"形态，空气中弥漫一种淡淡的香气。东面你看到一扇厢门。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/eastroom long
+#: data/latemoon/rooms.json
+msgid ""
+"你进入东厢房来，临窗的地上铺著猩红毛毯，正面设著大红金钱\n"
+"蟒靠背，石青金钱蟒引枕，秋香色金钱蟒大条褥。两边设一对梅花式\n"
+"红漆小几，几上茗琬瓶花俱备。这是一间上等厢房。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/wroad1 long
+#: data/latemoon/rooms.json
+msgid ""
+"通过后厅走道，接著你走进西厢房走道。长长的走道中，纯金\n"
+"成的长灯架上挂了一排饰丽的宫灯! 走道两旁摆设了许多奇花异草，\n"
+"空气中弥漫一种淡淡的香气。在一柱柱雕饰华丽的长柱，刻画许多\n"
+"彩绘的图形，美不胜收。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/wroad2 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在西厢房走道上。长长的走道中，纯金成的长灯架上挂了一排\n"
+"饰丽的宫灯! 走道两旁摆设了许多奇花异草，空气中弥漫一种淡淡的香\n"
+"气。在一柱柱雕饰华丽的长柱，刻画许多彩绘的图形，美不胜收。西面\n"
+"你看到一扇门。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/westroom long
+#: data/latemoon/rooms.json
+msgid ""
+"你进入西厢房来，地下面西放著四张椅子，都搭著银红撒花椅被\n"
+"椅子两边有一对高几，右边几上文王鼎，匙筋香盒；左边几上汝窑美\n"
+"人瓶内插著花卉茗琬棰壶等物。隔窗望去，隐约可看见花园景色。.\n"
+msgstr ""
+
+#. es2:d/latemoon/room/corridor7 long
+#. es2:d/latemoon/miroom2 long
+#: data/latemoon/rooms.json
+msgid ""
+"你进了内厅，迎面挂著葱绿洒花软帘，掀帘进去，抬头一看，\n"
+"只见四面墙壁，玲珑剔透，琴剑书画，挂在墙上。锦笼纱罩，金彩\n"
+"珠光，连地上踏的砖，皆是碧绿凿花，左一架书，右一架屏。四面\n"
+"是雕空的紫檀板壁。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/flower1 long
+#: data/latemoon/rooms.json
+msgid ""
+"通过『 垂花门 』便是往后院。垂花门为男女之门限，古来女\n"
+"人就有「大门不出，二门不迈」的谚语，于是二门堪称为男女门限\n"
+"。后院为庄内女弟子厢房，与湘园。东面一扇小门，为庄内更衣沐\n"
+"浴的小花池。更是严禁外人胡乱闯入。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/bathroom1 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一间更衣室，你看到许多柜子，衣架上挂了许多的衣服饰\n"
+"品。墙上的架上挂了一些丝巾，你可以闻到淡淡的香气围绕四周。\n"
+"东侧一蓝青洒花软帘，隔帘望去，隐约可看到小花池，一团的雾气\n"
+"你有点想去冲凉沐浴，让精神好些。当然此处是禁止男性进入!\n"
+msgstr ""
+
+#. es2:d/latemoon/room/bathroom long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一个小花池，清澈的池水含著淡淡的幽香。池周围有许多奇花    \n"
+"异草，时如至芝兰之室，清香袭脑，温馨荡魄。缤纷的花瓣飘在池上，\n"
+"云幢羽葆中，簇拥著许多师姐妹，有的嘻戏玩耍，有的翩然起舞。你也\n"
+"想到小花池中沐浴休憩(take bath)。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/yard1 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走到前院，你看到几块山石，东面一处假山小池。其上植有藤  \n"
+"萝、青芷，异草芬芳荔薛。池中几尾小鱼自在的游来游去。假山外隔\n"
+"著围篱，有一种山怀中的小花园的感觉。.\n"
+msgstr ""
+
+#. es2:d/latemoon/park/flower2 long
+#: data/latemoon/rooms.json
+msgid ""
+"走进月洞门，只见迎面一带翠嶂，挡在南面。只见白石崚嶒，  \n"
+"或如鬼怪，或如猛兽，纵横拱立，上边苔藓成斑，藤萝掩映，其\n"
+"中微露羊肠小径。往南进入翠嶂，往北是小花厅。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moonc long
+#: data/latemoon/rooms.json
+msgid ""
+"穿过一层竹篱、花嶂编的月洞门，在你眼前出现的是那由粉墙环\n"
+"护，绿柳周垂的翠嶂。两边分别是游廊相接通往桃花林与长廊曲洞。\n"
+"在这儿一棵西府海棠(flower)吸引你的注意，只见其势若伞，丝垂翠\n"
+"缕，葩吐丹砂，十分漂亮。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moon2 long
+#: data/latemoon/rooms.json
+msgid ""
+"湘园的桂花小径是以不同颜色的细石砌成各种图案。路面的\n"
+"图案组成，全员是一个整体。但每幅图案又有独立的内容，总计\n"
+"花石子路上约有二百幅。沿路观赏，美不胜收。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moon1 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走入一长廊曲洞，里头略略的有几点山石，种著芭蕉，你可以\n"
+"听到潺潺的流水声，这里是园内假山开凿的通道，蜿蜒盘旋，从洞口\n"
+"向外望去，是一碧清的水池。顺著曲径走去，转了两个弯子，看见一\n"
+"座石板桥。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moon5 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一片桂花园，园内种植桂花树十万多株，枝干苍劲，枝叶  \n"
+"茂盛，树冠完整，富有生气。放眼展望，满遍披翠盖绿，葱郁的桂\n"
+"花树斑烂绚丽，优雅大方，碧海银花，清香阵阵。薰的游人醉，衣\n"
+"发常留馀香。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/bridge1 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走至大桥前，见水如晶帘一般奔入，扶著藤栏过去，只见水\n"
+"上落花愈多，其水愈清，溶溶荡荡，曲折萦纡，池边两行垂柳，杂\n"
+"著桃、杏，遮天蔽日般，真无一些尘土。度过桥去则通往湖心亭。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/bridge3 long
+#: data/latemoon/rooms.json
+msgid ""
+"走在桥上，可以远观山坡帏脉，两边飞楼插空，雕饰绣栏，隐\n"
+"于亭园树木之间；俯而视之，则清流泻雪石磴穿云。朱红玉石为栏\n"
+"，环抱池沿，柳垂金线，桃吐丹霞。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moon3 long
+#: data/latemoon/rooms.json
+msgid ""
+"桂花园的石子甬道是以不同颜色的细石砌成各种图案。路面\n"
+"的图案组成，全员是一个整体。但每幅图案又有独立的内容，总\n"
+"计花石子路上约有二百幅。沿路观赏，美不胜收。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moroom long
+#: data/latemoon/rooms.json
+msgid ""
+"你一进了小轩内，只觉异香扑鼻，那些奇草仙藤，越冷越苍翠，\n"
+"都结了实，似珊瑚豆子一般，累垂可爱。房内雪洞一般，清凉舒适  \n"
+"，案上一个土定瓶，中供著数枝菊花，旁边放了两本书、茶瓯茶杯  \n"
+"而已，床上只吊著青纱帐幔被褥，也十分朴实。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/pavilion1 long
+#: data/latemoon/rooms.json
+msgid ""
+"亭子座落在园内小水池上，亭柱周围以弧形座凳式栏板，内外\n"
+"雕刻各种不同样式的梅枝，钻尖式紫琉璃瓦顶，天花板也有雕刻非\n"
+"常精细的百花图案。上下担额枋彩画题材是海墁式点金加彩琼花。\n"
+"体形别致，色彩丰富。亭边石桥飞架，通萃赏楼，轻灵精巧，为园\n"
+"中一大奇景。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moon4 long
+#: data/latemoon/rooms.json
+msgid ""
+"暖香榭位于水池东岸，秋水山房之西，依岩为屋，结构曲折，\n"
+"极幽致，室小而精，尚朴去华，渊然静修，古香袭人。走进这里\n"
+"你有一种心源湛澈，天地虚灵，彷佛置身于仙境的感觉。往西面\n"
+"望去，水底亭台，历历可鉴。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/paroad2 long
+#: data/latemoon/rooms.json
+msgid ""
+"转过翠嫣桥，隐隐露出一带黄泥筑就矮墙，墙头用稻茎掩护，\n"
+"有几百株杏花，如喷火蒸霞一般，里面数楹茅屋，外面却是桑、\n"
+"榆、槿、杉各色树木新条，随其曲折编就两溜青篱，篱外有一土  \n"
+"井，旁有一石牌(sign)。旁边有一些佳蔬菜花。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/bridge2 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一座最精美的桥，全长十二米，宽度恰可走两人。石拱\n"
+"是单孔结构，青石桥面，汉白玉雕石栏杆，栏板上刻有精致美丽\n"
+"的花纹。二十个望柱头上各有一小孔雀，情态各异，饶有趣味。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/paroad1 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在石子墁的花园甬路上，只见两边翠竹夹路，土地下苍苔\n"
+"布满，往东北你看到凤尾森森，龙吟细细，通往暖香榭。南面则是\n"
+"一个小门。西方通往园中小桥。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/moondoor long
+#: data/latemoon/rooms.json
+msgid ""
+"这是晚月庄的后门，在美丽的湘园南侧，这有一个木制的小门。\n"
+"走出门外应是通往天山的小径。\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/upstar1 long
+#. es2:d/latemoon/upstar/upstar4 long
+#. es2:d/latemoon/upstar/upstar2 long
+#. es2:d/latemoon/upstar/upstar3 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在后厅二楼的走廊上，庄内像这样的走廊很多，你若没有地\n"
+"理概念很容易迷路。长长的走道中, 纯金铸成的长灯架上挂了一排饰\n"
+"丽的宫灯! 入夜之后灯火辉煌! 十分美丽!\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uproom2 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是晚月庄的舞曲步法研究室, 名曰「翠湘」。墙上刻画著各种\n"
+"基本步法与一些诗词曲赋。在每一位美女图的姿态形体之中，那种翩\n"
+"然起舞的曼妙舞姿，含蕴许多珍贵奇妙的舞步。你可以看到几位师姐\n"
+"一起走著奇特的步法，正在试著模拟这些舞步，一边低头沉思要如何\n"
+"运用，十分的投入。\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/upcenter long
+#: data/latemoon/rooms.json
+msgid ""
+"这里是庄院二楼的佛堂门前，你可以闻到一股浓郁的檀香气息。\n"
+"走在这里你有一种庄严肃静的感觉，在闲暇之馀你觉得来到这可以\n"
+"暂时忘去周遭的烦人琐事，彷佛可以放开一切，所有时空都静止般\n"
+"的虚空幽静。西面你看到一扇檀香木门。\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uproom long
+#: data/latemoon/rooms.json
+msgid ""
+"这是专供庄内祭祀的佛堂，是一座精构楼阁，屋顶覆以琉璃瓦，四\n"
+"角钻尖覆以鎏金铜瓦。堂内供奉  人灵「区冥」，旁有雨神「天龙」、\n"
+"火神「凤凰」。两翼有琉璃鹤照壁，姿态生动。四周置陈神龛佛像，供\n"
+"盘塔磬，及一股檀香的气息。\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/upstarc long
+#: data/latemoon/rooms.json
+msgid ""
+"这里是庄院二楼的前堂楼，有著传统的古式建筑风格。由上好的        \n"
+"桧木搭建而成, 东面一阵耀眼的的白光由两扇敞开的落地窗口射进来\n"
+"，泛映出一种清新幽静的格局。开了楼门出去可以一览庄院内外的山\n"
+"川景色，欣赏其美丽景观。\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uplook long
+#: data/latemoon/rooms.json
+msgid ""
+"这是晚月庄的前堂楼观景台，站在台前你可以看到整个庄院的  \n"
+"布局，瀚烟山美丽景色尽收眼里。微微的山风轻拂你的脸庞，有种\n"
+"说不出的轻爽。远处山寺的钟声，飞鸟的鸣啼，与眼前的景色构成\n"
+"一幅山林风光的风景画。正下方是前院。\n"
+msgstr ""
+
+#. es2:d/latemoon/upstar/uproom3 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是晚月庄让弟子们静修的地方, 名曰「缀芳」。简单的布置加上\n"
+"一座檀香炉, 你觉得这绝对是一个静修(ponder)的好场所。空气中弥漫\n"
+"著一股肃穆的气息, 使人很容易进入忘我的境界。\n"
+msgstr ""
+
+#. es2:d/latemoon/sroad1 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在一条蜿蜒的小径, 小径的两旁是半个人高的杂草, 你可以感受\n"
+"到清凉的微风从两侧吹来。\n"
+msgstr ""
+
+#. es2:d/latemoon/sroad2 long
+#: data/latemoon/rooms.json
+msgid ""
+"你走在这条蜿蜒的小径上, 本来向北走的小径被一道峭壁挡住了,\n"
+"因此小径从这弯向东边去, 在你的西边是一片杂草和几棵小树。\n"
+msgstr ""
+
+#. es2:d/latemoon/sroad3 long
+#: data/latemoon/rooms.json
+msgid ""
+"条蜿蜒的小径通往东南方, 在你的东面是一道峭壁, 而在你的\n"
+"南边是一片浓密的竹林。\n"
+msgstr ""
+
+#. es2:d/latemoon/sroad4 long
+#: data/latemoon/rooms.json
+msgid ""
+"这条蜿蜒的小径通往西南方, 西边是一片茂密的竹林, 小\n"
+"径两旁是绿油油的草地，凉风从草地上吹拂而过，像嬉戏的儿\n"
+"童般溜过你的足畔，使你不知不觉间脚步轻快了起来。\n"
+msgstr ""
+
+#. es2:d/latemoon/sroad5 long
+#: data/latemoon/rooms.json
+msgid ""
+"这条蜿蜒的小径通往东南方, 在你的东面是一处陡坡, 而在你的\n"
+"西边是一座茂密的竹林。\n"
+msgstr ""
+
+#. es2:d/latemoon/bamboo3 long
+#. es2:d/latemoon/bamboo long
+#. es2:d/latemoon/bamboo1 long
+#. es2:d/latemoon/bamboo2 long
+#. es2:d/latemoon/bamboo4 long
+#: data/latemoon/rooms.json
+msgid ""
+"这是一座茂密的竹林。当你进入后彷佛迷失了方向！\n"
+msgstr ""
+
+#. latemoon.entrance.door name
+#: data/latemoon/world.json
+msgid "拱门"
+msgstr ""
+
+#. latemoon.latemoon5.door name
+#: data/latemoon/world.json
+msgid "铜门"
+msgstr ""
+
+#. latemoon.latemoon7.door name
+#: data/latemoon/world.json
+msgid "石门"
+msgstr ""
+
+#. latemoon.room.twoc.door name
+#: data/latemoon/world.json
+msgid "后厅大门"
+msgstr ""
+
+#. latemoon.room.eroad1.door name
+#. latemoon.room.wroad2.door name
+#: data/latemoon/world.json
+msgid "雕饰厢门"
+msgstr ""
+
+#. latemoon.room.corridor7.door name
+#. latemoon.miroom2.door name
+#: data/latemoon/world.json
+msgid "垂花门"
+msgstr ""
+
+#. latemoon.room.flower1.door name
+#: data/latemoon/world.json
+msgid "小帘门"
+msgstr ""
+
+#. latemoon.upstar.upcenter.door name
+#: data/latemoon/world.json
+msgid "檀香木门"
+msgstr ""
+
+#. latemoon.upstar.upstarc.door name
+#: data/latemoon/world.json
+msgid "楼门"
+msgstr ""
+
+#. latemoon.latemoon3.tea name
+#: data/latemoon/world.json
+msgid "茶壶"
+msgstr ""
+
+#. latemoon.latemoon8.dance name
+#. latemoon.miroom.dance name
+#: data/latemoon/world.json
+msgid "八卦图"
+msgstr ""
+
+#. latemoon.latemoon8.dance dance.tired
+#. latemoon.miroom.dance dance.tired
+#: data/latemoon/world.json
+msgid "你现在的神太少了，无法专注跳出舞步！"
+msgstr ""
+
+#. latemoon.latemoon8.dance dance.clumsy
+#. latemoon.miroom.dance dance.clumsy
+#: data/latemoon/world.json
+msgid "你在卦象中跳起舞来。但似乎不得要领！"
+msgstr ""
+
+#. latemoon.latemoon8.dance dance.steps.line
+#: data/latemoon/world.json
+msgid "$N在卦象中跳起舞来..一曲「 有凤来仪 」突然..."
+msgstr ""
+
+#. latemoon.latemoon8.dance dance.steps.line
+#. latemoon.miroom.dance dance.steps.line
+#: data/latemoon/world.json
+msgid "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."
+msgstr ""
+
+#. latemoon.gate.landmark.lantern name
+#: data/latemoon/world.json
+msgid "灯笼"
+msgstr ""
+
+#. latemoon.gate.landmark.lantern long
+#: data/latemoon/world.json
+msgid ""
+"灯笼上几个娟秀的字迹写著：\n"
+"晚霞西照人影依稀 \n"
+"月影高挂和风婉约 \n"
+msgstr ""
+
+#. latemoon.latemoon6.landmark.wall name
+#: data/latemoon/world.json
+msgid "墙"
+msgstr ""
+
+#. latemoon.latemoon6.landmark.wall long
+#: data/latemoon/world.json
+msgid ""
+"    你仔细观看石墙，突然发现原本单调的墙上隐隐约约出现了\n"
+"一幅渺渺茫茫，似有似无的景像。彷佛是幻境，但又似真实，你\n"
+"清楚的看到一首词：「梦里消魂无说处，觉来惆怅消魂误。」\n"
+msgstr ""
+
+#. latemoon.latemoon2.landmark.closet name
+#: data/latemoon/world.json
+msgid "碧纱橱"
+msgstr ""
+
+#. latemoon.latemoon2.landmark.closet long
+#: data/latemoon/world.json
+msgid ""
+"这是一个上等木材作成的小橱子，里面放了一些物品。\n"
+"你看到一件件的美丽衣饰，真想取出(take cloth)看看。\n"
+msgstr ""
+
+#. latemoon.latebook.landmark.picture name
+#: data/latemoon/world.json
+msgid "湘绣舞曲图"
+msgstr ""
+
+#. latemoon.latebook.landmark.picture long
+#: data/latemoon/world.json
+msgid ""
+"这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n"
+"舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n"
+"(dancing out)与『有凤来仪 』\n"
+msgstr ""
+
+#. latemoon.park.moonc.landmark.flower name
+#: data/latemoon/world.json
+msgid "西府海棠"
+msgstr ""
+
+#. latemoon.park.moonc.landmark.flower long
+#: data/latemoon/world.json
+msgid ""
+"    你仔细看这是一棵形状有些奇特的西府海棠，有一淡淡\n"
+"的奇异香气。原来在旁边还有一朵不太起眼，但是略成金黄\n"
+"色的小花蕊，你的直觉告诉你它似乎是一种珍贵药材。你想\n"
+"把它摘下(pick)。\n"
+msgstr ""
+
+#. latemoon.park.paroad2.landmark.sign name
+#: data/latemoon/world.json
+msgid "石牌"
+msgstr ""
+
+#. latemoon.park.paroad2.landmark.sign long
+#: data/latemoon/world.json
+msgid ""
+"\n"
+" 「六神」、「四鬼」、「三灵」 \n"
+"\n"
+"         旋芒震日月\n"
+"         宝剑护河山\n"
+"\n"
 msgstr ""

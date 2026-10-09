@@ -48,9 +48,12 @@ var _own_weight: int
 var _value: int
 var _no_get: bool
 var _female_only: bool
+var _no_drop: bool
+var _no_drop_line: String
 var _max_encumbrance: int
 var _weapon_definition: WeaponDefinition
 var _weapon_damage: int
+var _weapon_rigidity: int
 var _weapon_apply: Dictionary[StringName, int] = {}
 var _armor_definition: ArmorDefinition
 var _stack_definition: CombinedStackDefinition
@@ -110,6 +113,15 @@ var no_get: bool:
 ## LPC set("female_only"): wear.c lets only a 女性 character wear it.
 var female_only: bool:
 	get: return _female_only
+## LPC set("no_drop"): drop.c, give.c and put.c refuse it.
+var no_drop: bool:
+	get: return _no_drop
+## drop.c's refusal when no_drop is a string ("" for 这样东西不能随意丢弃。).
+var no_drop_line: String:
+	get: return _no_drop_line
+## LPC set("rigidity"): weapond.c bash_weapon() adds it to the weapon's side; 0 unset.
+var weapon_rigidity: int:
+	get: return _weapon_rigidity
 ## feature/move.c set_max_encumbrance(): a container holds this much (put in,
 ## get from); 0 for anything that is not a container.
 var max_encumbrance: int:
@@ -201,6 +213,12 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 		reader.fail("value", "must not be negative")
 	definition._no_get = reader.boolean("no_get", false)
 	definition._female_only = reader.boolean("female_only", false)
+	if reader.has("no_drop"):
+		definition._no_drop = true
+		if reader.is_text("no_drop"):
+			definition._no_drop_line = reader.required_text("no_drop")
+		elif not reader.boolean("no_drop", false):
+			reader.fail("no_drop", "true or drop.c's line")
 	definition._play = StringName(reader.text("play"))
 	definition._hang = reader.boolean("hang", false)
 	definition._apply = StringName(reader.text("apply"))
@@ -546,6 +564,7 @@ func _read_weapon(weapon: ContentRecordReader) -> void:
 	_weapon_damage = weapon.required_integer("damage")
 	if _weapon_damage < 0:
 		weapon.fail("damage", "must not be negative")
+	_weapon_rigidity = weapon.integer("rigidity")
 	var secondary: bool = false
 	var two_handed: bool = false
 	for flag: String in weapon.text_list("flags"):

@@ -132,6 +132,11 @@ func is_object(key: String) -> bool:
 	return _record.has(key) and _record[key] is Dictionary
 
 
+## True when the key holds a string (a field that is either a flag or its line).
+func is_text(key: String) -> bool:
+	return _record.has(key) and _record[key] is String
+
+
 ## Object of non-empty string values, in authored order.
 func text_map(key: String) -> Dictionary[String, String]:
 	_consumed[key] = true

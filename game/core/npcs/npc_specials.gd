@@ -31,6 +31,7 @@ static func run(action: NpcSpecialAction, context: SpecialContext) -> bool:
 	# An NPC's room is the fight's others (no NPC exerts roar; its kill_ob()s would
 	# need the room's bystanders).
 	var exert := ExertContext.new(me.state, me.query_skill(SkillUseIds.FORCE), context.is_fighting(), me.busy, me.character_id, context.random, context.others)
+	exert.offensive = context.offensive_target
 	if not function.exert(exert):
 		return false
 	context.lines.append_array(exert.vision_lines)

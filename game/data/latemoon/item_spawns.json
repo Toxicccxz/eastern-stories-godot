@@ -1,0 +1,76 @@
+{
+	"item_spawns": [
+		{
+			"id": "latemoon.manor.eat1.food2",
+			"item": "es2:d/latemoon/obj/food2",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.eat1",
+			"points": ["latemoon.room.eat1.food2.1"],
+			"legacy_room": "d/latemoon/room/eat1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.eat1.food3s",
+			"item": "es2:d/latemoon/obj/food3",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.eat1",
+			"points": ["latemoon.room.eat1.food3.1", "latemoon.room.eat1.food3.2"],
+			"legacy_room": "d/latemoon/room/eat1.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "latemoon.manor.eat2.wine",
+			"item": "es2:d/latemoon/obj/wine",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.eat2",
+			"points": ["latemoon.room.eat2.wine.1"],
+			"legacy_room": "d/latemoon/room/eat2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.eat2.food",
+			"item": "es2:d/latemoon/obj/food",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.eat2",
+			"points": ["latemoon.room.eat2.food.1"],
+			"legacy_room": "d/latemoon/room/eat2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.manor.kitchen.fire",
+			"item": "es2:d/latemoon/room/npc/obj/fire",
+			"map": "latemoon.manor",
+			"zone": "latemoon.room.kitchen",
+			"points": ["latemoon.room.kitchen.fire.1"],
+			"legacy_room": "d/latemoon/room/kitchen.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.secret.miroom.hankie",
+			"item": "es2:d/latemoon/obj/hankie",
+			"map": "latemoon.secret",
+			"zone": "latemoon.miroom",
+			"points": ["latemoon.miroom.hankie.1"],
+			"legacy_room": "d/latemoon/miroom.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.upper.uproom3.cake",
+			"item": "es2:d/latemoon/obj/cake",
+			"map": "latemoon.upper",
+			"zone": "latemoon.upstar.uproom3",
+			"points": ["latemoon.upstar.uproom3.cake.1"],
+			"legacy_room": "d/latemoon/upstar/uproom3.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "latemoon.hills.bamboo4.bamboo",
+			"item": "es2:d/latemoon/obj/bamboo",
+			"map": "latemoon.hills",
+			"zone": "latemoon.bamboo4",
+			"points": ["latemoon.bamboo4.bamboo.1"],
+			"legacy_room": "d/latemoon/bamboo4.c",
+			"legacy_quantity": 1
+		}
+	]
+}

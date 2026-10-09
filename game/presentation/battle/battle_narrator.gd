@@ -96,6 +96,9 @@ func _attack(
 		# combatd.c adds the force hit's line before the damage line.
 		lines.append(BattleNarrationLine.new(vision(
 			tr(Es2CombatMessages.force_reflection_message(base.standard_force_result.reflection_mutation.requested_wound)), me, victim, cast)))
+	if base.calculation.force_wound > 0 and base.calculation.force_hit_wound != null:
+		# iceforce.c hit_ob() returns its line in place of the force hit's number.
+		lines.append(BattleNarrationLine.new(vision(tr(base.calculation.force_hit_wound.message), me, victim, cast)))
 	var damage: int = -1
 	var outcome: String
 	match base.outcome:

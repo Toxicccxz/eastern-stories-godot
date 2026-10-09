@@ -111,6 +111,60 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 晚月庄 A: the manor, the garden, the tower and the paths (2026-10-09)
+
+Owner-approved plan (同意，都按你推荐的来, 2026-10-09): four packages — A places the region,
+B the women's quarters and the rooms' own commands, C the secrets (竹蜻蜓/玛瑙手镯, 舞曲谱,
+杀手令牌, 芙云's 密函), D 晚月庄. The plan's three questions, answered with their
+recommendations: **sroad1.c is repaired** (deviation: its missing quote kept ES2 from
+compiling it, so the back gate and the path's north-west led nowhere and the grove was a trap
+while the tunnel to 山烟寺 is closed); **a man walking into the changing room or bathing is
+asked first** (B), other rooms are not; **芙云's letter and 蓝止萍's line stay word for word**.
+Defaults of the plan (owner may veto): not placed, as LPC: 颜慧如 (her list names files that
+do not exist), 蓝小蝶, 凤姐, 娟姐, 天龙, the copies; the 大蟑螂 (only a mistyped `take` made one);
+a floor's dances are the ones the player heard named, any other 不得要领 with its sen spent, a
+dance that would knock the player out asked first; 筱薇 hands a second 竹子 back (C); the temps
+(茶, 竹子, 竹蜻蜓, 问题二, 手镯) go on Continue, mark/dance-book stays; 瑷伦 kills a member who asks
+her as 叛师 (asked first) and her three lashes are asked first; 蓝止萍's ten a day never run
+out; the 杀手's pursuer is not ported; a closing NPC shuts the door the player came by.
+What each room and LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md).
+- **The dances come with A**, not B: the second 密室 is left only by dancing 「西出阳关」, and
+  flower1.c leads into the secret rooms one way. A `dance` service on each 八卦图: the
+  gender's sen check and cost (男 100/50, 女 50/30; miroom 男 100/80, 女 50/50), then the
+  dance's line, 有凤来仪's 50 sen more and the move, or 不得要领. The dances are known from
+  雨梅's 学舞 and 昭仪's 有凤来仪 (`mark_asker`) and the 书房's 湘绣舞曲图 (a look landmark that
+  `teaches` both). Only 有凤来仪 can knock a woman out (30 + 50 from 50). **The second 密室's
+  八卦图 offers 西出阳关 to anyone** (**默认**, a step `always`): it is the room's only way out,
+  and one who walked south from 内厅穿堂 or danced 有凤来仪 without hearing of it would be shut in
+  for good (ES2 let anyone type `dancing out`).
+- **Five maps**: the manor (front and rear halls, 36 rooms), the two secret rooms (one way
+  in from 内厅穿堂), the 湘园, the front tower's upper floor (stairs from both rear corridors,
+  the 观景台's jump down to the 湘园's forecourt) and the hills (the paths and the bamboo
+  grove, its five clearings joined by passages as 青石村's 迷阵). 绮云镇's west end opens onto
+  the cobbled path; the tunnel east of sroad5 stays closed until #8.
+- **东方神教 is not a joinable family** (安妮儿 refuses everyone and is no F_MASTER; 朱鸿雪 only
+  gives quests): ROADMAP counts 晚月庄 alone, ten families become nine.
+- **Two doors with two names**: eroad1.c and wroad2.c call theirs 雕饰厢门, eastroom.c and
+  westroom.c 雕饰房门; a door has one name, the corridor's (**默认**).
+- **One colour a line** (**默认**): rose_poison.c's HIG 你中的 HIR 火玫瑰毒 HIG 发作了！ is
+  HIG; the dances' 「曲名」 in HIM and the lanterns' BRED HIW lines are plain.
+- **Lost characters** (text_replacements.json, **默认**): 椅搭 (红楼梦's chair cover),
+  白石崚嶒 (红楼梦 ch.17), 稻香榭 (its text is 稻香村), the upcenter.c punctuation; uncertain:
+  雕饰绣栏, 蜿蜒盘旋, 彩霞江水纹, 神龛佛像, 供盘塔磬.
+- **意寒功's hit_ob()** (iceforce.c) after std/force.c's: when that returned a number and
+  damage_bonus plus it is above 0, random(query_skill("iceforce")) over the sum wounds the
+  victim's kee by it, sets iceshock to force_factor / 3 and adds nothing (the hook returns
+  its line). **意寒睨** for NPCs (蓝止萍's chat): busy 4 first, then 50 force and 20 sen.
+- **NPC ids keep a region subdirectory** (`latemoon.npc.room.servant`): before, a second
+  file of one name merged into the first; a clash is now an import error. A file ES2 could not
+  compile may be repaired by an override's `source_fixes` (a recorded deviation only).
+- **Global rules**: `rigidity` counts in bash_weapon() (the whips are the first items with
+  one); `no_drop` refuses drop, give and put (drop.c's own string when it has one).
+- 朱鸿雪 can be fought (雪影剑法, 雪影心法); a fight with her stays a fight to the death
+  (她不切磋).
+- **Save**: world content revision `SOURCE_ENTRY_LATEMOON_V1`; older development saves need a
+  New Game.
+
 ## 茅山 D: 驱尸 and the sheets (2026-10-08)
 
 What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carries out

@@ -479,6 +479,62 @@
 			"unit": "叠",
 			"combined": { "base_unit": "张", "base_weight": 5, "amount": 1 },
 			"scribe": true
+		},
+		{
+			"id": "es2:daemon/class/dancer/echowhip",
+			"legacy_sources": ["daemon/class/dancer/echowhip.c"],
+			"name": "魔鞭翩珑",
+			"aliases": ["echo whip", "whip"],
+			"unit": "条",
+			"material": "leather",
+			"weight": 17000,
+			"value": 10000,
+			"weapon": { "skill": "whip", "damage": 53, "rigidity": 70, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:daemon/class/dancer/snake_sandal",
+			"legacy_sources": ["daemon/class/dancer/snake_sandal.c"],
+			"name": "穿花蛇影鞋",
+			"aliases": ["snake sandals", "sandals"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 8000,
+			"armor": { "type": "feet", "props": { "armor": 2, "dodge": 2 } }
+		},
+		{
+			"id": "es2:daemon/class/dancer/gold_belt",
+			"legacy_sources": ["daemon/class/dancer/gold_belt.c"],
+			"name": "软金束带",
+			"aliases": ["gold belt", "belt"],
+			"unit": "条",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 27000,
+			"armor": { "type": "waist", "props": { "armor": 4, "dodge": -1 } }
+		},
+		{
+			"id": "es2:daemon/class/dancer/bloody_dress",
+			"legacy_sources": ["daemon/class/dancer/bloody_dress.c"],
+			"name": "紫霜血蝉衣",
+			"aliases": ["bloody dress", "dress"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 700,
+			"value": 40000,
+			"armor": { "type": "cloth", "props": { "armor": 3, "dodge": 10 } }
+		},
+		{
+			"id": "es2:obj/example/sword",
+			"legacy_sources": ["obj/example/sword.c"],
+			"name": "长剑",
+			"aliases": ["sword"],
+			"long": "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 7000,
+			"value": 400,
+			"weapon": { "skill": "sword", "damage": 25, "weight_dodge": "equip" }
 		}
 	]
 }

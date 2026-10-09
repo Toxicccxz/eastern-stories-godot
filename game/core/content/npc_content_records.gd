@@ -256,7 +256,7 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcTalk.SILENT_EMOTE)
 		else:
 			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
-				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age" if in_fight else "random_move, drink, emote, perform, cast, exert, surrender"])
+				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison" if in_fight else "random_move, drink, emote, perform, cast, exert, surrender"])
 		record.finish()
 	return entries
 

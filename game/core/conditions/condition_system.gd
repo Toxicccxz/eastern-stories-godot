@@ -22,6 +22,12 @@ const DrunkConditionEffectType := preload(
 const SlumberDrugConditionEffectType := preload(
 	"res://core/conditions/effects/slumber_drug_condition_effect.gd"
 )
+const RosePoisonConditionEffectType := preload(
+	"res://core/conditions/effects/rose_poison_condition_effect.gd"
+)
+const IceShockConditionEffectType := preload(
+	"res://core/conditions/effects/ice_shock_condition_effect.gd"
+)
 
 var _effects: Dictionary[StringName, ConditionEffectType] = {}
 
@@ -31,6 +37,8 @@ func _init() -> void:
 	register_effect(BandagedConditionEffectType.new())
 	register_effect(DrunkConditionEffectType.new())
 	register_effect(SlumberDrugConditionEffectType.new())
+	register_effect(RosePoisonConditionEffectType.new())
+	register_effect(IceShockConditionEffectType.new())
 
 
 ## Explicit registration replaces LPC file-path/call_other dispatch. It is also

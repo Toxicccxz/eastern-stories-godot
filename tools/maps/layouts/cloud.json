@@ -151,7 +151,7 @@
         ],
         "nodes": [
           {"generated": "captions"},
-          {"node": "caption", "name": "Closed0Label", "at": [440, 1872], "text": "西 · 晚月庄", "size": 14},
+          {"node": "caption", "name": "LatemoonLabel", "at": [440, 1872], "text": "西 · 晚月庄", "size": 14},
           {"node": "caption", "name": "Closed1Label", "at": [1500, 2500], "text": "南 · 泓水", "size": 14},
           {"node": "caption", "name": "SnowLabel", "at": [856, 4], "text": "北 · 雪亭镇", "size": 14},
           {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
@@ -164,6 +164,7 @@
             "at": [816, 16],
             "shape": "Rect_64_32"
           },
+          {"node": "passage", "name": "LatemoonPassage", "id": "cloud.wroad0.west", "at": [560, 1904], "shape": "Rect_32_64"},
           {"generated": "stairs"},
           {"generated": "doors"}
         ],
@@ -171,6 +172,7 @@
         "spawn_points": [
           {"generated": "stair_markers"},
           {"name": "SnowEntry", "at": [816, 96], "id": "cloud.dragonhill.nroad.snow_entry"},
+          {"name": "LatemoonReturn", "at": [640, 1904], "id": "cloud.wroad0.latemoon_return"},
           {"generated": "markers"}
         ]
       }

@@ -8,6 +8,15 @@
 		{"find": "血肉□糊", "replace": "血肉模糊", "where": "combatd.c damage_msg 刺伤", "why": "the set phrase"},
 		{"find": "全身□麻", "replace": "全身酸麻", "where": "cmds/std/exercise.c (no gain)", "why": "痠 in the source; training_lines.gd already reads 酸麻"},
 		{"find": "王□", "replace": "王禅", "where": "daemon/class/taoist/sword.c (林忌's 咒剑: its name, the hilt's seal characters, its hit_ob() line)", "why": "uncertain: a character outside GB2312, unrecoverable; 王禅 (鬼谷子's name) suits a Taoist peach-wood sword (owner, 茅山 plan)"},
-		{"find": "王 □", "replace": "王 禅", "where": "daemon/class/taoist/sword.c (the hilt's 「 王 □ 」)", "why": "the same character, spaced as the seal"}
+		{"find": "王 □", "replace": "王 禅", "where": "daemon/class/taoist/sword.c (the hilt's 「 王 □ 」)", "why": "the same character, spaced as the seal"},
+		{"find": "椅□小褥", "replace": "椅搭小褥", "where": "d/latemoon/latemoon2.c (内厅's long)", "why": "红楼梦's 椅搭 (a chair cover), the phrase the room's text follows"},
+		{"find": "白石岭□", "replace": "白石崚嶒", "where": "d/latemoon/park/flower2.c (月洞门's long)", "why": "红楼梦 ch.17's 白石崚嶒, the passage the room copies (崚 became 岭 in the conversion)"},
+		{"find": "□香榭", "replace": "稻香榭", "where": "d/latemoon/park/paroad2.c (its short)", "why": "its long is 红楼梦's 稻香村 (黄泥筑就矮墙…几百株杏花)"},
+		{"find": "雕饰□栏", "replace": "雕饰绣栏", "where": "d/latemoon/park/bridge3.c (朱栏板桥's long)", "why": "uncertain: 红楼梦 ch.17's 雕甍绣槛, which the line paraphrases"},
+		{"find": "蜿蜒盘□", "replace": "蜿蜒盘旋", "where": "d/latemoon/park/moon1.c (长廊曲洞's long)", "why": "uncertain: the set phrase"},
+		{"find": "彩□江水纹", "replace": "彩霞江水纹", "where": "d/latemoon/obj/redbelt.c (碧玉红裎带's long)", "why": "uncertain: an embroidered pattern of coloured clouds over waves"},
+		{"find": "一切□ ", "replace": "一切，", "where": "d/latemoon/upstar/upcenter.c (佛堂门前's long; a replacement character in the file)", "why": "lost punctuation between two clauses"},
+		{"find": "神□佛像", "replace": "神龛佛像", "where": "d/latemoon/upstar/uproom.c (佛堂's long)", "why": "uncertain: a shrine's niches and statues"},
+		{"find": "□\n盘塔磬", "replace": "供\n盘塔磬", "where": "d/latemoon/upstar/uproom.c (佛堂's long)", "why": "uncertain: offering plates, pagodas and chime stones"}
 	]
 }

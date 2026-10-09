@@ -154,16 +154,16 @@ func _throw_weapon(binding: CombatSliceCharacterBinding) -> Array[ColoredLine]:
 ## bash_weapon() (hammers, staffs): a blow the victim parried with a weapon pits the two
 ## weapons, weight / 500 + rigidity + str each; random(wap) over 2 x wdp knocks the
 ## victim's weapon away, over wdp nearly, over wdp / 2 breaks it, else sparks.
-## message_vision(): the room sees it. No ported item sets rigidity yet (0).
+## message_vision(): the room sees it. Rigidity is the item's set("rigidity") (the whips').
 func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
 	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
 	var parrying: EquippedWeaponRef = null if victim == null else victim.state.equipment.primary_weapon()
 	if weapon == null or parrying == null or not parried:
 		return []
 	@warning_ignore("integer_division")
-	var wap: int = _inventory.own_weight(weapon.instance_id) / 500 + binding.state.attributes.strength
+	var wap: int = _inventory.own_weight(weapon.instance_id) / 500 + _rigidity(weapon) + binding.state.attributes.strength
 	@warning_ignore("integer_division")
-	var wdp: int = _inventory.own_weight(parrying.instance_id) / 500 + victim.state.attributes.strength
+	var wdp: int = _inventory.own_weight(parrying.instance_id) / 500 + _rigidity(parrying) + victim.state.attributes.strength
 	var roll: int = random.legacy_random(wap) if wap > 0 else 0
 	var who: String = _vision_name(victim)
 	var held: String = item_name(parrying.instance_id)
@@ -189,6 +189,11 @@ func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceChara
 	return [ColoredLine.new(tr("{me}的{weapon}和{who}的{other}相击，冒出点点的火星。").format({
 		"me": _vision_name(binding), "weapon": item_name(weapon.instance_id), "who": who, "other": held,
 	}))]
+
+
+func _rigidity(weapon: EquippedWeaponRef) -> int:
+	var content: ItemContentDefinition = GameContent.catalog().item(weapon.weapon_id)
+	return 0 if content == null else content.weapon_rigidity
 
 
 ## unequip() and move(environment(victim)): the weapon falls at the victim's feet; a broken

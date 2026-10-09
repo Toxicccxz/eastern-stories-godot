@@ -449,7 +449,7 @@ mouse_filter = 2
 theme_override_font_sizes/font_size = 14
 text = "镖局"
 
-[node name="Closed0Label" type="Label" parent="Terrain"]
+[node name="LatemoonLabel" type="Label" parent="Terrain"]
 offset_left = 440
 offset_top = 1872
 offset_right = 441
@@ -503,6 +503,16 @@ portal_id = &"cloud.dragonhill.nroad.north"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SnowPassage"]
 shape = SubResource("Rect_64_32")
+
+[node name="LatemoonPassage" type="Area2D" parent="."]
+position = Vector2(560, 1904)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"cloud.wroad0.west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LatemoonPassage"]
+shape = SubResource("Rect_32_64")
 
 [node name="TearoomStairsUp" type="Area2D" parent="."]
 position = Vector2(1216, 1120)
@@ -980,6 +990,11 @@ spawn_point_id = &"cloud.duchang.stairs_return"
 position = Vector2(816, 96)
 script = ExtResource("marker")
 spawn_point_id = &"cloud.dragonhill.nroad.snow_entry"
+
+[node name="LatemoonReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(640, 1904)
+script = ExtResource("marker")
+spawn_point_id = &"cloud.wroad0.latemoon_return"
 
 [node name="DragonhillHummockGangster1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(736, 544)
