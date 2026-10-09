@@ -603,7 +603,8 @@ func resolve_encounter_location(character_id: StringName) -> WorldLocationState:
 	return _location_for_character(character_id)
 
 
-func encounter_participant_is_available(character_id: StringName) -> bool:
+## `downed`: an NPC lying unconscious counts too (kill.c: the player's 攻击 at one).
+func encounter_participant_is_available(character_id: StringName, downed: bool = false) -> bool:
 	if _player != null and character_id == _player.character_id:
 		return (
 			_player.exists_in_world
@@ -615,7 +616,10 @@ func encounter_participant_is_available(character_id: StringName) -> bool:
 		npc != null
 		and npc.exists_in_map
 		and npc.combat_available
-		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and (
+			npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+			or (downed and npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
+		)
 	)
 
 

@@ -28,6 +28,10 @@ enum FailureReason {
 	PRACTICE_WEAPON_REJECTED,
 	## practice_skill() refused for inner force, with its own line (celestrike.c).
 	PRACTICE_FORCE_REJECTED,
+	## necromancy.c: what an earlier practice conjured still stands (`standing_conjured`).
+	PRACTICE_CONJURED_STANDING,
+	## necromancy.c: paid for, the practice conjured `conjured_npc_id` instead of improving.
+	PRACTICE_CONJURED,
 }
 
 enum Completion {
@@ -52,6 +56,12 @@ var learned_after: int
 var skill_improvement: SkillImprovementResultType
 var authored_effect: SkillImprovementEffectResultType
 var skill_learn_policy_result: SkillLearnPolicyResultType
+## Which of practice_skill()'s checks refused (PracticePolicy.refusal()), or "".
+var refusal: StringName = &""
+## The NPC the practice conjured (PRACTICE_CONJURED).
+var conjured_npc_id: StringName = &""
+## The name of the one an earlier practice conjured, still standing (PRACTICE_CONJURED_STANDING).
+var standing_conjured: String = ""
 
 
 func _init(

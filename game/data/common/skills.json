@@ -133,6 +133,17 @@
 			"id": "necromancy", "name": "茅山道术", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
 			"legacy_source": "daemon/skill/necromancy.c",
 			"valid_learn": { "effective_skill": "你的天师正道修为不够，无法领悟更高深的茅山道术。" },
+			"practice": {
+				"mana": 10, "mana_fail": "你的法力不够。", "sen": 30, "sen_fail": "你的精神无法集中。",
+				"done": "你闭目凝神，神游物外，开始修习茅山道术中的法术....",
+				"conjure": {
+					"below": 5, "skill": "spells",
+					"npcs": [{ "npc": "common.npc.mind_bug", "below": 10 }, { "npc": "common.npc.mind_beast" }],
+					"came": "可是你心思一乱，变出了一只面目狰狞的$N！",
+					"caught": "你的魂魄正被$N缠住，快把它除掉吧！",
+					"standing": "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
+				}
+			},
 			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation"]
 		},
 		{

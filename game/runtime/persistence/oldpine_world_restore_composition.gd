@@ -320,9 +320,9 @@ static func _restore_corpses(
 		var known: bool = character_facts.has(saved.victim_character_id)
 		var replaced: NpcDefinition = null if known else _replaced_npc_definition(snapshot, saved.victim_character_id)
 		if not known and replaced == null:
-			# A summoned NPC that fell (SummonedNpc): its ID names its definition.
+			# A summoned or conjured NPC that fell (SummonedNpc): its ID names its definition.
 			replaced = GameContent.catalog().npc(SummonedNpc.definition_id_of(saved.victim_character_id))
-			if replaced != null and replaced.summoning() == null:
+			if replaced != null and replaced.summoning() == null and replaced.conjuring() == null:
 				replaced = null
 		if (
 			not item_records.has(saved.corpse_item_instance_id)

@@ -1817,7 +1817,7 @@ msgstr ""
 
 #. message_vision(): the actor of an exert line, for its $N.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd
+#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd
 msgid "你"
 msgstr ""
 
@@ -2663,7 +2663,7 @@ msgstr ""
 msgid "$N突然对$n发出奋力一击！"
 msgstr ""
 
-#: core/specials/invocation_spell.gd
+#: core/specials/invocation_spell.gd presentation/battle/battle_presentation_controller.gd
 msgid "召护法"
 msgstr ""
 
@@ -3584,6 +3584,20 @@ msgid ""
 "确定要召唤天将吗？"
 msgstr ""
 
+#. asked before 召护法 (invocation.c) in a spar: the 天将 or 阴鬼卒 kills the sparring partner, who kills it back; its kills count as the player's.
+#: presentation/battle/battle_presentation_controller.gd
+msgid ""
+"召护法要耗 100 点法力和 60 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n"
+"确定要召护法吗？"
+msgstr ""
+
+#. asked before 召天将/召护法 while fighting the 观想虫 the player's own practice conjured (mind_bug.c die()): {npc} is its name; killed by anyone but the player, the player faints and learns nothing.
+#: presentation/battle/battle_presentation_controller.gd
+msgid ""
+"来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n"
+"确定要召唤吗？"
+msgstr ""
+
 #: presentation/battle/battle_presentation_controller.gd
 msgid "目标：%s"
 msgstr ""
@@ -4080,6 +4094,8 @@ msgstr ""
 msgid "看起来%s想杀死你！"
 msgstr ""
 
+#. common.npc.mind_bug limbs
+#. common.npc.mind_beast limbs
 #. oldpine.npc.serpent limbs
 #. oldpine.npc.wolf_dog limbs
 #. oldpine.npc.butterfly limbs
@@ -4094,7 +4110,7 @@ msgstr ""
 #. cloud.npc.fly limbs
 #. waterfog.npc.celes_tiger limbs
 #. green.npc.spider limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -4232,6 +4248,34 @@ msgid "你将一些{powder}倒进{container}，摇晃了几下。"
 msgstr ""
 
 #: runtime/world/map/world_map_hostilities.gd
+msgid "$N和$n仇人相见分外眼红，立刻打了起来！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N对著$n大喝：「可恶，又是你！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N和$n一碰面，二话不说就打了起来！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N一眼瞥见$n，「哼」的一声冲了过来！"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N一见到$n，愣了一愣，大叫：「我宰了你！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N喝道：「$n，我们的帐还没算完，看招！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
+msgid "$N喝道：「$n，看招！」"
+msgstr ""
+
+#: runtime/world/map/world_map_hostilities.gd
 msgid "%s用一种异样的眼神扫视著在场的每一个人。"
 msgstr ""
 
@@ -4361,6 +4405,15 @@ msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd runtime/world/services/hockshop_service.gd
 msgid "已穿戴"
+msgstr ""
+
+#. hover of 练习 for 茅山道术 (necromancy.c practice_skill()): {mana} mana and {sen} sen each time; {npcs} 观想虫或观想兽 may come and attack at once; while it lives no more practice; killed by the player's own hand {skill} (基本咒文) improves, killed by anyone else the player faints.
+#: runtime/world/player_martial_arts.gd
+msgid "每次练习耗 {mana} 点法力、{sen} 点神。心神一乱会变出{npcs}，它会立刻攻击你，活着时不能再练。亲手杀了它，{skill}会有长进；被别人杀了，你会昏倒。"
+msgstr ""
+
+#: runtime/world/player_martial_arts.gd
+msgid "或"
 msgstr ""
 
 #: runtime/world/player_martial_arts.gd
@@ -6445,6 +6498,36 @@ msgstr ""
 msgid "你的天师正道修为不够，无法领悟更高深的茅山道术。"
 msgstr ""
 
+#. necromancy practice.mana_fail
+#: data/common/skills.json
+msgid "你的法力不够。"
+msgstr ""
+
+#. necromancy practice.sen_fail
+#: data/common/skills.json
+msgid "你的精神无法集中。"
+msgstr ""
+
+#. necromancy practice.done
+#: data/common/skills.json
+msgid "你闭目凝神，神游物外，开始修习茅山道术中的法术...."
+msgstr ""
+
+#. necromancy practice.conjure.came
+#: data/common/skills.json
+msgid "可是你心思一乱，变出了一只面目狰狞的$N！"
+msgstr ""
+
+#. necromancy practice.conjure.caught
+#: data/common/skills.json
+msgid "你的魂魄正被$N缠住，快把它除掉吧！"
+msgstr ""
+
+#. necromancy practice.conjure.standing
+#: data/common/skills.json
+msgid "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
+msgstr ""
+
 #. taoism name
 #: data/common/skills.json
 msgid "天师正道"
@@ -7539,6 +7622,97 @@ msgstr ""
 msgid "$N的身形发出幽暗的蓝光，沈入地下不见了。"
 msgstr ""
 
+#. common.npc.mind_bug name
+#: data/common/npcs.json
+msgid "观想虫"
+msgstr ""
+
+#. common.npc.mind_bug long
+#: data/common/npcs.json
+msgid ""
+"这是一只由修道人的杂念绮思所化的观想虫，会缠住人的魂魄。\n"
+msgstr ""
+
+#. common.npc.mind_bug limbs
+#. common.npc.mind_beast limbs
+#. oldpine.npc.wolf_dog limbs
+#. oldpine.npc.butterfly limbs
+#. oldpine.npc.venomsnake limbs
+#. snow.npc.dog limbs
+#. snow.npc.crazy_dog limbs
+#. snow.npc.rat limbs
+#. cloud.npc.fly limbs
+#. waterfog.npc.celes_tiger limbs
+#. green.npc.spider limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
+msgid "身体"
+msgstr ""
+
+#. common.npc.mind_bug limbs
+#. common.npc.mind_beast limbs
+#. oldpine.npc.wolf_dog limbs
+#. snow.npc.dog limbs
+#. snow.npc.crazy_dog limbs
+#. waterfog.npc.celes_tiger limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
+msgid "前脚"
+msgstr ""
+
+#. common.npc.mind_bug limbs
+#. common.npc.mind_beast limbs
+#: data/common/npcs.json
+msgid "後脚"
+msgstr ""
+
+#. common.npc.mind_bug limbs
+#. common.npc.mind_beast limbs
+#. oldpine.npc.serpent limbs
+#. oldpine.npc.wolf_dog limbs
+#. oldpine.npc.venomsnake limbs
+#. snow.npc.dog limbs
+#. snow.npc.crazy_dog limbs
+#. waterfog.npc.celes_tiger limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
+msgid "尾巴"
+msgstr ""
+
+#. common.npc.mind_bug conjured.killed_by_owner
+#: data/common/npcs.json
+msgid "你杀死了你的观想虫，并且从中悟到了一些咒术的道理。"
+msgstr ""
+
+#. common.npc.mind_bug conjured.killed_by_other
+#: data/common/npcs.json
+msgid "你的观想虫被人杀死了！"
+msgstr ""
+
+#. common.npc.mind_bug conjured.killed_by_other
+#. common.npc.mind_beast conjured.killed_by_other
+#: data/common/npcs.json
+msgid "你觉得一阵天旋地转...."
+msgstr ""
+
+#. common.npc.mind_beast name
+#: data/common/npcs.json
+msgid "观想兽"
+msgstr ""
+
+#. common.npc.mind_beast long
+#: data/common/npcs.json
+msgid ""
+"这是一只由修道人的杂念绮思所化的观想兽，会缠住人的魂魄。\n"
+msgstr ""
+
+#. common.npc.mind_beast conjured.killed_by_owner
+#: data/common/npcs.json
+msgid "你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"
+msgstr ""
+
+#. common.npc.mind_beast conjured.killed_by_other
+#: data/common/npcs.json
+msgid "你的观想兽被人杀死了！"
+msgstr ""
+
 #. quests.target
 #. snow.npc.beggar name
 #: data/common/quests.json data/snow/npcs.json
@@ -8167,16 +8341,6 @@ msgstr ""
 msgid "躯干"
 msgstr ""
 
-#. oldpine.npc.serpent limbs
-#. oldpine.npc.wolf_dog limbs
-#. oldpine.npc.venomsnake limbs
-#. snow.npc.dog limbs
-#. snow.npc.crazy_dog limbs
-#. waterfog.npc.celes_tiger limbs
-#: data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
-msgid "尾巴"
-msgstr ""
-
 #. oldpine.npc.maniac long
 #: data/oldpine/npcs.json
 msgid ""
@@ -8187,27 +8351,6 @@ msgstr ""
 #: data/oldpine/npcs.json
 msgid ""
 "一只凶猛的狼狗，一只独眼正恶狠狠地瞪著你。\n"
-msgstr ""
-
-#. oldpine.npc.wolf_dog limbs
-#. oldpine.npc.butterfly limbs
-#. oldpine.npc.venomsnake limbs
-#. snow.npc.dog limbs
-#. snow.npc.crazy_dog limbs
-#. snow.npc.rat limbs
-#. cloud.npc.fly limbs
-#. waterfog.npc.celes_tiger limbs
-#. green.npc.spider limbs
-#: data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json
-msgid "身体"
-msgstr ""
-
-#. oldpine.npc.wolf_dog limbs
-#. snow.npc.dog limbs
-#. snow.npc.crazy_dog limbs
-#. waterfog.npc.celes_tiger limbs
-#: data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json
-msgid "前脚"
 msgstr ""
 
 #. oldpine.npc.wolf_dog limbs

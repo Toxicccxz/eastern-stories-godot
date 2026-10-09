@@ -4,6 +4,8 @@ extends RefCounted
 const CharacterStateType := preload("res://core/characters/character_state.gd")
 
 var skill_id: StringName
+## What the practice may conjure once paid for (necromancy.c's 观想虫); null for none.
+var conjuring: PracticeConjuring
 
 
 func _init(p_skill_id: StringName = &"") -> void:
@@ -23,6 +25,6 @@ func refuses_weapon(_character: CharacterStateType) -> bool:
 
 
 ## Which of practice_skill()'s checks refuses `character` now (&"weapon", &"kee",
-## &"force", &"sen"), or &"" when none does. Pure: changes nothing.
+## &"force", &"mana", &"sen"), or &"" when none does. Pure: changes nothing.
 func refusal(_character: CharacterStateType) -> StringName:
 	return &""

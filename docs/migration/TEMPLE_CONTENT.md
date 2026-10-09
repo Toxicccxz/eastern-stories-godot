@@ -3,7 +3,7 @@
 How 茅山 comes from `reference/es2/mudlib/d/temple/` and `daemon/class/taoist/`, and what the
 LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS.md). Package A places
 the rooms and the people; B 茅山派 (林忌's apprentices, 谷衣心法, 天师剑法, 天师正道; done); C the
-player's 茅山道术 in a fight and its practice (观想虫); D the zombies and the sheets (驱尸,
+player's 茅山道术 in a fight and its practice (观想虫; done); D the zombies and the sheets (驱尸,
 桃符纸, 僵尸追魂符).
 
 ## Placed (A)
@@ -50,9 +50,27 @@ player's 茅山道术 in a fight and its practice (观想虫); D the zombies and
 | gouyee/heal.c | fonxanforce/heal.c is the same file: the one HealExertFunction |
 | taoism.c | valid_learn 杀气 ≤ 100; practice refuses; a basic knowledge, never enabled |
 | scratching.c | valid_learn max_force 80; practice with a sword in hand, 30 kee and 5 force |
-| necromancy.c valid_learn() | learnt from 林忌 (or the two 弟子) with 天师正道 at least half of it; practice_skill() (观想虫) is C's |
+| necromancy.c valid_learn() | learnt from 林忌 (or the two 弟子) with 天师正道 at least half of it; practice_skill() in C |
+
+## LPC → native (C: 茅山道术's practice and the 观想虫)
+
+| LPC | Native |
+|---|---|
+| necromancy.c practice_skill(): query_temp("mind_bug"), mana 10, sen 30, each with its notify_fail() | skills.json `practice` {mana, mana_fail, sen, sen_fail, done}: VitalityInnerForcePracticePolicy's mana (checked before sen), SkillDefinition's practice_refusal_lines; the 观想虫 still standing refuses first (`conjure.standing`), nothing paid |
+| write("你闭目凝神...") then random(sen) < 5 (sen after its 30) | `conjure` (PracticeConjuring) on the world's interaction stream: below 5 conjures and practice.c improves nothing; random(0) is 0, so a practice from 30 sen always conjures |
+| random(query_skill("spells", 1)) < 10: mind_bug, else mind_beast | `conjure.npcs` [{npc, below 10}, {npc}] |
+| bug->move(environment(me)); bug->kill_ob(me); me->fight(bug); set_temp("mind_bug", bug) | a summoned NPC beside the player (SummonedNpc, never a room's), its kill_ob() a lethal fight in which the player only fights back; the player's `conjured_npc_id` (a temp: not saved). Its lines open the fight, the notify_fail() (缠住) before kill_ob()'s 看起来…想杀死你 |
+| mind_bug.c / mind_beast.c create(): this_player()'s query_skill("spells", 1) × 500 (× 2000) combat_exp, their bellicosity | npcs.json `conjured` (NpcConjuring), applied as it comes |
+| kill_ob() kept after the fight (attack.c is_killing(): hatred in init()) | FLAG_HUNTS_PLAYER: it attacks the player on sight until the player dies before it (damage.c die()'s remove_killer()) |
+| (no heal_up(), unlike the 天将) | it stays when the fight ends, unconscious or not, until it dies |
+| die(): last_damage_from is the owner: improve_skill("spells", random(spi / 2) + 1) (the beast random(spi) + 1) and its line | the killer the lifecycle finds (last_damage_from); the lines after the fight's result, before killer_reward()'s; 你的「基本咒文」进步了！ on a level |
+| die(): anyone else: its two lines and owner->unconcious() | the player falls at once, in the fight too (the 天将 or 阴鬼卒 of 召护法); an unconscious player reads nothing (block_msg) |
+| kill.c at an NPC lying unconscious | 攻击 starts the fight; the first wound kills it (char.c). The HUD offered 攻击 there before and nothing happened |
+| combatd.c start_hatred(): catch_hunt_msg, kill_ob() | met again (the player came back into its reach), one of the seven lines (world's interaction stream) and a fight in which it alone kills |
 
 ## Source anomalies
+
+
 
 - broom1.c and broom2.c are copies of book_room1.c/book_room2.c (broom2 an empty 书库) that
   no exit leads into: not placed. `d/temple/obj/` duplicates `npc/obj/` (NPCs carry through

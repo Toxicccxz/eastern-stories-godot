@@ -97,6 +97,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `f_master` | `inherit F_MASTER` | `true`: std/char/master.c prevent_learn() limits what it teaches |
 | `recognize_apprentice` | the NPC's own `recognize_apprentice()` | ordered rules `{family?, giver_mark?, say?, emote?, fail?, accept}`; `fail` replaces learn.c's polite refusal. Hand-written in `set` |
 | `apprentice` | the master's `attempt_apprentice()`/`recruit_apprentice()` | `{requires: {cor?, cps?}, refuse_say, accept_say, class}` (effective attributes); needs `family`. Hand-written in `set` |
+| `conjured` | mind_bug.c's `create()` reading `this_player()` and `die()` | `{skill, combat_exp_per_level, spi_divisor, killed_by_owner: [line], killed_by_other: [line]}`: an NPC a skill's practice conjures (never placed by a room, carries nothing). Hand-written in `set` |
 
 `age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
 is `600+random(400)`, `"minus_random"` subtracts. `gender` may be
@@ -249,9 +250,11 @@ LPC. `hit_ob: true` marks a skill with its own `hit_ob()` (iceforce, spicyclaw, 
 ported, so a fight that would call it stops. `dodge_messages` (query_dodge_msg) and `parry_messages` `{armed, unarmed}`
 (parry.c, which combatd.c always asks) are its lines. `standard_force_hit`: it inherits
 std/force.c and keeps its `hit_ob()`. `practice` is its `practice_skill()` (practice.c):
-`{kee?, force?, done?, fail?, refuses?}` — kee and force each at least the amount, then both
-spent; `done` what it writes, `fail` its notify_fail(); `refuses: true` never lets it happen
-(fonxanforce). No `practice`: the daemon has none and practice never progresses.
+`{kee?, force?, mana?, sen?, done?, fail?, mana_fail?, sen_fail?, conjure?, refuses?}` — each at
+least the amount, then all spent; `done` what it writes, `fail` its notify_fail() (`mana_fail`,
+`sen_fail` a check's own); `conjure` `{below, skill, npcs: [{npc, below?}], came, caught,
+standing}` is necromancy.c's 观想虫 (random(sen) under `below` conjures one of the `conjured`
+NPCs instead); `refuses: true` never lets it happen (fonxanforce). No `practice`: the daemon has none and practice never progresses.
 `valid_learn` maps the rule that refused (`max_force`, `mapped`, `weapon`, `empty_hands`) to
 valid_learn()'s notify_fail(), which learn.c, practice.c and study.c then print. `improved_line`
 and `improved_color` (HIR/HIY/HIC/HIW): `skill_improved()`'s line when its effect applies.

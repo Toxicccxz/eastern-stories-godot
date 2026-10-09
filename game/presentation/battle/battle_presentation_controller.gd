@@ -10,6 +10,10 @@ const ROAR_QUESTION: String = "天邪虎啸要耗 150 点内力。啸声会震�
 const POWERFADE_QUESTION: String = "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
 # TRANSLATORS: asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()).
 const SAVEME_QUESTION: String = "召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
+# TRANSLATORS: asked before 召护法 (invocation.c) in a spar: the 天将 or 阴鬼卒 kills the sparring partner, who kills it back; its kills count as the player's.
+const INVOCATION_QUESTION: String = "召护法要耗 100 点法力和 60 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
+# TRANSLATORS: asked before 召天将/召护法 while fighting the 观想虫 the player's own practice conjured (mind_bug.c die()): {npc} is its name; killed by anyone but the player, the player faints and learns nothing.
+const CONJURED_SUMMON_QUESTION: String = "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
 signal intent_received(result: CombatTacticalResult)
 signal target_submitting
 signal target_received(result: CombatTargetResult)
@@ -357,18 +361,36 @@ func _change_target(id: StringName) -> void:
 	target_received.emit(result)
 
 
+## The 观想虫 the player's practice conjured, standing in this fight; null otherwise.
+func _conjured_enemy() -> NpcRuntimeState:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	var encounter: CombatEncounter = _session.combat_encounter_coordinator().active_encounter()
+	var map := _session.active_map() as WorldMapController
+	if player.conjured_npc_id.is_empty() or encounter == null or map == null or encounter.participant_for(player.conjured_npc_id) == null:
+		return null
+	var npc: NpcRuntimeState = map.find_resident_npc(player.conjured_npc_id)
+	return npc if npc != null and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD else null
+
+
 ## Owner (2026-10-06): 天邪虎啸 and powerfade in a fight are asked first, when they
 ## would run now: [question, choice], or empty for an action asked nothing.
 func _question_for(id: StringName) -> PackedStringArray:
 	if _session == null or not _session.is_initialized() or _session.player_runtime() == null:
 		return PackedStringArray()
 	var state: CharacterState = _session.player_runtime().state
-	# saveme.c's soldier kills the sparring partner: the spar goes on to the death.
+	# saveme.c's (invocation.c's) soldier kills the sparring partner: the spar goes on to the
+	# death. Against the player's own 观想虫 its kill makes the player faint (mind_bug.c die()).
+	var spell: StringName = CombatCastTacticalPolicy.function_for(id)
 	if (
-		CombatCastTacticalPolicy.function_for(id) == &"saveme" and _projection.mode == CombatEncounterMode.Value.SPAR
-		and state.recovery.mana.current >= SavemeSpell.MANA_COST and state.spirit.current >= SavemeSpell.SEN_COST
+		(spell == &"saveme" and state.recovery.mana.current >= SavemeSpell.MANA_COST and state.spirit.current >= SavemeSpell.SEN_COST)
+		or (spell == &"invocation" and state.recovery.mana.current >= InvocationSpell.MANA_COST and state.spirit.current >= InvocationSpell.SEN_COST)
 	):
-		return PackedStringArray([tr(SAVEME_QUESTION), "召唤天将"])
+		var choice: String = "召唤天将" if spell == &"saveme" else "召护法"
+		if _projection.mode == CombatEncounterMode.Value.SPAR:
+			return PackedStringArray([tr(SAVEME_QUESTION if spell == &"saveme" else INVOCATION_QUESTION), choice])
+		var conjured: NpcRuntimeState = _conjured_enemy()
+		if conjured != null:
+			return PackedStringArray([tr(CONJURED_SUMMON_QUESTION).format({"npc": tr(conjured.definition().display_name)}), choice])
 	match CombatExertTacticalPolicy.function_for(id):
 		&"roar":
 			if RoarExertFunction.would_run(state, true):

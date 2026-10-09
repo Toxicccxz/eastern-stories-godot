@@ -19,7 +19,9 @@ const EffectResultType := preload(
 )
 
 
-## Deterministic translation of cmds/std/practice.c after text parsing.
+## Deterministic translation of cmds/std/practice.c after text parsing. A policy that
+## conjures (PracticeConjuring) draws with `random` (a legacy_random()) and refuses while
+## `standing_conjured` (the name of the one an earlier practice conjured) still stands.
 static func practice(
 	character: CharacterStateType,
 	basic_skill_id: StringName,
@@ -28,6 +30,8 @@ static func practice(
 	is_fighting: bool,
 	is_player_character: bool = true,
 	effect_registry: EffectRegistryType = null,
+	random: Callable = Callable(),
+	standing_conjured: String = "",
 ) -> PracticeResultType:
 	if is_fighting:
 		return _failure(PracticeResultType.FailureReason.IN_COMBAT, basic_skill_id)
@@ -98,6 +102,17 @@ static func practice(
 			learn_policy_result,
 		)
 
+	# necromancy.c practice_skill(): query_temp("mind_bug") before anything else.
+	if practice_policy.conjuring != null and not standing_conjured.is_empty():
+		var standing: PracticeResultType = _failure(
+			PracticeResultType.FailureReason.PRACTICE_CONJURED_STANDING,
+			basic_skill_id,
+			special_skill_id,
+			learn_policy_result,
+		)
+		standing.standing_conjured = standing_conjured
+		return standing
+
 	var learned_before: int = character.skills.learned_progress(special_skill_id)
 	var refusal: StringName = practice_policy.refusal(character)
 	if not practice_policy.practice(character):
@@ -106,7 +121,7 @@ static func practice(
 			reason = PracticeResultType.FailureReason.PRACTICE_WEAPON_REJECTED
 		elif refusal == &"force":
 			reason = PracticeResultType.FailureReason.PRACTICE_FORCE_REJECTED
-		return PracticeResultType.new(
+		var refused := PracticeResultType.new(
 			false,
 			reason,
 			PracticeResultType.Completion.NO_PROGRESS,
@@ -123,6 +138,34 @@ static func practice(
 			null,
 			learn_policy_result,
 		)
+		refused.refusal = refusal
+		return refused
+
+	# Paid for: a mind gone astray conjures its NPC and practice.c improves nothing.
+	if practice_policy.conjuring != null:
+		if not random.is_valid():
+			push_error("practice of %s conjures but has no random source" % special_skill_id)
+		var conjured: StringName = practice_policy.conjuring.draw(character, random) if random.is_valid() else &""
+		if not conjured.is_empty():
+			var came := PracticeResultType.new(
+				false,
+				PracticeResultType.FailureReason.PRACTICE_CONJURED,
+				PracticeResultType.Completion.NO_PROGRESS,
+				basic_skill_id,
+				special_skill_id,
+				basic_level,
+				special_level,
+				special_level,
+				0,
+				false,
+				learned_before,
+				learned_before,
+				null,
+				null,
+				learn_policy_result,
+			)
+			came.conjured_npc_id = conjured
+			return came
 
 	@warning_ignore("integer_division")
 	var improvement_amount: int = basic_level / 5 + 1

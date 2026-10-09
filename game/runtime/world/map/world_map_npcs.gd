@@ -10,6 +10,9 @@ var residents: Array[NpcRuntimeState] = []
 var _npc_bodies: Dictionary[StringName, WorldCharacterBody2D] = {}
 ## The spawn each summoned NPC here came by (SummonedNpc), by spawn ID: none is in the catalog.
 var _summon_spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
+## How far from its caller a summoned NPC comes in: clear of both 34 px bodies first
+## (diagonals too), nearer only where nothing else fits.
+const BESIDE: Array[int] = [48, 64, 96, 44, 28]
 ## Who called each summoned NPC still here (set("possessed", who)): its character ID.
 var summoners: Dictionary[StringName, StringName] = {}
 var npc_presence: Dictionary[StringName, Area2D] = {}
@@ -524,8 +527,38 @@ func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 ## beside them, drawn afresh from the NPC stream like any new NPC. Returns its character
 ## ID, or "" when it could not come (no such summoned NPC, nobody to stand beside).
 func summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
+	var definition: NpcDefinition = GameContent.catalog().npc(definition_id)
+	if definition == null or definition.summoning() == null:
+		return &""
+	var npc: NpcRuntimeState = _new_beside(caster_id, definition)
+	if npc == null:
+		return &""
+	summoners[npc.character_id] = caster_id
+	return npc.character_id
+
+
+## necromancy.c practice_skill(): new("/obj/npc/mind_bug")->move(environment(me)) beside
+## the player practising, its create() reading this_player() (NpcConjuring: combat_exp
+## from their raw level of the skill, their bellicosity) and its kill_ob(me) kept as
+## attack.c's hatred (FLAG_HUNTS_PLAYER). Null when it could not come.
+func conjure_beside_player(definition_id: StringName) -> NpcRuntimeState:
+	var definition: NpcDefinition = GameContent.catalog().npc(definition_id)
+	if definition == null or definition.conjuring() == null or _player == null:
+		return null
+	var npc: NpcRuntimeState = _new_beside(_player.character_id, definition)
+	if npc == null:
+		return null
+	npc.character_state.progression.combat_experience = definition.conjuring().combat_experience(_player.state.skills.raw_level(definition.conjuring().skill_id))
+	npc.character_state.attributes.bellicosity = _player.state.attributes.bellicosity
+	npc.set_flag(NpcDefinition.FLAG_HUNTS_PLAYER, true)
+	return npc
+
+
+## One NPC of `definition`, no room's, made beside `caster_id` (SummonedNpc). Null when
+## it could not come.
+func _new_beside(caster_id: StringName, definition: NpcDefinition) -> NpcRuntimeState:
 	var catalog: ContentCatalog = GameContent.catalog()
-	var definition: NpcDefinition = catalog.npc(definition_id)
+	var definition_id: StringName = definition.definition_id
 	var caster: NpcRuntimeState = find_resident_npc(caster_id)
 	var location: WorldLocationState = null
 	if caster != null:
@@ -533,11 +566,11 @@ func summon_beside(caster_id: StringName, definition_id: StringName) -> StringNa
 	elif _player != null and caster_id == _player.character_id:
 		location = _player.world_location()
 	var body: WorldCharacterBody2D = runtime_body_for_character(caster_id)
-	if not _initialized or definition == null or definition.summoning() == null or location == null or body == null or location.map_id != map:
-		return &""
+	if not _initialized or location == null or body == null or location.map_id != map:
+		return null
 	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
 	if not allocation.succeeded:
-		return &""
+		return null
 	var number: int = String(allocation.item_instance_id).get_slice(SessionItemIdAllocator.DYNAMIC_SEPARATOR, 1).to_int()
 	var point_id: StringName = SummonedNpc.point_id(number, definition_id)
 	var spawn: NpcSpawnDefinition = SummonedNpc.spawn(point_id, definition_id, map, location.zone_id)
@@ -548,22 +581,21 @@ func summon_beside(caster_id: StringName, definition_id: StringName) -> StringNa
 	)
 	if npc == null:
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])
-		return &""
+		return null
 	if not _register_loadout(npc):
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])
 		_take_away(npc)
-		return &""
+		return null
 	_summon_spawns[spawn.spawn_id] = spawn
-	summoners[npc.character_id] = caster_id
-	if not _add_npc_body(npc, _map.floor_items.at_feet(location, body.global_position)):
+	# Clear of the caller's body (34 px), so neither is pushed when the world moves again.
+	if not _add_npc_body(npc, _map.floor_items.at_feet(location, body.global_position, false, BESIDE)):
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])
 		_take_away(npc)
 		_summon_spawns.erase(spawn.spawn_id)
-		summoners.erase(npc.character_id)
 		if residents.has(npc):
 			_drop_npc(npc)
-		return &""
-	return npc.character_id
+		return null
+	return npc
 
 
 ## Who called the summoned NPC `character_id` (set("possessed", who)), or "".
@@ -575,11 +607,14 @@ func summoner_of(character_id: StringName) -> StringName:
 ## lines where the player is (and can read them), then destruct() with all it carries.
 ## Here every summoned NPC still standing leaves as the fight it came into ends (its
 ## lines after the fight's result, unless the player left it by a spell: gone before
-## it says them); a dead one is forgotten and its corpse stays.
+## it says them); a dead one is forgotten and its corpse stays. A conjured one (the
+## 观想虫) stays until it dies, as in ES2.
 func dismiss_summoned() -> void:
 	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
 	for npc: NpcRuntimeState in residents.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
+			continue
+		if npc.definition().conjuring() != null and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()

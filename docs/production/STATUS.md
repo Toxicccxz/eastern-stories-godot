@@ -4,15 +4,16 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**茅山 B** (`phase/maoshan-b`, region #6, plan approved 2026-10-08: A places the region (#81),
-B 茅山派, C the player's 茅山道术 in a fight and its practice, D zombies and 桃符纸): joining
-茅山派 (林忌 takes men only and answers two seconds after 拜师), 僵尸侍者 and 僵尸护法 teaching
-its members, 谷衣心法 with 运功灵神诀, 天师正道, 天师剑法. The map controller is split into seven
-components under `game/runtime/world/map/` (#78): new code for one of those areas goes into its
-component.
+**茅山 C** (`phase/maoshan-c`, region #6, plan approved 2026-10-08: A places the region (#81),
+B 茅山派 (#82), C the player's 茅山道术 in a fight and its practice, D zombies and 桃符纸):
+practising 茅山道术 (10 mana, 30 sen; the 观想虫 or 观想兽 it may conjure, killed by the player's
+hand for 基本咒文, by anyone else knocking the player out), 召护法 asked first in a spar and
+against one's own 观想虫, 攻击 at an NPC lying unconscious. The map controller is split into
+seven components under `game/runtime/world/map/` (#78): new code for one of those areas goes
+into its component.
 
-Next: 茅山 C (the rest of the player's 茅山道术: 召护法 asked first in a spar, practice and the
-观想虫); the equipment weight dodge (A1) is its own PR, independent of 茅山.
+Next: 茅山 D (驱尸 and the zombie that follows, 桃符纸 and 僵尸追魂符); the equipment weight
+dodge (A1) is its own PR, independent of 茅山.
 
 ## 待决定
 
@@ -106,7 +107,11 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   again before it), as a 道士; he teaches his twelve skills, 僵尸侍者 and 僵尸护法 teach any
   member; 谷衣心法 (max_mana five times its level; 运功灵神诀 turns force into mana, 疗伤),
   天师正道 (杀气 100 at most), 天师剑法 (practised with a sword) and 茅山道术, whose 紫光, 白光,
-  青光 and 召护法 the player casts from the battle panel.
+  青光 and 召护法 the player casts from the battle panel (召护法 asked first in a spar). Practising
+  茅山道术 costs 10 mana and 30 sen; a mind astray (random(sen) below 5) conjures a 观想虫 (or,
+  with more 基本咒文, a 观想兽) that attacks at once and stays until it dies, blocking practice;
+  killed by the player's own hand it teaches 基本咒文, killed by anyone else (the 天将 or 阴鬼卒
+  of 召护法, asked first) it knocks the player out. A save leaves it out.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -133,9 +138,8 @@ Code:
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The Inn's travellers stay in
   the Inn (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
-  corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it needs the player's
-  spells. Practising 茅山道术 does nothing yet (练习 says practice.c's own line): its 观想虫
-  come with 茅山 C. NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
+  corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it comes with 茅山 D.
+  NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30

@@ -104,6 +104,29 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 茅山 C: 茅山道术's practice and the 观想虫 (2026-10-08)
+
+What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it follows the LPC
+except:
+- **A save leaves a standing 观想虫 out** (**默认**): Save stays open while it lives (a summoned
+  NPC otherwise blocks it); Continue starts without it and without the player's
+  set_temp("mind_bug"), as ES2's relogin forgets the temp, the rule the owner chose for D's
+  zombie. A conjured NPC carries nothing (the catalog checks).
+- **召天将/召护法 against one's own 观想虫 is asked first** (owner's rule on choices that knock
+  the player out): the soldier's kill is not the player's hand, so the player faints and learns
+  nothing. In a spar 召护法 is asked as 召天将 is.
+- **攻击 at an NPC lying unconscious** (global rule, kill.c): the player's lethal attack may start
+  a fight with one; the first wound kills it. Before, the HUD offered 攻击 and nothing happened,
+  so a beaten 观想虫 could not be finished.
+- **Its hatred** (attack.c is_killing(), combatd.c start_hatred()'s catch_hunt_msg) is kept
+  for the conjured NPC alone; other NPCs that kill_ob() the player (绝尘子) still forget the
+  player when their fight ends, as before.
+- **An NPC that falls outside a fight** (a condition's tick) is killed by its last_damage_from,
+  as the player already was (the global rule "The killer is last_damage_from"); a fight that
+  aborts settles its falls the same way.
+- The lines of the practice open the fight: the notify_fail() (你的魂魄正被…缠住) comes before
+  kill_ob()'s 看起来…想杀死你, which ES2 prints between them.
+
 ## 茅山 B: 茅山派 (2026-10-08)
 
 What each LPC function became (林忌's two-second answer, the women's refusal, 灵神诀) is in

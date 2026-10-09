@@ -113,7 +113,9 @@ func _is_opening_of(encounter_id: StringName) -> bool:
 func start_production(initiator: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, cause: int, directed_kill: bool = false) -> CombatSliceInitiationResult:
 	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or not _departure.is_empty():
 		return CombatSliceInitiationResult.new()
-	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id):
+	# kill.c takes any character for its target, one lying unconscious too.
+	var downed_target: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
+	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id, downed_target):
 		return CombatSliceInitiationResult.new()
 	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR] or _entry_sequence == 9223372036854775807:
 		return CombatSliceInitiationResult.new()
@@ -172,7 +174,9 @@ func start_complete_production(cause: int, requested_target: StringName = &"") -
 	var ids: Array[StringName] = []
 	for binding: CombatSliceCharacterBinding in bindings:
 		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
-		if not binding.is_valid() or current == null or not _session.encounter_participant_is_available(binding.character_id) or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor or binding.location_id != player.location_id:
+		# kill.c: the player's 攻击 may be at one lying unconscious (the rest stand).
+		var downed: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK and binding.character_id == requested_target
+		if not binding.is_valid() or current == null or not _session.encounter_participant_is_available(binding.character_id, downed) or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor or binding.location_id != player.location_id:
 			return failed
 		var location: WorldLocationState = _session.resolve_encounter_location(binding.character_id)
 		if location == null or not location.shares_combat_location(_session.resolve_encounter_location(player.character_id)) or ids.has(binding.character_id):
@@ -412,7 +416,7 @@ func _abort_failed_resolution() -> void:
 		for victim: CombatSliceCharacterBinding in bindings:
 			var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
 			if required != null and victim.exists_in_encounter:
-				map.execute_encounter_lifecycle(victim, required, bindings)
+				map.execute_encounter_lifecycle(victim, required, bindings, victim.relationship.last_damage_from_id)
 	_resolution.disengage_all()
 	_return_world(CombatEncounterResult.new(_active_encounter.encounter_id, _active_encounter.mode,
 		CombatEncounterResultKind.Value.ABORTED, [], [], []))
@@ -492,7 +496,10 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 				CombatEncounterStartResult.Outcome.PARTICIPANT_NOT_FOUND,
 				trigger,
 			)
-		if not _session.encounter_participant_is_available(candidate.participant_id):
+		# kill.c: the player's 攻击 may be at one lying unconscious (the production entries
+		# admit only the one it names).
+		var downed: bool = trigger.cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK and candidate.participant_id != trigger.initiator_id
+		if not _session.encounter_participant_is_available(candidate.participant_id, downed):
 			return _start_failure(
 				CombatEncounterStartResult.Outcome.PARTICIPANT_UNAVAILABLE,
 				trigger,

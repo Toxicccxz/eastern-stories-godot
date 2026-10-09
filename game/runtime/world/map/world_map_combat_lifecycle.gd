@@ -259,6 +259,9 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var victim_npc: NpcRuntimeState = null if is_player else _map.npcs.find_resident_npc(victim.character_id)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
+	# mind_bug.c die() runs its own lines before ::die()'s killer_reward().
+	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and victim_npc != null:
+		_conjured_died(victim_npc, killer, participants)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
@@ -266,6 +269,11 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 		var rewarded: StringName = _map.npcs.summoners.get(killer.character_id, killer.character_id)
 		if rewarded == _player.character_id and victim_npc != null:
 			_player_killer_reward(victim_npc)
+	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and is_player and location != null:
+		# damage.c die(): all_inventory(environment())->remove_killer(this_object()).
+		for npc: NpcRuntimeState in _map.npcs.npc_runtimes():
+			if npc.world_location() != null and npc.world_location().shares_combat_location(location):
+				npc.set_flag(NpcDefinition.FLAG_HUNTS_PLAYER, false)
 	if not receipt.completed():
 		_lifecycle_failed = true
 	elif is_player and session != null:
@@ -292,7 +300,20 @@ func fall_below_zero() -> void:
 		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
 		if required == null:
 			continue
-		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, [binding])
+		# The killer is last_damage_from (the player's poisoned blow too), while it stands here.
+		var participants: Array[CombatSliceCharacterBinding] = [binding]
+		var from_id: StringName = npc.relationship.last_damage_from_id
+		var from: CombatSliceCharacterBinding = null
+		if _player != null and from_id == _player.character_id and _player.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			player_content_resolution = weapon_resolver.resolve(_player, _inventory, _item_index)
+			from = WorldCombatBindingAdapter.from_player(_player, player_content_resolution.content_profile if player_content_resolution.succeeded else null)
+		else:
+			var hitter: NpcRuntimeState = _map.npcs.find_resident_npc(from_id)
+			if hitter != null and hitter != npc and hitter.exists_in_map and hitter.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+				from = WorldCombatBindingAdapter.from_npc(hitter, _map.npcs.npc_content(hitter))
+		if from != null:
+			participants.append(from)
+		var receipt: CombatSliceLifecycleResult = execute_encounter_lifecycle(binding, required, participants, from_id)
 		# combatd.c announce("unconcious"), heard in the same room (a drunk passing out).
 		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and _map.npc_life.player_hears(npc):
 			_map.hud().append_log_lines([tr("%s脚下一个不稳，跌在地上一动也不动了。") % tr(npc.definition().display_name)])
@@ -331,6 +352,45 @@ func _player_killer_reward(victim: NpcRuntimeState) -> void:
 		_player.take_title(PlayerKillerReward.REBEL_TITLE)
 	if not result.lines.is_empty() and _map.hud() != null:
 		_map.hud().append_after_fight(result.lines)
+
+
+## mind_bug.c die() for the NPC the player's practice conjured: killed by the player
+## (last_damage_from), improve_skill() by NpcConjuring.improvement() and its line; by
+## anyone else (the 天将 they called), its lines and unconcious(), at once, in the fight
+## too. tell_object() reaches a player who is conscious (an unconscious one's
+## block_msg/all, and unconcious() returns at once); improve_skill() runs all the same.
+## query_temp("mind_bug") is gone.
+func _conjured_died(victim: NpcRuntimeState, killer: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding]) -> void:
+	var conjuring: NpcConjuring = victim.definition().conjuring()
+	if conjuring == null or _player == null or _player.conjured_npc_id != victim.character_id:
+		return
+	_player.conjured_npc_id = &""
+	var awake: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	var lines: Array[ColoredLine] = []
+	if killer != null and killer.character_id == _player.character_id:
+		for text: String in conjuring.killed_by_owner:
+			lines.append(ColoredLine.new(tr(text)))
+		var state: CharacterState = _player.state
+		var amount: int = conjuring.improvement(state.attributes.spirituality, _world_interaction_random.legacy_random)
+		var improvement: SkillImprovementResult = state.skills.improve_skill(conjuring.skill_id, amount, state.attributes.spirituality, false, true)
+		var registry: SkillImprovementEffectRegistry = session.encounter_skill_effect_registry() if session != null else null
+		var effect: SkillImprovementEffectResult = null if registry == null else registry.apply(state, improvement)
+		lines.append_array(TrainingLines.improved(improvement, effect, GameContent.catalog().skill(conjuring.skill_id)))
+	elif awake:
+		for text: String in conjuring.killed_by_other:
+			lines.append(ColoredLine.new(tr(text)))
+		_player.state.fall_unconscious()
+		var binding: CombatSliceCharacterBinding = null
+		for candidate: CombatSliceCharacterBinding in participants:
+			if candidate.character_id == _player.character_id:
+				binding = candidate
+		var required: CombatSliceOpportunityResult = null if binding == null else CombatSliceOpportunityExecutor.inspect_lifecycle(binding)
+		if required != null:
+			execute_encounter_lifecycle(binding, required, participants)
+		else:
+			player_fall_below_zero()
+	if awake and _map.hud() != null:
+		_map.hud().append_after_fight(lines)
 
 
 func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: CombatSliceOpportunityResult, participants: Array[CombatSliceCharacterBinding], killer: CombatSliceCharacterBinding) -> CombatSliceLifecycleResult:

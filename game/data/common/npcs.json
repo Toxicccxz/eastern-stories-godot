@@ -444,6 +444,48 @@
 				"leave": ["$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！", "$N的身形发出幽暗的蓝光，沈入地下不见了。"],
 				"color": "HIB"
 			}
+		},
+		{
+			"id": "common.npc.mind_bug",
+			"legacy_source": "obj/npc/mind_bug.c",
+			"name": "观想虫",
+			"aliases": ["mind bug", "bug"],
+			"race": "beast",
+			"age": 3,
+			"long": "这是一只由修道人的杂念绮思所化的观想虫，会缠住人的魂魄。\n",
+			"attributes": { "str": 24, "cor": 26 },
+			"resources": { "max_kee": 140, "max_gin": 250, "max_sen": 600 },
+			"limbs": ["头部", "身体", "前脚", "後脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 30, "armor": 10 },
+			"conjured": {
+				"skill": "spells",
+				"combat_exp_per_level": 500,
+				"spi_divisor": 2,
+				"killed_by_owner": ["你杀死了你的观想虫，并且从中悟到了一些咒术的道理。"],
+				"killed_by_other": ["你的观想虫被人杀死了！", "你觉得一阵天旋地转...."]
+			}
+		},
+		{
+			"id": "common.npc.mind_beast",
+			"legacy_source": "obj/npc/mind_beast.c",
+			"name": "观想兽",
+			"aliases": ["mind beast", "beast"],
+			"race": "beast",
+			"age": 3,
+			"long": "这是一只由修道人的杂念绮思所化的观想兽，会缠住人的魂魄。\n",
+			"attributes": { "str": 48, "cor": 52, "cps": 22 },
+			"resources": { "max_kee": 600, "max_gin": 600, "max_sen": 900 },
+			"limbs": ["头部", "身体", "前脚", "後脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 60, "armor": 40 },
+			"conjured": {
+				"skill": "spells",
+				"combat_exp_per_level": 2000,
+				"spi_divisor": 1,
+				"killed_by_owner": ["你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"],
+				"killed_by_other": ["你的观想兽被人杀死了！", "你觉得一阵天旋地转...."]
+			}
 		}
 	]
 }

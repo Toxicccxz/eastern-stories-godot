@@ -1,6 +1,6 @@
 {
 	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c"],
-	"npcs": ["obj/npc/heaven_soldier.c", "obj/npc/hell_guard.c"],
+	"npcs": ["obj/npc/heaven_soldier.c", "obj/npc/hell_guard.c", "obj/npc/mind_bug.c", "obj/npc/mind_beast.c"],
 	"set": {
 		"common.npc.heaven_soldier": {
 			"name": "天甲神兵",
@@ -18,6 +18,20 @@
 				"arrive": ["一道蓝光从地底升起，蓝光中出现一个手执钢叉、面目狰狞的鬼卒。", "$N说道：末将奉法主召唤，特来护法！"],
 				"leave": ["$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！", "$N的身形发出幽暗的蓝光，沈入地下不见了。"],
 				"color": "HIB"
+			}
+		},
+		"common.npc.mind_bug": {
+			"conjured": {
+				"skill": "spells", "combat_exp_per_level": 500, "spi_divisor": 2,
+				"killed_by_owner": ["你杀死了你的观想虫，并且从中悟到了一些咒术的道理。"],
+				"killed_by_other": ["你的观想虫被人杀死了！", "你觉得一阵天旋地转...."]
+			}
+		},
+		"common.npc.mind_beast": {
+			"conjured": {
+				"skill": "spells", "combat_exp_per_level": 2000, "spi_divisor": 1,
+				"killed_by_owner": ["你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"],
+				"killed_by_other": ["你的观想兽被人杀死了！", "你觉得一阵天旋地转...."]
 			}
 		}
 	},
@@ -37,6 +51,14 @@
 			"function invocation": "summoned.arrive in set (invocation.c's 2 in 3); it kills the caster's living enemies and each fights back; set_leader() is not ported: it leaves when the fight ends",
 			"function heal_up": "a summoned NPC leaves once its fight is over (heal_up() when not fighting)",
 			"function leave": "summoned.leave in set, said when it leaves"
+		},
+		"obj/npc/mind_bug.c": {
+			"condition in create()": "conjured in set: create() reads this_player(), who practised 茅山道术 (necromancy.c practice_skill()): combat_exp is query_skill(\"spells\", 1) * 500 and bellicosity theirs",
+			"function die": "conjured in set: killed by its owner (last_damage_from), improve_skill(\"spells\", random(spi / 2) + 1); by anyone else, the owner falls unconscious"
+		},
+		"obj/npc/mind_beast.c": {
+			"condition in create()": "conjured in set: combat_exp is query_skill(\"spells\", 1) * 2000 and bellicosity the owner's",
+			"function die": "conjured in set: killed by its owner, improve_skill(\"spells\", random(spi) + 1); by anyone else, the owner falls unconscious"
 		},
 		"obj/npc/obj/golden_sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
