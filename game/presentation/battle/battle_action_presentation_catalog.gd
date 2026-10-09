@@ -2,8 +2,8 @@ class_name BattleActionPresentationCatalog
 extends Resource
 
 ## Labels are presentation only. Metadata never registers or enables an action.
-@export var action_ids: Array[StringName] = [CombatFleeTacticalPolicy.ACTION_ID, CombatSurrenderTacticalPolicy.ACTION_ID]
-@export var labels: Array[String] = ["逃跑", "投降"]
+@export var action_ids: Array[StringName] = [CombatFleeTacticalPolicy.ACTION_ID, CombatSurrenderTacticalPolicy.ACTION_ID, CombatKillTacticalPolicy.ACTION_ID]
+@export var labels: Array[String] = ["逃跑", "投降", "攻击"]
 
 
 func label_for(action_id: StringName) -> String:
@@ -71,6 +71,9 @@ func tooltip_for(action_id: StringName) -> String:
 		var hurts: String = {BoltSpell.Track.GIN: tr("吸取对方的精"), BoltSpell.Track.SEN: tr("伤对方的神"), BoltSpell.Track.KEE: tr("伤对方的气")}[bolt.track]
 		# TRANSLATORS: hover of 施法「紫光」「白光」「青光」 (the bolts of 茅山道术): {hurts} what a hit does (吸取对方的精); {mana} mana and {sen} sen; it can fail.
 		what = tr("{hurts}（{mana} 法力、{sen} 神，可能失败）").format({"hurts": hurts, "mana": BoltSpell.MANA_COST, "sen": bolt.sen_cost})
+	if action_id == CombatKillTacticalPolicy.ACTION_ID:
+		# TRANSLATORS: hover of 攻击 (kill.c) for a player standing by in a fight they are not in (their zombie's): they join it, and the one they attack kills back.
+		what = tr("你也上去和对手性命相搏，对手会反过来对你下杀手")
 	if what.is_empty():
 		return ""
 	# TRANSLATORS: a battle button's hover: {action} its label (施法「遁」), {what} what it does.

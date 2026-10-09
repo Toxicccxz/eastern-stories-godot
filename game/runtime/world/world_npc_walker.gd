@@ -121,11 +121,16 @@ func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vec
 	return candidates if clear.is_empty() else clear
 
 
-## A walk to a known spot (an NPC's spawn marker); false when no path reaches it.
+## A walk to a known spot (an NPC's spawn marker); false when no path reaches it. A body
+## still on its way into `from_zone` (a follower the player outpaced) walks on from where it
+## is.
 func walk_to(character_id: StringName, body: Node2D, from_zone: WorldPhysicalZoneArea2D, to_zone: WorldPhysicalZoneArea2D, spot: Vector2) -> bool:
 	if body == null or from_zone == null or to_zone == null:
 		return false
-	return _start(Grid.new(_map, from_zone.global_rect().merge(to_zone.global_rect())), character_id, body, spot)
+	var area: Rect2 = from_zone.global_rect().merge(to_zone.global_rect())
+	if not area.has_point(body.global_position):
+		area = area.expand(body.global_position).grow(CELL)
+	return _start(Grid.new(_map, area), character_id, body, spot)
 
 
 ## Where the player and the other NPCs stand or are going.

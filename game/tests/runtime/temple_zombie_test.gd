@@ -155,9 +155,12 @@ func _test_follows(tree: SceneTree, session: WorldSessionController, zombie: Npc
 		var lines: int = session.shared_ui().log_lines().size()
 		map.npc_life._advance_ambience(0.0)
 		_check(zombie.world_location().zone_id == zone_id and session.shared_ui().log_lines().slice(lines).has("玄和的僵尸走了过来。"), "it follows into %s: %s" % [zone_id, session.shared_ui().log_lines().slice(lines)])
-		for _frame: int in range(90):
-			map.npc_life.npc_walker().advance(1.0 / 30.0)
-			await tree.physics_frame
+	# It is still a room behind on its walk when the player goes on: it walks on from there.
+	var body: WorldCharacterBody2D = map.runtime_body_for_character(zombie.character_id)
+	for _frame: int in range(240):
+		map.npc_life.npc_walker().advance(1.0 / 30.0)
+		await tree.physics_frame
+	_check(not map.npc_life.npc_walker().is_walking(zombie.character_id) and map.physical_zone(&"temple.restroom1").global_rect().has_point(body.global_position), "its body caught up into the guest room")
 
 
 ## Two 桃符纸; 老道士 selected: 画追魂符 refuses without 20 mana or 30 sen (nothing paid), asks
@@ -242,7 +245,17 @@ func _test_attach(tree: SceneTree, session: WorldSessionController, zombie: NpcR
 	_check(zombie.relationship.has_lethal_target(old.character_id) and old.relationship.has_opponent(zombie.character_id) and not old.relationship.has_lethal_target(zombie.character_id), "it kills him; he only fights it back")
 	_check(not player.relationship.is_fighting() and not old.relationship.has_opponent(player.character_id), "the player stands by, fought by nobody")
 	_check(coordinator.opening_lines(encounter.encounter_id) == ["玄和的僵尸眼睛忽然睁开，喃喃地说道：杀....死....老道士...."], "the battle log opens with it")
-	old.character_state.vitality.current = -1 # TEST-ONLY: knocked out; the zombie finishes him
+	# kill.c from the battle panel: the player joins in, and he kills back.
+	var kill: StringName = CombatKillTacticalPolicy.ACTION_ID
+	_check(coordinator.kill_target() == old.character_id and _offered(coordinator, kill), "攻击 is offered to one standing by: at 老道士")
+	_check((session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController)._question_for(kill).is_empty(), "he is not the player's master: nothing asked")
+	var submitted: CombatTacticalResult = coordinator.submit_player_action(CombatTacticalRequest.new(&"kill:1", encounter.encounter_id, player.character_id, kill, CombatTacticalRequest.Category.TACTICAL_DEFENSE))
+	_check(submitted.code == CombatTacticalResult.Code.ACCEPTED, "攻击 queued: %s" % BattleFeedbackReader.reason(submitted.code))
+	coordinator.advance_scheduler(0.0)
+	_check(player.relationship.has_lethal_target(old.character_id) and old.relationship.has_lethal_target(player.character_id) and old.relationship.has_lethal_target(zombie.character_id) == false, "kill.c: the player kills him and he kills the player back; the zombie he only fights")
+	_check(coordinator.opening_warnings(encounter.encounter_id).has("看起来老道士想杀死你！"), "kill_ob()'s warning is pinned")
+	_check(not _offered(coordinator, kill) and coordinator.kill_target().is_empty(), "攻击 is gone once the player fights")
+	old.character_state.vitality.current = -1 # TEST-ONLY: knocked out; one of the two finishes him
 	coordinator.advance_scheduler(0.0)
 	for _round: int in range(200):
 		if not coordinator.has_active_encounter():
@@ -251,7 +264,7 @@ func _test_attach(tree: SceneTree, session: WorldSessionController, zombie: NpcR
 	_refresh(session)
 	await tree.process_frame
 	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0, "the fight is over: " + coordinator.last_abort_detail())
-	_check(old.life_status == CharacterRuntimeLifeStatus.Value.DEAD and player.state.progression.kills == kills + 1, "老道士 died by its hand: the player's kill")
+	_check(old.life_status == CharacterRuntimeLifeStatus.Value.DEAD and player.state.progression.kills == kills + 1, "老道士 died: the player's kill whoever struck last (its kills are theirs)")
 	_check(coordinator.last_completion() != null and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.VICTORY, "the player's side won")
 	_check(map.find_resident_npc(zombie.character_id) == zombie and zombie.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "it stays as the fight ends (no summoned leave)")
 	map.npc_life.advance_npc_heartbeat(40.0)
@@ -411,6 +424,7 @@ func _test_flee(tree: SceneTree, session: WorldSessionController, zombie: NpcRun
 	_check(map.attach_sheet(_carried(session, ItemContentDefinition.haunting_sheet_id(PAPER, &"temple.npc.little_taoist1"))) and coordinator.has_active_encounter(), "it goes after 玄真")
 	if not coordinator.has_active_encounter():
 		return
+	_check(_offered(coordinator, CombatKillTacticalPolicy.ACTION_ID), "攻击 is offered here too")
 	var result: CombatTacticalResult = coordinator.submit_player_action(CombatTacticalRequest.new(&"flee:1", coordinator.active_encounter().encounter_id, player.character_id, CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE))
 	_check(result.code == CombatTacticalResult.Code.ACCEPTED, "逃跑 is offered to one who fights nobody")
 	for _round: int in range(20):
@@ -451,6 +465,11 @@ func _move(map: WorldMapController, npc: NpcRuntimeState, zone_id: StringName) -
 	body.global_position = at
 	npc.set_world_location(map.location_for_zone(zone_id))
 	_check(at != Vector2.INF, "TEST-ONLY: %s moved into %s" % [npc.definition().display_name, zone_id])
+
+
+## Whether the battle panel offers `action_id` now.
+func _offered(coordinator: CombatEncounterCoordinator, action_id: StringName) -> bool:
+	return coordinator.action_infos().any(func(info: CombatTacticalActionInfo) -> bool: return info.action_id == action_id)
 
 
 ## The carried item of `definition_id`, or "".

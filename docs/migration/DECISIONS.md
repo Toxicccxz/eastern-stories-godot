@@ -110,9 +110,10 @@ What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carr
 茅山 A's answers and defaults and follows the LPC except:
 - **The zombie is the player's wherever it goes** (茅山 A): it walks after them into a
   neighbouring room on any map (go.c's follow_me(), however they got there, as the dog), its
-  dispell call_out going along, and Continue starts without it. NPC heart beats run only on
-  the player's map and outside fights, so its feeding does too (ES2: wherever it stands).
-- **It takes nothing from a master lying unconscious** (**默认**): ES2's zombie.c heal_up()
+  dispell call_out going along, and Continue starts without it. **It feeds only on the
+  player's map and outside fights** (owner, #84): NPC heart beats run only there (ES2: wherever
+  it stands; one left on another map waits there, taking nothing).
+- **It takes nothing from a master lying unconscious** (owner, #84): ES2's zombie.c heal_up()
   takes 1 gin from them all the same, and unconcious() has set gin to 0, so char.c's next beat
   kills them. Its atman ≤ 10 dispell still comes.
 - **Its corpse's things fall where it lay** and **符 go only on 桃符纸, one at a time** (茅山 A,
@@ -121,9 +122,13 @@ What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carr
   nor one whose fight is not ported yet); put on, the sheet finds the first of that kind in the
   zombie's room; none there: 这里没有…。 and the sheet stays. ES2 throws the sheet away first and
   looks for the name in the whole world, else sends the zombie at whoever put it on.
-- **The sheet's fight has the player in it, standing by** on the zombie's side: the world stands
-  still as in any fight and the battle panel shows it; fleeing ends it for all; the zombie's kill
-  is the player's (killer_reward()). In ES2 it is fought beside a player free to walk away.
+- **The sheet's fight has the player in it, standing by** on the zombie's side (owner, #84):
+  the world stands still as in any fight and the battle panel shows it; fleeing ends it for
+  all; the zombie's kill is the player's (killer_reward()). The panel's 攻击 is kill.c at the
+  one it goes after (这里不准战斗。 in a no_fight room): the player kills them, they kill the
+  player back, and the fight goes on two against one (select_opponent(): three blows in four at
+  the zombie, the first enemy); at one's own master it asks first, as the HUD's 攻击. In ES2 it
+  is fought beside a player free to walk away, or to type kill.
   set_leader(dest) only ends its following the player: it falls apart at its first heal_up
   out of the fight on the player's map (a few seconds; left on another map, it waits there).
 - **Asked first** (owner's rule on choices that knock out, kill or betray): 驱尸 when its 30
