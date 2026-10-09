@@ -136,7 +136,7 @@
 				],
 				"reach_from": "GateArrival",
 				"markers_in_middle": ["sanyen.front_yard", "sanyen.inner_yard", "sanyen.drug_field", "sanyen.tower", "sanyen.road2"],
-				"placed": {"sanyen.road1.monk.1": [832, 1232]}
+				"placed": {"sanyen.road1.monk.1": [832, 1232], "sanyen.front_yard.monk_guard.1": [736, 1760], "sanyen.front_yard.monk_guard.2": [1056, 1760]}
 			},
 			"scene": {
 				"style": "map", "root": "SanyenTemple", "map": "sanyen.grounds",

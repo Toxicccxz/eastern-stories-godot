@@ -362,12 +362,12 @@ script = ExtResource("marker")
 spawn_point_id = &"sanyen.front_yard.gate_arrival"
 
 [node name="FrontYardMonkGuard1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(760, 1632)
+position = Vector2(736, 1760)
 script = ExtResource("marker")
 spawn_point_id = &"sanyen.front_yard.monk_guard.1"
 
 [node name="FrontYardMonkGuard2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(800, 1632)
+position = Vector2(1056, 1760)
 script = ExtResource("marker")
 spawn_point_id = &"sanyen.front_yard.monk_guard.2"
 
